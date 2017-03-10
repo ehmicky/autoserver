@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Pet",
+    "description": "This is the description of a pet",
+    "type":"Pet",
+    "properties":{
+      "id":{
+        "type":"integer",
+        "format": "id",
+        "description": "Unique identifier associated with this entity",
+        "required": "true"
+      },
+      "name":{
+        "type":"string",
+        "example":"doggie",
+        "description": "Unique name associated with this entity",
+        "required": "true"
+      },
+      "photo_urls":{
+        "type":"array",
+        "items":{
+          "type":"string",
+          "description": "URL pointing towards a pet's picture"
+        },
+        "required": "true"
+      },
+      "tags":{
+        "type":"array",
+        "items":{
+          "type":"string",
+          "description": "Tag describing a pet"
+        }
+      },
+      "status":{
+        "type":"string",
+        "description":"Pet status in the store"
+      },
+      "best_friend": {
+        "type": "Pet",
+        "description":"This pet's best friend"
+      },
+      "friends": {
+        "type": "array",
+        "items": {
+          "type": "Pet",
+          "description":"This pet's friend"
+        },
+        "description":"This pet's friends"
+      }
+    }
+  }
+]
