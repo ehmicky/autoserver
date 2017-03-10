@@ -1,19 +1,30 @@
 # What this is
 
-This is prototype for a web server that generates a GraphQL endpoint taking only a single declarative file as input. Please see how this file looks like at `/src/idl/example.json`.
+This is prototype for a web server that generates a GraphQL endpoint taking only a [single declarative file](https://github.com/autoserver-org/autoserver/blob/master/src/idl/example.json) input.
 
-The idea: have a stable and robust API engine, and only have to edit simple/non-verbose declarative files for 80% of what is currently done in the backend, including: validation, authorization, CRUD, side-effects, etc.
+The idea:
+have a stable and robust API engine, and only have to edit a simple and non-verbose declarative files for 80% of what is currently done in the backend, including: validation, authorization, CRUD (including sorting, querying, etc.), side-effects, etc.
 
-The current architecture is optimized for being deployed as a single stateless FaaS that boots fast, then dies once request is over.
-
-The details of the HTTP protocol are abstracted away from the rest of the application, so it is theoritically protocol-agnostic (e.g. could server over WebSocket without much hassle).
+Architectural notes:
+  - optimized for being deployed as a single stateless FaaS that boots fast, then dies once request is over.
+  - meant to be deployed behind an API gateway, i.e. there is no real URL routing performed (apart from dummy one)
+  - protocol-agnostic, i.e. an HTTP layer abstracts away HTTP details from the rest of the application. Main goal: allowing to add other protocols (such as WebSocket) without much effort. Other goal: isolate HTTP intricacies from the rest of the logic.
+  - IDL-agnostic, i.e. GraphQL layer is separated away from rest of application. Similar goal as above. Allow multi-IDL API, e.g. providing both GraphQL and REST for external consumers.
 
 This is a stub, there is still a lot to do:
   - no error handling
   - no security
   - not connected to actual data sources. Using dummy data only for the moment.
-  - lots of basic HTTP features you would assume are not there (e.g. CORS, caching, etc.)
-  - validation, authorization, etc.
+  - query-only, no mutation
+  - no query parameters, sorting, pagination, etc.
+  - lots of basic HTTP features you would assume are not there yet (e.g. CORS, caching, etc.)
+  - validation
+  - authorization
+  - default values, timestamps, computed values
+  - aggregation
+  - migrations
+  - use Express instead od doing our own HTTP handling
+  - if you are wondering about the "layers" module, it's useless and will be removed
 
 Many of this will be very fast to implement, I just need to get to it!
 
@@ -23,7 +34,7 @@ Many of this will be very fast to implement, I just need to get to it!
 
 This will start a local server at `localhost:5001`
 
-Use your browser to go to `localhost:5001/graphiql` and start exploring the data.
+Use your browser to go to `localhost:5001/graphiql` and start exploring the data. Click on "docs" to see the schema.
 
 # Troubleshooting
 
