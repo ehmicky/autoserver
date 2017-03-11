@@ -8,13 +8,13 @@
         "type":"integer",
         "format": "id",
         "description": "Unique identifier associated with this entity",
-        "required": "true"
+        "required": true
       },
       "name":{
         "type":"string",
         "example":"doggie",
         "description": "Unique name associated with this entity",
-        "required": "true"
+        "required": true
       },
       "photo_urls":{
         "type":"array",
@@ -22,7 +22,7 @@
           "type":"string",
           "description": "URL pointing towards a pet's picture"
         },
-        "required": "true"
+        "required": true
       },
       "tags":{
         "type":"array",
