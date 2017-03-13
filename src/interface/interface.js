@@ -5,7 +5,6 @@ const { runHttpQuery } = require('graphql-server-core');
 const { renderGraphiQL } = require('graphql-server-module-graphiql');
 
 const idlParse = require('../idl/parse');
-const layers = require('../layers');
 
 
 const handler = async function (request) {

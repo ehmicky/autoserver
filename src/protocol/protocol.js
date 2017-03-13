@@ -6,7 +6,6 @@ const http = require('http');
 const queryString = require('./http/query_string');
 const httpBody = require('./http/body');
 const httpAppHeaders = require('./http/app_headers');
-const layers = require('../layers');
 
 
 const handler = async function (req, res) {
@@ -66,11 +65,9 @@ const handler = async function (req, res) {
     [Symbol.for('method')]: method,
     route,
     params,
-
-    [layers.layerInfoSym]: req[layers.layerInfoSym],
   };
 
-  let { type, content: response } = await layers.next(request);
+  let { type, content: response } = await this.next(request);
   if (response && type) {
     if (type === 'application/json') {
       response = httpBody.serialize.json({ res, message: response });

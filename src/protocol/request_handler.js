@@ -1,11 +1,11 @@
 'use strict';
 
 
-const layers = require('../layers');
+const defineLayers = require('../define_layers');
 
 
 const handler = async function (req, res) {
-  const response = await layers.start(req, res);
+  const response = await defineLayers.start(req, res);
   return response;
 };
 
