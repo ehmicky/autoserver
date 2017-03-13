@@ -17,12 +17,13 @@
   "author": "Autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "if [ \"$NODE_ENV\" = \"dev\" ]; then nodemon; else node index.js; fi",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "eslint": "^3.17.1"
+    "eslint": "^3.17.1",
+    "nodemon": "^1.11.0"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
