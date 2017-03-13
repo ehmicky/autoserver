@@ -1,13 +1,13 @@
 'use strict';
 
 
-const layers = require('../layers');
+const console = require('../utilities/console');
 
 
 const handler = async function (request) {
   logRequest(request);
 
-  const response = await layers.next(request);
+  const response = await this.next(request);
   return response;
 };
 
