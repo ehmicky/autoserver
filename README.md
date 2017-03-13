@@ -28,11 +28,19 @@ Many of this will be fast to implement, I just need to get to it!
 
 # How to start
 
-`npm install` then `npm start`
+First `npm install`
+
+If in production, run with `npm start`
+
+If in development, run with `NODE_ENV=dev npm start`. This will start in watch mode (using `nodemon` and `node --inspect`).
 
 This will start a local server at `localhost:5001`
 
+Port number can be changed using `PORT` environment variable.
+
 Use your browser to go to `localhost:5001/graphiql` and start exploring the data. Click on "docs" to see the schema.
+
+We recommend using the Chrome extension [Node Inspector Manager](https://github.com/june07/NIM) for Chrome devtools debugging.
 
 # Troubleshooting
 
