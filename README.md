@@ -23,7 +23,6 @@ This is a stub, there is still a lot to do:
   - default values, timestamps, computed values
   - aggregation
   - migrations
-  - use Express instead od doing our own HTTP handling
   
 Many of this will be fast to implement, I just need to get to it!
 
