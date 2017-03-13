@@ -32,6 +32,7 @@
     "key-spacing": [2, {"beforeColon": false, "afterColon": true}],
 
     // Errors
+    "no-console": 2,
     "no-undef": 2,
     "no-dupe-keys": 2,
     "no-empty-character-class": 2,
