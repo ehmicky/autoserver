@@ -17,7 +17,8 @@
   "author": "Autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
   "scripts": {
-    "start": "if [ \"$NODE_ENV\" = \"dev\" ]; then ./node_modules/.bin/nodemon; else node index.js; fi",
+    "start": "if [ \"$NODE_ENV\" = \"dev\" ]; then ./node_modules/.bin/nodemon --config ./nodemon.json; else node index.js; fi",
+    "debug": "./node_modules/.bin/nodemon --config ./nodemon_debug.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "Apache-2.0",
