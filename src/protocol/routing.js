@@ -2,8 +2,13 @@
 
 
 const handler = async function (req, res) {
-  if (req.url === '/graphiql') {
+  // Remove search string and hash
+  const url = req.url.replace(/\?.*/, '');
+
+  if (url === '/graphiql') {
     req.route = 'GraphiQL';
+  } else if (url === '/graphql') {
+    req.route = 'GraphQL';
   }
 
   const response = await this.next(req, res);
