@@ -7,6 +7,8 @@ const console = require('./utilities/console');
 const fakeRequest = require('./utilities/fake_request');
 const requestHandler = require('./protocol/request_handler');
 
+require('./debugging');
+
 
 const port = process.env.PORT || 5001;
 const host = 'localhost';
