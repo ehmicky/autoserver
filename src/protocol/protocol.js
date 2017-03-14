@@ -9,8 +9,6 @@ const httpAppHeaders = require('./http/app_headers');
 
 
 const handler = async function (req, res) {
-  // Should check if request confor
-
   if (!(req instanceof http.IncomingMessage)) { return req; }
 
   const protocol = `HTTP${req.httpVersion}`;
@@ -61,8 +59,7 @@ const handler = async function (req, res) {
     url,
     headers,
 
-    // Use symbols to avoid collisions, e.g. if user supplies a parameter called `method`
-    [Symbol.for('method')]: method,
+    method,
     route,
     params,
   };

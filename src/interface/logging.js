@@ -12,7 +12,7 @@ const handler = async function (request) {
 };
 
 const logRequest = function (request) {
-  const { protocol, [Symbol.for('method')]: method, url, headers, params } = request;
+  const { protocol, method, url, headers, params } = request;
   console.log(`${protocol} ${method} ${url} ${JSON.stringify(headers)} ${JSON.stringify(params)}`);
 
   // Those attributes were just needed for logging. The lower layers should be protocol-agnostic
