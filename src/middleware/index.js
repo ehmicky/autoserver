@@ -27,15 +27,16 @@ const chain = function (...middlewares) {
     // Make a copy to avoid the manipulation to modify iteration order
     .slice();
 
-  const state = { middlewares };
-
-  const bootstrap = createBootstrap(state);
+  const bootstrap = createBootstrap(middlewares);
   return bootstrap;
 };
 
 // Starts all the middleware
-const createBootstrap = function (state) {
+const createBootstrap = function (middlewares) {
   return (...args) => {
+    // Create shallow copy, so that each chain invocation does not change other invocations
+    const state = { middlewares: middlewares.slice() };
+
     console.debug(`Starting chain of ${state.middlewares.length} middleware functions`);
     const returnValue = callWithContext(state.middlewares[0], state, ...args);
     console.debug('Ending middleware chain');
