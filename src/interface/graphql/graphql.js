@@ -48,9 +48,6 @@ const handleGraphQL = async function graphQLHandler(request) {
     };
   }
 };
-handleGraphQL.condition = function (request) {
-  return request.route === 'GraphQL';
-};
 
 
 module.exports = {

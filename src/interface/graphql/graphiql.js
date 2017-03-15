@@ -13,9 +13,6 @@ const handleGraphiQL = async function graphiQLHandler() {
     content,
   };
 };
-handleGraphiQL.condition = function (request) {
-  return request.route === 'GraphiQL';
-};
 
 
 module.exports = {
