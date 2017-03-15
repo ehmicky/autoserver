@@ -1,5 +1,6 @@
 'use strict';
 
+
 const levels = [
   'debug',
   'info',
@@ -16,6 +17,7 @@ const consoleWrapper = levels.reduce((wrapper, level) => {
   wrapper[level] = createWrapper(wrapper, level);
   return wrapper;
 }, {});
+
 
 module.exports = {
   console: consoleWrapper,
