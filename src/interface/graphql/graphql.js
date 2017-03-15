@@ -6,7 +6,7 @@ const { runHttpQuery } = require('graphql-server-core');
 const idlParse = require('../../idl/parse');
 
 
-const handleGraphQL = async function (request) {
+const handleGraphQL = async function graphQLHandler(request) {
   const schema = idlParse.getSchema();
   const { query, variables, operationName } = request.params;
   const { method } = request;

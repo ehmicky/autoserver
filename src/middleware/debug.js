@@ -8,14 +8,22 @@ const console = require('../utilities/console');
 const createDebugMiddleware = function (label) {
   return function (input = 'input') {
     const nextInput = String(Math.random()).replace('.','');
-    console.log(`[${label}] Starting middleware with input ${nextInput}`);
+    console.debug(`[${label}] Starting middleware with input ${nextInput}`);
     const val = this.next(nextInput);
-    console.log(`[${label}] Middleware return value: ${val}`);
+    console.debug(`[${label}] Middleware return value: ${val}`);
     return input;
+  };
+};
+
+// Add request id to debug messages
+const createLog = function (requestId) {
+  return function log(message, ...args) {
+    console.debug(`[chain] [${requestId}] ${message}`, ...args);
   };
 };
 
 
 module.exports = {
   createDebugMiddleware,
+  createLog,
 };

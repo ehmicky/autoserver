@@ -1,7 +1,9 @@
 'use strict';
 
 
-const console = require('../utilities/console');
+const uuidv4 = require('uuid/v4');
+
+const { createLog } = require('./debug');
 const { MiddlewareModifier } = require('./modifiers');
 const { MiddlewareWrapper } = require('./wrapper');
 
@@ -35,11 +37,19 @@ const chain = function (...middlewares) {
 const createBootstrap = function (middlewares) {
   return (...args) => {
     // Create shallow copy, so that each chain invocation does not change other invocations
-    const state = { middlewares: cloneMiddleware(middlewares) };
+    const clonedMiddleware = cloneMiddleware(middlewares);
+    const requestId = uuidv4();
+    const state = {
+      middlewares: clonedMiddleware,
+      requestId,
+      log: createLog(requestId),
+    };
 
-    console.debug('Starting middleware chain');
+    state.log('Starting chain');
     const returnValue = callWithContext(state.middlewares[0], state, ...args);
-    console.debug('Ending middleware chain');
+    Promise.resolve(returnValue).then(() => {
+      state.log('Ending chain');
+    });
     return returnValue;
   };
 };
@@ -65,7 +75,16 @@ const callWithContext = function (middleware, state, ...args) {
   const context = createContext(middleware, state);
   // Call next middleware
   const originalFunction = MiddlewareWrapper.getFunction(middleware);
+  // Truncated function body
+  const functionBody = originalFunction
+    .toString()
+    .replace(/\s+/g, ' ')
+    .substring(0, 100);
+  state.log(`Starting middleware ${functionBody}`);
   const returnValue = originalFunction.call(context, ...args);
+  Promise.resolve(returnValue).then(() => {
+    state.log(`Ending middleware ${functionBody}`);
+  });
   return returnValue;
 };
 
@@ -78,16 +97,7 @@ const createContext = function (middleware, state) {
         const currentIndex = state.middlewares.findIndex(mdw => mdw === middleware);
         const next = state.middlewares[currentIndex + 1];
 
-        // Truncated function body
-        const originalFunction = MiddlewareWrapper.getFunction(next);
-        const functionBody = originalFunction
-          .toString()
-          .replace(/\s+/g, ' ')
-          .substring(0, 100);
-        console.debug(`Starting new middleware ${functionBody}`);
         const returnValue = callWithContext(next, state, ...args);
-        console.debug(`Ending new middleware ${functionBody}`);
-
         return returnValue;
       },
   });
@@ -101,9 +111,9 @@ const applyModifier = function (modifier, state, ...args) {
   const nextMiddlewares = state.middlewares
     .slice(modifierIndex + 1, state.middlewares.length - 1);
 
-  console.debug(`Executing modifier "${modifier.type}"`);
+  state.log(`Starting modifier "${modifier.type}"`);
   // Let modifier decide of the replacement middlewares
-  const modifiedMiddlewares = modifier.handler(nextMiddlewares, ...args);
+  const modifiedMiddlewares = modifier.handler({ middlewares: nextMiddlewares, args, log: state.log });
   // modifiers can return undefined to mean "unchanged"
   if (modifiedMiddlewares) {
     // Replace the middlewares
