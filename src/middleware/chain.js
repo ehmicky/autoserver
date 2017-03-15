@@ -6,6 +6,7 @@ const uuidv4 = require('uuid/v4');
 const { createLog } = require('./debug');
 const { MiddlewareModifier } = require('./modifiers');
 const { MiddlewareWrapper } = require('./wrapper');
+const { flatten, middlewaresSymbol } = require('./nesting');
 
 
 /**
@@ -15,7 +16,9 @@ const { MiddlewareWrapper } = require('./wrapper');
  *  - be done several times per middleware
  *  - take any arguments, and return any value (including promise)
  * The last function calling `this.next()` will actually call a placeholder identity function.
- * Returns a function firing the first (i.e. top-level) middleware. This function can be used itself in other chain(), allowing function composition.
+ * Returns a function firing the first (i.e. top-level) middleware.
+ * This function can be used itself in other chain(), allowing function composition:
+ *  - calling chain(chain(...), chain(...)) is the same as calling chain(..., ...)
  *
  * @param middlewares {function|function[]...}: arguments that are neither functions nor modifiers are ignored
  * @returns trigger {function}
@@ -23,7 +26,8 @@ const { MiddlewareWrapper } = require('./wrapper');
 const chain = function (...middlewares) {
   // Allow consumer to input an array instead
   middlewares = middlewares[0] instanceof Array ? middlewares[0] : middlewares;
-  middlewares = middlewares
+  // Flatten nested chains
+  middlewares = flatten(middlewares)
     // Allow using null or false in input
     .filter(middleware => typeof middleware === 'function' || middleware instanceof MiddlewareModifier)
     // End of iteration
@@ -35,7 +39,7 @@ const chain = function (...middlewares) {
 
 // Starts all the middleware
 const createBootstrap = function (middlewares) {
-  return (...args) => {
+  const bootstrapFunc = (...args) => {
     // Create shallow copy, so that each chain invocation does not change other invocations
     const clonedMiddleware = cloneMiddleware(middlewares);
     const requestId = uuidv4();
@@ -52,6 +56,8 @@ const createBootstrap = function (middlewares) {
     });
     return returnValue;
   };
+  bootstrapFunc[middlewaresSymbol] = middlewares;
+  return bootstrapFunc;
 };
 
 // Clone list of middleware, to avoid side-effects
@@ -128,7 +134,7 @@ const applyModifier = function (modifier, state, ...args) {
 };
 
 // Used as last iteration
-const lastMiddleware = function (val) {
+const lastMiddleware = function lastMiddleware(val) {
   return val;
 };
 
