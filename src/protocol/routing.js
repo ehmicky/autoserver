@@ -6,9 +6,9 @@ const handler = async function (req, res) {
   const url = req.url.replace(/\?.*/, '');
 
   if (url === '/graphiql') {
-    req.route = 'GraphiQL';
+    req.route = 'graphiql';
   } else if (url === '/graphql') {
-    req.route = 'GraphQL';
+    req.route = 'graphql';
   }
 
   const response = await this.next(req, res);
