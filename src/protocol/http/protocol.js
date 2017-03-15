@@ -3,12 +3,10 @@
 
 const http = require('http');
 
-const queryString = require('./http/query_string');
-const httpBody = require('./http/body');
-const httpAppHeaders = require('./http/app_headers');
+const { appHeaders: appHeadersParams, body, queryString } = require('./params');
 
 
-const handler = async function protocolHandler(req, res) {
+const protocolHandler = async function (req, res) {
   if (!(req instanceof http.IncomingMessage)) { return req; }
 
   const protocol = `HTTP${req.httpVersion}`;
@@ -25,17 +23,17 @@ const handler = async function protocolHandler(req, res) {
   const queryVars = queryString.parse(req.url);
 
   // JSON request body
-  const jsonBodyVars = await httpBody.parse.json(req);
+  const jsonBodyVars = await body.parse.json(req);
 
   // x-www-form-urlencoded request body
-  const urlencodedBodyVars = await httpBody.parse.urlencoded(req);
+  const urlencodedBodyVars = await body.parse.urlencoded(req);
 
   // string request body
-  let textBodyVars = await httpBody.parse.text(req);
+  let textBodyVars = await body.parse.text(req);
   if (typeof textBodyVars !== 'string') { textBodyVars = null; }
 
   // binary request body
-  let rawBodyVars = await httpBody.parse.raw(req);
+  let rawBodyVars = await body.parse.raw(req);
   rawBodyVars = rawBodyVars instanceof Buffer ? rawBodyVars.toString() : null;
 
   const bodyVars = Object.assign(
@@ -50,7 +48,7 @@ const handler = async function protocolHandler(req, res) {
   }
 
   // Namespaced HTTP headers
-  const appHeaders = httpAppHeaders.parse(req);
+  const appHeaders = appHeadersParams.parse(req);
 
   const params = Object.assign({}, queryVars, bodyVars, appHeaders);
 
@@ -67,9 +65,9 @@ const handler = async function protocolHandler(req, res) {
   let { type, content: response } = await this.next(request);
   if (response && type) {
     if (type === 'application/json') {
-      response = httpBody.serialize.json({ res, message: response });
+      response = body.serialize.json({ res, message: response });
     } else if (type === 'text/html') {
-      response = httpBody.serialize.html({ res, message: response });
+      response = body.serialize.html({ res, message: response });
     }
   }
 
@@ -77,4 +75,6 @@ const handler = async function protocolHandler(req, res) {
 };
 
 
-module.exports = handler;
+module.exports = {
+  protocolHandler,
+};

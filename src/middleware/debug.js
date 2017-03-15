@@ -1,7 +1,7 @@
 'use strict';
 
 
-const console = require('../utilities/console');
+const { console } = require('../utilities');
 
 
 // Create a fake middleware function, for testing purpose
@@ -17,7 +17,7 @@ const createDebugMiddleware = function (label) {
 
 // Add request id to debug messages
 const createLog = function (requestId) {
-  return function log(message, ...args) {
+  return function (message, ...args) {
     console.debug(`[chain] [${requestId}] ${message}`, ...args);
   };
 };

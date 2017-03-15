@@ -3,11 +3,11 @@
 
 const { runHttpQuery } = require('graphql-server-core');
 
-const idlParse = require('../../idl/parse');
+const { graphql } = require('../../idl');
 
 
-const handleGraphQL = async function graphQLHandler(request) {
-  const schema = idlParse.getSchema();
+const graphQLHandler = async function (request) {
+  const schema = graphql.getSchema();
   const { query, variables, operationName } = request.params;
   const { method } = request;
 
@@ -51,5 +51,5 @@ const handleGraphQL = async function graphQLHandler(request) {
 
 
 module.exports = {
-  handleGraphQL,
+  graphQLHandler,
 };

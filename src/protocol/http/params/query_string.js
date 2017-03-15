@@ -9,7 +9,7 @@
 const qs = require('qs');
 const urlParser = require('url');
 
-const console = require('../../utilities/console');
+const { console } = require('../../../utilities');
 
 
 const MAX_DEPTH = 10;

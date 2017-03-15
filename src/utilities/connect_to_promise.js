@@ -18,4 +18,6 @@ const connectToPromise = function(middleware) {
 };
 
 
-module.exports = connectToPromise;
+module.exports = {
+  connectToPromise,
+};

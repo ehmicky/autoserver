@@ -128,7 +128,7 @@ const applyModifier = function (modifier, state, ...args) {
 };
 
 // Used as last iteration
-const lastMiddleware = function lastMiddleware(val) {
+const lastMiddleware = function (val) {
   return val;
 };
 

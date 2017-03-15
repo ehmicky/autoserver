@@ -1,8 +1,8 @@
 'use strict';
 
 
-const idl = require('./example.json');
-const IdlParsingError = require('./parsing_error');
+const idl = require('../example.json');
+const { IdlParsingError } = require('./parsing_error');
 
 const {
   GraphQLSchema,
