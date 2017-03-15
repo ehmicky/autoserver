@@ -15,4 +15,6 @@ class IdlParsingError extends Error {
 
 }
 
-module.exports = IdlParsingError;
+module.exports = {
+  IdlParsingError,
+};

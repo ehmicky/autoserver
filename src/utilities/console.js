@@ -9,12 +9,14 @@ const levels = [
 ];
 
 const createWrapper = (wrapper, level) => (...args) => {
-  return console[level](...args);
+  return global.console[level](...args);
 };
 
-const logWrapper = levels.reduce((wrapper, level) => {
+const consoleWrapper = levels.reduce((wrapper, level) => {
   wrapper[level] = createWrapper(wrapper, level);
   return wrapper;
 }, {});
 
-module.exports = logWrapper;
+module.exports = {
+  console: consoleWrapper,
+};

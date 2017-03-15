@@ -54,5 +54,6 @@ const responseHandler = function (res) {
   });
 };
 
-
-module.exports = fakeRequest;
+module.exports = {
+  fakeRequest,
+};

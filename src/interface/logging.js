@@ -1,10 +1,10 @@
 'use strict';
 
 
-const console = require('../utilities/console');
+const { console } = require('../utilities');
 
 
-const handler = async function loggingHandler(request) {
+const loggingHandler = async function (request) {
   logRequest(request);
 
   const response = await this.next(request);
@@ -22,4 +22,6 @@ const logRequest = function (request) {
 };
 
 
-module.exports = handler;
+module.exports = {
+  loggingHandler,
+};

@@ -1,10 +1,10 @@
 'use strict';
 
 
-const { handleGraphQL } = require('./graphql');
-const { handleGraphiQL } = require('./graphiql');
+const { graphQLHandler } = require('./graphql');
+const { graphiQLHandler } = require('./graphiql');
 
 module.exports = {
-  handleGraphiQL,
-  handleGraphQL,
+  graphQLHandler,
+  graphiQLHandler,
 }
