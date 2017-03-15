@@ -3,9 +3,9 @@
 
 const { chain, branch } = require('../middleware');
 
-const { http, router: protocolRouter } = require('../protocol');
+const { http, router: protocolRouter, loggingHandler } = require('../protocol');
 
-const { loggingHandler, graphql, router: interfaceRouter } = require('../interface');
+const { graphql, router: interfaceRouter } = require('../interface');
 
 
 const start = chain([
