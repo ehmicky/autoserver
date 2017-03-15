@@ -4,14 +4,15 @@
 const { chain } = require('./chain');
 const { MiddlewareModifier, bind, test, branch, repeat, repeatEnd, repeatUnless } = require('./modifiers');
 const { MiddlewareWrapper } = require('./wrapper');
-const { nesting, middlewaresSymbol } = require('./nesting');
+const { flatten, middlewaresSymbol } = require('./nesting');
 const { createDebugMiddleware } = require('./debug');
 
 
 module.exports = {
+
+  // For chain consumers
   chain,
 
-  MiddlewareModifier,
   bind,
   test,
   branch,
@@ -19,11 +20,14 @@ module.exports = {
   repeatEnd,
   repeatUnless,
 
+  createDebugMiddleware,
+
+  // For modifiers creators
+  MiddlewareModifier,
   MiddlewareWrapper,
 
-  nesting,
+  flatten,
   middlewaresSymbol,
 
-  createDebugMiddleware,
 };
 
