@@ -1,7 +1,7 @@
 'use strict';
 
 
-const handler = async function (req, res) {
+const handler = async function routingHandler(req, res) {
   // Remove search string and hash
   const url = req.url.replace(/\?.*/, '');
 

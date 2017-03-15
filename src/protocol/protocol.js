@@ -8,7 +8,7 @@ const httpBody = require('./http/body');
 const httpAppHeaders = require('./http/app_headers');
 
 
-const handler = async function (req, res) {
+const handler = async function protocolHandler(req, res) {
   if (!(req instanceof http.IncomingMessage)) { return req; }
 
   const protocol = `HTTP${req.httpVersion}`;

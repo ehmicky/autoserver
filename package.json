@@ -32,7 +32,8 @@
     "graphql-server-core": "^0.6.0",
     "graphql-server-module-graphiql": "^0.6.0",
     "graphql.js": "^0.4.5",
-    "qs": "^6.4.0"
+    "qs": "^6.4.0",
+    "uuid": "^3.0.1"
   },
   "engines": {
     "node": ">=7.7.2"

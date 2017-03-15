@@ -4,7 +4,7 @@
 const console = require('../utilities/console');
 
 
-const handler = async function (request) {
+const handler = async function loggingHandler(request) {
   logRequest(request);
 
   const response = await this.next(request);

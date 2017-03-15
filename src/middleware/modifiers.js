@@ -11,9 +11,11 @@ const { MiddlewareWrapper } = require('./wrapper');
  * MiddlewareModifier.type:
  *  - only used as an identifier, e.g. for debugging, or if two types of modifiers want to interact with each other
  *  - is usually the same as the variable name
- * MiddlewareModifier.handler(...):
- *  - fired with the same argument as a middleware function, with an extra argument in the beginning: the "list of next middleware"
- *  - the "list of next middleware" includes all the coming middleware, but not the modifier itself, nor the last "placeholder" middleware
+ * MiddlewareModifier.handler({ middlewares, args, log }):
+ *  - `args` are same argument as a middleware function
+ *  - `middlewares` is the "list of next middleware" which includes all the coming middleware, but not the modifier itself,
+ *    nor the last "placeholder" middleware
+ *  - `log` is a regular log function. It is recommended to end the function with a message like 'Ending modifier "TYPE": ...'
  *  - can return a modified "list of next middleware" to modify it, e.g. adding or removing middleware
  *  - can return undefined to signify "no change"
  * Modifiers only have an effect in the current chain(), not in the upper one (in case of nested chain())
@@ -45,9 +47,10 @@ class MiddlewareModifier {
 const bindModifier = function (middleware, context) {
   const modifier = new MiddlewareModifier({
     type: 'bind',
-    handler(middlewares) {
+    handler({ middlewares, log }) {
       const wrapper = new MiddlewareWrapper({ handler: middleware, type: 'bind' });
       wrapper.context = context;
+      log(`Ending modifier "${this.type}"`);
       return [wrapper].concat(middlewares);
     },
   });
@@ -65,8 +68,10 @@ const bindModifier = function (middleware, context) {
 const testModifier = function (condition, middleware) {
   const modifier = new MiddlewareModifier({
     type: 'test',
-    handler(middlewares, ...args) {
-      return condition(...args) ? [middleware].concat(middlewares) : middlewares;
+    handler({ middlewares, args = [], log }) {
+      const success = condition(...args);
+      log(`Ending modifier "${this.type}": ${success ? 'success' : 'fail'}`);
+      return success ? [middleware].concat(middlewares) : middlewares;
     },
   });
   return modifier;
@@ -85,7 +90,7 @@ const testModifier = function (condition, middleware) {
 const branchModifier = function (condition, map) {
   const modifier = new MiddlewareModifier({
     type: 'branch',
-    handler(middlewares, ...args) {
+    handler({ middlewares, args = [], log }) {
       const key = condition(...args);
       let middleware = map[key];
       // Default case
@@ -93,9 +98,11 @@ const branchModifier = function (condition, map) {
         if (map.default) {
           middleware = map.default;
         } else {
+          log(`Ending modifier "${this.type}": no middleware was picked`);
           return middlewares;
         }
       }
+      log(`Ending modifier "${this.type}": ${key} was picked`);
       return [middleware].concat(middlewares);
     },
   });
@@ -115,14 +122,15 @@ const branchModifier = function (condition, map) {
 const repeatUnlessModifier = function (condition, repeatMiddleware) {
   const modifier = new MiddlewareModifier({
     type: 'repeat',
-    handler(middlewares, ...args) {
+    handler({ middlewares, args = [], log }) {
       // Stops iteration on repeatEnd(repeatMiddleware)
-      const repeatEndIndex = middlewares.findIndex(middleware => {
+      let repeatEndIndex = middlewares.findIndex(middleware => {
         return middleware instanceof MiddlewareModifier
           && middleware.type === 'repeatEnd'
           && middleware.repeatMiddleware === repeatMiddleware;
+      });
       // If repeatEnd() not found, process until the end
-      }) || middlewares.length;
+      repeatEndIndex = repeatEndIndex === -1 ? middlewares.length : repeatEndIndex;
 
       // Process the middlewares that are before repeatEnd(repeatMiddleware)
       const middlewaresBeforeEnd = middlewares.slice(0, repeatEndIndex);
@@ -144,6 +152,7 @@ const repeatUnlessModifier = function (condition, repeatMiddleware) {
 
       // Adds the middlewares that were after repeatEnd(repeatMiddleware)
       const middlewaresAfterEnd = middlewares.slice(repeatEndIndex + 1);
+      log(`Ending modifier "${this.type}": ${newMiddlewares.length - middlewares.length} middlewares were added`);
       return newMiddlewares.concat(middlewaresAfterEnd);
     },
   });
