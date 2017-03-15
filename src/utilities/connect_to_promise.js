@@ -7,7 +7,7 @@
  * @param middleware {function} Connect middleware. Take (req, res, next) as argument, fires next(error, val)
  * @returns promise {Promise}
  */
-const connectToPromise = function(middleware) {
+const connectToPromise = function (middleware) {
   return (req, res) => {
     return new Promise((resolve, reject) => {
       middleware(req, res, (error, val) => {
