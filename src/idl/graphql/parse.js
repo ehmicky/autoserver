@@ -2,7 +2,7 @@
 
 
 const idl = require('../example.json');
-const { IdlParsingError } = require('./parsing_error');
+const { GraphqlParsingError } = require('./parsing_error');
 
 const {
   GraphQLSchema,
@@ -96,7 +96,7 @@ const getGraphqlType = function (schema, idl) {
   if (correctType) {
     return correctType.value(schema, idl);
   } else {
-    throw new IdlParsingError(`Could not parse property into a GraphQL type: ${schema}`);
+    throw new GraphqlParsingError(`Could not parse property into a GraphQL type: ${schema}`);
   }
 };
 
@@ -120,7 +120,7 @@ const schemaToGraphqlMap = {
     },
     {
       condition: schema => schema.type === 'object',
-      value: (schema, idl) => { type: getObjectType(schema, idl) },
+      value: (schema, idl) => ({ type: getObjectType(schema, idl) }),
     },
     {
       condition: (schema, idl) => schema.type === 'array' && schema.items && findTopSchema(idl, schema.items.type),
@@ -157,8 +157,8 @@ const schemaToGraphqlMap = {
 };
 
 const missingNameError = function (schema) {
-  throw new IdlParsingError(`Missing "name" key in schema ${JSON.stringify(schema)}`);
-}
+  throw new GraphqlParsingError(`Missing "name" key in schema ${JSON.stringify(schema)}`);
+};
 
 const normalizedAttrPluralName = function (schema) {
   const name = schema.name;
@@ -185,6 +185,6 @@ const printSchema = function () {
 
 
 module.exports = {
-  getSchema,
-  printSchema,
+  graphqlGetSchema: getSchema,
+  graphqlPrintSchema: printSchema,
 };

@@ -15,10 +15,15 @@ const createDebugMiddleware = function (label) {
   };
 };
 
+const DEFAULT_COLUMNS_WIDTH = 256;
+const width = process.env.COLUMNS || DEFAULT_COLUMNS_WIDTH;
+
 // Add request id to debug messages
 const createLog = function (requestId) {
-  return function (message, ...args) {
-    console.debug(`[chain] [${requestId}] ${message}`, ...args);
+  return function (message) {
+    const prefix = `[chain] [${requestId}] `;
+    const truncatedMessage = message.substring(0, width - prefix.length);
+    console.debug(`${prefix}${truncatedMessage}`);
   };
 };
 

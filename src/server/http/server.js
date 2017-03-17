@@ -4,15 +4,15 @@
 const http = require('http');
 
 const { console/*, fakeRequest */ } = require('../../utilities');
-const { requestHandler } = require('./request_handler');
+const { httpRequestHandler } = require('./request_handler');
 
 
 const port = process.env.PORT || 5001;
 const host = process.env.HOST || 'localhost';
 
-const start = function () {
+const startServer = function () {
   return http
-    .createServer(requestHandler)
+    .createServer(httpRequestHandler)
     .listen(port, host, listeningHandler);
 };
 
@@ -23,5 +23,5 @@ const listeningHandler = function () {
 
 
 module.exports = {
-  start,
+  httpStartServer: startServer,
 };

@@ -81,15 +81,11 @@ const callWithContext = function (middleware, state, ...args) {
   const context = createContext(middleware, state);
   // Call next middleware
   const originalFunction = MiddlewareWrapper.getFunction(middleware);
-  // Truncated function body
-  const functionBody = originalFunction
-    .toString()
-    .replace(/\s+/g, ' ')
-    .substring(0, 100);
-  state.log(`Starting middleware ${functionBody}`);
+  const functionName = originalFunction.name || 'anonymous';
+  state.log(`Starting middleware ${functionName}`);
   const returnValue = originalFunction.call(context, ...args);
   Promise.resolve(returnValue).then(() => {
-    state.log(`Ending middleware ${functionBody}`);
+    state.log(`Ending middleware ${functionName}`);
   });
   return returnValue;
 };

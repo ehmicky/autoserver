@@ -4,7 +4,7 @@
 const { console } = require('../utilities');
 
 
-const loggingHandler = async function (request) {
+const logger = async function (request) {
   logRequest(request);
 
   const response = await this.next(request);
@@ -12,8 +12,8 @@ const loggingHandler = async function (request) {
 };
 
 const logRequest = function (request) {
-  const { protocol, method, url, headers, params } = request;
-  console.log(`${protocol} ${method} ${url} ${JSON.stringify(headers)} ${JSON.stringify(params)}`);
+  const { protocol, method, url, route, headers, params } = request;
+  console.log(`${protocol} ${method} ${url} ${route} ${JSON.stringify(headers)} ${JSON.stringify(params)}`);
 
   // Those attributes were just needed for logging. The lower layers should be protocol-agnostic
   for (const attrName of ['protocol', 'url', 'headers']) {
@@ -23,5 +23,5 @@ const logRequest = function (request) {
 
 
 module.exports = {
-  loggingHandler,
+  logger,
 };

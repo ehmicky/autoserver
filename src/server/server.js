@@ -1,15 +1,15 @@
 'use strict';
 
 
-const { start: httpStart } = require('./http');
+const { httpStartServer } = require('./http');
 
 
 // Start server for each protocol, for the moment only HTTP
-const start = function () {
-  httpStart();
+const startServer = function () {
+  httpStartServer();
 };
 
 
 module.exports = {
-  start,
+  startServer,
 };

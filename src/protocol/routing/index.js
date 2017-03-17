@@ -3,6 +3,6 @@
 
 module.exports = Object.assign(
   {},
-  require('./negotiator'),
-  require('./graphql')
+  require('./router'),
+  require('./get_path')
 );

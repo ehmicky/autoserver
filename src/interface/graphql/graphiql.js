@@ -4,17 +4,17 @@
 const { renderGraphiQL } = require('graphql-server-module-graphiql');
 
 
-const graphiQLHandler = async function () {
+const executeGraphiql = async function () {
   const content = renderGraphiQL({
     endpointURL: 'http://localhost:5001/graphql',
   });
   return {
-    type: 'text/html',
+    type: 'html',
     content,
   };
 };
 
 
 module.exports = {
-  graphiQLHandler,
+  executeGraphiql,
 };

@@ -11,7 +11,7 @@ const connectToPromise = function (middleware) {
   return (req, res) => {
     return new Promise((resolve, reject) => {
       middleware(req, res, (error, val) => {
-        if (error) { reject(error) } else { resolve(val) }
+        if (error) { reject(error); } else { resolve(val); }
       });
     });
   };
