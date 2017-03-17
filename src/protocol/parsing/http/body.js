@@ -39,9 +39,7 @@ for (const bodyParam of bodyParams) {
 }
 
 
-const serialize = {};
-
-serialize.json = function ({ res, message }) {
+const sendJson = function ({ res, message }) {
   res.setHeader('Content-Type', 'application/json');
   message = JSON.stringify(message);
   res.setHeader('Content-Length', Buffer.byteLength(message));
@@ -49,15 +47,33 @@ serialize.json = function ({ res, message }) {
   return message;
 };
 
-serialize.html = function ({ res, message }) {
+const sendHtml = function ({ res, message }) {
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Content-Length', Buffer.byteLength(message));
   res.end(message);
   return message;
 };
 
+const sendText = function ({ res, message }) {
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Length', Buffer.byteLength(message));
+  res.end(message);
+  return message;
+};
+
+const sendNoBody = function ({ res }) {
+  res.end();
+};
+
 
 module.exports = {
-  parse,
-  serialize,
+  httpBody: {
+    parse: parse,
+    send: {
+      json: sendJson,
+      html: sendHtml,
+      text: sendText,
+      noBody: sendNoBody
+    },
+  },
 };

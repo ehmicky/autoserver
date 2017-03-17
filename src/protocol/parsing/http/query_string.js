@@ -97,6 +97,8 @@ const serialize = function (queryObject) {
 
 
 module.exports = {
-  parse,
-  serialize,
+  httpQueryString: {
+    parse,
+    serialize,
+  },
 };

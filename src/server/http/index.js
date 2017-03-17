@@ -1,9 +1,7 @@
 'use strict';
 
 
-const { start } = require('./server');
-
-
-module.exports = {
-  start,
-};
+module.exports = Object.assign(
+  {},
+  require('./server')
+);

@@ -20,7 +20,7 @@ const fakeRequest = function ({ host, port } = {}) {
         }
       }
     }`,
-  })
+  });
   const headers = {
     'content-type': 'application/json',
     'content-length': Buffer.byteLength(body),
@@ -53,6 +53,7 @@ const responseHandler = function (res) {
     }
   });
 };
+
 
 module.exports = {
   fakeRequest,

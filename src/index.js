@@ -3,12 +3,12 @@
 
 require('./debugging');
 
-const { start } = require('./server');
+const { startServer } = require('./server');
 
 
-start();
+startServer();
 
 
 module.exports = {
-  start,
+  startServer,
 };

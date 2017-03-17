@@ -3,39 +3,39 @@
 
 const { chain, branch } = require('../middleware');
 
-const {
-  http: {
-    routingHandler: httpRoutingHandler,
-    protocolHandler: httpProtocolHandler,
-  },
-  router: protocolRouter,
-  loggingHandler,
-} = require('../protocol');
-
-const {
-  graphql: {
-    graphQLHandler,
-    graphiQLHandler,
-  },
-  router: interfaceRouter,
-} = require('../interface');
+const protocol = require('../protocol');
+const interfac = require('../interface');
 
 
 const start = chain([
 
-  // Protocol layer
-  branch(protocolRouter, {
-    http: [
-      httpRoutingHandler,
-      httpProtocolHandler,
-    ],
+  /**
+   * Protocol layer
+   */
+  // Sends final response
+  branch(protocol.negotiator, {
+    http: protocol.httpSendResponse,
   }),
-  loggingHandler,
+  // Retrieves input.path
+  branch(protocol.negotiator, {
+    http: protocol.httpGetPath,
+  }),
+  // Retrieves input.route, using input.path
+  protocol.router,
+  // Retrieves request parameters
+  branch(protocol.negotiator, {
+    http: protocol.httpGetParams,
+  }),
+  // General request logging
+  protocol.logger,
 
-  // Interface layer
-  branch(interfaceRouter, {
-    graphql: graphQLHandler,
-    graphiql: graphiQLHandler,
+  /**
+   * Interface layer
+   */
+  // Translates interface-specific calls into generic instance calls
+  branch(interfac.negotiator, {
+    graphql: interfac.executeGraphql,
+    graphiql: interfac.executeGraphiql,
   }),
 
 ]);

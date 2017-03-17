@@ -68,12 +68,14 @@ const serialize = function (appHeaders) {
       normalizedHeaderName = `${HEADERS_NAMESPACE}${normalizedHeaderName}`;
     }
     headers[normalizedHeaderName.toUpperCase()] = appHeaders[appHeaderName];
-    return headers
+    return headers;
   }, {});
 };
 
 
 module.exports = {
-  parse,
-  serialize,
+  httpAppHeaders: {
+    parse,
+    serialize,
+  },
 };

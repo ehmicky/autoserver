@@ -1,10 +1,7 @@
 'use strict';
 
 
-const { getSchema, printSchema } = require('./parse');
-
-
-module.exports = {
-  getSchema,
-  printSchema,
-};
+module.exports = Object.assign(
+  {},
+  require('./parse')
+);

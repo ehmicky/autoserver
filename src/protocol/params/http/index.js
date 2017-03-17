@@ -3,10 +3,11 @@
 
 const http = require('http');
 
-const { appHeaders: appHeadersParams, body, queryString } = require('./params');
+const { httpAppHeaders, httpBody, httpQueryString } = require('../../parsing');
 
 
-const protocolHandler = async function (req, res) {
+const getParams = async function (input) {
+  const { req, route } = input;
   if (!(req instanceof http.IncomingMessage)) { return req; }
 
   const protocol = `HTTP${req.httpVersion}`;
@@ -14,26 +15,25 @@ const protocolHandler = async function (req, res) {
   const headers = req.headers;
 
   const method = req.method;
-  const route = req.route;
 
   // Does not differentiate from where the input is from (query variables, body, headers)
   // so the next layer can be protocol-agnostic
 
   // Query variables
-  const queryVars = queryString.parse(req.url);
+  const queryVars = httpQueryString.parse(req.url);
 
   // JSON request body
-  const jsonBodyVars = await body.parse.json(req);
+  const jsonBodyVars = await httpBody.parse.json(req);
 
   // x-www-form-urlencoded request body
-  const urlencodedBodyVars = await body.parse.urlencoded(req);
+  const urlencodedBodyVars = await httpBody.parse.urlencoded(req);
 
   // string request body
-  let textBodyVars = await body.parse.text(req);
+  let textBodyVars = await httpBody.parse.text(req);
   if (typeof textBodyVars !== 'string') { textBodyVars = null; }
 
   // binary request body
-  let rawBodyVars = await body.parse.raw(req);
+  let rawBodyVars = await httpBody.parse.raw(req);
   rawBodyVars = rawBodyVars instanceof Buffer ? rawBodyVars.toString() : null;
 
   const bodyVars = Object.assign(
@@ -48,7 +48,7 @@ const protocolHandler = async function (req, res) {
   }
 
   // Namespaced HTTP headers
-  const appHeaders = appHeadersParams.parse(req);
+  const appHeaders = httpAppHeaders.parse(req);
 
   const params = Object.assign({}, queryVars, bodyVars, appHeaders);
 
@@ -62,19 +62,11 @@ const protocolHandler = async function (req, res) {
     params,
   };
 
-  let { type, content: response } = await this.next(request);
-  if (response && type) {
-    if (type === 'application/json') {
-      response = body.serialize.json({ res, message: response });
-    } else if (type === 'text/html') {
-      response = body.serialize.html({ res, message: response });
-    }
-  }
-
+  const response = await this.next(request);
   return response;
 };
 
 
 module.exports = {
-  protocolHandler,
+  httpGetParams: getParams,
 };

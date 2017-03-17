@@ -1,16 +1,11 @@
 'use strict';
 
 
-const { router } = require('./router');
-const { routingHandler: httpRoutingHandler, protocolHandler: httpProtocolHandler } = require('./http');
-const { loggingHandler } = require('./logging');
-
-
-module.exports = {
-  router,
-  loggingHandler,
-  http: {
-    routingHandler: httpRoutingHandler,
-    protocolHandler: httpProtocolHandler,
-  },
-};
+module.exports = Object.assign(
+  {},
+  require('./negotiator'),
+  require('./logger'),
+  require('./response'),
+  require('./routing'),
+  require('./params')
+);

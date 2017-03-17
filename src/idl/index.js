@@ -1,12 +1,7 @@
 'use strict';
 
 
-const { getSchema, printSchema } = require('./graphql');
-
-
-module.exports = {
-  graphql: {
-    getSchema,
-    printSchema,
-  },
-};
+module.exports = Object.assign(
+  {},
+  require('./graphql')
+);

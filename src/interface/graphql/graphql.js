@@ -3,11 +3,11 @@
 
 const { runHttpQuery } = require('graphql-server-core');
 
-const { graphql } = require('../../idl');
+const { graphqlGetSchema } = require('../../idl');
 
 
-const graphQLHandler = async function (request) {
-  const schema = graphql.getSchema();
+const executeGraphql = async function (request) {
+  const schema = graphqlGetSchema();
   const { query, variables, operationName } = request.params;
   const { method } = request;
 
@@ -38,12 +38,12 @@ const graphQLHandler = async function (request) {
       throw Error('Wrong query');
     }
     return {
-      type: 'application/json',
+      type: 'object',
       content: parsedResponse,
     };
   } else if (typeof response === 'string') {
     return {
-      type: 'text/html',
+      type: 'html',
       content: response,
     };
   }
@@ -51,5 +51,5 @@ const graphQLHandler = async function (request) {
 
 
 module.exports = {
-  graphQLHandler,
+  executeGraphql,
 };

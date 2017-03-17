@@ -1,10 +1,8 @@
 'use strict';
 
 
-const { graphQLHandler } = require('./graphql');
-const { graphiQLHandler } = require('./graphiql');
-
-module.exports = {
-  graphQLHandler,
-  graphiQLHandler,
-}
+module.exports = Object.assign(
+  {},
+  require('./graphql'),
+  require('./graphiql')
+);
