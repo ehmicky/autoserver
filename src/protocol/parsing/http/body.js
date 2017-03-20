@@ -39,22 +39,22 @@ for (const bodyParam of bodyParams) {
 }
 
 
-const sendJson = function ({ res, message }) {
-  res.setHeader('Content-Type', 'application/json');
-  message = JSON.stringify(message);
+const sendJson = function ({ res, message = {}, contentType = 'application/json' }) {
+  message = JSON.stringify(message, null, 2);
+  res.setHeader('Content-Type', contentType);
   res.setHeader('Content-Length', Buffer.byteLength(message));
   res.end(message);
   return message;
 };
 
-const sendHtml = function ({ res, message }) {
+const sendHtml = function ({ res, message = '' }) {
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Content-Length', Buffer.byteLength(message));
   res.end(message);
   return message;
 };
 
-const sendText = function ({ res, message }) {
+const sendText = function ({ res, message = '' }) {
   res.setHeader('Content-Type', 'text/plain');
   res.setHeader('Content-Length', Buffer.byteLength(message));
   res.end(message);
