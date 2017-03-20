@@ -7,5 +7,6 @@ module.exports = Object.assign(
   require('./console'),
   require('./fake_request'),
   require('./error'),
-  require('./is_dev')
+  require('./is_dev'),
+  require('./transtype')
 );

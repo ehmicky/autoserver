@@ -12,11 +12,8 @@ const router = async function (input) {
     throw new ProtocolError('The requested URL was not found', { reason: 'NOT_FOUND' });
   }
 
-  //TODO: path parameters
-
-  const route = matchedRoute.route;
-
-  const output = Object.assign({}, input, { route });
+  const { route, pathParams } = matchedRoute;
+  const output = Object.assign({ route, pathParams }, input);
   const response = await this.next(output);
   return response;
 };

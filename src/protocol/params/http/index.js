@@ -4,10 +4,11 @@
 const http = require('http');
 
 const { httpAppHeaders, httpBody, httpQueryString } = require('../../parsing');
+const { transtype } = require('../../../utilities');
 
 
 const getParams = async function (input) {
-  const { req, route } = input;
+  const { req, route, pathParams } = input;
   if (!(req instanceof http.IncomingMessage)) { return req; }
 
   const protocol = `HTTP${req.httpVersion}`;
@@ -50,7 +51,13 @@ const getParams = async function (input) {
   // Namespaced HTTP headers
   const appHeaders = httpAppHeaders.parse(req);
 
-  const params = Object.assign({}, queryVars, bodyVars, appHeaders);
+  const rawParams = Object.assign({}, bodyVars, appHeaders, queryVars, pathParams);
+  // Tries to guess parameter types, e.g. '15' -> 15
+  const params = Object.keys(rawParams).reduce((allParams, key) => {
+    const value = rawParams[key];
+    allParams[key] = transtype(value);
+    return allParams;
+  }, {});
 
   const request = {
     protocol,
