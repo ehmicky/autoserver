@@ -13,11 +13,6 @@ class MiddlewareError extends ExtendableError {
 
 }
 
-// See error_handler for explanation on each error type
-MiddlewareError.reasons = [
-  'NO_RESPONSE',
-];
-
 
 module.exports = {
   MiddlewareError,

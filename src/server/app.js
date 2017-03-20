@@ -28,7 +28,7 @@ const start = chain([
   branch(protocol.negotiator, {
     http: [
       protocol.logger,
-      protocol.httpGetParams,
+      protocol.httpFillParams,
     ],
   }),
 

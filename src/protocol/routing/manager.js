@@ -27,6 +27,8 @@ class RoutesManager {
     const route = this._routes.find(route => {
       return route.regexp.test(url);
     });
+    if (!route) { return; }
+
     // Retrieves path variables, e.g. /path/:id
     const pathParams = route.regexp
       .exec(url)
