@@ -3,7 +3,7 @@
 
 module.exports = Object.assign(
   {},
-  require('./app_headers'),
+  require('./headers'),
   require('./body'),
   require('./query_string')
 );
