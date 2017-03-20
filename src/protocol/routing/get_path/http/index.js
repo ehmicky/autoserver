@@ -3,7 +3,7 @@
 
 const { format: urlFormat } = require('url');
 
-const { httpHeaders } = require('../../../parsing');
+const { httpHeaders } = require('../../../../parsing');
 
 
 const httpGetPath = async function (input) {

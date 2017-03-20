@@ -10,7 +10,7 @@
 
 const bodyParser = require('body-parser');
 
-const { connectToPromise } = require('../../../utilities');
+const { connectToPromise } = require('../../utilities');
 
 
 const parse = {};

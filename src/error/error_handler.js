@@ -50,6 +50,11 @@ const errorTypes = {
     http: { status: 404 },
   }),
 
+  // No middleware was able to handle the response
+  NO_RESPONSE: () => ({
+    http: { status: 500 },
+  }),
+
   // General catch-all error
   UNKNOWN: () => ({
     http: { status: 500 },

@@ -3,17 +3,13 @@
 
 const http = require('http');
 
-const { httpAppHeaders, httpBody, httpQueryString } = require('../../parsing');
+const { httpAppHeaders, httpBody, httpQueryString } = require('../../../parsing');
 const { transtype } = require('../../../utilities');
 
 
 const getParams = async function (input) {
   const { req, route, pathParams } = input;
   if (!(req instanceof http.IncomingMessage)) { return req; }
-
-  const protocol = `HTTP${req.httpVersion}`;
-  const url = req.url;
-  const headers = req.headers;
 
   const method = req.method;
 
@@ -60,10 +56,6 @@ const getParams = async function (input) {
   }, {});
 
   const request = {
-    protocol,
-    url,
-    headers,
-
     method,
     route,
     params,

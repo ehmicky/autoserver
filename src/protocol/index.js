@@ -7,6 +7,5 @@ module.exports = Object.assign(
   require('./logger'),
   require('./response'),
   require('./routing'),
-  require('./params'),
-  require('./error')
+  require('./params')
 );

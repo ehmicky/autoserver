@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { httpBody } = require('../../parsing');
+const { httpBody } = require('../../../parsing');
 
 
 const httpSendResponse = async function (input) {

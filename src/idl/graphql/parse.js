@@ -2,7 +2,7 @@
 
 
 const idl = require('../example.json');
-const { GraphqlParsingError } = require('./parsing_error');
+const { GraphqlParsingError } = require('../../error');
 
 const {
   GraphQLSchema,

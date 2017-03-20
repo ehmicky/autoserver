@@ -4,21 +4,21 @@
 const { ExtendableError } = require('../../utilities');
 
 
-class ProtocolError extends ExtendableError {
+class MiddlewareError extends ExtendableError {
 
   constructor(...args) {
     super(...args);
-    this.type = 'ProtocolError';
+    this.type = 'MiddlewareError';
   }
 
 }
 
 // See error_handler for explanation on each error type
-ProtocolError.reasons = [
-  'NOT_FOUND',
-  'UNKNOWN',
+MiddlewareError.reasons = [
+  'NO_RESPONSE',
 ];
 
+
 module.exports = {
-  ProtocolError,
+  MiddlewareError,
 };
