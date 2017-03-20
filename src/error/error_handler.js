@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { getErrorType } = require('./error_types');
 const errorHandler = {
   http: require('./http'),
 };
@@ -26,46 +27,6 @@ const sendError = function ({ exception, input, protocol }) {
 
   // Use protocol-specific way to send back the error
   errorHandler[protocol].sendError({ error: protocolError, input });
-};
-
-/**
- * List of errors
- * Keys are the exception.type of the exception thrown
- * Returns:
- *  - [status] {number} HTTP status, defaults to 500
- *  - [title] {string} short description, defaults to standard HTTP status code's
- *  - [description] {string} long description, defaults to exception message
- * Returns value is specific to each protocol (using first-level key), but key `any` means any protocol
- *
- * @param input {object}
- * @param input.exception {Error}
- * @returns error_message {object}
- *
- * TODO: add `url` property pointing towards API documentation for that error
- */
-const errorTypes = {
-
-  // Standard 404, e.g. route not found
-  NOT_FOUND: () => ({
-    http: { status: 404 },
-  }),
-
-  // No middleware was able to handle the response
-  NO_RESPONSE: () => ({
-    http: { status: 500 },
-  }),
-
-  // General catch-all error
-  UNKNOWN: () => ({
-    http: { status: 500 },
-  }),
-
-};
-// Searches through `errorTypes`
-const getErrorType = function ({ exception, protocol = 'any' }) {
-  const errorType = errorTypes[exception.reason] || errorTypes.UNKNOWN;
-  const error = errorType({ exception })[protocol] || {};
-  return error;
 };
 
 /**

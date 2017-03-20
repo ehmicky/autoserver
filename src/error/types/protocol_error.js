@@ -13,13 +13,17 @@ class ProtocolError extends ExtendableError {
 
 }
 
-// See error_handler for explanation on each error type
-ProtocolError.reasons = [
-  'NOT_FOUND',
-  'UNKNOWN',
-];
+class HttpProtocolError extends ProtocolError {
+
+  constructor(...args) {
+    super(...args);
+    this.type = 'HttpProtocolError';
+  }
+
+}
 
 
 module.exports = {
   ProtocolError,
+  HttpProtocolError,
 };

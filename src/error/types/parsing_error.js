@@ -13,6 +13,15 @@ class ParsingError extends ExtendableError {
 
 }
 
+class HttpParsingError extends ParsingError {
+
+  constructor(...args) {
+    super(...args);
+    this.type = 'HttpParsingError';
+  }
+
+}
+
 class GraphqlParsingError extends ParsingError {
 
   constructor(...args) {
@@ -25,5 +34,6 @@ class GraphqlParsingError extends ParsingError {
 
 module.exports = {
   ParsingError,
+  HttpParsingError,
   GraphqlParsingError,
 };

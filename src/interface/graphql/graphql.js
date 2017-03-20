@@ -4,12 +4,20 @@
 const { runHttpQuery } = require('graphql-server-core');
 
 const { graphqlGetSchema } = require('../../idl');
+const { GraphqlInterfaceError } = require('../../error/types');
 
 
 const executeGraphql = async function (request) {
   const schema = graphqlGetSchema();
-  const { query, variables, operationName } = request.params;
-  const { method } = request;
+  // Parameters can be in either query variables or payload (including by using application/graphql)
+  const query = request.params.query || request.payload.query;
+  const variables = request.params.variables || request.payload.variables;
+  const operationName = request.params.operationName || request.payload.operationName;
+  const { operation: method } = request;
+
+  if (!query) {
+    throw new GraphqlInterfaceError('Missing GraphQL query', { reason: 'GRAPHQL_NO_QUERY' });
+  }
 
   let response;
   try {

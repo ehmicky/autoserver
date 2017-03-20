@@ -2,7 +2,7 @@
 
 
 const { routes } = require('./routes');
-const { ProtocolError } = require('../../error');
+const { ProtocolError } = require('../../error/types');
 
 
 const router = async function (input) {
