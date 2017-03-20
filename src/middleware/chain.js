@@ -51,9 +51,15 @@ const createBootstrap = function (middlewares) {
 
     state.log('Starting chain');
     const returnValue = callWithContext(state.middlewares[0], state, ...args);
-    Promise.resolve(returnValue).then(() => {
+
+    Promise.resolve(returnValue)
+    .then(() => {
       state.log('Ending chain');
+    })
+    .catch(() => {
+      state.log('Ending chain (failure)');
     });
+
     return returnValue;
   };
   bootstrapFunc[middlewaresSymbol] = middlewares;
@@ -84,9 +90,15 @@ const callWithContext = function (middleware, state, ...args) {
   const functionName = originalFunction.name || 'anonymous';
   state.log(`Starting middleware ${functionName}`);
   const returnValue = originalFunction.call(context, ...args);
-  Promise.resolve(returnValue).then(() => {
+
+  Promise.resolve(returnValue)
+  .then(() => {
     state.log(`Ending middleware ${functionName}`);
+  })
+  .catch(() => {
+    state.log(`Ending middleware (failure) ${functionName}`);
   });
+
   return returnValue;
 };
 
