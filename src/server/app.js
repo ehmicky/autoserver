@@ -5,6 +5,7 @@ const { chain, branch } = require('../middleware');
 
 const protocol = require('../protocol');
 const interf = require('../interface');
+const { MiddlewareError } = require('../error');
 
 
 const start = chain([
@@ -25,10 +26,11 @@ const start = chain([
   protocol.router,
   // Retrieves request parameters
   branch(protocol.negotiator, {
-    http: protocol.httpGetParams,
+    http: [
+      protocol.logger,
+      protocol.httpGetParams,
+    ],
   }),
-  // General request logging
-  protocol.logger,
 
   /**
    * Interface layer
@@ -38,6 +40,11 @@ const start = chain([
     graphql: interf.executeGraphql,
     graphiql: interf.executeGraphiql,
   }),
+
+  // If we got there, it means no response has been fired
+  function () {
+    throw new MiddlewareError('No middleware was able to handle the request', { reason: 'NO_RESPONSE' });
+  },
 
 ]);
 

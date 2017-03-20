@@ -4,7 +4,16 @@
 const { ExtendableError } = require('../../utilities');
 
 
-class GraphqlParsingError extends ExtendableError {
+class ParsingError extends ExtendableError {
+
+  constructor(...args) {
+    super(...args);
+    this.type = 'ParsingError';
+  }
+
+}
+
+class GraphqlParsingError extends ParsingError {
 
   constructor(...args) {
     super(...args);
@@ -13,6 +22,8 @@ class GraphqlParsingError extends ExtendableError {
 
 }
 
+
 module.exports = {
+  ParsingError,
   GraphqlParsingError,
 };

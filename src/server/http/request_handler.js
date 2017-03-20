@@ -2,7 +2,7 @@
 
 
 const app = require('../app');
-const { sendError } = require('../../protocol');
+const { sendError } = require('../../error');
 
 const httpRequestHandler = async function (req, res) {
   try {
