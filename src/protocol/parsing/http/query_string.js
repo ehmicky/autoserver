@@ -55,18 +55,8 @@ const parse = function (url) {
   }
 };
 
-// Tries to guess types: numbers, booleans, null
 const decodeValue = function (str) {
-   const parsedString = decodeURIComponent(str.replace(/\+/g, ' '));
-
-   const parsedNumber = Number.parseFloat(parsedString);
-   if (parsedNumber) { return parsedNumber; }
-
-   const normalizedString = parsedString.toLowerCase().trim();
-   if (normalizedString === 'true') { return true; }
-   if (normalizedString === 'false') { return false; }
-
-   return parsedString;
+   return decodeURIComponent(str.replace(/\+/g, ' '));
 };
 
 /**

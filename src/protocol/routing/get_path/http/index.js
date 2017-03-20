@@ -17,6 +17,7 @@ const httpGetPath = async function (input) {
   return response;
 };
 
+// Retrieves path, e.g. used by the router
 const getPath = function (url) {
   return url.replace(/[?#].*/, '');
 };
