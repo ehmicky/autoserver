@@ -4,7 +4,7 @@
 const { chain, branch } = require('../middleware');
 
 const protocol = require('../protocol');
-const interfac = require('../interface');
+const interf = require('../interface');
 
 
 const start = chain([
@@ -34,9 +34,9 @@ const start = chain([
    * Interface layer
    */
   // Translates interface-specific calls into generic instance calls
-  branch(interfac.negotiator, {
-    graphql: interfac.executeGraphql,
-    graphiql: interfac.executeGraphiql,
+  branch(interf.negotiator, {
+    graphql: interf.executeGraphql,
+    graphiql: interf.executeGraphiql,
   }),
 
 ]);
