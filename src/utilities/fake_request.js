@@ -6,7 +6,7 @@ const http = require('http');
 const console = require('./console');
 
 
-const fakeRequest = function ({ host, port } = {}) {
+const fakeRequest = function ({ host = 'localhost', port = 5001 } = {}) {
   const method = 'GET';
   const query = '';
   const path = `/graphql?${query}`;
@@ -22,9 +22,9 @@ const fakeRequest = function ({ host, port } = {}) {
     }`,
   });
   const headers = {
-    'content-type': 'application/json',
-    'content-length': Buffer.byteLength(body),
-    'accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Content-Length': Buffer.byteLength(body),
+    'Accept': 'application/json',
   };
 
   http
