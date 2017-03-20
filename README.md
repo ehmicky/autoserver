@@ -43,4 +43,4 @@ We recommend using the Chrome extension [Node Inspector Manager](https://github.
 
 # Troubleshooting
 
-Please use Node.js v7.7.2
+Please use Node.js v7.7.3
