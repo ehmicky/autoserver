@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { ExtendableError } = require('../utilities');
+const { ExtendableError } = require('../../utilities');
 
 
 class ProtocolError extends ExtendableError {
@@ -13,9 +13,11 @@ class ProtocolError extends ExtendableError {
 
 }
 
-ProtocolError.reason = {
-  NOT_FOUND: 'NotFound',
-};
+// See error_handler for explanation on each error type
+ProtocolError.reasons = [
+  'NOT_FOUND',
+  'UNKNOWN',
+];
 
 module.exports = {
   ProtocolError,

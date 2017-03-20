@@ -12,13 +12,14 @@ const start = chain([
   /**
    * Protocol layer
    */
-  // Sends final response
+  // The first layer (not present here) is the error handler, which sends final response, if errors
   branch(protocol.negotiator, {
-    http: protocol.httpSendResponse,
-  }),
-  // Retrieves input.path
-  branch(protocol.negotiator, {
-    http: protocol.httpGetPath,
+    http: [
+      // Sends final response, if success
+      protocol.httpSendResponse,
+      // Retrieves input.path
+      protocol.httpGetPath,
+    ],
   }),
   // Retrieves input.route, using input.path
   protocol.router,
