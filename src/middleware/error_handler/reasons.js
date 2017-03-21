@@ -18,6 +18,11 @@
  */
 const errorReasons = {
 
+  // Tried to query a protocol that is not supported, e.g. UDP
+  UNSUPPORTED_PROTOCOL: () => ({
+    http: { status: 400 },
+  }),
+
   // HTTP request body has a Content-Length but no request body
   HTTP_NO_CONTENT_TYPE: () => ({
     http: { status: 400 },
@@ -25,6 +30,11 @@ const errorReasons = {
 
   // HTTP query string is wrong
   HTTP_QUERY_STRING_PARSE: () => ({
+    http: { status: 400 },
+  }),
+
+  // Tried to query an interface that is not supported, e.g. SOAP
+  UNSUPPORTED_INTERFACE: () => ({
     http: { status: 400 },
   }),
 

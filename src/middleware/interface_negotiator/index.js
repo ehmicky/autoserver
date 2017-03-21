@@ -1,13 +1,24 @@
 'use strict';
 
 
+const { InterfaceError } = require('../../error');
+
+
 // Decides which interface to use (e.g. GraphQL) according to route
 const interfaceNegotiator = function ({ route }) {
-  if (route === 'graphql') {
-    return 'graphql';
-  } else if (route === 'graphiql') {
-    return 'graphiql';
+  const interf = Object.keys(interfaces).find(interfaceName => interfaces[interfaceName]({ route }));
+  if (!interf) {
+    throw new InterfaceError(`Unsupported interface: ${route}`, { reason: 'UNSUPPORTED_INTERFACE' });
   }
+  return interf;
+};
+
+const interfaces = {
+
+  graphql: ({ route }) => route === 'graphql',
+
+  graphiql: ({ route }) => route === 'graphiql',
+
 };
 
 
