@@ -26,7 +26,9 @@ const start = chain([
   // Retrieves request parameters
   branch(middleware.protocolNegotiator, {
     http: [
+      // General request log
       middleware.httpLogger,
+      // Merge request parameters and payload into protocol-agnostic format
       middleware.httpFillParams,
     ],
   }),
@@ -36,7 +38,9 @@ const start = chain([
    */
   // Translates interface-specific calls into generic instance calls
   branch(middleware.interfaceNegotiator, {
+    // GraphQL engine
     graphql: middleware.executeGraphql,
+    // GraphQL debugger web app
     graphiql: middleware.executeGraphiql,
   }),
 
