@@ -22,21 +22,22 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "Apache-2.0",
-  "devDependencies": {
-    "eslint": "^3.17.1",
-    "nodemon": "^1.11.0"
-  },
   "dependencies": {
     "body-parser": "^1.17.1",
     "graphql": "^0.9.1",
     "graphql-server-core": "^0.6.0",
-    "graphql-server-module-graphiql": "^0.6.0",
     "graphql.js": "^0.4.5",
     "lodash": "^4.17.4",
+    "mustache": "^2.3.0",
     "path-to-regexp": "^1.7.0",
     "qs": "^6.4.0",
+    "react": "^15.4.2",
     "underscore.string": "^3.3.4",
     "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.17.1",
+    "nodemon": "^1.11.0"
   },
   "engines": {
     "node": ">=7.7.3"

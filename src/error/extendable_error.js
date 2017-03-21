@@ -1,7 +1,8 @@
 'use strict';
 
 
-const { isDev } = require('../utilities');
+// Avoid infinite recursion between error module and utilities module
+const { isDev } = require('../utilities/is_dev');
 
 
 class ExtendableError extends Error {

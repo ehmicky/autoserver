@@ -53,6 +53,11 @@ const errorReasons = {
     http: { status: 415 },
   }),
 
+  // Filesystem error: could not open local file
+  FILE_OPEN_ERROR: () => ({
+    http: { status: 500 },
+  }),
+
   // HTTP query string is wrong, but was created by the server
   HTTP_QUERY_STRING_SERIALIZE: () => ({
     http: { status: 500 },
@@ -60,6 +65,11 @@ const errorReasons = {
 
   // GraphQL schema is invalid
   GRAPHQL_WRONG_SCHEMA: () => ({
+    http: { status: 500 },
+  }),
+
+  // GraphiQL HTML templating failed
+  GRAPHIQL_PARSING_ERROR: () => ({
     http: { status: 500 },
   }),
 

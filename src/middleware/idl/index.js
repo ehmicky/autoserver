@@ -3,5 +3,6 @@
 
 module.exports = Object.assign(
   {},
-  require('./graphql')
+  require('./graphql'),
+  require('./graphiql')
 );
