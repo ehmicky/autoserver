@@ -6,7 +6,7 @@
 
 const titleize = require('underscore.string/titleize');
 
-const NAMESPACE = require('../../constants').NAMESPACE;
+const NAMESPACE = require('../../utilities').CONSTANTS.NAMESPACE;
 const HEADERS_NAMESPACE = `x-${NAMESPACE.toLowerCase()}-`;
 // Headers that provide application data, not just HTTP protocol semantics
 // Must all be lowercase

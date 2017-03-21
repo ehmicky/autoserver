@@ -3,12 +3,10 @@
 
 const http = require('http');
 
-const { console/*, fakeRequest */ } = require('../../utilities');
+const { console } = require('../../utilities');
 const { httpRequestHandler } = require('./request_handler');
+const { port, host } = require('../../config');
 
-
-const port = process.env.PORT || 5001;
-const host = process.env.HOST || 'localhost';
 
 const startServer = function () {
   return http
@@ -18,7 +16,6 @@ const startServer = function () {
 
 const listeningHandler = function () {
   console.log(`Listening on ${host}:${port}`);
-  //fakeRequest({ host, port });
 };
 
 
