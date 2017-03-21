@@ -26,7 +26,7 @@ const start = chain([
   // Retrieves request parameters
   branch(middleware.protocolNegotiator, {
     http: [
-      middleware.logger,
+      middleware.httpLogger,
       middleware.httpFillParams,
     ],
   }),
