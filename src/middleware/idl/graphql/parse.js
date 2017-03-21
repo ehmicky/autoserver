@@ -1,9 +1,6 @@
 'use strict';
 
 
-const idl = require('../../../example.json');
-const { EngineError } = require('../../../error');
-
 const {
   GraphQLSchema,
   GraphQLObjectType,
@@ -16,8 +13,13 @@ const {
   GraphQLNonNull,
   printSchema: graphQLPrintSchema,
 } = require('graphql');
+const titleize = require('underscore.string/titleize');
+const { plural, singular } = require('pluralize');
+
+const { EngineError } = require('../../../error');
 
 
+// Returns GraphQL root schema
 const getSchema = function () {
   const querySchema = getQuerySchema();
   const rootSchema = new GraphQLSchema({
@@ -26,63 +28,118 @@ const getSchema = function () {
   return rootSchema;
 };
 
+// Returns GraphQL root query schema
 const getQuerySchema = function () {
-  const allFields = idl.reduce((fields, schema) => {
-    fields[normalizedAttrPluralName(schema)] = getFindAllSchema(schema, idl);
-    fields[normalizedAttrSingularName(schema)] = getFindOneSchema(schema, idl);
-    return fields;
-  }, {});
+  const idl = getIdl();
+  const fields = getQueryFields({ idl });
   const querySchema = new GraphQLObjectType({
     name: 'Query',
-    fields: allFields,
+    fields,
+    description: 'Fetches information about the different entities',
   });
   return querySchema;
 };
 
-const getFindAllSchema = function (schema, idl) {
-  const findAllSchema = {
-    type: new GraphQLList(getObjectType(schema, idl)),
-    async resolve(/* parent, args, context, info */) {
-      return await [
-        { id: 1, name: 'Dog', photo_urls: ['http://dog.com/photo/1', 'http://dog.com/photo/2'], tags: ['adorable'], status: 'happy' },
-        { id: 2, name: 'Cat', photo_urls: ['http://cat.com/photo/1', 'http://cat.com/photo/2'], tags: ['even more adorable'], status: 'grumpy' },
-        { id: 3, name: 'Koala', photo_urls: ['http://koala.com/photo/1'], tags: ['suspended'], status: 'sleepy' },
-      ];
-    },
-  };
-  return findAllSchema;
+// Retrieve IDL definition
+// TODO: make it non-static
+const getIdl = function () {
+  return require('../../../example.json');
 };
 
-const getFindOneSchema = function (schema, idl) {
-  const findOneSchema = {
-    type: getObjectType(schema, idl),
-    async resolve(/* parent, args, context, info */) {
-      return await { id: 1, name: 'Dog', photo_urls: ['http://dog.com/photo/1', 'http://dog.com/photo/2'], tags: ['adorable'], status: 'happy' };
-    },
-  };
-  return findOneSchema;
+const findTopSchema = function (type) {
+  const idl = getIdl();
+  return idl.find(topSchema => topSchema.type === type);
 };
 
+// Iterate over IDL definition, to add top-level operations for each type
+const getQueryFields = function ({ idl }) {
+  return idl.reduce((fields, schema) => {
+    const field = getQueryField({ schema });
+    Object.assign(fields, field);
+    return fields;
+  }, {});
+};
+
+// Get top-level operations for a given field
+const getQueryField = function ({ schema }) {
+  return Object.keys(operations).reduce((fields, operationName) => {
+    const getOperation = operations[operationName];
+    const newOperation = getOperation({ schema });
+    if (!newOperation) { return fields; }
+    Object.assign(fields, newOperation);
+    return fields;
+  }, {});
+};
+
+// Generic CRUD operations
+const operations = {
+
+  // Adds findOne operation, e.g. `pet`
+  findOne({ schema }) {
+    const name = getSingularName(schema);
+    const operation = getFullType(schema);
+    return {
+      [name]: operation,
+    };
+  },
+
+  // Adds findMany operation, e.g. `pets`
+  findMany({ schema }) {
+    const name = getPluralName(schema);
+    const arraySchema = { type: 'array', items: schema };
+    const operation = getFullType(arraySchema);
+    return {
+      [name]: operation,
+    };
+  },
+
+};
+
+const getFullType = function (schema) {
+  const resolverInfo = getGraphqlResolverInfo(schema);
+  const type = getGraphqlType(schema);
+  return Object.assign({}, resolverInfo, { type });
+};
+
+// Retrieves the GraphQL resolver info (resolve function, arguments, description, etc.) for a given IDL schema
+const getGraphqlResolverInfo = function (schema) {
+  const type = schemaToGraphqlMap.types.find(possibleType => possibleType.condition(schema));
+  if (!type) {
+    throw new EngineError(`Could not parse property into a GraphQL type: ${schema}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
+  }
+
+  if (!type.resolverInfo) { return {}; }
+
+  const typeInfo = type.resolverInfo(schema);
+  return typeInfo;
+};
+
+// Retrieves the GraphQL type (any type) for a given IDL schema
+const getGraphqlType = function (schema) {
+  const correctType = schemaToGraphqlMap.types.find(possibleType => possibleType.condition(schema));
+  if (!correctType) {
+    throw new EngineError(`Could not parse property into a GraphQL type: ${schema}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
+  }
+
+  const type = correctType.type(schema);
+  return type;
+};
+
+// Retrieves the GraphQL type (objects only) for a given IDL schema
 const cachedTypes = {};
-const getObjectType = function (schema, idl) {
-  const name = normalizedTypeName(schema);
+const getObjectType = function (schema) {
+  const name = getTypeName(schema);
   if (cachedTypes[name]) { return cachedTypes[name]; }
 
   // Must be done before iterating over children
   // So that children can get a cached reference of parent type, to avoid infinite recursion
-  const entityType = new GraphQLObjectType({
-    name,
-  });
+  const description = schema.description || `${name} entity`;
+  const entityType = new GraphQLObjectType({ name, description });
   cachedTypes[name] = entityType;
 
   const allFields = Object.keys(schema.properties).reduce((fields, attrName) => {
-    const properties = schema.properties[attrName];
-
-    fields[attrName] = getGraphqlType(properties, idl);
-    if (properties.description) {
-      fields[attrName].description = properties.description;
-
-    }
+    const childSchema = schema.properties[attrName];
+    fields[attrName] = getFullType(childSchema);
     return fields;
   }, {});
 
@@ -91,91 +148,120 @@ const getObjectType = function (schema, idl) {
   return entityType;
 };
 
-const getGraphqlType = function (schema, idl) {
-  const correctType = schemaToGraphqlMap.types.find(type => type.condition(schema, idl));
-  if (correctType) {
-    return correctType.value(schema, idl);
-  } else {
-    throw new EngineError(`Could not parse property into a GraphQL type: ${schema}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
-  }
-};
-
-const findTopSchema = function (idl, type) {
-  return idl.find(topSchema => topSchema.type === type);
-};
-
 const schemaToGraphqlMap = {
+
   types: [
+
     {
       condition: schema => schema.required,
-      value(schema, idl) {
+      type(schema) {
         const optionalSchema = Object.assign({}, schema, { required: false });
-        const SubType = getGraphqlType(optionalSchema, idl).type;
-        return { type: new GraphQLNonNull(SubType) };
+        const SubType = getGraphqlType(optionalSchema);
+        return new GraphQLNonNull(SubType);
       },
     },
+
     {
-      condition: (schema, idl) => findTopSchema(idl, schema.type),
-      value: (schema, idl) => getFindOneSchema(findTopSchema(idl, schema.type), idl),
+      condition: schema => schema.type === 'array' && schema.items && !findTopSchema(schema.items.type),
+      type: (schema) => new GraphQLList(getGraphqlType(schema.items)),
     },
+
+    {
+      condition: schema => findTopSchema(schema.type),
+      type: schema => {
+        const actualSchema = findTopSchema(schema.type);
+        return getObjectType(actualSchema);
+      },
+      resolverInfo: schema => {
+        const actualSchema = findTopSchema(schema.type);
+        return {
+          //description: `Fetches information about a ${getSingularName(schema)}`,
+          async resolve(/* parent, args, context, info */) {
+            return await { id: 1, name: 'Dog', photo_urls: ['http://dog.com/photo/1', 'http://dog.com/photo/2'], tags: ['adorable'], status: 'happy' };
+          },
+        };
+      },
+    },
+
+    {
+      condition: schema => schema.type === 'array' && schema.items && findTopSchema(schema.items.type),
+      type: schema => {
+        const actualSchema = findTopSchema(schema.items.type);
+        return new GraphQLList(getObjectType(actualSchema));
+      },
+      resolverInfo: schema => {
+        const actualSchema = findTopSchema(schema.items.type);
+        return {
+          //description: `Fetches information about a list of ${getPluralName(schema)}`,
+          async resolve(/* parent, args, context, info */) {
+            return await [
+              { id: 1, name: 'Dog', photo_urls: ['http://dog.com/photo/1', 'http://dog.com/photo/2'], tags: ['adorable'], status: 'happy' },
+              { id: 2, name: 'Cat', photo_urls: ['http://cat.com/photo/1', 'http://cat.com/photo/2'], tags: ['even more adorable'], status: 'grumpy' },
+              { id: 3, name: 'Koala', photo_urls: ['http://koala.com/photo/1'], tags: ['suspended'], status: 'sleepy' },
+            ];
+          },
+        };
+      },
+    },
+
     {
       condition: schema => schema.type === 'object',
-      value: (schema, idl) => ({ type: getObjectType(schema, idl) }),
+      type: schema => getObjectType(schema),
     },
-    {
-      condition: (schema, idl) => schema.type === 'array' && schema.items && findTopSchema(idl, schema.items.type),
-      value: (schema, idl) => getFindAllSchema(findTopSchema(idl, schema.items.type), idl),
-    },
-    {
-      condition: (schema, idl) => schema.type === 'array' && schema.items && !findTopSchema(idl, schema.items.type),
-      value(schema, idl) {
-        const SubType = getGraphqlType(schema.items, idl).type;
-        return { type: new GraphQLList(SubType) };
-      },
-    },
+
     {
       condition: schema => schema.type === 'integer' && schema.format === 'id',
-      value: () => ({ type: GraphQLID }),
+      type: () => GraphQLID,
     },
+
     {
       condition: schema => schema.type === 'integer',
-      value: () => ({ type: GraphQLInt }),
+      type: () => GraphQLInt,
     },
+
     {
       condition: schema => schema.type === 'number',
-      value: () => ({ type: GraphQLFloat }),
+      type: () => GraphQLFloat,
     },
+
     {
       condition: schema => schema.type === 'string',
-      value: () => ({ type: GraphQLString }),
+      type: () => GraphQLString,
     },
+
     {
       condition: schema => schema.type === 'boolean',
-      value: () => ({ type: GraphQLBoolean }),
+      type: () => GraphQLBoolean,
     },
+
   ],
 };
 
-const missingNameError = function (schema) {
-  throw new EngineError(`Missing "name" key in schema ${JSON.stringify(schema)}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
+// Returns schema.name
+const getSchemaName = function (schema) {
+  const name = schema.name;
+  if (!name) {
+    throw new EngineError(`Missing "name" key in schema ${JSON.stringify(schema)}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
+  }
+  return name;
 };
 
-const normalizedAttrPluralName = function (schema) {
-  const name = schema.name;
-  name || missingNameError(schema);
-  return `${name.toLowerCase()}s`;
+// Returns schema.name, in plural form, e.g. `pets`, for findMany queries
+const getPluralName = function (schema) {
+  const name = getSchemaName(schema);
+  return plural(name).toLowerCase();
 };
 
-const normalizedAttrSingularName = function (schema) {
-  const name = schema.name;
-  name || missingNameError(schema);
-  return name.toLowerCase();
+// Returns schema.name, in plural form, e.g. `pet`, for findOne queries
+const getSingularName = function (schema) {
+  const name = getSchemaName(schema);
+  return singular(name).toLowerCase();
 };
 
-const normalizedTypeName = function (schema) {
-  const name = schema.name;
-  name || missingNameError(schema);
-  return name.toLowerCase().replace(/^./, char => char.toUpperCase());
+// Returns schema.name, in titleized form, e.g. `Pet`, for schema type name
+const getTypeName = function (schema) {
+  const name = getSchemaName(schema);
+  return titleize(singular(name));
 };
 
 const printSchema = function () {

@@ -30,6 +30,7 @@
     "lodash": "^4.17.4",
     "mustache": "^2.3.0",
     "path-to-regexp": "^1.7.0",
+    "pluralize": "^4.0.0",
     "qs": "^6.4.0",
     "react": "^15.4.2",
     "underscore.string": "^3.3.4",
