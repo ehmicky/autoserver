@@ -9,7 +9,7 @@
 const qs = require('qs');
 const urlParser = require('url');
 
-const { HttpParsingError } = require('../../error');
+const { EngineError } = require('../../error');
 
 
 const MAX_DEPTH = 10;
@@ -50,7 +50,7 @@ const parse = function (url) {
     });
     return queryObject;
   } catch (error) {
-    throw new HttpParsingError(`Request query string is invalid: ${url} ${error.message || error}`, { reason: 'HTTP_QUERY_STRING_PARSE' });
+    throw new EngineError(`Request query string is invalid: ${url} ${error.message || error}`, { reason: 'HTTP_QUERY_STRING_PARSE' });
   }
 };
 
@@ -79,7 +79,7 @@ const serialize = function (queryObject) {
     });
     return queryString;
   } catch (error) {
-    throw new HttpParsingError(`Response query string is invalid: ${JSON.stringify(queryObject)} ${error.message || error}`, {
+    throw new EngineError(`Response query string is invalid: ${JSON.stringify(queryObject)} ${error.message || error}`, {
       reason: 'HTTP_QUERY_STRING_SERIALIZE',
     });
   }

@@ -3,7 +3,7 @@
 
 const { httpHeaders, httpAppHeaders, httpBody, httpQueryString } = require('../../../parsing');
 const { transtype } = require('../../../utilities');
-const { HttpProtocolError } = require('../../../error');
+const { EngineError } = require('../../../error');
 
 
 const fillParams = async function (input) {
@@ -66,9 +66,9 @@ const getPayload = async function ({ req }) {
   // Wrong request errors
   const contentType = httpHeaders.get(req, 'Content-Type');
   if (!contentType) {
-    throw new HttpProtocolError('Must specify Content-Type when sending an HTTP request body', { reason: 'HTTP_NO_CONTENT_TYPE' });
+    throw new EngineError('Must specify Content-Type when sending an HTTP request body', { reason: 'HTTP_NO_CONTENT_TYPE' });
   }
-  throw new HttpProtocolError(`Unsupported Content-Type: ${contentType}`, { reason: 'HTTP_WRONG_CONTENT_TYPE' });
+  throw new EngineError(`Unsupported Content-Type: ${contentType}`, { reason: 'HTTP_WRONG_CONTENT_TYPE' });
 };
 
 const hasPayload = function ({ req }) {

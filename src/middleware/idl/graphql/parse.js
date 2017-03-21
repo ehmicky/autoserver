@@ -2,7 +2,7 @@
 
 
 const idl = require('../../../example.json');
-const { GraphqlParsingError } = require('../../../error');
+const { EngineError } = require('../../../error');
 
 const {
   GraphQLSchema,
@@ -96,7 +96,7 @@ const getGraphqlType = function (schema, idl) {
   if (correctType) {
     return correctType.value(schema, idl);
   } else {
-    throw new GraphqlParsingError(`Could not parse property into a GraphQL type: ${schema}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
+    throw new EngineError(`Could not parse property into a GraphQL type: ${schema}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
   }
 };
 
@@ -157,7 +157,7 @@ const schemaToGraphqlMap = {
 };
 
 const missingNameError = function (schema) {
-  throw new GraphqlParsingError(`Missing "name" key in schema ${JSON.stringify(schema)}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
+  throw new EngineError(`Missing "name" key in schema ${JSON.stringify(schema)}`, { reason: 'GRAPHQL_WRONG_SCHEMA' });
 };
 
 const normalizedAttrPluralName = function (schema) {
