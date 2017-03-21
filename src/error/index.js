@@ -3,6 +3,8 @@
 
 module.exports = Object.assign(
   {},
-  require('./error_handler'),
-  require('./types')
+  require('./middleware_error'),
+  require('./protocol_error'),
+  require('./interface_error'),
+  require('./parsing_error')
 );

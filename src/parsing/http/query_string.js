@@ -9,7 +9,7 @@
 const qs = require('qs');
 const urlParser = require('url');
 
-const { HttpParsingError } = require('../../error/types');
+const { HttpParsingError } = require('../../error');
 
 
 const MAX_DEPTH = 10;

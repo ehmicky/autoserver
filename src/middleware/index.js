@@ -3,9 +3,13 @@
 
 module.exports = Object.assign(
   {},
-  require('./chain'),
-  require('./modifiers'),
-  require('./wrapper'),
-  require('./nesting'),
-  require('./debug')
+  require('./error_handler'),
+  require('./protocol_negotiator'),
+  require('./response'),
+  require('./get_path'),
+  require('./routing'),
+  require('./logger'),
+  require('./params'),
+  require('./interface_negotiator'),
+  require('./idl')
 );

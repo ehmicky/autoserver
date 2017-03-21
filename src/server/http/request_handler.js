@@ -1,12 +1,12 @@
 'use strict';
 
 
-const app = require('../app');
-const { sendError } = require('../../error');
+const { start } = require('../chain');
+const { sendError } = require('../../middleware');
 
 const httpRequestHandler = async function (req, res) {
   try {
-    const response = await app.start({ req, res });
+    const response = await start({ req, res });
     return response;
   } catch (exception) {
     sendError({ exception, input: { req, res }, protocol: 'http' });

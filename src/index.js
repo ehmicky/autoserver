@@ -1,8 +1,6 @@
 'use strict';
 
 
-require('./debugging');
-
 const { startServer } = require('./server');
 
 
