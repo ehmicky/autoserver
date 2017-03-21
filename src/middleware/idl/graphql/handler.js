@@ -10,10 +10,7 @@ const { EngineError } = require('../../../error');
 const executeGraphql = async function (request) {
   const schema = graphqlGetSchema();
   // Parameters can be in either query variables or payload (including by using application/graphql)
-  const { params = {}, payload = {} } = request;
-  const query = params.query || payload.query;
-  const variables = params.variables || payload.variables;
-  const operationName = params.operationName || payload.operationName;
+  const { query, variables, operationName } = Object.assign({}, request.params, request.payload);
   const { operation: method } = request;
 
   if (!query) {
