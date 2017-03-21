@@ -4,7 +4,7 @@
 const { runHttpQuery } = require('graphql-server-core');
 
 const { graphqlGetSchema } = require('./parse');
-const { GraphqlInterfaceError } = require('../../../error');
+const { EngineError } = require('../../../error');
 
 
 const executeGraphql = async function (request) {
@@ -16,7 +16,7 @@ const executeGraphql = async function (request) {
   const { operation: method } = request;
 
   if (!query) {
-    throw new GraphqlInterfaceError('Missing GraphQL query', { reason: 'GRAPHQL_NO_QUERY' });
+    throw new EngineError('Missing GraphQL query', { reason: 'GRAPHQL_NO_QUERY' });
   }
 
   let response;

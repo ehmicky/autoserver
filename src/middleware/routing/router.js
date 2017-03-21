@@ -2,14 +2,14 @@
 
 
 const { routes } = require('./routes');
-const { ProtocolError } = require('../../error');
+const { EngineError } = require('../../error');
 
 
 const router = async function (input) {
   const { path } = input;
   const matchedRoute = routes.find(path);
   if (!matchedRoute) {
-    throw new ProtocolError('The requested URL was not found', { reason: 'NOT_FOUND' });
+    throw new EngineError('The requested URL was not found', { reason: 'NOT_FOUND' });
   }
 
   const { route, pathParams } = matchedRoute;

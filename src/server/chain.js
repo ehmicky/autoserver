@@ -4,7 +4,7 @@
 const { chain, branch } = require('../chain');
 
 const middleware = require('../middleware');
-const { MiddlewareError } = require('../error');
+const { EngineError } = require('../error');
 
 
 const start = chain([
@@ -42,7 +42,7 @@ const start = chain([
 
   // If we got there, it means no response has been fired
   function () {
-    throw new MiddlewareError('No middleware was able to handle the request', { reason: 'NO_RESPONSE' });
+    throw new EngineError('No middleware was able to handle the request', { reason: 'NO_RESPONSE' });
   },
 
 ]);

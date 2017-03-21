@@ -4,16 +4,16 @@
 const { ExtendableError } = require('./extendable_error');
 
 
-class MiddlewareError extends ExtendableError {
+class EngineError extends ExtendableError {
 
   constructor(...args) {
     super(...args);
-    this.type = 'MiddlewareError';
+    this.type = 'EngineError';
   }
 
 }
 
 
 module.exports = {
-  MiddlewareError,
+  EngineError,
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { ProtocolError } = require('../../error');
+const { EngineError } = require('../../error');
 
 
 // Decide which middleware to pick according to request protocol
@@ -9,7 +9,7 @@ const { ProtocolError } = require('../../error');
 const protocolNegotiator = function ({ req, res }) {
   const protocol = Object.keys(protocols).find(protocolName => protocols[protocolName]({ req, res }));
   if (!protocol) {
-    throw new ProtocolError('Unsupported protocol', { reason: 'UNSUPPORTED_PROTOCOL' });
+    throw new EngineError('Unsupported protocol', { reason: 'UNSUPPORTED_PROTOCOL' });
   }
   return protocol;
 };
