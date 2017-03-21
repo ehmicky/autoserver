@@ -48,7 +48,7 @@ const createError = function ({ exception, error, requestUrl }) {
     // Request URL, i.e. everything except query string and hash
     instance: requestUrl,
     // Stack trace, not printed in production
-    details: exception.stack,
+    details: (exception.innererror && exception.innererror.stack) || exception.stack,
   };
 };
 

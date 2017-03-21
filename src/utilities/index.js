@@ -9,5 +9,6 @@ module.exports = Object.assign(
   require('./is_dev'),
   require('./transtype'),
   require('./constants'),
+  require('./filesystem'),
   require('./debugging')
 );
