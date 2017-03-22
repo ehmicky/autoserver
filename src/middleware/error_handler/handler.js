@@ -14,7 +14,7 @@ const errorHandler = {
  * @param input {object} protocol-independent request/response object
  * @param protocol {string} e.g. 'http'
  */
-const sendError = function ({ exception, input, protocol }) {
+const sendError = () => function ({ exception, input, protocol }) {
   // Retrieves request URL, protocol-specific
   const requestUrl = errorHandler[protocol].getRequestUrl({ input });
   // Retrieves protocol-independent error information, using the thrown exception

@@ -5,7 +5,7 @@ const { renderGraphiQL } = require('./render');
 const { host, port } = require('../../../config');
 
 
-const executeGraphiql = async function (request) {
+const executeGraphiql = () => async function (request) {
   const { params = {}, payload = {} } = request;
   const query = params.query || payload.query;
   const variables = params.variables || payload.variables;

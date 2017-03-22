@@ -4,7 +4,9 @@
 const { startServer } = require('./server');
 
 
-startServer();
+startServer({
+  definitions: require('./example.json'),
+});
 
 
 module.exports = {

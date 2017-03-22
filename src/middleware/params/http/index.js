@@ -6,7 +6,7 @@ const { transtype } = require('../../../utilities');
 const { EngineError } = require('../../../error');
 
 
-const fillParams = async function (input) {
+const fillParams = () => async function (input) {
   const { req, route, pathParams } = input;
   const operation = req.method;
   const params = getParams({ req, pathParams });

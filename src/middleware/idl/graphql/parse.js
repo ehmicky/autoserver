@@ -20,15 +20,6 @@ const { plural, singular } = require('pluralize');
 const { EngineError } = require('../../../error');
 
 
-// Retrieve IDL definition
-// TODO: make it non-static
-// TODO: cache
-const getIdlDefinition = function () {
-  const def = require('../../../example.json');
-  const validatedDef = validateIdlDefinition(def);
-  return validatedDef;
-};
-
 // Validate IDL definition
 // Also performs some transformation, e.g. adding default values
 // TODO: use JSON schema validation|transformation instead
@@ -60,60 +51,88 @@ const validateIdlDefinition = function (obj) {
 };
 
 
-// TODO: cache
-const getRootDefinition = function () {
-  const models = getIdlDefinition().models;
-  const properties = Object.keys(models).reduce((props, modelName) => {
-    const model = models[modelName];
-    const name = model.name || modelName;
-    const operation = 'find';
-    const def = Object.assign({}, model, { operation, name });
+// Transforms an IDL definition into an object easy to parse by GraphQL
+const getRootDefinition = function ({ definitions }) {
+  const models = validateIdlDefinition(definitions).models;
 
-    const findOne = getSingularName(def);
-    props[findOne] = def;
-    const findOneAlias = getSingularOperationName(def, def.operation);
-    props[findOneAlias] = def;
-
-    const findMany = getPluralName(def);
-    props[findMany] = { type: 'array', items: def };
-    const findManyAlias = getPluralOperationName(def, def.operation);
-    props[findManyAlias] = { type: 'array', items: def };
-    return props;
-  }, {});
+  const safeOperations = operations.filter(operation => operation.safe);
+  const unsafeOperations = operations.filter(operation => !operation.safe);
+  const safeProperties = getOperationDefinitions({ models, operations: safeOperations });
+  const unsafeProperties = getOperationDefinitions({ models, operations: unsafeOperations });
 
   return {
     query: {
       name: 'Query',
       type: 'object',
-      description: 'Fetches information about the different entities',
-      properties,
+      description: 'Fetches information about different entities',
+      properties: safeProperties,
+    },
+    mutation: {
+      name: 'Mutation',
+      type: 'object',
+      description: 'Modifies information about different entities',
+      properties: unsafeProperties,
     },
   };
 };
 
-
-// Retrieve a top-level definition, using a type name
-const findModel = function ({ type, rootDef }) {
-  // Flattens root definition
-  const models = Object.keys(rootDef).reduce((memo, name) => {
-    Object.assign(memo, rootDef[name].properties);
+const getOperationDefinitions = function({ models, operations }) {
+  return operations.reduce((memo, operation) => {
+    const properties = getOperationDefinition({ models, operation });
+    Object.assign(memo, properties);
     return memo;
   }, {});
-  const name = Object.keys(models).find(modelName => {
-    const model = models[modelName];
-    return model && model.type === type;
-  });
-  return models[name];
 };
+
+const getOperationDefinition = function ({ models, operation }) {
+  return Object.keys(models).reduce((properties, modelName) => {
+    const model = models[modelName];
+    const name = model.name || modelName;
+    const def = Object.assign({}, model, { operation, name });
+
+    // `find*` operations are aliased for convenience
+    // E.g. `findPet` and `findPets` -> `pet` and `pets`
+    const isFind = operation.prefix === 'find';
+
+    // E.g. `updatePets` operation
+    if (operation.multiple) {
+      const operationName = isFind ? getPluralName(def) : getPluralOperationName(def, def.operation.prefix);
+      properties[operationName] = { type: 'array', items: def };
+    // E.g. `updatePet` operation
+    } else {
+      const operationName = isFind ? getSingularName(def) : getSingularOperationName(def, def.operation.prefix);
+      properties[operationName] = def;
+    }
+
+    return properties;
+  }, {});
+};
+
+/* eslint-disable no-multi-spaces */
+const operations = [
+  { name: 'findOne',      prefix: 'find',     safe: true,   multiple: false },
+  { name: 'findMany',     prefix: 'find',     safe: true,   multiple: true  },
+  { name: 'createOne',    prefix: 'create',   safe: false,  multiple: false },
+  { name: 'createMany',   prefix: 'create',   safe: false,  multiple: true  },
+  { name: 'replaceOne',   prefix: 'replace',  safe: false,  multiple: false },
+  { name: 'replaceMany',  prefix: 'replace',  safe: false,  multiple: true  },
+  { name: 'updateOne',    prefix: 'update',   safe: false,  multiple: false },
+  { name: 'updateMany',   prefix: 'update',   safe: false,  multiple: true  },
+  { name: 'upsertOne',    prefix: 'upsert',   safe: false,  multiple: false },
+  { name: 'upsertMany',   prefix: 'upsert',   safe: false,  multiple: true  },
+  { name: 'deleteOne',    prefix: 'delete',   safe: false,  multiple: false },
+  { name: 'deleteMany',   prefix: 'delete',   safe: false,  multiple: true  },
+];
+/* eslint-enable no-multi-spaces */
 
 
 // Returns GraphQL schema
-const getSchema = function () {
-  const rootDef = getRootDefinition();
-
-  if (cache.exists({ rootDef, type: 'schema', key: 'top' })) {
-    return cache.get({ rootDef, type: 'schema', key: 'top' });
+const getSchema = function ({ definitions }) {
+  if (cache.exists({ rootDef: definitions, type: 'schema', key: 'top' })) {
+    return cache.get({ rootDef: definitions, type: 'schema', key: 'top' });
   }
+
+  const rootDef = getRootDefinition({ definitions });
 
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
   const topLevelSchema = Object.keys(rootDef).reduce((memo, name) => {
@@ -123,8 +142,24 @@ const getSchema = function () {
   }, {});
 
   const rootSchema = new GraphQLSchema(topLevelSchema);
-  cache.set({ rootDef, type: 'schema', key: 'top', value: rootSchema });
+  cache.set({ rootDef: definitions, type: 'schema', key: 'top', value: rootSchema });
   return rootSchema;
+};
+
+// Retrieve a top-level definition, using a type name
+const findModel = function ({ type, operation, rootDef }) {
+  if (!operation || type === 'object') { return; }
+  // Flattens root definition
+  const models = Object.keys(rootDef).reduce((memo, name) => {
+    Object.assign(memo, rootDef[name].properties);
+    return memo;
+  }, {});
+  const name = Object.keys(models).find(modelName => {
+    const model = models[modelName];
+    const unwrappedModel = model.items ? model.items : model;
+    return unwrappedModel && unwrappedModel.type === type && unwrappedModel.operation.name === operation;
+  });
+  return models[name] ? (models[name].items ? models[name].items : models[name]) : undefined;
 };
 
 
@@ -144,7 +179,8 @@ const getField = function ({ def, rootDef }) {
   const unwrappedDef = isArray ? def.items : def;
 
   // If a top-level type exists, uses its definition, instead of the sub-definition
-  const topDef = findModel({ type: unwrappedDef.type, rootDef });
+  const operation = def.operation && def.operation.name;
+  const topDef = findModel({ type: unwrappedDef.type, operation, rootDef });
   const isTopDef = topDef !== undefined;
   const actualDef = isTopDef ? topDef : unwrappedDef;
 
@@ -157,6 +193,8 @@ const getField = function ({ def, rootDef }) {
   }
 
   const field = fieldInfo.value({ def: actualDef, rootDef });
+  field.description = actualDef.description;
+
   cache.set({ key: def, rootDef, type: 'field', value: field });
   return field;
 };
@@ -172,6 +210,58 @@ const getModifiedType = function ({ def, rootDef, attributes }) {
   const modifiedDef = Object.assign({}, def, attributes);
   return getType({ def: modifiedDef, rootDef });
 };
+
+const executeOperation = async function ({ operation, args = {} }) {
+  const response = await goNext({ operation, args });
+  return response;
+};
+
+// TODO: fix this, it's temporary
+const queryDatabase = require('../../database').queryDatabase();
+const goNext = async function (opts) {
+  return await queryDatabase(opts);
+};
+
+// Like `graphQLFieldsInfo` but for top-level operations
+const graphQLOperationsFieldsInfo = [
+
+  {
+    condition: ({ isArray, isTopDef }) => isArray && isTopDef,
+    value({ def, rootDef }) {
+      const subType = getModifiedType({ def, rootDef, attributes: { type: 'object' } });
+      const type = new GraphQLList(subType);
+      return {
+        type,
+        args: {
+          id: {
+            type: GraphQLInt,
+            description: 'id to look at',
+            defaultValue: 10
+          },
+        },
+        //description: `Fetches information about a list of ${getPluralName(def)}`,
+        async resolve(_, args) {
+          return await executeOperation({ operation: def.operation, args });
+        },
+      };
+    },
+  },
+
+  {
+    condition: ({ isTopDef }) => isTopDef,
+    value({ def, rootDef }) {
+      const type = getModifiedType({ def, rootDef, attributes: { type: 'object' } });
+      return {
+        type,
+        //description: `Fetches information about a ${getSingularName(def)}`,
+        async resolve(_, args) {
+          return await executeOperation({ operation: def.operation, args });
+        },
+      };
+    },
+  },
+
+];
 
 /**
  * Maps an IDL definition into a GraphQL field information, including type
@@ -192,38 +282,7 @@ const graphQLFieldsInfo = [
     },
   },
 
-  {
-    condition: ({ isArray, isTopDef }) => isArray && isTopDef,
-    value({ def, rootDef }) {
-      const subType = getModifiedType({ def, rootDef, attributes: { type: 'object' } });
-      const type = new GraphQLList(subType);
-      return {
-        type,
-        //description: `Fetches information about a list of ${getPluralName(def)}`,
-        async resolve(/* parent, args, context, info */) {
-          return await [
-            { id: 1, name: 'Dog', photo_urls: ['http://dog.com/photo/1', 'http://dog.com/photo/2'], tags: ['adorable'], status: 'happy' },
-            { id: 2, name: 'Cat', photo_urls: ['http://cat.com/photo/1', 'http://cat.com/photo/2'], tags: ['even more adorable'], status: 'grumpy' },
-            { id: 3, name: 'Koala', photo_urls: ['http://koala.com/photo/1'], tags: ['suspended'], status: 'sleepy' },
-          ];
-        },
-      };
-    },
-  },
-
-  {
-    condition: ({ isTopDef }) => isTopDef,
-    value({ def, rootDef }) {
-      const type = getModifiedType({ def, rootDef, attributes: { type: 'object' } });
-      return {
-        type,
-        //description: `Fetches information about a ${getSingularName(def)}`,
-        async resolve(/* parent, args, context, info */) {
-          return await { id: 1, name: 'Dog', photo_urls: ['http://dog.com/photo/1', 'http://dog.com/photo/2'], tags: ['adorable'], status: 'happy' };
-        },
-      };
-    },
-  },
+  ...graphQLOperationsFieldsInfo,
 
   {
     condition: ({ isArray }) => isArray,
@@ -247,8 +306,7 @@ const graphQLFieldsInfo = [
 
       const type = new GraphQLObjectType({
         name,
-
-        // description: def.description || `${name} entity`,
+        description: def.description,
 
         // This needs to be function, otherwise we run in an infinite recursion,
         // if the children try to reference a parent type
