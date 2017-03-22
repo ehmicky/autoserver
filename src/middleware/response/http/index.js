@@ -4,7 +4,7 @@
 const { httpBody } = require('../../../parsing');
 
 
-const httpSendResponse = async function (input) {
+const httpSendResponse = () => async function (input) {
   const { res } = input;
   const response = await this.next(input);
   const { type, content } = response;

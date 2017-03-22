@@ -8,9 +8,9 @@ const { httpRequestHandler } = require('./request_handler');
 const { port, host } = require('../../config');
 
 
-const startServer = function () {
+const startServer = function (options) {
   return http
-    .createServer(httpRequestHandler)
+    .createServer(httpRequestHandler(options))
     .listen(port, host, listeningHandler);
 };
 

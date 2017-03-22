@@ -5,7 +5,7 @@ const { routes } = require('./routes');
 const { EngineError } = require('../../error');
 
 
-const router = async function (input) {
+const router = () => async function (input) {
   const { path } = input;
   const matchedRoute = routes.find(path);
   if (!matchedRoute) {

@@ -4,13 +4,19 @@
 const { start } = require('../chain');
 const { sendError } = require('../../middleware');
 
-const httpRequestHandler = async function (req, res) {
-  try {
-    const response = await start({ req, res });
-    return response;
-  } catch (exception) {
-    sendError({ exception, input: { req, res }, protocol: 'http' });
-  }
+const httpRequestHandler = function (opts) {
+  // Apply options
+  const startFunc = start(opts);
+  const sendErrorFunc = sendError(opts);
+
+  return async function (req, res) {
+    try {
+      const response = await startFunc({ req, res });
+      return response;
+    } catch (exception) {
+      sendErrorFunc({ exception, input: { req, res }, protocol: 'http' });
+    }
+  };
 };
 
 

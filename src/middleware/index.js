@@ -11,5 +11,6 @@ module.exports = Object.assign(
   require('./logger'),
   require('./params'),
   require('./interface_negotiator'),
-  require('./idl')
+  require('./idl'),
+  require('./database')
 );
