@@ -63,8 +63,13 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
-  // GraphQL schema is invalid
-  GRAPHQL_WRONG_SCHEMA: () => ({
+  // IDL definition is invalid
+  IDL_WRONG_DEFINITION: () => ({
+    http: { status: 500 },
+  }),
+
+  // IDL definition is invalid, for usage with GraphQL
+  GRAPHQL_WRONG_DEFINITION: () => ({
     http: { status: 500 },
   }),
 
