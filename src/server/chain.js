@@ -46,6 +46,8 @@ const start = function (opts) {
       graphql: mdw.executeGraphql,
       // GraphQL debugger web app
       graphiql: mdw.executeGraphiql,
+      // GraphQL schema printing
+      graphqlschema: mdw.printGraphql,
     }),
 
     // Do the database query, protocol and interface-agnostic
@@ -71,6 +73,7 @@ const applyOptions = function (opts) {
     'interfaceNegotiator',
     'executeGraphql',
     'executeGraphiql',
+    'printGraphql',
     'queryDatabase'
   ].reduce((memo, name) => {
     memo[name] = middleware[name](opts);
