@@ -53,7 +53,7 @@ const start = function (opts) {
 
     // If we got there, it means no response has been fired
     function () {
-      throw new EngineError('No middleware was able to handle the request', { reason: 'NO_RESPONSE' });
+      throw new EngineError('No middleware was able to handle the request', { reason: 'WRONG_RESPONSE' });
     },
 
   ]);

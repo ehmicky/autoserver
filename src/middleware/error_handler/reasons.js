@@ -79,7 +79,7 @@ const errorReasons = {
   }),
 
   // No middleware was able to handle the response
-  NO_RESPONSE: () => ({
+  WRONG_RESPONSE: () => ({
     http: { status: 500 },
   }),
 
