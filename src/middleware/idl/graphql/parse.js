@@ -16,6 +16,7 @@ const {
 const titleize = require('underscore.string/titleize');
 const camelize = require('underscore.string/camelize');
 const { plural, singular } = require('pluralize');
+const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../error');
 
@@ -64,6 +65,8 @@ const validateModelsDefinition = function (obj, { modelTypes }) {
           modelName: child.type,
         });
       }
+      // Adds unique id
+      child.__uniqueId = uuidv4();
     }
     // Recurse over children
     validateModelsDefinition(child, { modelTypes });
@@ -124,7 +127,7 @@ const getOperationDefinition = function ({ models, operation }) {
     let operationName;
     if (operation.multiple) {
       operationName = isFind ? getPluralName(def) : getPluralOperationName(def, operation.prefix);
-      properties[operationName] = { type: 'array', items: def };
+      properties[operationName] = { __uniqueId: uuidv4(), type: 'array', items: def };
     // E.g. `updatePet` operation
     } else {
       operationName = isFind ? getSingularName(def) : getSingularOperationName(def, operation.prefix);
@@ -157,21 +160,23 @@ const operations = [
 
 // Returns GraphQL schema
 const getSchema = function ({ definitions, bulkOptions }) {
-  if (cache.exists({ rootDef: definitions, type: 'schema', key: 'top' })) {
-    return cache.get({ rootDef: definitions, type: 'schema', key: 'top' });
+  const key = `schema/${JSON.stringify({ definitions, bulkOptions })}/top`;
+  if (cache.exists(key)) {
+    return cache.get(key);
   }
 
   const rootDef = getRootDefinition({ definitions, bulkOptions });
+  const schemaId = uuidv4();
 
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
   const topLevelSchema = Object.keys(rootDef).reduce((memo, name) => {
     const def = rootDef[name];
-    memo[name] = getType({ def, rootDef });
+    memo[name] = getType({ def, rootDef, schemaId });
     return memo;
   }, {});
 
   const rootSchema = new GraphQLSchema(topLevelSchema);
-  cache.set({ rootDef: definitions, type: 'schema', key: 'top', value: rootSchema });
+  cache.set(key, rootSchema);
   return rootSchema;
 };
 
@@ -193,10 +198,11 @@ const findModel = function ({ def, rootDef }) {
 
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
-const getField = function ({ def, rootDef }) {
+const getField = function ({ def, rootDef, schemaId }) {
+  const key = `field/${schemaId}/${def.__uniqueId}`;
   // Dones so that children can get a cached reference of parent type, while avoiding infinite recursion
-  if (cache.exists({ key: def, rootDef, type: 'field' })) {
-    return cache.get({ key: def, rootDef, type: 'field' });
+  if (cache.exists(key)) {
+    return cache.get(key);
   }
 
   // Extract modifiers-specific information from defintion
@@ -219,23 +225,23 @@ const getField = function ({ def, rootDef }) {
     throw new EngineError(`Could not parse property into a GraphQL type: ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
-  const field = fieldInfo.value({ def: actualDef, rootDef });
+  const field = fieldInfo.value({ def: actualDef, rootDef, schemaId });
   field.description = actualDef.description;
 
-  cache.set({ key: def, rootDef, type: 'field', value: field });
+  cache.set(key, field);
   return field;
 };
 
 // Retrieves the GraphQL type for a given IDL definition
-const getType = function ({ def, rootDef }) {
-  return getField({ def, rootDef }).type;
+const getType = function ({ def, rootDef, schemaId }) {
+  return getField({ def, rootDef, schemaId }).type;
 };
 
 // Like `getType`, but modifies current definition
 // Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldsInfo would be hit again
-const getModifiedType = function ({ def, rootDef, attributes }) {
+const getModifiedType = function ({ def, rootDef, schemaId, attributes }) {
   const modifiedDef = Object.assign({}, def, attributes);
-  return getType({ def: modifiedDef, rootDef });
+  return getType({ def: modifiedDef, rootDef, schemaId });
 };
 
 const executeOperation = async function ({ operation, args = {}, callback }) {
@@ -248,8 +254,8 @@ const graphQLOperationsFieldsInfo = [
 
   {
     condition: ({ isArray, isTopDef }) => isArray && isTopDef,
-    value({ def, rootDef }) {
-      const subType = getModifiedType({ def, rootDef, attributes: { modelName: '' } });
+    value({ def, rootDef, schemaId }) {
+      const subType = getModifiedType({ def, rootDef, schemaId, attributes: { modelName: '' } });
       const type = new GraphQLList(subType);
       return {
         type,
@@ -272,8 +278,8 @@ const graphQLOperationsFieldsInfo = [
 
   {
     condition: ({ isTopDef }) => isTopDef,
-    value({ def, rootDef }) {
-      const type = getModifiedType({ def, rootDef, attributes: { modelName: '' } });
+    value({ def, rootDef, schemaId }) {
+      const type = getModifiedType({ def, rootDef, schemaId, attributes: { modelName: '' } });
       return {
         type,
         //description: `Fetches information about a ${getSingularName(def)}`,
@@ -300,8 +306,8 @@ const graphQLFieldsInfo = [
 
   {
     condition: ({ isRequired }) => isRequired,
-    value({ def, rootDef }) {
-      const subType = getModifiedType({ def, rootDef, attributes: { required: false } });
+    value({ def, rootDef, schemaId }) {
+      const subType = getModifiedType({ def, rootDef, schemaId, attributes: { required: false } });
       const type = new GraphQLNonNull(subType);
       return { type };
     },
@@ -311,23 +317,25 @@ const graphQLFieldsInfo = [
 
   {
     condition: ({ isArray }) => isArray,
-    value({ def, rootDef }) {
-      const type = new GraphQLList(getType({ def, rootDef }));
+    value({ def, rootDef, schemaId }) {
+      const type = new GraphQLList(getType({ def, rootDef, schemaId }));
       return { type };
     },
   },
 
   {
     condition: ({ def }) => def.type === 'object',
-    value({ def, rootDef }) {
+    value({ def, rootDef, schemaId }) {
       let name = getTypeName(def);
       // Cannot create two GraphQL object types with the same name
       // Fix it by appending underscores to the name
       // TODO: either prefix with top-level model name, or throw exception, or some other better solution
-      while (cache.exists({ key: name, rootDef, type: 'typename' })) {
+      let key = `typename/${schemaId}/${name}`;
+      while (cache.exists(key)) {
         name += '_';
+        key += '_';
       }
-      cache.set({ key: name, rootDef, type: 'typename', value: true });
+      cache.set(key, true);
 
       const type = new GraphQLObjectType({
         name,
@@ -337,8 +345,10 @@ const graphQLFieldsInfo = [
         // if the children try to reference a parent type
         fields() {
           return Object.keys(def.properties).reduce((fields, attrName) => {
+            if (['__uniqueId'].includes(attrName)) { return fields; }
+
             const childDef = def.properties[attrName];
-            fields[attrName] = getField({ def: childDef, rootDef });
+            fields[attrName] = getField({ def: childDef, rootDef, schemaId });
             return fields;
           }, {});
         },
@@ -397,6 +407,9 @@ const getDefinitionName = function (def) {
   if (!name) {
     throw new EngineError(`Missing "name" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
+  if (typeof def.name !== 'string') {
+    throw new EngineError(`"name" must be a string in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+  }
   return name;
 };
 
@@ -441,33 +454,16 @@ const cache = {
 
   _data: {},
 
-  getBase({ rootDef, type }) {
-    const rootDefId = JSON.stringify(rootDef);
-    if (!this._data[rootDefId]) {
-      this._data[rootDefId] = {};
-    }
-    const data = this._data[rootDefId];
-
-    if (!data[type]) {
-      data[type] = {};
-    }
-    return data[type];
+  get(key) {
+    return this._data[key];
   },
 
-  get({ rootDef, type, key }) {
-    const keyId = JSON.stringify(key);
-    const data = this.getBase({ rootDef, type });
-    return data[keyId];
+  exists(key) {
+    return this.get(key) != null;
   },
 
-  exists({ rootDef, type, key }) {
-    return this.get({ rootDef, type, key }) != null;
-  },
-
-  set({ rootDef, type, key, value }) {
-    const keyId = JSON.stringify(key);
-    const data = this.getBase({ rootDef, type });
-    data[keyId] = value;
+  set(key, value) {
+    this._data[key] = value;
   },
 
 };
