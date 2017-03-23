@@ -212,15 +212,9 @@ const getModifiedType = function ({ def, rootDef, attributes }) {
   return getType({ def: modifiedDef, rootDef });
 };
 
-const executeOperation = async function ({ operation, args = {} }) {
-  const response = await goNext({ operation, args });
+const executeOperation = async function ({ operation, args = {}, callback }) {
+  const response = await callback({ operation, args });
   return response;
-};
-
-// TODO: fix this, it's temporary
-const queryDatabase = require('../../database').queryDatabase();
-const goNext = async function (opts) {
-  return await queryDatabase(opts);
 };
 
 // Like `graphQLFieldsInfo` but for top-level operations
@@ -241,10 +235,10 @@ const graphQLOperationsFieldsInfo = [
           },
         },
         //description: `Fetches information about a list of ${getPluralName(def)}`,
-        async resolve(_, args) {
+        async resolve(_, args, { callback }) {
           // TODO: fix this
           const operation = operations[1];
-          return await executeOperation({ operation, args });
+          return await executeOperation({ operation, args, callback });
         },
       };
     },
@@ -257,10 +251,10 @@ const graphQLOperationsFieldsInfo = [
       return {
         type,
         //description: `Fetches information about a ${getSingularName(def)}`,
-        async resolve(_, args) {
+        async resolve(_, args, { callback }) {
           // TODO: fix this
           const operation = operations[0];
-          return await executeOperation({ operation, args });
+          return await executeOperation({ operation, args, callback });
         },
       };
     },
