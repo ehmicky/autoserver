@@ -280,8 +280,7 @@ const graphQLFieldsInfo = [
           },
           //description: `Fetches information about a list of ${getPluralName(def)}`,
           async resolve(_, args, { callback }) {
-            // TODO: fix this by using def.operation
-            const operation = operations[1];
+            const operation = operations.find(op => op.prefix === def.operation && op.multiple);
             return await executeOperation({ operation, args, callback });
           },
         });
@@ -334,8 +333,7 @@ const graphQLFieldsInfo = [
         Object.assign(fieldInfo, {
           //description: `Fetches information about a ${getSingularName(def)}`,
           async resolve(_, args, { callback }) {
-            // TODO: fix this by using def.operation
-            const operation = operations[0];
+            const operation = operations.find(op => op.prefix === def.operation && !op.multiple);
             return await executeOperation({ operation, args, callback });
           },
         });
