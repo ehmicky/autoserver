@@ -88,21 +88,24 @@ const getOperationDefinition = function ({ models, operation }) {
   return Object.keys(models).reduce((properties, modelName) => {
     const model = models[modelName];
     const name = model.name || modelName;
-    const def = Object.assign({}, model, { operation, name });
+    const def = Object.assign({}, model, { name });
 
     // `find*` operations are aliased for convenience
     // E.g. `findPet` and `findPets` -> `pet` and `pets`
     const isFind = operation.prefix === 'find';
 
     // E.g. `updatePets` operation
+    let operationName;
     if (operation.multiple) {
-      const operationName = isFind ? getPluralName(def) : getPluralOperationName(def, def.operation.prefix);
+      operationName = isFind ? getPluralName(def) : getPluralOperationName(def, operation.prefix);
       properties[operationName] = { type: 'array', items: def };
     // E.g. `updatePet` operation
     } else {
-      const operationName = isFind ? getSingularName(def) : getSingularOperationName(def, def.operation.prefix);
+      operationName = isFind ? getSingularName(def) : getSingularOperationName(def, operation.prefix);
       properties[operationName] = def;
     }
+
+    properties[operationName].operation = operation.prefix;
 
     return properties;
   }, {});
@@ -147,19 +150,18 @@ const getSchema = function ({ definitions }) {
 };
 
 // Retrieve a top-level definition, using a type name
-const findModel = function ({ type, operation, rootDef }) {
-  if (!operation || type === 'object') { return; }
+const findModel = function ({ type, rootDef }) {
+  // Performance optimization
+  if (type === 'object') { return; }
   // Flattens root definition
   const models = Object.keys(rootDef).reduce((memo, name) => {
     Object.assign(memo, rootDef[name].properties);
     return memo;
   }, {});
   const name = Object.keys(models).find(modelName => {
-    const model = models[modelName];
-    const unwrappedModel = model.items ? model.items : model;
-    return unwrappedModel && unwrappedModel.type === type && unwrappedModel.operation.name === operation;
+    return models[modelName].type === type;
   });
-  return models[name] ? (models[name].items ? models[name].items : models[name]) : undefined;
+  return models[name];
 };
 
 
@@ -179,8 +181,7 @@ const getField = function ({ def, rootDef }) {
   const unwrappedDef = isArray ? def.items : def;
 
   // If a top-level type exists, uses its definition, instead of the sub-definition
-  const operation = def.operation && def.operation.name;
-  const topDef = findModel({ type: unwrappedDef.type, operation, rootDef });
+  const topDef = findModel({ type: unwrappedDef.type, rootDef });
   const isTopDef = topDef !== undefined;
   const actualDef = isTopDef ? topDef : unwrappedDef;
 
@@ -241,7 +242,9 @@ const graphQLOperationsFieldsInfo = [
         },
         //description: `Fetches information about a list of ${getPluralName(def)}`,
         async resolve(_, args) {
-          return await executeOperation({ operation: def.operation, args });
+          // TODO: fix this
+          const operation = operations[1];
+          return await executeOperation({ operation, args });
         },
       };
     },
@@ -255,7 +258,9 @@ const graphQLOperationsFieldsInfo = [
         type,
         //description: `Fetches information about a ${getSingularName(def)}`,
         async resolve(_, args) {
-          return await executeOperation({ operation: def.operation, args });
+          // TODO: fix this
+          const operation = operations[0];
+          return await executeOperation({ operation, args });
         },
       };
     },
