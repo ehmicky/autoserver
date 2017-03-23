@@ -168,10 +168,19 @@ const getSchema = function ({ definitions, bulkOptions }) {
   const rootDef = getRootDefinition({ definitions, bulkOptions });
   const schemaId = uuidv4();
 
+  // Retrieves all root model definitions, so that recursive sub-models can point to them
+  const models = Object.keys(rootDef).reduce((memo, name) => {
+    const props = rootDef[name].properties;
+    const subProps = Object.keys(props).reduce((memo,val) => {
+      return memo.concat(props[val]);
+    }, []);
+    return memo.concat(subProps);
+  }, []);
+
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
   const topLevelSchema = Object.keys(rootDef).reduce((memo, name) => {
     const def = rootDef[name];
-    memo[name] = getType({ def, rootDef, schemaId });
+    memo[name] = getType({ def, models, schemaId });
     return memo;
   }, {});
 
@@ -181,24 +190,16 @@ const getSchema = function ({ definitions, bulkOptions }) {
 };
 
 // Retrieve a top-level definition, using a type name
-const findModel = function ({ def, rootDef }) {
+const findModel = function ({ def, models }) {
   const modelName = def.modelName;
   if (!modelName) { return; }
-  // Flattens root definition
-  const models = Object.keys(rootDef).reduce((memo, name) => {
-    Object.assign(memo, rootDef[name].properties);
-    return memo;
-  }, {});
-  const correctName = Object.keys(models).find(name => {
-    return models[name].modelName === modelName;
-  });
-  return models[correctName];
+  return models.find(model => model.modelName === modelName);
 };
 
 
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
-const getField = function ({ def, rootDef, schemaId }) {
+const getField = function ({ def, models, schemaId }) {
   const key = `field/${schemaId}/${def.__uniqueId}`;
   // Dones so that children can get a cached reference of parent type, while avoiding infinite recursion
   if (cache.exists(key)) {
@@ -213,7 +214,7 @@ const getField = function ({ def, rootDef, schemaId }) {
   const unwrappedDef = isArray ? def.items : def;
 
   // If a top-level type exists, uses its definition, instead of the sub-definition
-  const topDef = findModel({ def: unwrappedDef, rootDef });
+  const topDef = findModel({ def: unwrappedDef, models });
   const isTopDef = topDef !== undefined;
   const actualDef = isTopDef ? topDef : unwrappedDef;
 
@@ -225,7 +226,7 @@ const getField = function ({ def, rootDef, schemaId }) {
     throw new EngineError(`Could not parse property into a GraphQL type: ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
-  const field = fieldInfo.value({ def: actualDef, rootDef, schemaId });
+  const field = fieldInfo.value({ def: actualDef, models, schemaId });
   field.description = actualDef.description;
 
   cache.set(key, field);
@@ -233,15 +234,15 @@ const getField = function ({ def, rootDef, schemaId }) {
 };
 
 // Retrieves the GraphQL type for a given IDL definition
-const getType = function ({ def, rootDef, schemaId }) {
-  return getField({ def, rootDef, schemaId }).type;
+const getType = function ({ def, models, schemaId }) {
+  return getField({ def, models, schemaId }).type;
 };
 
 // Like `getType`, but modifies current definition
 // Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldsInfo would be hit again
-const getModifiedType = function ({ def, rootDef, schemaId, attributes }) {
+const getModifiedType = function ({ def, models, schemaId, attributes }) {
   const modifiedDef = Object.assign({}, def, attributes);
-  return getType({ def: modifiedDef, rootDef, schemaId });
+  return getType({ def: modifiedDef, models, schemaId });
 };
 
 const executeOperation = async function ({ operation, args = {}, callback }) {
@@ -254,8 +255,8 @@ const graphQLOperationsFieldsInfo = [
 
   {
     condition: ({ isArray, isTopDef }) => isArray && isTopDef,
-    value({ def, rootDef, schemaId }) {
-      const subType = getModifiedType({ def, rootDef, schemaId, attributes: { modelName: '' } });
+    value({ def, models, schemaId }) {
+      const subType = getModifiedType({ def, models, schemaId, attributes: { modelName: '' } });
       const type = new GraphQLList(subType);
       return {
         type,
@@ -278,8 +279,8 @@ const graphQLOperationsFieldsInfo = [
 
   {
     condition: ({ isTopDef }) => isTopDef,
-    value({ def, rootDef, schemaId }) {
-      const type = getModifiedType({ def, rootDef, schemaId, attributes: { modelName: '' } });
+    value({ def, models, schemaId }) {
+      const type = getModifiedType({ def, models, schemaId, attributes: { modelName: '' } });
       return {
         type,
         //description: `Fetches information about a ${getSingularName(def)}`,
@@ -306,8 +307,8 @@ const graphQLFieldsInfo = [
 
   {
     condition: ({ isRequired }) => isRequired,
-    value({ def, rootDef, schemaId }) {
-      const subType = getModifiedType({ def, rootDef, schemaId, attributes: { required: false } });
+    value({ def, models, schemaId }) {
+      const subType = getModifiedType({ def, models, schemaId, attributes: { required: false } });
       const type = new GraphQLNonNull(subType);
       return { type };
     },
@@ -317,15 +318,15 @@ const graphQLFieldsInfo = [
 
   {
     condition: ({ isArray }) => isArray,
-    value({ def, rootDef, schemaId }) {
-      const type = new GraphQLList(getType({ def, rootDef, schemaId }));
+    value({ def, models, schemaId }) {
+      const type = new GraphQLList(getType({ def, models, schemaId }));
       return { type };
     },
   },
 
   {
     condition: ({ def }) => def.type === 'object',
-    value({ def, rootDef, schemaId }) {
+    value({ def, models, schemaId }) {
       let name = getTypeName(def);
       // Cannot create two GraphQL object types with the same name
       // Fix it by appending underscores to the name
@@ -348,7 +349,7 @@ const graphQLFieldsInfo = [
             if (['__uniqueId'].includes(attrName)) { return fields; }
 
             const childDef = def.properties[attrName];
-            fields[attrName] = getField({ def: childDef, rootDef, schemaId });
+            fields[attrName] = getField({ def: childDef, models, schemaId });
             return fields;
           }, {});
         },
