@@ -34,6 +34,8 @@ const start = function (opts) {
         mdw.httpFillParams,
       ],
     }),
+    // Convert from protocol format to interface format
+    mdw.interfaceConvertor,
 
     /**
      * Interface-related middleware
@@ -65,6 +67,7 @@ const applyOptions = function (opts) {
     'router',
     'httpLogger',
     'httpFillParams',
+    'interfaceConvertor',
     'interfaceNegotiator',
     'executeGraphql',
     'executeGraphiql',

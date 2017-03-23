@@ -12,8 +12,8 @@ const fillParams = () => async function (input) {
   const params = getParams({ req, pathParams });
   const payload = await getPayload({ req });
 
-  const request = { operation, route, params, payload };
-  const response = await this.next(request);
+  const output = Object.assign({}, input, { operation, route, params, payload });
+  const response = await this.next(output);
   return response;
 };
 
