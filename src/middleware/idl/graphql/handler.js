@@ -23,7 +23,9 @@ const executeGraphql = function ({ definitions }) {
       response = await runHttpQuery([], {
         options: {
           schema: schema,
-          context: {},
+          context: {
+            callback: fireNext.bind(this),
+          },
           rootValue: {},
         },
         query: {
@@ -55,6 +57,11 @@ const executeGraphql = function ({ definitions }) {
       };
     }
   };
+};
+
+const fireNext = async function ({ operation, args }) {
+  const response = await this.next({ operation, args });
+  return response;
 };
 
 
