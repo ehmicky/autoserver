@@ -2,6 +2,7 @@
 
 
 const { httpBody } = require('../../../parsing');
+const { EngineError } = require('../../../error');
 
 
 const httpSendResponse = () => async function (input) {
@@ -14,7 +15,13 @@ const httpSendResponse = () => async function (input) {
       httpBody.send.json({ res, message: content });
     } else if (type === 'html') {
       httpBody.send.html({ res, message: content });
+    } else if (type === 'text') {
+      httpBody.send.text({ res, message: content });
+    } else {
+      throw new EngineError('Server tried to respond with an unsupported content type', { reason: 'WRONG_RESPONSE' });
     }
+  } else {
+    throw new EngineError('Server sent an empty response', { reason: 'WRONG_RESPONSE' });
   }
 
   return response;
