@@ -15,6 +15,7 @@ const {
 } = require('graphql');
 const titleize = require('underscore.string/titleize');
 const camelize = require('underscore.string/camelize');
+const merge = require('lodash/merge');
 const { plural, singular } = require('pluralize');
 const uuidv4 = require('uuid/v4');
 
@@ -111,8 +112,11 @@ const getRootDefinition = function ({ definitions, bulkOptions: { write: allowBu
 
 const getOperationDefinitions = function({ models, operations }) {
   return operations.reduce((memo, operation) => {
-    const properties = getOperationDefinition({ models, operation });
-    Object.assign(memo, properties);
+    const props = getOperationDefinition({ models, operation });
+    // Make a deep copy for each definition object
+    // Otherwise, each definition would refer each other, which would create some problems, e.g. when assigning different __uniqueId
+    const copiedProps = merge({}, props);
+    Object.assign(memo, copiedProps);
     return memo;
   }, {});
 };
@@ -174,6 +178,7 @@ const getModels = function (rootDef) {
   return Object.keys(rootDef).reduce((memo, name) => {
     const props = rootDef[name].properties;
     const subProps = Object.keys(props).reduce((memo,val) => {
+      if (typeof props[val] !== 'object') { return memo; }
       return memo.concat(props[val]);
     }, []);
     return memo.concat(subProps);
@@ -204,17 +209,14 @@ const getSchema = function ({ definitions, bulkOptions }) {
   return rootSchema;
 };
 
-// Retrieve a top-level definition, using a type name
-const findModel = function (def, opts) {
-  const modelName = def.modelName;
-  if (!modelName) { return; }
-  return opts.models.find(model => model.modelName === modelName);
-};
-
 
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
+  // When top-level model enters this function, `def.operation` will be defined.
+  // This passed the operation to all sub-schemas, so that resolvers know the current operation
+  opts = Object.assign({}, opts, { operation: def.operation || opts.operation });
+
   const key = `field/${opts.schemaId}/${def.__uniqueId}`;
   // Dones so that children can get a cached reference of parent type, while avoiding infinite recursion
   if (cache.exists(key)) {
@@ -260,16 +262,19 @@ const graphQLFieldsInfo = [
   {
     condition: def => def.type === 'array' && typeof def.items === 'object',
     value(initialDef, opts) {
-      // Get the array items definition
-      const unwrappedDef = initialDef.items;
       // If this definition points to a top-level model, use that model instead
-      const def = findModel(unwrappedDef, opts) || unwrappedDef;
+      const topDef = opts.models.find(model => initialDef.items.modelName
+          && model.items
+          && model.items.modelName === initialDef.items.modelName
+          && opts.operation === model.operation);
+      // Get the array items definition
+      const def = (topDef || initialDef).items;
 
       const type = new GraphQLList(getType(def, opts));
       const fieldInfo = { type };
 
       // If this is a top-level model, assign resolver
-      if (def !== initialDef) {
+      if (topDef) {
         Object.assign(fieldInfo, {
           args: {
             id: {
@@ -280,7 +285,7 @@ const graphQLFieldsInfo = [
           },
           //description: `Fetches information about a list of ${getPluralName(def)}`,
           async resolve(_, args, { callback }) {
-            const operation = operations.find(op => op.prefix === def.operation && op.multiple);
+            const operation = operations.find(op => op.prefix === opts.operation && op.multiple);
             return await executeOperation({ operation, args, callback });
           },
         });
@@ -294,7 +299,10 @@ const graphQLFieldsInfo = [
     condition: def => def.type === 'object',
     value(initialDef, opts) {
       // If this definition points to a top-level model, use that model instead
-      const def = findModel(initialDef, opts) || initialDef;
+      const topDef = opts.models.find(model => initialDef.modelName
+        && model.modelName === initialDef.modelName
+        && opts.operation === model.operation);
+      const def = topDef || initialDef;
 
       let name = getTypeName(def);
       // Cannot create two GraphQL object types with the same name
@@ -329,11 +337,11 @@ const graphQLFieldsInfo = [
       let fieldInfo = { type };
 
       // If this is a top-level model, assign resolver
-      if (def !== initialDef) {
+      if (topDef) {
         Object.assign(fieldInfo, {
           //description: `Fetches information about a ${getSingularName(def)}`,
           async resolve(_, args, { callback }) {
-            const operation = operations.find(op => op.prefix === def.operation && !op.multiple);
+            const operation = operations.find(op => op.prefix === opts.operation && !op.multiple);
             return await executeOperation({ operation, args, callback });
           },
         });
