@@ -157,6 +157,17 @@ const operations = [
 ];
 /* eslint-enable no-multi-spaces */
 
+// Retrieves all root model definitions, so that recursive sub-models can point to them
+const getModels = function (rootDef) {
+  return Object.keys(rootDef).reduce((memo, name) => {
+    const props = rootDef[name].properties;
+    const subProps = Object.keys(props).reduce((memo,val) => {
+      return memo.concat(props[val]);
+    }, []);
+    return memo.concat(subProps);
+  }, []);
+};
+
 
 // Returns GraphQL schema
 const getSchema = function ({ definitions, bulkOptions }) {
@@ -167,20 +178,12 @@ const getSchema = function ({ definitions, bulkOptions }) {
 
   const rootDef = getRootDefinition({ definitions, bulkOptions });
   const schemaId = uuidv4();
-
-  // Retrieves all root model definitions, so that recursive sub-models can point to them
-  const models = Object.keys(rootDef).reduce((memo, name) => {
-    const props = rootDef[name].properties;
-    const subProps = Object.keys(props).reduce((memo,val) => {
-      return memo.concat(props[val]);
-    }, []);
-    return memo.concat(subProps);
-  }, []);
+  const models = getModels(rootDef);
 
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
   const topLevelSchema = Object.keys(rootDef).reduce((memo, name) => {
     const def = rootDef[name];
-    memo[name] = getType({ def, models, schemaId });
+    memo[name] = getType(def, { schemaId, models });
     return memo;
   }, {});
 
@@ -190,148 +193,103 @@ const getSchema = function ({ definitions, bulkOptions }) {
 };
 
 // Retrieve a top-level definition, using a type name
-const findModel = function ({ def, models }) {
+const findModel = function (def, opts) {
   const modelName = def.modelName;
   if (!modelName) { return; }
-  return models.find(model => model.modelName === modelName);
+  return opts.models.find(model => model.modelName === modelName);
 };
 
 
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
-const getField = function ({ def, models, schemaId }) {
-  const key = `field/${schemaId}/${def.__uniqueId}`;
+const getField = function (def, opts) {
+  const key = `field/${opts.schemaId}/${def.__uniqueId}`;
   // Dones so that children can get a cached reference of parent type, while avoiding infinite recursion
   if (cache.exists(key)) {
     return cache.get(key);
   }
 
-  // Extract modifiers-specific information from defintion
-  const isRequired = def.required;
-
-  // Pass array items definition to `graphQLFieldsInfo`, not array itself
-  const isArray = def.items !== undefined;
-  const unwrappedDef = isArray ? def.items : def;
-
-  // If a top-level type exists, uses its definition, instead of the sub-definition
-  const topDef = findModel({ def: unwrappedDef, models });
-  const isTopDef = topDef !== undefined;
-  const actualDef = isTopDef ? topDef : unwrappedDef;
-
   // Retrieves correct field
-  const fieldInfo = graphQLFieldsInfo.find(possibleType => {
-    return possibleType.condition({ isArray, isRequired, isTopDef, def: actualDef });
-  });
+  const fieldInfo = graphQLFieldsInfo.find(possibleType => possibleType.condition(def));
   if (!fieldInfo) {
     throw new EngineError(`Could not parse property into a GraphQL type: ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
-  const field = fieldInfo.value({ def: actualDef, models, schemaId });
-  field.description = actualDef.description;
+  // Retrieves field information
+  const field = fieldInfo.value(def, opts);
+  field.description = def.description;
 
   cache.set(key, field);
   return field;
 };
 
 // Retrieves the GraphQL type for a given IDL definition
-const getType = function ({ def, models, schemaId }) {
-  return getField({ def, models, schemaId }).type;
+const getType = function (def, opts) {
+  return getField(def, opts).type;
 };
-
-// Like `getType`, but modifies current definition
-// Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldsInfo would be hit again
-const getModifiedType = function ({ def, models, schemaId, attributes }) {
-  const modifiedDef = Object.assign({}, def, attributes);
-  return getType({ def: modifiedDef, models, schemaId });
-};
-
-const executeOperation = async function ({ operation, args = {}, callback }) {
-  const response = await callback({ operation, args });
-  return response;
-};
-
-// Like `graphQLFieldsInfo` but for top-level operations
-const graphQLOperationsFieldsInfo = [
-
-  {
-    condition: ({ isArray, isTopDef }) => isArray && isTopDef,
-    value({ def, models, schemaId }) {
-      const subType = getModifiedType({ def, models, schemaId, attributes: { modelName: '' } });
-      const type = new GraphQLList(subType);
-      return {
-        type,
-        args: {
-          id: {
-            type: GraphQLInt,
-            description: 'id to look at',
-            defaultValue: 10
-          },
-        },
-        //description: `Fetches information about a list of ${getPluralName(def)}`,
-        async resolve(_, args, { callback }) {
-          // TODO: fix this
-          const operation = operations[1];
-          return await executeOperation({ operation, args, callback });
-        },
-      };
-    },
-  },
-
-  {
-    condition: ({ isTopDef }) => isTopDef,
-    value({ def, models, schemaId }) {
-      const type = getModifiedType({ def, models, schemaId, attributes: { modelName: '' } });
-      return {
-        type,
-        //description: `Fetches information about a ${getSingularName(def)}`,
-        async resolve(_, args, { callback }) {
-          // TODO: fix this
-          const operation = operations[0];
-          return await executeOperation({ operation, args, callback });
-        },
-      };
-    },
-  },
-
-];
 
 /**
  * Maps an IDL definition into a GraphQL field information, including type
- * The first matching one will be used, i.e. order matters:
- *   - required modifier comes first
- *   - array modifier comes next
- *   - top-level types must come before normal types
- * Some types modifies the current definition, to avoid infinite recursion, i.e. being hit again on next loop
+ * The first matching one will be used, i.e. order matters: required modifier, then array modifier come first
  */
 const graphQLFieldsInfo = [
 
   {
-    condition: ({ isRequired }) => isRequired,
-    value({ def, models, schemaId }) {
-      const subType = getModifiedType({ def, models, schemaId, attributes: { required: false } });
+    condition: def => def.required,
+    value(def, opts) {
+      // Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldsInfo would be hit again
+      const modifiedDef = Object.assign({}, def, { required: false });
+      const subType = getType(modifiedDef, opts);
       const type = new GraphQLNonNull(subType);
       return { type };
     },
   },
 
-  ...graphQLOperationsFieldsInfo,
-
   {
-    condition: ({ isArray }) => isArray,
-    value({ def, models, schemaId }) {
-      const type = new GraphQLList(getType({ def, models, schemaId }));
-      return { type };
+    condition: def => def.type === 'array' && typeof def.items === 'object',
+    value(initialDef, opts) {
+      // Get the array items definition
+      const unwrappedDef = initialDef.items;
+      // If this definition points to a top-level model, use that model instead
+      const def = findModel(unwrappedDef, opts) || unwrappedDef;
+
+      const type = new GraphQLList(getType(def, opts));
+      const fieldInfo = { type };
+
+      // If this is a top-level model, assign resolver
+      if (def !== initialDef) {
+        Object.assign(fieldInfo, {
+          args: {
+            id: {
+              type: GraphQLInt,
+              description: 'id to look at',
+              defaultValue: 10
+            },
+          },
+          //description: `Fetches information about a list of ${getPluralName(def)}`,
+          async resolve(_, args, { callback }) {
+            // TODO: fix this
+            const operation = operations[1];
+            return await executeOperation({ operation, args, callback });
+          },
+        });
+      }
+
+      return fieldInfo;
     },
   },
 
   {
-    condition: ({ def }) => def.type === 'object',
-    value({ def, models, schemaId }) {
+    condition: def => def.type === 'object',
+    value(initialDef, opts) {
+      // If this definition points to a top-level model, use that model instead
+      const def = findModel(initialDef, opts) || initialDef;
+
       let name = getTypeName(def);
       // Cannot create two GraphQL object types with the same name
       // Fix it by appending underscores to the name
       // TODO: either prefix with top-level model name, or throw exception, or some other better solution
-      let key = `typename/${schemaId}/${name}`;
+      let key = `typename/${opts.schemaId}/${name}`;
       while (cache.exists(key)) {
         name += '_';
         key += '_';
@@ -346,21 +304,37 @@ const graphQLFieldsInfo = [
         // if the children try to reference a parent type
         fields() {
           return Object.keys(def.properties).reduce((fields, attrName) => {
-            if (['__uniqueId'].includes(attrName)) { return fields; }
+            // Those are created by us, do not use them for GraphQL schema
+            if (['__uniqueId', 'modelName'].includes(attrName)) { return fields; }
 
             const childDef = def.properties[attrName];
-            fields[attrName] = getField({ def: childDef, models, schemaId });
+            // Recurse over children
+            fields[attrName] = getField(childDef, opts);
             return fields;
           }, {});
         },
       });
 
-      return { type };
+      let fieldInfo = { type };
+
+      // If this is a top-level model, assign resolver
+      if (def !== initialDef) {
+        Object.assign(fieldInfo, {
+          //description: `Fetches information about a ${getSingularName(def)}`,
+          async resolve(_, args, { callback }) {
+            // TODO: fix this
+            const operation = operations[0];
+            return await executeOperation({ operation, args, callback });
+          },
+        });
+      }
+
+      return fieldInfo;
     },
   },
 
   {
-    condition: ({ def }) => def.type === 'integer' && def.format === 'id',
+    condition: def => def.type === 'integer' && def.format === 'id',
     value() {
       const type = GraphQLID;
       return { type };
@@ -368,7 +342,7 @@ const graphQLFieldsInfo = [
   },
 
   {
-    condition: ({ def }) => def.type === 'integer',
+    condition: def => def.type === 'integer',
     value() {
       const type = GraphQLInt;
       return { type };
@@ -376,7 +350,7 @@ const graphQLFieldsInfo = [
   },
 
   {
-    condition: ({ def }) => def.type === 'number',
+    condition: def => def.type === 'number',
     value() {
       const type = GraphQLFloat;
       return { type };
@@ -384,7 +358,7 @@ const graphQLFieldsInfo = [
   },
 
   {
-    condition: ({ def }) => def.type === 'string',
+    condition: def => def.type === 'string',
     value() {
       const type = GraphQLString;
       return { type };
@@ -392,7 +366,7 @@ const graphQLFieldsInfo = [
   },
 
   {
-    condition: ({ def }) => def.type === 'boolean',
+    condition: def => def.type === 'boolean',
     value() {
       const type = GraphQLBoolean;
       return { type };
@@ -400,6 +374,11 @@ const graphQLFieldsInfo = [
   },
 
 ];
+
+const executeOperation = async function ({ operation, args = {}, callback }) {
+  const response = await callback({ operation, args });
+  return response;
+};
 
 
 // Returns def.name
