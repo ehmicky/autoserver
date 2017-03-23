@@ -7,8 +7,8 @@ const { graphqlGetSchema } = require('./parse');
 const { EngineError } = require('../../../error');
 
 
-const executeGraphql = function ({ definitions }) {
-  const schema = graphqlGetSchema({ definitions });
+const executeGraphql = function ({ definitions, bulkWrite, bulkDelete }) {
+  const schema = graphqlGetSchema({ definitions, bulkOptions: { write: bulkWrite, delete: bulkDelete } });
   return async function (request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)
     const { query, variables, operationName } = Object.assign({}, request.params, request.payload);
