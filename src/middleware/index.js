@@ -10,6 +10,7 @@ module.exports = Object.assign(
   require('./routing'),
   require('./logger'),
   require('./params'),
+  require('./interface_convertor'),
   require('./interface_negotiator'),
   require('./idl'),
   require('./database')
