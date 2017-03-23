@@ -9,9 +9,19 @@ const { port, host } = require('../../config');
 
 
 const startServer = function (options) {
-  return http
-    .createServer(httpRequestHandler(options))
-    .listen(port, host, listeningHandler);
+  const promise = new Promise((resolve, reject) => {
+    try {
+      const server = http
+        .createServer(httpRequestHandler(options))
+        .listen(port, host, function () {
+          listeningHandler();
+          resolve(server);
+        });
+    } catch (exception) {
+      reject(exception);
+    }
+  });
+  return promise;
 };
 
 const listeningHandler = function () {
