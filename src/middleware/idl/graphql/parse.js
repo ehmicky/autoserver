@@ -231,7 +231,6 @@ const getField = function (def, opts) {
 
   // Retrieves field information
   const field = fieldInfo.value(def, opts);
-  field.description = def.description;
 
   cache.set(key, field);
   return field;
@@ -255,7 +254,8 @@ const graphQLFieldsInfo = [
       const modifiedDef = Object.assign({}, def, { required: false });
       const subType = getType(modifiedDef, opts);
       const type = new GraphQLNonNull(subType);
-      return { type };
+      const description = def.description || (def.items && def.items.description);
+      return { type, description };
     },
   },
 
@@ -271,7 +271,8 @@ const graphQLFieldsInfo = [
       const def = (topDef || initialDef).items;
 
       const type = new GraphQLList(getType(def, opts));
-      const fieldInfo = { type };
+      const description = def.description;
+      const fieldInfo = { type, description };
 
       // If this is a top-level model, assign resolver
       if (topDef) {
@@ -283,7 +284,6 @@ const graphQLFieldsInfo = [
               defaultValue: 10
             },
           },
-          //description: `Fetches information about a list of ${getPluralName(def)}`,
           async resolve(_, args, { callback }) {
             const operation = operations.find(op => op.prefix === opts.operation && op.multiple);
             return await executeOperation({ operation, args, callback });
@@ -315,9 +315,11 @@ const graphQLFieldsInfo = [
       }
       cache.set(key, true);
 
+      const description = def.description;
+
       const type = new GraphQLObjectType({
         name,
-        description: def.description,
+        description,
 
         // This needs to be function, otherwise we run in an infinite recursion,
         // if the children try to reference a parent type
@@ -334,7 +336,7 @@ const graphQLFieldsInfo = [
         },
       });
 
-      let fieldInfo = { type };
+      let fieldInfo = { type, description };
 
       // If this is a top-level model, assign resolver
       if (topDef) {
@@ -353,41 +355,46 @@ const graphQLFieldsInfo = [
 
   {
     condition: def => def.type === 'integer' && def.format === 'id',
-    value() {
+    value(def) {
       const type = GraphQLID;
-      return { type };
+      const description = def.description;
+      return { type, description };
     },
   },
 
   {
     condition: def => def.type === 'integer',
-    value() {
+    value(def) {
       const type = GraphQLInt;
-      return { type };
+      const description = def.description;
+      return { type, description };
     },
   },
 
   {
     condition: def => def.type === 'number',
-    value() {
+    value(def) {
       const type = GraphQLFloat;
-      return { type };
+      const description = def.description;
+      return { type, description };
     },
   },
 
   {
     condition: def => def.type === 'string',
-    value() {
+    value(def) {
       const type = GraphQLString;
-      return { type };
+      const description = def.description;
+      return { type, description };
     },
   },
 
   {
     condition: def => def.type === 'boolean',
-    value() {
+    value(def) {
       const type = GraphQLBoolean;
-      return { type };
+      const description = def.description;
+      return { type, description };
     },
   },
 
