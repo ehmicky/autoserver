@@ -6,7 +6,7 @@
       "properties":{
         "a": {
           "type": "object",
-          "name": "yo",
+          "title": "yo",
           "properties": {
             "aa": {
               "type": "string"
@@ -15,7 +15,7 @@
         },
         "o": {
           "type": "object",
-          "name": "yo",
+          "title": "yo",
           "properties": {
             "oo": {
               "type": "string"

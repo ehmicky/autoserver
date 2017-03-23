@@ -40,9 +40,9 @@ const validateModelsDefinition = function (obj, { modelTypes }) {
     const child = obj[attrName];
     if (typeof child === 'object') {
       // TODO: should detect whether child _could_ have `type` instead (i.e. is a JSON schema), as we want `type` to be optional
-      // Adds def.name default value, by using parent property name
-      if (child.type && !child.name) {
-        child.name = attrName;
+      // Adds def.title default value, by using parent property name
+      if (child.type && !child.title) {
+        child.title = attrName;
       }
       // Definitions of type `object` must have valid `properties`
       if (child.type === 'object') {
@@ -90,13 +90,13 @@ const getRootDefinition = function ({ definitions, bulkOptions: { write: allowBu
 
   const rootDef = {
     query: {
-      name: 'Query',
+      title: 'Query',
       type: 'object',
       description: 'Fetches information about different entities',
       properties: safeProperties,
     },
     mutation: {
-      name: 'Mutation',
+      title: 'Mutation',
       type: 'object',
       description: 'Modifies information about different entities',
       properties: unsafeProperties,
@@ -124,7 +124,7 @@ const getOperationDefinitions = function({ models, operations }) {
 const getOperationDefinition = function ({ models, operation }) {
   return Object.keys(models).reduce((properties, modelName) => {
     const model = models[modelName];
-    const name = model.name || modelName;
+    const name = model.title || modelName;
     const def = Object.assign({}, model, { name });
 
     // `find*` operations are aliased for convenience
@@ -399,25 +399,25 @@ const executeOperation = async function ({ operation, args = {}, callback }) {
 };
 
 
-// Returns def.name
+// Returns def.title
 const getDefinitionName = function (def) {
-  const name = def.name;
+  const name = def.title;
   if (!name) {
-    throw new EngineError(`Missing "name" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throw new EngineError(`Missing "title" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
-  if (typeof def.name !== 'string') {
-    throw new EngineError(`"name" must be a string in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+  if (typeof def.title !== 'string') {
+    throw new EngineError(`"title" must be a string in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
   return name;
 };
 
-// Returns def.name, in plural form, lowercased, e.g. `pets`, for findMany queries
+// Returns def.title, in plural form, lowercased, e.g. `pets`, for findMany queries
 const getPluralName = function (def) {
   const name = getDefinitionName(def);
   return plural(name).toLowerCase();
 };
 
-// Returns def.name, in plural form, lowercased, e.g. `pet`, for findOne queries
+// Returns def.title, in plural form, lowercased, e.g. `pet`, for findOne queries
 const getSingularName = function (def) {
   const name = getDefinitionName(def);
   return singular(name).toLowerCase();
@@ -435,7 +435,7 @@ const getSingularOperationName = function (def, operation) {
   return camelize(`${operation} ${name}`);
 };
 
-// Returns def.name, titleized, e.g. `Pet`, for schema type name
+// Returns def.title, titleized, e.g. `Pet`, for schema type name
 const getTypeName = function (def) {
   const name = getDefinitionName(def);
   return titleize(singular(name));
