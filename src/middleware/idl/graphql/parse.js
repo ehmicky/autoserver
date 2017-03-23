@@ -60,7 +60,7 @@ const validateModelsDefinition = function (obj, { modelTypes }) {
           });
         }
         Object.assign(child, {
-          //type: 'object',
+          type: 'object',
           modelName: child.type,
         });
       }
@@ -176,18 +176,18 @@ const getSchema = function ({ definitions, bulkOptions }) {
 };
 
 // Retrieve a top-level definition, using a type name
-const findModel = function ({ type, rootDef }) {
-  // Performance optimization
-  if (type === 'object') { return; }
+const findModel = function ({ def, rootDef }) {
+  const modelName = def.modelName;
+  if (!modelName) { return; }
   // Flattens root definition
   const models = Object.keys(rootDef).reduce((memo, name) => {
     Object.assign(memo, rootDef[name].properties);
     return memo;
   }, {});
-  const name = Object.keys(models).find(modelName => {
-    return models[modelName].type === type;
+  const correctName = Object.keys(models).find(name => {
+    return models[name].modelName === modelName;
   });
-  return models[name];
+  return models[correctName];
 };
 
 
@@ -207,7 +207,7 @@ const getField = function ({ def, rootDef }) {
   const unwrappedDef = isArray ? def.items : def;
 
   // If a top-level type exists, uses its definition, instead of the sub-definition
-  const topDef = findModel({ type: unwrappedDef.type, rootDef });
+  const topDef = findModel({ def: unwrappedDef, rootDef });
   const isTopDef = topDef !== undefined;
   const actualDef = isTopDef ? topDef : unwrappedDef;
 
@@ -249,7 +249,7 @@ const graphQLOperationsFieldsInfo = [
   {
     condition: ({ isArray, isTopDef }) => isArray && isTopDef,
     value({ def, rootDef }) {
-      const subType = getModifiedType({ def, rootDef, attributes: { type: 'object' } });
+      const subType = getModifiedType({ def, rootDef, attributes: { modelName: '' } });
       const type = new GraphQLList(subType);
       return {
         type,
@@ -273,7 +273,7 @@ const graphQLOperationsFieldsInfo = [
   {
     condition: ({ isTopDef }) => isTopDef,
     value({ def, rootDef }) {
-      const type = getModifiedType({ def, rootDef, attributes: { type: 'object' } });
+      const type = getModifiedType({ def, rootDef, attributes: { modelName: '' } });
       return {
         type,
         //description: `Fetches information about a ${getSingularName(def)}`,
