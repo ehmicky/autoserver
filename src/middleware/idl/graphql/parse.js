@@ -65,8 +65,6 @@ const validateModelsDefinition = function (obj, { modelTypes }) {
           modelName: child.type,
         });
       }
-      // Adds unique id
-      child.__uniqueId = uuidv4();
     }
     // Recurse over children
     validateModelsDefinition(child, { modelTypes });
@@ -89,7 +87,7 @@ const getRootDefinition = function ({ definitions, bulkOptions: { write: allowBu
   const safeProperties = getOperationDefinitions({ models, operations: safeOperations });
   const unsafeProperties = getOperationDefinitions({ models, operations: unsafeOperations });
 
-  return {
+  const rootDef = {
     query: {
       name: 'Query',
       type: 'object',
@@ -103,6 +101,12 @@ const getRootDefinition = function ({ definitions, bulkOptions: { write: allowBu
       properties: unsafeProperties,
     },
   };
+
+  addUniqueId(rootDef);
+  // This property is invalid in GraphQL, for the schema object
+  delete rootDef.__uniqueId;
+
+  return rootDef;
 };
 
 const getOperationDefinitions = function({ models, operations }) {
@@ -127,7 +131,7 @@ const getOperationDefinition = function ({ models, operation }) {
     let operationName;
     if (operation.multiple) {
       operationName = isFind ? getPluralName(def) : getPluralOperationName(def, operation.prefix);
-      properties[operationName] = { __uniqueId: uuidv4(), type: 'array', items: def };
+      properties[operationName] = { type: 'array', items: def };
     // E.g. `updatePet` operation
     } else {
       operationName = isFind ? getSingularName(def) : getSingularOperationName(def, operation.prefix);
@@ -156,6 +160,14 @@ const operations = [
   { name: 'deleteMany',   prefix: 'delete',   safe: false,  multiple: true,   isBulkWrite: false, isBulkDelete: true  },
 ];
 /* eslint-enable no-multi-spaces */
+
+// Add unique ids to every object, used for caching and avoiding infinite recursion
+const addUniqueId = function (obj) {
+  if (typeof obj !== 'object') { return obj; }
+  obj.__uniqueId = uuidv4();
+  Object.keys(obj).forEach(key => addUniqueId(obj[key]));
+  return obj;
+};
 
 // Retrieves all root model definitions, so that recursive sub-models can point to them
 const getModels = function (rootDef) {
@@ -268,7 +280,7 @@ const graphQLFieldsInfo = [
           },
           //description: `Fetches information about a list of ${getPluralName(def)}`,
           async resolve(_, args, { callback }) {
-            // TODO: fix this
+            // TODO: fix this by using def.operation
             const operation = operations[1];
             return await executeOperation({ operation, args, callback });
           },
@@ -322,7 +334,7 @@ const graphQLFieldsInfo = [
         Object.assign(fieldInfo, {
           //description: `Fetches information about a ${getSingularName(def)}`,
           async resolve(_, args, { callback }) {
-            // TODO: fix this
+            // TODO: fix this by using def.operation
             const operation = operations[0];
             return await executeOperation({ operation, args, callback });
           },
