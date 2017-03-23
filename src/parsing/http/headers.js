@@ -19,8 +19,8 @@ const PARAM_HEADERS = [
  * Only returns the namespaced ones, e.g. X-MYNAMESPACE-HEADER, and remove their namespace
  * Also returns the headers that provide application data, not just HTTP protocol semantics, according to a whitelist.
  *
- * @param reqOrRes {req|res}: HTTP request or response object
- * @returns headers {object}
+ * @param {req|res} reqOrRes - HTTP request or response object
+ * @returns {object} appHeaders
  */
 const parse = function (reqOrRes) {
   const headers = getHeaders(reqOrRes);
@@ -60,8 +60,8 @@ const getAppHeaders = function (headers) {
  * Take a plain object of parameters, and transforms it in an object that can be set as headers to a HTTP request or response
  * Namespaces headers names, e.g. X-Mynamespace-Header, unless part of a whitelist
  *
- * @param appHeaders {object}
- * @returns headers {object}
+ * @param {object} appHeaders
+ * @returns {object} headers
  */
 const serialize = function (appHeaders) {
   return Object.keys(appHeaders).reduce((headers, appHeaderName) => {

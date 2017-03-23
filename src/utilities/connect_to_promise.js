@@ -4,8 +4,8 @@
 /**
  * Transforms a Connect/Express middleware into a Promise
  *
- * @param middleware {function} Connect middleware. Take (req, res, next) as argument, fires next(error, val)
- * @returns promise {Promise}
+ * @param {function} middleware - Connect middleware. Take (req, res, next) as argument, fires next(error, val)
+ * @returns {Promise} promise
  */
 const connectToPromise = function (middleware) {
   return (req, res) => {

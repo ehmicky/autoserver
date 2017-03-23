@@ -20,8 +20,8 @@ const { flatten, middlewaresSymbol } = require('./nesting');
  * This function can be used itself in other chain(), allowing function composition:
  *  - calling chain(chain(...), chain(...)) is the same as calling chain(..., ...)
  *
- * @param middlewares {function|function[]...}: arguments that are neither functions nor modifiers are ignored
- * @returns trigger {function}
+ * @param {function|function[]...} middlewares - arguments that are neither functions nor modifiers are ignored
+ * @returns {function} trigger
  */
 const chain = function (...middlewares) {
   // Allow consumer to input an array instead

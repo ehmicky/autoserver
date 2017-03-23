@@ -28,8 +28,8 @@ const MAX_ARRAY_LENGTH = 100;
  * Differentiates between undefined, null and '' (see serialize() below)
  * Try to guess types: numbers, booleans, null
  *
- * @param url {string|Url} Can either be a full URL, a query string (without or without '?') or a URL object
- * @returns queryObject {object}
+ * @param {string|Url} url - Can either be a full URL, a query string (without or without '?') or a URL object
+ * @returns {object} queryObject
  */
 const parse = function (url) {
   try {
@@ -67,8 +67,8 @@ const decodeValue = function (str) {
  *  - '' -> ?var=
  * Serializes dates as well, but it will be parsed back (by parse()) as a string
  *
- * @param queryObject {object}
- * @returns queryString {string}
+ * @param {object} queryObject
+ * @returns {string} queryString
  */
 const serialize = function (queryObject) {
   try {

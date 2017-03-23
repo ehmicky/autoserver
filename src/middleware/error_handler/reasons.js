@@ -10,9 +10,9 @@
  *  - [description] {string} long description, defaults to exception message
  * Returns value is specific to each protocol (using first-level key), but key `any` means any protocol
  *
- * @param input {object}
- * @param input.exception {Error}
- * @returns error_message {object}
+ * @param {object} input
+ * @param {Error} input.exception
+ * @returns {object} error_message
  *
  * TODO: add `url` property pointing towards API documentation for that error
  */

@@ -23,10 +23,11 @@ const fillParams = () => async function (input) {
  * Does not differentiate from where the input is from (query variables, headers, URL variable)
  * so the next layer can be protocol-agnostic
  *
- * @param req {Request}
- * @param pathParams {object} URL variables, already provided by previous middleware
+ * @param {object} options
+ * @param {Request} options.req
+ * @param {object} options.pathParams - URL variables, already provided by previous middleware
  *
- * @returns params {object}
+ * @returns {object} params
  **/
 const getParams = function ({ req, pathParams }) {
   // Query variables
@@ -52,8 +53,9 @@ const getParams = function ({ req, pathParams }) {
 /**
  * Returns an HTTP request payload
  *
- * @param req {Request}
- * @returns value {any} type differs according to Content-Type, e.g. application/json is object but text/plain is string
+ * @param {object} options
+ * @param {Request} options.req
+ * @returns {any} value - type differs according to Content-Type, e.g. application/json is object but text/plain is string
  */
 const getPayload = async function ({ req }) {
   if (!hasPayload({ req })) { return; }

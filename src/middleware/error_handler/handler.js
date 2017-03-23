@@ -10,9 +10,10 @@ const errorHandler = {
 /**
  * Sends error back to client
  *
- * @param exception {Error}
- * @param input {object} protocol-independent request/response object
- * @param protocol {string} e.g. 'http'
+ * @param {object} options
+ * @param {Error} options.exception
+ * @param {object} options.input - protocol-independent request/response object
+ * @param {string} options.protocol - e.g. 'http'
  */
 const sendError = () => function ({ exception, input, protocol }) {
   // Retrieves request URL, protocol-specific
@@ -32,10 +33,11 @@ const sendError = () => function ({ exception, input, protocol }) {
 /**
  * Creates protocol-independent error, ready for output
  *
- * @param exception {Error}
- * @param requestUrl {string}
+ * @param {object} options
+ * @param {Error} options.exception
+ * @param {string} options.requestUrl
  *
- * @returns error {object}
+ * @returns {object} error
  */
 const createError = function ({ exception, error, requestUrl }) {
   const message = typeof exception === 'string' ? exception : exception.message;

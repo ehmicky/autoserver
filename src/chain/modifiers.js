@@ -32,7 +32,7 @@ class MiddlewareModifier {
     if (!handler) {
       throw new Error('When creating a middleware modifier, a handler must be specified');
     }
-    Object.assign(this, { type, handler })
+    Object.assign(this, { type, handler });
   }
 
 }
@@ -41,9 +41,9 @@ class MiddlewareModifier {
  * bind(middleware, context) modifier
  * Since chain() changes functions' context, middleware.bind(context) does not work. This modifier fixes that.
  *
- * @param middleware {function|function[]}
- * @param context {object}
- * @returns modifier {MiddlewareModifier}
+ * @param {function|function[]} middleware
+ * @param {object} context
+ * @returns {MiddlewareModifier} modifier
  **/
 const bindModifier = function (middleware, context) {
   const modifier = new MiddlewareModifier({
@@ -51,7 +51,7 @@ const bindModifier = function (middleware, context) {
     handler({ middlewares, log }) {
       const middlewareArray = flatten(middleware);
       const wrappers = middlewareArray.map(handler => {
-        const wrapper = new MiddlewareWrapper({ handler, type: 'bind' })
+        const wrapper = new MiddlewareWrapper({ handler, type: 'bind' });
         wrapper.context = context;
         return wrapper;
       });
@@ -60,15 +60,15 @@ const bindModifier = function (middleware, context) {
     },
   });
   return modifier;
-}
+};
 
 /**
  * test(condition, middleware) modifier
  * Only uses middleware if condition(...) returns true, passing the same arguments that middleware function would receive
  *
- * @param condition {function}
- * @param middleware {function|function[]}
- * @returns modifier {MiddlewareModifier}
+ * @param {function} condition
+ * @param {function|function[]} middleware
+ * @returns {MiddlewareModifier} modifier
  **/
 const testModifier = function (condition, middleware) {
   const conditionalMiddleware = flatten(middleware);
@@ -81,7 +81,7 @@ const testModifier = function (condition, middleware) {
     },
   });
   return modifier;
-}
+};
 
 /**
 * branch(condition, { key: middleware, ... }) modifier
@@ -89,9 +89,9 @@ const testModifier = function (condition, middleware) {
  * Can use "default" as key.
  * Equivalent of a `switch` statement
  *
- * @param condition {function}
- * @param map {object} key is the result of the switch statement. value is middleware|middleware[]
- * @returns modifier {MiddlewareModifier}
+ * @param {function} condition
+ * @param {object} map - key is the result of the switch statement. value is middleware|middleware[]
+ * @returns {MiddlewareModifier} modifier
  **/
 const branchModifier = function (condition, map) {
   const modifier = new MiddlewareModifier({
@@ -114,17 +114,17 @@ const branchModifier = function (condition, map) {
     },
   });
   return modifier;
-}
+};
 
 /**
  * repeatUnless(condition, middleware) modifier
  * Repeatedly calls middleware before each non-modifier middleware, unless condition does not apply
  * Can be stopped by a repeatEnd(middleware) modified.
  *
- * @param condition {function}
- * @param middleware {function|function[]}
- * @param context {object}
- * @returns modifier {MiddlewareModifier}
+ * @param {function} condition
+ * @param {function|function[]} middleware
+ * @param {object} context
+ * @returns {MiddlewareModifier} modifier
  **/
 const repeatUnlessModifier = function (condition, repeatMiddleware) {
   const modifier = new MiddlewareModifier({
@@ -167,7 +167,7 @@ const repeatUnlessModifier = function (condition, repeatMiddleware) {
     },
   });
   return modifier;
-}
+};
 
 const repeatEndModifier = function (repeatMiddleware) {
   const modifier = new MiddlewareModifier({
