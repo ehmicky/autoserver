@@ -25,10 +25,17 @@ const { EngineError } = require('../../../error');
 // TODO: use JSON schema validation|transformation instead
 // TODO: move all validation into this method
 const validateIdlDefinition = function (obj) {
+  const modelTypes = Object.keys(obj.models).map(key => obj.models[key].type);
+  obj.modelTypes = modelTypes;
+  validateModelsDefinition(obj.models, { modelTypes });
+  return obj;
+};
+
+const validateModelsDefinition = function (obj, { modelTypes }) {
   if (typeof obj !== 'object') { return obj; }
 
-  return Object.keys(obj).reduce((memo, attrName) => {
-    let child = obj[attrName];
+  Object.keys(obj).forEach(attrName => {
+    const child = obj[attrName];
     if (typeof child === 'object') {
       // TODO: should detect whether child _could_ have `type` instead (i.e. is a JSON schema), as we want `type` to be optional
       // Adds def.name default value, by using parent property name
@@ -43,11 +50,26 @@ const validateIdlDefinition = function (obj) {
           });
         }
       }
+      // Replace { type: "Model" } by { type: "object", modelName: "Model" }
+      const isModel = modelTypes.includes(child.type);
+      if (isModel) {
+        // Make sure we are not overriding user definitions
+        if (child.modelName) {
+          throw new EngineError(`The following model cannot have a property named 'modelName': ${JSON.stringify(child)}`, {
+            reason: 'IDL_WRONG_DEFINITION',
+          });
+        }
+        Object.assign(child, {
+          //type: 'object',
+          modelName: child.type,
+        });
+      }
     }
     // Recurse over children
-    memo[attrName] = validateIdlDefinition(child);
-    return memo;
+    validateModelsDefinition(child, { modelTypes });
   }, {});
+
+  return obj;
 };
 
 
