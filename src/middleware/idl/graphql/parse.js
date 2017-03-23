@@ -52,11 +52,15 @@ const validateIdlDefinition = function (obj) {
 
 
 // Transforms an IDL definition into an object easy to parse by GraphQL
-const getRootDefinition = function ({ definitions }) {
+const getRootDefinition = function ({ definitions, bulkOptions: { write: allowBulkWrite, delete: allowBulkDelete } }) {
   const models = validateIdlDefinition(definitions).models;
 
   const safeOperations = operations.filter(operation => operation.safe);
-  const unsafeOperations = operations.filter(operation => !operation.safe);
+  const unsafeOperations = operations.filter(operation => {
+    return !operation.safe
+      && !(!allowBulkWrite && operation.isBulkWrite)
+      && !(!allowBulkDelete && operation.isBulkDelete);
+  });
   const safeProperties = getOperationDefinitions({ models, operations: safeOperations });
   const unsafeProperties = getOperationDefinitions({ models, operations: unsafeOperations });
 
@@ -113,29 +117,29 @@ const getOperationDefinition = function ({ models, operation }) {
 
 /* eslint-disable no-multi-spaces */
 const operations = [
-  { name: 'findOne',      prefix: 'find',     safe: true,   multiple: false },
-  { name: 'findMany',     prefix: 'find',     safe: true,   multiple: true  },
-  { name: 'createOne',    prefix: 'create',   safe: false,  multiple: false },
-  { name: 'createMany',   prefix: 'create',   safe: false,  multiple: true  },
-  { name: 'replaceOne',   prefix: 'replace',  safe: false,  multiple: false },
-  { name: 'replaceMany',  prefix: 'replace',  safe: false,  multiple: true  },
-  { name: 'updateOne',    prefix: 'update',   safe: false,  multiple: false },
-  { name: 'updateMany',   prefix: 'update',   safe: false,  multiple: true  },
-  { name: 'upsertOne',    prefix: 'upsert',   safe: false,  multiple: false },
-  { name: 'upsertMany',   prefix: 'upsert',   safe: false,  multiple: true  },
-  { name: 'deleteOne',    prefix: 'delete',   safe: false,  multiple: false },
-  { name: 'deleteMany',   prefix: 'delete',   safe: false,  multiple: true  },
+  { name: 'findOne',      prefix: 'find',     safe: true,   multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'findMany',     prefix: 'find',     safe: true,   multiple: true,   isBulkWrite: false, isBulkDelete: false },
+  { name: 'createOne',    prefix: 'create',   safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'createMany',   prefix: 'create',   safe: false,  multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'replaceOne',   prefix: 'replace',  safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'replaceMany',  prefix: 'replace',  safe: false,  multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'updateOne',    prefix: 'update',   safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'updateMany',   prefix: 'update',   safe: false,  multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'upsertOne',    prefix: 'upsert',   safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'upsertMany',   prefix: 'upsert',   safe: false,  multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'deleteOne',    prefix: 'delete',   safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'deleteMany',   prefix: 'delete',   safe: false,  multiple: true,   isBulkWrite: false, isBulkDelete: true  },
 ];
 /* eslint-enable no-multi-spaces */
 
 
 // Returns GraphQL schema
-const getSchema = function ({ definitions }) {
+const getSchema = function ({ definitions, bulkOptions }) {
   if (cache.exists({ rootDef: definitions, type: 'schema', key: 'top' })) {
     return cache.get({ rootDef: definitions, type: 'schema', key: 'top' });
   }
 
-  const rootDef = getRootDefinition({ definitions });
+  const rootDef = getRootDefinition({ definitions, bulkOptions });
 
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
   const topLevelSchema = Object.keys(rootDef).reduce((memo, name) => {

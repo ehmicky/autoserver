@@ -10,7 +10,8 @@ const { attachRequire } = require('../utilities');
  *
  * @param {object} options
  * @param {object} options.definitions - IDL definitions
- * @param {boolean} [options.bulkWrite=false] -
+ * @param {boolean} [options.bulkWrite=false] - allow bulk methods for updates, upserts, create, replace
+ * @param {boolean} [options.bulkDelete=false] - allow bulk methods for deletes
  */
 const startServer = function (options) {
   httpStartServer(options);
