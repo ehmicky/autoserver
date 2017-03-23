@@ -192,6 +192,8 @@ const getSchema = function ({ definitions, bulkOptions }) {
   if (cache.exists(key)) {
     return cache.get(key);
   }
+  // Deep copy, so we do not modify input
+  definitions = merge({}, definitions);
 
   const rootDef = getRootDefinition({ definitions, bulkOptions });
   const schemaId = uuidv4();
