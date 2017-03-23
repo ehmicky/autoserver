@@ -14,13 +14,14 @@ const { readFile } = require('../../../utilities');
  * TODO: do not use CDN
  * TODO: do proper web app setup, not all-in-one HTML file
  *
- * @param endpointURL {string} the relative or absolute URL for the endpoint which GraphiQL will make queries to
- * @param [query] {string} the GraphQL query to pre-fill
- * @param [variables] {object|json} variables to pre-fill
- * @param [operationName] {string} the operationName to pre-fill
- * @param [result] {string} the result of the query to pre-fill
+ * @param {object} options
+ * @param {string} options.endpointURL - the relative or absolute URL for the endpoint which GraphiQL will make queries to
+ * @param {string} [options.query] - the GraphQL query to pre-fill
+ * @param {object|json} [options.variables] - variables to pre-fill
+ * @param {string} [options.operationName] - the operationName to pre-fill
+ * @param {string} [options.result] - the result of the query to pre-fill
  *
- * @returns document {string} HTML document
+ * @returns {string} document - HTML document
  */
 const renderGraphiQL = async function (input) {
   // Those must be valid JavaScript, so must JSON-stringified

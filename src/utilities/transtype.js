@@ -4,8 +4,8 @@
 /**
  * Tries to guess a value's type from its string serialized value
  *
- * @param string {string}
- * @param value {string|integer|float|boolean}
+ * @param {string} string
+ * @param {string|integer|float|boolean} value
  */
 const transtype = function (string) {
   if (typeof string !== 'string') { return string; }
