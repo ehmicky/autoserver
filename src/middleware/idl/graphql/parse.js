@@ -450,8 +450,7 @@ const getTypeName = function (def) {
   return titleize(singular(name));
 };
 
-const printSchema = function () {
-  const schema = getSchema();
+const printSchema = function (schema) {
   return graphQLPrintSchema(schema);
 };
 

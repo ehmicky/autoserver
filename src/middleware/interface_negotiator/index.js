@@ -19,6 +19,8 @@ const interfaces = {
 
   graphiql: ({ route }) => route === 'graphiql',
 
+  graphqlschema: ({ route }) => route === 'graphqlschema',
+
 };
 
 

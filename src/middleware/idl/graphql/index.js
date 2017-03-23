@@ -3,5 +3,6 @@
 
 module.exports = Object.assign(
   {},
-  require('./handler')
+  require('./handler'),
+  require('./printer')
 );
