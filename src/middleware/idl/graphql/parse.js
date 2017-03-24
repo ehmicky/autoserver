@@ -16,10 +16,17 @@ const {
 const titleize = require('underscore.string/titleize');
 const camelize = require('underscore.string/camelize');
 const merge = require('lodash/merge');
+const values = require('lodash/values');
 const { plural, singular } = require('pluralize');
 
 const { EngineError } = require('../../../error');
 
+
+const getIdlModels = function (obj) {
+  const models = validateIdlDefinition(obj).models;
+  // Transform from object to array, throwing away the property key
+  return values(models);
+};
 
 // Validate IDL definition
 // Also performs some transformation, e.g. adding default values
@@ -68,120 +75,87 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
   return obj;
 };
 
-
-// Transforms an IDL definition into an object easy to parse by GraphQL
-const getRootDefinition = function ({ definitions, bulkOptions: { write: allowBulkWrite, delete: allowBulkDelete } }) {
-  const models = validateIdlDefinition(definitions).models;
-
-  const safeOperations = operations.filter(operation => operation.safe);
-  const unsafeOperations = operations.filter(operation => {
-    return !operation.safe
-      && !(!allowBulkWrite && operation.isBulkWrite)
-      && !(!allowBulkDelete && operation.isBulkDelete);
-  });
-  const safeProperties = getOperationDefinitions({ models, operations: safeOperations });
-  const unsafeProperties = getOperationDefinitions({ models, operations: unsafeOperations });
-
-  const rootDef = {
-    query: {
-      title: 'Query',
-      type: 'object',
-      description: 'Fetches information about different entities',
-      properties: safeProperties,
-    },
-    mutation: {
-      title: 'Mutation',
-      type: 'object',
-      description: 'Modifies information about different entities',
-      properties: unsafeProperties,
-    },
-  };
-
-  return rootDef;
-};
-
-const getOperationDefinitions = function({ models, operations }) {
-  return operations.reduce((memo, operation) => {
-    const props = getOperationDefinition({ models, operation });
-    // Make a deep copy for each definition object
-    // Otherwise, each definition would refer each other, which would create some problems
-    const copiedProps = merge({}, props);
-    Object.assign(memo, copiedProps);
+// Retrieve top-level operations|models for a given method
+const getModels = function ({ methodName, allModels, bulkOptions: { write: allowBulkWrite, delete: allowBulkDelete } }) {
+  // All operations (e.g. "createUser", etc.) for that method (e.g. "query")
+  const methodOperations = operations.filter(operation => operation.method === methodName
+    && !(!allowBulkWrite && operation.isBulkWrite)
+    && !(!allowBulkDelete && operation.isBulkDelete));
+  const properties = methodOperations.reduce((memo, operation) => {
+    const props = getOperationModels({ models: allModels, operation });
+    Object.assign(memo, props);
     return memo;
   }, {});
+  return properties;
 };
 
-const getOperationDefinition = function ({ models, operation }) {
-  return Object.keys(models).reduce((properties, modelName) => {
-    const model = models[modelName];
-    const name = model.title || modelName;
-    const def = Object.assign({}, model, { name });
-
+const getOperationModels = function ({ models, operation }) {
+  return models.reduce((operationModels, model) => {
+    // Deep copy
+    model = merge({}, model);
     // `find*` operations are aliased for convenience
     // E.g. `findPet` and `findPets` -> `pet` and `pets`
     const isFind = operation.prefix === 'find';
-
     // E.g. `updatePets` operation
     let operationName;
     if (operation.multiple) {
-      operationName = isFind ? getPluralName(def) : getPluralOperationName(def, operation.prefix);
-      properties[operationName] = { type: 'array', items: def };
+      operationName = isFind ? getPluralName(model) : getPluralOperationName(model, operation.prefix);
+      operationModels[operationName] = { type: 'array', items: model };
     // E.g. `updatePet` operation
     } else {
-      operationName = isFind ? getSingularName(def) : getSingularOperationName(def, operation.prefix);
-      properties[operationName] = def;
+      operationName = isFind ? getSingularName(model) : getSingularOperationName(model, operation.prefix);
+      operationModels[operationName] = model;
     }
 
-    properties[operationName].operation = operation.prefix;
+    operationModels[operationName].operation = operation.prefix;
 
-    return properties;
+    return operationModels;
   }, {});
 };
 
 /* eslint-disable no-multi-spaces */
 const operations = [
-  { name: 'findOne',      prefix: 'find',     safe: true,   multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'findMany',     prefix: 'find',     safe: true,   multiple: true,   isBulkWrite: false, isBulkDelete: false },
-  { name: 'createOne',    prefix: 'create',   safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'createMany',   prefix: 'create',   safe: false,  multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'replaceOne',   prefix: 'replace',  safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'replaceMany',  prefix: 'replace',  safe: false,  multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'updateOne',    prefix: 'update',   safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'updateMany',   prefix: 'update',   safe: false,  multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'upsertOne',    prefix: 'upsert',   safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'upsertMany',   prefix: 'upsert',   safe: false,  multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'deleteOne',    prefix: 'delete',   safe: false,  multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'deleteMany',   prefix: 'delete',   safe: false,  multiple: true,   isBulkWrite: false, isBulkDelete: true  },
+  { name: 'findOne',      prefix: 'find',     method: 'query',    multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'findMany',     prefix: 'find',     method: 'query',    multiple: true,   isBulkWrite: false, isBulkDelete: false },
+  { name: 'createOne',    prefix: 'create',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'createMany',   prefix: 'create',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'replaceOne',   prefix: 'replace',  method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'replaceMany',  prefix: 'replace',  method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'updateOne',    prefix: 'update',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'updateMany',   prefix: 'update',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'upsertOne',    prefix: 'upsert',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'upsertMany',   prefix: 'upsert',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'deleteOne',    prefix: 'delete',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'deleteMany',   prefix: 'delete',   method: 'mutation', multiple: true,   isBulkWrite: false, isBulkDelete: true  },
 ];
 /* eslint-enable no-multi-spaces */
-
-// Retrieves all root model definitions, so that recursive sub-models can point to them
-const getModels = function (rootDef) {
-  return Object.keys(rootDef).reduce((memo, name) => {
-    const props = rootDef[name].properties;
-    const subProps = Object.keys(props).reduce((memo,val) => {
-      if (typeof props[val] !== 'object') { return memo; }
-      return memo.concat(props[val]);
-    }, []);
-    return memo.concat(subProps);
-  }, []);
-};
-
 
 // Returns GraphQL schema
 const getSchema = function ({ definitions, bulkOptions }) {
   // Deep copy, so we do not modify input
   definitions = merge({}, definitions);
 
-  const rootDef = getRootDefinition({ definitions, bulkOptions });
-  const models = getModels(rootDef);
   // Each schema gets its own cache instance, to avoid leaking
   const cache = new GeneralCache();
+
+  const rootDef = {
+    query: {
+      title: 'Query',
+      type: 'object',
+      description: 'Fetches information about different entities',
+    },
+    mutation: {
+      title: 'Mutation',
+      type: 'object',
+      description: 'Modifies information about different entities',
+    },
+  };
+  const allModels = getIdlModels(definitions);
 
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
   const topLevelSchema = Object.keys(rootDef).reduce((memo, name) => {
     const def = rootDef[name];
-    memo[name] = getType(def, { models, cache });
+    memo[name] = getType(def, { cache, allModels, bulkOptions, methodName: name, isMethod: true });
     return memo;
   }, {});
 
@@ -193,22 +167,17 @@ const getSchema = function ({ definitions, bulkOptions }) {
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
-  // When top-level model enters this function, `def.operation` will be defined.
-  // This passed the operation to all sub-schemas, so that resolvers know the current operation
-  const operation = def.operation || opts.operation;
-  opts = Object.assign({}, opts, { operation });
-
   // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
   // Only cache schemas that have a model name, because they are the only one that can recurse
   // Namespace by operation, because operations can have slightly different types
   const modelName = def.model;
-  const key = modelName && `field/${modelName}/${operation}`;
+  const key = modelName && `field/${modelName}/${opts.operation}`;
   if (key && opts.cache.exists(key)) {
     return opts.cache.get(key);
   }
 
   // Retrieves correct field
-  const fieldInfo = graphQLFieldsInfo.find(possibleType => possibleType.condition(def));
+  const fieldInfo = graphQLFieldsInfo.find(possibleType => possibleType.condition(def, opts));
   if (!fieldInfo) {
     throw new EngineError(`Could not parse property into a GraphQL type: ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
@@ -275,14 +244,55 @@ const graphQLFieldsInfo = [
     },
   },
 
+  // Top-level method, e.g. 'Query' or 'Mutation'
+  {
+    condition: (_, { isMethod }) => isMethod,
+    value(def, opts) {
+      // Do this only at top-level
+      opts.isMethod = false;
+
+      let name = getTypeName(def);
+      const description = def.description;
+
+      // Retrieve the top-level operations
+      const models = getModels(opts);
+      opts = Object.assign({}, opts, { models, isMethod: false });
+
+      const fields = Object.keys(models).reduce((fields, attrName) => {
+        const model = models[attrName];
+        // Pass current operation down to sub-fields
+        const operation = model.operation;
+        // Keep models as options, so that sub-models can point to them, but only for current operation
+        opts = Object.assign({}, opts, { operation });
+        fields[attrName] = getField(model, opts);
+        return fields;
+      }, {});
+
+      const type = new GraphQLObjectType({
+        name,
+        description,
+        fields,
+      });
+
+      const fieldInfo = { type, description };
+      return fieldInfo;
+    }
+  },
+
   {
     condition: def => def.type === 'object',
     value(initialDef, opts) {
-      // If this definition points to a top-level model, use that model instead
-      const topDef = opts.models.find(model => initialDef.model
-        && model.model === initialDef.model
-        && opts.operation === model.operation);
-      const def = topDef || initialDef;
+      let def = initialDef;
+      const models = opts.models;
+      if (models) {
+        // If this definition points to a top-level model, use that model instead
+        const topModelName = Object.keys(models).find(modelName => initialDef.model
+          && models[modelName].model === initialDef.model
+          && models[modelName].operation === opts.operation);
+        if (topModelName) {
+          def = opts.models[topModelName];
+        }
+      }
 
       let name = getTypeName(def, opts.operation);
       const description = def.description;
