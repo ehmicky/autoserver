@@ -175,10 +175,6 @@ const getModels = function (rootDef) {
 
 // Returns GraphQL schema
 const getSchema = function ({ definitions, bulkOptions }) {
-  const key = `schema/${JSON.stringify({ definitions, bulkOptions })}/top`;
-  if (cache.exists(key)) {
-    return cache.get(key);
-  }
   // Deep copy, so we do not modify input
   definitions = merge({}, definitions);
 
@@ -194,7 +190,6 @@ const getSchema = function ({ definitions, bulkOptions }) {
   }, {});
 
   const rootSchema = new GraphQLSchema(topLevelSchema);
-  cache.set(key, rootSchema);
   return rootSchema;
 };
 
