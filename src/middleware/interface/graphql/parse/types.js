@@ -15,7 +15,8 @@ const { mapValues } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
-const { getModelsByMethod, findOperations, getDescription, getDeprecationReason } = require('./models');
+const { getModelsByMethod, findOperations } = require('./models');
+const { getDescription, getDeprecationReason } = require('./description');
 
 
 // Retrieves the GraphQL type for a given IDL definition
