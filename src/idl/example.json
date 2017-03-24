@@ -5,15 +5,6 @@
       "type": "object",
       "model": "Pet",
       "properties":{
-        "example_object": {
-          "type": "object",
-          "title": "different_title",
-          "properties": {
-            "example_prop": {
-              "type": "string"
-            }
-          }
-        },
         "id":{
           "type":"integer",
           "format": "id",
@@ -26,6 +17,14 @@
           "description": "Unique name associated with this entity",
           "required": true
         },
+        "weight":{
+          "type": "number",
+          "description": "Weight of the pet"
+        },
+        "isOverweight":{
+          "type": "boolean",
+          "description": "Should the pet be on a diet"
+        },
         "photo_urls":{
           "type":"array",
           "items":{
@@ -34,11 +33,21 @@
           },
           "required": true
         },
+        "attributes": {
+          "type": "object",
+          "title": "PetAttributes",
+          "properties": {
+            "age": {
+              "type": "integer"
+            }
+          }
+        },
         "tags":{
           "type":"array",
           "items":{
             "type":"string",
-            "description": "Tag describing a pet"
+            "description": "Tag describing a pet",
+            "required": true
           }
         },
         "status":{
