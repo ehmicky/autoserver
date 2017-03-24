@@ -416,7 +416,7 @@ const getSingularOperationName = function (def, operation) {
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
 const getTypeName = function (def, operation = '') {
   const name = getSingularName(def);
-  return camelize(`${titleize(operation)} ${name}`);
+  return camelize(`${titleize(operation)} ${titleize(name)}`);
 };
 
 const printSchema = function (schema) {
