@@ -102,10 +102,6 @@ const getRootDefinition = function ({ definitions, bulkOptions: { write: allowBu
     },
   };
 
-  addUniqueId(rootDef);
-  // This property is invalid in GraphQL, for the schema object
-  delete rootDef.__uniqueId;
-
   return rootDef;
 };
 
@@ -113,7 +109,7 @@ const getOperationDefinitions = function({ models, operations }) {
   return operations.reduce((memo, operation) => {
     const props = getOperationDefinition({ models, operation });
     // Make a deep copy for each definition object
-    // Otherwise, each definition would refer each other, which would create some problems, e.g. when assigning different __uniqueId
+    // Otherwise, each definition would refer each other, which would create some problems
     const copiedProps = merge({}, props);
     Object.assign(memo, copiedProps);
     return memo;
@@ -163,14 +159,6 @@ const operations = [
   { name: 'deleteMany',   prefix: 'delete',   safe: false,  multiple: true,   isBulkWrite: false, isBulkDelete: true  },
 ];
 /* eslint-enable no-multi-spaces */
-
-// Add unique ids to every object, used for caching and avoiding infinite recursion
-const addUniqueId = function (obj) {
-  if (typeof obj !== 'object') { return obj; }
-  obj.__uniqueId = uuidv4();
-  Object.keys(obj).forEach(key => addUniqueId(obj[key]));
-  return obj;
-};
 
 // Retrieves all root model definitions, so that recursive sub-models can point to them
 const getModels = function (rootDef) {
@@ -326,9 +314,6 @@ const graphQLFieldsInfo = [
         // if the children try to reference a parent type
         fields() {
           return Object.keys(def.properties).reduce((fields, attrName) => {
-            // Those are created by us, do not use them for GraphQL schema
-            if (['__uniqueId'].includes(attrName)) { return fields; }
-
             const childDef = def.properties[attrName];
             // Recurse over children
             fields[attrName] = getField(childDef, opts);
