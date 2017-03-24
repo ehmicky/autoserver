@@ -262,21 +262,15 @@ const graphQLFieldsInfo = [
 
   {
     condition: def => def.type === 'array' && typeof def.items === 'object',
-    value(initialDef, opts) {
-      // If this definition points to a top-level model, use that model instead
-      const topDef = opts.models.find(model => initialDef.items.modelName
-          && model.items
-          && model.items.modelName === initialDef.items.modelName
-          && opts.operation === model.operation);
-      // Get the array items definition
-      const def = (topDef || initialDef).items;
-
-      const type = new GraphQLList(getType(def, opts));
-      const description = def.description;
+    value(def, opts) {
+      const subDef = def.items;
+      const subType = getType(subDef, opts);
+      const type = new GraphQLList(subType);
+      const description = subDef.description;
       const fieldInfo = { type, description };
 
       // If this is a top-level model, assign resolver
-      if (initialDef.items.modelName) {
+      if (subDef.modelName) {
         Object.assign(fieldInfo, {
           args: {
             id: {
