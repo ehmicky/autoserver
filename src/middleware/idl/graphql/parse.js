@@ -22,6 +22,8 @@ const { EngineError } = require('../../../error');
 
 
 const getIdlModels = function (obj) {
+  // Deep copy, so we do not modify input
+  obj = merge({}, obj);
   const models = validateIdlDefinition(obj).models;
   // Transform from object to array, throwing away the property key
   return values(models);
@@ -74,11 +76,11 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
 
 
 // Retrieve models for a given method
-const getModelsByMethod = function (methodName, { allModels, bulkOptions: { write: allowBulkWrite, delete: allowBulkDelete } }) {
+const getModelsByMethod = function (methodName, { allModels, bulkWrite, bulkDelete }) {
   // All operations (e.g. "createUser", etc.) for that method (e.g. "query")
   const methodOperations = operations.filter(operation => operation.method === methodName
-    && !(!allowBulkWrite && operation.isBulkWrite)
-    && !(!allowBulkDelete && operation.isBulkDelete));
+    && !(!bulkWrite && operation.isBulkWrite)
+    && !(!bulkDelete && operation.isBulkDelete));
   const models = methodOperations.reduce((methodModels, operation) => {
     const operationModels = getModelsByOperation(operation, { allModels });
     return methodModels.concat(operationModels);
@@ -132,36 +134,39 @@ const operations = [
 
 
 // Returns GraphQL schema
-const getSchema = function ({ definitions, bulkOptions }) {
-  // Deep copy, so we do not modify input
-  definitions = merge({}, definitions);
-
+const getSchema = function (definitions, opts) {
+  const allModels = getIdlModels(definitions);
   // Each schema gets its own cache instance, to avoid leaking
   const cache = new GeneralCache();
 
-  const rootDef = {
-    query: {
-      title: 'Query',
-      type: 'object',
-      description: 'Fetches information about different entities',
-    },
-    mutation: {
-      title: 'Mutation',
-      type: 'object',
-      description: 'Modifies information about different entities',
-    },
-  };
-  const allModels = getIdlModels(definitions);
-
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
-  const topLevelSchema = mapValues(rootDef, (def, methodName) => {
-    return getType(def, { cache, allModels, bulkOptions, methodName, isMethod: true });
+  const schemaFields = mapValues(rootDef, (def, methodName) => {
+    const typeOpts = Object.assign({ cache, allModels, methodName, isMethod: true }, opts);
+    return getType(def, typeOpts);
   });
 
-  const rootSchema = new GraphQLSchema(topLevelSchema);
-  return rootSchema;
+  const schema = new GraphQLSchema(schemaFields);
+  return schema;
 };
 
+const rootDef = {
+  query: {
+    title: 'Query',
+    type: 'object',
+    description: 'Fetches information about different entities',
+  },
+  mutation: {
+    title: 'Mutation',
+    type: 'object',
+    description: 'Modifies information about different entities',
+  },
+};
+
+
+// Retrieves the GraphQL type for a given IDL definition
+const getType = function (def, opts) {
+  return getField(def, opts).type;
+};
 
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
@@ -180,7 +185,6 @@ const getField = function (def, opts) {
   if (!fieldInfo) {
     throw new EngineError(`Could not parse property into a GraphQL type: ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
-
   // Retrieves field information
   const field = fieldInfo.value(def, opts);
 
@@ -188,11 +192,6 @@ const getField = function (def, opts) {
     opts.cache.set(key, field);
   }
   return field;
-};
-
-// Retrieves the GraphQL type for a given IDL definition
-const getType = function (def, opts) {
-  return getField(def, opts).type;
 };
 
 /**
@@ -250,7 +249,7 @@ const graphQLFieldsInfo = [
       // Do this only at top-level
       opts.isMethod = false;
 
-      let name = getTypeName(def);
+      const name = getTypeName(def);
       const description = def.description;
 
       // Retrieve the top-level operations
@@ -281,13 +280,13 @@ const graphQLFieldsInfo = [
   {
     condition: def => def.type === 'object',
     value(def, opts) {
+      // If this definition points to a top-level model, use that model instead
       const operationsModels = opts.operationsModels;
       if (def.model && operationsModels) {
-        // If this definition points to a top-level model, use that model instead
         def = operationsModels.find(operationsModel => operationsModel.model === def.model) || def;
       }
 
-      let name = getTypeName(def, opts.operation);
+      const name = getTypeName(def, opts.operation);
       const description = def.description;
 
       const type = new GraphQLObjectType({
@@ -307,7 +306,6 @@ const graphQLFieldsInfo = [
       // If this is a top-level model, assign resolver
       if (def.model) {
         Object.assign(fieldInfo, {
-          //description: `Fetches information about a ${getSingularName(def)}`,
           async resolve(_, args, { callback }) {
             const operation = operations.find(op => op.prefix === opts.operation && !op.multiple);
             return await executeOperation({ operation, args, callback });
@@ -414,7 +412,7 @@ class GeneralCache {
   }
 
   exists(key) {
-    return this.get(key) != null;
+    return key && this.get(key) != null;
   }
 
   set(key, value) {
