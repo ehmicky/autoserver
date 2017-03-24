@@ -12,6 +12,6 @@ module.exports = Object.assign(
   require('./params'),
   require('./interface_convertor'),
   require('./interface_negotiator'),
-  require('./idl'),
+  require('./interface'),
   require('./database')
 );

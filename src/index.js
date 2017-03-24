@@ -5,7 +5,7 @@ const { startServer } = require('./server');
 
 
 startServer({
-  definitions: require('./example.json'),
+  definitions: require('./idl').definitions,
   bulkWrite: true,
   bulkDelete: true,
 }).catch(exception => {
