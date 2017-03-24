@@ -15,7 +15,7 @@ const { mapValues } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
-const { getModelsByMethod, findOperations, getDescription } = require('./models');
+const { getModelsByMethod, findOperations, getDescription, getDeprecationReason } = require('./models');
 
 
 // Retrieves the GraphQL type for a given IDL definition
@@ -26,8 +26,9 @@ const getType = function (def, opts) {
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
-  // Add field description, taken from IDL definition
+  // Add field description|deprecation_reason, taken from IDL definition
   let description = getDescription({ def, prefix: opts.operation, multiple: def.items !== undefined });
+  let deprecationReason = getDeprecationReason({ def });
 
   // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
   // Only cache schemas that have a model name, because they are the only one that can recurse
@@ -38,7 +39,8 @@ const getField = function (def, opts) {
     const cachedDef = opts.cache.get(key);
     // Sub-models can override top-level models descriptions
     description = description || cachedDef.description;
-    return Object.assign({}, cachedDef, { description });
+    deprecationReason = deprecationReason || cachedDef.deprecationReason;
+    return Object.assign({}, cachedDef, { description, deprecationReason });
   }
 
   // Retrieves correct field
@@ -48,8 +50,8 @@ const getField = function (def, opts) {
   }
   // Retrieves field information
   const field = fieldInfo.value(def, opts);
-  // The field description is type-agnostic, so is not inside `fieldInfo.value()`
-  field.description = description;
+  // The field description|deprecationReason is type-agnostic, so is not inside `fieldInfo.value()`
+  Object.assign(field, { description, deprecationReason });
 
   if (key) {
     opts.cache.set(key, field);

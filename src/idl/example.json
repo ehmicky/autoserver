@@ -19,7 +19,8 @@
         },
         "weight":{
           "type": "number",
-          "description": "Corrolated to how much a pet has eaten"
+          "description": "Corrolated to how much a pet has eaten",
+          "deprecated": "Let's stop measuring pet's weight"
         },
         "isOverweight":{
           "type": "boolean",

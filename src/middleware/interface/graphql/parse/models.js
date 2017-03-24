@@ -98,9 +98,16 @@ const operationDescriptions = [
 ];
 /* eslint-enable no-multi-spaces */
 
+// Add deprecation reason, taken from IDL definition
+const getDeprecationReason = function ({ def }) {
+  // Tries to look under `items` in case this in an array
+  return def.deprecated || (def.items && def.items.deprecated);
+};
+
 
 module.exports = {
   getModelsByMethod,
   findOperations,
   getDescription,
+  getDeprecationReason,
 };
