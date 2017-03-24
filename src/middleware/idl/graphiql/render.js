@@ -3,6 +3,7 @@
 
 const { render } = require('mustache');
 const GRAPHIQL_HTML_FILE = `${__dirname}/graphiql.mustache`;
+const { mapValues } = require('lodash');
 
 const { EngineError } = require('../../../error');
 const { readFile } = require('../../../utilities');
@@ -46,11 +47,7 @@ const renderGraphiQL = async function (input) {
 
 
 const escapeData = function (dataToEscape) {
-  const data = Object.keys(dataToEscape).reduce((memo, key) => {
-    memo[key] = escapeJSON(dataToEscape[key]);
-    return memo;
-  }, {});
-  return data;
+  return mapValues(dataToEscape, data => escapeJSON(data));
 };
 const escapeJSON = function (string = null) {
   return JSON.stringify(string, null, 2);
