@@ -2,7 +2,8 @@
   "models": {
     "pet": {
       "description": "This is the description of a pet",
-      "type":"Pet",
+      "type": "object",
+      "model": "Pet",
       "properties":{
         "example_object": {
           "type": "object",
@@ -44,16 +45,10 @@
           "type":"string",
           "description":"Pet status in the store"
         },
-        "best_friend": {
-          "type": "Pet",
-          "description":"This pet's best friend"
-        },
+        "best_friend": { "model": "Pet" },
         "friends": {
           "type": "array",
-          "items": {
-            "type": "Pet",
-            "description":"This pet's friend"
-          },
+          "items": { "model": "Pet" },
           "description":"This pet's friends"
         }
       }

@@ -26,16 +26,25 @@ const { EngineError } = require('../../../error');
 // TODO: use JSON schema validation|transformation instead
 // TODO: move all validation into this method
 const validateIdlDefinition = function (obj) {
-  const modelTypes = Object.keys(obj.models).map(key => obj.models[key].type);
-  validateModelsDefinition(obj.models, { modelTypes });
+  validateModelsDefinition(obj.models, { isTopLevel: true });
   return obj;
 };
 
-const validateModelsDefinition = function (obj, { modelTypes }) {
+const validateModelsDefinition = function (obj, { isTopLevel }) {
   if (typeof obj !== 'object') { return obj; }
 
   Object.keys(obj).forEach(attrName => {
     const child = obj[attrName];
+
+    // `model` must be the only attribute (unless top-level), as it will reference another schema
+    if (child.model && !isTopLevel) {
+      if (Object.keys(child).length > 1) {
+        throw new EngineError(`The following definition should only have one keys ('model'): ${JSON.stringify(child)}`, {
+          reason: 'IDL_WRONG_DEFINITION',
+        });
+      }
+    }
+
     if (typeof child === 'object') {
       // TODO: should detect whether child _could_ have `type` instead (i.e. is a JSON schema), as we want `type` to be optional
       // Adds def.title default value, by using parent property name
@@ -43,30 +52,17 @@ const validateModelsDefinition = function (obj, { modelTypes }) {
         child.title = attrName;
       }
       // Definitions of type `object` must have valid `properties`
-      if (child.type === 'object') {
+      if (child.type === 'object' && !child.model) {
         if (!child.properties || typeof child.properties !== 'object' || Object.keys(child.properties).length === 0) {
           throw new EngineError(`The following definition of type 'object' is missing 'properties': ${JSON.stringify(child)}`, {
             reason: 'IDL_WRONG_DEFINITION',
           });
         }
       }
-      // Replace { type: "Model" } by { type: "object", modelName: "Model" }
-      const isModel = modelTypes.includes(child.type);
-      if (isModel) {
-        // Make sure we are not overriding user definitions
-        if (child.modelName) {
-          throw new EngineError(`The following model cannot have a property named 'modelName': ${JSON.stringify(child)}`, {
-            reason: 'IDL_WRONG_DEFINITION',
-          });
-        }
-        Object.assign(child, {
-          type: 'object',
-          modelName: child.type,
-        });
-      }
     }
+
     // Recurse over children
-    validateModelsDefinition(child, { modelTypes });
+    validateModelsDefinition(child, { isTopLevel: false });
   }, {});
 
   return obj;
@@ -205,7 +201,7 @@ const getField = function (def, opts) {
   // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
   // Only cache schemas that have a model name, because they are the only one that can recurse
   // Namespace by operation, because operations can have slightly different types
-  const modelName = def.modelName;
+  const modelName = def.model;
   const key = modelName && `field/${modelName}/${operation}`;
   if (key && opts.cache.exists(key)) {
     return opts.cache.get(key);
@@ -259,7 +255,7 @@ const graphQLFieldsInfo = [
       const fieldInfo = { type, description };
 
       // If this is a top-level model, assign resolver
-      if (subDef.modelName) {
+      if (subDef.model) {
         Object.assign(fieldInfo, {
           args: {
             id: {
@@ -283,8 +279,8 @@ const graphQLFieldsInfo = [
     condition: def => def.type === 'object',
     value(initialDef, opts) {
       // If this definition points to a top-level model, use that model instead
-      const topDef = opts.models.find(model => initialDef.modelName
-        && model.modelName === initialDef.modelName
+      const topDef = opts.models.find(model => initialDef.model
+        && model.model === initialDef.model
         && opts.operation === model.operation);
       const def = topDef || initialDef;
 
@@ -310,7 +306,7 @@ const graphQLFieldsInfo = [
       let fieldInfo = { type, description };
 
       // If this is a top-level model, assign resolver
-      if (initialDef.modelName) {
+      if (initialDef.model) {
         Object.assign(fieldInfo, {
           //description: `Fetches information about a ${getSingularName(def)}`,
           async resolve(_, args, { callback }) {
