@@ -219,9 +219,12 @@ const getField = function (def, opts) {
   const operation = def.operation || opts.operation;
   opts = Object.assign({}, opts, { operation });
 
-  const key = `field/${opts.schemaId}/${def.__uniqueId}`;
-  // Dones so that children can get a cached reference of parent type, while avoiding infinite recursion
-  if (cache.exists(key)) {
+  // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
+  // Only cache schemas that have a model name, because they are the only one that can recurse
+  // Namespace by operation, because operations can have slightly different types
+  const modelName = def.modelName;
+  const key = modelName && `field/${opts.schemaId}/${modelName}/${operation}`;
+  if (key && cache.exists(key)) {
     return cache.get(key);
   }
 
@@ -234,7 +237,9 @@ const getField = function (def, opts) {
   // Retrieves field information
   const field = fieldInfo.value(def, opts);
 
-  cache.set(key, field);
+  if (key) {
+    cache.set(key, field);
+  }
   return field;
 };
 
