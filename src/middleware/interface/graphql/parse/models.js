@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge } = require('lodash');
+const { merge, mapKeys } = require('lodash');
 const { getDefinitionName, getOperationName } = require('./name');
 
 
@@ -15,7 +15,8 @@ const getModelsByMethod = function (methodName, { allModels, bulkWrite, bulkDele
     const operationModels = getModelsByOperation(operation, { allModels });
     return methodModels.concat(operationModels);
   }, []);
-  return models;
+  const modelsMap = mapKeys(models, model => model.operationName);
+  return modelsMap;
 };
 
 // Retrieve models for a given operation

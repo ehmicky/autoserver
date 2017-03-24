@@ -11,11 +11,11 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { mapValues, defaults } = require('lodash');
+const { mapValues, defaults, values } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
-const { getModelsByMethod, findOperations } = require('./models');
+const { findOperations } = require('./models');
 const { getDescription, getDeprecationReason } = require('./description');
 
 
@@ -104,62 +104,42 @@ const graphQLFieldsInfo = [
     },
   },
 
-  // Top-level method, e.g. 'Query' or 'Mutation'
-  {
-    condition: (_, { isMethod }) => isMethod,
-    value(def, opts) {
-      // Do this only at top-level
-      opts.isMethod = false;
-
-      // Retrieve the top-level operations
-      const methodModels = getModelsByMethod(opts.methodName, opts);
-
-      const fields = methodModels.reduce((fields, model) => {
-        // Pass current operation down to sub-fields
-        const operation = model.operation;
-        // Keep models as options, so that sub-models can point to them, but only for current operation
-        const operationsModels = methodModels.filter(methodModel => methodModel.operation === operation);
-        opts = Object.assign({}, opts, { operation, operationsModels });
-
-        fields[model.operationName] = getField(model, opts);
-        return fields;
-      }, {});
-
-      const name = getTypeName(def);
-      const description = getDescription({ def, prefix: opts.operation });
-
-      const type = new GraphQLObjectType({
-        name,
-        description,
-        fields,
-      });
-
-      const fieldInfo = { type };
-      return fieldInfo;
-    }
-  },
-
   {
     condition: def => def.type === 'object',
     value(def, opts) {
+      // Remember if top-level method, e.g. 'Query' or 'Mutation'
+      const isMethod = opts.isMethod;
+      opts.isMethod = false;
+
       // If this definition points to a top-level model, use that model instead
       const operationsModels = opts.operationsModels;
       if (def.model && operationsModels) {
         def = operationsModels.find(operationsModel => operationsModel.model === def.model) || def;
       }
 
-      const name = getTypeName(def, opts.operation);
-      const description = getDescription({ def, prefix: opts.operation });
+      const prefix = opts.operation;
+      const name = getTypeName(def, prefix);
+      const description = getDescription({ def, prefix });
 
       const type = new GraphQLObjectType({
         name,
         description,
-
         // This needs to be function, otherwise we run in an infinite recursion,
         // if the children try to reference a parent type
         fields() {
           // Recurse over children
-          return mapValues(def.properties, childDef => getField(childDef, opts));
+          return mapValues(def.properties, childDef => {
+            // 'Query' or 'Mutation' object
+            if (isMethod) {
+              // Pass current operation down to sub-fields
+              const operation = childDef.operation;
+              // Keep models as options, so that sub-models can point to them, but only for current operation
+              const operationsModels = values(def.properties).filter(methodModel => methodModel.operation === operation);
+              opts = Object.assign({}, opts, { operation, operationsModels });
+            }
+
+            return getField(childDef, opts);
+          });
         },
       });
 
@@ -169,7 +149,7 @@ const graphQLFieldsInfo = [
       if (def.model) {
         Object.assign(fieldInfo, {
           async resolve(_, args, { callback }) {
-            const operation = findOperations({ prefix: opts.operation, multiple: false });
+            const operation = findOperations({ prefix, multiple: false });
             return await executeOperation({ operation, args, callback });
           },
         });
