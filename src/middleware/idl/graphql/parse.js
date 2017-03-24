@@ -294,16 +294,6 @@ const graphQLFieldsInfo = [
       const def = topDef || initialDef;
 
       let name = getTypeName(def, opts.operation);
-      // Cannot create two GraphQL object types with the same name
-      // Fix it by appending underscores to the name
-      // TODO: either prefix with top-level model name, or throw exception, or some other better solution
-      let key = `typename/${opts.schemaId}/${name}`;
-      while (cache.exists(key)) {
-        name += '_';
-        key += '_';
-      }
-      cache.set(key, true);
-
       const description = def.description;
 
       const type = new GraphQLObjectType({
