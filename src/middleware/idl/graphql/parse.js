@@ -28,7 +28,6 @@ const { EngineError } = require('../../../error');
 // TODO: move all validation into this method
 const validateIdlDefinition = function (obj) {
   const modelTypes = Object.keys(obj.models).map(key => obj.models[key].type);
-  obj.modelTypes = modelTypes;
   validateModelsDefinition(obj.models, { modelTypes });
   return obj;
 };
