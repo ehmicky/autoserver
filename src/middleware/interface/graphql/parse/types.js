@@ -15,7 +15,7 @@ const { mapValues } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
-const { getModelsByMethod, findOperations } = require('./models');
+const { getModelsByMethod, findOperations, getDescription } = require('./models');
 
 
 // Retrieves the GraphQL type for a given IDL definition
@@ -26,13 +26,19 @@ const getType = function (def, opts) {
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
+  // Add field description, taken from IDL definition
+  let description = getDescription({ def, prefix: opts.operation, multiple: def.items !== undefined });
+
   // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
   // Only cache schemas that have a model name, because they are the only one that can recurse
   // Namespace by operation, because operations can have slightly different types
   const modelName = def.model;
   const key = modelName && `field/${modelName}/${opts.operation}`;
   if (key && opts.cache.exists(key)) {
-    return opts.cache.get(key);
+    const cachedDef = opts.cache.get(key);
+    // Sub-models can override top-level models descriptions
+    description = description || cachedDef.description;
+    return Object.assign({}, cachedDef, { description });
   }
 
   // Retrieves correct field
@@ -42,6 +48,8 @@ const getField = function (def, opts) {
   }
   // Retrieves field information
   const field = fieldInfo.value(def, opts);
+  // The field description is type-agnostic, so is not inside `fieldInfo.value()`
+  field.description = description;
 
   if (key) {
     opts.cache.set(key, field);
@@ -62,8 +70,7 @@ const graphQLFieldsInfo = [
       const modifiedDef = Object.assign({}, def, { required: false });
       const subType = getType(modifiedDef, opts);
       const type = new GraphQLNonNull(subType);
-      const description = def.description || (def.items && def.items.description);
-      return { type, description };
+      return { type };
     },
   },
 
@@ -73,8 +80,7 @@ const graphQLFieldsInfo = [
       const subDef = def.items;
       const subType = getType(subDef, opts);
       const type = new GraphQLList(subType);
-      const description = subDef.description;
-      const fieldInfo = { type, description };
+      const fieldInfo = { type };
 
       // If this is a top-level model, assign resolver
       if (subDef.model) {
@@ -82,7 +88,7 @@ const graphQLFieldsInfo = [
           args: {
             id: {
               type: GraphQLInt,
-              description: 'id to look at',
+              //description: 'id to look at',
               defaultValue: 10
             },
           },
@@ -104,9 +110,6 @@ const graphQLFieldsInfo = [
       // Do this only at top-level
       opts.isMethod = false;
 
-      const name = getTypeName(def);
-      const description = def.description;
-
       // Retrieve the top-level operations
       const methodModels = getModelsByMethod(opts.methodName, opts);
 
@@ -121,13 +124,16 @@ const graphQLFieldsInfo = [
         return fields;
       }, {});
 
+      const name = getTypeName(def);
+      const description = getDescription({ def, prefix: opts.operation });
+
       const type = new GraphQLObjectType({
         name,
         description,
         fields,
       });
 
-      const fieldInfo = { type, description };
+      const fieldInfo = { type };
       return fieldInfo;
     }
   },
@@ -142,7 +148,7 @@ const graphQLFieldsInfo = [
       }
 
       const name = getTypeName(def, opts.operation);
-      const description = def.description;
+      const description = getDescription({ def, prefix: opts.operation });
 
       const type = new GraphQLObjectType({
         name,
@@ -152,11 +158,15 @@ const graphQLFieldsInfo = [
         // if the children try to reference a parent type
         fields() {
           // Recurse over children
-          return mapValues(def.properties, childDef => getField(childDef, opts));
+          return mapValues(def.properties, childDef => {
+            const field = getField(childDef, opts);
+            //console.log(def.model, JSON.stringify(field), JSON.stringify(childDef));
+            return field;
+          });
         },
       });
 
-      let fieldInfo = { type, description };
+      let fieldInfo = { type };
 
       // If this is a top-level model, assign resolver
       if (def.model) {
@@ -174,47 +184,27 @@ const graphQLFieldsInfo = [
 
   {
     condition: def => def.type === 'integer' && def.format === 'id',
-    value(def) {
-      const type = GraphQLID;
-      const description = def.description;
-      return { type, description };
-    },
+    value: () => ({ type: GraphQLID }),
   },
 
   {
     condition: def => def.type === 'integer',
-    value(def) {
-      const type = GraphQLInt;
-      const description = def.description;
-      return { type, description };
-    },
+    value: () => ({ type: GraphQLInt }),
   },
 
   {
     condition: def => def.type === 'number',
-    value(def) {
-      const type = GraphQLFloat;
-      const description = def.description;
-      return { type, description };
-    },
+    value: () => ({ type: GraphQLFloat }),
   },
 
   {
     condition: def => def.type === 'string',
-    value(def) {
-      const type = GraphQLString;
-      const description = def.description;
-      return { type, description };
-    },
+    value: () => ({ type: GraphQLString }),
   },
 
   {
     condition: def => def.type === 'boolean',
-    value(def) {
-      const type = GraphQLBoolean;
-      const description = def.description;
-      return { type, description };
-    },
+    value: () => ({ type: GraphQLBoolean }),
   },
 
 ];

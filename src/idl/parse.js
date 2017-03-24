@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge, values, forEach } = require('lodash');
+const { merge, values, forEach, findKey } = require('lodash');
 const { EngineError } = require('../error');
 
 
@@ -27,10 +27,13 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
   if (typeof obj !== 'object') { return obj; }
 
   forEach(obj, (child, attrName) => {
-    // `model` must be the only attribute (unless top-level), as it will reference another schema
+    // `model` must be the only attribute (unless top-level), as it will reference another schema,
+    // except for also description and related attributes
     if (child.model && !isTopLevel) {
-      if (Object.keys(child).length > 1) {
-        throw new EngineError(`The following definition should only have one keys ('model'): ${JSON.stringify(child)}`, {
+      const allowedKeys = ['model', 'description', 'deprecation_reason'];
+      const wrongKey = findKey(child, (_, key) => !allowedKeys.includes(key));
+      if (wrongKey) {
+        throw new EngineError(`The following definition cannot have the key '${wrongKey}': ${JSON.stringify(child)}`, {
           reason: 'IDL_WRONG_DEFINITION',
         });
       }
