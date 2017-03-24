@@ -305,7 +305,7 @@ const graphQLFieldsInfo = [
         && opts.operation === model.operation);
       const def = topDef || initialDef;
 
-      let name = getTypeName(def);
+      let name = getTypeName(def, opts.operation);
       // Cannot create two GraphQL object types with the same name
       // Fix it by appending underscores to the name
       // TODO: either prefix with top-level model name, or throw exception, or some other better solution
@@ -444,9 +444,9 @@ const getSingularOperationName = function (def, operation) {
 };
 
 // Returns def.title, titleized, e.g. `Pet`, for schema type name
-const getTypeName = function (def) {
+const getTypeName = function (def, operation) {
   const name = getDefinitionName(def);
-  return titleize(singular(name));
+  return titleize(operation) + titleize(singular(name));
 };
 
 const printSchema = function (schema) {
