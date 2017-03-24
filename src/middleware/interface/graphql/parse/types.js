@@ -11,7 +11,7 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { mapValues } = require('lodash');
+const { mapValues, defaults } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
@@ -28,8 +28,8 @@ const getType = function (def, opts) {
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
   // Add field description|deprecation_reason, taken from IDL definition
-  let description = getDescription({ def, prefix: opts.operation, multiple: def.items !== undefined });
-  let deprecationReason = getDeprecationReason({ def });
+  const description = getDescription({ def, prefix: opts.operation, multiple: def.items !== undefined });
+  const deprecationReason = getDeprecationReason({ def });
 
   // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
   // Only cache schemas that have a model name, because they are the only one that can recurse
@@ -39,9 +39,7 @@ const getField = function (def, opts) {
   if (key && opts.cache.exists(key)) {
     const cachedDef = opts.cache.get(key);
     // Sub-models can override top-level models descriptions
-    description = description || cachedDef.description;
-    deprecationReason = deprecationReason || cachedDef.deprecationReason;
-    return Object.assign({}, cachedDef, { description, deprecationReason });
+    return defaults({}, cachedDef, { description, deprecationReason });
   }
 
   // Retrieves correct field
