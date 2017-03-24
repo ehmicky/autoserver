@@ -5,6 +5,7 @@
  */
 
 const titleize = require('underscore.string/titleize');
+const { chain, mapKeys } = require('lodash');
 
 const NAMESPACE = require('../../utilities').CONSTANTS.NAMESPACE;
 const HEADERS_NAMESPACE = `x-${NAMESPACE.toLowerCase()}-`;
@@ -46,14 +47,11 @@ const getHeader = function (reqOrRes, headerName) {
 
 // Filters headers with only the headers whose name starts with X-NAMESPACE-
 const getAppHeaders = function (headers) {
-  return Object.keys(headers).reduce((appHeaders, headerName) => {
-    const appHeaderRegex = new RegExp(`^${HEADERS_NAMESPACE}`);
-    if (appHeaderRegex.test(headerName) || PARAM_HEADERS.includes(headerName)) {
-      const shortHeaderName = headerName.replace(appHeaderRegex, '');
-      appHeaders[shortHeaderName] = headers[headerName];
-    }
-    return appHeaders;
-  }, {});
+  const appHeaderRegex = new RegExp(`^${HEADERS_NAMESPACE}`);
+  return chain(headers)
+    .pickBy((_, headerName) => appHeaderRegex.test(headerName) || PARAM_HEADERS.includes(headerName))
+    .mapKeys((_, headerName) => headerName.replace(appHeaderRegex, ''))
+    .value();
 };
 
 /**
@@ -63,17 +61,14 @@ const getAppHeaders = function (headers) {
  * @param {object} appHeaders
  * @returns {object} headers
  */
-const serialize = function (appHeaders) {
-  return Object.keys(appHeaders).reduce((headers, appHeaderName) => {
-    let normalizedHeaderName = appHeaderName.toLowerCase();
-    if (!PARAM_HEADERS.includes(normalizedHeaderName)) {
-      normalizedHeaderName = `${HEADERS_NAMESPACE}${normalizedHeaderName}`;
+const serialize = function (headers) {
+  return mapKeys(headers, (_, headerName) => {
+    if (!PARAM_HEADERS.includes(headerName.toLowerCase())) {
+      headerName = `${HEADERS_NAMESPACE}${headerName}`;
     }
     // Make sure case is X-Mynamespace-Header
-    normalizedHeaderName = titleize(normalizedHeaderName);
-    headers[normalizedHeaderName] = appHeaders[appHeaderName];
-    return headers;
-  }, {});
+    return titleize(headerName);
+  });
 };
 
 

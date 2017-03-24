@@ -15,8 +15,7 @@ const {
 } = require('graphql');
 const titleize = require('underscore.string/titleize');
 const camelize = require('underscore.string/camelize');
-const merge = require('lodash/merge');
-const values = require('lodash/values');
+const { merge, values, mapValues, forEach } = require('lodash');
 const { plural, singular } = require('pluralize');
 
 const { EngineError } = require('../../../error');
@@ -40,9 +39,7 @@ const validateIdlDefinition = function (obj) {
 const validateModelsDefinition = function (obj, { isTopLevel }) {
   if (typeof obj !== 'object') { return obj; }
 
-  Object.keys(obj).forEach(attrName => {
-    const child = obj[attrName];
-
+  forEach(obj, (child, attrName) => {
     // `model` must be the only attribute (unless top-level), as it will reference another schema
     if (child.model && !isTopLevel) {
       if (Object.keys(child).length > 1) {
@@ -91,7 +88,7 @@ const getModelsByMethod = function (methodName, { allModels, bulkOptions: { writ
 
 // Retrieve models for a given operation
 const getModelsByOperation = function (operation, { allModels }) {
-  return allModels.reduce((operationModels, model) => {
+  return allModels.map(model => {
     // Deep copy
     model = merge({}, model);
 
@@ -112,7 +109,7 @@ const getModelsByOperation = function (operation, { allModels }) {
       operation: operation.prefix,
     });
 
-    return operationModels.concat(model);
+    return model;
   }, []);
 };
 
@@ -157,11 +154,9 @@ const getSchema = function ({ definitions, bulkOptions }) {
   const allModels = getIdlModels(definitions);
 
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
-  const topLevelSchema = Object.keys(rootDef).reduce((memo, name) => {
-    const def = rootDef[name];
-    memo[name] = getType(def, { cache, allModels, bulkOptions, methodName: name, isMethod: true });
-    return memo;
-  }, {});
+  const topLevelSchema = mapValues(rootDef, (def, methodName) => {
+    return getType(def, { cache, allModels, bulkOptions, methodName, isMethod: true });
+  });
 
   const rootSchema = new GraphQLSchema(topLevelSchema);
   return rootSchema;
@@ -302,12 +297,8 @@ const graphQLFieldsInfo = [
         // This needs to be function, otherwise we run in an infinite recursion,
         // if the children try to reference a parent type
         fields() {
-          return Object.keys(def.properties).reduce((fields, attrName) => {
-            const childDef = def.properties[attrName];
-            // Recurse over children
-            fields[attrName] = getField(childDef, opts);
-            return fields;
-          }, {});
+          // Recurse over children
+          return mapValues(def.properties, childDef => getField(childDef, opts));
         },
       });
 

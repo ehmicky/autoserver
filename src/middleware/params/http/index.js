@@ -1,6 +1,8 @@
 'use strict';
 
 
+const { mapValues } = require('lodash');
+
 const { httpHeaders, httpAppHeaders, httpBody, httpQueryString } = require('../../../parsing');
 const { transtype } = require('../../../utilities');
 const { EngineError } = require('../../../error');
@@ -40,11 +42,7 @@ const getParams = function ({ req, pathParams }) {
   const rawParams = Object.assign({}, appHeaders, queryVars, pathParams);
 
   // Tries to guess parameter types, e.g. '15' -> 15
-  const params = Object.keys(rawParams).reduce((allParams, key) => {
-    const value = rawParams[key];
-    allParams[key] = transtype(value);
-    return allParams;
-  }, {});
+  const params = mapValues(rawParams, value => transtype(value));
 
   return params;
 };
