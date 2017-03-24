@@ -17,7 +17,6 @@ const titleize = require('underscore.string/titleize');
 const camelize = require('underscore.string/camelize');
 const merge = require('lodash/merge');
 const { plural, singular } = require('pluralize');
-const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../error');
 
@@ -179,13 +178,14 @@ const getSchema = function ({ definitions, bulkOptions }) {
   definitions = merge({}, definitions);
 
   const rootDef = getRootDefinition({ definitions, bulkOptions });
-  const schemaId = uuidv4();
   const models = getModels(rootDef);
+  // Each schema gets its own cache instance, to avoid leaking
+  const cache = new GeneralCache();
 
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
   const topLevelSchema = Object.keys(rootDef).reduce((memo, name) => {
     const def = rootDef[name];
-    memo[name] = getType(def, { schemaId, models });
+    memo[name] = getType(def, { models, cache });
     return memo;
   }, {});
 
@@ -206,9 +206,9 @@ const getField = function (def, opts) {
   // Only cache schemas that have a model name, because they are the only one that can recurse
   // Namespace by operation, because operations can have slightly different types
   const modelName = def.modelName;
-  const key = modelName && `field/${opts.schemaId}/${modelName}/${operation}`;
-  if (key && cache.exists(key)) {
-    return cache.get(key);
+  const key = modelName && `field/${modelName}/${operation}`;
+  if (key && opts.cache.exists(key)) {
+    return opts.cache.get(key);
   }
 
   // Retrieves correct field
@@ -221,7 +221,7 @@ const getField = function (def, opts) {
   const field = fieldInfo.value(def, opts);
 
   if (key) {
-    cache.set(key, field);
+    opts.cache.set(key, field);
   }
   return field;
 };
@@ -425,21 +425,23 @@ const printSchema = function (schema) {
 
 
 // General key-value cache, specific for each root IDL definition
-const cache = {
+class GeneralCache {
 
-  _data: {},
+  constructor() {
+    this._data = {};
+  }
 
   get(key) {
     return this._data[key];
-  },
+  }
 
   exists(key) {
     return this.get(key) != null;
-  },
+  }
 
   set(key, value) {
     this._data[key] = value;
-  },
+  }
 
 };
 
