@@ -159,11 +159,7 @@ const graphQLFieldsInfo = [
         // if the children try to reference a parent type
         fields() {
           // Recurse over children
-          return mapValues(def.properties, childDef => {
-            const field = getField(childDef, opts);
-            //console.log(def.model, JSON.stringify(field), JSON.stringify(childDef));
-            return field;
-          });
+          return mapValues(def.properties, childDef => getField(childDef, opts));
         },
       });
 
