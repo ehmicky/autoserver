@@ -10,5 +10,6 @@ module.exports = Object.assign(
   require('./transtype'),
   require('./constants'),
   require('./filesystem'),
+  require('./cache'),
   require('./debugging')
 );
