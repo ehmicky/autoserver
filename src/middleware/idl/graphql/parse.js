@@ -75,42 +75,45 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
   return obj;
 };
 
-// Retrieve top-level operations|models for a given method
-const getModels = function ({ methodName, allModels, bulkOptions: { write: allowBulkWrite, delete: allowBulkDelete } }) {
+
+// Retrieve models for a given method
+const getModelsByMethod = function (methodName, { allModels, bulkOptions: { write: allowBulkWrite, delete: allowBulkDelete } }) {
   // All operations (e.g. "createUser", etc.) for that method (e.g. "query")
   const methodOperations = operations.filter(operation => operation.method === methodName
     && !(!allowBulkWrite && operation.isBulkWrite)
     && !(!allowBulkDelete && operation.isBulkDelete));
-  const properties = methodOperations.reduce((memo, operation) => {
-    const props = getOperationModels({ models: allModels, operation });
-    Object.assign(memo, props);
-    return memo;
-  }, {});
-  return properties;
+  const models = methodOperations.reduce((methodModels, operation) => {
+    const operationModels = getModelsByOperation(operation, { allModels });
+    return methodModels.concat(operationModels);
+  }, []);
+  return models;
 };
 
-const getOperationModels = function ({ models, operation }) {
-  return models.reduce((operationModels, model) => {
+// Retrieve models for a given operation
+const getModelsByOperation = function (operation, { allModels }) {
+  return allModels.reduce((operationModels, model) => {
     // Deep copy
     model = merge({}, model);
+
     // `find*` operations are aliased for convenience
     // E.g. `findPet` and `findPets` -> `pet` and `pets`
-    const isFind = operation.prefix === 'find';
-    // E.g. `updatePets` operation
-    let operationName;
+    const operationName = operation.prefix === 'find' ?
+      getDefinitionName(model, { asPlural: operation.multiple }) :
+      getOperationName(model, operation.prefix, { asPlural: operation.multiple });
+
     if (operation.multiple) {
-      operationName = isFind ? getPluralName(model) : getPluralOperationName(model, operation.prefix);
-      operationModels[operationName] = { type: 'array', items: model };
-    // E.g. `updatePet` operation
-    } else {
-      operationName = isFind ? getSingularName(model) : getSingularOperationName(model, operation.prefix);
-      operationModels[operationName] = model;
+      model = { type: 'array', items: model };
     }
 
-    operationModels[operationName].operation = operation.prefix;
+    Object.assign(model, {
+      // E.g. 'findPet', used as GraphQL field name
+      operationName,
+      // E.g. 'find'
+      operation: operation.prefix,
+    });
 
-    return operationModels;
-  }, {});
+    return operationModels.concat(model);
+  }, []);
 };
 
 /* eslint-disable no-multi-spaces */
@@ -129,6 +132,7 @@ const operations = [
   { name: 'deleteMany',   prefix: 'delete',   method: 'mutation', multiple: true,   isBulkWrite: false, isBulkDelete: true  },
 ];
 /* eslint-enable no-multi-spaces */
+
 
 // Returns GraphQL schema
 const getSchema = function ({ definitions, bulkOptions }) {
@@ -255,16 +259,16 @@ const graphQLFieldsInfo = [
       const description = def.description;
 
       // Retrieve the top-level operations
-      const models = getModels(opts);
-      opts = Object.assign({}, opts, { models, isMethod: false });
+      const methodModels = getModelsByMethod(opts.methodName, opts);
 
-      const fields = Object.keys(models).reduce((fields, attrName) => {
-        const model = models[attrName];
+      const fields = methodModels.reduce((fields, model) => {
         // Pass current operation down to sub-fields
         const operation = model.operation;
         // Keep models as options, so that sub-models can point to them, but only for current operation
-        opts = Object.assign({}, opts, { operation });
-        fields[attrName] = getField(model, opts);
+        const operationsModels = methodModels.filter(methodModel => methodModel.operation === operation);
+        opts = Object.assign({}, opts, { operation, operationsModels });
+
+        fields[model.operationName] = getField(model, opts);
         return fields;
       }, {});
 
@@ -281,17 +285,11 @@ const graphQLFieldsInfo = [
 
   {
     condition: def => def.type === 'object',
-    value(initialDef, opts) {
-      let def = initialDef;
-      const models = opts.models;
-      if (models) {
+    value(def, opts) {
+      const operationsModels = opts.operationsModels;
+      if (def.model && operationsModels) {
         // If this definition points to a top-level model, use that model instead
-        const topModelName = Object.keys(models).find(modelName => initialDef.model
-          && models[modelName].model === initialDef.model
-          && models[modelName].operation === opts.operation);
-        if (topModelName) {
-          def = opts.models[topModelName];
-        }
+        def = operationsModels.find(operationsModel => operationsModel.model === def.model) || def;
       }
 
       let name = getTypeName(def, opts.operation);
@@ -316,7 +314,7 @@ const graphQLFieldsInfo = [
       let fieldInfo = { type, description };
 
       // If this is a top-level model, assign resolver
-      if (initialDef.model) {
+      if (def.model) {
         Object.assign(fieldInfo, {
           //description: `Fetches information about a ${getSingularName(def)}`,
           async resolve(_, args, { callback }) {
@@ -383,8 +381,8 @@ const executeOperation = async function ({ operation, args = {}, callback }) {
 };
 
 
-// Returns def.title
-const getDefinitionName = function (def) {
+// Returns def.title, in plural|singular form, lowercased, e.g. `pets|pet`, for findMany|findOne operation
+const getDefinitionName = function (def, { asPlural = true } = {}) {
   const name = def.title;
   if (!name) {
     throw new EngineError(`Missing "title" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
@@ -392,36 +390,19 @@ const getDefinitionName = function (def) {
   if (typeof def.title !== 'string') {
     throw new EngineError(`"title" must be a string in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
-  return name;
-};
-
-// Returns def.title, in plural form, lowercased, e.g. `pets`, for findMany queries
-const getPluralName = function (def) {
-  const name = getDefinitionName(def);
-  return plural(name).toLowerCase();
-};
-
-// Returns def.title, in plural form, lowercased, e.g. `pet`, for findOne queries
-const getSingularName = function (def) {
-  const name = getDefinitionName(def);
-  return singular(name).toLowerCase();
+  const pluralizedName = asPlural ? plural(name) : singular(name);
+  return pluralizedName.toLowerCase();
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getPluralOperationName = function (def, operation) {
-  const name = getPluralName(def);
-  return camelize(`${operation} ${name}`);
-};
-
-// Returns operation name, camelized, in singular form, e.g. `findPet` or `deletePet`
-const getSingularOperationName = function (def, operation) {
-  const name = getSingularName(def);
+const getOperationName = function (def, operation, { asPlural = true } = {}) {
+  const name = getDefinitionName(def, { asPlural });
   return camelize(`${operation} ${name}`);
 };
 
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
 const getTypeName = function (def, operation = '') {
-  const name = getSingularName(def);
+  const name = getDefinitionName(def, { asPlural: false });
   return camelize(`${titleize(operation)} ${titleize(name)}`);
 };
 
