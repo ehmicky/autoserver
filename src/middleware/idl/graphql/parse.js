@@ -216,7 +216,8 @@ const getSchema = function ({ definitions, bulkOptions }) {
 const getField = function (def, opts) {
   // When top-level model enters this function, `def.operation` will be defined.
   // This passed the operation to all sub-schemas, so that resolvers know the current operation
-  opts = Object.assign({}, opts, { operation: def.operation || opts.operation });
+  const operation = def.operation || opts.operation;
+  opts = Object.assign({}, opts, { operation });
 
   const key = `field/${opts.schemaId}/${def.__uniqueId}`;
   // Dones so that children can get a cached reference of parent type, while avoiding infinite recursion
