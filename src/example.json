@@ -4,20 +4,11 @@
       "description": "This is the description of a pet",
       "type":"Pet",
       "properties":{
-        "a": {
+        "example_object": {
           "type": "object",
-          "title": "yo",
+          "title": "different_title",
           "properties": {
-            "aa": {
-              "type": "string"
-            }
-          }
-        },
-        "o": {
-          "type": "object",
-          "title": "yo",
-          "properties": {
-            "oo": {
+            "example_prop": {
               "type": "string"
             }
           }
