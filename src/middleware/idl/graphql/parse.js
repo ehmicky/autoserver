@@ -19,6 +19,7 @@ const { merge, values, mapValues, forEach } = require('lodash');
 const { plural, singular } = require('pluralize');
 
 const { EngineError } = require('../../../error');
+const { GeneralCache } = require('../../../utilities');
 
 
 const getIdlModels = function (obj) {
@@ -397,28 +398,6 @@ const getTypeName = function (def, operation = '') {
 
 const printSchema = function (schema) {
   return graphQLPrintSchema(schema);
-};
-
-
-// General key-value cache, specific for each root IDL definition
-class GeneralCache {
-
-  constructor() {
-    this._data = {};
-  }
-
-  get(key) {
-    return this._data[key];
-  }
-
-  exists(key) {
-    return key && this.get(key) != null;
-  }
-
-  set(key, value) {
-    this._data[key] = value;
-  }
-
 };
 
 
