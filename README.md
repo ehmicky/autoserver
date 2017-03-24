@@ -12,16 +12,15 @@ Architectural notes:
   - IDL-agnostic, i.e. GraphQL layer is separated away from rest of application. Similar goal as above. Allow multi-IDL API, e.g. providing both GraphQL and REST for external consumers.
 
 This is a stub, there is still a lot to do:
-  - no security
   - not connected to actual data sources. Using dummy data only for the moment.
-  - query-only, no mutation
-  - no query parameters, sorting, pagination, etc.
+  - in progress: query parameters, sorting, pagination, etc.
   - lots of basic HTTP features you would assume are not there yet (e.g. CORS, caching, etc.)
   - validation
   - authorization
   - default values, timestamps, computed values
   - aggregation
   - migrations
+  - no security
   
 Many of this will be fast to implement, I just need to get to it!
 
