@@ -276,7 +276,7 @@ const graphQLFieldsInfo = [
       const fieldInfo = { type, description };
 
       // If this is a top-level model, assign resolver
-      if (topDef) {
+      if (initialDef.items.modelName) {
         Object.assign(fieldInfo, {
           args: {
             id: {
@@ -340,7 +340,7 @@ const graphQLFieldsInfo = [
       let fieldInfo = { type, description };
 
       // If this is a top-level model, assign resolver
-      if (topDef) {
+      if (initialDef.modelName) {
         Object.assign(fieldInfo, {
           //description: `Fetches information about a ${getSingularName(def)}`,
           async resolve(_, args, { callback }) {
