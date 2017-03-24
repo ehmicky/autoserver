@@ -327,7 +327,7 @@ const graphQLFieldsInfo = [
         fields() {
           return Object.keys(def.properties).reduce((fields, attrName) => {
             // Those are created by us, do not use them for GraphQL schema
-            if (['__uniqueId', 'modelName'].includes(attrName)) { return fields; }
+            if (['__uniqueId'].includes(attrName)) { return fields; }
 
             const childDef = def.properties[attrName];
             // Recurse over children
