@@ -17,6 +17,7 @@ const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
 const { findOperations } = require('./models');
 const { getDescription, getDeprecationReason } = require('./description');
+const { getArguments } = require('./arguments');
 
 
 // Retrieves the GraphQL type for a given IDL definition
@@ -85,16 +86,12 @@ const graphQLFieldsInfo = [
 
       // If this is a top-level model, assign resolver
       if (subDef.model) {
+        const prefix = opts.operation;
+        const multiple = true;
         Object.assign(fieldInfo, {
-          args: {
-            id: {
-              type: GraphQLInt,
-              //description: 'id to look at',
-              defaultValue: 10
-            },
-          },
+          args: getArguments({ prefix, multiple }),
           async resolve(_, args, { callback }) {
-            const operation = findOperations({ prefix: opts.operation, multiple: true });
+            const operation = findOperations({ prefix, multiple });
             return await executeOperation({ operation, args, callback });
           },
         });
@@ -147,7 +144,10 @@ const graphQLFieldsInfo = [
 
       // If this is a top-level model, assign resolver
       if (def.model) {
+        const prefix = opts.operation;
+        const multiple = false;
         Object.assign(fieldInfo, {
+          args: getArguments({ prefix, multiple }),
           async resolve(_, args, { callback }) {
             const operation = findOperations({ prefix, multiple: false });
             return await executeOperation({ operation, args, callback });
