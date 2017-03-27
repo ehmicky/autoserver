@@ -28,9 +28,9 @@ const renderGraphiQL = async function (input) {
   // Those must be valid JavaScript, so must JSON-stringified
   const dataToEscape = {
     endpointURL: input.endpointURL,
-    query: input.query,
-    variables: input.variables,
-    operationName: input.operationName,
+    query: input.query || '',
+    variables: input.variables || '',
+    operationName: input.operationName || '',
   };
   // Those must be valid HTML
   const dataNotToEscape = {};
