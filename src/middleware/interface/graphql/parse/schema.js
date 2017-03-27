@@ -21,7 +21,7 @@ const getSchema = function (definitions, opts) {
     // Adds query|mutation.properties
     def.properties = getModelsByMethod(methodName, Object.assign({ allModels }, opts));
     // Returns query|mutation type
-    return getType(def, Object.assign({ cache, isMethod: true }, opts));
+    return getType(def, Object.assign({ cache }, opts));
   });
 
   const schema = new GraphQLSchema(schemaFields);

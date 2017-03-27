@@ -103,10 +103,6 @@ const graphQLFieldsInfo = [
   {
     condition: def => def.type === 'object',
     value(def, opts) {
-      // Remember if top-level method, e.g. 'Query' or 'Mutation'
-      const isMethod = opts.isMethod;
-      opts.isMethod = false;
-
       const opType = opts.opType;
       const name = getTypeName({ def, opType, isInputObject: Boolean(opts.isInputObject) });
       const description = getDescription({ def, opType });
@@ -120,11 +116,10 @@ const graphQLFieldsInfo = [
         fields() {
           // Recurse over children
           return mapValues(def.properties, childDef => {
-            // 'Query' or 'Mutation' object
-            // Pass current operation down to sub-fields
-            if (isMethod) {
+            // if 'Query' or 'Mutation' objects, pass current operation down to sub-fields
+            if (childDef.opType) {
               opts = Object.assign({}, opts, { opType: childDef.opType });
-            }
+						}
 
             return getField(childDef, opts);
           });
