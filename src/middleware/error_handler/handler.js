@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { console } = require('../../utilities');
 const { getErrorInfo } = require('./reasons');
 const errorHandler = {
   http: require('./http'),
@@ -28,6 +29,7 @@ const sendError = () => function ({ exception, input, protocol }) {
 
   // Use protocol-specific way to send back the error
   errorHandler[protocol].sendError({ error: protocolError, input });
+  console.error(protocolError);
 };
 
 /**
