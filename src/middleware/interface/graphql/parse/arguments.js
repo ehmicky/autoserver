@@ -73,7 +73,7 @@ const getOrderArgument = function ({ prefix, multiple }) {
     order_by: {
       type: GraphQLString,
       description: `Sort results according to this attribute.
-Sort in ascending or descending order by appending + or - (default is ascending)`,
+Specify ascending or descending order by appending + or - (default is ascending)`,
       defaultValue: 'id+',
     },
   };
