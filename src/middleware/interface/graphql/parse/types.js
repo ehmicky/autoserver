@@ -108,12 +108,6 @@ const graphQLFieldsInfo = [
       const isMethod = opts.isMethod;
       opts.isMethod = false;
 
-      // If this definition points to a top-level model, use that model instead
-      const operationsModels = opts.operationsModels;
-      if (def.model && operationsModels) {
-        def = operationsModels.find(operationsModel => operationsModel.model === def.model) || def;
-      }
-
       const prefix = opts.operation;
       const name = getTypeName(def, prefix);
       const description = getDescription({ def, prefix });
@@ -129,10 +123,7 @@ const graphQLFieldsInfo = [
             // 'Query' or 'Mutation' object
             if (isMethod) {
               // Pass current operation down to sub-fields
-              const operation = childDef.operation;
-              // Keep models as options, so that sub-models can point to them, but only for current operation
-              const operationsModels = values(def.properties).filter(methodModel => methodModel.operation === operation);
-              opts = Object.assign({}, opts, { operation, operationsModels });
+              opts = Object.assign({}, opts, { operation: childDef.operation });
             }
 
             return getField(childDef, opts);
