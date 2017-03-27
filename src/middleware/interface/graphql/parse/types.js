@@ -51,8 +51,12 @@ const getField = function (def, opts) {
   }
   // Retrieves field information
   const field = fieldInfo.value(def, opts);
-  // The field description|deprecationReason is type-agnostic, so is not inside `fieldInfo.value()`
+  // The following fields are type-agnostic, so are not inside `fieldInfo.value()`
   Object.assign(field, { description, deprecationReason });
+	// Can only assign default if fields are optional in input, but required by database
+	if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
+		field.defaultValue = def.default;
+	}
 
   if (key) {
     opts.cache.set(key, field);
@@ -68,12 +72,8 @@ const graphQLFieldsInfo = [
 
 	// "Required" modifier type
   {
-    condition: (def, { opType, isInputObject }) => {
-			// Update operation does not require any attribute in input object, except `id`
-			if (opType === 'update' && isInputObject && !(def.type === 'integer' && def.format === 'id')) {
-				return false;
-			}
-			return def.required;
+    condition: (def, opts) => {
+			return def.required && canRequireAttributes(def, opts);
 		},
     value(def, opts) {
       // Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldsInfo would be hit again
@@ -164,6 +164,13 @@ const graphQLFieldsInfo = [
   },
 
 ];
+
+// Update operation does not require any attribute in input object, except `id`
+const canRequireAttributes = function (def, { opType, isInputObject }) {
+	return !(opType === 'update'
+		&& isInputObject
+		&& !(def.type === 'integer' && def.format === 'id'));
+};
 
 
 module.exports = {

@@ -13,7 +13,6 @@ const {
 ATTR {any}: filtering
   - for *Many
 	- including description
-Default values (only if not required)
 */
 
 /*

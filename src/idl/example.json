@@ -15,16 +15,19 @@
           "type":"string",
           "example":"doggie",
           "description": "How to call a pet",
-          "required": true
+          "required": true,
+					"default": "default does not work if required"
         },
         "weight":{
           "type": "number",
           "description": "Corrolated to how much a pet has eaten",
-          "deprecated": "Let's stop measuring pet's weight"
+          "deprecated": "Let's stop measuring pet's weight",
+					"default": 15
         },
         "isOverweight":{
           "type": "boolean",
-          "description": "Has the pet being eating too much?"
+          "description": "Has the pet being eating too much?",
+					"default": false
         },
         "photo_urls":{
           "type":"array",
@@ -41,9 +44,11 @@
           "properties": {
             "age": {
               "type": "integer",
-              "description": "How old is the pet"
+              "description": "How old is the pet",
+							"default": 1
             }
-          }
+          },
+					"default": {}
         },
         "tags":{
           "type":"array",
@@ -51,11 +56,13 @@
           "items":{
             "type":"string",
             "required": true
-          }
+          },
+					"default": []
         },
         "status":{
           "type":"string",
-          "description": "Has this pet been adopted"
+          "description": "Has this pet been adopted",
+					"default": "adopted"
         },
         "best_friend": {
           "model": "Pet",
