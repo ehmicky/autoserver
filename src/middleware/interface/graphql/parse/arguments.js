@@ -49,18 +49,20 @@ const getArguments = function (opts) {
   return Object.assign(
     {},
     getIdArgument(opts),
+		getDataArgument(opts),
     getOrderArgument(opts)
   );
 };
 
 // id argument, i.e. used for querying|manipulating a single entity
-const getIdArgument = function ({ multiple }) {
-  // Only with *One methods, not *Many
-  if (multiple) { return; }
+const getIdArgument = function ({ prefix, multiple, def }) {
+  // Only with *One methods, not *Many. Also, not if `data` argument is present, as `data.id` does the same thing
+  if (multiple || dataOperations.includes(prefix)) { return; }
+	const description = def.properties && def.properties.id && def.properties.id.description;
   return {
     id: {
       type: new GraphQLNonNull(GraphQLID),
-      description: 'Entity identifier',
+      description,
     },
   };
 };
