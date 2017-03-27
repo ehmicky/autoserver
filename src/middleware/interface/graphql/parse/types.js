@@ -143,7 +143,7 @@ const graphQLFieldsInfo = [
         Object.assign(fieldInfo, {
           args: getArguments({ prefix, multiple }),
           async resolve(_, args, { callback }) {
-            const operation = findOperations({ prefix, multiple: false });
+            const operation = findOperations({ prefix, multiple });
             return await executeOperation({ operation, args, callback });
           },
         });
