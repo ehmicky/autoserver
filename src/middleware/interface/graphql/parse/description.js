@@ -5,7 +5,7 @@
 const getDescription = function ({ def, opType, multiple }) {
   // Tries to look under `items` in case this in an array
   let description = def.description || (def.items && def.items.description);
-  const model = def.model || (def.items && def.items.model);
+  const model = def.instanceof || (def.items && def.items.instanceof);
   // Models add an extra text like '(replace operation, single)'
   // 'single|multiple' is only shown in field descriptions, not type descriptions
   if (description) {

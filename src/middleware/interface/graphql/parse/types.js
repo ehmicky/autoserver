@@ -36,7 +36,7 @@ const getField = function (def, opts) {
   // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
   // Only cache schemas that have a model name, because they are the only one that can recurse
   // Namespace by operation, because operations can have slightly different types
-  const modelName = def.model;
+  const modelName = def.instanceof;
 	const inputObjectType = opts.isInputObject ? 'inputObject' : 'generic';
   const key = modelName && `field/${modelName}/${opts.opType}/${inputObjectType}`;
   if (key && opts.cache.exists(key)) {
@@ -119,7 +119,7 @@ const graphQLFieldsInfo = [
 					return chain(def.properties)
 						// Remove all return value fields for delete operations, except the recursive ones
 						.pickBy(childDef => {
-							const model = childDef.model || (childDef.items && childDef.items.model);
+							const model = childDef.instanceof || (childDef.items && childDef.items.instanceof);
 							return !(opts.opType === 'delete' && !model);
 						})
 						// Recurse over children
@@ -184,7 +184,7 @@ const canRequireAttributes = function (def, { opType, isInputObject }) {
 // Gets a resolver (and args) to add to a GraphQL field
 const getResolver = function (def, multiple, opts) {
 	// Only for top-level models, and not for argument types
-  if (!def.model || opts.isInputObject) { return; }
+  if (!def.instanceof || opts.isInputObject) { return; }
 
   const opType = opts.opType;
   const operation = findOperations({ opType, multiple });
