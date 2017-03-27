@@ -91,7 +91,7 @@ const graphQLFieldsInfo = [
         const prefix = opts.operation;
         const multiple = true;
         Object.assign(fieldInfo, {
-          args: getArguments({ prefix, multiple }),
+          args: getArguments({ prefix, multiple, def }),
           async resolve(_, args, { callback }) {
             const operation = findOperations({ prefix, multiple });
             return await executeOperation({ operation, args, callback });
@@ -141,7 +141,7 @@ const graphQLFieldsInfo = [
         const prefix = opts.operation;
         const multiple = false;
         Object.assign(fieldInfo, {
-          args: getArguments({ prefix, multiple }),
+          args: getArguments({ prefix, multiple, def }),
           async resolve(_, args, { callback }) {
             const operation = findOperations({ prefix, multiple });
             return await executeOperation({ operation, args, callback });
