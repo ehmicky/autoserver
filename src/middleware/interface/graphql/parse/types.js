@@ -11,7 +11,7 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { mapValues, defaults, values } = require('lodash');
+const { mapValues, defaults } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
