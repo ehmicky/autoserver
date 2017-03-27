@@ -29,7 +29,7 @@ const getType = function (def, opts) {
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
   // Add field description|deprecation_reason, taken from IDL definition
-  const description = getDescription({ def, prefix: opts.operation, multiple: def.items !== undefined });
+  const description = getDescription({ def, operation: opts.operation, multiple: def.items !== undefined });
   const deprecationReason = getDeprecationReason({ def });
 
   // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
@@ -112,8 +112,8 @@ const graphQLFieldsInfo = [
       opts.isMethod = false;
 
       const prefix = opts.operation;
-      const name = getTypeName(def, prefix);
-      const description = getDescription({ def, prefix });
+      const name = getTypeName({ def, operation: prefix });
+      const description = getDescription({ def, operation: prefix });
 
       const type = new GraphQLObjectType({
         name,
