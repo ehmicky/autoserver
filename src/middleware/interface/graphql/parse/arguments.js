@@ -43,7 +43,7 @@ const getArguments = function (opts) {
 };
 
 // id argument, i.e. used for querying|manipulating a single entity
-const getIdArgument = function ({ opType, multiple, def }) {
+const getIdArgument = function ({ typeOpts: { opType } = {}, multiple, def }) {
   // Only with *One methods, not *Many. Also, not if `data` argument is present, as `data.id` does the same thing
   if (multiple || dataOpTypes.includes(opType)) { return; }
 
@@ -57,7 +57,7 @@ const getIdArgument = function ({ opType, multiple, def }) {
 };
 
 // order_by argument, i.e. used for sorting results
-const getOrderArgument = function ({ opType, multiple }) {
+const getOrderArgument = function ({ typeOpts: { opType } = {}, multiple }) {
   // Only with *Many methods, except DeleteMany (since it does not return anything)
   if (!multiple || opType === 'delete') { return; }
 
@@ -73,9 +73,14 @@ Specify ascending or descending order by appending + or - (default is ascending)
 
 // Data argument, i.e. payload used by mutation operations
 const dataOpTypes = ['create', 'replace', 'update', 'upsert'];
-const getDataArgument = function ({ inputObjectType, opType, multiple }) {
+const getDataArgument = function ({ multiple, getType, typeOpts, def }) {
 	// Only for mutation operations, but not delete
-	if (!dataOpTypes.includes(opType)) { return; }
+	if (!dataOpTypes.includes(typeOpts.opType)) { return; }
+
+	// Builds inputObject type
+	const inputObjectOpts = Object.assign({}, typeOpts, { isInputObject: true });
+	let inputObjectType = getType(def, inputObjectOpts);
+
 	// Retrieves description before wrapping in modifers
 	const description = inputObjectType.description;
 
