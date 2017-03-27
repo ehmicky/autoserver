@@ -36,7 +36,9 @@ This will start a local server at `localhost:5001`
 
 Port number can be changed using `PORT` environment variable.
 
-Use your browser to go to `localhost:5001/graphiql` and start exploring the data. Click on "docs" to see the schema.
+Browse to `localhost:5001/graphiql` and start exploring the data. Click on "docs" to see the schema.
+
+You can also see the GraphQL plain schema by browsing to `localhost:5001/graphql/schema`
 
 # Tooling
 
