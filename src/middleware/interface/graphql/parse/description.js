@@ -2,7 +2,7 @@
 
 
 // Add description, taken from IDL definition
-const getDescription = function ({ def, opType, multiple, isInputObject }) {
+const getDescription = function ({ def, opType, multiple }) {
   // Tries to look under `items` in case this in an array
   let description = def.description || (def.items && def.items.description);
   const model = def.model || (def.items && def.items.model);
@@ -10,7 +10,6 @@ const getDescription = function ({ def, opType, multiple, isInputObject }) {
   // 'single|multiple' is only shown in field descriptions, not type descriptions
   if (description) {
     description += (model ? findOperationDescription({ opType, multiple }) : '');
-		description += isInputObject === true ? ' (input argument)' : (isInputObject === false ? ' (return value)' : '');
   }
   return description;
 };

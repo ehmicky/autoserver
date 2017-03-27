@@ -10,7 +10,7 @@ const { EngineError } = require('../../../../error');
 
 // Returns def.title, in plural|singular form
 const getName = function (def, { asPlural = true, isInputObject = false } = {}) {
-	const inputObjectType = isInputObject ? '-input' : '';
+	const inputObjectType = isInputObject ? ' input' : '';
   const name = def.title + inputObjectType;
   if (!name) {
     throw new EngineError(`Missing "title" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });

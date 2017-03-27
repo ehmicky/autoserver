@@ -109,7 +109,7 @@ const graphQLFieldsInfo = [
 
       const opType = opts.opType;
       const name = getTypeName({ def, opType, isInputObject: Boolean(opts.isInputObject) });
-      const description = getDescription({ def, opType, isInputObject: Boolean(opts.isInputObject) });
+      const description = getDescription({ def, opType });
 
 			const constructor = opts.isInputObject ? GraphQLInputObjectType : GraphQLObjectType;
       const type = new constructor({
