@@ -46,4 +46,4 @@ We are using [editorconfig](http://editorconfig.org/), so please install the plu
 
 # Troubleshooting
 
-Please use Node.js v7.7.3
+Please use Node.js v7.7.4
