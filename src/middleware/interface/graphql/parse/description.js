@@ -9,7 +9,7 @@ const getDescription = function ({ def, prefix, multiple }) {
   // Models add an extra text like '(replace operation, single)'
   // 'single|multiple' is only shown in field descriptions, not type descriptions
   if (description) {
-    description += (model ? findOperationDescription({ prefix, multiple }) : '');
+    description += (model ? findOperationDescription({ prefix: operation, multiple }) : '');
   }
   return description;
 };
