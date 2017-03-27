@@ -2,7 +2,7 @@
 
 
 const { httpStartServer } = require('./http');
-const { attachRequire } = require('../utilities');
+const { attachRequire, console } = require('../utilities');
 
 
 /**
@@ -12,10 +12,16 @@ const { attachRequire } = require('../utilities');
  * @param {object} options.definitions - IDL definitions
  */
 const startServer = async function (options) {
-  attachRequire();
-  return await Promise.all([
-    httpStartServer(options),
-  ]);
+  try {
+    attachRequire();
+    const server = await Promise.all([
+      httpStartServer(options),
+    ]);
+    return server;
+  } catch (exception) {
+    console.error(exception);
+    throw exception;
+  }
 };
 
 
