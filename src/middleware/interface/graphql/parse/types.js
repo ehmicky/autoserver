@@ -12,7 +12,7 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { mapValues, defaults } = require('lodash');
+const { chain, defaults } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
@@ -116,15 +116,22 @@ const graphQLFieldsInfo = [
         // This needs to be function, otherwise we run in an infinite recursion,
         // if the children try to reference a parent type
         fields() {
-          // Recurse over children
-          return mapValues(def.properties, childDef => {
-            // if 'Query' or 'Mutation' objects, pass current operation down to sub-fields
-            if (childDef.opType) {
-              opts = Object.assign({}, opts, { opType: childDef.opType });
-						}
+					return chain(def.properties)
+						// Remove all return value fields for delete operations, except the recursive ones
+						.pickBy(childDef => {
+							const model = childDef.model || (childDef.items && childDef.items.model);
+							return !(opts.opType === 'delete' && !model);
+						})
+						// Recurse over children
+						.mapValues(childDef => {
+							// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields
+							if (childDef.opType) {
+								opts = Object.assign({}, opts, { opType: childDef.opType });
+							}
 
-            return getField(childDef, opts);
-          });
+							return getField(childDef, opts);
+						})
+						.value();
         },
       });
 
