@@ -17,7 +17,8 @@ const { mapValues, defaults } = require('lodash');
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
 const { getDescription, getDeprecationReason } = require('./description');
-const { getResolver } = require('./resolver');
+const { findOperations } = require('./models');
+const { getArguments } = require('./arguments');
 
 
 // Retrieves the GraphQL type for a given IDL definition
@@ -53,6 +54,7 @@ const getField = function (def, opts) {
   const field = fieldInfo.value(def, opts);
   // The following fields are type-agnostic, so are not inside `fieldInfo.value()`
   Object.assign(field, { description, deprecationReason });
+	field.type.def = def;
 	// Can only assign default if fields are optional in input, but required by database
 	if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
 		field.defaultValue = def.default;
@@ -93,7 +95,7 @@ const graphQLFieldsInfo = [
       const type = new GraphQLList(subType);
 
       const fieldInfo = { type };
-			Object.assign(fieldInfo, getResolver({ def: subDef, multiple: true, getType, opts }));
+			Object.assign(fieldInfo, getResolver(subDef, true, opts));
 
       return fieldInfo;
     },
@@ -127,7 +129,7 @@ const graphQLFieldsInfo = [
       });
 
       const fieldInfo = { type };
-			Object.assign(fieldInfo, getResolver({ def, multiple: false, getType, opts }));
+			Object.assign(fieldInfo, getResolver(def, false, opts));
 
       return fieldInfo;
     },
@@ -170,6 +172,32 @@ const canRequireAttributes = function (def, { opType, isInputObject }) {
 	return !(opType === 'update'
 		&& isInputObject
 		&& !(def.type === 'integer' && def.format === 'id'));
+};
+
+// Gets a resolver (and args) to add to a GraphQL field
+const getResolver = function (def, multiple, opts) {
+	// Only for top-level models, and not for argument types
+  if (!def.model || opts.isInputObject) { return; }
+
+  const opType = opts.opType;
+  const operation = findOperations({ opType, multiple });
+	const resolve = async function (_, args, { callback }) {
+    return await executeOperation({ operation, args, callback });
+  };
+
+	// Builds inputObject type
+	const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
+	const inputObjectType = getType(def, inputObjectOpts);
+
+	const args = getArguments({ multiple, opType: opts.opType, inputObjectType });
+
+  return { args, resolve };
+};
+
+// Fires an operation in the database layer
+const executeOperation = async function ({ operation, args = {}, callback }) {
+  const response = await callback({ operation, args });
+  return response;
 };
 
 
