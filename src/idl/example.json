@@ -4,18 +4,17 @@
       "type": "object",
       "model": "Pet",
       "description": "Cute animal",
+			"required": ["id", "name", "photo_urls"],
       "properties":{
         "id":{
           "type":"integer",
           "format": "id",
-          "description": "Unique identifier of a pet",
-          "required": true
+          "description": "Unique identifier of a pet"
         },
         "name":{
           "type":"string",
           "example":"doggie",
           "description": "How to call a pet",
-          "required": true,
 					"default": "default does not work if required"
         },
         "weight":{
@@ -34,8 +33,7 @@
           "description": "Sweet pictures of a pet",
           "items":{
             "type":"string"
-          },
-          "required": true
+          }
         },
         "attributes": {
           "type": "object",
@@ -54,8 +52,7 @@
           "type":"array",
           "description": "Tags applying to this pet",
           "items":{
-            "type":"string",
-            "required": true
+            "type":"string"
           },
 					"default": []
         },

@@ -55,6 +55,19 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
       }
     }
 
+		if (attrName === 'required' && child instanceof Array) {
+			obj.required.forEach(requiredName => {
+				const prop = obj.properties[requiredName];
+				if (!prop) {
+					throw new EngineError(`"${requiredName}" is specified as "required", but is not defined ${JSON.stringify(obj)}`, {
+						reason: 'IDL_WRONG_DEFINITION',
+					});
+				}
+				obj.properties[requiredName].required = true;
+			});
+			delete obj.required;
+		}
+
     // Recurse over children
     validateModelsDefinition(child, { isTopLevel: false });
   }, {});
