@@ -3,6 +3,7 @@
 
 const {
   GraphQLObjectType,
+  GraphQLInputObjectType,
   GraphQLList,
   GraphQLID,
   GraphQLInt,
@@ -36,7 +37,8 @@ const getField = function (def, opts) {
   // Only cache schemas that have a model name, because they are the only one that can recurse
   // Namespace by operation, because operations can have slightly different types
   const modelName = def.model;
-  const key = modelName && `field/${modelName}/${opts.operation}`;
+	const inputObjectType = opts.isInputObject ? 'inputObject' : 'generic';
+  const key = modelName && `field/${modelName}/${opts.operation}/${inputObjectType}`;
   if (key && opts.cache.exists(key)) {
     const cachedDef = opts.cache.get(key);
     // Sub-models can override top-level models descriptions
@@ -67,7 +69,13 @@ const graphQLFieldsInfo = [
 
 	// "Required" modifier type
   {
-    condition: def => def.required,
+    condition: (def, { operation, isInputObject }) => {
+			// Update operation does not require any attribute in input object, except `id`
+			if (operation === 'update' && isInputObject && !(def.type === 'integer' && def.format === 'id')) {
+				return false;
+			}
+			return def.required;
+		},
     value(def, opts) {
       // Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldsInfo would be hit again
       const modifiedDef = Object.assign({}, def, { required: false });
@@ -87,11 +95,13 @@ const graphQLFieldsInfo = [
       const fieldInfo = { type };
 
       // If this is a top-level model, assign resolver
-      if (subDef.model) {
+      if (subDef.model && !opts.isInputObject) {
         const prefix = opts.operation;
         const multiple = true;
+				const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
+				const inputObjectType = getType(subDef, inputObjectOpts);
         Object.assign(fieldInfo, {
-          args: getArguments({ prefix, multiple, def }),
+          args: getArguments({ prefix, multiple, inputObjectType, def }),
           async resolve(_, args, { callback }) {
             const operation = findOperations({ prefix, multiple });
             return await executeOperation({ operation, args, callback });
@@ -112,10 +122,11 @@ const graphQLFieldsInfo = [
       opts.isMethod = false;
 
       const prefix = opts.operation;
-      const name = getTypeName({ def, operation: prefix });
-      const description = getDescription({ def, operation: prefix });
+      const name = getTypeName({ def, operation: prefix, isInputObject: Boolean(opts.isInputObject) });
+      const description = getDescription({ def, operation: prefix, isInputObject: Boolean(opts.isInputObject) });
 
-      const type = new GraphQLObjectType({
+			const constructor = opts.isInputObject ? GraphQLInputObjectType : GraphQLObjectType;
+      const type = new constructor({
         name,
         description,
         // This needs to be function, otherwise we run in an infinite recursion,
@@ -136,12 +147,14 @@ const graphQLFieldsInfo = [
 
       let fieldInfo = { type };
 
-      // If this is a top-level model, assign resolver
-      if (def.model) {
+      // If this is a top-level model (and is not an argument type itself), assign resolver and args
+      if (def.model && !opts.isInputObject) {
         const prefix = opts.operation;
         const multiple = false;
+				const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
+				const inputObjectType = getType(def, inputObjectOpts);
         Object.assign(fieldInfo, {
-          args: getArguments({ prefix, multiple, def }),
+          args: getArguments({ prefix, multiple, inputObjectType, def }),
           async resolve(_, args, { callback }) {
             const operation = findOperations({ prefix, multiple });
             return await executeOperation({ operation, args, callback });

@@ -68,6 +68,26 @@ Specify ascending or descending order by appending + or - (default is ascending)
   };
 };
 
+// Data argument, i.e. payload used by mutation operations
+const dataOperations = ['create', 'replace', 'update', 'upsert'];
+const getDataArgument = function ({ inputObjectType, prefix, multiple }) {
+	// Only for mutation operations, but not delete
+	if (!dataOperations.includes(prefix)) { return; }
+	// Retrieves description before wrapping in modifers
+	const description = inputObjectType.description;
+	// Add required and array modifiers
+	inputObjectType = new GraphQLNonNull(inputObjectType);
+	if (multiple) {
+		inputObjectType = new GraphQLNonNull(new GraphQLList(inputObjectType));
+	}
+	return {
+		data: {
+			type: inputObjectType,
+			description,
+		},
+	};
+};
+
 
 module.exports = {
   getArguments,
