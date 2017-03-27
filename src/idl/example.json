@@ -2,7 +2,7 @@
   "models": {
     "pet": {
       "type": "object",
-      "model": "Pet",
+      "instanceof": "Pet",
       "description": "Cute animal",
 			"required": ["id", "name", "photo_urls"],
       "properties":{
@@ -62,14 +62,14 @@
 					"default": "adopted"
         },
         "best_friend": {
-          "model": "Pet",
+          "instanceof": "Pet",
           "description": "This pet's best friend"
         },
         "friends": {
           "type": "array",
           "description": "This pet's friends",
           "items": {
-            "model": "Pet"
+            "instanceof": "Pet"
           }
         }
       }

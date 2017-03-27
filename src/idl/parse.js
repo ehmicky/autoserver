@@ -27,10 +27,10 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
   if (typeof obj !== 'object') { return obj; }
 
   forEach(obj, (child, attrName) => {
-    // `model` must be the only attribute (unless top-level), as it will reference another schema,
+    // `instanceof` must be the only attribute (unless top-level), as it will reference another schema,
     // except for also description and related attributes
-    if (child.model && !isTopLevel) {
-      const allowedKeys = ['model', 'description', 'deprecation_reason'];
+    if (child.instanceof && !isTopLevel) {
+      const allowedKeys = ['instanceof', 'description', 'deprecation_reason'];
       const wrongKey = findKey(child, (_, key) => !allowedKeys.includes(key));
       if (wrongKey) {
         throw new EngineError(`The following definition cannot have the key '${wrongKey}': ${JSON.stringify(child)}`, {
@@ -46,7 +46,7 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
         child.title = attrName;
       }
       // Definitions of type `object` must have valid `properties`
-      if (child.type === 'object' && !child.model) {
+      if (child.type === 'object' && !child.instanceof) {
         if (!child.properties || typeof child.properties !== 'object' || Object.keys(child.properties).length === 0) {
           throw new EngineError(`The following definition of type 'object' is missing 'properties': ${JSON.stringify(child)}`, {
             reason: 'IDL_WRONG_DEFINITION',
