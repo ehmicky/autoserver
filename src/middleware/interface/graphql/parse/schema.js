@@ -5,21 +5,21 @@ const { GraphQLSchema } = require('graphql');
 const { mapValues } = require('lodash');
 
 const { GeneralCache } = require('../../../../utilities');
-const { getIdlModels } = require('../../../../idl');
+const { getIdl } = require('../../../../idl');
 const { getType } = require('./types');
 const { getModelsByMethod } = require('./models');
 
 
 // Returns GraphQL schema
 const getSchema = function (definitions, opts) {
-  const allModels = getIdlModels(definitions);
+  const idl = getIdl(definitions);
   // Each schema gets its own cache instance, to avoid leaking
   const cache = new GeneralCache();
 
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
   const schemaFields = mapValues(rootDef, (def, methodName) => {
     // Adds query|mutation.properties
-    def.properties = getModelsByMethod(methodName, Object.assign({ allModels }, opts));
+    def.properties = getModelsByMethod(methodName, Object.assign({ idl }, opts));
     // Returns query|mutation type
     return getType(def, Object.assign({ cache }, opts));
   });

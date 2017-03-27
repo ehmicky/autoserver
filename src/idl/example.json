@@ -5,6 +5,7 @@
       "instanceof": "Pet",
       "description": "Cute animal",
 			"required": ["id", "name", "photo_urls"],
+      "operations": ["find", "create", "replace", "update", "upsert", "deleteOne", "deleteMany"],
       "properties":{
         "id":{
           "type":"integer",

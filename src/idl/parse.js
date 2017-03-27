@@ -1,17 +1,18 @@
 'use strict';
 
 
-const { merge, values, forEach, findKey } = require('lodash');
+const { merge, values, forEach, findKey, intersection } = require('lodash');
 const { EngineError } = require('../error');
 
 
-// Retrieves IDL definitions models, after validation and transformation
-const getIdlModels = function (obj) {
+// Retrieves IDL definition, after validation and transformation
+const getIdl = function (obj) {
   // Deep copy, so we do not modify input
   obj = merge({}, obj);
   const models = validateIdlDefinition(obj).models;
   // Transform from object to array, throwing away the property key
-  return values(models);
+  obj.models = values(models);
+  return obj;
 };
 
 // Validate IDL definition
@@ -59,7 +60,7 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
 			obj.required.forEach(requiredName => {
 				const prop = obj.properties[requiredName];
 				if (!prop) {
-					throw new EngineError(`"${requiredName}" is specified as "required", but is not defined ${JSON.stringify(obj)}`, {
+					throw new EngineError(`"${requiredName}" is specified as "required", but is not defined: ${JSON.stringify(obj)}`, {
 						reason: 'IDL_WRONG_DEFINITION',
 					});
 				}
@@ -67,6 +68,26 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
 			});
 			delete obj.required;
 		}
+
+    if (attrName === 'operations' && child instanceof Array) {
+      const opPrefixes = ['find', 'update', 'upsert', 'delete', 'create', 'replace'].reduce((memo, opPrefix) =>
+        memo.concat([opPrefix, `${opPrefix}One`, `${opPrefix}Many`])
+      , []);
+      child.forEach(operation => {
+        if (!opPrefixes.includes(operation)) {
+					throw new EngineError(`operation "${operation}" does not exist: ${JSON.stringify(obj)}`, {
+						reason: 'IDL_WRONG_DEFINITION',
+					});
+        }
+      });
+
+      const readOpPrefixes = ['find', 'findOne', 'findMany'];
+      if (intersection(readOpPrefixes, child).length === 0) {
+				throw new EngineError(`operation "find" must be specified: ${JSON.stringify(obj)}`, {
+					reason: 'IDL_WRONG_DEFINITION',
+				});
+      }
+    }
 
     // Recurse over children
     validateModelsDefinition(child, { isTopLevel: false });
@@ -77,5 +98,5 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
 
 
 module.exports = {
-  getIdlModels,
+  getIdl,
 };
