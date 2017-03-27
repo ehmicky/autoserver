@@ -16,9 +16,8 @@ const { mapValues, defaults } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
-const { findOperations } = require('./models');
 const { getDescription, getDeprecationReason } = require('./description');
-const { getArguments } = require('./arguments');
+const { getResolver } = require('./resolver');
 
 
 // Retrieves the GraphQL type for a given IDL definition
@@ -92,22 +91,9 @@ const graphQLFieldsInfo = [
       const subDef = def.items;
       const subType = getType(subDef, opts);
       const type = new GraphQLList(subType);
-      const fieldInfo = { type };
 
-      // If this is a top-level model, assign resolver
-      if (subDef.model && !opts.isInputObject) {
-        const opType = opts.opType;
-        const multiple = true;
-				const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
-				const inputObjectType = getType(subDef, inputObjectOpts);
-        Object.assign(fieldInfo, {
-          args: getArguments({ opType, multiple, inputObjectType, def }),
-          async resolve(_, args, { callback }) {
-            const operation = findOperations({ opType, multiple });
-            return await executeOperation({ operation, args, callback });
-          },
-        });
-      }
+      const fieldInfo = { type };
+			Object.assign(fieldInfo, getResolver({ def: subDef, multiple: true, getType, opts }));
 
       return fieldInfo;
     },
@@ -145,22 +131,8 @@ const graphQLFieldsInfo = [
         },
       });
 
-      let fieldInfo = { type };
-
-      // If this is a top-level model (and is not an argument type itself), assign resolver and args
-      if (def.model && !opts.isInputObject) {
-        const opType = opts.opType;
-        const multiple = false;
-				const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
-				const inputObjectType = getType(def, inputObjectOpts);
-        Object.assign(fieldInfo, {
-          args: getArguments({ opType, multiple, inputObjectType, def }),
-          async resolve(_, args, { callback }) {
-            const operation = findOperations({ opType, multiple });
-            return await executeOperation({ operation, args, callback });
-          },
-        });
-      }
+      const fieldInfo = { type };
+			Object.assign(fieldInfo, getResolver({ def, multiple: false, getType, opts }));
 
       return fieldInfo;
     },
@@ -197,11 +169,6 @@ const graphQLFieldsInfo = [
   },
 
 ];
-
-const executeOperation = async function ({ operation, args = {}, callback }) {
-  const response = await callback({ operation, args });
-  return response;
-};
 
 
 module.exports = {
