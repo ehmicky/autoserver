@@ -38,7 +38,11 @@ Port number can be changed using `PORT` environment variable.
 
 Use your browser to go to `localhost:5001/graphiql` and start exploring the data. Click on "docs" to see the schema.
 
+# Tooling
+
 We recommend using the Chrome extension [Node Inspector Manager](https://github.com/june07/NIM) for Chrome devtools debugging.
+
+We are using [editorconfig](http://editorconfig.org/), so please install the plugin for your IDE.
 
 # Troubleshooting
 
