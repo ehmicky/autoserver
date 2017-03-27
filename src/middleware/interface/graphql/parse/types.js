@@ -30,7 +30,7 @@ const getType = function (def, opts) {
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
   // Add field description|deprecation_reason, taken from IDL definition
-  const description = getDescription({ def, operation: opts.operation, multiple: def.items !== undefined });
+  const description = getDescription({ def, opType: opts.opType, multiple: def.items !== undefined });
   const deprecationReason = getDeprecationReason({ def });
 
   // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
@@ -38,7 +38,7 @@ const getField = function (def, opts) {
   // Namespace by operation, because operations can have slightly different types
   const modelName = def.model;
 	const inputObjectType = opts.isInputObject ? 'inputObject' : 'generic';
-  const key = modelName && `field/${modelName}/${opts.operation}/${inputObjectType}`;
+  const key = modelName && `field/${modelName}/${opts.opType}/${inputObjectType}`;
   if (key && opts.cache.exists(key)) {
     const cachedDef = opts.cache.get(key);
     // Sub-models can override top-level models descriptions
@@ -69,9 +69,9 @@ const graphQLFieldsInfo = [
 
 	// "Required" modifier type
   {
-    condition: (def, { operation, isInputObject }) => {
+    condition: (def, { opType, isInputObject }) => {
 			// Update operation does not require any attribute in input object, except `id`
-			if (operation === 'update' && isInputObject && !(def.type === 'integer' && def.format === 'id')) {
+			if (opType === 'update' && isInputObject && !(def.type === 'integer' && def.format === 'id')) {
 				return false;
 			}
 			return def.required;
@@ -96,14 +96,14 @@ const graphQLFieldsInfo = [
 
       // If this is a top-level model, assign resolver
       if (subDef.model && !opts.isInputObject) {
-        const prefix = opts.operation;
+        const opType = opts.opType;
         const multiple = true;
 				const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
 				const inputObjectType = getType(subDef, inputObjectOpts);
         Object.assign(fieldInfo, {
-          args: getArguments({ prefix, multiple, inputObjectType, def }),
+          args: getArguments({ opType, multiple, inputObjectType, def }),
           async resolve(_, args, { callback }) {
-            const operation = findOperations({ prefix, multiple });
+            const operation = findOperations({ opType, multiple });
             return await executeOperation({ operation, args, callback });
           },
         });
@@ -121,9 +121,9 @@ const graphQLFieldsInfo = [
       const isMethod = opts.isMethod;
       opts.isMethod = false;
 
-      const prefix = opts.operation;
-      const name = getTypeName({ def, operation: prefix, isInputObject: Boolean(opts.isInputObject) });
-      const description = getDescription({ def, operation: prefix, isInputObject: Boolean(opts.isInputObject) });
+      const opType = opts.opType;
+      const name = getTypeName({ def, opType, isInputObject: Boolean(opts.isInputObject) });
+      const description = getDescription({ def, opType, isInputObject: Boolean(opts.isInputObject) });
 
 			const constructor = opts.isInputObject ? GraphQLInputObjectType : GraphQLObjectType;
       const type = new constructor({
@@ -137,7 +137,7 @@ const graphQLFieldsInfo = [
             // 'Query' or 'Mutation' object
             // Pass current operation down to sub-fields
             if (isMethod) {
-              opts = Object.assign({}, opts, { operation: childDef.operation });
+              opts = Object.assign({}, opts, { opType: childDef.opType });
             }
 
             return getField(childDef, opts);
@@ -149,14 +149,14 @@ const graphQLFieldsInfo = [
 
       // If this is a top-level model (and is not an argument type itself), assign resolver and args
       if (def.model && !opts.isInputObject) {
-        const prefix = opts.operation;
+        const opType = opts.opType;
         const multiple = false;
 				const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
 				const inputObjectType = getType(def, inputObjectOpts);
         Object.assign(fieldInfo, {
-          args: getArguments({ prefix, multiple, inputObjectType, def }),
+          args: getArguments({ opType, multiple, inputObjectType, def }),
           async resolve(_, args, { callback }) {
-            const operation = findOperations({ prefix, multiple });
+            const operation = findOperations({ opType, multiple });
             return await executeOperation({ operation, args, callback });
           },
         });

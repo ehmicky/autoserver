@@ -28,16 +28,16 @@ const getDefinitionName = function (def, { asPlural = true }) {
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getOperationName = function (def, operation, { asPlural = true } = {}) {
+const getOperationName = function (def, opType, { asPlural = true } = {}) {
   const name = getName(def, { asPlural });
-  return camelize(`${operation} ${name}`);
+  return camelize(`${opType} ${name}`);
 };
 
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function ({ def, operation = '', isInputObject = false }) {
+const getTypeName = function ({ def, opType = '', isInputObject = false }) {
   let name = getName(def, { asPlural: false, isInputObject });
-  name = operation ? camelize(name) : titleize(name);
-  return camelize(`${titleize(operation)} ${name}`);
+  name = opType ? camelize(name) : titleize(name);
+  return camelize(`${titleize(opType)} ${name}`);
 };
 
 
