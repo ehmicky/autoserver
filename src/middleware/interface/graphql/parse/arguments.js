@@ -42,9 +42,9 @@ const getArguments = function (opts) {
 };
 
 // id argument, i.e. used for querying|manipulating a single entity
-const getIdArgument = function ({ prefix, multiple, def }) {
+const getIdArgument = function ({ opType, multiple, def }) {
   // Only with *One methods, not *Many. Also, not if `data` argument is present, as `data.id` does the same thing
-  if (multiple || dataOperations.includes(prefix)) { return; }
+  if (multiple || dataOpTypes.includes(opType)) { return; }
 	const description = def.properties && def.properties.id && def.properties.id.description;
   return {
     id: {
@@ -55,9 +55,9 @@ const getIdArgument = function ({ prefix, multiple, def }) {
 };
 
 // order_by argument, i.e. used for sorting results
-const getOrderArgument = function ({ prefix, multiple }) {
+const getOrderArgument = function ({ opType, multiple }) {
   // Only with *Many methods, except DeleteMany (since it does not return anything)
-  if (!multiple || prefix === 'delete') { return; }
+  if (!multiple || opType === 'delete') { return; }
   return {
     order_by: {
       type: GraphQLString,
@@ -69,10 +69,10 @@ Specify ascending or descending order by appending + or - (default is ascending)
 };
 
 // Data argument, i.e. payload used by mutation operations
-const dataOperations = ['create', 'replace', 'update', 'upsert'];
-const getDataArgument = function ({ inputObjectType, prefix, multiple }) {
+const dataOpTypes = ['create', 'replace', 'update', 'upsert'];
+const getDataArgument = function ({ inputObjectType, opType, multiple }) {
 	// Only for mutation operations, but not delete
-	if (!dataOperations.includes(prefix)) { return; }
+	if (!dataOpTypes.includes(opType)) { return; }
 	// Retrieves description before wrapping in modifers
 	const description = inputObjectType.description;
 	// Add required and array modifiers
@@ -86,6 +86,12 @@ const getDataArgument = function ({ inputObjectType, prefix, multiple }) {
 			description,
 		},
 	};
+};
+
+// Filters argument, i.e. only queries entities that match specified attributes
+const getFilterArgument = function ({ multiple }) {
+  // Only with *Many methods, not *One
+	if (!multiple) { return; }
 };
 
 

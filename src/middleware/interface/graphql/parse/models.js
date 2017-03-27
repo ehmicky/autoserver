@@ -27,9 +27,9 @@ const getModelsByOperation = function (operation, { allModels }) {
 
     // `find*` operations are aliased for convenience
     // E.g. `findPet` and `findPets` -> `pet` and `pets`
-    const operationName = operation.prefix === 'find' ?
+    const operationName = operation.opType === 'find' ?
       getDefinitionName(model, { asPlural: operation.multiple }) :
-      getOperationName(model, operation.prefix, { asPlural: operation.multiple });
+      getOperationName(model, operation.opType, { asPlural: operation.multiple });
 
     if (operation.multiple) {
       model = { type: 'array', items: model };
@@ -39,31 +39,31 @@ const getModelsByOperation = function (operation, { allModels }) {
       // E.g. 'findPet', used as GraphQL field name
       operationName,
       // E.g. 'find'
-      operation: operation.prefix,
+      opType: operation.opType,
     });
 
     return model;
   }, []);
 };
 
-const findOperations = function ({ prefix, multiple }) {
-  return operations.find(operation => operation.prefix === prefix && operation.multiple == multiple);
+const findOperations = function ({ opType, multiple }) {
+  return operations.find(operation => operation.opType === opType && operation.multiple == multiple);
 };
 
 /* eslint-disable no-multi-spaces */
 const operations = [
-  { name: 'findOne',      prefix: 'find',     method: 'query',    multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'findMany',     prefix: 'find',     method: 'query',    multiple: true,   isBulkWrite: false, isBulkDelete: false },
-  { name: 'createOne',    prefix: 'create',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'createMany',   prefix: 'create',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'replaceOne',   prefix: 'replace',  method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'replaceMany',  prefix: 'replace',  method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'updateOne',    prefix: 'update',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'updateMany',   prefix: 'update',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'upsertOne',    prefix: 'upsert',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'upsertMany',   prefix: 'upsert',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'deleteOne',    prefix: 'delete',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'deleteMany',   prefix: 'delete',   method: 'mutation', multiple: true,   isBulkWrite: false, isBulkDelete: true  },
+  { name: 'findOne',     opType: 'find',     method: 'query',    multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'findMany',    opType: 'find',     method: 'query',    multiple: true,   isBulkWrite: false, isBulkDelete: false },
+  { name: 'createOne',   opType: 'create',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'createMany',  opType: 'create',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'replaceOne',  opType: 'replace',  method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'replaceMany', opType: 'replace',  method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'updateOne',   opType: 'update',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'updateMany',  opType: 'update',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'upsertOne',   opType: 'upsert',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'upsertMany',  opType: 'upsert',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
+  { name: 'deleteOne',   opType: 'delete',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
+  { name: 'deleteMany',  opType: 'delete',   method: 'mutation', multiple: true,   isBulkWrite: false, isBulkDelete: true  },
 ];
 /* eslint-enable no-multi-spaces */
 

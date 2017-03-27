@@ -2,21 +2,21 @@
 
 
 // Add description, taken from IDL definition
-const getDescription = function ({ def, operation, multiple, isInputObject }) {
+const getDescription = function ({ def, opType, multiple, isInputObject }) {
   // Tries to look under `items` in case this in an array
   let description = def.description || (def.items && def.items.description);
   const model = def.model || (def.items && def.items.model);
   // Models add an extra text like '(replace operation, single)'
   // 'single|multiple' is only shown in field descriptions, not type descriptions
   if (description) {
-    description += (model ? findOperationDescription({ prefix: operation, multiple }) : '');
+    description += (model ? findOperationDescription({ opType, multiple }) : '');
 		description += isInputObject === true ? ' (input argument)' : (isInputObject === false ? ' (return value)' : '');
   }
   return description;
 };
 
-const findOperationDescription = function ({ prefix, multiple = null }) {
-  const operation = operationDescriptions.find(operation => operation.prefix === prefix);
+const findOperationDescription = function ({ opType, multiple = null }) {
+  const operation = operationDescriptions.find(operation => operation.opType === opType);
   if (!operation) { return; }
   if (multiple == null) { return operation.description; }
   const multipleText = multiple ? ', multiple)' : ', single)';
@@ -25,12 +25,12 @@ const findOperationDescription = function ({ prefix, multiple = null }) {
 
 /* eslint-disable no-multi-spaces */
 const operationDescriptions = [
-  { prefix: 'find',     description: ' (find operation)'    },
-  { prefix: 'create',   description: ' (create operation)'  },
-  { prefix: 'replace',  description: ' (replace operation)' },
-  { prefix: 'update',   description: ' (update operation)'  },
-  { prefix: 'upsert',   description: ' (upsert operation)'  },
-  { prefix: 'delete',   description: ' (delete operation)'  },
+  { opType: 'find',     description: ' (find operation)'    },
+  { opType: 'create',   description: ' (create operation)'  },
+  { opType: 'replace',  description: ' (replace operation)' },
+  { opType: 'update',   description: ' (update operation)'  },
+  { opType: 'upsert',   description: ' (upsert operation)'  },
+  { opType: 'delete',   description: ' (delete operation)'  },
 ];
 /* eslint-enable no-multi-spaces */
 
