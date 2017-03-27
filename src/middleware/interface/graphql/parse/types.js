@@ -65,6 +65,7 @@ const getField = function (def, opts) {
  */
 const graphQLFieldsInfo = [
 
+	// "Required" modifier type
   {
     condition: def => def.required,
     value(def, opts) {
@@ -76,6 +77,7 @@ const graphQLFieldsInfo = [
     },
   },
 
+	// "Array" modifier type
   {
     condition: def => def.type === 'array' && typeof def.items === 'object',
     value(def, opts) {
@@ -101,6 +103,7 @@ const graphQLFieldsInfo = [
     },
   },
 
+	// "Object" type
   {
     condition: def => def.type === 'object',
     value(def, opts) {
@@ -121,8 +124,8 @@ const graphQLFieldsInfo = [
           // Recurse over children
           return mapValues(def.properties, childDef => {
             // 'Query' or 'Mutation' object
+            // Pass current operation down to sub-fields
             if (isMethod) {
-              // Pass current operation down to sub-fields
               opts = Object.assign({}, opts, { operation: childDef.operation });
             }
 
@@ -150,26 +153,31 @@ const graphQLFieldsInfo = [
     },
   },
 
+	// "ID" type
   {
     condition: def => def.type === 'integer' && def.format === 'id',
     value: () => ({ type: GraphQLID }),
   },
 
+	// "Int" type
   {
     condition: def => def.type === 'integer',
     value: () => ({ type: GraphQLInt }),
   },
 
+	// "Float" type
   {
     condition: def => def.type === 'number',
     value: () => ({ type: GraphQLFloat }),
   },
 
+	// "String" type
   {
     condition: def => def.type === 'string',
     value: () => ({ type: GraphQLString }),
   },
 
+	// "Boolean" type
   {
     condition: def => def.type === 'boolean',
     value: () => ({ type: GraphQLBoolean }),
