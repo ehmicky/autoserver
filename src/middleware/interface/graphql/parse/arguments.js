@@ -5,28 +5,15 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLNonNull,
+  GraphQLList,
 } = require('graphql');
 
 
 /*
-id {ID}:
-  - for *One (required)
-order_by {string}: 'ATTR[+|-]'
-  - for *Many, except deleteMany
-  - default value: 'id+'
 ATTR {any}: filtering
   - for *Many
-data {InputObject|InputObject[]}:
-  - for create|replace|update|upsert*
-  - Array if *Many
-  - uses default values as defined in schema.default, except if required
-  - uses required values as defined in schema.required, if create|replace|upsert
-  - does not include ID, same attributes otherwise (including submodels?)
-  - no resolver
-  - default value: {}
-Argument descriptions:
-  - hardcoded for order_by or ATTR
-  - uses same description as Object for InputObject, and for id (with default)
+	- including description
+Default values (only if not required)
 */
 
 /*
