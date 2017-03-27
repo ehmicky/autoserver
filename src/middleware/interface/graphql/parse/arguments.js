@@ -32,6 +32,7 @@ deleteMany
 */
 
 
+// Retrieves all resolver arguments
 const getArguments = function (opts) {
   return Object.assign(
     {},
