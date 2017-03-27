@@ -46,6 +46,7 @@ const getArguments = function (opts) {
 const getIdArgument = function ({ opType, multiple, def }) {
   // Only with *One methods, not *Many. Also, not if `data` argument is present, as `data.id` does the same thing
   if (multiple || dataOpTypes.includes(opType)) { return; }
+
 	const description = def.properties && def.properties.id && def.properties.id.description;
   return {
     id: {
@@ -59,6 +60,7 @@ const getIdArgument = function ({ opType, multiple, def }) {
 const getOrderArgument = function ({ opType, multiple }) {
   // Only with *Many methods, except DeleteMany (since it does not return anything)
   if (!multiple || opType === 'delete') { return; }
+
   return {
     order_by: {
       type: GraphQLString,
@@ -76,11 +78,13 @@ const getDataArgument = function ({ inputObjectType, opType, multiple }) {
 	if (!dataOpTypes.includes(opType)) { return; }
 	// Retrieves description before wrapping in modifers
 	const description = inputObjectType.description;
+
 	// Add required and array modifiers
 	inputObjectType = new GraphQLNonNull(inputObjectType);
 	if (multiple) {
 		inputObjectType = new GraphQLNonNull(new GraphQLList(inputObjectType));
 	}
+
 	return {
 		data: {
 			type: inputObjectType,

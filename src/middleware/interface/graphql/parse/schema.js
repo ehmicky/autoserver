@@ -42,8 +42,6 @@ const rootDef = {
 };
 
 
-
-
 module.exports = {
   graphqlGetSchema: getSchema,
 };
