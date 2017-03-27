@@ -6,10 +6,10 @@ const { graphqlGetSchema, graphqlPrintSchema } = require('./parse');
 
 const printGraphql = function ({ definitions }) {
   const schema = graphqlGetSchema(definitions);
-  const printedSchema = graphqlPrintSchema(schema);
   return async function () {
+    const printedSchema = await graphqlPrintSchema(schema);
     return {
-      type: 'text',
+      type: 'html',
       content: printedSchema,
     };
   };
