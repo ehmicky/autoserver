@@ -9,8 +9,9 @@ const { EngineError } = require('../../../../error');
 
 
 // Returns def.title, in plural|singular form
-const getName = function (def, { asPlural = true } = {}) {
-  const name = def.title;
+const getName = function (def, { asPlural = true, isInputObject = false } = {}) {
+	const inputObjectType = isInputObject ? '-input' : '';
+  const name = def.title + inputObjectType;
   if (!name) {
     throw new EngineError(`Missing "title" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
@@ -33,8 +34,8 @@ const getOperationName = function (def, operation, { asPlural = true } = {}) {
 };
 
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function (def, operation = '') {
-  let name = getName(def, { asPlural: false });
+const getTypeName = function ({ def, operation = '', isInputObject = false }) {
+  let name = getName(def, { asPlural: false, isInputObject });
   name = operation ? camelize(name) : titleize(name);
   return camelize(`${titleize(operation)} ${name}`);
 };
