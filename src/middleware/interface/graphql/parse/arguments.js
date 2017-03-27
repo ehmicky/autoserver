@@ -37,26 +37,25 @@ const getArguments = function (opts) {
     {},
     getIdArgument(opts),
 		getDataArgument(opts),
+		getFilterArgument(opts),
     getOrderArgument(opts)
   );
 };
 
 // id argument, i.e. used for querying|manipulating a single entity
-const getIdArgument = function ({ typeOpts: { opType } = {}, multiple, def }) {
+const getIdArgument = function ({ opType, multiple }) {
   // Only with *One methods, not *Many. Also, not if `data` argument is present, as `data.id` does the same thing
   if (multiple || dataOpTypes.includes(opType)) { return; }
 
-	const description = def.properties && def.properties.id && def.properties.id.description;
   return {
     id: {
       type: new GraphQLNonNull(GraphQLID),
-      description,
     },
   };
 };
 
 // order_by argument, i.e. used for sorting results
-const getOrderArgument = function ({ typeOpts: { opType } = {}, multiple }) {
+const getOrderArgument = function ({ opType, multiple }) {
   // Only with *Many methods, except DeleteMany (since it does not return anything)
   if (!multiple || opType === 'delete') { return; }
 
@@ -72,13 +71,9 @@ Specify ascending or descending order by appending + or - (default is ascending)
 
 // Data argument, i.e. payload used by mutation operations
 const dataOpTypes = ['create', 'replace', 'update', 'upsert'];
-const getDataArgument = function ({ multiple, getType, typeOpts, def }) {
+const getDataArgument = function ({ multiple, opType, inputObjectType }) {
 	// Only for mutation operations, but not delete
-	if (!dataOpTypes.includes(typeOpts.opType)) { return; }
-
-	// Builds inputObject type
-	const inputObjectOpts = Object.assign({}, typeOpts, { isInputObject: true });
-	let inputObjectType = getType(def, inputObjectOpts);
+	if (!dataOpTypes.includes(opType)) { return; }
 
 	// Retrieves description before wrapping in modifers
 	const description = inputObjectType.description;
