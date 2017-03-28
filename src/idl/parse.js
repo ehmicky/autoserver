@@ -31,7 +31,7 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
     // `instanceof` must be the only attribute (unless top-level), as it will reference another schema,
     // except for also description and related attributes
     if (child.instanceof && !isTopLevel) {
-      const allowedKeys = ['instanceof', 'description', 'deprecation_reason'];
+      const allowedKeys = ['instanceof', 'description', 'deprecation_reason', 'required'];
       const wrongKey = findKey(child, (_, key) => !allowedKeys.includes(key));
       if (wrongKey) {
         throw new EngineError(`The following definition cannot have the key '${wrongKey}': ${JSON.stringify(child)}`, {

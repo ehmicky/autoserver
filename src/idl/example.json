@@ -4,7 +4,7 @@
       "type": "object",
       "instanceof": "Pet",
       "description": "Cute animal",
-			"required": ["id", "name", "photo_urls"],
+			"required": ["id", "name", "photo_urls", "friends"],
       "operations": ["find", "create", "replace", "update", "upsert", "deleteOne", "deleteMany"],
       "properties":{
         "id":{
