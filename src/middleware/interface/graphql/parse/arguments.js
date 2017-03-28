@@ -3,55 +3,20 @@
 
 const {
   GraphQLString,
-  GraphQLID,
   GraphQLNonNull,
   GraphQLList,
 } = require('graphql');
-
-
-/*
-ATTR {any}: filtering
-  - for *Many
-	- including description
-*/
-
-/*
-findOne
-findMany
-createOne
-createMany
-replaceOne
-replaceMany
-updateOne
-updateMany
-upsertOne
-upsertMany
-deleteOne
-deleteMany
-*/
+const { chain } = require('lodash');
 
 
 // Retrieves all resolver arguments
 const getArguments = function (opts) {
   return Object.assign(
     {},
-    getIdArgument(opts),
 		getDataArgument(opts),
 		getFilterArgument(opts),
     getOrderArgument(opts)
   );
-};
-
-// id argument, i.e. used for querying|manipulating a single entity
-const getIdArgument = function ({ opType, multiple }) {
-  // Only with *One methods, not *Many. Also, not if `data` argument is present, as `data.id` does the same thing
-  if (multiple || dataOpTypes.includes(opType)) { return; }
-
-  return {
-    id: {
-      type: new GraphQLNonNull(GraphQLID),
-    },
-  };
 };
 
 // order_by argument, i.e. used for sorting results
@@ -93,9 +58,34 @@ const getDataArgument = function ({ multiple, opType, inputObjectType }) {
 };
 
 // Filters argument, i.e. only queries entities that match specified attributes
-const getFilterArgument = function ({ multiple }) {
-  // Only with *Many methods, not *One
-	if (!multiple) { return; }
+const filterOpTypes = ['find', 'delete'];
+const getFilterArgument = function ({ multiple, opType, inputObjectType }) {
+  // Only with find* and delete*
+	if (!filterOpTypes.includes(opType)) { return; }
+  const fields = inputObjectType.getFields();
+  const args = chain(fields)
+    .mapValues(field => ({
+      type: field.type,
+      description: field.description,
+    }))
+    // `id` filter is required for findOne and deleteOne
+    .mapValues((field, fieldName) => {
+      if (fieldName === 'id' && !multiple) {
+        field.type = new GraphQLNonNull(field.type);
+      }
+      return field;
+    })
+    .pickBy((_, fieldName) => {
+      // `id` filter is excluded from findMany, deleteMany
+      if (multiple) {
+        return fieldName !== 'id';
+      // `id` filter is the only one for findMany, deleteMany
+      } else {
+        return fieldName === 'id';
+      }
+    })
+    .value();
+  return args;
 };
 
 
