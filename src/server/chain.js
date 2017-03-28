@@ -47,7 +47,7 @@ const start = function (opts) {
       // GraphQL debugger web app
       graphiql: mdw.executeGraphiql,
       // GraphQL schema printing
-      graphqlschema: mdw.printGraphql,
+      graphqlprint: mdw.printGraphql,
     }),
 
     // Do the database query, protocol and interface-agnostic

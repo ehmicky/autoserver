@@ -5,7 +5,7 @@ const { printSchema: graphQLPrintSchema, } = require('graphql');
 const { render } = require('mustache');
 
 const PRINT_HTML_FILE = `${__dirname}/print.mustache`;
-const { readFile } = require('../../../../utilities');
+const { readFile } = require('../../../utilities');
 
 
 const printSchema = async function (schema) {
