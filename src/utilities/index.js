@@ -11,5 +11,6 @@ module.exports = Object.assign(
   require('./constants'),
   require('./filesystem'),
   require('./cache'),
+  require('./promise'),
   require('./debugging')
 );

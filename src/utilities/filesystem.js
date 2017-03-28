@@ -4,20 +4,22 @@
 const fs = require('fs');
 
 const { EngineError } = require('../error');
+const { getPromise } = require('./promise');
 
 
-const readFile = function (path) {
-  const promise = new Promise((resolve, reject) => {
-    try {
-      fs.readFile(path, { encoding: 'utf-8' }, (error, file) => {
-        if (error) { reject(createFileError({ path, error })); }
-        resolve(file);
-      });
-    } catch (error) {
-      reject(createFileError({ path, error }));
-    }
-  });
-  return promise;
+const readFile = async function (path) {
+  const promise = getPromise();
+  try {
+    fs.readFile(path, { encoding: 'utf-8' }, (error, file) => {
+      if (error) {
+        throw createFileError({ path, error });
+      }
+      promise.resolve(file);
+    });
+    return await promise;
+  } catch (error) {
+    throw createFileError({ path, error });
+  }
 };
 
 const createFileError = function ({ path, error }) {
