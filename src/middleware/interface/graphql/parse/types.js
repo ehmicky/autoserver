@@ -79,7 +79,7 @@ const graphQLFieldsInfo = [
 
 	// "Array" modifier type
   {
-    condition: def => def.type === 'array' && typeof def.items === 'object',
+    condition: def => def.type === 'array',
     value(def, opts) {
       const subDef = def.items;
       const subType = getType(subDef, opts);
