@@ -1,7 +1,8 @@
 'use strict';
 
 
-const { graphqlGetSchema, graphqlPrintSchema } = require('./parse');
+const { graphqlGetSchema } = require('../graphql');
+const { graphqlPrintSchema } = require('./print');
 
 
 const printGraphql = function ({ definitions }) {

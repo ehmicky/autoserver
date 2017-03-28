@@ -3,6 +3,5 @@
 
 module.exports = Object.assign(
   {},
-  require('./schema'),
-  require('./print')
+  require('./schema')
 );

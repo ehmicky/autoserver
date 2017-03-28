@@ -67,4 +67,5 @@ const fireNext = async function ({ operation, args }) {
 
 module.exports = {
   executeGraphql,
+  graphqlGetSchema,
 };
