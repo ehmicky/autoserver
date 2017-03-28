@@ -7,7 +7,7 @@ const { graphqlGetSchema } = require('./parse');
 const { EngineError } = require('../../../error');
 
 
-const executeGraphql = function ({ definitions }) {
+const executeGraphql = async function ({ definitions }) {
   const schema = graphqlGetSchema(definitions);
   return async function (request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)

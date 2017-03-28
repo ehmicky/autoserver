@@ -4,9 +4,9 @@
 const { start } = require('../chain');
 const { sendError } = require('../../middleware');
 
-const httpRequestHandler = function (opts) {
+const httpRequestHandler = async function (opts) {
   // Apply options
-  const startFunc = start(opts);
+  const startFunc = await start(opts);
   const sendErrorFunc = sendError(opts);
 
   return async function (req, res) {

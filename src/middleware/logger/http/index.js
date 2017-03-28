@@ -4,11 +4,13 @@
 const { console } = require('../../../utilities');
 
 
-const httpLogger = () => async function (input) {
-  logRequest(input);
+const httpLogger = async function () {
+  return async function (input) {
+    logRequest(input);
 
-  const response = await this.next(input);
-  return response;
+    const response = await this.next(input);
+    return response;
+  };
 };
 
 const logRequest = function (input) {
