@@ -137,6 +137,9 @@ const graphQLFieldsInfo = [
             .transform((props, childDef, childDefName) => {
               props[childDefName] = childDef;
 
+              // Not for 'Query' or 'Mutation' objects
+              if (childDef.opType) { return; }
+
               const multiple = childDef.items !== undefined;
               const subDef = multiple ? childDef.items : childDef;
 							const model = subDef.instanceof;
