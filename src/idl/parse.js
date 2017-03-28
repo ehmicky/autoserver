@@ -56,6 +56,11 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
       }
     }
 
+    // { instanceof '...' } -> { type: 'object', instanceof: '...' }
+    if (attrName === 'instanceof' && !obj.type) {
+      obj.type = 'object';
+    }
+
 		if (attrName === 'required' && child instanceof Array) {
 			obj.required.forEach(requiredName => {
 				const prop = obj.properties[requiredName];

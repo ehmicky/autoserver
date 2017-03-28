@@ -29,39 +29,26 @@ const getType = function (def, opts) {
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
-  // Add field description|deprecation_reason, taken from IDL definition
-  const description = getDescription({ def, opType: opts.opType, multiple: def.items !== undefined });
-  const deprecationReason = getDeprecationReason({ def });
-
-  // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
-  // Only cache schemas that have a model name, because they are the only one that can recurse
-  // Namespace by operation, because operations can have slightly different types
-  const modelName = def.instanceof;
-	const inputObjectType = opts.isInputObject ? 'inputObject' : 'generic';
-  const key = modelName && `field/${modelName}/${opts.opType}/${inputObjectType}`;
-  if (key && opts.cache.exists(key)) {
-    const cachedDef = opts.cache.get(key);
-    // Sub-models can override top-level models descriptions
-    return defaults({}, cachedDef, { description, deprecationReason });
-  }
-
   // Retrieves correct field
   const fieldInfo = graphQLFieldsInfo.find(possibleType => possibleType.condition(def, opts));
   if (!fieldInfo) {
     throw new EngineError(`Could not parse property into a GraphQL type: ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
-  // Retrieves field information
-  const field = fieldInfo.value(def, opts);
-  // The following fields are type-agnostic, so are not inside `fieldInfo.value()`
-  Object.assign(field, { description, deprecationReason });
-	// Can only assign default if fields are optional in input, but required by database
-	if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
-		field.defaultValue = def.default;
-	}
 
-  if (key) {
-    opts.cache.set(key, field);
+  // Retrieves field information
+  let field = fieldInfo.value(def, opts);
+
+  // The following fields are type-agnostic, so are not inside `fieldInfo.value()`
+  // Fields description|deprecation_reason are taken from IDL definition
+  const description = getDescription({ def, opType: opts.opType, multiple: def.items !== undefined });
+  const deprecationReason = getDeprecationReason({ def });
+  field = defaults({}, field, { description, deprecationReason });
+
+  // Can only assign default if fields are optional in input, but required by database
+  if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
+    field.defaultValue = field.defaultValue || def.default;
   }
+
   return field;
 };
 
@@ -104,6 +91,18 @@ const graphQLFieldsInfo = [
   {
     condition: def => def.type === 'object',
     value(def, opts) {
+      // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
+      // Only cache schemas that have a model name, because they are the only one that can recurse
+      // Namespace by operation, because operations can have slightly different types
+      const modelName = def.instanceof;
+      let key;
+      if (modelName) {
+        key = `field/${modelName}/${opts.opType}/${opts.isInputObject ? 'inputObject' : 'generic'}`;
+        if (opts.cache.exists(key)) {
+          return opts.cache.get(key);
+        }
+      }
+
       const opType = opts.opType;
       const name = getTypeName({ def, opType, isInputObject: Boolean(opts.isInputObject) });
       const description = getDescription({ def, opType });
@@ -142,6 +141,11 @@ const graphQLFieldsInfo = [
 
       const fieldInfo = { type };
 			Object.assign(fieldInfo, getResolver(def, false, opts));
+
+      // For the recursion
+      if (key) {
+        opts.cache.set(key, fieldInfo);
+      }
 
       return fieldInfo;
     },
