@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { getPromise } = require('./promise');
+
+
 /**
  * Transforms a Connect/Express middleware into a Promise
  *
@@ -8,12 +11,13 @@
  * @returns {Promise} promise
  */
 const connectToPromise = function (middleware) {
-  return (req, res) => {
-    return new Promise((resolve, reject) => {
-      middleware(req, res, (error, val) => {
-        if (error) { reject(error); } else { resolve(val); }
-      });
+  return async (req, res) => {
+    const promise = getPromise();
+    middleware(req, res, (error, val) => {
+      if (error) { throw error; }
+      promise.resolve(val);
     });
+    return await promise;
   };
 };
 
