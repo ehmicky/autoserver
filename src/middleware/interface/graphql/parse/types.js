@@ -179,7 +179,7 @@ const graphQLFieldsInfo = [
 
 	// "ID" type
   {
-    condition: def => def.type === 'integer' && def.format === 'id',
+    condition: def => def.type === 'string' && def.format === 'id',
     value: () => ({ type: GraphQLID }),
   },
 
