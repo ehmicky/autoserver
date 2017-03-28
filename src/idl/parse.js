@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge, values, forEach, findKey, intersection } = require('lodash');
+const { merge, values, forEach, findKey, intersection, find, omit } = require('lodash');
 const { EngineError } = require('../error');
 const { recursivePrint } = require('../utilities');
 
@@ -21,17 +21,21 @@ const getIdl = function (obj) {
 // TODO: use JSON schema validation|transformation instead
 // TODO: move all validation into this method
 const validateIdlDefinition = function (obj) {
-  validateModelsDefinition(obj.models, { isTopLevel: true });
+  validateModelsDefinition(obj.models, { topLevelModels: obj.models });
+  fixInstances(obj.models);
   return obj;
 };
 
-const validateModelsDefinition = function (obj, { isTopLevel }) {
+const validateModelsDefinition = function (obj, { topLevelModels }) {
   if (typeof obj !== 'object') { return obj; }
 
   forEach(obj, (child, attrName) => {
+    // Avoid infinite recursion
+    if (attrName === 'instance') { return; }
+
     // `instanceof` must be the only attribute (unless top-level), as it will reference another schema,
     // except for also description and related attributes
-    if (child.instanceof && !isTopLevel) {
+    if (child.instanceof && topLevelModels !== obj) {
       const allowedKeys = ['instanceof', 'description', 'deprecation_reason', 'required'];
       const wrongKey = findKey(child, (_, key) => !allowedKeys.includes(key));
       if (wrongKey) {
@@ -39,6 +43,13 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
           reason: 'IDL_WRONG_DEFINITION',
         });
       }
+      const topLevelModel = find(topLevelModels, model => model.instanceof === child.instanceof);
+      if (!topLevelModel) {
+        throw new EngineError(`Could not find model with "instanceof" '${child.instanceof}': ${recursivePrint(child)}`, {
+          reason: 'IDL_WRONG_DEFINITION',
+        });
+      }
+      child.instance = topLevelModel;
     }
 
     if (typeof child === 'object') {
@@ -89,17 +100,31 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
 
       const readOpPrefixes = ['find', 'findOne', 'findMany'];
       if (intersection(readOpPrefixes, child).length === 0) {
-				throw new EngineError(`operation "find" must be specified: ${JSON.stringify(obj)}`, {
+				throw new EngineError(`operation "find" must be specified: ${recursivePrint(obj)}`, {
 					reason: 'IDL_WRONG_DEFINITION',
 				});
       }
     }
 
     // Recurse over children
-    validateModelsDefinition(child, { isTopLevel: false });
+    validateModelsDefinition(child, { topLevelModels });
   }, {});
 
   return obj;
+};
+
+// Dereference `instanceof` pointers, using a shallow copy, except for few attributes
+const fixInstances = function (obj) {
+  if (typeof obj !== 'object') { return; }
+
+  if (obj.instance) {
+    Object.assign(obj, omit(obj.instance, ['instanceof', 'description', 'deprecation_reason', 'required']));
+    delete obj.instance;
+    return;
+  }
+
+  // Recursion
+  forEach(obj, child => fixInstances(child));
 };
 
 
