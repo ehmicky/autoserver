@@ -3,6 +3,7 @@
 
 const { merge, values, forEach, findKey, intersection } = require('lodash');
 const { EngineError } = require('../error');
+const { recursivePrint } = require('../utilities');
 
 
 // Retrieves IDL definition, after validation and transformation
@@ -34,7 +35,7 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
       const allowedKeys = ['instanceof', 'description', 'deprecation_reason', 'required'];
       const wrongKey = findKey(child, (_, key) => !allowedKeys.includes(key));
       if (wrongKey) {
-        throw new EngineError(`The following definition cannot have the key '${wrongKey}': ${JSON.stringify(child)}`, {
+        throw new EngineError(`The following definition cannot have the key '${wrongKey}': ${recursivePrint(child)}`, {
           reason: 'IDL_WRONG_DEFINITION',
         });
       }
@@ -49,7 +50,7 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
       // Definitions of type `object` must have valid `properties`
       if (child.type === 'object' && !child.instanceof) {
         if (!child.properties || typeof child.properties !== 'object' || Object.keys(child.properties).length === 0) {
-          throw new EngineError(`The following definition of type 'object' is missing 'properties': ${JSON.stringify(child)}`, {
+          throw new EngineError(`The following definition of type 'object' is missing 'properties': ${recursivePrint(child)}`, {
             reason: 'IDL_WRONG_DEFINITION',
           });
         }
@@ -65,7 +66,7 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
 			obj.required.forEach(requiredName => {
 				const prop = obj.properties[requiredName];
 				if (!prop) {
-					throw new EngineError(`"${requiredName}" is specified as "required", but is not defined: ${JSON.stringify(obj)}`, {
+					throw new EngineError(`"${requiredName}" is specified as "required", but is not defined: ${recursivePrint(obj)}`, {
 						reason: 'IDL_WRONG_DEFINITION',
 					});
 				}
@@ -80,7 +81,7 @@ const validateModelsDefinition = function (obj, { isTopLevel }) {
       , []);
       child.forEach(operation => {
         if (!opPrefixes.includes(operation)) {
-					throw new EngineError(`operation "${operation}" does not exist: ${JSON.stringify(obj)}`, {
+					throw new EngineError(`operation "${operation}" does not exist: ${recursivePrint(obj)}`, {
 						reason: 'IDL_WRONG_DEFINITION',
 					});
         }
