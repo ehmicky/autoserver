@@ -54,7 +54,6 @@ const getField = function (def, opts) {
   const field = fieldInfo.value(def, opts);
   // The following fields are type-agnostic, so are not inside `fieldInfo.value()`
   Object.assign(field, { description, deprecationReason });
-	field.type.def = def;
 	// Can only assign default if fields are optional in input, but required by database
 	if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
 		field.defaultValue = def.default;
