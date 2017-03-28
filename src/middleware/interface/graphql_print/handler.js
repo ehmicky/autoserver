@@ -7,8 +7,8 @@ const { graphqlPrintSchema } = require('./print');
 
 const printGraphql = async function ({ definitions }) {
   const schema = graphqlGetSchema(definitions);
+  const printedSchema = await graphqlPrintSchema(schema);
   return async function () {
-    const printedSchema = await graphqlPrintSchema(schema);
     return {
       type: 'html',
       content: printedSchema,

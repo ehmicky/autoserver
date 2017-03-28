@@ -1,11 +1,12 @@
 'use strict';
 
 
-const { routes } = require('./routes');
+const { getRoutes } = require('./routes');
 const { EngineError } = require('../../error');
 
 
 const router = async function () {
+  const routes = getRoutes();
   return async function (input) {
     const { path } = input;
     const matchedRoute = routes.find(path);
