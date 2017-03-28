@@ -12,5 +12,6 @@ module.exports = Object.assign(
   require('./filesystem'),
   require('./cache'),
   require('./promise'),
+  require('./recursive_print'),
   require('./debugging')
 );
