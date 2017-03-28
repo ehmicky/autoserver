@@ -117,9 +117,10 @@ const graphQLFieldsInfo = [
         fields() {
 					return chain(def.properties)
 						// Remove all return value fields for delete operations, except the recursive ones
+            // And except for inputObject, since we use it to get the delete filters
 						.pickBy(childDef => {
 							const model = childDef.instanceof || (childDef.items && childDef.items.instanceof);
-							return !(opts.opType === 'delete' && !model);
+							return !(opts.opType === 'delete' && !model && !opts.isInputObject);
 						})
 						// Recurse over children
 						.mapValues(childDef => {
@@ -173,11 +174,17 @@ const graphQLFieldsInfo = [
 
 ];
 
-// Update operation does not require any attribute in input object, except `id`
 const canRequireAttributes = function (def, { opType, isInputObject }) {
-	return !(opType === 'update'
+  // Update operation does not require any attribute in input object, except `id`
+	return !(
+    opType === 'update'
 		&& isInputObject
-		&& !(def.type === 'integer' && def.format === 'id'));
+		&& !(def.type === 'integer' && def.format === 'id')
+  // Query inputObjects do not require any attribute
+  ) && !(
+    ['find', 'delete'].includes(opType)
+    && isInputObject
+  );
 };
 
 // Gets a resolver (and args) to add to a GraphQL field
