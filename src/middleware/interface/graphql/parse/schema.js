@@ -10,8 +10,15 @@ const { getType } = require('./types');
 const { getModelsByMethod } = require('./models');
 
 
+const schemaCache = new GeneralCache();
+
 // Returns GraphQL schema
 const getSchema = function (definitions, opts) {
+  const schemaCacheKey = JSON.stringify(definitions);
+  if (schemaCache.exists(schemaCacheKey)) {
+    return schemaCache.get(schemaCacheKey);
+  }
+
   const idl = getIdl(definitions);
   // Each schema gets its own cache instance, to avoid leaking
   const cache = new GeneralCache();
@@ -25,6 +32,7 @@ const getSchema = function (definitions, opts) {
   });
 
   const schema = new GraphQLSchema(schemaFields);
+  schemaCache.set(schemaCacheKey, schema);
   return schema;
 };
 
