@@ -122,13 +122,15 @@ const graphQLFieldsInfo = [
 					return chain(def.properties)
             // Remove recursive value fields when used as inputObject (i.e. resolver argument)
             .pickBy(childDef => {
-							const model = childDef.instanceof || (childDef.items && childDef.items.instanceof);
+              const subDef = childDef.items ? childDef.items : childDef;
+							const model = subDef.instanceof;
               return !(opts.isInputObject && model);
             })
 						// Remove all return value fields for delete operations, except the recursive ones
             // And except for inputObject, since we use it to get the delete filters
 						.pickBy(childDef => {
-							const model = childDef.instanceof || (childDef.items && childDef.items.instanceof);
+              const subDef = childDef.items ? childDef.items : childDef;
+							const model = subDef.instanceof;
 							return !(opts.opType === 'delete' && !model && !opts.isInputObject);
 						})
             // Add recursive `*_id` fields
