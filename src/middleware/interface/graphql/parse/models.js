@@ -73,18 +73,18 @@ const findOperations = function ({ opType, multiple }) {
 
 /* eslint-disable no-multi-spaces */
 const operations = [
-  { name: 'findOne',     opType: 'find',     method: 'query',    multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'findMany',    opType: 'find',     method: 'query',    multiple: true,   isBulkWrite: false, isBulkDelete: false },
-  { name: 'createOne',   opType: 'create',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'createMany',  opType: 'create',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'replaceOne',  opType: 'replace',  method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'replaceMany', opType: 'replace',  method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'updateOne',   opType: 'update',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'updateMany',  opType: 'update',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'upsertOne',   opType: 'upsert',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'upsertMany',  opType: 'upsert',   method: 'mutation', multiple: true,   isBulkWrite: true,  isBulkDelete: false },
-  { name: 'deleteOne',   opType: 'delete',   method: 'mutation', multiple: false,  isBulkWrite: false, isBulkDelete: false },
-  { name: 'deleteMany',  opType: 'delete',   method: 'mutation', multiple: true,   isBulkWrite: false, isBulkDelete: true  },
+  { name: 'findOne',     opType: 'find',     method: 'query',    multiple: false,  },
+  { name: 'findMany',    opType: 'find',     method: 'query',    multiple: true,   },
+  { name: 'createOne',   opType: 'create',   method: 'mutation', multiple: false,  },
+  { name: 'createMany',  opType: 'create',   method: 'mutation', multiple: true,   },
+  { name: 'replaceOne',  opType: 'replace',  method: 'mutation', multiple: false,  },
+  { name: 'replaceMany', opType: 'replace',  method: 'mutation', multiple: true,   },
+  { name: 'updateOne',   opType: 'update',   method: 'mutation', multiple: false,  },
+  { name: 'updateMany',  opType: 'update',   method: 'mutation', multiple: true,   },
+  { name: 'upsertOne',   opType: 'upsert',   method: 'mutation', multiple: false,  },
+  { name: 'upsertMany',  opType: 'upsert',   method: 'mutation', multiple: true,   },
+  { name: 'deleteOne',   opType: 'delete',   method: 'mutation', multiple: false,  },
+  { name: 'deleteMany',  opType: 'delete',   method: 'mutation', multiple: true,   },
 ];
 /* eslint-enable no-multi-spaces */
 
