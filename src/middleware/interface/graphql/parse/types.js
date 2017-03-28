@@ -12,7 +12,7 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { chain, defaults } = require('lodash');
+const { chain, defaults, omit, pick } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
@@ -131,6 +131,25 @@ const graphQLFieldsInfo = [
 							const model = childDef.instanceof || (childDef.items && childDef.items.instanceof);
 							return !(opts.opType === 'delete' && !model && !opts.isInputObject);
 						})
+            // Add recursive `*_id` fields
+            .transform((props, childDef, childDefName) => {
+              props[childDefName] = childDef;
+
+              const multiple = childDef.items !== undefined;
+              const subDef = multiple ? childDef.items : childDef;
+							const model = subDef.instanceof;
+              if (!model) { return; }
+
+              const nonRecursiveAttributes = ['description', 'deprecation_reason', 'required'];
+              const idDef = Object.assign({},
+                pick(subDef, nonRecursiveAttributes),
+                omit(subDef.properties.id, nonRecursiveAttributes)
+              );
+              const idsDef = multiple ? Object.assign({}, childDef, { items: idDef }) : idDef;
+
+              const propIdName = `${childDefName}_id${multiple ? 's' : ''}`;
+              props[propIdName] = idsDef;
+            })
 						// Recurse over children
 						.mapValues(childDef => {
 							// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields
