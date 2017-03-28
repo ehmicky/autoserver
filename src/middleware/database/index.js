@@ -6,7 +6,7 @@ const queryDatabase = async function () {
     const { operation, args } = input;
     // Fake data for the moment
     let response;
-    console.log(JSON.stringify(operation));
+    console.log(JSON.stringify(operation), JSON.stringify(args));
     if (operation.multiple) {
       response = await [
         { id: 1, weight: 1.5, isOverweight: false, name: 'Dog', photo_urls: ['http://dog.com/photo/1', 'http://dog.com/photo/2'], tags: ['adorable'], status: 'happy', attributes: { age: 10 }, best_friend_id: 1, friends_ids: [1, 2, 3] },
