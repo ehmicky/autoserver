@@ -9,14 +9,14 @@ const { port, host } = require('../../config');
 
 
 const startServer = function (options) {
-  const promise = new Promise((resolve, reject) => {
+  const promise = new Promise(async (resolve, reject) => {
     try {
-      const server = http
-        .createServer(httpRequestHandler(options))
-        .listen(port, host, function () {
-          listeningHandler();
-          resolve(server);
-        });
+      const requestHandler = await httpRequestHandler(options);
+      const server = http.createServer(requestHandler);
+      server.listen(port, host, function () {
+        listeningHandler();
+        resolve(server);
+      });
     } catch (exception) {
       reject(exception);
     }

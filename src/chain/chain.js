@@ -29,6 +29,7 @@ const chain = function (...middlewares) {
   // Flatten nested chains
   middlewares = flatten(middlewares)
     // Allow using null or false in input
+    // TODO: does not work, as flatten() would throw an exception
     .filter(middleware => typeof middleware === 'function' || middleware instanceof MiddlewareModifier)
     // End of iteration
     .concat(lastMiddleware);

@@ -8,15 +8,17 @@ const { transtype } = require('../../../utilities');
 const { EngineError } = require('../../../error');
 
 
-const fillParams = () => async function (input) {
-  const { req, route, pathParams } = input;
-  const operation = req.method;
-  const params = getParams({ req, pathParams });
-  const payload = await getPayload({ req });
+const fillParams = async function () {
+  return async function (input) {
+    const { req, route, pathParams } = input;
+    const operation = req.method;
+    const params = getParams({ req, pathParams });
+    const payload = await getPayload({ req });
 
-  const output = Object.assign({}, input, { operation, route, params, payload });
-  const response = await this.next(output);
-  return response;
+    const output = Object.assign({}, input, { operation, route, params, payload });
+    const response = await this.next(output);
+    return response;
+  };
 };
 
 

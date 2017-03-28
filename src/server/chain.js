@@ -7,8 +7,8 @@ const middleware = require('../middleware');
 const { EngineError } = require('../error');
 
 
-const start = function (opts) {
-  const mdw = applyOptions(opts);
+const start = async function (opts) {
+  const mdw = await applyOptions(opts);
   return chain([
 
     /**
@@ -61,8 +61,8 @@ const start = function (opts) {
   ]);
 };
 
-const applyOptions = function (opts) {
-  return [
+const applyOptions = async function (opts) {
+  const middlewares = [
     'protocolNegotiator',
     'httpSendResponse',
     'httpGetPath',
@@ -75,10 +75,12 @@ const applyOptions = function (opts) {
     'executeGraphiql',
     'printGraphql',
     'queryDatabase'
-  ].reduce((memo, name) => {
-    memo[name] = middleware[name](opts);
-    return memo;
-  }, {});
+  ];
+  const memo = {};
+  for (const name of middlewares) {
+    memo[name] = await middleware[name](opts);
+  }
+  return memo;
 };
 
 module.exports = {

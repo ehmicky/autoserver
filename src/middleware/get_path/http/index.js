@@ -6,15 +6,17 @@ const { format: urlFormat } = require('url');
 const { httpHeaders } = require('../../../parsing');
 
 
-const httpGetPath = () => async function (input) {
-  const { req } = input;
+const httpGetPath = async function () {
+  return async function (input) {
+    const { req } = input;
 
-  req[Symbol.for('requestUrl')] = getRequestUrl({ req });
-  const path = getPath(req.url);
+    req[Symbol.for('requestUrl')] = getRequestUrl({ req });
+    const path = getPath(req.url);
 
-  const output = Object.assign({}, input, { path });
-  const response = await this.next(output);
-  return response;
+    const output = Object.assign({}, input, { path });
+    const response = await this.next(output);
+    return response;
+  };
 };
 
 // Retrieves path, e.g. used by the router
