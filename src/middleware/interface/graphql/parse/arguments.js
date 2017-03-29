@@ -8,15 +8,30 @@ const {
 } = require('graphql');
 const { chain } = require('lodash');
 
+const { getReverseIdName } = require('./name');
+const { isMultiple, getSubDef } = require('./utilities');
 
-// Retrieves all resolver arguments
-const getArguments = function (opts) {
+
+// Retrieves all resolver arguments, before resolve function is fired
+const getArguments = function (def, opts) {
+  opts.multiple = isMultiple(def);
+	// Builds inputObject type
+  const subDef = getSubDef(def);
+	const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
+	opts.inputObjectType = opts.getType(subDef, inputObjectOpts);
+
   return Object.assign(
     {},
 		getDataArgument(opts),
 		getFilterArgument(opts),
     getOrderArgument(opts)
   );
+};
+
+// Add resolver arguments, while resolve function is fired
+// As opposed to `getArguments`, those arguments depend on current query resolution, e.g. on parent value
+const addArguments = function (def, opts) {
+  addReverseIdArgument(def, opts);
 };
 
 // order_by argument, i.e. used for sorting results
@@ -88,7 +103,31 @@ const getFilterArgument = function ({ multiple, opType, inputObjectType }) {
   return args;
 };
 
+// Add reverse id information to sub-models
+const addReverseIdArgument = function (def, { args, opType, parent }) {
+  const reverseIdVal = parent.val.id;
+  // Top-level models do not add reverse id information
+  if (!reverseIdVal) { return; }
+
+  const reverseIdName = getReverseIdName({ def, parentDef: parent.def });
+  const parentArg = { [reverseIdName]: reverseIdVal };
+
+  // If there is args.data, add reverse_id to each data object
+  if (dataOpTypes.includes(opType)) {
+    if (args.data instanceof Array) {
+      args.data = args.data.map(data => Object.assign(data, parentArg));
+    } else {
+      Object.assign(args.data, parentArg);
+    }
+  }
+  // If there are query filters, add reverse_id to each filter object
+  if (filterOpTypes.includes(opType)) {
+    Object.assign(args, parentArg);
+  }
+};
+
 
 module.exports = {
   getArguments,
+  addArguments,
 };

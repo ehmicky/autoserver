@@ -2,8 +2,8 @@
 
 
 const { findOperations } = require('./models');
-const { getArguments } = require('./arguments');
-const { isMultiple, getSubDef, isModel } = require('./utilities');
+const { getArguments, addArguments } = require('./arguments');
+const { isMultiple, isModel } = require('./utilities');
 
 
 // Gets a resolver (and args) to add to a GraphQL field
@@ -11,21 +11,19 @@ const getResolver = function (def, opts) {
 	// Only for top-level models, and not for argument types
   if (!isModel(def) || opts.isInputObject) { return; }
 
-  const multiple = isMultiple(def);
-  const opType = opts.opType;
-  const operation = findOperations({ opType, multiple });
-	const resolve = async function (_, args, { callback }) {
+  const resolve = getResolveFunc(def, opts);
+	const args = getArguments(def, opts);
+  return { args, resolve };
+};
+
+const getResolveFunc = function (def, opts) {
+  const operation = findOperations({ opType: opts.opType, multiple: isMultiple(def) });
+
+	return async function (parentVal, args, { callback }, { parentType: { def: parentDef } }) {
+    const parent = { def: parentDef, val: parentVal };
+    addArguments(def, { args, opType: opts.opType, parent });
     return await executeOperation({ operation, args, callback });
   };
-
-	// Builds inputObject type
-  const subDef = getSubDef(def);
-	const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
-	const inputObjectType = opts.getType(subDef, inputObjectOpts);
-
-	const args = getArguments({ multiple, opType: opts.opType, inputObjectType });
-
-  return { args, resolve };
 };
 
 // Fires an operation in the database layer

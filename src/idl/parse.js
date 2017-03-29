@@ -37,8 +37,7 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
     // `instanceof` must be the only attribute (unless top-level), as it will reference another schema,
     // except for also description and related attributes
     if (child.instanceof && topLevelModels !== obj) {
-      const allowedKeys = ['instanceof', 'description', 'deprecation_reason', 'required'];
-      const wrongKey = findKey(child, (_, key) => !allowedKeys.includes(key));
+      const wrongKey = findKey(child, (_, key) => !allowedRecursiveKeys.includes(key));
       if (wrongKey) {
         throw new EngineError(`The following definition cannot have the key '${wrongKey}': ${recursivePrint(child)}`, {
           reason: 'IDL_WRONG_DEFINITION',
@@ -124,7 +123,7 @@ const fixInstances = function (obj) {
   if (typeof obj !== 'object') { return; }
 
   if (obj.instance) {
-    Object.assign(obj, omit(obj.instance, ['instanceof', 'description', 'deprecation_reason', 'required']));
+    Object.assign(obj, omit(obj.instance, allowedRecursiveKeys));
     delete obj.instance;
     return;
   }
@@ -132,6 +131,14 @@ const fixInstances = function (obj) {
   // Recursion
   forEach(obj, child => fixInstances(child));
 };
+
+const allowedRecursiveKeys = [
+  'instanceof',
+  'description',
+  'deprecation_reason',
+  'required',
+  'reverse_id',
+];
 
 
 module.exports = {
