@@ -154,7 +154,9 @@ const getObjectFields = function (def, opts) {
 
 const canRequireAttributes = function (def, { opType, isInputObject }) {
   // Update operation does not require any attribute in input object, except `id`
-	return !(opType === 'update' && isInputObject && !(def.type === 'integer' && def.format === 'id'))
+	return !(opType === 'update' && isInputObject && def.title !== 'id')
+    // Create operation do not require `id` in input object, but allow it
+    && !(opType === 'create' && isInputObject && def.title === 'id')
     // Query inputObjects do not require any attribute
     && !(['find', 'delete'].includes(opType) && isInputObject);
 };
