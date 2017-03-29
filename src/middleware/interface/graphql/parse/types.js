@@ -36,13 +36,13 @@ const getField = function (def, opts) {
   }
 
   // Retrieves field information
-  let field = fieldInfo.value(def, opts);
+  const initialField = fieldInfo.value(def, opts);
 
   // The following fields are type-agnostic, so are not inside `fieldInfo.value()`
   // Fields description|deprecation_reason are taken from IDL definition
   const description = getDescription({ def, opType: opts.opType, multiple: def.items !== undefined });
   const deprecationReason = getDeprecationReason({ def });
-  field = defaults({}, field, { description, deprecationReason });
+  const field = defaults({}, initialField, { description, deprecationReason });
 
   // Can only assign default if fields are optional in input, but required by database
   if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
