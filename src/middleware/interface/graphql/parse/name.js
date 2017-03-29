@@ -6,7 +6,6 @@ const camelize = require('underscore.string/camelize');
 const { plural, singular } = require('pluralize');
 
 const { EngineError } = require('../../../../error');
-const { getSubDefProp } = require('./utilities');
 
 
 const pluralize = function ({ name, asPlural }) {
@@ -45,16 +44,9 @@ const getOperationNameFromAttr = function ({ name, opType, asPlural = true } = {
   return camelize(`${opType} ${pluralizedName}`);
 };
 
-// Returns reverse id (foreign key) names, by using def.reverse_id or def.items.reverse_id
-// Defaults to parentdef.title + '_id'
-const getReverseIdName = function ({ def, parentDef } = {}) {
-  return getSubDefProp(def, 'reverse_id') || `${parentDef.title}_id`;
-};
-
 
 module.exports = {
   getTypeName,
   getOperationNameFromModel,
   getOperationNameFromAttr,
-  getReverseIdName,
 };

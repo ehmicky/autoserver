@@ -8,7 +8,6 @@ const {
 } = require('graphql');
 const { chain } = require('lodash');
 
-const { getReverseIdName } = require('./name');
 const { isMultiple, getSubDef } = require('./utilities');
 
 
@@ -33,7 +32,6 @@ const getArguments = function (def, opts) {
 // Add resolver arguments, while resolve function is fired
 // As opposed to `getArguments`, those arguments depend on current query resolution, e.g. on parent value
 const addArguments = function (def, opts) {
-  addReverseIdArgument(def, opts);
 };
 
 // order_by argument, i.e. used for sorting results
@@ -120,28 +118,6 @@ const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
   return args;
 };
 
-// Add reverse id information to sub-models
-const addReverseIdArgument = function (def, { args, opType, parent }) {
-  const reverseIdVal = parent.val.id;
-  // Top-level models do not add reverse id information
-  if (!reverseIdVal) { return; }
-
-  const reverseIdName = getReverseIdName({ def, parentDef: parent.def });
-  const parentArg = { [reverseIdName]: reverseIdVal };
-
-  // If there is args.data, add reverse_id to each data object
-  if (dataOpTypes.includes(opType)) {
-    if (args.data instanceof Array) {
-      args.data = args.data.map(data => Object.assign(data, parentArg));
-    } else {
-      Object.assign(args.data, parentArg);
-    }
-  }
-  // If there are query filters, add reverse_id to each filter object
-  if (filterOpTypes.includes(opType)) {
-    Object.assign(args, parentArg);
-  }
-};
 
 
 module.exports = {
