@@ -109,11 +109,6 @@ const getObjectFields = function (def, opts) {
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => {
 		const fields = chain(def.properties)
-      // Remove recursive value fields when used as inputObject (i.e. resolver argument)
-      .pickBy(childDef => !(opts.isInputObject && isModel(childDef)))
-			// Remove all return value fields for delete operations, except the recursive ones
-      // And except for inputObject, since we use it to get the delete filters
-			.pickBy(childDef => !(opts.opType === 'delete' && !isModel(childDef) && !opts.isInputObject))
       // Divide submodels fields between recursive fields (e.g. `model.createUser`) and non-recursive fields
       // (e.g. `model.user`)
       .transform((props, childDef, childDefName) => {
@@ -138,6 +133,11 @@ const getObjectFields = function (def, opts) {
         const newName = getOperationNameFromAttr({ name: childDefName, opType: opts.opType, asPlural: multiple });
         props[newName] = childDef;
       })
+      // Remove recursive value fields when used as inputObject (i.e. resolver argument)
+      .pickBy(childDef => !(opts.isInputObject && isModel(childDef)))
+			// Remove all return value fields for delete operations, except the recursive ones
+      // And except for inputObject, since we use it to get the delete filters
+			.pickBy(childDef => !(opts.opType === 'delete' && !isModel(childDef) && !opts.isInputObject))
 			// Recurse over children
 			.mapValues(childDef => {
 				// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields
