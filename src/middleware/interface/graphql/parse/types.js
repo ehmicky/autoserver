@@ -15,7 +15,7 @@ const {
 const { chain, defaults, omit, pick } = require('lodash');
 
 const { EngineError } = require('../../../../error');
-const { getTypeName } = require('./name');
+const { getTypeName, getOperationNameFromAttr } = require('./name');
 const { getDescription, getDeprecationReason } = require('./description');
 const { findOperations } = require('./models');
 const { getArguments } = require('./arguments');
@@ -133,7 +133,8 @@ const graphQLFieldsInfo = [
 							const model = subDef.instanceof;
 							return !(opts.opType === 'delete' && !model && !opts.isInputObject);
 						})
-            // Add recursive `*_id` fields
+            // Divide submodels fields between recursive fields (e.g. `model.createUser`) and non-recursive fields
+            // (e.g. `model.user`)
             .transform((props, childDef, childDefName) => {
               props[childDefName] = childDef;
 
@@ -145,15 +146,20 @@ const graphQLFieldsInfo = [
 							const model = subDef.instanceof;
               if (!model) { return; }
 
+              // Retrieves `id` field definition of subfield
               const nonRecursiveAttributes = ['description', 'deprecation_reason', 'required'];
               const idDef = Object.assign({},
                 pick(subDef, nonRecursiveAttributes),
                 omit(subDef.properties.id, nonRecursiveAttributes)
               );
-              const idsDef = multiple ? Object.assign({}, childDef, { items: idDef }) : idDef;
 
-              const propIdName = `${childDefName}_id${multiple ? 's' : ''}`;
-              props[propIdName] = idsDef;
+              // Assign `id` field definition to e.g. `model.user`
+              const idsDef = multiple ? Object.assign({}, childDef, { items: idDef }) : idDef;
+              props[childDefName] = idsDef;
+
+              // Assign recursive field to e.g. `model.createUser`
+              const newName = getOperationNameFromAttr({ name: childDefName, opType: opts.opType, asPlural: multiple });
+              props[newName] = childDef;
             })
 						// Recurse over children
 						.mapValues(childDef => {

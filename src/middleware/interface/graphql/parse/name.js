@@ -8,6 +8,10 @@ const { plural, singular } = require('pluralize');
 const { EngineError } = require('../../../../error');
 
 
+const pluralize = function ({ name, asPlural }) {
+  return asPlural ? plural(name) : singular(name);
+};
+
 // Returns def.title, in plural|singular form
 const getName = function ({ def, asPlural = true, isInputObject = false } = {}) {
 	const inputObjectType = isInputObject ? ' input' : '';
@@ -18,7 +22,7 @@ const getName = function ({ def, asPlural = true, isInputObject = false } = {}) 
   if (typeof def.title !== 'string') {
     throw new EngineError(`"title" must be a string in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
-  return asPlural ? plural(name) : singular(name);
+  return pluralize({ name, asPlural });
 };
 
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
@@ -29,13 +33,20 @@ const getTypeName = function ({ def, opType = '', isInputObject = false }) {
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getOperationName = function ({ def, opType, asPlural = true } = {}) {
+const getOperationNameFromModel = function ({ def, opType, asPlural = true } = {}) {
   const name = getName({ def, asPlural });
   return camelize(`${opType} ${name}`);
+};
+
+// Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
+const getOperationNameFromAttr = function ({ name, opType, asPlural = true } = {}) {
+  const pluralizedName = pluralize({ name, asPlural });
+  return camelize(`${opType} ${pluralizedName}`);
 };
 
 
 module.exports = {
   getTypeName,
-  getOperationName,
+  getOperationNameFromModel,
+  getOperationNameFromAttr,
 };

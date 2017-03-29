@@ -2,7 +2,7 @@
 
 
 const { merge, mapKeys } = require('lodash');
-const { getOperationName } = require('./name');
+const { getOperationNameFromModel } = require('./name');
 
 
 // Retrieve models for a given method
@@ -43,7 +43,7 @@ const getModelsByOperation = function (operation, { idl: { models: allModels } }
     // Deep copy
     model = merge({}, model);
 
-    const operationName = getOperationName({ def: model, opType: operation.opType, asPlural: operation.multiple });
+    const operationName = getOperationNameFromModel({ def: model, opType: operation.opType, asPlural: operation.multiple });
 
     if (operation.multiple) {
       model = { type: 'array', items: model };
