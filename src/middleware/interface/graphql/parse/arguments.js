@@ -83,12 +83,24 @@ const getFilterArgument = function ({ multiple, opType, inputObjectType }) {
       type: field.type,
       description: field.description,
     }))
-    // `id` filter is required for findOne and deleteOne
     .mapValues((field, fieldName) => {
-      if (fieldName === 'id' && !multiple) {
-        field.type = new GraphQLNonNull(field.type);
+      if (fieldName === 'id') {
+        // `id` filter is array instead of findMany and deleteMany
+        if (multiple) {
+          field.type = new GraphQLList(new GraphQLNonNull(field.type));
+        // `id` filter is required for findOne and deleteOne
+        } else {
+          field.type = new GraphQLNonNull(field.type);
+        }
       }
       return field;
+    })
+    // `id` filter is `ids` instead of findMany and deleteMany
+    .mapKeys((_, fieldName) => {
+      if (multiple && fieldName === 'id') {
+        return 'ids';
+      }
+      return fieldName;
     })
     .pickBy((_, fieldName) => {
       // `id` filter is excluded from findMany, deleteMany
