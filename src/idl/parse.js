@@ -1,7 +1,8 @@
 'use strict';
 
 
-const { merge, values, forEach, findKey, intersection, find, omit } = require('lodash');
+const { merge, values, forEach, findKey, intersection, find, omit, mapKeys } = require('lodash');
+const { underscored } = require('underscore.string');
 const { EngineError } = require('../error');
 const { recursivePrint } = require('../utilities');
 
@@ -66,6 +67,11 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
           });
         }
       }
+    }
+
+    // Normalize attributes to underscored case
+    if (attrName === 'properties') {
+      obj.properties = mapKeys(obj.properties, (_, propName) => underscored(propName));
     }
 
     // { instanceof '...' } -> { type: 'object', instanceof: '...' }
