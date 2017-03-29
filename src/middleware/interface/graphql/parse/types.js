@@ -68,9 +68,8 @@ const graphQLFieldsInfo = [
     value(def, opts) {
       // Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldsInfo would be hit again
       const modifiedDef = Object.assign({}, def, { required: false });
-      const subField = getField(modifiedDef, opts);
-      const type = new GraphQLNonNull(subField.type);
-
+      const subType = getType(modifiedDef, opts);
+      const type = new GraphQLNonNull(subType);
       return { type };
     },
   },
@@ -82,7 +81,6 @@ const graphQLFieldsInfo = [
       const subDef = getSubDef(def);
       const subType = getType(subDef, opts);
       const type = new GraphQLList(subType);
-
       return { type };
     },
   },
