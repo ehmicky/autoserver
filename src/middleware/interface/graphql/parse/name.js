@@ -21,12 +21,6 @@ const getName = function (def, { asPlural = true, isInputObject = false } = {}) 
   return asPlural ? plural(name) : singular(name);
 };
 
-// Returns def.title, in plural|singular form, lowercased, e.g. `pets|pet`, for findMany|findOne operation
-const getDefinitionName = function (def, { asPlural = true }) {
-  const name = getName(def, { asPlural });
-  return name.toLowerCase();
-};
-
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
 const getOperationName = function (def, opType, { asPlural = true } = {}) {
   const name = getName(def, { asPlural });
@@ -42,7 +36,6 @@ const getTypeName = function ({ def, opType = '', isInputObject = false }) {
 
 
 module.exports = {
-  getDefinitionName,
   getOperationName,
   getTypeName,
 };
