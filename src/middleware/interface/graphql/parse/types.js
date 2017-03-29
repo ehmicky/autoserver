@@ -210,15 +210,9 @@ const graphQLFieldsInfo = [
 
 const canRequireAttributes = function (def, { opType, isInputObject }) {
   // Update operation does not require any attribute in input object, except `id`
-	return !(
-    opType === 'update'
-		&& isInputObject
-		&& !(def.type === 'integer' && def.format === 'id')
-  // Query inputObjects do not require any attribute
-  ) && !(
-    ['find', 'delete'].includes(opType)
-    && isInputObject
-  );
+	return !(opType === 'update' && isInputObject && !(def.type === 'integer' && def.format === 'id'))
+    // Query inputObjects do not require any attribute
+    && !(['find', 'delete'].includes(opType) && isInputObject);
 };
 
 // Gets a resolver (and args) to add to a GraphQL field
