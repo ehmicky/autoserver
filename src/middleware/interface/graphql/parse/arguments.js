@@ -15,10 +15,12 @@ const { isMultiple, getSubDef } = require('./utilities');
 // Retrieves all resolver arguments, before resolve function is fired
 const getArguments = function (def, opts) {
   opts.multiple = isMultiple(def);
-	// Builds inputObject type
+	// Builds inputObject types
   const subDef = getSubDef(def);
-	const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
+	const inputObjectOpts = Object.assign({}, opts, { inputObjectType: 'input' });
 	opts.inputObjectType = opts.getType(subDef, inputObjectOpts);
+	const filterObjectOpts = Object.assign({}, opts, { inputObjectType: 'filter' });
+	opts.filterObjectType = opts.getType(subDef, filterObjectOpts);
 
   return Object.assign(
     {},
@@ -50,7 +52,8 @@ Specify ascending or descending order by appending + or - (default is ascending)
 };
 
 // Data argument, i.e. payload used by mutation operations
-const dataOpTypes = ['create', 'replace', 'update', 'upsert'];
+const dataOpTypes = ['create', 'upsert', 'replace', 'update'];
+const multipleDataOpTypes = ['create', 'upsert', 'replace'];
 const getDataArgument = function ({ multiple, opType, inputObjectType }) {
 	// Only for mutation operations, but not delete
 	if (!dataOpTypes.includes(opType)) { return; }
@@ -60,7 +63,8 @@ const getDataArgument = function ({ multiple, opType, inputObjectType }) {
 
 	// Add required and array modifiers
 	inputObjectType = new GraphQLNonNull(inputObjectType);
-	if (multiple) {
+  // Only multiple with createMany or upsertMany or replaceMany
+	if (multiple && multipleDataOpTypes.includes(opType)) {
 		inputObjectType = new GraphQLNonNull(new GraphQLList(inputObjectType));
 	}
 
@@ -73,11 +77,11 @@ const getDataArgument = function ({ multiple, opType, inputObjectType }) {
 };
 
 // Filters argument, i.e. only queries entities that match specified attributes
-const filterOpTypes = ['find', 'delete'];
-const getFilterArgument = function ({ multiple, opType, inputObjectType }) {
-  // Only with find* and delete*
+const filterOpTypes = ['find', 'delete', 'update'];
+const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
+  // Only with find*, delete* or update*
 	if (!filterOpTypes.includes(opType)) { return; }
-  const fields = inputObjectType.getFields();
+  const fields = filterObjectType.getFields();
   const args = chain(fields)
     .mapValues(field => ({
       type: field.type,
@@ -85,17 +89,18 @@ const getFilterArgument = function ({ multiple, opType, inputObjectType }) {
     }))
     .mapValues((field, fieldName) => {
       if (fieldName === 'id') {
-        // `id` filter is array instead of findMany and deleteMany
+        // Make sure ids are required
+        const idType = new GraphQLNonNull(field.type);
+        // `id` filter is array instead of *Many
         if (multiple) {
-          field.type = new GraphQLList(new GraphQLNonNull(field.type));
-        // `id` filter is required for findOne and deleteOne
+          field.type = new GraphQLList(idType);
         } else {
-          field.type = new GraphQLNonNull(field.type);
+          field.type = idType;
         }
       }
       return field;
     })
-    // `id` filter is `ids` instead of findMany and deleteMany
+    // `id` filter is `ids` instead of *Many
     .mapKeys((_, fieldName) => {
       if (multiple && fieldName === 'id') {
         return 'ids';
@@ -103,10 +108,10 @@ const getFilterArgument = function ({ multiple, opType, inputObjectType }) {
       return fieldName;
     })
     .pickBy((_, fieldName) => {
-      // `id` filter is excluded from findMany, deleteMany
+      // `id` filter is excluded from *Many
       if (multiple) {
         return fieldName !== 'id';
-      // `id` filter is the only one for findMany, deleteMany
+      // `id` filter is the only one for *Many
       } else {
         return fieldName === 'id';
       }

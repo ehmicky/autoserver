@@ -47,7 +47,7 @@ const getField = function (def, opts) {
   Object.assign(field.type, { def });
 
   // Can only assign default if fields are optional in input, but required by database
-  if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
+  if (canRequireAttributes(def, opts) && !def.required && opts.inputObjectType === 'input' && def.default !== undefined) {
     defaults(field, { defaultValue: def.default });
   }
 
@@ -79,7 +79,7 @@ const memoizeObjectField = function (func) {
     const modelName = getModelName(def);
     let key;
     if (modelName) {
-      key = `field/${modelName}/${opts.opType}/${opts.isInputObject ? 'inputObject' : 'generic'}`;
+      key = `field/${modelName}/${opts.opType}/${opts.inputObjectType || 'generic'}`;
       if (opts.cache.exists(key)) {
         return opts.cache.get(key);
       }
@@ -95,9 +95,9 @@ const memoizeObjectField = function (func) {
 
 // Object field fieldsInfo
 const graphQLObjectFieldsInfo = memoizeObjectField(function (def, opts) {
-  const name = getTypeName({ def, opType: opts.opType, isInputObject: Boolean(opts.isInputObject) });
+  const name = getTypeName({ def, opType: opts.opType, inputObjectType: opts.inputObjectType });
   const description = getDescription({ def, opType: opts.opType, descriptionType: 'type' });
-	const constructor = opts.isInputObject ? GraphQLInputObjectType : GraphQLObjectType;
+	const constructor = opts.inputObjectType ? GraphQLInputObjectType : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
 
   const type = new constructor({ name, description, fields });
@@ -134,10 +134,12 @@ const getObjectFields = function (def, opts) {
         props[newName] = childDef;
       })
       // Remove recursive value fields when used as inputObject (i.e. resolver argument)
-      .pickBy(childDef => !(opts.isInputObject && isModel(childDef)))
+      .pickBy(childDef => !(opts.inputObjectType && isModel(childDef)))
 			// Remove all return value fields for delete operations, except the recursive ones
       // And except for inputObject, since we use it to get the delete filters
-			.pickBy(childDef => !(opts.opType === 'delete' && !isModel(childDef) && !opts.isInputObject))
+			.pickBy(childDef => !(opts.opType === 'delete' && !isModel(childDef) && opts.inputObjectType !== 'filter'))
+      // update* operations specifies `id` as a query argument, not data input argument
+      .pickBy((_, childDefName) => !(opts.opType === 'update' && childDefName === 'id' && opts.inputObjectType === 'input'))
 			// Recurse over children
 			.mapValues(childDef => {
 				// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields
@@ -152,13 +154,13 @@ const getObjectFields = function (def, opts) {
   };
 };
 
-const canRequireAttributes = function (def, { opType, isInputObject }) {
-  // Update operation does not require any attribute in input object, except `id`
-	return !(opType === 'update' && isInputObject && def.title !== 'id')
+const canRequireAttributes = function (def, { opType, inputObjectType }) {
+  // Update operation does not require any attribute in input object
+	return !(opType === 'update' && inputObjectType === 'input')
     // Create operation do not require `id` in input object, but allow it
-    && !(opType === 'create' && isInputObject && def.title === 'id')
+    && !(opType === 'create' && inputObjectType === 'input' && def.title === 'id')
     // Query inputObjects do not require any attribute
-    && !(['find', 'delete'].includes(opType) && isInputObject);
+    && inputObjectType !== 'filter';
 };
 
 /**

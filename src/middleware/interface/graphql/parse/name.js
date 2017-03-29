@@ -14,9 +14,9 @@ const pluralize = function ({ name, asPlural }) {
 };
 
 // Returns def.title, in plural|singular form
-const getName = function ({ def, asPlural = true, isInputObject = false } = {}) {
-	const inputObjectType = isInputObject ? ' input' : '';
-  const name = def.title + inputObjectType;
+const getName = function ({ def, asPlural = true, inputObjectType } = {}) {
+	const inputObjectTypeName = inputObjectType === 'input' ? ' input' : (inputObjectType === 'filter' ? ' filter' : '');
+  const name = def.title + inputObjectTypeName;
   if (!name) {
     throw new EngineError(`Missing "title" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
@@ -27,8 +27,8 @@ const getName = function ({ def, asPlural = true, isInputObject = false } = {}) 
 };
 
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function ({ def, opType = '', isInputObject = false }) {
-  let name = getName({ def, asPlural: false, isInputObject });
+const getTypeName = function ({ def, opType = '', inputObjectType }) {
+  let name = getName({ def, asPlural: false, inputObjectType });
   name = opType ? camelize(name) : titleize(name);
   return camelize(`${titleize(opType)} ${name}`);
 };

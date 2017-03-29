@@ -9,7 +9,7 @@ const { isMultiple, isModel } = require('./utilities');
 // Gets a resolver (and args) to add to a GraphQL field
 const getResolver = function (def, opts) {
 	// Only for top-level models, and not for argument types
-  if (!isModel(def) || opts.isInputObject) { return; }
+  if (!isModel(def) || opts.inputObjectType) { return; }
 
   const resolve = getResolveFunc(def, opts);
 	const args = getArguments(def, opts);
