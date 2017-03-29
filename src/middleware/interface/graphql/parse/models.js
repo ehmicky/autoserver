@@ -43,11 +43,7 @@ const getModelsByOperation = function (operation, { idl: { models: allModels } }
     // Deep copy
     model = merge({}, model);
 
-    // `find*` operations are aliased for convenience
-    // E.g. `findPet` and `findPets` -> `pet` and `pets`
-    const operationName = operation.opType === 'find' ?
-      getDefinitionName(model, { asPlural: operation.multiple }) :
-      getOperationName(model, operation.opType, { asPlural: operation.multiple });
+    const operationName = getOperationName(model, operation.opType, { asPlural: operation.multiple });
 
     if (operation.multiple) {
       model = { type: 'array', items: model };
