@@ -12,7 +12,7 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { chain, defaults, omit, pick } = require('lodash');
+const { chain, omit, pick, defaults } = require('lodash');
 
 const { EngineError } = require('../../../../error');
 const { getTypeName, getOperationNameFromAttr } = require('./name');
@@ -37,18 +37,18 @@ const getField = function (def, opts) {
   }
 
   // Retrieves field information
-  const initialField = fieldInfo.value(def, opts);
+  const field = fieldInfo.value(def, opts);
 
   // The following fields are type-agnostic, so are not inside `fieldInfo.value()`
   // Fields description|deprecation_reason are taken from IDL definition
-	Object.assign(initialField, getResolver(def, opts));
-  const description = getDescription({ def, opType: opts.opType, multiple: isMultiple(def) });
+  const description = getDescription({ def, opType: opts.opType, descriptionType: 'field' });
   const deprecationReason = getDeprecationReason({ def });
-  const field = defaults({}, initialField, { description, deprecationReason });
+  Object.assign(field, defaults({ description, deprecationReason }, field));
+	Object.assign(field, getResolver(def, opts));
 
   // Can only assign default if fields are optional in input, but required by database
   if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
-    field.defaultValue = field.defaultValue || def.default;
+    defaults(field, { defaultValue: def.default });
   }
 
   return field;
@@ -109,7 +109,7 @@ const graphQLFieldsInfo = [
 
       const opType = opts.opType;
       const name = getTypeName({ def, opType, isInputObject: Boolean(opts.isInputObject) });
-      const description = getDescription({ def, opType });
+      const description = getDescription({ def, opType, descriptionType: 'type' });
 
 			const constructor = opts.isInputObject ? GraphQLInputObjectType : GraphQLObjectType;
       const type = new constructor({
