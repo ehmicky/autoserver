@@ -1,25 +1,25 @@
 'use strict';
 
 
-const { getSubDefProp, isDeepModel } = require('./utilities');
+const { getSubDefProp, isDeepModel, isMultiple } = require('./utilities');
 
 
 // Add description, taken from IDL definition
-const getDescription = function ({ def, opType, multiple }) {
+const getDescription = function ({ def, opType, descriptionType }) {
   const description = getSubDefProp(def, 'description');
   // Models add an extra text like '(replace operation, single)'
   // 'single|multiple' is only shown in field descriptions, not type descriptions
   if (description && isDeepModel(def)) {
-    return description + findOperationDescription({ opType, multiple });
+    return description + findOperationDescription({ def, opType, descriptionType });
   }
   return description;
 };
 
-const findOperationDescription = function ({ opType, multiple = null }) {
+const findOperationDescription = function ({ def, opType, descriptionType }) {
   const operation = operationDescriptions.find(operation => operation.opType === opType);
   if (!operation) { return; }
-  if (multiple == null) { return operation.description; }
-  const multipleText = multiple ? ', multiple)' : ', single)';
+  if (descriptionType === 'type') { return operation.description; }
+  const multipleText = isMultiple(def) ? ', multiple)' : ', single)';
   return operation.description.slice(0, -1) + multipleText;
 };
 
