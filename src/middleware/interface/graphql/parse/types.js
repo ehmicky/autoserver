@@ -44,6 +44,7 @@ const getField = function (def, opts) {
   const deprecationReason = getDeprecationReason({ def });
   Object.assign(field, defaults({ description, deprecationReason }, field));
 	Object.assign(field, getResolver(def, Object.assign({ getType }, opts)));
+  Object.assign(field.type, { def });
 
   // Can only assign default if fields are optional in input, but required by database
   if (canRequireAttributes(def, opts) && !def.required && opts.isInputObject && def.default !== undefined) {
