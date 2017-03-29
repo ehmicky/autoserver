@@ -2,7 +2,7 @@
 
 
 const { merge, mapKeys } = require('lodash');
-const { getDefinitionName, getOperationName } = require('./name');
+const { getOperationName } = require('./name');
 
 
 // Retrieve models for a given method
