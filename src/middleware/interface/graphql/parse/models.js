@@ -43,7 +43,7 @@ const getModelsByOperation = function (operation, { idl: { models: allModels } }
     // Deep copy
     model = merge({}, model);
 
-    const operationName = getOperationName(model, operation.opType, { asPlural: operation.multiple });
+    const operationName = getOperationName({ def: model, opType: operation.opType, asPlural: operation.multiple });
 
     if (operation.multiple) {
       model = { type: 'array', items: model };

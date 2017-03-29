@@ -9,7 +9,7 @@ const { EngineError } = require('../../../../error');
 
 
 // Returns def.title, in plural|singular form
-const getName = function (def, { asPlural = true, isInputObject = false } = {}) {
+const getName = function ({ def, asPlural = true, isInputObject = false } = {}) {
 	const inputObjectType = isInputObject ? ' input' : '';
   const name = def.title + inputObjectType;
   if (!name) {
@@ -23,14 +23,14 @@ const getName = function (def, { asPlural = true, isInputObject = false } = {}) 
 
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
 const getTypeName = function ({ def, opType = '', isInputObject = false }) {
-  let name = getName(def, { asPlural: false, isInputObject });
+  let name = getName({ def, asPlural: false, isInputObject });
   name = opType ? camelize(name) : titleize(name);
   return camelize(`${titleize(opType)} ${name}`);
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getOperationName = function (def, opType, { asPlural = true } = {}) {
-  const name = getName(def, { asPlural });
+const getOperationName = function ({ def, opType, asPlural = true } = {}) {
+  const name = getName({ def, asPlural });
   return camelize(`${opType} ${name}`);
 };
 
