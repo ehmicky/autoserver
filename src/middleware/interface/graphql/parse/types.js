@@ -71,11 +71,7 @@ const graphQLFieldsInfo = [
       const subField = getField(modifiedDef, opts);
       const type = new GraphQLNonNull(subField.type);
 
-      // Modifier gets underlying type's resolver
-      const resolve = subField.resolve;
-      const args = subField.args;
-
-      return { type, resolve, args };
+      return { type };
     },
   },
 
