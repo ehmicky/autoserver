@@ -75,10 +75,9 @@ const getDataArgument = function ({ multiple, opType, inputObjectType }) {
 };
 
 // Filters argument, i.e. only queries entities that match specified attributes
-const filterOpTypes = ['find', 'delete', 'update'];
+const idOnlyFilterOpTypes = ['upsert', 'replace', 'create'];
+const optionalIdFilterOpType = ['create'];
 const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
-  // Only with find*, delete* or update*
-	if (!filterOpTypes.includes(opType)) { return; }
   const fields = filterObjectType.getFields();
   const args = chain(fields)
     .mapValues(field => ({
@@ -88,32 +87,25 @@ const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
     .mapValues((field, fieldName) => {
       if (fieldName === 'id') {
         // Make sure ids are required
-        const idType = new GraphQLNonNull(field.type);
-        // `id` filter is array instead of *Many
+        let idType = optionalIdFilterOpType.includes(opType) ? field.type : new GraphQLNonNull(field.type);
+        // `id` filter is array (`ids`) instead of *Many
         if (multiple) {
-          field.type = new GraphQLList(idType);
-        } else {
-          field.type = idType;
+          idType = new GraphQLList(idType);
+          // `ids` is required upsertMany, replaceMany and createMany
+          if (idOnlyFilterOpTypes.includes(opType) && !optionalIdFilterOpType.includes(opType)) {
+            idType = new GraphQLNonNull(idType);
+          }
         }
+        field.type = idType;
       }
       return field;
     })
     // `id` filter is `ids` instead of *Many
-    .mapKeys((_, fieldName) => {
-      if (multiple && fieldName === 'id') {
-        return 'ids';
-      }
-      return fieldName;
-    })
-    .pickBy((_, fieldName) => {
-      // `id` filter is excluded from *Many
-      if (multiple) {
-        return fieldName !== 'id';
-      // `id` filter is the only one for *Many
-      } else {
-        return fieldName === 'id';
-      }
-    })
+    .mapKeys((_, fieldName) => multiple && fieldName === 'id' ? 'ids' : fieldName)
+    // `id` filter is only one for *One
+    .pickBy((_, fieldName) => multiple || fieldName === 'id')
+    // Only `ids` and `id` are allowed for upsert*, replace* and create*
+    .pickBy((_, fieldName) => !(idOnlyFilterOpTypes.includes(opType) && !['id', 'ids'].includes(fieldName)))
     .value();
   return args;
 };

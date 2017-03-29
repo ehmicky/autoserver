@@ -138,8 +138,8 @@ const getObjectFields = function (def, opts) {
 			// Remove all return value fields for delete operations, except the recursive ones
       // And except for inputObject, since we use it to get the delete filters
 			.pickBy(childDef => !(opts.opType === 'delete' && !isModel(childDef) && opts.inputObjectType !== 'filter'))
-      // update* operations specifies `id` as a query argument, not data input argument
-      .pickBy((_, childDefName) => !(opts.opType === 'update' && childDefName === 'id' && opts.inputObjectType === 'input'))
+      // `id` is always a query argument, not a data input argument
+      .pickBy((_, childDefName) => !(childDefName === 'id' && opts.inputObjectType === 'input'))
 			// Recurse over children
 			.mapValues(childDef => {
 				// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields
@@ -157,8 +157,6 @@ const getObjectFields = function (def, opts) {
 const canRequireAttributes = function (def, { opType, inputObjectType }) {
   // Update operation does not require any attribute in input object
 	return !(opType === 'update' && inputObjectType === 'input')
-    // Create operation do not require `id` in input object, but allow it
-    && !(opType === 'create' && inputObjectType === 'input' && def.title === 'id')
     // Query inputObjects do not require any attribute
     && inputObjectType !== 'filter';
 };
