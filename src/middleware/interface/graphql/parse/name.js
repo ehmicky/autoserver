@@ -21,12 +21,6 @@ const getName = function (def, { asPlural = true, isInputObject = false } = {}) 
   return asPlural ? plural(name) : singular(name);
 };
 
-// Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getOperationName = function (def, opType, { asPlural = true } = {}) {
-  const name = getName(def, { asPlural });
-  return camelize(`${opType} ${name}`);
-};
-
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
 const getTypeName = function ({ def, opType = '', isInputObject = false }) {
   let name = getName(def, { asPlural: false, isInputObject });
@@ -34,8 +28,14 @@ const getTypeName = function ({ def, opType = '', isInputObject = false }) {
   return camelize(`${titleize(opType)} ${name}`);
 };
 
+// Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
+const getOperationName = function (def, opType, { asPlural = true } = {}) {
+  const name = getName(def, { asPlural });
+  return camelize(`${opType} ${name}`);
+};
+
 
 module.exports = {
-  getOperationName,
   getTypeName,
+  getOperationName,
 };
