@@ -1,15 +1,16 @@
 'use strict';
 
 
+const { getSubDefProp, isDeepModel } = require('./utilities');
+
+
 // Add description, taken from IDL definition
 const getDescription = function ({ def, opType, multiple }) {
-  // Tries to look under `items` in case this in an array
-  let description = def.description || (def.items && def.items.description);
-  const model = def.instanceof || (def.items && def.items.instanceof);
+  const description = getSubDefProp(def, 'description');
   // Models add an extra text like '(replace operation, single)'
   // 'single|multiple' is only shown in field descriptions, not type descriptions
-  if (description) {
-    description += (model ? findOperationDescription({ opType, multiple }) : '');
+  if (description && isDeepModel(def)) {
+    return description + findOperationDescription({ opType, multiple });
   }
   return description;
 };
@@ -35,8 +36,7 @@ const operationDescriptions = [
 
 // Add deprecation reason, taken from IDL definition
 const getDeprecationReason = function ({ def }) {
-  // Tries to look under `items` in case this in an array
-  return def.deprecated || (def.items && def.items.deprecated);
+  return getSubDefProp(def, 'deprecated');
 };
 
 

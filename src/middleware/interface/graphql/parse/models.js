@@ -3,6 +3,7 @@
 
 const { merge, mapKeys } = require('lodash');
 const { getOperationNameFromModel } = require('./name');
+const { getSubDefProp } = require('./utilities');
 
 
 // Retrieve models for a given method
@@ -21,7 +22,7 @@ const getModelsByMethod = function (methodName, opts) {
 // Filter allowed operations on a given model
 const isAllowedModel = function (model, { idl: { operations: defaultOperations } }) {
   // IDL property `def.operations` allows whitelisting specific operations
-  let modelOperations = model.operations || (model.items && model.items.operations) || defaultOperations;
+  let modelOperations = getSubDefProp(model, 'operations') || defaultOperations;
   if (modelOperations) {
     // Normalize shortcuts, e.g. 'find' -> 'findOne' + 'findMany'
     modelOperations = modelOperations.reduce((memo, modelOperation) => {

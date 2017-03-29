@@ -19,6 +19,7 @@ const { getTypeName, getOperationNameFromAttr } = require('./name');
 const { getDescription, getDeprecationReason } = require('./description');
 const { findOperations } = require('./models');
 const { getArguments } = require('./arguments');
+const { isMultiple, getSubDef, getModelName, isModel } = require('./utilities');
 
 
 // Retrieves the GraphQL type for a given IDL definition
@@ -40,7 +41,8 @@ const getField = function (def, opts) {
 
   // The following fields are type-agnostic, so are not inside `fieldInfo.value()`
   // Fields description|deprecation_reason are taken from IDL definition
-  const description = getDescription({ def, opType: opts.opType, multiple: def.items !== undefined });
+	Object.assign(initialField, getResolver(def, opts));
+  const description = getDescription({ def, opType: opts.opType, multiple: isMultiple(def) });
   const deprecationReason = getDeprecationReason({ def });
   const field = defaults({}, initialField, { description, deprecationReason });
 
@@ -81,14 +83,11 @@ const graphQLFieldsInfo = [
   {
     condition: def => def.type === 'array',
     value(def, opts) {
-      const subDef = def.items;
+      const subDef = getSubDef(def);
       const subType = getType(subDef, opts);
       const type = new GraphQLList(subType);
 
-      const fieldInfo = { type };
-			Object.assign(fieldInfo, getResolver(subDef, true, opts));
-
-      return fieldInfo;
+      return { type };
     },
   },
 
@@ -99,7 +98,7 @@ const graphQLFieldsInfo = [
       // Done so that children can get a cached reference of parent type, while avoiding infinite recursion
       // Only cache schemas that have a model name, because they are the only one that can recurse
       // Namespace by operation, because operations can have slightly different types
-      const modelName = def.instanceof;
+      const modelName = getModelName(def);
       let key;
       if (modelName) {
         key = `field/${modelName}/${opts.opType}/${opts.isInputObject ? 'inputObject' : 'generic'}`;
@@ -122,36 +121,28 @@ const graphQLFieldsInfo = [
 					return chain(def.properties)
             // Remove recursive value fields when used as inputObject (i.e. resolver argument)
             .pickBy(childDef => {
-              const subDef = childDef.items ? childDef.items : childDef;
-							const model = subDef.instanceof;
-              return !(opts.isInputObject && model);
+              return !(opts.isInputObject && isModel(childDef));
             })
 						// Remove all return value fields for delete operations, except the recursive ones
             // And except for inputObject, since we use it to get the delete filters
 						.pickBy(childDef => {
-              const subDef = childDef.items ? childDef.items : childDef;
-							const model = subDef.instanceof;
-							return !(opts.opType === 'delete' && !model && !opts.isInputObject);
+							return !(opts.opType === 'delete' && !isModel(childDef) && !opts.isInputObject);
 						})
             // Divide submodels fields between recursive fields (e.g. `model.createUser`) and non-recursive fields
             // (e.g. `model.user`)
             .transform((props, childDef, childDefName) => {
-              props[childDefName] = childDef;
+              // Not for 'Query' or 'Mutation' objects, nor models
+              if (childDef.opType || !isModel(childDef)) {
+                props[childDefName] = childDef;
+                return;
+              }
 
-              // Not for 'Query' or 'Mutation' objects
-              if (childDef.opType) { return; }
-
-              const multiple = childDef.items !== undefined;
-              const subDef = multiple ? childDef.items : childDef;
-							const model = subDef.instanceof;
-              if (!model) { return; }
+              const multiple = isMultiple(childDef);
+              const subDef = getSubDef(childDef);
 
               // Retrieves `id` field definition of subfield
-              const nonRecursiveAttributes = ['description', 'deprecation_reason', 'required'];
-              const idDef = Object.assign({},
-                pick(subDef, nonRecursiveAttributes),
-                omit(subDef.properties.id, nonRecursiveAttributes)
-              );
+              const nonRecursiveAttrs = ['description', 'deprecation_reason', 'required'];
+              const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
 
               // Assign `id` field definition to e.g. `model.user`
               const idsDef = multiple ? Object.assign({}, childDef, { items: idDef }) : idDef;
@@ -175,7 +166,6 @@ const graphQLFieldsInfo = [
       });
 
       const fieldInfo = { type };
-			Object.assign(fieldInfo, getResolver(def, false, opts));
 
       // For the recursion
       if (key) {
@@ -232,10 +222,11 @@ const canRequireAttributes = function (def, { opType, isInputObject }) {
 };
 
 // Gets a resolver (and args) to add to a GraphQL field
-const getResolver = function (def, multiple, opts) {
+const getResolver = function (def, opts) {
 	// Only for top-level models, and not for argument types
-  if (!def.instanceof || opts.isInputObject) { return; }
+  if (!isModel(def) || opts.isInputObject) { return; }
 
+  const multiple = isMultiple(def);
   const opType = opts.opType;
   const operation = findOperations({ opType, multiple });
 	const resolve = async function (_, args, { callback }) {
@@ -243,8 +234,9 @@ const getResolver = function (def, multiple, opts) {
   };
 
 	// Builds inputObject type
+  const subDef = getSubDef(def);
 	const inputObjectOpts = Object.assign({}, opts, { isInputObject: true });
-	const inputObjectType = getType(def, inputObjectOpts);
+	const inputObjectType = getType(subDef, inputObjectOpts);
 
 	const args = getArguments({ multiple, opType: opts.opType, inputObjectType });
 
