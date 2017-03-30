@@ -17,11 +17,15 @@ const getResolver = function (def, opts) {
 };
 
 const getResolveFunc = function (def, opts) {
-  const operation = findOperations({ opType: opts.opType, multiple: isMultiple(def) });
+  const multiple = isMultiple(def);
+  const opType = opts.opType;
+  const operation = findOperations({ opType, multiple });
 
 	return async function (parentVal, args, { callback }, { parentType: { def: parentDef } }) {
     const parent = { def: parentDef, val: parentVal };
-    addArguments(def, { args, opType: opts.opType, parent });
+    const returnValue = addArguments(def, { args, opType, multiple, parent });
+    if (returnValue !== undefined) { return returnValue; }
+
     return await executeOperation({ operation, args, callback });
   };
 };
