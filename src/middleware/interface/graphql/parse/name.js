@@ -1,8 +1,7 @@
 'use strict';
 
 
-const titleize = require('underscore.string/titleize');
-const camelize = require('underscore.string/camelize');
+const { titleize, camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
 const { EngineError } = require('../../../../error');
@@ -26,10 +25,15 @@ const getName = function ({ def, asPlural = true, inputObjectType } = {}) {
 };
 
 // Returns def.title, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function ({ def, opType = '', inputObjectType }) {
+const getTypeName = function ({ def, inputObjectType, topLevelDef }) {
   let name = getName({ def, asPlural: false, inputObjectType });
-  name = opType ? camelize(name) : titleize(name);
-  return camelize(`${titleize(opType)} ${name}`);
+  name = capitalize(name);
+  // Means it is a submodel, i.e. should prepend top-level name
+  if (topLevelDef && topLevelDef.title !== def.title) {
+    name = capitalize(topLevelDef.title) + name;
+  }
+  name = camelize(name);
+  return name;
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
