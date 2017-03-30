@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge, values, forEach, findKey, intersection, find, mapKeys, defaults } = require('lodash');
+const { merge, values, forEach, findKey, intersection, find, mapKeys, omit } = require('lodash');
 const { underscored } = require('underscore.string');
 const { EngineError } = require('../error');
 const { recursivePrint } = require('../utilities');
@@ -123,7 +123,7 @@ const fixInstances = function (obj) {
   if (typeof obj !== 'object') { return; }
 
   if (obj.instance) {
-    defaults(obj, obj.instance);
+    Object.assign(obj, omit(obj.instance, allowedRecursiveKeys));
     delete obj.instance;
     return;
   }
@@ -137,7 +137,6 @@ const allowedRecursiveKeys = [
   'description',
   'deprecation_reason',
   'required',
-  'title',
 ];
 
 
