@@ -38,7 +38,6 @@
         },
         "attributes": {
           "type": "object",
-          "title": "PetAttributes",
           "description": "Attributes of a pet",
           "properties": {
             "age": {

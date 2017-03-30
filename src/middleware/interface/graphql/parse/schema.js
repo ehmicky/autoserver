@@ -38,12 +38,12 @@ const getSchema = function (definitions, opts) {
 
 const rootDef = {
   query: {
-    title: 'Query',
+    title: 'query',
     type: 'object',
     description: 'Fetches information about different entities',
   },
   mutation: {
-    title: 'Mutation',
+    title: 'mutation',
     type: 'object',
     description: 'Modifies information about different entities',
   },

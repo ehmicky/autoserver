@@ -15,7 +15,7 @@ const getModelsByMethod = function (methodName, opts) {
       return methodModels.concat(operationModels);
     }, [])
 		.filter(model => isAllowedModel(model, opts));
-  const modelsMap = mapKeys(models, model => model.operationName);
+  const modelsMap = mapKeys(models, model => model.title);
   return modelsMap;
 };
 
@@ -44,7 +44,7 @@ const getModelsByOperation = function (operation, { idl: { models: allModels } }
     // Deep copy
     model = merge({}, model);
 
-    const operationName = getOperationNameFromModel({ def: model, opType: operation.opType, asPlural: operation.multiple });
+    const title = getOperationNameFromModel({ def: model, opType: operation.opType, asPlural: operation.multiple });
 
     if (operation.multiple) {
       model = { type: 'array', items: model };
@@ -52,7 +52,7 @@ const getModelsByOperation = function (operation, { idl: { models: allModels } }
 
     Object.assign(model, {
       // E.g. 'findPet', used as GraphQL field name
-      operationName,
+      title,
       // E.g. 'findOne'
       baseOperationName: operation.name,
       // E.g. 'find'

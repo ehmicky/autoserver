@@ -15,12 +15,12 @@ const pluralize = function ({ name, asPlural }) {
 // Returns def.title, in plural|singular form
 const getName = function ({ def, asPlural = true, inputObjectType } = {}) {
 	const inputObjectTypeName = inputObjectType === 'input' ? ' input' : (inputObjectType === 'filter' ? ' filter' : '');
+  if (typeof def.title !== 'string') {
+    throw new EngineError(`"title" must be a string in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+  }
   const name = def.title + inputObjectTypeName;
   if (!name) {
     throw new EngineError(`Missing "title" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
-  }
-  if (typeof def.title !== 'string') {
-    throw new EngineError(`"title" must be a string in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
   return pluralize({ name, asPlural });
 };
