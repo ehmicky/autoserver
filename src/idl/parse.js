@@ -54,9 +54,9 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
 
     if (typeof child === 'object') {
       // TODO: should detect whether child _could_ have `type` instead (i.e. is a JSON schema), as we want `type` to be optional
-      // Adds def.title default value, by using parent property name
-      if (child.type && !child.title) {
-        child.title = attrName;
+      // Adds def.title refering to parent property name
+      if (child.type) {
+        child.title = underscored(attrName);
       }
       // Definitions of type `object` must have valid `properties`
       if (child.type === 'object' && !child.instanceof) {
