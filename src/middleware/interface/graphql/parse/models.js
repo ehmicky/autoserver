@@ -4,12 +4,20 @@
 const { merge, mapKeys } = require('lodash');
 const { getOperationNameFromModel } = require('./name');
 const { getSubDefProp } = require('./utilities');
+const { operations } = require('../../../../idl');
 
+
+// Mapping from IDL operations to GraphQL methods
+const graphqlOperations = {
+  query: ['find'],
+  mutation: ['create', 'replace', 'update', 'upsert', 'delete'],
+};
 
 // Retrieve models for a given method
 const getModelsByMethod = function (methodName, opts) {
+  const allowedOperations = graphqlOperations[methodName];
   const models = operations
-    .filter(operation => operation.method === methodName)
+    .filter(operation => allowedOperations.includes(operation.opType))
 		.reduce((methodModels, operation) => {
       const operationModels = getModelsByOperation(operation, opts);
       return methodModels.concat(operationModels);
@@ -66,29 +74,6 @@ const getModelsByOperation = function (operation, { idl: { models: allModels } }
 };
 
 
-const findOperations = function ({ opType, multiple }) {
-  return operations.find(operation => operation.opType === opType && operation.multiple == multiple);
-};
-
-/* eslint-disable no-multi-spaces */
-const operations = [
-  { name: 'findOne',     opType: 'find',     method: 'query',    multiple: false,  },
-  { name: 'findMany',    opType: 'find',     method: 'query',    multiple: true,   },
-  { name: 'createOne',   opType: 'create',   method: 'mutation', multiple: false,  },
-  { name: 'createMany',  opType: 'create',   method: 'mutation', multiple: true,   },
-  { name: 'replaceOne',  opType: 'replace',  method: 'mutation', multiple: false,  },
-  { name: 'replaceMany', opType: 'replace',  method: 'mutation', multiple: true,   },
-  { name: 'updateOne',   opType: 'update',   method: 'mutation', multiple: false,  },
-  { name: 'updateMany',  opType: 'update',   method: 'mutation', multiple: true,   },
-  { name: 'upsertOne',   opType: 'upsert',   method: 'mutation', multiple: false,  },
-  { name: 'upsertMany',  opType: 'upsert',   method: 'mutation', multiple: true,   },
-  { name: 'deleteOne',   opType: 'delete',   method: 'mutation', multiple: false,  },
-  { name: 'deleteMany',  opType: 'delete',   method: 'mutation', multiple: true,   },
-];
-/* eslint-enable no-multi-spaces */
-
-
 module.exports = {
   getModelsByMethod,
-  findOperations,
 };

@@ -4,5 +4,6 @@
 module.exports = Object.assign(
   {},
   { definitions: require('./example.json') },
-  require('./parse')
+  require('./parse'),
+  require('./operations')
 );
