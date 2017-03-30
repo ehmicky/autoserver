@@ -57,6 +57,8 @@ const getModelsByOperation = function (operation, { idl: { models: allModels } }
       baseOperationName: operation.name,
       // E.g. 'find'
       opType: operation.opType,
+      // top-level models might e.g. get different arguments
+      isTopLevel: true,
     });
 
     return model;

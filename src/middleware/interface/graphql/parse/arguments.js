@@ -13,21 +13,28 @@ const { isMultiple, getSubDef } = require('./utilities');
 
 // Retrieves all resolver arguments, before resolve function is fired
 const getArguments = function (def, opts) {
-  opts.multiple = isMultiple(def);
 	// Builds inputObject types
   const subDef = getSubDef(def);
 	const inputObjectOpts = Object.assign({}, opts, { inputObjectType: 'input' });
-	opts.inputObjectType = opts.getType(subDef, inputObjectOpts);
+	const inputObjectType = opts.getType(subDef, inputObjectOpts);
 	const filterObjectOpts = Object.assign({}, opts, { inputObjectType: 'filter' });
-	opts.filterObjectType = opts.getType(subDef, filterObjectOpts);
+  const filterObjectType = opts.getType(subDef, filterObjectOpts);
 
-  return Object.assign(
+  opts = Object.assign({}, opts, {
+    multiple: isMultiple(def),
+    isTopLevel: def.isTopLevel,
+    inputObjectType,
+    filterObjectType,
+  });
+
+  const args = Object.assign(
     {},
     getIdArgument(opts),
 		getDataArgument(opts),
 		getFilterArgument(opts),
     getOrderArgument(opts)
   );
+  return args;
 };
 
 // Add resolver arguments, while resolve function is fired
@@ -88,7 +95,11 @@ const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
 
 // id argument, used to query, and (with create|replace|upsert) also mutate
 const optionalIdOpTypes = ['create'];
-const getIdArgument = function ({ multiple, opType, filterObjectType }) {
+const getIdArgument = function ({ multiple, opType, filterObjectType, isTopLevel }) {
+  // Nested types do not get id argument, as it is guessed from parent value
+  // Exception: findMany, deleteMany and updateMany, where it is merged (intersected) with parent value
+  if (!isTopLevel && !(multiple && filterOpTypes.includes(opType))) { return; }
+
   const fieldsArgs = getFieldsArgs({ filterObjectType });
   const dataIdArgs = chain(fieldsArgs)
     .pickBy((_, fieldName) => fieldName === 'id')
