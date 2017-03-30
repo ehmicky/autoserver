@@ -65,7 +65,9 @@ const graphQLRequiredFieldsInfo = function (def, opts) {
 
 // Array field fieldsInfo
 const graphQLArrayFieldsInfo = function (def, opts) {
-  const subDef = getSubDef(def);
+  let subDef = getSubDef(def);
+  // Underlying model does not get any resolver, only array does
+  subDef = Object.assign({} , subDef, { noResolve: true });
   const subType = getType(subDef, opts);
   const type = new GraphQLList(subType);
   return { type };
