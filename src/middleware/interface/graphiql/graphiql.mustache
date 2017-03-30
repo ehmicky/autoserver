@@ -36,9 +36,11 @@
 
     // Produce a Location query string from a parameter object.
     var getFetchURLQuery = function () {
-      return '?' + Object.keys(parameters).map(function (key) {
-        return encodeURIComponent(key) + '=' + encodeURIComponent(parameters[key]);
-      }).join('&');
+      return '?' + Object.keys(parameters)
+        .filter(function (key) { return Boolean(parameters[key]); })
+        .map(function (key) {
+          return encodeURIComponent(key) + '=' + encodeURIComponent(parameters[key]);
+        }).join('&');
     };
 
     // Defines a GraphQL fetcher using the fetch API.
