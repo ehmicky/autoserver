@@ -7,7 +7,8 @@ const { graphqlGetSchema } = require('./parse');
 const { EngineError } = require('../../../error');
 
 
-const executeGraphql = async function ({ definitions }) {
+const executeGraphql = async function (input) {
+  const { definitions } = input;
   const schema = graphqlGetSchema(definitions);
   return async function (request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)
@@ -24,7 +25,7 @@ const executeGraphql = async function ({ definitions }) {
         options: {
           schema: schema,
           context: {
-            callback: fireNext.bind(this),
+            callback: fireNext.bind(this, input),
           },
           rootValue: {},
         },
@@ -59,8 +60,9 @@ const executeGraphql = async function ({ definitions }) {
   };
 };
 
-const fireNext = async function ({ operation, args }) {
-  const response = await this.next({ operation, args });
+const fireNext = async function (input, databaseInput) {
+  input.database = databaseInput;
+  const response = await this.next(input);
   return response;
 };
 
