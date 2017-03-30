@@ -6,7 +6,7 @@ const {
   GraphQLNonNull,
   GraphQLList,
 } = require('graphql');
-const { chain } = require('lodash');
+const { chain, mapValues, pickBy } = require('lodash');
 
 const { isMultiple, getSubDef } = require('./utilities');
 
@@ -23,6 +23,7 @@ const getArguments = function (def, opts) {
 
   return Object.assign(
     {},
+    getIdArgument(opts),
 		getDataArgument(opts),
 		getFilterArgument(opts),
     getOrderArgument(opts)
@@ -75,39 +76,53 @@ const getDataArgument = function ({ multiple, opType, inputObjectType }) {
 };
 
 // Filters argument, i.e. only queries entities that match specified attributes
-const idOnlyFilterOpTypes = ['upsert', 'replace', 'create'];
-const optionalIdFilterOpType = ['create'];
+const filterOpTypes = ['find', 'delete', 'update'];
 const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
-  const fields = filterObjectType.getFields();
-  const args = chain(fields)
-    .mapValues(field => ({
-      type: field.type,
-      description: field.description,
-    }))
-    .mapValues((field, fieldName) => {
-      if (fieldName === 'id') {
-        // Make sure ids are required
-        let idType = optionalIdFilterOpType.includes(opType) ? field.type : new GraphQLNonNull(field.type);
-        // `id` filter is array (`ids`) instead of *Many
-        if (multiple) {
-          idType = new GraphQLList(idType);
-          // `ids` is required upsertMany, replaceMany and createMany
-          if (idOnlyFilterOpTypes.includes(opType) && !optionalIdFilterOpType.includes(opType)) {
-            idType = new GraphQLNonNull(idType);
-          }
-        }
-        field.type = idType;
+  const fieldsArgs = getFieldsArgs({ filterObjectType });
+  // Only for findMany, deleteMany and updateMany
+  if (!multiple || !filterOpTypes.includes(opType)) { return; }
+  // Exclude `id` argument, as it handled by getIdArgument()
+  const filterIdArgs = pickBy(fieldsArgs, (_, fieldName) => fieldName !== 'id');
+  return filterIdArgs;
+};
+
+// id argument, used to query, and (with create|replace|upsert) also mutate
+const optionalIdOpTypes = ['create'];
+const getIdArgument = function ({ multiple, opType, filterObjectType }) {
+  const fieldsArgs = getFieldsArgs({ filterObjectType });
+  const dataIdArgs = chain(fieldsArgs)
+    .pickBy((_, fieldName) => fieldName === 'id')
+    .mapValues(field => {
+      let idType = field.type;
+      // createOne and createMany do not require ids
+      const isOptional = optionalIdOpTypes.includes(opType)
+      // nor can findMany, deleteMany or updateMany (since it is used as an optional filter)
+        || (filterOpTypes.includes(opType) && multiple);
+      if (!isOptional) {
+        idType = new GraphQLNonNull(idType);
       }
+      if (multiple) {
+        idType = new GraphQLList(idType);
+        if (!isOptional) {
+          idType = new GraphQLNonNull(idType);
+        }
+      }
+      field.type = idType;
       return field;
     })
-    // `id` filter is `ids` instead of *Many
-    .mapKeys((_, fieldName) => multiple && fieldName === 'id' ? 'ids' : fieldName)
-    // `id` filter is only one for *One
-    .pickBy((_, fieldName) => multiple || fieldName === 'id')
-    // Only `ids` and `id` are allowed for upsert*, replace* and create*
-    .pickBy((_, fieldName) => !(idOnlyFilterOpTypes.includes(opType) && !['id', 'ids'].includes(fieldName)))
+    // `id` argument is `ids` instead in *Many operations
+    .mapKeys(() => multiple ? 'ids' : 'id')
     .value();
-  return args;
+  return dataIdArgs;
+};
+
+// Retrieve model fields, so they can be used as arguments
+const getFieldsArgs = function ({ filterObjectType }) {
+  const fields = filterObjectType.getFields();
+  return mapValues(fields, field => ({
+    type: field.type,
+    description: field.description,
+  }));
 };
 
 
