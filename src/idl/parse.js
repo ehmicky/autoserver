@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge, values, forEach, findKey, intersection, find, omit, mapKeys } = require('lodash');
+const { merge, values, forEach, findKey, intersection, find, mapKeys, defaults } = require('lodash');
 const { underscored } = require('underscore.string');
 const { EngineError } = require('../error');
 const { recursivePrint } = require('../utilities');
@@ -55,7 +55,7 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
     if (typeof child === 'object') {
       // TODO: should detect whether child _could_ have `type` instead (i.e. is a JSON schema), as we want `type` to be optional
       // Adds def.title refering to parent property name
-      if (child.type) {
+      if (child.type || child.instanceof) {
         child.title = underscored(attrName);
       }
       // Definitions of type `object` must have valid `properties`
@@ -123,7 +123,7 @@ const fixInstances = function (obj) {
   if (typeof obj !== 'object') { return; }
 
   if (obj.instance) {
-    Object.assign(obj, omit(obj.instance, allowedRecursiveKeys));
+    defaults(obj, obj.instance);
     delete obj.instance;
     return;
   }
@@ -137,6 +137,7 @@ const allowedRecursiveKeys = [
   'description',
   'deprecation_reason',
   'required',
+  'title',
 ];
 
 
