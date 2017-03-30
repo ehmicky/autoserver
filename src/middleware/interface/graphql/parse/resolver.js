@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { findOperations } = require('./models');
+const { operations } = require('../../../../idl');
 const { getArguments, addArguments } = require('./arguments');
 const { isMultiple, isModel } = require('./utilities');
 
@@ -19,14 +19,14 @@ const getResolver = function (def, opts) {
 const getResolveFunc = function (def, opts) {
   const multiple = isMultiple(def);
   const opType = opts.opType;
-  const operation = findOperations({ opType, multiple });
+  const operation = operations.find(operation => operation.opType === opType && operation.multiple == multiple);
 
 	return async function (parentVal, args, { callback }, { parentType: { def: parentDef } }) {
     const parent = { def: parentDef, val: parentVal };
     const returnValue = addArguments(def, { args, opType, multiple, parent });
     if (returnValue !== undefined) { return returnValue; }
 
-    return await executeOperation({ operation, args, callback });
+    return await executeOperation({ operation: operation.name, args, callback });
   };
 };
 
