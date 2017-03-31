@@ -137,6 +137,7 @@ const allowedRecursiveKeys = [
   'description',
   'deprecation_reason',
   'required',
+  'title'
 ];
 
 
