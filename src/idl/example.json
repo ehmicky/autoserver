@@ -8,7 +8,7 @@
       "operations": ["find", "create", "replace", "update", "upsert", "deleteOne", "deleteMany"],
       "properties":{
         "id":{
-          "type":"integer",
+          "type":"string",
           "format": "id",
           "description": "Unique identifier of a pet"
         },

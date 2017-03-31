@@ -1,7 +1,7 @@
 {
   "Pet": [
     {
-      "id": 1,
+      "id": "1",
       "weight": 1.5,
       "isOverweight": false,
       "name": "Dog",
@@ -9,11 +9,11 @@
       "tags": ["adorable"],
       "status": "happy",
       "attributes": { "age": 10, "intelligence": 1 },
-      "best_friend": 2,
-      "friends": [1, 2, 3]
+      "best_friend": "2",
+      "friends": ["1", "2", "3"]
     },
     {
-      "id": 2,
+      "id": "2",
       "weight": 2.5,
       "isOverweight": true,
       "name": "Cat",
@@ -21,11 +21,11 @@
       "tags": ["even more adorable"],
       "status": "grumpy",
       "attributes": { "age": 12, "intelligence": 1 },
-      "best_friend": 3,
-      "friends": [1, 2, 3]
+      "best_friend": "3",
+      "friends": ["1", "2", "3"]
     },
     {
-      "id": 3,
+      "id": "3",
       "weight": 3.5,
       "isOverweight": true,
       "name": "Koala",
@@ -33,8 +33,8 @@
       "tags": ["suspended"],
       "status": "sleepy",
       "attributes": { "age": 10, "intelligence": 2 },
-      "best_friend": 1,
-      "friends": [1, 2, 3]
+      "best_friend": "1",
+      "friends": ["1", "2", "3"]
     }
   ]
 }
