@@ -1,28 +1,40 @@
 # What this is
 
-This is prototype for a web server that generates a GraphQL endpoint taking only a [single declarative file](https://github.com/autoserver-org/autoserver/blob/master/src/idl/example.json) input.
+This is prototype for a web server engine.
 
-The idea:
-have a stable and robust API engine, and only have to edit a simple and non-verbose declarative files for 80% of what is currently done in the backend, including: validation, authorization, CRUD (including sorting, querying, etc.), side-effects, etc.
+You simply pass a [single declarative file](https://github.com/autoserver-org/autoserver/blob/master/src/idl/schema.json) as input, and the server generates a GraphQL server. The file format is based off standard [JSON schema](http://json-schema.org/).
 
-Architectural notes:
-  - optimized for being deployed as a single stateless FaaS that boots fast, then dies once request is over.
-  - meant to be deployed behind an API gateway, i.e. there is no real URL routing performed (apart from dummy one)
-  - protocol-agnostic, i.e. an HTTP layer abstracts away HTTP details from the rest of the application. Main goal: allowing to add other protocols (such as WebSocket) without much effort. Other goal: isolate HTTP intricacies from the rest of the logic.
-  - IDL-agnostic, i.e. GraphQL layer is separated away from rest of application. Similar goal as above. Allow multi-IDL API, e.g. providing both GraphQL and REST for external consumers.
+The server is fully-featured, i.e. there should be not much need for custom code beyond that declarative file.
 
-This is a stub, there is still a lot to do:
-  - not connected to actual data sources. Using dummy data only for the moment.
-  - in progress: query parameters, sorting, pagination, etc.
-  - lots of basic HTTP features you would assume are not there yet (e.g. CORS, caching, etc.)
+# What's already built
+
+  - GraphQL endpoint
+  - GraphQL introspection, including model type, optional/required, naming, description, deprecation status
+  - GraphiQL interactive debugger
+  - GraphQL schema can be printed as HTML
+  - CRUD methods: find, create, update, replace, upsert, delete. Each operation can be performed on a single model (e.g. createOne) or on several models (e.g. createMany).
+  - filters, e.g. `findUsers(name: "John")` or `findUser(id: 1)`
+  - sorting, e.g. `findUsers(order_by: "name-,job_title+")`
+  - selecting (handled natively by GraphQL)
+  - nested operations. One can not only query but also mutate nested models in a single operation.
+  - HTTP body/query handling
+  - basic error handling
+  - basic logging
+  - basic routing
+
+# What is work in progress
+
+Includes (but is not limited to):
   - validation
   - authorization
   - default values, timestamps, computed values
   - aggregation
   - migrations
-  - no security
-  
-Many of this will be fast to implement, I just need to get to it!
+  - security
+  - some HTTP features (CORS, caching, etc.)
+  - pagination
+  - performance optimization (could be 5 to 10 times faster with some basic tweaks, since much of the work can be done compile-time)
+  - using real data source by adding an ORM (at the moment, all data lives in memory, using a JavaScript array)
 
 # How to start
 
@@ -32,13 +44,12 @@ If in production, run with `npm start`
 
 If in development, run with `NODE_ENV=dev npm start`. This will start in watch mode (using `nodemon` and `node --inspect`).
 
-This will start a local server at `localhost:5001`
+A local server at `localhost:5001` will be spawned. Can be configured with environment variables `PORT` and `HOST`.
 
-Port number can be changed using `PORT` environment variable.
-
-Browse to `localhost:5001/graphiql` and start exploring the data. Click on "docs" to see the schema.
-
-You can also see the GraphQL plain schema by browsing to `localhost:5001/graphql/schema`
+There are three ways of exploring the API:
+  - direct GraphQL calls to `localhost:5001/graphql`
+  - interactive exploration with `localhost:5001/graphiql`. Click on "docs" to see the schema.
+  - schema printed as HTML with `localhost:5001/graphql/schema`
 
 # Tooling
 
@@ -48,4 +59,5 @@ We are using [editorconfig](http://editorconfig.org/), so please install the plu
 
 # Troubleshooting
 
-Please use Node.js v7.7.4
+  - Please use Node.js v7.7.4
+  - Orphans are not currently handled, and will make the whole server crash as soon as only one orphan is created.
