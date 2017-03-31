@@ -59,5 +59,5 @@ We are using [editorconfig](http://editorconfig.org/), so please install the plu
 
 # Troubleshooting
 
-  - Please use Node.js v7.7.4
+  - Please use Node.js v7.8.0
   - Orphans are not currently handled, and will make the whole server crash as soon as only one orphan is created.
