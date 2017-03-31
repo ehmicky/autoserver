@@ -138,9 +138,11 @@ const getObjectFields = function (def, opts) {
       })
       // Remove recursive value fields when used as inputObject (i.e. resolver argument)
       .pickBy(childDef => !(opts.inputObjectType && isModel(childDef)))
-			// Remove all return value fields for delete operations, except the recursive ones
+			// Remove all return value fields for delete operations, except the recursive ones and `id`
       // And except for inputObject, since we use it to get the delete filters
-			.pickBy(childDef => !(opts.opType === 'delete' && !isModel(childDef) && opts.inputObjectType !== 'filter'))
+			.pickBy((childDef, childDefName) => !(
+        opts.opType === 'delete' && !isModel(childDef) && childDefName !== 'id' && opts.inputObjectType !== 'filter')
+      )
       // `id` is never a data input argument
       .pickBy((_, childDefName) => !(childDefName === 'id' && opts.inputObjectType === 'input'))
 			// Recurse over children

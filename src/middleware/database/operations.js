@@ -120,7 +120,7 @@ const findMany = function ({ collection, ids = null, filters = {} }) {
 const deleteOne = function ({ collection, id }) {
   const index = findOneIndex({ collection, id });
   collection.splice(index, 1);
-  return null;
+  return { id };
 };
 
 const deleteMany = function ({ collection, ids = null, filters = {} }) {
@@ -129,7 +129,7 @@ const deleteMany = function ({ collection, ids = null, filters = {} }) {
   indexes.forEach((index, count) => {
     collection.splice(index - count, 1);
   });
-  return null;
+  return ids.map(id => ({ id }));
 };
 
 const updateOne = function ({ collection, data, id }) {
