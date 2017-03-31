@@ -28,10 +28,11 @@
  *                             The argument name is that attribute name, not `filter`
  *  - {string} order_by      - Sort results.
  *                             Value is attribute name, followed by optional + or - for ascending|descending order (default: +)
+ *                             Can contain dots to select fields, e.g. order_by="furniture.size"
  **/
 
 
-const { every, chain, uniq, sortBy } = require('lodash');
+const { every, chain, uniq, orderBy, map } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
@@ -43,25 +44,28 @@ const createId = function () {
 };
 
 const orderPostfixRegexp = /(.*)(\+|-)$/;
-const sortResponse = function ({ response, orderBy = 'id+' }) {
+const sortResponse = function ({ response, orderByArg = 'id+' }) {
   if (!response || !(response instanceof Array)) { return response; }
 
-  let orderAttribute;
-  let orderAscending = true;
-  const orderTokens = orderPostfixRegexp.exec(orderBy);
-  if (orderTokens) {
-    orderAttribute = orderTokens[1];
-    orderAscending = orderTokens[2] === '-' ? false : true;
-  } else {
-    orderAttribute = orderBy;
-  }
+  // Allow multiple attributes sorting
+  const orders = orderByArg.split(',');
 
-  validateAttributeName(orderAttribute);
+  const orderArgs = orders.map(order => {
+    const args = { ascending: 'asc' };
+    // Tries to parse the + or - postfix
+    const orderTokens = orderPostfixRegexp.exec(order);
+    if (orderTokens) {
+      args.attribute = orderTokens[1];
+      args.ascending = orderTokens[2] === '-' ? 'desc' : 'asc';
+    } else {
+      args.attribute = orderByArg;
+    }
+    // Make sure attribute name is valid
+    validateAttributeName(args.attribute);
+    return args;
+  });
 
-  let sortedResponse = sortBy(response, orderAttribute);
-  if (!orderAscending) {
-    sortedResponse = sortedResponse.reverse();
-  }
+  const sortedResponse = orderBy(response, map(orderArgs, 'attribute'), map(orderArgs, 'ascending'));
   return sortedResponse;
 };
 
@@ -201,12 +205,13 @@ const operations = {
 const fireOperation = function (opts) {
   validateOperationInput(opts);
   const response = operations[opts.operation](opts);
-  const sortedResponse = sortResponse({ response, orderBy: opts.orderBy });
+  const sortedResponse = sortResponse({ response, orderByArg: opts.orderBy });
   return sortedResponse;
 };
 
 module.exports = {
   fireOperation,
+  sortResponse,
 };
 
 global.collection = require('./data').Pet;

@@ -93,10 +93,10 @@ const validateOperationInput = function ({ operation, modelName, collection, fil
   }
 };
 
-const attributeNameRegexp = /^\w+$/;
+const attributeNameRegexp = /^[\w.]+$/;
 const validateAttributeName = function (name) {
   if (!attributeNameRegexp.test(name)) {
-    throw new EngineError(`${name} should only contain numbers, letters or underscores`, {
+    throw new EngineError(`${name} should only contain numbers, letters, dots or underscores`, {
       reason: 'DATABASE_VALIDATION_INTERNAL',
     });
   }
