@@ -26,6 +26,7 @@
  *                             Is an array with createMany, replaceMany or upsertMany
  *  - {any} filter           - Filter the operation by a specific attribute.
  *                             The argument name is that attribute name, not `filter`
+ *                             The filter value can be nester, e.g. { furniture: { size: 2 } }
  *  - {string} order_by      - Sort results.
  *                             Value is attribute name, followed by optional + or - for ascending|descending order (default: +)
  *                             Can contain dots to select fields, e.g. order_by="furniture.size"
@@ -88,13 +89,27 @@ const findManyIndexes = function({ collection, ids, filters = {} }) {
   const modelIndexes = chain(collection)
     .map((model, index) => {
       if (!model) { return null; }
-      const matches = every(filters, (filterVal, filterName) => model[filterName] === filterVal);
+      const matches = matchesFilters({ filters, model });
       if (!matches) { return null; }
       return index;
     })
     .filter(index => index != null)
     .value();
   return modelIndexes;
+};
+
+// Check if a model matches a query filter
+const matchesFilters = function ({ filters, model }) {
+  const matches = every(filters, (filterVal, filterName) => {
+    if (typeof filterVal === 'object') {
+      const modelVal = model[filterName];
+      if (typeof modelVal !== 'object' || modelVal === null) { return false; }
+      return matchesFilters({ filters: filterVal, model: modelVal });
+    } else {
+      return model[filterName] === filterVal;
+    }
+  });
+  return matches;
 };
 
 const checkUniqueId = function ({ collection, id }) {
