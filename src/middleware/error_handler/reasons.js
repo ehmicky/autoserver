@@ -48,6 +48,16 @@ const errorReasons = {
     http: { status: 404 },
   }),
 
+  // A database model could not be found, e.g. incorrect id
+  DATABASE_NOT_FOUND: () => ({
+    http: { status: 404 },
+  }),
+
+  // A database model operation conflicts with another one, e.g. tries to create already existing model
+  DATABASE_MODEL_CONFLICT: () => ({
+    http: { status: 409 },
+  }),
+
   // HTTP request body Content-Type is unsupported
   HTTP_WRONG_CONTENT_TYPE: () => ({
     http: { status: 415 },
@@ -75,6 +85,11 @@ const errorReasons = {
 
   // GraphiQL HTML templating failed
   GRAPHIQL_PARSING_ERROR: () => ({
+    http: { status: 500 },
+  }),
+
+  // Internal error on the database validation layer
+  DATABASE_VALIDATION_INTERNAL: () => ({
     http: { status: 500 },
   }),
 
