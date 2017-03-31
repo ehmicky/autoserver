@@ -211,12 +211,4 @@ const fireOperation = function (opts) {
 
 module.exports = {
   fireOperation,
-  sortResponse,
-};
-
-global.collection = require('./data').Pet;
-global.collection.modelName = 'Pet';
-Object.assign(global, module.exports);
-global.print = function () {
-  console.log(JSON.stringify(global.collection, null, 2));
 };
