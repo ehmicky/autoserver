@@ -55,8 +55,8 @@ const start = async function (opts) {
     /**
      * Database-related middleware
      */
-    // Do the database query, protocol and interface-agnostic
-    mdw.queryDatabase,
+    // Do the database operation, protocol and interface-agnostic
+    mdw.executeDatabaseOperation,
 
     // If we got there, it means no response has been fired
     function () {
@@ -80,7 +80,7 @@ const applyOptions = async function (opts) {
     'executeGraphiql',
     'printGraphql',
     'databaseConvertor',
-    'queryDatabase'
+    'executeDatabaseOperation'
   ];
   const memo = {};
   for (const name of middlewares) {

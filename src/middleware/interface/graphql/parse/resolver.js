@@ -3,7 +3,7 @@
 
 const { operations } = require('../../../../idl');
 const { getArguments, addArguments } = require('./arguments');
-const { isMultiple, isModel } = require('./utilities');
+const { isMultiple, isModel, getModelName } = require('./utilities');
 
 
 // Gets a resolver (and args) to add to a GraphQL field
@@ -26,13 +26,14 @@ const getResolveFunc = function (def, opts) {
     const returnValue = addArguments(def, { args, opType, multiple, parent });
     if (returnValue !== undefined) { return returnValue; }
 
-    return await executeOperation({ operation: operation.name, args, callback });
+    const modelName = getModelName(def);
+    return await executeOperation({ operation: operation.name, args, modelName, callback });
   };
 };
 
 // Fires an operation in the database layer
-const executeOperation = async function ({ operation, args = {}, callback }) {
-  const response = await callback({ operation, args });
+const executeOperation = async function ({ operation, args = {}, modelName, callback }) {
+  const response = await callback({ operation, args, modelName });
   return response;
 };
 
