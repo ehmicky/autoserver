@@ -52,12 +52,12 @@ const validateOperationInput = function ({ operation, modelName, collection, fil
   if (data && !(data instanceof Array) && rules.data.multiple) {
     throwError('\'data\' argument should be an array');
   }
-  if (data && data.constructor !== Object && !rules.data.multiple) {
+  if (data && (typeof data !== 'object' || data === null) && !rules.data.multiple) {
     throwError('\'data\' argument should be an object');
   }
 
   if (filters) {
-    if (filters.constructor !== Object) {
+    if (typeof filters !== 'object' || filters === null) {
       throwError('Filters argument must be an object');
     }
     if (!rules.filters && Object.keys(filters).length > 0) {
