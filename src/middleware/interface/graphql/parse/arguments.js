@@ -37,15 +37,6 @@ const getArguments = function (def, opts) {
   return args;
 };
 
-// Add resolver arguments, while resolve function is fired
-// As opposed to `getArguments`, those arguments depend on current query resolution, e.g. on parent value
-const addArguments = function (def, { args, multiple, parent }) {
-  return [
-    addNestedIdArguments,
-  // Each function can return a value, i.e. database will not be queried, and that return value will be used instead
-  ].find(func => func(def, { args, multiple, parent }));
-};
-
 // order_by argument, i.e. used for sorting results
 const getOrderArgument = function ({ opType, multiple }) {
   // Only with *Many methods, except DeleteMany (since it does not return anything)
@@ -138,6 +129,15 @@ const getFieldsArgs = function ({ filterObjectType }) {
     type: field.type,
     description: field.description,
   }));
+};
+
+// Add resolver arguments, while resolve function is fired
+// As opposed to `getArguments`, those arguments depend on current query resolution, e.g. on parent value
+const addArguments = function (def, { args, multiple, parent }) {
+  return [
+    addNestedIdArguments(def, { args, multiple, parent }),
+  // Each function can return a value, i.e. database will not be queried, and that return value will be used instead
+  ].find(returnValue => returnValue !== undefined);
 };
 
 /**
