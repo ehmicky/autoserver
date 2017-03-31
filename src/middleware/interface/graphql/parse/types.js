@@ -141,7 +141,7 @@ const getObjectFields = function (def, opts) {
 			// Remove all return value fields for delete operations, except the recursive ones
       // And except for inputObject, since we use it to get the delete filters
 			.pickBy(childDef => !(opts.opType === 'delete' && !isModel(childDef) && opts.inputObjectType !== 'filter'))
-      // `id` is always a query argument, not a data input argument
+      // `id` is never a data input argument
       .pickBy((_, childDefName) => !(childDefName === 'id' && opts.inputObjectType === 'input'))
 			// Recurse over children
 			.mapValues(childDef => {
