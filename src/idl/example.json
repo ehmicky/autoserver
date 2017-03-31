@@ -44,6 +44,10 @@
               "type": "integer",
               "description": "How old is the pet",
 							"default": 1
+            },
+            "intelligence": {
+              "type": "integer",
+              "description": "How smart is the pet"
             }
           },
 					"default": {}
