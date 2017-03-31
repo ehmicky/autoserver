@@ -5,10 +5,13 @@ const { merge, values, forEach, findKey, intersection, find, mapKeys, omit } = r
 const { underscored } = require('underscore.string');
 const { EngineError } = require('../error');
 const { recursivePrint } = require('../utilities');
+const { parseFile } = require('./formats');
 
 
 // Retrieves IDL definition, after validation and transformation
-const getIdl = function (obj) {
+// TODO: cache this function
+const getIdl = function (definitions) {
+  let obj = typeof definitions === 'string' ? parseFile(definitions) : definitions;
   // Deep copy, so we do not modify input
   obj = merge({}, obj);
   const models = validateIdlDefinition(obj).models;
