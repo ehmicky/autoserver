@@ -5,5 +5,5 @@ end_of_line = lf
 charset = utf-8
 max_line_length = 127
 trim_trailing_whitespace = true
-insert_final_newline = false
+insert_final_newline = true
 root = true
