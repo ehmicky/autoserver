@@ -3,18 +3,31 @@
 
 const { mapValues, chain, forEach, findKey, intersection, find, mapKeys, omit } = require('lodash');
 const { underscored } = require('underscore.string');
-const { EngineError } = require('../error');
+const { readFileSync } = require('fs');
+const yaml = require('js-yaml');
+
+const { EngineStartupError } = require('../error');
 const { recursivePrint } = require('../utilities');
-const { parseFile } = require('./formats');
 
 
 // Retrieves IDL definition, after validation and transformation
 // TODO: cache this function
-const getIdl = function (definitions) {
-  const obj = typeof definitions === 'string' ? parseFile(definitions) : definitions;
-  validateModelsDefinition(obj.models, { topLevelModels: obj.models });
-  obj.models = normalizeModels(obj.models);
-  return obj;
+const getIdl = function ({ conf }) {
+  const idl = getDefinition({ conf });
+  validateIdl(idl.models, { topLevelModels: idl.models });
+  idl.models = normalizeModels(idl.models);
+  return idl;
+};
+
+const getDefinition = function ({ conf }) {
+  if (typeof conf === 'string') {
+    const idlContent = readFileSync(conf, { encoding: 'utf-8' });
+    return yaml.load(idlContent);
+  } else if (conf && conf.constructor === Object) {
+    return conf;
+  } else {
+    throw new EngineStartupError('Missing configuration file or \'conf\' option', { reason: 'MISSING_OPTION' });
+  }
 };
 
 // Normalize IDL definition models
@@ -123,7 +136,7 @@ const allowedRecursiveKeys = [
   'title'
 ];
 
-const validateModelsDefinition = function (obj, { topLevelModels }) {
+const validateIdl = function (obj, { topLevelModels }) {
   if (typeof obj !== 'object') { return obj; }
 
   forEach(obj, (child, attrName) => {
@@ -132,13 +145,13 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
     if (child.instanceof && topLevelModels !== obj) {
       const wrongKey = findKey(child, (_, key) => !allowedRecursiveKeys.includes(key));
       if (wrongKey) {
-        throw new EngineError(`The following definition cannot have the key '${wrongKey}': ${recursivePrint(child)}`, {
+        throw new EngineStartupError(`The following definition cannot have the key '${wrongKey}': ${recursivePrint(child)}`, {
           reason: 'IDL_WRONG_DEFINITION',
         });
       }
       const topLevelModel = find(topLevelModels, model => model.instanceof === child.instanceof);
       if (!topLevelModel) {
-        throw new EngineError(`Could not find model with "instanceof" '${child.instanceof}': ${recursivePrint(child)}`, {
+        throw new EngineStartupError(`Could not find model with "instanceof" '${child.instanceof}': ${recursivePrint(child)}`, {
           reason: 'IDL_WRONG_DEFINITION',
         });
       }
@@ -148,7 +161,7 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
       // Definitions of type `object` must have valid `properties`
       if (child.type === 'object' && !child.instanceof) {
         if (!child.properties || typeof child.properties !== 'object' || Object.keys(child.properties).length === 0) {
-          throw new EngineError(`The following definition of type 'object' is missing 'properties': ${recursivePrint(child)}`, {
+          throw new EngineStartupError(`The following definition of type 'object' is missing 'properties': ${recursivePrint(child)}`, {
             reason: 'IDL_WRONG_DEFINITION',
           });
         }
@@ -159,7 +172,7 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
 			obj.required.forEach(requiredName => {
 				const prop = obj.properties[requiredName];
 				if (!prop) {
-					throw new EngineError(`"${requiredName}" is specified as "required", but is not defined: ${recursivePrint(obj)}`, {
+					throw new EngineStartupError(`"${requiredName}" is specified as "required", but is not defined: ${recursivePrint(obj)}`, {
 						reason: 'IDL_WRONG_DEFINITION',
 					});
 				}
@@ -172,7 +185,7 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
       , []);
       child.forEach(operation => {
         if (!opPrefixes.includes(operation)) {
-					throw new EngineError(`operation "${operation}" does not exist: ${recursivePrint(obj)}`, {
+					throw new EngineStartupError(`operation "${operation}" does not exist: ${recursivePrint(obj)}`, {
 						reason: 'IDL_WRONG_DEFINITION',
 					});
         }
@@ -180,14 +193,14 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
 
       const readOpPrefixes = ['find', 'findOne', 'findMany'];
       if (intersection(readOpPrefixes, child).length === 0) {
-				throw new EngineError(`operation "find" must be specified: ${recursivePrint(obj)}`, {
+				throw new EngineStartupError(`operation "find" must be specified: ${recursivePrint(obj)}`, {
 					reason: 'IDL_WRONG_DEFINITION',
 				});
       }
     }
 
     // Recurse over children
-    validateModelsDefinition(child, { topLevelModels });
+    validateIdl(child, { topLevelModels });
   }, {});
 
   return obj;
