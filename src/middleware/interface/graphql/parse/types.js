@@ -15,6 +15,7 @@ const {
 const { chain, omit, pick, defaults } = require('lodash');
 
 const { EngineError } = require('../../../../error');
+const { recursivePrint } = require('../../../../utilities');
 const { getTypeName, getOperationNameFromAttr } = require('./name');
 const { getDescription, getDeprecationReason } = require('./description');
 const { getResolver } = require('./resolver');
@@ -32,7 +33,7 @@ const getField = function (def, opts) {
   // Retrieves correct field
   const fieldInfo = graphQLFieldsInfo.find(possibleType => possibleType.condition(def, opts));
   if (!fieldInfo) {
-    throw new EngineError(`Could not parse property into a GraphQL type: ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throw new EngineError(`Could not parse property into a GraphQL type: ${recursivePrint(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
   // Retrieves field information

@@ -1,10 +1,11 @@
 'use strict';
 
 
-const { titleize, camelize, capitalize } = require('underscore.string');
+const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
 const { EngineError } = require('../../../../error');
+const { recursivePrint } = require('../../../../utilities');
 
 
 const pluralize = function ({ name, asPlural }) {
@@ -15,11 +16,11 @@ const pluralize = function ({ name, asPlural }) {
 const getName = function ({ def, asPlural = true, inputObjectType } = {}) {
 	const inputObjectTypeName = inputObjectType === 'input' ? ' input' : (inputObjectType === 'filter' ? ' filter' : '');
   if (typeof def.title !== 'string') {
-    throw new EngineError(`"title" must be a string in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throw new EngineError(`"title" must be a string in definition ${recursivePrint(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
   const name = def.title + inputObjectTypeName;
   if (!name) {
-    throw new EngineError(`Missing "title" key in definition ${JSON.stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throw new EngineError(`Missing "title" key in definition ${recursivePrint(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
   return pluralize({ name, asPlural });
 };

@@ -9,7 +9,7 @@ const { attachRequire, console } = require('../utilities');
  * Start server for each protocol, for the moment only HTTP
  *
  * @param {object} options
- * @param {object} options.definitions - IDL definitions
+ * @param {object} options.idl - IDL definitions
  */
 const startServer = async function (options) {
   try {
