@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge, values, forEach, findKey, intersection, find, mapKeys, omit } = require('lodash');
+const { mapValues, chain, merge, values, forEach, findKey, intersection, find, mapKeys, omit } = require('lodash');
 const { underscored } = require('underscore.string');
 const { EngineError } = require('../error');
 const { recursivePrint } = require('../utilities');
@@ -26,17 +26,120 @@ const getIdl = function (definitions) {
 // TODO: move all validation into this method
 const validateIdlDefinition = function (obj) {
   validateModelsDefinition(obj.models, { topLevelModels: obj.models });
-  fixInstances(obj.models);
+  obj.models = normalizeModels(obj.models);
   return obj;
 };
+
+// Normalize IDL definition models
+const normalizeModels = function (models) {
+  return allTransforms.reduce((value, transforms) => {
+    // Apply transformations in several passes, i.e. allTransforms[0], then allTransforms[1], etc.
+    return transformModels({ value, key: 'models', transforms });
+  }, models);
+};
+
+// Normalize IDL definition models, with one set of transforms
+const transformModels = function ({ value, key, transforms, root, depth = 0 }) {
+  // 'instance' check avoids infinite recursion
+  if (!value || value.constructor !== Object || key === 'instance') { return value; }
+
+  // Keep track of root and depth level
+  root = root || value;
+  const isTopLevel = depth <= 1;
+  ++depth;
+
+  // Sort keys for transformation order predictability, but pass order should be used instead for that
+  const newValues = Object.keys(value).sort()
+    // Fire each transform, if defined
+    .filter(name => transforms[name])
+    .map(name => transforms[name]({ value, key, root, isTopLevel }));
+  // Assign transforms return values, to a copy of `value`
+  value = Object.assign({}, value, ...newValues);
+
+  // Recurse over children
+  return mapValues(value, (child, childKey) => transformModels({ value: child, key: childKey, transforms, root, depth }));
+};
+
+/**
+ * List of transformations to apply to normalize IDL models
+ * The top-level index is the pass number
+ * The key is the property name on the model or any object inside the definition
+ * Each function is fired with the following options:
+ *  - {object} value - parent object
+ *  - {string} key - parent object's key
+ *  - {object} root - root object
+ *  - {boolean} isTopLevel - is this one of the top-level models
+ * Must return the new attributes to merge to `value`
+ */
+const allTransforms = [
+
+  {
+
+    // Normalize properties to underscored case
+    properties({ value }) {
+      const properties = mapKeys(value.properties, (_, propName) => underscored(propName));
+      return { properties };
+    },
+
+  },
+
+  {
+
+    // { instanceof '...' } -> { type: 'object', instanceof: '...' }
+    instanceof({ value, root, isTopLevel }) {
+      let instance;
+      if (!isTopLevel) {
+        instance = find(root, model => model.instanceof === value.instanceof);
+      }
+      return { type: 'object', instance };
+    },
+
+    // { required: [...], properties: { prop: { ... } } } -> { properties: { prop: { required: true, ... } } }
+    required({ value }) {
+      // Make sure this is a top-level `required: [...]`, not a submodel `required: true` (created by this function)
+      if (!(value.required instanceof Array)) { return value; }
+
+      const newProperties = chain(value.properties)
+        .pickBy((_, propName) => value.required.includes(propName))
+        .mapValues(prop => Object.assign({}, prop, { required: true }))
+        .value();
+      const properties = Object.assign({}, value.properties, newProperties);
+      return { required: undefined, properties };
+    },
+
+    // Adds def.title refering to property name
+    // TODO: should detect whether child _could_ have `type` instead (i.e. is a JSON schema), as we want `type` to be optional
+    type({ key }) {
+      const title = underscored(key);
+      return { title };
+    },
+
+  },
+
+  {
+
+    // Dereference `instanceof` pointers, using a shallow copy, except for few attributes
+    instance({ value }) {
+      const modelProps = omit(value.instance, allowedRecursiveKeys);
+      return Object.assign(modelProps, { instance: undefined });
+    },
+
+  }
+
+];
+
+const allowedRecursiveKeys = [
+  'instanceof',
+  'description',
+  'deprecation_reason',
+  'required',
+  'title'
+];
 
 const validateModelsDefinition = function (obj, { topLevelModels }) {
   if (typeof obj !== 'object') { return obj; }
 
   forEach(obj, (child, attrName) => {
-    // Avoid infinite recursion
-    if (attrName === 'instance') { return; }
-
     // `instanceof` must be the only attribute (unless top-level), as it will reference another schema,
     // except for also description and related attributes
     if (child.instanceof && topLevelModels !== obj) {
@@ -52,15 +155,9 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
           reason: 'IDL_WRONG_DEFINITION',
         });
       }
-      child.instance = topLevelModel;
     }
 
     if (typeof child === 'object') {
-      // TODO: should detect whether child _could_ have `type` instead (i.e. is a JSON schema), as we want `type` to be optional
-      // Adds def.title refering to parent property name
-      if (child.type || child.instanceof) {
-        child.title = underscored(attrName);
-      }
       // Definitions of type `object` must have valid `properties`
       if (child.type === 'object' && !child.instanceof) {
         if (!child.properties || typeof child.properties !== 'object' || Object.keys(child.properties).length === 0) {
@@ -71,16 +168,6 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
       }
     }
 
-    // Normalize attributes to underscored case
-    if (attrName === 'properties') {
-      obj.properties = mapKeys(obj.properties, (_, propName) => underscored(propName));
-    }
-
-    // { instanceof '...' } -> { type: 'object', instanceof: '...' }
-    if (attrName === 'instanceof' && !obj.type) {
-      obj.type = 'object';
-    }
-
 		if (attrName === 'required' && child instanceof Array) {
 			obj.required.forEach(requiredName => {
 				const prop = obj.properties[requiredName];
@@ -89,9 +176,7 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
 						reason: 'IDL_WRONG_DEFINITION',
 					});
 				}
-				obj.properties[requiredName].required = true;
 			});
-			delete obj.required;
 		}
 
     if (attrName === 'operations' && child instanceof Array) {
@@ -120,28 +205,6 @@ const validateModelsDefinition = function (obj, { topLevelModels }) {
 
   return obj;
 };
-
-// Dereference `instanceof` pointers, using a shallow copy, except for few attributes
-const fixInstances = function (obj) {
-  if (typeof obj !== 'object') { return; }
-
-  if (obj.instance) {
-    Object.assign(obj, omit(obj.instance, allowedRecursiveKeys));
-    delete obj.instance;
-    return;
-  }
-
-  // Recursion
-  forEach(obj, child => fixInstances(child));
-};
-
-const allowedRecursiveKeys = [
-  'instanceof',
-  'description',
-  'deprecation_reason',
-  'required',
-  'title'
-];
 
 
 module.exports = {
