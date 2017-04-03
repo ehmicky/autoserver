@@ -8,7 +8,6 @@ class EngineError extends ExtendableError {
 
   constructor(...args) {
     super(...args);
-    this.type = 'EngineError';
   }
 
 }
