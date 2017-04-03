@@ -11,7 +11,11 @@ const definitions = readFileSync('./examples/schema.yml', { encoding: 'utf-8' })
 const idl = getIdl(definitions);
 startServer({
   idl,
-}).catch(exception => {
+})
+.then(() => {
+  global.console.log('Server started');
+})
+.catch(exception => {
   global.console.error('Exception at server startup:', exception);
 });
 
