@@ -3,6 +3,7 @@
 
 const { httpStartServer } = require('./http');
 const { attachRequire } = require('../utilities');
+const { processOptions } = require('./process_options');
 
 
 /**
@@ -13,8 +14,9 @@ const { attachRequire } = require('../utilities');
  */
 const startServer = async function (options) {
   attachRequire();
+  const opts = processOptions(options);
   const server = await Promise.all([
-    httpStartServer(options),
+    httpStartServer(opts),
   ]);
   return server;
 };
