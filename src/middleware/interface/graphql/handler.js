@@ -8,8 +8,8 @@ const { EngineError } = require('../../../error');
 
 
 const executeGraphql = async function (input) {
-  const { definitions } = input;
-  const schema = graphqlGetSchema(definitions);
+  const { idl } = input;
+  const schema = graphqlGetSchema(idl);
   return async function (request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)
     const { query, variables, operationName } = Object.assign({}, request.params, request.payload);

@@ -4,8 +4,7 @@
 const { GraphQLSchema } = require('graphql');
 const { mapValues } = require('lodash');
 
-const { GeneralCache } = require('../../../../utilities');
-const { getIdl } = require('../../../../idl');
+const { GeneralCache, recursivePrint } = require('../../../../utilities');
 const { getType } = require('./types');
 const { getModelsByMethod } = require('./models');
 
@@ -13,13 +12,12 @@ const { getModelsByMethod } = require('./models');
 const schemaCache = new GeneralCache();
 
 // Returns GraphQL schema
-const getSchema = function (definitions, opts) {
-  const schemaCacheKey = JSON.stringify(definitions);
+const getSchema = function (idl, opts) {
+  const schemaCacheKey = recursivePrint(idl);
   if (schemaCache.exists(schemaCacheKey)) {
     return schemaCache.get(schemaCacheKey);
   }
 
-  const idl = getIdl(definitions);
   // Each schema gets its own cache instance, to avoid leaking
   const cache = new GeneralCache();
 
