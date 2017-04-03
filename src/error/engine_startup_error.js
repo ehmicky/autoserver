@@ -8,7 +8,6 @@ class EngineStartupError extends ExtendableError {
 
   constructor(...args) {
     super(...args);
-    this.type = 'EngineStartupError';
   }
 
 }
