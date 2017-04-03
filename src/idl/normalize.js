@@ -55,17 +55,14 @@ const transformModels = function ({ value, key, transforms, root, depth = 0 }) {
 const allTransforms = [
 
   {
-
     // Normalize properties to underscored case
     properties({ value }) {
       const properties = mapKeys(value.properties, (_, propName) => underscored(propName));
       return { properties };
     },
-
   },
 
   {
-
     // { instanceof '...' } -> { type: 'object', instanceof: '...' }
     instanceof({ value, root, isTopLevel }) {
       let instance;
@@ -94,17 +91,14 @@ const allTransforms = [
       const title = underscored(key);
       return { title };
     },
-
   },
 
   {
-
     // Dereference `instanceof` pointers, using a shallow copy, except for few attributes
     instance({ value }) {
       const modelProps = omit(value.instance, allowedRecursiveKeys);
       return Object.assign(modelProps, { instance: undefined });
     },
-
   }
 
 ];
