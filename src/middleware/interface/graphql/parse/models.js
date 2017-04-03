@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge, mapKeys } = require('lodash');
+const { merge, mapKeys, map } = require('lodash');
 const { getOperationNameFromModel } = require('./name');
 const { getSubDefProp } = require('./utilities');
 const { operations } = require('../../../../idl');
@@ -47,8 +47,8 @@ const isAllowedModel = function (model, { idl: { operations: defaultOperations }
 };
 
 // Retrieve models for a given operation
-const getModelsByOperation = function (operation, { idl: { models: allModels } }) {
-  return allModels.map(model => {
+const getModelsByOperation = function (operation, { idl: { models } }) {
+  return map(models, model => {
     // Deep copy
     model = merge({}, model);
 

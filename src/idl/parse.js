@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { mapValues, chain, merge, values, forEach, findKey, intersection, find, mapKeys, omit } = require('lodash');
+const { mapValues, chain, forEach, findKey, intersection, find, mapKeys, omit } = require('lodash');
 const { underscored } = require('underscore.string');
 const { EngineError } = require('../error');
 const { recursivePrint } = require('../utilities');
@@ -11,20 +11,7 @@ const { parseFile } = require('./formats');
 // Retrieves IDL definition, after validation and transformation
 // TODO: cache this function
 const getIdl = function (definitions) {
-  let obj = typeof definitions === 'string' ? parseFile(definitions) : definitions;
-  // Deep copy, so we do not modify input
-  obj = merge({}, obj);
-  const models = validateIdlDefinition(obj).models;
-  // Transform from object to array, throwing away the property key
-  obj.models = values(models);
-  return obj;
-};
-
-// Validate IDL definition
-// Also performs some transformation, e.g. adding default values
-// TODO: use JSON schema validation|transformation instead
-// TODO: move all validation into this method
-const validateIdlDefinition = function (obj) {
+  const obj = typeof definitions === 'string' ? parseFile(definitions) : definitions;
   validateModelsDefinition(obj.models, { topLevelModels: obj.models });
   obj.models = normalizeModels(obj.models);
   return obj;
