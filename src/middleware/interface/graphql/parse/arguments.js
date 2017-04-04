@@ -29,8 +29,8 @@ const getArguments = function (def, opts) {
 
   const args = Object.assign(
     {},
-    getIdArgument(opts),
 		getDataArgument(opts),
+    getIdArgument(opts),
 		getFilterArgument(opts),
     getOrderArgument(opts)
   );
