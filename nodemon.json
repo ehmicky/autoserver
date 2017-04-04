@@ -1,3 +1,4 @@
 {
-  "exec": "node --inspect"
+  "exec": "node --inspect",
+  "ext": ".js,.json,.yml,.yaml"
 }

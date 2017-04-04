@@ -1,0 +1,199 @@
+$schema: http://json-schema.org/draft-06/schema#
+$id: idlSchema
+title: API engine IDL schema
+description: Schema validating the API engine's IDL
+type: object
+properties:
+  # Model definitions
+  models:
+    allOf:
+    # Models are valid JSON schemas
+    - patternProperties:
+        '.*':
+          $ref: '#/definitions/jsonSchema'
+    # Check models names
+    - propertyNames:
+        $ref: '#/definitions/validModelName'
+  # Default operations
+  operations:
+    $ref: '#/definitions/operationsProperty'
+  # Users can define anything under this property
+  custom:
+    type: object
+  # Automatically generated, and used to validate e.g. `instanceof`
+  modelNames:
+    type: array
+    items:
+      type: string
+# No custom property, except for `custom`
+additionalProperties: false
+definitions:
+  jsonSchema:
+    anyOf:
+    - type: object
+      allOf:
+      - $ref: '#/definitions/currentJsonSchema'
+      - $ref: '#/definitions/futureJsonSchema'
+      - $ref: '#/definitions/customJsonSchema'
+    # JSON schemas can be booleans
+    - type: boolean
+  # Our additions to JSON schema
+  customJsonSchema:
+    properties:
+      # Users can define anything under this property
+      custom:
+        type: object
+      # Used to indicate an attribute is deprecated, and why
+      deprecated:
+        type: string
+      properties:
+        # Apply this schema recursively
+        patternProperties:
+          '.*':
+            $ref: '#/definitions/jsonSchema'
+        # Attributes follow same naming convention as models
+        propertyNames:
+          $ref: '#/definitions/validModelName'
+    # Different validations depending on whether model.isTopLevel is true
+    if:
+      required: [isTopLevel]
+      properties:
+        isTopLevel:
+          const: true
+    then:
+      $ref: '#/definitions/topLevelModel'
+    else:
+      $ref: '#/definitions/nonTopLevelModel'
+  # Only applies this to top-level schemas
+  topLevelModel:
+    properties:
+      operations:
+        $ref: '#/definitions/operationsProperty'
+      # This attribute is added to distinguish between top-level models and the others, since they have different rules
+      # It should not be specified by users though
+      isTopLevel:
+        type: boolean
+        const: true
+    propertyNames:
+      anyOf:
+      - $ref: '#/definitions/validPropertyNames'
+      - enum: [operations, isTopLevel]
+  # Only applies this to non-top-level schemas
+  nonTopLevelModel:
+    properties:
+      # Refers to a top-level model name
+      instanceof:
+        type: string
+        enum:
+          $data: '/modelNames'
+    propertyNames:
+      anyOf:
+      - $ref: '#/definitions/validPropertyNames'
+      - enum: [instanceof]
+  # Validation of `operations` property, e.g. `operations: [find, createOne, createMany]`
+  # This property restricts which operations a specific model can perform
+  operationsProperty:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+      enum: [
+        find, findOne, findMany,
+        create, createOne, createMany,
+        replace, replaceOne, replaceMany,
+        update, updateOne, updateMany,
+        upsert, upsertOne, upsertMany,
+        delete, deleteOne, deleteMany,
+      ]
+    # find is a shortcut for findOne + findMany, i.e. the two are exclusive
+    # Same thing for other methods
+    allOf:
+    # find is a special case, as it has to be defined, because GraphQL requires at least one query operation
+    - oneOf:
+      - contains: {enum: [find]}
+      - contains: {enum: [findOne, findMany]}
+    - oneOf:
+      - contains: {enum: [create]}
+      - contains: {enum: [createOne, createMany]}
+      - not: {contains: {enum: [create, createOne, createMany]}}
+    - oneOf:
+      - contains: {enum: [replace]}
+      - contains: {enum: [replaceOne, replaceMany]}
+      - not: {contains: {enum: [replace, replaceOne, replaceMany]}}
+    - oneOf:
+      - contains: {enum: [update]}
+      - contains: {enum: [updateOne, updateMany]}
+      - not: {contains: {enum: [update, updateOne, updateMany]}}
+    - oneOf:
+      - contains: {enum: [upsert]}
+      - contains: {enum: [upsertOne, upsertMany]}
+      - not: {contains: {enum: [upsert, upsertOne, upsertMany]}}
+    - oneOf:
+      - contains: {enum: [delete]}
+      - contains: {enum: [deleteOne, deleteMany]}
+      - not: {contains: {enum: [delete, deleteOne, deleteMany]}}
+  # Base list of valid property names
+  # We are more restrictive than the JSON schema and forbid any unknown property name
+  # The goal is to avoid typos and mistakes. Custom properties can be added in `custom`
+  validPropertyNames:
+    anyOf:
+      # Standard JSON schema properties
+      - enum: [$id, $schema, $ref, title, description, default, multipleOf, maximum, exclusiveMaximum, minimum,
+          exclusiveMinimum, maxLength, minLength, pattern, additionalItems, items, maxItems, minItems, uniqueItems,
+          contains, maxProperties, minProperties, required, additionalProperties, definitions, properties,
+          patternProperties, dependencies, propertyNames, const, enum, type, format, allOf, anyOf, oneOf, not]
+      # Future standard JSON schema properties
+      - enum: [examples, formatMaximum, formatMinimum, formatExclusiveMinimum, formatExclusiveMaximum, deepRequired,
+        deepProperties, if, then, else]
+      # Properties specific to this project
+      - enum: [custom, deprecated]
+  validModelName:
+    allOf:
+    # Valid GraphQL identifier name, regular expression taken from spec
+    # Additional restriction: lowercase-only
+    - pattern: '^[_a-z][_0-9a-z]*$'
+    # Should not start with __ as it is reserved for GraphQL introspection types
+    - not:
+        pattern: '^__'
+  # Reuse standard JSON schema as a base
+  currentJsonSchema:
+    $ref: http://json-schema.org/draft-06/schema#
+  # Future JSON standard
+  futureJsonSchema:
+    properties:
+      examples:
+        type: array
+        items:
+          type: string
+      formatMaximum:
+        type: string
+      formatMinimum:
+        type: string
+      formatExclusiveMaximum:
+        type: boolean
+      formatExclusiveMinimum:
+        type: boolean
+      deepRequired:
+        type: array
+        items:
+          type: string
+          format: json-pointer
+      deepProperties:
+        type: object
+        propertyNames:
+          type: string
+          format: json-pointer
+        additionalProperties:
+          $ref: '#/definitions/jsonSchema'
+      if:
+        $ref: '#/definitions/jsonSchema'
+      then:
+        $ref: '#/definitions/jsonSchema'
+      else:
+        $ref: '#/definitions/jsonSchema'
+    dependencies:
+      formatExclusiveMinimum: [formatMinimum]
+      formatExclusiveMaximum: [formatMaximum]
+      if: [then]
+      then: [if]
+      else: [then]

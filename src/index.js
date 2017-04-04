@@ -4,6 +4,8 @@
 const { startServer } = require('./server');
 
 
+Error.stackTraceLimit = 100;
+
 startServer({
   conf: './examples/schema.yml',
 })

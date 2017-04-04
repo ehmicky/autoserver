@@ -1,7 +1,6 @@
 models:
   pet:
     type: object
-    instanceof: Pet
     description: Cute animal
     required: [id, name, photo_urls, friends]
     operations: [find, create, replace, update, upsert, deleteOne, deleteMany]
@@ -12,7 +11,7 @@ models:
         description: Unique identifier of a pet
       name:
         type: string
-        example: doggie
+        examples: [doggie]
         description: How to call a pet
         default: default does not work if required
       weight:
@@ -20,7 +19,7 @@ models:
         description: Corrolated to how much a pet has eaten
         deprecated: Let's stop measuring pet's weight
         default: 15
-      isOverweight:
+      is_overweight:
         type: boolean
         description: Has the pet being eating too much?
         default: false
@@ -52,10 +51,11 @@ models:
         description: Has this pet been adopted
         default: adopted
       best_friend:
-        instanceof: Pet
+        instanceof: pet
         description: This pet's best friend
       friends:
         type: array
         description: This pet's friends
         items:
-          instanceof: Pet
+          instanceof: pet
+operations: [find, create, replace, update, upsert, deleteOne, deleteMany]
