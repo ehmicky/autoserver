@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { mapValues, chain, find, mapKeys, omit } = require('lodash');
+const { mapValues, find, mapKeys, omit } = require('lodash');
 const { underscored } = require('underscore.string');
 
 
@@ -26,14 +26,16 @@ const transformModels = function ({ value, key, transforms, root, depth = 0 }) {
 
   // Keep track of root and depth level
   root = root || value;
-  const isTopLevel = depth <= 1;
+  // Depth 1 means top-level model, depth 3 means model attribute, depth 4 means model array attribute's item
+  const type = [,'model',,'singleAttr','multipleAttr'][depth] || 'other';
   ++depth;
 
   // Sort keys for transformation order predictability, but pass order should be used instead for that
   const newValues = Object.keys(value).sort()
+    .concat('any')
     // Fire each transform, if defined
     .filter(name => transforms[name])
-    .map(name => transforms[name]({ value, key, root, isTopLevel }));
+    .map(name => transforms[name]({ value, key, root, type }));
   // Assign transforms return values, to a copy of `value`
   value = Object.assign({}, value, ...newValues);
 
@@ -49,7 +51,7 @@ const transformModels = function ({ value, key, transforms, root, depth = 0 }) {
  *  - {object} value - parent object
  *  - {string} key - parent object's key
  *  - {object} root - root object
- *  - {boolean} isTopLevel - is this one of the top-level models
+ *  - {number} type - 'model', 'singleAttr', 'multipleAttr' or 'other'
  * Must return the new attributes to merge to `value`
  */
 const allTransforms = [
@@ -64,10 +66,10 @@ const allTransforms = [
 
   {
     // { instanceof '...' } -> { type: 'object', instanceof: '...' }
-    instanceof({ value, root, isTopLevel }) {
+    instanceof({ value, root, type }) {
       let instance;
-      if (!isTopLevel) {
-        instance = find(root, model => model.instanceof === value.instanceof);
+      if (type.endsWith('Attr')) {
+        instance = find(root, (_, modelName) => modelName === value.instanceof);
       }
       return { type: 'object', instance };
     },
@@ -77,17 +79,18 @@ const allTransforms = [
       // Make sure this is a top-level `required: [...]`, not a submodel `required: true` (created by this function)
       if (!(value.required instanceof Array)) { return value; }
 
-      const newProperties = chain(value.properties)
-        .pickBy((_, propName) => value.required.includes(propName))
-        .mapValues(prop => Object.assign({}, prop, { required: true }))
-        .value();
+      const newProperties = mapValues(value.properties, (prop, propName) => {
+        const required = value.required.includes(propName);
+        return Object.assign({}, prop, { required });
+      });
       const properties = Object.assign({}, value.properties, newProperties);
       return { required: undefined, properties };
     },
 
     // Adds def.title refering to property name
-    // TODO: should detect whether child _could_ have `type` instead (i.e. is a JSON schema), as we want `type` to be optional
-    type({ key }) {
+    type({ key, type }) {
+      // Only for top-level models and single attributes
+      if (!['model', 'singleAttr'].includes(type)) { return; }
       const title = underscored(key);
       return { title };
     },
@@ -96,19 +99,22 @@ const allTransforms = [
   {
     // Dereference `instanceof` pointers, using a shallow copy, except for few attributes
     instance({ value }) {
-      const modelProps = omit(value.instance, allowedRecursiveKeys);
+      // Make sure we do not copy `required` attribute from top-level model
+      if (value.required === undefined) {
+        value.required = false;
+      }
+      // copy only the keys from top-level model not defined in submodel
+      const modelProps = omit(value.instance, Object.keys(value));
       return Object.assign(modelProps, { instance: undefined });
+    },
+
+    // Add model.instanceof to top-level models
+    any({ key, type }) {
+      if (type !== 'model') { return; }
+      return { instanceof: key };
     },
   }
 
-];
-
-const allowedRecursiveKeys = [
-  'instanceof',
-  'description',
-  'deprecation_reason',
-  'required',
-  'title',
 ];
 
 

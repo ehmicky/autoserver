@@ -153,7 +153,8 @@ const getObjectFields = function (def, opts) {
 					opts = Object.assign({}, opts, { opType: childDef.opType, topLevelDef: childDef });
 				}
 
-				return getField(childDef, opts);
+				const field = getField(childDef, opts);
+        return Object.assign({}, field);
 			})
 			.value();
     return fields;

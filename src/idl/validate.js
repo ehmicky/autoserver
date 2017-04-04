@@ -1,93 +1,57 @@
 'use strict';
 
 
-const { forEach, findKey, intersection, find } = require('lodash');
+const { mapValues, merge, uniqBy } = require('lodash');
+const yaml = require('js-yaml');
+const fs = require('fs');
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true, errorDataPath: 'property', jsonPointers: true, full: true, $data: true });
+// Add future JSON standard keywords
+require('ajv-keywords')(ajv, [ 'if', 'formatMinimum', 'formatMaximum', 'deepRequired', 'deepProperties', ]);
 
 const { EngineStartupError } = require('../error');
-const { recursivePrint } = require('../utilities');
 
 
+// Validate IDL definition against a JSON schema
 const validateIdl = function (idl) {
-  validateModels(idl.models, { topLevelModels: idl.models });
+  const validateFunc = getValidateFunc();
+  const idlCopy = getIdlCopy(idl);
+  const isValid = validateFunc(idlCopy);
+  if (!isValid) {
+    notifyErrors(validateFunc.errors);
+  }
 };
 
-const validateModels = function (obj, { topLevelModels }) {
-  if (typeof obj !== 'object') { return obj; }
-
-  forEach(obj, (child, attrName) => {
-    // `instanceof` must be the only attribute (unless top-level), as it will reference another schema,
-    // except for also description and related attributes
-    if (child.instanceof && topLevelModels !== obj) {
-      const wrongKey = findKey(child, (_, key) => !allowedRecursiveKeys.includes(key));
-      if (wrongKey) {
-        throw new EngineStartupError(`The following definition cannot have the key '${wrongKey}': ${recursivePrint(child)}`, {
-          reason: 'IDL_WRONG_DEFINITION',
-        });
-      }
-      const topLevelModel = find(topLevelModels, model => model.instanceof === child.instanceof);
-      if (!topLevelModel) {
-        throw new EngineStartupError(`Could not find model with "instanceof" '${child.instanceof}': ${recursivePrint(child)}`, {
-          reason: 'IDL_WRONG_DEFINITION',
-        });
-      }
-    }
-
-    if (typeof child === 'object') {
-      // Definitions of type `object` must have valid `properties`
-      if (child.type === 'object' && !child.instanceof) {
-        if (!child.properties || typeof child.properties !== 'object' || Object.keys(child.properties).length === 0) {
-          throw new EngineStartupError(`The following definition of type 'object' is missing 'properties': ${recursivePrint(child)}`, {
-            reason: 'IDL_WRONG_DEFINITION',
-          });
-        }
-      }
-    }
-
-		if (attrName === 'required' && child instanceof Array) {
-			obj.required.forEach(requiredName => {
-				const prop = obj.properties[requiredName];
-				if (!prop) {
-					throw new EngineStartupError(`"${requiredName}" is specified as "required", but is not defined: ${recursivePrint(obj)}`, {
-						reason: 'IDL_WRONG_DEFINITION',
-					});
-				}
-			});
-		}
-
-    if (attrName === 'operations' && child instanceof Array) {
-      const opPrefixes = ['find', 'update', 'upsert', 'delete', 'create', 'replace'].reduce((memo, opPrefix) =>
-        memo.concat([opPrefix, `${opPrefix}One`, `${opPrefix}Many`])
-      , []);
-      child.forEach(operation => {
-        if (!opPrefixes.includes(operation)) {
-					throw new EngineStartupError(`operation "${operation}" does not exist: ${recursivePrint(obj)}`, {
-						reason: 'IDL_WRONG_DEFINITION',
-					});
-        }
-      });
-
-      const readOpPrefixes = ['find', 'findOne', 'findMany'];
-      if (intersection(readOpPrefixes, child).length === 0) {
-				throw new EngineStartupError(`operation "find" must be specified: ${recursivePrint(obj)}`, {
-					reason: 'IDL_WRONG_DEFINITION',
-				});
-      }
-    }
-
-    // Recurse over children
-    validateModels(child, { topLevelModels });
-  }, {});
-
-  return obj;
+// Adds some temporary property on IDL, to help validation
+const getIdlCopy = function (idl) {
+  const idlCopy = merge({}, idl);
+  const models = mapValues(idlCopy.models, model => Object.assign({}, model, { isTopLevel: true }));
+  const modelNames = Object.keys(idlCopy.models);
+  Object.assign(idlCopy, { models, modelNames });
+  return idlCopy;
 };
 
-const allowedRecursiveKeys = [
-  'instanceof',
-  'description',
-  'deprecation_reason',
-  'required',
-  'title'
-];
+// Retrieve ajv validate function
+let cachedValidateFunc;
+const getValidateFunc = function () {
+  if (cachedValidateFunc) { return cachedValidateFunc; }
+  const idlSchemaContent = fs.readFileSync('./src/idl/idl_schema.yml');
+  const idlSchema = yaml.load(idlSchemaContent, { schema: yaml.CORE_SCHEMA, json: true });
+  const validateFunc = ajv.compile(idlSchema);
+  cachedValidateFunc = validateFunc;
+  return validateFunc;
+};
+
+// Throw error on IDL invalidation
+const notifyErrors = function (errors) {
+  // Those rules create double error messages, too verbose
+  const verboseRules = ['anyOf', 'allOf', 'not', 'oneOf', '$merge', '$patch'];
+  errors = errors.filter(error => !verboseRules.includes(error.keyword));
+  // When in `anyOf` or similar rules, duplicated messages are created
+  const uniqueErrors = uniqBy(errors, 'message');
+  const message = '\n' + ajv.errorsText(uniqueErrors, { separator: '\n', dataVar: 'config' });
+  throw new EngineStartupError(message, { reason: 'CONFIGURATION_INVALID' });
+};
 
 
 module.exports = {

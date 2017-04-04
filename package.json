@@ -23,6 +23,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "ajv-keywords": "^2.0.1-beta.0",
     "body-parser": "^1.17.1",
     "graphql": "^0.9.1",
     "graphql-server-core": "^0.6.0",
@@ -39,6 +40,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "ajv": "^5.0.4-beta.1",
     "eslint": "^3.17.1",
     "nodemon": "^1.11.0"
   },
