@@ -1,9 +1,9 @@
 'use strict';
 
 
-const databaseConvertor = async function () {
+const apiConvertor = async function () {
   return async function (input) {
-    const { database: { operation, args, modelName } } = input;
+    const { api: { operation, args, modelName } } = input;
     const response = await this.next({ operation, args, modelName });
     return response;
   };
@@ -11,5 +11,5 @@ const databaseConvertor = async function () {
 
 
 module.exports = {
-  databaseConvertor,
+  apiConvertor,
 };

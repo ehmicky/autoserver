@@ -13,6 +13,6 @@ module.exports = Object.assign(
   require('./interface_convertor'),
   require('./interface_negotiator'),
   require('./interface'),
-  require('./database_convertor'),
+  require('./api_convertor'),
   require('./database')
 );

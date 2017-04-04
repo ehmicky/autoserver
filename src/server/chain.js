@@ -49,8 +49,12 @@ const start = async function (opts) {
       // GraphQL schema printing
       graphqlprint: mdw.printGraphql,
     }),
-    // Convert from interface format to database format
-    mdw.databaseConvertor,
+    // Convert from interface format to API format
+    mdw.apiConvertor,
+
+    /**
+     * API-related middleware
+     */
 
     /**
      * Database-related middleware
@@ -79,7 +83,7 @@ const applyOptions = async function (opts) {
     'executeGraphql',
     'executeGraphiql',
     'printGraphql',
-    'databaseConvertor',
+    'apiConvertor',
     'executeDatabaseOperation'
   ];
   const memo = {};
