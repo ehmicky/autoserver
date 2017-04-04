@@ -1,8 +1,6 @@
 'use strict';
 
 
-const { omit } = require('lodash');
-
 // Fake database for the moment
 const database = require('./data.json');
 const { validateDatabaseInput } = require('./validate');
@@ -12,8 +10,7 @@ const { fireOperation } = require('./operations');
 const executeDatabaseOperation = async function () {
   return async function (input) {
     const { operation, args = {}, modelName } = input;
-    const { order_by: orderBy = 'id+', data, id, ids } = args;
-    const filters = omit(args, ['order_by', 'data', 'id', 'ids']);
+    const { order_by: orderBy = 'id+', data, id, ids, filter: filters } = args;
     const collection = database[modelName];
 
     validateDatabaseInput({ operation, modelName });

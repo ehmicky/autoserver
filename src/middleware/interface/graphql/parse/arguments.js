@@ -6,7 +6,7 @@ const {
   GraphQLNonNull,
   GraphQLList,
 } = require('graphql');
-const { chain, mapValues, pickBy, intersection } = require('lodash');
+const { chain, mapValues, intersection } = require('lodash');
 
 const { isMultiple, getSubDef } = require('./utilities');
 
@@ -80,12 +80,15 @@ const getDataArgument = function ({ multiple, opType, inputObjectType }) {
 // Filters argument, i.e. only queries entities that match specified attributes
 const filterOpTypes = ['find', 'delete', 'update'];
 const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
-  const fieldsArgs = getFieldsArgs({ filterObjectType });
-  // Only for findMany, deleteMany and updateMany
   if (!multiple || !filterOpTypes.includes(opType)) { return; }
-  // Exclude `id` argument, as it handled by getIdArgument()
-  const filterIdArgs = pickBy(fieldsArgs, (_, fieldName) => fieldName !== 'id');
-  return filterIdArgs;
+  // Quick hack to exclude `id` argument, as it handled by getIdArgument()
+  delete filterObjectType._fields.id;
+  return {
+    filter: {
+      type: filterObjectType,
+      description: 'Filter results according to those attributes',
+    },
+  };
 };
 
 // id argument, used to query, and (with create|replace|upsert) also mutate
@@ -95,7 +98,13 @@ const getIdArgument = function ({ multiple, opType, filterObjectType, isTopLevel
   // Exception: findMany, deleteMany and updateMany, where it is merged (intersected) with parent value
   if (!isTopLevel && !(multiple && filterOpTypes.includes(opType))) { return; }
 
-  const fieldsArgs = getFieldsArgs({ filterObjectType });
+  // Retrieve model fields, so they can be used as arguments
+  const fields = filterObjectType.getFields();
+  const fieldsArgs = mapValues(fields, field => ({
+    type: field.type,
+    description: field.description,
+  }));
+
   const dataIdArgs = chain(fieldsArgs)
     .pickBy((_, fieldName) => fieldName === 'id')
     .mapValues(field => {
@@ -120,15 +129,6 @@ const getIdArgument = function ({ multiple, opType, filterObjectType, isTopLevel
     .mapKeys(() => multiple ? 'ids' : 'id')
     .value();
   return dataIdArgs;
-};
-
-// Retrieve model fields, so they can be used as arguments
-const getFieldsArgs = function ({ filterObjectType }) {
-  const fields = filterObjectType.getFields();
-  return mapValues(fields, field => ({
-    type: field.type,
-    description: field.description,
-  }));
 };
 
 // Add resolver arguments, while resolve function is fired
@@ -169,7 +169,6 @@ const addNestedIdArguments = function (def, { args, multiple, parent }) {
     args.id = parentVal;
   }
 };
-
 
 
 module.exports = {
