@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { mapValues, find, omit } = require('lodash');
+const { mapValues, find, omit, pickBy } = require('lodash');
 
 
 // Normalize IDL definition
@@ -34,9 +34,12 @@ const transformModels = function ({ value, key, transforms, root, depth = 0 }) {
     .concat('any')
     // Fire each transform, if defined
     .filter(name => transforms[name])
-    .map(name => transforms[name]({ value, key, root, type }));
+    .map(name => transforms[name]({ value, key, root, type }))
+    .filter(values => values);
   // Assign transforms return values, to a copy of `value`
   value = Object.assign({}, value, ...newValues);
+  // Remove undefined values
+  value = pickBy(value, val => val !== undefined);
 
   // Recurse over children
   return mapValues(value, (child, childKey) => transformModels({ value: child, key: childKey, transforms, root, depth }));
@@ -65,19 +68,6 @@ const allTransforms = [
       return { type: 'object', instance };
     },
 
-    // { required: [...], properties: { prop: { ... } } } -> { properties: { prop: { required: true, ... } } }
-    required({ value }) {
-      // Make sure this is a top-level `required: [...]`, not a submodel `required: true` (created by this function)
-      if (!(value.required instanceof Array)) { return value; }
-
-      const newProperties = mapValues(value.properties, (prop, propName) => {
-        const required = value.required.includes(propName);
-        return Object.assign({}, prop, { required });
-      });
-      const properties = Object.assign({}, value.properties, newProperties);
-      return { required: undefined, properties };
-    },
-
     // Adds def.propName refering to property name
     type({ key, type }) {
       // Only for top-level models and single attributes
@@ -90,11 +80,9 @@ const allTransforms = [
     // Dereference `instanceof` pointers, using a shallow copy, except for few attributes
     instance({ value }) {
       // Make sure we do not copy `required` attribute from top-level model
-      if (value.required === undefined) {
-        value.required = false;
-      }
+      const keysToProtect = Object.keys(value).concat('required');
       // copy only the keys from top-level model not defined in submodel
-      const modelProps = omit(value.instance, Object.keys(value));
+      const modelProps = omit(value.instance, keysToProtect);
       return Object.assign(modelProps, { instance: undefined });
     },
 
