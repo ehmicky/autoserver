@@ -24,7 +24,7 @@
  *                             If an id is then specified, both filters will be used
  *  - {object|object[]} data - Attributes to update or create
  *                             Is an array with createMany, replaceMany or upsertMany
- *  - {any} filter           - Filter the operation by a specific attribute.
+ *  - {any} filters          - Filter the operation by a specific attribute.
  *                             The argument name is that attribute name, not `filter`
  *                             The filter value can be nester, e.g. { furniture: { size: 2 } }
  *  - {string} order_by      - Sort results.
