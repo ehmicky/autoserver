@@ -48,7 +48,7 @@ const getField = function (def, opts) {
   Object.assign(field.type, { def });
 
   // Can only assign default if fields are optional in input, but required by database
-  if (canRequireAttributes(def, opts) && !def.required && opts.inputObjectType === 'input' && def.default !== undefined) {
+  if (canRequireAttributes(def, opts) && def.required !== true && opts.inputObjectType === 'input' && def.default !== undefined) {
     defaults(field, { defaultValue: def.default });
   }
 
@@ -113,6 +113,14 @@ const getObjectFields = function (def, opts) {
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => {
 		const fields = chain(def.properties)
+      // If parent has required ['childDefName'], adds childDef.required true|false, for convenience
+      .mapValues((childDef, childDefName) => {
+        if (def.required instanceof Array) {
+          const required = def.required.includes(childDefName);
+          childDef = Object.assign({}, childDef, { required });
+        }
+        return childDef;
+      })
       // Divide submodels fields between recursive fields (e.g. `model.createUser`) and non-recursive fields
       // (e.g. `model.user`)
       .transform((props, childDef, childDefName) => {
@@ -176,7 +184,7 @@ const graphQLFieldsInfo = [
 
 	// "Required" modifier type
   {
-    condition: (def, opts) => def.required && canRequireAttributes(def, opts),
+    condition: (def, opts) => def.required === true && canRequireAttributes(def, opts),
     value: graphQLRequiredFieldsInfo,
   },
 
