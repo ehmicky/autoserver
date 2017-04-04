@@ -55,6 +55,7 @@ const start = async function (opts) {
     /**
      * API-related middleware
      */
+    mdw.validation,
 
     /**
      * Database-related middleware
@@ -84,6 +85,7 @@ const applyOptions = async function (opts) {
     'executeGraphiql',
     'printGraphql',
     'apiConvertor',
+    'validation',
     'executeDatabaseOperation'
   ];
   const memo = {};
