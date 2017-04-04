@@ -9,8 +9,7 @@ const { fireOperation } = require('./operations');
 
 const executeDatabaseOperation = async function () {
   return async function (input) {
-    const { operation, args = {}, modelName } = input;
-    const { order_by: orderBy, data, id, ids, filter: filters } = args;
+    const { operation, args: { order_by: orderBy, data, id, ids, filter: filters } = {}, modelName } = input;
     const collection = database[modelName];
 
     validateDatabaseInput({ operation, modelName });
