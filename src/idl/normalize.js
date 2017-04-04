@@ -1,8 +1,7 @@
 'use strict';
 
 
-const { mapValues, find, mapKeys, omit } = require('lodash');
-const { underscored } = require('underscore.string');
+const { mapValues, find, omit } = require('lodash');
 
 
 // Normalize IDL definition
@@ -57,14 +56,6 @@ const transformModels = function ({ value, key, transforms, root, depth = 0 }) {
 const allTransforms = [
 
   {
-    // Normalize properties to underscored case
-    properties({ value }) {
-      const properties = mapKeys(value.properties, (_, propName) => underscored(propName));
-      return { properties };
-    },
-  },
-
-  {
     // { instanceof '...' } -> { type: 'object', instanceof: '...' }
     instanceof({ value, root, type }) {
       let instance;
@@ -91,8 +82,7 @@ const allTransforms = [
     type({ key, type }) {
       // Only for top-level models and single attributes
       if (!['model', 'singleAttr'].includes(type)) { return; }
-      const propName = underscored(key);
-      return { propName };
+      return { propName: key };
     },
   },
 
