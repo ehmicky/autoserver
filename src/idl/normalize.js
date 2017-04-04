@@ -87,12 +87,12 @@ const allTransforms = [
       return { required: undefined, properties };
     },
 
-    // Adds def.title refering to property name
+    // Adds def.propName refering to property name
     type({ key, type }) {
       // Only for top-level models and single attributes
       if (!['model', 'singleAttr'].includes(type)) { return; }
-      const title = underscored(key);
-      return { title };
+      const propName = underscored(key);
+      return { propName };
     },
   },
 

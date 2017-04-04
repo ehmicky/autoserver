@@ -151,7 +151,7 @@ const addNestedIdArguments = function (def, { args, multiple, parent }) {
   // Only for nested models
   if (def.isTopLevel) { return; }
 
-  const parentVal = parent.val[def.title];
+  const parentVal = parent.val[def.propName];
   if (multiple) {
     // Make sure parent value is defined and correct
     if (parentVal == null || !(parentVal instanceof Array) || parentVal.length === 0) { return []; }
