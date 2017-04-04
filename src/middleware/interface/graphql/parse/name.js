@@ -14,11 +14,10 @@ const pluralize = function ({ name, asPlural }) {
 
 // Returns def.propName, in plural|singular form
 const getName = function ({ def, asPlural = true, inputObjectType } = {}) {
-	const inputObjectTypeName = inputObjectType === 'input' ? ' input' : (inputObjectType === 'filter' ? ' filter' : '');
   if (typeof def.propName !== 'string') {
     throw new EngineError(`"propName" must be a string in definition ${recursivePrint(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
-  const name = def.propName + inputObjectTypeName;
+  const name = def.propName + (capitalize(inputObjectType) || '');
   if (!name) {
     throw new EngineError(`Missing "propName" key in definition ${recursivePrint(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
