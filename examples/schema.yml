@@ -7,7 +7,6 @@ models:
     properties:
       id:
         type: string
-        format: id
         description: Unique identifier of a pet
       name:
         type: string
