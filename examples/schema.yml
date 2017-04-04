@@ -18,6 +18,7 @@ models:
         description: Corrolated to how much a pet has eaten
         deprecated: Let's stop measuring pet's weight
         default: 15
+        maximum: 100
       is_overweight:
         type: boolean
         description: Has the pet being eating too much?

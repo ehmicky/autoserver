@@ -43,6 +43,11 @@ const errorReasons = {
     http: { status: 400 },
   }),
 
+  // General validation input errors, e.g. input data|filter does not match IDL schema
+  INPUT_VALIDATION: () => ({
+    http: { status: 400 },
+  }),
+
   // Standard 404, e.g. route not found
   NOT_FOUND: () => ({
     http: { status: 404 },
