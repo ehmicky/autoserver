@@ -60,8 +60,8 @@ const executeGraphql = async function (input) {
   };
 };
 
-const fireNext = async function (input, databaseInput) {
-  input.database = databaseInput;
+const fireNext = async function (input, apiInput) {
+  input.api = apiInput;
   const response = await this.next(input);
   return response;
 };
