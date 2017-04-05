@@ -13,5 +13,6 @@ module.exports = Object.assign(
   require('./cache'),
   require('./promise'),
   require('./stringify'),
+  require('./memoize'),
   require('./debugging')
 );
