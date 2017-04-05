@@ -20,16 +20,7 @@ const getValidator = memoize(function ({ idl, modelName, operation, direction })
   return validator;
 });
 
-/*
-  TODO:
-    - always require `id[s]` on return value (should be done by default)
-    - do not require any other attribute but `id[s]` on 'delete*' return value
-    - improve error messages, testing each validation function
-    - try to use depthType in GraphQL layer, or the fact that the referred instance's id type is directly available recursively
-*/
 // Adapt the IDL schema validation to the current operation, and to what the validator library expects
-const optionalIdOperations = ['findMany', 'deleteMany', 'createOne', 'createMany'];
-const optionalAttrOperations = ['updateOne', 'updateMany', 'findOne', 'findMany', 'deleteOne', 'deleteMany'];
 const transformSchema = function ({ schema, operation, direction }) {
   // Apply each transform recursively
   return transform({
@@ -38,6 +29,10 @@ const transformSchema = function ({ schema, operation, direction }) {
   })({ input: schema });
 };
 
+const optionalInputIdOperations = ['findMany', 'deleteMany', 'createOne', 'createMany'];
+const optionalInputAttrOperations = ['updateOne', 'updateMany', 'findOne', 'findMany', 'deleteOne', 'deleteMany'];
+const optionalOutputIdOperations = [];
+const optionalOutputAttrOperations = ['deleteOne', 'deleteMany'];
 const transforms = [
   {
     // Fix `required` attribute according to the current operation
@@ -45,12 +40,21 @@ const transforms = [
       if (!(value instanceof Array)) { return; }
 
       if (direction === 'input') {
-        // Some operations do not require `id` nor `ids`
-        if (optionalIdOperations.includes(operation)) {
+        // Some operations do not require `id` nor `ids`  as input
+        if (optionalInputIdOperations.includes(operation)) {
           value = value.filter(requiredProp => requiredProp !== 'id');
         }
-        // Some operations do not require normal attributes (except for `id` or `ids`)
-        if (optionalAttrOperations.includes(operation)) {
+        // Some operations do not require normal attributes as input (except for `id` or `ids`)
+        if (optionalInputAttrOperations.includes(operation)) {
+          value = value.filter(requiredProp => requiredProp === 'id');
+        }
+      } else if (direction === 'output') {
+        // Some operations might not require `id` nor `ids`  as output (for the moment, none)
+        if (optionalOutputIdOperations.includes(operation)) {
+          value = value.filter(requiredProp => requiredProp !== 'id');
+        }
+        // Some operations do not require normal attributes as output (except for `id` or `ids`)
+        if (optionalOutputAttrOperations.includes(operation)) {
           value = value.filter(requiredProp => requiredProp === 'id');
         }
       }
