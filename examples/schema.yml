@@ -8,6 +8,7 @@ models:
       id:
         type: string
         description: Unique identifier of a pet
+        maxLength: 2
       name:
         type: string
         examples: [doggie]
