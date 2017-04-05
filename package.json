@@ -25,6 +25,7 @@
   "dependencies": {
     "ajv-keywords": "^2.0.1-beta.0",
     "body-parser": "^1.17.1",
+    "fast-memoize": "^2.2.7",
     "graphql": "^0.9.1",
     "graphql-server-core": "^0.6.0",
     "graphql.js": "^0.4.5",
