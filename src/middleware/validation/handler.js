@@ -10,18 +10,27 @@ const { reportErrors } = require('./report');
 const validation = async function ({ idl }) {
   return async function (input) {
     const { modelName, args, operation } = input;
-
-    const validator = getValidator({ idl, modelName, operation });
-    const attributes = getAttributes(args);
-    const errors = validateAll({ validator, attributes });
-
-    if (errors) {
-      reportErrors({ errors });
-    }
+    validateInput({ idl, modelName, args, operation });
 
     const response = await this.next(input);
+    validateOutput({ idl, modelName, response, operation });
+
     return response;
   };
+};
+
+const validateInput = function ({ idl, modelName, args, operation }) {
+  const validator = getValidator({ idl, modelName, operation });
+  const attributes = getAttributes(args);
+  const errors = validateAll({ validator, attributes });
+
+  if (errors) {
+    reportErrors({ errors });
+  }
+};
+
+const validateOutput = function ({ idl, modelName, response, operation }) {
+  const validator = getValidator({ idl, modelName, operation });
 };
 
 
