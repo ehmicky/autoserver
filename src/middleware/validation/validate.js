@@ -1,13 +1,16 @@
 'use strict';
 
 
-const { flatten } = require('lodash');
+const { chain } = require('lodash');
 
 
 // Perform actual validation, returning all error objects as array
 const validateAll = function ({ validator, attributes }) {
-  const errors = attributes.map(({ attrs, argName }) => validate({ validator, attrs, argName }));
-  return flatten(errors);
+  return chain(attributes)
+    .map(({ attrs, argName }) => validate({ validator, attrs, argName }))
+    .flatten()
+    .compact()
+    .value();
 };
 
 const validate = function ({ validator, attrs, argName }) {
