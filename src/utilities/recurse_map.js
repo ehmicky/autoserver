@@ -1,27 +1,38 @@
 'use strict';
 
 
-const { mapValues } = require('lodash');
+const { mapValues, map } = require('lodash');
 
 
 // Like lodash mapValues(), but recursive, avoiding infinite recursion
-const recurseMap = function (val, func) {
-  return recurse(val, null, null, func, []);
-};
-const recurse = function (val, key, parent, func, cache) {
-  const isObject = val && val.constructor === Object;
-  const isArray = val && val instanceof Array;
-  if (isObject || isArray) {
-    if (cache.includes(val)) { return; }
-    cache.push(val);
-    if (isObject) {
-      val = mapValues(val, (child, childKey) => recurse(child, childKey, val, func, cache));
+const recurseMap = function ({ value, mapFunc, filterFunc }) {
+  let cache = [];
+  const root = value;
+  const recurse = function ({ value, key, parent, depth }) {
+    const isKept = !filterFunc || filterFunc({ value, key, parent, root, depth });
+    if (!isKept) { return value; }
+
+    value = mapFunc({ value, key, parent, root, depth });
+    // If return value contains __noRecurse, stop here,
+    // to avoid infinite recursion when recursive value was added by deep copy
+    if (value && value.__noRecurse) {
+      delete value.__noRecurse;
+      return value;
     }
-    if (isArray) {
-      val = val.map((child, childKey) => recurse(child, childKey, val, func, cache));
+
+    depth++;
+    const isObject = value && value.constructor === Object;
+    const isArray = value && value instanceof Array;
+    if (isObject || isArray) {
+      if (cache.includes(value)) { return value; }
+      cache.push(value);
+      const mapper = isObject ? mapValues : map;
+      value = mapper(value, (child, childKey) => recurse({ value: child, key: childKey, parent: value, depth }));
     }
-  }
-  return func(val, key, parent);
+
+    return value;
+  };
+  return recurse({ value, key: null, parent: null, depth: 0 });
 };
 
 
