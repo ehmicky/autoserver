@@ -5,7 +5,7 @@ const { EngineError } = require('../../error');
 
 
 // Report errors by throwing an exception, e.g. firing a HTTP 400
-const reportErrors = function ({ errors }) {
+const reportErrors = function ({ errors, direction }) {
   // Retrieve error message as string, from error objects
   const errorsText = '\n' + errors
     .map(error => {
@@ -24,7 +24,8 @@ const reportErrors = function ({ errors }) {
       return errorText;
     })
     .join('\n');
-  throw new EngineError(errorsText, { reason: 'INPUT_VALIDATION' });
+  const reason = direction === 'input' ? 'INPUT_VALIDATION' : 'OUTPUT_VALIDATION';
+  throw new EngineError(errorsText, { reason });
 };
 
 // Customize error messages when the library's ones are unclear

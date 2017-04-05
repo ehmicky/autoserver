@@ -93,6 +93,12 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // Response did not pass IDL validation, e.g. if the database is corrupted or new constraints were applied without
+  // being migrated
+  OUTPUT_VALIDATION: () => ({
+    http: { status: 500 },
+  }),
+
   // Internal error on the database validation layer
   DATABASE_VALIDATION_INTERNAL: () => ({
     http: { status: 500 },
