@@ -5,7 +5,7 @@ const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
 const { EngineError } = require('../../../../error');
-const { recursivePrint } = require('../../../../utilities');
+const { stringify } = require('../../../../utilities');
 
 
 const pluralize = function ({ name, asPlural }) {
@@ -15,11 +15,11 @@ const pluralize = function ({ name, asPlural }) {
 // Returns def.propName, in plural|singular form
 const getName = function ({ def, asPlural = true, inputObjectType } = {}) {
   if (typeof def.propName !== 'string') {
-    throw new EngineError(`"propName" must be a string in definition ${recursivePrint(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throw new EngineError(`"propName" must be a string in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
   const name = def.propName + (capitalize(inputObjectType) || '');
   if (!name) {
-    throw new EngineError(`Missing "propName" key in definition ${recursivePrint(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throw new EngineError(`Missing "propName" key in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
   return pluralize({ name, asPlural });
 };

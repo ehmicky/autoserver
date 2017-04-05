@@ -2,7 +2,7 @@
 
 
 // Like JSON.stringify(), but handles infinite recursion
-const recursivePrint = function (val, indent) {
+const stringify = function (val, indent) {
   const cache = [];
   return JSON.stringify(val, (_, value) => {
     if (typeof value === 'object' && value !== null) {
@@ -17,5 +17,5 @@ const recursivePrint = function (val, indent) {
 
 
 module.exports = {
-  recursivePrint,
+  stringify,
 };

@@ -4,7 +4,7 @@
 const { GraphQLSchema } = require('graphql');
 const { mapValues } = require('lodash');
 
-const { GeneralCache, recursivePrint } = require('../../../../utilities');
+const { GeneralCache, stringify } = require('../../../../utilities');
 const { getType } = require('./types');
 const { getModelsByMethod } = require('./models');
 
@@ -13,7 +13,7 @@ const schemaCache = new GeneralCache();
 
 // Returns GraphQL schema
 const getSchema = function (idl, opts) {
-  const schemaCacheKey = recursivePrint(idl);
+  const schemaCacheKey = stringify(idl);
   if (schemaCache.exists(schemaCacheKey)) {
     return schemaCache.get(schemaCacheKey);
   }
