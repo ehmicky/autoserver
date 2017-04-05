@@ -19,6 +19,7 @@ const validation = async function ({ idl }) {
   };
 };
 
+// Validates input, e.g. query arguments or data input
 const validateInput = function ({ idl, modelName, args, operation }) {
   const validator = getValidator({ idl, modelName, operation });
   const attributes = getAttributes(args);
@@ -29,6 +30,7 @@ const validateInput = function ({ idl, modelName, args, operation }) {
   }
 };
 
+// Validates output, e.g. if the database is corrupted
 const validateOutput = function ({ idl, modelName, response, operation }) {
   const validator = getValidator({ idl, modelName, operation });
 };
