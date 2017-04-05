@@ -24,7 +24,7 @@ const validateInput = function ({ idl, modelName, args, operation }) {
   const attributes = getAttributes(args);
   const errors = validateAll({ validator, attributes });
 
-  if (errors) {
+  if (errors.length > 0) {
     reportErrors({ errors });
   }
 };
