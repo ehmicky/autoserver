@@ -14,5 +14,6 @@ module.exports = Object.assign(
   require('./promise'),
   require('./stringify'),
   require('./memoize'),
+  require('./recurse_map'),
   require('./debugging')
 );
