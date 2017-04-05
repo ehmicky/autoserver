@@ -7,20 +7,22 @@ const ajv = new Ajv({ allErrors: true, errorDataPath: 'property', full: true, $d
 // Add future JSON standard keywords
 require('ajv-keywords')(ajv, [ 'if', 'formatMinimum', 'formatMaximum', 'deepRequired', 'deepProperties', ]);
 
-const { memoize } = require('../../utilities');
+const { memoize, recurseMap } = require('../../utilities');
 
 
 // Retrieves validator function
 const getValidator = memoize(function ({ idl, modelName, operation }) {
-  const schema = idl.models[modelName];
-  const transformedSchema = transformSchema({ schema, operation });
-  const validator = ajv.compile(transformedSchema);
+  let schema = idl.models[modelName];
+  // Deep copy
+  schema = merge({}, schema);
+  schema = transformSchema({ schema, operation });
+  const validator = ajv.compile(schema);
   return validator;
 });
 
 /*
 REQUIRE:
-Use schema.yml require array except:
+Use schema.yml `required` array except:
   data.id[s]: only update|replace|upsert or findOne|deleteOne
   data.ATTR: only create|replace|upsert
   return.id[s]: always
@@ -30,21 +32,26 @@ Use schema.yml require array except:
 const optionalIdOperations = ['findMany', 'deleteMany', 'createOne', 'createMany'];
 const optionalAttrOperations = ['updateOne', 'updateMany', 'findOne', 'findMany', 'deleteOne', 'deleteMany'];
 const transformSchema = function ({ schema, operation }) {
-  // Deep copy
-  schema = merge({}, schema);
+  // Apply each transform recursively
+  return recurseMap(schema, (value, key) => transforms[key] ? transforms[key]({ value, operation }) : value);
+};
 
-  if (schema.required instanceof Array) {
+// Applied on the schema, where the key is the attribute of the value to transform
+const transforms = {
+  required({ value, operation }) {
+    if (!value instanceof Array) { return value; }
+
     // Some operations do not require `id`
     if (optionalIdOperations.includes(operation)) {
-      schema.required = schema.required.filter(requiredProp => requiredProp !== 'id');
+      value = value.filter(requiredProp => requiredProp !== 'id');
     }
     // Some operations do not require normal attributes (except for `id`)
     if (optionalAttrOperations.includes(operation)) {
-      schema.required = schema.required.filter(requiredProp => requiredProp === 'id');
+      value = value.filter(requiredProp => requiredProp === 'id');
     }
-  }
 
-  return schema;
+    return value;
+  },
 };
 
 module.exports = {
