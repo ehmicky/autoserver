@@ -14,13 +14,13 @@ const pluralize = function ({ name, asPlural }) {
 
 // Returns def.propName, in plural|singular form
 const getName = function ({ def, asPlural = true, inputObjectType } = {}) {
+  if (!def.propName) {
+    throw new EngineError(`Missing "propName" key in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+  }
   if (typeof def.propName !== 'string') {
     throw new EngineError(`"propName" must be a string in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
   const name = def.propName + (capitalize(inputObjectType) || '');
-  if (!name) {
-    throw new EngineError(`Missing "propName" key in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
-  }
   return pluralize({ name, asPlural });
 };
 
