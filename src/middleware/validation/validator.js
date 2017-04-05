@@ -21,12 +21,11 @@ const getValidator = memoize(function ({ idl, modelName, operation }) {
 });
 
 /*
-REQUIRE:
-Use schema.yml `required` array except:
-  data.id[s]: only update|replace|upsert or findOne|deleteOne
-  data.ATTR: only create|replace|upsert
-  return.id[s]: always
-  return.ATTR: not delete
+  TODO:
+    - validate return value as well
+    - always require `id[s]` on return value (should be done by default)
+    - do not require any other attribute but `id[s]` on 'delete*' return value
+    - improve error messages, testing each validation function
 */
 // Adapt the IDL schema validation to the current operation, and to what the validator library expects
 const optionalIdOperations = ['findMany', 'deleteMany', 'createOne', 'createMany'];
@@ -41,11 +40,11 @@ const transforms = {
   required({ value, operation }) {
     if (!value instanceof Array) { return value; }
 
-    // Some operations do not require `id`
+    // Some operations do not require `id` nor `ids`
     if (optionalIdOperations.includes(operation)) {
       value = value.filter(requiredProp => requiredProp !== 'id');
     }
-    // Some operations do not require normal attributes (except for `id`)
+    // Some operations do not require normal attributes (except for `id` or `ids`)
     if (optionalAttrOperations.includes(operation)) {
       value = value.filter(requiredProp => requiredProp === 'id');
     }
