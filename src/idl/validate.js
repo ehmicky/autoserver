@@ -18,7 +18,7 @@ const validateIdl = async function (idl) {
 // Adds some temporary property on IDL, to help validation
 const getIdlCopy = function (idl) {
   const idlCopy = merge({}, idl);
-  const models = mapValues(idlCopy.models, model => Object.assign({}, model, { isTopLevel: true }));
+  const models = mapValues(idlCopy.models, model => Object.assign({}, model, { depthType: 'model' }));
   const modelNames = Object.keys(idlCopy.models);
   Object.assign(idlCopy, { models, modelNames });
   return idlCopy;
