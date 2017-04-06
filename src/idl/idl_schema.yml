@@ -135,6 +135,7 @@ definitions:
         pattern: '^__'
   # Reuse standard JSON schema as a base
   currentJsonSchema:
+    # See the file named `json-schema-draft-06.yml` in same directory
     $ref: http://json-schema.org/draft-06/schema#
   # Future JSON standard
   futureJsonSchema:
