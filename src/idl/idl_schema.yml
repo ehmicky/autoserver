@@ -6,14 +6,13 @@ type: object
 properties:
   # Model definitions
   models:
-    allOf:
     # Models are valid JSON schemas
-    - patternProperties:
-        '.*':
-          $ref: '#/definitions/jsonSchema'
+    patternProperties:
+      '.*':
+        $ref: '#/definitions/modelSchema'
     # Check models names
-    - propertyNames:
-        $ref: '#/definitions/validModelName'
+    propertyNames:
+      $ref: '#/definitions/validModelName'
   # Default operations
   operations:
     $ref: '#/definitions/operationsProperty'
@@ -28,7 +27,9 @@ properties:
 # No custom property, except for `custom`
 additionalProperties: false
 definitions:
-  jsonSchema:
+  # Main schema, for models under idl.models.modelName.*
+  modelSchema:
+    # Model schemas are an augmented version of a normal JSON schema
     anyOf:
     - type: object
       allOf:
@@ -46,20 +47,24 @@ definitions:
       # Used to indicate an attribute is deprecated, and why
       deprecated:
         type: string
+      # This attribute is added to distinguish between top-level models and the others, since they have different rules
+      # It should not be specified by users though
+      depthType:
+        type: string
       properties:
         # Apply this schema recursively
         patternProperties:
           '.*':
-            $ref: '#/definitions/jsonSchema'
+            $ref: '#/definitions/modelSchema'
         # Attributes follow same naming convention as models
         propertyNames:
           $ref: '#/definitions/validModelName'
-    # Different validations depending on whether model.isTopLevel is true
+    # Different validations depending on whether model.depthType is 'model'
     if:
-      required: [isTopLevel]
+      required: [depthType]
       properties:
-        isTopLevel:
-          const: true
+        depthType:
+          const: model
     then:
       $ref: '#/definitions/topLevelModel'
     else:
@@ -69,15 +74,10 @@ definitions:
     properties:
       operations:
         $ref: '#/definitions/operationsProperty'
-      # This attribute is added to distinguish between top-level models and the others, since they have different rules
-      # It should not be specified by users though
-      isTopLevel:
-        type: boolean
-        const: true
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [operations, isTopLevel]
+      - enum: [operations]
   # Only applies this to non-top-level schemas
   nonTopLevelModel:
     properties:
@@ -136,17 +136,18 @@ definitions:
   # We are more restrictive than the JSON schema and forbid any unknown property name
   # The goal is to avoid typos and mistakes. Custom properties can be added in `custom`
   validPropertyNames:
-    anyOf:
+    enum: [
       # Standard JSON schema properties
-      - enum: [$id, $schema, $ref, title, description, default, multipleOf, maximum, exclusiveMaximum, minimum,
-          exclusiveMinimum, maxLength, minLength, pattern, additionalItems, items, maxItems, minItems, uniqueItems,
-          contains, maxProperties, minProperties, required, additionalProperties, definitions, properties,
-          patternProperties, dependencies, propertyNames, const, enum, type, format, allOf, anyOf, oneOf, not]
+      $id, $schema, $ref, title, description, default, multipleOf, maximum, exclusiveMaximum, minimum,
+      exclusiveMinimum, maxLength, minLength, pattern, additionalItems, items, maxItems, minItems, uniqueItems,
+      contains, maxProperties, minProperties, required, additionalProperties, definitions, properties,
+      patternProperties, dependencies, propertyNames, const, enum, type, format, allOf, anyOf, oneOf, not,
       # Future standard JSON schema properties
-      - enum: [examples, formatMaximum, formatMinimum, formatExclusiveMinimum, formatExclusiveMaximum, deepRequired,
-        deepProperties, if, then, else]
+      examples, formatMaximum, formatMinimum, formatExclusiveMinimum, formatExclusiveMaximum, deepRequired,
+      deepProperties, if, then, else,
       # Properties specific to this project
-      - enum: [custom, deprecated]
+      custom, deprecated, depthType,
+    ]
   validModelName:
     allOf:
     # Valid GraphQL identifier name, regular expression taken from spec
@@ -184,13 +185,13 @@ definitions:
           type: string
           format: json-pointer
         additionalProperties:
-          $ref: '#/definitions/jsonSchema'
+          $ref: '#/definitions/modelSchema'
       if:
-        $ref: '#/definitions/jsonSchema'
+        $ref: '#/definitions/modelSchema'
       then:
-        $ref: '#/definitions/jsonSchema'
+        $ref: '#/definitions/modelSchema'
       else:
-        $ref: '#/definitions/jsonSchema'
+        $ref: '#/definitions/modelSchema'
     dependencies:
       formatExclusiveMinimum: [formatMinimum]
       formatExclusiveMaximum: [formatMaximum]
