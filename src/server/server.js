@@ -14,7 +14,7 @@ const { processOptions } = require('./process_options');
  */
 const startServer = async function (options) {
   attachRequire();
-  const opts = processOptions(options);
+  const opts = await processOptions(options);
   const server = await Promise.all([
     httpStartServer(opts),
   ]);

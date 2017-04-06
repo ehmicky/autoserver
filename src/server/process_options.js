@@ -4,9 +4,9 @@
 const { getIdl } = require('../idl');
 
 
-const processOptions = function (options) {
+const processOptions = async function (options) {
   const opts = Object.assign({}, options);
-  const idl = getIdl({ conf: opts.conf });
+  const idl = await getIdl({ conf: opts.conf });
   Object.assign(opts, { idl });
   return opts;
 };
