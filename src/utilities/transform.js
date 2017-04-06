@@ -17,6 +17,7 @@ const { recurseMap } = require('./recurse_map');
  *       {object|object[]} root - initial input
  *       {integer} depth - current recursion depth, starts at 0
  *   - transforms input can be augmented by using option `args(input)` which must return extra input as an object
+ *     Can also be a simple object instead of a function
  *   - transforms must return an object containing the properties to assign to the property's parent.
  *     Note this is assigned to the parent, not to the property itself
  *     They can return undefined to signify "no change"
@@ -28,7 +29,7 @@ const { recurseMap } = require('./recurse_map');
  *  - inside a given map, transforms are processed by alphabetical order
  * Arguments:
  *  {object[]} transforms - as [{ key: transformFunc(...) {...}, ... }, ...]
- *  {function} args
+ *  {function|object} args
  * Returns function with signature:
  *  - arguments:
  *     {object|object[]} input - input to transform
@@ -49,7 +50,11 @@ const singleTransform = function ({ input, transformsSet, args }) {
     filterFunc: ({ value }) => value && value.constructor === Object,
     mapFunc(opts) {
       let { value } = opts;
-      const transformArgs = Object.assign({}, opts, args && args(opts));
+      const transformArgs = Object.assign({}, opts);
+      if (args) {
+        const newArgs = typeof args === 'function' ? args(opts) : args;
+        Object.assign(transformArgs, newArgs);
+      }
       // Sort keys for transformation order predictability, but pass order should be used instead for that
       const newValues = Object.keys(value).sort()
         // Special transform name, always fired

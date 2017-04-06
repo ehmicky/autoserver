@@ -25,7 +25,7 @@ const transformSchema = function ({ schema, operation, direction }) {
   // Apply each transform recursively
   return transform({
     transforms,
-    args: () => ({ operation, direction }),
+    args: { operation, direction },
   })({ input: schema });
 };
 
