@@ -80,7 +80,7 @@ const transforms = [
 
     // Submodels should be validated against the model `id` attribute
     // By default, in the IDL, they are represented as the full model, i.e. as an object
-    instanceof({ parent }) {
+    model({ parent }) {
       if (parent.depthType === 'model' || !parent.properties) { return; }
       const idProp = parent.properties.id;
       const removeParentProps = mapValues(parent, () => undefined);
