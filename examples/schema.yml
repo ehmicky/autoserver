@@ -61,3 +61,6 @@ models:
         items:
           instanceof: pet
 operations: [find, create, replace, update, upsert, deleteOne]
+definitions:
+  dummyDefinition:
+    type: object

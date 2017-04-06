@@ -18,6 +18,12 @@ properties:
   # Users can define anything under this property
   custom:
     type: object
+  # Standard JSON schema `definitions` can be used at the root
+  definitions:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/modelSchema'
+    default: {}
   # Automatically generated, and used to validate e.g. `instanceof`
   modelNames:
     type: array
