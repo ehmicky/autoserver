@@ -75,9 +75,18 @@ definitions:
       $ref: '#/definitions/nonTopLevelModel'
   # Only applies this to top-level schemas
   topLevelModel:
+    # Must have a `required` property
+    required: [required]
     properties:
       operations:
         $ref: '#/definitions/operationsProperty'
+      # `required` property must at least contain `id`
+      required:
+        contains:
+          enum: [id]
+      # Must have an `id`
+      properties:
+        required: [id]
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
