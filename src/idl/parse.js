@@ -8,9 +8,9 @@ const { normalizeIdl } = require('./normalize');
 
 // Retrieves IDL definition, after validation and transformation
 // TODO: cache this function
-const getIdl = function ({ conf }) {
-  const idl = getIdlConf({ conf });
-  validateIdl(idl);
+const getIdl = async function ({ conf }) {
+  const idl = await getIdlConf({ conf });
+  await validateIdl(idl);
   const normalizedIdl = normalizeIdl(idl);
   return normalizedIdl;
 };

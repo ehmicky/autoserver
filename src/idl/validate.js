@@ -3,14 +3,13 @@
 
 const { mapValues, merge } = require('lodash');
 const yaml = require('js-yaml');
-const fs = require('fs');
 
-const { validate, memoize } = require('../utilities');
+const { validate, memoize, fs: { readFileAsync } } = require('../utilities');
 
 
 // Validate IDL definition against a JSON schema
-const validateIdl = function (idl) {
-  const schema = getSchema();
+const validateIdl = async function (idl) {
+  const schema = await getSchema();
   const idlCopy = getIdlCopy(idl);
   const data = { elem: idlCopy, extra: { argName: 'config' } };
   validate({ schema, data, type: 'idl' });
@@ -26,8 +25,8 @@ const getIdlCopy = function (idl) {
 };
 
 // Retrieve IDL schema
-const getSchema = memoize(function () {
-  const schemaContent = fs.readFileSync('./src/idl/idl_schema.yml');
+const getSchema = memoize(async function () {
+  const schemaContent = await readFileAsync('./src/idl/idl_schema.yml');
   const schema = yaml.load(schemaContent, { schema: yaml.CORE_SCHEMA, json: true });
   return schema;
 });
