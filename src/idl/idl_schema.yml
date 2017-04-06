@@ -24,7 +24,7 @@ properties:
     additionalProperties:
       $ref: '#/definitions/modelSchema'
     default: {}
-  # Automatically generated, and used to validate e.g. `instanceof`
+  # Automatically generated, and used to validate e.g. `model`
   modelNames:
     type: array
     items:
@@ -86,14 +86,14 @@ definitions:
   nonTopLevelModel:
     properties:
       # Refers to a top-level model name
-      instanceof:
+      model:
         type: string
         enum:
           $data: '/modelNames'
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [instanceof]
+      - enum: [model]
   # Validation of `operations` property, e.g. `operations: [find, createOne]`
   # This property restricts which operations a specific model can perform
   operationsProperty:

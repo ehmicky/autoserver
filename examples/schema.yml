@@ -53,13 +53,13 @@ models:
         description: Has this pet been adopted
         default: adopted
       best_friend:
-        instanceof: pet
+        model: pet
         description: This pet's best friend
       friends:
         type: array
         description: This pet's friends
         items:
-          instanceof: pet
+          model: pet
 operations: [find, create, replace, update, upsert, deleteOne]
 definitions:
   dummyDefinition:

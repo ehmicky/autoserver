@@ -37,8 +37,8 @@ const transforms = [
   },
 
   {
-    // { instanceof '...' } -> { type: 'object', instanceof: '...' }
-    instanceof: () => ({ type: 'object' }),
+    // { model '...' } -> { type: 'object', model: '...' }
+    model: () => ({ type: 'object' }),
 
     // Adds def.propName refering to property name
     type({ key, parent }) {
@@ -47,22 +47,22 @@ const transforms = [
       return { propName: key };
     },
 
-    // Add model.instanceof to top-level models
+    // Add `model` to top-level models
     any({ key, parent }) {
       if (parent.depthType !== 'model') { return; }
-      return { instanceof: key };
+      return { model: key };
     },
   },
 
   {
-    // { instanceof '...' } -> { instanceof: '...', ...copyOfTopLevelModel }
+    // { model '...' } -> { model: '...', ...copyOfTopLevelModel }
     // Must be last because this is done by copy, not reference
-    instanceof({ value, root, parent }) {
+    model({ value, root, parent }) {
       if (!['singleAttr', 'multipleAttr'].includes(parent.depthType)) { return; }
       const instance = find(root, (_, modelName) => modelName === value);
       // Make sure we do not copy `required` attribute from top-level model
       const keysToProtect = Object.keys(parent).concat('required');
-      // Dereference `instanceof` pointers, using a shallow copy, except for few attributes
+      // Dereference `model` pointers, using a shallow copy, except for few attributes
       // copy only the keys from top-level model not defined in submodel
       const newProps = omit(instance, keysToProtect);
       // Avoid infinite recursion

@@ -18,7 +18,7 @@ const getSubDefProp = function (def, propName) {
 
 // Retrieves model name from a definition
 const getModelName = function (def) {
-  return getSubDef(def).instanceof;
+  return getSubDef(def).model;
 };
 
 // Checks whether the definition is associated with a model
@@ -28,7 +28,7 @@ const isModel = function (def) {
 
 // Checks whether the definition is associated with a model, or is an array whose items are
 const isDeepModel = function (def) {
-  return getSubDefProp(def, 'instanceof') !== undefined;
+  return getSubDefProp(def, 'model') !== undefined;
 };
 
 
