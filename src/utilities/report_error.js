@@ -27,6 +27,7 @@ const reportErrors = function ({ errors, type }) {
   throw new EngineError(errorsText, { reason: reasons[type] });
 };
 const reasons = {
+  idl: 'CONFIGURATION_INVALID',
   serverInputSyntax: 'INPUT_SERVER_VALIDATION',
   clientInputSyntax: 'INPUT_VALIDATION',
   clientInputSemantics: 'INPUT_VALIDATION',
