@@ -7,9 +7,8 @@ properties:
   # Model definitions
   models:
     # Models are valid JSON schemas
-    patternProperties:
-      '.*':
-        $ref: '#/definitions/modelSchema'
+    additionalProperties:
+      $ref: '#/definitions/modelSchema'
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
@@ -53,9 +52,8 @@ definitions:
         type: string
       properties:
         # Apply this schema recursively
-        patternProperties:
-          '.*':
-            $ref: '#/definitions/modelSchema'
+        additionalProperties:
+          $ref: '#/definitions/modelSchema'
         # Attributes follow same naming convention as models
         propertyNames:
           $ref: '#/definitions/validModelName'
