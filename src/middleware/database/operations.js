@@ -37,7 +37,6 @@ const { every, chain, uniq, orderBy, map } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
-const { validateOperationInput, validateAttributeName } = require('./validate');
 
 
 const createId = function () {
@@ -61,8 +60,6 @@ const sortResponse = function ({ response, orderByArg = 'id+' }) {
     } else {
       args.attribute = orderByArg;
     }
-    // Make sure attribute name is valid
-    validateAttributeName(args.attribute);
     return args;
   });
 
@@ -218,7 +215,6 @@ const operations = {
 };
 
 const fireOperation = function (opts) {
-  validateOperationInput(opts);
   const response = operations[opts.operation](opts);
   const sortedResponse = sortResponse({ response, orderByArg: opts.orderBy });
   return sortedResponse;

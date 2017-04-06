@@ -1,20 +1,20 @@
 'use strict';
 
 
-const { EngineError } = require('../../error');
+const { EngineError } = require('../error');
 
 
-// Report errors by throwing an exception, e.g. firing a HTTP 400
-const reportErrors = function ({ errors, direction }) {
+// Report validation errors by throwing an exception, e.g. firing a HTTP 400
+const reportErrors = function ({ errors, type }) {
   // Retrieve error message as string, from error objects
   const errorsText = '\n' + errors
     .map(error => {
       let inputPath;
-      // Avoid reporting id error as `id.id is wrong`
-      if (['ids', 'id'].includes(error.argName)) {
-        inputPath = error.dataPath.substr(1);
-      } else {
+      // Prepends argument name, e.g. `filters.attr` instead of `attr`
+      if (error.argName) {
         inputPath = error.argName + error.dataPath;
+      } else {
+        inputPath = error.dataPath.substr(1);
       }
 
       // Get (potentially custom) error message
@@ -24,8 +24,15 @@ const reportErrors = function ({ errors, direction }) {
       return errorText;
     })
     .join('\n');
-  const reason = direction === 'input' ? 'INPUT_VALIDATION' : 'OUTPUT_VALIDATION';
-  throw new EngineError(errorsText, { reason });
+  throw new EngineError(errorsText, { reason: reasons[type] });
+};
+const reasons = {
+  serverInputSyntax: 'INPUT_SERVER_VALIDATION',
+  clientInputSyntax: 'INPUT_VALIDATION',
+  clientInputSemantics: 'INPUT_VALIDATION',
+  clientInputData: 'INPUT_VALIDATION',
+  serverOutputSyntax: 'OUTPUT_VALIDATION',
+  serverOutputData: 'OUTPUT_VALIDATION',
 };
 
 // Customize error messages when the library's ones are unclear

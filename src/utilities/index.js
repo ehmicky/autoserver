@@ -16,5 +16,6 @@ module.exports = Object.assign(
   require('./memoize'),
   require('./transform'),
   require('./recurse_map'),
+  require('./validation'),
   require('./debugging')
 );
