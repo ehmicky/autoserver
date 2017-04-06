@@ -34,7 +34,7 @@ const isAllowedModel = function (model, { idl: { operations: defaultOperations }
   if (modelOperations) {
     // Normalize shortcuts, e.g. 'find' -> 'findOne' + 'findMany'
     modelOperations = modelOperations.reduce((memo, modelOperation) => {
-      if (modelOperation.endsWith('One') || modelOperation.endsWith('Many')) {
+      if (modelOperation.endsWith('One')) {
         return memo.concat(modelOperation);
       }
       return memo.concat([`${modelOperation}One`, `${modelOperation}Many`]);

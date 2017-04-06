@@ -90,48 +90,25 @@ definitions:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
       - enum: [instanceof]
-  # Validation of `operations` property, e.g. `operations: [find, createOne, createMany]`
+  # Validation of `operations` property, e.g. `operations: [find, createOne]`
   # This property restricts which operations a specific model can perform
   operationsProperty:
     type: array
     uniqueItems: true
     items:
       type: string
-      enum: [
-        find, findOne, findMany,
-        create, createOne, createMany,
-        replace, replaceOne, replaceMany,
-        update, updateOne, updateMany,
-        upsert, upsertOne, upsertMany,
-        delete, deleteOne, deleteMany,
-      ]
-    # find is a shortcut for findOne + findMany, i.e. the two are exclusive
-    # Same thing for other methods
-    allOf:
-    # find is a special case, as it has to be defined, because GraphQL requires at least one query operation
-    - oneOf:
-      - contains: {enum: [find]}
-      - contains: {enum: [findOne, findMany]}
-    - oneOf:
-      - contains: {enum: [create]}
-      - contains: {enum: [createOne, createMany]}
-      - not: {contains: {enum: [create, createOne, createMany]}}
-    - oneOf:
-      - contains: {enum: [replace]}
-      - contains: {enum: [replaceOne, replaceMany]}
-      - not: {contains: {enum: [replace, replaceOne, replaceMany]}}
-    - oneOf:
-      - contains: {enum: [update]}
-      - contains: {enum: [updateOne, updateMany]}
-      - not: {contains: {enum: [update, updateOne, updateMany]}}
-    - oneOf:
-      - contains: {enum: [upsert]}
-      - contains: {enum: [upsertOne, upsertMany]}
-      - not: {contains: {enum: [upsert, upsertOne, upsertMany]}}
-    - oneOf:
-      - contains: {enum: [delete]}
-      - contains: {enum: [deleteOne, deleteMany]}
-      - not: {contains: {enum: [delete, deleteOne, deleteMany]}}
+      enum: [find, findOne, create, createOne, replace, replaceOne, update, updateOne, upsert, upsertOne, delete, deleteOne]
+    # One can only choose between find (conceptually "findOne" + "findMany") and "findOne". Same thing for other methods
+    not:
+      anyOf:
+      - allOf: [contains: {enum: [find    ]}, contains: {enum: [findOne   ]}]
+      - allOf: [contains: {enum: [delete  ]}, contains: {enum: [deleteOne ]}]
+      - allOf: [contains: {enum: [update  ]}, contains: {enum: [updateOne ]}]
+      - allOf: [contains: {enum: [upsert  ]}, contains: {enum: [upsertOne ]}]
+      - allOf: [contains: {enum: [replace ]}, contains: {enum: [replaceOne]}]
+      - allOf: [contains: {enum: [create  ]}, contains: {enum: [createOne ]}]
+    # find or findOne has to be defined, because GraphQL requires at least one query operation
+    contains: {enum: [find, findOne]}
   # Base list of valid property names
   # We are more restrictive than the JSON schema and forbid any unknown property name
   # The goal is to avoid typos and mistakes. Custom properties can be added in `custom`

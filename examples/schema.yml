@@ -3,7 +3,7 @@ models:
     type: object
     description: Cute animal
     required: [id, name, photo_urls, friends]
-    operations: [find, create, replace, update, upsert, deleteOne, deleteMany]
+    operations: [find, create, replace, update, upsert, delete]
     properties:
       id:
         type: string
@@ -60,4 +60,4 @@ models:
         description: This pet's friends
         items:
           instanceof: pet
-operations: [find, create, replace, update, upsert, deleteOne, deleteMany]
+operations: [find, create, replace, update, upsert, deleteOne]
