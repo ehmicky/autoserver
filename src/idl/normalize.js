@@ -9,6 +9,7 @@ const { transform } = require('../utilities');
 // Normalize IDL definition
 const normalizeIdl = function (idl) {
   idl.models = normalizeModels(idl.models);
+  idl.operations = idl.operations || defaultOperations;
   return idl;
 };
 
@@ -71,6 +72,9 @@ const transforms = [
   },
 
 ];
+
+// By default, include all operations but deleteMany
+const defaultOperations = ['find', 'update', 'deleteOne', 'replace', 'upsert', 'create'];
 
 
 module.exports = {
