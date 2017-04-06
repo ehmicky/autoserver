@@ -38,9 +38,9 @@ const getArguments = function (def, opts) {
 };
 
 // order_by argument, i.e. used for sorting results
-const getOrderArgument = function ({ opType, multiple }) {
-  // Only with *Many methods, except DeleteMany (since it does not return anything)
-  if (!multiple || opType === 'delete') { return; }
+const getOrderArgument = function ({ multiple }) {
+  // Only with *Many methods
+  if (!multiple) { return; }
 
   return {
     order_by: {

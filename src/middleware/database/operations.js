@@ -5,7 +5,7 @@
  *   findOne(id)
  *   findMany([ids|filter...])
  *   deleteOne(id)
- *   deleteMany(ids|filter...)
+ *   deleteMany([ids|filter...])
  *   updateOne(data, id)
  *   updateMany(data[, ids|filter...])
  *   createOne(data[, id])
@@ -137,11 +137,12 @@ const deleteOne = function ({ collection, id }) {
 
 const deleteMany = function ({ collection, ids = null, filters = {} }) {
   const indexes = findManyIndexes({ collection, ids, filters });
+  const removedIds = indexes.map(index => ({ id: collection[index].id }));
   indexes.sort();
   indexes.forEach((index, count) => {
     collection.splice(index - count, 1);
   });
-  return ids.map(id => ({ id }));
+  return removedIds;
 };
 
 const updateOne = function ({ collection, data, id }) {
