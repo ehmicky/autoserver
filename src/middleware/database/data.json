@@ -3,7 +3,7 @@
     {
       "id": "1",
       "weight": 1.5,
-      "isOverweight": false,
+      "is_overweight": false,
       "name": "Dog",
       "photo_urls": ["http://dog.com/photo/1", "http://dog.com/photo/2"],
       "tags": ["adorable"],
@@ -16,20 +16,19 @@
     {
       "id": "2",
       "weight": 2.5,
-      "isOverweight": true,
+      "is_overweight": false,
       "name": "Cat",
       "photo_urls": ["http://cat.com/photo/1", "http://cat.com/photo/2"],
-      "tags": ["even more adorable"],
       "status": "grumpy",
       "attributes": { "age": 12, "intelligence": 1 },
       "best_friend": "3",
       "owners": ["1", "2"],
-      "friends": ["1", "2", "3"]
+      "friends": ["1", "2", "3"],
+      "birth_date": "2005-05-01"
     },
     {
       "id": "3",
       "weight": 3.5,
-      "isOverweight": true,
       "name": "Koala",
       "photo_urls": ["http://koala.com/photo/1"],
       "tags": ["suspended"],

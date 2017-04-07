@@ -61,6 +61,10 @@ definitions:
       # It should not be specified by users though
       depthType:
         type: string
+      # All spec-defined formats are allowed. We are stricter than the spec, as custom formats are forbidden.
+      format:
+        enum: [regex, date-time, date, time, email, hostname, ipv4, ipv6, uri, uri-reference, json-pointer,
+          relative-json-pointer]
       properties:
         # Apply this schema recursively
         additionalProperties:
@@ -134,12 +138,11 @@ definitions:
     enum: [
       # Standard JSON schema properties
       $id, $schema, $ref, title, description, default, multipleOf, maximum, exclusiveMaximum, minimum,
-      exclusiveMinimum, maxLength, minLength, pattern, additionalItems, items, maxItems, minItems, uniqueItems,
+      exclusiveMinimum, maxLength, minLength, pattern, items, maxItems, minItems, uniqueItems,
       contains, maxProperties, minProperties, required, additionalProperties, definitions, properties,
       patternProperties, dependencies, propertyNames, const, enum, type, format, allOf, anyOf, oneOf, not,
       # Future standard JSON schema properties
-      examples, formatMaximum, formatMinimum, formatExclusiveMinimum, formatExclusiveMaximum, deepRequired,
-      deepProperties, if, then, else,
+      examples, formatMaximum, formatMinimum, formatExclusiveMinimum, formatExclusiveMaximum, if, then, else,
       # Properties specific to this project
       custom, deprecated, depthType,
     ]
@@ -170,18 +173,6 @@ definitions:
         type: boolean
       formatExclusiveMinimum:
         type: boolean
-      deepRequired:
-        type: array
-        items:
-          type: string
-          format: json-pointer
-      deepProperties:
-        type: object
-        propertyNames:
-          type: string
-          format: json-pointer
-        additionalProperties:
-          $ref: '#/definitions/modelSchema'
       if:
         $ref: '#/definitions/modelSchema'
       then:
