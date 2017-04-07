@@ -1,5 +1,7 @@
 ### IDL FILE ###
 # This file describes how the API should operate.
+# It is purposely overly complex, as this example file aims to demonstrate all available features.
+# A real production file should be much more concise.
 # It is based on JSON schema v6 syntax, with some extra attributes
 # Using this file, the API will automatically generate:
 #  - HTTP server: body/query handling
@@ -32,21 +34,29 @@ models:
         # For the moment, cannot be an array
         type: string
         description: Unique identifier of a pet
-        # Any JSON schema validation keyword may be used to validate API input and output
-        # This includes:
-        #  - for numbers: multipleOf, maximum, exclusiveMaximum, minimum, exclusiveMinimum
-        #  - for strings: maxLength, minLength, pattern
-        #  - for arrays: additionalItems, items, maxItems, minItems, uniqueItems, contains
-        #  - for objects: maxProperties, minProperties, required, additionalProperties, properties, patternProperties,
-        #    dependencies, propertyNames, deepRequired, deepProperties
-        #  - for any type: const, enum, type, format, formatMaximum, formatMinimum, formatExclusiveMinimum,
-        #    formatExclusiveMaximum
-        #  - used as combinators: allOf, anyOf, oneOf, not, if, then, else
-        maxLength: 2
       name:
         type: string
         description: How to call a pet
         default: default does not work if required
+        # Combinators JSON schema validation keywords
+        oneOf:
+        - pattern: '^[a-zA-Z]+$'
+        - pattern: '[0-9]+$'
+        allOf:
+        - not:
+            pattern: '^__'
+        - not:
+            pattern: '^[0-9]'
+        anyOf:
+        - pattern: '[a-z]'
+        - pattern: '[A-Z]'
+        - pattern: '[0-9]'
+        if:
+          pattern: '^super'
+        then:
+          pattern: '[a-z]'
+        else:
+          pattern: '[A-Z]'
       # Attributes follow the same naming restrictions as models
       weight:
         type: number
@@ -55,10 +65,18 @@ models:
         # Deprecation is automatically used in documentation, and gives warning messages
         deprecated: Let's stop measuring pet's weight
         default: 15
-        maximum: 100
+        # Number-specific JSON schema validation keywords
+        minimum: 0.5
+        maximum: 30
+        exclusiveMinimum: 0.5
+        exclusiveMaximum: 30
+        # Can use floats
+        multipleOf: 0.000001
       is_overweight:
         type: boolean
         description: Has the pet being eating too much?
+        # This JSON schema validation keyword can be applied to any type
+        const: false
         default: false
       photo_urls:
         type: array
@@ -70,7 +88,20 @@ models:
       attributes:
         type: object
         description: Attributes of a pet
+        # Object-specific JSON schema validation keywords
         required: [intelligence]
+        minProperties: 1
+        maxProperties: 10
+        patternProperties:
+          '^__': false
+        additionalProperties:
+          type: integer
+        propertyNames:
+          pattern: '^[a-z]+$'
+        dependencies:
+          height: [width]
+          is_big:
+            maxProperties: 100
         properties:
           age:
             type: integer
@@ -83,8 +114,19 @@ models:
       tags:
         type: array
         description: Tags applying to this pet
+        # Array-specific JSON schema validation keywords
         items:
           type: string
+          # String-specific JSON schema validation keywords
+          minLength: 2
+          maxLength: 200
+          pattern: '^[a-zA-Z0-9 ]+$'
+        contains:
+          # This JSON schema validation keyword can be applied to any type
+          enum: [suspended, adorable]
+        minItems: 0
+        maxItems: 30
+        uniqueItems: true
         default: []
       status:
         type: string
@@ -107,6 +149,14 @@ models:
         type: array
         items:
           model: owner
+      birth_date:
+        type: string
+        # The following JSON schema validation keywords can be applied to any type, although they are usually for strings
+        format: date
+        formatMinimum: '2000-01-01'
+        formatExclusiveMinimum: true
+        formatMaximum: '2100-01-01'
+        formatExclusiveMinimum: false
   owner:
     type: object
     description: A pet's owner

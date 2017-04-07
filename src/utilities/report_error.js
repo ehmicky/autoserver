@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { toSentence: sentence } = require('underscore.string');
+const pluralize = require('pluralize');
+
 const { EngineError } = require('../error');
 
 
@@ -12,17 +15,20 @@ const reportErrors = function ({ errors, type }) {
     .map(({ error, dataVar }) => {
       let inputPath = error.dataPath;
       // Prepends argument name, e.g. `filters.attr` instead of `attr`
-      if (dataVar) {
-        inputPath = '/' + dataVar + inputPath;
-      }
+      const prefix = dataVar ? `/${dataVar}` : '';
+      inputPath = prefix + inputPath;
       inputPath = inputPath.substr(1);
-      // We use `jsonPointers` option because it is cleaner, but we want dots not slashes
-      inputPath = inputPath.replace('/', '.');
+      // We use `jsonPointers` option because it is cleaner,
+      // but we want dots (for properties) and brackets (for indexes) not slashes
+      inputPath = inputPath
+        .replace(/\/([0-9]+)/g, '[$1]')
+        .replace(/\//g, '.');
 
-      // Get (potentially custom) error message
+      // Get custom error message
+      console.log(error);
       const message = getErrorMessage({ error });
       // Prepends argument name to error message
-      const errorText = `${inputPath} ${message}`;
+      const errorText = `${inputPath}${message}`;
       return errorText;
     })
     .join('\n');
@@ -42,16 +48,48 @@ const reasons = {
 // Customize error messages when the library's ones are unclear
 const getErrorMessage = function({ error }) {
   const customErrorMessage = errorMessages[error.keyword];
-  return customErrorMessage ? customErrorMessage(error) : error.message;
+  return customErrorMessage ? customErrorMessage(error) : ` ${error.message}`;
 };
 
 // List of custom error messages getters
 const errorMessages = {
-  /*
-  maxLength({ params: { limit } }) {
-    return `should not be longer than ${limit} characters`;
+  type: ({ params: { type } }) => ` must be ${type}`,
+  format: ({ params: { format } }) => ` must match format '${format}'`,
+  enum: ({ params: { allowedValues } }) => ` must be one of ${sentence(allowedValues.map(val => `'${val}'`), ', ', ' or ')}`,
+  const: ({ schema }) => ` must be equal to '${schema}'`,
+  multipleOf: ({ params: { multipleOf } }) => ` must be multiple of ${multipleOf}`,
+  maximum: ({ params: { limit, comparison } }) => ` must be less than ${comparison === '<=' ? 'or equal to ' : ''}${limit}`,
+  minimum: ({ params: { limit, comparison } }) =>
+    ` must be greater than ${comparison === '>=' ? 'or equal to ' : ''}${limit}`,
+  formatMinimum: ({ params: { limit, comparison }, parentSchema: { format } }) => {
+    const isDate = ['date', 'date-time'].includes(format);
+    const isTime = ['time'].includes(format);
+    const comparative = isDate ? 'more recent' : isTime ? 'later' : 'greater';
+    return ` must be ${comparative} than ${comparison === '>=' ? 'or equal to ' : ''}${limit}`;
   },
-  */
+  formatMaximum: ({ params: { limit, comparison }, parentSchema: { format } }) => {
+    const isDate = ['date', 'date-time'].includes(format);
+    const isTime = ['time'].includes(format);
+    const comparative = isDate ? 'older' : isTime ? 'sooner' : 'less';
+    return ` must be ${comparative} than ${comparison === '>=' ? 'or equal to ' : ''}${limit}`;
+  },
+  minLength: ({ params: { limit } }) => ` must be at least ${pluralize('character', limit, true)} long`,
+  maxLength: ({ params: { limit } }) => ` must be at most ${pluralize('character', limit, true)} long`,
+  pattern: ({ params: { pattern } }) => ` must match pattern '${pattern}'`,
+  contains: () => ' must contain at least one valid item',
+  minItems: ({ params: { limit } }) => ` must contains at least ${pluralize('item', limit, true)}`,
+  maxItems: ({ params: { limit } }) => ` must contains at most ${pluralize('item', limit, true)}`,
+  uniqueItems: ({ params: { i, j } }) => ` must not contain any duplicated item, but items number ${j} and ${i} are identical`,
+  minProperties: ({ params: { limit } }) => ` must have ${limit} or more ${pluralize('property', limit)}`,
+  maxProperties: ({ params: { limit } }) => ` must have ${limit} or less ${pluralize('property', limit)}`,
+  required: ({ params: { missingProperty } }) => `.${missingProperty} must be defined`,
+  additionalProperties: ({ params: { additionalProperty } }) =>
+    `.${additionalProperty} must not be defined, as it is not specified by this model`,
+  propertyNames: ({ params: { propertyName } }) => ` property '${propertyName}' name must be valid`,
+  dependencies: ({ params: { missingProperty, property } }) =>
+    `.${missingProperty} must be defined when property '${property} is defined`,
+  // Special keyword for schema that are `false`, e.g. `patternProperties: { pattern: false }`
+  'false schema': () => ' must not be defined',
 };
 
 

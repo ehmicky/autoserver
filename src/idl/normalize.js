@@ -27,10 +27,12 @@ const transforms = [
       let depthType;
       if (depth === 1) {
         depthType = 'model';
-      } else if (depth === 3) {
-        depthType = 'singleAttr';
-      } else if (depth === 4 && key === 'items') {
-        depthType = 'multipleAttr';
+      } else if (depth >= 3) {
+        if (['items', 'contains'].includes(key)) {
+          depthType = 'multipleAttr';
+        } else if (!['properties', 'patternProperties', 'dependencies'].includes(key)) {
+          depthType = 'singleAttr';
+        }
       }
       return { depthType };
     },

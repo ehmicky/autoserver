@@ -3,9 +3,16 @@
 
 const { chain } = require('lodash');
 const Ajv = require('ajv');
-const ajv = new Ajv({ allErrors: true, errorDataPath: 'property', jsonPointers: true, full: true, $data: true });
+const ajv = new Ajv({
+  allErrors: true,
+  jsonPointers: true,
+  full: true,
+  $data: true,
+  verbose: true,
+  multipleOfPrecision: 9,
+});
 // Add future JSON standard keywords
-require('ajv-keywords')(ajv, [ 'if', 'formatMinimum', 'formatMaximum', 'deepRequired', 'deepProperties' ]);
+require('ajv-keywords')(ajv, [ 'if', 'formatMinimum', 'formatMaximum' ]);
 
 const { memoize } = require('./memoize');
 const { reportErrors } = require('./report_error');
