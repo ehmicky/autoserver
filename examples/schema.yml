@@ -12,7 +12,6 @@ models:
         maxLength: 2
       name:
         type: string
-        examples: [doggie]
         description: How to call a pet
         default: default does not work if required
       weight:
