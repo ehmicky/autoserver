@@ -2,7 +2,7 @@
 
 This is prototype for a web server engine.
 
-You simply pass a [single declarative file](https://github.com/autoserver-org/autoserver/blob/master/examples/schema.yml) as input, and the server generates a GraphQL server. The file format is based off standard [JSON schema](http://json-schema.org/), and can be written in either JSON or YAML.
+You simply pass a [single declarative file](https://github.com/autoserver-org/autoserver/blob/master/examples/schema.yml) as input, and the server generates a GraphQL server. The file format is based off standard [JSON schema](http://json-schema.org/), written as YAML.
 
 The server is fully-featured, i.e. there should be not much need for custom code beyond that declarative file.
 
@@ -17,6 +17,7 @@ The server is fully-featured, i.e. there should be not much need for custom code
   - sorting, e.g. `findUsers(order_by: "name-,job_title+")`
   - selecting (handled natively by GraphQL)
   - nested operations. One can not only query but also mutate nested models in a single operation.
+  - validation of both input and output
   - HTTP body/query handling
   - basic error handling
   - basic logging
@@ -25,7 +26,6 @@ The server is fully-featured, i.e. there should be not much need for custom code
 # What is work in progress
 
 Includes (but is not limited to):
-  - validation
   - authorization
   - default values, timestamps, computed values
   - aggregation
@@ -60,4 +60,4 @@ We are using [editorconfig](http://editorconfig.org/), so please install the plu
 # Troubleshooting
 
   - Please use Node.js v7.8.0
-  - Orphans are not currently handled, and will make the whole server crash as soon as only one orphan is created.
+  - Orphans are not currently handled (but this will be fixed). This means if you are trying to query or mutate a model which contains a foreign key to a non-existing model, the operation will crash. E.g. this means that to delete a model, all other model referencing it must remove their foreign keys first, otherwise they won't be accessible anymore.
