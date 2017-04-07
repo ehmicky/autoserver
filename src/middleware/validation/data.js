@@ -25,6 +25,7 @@ const validateClientInputData = function ({ idl, modelName, operation, args }) {
 const validateServerOutputData = function ({ idl, modelName, response, operation }) {
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, operation, type });
+  response = response instanceof Array ? response : [response];
   const data = response.map(response => ({ elem: response, extra: { argName: 'response' } }));
   validate({ schema, data, type });
 };

@@ -22,7 +22,7 @@ const validation = async function ({ idl }) {
     validateClientInputData({ idl, modelName, operation, args });
 
     const response = await this.next(input);
-    validateServerOutputSyntax({ response });
+    validateServerOutputSyntax({ operation, response });
     validateServerOutputData({ idl, modelName, response, operation });
 
     return response;
