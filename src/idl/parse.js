@@ -2,7 +2,7 @@
 
 
 const { getIdlConf } = require('./conf');
-const { validateIdl } = require('./validate');
+const { validateIdl } = require('./validation');
 const { normalizeIdl } = require('./normalize');
 
 
