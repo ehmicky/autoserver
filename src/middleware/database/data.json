@@ -10,6 +10,7 @@
       "status": "happy",
       "attributes": { "age": 10, "intelligence": 1 },
       "best_friend": "2",
+      "owners": ["1"],
       "friends": ["1", "2", "3"]
     },
     {
@@ -22,6 +23,7 @@
       "status": "grumpy",
       "attributes": { "age": 12, "intelligence": 1 },
       "best_friend": "3",
+      "owners": ["1", "2"],
       "friends": ["1", "2", "3"]
     },
     {
@@ -35,6 +37,18 @@
       "attributes": { "age": 10, "intelligence": 2 },
       "best_friend": "1",
       "friends": ["1", "2", "3"]
+    }
+  ],
+  "owner": [
+    {
+      "id": "1",
+      "name": "Mickael",
+      "pets": ["1", "2"]
+    },
+    {
+      "id": "2",
+      "name": "Lisa",
+      "pets": ["2"]
     }
   ]
 }
