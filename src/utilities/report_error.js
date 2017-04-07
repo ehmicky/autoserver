@@ -7,7 +7,8 @@ const { EngineError } = require('../error');
 // Report validation errors by throwing an exception, e.g. firing a HTTP 400
 const reportErrors = function ({ errors, type }) {
   // Retrieve error message as string, from error objects
-  const errorsText = '\n' + errors
+  const extraNewline = errors.length > 1 ? '\n' : '';
+  const errorsText = extraNewline + errors
     .map(({ error, dataVar }) => {
       let inputPath = error.dataPath;
       // Prepends argument name, e.g. `filters.attr` instead of `attr`
