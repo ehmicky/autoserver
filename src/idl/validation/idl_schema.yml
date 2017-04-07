@@ -1,9 +1,14 @@
 $schema: http://json-schema.org/draft-06/schema#
-$id: idlSchema
+$id: idl_schema_v1
 title: API engine IDL schema
 description: Schema validating the API engine's IDL
 type: object
+required: [$schema, models]
 properties:
+  # Versioning
+  $schema:
+    type: string
+    pattern: '^tag:apiengine,[0-9]+:v1\.[0-9]+\.[0-9]+$'
   # Model definitions
   models:
     # Models are valid JSON schemas

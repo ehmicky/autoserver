@@ -1,3 +1,4 @@
+$schema: tag:apiengine,2017:v1.0.0
 models:
   pet:
     type: object
