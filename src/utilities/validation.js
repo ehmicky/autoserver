@@ -21,7 +21,7 @@ const getValidator = memoize(function ({ schema }) {
  *   {object} schema - JSON schema
  *   {object|object[]} data
  *   {any} data[].elem - data to validate
- *   {object} data[].extra - extra information passed to error reporter
+ *   {object} data[].dataVar - variable name, used by error reporter
  *   {string} type - type of validation, used by error reporter
  **/
 const validate = function ({ schema, data, type }) {
@@ -30,11 +30,11 @@ const validate = function ({ schema, data, type }) {
 
   data = data instanceof Array ? data : [data];
   const errors = chain(data)
-    .map(({ elem, extra }) => {
+    .map(({ elem, dataVar }) => {
       const isValid = validator(elem);
       if (isValid) { return; }
-      // Add extra information to each error, so it can be used in error messages
-      return validator.errors.map(error => Object.assign(error, extra));
+      // Add variable name of each error, so it can be used in error messages
+      return validator.errors.map(error => ({ error, dataVar }));
     })
     .flatten()
     .compact()
