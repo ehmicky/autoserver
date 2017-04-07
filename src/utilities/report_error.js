@@ -8,14 +8,15 @@ const { EngineError } = require('../error');
 const reportErrors = function ({ errors, type }) {
   // Retrieve error message as string, from error objects
   const errorsText = '\n' + errors
-    .map(error => {
-      let inputPath;
+    .map(({ error, dataVar }) => {
+      let inputPath = error.dataPath;
       // Prepends argument name, e.g. `filters.attr` instead of `attr`
-      if (error.argName) {
-        inputPath = error.argName + error.dataPath;
-      } else {
-        inputPath = error.dataPath.substr(1);
+      if (dataVar) {
+        inputPath = '/' + dataVar + inputPath;
       }
+      inputPath = inputPath.substr(1);
+      // We use `jsonPointers` option because it is cleaner, but we want dots not slashes
+      inputPath = inputPath.replace('/', '.');
 
       // Get (potentially custom) error message
       const message = getErrorMessage({ error });
@@ -24,6 +25,7 @@ const reportErrors = function ({ errors, type }) {
       return errorText;
     })
     .join('\n');
+
   throw new EngineError(errorsText, { reason: reasons[type] });
 };
 const reasons = {

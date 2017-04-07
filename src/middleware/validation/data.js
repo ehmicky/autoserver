@@ -26,7 +26,7 @@ const validateServerOutputData = function ({ idl, modelName, response, operation
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, operation, type });
   response = response instanceof Array ? response : [response];
-  const data = response.map(response => ({ elem: response, extra: { argName: 'response' } }));
+  const data = response.map(response => ({ elem: response, dataVar: 'response' }));
   validate({ schema, data, type });
 };
 
@@ -94,10 +94,10 @@ const transforms = [
  * Transform arguments into model attributes to validate
  * E.g. args: { filters: { a: 1 }, data: [{ b: 2 }, {c: 5}], ids: [4,5] } would be transformed to:
  * [
- *   { a: 1, id: 4, argName: 'filters' },
- *   { a: 1, id: 5, argName: 'filters' },
- *   { b: 2, id: 4, argName: 'data' },
- *   { c: 5, id: 5, argName: 'data' },
+ *   { elem: { a: 1, id: 4 }, dataVar: 'filters' },
+ *   { elem: { a: 1, id: 5 }, dataVar: 'filters' },
+ *   { elem: { b: 2, id: 4 }, dataVar: 'data' },
+ *   { elem: { c: 5, id: 5 }, dataVar: 'data' },
  * ]
  **/
 const getAttributes = function (args) {
@@ -110,13 +110,13 @@ const getAttributes = function (args) {
   }
   // Iterate over args.filters and args.data
   return chain(args)
-    .pickBy((arg, argName) => ['filters', 'data'].includes(argName) && arg)
-    .map((arg, argName) => {
+    .pickBy((arg, dataVar) => ['filters', 'data'].includes(dataVar) && arg)
+    .map((arg, dataVar) => {
       if (ids) {
         // If `ids` is specified and `data` is an array, they must have same length
         if (arg instanceof Array) {
           if (arg.length !== ids.length) {
-            throw new EngineError(`'${argName}' array length must match 'ids' array length`, { reason: 'INPUT_VALIDATION' });
+            throw new EngineError(`'${dataVar}' array length must match 'ids' array length`, { reason: 'INPUT_VALIDATION' });
           }
         // If `ids` is specified and `filters` or `data` is not an array, transform to an array of the same size
         } else {
@@ -131,7 +131,7 @@ const getAttributes = function (args) {
         arg = arg.map((singleArg, index) => Object.assign({}, singleArg, { id: id || ids[index] }));
       }
       // Add argument name (e.g. `filters` or `data`) so it can be used in errors messages
-      arg = arg.map(elem => Object.assign({}, { elem }, { extra: { argName } }));
+      arg = arg.map(elem => Object.assign({}, { elem }, { dataVar }));
       return arg;
     })
     .flatten()
