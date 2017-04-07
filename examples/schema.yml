@@ -1,22 +1,57 @@
+### IDL FILE ###
+# This file describes how the API should operate.
+# It is based on JSON schema v6 syntax, with some extra attributes
+# Using this file, the API will automatically generate:
+#  - HTTP server: body/query handling
+#  - GraphQL server: endpoint, introspection, debugger, schema printing
+#  - CRUD methods: find, create, replace, update, upsert, delete. On a single model or several.
+#  - CRUD arguments: filtering, sorting, selecting
+#  - nested operations, populating
+#  - input and output validation
+#  - error handling
+#  - logging
+#  - routing
+
+# IDL file version, required
 $schema: tag:apiengine,2017:v1.0.0
+# List of models
 models:
+  # Name of the model, used in routes, e.g. REST endpoints or GraphQL methods
+  # Must only be lowercase ASCII letters, digits or underscore. Cannot start with one digit or two underscores.
   pet:
     type: object
     description: Cute animal
+    # `ìd` should always be required, and specified
     required: [id, name, photo_urls, friends]
+    # Allowed operations for this model.
+    # Defaults to top-level `operations` key (see it for further explanations)
     operations: [find, create, replace, update, upsert, delete]
     properties:
       id:
+        # Required for the moment. Possible values: string, number, integer, boolean,
         type: string
         description: Unique identifier of a pet
+        # Any JSON schema validation keyword may be used to validate API input and output
+        # This includes:
+        #  - for numbers: multipleOf, maximum, exclusiveMaximum, minimum, exclusiveMinimum
+        #  - for strings: maxLength, minLength, pattern
+        #  - for arrays: additionalItems, items, maxItems, minItems, uniqueItems, contains
+        #  - for objects: maxProperties, minProperties, required, additionalProperties, properties, patternProperties,
+        #    dependencies, propertyNames, deepRequired, deepProperties
+        #  - for any type: const, enum, type, format, formatMaximum, formatMinimum, formatExclusiveMinimum,
+        #    formatExclusiveMaximum
+        #  - used as combinators: allOf, anyOf, oneOf, not, if, then, else
         maxLength: 2
       name:
         type: string
         description: How to call a pet
         default: default does not work if required
+      # Attributes follow the same naming restrictions as models
       weight:
         type: number
+        # Description automatically used in documentation
         description: Corrolated to how much a pet has eaten
+        # Deprecation is automatically used in documentation, and gives warning messages
         deprecated: Let's stop measuring pet's weight
         default: 15
         maximum: 100
@@ -27,8 +62,10 @@ models:
       photo_urls:
         type: array
         description: Sweet pictures of a pet
+        # This is how to specify an array's elements
         items:
           type: string
+      # This attribute is an object not pointing to a model (does not contain `model` key)
       attributes:
         type: object
         description: Attributes of a pet
@@ -53,8 +90,13 @@ models:
         description: Has this pet been adopted
         default: adopted
       best_friend:
+        # This means this attribute is an instance of the `pet` model, i.e. a foreign key
+        # References can be recursive, e.g. here `pet` is the current model
+        # Will actually copy the model's `id` property definition (in case of conflict, current definition has priority)
+        # Those "sub-models" to perform nested operations
         model: pet
         description: This pet's best friend
+      # Array of foreign keys (i.e. n-1, 1-n and n-n relationships) can also be specified
       friends:
         type: array
         description: This pet's friends
@@ -77,7 +119,41 @@ models:
         type: array
         items:
           model: pet
+# Default `operations` values for each model
+# If unspecified, is all operations but deleteMany
+# Operations can be:
+#   - find: retrieve an element, similar to REST's GET
+#   - create: create an element, similar to REST's POST. `id` can be specified by client, or set by server.
+#   - replace: completely replace an element, similar to REST's PUT
+#   - update: partially update an element, similar to REST's PATCH
+#   - upsert: if element exists, like "replace". Otherwise, like "create"
+#   - delete: delete an element, similar to REST's DELETE
+# Each operation has two versions:
+#   - singular: e.g. `findOne`, similar to REST's GET /models/ID
+#   - plural: e.g. `findMany`, similar to REST's GET /models/
+# By default, more singular and plural are allowed. To restrict to singular only, add `One`, e.g. `findOne`
+# Operations can use the following arguments:
+#   - `id`:
+#      - in all *One operations. Required by each of them, except deleteOne
+#      - conceptually implicitely added to any `data` or `filters` argument
+#   - `ids`:
+#      - in all *Many operations. Required by replaceMany and upsertMany
+#      - must be an array
+#      - conceptually implicitely added to any `data` (i.e. must have same length) or `filters` argument
+#   - `data`:
+#      - in update, upsert, replace or create operations. Required by each of them
+#      - must be an array of object for all upsertMany, replaceMany and createMany. Must be an object otherwise
+#      - contains the entity to modify or create
+#   - `filter`:
+#      - in find, delete and update operations. Never required
+#      - must be an object, whose keys are named after the models attributes
+#      - used as a query filter, e.g. deleteMany { filter: { name: 'example' } } remove all entities with `name` 'example'
+#   - `order_by`
+#      - in all operations. Never required
+#      - must be a comma-separated list of attributes, optionally prefixed by + or -, e.g. 'name-,id'
+#      - orders server response according to the specified attributes. Default order is +, i.e. ascending
 operations: [find, create, replace, update, upsert, deleteOne]
+# No specific semantics, but can be used by $ref
 definitions:
   dummyDefinition:
     type: object
