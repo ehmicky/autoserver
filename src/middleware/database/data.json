@@ -8,7 +8,7 @@
       "photo_urls": ["http://dog.com/photo/1", "http://dog.com/photo/2"],
       "tags": ["adorable"],
       "status": "happy",
-      "attributes": { "age": 10, "intelligence": 1 },
+      "attributes": { "age": 10, "intelligence": 11 },
       "best_friend": "2",
       "owners": ["1"],
       "friends": ["1", "2", "3"]
@@ -20,7 +20,7 @@
       "name": "Cat",
       "photo_urls": ["http://cat.com/photo/1", "http://cat.com/photo/2"],
       "status": "grumpy",
-      "attributes": { "age": 12, "intelligence": 1 },
+      "attributes": { "age": 12, "intelligence": 15 },
       "best_friend": "3",
       "owners": ["1", "2"],
       "friends": ["1", "2", "3"],
@@ -33,7 +33,7 @@
       "photo_urls": ["http://koala.com/photo/1"],
       "tags": ["suspended"],
       "status": "sleepy",
-      "attributes": { "age": 10, "intelligence": 2 },
+      "attributes": { "age": 10, "intelligence": 20 },
       "best_friend": "1",
       "friends": ["1", "2", "3"]
     }

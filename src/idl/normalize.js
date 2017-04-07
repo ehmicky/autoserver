@@ -24,6 +24,8 @@ const transforms = [
   {
     // Depth 1 means top-level model, depth 3 means model attribute, depth 4 means model array attribute's item
     any({ depth, parentKey, parent }) {
+      if (parent.$data || parent.$ref) { return; }
+
       let depthType;
       if (depth === 1) {
         depthType = 'model';
