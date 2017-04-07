@@ -60,6 +60,23 @@ models:
         description: This pet's friends
         items:
           model: pet
+      owners:
+        type: array
+        items:
+          model: owner
+  owner:
+    type: object
+    description: A pet's owner
+    required: [id]
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      pets:
+        type: array
+        items:
+          model: pet
 operations: [find, create, replace, update, upsert, deleteOne]
 definitions:
   dummyDefinition:
