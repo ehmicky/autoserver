@@ -29,6 +29,7 @@ models:
     properties:
       id:
         # Required for the moment. Possible values: string, number, integer, boolean,
+        # For the moment, cannot be an array
         type: string
         description: Unique identifier of a pet
         # Any JSON schema validation keyword may be used to validate API input and output
