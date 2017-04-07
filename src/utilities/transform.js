@@ -12,8 +12,9 @@ const { recurseMap } = require('./recurse_map');
  *   - each time the key of a property matches the key of a transform, that transform is applied
  *   - a transform takes the following input:
  *       {any} value - current property's value
+ *       {any} key - current property's key
  *       {object} parent - value's parent
- *       {string} key - value's parent's key. Note this is not value's key. Value's key is same as transform's
+ *       {string} parent_key - value's parent's key.
  *       {object|object[]} root - initial input
  *       {integer} depth - current recursion depth, starts at 0
  *   - transforms input can be augmented by using option `args(input)` which must return extra input as an object
@@ -62,7 +63,12 @@ const singleTransform = function ({ input, transformsSet, args }) {
         // Fire each transform, if defined
         .filter(name => transformsSet[name])
         .map(name => {
-          const currentArgs = Object.assign({}, transformArgs, { value: value[name], parent: value });
+          const currentArgs = Object.assign({}, transformArgs, {
+            value: value[name],
+            parent: value,
+            parentKey: opts.key,
+            key: name,
+          });
           return transformsSet[name](currentArgs);
         })
         // Get rid of undefined transform return values
