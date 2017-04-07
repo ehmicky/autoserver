@@ -81,7 +81,7 @@ definitions:
   # Only applies this to top-level schemas
   topLevelModel:
     # Must have a `required` property
-    required: [required]
+    required: [required, properties]
     properties:
       operations:
         $ref: '#/definitions/operationsProperty'
