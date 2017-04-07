@@ -23,14 +23,14 @@ const transforms = [
 
   {
     // Depth 1 means top-level model, depth 3 means model attribute, depth 4 means model array attribute's item
-    any({ depth, key }) {
+    any({ depth, parentKey, parent }) {
       let depthType;
       if (depth === 1) {
         depthType = 'model';
       } else if (depth >= 3) {
-        if (['items', 'contains'].includes(key)) {
+        if (['items', 'contains'].includes(parentKey)) {
           depthType = 'multipleAttr';
-        } else if (!['properties', 'patternProperties', 'dependencies'].includes(key)) {
+        } else if (!['properties', 'patternProperties', 'dependencies'].includes(parentKey)) {
           depthType = 'singleAttr';
         }
       }
@@ -43,16 +43,16 @@ const transforms = [
     model: () => ({ type: 'object' }),
 
     // Adds def.propName refering to property name
-    type({ key, parent }) {
+    type({ parentKey, parent }) {
       // Only for top-level models and single attributes
       if (!['model', 'singleAttr'].includes(parent.depthType)) { return; }
-      return { propName: key };
+      return { propName: parentKey };
     },
 
     // Add `model` to top-level models
-    any({ key, parent }) {
+    any({ parentKey, parent }) {
       if (parent.depthType !== 'model') { return; }
-      return { model: key };
+      return { model: parentKey };
     },
   },
 
