@@ -220,7 +220,7 @@ const graphQLFieldsInfo = [
 
 	// "String" type
   {
-    condition: def => def.type === 'string',
+    condition: def => def.type === 'string' || def.type === 'null',
     value: () => ({ type: GraphQLString }),
   },
 
