@@ -1,0 +1,12 @@
+type: object
+description: A pet's owner
+required: [id]
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  pets:
+    type: array
+    items:
+      model: pet
