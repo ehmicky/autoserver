@@ -25,7 +25,6 @@ const reportErrors = function ({ errors, type }) {
         .replace(/\//g, '.');
 
       // Get custom error message
-      console.log(error);
       const message = getErrorMessage({ error });
       // Prepends argument name to error message
       const errorText = `${inputPath}${message}`;
