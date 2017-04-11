@@ -78,8 +78,8 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
-  // IDL definition is invalid
-  IDL_WRONG_DEFINITION: () => ({
+  // IDL definition is semantically invalid
+  IDL_VALIDATION: () => ({
     http: { status: 500 },
   }),
 
@@ -101,11 +101,6 @@ const errorReasons = {
   // Response did not pass IDL validation, e.g. if the database is corrupted or new constraints were applied without
   // being migrated
   OUTPUT_VALIDATION: () => ({
-    http: { status: 500 },
-  }),
-
-  // Internal error on the database validation layer
-  DATABASE_VALIDATION_INTERNAL: () => ({
     http: { status: 500 },
   }),
 
