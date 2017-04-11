@@ -15,7 +15,7 @@ const {
 const { chain, omit, pick, defaults } = require('lodash');
 
 const { EngineError } = require('../../../../error');
-const { stringify } = require('../../../../utilities');
+const { stringify } = require('circular-json');
 const { getTypeName, getOperationNameFromAttr } = require('./name');
 const { getDescription, getDeprecationReason } = require('./description');
 const { getResolver } = require('./resolver');

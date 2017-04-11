@@ -26,6 +26,7 @@
     "ajv-keywords": "^2.0.1-beta.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
+    "circular-json": "^0.3.1",
     "fast-memoize": "^2.2.7",
     "graphql": "^0.9.1",
     "graphql-server-core": "^0.6.0",

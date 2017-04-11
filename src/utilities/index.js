@@ -12,7 +12,6 @@ module.exports = Object.assign(
   require('./filesystem'),
   require('./cache'),
   require('./promise'),
-  require('./stringify'),
   require('./memoize'),
   require('./transform'),
   require('./recurse_map'),
