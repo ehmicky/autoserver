@@ -4,7 +4,8 @@
 const { GraphQLSchema } = require('graphql');
 const { mapValues } = require('lodash');
 
-const { GeneralCache, stringify } = require('../../../../utilities');
+const { GeneralCache } = require('../../../../utilities');
+const { stringify } = require('circular-json');
 const { getType } = require('./types');
 const { getModelsByMethod } = require('./models');
 

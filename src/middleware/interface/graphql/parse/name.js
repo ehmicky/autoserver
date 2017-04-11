@@ -5,7 +5,7 @@ const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
 const { EngineError } = require('../../../../error');
-const { stringify } = require('../../../../utilities');
+const { stringify } = require('circular-json');
 
 
 const pluralize = function ({ name, asPlural }) {
