@@ -78,6 +78,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // IDL definition is syntactically invalid
+  IDL_SYNTAX_ERROR: () => ({
+    http: { status: 500 },
+  }),
+
   // IDL definition is semantically invalid
   IDL_VALIDATION: () => ({
     http: { status: 500 },

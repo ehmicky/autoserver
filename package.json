@@ -32,6 +32,7 @@
     "graphql-server-core": "^0.6.0",
     "graphql.js": "^0.4.5",
     "js-yaml": "^3.8.2",
+    "json-schema-ref-parser": "^3.1.2",
     "lodash": "^4.17.4",
     "mustache": "^2.3.0",
     "path-to-regexp": "^1.7.0",
