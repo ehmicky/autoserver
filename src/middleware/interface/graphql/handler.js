@@ -1,66 +1,41 @@
 'use strict';
 
 
-const { runHttpQuery } = require('graphql-server-core');
-
-const { graphqlGetSchema } = require('./parse');
+const { getHandleQuery } = require('./query');
 const { EngineError } = require('../../../error');
 
 
+// GraphQL query handling
 const executeGraphql = async function (input) {
   const { idl } = input;
-  const schema = graphqlGetSchema(idl);
+  const handleQuery = getHandleQuery({ idl });
   return async function (request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)
     const { query, variables, operationName } = Object.assign({}, request.params, request.payload);
-    const { operation: method } = request;
 
     if (!query) {
       throw new EngineError('Missing GraphQL query', { reason: 'GRAPHQL_NO_QUERY' });
     }
 
-    let response;
-    try {
-      response = await runHttpQuery([], {
-        options: {
-          schema: schema,
-          context: {
-            callback: fireNext.bind(this, input),
-          },
-          rootValue: {},
-        },
-        query: {
-          query,
-          variables,
-          operationName,
-        },
-        method,
-      });
-    } catch (error) {
-      response = error.message;
-    }
+    const callback = fireNext.bind(this, input);
+    const response = await handleQuery({
+      query,
+      variables,
+      operationName,
+      context: { callback },
+      rootValue: {},
+    });
 
-    let parsedResponse;
-    if (typeof response === 'object') {
-      try {
-        parsedResponse = JSON.parse(response);
-      } catch (error) {
-        throw Error('Wrong query');
-      }
-      return {
-        type: 'object',
-        content: parsedResponse,
-      };
-    } else if (typeof response === 'string') {
-      return {
-        type: 'html',
-        content: response,
-      };
-    }
+    return {
+      type: 'object',
+      content: response,
+    };
   };
 };
 
 const fireNext = async function (input, apiInput) {
+  console.log('FIRE', apiInput);
+  // TODO: remove this
   // Rename `filter` to `filters`, as `filter` can be confused with Array.prototype.filter
   if (apiInput && apiInput.args && apiInput.args.filter) {
     apiInput.args.filters = apiInput.args.filter;
@@ -75,5 +50,4 @@ const fireNext = async function (input, apiInput) {
 
 module.exports = {
   executeGraphql,
-  graphqlGetSchema,
 };
