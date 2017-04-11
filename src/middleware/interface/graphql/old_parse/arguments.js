@@ -131,47 +131,7 @@ const getIdArgument = function ({ multiple, opType, filterObjectType, isTopLevel
   return dataIdArgs;
 };
 
-// Add resolver arguments, while resolve function is fired
-// As opposed to `getArguments`, those arguments depend on current query resolution, e.g. on parent value
-const addArguments = function (def, { args, multiple, parent }) {
-  return [
-    addNestedIdArguments(def, { args, multiple, parent }),
-  // Each function can return a value, i.e. database will not be queried, and that return value will be used instead
-  ].find(returnValue => returnValue !== undefined);
-};
-
-/**
- * Make nested models filtered by their parent model
- * E.g. if a model findParent() returns { child: 1 }, then a nested query findChild() will be filtered by `id: 1`
- * If the parent returns nothing|null, the nested query won't be performed and null will be returned
- *  - this means when performing a nested `create`, the parent must specify the id of its non-created-yet children
- * Will add `id` argument for *One operations, `ids` for *Many operations
- */
-const addNestedIdArguments = function (def, { args, multiple, parent }) {
-  // Only for nested models
-  if (def.isTopLevel) { return; }
-
-  const parentVal = parent.val[def.propName];
-  if (multiple) {
-    // Make sure parent value is defined and correct
-    if (parentVal == null || !(parentVal instanceof Array) || parentVal.length === 0) { return []; }
-    // If `ids` filter is specified by client, intersects with it
-    if (args.ids && args.ids instanceof Array) {
-      args.ids = intersection(args.ids, parentVal);
-    } else {
-      // Add `ids` filter
-      args.ids = parentVal;
-    }
-  } else {
-    // Make sure parent value is defined and correct
-    if (parentVal == null || parentVal === '') { return null; }
-    // Add `id` filter
-    args.id = parentVal;
-  }
-};
-
 
 module.exports = {
   getArguments,
-  addArguments,
 };

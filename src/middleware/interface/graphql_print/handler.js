@@ -1,17 +1,11 @@
 'use strict';
 
 
-const { graphqlGetSchema } = require('../graphql');
-const { graphqlPrintSchema } = require('./print');
-
-
-const printGraphql = async function ({ idl }) {
-  const schema = graphqlGetSchema(idl);
-  const printedSchema = await graphqlPrintSchema(schema);
+const printGraphql = async function () {
   return async function () {
     return {
       type: 'html',
-      content: printedSchema,
+      content: 'Not implemented yet',
     };
   };
 };

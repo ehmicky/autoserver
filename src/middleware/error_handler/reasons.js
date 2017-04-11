@@ -43,6 +43,11 @@ const errorReasons = {
     http: { status: 400 },
   }),
 
+  // GraphQL query syntax error, i.e. GraphQL crashed trying to parse the raw query
+  GRAPHQL_SYNTAX_ERROR: () => ({
+    http: { status: 400 },
+  }),
+
   // General validation input errors, e.g. input data|filter does not match IDL schema
   INPUT_VALIDATION: () => ({
     http: { status: 400 },
