@@ -17,5 +17,6 @@ module.exports = Object.assign(
   require('./recurse_map'),
   require('./validation'),
   require('./fs'),
+  require('./yaml'),
   require('./debugging')
 );
