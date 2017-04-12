@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge, mapKeys, map } = require('lodash');
+const { chain, merge, map } = require('lodash');
 const { getOperationNameFromModel } = require('./name');
 const { getSubDefProp } = require('./utilities');
 const { operations } = require('../../../../idl');
@@ -15,16 +15,13 @@ const graphqlOperations = {
 
 // Retrieve models for a given method
 const getModelsByMethod = function (methodName, opts) {
-  const allowedOperations = graphqlOperations[methodName];
-  const models = operations
-    .filter(operation => allowedOperations.includes(operation.opType))
-		.reduce((methodModels, operation) => {
-      const operationModels = getModelsByOperation(operation, opts);
-      return methodModels.concat(operationModels);
-    }, [])
-		.filter(model => isAllowedModel(model, opts));
-  const modelsMap = mapKeys(models, model => model.propName);
-  return modelsMap;
+  return chain(operations)
+    .filter(operation => graphqlOperations[methodName].includes(operation.opType))
+		.map(operation => getModelsByOperation(operation, opts))
+    .flatten()
+		.filter(model => isAllowedModel(model, opts))
+    .mapKeys(model => model.propName)
+    .value();
 };
 
 // Filter allowed operations on a given model
