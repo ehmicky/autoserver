@@ -55,7 +55,8 @@ const getField = function (def, opts) {
   Object.assign(field.type, { def });
 
   // Can only assign default if fields are optional in input, but required by database
-  if (canRequireAttributes(def, opts) && def.required !== true && opts.inputObjectType === 'input' && def.default !== undefined) {
+  if (canRequireAttributes(def, opts) && def.required !== true && opts.inputObjectType === 'input'
+    && def.default !== undefined) {
     defaults(field, { defaultValue: def.default });
   }
 
