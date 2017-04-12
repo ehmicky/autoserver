@@ -38,7 +38,7 @@ Includes (but is not limited to):
 
 # How to start
 
-First `npm install`
+First `npm run setup` (not `npm install`)
 
 If in production, run with `npm start`
 
