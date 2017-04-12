@@ -88,6 +88,8 @@ const errorMessages = {
   propertyNames: ({ params: { propertyName } }) => ` property '${propertyName}' name must be valid`,
   dependencies: ({ params: { missingProperty, property } }) =>
     `.${missingProperty} must be defined when property '${property} is defined`,
+  // Custom keywords
+  hasPlural: ({ data }) => ` '${data}' must be an English word whose plural form differs from its singular form`,
   // Special keyword for schema that are `false`, e.g. `patternProperties: { pattern: false }`
   'false schema': () => ' must not be defined',
 };
