@@ -63,6 +63,11 @@ const errorReasons = {
     http: { status: 404 },
   }),
 
+  // Methods is not supported, or most likely not allowed for this model
+  WRONG_METHOD: () => ({
+    http: { status: 405 },
+  }),
+
   // A database model operation conflicts with another one, e.g. tries to create already existing model
   DATABASE_MODEL_CONFLICT: () => ({
     http: { status: 409 },
