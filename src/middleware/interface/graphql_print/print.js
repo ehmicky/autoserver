@@ -20,5 +20,5 @@ const printSchema = async function (schema) {
 
 
 module.exports = {
-  graphqlPrintSchema: printSchema,
+  printSchema,
 };
