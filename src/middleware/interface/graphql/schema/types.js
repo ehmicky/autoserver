@@ -125,7 +125,7 @@ const getObjectFields = function (def, opts) {
       // (e.g. `model.user`)
       .transform((props, childDef, childDefName) => {
         // Not for 'Query' or 'Mutation' objects, nor models
-        if (childDef.opType || !isModel(childDef)) {
+        if (childDef.operation || !isModel(childDef)) {
           props[childDefName] = childDef;
           return;
         }
@@ -157,8 +157,8 @@ const getObjectFields = function (def, opts) {
 			// Recurse over children
 			.mapValues(childDef => {
 				// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
-				if (childDef.opType) {
-					opts = Object.assign({}, opts, { opType: childDef.opType, topLevelDef: childDef });
+				if (childDef.operation) {
+					opts = Object.assign({}, opts, { opType: childDef.operation.opType, topLevelDef: childDef });
 				}
 
 				const field = getField(childDef, opts);
