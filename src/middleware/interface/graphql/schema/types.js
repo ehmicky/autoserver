@@ -18,8 +18,8 @@ const { stringify } = require('circular-json');
 const { EngineError } = require('../../../../error');
 const { getTypeName, getOperationNameFromAttr } = require('./name');
 const { getDescription, getDeprecationReason } = require('./description');
-const { getResolver } = require('./resolver');
 const { isMultiple, getSubDef, getModelName, isModel } = require('./utilities');
+const { getArguments } = require('./arguments');
 
 
 // Retrieves the GraphQL type for a given IDL definition
@@ -46,7 +46,12 @@ const getField = function (def, opts) {
   const description = getDescription({ def, opType: opts.opType, descriptionType: 'field' });
   const deprecationReason = getDeprecationReason({ def });
   Object.assign(field, defaults({ description, deprecationReason }, field));
-	Object.assign(field, getResolver(def, Object.assign({ getType }, opts)));
+
+	// Only for top-level models, and not for argument types
+  if (isModel(def) && !opts.inputObjectType && !def.noResolve) {
+    field.args = getArguments(def, Object.assign({ getType }, opts));
+  }
+
   Object.assign(field.type, { def });
 
   // Can only assign default if fields are optional in input, but required by database
