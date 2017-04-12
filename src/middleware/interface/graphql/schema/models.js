@@ -19,7 +19,7 @@ const getModelsByMethod = function (methodName, opts) {
     .filter(operation => graphqlOperations[methodName].includes(operation.opType))
 		.map(operation => getModelsByOperation(operation, opts))
     .flatten()
-		.filter(model => isAllowedModel(model, opts))
+		.filter(model => isAllowedModel(model))
     .mapKeys(model => model.propName)
     .value();
 };
@@ -39,16 +39,11 @@ const getModelsByOperation = function (operation, { idl: { models } }) {
 };
 
 // Filter allowed operations on a given model
-const isAllowedModel = function (model, { idl: { operations: defaultOperations } }) {
+const isAllowedModel = function (model) {
   // IDL property `def.operations` allows whitelisting specific operations
-  const modelOperations = getSubDefProp(model, 'operations') || defaultOperations;
-  // Normalize shortcuts, e.g. 'find' -> 'findOne' + 'findMany'
-  const normalizedOperations = modelOperations.reduce((memo, operation) => {
-    const normalizedOperation = operation.endsWith('One') ? operation : [`${operation}One`, `${operation}Many`];
-    return memo.concat(normalizedOperation);
-  }, []);
+  const modelOperations = getSubDefProp(model, 'operations');
   // Check whether model operation is whitelisted
-  return normalizedOperations.includes(model.operation.name);
+  return modelOperations.includes(model.operation.name);
 };
 
 
