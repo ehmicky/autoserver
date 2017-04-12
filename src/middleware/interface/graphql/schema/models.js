@@ -27,24 +27,15 @@ const getModelsByMethod = function (methodName, opts) {
 // Retrieve models for a given operation
 const getModelsByOperation = function (operation, { idl: { models } }) {
   return map(models, model => {
-    // Deep copy
-    model = merge({}, model);
-
     const propName = getOperationNameFromModel({ def: model, opType: operation.opType, asPlural: operation.multiple });
 
     if (operation.multiple) {
       model = { type: 'array', items: model };
     }
 
-    Object.assign(model, {
-      // E.g. 'findPet', used as GraphQL field name
-      propName,
-      // E.g. 'find'
-      operation,
-    });
-
-    return model;
-  }, []);
+    const modelCopy = merge({}, model, { propName, operation });
+    return modelCopy;
+  });
 };
 
 // Filter allowed operations on a given model
