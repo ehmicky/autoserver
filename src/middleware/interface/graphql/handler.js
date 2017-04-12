@@ -34,8 +34,6 @@ const executeGraphql = async function (input) {
 };
 
 const fireNext = async function (input, apiInput) {
-  console.log('FIRE', apiInput);
-  // TODO: remove this
   // Rename `filter` to `filters`, as `filter` can be confused with Array.prototype.filter
   if (apiInput && apiInput.args && apiInput.args.filter) {
     apiInput.args.filters = apiInput.args.filter;
