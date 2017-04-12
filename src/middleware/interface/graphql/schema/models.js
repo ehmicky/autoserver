@@ -39,12 +39,8 @@ const getModelsByOperation = function (operation, { idl: { models } }) {
     Object.assign(model, {
       // E.g. 'findPet', used as GraphQL field name
       propName,
-      // E.g. 'findOne'
-      baseOperationName: operation.name,
       // E.g. 'find'
-      opType: operation.opType,
-      // top-level models might e.g. get different arguments
-      isTopLevel: true,
+      operation,
     });
 
     return model;
@@ -61,7 +57,7 @@ const isAllowedModel = function (model, { idl: { operations: defaultOperations }
     return memo.concat(normalizedOperation);
   }, []);
   // Check whether model operation is whitelisted
-  return normalizedOperations.includes(model.baseOperationName);
+  return normalizedOperations.includes(model.operation.name);
 };
 
 

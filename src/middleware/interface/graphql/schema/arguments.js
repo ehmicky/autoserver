@@ -22,7 +22,7 @@ const getArguments = function (def, opts) {
 
   opts = Object.assign({}, opts, {
     multiple: isMultiple(def),
-    isTopLevel: def.isTopLevel,
+    isTopLevel: def.operation !== undefined,
     inputObjectType,
     filterObjectType,
   });
