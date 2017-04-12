@@ -7,7 +7,7 @@ const { typenameResolver } = require('./typename');
 const { attrResolver } = require('./attr');
 const { nestedModelResolver } = require('./nested_model');
 const { topLevelModelResolver } = require('./top_level_model');
-const { parseName, forwardParentModel, setParentModel, hasParentModel } = require('./utilities');
+const { parseName, setParentModel, hasParentModel } = require('./utilities');
 
 
 /**
@@ -18,8 +18,7 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
 
   // Introspection type name
   if (name === '__typename') {
-    const response = typenameResolver({ parent });
-    return response;
+    return typenameResolver({ parent });
   }
 
   const { attrName, opType } = parseName({ name });
@@ -27,9 +26,7 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   // If the attribute name does not conform the `findModel[s]` convention,
   // it is a normal attribute which just returns its parent value
   if (!attrName || !opType) {
-    const response = attrResolver({ attrName: name, parent });
-    forwardParentModel(parent, response, name);
-    return response;
+    return attrResolver({ name, parent });
   }
 
   // Top-level and non-top-level attributes are handled differently
