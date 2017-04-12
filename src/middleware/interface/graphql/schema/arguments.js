@@ -6,7 +6,7 @@ const {
   GraphQLNonNull,
   GraphQLList,
 } = require('graphql');
-const { chain, mapValues, intersection } = require('lodash');
+const { chain, mapValues } = require('lodash');
 
 const { isMultiple, getSubDef } = require('./utilities');
 
