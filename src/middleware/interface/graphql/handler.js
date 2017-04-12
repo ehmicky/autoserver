@@ -1,30 +1,33 @@
 'use strict';
 
 
+const { parseQuery } = require('./parse');
 const { getHandleQuery } = require('./query');
-const { EngineError } = require('../../../error');
+const { isIntrospectionQuery, getHandleIntrospection } = require('./introspection');
 
 
 // GraphQL query handling
 const executeGraphql = async function (input) {
   const { idl } = input;
   const handleQuery = getHandleQuery({ idl });
+  const handleIntrospection = getHandleIntrospection({ idl });
   return async function (request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)
     const { query, variables, operationName } = Object.assign({}, request.params, request.payload);
 
-    if (!query) {
-      throw new EngineError('Missing GraphQL query', { reason: 'GRAPHQL_NO_QUERY' });
-    }
+    // GraphQL parsing
+    const { queryDocument } = parseQuery({ query });
 
-    const callback = fireNext.bind(this, input);
-    const response = await handleQuery({
-      query,
-      variables,
-      operationName,
-      context: { callback },
-      rootValue: {},
-    });
+    // GraphQL execution
+    let response;
+    // Introspection GraphQL query
+    if (isIntrospectionQuery({ query })) {
+      response = await handleIntrospection({ queryDocument, variables, operationName });
+    // Normal GraphQL query
+    } else {
+      const callback = fireNext.bind(this, input);
+      response = await handleQuery({ queryDocument, variables, operationName, context: { callback }, rootValue: {} });
+    }
 
     return {
       type: 'object',

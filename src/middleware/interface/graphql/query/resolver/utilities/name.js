@@ -2,7 +2,8 @@
 
 
 const { chain } = require('lodash');
-const { underscored } = require('underscore.string');
+const { underscored, camelize, capitalize } = require('underscore.string');
+const { singular } = require('pluralize');
 
 const { operations } = require('../../../../../../idl');
 
@@ -35,7 +36,13 @@ const opTypes = chain(operations)
   .join('|');
 const opTypeRegExp = new RegExp(`^(${opTypes})([A-Z][a-zA-Z0-9]*)`);
 
+// Similar to introspection utility `getTypeName`
+const getTypeName = function (name) {
+  return capitalize(camelize(singular(name)));
+};
+
 
 module.exports = {
   parseName,
+  getTypeName,
 };

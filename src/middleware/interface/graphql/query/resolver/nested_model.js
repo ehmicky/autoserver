@@ -9,7 +9,7 @@ const { getParentModel } = require('./utilities');
 // Resolver for nested model operations
 const nestedModelResolver = function ({ attrName, modelsMap, parent, args }) {
   // Looks up at parent value to know what is the current model
-  const parentModel = getParentModel(parent);
+  const { modelName: parentModel } = getParentModel(parent);
   const model = modelsMap[parentModel] && modelsMap[parentModel][attrName];
   if (!model) { return {}; }
 

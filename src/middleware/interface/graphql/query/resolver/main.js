@@ -3,36 +3,33 @@
 
 const { operations } = require('../../../../../idl');
 const { EngineError } = require('../../../../../error');
+const { typenameResolver } = require('./typename');
 const { attrResolver } = require('./attr');
 const { nestedModelResolver } = require('./nested_model');
 const { topLevelModelResolver } = require('./top_level_model');
-const { schemaResolver } = require('./schema');
-const { parseName, setParentModel, hasParentModel } = require('./utilities');
+const { parseName, forwardParentModel, setParentModel, hasParentModel } = require('./utilities');
 
 
 /**
  * GraphQL-anywhere uses a single resolver: here it is
  **/
-const getResolver = ({ modelsMap, schema }) => async function (name, parent = {}, args, { callback }) {
+const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, { callback }) {
   args = args || {};
 
-  // Introspection query
-  if (name === '___schema') {
-    return schemaResolver({ schema });
+  // Introspection type name
+  if (name === '__typename') {
+    const response = typenameResolver({ parent });
+    return response;
   }
-  // TODO
-  /*if (name === '__typename') {
-
-  }
-  if (name === '__type') {
-
-  }*/
 
   const { attrName, opType } = parseName({ name });
+
   // If the attribute name does not conform the `findModel[s]` convention,
   // it is a normal attribute which just returns its parent value
   if (!attrName || !opType) {
-    return attrResolver({ attrName: name, parent });
+    const response = attrResolver({ attrName: name, parent });
+    forwardParentModel(parent, response, name);
+    return response;
   }
 
   // Top-level and non-top-level attributes are handled differently
@@ -53,7 +50,7 @@ const getResolver = ({ modelsMap, schema }) => async function (name, parent = {}
   // Fire database layer, retrieving value passed to children
   const response = await callback({ operation, modelName, args: finalArgs });
   // Tags the response as belonging to that modelName
-  setParentModel(response, modelName);
+  setParentModel(response, { operation, modelName, opType });
   return response;
 };
 
