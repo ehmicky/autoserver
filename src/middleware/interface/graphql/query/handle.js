@@ -4,22 +4,17 @@
 const { default: graphqlAnywhere } = require('graphql-anywhere');
 
 const { getModelsMap } = require('../../../../idl');
-const { getSchema } = require('../introspection');
 const { getResolver } = require('./resolver');
-const { parseQuery } = require('./parse');
 
 
 /**
  * Executes GraphQL request
  */
 const getHandleQuery = ({ idl }) => {
-  const schema = getSchema({ idl });
   const modelsMap = getModelsMap({ idl });
-  const resolver = getResolver({ modelsMap, schema });
+  const resolver = getResolver({ modelsMap });
 
-  return async function ({ query, variables, context, rootValue }) {
-    // GraphQL parsing
-    const { queryDocument } = parseQuery({ query });
+  return async function ({ queryDocument, variables, context, rootValue }) {
     // GraphQL execution
     const response = graphqlAnywhere(resolver, queryDocument, rootValue, context, variables);
     return response;

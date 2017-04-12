@@ -3,12 +3,16 @@
 
 const { parse } = require('graphql');
 
-const { EngineError } = require('../../../../error');
-const { memoize } = require('../../../../utilities');
+const { EngineError } = require('../../../error');
+const { memoize } = require('../../../utilities');
 
 
 // Raw GraphQL parsing
 const parseQuery = memoize(function ({ query }) {
+  if (!query) {
+    throw new EngineError('Missing GraphQL query', { reason: 'GRAPHQL_NO_QUERY' });
+  }
+
   try {
     const queryDocument = parse(query);
     return { queryDocument };
