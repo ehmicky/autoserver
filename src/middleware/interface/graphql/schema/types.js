@@ -33,7 +33,9 @@ const getField = function (def, opts) {
   // Retrieves correct field
   const fieldInfo = graphQLFieldsInfo.find(possibleType => possibleType.condition(def, opts));
   if (!fieldInfo) {
-    throw new EngineError(`Could not parse property into a GraphQL type: ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throw new EngineError(`Could not parse property into a GraphQL type: ${stringify(def)}`, {
+      reason: 'GRAPHQL_WRONG_DEFINITION',
+    });
   }
 
   // Retrieves field information
