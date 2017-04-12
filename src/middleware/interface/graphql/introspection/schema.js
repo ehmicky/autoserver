@@ -4,21 +4,13 @@
 const { GraphQLSchema } = require('graphql');
 const { mapValues } = require('lodash');
 
-const { GeneralCache } = require('../../../../utilities');
-const { stringify } = require('circular-json');
+const { GeneralCache, memoize } = require('../../../../utilities');
 const { getType } = require('./types');
 const { getModelsByMethod } = require('./models');
 
 
-const schemaCache = new GeneralCache();
-
 // Returns GraphQL schema
-const getSchema = function ({ idl }) {
-  const schemaCacheKey = stringify(idl);
-  if (schemaCache.exists(schemaCacheKey)) {
-    return schemaCache.get(schemaCacheKey);
-  }
-
+const getSchema = memoize(function ({ idl }) {
   // Each schema gets its own cache instance, to avoid leaking
   const cache = new GeneralCache();
 
@@ -31,9 +23,8 @@ const getSchema = function ({ idl }) {
   });
 
   const schema = new GraphQLSchema(schemaFields);
-  schemaCache.set(schemaCacheKey, schema);
   return schema;
-};
+});
 
 const rootDef = {
   query: {
