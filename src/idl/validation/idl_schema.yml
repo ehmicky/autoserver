@@ -13,7 +13,7 @@ properties:
   models:
     # Models are valid JSON schemas
     additionalProperties:
-      $ref: '#/definitions/modelSchema'
+      $ref: '#/definitions/modelObjectSchema'
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
@@ -37,15 +37,17 @@ properties:
 # No custom property, except for `custom`
 additionalProperties: false
 definitions:
+  # Model schemas are an augmented version of a normal JSON schema
+  modelObjectSchema:
+    type: object
+    allOf:
+    - $ref: '#/definitions/currentJsonSchema'
+    - $ref: '#/definitions/futureJsonSchema'
+    - $ref: '#/definitions/customJsonSchema'
   # Main schema, for models under idl.models.modelName.*
   modelSchema:
-    # Model schemas are an augmented version of a normal JSON schema
     anyOf:
-    - type: object
-      allOf:
-      - $ref: '#/definitions/currentJsonSchema'
-      - $ref: '#/definitions/futureJsonSchema'
-      - $ref: '#/definitions/customJsonSchema'
+    - $ref: '#/definitions/modelObjectSchema'
     # JSON schemas can be booleans
     - type: boolean
   # Our additions to JSON schema
@@ -68,7 +70,7 @@ definitions:
       properties:
         # Apply this schema recursively
         additionalProperties:
-          $ref: '#/definitions/modelSchema'
+          $ref: '#/definitions/modelObjectSchema'
         # Attributes follow same naming convention as models
         propertyNames:
           $ref: '#/definitions/validModelName'
