@@ -9,8 +9,8 @@ const { isIntrospectionQuery, getHandleIntrospection } = require('./introspectio
 // GraphQL query handling
 const executeGraphql = async function (input) {
   const { idl } = input;
-  const handleQuery = getHandleQuery({ idl });
   const handleIntrospection = getHandleIntrospection({ idl });
+  const handleQuery = getHandleQuery({ idl });
   return async function (request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)
     const { query, variables, operationName } = Object.assign({}, request.params, request.payload);
