@@ -8,14 +8,14 @@ const { transform } = require('../utilities');
 
 // Normalize IDL definition
 const normalizeIdl = function (idl) {
-  idl.models = normalizeModels(idl.models);
-  idl.operations = idl.operations || defaultOperations;
+  idl.operations = normalizeOperations(idl.operations || defaultOperations);
+  idl.models = normalizeModels(idl);
   return idl;
 };
 
 // Normalize IDL definition models
-const normalizeModels = function (models) {
-  return transform({ transforms })({ input: models });
+const normalizeModels = function ({ models, operations }) {
+  return transform({ transforms, args: { operations } })({ input: models });
 };
 
 // List of transformations to apply to normalize IDL models
@@ -59,6 +59,16 @@ const transforms = [
   },
 
   {
+    // Normalize operations shortcuts, and adds defaults
+    any({ parent: { depthType, operations }, operations: defaultOperations }) {
+      if (depthType !== 'model') { return; }
+      operations = operations || defaultOperations;
+      const normalizedOperations = normalizeOperations(operations || defaultOperations);
+      return { operations: normalizedOperations };
+    }
+  },
+
+  {
     // { model '...' } -> { model: '...', ...copyOfTopLevelModel }
     // Must be last because this is done by copy, not reference
     model({ value, root, parent }) {
@@ -76,6 +86,15 @@ const transforms = [
   },
 
 ];
+
+
+// Normalize operations hortcuts, e.g. 'find' -> 'findOne' + 'findMany'
+const normalizeOperations = function (operations) {
+  return operations.reduce((memo, operation) => {
+    const normalizedOperation = /(One)|(Many)$/.test(operation) ? operation : [`${operation}One`, `${operation}Many`];
+    return memo.concat(normalizedOperation);
+  }, []);
+};
 
 // By default, include all operations but deleteMany
 const defaultOperations = ['find', 'update', 'deleteOne', 'replace', 'upsert', 'create'];
