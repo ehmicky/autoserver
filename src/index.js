@@ -7,7 +7,7 @@ const { startServer } = require('./server');
 Error.stackTraceLimit = 100;
 
 startServer({
-  conf: './examples/schema.yml',
+  conf: './examples/pet.schema.yml',
 })
 .then(() => {
   global.console.log('Server started');
