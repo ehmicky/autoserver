@@ -3,6 +3,7 @@
 
 const { chain } = require('lodash');
 const Ajv = require('ajv');
+const ajvKeywords = require('ajv-keywords');
 const ajv = new Ajv({
   allErrors: true,
   jsonPointers: true,
@@ -11,11 +12,27 @@ const ajv = new Ajv({
   verbose: true,
   multipleOfPrecision: 9,
 });
-// Add future JSON standard keywords
-require('ajv-keywords')(ajv, [ 'if', 'formatMinimum', 'formatMaximum' ]);
+const { singular, plural } = require('pluralize');
 
 const { memoize } = require('./memoize');
 const { reportErrors } = require('./report_error');
+
+
+const addKeywords = function (ajv) {
+  // Add future JSON standard keywords
+  ajvKeywords(ajv, [ 'if', 'formatMinimum', 'formatMaximum' ]);
+  // Add custom keywords
+  // Checks that a word (e.g. a model) is an English word with a different singular and plural form
+  ajv.addKeyword('hasPlural', {
+    validate(schemaValue, data) {
+      if (!schemaValue) { return true; }
+      return singular(data) !== plural(data);
+    },
+    type: 'string',
+    $data: true,
+  });
+};
+addKeywords(ajv);
 
 
 const getValidator = memoize(function ({ schema }) {
