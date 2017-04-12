@@ -24,25 +24,6 @@ const getModelsByMethod = function (methodName, opts) {
     .value();
 };
 
-// Filter allowed operations on a given model
-const isAllowedModel = function (model, { idl: { operations: defaultOperations } }) {
-  // IDL property `def.operations` allows whitelisting specific operations
-  let modelOperations = getSubDefProp(model, 'operations') || defaultOperations;
-  if (modelOperations) {
-    // Normalize shortcuts, e.g. 'find' -> 'findOne' + 'findMany'
-    modelOperations = modelOperations.reduce((memo, modelOperation) => {
-      if (modelOperation.endsWith('One')) {
-        return memo.concat(modelOperation);
-      }
-      return memo.concat([`${modelOperation}One`, `${modelOperation}Many`]);
-    }, []);
-    // Check whether model operation is whitelisted
-    if (!modelOperations.includes(model.baseOperationName)) { return false; }
-  }
-
-  return true;
-};
-
 // Retrieve models for a given operation
 const getModelsByOperation = function (operation, { idl: { models } }) {
   return map(models, model => {
@@ -68,6 +49,19 @@ const getModelsByOperation = function (operation, { idl: { models } }) {
 
     return model;
   }, []);
+};
+
+// Filter allowed operations on a given model
+const isAllowedModel = function (model, { idl: { operations: defaultOperations } }) {
+  // IDL property `def.operations` allows whitelisting specific operations
+  const modelOperations = getSubDefProp(model, 'operations') || defaultOperations;
+  // Normalize shortcuts, e.g. 'find' -> 'findOne' + 'findMany'
+  const normalizedOperations = modelOperations.reduce((memo, operation) => {
+    const normalizedOperation = operation.endsWith('One') ? operation : [`${operation}One`, `${operation}Many`];
+    return memo.concat(normalizedOperation);
+  }, []);
+  // Check whether model operation is whitelisted
+  return normalizedOperations.includes(model.baseOperationName);
 };
 
 
