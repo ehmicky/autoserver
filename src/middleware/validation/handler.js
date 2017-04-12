@@ -3,6 +3,7 @@
 
 const { validateServerInputSyntax } = require('./server_input_syntax');
 const { validateClientInputSyntax } = require('./client_input_syntax');
+const { validateClientInputMethod } = require('./client_input_method');
 const { validateClientInputSemantics } = require('./semantics');
 const { validateClientInputData, validateServerOutputData } = require('./data');
 const { validateServerOutputSyntax } = require('./server_output_syntax');
@@ -18,6 +19,7 @@ const validation = async function ({ idl }) {
     const { modelName, args, operation } = input;
     validateServerInputSyntax({ idl, modelName, args, operation });
     validateClientInputSyntax({ operation, args });
+    validateClientInputMethod({ idl, modelName, operation });
     validateClientInputSemantics({ idl, modelName, args });
     validateClientInputData({ idl, modelName, operation, args });
 

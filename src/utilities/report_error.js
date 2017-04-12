@@ -38,6 +38,7 @@ const reasons = {
   idl: 'IDL_VALIDATION',
   serverInputSyntax: 'INPUT_SERVER_VALIDATION',
   clientInputSyntax: 'INPUT_VALIDATION',
+  clientInputMethod: 'WRONG_METHOD',
   clientInputSemantics: 'INPUT_VALIDATION',
   clientInputData: 'INPUT_VALIDATION',
   serverOutputSyntax: 'OUTPUT_VALIDATION',
