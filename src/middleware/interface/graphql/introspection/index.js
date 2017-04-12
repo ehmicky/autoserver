@@ -3,6 +3,5 @@
 
 module.exports = Object.assign(
   {},
-  require('./handle'),
-  require('./schema')
+  require('./handle')
 );

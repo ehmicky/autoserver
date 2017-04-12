@@ -3,7 +3,7 @@
 
 const { execute } = require('graphql');
 
-const { getSchema } = require('./schema');
+const { getSchema } = require('../schema');
 
 
 const getHandleIntrospection = function ({ idl }) {
