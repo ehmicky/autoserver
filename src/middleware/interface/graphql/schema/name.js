@@ -42,15 +42,8 @@ const getOperationNameFromModel = function ({ def, opType, asPlural = true } = {
   return camelize(`${opType} ${name}`);
 };
 
-// Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getOperationNameFromAttr = function ({ name, opType, asPlural = true } = {}) {
-  const pluralizedName = pluralize({ name, asPlural });
-  return camelize(`${opType} ${pluralizedName}`);
-};
-
 
 module.exports = {
   getTypeName,
   getOperationNameFromModel,
-  getOperationNameFromAttr,
 };
