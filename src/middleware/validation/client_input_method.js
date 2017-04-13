@@ -10,8 +10,7 @@ const { validate } = require('../../utilities');
 const validateClientInputMethod = function ({ idl, modelName, operation }) {
   const type = 'clientInputMethod';
   const schema = getSchema({ idl, modelName });
-  const data = { elem: { operation } };
-  validate({ schema, data, type });
+  validate({ schema, data: operation, reportInfo: { type, operation, modelName } });
 };
 
 const getSchema = function ({ idl, modelName }) {

@@ -2,34 +2,36 @@
 
 /**
  * Summary of operations:
- *   findOne(id)
- *   findMany([ids|filter...])
- *   deleteOne(id)
- *   deleteMany([ids|filter...])
- *   updateOne(data, id)
- *   updateMany(data[, ids|filter...])
- *   createOne(data[, id])
- *   createMany(data[][, ids])
- *   replaceOne(data, id)
- *   replaceMany(data[], ids)
- *   upsertOne(data, id)
- *   upsertMany(data[], ids)
+ *   findOne({ filter: { id }, order_by })
+ *   findMany({ [filter], order_by })
+ *   deleteOne({ filter: { id }, order_by })
+ *   deleteMany({ [filter], order_by })
+ *   updateOne({ data, filter: { id }, order_by })
+ *   updateMany({ data, [filter], order_by })
+ *   createOne({ data, order_by })
+ *   createMany({ data[], order_by })
+ *   replaceOne({ data, order_by })
+ *   replaceMany({ data[], order_by })
+ *   upsertOne({ data, order_by })
+ *   upsertMany({ data[], order_by })
  *
  * Summary of arguments:
- *  - {any|any[]} id|ids     - Filter the operation by id
- *                             For createOne:
- *                              - it is the id the newly created instance
- *                              - it is optional, unless there is another nested operation on a submodel
- *                             Operations on submodels will automatically get filtered by id.
- *                             If an id is then specified, both filters will be used
  *  - {object|object[]} data - Attributes to update or create
- *                             Is an array with createMany, replaceMany or upsertMany
- *  - {any} filters          - Filter the operation by a specific attribute.
+ *                             Is an array in createMany, replaceMany or upsertMany
+ *                             `data.id` is required in upsert* and replace*, optional in create*, not allowed in update*
+ *  - {any} filter           - Filter the operation by a specific attribute.
  *                             The argument name is that attribute name, not `filter`
- *                             The filter value can be nester, e.g. { furniture: { size: 2 } }
+ *                             `filter.id` is required in findOne, deleteOne and updateOne
+ *                             `filter.id` is an array in findMany, deleteMany and updateMany
  *  - {string} order_by      - Sort results.
  *                             Value is attribute name, followed by optional + or - for ascending|descending order (default: +)
  *                             Can contain dots to select fields, e.g. order_by="furniture.size"
+ *
+ * Operations on submodels will automatically get filtered by id.
+ * If an id is then specified, both filters will be used
+ * For createOne:
+ *   - it is the id the newly created instance
+ *   - it is optional, unless there is another nested operation on a submodel
  **/
 
 
@@ -77,16 +79,18 @@ const findOneIndex = function({ collection, id, required = true }) {
   return modelIndex;
 };
 
-const findManyIndexes = function({ collection, ids, filters = {} }) {
-  if (ids) {
-    const uniqueIds = uniq(ids);
+const findManyIndexes = function({ collection, filter = {} }) {
+  if (filter.id) {
+    const uniqueIds = uniq(filter.id);
     const indexes = uniqueIds.map(id => findOneIndex({ collection, id }));
     collection = collection.map((model, index) => indexes.includes(index) ? model : null);
+    filter = Object.assign({}, filter);
+    delete filter.id;
   }
   const modelIndexes = chain(collection)
     .map((model, index) => {
       if (!model) { return null; }
-      const matches = matchesFilters({ filters, model });
+      const matches = matchesFilters({ filter, model });
       if (!matches) { return null; }
       return index;
     })
@@ -96,12 +100,12 @@ const findManyIndexes = function({ collection, ids, filters = {} }) {
 };
 
 // Check if a model matches a query filter
-const matchesFilters = function ({ filters, model }) {
-  const matches = every(filters, (filterVal, filterName) => {
+const matchesFilters = function ({ filter, model }) {
+  const matches = every(filter, (filterVal, filterName) => {
     if (typeof filterVal === 'object') {
       const modelVal = model[filterName];
       if (typeof modelVal !== 'object' || modelVal === null) { return false; }
-      return matchesFilters({ filters: filterVal, model: modelVal });
+      return matchesFilters({ filter: filterVal, model: modelVal });
     } else {
       return model[filterName] === filterVal;
     }
@@ -118,25 +122,25 @@ const checkUniqueId = function ({ collection, id }) {
   }
 };
 
-const findOne = function ({ collection, id }) {
+const findOne = function ({ collection, filter: { id } }) {
   const index = findOneIndex({ collection, id });
   return collection[index];
 };
 
-const findMany = function ({ collection, ids = null, filters = {} }) {
-  const indexes = findManyIndexes({ collection, ids, filters });
+const findMany = function ({ collection, filter = {} }) {
+  const indexes = findManyIndexes({ collection, filter });
   const models = indexes.map(index => collection[index]);
   return models;
 };
 
-const deleteOne = function ({ collection, id }) {
+const deleteOne = function ({ collection, filter: { id } }) {
   const index = findOneIndex({ collection, id });
   collection.splice(index, 1);
   return { id };
 };
 
-const deleteMany = function ({ collection, ids = null, filters = {} }) {
-  const indexes = findManyIndexes({ collection, ids, filters });
+const deleteMany = function ({ collection, filter = {} }) {
+  const indexes = findManyIndexes({ collection, filter });
   const removedIds = indexes.map(index => ({ id: collection[index].id }));
   indexes.sort();
   indexes.forEach((index, count) => {
@@ -145,7 +149,7 @@ const deleteMany = function ({ collection, ids = null, filters = {} }) {
   return removedIds;
 };
 
-const updateOne = function ({ collection, data, id }) {
+const updateOne = function ({ collection, data, filter: { id } }) {
   const index = findOneIndex({ collection, id });
   const model = collection[index];
   const newModel = Object.assign({}, model, data);
@@ -153,8 +157,8 @@ const updateOne = function ({ collection, data, id }) {
   return newModel;
 };
 
-const updateMany = function ({ collection, data, ids = null, filters = {} }) {
-  const indexes = findManyIndexes({ collection, ids, filters });
+const updateMany = function ({ collection, data, filter = {} }) {
+  const indexes = findManyIndexes({ collection, filter });
   const newModels = indexes.map(index => {
     const model = collection[index];
     const newModel = Object.assign({}, model, data);
@@ -164,40 +168,39 @@ const updateMany = function ({ collection, data, ids = null, filters = {} }) {
   return newModels;
 };
 
-const createOne = function ({ collection, data, id = null }) {
-  checkUniqueId({ collection, id });
-  const newModelId = id || createId();
-  const newModel = Object.assign({}, data, { id: newModelId });
+const createOne = function ({ collection, data }) {
+  checkUniqueId({ collection, id: data.id });
+  const id = data.id || createId();
+  const newModel = Object.assign({}, data, { id });
   collection.push(newModel);
   return newModel;
 };
 
-const createMany = function ({ collection, data, ids = null }) {
-  return data.map((datum, index) => createOne({ collection, data: datum, id: ids && ids[index] }));
+const createMany = function ({ collection, data }) {
+  return data.map(datum => createOne({ collection, data: datum }));
 };
 
-const replaceOne = function ({ collection, data, id }) {
-  const index = findOneIndex({ collection, id });
-  const newModel = Object.assign({}, data, { id });
-  collection.splice(index, 1, newModel);
-  return newModel;
+const replaceOne = function ({ collection, data }) {
+  const index = findOneIndex({ collection, id: data.id });
+  collection.splice(index, 1, data);
+  return data;
 };
 
-const replaceMany = function ({ collection, data, ids }) {
-  return data.map((datum, index) => replaceOne({ collection, data: datum, id: ids[index] }));
+const replaceMany = function ({ collection, data }) {
+  return data.map(datum => replaceOne({ collection, data: datum }));
 };
 
-const upsertOne = function ({ collection, data, id }) {
-  const index = findOneIndex({ collection, id, required: false });
+const upsertOne = function ({ collection, data }) {
+  const index = findOneIndex({ collection, id: data.id, required: false });
   if (index === -1) {
-    return createOne({ collection, data, id });
+    return createOne({ collection, data });
   } else {
-    return replaceOne({ collection, data, id });
+    return replaceOne({ collection, data });
   }
 };
 
-const upsertMany = function ({ collection, data, ids }) {
-  return data.map((datum, index) => upsertOne({ collection, data: datum, id: ids[index] }));
+const upsertMany = function ({ collection, data }) {
+  return data.map(datum => upsertOne({ collection, data: datum }));
 };
 
 const operations = {

@@ -11,8 +11,7 @@ const validateServerOutputSyntax = function ({ operation, response }) {
   const type = 'serverOutputSyntax';
   const multiple = operations.find(op => op.name === operation).multiple;
   const schema = getSchema({ multiple });
-  const data = { elem: { response } };
-  validate({ schema, data, type });
+  validate({ schema, data: { response }, reportInfo: { type } });
 };
 
 // JSON schema to validate against output

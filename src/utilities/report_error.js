@@ -8,14 +8,15 @@ const { EngineError } = require('../error');
 
 
 // Report validation errors by throwing an exception, e.g. firing a HTTP 400
-const reportErrors = function ({ errors, type }) {
+const reportErrors = function ({ errors, reportInfo }) {
+  const type = reportInfo.type;
   // Retrieve error message as string, from error objects
   const extraNewline = errors.length > 1 ? '\n' : '';
   const errorsText = extraNewline + errors
-    .map(({ error, dataVar }) => {
+    .map(error => {
       let inputPath = error.dataPath;
-      // Prepends argument name, e.g. `filters.attr` instead of `attr`
-      const prefix = dataVar ? `/${dataVar}` : '';
+      // Prepends argument name, e.g. `filter.attr` instead of `attr`
+      const prefix = reportInfo.dataVar ? `/${reportInfo.dataVar}` : '';
       inputPath = prefix + inputPath;
       inputPath = inputPath.substr(1);
       // We use `jsonPointers` option because it is cleaner,
@@ -23,16 +24,18 @@ const reportErrors = function ({ errors, type }) {
       inputPath = inputPath
         .replace(/\/([0-9]+)/g, '[$1]')
         .replace(/\//g, '.');
+      const hasInputPath = inputPath !== '';
 
       // Get custom error message
-      const message = getErrorMessage({ error });
+      const message = getErrorMessage({ error, hasInputPath });
       // Prepends argument name to error message
-      const errorText = `${inputPath}${message}`;
-      return errorText;
+      return `${inputPath}${message}`;
     })
     .join('\n');
+  const messageProcessor = messageProcessors[type];
+  const errorsMessage = messageProcessor ? messageProcessor({ message: errorsText, reportInfo }) : errorsText;
 
-  throw new EngineError(errorsText, { reason: reasons[type] });
+  throw new EngineError(errorsMessage, { reason: reasons[type] });
 };
 const reasons = {
   idl: 'IDL_VALIDATION',
@@ -44,11 +47,32 @@ const reasons = {
   serverOutputSyntax: 'OUTPUT_VALIDATION',
   serverOutputData: 'OUTPUT_VALIDATION',
 };
+const messageProcessors = {
+  idl: ({ message }) => `In schema file, ${message}`,
+  serverInputSyntax: ({ message }) => `Server-side input error: ${message}`,
+  clientInputSyntax: ({ message, reportInfo: { operation, modelName } }) =>
+    `In operation '${operation}', model '${modelName}', wrong parameters: ${message}`,
+  clientInputMethod: ({ message, reportInfo: { operation, modelName } }) =>
+    `In operation '${operation}', model '${modelName}', wrong operation: ${message}`,
+  clientInputSemantics: ({ message, reportInfo: { operation, modelName } }) =>
+    `In operation '${operation}', model '${modelName}', wrong parameters: ${message}`,
+  clientInputData: ({ message, reportInfo: { operation, modelName } }) =>
+    `In operation '${operation}', model '${modelName}', wrong parameters: ${message}`,
+  serverOutputSyntax: ({ message }) => `Server-side output error: ${message}`,
+  serverOutputData: ({ message, reportInfo: { operation, modelName } }) =>
+    `In operation '${operation}', model '${modelName}', response is corrupted: ${message}`,
+};
 
 // Customize error messages when the library's ones are unclear
-const getErrorMessage = function({ error }) {
+const getErrorMessage = function({ error, hasInputPath }) {
   const customErrorMessage = errorMessages[error.keyword];
-  return customErrorMessage ? customErrorMessage(error) : ` ${error.message}`;
+  // Failsafe
+  if (!customErrorMessage) { return ` ${error.message}`; }
+  let message = customErrorMessage(error);
+  if (!hasInputPath && message[0] === '.') {
+    message = message.substring(1);
+  }
+  return message;
 };
 
 // List of custom error messages getters

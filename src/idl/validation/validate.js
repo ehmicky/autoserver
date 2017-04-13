@@ -12,8 +12,7 @@ const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
 const validateIdl = async function (idl) {
   const schema = await getSchema();
   const idlCopy = getIdlCopy(idl);
-  const data = { elem: idlCopy, dataVar: 'config' };
-  validate({ schema, data, type: 'idl' });
+  validate({ schema, data: idlCopy, reportInfo: { type: 'idl', dataVar: 'config' } });
 };
 
 // Adds some temporary property on IDL, to help validation

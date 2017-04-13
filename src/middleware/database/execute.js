@@ -8,11 +8,11 @@ const { fireOperation } = require('./operations');
 
 const executeDatabaseOperation = async function () {
   return async function (input) {
-    const { operation, args: { order_by: orderBy, data, id, ids, filters } = {}, modelName } = input;
+    const { operation, args: { order_by: orderBy, data, filter } = {}, modelName } = input;
     const collection = database[modelName];
     collection.modelName = modelName;
 
-    const response = fireOperation({ operation, modelName, collection, filters, id, ids, orderBy, data });
+    const response = fireOperation({ operation, modelName, collection, filter, orderBy, data });
     return response;
   };
 };

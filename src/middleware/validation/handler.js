@@ -17,10 +17,10 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
 const validation = async function ({ idl }) {
   return async function (input) {
     const { modelName, args, operation } = input;
-    validateServerInputSyntax({ idl, modelName, args, operation });
-    validateClientInputSyntax({ operation, args });
+    validateServerInputSyntax({ idl, modelName, operation, args });
+    validateClientInputSyntax({ modelName, operation, args });
     validateClientInputMethod({ idl, modelName, operation });
-    validateClientInputSemantics({ idl, modelName, args });
+    validateClientInputSemantics({ idl, modelName, operation, args });
     validateClientInputData({ idl, modelName, operation, args });
 
     const response = await this.next(input);
