@@ -20,9 +20,6 @@ properties:
   # Default operations
   operations:
     $ref: '#/definitions/operationsProperty'
-  # Users can define anything under this property
-  custom:
-    type: object
   # Standard JSON schema `definitions` can be used at the root
   definitions:
     type: object
@@ -35,7 +32,10 @@ properties:
     items:
       type: string
       hasPlural: true
-# No custom property, except for `custom`
+# Users can define anything under properties named x-*
+patternProperties:
+  '^x-': true
+# No custom property, except for `x-*`
 additionalProperties: false
 definitions:
   # Model schemas are an augmented version of a normal JSON schema
@@ -54,9 +54,6 @@ definitions:
   # Our additions to JSON schema
   customJsonSchema:
     properties:
-      # Users can define anything under this property
-      custom:
-        type: object
       # Used to indicate an attribute is deprecated, and why
       deprecated:
         type: string
@@ -136,9 +133,10 @@ definitions:
     contains: {enum: [find, findOne]}
   # Base list of valid property names
   # We are more restrictive than the JSON schema and forbid any unknown property name
-  # The goal is to avoid typos and mistakes. Custom properties can be added in `custom`
+  # The goal is to avoid typos and mistakes. Custom properties can be added as `x-*`
   validPropertyNames:
-    enum: [
+    anyOf:
+    - enum: [
       # Standard JSON schema properties
       $id, $schema, $ref, title, description, default, multipleOf, maximum, exclusiveMaximum, minimum,
       exclusiveMinimum, maxLength, minLength, pattern, items, maxItems, minItems, uniqueItems,
@@ -147,8 +145,10 @@ definitions:
       # Future standard JSON schema properties
       examples, formatMaximum, formatMinimum, formatExclusiveMinimum, formatExclusiveMaximum, if, then, else,
       # Properties specific to this project
-      custom, deprecated, depthType,
+      deprecated, depthType,
     ]
+    # Users can define anything under property named x-*
+    - pattern: '^x-*'
   validModelName:
     allOf:
     # Valid GraphQL identifier name, regular expression taken from spec
