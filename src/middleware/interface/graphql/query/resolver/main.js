@@ -32,20 +32,19 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   // Top-level and non-top-level attributes are handled differently
   const subResolver = hasParentModel(parent) ? nestedModelResolver : topLevelModelResolver;
   // Retrieve main input passed to database layer
-  const { multiple, modelName, extraArgs, directReturn } = subResolver({ attrName, modelsMap, parent, args });
+  const { multiple, modelName, directReturn } = subResolver({ attrName, modelsMap, parent, args, opType });
   // Shortcuts resolver if we already know the final result
   if (directReturn !== undefined) { return directReturn; }
   // This means the query specified an attribute that is not present in IDL definition
   if (multiple == null || modelName == null) {
     throw new EngineError(`Operation '${name}' does not exist`, { reason: 'INPUT_VALIDATION' });
   }
-  const finalArgs = Object.assign({}, args, extraArgs);
 
   // Retrieve operation name, passed to database layer
   const { name: operation } = operations.find(op => op.multiple === multiple && op.opType === opType);
 
   // Fire database layer, retrieving value passed to children
-  const response = await callback({ operation, modelName, args: finalArgs });
+  const response = await callback({ operation, modelName, args });
   // Tags the response as belonging to that modelName
   setParentModel(response, { operation, modelName, opType });
   return response;

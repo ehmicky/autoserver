@@ -185,11 +185,11 @@ models:
 # Operations can use the following arguments:
 #   - `id`:
 #      - in all *One operations. Required by each of them, except deleteOne
-#      - conceptually implicitely added to any `data` or `filters` argument
+#      - conceptually implicitely added to any `data` or `filter` argument
 #   - `ids`:
 #      - in all *Many operations. Required by replaceMany and upsertMany
 #      - must be an array
-#      - conceptually implicitely added to any `data` (i.e. must have same length) or `filters` argument
+#      - conceptually implicitely added to any `data` (i.e. must have same length) or `filter` argument
 #   - `data`:
 #      - in update, upsert, replace or create operations. Required by each of them
 #      - must be an array of object for all upsertMany, replaceMany and createMany. Must be an object otherwise

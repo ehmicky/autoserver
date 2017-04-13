@@ -1,10 +1,9 @@
 'use strict';
 
 
-const { merge, mapValues, chain } = require('lodash');
+const { merge, mapValues, pickBy, each } = require('lodash');
 
 const { memoize, transform, validate } = require('../../utilities');
-const { EngineError } = require('../../error');
 
 
 /**
@@ -14,8 +13,13 @@ const { EngineError } = require('../../error');
 const validateClientInputData = function ({ idl, modelName, operation, args }) {
   const type = 'clientInputData';
   const schema = getDataValidationSchema({ idl, modelName, operation, type });
-  const data = getAttributes(args);
-  validate({ schema, data, type });
+  const attributes = getAttributes(args);
+  each(attributes, (attribute, dataVar) => {
+    attribute = attribute instanceof Array ? attribute : [attribute];
+    attribute.forEach(data => {
+      validate({ schema, data, reportInfo: { type, modelName, operation, dataVar } });
+    });
+  });
 };
 
 /**
@@ -26,57 +30,51 @@ const validateServerOutputData = function ({ idl, modelName, response, operation
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, operation, type });
   response = response instanceof Array ? response : [response];
-  const data = response.map(response => ({ elem: response, dataVar: 'response' }));
-  validate({ schema, data, type });
+  response.forEach(data => {
+    validate({ schema, data, reportInfo: { type, modelName, operation, dataVar: 'response' } });
+  });
 };
 
 // Retrieves JSON schema to validate against
 const getDataValidationSchema = memoize(function ({ idl, modelName, operation, type }) {
   // Deep copy
   const schema = merge({}, idl.models[modelName]);
-  return transformSchema({ schema, operation, type });
+  // Adapt the IDL schema validation to the current operation, and to what the validator library expects
+  // Apply each transform recursively
+  return transform({ transforms, args: { operation, type } })({ input: schema });
 });
 
-// Adapt the IDL schema validation to the current operation, and to what the validator library expects
-const transformSchema = function ({ schema, operation, type }) {
-  // Apply each transform recursively
-  return transform({
-    transforms,
-    args: { operation, type },
-  })({ input: schema });
-};
-
-const optionalInputIdOperations = ['findMany', 'deleteMany', 'createOne', 'createMany'];
-const optionalInputAttrOperations = ['updateOne', 'updateMany', 'findOne', 'findMany', 'deleteOne', 'deleteMany'];
-const optionalOutputIdOperations = [];
+const optionalInputAttrOperations = ['findOne', 'findMany', 'deleteOne', 'deleteMany', 'updateOne', 'updateMany'];
+const multipleIdInputOperations = ['findMany', 'deleteMany', 'updateMany'];
 const optionalOutputAttrOperations = ['deleteOne', 'deleteMany'];
 const transforms = [
   {
     // Fix `required` attribute according to the current operation
-    required({ value, operation, type }) {
-      if (!(value instanceof Array)) { return; }
+    required({ value: required, operation, type }) {
+      if (!(required instanceof Array)) { return; }
 
       if (type === 'clientInputData') {
-        // Some operations do not require `id` nor `ids`  as input
-        if (optionalInputIdOperations.includes(operation)) {
-          value = value.filter(requiredProp => requiredProp !== 'id');
-        }
-        // Some operations do not require normal attributes as input (except for `id` or `ids`)
+        // Nothing is required for those operations, except maybe `id` (previously validated)
         if (optionalInputAttrOperations.includes(operation)) {
-          value = value.filter(requiredProp => requiredProp === 'id');
+          required = [];
+        // `id` requiredness has already been checked by previous validator, so we skip it here
+        } else {
+          required = required.filter(requiredProp => requiredProp !== 'id');
         }
       } else if (type === 'serverOutputData') {
-        // Some operations might not require `id` nor `ids`  as output (for the moment, none)
-        if (optionalOutputIdOperations.includes(operation)) {
-          value = value.filter(requiredProp => requiredProp !== 'id');
-        }
-        // Some operations do not require normal attributes as output (except for `id` or `ids`)
+        // Some operations do not require normal attributes as output (except for `id`)
         if (optionalOutputAttrOperations.includes(operation)) {
-          value = value.filter(requiredProp => requiredProp === 'id');
+          required = required.filter(requiredProp => requiredProp === 'id');
         }
       }
 
-      return { required: value };
+      return { required };
+    },
+
+    // Some operations require filter.id to be an array
+    id({ value, operation, type }) {
+      if (type !== 'clientInputData' || !multipleIdInputOperations.includes(operation)) { return; }
+      return { id: { type: 'array', items: value } };
     },
 
     // Submodels should be validated against the model `id` attribute
@@ -91,51 +89,10 @@ const transforms = [
 ];
 
 /**
- * Transform arguments into model attributes to validate
- * E.g. args: { filters: { a: 1 }, data: [{ b: 2 }, {c: 5}], ids: [4,5] } would be transformed to:
- * [
- *   { elem: { a: 1, id: 4 }, dataVar: 'filters' },
- *   { elem: { a: 1, id: 5 }, dataVar: 'filters' },
- *   { elem: { b: 2, id: 4 }, dataVar: 'data' },
- *   { elem: { c: 5, id: 5 }, dataVar: 'data' },
- * ]
+ * Keeps the arguments to validate
  **/
 const getAttributes = function (args) {
-  const { id, ids } = args;
-  // Is either `id` or `ids` specified
-  const hasIds = id || (ids && ids.length > 0);
-  // If only `id` or `ids` is specified, transform to a `filters` with only `id` in it
-  if (hasIds && !args.filters && !args.data) {
-    args.filters = {};
-  }
-  // Iterate over args.filters and args.data
-  return chain(args)
-    .pickBy((arg, dataVar) => ['filters', 'data'].includes(dataVar) && arg)
-    .map((arg, dataVar) => {
-      if (ids) {
-        // If `ids` is specified and `data` is an array, they must have same length
-        if (arg instanceof Array) {
-          if (arg.length !== ids.length) {
-            throw new EngineError(`'${dataVar}' array length must match 'ids' array length`, { reason: 'INPUT_VALIDATION' });
-          }
-        // If `ids` is specified and `filters` or `data` is not an array, transform to an array of the same size
-        } else {
-          arg = Array(ids.length).fill(merge({}, arg));
-        }
-      }
-
-      // Convenience for the next statements
-      arg = arg instanceof Array ? arg : [arg];
-      // Add `id` (from `id` or `ids` argument) to the `filters` and `data` objects
-      if (hasIds) {
-        arg = arg.map((singleArg, index) => Object.assign({}, singleArg, { id: id || ids[index] }));
-      }
-      // Add argument name (e.g. `filters` or `data`) so it can be used in errors messages
-      arg = arg.map(elem => Object.assign({}, { elem }, { dataVar }));
-      return arg;
-    })
-    .flatten()
-    .value();
+  return pickBy(args, (arg, dataVar) => ['filter', 'data'].includes(dataVar) && arg);
 };
 
 

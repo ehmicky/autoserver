@@ -44,6 +44,9 @@ const transforms = [
     // { model '...' } -> { type: 'object', model: '...' }
     model: () => ({ type: 'object' }),
 
+    // Do not allow custom properties
+    properties: () => ({ additionalProperties: false }),
+
     // Adds def.propName refering to property name
     type({ parentKey, parent }) {
       // Only for top-level models and single attributes

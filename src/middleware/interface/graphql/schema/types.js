@@ -5,7 +5,6 @@ const {
   GraphQLObjectType,
   GraphQLInputObjectType,
   GraphQLList,
-  GraphQLID,
   GraphQLInt,
   GraphQLFloat,
   GraphQLBoolean,
@@ -30,6 +29,7 @@ const getType = function (def, opts) {
 // Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
+  opts.inputObjectType = opts.inputObjectType || '';
   // Retrieves correct field
   const fieldInfo = graphQLFieldsInfo.find(possibleType => possibleType.condition(def, opts));
   if (!fieldInfo) {
@@ -48,14 +48,14 @@ const getField = function (def, opts) {
   Object.assign(field, defaults({ description, deprecationReason }, field));
 
 	// Only for top-level models, and not for argument types
-  if (isModel(def) && !opts.inputObjectType && !def.noResolve) {
+  if (isModel(def) && opts.inputObjectType === '' && !def.noResolve) {
     field.args = getArguments(def, Object.assign({ getType }, opts));
   }
 
   Object.assign(field.type, { def });
 
   // Can only assign default if fields are optional in input, but required by database
-  if (canRequireAttributes(def, opts) && def.required !== true && opts.inputObjectType === 'input'
+  if (canRequireAttributes(def, opts) && def.required !== true && opts.inputObjectType.startsWith('input')
     && def.default !== undefined) {
     defaults(field, { defaultValue: def.default });
   }
@@ -90,7 +90,7 @@ const memoizeObjectField = function (func) {
     const modelName = getModelName(def);
     let key;
     if (modelName) {
-      key = `field/${modelName}/${opts.opType}/${opts.inputObjectType || 'generic'}`;
+      key = `field/${modelName}/${opts.opType}/${opts.inputObjectType}`;
       if (opts.cache.exists(key)) {
         return opts.cache.get(key);
       }
@@ -109,7 +109,7 @@ const graphQLObjectFieldsInfo = memoizeObjectField(function (def, opts) {
   const { inputObjectType, topLevelDef } = opts;
   const name = getTypeName({ def, inputObjectType, topLevelDef });
   const description = getDescription({ def, opType: opts.opType, descriptionType: 'type' });
-	const constructor = opts.inputObjectType ? GraphQLInputObjectType : GraphQLObjectType;
+	const constructor = inputObjectType !== '' ? GraphQLInputObjectType : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
 
   const type = new constructor({ name, description, fields });
@@ -154,14 +154,16 @@ const getObjectFields = function (def, opts) {
         props[newName] = childDef;
       })
       // Remove recursive value fields when used as inputObject (i.e. resolver argument)
-      .pickBy(childDef => !(opts.inputObjectType && isModel(childDef)))
+      .pickBy(childDef => !(opts.inputObjectType !== '' && isModel(childDef)))
 			// Remove all return value fields for delete operations, except the recursive ones and `id`
       // And except for inputObject, since we use it to get the delete filters
 			.pickBy((childDef, childDefName) => !(
-        opts.opType === 'delete' && !isModel(childDef) && childDefName !== 'id' && opts.inputObjectType !== 'filter')
-      )
-      // `id` is never a data input argument
-      .pickBy((_, childDefName) => !(childDefName === 'id' && opts.inputObjectType === 'input'))
+        opts.opType === 'delete' && !isModel(childDef) && childDefName !== 'id' && !opts.inputObjectType.startsWith('filter')
+      ))
+      // Create operations do not include data.id
+			.pickBy((childDef, childDefName) => !(
+        opts.opType === 'create' && childDefName === 'id' && opts.inputObjectType.startsWith('input')
+      ))
 			// Recurse over children
 			.mapValues(childDef => {
 				// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
@@ -179,9 +181,9 @@ const getObjectFields = function (def, opts) {
 
 const canRequireAttributes = function (def, { opType, inputObjectType }) {
   // Update operation does not require any attribute in input object
-	return !(opType === 'update' && inputObjectType === 'input')
+	return !(opType === 'update' && inputObjectType.startsWith('input'))
     // Query inputObjects do not require any attribute
-    && inputObjectType !== 'filter';
+    && !inputObjectType.startsWith('filter');
 };
 
 /**
@@ -218,12 +220,6 @@ const graphQLFieldsInfo = [
   {
     condition: def => def.type === 'number',
     value: () => ({ type: GraphQLFloat }),
-  },
-
-	// "ID" type
-  {
-    condition: def => def.type === 'string' && def.propName === 'id',
-    value: () => ({ type: GraphQLID }),
   },
 
 	// "String" type

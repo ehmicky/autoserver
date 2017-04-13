@@ -9,8 +9,8 @@ const { validate } = require('../../utilities');
 const validateServerInputSyntax = function ({ idl, modelName, args, operation }) {
   const type = 'serverInputSyntax';
   const schema = getValidateServerSchema({ idl, modelName });
-  const data = { elem: { idl, modelName, args, operation } };
-  validate({ schema, data, type });
+  const data = { idl, modelName, args, operation };
+  validate({ schema, data, reportInfo: { type } });
 };
 
 // Get JSON schema to validate against input

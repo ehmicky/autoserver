@@ -8,12 +8,11 @@ const { validate } = require('../../utilities');
  * Validate API input semantics for all arguments but filter or data
  * E.g. validate that order_by targets existing attributes. Note that order_by has already been syntactically validated
  **/
-const validateClientInputSemantics = function ({ idl, modelName, args }) {
+const validateClientInputSemantics = function ({ idl, modelName, operation, args }) {
   const type = 'clientInputSemantics';
   const schema = getSchema({ idl, modelName });
-  const elem = getArgs({ args });
-  const data = { elem };
-  validate({ schema, data, type });
+  const data = getArgs({ args });
+  validate({ schema, data, reportInfo: { type, modelName, operation } });
 };
 
 const getSchema = function ({ idl, modelName }) {
