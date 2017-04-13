@@ -28,6 +28,8 @@ models:
     # Allowed operations for this model.
     # Defaults to top-level `operations` key (see it for further explanations)
     operations: [find, create, replace, update, upsert, deleteOne]
+    # Custom property
+    x-custom: anything
     properties:
       id:
         # Required for the moment. Possible values: string, number, integer, boolean,
@@ -38,6 +40,8 @@ models:
         type: string
         description: How to call a pet
         default: default does not work if required
+        # Custom property
+        x-custom: anything
         # Combinators JSON schema validation keywords
         oneOf:
         - pattern: '^[a-zA-Z]+$'
@@ -203,3 +207,5 @@ operations: [find, create, replace, update, upsert, delete]
 definitions:
   dummyDefinition:
     type: object
+# Custom property
+x-custom: anything
