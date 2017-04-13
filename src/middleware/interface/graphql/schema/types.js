@@ -15,7 +15,7 @@ const { chain, omit, pick, defaults } = require('lodash');
 const { stringify } = require('circular-json');
 
 const { EngineError } = require('../../../../error');
-const { getTypeName, getOperationNameFromAttr } = require('./name');
+const { getTypeName } = require('./name');
 const { getDescription, getDeprecationReason } = require('./description');
 const { isMultiple, getSubDef, getModelName, isModel } = require('./utilities');
 const { getArguments } = require('./arguments');
@@ -26,7 +26,8 @@ const getType = function (def, opts) {
   return getField(def, opts).type;
 };
 
-// Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new GraphQLObjectType({ fields })
+// Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new
+// GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
   opts.inputObjectType = opts.inputObjectType || '';
@@ -129,16 +130,11 @@ const getObjectFields = function (def, opts) {
         }
         return childDef;
       })
-      // Divide submodels fields between recursive fields (e.g. `model.createUser`) and non-recursive fields
-      // (e.g. `model.user`)
-      .transform((props, childDef, childDefName) => {
-        // Not for 'Query' or 'Mutation' objects, nor models
-        if (childDef.operation || !isModel(childDef)) {
-          props[childDefName] = childDef;
-          return;
-        }
+      // Model-related fields in input|filter arguments must be simple ids, not recursive definition
+      // Exception: top-level operations
+      .mapValues(childDef => {
+        if (childDef.operation || !isModel(childDef) || opts.inputObjectType === '') { return childDef; }
 
-        const multiple = isMultiple(childDef);
         const subDef = getSubDef(childDef);
 
         // Retrieves `id` field definition of subfield
@@ -146,12 +142,8 @@ const getObjectFields = function (def, opts) {
         const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
 
         // Assign `id` field definition to e.g. `model.user`
-        const idsDef = multiple ? Object.assign({}, childDef, { items: idDef }) : idDef;
-        props[childDefName] = idsDef;
-
-        // Assign recursive field to e.g. `model.createUser`
-        const newName = getOperationNameFromAttr({ name: childDefName, opType: opts.opType, asPlural: multiple });
-        props[newName] = childDef;
+        const idsDef = isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
+        return idsDef;
       })
       // Remove recursive value fields when used as inputObject (i.e. resolver argument)
       .pickBy(childDef => !(opts.inputObjectType !== '' && isModel(childDef)))
