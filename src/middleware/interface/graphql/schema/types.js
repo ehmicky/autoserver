@@ -52,12 +52,11 @@ const getField = function (def, opts) {
 
 	// Only for top-level models, and not for argument types
   if (isModel(def) && opts.inputObjectType === '') {
-    field.args = getArguments(def, Object.assign({ getType }, opts));
+    field.args = getArguments(def, Object.assign(opts, { getType, isRequired: false }));
   }
 
   // Can only assign default if fields are optional in input, but required by database
-  if (canRequireAttributes(def, opts) && def.required !== true && opts.inputObjectType === 'data'
-    && def.default !== undefined) {
+  if (canRequireAttributes(def, opts) && !opts.isRequired && opts.inputObjectType === 'data' && def.default !== undefined) {
     defaults(field, { defaultValue: def.default });
   }
 
@@ -67,8 +66,8 @@ const getField = function (def, opts) {
 // Required field typeGetter
 const graphQLRequiredTypeGetter = function (def, opts) {
   // Goal is to avoid infinite recursion, i.e. without modification the same graphQLTypeGetter would be hit again
-  const modifiedDef = Object.assign({}, def, { required: false });
-  const subType = getType(modifiedDef, opts);
+  opts = Object.assign({}, opts, { isRequired: false });
+  const subType = getType(def, opts);
   const type = new GraphQLNonNull(subType);
   return type;
 };
@@ -76,7 +75,7 @@ const graphQLRequiredTypeGetter = function (def, opts) {
 // Array field typeGetter
 const graphQLArrayTypeGetter = function (def, opts) {
   const subDef = getSubDef(def);
-  opts = Object.assign({}, opts, { multiple: true });
+  opts = Object.assign({}, opts, { multiple: true, isRequired: false });
   const subType = getType(subDef, opts);
   const type = new GraphQLList(subType);
   return type;
@@ -91,7 +90,7 @@ const memoizeObjectType = function (func) {
     const modelName = getModelName(def);
     let key;
     if (modelName) {
-      key = `${modelName}/${stringify(opts)}`;
+      key = `${modelName}/${stringify(pick(opts, ['opType', 'multiple', 'inputObjectType']))}`;
       if (cache.exists(key)) {
         return cache.get(key);
       }
@@ -125,14 +124,6 @@ const filterOpTypes = ['find', 'delete', 'update'];
 const getObjectFields = function (def, opts) {
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
-    // If parent has required ['childDefName'], adds childDef.required true|false, for convenience
-    .mapValues((childDef, childDefName) => {
-      if (def.required instanceof Array) {
-        const required = def.required.includes(childDefName);
-        childDef = Object.assign({}, childDef, { required });
-      }
-      return childDef;
-    })
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     // Exception: top-level operations
     .mapValues(childDef => {
@@ -141,7 +132,7 @@ const getObjectFields = function (def, opts) {
       const subDef = getSubDef(childDef);
 
       // Retrieves `id` field definition of subfield
-      const nonRecursiveAttrs = ['description', 'deprecation_reason', 'required'];
+      const nonRecursiveAttrs = ['description', 'deprecation_reason'];
       const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
 
       // Assign `id` field definition to e.g. `model.user`
@@ -162,13 +153,14 @@ const getObjectFields = function (def, opts) {
       filterOpTypes.includes(opts.opType) && childDefName !== 'id' && opts.inputObjectType === 'filter' && !opts.multiple
     )
 		// Recurse over children
-		.mapValues(childDef => {
+		.mapValues((childDef, childDefName) => {
 			// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
 			if (childDef.operation) {
 				opts = Object.assign({}, opts, { opType: childDef.operation.opType });
 			}
 
-      opts = Object.assign({}, opts, { multiple: false });
+      const isRequired = def.required instanceof Array && def.required.includes(childDefName);
+      opts = Object.assign({}, opts, { multiple: false, isRequired });
 			const field = getField(childDef, opts);
       return Object.assign({}, field);
 		})
@@ -190,7 +182,7 @@ const graphQLTypeGetters = [
 
 	// "Required" modifier type
   {
-    condition: (def, opts) => def.required === true && canRequireAttributes(def, opts),
+    condition: (def, opts) => opts.isRequired && canRequireAttributes(def, opts),
     value: graphQLRequiredTypeGetter,
   },
 
