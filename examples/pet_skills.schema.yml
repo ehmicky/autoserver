@@ -1,5 +1,5 @@
 type: object
-description: Attributes of a pet
+description: Skills of a pet
 # Object-specific JSON schema validation keywords
 required: [id, intelligence]
 minProperties: 1
