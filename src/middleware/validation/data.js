@@ -41,7 +41,8 @@ const getDataValidationSchema = memoize(function ({ idl, modelName, operation, t
   const schema = merge({}, idl.models[modelName]);
   // Adapt the IDL schema validation to the current operation, and to what the validator library expects
   // Apply each transform recursively
-  return transform({ transforms, args: { operation, type } })({ input: schema });
+  transform({ transforms, args: { operation, type } })({ input: schema });
+  return schema;
 });
 
 const optionalInputAttrOperations = ['findOne', 'findMany', 'deleteOne', 'deleteMany', 'updateOne', 'updateMany'];
@@ -76,11 +77,13 @@ const transforms = [
       if (type !== 'clientInputData' || !multipleIdInputOperations.includes(operation)) { return; }
       return { id: { type: 'array', items: value } };
     },
+  },
 
+  {
     // Submodels should be validated against the model `id` attribute
     // By default, in the IDL, they are represented as the full model, i.e. as an object
-    model({ parent }) {
-      if (parent.depthType === 'model' || !parent.properties) { return; }
+    model({ parent, depth }) {
+      if (depth === 0) { return; }
       const idProp = parent.properties.id;
       const removeParentProps = mapValues(parent, () => undefined);
       return Object.assign(removeParentProps, idProp);

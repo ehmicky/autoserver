@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { mapValues, merge } = require('lodash');
+const { merge } = require('lodash');
 const yaml = require('js-yaml');
 
 const { validate, memoize, fs: { readFileAsync } } = require('../../utilities');
@@ -18,9 +18,8 @@ const validateIdl = async function (idl) {
 // Adds some temporary property on IDL, to help validation
 const getIdlCopy = function (idl) {
   const idlCopy = merge({}, idl);
-  const models = mapValues(idlCopy.models, model => Object.assign({}, model, { depthType: 'model' }));
   const modelNames = Object.keys(idlCopy.models);
-  Object.assign(idlCopy, { models, modelNames });
+  Object.assign(idlCopy, { modelNames });
   return idlCopy;
 };
 

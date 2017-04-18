@@ -9,4 +9,5 @@ properties:
   pets:
     type: array
     items:
+      type: object
       model: pet
