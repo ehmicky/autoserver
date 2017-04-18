@@ -126,6 +126,9 @@ definitions:
         $ref: '#/definitions/nestedModel'
   # Only applies this to nested models
   nestedModel:
+    # Restrict the possible properties
+    propertyNames:
+      enum: [model, type, description, deprecated, examples]
     # Must have a `model` property
     required: [model]
     properties:
