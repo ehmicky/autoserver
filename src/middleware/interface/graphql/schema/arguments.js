@@ -79,10 +79,11 @@ const getDataArgument = function ({ multiple, opType, dataObjectType }) {
 // Filters argument, i.e. only queries entities that match specified attributes
 const filterOpTypes = ['find', 'delete', 'update'];
 const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
-  if (!multiple || !filterOpTypes.includes(opType)) { return; }
+  if (!filterOpTypes.includes(opType)) { return; }
+  const type = multiple ? filterObjectType : new GraphQLNonNull(filterObjectType);
   return {
     filter: {
-      type: filterObjectType,
+      type,
       description: 'Filter results according to those attributes',
     },
   };
