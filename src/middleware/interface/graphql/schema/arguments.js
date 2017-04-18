@@ -14,17 +14,16 @@ const { isMultiple, getSubDef } = require('./utilities');
 const getArguments = function (def, opts) {
 	// Builds inputObject types
   const multiple = isMultiple(def);
-  const multiplePostfix = multiple ? '' : '';
   const subDef = getSubDef(def);
-	const inputObjectOpts = Object.assign({}, opts, { inputObjectType: `input${multiplePostfix}` });
-	const inputObjectType = opts.getType(subDef, inputObjectOpts);
-	const filterObjectOpts = Object.assign({}, opts, { inputObjectType: `filter${multiplePostfix}` });
+	const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data', multiple });
+	const dataObjectType = opts.getType(subDef, dataObjectOpts);
+	const filterObjectOpts = Object.assign({}, opts, { inputObjectType: 'filter', multiple });
   const filterObjectType = opts.getType(subDef, filterObjectOpts);
 
   opts = Object.assign({}, opts, {
     multiple,
     isTopLevel: def.operation !== undefined,
-    inputObjectType,
+    dataObjectType,
     filterObjectType,
   });
 
@@ -55,23 +54,23 @@ Specify ascending or descending order by appending + or - (default is ascending)
 // Data argument, i.e. payload used by mutation operations
 const dataOpTypes = ['create', 'upsert', 'replace', 'update'];
 const multipleDataOpTypes = ['create', 'upsert', 'replace'];
-const getDataArgument = function ({ multiple, opType, inputObjectType }) {
+const getDataArgument = function ({ multiple, opType, dataObjectType }) {
 	// Only for mutation operations, but not delete
 	if (!dataOpTypes.includes(opType)) { return; }
 
 	// Retrieves description before wrapping in modifers
-	const description = inputObjectType.description;
+	const description = dataObjectType.description;
 
 	// Add required and array modifiers
-	inputObjectType = new GraphQLNonNull(inputObjectType);
+	dataObjectType = new GraphQLNonNull(dataObjectType);
   // Only multiple with createMany or upsertMany or replaceMany
 	if (multiple && multipleDataOpTypes.includes(opType)) {
-		inputObjectType = new GraphQLNonNull(new GraphQLList(inputObjectType));
+		dataObjectType = new GraphQLNonNull(new GraphQLList(dataObjectType));
 	}
 
 	return {
 		data: {
-			type: inputObjectType,
+			type: dataObjectType,
 			description,
 		},
 	};
