@@ -4,9 +4,6 @@
 const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
-const { EngineError } = require('../../../../error');
-const { stringify } = require('circular-json');
-
 
 const pluralize = function ({ name, asPlural }) {
   return asPlural ? plural(name) : singular(name);
@@ -14,14 +11,6 @@ const pluralize = function ({ name, asPlural }) {
 
 // Returns def.propName, in plural|singular form
 const getName = function ({ def, asPlural = true, inputObjectType, modelName = def.model } = {}) {
-  if (!modelName) {
-    throw new EngineError(`Missing model name in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
-  }
-  if (typeof modelName !== 'string') {
-    throw new EngineError(`Model name must be a string in definition ${stringify(def)}`, {
-      reason: 'GRAPHQL_WRONG_DEFINITION',
-    });
-  }
   const name = modelName + (capitalize(inputObjectType) || '');
   return pluralize({ name, asPlural });
 };
