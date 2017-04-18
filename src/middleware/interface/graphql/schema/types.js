@@ -24,6 +24,13 @@ const { getArguments } = require('./arguments');
 
 // Retrieves the GraphQL type for a given IDL definition
 const getType = function (def, opts) {
+  return getField(def, opts).type;
+};
+
+// Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new
+// GraphQLObjectType({ fields })
+// Includes return type, resolve function, arguments, etc.
+const getField = function (def, opts) {
   opts.inputObjectType = opts.inputObjectType || '';
 
   const typeGetter = graphQLTypeGetters.find(possibleType => possibleType.condition(def, opts));
@@ -34,14 +41,6 @@ const getType = function (def, opts) {
   }
 
   const type = typeGetter.value(def, opts);
-  return type;
-};
-
-// Retrieves a GraphQL field info for a given IDL definition, i.e. an object that can be passed to new
-// GraphQLObjectType({ fields })
-// Includes return type, resolve function, arguments, etc.
-const getField = function (def, opts) {
-  const type = getType(def, opts);
   const field = { type };
 
   // The following fields are type-agnostic, so are not inside `typeGetter.value()`
