@@ -17,10 +17,8 @@ const validateIdl = async function (idl) {
 
 // Adds some temporary property on IDL, to help validation
 const getIdlCopy = function (idl) {
-  const idlCopy = merge({}, idl);
-  const modelNames = Object.keys(idlCopy.models);
-  Object.assign(idlCopy, { modelNames });
-  return idlCopy;
+  const modelNames = Object.keys(idl.models);
+  return merge({}, idl, { modelNames });
 };
 
 // Retrieve IDL schema
