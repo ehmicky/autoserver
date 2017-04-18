@@ -1,19 +1,18 @@
 'use strict';
 
 
-const { chain } = require('lodash');
 const { underscored, camelize, capitalize } = require('underscore.string');
 const { singular } = require('pluralize');
 
-const { operations } = require('../../../../../../idl');
 
-
+// Matches e.g. 'findMyModels' -> ['find', 'MyModels'];
+const nameRegExp = /^([a-z0-9]+)([A-Z][a-zA-Z0-9]*)/;
 /**
  * Parse a GraphQL query attribute name into tokens.
  * E.g. `findMyModels` -> { opType: 'find', attrName: 'my_models' }
  **/
 const parseName = function ({ name }) {
-  const parts = opTypeRegExp.exec(name);
+  const parts = nameRegExp.exec(name);
   if (!parts) { return {}; }
 
   const opType = parts[1].trim();
@@ -27,14 +26,6 @@ const parseName = function ({ name }) {
   return { opType, attrName };
 };
 
-// Creates RegExp like /^(?:create)|(?:find)|.../, i.e. checks that a word starts with an operation name
-const opTypes = chain(operations)
-  .map(op => `(?:${op.opType.toLowerCase()})`)
-  .sort()
-  .uniq()
-  .value()
-  .join('|');
-const opTypeRegExp = new RegExp(`^(${opTypes})([A-Z][a-zA-Z0-9]*)`);
 
 // Similar to introspection utility `getTypeName`
 const getTypeName = function (name) {
