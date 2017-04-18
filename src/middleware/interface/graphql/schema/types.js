@@ -122,12 +122,22 @@ const graphQLObjectTypeGetter = memoizeObjectType(function (def, opts) {
 const filterOpTypes = ['find', 'delete', 'update'];
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
+  const { opType, multiple, inputObjectType } = opts;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
+		.omitBy((childDef, childDefName) =>
+      // Remove all return value fields for delete operations, except the recursive ones and `id`
+      // And except for inputObject, since we use it to get the delete filters
+      (opType === 'delete' && !isModel(childDef) && childDefName !== 'id' && inputObjectType !== 'filter')
+      // Create operations do not include data.id
+      || (opType === 'create' && childDefName === 'id' && inputObjectType === 'data')
+      // Filter inputObjects for single operations only include `id`
+      || (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
+    )
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     // Exception: top-level operations
     .mapValues(childDef => {
-      if (childDef.operation || !isModel(childDef) || opts.inputObjectType === '') { return childDef; }
+      if (childDef.operation || !isModel(childDef) || inputObjectType === '') { return childDef; }
 
       const subDef = getSubDef(childDef);
 
@@ -139,30 +149,15 @@ const getObjectFields = function (def, opts) {
       const idsDef = isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
       return idsDef;
     })
-    // Remove recursive value fields when used as inputObject (i.e. resolver argument)
-    .omitBy(childDef => opts.inputObjectType !== '' && isModel(childDef))
-		// Remove all return value fields for delete operations, except the recursive ones and `id`
-    // And except for inputObject, since we use it to get the delete filters
-		.omitBy((childDef, childDefName) =>
-      opts.opType === 'delete' && !isModel(childDef) && childDefName !== 'id' && opts.inputObjectType !== 'filter'
-    )
-    // Create operations do not include data.id
-		.omitBy((childDef, childDefName) => opts.opType === 'create' && childDefName === 'id' && opts.inputObjectType === 'data')
-    // Filter inputObjects for single operations only include `id`
-		.omitBy((childDef, childDefName) =>
-      filterOpTypes.includes(opts.opType) && childDefName !== 'id' && opts.inputObjectType === 'filter' && !opts.multiple
-    )
 		// Recurse over children
 		.mapValues((childDef, childDefName) => {
 			// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
-			if (childDef.operation) {
-				opts = Object.assign({}, opts, { opType: childDef.operation.opType });
-			}
-
+      const opTypeOpt = opType || (childDef.operation && childDef.operation.opType);
       const isRequired = def.required instanceof Array && def.required.includes(childDefName);
-      opts = Object.assign({}, opts, { multiple: false, isRequired });
+      opts = Object.assign({}, opts, { multiple: false, isRequired, opType: opTypeOpt });
+
 			const field = getField(childDef, opts);
-      return Object.assign({}, field);
+      return field;
 		})
 		.value();
 };
