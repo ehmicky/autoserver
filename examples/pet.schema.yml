@@ -27,7 +27,7 @@ models:
     required: [id, name, photo_urls, friends]
     # Allowed operations for this model.
     # Defaults to top-level `operations` key (see it for further explanations)
-    operations: [find, create, replace, update, upsert, deleteOne]
+    operations: [find, create, replace, update, upsert, delete]
     # Custom property
     x-custom: anything
     properties:
@@ -202,7 +202,7 @@ models:
 #      - in all operations. Never required
 #      - must be a comma-separated list of attributes, optionally prefixed by + or -, e.g. 'name-,id'
 #      - orders server response according to the specified attributes. Default order is +, i.e. ascending
-operations: [find, create, replace, update, upsert, delete]
+operations: [find, create, replace, update, upsert, deleteOne]
 # No specific semantics, but can be used by $ref
 definitions:
   dummyDefinition:
