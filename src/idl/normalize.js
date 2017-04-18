@@ -53,12 +53,6 @@ const transforms = [
       if (!['model', 'singleAttr'].includes(parent.depthType)) { return; }
       return { propName: parentKey };
     },
-
-    // Add `model` to top-level models
-    any({ parentKey, parent }) {
-      if (parent.depthType !== 'model') { return; }
-      return { model: parentKey };
-    },
   },
 
   {
@@ -73,18 +67,19 @@ const transforms = [
 
   {
     // { model '...' } -> { model: '...', ...copyOfTopLevelModel }
-    // Must be last because this is done by copy, not reference
     model({ value, root, parent }) {
-      if (!['singleAttr', 'multipleAttr'].includes(parent.depthType)) { return; }
       const instance = find(root, (_, modelName) => modelName === value);
-      // Make sure we do not copy `required` attribute from top-level model
-      const keysToProtect = Object.keys(parent).concat('required');
-      // Dereference `model` pointers, using a shallow copy, except for few attributes
-      // copy only the keys from top-level model not defined in submodel
-      const newProps = omit(instance, keysToProtect);
-      // Avoid infinite recursion
-      newProps.__noRecurse = true;
+      // Dereference `model` pointers, using a shallow copy, while avoiding overriding any property already defined
+      const newProps = omit(instance, Object.keys(parent));
       return newProps;
+    },
+  },
+
+  {
+    // Add `model` to top-level models
+    any({ parentKey, parent }) {
+      if (parent.depthType !== 'model') { return; }
+      return { model: parentKey };
     },
   },
 
