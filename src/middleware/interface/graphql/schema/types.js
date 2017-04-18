@@ -17,8 +17,7 @@ const { stringify } = require('circular-json');
 const { GeneralCache } = require('../../../../utilities');
 const { EngineError } = require('../../../../error');
 const { getTypeName } = require('./name');
-const { getDescription, getDeprecationReason } = require('./description');
-const { isMultiple, getSubDef, getModelName, isModel } = require('./utilities');
+const { isMultiple, getSubDef, getModelName, isModel, getSubDefProp } = require('./utilities');
 const { getArguments } = require('./arguments');
 
 
@@ -45,8 +44,8 @@ const getField = function (def, opts) {
 
   // The following fields are type-agnostic, so are not inside `typeGetter.value()`
   // Fields description|deprecation_reason are taken from IDL definition
-  const description = getDescription({ def, opType: opts.opType, descriptionType: 'field' });
-  const deprecationReason = getDeprecationReason({ def });
+  const description = getSubDefProp(def, 'description');
+  const deprecationReason = getSubDefProp(def, 'deprecated');
   Object.assign(field, defaults({ description, deprecationReason }, field));
 
 	// Only for top-level models, and not for argument types
@@ -110,7 +109,7 @@ const graphQLObjectTypeGetter = memoizeObjectType(function (def, opts) {
   const modelName = def.model || methodName;
   const name = getTypeName({ operation: { opType, multiple }, modelName, inputObjectType, methodName });
 
-  const description = getDescription({ def, opType, descriptionType: 'type' });
+  const description = getSubDefProp(def, 'description');
 	const constructor = inputObjectType !== '' ? GraphQLInputObjectType : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
 

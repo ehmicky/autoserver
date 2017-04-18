@@ -26,11 +26,6 @@ const isModel = function (def) {
   return getModelName(def) !== undefined;
 };
 
-// Checks whether the definition is associated with a model, or is an array whose items are
-const isDeepModel = function (def) {
-  return getSubDefProp(def, 'model') !== undefined;
-};
-
 
 module.exports = {
   isMultiple,
@@ -38,5 +33,4 @@ module.exports = {
   getSubDefProp,
   getModelName,
   isModel,
-  isDeepModel,
 };
