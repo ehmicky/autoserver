@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { pickBy } = require('lodash');
+const { each } = require('lodash');
 
 const { recurseMap } = require('./recurse_map');
 
@@ -35,6 +35,7 @@ const { recurseMap } = require('./recurse_map');
  *  - arguments:
  *     {object|object[]} input - input to transform
  *  - {object|object[]} return value
+ * TODO: remove this for a simpler approach, probably relying on an external library
  */
 const transform = function ({ transforms, args }) {
   return ({ input }) => {
@@ -48,22 +49,25 @@ const transform = function ({ transforms, args }) {
 const singleTransform = function ({ input, transformsSet, args }) {
   return recurseMap({
     value: input,
-    filterFunc: ({ value }) => value && value.constructor === Object,
     mapFunc(opts) {
-      let { value } = opts;
-      const transformArgs = Object.assign({}, opts);
+      const { value } = opts;
+      if (!value || value.constructor !== Object) { return value; }
+
+      // Adds opts.args
       if (args) {
         const newArgs = typeof args === 'function' ? args(opts) : args;
-        Object.assign(transformArgs, newArgs);
+        Object.assign(opts, newArgs);
       }
-      // Sort keys for transformation order predictability, but pass order should be used instead for that
-      const newValues = Object.keys(value).sort()
-        // Special transform name, always fired
+
+      Object.keys(value)
+        // Sort keys for transformation order predictability, but pass order should be used instead for that
+        .sort()
+        // Special transform name, always fired last
         .concat('any')
         // Fire each transform, if defined
         .filter(name => transformsSet[name])
         .map(name => {
-          const currentArgs = Object.assign({}, transformArgs, {
+          const currentArgs = Object.assign({}, opts, {
             value: value[name],
             parent: value,
             parentKey: opts.key,
@@ -71,12 +75,17 @@ const singleTransform = function ({ input, transformsSet, args }) {
           });
           return transformsSet[name](currentArgs);
         })
-        // Get rid of undefined transform return values
-        .filter(values => values);
-      // Assign transforms return values, to a copy of `value`
-      value = Object.assign({}, value, ...newValues);
-      // Remove undefined values
-      value = pickBy(value, val => val !== undefined);
+        // Transform returning undefined means 'no change'
+        .filter(newValue => newValue)
+        // Apply transformation, by reference
+        .forEach(newValue => {
+          // Assign transforms return value to `value`
+          Object.assign(value, newValue);
+          // Remove undefined values
+          each(newValue, (val, key) => {
+            if (val === undefined) { delete value[key]; }
+          });
+        });
 
       return value;
     },
