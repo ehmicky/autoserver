@@ -5,26 +5,16 @@ const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
 
-const pluralize = function ({ name, asPlural }) {
-  return asPlural ? plural(name) : singular(name);
-};
-
-// Returns def.propName, in plural|singular form
-const getName = function ({ def, asPlural = true, inputObjectType, modelName = def.model } = {}) {
-  const name = modelName + (capitalize(inputObjectType) || '');
-  return pluralize({ name, asPlural });
-};
-
-// Returns propName, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function ({ def, inputObjectType, propName }) {
-  const name = getName({ def, asPlural: false, inputObjectType, modelName: propName });
-  return camelize(capitalize(name));
+// Returns type name, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
+const getTypeName = function ({ modelName, operation: { opType = '', multiple }, inputObjectType }) {
+  const model = multiple ? plural(modelName) : singular(modelName);
+  return camelize(capitalize(`${opType} ${capitalize(model)} ${inputObjectType}`));
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getOperationNameFromModel = function ({ def, opType, asPlural = true } = {}) {
-  const name = getName({ def, asPlural });
-  return camelize(`${opType} ${name}`);
+const getOperationNameFromModel = function ({ modelName, operation: { opType, multiple } }) {
+  const model = multiple ? plural(modelName) : singular(modelName);
+  return camelize(`${opType} ${model}`);
 };
 
 

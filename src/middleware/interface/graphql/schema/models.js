@@ -20,20 +20,21 @@ const getModelsByMethod = function (methodName, opts) {
 		.map(operation => getModelsByOperation(operation, opts))
     .flatten()
 		.filter(model => isAllowedModel(model))
-    .mapKeys(model => model.propName)
+    // Transform [{ modelName: 'my_model', operation: { opType: 'find', multiple: true }, ... }] into { findMyModel: { ... } }
+    .mapKeys(({ modelName, operation }) => getOperationNameFromModel({ modelName, operation }))
+    // Cleanup
+    .mapValues(model => Object.assign(model, { modelName: undefined }))
     .value();
 };
 
 // Retrieve models for a given operation
 const getModelsByOperation = function (operation, { idl: { models } }) {
-  return map(models, model => {
-    const propName = getOperationNameFromModel({ def: model, opType: operation.opType, asPlural: operation.multiple });
-
+  return map(models, (model, modelName) => {
     if (operation.multiple) {
       model = { type: 'array', items: model };
     }
 
-    const modelCopy = merge({}, model, { propName, operation });
+    const modelCopy = merge({}, model, { operation, modelName });
     return modelCopy;
   });
 };

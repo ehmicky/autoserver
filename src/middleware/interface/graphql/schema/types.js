@@ -56,7 +56,7 @@ const getField = function (def, opts) {
   Object.assign(field.type, { def });
 
   // Can only assign default if fields are optional in input, but required by database
-  if (canRequireAttributes(def, opts) && def.required !== true && opts.inputObjectType.startsWith('input')
+  if (canRequireAttributes(def, opts) && def.required !== true && opts.inputObjectType.startsWith('data')
     && def.default !== undefined) {
     defaults(field, { defaultValue: def.default });
   }
@@ -78,7 +78,7 @@ const graphQLArrayFieldsInfo = function (def, opts) {
   let subDef = getSubDef(def);
   // Underlying model does not get any resolver, only array does
   subDef = Object.assign({} , subDef, { noResolve: true });
-  const subType = getType(subDef, opts);
+  const subType = getType(subDef, Object.assign({}, opts, { multiple: true }));
   const type = new GraphQLList(subType);
   return { type };
 };
@@ -91,7 +91,7 @@ const memoizeObjectField = function (func) {
     const modelName = getModelName(def);
     let key;
     if (modelName) {
-      key = `field/${modelName}/${opts.opType}/${opts.inputObjectType}`;
+      key = `field/${modelName}/${opts.opType}/${opts.multiple}/${opts.inputObjectType}`;
       if (opts.cache.exists(key)) {
         return opts.cache.get(key);
       }
@@ -107,9 +107,12 @@ const memoizeObjectField = function (func) {
 
 // Object field fieldsInfo
 const graphQLObjectFieldsInfo = memoizeObjectField(function (def, opts) {
-  const { inputObjectType, propName } = opts;
-  const name = getTypeName({ def, inputObjectType, propName });
-  const description = getDescription({ def, opType: opts.opType, descriptionType: 'type' });
+  const { inputObjectType, opType, multiple, methodName } = opts;
+  // Top-level methods do not have `def.model`
+  const modelName = def.model || methodName;
+  const name = getTypeName({ operation: { opType, multiple }, modelName, inputObjectType, methodName });
+
+  const description = getDescription({ def, opType, descriptionType: 'type' });
 	const constructor = inputObjectType !== '' ? GraphQLInputObjectType : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
 
@@ -154,16 +157,16 @@ const getObjectFields = function (def, opts) {
       ))
       // Create operations do not include data.id
 			.pickBy((childDef, childDefName) => !(
-        opts.opType === 'create' && childDefName === 'id' && opts.inputObjectType.startsWith('input')
+        opts.opType === 'create' && childDefName === 'id' && opts.inputObjectType.startsWith('data')
       ))
 			// Recurse over children
-			.mapValues((childDef, propName) => {
+			.mapValues(childDef => {
 				// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
 				if (childDef.operation) {
 					opts = Object.assign({}, opts, { opType: childDef.operation.opType });
 				}
 
-        opts = Object.assign({}, opts, { propName });
+        opts = Object.assign({}, opts, { multiple: false });
 				const field = getField(childDef, opts);
         return Object.assign({}, field);
 			})
@@ -174,7 +177,7 @@ const getObjectFields = function (def, opts) {
 
 const canRequireAttributes = function (def, { opType, inputObjectType }) {
   // Update operation does not require any attribute in input object
-	return !(opType === 'update' && inputObjectType.startsWith('input'))
+	return !(opType === 'update' && inputObjectType.startsWith('data'))
     // Query inputObjects do not require any attribute
     && !inputObjectType.startsWith('filter');
 };

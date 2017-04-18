@@ -19,7 +19,7 @@ const getSchema = memoize(function ({ idl }) {
     // Adds query|mutation.properties
     def.properties = getModelsByMethod(methodName, { idl });
     // Returns query|mutation type
-    return getType(def, { cache, propName: methodName });
+    return getType(def, { cache, methodName });
   });
 
   const schema = new GraphQLSchema(schemaFields);
