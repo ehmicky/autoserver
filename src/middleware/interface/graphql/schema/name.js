@@ -27,15 +27,9 @@ const getName = function ({ def, asPlural = true, inputObjectType, modelName = d
 };
 
 // Returns propName, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function ({ def, inputObjectType, topLevelDef, propName }) {
-  let name = getName({ def, asPlural: false, inputObjectType, modelName: propName });
-  name = capitalize(name);
-  // Means it is a submodel, i.e. should prepend top-level name
-  if (topLevelDef && topLevelDef.propName !== def.propName) {
-    name = capitalize(topLevelDef.propName) + name;
-  }
-  name = camelize(name);
-  return name;
+const getTypeName = function ({ def, inputObjectType, propName }) {
+  const name = getName({ def, asPlural: false, inputObjectType, modelName: propName });
+  return camelize(capitalize(name));
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
