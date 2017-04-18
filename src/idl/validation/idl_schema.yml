@@ -13,7 +13,16 @@ properties:
   models:
     # Models are valid JSON schemas
     additionalProperties:
-      $ref: '#/definitions/modelObjectSchema'
+      allOf:
+      - $ref: '#/definitions/topLevelModel'
+      - properties:
+          properties:
+            # For models' attributes
+            additionalProperties:
+              $ref: '#/definitions/attributeSchema'
+            # Attributes follow same naming convention as models
+            propertyNames:
+              $ref: '#/definitions/validModelName'
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
@@ -24,7 +33,7 @@ properties:
   definitions:
     type: object
     additionalProperties:
-      $ref: '#/definitions/modelSchema'
+      $ref: '#/definitions/nonModel'
     default: {}
   # Automatically generated, and used to validate e.g. `model`
   modelNames:
@@ -38,80 +47,93 @@ patternProperties:
 # No custom property, except for `x-*`
 additionalProperties: false
 definitions:
-  # Model schemas are an augmented version of a normal JSON schema
-  modelObjectSchema:
+  # Main schema
+  generalSchema:
+    anyOf:
+    - $ref: '#/definitions/generalObjectSchema'
+    # JSON schemas can be booleans
+    - type: boolean
+  # General schemas are an augmented version of a normal JSON schema
+  generalObjectSchema:
     type: object
     allOf:
     - $ref: '#/definitions/currentJsonSchema'
     - $ref: '#/definitions/futureJsonSchema'
     - $ref: '#/definitions/customJsonSchema'
-  # Main schema, for models under idl.models.modelName.*
-  modelSchema:
-    anyOf:
-    - $ref: '#/definitions/modelObjectSchema'
-    # JSON schemas can be booleans
-    - type: boolean
   # Our additions to JSON schema
   customJsonSchema:
     properties:
       # Used to indicate an attribute is deprecated, and why
       deprecated:
         type: string
-      # This attribute is added to distinguish between top-level models and the others, since they have different rules
-      # It should not be specified by users though
-      depthType:
-        type: string
       # All spec-defined formats are allowed. We are stricter than the spec, as custom formats are forbidden.
       format:
         enum: [regex, date-time, date, time, email, hostname, ipv4, ipv6, uri, uri-reference, json-pointer,
           relative-json-pointer]
+      # Apply this schema recursively
       properties:
-        # Apply this schema recursively
         additionalProperties:
-          $ref: '#/definitions/modelObjectSchema'
-        # Attributes follow same naming convention as models
-        propertyNames:
-          $ref: '#/definitions/validModelName'
-    # Different validations depending on whether model.depthType is 'model'
-    if:
-      required: [depthType]
-      properties:
-        depthType:
-          const: model
-    then:
-      $ref: '#/definitions/topLevelModel'
-    else:
-      $ref: '#/definitions/nonTopLevelModel'
-  # Only applies this to top-level schemas
+          $ref: '#/definitions/customJsonSchema'
+  # Applies neither to top-level models nor nested models
+  nonModel:
+    allOf:
+    - $ref: '#/definitions/generalSchema'
+    - propertyNames:
+        $ref: '#/definitions/validPropertyNames'
+  # Only applies this to top-level models
   topLevelModel:
-    # Must have a `required` property
-    required: [required, properties]
-    properties:
-      operations:
-        $ref: '#/definitions/operationsProperty'
-      # `required` property must at least contain `id`
-      required:
-        contains:
-          enum: [id]
-      # Must have an `id`
+    allOf:
+    - $ref: '#/definitions/generalObjectSchema'
+    - propertyNames:
+        anyOf:
+        - $ref: '#/definitions/validPropertyNames'
+        - enum: [operations]
+      # Must have a `required` property
+      required: [required, properties, type]
       properties:
-        required: [id]
-    propertyNames:
-      anyOf:
-      - $ref: '#/definitions/validPropertyNames'
-      - enum: [operations]
-  # Only applies this to non-top-level schemas
-  nonTopLevelModel:
+        operations:
+          $ref: '#/definitions/operationsProperty'
+        # `required` property must at least contain `id`
+        required:
+          contains:
+            enum: [id]
+        # Must have an `id`
+        properties:
+          required: [id]
+        # type must be 'object'
+        type:
+          const: object
+  # Only applies this to models attributes, including nested models
+  attributeSchema:
+    allOf:
+    - $ref: '#/definitions/generalObjectSchema'
+    - propertyNames:
+        anyOf:
+        - $ref: '#/definitions/validPropertyNames'
+        - enum: [model]
+      # Must specify `type`
+      required: [type]
+      properties:
+        # Recursively applied to array members
+        items:
+          $ref: '#/definitions/attributeSchema'
+      # Only for nested models
+      if:
+        properties:
+          type:
+            const: object
+      then:
+        $ref: '#/definitions/nestedModel'
+  # Only applies this to nested models
+  nestedModel:
+    # Must have a `model` property
+    required: [model]
     properties:
       # Refers to a top-level model name
       model:
         type: string
         enum:
           $data: '/modelNames'
-    propertyNames:
-      anyOf:
-      - $ref: '#/definitions/validPropertyNames'
-      - enum: [model]
   # Validation of `operations` property, e.g. `operations: [find, createOne]`
   # This property restricts which operations a specific model can perform
   operationsProperty:
@@ -145,7 +167,7 @@ definitions:
       # Future standard JSON schema properties
       examples, formatMaximum, formatMinimum, formatExclusiveMinimum, formatExclusiveMaximum, if, then, else,
       # Properties specific to this project
-      deprecated, depthType,
+      deprecated,
     ]
     # Users can define anything under property named x-*
     - pattern: '^x-*'
@@ -177,11 +199,11 @@ definitions:
       formatExclusiveMinimum:
         type: boolean
       if:
-        $ref: '#/definitions/modelSchema'
+        $ref: '#/definitions/nonModel'
       then:
-        $ref: '#/definitions/modelSchema'
+        $ref: '#/definitions/nonModel'
       else:
-        $ref: '#/definitions/modelSchema'
+        $ref: '#/definitions/nonModel'
     dependencies:
       formatExclusiveMinimum: [formatMinimum]
       formatExclusiveMaximum: [formatMaximum]

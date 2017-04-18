@@ -107,8 +107,8 @@ const memoizeObjectField = function (func) {
 
 // Object field fieldsInfo
 const graphQLObjectFieldsInfo = memoizeObjectField(function (def, opts) {
-  const { inputObjectType, topLevelDef } = opts;
-  const name = getTypeName({ def, inputObjectType, topLevelDef });
+  const { inputObjectType, topLevelDef, propName } = opts;
+  const name = getTypeName({ def, inputObjectType, topLevelDef, propName });
   const description = getDescription({ def, opType: opts.opType, descriptionType: 'type' });
 	const constructor = inputObjectType !== '' ? GraphQLInputObjectType : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
@@ -157,12 +157,13 @@ const getObjectFields = function (def, opts) {
         opts.opType === 'create' && childDefName === 'id' && opts.inputObjectType.startsWith('input')
       ))
 			// Recurse over children
-			.mapValues(childDef => {
+			.mapValues((childDef, propName) => {
 				// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
 				if (childDef.operation) {
 					opts = Object.assign({}, opts, { opType: childDef.operation.opType, topLevelDef: childDef });
 				}
 
+        opts = Object.assign({}, opts, { propName });
 				const field = getField(childDef, opts);
         return Object.assign({}, field);
 			})

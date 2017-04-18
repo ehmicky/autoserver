@@ -88,36 +88,9 @@ models:
         # This is how to specify an array's elements
         items:
           type: string
-      # This attribute is an object not pointing to a model (does not contain `model` key)
-      attributes:
+      skills:
         type: object
-        description: Attributes of a pet
-        # Object-specific JSON schema validation keywords
-        required: [intelligence]
-        minProperties: 1
-        maxProperties: 10
-        patternProperties:
-          '^__': false
-        additionalProperties:
-          type: integer
-        propertyNames:
-          pattern: '^[a-z]+$'
-        dependencies:
-          height: [width]
-          is_big:
-            maxProperties: 100
-        properties:
-          age:
-            type: integer
-            description: How old is the pet
-            default: 1
-          intelligence:
-            type: integer
-            description: How smart is the pet
-            minimum:
-              # Allows refering to a runtime value, i.e. here `age` must be lesser than `intelligence`
-              $data: '1/age'
-        default: {}
+        model: pet_skills
       tags:
         type: array
         description: Tags applying to this pet
@@ -140,6 +113,7 @@ models:
         description: Has this pet been adopted
         default: adopted
       best_friend:
+        type: object
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key
         # References can be recursive, e.g. here `pet` is the current model
         # Will actually copy the model's `id` property definition (in case of conflict, current definition has priority)
@@ -151,10 +125,12 @@ models:
         type: array
         description: This pet's friends
         items:
+          type: object
           model: pet
       owners:
         type: array
         items:
+          type: object
           model: owner
       birth_date:
         type: string
@@ -169,6 +145,8 @@ models:
     # Circular references are supported
     # Included files will be merged with sibling properties
     $ref: examples/owner.schema.yml
+  pet_skills:
+    $ref: examples/pet_skills.schema.yml
 # Default `operations` values for each model
 # If unspecified, is all operations but deleteMany
 # Operations can be:

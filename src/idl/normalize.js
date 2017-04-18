@@ -15,50 +15,29 @@ const normalizeIdl = function (idl) {
 
 // Normalize IDL definition models
 const normalizeModels = function ({ models, operations }) {
-  return transform({ transforms, args: { operations } })({ input: models });
+  transform({ transforms, args: { operations } })({ input: models });
+  return models;
 };
 
 // List of transformations to apply to normalize IDL models
 const transforms = [
 
   {
-    // Depth 1 means top-level model, depth 3 means model attribute, depth 4 means model array attribute's item
-    any({ depth, parentKey, parent }) {
-      if (parent.$data || parent.$ref) { return; }
-
-      let depthType;
-      if (depth === 1) {
-        depthType = 'model';
-      } else if (depth >= 3) {
-        if (['items', 'contains'].includes(parentKey)) {
-          depthType = 'multipleAttr';
-        } else if (!['properties', 'patternProperties', 'dependencies'].includes(parentKey)) {
-          depthType = 'singleAttr';
-        }
-      }
-      return { depthType };
+    // Add `model` to top-level models
+    type({ value, parent, parentKey }) {
+      if (value !== 'object' || parent.model) { return; }
+      return { model: parentKey };
     },
   },
 
   {
-    // { model '...' } -> { type: 'object', model: '...' }
-    model: () => ({ type: 'object' }),
-
     // Do not allow custom properties
-    properties: () => ({ additionalProperties: false }),
-
-    // Adds def.propName refering to property name
-    type({ parentKey, parent }) {
-      // Only for top-level models and single attributes
-      if (!['model', 'singleAttr'].includes(parent.depthType)) { return; }
-      return { propName: parentKey };
-    },
+    model: () => ({ additionalProperties: false }),
   },
 
   {
     // Normalize operations shortcuts, and adds defaults
-    any({ parent: { depthType, operations }, operations: defaultOperations }) {
-      if (depthType !== 'model') { return; }
+    model({ parent: { operations }, operations: defaultOperations }) {
       operations = operations || defaultOperations;
       const normalizedOperations = normalizeOperations(operations || defaultOperations);
       return { operations: normalizedOperations };
@@ -69,17 +48,10 @@ const transforms = [
     // { model '...' } -> { model: '...', ...copyOfTopLevelModel }
     model({ value, root, parent }) {
       const instance = find(root, (_, modelName) => modelName === value);
+      if (instance === parent) { return; }
       // Dereference `model` pointers, using a shallow copy, while avoiding overriding any property already defined
       const newProps = omit(instance, Object.keys(parent));
       return newProps;
-    },
-  },
-
-  {
-    // Add `model` to top-level models
-    any({ parentKey, parent }) {
-      if (parent.depthType !== 'model') { return; }
-      return { model: parentKey };
     },
   },
 

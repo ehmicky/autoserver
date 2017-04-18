@@ -13,20 +13,22 @@ const pluralize = function ({ name, asPlural }) {
 };
 
 // Returns def.propName, in plural|singular form
-const getName = function ({ def, asPlural = true, inputObjectType } = {}) {
-  if (!def.propName) {
-    throw new EngineError(`Missing "propName" key in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+const getName = function ({ def, asPlural = true, inputObjectType, modelName = def.model } = {}) {
+  if (!modelName) {
+    throw new EngineError(`Missing model name in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
-  if (typeof def.propName !== 'string') {
-    throw new EngineError(`"propName" must be a string in definition ${stringify(def)}`, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+  if (typeof modelName !== 'string') {
+    throw new EngineError(`Model name must be a string in definition ${stringify(def)}`, {
+      reason: 'GRAPHQL_WRONG_DEFINITION',
+    });
   }
-  const name = def.propName + (capitalize(inputObjectType) || '');
+  const name = modelName + (capitalize(inputObjectType) || '');
   return pluralize({ name, asPlural });
 };
 
-// Returns def.propName, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function ({ def, inputObjectType, topLevelDef }) {
-  let name = getName({ def, asPlural: false, inputObjectType });
+// Returns propName, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
+const getTypeName = function ({ def, inputObjectType, topLevelDef, propName }) {
+  let name = getName({ def, asPlural: false, inputObjectType, modelName: propName });
   name = capitalize(name);
   // Means it is a submodel, i.e. should prepend top-level name
   if (topLevelDef && topLevelDef.propName !== def.propName) {

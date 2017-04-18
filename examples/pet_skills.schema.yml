@@ -1,0 +1,30 @@
+type: object
+description: Attributes of a pet
+# Object-specific JSON schema validation keywords
+required: [id, intelligence]
+minProperties: 1
+maxProperties: 10
+patternProperties:
+  '^__': false
+additionalProperties:
+  type: integer
+propertyNames:
+  pattern: '^[a-z]+$'
+dependencies:
+  height: [width]
+  is_big:
+    maxProperties: 100
+properties:
+  id:
+    type: string
+  age:
+    type: integer
+    description: How old is the pet
+    default: 1
+  intelligence:
+    type: integer
+    description: How smart is the pet
+    minimum:
+      # Allows refering to a runtime value, i.e. here `age` must be lesser than `intelligence`
+      $data: '1/age'
+default: {}
