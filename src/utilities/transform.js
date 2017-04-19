@@ -24,7 +24,6 @@ const { recurseMap } = require('./recurse_map');
  *     They can return undefined to signify "no change"
  *     If a value inside the returned object is undefined however, it means "remove this property"
  *   - a transform called `any` will always be triggered at the end of a given pass
- *   - recursion will stop if an object contains the property `__noRecurse: true`
  * Transforms are an array of maps:
  *  - each map is processed after another, i.e. transformation can be applied in well-defined passes
  *  - inside a given map, transforms are processed by alphabetical order
