@@ -20,13 +20,6 @@ const recurseMap = function ({ value, mapFunc }) {
       cache.set(originalValue, value);
     }
 
-    // If return value contains __noRecurse, stop here,
-    // to avoid infinite recursion when recursive value was added by deep copy
-    if (value && value.__noRecurse) {
-      delete value.__noRecurse;
-      return value;
-    }
-
     ++depth;
     if (value && (value.constructor === Object || value instanceof Array)) {
       each(value, (child, childKey) => {
