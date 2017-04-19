@@ -16,14 +16,9 @@ const getSubDefProp = function (def, propName) {
   return def[propName] || getSubDef(def)[propName];
 };
 
-// Retrieves model name from a definition
-const getModelName = function (def) {
-  return getSubDef(def).model;
-};
-
 // Checks whether the definition is associated with a model
 const isModel = function (def) {
-  return getModelName(def) !== undefined;
+  return getSubDef(def).model !== undefined;
 };
 
 
@@ -31,6 +26,5 @@ module.exports = {
   isMultiple,
   getSubDef,
   getSubDefProp,
-  getModelName,
   isModel,
 };
