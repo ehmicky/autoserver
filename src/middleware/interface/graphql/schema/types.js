@@ -33,14 +33,14 @@ const getType = function (def, opts = {}) {
 const getField = function (def, opts) {
   opts.inputObjectType = opts.inputObjectType || '';
 
-  const typeGetter = graphQLTypeGetters.find(possibleType => possibleType.condition(def, opts));
-  if (!typeGetter) {
+  const fieldGetter = graphQLFieldGetters.find(possibleType => possibleType.condition(def, opts));
+  if (!fieldGetter) {
     throw new EngineError(`Could not parse property into a GraphQL type: ${stringify(def)}`, {
       reason: 'GRAPHQL_WRONG_DEFINITION',
     });
   }
 
-  const type = typeGetter.value(def, opts);
+  const { type } = fieldGetter.value(def, opts);
 
   // Fields description|deprecation_reason are taken from IDL definition
   const description = def.description;
@@ -63,21 +63,21 @@ const getField = function (def, opts) {
   return field;
 };
 
-// Required field typeGetter
-const graphQLRequiredTypeGetter = function (def, opts) {
-  // Goal is to avoid infinite recursion, i.e. without modification the same graphQLTypeGetter would be hit again
+// Required field FieldGetter
+const graphQLRequiredFieldGetter = function (def, opts) {
+  // Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldGetter would be hit again
   opts = Object.assign({}, opts, { isRequired: false });
   const subType = getType(def, opts);
   const type = new GraphQLNonNull(subType);
-  return type;
+  return { type };
 };
 
-// Array field typeGetter
-const graphQLArrayTypeGetter = function (def, opts) {
+// Array field FieldGetter
+const graphQLArrayFieldGetter = function (def, opts) {
   const subDef = getSubDef(def);
   const subType = getType(subDef, opts);
   const type = new GraphQLList(subType);
-  return type;
+  return { type };
 };
 
 /**
@@ -93,15 +93,15 @@ const objectTypeSerializer = function ([ def, opts ]) {
   return `${opts.schemaId}/${typeName}`;
 };
 
-// Object field typeGetter
-const graphQLObjectTypeGetter = memoize(function (def, opts) {
+// Object field FieldGetter
+const graphQLObjectFieldGetter = memoize(function (def, opts) {
   const name = getTypeName({ def, opts });
   const description = def.description;
 	const constructor = opts.inputObjectType !== '' ? GraphQLInputObjectType : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
 
   const type = new constructor({ name, description, fields });
-  return type;
+  return { type };
 }, { serializer: objectTypeSerializer });
 
 const filterOpTypes = ['find', 'delete', 'update'];
@@ -167,48 +167,48 @@ const canRequireAttributes = function (def, { operation: { opType } = {}, inputO
  * Maps an IDL definition into a GraphQL field information, including type
  * The first matching one will be used, i.e. order matters: required modifier, then array modifier come first
  */
-const graphQLTypeGetters = [
+const graphQLFieldGetters = [
 
 	// "Required" modifier type
   {
     condition: (def, opts) => opts.isRequired,
-    value: graphQLRequiredTypeGetter,
+    value: graphQLRequiredFieldGetter,
   },
 
 	// "Array" modifier type
   {
     condition: def => def.type === 'array',
-    value: graphQLArrayTypeGetter,
+    value: graphQLArrayFieldGetter,
   },
 
 	// "Object" type
   {
     condition: def => def.type === 'object',
-    value: graphQLObjectTypeGetter,
+    value: graphQLObjectFieldGetter,
   },
 
 	// "Int" type
   {
     condition: def => def.type === 'integer',
-    value: () => GraphQLInt,
+    value: () => ({ type: GraphQLInt }),
   },
 
 	// "Float" type
   {
     condition: def => def.type === 'number',
-    value: () => GraphQLFloat,
+    value: () => ({ type: GraphQLFloat }),
   },
 
 	// "String" type
   {
     condition: def => def.type === 'string' || def.type === 'null',
-    value: () => GraphQLString,
+    value: () => ({ type: GraphQLString }),
   },
 
 	// "Boolean" type
   {
     condition: def => def.type === 'boolean',
-    value: () => GraphQLBoolean,
+    value: () => ({ type: GraphQLBoolean }),
   },
 
 ];
