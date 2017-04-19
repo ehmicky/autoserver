@@ -48,7 +48,11 @@ const getField = function (def, opts) {
 	// Only for models, and not for argument types
   // Modifiers (Array and NonNull) retrieve their arguments from underlying type (i.e. `args` is already defined)
   if (isModel(def) && opts.inputObjectType === '' && !args) {
-    args = getArguments(def, Object.assign(opts, { getType }));
+    // Builds types used for `data` and `filter` arguments
+    const dataObjectType = getType(def, Object.assign({}, opts, { inputObjectType: 'data' }));
+    const filterObjectType = getType(def, Object.assign({}, opts, { inputObjectType: 'filter' }));
+    // Retrieves arguments
+    args = getArguments(def, Object.assign(opts, { dataObjectType, filterObjectType }));
   }
 
   // Can only assign default if fields are optional in input, but required by database

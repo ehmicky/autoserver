@@ -10,30 +10,16 @@ const {
 
 // Retrieves all resolver arguments, before resolve function is fired
 const getArguments = function (def, opts) {
-	// Builds inputObject types
-  const multiple = opts.operation.multiple;
-	const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });
-	const dataObjectType = opts.getType(def, dataObjectOpts);
-	const filterObjectOpts = Object.assign({}, opts, { inputObjectType: 'filter' });
-  const filterObjectType = opts.getType(def, filterObjectOpts);
-
-  opts = Object.assign({}, opts, {
-    multiple,
-    dataObjectType,
-    filterObjectType,
-  });
-
-  const args = Object.assign(
+  return Object.assign(
     {},
 		getDataArgument(opts),
 		getFilterArgument(opts),
     getOrderArgument(opts)
   );
-  return args;
 };
 
 // order_by argument, i.e. used for sorting results
-const getOrderArgument = function ({ multiple }) {
+const getOrderArgument = function ({ operation: { multiple } }) {
   // Only with *Many methods
   if (!multiple) { return; }
 
@@ -50,7 +36,7 @@ Specify ascending or descending order by appending + or - (default is ascending)
 // Data argument, i.e. payload used by mutation operations
 const dataOpTypes = ['create', 'upsert', 'replace', 'update'];
 const multipleDataOpTypes = ['create', 'upsert', 'replace'];
-const getDataArgument = function ({ multiple, operation: { opType } = {}, dataObjectType }) {
+const getDataArgument = function ({ operation: { opType, multiple } = {}, dataObjectType }) {
 	// Only for mutation operations, but not delete
 	if (!dataOpTypes.includes(opType)) { return; }
 
@@ -74,7 +60,7 @@ const getDataArgument = function ({ multiple, operation: { opType } = {}, dataOb
 
 // Filters argument, i.e. only queries entities that match specified attributes
 const filterOpTypes = ['find', 'delete', 'update'];
-const getFilterArgument = function ({ multiple, operation: { opType } = {}, filterObjectType }) {
+const getFilterArgument = function ({ operation: { opType, multiple } = {}, filterObjectType }) {
   if (!filterOpTypes.includes(opType)) { return; }
   const type = multiple ? filterObjectType : new GraphQLNonNull(filterObjectType);
   return {
