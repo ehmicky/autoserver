@@ -50,7 +50,7 @@
       "pets": ["2"]
     }
   ],
-  "skills": [
+  "pet_skills": [
     {
       "id": "1",
       "age": 10,
