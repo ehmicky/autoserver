@@ -14,7 +14,7 @@ const graphqlOperations = {
 };
 
 // Retrieve models for a given method
-const getModelsByMethod = function (methodName, { idl: { models } }) {
+const getModelsByMethod = function ({ methodName, models }) {
   // Iterate through each operation
   return chain(operations)
     // Only include operations for a given GraphQL method

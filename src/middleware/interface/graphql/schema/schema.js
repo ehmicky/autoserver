@@ -11,12 +11,11 @@ const { nameSym } = require('./name');
 
 
 // Returns GraphQL schema
-const getSchema = memoize(function ({ idl }) {
+const getSchema = memoize(function ({ idl: { models } }) {
   // Apply `getType` to each top-level operation, i.e. Query and Mutation
-  const schemaFields = mapValues(rootDef, (def, methodName) => {
-    // Adds query|mutation.properties
-    def.properties = getModelsByMethod(methodName, { idl });
-    // Returns query|mutation type
+  const schemaFields = mapValues(rootDefs, (rootDef, methodName) => {
+    // Builds query|mutation type
+    const def = getMethodDef({ rootDef, methodName, models });
     return getType(def);
   });
 
@@ -24,17 +23,26 @@ const getSchema = memoize(function ({ idl }) {
   return schema;
 });
 
-const rootDef = {
+const rootDefs = {
   query: {
-    type: 'object',
     description: 'Fetches information about different entities',
-    [nameSym]: 'Query',
+    name: 'Query',
   },
   mutation: {
-    type: 'object',
     description: 'Modifies information about different entities',
-    [nameSym]: 'Mutation',
+    name: 'Mutation',
   },
+};
+
+const getMethodDef = function ({ rootDef: { description, name }, methodName, models }) {
+  const properties = getModelsByMethod({ methodName, models });
+  return {
+    type: 'object',
+    [nameSym]: name,
+    description,
+    properties,
+    isTopLevel: true,
+  };
 };
 
 
