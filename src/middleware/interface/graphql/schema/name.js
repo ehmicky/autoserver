@@ -12,7 +12,8 @@ const getTypeName = function ({ def, opts: { inputObjectType, operation: { opTyp
   // Top-level methods do not have `def.model`, so use def[nameSym] instead
   const actualModel = model || modelName;
   const name = multiple ? plural(actualModel) : singular(actualModel);
-  return camelize(capitalize(`${opType} ${name} ${inputObjectType}`));
+  const nestedPostfix = !def.isTopLevel ? ' Nested' : '';
+  return camelize(capitalize(`${opType} ${name} ${inputObjectType}${nestedPostfix}`));
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`

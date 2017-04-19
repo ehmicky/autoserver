@@ -39,7 +39,7 @@ const getModelsByMethod = function ({ methodName, models }) {
           const subOperation = Object.assign({}, operation, { multiple });
           return Object.assign({}, def, { operation: subOperation });
         });
-        merge(modelCopy, { properties });
+        merge(modelCopy, { properties, isTopLevel: true });
 
         // Wrap in array if operation is multiple
         if (operation.multiple) {
