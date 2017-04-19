@@ -11,11 +11,6 @@ const getSubDef = function (def) {
   return isMultiple(def) ? def.items : def;
 };
 
-// Gets either array property, or array item property, with priority for upper level
-const getSubDefProp = function (def, propName) {
-  return def[propName] || getSubDef(def)[propName];
-};
-
 // Checks whether the definition is associated with a model
 const isShallowModel = function (def) {
   return def.model !== undefined;
@@ -30,7 +25,6 @@ const isModel = function (def) {
 module.exports = {
   isMultiple,
   getSubDef,
-  getSubDefProp,
   isModel,
   isShallowModel,
 };
