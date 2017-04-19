@@ -3,7 +3,7 @@
 
 const { chain, merge, assign } = require('lodash');
 const { getOperationName } = require('./name');
-const { getSubDefProp, isModel, isMultiple } = require('./utilities');
+const { isModel, isMultiple } = require('./utilities');
 const { operations } = require('../../../../idl');
 
 
@@ -59,9 +59,7 @@ const getModelsByMethod = function (methodName, { idl: { models } }) {
 // Filter allowed operations on a given model
 const isAllowedModel = function ({ model, operation }) {
   // IDL property `def.operations` allows whitelisting specific operations
-  const modelOperations = getSubDefProp(model, 'operations');
-  // Check whether model operation is whitelisted
-  return modelOperations.includes(operation.name);
+  return model.operations.includes(operation.name);
 };
 
 

@@ -7,18 +7,15 @@ const {
   GraphQLList,
 } = require('graphql');
 
-const { getSubDef } = require('./utilities');
-
 
 // Retrieves all resolver arguments, before resolve function is fired
 const getArguments = function (def, opts) {
 	// Builds inputObject types
   const multiple = opts.operation.multiple;
-  const subDef = getSubDef(def);
 	const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });
-	const dataObjectType = opts.getType(subDef, dataObjectOpts);
+	const dataObjectType = opts.getType(def, dataObjectOpts);
 	const filterObjectOpts = Object.assign({}, opts, { inputObjectType: 'filter' });
-  const filterObjectType = opts.getType(subDef, filterObjectOpts);
+  const filterObjectType = opts.getType(def, filterObjectOpts);
 
   opts = Object.assign({}, opts, {
     multiple,

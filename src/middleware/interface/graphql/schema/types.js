@@ -18,7 +18,7 @@ const uuidv4 = require('uuid/v4');
 const { EngineError } = require('../../../../error');
 const { memoize } = require('../../../../utilities');
 const { getTypeName } = require('./name');
-const { getSubDef, isModel, getSubDefProp } = require('./utilities');
+const { getSubDef, isModel, isShallowModel } = require('./utilities');
 const { getArguments } = require('./arguments');
 
 
@@ -44,13 +44,14 @@ const getField = function (def, opts) {
 
   // The following fields are type-agnostic, so are not inside `typeGetter.value()`
   // Fields description|deprecation_reason are taken from IDL definition
-  const description = getSubDefProp(def, 'description');
-  const deprecationReason = getSubDefProp(def, 'deprecated');
+  const description = def.description;
+  const deprecationReason = def.deprecated;
 
 	// Only for models, and not for argument types
   let args;
-  if (isModel(def) && opts.inputObjectType === '') {
-    args = getArguments(def, Object.assign(opts, { getType, isRequired: false }));
+  const subDef = getSubDef(def);
+  if (isShallowModel(subDef) && opts.inputObjectType === '') {
+    args = getArguments(subDef, Object.assign(opts, { getType, isRequired: false }));
   }
 
   // Can only assign default if fields are optional in input, but required by database
@@ -97,7 +98,7 @@ const objectTypeSerializer = function ([ def, opts ]) {
 // Object field typeGetter
 const graphQLObjectTypeGetter = memoize(function (def, opts) {
   const name = getTypeName({ def, opts });
-  const description = getSubDefProp(def, 'description');
+  const description = def.description;
 	const constructor = opts.inputObjectType !== '' ? GraphQLInputObjectType : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
 
