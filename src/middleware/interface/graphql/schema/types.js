@@ -106,7 +106,6 @@ const graphQLObjectFieldGetter = memoize(function (def, opts) {
   return { type };
 }, { serializer: objectTypeSerializer });
 
-const filterOpTypes = ['find', 'delete', 'update'];
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
   const { operation = {}, inputObjectType } = opts;
@@ -121,7 +120,8 @@ const getObjectFields = function (def, opts) {
         // Create operations do not include data.id
         || (opType === 'create' && childDefName === 'id' && inputObjectType === 'data')
         // Filter inputObjects for single operations only include `id`
-        || (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple);
+        || (['find', 'delete', 'update'].includes(opType) && childDefName !== 'id' && inputObjectType === 'filter'
+          && !multiple);
     })
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     .mapValues(childDef => {
