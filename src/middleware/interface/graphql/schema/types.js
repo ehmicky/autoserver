@@ -43,8 +43,7 @@ const getField = function (def, opts) {
   let { type, args } = fieldGetter.value(def, opts);
 
   // Fields description|deprecation_reason are taken from IDL definition
-  const description = def.description;
-  const deprecationReason = def.deprecated;
+  const { description, deprecationReason } = def;
 
 	// Only for models, and not for argument types
   // Modifiers (Array and NonNull) retrieve their arguments from underlying type (i.e. `args` is already defined)
