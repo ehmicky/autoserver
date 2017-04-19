@@ -121,9 +121,8 @@ const getObjectFields = function (def, opts) {
       || (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
     )
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
-    // Exception: top-level operations
     .mapValues(childDef => {
-      if (childDef.operation || !isModel(childDef) || inputObjectType === '') { return childDef; }
+      if (!isModel(childDef) || inputObjectType === '') { return childDef; }
 
       const subDef = getSubDef(childDef);
 
@@ -138,11 +137,11 @@ const getObjectFields = function (def, opts) {
 		// Recurse over children
 		.mapValues((childDef, childDefName) => {
 			// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
-      const opTypeOpt = opType || (childDef.operation && childDef.operation.opType);
+      const childOpType = opType || childDef.opType;
       const isRequired = def.required instanceof Array && def.required.includes(childDefName);
-      opts = Object.assign({}, opts, { multiple: false, isRequired, opType: opTypeOpt });
+      const childOpts = Object.assign({}, opts, { multiple: false, isRequired, opType: childOpType });
 
-			const field = getField(childDef, opts);
+			const field = getField(childDef, childOpts);
       return field;
 		})
 		.value();

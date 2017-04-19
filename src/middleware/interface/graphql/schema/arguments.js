@@ -22,7 +22,6 @@ const getArguments = function (def, opts) {
 
   opts = Object.assign({}, opts, {
     multiple,
-    isTopLevel: def.operation !== undefined,
     dataObjectType,
     filterObjectType,
   });
