@@ -2,7 +2,7 @@
 
 
 const { chain, merge, map } = require('lodash');
-const { getOperationNameFromModel } = require('./name');
+const { getOperationName } = require('./name');
 const { getSubDefProp } = require('./utilities');
 const { operations } = require('../../../../idl');
 
@@ -21,7 +21,7 @@ const getModelsByMethod = function (methodName, opts) {
     .flatten()
 		.filter(model => isAllowedModel(model))
     // Transform [{ modelName: 'my_model', operation: { opType: 'find', multiple: true }, ... }] into { findMyModel: { ... } }
-    .mapKeys(({ modelName, operation }) => getOperationNameFromModel({ modelName, operation }))
+    .mapKeys(({ modelName, operation }) => getOperationName({ modelName, operation }))
     // Cleanup
     .mapValues(model => Object.assign(model, { modelName: undefined }))
     .value();

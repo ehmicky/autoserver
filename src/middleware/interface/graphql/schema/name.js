@@ -6,13 +6,15 @@ const { plural, singular } = require('pluralize');
 
 
 // Returns type name, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function ({ modelName, operation: { opType = '', multiple }, inputObjectType }) {
-  const model = multiple ? plural(modelName) : singular(modelName);
-  return camelize(capitalize(`${opType} ${capitalize(model)} ${inputObjectType}`));
+const getTypeName = function ({ def: { model }, opts: { inputObjectType, opType = '', multiple, methodName } }) {
+  // Top-level methods do not have `def.model`
+  const modelName = model || methodName;
+  const name = multiple ? plural(modelName) : singular(modelName);
+  return camelize(capitalize(`${opType} ${capitalize(name)} ${inputObjectType}`));
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getOperationNameFromModel = function ({ modelName, operation: { opType, multiple } }) {
+const getOperationName = function ({ modelName, operation: { opType, multiple } }) {
   const model = multiple ? plural(modelName) : singular(modelName);
   return camelize(`${opType} ${model}`);
 };
@@ -20,5 +22,5 @@ const getOperationNameFromModel = function ({ modelName, operation: { opType, mu
 
 module.exports = {
   getTypeName,
-  getOperationNameFromModel,
+  getOperationName,
 };

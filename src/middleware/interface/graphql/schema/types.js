@@ -13,11 +13,12 @@ const {
 } = require('graphql');
 const { chain, omit, pick, defaults } = require('lodash');
 const { stringify } = require('circular-json');
+const uuidv4 = require('uuid/v4');
 
-const { GeneralCache } = require('../../../../utilities');
 const { EngineError } = require('../../../../error');
+const { memoize } = require('../../../../utilities');
 const { getTypeName } = require('./name');
-const { isMultiple, getSubDef, getModelName, isModel, getSubDefProp } = require('./utilities');
+const { isMultiple, getSubDef, isModel, getSubDefProp } = require('./utilities');
 const { getArguments } = require('./arguments');
 
 
@@ -79,43 +80,29 @@ const graphQLArrayTypeGetter = function (def, opts) {
   return type;
 };
 
-// Done so that children can get a cached reference of parent type, while avoiding infinite recursion
-// Only cache schemas that have a model name, because they are the only one that can recurse
-// Namespace by operation, because operations can have slightly different types
-const cache = new GeneralCache();
-const memoizeObjectType = function (func) {
-  return (def, opts) => {
-    const modelName = getModelName(def);
-    let key;
-    if (modelName) {
-      key = `${modelName}/${stringify(pick(opts, ['opType', 'multiple', 'inputObjectType']))}`;
-      if (cache.exists(key)) {
-        return cache.get(key);
-      }
-    }
-
-    const type = func(def, opts);
-    if (key) {
-      cache.set(key, type);
-    }
-    return type;
-  };
+/**
+ * Memoize object type constructor in order to infinite recursion.
+ * We use the type name, i.e.:
+ *  - type name must differ everytime type might differ
+ *  - in particular, at the moment, type name differ when inputObjectType, opType or multiple changes
+ * We also namespace with a UUID which is unique for each new call to `getSchema()`, to avoid leaking
+ **/
+const objectTypeSerializer = function ([ def, opts ]) {
+  const typeName = getTypeName({ def, opts });
+  opts.schemaId = opts.schemaId || uuidv4();
+  return `${opts.schemaId}/${typeName}`;
 };
 
 // Object field typeGetter
-const graphQLObjectTypeGetter = memoizeObjectType(function (def, opts) {
-  const { inputObjectType, opType, multiple, methodName } = opts;
-  // Top-level methods do not have `def.model`
-  const modelName = def.model || methodName;
-  const name = getTypeName({ operation: { opType, multiple }, modelName, inputObjectType, methodName });
-
+const graphQLObjectTypeGetter = memoize(function (def, opts) {
+  const name = getTypeName({ def, opts });
   const description = getSubDefProp(def, 'description');
-	const constructor = inputObjectType !== '' ? GraphQLInputObjectType : GraphQLObjectType;
+	const constructor = opts.inputObjectType !== '' ? GraphQLInputObjectType : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
 
   const type = new constructor({ name, description, fields });
   return type;
-});
+}, { serializer: objectTypeSerializer });
 
 const filterOpTypes = ['find', 'delete', 'update'];
 // Retrieve the fields of an object, using IDL definition
