@@ -10,6 +10,9 @@ const {
 
 // Retrieves all resolver arguments, before resolve function is fired
 const getArguments = function (def, opts) {
+  // We need to remove `isRequired`, as arguments need to be assigned to top-level modifier,
+  // which can be NonNull modifier (where `isRequired` === true), but do not want to pass it to argument types
+  opts = Object.assign(opts, { isRequired: false });
 	// Builds inputObject types
   const multiple = opts.operation.multiple;
 	const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });
