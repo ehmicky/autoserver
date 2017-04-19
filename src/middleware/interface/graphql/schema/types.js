@@ -18,7 +18,7 @@ const uuidv4 = require('uuid/v4');
 const { EngineError } = require('../../../../error');
 const { memoize } = require('../../../../utilities');
 const { getTypeName } = require('./name');
-const { getSubDef, isModel } = require('./utilities');
+const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
 
 
@@ -128,20 +128,14 @@ const getObjectFields = function (def, opts) {
       const subDef = getSubDef(childDef);
       if (!(isModel(subDef) && inputObjectType !== '')) { return childDef; }
 
-      const multiple = childDef.operation.multiple;
-
       // Retrieves `id` field definition of subfield
       const nonRecursiveAttrs = ['description', 'deprecation_reason'];
       const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
+      // Consider this attribute as a normal attribute, not a model anymore
+      delete idDef.model;
 
       // Assign `id` field definition to e.g. `model.user`
-      const idsDef = multiple ? Object.assign({}, childDef, { items: idDef }) : idDef;
-
-      // Consider this attribute as a normal attribute, not a model anymore
-      const subIdsDef = getSubDef(idsDef);
-      delete subIdsDef.model;
-
-      return idsDef;
+      return isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
     })
 		// Recurse over children
 		.mapValues((childDef, childDefName) => {
