@@ -18,7 +18,7 @@ const uuidv4 = require('uuid/v4');
 const { EngineError } = require('../../../../error');
 const { memoize } = require('../../../../utilities');
 const { getTypeName } = require('./name');
-const { getSubDef, isModel, isShallowModel } = require('./utilities');
+const { getSubDef, isModel } = require('./utilities');
 const { getArguments } = require('./arguments');
 
 
@@ -50,7 +50,7 @@ const getField = function (def, opts) {
 	// Only for models, and not for argument types
   let args;
   const subDef = getSubDef(def);
-  if (isShallowModel(subDef) && opts.inputObjectType === '') {
+  if (isModel(subDef) && opts.inputObjectType === '') {
     args = getArguments(subDef, Object.assign(opts, { getType, isRequired: false }));
   }
 
@@ -113,20 +113,21 @@ const getObjectFields = function (def, opts) {
   const { opType, multiple } = operation;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
-		.omitBy((childDef, childDefName) =>
+		.omitBy((childDef, childDefName) => {
+      const subDef = getSubDef(childDef);
       // Remove all return value fields for delete operations, except the recursive ones and `id`
       // And except for inputObject, since we use it to get the delete filters
-      (opType === 'delete' && !isModel(childDef) && childDefName !== 'id' && inputObjectType !== 'filter')
-      // Create operations do not include data.id
-      || (opType === 'create' && childDefName === 'id' && inputObjectType === 'data')
-      // Filter inputObjects for single operations only include `id`
-      || (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
-    )
+      return (opType === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
+        // Create operations do not include data.id
+        || (opType === 'create' && childDefName === 'id' && inputObjectType === 'data')
+        // Filter inputObjects for single operations only include `id`
+        || (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple);
+    })
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     .mapValues(childDef => {
-      if (!(isModel(childDef) && inputObjectType !== '')) { return childDef; }
-
       const subDef = getSubDef(childDef);
+      if (!(isModel(subDef) && inputObjectType !== '')) { return childDef; }
+
       const multiple = childDef.operation.multiple;
 
       // Retrieves `id` field definition of subfield
@@ -137,11 +138,8 @@ const getObjectFields = function (def, opts) {
       const idsDef = multiple ? Object.assign({}, childDef, { items: idDef }) : idDef;
 
       // Consider this attribute as a normal attribute, not a model anymore
-      if (multiple) {
-        delete idsDef.items.model;
-      } else {
-        delete idsDef.model;
-      }
+      const subIdsDef = getSubDef(idsDef);
+      delete subIdsDef.model;
 
       return idsDef;
     })
