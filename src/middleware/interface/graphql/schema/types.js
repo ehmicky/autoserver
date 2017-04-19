@@ -108,7 +108,8 @@ const graphQLObjectTypeGetter = memoize(function (def, opts) {
 // const filterOpTypes = ['find', 'delete', 'update'];
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
-  const { opType/*, multiple*/, inputObjectType } = opts;
+  const { operation = {}/*, multiple*/, inputObjectType } = opts;
+  const { opType } = operation;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
 		.omitBy((childDef, childDefName) =>
@@ -132,14 +133,23 @@ const getObjectFields = function (def, opts) {
 
       // Assign `id` field definition to e.g. `model.user`
       const idsDef = isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
+
+      // Consider this attribute as a normal attribute, not a model anymore
+      if (isMultiple(childDef)) {
+        delete idsDef.items.model;
+      } else {
+        delete idsDef.model;
+      }
+
       return idsDef;
     })
 		// Recurse over children
 		.mapValues((childDef, childDefName) => {
 			// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
-      const childOpType = opType || childDef.opType;
+      const childOperation = childDef.operation || operation;
+
       const isRequired = def.required instanceof Array && def.required.includes(childDefName);
-      const childOpts = Object.assign({}, opts, { isRequired, opType: childOpType });
+      const childOpts = Object.assign({}, opts, { isRequired, operation: childOperation });
 
 			const field = getField(childDef, childOpts);
       return field;
@@ -147,7 +157,7 @@ const getObjectFields = function (def, opts) {
 		.value();
 };
 
-const canRequireAttributes = function (def, { opType, inputObjectType }) {
+const canRequireAttributes = function (def, { operation: { opType } = {}, inputObjectType }) {
   // Update operation does not require any attribute in input object
 	return !(opType === 'update' && inputObjectType === 'data')
     // Query inputObjects do not require any attribute, except filter.id for single operations

@@ -53,7 +53,7 @@ Specify ascending or descending order by appending + or - (default is ascending)
 // Data argument, i.e. payload used by mutation operations
 const dataOpTypes = ['create', 'upsert', 'replace', 'update'];
 const multipleDataOpTypes = ['create', 'upsert', 'replace'];
-const getDataArgument = function ({ multiple, opType, dataObjectType }) {
+const getDataArgument = function ({ multiple, operation: { opType } = {}, dataObjectType }) {
 	// Only for mutation operations, but not delete
 	if (!dataOpTypes.includes(opType)) { return; }
 
@@ -77,7 +77,7 @@ const getDataArgument = function ({ multiple, opType, dataObjectType }) {
 
 // Filters argument, i.e. only queries entities that match specified attributes
 const filterOpTypes = ['find', 'delete', 'update'];
-const getFilterArgument = function ({ multiple, opType, filterObjectType }) {
+const getFilterArgument = function ({ multiple, operation: { opType } = {}, filterObjectType }) {
   if (!filterOpTypes.includes(opType)) { return; }
   const type = multiple ? filterObjectType : new GraphQLNonNull(filterObjectType);
   return {

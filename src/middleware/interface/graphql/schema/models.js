@@ -3,7 +3,7 @@
 
 const { chain, merge, assign } = require('lodash');
 const { getOperationName } = require('./name');
-const { getSubDefProp } = require('./utilities');
+const { getSubDefProp, isModel, isMultiple } = require('./utilities');
 const { operations } = require('../../../../idl');
 
 
@@ -27,13 +27,26 @@ const getModelsByMethod = function (methodName, { idl: { models } }) {
       // This will be used as the top-level methods names
       .mapKeys((_, modelName) => getOperationName({ modelName, operation }))
       .mapValues(model => {
+        // Deep copy
+        let modelCopy = merge({}, model);
+
+        // Add operation information to the nested models
+        const properties = chain(model.properties)
+          .pickBy(prop => isModel(prop))
+          .mapValues(subModel => {
+            const subOperation = Object.assign({}, operation, { multiple: isMultiple(subModel) });
+            return Object.assign({}, subModel, { operation: subOperation });
+          })
+          .value();
+        merge(modelCopy, { properties });
+
         // Wrap in array if operation is multiple
         if (operation.multiple) {
-          model = { type: 'array', items: model };
+          modelCopy = { type: 'array', items: modelCopy };
         }
 
-        // Add operation information to the definition
-        const modelCopy = merge({}, model, { opType: operation.opType });
+        // Add operation information to the top-level model
+        Object.assign(modelCopy, { operation });
         return modelCopy;
       })
       .value()
