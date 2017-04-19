@@ -13,7 +13,7 @@ const getArguments = function (def, opts) {
   return Object.assign(
     {},
 		getDataArgument(opts),
-		getFilterArgument(opts),
+		getFilterArgument(def, opts),
     getOrderArgument(opts)
   );
 };
@@ -60,8 +60,9 @@ const getDataArgument = function ({ operation: { opType, multiple } = {}, dataOb
 
 // Filters argument, i.e. only queries entities that match specified attributes
 const filterOpTypes = ['find', 'delete', 'update'];
-const getFilterArgument = function ({ operation: { opType, multiple } = {}, filterObjectType }) {
-  if (!filterOpTypes.includes(opType)) { return; }
+const getFilterArgument = function (def, { operation: { opType, multiple } = {}, filterObjectType }) {
+  // Nested queries for findOne|deleteOne|updateOne do not use filters, as it is implied from parent return value
+  if (!filterOpTypes.includes(opType) || (!def.isTopLevel && !multiple)) { return; }
   const type = multiple ? filterObjectType : new GraphQLNonNull(filterObjectType);
   return {
     filter: {
