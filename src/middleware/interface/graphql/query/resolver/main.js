@@ -25,7 +25,7 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   // Retrieve main input passed to database layer
   const { multiple, modelName, opType, directReturn } = subResolver({ name, modelsMap, parent, args });
   // Shortcuts resolver if we already know the final result
-  if (directReturn) { return directReturn; }
+  if (directReturn !== undefined) { return directReturn; }
 
   // Retrieve operation name, passed to database layer
   const { name: operation } = operations.find(op => op.multiple === multiple && op.opType === opType) || {};
