@@ -71,12 +71,6 @@ const transforms = [
 
       return { required };
     },
-
-    // Some operations require filter.id to be an array
-    id({ value, operation, type }) {
-      if (type !== 'clientInputData' || !multipleIdInputOperations.includes(operation)) { return; }
-      return { id: { type: 'array', items: value } };
-    },
   },
 
   {
@@ -87,6 +81,14 @@ const transforms = [
       const idProp = parent.properties.id;
       const removeParentProps = mapValues(parent, () => undefined);
       return Object.assign(removeParentProps, idProp);
+    },
+  },
+
+  {
+    // Some operations require filter.id to be an array
+    id({ value, operation, type }) {
+      if (!(type === 'clientInputData' && multipleIdInputOperations.includes(operation))) { return; }
+      return { id: { type: 'array', items: value } };
     },
   },
 ];
