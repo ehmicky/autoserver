@@ -75,7 +75,7 @@ const graphQLRequiredTypeGetter = function (def, opts) {
 // Array field typeGetter
 const graphQLArrayTypeGetter = function (def, opts) {
   const subDef = getSubDef(def);
-  opts = Object.assign({}, opts, { multiple: true, isRequired: false });
+  opts = Object.assign({}, opts, { isRequired: false });
   const subType = getType(subDef, opts);
   const type = new GraphQLList(subType);
   return type;
@@ -105,10 +105,10 @@ const graphQLObjectTypeGetter = memoize(function (def, opts) {
   return type;
 }, { serializer: objectTypeSerializer });
 
-const filterOpTypes = ['find', 'delete', 'update'];
+// const filterOpTypes = ['find', 'delete', 'update'];
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
-  const { opType, multiple, inputObjectType } = opts;
+  const { opType/*, multiple*/, inputObjectType } = opts;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
 		.omitBy((childDef, childDefName) =>
@@ -118,7 +118,7 @@ const getObjectFields = function (def, opts) {
       // Create operations do not include data.id
       || (opType === 'create' && childDefName === 'id' && inputObjectType === 'data')
       // Filter inputObjects for single operations only include `id`
-      || (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
+      //|| (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
     )
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     .mapValues(childDef => {
@@ -139,7 +139,7 @@ const getObjectFields = function (def, opts) {
 			// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
       const childOpType = opType || childDef.opType;
       const isRequired = def.required instanceof Array && def.required.includes(childDefName);
-      const childOpts = Object.assign({}, opts, { multiple: false, isRequired, opType: childOpType });
+      const childOpts = Object.assign({}, opts, { isRequired, opType: childOpType });
 
 			const field = getField(childDef, childOpts);
       return field;
