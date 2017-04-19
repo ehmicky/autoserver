@@ -42,7 +42,6 @@ const getField = function (def, opts) {
 
   const type = typeGetter.value(def, opts);
 
-  // The following fields are type-agnostic, so are not inside `typeGetter.value()`
   // Fields description|deprecation_reason are taken from IDL definition
   const description = def.description;
   const deprecationReason = def.deprecated;
