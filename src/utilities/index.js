@@ -18,5 +18,6 @@ module.exports = Object.assign(
   require('./ref_parser'),
   require('./fs'),
   require('./yaml'),
+  require('./stringify'),
   require('./debugging')
 );

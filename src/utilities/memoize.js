@@ -2,7 +2,7 @@
 
 
 const fastMemoize = require('fast-memoize');
-const { stringify } = require('circular-json');
+const { stringify } = require('./stringify');
 
 
 const memoize = (func, { serializer = stringify } = {}) => fastMemoize(func, { serializer });

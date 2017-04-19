@@ -12,11 +12,10 @@ const {
   GraphQLNonNull,
 } = require('graphql');
 const { chain, omit, pick } = require('lodash');
-const { stringify } = require('circular-json');
 const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../../error');
-const { memoize } = require('../../../../utilities');
+const { memoize, stringify } = require('../../../../utilities');
 const { getTypeName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
