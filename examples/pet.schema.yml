@@ -180,7 +180,7 @@ models:
 #      - in all operations. Never required
 #      - must be a comma-separated list of attributes, optionally prefixed by + or -, e.g. 'name-,id'
 #      - orders server response according to the specified attributes. Default order is +, i.e. ascending
-operations: [find, create, replace, update, upsert, deleteOne]
+operations: [find, create, replace, update, upsert, delete]
 # No specific semantics, but can be used by $ref
 definitions:
   dummyDefinition:

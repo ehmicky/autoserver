@@ -7,13 +7,13 @@ const {
   GraphQLList,
 } = require('graphql');
 
-const { isMultiple, getSubDef } = require('./utilities');
+const { getSubDef } = require('./utilities');
 
 
 // Retrieves all resolver arguments, before resolve function is fired
 const getArguments = function (def, opts) {
 	// Builds inputObject types
-  const multiple = isMultiple(def);
+  const multiple = opts.operation.multiple;
   const subDef = getSubDef(def);
 	const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });
 	const dataObjectType = opts.getType(subDef, dataObjectOpts);

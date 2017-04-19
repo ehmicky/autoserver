@@ -17,8 +17,13 @@ const getSubDefProp = function (def, propName) {
 };
 
 // Checks whether the definition is associated with a model
+const isShallowModel = function (def) {
+  return def.model !== undefined;
+};
+
+// Checks whether the definition is deeply associated with a model
 const isModel = function (def) {
-  return getSubDef(def).model !== undefined;
+  return isShallowModel(getSubDef(def));
 };
 
 
@@ -27,4 +32,5 @@ module.exports = {
   getSubDef,
   getSubDefProp,
   isModel,
+  isShallowModel,
 };

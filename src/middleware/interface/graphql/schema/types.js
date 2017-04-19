@@ -18,7 +18,7 @@ const uuidv4 = require('uuid/v4');
 const { EngineError } = require('../../../../error');
 const { memoize } = require('../../../../utilities');
 const { getTypeName } = require('./name');
-const { isMultiple, getSubDef, isModel, getSubDefProp } = require('./utilities');
+const { getSubDef, isModel, getSubDefProp } = require('./utilities');
 const { getArguments } = require('./arguments');
 
 
@@ -47,7 +47,7 @@ const getField = function (def, opts) {
   const description = getSubDefProp(def, 'description');
   const deprecationReason = getSubDefProp(def, 'deprecated');
 
-	// Only for top-level models, and not for argument types
+	// Only for models, and not for argument types
   let args;
   if (isModel(def) && opts.inputObjectType === '') {
     args = getArguments(def, Object.assign(opts, { getType, isRequired: false }));
@@ -105,11 +105,11 @@ const graphQLObjectTypeGetter = memoize(function (def, opts) {
   return type;
 }, { serializer: objectTypeSerializer });
 
-// const filterOpTypes = ['find', 'delete', 'update'];
+const filterOpTypes = ['find', 'delete', 'update'];
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
-  const { operation = {}/*, multiple*/, inputObjectType } = opts;
-  const { opType } = operation;
+  const { operation = {}, inputObjectType } = opts;
+  const { opType, multiple } = operation;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
 		.omitBy((childDef, childDefName) =>
@@ -119,23 +119,24 @@ const getObjectFields = function (def, opts) {
       // Create operations do not include data.id
       || (opType === 'create' && childDefName === 'id' && inputObjectType === 'data')
       // Filter inputObjects for single operations only include `id`
-      //|| (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
+      || (filterOpTypes.includes(opType) && childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
     )
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     .mapValues(childDef => {
       if (!isModel(childDef) || inputObjectType === '') { return childDef; }
 
       const subDef = getSubDef(childDef);
+      const multiple = childDef.operation.multiple;
 
       // Retrieves `id` field definition of subfield
       const nonRecursiveAttrs = ['description', 'deprecation_reason'];
       const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
 
       // Assign `id` field definition to e.g. `model.user`
-      const idsDef = isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
+      const idsDef = multiple ? Object.assign({}, childDef, { items: idDef }) : idDef;
 
       // Consider this attribute as a normal attribute, not a model anymore
-      if (isMultiple(childDef)) {
+      if (multiple) {
         delete idsDef.items.model;
       } else {
         delete idsDef.model;
