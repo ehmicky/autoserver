@@ -40,17 +40,16 @@ const getField = function (def, opts) {
     });
   }
 
-  const { type } = fieldGetter.value(def, opts);
+  let { type, args } = fieldGetter.value(def, opts);
 
   // Fields description|deprecation_reason are taken from IDL definition
   const description = def.description;
   const deprecationReason = def.deprecated;
 
 	// Only for models, and not for argument types
-  let args;
-  const subDef = getSubDef(def);
-  if (isModel(subDef) && opts.inputObjectType === '') {
-    args = getArguments(subDef, Object.assign(opts, { getType }));
+  // Modifiers (Array and NonNull) retrieve their arguments from underlying type (i.e. `args` is already defined)
+  if (isModel(def) && opts.inputObjectType === '' && !args) {
+    args = getArguments(def, Object.assign(opts, { getType }));
   }
 
   // Can only assign default if fields are optional in input, but required by database
@@ -67,17 +66,17 @@ const getField = function (def, opts) {
 const graphQLRequiredFieldGetter = function (def, opts) {
   // Goal is to avoid infinite recursion, i.e. without modification the same graphQLFieldGetter would be hit again
   opts = Object.assign({}, opts, { isRequired: false });
-  const subType = getType(def, opts);
+  const { type: subType, args } = getField(def, opts);
   const type = new GraphQLNonNull(subType);
-  return { type };
+  return { type, args };
 };
 
 // Array field FieldGetter
 const graphQLArrayFieldGetter = function (def, opts) {
   const subDef = getSubDef(def);
-  const subType = getType(subDef, opts);
+  const { type: subType, args } = getField(subDef, opts);
   const type = new GraphQLList(subType);
-  return { type };
+  return { type, args };
 };
 
 /**
