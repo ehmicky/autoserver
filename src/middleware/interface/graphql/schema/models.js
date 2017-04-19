@@ -1,9 +1,9 @@
 'use strict';
 
 
-const { chain, merge, assign } = require('lodash');
+const { chain, merge, assign, mapValues } = require('lodash');
 const { getOperationName } = require('./name');
-const { isModel, isMultiple } = require('./utilities');
+const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { operations } = require('../../../../idl');
 
 
@@ -31,13 +31,14 @@ const getModelsByMethod = function (methodName, { idl: { models } }) {
         let modelCopy = merge({}, model);
 
         // Add operation information to the nested models
-        const properties = chain(model.properties)
-          .pickBy(prop => isModel(prop))
-          .mapValues(subModel => {
-            const subOperation = Object.assign({}, operation, { multiple: isMultiple(subModel) });
-            return Object.assign({}, subModel, { operation: subOperation });
-          })
-          .value();
+        const properties = mapValues(model.properties, def => {
+          const subDef = getSubDef(def);
+          if (!isModel(subDef)) { return def; }
+
+          const multiple = isMultiple(def);
+          const subOperation = Object.assign({}, operation, { multiple });
+          return Object.assign({}, def, { operation: subOperation });
+        });
         merge(modelCopy, { properties });
 
         // Wrap in array if operation is multiple
