@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { chain, merge, map } = require('lodash');
+const { chain, merge, assign } = require('lodash');
 const { getOperationName } = require('./name');
 const { getSubDefProp } = require('./utilities');
 const { operations } = require('../../../../idl');
@@ -14,37 +14,41 @@ const graphqlOperations = {
 };
 
 // Retrieve models for a given method
-const getModelsByMethod = function (methodName, opts) {
+const getModelsByMethod = function (methodName, { idl: { models } }) {
+  // Iterate through each operation
   return chain(operations)
+    // Only include operations for a given GraphQL method
     .filter(operation => graphqlOperations[methodName].includes(operation.opType))
-		.map(operation => getModelsByOperation(operation, opts))
-    .flatten()
-		.filter(model => isAllowedModel(model))
-    // Transform [{ modelName: 'my_model', operation: { opType: 'find', multiple: true }, ... }] into { findMyModel: { ... } }
-    .mapKeys(({ modelName, operation }) => getOperationName({ modelName, operation }))
-    // Cleanup
-    .mapValues(model => Object.assign(model, { modelName: undefined }))
+    // Iterate through each model
+		.mapValues(operation => chain(models)
+      // Remove model that are not allowed for a given operation
+      .pickBy(model => isAllowedModel({ model, operation }))
+      // Modify object key to include operation information, e.g. 'my_model' + 'findMany' -> 'findMyModels'
+      // This will be used as the top-level methods names
+      .mapKeys((_, modelName) => getOperationName({ modelName, operation }))
+      .mapValues(model => {
+        // Wrap in array if operation is multiple
+        if (operation.multiple) {
+          model = { type: 'array', items: model };
+        }
+
+        // Add operation information to the definition
+        const modelCopy = merge({}, model, { opType: operation.opType });
+        return modelCopy;
+      })
+      .value()
+    )
+    // Turn [{...}, {...}, {...}] into {... ... ...}
+    .reduce(assign)
     .value();
 };
 
-// Retrieve models for a given operation
-const getModelsByOperation = function (operation, { idl: { models } }) {
-  return map(models, (model, modelName) => {
-    if (operation.multiple) {
-      model = { type: 'array', items: model };
-    }
-
-    const modelCopy = merge({}, model, { operation, modelName });
-    return modelCopy;
-  });
-};
-
 // Filter allowed operations on a given model
-const isAllowedModel = function (model) {
+const isAllowedModel = function ({ model, operation }) {
   // IDL property `def.operations` allows whitelisting specific operations
   const modelOperations = getSubDefProp(model, 'operations');
   // Check whether model operation is whitelisted
-  return modelOperations.includes(model.operation.name);
+  return modelOperations.includes(operation.name);
 };
 
 
