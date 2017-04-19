@@ -115,12 +115,21 @@ const getObjectFields = function (def, opts) {
 		.omitBy((childDef, childDefName) => {
       const subDef = getSubDef(childDef);
       // Remove all return value fields for delete operations, except the recursive ones and `id`
-      // And except for inputObject, since we use it to get the delete filters
+      // And except for delete filters
       return (opType === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
-        // Create operations do not include data.id
-        || (opType === 'create' && childDefName === 'id' && inputObjectType === 'data')
-        // Filter inputObjects for single operations only include `id`
-        || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple);
+        // Filter arguments for single operations only include `id`
+        || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
+        // Nested data arguments do not include `id`
+        || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel);
+    })
+    .mapValues((childDef, childDefName) => {
+      // filter.id should be an array for *Many operations
+      if (childDefName === 'id' && inputObjectType === 'filter' && multiple) {
+        const { description, deprecation_reason } = childDef;
+        return { type: 'array', items: childDef, description, deprecation_reason };
+      } else {
+        return childDef;
+      }
     })
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     .mapValues(childDef => {
