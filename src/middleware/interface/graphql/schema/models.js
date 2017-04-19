@@ -18,7 +18,7 @@ const getModelsByMethod = function (methodName, { idl: { models } }) {
   // Iterate through each operation
   return chain(operations)
     // Only include operations for a given GraphQL method
-    .filter(operation => graphqlOperations[methodName].includes(operation.opType))
+    .filter(({ opType }) => graphqlOperations[methodName].includes(opType))
     // Iterate through each model
 		.mapValues(operation => chain(models)
       // Remove model that are not allowed for a given operation

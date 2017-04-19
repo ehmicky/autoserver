@@ -15,9 +15,9 @@ const getArguments = function (def, opts) {
 	// Builds inputObject types
   const multiple = isMultiple(def);
   const subDef = getSubDef(def);
-	const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data', multiple });
+	const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });
 	const dataObjectType = opts.getType(subDef, dataObjectOpts);
-	const filterObjectOpts = Object.assign({}, opts, { inputObjectType: 'filter', multiple });
+	const filterObjectOpts = Object.assign({}, opts, { inputObjectType: 'filter' });
   const filterObjectType = opts.getType(subDef, filterObjectOpts);
 
   opts = Object.assign({}, opts, {
