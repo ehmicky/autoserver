@@ -11,7 +11,7 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { chain, omit, pick, defaults } = require('lodash');
+const { chain, omit, pick } = require('lodash');
 const { stringify } = require('circular-json');
 const uuidv4 = require('uuid/v4');
 
@@ -41,24 +41,25 @@ const getField = function (def, opts) {
   }
 
   const type = typeGetter.value(def, opts);
-  const field = { type };
 
   // The following fields are type-agnostic, so are not inside `typeGetter.value()`
   // Fields description|deprecation_reason are taken from IDL definition
   const description = getSubDefProp(def, 'description');
   const deprecationReason = getSubDefProp(def, 'deprecated');
-  Object.assign(field, defaults({ description, deprecationReason }, field));
 
 	// Only for top-level models, and not for argument types
+  let args;
   if (isModel(def) && opts.inputObjectType === '') {
-    field.args = getArguments(def, Object.assign(opts, { getType, isRequired: false }));
+    args = getArguments(def, Object.assign(opts, { getType, isRequired: false }));
   }
 
   // Can only assign default if fields are optional in input, but required by database
-  if (canRequireAttributes(def, opts) && !opts.isRequired && opts.inputObjectType === 'data' && def.default !== undefined) {
-    defaults(field, { defaultValue: def.default });
+  let defaultValue;
+  if (canRequireAttributes(def, opts) && !opts.isRequired && opts.inputObjectType === 'data') {
+    defaultValue = def.default;
   }
 
+  const field = { type, description, deprecationReason, args, defaultValue };
   return field;
 };
 
