@@ -23,7 +23,7 @@ const { getArguments } = require('./arguments');
 
 
 // Retrieves the GraphQL type for a given IDL definition
-const getType = function (def, opts) {
+const getType = function (def, opts = {}) {
   return getField(def, opts).type;
 };
 

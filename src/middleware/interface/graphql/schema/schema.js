@@ -7,6 +7,7 @@ const { mapValues } = require('lodash');
 const { memoize } = require('../../../../utilities');
 const { getType } = require('./types');
 const { getModelsByMethod } = require('./models');
+const { nameSym } = require('./name');
 
 
 // Returns GraphQL schema
@@ -16,7 +17,7 @@ const getSchema = memoize(function ({ idl }) {
     // Adds query|mutation.properties
     def.properties = getModelsByMethod(methodName, { idl });
     // Returns query|mutation type
-    return getType(def, { methodName });
+    return getType(def);
   });
 
   const schema = new GraphQLSchema(schemaFields);
@@ -27,10 +28,12 @@ const rootDef = {
   query: {
     type: 'object',
     description: 'Fetches information about different entities',
+    [nameSym]: 'Query',
   },
   mutation: {
     type: 'object',
     description: 'Modifies information about different entities',
+    [nameSym]: 'Mutation',
   },
 };
 
