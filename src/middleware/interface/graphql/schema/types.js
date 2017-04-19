@@ -50,7 +50,7 @@ const getField = function (def, opts) {
   let args;
   const subDef = getSubDef(def);
   if (isModel(subDef) && opts.inputObjectType === '') {
-    args = getArguments(subDef, Object.assign(opts, { getType, isRequired: false }));
+    args = getArguments(subDef, Object.assign(opts, { getType }));
   }
 
   // Can only assign default if fields are optional in input, but required by database
@@ -75,7 +75,6 @@ const graphQLRequiredTypeGetter = function (def, opts) {
 // Array field typeGetter
 const graphQLArrayTypeGetter = function (def, opts) {
   const subDef = getSubDef(def);
-  opts = Object.assign({}, opts, { isRequired: false });
   const subType = getType(subDef, opts);
   const type = new GraphQLList(subType);
   return type;
@@ -146,9 +145,10 @@ const getObjectFields = function (def, opts) {
 		.mapValues((childDef, childDefName) => {
 			// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
       const childOperation = childDef.operation || operation;
+      const childOpts = Object.assign({}, opts, { operation: childOperation });
 
-      const isRequired = def.required instanceof Array && def.required.includes(childDefName);
-      const childOpts = Object.assign({}, opts, { isRequired, operation: childOperation });
+      childOpts.isRequired = def.required instanceof Array && def.required.includes(childDefName)
+        && canRequireAttributes(childDef, childOpts);
 
 			const field = getField(childDef, childOpts);
       return field;
@@ -171,7 +171,7 @@ const graphQLTypeGetters = [
 
 	// "Required" modifier type
   {
-    condition: (def, opts) => opts.isRequired && canRequireAttributes(def, opts),
+    condition: (def, opts) => opts.isRequired,
     value: graphQLRequiredTypeGetter,
   },
 
