@@ -124,7 +124,7 @@ const getObjectFields = function (def, opts) {
     )
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     .mapValues(childDef => {
-      if (!isModel(childDef) || inputObjectType === '') { return childDef; }
+      if (!(isModel(childDef) && inputObjectType !== '')) { return childDef; }
 
       const subDef = getSubDef(childDef);
       const multiple = childDef.operation.multiple;
