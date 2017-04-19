@@ -14,7 +14,7 @@ const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
   const model = modelsMap[parentModel] && modelsMap[parentModel][name];
   // If it is a normal attribute which just returns its parent value
   if (!model) {
-    return { directReturn: parent[name] };
+    return { directReturn: parent[name] === undefined ? null : parent[name] };
   }
   const { multiple, model: modelName } = model;
 
