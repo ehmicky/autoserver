@@ -142,8 +142,11 @@ const getObjectFields = function (def, opts) {
       const childOperation = childDef.operation || operation;
       const childOpts = Object.assign({}, opts, { operation: childOperation });
 
-      childOpts.isRequired = def.required instanceof Array && def.required.includes(childDefName)
-        && canRequireAttributes(childDef, childOpts);
+      childOpts.isRequired =
+        // When user declared an attribute as required
+        (def.required instanceof Array && def.required.includes(childDefName) && canRequireAttributes(childDef, childOpts))
+        // Filter inputObjects `id` attribute is always required
+        || (childDefName === 'id' && inputObjectType === 'filter' && !multiple);
 
 			const field = getField(childDef, childOpts);
       return field;
