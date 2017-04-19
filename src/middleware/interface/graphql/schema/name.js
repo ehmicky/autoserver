@@ -4,16 +4,14 @@
 const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
-const { isMultiple } = require('./utilities');
-
 
 const nameSym = Symbol('modelName');
 // Returns type name, titleized with operation prepended, in singular form, e.g. `FindPet`, for schema type name
-const getTypeName = function ({ def, opts: { inputObjectType, opType = '' } }) {
+const getTypeName = function ({ def, opts: { inputObjectType, operation: { opType = '', multiple } = {} } }) {
   const { model, [nameSym]: modelName } = def;
   // Top-level methods do not have `def.model`, so use def[nameSym] instead
   const actualModel = model || modelName;
-  const name = isMultiple(def) ? plural(actualModel) : singular(actualModel);
+  const name = multiple ? plural(actualModel) : singular(actualModel);
   return camelize(capitalize(`${opType} ${name} ${inputObjectType}`));
 };
 
