@@ -120,8 +120,7 @@ const getObjectFields = function (def, opts) {
         // Create operations do not include data.id
         || (opType === 'create' && childDefName === 'id' && inputObjectType === 'data')
         // Filter inputObjects for single operations only include `id`
-        || (['find', 'delete', 'update'].includes(opType) && childDefName !== 'id' && inputObjectType === 'filter'
-          && !multiple);
+        || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple);
     })
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     .mapValues(childDef => {
