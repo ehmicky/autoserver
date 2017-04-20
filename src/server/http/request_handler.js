@@ -15,7 +15,7 @@ const httpRequestHandler = async function (opts) {
       const response = await startFunc({ req, res, info });
       return response;
     } catch (exception) {
-      sendErrorFunc({ exception, input: { req, res }, protocol: info.protocol, interface: info.interface });
+      sendErrorFunc({ exception, input: { req, res }, info });
     }
   };
 };

@@ -3,7 +3,7 @@
 
 const { STATUS_CODES } = require('http');
 
-const { httpBody } = require('../../../parsing');
+const { httpBody } = require('../../../../parsing');
 
 
 const sendError = function ({ error, input: { res } }) {
@@ -38,7 +38,9 @@ const createError = function ({ error, protocolError: httpError }) {
 
 
 module.exports = {
-  sendError,
-  getRequestUrl,
-  createError,
+  http: {
+    sendError,
+    getRequestUrl,
+    createError,
+  },
 };
