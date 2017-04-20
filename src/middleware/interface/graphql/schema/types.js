@@ -134,6 +134,10 @@ const getObjectFields = function (def, opts) {
       if (inputObjectType === '') {
         const name = getOperationName({ modelName: childDefName, opType });
         memo[name] = childDef;
+        // Add transformed name to `required` array, if non-transformed name was present
+        if (def.required instanceof Array && def.required.includes(childDefName) && !def.required.includes(name)) {
+          def.required.push(name);
+        }
       }
 
       // Nested models use the regular name as well, but as simple ids, not recursive definition
