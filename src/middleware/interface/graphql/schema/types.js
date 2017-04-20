@@ -16,7 +16,7 @@ const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../../error');
 const { memoize, stringify } = require('../../../../utilities');
-const { getTypeName } = require('./name');
+const { getTypeName, getOperationName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
 
@@ -131,6 +131,17 @@ const getObjectFields = function (def, opts) {
       } else {
         return childDef;
       }
+    })
+    // Copy nested models with a different name that includes the operation, e.g. `my_attribute` -> `createMyAttribute`
+    .transform((memo, childDef, childDefName) => {
+      const subDef = getSubDef(childDef);
+      if (isModel(subDef) && inputObjectType === '' && !subDef.isTopLevel) {
+        const name = getOperationName({ modelName: childDefName, opType });
+        memo[name] = childDef;
+      }
+
+      memo[childDefName] = childDef;
+      return memo;
     })
     // Model-related fields in input|filter arguments must be simple ids, not recursive definition
     .mapValues(childDef => {

@@ -17,8 +17,8 @@ const getTypeName = function ({ def, opts: { inputObjectType, operation: { opTyp
 };
 
 // Returns operation name, camelized, in plural form, e.g. `findPets` or `deletePets`
-const getOperationName = function ({ modelName, operation: { opType, multiple } }) {
-  const model = multiple ? plural(modelName) : singular(modelName);
+const getOperationName = function ({ modelName, opType, multiple }) {
+  const model = multiple === true ? plural(modelName) : multiple === false ? singular(modelName) : modelName;
   return camelize(`${opType} ${model}`);
 };
 
