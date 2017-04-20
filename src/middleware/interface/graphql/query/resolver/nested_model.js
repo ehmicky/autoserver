@@ -3,22 +3,33 @@
 
 const { intersection } = require('lodash');
 
-const { getParentModel } = require('./utilities');
+const { getParentModel, parseName } = require('./utilities');
+const { attributeResolver } = require('./attribute');
 const { EngineError } = require('../../../../../error');
 
 
 // Resolver for nested model operations
 const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
-  // Looks up at parent value to know what is the current model
-  const { modelName: parentModel, opType } = getParentModel(parent);
-  const model = modelsMap[parentModel] && modelsMap[parentModel][name];
+  const { attrName, opType } = parseName({ name });
   // If it is a normal attribute which just returns its parent value
-  if (!model) {
-    return { directReturn: parent[name] === undefined ? null : parent[name] };
+  if (!attrName || !opType) {
+    return attributeResolver({ parent, name });
   }
+
+  // Retrieves parent model
+  const { modelName: parentModel, opType: parentOpType } = getParentModel(parent);
+  // Retrieves nested model
+  const model = modelsMap[parentModel] && modelsMap[parentModel][attrName];
+
+  // This means tried to do a nested operation that does not exist
+  // Or that nested types have different opType than parent
+  if (!model || parentOpType !== opType) {
+    throw new EngineError(`In ${parentModel} model, attribute ${name} does not exist`, { reason: 'INPUT_VALIDATION' });
+  }
+
   const { multiple, model: modelName } = model;
 
-  const directReturn = addNestedId({ parent, name, multiple, args, opType });
+  const directReturn = addNestedId({ parent, name: attrName, multiple, args, opType });
 
   return { multiple, modelName, opType, directReturn };
 };
