@@ -3,9 +3,7 @@
 
 const { console, isDev } = require('../../utilities');
 const { getErrorInfo } = require('./reasons');
-const errorHandler = {
-  http: require('./http'),
-};
+const protocolErrorHandlers = require('./protocol');
 
 
 /**
@@ -16,22 +14,23 @@ const errorHandler = {
  * @param {object} options.input - protocol-independent request/response object
  * @param {string} options.protocol - e.g. 'http'
  */
-const sendError = () => function ({ exception, input, protocol }) {
+const sendError = () => function ({ exception, input, info: { protocol, interface: interf } }) {
+  const protocolErrorHandler = protocolErrorHandlers[protocol];
   // Retrieves request URL, protocol-specific
-  const requestUrl = errorHandler[protocol].getRequestUrl({ input }) || 'unknown';
+  const requestUrl = protocolErrorHandler.getRequestUrl({ input }) || 'unknown';
   // Retrieves protocol-independent error information, using the thrown exception
   const genericErrorInput = getErrorInfo({ exception });
   const genericError = createError({ exception, error: genericErrorInput, requestUrl });
 
   // Adds protocol-specific error information
   const protocolErrorInput = getErrorInfo({ exception, protocol });
-  const protocolError = errorHandler[protocol].createError({ exception, error: genericError, protocolError: protocolErrorInput });
+  const protocolError = protocolErrorHandler.createError({ exception, error: genericError, protocolError: protocolErrorInput });
 
   // Any custom information
   Object.assign(protocolError, exception.extra);
 
   // Use protocol-specific way to send back the error
-  errorHandler[protocol].sendError({ error: protocolError, input });
+  protocolErrorHandler.sendError({ error: protocolError, input });
   console.error(protocolError);
 };
 
