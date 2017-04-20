@@ -119,8 +119,8 @@ const rules = {
   replaceOne:   { allowed: [],                                      required: ['data', 'data.id']                         },
   replaceMany:  { allowed: ['order_by'],                            required: ['data', 'data.*.id'],
                   dataMultiple: true                                                                                      },
-  createOne:    { allowed: ['data'],                                required: ['data']                                    },
-  createMany:   { allowed: ['data', 'order_by'],                    required: ['data'],
+  createOne:    { allowed: [],                                      required: ['data']                                    },
+  createMany:   { allowed: ['order_by'],                            required: ['data'],
                   dataMultiple: true                                                                                      },
 };
 /* eslint-enable key-spacing, no-multi-spaces */
