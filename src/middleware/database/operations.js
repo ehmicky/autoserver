@@ -2,17 +2,17 @@
 
 /**
  * Summary of operations:
- *   findOne({ filter: { id }, order_by })
+ *   findOne({ filter: { id } })
  *   findMany({ [filter], order_by })
- *   deleteOne({ filter: { id }, order_by })
+ *   deleteOne({ filter: { id } })
  *   deleteMany({ [filter], order_by })
- *   updateOne({ data, filter: { id }, order_by })
+ *   updateOne({ data, filter: { id } })
  *   updateMany({ data, [filter], order_by })
- *   createOne({ data, order_by })
+ *   createOne({ data })
  *   createMany({ data[], order_by })
- *   replaceOne({ data, order_by })
+ *   replaceOne({ data })
  *   replaceMany({ data[], order_by })
- *   upsertOne({ data, order_by })
+ *   upsertOne({ data })
  *   upsertMany({ data[], order_by })
  *
  * Summary of arguments:
