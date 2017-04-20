@@ -8,8 +8,6 @@ const processResponse = function ({ response: { status, error: { description, de
     error: {
       errors: [{
         message: description,
-        // TODO
-        // locations
         stack: details,
         status: errStatus,
         type,
