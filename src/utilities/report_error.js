@@ -107,8 +107,7 @@ const errorMessages = {
   minProperties: ({ params: { limit } }) => ` must have ${limit} or more ${pluralize('property', limit)}`,
   maxProperties: ({ params: { limit } }) => ` must have ${limit} or less ${pluralize('property', limit)}`,
   required: ({ params: { missingProperty } }) => `.${missingProperty} must be defined`,
-  additionalProperties: ({ params: { additionalProperty } }) =>
-    `.${additionalProperty} must not be defined, as it is not specified by this model`,
+  additionalProperties: ({ params: { additionalProperty } }) => `.${additionalProperty} is an unknown parameter`,
   propertyNames: ({ params: { propertyName } }) => ` property '${propertyName}' name must be valid`,
   dependencies: ({ params: { missingProperty, property } }) =>
     `.${missingProperty} must be defined when property '${property} is defined`,
