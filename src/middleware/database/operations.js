@@ -3,17 +3,17 @@
 /**
  * Summary of operations:
  *   findOne({ filter: { id } })
- *   findMany({ [filter], order_by })
+ *   findMany({ [filter], [order_by] })
  *   deleteOne({ filter: { id } })
- *   deleteMany({ [filter], order_by })
+ *   deleteMany({ [filter], [order_by] })
  *   updateOne({ data, filter: { id } })
- *   updateMany({ data, [filter], order_by })
+ *   updateMany({ data, [filter], [order_by] })
  *   createOne({ data })
- *   createMany({ data[], order_by })
+ *   createMany({ data[], [order_by] })
  *   replaceOne({ data })
- *   replaceMany({ data[], order_by })
+ *   replaceMany({ data[], [order_by] })
  *   upsertOne({ data })
- *   upsertMany({ data[], order_by })
+ *   upsertMany({ data[], [order_by] })
  *
  * Summary of arguments:
  *  - {object|object[]} data - Attributes to update or create
@@ -23,7 +23,7 @@
  *                             The argument name is that attribute name, not `filter`
  *                             `filter.id` is required in findOne, deleteOne and updateOne
  *                             `filter.id` is an array in findMany, deleteMany and updateMany
- *  - {string} order_by      - Sort results.
+ *  - {string} [order_by]    - Sort results.
  *                             Value is attribute name, followed by optional + or - for ascending|descending order (default: +)
  *                             Can contain dots to select fields, e.g. order_by="furniture.size"
  *
