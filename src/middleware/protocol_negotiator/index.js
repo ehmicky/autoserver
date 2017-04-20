@@ -9,14 +9,19 @@ const { EngineError } = require('../../error');
 // Decide which middleware to pick according to request protocol
 // Only protocol supported so far is HTTP
 const protocolNegotiator = async function () {
-  return function ({ req, res }) {
+  return await function (input) {
+    const { info, req, res } = input;
     const protocol = findKey(protocols, test => test({ req, res }));
     if (!protocol) {
       throw new EngineError('Unsupported protocol', { reason: 'UNSUPPORTED_PROTOCOL' });
     }
-    return protocol;
+    info.protocol = protocol;
+
+    const response = this.next(input);
+    return response;
   };
 };
+const protocolNegotiation = async () => ({ info: { protocol } }) => protocol;
 
 const protocols = {
 
@@ -27,4 +32,5 @@ const protocols = {
 
 module.exports = {
   protocolNegotiator,
+  protocolNegotiation,
 };

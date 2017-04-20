@@ -14,8 +14,9 @@ const start = async function (opts) {
     /**
      * Protocol-related middleware
      */
+    mdw.protocolNegotiator,
     // The first middleware (not present here) is the error handler, which sends final response, if errors
-    branch(mdw.protocolNegotiator, {
+    branch(mdw.protocolNegotiation, {
       http: [
         // Sends final response, if success
         mdw.httpSendResponse,
@@ -26,7 +27,7 @@ const start = async function (opts) {
     // Retrieves input.route, using input.path
     mdw.router,
     // Retrieves request parameters
-    branch(mdw.protocolNegotiator, {
+    branch(mdw.protocolNegotiation, {
       http: [
         // General request log
         mdw.httpLogger,
@@ -40,8 +41,9 @@ const start = async function (opts) {
     /**
      * Interface-related middleware
      */
+    mdw.interfaceNegotiator,
     // Translates interface-specific calls into generic instance calls
-    branch(mdw.interfaceNegotiator, {
+    branch(mdw.interfaceNegotiation, {
       // GraphQL engine
       graphql: mdw.executeGraphql,
       // GraphQL debugger web app
@@ -74,6 +76,7 @@ const start = async function (opts) {
 const applyOptions = async function (opts) {
   const middlewares = [
     'protocolNegotiator',
+    'protocolNegotiation',
     'httpSendResponse',
     'httpGetPath',
     'router',
@@ -81,6 +84,7 @@ const applyOptions = async function (opts) {
     'httpFillParams',
     'interfaceConvertor',
     'interfaceNegotiator',
+    'interfaceNegotiation',
     'executeGraphql',
     'executeGraphiql',
     'printGraphql',
