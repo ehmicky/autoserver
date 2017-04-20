@@ -58,7 +58,7 @@ const addNestedId = function ({ parent, name, multiple, args, opType }) {
     if (arg instanceof Array) {
       if (arg.length !== parentVal.length) {
         throw new EngineError(`In '${name}' model, wrong parameters: data length should be ${parentVal.length}`, {
-          reason: 'clientInputSyntax',
+          reason: 'INPUT_VALIDATION',
         });
       }
       parentVal.forEach((singleVal, index) => {
@@ -78,13 +78,13 @@ const addNestedIdToArg = function ({ arg, parentVal, name, allowIntersects = fal
   if (arg.id) {
     if (!allowIntersects) {
       throw new EngineError(`In '${name}' model, wrong parameters: id must not be defined`, {
-        reason: 'clientInputSyntax',
+        reason: 'INPUT_VALIDATION',
       });
     // If `id` argument is specified by client, intersects with it
     } else {
       if (!(arg.id instanceof Array)) {
         throw new EngineError(`In '${name}' model, wrong parameters: id must be array`, {
-          reason: 'clientInputSyntax',
+          reason: 'INPUT_VALIDATION',
         });
       }
       arg.id = intersection(arg.id, parentVal);
