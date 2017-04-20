@@ -54,9 +54,10 @@ const getField = function (def, opts) {
     args = getArguments(def, Object.assign(opts, { dataObjectType, filterObjectType }));
   }
 
-  // Can only assign default if fields are optional in input, but required by database
+  // Can only assign default to input data that is optional.
+  // 'update' does not required anything, nor assign defaults
   let defaultValue;
-  if (canRequireAttributes(def, opts) && !opts.isRequired && opts.inputObjectType === 'data') {
+  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.operation.opType !== 'update') {
     defaultValue = def.default;
   }
 
@@ -171,11 +172,7 @@ const getObjectFields = function (def, opts) {
       const childOperation = childDef.operation || operation;
       const childOpts = Object.assign({}, opts, { operation: childOperation });
 
-      childOpts.isRequired =
-        // When user declared an attribute as required
-        (def.required instanceof Array && def.required.includes(childDefName) && canRequireAttributes(childDef, childOpts))
-        // Filter inputObjects `id` attribute is always required
-        || (childDefName === 'id' && inputObjectType === 'filter' && !multiple);
+      childOpts.isRequired = isRequired(def, childDef, childDefName, childOpts);
 
 			const field = getField(childDef, childOpts);
       return field;
@@ -183,11 +180,21 @@ const getObjectFields = function (def, opts) {
 		.value();
 };
 
-const canRequireAttributes = function (def, { operation: { opType } = {}, inputObjectType }) {
-  // Update operation does not require any attribute in input object
-	return !(opType === 'update' && inputObjectType === 'data')
+// Returns whether a field is required
+const isRequired = function (parentDef, def, name, { operation: { opType, multiple } = {}, inputObjectType }) {
+  // Filter inputObjects `id` attribute is always required
+  const isFilterId = name === 'id' && inputObjectType === 'filter' && !multiple;
+  const shouldRequire = isFilterId
+    // When user declared an attribute as required
+    || (parentDef.required instanceof Array && parentDef.required.includes(name));
+  const shouldNotRequire =
     // Query inputObjects do not require any attribute, except filter.id for single operations
-    && inputObjectType !== 'filter';
+    (inputObjectType === 'filter' && !isFilterId)
+    // updateOne|updateMany does not require any attribute in input object
+    || (inputObjectType === 'data' && opType === 'update')
+    // data.id is optional in createOne|createMany
+    || (inputObjectType === 'data' && opType === 'create' && name === 'id');
+  return shouldRequire && !shouldNotRequire;
 };
 
 /**
