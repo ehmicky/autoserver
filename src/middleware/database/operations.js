@@ -129,18 +129,14 @@ const findMany = function ({ collection, filter = {} }) {
 
 const deleteOne = function ({ collection, filter: { id } }) {
   const index = findOneIndex({ collection, id });
-  collection.splice(index, 1);
-  return { id };
+  const model = collection.splice(index, 1)[0];
+  return model;
 };
 
 const deleteMany = function ({ collection, filter = {} }) {
   const indexes = findManyIndexes({ collection, filter });
-  const removedIds = indexes.map(index => ({ id: collection[index].id }));
-  indexes.sort();
-  indexes.forEach((index, count) => {
-    collection.splice(index - count, 1);
-  });
-  return removedIds;
+  const models = indexes.sort().map((index, count) => collection.splice(index - count, 1)[0]);
+  return models;
 };
 
 const updateOne = function ({ collection, data, filter: { id } }) {
