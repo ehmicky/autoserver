@@ -25,7 +25,7 @@ const getModelsByMethod = function ({ methodName, models }) {
       .pickBy(model => isAllowedModel({ model, operation }))
       // Modify object key to include operation information, e.g. 'my_model' + 'findMany' -> 'findMyModels'
       // This will be used as the top-level methods names
-      .mapKeys((_, modelName) => getOperationName({ modelName, operation }))
+      .mapKeys((_, modelName) => getOperationName({ modelName, opType: operation.opType, multiple: operation.multiple }))
       .mapValues(model => {
         // Deep copy
         let modelCopy = merge({}, model);
