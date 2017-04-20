@@ -35,7 +35,7 @@
  **/
 
 
-const { every, chain, uniq, orderBy, map } = require('lodash');
+const { every, chain, uniq, orderBy, map, isEqual } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
@@ -102,13 +102,7 @@ const findManyIndexes = function({ collection, filter = {} }) {
 // Check if a model matches a query filter
 const matchesFilters = function ({ filter, model }) {
   const matches = every(filter, (filterVal, filterName) => {
-    if (typeof filterVal === 'object') {
-      const modelVal = model[filterName];
-      if (typeof modelVal !== 'object' || modelVal === null) { return false; }
-      return matchesFilters({ filter: filterVal, model: modelVal });
-    } else {
-      return model[filterName] === filterVal;
-    }
+    return isEqual(model[filterName], filterVal);
   });
   return matches;
 };
