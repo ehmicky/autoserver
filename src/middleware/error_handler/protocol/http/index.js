@@ -16,31 +16,26 @@ const sendError = function ({ error, input: { res } }) {
   });
 };
 
-const getRequestUrl = function ({ input: { req } }) {
-  return req[Symbol.for('requestUrl')];
-};
+const processError = function ({ error, errorInput }) {
+  const status = errorInput.status || 500;
+  // Request URL, i.e. everything except query string and hash
+  const instance = errorInput.req[Symbol.for('requestUrl')] || 'unknown';
 
-const createError = function ({ error, protocolError: httpError }) {
-  const status = httpError.status || 500;
-
-  // Re-specify keys to get correct order
-  return {
+  Object.assign(error, {
     // HTTP status code
     status,
-    type: error.type,
     // Defaults to standards message for that HTTP status code
     title: error.title || STATUS_CODES[status],
-    description: error.description,
-    instance: error.instance,
-    details: error.details,
-  };
+    instance,
+  });
+
+  return error;
 };
 
 
 module.exports = {
   http: {
     sendError,
-    getRequestUrl,
-    createError,
+    processError,
   },
 };

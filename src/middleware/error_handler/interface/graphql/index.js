@@ -1,13 +1,13 @@
 'use strict';
 
 
-const createError = function ({ error }) {
+const processError = function ({ error }) {
   return error;
 };
 
 
 module.exports = {
   graphql: {
-    createError,
+    processError,
   },
 };

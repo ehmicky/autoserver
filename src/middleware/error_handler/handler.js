@@ -1,6 +1,8 @@
 'use strict';
 
 
+const { chain } = require('lodash');
+
 const { console, isDev } = require('../../utilities');
 const { getErrorInfo } = require('./reasons');
 const protocolErrorHandlers = require('./protocol');
@@ -17,27 +19,26 @@ const interfaceErrorHandlers = require('./interface');
  */
 const sendError = () => function ({ exception, input, info: { protocol, interface: interf } }) {
   const protocolErrorHandler = protocolErrorHandlers[protocol];
-  // Retrieves request URL, protocol-specific
-  const requestUrl = protocolErrorHandler.getRequestUrl({ input }) || 'unknown';
+  const interfaceErrorHandler = interfaceErrorHandlers[interf];
+
   // Retrieves protocol-independent error information, using the thrown exception
   const genericErrorInput = getErrorInfo({ exception });
-  const genericError = createError({ exception, error: genericErrorInput, requestUrl });
+  let error = createError({ exception, errorInput: genericErrorInput });
 
   // Adds protocol-specific error information
-  const protocolErrorInput = getErrorInfo({ exception, protocol });
-  const protocolError = protocolErrorHandler.createError({ error: genericError, protocolError: protocolErrorInput });
+  const protocolErrorInput = Object.assign({}, input, getErrorInfo({ exception, protocol }));
+  error = protocolErrorHandler.processError({ error, errorInput: protocolErrorInput });
 
   // Adds interface-specific error information
-  const interfaceErrorHandler = interfaceErrorHandlers[interf];
-  const interfaceError =
-    interfaceErrorHandler ? interfaceErrorHandler.createError({ error: protocolError }) : protocolError;
+  if (interfaceErrorHandler) {
+    error = interfaceErrorHandler.processError({ error });
+  }
 
-  // Any custom information
-  Object.assign(interfaceError, exception.extra);
+  error = sortErrorKeys({ error });
 
   // Use protocol-specific way to send back the error
-  protocolErrorHandler.sendError({ error: interfaceError, input });
-  console.error(interfaceError);
+  protocolErrorHandler.sendError({ error, input });
+  console.error(error);
 };
 
 /**
@@ -49,16 +50,14 @@ const sendError = () => function ({ exception, input, info: { protocol, interfac
  *
  * @returns {object} error
  */
-const createError = function ({ exception, error, requestUrl }) {
+const createError = function ({ exception, errorInput }) {
   const message = typeof exception === 'string' ? exception : exception.message;
 
   const newError = {
     type: exception.reason,
-    title: error.title,
+    title: errorInput.title,
     // Long description
-    description: message || error.description,
-    // Request URL, i.e. everything except query string and hash
-    instance: requestUrl,
+    description: message || errorInput.description,
   };
 
   // Not in production
@@ -69,7 +68,25 @@ const createError = function ({ exception, error, requestUrl }) {
     });
   }
 
+  // Any custom information
+  Object.assign(newError, exception.extra);
+
   return newError;
+};
+
+const sortedKeys = ['status', 'type', 'title', 'description', 'instance', 'details'];
+const sortErrorKeys = function ({ error }) {
+  return chain(error)
+    .toPairs()
+    .sortBy(([key]) => {
+      let index = sortedKeys.indexOf(key);
+      if (index === -1) {
+        index = sortedKeys.length;
+      }
+      return index;
+    })
+    .fromPairs()
+    .value();
 };
 
 
