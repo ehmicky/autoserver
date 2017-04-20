@@ -119,7 +119,9 @@ const getObjectFields = function (def, opts) {
         // Filter arguments for single operations only include `id`
         || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
         // Nested data arguments do not include `id`
-        || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel);
+        || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel)
+        // updateOne|updateMany do not allow data.id
+        || (opType === 'update' && childDefName === 'id' && inputObjectType === 'data');
     })
     .mapValues((childDef, childDefName) => {
       // filter.id should be an array for *Many operations
