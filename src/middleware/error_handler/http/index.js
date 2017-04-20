@@ -25,9 +25,9 @@ const createError = function ({ error, protocolError: httpError }) {
 
   // Re-specify keys to get correct order
   return {
-    type: error.type,
     // HTTP status code
     status,
+    type: error.type,
     // Defaults to standards message for that HTTP status code
     title: error.title || STATUS_CODES[status],
     description: error.description,

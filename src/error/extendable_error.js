@@ -1,10 +1,6 @@
 'use strict';
 
 
-// Avoid infinite recursion between error module and utilities module
-const { isDev } = require('../utilities/is_dev');
-
-
 class ExtendableError extends Error {
 
   constructor(message, opts = {}) {
@@ -12,14 +8,10 @@ class ExtendableError extends Error {
     this.name = this.constructor.name;
 
     // Adds stack trace
-    if (isDev()) {
-      if (typeof Error.captureStackTrace === 'function') {
-        Error.captureStackTrace(this, this.constructor);
-      } else {
-        this.stack = (new Error(message)).stack;
-      }
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, this.constructor);
     } else {
-      delete this.stack;
+      this.stack = (new Error(message)).stack;
     }
 
     Object.assign(this, opts);
