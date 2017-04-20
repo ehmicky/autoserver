@@ -35,7 +35,7 @@ const reportErrors = function ({ errors, reportInfo }) {
   const messageProcessor = messageProcessors[type];
   const errorsMessage = messageProcessor ? messageProcessor({ message: errorsText, reportInfo }) : errorsText;
 
-  throw new EngineError(errorsMessage, { reason: reasons[type], extra: { there: 1 } });
+  throw new EngineError(errorsMessage, { reason: reasons[type] });
 };
 const reasons = {
   idl: 'IDL_VALIDATION',
