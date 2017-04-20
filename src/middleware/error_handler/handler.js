@@ -4,6 +4,7 @@
 const { console, isDev } = require('../../utilities');
 const { getErrorInfo } = require('./reasons');
 const protocolErrorHandlers = require('./protocol');
+const interfaceErrorHandlers = require('./interface');
 
 
 /**
@@ -24,14 +25,19 @@ const sendError = () => function ({ exception, input, info: { protocol, interfac
 
   // Adds protocol-specific error information
   const protocolErrorInput = getErrorInfo({ exception, protocol });
-  const protocolError = protocolErrorHandler.createError({ exception, error: genericError, protocolError: protocolErrorInput });
+  const protocolError = protocolErrorHandler.createError({ error: genericError, protocolError: protocolErrorInput });
+
+  // Adds interface-specific error information
+  const interfaceErrorHandler = interfaceErrorHandlers[interf];
+  const interfaceError =
+    interfaceErrorHandler ? interfaceErrorHandler.createError({ error: protocolError }) : protocolError;
 
   // Any custom information
-  Object.assign(protocolError, exception.extra);
+  Object.assign(interfaceError, exception.extra);
 
   // Use protocol-specific way to send back the error
-  protocolErrorHandler.sendError({ error: protocolError, input });
-  console.error(protocolError);
+  protocolErrorHandler.sendError({ error: interfaceError, input });
+  console.error(interfaceError);
 };
 
 /**
