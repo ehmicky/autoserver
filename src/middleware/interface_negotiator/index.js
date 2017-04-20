@@ -8,14 +8,19 @@ const { EngineError } = require('../../error');
 
 // Decides which interface to use (e.g. GraphQL) according to route
 const interfaceNegotiator = async function () {
-  return function ({ route }) {
+  return await function (input) {
+    const { info, route } = input;
     const interf = findKey(interfaces, test => test({ route }));
     if (!interf) {
       throw new EngineError(`Unsupported interface: ${route}`, { reason: 'UNSUPPORTED_INTERFACE' });
     }
-    return interf;
+    info.interface = interf;
+
+    const response = this.next(input);
+    return response;
   };
 };
+const interfaceNegotiation = async () => ({ info: { interface: interf } }) => interf;
 
 const interfaces = {
 
@@ -29,5 +34,6 @@ const interfaces = {
 
 
 module.exports = {
+  interfaceNegotiation,
   interfaceNegotiator,
 };

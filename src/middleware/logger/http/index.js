@@ -13,8 +13,7 @@ const httpLogger = async function () {
   };
 };
 
-const logRequest = function (input) {
-  const { req: { httpVersion, url, headers, method }, route } = input;
+const logRequest = function ({ req: { httpVersion, url, headers, method }, route }) {
   console.log(`HTTP/${httpVersion} ${method} ${url} ${route} ${JSON.stringify(headers)}`);
 };
 

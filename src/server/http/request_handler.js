@@ -10,11 +10,12 @@ const httpRequestHandler = async function (opts) {
   const sendErrorFunc = sendError(opts);
 
   return async function (req, res) {
+    const info = {};
     try {
-      const response = await startFunc({ req, res });
+      const response = await startFunc({ req, res, info });
       return response;
     } catch (exception) {
-      sendErrorFunc({ exception, input: { req, res }, protocol: 'http' });
+      sendErrorFunc({ exception, input: { req, res }, protocol: info.protocol, interface: info.interface });
     }
   };
 };

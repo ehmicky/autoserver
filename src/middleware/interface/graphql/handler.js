@@ -7,8 +7,8 @@ const { isIntrospectionQuery, getHandleIntrospection } = require('./introspectio
 
 
 // GraphQL query handling
-const executeGraphql = async function (input) {
-  const { idl } = input;
+const executeGraphql = async function (opts) {
+  const { idl } = opts;
   const handleIntrospection = getHandleIntrospection({ idl });
   const handleQuery = getHandleQuery({ idl });
   return async function (request) {
@@ -25,7 +25,7 @@ const executeGraphql = async function (input) {
       response = await handleIntrospection({ queryDocument, variables, operationName });
     // Normal GraphQL query
     } else {
-      const callback = fireNext.bind(this, input);
+      const callback = fireNext.bind(this, request);
       response = await handleQuery({ queryDocument, variables, operationName, context: { callback }, rootValue: {} });
     }
 
@@ -36,9 +36,9 @@ const executeGraphql = async function (input) {
   };
 };
 
-const fireNext = async function (input, apiInput) {
-  input.api = apiInput;
-  const response = await this.next(input);
+const fireNext = async function (request, apiInput) {
+  request.api = apiInput;
+  const response = await this.next(request);
   return response;
 };
 
