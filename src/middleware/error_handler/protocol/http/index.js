@@ -6,36 +6,35 @@ const { STATUS_CODES } = require('http');
 const { httpBody } = require('../../../../parsing');
 
 
-const sendError = function ({ error, input: { res } }) {
-  res.statusCode = error.status;
+const sendResponse = function ({ response: { error, status, contentType }, input: { res } }) {
+  res.statusCode = status;
   httpBody.send.json({
     res,
-    // See RFC 7807
-    contentType: 'application/problem+json',
-    message: { error },
+    contentType,
+    message: error,
   });
 };
 
-const processError = function ({ error, errorInput }) {
+const processResponse = function ({ response, errorInput }) {
+  // HTTP status code
   const status = errorInput.status || 500;
+  response.status = status;
+
+  // Defaults to standards message for that HTTP status code
+  const title = response.title || STATUS_CODES[status];
+
   // Request URL, i.e. everything except query string and hash
   const instance = errorInput.req[Symbol.for('requestUrl')] || 'unknown';
 
-  Object.assign(error, {
-    // HTTP status code
-    status,
-    // Defaults to standards message for that HTTP status code
-    title: error.title || STATUS_CODES[status],
-    instance,
-  });
+  Object.assign(response.error, { status, title, instance });
 
-  return error;
+  return response;
 };
 
 
 module.exports = {
   http: {
-    sendError,
-    processError,
+    sendResponse,
+    processResponse,
   },
 };
