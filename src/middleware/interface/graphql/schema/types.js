@@ -111,6 +111,44 @@ const getObjectFields = function (def, opts) {
   const { opType, multiple } = operation;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
+    .mapValues((childDef, childDefName) => {
+      // filter.id should be an array for *Many operations
+      if (childDefName === 'id' && inputObjectType === 'filter' && multiple) {
+        const { description, deprecation_reason } = childDef;
+        return { type: 'array', items: childDef, description, deprecation_reason };
+      } else {
+        return childDef;
+      }
+    })
+    .transform((memo, childDef, childDefName) => {
+      const subDef = getSubDef(childDef);
+
+      // Only for nested models
+      if (!(isModel(subDef) && !subDef.isTopLevel)) {
+        memo[childDefName] = childDef;
+        return memo;
+      }
+
+      // Copy nested models with a different name that includes the operation, e.g. `my_attribute` -> `createMyAttribute`
+      // Not for data|filter arguments
+      if (inputObjectType === '') {
+        const name = getOperationName({ modelName: childDefName, opType });
+        memo[name] = childDef;
+      }
+
+      // Nested models use the regular name as well, but as simple ids, not recursive definition
+      // Retrieves `id` field definition of subfield
+      const nonRecursiveAttrs = ['description', 'deprecation_reason'];
+      const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
+      // Consider this attribute as a normal attribute, not a model anymore
+      delete idDef.model;
+
+      // Assign `id` field definition to e.g. `model.user`
+      const idsDef = isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
+      memo[childDefName] = idsDef;
+
+      return memo;
+    })
 		.omitBy((childDef, childDefName) => {
       const subDef = getSubDef(childDef);
       // Remove all return value fields for delete operations, except the recursive ones and `id`
@@ -122,40 +160,6 @@ const getObjectFields = function (def, opts) {
         || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel)
         // updateOne|updateMany do not allow data.id
         || (opType === 'update' && childDefName === 'id' && inputObjectType === 'data');
-    })
-    .mapValues((childDef, childDefName) => {
-      // filter.id should be an array for *Many operations
-      if (childDefName === 'id' && inputObjectType === 'filter' && multiple) {
-        const { description, deprecation_reason } = childDef;
-        return { type: 'array', items: childDef, description, deprecation_reason };
-      } else {
-        return childDef;
-      }
-    })
-    // Copy nested models with a different name that includes the operation, e.g. `my_attribute` -> `createMyAttribute`
-    .transform((memo, childDef, childDefName) => {
-      const subDef = getSubDef(childDef);
-      if (isModel(subDef) && inputObjectType === '' && !subDef.isTopLevel) {
-        const name = getOperationName({ modelName: childDefName, opType });
-        memo[name] = childDef;
-      }
-
-      memo[childDefName] = childDef;
-      return memo;
-    })
-    // Model-related fields in input|filter arguments must be simple ids, not recursive definition
-    .mapValues(childDef => {
-      const subDef = getSubDef(childDef);
-      if (!(isModel(subDef) && inputObjectType !== '')) { return childDef; }
-
-      // Retrieves `id` field definition of subfield
-      const nonRecursiveAttrs = ['description', 'deprecation_reason'];
-      const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
-      // Consider this attribute as a normal attribute, not a model anymore
-      delete idDef.model;
-
-      // Assign `id` field definition to e.g. `model.user`
-      return isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
     })
 		// Recurse over children
 		.mapValues((childDef, childDefName) => {
