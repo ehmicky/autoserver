@@ -69,6 +69,7 @@ Users can then perform the following GraphQL query:
 ```graphql
 query {
   findUsers(filter: {id: "1"}) {
+    id
     name
     findFriends {
       name
@@ -83,6 +84,7 @@ Which will respond with:
 {
   "data": {
     "findUsers": {
+      "id": "1",
       "name": "Anthony",
       "findFriends": [
         { "name": "Tony" },
