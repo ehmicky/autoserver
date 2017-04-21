@@ -5,7 +5,7 @@ const { merge, each } = require('lodash');
 const yaml = require('js-yaml');
 
 const { validate, memoize, fs: { readFileAsync } } = require('../../utilities');
-const { EngineError } = require('../../error');
+const { EngineStartupError } = require('../../error');
 const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
 
 
@@ -37,7 +37,7 @@ const getSchema = memoize(async function () {
  **/
  const validateCircularRefs = function ({ value, path = 'schema', pathSet = new WeakSet() }) {
   if (pathSet.has(value)) {
-    throw new EngineError(`Schema cannot contain circular references: ${path}`, { reason: 'IDL_VALIDATION' });
+    throw new EngineStartupError(`Schema cannot contain circular references: ${path}`, { reason: 'IDL_VALIDATION' });
   }
   if (typeof value === 'object') {
     pathSet.add(value);

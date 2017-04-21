@@ -14,13 +14,13 @@ const getIdlConf = async function ({ conf }) {
   if (typeof conf === 'string') {
     try {
       return await getYaml({ path: conf });
-    } catch ({ stack }) {
-      throw new EngineStartupError('Could not load configuration file', { type: 'CONFIGURATION_LOADING', details: stack });
+    } catch (innererror) {
+      throw new EngineStartupError('Could not load configuration file', { reason: 'CONFIGURATION_LOADING', innererror });
     }
   } else if (conf && conf.constructor === Object) {
     return conf;
   } else {
-    throw new EngineStartupError('Missing configuration file or \'conf\' option', { type: 'CONFIGURATION_LOADING' });
+    throw new EngineStartupError('Missing configuration file or \'conf\' option', { reason: 'CONFIGURATION_LOADING' });
   }
 };
 
