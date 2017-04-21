@@ -14,6 +14,7 @@ const start = async function (opts) {
     /**
      * Protocol-related middleware
      */
+    // Pick the protocol
     mdw.protocolNegotiator,
     // The first middleware (not present here) is the error handler, which sends final response, if errors
     branch(mdw.protocolNegotiation, {
@@ -35,12 +36,13 @@ const start = async function (opts) {
         mdw.httpFillParams,
       ],
     }),
-    // Convert from protocol format to interface format
-    mdw.interfaceConvertor,
 
     /**
      * Interface-related middleware
      */
+    // Convert from protocol format to interface format
+    mdw.interfaceConvertor,
+    // Pick the interface
     mdw.interfaceNegotiator,
     // Translates interface-specific calls into generic instance calls
     branch(mdw.interfaceNegotiation, {
@@ -51,12 +53,13 @@ const start = async function (opts) {
       // GraphQL schema printing
       graphqlprint: mdw.printGraphql,
     }),
-    // Convert from interface format to API format
-    mdw.apiConvertor,
 
     /**
      * API-related middleware
      */
+    // Convert from interface format to API format
+    mdw.apiConvertor,
+    // General validation layer
     mdw.validation,
 
     /**
