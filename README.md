@@ -19,7 +19,7 @@ The server is fully-featured, i.e. there should be not much need for custom code
   - nested operations. One can not only query but also mutate nested models in a single operation.
   - validation of both input and output
   - HTTP body/query handling
-  - basic error handling
+  - error handling
   - basic logging
   - basic routing
 
@@ -35,6 +35,49 @@ Includes (but is not limited to):
   - pagination
   - performance optimization (could be 5 to 10 times faster with some basic tweaks, since much of the work can be done compile-time)
   - using real data source by adding an ORM (at the moment, all data lives in memory, using a JavaScript array)
+
+# Minimalistic example
+
+Start the server with:
+
+```javascript
+startServer({ conf: 'my_schema.yml' });
+```
+
+`my_schema.yml` contains:
+
+```yml
+$schema: tag:apiengine,2017:v1.0.0
+models:
+  user:
+    type: object
+    required: [id]
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      friends:
+        type: array
+        items:
+          type: object
+          model: user
+```
+
+Users can then perform the following GraphQL query:
+
+```graphql
+query {
+  findUsers(filter: {id: "1"}) {
+    name
+    findFriends {
+      name
+    }
+  }
+}
+```
+
+This is a minimalistic example. A lot is possible: validation, authorization, default values, nested operations, all CRUD, etc.
 
 # How to start
 
