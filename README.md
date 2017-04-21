@@ -2,7 +2,7 @@
 
 This is prototype for a web server engine.
 
-You simply pass a [single declarative file](https://github.com/autoserver-org/autoserver/blob/master/examples/pet.schema.yml) as input, and the server generates a GraphQL server. The file format is based off standard [JSON schema](http://json-schema.org/), written as YAML.
+You simply pass a [single declarative file](https://github.com/autoserver-org/autoserver/blob/master/examples/pet.schema.yml) as input, and the server generates a GraphQL server. The file format is based on standard [JSON schema](http://json-schema.org/), written as YAML.
 
 The server is fully-featured, i.e. there should be not much need for custom code beyond that declarative file.
 
