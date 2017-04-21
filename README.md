@@ -36,7 +36,7 @@ Includes (but is not limited to):
   - performance optimization (could be 5 to 10 times faster with some basic tweaks, since much of the work can be done compile-time)
   - using real data source by adding an ORM (at the moment, all data lives in memory, using a JavaScript array)
 
-# Minimalistic example
+# Example
 
 Start the server with:
 
