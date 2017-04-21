@@ -133,8 +133,10 @@ const errorReasons = {
 
 // Searches through `errorReasons`
 const getErrorInfo = function ({ exception, protocol = 'any' }) {
-  const reason = exception.reason || 'UNKNOWN';
-  const error = errorReasons[reason]({ exception })[protocol] || {};
+  if (!exception.reason || !errorReasons[exception.reason]) {
+    exception.reason = 'UNKNOWN';
+  }
+  const error = errorReasons[exception.reason]({ exception })[protocol] || {};
   return error;
 };
 

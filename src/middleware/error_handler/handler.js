@@ -17,28 +17,38 @@ const interfaceErrorHandlers = require('./interface');
  * @param {object} options.input - protocol-independent request/response object
  * @param {string} options.protocol - e.g. 'http'
  */
-const sendError = () => function ({ exception, input, info: { protocol, interface: interf } }) {
-  const protocolErrorHandler = protocolErrorHandlers[protocol];
-  const interfaceErrorHandler = interfaceErrorHandlers[interf];
+const sendError = () => {
+  const sendErrorFunc = function ({ exception, input = {}, info: { protocol, interface: interf } = {}, retry = false }) {
+    try {
+      const protocolErrorHandler = protocolErrorHandlers[protocol];
+      const interfaceErrorHandler = interfaceErrorHandlers[interf];
 
-  // Retrieves protocol-independent error information, using the thrown exception
-  const genericErrorInput = getErrorInfo({ exception });
-  let response = createResponse({ exception, errorInput: genericErrorInput });
+      // Retrieves protocol-independent error information, using the thrown exception
+      const genericErrorInput = getErrorInfo({ exception });
+      let response = createResponse({ exception, errorInput: genericErrorInput });
 
-  // Adds protocol-specific error information
-  const protocolErrorInput = Object.assign({}, input, getErrorInfo({ exception, protocol }));
-  response = protocolErrorHandler.processResponse({ response, errorInput: protocolErrorInput });
+      // Adds protocol-specific error information
+      const protocolErrorInput = Object.assign({}, input, getErrorInfo({ exception, protocol }));
+      response = protocolErrorHandler.processResponse({ response, errorInput: protocolErrorInput });
 
-  // Adds interface-specific error information
-  if (interfaceErrorHandler) {
-    response = interfaceErrorHandler.processResponse({ response });
-  }
+      // Adds interface-specific error information
+      if (interfaceErrorHandler) {
+        response = interfaceErrorHandler.processResponse({ response });
+      }
 
-  response = sortResponseKeys({ response });
+      response = sortResponseKeys({ response });
 
-  // Use protocol-specific way to send back the response
-  protocolErrorHandler.sendResponse({ response, input });
-  console.error(response.error);
+      // Use protocol-specific way to send back the response
+      protocolErrorHandler.sendResponse({ response, input });
+      console.error(response.error);
+    // Retries once if it fails
+    } catch (newException) {
+      console.error(`Error handler failed on ${newException}`);
+      if (retry) { return; }
+      sendErrorFunc({ exception: newException, input, info: { protocol }, retry: true });
+    }
+  };
+  return sendErrorFunc;
 };
 
 // Creates protocol-independent response error
