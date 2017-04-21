@@ -1,8 +1,9 @@
 'use strict';
 
 
-const { httpStartServer } = require('./http');
+const { EngineStartupError } = require('../error');
 const { attachRequire } = require('../utilities');
+const { httpStartServer } = require('./http');
 const { processOptions } = require('./process_options');
 
 
@@ -13,12 +14,21 @@ const { processOptions } = require('./process_options');
  * @param {object} options.idl - IDL definitions
  */
 const startServer = async function (options) {
-  attachRequire();
-  const opts = await processOptions(options);
-  const server = await Promise.all([
-    httpStartServer(opts),
-  ]);
-  return server;
+  try {
+    attachRequire();
+    const opts = await processOptions(options);
+    const server = await Promise.all([
+      httpStartServer(opts),
+    ]);
+    return server;
+  // Make sure all exceptions thrown at startup follow the EngineStartupError signature
+  } catch (innererror) {
+    if (innererror instanceof EngineStartupError) {
+      throw innererror;
+    } else {
+      throw new EngineStartupError(innererror.message, { reason: 'UNKNOWN', innererror });
+    }
+  }
 };
 
 
