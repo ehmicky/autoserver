@@ -134,6 +134,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // Error handler itself failed
+  ERROR_HANDLER_FAILURE: () => ({
+    http: { status: 500 },
+  }),
+
   // The reason type is unknown
   UNKNOWN_TYPE: () => ({
     http: { status: 500 },

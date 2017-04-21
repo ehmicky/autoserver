@@ -3,6 +3,7 @@
 
 const { chain } = require('lodash');
 
+const { ErrorHandlerError } = require('../../error');
 const { console, isDev } = require('../../utilities');
 const { getErrorInfo } = require('./reasons');
 const protocolErrorHandlers = require('./protocol');
@@ -17,7 +18,7 @@ const interfaceErrorHandlers = require('./interface');
  * @param {object} options.input - protocol-independent request/response object
  * @param {string} options.protocol - e.g. 'http'
  */
-const sendError = () => {
+const sendError = ({ onRequestError = () => {} }) => {
   const sendErrorFunc = function ({ exception, input = {}, info: { protocol, interface: interf } = {}, retry = false }) {
     try {
       const protocolErrorHandler = protocolErrorHandlers[protocol];
@@ -41,11 +42,14 @@ const sendError = () => {
       // Use protocol-specific way to send back the response
       protocolErrorHandler.sendResponse({ response, input });
       console.error(response.error);
+      onRequestError(response.error);
     // Retries once if it fails
-    } catch (newException) {
-      console.error(`Error handler failed on ${newException}`);
+    } catch (innererror) {
+      const errorHandlerError = new ErrorHandlerError('Error handler failed', { reason: 'ERROR_HANDLER_FAILURE', innererror });
+      console.error(errorHandlerError);
+      onRequestError(errorHandlerError);
       if (retry) { return; }
-      sendErrorFunc({ exception: newException, input, info: { protocol }, retry: true });
+      sendErrorFunc({ exception: innererror, input, info: { protocol }, retry: true });
     }
   };
   return sendErrorFunc;

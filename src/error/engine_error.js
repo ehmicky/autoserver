@@ -4,6 +4,7 @@
 const { ExtendableError } = require('./extendable_error');
 
 
+// Fired when error happens on a specific request
 class EngineError extends ExtendableError {
 
   constructor(message, opts) {
@@ -12,7 +13,6 @@ class EngineError extends ExtendableError {
       requiredOpts: ['reason'],
     }));
   }
-
 
 }
 
