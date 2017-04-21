@@ -9,10 +9,7 @@ const levels = [
   'error',
 ];
 
-// Logger can be fired either as logger.debug|info|log|warn|error(...) or as logger(...) (same as logger.log(...))
-const logger = function (...args) {
-  return logger.log(...args);
-};
+const logger = {};
 const setLogger = ({ logger: newLogger = defaultLogger } = {}) => {
   levels.forEach(level => {
     logger[level] = newLogger(level);
