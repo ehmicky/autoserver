@@ -15,7 +15,7 @@ const normalizeIdl = function (idl) {
 
 // Normalize IDL definition models
 const normalizeModels = function ({ models, operations }) {
-  transform({ transforms, args: { operations } })({ input: models });
+  transform({ transforms, args: { defaultOperations: operations } })({ input: models });
   return models;
 };
 
@@ -36,10 +36,11 @@ const transforms = [
   },
 
   {
+    // Parent: specified or default
+    // Attribute: intersection of parent model * referred model * specified
     // Normalize operations shortcuts, and adds defaults
-    model({ parent: { operations }, operations: defaultOperations }) {
-      operations = operations || defaultOperations;
-      const normalizedOperations = normalizeOperations(operations || defaultOperations);
+    model({ defaultOperations, parent: { operations = defaultOperations } }) {
+      const normalizedOperations = normalizeOperations(operations);
       return { operations: normalizedOperations };
     }
   },
