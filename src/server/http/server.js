@@ -3,7 +3,7 @@
 
 const http = require('http');
 
-const { console, getPromise } = require('../../utilities');
+const { log, getPromise } = require('../../utilities');
 const { httpRequestHandler } = require('./request_handler');
 const { port, host } = require('../../config');
 
@@ -20,7 +20,7 @@ const startServer = async function (options) {
 };
 
 const listeningHandler = function () {
-  console.log(`Listening on ${host}:${port}`);
+  log.log(`Listening on ${host}:${port}`);
 };
 
 
