@@ -71,7 +71,7 @@ query {
   findUsers(filter: {id: "1"}) {
     id
     name
-    findFriends {
+    findFriends(order_by: "name") {
       name
     }
   }
@@ -87,8 +87,9 @@ Which will respond with:
       "id": "1",
       "name": "Anthony",
       "findFriends": [
-        { "name": "Tony" },
-        { "name": "Miranda" }
+        { "name": "Agatha" },
+        { "name": "Miranda" },
+        { "name": "Tony" }
       ]
     }
   }
