@@ -1,16 +1,16 @@
 'use strict';
 
 
-const { console } = require('../utilities');
+const { log } = require('../utilities');
 
 
 // Create a fake middleware function, for testing purpose
 const createDebugMiddleware = function (label) {
   return function (input = 'input') {
     const nextInput = String(Math.random()).replace('.','');
-    console.debug(`[${label}] Starting middleware with input ${nextInput}`);
+    log.debug(`[${label}] Starting middleware with input ${nextInput}`);
     const val = this.next(nextInput);
-    console.debug(`[${label}] Middleware return value: ${val}`);
+    log.debug(`[${label}] Middleware return value: ${val}`);
     return input;
   };
 };
@@ -23,7 +23,7 @@ const createLog = function (requestId) {
   return function (message) {
     const prefix = `[chain] [${requestId}] `;
     const truncatedMessage = message.substring(0, width - prefix.length);
-    console.debug(`${prefix}${truncatedMessage}`);
+    log.debug(`${prefix}${truncatedMessage}`);
   };
 };
 

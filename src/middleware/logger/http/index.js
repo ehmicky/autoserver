@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { console } = require('../../../utilities');
+const { log } = require('../../../utilities');
 
 
 const httpLogger = async function () {
@@ -14,7 +14,7 @@ const httpLogger = async function () {
 };
 
 const logRequest = function ({ req: { httpVersion, url, headers, method }, route }) {
-  console.log(`HTTP/${httpVersion} ${method} ${url} ${route} ${JSON.stringify(headers)}`);
+  log.log(`HTTP/${httpVersion} ${method} ${url} ${route} ${JSON.stringify(headers)}`);
 };
 
 
