@@ -27,6 +27,9 @@ class ExtendableError extends Error {
   checkSignature(opts) {
     const optsKeys = Object.keys(opts);
     const { allowedOpts, requiredOpts } = opts;
+    // Make sure they are not printed in console
+    delete opts.allowedOpts;
+    delete opts.requiredOpts;
     const otherOpts = ['allowedOpts', 'requiredOpts'];
     // Retrieve child constructor
     const ThisError = this.constructor;
