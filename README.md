@@ -77,6 +77,22 @@ query {
 }
 ```
 
+Which will respond with:
+
+```json
+{
+  "data": {
+    "findUsers": {
+      "name": "Anthony",
+      "findFriends": [
+        { "name": "Tony" },
+        { "name": "Miranda" }
+      ]
+    }
+  }
+}
+```
+
 This is a minimalistic example. A lot is possible: validation, authorization, default values, nested operations, all CRUD, etc.
 
 # How to start
