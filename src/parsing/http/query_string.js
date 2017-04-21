@@ -49,8 +49,8 @@ const parse = function (url) {
       decoder: decodeValue,
     });
     return queryObject;
-  } catch (error) {
-    throw new EngineError(`Request query string is invalid: ${url} ${error.message || error}`, { reason: 'HTTP_QUERY_STRING_PARSE' });
+  } catch (innererror) {
+    throw new EngineError(`Request query string is invalid: ${url}`, { reason: 'HTTP_QUERY_STRING_PARSE', innererror });
   }
 };
 
@@ -78,9 +78,10 @@ const serialize = function (queryObject) {
       strictNullHandling: true,
     });
     return queryString;
-  } catch (error) {
-    throw new EngineError(`Response query string is invalid: ${JSON.stringify(queryObject)} ${error.message || error}`, {
+  } catch (innererror) {
+    throw new EngineError(`Response query string is invalid: ${JSON.stringify(queryObject)}`, {
       reason: 'HTTP_QUERY_STRING_SERIALIZE',
+      innererror,
     });
   }
 };
