@@ -12,18 +12,18 @@ const readFile = async function (path) {
   try {
     fs.readFile(path, { encoding: 'utf-8' }, (error, file) => {
       if (error) {
-        throw createFileError({ path, error });
+        throwFileError({ path, error });
       }
       promise.resolve(file);
     });
     return await promise;
   } catch (error) {
-    throw createFileError({ path, error });
+    throwFileError({ path, error });
   }
 };
 
-const createFileError = function ({ path, error }) {
-  return new EngineError(`Could not open file ${path}`, { reason: 'FILE_OPEN_ERROR', innererror: error });
+const throwFileError = function ({ path, error }) {
+  throw new EngineError(`Could not open file ${path}`, { reason: 'FILE_OPEN_ERROR', innererror: error });
 };
 
 
