@@ -13,7 +13,7 @@ The server is fully-featured, i.e. there should not be much need for custom code
   - GraphiQL interactive debugger
   - GraphQL schema can be printed as HTML
   - CRUD methods: find, create, update, replace, upsert, delete. Each operation can be performed on a single model (e.g. createOne) or on several models (e.g. createMany).
-  - filters, e.g. `findUsers(name: "John")` or `findUser(id: 1)`
+  - filters, e.g. `findUsers(filter: {name: "John"})` or `findUser(filter: {id: 1})`
   - sorting, e.g. `findUsers(order_by: "name-,job_title+")`
   - selecting (handled natively by GraphQL)
   - nested operations. One can not only query but also mutate nested models in a single operation.
