@@ -9,16 +9,24 @@ const levels = [
   'error',
 ];
 
-const createWrapper = (wrapper, level) => (...args) => {
-  return global.console[level](...args);
+// Logger can be fired either as logger.debug|info|log|warn|error(...) or as logger(...) (same as logger.log(...))
+const logger = function (...args) {
+  return logger.log(...args);
+};
+const setLogger = ({ logger: newLogger = defaultLogger } = {}) => {
+  levels.forEach(level => {
+    logger[level] = newLogger(level);
+  });
 };
 
-const consoleWrapper = levels.reduce((wrapper, level) => {
-  wrapper[level] = createWrapper(wrapper, level);
-  return wrapper;
-}, {});
+// Do not create a new function, so we do not pollute the stack trace
+const defaultLogger = level => global.console[level].bind(global.console);
+
+// By default, uses console, but can be redefined
+setLogger();
 
 
 module.exports = {
-  console: consoleWrapper,
+  console: logger,
+  setLogger,
 };
