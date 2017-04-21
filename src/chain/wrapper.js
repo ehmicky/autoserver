@@ -16,7 +16,7 @@ class MiddlewareWrapper {
     if (!handler) {
       throw new Error('When creating a middleware wrapper, a handler must be specified');
     }
-    Object.assign(this, { type, handler })
+    Object.assign(this, { type, handler });
   }
 
   // Unwrap MiddlewareWrapper, if it is a MiddlewareWrapper
