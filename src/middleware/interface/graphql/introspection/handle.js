@@ -17,13 +17,20 @@ const getHandleIntrospection = function ({ idl }) {
     //  - throwing an exception
     //  - returning errors in response
     } catch (exception) {
-      throw new EngineError(exception, { reason: 'GRAPHQL_WRONG_INTROSPECTION_SCHEMA' });
+      throwError(exception);
     }
-    if (response.errors) {
-      throw new EngineError(response.errors[0].message, { reason: 'GRAPHQL_WRONG_INTROSPECTION_SCHEMA' });
+    if (response.errors && response.errors[0]) {
+      throwError(response.errors[0]);
     }
     return response;
   };
+};
+
+const throwError = function (innererror) {
+  throw new EngineError('GraphQL introspection query failed', {
+    reason: 'GRAPHQL_WRONG_INTROSPECTION_SCHEMA',
+    innererror,
+  });
 };
 
 /**
