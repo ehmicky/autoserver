@@ -6,8 +6,11 @@ const { ExtendableError } = require('./extendable_error');
 
 class EngineStartupError extends ExtendableError {
 
-  constructor(...args) {
-    super(...args);
+  constructor(message, opts) {
+    super(message, Object.assign(opts, {
+      allowedOpts: ['type', 'details'],
+      requiredOpts: ['type'],
+    }));
   }
 
 }

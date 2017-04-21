@@ -129,6 +129,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // Trying to throw an exception with the wrong signature
+  WRONG_EXCEPTION: () => ({
+    http: { status: 500 },
+  }),
+
   // The reason type is unknown
   UNKNOWN_TYPE: () => ({
     http: { status: 500 },

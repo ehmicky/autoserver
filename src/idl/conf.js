@@ -1,8 +1,6 @@
 'use strict';
 
 
-const yaml = require('js-yaml');
-
 const { EngineStartupError } = require('../error');
 const { getYaml } = require('../utilities');
 
@@ -16,13 +14,13 @@ const getIdlConf = async function ({ conf }) {
   if (typeof conf === 'string') {
     try {
       return await getYaml({ path: conf });
-    } catch ({ message }) {
-      throw new EngineStartupError(message, { reason: 'CONFIGURATION_LOADING' });
+    } catch ({ stack }) {
+      throw new EngineStartupError('Could not load configuration file', { type: 'CONFIGURATION_LOADING', details: stack });
     }
   } else if (conf && conf.constructor === Object) {
     return conf;
   } else {
-    throw new EngineStartupError('Missing configuration file or \'conf\' option', { reason: 'CONFIGURATION_LOADING' });
+    throw new EngineStartupError('Missing configuration file or \'conf\' option', { type: 'CONFIGURATION_LOADING' });
   }
 };
 
