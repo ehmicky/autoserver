@@ -124,6 +124,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // The reason type is unknown
+  UNKNOWN_TYPE: () => ({
+    http: { status: 500 },
+  }),
+
   // General catch-all error
   UNKNOWN: () => ({
     http: { status: 500 },
@@ -133,8 +138,11 @@ const errorReasons = {
 
 // Searches through `errorReasons`
 const getErrorInfo = function ({ exception, protocol = 'any' }) {
-  if (!exception.reason || !errorReasons[exception.reason]) {
+  if (!exception.reason) {
     exception.reason = 'UNKNOWN';
+  }
+  if (!errorReasons[exception.reason]) {
+    exception.reason = 'UNKNOWN_TYPE';
   }
   const error = errorReasons[exception.reason]({ exception })[protocol] || {};
   return error;
