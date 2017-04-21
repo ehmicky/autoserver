@@ -103,6 +103,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // Introspection failed because of wrong schema
+  GRAPHQL_WRONG_INTROSPECTION_SCHEMA: () => ({
+    http: { status: 500 },
+  }),
+
   // GraphiQL HTML templating failed
   GRAPHIQL_PARSING_ERROR: () => ({
     http: { status: 500 },
