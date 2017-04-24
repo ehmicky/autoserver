@@ -10,9 +10,9 @@ const { EngineError } = require('../../../error');
 
 const fillParams = async function () {
   return async function (input) {
-    const { req, route, pathParams } = input;
+    const { req, route } = input;
     const operation = req.method;
-    const params = getParams({ req, pathParams });
+    const params = getParams({ req });
     const payload = await getPayload({ req });
 
     const output = Object.assign({}, input, { operation, route, params, payload });
@@ -29,11 +29,10 @@ const fillParams = async function () {
  *
  * @param {object} options
  * @param {Request} options.req
- * @param {object} options.pathParams - URL variables, already provided by previous middleware
  *
  * @returns {object} params
  **/
-const getParams = function ({ req, pathParams }) {
+const getParams = function ({ req }) {
   // Query variables
   const queryVars = httpQueryString.parse(req.url);
 
@@ -41,7 +40,7 @@ const getParams = function ({ req, pathParams }) {
   const appHeaders = httpAppHeaders.parse(req);
 
   // Merge everything
-  const rawParams = Object.assign({}, appHeaders, queryVars, pathParams);
+  const rawParams = Object.assign({}, appHeaders, queryVars);
 
   // Tries to guess parameter types, e.g. '15' -> 15
   const params = mapValues(rawParams, value => transtype(value));

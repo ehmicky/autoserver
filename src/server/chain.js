@@ -25,8 +25,6 @@ const start = async function (opts) {
         mdw.httpGetPath,
       ],
     }),
-    // Retrieves input.route, using input.path
-    mdw.router,
     // Retrieves request parameters
     branch(mdw.protocolNegotiation, {
       http: [
@@ -36,6 +34,8 @@ const start = async function (opts) {
         mdw.httpFillParams,
       ],
     }),
+    // Retrieves input.route, using input.path
+    mdw.router,
 
     /**
      * Interface-related middleware

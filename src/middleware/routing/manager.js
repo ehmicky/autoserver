@@ -16,22 +16,33 @@ class RoutesManager {
     routes.forEach(route => this._add(route));
   }
 
-  _add({ path, route }) {
+  _add({ path, route, operation }) {
     const regexp = pathToRegExp(path);
     const variables = regexp.keys.map(key => key.name);
-    this._routes.push({ path, route, regexp, variables });
+
+    // Normalize operations
+    let operations = operation;
+    if (operations) {
+      operations = operations instanceof Array ? operations : [operations];
+      operations = operations.map(op => op.toLowerCase());
+    }
+
+    this._routes.push({ path, route, regexp, variables, operations });
   }
 
-  find(url) {
-    // Retrieves correct route, according to url
-    const route = this._routes.find(route => {
-      return route.regexp.test(url);
+  find({ path, operation }) {
+    // Retrieves correct route, according to path
+    const route = this._routes.find(({ regexp, operations }) => {
+      // Check path
+      return regexp.test(path)
+        // Check operation/method
+        && (!operations || operations.includes(operation.toLowerCase()));
     });
     if (!route) { return; }
 
     // Retrieves path variables, e.g. /path/:id
     const pathParams = route.regexp
-      .exec(url)
+      .exec(path)
       // Removes first value, which is the full path
       .slice(1)
       // Adds the name of the variable to the value
