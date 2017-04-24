@@ -19,7 +19,8 @@ const interfaceErrorHandlers = require('./interface');
  * @param {string} options.protocol - e.g. 'http'
  */
 const sendError = ({ onRequestError = () => {} }) => {
-  const sendErrorFunc = function ({ exception, input = {}, info: { protocol, interface: interf } = {}, retry = false }) {
+  const sendErrorFunc = function ({ exception, input = {}, info = {}, retry = false }) {
+    const { protocol, interface: interf } = info;
     try {
       const protocolErrorHandler = protocolErrorHandlers[protocol];
       const interfaceErrorHandler = interfaceErrorHandlers[interf];
@@ -29,7 +30,7 @@ const sendError = ({ onRequestError = () => {} }) => {
       let response = createResponse({ exception, errorInput: genericErrorInput });
 
       // Adds protocol-specific error information
-      const protocolErrorInput = Object.assign({}, input, getErrorInfo({ exception, protocol }));
+      const protocolErrorInput = Object.assign({}, input, info, getErrorInfo({ exception, protocol }));
       response = protocolErrorHandler.processResponse({ response, errorInput: protocolErrorInput });
 
       // Adds interface-specific error information
