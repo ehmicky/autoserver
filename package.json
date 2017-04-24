@@ -38,6 +38,7 @@
     "mustache": "^2.3.0",
     "path-to-regexp": "^1.7.0",
     "pluralize": "^4.0.0",
+    "proxy-addr": "^1.1.4",
     "qs": "^6.4.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",

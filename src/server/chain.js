@@ -23,6 +23,8 @@ const start = async function (opts) {
         mdw.httpSendResponse,
         // Retrieves input.path
         mdw.httpGetPath,
+        // Retrieves IP
+        mdw.httpGetIp,
       ],
     }),
     // Retrieves request parameters
@@ -84,6 +86,7 @@ const applyOptions = async function (opts) {
     'protocolNegotiation',
     'httpSendResponse',
     'httpGetPath',
+    'httpGetIp',
     'router',
     'httpLogger',
     'httpFillParams',
