@@ -12,7 +12,7 @@ const { EngineError } = require('../../../../../error');
  * If the parent returns nothing|null, the nested query won't be performed and null will be returned
  *  - this means when performing a nested `create`, the parent must specify the id of its non-created-yet children
  **/
-const addNestedId = function ({ parent, name, attrName, multiple, args, opType }) {
+const addNestedId = function ({ parent, name, attrName, multiple, args, actionType }) {
   // Uses the parent value as a nested filter|data
   const parentVal = parent[attrName];
 
@@ -24,10 +24,10 @@ const addNestedId = function ({ parent, name, attrName, multiple, args, opType }
   }
 
   // Retrieves arg.filter|data
-  const arg = getNestedArgument({ multiple, args, opType });
+  const arg = getNestedArgument({ multiple, args, actionType });
 
   // Make sure query is correct
-  validateNestedId({ parent, name, attrName, multiple, arg, opType });
+  validateNestedId({ parent, name, attrName, multiple, arg, actionType });
 
   // Add `id` argument
   if (arg instanceof Array) {
@@ -41,11 +41,11 @@ const addNestedId = function ({ parent, name, attrName, multiple, args, opType }
 };
 
 // Returns args.filter for find|delete|update, args.data for replace|upsert|create
-const nestedFilterOpTypes = ['find', 'delete', 'update'];
-const nestedDataOpTypes = ['replace', 'upsert', 'create'];
-const getNestedArgument = function ({ multiple, args, opType }) {
-  const usesFilter = nestedFilterOpTypes.includes(opType);
-  const usesData = nestedDataOpTypes.includes(opType);
+const nestedFilterActionTypes = ['find', 'delete', 'update'];
+const nestedDataActionTypes = ['replace', 'upsert', 'create'];
+const getNestedArgument = function ({ multiple, args, actionType }) {
+  const usesFilter = nestedFilterActionTypes.includes(actionType);
+  const usesData = nestedDataActionTypes.includes(actionType);
   const argType = usesFilter ? 'filter' : usesData ? 'data' : null;
   // If args.filter|data absent, adds default value
   if (!args[argType]) {
@@ -55,7 +55,7 @@ const getNestedArgument = function ({ multiple, args, opType }) {
 };
 
 // Make sure query is correct, when it comes to nested id
-const validateNestedId = function ({ parent, name, attrName, multiple, arg, opType }) {
+const validateNestedId = function ({ parent, name, attrName, multiple, arg, actionType }) {
   const parentVal = parent[attrName];
   if (multiple && arg instanceof Array && arg.length !== parentVal.length) {
     wrongInput(`In '${name}' model, wrong parameters: data length should be ${parentVal.length}`);
@@ -63,14 +63,14 @@ const validateNestedId = function ({ parent, name, attrName, multiple, arg, opTy
 
   if (arg instanceof Array) {
     arg.forEach(singleArg => {
-      validateNestedIdSingle({ name, multiple, arg: singleArg, opType });
+      validateNestedIdSingle({ name, multiple, arg: singleArg, actionType });
     });
   } else {
-    validateNestedIdSingle({ name, multiple, arg, opType });
+    validateNestedIdSingle({ name, multiple, arg, actionType });
   }
 };
-const validateNestedIdSingle = function ({ name, multiple, arg, opType }) {
-  const allowIntersects = nestedFilterOpTypes.includes(opType) && multiple;
+const validateNestedIdSingle = function ({ name, multiple, arg, actionType }) {
+  const allowIntersects = nestedFilterActionTypes.includes(actionType) && multiple;
   if (allowIntersects && arg.id && !(arg.id instanceof Array)) {
     wrongInput(`In '${name}' model, wrong parameters: id must be array`);
   }

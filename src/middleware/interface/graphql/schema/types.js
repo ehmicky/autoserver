@@ -57,7 +57,7 @@ const getField = function (def, opts) {
   // Can only assign default to input data that is optional.
   // 'update' does not required anything, nor assign defaults
   let defaultValue;
-  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.opType !== 'update') {
+  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.actionType !== 'update') {
     defaultValue = def.default;
   }
 
@@ -86,7 +86,7 @@ const graphQLArrayFieldGetter = function (def, opts) {
  * Memoize object type constructor in order to infinite recursion.
  * We use the type name, i.e.:
  *  - type name must differ everytime type might differ
- *  - in particular, at the moment, type name differ when inputObjectType, opType or multiple changes
+ *  - in particular, at the moment, type name differ when inputObjectType, actionType or multiple changes
  * We also namespace with a UUID which is unique for each new call to `getSchema()`, to avoid leaking
  **/
 const objectTypeSerializer = function ([ def, opts ]) {
@@ -109,7 +109,7 @@ const graphQLObjectFieldGetter = memoize(function (def, opts) {
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
   const { action = {}, inputObjectType } = opts;
-  const { opType, multiple } = action;
+  const { actionType, multiple } = action;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
     .mapValues((childDef, childDefName) => {
@@ -133,7 +133,7 @@ const getObjectFields = function (def, opts) {
       // Copy nested models with a different name that includes the action, e.g. `my_attribute` -> `createMyAttribute`
       // Not for data|filter arguments
       if (inputObjectType === '') {
-        const name = getActionName({ modelName: childDefName, opType });
+        const name = getActionName({ modelName: childDefName, actionType });
         memo[name] = childDef;
         // Add transformed name to `required` array, if non-transformed name was present
         if (def.required instanceof Array && def.required.includes(childDefName) && !def.required.includes(name)) {
@@ -158,13 +158,13 @@ const getObjectFields = function (def, opts) {
       const subDef = getSubDef(childDef);
       // Remove all return value fields for delete actions, except the recursive ones and `id`
       // And except for delete filters
-      return (opType === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
+      return (actionType === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
         // Filter arguments for single actions only include `id`
         || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
         // Nested data arguments do not include `id`
         || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel)
         // updateOne|updateMany do not allow data.id
-        || (opType === 'update' && childDefName === 'id' && inputObjectType === 'data');
+        || (actionType === 'update' && childDefName === 'id' && inputObjectType === 'data');
     })
 		// Recurse over children
 		.mapValues((childDef, childDefName) => {
@@ -181,7 +181,7 @@ const getObjectFields = function (def, opts) {
 };
 
 // Returns whether a field is required
-const isRequired = function (parentDef, def, name, { action: { opType, multiple } = {}, inputObjectType }) {
+const isRequired = function (parentDef, def, name, { action: { actionType, multiple } = {}, inputObjectType }) {
   // Filter inputObjects `id` attribute is always required
   const isFilterId = name === 'id' && inputObjectType === 'filter' && !multiple;
   const shouldRequire = isFilterId
@@ -191,9 +191,9 @@ const isRequired = function (parentDef, def, name, { action: { opType, multiple 
     // Query inputObjects do not require any attribute, except filter.id for single actions
     (inputObjectType === 'filter' && !isFilterId)
     // updateOne|updateMany does not require any attribute in input object
-    || (inputObjectType === 'data' && opType === 'update')
+    || (inputObjectType === 'data' && actionType === 'update')
     // data.id is optional in createOne|createMany
-    || (inputObjectType === 'data' && opType === 'create' && name === 'id');
+    || (inputObjectType === 'data' && actionType === 'create' && name === 'id');
   return shouldRequire && !shouldNotRequire;
 };
 

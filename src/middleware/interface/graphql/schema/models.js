@@ -18,14 +18,14 @@ const getModelsByMethod = function ({ methodName, models }) {
   // Iterate through each action
   return chain(actions)
     // Only include actions for a given GraphQL method
-    .filter(({ opType }) => graphqlMethods[methodName].includes(opType))
+    .filter(({ actionType }) => graphqlMethods[methodName].includes(actionType))
     // Iterate through each model
     .mapValues(action => chain(models)
       // Remove model that are not allowed for a given action
       .pickBy(model => isAllowedModel({ model, action }))
       // Modify object key to include action information, e.g. 'my_model' + 'findMany' -> 'findMyModels'
       // This will be used as the top-level methods names
-      .mapKeys((_, modelName) => getActionName({ modelName, opType: action.opType, multiple: action.multiple }))
+      .mapKeys((_, modelName) => getActionName({ modelName, actionType: action.actionType, multiple: action.multiple }))
       .mapValues(model => {
         // Deep copy
         let modelCopy = merge({}, model);
