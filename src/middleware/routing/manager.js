@@ -23,7 +23,7 @@ class RoutesManager {
   }
 
   find(url) {
-    // Retrives correct route, according to url
+    // Retrieves correct route, according to url
     const route = this._routes.find(route => {
       return route.regexp.test(url);
     });
