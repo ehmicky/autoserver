@@ -161,23 +161,19 @@ models:
 #   - plural: e.g. `findMany`, similar to REST's GET /models/
 # By default, more singular and plural are allowed. To restrict to singular only, add `One`, e.g. `findOne`
 # Operations can use the following arguments:
-#   - `id`:
-#      - in all *One operations. Required by each of them, except deleteOne
-#      - conceptually implicitely added to any `data` or `filter` argument
-#   - `ids`:
-#      - in all *Many operations. Required by replaceMany and upsertMany
-#      - must be an array
-#      - conceptually implicitely added to any `data` (i.e. must have same length) or `filter` argument
 #   - `data`:
 #      - in update, upsert, replace or create operations. Required by each of them
-#      - must be an array of object for all upsertMany, replaceMany and createMany. Must be an object otherwise
-#      - contains the entity to modify or create
+#      - must be an array of objects for all upsertMany, replaceMany and createMany. Must be an object otherwise
+#      - `id` is required for upsert and replace, optional for create, not allowed for update
+#      - contains the entities to modify or create
 #   - `filter`:
-#      - in find, delete and update operations. Never required
+#      - in find, delete and update operations.
 #      - must be an object, whose keys are named after the models attributes
+#      - for findOne, deleteOne and updateOne, can only contain `id` key, and is required
+#      - for findMany, deleteMany and updateMany, `id` is an array of possible ids
 #      - used as a query filter, e.g. deleteMany { filter: { name: 'example' } } remove all entities with `name` 'example'
 #   - `order_by`
-#      - in all operations. Never required
+#      - in all *Many operations. Never required
 #      - must be a comma-separated list of attributes, optionally prefixed by + or -, e.g. 'name-,id'
 #      - orders server response according to the specified attributes. Default order is +, i.e. ascending
 operations: [find, create, replace, update, upsert, delete]
