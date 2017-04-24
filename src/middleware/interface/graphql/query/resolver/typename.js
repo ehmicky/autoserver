@@ -5,8 +5,8 @@ const { getTypeName, getParentModel } = require('./utilities');
 
 
 const typenameResolver = function ({ parent }) {
-  const { opType, modelName } = getParentModel(parent);
-  const typename = getTypeName(`${opType} ${modelName}`);
+  const { actionType, modelName } = getParentModel(parent);
+  const typename = getTypeName(`${actionType} ${modelName}`);
   return typename;
 };
 

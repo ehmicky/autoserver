@@ -9,21 +9,21 @@ const { singular } = require('pluralize');
 const nameRegExp = /^([a-z0-9]+)([A-Z][a-zA-Z0-9]*)/;
 /**
  * Parse a GraphQL query attribute name into tokens.
- * E.g. `findMyModels` -> { opType: 'find', attrName: 'my_models' }
+ * E.g. `findMyModels` -> { actionType: 'find', attrName: 'my_models' }
  **/
 const parseName = function ({ name }) {
   const parts = nameRegExp.exec(name);
   if (!parts) { return {}; }
 
-  const opType = parts[1].trim();
-  if (!opType) { return {}; }
+  const actionType = parts[1].trim();
+  if (!actionType) { return {}; }
 
   const rawAttrName = parts[2].trim();
   if (!rawAttrName) { return {}; }
 
   const attrName = underscored(rawAttrName);
 
-  return { opType, attrName };
+  return { actionType, attrName };
 };
 
 

@@ -34,11 +34,11 @@ Specify ascending or descending order by appending + or - (default is ascending)
 };
 
 // Data argument, i.e. payload used by mutation actions
-const dataOpTypes = ['create', 'upsert', 'replace', 'update'];
-const multipleDataOpTypes = ['create', 'upsert', 'replace'];
-const getDataArgument = function ({ action: { opType, multiple } = {}, dataObjectType }) {
+const dataActionTypes = ['create', 'upsert', 'replace', 'update'];
+const multipleDataActionTypes = ['create', 'upsert', 'replace'];
+const getDataArgument = function ({ action: { actionType, multiple } = {}, dataObjectType }) {
 	// Only for mutation actions, but not delete
-	if (!dataOpTypes.includes(opType)) { return; }
+	if (!dataActionTypes.includes(actionType)) { return; }
 
 	// Retrieves description before wrapping in modifers
 	const description = dataObjectType.description;
@@ -46,7 +46,7 @@ const getDataArgument = function ({ action: { opType, multiple } = {}, dataObjec
 	// Add required and array modifiers
 	dataObjectType = new GraphQLNonNull(dataObjectType);
   // Only multiple with createMany or upsertMany or replaceMany
-	if (multiple && multipleDataOpTypes.includes(opType)) {
+	if (multiple && multipleDataActionTypes.includes(actionType)) {
 		dataObjectType = new GraphQLNonNull(new GraphQLList(dataObjectType));
 	}
 
@@ -59,10 +59,10 @@ const getDataArgument = function ({ action: { opType, multiple } = {}, dataObjec
 };
 
 // Filters argument, i.e. only queries entities that match specified attributes
-const filterOpTypes = ['find', 'delete', 'update'];
-const getFilterArgument = function (def, { action: { opType, multiple } = {}, filterObjectType }) {
+const filterActionTypes = ['find', 'delete', 'update'];
+const getFilterArgument = function (def, { action: { actionType, multiple } = {}, filterObjectType }) {
   // Nested queries for findOne|deleteOne|updateOne do not use filters, as it is implied from parent return value
-  if (!filterOpTypes.includes(opType) || (!def.isTopLevel && !multiple)) { return; }
+  if (!filterActionTypes.includes(actionType) || (!def.isTopLevel && !multiple)) { return; }
   const type = multiple ? filterObjectType : new GraphQLNonNull(filterObjectType);
   return {
     filter: {
