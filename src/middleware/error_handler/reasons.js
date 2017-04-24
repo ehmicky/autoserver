@@ -53,6 +53,11 @@ const errorReasons = {
     http: { status: 400 },
   }),
 
+  // A JSL expression failed, e.g. when being evaluated
+  JSL_SYNTAX: () => ({
+    http: { status: 400 },
+  }),
+
   // Standard 404, e.g. route not found
   NOT_FOUND: () => ({
     http: { status: 404 },
