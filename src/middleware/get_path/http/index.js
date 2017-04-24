@@ -8,9 +8,9 @@ const { httpHeaders } = require('../../../parsing');
 
 const httpGetPath = async function () {
   return async function (input) {
-    const { req } = input;
+    const { req, info } = input;
 
-    req[Symbol.for('requestUrl')] = getRequestUrl({ req });
+    info.requestUrl = getRequestUrl({ req });
     const path = getPath(req.url);
 
     const output = Object.assign({}, input, { path });

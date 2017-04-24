@@ -15,7 +15,7 @@ const sendResponse = function ({ response: { error, status, contentType }, input
   });
 };
 
-const processResponse = function ({ response, errorInput: { status = 500, req } = {} }) {
+const processResponse = function ({ response, errorInput: { status = 500, requestUrl } = {} }) {
   // HTTP status code
   response.status = status;
 
@@ -23,7 +23,7 @@ const processResponse = function ({ response, errorInput: { status = 500, req } 
   const title = response.title || STATUS_CODES[status];
 
   // Request URL, i.e. everything except query string and hash
-  const instance = req[Symbol.for('requestUrl')] || 'unknown';
+  const instance = requestUrl || 'unknown';
 
   Object.assign(response.error, { status, title, instance });
 
