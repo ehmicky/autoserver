@@ -28,19 +28,12 @@ const MAX_ARRAY_LENGTH = 100;
  * Differentiates between undefined, null and '' (see serialize() below)
  * Try to guess types: numbers, booleans, null
  *
- * @param {string|Url} url - Can either be a full URL, a query string (without or without '?') or a URL object
+ * @param {string|Url} url - Can either be a full URL, a path, a query string (with leading '?') or a URL object
  * @returns {object} queryObject
  */
 const parse = function (url) {
+  const queryString = getQueryString(url);
   try {
-    let urlObj = url;
-    if (!(urlObj instanceof urlParser.URL)) {
-      urlObj = urlParser.parse(url);
-    }
-
-    let queryString = urlObj.search || url;
-    queryString = queryString.replace(/^\?/, '');
-
     const queryObject = qs.parse(queryString, {
       depth: MAX_DEPTH,
       arrayLimit: MAX_ARRAY_LENGTH,
@@ -52,6 +45,33 @@ const parse = function (url) {
   } catch (innererror) {
     throw new EngineError(`Request query string is invalid: ${url}`, { reason: 'HTTP_QUERY_STRING_PARSE', innererror });
   }
+};
+
+/**
+ * Retrieves query string from a URL
+ *
+ * @param {string|Url} url - Can either be a full URL, a path, a query string (with leading '?') or a URL object
+ * @returns {string} query - does not include the leading `?`
+ **/
+const getQueryString = function (url) {
+  if (!(url instanceof urlParser.URL)) {
+    try {
+      url = new urlParser.URL(url);
+    } catch (e) {
+      try {
+        let path = url;
+        if (!path.startsWith('/')) {
+          path = `/${path}`;
+        }
+        url = new urlParser.URL(`http://localhost${path}`);
+      } catch (e) {
+        throw new EngineError(`Could not retrieve query string from: ${url}`, { reason: 'HTTP_QUERY_STRING_PARSE' });
+      }
+    }
+  }
+
+  const queryString = (url.search || '').replace(/^\?/, '');
+  return queryString;
 };
 
 const decodeValue = function (str) {
