@@ -67,8 +67,8 @@ const start = async function (opts) {
     /**
      * Database-related middleware
      */
-    // Do the database operation, protocol and interface-agnostic
-    mdw.executeDatabaseOperation,
+    // Do the database action, protocol and interface-agnostic
+    mdw.executeDatabaseAction,
 
     // If we got there, it means no response has been fired
     function () {
@@ -96,7 +96,7 @@ const applyOptions = async function (opts) {
     'apiConvertor',
     'handleJsl',
     'validation',
-    'executeDatabaseOperation'
+    'executeDatabaseAction'
   ];
   const memo = {};
   for (const name of middlewares) {

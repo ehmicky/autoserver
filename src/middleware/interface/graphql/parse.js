@@ -8,22 +8,22 @@ const { memoize } = require('../../../utilities');
 
 
 // Raw GraphQL parsing
-const parseQuery = memoize(function ({ query, operation, operationName }) {
+const parseQuery = memoize(function ({ query, method, operationName }) {
   if (!query) {
     throw new EngineError('Missing GraphQL query', { reason: 'GRAPHQL_NO_QUERY' });
   }
 
   try {
     const queryDocument = parse(query);
-    const { graphqlOperation } = validateQuery({ queryDocument, operation, operationName });
-    return { queryDocument, graphqlOperation };
+    const { graphqlMethod } = validateQuery({ queryDocument, method, operationName });
+    return { queryDocument, graphqlMethod };
   } catch (innererror) {
     throw new EngineError('Could not parse GraphQL query', { reason: 'GRAPHQL_SYNTAX_ERROR', innererror });
   }
 });
 
 // Make sure GraphQL query is valid
-const validateQuery = function ({ queryDocument, operation, operationName }) {
+const validateQuery = function ({ queryDocument, method, operationName }) {
   // Get all query|mutation definitions
   const operationDefinitions = queryDocument.definitions.filter(({ kind }) => kind === 'OperationDefinition');
   const definitions = operationDefinitions.filter(({ name: { value: name } = {} }) => {
@@ -46,13 +46,13 @@ const validateQuery = function ({ queryDocument, operation, operationName }) {
     });
   }
 
-  if (operation === 'GET' && definition.operation !== 'query') {
+  if (method === 'GET' && definition.operation !== 'query') {
     throw new EngineError('Can only perform GraphQL queries, not mutations, when using GET method', {
       reason: 'GRAPHQL_SYNTAX_ERROR',
     });
   }
 
-  return { graphqlOperation: definition.operation };
+  return { graphqlMethod: definition.operation };
 };
 
 

@@ -2,14 +2,14 @@
 
 
 const { validate } = require('../../utilities');
-const { operations } = require('../../idl');
+const { actions } = require('../../idl');
 
 
 // Check API output, for the errors that should not happen, i.e. server-side (e.g. 500)
 // In short: response should be an array of objects
-const validateServerOutputSyntax = function ({ operation, response }) {
+const validateServerOutputSyntax = function ({ action, response }) {
   const type = 'serverOutputSyntax';
-  const multiple = operations.find(op => op.name === operation).multiple;
+  const multiple = actions.find(op => op.name === action).multiple;
   const schema = getSchema({ multiple });
   validate({ schema, data: { response }, reportInfo: { type } });
 };

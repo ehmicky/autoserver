@@ -3,8 +3,8 @@
 
 const interfaceConvertor = async function () {
   return async function (input) {
-    const { operation, route, params, payload, info } = input;
-    const response = await this.next({ operation, route, params, payload, info });
+    const { method, route, params, payload, info } = input;
+    const response = await this.next({ method, route, params, payload, info });
     return response;
   };
 };

@@ -2,7 +2,7 @@
 
 
 /* eslint-disable no-multi-spaces */
-const operations = [
+const actions = [
   { name: 'findOne',     opType: 'find',     multiple: false,  },
   { name: 'findMany',    opType: 'find',     multiple: true,   },
   { name: 'createOne',   opType: 'create',   multiple: false,  },
@@ -20,5 +20,5 @@ const operations = [
 
 
 module.exports = {
-  operations,
+  actions,
 };

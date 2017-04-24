@@ -41,7 +41,7 @@ const reasons = {
   idl: 'IDL_VALIDATION',
   serverInputSyntax: 'INPUT_SERVER_VALIDATION',
   clientInputSyntax: 'INPUT_VALIDATION',
-  clientInputMethod: 'WRONG_METHOD',
+  clientInputAction: 'WRONG_ACTION',
   clientInputSemantics: 'INPUT_VALIDATION',
   clientInputData: 'INPUT_VALIDATION',
   serverOutputSyntax: 'OUTPUT_VALIDATION',
@@ -50,17 +50,17 @@ const reasons = {
 const messageProcessors = {
   idl: ({ message }) => `In schema file, ${message}`,
   serverInputSyntax: ({ message }) => `Server-side input error: ${message}`,
-  clientInputSyntax: ({ message, reportInfo: { operation, modelName } }) =>
-    `In operation '${operation}', model '${modelName}', wrong parameters: ${message}`,
-  clientInputMethod: ({ message, reportInfo: { operation, modelName } }) =>
-    `In operation '${operation}', model '${modelName}', wrong operation: ${message}`,
-  clientInputSemantics: ({ message, reportInfo: { operation, modelName } }) =>
-    `In operation '${operation}', model '${modelName}', wrong parameters: ${message}`,
-  clientInputData: ({ message, reportInfo: { operation, modelName } }) =>
-    `In operation '${operation}', model '${modelName}', wrong parameters: ${message}`,
+  clientInputSyntax: ({ message, reportInfo: { action, modelName } }) =>
+    `In action '${action}', model '${modelName}', wrong parameters: ${message}`,
+  clientInputAction: ({ message, reportInfo: { action, modelName } }) =>
+    `In action '${action}', model '${modelName}', wrong action: ${message}`,
+  clientInputSemantics: ({ message, reportInfo: { action, modelName } }) =>
+    `In action '${action}', model '${modelName}', wrong parameters: ${message}`,
+  clientInputData: ({ message, reportInfo: { action, modelName } }) =>
+    `In action '${action}', model '${modelName}', wrong parameters: ${message}`,
   serverOutputSyntax: ({ message }) => `Server-side output error: ${message}`,
-  serverOutputData: ({ message, reportInfo: { operation, modelName } }) =>
-    `In operation '${operation}', model '${modelName}', response is corrupted: ${message}`,
+  serverOutputData: ({ message, reportInfo: { action, modelName } }) =>
+    `In action '${action}', model '${modelName}', response is corrupted: ${message}`,
 };
 
 // Customize error messages when the library's ones are unclear

@@ -8,15 +8,15 @@ const { transform } = require('../utilities');
 
 // Normalize IDL definition
 const normalizeIdl = function (idl) {
-  idl.operations = normalizeOperations(idl.operations || defaultOperations);
+  idl.actions = normalizeActions(idl.actions || defaultActions);
   idl.models = normalizeModels(idl);
   return idl;
 };
 
 // Normalize IDL definition models
-const normalizeModels = function ({ models, operations }) {
+const normalizeModels = function ({ models, actions }) {
   models = addModelType({ models });
-  transform({ transforms, args: { defaultOperations: operations } })({ input: models });
+  transform({ transforms, args: { defaultActions: actions } })({ input: models });
   return models;
 };
 
@@ -71,10 +71,10 @@ const transforms = [
   {
     // Parent: specified or default
     // Attribute: intersection of parent model * referred model * specified
-    // Normalize operations shortcuts, and adds defaults
-    model({ defaultOperations, parent: { operations = defaultOperations } }) {
-      const normalizedOperations = normalizeOperations(operations);
-      return { operations: normalizedOperations };
+    // Normalize actions shortcuts, and adds defaults
+    model({ defaultActions, parent: { actions = defaultActions } }) {
+      const normalizedActions = normalizeActions(actions);
+      return { actions: normalizedActions };
     }
   },
 
@@ -92,16 +92,16 @@ const transforms = [
 ];
 
 
-// Normalize operations hortcuts, e.g. 'find' -> 'findOne' + 'findMany'
-const normalizeOperations = function (operations) {
-  return operations.reduce((memo, operation) => {
-    const normalizedOperation = /(One)|(Many)$/.test(operation) ? operation : [`${operation}One`, `${operation}Many`];
-    return memo.concat(normalizedOperation);
+// Normalize actions shortcuts, e.g. 'find' -> 'findOne' + 'findMany'
+const normalizeActions = function (actions) {
+  return actions.reduce((memo, action) => {
+    const normalizedAction = /(One)|(Many)$/.test(action) ? action : [`${action}One`, `${action}Many`];
+    return memo.concat(normalizedAction);
   }, []);
 };
 
-// By default, include all operations but deleteMany
-const defaultOperations = ['find', 'update', 'deleteOne', 'replace', 'upsert', 'create'];
+// By default, include all actions but deleteMany
+const defaultActions = ['find', 'update', 'deleteOne', 'replace', 'upsert', 'create'];
 
 
 module.exports = {

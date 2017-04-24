@@ -3,7 +3,7 @@
 
 const { validateServerInputSyntax } = require('./server_input_syntax');
 const { validateClientInputSyntax } = require('./client_input_syntax');
-const { validateClientInputMethod } = require('./client_input_method');
+const { validateClientInputAction } = require('./client_input_action');
 const { validateClientInputSemantics } = require('./semantics');
 const { validateClientInputData, validateServerOutputData } = require('./data');
 const { validateServerOutputSyntax } = require('./server_output_syntax');
@@ -16,16 +16,16 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  **/
 const validation = async function ({ idl }) {
   return async function (input) {
-    const { modelName, args, operation } = input;
-    validateServerInputSyntax({ idl, modelName, operation, args });
-    validateClientInputSyntax({ modelName, operation, args });
-    validateClientInputMethod({ idl, modelName, operation });
-    validateClientInputSemantics({ idl, modelName, operation, args });
-    validateClientInputData({ idl, modelName, operation, args });
+    const { modelName, args, action } = input;
+    validateServerInputSyntax({ idl, modelName, action, args });
+    validateClientInputSyntax({ modelName, action, args });
+    validateClientInputAction({ idl, modelName, action });
+    validateClientInputSemantics({ idl, modelName, action, args });
+    validateClientInputData({ idl, modelName, action, args });
 
     const response = await this.next(input);
-    validateServerOutputSyntax({ operation, response });
-    validateServerOutputData({ idl, modelName, response, operation });
+    validateServerOutputSyntax({ action, response });
+    validateServerOutputData({ idl, modelName, response, action });
 
     return response;
   };

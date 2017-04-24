@@ -12,7 +12,7 @@ const { getYaml } = require('./yaml');
  * Targets can be JSON or YAML files.
  * Circular references are supported.
  * Siblings attributes to `$ref` will be merged (with higher priority), although this is not standard|spec behavior.
- * This method might throw for several reasons, e.g. YAML|JSON parsing error, cannot access remote|local file, etc.
+ * This function might throw for several reasons, e.g. YAML|JSON parsing error, cannot access remote|local file, etc.
  */
 const dereferenceRefs = async function (obj) {
   return await RefParser.dereference(obj, {

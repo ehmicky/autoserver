@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { operations } = require('../../../../../idl');
+const { actions } = require('../../../../../idl');
 const { EngineError } = require('../../../../../error');
 const { typenameResolver } = require('./typename');
 const { nestedModelResolver } = require('./nested_model');
@@ -12,7 +12,7 @@ const { setParentModel, hasParentModel } = require('./utilities');
 /**
  * GraphQL-anywhere uses a single resolver: here it is
  **/
-const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, { callback, graphqlOperation }) {
+const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, { callback, graphqlMethod }) {
   args = args || {};
 
   // Introspection type name
@@ -27,28 +27,28 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   // Shortcuts resolver if we already know the final result
   if (directReturn !== undefined) { return directReturn; }
 
-  // Retrieve operation name, passed to database layer
-  const { name: operation } = operations.find(op => op.multiple === multiple && op.opType === opType) || {};
+  // Retrieve action name, passed to database layer
+  const { name: action } = actions.find(action => action.multiple === multiple && action.opType === opType) || {};
   // This means the query specified an attribute that is not present in IDL definition
-  if (operation == null || modelName == null) {
-    throw new EngineError(`Operation '${name}' does not exist`, { reason: 'INPUT_VALIDATION' });
+  if (action == null || modelName == null) {
+    throw new EngineError(`Action '${name}' does not exist`, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (graphqlOperations[opType] !== graphqlOperation) {
-    throw new EngineError(`Cannot perform operation '${name}' with a GraphQL '${graphqlOperation}'`, {
+  if (graphqlMethods[opType] !== graphqlMethod) {
+    throw new EngineError(`Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`, {
       reason: 'INPUT_VALIDATION',
     });
   }
 
   // Fire database layer, retrieving value passed to children
-  const response = await callback({ operation, modelName, args });
+  const response = await callback({ action, modelName, args });
   // Tags the response as belonging to that modelName
-  setParentModel(response, { operation, modelName, opType });
+  setParentModel(response, { action, modelName, opType });
   return response;
 };
 
-// Mapping from IDL operations to GraphQL methods
-const graphqlOperations = {
+// Mapping from IDL actions to GraphQL methods
+const graphqlMethods = {
   find: 'query',
   create: 'mutation',
   replace: 'mutation',

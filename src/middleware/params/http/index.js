@@ -11,11 +11,11 @@ const { EngineError } = require('../../../error');
 const fillParams = async function () {
   return async function (input) {
     const { req, route } = input;
-    const operation = req.method;
+    const method = req.method;
     const params = getParams({ req });
     const payload = await getPayload({ req });
 
-    const output = Object.assign({}, input, { operation, route, params, payload });
+    const output = Object.assign({}, input, { method, route, params, payload });
     const response = await this.next(output);
     return response;
   };

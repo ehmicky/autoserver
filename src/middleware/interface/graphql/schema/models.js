@@ -2,52 +2,52 @@
 
 
 const { chain, merge, assign, mapValues } = require('lodash');
-const { getOperationName } = require('./name');
+const { getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
-const { operations } = require('../../../../idl');
+const { actions } = require('../../../../idl');
 
 
-// Mapping from IDL operations to GraphQL methods
-const graphqlOperations = {
+// Mapping from IDL actions to GraphQL methods
+const graphqlMethods = {
   query: ['find'],
   mutation: ['create', 'replace', 'update', 'upsert', 'delete'],
 };
 
 // Retrieve models for a given method
 const getModelsByMethod = function ({ methodName, models }) {
-  // Iterate through each operation
-  return chain(operations)
-    // Only include operations for a given GraphQL method
-    .filter(({ opType }) => graphqlOperations[methodName].includes(opType))
+  // Iterate through each action
+  return chain(actions)
+    // Only include actions for a given GraphQL method
+    .filter(({ opType }) => graphqlMethods[methodName].includes(opType))
     // Iterate through each model
-		.mapValues(operation => chain(models)
-      // Remove model that are not allowed for a given operation
-      .pickBy(model => isAllowedModel({ model, operation }))
-      // Modify object key to include operation information, e.g. 'my_model' + 'findMany' -> 'findMyModels'
+    .mapValues(action => chain(models)
+      // Remove model that are not allowed for a given action
+      .pickBy(model => isAllowedModel({ model, action }))
+      // Modify object key to include action information, e.g. 'my_model' + 'findMany' -> 'findMyModels'
       // This will be used as the top-level methods names
-      .mapKeys((_, modelName) => getOperationName({ modelName, opType: operation.opType, multiple: operation.multiple }))
+      .mapKeys((_, modelName) => getActionName({ modelName, opType: action.opType, multiple: action.multiple }))
       .mapValues(model => {
         // Deep copy
         let modelCopy = merge({}, model);
 
-        // Add operation information to the nested models
+        // Add action information to the nested models
         const properties = mapValues(model.properties, def => {
           const subDef = getSubDef(def);
           if (!isModel(subDef)) { return def; }
 
           const multiple = isMultiple(def);
-          const subOperation = Object.assign({}, operation, { multiple });
-          return Object.assign({}, def, { operation: subOperation });
+          const subAction = Object.assign({}, action, { multiple });
+          return Object.assign({}, def, { action: subAction });
         });
         merge(modelCopy, { properties, isTopLevel: true });
 
-        // Wrap in array if operation is multiple
-        if (operation.multiple) {
+        // Wrap in array if action is multiple
+        if (action.multiple) {
           modelCopy = { type: 'array', items: modelCopy };
         }
 
-        // Add operation information to the top-level model
-        Object.assign(modelCopy, { operation });
+        // Add action information to the top-level model
+        Object.assign(modelCopy, { action });
         return modelCopy;
       })
       .value()
@@ -57,10 +57,10 @@ const getModelsByMethod = function ({ methodName, models }) {
     .value();
 };
 
-// Filter allowed operations on a given model
-const isAllowedModel = function ({ model, operation }) {
-  // IDL property `def.operations` allows whitelisting specific operations
-  return model.operations.includes(operation.name);
+// Filter allowed actions on a given model
+const isAllowedModel = function ({ model, action }) {
+  // IDL property `def.actions` allows whitelisting specific actions
+  return model.actions.includes(action.name);
 };
 
 
