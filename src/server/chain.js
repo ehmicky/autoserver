@@ -59,6 +59,8 @@ const start = async function (opts) {
      */
     // Convert from interface format to API format
     mdw.apiConvertor,
+    // Handle JSL, e.g. convert to format processable by database
+    mdw.handleJsl,
     // General validation layer
     mdw.validation,
 
@@ -92,6 +94,7 @@ const applyOptions = async function (opts) {
     'executeGraphiql',
     'printGraphql',
     'apiConvertor',
+    'handleJsl',
     'validation',
     'executeDatabaseOperation'
   ];
