@@ -25,8 +25,9 @@ const parseQuery = memoize(function ({ query, operation, operationName }) {
 // Make sure GraphQL query is valid
 const validateQuery = function ({ queryDocument, operation, operationName }) {
   // Get all query|mutation definitions
-  const definitions = queryDocument.definitions.filter(({ name: { value: name } = {}, kind }) => {
-    return kind === 'OperationDefinition' && (!operationName || name === operationName);
+  const operationDefinitions = queryDocument.definitions.filter(({ kind }) => kind === 'OperationDefinition');
+  const definitions = operationDefinitions.filter(({ name: { value: name } = {} }) => {
+    return !operationName || name === operationName;
   });
   if (definitions.length === 0) {
     if (operationName) {
@@ -35,9 +36,15 @@ const validateQuery = function ({ queryDocument, operation, operationName }) {
       throw new EngineError('Missing GraphQL query', { reason: 'GRAPHQL_NO_QUERY' });
     }
   }
-
-  // TODO: We do not support multiple queries yet
   const definition = definitions[0];
+
+  // GraphQL-anywhere do not support operationName yet, so we must patch it until they do
+  // See https://github.com/apollographql/graphql-anywhere/issues/34
+  if (operationDefinitions.length > 1) {
+    queryDocument.definitions = queryDocument.definitions.filter(def => {
+      return !operationDefinitions.includes(def) || def === definition;
+    });
+  }
 
   if (operation === 'GET' && definition.operation !== 'query') {
     throw new EngineError('Can only perform GraphQL queries, not mutations, when using GET method', {
