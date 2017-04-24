@@ -4,6 +4,6 @@
 module.exports = Object.assign(
   {},
   require('./parse'),
-  require('./operations'),
+  require('./actions'),
   require('./models_map')
 );

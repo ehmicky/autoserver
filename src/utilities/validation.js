@@ -48,7 +48,7 @@ const getValidator = memoize(function ({ schema }) {
  *   {object} reportInfo - information used by error reporter
  *   {string} reportInfo.type - type of validation
  *   {string} [reportInfo.dataVar] - variable name
- *   {string} [reportInfo.operation]
+ *   {string} [reportInfo.action]
  *   {string} [reportInfo.modelName]
  **/
 const validate = function ({ schema, data, reportInfo }) {

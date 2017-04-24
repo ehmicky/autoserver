@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Summary of operations:
+ * Summary of actions:
  *   findOne({ filter: { id } })
  *   findMany({ [filter], [order_by] })
  *   deleteOne({ filter: { id } })
@@ -19,7 +19,7 @@
  *  - {object|object[]} data - Attributes to update or create
  *                             Is an array in createMany, replaceMany or upsertMany
  *                             `data.id` is required in upsert* and replace*, optional in create*, not allowed in update*
- *  - {any} filter           - Filter the operation by a specific attribute.
+ *  - {any} filter           - Filter the action by a specific attribute.
  *                             The argument name is that attribute name, not `filter`
  *                             `filter.id` is required in findOne, deleteOne and updateOne
  *                             `filter.id` is an array in findMany, deleteMany and updateMany
@@ -27,11 +27,11 @@
  *                             Value is attribute name, followed by optional + or - for ascending|descending order (default: +)
  *                             Can contain dots to select fields, e.g. order_by="furniture.size"
  *
- * Operations on submodels will automatically get filtered by id.
+ * Actions on submodels will automatically get filtered by id.
  * If an id is then specified, both filters will be used
  * For createOne:
  *   - it is the id the newly created instance
- *   - it is optional, unless there is another nested operation on a submodel
+ *   - it is optional, unless there is another nested action on a submodel
  **/
 
 
@@ -193,7 +193,7 @@ const upsertMany = function ({ collection, data }) {
   return data.map(datum => upsertOne({ collection, data: datum }));
 };
 
-const operations = {
+const actions = {
   findOne,
   findMany,
   deleteOne,
@@ -208,12 +208,12 @@ const operations = {
   upsertMany,
 };
 
-const fireOperation = function (opts) {
-  const response = operations[opts.operation](opts);
+const fireAction = function (opts) {
+  const response = actions[opts.action](opts);
   const sortedResponse = sortResponse({ response, orderByArg: opts.orderBy });
   return sortedResponse;
 };
 
 module.exports = {
-  fireOperation,
+  fireAction,
 };

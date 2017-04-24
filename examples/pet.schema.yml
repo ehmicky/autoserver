@@ -6,9 +6,9 @@
 # Using this file, the API will automatically generate:
 #  - HTTP server: body/query handling
 #  - GraphQL server: endpoint, introspection, debugger, schema printing
-#  - CRUD methods: find, create, replace, update, upsert, delete. On a single model or several.
+#  - CRUD actions: find, create, replace, update, upsert, delete. On a single model or several.
 #  - CRUD arguments: filtering, sorting, selecting
-#  - nested operations, populating
+#  - nested actions, populating
 #  - input and output validation
 #  - error handling
 #  - logging
@@ -24,9 +24,9 @@ models:
     description: Cute animal
     # `ìd` should always be required, and specified
     required: [id, name, photo_urls, friends]
-    # Allowed operations for this model.
-    # Defaults to top-level `operations` key (see it for further explanations)
-    operations: [find, create, replace, update, upsert, delete]
+    # Allowed actions for this model.
+    # Defaults to top-level `actions` key (see it for further explanations)
+    actions: [find, create, replace, update, upsert, delete]
     # Custom property
     x-custom: anything
     properties:
@@ -115,7 +115,7 @@ models:
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key
         # References can be recursive, e.g. here `pet` is the current model
         # Will actually copy the model's `id` property definition (in case of conflict, current definition has priority)
-        # Those "sub-models" to perform nested operations
+        # Those "sub-models" to perform nested actions
         model: pet
         description: This pet's best friend
       # Array of foreign keys (i.e. n-1, 1-n and n-n relationships) can also be specified
@@ -141,36 +141,36 @@ models:
     $ref: examples/owner.schema.yml
   pet_skills:
     $ref: examples/pet_skills.schema.yml
-# Default `operations` values for each model
-# If unspecified, is all operations but deleteMany
-# Operations can be:
+# Default `actions` values for each model
+# If unspecified, is all actions but deleteMany
+# Actions can be:
 #   - find: retrieve an element, similar to REST's GET
 #   - create: create an element, similar to REST's POST. `id` can be specified by client, or set by server.
 #   - replace: completely replace an element, similar to REST's PUT
 #   - update: partially update an element, similar to REST's PATCH
 #   - upsert: if element exists, like "replace". Otherwise, like "create"
 #   - delete: delete an element, similar to REST's DELETE
-# Each operation has two versions:
+# Each action has two versions:
 #   - singular: e.g. `findOne`, similar to REST's GET /models/ID
 #   - plural: e.g. `findMany`, similar to REST's GET /models/
 # By default, more singular and plural are allowed. To restrict to singular only, add `One`, e.g. `findOne`
-# Operations can use the following arguments:
+# Actions can use the following arguments:
 #   - `data`:
-#      - in update, upsert, replace or create operations. Required by each of them
+#      - in update, upsert, replace or create actions. Required by each of them
 #      - must be an array of objects for all upsertMany, replaceMany and createMany. Must be an object otherwise
 #      - `id` is required for upsert and replace, optional for create, not allowed for update
 #      - contains the entities to modify or create
 #   - `filter`:
-#      - in find, delete and update operations.
+#      - in find, delete and update actions.
 #      - must be an object, whose keys are named after the models attributes
 #      - for findOne, deleteOne and updateOne, can only contain `id` key, and is required
 #      - for findMany, deleteMany and updateMany, `id` is an array of possible ids
 #      - used as a query filter, e.g. deleteMany { filter: { name: 'example' } } remove all entities with `name` 'example'
 #   - `order_by`
-#      - in all *Many operations. Never required
+#      - in all *Many actions. Never required
 #      - must be a comma-separated list of attributes, optionally prefixed by + or -, e.g. 'name-,id'
 #      - orders server response according to the specified attributes. Default order is +, i.e. ascending
-operations: [find, create, replace, update, upsert, delete]
+actions: [find, create, replace, update, upsert, delete]
 # No specific semantics, but can be used by $ref
 definitions:
   dummyDefinition:

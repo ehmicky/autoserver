@@ -13,11 +13,11 @@ const executeGraphql = async function (opts) {
   const handleQuery = getHandleQuery({ idl });
   return async function (request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)
-    const { params, payload, operation } = request;
+    const { params, payload, method } = request;
     const { query, variables, operationName } = Object.assign({}, params, payload);
 
     // GraphQL parsing
-    const { queryDocument, graphqlOperation } = parseQuery({ query, operation, operationName });
+    const { queryDocument, graphqlMethod } = parseQuery({ query, method, operationName });
 
     // GraphQL execution
     let response;
@@ -27,7 +27,7 @@ const executeGraphql = async function (opts) {
     // Normal GraphQL query
     } else {
       const callback = fireNext.bind(this, request);
-      const data = await handleQuery({ queryDocument, variables, operationName, context: { graphqlOperation, callback },
+      const data = await handleQuery({ queryDocument, variables, operationName, context: { graphqlMethod, callback },
       rootValue: {} });
       // Wraps response in a `data` envelope
       response = { data };

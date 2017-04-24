@@ -19,8 +19,8 @@ const getArguments = function (def, opts) {
 };
 
 // order_by argument, i.e. used for sorting results
-const getOrderArgument = function ({ operation: { multiple } }) {
-  // Only with *Many methods
+const getOrderArgument = function ({ action: { multiple } }) {
+  // Only with *Many actions
   if (!multiple) { return; }
 
   return {
@@ -33,11 +33,11 @@ Specify ascending or descending order by appending + or - (default is ascending)
   };
 };
 
-// Data argument, i.e. payload used by mutation operations
+// Data argument, i.e. payload used by mutation actions
 const dataOpTypes = ['create', 'upsert', 'replace', 'update'];
 const multipleDataOpTypes = ['create', 'upsert', 'replace'];
-const getDataArgument = function ({ operation: { opType, multiple } = {}, dataObjectType }) {
-	// Only for mutation operations, but not delete
+const getDataArgument = function ({ action: { opType, multiple } = {}, dataObjectType }) {
+	// Only for mutation actions, but not delete
 	if (!dataOpTypes.includes(opType)) { return; }
 
 	// Retrieves description before wrapping in modifers
@@ -60,7 +60,7 @@ const getDataArgument = function ({ operation: { opType, multiple } = {}, dataOb
 
 // Filters argument, i.e. only queries entities that match specified attributes
 const filterOpTypes = ['find', 'delete', 'update'];
-const getFilterArgument = function (def, { operation: { opType, multiple } = {}, filterObjectType }) {
+const getFilterArgument = function (def, { action: { opType, multiple } = {}, filterObjectType }) {
   // Nested queries for findOne|deleteOne|updateOne do not use filters, as it is implied from parent return value
   if (!filterOpTypes.includes(opType) || (!def.isTopLevel && !multiple)) { return; }
   const type = multiple ? filterObjectType : new GraphQLNonNull(filterObjectType);

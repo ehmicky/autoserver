@@ -16,7 +16,7 @@ const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../../error');
 const { memoize, stringify } = require('../../../../utilities');
-const { getTypeName, getOperationName } = require('./name');
+const { getTypeName, getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
 
@@ -57,7 +57,7 @@ const getField = function (def, opts) {
   // Can only assign default to input data that is optional.
   // 'update' does not required anything, nor assign defaults
   let defaultValue;
-  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.operation.opType !== 'update') {
+  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.opType !== 'update') {
     defaultValue = def.default;
   }
 
@@ -108,12 +108,12 @@ const graphQLObjectFieldGetter = memoize(function (def, opts) {
 
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
-  const { operation = {}, inputObjectType } = opts;
-  const { opType, multiple } = operation;
+  const { action = {}, inputObjectType } = opts;
+  const { opType, multiple } = action;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
     .mapValues((childDef, childDefName) => {
-      // filter.id should be an array for *Many operations
+      // filter.id should be an array for *Many actions
       if (childDefName === 'id' && inputObjectType === 'filter' && multiple) {
         const { description, deprecation_reason } = childDef;
         return { type: 'array', items: childDef, description, deprecation_reason };
@@ -130,10 +130,10 @@ const getObjectFields = function (def, opts) {
         return memo;
       }
 
-      // Copy nested models with a different name that includes the operation, e.g. `my_attribute` -> `createMyAttribute`
+      // Copy nested models with a different name that includes the action, e.g. `my_attribute` -> `createMyAttribute`
       // Not for data|filter arguments
       if (inputObjectType === '') {
-        const name = getOperationName({ modelName: childDefName, opType });
+        const name = getActionName({ modelName: childDefName, opType });
         memo[name] = childDef;
         // Add transformed name to `required` array, if non-transformed name was present
         if (def.required instanceof Array && def.required.includes(childDefName) && !def.required.includes(name)) {
@@ -156,10 +156,10 @@ const getObjectFields = function (def, opts) {
     })
 		.omitBy((childDef, childDefName) => {
       const subDef = getSubDef(childDef);
-      // Remove all return value fields for delete operations, except the recursive ones and `id`
+      // Remove all return value fields for delete actions, except the recursive ones and `id`
       // And except for delete filters
       return (opType === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
-        // Filter arguments for single operations only include `id`
+        // Filter arguments for single actions only include `id`
         || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
         // Nested data arguments do not include `id`
         || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel)
@@ -168,9 +168,9 @@ const getObjectFields = function (def, opts) {
     })
 		// Recurse over children
 		.mapValues((childDef, childDefName) => {
-			// if 'Query' or 'Mutation' objects, pass current operation down to sub-fields, and top-level definition
-      const childOperation = childDef.operation || operation;
-      const childOpts = Object.assign({}, opts, { operation: childOperation });
+			// if 'Query' or 'Mutation' objects, pass current action down to sub-fields, and top-level definition
+      const childAction = childDef.action || action;
+      const childOpts = Object.assign({}, opts, { action: childAction });
 
       childOpts.isRequired = isRequired(def, childDef, childDefName, childOpts);
 
@@ -181,14 +181,14 @@ const getObjectFields = function (def, opts) {
 };
 
 // Returns whether a field is required
-const isRequired = function (parentDef, def, name, { operation: { opType, multiple } = {}, inputObjectType }) {
+const isRequired = function (parentDef, def, name, { action: { opType, multiple } = {}, inputObjectType }) {
   // Filter inputObjects `id` attribute is always required
   const isFilterId = name === 'id' && inputObjectType === 'filter' && !multiple;
   const shouldRequire = isFilterId
     // When user declared an attribute as required
     || (parentDef.required instanceof Array && parentDef.required.includes(name));
   const shouldNotRequire =
-    // Query inputObjects do not require any attribute, except filter.id for single operations
+    // Query inputObjects do not require any attribute, except filter.id for single actions
     (inputObjectType === 'filter' && !isFilterId)
     // updateOne|updateMany does not require any attribute in input object
     || (inputObjectType === 'data' && opType === 'update')

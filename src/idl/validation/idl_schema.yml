@@ -26,9 +26,9 @@ properties:
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
-  # Default operations
-  operations:
-    $ref: '#/definitions/operationsProperty'
+  # Default actions
+  actions:
+    $ref: '#/definitions/actionsProperty'
   # Standard JSON schema `definitions` can be used at the root
   definitions:
     type: object
@@ -63,7 +63,7 @@ definitions:
     - propertyNames:
         anyOf:
         - $ref: '#/definitions/validPropertyNames'
-        - enum: [operations, model, type, description, deprecated, examples]
+        - enum: [actions, model, type, description, deprecated, examples]
   # Only applies this to top-level models
   topLevelModel:
     allOf:
@@ -71,12 +71,12 @@ definitions:
     - propertyNames:
         anyOf:
         - $ref: '#/definitions/validPropertyNames'
-        - enum: [operations]
+        - enum: [actions]
       # Must have a `required` property
       required: [required, properties]
       properties:
-        operations:
-          $ref: '#/definitions/operationsProperty'
+        actions:
+          $ref: '#/definitions/actionsProperty'
         # `required` property must at least contain `id`
         required:
           contains:
@@ -118,15 +118,15 @@ definitions:
         type: string
         enum:
           $data: '/modelNames'
-  # Validation of `operations` property, e.g. `operations: [find, createOne]`
-  # This property restricts which operations a specific model can perform
-  operationsProperty:
+  # Validation of `actions` property, e.g. `actions: [find, createOne]`
+  # This property restricts which actions a specific model can perform
+  actionsProperty:
     type: array
     uniqueItems: true
     items:
       type: string
       enum: [find, findOne, create, createOne, replace, replaceOne, update, updateOne, upsert, upsertOne, delete, deleteOne]
-    # One can only choose between find (conceptually "findOne" + "findMany") and "findOne". Same thing for other methods
+    # One can only choose between find (conceptually "findOne" + "findMany") and "findOne". Same thing for other actions
     not:
       anyOf:
       - allOf: [contains: {enum: [find    ]}, contains: {enum: [findOne   ]}]
@@ -135,7 +135,7 @@ definitions:
       - allOf: [contains: {enum: [upsert  ]}, contains: {enum: [upsertOne ]}]
       - allOf: [contains: {enum: [replace ]}, contains: {enum: [replaceOne]}]
       - allOf: [contains: {enum: [create  ]}, contains: {enum: [createOne ]}]
-    # find or findOne has to be defined, because GraphQL requires at least one query operation
+    # find or findOne has to be defined, because GraphQL requires at least one query action
     contains: {enum: [find, findOne]}
   # Base list of valid property names
   # We are more restrictive than the JSON schema and forbid any unknown property name

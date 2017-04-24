@@ -8,22 +8,22 @@ const { validate } = require('../../utilities');
 
 /**
  * Check API input, for client-side errors (e.g. 400)
- * Only checks basic input according to current operation
+ * Only checks basic input according to current action
  * In a nutshell, checks that:
  *  - required attributes are defined
  *  - disabled attributes are not defined
- *  - `id` is not an array, `ids` is an array, `filter` is an object, `data` is an array or object (depending on operation)
+ *  - `id` is not an array, `ids` is an array, `filter` is an object, `data` is an array or object (depending on action)
  *  - `order_by` syntax looks valid (does not check whether it is semantically correct)
  **/
-const validateClientInputSyntax = function ({ modelName, operation, args }) {
+const validateClientInputSyntax = function ({ modelName, action, args }) {
   const type = 'clientInputSyntax';
-  const schema = getValidateClientSchema({ operation });
-  validate({ schema, data: args, reportInfo: { type, operation, modelName } });
+  const schema = getValidateClientSchema({ action });
+  validate({ schema, data: args, reportInfo: { type, action, modelName } });
 };
 
 // Builds JSON schema to validate against
-const getValidateClientSchema = function({ operation }) {
-  const rule = rules[operation];
+const getValidateClientSchema = function({ action }) {
+  const rule = rules[action];
   const properties = getProperties({ rule });
   const requiredProperties = getRequiredProps(rule.required);
   const forbiddenProperties = getForbiddenProperties({ rule });
@@ -32,7 +32,7 @@ const getValidateClientSchema = function({ operation }) {
   return schema;
 };
 
-// Get properties to check against, as JSON schema, for a given operation
+// Get properties to check against, as JSON schema, for a given action
 const getProperties = function ({ rule }) {
   return validateClientSchema
     // Whitelists input according to `allowed` or `required`
@@ -97,7 +97,7 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
 };
 
 /**
- * List of rules for allowed|required attributes, according to the current operation
+ * List of rules for allowed|required attributes, according to the current action
  * `required` implies `allowed`
  * `dataSingle` is `data` as object, `dataMultiple` is `data` as array. Same for `idMultiple`
  **/

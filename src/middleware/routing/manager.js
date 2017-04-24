@@ -16,27 +16,27 @@ class RoutesManager {
     routes.forEach(route => this._add(route));
   }
 
-  _add({ path, route, operation }) {
+  _add({ path, route, method }) {
     const regexp = pathToRegExp(path);
     const variables = regexp.keys.map(key => key.name);
 
-    // Normalize operations
-    let operations = operation;
-    if (operations) {
-      operations = operations instanceof Array ? operations : [operations];
-      operations = operations.map(op => op.toLowerCase());
+    // Normalize methods
+    let methods = method;
+    if (methods) {
+      methods = methods instanceof Array ? methods : [methods];
+      methods = methods.map(method => method.toLowerCase());
     }
 
-    this._routes.push({ path, route, regexp, variables, operations });
+    this._routes.push({ path, route, regexp, variables, methods });
   }
 
-  find({ path, operation }) {
+  find({ path, method }) {
     // Retrieves correct route, according to path
-    const route = this._routes.find(({ regexp, operations }) => {
+    const route = this._routes.find(({ regexp, methods }) => {
       // Check path
       return regexp.test(path)
-        // Check operation/method
-        && (!operations || operations.includes(operation.toLowerCase()));
+        // Check methods
+        && (!methods || methods.includes(method.toLowerCase()));
     });
     if (!route) { return; }
 

@@ -5,11 +5,11 @@ const { validate } = require('../../utilities');
 
 
 // Check API input, for the errors that should not happen, i.e. server-side (e.g. 500)
-// In short: `operation`, `args`, `idl`, `modelName` should be defined and of the right type
-const validateServerInputSyntax = function ({ idl, modelName, args, operation }) {
+// In short: `action`, `args`, `idl`, `modelName` should be defined and of the right type
+const validateServerInputSyntax = function ({ idl, modelName, args, action }) {
   const type = 'serverInputSyntax';
   const schema = getValidateServerSchema({ idl, modelName });
-  const data = { idl, modelName, args, operation };
+  const data = { idl, modelName, args, action };
   validate({ schema, data, reportInfo: { type } });
 };
 
@@ -20,7 +20,7 @@ const getValidateServerSchema = function ({ idl, modelName }) {
   const modelNames = isValidIdl ? Object.keys(idl.models) : [modelName];
 
   return {
-    required: ['operation', 'args', 'idl', 'modelName'],
+    required: ['action', 'args', 'idl', 'modelName'],
     properties: {
       idl: { type: 'object' },
       modelName: {
@@ -29,9 +29,9 @@ const getValidateServerSchema = function ({ idl, modelName }) {
         enum: modelNames,
       },
       args: { type: 'object' },
-      operation: {
+      action: {
         type: 'string',
-        // Check that operation has a valid name
+        // Check that action has a valid name
         enum: ['findOne', 'findMany', 'deleteOne', 'deleteMany', 'updateOne', 'updateMany', 'upsertOne', 'upsertMany',
           'replaceOne', 'replaceMany', 'createOne', 'createMany'],
       },
