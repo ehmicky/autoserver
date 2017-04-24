@@ -21,7 +21,6 @@ models:
   # Name of the model, used in routes, e.g. REST endpoints or GraphQL methods
   # Must only be lowercase ASCII letters, digits or underscore. Cannot start with one digit or two underscores.
   pet:
-    type: object
     description: Cute animal
     # `ìd` should always be required, and specified
     required: [id, name, photo_urls, friends]
@@ -34,7 +33,6 @@ models:
       id:
         # Required for the moment. Possible values: string, number, integer, boolean,
         # For the moment, cannot be an array
-        type: string
         description: Unique identifier of a pet
       name:
         type: string
@@ -83,16 +81,18 @@ models:
         const: false
         default: false
       photo_urls:
+        # Type defaults:
+        #  - if `items` is present, type defaults to 'array'
+        #  - if `model` is present, type defaults to 'object'
+        #  - for top-level models, type defaults to 'object', and must be 'object'
+        #  - otherwise, defaults to 'string'
         type: array
         description: Sweet pictures of a pet
         # This is how to specify an array's elements
-        items:
-          type: string
+        items: {}
       skills:
-        type: object
         model: pet_skills
       tags:
-        type: array
         description: Tags applying to this pet
         # Array-specific JSON schema validation keywords
         items:
@@ -109,11 +109,9 @@ models:
         uniqueItems: true
         default: []
       status:
-        type: string
         description: Has this pet been adopted
         default: adopted
       best_friend:
-        type: object
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key
         # References can be recursive, e.g. here `pet` is the current model
         # Will actually copy the model's `id` property definition (in case of conflict, current definition has priority)
@@ -122,18 +120,14 @@ models:
         description: This pet's best friend
       # Array of foreign keys (i.e. n-1, 1-n and n-n relationships) can also be specified
       friends:
-        type: array
         description: This pet's friends
         items:
-          type: object
           model: pet
       owners:
-        type: array
         items:
           type: object
           model: owner
       birth_date:
-        type: string
         # The following JSON schema validation keywords can be applied to any type, although they are usually for strings
         format: date
         formatMinimum: '2000-01-01'

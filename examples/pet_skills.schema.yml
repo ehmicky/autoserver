@@ -15,8 +15,7 @@ dependencies:
   is_big:
     maxProperties: 100
 properties:
-  id:
-    type: string
+  id: {}
   age:
     type: integer
     description: How old is the pet

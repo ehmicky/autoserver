@@ -50,17 +50,12 @@ startServer({ conf: 'my_schema.yml' });
 $schema: tag:apiengine,2017:v1.0.0
 models:
   user:
-    type: object
     required: [id]
     properties:
-      id:
-        type: string
-      name:
-        type: string
+      id: {}
+      name: {}
       friends:
-        type: array
         items:
-          type: object
           model: user
 ```
 

@@ -1,13 +1,8 @@
-type: object
 description: A pet's owner
 required: [id]
 properties:
-  id:
-    type: string
-  name:
-    type: string
+  id: {}
+  name: {}
   pets:
-    type: array
     items:
-      type: object
       model: pet
