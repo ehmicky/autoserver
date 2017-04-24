@@ -1,3 +1,0 @@
-  - file upload, multipart
-  - better error handling, including all HTTP errors thrown at protocol stage
-  - find alternative solution to layerInfo
