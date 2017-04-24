@@ -8,15 +8,18 @@ const { EngineError } = require('../../error');
 const router = async function () {
   const routes = getRoutes();
   return async function (input) {
-    const { path } = input;
-    const matchedRoute = routes.find(path);
+    const { path, params, operation } = input;
+    const matchedRoute = routes.find({ path, operation });
     if (!matchedRoute) {
       throw new EngineError('The requested URL was not found', { reason: 'NOT_FOUND' });
     }
 
+    // Add route and path parameters to input
     const { route, pathParams } = matchedRoute;
-    const output = Object.assign({ route, pathParams }, input);
-    const response = await this.next(output);
+    const newParams = Object.assign(params, pathParams);
+    Object.assign(input, { route, params: newParams });
+
+    const response = await this.next(input);
     return response;
   };
 };
