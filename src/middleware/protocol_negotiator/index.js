@@ -17,6 +17,9 @@ const protocolNegotiator = async function () {
     }
     info.protocol = protocol;
 
+    const protocolVersion = protocolVersions[protocol]({ req, res });
+    info.protocolVersion = protocolVersion;
+
     const response = this.next(input);
     return response;
   };
@@ -26,6 +29,12 @@ const protocolNegotiation = async () => ({ info: { protocol } }) => protocol;
 const protocols = {
 
   http: ({ req }) => [1, 2].includes(req.httpVersionMajor),
+
+};
+
+const protocolVersions = {
+
+  http: ({ req }) => req.httpVersion,
 
 };
 
