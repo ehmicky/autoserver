@@ -12,7 +12,7 @@ const { setParentModel, hasParentModel } = require('./utilities');
 /**
  * GraphQL-anywhere uses a single resolver: here it is
  **/
-const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, { callback }) {
+const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, { callback, graphqlOperation }) {
   args = args || {};
 
   // Introspection type name
@@ -34,11 +34,27 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
     throw new EngineError(`Operation '${name}' does not exist`, { reason: 'INPUT_VALIDATION' });
   }
 
+  if (graphqlOperations[opType] !== graphqlOperation) {
+    throw new EngineError(`Cannot perform operation '${name}' with a GraphQL '${graphqlOperation}'`, {
+      reason: 'INPUT_VALIDATION',
+    });
+  }
+
   // Fire database layer, retrieving value passed to children
   const response = await callback({ operation, modelName, args });
   // Tags the response as belonging to that modelName
   setParentModel(response, { operation, modelName, opType });
   return response;
+};
+
+// Mapping from IDL operations to GraphQL methods
+const graphqlOperations = {
+  find: 'query',
+  create: 'mutation',
+  replace: 'mutation',
+  update: 'mutation',
+  upsert: 'mutation',
+  delete: 'mutation',
 };
 
 

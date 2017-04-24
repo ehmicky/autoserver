@@ -27,7 +27,8 @@ const executeGraphql = async function (opts) {
     // Normal GraphQL query
     } else {
       const callback = fireNext.bind(this, request);
-      const data = await handleQuery({ queryDocument, variables, operationName, context: { callback }, rootValue: {} });
+      const data = await handleQuery({ queryDocument, variables, operationName, context: { graphqlOperation, callback },
+      rootValue: {} });
       // Wraps response in a `data` envelope
       response = { data };
     }
