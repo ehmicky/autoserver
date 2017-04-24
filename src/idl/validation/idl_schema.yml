@@ -73,7 +73,7 @@ definitions:
         - $ref: '#/definitions/validPropertyNames'
         - enum: [operations]
       # Must have a `required` property
-      required: [required, properties, type]
+      required: [required, properties]
       properties:
         operations:
           $ref: '#/definitions/operationsProperty'
@@ -84,9 +84,10 @@ definitions:
         # Must have an `id`
         properties:
           required: [id]
-        # type must be 'object'
+        # When specified, type must be 'object'
         type:
-          const: object
+          const:
+            object
   # Only applies this to models attributes, including nested models
   attributeSchema:
     allOf:
@@ -95,17 +96,13 @@ definitions:
         anyOf:
         - $ref: '#/definitions/validPropertyNames'
         - enum: [model]
-      # Must specify `type`
-      required: [type]
       properties:
         # Recursively applied to array members
         items:
           $ref: '#/definitions/attributeSchema'
       # Only for nested models
       if:
-        properties:
-          type:
-            const: object
+        required: [model]
       then:
         $ref: '#/definitions/nestedModel'
   # Only applies this to nested models
