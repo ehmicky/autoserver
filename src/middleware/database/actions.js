@@ -35,7 +35,7 @@
  **/
 
 
-const { every, chain, uniq, orderBy, map, isEqual } = require('lodash');
+const { every, chain, orderBy, map, isEqual } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
@@ -81,8 +81,7 @@ const findOneIndex = function({ collection, id, required = true }) {
 
 const findManyIndexes = function({ collection, filter = {} }) {
   if (filter.id) {
-    const uniqueIds = uniq(filter.id);
-    const indexes = uniqueIds.map(id => findOneIndex({ collection, id }));
+    const indexes = filter.id.map(id => findOneIndex({ collection, id }));
     collection = collection.map((model, index) => indexes.includes(index) ? model : null);
     filter = Object.assign({}, filter);
     delete filter.id;
