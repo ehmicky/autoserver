@@ -4,6 +4,7 @@
 const { processJsl } = require('../jsl');
 
 
+// Transform `filter` argument into a format that is easily manageable for the database layer
 const handleFilter = async function () {
   return async function (input) {
     const { args } = input;

@@ -35,11 +35,11 @@
  **/
 
 
-const { every, orderBy, map, isEqual } = require('lodash');
+const { merge, every, orderBy, map, isEqual } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
-const { getJslVariables, processJsl, evalJsl } = require('../jsl');
+const { getJslVariables, processJsl, evalJslModel } = require('../jsl');
 
 
 const createId = function () {
@@ -82,7 +82,7 @@ const findIndexes = function({ collection, filter = {}, info, params }) {
       const variables = getJslVariables({ info, params, model });
 
       // TODO: remove when using MongoDB query objects
-      const filterMatches = processJsl({ value: value.eval, name, variables, processor: evalJsl });
+      const filterMatches = processJsl({ value: value.eval, name, variables, processor: evalJslModel });
       return filterMatches;
     });
 
@@ -213,7 +213,16 @@ const actions = {
 const fireAction = function (opts) {
   const response = actions[opts.action](opts);
   const sortedResponse = sortResponse({ response, orderByArg: opts.orderBy });
-  return sortedResponse;
+
+  // TODO: Only necessary as long as we do not use real database, to make sure it is not modified
+  let copiedResponse;
+  if (sortedResponse && sortedResponse instanceof Array) {
+    copiedResponse = sortedResponse.slice();
+  } else if (sortedResponse && sortedResponse.constructor === Object) {
+    copiedResponse = merge({}, sortedResponse);
+  }
+
+  return copiedResponse;
 };
 
 module.exports = {

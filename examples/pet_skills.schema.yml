@@ -26,4 +26,3 @@ properties:
     #minimum:
       # Allows refering to a runtime value, i.e. here `age` must be lesser than `intelligence`
     #  $data: '1/age'
-default: {}
