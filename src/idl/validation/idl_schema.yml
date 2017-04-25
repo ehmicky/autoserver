@@ -151,7 +151,7 @@ definitions:
       # Future standard JSON schema properties
       examples, formatMaximum, formatMinimum, formatExclusiveMinimum, formatExclusiveMaximum, if, then, else,
       # Properties specific to this project
-      deprecated,
+      deprecated, transform, transform_out, default_out
     ]
     # Users can define anything under property named x-*
     - pattern: '^x-*'

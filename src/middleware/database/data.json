@@ -32,7 +32,6 @@
       "name": "Koala",
       "photo_urls": ["http://koala.com/photo/1"],
       "tags": ["suspended"],
-      "status": "sleepy",
       "skills": "3",
       "best_friend": "1",
       "friends": ["1", "2", "3"]
