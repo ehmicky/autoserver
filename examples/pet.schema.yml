@@ -163,13 +163,24 @@ models:
 #   - `filter`:
 #      - in find, delete and update actions.
 #      - must be an object, whose keys are named after the models attributes
-#      - for findOne, deleteOne and updateOne, can only contain `id` key, and is required
-#      - for findMany, deleteMany and updateMany, `id` is an array of possible ids
+#      - for findOne, deleteOne and updateOne, can only contain `id` key, is required, and cannot use JSL
 #      - used as a query filter, e.g. deleteMany { filter: { name: 'example' } } remove all entities with `name` 'example'
 #   - `order_by`
 #      - in all *Many actions. Never required
 #      - must be a comma-separated list of attributes, optionally prefixed by + or -, e.g. 'name-,id'
 #      - orders server response according to the specified attributes. Default order is +, i.e. ascending
+# JSL is a restricted syntax of JavaScript:
+#   - it can be only used in `filter` (for findMany, updateMany or deleteMany) at the moment,
+#     but will be added to other parts
+#   - at the moment, any JavaScript is allowed, but this will be restricted in the future for security and performance reasons
+#   - it can use variables:
+#      - $NOW {string} - current date and time
+#      - $IP {string} - request IP
+#      - $PARAMS {object} - contains all request parameters: query strings, (application-namespaced) HTTP headers
+#      - $ {any} - value of current attribute, e.g. { filter: { name: '$ !== "John"' } } checks whether model.name !== 'John'
+#      - $attribute {any} - value of a given attribute, e.g. { filter: { name: '$ === $first_name' } }
+#        checks whether model.name === model.first_name
+#   - any string that use at least one variable will be interpreted as JSL
 actions: [find, create, replace, update, upsert, delete]
 # No specific semantics, but can be used by $ref
 definitions:
