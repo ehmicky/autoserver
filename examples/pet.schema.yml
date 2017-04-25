@@ -116,7 +116,7 @@ models:
         transform: $.toUpperCase()
         transform_out: $.toLowerCase()
         # Applied default values, on input or output
-        default: adoped
+        default: $name === "Dog" ? "adopted"
         default_out: $name + ' status'
       best_friend:
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key

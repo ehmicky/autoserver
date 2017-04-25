@@ -4,6 +4,7 @@
 const { find, omit, mapValues } = require('lodash');
 
 const { transform } = require('../utilities');
+const { testJsl } = require('../middleware/jsl');
 
 
 // Normalize IDL definition
@@ -35,6 +36,9 @@ const addModelType = function ({ models }) {
   });
 };
 
+// List of attributes that can contain JSL
+const jslAttributes = ['default', 'default_out', 'transform', 'transform_out'];
+const ternaryTest = /\?[^:]+$/;
 // List of transformations to apply to normalize IDL models
 const transforms = [
 
@@ -60,6 +64,20 @@ const transforms = [
       if (modelType !== 'attribute' || type) { return; }
       type = model ? 'object' : 'string';
       return { type };
+    },
+  },
+
+  {
+    // JSL values being a top-level ternary test can use shortcut notation 'TEST ? VAL' instead of 'TEST ? VAL : undefined'
+    // This is particularly handy since YAML does not allow : in unquoted strings
+    // TODO: use JavaScript parser instead of RegExp matching
+    any({ parent }) {
+      for (const jslAttribute of jslAttributes) {
+        const value = parent[jslAttribute];
+        if (value && testJsl({ value }) && ternaryTest.test(value)) {
+          parent[jslAttribute] = `${value} : undefined`;
+        }
+      }
     },
   },
 
