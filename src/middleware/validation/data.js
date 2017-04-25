@@ -17,9 +17,31 @@ const validateClientInputData = function ({ idl, modelName, action, args }) {
   each(attributes, (attribute, dataVar) => {
     attribute = attribute instanceof Array ? attribute : [attribute];
     attribute.forEach(data => {
+      data = merge({}, data);
+      removeJsl({ value: data });
       validate({ schema, data, reportInfo: { type, modelName, action, dataVar } });
     });
   });
+};
+
+// Do not validate JSL code
+// TODO: remove when using MongoDB query objects
+const removeJsl = function ({ value, parent, key }) {
+  if (!value) { return; }
+
+  if (value.constructor === Object && value.eval && parent) {
+    if (parent instanceof Array) {
+      parent.splice(key, 1);
+    } else if (parent.constructor === Object) {
+      delete parent[key];
+    }
+    return;
+  }
+
+  // Recursion
+  if (value instanceof Array || value.constructor === Object) {
+    each(value, (child, key) => removeJsl({ value: child, parent: value, key }));
+  }
 };
 
 /**
