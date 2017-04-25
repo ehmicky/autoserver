@@ -68,7 +68,11 @@ const getTransform = ({ direction }) => {
       // Assign $ or $attr variables
       const variables = getJslVariables(Object.assign({ info, params }, { [variableName]: value }));
       // Performs actual substitution
-      value[attrName] = processJsl({ value: transformer, name: attrName, variables, processor });
+      const newValue = processJsl({ value: transformer, name: attrName, variables, processor });
+      // Transforms|defaults that return undefined do not apply
+      // This allows conditional transforms|defaults, e.g. { age: '$ > 30 ? $ - 1 : undefined' }
+      if (newValue === undefined) { return; }
+      value[attrName] = newValue;
     });
 
     return value;
