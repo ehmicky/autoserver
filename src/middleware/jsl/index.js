@@ -9,12 +9,12 @@ const { EngineError } = require('../../error');
 const handleJsl = async function () {
   return await function (input) {
     const { args, info: { ip }, params } = input;
-    const contextInfo = { ip, params };
+    const variablesInfo = { ip, params };
     if (args.filter) {
-      args.filter = processJsl({ value: args.filter, contextInfo });
+      args.filter = processJsl({ value: args.filter, variablesInfo });
     }
     if (args.data) {
-      args.data = processJsl({ value: args.data, contextInfo });
+      args.data = processJsl({ value: args.data, variablesInfo });
     }
 
     const response = this.next(input);
@@ -23,24 +23,24 @@ const handleJsl = async function () {
 };
 
 // Transform value if it is JSL, otherwise returns as is
-const processJsl = function ({ value, name, contextInfo }) {
+const processJsl = function ({ value, name, variablesInfo }) {
   if (!value) { return value; }
 
   // Recursion over objects and arrays
   if (value.constructor === Object) {
-    return mapValues(value, (child, childName) => processJsl({ value: child, name: childName, contextInfo }));
+    return mapValues(value, (child, childName) => processJsl({ value: child, name: childName, variablesInfo }));
   }
   if (value instanceof Array) {
-    return value.map(child => processJsl({ value: child, name, contextInfo }));
+    return value.map(child => processJsl({ value: child, name, variablesInfo }));
   }
 
   // Process anything that contains $variables
   if (!testJsl({ value })) { return value; }
 
-  const context = getContext(contextInfo);
+  const variables = getVariables(variablesInfo);
 
   try {
-    value = evalJsl({ value, name, context });
+    value = evalJsl({ value, name, variables });
   } catch (innererror) {
     throw new EngineError(`JSL expression evaluation failed: ${value}`, { reason: 'JSL_SYNTAX', innererror });
   }
@@ -54,7 +54,7 @@ const testJsl = ({ value }) => typeof value === 'string' && jslRegExp.test(value
 
 // Values available as `$variable` in JSL
 // They are uppercase to avoid name conflict with attributes
-const getContext = function ({ ip, params }) {
+const getVariables = function ({ ip, params }) {
   // Context-related variables in JSL
   const NOW = (new Date()).toISOString();
 
@@ -66,9 +66,9 @@ const getContext = function ({ ip, params }) {
 };
 
 // Execute JSL statements
-const evalJsl = function ({ value, name, context }) {
+const evalJsl = function ({ value, name, variables }) {
   /* eslint-disable no-unused-vars */
-  const $ = context;
+  const $ = variables;
   /* eslint-enable no-unused-vars */
 
   // Replace $var by $.var
