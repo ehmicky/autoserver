@@ -112,15 +112,6 @@ const getObjectFields = function (def, opts) {
   const { actionType, multiple } = action;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => chain(def.properties)
-    .mapValues((childDef, childDefName) => {
-      // filter.id should be an array for *Many actions
-      if (childDefName === 'id' && inputObjectType === 'filter' && multiple) {
-        const { description, deprecation_reason } = childDef;
-        return { type: 'array', items: childDef, description, deprecation_reason };
-      } else {
-        return childDef;
-      }
-    })
     .transform((memo, childDef, childDefName) => {
       const subDef = getSubDef(childDef);
 

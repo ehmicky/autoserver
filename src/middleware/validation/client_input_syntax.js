@@ -12,7 +12,7 @@ const { validate } = require('../../utilities');
  * In a nutshell, checks that:
  *  - required attributes are defined
  *  - disabled attributes are not defined
- *  - `id` is not an array, `ids` is an array, `filter` is an object, `data` is an array or object (depending on action)
+ *  - `filter` is an object, `data` is an array or object (depending on action)
  *  - `order_by` syntax looks valid (does not check whether it is semantically correct)
  **/
 const validateClientInputSyntax = function ({ modelName, action, args }) {
@@ -52,7 +52,7 @@ const getProperties = function ({ rule }) {
 const validateClientSchema = [
   { name: 'data', value: ({ dataMultiple }) => !dataMultiple ? { type: 'object' } : { type: 'array', items: { type: 'object' } } },
   { name: 'filter', value: { type: 'object' } },
-  { name: 'filter.id', value: ({ idMultiple }) => !idMultiple ? { not: { type: 'array' } } : { type: 'array', } },
+  { name: 'filter.id', value: {} },
   // Matches order_by value, i.e. 'ATTR[+|-],...'
   { name: 'order_by', value: { type: 'string', pattern: '^([a-z0-9_]+[+-]?)(,[a-z0-9_]+[+-]?)*$' } },
 ];
@@ -99,20 +99,18 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
 /**
  * List of rules for allowed|required attributes, according to the current action
  * `required` implies `allowed`
- * `dataSingle` is `data` as object, `dataMultiple` is `data` as array. Same for `idMultiple`
+ * `dataSingle` is `data` as object, `dataMultiple` is `data` as array.
  **/
 /* eslint-disable key-spacing, no-multi-spaces */
 const rules = {
   findOne:      { allowed: [],                                      required: ['filter', 'filter.id'],                    },
-  findMany:     { allowed: ['filter', 'filter.id', 'order_by'],     required: [],
-                  idMultiple: true                                                                                        },
+  findMany:     { allowed: ['filter', 'filter.id', 'order_by'],     required: [],                                         },
   deleteOne:    { allowed: [],                                      required: ['filter', 'filter.id']                     },
-  deleteMany:   { allowed: ['filter', 'filter.id', 'order_by'],     required: [],
-                  idMultiple: true                                                                                        },
+  deleteMany:   { allowed: ['filter', 'filter.id', 'order_by'],     required: [],                                         },
   updateOne:    { allowed: [],                                      required: ['data', 'filter', 'filter.id'],
                                                                     forbidden: ['data.id']                                },
   updateMany:   { allowed: ['filter', 'filter.id', 'order_by'],     required: ['data'],
-                  idMultiple: true,                                 forbidden: ['data.id']                                },
+                                                                    forbidden: ['data.id']                                },
   upsertOne:    { allowed: [],                                      required: ['data', 'data.id']                         },
   upsertMany:   { allowed: ['order_by'],                            required: ['data', 'data.*.id'],
                   dataMultiple: true                                                                                      },
