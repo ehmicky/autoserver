@@ -52,7 +52,7 @@ const getProperties = function ({ rule }) {
 const validateClientSchema = [
   { name: 'data', value: ({ dataMultiple }) => !dataMultiple ? { type: 'object' } : { type: 'array', items: { type: 'object' } } },
   { name: 'filter', value: { type: 'object' } },
-  { name: 'filter.id', value: {} },
+  { name: 'filter.id', value: ({ isNotJslFilterId }) => isNotJslFilterId ? { not: { type: 'object' } } : {} },
   // Matches order_by value, i.e. 'ATTR[+|-],...'
   { name: 'order_by', value: { type: 'string', pattern: '^([a-z0-9_]+[+-]?)(,[a-z0-9_]+[+-]?)*$' } },
 ];
@@ -103,12 +103,14 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
  **/
 /* eslint-disable key-spacing, no-multi-spaces */
 const rules = {
-  findOne:      { allowed: [],                                      required: ['filter', 'filter.id'],                    },
-  findMany:     { allowed: ['filter', 'filter.id', 'order_by'],     required: [],                                         },
-  deleteOne:    { allowed: [],                                      required: ['filter', 'filter.id']                     },
-  deleteMany:   { allowed: ['filter', 'filter.id', 'order_by'],     required: [],                                         },
+  findOne:      { allowed: [],                                      required: ['filter', 'filter.id'],
+                  isNotJslFilterId: true                                                                                  },
+  findMany:     { allowed: ['filter', 'filter.id', 'order_by'],     required: []                                          },
+  deleteOne:    { allowed: [],                                      required: ['filter', 'filter.id'],
+                  isNotJslFilterId: true                                                                                  },
+  deleteMany:   { allowed: ['filter', 'filter.id', 'order_by'],     required: []                                          },
   updateOne:    { allowed: [],                                      required: ['data', 'filter', 'filter.id'],
-                                                                    forbidden: ['data.id']                                },
+                  isNotJslFilterId: true,                           forbidden: ['data.id']                                },
   updateMany:   { allowed: ['filter', 'filter.id', 'order_by'],     required: ['data'],
                                                                     forbidden: ['data.id']                                },
   upsertOne:    { allowed: [],                                      required: ['data', 'data.id']                         },
