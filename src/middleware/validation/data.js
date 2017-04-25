@@ -46,7 +46,6 @@ const getDataValidationSchema = memoize(function ({ idl, modelName, action, type
 });
 
 const optionalInputAttrActions = ['findOne', 'findMany', 'deleteOne', 'deleteMany', 'updateOne', 'updateMany'];
-const multipleIdInputActions = ['findMany', 'deleteMany', 'updateMany'];
 const optionalOutputAttrActions = ['deleteOne', 'deleteMany'];
 const transforms = [
   {
@@ -81,14 +80,6 @@ const transforms = [
       const idProp = parent.properties.id;
       const removeParentProps = mapValues(parent, () => undefined);
       return Object.assign(removeParentProps, idProp);
-    },
-  },
-
-  {
-    // Some actions require filter.id to be an array
-    id({ value, action, type }) {
-      if (!(type === 'clientInputData' && multipleIdInputActions.includes(action))) { return; }
-      return { id: { type: 'array', items: value } };
     },
   },
 ];

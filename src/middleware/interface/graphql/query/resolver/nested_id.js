@@ -1,8 +1,6 @@
 'use strict';
 
 
-const { intersection } = require('lodash');
-
 const { EngineError } = require('../../../../../error');
 
 
@@ -27,17 +25,42 @@ const addNestedId = function ({ parent, name, attrName, multiple, args, actionTy
   const arg = getNestedArgument({ multiple, args, actionType });
 
   // Make sure query is correct
-  validateNestedId({ parent, name, attrName, multiple, arg, actionType });
+  validateNestedId({ parent, name, attrName, multiple, arg });
 
   // Add `id` argument
   if (arg instanceof Array) {
     parentVal.forEach((val, index) => {
-      arg[index].id = arg[index].id ? intersection(arg[index].id, val) : val;
+      if (arg[index].id) {
+        wrongInput(`In '${name}' model, wrong parameters: id must not be defined`);
+      }
+      arg[index].id = val;
     });
   } else {
-    // If nested `arg.id` is present, do an intersection with parent id. Otherwise, do no intersection.
-    arg.id = arg.id ? intersection(arg.id, parentVal) : parentVal;
+    arg.id = getNestedIds({ childId: arg.id, parentIds: parentVal });
   }
+};
+
+// If nested `arg.id` is present, do an intersection with parent id. Otherwise, do not do intersection.
+// In all cases, uses JSL
+const getNestedIds = function({ childId, parentIds }) {
+  // Uses JSL syntax
+  let ids;
+  if (parentIds instanceof Array) {
+    ids = `(${JSON.stringify(parentIds)}.includes($))`;
+  } else {
+    ids = `($ === ${JSON.stringify(parentIds)})`;
+  }
+
+  // Intersections
+  if (childId) {
+    // Converts to JSL if not JSL already
+    if (!testJsl({ value: childId })) {
+      childId = `($ === ${JSON.stringify(childId)})`;
+    }
+    ids += ` && ${childId}`;
+  }
+
+  return ids;
 };
 
 // Returns args.filter for find|delete|update, args.data for replace|upsert|create
@@ -55,27 +78,10 @@ const getNestedArgument = function ({ multiple, args, actionType }) {
 };
 
 // Make sure query is correct, when it comes to nested id
-const validateNestedId = function ({ parent, name, attrName, multiple, arg, actionType }) {
+const validateNestedId = function ({ parent, name, attrName, multiple, arg }) {
   const parentVal = parent[attrName];
   if (multiple && arg instanceof Array && arg.length !== parentVal.length) {
     wrongInput(`In '${name}' model, wrong parameters: data length should be ${parentVal.length}`);
-  }
-
-  if (arg instanceof Array) {
-    arg.forEach(singleArg => {
-      validateNestedIdSingle({ name, multiple, arg: singleArg, actionType });
-    });
-  } else {
-    validateNestedIdSingle({ name, multiple, arg, actionType });
-  }
-};
-const validateNestedIdSingle = function ({ name, multiple, arg, actionType }) {
-  const allowIntersects = nestedFilterActionTypes.includes(actionType) && multiple;
-  if (allowIntersects && arg.id && !(arg.id instanceof Array)) {
-    wrongInput(`In '${name}' model, wrong parameters: id must be array`);
-  }
-  if (!allowIntersects && arg.id) {
-    wrongInput(`In '${name}' model, wrong parameters: id must not be defined`);
   }
 };
 
