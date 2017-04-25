@@ -35,10 +35,11 @@
  **/
 
 
-const { every, chain, orderBy, map, isEqual } = require('lodash');
+const { every, orderBy, map, isEqual } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
+const { getJslVariables, processJsl, evalJsl } = require('../jsl');
 
 
 const createId = function () {
@@ -69,85 +70,82 @@ const sortResponse = function ({ response, orderByArg = 'id+' }) {
   return sortedResponse;
 };
 
-const findOneIndex = function({ collection, id, required = true }) {
-  const modelIndex = collection.findIndex(model => model.id === id);
-  if (modelIndex === -1 && required) {
+const findIndexes = function({ collection, filter = {}, info, params }) {
+  const modelIndexes = collection.reduce((indexes, model, index) => {
+    // Check if a model matches a query filter
+    const matches = every(filter, (value, name) => {
+      // This means no JSL is used
+      if (!value || !value.eval) {
+        return isEqual(model[name], value);
+      }
+
+      const variables = getJslVariables({ info, params, model });
+
+      // TODO: remove when using MongoDB query objects
+      const filterMatches = processJsl({ value: value.eval, name, variables, processor: evalJsl });
+      return filterMatches;
+    });
+
+    if (matches) {
+      indexes.push(index);
+    }
+    return indexes;
+  }, []);
+  return modelIndexes;
+};
+
+const findIndex = function ({ collection, filter: { id }, info, params }) {
+  const indexes = findIndexes({ collection, filter: { id }, info, params });
+  if (indexes.length === 0) {
     throw new EngineError(`Could not find the model with id ${id} in: ${collection.modelName} (collection)`, {
       reason: 'DATABASE_NOT_FOUND',
     });
   }
-  return modelIndex;
-};
-
-const findManyIndexes = function({ collection, filter = {} }) {
-  if (filter.id) {
-    const indexes = filter.id.map(id => findOneIndex({ collection, id }));
-    collection = collection.map((model, index) => indexes.includes(index) ? model : null);
-    filter = Object.assign({}, filter);
-    delete filter.id;
-  }
-  const modelIndexes = chain(collection)
-    .map((model, index) => {
-      if (!model) { return null; }
-      const matches = matchesFilters({ filter, model });
-      if (!matches) { return null; }
-      return index;
-    })
-    .filter(index => index != null)
-    .value();
-  return modelIndexes;
-};
-
-// Check if a model matches a query filter
-const matchesFilters = function ({ filter, model }) {
-  const matches = every(filter, (filterVal, filterName) => {
-    return isEqual(model[filterName], filterVal);
-  });
-  return matches;
+  return indexes[0];
 };
 
 const checkUniqueId = function ({ collection, id }) {
-  const index = findOneIndex({ collection, id, required: false });
-  if (index !== -1) {
+  const indexes = findIndexes({ collection, filter: { id } });
+  if (indexes.length > 0) {
     throw new EngineError(`Model with id ${id} already exists in: ${collection.modelName} (collection)`, {
       reason: 'DATABASE_MODEL_CONFLICT',
     });
   }
 };
 
-const findOne = function ({ collection, filter: { id } }) {
-  const index = findOneIndex({ collection, id });
+const findOne = function ({ collection, filter, info, params }) {
+  const index = findIndex({ collection, filter, info, params });
   return collection[index];
 };
 
-const findMany = function ({ collection, filter = {} }) {
-  const indexes = findManyIndexes({ collection, filter });
+const findMany = function ({ collection, filter = {}, info, params }) {
+  const indexes = findIndexes({ collection, filter, info, params });
   const models = indexes.map(index => collection[index]);
   return models;
 };
 
-const deleteOne = function ({ collection, filter: { id } }) {
-  const index = findOneIndex({ collection, id });
+const deleteOne = function ({ collection, filter, info, params }) {
+  const index = findIndex({ collection, filter, info, params });
   const model = collection.splice(index, 1)[0];
   return model;
 };
 
-const deleteMany = function ({ collection, filter = {} }) {
-  const indexes = findManyIndexes({ collection, filter });
+const deleteMany = function ({ collection, filter = {}, info, params }) {
+  const indexes = findIndexes({ collection, filter, info, params });
   const models = indexes.sort().map((index, count) => collection.splice(index - count, 1)[0]);
   return models;
 };
 
-const updateOne = function ({ collection, data, filter: { id } }) {
-  const index = findOneIndex({ collection, id });
+const updateOne = function ({ collection, data, filter, info, params }) {
+  const index = findIndex({ collection, filter, info, params });
   const model = collection[index];
   const newModel = Object.assign({}, model, data);
   collection.splice(index, 1, newModel);
   return newModel;
 };
 
-const updateMany = function ({ collection, data, filter = {} }) {
-  const indexes = findManyIndexes({ collection, filter });
+const updateMany = function ({ collection, data, filter = {}, info, params }) {
+  const indexes = findIndexes({ collection, filter, info, params });
   const newModels = indexes.map(index => {
     const model = collection[index];
     const newModel = Object.assign({}, model, data);
@@ -158,8 +156,13 @@ const updateMany = function ({ collection, data, filter = {} }) {
 };
 
 const createOne = function ({ collection, data }) {
-  checkUniqueId({ collection, id: data.id });
-  const id = data.id || createId();
+  let id = data.id;
+  if (id) {
+    checkUniqueId({ collection, id });
+  } else {
+    id = createId();
+  }
+
   const newModel = Object.assign({}, data, { id });
   collection.push(newModel);
   return newModel;
@@ -170,7 +173,7 @@ const createMany = function ({ collection, data }) {
 };
 
 const replaceOne = function ({ collection, data }) {
-  const index = findOneIndex({ collection, id: data.id });
+  const index = findIndex({ collection, filter: { id: data.id } });
   collection.splice(index, 1, data);
   return data;
 };
@@ -180,8 +183,8 @@ const replaceMany = function ({ collection, data }) {
 };
 
 const upsertOne = function ({ collection, data }) {
-  const index = findOneIndex({ collection, id: data.id, required: false });
-  if (index === -1) {
+  const indexes = findIndexes({ collection, filter: { id: data.id } });
+  if (indexes.length === 0) {
     return createOne({ collection, data });
   } else {
     return replaceOne({ collection, data });

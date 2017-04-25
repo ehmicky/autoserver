@@ -2,6 +2,7 @@
 
 
 const { EngineError } = require('../../../../../error');
+const { testJsl } = require('../../../../jsl');
 
 
 /**
@@ -45,10 +46,13 @@ const addNestedId = function ({ parent, name, attrName, multiple, args, actionTy
 const getNestedIds = function({ childId, parentIds }) {
   // Uses JSL syntax
   let ids;
+
   if (parentIds instanceof Array) {
     ids = `(${JSON.stringify(parentIds)}.includes($))`;
   } else {
-    ids = `($ === ${JSON.stringify(parentIds)})`;
+    // If parentIds is scalar, this means child operation is single.
+    // Single operation filters cannot use JSL, and childId will be undefined
+    ids = parentIds;
   }
 
   // Intersections
@@ -81,7 +85,10 @@ const getNestedArgument = function ({ multiple, args, actionType }) {
 const validateNestedId = function ({ parent, name, attrName, multiple, arg }) {
   const parentVal = parent[attrName];
   if (multiple && arg instanceof Array && arg.length !== parentVal.length) {
-    wrongInput(`In '${name}' model, wrong parameters: data length should be ${parentVal.length}`);
+    wrongInput(`In '${name}' model, wrong parameters: data length must be ${parentVal.length}`);
+  }
+  if (!multiple && arg.id) {
+    wrongInput(`In '${name}' model, wrong parameters: 'id' must not be defined`);
   }
 };
 
