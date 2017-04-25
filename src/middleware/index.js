@@ -15,7 +15,7 @@ module.exports = Object.assign(
   require('./interface_negotiator'),
   require('./interface'),
   require('./api_convertor'),
-  require('./jsl'),
+  require('./filter'),
   require('./validation'),
   require('./database')
 );
