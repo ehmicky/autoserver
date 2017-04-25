@@ -1,10 +1,10 @@
 'use strict';
 
 
-const { processJsl } = require('./process');
+const { processJsl } = require('../jsl');
 
 
-const handleJsl = async function () {
+const handleFilter = async function () {
   return await function (input) {
     const { args } = input;
 
@@ -20,5 +20,5 @@ const handleJsl = async function () {
 
 
 module.exports = {
-  handleJsl,
+  handleFilter,
 };
