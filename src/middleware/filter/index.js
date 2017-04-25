@@ -5,7 +5,7 @@ const { processJsl } = require('../jsl');
 
 
 const handleFilter = async function () {
-  return await function (input) {
+  return async function (input) {
     const { args } = input;
 
     if (args.filter) {
@@ -13,7 +13,7 @@ const handleFilter = async function () {
       args.filter = processJsl({ value: args.filter, processor: ({ value }) => ({ eval: value }) });
     }
 
-    const response = this.next(input);
+    const response = await this.next(input);
     return response;
   };
 };

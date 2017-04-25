@@ -9,7 +9,7 @@ const { EngineError } = require('../../error');
 // Decide which middleware to pick according to request protocol
 // Only protocol supported so far is HTTP
 const protocolNegotiator = async function () {
-  return await function (input) {
+  return async function (input) {
     const { info, req, res } = input;
     const protocol = findKey(protocols, test => test({ req, res }));
     if (!protocol) {
@@ -20,7 +20,7 @@ const protocolNegotiator = async function () {
     const protocolVersion = protocolVersions[protocol]({ req, res });
     info.protocolVersion = protocolVersion;
 
-    const response = this.next(input);
+    const response = await this.next(input);
     return response;
   };
 };
