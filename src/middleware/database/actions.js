@@ -21,8 +21,8 @@
  *                             `data.id` is required in upsert* and replace*, optional in create*, not allowed in update*
  *  - {any} filter           - Filter the action by a specific attribute.
  *                             The argument name is that attribute name, not `filter`
- *                             `filter.id` is required in findOne, deleteOne and updateOne
- *                             `filter.id` is an array in findMany, deleteMany and updateMany
+ *                             Can use JSL
+ *                             `filter.id` is required and cannot use JSL in findOne, deleteOne and updateOne
  *  - {string} [order_by]    - Sort results.
  *                             Value is attribute name, followed by optional + or - for ascending|descending order (default: +)
  *                             Can contain dots to select fields, e.g. order_by="furniture.size"
