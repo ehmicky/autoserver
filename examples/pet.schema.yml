@@ -194,6 +194,7 @@ models:
 #   - it can use variables:
 #      - $NOW {string} - current date and time
 #      - $IP {string} - request IP
+#      - $ACTION {string} - current action, e.g. 'find' or 'create'
 #      - $PARAMS {object} - contains all request parameters: query strings, (application-namespaced) HTTP headers
 #      - $ {any} - value of current attribute, e.g. { filter: { name: '$ !== "John"' } } checks whether model.name !== 'John'
 #      - $attribute {any} - value of a given attribute, e.g. { filter: { name: '$ === $first_name' } }
