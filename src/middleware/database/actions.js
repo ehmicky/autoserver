@@ -82,8 +82,15 @@ const findIndexes = function({ collection, filter = {}, info, params }) {
       const variables = getJslVariables({ info, params, model });
 
       // TODO: remove when using MongoDB query objects
-      const filterMatches = processJsl({ value: value.eval, name, variables, processor: evalJslModel });
-      return filterMatches;
+      try {
+        const filterMatches = processJsl({ value: value.eval, name, variables, processor: evalJslModel });
+        return filterMatches;
+      } catch (innererror) {
+        throw new EngineError(`JSL expression used as filter failed: ${value.eval}`, {
+          reason: 'INPUT_VALIDATION',
+          innererror,
+        });
+      }
     });
 
     if (matches) {
