@@ -20,7 +20,9 @@ The server is fully-featured, i.e. there should not be much need for custom code
   - nested actions. One can not only query but also mutate nested models in a single action.
   - validation of both input and output
   - default values
-  - input|output transformation
+  - computed values, e.g. $name = $first_name + $last_name
+  - automatic attributes: created_time, updated_time, created_by, updated_by
+  - transformation on input|output, e.g. when client and database have different data models
   - HTTP body/query handling
   - error handling
   - basic logging
@@ -30,14 +32,13 @@ The server is fully-featured, i.e. there should not be much need for custom code
 
 Includes (but is not limited to):
   - authorization
-  - timestamps, computed values
   - aggregation
   - migrations
   - security
   - some HTTP features (CORS, caching, etc.)
   - pagination
   - performance optimization (could be 5 to 10 times faster with some basic tweaks, since much of the work can be done compile-time)
-  - using real data source by adding an ORM (at the moment, all data lives in memory, using a JavaScript array)
+  - using real database connection (at the moment, all data lives in memory, using a JavaScript array)
 
 # Example
 
