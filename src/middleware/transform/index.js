@@ -44,40 +44,50 @@ const getTransform = ({ direction }) => {
   // $ and $attr refer to either input data (`data`) or output data (`model`)
   const processor = direction === 'input' ? evalJslData : evalJslModel;
   const variableName = direction === 'input' ? 'data' : 'model';
-
-  return function transformFunc({ value, propsIdl, actionType, info, params }) {
-    // Recursion
-    if (value instanceof Array) {
-      return value.map(child => transformFunc({ value: child, propsIdl, actionType, info, params }));
-    }
-
-    // Value should be an object if valid, but it might be invalid and the validation layer is not fired yet on input
-    if (value.constructor !== Object) { return value; }
-
-    // Iterate over IDL for that model, to find models that have transforms/defaults
-    each(propsIdl, (propIdl, attrName) => {
-      const child = value[attrName];
-
-      // 'update' actions do not use default values on input
-      if (actionType === 'update' && direction === 'input' && child === undefined) { return; }
-
-      const transformName = child === undefined ? defaultName : nonDefaultName;
-      const transformer = propIdl[transformName];
-      if (!transformer) { return; }
-
-      // Assign $ or $attr variables
-      const variables = getJslVariables(Object.assign({ info, params }, { [variableName]: value }));
-      // Performs actual substitution
-      const newValue = processJsl({ value: transformer, name: attrName, variables, processor });
-      // Transforms|defaults that return undefined do not apply
-      // This allows conditional transforms|defaults, e.g. { age: '$ > 30 ? $ - 1 : undefined' }
-      if (newValue === undefined) { return; }
-      value[attrName] = newValue;
-    });
-
-    return value;
-  };
+  return getTransformFunc({ direction, defaultName, nonDefaultName, processor, variableName });
 };
+
+// Apply `transformValue` recursively
+const getTransformFunc = (factoryOpts) => function transformFunc(opts) {
+  const { value, propsIdl } = opts;
+  // Recursion
+  if (value instanceof Array) {
+    return value.map(child => transformFunc(Object.assign({}, opts, { value: child })));
+  }
+
+  // Value should be an object if valid, but it might be invalid since the validation layer is not fired yet on input
+  if (value.constructor !== Object) { return value; }
+
+  // Iterate over IDL for that model, to find models that have transforms/defaults
+  each(propsIdl, (propIdl, attrName) => {
+    transformValue(Object.assign({ propIdl, attrName }, factoryOpts, opts));
+  });
+
+  return value;
+};
+
+// Do the actual transformation
+const transformValue = function (opts) {
+  const { value, attrName, direction, defaultName, nonDefaultName, processor, variableName, propIdl, actionType, info, params } = opts;
+  const child = value[attrName];
+
+  // 'update' actions do not use default values on input
+  if (actionType === 'update' && direction === 'input' && child === undefined) { return; }
+
+  const transformName = child === undefined ? defaultName : nonDefaultName;
+  const transformer = propIdl[transformName];
+  if (!transformer) { return; }
+
+  // Assign $ or $attr variables
+  const variables = getJslVariables(Object.assign({ info, params }, { [variableName]: value }));
+  // Performs actual substitution
+  const newValue = processJsl({ value: transformer, name: attrName, variables, processor });
+  // Transforms|defaults that return undefined do not apply
+  // This allows conditional transforms|defaults, e.g. { age: '$ > 30 ? $ - 1 : undefined' }
+  if (newValue === undefined) { return; }
+  value[attrName] = newValue;
+};
+
 const transformInput = getTransform({ direction: 'input' });
 const transformOutput = getTransform({ direction: 'output' });
 
