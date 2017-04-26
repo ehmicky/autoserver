@@ -47,29 +47,39 @@
     {
       "id": "1",
       "name": "Mickael",
-      "pets": ["1", "2"]
+      "pets": ["1", "2"],
+      "created_time": "2017-04-26T11:19:45Z",
+      "updated_time": "2017-04-26T11:19:45Z"
     },
     {
       "id": "2",
       "name": "Lisa",
-      "pets": ["2"]
+      "pets": ["2"],
+      "created_time": "2017-04-26T11:19:45Z",
+      "updated_time": "2017-04-26T11:19:45Z"
     }
   ],
   "pet_skills": [
     {
       "id": "1",
       "age": 10,
-      "intelligence": 11
+      "intelligence": 11,
+      "created_time": "2017-04-26T11:19:45Z",
+      "updated_time": "2017-04-26T11:19:45Z"
     },
     {
       "id": "2",
       "age": 12,
-      "intelligence": 15
+      "intelligence": 15,
+      "created_time": "2017-04-26T11:19:45Z",
+      "updated_time": "2017-04-26T11:19:45Z"
     },
     {
       "id": "3",
       "age": 10,
-      "intelligence": 20
+      "intelligence": 20,
+      "created_time": "2017-04-26T11:19:45Z",
+      "updated_time": "2017-04-26T11:19:45Z"
     }
   ]
 }
