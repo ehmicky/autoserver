@@ -11,11 +11,12 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { chain, omit, pick } = require('lodash');
+const { chain, omit } = require('lodash');
 const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../../error');
 const { memoize, stringify } = require('../../../../utilities');
+const { testJsl } = require('../../../jsl');
 const { getTypeName, getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
@@ -58,7 +59,8 @@ const getField = function (def, opts) {
   // 'update' does not required anything, nor assign defaults
   let defaultValue;
   if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.actionType !== 'update') {
-    defaultValue = def.default;
+    // JSL only shows as 'DYNAMIC_VALUE' in schema
+    defaultValue = testJsl({ value: def.default }) ? 'DYNAMIC_VALUE' : def.default;
   }
 
   const field = { type, description, deprecationReason, args, defaultValue };
@@ -134,9 +136,9 @@ const getObjectFields = function (def, opts) {
 
       // Nested models use the regular name as well, but as simple ids, not recursive definition
       // Retrieves `id` field definition of subfield
-      const nonRecursiveAttrs = ['description', 'deprecation_reason', 'actions', 'default', 'defaultOut', 'transform',
-      'transformOut', 'compute', 'computeOut', 'readOnly', 'writeOnce'];
-      const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
+      const nonRecursiveAttrs = ['description', 'deprecation_reason', 'examples'];
+      const recursiveAttrs = ['model', 'type'];
+      const idDef = Object.assign({}, omit(subDef.properties.id, nonRecursiveAttrs), omit(subDef, recursiveAttrs));
       // Consider this attribute as a normal attribute, not a model anymore
       delete idDef.model;
 
