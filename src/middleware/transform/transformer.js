@@ -28,8 +28,9 @@ const getTransform = ({ direction }) => function transformFunc(opts) {
 
 // Do the actual transformation
 const transformValue = function (opts) {
-  const { value, attrName, direction, props: { DEFAULT_NAME, NON_DEFAULT_NAME }, propIdl, actionType } = opts;
+  const { value, attrName, direction, props: { DEFAULT_NAME, NON_DEFAULT_NAME, COMPUTE_NAME }, propIdl, actionType } = opts;
 
+  singleTransformValue(Object.assign({}, opts, { transformer: propIdl[COMPUTE_NAME] }));
 
   // 'update' actions do not use default values on input
   const isUpdateInput = actionType === 'update' && direction === 'input';
@@ -74,6 +75,7 @@ const transformProps = {
     // IDL transform names depends on direction
     DEFAULT_NAME: 'default',
     NON_DEFAULT_NAME: 'transform',
+    COMPUTE_NAME: 'compute',
     // $ and $attr refer to either input data (`data`) or output data (`model`)
     PROCESSOR: evalJslData,
     VARIABLE_NAME: 'data',
@@ -81,6 +83,7 @@ const transformProps = {
   output: {
     DEFAULT_NAME: 'defaultOut',
     NON_DEFAULT_NAME: 'transformOut',
+    COMPUTE_NAME: 'computeOut',
     PROCESSOR: evalJslModel,
     VARIABLE_NAME: 'model',
   },

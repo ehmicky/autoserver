@@ -130,7 +130,14 @@ models:
         # This can also be used if an attribute is deprecated, and we want to restrict clients from setting it, but
         # want to still allow them to read it
         readOnly: true
-        default: $IP
+        # compute sets the value of an attribute.
+        # The value provided by the user will be ignored, i.e. 'compute' implies `readOnly: true`
+        # As opposed to `default`, this will also be set during update actions.
+        # JSL can be used.
+        # default and transforms can still be used (are performed afterwards).
+        compute: $IP
+        # Same for output. It is useless in this case, but used for illustration.
+        computeOut: $IP
       best_friend:
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key
         # References can be recursive, e.g. here `pet` is the current model
