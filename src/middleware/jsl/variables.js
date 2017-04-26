@@ -3,9 +3,9 @@
 
 // Values available as `$variable` in JSL
 // They are uppercase to avoid name conflict with attributes
-const getJslVariables = function ({ info: { ip, actionType }, params, model, data }) {
+const getJslVariables = function ({ info: { ip, timestamp, actionType }, params, model, data }) {
   // Context-related variables in JSL
-  const NOW = (new Date()).toISOString();
+  const NOW = timestamp;
 
   // Request-related variables in JSL
   const IP = ip;

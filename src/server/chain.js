@@ -11,6 +11,9 @@ const start = async function (opts) {
   const mdw = await applyOptions(opts);
   return chain([
 
+    // Retrieves timestamp
+    mdw.getTimestamp,
+
     /**
      * Protocol-related middleware
      */
@@ -86,6 +89,7 @@ const start = async function (opts) {
 
 const applyOptions = async function (opts) {
   const middlewares = [
+    'getTimestamp',
     'protocolNegotiator',
     'protocolNegotiation',
     'httpSendResponse',
