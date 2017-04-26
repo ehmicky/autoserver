@@ -35,7 +35,7 @@
  **/
 
 
-const { merge, every, orderBy, map, isEqual } = require('lodash');
+const { omit, merge, every, orderBy, map, isEqual } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
@@ -113,6 +113,13 @@ const checkUniqueId = function ({ collection, id }) {
   }
 };
 
+// attributes with writeOnce true are not updated, unless undefined
+const getOmitKeys = function ({ model, writeOnceAttributes }) {
+  return Object.keys(model)
+    .filter(key => writeOnceAttributes.includes(key))
+    .filter(key => model[key] !== undefined);
+};
+
 const findOne = function ({ collection, filter, info, params }) {
   const index = findIndex({ collection, filter, info, params });
   return collection[index];
@@ -136,22 +143,23 @@ const deleteMany = function ({ collection, filter = {}, info, params }) {
   return models;
 };
 
-const update = function ({ collection, index, data }) {
+const update = function ({ collection, index, data, writeOnceAttributes }) {
   const model = collection[index];
-  const newModel = Object.assign({}, model, data);
+  const omitKeys = getOmitKeys({ model, writeOnceAttributes });
+  const newModel = Object.assign({}, model, omit(data, omitKeys));
   collection.splice(index, 1, newModel);
   return newModel;
 };
 
-const updateOne = function ({ collection, data, filter, info, params }) {
+const updateOne = function ({ collection, data, filter, info, params, writeOnceAttributes }) {
   const index = findIndex({ collection, filter, info, params });
-  const newModel = update({ collection, index, data });
+  const newModel = update({ collection, index, data, writeOnceAttributes });
   return newModel;
 };
 
-const updateMany = function ({ collection, data, filter = {}, info, params }) {
+const updateMany = function ({ collection, data, filter = {}, info, params, writeOnceAttributes }) {
   const indexes = findIndexes({ collection, filter, info, params });
-  const newModels = indexes.map(index => update({ collection, index, data }));
+  const newModels = indexes.map(index => update({ collection, index, data, writeOnceAttributes }));
   return newModels;
 };
 
@@ -172,27 +180,30 @@ const createMany = function ({ collection, data }) {
   return data.map(datum => createOne({ collection, data: datum }));
 };
 
-const replaceOne = function ({ collection, data }) {
+const replaceOne = function ({ collection, data, writeOnceAttributes }) {
   const index = findIndex({ collection, filter: { id: data.id } });
-  collection.splice(index, 1, data);
+
+  const omitKeys = getOmitKeys({ model: collection[index], writeOnceAttributes });
+  collection.splice(index, 1, omit(data, omitKeys));
+
   return data;
 };
 
-const replaceMany = function ({ collection, data }) {
-  return data.map(datum => replaceOne({ collection, data: datum }));
+const replaceMany = function ({ collection, data, writeOnceAttributes }) {
+  return data.map(datum => replaceOne({ collection, data: datum, writeOnceAttributes }));
 };
 
-const upsertOne = function ({ collection, data }) {
+const upsertOne = function ({ collection, data, writeOnceAttributes }) {
   const indexes = findIndexes({ collection, filter: { id: data.id } });
   if (indexes.length === 0) {
     return createOne({ collection, data });
   } else {
-    return replaceOne({ collection, data });
+    return replaceOne({ collection, data, writeOnceAttributes });
   }
 };
 
-const upsertMany = function ({ collection, data }) {
-  return data.map(datum => upsertOne({ collection, data: datum }));
+const upsertMany = function ({ collection, data, writeOnceAttributes }) {
+  return data.map(datum => upsertOne({ collection, data: datum, writeOnceAttributes }));
 };
 
 const actions = {

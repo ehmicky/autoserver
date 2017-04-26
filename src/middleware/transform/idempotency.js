@@ -20,8 +20,9 @@ const checkIdempotency = function ({ value, transformArgs, modelName, propsIdl =
   const afterOutput = transformOutput(Object.assign({ value: afterInput }, transformArgs));
   value.forEach((val, key) => {
     each(val, (attr, attrName) => {
-      // Do not perform this check if schema.idempotent is false
-      if (propsIdl[attrName] && propsIdl[attrName].idempotent === false) { return; }
+      // Do not perform this check if schema.idempotent is false or if schema.writeOnce is true
+      const propIdl = propsIdl[attrName];
+      if (propIdl && (propIdl.idempotent === false || propIdl.writeOnce)) { return; }
 
       const afterAttr = afterOutput[key][attrName];
       if (!isEqual(attr, afterAttr)) {
