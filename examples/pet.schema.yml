@@ -121,6 +121,8 @@ models:
         - $name === "Dog" ? "happy"
         - $name === "Cat" ? "grumpy"
         defaultOut: $name + ' status'
+        # By defaults, transforms must be idempotent, but this can be turned off
+        idempotent: true
       creator_ip:
         description: IP of the user that created this pet
         # read-only attribute cannot be set by the client, but can be returned by the server
