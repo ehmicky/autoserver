@@ -39,7 +39,6 @@ const getDefaultAttributes = ({ userId, userModel }) => ({
     format: 'date-time',
     compute: '$NOW',
     readOnly: true,
-    idempotent: false,
   },
   created_by: {
     type: 'object',
@@ -55,7 +54,6 @@ const getDefaultAttributes = ({ userId, userModel }) => ({
     model: userModel,
     compute: userId,
     readOnly: true,
-    idempotent: false,
   },
 });
 const requiredDefaultAttributes = ['created_time', 'updated_time', 'created_by', 'updated_by'];

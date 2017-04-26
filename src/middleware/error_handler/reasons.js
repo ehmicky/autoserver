@@ -118,11 +118,6 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
-  // Transform must be idempotent, i.e. submitting a response as is (after just receiving it) should not alter it
-  TRANSFORM_IDEMPOTENCY: () => ({
-    http: { status: 500 },
-  }),
-
   // A transform threw an exception, which should be avoided by rewriting the transform
   WRONG_TRANSFORM: () => ({
     http: { status: 500 },
