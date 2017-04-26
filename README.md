@@ -31,6 +31,7 @@ The server is fully-featured, i.e. there should not be much need for custom code
 # What is work in progress
 
 Includes (but is not limited to):
+  - compatibility/deprecation
   - authorization
   - aggregation
   - migrations
