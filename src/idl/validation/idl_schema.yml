@@ -63,7 +63,8 @@ definitions:
     - propertyNames:
         anyOf:
         - $ref: '#/definitions/validPropertyNames'
-        - enum: [actions, model, type, description, deprecated, examples, defaultOut, transform, transformOut, readOnly]
+        - enum: [actions, model, type, description, deprecated, examples, defaultOut, transform, transformOut,
+          readOnly, idempotent]
   # Only applies this to top-level models
   topLevelModel:
     allOf:
@@ -95,12 +96,14 @@ definitions:
     - propertyNames:
         anyOf:
         - $ref: '#/definitions/validPropertyNames'
-        - enum: [model, defaultOut, transform, transformOut, readOnly]
+        - enum: [model, defaultOut, transform, transformOut, compute, computeOut, readOnly, idempotent]
       properties:
         # Recursively applied to array members
         items:
           $ref: '#/definitions/attributeSchema'
         readOnly:
+          type: boolean
+        idempotent:
           type: boolean
       # Only for nested models
       if:

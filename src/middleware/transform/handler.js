@@ -36,7 +36,7 @@ const transform = async function ({ idl }) {
     const transformedResponse = transformOutput(Object.assign({ value: response }, transformArgs));
 
     // Make sure transforms are idempotent
-    checkIdempotency({ value: transformedResponse, transformArgs, modelName });
+    checkIdempotency({ value: transformedResponse, transformArgs, modelName, propsIdl });
 
     return transformedResponse;
   };
