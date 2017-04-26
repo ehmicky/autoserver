@@ -4,6 +4,7 @@
 const { each } = require('lodash');
 
 const { processJsl, evalJslModel, evalJslData, getJslVariables } = require('../jsl');
+const { EngineError } = require('../../error');
 
 
 // Apply `transformValue` recursively
@@ -59,7 +60,15 @@ const singleTransformValue = function (opts) {
   // Assign $ or $attr variables
   const variables = getJslVariables(Object.assign({ info, params }, { [VARIABLE_NAME]: value }));
   // Performs actual substitution
-  const newValue = processJsl({ value: transformer, name: attrName, variables, processor: PROCESSOR });
+  let newValue;
+  try {
+    newValue = processJsl({ value: transformer, name: attrName, variables, processor: PROCESSOR });
+  } catch (innererror) {
+    throw new EngineError(`JSL expression used as transform failed: ${transformer}`, {
+      reason: 'WRONG_TRANSFORM',
+      innererror,
+    });
+  }
 
   // Transforms|defaults that return undefined do not apply
   // This allows conditional transforms|defaults, e.g. { age: '$ > 30 ? $ - 1 : undefined' }

@@ -1,29 +1,25 @@
 'use strict';
 
 
-const { EngineError } = require('../../error');
 const { jslRegExp } = require('./test');
 
 
 // Execute JSL statements using eval()
+// Likely to throw exceptions
 const evalJsl = ({ defaultShortcut }) => function ({ value, name, variables }) {
-  try {
-    /* eslint-disable no-unused-vars */
-    const $ = variables;
-    /* eslint-enable no-unused-vars */
+  /* eslint-disable no-unused-vars */
+  const $ = variables;
+  /* eslint-enable no-unused-vars */
 
-    // Replace $var by $.var
-    const valueWithoutShortcuts = processJslShortcuts({ value, name, defaultShortcut });
+  // Replace $var by $.var
+  const valueWithoutShortcuts = processJslShortcuts({ value, name, defaultShortcut });
 
-    // Beware local (and global) variables are available inside eval(), i.e. must keep it to a minimal
-    // TODO: this is highly insecure. E.g. value 'while (true) {}' would freeze the whole server. Also it has access to
-    // global variables, including global.process. Problem is that alternatives are much slower, so we need to find a solution.
-    const newValue = eval(valueWithoutShortcuts);
-    //console.log('Eval', value, newValue, variables);
-    return newValue;
-  } catch (innererror) {
-    throw new EngineError(`JSL expression evaluation failed: ${value}`, { reason: 'JSL_SYNTAX', innererror });
-  }
+  // Beware local (and global) variables are available inside eval(), i.e. must keep it to a minimal
+  // TODO: this is highly insecure. E.g. value 'while (true) {}' would freeze the whole server. Also it has access to
+  // global variables, including global.process. Problem is that alternatives are much slower, so we need to find a solution.
+  const newValue = eval(valueWithoutShortcuts);
+  //console.log('Eval', value, newValue, variables);
+  return newValue;
 };
 
 // Looks for single $ signs, unescaped

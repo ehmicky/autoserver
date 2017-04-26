@@ -123,6 +123,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // A transform threw an exception, which should be avoided by rewriting the transform
+  WRONG_TRANSFORM: () => ({
+    http: { status: 500 },
+  }),
+
   // Request did not pass IDL validation, e.g. `args` was not provided, indicated a server bug
   INPUT_SERVER_VALIDATION: () => ({
     http: { status: 500 },
