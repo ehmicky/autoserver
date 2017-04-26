@@ -11,7 +11,9 @@ const { processJsl, evalJslModel, evalJslData, getJslVariables } = require('../j
  * Applies schema `transform`, `transform_out`, `default` and `default_out`.
  * Those are mapping functions applies on input or output for a particular attribute.
  * `transform` and `default` are applied on input, `transform_out` and `default_out` are applied on output.
- * `default[_out]` are applied if value is undefined, `transform[_out]` if it is defined.
+ * If the value is defined, only `transform[_out]` is applied.
+ * If the value is undefined, `default[_out]` is applied first, then `transform[_out]`
+ * (providing a value was assigned by `default[_out]`).
  * They can be any static value, e.g. { name: { default: 15 } }.
  * They can contain JSL, e.g. { name: { default: '$former_name' } }. $attribute will refer to input or output data.
  * `default[_out]` is not applied on 'update' actions input, since this is partial update.
