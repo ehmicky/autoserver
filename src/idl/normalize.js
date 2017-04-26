@@ -37,7 +37,7 @@ const addModelType = function ({ models }) {
 };
 
 // List of attributes that can contain JSL
-const jslAttributes = ['default', 'defaultOut', 'transform', 'transformOut'];
+const jslAttributes = ['default', 'defaultOut', 'transform', 'transformOut', 'compute', 'computeOut'];
 const ternaryTest = /\?[^:]+$/;
 // List of transformations to apply to normalize IDL models
 const transforms = [
