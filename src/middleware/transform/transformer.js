@@ -79,8 +79,8 @@ const transformProps = {
     VARIABLE_NAME: 'data',
   },
   output: {
-    DEFAULT_NAME: 'default_out',
-    NON_DEFAULT_NAME: 'transform_out',
+    DEFAULT_NAME: 'defaultOut',
+    NON_DEFAULT_NAME: 'transformOut',
     PROCESSOR: evalJslModel,
     VARIABLE_NAME: 'model',
   },

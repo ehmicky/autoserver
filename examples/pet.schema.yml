@@ -114,13 +114,13 @@ models:
         # JSL can be used
         # This can be used to add compatibility layers, computed attributes, etc.
         transform: $.toLowerCase()
-        transform_out: $.toUpperCase()
+        transformOut: $.toUpperCase()
         # Applied default values, on input or output
         default:
         # Arrays are handled like a switch statement, i.e. only the first matching is used. Can be used for transforms too.
         - $name === "Dog" ? "happy"
         - $name === "Cat" ? "grumpy"
-        default_out: $name + ' status'
+        defaultOut: $name + ' status'
       best_friend:
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key
         # References can be recursive, e.g. here `pet` is the current model
