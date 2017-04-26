@@ -131,7 +131,7 @@ models:
         # want to still allow them to read it
         readOnly: true
         # compute sets the value of an attribute.
-        # The value provided by the user will be ignored, i.e. 'compute' implies `readOnly: true`
+        # The value provided by the user will be ignored, unless this returns undefined
         # As opposed to `default`, this will also be set during update actions.
         # JSL can be used.
         # default and transforms can still be used (are performed afterwards).
