@@ -16,7 +16,10 @@ const getJslVariables = function ({ info: { ip, timestamp, actionType }, params,
   const MODEL = model;
   const DATA = data;
 
-  return { NOW, IP, PARAMS, MODEL, DATA, ACTION };
+  // TODO: hack until we introduce custom variables
+  const User = { id: '1' };
+
+  return { NOW, IP, PARAMS, MODEL, DATA, ACTION, User };
 };
 
 

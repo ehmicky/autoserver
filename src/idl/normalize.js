@@ -16,8 +16,9 @@ const normalizeIdl = function (idl) {
 };
 
 // Normalize IDL definition models
-const normalizeModels = function ({ models, actions }) {
-  models = addDefaultAttributes({ models });
+const normalizeModels = function (idl) {
+  let { models, actions } = idl;
+  models = addDefaultAttributes({ idl });
   models = addModelType({ models });
   transform({ transforms, args: { defaultActions: actions } })({ input: models });
   return models;

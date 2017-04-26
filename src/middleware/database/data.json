@@ -13,7 +13,9 @@
       "owners": ["1"],
       "friends": ["1", "2", "3"],
       "created_time": "2017-04-26T11:19:45Z",
-      "updated_time": "2017-04-26T11:19:45Z"
+      "updated_time": "2017-04-26T11:19:45Z",
+      "created_by": "1",
+      "updated_by": "1"
     },
     {
       "id": "2",
@@ -28,7 +30,9 @@
       "friends": ["1", "2", "3"],
       "birth_date": "2005-05-01",
       "created_time": "2017-04-26T11:19:45Z",
-      "updated_time": "2017-04-26T11:19:45Z"
+      "updated_time": "2017-04-26T11:19:45Z",
+      "created_by": "1",
+      "updated_by": "1"
     },
     {
       "id": "3",
@@ -40,7 +44,9 @@
       "best_friend": "1",
       "friends": ["1", "2", "3"],
       "created_time": "2017-04-26T11:19:45Z",
-      "updated_time": "2017-04-26T11:19:45Z"
+      "updated_time": "2017-04-26T11:19:45Z",
+      "created_by": "1",
+      "updated_by": "1"
     }
   ],
   "owner": [
@@ -49,14 +55,18 @@
       "name": "Mickael",
       "pets": ["1", "2"],
       "created_time": "2017-04-26T11:19:45Z",
-      "updated_time": "2017-04-26T11:19:45Z"
+      "updated_time": "2017-04-26T11:19:45Z",
+      "created_by": "1",
+      "updated_by": "1"
     },
     {
       "id": "2",
       "name": "Lisa",
       "pets": ["2"],
       "created_time": "2017-04-26T11:19:45Z",
-      "updated_time": "2017-04-26T11:19:45Z"
+      "updated_time": "2017-04-26T11:19:45Z",
+      "created_by": "1",
+      "updated_by": "1"
     }
   ],
   "pet_skills": [
@@ -65,21 +75,27 @@
       "age": 10,
       "intelligence": 11,
       "created_time": "2017-04-26T11:19:45Z",
-      "updated_time": "2017-04-26T11:19:45Z"
+      "updated_time": "2017-04-26T11:19:45Z",
+      "created_by": "1",
+      "updated_by": "1"
     },
     {
       "id": "2",
       "age": 12,
       "intelligence": 15,
       "created_time": "2017-04-26T11:19:45Z",
-      "updated_time": "2017-04-26T11:19:45Z"
+      "updated_time": "2017-04-26T11:19:45Z",
+      "created_by": "1",
+      "updated_by": "1"
     },
     {
       "id": "3",
       "age": 10,
       "intelligence": 20,
       "created_time": "2017-04-26T11:19:45Z",
-      "updated_time": "2017-04-26T11:19:45Z"
+      "updated_time": "2017-04-26T11:19:45Z",
+      "created_by": "1",
+      "updated_by": "1"
     }
   ]
 }
