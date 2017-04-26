@@ -46,7 +46,7 @@ const transformValue = function (opts) {
 const singleTransformValue = function (opts) {
   const { value, attrName, transformer, props: { VARIABLE_NAME, PROCESSOR }, info, params } = opts;
 
-  if (!transformer) { return; }
+  if (transformer === undefined) { return; }
 
   // If transform is an array, apply the first transform that works, i.e. is like a switch statement
   if (transformer instanceof Array) {
