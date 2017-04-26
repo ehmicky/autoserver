@@ -7,15 +7,15 @@ const { checkIdempotency } = require('./idempotency');
 
 
 /**
- * Applies schema `transform`, `transform_out`, `default` and `default_out`.
+ * Applies schema `transform`, `transformOut`, `default` and `defaultOut`.
  * Those are mapping functions applies on input or output for a particular attribute.
- * `transform` and `default` are applied on input, `transform_out` and `default_out` are applied on output.
- * If the value is defined, only `transform[_out]` is applied.
- * If the value is undefined, `default[_out]` is applied first, then `transform[_out]`
- * (providing a value was assigned by `default[_out]`).
+ * `transform` and `default` are applied on input, `transformOut` and `defaultOut` are applied on output.
+ * If the value is defined, only `transform[Out]` is applied.
+ * If the value is undefined, `default[Out]` is applied first, then `transform[Out]`
+ * (providing a value was assigned by `default[Out]`).
  * They can be any static value, e.g. { name: { default: 15 } }.
  * They can contain JSL, e.g. { name: { default: '$former_name' } }. $attribute will refer to input or output data.
- * `default[_out]` is not applied on 'update' actions input, since this is partial update.
+ * `default[Out]` is not applied on 'update' actions input, since this is partial update.
  **/
 const transform = async function ({ idl }) {
   return async function (input) {

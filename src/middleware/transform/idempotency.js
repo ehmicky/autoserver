@@ -8,7 +8,7 @@ const { transformInput, transformOutput } = require('./transformer');
 
 
 // Checks that transform are idempotent
-// I.e. when transform[_out] is applied twice, it should return same result as when applied once
+// I.e. when transform[Out] is applied twice, it should return same result as when applied once
 // The reason is: transforms are meant to bring the value to a 'stable' state, not to augment it. Otherwise, it would
 // break basic CRUD semantics clients expect when it comes to request idempotency.
 // TODO: do this during IDL validation instead.
