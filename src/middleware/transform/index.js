@@ -1,8 +1,9 @@
 'use strict';
 
 
-const { each } = require('lodash');
+const { each, merge, isEqual } = require('lodash');
 
+const { EngineError } = require('../../error');
 const { actions } = require('../../idl');
 const { processJsl, evalJslModel, evalJslData, getJslVariables } = require('../jsl');
 
@@ -26,13 +27,16 @@ const transform = async function ({ idl }) {
     // Retrieves IDL definition for this model
     const modelIdl = idl.models[modelName];
     const propsIdl = modelIdl && modelIdl.properties;
+    const transformArgs = { propsIdl, actionType, info, params };
 
     if (args.data) {
-      args.data = transformInput({ value: args.data, propsIdl, actionType, info, params });
+      args.data = transformInput(Object.assign({ value: args.data }, transformArgs));
     }
 
     const response = await this.next(input);
-    const transformedResponse = transformOutput({ value: response, propsIdl, actionType, info, params });
+    const transformedResponse = transformOutput(Object.assign({ value: response }, transformArgs));
+
+    checkIdempotency({ value: transformedResponse, transformArgs, modelName });
 
     return transformedResponse;
   };
@@ -109,6 +113,27 @@ const transformProps = {
 };
 const transformInput = getTransform({ direction: 'input' });
 const transformOutput = getTransform({ direction: 'output' });
+
+// Checks that transform are idempotent
+// I.e. when transform[_out] is applied twice, it should return same result as when applied once
+// The reason is: transforms are meant to bring the value to a 'stable' state, not to augment it. Otherwise, it would
+// break basic CRUD semantics clients expect when it comes to request idempotency.
+// TODO: do this during IDL validation instead.
+const checkIdempotency = function ({ value, transformArgs, modelName }) {
+  value = value instanceof Array ? value : [value];
+  const beforeInput = value.map(val => merge({}, val));
+  const afterInput = transformInput(Object.assign({ value: beforeInput }, transformArgs));
+  const afterOutput = transformOutput(Object.assign({ value: afterInput }, transformArgs));
+  value.forEach((val, key) => {
+    each(val, (attr, attrName) => {
+      const afterAttr = afterOutput[key][attrName];
+      if (!isEqual(attr, afterAttr)) {
+        throw new EngineError(`${modelName}.${attrName} transform is not idempotent, \
+as resubmitting value '${attr}' would change it to '${afterAttr}'`, { reason: 'TRANSFORM_IDEMPOTENCY' });
+      }
+    });
+  });
+};
 
 
 module.exports = {

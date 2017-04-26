@@ -118,6 +118,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // Transform must be idempotent, i.e. submitting a response as is (after just receiving it) should not alter it
+  TRANSFORM_IDEMPOTENCY: () => ({
+    http: { status: 500 },
+  }),
+
   // Request did not pass IDL validation, e.g. `args` was not provided, indicated a server bug
   INPUT_SERVER_VALIDATION: () => ({
     http: { status: 500 },
