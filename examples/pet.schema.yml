@@ -113,16 +113,14 @@ models:
         # Applies transformations: status will be stored lowercase in database, but returned uppercase to client
         # JSL can be used
         # This can be used to add compatibility layers, computed attributes, etc.
-        transform: $.toLowerCase()
+        transform: '$.startsWith("OH") ? $ : "OH" + $'
         transformOut: $.toUpperCase()
         # Applied default values, on input or output
-        default:
+        # default:
         # Arrays are handled like a switch statement, i.e. only the first matching is used. Can be used for transforms too.
-        - $name === "Dog" ? "happy"
-        - $name === "Cat" ? "grumpy"
-        defaultOut: $name + ' status'
-        # By defaults, transforms must be idempotent, but this can be turned off
-        idempotent: true
+        #- $name === "Dog" ? "happy"
+        #- $name === "Cat" ? "grumpy"
+        #defaultOut: $name + ' status'
       creator_ip:
         description: IP of the user that created this pet
         # read-only attribute cannot be set by the client, but can be returned by the server

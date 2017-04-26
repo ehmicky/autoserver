@@ -3,7 +3,6 @@
 
 const { actions } = require('../../idl');
 const { transformInput, transformOutput } = require('./transformer');
-const { checkIdempotency } = require('./idempotency');
 
 
 /**
@@ -34,9 +33,6 @@ const transform = async function ({ idl }) {
 
     const response = await this.next(input);
     const transformedResponse = transformOutput(Object.assign({ value: response }, transformArgs));
-
-    // Make sure transforms are idempotent
-    checkIdempotency({ value: transformedResponse, transformArgs, modelName, propsIdl });
 
     return transformedResponse;
   };
