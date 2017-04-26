@@ -7,6 +7,7 @@ module.exports = Object.assign(
   require('./protocol_negotiator'),
   require('./response'),
   require('./get_path'),
+  require('./timestamp'),
   require('./ip'),
   require('./routing'),
   require('./logger'),
