@@ -38,20 +38,10 @@ const transform = async function ({ idl }) {
   };
 };
 
-// Factory method for differentiating transformation according to direction (input|output)
-const getTransform = ({ direction }) => {
-  // IDL transform names depends on direction
-  const defaultName = direction === 'input' ? 'default' : 'default_out';
-  const nonDefaultName = direction === 'input' ? 'transform' : 'transform_out';
-  // $ and $attr refer to either input data (`data`) or output data (`model`)
-  const processor = direction === 'input' ? evalJslData : evalJslModel;
-  const variableName = direction === 'input' ? 'data' : 'model';
-  return getTransformFunc({ direction, defaultName, nonDefaultName, processor, variableName });
-};
-
 // Apply `transformValue` recursively
-const getTransformFunc = (factoryOpts) => function transformFunc(opts) {
+const getTransform = ({ direction }) => function transformFunc(opts) {
   const { value, propsIdl } = opts;
+  opts.props = transformProps[direction];
   // Recursion
   if (value instanceof Array) {
     return value.map(child => transformFunc(Object.assign({}, opts, { value: child })));
@@ -62,7 +52,7 @@ const getTransformFunc = (factoryOpts) => function transformFunc(opts) {
 
   // Iterate over IDL for that model, to find models that have transforms/defaults
   each(propsIdl, (propIdl, attrName) => {
-    transformValue(Object.assign({ propIdl, attrName }, factoryOpts, opts));
+    transformValue(Object.assign({ propIdl, attrName, direction }, opts));
   });
 
   return value;
@@ -70,7 +60,7 @@ const getTransformFunc = (factoryOpts) => function transformFunc(opts) {
 
 // Do the actual transformation
 const transformValue = function (opts) {
-  const { value, attrName, direction, defaultName, nonDefaultName, propIdl, actionType } = opts;
+  const { value, attrName, direction, props: { DEFAULT_NAME, NON_DEFAULT_NAME }, propIdl, actionType } = opts;
 
   // 'update' actions do not use default values on input
   if (actionType === 'update' && direction === 'input' && value[attrName] === undefined) { return; }
@@ -78,20 +68,20 @@ const transformValue = function (opts) {
   // If the value is undefined, apply `default` first, so it can be processed by `transform` right after,
   // providing `default` did assign the value
   if (value[attrName] === undefined) {
-    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[defaultName] }));
+    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[DEFAULT_NAME] }));
   }
   if (value[attrName] !== undefined) {
-    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[nonDefaultName] }));
+    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[NON_DEFAULT_NAME] }));
   }
 };
 
-const singleTransformValue = function ({ value, attrName, transformer, processor, variableName, info, params }) {
+const singleTransformValue = function ({ value, attrName, transformer, props: { VARIABLE_NAME, PROCESSOR }, info, params }) {
   if (!transformer) { return; }
 
   // Assign $ or $attr variables
-  const variables = getJslVariables(Object.assign({ info, params }, { [variableName]: value }));
+  const variables = getJslVariables(Object.assign({ info, params }, { [VARIABLE_NAME]: value }));
   // Performs actual substitution
-  const newValue = processJsl({ value: transformer, name: attrName, variables, processor });
+  const newValue = processJsl({ value: transformer, name: attrName, variables, processor: PROCESSOR });
 
   // Transforms|defaults that return undefined do not apply
   // This allows conditional transforms|defaults, e.g. { age: '$ > 30 ? $ - 1 : undefined' }
@@ -100,6 +90,23 @@ const singleTransformValue = function ({ value, attrName, transformer, processor
   value[attrName] = newValue;
 };
 
+// Input and output transforms have few differences, gathered here
+const transformProps = {
+  input: {
+    // IDL transform names depends on direction
+    DEFAULT_NAME: 'default',
+    NON_DEFAULT_NAME: 'transform',
+    // $ and $attr refer to either input data (`data`) or output data (`model`)
+    PROCESSOR: evalJslData,
+    VARIABLE_NAME: 'data',
+  },
+  output: {
+    DEFAULT_NAME: 'default_out',
+    NON_DEFAULT_NAME: 'transform_out',
+    PROCESSOR: evalJslModel,
+    VARIABLE_NAME: 'model',
+  },
+};
 const transformInput = getTransform({ direction: 'input' });
 const transformOutput = getTransform({ direction: 'output' });
 
