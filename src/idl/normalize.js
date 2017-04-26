@@ -72,10 +72,12 @@ const transforms = [
     // This is particularly handy since YAML does not allow : in unquoted strings
     // TODO: use JavaScript parser instead of RegExp matching
     any({ parent }) {
-      for (const jslAttribute of jslAttributes) {
-        const value = parent[jslAttribute];
-        if (value && testJsl({ value }) && ternaryTest.test(value)) {
-          parent[jslAttribute] = `${value} : undefined`;
+      for (const key of jslAttributes) {
+        const value = parent[key];
+        if (value instanceof Array) {
+          value.forEach((child, childKey) => applyTernaryShortcut({ parent: value, key: childKey }));
+        } else {
+          applyTernaryShortcut({ parent, key });
         }
       }
     },
@@ -121,6 +123,13 @@ const normalizeActions = function (actions) {
 // By default, include all actions but deleteMany
 const defaultActions = ['find', 'update', 'deleteOne', 'replace', 'upsert', 'create'];
 
+// Transform 'TEST ? VAL' into 'TEST ? VAL : undefined'
+const applyTernaryShortcut = function ({ parent, key }) {
+  const value = parent[key];
+  if (!value) { return; }
+  if (!testJsl({ value }) || !ternaryTest.test(value)) { return; }
+  parent[key] = `${value} : undefined`;
+};
 
 module.exports = {
   normalizeIdl,
