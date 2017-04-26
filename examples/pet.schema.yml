@@ -116,7 +116,10 @@ models:
         transform: $.toLowerCase()
         transform_out: $.toUpperCase()
         # Applied default values, on input or output
-        default: $name === "Dog" ? "adopted"
+        default:
+        # Array are handled like a switch statement, i.e. only the first matching is used. Can be used for transforms too.
+        - '$name === "Dog" ? "happy" : undefined'
+        - '$name === "Cat" ? "grumpy" : undefined'
         default_out: $name + ' status'
       best_friend:
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key
