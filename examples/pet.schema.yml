@@ -110,11 +110,11 @@ models:
         default: []
       status:
         description: Has this pet been adopted
-        # Applies transformations: status will be stored uppercase in database, but returned lowercase to client
+        # Applies transformations: status will be stored lowercase in database, but returned uppercase to client
         # JSL can be used
         # This can be used to add compatibility layers, computed attributes, etc.
-        transform: $.toUpperCase()
-        transform_out: $.toLowerCase()
+        transform: $.toLowerCase()
+        transform_out: $.toUpperCase()
         # Applied default values, on input or output
         default: $name === "Dog" ? "adopted"
         default_out: $name + ' status'
