@@ -22,14 +22,16 @@ const validateReadOnly = async function ({ idl }) {
     const { args: { data }, modelName } = input;
 
     // Check if any attribute in `data` is matching readonly attributes from IDL
-    const dataKeys = data instanceof Array ? flatten(data.map(Object.keys)) : Object.keys(data);
-    const readOnlyAttributes = readOnlyMap[modelName];
-    const readOnlyDataKeys = intersection(dataKeys, readOnlyAttributes);
+    if (data) {
+      const dataKeys = data instanceof Array ? flatten(data.map(Object.keys)) : Object.keys(data);
+      const readOnlyAttributes = readOnlyMap[modelName];
+      const readOnlyDataKeys = intersection(dataKeys, readOnlyAttributes);
 
-    // Report errors as a client-side exception
-    if (readOnlyDataKeys.length > 0) {
-      const keys = toSentence(readOnlyDataKeys.map(key => surround(key, '\'')));
-      throw new EngineError(`Cannot update readonly attributes: ${keys}`, { reason: 'INPUT_VALIDATION' });
+      // Report errors as a client-side exception
+      if (readOnlyDataKeys.length > 0) {
+        const keys = toSentence(readOnlyDataKeys.map(key => surround(key, '\'')));
+        throw new EngineError(`Cannot update readonly attributes: ${keys}`, { reason: 'INPUT_VALIDATION' });
+      }
     }
 
     const response = await this.next(input);
