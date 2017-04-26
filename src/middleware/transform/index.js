@@ -68,23 +68,33 @@ const getTransformFunc = (factoryOpts) => function transformFunc(opts) {
 
 // Do the actual transformation
 const transformValue = function (opts) {
-  const { value, attrName, direction, defaultName, nonDefaultName, processor, variableName, propIdl, actionType, info, params } = opts;
-  const child = value[attrName];
+  const { value, attrName, direction, defaultName, nonDefaultName, propIdl, actionType } = opts;
 
   // 'update' actions do not use default values on input
-  if (actionType === 'update' && direction === 'input' && child === undefined) { return; }
+  if (actionType === 'update' && direction === 'input' && value[attrName] === undefined) { return; }
 
-  const transformName = child === undefined ? defaultName : nonDefaultName;
-  const transformer = propIdl[transformName];
+  // If the value is undefined, apply `default` first, so it can be processed by `transform` right after,
+  // providing `default` did assign the value
+  if (value[attrName] === undefined) {
+    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[defaultName] }));
+  }
+  if (value[attrName] !== undefined) {
+    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[nonDefaultName] }));
+  }
+};
+
+const singleTransformValue = function ({ value, attrName, transformer, processor, variableName, info, params }) {
   if (!transformer) { return; }
 
   // Assign $ or $attr variables
   const variables = getJslVariables(Object.assign({ info, params }, { [variableName]: value }));
   // Performs actual substitution
   const newValue = processJsl({ value: transformer, name: attrName, variables, processor });
+
   // Transforms|defaults that return undefined do not apply
   // This allows conditional transforms|defaults, e.g. { age: '$ > 30 ? $ - 1 : undefined' }
   if (newValue === undefined) { return; }
+
   value[attrName] = newValue;
 };
 
