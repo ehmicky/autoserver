@@ -30,12 +30,12 @@ const getTransform = ({ direction }) => function transformFunc(opts) {
 const transformValue = function (opts) {
   const { value, attrName, direction, props: { DEFAULT_NAME, NON_DEFAULT_NAME }, propIdl, actionType } = opts;
 
-  // 'update' actions do not use default values on input
-  if (actionType === 'update' && direction === 'input' && value[attrName] === undefined) { return; }
 
+  // 'update' actions do not use default values on input
+  const isUpdateInput = actionType === 'update' && direction === 'input';
   // If the value is undefined, apply `default` first, so it can be processed by `transform` right after,
   // providing `default` did assign the value
-  if (value[attrName] === undefined) {
+  if (value[attrName] === undefined && !isUpdateInput) {
     singleTransformValue(Object.assign({}, opts, { transformer: propIdl[DEFAULT_NAME] }));
   }
   if (value[attrName] !== undefined) {
