@@ -81,9 +81,12 @@ definitions:
     allOf:
     - $ref: '#/definitions/generalObjectSchema'
     - propertyNames:
-        anyOf:
-        - $ref: '#/definitions/validPropertyNames'
-        - enum: [actions]
+        allOf:
+        - anyOf:
+          - $ref: '#/definitions/validPropertyNames'
+          - enum: [actions]
+        - not:
+            enum: [default]
       # Must have a `required` property
       required: [required, properties]
       properties:
@@ -125,7 +128,8 @@ definitions:
   nestedModel:
     # Restrict the possible properties
     propertyNames:
-      enum: [model, type, description, deprecated, examples]
+      enum: [model, type, description, deprecated, examples, default, defaultOut, tranform, transformOut, compute,
+      computeOut, actions, readOnly, writeOnce]
     # Must have a `model` property
     required: [model]
     properties:
