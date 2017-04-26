@@ -210,6 +210,10 @@ models:
 #        checks whether model.name === model.first_name
 #   - any string that use at least one variable will be interpreted as JSL
 actions: [find, create, replace, update, upsert, delete]
+# Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
+users:
+  id: $User.id
+  model: owner
 # No specific semantics, but can be used by $ref
 definitions:
   dummyDefinition:

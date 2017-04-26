@@ -5,9 +5,14 @@ const { mapValues, each } = require('lodash');
 
 
 // Add default attributes to the IDL file, such as created_time, updated_time
-const addDefaultAttributes = function ({ models }) {
+const addDefaultAttributes = function ({ idl }) {
+  const { models, users: { id: userId, model: userModel } = {} } = idl;
+  const defaultAttributes = getDefaultAttributes({ userId, userModel });
   return mapValues(models, model => {
     each(defaultAttributes, (defaultAttribute, attrName) => {
+      // If IDL.users is not specified, do not add created_by|updated_by
+      if (requiresUserId.includes(attrName) && (!userId || !userModel)) { return; }
+
       model.properties[attrName] = defaultAttribute;
       if (requiredDefaultAttributes.includes(attrName)) {
         model.required.push(attrName);
@@ -17,13 +22,13 @@ const addDefaultAttributes = function ({ models }) {
   });
 };
 
-const defaultAttributes = {
+const getDefaultAttributes = ({ userId, userModel }) => ({
   created_time: {
     type: 'string',
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
     format: 'date-time',
-    compute: '$NOW',
+    compute: '$ACTION === "create" ? $NOW : undefined',
     readOnly: true,
     writeOnce: true,
   },
@@ -33,11 +38,28 @@ const defaultAttributes = {
     examples: ['2017-04-26T11:19:45Z'],
     format: 'date-time',
     compute: '$NOW',
-    idempotent: false,
     readOnly: true,
+    idempotent: false,
   },
-};
-const requiredDefaultAttributes = ['created_time', 'updated_time'];
+  created_by: {
+    type: 'object',
+    description: 'Who created this model',
+    model: userModel,
+    compute: `$ACTION === "create" ? ${userId} : undefined`,
+    readOnly: true,
+    writeOnce: true,
+  },
+  updated_by: {
+    type: 'object',
+    description: 'Who last updated this model',
+    model: userModel,
+    compute: userId,
+    readOnly: true,
+    idempotent: false,
+  },
+});
+const requiredDefaultAttributes = ['created_time', 'updated_time', 'created_by', 'updated_by'];
+const requiresUserId = ['created_by', 'updated_by'];
 
 
 module.exports = {

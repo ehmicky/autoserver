@@ -29,6 +29,17 @@ properties:
   # Default actions
   actions:
     $ref: '#/definitions/actionsProperty'
+  # Let user decide how to retrieve current user, which is used by created_by and updated_by
+  users:
+    type: object
+    properties:
+      id:
+        type: string
+      model:
+        type: string
+        enum:
+          $data: '/modelNames'
+    additionalProperties: false
   # Standard JSON schema `definitions` can be used at the root
   definitions:
     type: object
@@ -172,7 +183,7 @@ definitions:
         pattern: '^__'
     # Those attributes are automatically added, so must not be specified
     - not:
-        enum: [created_time, updated_time]
+        enum: [created_time, updated_time, created_by, updated_by]
   # Reuse standard JSON schema as a base
   # This is JSON schema v6, as YAML
   # The spec is currently in draft (only v4 is currently official)

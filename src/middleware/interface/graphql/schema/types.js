@@ -134,7 +134,8 @@ const getObjectFields = function (def, opts) {
 
       // Nested models use the regular name as well, but as simple ids, not recursive definition
       // Retrieves `id` field definition of subfield
-      const nonRecursiveAttrs = ['description', 'deprecation_reason'];
+      const nonRecursiveAttrs = ['description', 'deprecation_reason', 'actions', 'default', 'defaultOut', 'transform',
+      'transformOut', 'compute', 'computeOut', 'readOnly', 'writeOnce', 'idempotent'];
       const idDef = Object.assign({}, pick(subDef, nonRecursiveAttrs), omit(subDef.properties.id, nonRecursiveAttrs));
       // Consider this attribute as a normal attribute, not a model anymore
       delete idDef.model;
