@@ -39,7 +39,7 @@ const getSchema = memoize(async function () {
   if (pathSet.has(value)) {
     throw new EngineStartupError(`Schema cannot contain circular references: ${path}`, { reason: 'IDL_VALIDATION' });
   }
-  if (typeof value === 'object') {
+  if (typeof value === 'object' && value) {
     pathSet.add(value);
   }
 
