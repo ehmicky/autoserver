@@ -136,22 +136,22 @@ const deleteMany = function ({ collection, filter = {}, info, params }) {
   return models;
 };
 
-const updateOne = function ({ collection, data, filter, info, params }) {
-  const index = findIndex({ collection, filter, info, params });
+const update = function ({ collection, index, data }) {
   const model = collection[index];
   const newModel = Object.assign({}, model, data);
   collection.splice(index, 1, newModel);
   return newModel;
 };
 
+const updateOne = function ({ collection, data, filter, info, params }) {
+  const index = findIndex({ collection, filter, info, params });
+  const newModel = update({ collection, index, data });
+  return newModel;
+};
+
 const updateMany = function ({ collection, data, filter = {}, info, params }) {
   const indexes = findIndexes({ collection, filter, info, params });
-  const newModels = indexes.map(index => {
-    const model = collection[index];
-    const newModel = Object.assign({}, model, data);
-    collection.splice(index, 1, newModel);
-    return newModel;
-  });
+  const newModels = indexes.map(index => update({ collection, index, data }));
   return newModels;
 };
 
