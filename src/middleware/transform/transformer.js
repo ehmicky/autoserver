@@ -43,8 +43,17 @@ const transformValue = function (opts) {
   }
 };
 
-const singleTransformValue = function ({ value, attrName, transformer, props: { VARIABLE_NAME, PROCESSOR }, info, params }) {
+const singleTransformValue = function (opts) {
+  const { value, attrName, transformer, props: { VARIABLE_NAME, PROCESSOR }, info, params } = opts;
+
   if (!transformer) { return; }
+
+  // If transform is an array, apply the first transform that works, i.e. is like a switch statement
+  if (transformer instanceof Array) {
+    return transformer.find(singleTransformer => {
+      return singleTransformValue(Object.assign({}, opts, { transformer: singleTransformer }));
+    });
+  }
 
   // Assign $ or $attr variables
   const variables = getJslVariables(Object.assign({ info, params }, { [VARIABLE_NAME]: value }));
@@ -56,6 +65,7 @@ const singleTransformValue = function ({ value, attrName, transformer, props: { 
   if (newValue === undefined) { return; }
 
   value[attrName] = newValue;
+  return true;
 };
 
 // Input and output transforms have few differences, gathered here
