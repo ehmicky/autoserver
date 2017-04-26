@@ -23,7 +23,7 @@ models:
   pet:
     description: Cute animal
     # `ìd` should always be required, and specified
-    required: [id, name, photo_urls, friends, created_time, updated_time]
+    required: [id, name, photo_urls, friends]
     # Allowed actions for this model.
     # Defaults to top-level `actions` key (see it for further explanations)
     actions: [find, create, replace, update, upsert, delete]
@@ -138,22 +138,6 @@ models:
         compute: $IP
         # Same for output. It is useless in this case, but used for illustration.
         computeOut: $IP
-      created_time:
-        type: string
-        description: Timestamp indicating when this model was created
-        examples: ['2017-04-26T11:19:45Z']
-        format: date-time
-        compute: $NOW
-        readOnly: true
-        writeOnce: true
-      updated_time:
-        type: string
-        description: Timestamp indicating when this model was last updated
-        examples: ['2017-04-26T11:19:45Z']
-        format: date-time
-        compute: $NOW
-        idempotent: false
-        readOnly: true
       best_friend:
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key
         # References can be recursive, e.g. here `pet` is the current model
