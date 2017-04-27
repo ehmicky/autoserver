@@ -3,11 +3,11 @@
 
 const { mapValues } = require('lodash');
 
-const { testJsl } = require('./test');
+const { isJsl, isEscapedJsl, getRawJsl } = require('./test');
 
 
 // Transform value if it is JSL using supplied processor, otherwise returns as is
-const processJsl = function ({ value, name, variables, processor }) {
+const processJsl = function ({ value, name, variables, processor, removeEscape = true }) {
   if (!value) { return value; }
 
   // Recursion over objects and arrays
@@ -18,8 +18,17 @@ const processJsl = function ({ value, name, variables, processor }) {
     return value.map(child => processJsl({ value: child, name, variables, processor }));
   }
 
-  // Process anything that contains $variables
-  if (!testJsl({ value })) { return value; }
+  // If this is not JSL, abort
+  if (!isJsl({ value })) {
+    // Can escape (...) from being interpreted as JSL by escaping first parenthesis
+    if (removeEscape && isEscapedJsl({ value })) {
+      value = value.replace('\\', '');
+    }
+    return value;
+  }
+
+  // Removes outer parenthesis
+  value = getRawJsl({ value });
 
   value = processor({ value, name, variables });
 

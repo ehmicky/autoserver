@@ -16,7 +16,7 @@ const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../../error');
 const { memoize, stringify } = require('../../../../utilities');
-const { testJsl } = require('../../../jsl');
+const { isJsl } = require('../../../jsl');
 const { getTypeName, getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
@@ -58,9 +58,11 @@ const getField = function (def, opts) {
   // Can only assign default to input data that is optional.
   // 'update' does not required anything, nor assign defaults
   let defaultValue;
-  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.actionType !== 'update') {
+  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.actionType !== 'update' && def.default) {
     // JSL only shows as 'DYNAMIC_VALUE' in schema
-    defaultValue = testJsl({ value: def.default }) ? 'DYNAMIC_VALUE' : def.default;
+    const defaults = def.default instanceof Array ? def.default : [def.default];
+    const isDynamic = defaults.some(value => isJsl({ value }));
+    defaultValue = isDynamic ? 'DYNAMIC_VALUE' : def.default;
   }
 
   const field = { type, description, deprecationReason, args, defaultValue };

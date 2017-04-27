@@ -1,8 +1,8 @@
 'use strict';
 
 
-const { jslRegExp } = require('./test');
-
+// Looks for unescaped `$` to find $variables
+const variablesRegExp = /((?:(?:[^\\])\$)|(?:^\$))([^{]|$)/g;
 
 // Execute JSL statements using eval()
 // Likely to throw exceptions
@@ -18,7 +18,6 @@ const evalJsl = ({ defaultShortcut }) => function ({ value, name, variables }) {
   // TODO: this is highly insecure. E.g. value 'while (true) {}' would freeze the whole server. Also it has access to
   // global variables, including global.process. Problem is that alternatives are much slower, so we need to find a solution.
   const newValue = eval(valueWithoutShortcuts);
-  //console.log('Eval', value, newValue, variables);
   return newValue;
 };
 
@@ -35,7 +34,7 @@ const processJslShortcuts = function ({ value, name, defaultShortcut }) {
   value = value.replace(jslAttrNameRegExp, `$1${defaultShortcut}.$2`);
 
   // Replace $var by $.var
-  value = value.replace(jslRegExp, '$1.$2');
+  value = value.replace(variablesRegExp, '$1.$2');
 
   return value;
 };
