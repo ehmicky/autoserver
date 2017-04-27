@@ -9,6 +9,7 @@ const { jslArguments } = require('./variables');
 
 // Transform JSL into a function with the JSL as body
 // Returns as it is not JSL
+// This can throw if JSL's JavaScript is wrong
 const compileJsl = ({ jsl, model }) => recurse({ value: jsl, cb: singleCompileJsl.bind(null, model) });
 const singleCompileJsl = function (model, jsl) {
   // If this is not JSL, abort
