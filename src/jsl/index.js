@@ -3,8 +3,7 @@
 
 module.exports = Object.assign(
   {},
+  require('./compile'),
   require('./process'),
-  require('./eval'),
-  require('./variables'),
   require('./test')
 );

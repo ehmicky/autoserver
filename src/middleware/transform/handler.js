@@ -13,7 +13,7 @@ const { transformInput, transformOutput } = require('./transformer');
  * If the value is undefined, `default[Out]` is applied first, then `transform[Out]`
  * (providing a value was assigned by `default[Out]`).
  * They can be any static value, e.g. { name: { default: 15 } }.
- * They can contain JSL, e.g. { name: { default: '$former_name' } }. $attribute will refer to input or output data.
+ * They can contain JSL, e.g. { name: { default: '($$.former_name)' } }. $attribute will refer to input or output data.
  * `default[Out]` is not applied on 'update' actions input, since this is partial update.
  **/
 const transform = async function ({ idl }) {

@@ -2,7 +2,7 @@
 
 
 const { EngineError } = require('../../../../../error');
-const { isJsl } = require('../../../../jsl');
+const { isJsl } = require('../../../../../jsl');
 
 
 /**
@@ -58,7 +58,7 @@ const getNestedIds = function({ childId, parentIds }) {
   // Intersections
   if (childId) {
     // Converts to JSL if not JSL already
-    if (isJsl({ value: childId })) {
+    if (isJsl({ jsl: childId })) {
       ids = `(${ids} && ${childId})`;
     } else {
       ids = `(${ids} && ($ === ${JSON.stringify(childId)}))`;

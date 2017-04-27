@@ -29,7 +29,7 @@ const validateClientInputData = function ({ idl, modelName, action, args }) {
 const removeJsl = function ({ value, parent, key }) {
   if (!value) { return; }
 
-  if (value.constructor === Object && value.eval && parent) {
+  if (typeof value === 'function' && parent) {
     if (parent instanceof Array) {
       parent.splice(key, 1);
     } else if (parent.constructor === Object) {

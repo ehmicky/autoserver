@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { processJsl } = require('../jsl');
+const { compileJsl } = require('../../jsl');
 
 
 // Transform `filter` argument into a format that is easily manageable for the database layer
@@ -11,7 +11,7 @@ const handleFilter = async function () {
 
     if (args.filter) {
       // Temporary hack until we add support for proper MongoDB objects
-      args.filter = processJsl({ value: args.filter, processor: ({ value }) => ({ eval: `(${value})` }) });
+      args.filter = compileJsl({ jsl: args.filter });
     }
 
     const response = await this.next(input);

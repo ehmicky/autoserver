@@ -52,7 +52,7 @@ const getProperties = function ({ rule }) {
 const validateClientSchema = [
   { name: 'data', value: ({ dataMultiple }) => !dataMultiple ? { type: 'object' } : { type: 'array', items: { type: 'object' } } },
   { name: 'filter', value: { type: 'object' } },
-  { name: 'filter.id', value: ({ isNotJslFilterId }) => isNotJslFilterId ? { not: { type: 'object' } } : {} },
+  { name: 'filter.id', value: ({ isNotJslFilterId }) => isNotJslFilterId ? { not: { typeof: 'function' } } : {} },
   // Matches order_by value, i.e. 'ATTR[+|-],...'
   { name: 'order_by', value: { type: 'string', pattern: '^([a-z0-9_]+[+-]?)(,[a-z0-9_]+[+-]?)*$' } },
 ];

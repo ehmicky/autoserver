@@ -39,7 +39,7 @@ const { omit, merge, every, orderBy, map, isEqual } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
-const { getJslVariables, processJsl, evalJslModel } = require('../jsl');
+const { processJsl } = require('../../jsl');
 
 
 const createId = function () {
@@ -75,18 +75,16 @@ const findIndexes = function({ collection, filter = {}, info, params }) {
     // Check if a model matches a query filter
     const matches = every(filter, (value, name) => {
       // This means no JSL is used
-      if (!value || !value.eval) {
+      if (typeof value !== 'function') {
         return isEqual(model[name], value);
       }
 
-      const variables = getJslVariables({ info, params, model });
-
       // TODO: remove when using MongoDB query objects
       try {
-        const filterMatches = processJsl({ value: value.eval, name, variables, processor: evalJslModel });
+        const filterMatches = processJsl({ jsl: value, info, params, model, name, shortcut: 'model' });
         return filterMatches;
       } catch (innererror) {
-        throw new EngineError(`JSL expression used as filter failed: ${value.eval}`, {
+        throw new EngineError(`JSL expression used as filter failed: ${value.jsl}`, {
           reason: 'INPUT_VALIDATION',
           innererror,
         });

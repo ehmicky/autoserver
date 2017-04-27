@@ -16,7 +16,7 @@ const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../../error');
 const { memoize, stringify } = require('../../../../utilities');
-const { isJsl } = require('../../../jsl');
+const { isJsl } = require('../../../../jsl');
 const { getTypeName, getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
@@ -61,7 +61,7 @@ const getField = function (def, opts) {
   if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.actionType !== 'update' && def.default) {
     // JSL only shows as 'DYNAMIC_VALUE' in schema
     const defaults = def.default instanceof Array ? def.default : [def.default];
-    const isDynamic = defaults.some(value => isJsl({ value }));
+    const isDynamic = defaults.some(jsl => isJsl({ jsl }));
     defaultValue = isDynamic ? 'DYNAMIC_VALUE' : def.default;
   }
 
