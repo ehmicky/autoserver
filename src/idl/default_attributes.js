@@ -28,7 +28,7 @@ const getDefaultAttributes = ({ userId, userModel }) => ({
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
     format: 'date-time',
-    compute: '($ACTION === "create" ? $NOW : undefined)',
+    compute: '(["create", "upsert"].includes($ACTION) ? $NOW : undefined)',
     readOnly: true,
     writeOnce: true,
   },
@@ -44,7 +44,7 @@ const getDefaultAttributes = ({ userId, userModel }) => ({
     type: 'object',
     description: 'Who created this model',
     model: userModel,
-    compute: `($ACTION === "create" ? ${userId} : undefined)`,
+    compute: `(["create", "upsert"].includes($ACTION) ? ${userId} : undefined)`,
     readOnly: true,
     writeOnce: true,
   },
@@ -56,7 +56,7 @@ const getDefaultAttributes = ({ userId, userModel }) => ({
     readOnly: true,
   },
 });
-const requiredDefaultAttributes = ['created_time', 'updated_time', 'created_by', 'updated_by'];
+const requiredDefaultAttributes = ['updated_time', 'updated_by'];
 const requiresUserId = ['created_by', 'updated_by'];
 
 
