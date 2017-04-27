@@ -15,7 +15,7 @@ const { recurseMap } = require('./recurse_map');
  *       {any} key - current property's key
  *       {object} parent - value's parent
  *       {string} parent_key - value's parent's key.
- *       {object|object[]} root - initial input
+ *       {object[]} parents - list of parents, starting with root
  *       {integer} depth - current recursion depth, starts at 0
  *   - transforms input can be augmented by using option `args(input)` which must return extra input as an object
  *     Can also be a simple object instead of a function
