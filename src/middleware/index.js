@@ -16,6 +16,7 @@ module.exports = Object.assign(
   require('./interface_negotiator'),
   require('./interface'),
   require('./api_convertor'),
+  require('./clean_delete'),
   require('./read_only'),
   require('./transform'),
   require('./filter'),
