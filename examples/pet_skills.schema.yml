@@ -9,7 +9,7 @@ patternProperties:
 additionalProperties:
   type: integer
 propertyNames:
-  pattern: '^[a-z]+$'
+  pattern: '^[a-z_]+$'
 dependencies:
   height: [width]
   is_big:
