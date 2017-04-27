@@ -1,8 +1,10 @@
 'use strict';
 
 
+const { dirname } = require('path');
+
 const { EngineStartupError } = require('../error');
-const { getYaml } = require('../utilities');
+const { getYaml, fs: { realpathAsync } } = require('../utilities');
 
 
 /**
@@ -11,17 +13,34 @@ const { getYaml } = require('../utilities');
  *  - directly a JavaScript object
  **/
 const getIdlConf = async function ({ conf }) {
+  let idl, baseDir;
+
   if (typeof conf === 'string') {
+    let path;
     try {
-      return await getYaml({ path: conf });
+      path = await realpathAsync(conf);
+    } catch (innererror) {
+      throw new EngineStartupError(`Configuration file does not exist: ${conf}`, {
+        reason: 'CONFIGURATION_LOADING',
+        innererror,
+      });
+    }
+
+    // Remember IDL file directory, so it can be used for $ref path resolution
+    baseDir = dirname(path);
+
+    try {
+      idl = await getYaml({ path });
     } catch (innererror) {
       throw new EngineStartupError('Could not load configuration file', { reason: 'CONFIGURATION_LOADING', innererror });
     }
   } else if (conf && conf.constructor === Object) {
-    return conf;
+    idl = conf;
   } else {
     throw new EngineStartupError('Missing configuration file or \'conf\' option', { reason: 'CONFIGURATION_LOADING' });
   }
+
+  return { idl, baseDir };
 };
 
 
