@@ -6,6 +6,7 @@ const { find, omit, mapValues } = require('lodash');
 const { transform } = require('../utilities');
 const { addDefaultAttributes } = require('./default_attributes');
 const { compileJsl } = require('../jsl');
+const { EngineStartupError } = require('../error');
 
 
 // Normalize IDL definition
@@ -97,9 +98,15 @@ const transforms = [
 
   // Compile JSL for all attributes that might contain it
   ...jslAttributes.map(attrName => ({
-    [attrName]: ({ value: jsl }) => ({
-      [attrName]: compileJsl({ jsl }),
-    }),
+    [attrName]({ value: jsl }) {
+      let compiledJsl;
+      try {
+        compiledJsl = compileJsl({ jsl });
+      } catch (innererror) {
+        throw new EngineStartupError(`JSL syntax error: ${jsl}`, { reason: 'IDL_VALIDATION', innererror });
+      }
+      return ({ [attrName]: compiledJsl });
+    }
   })),
 
 ];
