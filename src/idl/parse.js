@@ -10,8 +10,8 @@ const { resolveRefs } = require('./ref_parsing');
 // Retrieves IDL definition, after validation and transformation
 // TODO: cache this function
 const getIdl = async function ({ conf }) {
-  const idl = await getIdlConf({ conf });
-  const parsedIdl = await resolveRefs({ idl });
+  const { idl, baseDir } = await getIdlConf({ conf });
+  const parsedIdl = await resolveRefs({ idl, baseDir });
   await validateIdl(parsedIdl);
   const normalizedIdl = normalizeIdl(parsedIdl);
   return normalizedIdl;
