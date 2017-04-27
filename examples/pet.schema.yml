@@ -7,9 +7,11 @@
 #  - HTTP server: body/query handling
 #  - GraphQL server: endpoint, introspection, debugger, schema printing
 #  - CRUD actions: find, create, replace, update, upsert, delete. On a single model or several.
-#  - CRUD arguments: filtering, sorting, selecting
+#  - CRUD arguments: filtering (including complex one), sorting, selecting
 #  - nested actions, populating
 #  - input and output validation
+#  - default values, computed values, input/output transformation
+#  - automatic attributes: created_time, updated_time, created_by, updated_by
 #  - error handling
 #  - logging
 #  - routing
