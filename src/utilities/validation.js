@@ -20,7 +20,7 @@ const { reportErrors } = require('./report_error');
 
 const addKeywords = function (ajv) {
   // Add future JSON standard keywords
-  ajvKeywords(ajv, [ 'if', 'formatMinimum', 'formatMaximum' ]);
+  ajvKeywords(ajv, [ 'if', 'formatMinimum', 'formatMaximum', 'typeof' ]);
   // Add custom keywords
   // Checks that a word (e.g. a model) is an English word with a different singular and plural form
   ajv.addKeyword('hasPlural', {

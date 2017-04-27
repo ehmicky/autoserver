@@ -4,8 +4,8 @@
 const { find, omit, mapValues } = require('lodash');
 
 const { transform } = require('../utilities');
-const { isJsl } = require('../middleware/jsl');
 const { addDefaultAttributes } = require('./default_attributes');
+const { compileJsl } = require('../jsl');
 
 
 // Normalize IDL definition
@@ -39,9 +39,8 @@ const addModelType = function ({ models }) {
   });
 };
 
-// List of attributes that can contain JSL
+// These attributes might contain JSL
 const jslAttributes = ['default', 'defaultOut', 'transform', 'transformOut', 'compute', 'computeOut'];
-const ternaryTest = /\?[^:]+$/;
 // List of transformations to apply to normalize IDL models
 const transforms = [
 
@@ -71,22 +70,6 @@ const transforms = [
   },
 
   {
-    // JSL values being a top-level ternary test can use shortcut notation 'TEST ? VAL' instead of 'TEST ? VAL : undefined'
-    // This is particularly handy since YAML does not allow : in unquoted strings
-    // TODO: use JavaScript parser instead of RegExp matching
-    any({ parent }) {
-      for (const key of jslAttributes) {
-        const value = parent[key];
-        if (value instanceof Array) {
-          value.forEach((child, childKey) => applyTernaryShortcut({ parent: value, key: childKey }));
-        } else {
-          applyTernaryShortcut({ parent, key });
-        }
-      }
-    },
-  },
-
-  {
     // Do not allow custom properties
     model: () => ({ additionalProperties: false }),
   },
@@ -112,6 +95,13 @@ const transforms = [
     },
   },
 
+  // Compile JSL for all attributes that might contain it
+  ...jslAttributes.map(attrName => ({
+    [attrName]: ({ value: jsl }) => ({
+      [attrName]: compileJsl({ jsl }),
+    }),
+  })),
+
 ];
 
 
@@ -126,13 +116,6 @@ const normalizeActions = function (actions) {
 // By default, include all actions but deleteMany
 const defaultActions = ['find', 'update', 'deleteOne', 'replace', 'upsert', 'create'];
 
-// Transform 'TEST ? VAL' into 'TEST ? VAL : undefined'
-const applyTernaryShortcut = function ({ parent, key }) {
-  const value = parent[key];
-  if (!value) { return; }
-  if (!isJsl({ value }) || !ternaryTest.test(value)) { return; }
-  parent[key] = value.replace(/\)\s*$/, ' : undefined )');
-};
 
 module.exports = {
   normalizeIdl,

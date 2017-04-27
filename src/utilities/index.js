@@ -16,6 +16,7 @@ module.exports = Object.assign(
   require('./validation'),
   require('./ref_parser'),
   require('./fs'),
+  require('./recurse'),
   require('./yaml'),
   require('./stringify'),
   require('./debugging')

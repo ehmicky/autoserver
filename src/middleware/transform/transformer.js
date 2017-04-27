@@ -3,7 +3,7 @@
 
 const { each } = require('lodash');
 
-const { processJsl, evalJslModel, evalJslData, getJslVariables } = require('../jsl');
+const { processJsl } = require('../../jsl');
 const { EngineError } = require('../../error');
 
 
@@ -46,7 +46,7 @@ const transformValue = function (opts) {
 };
 
 const singleTransformValue = function (opts) {
-  const { value, attrName, transformer, props: { VARIABLE_NAME, PROCESSOR }, info, params } = opts;
+  const { value, attrName, transformer, props: { VARIABLE_NAME }, info, params } = opts;
 
   if (transformer === undefined) { return; }
 
@@ -57,12 +57,10 @@ const singleTransformValue = function (opts) {
     });
   }
 
-  // Assign $ or $attr variables
-  const variables = getJslVariables(Object.assign({ info, params }, { [VARIABLE_NAME]: value }));
   // Performs actual substitution
   let newValue;
   try {
-    newValue = processJsl({ value: transformer, name: attrName, variables, processor: PROCESSOR });
+    newValue = processJsl({ jsl: transformer, info, params, name: attrName, shortcut: VARIABLE_NAME, [VARIABLE_NAME]: value });
   } catch (innererror) {
     throw new EngineError(`JSL expression used as transform failed: ${transformer}`, {
       reason: 'WRONG_TRANSFORM',
@@ -85,15 +83,12 @@ const transformProps = {
     DEFAULT_NAME: 'default',
     NON_DEFAULT_NAME: 'transform',
     COMPUTE_NAME: 'compute',
-    // $ and $attr refer to either input data (`data`) or output data (`model`)
-    PROCESSOR: evalJslData,
     VARIABLE_NAME: 'data',
   },
   output: {
     DEFAULT_NAME: 'defaultOut',
     NON_DEFAULT_NAME: 'transformOut',
     COMPUTE_NAME: 'computeOut',
-    PROCESSOR: evalJslModel,
     VARIABLE_NAME: 'model',
   },
 };
