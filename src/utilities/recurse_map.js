@@ -7,14 +7,14 @@ const { each } = require('lodash');
 // Like lodash mapValues(), but recursive and by reference
 const recurseMap = function ({ value, mapFunc }) {
   const cache = new WeakMap();
-  const root = value;
 
-  const recurse = function ({ value, key, parent, depth }) {
+  const recurse = function ({ value, key, parent, parents, depth }) {
     // Avoids infinite recursions
     const originalValue = value;
     if (cache.has(originalValue)) { return cache.get(originalValue); }
 
-    value = mapFunc({ value, key, parent, root, depth });
+    parents = parents.concat(value);
+    value = mapFunc({ value, key, parent, parents, depth });
 
     if (value && typeof value === 'object') {
       cache.set(originalValue, value);
@@ -23,14 +23,14 @@ const recurseMap = function ({ value, mapFunc }) {
     ++depth;
     if (value && (value.constructor === Object || value instanceof Array)) {
       each(value, (child, childKey) => {
-        value[childKey] = recurse({ value: child, key: childKey, parent: value, depth });
+        value[childKey] = recurse({ value: child, key: childKey, parent: value, parents, depth });
       });
     }
 
     return value;
   };
 
-  return recurse({ value, key: null, parent: null, depth: 0 });
+  return recurse({ value, key: null, parent: null, parents: [], depth: 0 });
 };
 
 
