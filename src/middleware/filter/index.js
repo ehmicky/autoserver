@@ -11,7 +11,7 @@ const handleFilter = async function () {
 
     if (args.filter) {
       // Temporary hack until we add support for proper MongoDB objects
-      args.filter = processJsl({ value: args.filter, processor: ({ value }) => ({ eval: value }) });
+      args.filter = processJsl({ value: args.filter, processor: ({ value }) => ({ eval: `(${value})` }) });
     }
 
     const response = await this.next(input);

@@ -4,7 +4,7 @@
 const { find, omit, mapValues } = require('lodash');
 
 const { transform } = require('../utilities');
-const { testJsl } = require('../middleware/jsl');
+const { isJsl } = require('../middleware/jsl');
 const { addDefaultAttributes } = require('./default_attributes');
 
 
@@ -130,8 +130,8 @@ const defaultActions = ['find', 'update', 'deleteOne', 'replace', 'upsert', 'cre
 const applyTernaryShortcut = function ({ parent, key }) {
   const value = parent[key];
   if (!value) { return; }
-  if (!testJsl({ value }) || !ternaryTest.test(value)) { return; }
-  parent[key] = `${value} : undefined`;
+  if (!isJsl({ value }) || !ternaryTest.test(value)) { return; }
+  parent[key] = value.replace(/\)\s*$/, ' : undefined )');
 };
 
 module.exports = {
