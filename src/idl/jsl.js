@@ -22,7 +22,7 @@ const addDefaultTopLevelJsl = function ({ idl }) {
   }
 };
 
-// Compile top-level attributes's JSL, e.g. `helpers`
+// Compile top-level attributes's JSL, e.g. `helpers` or `variables`
 const compileTopLevelJsl = function ({ idl }) {
   for (const attrName of jslTopLevelAttributes) {
     idl[attrName] = mapValues(idl[attrName], jsl => compileJslValue({ jsl, idl, target: attrName }));

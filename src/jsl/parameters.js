@@ -5,7 +5,7 @@ const { memoize } = require('../utilities');
 
 
 // Top-level attributes that can contain JSL
-const jslTopLevelAttributes = ['helpers'];
+const jslTopLevelAttributes = ['helpers', 'variables'];
 // These attributes might contain JSL
 const jslModelInputAttributes = ['default', 'transform', 'compute'];
 const jslModelOutputAttributes = ['defaultOut', 'transformOut', 'computeOut'];
@@ -34,8 +34,9 @@ const modelInputVars = [...modelVars, '$data'];
 const modelOutputVars = [...modelVars, '$model'];
 const jslParametersList = {
   helpers: { recursive: ['helpers'], raw: [...requestVars, ...helpersVars] },
-  modelInput: { recursive: ['helpers'], raw: [...requestVars, ...modelInputVars] },
-  modelOutput: { recursive: ['helpers'], raw: [...requestVars, ...modelOutputVars] },
+  variables: { recursive: ['helpers', 'variables'], raw: requestVars },
+  modelInput: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelInputVars] },
+  modelOutput: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelOutputVars] },
 };
 
 

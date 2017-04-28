@@ -16,8 +16,8 @@ const executeDatabaseAction = async function ({ idl: { models } }) {
     .value();
 
   return async function (input) {
-    const { action, args: { order_by: orderBy, data, filter } = {}, modelName, info: { ip, timestamp, actionType, helpers }, params } = input;
-    const jslInput = { helpers, requestInput: { ip, timestamp, params }, modelInput: { actionType } };
+    const { action, args: { order_by: orderBy, data, filter } = {}, modelName, info: { ip, timestamp, actionType, helpers, variables }, params } = input;
+    const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, modelInput: { actionType } };
     const collection = database[modelName];
     collection.modelName = modelName;
 
