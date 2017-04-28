@@ -34,11 +34,8 @@ const getJslVariables = function (input = {}) {
   return vars;
 };
 
-// Returns { $name, $now, ... } which will become JSL functions parameter list
-const jslArguments = `{ ${Object.keys(getJslVariables())} }`;
 
 
 module.exports = {
   getJslVariables,
-  jslArguments,
 };
