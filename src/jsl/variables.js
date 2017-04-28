@@ -8,7 +8,8 @@ const { defaults } = require('lodash');
 // They are uppercase to avoid name conflict with attributes
 const getJslVariables = function (input = {}) {
   defaults(input, { model: {}, data: {} });
-  const { info: { ip, timestamp, actionType } = {}, name, params, model, data, shortcut = 'model' } = input;
+  const { jslVarsInput = {}, name, model, data, shortcut = 'model' } = input;
+  const { info: { ip, timestamp, actionType } = {}, params } = jslVarsInput;
 
   const shortcutObj = input[shortcut];
 
