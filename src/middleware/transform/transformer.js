@@ -46,7 +46,7 @@ const transformValue = function (opts) {
 };
 
 const singleTransformValue = function (opts) {
-  const { value, attrName, transformer, props: { VARIABLE_NAME }, jslVarsInput } = opts;
+  const { value, attrName, transformer, props: { VARIABLE_NAME }, jslInput } = opts;
 
   if (transformer === undefined) { return; }
 
@@ -60,7 +60,8 @@ const singleTransformValue = function (opts) {
   // Performs actual substitution
   let newValue;
   try {
-    newValue = processJsl({ jsl: transformer, jslVarsInput, name: attrName, shortcut: VARIABLE_NAME, [VARIABLE_NAME]: value });
+    const modelInput = Object.assign({}, jslInput.modelInput, { attrName, [VARIABLE_NAME]: value, shortcut: value });
+    newValue = processJsl(Object.assign({ jsl: transformer }, jslInput, { modelInput }));
   } catch (innererror) {
     throw new EngineError(`JSL expression used as transform failed: ${transformer}`, {
       reason: 'WRONG_TRANSFORM',

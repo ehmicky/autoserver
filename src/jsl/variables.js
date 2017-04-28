@@ -1,36 +1,49 @@
 'use strict';
 
 
-const { defaults } = require('lodash');
-
-
 // Values available as `$variable` in JSL
 // They are uppercase to avoid name conflict with attributes
 const getJslVariables = function (input = {}) {
-  defaults(input, { model: {}, data: {} });
-  const { jslVarsInput = {}, name, model, data, shortcut = 'model' } = input;
-  const { info: { ip, timestamp, actionType } = {}, params } = jslVarsInput;
+  const { helpers, requestInput, modelInput } = input;
+  const { ip, timestamp, params } = requestInput || {};
+  const { actionType, attrName, model, data, shortcut = {} } = modelInput || {};
 
-  const shortcutObj = input[shortcut];
+  let vars = {};
 
-  const vars = {
-    // Context-related variables in JSL
-    $now: timestamp,
+  if (helpers) {
+    Object.assign(vars, helpers);
 
-    // Request-related variables in JSL
-    $ip: ip,
-    $params: params,
+    console.log(helpers.MyOtherFunc(1, 2));
+  }
 
-    // Model-related variables in JSL
-    $action: actionType,
-    $model: model,
-    $: shortcutObj[name],
-    $$: shortcutObj,
-    $data: data,
+  // Request-related variables
+  if (requestInput) {
+    Object.assign(vars, {
+      $now: timestamp,
+      $ip: ip,
+      $params: params,
+    });
+  }
 
-    // TODO: hack until we introduce custom variables
-    User: { id: '1' },
-  };
+  // Model-related variables
+  if (modelInput) {
+    Object.assign(vars, {
+      $action: actionType,
+      $attrName: attrName,
+      $: shortcut[attrName],
+      $$: shortcut,
+
+
+      // TODO: hack until we introduce custom variables
+      User: { id: '1' },
+    });
+    if (model) {
+      vars.$model = model;
+    }
+    if (data) {
+      vars.$data = data;
+    }
+  }
 
   return vars;
 };

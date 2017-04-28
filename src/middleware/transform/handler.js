@@ -1,7 +1,6 @@
 'use strict';
 
 
-const { actions } = require('../../idl');
 const { transformInput, transformOutput } = require('./transformer');
 
 
@@ -16,16 +15,15 @@ const { transformInput, transformOutput } = require('./transformer');
  * They can contain JSL, e.g. { name: { default: '($$.former_name)' } }. $attribute will refer to input or output data.
  * `default[Out]` is not applied on 'update' actions input, since this is partial update.
  **/
-const transform = async function ({ idl }) {
+const transform = async function ({ idl: { models } }) {
   return async function (input) {
-    const { args, modelName, action, info, params } = input;
-    const jslVarsInput = { info, params };
-    const { actionType } = actions.find(({ name }) => name === action);
+    const { args, modelName, info: { ip, timestamp, actionType, helpers }, params } = input;
+    const jslInput = { helpers, requestInput: { ip, timestamp, params }, modelInput: { actionType } };
 
     // Retrieves IDL definition for this model
-    const modelIdl = idl.models[modelName];
+    const modelIdl = models[modelName];
     const propsIdl = modelIdl && modelIdl.properties;
-    const transformArgs = { propsIdl, actionType, jslVarsInput };
+    const transformArgs = { propsIdl, actionType, jslInput };
 
     // Transform input, then output
     if (args.data) {
