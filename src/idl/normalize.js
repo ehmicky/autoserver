@@ -5,14 +5,14 @@ const { find, omit, mapValues } = require('lodash');
 
 const { transform } = require('../utilities');
 const { addDefaultAttributes } = require('./default_attributes');
-const { compileJsl } = require('../jsl');
-const { EngineStartupError } = require('../error');
+const { compileIdlJsl } = require('./jsl');
 
 
 // Normalize IDL definition
 const normalizeIdl = function (idl) {
   idl.actions = normalizeActions(idl.actions || defaultActions);
   idl.models = normalizeModels(idl);
+  idl = compileIdlJsl({ idl });
   return idl;
 };
 
@@ -40,8 +40,6 @@ const addModelType = function ({ models }) {
   });
 };
 
-// These attributes might contain JSL
-const jslAttributes = ['default', 'defaultOut', 'transform', 'transformOut', 'compute', 'computeOut'];
 // List of transformations to apply to normalize IDL models
 const transforms = [
 
@@ -95,19 +93,6 @@ const transforms = [
       return newProps;
     },
   },
-
-  // Compile JSL for all attributes that might contain it
-  ...jslAttributes.map(attrName => ({
-    [attrName]({ value: jsl }) {
-      let compiledJsl;
-      try {
-        compiledJsl = compileJsl({ jsl });
-      } catch (innererror) {
-        throw new EngineStartupError(`JSL syntax error: ${jsl}`, { reason: 'IDL_VALIDATION', innererror });
-      }
-      return ({ [attrName]: compiledJsl });
-    }
-  })),
 
 ];
 
