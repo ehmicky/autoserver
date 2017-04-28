@@ -27,6 +27,11 @@ const compileCustomJsl = async function ({ idl: { helpers } }) {
 // with $1, $2, etc. provided as extra arguments
 const compileHelpers = function ({ helpers, vars }) {
   return mapValues(helpers, helper => {
+    // Helpers can be non-JSL, but still needs to be fired as function by consumers
+    if (typeof helper !== 'function') {
+      return () => helper;
+    }
+
     // We memoize for performance reasons, i.e. helpers should be pure functions
     // The memiozer is recreated at each request though, to avoid memory leaks
     return memoize(($1, $2, $3, $4, $5, $6, $7, $8, $9) => {
