@@ -17,11 +17,12 @@ const executeDatabaseAction = async function ({ idl: { models } }) {
 
   return async function (input) {
     const { action, args: { order_by: orderBy, data, filter } = {}, modelName, info, params } = input;
+    const jslVarsInput = { info, params };
     const collection = database[modelName];
     collection.modelName = modelName;
 
     const writeOnceAttributes = writeOnceMap[modelName];
-    const response = fireAction({ action, modelName, collection, filter, orderBy, data, info, params, writeOnceAttributes });
+    const response = fireAction({ action, modelName, collection, filter, orderBy, data, jslVarsInput, writeOnceAttributes });
     return response;
   };
 };

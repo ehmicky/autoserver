@@ -70,7 +70,7 @@ const sortResponse = function ({ response, orderByArg = 'id+' }) {
   return sortedResponse;
 };
 
-const findIndexes = function({ collection, filter = {}, info, params }) {
+const findIndexes = function({ collection, filter = {}, jslVarsInput }) {
   const modelIndexes = collection.reduce((indexes, model, index) => {
     // Check if a model matches a query filter
     const matches = every(filter, (value, name) => {
@@ -81,7 +81,7 @@ const findIndexes = function({ collection, filter = {}, info, params }) {
 
       // TODO: remove when using MongoDB query objects
       try {
-        const filterMatches = processJsl({ jsl: value, info, params, model, name, shortcut: 'model' });
+        const filterMatches = processJsl({ jsl: value, jslVarsInput, model, name, shortcut: 'model' });
         return filterMatches;
       } catch (innererror) {
         throw new EngineError(`JSL expression used as filter failed: ${value.jsl}`, {
@@ -99,8 +99,8 @@ const findIndexes = function({ collection, filter = {}, info, params }) {
   return modelIndexes;
 };
 
-const findIndex = function ({ collection, filter: { id }, info, params }) {
-  const indexes = findIndexes({ collection, filter: { id }, info, params });
+const findIndex = function ({ collection, filter: { id }, jslVarsInput }) {
+  const indexes = findIndexes({ collection, filter: { id }, jslVarsInput });
   if (indexes.length === 0) {
     throw new EngineError(`Could not find the model with id ${id} in: ${collection.modelName} (collection)`, {
       reason: 'DATABASE_NOT_FOUND',
@@ -125,25 +125,25 @@ const getOmitKeys = function ({ model, writeOnceAttributes }) {
     .filter(key => model[key] !== undefined);
 };
 
-const findOne = function ({ collection, filter, info, params }) {
-  const index = findIndex({ collection, filter, info, params });
+const findOne = function ({ collection, filter, jslVarsInput }) {
+  const index = findIndex({ collection, filter, jslVarsInput });
   return collection[index];
 };
 
-const findMany = function ({ collection, filter = {}, info, params }) {
-  const indexes = findIndexes({ collection, filter, info, params });
+const findMany = function ({ collection, filter = {}, jslVarsInput }) {
+  const indexes = findIndexes({ collection, filter, jslVarsInput });
   const models = indexes.map(index => collection[index]);
   return models;
 };
 
-const deleteOne = function ({ collection, filter, info, params }) {
-  const index = findIndex({ collection, filter, info, params });
+const deleteOne = function ({ collection, filter, jslVarsInput }) {
+  const index = findIndex({ collection, filter, jslVarsInput });
   const model = collection.splice(index, 1)[0];
   return model;
 };
 
-const deleteMany = function ({ collection, filter = {}, info, params }) {
-  const indexes = findIndexes({ collection, filter, info, params });
+const deleteMany = function ({ collection, filter = {}, jslVarsInput }) {
+  const indexes = findIndexes({ collection, filter, jslVarsInput });
   const models = indexes.sort().map((index, count) => collection.splice(index - count, 1)[0]);
   return models;
 };
@@ -156,14 +156,14 @@ const update = function ({ collection, index, data, writeOnceAttributes }) {
   return newModel;
 };
 
-const updateOne = function ({ collection, data, filter, info, params, writeOnceAttributes }) {
-  const index = findIndex({ collection, filter, info, params });
+const updateOne = function ({ collection, data, filter, jslVarsInput, writeOnceAttributes }) {
+  const index = findIndex({ collection, filter, jslVarsInput });
   const newModel = update({ collection, index, data, writeOnceAttributes });
   return newModel;
 };
 
-const updateMany = function ({ collection, data, filter = {}, info, params, writeOnceAttributes }) {
-  const indexes = findIndexes({ collection, filter, info, params });
+const updateMany = function ({ collection, data, filter = {}, jslVarsInput, writeOnceAttributes }) {
+  const indexes = findIndexes({ collection, filter, jslVarsInput });
   const newModels = indexes.map(index => update({ collection, index, data, writeOnceAttributes }));
   return newModels;
 };

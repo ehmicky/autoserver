@@ -19,12 +19,13 @@ const { transformInput, transformOutput } = require('./transformer');
 const transform = async function ({ idl }) {
   return async function (input) {
     const { args, modelName, action, info, params } = input;
+    const jslVarsInput = { info, params };
     const { actionType } = actions.find(({ name }) => name === action);
 
     // Retrieves IDL definition for this model
     const modelIdl = idl.models[modelName];
     const propsIdl = modelIdl && modelIdl.properties;
-    const transformArgs = { propsIdl, actionType, info, params };
+    const transformArgs = { propsIdl, actionType, jslVarsInput };
 
     // Transform input, then output
     if (args.data) {
