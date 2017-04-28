@@ -49,6 +49,8 @@ const start = async function (opts) {
     mdw.interfaceConvertor,
     // Pick the interface
     mdw.interfaceNegotiator,
+    // Compile JSL helpers, variables, etc.
+    mdw.compileCustomJsl,
     // Translates interface-specific calls into generic instance calls
     branch(mdw.interfaceNegotiation, {
       // GraphQL engine
@@ -103,6 +105,7 @@ const applyOptions = async function (opts) {
     'interfaceConvertor',
     'interfaceNegotiator',
     'interfaceNegotiation',
+    'compileCustomJsl',
     'executeGraphql',
     'executeGraphiql',
     'printGraphql',

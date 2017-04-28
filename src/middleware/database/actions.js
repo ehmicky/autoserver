@@ -70,18 +70,19 @@ const sortResponse = function ({ response, orderByArg = 'id+' }) {
   return sortedResponse;
 };
 
-const findIndexes = function({ collection, filter = {}, jslVarsInput }) {
+const findIndexes = function({ collection, filter = {}, jslInput }) {
   const modelIndexes = collection.reduce((indexes, model, index) => {
     // Check if a model matches a query filter
-    const matches = every(filter, (value, name) => {
+    const matches = every(filter, (value, attrName) => {
       // This means no JSL is used
       if (typeof value !== 'function') {
-        return isEqual(model[name], value);
+        return isEqual(model[attrName], value);
       }
 
       // TODO: remove when using MongoDB query objects
       try {
-        const filterMatches = processJsl({ jsl: value, jslVarsInput, model, name, shortcut: 'model' });
+        const modelInput = Object.assign({}, jslInput.modelInput, { attrName, model, shortcut: model });
+        const filterMatches = processJsl(Object.assign({ jsl: value }, jslInput, { modelInput }));
         return filterMatches;
       } catch (innererror) {
         throw new EngineError(`JSL expression used as filter failed: ${value.jsl}`, {
@@ -99,8 +100,8 @@ const findIndexes = function({ collection, filter = {}, jslVarsInput }) {
   return modelIndexes;
 };
 
-const findIndex = function ({ collection, filter: { id }, jslVarsInput }) {
-  const indexes = findIndexes({ collection, filter: { id }, jslVarsInput });
+const findIndex = function ({ collection, filter: { id }, jslInput }) {
+  const indexes = findIndexes({ collection, filter: { id }, jslInput });
   if (indexes.length === 0) {
     throw new EngineError(`Could not find the model with id ${id} in: ${collection.modelName} (collection)`, {
       reason: 'DATABASE_NOT_FOUND',
@@ -125,25 +126,25 @@ const getOmitKeys = function ({ model, writeOnceAttributes }) {
     .filter(key => model[key] !== undefined);
 };
 
-const findOne = function ({ collection, filter, jslVarsInput }) {
-  const index = findIndex({ collection, filter, jslVarsInput });
+const findOne = function ({ collection, filter, jslInput }) {
+  const index = findIndex({ collection, filter, jslInput });
   return collection[index];
 };
 
-const findMany = function ({ collection, filter = {}, jslVarsInput }) {
-  const indexes = findIndexes({ collection, filter, jslVarsInput });
+const findMany = function ({ collection, filter = {}, jslInput }) {
+  const indexes = findIndexes({ collection, filter, jslInput });
   const models = indexes.map(index => collection[index]);
   return models;
 };
 
-const deleteOne = function ({ collection, filter, jslVarsInput }) {
-  const index = findIndex({ collection, filter, jslVarsInput });
+const deleteOne = function ({ collection, filter, jslInput }) {
+  const index = findIndex({ collection, filter, jslInput });
   const model = collection.splice(index, 1)[0];
   return model;
 };
 
-const deleteMany = function ({ collection, filter = {}, jslVarsInput }) {
-  const indexes = findIndexes({ collection, filter, jslVarsInput });
+const deleteMany = function ({ collection, filter = {}, jslInput }) {
+  const indexes = findIndexes({ collection, filter, jslInput });
   const models = indexes.sort().map((index, count) => collection.splice(index - count, 1)[0]);
   return models;
 };
@@ -156,14 +157,14 @@ const update = function ({ collection, index, data, writeOnceAttributes }) {
   return newModel;
 };
 
-const updateOne = function ({ collection, data, filter, jslVarsInput, writeOnceAttributes }) {
-  const index = findIndex({ collection, filter, jslVarsInput });
+const updateOne = function ({ collection, data, filter, jslInput, writeOnceAttributes }) {
+  const index = findIndex({ collection, filter, jslInput });
   const newModel = update({ collection, index, data, writeOnceAttributes });
   return newModel;
 };
 
-const updateMany = function ({ collection, data, filter = {}, jslVarsInput, writeOnceAttributes }) {
-  const indexes = findIndexes({ collection, filter, jslVarsInput });
+const updateMany = function ({ collection, data, filter = {}, jslInput, writeOnceAttributes }) {
+  const indexes = findIndexes({ collection, filter, jslInput });
   const newModels = indexes.map(index => update({ collection, index, data, writeOnceAttributes }));
   return newModels;
 };

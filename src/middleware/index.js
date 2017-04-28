@@ -14,6 +14,7 @@ module.exports = Object.assign(
   require('./params'),
   require('./interface_convertor'),
   require('./interface_negotiator'),
+  require('./custom_jsl'),
   require('./interface'),
   require('./api_convertor'),
   require('./clean_delete'),
