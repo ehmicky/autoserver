@@ -157,9 +157,9 @@ models:
       birth_date:
         # The following JSON schema validation keywords can be applied to any type, although they are usually for strings
         format: date
-        formatMinimum: '2000-01-01'
+        formatMinimum: 2000-01-01
         formatExclusiveMinimum: true
-        formatMaximum: '2100-01-01'
+        formatMaximum: 2100-01-01
         formatExclusiveMinimum: false
   owner:
     # It is possible to reference/include local files or remote files (HTTP[S]) using standard JSON reference syntax
