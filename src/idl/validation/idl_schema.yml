@@ -29,6 +29,12 @@ properties:
   # Default actions
   actions:
     $ref: '#/definitions/actionsProperty'
+  # Custom functions that can be used in JSL
+  helpers:
+    additionalProperties:
+      type: string
+    propertyNames:
+      pattern: '^[A-Z][0-9a-zA-Z]*$'
   # Let user decide how to retrieve current user, which is used by created_by and updated_by
   users:
     type: object
