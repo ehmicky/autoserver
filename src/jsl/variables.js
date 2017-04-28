@@ -12,8 +12,6 @@ const getJslVariables = function (input = {}) {
 
   if (helpers) {
     Object.assign(vars, helpers);
-
-    console.log(helpers.MyOtherFunc(1, 2));
   }
 
   // Request-related variables
