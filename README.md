@@ -20,7 +20,7 @@ The server is fully-featured, i.e. there should not be much need for custom code
   - nested actions. One can not only query but also mutate nested models in a single action.
   - validation of both input and output
   - default values
-  - computed values, e.g. $name = $first_name + $last_name
+  - computed values, e.g. name = first_name + last_name
   - automatic attributes: created_time, updated_time, created_by, updated_by
   - transformation on input|output, e.g. when client and database have different data models
   - HTTP body/query handling
