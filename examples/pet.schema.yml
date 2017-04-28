@@ -161,6 +161,7 @@ models:
         formatExclusiveMinimum: true
         formatMaximum: 2100-01-01
         formatExclusiveMinimum: false
+        default: (GetBirthDate())
   owner:
     # It is possible to reference/include local files or remote files (HTTP[S]) using standard JSON reference syntax
     # Circular references are supported
@@ -212,6 +213,14 @@ models:
 #      - $$ {object} - current model (input or output), e.g. { filter: { name: '$ === $$.first_name' } }
 #        checks whether model.name === model.first_name
 actions: [find, create, replace, update, upsert, delete]
+# Helpers are functions that can be used in any JSL.
+# Their argument is passed as variables $1, $2, etc.
+# They must be pure functions, because they are memoized.
+helpers:
+  # Helpers use JSL syntax themselves
+  MyMathFunction: '(($1 * $2) + ($3 * $4))'
+  ExampleFunction: '(MyMathFunction(1, 10, 100, 2))'
+  GetBirthDate: 2005-01-01
 # Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
 users:
   id: (User.id)
