@@ -166,9 +166,9 @@ models:
     # It is possible to reference/include local files or remote files (HTTP[S]) using standard JSON reference syntax
     # Circular references are supported
     # Included files will be merged with sibling properties
-    $ref: ./owner.schema.yml
+    $ref: owner.schema.yml
   pet_skills:
-    $ref: ./pet_skills.schema.yml
+    $ref: pet_skills.schema.yml
 # Default `actions` values for each model
 # If unspecified, is all actions but deleteMany
 # Actions can be:
