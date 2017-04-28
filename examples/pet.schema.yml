@@ -135,7 +135,7 @@ models:
         # As opposed to `default`, this will also be set during update actions.
         # JSL can be used.
         # default and transforms can still be used (are performed afterwards).
-        compute: ($ip)
+        compute: (String($MoreRecursiveVariable))
         # Same for output. It is useless in this case, but used for illustration.
         computeOut: ($ip)
       best_friend:
@@ -229,6 +229,14 @@ helpers:
   MyMathFunction: '(($1 * $2) + ($3 * $4))'
   ExampleFunction: '(MyMathFunction(1, 10, 100, 2))'
   GetBirthDate: 2005-01-01
+# Custom variables can be used in any JSL by declaring it here
+# The variables will be lazily evaluated, i.e. only when some JSL is referencing them
+# They must be pure functions, because they are memoized.
+variables:
+  # Variables use JSL syntax themselves
+  $ExampleVariable: '(ExampleFunction())'
+  $RecursiveVariable: '($ExampleVariable)'
+  $MoreRecursiveVariable: '($RecursiveVariable)'
 # Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
 users:
   id: (User.id)
