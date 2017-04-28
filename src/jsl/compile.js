@@ -1,17 +1,17 @@
 'use strict';
 
 
-const { recurse } = require('../utilities');
+const { recurse, memoize } = require('../utilities');
 const { isJsl, isEscapedJsl } = require('./test');
 const { getRawJsl } = require('./tokenize');
-const { jslArguments } = require('./variables');
+const { getJslVariables } = require('./variables');
 
 
 // Transform JSL into a function with the JSL as body
 // Returns as it is not JSL
 // This can throw if JSL's JavaScript is wrong
-const compileJsl = ({ jsl }) => recurse({ value: jsl, cb: singleCompileJsl });
-const singleCompileJsl = function (jsl) {
+const compileJsl = ({ jsl, customJsl }) => recurse({ value: jsl, cb: singleCompileJsl({ customJsl }) });
+const singleCompileJsl = ({ customJsl }) => function (jsl) {
   // If this is not JSL, abort
   if (!isJsl({ jsl })) {
     // Can escape (...) from being interpreted as JSL by escaping first parenthesis
@@ -31,7 +31,7 @@ const singleCompileJsl = function (jsl) {
   }
 
   // Create a function with the JSL as body
-  const func = new Function(jslArguments, `return ${rawJsl};`);
+  const func = new Function(jslArguments({ customJsl }), `return ${rawJsl};`);
   // Keep the JSL when we need clean error messages
   func.jsl = rawJsl;
 
@@ -40,6 +40,12 @@ const singleCompileJsl = function (jsl) {
 
 // TODO: use JavaScript parser instead of RegExp matching
 const ternaryTest = /\?[^:]+$/;
+
+// Returns { $name, $now, ... } which will become JSL functions parameter list
+const jslArguments = memoize(function ({ customJsl = [] }) {
+  const variableNames = Object.keys(getJslVariables()).concat(customJsl);
+  return `{ ${variableNames.join(', ')} }`;
+});
 
 
 module.exports = {
