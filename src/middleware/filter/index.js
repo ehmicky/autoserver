@@ -13,7 +13,7 @@ const handleFilter = async function ({ idl }) {
     if (args.filter) {
       // Temporary hack until we add support for proper MongoDB objects
       try {
-        args.filter = compileJsl({ jsl: args.filter, idl, target: 'modelOutput' });
+        args.filter = compileJsl({ jsl: args.filter, idl, target: 'filter' });
       } catch (innererror) {
         throw new EngineError(`JSL syntax error: ${JSON.stringify(args.filter)}`, { reason: 'INPUT_VALIDATION', innererror });
       }
