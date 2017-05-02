@@ -226,17 +226,17 @@ actions: [find, create, replace, update, upsert, delete]
 # They must be pure functions, because they are memoized.
 helpers:
   # Helpers use JSL syntax themselves
-  MyMathFunction: '(($1 * $2) + ($3 * $4))'
-  ExampleFunction: '(MyMathFunction(1, 10, 100, 2))'
+  MyMathFunction: (($1 * $2) + ($3 * $4))
+  ExampleFunction: (MyMathFunction(1, 10, 100, 2))
   GetBirthDate: 2005-01-01
 # Custom variables can be used in any JSL by declaring it here
 # The variables will be lazily evaluated, i.e. only when some JSL is referencing them
 # They must be pure functions, because they are memoized.
 variables:
   # Variables use JSL syntax themselves
-  $ExampleVariable: '(ExampleFunction())'
-  $RecursiveVariable: '($ExampleVariable)'
-  $MoreRecursiveVariable: '($RecursiveVariable)'
+  $ExampleVariable: (ExampleFunction())
+  $RecursiveVariable: ($ExampleVariable)
+  $MoreRecursiveVariable: ($RecursiveVariable)
 # Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
 users:
   id: (User.id)
