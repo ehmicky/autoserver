@@ -38,6 +38,8 @@ const singleCompileJsl = ({ parameters }) => function (jsl) {
   // Keep the JSL when we need clean error messages
   func.jsl = rawJsl;
 
+  func.isInlineJsl = true;
+
   return func;
 };
 

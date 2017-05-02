@@ -222,7 +222,7 @@ models:
 #           checks whether model.name === model.first_name
 actions: [find, create, replace, update, upsert, delete]
 # Helpers are functions that can be used in any JSL.
-# Their argument is passed as variables $1, $2, etc.
+# Their argument is passed as variables $1, $2, etc. in inline functions
 # They must be pure functions, because they are memoized.
 helpers:
   # Helpers use JSL syntax themselves
