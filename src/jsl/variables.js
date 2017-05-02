@@ -15,18 +15,15 @@ const getJslVariables = function (input = {}) {
   }
 
   if (variables) {
-    // Instantiate variables lazily, i.e. when some JSL using them gets processed
     const usedVariables = getUsedVariables({ func: jslFunc, variables });
     const variablesParams = usedVariables
-      .map(varName => {
-        const variable = variables[varName];
-        // Tag variable functions, so they can be lazily evaluated recursively
-        if (typeof variable === 'function') {
-          variable.isVariable = true;
-        }
-        return { [varName]: variable };
+      .map(usedVariable => {
+        const variable = variables[usedVariable];
+        // Instantiate variables lazily, i.e. when some JSL using them gets processed
+        const evaluatedVar = typeof variable === 'function' ? variable() : variable;
+        return { [usedVariable]: evaluatedVar };
       })
-      .reduce((memo, val) => Object.assign(memo, val), {});
+      .reduce((params, variable) => Object.assign(params, variable), {});
     Object.assign(vars, variablesParams);
   }
 

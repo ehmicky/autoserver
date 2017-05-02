@@ -1,8 +1,6 @@
 'use strict';
 
 
-const { mapValues } = require('lodash');
-
 const { getJslVariables } = require('./variables');
 
 
@@ -13,19 +11,10 @@ const processJsl = function (input) {
   if (typeof jslFunc !== 'function') { return jslFunc; }
 
   const variables = getJslVariables(input);
-  const evaluatedVars = evaluateRecursiveVars({ variables });
-  return jslFunc(evaluatedVars);
-};
-
-// When variables use other variables, without the following function, they would not get lazily evaluated
-const evaluateRecursiveVars = function ({ variables }) {
-  return mapValues(variables, variable => {
-    return typeof variable === 'function' && variable.isVariable ? variable() : variable;
-  });
+  return jslFunc(variables);
 };
 
 
 module.exports = {
   processJsl,
-  evaluateRecursiveVars,
 };

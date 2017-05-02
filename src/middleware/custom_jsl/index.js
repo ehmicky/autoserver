@@ -1,10 +1,8 @@
 'use strict';
 
 
-const { mapValues, each } = require('lodash');
-
-const { memoize } = require('../../utilities');
-const { getJslVariables, evaluateRecursiveVars } = require('../../jsl');
+const { memoize, map } = require('../../utilities');
+const { getJslVariables } = require('../../jsl');
 
 
 /**
@@ -15,22 +13,17 @@ const wrapCustomJsl = async function ({ idl }) {
     const { info, params } = input;
 
     for (const { name, getList, getVars } of customJsl) {
+      // We must create a reference first, so that `getVars` gets a reference, although empty for the moment
+      info[name] = {};
+
+      // Retrieve IDL helpers|variables
       const list = getList({ idl });
 
-      // Binds `vars` to each custm IDL
-      const vars = {};
-      info[name] = mapValues(list, (jslFunc, jslName) => {
-        vars[jslName] = {};
-        return wrapJsl({ jslFunc, vars: vars[jslName] });
-      });
-
-      // Populate variables to `vars` bound to custom IDL
+      // Transform JSL into wrapped functions
       const jslInput = getVars({ info, params });
-      each(list, (jslFunc, jslName) => {
-        const singleJslInput = Object.assign({}, jslInput, { jsl: jslFunc });
-        // Allows helpers|variables to reference each other
-        Object.assign(vars[jslName], getJslVariables(singleJslInput));
-      });
+      const wrappedJsl = map(list, jsl => wrapJsl({ jsl, jslInput }));
+
+      Object.assign(info[name], wrappedJsl);
     }
 
     const response = await this.next(input);
@@ -53,18 +46,18 @@ const customJsl = [
 
 // Take compiled JSL `function ({ $var, ... })` and turns into `function (...args)` firing the first one,
 // with $1, $2, etc. provided as extra arguments
-const wrapJsl = function ({ jslFunc, vars }) {
+const wrapJsl = function ({ jsl, jslInput }) {
   // Helpers|variables can be non-JSL, but still needs to be fired as function by consumers
-  if (typeof jslFunc !== 'function') {
-    return () => jslFunc;
+  if (typeof jsl !== 'function') {
+    return () => jsl;
   }
 
   // We memoize for performance reasons, i.e. helpers|variables should be pure functions
   // The memiozer is recreated at each request though, to avoid memory leaks
   return memoize(($1, $2, $3, $4, $5, $6, $7, $8, $9) => {
-    const evaluatedVars = evaluateRecursiveVars({ variables: vars });
-
-    return jslFunc(Object.assign({}, evaluatedVars, { $1, $2, $3, $4, $5, $6, $7, $8, $9 }));
+    // Make sure variables are fired runtime, so variables can be evaluated lazily
+    const variables = getJslVariables(Object.assign({}, jslInput, { jsl }));
+    return jsl(Object.assign({}, variables, { $1, $2, $3, $4, $5, $6, $7, $8, $9 }));
   });
 };
 
