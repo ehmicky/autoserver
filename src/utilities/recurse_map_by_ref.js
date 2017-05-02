@@ -5,7 +5,7 @@ const { each } = require('lodash');
 
 
 // Like lodash mapValues(), but recursive and by reference
-const recurseMap = function ({ value, mapFunc }) {
+const recurseMapByRef = function ({ value, mapFunc }) {
   const cache = new WeakMap();
 
   const recurse = function ({ value, key, parent, parents, depth }) {
@@ -35,5 +35,5 @@ const recurseMap = function ({ value, mapFunc }) {
 
 
 module.exports = {
-  recurseMap,
+  recurseMapByRef,
 };

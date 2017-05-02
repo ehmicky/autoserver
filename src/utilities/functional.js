@@ -18,7 +18,18 @@ const map = function (obj, mapperFunc) {
   }
 };
 
+// Apply map() recursively
+const recurseMap = function (value, mapperFunc) {
+  // Recursion over objects and arrays
+  if (value && (value.constructor === Object || value instanceof Array)) {
+    return map(value, child => recurseMap(child, mapperFunc));
+  }
+
+  return mapperFunc(value);
+};
+
 
 module.exports = {
   map,
+  recurseMap,
 };

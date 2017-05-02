@@ -3,7 +3,7 @@
 
 const { each } = require('lodash');
 
-const { recurseMap } = require('./recurse_map');
+const { recurseMapByRef } = require('./recurse_map_by_ref');
 
 
 /**
@@ -46,7 +46,7 @@ const transform = function ({ transforms, args }) {
 };
 
 const singleTransform = function ({ input, transformsSet, args }) {
-  return recurseMap({
+  return recurseMapByRef({
     value: input,
     mapFunc(opts) {
       const { value } = opts;
