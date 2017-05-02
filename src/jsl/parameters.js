@@ -6,10 +6,9 @@ const { memoize } = require('../utilities');
 
 // Returns { $name, $now, ... } which will become JSL functions parameter list
 const getJslParameters = memoize(function ({ idl, target }) {
-  const params = jslParametersList[target];
-  const recursiveParams = params.recursive.reduce((memo, attrName) => [...memo, ...Object.keys(idl[attrName])], []) || [];
-  const rawParams = params.raw || [];
-  const allParams = [...recursiveParams, ...rawParams].join(', ');
+  const { recursive = [], raw = [] } = jslParametersList[target];
+  const recursiveParams = recursive.reduce((memo, attrName) => [...memo, ...Object.keys(idl[attrName])], []);
+  const allParams = [...recursiveParams, ...raw].join(', ');
   const paramsList = `{ ${allParams} }`;
   return paramsList;
 });
