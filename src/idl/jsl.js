@@ -1,11 +1,9 @@
 'use strict';
 
 
-const { mapValues } = require('lodash');
-
-const { compileJsl } = require('../jsl');
+const { compileJsl, getJslVariables } = require('../jsl');
 const { EngineStartupError } = require('../error');
-const { transform } = require('../utilities');
+const { transform, memoize, map } = require('../utilities');
 
 
 // Compile all the IDL's JSL
@@ -16,17 +14,49 @@ const compileIdlJsl = function ({ idl }) {
 };
 
 // Top-level attributes that can contain JSL
-const jslTopLevelAttributes = ['helpers', 'variables'];
+const topLevelJslAttributes = ['helpers', 'variables'];
 
 // Compile top-level attributes's JSL, e.g. `helpers` or `variables`
 const compileTopLevelJsl = function ({ idl }) {
-  const topLevelJsl = jslTopLevelAttributes.map(attrName => {
-    if (!idl[attrName]) { return {}; }
-    return mapValues(idl[attrName], jsl => compileJslValue({ jsl, idl, target: attrName }));
-  });
-  Object.assign(idl, topLevelJsl);
+  for (const name of topLevelJslAttributes) {
+    idl[name] = map(idl[name] || {}, jsl => wrapJsl({ jsl, idl, name }));
+  }
   return idl;
 };
+
+// Take JSL, inline or not, and turns into `function (...args)` firing the first one,
+// with $1, $2, etc. provided as extra arguments
+const wrapJsl = ({ jsl, idl, name }) => {
+  const jslFunc = compileJslValue({ jsl, idl, target: name });
+
+  // We memoize for performance reasons, i.e. helpers|variables should be pure functions
+  // The memoizer is recreated at each request though, to avoid memory leaks
+  // The first invocation is done per request, providing request-specific information
+  // The second invovation is done when the helper|variables is actually used
+  return ({ info, requestInput }) => memoize((...args) => {
+    // Helpers|variables can be non-JSL, but still needs to be fired as function by consumers
+    if (typeof jslFunc !== 'function') {
+      return jslFunc;
+    }
+
+    // Non-inline helpers only get positional arguments, no variables
+    if (!jslFunc.isInlineJsl && name === 'helpers') {
+      return jslFunc(...args);
+    }
+
+    // This will contain other variables|helpers, so they can reference each ohter
+    const { helpers, variables } = info;
+    // Make sure variables are fired runtime, so variables can be evaluated lazily
+    const jslArgs = getJslVariables({ jsl: jslFunc, helpers, variables, requestInput });
+
+    // Provide $1, $2, etc. to inline JSL
+    const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
+    Object.assign(jslArgs, { $1, $2, $3, $4, $5, $6, $7, $8, $9 });
+
+    return jslFunc(jslArgs);
+  });
+};
+
 
 // Compile models attributes's JSL, e.g. `transform`
 const compileModelsJsl = function ({ idl }) {
