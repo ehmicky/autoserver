@@ -18,6 +18,7 @@ module.exports = Object.assign(
   require('./fs'),
   require('./recurse'),
   require('./yaml'),
+  require('./functional'),
   require('./stringify'),
   require('./debugging')
 );

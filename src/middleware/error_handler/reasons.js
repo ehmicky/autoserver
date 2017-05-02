@@ -139,6 +139,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // Some utility got some wrong input
+  UTILITY_ERROR: () => ({
+    http: { status: 500 },
+  }),
+
   // Trying to throw an exception with the wrong signature
   WRONG_EXCEPTION: () => ({
     http: { status: 500 },
