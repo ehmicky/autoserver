@@ -3,30 +3,28 @@
 
 const { mapValues } = require('lodash');
 
-const { compileJsl, jslTopLevelAttributes, jslModelInputAttributes, jslModelOutputAttributes } = require('../jsl');
+const { compileJsl } = require('../jsl');
 const { EngineStartupError } = require('../error');
 const { transform } = require('../utilities');
 
 
 // Compile all the IDL's JSL
 const compileIdlJsl = function ({ idl }) {
-  addDefaultTopLevelJsl({ idl });
   idl = compileTopLevelJsl({ idl });
   idl.models = compileModelsJsl({ idl });
   return idl;
 };
 
-const addDefaultTopLevelJsl = function ({ idl }) {
-  for (const attrName of jslTopLevelAttributes) {
-    idl[attrName] = idl[attrName] || {};
-  }
-};
+// Top-level attributes that can contain JSL
+const jslTopLevelAttributes = ['helpers', 'variables'];
 
 // Compile top-level attributes's JSL, e.g. `helpers` or `variables`
 const compileTopLevelJsl = function ({ idl }) {
-  for (const attrName of jslTopLevelAttributes) {
-    idl[attrName] = mapValues(idl[attrName], jsl => compileJslValue({ jsl, idl, target: attrName }));
-  }
+  const topLevelJsl = jslTopLevelAttributes.map(attrName => {
+    if (!idl[attrName]) { return {}; }
+    return mapValues(idl[attrName], jsl => compileJslValue({ jsl, idl, target: attrName }));
+  });
+  Object.assign(idl, topLevelJsl);
   return idl;
 };
 
@@ -35,16 +33,25 @@ const compileModelsJsl = function ({ idl }) {
   transform({ transforms: modelTransforms({ idl }) })({ input: idl.models });
   return idl.models;
 };
-// Compile JSL for all attributes that might contain it
-const modelTransforms = ({ idl }) => [
-  ...jslModelInputAttributes.map(modelTransform({ idl, target: 'modelInput' })),
-  ...jslModelOutputAttributes.map(modelTransform({ idl, target: 'modelOutput' })),
+
+// These attributes might contain JSL
+const jslModelAttributes = [
+  { attrName: 'default', target: 'modelInput' },
+  { attrName: 'transform', target: 'modelInput' },
+  { attrName: 'compute', target: 'modelInput' },
+  { attrName: 'defaultOut', target: 'modelOutput' },
+  { attrName: 'transformOut', target: 'modelOutput' },
+  { attrName: 'computeOut', target: 'modelOutput' },
 ];
-const modelTransform = ({ idl, target }) => attrName => ({
-  [attrName]: ({ value: jsl }) => ({
-    [attrName]: compileJslValue({ jsl, idl, target }),
-  }),
-});
+
+// Compile JSL for all attributes that might contain it
+const modelTransforms = function ({ idl }) {
+  return jslModelAttributes.map(({ attrName, target }) => ({
+    [attrName]: ({ value: jsl }) => ({
+      [attrName]: compileJslValue({ jsl, idl, target }),
+    }),
+  }));
+};
 
 const compileJslValue = function ({ jsl, idl, target }) {
   try {
