@@ -4,12 +4,6 @@
 const { memoize } = require('../utilities');
 
 
-// Top-level attributes that can contain JSL
-const jslTopLevelAttributes = ['helpers', 'variables'];
-// These attributes might contain JSL
-const jslModelInputAttributes = ['default', 'transform', 'compute'];
-const jslModelOutputAttributes = ['defaultOut', 'transformOut', 'computeOut'];
-
 // Returns { $name, $now, ... } which will become JSL functions parameter list
 const getJslParameters = memoize(function ({ idl, target }) {
   const params = jslParametersList[target];
@@ -29,9 +23,10 @@ const getJslParameters = memoize(function ({ idl, target }) {
  **/
 const helpersVars = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9'];
 const requestVars = ['$now', '$ip', '$params'];
-const modelVars = ['$action', '$', '$$', 'User'];
-const modelInputVars = [...modelVars, '$data'];
-const modelOutputVars = [...modelVars, '$model'];
+const interfaceVars = ['$action'];
+const modelVars = ['$', '$$', 'User'];
+const modelInputVars = [...interfaceVars, ...modelVars, '$data'];
+const modelOutputVars = [...interfaceVars, ...modelVars, '$model'];
 const jslParametersList = {
   helpers: { recursive: ['helpers'], raw: [...requestVars, ...helpersVars] },
   variables: { recursive: ['helpers', 'variables'], raw: requestVars },
@@ -41,8 +36,5 @@ const jslParametersList = {
 
 
 module.exports = {
-  jslTopLevelAttributes,
-  jslModelInputAttributes,
-  jslModelOutputAttributes,
   getJslParameters,
 };
