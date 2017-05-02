@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { recurse } = require('../utilities');
+const { recurseMapFast } = require('../utilities');
 const { isJsl, isEscapedJsl } = require('./test');
 const { getRawJsl } = require('./tokenize');
 const { getJslParameters } = require('./parameters');
@@ -12,7 +12,7 @@ const { getJslParameters } = require('./parameters');
 // This can throw if JSL's JavaScript is wrong
 const compileJsl = function ({ jsl, idl, target }) {
   const parameters = getJslParameters({ idl, target });
-  return recurse({ value: jsl, cb: singleCompileJsl({ parameters }) });
+  return recurseMapFast(jsl, singleCompileJsl({ parameters }));
 };
 const singleCompileJsl = ({ parameters }) => function (jsl) {
   // If this is not JSL, abort
