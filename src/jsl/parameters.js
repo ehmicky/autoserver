@@ -29,6 +29,7 @@ const modelOutputVars = [...interfaceVars, ...modelVars, '$model'];
 const jslParametersList = {
   helpers: { recursive: ['helpers'], raw: [...requestVars, ...helpersVars] },
   variables: { recursive: ['helpers', 'variables'], raw: requestVars },
+  filter: { raw: modelVars },
   modelInput: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelInputVars] },
   modelOutput: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelOutputVars] },
 };
