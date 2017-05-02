@@ -15,6 +15,7 @@ const getJslVariables = function (input = {}) {
   }
 
   if (variables) {
+    // Only pass the variables that are actually needed
     const usedVariables = getUsedVariables({ func: jslFunc, variables });
     const variablesParams = usedVariables
       .map(usedVariable => {
