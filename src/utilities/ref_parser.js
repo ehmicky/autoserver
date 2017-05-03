@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { basename } = require('path');
 const RefParser = require('json-schema-ref-parser');
 
 const { getYaml } = require('./yaml');
@@ -16,6 +17,10 @@ const { getYaml } = require('./yaml');
  */
 const dereferenceRefs = async function (obj) {
   return await RefParser.dereference(obj, {
+    resolve: {
+      nodeModule: nodeModuleRefs.resolve,
+      node: nodeRefs.resolve,
+    },
     parse: {
       json: {
         allowEmpty: false,
@@ -35,8 +40,40 @@ const dereferenceRefs = async function (obj) {
       },
       text: false,
       binary: false,
+      nodeModule: nodeModuleRefs.parse,
+      node: nodeRefs.parse,
     },
   });
+};
+
+// Allow referencing Node.js modules, e.g. { "$ref": "lodash" }
+const nodeModuleRefs = {
+  resolve: {
+    order: 50,
+    canRead: true,
+    read: ({ url }) => require(basename(url)),
+  },
+  parse: {
+    allowEmpty: false,
+    order: 500,
+    canParse: true,
+    parse: ({ data }) => data,
+  },
+};
+
+// Allow referencing JavaScript files, e.g. { "$ref": "./my_file.js" }
+const nodeRefs = {
+  resolve: {
+    order: 60,
+    canRead: '.js',
+    read: ({ url }) => require(url),
+  },
+  parse: {
+    allowEmpty: false,
+    order: 600,
+    canParse: '.js',
+    parse: ({ data }) => data,
+  },
 };
 
 
