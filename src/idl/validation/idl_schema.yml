@@ -31,10 +31,18 @@ properties:
     $ref: '#/definitions/actionsProperty'
   # Custom functions that can be used in JSL
   helpers:
-    propertyNames:
-      pattern: '^[A-Z][0-9a-zA-Z]*$'
+    type: object
+    properties:
+      libraries:
+        $ref: '#/definitions/librariesProperty'
+    #propertyNames:
+    #  pattern: '^[A-Z][0-9a-zA-Z]*$'
   # Custom variables that can be used in JSL
   variables:
+    type: object
+    properties:
+      libraries:
+        $ref: '#/definitions/librariesProperty'
     propertyNames:
       pattern: '^\$[A-Z][0-9a-zA-Z]*$'
   # Let user decide how to retrieve current user, which is used by created_by and updated_by
@@ -165,6 +173,12 @@ definitions:
       - allOf: [contains: {enum: [create  ]}, contains: {enum: [createOne ]}]
     # find or findOne has to be defined, because GraphQL requires at least one query action
     contains: {enum: [find, findOne]}
+  # idl.helpers|variables.library
+  librariesProperty:
+    type: array
+    items:
+      # Libraries like Lodash or underscore.string are objects that can be used as functions as well
+      typeof: [function, object]
   # Base list of valid property names
   # We are more restrictive than the JSON schema and forbid any unknown property name
   # The goal is to avoid typos and mistakes. Custom properties can be added as `x-*`
