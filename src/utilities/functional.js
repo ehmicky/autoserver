@@ -15,7 +15,7 @@ const map = function (obj, mapperFunc) {
   } else if (obj instanceof Array) {
     return obj.map(mapperFunc);
   } else {
-    throw new EngineError(`map utility must be used with objects or arrays: ${obj}`, { reasons: 'UTILITY_ERROR' });
+    throw new EngineError(`map utility must be used with objects or arrays: ${obj}`, { reason: 'UTILITY_ERROR' });
   }
 };
 
