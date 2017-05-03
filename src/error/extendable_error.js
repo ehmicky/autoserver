@@ -38,7 +38,7 @@ class ExtendableError extends Error {
     const nonAllowedOpts = difference(optsKeys, allowedOpts.concat(otherOpts));
     if (nonAllowedOpts.length > 0) {
       throw new ThisError(`Cannot use options ${nonAllowedOpts} when throwing ${ThisError.name}`, {
-        type: 'WRONG_EXCEPTION',
+        reason: 'WRONG_EXCEPTION',
       });
     }
 
@@ -46,7 +46,7 @@ class ExtendableError extends Error {
     const missingOpts = difference(requiredOpts, optsKeys);
     if (missingOpts.length > 0) {
       throw new ThisError(`Must specify options ${missingOpts} when throwing ${ThisError.name}`, {
-        type: 'WRONG_EXCEPTION',
+        reason: 'WRONG_EXCEPTION',
       });
     }
   }
