@@ -7,10 +7,11 @@ const { EngineError } = require('../error');
 // Similar to Lodash map() and mapValues(), but with vanilla JavaScript
 const map = function (obj, mapperFunc) {
   if (obj && obj.constructor === Object) {
+    const newObj = {};
     for (const [key, value] of Object.entries(obj)) {
-      obj[key] = mapperFunc(value, key, obj);
+      newObj[key] = mapperFunc(value, key, obj);
     }
-    return obj;
+    return newObj;
   } else if (obj instanceof Array) {
     return obj.map(mapperFunc);
   } else {
