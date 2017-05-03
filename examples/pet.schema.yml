@@ -227,8 +227,15 @@ actions: [find, create, replace, update, upsert, delete]
 helpers:
   # Helpers use JSL syntax themselves
   MyMathFunction: (($1 * $2) + ($3 * $4))
-  ExampleFunction: (MyMathFunction(1, 10, 100, 2))
+  ExampleFunction: (MyMathFunction(1, 10, 100, 2) + MyOtherMathFunction(1, 10, 100, 2))
   GetBirthDate: 2005-01-01
+  # One can require JavaScript files (Node.js)
+  MyOtherMathFunction:
+    $ref: math.js
+  # One can require entire libraries. Only functions are kept.
+  libraries:
+  - $ref: underscore.string
+  - $ref: lodash
 # Custom variables can be used in any JSL by declaring it here
 # The variables will be lazily evaluated, i.e. only when some JSL is referencing them
 # They must be pure functions, because they are memoized.
@@ -236,7 +243,10 @@ variables:
   # Variables use JSL syntax themselves
   $ExampleVariable: (ExampleFunction())
   $RecursiveVariable: ($ExampleVariable)
-  $MoreRecursiveVariable: ($RecursiveVariable)
+  $MoreRecursiveVariable: ($RecursiveVariable + $TestVariable)
+  # One can require sets of variables
+  libraries:
+  - $ref: variables.json
 # Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
 users:
   id: (User.id)
