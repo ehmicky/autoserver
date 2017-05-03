@@ -116,7 +116,7 @@ models:
         # JSL can be used
         # This can be used to add compatibility layers, computed attributes, etc.
         transform: ($.toLowerCase())
-        transformOut: ($.toUpperCase())
+        transformOut: (capitalize($))
         # Applied default values, on input or output
         default:
         # Arrays are handled like a switch statement, i.e. only the first matching is used. Can be used for transforms too.
@@ -135,9 +135,9 @@ models:
         # As opposed to `default`, this will also be set during update actions.
         # JSL can be used.
         # default and transforms can still be used (are performed afterwards).
-        compute: (String($MoreRecursiveVariable))
+        compute: (String($moreRecursiveVariable))
         # Same for output. It is useless in this case, but used for illustration.
-        computeOut: ($ip)
+        computeOut: ($IP)
       best_friend:
         # This means this attribute is an instance of the `pet` model, i.e. a foreign key
         # References can be recursive, e.g. here `pet` is the current model
@@ -161,7 +161,7 @@ models:
         formatExclusiveMinimum: true
         formatMaximum: 2100-01-01
         formatExclusiveMinimum: false
-        default: (GetBirthDate())
+        default: (getBirthDate())
   owner:
     # It is possible to reference/include local files or remote files (HTTP[S]) using standard JSON reference syntax
     # Circular references are supported
@@ -211,11 +211,12 @@ models:
 #   - parameters passed to any JSL
 #   - they are divided into several groups:
 #      - "request variables" are available everywhere JSL is:
-#         - $now {string} - current date and time
-#         - $ip {string} - request IP
-#         - $params {object} - contains all request parameters: query strings, (application-namespaced) HTTP headers
+#         - $NOW {string} - current date and time
+#         - $IP {string} - request IP
+#         - $PARAMS {object} - contains all request parameters: query strings, (application-namespaced) HTTP headers
 #      - "model variables" are not available in helpers or in other variables:
-#         - $action {string} - current action, e.g. 'find' or 'create'
+#         - $ACTION {string} - current action, e.g. 'find' or 'create'
+#         - $ATTR_NAME {string} - current attribute name
 #         - $ {any} - value of current attribute, e.g. { filter: { name: '$ !== "John"' } }
 #           checks whether model.name !== 'John'
 #         - $$ {object} - current model (input or output), e.g. { filter: { name: '$ === $$.first_name' } }
@@ -226,11 +227,11 @@ actions: [find, create, replace, update, upsert, delete]
 # They must be pure functions, because they are memoized.
 helpers:
   # Helpers use JSL syntax themselves
-  MyMathFunction: (($1 * $2) + ($3 * $4))
-  ExampleFunction: (MyMathFunction(1, 10, 100, 2) + MyOtherMathFunction(1, 10, 100, 2))
-  GetBirthDate: 2005-01-01
+  myMathFunction: (($1 * $2) + ($3 * $4))
+  exampleFunction: (myMathFunction(1, 10, 100, 2) + myOtherMathFunction(1, 10, 100, 2))
+  getBirthDate: 2005-01-01
   # One can require JavaScript files (Node.js)
-  MyOtherMathFunction:
+  myOtherMathFunction:
     $ref: math.js
   # One can require entire libraries. Only functions are kept.
   libraries:
@@ -241,9 +242,9 @@ helpers:
 # They must be pure functions, because they are memoized.
 variables:
   # Variables use JSL syntax themselves
-  $ExampleVariable: (ExampleFunction())
-  $RecursiveVariable: ($ExampleVariable)
-  $MoreRecursiveVariable: ($RecursiveVariable + $TestVariable)
+  $exampleVariable: (exampleFunction())
+  $recursive_variable: ($exampleVariable)
+  $moreRecursiveVariable: ($recursive_variable + $TestVariable)
   # One can require sets of variables
   libraries:
   - $ref: variables.json

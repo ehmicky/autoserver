@@ -4,7 +4,7 @@
 const { memoize } = require('../utilities');
 
 
-// Returns { $name, $now, ... } which will become JSL functions parameter list
+// Returns { $NAME, $NOW, ... } which will become JSL functions parameter list
 const getJslParameters = memoize(function ({ idl, target }) {
   const { recursive = [], raw = [] } = jslParametersList[target];
   const recursiveParams = recursive.reduce((memo, attrName) => [...memo, ...Object.keys(idl[attrName])], []);
@@ -21,11 +21,11 @@ const getJslParameters = memoize(function ({ idl, target }) {
  * in IDL.helpers.*
  **/
 const helpersVars = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9'];
-const requestVars = ['$now', '$ip', '$params'];
-const interfaceVars = ['$action'];
+const requestVars = ['$NOW', '$IP', '$PARAMS'];
+const interfaceVars = ['$ACTION'];
 const modelVars = ['$', '$$', 'User'];
-const modelInputVars = [...interfaceVars, ...modelVars, '$data'];
-const modelOutputVars = [...interfaceVars, ...modelVars, '$model'];
+const modelInputVars = [...interfaceVars, ...modelVars, '$DATA'];
+const modelOutputVars = [...interfaceVars, ...modelVars, '$MODEL'];
 const jslParametersList = {
   helpers: { recursive: ['helpers'], raw: helpersVars },
   variables: { recursive: ['helpers', 'variables'], raw: requestVars },
