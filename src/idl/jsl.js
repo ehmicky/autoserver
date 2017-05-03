@@ -9,19 +9,30 @@ const { transform, memoize, map } = require('../utilities');
 // Compile all the IDL's JSL
 const compileIdlJsl = function ({ idl }) {
   idl = compileTopLevelJsl({ idl });
+  idl.validation = compileValidationJsl({ idl });
   idl.models = compileModelsJsl({ idl });
   return idl;
 };
 
 // Top-level attributes that can contain JSL
-const topLevelJslAttributes = ['helpers', 'variables'];
+const wrappedJslAttributes = ['helpers', 'variables'];
 
 // Compile top-level attributes's JSL, e.g. `helpers` or `variables`
 const compileTopLevelJsl = function ({ idl }) {
-  for (const name of topLevelJslAttributes) {
+  for (const name of wrappedJslAttributes) {
     idl[name] = map(idl[name] || {}, jsl => wrapJsl({ jsl, idl, name }));
   }
   return idl;
+};
+
+// Compile idl.validation.test|message JSL
+const compileValidationJsl = function ({ idl }) {
+  return map(idl.validation || {}, validator => {
+    return map(validator, (jsl, attrName) => {
+      if (!['test', 'message'].includes(attrName)) { return jsl; }
+      return compileJslValue({ jsl, idl, target: 'validation' });
+    });
+  });
 };
 
 // Take JSL, inline or not, and turns into `function (...args)` firing the first one,

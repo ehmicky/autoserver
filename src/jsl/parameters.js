@@ -21,6 +21,7 @@ const getJslParameters = memoize(function ({ idl, target }) {
  * in IDL.helpers.*
  **/
 const helpersVars = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9'];
+const validationVars = ['$VALUE', '$EXPECTED', '$SIBLINGS'];
 const requestVars = ['$NOW', '$IP', '$PARAMS'];
 const interfaceVars = ['$ACTION'];
 const modelVars = ['$', '$$', 'User'];
@@ -30,6 +31,7 @@ const jslParametersList = {
   helpers: { recursive: ['helpers'], raw: helpersVars },
   variables: { recursive: ['helpers', 'variables'], raw: requestVars },
   filter: { raw: modelVars },
+  validation: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelInputVars, ...validationVars] },
   modelInput: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelInputVars] },
   modelOutput: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelOutputVars] },
 };

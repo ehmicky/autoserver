@@ -4,23 +4,29 @@
 const { chain } = require('lodash');
 const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
-const ajv = new Ajv({
-  allErrors: true,
-  jsonPointers: true,
-  full: true,
-  $data: true,
-  verbose: true,
-  multipleOfPrecision: 9,
-});
 const { singular, plural } = require('pluralize');
 
 const { memoize } = require('./memoize');
 const { reportErrors } = require('./report_error');
 
 
-const addKeywords = function (ajv) {
+let ajv;
+// Builds ajv instance
+const buildValidator = function () {
+  ajv = new Ajv({
+    allErrors: true,
+    jsonPointers: true,
+    full: true,
+    $data: true,
+    verbose: true,
+    multipleOfPrecision: 9,
+  });
+  addKeywords();
+};
+
+const addKeywords = function () {
   // Add future JSON standard keywords
-  ajvKeywords(ajv, [ 'if', 'formatMinimum', 'formatMaximum', 'typeof' ]);
+  ajvKeywords(ajv, ['if', 'formatMinimum', 'formatMaximum', 'typeof']);
   // Add custom keywords
   // Checks that a word (e.g. a model) is an English word with a different singular and plural form
   ajv.addKeyword('hasPlural', {
@@ -32,8 +38,8 @@ const addKeywords = function (ajv) {
     $data: true,
   });
 };
-addKeywords(ajv);
 
+const getRawValidator = () => ajv;
 
 const getValidator = memoize(function ({ schema }) {
   return ajv.compile(schema);
@@ -69,5 +75,7 @@ const validate = function ({ schema, data, reportInfo }) {
 
 
 module.exports = {
+  getRawValidator,
+  buildValidator,
   validate,
 };
