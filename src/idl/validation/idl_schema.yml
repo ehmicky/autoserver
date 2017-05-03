@@ -53,6 +53,10 @@ properties:
       # system-defined variables use $THIS_CASE, so we forbid it for user-defined variables for forward compatibility
       - not:
           pattern: '^\$[A-Z_]+$'
+  plugins:
+    type: array
+    items:
+      typeof: function
   # Let user decide how to retrieve current user, which is used by created_by and updated_by
   users:
     type: object
