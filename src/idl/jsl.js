@@ -50,8 +50,10 @@ const wrapJsl = ({ jsl, idl, name }) => {
     const jslArgs = getJslVariables({ jsl: jslFunc, helpers, variables, requestInput });
 
     // Provide $1, $2, etc. to inline JSL
-    const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-    Object.assign(jslArgs, { $1, $2, $3, $4, $5, $6, $7, $8, $9 });
+    if (name === 'helpers') {
+      const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
+      Object.assign(jslArgs, { $1, $2, $3, $4, $5, $6, $7, $8, $9 });
+    }
 
     return jslFunc(jslArgs);
   });
