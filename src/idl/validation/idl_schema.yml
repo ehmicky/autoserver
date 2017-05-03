@@ -53,10 +53,37 @@ properties:
       # system-defined variables use $THIS_CASE, so we forbid it for user-defined variables for forward compatibility
       - not:
           pattern: '^\$[A-Z_]+$'
+  # Functions that modifies IDL definition
   plugins:
     type: array
     items:
       typeof: function
+  # Custom validation keywords
+  validation:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        test:
+          $ref: '#/definitions/jsl'
+        # Error messages can either be a string, or JSL
+        message:
+          type: string
+          # Convention: error message must start with "must"
+          anyOf:
+          - not:
+              $ref: '#/definitions/jsl'
+            pattern: ^must\s
+          - anyOf:
+            - pattern: ^\("must\s.*"\)$
+            - pattern: ^\('must\s.*'\)$
+            - pattern: ^\(`must\s.*`\)$
+        type:
+          $ref: '#/definitions/jsonSchemaType'
+      additionalProperties: false
+    # Must start with uppercase letter to avoid naming conflict with other attributes, and ensure forward compatibility
+    propertyNames:
+      pattern: '^[A-Z][a-zA-Z0-9]*$'
   # Let user decide how to retrieve current user, which is used by created_by and updated_by
   users:
     type: object
@@ -80,6 +107,11 @@ properties:
     items:
       type: string
       hasPlural: true
+  # Automatically generated, and used to validate custom validation keywords
+  customValidationNames:
+    type: array
+    items:
+      type: string
 # Users can define anything under properties named x-*
 patternProperties:
   '^x-': true
@@ -104,6 +136,8 @@ definitions:
         - $ref: '#/definitions/validPropertyNames'
         - enum: [actions, model, type, description, deprecated, examples, defaultOut, transform, transformOut, compute,
           computeOut, readOnly, writeOnce]
+        - enum:
+            $data: '/customValidationNames'
   # Only applies this to top-level models
   topLevelModel:
     allOf:
@@ -139,6 +173,8 @@ definitions:
         anyOf:
         - $ref: '#/definitions/validPropertyNames'
         - enum: [model, defaultOut, transform, transformOut, compute, computeOut, readOnly, writeOnce]
+        - enum:
+            $data: '/customValidationNames'
       properties:
         # Recursively applied to array members
         items:
@@ -191,6 +227,20 @@ definitions:
     items:
       # Libraries like Lodash or underscore.string are objects that can be used as functions as well
       typeof: [function, object]
+  # JSL can either be a function or a string '(...)'
+  jsl:
+    anyOf:
+    - typeof: function
+    - typeof: string
+      pattern: '^\s*\(.*\)\s*$'
+  # Value of schema.type from JSON schema
+  jsonSchemaType:
+    oneOF:
+    - type: string
+      enum: [string, number, integer, boolean, null, object, array]
+    - type: array
+      items:
+        $ref: '#/definitions/jsonSchemaType'
   # Base list of valid property names
   # We are more restrictive than the JSON schema and forbid any unknown property name
   # The goal is to avoid typos and mistakes. Custom properties can be added as `x-*`

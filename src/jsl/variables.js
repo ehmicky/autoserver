@@ -4,7 +4,8 @@
 // Values available as `$VARIABLE` in JSL
 // They are uppercase to avoid name conflict with attributes
 const getJslVariables = function (input = {}) {
-  const { jsl: jslFunc, helpers, variables, requestInput, modelInput } = input;
+  const { jsl: jslFunc, helpers, variables, validationInput, requestInput, modelInput } = input;
+  const { value, expected, siblings } = validationInput || {};
   const { ip, timestamp, params } = requestInput || {};
   const { actionType, attrName, model, data, shortcut = {} } = modelInput || {};
 
@@ -26,6 +27,14 @@ const getJslVariables = function (input = {}) {
       })
       .reduce((params, variable) => Object.assign(params, variable), {});
     Object.assign(vars, variablesParams);
+  }
+
+  if (validationInput) {
+    Object.assign(vars, {
+      $VALUE: value,
+      $EXPECTED: expected,
+      $SIBLINGS: siblings,
+    });
   }
 
   // Request-related variables

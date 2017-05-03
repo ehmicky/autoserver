@@ -76,6 +76,8 @@ models:
         exclusiveMaximum: 30
         # Can use floats
         multipleOf: 0.000001
+        # Custom validation
+        IsNotTen: true
       is_overweight:
         type: boolean
         description: Has the pet being eating too much?
@@ -252,6 +254,17 @@ variables:
 # Use cases can be: adding a attribute to each model, extending core functionalities, etc.
 plugins:
   - $ref: test_plugin.js
+# Custom validation keywords, to use on models' attributes
+validation:
+  IsNotTen:
+    # Validation function.
+    # Must return true for success, anything else for failure
+    test: ($VALUE === 10)
+    # Error message
+    # Can use JSL
+    message: (`must be equal to three, ${$IP}`)
+    # Can restrict when the validation will be applied, using JSON schema types
+    type: [number, integer]
 # Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
 users:
   id: (User.id)
