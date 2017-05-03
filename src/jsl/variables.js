@@ -1,7 +1,7 @@
 'use strict';
 
 
-// Values available as `$variable` in JSL
+// Values available as `$VARIABLE` in JSL
 // They are uppercase to avoid name conflict with attributes
 const getJslVariables = function (input = {}) {
   const { jsl: jslFunc, helpers, variables, requestInput, modelInput } = input;
@@ -31,17 +31,17 @@ const getJslVariables = function (input = {}) {
   // Request-related variables
   if (requestInput) {
     Object.assign(vars, {
-      $now: timestamp,
-      $ip: ip,
-      $params: params,
+      $NOW: timestamp,
+      $IP: ip,
+      $PARAMS: params,
     });
   }
 
   // Model-related variables
   if (modelInput) {
     Object.assign(vars, {
-      $action: actionType,
-      $attrName: attrName,
+      $ACTION: actionType,
+      $ATTR_NAME: attrName,
       $: shortcut[attrName],
       $$: shortcut,
 
@@ -50,10 +50,10 @@ const getJslVariables = function (input = {}) {
       User: { id: '1' },
     });
     if (model) {
-      vars.$model = model;
+      vars.$MODEL = model;
     }
     if (data) {
-      vars.$data = data;
+      vars.$DATA = data;
     }
   }
 

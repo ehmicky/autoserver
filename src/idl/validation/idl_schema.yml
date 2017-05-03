@@ -36,7 +36,11 @@ properties:
       libraries:
         $ref: '#/definitions/librariesProperty'
     propertyNames:
-      pattern: '^[A-Z][0-9a-zA-Z]*$'
+      allOf:
+      - pattern: '^[a-zA-Z_][0-9a-zA-Z_]*$'
+      # system-defined helpers use THIS_CASE, so we forbid it for user-defined helpers for forward compatibility
+      - not:
+          pattern: '^[A-Z_]+$'
   # Custom variables that can be used in JSL
   variables:
     type: object
@@ -44,7 +48,11 @@ properties:
       libraries:
         $ref: '#/definitions/librariesProperty'
     propertyNames:
-      pattern: '^\$[A-Z][0-9a-zA-Z]*$'
+      allOf:
+      - pattern: '^\$[a-zA-Z_][0-9a-zA-Z_]*$'
+      # system-defined variables use $THIS_CASE, so we forbid it for user-defined variables for forward compatibility
+      - not:
+          pattern: '^\$[A-Z_]+$'
   # Let user decide how to retrieve current user, which is used by created_by and updated_by
   users:
     type: object
