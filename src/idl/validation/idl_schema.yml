@@ -35,8 +35,8 @@ properties:
     properties:
       libraries:
         $ref: '#/definitions/librariesProperty'
-    #propertyNames:
-    #  pattern: '^[A-Z][0-9a-zA-Z]*$'
+    propertyNames:
+      pattern: '^[A-Z][0-9a-zA-Z]*$'
   # Custom variables that can be used in JSL
   variables:
     type: object
