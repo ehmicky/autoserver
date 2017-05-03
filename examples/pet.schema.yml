@@ -248,6 +248,10 @@ variables:
   # One can require sets of variables
   libraries:
   - $ref: variables.json
+# Plugins are functions that take `idl` as input, and returns a modified IDL as output
+# Use cases can be: adding a attribute to each model, extending core functionalities, etc.
+plugins:
+  - $ref: test_plugin.js
 # Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
 users:
   id: (User.id)
