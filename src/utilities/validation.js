@@ -56,11 +56,16 @@ const getValidator = memoize(function ({ schema }) {
  *   {string} [reportInfo.dataVar] - variable name
  *   {string} [reportInfo.action]
  *   {string} [reportInfo.modelName]
+ *   {any} [extra] - custom information passed to custom validation functions
  **/
-const validate = function ({ schema, data, reportInfo }) {
+const validate = function ({ schema, data, reportInfo, extra }) {
   // Retrieves validation library
   const validator = getValidator({ schema });
 
+  // Temporarily add hidden property to data, to communicate it to custom validation function
+  if (extra) {
+    data = Object.assign({}, data, { [Symbol.for('extra')]: extra });
+  }
   const isValid = validator(data);
   if (isValid) { return; }
 

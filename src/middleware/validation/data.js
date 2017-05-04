@@ -10,7 +10,7 @@ const { memoize, transform, validate } = require('../../utilities');
  * Check that input filter|data passes IDL validation
  * E.g. if a model is marked as `required` or `minimum: 10` in IDL file, this will be validated here
  **/
-const validateClientInputData = function ({ idl, modelName, action, args }) {
+const validateClientInputData = function ({ idl, modelName, action, args, extra }) {
   const type = 'clientInputData';
   const schema = getDataValidationSchema({ idl, modelName, action, type });
   const attributes = getAttributes(args);
@@ -19,7 +19,7 @@ const validateClientInputData = function ({ idl, modelName, action, args }) {
     attribute.forEach(data => {
       data = merge({}, data);
       removeJsl({ value: data });
-      validate({ schema, data, reportInfo: { type, modelName, action, dataVar } });
+      validate({ schema, data, reportInfo: { type, modelName, action, dataVar }, extra });
     });
   });
 };
@@ -48,12 +48,12 @@ const removeJsl = function ({ value, parent, key }) {
  * Check that output data passes IDL validation
  * If it does not, this probably indicates database corruption
  **/
-const validateServerOutputData = function ({ idl, modelName, response, action }) {
+const validateServerOutputData = function ({ idl, modelName, response, action, extra }) {
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, action, type });
   response = response instanceof Array ? response : [response];
   response.forEach(data => {
-    validate({ schema, data, reportInfo: { type, modelName, action, dataVar: 'response' } });
+    validate({ schema, data, reportInfo: { type, modelName, action, dataVar: 'response' }, extra });
   });
 };
 
