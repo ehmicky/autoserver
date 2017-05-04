@@ -10,7 +10,6 @@ const { addCustomKeywords } = require('./custom_validation');
 
 
 // Retrieves IDL definition, after validation and transformation
-// TODO: cache this function
 const getIdl = async function ({ conf }) {
   let { idl, baseDir } = await getIdlConf({ conf });
   idl = await resolveRefs({ idl, baseDir });
