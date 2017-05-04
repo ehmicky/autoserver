@@ -1,9 +1,16 @@
 'use strict';
 
 
-const testPlugin = function ({ idl }) {
-  idl['x-plugin-attr'] = 1;
-  return idl;
+const { getPromise } = require('../src/utilities');
+
+const testPlugin = function ({ idl, opts: { exampleOption } }) {
+  // Plugins can be async
+  const promise = getPromise();
+  process.nextTick(() => {
+    idl['x-plugin-attr'] = exampleOption;
+    promise.resolve(idl);
+  });
+  return promise;
 };
 
 
