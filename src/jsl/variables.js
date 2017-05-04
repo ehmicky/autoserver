@@ -5,7 +5,7 @@
 // They are uppercase to avoid name conflict with attributes
 const getJslVariables = function (input = {}) {
   const { jsl: jslFunc, helpers, variables, validationInput, requestInput, modelInput } = input;
-  const { value, expected, siblings } = validationInput || {};
+  const { value, expected, parent } = validationInput || {};
   const { ip, timestamp, params } = requestInput || {};
   const { actionType, attrName, model, data, shortcut = {} } = modelInput || {};
 
@@ -60,7 +60,7 @@ const getJslVariables = function (input = {}) {
   if (validationInput) {
     Object.assign(vars, {
       $: value,
-      $$: siblings,
+      $$: parent,
       $EXPECTED: expected,
     });
   }
