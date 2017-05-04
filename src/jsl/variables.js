@@ -4,17 +4,20 @@
 // Values available as `$VARIABLE` in JSL
 // They are uppercase to avoid name conflict with attributes
 const getJslVariables = function (input = {}) {
-  const { jsl: jslFunc, helpers, variables, validationInput, requestInput, modelInput } = input;
-  const { value, expected, parent } = validationInput || {};
+  const { jsl: jslFunc, helpers, variables, validationInput, requestInput, interfaceInput, modelInput } = input;
+  const { expected } = validationInput || {};
   const { ip, timestamp, params } = requestInput || {};
-  const { actionType, attrName, model, data, shortcut = {} } = modelInput || {};
+  const { actionType } = interfaceInput || {};
+  const { parent = {}, value, model, data, attrName } = modelInput || {};
 
-  let vars = {};
+  const vars = {};
 
+  // From idl.helpers
   if (helpers) {
     Object.assign(vars, helpers);
   }
 
+  // From idl.variables
   if (variables) {
     // Only pass the variables that are actually needed
     const usedVariables = getUsedVariables({ func: jslFunc, variables });
@@ -38,21 +41,23 @@ const getJslVariables = function (input = {}) {
     });
   }
 
+  // Database-request-related variables
+  if (interfaceInput) {
+    Object.assign(vars, {
+      $ACTION: actionType,
+    });
+  }
+
   // Model-related variables
   if (modelInput) {
     Object.assign(vars, {
-      $ACTION: actionType,
       $ATTR_NAME: attrName,
+      $: value,
+      $$: parent,
 
       // TODO: hack until we introduce custom variables
       User: { id: '1' },
     });
-    if (shortcut) {
-      Object.assign(vars, {
-        $: shortcut[attrName],
-        $$: shortcut,
-      });
-    }
     if (model) {
       vars.$MODEL = model;
     }
@@ -61,10 +66,9 @@ const getJslVariables = function (input = {}) {
     }
   }
 
+  // Custom validation keywords variables
   if (validationInput) {
     Object.assign(vars, {
-      $: value,
-      $$: parent,
       $EXPECTED: expected,
     });
   }
@@ -80,7 +84,6 @@ const getUsedVariables = function ({ func, variables }) {
   const usedVariables = Object.keys(variables).filter(variable => funcBody.indexOf(variable) !== -1);
   return usedVariables;
 };
-
 
 
 module.exports = {

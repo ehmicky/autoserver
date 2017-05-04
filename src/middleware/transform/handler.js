@@ -18,7 +18,7 @@ const { transformInput, transformOutput } = require('./transformer');
 const transform = async function ({ idl: { models } }) {
   return async function (input) {
     const { args, modelName, info: { ip, timestamp, actionType, helpers, variables }, params } = input;
-    const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, modelInput: { actionType } };
+    const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, interfaceInput: { actionType } };
 
     // Retrieves IDL definition for this model
     const modelIdl = models[modelName];

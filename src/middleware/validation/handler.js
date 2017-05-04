@@ -19,7 +19,7 @@ const validation = async function ({ idl }) {
     const { modelName, args, action, info: { ip, timestamp, actionType, helpers, variables }, params } = input;
 
     // Extra information passed to custom validation keywords
-    const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, modelInput: { actionType } };
+    const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, interfaceInput: { actionType } };
     const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
