@@ -29,14 +29,6 @@ const getJslVariables = function (input = {}) {
     Object.assign(vars, variablesParams);
   }
 
-  if (validationInput) {
-    Object.assign(vars, {
-      $VALUE: value,
-      $EXPECTED: expected,
-      $SIBLINGS: siblings,
-    });
-  }
-
   // Request-related variables
   if (requestInput) {
     Object.assign(vars, {
@@ -54,7 +46,6 @@ const getJslVariables = function (input = {}) {
       $: shortcut[attrName],
       $$: shortcut,
 
-
       // TODO: hack until we introduce custom variables
       User: { id: '1' },
     });
@@ -64,6 +55,14 @@ const getJslVariables = function (input = {}) {
     if (data) {
       vars.$DATA = data;
     }
+  }
+
+  if (validationInput) {
+    Object.assign(vars, {
+      $: value,
+      $$: siblings,
+      $EXPECTED: expected,
+    });
   }
 
   return vars;

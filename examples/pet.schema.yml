@@ -259,7 +259,8 @@ validation:
   IsNotTen:
     # Validation function.
     # Must return true for success, anything else for failure
-    test: ($VALUE === 10)
+    # Must use JSL
+    test: ($ !== 10)
     # Error message
     # Can use JSL
     message: (`must be equal to three, ${$IP}`)

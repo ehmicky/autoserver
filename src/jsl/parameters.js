@@ -1,6 +1,8 @@
 'use strict';
 
 
+const { uniq } = require('lodash');
+
 const { memoize } = require('../utilities');
 
 
@@ -8,7 +10,7 @@ const { memoize } = require('../utilities');
 const getJslParameters = memoize(function ({ idl, target }) {
   const { recursive = [], raw = [] } = jslParametersList[target];
   const recursiveParams = recursive.reduce((memo, attrName) => [...memo, ...Object.keys(idl[attrName])], []);
-  const allParams = [...recursiveParams, ...raw].join(', ');
+  const allParams = uniq([...recursiveParams, ...raw]).join(', ');
   const paramsList = `{ ${allParams} }`;
   return paramsList;
 });
@@ -21,7 +23,7 @@ const getJslParameters = memoize(function ({ idl, target }) {
  * in IDL.helpers.*
  **/
 const helpersVars = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9'];
-const validationVars = ['$VALUE', '$EXPECTED', '$SIBLINGS'];
+const validationVars = ['$', '$$', '$EXPECTED'];
 const requestVars = ['$NOW', '$IP', '$PARAMS'];
 const interfaceVars = ['$ACTION'];
 const modelVars = ['$', '$$', 'User'];
