@@ -259,10 +259,17 @@ variables:
   # One can require sets of variables
   libraries:
   - $ref: variables.json
-# Plugins are functions that take `idl` as input, and returns a modified IDL as output
+# Plugins are functions that take `idl` as input, and returns a modified IDL as output.
 # Use cases can be: adding a attribute to each model, extending core functionalities, etc.
+# The system adds by default some builtin plugins, which can be disabled.
 plugins:
-  - $ref: test_plugin.js
+  - plugin:
+      $ref: test_plugin.js
+    # Passed to the plugin function
+    opts:
+      exampleOption: true
+    # True by default, more useful for builtin plugins
+    enabled: true
 # Custom validation keywords, to use on models' attributes
 validation:
   IsNotEqual:

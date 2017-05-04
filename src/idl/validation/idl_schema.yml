@@ -57,7 +57,17 @@ properties:
   plugins:
     type: array
     items:
-      typeof: function
+      typeof: object
+      properties:
+        plugin:
+          anyOf:
+          - typeof: function
+          - type: string
+            enum: [a]
+        enabled:
+          typeof: boolean
+        opts: {}
+      additionalProperties: false
   # Custom validation keywords
   validation:
     type: object
