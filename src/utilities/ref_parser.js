@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { basename } = require('path');
+const { basename, dirname } = require('path');
 const RefParser = require('json-schema-ref-parser');
 
 const { getYaml } = require('./yaml');
@@ -51,13 +51,13 @@ const nodeModuleRefs = {
   resolve: {
     order: 50,
     canRead: true,
-    read: ({ url }) => require(basename(url)),
+    read: async ({ url }) => requireFile(basename(url)),
   },
   parse: {
     allowEmpty: false,
     order: 500,
     canParse: true,
-    parse: ({ data }) => data,
+    parse: async ({ data }) => isResolved(data) ? data : undefined,
   },
 };
 
@@ -66,15 +66,32 @@ const nodeRefs = {
   resolve: {
     order: 60,
     canRead: '.js',
-    read: ({ url }) => require(url),
+    read: async ({ url }) => requireFile(url),
   },
   parse: {
     allowEmpty: false,
     order: 600,
     canParse: '.js',
-    parse: ({ data }) => data,
+    parse: async ({ data }) => isResolved(data) ? data : undefined,
   },
 };
+
+// Enhanced version of `require()`
+const requireFile = function (url) {
+  // The new required file's require() calls should be relative to the file itself, so we temporarily change cwd
+  const currenDir = process.cwd();
+  process.chdir(dirname(url));
+  let file;
+  try {
+    file = require(url);
+  } finally {
+    process.chdir(currenDir);
+  }
+  return file;
+};
+
+// Make sure a `resolve` function has previously been called
+const isResolved = val => typeof val !== 'string' && !Buffer.isBuffer(val);
 
 
 module.exports = {
