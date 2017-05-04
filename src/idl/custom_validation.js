@@ -1,8 +1,6 @@
 'use strict';
 
 
-const { omit } = require('lodash');
-
 const { getRawValidator } = require('../utilities');
 const { EngineError } = require('../error');
 const { processJsl } = require('../jsl');
@@ -16,9 +14,8 @@ const addCustomKeywords = function ({ idl: { validation } }) {
 };
 const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
   ajv.addKeyword(keyword, {
-    validate: function validate(expected, value, _, __, parent, attrName) {
-      const siblings = omit(parent, attrName);
-      const validationInput = { value, expected, siblings };
+    validate: function validate(expected, value, _, __, parent) {
+      const validationInput = { value, expected, parent };
       let isValid = false;
       try {
         isValid = processJsl(Object.assign({ jsl: test }, { validationInput }));
