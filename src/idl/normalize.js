@@ -4,7 +4,6 @@
 const { find, omit, mapValues } = require('lodash');
 
 const { transform } = require('../utilities');
-const { addDefaultAttributes } = require('./default_attributes');
 const { compileIdlJsl } = require('./jsl');
 
 
@@ -19,7 +18,6 @@ const normalizeIdl = function (idl) {
 // Normalize IDL definition models
 const normalizeModels = function (idl) {
   let { models, actions } = idl;
-  models = addDefaultAttributes({ idl });
   models = addModelType({ models });
   transform({ transforms, args: { defaultActions: actions } })({ input: models });
   return models;

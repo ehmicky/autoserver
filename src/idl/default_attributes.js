@@ -8,7 +8,7 @@ const { mapValues, each } = require('lodash');
 const addDefaultAttributes = function ({ idl }) {
   const { models, users: { id: userId, model: userModel } = {} } = idl;
   const defaultAttributes = getDefaultAttributes({ userId, userModel });
-  return mapValues(models, model => {
+  idl.models = mapValues(models, model => {
     each(defaultAttributes, (defaultAttribute, attrName) => {
       // If IDL.users is not specified, do not add created_by|updated_by
       if (requiresUserId.includes(attrName) && (!userId || !userModel)) { return; }
@@ -20,6 +20,7 @@ const addDefaultAttributes = function ({ idl }) {
     });
     return model;
   });
+  return idl;
 };
 
 const getDefaultAttributes = ({ userId, userModel }) => ({
