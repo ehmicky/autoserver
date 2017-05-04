@@ -43,12 +43,16 @@ const getJslVariables = function (input = {}) {
     Object.assign(vars, {
       $ACTION: actionType,
       $ATTR_NAME: attrName,
-      $: shortcut[attrName],
-      $$: shortcut,
 
       // TODO: hack until we introduce custom variables
       User: { id: '1' },
     });
+    if (shortcut) {
+      Object.assign(vars, {
+        $: shortcut[attrName],
+        $$: shortcut,
+      });
+    }
     if (model) {
       vars.$MODEL = model;
     }
