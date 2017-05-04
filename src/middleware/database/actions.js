@@ -81,7 +81,7 @@ const findIndexes = function({ collection, filter = {}, jslInput }) {
 
       // TODO: remove when using MongoDB query objects
       try {
-        const modelInput = Object.assign({}, jslInput.modelInput, { attrName, model, shortcut: model });
+        const modelInput = { parent: model, model, value: model[attrName], attrName };
         const filterMatches = processJsl(Object.assign({ jsl: value }, jslInput, { modelInput }));
         return filterMatches;
       } catch (innererror) {

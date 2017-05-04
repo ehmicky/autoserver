@@ -22,20 +22,21 @@ const getJslParameters = memoize(function ({ idl, target }) {
  * Raw parameters are added as is. Recursive ones look inside IDL definition, e.g. "helpers" look for possible helpers
  * in IDL.helpers.*
  **/
+const baseHelpers = ['helpers', 'variables'];
 const helpersVars = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9'];
 const validationVars = ['$', '$$', '$EXPECTED'];
 const requestVars = ['$NOW', '$IP', '$PARAMS'];
 const interfaceVars = ['$ACTION'];
-const modelVars = ['$', '$$', 'User'];
-const modelInputVars = [...interfaceVars, ...modelVars, '$DATA'];
-const modelOutputVars = [...interfaceVars, ...modelVars, '$MODEL'];
+const modelVars = ['$', '$$', '$ATTR_NAME', 'User'];
+const modelInputVars = [...modelVars, '$DATA'];
+const modelOutputVars = [...modelVars, '$MODEL'];
 const jslParametersList = {
-  helpers: { recursive: ['helpers'], raw: helpersVars },
-  variables: { recursive: ['helpers', 'variables'], raw: requestVars },
+  helpers: { recursive: baseHelpers, raw: [...requestVars, ...helpersVars] },
+  variables: { recursive: baseHelpers, raw: requestVars },
   filter: { raw: modelVars },
-  validation: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelInputVars, ...validationVars] },
-  modelInput: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelInputVars] },
-  modelOutput: { recursive: ['helpers', 'variables'], raw: [...requestVars, ...modelOutputVars] },
+  validation: { recursive: baseHelpers, raw: [...requestVars, ...interfaceVars, ...modelInputVars, ...validationVars] },
+  modelInput: { recursive: baseHelpers, raw: [...requestVars, ...interfaceVars, ...modelInputVars] },
+  modelOutput: { recursive: baseHelpers, raw: [...requestVars, ...interfaceVars, ...modelOutputVars] },
 };
 
 

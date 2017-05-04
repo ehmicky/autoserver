@@ -14,7 +14,7 @@ const wrapCustomJsl = async function ({ idl: { helpers, variables } }) {
     const requestInput = { ip, timestamp, params };
 
     // Add request-specific information to helpers and variables
-    info.helpers = map(helpers, helper => helper({ info }));
+    info.helpers = map(helpers, helper => helper({ info, requestInput }));
     info.variables = map(variables, variable => variable({ info, requestInput }));
 
     const response = await this.next(input);
