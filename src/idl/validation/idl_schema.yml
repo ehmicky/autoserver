@@ -277,9 +277,6 @@ definitions:
     # Should not start with __ as it is reserved for GraphQL introspection types
     - not:
         pattern: '^__'
-    # Those attributes are automatically added, so must not be specified
-    - not:
-        enum: [created_time, updated_time, created_by, updated_by]
   # Reuse standard JSON schema as a base
   # This is JSON schema v6, as YAML
   # The spec is currently in draft (only v4 is currently official)

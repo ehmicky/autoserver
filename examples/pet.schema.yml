@@ -270,6 +270,7 @@ plugins:
       exampleOption: true
     # True by default, more useful for builtin plugins
     enabled: true
+  - plugin: timestamps
 # Custom validation keywords, to use on models' attributes
 validation:
   IsNotEqual:
