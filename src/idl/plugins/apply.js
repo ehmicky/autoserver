@@ -21,7 +21,7 @@ const applyPlugins = async function ({ idl }) {
 
   // Apply each idl.plugins as FUNC({ idl }) returning idl
   const allPlugins = plugins.concat(defaultBuiltinPlugins);
-  for (let pluginConf of allPlugins) {
+  for (let [pluginIndex, pluginConf] of allPlugins.entries()) {
     // Plugin is either a function, or a string (for builtin plugins)
     if (typeof pluginConf.plugin === 'string') {
       const builtinPlugin = builtinPlugins[pluginConf.plugin];
@@ -36,7 +36,11 @@ const applyPlugins = async function ({ idl }) {
 
     // Plugins are only enabled if specified in `idl.plugins`.
     // But builtin plugins, or plugins added by other plugins, need to be manually disabled if desired.
-    if (!enabled || typeof plugin !== 'function') { continue; }
+    if (!enabled) { continue; }
+
+    if (typeof plugin !== 'function') {
+      throw new EngineStartupError(`The plugin at 'plugins[${pluginIndex}]' is not a function`, { reason: 'IDL_VALIDATION' });
+    }
 
     idl = await plugin({ idl, opts });
   }
