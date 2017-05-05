@@ -35,7 +35,7 @@
  **/
 
 
-const { omit, merge, every, orderBy, map, isEqual } = require('lodash');
+const { omit, cloneDeep, every, orderBy, map, isEqual } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
@@ -234,12 +234,7 @@ const fireAction = function (opts) {
   const sortedResponse = sortResponse({ response, orderByArg: opts.orderBy });
 
   // TODO: Only necessary as long as we do not use real database, to make sure it is not modified
-  let copiedResponse;
-  if (sortedResponse && sortedResponse instanceof Array) {
-    copiedResponse = sortedResponse.slice();
-  } else if (sortedResponse && sortedResponse.constructor === Object) {
-    copiedResponse = merge({}, sortedResponse);
-  }
+  const copiedResponse = cloneDeep(sortedResponse);
 
   return copiedResponse;
 };

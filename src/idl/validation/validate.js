@@ -1,7 +1,6 @@
 'use strict';
 
 
-const { merge } = require('lodash');
 const yaml = require('js-yaml');
 
 const { buildValidator, validate, memoize, fs: { readFileAsync } } = require('../../utilities');
@@ -22,7 +21,7 @@ const validateIdl = async function (idl) {
 const getIdlCopy = function (idl) {
   const modelNames = Object.keys(idl.models);
   const customValidationNames = idl.validation && idl.validation.constructor === Object ? Object.keys(idl.validation) : [];
-  return merge({}, idl, { modelNames, customValidationNames });
+  return Object.assign({}, idl, { modelNames, customValidationNames });
 };
 
 // Retrieve IDL schema

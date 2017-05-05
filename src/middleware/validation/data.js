@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { merge, mapValues, pickBy, each } = require('lodash');
+const { cloneDeep, mapValues, pickBy, each } = require('lodash');
 
 const { memoize, transform, validate } = require('../../utilities');
 
@@ -17,7 +17,7 @@ const validateClientInputData = function ({ idl, modelName, action, args, extra 
   each(attributes, (attribute, dataVar) => {
     attribute = attribute instanceof Array ? attribute : [attribute];
     attribute.forEach(data => {
-      data = merge({}, data);
+      data = cloneDeep(data);
       removeJsl({ value: data });
       validate({ schema, data, reportInfo: { type, modelName, action, dataVar }, extra });
     });
@@ -59,8 +59,7 @@ const validateServerOutputData = function ({ idl, modelName, response, action, e
 
 // Retrieves JSON schema to validate against
 const getDataValidationSchema = memoize(function ({ idl, modelName, action, type }) {
-  // Deep copy
-  const schema = merge({}, idl.models[modelName]);
+  const schema = cloneDeep(idl.models[modelName]);
   // Adapt the IDL schema validation to the current action, and to what the validator library expects
   // Apply each transform recursively
   transform({ transforms, args: { action, type } })({ input: schema });

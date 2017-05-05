@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { chain, merge, assign, mapValues } = require('lodash');
+const { chain, cloneDeep, merge, assign, mapValues } = require('lodash');
 const { getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { actions } = require('../../../../idl');
@@ -28,7 +28,7 @@ const getModelsByMethod = function ({ methodName, models }) {
       .mapKeys((_, modelName) => getActionName({ modelName, actionType: action.actionType, multiple: action.multiple }))
       .mapValues(model => {
         // Deep copy
-        let modelCopy = merge({}, model);
+        let modelCopy = cloneDeep(model);
 
         // Add action information to the nested models
         const properties = mapValues(model.properties, def => {
