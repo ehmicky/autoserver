@@ -2,6 +2,7 @@
 
 
 const { startServer } = require('./server');
+const { propertiesPlugin } = require('./idl');
 
 const { inspect } = require('util');
 
@@ -37,4 +38,5 @@ startServer({
 
 module.exports = {
   startServer,
+  propertiesPlugin,
 };

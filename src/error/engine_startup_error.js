@@ -11,7 +11,10 @@ class EngineStartupError extends ExtendableError {
     // Rename options so it looks the same as other errors when printed on console
     opts.type = opts.reason;
     delete opts.reason;
-    opts.details = opts.innererror && opts.innererror.stack;
+    const details = opts.innererror && opts.innererror.stack;
+    if (details) {
+      opts.details = details;
+    }
     delete opts.innererror;
 
     super(message, Object.assign(opts, {
