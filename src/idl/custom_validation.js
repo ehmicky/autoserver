@@ -24,8 +24,9 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
       let isValid = false;
       try {
         isValid = processJsl(Object.assign({ jsl: test }, jslInput));
-      // Throwing an exception in test function behaves the same as returning false
-      } catch (e) {/* */}
+      } catch (innererror) {
+        throw new EngineError(`JSL validation expression failed: ${test.jsl}`, { reason: 'UTILITY_ERROR', innererror });
+      }
       if (isValid === true) { return true; }
 
       let errorMessage;
