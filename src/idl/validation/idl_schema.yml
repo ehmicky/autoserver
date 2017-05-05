@@ -215,6 +215,44 @@ definitions:
       - allOf: [{contains: {const: upsert}}, {contains: {const: upsertOne}}]
       - allOf: [{contains: {const: replace}}, {contains: {const: replaceOne}}]
       - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
+    # Some actions imply others
+    # E.g. if one has the right to create and replace models, it theoritically can upsert them, even without using the
+    # `upsert` action. So we force the IDL to explicit those dependencies.
+    # List of dependencies:
+    #   replace + create <-> upsert
+    #   delete + create -> replace
+    #   replace + find <-> update
+    allOf:
+    - if:
+        contains: {enum: [update, updateOne]}
+      then:
+        allOf:
+        - contains: {enum: [replace, replaceOne]}
+        - contains: {enum: [find, findOne]}
+    - if:
+        allOf:
+        - contains: {enum: [replace, replaceOne]}
+        - contains: {enum: [find, findOne]}
+      then:
+        contains: {enum: [update, updateOne]}
+    - if:
+        contains: {enum: [upsert, upsertOne]}
+      then:
+        allOf:
+        - contains: {enum: [replace, replaceOne]}
+        - contains: {enum: [create, createOne]}
+    - if:
+        allOf:
+        - contains: {enum: [replace, replaceOne]}
+        - contains: {enum: [create, createOne]}
+      then:
+        contains: {enum: [upsert, upsertOne]}
+    - if:
+        allOf:
+        - contains: {enum: [delete, deleteOne]}
+        - contains: {enum: [create, createOne]}
+      then:
+        contains: {enum: [replace, replaceOne]}
     # find or findOne has to be defined, because GraphQL requires at least one query action
     contains: {enum: [find, findOne]}
   # idl.helpers|variables.library
