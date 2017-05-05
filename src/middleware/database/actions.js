@@ -189,10 +189,12 @@ const createMany = function ({ collection, data }) {
 const replaceOne = function ({ collection, data, writeOnceAttributes }) {
   const index = findIndex({ collection, filter: { id: data.id } });
 
-  const omitKeys = getOmitKeys({ model: collection[index], writeOnceAttributes });
-  collection.splice(index, 1, omit(data, omitKeys));
+  const model = collection[index];
+  const omitKeys = getOmitKeys({ model, writeOnceAttributes });
+  const newModel = Object.assign({}, model, omit(data, omitKeys));
+  collection.splice(index, 1, newModel);
 
-  return data;
+  return newModel;
 };
 
 const replaceMany = function ({ collection, data, writeOnceAttributes }) {
