@@ -54,9 +54,6 @@ const getJslVariables = function (input = {}) {
       $ATTR_NAME: attrName,
       $: value,
       $$: parent,
-
-      // TODO: hack until we introduce custom variables
-      User: { id: '1' },
     });
     if (model) {
       vars.$MODEL = model;

@@ -60,10 +60,7 @@ properties:
       typeof: object
       properties:
         plugin:
-          anyOf:
-          - typeof: function
-          - type: string
-            enum: [a]
+          typeof: [function, string]
         enabled:
           typeof: boolean
         opts: {}
@@ -94,17 +91,6 @@ properties:
     # Must start with uppercase letter to avoid naming conflict with other attributes, and ensure forward compatibility
     propertyNames:
       pattern: '^[A-Z][a-zA-Z0-9]*$'
-  # Let user decide how to retrieve current user, which is used by created_by and updated_by
-  users:
-    type: object
-    properties:
-      id:
-        type: string
-      model:
-        type: string
-        enum:
-          $data: '/modelNames'
-    additionalProperties: false
   # Standard JSON schema `definitions` can be used at the root
   definitions:
     type: object
