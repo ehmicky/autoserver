@@ -273,7 +273,8 @@ plugins:
       exampleOption: true
     # True by default, more useful for builtin plugins
     # enabled: true
-  - plugin: timestamp
+  # Builtin plugins are specified as a string, and run by default
+  # - plugin: timestamp
   - plugin: author
     # Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
     opts:
