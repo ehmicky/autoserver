@@ -209,12 +209,12 @@ definitions:
     # One can only choose between find (conceptually "findOne" + "findMany") and "findOne". Same thing for other actions
     not:
       anyOf:
-      - allOf: [contains: {enum: [find    ]}, contains: {enum: [findOne   ]}]
-      - allOf: [contains: {enum: [delete  ]}, contains: {enum: [deleteOne ]}]
-      - allOf: [contains: {enum: [update  ]}, contains: {enum: [updateOne ]}]
-      - allOf: [contains: {enum: [upsert  ]}, contains: {enum: [upsertOne ]}]
-      - allOf: [contains: {enum: [replace ]}, contains: {enum: [replaceOne]}]
-      - allOf: [contains: {enum: [create  ]}, contains: {enum: [createOne ]}]
+      - allOf: [{contains: {const: find}}, {contains: {const: findOne}}]
+      - allOf: [{contains: {const: delete}}, {contains: {const: deleteOne}}]
+      - allOf: [{contains: {const: update}}, {contains: {const: updateOne}}]
+      - allOf: [{contains: {const: upsert}}, {contains: {const: upsertOne}}]
+      - allOf: [{contains: {const: replace}}, {contains: {const: replaceOne}}]
+      - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
     # find or findOne has to be defined, because GraphQL requires at least one query action
     contains: {enum: [find, findOne]}
   # idl.helpers|variables.library
