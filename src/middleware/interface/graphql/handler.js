@@ -23,23 +23,24 @@ const executeGraphql = async function (opts) {
     let response;
     // Introspection GraphQL query
     if (isIntrospectionQuery({ query })) {
-      response = await handleIntrospection({ queryDocument, variables, operationName });
+      const content = await handleIntrospection({ queryDocument, variables, operationName });
+      response = { content };
     // Normal GraphQL query
     } else {
       const callback = fireNext.bind(this, request);
-      const data = await handleQuery({ queryDocument, variables, operationName, context: { graphqlMethod, callback },
-      rootValue: {} });
-      // Wraps response in a `data` envelope
-      response = { data };
+      const output = await handleQuery({
+        queryDocument,
+        variables,
+        operationName,
+        context: { graphqlMethod, callback },
+        rootValue: {},
+      });
+      response = normalizeResponse(output);
     }
 
-    const mainData = response.data[Object.keys(response.data)[0]];
-    const type = mainData instanceof Array ? 'collection' : 'model';
+    response.type = getResponseType({ response });
 
-    return {
-      type,
-      content: response,
-    };
+    return response;
   };
 };
 
@@ -47,6 +48,18 @@ const fireNext = async function (request, apiInput) {
   request.api = apiInput;
   const response = await this.next(request);
   return response;
+};
+
+const normalizeResponse = function ({ data/*, metadata*/ }) {
+  const response = {};
+  // Wraps response in a `data` envelope
+  response.content = { data };
+  return response;
+};
+
+const getResponseType = function ({ response: { content: { data } } }) {
+  const mainData = data[Object.keys(data)[0]];
+  return mainData instanceof Array ? 'collection' : 'model';
 };
 
 

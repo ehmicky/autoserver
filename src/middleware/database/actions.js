@@ -49,8 +49,8 @@ const createId = function () {
 };
 
 const orderPostfixRegexp = /(.*)(\+|-)$/;
-const sortResponse = function ({ response, orderByArg = 'id+' }) {
-  if (!response || !(response instanceof Array)) { return response; }
+const sortResponse = function ({ data, orderByArg = 'id+' }) {
+  if (!data || !(data instanceof Array)) { return data; }
 
   // Allow multiple attributes sorting
   const orders = orderByArg.split(',');
@@ -68,8 +68,8 @@ const sortResponse = function ({ response, orderByArg = 'id+' }) {
     return args;
   });
 
-  const sortedResponse = orderBy(response, map(orderArgs, 'attribute'), map(orderArgs, 'ascending'));
-  return sortedResponse;
+  const sortedData = orderBy(data, map(orderArgs, 'attribute'), map(orderArgs, 'ascending'));
+  return sortedData;
 };
 
 const findIndexes = function({ collection, filter = {}, jslInput }) {
@@ -130,33 +130,28 @@ const getOmitKeys = function ({ model, writeOnceAttributes }) {
 
 const findOne = function ({ collection, filter, jslInput }) {
   const index = findIndex({ collection, filter, jslInput });
-  return collection[index];
+  return { data: collection[index] };
 };
 
 const findMany = function ({ collection, filter = {}, jslInput }) {
   const indexes = findIndexes({ collection, filter, jslInput });
   const models = indexes.map(index => collection[index]);
-  return models;
+  return { data: models };
 };
 
 const deleteOne = function ({ collection, filter, jslInput, opts: { dryRun } }) {
   const index = findIndex({ collection, filter, jslInput });
-  if (dryRun) {
-    return collection[index];
-  }
-  const model = collection.splice(index, 1)[0];
-  return model;
+  const model = dryRun ? collection[index] : collection.splice(index, 1)[0];
+  return { data: model };
 };
 
 const deleteMany = function ({ collection, filter = {}, jslInput, opts: { dryRun } }) {
   const indexes = findIndexes({ collection, filter, jslInput }).sort();
   const models = indexes.map((index, count) => {
-    if (dryRun) {
-      return collection[index];
-    }
-    return collection.splice(index - count, 1)[0];
+    const model = dryRun ? collection[index] : collection.splice(index - count, 1)[0];
+    return model;
   });
-  return models;
+  return { data: models };
 };
 
 const update = function ({ collection, index, data, opts: { writeOnceAttributes, dryRun } }) {
@@ -172,16 +167,16 @@ const update = function ({ collection, index, data, opts: { writeOnceAttributes,
 const updateOne = function ({ collection, data, filter, jslInput, opts }) {
   const index = findIndex({ collection, filter, jslInput });
   const newModel = update({ collection, index, data, opts });
-  return newModel;
+  return { data: newModel };
 };
 
 const updateMany = function ({ collection, data, filter = {}, jslInput, opts }) {
   const indexes = findIndexes({ collection, filter, jslInput });
   const newModels = indexes.map(index => update({ collection, index, data, opts }));
-  return newModels;
+  return { data: newModels };
 };
 
-const createOne = function ({ collection, data, opts: { dryRun } }) {
+const create = function ({ collection, data, opts: { dryRun } }) {
   let id = data.id;
   if (id) {
     checkUniqueId({ collection, id });
@@ -196,11 +191,17 @@ const createOne = function ({ collection, data, opts: { dryRun } }) {
   return newModel;
 };
 
-const createMany = function ({ collection, data, opts }) {
-  return data.map(datum => createOne({ collection, data: datum, opts }));
+const createOne = function ({ collection, data, opts }) {
+  const newModel = create({ collection, data, opts });
+  return { data: newModel };
 };
 
-const replaceOne = function ({ collection, data, opts: { writeOnceAttributes, dryRun } }) {
+const createMany = function ({ collection, data, opts }) {
+  const newModels = data.map(datum => create({ collection, data: datum, opts }));
+  return { data: newModels };
+};
+
+const replace = function ({ collection, data, opts: { writeOnceAttributes, dryRun } }) {
   const index = findIndex({ collection, filter: { id: data.id } });
 
   const model = collection[index];
@@ -213,8 +214,14 @@ const replaceOne = function ({ collection, data, opts: { writeOnceAttributes, dr
   return newModel;
 };
 
+const replaceOne = function ({ collection, data, opts }) {
+  const newModel = replace({ collection, data, opts });
+  return { data: newModel };
+};
+
 const replaceMany = function ({ collection, data, opts }) {
-  return data.map(datum => replaceOne({ collection, data: datum, opts }));
+  const newModels = data.map(datum => replace({ collection, data: datum, opts }));
+  return { data: newModels };
 };
 
 const upsertOne = function ({ collection, data, opts }) {
@@ -227,7 +234,8 @@ const upsertOne = function ({ collection, data, opts }) {
 };
 
 const upsertMany = function ({ collection, data, opts }) {
-  return data.map(datum => upsertOne({ collection, data: datum, opts }));
+  const models = data.map(datum => upsertOne({ collection, data: datum, opts }).data);
+  return { data: models };
 };
 
 const actions = {
@@ -247,10 +255,10 @@ const actions = {
 
 const fireAction = function (opts) {
   const response = actions[opts.action](opts);
-  const sortedResponse = sortResponse({ response, orderByArg: opts.opts.orderBy });
+  response.data = sortResponse({ data: response.data, orderByArg: opts.opts.orderBy });
 
   // TODO: Only necessary as long as we do not use real database, to make sure it is not modified
-  const copiedResponse = cloneDeep(sortedResponse);
+  const copiedResponse = cloneDeep(response);
 
   return copiedResponse;
 };
