@@ -16,14 +16,14 @@ const executeDatabaseAction = async function ({ idl: { models } }) {
     .value();
 
   return async function (input) {
-    const { action, args: { order_by: orderBy, data, filter } = {}, modelName, info, params } = input;
+    const { action, args: { order_by: orderBy, dry_run: dryRun, data, filter } = {}, modelName, info, params } = input;
     const { ip, timestamp, actionType, helpers, variables } = info;
     const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, interfaceInput: { actionType } };
     const collection = database[modelName];
     collection.modelName = modelName;
 
     const writeOnceAttributes = writeOnceMap[modelName];
-    const opts = { orderBy, writeOnceAttributes };
+    const opts = { orderBy, writeOnceAttributes, dryRun };
     const response = fireAction({ action, modelName, collection, filter, data, jslInput, opts });
     return response;
   };

@@ -4,16 +4,16 @@
  * Summary of actions:
  *   findOne({ filter: { id } })
  *   findMany({ [filter], [order_by] })
- *   deleteOne({ filter: { id } })
- *   deleteMany({ [filter], [order_by] })
- *   updateOne({ data, filter: { id } })
- *   updateMany({ data, [filter], [order_by] })
- *   createOne({ data })
- *   createMany({ data[], [order_by] })
- *   replaceOne({ data })
- *   replaceMany({ data[], [order_by] })
- *   upsertOne({ data })
- *   upsertMany({ data[], [order_by] })
+ *   deleteOne({ filter: { id }, [dry_run] })
+ *   deleteMany({ [filter], [order_by], [dry_run] })
+ *   updateOne({ data, filter: { id }, [dry_run] })
+ *   updateMany({ data, [filter], [order_by], [dry_run] })
+ *   createOne({ data, [dry_run] })
+ *   createMany({ data[], [order_by], [dry_run] })
+ *   replaceOne({ data, [dry_run] })
+ *   replaceMany({ data[], [order_by], [dry_run] })
+ *   upsertOne({ data, [dry_run] })
+ *   upsertMany({ data[], [order_by], [dry_run] })
  *
  * Summary of arguments:
  *  - {object|object[]} data - Attributes to update or create
@@ -26,6 +26,8 @@
  *  - {string} [order_by]    - Sort results.
  *                             Value is attribute name, followed by optional + or - for ascending|descending order (default: +)
  *                             Can contain dots to select fields, e.g. order_by="furniture.size"
+ *  - {boolean} [dry_run]    - If true, the action will not modify the database, but the return value will be the same as if
+ *                             it did.
  *
  * Actions on submodels will automatically get filtered by id.
  * If an id is then specified, both filters will be used
@@ -137,23 +139,33 @@ const findMany = function ({ collection, filter = {}, jslInput }) {
   return models;
 };
 
-const deleteOne = function ({ collection, filter, jslInput }) {
+const deleteOne = function ({ collection, filter, jslInput, opts: { dryRun } }) {
   const index = findIndex({ collection, filter, jslInput });
+  if (dryRun) {
+    return collection[index];
+  }
   const model = collection.splice(index, 1)[0];
   return model;
 };
 
-const deleteMany = function ({ collection, filter = {}, jslInput }) {
-  const indexes = findIndexes({ collection, filter, jslInput });
-  const models = indexes.sort().map((index, count) => collection.splice(index - count, 1)[0]);
+const deleteMany = function ({ collection, filter = {}, jslInput, opts: { dryRun } }) {
+  const indexes = findIndexes({ collection, filter, jslInput }).sort();
+  const models = indexes.map((index, count) => {
+    if (dryRun) {
+      return collection[index];
+    }
+    return collection.splice(index - count, 1)[0];
+  });
   return models;
 };
 
-const update = function ({ collection, index, data, opts: { writeOnceAttributes } }) {
+const update = function ({ collection, index, data, opts: { writeOnceAttributes, dryRun } }) {
   const model = collection[index];
   const omitKeys = getOmitKeys({ model, writeOnceAttributes });
   const newModel = Object.assign({}, model, omit(data, omitKeys));
-  collection.splice(index, 1, newModel);
+  if (!dryRun) {
+    collection.splice(index, 1, newModel);
+  }
   return newModel;
 };
 
@@ -169,7 +181,7 @@ const updateMany = function ({ collection, data, filter = {}, jslInput, opts }) 
   return newModels;
 };
 
-const createOne = function ({ collection, data }) {
+const createOne = function ({ collection, data, opts: { dryRun } }) {
   let id = data.id;
   if (id) {
     checkUniqueId({ collection, id });
@@ -178,7 +190,9 @@ const createOne = function ({ collection, data }) {
   }
 
   const newModel = Object.assign({}, data, { id });
-  collection.push(newModel);
+  if (!dryRun) {
+    collection.push(newModel);
+  }
   return newModel;
 };
 
@@ -186,13 +200,15 @@ const createMany = function ({ collection, data, opts }) {
   return data.map(datum => createOne({ collection, data: datum, opts }));
 };
 
-const replaceOne = function ({ collection, data, opts: { writeOnceAttributes } }) {
+const replaceOne = function ({ collection, data, opts: { writeOnceAttributes, dryRun } }) {
   const index = findIndex({ collection, filter: { id: data.id } });
 
   const model = collection[index];
   const omitKeys = getOmitKeys({ model, writeOnceAttributes });
   const newModel = Object.assign({}, model, omit(data, omitKeys));
-  collection.splice(index, 1, newModel);
+  if (!dryRun) {
+    collection.splice(index, 1, newModel);
+  }
 
   return newModel;
 };

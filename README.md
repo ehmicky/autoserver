@@ -17,6 +17,7 @@ The server is fully-featured, i.e. there should not be much need for custom code
   - complex filters, e.g. `findUsers(filter: {age: "$ > 30"})`
   - sorting, e.g. `findUsers(order_by: "name-,job_title+")`
   - selecting (handled natively by GraphQL)
+  - dry runs
   - nested actions. One can not only query but also mutate nested models in a single action.
   - validation of both input and output
   - default values

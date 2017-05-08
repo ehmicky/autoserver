@@ -3,6 +3,7 @@
 
 const {
   GraphQLString,
+  GraphQLBoolean,
   GraphQLNonNull,
   GraphQLList,
 } = require('graphql');
@@ -14,23 +15,9 @@ const getArguments = function (def, opts) {
     {},
 		getDataArgument(opts),
 		getFilterArgument(def, opts),
-    getOrderArgument(opts)
+    getOrderArgument(opts),
+    getDryRunArguments(opts)
   );
-};
-
-// order_by argument, i.e. used for sorting results
-const getOrderArgument = function ({ action: { multiple } }) {
-  // Only with *Many actions
-  if (!multiple) { return; }
-
-  return {
-    order_by: {
-      type: GraphQLString,
-      description: `Sort results according to this attribute.
-Specify ascending or descending order by appending + or - (default is ascending)`,
-      defaultValue: 'id+',
-    },
-  };
 };
 
 // Data argument, i.e. payload used by mutation actions
@@ -68,6 +55,37 @@ const getFilterArgument = function (def, { action: { actionType, multiple } = {}
     filter: {
       type,
       description: 'Filter results according to those attributes',
+    },
+  };
+};
+
+// order_by argument, i.e. used for sorting results
+const getOrderArgument = function ({ action: { multiple } }) {
+  // Only with *Many actions
+  if (!multiple) { return; }
+
+  return {
+    order_by: {
+      type: GraphQLString,
+      description: `Sort results according to this attribute.
+Specify ascending or descending order by appending + or - (default is ascending)`,
+      defaultValue: 'id+',
+    },
+  };
+};
+
+// dry_run argument
+const mutationActionTypes = ['delete', 'update', 'create', 'upsert', 'replace'];
+const getDryRunArguments = function ({ action: { actionType } }) {
+  // Only with *Many actions
+  if (!mutationActionTypes.includes(actionType)) { return; }
+
+  return {
+    dry_run: {
+      type: GraphQLBoolean,
+      description: `If true, the action will not modify the database.
+The return value will remain the same.`,
+      defaultValue: false,
     },
   };
 };
