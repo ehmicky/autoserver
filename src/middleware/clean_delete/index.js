@@ -25,7 +25,7 @@ const cleanDelete = async function ({ idl }) {
     let response = await this.next(input);
 
     if (actionType === 'delete') {
-      response = removeAttributes({ response, nestedAttributes });
+      response.data = removeAttributes({ data: response.data, nestedAttributes });
     }
 
     return response;
@@ -33,12 +33,12 @@ const cleanDelete = async function ({ idl }) {
 };
 
 // Remove all attributes but `id` or nested models
-const removeAttributes = function ({ response, nestedAttributes }) {
-  if (response instanceof Array) {
-    return response.map(singleResponse => removeAttributes({ response: singleResponse, nestedAttributes }));
+const removeAttributes = function ({ data, nestedAttributes }) {
+  if (data instanceof Array) {
+    return data.map(datum => removeAttributes({ data: datum, nestedAttributes }));
   }
 
-  const filteredResponse = pickBy(response, (_, attrName) => attrName === 'id' || nestedAttributes.includes(attrName));
+  const filteredResponse = pickBy(data, (_, attrName) => attrName === 'id' || nestedAttributes.includes(attrName));
   return filteredResponse;
 };
 

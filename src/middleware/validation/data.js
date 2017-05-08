@@ -48,12 +48,12 @@ const removeJsl = function ({ value, parent, key }) {
  * Check that output data passes IDL validation
  * If it does not, this probably indicates database corruption
  **/
-const validateServerOutputData = function ({ idl, modelName, response, action, extra }) {
+const validateServerOutputData = function ({ idl, modelName, response: { data }, action, extra }) {
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, action, type });
-  response = response instanceof Array ? response : [response];
-  response.forEach(data => {
-    validate({ schema, data, reportInfo: { type, modelName, action, dataVar: 'response' }, extra });
+  data = data instanceof Array ? data : [data];
+  data.forEach(datum => {
+    validate({ schema, data: datum, reportInfo: { type, modelName, action, dataVar: 'response' }, extra });
   });
 };
 

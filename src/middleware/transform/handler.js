@@ -31,9 +31,9 @@ const transform = async function ({ idl: { models } }) {
     }
 
     const response = await this.next(input);
-    const transformedResponse = transformOutput(Object.assign({ value: response }, transformArgs));
+    response.data = transformOutput(Object.assign({ value: response.data }, transformArgs));
 
-    return transformedResponse;
+    return response;
   };
 };
 
