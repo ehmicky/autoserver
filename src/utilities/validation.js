@@ -20,6 +20,7 @@ const buildValidator = function () {
     $data: true,
     verbose: true,
     multipleOfPrecision: 9,
+    extendRefs: true,
   });
   addKeywords();
 };
