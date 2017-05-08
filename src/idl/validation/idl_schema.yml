@@ -35,11 +35,10 @@ properties:
       libraries:
         $ref: '#/definitions/librariesProperty'
     propertyNames:
-      allOf:
-      - pattern: '^[a-zA-Z_][0-9a-zA-Z_]*$'
+      pattern: '^[a-zA-Z_][0-9a-zA-Z_]*$'
       # system-defined helpers use THIS_CASE, so we forbid it for user-defined helpers for forward compatibility
-      - not:
-          pattern: '^[A-Z_]+$'
+      not:
+        pattern: '^[A-Z_]+$'
   # Custom variables that can be used in JSL
   variables:
     type: object
@@ -47,11 +46,10 @@ properties:
       libraries:
         $ref: '#/definitions/librariesProperty'
     propertyNames:
-      allOf:
-      - pattern: '^\$[a-zA-Z_][0-9a-zA-Z_]*$'
+      pattern: '^\$[a-zA-Z_][0-9a-zA-Z_]*$'
       # system-defined variables use $THIS_CASE, so we forbid it for user-defined variables for forward compatibility
-      - not:
-          pattern: '^\$[A-Z_]+$'
+      not:
+        pattern: '^\$[A-Z_]+$'
   # Functions that modifies IDL definition
   plugins:
     type: array
@@ -137,12 +135,11 @@ definitions:
   topLevelModel:
     $ref: '#/definitions/generalObjectSchema'
     propertyNames:
-      allOf:
-      - anyOf:
-        - $ref: '#/definitions/validPropertyNames'
-        - enum: [actions]
-      - not:
-          enum: [default]
+      anyOf:
+      - $ref: '#/definitions/validPropertyNames'
+      - enum: [actions]
+      not:
+        enum: [default]
     # Must have a `required` property
     required: [required, properties]
     properties:
@@ -291,13 +288,12 @@ definitions:
     # Users can define anything under property named x-*
     - pattern: '^x-*'
   validModelName:
-    allOf:
     # Valid GraphQL identifier name, regular expression taken from spec
     # Additional restriction: lowercase-only
-    - pattern: '^[_a-z][_0-9a-z]*$'
+    pattern: '^[_a-z][_0-9a-z]*$'
     # Should not start with __ as it is reserved for GraphQL introspection types
-    - not:
-        pattern: '^__'
+    not:
+      pattern: '^__'
   # Reuse standard JSON schema as a base
   # This is JSON schema v6, as YAML
   # The spec is currently in draft (only v4 is currently official)
