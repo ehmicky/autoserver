@@ -20,10 +20,11 @@ const map = function (obj, mapperFunc) {
 };
 
 // Apply map() recursively
-const recurseMap = function (value, mapperFunc) {
+const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
   // Recursion over objects and arrays
   if (value && (value.constructor === Object || value instanceof Array)) {
-    return map(value, child => recurseMap(child, mapperFunc));
+    value = map(value, child => recurseMap(child, mapperFunc, onlyLeaves));
+    return onlyLeaves ? value : mapperFunc(value);
   }
 
   return mapperFunc(value);
