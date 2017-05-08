@@ -10,9 +10,9 @@ const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
 
 // Validate IDL definition against a JSON schema
 const validateIdl = async function (idl) {
+  buildValidator();
   const schema = await getSchema();
   const idlCopy = getIdlCopy(idl);
-  buildValidator();
   validateCircularRefs({ value: idl });
   validate({ schema, data: idlCopy, reportInfo: { type: 'idl', dataVar: 'config' } });
 };
