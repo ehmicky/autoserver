@@ -23,7 +23,8 @@ const executeDatabaseAction = async function ({ idl: { models } }) {
     collection.modelName = modelName;
 
     const writeOnceAttributes = writeOnceMap[modelName];
-    const response = fireAction({ action, modelName, collection, filter, orderBy, data, jslInput, writeOnceAttributes });
+    const opts = { orderBy, writeOnceAttributes };
+    const response = fireAction({ action, modelName, collection, filter, data, jslInput, opts });
     return response;
   };
 };

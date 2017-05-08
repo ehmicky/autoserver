@@ -149,7 +149,7 @@ const deleteMany = function ({ collection, filter = {}, jslInput }) {
   return models;
 };
 
-const update = function ({ collection, index, data, writeOnceAttributes }) {
+const update = function ({ collection, index, data, opts: { writeOnceAttributes } }) {
   const model = collection[index];
   const omitKeys = getOmitKeys({ model, writeOnceAttributes });
   const newModel = Object.assign({}, model, omit(data, omitKeys));
@@ -157,15 +157,15 @@ const update = function ({ collection, index, data, writeOnceAttributes }) {
   return newModel;
 };
 
-const updateOne = function ({ collection, data, filter, jslInput, writeOnceAttributes }) {
+const updateOne = function ({ collection, data, filter, jslInput, opts }) {
   const index = findIndex({ collection, filter, jslInput });
-  const newModel = update({ collection, index, data, writeOnceAttributes });
+  const newModel = update({ collection, index, data, opts });
   return newModel;
 };
 
-const updateMany = function ({ collection, data, filter = {}, jslInput, writeOnceAttributes }) {
+const updateMany = function ({ collection, data, filter = {}, jslInput, opts }) {
   const indexes = findIndexes({ collection, filter, jslInput });
-  const newModels = indexes.map(index => update({ collection, index, data, writeOnceAttributes }));
+  const newModels = indexes.map(index => update({ collection, index, data, opts }));
   return newModels;
 };
 
@@ -182,11 +182,11 @@ const createOne = function ({ collection, data }) {
   return newModel;
 };
 
-const createMany = function ({ collection, data }) {
-  return data.map(datum => createOne({ collection, data: datum }));
+const createMany = function ({ collection, data, opts }) {
+  return data.map(datum => createOne({ collection, data: datum, opts }));
 };
 
-const replaceOne = function ({ collection, data, writeOnceAttributes }) {
+const replaceOne = function ({ collection, data, opts: { writeOnceAttributes } }) {
   const index = findIndex({ collection, filter: { id: data.id } });
 
   const model = collection[index];
@@ -197,21 +197,21 @@ const replaceOne = function ({ collection, data, writeOnceAttributes }) {
   return newModel;
 };
 
-const replaceMany = function ({ collection, data, writeOnceAttributes }) {
-  return data.map(datum => replaceOne({ collection, data: datum, writeOnceAttributes }));
+const replaceMany = function ({ collection, data, opts }) {
+  return data.map(datum => replaceOne({ collection, data: datum, opts }));
 };
 
-const upsertOne = function ({ collection, data, writeOnceAttributes }) {
+const upsertOne = function ({ collection, data, opts }) {
   const indexes = findIndexes({ collection, filter: { id: data.id } });
   if (indexes.length === 0) {
-    return createOne({ collection, data });
+    return createOne({ collection, data, opts });
   } else {
-    return replaceOne({ collection, data, writeOnceAttributes });
+    return replaceOne({ collection, data, opts });
   }
 };
 
-const upsertMany = function ({ collection, data, writeOnceAttributes }) {
-  return data.map(datum => upsertOne({ collection, data: datum, writeOnceAttributes }));
+const upsertMany = function ({ collection, data, opts }) {
+  return data.map(datum => upsertOne({ collection, data: datum, opts }));
 };
 
 const actions = {
@@ -231,7 +231,7 @@ const actions = {
 
 const fireAction = function (opts) {
   const response = actions[opts.action](opts);
-  const sortedResponse = sortResponse({ response, orderByArg: opts.orderBy });
+  const sortedResponse = sortResponse({ response, orderByArg: opts.opts.orderBy });
 
   // TODO: Only necessary as long as we do not use real database, to make sure it is not modified
   const copiedResponse = cloneDeep(sortedResponse);
