@@ -122,8 +122,8 @@ models:
         # Applied default values, on input or output
         default:
         # Arrays are handled like a switch statement, i.e. only the first matching is used. Can be used for transforms too.
-        - ($$.name === "Dog" ? "happy")
-        - ($$.name === "Cat" ? "grumpy")
+        - '($$.name === "Dog" ? "happy" : undefined)'
+        - '($$.name === "Cat" ? "grumpy" : undefined)'
         defaultOut: ($$.name + ' status')
       creator_ip:
         description: IP of the user that created this pet
