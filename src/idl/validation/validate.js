@@ -18,6 +18,8 @@ const validateIdl = async function (idl) {
   idl = getIdlCopy({ idl });
   idl = validateData({ idl });
   validate({ schema, data: idl, reportInfo: { type: 'idl', dataVar: 'config' } });
+
+  jsonSchemaValidate({ idl });
 };
 
 // Adds some temporary property on IDL, to help validation
@@ -33,6 +35,13 @@ const getSchema = memoize(async function () {
   const schema = yaml.load(schemaContent, { schema: yaml.CORE_SCHEMA, json: true });
   return schema;
 });
+
+// Validates that idl.models.MODEL are valid JSON schema by compiling them with AJV
+const jsonSchemaValidate = function ({ idl: { models } }) {
+  for (const model of Object.values(models)) {
+    getValidator({ schema: model });
+  }
+};
 
 
 module.exports = {
