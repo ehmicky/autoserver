@@ -115,67 +115,79 @@ const getObjectFields = function (def, opts) {
   const { action = {}, inputObjectType } = opts;
   const { actionType, multiple } = action;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
-  return () => chain(def.properties)
-    .transform((memo, childDef, childDefName) => {
-      const subDef = getSubDef(childDef);
+  return () => {
+    const objectFields = chain(def.properties)
+      .transform((memo, childDef, childDefName) => {
+        const subDef = getSubDef(childDef);
 
-      // Only for nested models
-      if (!(isModel(subDef) && !subDef.isTopLevel)) {
-        memo[childDefName] = childDef;
-        return memo;
-      }
-
-      // Copy nested models with a different name that includes the action, e.g. `my_attribute` -> `createMyAttribute`
-      // Not for data|filter arguments
-      if (inputObjectType === '') {
-        const name = getActionName({ modelName: childDefName, actionType });
-        memo[name] = childDef;
-        // Add transformed name to `required` array, if non-transformed name was present
-        if (def.required instanceof Array && def.required.includes(childDefName) && !def.required.includes(name)) {
-          def.required.push(name);
+        // Only for nested models
+        if (!(isModel(subDef) && !subDef.isTopLevel)) {
+          memo[childDefName] = childDef;
+          return memo;
         }
-      }
 
-      // Nested models use the regular name as well, but as simple ids, not recursive definition
-      // Retrieves `id` field definition of subfield
-      const nonRecursiveAttrs = ['description', 'deprecation_reason', 'examples'];
-      const recursiveAttrs = ['model', 'type'];
-      const idDef = Object.assign({}, omit(subDef.properties.id, nonRecursiveAttrs), omit(subDef, recursiveAttrs));
-      // Consider this attribute as a normal attribute, not a model anymore
-      delete idDef.model;
+        // Copy nested models with a different name that includes the action, e.g. `my_attribute` -> `createMyAttribute`
+        // Not for data|filter arguments
+        if (inputObjectType === '') {
+          const name = getActionName({ modelName: childDefName, actionType });
+          memo[name] = childDef;
+          // Add transformed name to `required` array, if non-transformed name was present
+          if (def.required instanceof Array && def.required.includes(childDefName) && !def.required.includes(name)) {
+            def.required.push(name);
+          }
+        }
 
-      // Assign `id` field definition to e.g. `model.user`
-      const idsDef = isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
-      memo[childDefName] = idsDef;
+        // Nested models use the regular name as well, but as simple ids, not recursive definition
+        // Retrieves `id` field definition of subfield
+        const nonRecursiveAttrs = ['description', 'deprecation_reason', 'examples'];
+        const recursiveAttrs = ['model', 'type'];
+        const idDef = Object.assign({}, omit(subDef.properties.id, nonRecursiveAttrs), omit(subDef, recursiveAttrs));
+        // Consider this attribute as a normal attribute, not a model anymore
+        delete idDef.model;
 
-      return memo;
-    })
-		.omitBy((childDef, childDefName) => {
-      const subDef = getSubDef(childDef);
-      // Remove all return value fields for delete actions, except the recursive ones and `id`
-      // And except for delete filters
-      return (actionType === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
-        // Filter arguments for single actions only include `id`
-        || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
-        // Nested data arguments do not include `id`
-        || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel)
-        // Readonly fields cannot be specified as data argument
-        || (inputObjectType === 'data' && childDef.readOnly)
-        // updateOne|updateMany do not allow data.id
-        || (actionType === 'update' && childDefName === 'id' && inputObjectType === 'data');
-    })
-		// Recurse over children
-		.mapValues((childDef, childDefName) => {
-			// if 'Query' or 'Mutation' objects, pass current action down to sub-fields, and top-level definition
-      const childAction = childDef.action || action;
-      const childOpts = Object.assign({}, opts, { action: childAction });
+        // Assign `id` field definition to e.g. `model.user`
+        const idsDef = isMultiple(childDef) ? Object.assign({}, childDef, { items: idDef }) : idDef;
+        memo[childDefName] = idsDef;
 
-      childOpts.isRequired = isRequired(def, childDef, childDefName, childOpts);
+        return memo;
+      })
+      .omitBy((childDef, childDefName) => {
+        const subDef = getSubDef(childDef);
+        // Remove all return value fields for delete actions, except the recursive ones and `id`
+        // And except for delete filters
+        return (actionType === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
+          // Filter arguments for single actions only include `id`
+          || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
+          // Nested data arguments do not include `id`
+          || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel)
+          // Readonly fields cannot be specified as data argument
+          || (inputObjectType === 'data' && childDef.readOnly)
+          // updateOne|updateMany do not allow data.id
+          || (actionType === 'update' && childDefName === 'id' && inputObjectType === 'data');
+      })
+      // Recurse over children
+      .mapValues((childDef, childDefName) => {
+        // if 'Query' or 'Mutation' objects, pass current action down to sub-fields, and top-level definition
+        const childAction = childDef.action || action;
+        const childOpts = Object.assign({}, opts, { action: childAction });
 
-			const field = getField(childDef, childOpts);
-      return field;
-		})
-		.value();
+        childOpts.isRequired = isRequired(def, childDef, childDefName, childOpts);
+
+        const field = getField(childDef, childOpts);
+        return field;
+      })
+      .value();
+    return Object.keys(objectFields).length === 0 ? noAttributes : objectFields;
+  };
+};
+
+// GraphQL requires every object field to have attributes, which does not always makes sense for us.
+// So we add this patch this problem by adding this fake attribute when the problem arises.
+const noAttributes = {
+  no_attributes: {
+    type: GraphQLString,
+    description: 'This type does not have any attributes. This is a dummy attribute.',
+  },
 };
 
 // Returns whether a field is required
