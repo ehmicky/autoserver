@@ -25,13 +25,7 @@ const singleCompileJsl = ({ parameters }) => function (jsl) {
   }
 
   // Removes outer parenthesis
-  let rawJsl = getRawJsl({ jsl });
-
-  // JSL values being a top-level ternary test can use shortcut notation 'TEST ? VAL' instead of 'TEST ? VAL : undefined'
-  // This is particularly handy since YAML does not allow : in unquoted strings
-  if (ternaryTest.test(rawJsl)) {
-    rawJsl += ' : undefined';
-  }
+  const rawJsl = getRawJsl({ jsl });
 
   // Create a function with the JSL as body
   const func = new Function(parameters, `return ${rawJsl};`);
@@ -42,9 +36,6 @@ const singleCompileJsl = ({ parameters }) => function (jsl) {
 
   return func;
 };
-
-// TODO: use JavaScript parser instead of RegExp matching
-const ternaryTest = /\?[^:]+$/;
 
 
 module.exports = {

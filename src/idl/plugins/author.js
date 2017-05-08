@@ -30,7 +30,7 @@ const getProperties = ({ user = '($user)', model = 'user' }) => ({
     type: 'object',
     description: 'Who created this model',
     model,
-    compute: `(["create", "upsert"].includes($ACTION) ? ${user}.id)`,
+    compute: `(["create", "upsert"].includes($ACTION) ? ${user}.id : undefined)`,
     readOnly: true,
     writeOnce: true,
   },
