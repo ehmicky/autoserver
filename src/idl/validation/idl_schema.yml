@@ -13,16 +13,15 @@ properties:
   models:
     # Models are valid JSON schemas
     additionalProperties:
-      allOf:
-      - $ref: '#/definitions/topLevelModel'
-      - properties:
-          properties:
-            # For models' attributes
-            additionalProperties:
-              $ref: '#/definitions/attributeSchema'
-            # Attributes follow same naming convention as models
-            propertyNames:
-              $ref: '#/definitions/validModelName'
+      $ref: '#/definitions/topLevelModel'
+      properties:
+        properties:
+          # For models' attributes
+          additionalProperties:
+            $ref: '#/definitions/attributeSchema'
+          # Attributes follow same naming convention as models
+          propertyNames:
+            $ref: '#/definitions/validModelName'
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
