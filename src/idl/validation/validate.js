@@ -3,22 +3,25 @@
 
 const yaml = require('js-yaml');
 
-const { buildValidator, validate, memoize, fs: { readFileAsync } } = require('../../utilities');
+const { getValidator, buildValidator, validate, memoize, fs: { readFileAsync } } = require('../../utilities');
 const { validateCircularRefs } = require('./circular_refs');
+const { validateData } = require('./data');
 const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
 
 
 // Validate IDL definition against a JSON schema
 const validateIdl = async function (idl) {
   buildValidator();
-  const schema = await getSchema();
-  const idlCopy = getIdlCopy(idl);
   validateCircularRefs({ value: idl });
-  validate({ schema, data: idlCopy, reportInfo: { type: 'idl', dataVar: 'config' } });
+
+  const schema = await getSchema();
+  idl = getIdlCopy({ idl });
+  idl = validateData({ idl });
+  validate({ schema, data: idl, reportInfo: { type: 'idl', dataVar: 'config' } });
 };
 
 // Adds some temporary property on IDL, to help validation
-const getIdlCopy = function (idl) {
+const getIdlCopy = function ({ idl }) {
   const modelNames = Object.keys(idl.models);
   const customValidationNames = idl.validation && idl.validation.constructor === Object ? Object.keys(idl.validation) : [];
   return Object.assign({}, idl, { modelNames, customValidationNames });
