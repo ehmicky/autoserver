@@ -63,7 +63,7 @@ const sortResponse = function ({ response, orderByArg = 'id+' }) {
       args.attribute = orderTokens[1];
       args.ascending = orderTokens[2] === '-' ? 'desc' : 'asc';
     } else {
-      args.attribute = orderByArg;
+      args.attribute = order;
     }
     return args;
   });
