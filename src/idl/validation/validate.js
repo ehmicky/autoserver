@@ -24,7 +24,7 @@ const validateIdl = async function (idl) {
 
 // Adds some temporary property on IDL, to help validation
 const getIdlCopy = function ({ idl }) {
-  const modelNames = Object.keys(idl.models);
+  const modelNames = Object.keys(idl.models || {});
   const customValidationNames = idl.validation && idl.validation.constructor === Object ? Object.keys(idl.validation) : [];
   return Object.assign({}, idl, { modelNames, customValidationNames });
 };

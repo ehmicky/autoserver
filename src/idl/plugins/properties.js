@@ -14,10 +14,13 @@ const { EngineStartupError } = require('../../error');
 const propertiesPlugin = function ({ getProperties = () => ({}), requiredProperties = [] }) {
   return ({ idl, opts }) => {
     const { models } = idl;
+    if (!models) { return idl; }
+
     const properties = getProperties(opts);
 
     idl.models = mapValues(models, (model, modelName) => {
-      const propNames = Object.keys(model.properties);
+      const modelProperties = model.properties || {};
+      const propNames = Object.keys(modelProperties);
       const newPropNames = Object.keys(properties);
 
       // Make sure plugin does not override user-defined properties
@@ -38,7 +41,7 @@ const propertiesPlugin = function ({ getProperties = () => ({}), requiredPropert
 
       // Modifies models
       const newModel = Object.assign(model, {
-        properties: Object.assign(model.properties, properties),
+        properties: Object.assign(modelProperties, properties),
         required: uniq([...(model.required || []), ...requiredProperties]),
       });
 
