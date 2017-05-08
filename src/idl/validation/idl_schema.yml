@@ -126,63 +126,61 @@ definitions:
     - $ref: '#/definitions/currentJsonSchema'
     - $ref: '#/definitions/futureJsonSchema'
     - $ref: '#/definitions/customJsonSchema'
-    - propertyNames:
-        anyOf:
-        - $ref: '#/definitions/validPropertyNames'
-        - enum: [actions, model, type, description, deprecated, examples, defaultOut, transform, transformOut, compute,
-          computeOut, readOnly, writeOnce]
-        - enum:
-            $data: '/customValidationNames'
+    propertyNames:
+      anyOf:
+      - $ref: '#/definitions/validPropertyNames'
+      - enum: [actions, model, type, description, deprecated, examples, defaultOut, transform, transformOut, compute,
+        computeOut, readOnly, writeOnce]
+      - enum:
+          $data: '/customValidationNames'
   # Only applies this to top-level models
   topLevelModel:
-    allOf:
-    - $ref: '#/definitions/generalObjectSchema'
-    - propertyNames:
-        allOf:
-        - anyOf:
-          - $ref: '#/definitions/validPropertyNames'
-          - enum: [actions]
-        - not:
-            enum: [default]
-      # Must have a `required` property
-      required: [required, properties]
+    $ref: '#/definitions/generalObjectSchema'
+    propertyNames:
+      allOf:
+      - anyOf:
+        - $ref: '#/definitions/validPropertyNames'
+        - enum: [actions]
+      - not:
+          enum: [default]
+    # Must have a `required` property
+    required: [required, properties]
+    properties:
+      actions:
+        $ref: '#/definitions/actionsProperty'
+      # `required` property must at least contain `id`
+      required:
+        contains:
+          enum: [id]
+      # Must have an `id`
       properties:
-        actions:
-          $ref: '#/definitions/actionsProperty'
-        # `required` property must at least contain `id`
-        required:
-          contains:
-            enum: [id]
-        # Must have an `id`
-        properties:
-          required: [id]
-        # When specified, type must be 'object'
-        type:
-          const:
-            object
+        required: [id]
+      # When specified, type must be 'object'
+      type:
+        const:
+          object
   # Only applies this to models attributes, including nested models
   attributeSchema:
-    allOf:
-    - $ref: '#/definitions/generalObjectSchema'
-    - propertyNames:
-        anyOf:
-        - $ref: '#/definitions/validPropertyNames'
-        - enum: [model, defaultOut, transform, transformOut, compute, computeOut, readOnly, writeOnce]
-        - enum:
-            $data: '/customValidationNames'
-      properties:
-        # Recursively applied to array members
-        items:
-          $ref: '#/definitions/attributeSchema'
-        readOnly:
-          type: boolean
-        writeOnce:
-          type: boolean
-      # Only for nested models
-      if:
-        required: [model]
-      then:
-        $ref: '#/definitions/nestedModel'
+    $ref: '#/definitions/generalObjectSchema'
+    propertyNames:
+      anyOf:
+      - $ref: '#/definitions/validPropertyNames'
+      - enum: [model, defaultOut, transform, transformOut, compute, computeOut, readOnly, writeOnce]
+      - enum:
+          $data: '/customValidationNames'
+    properties:
+      # Recursively applied to array members
+      items:
+        $ref: '#/definitions/attributeSchema'
+      readOnly:
+        type: boolean
+      writeOnce:
+        type: boolean
+    # Only for nested models
+    if:
+      required: [model]
+    then:
+      $ref: '#/definitions/nestedModel'
   # Only applies this to nested models
   nestedModel:
     # Restrict the possible properties
