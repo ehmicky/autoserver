@@ -18,8 +18,12 @@ const authorPlugin = function ({ idl, opts }) {
   if (user && !isJsl({ jsl: user })) {
     throw new EngineStartupError('In \'author\' plugin, \'user\' must be a JSL string', { reason: 'IDL_VALIDATION' });
   }
-  if (model && (typeof model !== 'string' || !idl.models[model])) {
-    throw new EngineStartupError('In \'author\' plugin, \'model\' is invalid', { reason: 'IDL_VALIDATION' });
+  const usedModel = model || 'user';
+  if (typeof usedModel !== 'string') {
+    throw new EngineStartupError(`In 'author' plugin, 'model' must be a string: ${usedModel}`, { reason: 'IDL_VALIDATION' });
+  }
+  if (!idl.models[usedModel]) {
+    throw new EngineStartupError(`'author' plugin requires 'idl.models.${usedModel}'`, { reason: 'IDL_VALIDATION' });
   }
 
   return propertiesPlugin({ getProperties, requiredProperties })({ idl, opts });
