@@ -33,8 +33,11 @@ const executeGraphql = async function (opts) {
       response = { data };
     }
 
+    const mainData = response.data[Object.keys(response.data)[0]];
+    const type = mainData instanceof Array ? 'collection' : 'model';
+
     return {
-      type: 'object',
+      type,
       content: response,
     };
   };
