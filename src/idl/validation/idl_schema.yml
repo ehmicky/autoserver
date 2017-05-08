@@ -130,7 +130,7 @@ definitions:
       - enum: [actions, model, type, description, deprecated, examples, defaultOut, transform, transformOut, compute,
         computeOut, readOnly, writeOnce]
       - enum:
-          $data: '/customValidationNames'
+          $data: /customValidationNames
   # Only applies this to top-level models
   topLevelModel:
     $ref: '#/definitions/generalObjectSchema'
@@ -164,7 +164,7 @@ definitions:
       - $ref: '#/definitions/validPropertyNames'
       - enum: [model, defaultOut, transform, transformOut, compute, computeOut, readOnly, writeOnce]
       - enum:
-          $data: '/customValidationNames'
+          $data: /customValidationNames
     properties:
       # Recursively applied to array members
       items:
