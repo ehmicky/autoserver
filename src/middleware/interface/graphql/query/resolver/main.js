@@ -35,9 +35,7 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   }
 
   if (graphqlMethods[actionType] !== graphqlMethod) {
-    throw new EngineError(`Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`, {
-      reason: 'INPUT_VALIDATION',
-    });
+    throw new EngineError(`Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`, { reason: 'INPUT_VALIDATION' });
   }
 
   // Fire database layer, retrieving value passed to children
