@@ -80,6 +80,7 @@ const validate = function ({ schema, data, reportInfo, extra }) {
 
 
 module.exports = {
+  getValidator,
   getRawValidator,
   buildValidator,
   validate,
