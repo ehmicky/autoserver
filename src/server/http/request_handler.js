@@ -7,7 +7,7 @@ const { sendError } = require('../../middleware');
 const httpRequestHandler = async function (opts) {
   // Apply options
   const startFunc = await start(opts);
-  const sendErrorFunc = sendError(opts);
+  const sendErrorFunc = await sendError(opts);
 
   return async function (req, res) {
     const info = {};
