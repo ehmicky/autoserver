@@ -18,7 +18,7 @@ const validateServerOutputSyntax = function ({ action, response }) {
 const getSchema = function ({ multiple }) {
   const responseDef = multiple ? { type: 'array', items: { type: 'object' } } : { type: 'object' };
   return {
-    required: ['data'],
+    required: ['data', 'metadata'],
     properties: {
       data: responseDef,
       metadata: {

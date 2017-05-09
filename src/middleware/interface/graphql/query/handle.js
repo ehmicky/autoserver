@@ -14,11 +14,10 @@ const getHandleQuery = ({ idl }) => {
   const modelsMap = getModelsMap({ idl });
 
   return async function ({ queryDocument, variables, context, rootValue }) {
-    const metadata = new Map();
-    const resolver = getResolver({ modelsMap, metadata });
+    const resolver = getResolver({ modelsMap });
     // GraphQL execution
-    const data = await graphqlAnywhere(resolver, queryDocument, rootValue, context, variables);
-    return { data, metadata };
+    const response = await graphqlAnywhere(resolver, queryDocument, rootValue, context, variables);
+    return response;
   };
 };
 
