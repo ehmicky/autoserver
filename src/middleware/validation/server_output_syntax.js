@@ -21,7 +21,11 @@ const getSchema = function ({ multiple }) {
     required: ['data'],
     properties: {
       data: responseDef,
+      metadata: {
+        type: 'object',
+      },
     },
+    additionalProperties: false,
   };
 };
 
