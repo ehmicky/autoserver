@@ -14,7 +14,7 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  * Checks that input and output conforms to API schema
  * Check for the syntax and the semantics of input and output
  **/
-const validation = async function ({ idl }) {
+const validation = async function ({ idl, maxDataLength }) {
   return async function (input) {
     const { modelName, args, action, info: { ip, timestamp, actionType, helpers, variables }, params } = input;
 
@@ -26,7 +26,7 @@ const validation = async function ({ idl }) {
     validateServerInputSyntax({ idl, modelName, action, args });
     validateClientInputSyntax({ modelName, action, args });
     validateClientInputAction({ idl, modelName, action });
-    validateClientInputSemantics({ idl, modelName, action, args });
+    validateClientInputSemantics({ idl, modelName, action, args, maxDataLength });
     validateClientInputData({ idl, modelName, action, args, extra: jslInputData });
 
     const response = await this.next(input);

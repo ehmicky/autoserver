@@ -78,6 +78,11 @@ const errorReasons = {
     http: { status: 409 },
   }),
 
+  // input is too big, e.g. arg.data has too many items
+  INPUT_LIMIT: () => ({
+    http: { status: 413 },
+  }),
+
   // HTTP request body Content-Type is unsupported
   HTTP_WRONG_CONTENT_TYPE: () => ({
     http: { status: 415 },
