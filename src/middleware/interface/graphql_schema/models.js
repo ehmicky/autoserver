@@ -4,7 +4,7 @@
 const { chain, cloneDeep, merge, assign, mapValues } = require('lodash');
 const { getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
-const { actions } = require('../../../../idl');
+const { actions } = require('../../../idl');
 
 
 // Mapping from IDL actions to GraphQL methods

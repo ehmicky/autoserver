@@ -4,7 +4,7 @@
 const { GraphQLSchema } = require('graphql');
 const { mapValues } = require('lodash');
 
-const { memoize } = require('../../../../utilities');
+const { memoize } = require('../../../utilities');
 const { getType } = require('./types');
 const { getModelsByMethod } = require('./models');
 const { nameSym } = require('./name');

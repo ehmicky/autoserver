@@ -2,13 +2,15 @@
 
 
 const { chain, branch } = require('../chain');
-
-const middleware = require('../middleware');
+const middlewares = require('../middleware');
 const { EngineError } = require('../error');
+const { mapAsync } = require('../utilities');
 
 
 const start = async function (opts) {
-  const mdw = await applyOptions(opts);
+  // Apply options
+  const mdw = await mapAsync(middlewares, async middleware => await middleware(opts));
+
   return chain([
 
     // Retrieves timestamp
@@ -93,39 +95,6 @@ const start = async function (opts) {
   ]);
 };
 
-const applyOptions = async function (opts) {
-  const middlewares = [
-    'getTimestamp',
-    'protocolNegotiator',
-    'protocolNegotiation',
-    'httpSendResponse',
-    'httpGetPath',
-    'httpGetIp',
-    'router',
-    'httpLogger',
-    'httpFillParams',
-    'interfaceConvertor',
-    'interfaceNegotiator',
-    'interfaceNegotiation',
-    'wrapCustomJsl',
-    'executeGraphql',
-    'executeGraphiql',
-    'printGraphql',
-    'validateReadOnly',
-    'transform',
-    'apiConvertor',
-    'systemDefaults',
-    'cleanDelete',
-    'handleFilter',
-    'validation',
-    'executeDatabaseAction'
-  ];
-  const memo = {};
-  for (const name of middlewares) {
-    memo[name] = await middleware[name](opts);
-  }
-  return memo;
-};
 
 module.exports = {
   start,
