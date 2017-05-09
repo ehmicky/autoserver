@@ -19,6 +19,19 @@ const map = function (obj, mapperFunc) {
   }
 };
 
+// Same but async
+const mapAsync = async function (obj, mapperFunc) {
+  if (obj && (obj.constructor === Object || obj instanceof Array)) {
+    const newObj = {};
+    for (const [key, value] of Object.entries(obj)) {
+      newObj[key] = await mapperFunc(value, key, obj);
+    }
+    return newObj;
+  } else {
+    throw new EngineError(`map utility must be used with objects or arrays: ${obj}`, { reason: 'UTILITY_ERROR' });
+  }
+};
+
 // Apply map() recursively
 const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
   // Recursion over objects and arrays
@@ -33,5 +46,6 @@ const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
 
 module.exports = {
   map,
+  mapAsync,
   recurseMap,
 };
