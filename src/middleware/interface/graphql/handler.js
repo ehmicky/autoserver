@@ -20,26 +20,25 @@ const executeGraphql = async function (opts) {
     const { queryDocument, graphqlMethod } = parseQuery({ query, method, operationName });
 
     // GraphQL execution
-    let response;
+    let content;
     // Introspection GraphQL query
     if (isIntrospectionQuery({ query })) {
-      const content = await handleIntrospection({ queryDocument, variables, operationName });
-      response = { content };
+      content = await handleIntrospection({ queryDocument, variables, operationName });
     // Normal GraphQL query
     } else {
       const callback = fireNext.bind(this, request);
-      const output = await handleQuery({
+      content = await handleQuery({
         queryDocument,
         variables,
         operationName,
         context: { graphqlMethod, callback },
         rootValue: {},
       });
-      response = normalizeResponse(output);
     }
 
-    response.type = getResponseType({ response });
+    const type = getResponseType({ content });
 
+    const response = { content, type };
     return response;
   };
 };
@@ -50,15 +49,8 @@ const fireNext = async function (request, apiInput) {
   return response;
 };
 
-const normalizeResponse = function ({ data/*, metadata*/ }) {
-  const response = {};
-  // Wraps response in a `data` envelope
-  response.content = { data };
-  return response;
-};
-
-const getResponseType = function ({ response: { content: { data } } }) {
-  const mainData = data[Object.keys(data)[0]];
+const getResponseType = function ({ content }) {
+  const mainData = content[Object.keys(content)[0]];
   return mainData instanceof Array ? 'collection' : 'model';
 };
 

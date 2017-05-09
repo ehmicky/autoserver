@@ -1,20 +1,18 @@
 'use strict';
 
 
-const { omit } = require('lodash');
-
 const { actions } = require('../../../../../idl');
 const { EngineError } = require('../../../../../error');
 const { typenameResolver } = require('./typename');
 const { nestedModelResolver } = require('./nested_model');
 const { topLevelModelResolver } = require('./top_level_model');
-const { getParentModel, setParentModel, hasParentModel } = require('./utilities');
+const { setParentModel, hasParentModel } = require('./utilities');
 
 
 /**
  * GraphQL-anywhere uses a single resolver: here it is
  **/
-const getResolver = ({ modelsMap, metadata }) => async function (name, parent = {}, args, { callback, graphqlMethod }) {
+const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, { callback, graphqlMethod }) {
   args = args || {};
 
   // Introspection type name
@@ -43,19 +41,10 @@ const getResolver = ({ modelsMap, metadata }) => async function (name, parent = 
   // Fire database layer, retrieving value passed to children
   const response = await callback({ action, modelName, args });
 
-  // Current path, e.g. `findParent.findChild`
-  const parentName = hasParentModel(parent) ? `${getParentModel(parent).name}.` : '';
-  const childName = `${parentName}${name}`;
-
-  // Resolver returns response.data, but keeps the remaining response.* in `metadata` object
-  const data = response.data;
-  const responseMetadata = omit(response, 'data');
-  metadata.set(childName, responseMetadata);
-
   // Tags the response as belonging to that modelName
-  setParentModel(data, { name: childName, action, modelName, actionType });
+  setParentModel(response, { action, modelName, actionType });
 
-  return data;
+  return response;
 };
 
 // Mapping from IDL actions to GraphQL methods
