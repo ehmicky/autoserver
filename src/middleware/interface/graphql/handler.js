@@ -27,13 +27,14 @@ const executeGraphql = async function (opts) {
     // Normal GraphQL query
     } else {
       const callback = fireNext.bind(this, request);
-      content = await handleQuery({
+      const data = await handleQuery({
         queryDocument,
         variables,
         operationName,
         context: { graphqlMethod, callback },
         rootValue: {},
       });
+      content = { data };
     }
 
     const type = getResponseType({ content });
@@ -49,8 +50,8 @@ const fireNext = async function (request, apiInput) {
   return response;
 };
 
-const getResponseType = function ({ content }) {
-  const mainData = content[Object.keys(content)[0]];
+const getResponseType = function ({ content: { data } }) {
+  const mainData = data[Object.keys(data)[0]];
   return mainData instanceof Array ? 'collection' : 'model';
 };
 
