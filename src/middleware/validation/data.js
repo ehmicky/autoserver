@@ -3,7 +3,8 @@
 
 const { cloneDeep, mapValues, pickBy, each } = require('lodash');
 
-const { memoize, transform, validate } = require('../../utilities');
+const { memoize, transform } = require('../../utilities');
+const { validate } = require('../../validation');
 
 
 /**

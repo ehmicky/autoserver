@@ -3,7 +3,8 @@
 
 const yaml = require('js-yaml');
 
-const { getValidator, buildValidator, validate, memoize, fs: { readFileAsync } } = require('../../utilities');
+const { memoize, fs: { readFileAsync } } = require('../../utilities');
+const { getValidator, validate } = require('../../validation');
 const { validateCircularRefs } = require('./circular_refs');
 const { validateData } = require('./data');
 const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
@@ -11,7 +12,6 @@ const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
 
 // Validate IDL definition against a JSON schema
 const validateIdl = async function (idl) {
-  buildValidator();
   validateCircularRefs({ value: idl });
 
   const schema = await getSchema();

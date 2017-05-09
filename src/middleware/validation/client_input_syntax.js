@@ -3,7 +3,7 @@
 
 const { set, merge, mergeWith } = require('lodash');
 
-const { validate } = require('../../utilities');
+const { validate } = require('../../validation');
 
 
 /**
