@@ -108,6 +108,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // Main options have syntax errors
+  OPTIONS_VALIDATION: () => ({
+    http: { status: 500 },
+  }),
+
   // IDL definition is invalid, for usage with GraphQL
   GRAPHQL_WRONG_DEFINITION: () => ({
     http: { status: 500 },
