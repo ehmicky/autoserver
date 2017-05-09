@@ -49,7 +49,7 @@ const createId = function () {
 };
 
 const orderPostfixRegexp = /(.*)(\+|-)$/;
-const sortResponse = function ({ data, orderByArg = 'id+' }) {
+const sortResponse = function ({ data, orderByArg }) {
   if (!data || !(data instanceof Array)) { return data; }
 
   // Allow multiple attributes sorting
