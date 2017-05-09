@@ -66,6 +66,8 @@ const start = async function (opts) {
      */
     // Convert from interface format to API format
     mdw.apiConvertor,
+    // Apply system-defined default values, e.g. order_by 'id+'
+    mdw.systemDefaults,
     // Only keep minimal attributes in delete response
     mdw.cleanDelete,
     // Validate schema.readOnly
@@ -112,6 +114,7 @@ const applyOptions = async function (opts) {
     'validateReadOnly',
     'transform',
     'apiConvertor',
+    'systemDefaults',
     'cleanDelete',
     'handleFilter',
     'validation',
