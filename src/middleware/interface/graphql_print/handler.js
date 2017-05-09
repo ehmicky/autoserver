@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { getSchema } = require('../graphql');
+const { getSchema } = require('../graphql_schema');
 const { printSchema } = require('./print');
 
 

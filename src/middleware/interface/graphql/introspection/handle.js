@@ -4,7 +4,7 @@
 const { execute } = require('graphql');
 
 const { EngineError } = require('../../../../error');
-const { getSchema } = require('../schema');
+const { getSchema } = require('../../graphql_schema');
 
 
 const getHandleIntrospection = function ({ idl }) {
