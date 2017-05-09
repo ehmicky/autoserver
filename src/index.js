@@ -27,6 +27,8 @@ startServer({
   },*/
   // Can overwrite logging (by default, uses console)
   logger: printer,
+  // arg.data length is limited to 1000 by default. This can be changed, or disabled (using 0)
+  //maxDataLength: 1000,
 })
 .then(() => {
   printer('log')('Server started');
