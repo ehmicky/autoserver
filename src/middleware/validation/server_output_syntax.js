@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { validate } = require('../../utilities');
+const { validate } = require('../../validation');
 const { actions } = require('../../idl');
 
 

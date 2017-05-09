@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { validate } = require('../../utilities');
+const { validate } = require('../../validation');
 
 
 // Check API input, for the errors that should not happen, i.e. server-side (e.g. 500)

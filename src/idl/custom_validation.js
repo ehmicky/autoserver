@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { getRawValidator } = require('../utilities');
+const { getRawValidator } = require('../validation');
 const { EngineError } = require('../error');
 const { processJsl } = require('../jsl');
 
