@@ -4,6 +4,7 @@
 const { actions } = require('../../../../../idl');
 const { EngineError } = require('../../../../../error');
 const { typenameResolver } = require('./typename');
+const { metadataResolver } = require('./metadata');
 const { nestedModelResolver } = require('./nested_model');
 const { topLevelModelResolver } = require('./top_level_model');
 const { setParentModel, hasParentModel } = require('./utilities');
@@ -18,6 +19,11 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   // Introspection type name
   if (name === '__typename') {
     return typenameResolver({ parent });
+  }
+
+  // Metadata, e.g. pagination information
+  if (name === '__metadata') {
+    return metadataResolver({ parent });
   }
 
   // Top-level and non-top-level attributes are handled differently

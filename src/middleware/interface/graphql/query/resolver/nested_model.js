@@ -26,7 +26,10 @@ const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
 // Retrieves nested property, which can be a model or a simple attribute
 const getNestedProp = function ({ modelsMap, parent, name }) {
   // Retrieves parent model
-  const { modelName: parentModel, actionType: parentActionType } = getParentModel(parent);
+  const { modelName: parentModel, actionType: parentActionType, nonNestedModel } = getParentModel(parent);
+
+  // This means this is an object attribute that is not a nested model
+  if (nonNestedModel) { return {}; }
 
   // Retrieves nested property
   const { attrName, actionType } = parseName({ name });
