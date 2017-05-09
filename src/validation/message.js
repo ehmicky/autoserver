@@ -55,6 +55,8 @@ const errorMessages = {
     `.${missingProperty} must be defined when property '${property} is defined`,
   // Custom keywords
   hasPlural: ({ data }) => ` '${data}' must be an English word whose plural form differs from its singular form`,
+  returnType: ({ schema }) => ` must return values of type '${schema}'`,
+  arity: ({ schema }) => ` must have exactly ${pluralize('argument', schema, true)}`,
   // Special keyword for schema that are `false`, e.g. `patternProperties: { pattern: false }`
   'false schema': () => ' must not be defined',
 };

@@ -26,16 +26,44 @@ const ajvOptions = {
 const addKeywords = function (ajv) {
   // Add future JSON standard keywords
   ajvKeywords(ajv, ['if', 'formatMinimum', 'formatMaximum', 'typeof']);
-  // Add custom keywords
+  for (const [name, definition] of Object.entries(customBaseKeywords)) {
+    ajv.addKeyword(name, definition);
+  }
+};
+const customBaseKeywords = {
+
   // Checks that a word (e.g. a model) is an English word with a different singular and plural form
-  ajv.addKeyword('hasPlural', {
+  hasPlural: {
     validate(schemaValue, data) {
       if (!schemaValue) { return true; }
       return singular(data) !== plural(data);
     },
     type: 'string',
     $data: true,
-  });
+  },
+
+  // Checks function number of arguments
+  arity: {
+    validate(schemaValue, data) {
+      if (typeof data !== 'function') { return true; }
+      return data.length === schemaValue;
+    },
+    $data: true,
+  },
+
+  // Checks function return value.
+  // Function is fired with no argument, i.e. it must:
+  //  - be pure
+  //  - always return the same return value type
+  //  - return a non-undefined|null return value when fired with no argument (unless it always returns undefined|null)
+  returnType: {
+    validate(schemaValue, data) {
+      if (typeof data !== 'function') { return true; }
+      return typeof data() === schemaValue;
+    },
+    $data: true,
+  },
+
 };
 
 
