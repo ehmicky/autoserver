@@ -8,9 +8,9 @@ const { log } = require('../utilities');
 const createDebugMiddleware = function (label) {
   return function (input = 'input') {
     const nextInput = String(Math.random()).replace('.','');
-    log.debug(`[${label}] Starting middleware with input ${nextInput}`);
+    log.info(`[${label}] Starting middleware with input ${nextInput}`);
     const val = this.next(nextInput);
-    log.debug(`[${label}] Middleware return value: ${val}`);
+    log.info(`[${label}] Middleware return value: ${val}`);
     return input;
   };
 };
@@ -23,7 +23,7 @@ const createLog = function (requestId) {
   return function (message) {
     const prefix = `[chain] [${requestId}] `;
     const truncatedMessage = message.substring(0, width - prefix.length);
-    log.debug(`${prefix}${truncatedMessage}`);
+    log.info(`${prefix}${truncatedMessage}`);
   };
 };
 

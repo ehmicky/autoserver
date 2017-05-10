@@ -15,6 +15,7 @@ Object.assign(inspect.defaultOptions, {
 });
 
 const printer = level => function (...args) {
+  if (level === 'info') { return; }
   const beautifiedArgs = args.map(arg => typeof arg === 'string' ? arg : inspect(arg).replace(/\\n/g, '\n'));
   global.console[level](...beautifiedArgs);
 };
