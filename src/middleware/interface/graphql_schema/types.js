@@ -52,7 +52,7 @@ const getField = function (def, opts) {
     const dataObjectType = getType(def, Object.assign({}, opts, { inputObjectType: 'data' }));
     const filterObjectType = getType(def, Object.assign({}, opts, { inputObjectType: 'filter' }));
     // Retrieves arguments
-    args = getArguments(def, Object.assign(opts, { dataObjectType, filterObjectType }));
+    args = getArguments(def, Object.assign({}, opts, { dataObjectType, filterObjectType }));
   }
 
   // Can only assign default to input data that is optional.
