@@ -2,7 +2,6 @@
 
 
 const levels = [
-  'debug',
   'info',
   'log',
   'warn',
