@@ -133,7 +133,7 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
-  // Request did not pass IDL validation, e.g. `args` was not provided, indicated a server bug
+  // Request did not pass IDL validation, e.g. `args` was not provided, indicating a server bug
   INPUT_SERVER_VALIDATION: () => ({
     http: { status: 500 },
   }),
