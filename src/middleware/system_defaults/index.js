@@ -3,7 +3,7 @@
 
 // Apply system-defined defaults to input, including input arguments
 const systemDefaults = async function () {
-  return async function (input) {
+  return async function systemDefaults(input) {
     const { args, action } = input;
 
     // order_by defaults to 'id+'

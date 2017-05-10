@@ -18,7 +18,7 @@ module.exports = Object.assign(
   require('./interface'),
   require('./api_convertor'),
   require('./basic_validation'),
-  require('./system_defauts'),
+  require('./system_defaults'),
   require('./clean_delete'),
   require('./read_only'),
   require('./transform'),
