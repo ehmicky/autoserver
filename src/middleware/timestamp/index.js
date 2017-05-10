@@ -2,7 +2,7 @@
 
 
 const getTimestamp = async function () {
-  return async function (input) {
+  return async function getTimestamp(input) {
     const { info } = input;
     info.timestamp = (new Date()).toISOString();
 

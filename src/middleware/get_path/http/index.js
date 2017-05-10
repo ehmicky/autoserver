@@ -7,7 +7,7 @@ const { httpHeaders } = require('../../../parsing');
 
 
 const httpGetPath = async function () {
-  return async function (input) {
+  return async function httpGetPath(input) {
     const { req, info } = input;
 
     info.requestUrl = getRequestUrl({ req });

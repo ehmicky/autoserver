@@ -5,7 +5,7 @@ const { actions } = require('../../idl');
 
 
 const apiConvertor = async function () {
-  return async function (input) {
+  return async function apiConvertor(input) {
     const { api: { action, args, modelName }, info, params } = input;
     const actionType = (actions.find(({ name }) => name === action) || {}).actionType;
     info.actionType = actionType;

@@ -7,7 +7,7 @@ const { EngineError } = require('../../error');
 
 const router = async function () {
   const routes = getRoutes();
-  return async function (input) {
+  return async function router(input) {
     const { path, params, method } = input;
     const matchedRoute = routes.find({ path, method });
     if (!matchedRoute) {

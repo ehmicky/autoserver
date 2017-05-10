@@ -18,7 +18,7 @@ const validateReadOnly = async function ({ idl }) {
     .mapValues(modelIdl => Object.keys(pickBy(modelIdl.properties, prop => prop.readOnly)))
     .value();
 
-  return async function (input) {
+  return async function validateReadOnly(input) {
     const { args: { data }, modelName } = input;
 
     // Check if any attribute in `data` is matching readonly attributes from IDL

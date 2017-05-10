@@ -11,7 +11,7 @@ const executeGraphql = async function (opts) {
   const { idl } = opts;
   const handleIntrospection = getHandleIntrospection({ idl });
   const handleQuery = getHandleQuery({ idl });
-  return async function (request) {
+  return async function executeGraphql(request) {
     // Parameters can be in either query variables or payload (including by using application/graphql)
     const { params, payload, method } = request;
     const { query, variables, operationName } = Object.assign({}, params, payload);

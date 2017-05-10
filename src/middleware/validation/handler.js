@@ -14,7 +14,7 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  * Check for the syntax and the semantics of input and output
  **/
 const validation = async function ({ idl, maxDataLength }) {
-  return async function (input) {
+  return async function validation(input) {
     const { modelName, args, action, info: { ip, timestamp, actionType, helpers, variables }, params } = input;
 
     // Extra information passed to custom validation keywords
