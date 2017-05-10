@@ -1,7 +1,6 @@
 'use strict';
 
 
-const { validateServerInputSyntax } = require('./server_input_syntax');
 const { validateClientInputSyntax } = require('./client_input_syntax');
 const { validateClientInputAction } = require('./client_input_action');
 const { validateClientInputSemantics } = require('./semantics');
@@ -23,7 +22,6 @@ const validation = async function ({ idl, maxDataLength }) {
     const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
-    validateServerInputSyntax({ idl, modelName, action, args });
     validateClientInputSyntax({ modelName, action, args });
     validateClientInputAction({ idl, modelName, action });
     validateClientInputSemantics({ idl, modelName, action, args, maxDataLength });
