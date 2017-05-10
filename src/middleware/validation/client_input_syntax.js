@@ -4,6 +4,7 @@
 const { set, merge, mergeWith } = require('lodash');
 
 const { validate } = require('../../validation');
+const { jslRegExp } = require('../../jsl');
 
 
 /**
@@ -51,8 +52,9 @@ const getProperties = function ({ rule }) {
 // JSON schemas applied to input
 const validateClientSchema = [
   { name: 'data', value: ({ dataMultiple }) => !dataMultiple ? { type: 'object' } : { type: 'array', items: { type: 'object' } } },
-  { name: 'filter', value: { type: 'object' } },
-  { name: 'filter.id', value: ({ isNotJslFilterId }) => isNotJslFilterId ? { not: { typeof: 'function' } } : {} },
+  { name: 'filter', value: { typeof: 'function', properties: { jsl: { type: 'string', pattern: String(jslRegExp) } } } },
+  // TODO: re-enabled after we use ORM format for arg.filter
+  //{ name: 'filter.id', value: ({ isNotJslFilterId }) => isNotJslFilterId ? { not: { typeof: 'function' } } : {} },
   // Matches order_by value, i.e. 'ATTR[+|-],...'
   { name: 'order_by', value: { type: 'string', pattern: '^([a-z0-9_]+[+-]?)(,[a-z0-9_]+[+-]?)*$' } },
   { name: 'dry_run', value: { type: 'boolean' } },
@@ -104,15 +106,15 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
  **/
 /* eslint-disable key-spacing, no-multi-spaces */
 const rules = {
-  findOne:      { allowed: [],                                      required: ['filter', 'filter.id'],
+  findOne:      { allowed: [],                                      required: ['filter'/*, 'filter.id'*/],
                   isNotJslFilterId: true                                                                                  },
-  findMany:     { allowed: ['filter', 'filter.id', 'order_by'],     required: []                                          },
-  deleteOne:    { allowed: ['dry_run'],                             required: ['filter', 'filter.id'],
+  findMany:     { allowed: ['filter'/*, 'filter.id'*/, 'order_by'],     required: []                                          },
+  deleteOne:    { allowed: ['dry_run'],                             required: ['filter'/*, 'filter.id'*/],
                   isNotJslFilterId: true                                                                                  },
-  deleteMany:   { allowed: ['filter', 'filter.id', 'order_by', 'dry_run'],  required: []                                  },
-  updateOne:    { allowed: ['dry_run'],                             required: ['data', 'filter', 'filter.id'],
+  deleteMany:   { allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'dry_run'],  required: []                                  },
+  updateOne:    { allowed: ['dry_run'],                             required: ['data', 'filter'/*, 'filter.id'*/],
                   isNotJslFilterId: true,                           forbidden: ['data.id']                                },
-  updateMany:   { allowed: ['filter', 'filter.id', 'order_by', 'dry_run'],  required: ['data'],
+  updateMany:   { allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'dry_run'],  required: ['data'],
                                                                     forbidden: ['data.id']                                },
   upsertOne:    { allowed: ['dry_run'],                             required: ['data', 'data.id']                         },
   upsertMany:   { allowed: ['order_by', 'dry_run'],                 required: ['data', 'data.*.id'],
