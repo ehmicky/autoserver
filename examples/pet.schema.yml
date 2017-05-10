@@ -223,7 +223,6 @@ models:
 #      - "interface variables":
 #         - $ACTION {string} - current action, e.g. 'find' or 'create'
 #      - "model variables":
-#         - $ATTR_NAME {string} - current attribute name
 #         - $ {any} - value of current attribute, e.g. { filter: { name: '$ !== "John"' } }
 #           checks whether model.name !== 'John'
 #         - $$ {object} - current model (input or output), e.g. { filter: { name: '$ === $$.first_name' } }

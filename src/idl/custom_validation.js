@@ -17,7 +17,7 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
     validate: function validate(expected, value, _, __, parent, attrName, { [Symbol.for('extra')]: extra }) {
       // Input passed by caller in order to fill in JSL variables
       const validationInput = { expected };
-      const modelInput = { parent, [extra.shortcutName]: parent, value, attrName };
+      const modelInput = { parent, [extra.shortcutName]: parent, value };
       const jslInput = Object.assign({}, extra, { validationInput, modelInput });
       delete jslInput.shortcutName;
 

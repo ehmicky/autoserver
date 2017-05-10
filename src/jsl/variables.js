@@ -8,7 +8,7 @@ const getJslVariables = function (input = {}) {
   const { expected } = validationInput || {};
   const { ip, timestamp, params } = requestInput || {};
   const { actionType } = interfaceInput || {};
-  const { parent = {}, value, model, data, attrName } = modelInput || {};
+  const { parent = {}, value, model, data } = modelInput || {};
 
   const vars = {};
 
@@ -51,7 +51,6 @@ const getJslVariables = function (input = {}) {
   // Model-related variables
   if (modelInput) {
     Object.assign(vars, {
-      $ATTR_NAME: attrName,
       $: value,
       $$: parent,
     });

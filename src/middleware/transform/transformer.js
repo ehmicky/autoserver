@@ -60,7 +60,7 @@ const singleTransformValue = function (opts) {
   // Performs actual substitution
   let newValue;
   try {
-    const modelInput = { parent: value, [VARIABLE_NAME]: value, value: value[attrName], attrName };
+    const modelInput = { parent: value, [VARIABLE_NAME]: value, value: value[attrName] };
     newValue = processJsl(Object.assign({ jsl: transformer }, jslInput, { modelInput }));
   } catch (innererror) {
     throw new EngineError(`JSL expression used as transform failed: ${transformer}`, {
