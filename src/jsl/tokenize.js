@@ -12,4 +12,5 @@ const getRawJsl = ({ jsl }) => tokenizeJsl({ jsl })[4];
 module.exports = {
   tokenizeJsl,
   getRawJsl,
+  jslRegExp,
 };

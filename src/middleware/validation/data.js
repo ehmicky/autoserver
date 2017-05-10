@@ -110,7 +110,8 @@ const transforms = [
  * Keeps the arguments to validate
  **/
 const getAttributes = function (args) {
-  return pickBy(args, (arg, dataVar) => ['filter', 'data'].includes(dataVar) && arg);
+  // TODO: validate `filter`
+  return pickBy(args, (arg, dataVar) => [/*'filter', */'data'].includes(dataVar) && arg);
 };
 
 

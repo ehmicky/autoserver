@@ -7,5 +7,6 @@ module.exports = Object.assign(
   require('./process'),
   require('./test'),
   require('./variables'),
-  require('./parameters')
+  require('./parameters'),
+  require('./tokenize')
 );
