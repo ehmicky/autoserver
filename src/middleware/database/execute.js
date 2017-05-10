@@ -20,11 +20,10 @@ const executeDatabaseAction = async function ({ idl: { models } }) {
     const { ip, timestamp, actionType, helpers, variables } = info;
     const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, interfaceInput: { actionType } };
     const collection = database[modelName];
-    collection.modelName = modelName;
 
     const writeOnceAttributes = writeOnceMap[modelName];
-    const opts = { orderBy, writeOnceAttributes, dryRun };
-    const response = fireAction({ action, modelName, collection, filter, data, jslInput, opts });
+    const opts = { jslInput, orderBy, writeOnceAttributes, dryRun, modelName };
+    const response = fireAction({ action, collection, filter, data, opts });
     return response;
   };
 };
