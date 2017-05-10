@@ -68,6 +68,8 @@ const start = async function (opts) {
      */
     // Convert from interface format to API format
     mdw.apiConvertor,
+    // Basic validation layer
+    mdw.basicValidation,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
     // Only keep minimal attributes in delete response

@@ -17,6 +17,7 @@ module.exports = Object.assign(
   require('./custom_jsl'),
   require('./interface'),
   require('./api_convertor'),
+  require('./basic_validation'),
   require('./system_defauts'),
   require('./clean_delete'),
   require('./read_only'),
