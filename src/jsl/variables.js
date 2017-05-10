@@ -51,9 +51,11 @@ const getJslVariables = function (input = {}) {
   // Model-related variables
   if (modelInput) {
     Object.assign(vars, {
-      $: value,
       $$: parent,
     });
+    if (value) {
+      vars.$ = value;
+    }
     if (model) {
       vars.$MODEL = model;
     }

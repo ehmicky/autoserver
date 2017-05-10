@@ -27,13 +27,14 @@ const helpersVars = ['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9'];
 const validationVars = ['$', '$$', '$EXPECTED'];
 const requestVars = ['$NOW', '$IP', '$PARAMS'];
 const interfaceVars = ['$ACTION'];
-const modelVars = ['$', '$$'];
+const filterVars = ['$$'];
+const modelVars = [...filterVars, '$'];
 const modelInputVars = [...modelVars, '$DATA'];
 const modelOutputVars = [...modelVars, '$MODEL'];
 const jslParametersList = {
   helpers: { recursive: baseHelpers, raw: [...requestVars, ...helpersVars] },
   variables: { recursive: baseHelpers, raw: requestVars },
-  filter: { raw: modelVars },
+  filter: { raw: filterVars },
   validation: { recursive: baseHelpers, raw: [...requestVars, ...interfaceVars, ...modelInputVars, ...validationVars] },
   modelInput: { recursive: baseHelpers, raw: [...requestVars, ...interfaceVars, ...modelInputVars] },
   modelOutput: { recursive: baseHelpers, raw: [...requestVars, ...interfaceVars, ...modelOutputVars] },
