@@ -16,7 +16,7 @@ const { transformInput, transformOutput } = require('./transformer');
  * `default[Out]` is not applied on 'update' actions input, since this is partial update.
  **/
 const transform = async function ({ idl: { models } }) {
-  return async function (input) {
+  return async function transform(input) {
     const { args, modelName, info: { ip, timestamp, actionType, helpers, variables }, params } = input;
     const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, interfaceInput: { actionType } };
 

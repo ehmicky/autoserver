@@ -15,7 +15,7 @@ const executeDatabaseAction = async function ({ idl: { models } }) {
     .mapValues(modelIdl => Object.keys(pickBy(modelIdl.properties, prop => prop.writeOnce)))
     .value();
 
-  return async function (input) {
+  return async function executeDatabaseAction(input) {
     const { action, args: { order_by: orderBy, dry_run: dryRun, data, filter } = {}, modelName, info, params } = input;
     const { ip, timestamp, actionType, helpers, variables } = info;
     const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, interfaceInput: { actionType } };

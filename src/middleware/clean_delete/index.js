@@ -18,7 +18,7 @@ const cleanDelete = async function ({ idl }) {
   const modelsMap = getModelsMap({ idl });
   const nestedModelsMap = mapValues(modelsMap, modelIdl => Object.keys(pickBy(modelIdl, ({ model }) => model)));
 
-  return async function (input) {
+  return async function cleanDelete(input) {
     const { actionType, modelName } = input;
     const nestedAttributes = nestedModelsMap[modelName] || [];
 

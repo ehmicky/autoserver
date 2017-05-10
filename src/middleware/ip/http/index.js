@@ -5,7 +5,7 @@ const proxyAddr = require('proxy-addr');
 
 
 const httpGetIp = async function () {
-  return async function (input) {
+  return async function httpGetIp(input) {
     const { req, info } = input;
     info.ip = proxyAddr(req, () => true);
 

@@ -9,7 +9,7 @@ const { EngineError } = require('../../../error');
 
 
 const fillParams = async function () {
-  return async function (input) {
+  return async function fillParams(input) {
     const { req, route } = input;
     const method = req.method;
     const params = getParams({ req });

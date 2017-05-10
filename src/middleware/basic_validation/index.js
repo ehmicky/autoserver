@@ -11,7 +11,7 @@ const { actions } = require('../../idl');
  * In short: `action`, `args`, `modelName` should be defined and of the right type
  **/
 const basicValidation = async function ({ idl: { models } = {} }) {
-  return async function (input) {
+  return async function basicValidation(input) {
     const { modelName, args, action } = input;
 
     const schema = getValidateServerSchema({ models });

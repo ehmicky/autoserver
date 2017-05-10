@@ -8,7 +8,7 @@ const { map } = require('../../utilities');
  * Bind JSL arguments of custom IDL such as helpers and variables
  **/
 const wrapCustomJsl = async function ({ idl: { helpers, variables } }) {
-  return async function (input) {
+  return async function wrapCustomJsl(input) {
     const { info, params } = input;
     const { ip, timestamp } = info;
     const requestInput = { ip, timestamp, params };
