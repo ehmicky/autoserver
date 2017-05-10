@@ -3,8 +3,8 @@
 
 const { EngineStartupError } = require('../error');
 const { setLogger, attachRequire } = require('../utilities');
+const { processOptions } = require('../options');
 const { httpStartServer } = require('./http');
-const { processOptions } = require('./process_options');
 
 
 /**
