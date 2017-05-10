@@ -37,7 +37,7 @@
  **/
 
 
-const { omit, cloneDeep, every, orderBy, map, isEqual } = require('lodash');
+const { omit, cloneDeep, orderBy, map } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
@@ -72,53 +72,60 @@ const sortResponse = function ({ data, orderByArg }) {
   return sortedData;
 };
 
-const findIndexes = function({ collection, filter = {}, jslInput }) {
-  const modelIndexes = collection.reduce((indexes, model, index) => {
-    // Check if a model matches a query filter
-    const matches = every(filter, (value, attrName) => {
-      // This means no JSL is used
-      if (typeof value !== 'function') {
-        return isEqual(model[attrName], value);
-      }
+// '($ === ID)' -> ID
+const filterToId = function ({ filter: { jsl } }) {
+  try {
+    const parts = idJslRegExp.exec(jsl);
+    if (!parts) {
+      throw new EngineError(`JSL expression should be '($ === ID)': ${jsl}`, { reason: 'INPUT_SERVER_VALIDATION' });
+    }
+    const id = JSON.parse(parts[1]);
+    return id;
+  } catch (innererror) {
+    throw new EngineError(`JSL expression should be '($ === ID)': ${jsl}`, { reason: 'INPUT_SERVER_VALIDATION', innererror });
+  }
+};
+// Look for '($ === ID)'
+const idJslRegExp = /^\(\$\$\.id\s*===\s*(.*)\)$/;
 
+const findIndexes = function({ collection, filter, opts: { jslInput } }) {
+  if (!filter) {
+    return collection.map((model, index) => index);
+  }
+
+  const modelIndexes = Object.entries(collection)
+    // Check if a model matches a query filter
+    .filter(([/*index*/, model]) => {
       // TODO: remove when using MongoDB query objects
       try {
-        const modelInput = { parent: model, model, value: model[attrName], attrName };
-        const filterMatches = processJsl(Object.assign({ jsl: value }, jslInput, { modelInput }));
-        return filterMatches;
+        const modelInput = { parent: model, model };
+        return processJsl(Object.assign({ jsl: filter }, jslInput, { modelInput }));
       } catch (innererror) {
-        throw new EngineError(`JSL expression used as filter failed: ${value.jsl}`, {
+        throw new EngineError(`JSL expression used as filter failed: ${filter.jsl}`, {
           reason: 'INPUT_VALIDATION',
           innererror,
         });
       }
-    });
-
-    if (matches) {
-      indexes.push(index);
-    }
-    return indexes;
-  }, []);
+    })
+    .map(([index]) => index);
   return modelIndexes;
 };
 
-const findIndex = function ({ collection, filter: { id }, jslInput }) {
-  const indexes = findIndexes({ collection, filter: { id }, jslInput });
-  if (indexes.length === 0) {
-    throw new EngineError(`Could not find the model with id ${id} in: ${collection.modelName} (collection)`, {
+const findIndex = function ({ collection, id, opts: { modelName, mustExist = true } }) {
+  const index = Object.entries(collection)
+    .filter(([,{ id: modelId }]) => modelId === id)
+    .map(([index]) => index)[0];
+  if (!index && mustExist === true) {
+    throw new EngineError(`Could not find the model with id ${id} in: ${modelName} (collection)`, {
       reason: 'DATABASE_NOT_FOUND',
     });
   }
-  return indexes[0];
-};
-
-const checkUniqueId = function ({ collection, id }) {
-  const indexes = findIndexes({ collection, filter: { id } });
-  if (indexes.length > 0) {
-    throw new EngineError(`Model with id ${id} already exists in: ${collection.modelName} (collection)`, {
+  if (index && mustExist === false) {
+    throw new EngineError(`Model with id ${id} already exists in: ${modelName} (collection)`, {
       reason: 'DATABASE_MODEL_CONFLICT',
     });
   }
+  return index;
 };
 
 // attributes with writeOnce true are not updated, unless undefined
@@ -128,25 +135,29 @@ const getOmitKeys = function ({ model, writeOnceAttributes }) {
     .filter(key => model[key] !== undefined);
 };
 
-const findOne = function ({ collection, filter, jslInput }) {
-  const index = findIndex({ collection, filter, jslInput });
+const findOne = function ({ collection, filter, opts }) {
+  const id = filterToId({ filter });
+  const index = findIndex({ collection, id, opts });
   return { data: collection[index] };
 };
 
-const findMany = function ({ collection, filter = {}, jslInput }) {
-  const indexes = findIndexes({ collection, filter, jslInput });
+const findMany = function ({ collection, filter, opts }) {
+  const indexes = findIndexes({ collection, filter, opts });
   const models = indexes.map(index => collection[index]);
   return { data: models };
 };
 
-const deleteOne = function ({ collection, filter, jslInput, opts: { dryRun } }) {
-  const index = findIndex({ collection, filter, jslInput });
+const deleteOne = function ({ collection, filter, opts }) {
+  const { dryRun } = opts;
+  const id = filterToId({ filter });
+  const index = findIndex({ collection, id, opts });
   const model = dryRun ? collection[index] : collection.splice(index, 1)[0];
   return { data: model };
 };
 
-const deleteMany = function ({ collection, filter = {}, jslInput, opts: { dryRun } }) {
-  const indexes = findIndexes({ collection, filter, jslInput }).sort();
+const deleteMany = function ({ collection, filter, opts }) {
+  const { dryRun } = opts;
+  const indexes = findIndexes({ collection, filter, opts }).sort();
   const models = indexes.map((index, count) => {
     const model = dryRun ? collection[index] : collection.splice(index - count, 1)[0];
     return model;
@@ -154,7 +165,8 @@ const deleteMany = function ({ collection, filter = {}, jslInput, opts: { dryRun
   return { data: models };
 };
 
-const update = function ({ collection, index, data, opts: { writeOnceAttributes, dryRun } }) {
+const update = function ({ collection, index, data, opts }) {
+  const { writeOnceAttributes, dryRun } = opts;
   const model = collection[index];
   const omitKeys = getOmitKeys({ model, writeOnceAttributes });
   const newModel = Object.assign({}, model, omit(data, omitKeys));
@@ -164,22 +176,24 @@ const update = function ({ collection, index, data, opts: { writeOnceAttributes,
   return newModel;
 };
 
-const updateOne = function ({ collection, data, filter, jslInput, opts }) {
-  const index = findIndex({ collection, filter, jslInput });
+const updateOne = function ({ collection, data, filter, opts }) {
+  const id = filterToId({ filter });
+  const index = findIndex({ collection, id, opts });
   const newModel = update({ collection, index, data, opts });
   return { data: newModel };
 };
 
-const updateMany = function ({ collection, data, filter = {}, jslInput, opts }) {
-  const indexes = findIndexes({ collection, filter, jslInput });
+const updateMany = function ({ collection, data, filter, opts }) {
+  const indexes = findIndexes({ collection, filter, opts });
   const newModels = indexes.map(index => update({ collection, index, data, opts }));
   return { data: newModels };
 };
 
-const create = function ({ collection, data, opts: { dryRun } }) {
+const create = function ({ collection, data, opts }) {
+  const { dryRun } = opts;
   let id = data.id;
   if (id) {
-    checkUniqueId({ collection, id });
+    findIndex({ collection, id, opts: Object.assign({}, opts, { mustExist: false }) });
   } else {
     id = createId();
   }
@@ -201,8 +215,9 @@ const createMany = function ({ collection, data, opts }) {
   return { data: newModels };
 };
 
-const replace = function ({ collection, data, opts: { writeOnceAttributes, dryRun } }) {
-  const index = findIndex({ collection, filter: { id: data.id } });
+const replace = function ({ collection, data, opts }) {
+  const { writeOnceAttributes, dryRun } = opts;
+  const index = findIndex({ collection, id: data.id, opts });
 
   const model = collection[index];
   const omitKeys = getOmitKeys({ model, writeOnceAttributes });
@@ -225,11 +240,11 @@ const replaceMany = function ({ collection, data, opts }) {
 };
 
 const upsertOne = function ({ collection, data, opts }) {
-  const indexes = findIndexes({ collection, filter: { id: data.id } });
-  if (indexes.length === 0) {
-    return createOne({ collection, data, opts });
-  } else {
+  const index = findIndex({ collection, id: data.id, opts: Object.assign({}, opts, { mustExist: null }) });
+  if (index) {
     return replaceOne({ collection, data, opts });
+  } else {
+    return createOne({ collection, data, opts });
   }
 };
 
