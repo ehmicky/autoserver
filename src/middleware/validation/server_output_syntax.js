@@ -21,10 +21,35 @@ const getSchema = function ({ multiple }) {
     required: ['data', 'metadata'],
     properties: {
       data: responseDef,
-      metadata: {
-        type: 'object',
-      },
+      metadata: {},
     },
+    // Metadata has the same signature as data, i.e. object or array of objects
+    allOf: [
+      {
+        properties: {
+          if: {
+            data: {
+              type: 'object'
+            },
+            metadata: {
+              type: 'object'
+            },
+          },
+        },
+      },
+      {
+        properties: {
+          if: {
+            data: {
+              type: 'array'
+            },
+            metadata: {
+              type: 'array'
+            },
+          },
+        },
+      },
+    ],
     additionalProperties: false,
   };
 };
