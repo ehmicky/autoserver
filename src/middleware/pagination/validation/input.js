@@ -126,6 +126,9 @@ const getInputData = function ({ throwError, args }) {
   if (inputData.before !== undefined && inputData.after !== undefined) {
     throwError('wrong parameters: cannot specify both \'before\' and \'after\'', { reason: 'INPUT_VALIDATION' });
   }
+  if (inputData.page !== undefined && (inputData.before !== undefined || inputData.after !== undefined)) {
+    throwError('wrong parameters: cannot use both \'page\' and \'before|after\'', { reason: 'INPUT_VALIDATION' });
+  }
 
   for (const name of ['before', 'after']) {
     const token = inputData[name];
