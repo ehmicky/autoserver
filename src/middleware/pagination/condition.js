@@ -1,7 +1,7 @@
 'use strict';
 
 
-// Whether consumers can specify all pagination arguments, including args.page_size, args.before|after
+// Whether consumers can specify all pagination arguments, including args.page_size, args.before|after|page
 // Implies output pagination
 const allowFullPagination = function ({ args: { page_size: pageSize }, action }) {
   return fullPaginationActions.includes(action) && !isPaginationDisabled({ pageSize });

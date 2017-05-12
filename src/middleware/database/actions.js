@@ -3,7 +3,7 @@
 /**
  * Summary of actions:
  *   findOne({ filter: { id } })
- *   findMany({ [filter], [order_by], [page_size], [before|after] })
+ *   findMany({ [filter], [order_by], [page_size], [before|after|page] })
  *   deleteOne({ filter: { id }, [dry_run] })
  *   deleteMany({ [filter], [order_by], [dry_run], [page_size] })
  *   updateOne({ data, filter: { id }, [dry_run] })
@@ -36,6 +36,8 @@
  *                                        Maximum is set with server option maxPageSize (default: 100)
  *  - {string} [before|after]           - Retrieves previous|next pagination batch, using the previous response's 'token'
  *                                        Use '' for the start or the end.
+ *  - {integer} [page]                  - Page number, for pagination, starting at 1
+ *                                        Cannot be used together with `before|after`
  *  - {boolean} [dry_run]               - If true, the action will not modify the database, but the return value will be the
  *                                        same as if it did.
  **/

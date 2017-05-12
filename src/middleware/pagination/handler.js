@@ -13,6 +13,7 @@ const { getPaginationInfo } = require('./info');
 /**
  * Pagination layer.
  * Supports several kinds of pagination:
+ *  - offset-based, for random access
  *  - cursor-based, for serial access
  *  - search query-based, e.g. by searching timestamps. This is implemented by other layers though.
  * Cursor-based pagination:
@@ -28,9 +29,13 @@ const { getPaginationInfo } = require('./info');
  *                                 Using 0 disables pagination.
  *   before|after {string}       - Retrieves previous|next pagination batch, using the previous response's 'token'
  *                                 Use '' for the start or the end.
+ *   page {integer}              - Page number, for pagination, starting at 1
+ *                                 Cannot be used together with `before|after`
  * Those parameters are removed and transformed for the database layer to:
  *   limit {integer}             - limit response size.
  *                                 This might be higher than args.page_size, to guess if there is a previous or next page.
+ *   offset {integer}            - offset response size.
+ *                                 Only used with offset-based pagination
  *   filter                      - with cursor-based pagination, patches args.filter to make sure we start the request
  *                                 where we last left off.
  *                                 E.g. if last batch ended with model { a: 10, b: 20 }, then we transform
@@ -59,7 +64,7 @@ const pagination = async function ({ maxPageSize }) {
   };
 };
 
-// Transform args.page_size|before|after into args.limit|filter
+// Transform args.page_size|before|after|page into args.limit|offset|filter
 const processInput = function ({ input, maxPageSize }) {
   const { args, action, modelName } = input;
 
