@@ -76,6 +76,12 @@ const start = async function (opts) {
     mdw.normalization,
     // Only keep minimal attributes in delete response
     mdw.cleanDelete,
+
+    /**
+     * Middleware modifying or spawning requests
+     **/
+    // Pagination, which can spawn one or several requests
+    mdw.pagination,
     // Process transforms and default values
     mdw.transform,
     // Parse filter's JSL, e.g. convert to format processable by database
