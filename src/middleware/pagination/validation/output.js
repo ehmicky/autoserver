@@ -70,6 +70,11 @@ const getOutputSchema = function ({ maxPageSize }) {
           minimum: 0,
           maximum: maxPageSize,
         },
+
+        page: {
+          type: 'integer',
+          minimum: 0,
+        },
       },
     },
   };
