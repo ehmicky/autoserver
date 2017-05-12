@@ -48,27 +48,11 @@ const createId = function () {
   return uuiv4();
 };
 
-const orderPostfixRegexp = /(.*)(\+|-)$/;
+// order_by sorting
 const sortResponse = function ({ data, orderByArg }) {
   if (!data || !(data instanceof Array)) { return data; }
 
-  // Allow multiple attributes sorting
-  const orders = orderByArg.split(',');
-
-  const orderArgs = orders.map(order => {
-    const args = { ascending: 'asc' };
-    // Tries to parse the + or - postfix
-    const orderTokens = orderPostfixRegexp.exec(order);
-    if (orderTokens) {
-      args.attribute = orderTokens[1];
-      args.ascending = orderTokens[2] === '-' ? 'desc' : 'asc';
-    } else {
-      args.attribute = order;
-    }
-    return args;
-  });
-
-  const sortedData = orderBy(data, map(orderArgs, 'attribute'), map(orderArgs, 'ascending'));
+  const sortedData = orderBy(data, map(orderByArg, 'attrName'), map(orderByArg, 'order'));
   return sortedData;
 };
 
@@ -269,8 +253,9 @@ const actions = {
 };
 
 const fireAction = function (opts) {
-  const response = actions[opts.action](opts);
-  response.data = sortResponse({ data: response.data, orderByArg: opts.opts.orderBy });
+  const { action, opts: { orderBy, limit } } = opts;
+  const response = actions[action](opts);
+  response.data = sortResponse({ data: response.data, orderByArg: orderBy });
   if (response.metadata === undefined) {
     response.metadata = response.data instanceof Array ? Array(response.data.length).fill({}) : {};
   }
