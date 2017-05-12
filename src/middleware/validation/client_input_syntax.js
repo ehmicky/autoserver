@@ -69,6 +69,8 @@ const validateClientSchema = [
     },
   },
   { name: 'dry_run', value: { type: 'boolean' } },
+  // Other pagination arguments are validated and transformed by pagination middleware, this is just an extra check
+  { name: 'limit', value: { type: 'integer' } },
 ];
 
 // Transform required properties into JSON schema
@@ -117,24 +119,24 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
  **/
 /* eslint-disable key-spacing, no-multi-spaces */
 const rules = {
-  findOne:      { allowed: [],                                      required: ['filter'/*, 'filter.id'*/],
+  findOne:      { allowed: [],                                                          required: ['filter'/*, 'filter.id'*/],
                   isNotJslFilterId: true                                                                                  },
-  findMany:     { allowed: ['filter'/*, 'filter.id'*/, 'order_by'],     required: []                                          },
-  deleteOne:    { allowed: ['dry_run'],                             required: ['filter'/*, 'filter.id'*/],
+  findMany:     { allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'limit'],            required: []                                          },
+  deleteOne:    { allowed: ['dry_run'],                                                 required: ['filter'/*, 'filter.id'*/],
                   isNotJslFilterId: true                                                                                  },
-  deleteMany:   { allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'dry_run'],  required: []                                  },
-  updateOne:    { allowed: ['dry_run'],                             required: ['data', 'filter'/*, 'filter.id'*/],
-                  isNotJslFilterId: true,                           forbidden: ['data.id']                                },
-  updateMany:   { allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'dry_run'],  required: ['data'],
-                                                                    forbidden: ['data.id']                                },
-  upsertOne:    { allowed: ['dry_run'],                             required: ['data', 'data.id']                         },
-  upsertMany:   { allowed: ['order_by', 'dry_run'],                 required: ['data', 'data.*.id'],
+  deleteMany:   { allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'limit', 'dry_run'], required: []                      },
+  updateOne:    { allowed: ['dry_run'],                                                 required: ['data', 'filter'/*, 'filter.id'*/],
+                  isNotJslFilterId: true,                                               forbidden: ['data.id']            },
+  updateMany:   { allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'limit', 'dry_run'], required: ['data'],
+                                                                                        forbidden: ['data.id']            },
+  upsertOne:    { allowed: ['dry_run'],                                                 required: ['data', 'data.id']     },
+  upsertMany:   { allowed: ['order_by', 'dry_run'],                                     required: ['data', 'data.*.id'],
                   dataMultiple: true                                                                                      },
-  replaceOne:   { allowed: ['dry_run'],                             required: ['data', 'data.id']                         },
-  replaceMany:  { allowed: ['order_by', 'dry_run'],                 required: ['data', 'data.*.id'],
+  replaceOne:   { allowed: ['dry_run'],                                                 required: ['data', 'data.id']     },
+  replaceMany:  { allowed: ['order_by', 'dry_run'],                                     required: ['data', 'data.*.id'],
                   dataMultiple: true                                                                                      },
-  createOne:    { allowed: ['dry_run'],                             required: ['data']                                    },
-  createMany:   { allowed: ['order_by', 'dry_run'],                 required: ['data'],
+  createOne:    { allowed: ['dry_run'],                                                 required: ['data']                },
+  createMany:   { allowed: ['order_by', 'dry_run'],                                     required: ['data'],
                   dataMultiple: true                                                                                      },
 };
 /* eslint-enable key-spacing, no-multi-spaces */
