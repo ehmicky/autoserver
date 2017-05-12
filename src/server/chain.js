@@ -76,12 +76,16 @@ const start = async function (opts) {
     mdw.normalization,
     // Only keep minimal attributes in delete response
     mdw.cleanDelete,
-    // Validate schema.readOnly
-    mdw.validateReadOnly,
     // Process transforms and default values
     mdw.transform,
     // Parse filter's JSL, e.g. convert to format processable by database
     mdw.handleFilter,
+
+    /**
+     * Validation-related middleware
+     **/
+    // Validate schema.readOnly
+    mdw.validateReadOnly,
     // General validation layer
     mdw.validation,
 
