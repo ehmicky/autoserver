@@ -20,7 +20,7 @@ const apiConvertorOutput = {
   // Metadata are siblings to data in GraphQL
   graphql({ data, metadata }) {
     if (data instanceof Array) {
-      return data.map(datum => Object.assign({}, datum, { __metadata: metadata }));
+      return data.map((datum, index) => Object.assign({}, datum, { __metadata: metadata[index] }));
     } else {
       return Object.assign({}, data, { __metadata: metadata });
     }

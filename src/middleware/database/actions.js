@@ -271,7 +271,9 @@ const actions = {
 const fireAction = function (opts) {
   const response = actions[opts.action](opts);
   response.data = sortResponse({ data: response.data, orderByArg: opts.opts.orderBy });
-  response.metadata = response.metadata || {};
+  if (response.metadata === undefined) {
+    response.metadata = response.data instanceof Array ? Array(response.data.length).fill({}) : {};
+  }
 
   // TODO: Only necessary as long as we do not use real database, to make sure it is not modified
   const copiedResponse = cloneDeep(response);
