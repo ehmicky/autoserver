@@ -76,6 +76,11 @@ const getFullSchema = function ({ args: { orderBy, filter } = {}, maxPageSize })
         minimum: 0,
         maximum: maxPageSize,
       },
+
+      page: {
+        type: 'integer',
+        minimum: 1,
+      },
     },
   };
 };
@@ -97,6 +102,7 @@ const getLimitedSchema = function ({ maxPageSize }) {
       anyOf: [
         { required: ['before'] },
         { required: ['after'] },
+        { required: ['page'] },
       ],
     },
   };
@@ -108,6 +114,7 @@ const restrictedSchema = {
     anyOf: [
       { required: ['before'] },
       { required: ['after'] },
+      { required: ['page'] },
       { required: ['page_size'] },
     ],
   },
