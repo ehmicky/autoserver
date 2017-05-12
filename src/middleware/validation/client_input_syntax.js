@@ -55,8 +55,19 @@ const validateClientSchema = [
   { name: 'filter', value: { typeof: 'function', properties: { jsl: { type: 'string', pattern: String(jslRegExp) } } } },
   // TODO: re-enabled after we use ORM format for arg.filter
   //{ name: 'filter.id', value: ({ isNotJslFilterId }) => isNotJslFilterId ? { not: { typeof: 'function' } } : {} },
-  // Matches order_by value, i.e. 'ATTR[+|-],...'
-  { name: 'order_by', value: { type: 'string', pattern: '^([a-z0-9_]+[+-]?)(,[a-z0-9_]+[+-]?)*$' } },
+  {
+    name: 'order_by',
+    value: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          attrName: { type: 'string' },
+          order: { type: 'string', enum: ['asc', 'desc'] },
+        },
+      },
+    },
+  },
   { name: 'dry_run', value: { type: 'boolean' } },
 ];
 

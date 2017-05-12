@@ -12,8 +12,7 @@ const { EngineError } = require('../../error');
 const validateClientInputSemantics = function ({ idl, modelName, action, args, maxDataLength }) {
   const type = 'clientInputSemantics';
   const schema = getSchema({ idl, modelName });
-  const data = getArgs({ args });
-  validate({ schema, data, reportInfo: { type, modelName, action } });
+  validate({ schema, data: args, reportInfo: { type, modelName, action } });
 
   validateLimits({ args, maxDataLength });
 };
@@ -26,20 +25,17 @@ const getSchema = function ({ idl, modelName }) {
       order_by: {
         type: 'array',
         items: {
-          type: 'string',
-          enum: propNames,
+          type: 'object',
+          properties: {
+            attrName: {
+              type: 'string',
+              enum: propNames,
+            },
+          },
         },
       },
     },
   };
-};
-
-const getArgs = function ({ args: { order_by: orderBy } }) {
-  const args = {};
-  if (orderBy) {
-    args.order_by = orderBy.replace(/[+-]/g, '').split(',');
-  }
-  return args;
 };
 
 // Check input is not too big
