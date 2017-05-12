@@ -60,6 +60,13 @@ const sortResponse = function ({ data, orderByArg }) {
   return sortedData;
 };
 
+// Pagination offsetting
+// If offset is too big, just return empty array
+const offsetResponse = function ({ data, offset }) {
+  if (offset === undefined) { return data; }
+  return data.slice(offset);
+};
+
 // Pagination limiting
 const limitResponse = function ({ data, limit }) {
   if (limit === undefined) { return data; }
@@ -263,9 +270,10 @@ const actions = {
 };
 
 const fireAction = function (opts) {
-  const { action, opts: { orderBy, limit } } = opts;
+  const { action, opts: { orderBy, limit, offset } } = opts;
   const response = actions[action](opts);
   response.data = sortResponse({ data: response.data, orderByArg: orderBy });
+  response.data = offsetResponse({ data: response.data, offset });
   response.data = limitResponse({ data: response.data, limit });
   if (response.metadata === undefined) {
     response.metadata = response.data instanceof Array ? Array(response.data.length).fill({}) : {};
