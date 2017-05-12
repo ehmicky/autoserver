@@ -39,14 +39,19 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
     // has_previous_page and has_next_page are only true when on the batch's edges
     const hasPreviousPage = info.has_previous_page || index !== 0;
     const hasNextPage = info.has_next_page || index !== data.length - 1;
-    const token = getPaginationToken({ model, orderBy, filter });
 
     const pages = {
       has_previous_page: hasPreviousPage,
       has_next_page: hasNextPage,
-      token,
       page_size: pageSize,
     };
+
+    if (isOffsetPagination) {
+      pages.page = page;
+    } else {
+      pages.token = getPaginationToken({ model, orderBy, filter });
+    }
+
     return Object.assign({}, metadata[index], { pages });
   });
 
