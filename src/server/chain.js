@@ -18,7 +18,7 @@ const start = async function (opts) {
 
     /**
      * Protocol-related middleware
-     */
+     **/
     // Pick the protocol
     mdw.protocolNegotiator,
     // The first middleware (not present here) is the error handler, which sends final response, if errors
@@ -46,7 +46,7 @@ const start = async function (opts) {
 
     /**
      * Interface-related middleware
-     */
+     **/
     // Convert from protocol format to interface format
     mdw.interfaceConvertor,
     // Pick the interface
@@ -64,8 +64,8 @@ const start = async function (opts) {
     }),
 
     /**
-     * API-related middleware
-     */
+     * Normalization-related middleware
+     **/
     // Convert from interface format to API format
     mdw.apiConvertor,
     // Basic validation layer
@@ -91,7 +91,7 @@ const start = async function (opts) {
 
     /**
      * Database-related middleware
-     */
+     **/
     // Do the database action, protocol and interface-agnostic
     mdw.executeDatabaseAction,
 
