@@ -3,11 +3,11 @@
 /**
  * Summary of actions:
  *   findOne({ filter: { id } })
- *   findMany({ [filter], [order_by] })
+ *   findMany({ [filter], [order_by], [page_size], [before|after] })
  *   deleteOne({ filter: { id }, [dry_run] })
- *   deleteMany({ [filter], [order_by], [dry_run] })
+ *   deleteMany({ [filter], [order_by], [dry_run], [page_size] })
  *   updateOne({ data, filter: { id }, [dry_run] })
- *   updateMany({ data, [filter], [order_by], [dry_run] })
+ *   updateMany({ data, [filter], [order_by], [dry_run], [page_size] })
  *   createOne({ data, [dry_run] })
  *   createMany({ data[], [order_by], [dry_run] })
  *   replaceOne({ data, [dry_run] })
@@ -16,24 +16,28 @@
  *   upsertMany({ data[], [order_by], [dry_run] })
  *
  * Summary of arguments:
- *  - {object|object[]} data - Attributes to update or create
- *                             Is an array in createMany, replaceMany or upsertMany
- *                             `data.id` is required in upsert* and replace*, optional in create*, not allowed in update*
- *  - {any} filter           - Filter the action by a specific attribute.
- *                             The argument name is that attribute name, not `filter`
- *                             Can use JSL
- *                             `filter.id` is required and cannot use JSL in findOne, deleteOne and updateOne
- *  - {string} [order_by]    - Sort results.
- *                             Value is attribute name, followed by optional + or - for ascending|descending order (default: +)
- *                             Can contain dots to select fields, e.g. order_by="furniture.size"
- *  - {boolean} [dry_run]    - If true, the action will not modify the database, but the return value will be the same as if
- *                             it did.
- *
- * Actions on submodels will automatically get filtered by id.
- * If an id is then specified, both filters will be used
- * For createOne:
- *   - it is the id the newly created instance
- *   - it is optional, unless there is another nested action on a submodel
+ *  - {object|object[]} data            - Attributes to update or create
+ *                                        Is an array in createMany, replaceMany or upsertMany
+ *                                        `data.id` is required in upsert* and replace*, optional in create*,
+ *                                        not allowed in update*
+ *  - {any} filter                      - Filter the action by a specific attribute.
+ *                                        The argument name is that attribute name, not `filter`
+ *                                        Can use JSL
+ *                                        `filter.id` is required and cannot use JSL in findOne, deleteOne and updateOne
+ *                                        Actions on submodels will automatically get filtered by id.
+ *                                        If an id is then specified, both filters will be used
+ *  - {string} [order_by]               - Sort results.
+ *                                        Value is attribute name, followed by optional + or - for ascending|descending order
+ *                                        (default: +)
+ *                                        Can contain dots to select fields, e.g. order_by="furniture.size"
+ *  - {integer} [page_size]             - Sets pagination size.
+ *                                        Using 0 disables pagination.
+ *                                        Default is set with server option defaultPageSize (default: 100)
+ *                                        Maximum is set with server option maxPageSize (default: 100)
+ *  - {string} [before|after]           - Retrieves previous|next pagination batch, using the previous response's 'token'
+ *                                        Use '' for the start or the end.
+ *  - {boolean} [dry_run]               - If true, the action will not modify the database, but the return value will be the
+ *                                        same as if it did.
  **/
 
 

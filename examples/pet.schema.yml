@@ -203,6 +203,16 @@ models:
 #   - `dry_run` {boolean}
 #      - in all actions except find. Never required
 #      - if true, the action will not modify the database, but the return value will be the same as if it did
+#   - `page_size` {integer}
+#      - in findMany, deleteMany or updateMany
+#      - defaults to server option defaultPageSize (default: 100)
+#      - pagination size.
+#      - 0 disables pagination.
+#      - maximum is server option maxPageSize (default: 100)
+#   - `before|after` {string}
+#      - in findMany
+#      - retrieves previous|next pagination batch, using the previous response's 'token'
+#      - use '' for the start or the end
 # JSL is a restricted syntax of JavaScript:
 #   - any string that is surrounded by parenthesis will be interpreted as JSL, except if first parenthesis is escaped:
 #      - this is JSL: '(1 + 1)'
