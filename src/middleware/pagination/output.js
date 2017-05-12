@@ -8,13 +8,17 @@ const { encode } = require('./encoding');
 // Add response metadata related to pagination: token, page_size, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
 const getPaginationOutput = function ({ args, response: { data, metadata } }) {
-  const { order_by: orderBy, filter } = args;
-  const { hasToken, previous, next, usedPageSize, isBackward } = getPaginationInfo({ args });
+  const { order_by: orderBy, filter, page } = args;
+  const { hasToken, previous, next, usedPageSize, isBackward, isOffsetPagination } = getPaginationInfo({ args });
 
   const info = {};
+  if (isOffsetPagination) {
+    info[`has_${previous}_page`] = page !== 1;
   // If a token (except '') has been used, it means there is a previous page
   // We use ${previous} amd ${next} to reverse directions when doing backward pagination
-  info[`has_${previous}_page`] = hasToken;
+  } else {
+    info[`has_${previous}_page`] = hasToken;
+  }
 
   // We fetch an extra model to guess has_next_page. If it was founds, remove it
   if (data.length === usedPageSize) {
