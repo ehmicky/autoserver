@@ -32,8 +32,9 @@ const defaults = {
   after: {
     actions: ['findMany'],
     value: '',
-    // Only if pagination and enabled, and arg.before is not specified
-    test: ({ opts: { defaultPageSize }, args: { before } }) => defaultPageSize !== 0 && before === undefined,
+    // Only if pagination and enabled, and arg.before|page is not specified
+    test: ({ opts: { defaultPageSize }, args: { before, page } }) =>
+      defaultPageSize !== 0 && before === undefined && page === undefined,
   },
 };
 
