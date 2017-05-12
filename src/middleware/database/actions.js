@@ -56,6 +56,12 @@ const sortResponse = function ({ data, orderByArg }) {
   return sortedData;
 };
 
+// Pagination limiting
+const limitResponse = function ({ data, limit }) {
+  if (limit === undefined) { return data; }
+  return data.slice(0, limit);
+};
+
 // '($ === ID)' -> ID
 const filterToId = function ({ filter: { jsl } }) {
   try {
@@ -256,6 +262,7 @@ const fireAction = function (opts) {
   const { action, opts: { orderBy, limit } } = opts;
   const response = actions[action](opts);
   response.data = sortResponse({ data: response.data, orderByArg: orderBy });
+  response.data = limitResponse({ data: response.data, limit });
   if (response.metadata === undefined) {
     response.metadata = response.data instanceof Array ? Array(response.data.length).fill({}) : {};
   }
