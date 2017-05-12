@@ -16,7 +16,7 @@ const basicValidation = async function ({ idl: { models } = {} }) {
 
     const schema = getValidateServerSchema({ models });
     const data = { modelName, args, action };
-    validate({ schema, data, reportInfo: { type: 'serverInputSyntax' } });
+    validate({ schema, data, reportInfo: { type: 'serverInputSyntax', dataVar: 'input' } });
 
     const response = await this.next(input);
     return response;
