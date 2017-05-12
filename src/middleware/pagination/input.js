@@ -9,15 +9,21 @@ const { decode } = require('./encoding');
 
 // Transform args.page_size|before|after|page into args.limit|offset|filter
 const getPaginationInput = function ({ args }) {
-  const { token, hasToken, isBackward, usedPageSize } = getPaginationInfo({ args });
-  const newArgs = omit(args, ['before', 'after', 'page_size']);
+  const { page, page_size: pageSize } = args;
+  const { token, hasToken, isBackward, usedPageSize, isOffsetPagination } = getPaginationInfo({ args });
+  const newArgs = omit(args, ['page', 'before', 'after', 'page_size']);
 
-  if (hasToken) {
-    newArgs.filter = getPaginatedFilter({ args, token, isBackward });
+  if (isOffsetPagination) {
+    newArgs.offset = (page - 1) * pageSize;
+  } else {
+    if (hasToken) {
+      newArgs.filter = getPaginatedFilter({ args, token, isBackward });
+    }
+    if (isBackward) {
+      newArgs.order_by = args.order_by.map(({ attrName, order }) => ({ attrName, order: order === 'asc' ? 'desc' : 'asc' }));
+    }
   }
-  if (isBackward) {
-    newArgs.order_by = args.order_by.map(({ attrName, order }) => ({ attrName, order: order === 'asc' ? 'desc' : 'asc' }));
-  }
+
   newArgs.limit = usedPageSize;
 
   return { args: newArgs };
