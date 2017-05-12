@@ -7,7 +7,7 @@ const { decode } = require('../encoding');
 const { validate } = require('../../../validation');
 
 
-// Validate args.before|after|page_size
+// Validate args.before|after|page_size|page
 const validatePaginationInput = function ({ args, action, modelName, maxPageSize }) {
   const throwError = getThrowError({ action, modelName });
 
@@ -24,7 +24,7 @@ const validatePaginationInput = function ({ args, action, modelName, maxPageSize
   validate({ schema, data, reportInfo: { type: 'paginationInput', action, modelName, dataVar: 'arguments' } });
 };
 
-// JSON schema when consumers can specify args.before|after|page_size
+// JSON schema when consumers can specify args.before|after|page_size|page
 const getFullSchema = function ({ args: { orderBy, filter } = {}, maxPageSize }) {
   const parsedToken = {
     oneOf: [
