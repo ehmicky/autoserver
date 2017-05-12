@@ -31,6 +31,13 @@ Using '' means 'from the beginning'`,
       description: `Retrieves previous pagination batch, using the previous response's first model's 'token'.
 Using '' means 'from the end'`,
     },
+
+    page: {
+      type: GraphQLInt,
+      description: `Page number, for pagination.
+Starts at 1.
+Cannot be used with 'before' or 'after'`,
+    },
   };
 };
 
