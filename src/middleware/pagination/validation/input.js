@@ -123,7 +123,7 @@ const restrictedSchema = {
 // Returns arguments, after decoding tokens
 const getInputData = function ({ throwError, args }) {
   const inputData = Object.assign({}, args);
-  if (inputData.before && inputData.after) {
+  if (inputData.before !== undefined && inputData.after !== undefined) {
     throwError('wrong parameters: cannot specify both \'before\' and \'after\'', { reason: 'INPUT_VALIDATION' });
   }
 
