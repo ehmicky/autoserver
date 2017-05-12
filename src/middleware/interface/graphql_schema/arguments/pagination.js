@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { GraphQLInt, GraphQLString, GraphQLBoolean } = require('graphql');
+const { GraphQLInt, GraphQLString } = require('graphql');
 
 
 // Pagination arguments
@@ -21,19 +21,15 @@ Maximum: ${maxPageSize}`,
 
     after: {
       type: GraphQLString,
-      description: 'Retrieves next pagination batch, using the previous response\'s \'next_token\'',
+      description: `Retrieves next pagination batch, using the previous response's last model's 'token'.
+Using '' means 'from the beginning'`,
+      defaultValue: '',
     },
 
     before: {
       type: GraphQLString,
-      description: 'Retrieves previous pagination batch, using the previous response\'s \'previous_token\'',
-    },
-
-    pagination_info: {
-      type: GraphQLBoolean,
-      description: `Adds extra pagination information in the output, related to the first page, the last page and the total response size.
-This will slightly slow down the request.`,
-      defaultValue: false,
+      description: `Retrieves previous pagination batch, using the previous response's first model's 'token'.
+Using '' means 'from the end'`,
     },
   };
 };
