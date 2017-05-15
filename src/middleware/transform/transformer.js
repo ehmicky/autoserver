@@ -64,7 +64,7 @@ const singleTransformValue = function (opts) {
     newValue = processJsl(Object.assign({ jsl: transformer }, jslInput, { modelInput }));
   } catch (innererror) {
     throw new EngineError(`JSL expression used as transform failed: ${transformer}`, {
-      reason: 'WRONG_TRANSFORM',
+      reason: 'IDL_RUNTIME_VALIDATION',
       innererror,
     });
   }

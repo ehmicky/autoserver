@@ -108,6 +108,11 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
+  // IDL definition is wrong, but this was caught runtime
+  IDL_RUNTIME_VALIDATION: () => ({
+    http: { status: 500 },
+  }),
+
   // Main options have syntax errors
   OPTIONS_VALIDATION: () => ({
     http: { status: 500 },
@@ -125,11 +130,6 @@ const errorReasons = {
 
   // GraphiQL HTML templating failed
   GRAPHIQL_PARSING_ERROR: () => ({
-    http: { status: 500 },
-  }),
-
-  // A transform threw an exception, which should be avoided by rewriting the transform
-  WRONG_TRANSFORM: () => ({
     http: { status: 500 },
   }),
 
