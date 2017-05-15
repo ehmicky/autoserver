@@ -8,7 +8,12 @@ const { validate } = require('../../../validation');
 
 
 // Validate args.before|after|page_size|page
-const validatePaginationInput = function ({ args, action, modelName, maxPageSize }) {
+const validatePaginationInput = function ({
+  args,
+  action,
+  modelName,
+  maxPageSize,
+}) {
   const throwError = getThrowError({ action, modelName });
 
   let schema;
@@ -21,11 +26,20 @@ const validatePaginationInput = function ({ args, action, modelName, maxPageSize
   }
   const data = getInputData({ throwError, args });
 
-  validate({ schema, data, reportInfo: { type: 'paginationInput', action, modelName, dataVar: 'arguments' } });
+  const reportInfo = {
+    type: 'paginationInput',
+    action,
+    modelName,
+    dataVar: 'arguments',
+  };
+  validate({ schema, data, reportInfo });
 };
 
 // JSON schema when consumers can specify args.before|after|page_size|page
-const getFullSchema = function ({ args: { orderBy, filter } = {}, maxPageSize }) {
+const getFullSchema = function ({
+  args: { orderBy, filter } = {},
+  maxPageSize,
+}) {
   const parsedToken = {
     oneOf: [
       {
@@ -123,24 +137,32 @@ const restrictedSchema = {
 // Returns arguments, after decoding tokens
 const getInputData = function ({ throwError, args }) {
   const inputData = Object.assign({}, args);
-  if (inputData.before !== undefined && inputData.after !== undefined) {
-    throwError('wrong parameters: cannot specify both \'before\' and \'after\'', { reason: 'INPUT_VALIDATION' });
+  const hasTwoDirections = inputData.before !== undefined &&
+    inputData.after !== undefined;
+  if (hasTwoDirections) {
+    const message = 'wrong parameters: cannot specify both \'before\' and \'after\'';
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
-  if (inputData.page !== undefined && (inputData.before !== undefined || inputData.after !== undefined)) {
-    throwError('wrong parameters: cannot use both \'page\' and \'before|after\'', { reason: 'INPUT_VALIDATION' });
+  const hasTwoPaginationTypes = inputData.page !== undefined &&
+    (inputData.before !== undefined || inputData.after !== undefined);
+  if (hasTwoPaginationTypes) {
+    const message = 'wrong parameters: cannot use both \'page\' and \'before|after\'';
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   for (const name of ['before', 'after']) {
     const token = inputData[name];
     if (token === undefined || token === '') { continue; }
     if (typeof token !== 'string') {
-      throwError(`wrong parameters: '${name}' must be a string`, { reason: 'INPUT_VALIDATION' });
+      const message = `wrong parameters: '${name}' must be a string`;
+      throwError(message, { reason: 'INPUT_VALIDATION' });
     }
     let decodedToken;
     try {
       decodedToken = decode({ token });
     } catch (innererror) {
-      throwError(`wrong parameters: '${name}' is invalid`, { reason: 'INPUT_VALIDATION', innererror });
+      const message = `wrong parameters: '${name}' is invalid`;
+      throwError(message, { reason: 'INPUT_VALIDATION', innererror });
     }
 
     inputData[name] = decodedToken;
