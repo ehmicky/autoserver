@@ -13,8 +13,14 @@ const httpLogger = async function () {
   };
 };
 
-const logRequest = function ({ req: { httpVersion, method, url, headers }, info: { ip } }) {
-  log.log(`HTTP/${httpVersion} ${method} ${url} ${ip} ${JSON.stringify(headers)}`);
+const logRequest = function ({
+  req: { httpVersion, method, url, headers },
+  info: { ip }
+}) {
+  const protocol = `HTTP${httpVersion}`;
+  headers = JSON.stringify(headers);
+  const message = [ protocol, method, url, ip, headers ].join(' ');
+  log.log(message);
 };
 
 
