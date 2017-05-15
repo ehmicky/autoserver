@@ -145,8 +145,8 @@ definitions:
     properties:
       actions:
         $ref: '#/definitions/actionsProperty'
-      # `required` property must at least contain `id`
       required:
+        # `required` property must at least contain `id`
         contains:
           enum: [id]
       # Must have an `id`
