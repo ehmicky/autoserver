@@ -120,11 +120,7 @@ models:
         transform: ($.toLowerCase())
         transformOut: (capitalize($))
         # Applied default values, on input or output
-        default:
-        # Arrays are handled like a switch statement, i.e. only the first matching is used. Can be used for transforms too.
-        - '($$.name === "Dog" ? "happy" : undefined)'
-        - '($$.name === "Cat" ? "grumpy" : undefined)'
-        defaultOut: ($$.name + ' status')
+        default: happy
       creator_ip:
         description: IP of the user that created this pet
         # compute sets the value of an attribute.

@@ -164,7 +164,7 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [model, defaultOut, transform, transformOut, compute, computeOut, writeOnce]
+      - enum: [model, transform, transformOut, compute, computeOut, writeOnce]
       - enum:
           $data: /customValidationNames
     properties:
