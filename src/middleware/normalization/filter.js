@@ -11,14 +11,16 @@ const { map } = require('../../utilities');
  *   1) { filter: { attr: 1 } }
  *   2) { filter: { attr: '($ === 1)' } }
  *   3) { filter: '($$.attr === 1)' }
- * Normalize the shape number 3, i.e. arg.filter will always be a string from that point, not an object.
+ * Normalize the shape number 3, i.e. arg.filter will always be a string
+ * from that point, not an object.
  **/
-const normalizeFilter = function ({ filter, messagePrefix = '' }) {
+const normalizeFilter = function ({ filter, prefix = '' }) {
   // Already { filter: '($$.attr === 1)' }
   if (isJsl({ jsl: filter })) { return filter; }
 
   if (filter.constructor !== Object) {
-    throw new EngineError(`${messagePrefix} argument 'filter' format is invalid: ${filter}`, { reason: 'INPUT_VALIDATION' });
+    const message = `${prefix} argument 'filter' format is invalid: ${filter}`;
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   // { filter: { attr: 1 } } -> { filter: { attr: '($ === 1)' } }
@@ -27,17 +29,20 @@ const normalizeFilter = function ({ filter, messagePrefix = '' }) {
     return `($ === ${JSON.stringify(filterVal)})`;
   });
 
-  // { filter: { attr: '($ === 1)', attrb: '($ === 2)' } } -> { filter: '(($$.attr === 1) && ($$.attrb === 2))' }
-  const singleJslArray = Object.entries(jslOnlyFilter).map(([attrName, attrJsl]) => {
-    return attrJsl.replace(singleDollarRegExp, `$1$$$$.${attrName}`);
-  });
+  // { filter: { attr: '($ === 1)', attrb: '($ === 2)' } }
+  // -> { filter: '(($$.attr === 1) && ($$.attrb === 2))' }
+  const singleJslArray = Object.entries(jslOnlyFilter).map(normalizeJsl);
   const singleJslString = `(${singleJslArray.join(' && ')})`;
 
   return singleJslString;
 };
-// Look for single dollar variables ($), while exclusing double dollar variables ($$) or normal variables ($var)
+// Look for single dollar variables ($), while exclusing double dollar
+// variables ($$) or normal variables ($var)
 // TODO: use a JavaScript parser instead
 const singleDollarRegExp = /([^$a-zA-Z0-9_])\$(?![$a-zA-Z0-9_])/g;
+const normalizeJsl = function ([attrName, attrJsl]) {
+  return attrJsl.replace(singleDollarRegExp, `$1$$$$.${attrName}`);
+};
 
 
 module.exports = {

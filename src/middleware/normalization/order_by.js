@@ -13,9 +13,9 @@ const { EngineError } = require('../../error');
  *     { attrName: 'id', order: 'asc' },
  *   ]
  **/
-const normalizeOrderBy = function ({ orderBy, messagePrefix = '' }) {
+const normalizeOrderBy = function ({ orderBy, prefix = '' }) {
   if (typeof orderBy !== 'string') {
-    throw new EngineError(`${messagePrefix} argument 'order_by' must be a string: ${orderBy}`, { reason: 'INPUT_VALIDATION' });
+    throw new EngineError(`${prefix} argument 'order_by' must be a string: ${orderBy}`, { reason: 'INPUT_VALIDATION' });
   }
 
   // Remove whitespaces
@@ -27,7 +27,7 @@ const normalizeOrderBy = function ({ orderBy, messagePrefix = '' }) {
   // Transform each part from a string to an object { attrName 'attr', order 'asc|desc' }
   const parsedParts = parts.map(part => {
     if (part === '') {
-      throw new EngineError(`${messagePrefix} argument 'order_by' cannot have empty attributes`, {
+      throw new EngineError(`${prefix} argument 'order_by' cannot have empty attributes`, {
         reason: 'INPUT_VALIDATION',
       });
     }
