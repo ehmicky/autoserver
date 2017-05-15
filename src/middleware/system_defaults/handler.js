@@ -18,18 +18,19 @@ const systemDefaults = async function (opts) {
 };
 
 // Retrieve default arguments
-const getDefaultArgs = function ({ opts, input: { args, action } }) {
+const getDefaultArgs = function ({ opts, input }) {
+  const { args, action } = input;
   // Iterate through every possible default argument
   return Object.entries(defaults)
     // Whitelist by action
     .filter(([, { actions }]) => actions.includes(action))
     // Whitelist by tests
-    .filter(([, { test }]) => !test || test({ opts, args }))
+    .filter(([, { test }]) => !test || test({ opts, input }))
     // Only if user has not specified that argument
     .filter(([attrName]) => args[attrName] === undefined)
     // Reduce to a single object
     .map(([attrName, { value }]) => {
-      const val = typeof value === 'function' ? value({ opts, args }) : value;
+      const val = typeof value === 'function' ? value({ opts, input }) : value;
       return { [attrName]: val };
     })
     .reduce((memo, object) => Object.assign(memo, object), {});
