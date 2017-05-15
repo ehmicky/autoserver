@@ -64,12 +64,20 @@ const start = async function (opts) {
     }),
 
     /**
-     * Normalization-related middleware
+     * Conversion to API format
      **/
     // Convert from interface format to API format
     mdw.apiConvertor,
     // Basic validation layer
     mdw.basicValidation,
+
+    /**
+     * Middleware transforming one request into 0, 1 or several separate requests
+     **/
+
+    /**
+     * Normalization-related middleware
+     **/
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
     // Normalize input
@@ -78,7 +86,7 @@ const start = async function (opts) {
     mdw.cleanDelete,
 
     /**
-     * Middleware modifying or spawning requests
+     * Generic API-related middleware
      **/
     // Pagination, which can spawn one or several requests
     mdw.pagination,
