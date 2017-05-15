@@ -25,5 +25,6 @@ module.exports = Object.assign(
   require('./transform'),
   require('./filter'),
   require('./validation'),
-  require('./database')
+  require('./database'),
+  require('./no_response')
 );

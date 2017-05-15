@@ -3,7 +3,6 @@
 
 const { chain, branch } = require('../chain');
 const middlewares = require('../middleware');
-const { EngineError } = require('../error');
 const { mapAsync } = require('../utilities');
 
 
@@ -107,10 +106,10 @@ const start = async function (opts) {
     // Do the database action, protocol and interface-agnostic
     mdw.executeDatabaseAction,
 
-    // If we got there, it means no response has been fired
-    function () {
-      throw new EngineError('No middleware was able to handle the request', { reason: 'WRONG_RESPONSE' });
-    },
+    /**
+     * Catch-all error middleware
+     **/
+    mdw.noResponse,
 
   ]);
 };
