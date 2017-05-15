@@ -87,7 +87,7 @@ const getFullSchema = function ({
 
       page_size: {
         type: 'integer',
-        minimum: 0,
+        minimum: 1,
         maximum: maxPageSize,
       },
 
@@ -107,7 +107,7 @@ const getLimitedSchema = function ({ maxPageSize }) {
     properties: {
       page_size: {
         type: 'integer',
-        minimum: 0,
+        minimum: 1,
         maximum: maxPageSize,
       },
     },
