@@ -22,7 +22,6 @@ module.exports = Object.assign(
   require('./system_defaults'),
   require('./pagination'),
   require('./clean_delete'),
-  require('./read_only'),
   require('./transform'),
   require('./filter'),
   require('./validation'),

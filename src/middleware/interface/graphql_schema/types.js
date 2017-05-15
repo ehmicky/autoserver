@@ -160,8 +160,6 @@ const getObjectFields = function (def, opts) {
           || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
           // Nested data arguments do not include `id`
           || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel)
-          // Readonly fields cannot be specified as data argument
-          || (inputObjectType === 'data' && childDef.readOnly)
           // updateOne|updateMany do not allow data.id
           || (actionType === 'update' && childDefName === 'id' && inputObjectType === 'data');
       })

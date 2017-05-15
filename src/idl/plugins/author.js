@@ -26,7 +26,7 @@ const authorPlugin = function ({ idl, opts }) {
     throw new EngineStartupError(`'author' plugin requires 'idl.models.${usedModel}'`, { reason: 'IDL_VALIDATION' });
   }
 
-  return propertiesPlugin({ getProperties, requiredProperties })({ idl, opts });
+  return propertiesPlugin({ getProperties })({ idl, opts });
 };
 
 const getProperties = ({ user = '($user)', model = 'user' }) => ({
@@ -35,7 +35,6 @@ const getProperties = ({ user = '($user)', model = 'user' }) => ({
     description: 'Who created this model',
     model,
     compute: `(["create", "upsert"].includes($ACTION) ? ${user}.id : undefined)`,
-    readOnly: true,
     writeOnce: true,
   },
   updated_by: {
@@ -43,10 +42,8 @@ const getProperties = ({ user = '($user)', model = 'user' }) => ({
     description: 'Who last updated this model',
     model,
     compute: `(${user}.id)`,
-    readOnly: true,
   },
 });
-const requiredProperties = ['updated_by'];
 
 
 module.exports = {
