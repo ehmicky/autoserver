@@ -7,8 +7,7 @@ const { mapAsync } = require('../utilities');
 
 
 const start = async function (opts) {
-  // Apply options
-  const mdw = await mapAsync(middlewares, async middleware => await middleware(opts));
+  const mdw = await applyMiddlewares(opts, middlewares);
 
   return chain([
 
@@ -114,6 +113,13 @@ const start = async function (opts) {
   ]);
 };
 
+// Apply options
+const applyMiddlewares = async function (opts, middlewares) {
+  return await mapAsync(middlewares, applyMiddleware.bind(null, opts));
+};
+const applyMiddleware = async function (opts, middleware) {
+  return await middleware(opts);
+};
 
 module.exports = {
   start,
