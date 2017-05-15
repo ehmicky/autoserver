@@ -133,7 +133,8 @@ definitions:
           $data: /customValidationNames
   # Only applies this to top-level models
   topLevelModel:
-    $ref: '#/definitions/generalObjectSchema'
+    allOf:
+    - $ref: '#/definitions/generalObjectSchema'
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
@@ -158,7 +159,8 @@ definitions:
           object
   # Only applies this to models attributes, including nested models
   attributeSchema:
-    $ref: '#/definitions/generalObjectSchema'
+    allOf:
+    - $ref: '#/definitions/generalObjectSchema'
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
