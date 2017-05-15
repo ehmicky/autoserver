@@ -6,19 +6,20 @@ const { normalizeOrderBy } = require('./order_by');
 
 
 /**
- * Normalize input, i.e. when input can take several shapes, reduce it to a single shape
+ * Normalize input, i.e. when input can take several shapes,
+ * reduce it to a single shape
  **/
 const normalization = async function () {
   return async function normalization(input) {
     const { args, action, modelName } = input;
 
-    const messagePrefix = `In action '${action}', model '${modelName}',`;
+    const prefix = `In action '${action}', model '${modelName}',`;
     if (args.filter) {
-      args.filter = normalizeFilter({ filter: args.filter, messagePrefix });
+      args.filter = normalizeFilter({ filter: args.filter, prefix });
     }
 
     if (args.order_by) {
-      args.order_by = normalizeOrderBy({ orderBy: args.order_by, messagePrefix });
+      args.order_by = normalizeOrderBy({ orderBy: args.order_by, prefix });
     }
 
     const response = await this.next(input);
