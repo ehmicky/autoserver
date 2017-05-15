@@ -29,7 +29,8 @@ const defaults = {
       actions: ['findMany', 'deleteMany', 'updateMany'],
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
-      test: ({ opts: { defaultPageSize } }) => defaultPageSize !== 0,
+      test: ({ opts: { defaultPageSize }, input: { maxPageSize } }) =>
+        defaultPageSize !== 0 && maxPageSize !== 0,
     },
 
     after: {
@@ -38,8 +39,11 @@ const defaults = {
       // Only if pagination is enabled, and arg.before|page is not specified
       test: ({
         opts: { defaultPageSize },
-        input: { args: { before, page } },
-      }) => defaultPageSize !== 0 && before === undefined && page === undefined
+        input: { args: { before, page }, maxPageSize },
+      }) => defaultPageSize !== 0 &&
+        maxPageSize !== 0 &&
+        before === undefined &&
+        page === undefined
     },
   },
 };

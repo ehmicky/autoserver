@@ -66,9 +66,13 @@ const { getPaginationInfo } = require('./info');
  *    iterate through the next batches, findMany
  *    must be used
  **/
-const pagination = async function ({ maxPageSize }) {
+const pagination = async function (idl) {
   return async function pagination(input) {
     const originalArgs = cloneDeep(input.args);
+    // input.maxPageSize is set by the system, e.g. by updateAction middleware
+    const maxPageSize = input.maxPageSize !== undefined
+      ? input.maxPageSize
+      : idl.maxPageSize;
 
     const paginatedInput = processInput({ input, maxPageSize });
     const response = await this.next(paginatedInput);
