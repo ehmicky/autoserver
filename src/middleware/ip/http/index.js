@@ -1,13 +1,13 @@
 'use strict';
 
 
-const proxyAddr = require('proxy-addr');
+const { getClientIp } = require('request-ip');
 
 
 const httpGetIp = async function () {
   return async function httpGetIp(input) {
     const { req, info } = input;
-    info.ip = proxyAddr(req, () => true);
+    info.ip = getClientIp(req) || '';
 
     const response = await this.next(input);
     return response;
