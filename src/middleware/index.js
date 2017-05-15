@@ -20,6 +20,7 @@ module.exports = Object.assign(
   require('./basic_validation'),
   require('./normalization'),
   require('./system_defaults'),
+  require('./user_defaults'),
   require('./pagination'),
   require('./clean_delete'),
   require('./transform'),

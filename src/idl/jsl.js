@@ -82,7 +82,6 @@ const jslModelAttributes = [
   { attrName: 'default', target: 'modelInput' },
   { attrName: 'transform', target: 'modelInput' },
   { attrName: 'compute', target: 'modelInput' },
-  { attrName: 'defaultOut', target: 'modelOutput' },
   { attrName: 'transformOut', target: 'modelOutput' },
   { attrName: 'computeOut', target: 'modelOutput' },
 ];

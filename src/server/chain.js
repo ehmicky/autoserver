@@ -80,6 +80,8 @@ const start = async function (opts) {
      **/
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
+    // Apply user-defined default values
+    mdw.userDefaults,
     // Normalize input
     mdw.normalization,
     // Only keep minimal attributes in delete response
@@ -90,7 +92,7 @@ const start = async function (opts) {
      **/
     // Pagination, which can spawn one or several requests
     mdw.pagination,
-    // Process transforms and default values
+    // Process transforms
     mdw.transform,
     // Parse filter's JSL, e.g. convert to format processable by database
     mdw.handleFilter,

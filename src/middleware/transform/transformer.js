@@ -19,9 +19,9 @@ const getTransform = ({ direction }) => function transformFunc(opts) {
   // Value should be an object if valid, but it might be invalid since the validation layer is not fired yet on input
   if (value.constructor !== Object) { return value; }
 
-  // Iterate over IDL for that model, to find models that have transforms/defaults
+  // Iterate over IDL for that model, to find models that have transforms
   each(propsIdl, (propIdl, attrName) => {
-    transformValue(Object.assign({ propIdl, attrName, direction }, opts));
+    transformValue(Object.assign({ propIdl, attrName }, opts));
   });
 
   return value;
@@ -29,19 +29,12 @@ const getTransform = ({ direction }) => function transformFunc(opts) {
 
 // Do the actual transformation
 const transformValue = function (opts) {
-  const { value, attrName, direction, props: { DEFAULT_NAME, NON_DEFAULT_NAME, COMPUTE_NAME }, propIdl, actionType } = opts;
+  const { value, attrName, props: { TRANSFORM_NAME, COMPUTE_NAME }, propIdl } = opts;
 
   singleTransformValue(Object.assign({}, opts, { transformer: propIdl[COMPUTE_NAME] }));
 
-  // 'update' actions do not use default values on input
-  const isUpdateInput = actionType === 'update' && direction === 'input';
-  // If the value is undefined, apply `default` first, so it can be processed by `transform` right after,
-  // providing `default` did assign the value
-  if (value[attrName] === undefined && !isUpdateInput) {
-    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[DEFAULT_NAME] }));
-  }
   if (value[attrName] !== undefined) {
-    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[NON_DEFAULT_NAME] }));
+    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[TRANSFORM_NAME] }));
   }
 };
 
@@ -69,8 +62,8 @@ const singleTransformValue = function (opts) {
     });
   }
 
-  // Transforms|defaults that return undefined do not apply
-  // This allows conditional transforms|defaults, e.g. { age: '$ > 30 ? $ - 1 : undefined' }
+  // Transforms that return undefined do not apply
+  // This allows conditional transforms, e.g. { age: '$ > 30 ? $ - 1 : undefined' }
   if (newValue === undefined) { return; }
 
   value[attrName] = newValue;
@@ -81,14 +74,12 @@ const singleTransformValue = function (opts) {
 const transformProps = {
   input: {
     // IDL transform names depends on direction
-    DEFAULT_NAME: 'default',
-    NON_DEFAULT_NAME: 'transform',
+    TRANSFORM_NAME: 'transform',
     COMPUTE_NAME: 'compute',
     VARIABLE_NAME: 'data',
   },
   output: {
-    DEFAULT_NAME: 'defaultOut',
-    NON_DEFAULT_NAME: 'transformOut',
+    TRANFORM_NAME: 'transformOut',
     COMPUTE_NAME: 'computeOut',
     VARIABLE_NAME: 'model',
   },
