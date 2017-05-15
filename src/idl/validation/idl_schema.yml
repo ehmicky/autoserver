@@ -127,8 +127,8 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [actions, model, type, description, deprecated, examples, defaultOut, transform, transformOut, compute,
-        computeOut, writeOnce]
+      - enum: [actions, model, type, description, deprecated, examples,
+          transform, transformOut, compute, computeOut, writeOnce]
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -180,8 +180,8 @@ definitions:
   nestedModel:
     # Restrict the possible properties
     propertyNames:
-      enum: [model, type, description, deprecated, examples, default, defaultOut, tranform, transformOut, compute,
-      computeOut, actions, writeOnce]
+      enum: [model, type, description, deprecated, examples, default, tranform,
+      transformOut, compute, computeOut, actions, writeOnce]
     # Must have a `model` property
     required: [model]
     properties:

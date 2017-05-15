@@ -19,7 +19,8 @@ const start = async function (opts) {
      **/
     // Pick the protocol
     mdw.protocolNegotiator,
-    // The first middleware (not present here) is the error handler, which sends final response, if errors
+    // The first middleware (not present here) is the error handler,
+    // which sends final response, if errors
     branch(mdw.protocolNegotiation, {
       http: [
         // Sends final response, if success
@@ -70,7 +71,8 @@ const start = async function (opts) {
     mdw.basicValidation,
 
     /**
-     * Middleware transforming one request into 0, 1 or several separate requests
+     * Middleware transforming one request into 0, 1 or several
+     * separate requests
      **/
 
     /**

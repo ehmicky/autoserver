@@ -9,7 +9,9 @@ const { EngineError } = require('../../error');
  **/
 const noResponse = async function () {
   return async function noResponse() {
-    throw new EngineError('No middleware was able to handle the request', { reason: 'WRONG_RESPONSE' });
+    throw new EngineError('No middleware was able to handle the request', {
+      reason: 'WRONG_RESPONSE',
+    });
   };
 };
 
