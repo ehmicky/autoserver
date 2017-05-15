@@ -67,7 +67,7 @@ const getOutputSchema = function ({ maxPageSize }) {
 
         page_size: {
           type: 'integer',
-          minimum: 0,
+          minimum: 1,
           maximum: maxPageSize,
         },
 
