@@ -74,6 +74,7 @@ const start = async function (opts) {
      * Middleware transforming one request into 0, 1 or several
      * separate requests
      **/
+    mdw.updateAction,
 
     /**
      * Normalization-related middleware
