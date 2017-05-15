@@ -9,7 +9,7 @@ const { propertiesPlugin } = require('./properties');
 //   updated_time {string} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
 const timestampPlugin = function ({ idl, opts }) {
-  return propertiesPlugin({ getProperties, requiredProperties })({ idl, opts });
+  return propertiesPlugin({ getProperties })({ idl, opts });
 };
 
 const getProperties = () => ({
@@ -19,7 +19,6 @@ const getProperties = () => ({
     examples: ['2017-04-26T11:19:45Z'],
     format: 'date-time',
     compute: '(["create", "upsert"].includes($ACTION) ? $NOW : undefined)',
-    readOnly: true,
     writeOnce: true,
   },
   updated_time: {
@@ -28,10 +27,8 @@ const getProperties = () => ({
     examples: ['2017-04-26T11:19:45Z'],
     format: 'date-time',
     compute: '($NOW)',
-    readOnly: true,
   },
 });
-const requiredProperties = ['updated_time'];
 
 
 module.exports = {

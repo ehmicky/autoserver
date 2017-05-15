@@ -127,11 +127,6 @@ models:
         defaultOut: ($$.name + ' status')
       creator_ip:
         description: IP of the user that created this pet
-        # read-only attribute cannot be set by the client, but can be returned by the server
-        # They can still be set by the server, e.g. using defaults and transforms, allowing server-side computed attributes
-        # This can also be used if an attribute is deprecated, and we want to restrict clients from setting it, but
-        # want to still allow them to read it
-        readOnly: true
         # compute sets the value of an attribute.
         # The value provided by the user will be ignored, unless this returns undefined
         # As opposed to `default`, this will also be set during update actions.

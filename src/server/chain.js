@@ -98,8 +98,6 @@ const start = async function (opts) {
     /**
      * Validation-related middleware
      **/
-    // Validate schema.readOnly
-    mdw.validateReadOnly,
     // General validation layer
     mdw.validation,
 
