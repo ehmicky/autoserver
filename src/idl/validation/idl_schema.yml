@@ -148,7 +148,7 @@ definitions:
       required:
         # `required` property must at least contain `id`
         contains:
-          enum: [id]
+          const: id
       # Must have an `id`
       properties:
         required: [id]
