@@ -3,14 +3,22 @@
 
 // Whether consumers can specify all pagination arguments, including args.page_size, args.before|after|page
 // Implies output pagination
-const allowFullPagination = function ({ args: { page_size: pageSize }, action }) {
-  return fullPaginationActions.includes(action) && !isPaginationDisabled({ pageSize });
+const allowFullPagination = function ({
+  args: { page_size: pageSize },
+  action,
+}) {
+  return fullPaginationActions.includes(action) &&
+    !isPaginationDisabled({ pageSize });
 };
 const fullPaginationActions = ['findMany'];
 
 // Whether output will be paginated
-const mustPaginateOutput = function ({ args: { page_size: pageSize }, action }) {
-  return outputPaginationActions.includes(action) && !isPaginationDisabled({ pageSize });
+const mustPaginateOutput = function ({
+  args: { page_size: pageSize },
+  action,
+}) {
+  return outputPaginationActions.includes(action) &&
+    !isPaginationDisabled({ pageSize });
 };
 const outputPaginationActions = ['findMany', 'deleteMany', 'updateMany'];
 
