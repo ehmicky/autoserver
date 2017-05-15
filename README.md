@@ -17,6 +17,7 @@ The server is fully-featured, i.e. there should not be much need for custom code
   - complex filters, e.g. `findUsers(filter: {age: "$ > 30"})`
   - sorting, e.g. `findUsers(order_by: "name-,job_title+")`
   - selecting (handled natively by GraphQL)
+  - pagination
   - dry runs
   - nested actions. One can not only query but also mutate nested models in a single action.
   - validation of both input and output
@@ -38,7 +39,6 @@ Includes (but is not limited to):
   - migrations
   - security
   - some HTTP features (CORS, caching, etc.)
-  - pagination
   - performance optimization (could be 5 to 10 times faster with some basic tweaks, since much of the work can be done compile-time)
   - using real database connection (at the moment, all data lives in memory, using a JavaScript array)
 
