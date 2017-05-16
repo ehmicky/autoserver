@@ -5,7 +5,8 @@ const { compileJsl } = require('../../jsl');
 const { EngineError } = require('../../error');
 
 
-// Transform `filter` argument into a format that is easily manageable for the database layer
+// Transform `filter` argument into a format that is easily manageable
+// for the database layer
 const handleFilter = async function ({ idl }) {
   return async function handleFilter(input) {
     const { args } = input;
@@ -15,7 +16,11 @@ const handleFilter = async function ({ idl }) {
       try {
         args.filter = compileJsl({ jsl: args.filter, idl, target: 'filter' });
       } catch (innererror) {
-        throw new EngineError(`JSL syntax error: ${JSON.stringify(args.filter)}`, { reason: 'INPUT_VALIDATION', innererror });
+        const message = `JSL syntax error: ${JSON.stringify(args.filter)}`;
+        throw new EngineError(message, {
+          reason: 'INPUT_VALIDATION',
+          innererror,
+        });
       }
     }
 
