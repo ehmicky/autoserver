@@ -19,13 +19,13 @@ const systemDefaults = async function (opts) {
 
 // Retrieve default arguments
 const getDefaultArgs = function ({ opts, input }) {
-  const { action } = input;
+  const { dbFullAction } = input;
   // Iterate through every possible default value
   return Object.entries(defaults)
     .map(([name, defaultsValue]) => {
       defaultsValue = Object.entries(defaultsValue)
-        // Whitelist by action
-        .filter(([, { actions }]) => actions.includes(action))
+        // Whitelist by dbFullAction
+        .filter(([, { dbFullActions }]) => dbFullActions.includes(dbFullAction))
         // Whitelist by tests
         .filter(([, { test }]) => !test || test({ opts, input }))
         // Only if user has not specified that argument

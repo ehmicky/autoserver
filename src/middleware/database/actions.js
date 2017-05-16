@@ -239,7 +239,7 @@ const updateMany = function ({ collection, data, opts }) {
   return { data: newModels };
 };
 
-const actions = {
+const dbFullActions = {
   findOne,
   findMany,
   deleteOne,
@@ -251,8 +251,8 @@ const actions = {
 };
 
 const fireAction = function (opts) {
-  const { action, opts: { orderBy, limit, noOutput, offset } } = opts;
-  const response = actions[action](opts);
+  const { dbFullAction, opts: { orderBy, limit, noOutput, offset } } = opts;
+  const response = dbFullActions[dbFullAction](opts);
   response.data = sortResponse({ data: response.data, orderByArg: orderBy });
   response.data = offsetResponse({ data: response.data, offset });
   response.data = limitResponse({ data: response.data, limit });

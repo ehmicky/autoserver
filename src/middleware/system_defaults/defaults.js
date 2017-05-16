@@ -3,23 +3,23 @@
 
 // List of defaults:
 //  - key is argument attribute name
-//  - actions are whitelisted
+//  - dbFullActions are whitelisted
 //  - value is the default value.
 //    Can be a function taking the server options as first argument
 const defaults = {
   args: {
     filter: {
-      actions: ['findMany', 'deleteMany'],
+      dbFullActions: ['findMany', 'deleteMany'],
       value: '(true)',
     },
 
     order_by: {
-      actions: ['findMany', 'deleteMany', 'updateMany', 'createMany'],
+      dbFullActions: ['findMany', 'deleteMany', 'updateMany', 'createMany'],
       value: 'id+',
     },
 
     dry_run: {
-      actions: [
+      dbFullActions: [
         'deleteOne',
         'deleteMany',
         'updateOne',
@@ -31,7 +31,7 @@ const defaults = {
     },
 
     no_output: {
-      actions: [
+      dbFullActions: [
         'deleteOne',
         'deleteMany',
         'updateOne',
@@ -43,7 +43,7 @@ const defaults = {
     },
 
     page_size: {
-      actions: ['findMany', 'deleteMany', 'updateMany', 'createMany'],
+      dbFullActions: ['findMany', 'deleteMany', 'updateMany', 'createMany'],
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
       test: ({
@@ -54,7 +54,7 @@ const defaults = {
     },
 
     after: {
-      actions: ['findMany'],
+      dbFullActions: ['findMany'],
       value: '',
       // Only if pagination is enabled, and arg.before|page is not specified
       test: ({

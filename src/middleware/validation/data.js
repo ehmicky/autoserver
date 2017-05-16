@@ -16,11 +16,17 @@ const validateClientInputData = function ({
   idl,
   modelName,
   action,
+  dbFullAction,
   args,
   extra,
 }) {
   const type = 'clientInputData';
-  const schema = getDataValidationSchema({ idl, modelName, action, type });
+  const schema = getDataValidationSchema({
+    idl,
+    modelName,
+    dbFullAction,
+    type,
+  });
   const attributes = getAttributes(args);
   each(attributes, (attribute, dataVar) => {
     attribute = attribute instanceof Array ? attribute : [attribute];
@@ -64,13 +70,19 @@ const validateServerOutputData = function ({
   modelName,
   response: { data },
   action,
+  dbFullAction,
   args: { no_output: noOutput },
   extra,
 }) {
   if (noOutput) { return; }
 
   const type = 'serverOutputData';
-  const schema = getDataValidationSchema({ idl, modelName, action, type });
+  const schema = getDataValidationSchema({
+    idl,
+    modelName,
+    dbFullAction,
+    type,
+  });
   data = data instanceof Array ? data : [data];
   data.forEach(datum => {
     const reportInfo = { type, modelName, action, dataVar: 'response' };
@@ -82,14 +94,14 @@ const validateServerOutputData = function ({
 const getDataValidationSchema = memoize(function ({
   idl,
   modelName,
-  action,
+  dbFullAction,
   type,
 }) {
   const schema = cloneDeep(idl.models[modelName]);
-  // Adapt the IDL schema validation to the current action,
+  // Adapt the IDL schema validation to the current dbFullAction,
   // and to what the validator library expects
   // Apply each transform recursively
-  transform({ transforms, args: { action, type } })({ input: schema });
+  transform({ transforms, args: { dbFullAction, type } })({ input: schema });
   return schema;
 });
 
@@ -105,14 +117,14 @@ const optionalOutputAttrActions = [
 ];
 const transforms = [
   {
-    // Fix `required` attribute according to the current action
-    required({ value: required, action, type }) {
+    // Fix `required` attribute according to the current dbFullAction
+    required({ value: required, dbFullAction, type }) {
       if (!(required instanceof Array)) { return; }
 
       if (type === 'clientInputData') {
-        // Nothing is required for those actions,
+        // Nothing is required for those dbFullActions,
         // except maybe `id` (previously validated)
-        if (optionalInputAttrActions.includes(action)) {
+        if (optionalInputAttrActions.includes(dbFullAction)) {
           required = [];
         // `id` requiredness has already been checked by previous validator,
         // so we skip it here
@@ -120,9 +132,9 @@ const transforms = [
           required = required.filter(requiredProp => requiredProp !== 'id');
         }
       } else if (type === 'serverOutputData') {
-        // Some actions do not require normal attributes as output
+        // Some dbFullActions do not require normal attributes as output
         // (except for `id`)
-        if (optionalOutputAttrActions.includes(action)) {
+        if (optionalOutputAttrActions.includes(dbFullAction)) {
           required = required.filter(requiredProp => requiredProp === 'id');
         }
       }

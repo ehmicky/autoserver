@@ -11,7 +11,7 @@ const { normalizeOrderBy } = require('./order_by');
  **/
 const normalization = async function () {
   return async function normalization(input) {
-    const { args, action, modelName } = input;
+    const { args, modelName, info: { action } } = input;
 
     const prefix = `In action '${action}', model '${modelName}',`;
     if (args.filter) {

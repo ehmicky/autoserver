@@ -8,7 +8,14 @@ const { fireAction } = require('./actions');
 
 const executeDatabaseAction = async function () {
   return async function executeDatabaseAction(input) {
-    const { action, dbAction, args = {}, modelName, info, params } = input;
+    const {
+      dbAction,
+      dbFullAction,
+      args = {},
+      modelName,
+      info,
+      params,
+    } = input;
     const {
       order_by: orderBy,
       limit,
@@ -33,7 +40,8 @@ const executeDatabaseAction = async function () {
       noOutput,
       modelName,
     };
-    const response = fireAction({ action, collection, filter, data, opts });
+    const actionInput = { dbFullAction, collection, filter, data, opts };
+    const response = fireAction(actionInput);
     return response;
   };
 };
