@@ -188,7 +188,7 @@ const rules = {
     required: ['data', 'data.id'],
   },
   upsertMany: {
-    allowed: ['order_by', 'dry_run'],
+    allowed: ['order_by', 'limit', 'offset', 'dry_run'],
     required: ['data', 'data.*.id'],
     dataMultiple: true,
   },
@@ -197,7 +197,7 @@ const rules = {
     required: ['data', 'data.id'],
   },
   replaceMany: {
-    allowed: ['order_by', 'dry_run'],
+    allowed: ['order_by', 'limit', 'offset', 'dry_run'],
     required: ['data', 'data.*.id'],
     dataMultiple: true,
   },
@@ -206,7 +206,7 @@ const rules = {
     required: ['data'],
   },
   createMany: {
-    allowed: ['order_by', 'dry_run'],
+    allowed: ['order_by', 'limit', 'offset', 'dry_run'],
     required: ['data'],
     dataMultiple: true,
   },

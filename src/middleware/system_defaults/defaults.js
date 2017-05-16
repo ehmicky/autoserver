@@ -46,6 +46,9 @@ const defaults = {
         'findMany',
         'deleteMany',
         'updateMany',
+        'upsertMany',
+        'replaceMany',
+        'createMany',
       ],
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled

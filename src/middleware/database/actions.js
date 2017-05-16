@@ -9,11 +9,11 @@
  *   updateOne({ data, filter: { id }, [dry_run] })
  *   updateMany({ data, [filter], [order_by], [dry_run], [page_size] })
  *   createOne({ data, [dry_run] })
- *   createMany({ data[], [order_by], [dry_run] })
+ *   createMany({ data[], [order_by], [dry_run], [page_size] })
  *   replaceOne({ data, [dry_run] })
- *   replaceMany({ data[], [order_by], [dry_run] })
+ *   replaceMany({ data[], [order_by], [dry_run], [page_size] })
  *   upsertOne({ data, [dry_run] })
- *   upsertMany({ data[], [order_by], [dry_run] })
+ *   upsertMany({ data[], [order_by], [dry_run], [page_size] })
  *
  * Summary of arguments:
  *  - {object|object[]} data  - Attributes to update or create
