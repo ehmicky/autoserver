@@ -14,7 +14,8 @@ const { jslRegExp } = require('../../jsl');
  *  - required attributes are defined
  *  - disabled attributes are not defined
  *  - `filter` is an object, `data` is an array or object (depending on action)
- *  - `order_by` and `dry_run` syntax looks valid (does not check whether it is semantically correct)
+ *  - `order_by` and `dry_run` syntax looks valid
+ *    (does not check whether it is semantically correct)
  **/
 const validateClientInputSyntax = function ({ modelName, action, args }) {
   const type = 'clientInputSyntax';
@@ -29,7 +30,12 @@ const getValidateClientSchema = function({ action }) {
   const requiredProperties = getRequiredProps(rule.required);
   const forbiddenProperties = getForbiddenProperties({ rule });
 
-  const schema = merge({ type: 'object', additionalProperties: false }, properties, requiredProperties, forbiddenProperties);
+  const schema = merge(
+    { type: 'object', additionalProperties: false },
+    properties,
+    requiredProperties,
+    forbiddenProperties
+  );
   return schema;
 };
 
@@ -37,7 +43,9 @@ const getValidateClientSchema = function({ action }) {
 const getProperties = function ({ rule }) {
   return validateClientSchema
     // Whitelists input according to `allowed` or `required`
-    .filter(({ name }) => rule.allowed.includes(name) || rule.required.includes(name))
+    .filter(({ name }) => {
+      return rule.allowed.includes(name) || rule.required.includes(name);
+    })
     .map(({ name, value }) => {
       // Fire value functions
       value = typeof value === 'function' ? value(rule) : value;
@@ -51,10 +59,24 @@ const getProperties = function ({ rule }) {
 
 // JSON schemas applied to input
 const validateClientSchema = [
-  { name: 'data', value: ({ dataMultiple }) => !dataMultiple ? { type: 'object' } : { type: 'array', items: { type: 'object' } } },
-  { name: 'filter', value: { typeof: 'function', properties: { jsl: { type: 'string', pattern: String(jslRegExp) } } } },
+  {
+    name: 'data',
+    value: ({ dataMultiple }) => !dataMultiple
+      ? { type: 'object' }
+      : { type: 'array', items: { type: 'object' } },
+  },
+  {
+    name: 'filter',
+    value: {
+      typeof: 'function',
+      properties: {
+        jsl: { type: 'string', pattern: String(jslRegExp) }
+      },
+    },
+  },
   // TODO: re-enabled after we use ORM format for arg.filter
-  //{ name: 'filter.id', value: ({ isNotJslFilterId }) => isNotJslFilterId ? { not: { typeof: 'function' } } : {} },
+  // { name: 'filter.id', value: ({ isNotJslFilterId }) =>
+  //   isNotJslFilterId ? { not: { typeof: 'function' } } : {} },
   {
     name: 'order_by',
     value: {
@@ -69,18 +91,21 @@ const validateClientSchema = [
     },
   },
   { name: 'dry_run', value: { type: 'boolean' } },
-  // Other pagination arguments are validated and transformed by pagination middleware, this is just an extra check
+  // Other pagination arguments are validated and transformed by
+  // pagination middleware, this is just an extra check
   { name: 'limit', value: { type: 'integer' } },
   { name: 'offset', value: { type: 'integer' } },
 ];
 
 // Transform required properties into JSON schema
 // E.g. ['filter', 'filter.var', 'filter.var.vat']
-// to { required: ['filter'], properties: { filter: { required: ['var'], properties: { var: { required: ['vat'] } } } } }
+// to { required: ['filter'], properties: { filter: { required: ['var'],
+// properties: { var: { required: ['vat'] } } } } }
 const getRequiredProps = function (props) {
   // E.g. can be ['filter', 'filter.var', 'filter.var.vat']
   return props
-    // E.g. this could transform to ['filter', 'properties.filter.var', 'properties.filter.properties.var.vat']
+    // E.g. this could transform to ['filter', 'properties.filter.var',
+    // 'properties.filter.properties.var.vat']
     .map(requiredProp => {
       const parts = requiredProp.split('.');
       return parts
@@ -92,56 +117,103 @@ const getRequiredProps = function (props) {
         // Allow using syntax like `data.*.id` when `data` is an array
         .replace('properties.*', 'items');
     })
-    // E.g. this could transform to [{ required: ['filter'] }, { properties: { filter: { required: ['var'] } } },
-    // { properties: { filter: { properties: { var: { required: ['vat'] } } } } }]
+    // E.g. this could transform to [{ required: ['filter'] },
+    // { properties: { filter: { required: ['var'] } } },
+    // { properties: { filter: { properties: { var: { required: ['vat'] }}}}}]
     .map(requiredProp => {
       const value = [requiredProp.replace(/.*\./, '')];
       const path = requiredProp.replace(/[^.]+$/, 'required');
       return set({}, path, value);
     })
     // Merge array of objects into single object
-    .reduce((memo, value) => mergeWith(memo, value, (obj, src) => obj instanceof Array ? obj.concat(src) : undefined), {});
+    .reduce((memo, value) => {
+      return mergeWith(memo, value, (obj, src) => {
+        return obj instanceof Array ? obj.concat(src) : undefined;
+      });
+    }, {});
 };
 
 // Add JSON schema forbidding properties
-// E.g. `data.id` becomes { properties: { data: { properties: { id: false } } } }
+// E.g. `data.id` becomes { properties: { data: { properties: { id: false } } }}
 // Only required for nested properties, since `allowed` is whitelisting
 const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
   return forbidden
-    .map(forbiddenProp => 'properties.' + forbiddenProp.replace(/\./g, '.properties.'))
+    .map(forbiddenProp => {
+      const prop = forbiddenProp.replace(/\./g, '.properties.');
+      return `properties.${prop}`;
+    })
     .map(path => set({}, path, false))
     .reduce(merge, {});
 };
 
 /**
- * List of rules for allowed|required attributes, according to the current action
+ * List of rules for allowed|required attributes,
+ * according to the current action
  * `required` implies `allowed`
  * `dataSingle` is `data` as object, `dataMultiple` is `data` as array.
  **/
 /* eslint-disable key-spacing, no-multi-spaces */
 const rules = {
-  findOne:      { allowed: [],                                            required: ['filter'/*, 'filter.id'*/],
-                  isNotJslFilterId: true                                                                                  },
-  findMany:     { allowed: ['filter'/*, 'filter.id'*/, 'order_by',
-                            'limit', 'offset'],                           required: []                                    },
-  deleteOne:    { allowed: ['dry_run'],                                   required: ['filter'/*, 'filter.id'*/],
-                  isNotJslFilterId: true                                                                                  },
-  deleteMany:   { allowed: ['filter'/*, 'filter.id'*/, 'order_by',
-                            'limit', 'offset', 'dry_run'],                required: []                                    },
-  updateOne:    { allowed: ['dry_run'],                                   required: ['data', 'filter'/*, 'filter.id'*/],
-                  isNotJslFilterId: true,                                 forbidden: ['data.id']                          },
-  updateMany:   { allowed: ['filter'/*, 'filter.id'*/, 'order_by',
-                            'limit', 'offset', 'dry_run'],                required: ['data'],
-                                                                          forbidden: ['data.id']                          },
-  upsertOne:    { allowed: ['dry_run'],                                   required: ['data', 'data.id']                   },
-  upsertMany:   { allowed: ['order_by', 'dry_run'],                       required: ['data', 'data.*.id'],
-                  dataMultiple: true                                                                                      },
-  replaceOne:   { allowed: ['dry_run'],                                   required: ['data', 'data.id']                   },
-  replaceMany:  { allowed: ['order_by', 'dry_run'],                       required: ['data', 'data.*.id'],
-                  dataMultiple: true                                                                                      },
-  createOne:    { allowed: ['dry_run'],                                   required: ['data']                              },
-  createMany:   { allowed: ['order_by', 'dry_run'],                       required: ['data'],
-                  dataMultiple: true                                                                                      },
+  findOne: {
+    allowed: [],
+    required: ['filter'/*, 'filter.id'*/],
+    isNotJslFilterId: true,
+  },
+  findMany: {
+    allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'limit', 'offset'],
+    required: [],
+  },
+  deleteOne: {
+    allowed: ['dry_run'],
+    required: ['filter'/*, 'filter.id'*/],
+    isNotJslFilterId: true,
+  },
+  deleteMany: {
+    allowed: [
+      'filter'/*, 'filter.id'*/, 'order_by', 'limit', 'offset', 'dry_run'
+    ],
+    required: [],
+  },
+  updateOne: {
+    allowed: ['dry_run'],
+    required: ['data', 'filter'/*, 'filter.id'*/],
+    isNotJslFilterId: true,
+    forbidden: ['data.id'],
+  },
+  updateMany: {
+    allowed: [
+      'filter'/*, 'filter.id'*/, 'order_by', 'limit', 'offset', 'dry_run'
+    ],
+    required: ['data'],
+    forbidden: ['data.id'],
+  },
+  upsertOne: {
+    allowed: ['dry_run'],
+    required: ['data', 'data.id'],
+  },
+  upsertMany: {
+    allowed: ['order_by', 'dry_run'],
+    required: ['data', 'data.*.id'],
+    dataMultiple: true,
+  },
+  replaceOne: {
+    allowed: ['dry_run'],
+    required: ['data', 'data.id'],
+  },
+  replaceMany: {
+    allowed: ['order_by', 'dry_run'],
+    required: ['data', 'data.*.id'],
+    dataMultiple: true,
+  },
+  createOne: {
+    allowed: ['dry_run'],
+    required: ['data'],
+  },
+  createMany: {
+    allowed: ['order_by', 'dry_run'],
+    required: ['data'],
+    dataMultiple: true,
+  },
 };
 /* eslint-enable key-spacing, no-multi-spaces */
 

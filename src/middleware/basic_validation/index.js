@@ -7,8 +7,10 @@ const { actions } = require('../../idl');
 
 /**
  * API basic validation layer
- * Check API input, for the errors that should not happen, i.e. server-side (e.g. 500)
- * In short: `action`, `args`, `modelName` should be defined and of the right type
+ * Check API input, for the errors that should not happen,
+ * i.e. server-side (e.g. 500)
+ * In short: `action`, `args`, `modelName` should be defined and of the
+ * right type
  **/
 const basicValidation = async function ({ idl: { models } = {} }) {
   return async function basicValidation(input) {
@@ -16,7 +18,8 @@ const basicValidation = async function ({ idl: { models } = {} }) {
 
     const schema = getValidateServerSchema({ models });
     const data = { modelName, args, action };
-    validate({ schema, data, reportInfo: { type: 'serverInputSyntax', dataVar: 'input' } });
+    const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
+    validate({ schema, data, reportInfo });
 
     const response = await this.next(input);
     return response;

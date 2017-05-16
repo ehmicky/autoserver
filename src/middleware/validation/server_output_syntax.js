@@ -5,7 +5,8 @@ const { validate } = require('../../validation');
 const { actions } = require('../../idl');
 
 
-// Check API output, for the errors that should not happen, i.e. server-side (e.g. 500)
+// Check API output, for the errors that should not happen,
+// i.e. server-side (e.g. 500)
 // In short: response should be an array of objects
 const validateServerOutputSyntax = function ({ action, response }) {
   const type = 'serverOutputSyntax';
@@ -16,7 +17,9 @@ const validateServerOutputSyntax = function ({ action, response }) {
 
 // JSON schema to validate against output
 const getSchema = function ({ multiple }) {
-  const responseDef = multiple ? { type: 'array', items: { type: 'object' } } : { type: 'object' };
+  const responseDef = multiple
+    ? { type: 'array', items: { type: 'object' } }
+    : { type: 'object' };
   return {
     required: ['data', 'metadata'],
     properties: {

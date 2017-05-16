@@ -2,7 +2,10 @@
 
 
 const { minifyOrderBy, unminifyOrderBy } = require('./minify_order_by');
-const { removeDefaultValues, addDefaultValues } = require('./minify_default_values');
+const {
+  removeDefaultValues,
+  addDefaultValues,
+} = require('./minify_default_values');
 const { addNameShortcuts, removeNameShortcuts } = require('./minify_names');
 
 

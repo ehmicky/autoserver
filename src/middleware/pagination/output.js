@@ -5,17 +5,26 @@ const { getPaginationInfo } = require('./info');
 const { encode } = require('./encoding');
 
 
-// Add response metadata related to pagination: token, page_size, has_previous_page, has_next_page
+// Add response metadata related to pagination:
+//   token, page_size, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
 const getPaginationOutput = function ({ args, response: { data, metadata } }) {
   const { order_by: orderBy, filter, page } = args;
-  const { hasToken, previous, next, usedPageSize, isBackward, isOffsetPagination } = getPaginationInfo({ args });
+  const {
+    hasToken,
+    previous,
+    next,
+    usedPageSize,
+    isBackward,
+    isOffsetPagination,
+  } = getPaginationInfo({ args });
 
   const info = {};
   if (isOffsetPagination) {
     info[`has_${previous}_page`] = page !== 1;
   // If a token (except '') has been used, it means there is a previous page
-  // We use ${previous} amd ${next} to reverse directions when doing backward pagination
+  // We use ${previous} amd ${next} to reverse directions
+  // when doing backward pagination
   } else {
     info[`has_${previous}_page`] = hasToken;
   }
@@ -36,7 +45,8 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
 
   // Add response.metadata
   const newMetadata = data.map((model, index) => {
-    // has_previous_page and has_next_page are only true when on the batch's edges
+    // has_previous_page and has_next_page are only true
+    // when on the batch's edges
     const hasPreviousPage = info.has_previous_page || index !== 0;
     const hasNextPage = info.has_next_page || index !== data.length - 1;
 
