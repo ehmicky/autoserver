@@ -76,6 +76,9 @@ const start = async function (opts) {
      **/
     // Split "update" action into "find" then "update" requests
     mdw.updateAction,
+    // Split "upsert" action into "find", then "create" or "update" requests,
+    // then a final "find" request
+    mdw.upsertAction,
     // Turn "replace" action into an "update" request
     mdw.replaceAction,
 
