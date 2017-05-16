@@ -25,7 +25,6 @@ const outputPaginationActions = [
   'findMany',
   'deleteMany',
   'updateMany',
-  'replaceMany',
   'upsertMany',
   'createMany',
 ];
