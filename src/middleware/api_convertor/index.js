@@ -9,7 +9,17 @@ const apiConvertor = async function () {
     const { api: { action, args, modelName }, info, params } = input;
     const { actionType } = actions.find(({ name }) => name === action) || {};
     info.actionType = actionType;
-    const nextInput = { action, actionType, args, modelName, info, params };
+    // Request arguments that cannot be specified by clients
+    const sysArgs = {};
+    const nextInput = {
+      action,
+      actionType,
+      args,
+      sysArgs,
+      modelName,
+      info,
+      params,
+    };
 
     const { data, metadata } = await this.next(nextInput);
     const response = apiConvertorOutput[info.interface]({ data, metadata });

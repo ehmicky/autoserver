@@ -71,10 +71,11 @@ const { getPaginationInfo } = require('./info');
  **/
 const pagination = async function (idl) {
   return async function pagination(input) {
-    const originalArgs = cloneDeep(input.args);
+    const { args, sysArgs } = input;
+    const originalArgs = cloneDeep(args);
     // input.maxPageSize is set by the system, e.g. by updateAction middleware
-    const maxPageSize = input.maxPageSize !== undefined
-      ? input.maxPageSize
+    const maxPageSize = sysArgs.maxPageSize !== undefined
+      ? sysArgs.maxPageSize
       : idl.maxPageSize;
 
     const paginatedInput = processInput({ input, maxPageSize });
