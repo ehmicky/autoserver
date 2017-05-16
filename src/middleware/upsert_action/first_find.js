@@ -18,7 +18,8 @@ const getFirstFindInput = function ({ input, prefix }) {
   // Disables pagination
   const maxPageSize = 0;
 
-  Object.assign(input, { actionType, action, args, maxPageSize });
+  Object.assign(input, { actionType, action, args });
+  Object.assign(input.sysArgs, { maxPageSize });
   Object.assign(input.info, { actionType });
 
   return input;
