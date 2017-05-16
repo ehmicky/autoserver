@@ -4,7 +4,15 @@
 // Values available as `$VARIABLE` in JSL
 // They are uppercase to avoid name conflict with attributes
 const getJslVariables = function (input = {}) {
-  const { jsl: jslFunc, helpers, variables, validationInput, requestInput, interfaceInput, modelInput } = input;
+  const {
+    jsl: jslFunc,
+    helpers,
+    variables,
+    validationInput,
+    requestInput,
+    interfaceInput,
+    modelInput,
+  } = input;
   const { expected } = validationInput || {};
   const { ip, timestamp, params } = requestInput || {};
   const { actionType } = interfaceInput || {};
@@ -24,8 +32,11 @@ const getJslVariables = function (input = {}) {
     const variablesParams = usedVariables
       .map(usedVariable => {
         const variable = variables[usedVariable];
-        // Instantiate variables lazily, i.e. when some JSL using them gets processed
-        const evaluatedVar = typeof variable === 'function' ? variable() : variable;
+        // Instantiate variables lazily, i.e. when some JSL using them
+        // gets processed
+        const evaluatedVar = typeof variable === 'function'
+          ? variable()
+          : variable;
         return { [usedVariable]: evaluatedVar };
       })
       .reduce((params, variable) => Object.assign(params, variable), {});
@@ -79,7 +90,8 @@ const getJslVariables = function (input = {}) {
 // TODO: use proper JavaScript parser instead of imperfect RegExp matching
 const getUsedVariables = function ({ func, variables }) {
   const funcBody = func.toString().replace(/^[^)]+\)/, '');
-  const usedVariables = Object.keys(variables).filter(variable => funcBody.indexOf(variable) !== -1);
+  const usedVariables = Object.keys(variables)
+    .filter(variable => funcBody.indexOf(variable) !== -1);
   return usedVariables;
 };
 
