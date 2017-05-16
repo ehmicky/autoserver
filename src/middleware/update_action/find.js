@@ -4,6 +4,7 @@
 const { pick, cloneDeep } = require('lodash');
 
 
+// Retrieves the input for the "find" database action
 const getFindInput = function ({ input }) {
   input = cloneDeep(input);
 
@@ -19,6 +20,7 @@ const getFindInput = function ({ input }) {
   return input;
 };
 
+// Only keep args: { filter, order_by }
 const getFindArgs = function ({ args }) {
   return pick(args, ['filter', 'order_by']);
 };
