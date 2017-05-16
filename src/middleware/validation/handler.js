@@ -49,6 +49,7 @@ const validation = async function ({ idl, maxDataLength }) {
       modelName,
       response,
       action,
+      args,
       extra: jslInputModel,
     });
 

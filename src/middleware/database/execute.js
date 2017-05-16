@@ -26,6 +26,7 @@ const executeDatabaseAction = async function ({ idl: { models } }) {
       limit,
       offset,
       dry_run: dryRun,
+      no_output: noOutput,
       data,
       filter,
     } = args;
@@ -42,6 +43,7 @@ const executeDatabaseAction = async function ({ idl: { models } }) {
       limit,
       offset,
       dryRun,
+      noOutput,
       writeOnceAttributes,
       modelName,
     };
