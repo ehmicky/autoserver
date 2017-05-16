@@ -6,6 +6,7 @@ const { omit, cloneDeep } = require('lodash');
 const { EngineError } = require('../../error');
 
 
+// Retrieves the input for the "update" database action
 const getUpdateInput = function ({ input, models, prefix }) {
   input = cloneDeep(input);
 
@@ -18,6 +19,7 @@ const getUpdateInput = function ({ input, models, prefix }) {
 
 const getUpdateArgs = function ({ args, models, prefix }) {
   const { data } = args;
+  // arg.filter is only used by first "find" database action
   const updateArgs = omit(args, ['filter']);
 
   if (models instanceof Array) {
@@ -31,6 +33,8 @@ const getUpdateArgs = function ({ args, models, prefix }) {
   return updateArgs;
 };
 
+// Merge current models with the data we want to update,
+// to obtain the final models we want to use as replacement
 const getUpdateData = function ({ model, data, prefix }) {
   validateUpdateData({ data, prefix });
 
