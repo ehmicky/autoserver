@@ -9,23 +9,29 @@ const { jslRegExp } = require('../../jsl');
 
 /**
  * Check API input, for client-side errors (e.g. 400)
- * Only checks basic input according to current action
+ * Only checks basic input according to current dbFullAction
  * In a nutshell, checks that:
  *  - required attributes are defined
  *  - disabled attributes are not defined
- *  - `filter` is an object, `data` is an array or object (depending on action)
+ *  - `filter` is an object, `data` is an array or object
+ *    (depending on dbFullAction)
  *  - `order_by` and `dry_run` syntax looks valid
  *    (does not check whether it is semantically correct)
  **/
-const validateClientInputSyntax = function ({ modelName, action, args }) {
+const validateClientInputSyntax = function ({
+  modelName,
+  action,
+  dbFullAction,
+  args,
+}) {
   const type = 'clientInputSyntax';
-  const schema = getValidateClientSchema({ action });
+  const schema = getValidateClientSchema({ dbFullAction });
   validate({ schema, data: args, reportInfo: { type, action, modelName } });
 };
 
 // Builds JSON schema to validate against
-const getValidateClientSchema = function({ action }) {
-  const rule = rules[action];
+const getValidateClientSchema = function({ dbFullAction }) {
+  const rule = rules[dbFullAction];
   const properties = getProperties({ rule });
   const requiredProperties = getRequiredProps(rule.required);
   const forbiddenProperties = getForbiddenProperties({ rule });
@@ -39,7 +45,7 @@ const getValidateClientSchema = function({ action }) {
   return schema;
 };
 
-// Get properties to check against, as JSON schema, for a given action
+// Get properties to check against, as JSON schema, for a given dbFullAction
 const getProperties = function ({ rule }) {
   return validateClientSchema
     // Whitelists input according to `allowed` or `required`
@@ -149,7 +155,7 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
 
 /**
  * List of rules for allowed|required attributes,
- * according to the current action
+ * according to the current dbFullAction
  * `required` implies `allowed`
  * `dataSingle` is `data` as object, `dataMultiple` is `data` as array.
  **/

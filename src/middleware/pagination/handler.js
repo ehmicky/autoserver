@@ -60,13 +60,13 @@ const { getPaginationInfo } = require('./info');
  *   has_previous_page {boolean}
  *   has_next_page {boolean}
  * Actions:
- *  - output is paginated with any action returning an array of response and do
- *    not using an array of args.data, i.e.
+ *  - output is paginated with any dbFullAction returning an array of response
+ *    and do not using an array of args.data, i.e.
  *    findMany, deleteMany or updateMany
- *  - consumer can iterate the pagination with safe actions returning an array
- *    of response, i.e. findMany
- *  - this means updateMany and deleteMany actions will paginate output, but to
- *    iterate through the next batches, findMany
+ *  - consumer can iterate the pagination with safe dbFullActions returning an
+ *    array of response, i.e. findMany
+ *  - this means updateMany and deleteMany dbFullActions will paginate output,
+ *    but to iterate through the next batches, findMany
  *    must be used
  **/
 const pagination = async function (idl) {
@@ -93,11 +93,17 @@ const pagination = async function (idl) {
 
 // Transform args.page_size|before|after|page into args.limit|offset|filter
 const processInput = function ({ input, maxPageSize }) {
-  const { args, action, modelName } = input;
+  const { args, dbFullAction, info: { action }, modelName } = input;
 
-  validatePaginationInput({ args, action, modelName, maxPageSize });
+  validatePaginationInput({
+    args,
+    action,
+    dbFullAction,
+    modelName,
+    maxPageSize,
+  });
 
-  if (mustPaginateOutput({ args, action })) {
+  if (mustPaginateOutput({ args, dbFullAction })) {
     const paginationInput = getPaginationInput({ args });
     Object.assign(input, paginationInput);
   }
@@ -108,11 +114,11 @@ const processInput = function ({ input, maxPageSize }) {
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
 const processOutput = function ({ input, response, args, maxPageSize }) {
-  const { action, modelName } = input;
+  const { dbFullAction, info: { action }, modelName } = input;
 
   reverseOutput({ args, response });
 
-  if (mustPaginateOutput({ args, action })) {
+  if (mustPaginateOutput({ args, dbFullAction })) {
     const paginationOutput = getPaginationOutput({ args, response });
     Object.assign(response, paginationOutput);
 

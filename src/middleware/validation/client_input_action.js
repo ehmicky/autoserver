@@ -5,12 +5,18 @@ const { validate } = require('../../validation');
 
 
 /**
- * Validate API that input action is correct, e.g. allowed in IDL
+ * Validate API that input dbFullAction is correct, e.g. allowed in IDL
  **/
-const validateClientInputAction = function ({ idl, modelName, action }) {
+const validateClientInputAction = function ({
+  idl,
+  action,
+  dbFullAction,
+  modelName,
+}) {
   const type = 'clientInputAction';
   const schema = getSchema({ idl, modelName });
-  validate({ schema, data: action, reportInfo: { type, action, modelName } });
+  const reportInfo = { type, action, modelName };
+  validate({ schema, data: dbFullAction, reportInfo });
 };
 
 const getSchema = function ({ idl, modelName }) {

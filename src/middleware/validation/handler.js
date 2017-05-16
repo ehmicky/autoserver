@@ -15,7 +15,15 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  **/
 const validation = async function ({ idl, maxDataLength }) {
   return async function validation(input) {
-    const { modelName, args, action, dbAction, info, params } = input;
+    const {
+      modelName,
+      args,
+      action,
+      dbAction,
+      dbFullAction,
+      info,
+      params,
+    } = input;
     const { ip, timestamp, helpers, variables } = info;
 
     // Extra information passed to custom validation keywords
@@ -25,8 +33,8 @@ const validation = async function ({ idl, maxDataLength }) {
     const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
-    validateClientInputSyntax({ modelName, action, args });
-    validateClientInputAction({ idl, modelName, action });
+    validateClientInputSyntax({ modelName, action, dbFullAction, args });
+    validateClientInputAction({ idl, action, dbFullAction, modelName });
     validateClientInputSemantics({
       idl,
       modelName,
@@ -38,6 +46,7 @@ const validation = async function ({ idl, maxDataLength }) {
       idl,
       modelName,
       action,
+      dbFullAction,
       args,
       extra: jslInputData,
     });
@@ -49,6 +58,7 @@ const validation = async function ({ idl, maxDataLength }) {
       modelName,
       response,
       action,
+      dbFullAction,
       args,
       extra: jslInputModel,
     });

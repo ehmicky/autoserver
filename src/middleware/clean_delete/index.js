@@ -25,12 +25,12 @@ const cleanDelete = async function ({ idl }) {
   });
 
   return async function cleanDelete(input) {
-    const { actionType, modelName } = input;
+    const { dbAction, modelName } = input;
     const nestedAttributes = nestedModelsMap[modelName] || [];
 
     const response = await this.next(input);
 
-    if (actionType === 'delete') {
+    if (dbAction === 'delete') {
       const { data } = response;
       response.data = removeAttributes({ data, nestedAttributes });
     }
