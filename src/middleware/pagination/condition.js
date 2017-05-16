@@ -21,7 +21,14 @@ const mustPaginateOutput = function ({
   return outputPaginationActions.includes(action) &&
     !isPaginationDisabled({ pageSize });
 };
-const outputPaginationActions = ['findMany', 'deleteMany', 'updateMany'];
+const outputPaginationActions = [
+  'findMany',
+  'deleteMany',
+  'updateMany',
+  'replaceMany',
+  'upsertMany',
+  'createMany',
+];
 
 // Using args.page_size 0 or defaultPageSize 0 disables pagination
 const isPaginationDisabled = function ({ pageSize }) {
