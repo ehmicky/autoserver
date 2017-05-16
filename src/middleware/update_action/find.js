@@ -20,9 +20,9 @@ const getFindInput = function ({ input }) {
   return input;
 };
 
-// Only keep args: { filter, order_by }
+// Only keep args: { filter }
 const getFindArgs = function ({ args }) {
-  return pick(args, ['filter', 'order_by']);
+  return pick(args, ['filter']);
 };
 
 
