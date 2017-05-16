@@ -176,12 +176,12 @@ const rules = {
   },
   updateOne: {
     allowed: ['dry_run'],
-    forbidden: ['data.id'],
+    required: ['data', 'data.id'],
   },
   updateMany: {
     allowed: ['order_by', 'limit', 'offset', 'dry_run'],
-    required: ['data'],
-    forbidden: ['data.id'],
+    required: ['data', 'data.*.id'],
+    dataMultiple: true,
   },
   upsertOne: {
     allowed: ['dry_run'],
