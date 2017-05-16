@@ -46,7 +46,8 @@ const getOptions = function ({
   defMap,
   input: {
     modelName,
-    info: { ip, timestamp, actionType, helpers, variables },
+    dbAction,
+    info: { ip, timestamp, helpers, variables },
     params,
     args: { data },
   },
@@ -55,7 +56,7 @@ const getOptions = function ({
     helpers,
     variables,
     requestInput: { ip, timestamp, params },
-    interfaceInput: { actionType },
+    interfaceInput: { dbAction },
   };
   const defAttributes = defMap.get(modelName);
   return { jslInput, defAttributes, value: data };

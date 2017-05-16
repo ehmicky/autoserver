@@ -13,9 +13,17 @@ const requestConvertor = async function () {
       info,
       params,
     } = input;
+
+    info.action = action;
+    info.dbAction = action;
+    const dbFullAction = action;
+    const dbAction = actionType;
+
     const nextInput = {
       action,
       actionType,
+      dbFullAction,
+      dbAction,
       args,
       sysArgs,
       modelName,
