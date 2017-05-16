@@ -8,7 +8,7 @@ const { fireAction } = require('./actions');
 
 const executeDatabaseAction = async function () {
   return async function executeDatabaseAction(input) {
-    const { action, args = {}, modelName, info, params } = input;
+    const { action, dbAction, args = {}, modelName, info, params } = input;
     const {
       order_by: orderBy,
       limit,
@@ -18,9 +18,9 @@ const executeDatabaseAction = async function () {
       data,
       filter,
     } = args;
-    const { ip, timestamp, actionType, helpers, variables } = info;
+    const { ip, timestamp, helpers, variables } = info;
     const requestInput = { ip, timestamp, params };
-    const interfaceInput = { actionType };
+    const interfaceInput = { dbAction };
     const jslInput = { helpers, variables, requestInput, interfaceInput };
     const collection = database[modelName];
 
