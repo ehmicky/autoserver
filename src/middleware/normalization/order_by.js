@@ -15,7 +15,8 @@ const { EngineError } = require('../../error');
  **/
 const normalizeOrderBy = function ({ orderBy, prefix = '' }) {
   if (typeof orderBy !== 'string') {
-    throw new EngineError(`${prefix} argument 'order_by' must be a string: ${orderBy}`, { reason: 'INPUT_VALIDATION' });
+    const message = `${prefix} argument 'order_by' must be a string: ${orderBy}`;
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   // Remove whitespaces
@@ -24,12 +25,12 @@ const normalizeOrderBy = function ({ orderBy, prefix = '' }) {
   // Multiple attributes sorting
   const parts = noWhitespaceOrderBy.split(',');
 
-  // Transform each part from a string to an object { attrName 'attr', order 'asc|desc' }
+  // Transform each part from a string to an object
+  // { attrName 'attr', order 'asc|desc' }
   const parsedParts = parts.map(part => {
     if (part === '') {
-      throw new EngineError(`${prefix} argument 'order_by' cannot have empty attributes`, {
-        reason: 'INPUT_VALIDATION',
-      });
+      const message = `${prefix} argument 'order_by' cannot have empty attributes`;
+      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
     }
 
     // Default order is +
@@ -41,7 +42,8 @@ const normalizeOrderBy = function ({ orderBy, prefix = '' }) {
   });
 
   // order_by always include an id sorting. The reasons:
-  //   - make output predictable, the same request should always get the same response
+  //   - make output predictable, the same request should always get
+  //     the same response
   //   - the pagination layer needs this predictability
   // If an id sorting is already specified, do not need to do anything
   const hasId = parsedParts.some(({ attrName }) => attrName === 'id');
