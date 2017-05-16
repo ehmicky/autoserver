@@ -153,13 +153,6 @@ const findIndex = function ({
   return index;
 };
 
-// attributes with writeOnce true are not updated, unless undefined
-const getOmitKeys = function ({ model, writeOnceAttributes }) {
-  return Object.keys(model)
-    .filter(key => writeOnceAttributes.includes(key))
-    .filter(key => model[key] !== undefined);
-};
-
 const findOne = function ({ collection, filter, opts }) {
   const id = filterToId({ filter });
   const index = findIndex({ collection, id, opts });
@@ -190,32 +183,6 @@ const deleteMany = function ({ collection, filter, opts }) {
     return model;
   });
   return { data: models };
-};
-
-const update = function ({ collection, index, data, opts }) {
-  const { writeOnceAttributes, dryRun } = opts;
-  const model = collection[index];
-  const omitKeys = getOmitKeys({ model, writeOnceAttributes });
-  const newModel = Object.assign({}, model, omit(data, omitKeys));
-  if (!dryRun) {
-    collection.splice(index, 1, newModel);
-  }
-  return newModel;
-};
-
-const updateOne = function ({ collection, data, filter, opts }) {
-  const id = filterToId({ filter });
-  const index = findIndex({ collection, id, opts });
-  const newModel = update({ collection, index, data, opts });
-  return { data: newModel };
-};
-
-const updateMany = function ({ collection, data, filter, opts }) {
-  const indexes = findIndexes({ collection, filter, opts });
-  const newModels = indexes.map(index => {
-    return update({ collection, index, data, opts });
-  });
-  return { data: newModels };
 };
 
 const create = function ({ collection, data, opts }) {
@@ -252,7 +219,11 @@ const replace = function ({ collection, data, opts }) {
   const index = findIndex({ collection, id: data.id, opts });
 
   const model = collection[index];
-  const omitKeys = getOmitKeys({ model, writeOnceAttributes });
+  // attributes with writeOnce true are not updated, unless undefined
+  const omitKeys = Object.keys(model)
+    .filter(key => writeOnceAttributes.includes(key))
+    .filter(key => model[key] !== undefined);
+
   const newModel = Object.assign({}, model, omit(data, omitKeys));
   if (!dryRun) {
     collection.splice(index, 1, newModel);
@@ -272,6 +243,10 @@ const replaceMany = function ({ collection, data, opts }) {
   });
   return { data: newModels };
 };
+
+const updateOne = replaceOne;
+
+const updateMany = replaceMany;
 
 const upsertOne = function ({ collection, data, opts }) {
   const findIndexOpts = Object.assign({}, opts, { mustExist: null });
