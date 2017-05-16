@@ -8,18 +8,29 @@ const { validate } = require('../../../validation');
 
 
  // Validate response.metadata related to pagination
-const validatePaginationOutput = function ({ args, action, modelName, maxPageSize, response: { data, metadata } }) {
+const validatePaginationOutput = function ({
+  args,
+  action,
+  modelName,
+  maxPageSize,
+  response: { data, metadata },
+}) {
   const throwError = getThrowError({ action, modelName });
 
   const schema = getOutputSchema({ maxPageSize });
   const pages = getOutputData({ throwError, metadata });
-  validate({ schema, data: pages, reportInfo: { type: 'paginationOutput', action, modelName, dataVar: 'response' } });
+  const reportInfo = {
+    type: 'paginationOutput',
+    action,
+    modelName,
+    dataVar: 'response',
+  };
+  validate({ schema, data: pages, reportInfo });
 
   const { usedPageSize } = getPaginationInfo({ args });
   if (data.length > usedPageSize) {
-    throwError(`database returned pagination batch larger than specified page size ${args.page_size}`, {
-      reason: 'OUTPUT_VALIDATION',
-    });
+    const message = `database returned pagination batch larger than specified page size ${args.page_size}`;
+    throwError(message, { reason: 'OUTPUT_VALIDATION' });
   }
 };
 
@@ -86,13 +97,15 @@ const getOutputData = function ({ throwError, metadata }) {
     const { token } = pages;
     if (token === undefined || token === '') { return pages; }
     if (typeof token !== 'string') {
-      throwError('wrong response: \'token\' must be a string', { reason: 'OUTPUT_VALIDATION' });
+      const message = 'wrong response: \'token\' must be a string';
+      throwError(message, { reason: 'OUTPUT_VALIDATION' });
     }
     try {
       const parsedToken = decode({ token });
       return Object.assign({}, pages, { token: parsedToken });
     } catch (innererror) {
-      throwError('wrong response: \'token\' is invalid', { reason: 'OUTPUT_VALIDATION', innererror });
+      const message = 'wrong response: \'token\' is invalid';
+      throwError(message, { reason: 'OUTPUT_VALIDATION', innererror });
     }
   });
 };

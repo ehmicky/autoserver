@@ -10,7 +10,8 @@ const { minifyToken, unminifyToken } = require('./minify');
 //   - parts {object[]} (model values)
 //      - attrName {string}
 //      - value {value}
-//   - order_by {string}, filter {string}: used by current query, so it can be used on next pagination requests
+//   - order_by {string}, filter {string}: used by current query,
+//     so it can be used on next pagination requests
 const encode = function ({ token }) {
   const minifiedToken = minifyToken({ token });
   const jsonToken = JSON.stringify(minifiedToken);

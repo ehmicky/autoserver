@@ -1,7 +1,9 @@
 'use strict';
 
 
-// Shortcut notation of order_by, e.g. [{ attrName: 'attr', order: 'asc', attrName: 'attrb', order: 'desc' }] -> 'attr,attrb-'
+// Shortcut notation of order_by,
+// e.g. [{ attrName: 'attr', order: 'asc', attrName: 'attrb', order: 'desc' }]
+// -> 'attr,attrb-'
 const minifyOrderBy = function ({ token }) {
   if (!token.orderBy) { return; }
   token.orderBy = token.orderBy

@@ -9,9 +9,16 @@ const { validate } = require('../../validation');
 
 /**
  * Check that input filter|data passes IDL validation
- * E.g. if a model is marked as `required` or `minimum: 10` in IDL file, this will be validated here
+ * E.g. if a model is marked as `required` or `minimum: 10` in IDL file,
+ * this will be validated here
  **/
-const validateClientInputData = function ({ idl, modelName, action, args, extra }) {
+const validateClientInputData = function ({
+  idl,
+  modelName,
+  action,
+  args,
+  extra,
+}) {
   const type = 'clientInputData';
   const schema = getDataValidationSchema({ idl, modelName, action, type });
   const attributes = getAttributes(args);
@@ -20,7 +27,8 @@ const validateClientInputData = function ({ idl, modelName, action, args, extra 
     attribute.forEach(data => {
       data = cloneDeep(data);
       removeJsl({ value: data });
-      validate({ schema, data, reportInfo: { type, modelName, action, dataVar }, extra });
+      const reportInfo = { type, modelName, action, dataVar };
+      validate({ schema, data, reportInfo, extra });
     });
   });
 };
@@ -41,7 +49,9 @@ const removeJsl = function ({ value, parent, key }) {
 
   // Recursion
   if (value instanceof Array || value.constructor === Object) {
-    each(value, (child, key) => removeJsl({ value: child, parent: value, key }));
+    each(value, (child, key) => {
+      return removeJsl({ value: child, parent: value, key });
+    });
   }
 };
 
@@ -49,26 +59,49 @@ const removeJsl = function ({ value, parent, key }) {
  * Check that output data passes IDL validation
  * If it does not, this probably indicates database corruption
  **/
-const validateServerOutputData = function ({ idl, modelName, response: { data }, action, extra }) {
+const validateServerOutputData = function ({
+  idl,
+  modelName,
+  response: { data },
+  action,
+  extra,
+}) {
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, action, type });
   data = data instanceof Array ? data : [data];
   data.forEach(datum => {
-    validate({ schema, data: datum, reportInfo: { type, modelName, action, dataVar: 'response' }, extra });
+    const reportInfo = { type, modelName, action, dataVar: 'response' };
+    validate({ schema, data: datum, reportInfo, extra });
   });
 };
 
 // Retrieves JSON schema to validate against
-const getDataValidationSchema = memoize(function ({ idl, modelName, action, type }) {
+const getDataValidationSchema = memoize(function ({
+  idl,
+  modelName,
+  action,
+  type,
+}) {
   const schema = cloneDeep(idl.models[modelName]);
-  // Adapt the IDL schema validation to the current action, and to what the validator library expects
+  // Adapt the IDL schema validation to the current action,
+  // and to what the validator library expects
   // Apply each transform recursively
   transform({ transforms, args: { action, type } })({ input: schema });
   return schema;
 });
 
-const optionalInputAttrActions = ['findOne', 'findMany', 'deleteOne', 'deleteMany', 'updateOne', 'updateMany'];
-const optionalOutputAttrActions = ['deleteOne', 'deleteMany'];
+const optionalInputAttrActions = [
+  'findOne',
+  'findMany',
+  'deleteOne',
+  'deleteMany',
+  'updateOne',
+  'updateMany',
+];
+const optionalOutputAttrActions = [
+  'deleteOne',
+  'deleteMany',
+];
 const transforms = [
   {
     // Fix `required` attribute according to the current action
@@ -76,15 +109,18 @@ const transforms = [
       if (!(required instanceof Array)) { return; }
 
       if (type === 'clientInputData') {
-        // Nothing is required for those actions, except maybe `id` (previously validated)
+        // Nothing is required for those actions,
+        // except maybe `id` (previously validated)
         if (optionalInputAttrActions.includes(action)) {
           required = [];
-        // `id` requiredness has already been checked by previous validator, so we skip it here
+        // `id` requiredness has already been checked by previous validator,
+        // so we skip it here
         } else {
           required = required.filter(requiredProp => requiredProp !== 'id');
         }
       } else if (type === 'serverOutputData') {
-        // Some actions do not require normal attributes as output (except for `id`)
+        // Some actions do not require normal attributes as output
+        // (except for `id`)
         if (optionalOutputAttrActions.includes(action)) {
           required = required.filter(requiredProp => requiredProp === 'id');
         }
@@ -96,7 +132,8 @@ const transforms = [
 
   {
     // Submodels should be validated against the model `id` attribute
-    // By default, in the IDL, they are represented as the full model, i.e. as an object
+    // By default, in the IDL, they are represented as the full model,
+    // i.e. as an object
     model({ parent, depth }) {
       if (depth === 0) { return; }
       const idProp = parent.properties.id;
@@ -111,7 +148,9 @@ const transforms = [
  **/
 const getAttributes = function (args) {
   // TODO: validate `filter`
-  return pickBy(args, (arg, dataVar) => [/*'filter', */'data'].includes(dataVar) && arg);
+  return pickBy(args, (arg, dataVar) => {
+    return [/*'filter', */'data'].includes(dataVar) && arg;
+  });
 };
 
 
