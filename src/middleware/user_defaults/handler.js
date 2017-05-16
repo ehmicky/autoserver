@@ -13,7 +13,7 @@ const userDefaults = async function ({ idl }) {
   const defMap = getDefMap({ idl });
 
   return async function userDefaults(input) {
-    if (canApplyDefault(input)) {
+    if (input.args.data) {
       const opts = getOptions({ defMap, input });
       input.args.data = applyAllDefault(opts);
     }
@@ -39,12 +39,6 @@ const getDefMap = function ({ idl: { models } }) {
       return [modelName, props];
     })
   );
-};
-
-// Check if userDefaults middleware must be used
-const canApplyDefault = function ({ args: { data }, actionType }) {
-  // 'update' actions do not use default values on input
-  return data && actionType !== 'update';
 };
 
 // Retrieves applyDefault() options from main input
