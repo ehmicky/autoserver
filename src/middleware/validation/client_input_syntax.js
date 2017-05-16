@@ -176,14 +176,10 @@ const rules = {
   },
   updateOne: {
     allowed: ['dry_run'],
-    required: ['data', 'filter'/*, 'filter.id'*/],
-    isNotJslFilterId: true,
     forbidden: ['data.id'],
   },
   updateMany: {
-    allowed: [
-      'filter'/*, 'filter.id'*/, 'order_by', 'limit', 'offset', 'dry_run'
-    ],
+    allowed: ['order_by', 'limit', 'offset', 'dry_run'],
     required: ['data'],
     forbidden: ['data.id'],
   },

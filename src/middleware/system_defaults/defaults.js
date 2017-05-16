@@ -8,7 +8,7 @@
 const defaults = {
   args: {
     filter: {
-      actions: ['findMany', 'deleteMany', 'updateMany'],
+      actions: ['findMany', 'deleteMany'],
       value: '(true)',
     },
 
