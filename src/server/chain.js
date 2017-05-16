@@ -63,17 +63,13 @@ const start = async function (opts) {
     }),
 
     /**
-     * Conversion to API format
+     * Middleware transforming one request into 0, 1 or several
+     * separate requests
      **/
     // Convert from interface format to API format
     mdw.apiConvertor,
     // Basic validation layer
     mdw.basicValidation,
-
-    /**
-     * Middleware transforming one request into 0, 1 or several
-     * separate requests
-     **/
     // Split "update" action into "find" then "update" requests
     mdw.updateAction,
     // Split "upsert" action into "find", then "create" or "update" requests,
@@ -85,6 +81,8 @@ const start = async function (opts) {
     /**
      * Normalization-related middleware
      **/
+    // Convert from API format to request format
+    mdw.requestConvertor,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
     // Apply user-defined default values

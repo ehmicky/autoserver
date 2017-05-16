@@ -22,6 +22,7 @@ module.exports = Object.assign(
   require('./upsert_action'),
   require('./replace_action'),
   require('./normalization'),
+  require('./request_convertor'),
   require('./system_defaults'),
   require('./user_defaults'),
   require('./pagination'),
