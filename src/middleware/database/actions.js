@@ -215,16 +215,11 @@ const createMany = function ({ collection, data, opts }) {
 };
 
 const update = function ({ collection, data, opts }) {
-  const { writeOnceAttributes, dryRun } = opts;
+  const { dryRun } = opts;
   const index = findIndex({ collection, id: data.id, opts });
 
   const model = collection[index];
-  // attributes with writeOnce true are not updated, unless undefined
-  const omitKeys = Object.keys(model)
-    .filter(key => writeOnceAttributes.includes(key))
-    .filter(key => model[key] !== undefined);
-
-  const newModel = Object.assign({}, model, omit(data, omitKeys));
+  const newModel = Object.assign({}, model, data);
   if (!dryRun) {
     collection.splice(index, 1, newModel);
   }

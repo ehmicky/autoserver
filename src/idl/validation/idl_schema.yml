@@ -131,7 +131,7 @@ definitions:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
       - enum: [actions, model, type, description, deprecated, examples,
-          transform, transformOut, compute, computeOut, writeOnce]
+          transform, transformOut, compute, computeOut]
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -167,15 +167,13 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [model, transform, transformOut, compute, computeOut, writeOnce]
+      - enum: [model, transform, transformOut, compute, computeOut]
       - enum:
           $data: /customValidationNames
     properties:
       # Recursively applied to array members
       items:
         $ref: '#/definitions/attributeSchema'
-      writeOnce:
-        type: boolean
     # Only for nested models
     if:
       required: [model]
@@ -186,7 +184,7 @@ definitions:
     # Restrict the possible properties
     propertyNames:
       enum: [model, type, description, deprecated, examples, default, tranform,
-      transformOut, compute, computeOut, actions, writeOnce]
+      transformOut, compute, computeOut, actions]
     # Must have a `model` property
     required: [model]
     properties:
