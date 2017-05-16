@@ -39,6 +39,7 @@ const getValidateServerSchema = function ({ models = {} }) {
         enum: modelNames,
       },
       args: { type: 'object' },
+      sysArgs: { type: 'object' },
       action: {
         type: 'string',
         enum: actionsNames,
