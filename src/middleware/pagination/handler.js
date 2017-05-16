@@ -3,7 +3,10 @@
 
 const { cloneDeep } = require('lodash');
 
-const { validatePaginationInput, validatePaginationOutput } = require('./validation');
+const {
+  validatePaginationInput,
+  validatePaginationOutput,
+} = require('./validation');
 const { mustPaginateOutput } = require('./condition');
 const { getPaginationInput } = require('./input');
 const { getPaginationOutput } = require('./output');

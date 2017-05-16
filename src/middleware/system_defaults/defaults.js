@@ -4,7 +4,8 @@
 // List of defaults:
 //  - key is argument attribute name
 //  - actions are whitelisted
-//  - value is the default value. Can be a function taking the server options as first argument
+//  - value is the default value.
+//    Can be a function taking the server options as first argument
 const defaults = {
   args: {
     filter: {
@@ -13,20 +14,39 @@ const defaults = {
     },
 
     order_by: {
-      actions: ['findMany', 'deleteMany', 'updateMany', 'upsertMany',
-        'replaceMany', 'createMany'],
+      actions: [
+        'findMany',
+        'deleteMany',
+        'updateMany',
+        'upsertMany',
+        'replaceMany',
+        'createMany',
+      ],
       value: 'id+',
     },
 
     dry_run: {
-      actions: ['deleteOne', 'deleteMany', 'updateOne', 'updateMany',
-        'upsertOne', 'upsertMany', 'replaceOne', 'replaceMany', 'createOne',
-        'createMany'],
+      actions: [
+        'deleteOne',
+        'deleteMany',
+        'updateOne',
+        'updateMany',
+        'upsertOne',
+        'upsertMany',
+        'replaceOne',
+        'replaceMany',
+        'createOne',
+        'createMany',
+      ],
       value: false,
     },
 
     page_size: {
-      actions: ['findMany', 'deleteMany', 'updateMany'],
+      actions: [
+        'findMany',
+        'deleteMany',
+        'updateMany',
+      ],
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
       test: ({ opts: { defaultPageSize }, input: { maxPageSize } }) =>
