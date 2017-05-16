@@ -244,23 +244,6 @@ const updateMany = function ({ collection, data, opts }) {
   return { data: newModels };
 };
 
-const upsertOne = function ({ collection, data, opts }) {
-  const findIndexOpts = Object.assign({}, opts, { mustExist: null });
-  const index = findIndex({ collection, id: data.id, opts: findIndexOpts });
-  if (index) {
-    return updateOne({ collection, data, opts });
-  } else {
-    return createOne({ collection, data, opts });
-  }
-};
-
-const upsertMany = function ({ collection, data, opts }) {
-  const models = data.map(datum => {
-    return upsertOne({ collection, data: datum, opts }).data;
-  });
-  return { data: models };
-};
-
 const actions = {
   findOne,
   findMany,
@@ -270,8 +253,6 @@ const actions = {
   updateMany,
   createOne,
   createMany,
-  upsertOne,
-  upsertMany,
 };
 
 const fireAction = function (opts) {

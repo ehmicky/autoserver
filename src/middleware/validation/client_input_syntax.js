@@ -190,15 +190,6 @@ const rules = {
     required: ['data', 'data.*.id'],
     dataMultiple: true,
   },
-  upsertOne: {
-    allowed: ['dry_run'],
-    required: ['data', 'data.id'],
-  },
-  upsertMany: {
-    allowed: ['order_by', 'limit', 'offset', 'dry_run', 'no_output'],
-    required: ['data', 'data.*.id'],
-    dataMultiple: true,
-  },
   createOne: {
     allowed: ['dry_run', 'no_output'],
     required: ['data'],
