@@ -16,14 +16,17 @@ const { propertiesPlugin } = require('./properties');
 const authorPlugin = function ({ idl, opts }) {
   const { user, model } = opts;
   if (user && !isJsl({ jsl: user })) {
-    throw new EngineStartupError('In \'author\' plugin, \'user\' must be a JSL string', { reason: 'IDL_VALIDATION' });
+    const message = 'In \'author\' plugin, \'user\' must be a JSL string';
+    throw new EngineStartupError(message, { reason: 'IDL_VALIDATION' });
   }
   const usedModel = model || 'user';
   if (typeof usedModel !== 'string') {
-    throw new EngineStartupError(`In 'author' plugin, 'model' must be a string: ${usedModel}`, { reason: 'IDL_VALIDATION' });
+    const message = `In 'author' plugin, 'model' must be a string: ${usedModel}`;
+    throw new EngineStartupError(message, { reason: 'IDL_VALIDATION' });
   }
   if (!idl.models[usedModel]) {
-    throw new EngineStartupError(`'author' plugin requires 'idl.models.${usedModel}'`, { reason: 'IDL_VALIDATION' });
+    const message = `'author' plugin requires 'idl.models.${usedModel}'`;
+    throw new EngineStartupError(message, { reason: 'IDL_VALIDATION' });
   }
 
   return propertiesPlugin({ getProperties })({ idl, opts });
