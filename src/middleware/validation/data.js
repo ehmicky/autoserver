@@ -95,8 +95,6 @@ const optionalInputAttrActions = [
   'findMany',
   'deleteOne',
   'deleteMany',
-  'updateOne',
-  'updateMany',
 ];
 const optionalOutputAttrActions = [
   'deleteOne',
