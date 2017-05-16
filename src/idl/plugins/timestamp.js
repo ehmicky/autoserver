@@ -18,8 +18,7 @@ const getProperties = () => ({
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
     format: 'date-time',
-    compute: '(["create", "upsert"].includes($ACTION) ? $NOW : undefined)',
-    writeOnce: true,
+    compute: '($ACTION === "create" ? $NOW : undefined)',
   },
   updated_time: {
     type: 'string',
