@@ -74,8 +74,10 @@ const start = async function (opts) {
      * Middleware transforming one request into 0, 1 or several
      * separate requests
      **/
-    // Split "update" action into "find" then "update"
+    // Split "update" action into "find" then "update" requests
     mdw.updateAction,
+    // Turn "replace" action into an "update" request
+    mdw.replaceAction,
 
     /**
      * Normalization-related middleware

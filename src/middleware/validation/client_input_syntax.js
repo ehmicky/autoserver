@@ -192,15 +192,6 @@ const rules = {
     required: ['data', 'data.*.id'],
     dataMultiple: true,
   },
-  replaceOne: {
-    allowed: ['dry_run'],
-    required: ['data', 'data.id'],
-  },
-  replaceMany: {
-    allowed: ['order_by', 'limit', 'offset', 'dry_run'],
-    required: ['data', 'data.*.id'],
-    dataMultiple: true,
-  },
   createOne: {
     allowed: ['dry_run'],
     required: ['data'],

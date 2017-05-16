@@ -214,7 +214,7 @@ const createMany = function ({ collection, data, opts }) {
   return { data: newModels };
 };
 
-const replace = function ({ collection, data, opts }) {
+const update = function ({ collection, data, opts }) {
   const { writeOnceAttributes, dryRun } = opts;
   const index = findIndex({ collection, id: data.id, opts });
 
@@ -232,27 +232,23 @@ const replace = function ({ collection, data, opts }) {
   return newModel;
 };
 
-const replaceOne = function ({ collection, data, opts }) {
-  const newModel = replace({ collection, data, opts });
+const updateOne = function ({ collection, data, opts }) {
+  const newModel = update({ collection, data, opts });
   return { data: newModel };
 };
 
-const replaceMany = function ({ collection, data, opts }) {
+const updateMany = function ({ collection, data, opts }) {
   const newModels = data.map(datum => {
-    return replace({ collection, data: datum, opts });
+    return update({ collection, data: datum, opts });
   });
   return { data: newModels };
 };
-
-const updateOne = replaceOne;
-
-const updateMany = replaceMany;
 
 const upsertOne = function ({ collection, data, opts }) {
   const findIndexOpts = Object.assign({}, opts, { mustExist: null });
   const index = findIndex({ collection, id: data.id, opts: findIndexOpts });
   if (index) {
-    return replaceOne({ collection, data, opts });
+    return updateOne({ collection, data, opts });
   } else {
     return createOne({ collection, data, opts });
   }
@@ -274,8 +270,6 @@ const actions = {
   updateMany,
   createOne,
   createMany,
-  replaceOne,
-  replaceMany,
   upsertOne,
   upsertMany,
 };
