@@ -14,13 +14,7 @@ const defaults = {
     },
 
     order_by: {
-      actions: [
-        'findMany',
-        'deleteMany',
-        'updateMany',
-        'upsertMany',
-        'createMany',
-      ],
+      actions: ['findMany', 'deleteMany', 'updateMany', 'createMany'],
       value: 'id+',
     },
 
@@ -30,8 +24,6 @@ const defaults = {
         'deleteMany',
         'updateOne',
         'updateMany',
-        'upsertOne',
-        'upsertMany',
         'createOne',
         'createMany',
       ],
@@ -44,7 +36,6 @@ const defaults = {
         'deleteMany',
         'updateOne',
         'updateMany',
-        'upsertMany',
         'createOne',
         'createMany',
       ],
