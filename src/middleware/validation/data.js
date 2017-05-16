@@ -64,8 +64,11 @@ const validateServerOutputData = function ({
   modelName,
   response: { data },
   action,
+  args: { no_output: noOutput },
   extra,
 }) {
+  if (noOutput) { return; }
+
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, action, type });
   data = data instanceof Array ? data : [data];

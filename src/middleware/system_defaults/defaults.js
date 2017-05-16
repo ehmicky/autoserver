@@ -38,14 +38,21 @@ const defaults = {
       value: false,
     },
 
-    page_size: {
+    no_output: {
       actions: [
-        'findMany',
+        'deleteOne',
         'deleteMany',
+        'updateOne',
         'updateMany',
         'upsertMany',
+        'createOne',
         'createMany',
       ],
+      value: false,
+    },
+
+    page_size: {
+      actions: ['findMany', 'deleteMany', 'updateMany', 'createMany'],
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
       test: ({ opts: { defaultPageSize }, input: { maxPageSize } }) =>
