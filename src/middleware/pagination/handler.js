@@ -68,22 +68,19 @@ const { getPaginationInfo } = require('./info');
  *  - this means updateMany and deleteMany command.name will paginate output,
  *    but to iterate through the next batches, readMany must be used
  **/
-const pagination = async function (idl) {
+const pagination = async function ({ maxPageSize }) {
   return async function pagination(input) {
     const { args, sysArgs } = input;
     const originalArgs = cloneDeep(args);
-    // input.maxPageSize is set by the system, e.g. by updateAction middleware
-    const maxPageSize = sysArgs.maxPageSize !== undefined
-      ? sysArgs.maxPageSize
-      : idl.maxPageSize;
 
-    const paginatedInput = processInput({ input, maxPageSize });
+    const paginatedInput = processInput({ input, sysArgs, maxPageSize });
     const response = await this.next(paginatedInput);
 
     const paginatedOutput = processOutput({
       input,
       response,
       args: originalArgs,
+      sysArgs,
       maxPageSize,
     });
     return paginatedOutput;
@@ -91,18 +88,19 @@ const pagination = async function (idl) {
 };
 
 // Transform args.page_size|before|after|page into args.limit|offset|filter
-const processInput = function ({ input, maxPageSize }) {
+const processInput = function ({ input, sysArgs, maxPageSize }) {
   const { args, command, info: { action }, modelName } = input;
 
   validatePaginationInput({
     args,
+    sysArgs,
     action,
     command,
     modelName,
     maxPageSize,
   });
 
-  if (mustPaginateOutput({ args, command })) {
+  if (mustPaginateOutput({ args, sysArgs, command })) {
     const paginationInput = getPaginationInput({ args });
     Object.assign(input, paginationInput);
   }
@@ -112,12 +110,18 @@ const processInput = function ({ input, maxPageSize }) {
 
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
-const processOutput = function ({ input, response, args, maxPageSize }) {
+const processOutput = function ({
+  input,
+  response,
+  args,
+  sysArgs,
+  maxPageSize,
+}) {
   const { command, info: { action }, modelName } = input;
 
   reverseOutput({ args, response });
 
-  if (mustPaginateOutput({ args, command })) {
+  if (mustPaginateOutput({ args, sysArgs, command })) {
     const paginationOutput = getPaginationOutput({ args, response });
     Object.assign(response, paginationOutput);
 

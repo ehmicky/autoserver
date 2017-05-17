@@ -15,11 +15,9 @@ const getReadInput = function ({ input }) {
     return type === 'read' && multiple === isMultiple;
   });
   const args = getReadArgs({ args: input.args });
-  // Disables pagination
-  const maxPageSize = 0;
 
   Object.assign(input, { command, args });
-  Object.assign(input.sysArgs, { maxPageSize });
+  Object.assign(input.sysArgs, { pagination: false });
 
   return input;
 };

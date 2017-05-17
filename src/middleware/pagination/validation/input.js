@@ -10,6 +10,7 @@ const { validate } = require('../../../validation');
 // Validate args.before|after|page_size|page
 const validatePaginationInput = function ({
   args,
+  sysArgs,
   action,
   command,
   modelName,
@@ -18,9 +19,9 @@ const validatePaginationInput = function ({
   const throwError = getThrowError({ action, modelName });
 
   let schema;
-  if (allowFullPagination({ args, command })) {
+  if (allowFullPagination({ args, sysArgs, command })) {
     schema = getFullSchema({ args, maxPageSize });
-  } else if (mustPaginateOutput({ args, command })) {
+  } else if (mustPaginateOutput({ args, sysArgs, command })) {
     schema = getLimitedSchema({ maxPageSize });
   } else {
     schema = restrictedSchema;
