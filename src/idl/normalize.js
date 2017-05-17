@@ -5,7 +5,7 @@ const { find, omit, mapValues, difference } = require('lodash');
 
 const { transform } = require('../utilities');
 const { compileIdlJsl } = require('./jsl');
-const { actions } = require('./actions');
+const { actions } = require('../constants');
 
 
 // Normalize IDL definition
