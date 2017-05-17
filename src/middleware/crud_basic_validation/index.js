@@ -5,15 +5,13 @@ const { isEqual } = require('lodash');
 
 const { validate } = require('../../validation');
 const { commands } = require('../../constants');
-const { EngineError } = require('../../constants');
+const { EngineError } = require('../../error');
 
 
 /**
  * CRUD basic validation layer
  * Check API input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
- * In short: `action`, `args`, `modelName` should be defined and of the
- * right type
  **/
 const crudBasicValidation = async function ({ idl: { models } = {} }) {
   return async function crudBasicValidation(input) {
@@ -79,7 +77,7 @@ const validateCommand = function ({ command }) {
     return isEqual(possibleCommand, command);
   });
   if (!isValid) {
-    const message = `Invalid command: ${command}`;
+    const message = `Invalid command: ${JSON.stringify(command)}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };

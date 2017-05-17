@@ -9,8 +9,8 @@ const { commands } = require('../../../constants');
  **/
 const findAction = async function () {
   return async function findAction(input) {
-    if (input.actionType === 'find') {
-      const isMultiple = input.action === 'findMany';
+    if (input.action.type === 'find') {
+      const isMultiple = input.action.multiple;
       const command = commands.find(({ type, multiple }) => {
         return type === 'read' && multiple === isMultiple;
       });

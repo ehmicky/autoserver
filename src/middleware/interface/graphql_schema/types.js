@@ -58,7 +58,7 @@ const getField = function (def, opts) {
   // Can only assign default to input data that is optional.
   // 'update' does not required anything, nor assign defaults
   let defaultValue;
-  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.actionType !== 'update' && def.default) {
+  if (!opts.isRequired && opts.inputObjectType === 'data' && opts.action.type !== 'update' && def.default) {
     // JSL only shows as 'DYNAMIC_VALUE' in schema
     const defaults = def.default instanceof Array ? def.default : [def.default];
     const isDynamic = defaults.some(jsl => isJsl({ jsl }));
@@ -90,7 +90,7 @@ const graphQLArrayFieldGetter = function (def, opts) {
  * Memoize object type constructor in order to infinite recursion.
  * We use the type name, i.e.:
  *  - type name must differ everytime type might differ
- *  - in particular, at the moment, type name differ when inputObjectType, actionType or multiple changes
+ *  - in particular, at the moment, type name differ when inputObjectType, action.type or multiple changes
  * We also namespace with a UUID which is unique for each new call to `getSchema()`, to avoid leaking
  **/
 const objectTypeSerializer = function ([ def, opts ]) {
@@ -113,7 +113,6 @@ const graphQLObjectFieldGetter = memoize(function (def, opts) {
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
   const { action = {}, inputObjectType } = opts;
-  const { actionType, multiple } = action;
   // This needs to be function, otherwise we run in an infinite recursion, if the children try to reference a parent type
   return () => {
     const objectFields = chain(def.properties)
@@ -129,7 +128,7 @@ const getObjectFields = function (def, opts) {
         // Copy nested models with a different name that includes the action, e.g. `my_attribute` -> `createMyAttribute`
         // Not for data|filter arguments
         if (inputObjectType === '') {
-          const name = getActionName({ modelName: childDefName, actionType });
+          const name = getActionName({ modelName: childDefName, action, noChange: true });
           memo[name] = childDef;
           // Add transformed name to `required` array, if non-transformed name was present
           if (def.required instanceof Array && def.required.includes(childDefName) && !def.required.includes(name)) {
@@ -155,13 +154,13 @@ const getObjectFields = function (def, opts) {
         const subDef = getSubDef(childDef);
         // Remove all return value fields for delete actions, except the recursive ones and `id`
         // And except for delete filters
-        return (actionType === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
+        return (action.type === 'delete' && !isModel(subDef) && childDefName !== 'id' && inputObjectType !== 'filter')
           // Filter arguments for single actions only include `id`
-          || (childDefName !== 'id' && inputObjectType === 'filter' && !multiple)
+          || (childDefName !== 'id' && inputObjectType === 'filter' && !action.multiple)
           // Nested data arguments do not include `id`
           || (childDefName === 'id' && inputObjectType === 'data' && !def.isTopLevel)
           // updateOne|updateMany do not allow data.id
-          || (actionType === 'update' && childDefName === 'id' && inputObjectType === 'data');
+          || (action.type === 'update' && childDefName === 'id' && inputObjectType === 'data');
       })
       // Recurse over children
       .mapValues((childDef, childDefName) => {
@@ -189,9 +188,9 @@ const noAttributes = {
 };
 
 // Returns whether a field is required
-const isRequired = function (parentDef, def, name, { action: { actionType, multiple } = {}, inputObjectType }) {
+const isRequired = function (parentDef, def, name, { action = {}, inputObjectType }) {
   // Filter inputObjects `id` attribute is always required
-  const isFilterId = name === 'id' && inputObjectType === 'filter' && !multiple;
+  const isFilterId = name === 'id' && inputObjectType === 'filter' && !action.multiple;
   const shouldRequire = isFilterId
     // When user declared an attribute as required
     || (parentDef.required instanceof Array && parentDef.required.includes(name));
@@ -199,9 +198,9 @@ const isRequired = function (parentDef, def, name, { action: { actionType, multi
     // Query inputObjects do not require any attribute, except filter.id for single actions
     (inputObjectType === 'filter' && !isFilterId)
     // updateOne|updateMany does not require any attribute in input object
-    || (inputObjectType === 'data' && actionType === 'update')
+    || (inputObjectType === 'data' && action.type === 'update')
     // data.id is optional in createOne|createMany
-    || (inputObjectType === 'data' && actionType === 'create' && name === 'id');
+    || (inputObjectType === 'data' && action.type === 'create' && name === 'id');
   return shouldRequire && !shouldNotRequire;
 };
 

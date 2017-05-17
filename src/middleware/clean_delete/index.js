@@ -9,7 +9,7 @@ const { getModelsMap } = require('../../idl');
 /**
  * Each operation should return latest representation only,
  * i.e. delete should return nothing
- * However, database delete action still need to return full model,
+ * However, "delete" command still need to return full model,
  * so it can be used in JSL
  * We are now cleaning all attributes except:
  *   - since GraphQL does not allow empty object responses,

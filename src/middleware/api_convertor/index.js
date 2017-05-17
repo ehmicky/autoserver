@@ -1,19 +1,14 @@
 'use strict';
 
 
-const { actions } = require('../../constants');
-
-
 const apiConvertor = async function () {
   return async function apiConvertor(input) {
     const { api: { action, args, modelName }, info, params } = input;
-    const { actionType } = actions.find(({ name }) => name === action) || {};
-    info.actionType = actionType;
+    info.action = action;
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
     const nextInput = {
       action,
-      actionType,
       args,
       sysArgs,
       modelName,

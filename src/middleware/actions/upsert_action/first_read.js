@@ -7,7 +7,7 @@ const { commands } = require('../../../constants');
 const { getFilter } = require('./filter');
 
 
-// Retrieves the input for the first "read" database action
+// Retrieves the input for the first "read" command
 // Goal is to check whether models exist, so we know if "upsert" action
 // will create or update models.
 const getFirstReadInput = function ({ input, prefix }) {

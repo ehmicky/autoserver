@@ -3,7 +3,7 @@
 
 // Fake database for the moment
 const database = require('./data.json');
-const { fireAction } = require('./actions');
+const { fireCommand } = require('./commands');
 
 
 const executeDatabaseAction = async function () {
@@ -39,8 +39,8 @@ const executeDatabaseAction = async function () {
       noOutput,
       modelName,
     };
-    const actionInput = { command, collection, filter, data, opts };
-    const response = fireAction(actionInput);
+    const commandInput = { command, collection, filter, data, opts };
+    const response = fireCommand(commandInput);
     return response;
   };
 };

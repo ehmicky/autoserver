@@ -9,8 +9,8 @@ const { commands } = require('../../../constants');
  **/
 const deleteAction = async function () {
   return async function deleteAction(input) {
-    if (input.actionType === 'delete') {
-      const isMultiple = input.action === 'deleteMany';
+    if (input.action.type === 'delete') {
+      const isMultiple = input.action.multiple;
       const command = commands.find(({ type, multiple }) => {
         return type === 'delete' && multiple === isMultiple;
       });

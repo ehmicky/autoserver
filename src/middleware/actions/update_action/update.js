@@ -7,11 +7,11 @@ const { commands } = require('../../../constants');
 const { EngineError } = require('../../../error');
 
 
-// Retrieves the input for the "update" database action
+// Retrieves the input for the "update" command
 const getUpdateInput = function ({ input, models, prefix }) {
   input = cloneDeep(input);
 
-  const isMultiple = input.action === 'updateMany';
+  const isMultiple = input.action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'update' && multiple === isMultiple;
   });
@@ -24,7 +24,7 @@ const getUpdateInput = function ({ input, models, prefix }) {
 
 const getUpdateArgs = function ({ args, models, prefix }) {
   const { data } = args;
-  // arg.filter is only used by first "read" database action
+  // arg.filter is only used by first "read" command
   const updateArgs = omit(args, ['filter']);
 
   if (models instanceof Array) {
