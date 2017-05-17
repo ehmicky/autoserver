@@ -4,7 +4,7 @@
 const { uniq } = require('lodash');
 
 const { validate } = require('../../validation');
-const { actions } = require('../../idl');
+const { actions } = require('../../constants');
 
 
 /**
