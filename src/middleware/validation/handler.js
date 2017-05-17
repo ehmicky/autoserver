@@ -18,12 +18,11 @@ const validation = async function ({ idl, maxDataLength }) {
     const {
       modelName,
       args,
-      action,
       command,
       info,
       params,
     } = input;
-    const { ip, timestamp, helpers, variables } = info;
+    const { ip, timestamp, helpers, variables, action } = info;
 
     // Extra information passed to custom validation keywords
     const requestInput = { ip, timestamp, params };

@@ -21,7 +21,7 @@ const validatePaginationInput = function ({
   let schema;
   if (allowFullPagination({ args, sysArgs, command })) {
     schema = getFullSchema({ args, maxPageSize });
-  } else if (mustPaginateOutput({ args, sysArgs, command })) {
+  } else if (mustPaginateOutput({ args, sysArgs })) {
     schema = getLimitedSchema({ maxPageSize });
   } else {
     schema = restrictedSchema;

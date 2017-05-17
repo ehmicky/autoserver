@@ -10,14 +10,15 @@ const { EngineError } = require('../../../error');
 // Retrieves the input for the "update" command
 const getUpdateInput = function ({ input, models, prefix }) {
   input = cloneDeep(input);
+  const { sysArgs = {}, args, action } = input;
 
-  const isMultiple = input.action.multiple;
+  const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'update' && multiple === isMultiple;
   });
-  const args = getUpdateArgs({ args: input.args, models, prefix });
-
-  Object.assign(input, { command, args });
+  const updateArgs = getUpdateArgs({ args, models, prefix });
+  Object.assign(sysArgs, { pagination: isMultiple });
+  Object.assign(input, { command, args: updateArgs, sysArgs });
 
   return input;
 };

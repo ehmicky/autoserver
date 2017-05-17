@@ -100,7 +100,7 @@ const processInput = function ({ input, sysArgs, maxPageSize }) {
     maxPageSize,
   });
 
-  if (mustPaginateOutput({ args, sysArgs, command })) {
+  if (mustPaginateOutput({ args, sysArgs })) {
     const paginationInput = getPaginationInput({ args });
     Object.assign(input, paginationInput);
   }
@@ -117,11 +117,11 @@ const processOutput = function ({
   sysArgs,
   maxPageSize,
 }) {
-  const { command, info: { action }, modelName } = input;
+  const { info: { action }, modelName } = input;
 
   reverseOutput({ args, response });
 
-  if (mustPaginateOutput({ args, sysArgs, command })) {
+  if (mustPaginateOutput({ args, sysArgs })) {
     const paginationOutput = getPaginationOutput({ args, response });
     Object.assign(response, paginationOutput);
 

@@ -25,7 +25,9 @@ const getDefaultArgs = function ({ opts, input }) {
     .map(([name, defaultsValue]) => {
       defaultsValue = Object.entries(defaultsValue)
         // Whitelist by command.name
-        .filter(([, { commandNames }]) => commandNames.includes(command.name))
+        .filter(([, { commandNames }]) => {
+          return !commandNames || commandNames.includes(command.name);
+        })
         // Whitelist by tests
         .filter(([, { test }]) => !test || test({ opts, input }))
         // Only if user has not specified that argument
