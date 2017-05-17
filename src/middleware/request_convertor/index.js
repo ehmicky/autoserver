@@ -5,8 +5,8 @@
 const requestConvertor = async function () {
   return async function requestConvertor(input) {
     const {
-      action,
-      actionType,
+      dbCallFull,
+      dbCall,
       args,
       sysArgs,
       modelName,
@@ -14,20 +14,15 @@ const requestConvertor = async function () {
       params,
     } = input;
 
-    info.action = action.replace('find', 'read');
-    info.dbCall = action.replace('find', 'read');
-    const dbCallFull = action.replace('find', 'read');
-    const dbCall = actionType.replace('find', 'read');
+    const newInfo = Object.assign({}, info, { dbCall, dbCallFull });
 
     const nextInput = {
-      action,
-      actionType,
       dbCallFull,
       dbCall,
       args,
       sysArgs,
       modelName,
-      info,
+      info: newInfo,
       params,
     };
 

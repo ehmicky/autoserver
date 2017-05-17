@@ -69,6 +69,10 @@ const start = async function (opts) {
     mdw.apiConvertor,
     // Basic validation layer
     mdw.basicValidation,
+    // Turn "create" action into a "create" database call
+    mdw.createAction,
+    // Turn "find" action into a "read" database call
+    mdw.findAction,
     // Split "update" action into "read" then "update" database calls
     mdw.updateAction,
     // Split "upsert" action into "read", then "create" or "update"
@@ -76,6 +80,8 @@ const start = async function (opts) {
     mdw.upsertAction,
     // Turn "replace" action into an "update" database call
     mdw.replaceAction,
+    // Turn "delete" action into a "delete" database call
+    mdw.deleteAction,
 
     /**
      * Normalization-related middleware

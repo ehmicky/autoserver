@@ -8,15 +8,14 @@ const { pick, cloneDeep } = require('lodash');
 const getReadInput = function ({ input }) {
   input = cloneDeep(input);
 
-  const actionType = 'read';
-  const action = input.action === 'updateOne' ? 'readOne' : 'readMany';
+  const dbCall = 'read';
+  const dbCallFull = input.action === 'updateOne' ? 'readOne' : 'readMany';
   const args = getReadArgs({ args: input.args });
   // Disables pagination
   const maxPageSize = 0;
 
-  Object.assign(input, { actionType, action, args });
+  Object.assign(input, { dbCall, dbCallFull, args });
   Object.assign(input.sysArgs, { maxPageSize });
-  Object.assign(input.info, { actionType });
 
   return input;
 };
