@@ -7,12 +7,12 @@ const { commands } = require('../../../constants');
 const { getFilter } = require('./filter');
 
 
-// Retrieves the input for the second "read" database action
-// It is used for final output of "upsert"
+// Retrieves the input for the second "read" command
+// It is used for final output of "upsert" action
 const getSecondReadInput = function ({ input, prefix }) {
   input = cloneDeep(input);
 
-  const isMultiple = input.action === 'upsertMany';
+  const isMultiple = input.action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'read' && multiple === isMultiple;
   });

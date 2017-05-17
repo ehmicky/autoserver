@@ -5,7 +5,7 @@ const { find, omit, mapValues, difference } = require('lodash');
 
 const { transform } = require('../utilities');
 const { compileIdlJsl } = require('./jsl');
-const { actions } = require('../constants');
+const { actions: allActions } = require('../constants');
 
 
 // Normalize IDL definition
@@ -125,7 +125,7 @@ const defaultCommandNames = [
 
 // Retrieve possible actions using possible commandNames
 const getActions = function ({ commandNames }) {
-  return actions
+  return allActions
     .filter(({ commandNames: requiredCommands }) => {
       return difference(requiredCommands, commandNames).length === 0;
     })

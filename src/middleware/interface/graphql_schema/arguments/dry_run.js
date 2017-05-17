@@ -6,9 +6,9 @@ const { GraphQLBoolean } = require('graphql');
 
 // dry_run argument
 const mutationActionTypes = ['delete', 'update', 'create', 'upsert', 'replace'];
-const getDryRunArguments = function ({ action: { actionType } }) {
+const getDryRunArguments = function ({ action }) {
   // Only with *Many actions
-  if (!mutationActionTypes.includes(actionType)) { return; }
+  if (!mutationActionTypes.includes(action.type)) { return; }
 
   return {
     dry_run: {

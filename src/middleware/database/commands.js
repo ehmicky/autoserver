@@ -250,18 +250,18 @@ const commandHandlers = {
   createMany,
 };
 
-const fireAction = function (opts) {
+const fireCommand = function (commandInput) {
   const {
     command,
     opts: { orderBy, limit, noOutput, offset },
-  } = opts;
-  const response = commandHandlers[command.name](opts);
+  } = commandInput;
+  const response = commandHandlers[command.name](commandInput);
   response.data = sortResponse({ data: response.data, orderByArg: orderBy });
   response.data = offsetResponse({ data: response.data, offset });
   response.data = limitResponse({ data: response.data, limit });
 
   // Extra parameter used only for optimization, when we know we do
-  // not need the result of a database action.
+  // not need the result of a command
   // Only used internally by the system, i.e. not exposed to consumers.
   if (noOutput) {
     response.data = response.data instanceof Array ? [] : {};
@@ -282,5 +282,5 @@ const fireAction = function (opts) {
 
 
 module.exports = {
-  fireAction,
+  fireCommand,
 };

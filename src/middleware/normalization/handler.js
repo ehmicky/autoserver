@@ -13,7 +13,7 @@ const normalization = async function () {
   return async function normalization(input) {
     const { args, modelName, info: { action } } = input;
 
-    const prefix = `In action '${action}', model '${modelName}',`;
+    const prefix = `In action '${action.name}', model '${modelName}',`;
     if (args.filter) {
       args.filter = normalizeFilter({ filter: args.filter, prefix });
     }

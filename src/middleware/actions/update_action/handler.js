@@ -6,10 +6,10 @@ const { getUpdateInput } = require('./update');
 
 
 /**
- * "update" action is split into two database actions:
- *   - first a "read" database action retrieving current models
+ * "update" action is split into two commands:
+ *   - first a "read" command retrieving current models
  *     Pagination is disabled for that query.
- *   - then a "update" database action using a merge of the update data and
+ *   - then a "update" command using a merge of the update data and
  *     the current models
  * The reasons why we split "update" action are:
  *   - we need to know the current models so we can:
@@ -23,10 +23,10 @@ const { getUpdateInput } = require('./update');
  **/
 const updateAction = async function () {
   return async function updateAction(input) {
-    const { actionType, action, modelName } = input;
+    const { action, modelName } = input;
 
-    if (actionType === 'update') {
-      const prefix = `In action '${action}', model '${modelName}',`;
+    if (action.type === 'update') {
+      const prefix = `In action '${action.name}', model '${modelName}',`;
       const response = await performUpdate.call(this, { input, prefix });
       return response;
     }
@@ -36,7 +36,7 @@ const updateAction = async function () {
   };
 };
 
-// Perform a "read" database action, followed by an update database action
+// Perform a "read" command, followed by an "update" command
 const performUpdate = async function ({ input, prefix }) {
   const readInput = getReadInput({ input });
   const { data: models } = await this.next(readInput);

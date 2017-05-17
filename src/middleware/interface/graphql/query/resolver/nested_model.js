@@ -26,7 +26,7 @@ const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
 // Retrieves nested property, which can be a model or a simple attribute
 const getNestedProp = function ({ modelsMap, parent, name }) {
   // Retrieves parent model
-  const { modelName: parentModel, actionType: parentActionType, nonNestedModel } = getParentModel(parent);
+  const { modelName: parentModel, action: parentAction, nonNestedModel } = getParentModel(parent);
 
   // This means this is an object attribute that is not a nested model
   if (nonNestedModel) { return {}; }
@@ -39,7 +39,7 @@ const getNestedProp = function ({ modelsMap, parent, name }) {
   // This means tried to do a nested action that does not exist
   if (!prop
   // This means nested action is not a simple attribute, or that it has different actionType than parent
-  || (isModel && (!prop.model || parentActionType !== actionType))) {
+  || (isModel && (!prop.model || parentAction.type !== actionType))) {
     throw new EngineError(`In ${parentModel} model, attribute ${name} does not exist`, { reason: 'INPUT_VALIDATION' });
   }
 

@@ -7,28 +7,27 @@ const { getUpdateInput } = require('./update');
 const { getSecondReadInput } = require('./second_read');
 
 
-// Perform a "read" database action, followed by a "create" or
-// "update" database action
+// Perform a "read" command, followed by a "create" or "update" command
 const performUpsert = async function ({ input, prefix }) {
-  // First check if models exist or not, by performing a "read" database action
+  // First check if models exist or not, by performing a "read" command
   const firstReadInput = getFirstReadInput({ input, prefix });
   const { data: models } = await this.next(firstReadInput);
 
   const { createModels, updateModels } = splitModels({ input, models });
 
-  // If models do not exist, create them with "create" database action
+  // If models do not exist, create them with "create" command
   if (isDefined({ models: createModels })) {
     const createInput = getCreateInput({ input, data: createModels });
     await this.next(createInput);
   }
 
-  // If models exist, update them with "update" database action
+  // If models exist, update them with "update" command
   if (isDefined({ models: updateModels })) {
     const updateInput = getUpdateInput({ input, data: updateModels });
     await this.next(updateInput);
   }
 
-  // Finally, retrieve output with a second "read" database action
+  // Finally, retrieve output with a second "read" command
   const secondReadInput = getSecondReadInput({ input, prefix });
   const response = await this.next(secondReadInput);
 
@@ -36,7 +35,7 @@ const performUpsert = async function ({ input, prefix }) {
 };
 
 // Check among args.data which ones exist or not, using the result
-// of the first "read" database action
+// of the first "read" command
 const splitModels = function ({ input: { args: { data } }, models }) {
   const modelsIds = models.map(({ id }) => id);
 
@@ -53,7 +52,7 @@ const splitModels = function ({ input: { args: { data } }, models }) {
   }
 };
 
-// If there no models to create or update, avoid performing a database action
+// If there no models to create or update, avoid performing a database command
 const isDefined = function ({ models }) {
   if (!models) { return false; }
   if (models instanceof Array) {

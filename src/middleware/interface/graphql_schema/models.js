@@ -18,14 +18,14 @@ const getModelsByMethod = function ({ methodName, models }) {
   // Iterate through each action
   return chain(actions)
     // Only include actions for a given GraphQL method
-    .filter(({ actionType }) => graphqlMethods[methodName].includes(actionType))
+    .filter(({ type }) => graphqlMethods[methodName].includes(type))
     // Iterate through each model
     .mapValues(action => chain(models)
       // Remove model that are not allowed for a given action
       .pickBy(model => isAllowedModel({ model, action }))
       // Modify object key to include action information, e.g. 'my_model' + 'findMany' -> 'findMyModels'
       // This will be used as the top-level methods names
-      .mapKeys((_, modelName) => getActionName({ modelName, actionType: action.actionType, multiple: action.multiple }))
+      .mapKeys((_, modelName) => getActionName({ modelName, action }))
       .mapValues(model => {
         // Deep copy
         let modelCopy = cloneDeep(model);
@@ -36,7 +36,9 @@ const getModelsByMethod = function ({ methodName, models }) {
           if (!isModel(subDef)) { return def; }
 
           const multiple = isMultiple(def);
-          const subAction = Object.assign({}, action, { multiple });
+          const subAction = actions.find(act => {
+            return act.type === action.type && act.multiple === multiple;
+          });
           return Object.assign({}, def, { action: subAction });
         });
         merge(modelCopy, { properties, isTopLevel: true });

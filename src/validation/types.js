@@ -21,7 +21,7 @@ const validationTypes = {
     reason: 'INPUT_VALIDATION',
     ErrorType: EngineError,
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action}', model '${modelName}', wrong parameters: ${message}`,
+      `In action '${action.name}', model '${modelName}', wrong parameters: ${message}`,
   },
   serverInputSyntax: {
     reason: 'INPUT_SERVER_VALIDATION',
@@ -32,25 +32,25 @@ const validationTypes = {
     reason: 'INPUT_VALIDATION',
     ErrorType: EngineError,
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action}', model '${modelName}', wrong parameters: ${message}`,
+      `In action '${action.name}', model '${modelName}', wrong parameters: ${message}`,
   },
   clientInputCommand: {
     reason: 'WRONG_COMMAND',
     ErrorType: EngineError,
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action}', model '${modelName}', wrong command: ${message}`,
+      `In action '${action.name}', model '${modelName}', wrong command: ${message}`,
   },
   clientInputSemantics: {
     reason: 'INPUT_VALIDATION',
     ErrorType: EngineError,
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action}', model '${modelName}', wrong parameters: ${message}`,
+      `In action '${action.name}', model '${modelName}', wrong parameters: ${message}`,
   },
   clientInputData: {
     reason: 'INPUT_VALIDATION',
     ErrorType: EngineError,
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action}', model '${modelName}', wrong parameters: ${message}`,
+      `In action '${action.name}', model '${modelName}', wrong parameters: ${message}`,
   },
   serverOutputSyntax: {
     reason: 'OUTPUT_VALIDATION',
@@ -61,13 +61,13 @@ const validationTypes = {
     reason: 'OUTPUT_VALIDATION',
     ErrorType: EngineError,
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action}', model '${modelName}', response is corrupted: ${message}`,
+      `In action '${action.name}', model '${modelName}', response is corrupted: ${message}`,
   },
   paginationOutput: {
     reason: 'OUTPUT_VALIDATION',
     ErrorType: EngineError,
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action}', model '${modelName}', response is corrupted: ${message}`,
+      `In action '${action.name}', model '${modelName}', response is corrupted: ${message}`,
   },
 };
 

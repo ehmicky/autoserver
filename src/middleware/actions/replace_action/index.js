@@ -9,8 +9,8 @@ const { commands } = require('../../../constants');
  **/
 const replaceAction = async function () {
   return async function replaceAction(input) {
-    if (input.actionType === 'replace') {
-      const isMultiple = input.action === 'replaceMany';
+    if (input.action.type === 'replace') {
+      const isMultiple = input.action.multiple;
       const command = commands.find(({ type, multiple }) => {
         return type === 'update' && multiple === isMultiple;
       });

@@ -1,10 +1,11 @@
 'use strict';
 
 
-const { uniq } = require('lodash');
+const { isEqual } = require('lodash');
 
 const { validate } = require('../../validation');
 const { actions } = require('../../constants');
+const { EngineError } = require('../../error');
 
 
 /**
@@ -23,7 +24,6 @@ const basicValidation = async function ({ idl: { models } = {} }) {
       params,
       info,
       action,
-      actionType,
     } = input;
 
     const schema = getValidateServerSchema({ models });
@@ -34,10 +34,11 @@ const basicValidation = async function ({ idl: { models } = {} }) {
       params,
       info,
       action,
-      actionType,
     };
     const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
     validate({ schema, data, reportInfo });
+
+    validateAction({ action });
 
     const response = await this.next(input);
     return response;
@@ -56,7 +57,6 @@ const getValidateServerSchema = function ({ models = {} }) {
       'params',
       'info',
       'action',
-      'actionType',
     ],
     properties: {
       modelName: {
@@ -68,19 +68,21 @@ const getValidateServerSchema = function ({ models = {} }) {
       sysArgs: { type: 'object' },
       params: { type: 'object' },
       info: { type: 'object' },
-      action: {
-        type: 'string',
-        enum: actionNames,
-      },
-      actionType: {
-        type: 'string',
-        enum: actionGenericNames,
-      },
+      action: { type: 'object' },
     },
   };
 };
-const actionNames = actions.map(({ name }) => name);
-const actionGenericNames = uniq(actions.map(({ actionType }) => actionType));
+
+// Validate that action is among the possible ones
+const validateAction = function ({ action }) {
+  const isValid = actions.some(possibleAction => {
+    return isEqual(possibleAction, action);
+  });
+  if (!isValid) {
+    const message = `Invalid action: ${JSON.stringify(action)}`;
+    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  }
+};
 
 
 module.exports = {

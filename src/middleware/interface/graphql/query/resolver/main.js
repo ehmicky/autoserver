@@ -34,7 +34,9 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   if (directReturn !== undefined) { return directReturn; }
 
   // Retrieve action name, passed to database layer
-  const { name: action } = actions.find(action => action.multiple === multiple && action.actionType === actionType) || {};
+  const action = actions.find(act => {
+    return act.multiple === multiple && act.type === actionType;
+  });
   // This means the query specified an attribute that is not present in IDL definition
   if (action == null || modelName == null) {
     throw new EngineError(`Action '${name}' does not exist`, { reason: 'INPUT_VALIDATION' });
@@ -48,7 +50,7 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   const response = await callback({ action, modelName, args });
 
   // Tags the response as belonging to that modelName
-  setParentModel(response, { action, modelName, actionType });
+  setParentModel(response, { action, modelName });
 
   return response;
 };
