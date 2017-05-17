@@ -1,12 +1,14 @@
 ### IDL FILE ###
 # This file describes how the API should operate.
-# It is purposely overly complex, as this example file aims to demonstrate all available features.
+# It is purposely overly complex, as this example file aims to demonstrate all
+# available features.
 # A real production file should be much more concise.
 # It is based on JSON schema v6 syntax, with some extra attributes
 # Using this file, the API will automatically generate:
 #  - HTTP server: body/query handling
 #  - GraphQL server: endpoint, introspection, debugger, schema printing
-#  - CRUD actions: find, create, replace, update, upsert, delete. On a single model or several.
+#  - CRUD actions: find, create, replace, update, upsert, delete.
+#    On a single model or several.
 #  - CRUD arguments: filtering (including complex one), sorting, selecting
 #  - nested actions, populating
 #  - input and output validation
@@ -21,7 +23,8 @@ $schema: tag:apiengine,2017:v1.0.0
 # List of models
 models:
   # Name of the model, used in routes, e.g. REST endpoints or GraphQL methods
-  # Must only be lowercase ASCII letters, digits or underscore. Cannot start with one digit or two underscores.
+  # Must only be lowercase ASCII letters, digits or underscore.
+  # Cannot start with one digit or two underscores.
   pet:
     description: Cute animal
     # `ìd` should always be required, and specified
@@ -33,7 +36,8 @@ models:
     x-custom: anything
     properties:
       id:
-        # Required for the moment. Possible values: string, number, integer, boolean,
+        # Required for the moment.
+        # Possible values: string, number, integer, boolean,
         # For the moment, cannot be an array
         description: Unique identifier of a pet
       name:
@@ -66,7 +70,8 @@ models:
         type: number
         # Description automatically used in documentation
         description: Corrolated to how much a pet has eaten
-        # Deprecation is automatically used in documentation, and gives warning messages
+        # Deprecation is automatically used in documentation,
+        # and gives warning messages
         deprecated: Let's stop measuring pet's weight
         default: 15
         # Number-specific JSON schema validation keywords
@@ -88,7 +93,8 @@ models:
         # Type defaults:
         #  - if `items` is present, type defaults to 'array'
         #  - if `model` is present, type defaults to 'object'
-        #  - for top-level models, type defaults to 'object', and must be 'object'
+        #  - for top-level models, type defaults to 'object',
+        #    and must be 'object'
         #  - otherwise, defaults to 'string'
         type: array
         description: Sweet pictures of a pet
@@ -114,9 +120,11 @@ models:
         default: []
       status:
         description: Has this pet been adopted
-        # Applies transformations: status will be stored lowercase in database, but returned uppercase to client
+        # Applies transformations: status will be stored lowercase in database,
+        # but returned uppercase to client
         # JSL can be used
-        # This can be used to add compatibility layers, computed attributes, etc.
+        # This can be used to add compatibility layers,
+        # computed attributes, etc.
         transform: ($.toLowerCase())
         transformOut: (capitalize($))
         # Applied default values, on input or output
@@ -124,21 +132,26 @@ models:
       creator_ip:
         description: IP of the user that created this pet
         # compute sets the value of an attribute.
-        # The value provided by the user will be ignored, unless this returns undefined
+        # The value provided by the user will be ignored,
+        # unless this returns undefined
         # As opposed to `default`, this will also be set during update actions.
         # JSL can be used.
         # default and transforms can still be used (are performed afterwards).
         compute: (String($moreRecursiveVariable))
-        # Same for output. It is useless in this case, but used for illustration.
+        # Same for output. It is useless in this case,
+        # but used for illustration.
         computeOut: ($IP)
       best_friend:
-        # This means this attribute is an instance of the `pet` model, i.e. a foreign key
+        # This means this attribute is an instance of the `pet` model,
+        # i.e. a foreign key
         # References can be recursive, e.g. here `pet` is the current model
-        # Will actually copy the model's `id` property definition (in case of conflict, current definition has priority)
+        # Will actually copy the model's `id` property definition
+        # (in case of conflict, current definition has priority)
         # Those "sub-models" to perform nested actions
         model: pet
         description: This pet's best friend
-      # Array of foreign keys (i.e. n-1, 1-n and n-n relationships) can also be specified
+      # Array of foreign keys (i.e. n-1, 1-n and n-n relationships)
+      # can also be specified
       friends:
         description: This pet's friends
         items:
@@ -148,7 +161,8 @@ models:
           type: object
           model: owner
       birth_date:
-        # The following JSON schema validation keywords can be applied to any type, although they are usually for strings
+        # The following JSON schema validation keywords can be applied to
+        # any type, although they are usually for strings
         format: date
         formatMinimum: 2000-01-01
         formatExclusiveMinimum: true
@@ -156,7 +170,8 @@ models:
         formatExclusiveMinimum: false
         default: (getBirthDate())
   owner:
-    # It is possible to reference/include local files or remote files (HTTP[S]) using standard JSON reference syntax
+    # It is possible to reference/include local files or remote files (HTTP[S])
+    # using standard JSON reference syntax
     # Circular references are supported
     # Included files will be merged with sibling properties
     $ref: owner.schema.yml
@@ -166,7 +181,8 @@ models:
 # If unspecified, is all actions but deleteMany
 # Actions can be:
 #   - find: retrieve an element, similar to REST's GET
-#   - create: create an element, similar to REST's POST. `id` can be specified by client, or set by server.
+#   - create: create an element, similar to REST's POST.
+#     `id` can be specified by client, or set by server.
 #   - replace: completely replace an element, similar to REST's PUT
 #   - update: partially update an element, similar to REST's PATCH
 #   - upsert: if element exists, like "replace". Otherwise, like "create"
@@ -174,26 +190,34 @@ models:
 # Each action has two versions:
 #   - singular: e.g. `findOne`, similar to REST's GET /models/ID
 #   - plural: e.g. `findMany`, similar to REST's GET /models/
-# By default, more singular and plural are allowed. To restrict to singular only, add `One`, e.g. `findOne`
+# By default, more singular and plural are allowed.
+# To restrict to singular only, add `One`, e.g. `findOne`
 # Actions can use the following arguments:
 #   - `data`:
 #      - in update, upsert, replace or create actions. Required by each of them
-#      - must be an array of objects for all upsertMany, replaceMany and createMany. Must be an object otherwise
-#      - `id` is required for upsert and replace, optional for create, not allowed for update
+#      - must be an array of objects for all upsertMany, replaceMany and
+#        createMany. Must be an object otherwise
+#      - `id` is required for upsert and replace, optional for create,
+#        not allowed for update
 #      - contains the entities to modify or create
 #   - `filter`:
 #      - in find, delete and update actions.
 #      - must be an object, whose keys are named after the models attributes
 #      - can use JSL
-#      - for findOne, deleteOne and updateOne, can only contain `id` key, is required, and cannot use JSL
-#      - used as a query filter, e.g. deleteMany { filter: { name: 'example' } } remove all entities with `name` 'example'
+#      - for findOne, deleteOne and updateOne, can only contain `id` key,
+#        is required, and cannot use JSL
+#      - used as a query filter, e.g. deleteMany { filter: { name: 'example' }}
+#        remove all entities with `name` 'example'
 #   - `order_by`
 #      - in all *Many actions. Never required
-#      - must be a comma-separated list of attributes, optionally prefixed by + or -, e.g. 'name-,id'
-#      - orders server response according to the specified attributes. Default order is +, i.e. ascending
+#      - must be a comma-separated list of attributes, optionally prefixed
+#        by + or -, e.g. 'name-,id'
+#      - orders server response according to the specified attributes.
+#        Default order is +, i.e. ascending
 #   - `dry_run` {boolean}
 #      - in all actions except find. Never required
-#      - if true, the action will not modify the database, but the return value will be the same as if it did
+#      - if true, the action will not modify the database,
+#        but the return value will be the same as if it did
 #   - `page_size` {integer}
 #      - in findMany, deleteMany or updateMany
 #      - defaults to server option defaultPageSize (default: 100)
@@ -202,18 +226,22 @@ models:
 #      - maximum is server option maxPageSize (default: 100)
 #   - `before|after` {string}
 #      - in findMany
-#      - retrieves previous|next pagination batch, using the previous response's 'token'
+#      - retrieves previous|next pagination batch,
+#        using the previous response's 'token'
 #      - use '' for the start or the end
 #   - `page` {integer}
 #      - in findMany
 #      - page number, for pagination, starting at 1
 #      - cannot be used together with `before|after`
 # JSL is a restricted syntax of JavaScript:
-#   - any string that is surrounded by parenthesis will be interpreted as JSL, except if first parenthesis is escaped:
+#   - any string that is surrounded by parenthesis will be interpreted as JSL,
+#     except if first parenthesis is escaped:
 #      - this is JSL: '(1 + 1)'
 #      - this is not JSL: '\(1 + 1)'
-#   - it can be used in `filter` (for findMany, updateMany or deleteMany), and in transforms|compute|default
-#   - at the moment, any JavaScript is allowed, but this will be restricted (for filters only) in the future
+#   - it can be used in `filter` (for findMany, updateMany or deleteMany),
+#     and in transforms|compute|default
+#   - at the moment, any JavaScript is allowed, but this will be restricted
+#     (for filters only) in the future
 #     for security and performance reasons
 #   - it can use helpers (see below)
 #   - it can use variables (see below)
@@ -224,39 +252,45 @@ models:
 #      - "request variables":
 #         - $NOW {string} - current date and time
 #         - $IP {string} - request IP
-#         - $PARAMS {object} - contains all request parameters: query strings, (application-namespaced) HTTP headers
+#         - $PARAMS {object} - contains all request parameters:
+#           query strings, (application-namespaced) HTTP headers
 #      - "interface variables":
 #         - $ACTION {string} - current action, e.g. 'find' or 'create'
 #      - "model variables":
-#         - $ {any} - value of current attribute, e.g. { filter: { name: '$ !== "John"' } }
+#         - $ {any} - value of current attribute,
+#           e.g. { filter: { name: '$ !== "John"' } }
 #           checks whether model.name !== 'John'
-#         - $$ {object} - current model (input or output), e.g. { filter: { name: '$ === $$.first_name' } }
+#         - $$ {object} - current model (input or output),
+#           e.g. { filter: { name: '$ === $$.first_name' } }
 #           checks whether model.name === model.first_name
 #      - "helpers variables" (only available in helpers):
-#         - $1, $2, etc. {any} - position parameter when firing the helper function
+#         - $1, $2, etc. {any} - position parameter when firing
+#           the helper function
 #      - "validation variables" (only available in validation keywords):
 #         - $EXPECTED {any} - value passed to the validation rule
 #   - restrictions:
 #      - arg.filter can only use $ and $$ variables
-#      - helpers and variables cannot use "interface variables" nor "model variables"
+#      - helpers and variables cannot use "interface variables"
+#        nor "model variables"
 actions: [find, create, replace, update, upsert, delete]
 # Helpers are functions that can be used in any JSL.
 # Their argument is passed as variables $1, $2, etc. in inline functions
 # They must be pure functions, because they are memoized.
 helpers:
   # Helpers use JSL syntax themselves
-  myMathFunction: (($1 * $2) + ($3 * $4))
-  exampleFunction: (myMathFunction(1, 10, 100, 2) + myOtherMathFunction(1, 10, 100, 2))
+  myMathFunc: (($1 * $2) + ($3 * $4))
+  exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
   getBirthDate: 2005-01-01
   # One can require JavaScript files (Node.js)
-  myOtherMathFunction:
+  myOtherMathFunc:
     $ref: math.js
   # One can require entire libraries. Only functions are kept.
   libraries:
   - $ref: underscore.string
   - $ref: lodash
 # Custom variables can be used in any JSL by declaring it here
-# The variables will be lazily evaluated, i.e. only when some JSL is referencing them
+# The variables will be lazily evaluated, i.e. only when some JSL is
+# referencing them
 # They must be pure functions, because they are memoized.
 variables:
   # Variables use JSL syntax themselves
@@ -269,8 +303,10 @@ variables:
   # Dummy variable
   $user:
     id: '1'
-# Plugins are functions that take `idl` as input, and returns a modified IDL as output.
-# Use cases can be: adding a attribute to each model, extending core functionalities, etc.
+# Plugins are functions that take `idl` as input, and returns a modified
+# IDL as output.
+# Use cases can be: adding a attribute to each model,
+# extending core functionalities, etc.
 # The system adds by default some builtin plugins, which can be disabled.
 plugins:
   - plugin:
@@ -283,7 +319,8 @@ plugins:
   # Builtin plugins are specified as a string, and run by default
   # - plugin: timestamp
   - plugin: author
-    # Defines how to retrieve current user, so it can be used by updated_by and created_by attributes
+    # Defines how to retrieve current user, so it can be used by updated_by
+    # and created_by attributes
     opts:
       # user: ($user)
       model: owner
