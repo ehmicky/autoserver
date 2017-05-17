@@ -16,7 +16,7 @@ const validateClientInputData = function ({
   idl,
   modelName,
   action,
-  dbFullAction,
+  dbCallFull,
   args,
   extra,
 }) {
@@ -24,7 +24,7 @@ const validateClientInputData = function ({
   const schema = getDataValidationSchema({
     idl,
     modelName,
-    dbFullAction,
+    dbCallFull,
     type,
   });
   const attributes = getAttributes(args);
@@ -70,7 +70,7 @@ const validateServerOutputData = function ({
   modelName,
   response: { data },
   action,
-  dbFullAction,
+  dbCallFull,
   args: { no_output: noOutput },
   extra,
 }) {
@@ -80,7 +80,7 @@ const validateServerOutputData = function ({
   const schema = getDataValidationSchema({
     idl,
     modelName,
-    dbFullAction,
+    dbCallFull,
     type,
   });
   data = data instanceof Array ? data : [data];
@@ -94,14 +94,14 @@ const validateServerOutputData = function ({
 const getDataValidationSchema = memoize(function ({
   idl,
   modelName,
-  dbFullAction,
+  dbCallFull,
   type,
 }) {
   const schema = cloneDeep(idl.models[modelName]);
-  // Adapt the IDL schema validation to the current dbFullAction,
+  // Adapt the IDL schema validation to the current dbCallFull,
   // and to what the validator library expects
   // Apply each transform recursively
-  transform({ transforms, args: { dbFullAction, type } })({ input: schema });
+  transform({ transforms, args: { dbCallFull, type } })({ input: schema });
   return schema;
 });
 
@@ -117,14 +117,14 @@ const optionalOutputAttrActions = [
 ];
 const transforms = [
   {
-    // Fix `required` attribute according to the current dbFullAction
-    required({ value: required, dbFullAction, type }) {
+    // Fix `required` attribute according to the current dbCallFull
+    required({ value: required, dbCallFull, type }) {
       if (!(required instanceof Array)) { return; }
 
       if (type === 'clientInputData') {
-        // Nothing is required for those dbFullActions,
+        // Nothing is required for those dbCallFulls,
         // except maybe `id` (previously validated)
-        if (optionalInputAttrActions.includes(dbFullAction)) {
+        if (optionalInputAttrActions.includes(dbCallFull)) {
           required = [];
         // `id` requiredness has already been checked by previous validator,
         // so we skip it here
@@ -132,9 +132,9 @@ const transforms = [
           required = required.filter(requiredProp => requiredProp !== 'id');
         }
       } else if (type === 'serverOutputData') {
-        // Some dbFullActions do not require normal attributes as output
+        // Some dbCallFulls do not require normal attributes as output
         // (except for `id`)
-        if (optionalOutputAttrActions.includes(dbFullAction)) {
+        if (optionalOutputAttrActions.includes(dbCallFull)) {
           required = required.filter(requiredProp => requiredProp === 'id');
         }
       }

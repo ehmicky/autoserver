@@ -11,16 +11,16 @@ const { validate } = require('../../../validation');
 const validatePaginationInput = function ({
   args,
   action,
-  dbFullAction,
+  dbCallFull,
   modelName,
   maxPageSize,
 }) {
   const throwError = getThrowError({ action, modelName });
 
   let schema;
-  if (allowFullPagination({ args, dbFullAction })) {
+  if (allowFullPagination({ args, dbCallFull })) {
     schema = getFullSchema({ args, maxPageSize });
-  } else if (mustPaginateOutput({ args, dbFullAction })) {
+  } else if (mustPaginateOutput({ args, dbCallFull })) {
     schema = getLimitedSchema({ maxPageSize });
   } else {
     schema = restrictedSchema;
