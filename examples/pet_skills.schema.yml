@@ -24,5 +24,6 @@ properties:
     type: integer
     description: How smart is the pet
     minimum:
-      # Allows referring to a runtime value, i.e. here `age` must be lesser than `intelligence`
+      # Allows referring to a runtime value, i.e. here `age` must be
+      # lesser than `intelligence`
       $data: '1/age'
