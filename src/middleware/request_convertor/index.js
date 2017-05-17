@@ -14,10 +14,10 @@ const requestConvertor = async function () {
       params,
     } = input;
 
-    info.action = action;
-    info.dbCall = action;
-    const dbCallFull = action;
-    const dbCall = actionType;
+    info.action = action.replace('find', 'read');
+    info.dbCall = action.replace('find', 'read');
+    const dbCallFull = action.replace('find', 'read');
+    const dbCall = actionType.replace('find', 'read');
 
     const nextInput = {
       action,

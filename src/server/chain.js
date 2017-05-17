@@ -63,19 +63,18 @@ const start = async function (opts) {
     }),
 
     /**
-     * Middleware transforming one request into 0, 1 or several
-     * separate requests
+     * Middleware transforming one request into 0, 1 or several database calls
      **/
     // Convert from interface format to API format
     mdw.apiConvertor,
     // Basic validation layer
     mdw.basicValidation,
-    // Split "update" action into "find" then "update" requests
+    // Split "update" action into "read" then "update" database calls
     mdw.updateAction,
-    // Split "upsert" action into "find", then "create" or "update" requests,
-    // then a final "find" request
+    // Split "upsert" action into "read", then "create" or "update"
+    // database calls, then a final "read" database call
     mdw.upsertAction,
-    // Turn "replace" action into an "update" request
+    // Turn "replace" action into an "update" database call
     mdw.replaceAction,
 
     /**

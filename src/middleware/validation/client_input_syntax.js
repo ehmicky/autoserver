@@ -161,12 +161,12 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
  **/
 /* eslint-disable key-spacing, no-multi-spaces */
 const rules = {
-  findOne: {
+  readOne: {
     allowed: [],
     required: ['filter'/*, 'filter.id'*/],
     isNotJslFilterId: true,
   },
-  findMany: {
+  readMany: {
     allowed: ['filter'/*, 'filter.id'*/, 'order_by', 'limit', 'offset'],
     required: [],
   },

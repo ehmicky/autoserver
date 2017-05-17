@@ -6,11 +6,11 @@ const { performUpsert } = require('./upsert');
 
 /**
  * "upsert" action is split into three database actions:
- *   - first a "find" database action checking whether models exist
+ *   - first a "read" database action checking whether models exist
  *     Pagination is disabled for that query.
  *   - then, for each model that does not exist, a "create" database action
  *   - then, for each model that exists, an "update" database action
- *   - then, a final "find" database action for the final result.
+ *   - then, a final "read" database action for the final result.
  *     We need that final action to bring the "create" and "update" output
  *     results together, sorted and paginated.
  * The reasons why we split "upsert" action are:

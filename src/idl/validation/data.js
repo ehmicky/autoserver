@@ -14,7 +14,8 @@ const validateData = function ({ idl }) {
     for (const [key, value] of Object.entries(prop)) {
       if (!value.$data) { continue; }
       validateDataFormat({ value });
-      // At the moment, main IDL validation does not support `$data`, so we remove them
+      // At the moment, main IDL validation does not support `$data`,
+      // so we remove them
       delete prop[key];
     }
 

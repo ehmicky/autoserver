@@ -19,7 +19,7 @@ const getUpdateInput = function ({ input, models, prefix }) {
 
 const getUpdateArgs = function ({ args, models, prefix }) {
   const { data } = args;
-  // arg.filter is only used by first "find" database action
+  // arg.filter is only used by first "read" database action
   const updateArgs = omit(args, ['filter']);
 
   if (models instanceof Array) {

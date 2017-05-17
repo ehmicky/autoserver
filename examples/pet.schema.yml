@@ -29,9 +29,9 @@ models:
     description: Cute animal
     # `ìd` should always be required, and specified
     required: [id, name, photo_urls, friends]
-    # Allowed actions for this model.
-    # Defaults to top-level `actions` key (see it for further explanations)
-    actions: [find, create, replace, update, upsert, delete]
+    # Allowed calls for this model.
+    # Defaults to top-level `calls` key (see it for further explanations)
+    calls: [create, read, update, delete]
     # Custom property
     x-custom: anything
     properties:
@@ -134,7 +134,7 @@ models:
         # compute sets the value of an attribute.
         # The value provided by the user will be ignored,
         # unless this returns undefined
-        # As opposed to `default`, this will also be set during update actions.
+        # As opposed to `default`, this will also be set during update calls.
         # JSL can be used.
         # default and transforms can still be used (are performed afterwards).
         compute: (String($moreRecursiveVariable))
@@ -177,8 +177,6 @@ models:
     $ref: owner.schema.yml
   pet_skills:
     $ref: pet_skills.schema.yml
-# Default `actions` values for each model
-# If unspecified, is all actions but deleteMany
 # Actions can be:
 #   - find: retrieve an element, similar to REST's GET
 #   - create: create an element, similar to REST's POST.
@@ -255,7 +253,8 @@ models:
 #         - $PARAMS {object} - contains all request parameters:
 #           query strings, (application-namespaced) HTTP headers
 #      - "interface variables":
-#         - $ACTION {string} - current action, e.g. 'find' or 'create'
+#         - $CALL {string} - current call, among 'create', 'read', 'update'
+#           or 'delete'
 #      - "model variables":
 #         - $ {any} - value of current attribute,
 #           e.g. { filter: { name: '$ !== "John"' } }
@@ -272,7 +271,9 @@ models:
 #      - arg.filter can only use $ and $$ variables
 #      - helpers and variables cannot use "interface variables"
 #        nor "model variables"
-actions: [find, create, replace, update, upsert, delete]
+# Default `calls` values for each model
+# If unspecified, is all calls but deleteMany
+calls: [create, read, update, delete]
 # Helpers are functions that can be used in any JSL.
 # Their argument is passed as variables $1, $2, etc. in inline functions
 # They must be pure functions, because they are memoized.

@@ -34,11 +34,11 @@ const validationTypes = {
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
       `In action '${action}', model '${modelName}', wrong parameters: ${message}`,
   },
-  clientInputAction: {
-    reason: 'WRONG_ACTION',
+  clientInputDbCall: {
+    reason: 'WRONG_CALL',
     ErrorType: EngineError,
     messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action}', model '${modelName}', wrong action: ${message}`,
+      `In action '${action}', model '${modelName}', wrong call: ${message}`,
   },
   clientInputSemantics: {
     reason: 'INPUT_VALIDATION',

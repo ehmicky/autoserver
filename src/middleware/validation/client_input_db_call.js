@@ -7,24 +7,24 @@ const { validate } = require('../../validation');
 /**
  * Validate API that input dbCallFull is correct, e.g. allowed in IDL
  **/
-const validateClientInputAction = function ({
+const validateClientInputDbCall = function ({
   idl,
   action,
   dbCallFull,
   modelName,
 }) {
-  const type = 'clientInputAction';
+  const type = 'clientInputDbCall';
   const schema = getSchema({ idl, modelName });
   const reportInfo = { type, action, modelName };
   validate({ schema, data: dbCallFull, reportInfo });
 };
 
 const getSchema = function ({ idl, modelName }) {
-  const actions = idl.models[modelName].actions;
+  const { calls } = idl.models[modelName];
   return {
     properties: {
       action: {
-        enum: actions,
+        enum: calls,
       },
     },
   };
@@ -32,5 +32,5 @@ const getSchema = function ({ idl, modelName }) {
 
 
 module.exports = {
-  validateClientInputAction,
+  validateClientInputDbCall,
 };
