@@ -19,8 +19,7 @@ const validation = async function ({ idl, maxDataLength }) {
       modelName,
       args,
       action,
-      commandType,
-      commandName,
+      command,
       info,
       params,
     } = input;
@@ -28,13 +27,13 @@ const validation = async function ({ idl, maxDataLength }) {
 
     // Extra information passed to custom validation keywords
     const requestInput = { ip, timestamp, params };
-    const interfaceInput = { commandType };
+    const interfaceInput = { command };
     const jslInput = { helpers, variables, requestInput, interfaceInput };
     const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
-    validateClientInputSyntax({ modelName, action, commandName, args });
-    validateClientInputCommand({ idl, action, commandName, modelName });
+    validateClientInputSyntax({ modelName, action, command, args });
+    validateClientInputCommand({ idl, action, command, modelName });
     validateClientInputSemantics({
       idl,
       modelName,
@@ -46,19 +45,19 @@ const validation = async function ({ idl, maxDataLength }) {
       idl,
       modelName,
       action,
-      commandName,
+      command,
       args,
       extra: jslInputData,
     });
 
     const response = await this.next(input);
-    validateServerOutputSyntax({ commandName, response });
+    validateServerOutputSyntax({ command, response });
     validateServerOutputData({
       idl,
       modelName,
       response,
       action,
-      commandName,
+      command,
       args,
       extra: jslInputModel,
     });

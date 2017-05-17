@@ -3,17 +3,19 @@
 
 const { cloneDeep, pick } = require('lodash');
 
+const { commands } = require('../../../constants');
+
 
 // Retrieves the input for the "create" database action
 const getCreateInput = function ({ input, data }) {
   input = cloneDeep(input);
 
-  const commandType = 'create';
-  const commandName = input.action === 'upsertMany'
-    ? 'createMany'
-    : 'createOne';
+  const isMultiple = input.action === 'upsertMany';
+  const command = commands.find(({ type, multiple }) => {
+    return type === 'create' && multiple === isMultiple;
+  });
   const args = getCreateArgs({ input, data });
-  Object.assign(input, { commandType, commandName, args });
+  Object.assign(input, { command, args });
 
   return input;
 };

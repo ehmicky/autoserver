@@ -3,6 +3,7 @@
 
 const { cloneDeep } = require('lodash');
 
+const { commands } = require('../../../constants');
 const { getFilter } = require('./filter');
 
 
@@ -12,13 +13,15 @@ const { getFilter } = require('./filter');
 const getFirstReadInput = function ({ input, prefix }) {
   input = cloneDeep(input);
 
-  const commandType = 'read';
-  const commandName = 'readMany';
+  const isMultiple = true;
+  const command = commands.find(({ type, multiple }) => {
+    return type === 'read' && multiple === isMultiple;
+  });
   const args = getReadArgs({ input, prefix });
   // Disables pagination
   const maxPageSize = 0;
 
-  Object.assign(input, { commandType, commandName, args });
+  Object.assign(input, { command, args });
   Object.assign(input.sysArgs, { maxPageSize });
 
   return input;

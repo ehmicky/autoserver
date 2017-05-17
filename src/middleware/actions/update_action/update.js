@@ -3,6 +3,7 @@
 
 const { omit, cloneDeep } = require('lodash');
 
+const { commands } = require('../../../constants');
 const { EngineError } = require('../../../error');
 
 
@@ -10,11 +11,13 @@ const { EngineError } = require('../../../error');
 const getUpdateInput = function ({ input, models, prefix }) {
   input = cloneDeep(input);
 
-  const commandType = 'update';
-  const commandName = input.action === 'updateOne' ? 'updateOne' : 'updateMany';
+  const isMultiple = input.action === 'updateMany';
+  const command = commands.find(({ type, multiple }) => {
+    return type === 'update' && multiple === isMultiple;
+  });
   const args = getUpdateArgs({ args: input.args, models, prefix });
 
-  Object.assign(input, { commandType, commandName, args });
+  Object.assign(input, { command, args });
 
   return input;
 };

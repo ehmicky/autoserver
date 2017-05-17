@@ -3,17 +3,19 @@
 
 const { cloneDeep, pick } = require('lodash');
 
+const { commands } = require('../../../constants');
+
 
 // Retrieves the input for the "update" database action
 const getUpdateInput = function ({ input, data }) {
   input = cloneDeep(input);
 
-  const commandType = 'update';
-  const commandName = input.action === 'upsertMany'
-    ? 'updateMany'
-    : 'updateOne';
+  const isMultiple = input.action === 'upsertMany';
+  const command = commands.find(({ type, multiple }) => {
+    return type === 'update' && multiple === isMultiple;
+  });
   const args = getUpdateArgs({ input, data });
-  Object.assign(input, { commandType, commandName, args });
+  Object.assign(input, { command, args });
 
   return input;
 };

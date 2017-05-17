@@ -9,29 +9,29 @@ const { jslRegExp } = require('../../jsl');
 
 /**
  * Check API input, for client-side errors (e.g. 400)
- * Only checks basic input according to current commandName
+ * Only checks basic input according to current command.name
  * In a nutshell, checks that:
  *  - required attributes are defined
  *  - disabled attributes are not defined
  *  - `filter` is an object, `data` is an array or object
- *    (depending on commandName)
+ *    (depending on command.name)
  *  - `order_by` and `dry_run` syntax looks valid
  *    (does not check whether it is semantically correct)
  **/
 const validateClientInputSyntax = function ({
   modelName,
   action,
-  commandName,
+  command,
   args,
 }) {
   const type = 'clientInputSyntax';
-  const schema = getValidateClientSchema({ commandName });
+  const schema = getValidateClientSchema({ command });
   validate({ schema, data: args, reportInfo: { type, action, modelName } });
 };
 
 // Builds JSON schema to validate against
-const getValidateClientSchema = function({ commandName }) {
-  const rule = rules[commandName];
+const getValidateClientSchema = function({ command }) {
+  const rule = rules[command.name];
   const properties = getProperties({ rule });
   const requiredProperties = getRequiredProps(rule.required);
   const forbiddenProperties = getForbiddenProperties({ rule });
@@ -45,7 +45,7 @@ const getValidateClientSchema = function({ commandName }) {
   return schema;
 };
 
-// Get properties to check against, as JSON schema, for a given commandName
+// Get properties to check against, as JSON schema, for a given command.name
 const getProperties = function ({ rule }) {
   return validateClientSchema
     // Whitelists input according to `allowed` or `required`
@@ -155,7 +155,7 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
 
 /**
  * List of rules for allowed|required attributes,
- * according to the current commandName
+ * according to the current command.name
  * `required` implies `allowed`
  * `dataSingle` is `data` as object, `dataMultiple` is `data` as array.
  **/

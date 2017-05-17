@@ -16,7 +16,7 @@ const validateClientInputData = function ({
   idl,
   modelName,
   action,
-  commandName,
+  command,
   args,
   extra,
 }) {
@@ -24,7 +24,7 @@ const validateClientInputData = function ({
   const schema = getDataValidationSchema({
     idl,
     modelName,
-    commandName,
+    command,
     type,
   });
   const attributes = getAttributes(args);
@@ -70,19 +70,14 @@ const validateServerOutputData = function ({
   modelName,
   response: { data },
   action,
-  commandName,
+  command,
   args: { no_output: noOutput },
   extra,
 }) {
   if (noOutput) { return; }
 
   const type = 'serverOutputData';
-  const schema = getDataValidationSchema({
-    idl,
-    modelName,
-    commandName,
-    type,
-  });
+  const schema = getDataValidationSchema({ idl, modelName, command, type });
   data = data instanceof Array ? data : [data];
   data.forEach(datum => {
     const reportInfo = { type, modelName, action, dataVar: 'response' };
@@ -94,14 +89,14 @@ const validateServerOutputData = function ({
 const getDataValidationSchema = memoize(function ({
   idl,
   modelName,
-  commandName,
+  command,
   type,
 }) {
   const schema = cloneDeep(idl.models[modelName]);
-  // Adapt the IDL schema validation to the current commandName,
+  // Adapt the IDL schema validation to the current command.name,
   // and to what the validator library expects
   // Apply each transform recursively
-  transform({ transforms, args: { commandName, type } })({ input: schema });
+  transform({ transforms, args: { command, type } })({ input: schema });
   return schema;
 });
 
@@ -117,14 +112,14 @@ const optionalOutputAttrCommandNames = [
 ];
 const transforms = [
   {
-    // Fix `required` attribute according to the current commandName
-    required({ value: required, commandName, type }) {
+    // Fix `required` attribute according to the current command.name
+    required({ value: required, command, type }) {
       if (!(required instanceof Array)) { return; }
 
       if (type === 'clientInputData') {
-        // Nothing is required for those commandNames,
+        // Nothing is required for those command.name,
         // except maybe `id` (previously validated)
-        if (optionalInputAttrCommandNames.includes(commandName)) {
+        if (optionalInputAttrCommandNames.includes(command.name)) {
           required = [];
         // `id` requiredness has already been checked by previous validator,
         // so we skip it here
@@ -132,9 +127,9 @@ const transforms = [
           required = required.filter(requiredProp => requiredProp !== 'id');
         }
       } else if (type === 'serverOutputData') {
-        // Some commandNames do not require normal attributes as output
+        // Some command.name do not require normal attributes as output
         // (except for `id`)
-        if (optionalOutputAttrCommandNames.includes(commandName)) {
+        if (optionalOutputAttrCommandNames.includes(command.name)) {
           required = required.filter(requiredProp => requiredProp === 'id');
         }
       }

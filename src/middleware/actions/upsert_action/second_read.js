@@ -3,6 +3,7 @@
 
 const { cloneDeep, pick } = require('lodash');
 
+const { commands } = require('../../../constants');
 const { getFilter } = require('./filter');
 
 
@@ -11,11 +12,13 @@ const { getFilter } = require('./filter');
 const getSecondReadInput = function ({ input, prefix }) {
   input = cloneDeep(input);
 
-  const commandType = 'read';
-  const commandName = input.action === 'upsertMany' ? 'readMany' : 'readOne';
+  const isMultiple = input.action === 'upsertMany';
+  const command = commands.find(({ type, multiple }) => {
+    return type === 'read' && multiple === isMultiple;
+  });
   const args = getReadArgs({ input, prefix });
 
-  Object.assign(input, { commandType, commandName, args });
+  Object.assign(input, { command, args });
 
   return input;
 };

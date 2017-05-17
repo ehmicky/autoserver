@@ -3,7 +3,7 @@
 
 // List of defaults:
 //  - key is argument attribute name
-//  - commandNames are whitelisted
+//  - command.name is whitelisted
 //  - value is the default value.
 //    Can be a function taking the server options as first argument
 const defaults = {
