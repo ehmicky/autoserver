@@ -1,18 +1,18 @@
 'use strict';
 
 
-const { getFirstFindInput } = require('./first_find');
+const { getFirstReadInput } = require('./first_read');
 const { getCreateInput } = require('./create');
 const { getUpdateInput } = require('./update');
-const { getSecondFindInput } = require('./second_find');
+const { getSecondReadInput } = require('./second_read');
 
 
-// Perform a "find" database action, followed by a "create" or
+// Perform a "read" database action, followed by a "create" or
 // "update" database action
 const performUpsert = async function ({ input, prefix }) {
-  // First check if models exist or not, by performing a "find" database action
-  const firstFindInput = getFirstFindInput({ input, prefix });
-  const { data: models } = await this.next(firstFindInput);
+  // First check if models exist or not, by performing a "read" database action
+  const firstReadInput = getFirstReadInput({ input, prefix });
+  const { data: models } = await this.next(firstReadInput);
 
   const { createModels, updateModels } = splitModels({ input, models });
 
@@ -28,15 +28,15 @@ const performUpsert = async function ({ input, prefix }) {
     await this.next(updateInput);
   }
 
-  // Finally, retrieve output with a second "find" database action
-  const secondFindInput = getSecondFindInput({ input, prefix });
-  const response = await this.next(secondFindInput);
+  // Finally, retrieve output with a second "read" database action
+  const secondReadInput = getSecondReadInput({ input, prefix });
+  const response = await this.next(secondReadInput);
 
   return response;
 };
 
 // Check among args.data which ones exist or not, using the result
-// of the first "find" database action
+// of the first "read" database action
 const splitModels = function ({ input: { args: { data } }, models }) {
   const modelsIds = models.map(({ id }) => id);
 

@@ -4,13 +4,13 @@
 const { pick, cloneDeep } = require('lodash');
 
 
-// Retrieves the input for the "find" database action
-const getFindInput = function ({ input }) {
+// Retrieves the input for the "read" database action
+const getReadInput = function ({ input }) {
   input = cloneDeep(input);
 
-  const actionType = 'find';
-  const action = input.action === 'updateOne' ? 'findOne' : 'findMany';
-  const args = getFindArgs({ args: input.args });
+  const actionType = 'read';
+  const action = input.action === 'updateOne' ? 'readOne' : 'readMany';
+  const args = getReadArgs({ args: input.args });
   // Disables pagination
   const maxPageSize = 0;
 
@@ -22,11 +22,11 @@ const getFindInput = function ({ input }) {
 };
 
 // Only keep args: { filter }
-const getFindArgs = function ({ args }) {
+const getReadArgs = function ({ args }) {
   return pick(args, ['filter']);
 };
 
 
 module.exports = {
-  getFindInput,
+  getReadInput,
 };

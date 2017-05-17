@@ -9,12 +9,12 @@
 const defaults = {
   args: {
     filter: {
-      dbCallFulls: ['findMany', 'deleteMany'],
+      dbCallFulls: ['readMany', 'deleteMany'],
       value: '(true)',
     },
 
     order_by: {
-      dbCallFulls: ['findMany', 'deleteMany', 'updateMany', 'createMany'],
+      dbCallFulls: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: 'id+',
     },
 
@@ -43,7 +43,7 @@ const defaults = {
     },
 
     page_size: {
-      dbCallFulls: ['findMany', 'deleteMany', 'updateMany', 'createMany'],
+      dbCallFulls: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
       test: ({
@@ -54,7 +54,7 @@ const defaults = {
     },
 
     after: {
-      dbCallFulls: ['findMany'],
+      dbCallFulls: ['readMany'],
       value: '',
       // Only if pagination is enabled, and arg.before|page is not specified
       test: ({

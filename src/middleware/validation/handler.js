@@ -2,7 +2,7 @@
 
 
 const { validateClientInputSyntax } = require('./client_input_syntax');
-const { validateClientInputAction } = require('./client_input_action');
+const { validateClientInputDbCall } = require('./client_input_db_call');
 const { validateClientInputSemantics } = require('./semantics');
 const { validateClientInputData, validateServerOutputData } = require('./data');
 const { validateServerOutputSyntax } = require('./server_output_syntax');
@@ -34,7 +34,7 @@ const validation = async function ({ idl, maxDataLength }) {
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
     validateClientInputSyntax({ modelName, action, dbCallFull, args });
-    validateClientInputAction({ idl, action, dbCallFull, modelName });
+    validateClientInputDbCall({ idl, action, dbCallFull, modelName });
     validateClientInputSemantics({
       idl,
       modelName,
@@ -52,7 +52,7 @@ const validation = async function ({ idl, maxDataLength }) {
     });
 
     const response = await this.next(input);
-    validateServerOutputSyntax({ action, response });
+    validateServerOutputSyntax({ dbCallFull, response });
     validateServerOutputData({
       idl,
       modelName,

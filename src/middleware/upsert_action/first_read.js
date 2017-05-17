@@ -6,15 +6,15 @@ const { cloneDeep } = require('lodash');
 const { getFilter } = require('./filter');
 
 
-// Retrieves the input for the first "find" database action
+// Retrieves the input for the first "read" database action
 // Goal is to check whether models exist, so we know if "upsert" action
 // will create or update models.
-const getFirstFindInput = function ({ input, prefix }) {
+const getFirstReadInput = function ({ input, prefix }) {
   input = cloneDeep(input);
 
-  const actionType = 'find';
-  const action = 'findMany';
-  const args = getFindArgs({ input, prefix });
+  const actionType = 'read';
+  const action = 'readMany';
+  const args = getReadArgs({ input, prefix });
   // Disables pagination
   const maxPageSize = 0;
 
@@ -26,12 +26,12 @@ const getFirstFindInput = function ({ input, prefix }) {
 };
 
 // Only keep args: { filter }
-const getFindArgs = function ({ input, prefix }) {
+const getReadArgs = function ({ input, prefix }) {
   const filter = getFilter({ input, prefix });
   return { filter };
 };
 
 
 module.exports = {
-  getFirstFindInput,
+  getFirstReadInput,
 };

@@ -68,8 +68,8 @@ const errorReasons = {
     http: { status: 404 },
   }),
 
-  // Action is not supported, or most likely not allowed for this model
-  WRONG_ACTION: () => ({
+  // Call is not supported, or most likely not allowed for this model
+  WRONG_CALL: () => ({
     http: { status: 405 },
   }),
 

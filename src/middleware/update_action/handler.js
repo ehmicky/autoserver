@@ -1,13 +1,13 @@
 'use strict';
 
 
-const { getFindInput } = require('./find');
+const { getReadInput } = require('./read');
 const { getUpdateInput } = require('./update');
 
 
 /**
  * "update" action is split into two database actions:
- *   - first a "find" database action retrieving current models
+ *   - first a "read" database action retrieving current models
  *     Pagination is disabled for that query.
  *   - then a "update" database action using a merge of the update data and
  *     the current models
@@ -36,10 +36,10 @@ const updateAction = async function () {
   };
 };
 
-// Perform a find database action, followed by an update database action
+// Perform a "read" database action, followed by an update database action
 const performUpdate = async function ({ input, prefix }) {
-  const findInput = getFindInput({ input });
-  const { data: models } = await this.next(findInput);
+  const readInput = getReadInput({ input });
+  const { data: models } = await this.next(readInput);
 
   const updateInput = getUpdateInput({ input, models, prefix });
   const response = await this.next(updateInput);

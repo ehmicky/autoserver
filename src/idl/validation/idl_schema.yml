@@ -25,9 +25,9 @@ properties:
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
-  # Default actions
-  actions:
-    $ref: '#/definitions/actionsProperty'
+  # Default calls
+  calls:
+    $ref: '#/definitions/callsProperty'
   # Custom functions that can be used in JSL
   helpers:
     type: object
@@ -130,7 +130,7 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [actions, model, type, description, deprecated, examples,
+      - enum: [calls, model, type, description, deprecated, examples,
           transform, transformOut, compute, computeOut]
       - enum:
           $data: /customValidationNames
@@ -141,14 +141,14 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [actions]
+      - enum: [calls]
       not:
         enum: [default]
     # Must have a `required` property
     required: [required, properties]
     properties:
-      actions:
-        $ref: '#/definitions/actionsProperty'
+      calls:
+        $ref: '#/definitions/callsProperty'
       required:
         # `required` property must at least contain `id`
         contains:
@@ -184,7 +184,7 @@ definitions:
     # Restrict the possible properties
     propertyNames:
       enum: [model, type, description, deprecated, examples, default, tranform,
-      transformOut, compute, computeOut, actions]
+      transformOut, compute, computeOut, calls]
     # Must have a `model` property
     required: [model]
     properties:
@@ -193,67 +193,26 @@ definitions:
         type: string
         enum:
           $data: '/modelNames'
-  # Validation of `actions` property, e.g. `actions: [find, createOne]`
-  # This property restricts which actions a specific model can perform
-  actionsProperty:
+  # Validation of `calls` property, e.g. `calls: [read, createOne]`
+  # This property restricts which calls a specific model can perform
+  callsProperty:
     type: array
     uniqueItems: true
     items:
       type: string
-      enum: [find, findOne, create, createOne, replace, replaceOne, update,
-        updateOne, upsert, upsertOne, delete, deleteOne]
-    # One can only choose between find (conceptually "findOne" + "findMany")
-    # and "findOne". Same thing for other actions
+      enum: [read, readOne, create, createOne, update, updateOne,
+        delete, deleteOne]
+    # One can only choose between read (conceptually "readOne" + "readMany")
+    # and "readOne". Same thing for other calls
     not:
       anyOf:
-      - allOf: [{contains: {const: find}}, {contains: {const: findOne}}]
+      - allOf: [{contains: {const: read}}, {contains: {const: readOne}}]
       - allOf: [{contains: {const: delete}}, {contains: {const: deleteOne}}]
       - allOf: [{contains: {const: update}}, {contains: {const: updateOne}}]
-      - allOf: [{contains: {const: upsert}}, {contains: {const: upsertOne}}]
-      - allOf: [{contains: {const: replace}}, {contains: {const: replaceOne}}]
       - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
-    # Some actions imply others
-    # E.g. if one has the right to create and replace models, it theoritically
-    # can upsert them, even without using the
-    # `upsert` action. So we force the IDL to explicit those dependencies.
-    # List of dependencies:
-    #   replace + create <-> upsert
-    #   delete + create -> replace
-    #   replace + find <-> update
-    allOf:
-    - if:
-        contains: {enum: [update, updateOne]}
-      then:
-        allOf:
-        - contains: {enum: [replace, replaceOne]}
-        - contains: {enum: [find, findOne]}
-    - if:
-        allOf:
-        - contains: {enum: [replace, replaceOne]}
-        - contains: {enum: [find, findOne]}
-      then:
-        contains: {enum: [update, updateOne]}
-    - if:
-        contains: {enum: [upsert, upsertOne]}
-      then:
-        allOf:
-        - contains: {enum: [replace, replaceOne]}
-        - contains: {enum: [create, createOne]}
-    - if:
-        allOf:
-        - contains: {enum: [replace, replaceOne]}
-        - contains: {enum: [create, createOne]}
-      then:
-        contains: {enum: [upsert, upsertOne]}
-    - if:
-        allOf:
-        - contains: {enum: [delete, deleteOne]}
-        - contains: {enum: [create, createOne]}
-      then:
-        contains: {enum: [replace, replaceOne]}
-    # find or findOne has to be defined, because GraphQL requires at least one
-    # query action
-    contains: {enum: [find, findOne]}
+    # read or readOne has to be defined, because GraphQL requires at least one
+    # query call
+    contains: {enum: [read, readOne]}
   # idl.helpers|variables.library
   librariesProperty:
     type: array

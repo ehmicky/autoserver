@@ -52,7 +52,7 @@
  **/
 
 
-const { omit, cloneDeep, orderBy, map } = require('lodash');
+const { cloneDeep, orderBy, map } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
@@ -153,13 +153,13 @@ const findIndex = function ({
   return index;
 };
 
-const findOne = function ({ collection, filter, opts }) {
+const readOne = function ({ collection, filter, opts }) {
   const id = filterToId({ filter });
   const index = findIndex({ collection, id, opts });
   return { data: collection[index] };
 };
 
-const findMany = function ({ collection, filter, opts }) {
+const readMany = function ({ collection, filter, opts }) {
   const indexes = findIndexes({ collection, filter, opts });
   const models = indexes.map(index => collection[index]);
   return { data: models };
@@ -240,8 +240,8 @@ const updateMany = function ({ collection, data, opts }) {
 };
 
 const dbCallFulls = {
-  findOne,
-  findMany,
+  readOne,
+  readMany,
   deleteOne,
   deleteMany,
   updateOne,

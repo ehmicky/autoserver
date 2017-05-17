@@ -105,13 +105,13 @@ const getDataValidationSchema = memoize(function ({
   return schema;
 });
 
-const optionalInputAttrActions = [
-  'findOne',
-  'findMany',
+const optionalInputAttrDbCalls = [
+  'readOne',
+  'readMany',
   'deleteOne',
   'deleteMany',
 ];
-const optionalOutputAttrActions = [
+const optionalOutputAttrDbCalls = [
   'deleteOne',
   'deleteMany',
 ];
@@ -124,7 +124,7 @@ const transforms = [
       if (type === 'clientInputData') {
         // Nothing is required for those dbCallFulls,
         // except maybe `id` (previously validated)
-        if (optionalInputAttrActions.includes(dbCallFull)) {
+        if (optionalInputAttrDbCalls.includes(dbCallFull)) {
           required = [];
         // `id` requiredness has already been checked by previous validator,
         // so we skip it here
@@ -134,7 +134,7 @@ const transforms = [
       } else if (type === 'serverOutputData') {
         // Some dbCallFulls do not require normal attributes as output
         // (except for `id`)
-        if (optionalOutputAttrActions.includes(dbCallFull)) {
+        if (optionalOutputAttrDbCalls.includes(dbCallFull)) {
           required = required.filter(requiredProp => requiredProp === 'id');
         }
       }

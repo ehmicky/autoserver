@@ -5,7 +5,7 @@ const { EngineError } = require('../../error');
 
 
 // Transform `args.data`'s ids into a `args.filter` that can be used by
-// the first and the second "find" database actions
+// the first and the second "read" database actions
 const getFilter = function ({ input, prefix }) {
   const ids = getDataIds({ input, prefix });
   if (ids instanceof Array) {

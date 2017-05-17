@@ -62,12 +62,11 @@ const { getPaginationInfo } = require('./info');
  * Actions:
  *  - output is paginated with any dbCallFull returning an array of response
  *    and do not using an array of args.data, i.e.
- *    findMany, deleteMany or updateMany
+ *    readMany, deleteMany or updateMany
  *  - consumer can iterate the pagination with safe dbCallFulls returning an
- *    array of response, i.e. findMany
+ *    array of response, i.e. readMany
  *  - this means updateMany and deleteMany dbCallFulls will paginate output,
- *    but to iterate through the next batches, findMany
- *    must be used
+ *    but to iterate through the next batches, readMany must be used
  **/
 const pagination = async function (idl) {
   return async function pagination(input) {
