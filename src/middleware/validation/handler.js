@@ -19,8 +19,8 @@ const validation = async function ({ idl, maxDataLength }) {
       modelName,
       args,
       action,
-      dbAction,
-      dbFullAction,
+      dbCall,
+      dbCallFull,
       info,
       params,
     } = input;
@@ -28,13 +28,13 @@ const validation = async function ({ idl, maxDataLength }) {
 
     // Extra information passed to custom validation keywords
     const requestInput = { ip, timestamp, params };
-    const interfaceInput = { dbAction };
+    const interfaceInput = { dbCall };
     const jslInput = { helpers, variables, requestInput, interfaceInput };
     const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
-    validateClientInputSyntax({ modelName, action, dbFullAction, args });
-    validateClientInputAction({ idl, action, dbFullAction, modelName });
+    validateClientInputSyntax({ modelName, action, dbCallFull, args });
+    validateClientInputAction({ idl, action, dbCallFull, modelName });
     validateClientInputSemantics({
       idl,
       modelName,
@@ -46,7 +46,7 @@ const validation = async function ({ idl, maxDataLength }) {
       idl,
       modelName,
       action,
-      dbFullAction,
+      dbCallFull,
       args,
       extra: jslInputData,
     });
@@ -58,7 +58,7 @@ const validation = async function ({ idl, maxDataLength }) {
       modelName,
       response,
       action,
-      dbFullAction,
+      dbCallFull,
       args,
       extra: jslInputModel,
     });

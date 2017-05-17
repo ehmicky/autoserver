@@ -37,7 +37,7 @@ const getProperties = ({ user = '($user)', model = 'user' }) => ({
     type: 'object',
     description: 'Who created this model',
     model,
-    compute: `($ACTION === "create" ? ${user}.id : undefined)`,
+    compute: `($CALL === "create" ? ${user}.id : undefined)`,
   },
   updated_by: {
     type: 'object',

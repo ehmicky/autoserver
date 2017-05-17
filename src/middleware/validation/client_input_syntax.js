@@ -9,29 +9,29 @@ const { jslRegExp } = require('../../jsl');
 
 /**
  * Check API input, for client-side errors (e.g. 400)
- * Only checks basic input according to current dbFullAction
+ * Only checks basic input according to current dbCallFull
  * In a nutshell, checks that:
  *  - required attributes are defined
  *  - disabled attributes are not defined
  *  - `filter` is an object, `data` is an array or object
- *    (depending on dbFullAction)
+ *    (depending on dbCallFull)
  *  - `order_by` and `dry_run` syntax looks valid
  *    (does not check whether it is semantically correct)
  **/
 const validateClientInputSyntax = function ({
   modelName,
   action,
-  dbFullAction,
+  dbCallFull,
   args,
 }) {
   const type = 'clientInputSyntax';
-  const schema = getValidateClientSchema({ dbFullAction });
+  const schema = getValidateClientSchema({ dbCallFull });
   validate({ schema, data: args, reportInfo: { type, action, modelName } });
 };
 
 // Builds JSON schema to validate against
-const getValidateClientSchema = function({ dbFullAction }) {
-  const rule = rules[dbFullAction];
+const getValidateClientSchema = function({ dbCallFull }) {
+  const rule = rules[dbCallFull];
   const properties = getProperties({ rule });
   const requiredProperties = getRequiredProps(rule.required);
   const forbiddenProperties = getForbiddenProperties({ rule });
@@ -45,7 +45,7 @@ const getValidateClientSchema = function({ dbFullAction }) {
   return schema;
 };
 
-// Get properties to check against, as JSON schema, for a given dbFullAction
+// Get properties to check against, as JSON schema, for a given dbCallFull
 const getProperties = function ({ rule }) {
   return validateClientSchema
     // Whitelists input according to `allowed` or `required`
@@ -155,7 +155,7 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
 
 /**
  * List of rules for allowed|required attributes,
- * according to the current dbFullAction
+ * according to the current dbCallFull
  * `required` implies `allowed`
  * `dataSingle` is `data` as object, `dataMultiple` is `data` as array.
  **/

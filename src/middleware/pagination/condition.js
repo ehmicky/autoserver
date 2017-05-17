@@ -6,22 +6,22 @@
 // Implies output pagination
 const allowFullPagination = function ({
   args: { page_size: pageSize },
-  dbFullAction,
+  dbCallFull,
 }) {
-  return fullPaginationDbFullActions.includes(dbFullAction) &&
+  return fullPaginationDbCallFulls.includes(dbCallFull) &&
     !isPaginationDisabled({ pageSize });
 };
-const fullPaginationDbFullActions = ['findMany'];
+const fullPaginationDbCallFulls = ['findMany'];
 
 // Whether output will be paginated
 const mustPaginateOutput = function ({
   args: { page_size: pageSize },
-  dbFullAction,
+  dbCallFull,
 }) {
-  return outputPaginationDbFullActions.includes(dbFullAction) &&
+  return outputPaginationDbCallFulls.includes(dbCallFull) &&
     !isPaginationDisabled({ pageSize });
 };
-const outputPaginationDbFullActions = [
+const outputPaginationDbCallFulls = [
   'findMany',
   'deleteMany',
   'updateMany',

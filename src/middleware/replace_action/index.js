@@ -2,7 +2,7 @@
 
 
 /**
- * "replace" action uses an "update" dbAction
+ * "replace" action uses an "update" dbCall
  **/
 const replaceAction = async function () {
   return async function replaceAction(input) {

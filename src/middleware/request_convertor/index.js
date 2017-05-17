@@ -15,15 +15,15 @@ const requestConvertor = async function () {
     } = input;
 
     info.action = action;
-    info.dbAction = action;
-    const dbFullAction = action;
-    const dbAction = actionType;
+    info.dbCall = action;
+    const dbCallFull = action;
+    const dbCall = actionType;
 
     const nextInput = {
       action,
       actionType,
-      dbFullAction,
-      dbAction,
+      dbCallFull,
+      dbCall,
       args,
       sysArgs,
       modelName,
