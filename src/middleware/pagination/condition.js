@@ -6,22 +6,22 @@
 // Implies output pagination
 const allowFullPagination = function ({
   args: { page_size: pageSize },
-  dbCallFull,
+  commandName,
 }) {
-  return fullPaginationDbCallFulls.includes(dbCallFull) &&
+  return fullPaginationCommandNames.includes(commandName) &&
     !isPaginationDisabled({ pageSize });
 };
-const fullPaginationDbCallFulls = ['readMany'];
+const fullPaginationCommandNames = ['readMany'];
 
 // Whether output will be paginated
 const mustPaginateOutput = function ({
   args: { page_size: pageSize },
-  dbCallFull,
+  commandName,
 }) {
-  return outputPaginationDbCallFulls.includes(dbCallFull) &&
+  return outputPaginationCommandNames.includes(commandName) &&
     !isPaginationDisabled({ pageSize });
 };
-const outputPaginationDbCallFulls = [
+const outputPaginationCommandNames = [
   'readMany',
   'deleteMany',
   'updateMany',

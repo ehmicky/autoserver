@@ -12,13 +12,13 @@ const { getFilter } = require('./filter');
 const getFirstReadInput = function ({ input, prefix }) {
   input = cloneDeep(input);
 
-  const dbCall = 'read';
-  const dbCallFull = 'readMany';
+  const commandType = 'read';
+  const commandName = 'readMany';
   const args = getReadArgs({ input, prefix });
   // Disables pagination
   const maxPageSize = 0;
 
-  Object.assign(input, { dbCall, dbCallFull, args });
+  Object.assign(input, { commandType, commandName, args });
   Object.assign(input.sysArgs, { maxPageSize });
 
   return input;

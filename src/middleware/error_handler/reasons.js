@@ -68,8 +68,8 @@ const errorReasons = {
     http: { status: 404 },
   }),
 
-  // Call is not supported, or most likely not allowed for this model
-  WRONG_CALL: () => ({
+  // Command is not supported, or most likely not allowed for this model
+  WRONG_COMMAND: () => ({
     http: { status: 405 },
   }),
 

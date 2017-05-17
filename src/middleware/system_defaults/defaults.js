@@ -3,23 +3,23 @@
 
 // List of defaults:
 //  - key is argument attribute name
-//  - dbCallFulls are whitelisted
+//  - commandNames are whitelisted
 //  - value is the default value.
 //    Can be a function taking the server options as first argument
 const defaults = {
   args: {
     filter: {
-      dbCallFulls: ['readMany', 'deleteMany'],
+      commandNames: ['readMany', 'deleteMany'],
       value: '(true)',
     },
 
     order_by: {
-      dbCallFulls: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
+      commandNames: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: 'id+',
     },
 
     dry_run: {
-      dbCallFulls: [
+      commandNames: [
         'deleteOne',
         'deleteMany',
         'updateOne',
@@ -31,7 +31,7 @@ const defaults = {
     },
 
     no_output: {
-      dbCallFulls: [
+      commandNames: [
         'deleteOne',
         'deleteMany',
         'updateOne',
@@ -43,7 +43,7 @@ const defaults = {
     },
 
     page_size: {
-      dbCallFulls: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
+      commandNames: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
       test: ({
@@ -54,7 +54,7 @@ const defaults = {
     },
 
     after: {
-      dbCallFulls: ['readMany'],
+      commandNames: ['readMany'],
       value: '',
       // Only if pagination is enabled, and arg.before|page is not specified
       test: ({

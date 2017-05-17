@@ -2,15 +2,15 @@
 
 
 const { validate } = require('../../validation');
-const { dbCalls } = require('../../idl');
+const { commands } = require('../../idl');
 
 
 // Check API output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)
 // In short: response should be an array of objects
-const validateServerOutputSyntax = function ({ dbCallFull, response }) {
+const validateServerOutputSyntax = function ({ commandName, response }) {
   const type = 'serverOutputSyntax';
-  const { multiple } = dbCalls.find(({ name }) => name === dbCallFull);
+  const { multiple } = commands.find(({ name }) => name === commandName);
   const schema = getSchema({ multiple });
   validate({ schema, data: response, reportInfo: { type } });
 };

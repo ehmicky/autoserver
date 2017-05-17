@@ -9,29 +9,29 @@ const { jslRegExp } = require('../../jsl');
 
 /**
  * Check API input, for client-side errors (e.g. 400)
- * Only checks basic input according to current dbCallFull
+ * Only checks basic input according to current commandName
  * In a nutshell, checks that:
  *  - required attributes are defined
  *  - disabled attributes are not defined
  *  - `filter` is an object, `data` is an array or object
- *    (depending on dbCallFull)
+ *    (depending on commandName)
  *  - `order_by` and `dry_run` syntax looks valid
  *    (does not check whether it is semantically correct)
  **/
 const validateClientInputSyntax = function ({
   modelName,
   action,
-  dbCallFull,
+  commandName,
   args,
 }) {
   const type = 'clientInputSyntax';
-  const schema = getValidateClientSchema({ dbCallFull });
+  const schema = getValidateClientSchema({ commandName });
   validate({ schema, data: args, reportInfo: { type, action, modelName } });
 };
 
 // Builds JSON schema to validate against
-const getValidateClientSchema = function({ dbCallFull }) {
-  const rule = rules[dbCallFull];
+const getValidateClientSchema = function({ commandName }) {
+  const rule = rules[commandName];
   const properties = getProperties({ rule });
   const requiredProperties = getRequiredProps(rule.required);
   const forbiddenProperties = getForbiddenProperties({ rule });
@@ -45,7 +45,7 @@ const getValidateClientSchema = function({ dbCallFull }) {
   return schema;
 };
 
-// Get properties to check against, as JSON schema, for a given dbCallFull
+// Get properties to check against, as JSON schema, for a given commandName
 const getProperties = function ({ rule }) {
   return validateClientSchema
     // Whitelists input according to `allowed` or `required`
@@ -155,7 +155,7 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
 
 /**
  * List of rules for allowed|required attributes,
- * according to the current dbCallFull
+ * according to the current commandName
  * `required` implies `allowed`
  * `dataSingle` is `data` as object, `dataMultiple` is `data` as array.
  **/

@@ -2,13 +2,13 @@
 
 
 /**
- * "replace" action uses an "update" dbCall
+ * "replace" action uses an "update" command
  **/
 const replaceAction = async function () {
   return async function replaceAction(input) {
     if (input.actionType === 'replace') {
-      input.dbCall = 'update';
-      input.dbCallFull = input.action === 'replaceOne'
+      input.commandType = 'update';
+      input.commandName = input.action === 'replaceOne'
         ? 'updateOne'
         : 'updateMany';
     }

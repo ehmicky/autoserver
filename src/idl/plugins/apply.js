@@ -22,7 +22,7 @@ const applyPlugins = async function ({ idl }) {
     .map(([, value]) => value);
 
   // Apply each idl.plugins as FUNC({ idl }) returning idl
-  const allPlugins = plugins.concat(defaultBuiltinPlugins);
+  const allPlugins = [...plugins, ...defaultBuiltinPlugins];
   for (let [index, pluginConf] of allPlugins.entries()) {
     // Plugin is either a function, or a string (for builtin plugins)
     if (typeof pluginConf.plugin === 'string') {

@@ -10,7 +10,7 @@ const { actions } = require('./actions');
 
 // Normalize IDL definition
 const normalizeIdl = function (idl) {
-  idl.calls = normalizeDbCalls(idl.calls || defaultDbCalls);
+  idl.commands = normalizeCommandNames(idl.commands || defaultCommandNames);
   idl.models = normalizeModels(idl);
   idl = compileIdlJsl({ idl });
   return idl;
@@ -18,9 +18,9 @@ const normalizeIdl = function (idl) {
 
 // Normalize IDL definition models
 const normalizeModels = function (idl) {
-  let { models, calls: defaultDbCalls } = idl;
+  let { models, commands: defaultCommandNames } = idl;
   models = addModelType({ models });
-  transform({ transforms, args: { defaultDbCalls } })({ input: models });
+  transform({ transforms, args: { defaultCommandNames } })({ input: models });
   return models;
 };
 
@@ -76,11 +76,14 @@ const transforms = [
   {
     // Parent: specified or default
     // Attribute: intersection of parent model * referred model * specified
-    // Normalize calls shortcuts, and adds defaults
-    model({ defaultDbCalls, parent: { calls = defaultDbCalls } }) {
-      const normalizedDbCalls = normalizeDbCalls(calls);
-      const actions = getActions({ dbCalls: normalizedDbCalls });
-      return { calls: normalizedDbCalls, actions };
+    // Normalize `commands` shortcuts, and adds defaults
+    model({
+      defaultCommandNames,
+      parent: { commands: commandNames = defaultCommandNames },
+    }) {
+      const normalizedCommandNames = normalizeCommandNames(commandNames);
+      const actions = getActions({ commandNames: normalizedCommandNames });
+      return { commands: normalizedCommandNames, actions };
     }
   },
 
@@ -99,23 +102,33 @@ const transforms = [
 ];
 
 
-// Normalize `calls` shortcuts, e.g. 'read' -> 'readOne' + 'readMany'
-const normalizeDbCalls = function (dbCalls) {
-  return dbCalls.reduce((memo, dbCall) => {
-    const normalizedDbCall = /(One)|(Many)$/.test(dbCall)
-      ? dbCall
-      : [`${dbCall}One`, `${dbCall}Many`];
-    return memo.concat(normalizedDbCall);
+// Normalize `commands` shortcuts, e.g. 'read' -> 'readOne' + 'readMany'
+const normalizeCommandNames = function (commandNames) {
+  return commandNames.reduce((memo, commandName) => {
+    const normalizedCommandName = /(One)|(Many)$/.test(commandName)
+      ? [commandName]
+      : [`${commandName}One`, `${commandName}Many`];
+    return [...memo, ...normalizedCommandName];
   }, []);
 };
 
-// By default, include all calls but deleteMany
-const defaultDbCalls = ['read', 'update', 'deleteOne', 'create'];
+// By default, include all commandNames but deleteMany
+const defaultCommandNames = [
+  'createOne',
+  'createMany',
+  'readOne',
+  'readMany',
+  'updateOne',
+  'updateMany',
+  'deleteOne',
+];
 
-// Retrieve possible actions using possible dbCalls
-const getActions = function ({ dbCalls }) {
+// Retrieve possible actions using possible commandNames
+const getActions = function ({ commandNames }) {
   return actions
-    .filter(({ dbCalls: calls }) => difference(calls, dbCalls).length === 0)
+    .filter(({ commandNames: requiredCommands }) => {
+      return difference(requiredCommands, commandNames).length === 0;
+    })
     .map(({ name }) => name);
 };
 

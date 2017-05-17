@@ -5,7 +5,7 @@ module.exports = Object.assign(
   {},
   require('./parse'),
   require('./actions'),
-  require('./db_calls'),
+  require('./commands'),
   require('./models_map'),
   require('./plugins')
 );
