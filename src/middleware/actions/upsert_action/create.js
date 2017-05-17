@@ -9,13 +9,15 @@ const { commands } = require('../../../constants');
 // Retrieves the input for the "create" command
 const getCreateInput = function ({ input, data }) {
   input = cloneDeep(input);
+  const { sysArgs = {}, action } = input;
 
-  const isMultiple = input.action.multiple;
+  const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'create' && multiple === isMultiple;
   });
-  const args = getCreateArgs({ input, data });
-  Object.assign(input, { command, args });
+  const createArgs = getCreateArgs({ input, data });
+  Object.assign(sysArgs, { pagination: false });
+  Object.assign(input, { command, args: createArgs, sysArgs });
 
   return input;
 };

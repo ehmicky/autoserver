@@ -9,13 +9,15 @@ const { commands } = require('../../../constants');
 // Retrieves the input for the "update" command
 const getUpdateInput = function ({ input, data }) {
   input = cloneDeep(input);
+  const { sysArgs = {}, action } = input;
 
-  const isMultiple = input.action.multiple;
+  const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'update' && multiple === isMultiple;
   });
   const args = getUpdateArgs({ input, data });
-  Object.assign(input, { command, args });
+  Object.assign(sysArgs, { pagination: false });
+  Object.assign(input, { command, args, sysArgs });
 
   return input;
 };

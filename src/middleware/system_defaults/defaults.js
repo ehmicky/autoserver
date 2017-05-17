@@ -43,7 +43,6 @@ const defaults = {
     },
 
     page_size: {
-      commandNames: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
       test: ({

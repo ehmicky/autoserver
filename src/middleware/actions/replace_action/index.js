@@ -9,12 +9,15 @@ const { commands } = require('../../../constants');
  **/
 const replaceAction = async function () {
   return async function replaceAction(input) {
-    if (input.action.type === 'replace') {
-      const isMultiple = input.action.multiple;
+    const { sysArgs = {}, action } = input;
+
+    if (action.type === 'replace') {
+      const isMultiple = action.multiple;
       const command = commands.find(({ type, multiple }) => {
         return type === 'update' && multiple === isMultiple;
       });
-      Object.assign(input, { command });
+      Object.assign(sysArgs, { pagination: false });
+      Object.assign(input, { command, sysArgs });
     }
 
     const response = await this.next(input);

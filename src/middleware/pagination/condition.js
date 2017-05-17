@@ -11,16 +11,9 @@ const allowFullPagination = function ({ args, sysArgs, command }) {
 const fullPaginationCommandNames = ['readMany'];
 
 // Whether output will be paginated
-const mustPaginateOutput = function ({ args, sysArgs, command }) {
-  return outputPaginationCommandNames.includes(command.name) &&
-    !isPaginationDisabled({ args, sysArgs });
+const mustPaginateOutput = function ({ args, sysArgs }) {
+  return !isPaginationDisabled({ args, sysArgs });
 };
-const outputPaginationCommandNames = [
-  'readMany',
-  'deleteMany',
-  'updateMany',
-  'createMany',
-];
 
 // Using args.page_size 0 or defaultPageSize 0 disables pagination
 const isPaginationDisabled = function ({
