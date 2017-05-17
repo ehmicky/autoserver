@@ -1,9 +1,9 @@
 'use strict';
 
 
-// Converts from API format to request format
-const requestConvertor = async function () {
-  return async function requestConvertor(input) {
+// Converts from API format to CRUD format
+const crudConvertor = async function () {
+  return async function crudConvertor(input) {
     const {
       dbCallFull,
       dbCall,
@@ -33,5 +33,5 @@ const requestConvertor = async function () {
 
 
 module.exports = {
-  requestConvertor,
+  crudConvertor,
 };
