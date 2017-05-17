@@ -11,12 +11,11 @@ const { getFilter } = require('./filter');
 const getSecondReadInput = function ({ input, prefix }) {
   input = cloneDeep(input);
 
-  const actionType = 'read';
-  const action = input.action === 'upsertMany' ? 'readMany' : 'readOne';
+  const dbCall = 'read';
+  const dbCallFull = input.action === 'upsertMany' ? 'readMany' : 'readOne';
   const args = getReadArgs({ input, prefix });
 
-  Object.assign(input, { actionType, action, args });
-  Object.assign(input.info, { actionType });
+  Object.assign(input, { dbCall, dbCallFull, args });
 
   return input;
 };
