@@ -1,10 +1,11 @@
 'use strict';
 
 
-const { uniq } = require('lodash');
+const { isEqual } = require('lodash');
 
 const { validate } = require('../../validation');
 const { commands } = require('../../constants');
+const { EngineError } = require('../../constants');
 
 
 /**
@@ -22,8 +23,7 @@ const crudBasicValidation = async function ({ idl: { models } = {} }) {
       sysArgs,
       params,
       info,
-      commandType,
-      commandName,
+      command,
     } = input;
 
     const schema = getValidateServerSchema({ models });
@@ -33,11 +33,12 @@ const crudBasicValidation = async function ({ idl: { models } = {} }) {
       sysArgs,
       params,
       info,
-      commandType,
-      commandName,
+      command,
     };
     const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
     validate({ schema, data, reportInfo });
+
+    validateCommand({ command });
 
     const response = await this.next(input);
     return response;
@@ -55,8 +56,7 @@ const getValidateServerSchema = function ({ models = {} }) {
       'sysArgs',
       'params',
       'info',
-      'commandType',
-      'commandName',
+      'command',
     ],
     properties: {
       modelName: {
@@ -68,19 +68,21 @@ const getValidateServerSchema = function ({ models = {} }) {
       sysArgs: { type: 'object' },
       params: { type: 'object' },
       info: { type: 'object' },
-      commandType: {
-        type: 'string',
-        enum: commandTypes,
-      },
-      commandName: {
-        type: 'string',
-        enum: commandNames,
-      },
+      command: { type: 'object' },
     },
   };
 };
-const commandNames = commands.map(({ name }) => name);
-const commandTypes = uniq(commands.map(({ type }) => type));
+
+// Validate that command is among the possible ones
+const validateCommand = function ({ command }) {
+  const isValid = commands.some(possibleCommand => {
+    return isEqual(possibleCommand, command);
+  });
+  if (!isValid) {
+    const message = `Invalid command: ${command}`;
+    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  }
+};
 
 
 module.exports = {

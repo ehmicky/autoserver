@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { actions } = require('../../idl');
+const { actions } = require('../../constants');
 
 
 const apiConvertor = async function () {

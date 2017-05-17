@@ -15,7 +15,7 @@ const getJslVariables = function (input = {}) {
   } = input;
   const { expected } = validationInput || {};
   const { ip, timestamp, params } = requestInput || {};
-  const { commandType } = interfaceInput || {};
+  const { command } = interfaceInput || {};
   const { parent = {}, value, model, data } = modelInput || {};
 
   const vars = {};
@@ -55,7 +55,7 @@ const getJslVariables = function (input = {}) {
   // Database-request-related variables
   if (interfaceInput) {
     Object.assign(vars, {
-      $COMMAND: commandType,
+      $COMMAND: command.type,
     });
   }
 

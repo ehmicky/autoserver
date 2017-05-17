@@ -5,8 +5,7 @@
 const crudConvertor = async function () {
   return async function crudConvertor(input) {
     const {
-      commandName,
-      commandType,
+      command,
       args,
       sysArgs,
       modelName,
@@ -14,11 +13,10 @@ const crudConvertor = async function () {
       params,
     } = input;
 
-    const newInfo = Object.assign({}, info, { commandType, commandName });
+    const newInfo = Object.assign({}, info, { command });
 
     const nextInput = {
-      commandName,
-      commandType,
+      command,
       args,
       sysArgs,
       modelName,

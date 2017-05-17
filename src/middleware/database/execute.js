@@ -9,8 +9,7 @@ const { fireAction } = require('./actions');
 const executeDatabaseAction = async function () {
   return async function executeDatabaseAction(input) {
     const {
-      commandType,
-      commandName,
+      command,
       args = {},
       modelName,
       info,
@@ -27,7 +26,7 @@ const executeDatabaseAction = async function () {
     } = args;
     const { ip, timestamp, helpers, variables } = info;
     const requestInput = { ip, timestamp, params };
-    const interfaceInput = { commandType };
+    const interfaceInput = { command };
     const jslInput = { helpers, variables, requestInput, interfaceInput };
     const collection = database[modelName];
 
@@ -40,7 +39,7 @@ const executeDatabaseAction = async function () {
       noOutput,
       modelName,
     };
-    const actionInput = { commandName, collection, filter, data, opts };
+    const actionInput = { command, collection, filter, data, opts };
     const response = fireAction(actionInput);
     return response;
   };

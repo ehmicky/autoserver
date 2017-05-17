@@ -5,28 +5,24 @@ const { validate } = require('../../validation');
 
 
 /**
- * Validate API that input commandName is correct, e.g. allowed in IDL
+ * Validate API that input command.name is correct, e.g. allowed in IDL
  **/
 const validateClientInputCommand = function ({
   idl,
   action,
-  commandName,
+  command,
   modelName,
 }) {
   const type = 'clientInputCommand';
   const schema = getSchema({ idl, modelName });
   const reportInfo = { type, action, modelName };
-  validate({ schema, data: commandName, reportInfo });
+  validate({ schema, data: command.name, reportInfo });
 };
 
 const getSchema = function ({ idl, modelName }) {
   const { commands } = idl.models[modelName];
   return {
-    properties: {
-      action: {
-        enum: commands,
-      },
-    },
+    enum: commands,
   };
 };
 

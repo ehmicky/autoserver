@@ -6,9 +6,9 @@
 // Implies output pagination
 const allowFullPagination = function ({
   args: { page_size: pageSize },
-  commandName,
+  command,
 }) {
-  return fullPaginationCommandNames.includes(commandName) &&
+  return fullPaginationCommandNames.includes(command.name) &&
     !isPaginationDisabled({ pageSize });
 };
 const fullPaginationCommandNames = ['readMany'];
@@ -16,9 +16,9 @@ const fullPaginationCommandNames = ['readMany'];
 // Whether output will be paginated
 const mustPaginateOutput = function ({
   args: { page_size: pageSize },
-  commandName,
+  command,
 }) {
-  return outputPaginationCommandNames.includes(commandName) &&
+  return outputPaginationCommandNames.includes(command.name) &&
     !isPaginationDisabled({ pageSize });
 };
 const outputPaginationCommandNames = [

@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { actions } = require('../../../../../idl');
+const { actions } = require('../../../../../constants');
 const { EngineError } = require('../../../../../error');
 const { typenameResolver } = require('./typename');
 const { metadataResolver } = require('./metadata');
