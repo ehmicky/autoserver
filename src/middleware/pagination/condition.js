@@ -4,22 +4,16 @@
 // Whether consumers can specify all pagination arguments,
 // including args.page_size, args.before|after|page
 // Implies output pagination
-const allowFullPagination = function ({
-  args: { page_size: pageSize },
-  command,
-}) {
+const allowFullPagination = function ({ args, sysArgs, command }) {
   return fullPaginationCommandNames.includes(command.name) &&
-    !isPaginationDisabled({ pageSize });
+    !isPaginationDisabled({ args, sysArgs });
 };
 const fullPaginationCommandNames = ['readMany'];
 
 // Whether output will be paginated
-const mustPaginateOutput = function ({
-  args: { page_size: pageSize },
-  command,
-}) {
+const mustPaginateOutput = function ({ args, sysArgs, command }) {
   return outputPaginationCommandNames.includes(command.name) &&
-    !isPaginationDisabled({ pageSize });
+    !isPaginationDisabled({ args, sysArgs });
 };
 const outputPaginationCommandNames = [
   'readMany',
@@ -29,8 +23,11 @@ const outputPaginationCommandNames = [
 ];
 
 // Using args.page_size 0 or defaultPageSize 0 disables pagination
-const isPaginationDisabled = function ({ pageSize }) {
-  return pageSize === 0 || pageSize === undefined;
+const isPaginationDisabled = function ({
+  args: { page_size: pageSize },
+  sysArgs: { pagination = true },
+}) {
+  return !pagination || pageSize === 0 || pageSize === undefined;
 };
 
 module.exports = {
