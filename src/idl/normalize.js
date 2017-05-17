@@ -17,13 +17,14 @@ const normalizeIdl = function (idl) {
 
 // Normalize IDL definition models
 const normalizeModels = function (idl) {
-  let { models, actions } = idl;
+  let { models, actions: defaultActions } = idl;
   models = addModelType({ models });
-  transform({ transforms, args: { defaultActions: actions } })({ input: models });
+  transform({ transforms, args: { defaultActions } })({ input: models });
   return models;
 };
 
-// Add modelType `model` to top-level models, `attribute` to model attributes (including nested models)
+// Add modelType `model` to top-level models, `attribute` to model attributes
+// (including nested models)
 // Used as extra hints for transforms
 const addModelType = function ({ models }) {
   return mapValues(models, model => {
@@ -86,7 +87,8 @@ const transforms = [
     model({ value, parent, parents: [root] }) {
       const instance = find(root, (_, modelName) => modelName === value);
       if (instance === parent) { return; }
-      // Dereference `model` pointers, using a shallow copy, while avoiding overriding any property already defined
+      // Dereference `model` pointers, using a shallow copy,
+      // while avoiding overriding any property already defined
       const newProps = omit(instance, Object.keys(parent));
       return newProps;
     },
@@ -98,13 +100,22 @@ const transforms = [
 // Normalize actions shortcuts, e.g. 'find' -> 'findOne' + 'findMany'
 const normalizeActions = function (actions) {
   return actions.reduce((memo, action) => {
-    const normalizedAction = /(One)|(Many)$/.test(action) ? action : [`${action}One`, `${action}Many`];
+    const normalizedAction = /(One)|(Many)$/.test(action)
+      ? action
+      : [`${action}One`, `${action}Many`];
     return memo.concat(normalizedAction);
   }, []);
 };
 
 // By default, include all actions but deleteMany
-const defaultActions = ['find', 'update', 'deleteOne', 'replace', 'upsert', 'create'];
+const defaultActions = [
+  'find',
+  'update',
+  'deleteOne',
+  'replace',
+  'upsert',
+  'create',
+];
 
 
 module.exports = {
