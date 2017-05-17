@@ -86,8 +86,10 @@ const start = async function (opts) {
     /**
      * Normalization-related middleware
      **/
-    // Convert from API format to request format
-    mdw.requestConvertor,
+    // Convert from API format to CRUD format
+    mdw.crudConvertor,
+    // CRUD basic validation layer
+    mdw.crudBasicValidation,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
     // Apply user-defined default values
@@ -100,7 +102,7 @@ const start = async function (opts) {
     /**
      * Generic API-related middleware
      **/
-    // Pagination, which can spawn one or several requests
+    // Paginate output
     mdw.pagination,
     // Process transforms
     mdw.transform,

@@ -4,26 +4,26 @@
 const { uniq } = require('lodash');
 
 const { validate } = require('../../validation');
-const { actions } = require('../../idl');
+const { dbCalls } = require('../../idl');
 
 
 /**
- * API basic validation layer
+ * CRUD basic validation layer
  * Check API input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  * In short: `action`, `args`, `modelName` should be defined and of the
  * right type
  **/
-const basicValidation = async function ({ idl: { models } = {} }) {
-  return async function basicValidation(input) {
+const crudBasicValidation = async function ({ idl: { models } = {} }) {
+  return async function crudBasicValidation(input) {
     const {
       modelName,
       args,
       sysArgs,
       params,
       info,
-      action,
-      actionType,
+      dbCall,
+      dbCallFull,
     } = input;
 
     const schema = getValidateServerSchema({ models });
@@ -33,8 +33,8 @@ const basicValidation = async function ({ idl: { models } = {} }) {
       sysArgs,
       params,
       info,
-      action,
-      actionType,
+      dbCall,
+      dbCallFull,
     };
     const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
     validate({ schema, data, reportInfo });
@@ -55,8 +55,8 @@ const getValidateServerSchema = function ({ models = {} }) {
       'sysArgs',
       'params',
       'info',
-      'action',
-      'actionType',
+      'dbCall',
+      'dbCallFull',
     ],
     properties: {
       modelName: {
@@ -68,21 +68,21 @@ const getValidateServerSchema = function ({ models = {} }) {
       sysArgs: { type: 'object' },
       params: { type: 'object' },
       info: { type: 'object' },
-      action: {
+      dbCall: {
         type: 'string',
-        enum: actionNames,
+        enum: dbCallGenericNames,
       },
-      actionType: {
+      dbCallFull: {
         type: 'string',
-        enum: actionGenericNames,
+        enum: dbCallNames,
       },
     },
   };
 };
-const actionNames = actions.map(({ name }) => name);
-const actionGenericNames = uniq(actions.map(({ actionType }) => actionType));
+const dbCallNames = dbCalls.map(({ name }) => name);
+const dbCallGenericNames = uniq(dbCalls.map(({ generic }) => generic));
 
 
 module.exports = {
-  basicValidation,
+  crudBasicValidation,
 };
