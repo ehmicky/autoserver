@@ -10,11 +10,11 @@ const { EngineError } = require('../../../error');
 const getUpdateInput = function ({ input, models, prefix }) {
   input = cloneDeep(input);
 
-  const dbCall = 'update';
-  const dbCallFull = input.action === 'updateOne' ? 'updateOne' : 'updateMany';
+  const commandType = 'update';
+  const commandName = input.action === 'updateOne' ? 'updateOne' : 'updateMany';
   const args = getUpdateArgs({ args: input.args, models, prefix });
 
-  Object.assign(input, { dbCall, dbCallFull, args });
+  Object.assign(input, { commandType, commandName, args });
 
   return input;
 };

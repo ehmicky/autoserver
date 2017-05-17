@@ -4,7 +4,7 @@
 const { uniq } = require('lodash');
 
 const { validate } = require('../../validation');
-const { dbCalls } = require('../../idl');
+const { commands } = require('../../idl');
 
 
 /**
@@ -22,8 +22,8 @@ const crudBasicValidation = async function ({ idl: { models } = {} }) {
       sysArgs,
       params,
       info,
-      dbCall,
-      dbCallFull,
+      commandType,
+      commandName,
     } = input;
 
     const schema = getValidateServerSchema({ models });
@@ -33,8 +33,8 @@ const crudBasicValidation = async function ({ idl: { models } = {} }) {
       sysArgs,
       params,
       info,
-      dbCall,
-      dbCallFull,
+      commandType,
+      commandName,
     };
     const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
     validate({ schema, data, reportInfo });
@@ -55,8 +55,8 @@ const getValidateServerSchema = function ({ models = {} }) {
       'sysArgs',
       'params',
       'info',
-      'dbCall',
-      'dbCallFull',
+      'commandType',
+      'commandName',
     ],
     properties: {
       modelName: {
@@ -68,19 +68,19 @@ const getValidateServerSchema = function ({ models = {} }) {
       sysArgs: { type: 'object' },
       params: { type: 'object' },
       info: { type: 'object' },
-      dbCall: {
+      commandType: {
         type: 'string',
-        enum: dbCallGenericNames,
+        enum: commandTypes,
       },
-      dbCallFull: {
+      commandName: {
         type: 'string',
-        enum: dbCallNames,
+        enum: commandNames,
       },
     },
   };
 };
-const dbCallNames = dbCalls.map(({ name }) => name);
-const dbCallGenericNames = uniq(dbCalls.map(({ generic }) => generic));
+const commandNames = commands.map(({ name }) => name);
+const commandTypes = uniq(commands.map(({ type }) => type));
 
 
 module.exports = {

@@ -25,9 +25,9 @@ properties:
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
-  # Default calls
-  calls:
-    $ref: '#/definitions/callsProperty'
+  # Default commands
+  commands:
+    $ref: '#/definitions/commandsProperty'
   # Custom functions that can be used in JSL
   helpers:
     type: object
@@ -130,7 +130,7 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [calls, model, type, description, deprecated, examples,
+      - enum: [commands, model, type, description, deprecated, examples,
           transform, transformOut, compute, computeOut]
       - enum:
           $data: /customValidationNames
@@ -141,14 +141,14 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [calls]
+      - enum: [commands]
       not:
         enum: [default]
     # Must have a `required` property
     required: [required, properties]
     properties:
-      calls:
-        $ref: '#/definitions/callsProperty'
+      commands:
+        $ref: '#/definitions/commandsProperty'
       required:
         # `required` property must at least contain `id`
         contains:
@@ -184,7 +184,7 @@ definitions:
     # Restrict the possible properties
     propertyNames:
       enum: [model, type, description, deprecated, examples, default, tranform,
-      transformOut, compute, computeOut, calls]
+      transformOut, compute, computeOut, commands]
     # Must have a `model` property
     required: [model]
     properties:
@@ -193,9 +193,9 @@ definitions:
         type: string
         enum:
           $data: '/modelNames'
-  # Validation of `calls` property, e.g. `calls: [read, createOne]`
-  # This property restricts which calls a specific model can perform
-  callsProperty:
+  # Validation of `commands` property, e.g. `commands: [read, createOne]`
+  # This property restricts which commands a specific model can perform
+  commandsProperty:
     type: array
     uniqueItems: true
     items:
@@ -203,7 +203,7 @@ definitions:
       enum: [read, readOne, create, createOne, update, updateOne,
         delete, deleteOne]
     # One can only choose between read (conceptually "readOne" + "readMany")
-    # and "readOne". Same thing for other calls
+    # and "readOne". Same thing for other commands
     not:
       anyOf:
       - allOf: [{contains: {const: read}}, {contains: {const: readOne}}]
@@ -211,7 +211,7 @@ definitions:
       - allOf: [{contains: {const: update}}, {contains: {const: updateOne}}]
       - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
     # read or readOne has to be defined, because GraphQL requires at least one
-    # query call
+    # command
     contains: {enum: [read, readOne]}
   # idl.helpers|variables.library
   librariesProperty:

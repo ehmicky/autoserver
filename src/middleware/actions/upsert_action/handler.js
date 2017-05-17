@@ -14,11 +14,11 @@ const { performUpsert } = require('./upsert');
  *     We need that final action to bring the "create" and "update" output
  *     results together, sorted and paginated.
  * The reasons why we split "upsert" action are:
- *   - expose only simple CRUD dbCall ("create", "read", "update", "delete")
+ *   - expose only simple CRUD command ("create", "read", "update", "delete")
  *     to next layers
  *   - allow next layers to distinguish between an upsert action that creates
  *     a model, and one that updates a model.
- *     E.g. transforms might need to know this information using $CALL
+ *     E.g. transforms might need to know this information using $COMMAND
  *     variable. Example: created_time should be set if upsert creates a model,
  *     but not if it updates it.
  **/

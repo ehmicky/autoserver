@@ -2,13 +2,13 @@
 
 
 /**
- * "create" action uses a "create" dbCall
+ * "create" action uses a "create" command
  **/
 const createAction = async function () {
   return async function createAction(input) {
     if (input.actionType === 'create') {
-      input.dbCall = 'create';
-      input.dbCallFull = input.action === 'createOne'
+      input.commandType = 'create';
+      input.commandName = input.action === 'createOne'
         ? 'createOne'
         : 'createMany';
     }

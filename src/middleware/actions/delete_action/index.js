@@ -2,13 +2,13 @@
 
 
 /**
- * "delete" action uses a "delete" dbCall
+ * "delete" action uses a "delete" command
  **/
 const deleteAction = async function () {
   return async function deleteAction(input) {
     if (input.actionType === 'delete') {
-      input.dbCall = 'delete';
-      input.dbCallFull = input.action === 'deleteOne'
+      input.commandType = 'delete';
+      input.commandName = input.action === 'deleteOne'
         ? 'deleteOne'
         : 'deleteMany';
     }

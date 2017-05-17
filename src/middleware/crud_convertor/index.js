@@ -5,8 +5,8 @@
 const crudConvertor = async function () {
   return async function crudConvertor(input) {
     const {
-      dbCallFull,
-      dbCall,
+      commandName,
+      commandType,
       args,
       sysArgs,
       modelName,
@@ -14,11 +14,11 @@ const crudConvertor = async function () {
       params,
     } = input;
 
-    const newInfo = Object.assign({}, info, { dbCall, dbCallFull });
+    const newInfo = Object.assign({}, info, { commandType, commandName });
 
     const nextInput = {
-      dbCallFull,
-      dbCall,
+      commandName,
+      commandType,
       args,
       sysArgs,
       modelName,

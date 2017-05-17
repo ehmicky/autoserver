@@ -35,7 +35,7 @@ class ExtendableError extends Error {
     const ThisError = this.constructor;
 
     // Check whitelisted options
-    const nonAllowedOpts = difference(optsKeys, allowedOpts.concat(otherOpts));
+    const nonAllowedOpts = difference(optsKeys, [...allowedOpts, ...otherOpts]);
     if (nonAllowedOpts.length > 0) {
       throw new ThisError(`Cannot use options ${nonAllowedOpts} when throwing ${ThisError.name}`, {
         reason: 'WRONG_EXCEPTION',

@@ -2,13 +2,13 @@
 
 
 /**
- * "find" action uses a "read" dbCall
+ * "find" action uses a "read" command
  **/
 const findAction = async function () {
   return async function findAction(input) {
     if (input.actionType === 'find') {
-      input.dbCall = 'read';
-      input.dbCallFull = input.action === 'findOne'
+      input.commandType = 'read';
+      input.commandName = input.action === 'findOne'
         ? 'readOne'
         : 'readMany';
     }

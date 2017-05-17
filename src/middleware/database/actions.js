@@ -239,7 +239,7 @@ const updateMany = function ({ collection, data, opts }) {
   return { data: newModels };
 };
 
-const dbCallFulls = {
+const commandHandlers = {
   readOne,
   readMany,
   deleteOne,
@@ -251,8 +251,8 @@ const dbCallFulls = {
 };
 
 const fireAction = function (opts) {
-  const { dbCallFull, opts: { orderBy, limit, noOutput, offset } } = opts;
-  const response = dbCallFulls[dbCallFull](opts);
+  const { commandName, opts: { orderBy, limit, noOutput, offset } } = opts;
+  const response = commandHandlers[commandName](opts);
   response.data = sortResponse({ data: response.data, orderByArg: orderBy });
   response.data = offsetResponse({ data: response.data, offset });
   response.data = limitResponse({ data: response.data, limit });

@@ -2,7 +2,7 @@
 
 
 const { validateClientInputSyntax } = require('./client_input_syntax');
-const { validateClientInputDbCall } = require('./client_input_db_call');
+const { validateClientInputCommand } = require('./client_input_command');
 const { validateClientInputSemantics } = require('./semantics');
 const { validateClientInputData, validateServerOutputData } = require('./data');
 const { validateServerOutputSyntax } = require('./server_output_syntax');
@@ -19,8 +19,8 @@ const validation = async function ({ idl, maxDataLength }) {
       modelName,
       args,
       action,
-      dbCall,
-      dbCallFull,
+      commandType,
+      commandName,
       info,
       params,
     } = input;
@@ -28,13 +28,13 @@ const validation = async function ({ idl, maxDataLength }) {
 
     // Extra information passed to custom validation keywords
     const requestInput = { ip, timestamp, params };
-    const interfaceInput = { dbCall };
+    const interfaceInput = { commandType };
     const jslInput = { helpers, variables, requestInput, interfaceInput };
     const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
-    validateClientInputSyntax({ modelName, action, dbCallFull, args });
-    validateClientInputDbCall({ idl, action, dbCallFull, modelName });
+    validateClientInputSyntax({ modelName, action, commandName, args });
+    validateClientInputCommand({ idl, action, commandName, modelName });
     validateClientInputSemantics({
       idl,
       modelName,
@@ -46,19 +46,19 @@ const validation = async function ({ idl, maxDataLength }) {
       idl,
       modelName,
       action,
-      dbCallFull,
+      commandName,
       args,
       extra: jslInputData,
     });
 
     const response = await this.next(input);
-    validateServerOutputSyntax({ dbCallFull, response });
+    validateServerOutputSyntax({ commandName, response });
     validateServerOutputData({
       idl,
       modelName,
       response,
       action,
-      dbCallFull,
+      commandName,
       args,
       extra: jslInputModel,
     });

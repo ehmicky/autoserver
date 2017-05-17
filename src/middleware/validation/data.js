@@ -16,7 +16,7 @@ const validateClientInputData = function ({
   idl,
   modelName,
   action,
-  dbCallFull,
+  commandName,
   args,
   extra,
 }) {
@@ -24,7 +24,7 @@ const validateClientInputData = function ({
   const schema = getDataValidationSchema({
     idl,
     modelName,
-    dbCallFull,
+    commandName,
     type,
   });
   const attributes = getAttributes(args);
@@ -70,7 +70,7 @@ const validateServerOutputData = function ({
   modelName,
   response: { data },
   action,
-  dbCallFull,
+  commandName,
   args: { no_output: noOutput },
   extra,
 }) {
@@ -80,7 +80,7 @@ const validateServerOutputData = function ({
   const schema = getDataValidationSchema({
     idl,
     modelName,
-    dbCallFull,
+    commandName,
     type,
   });
   data = data instanceof Array ? data : [data];
@@ -94,37 +94,37 @@ const validateServerOutputData = function ({
 const getDataValidationSchema = memoize(function ({
   idl,
   modelName,
-  dbCallFull,
+  commandName,
   type,
 }) {
   const schema = cloneDeep(idl.models[modelName]);
-  // Adapt the IDL schema validation to the current dbCallFull,
+  // Adapt the IDL schema validation to the current commandName,
   // and to what the validator library expects
   // Apply each transform recursively
-  transform({ transforms, args: { dbCallFull, type } })({ input: schema });
+  transform({ transforms, args: { commandName, type } })({ input: schema });
   return schema;
 });
 
-const optionalInputAttrDbCalls = [
+const optionalInputAttrCommandNames = [
   'readOne',
   'readMany',
   'deleteOne',
   'deleteMany',
 ];
-const optionalOutputAttrDbCalls = [
+const optionalOutputAttrCommandNames = [
   'deleteOne',
   'deleteMany',
 ];
 const transforms = [
   {
-    // Fix `required` attribute according to the current dbCallFull
-    required({ value: required, dbCallFull, type }) {
+    // Fix `required` attribute according to the current commandName
+    required({ value: required, commandName, type }) {
       if (!(required instanceof Array)) { return; }
 
       if (type === 'clientInputData') {
-        // Nothing is required for those dbCallFulls,
+        // Nothing is required for those commandNames,
         // except maybe `id` (previously validated)
-        if (optionalInputAttrDbCalls.includes(dbCallFull)) {
+        if (optionalInputAttrCommandNames.includes(commandName)) {
           required = [];
         // `id` requiredness has already been checked by previous validator,
         // so we skip it here
@@ -132,9 +132,9 @@ const transforms = [
           required = required.filter(requiredProp => requiredProp !== 'id');
         }
       } else if (type === 'serverOutputData') {
-        // Some dbCallFulls do not require normal attributes as output
+        // Some commandNames do not require normal attributes as output
         // (except for `id`)
-        if (optionalOutputAttrDbCalls.includes(dbCallFull)) {
+        if (optionalOutputAttrCommandNames.includes(commandName)) {
           required = required.filter(requiredProp => requiredProp === 'id');
         }
       }

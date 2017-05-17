@@ -8,10 +8,12 @@ const { cloneDeep, pick } = require('lodash');
 const getCreateInput = function ({ input, data }) {
   input = cloneDeep(input);
 
-  const dbCall = 'create';
-  const dbCallFull = input.action === 'upsertMany' ? 'createMany' : 'createOne';
+  const commandType = 'create';
+  const commandName = input.action === 'upsertMany'
+    ? 'createMany'
+    : 'createOne';
   const args = getCreateArgs({ input, data });
-  Object.assign(input, { dbCall, dbCallFull, args });
+  Object.assign(input, { commandType, commandName, args });
 
   return input;
 };

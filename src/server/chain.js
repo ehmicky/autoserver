@@ -52,7 +52,7 @@ const start = async function (opts) {
     mdw.interfaceNegotiator,
     // Compile JSL helpers, variables, etc.
     mdw.wrapCustomJsl,
-    // Translates interface-specific calls into generic instance calls
+    // Translates interface-specific calls into generic instance actions
     branch(mdw.interfaceNegotiation, {
       // GraphQL engine
       graphql: mdw.executeGraphql,
@@ -63,24 +63,24 @@ const start = async function (opts) {
     }),
 
     /**
-     * Middleware transforming one request into 0, 1 or several database calls
+     * Middleware transforming one action into 0, 1 or several commands
      **/
     // Convert from interface format to API format
     mdw.apiConvertor,
     // Basic validation layer
     mdw.basicValidation,
-    // Turn "create" action into a "create" database call
+    // Turn "create" action into a "create" command
     mdw.createAction,
-    // Turn "find" action into a "read" database call
+    // Turn "find" action into a "read" command
     mdw.findAction,
-    // Split "update" action into "read" then "update" database calls
+    // Split "update" action into "read" then "update" commands
     mdw.updateAction,
     // Split "upsert" action into "read", then "create" or "update"
-    // database calls, then a final "read" database call
+    // commands, then a final "read" command
     mdw.upsertAction,
-    // Turn "replace" action into an "update" database call
+    // Turn "replace" action into an "update" command
     mdw.replaceAction,
-    // Turn "delete" action into a "delete" database call
+    // Turn "delete" action into a "delete" command
     mdw.deleteAction,
 
     /**
