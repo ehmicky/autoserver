@@ -25,10 +25,10 @@ const start = async function (opts) {
     mdw.protocolConvertor,
     // Pick the protocol
     mdw.protocolNegotiator,
-    // Retrieves timestamp
-    mdw.getTimestamp,
     // Sends final response, if success
     mdw.sendResponse,
+    // Retrieves timestamp
+    mdw.getTimestamp,
     // Retrieves input.path
     mdw.getPath,
     // Retrieves IP
