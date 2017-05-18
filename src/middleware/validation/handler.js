@@ -21,11 +21,12 @@ const validation = function ({ idl, maxDataLength }) {
       sysArgs,
       command,
       info,
-      params,
+      interf,
       protocol,
     } = input;
     const { helpers, variables, action } = info;
     const { ip, timestamp } = protocol;
+    const { params } = interf;
 
     // Extra information passed to custom validation keywords
     const requestInput = { ip, timestamp, params };

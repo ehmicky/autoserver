@@ -49,7 +49,7 @@ const getOptions = function ({
     command,
     info: { helpers, variables },
     protocol: { ip, timestamp },
-    params,
+    interf: { params },
     args: { data },
   },
 }) {

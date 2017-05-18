@@ -19,7 +19,6 @@ const crudBasicValidation = function ({ idl: { models } = {} }) {
       modelName,
       args,
       sysArgs,
-      params,
       info,
       command,
     } = input;
@@ -29,7 +28,6 @@ const crudBasicValidation = function ({ idl: { models } = {} }) {
       modelName,
       args,
       sysArgs,
-      params,
       info,
       command,
     };
@@ -52,7 +50,6 @@ const getValidateServerSchema = function ({ models = {} }) {
       'modelName',
       'args',
       'sysArgs',
-      'params',
       'info',
       'command',
     ],
@@ -77,7 +74,6 @@ const getValidateServerSchema = function ({ models = {} }) {
           },
         },
       },
-      params: { type: 'object' },
       info: { type: 'object' },
       command: { type: 'object' },
     },

@@ -13,7 +13,7 @@ const executeDatabaseAction = function () {
       args = {},
       modelName,
       info,
-      params,
+      interf,
       protocol,
     } = input;
     const {
@@ -27,6 +27,7 @@ const executeDatabaseAction = function () {
     } = args;
     const { helpers, variables } = info;
     const { ip, timestamp } = protocol;
+    const { params } = interf;
     const requestInput = { ip, timestamp, params };
     const interfaceInput = { command };
     const jslInput = { helpers, variables, requestInput, interfaceInput };

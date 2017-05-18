@@ -10,7 +10,7 @@ const crudConvertor = function () {
       sysArgs,
       modelName,
       info,
-      params,
+      interf,
       protocol,
     } = input;
 
@@ -22,7 +22,7 @@ const crudConvertor = function () {
       sysArgs,
       modelName,
       info: newInfo,
-      params,
+      interf,
       protocol,
     };
 

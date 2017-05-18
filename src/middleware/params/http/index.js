@@ -15,13 +15,15 @@ const { EngineError } = require('../../../error');
 
 const fillParams = function () {
   return async function fillParams(input) {
-    const { req } = input;
-    const method = req.method;
+    const { protocol } = input;
+    const { specific: { req } } = protocol;
+
+    const { method } = req;
     const params = getParams({ req });
     const payload = await getPayload({ req });
+    Object.assign(protocol, { method, params, payload });
 
-    const output = Object.assign({}, input, { method, params, payload });
-    const response = await this.next(output);
+    const response = await this.next(input);
     return response;
   };
 };

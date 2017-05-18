@@ -9,8 +9,9 @@ const { map } = require('../../utilities');
  **/
 const wrapCustomJsl = function ({ idl: { helpers, variables } }) {
   return async function wrapCustomJsl(input) {
-    const { info, params, protocol } = input;
+    const { info, protocol, interf } = input;
     const { timestamp, ip } = protocol;
+    const { params } = interf;
     const requestInput = { ip, timestamp, params };
 
     // Add request-specific information to helpers and variables

@@ -21,7 +21,6 @@ const basicValidation = function ({ idl: { models } = {} }) {
       modelName,
       args,
       sysArgs,
-      params,
       info,
       action,
     } = input;
@@ -31,7 +30,6 @@ const basicValidation = function ({ idl: { models } = {} }) {
       modelName,
       args,
       sysArgs,
-      params,
       info,
       action,
     };
@@ -54,7 +52,6 @@ const getValidateServerSchema = function ({ models = {} }) {
       'modelName',
       'args',
       'sysArgs',
-      'params',
       'info',
       'action',
     ],
@@ -66,7 +63,6 @@ const getValidateServerSchema = function ({ models = {} }) {
       },
       args: { type: 'object' },
       sysArgs: { type: 'object' },
-      params: { type: 'object' },
       info: { type: 'object' },
       action: { type: 'object' },
     },
