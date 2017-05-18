@@ -1,8 +1,6 @@
 'use strict';
 
 
-const { chain } = require('lodash');
-
 const { ErrorHandlerError } = require('../../error');
 const { log, isDev } = require('../../utilities');
 const { getErrorInfo } = require('./reasons');
@@ -52,7 +50,7 @@ const sendError = function ({ onRequestError = () => {} }) {
         response = interfaceErrorHandler.processResponse({ response });
       }
 
-      response = sortResponseKeys({ response });
+      response.error = sortResponseKeys({ error: response.error });
 
       // Use protocol-specific way to send back the response
       if (protocolErrorHandler) {
@@ -113,6 +111,15 @@ const createResponse = function ({
   return response;
 };
 
+const sortResponseKeys = function ({ error }) {
+  return Object.entries(error)
+    .sort(([a], [b]) => {
+      if (!sortedKeys.includes(a)) { return 1; }
+      if (!sortedKeys.includes(b)) { return -1; }
+      return sortedKeys.indexOf(a) > sortedKeys.indexOf(b) ? 1 : -1;
+    })
+    .reduce((obj, [key, value]) => Object.assign(obj, { [key]: value }), {});
+};
 const sortedKeys = [
   'status',
   'type',
@@ -121,20 +128,6 @@ const sortedKeys = [
   'instance',
   'details',
 ];
-const sortResponseKeys = function ({ response }) {
-  response.error = chain(response.error)
-    .toPairs()
-    .sortBy(([key]) => {
-      let index = sortedKeys.indexOf(key);
-      if (index === -1) {
-        index = sortedKeys.length;
-      }
-      return index;
-    })
-    .fromPairs()
-    .value();
-  return response;
-};
 
 
 module.exports = {
