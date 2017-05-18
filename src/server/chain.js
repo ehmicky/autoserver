@@ -14,12 +14,15 @@ const start = async function (opts) {
     /**
      * Protocol-related middleware
      **/
+    // The first middleware (not present here) is the error handler,
+    // which sends final response, if errors
+
+    // Sets up protocol format
+    mdw.protocolConvertor,
     // Pick the protocol
     mdw.protocolNegotiator,
     // Retrieves timestamp
     mdw.getTimestamp,
-    // The first middleware (not present here) is the error handler,
-    // which sends final response, if errors
     branch(mdw.protocolNegotiation, {
       http: [
         // Sends final response, if success
