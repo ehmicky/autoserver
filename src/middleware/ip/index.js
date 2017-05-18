@@ -8,7 +8,7 @@ const { httpGetIp } = require('./http');
 const middlewares = {
   http: httpGetIp,
 };
-const getKey = ({ input: { info: { protocol } } }) => protocol;
+const getKey = ({ input: { protocol: { name } } }) => name;
 
 // Sends the response at the end of the request
 const getIp = getSwitchMiddleware({

@@ -8,7 +8,7 @@ const { httpLogger } = require('./http');
 const middlewares = {
   http: httpLogger,
 };
-const getKey = ({ input: { info: { protocol } } }) => protocol;
+const getKey = ({ input: { protocol: { name } } }) => name;
 
 // Sends the response at the end of the request
 const logger = getSwitchMiddleware({

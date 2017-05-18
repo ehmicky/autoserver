@@ -8,7 +8,7 @@ const { httpBody } = require('../../../../parsing');
 
 const sendResponse = function ({
   response: { error, status, contentType },
-  input: { protocol: { res } },
+  input: { protocol: { specific: { res } } },
 }) {
   res.statusCode = status;
   httpBody.send.json({

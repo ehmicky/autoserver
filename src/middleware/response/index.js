@@ -8,7 +8,7 @@ const { httpSendResponse } = require('./http');
 const middlewares = {
   http: httpSendResponse,
 };
-const getKey = ({ input: { info: { protocol } } }) => protocol;
+const getKey = ({ input: { protocol: { name } } }) => name;
 
 // Sends the response at the end of the request
 const sendResponse = getSwitchMiddleware({

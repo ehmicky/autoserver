@@ -178,14 +178,14 @@ const errorReasons = {
 };
 
 // Searches through `errorReasons`
-const getErrorInfo = function ({ exception, protocol = 'any' }) {
+const getErrorInfo = function ({ exception, protocol: { name = 'any' } = {} }) {
   if (!exception.reason) {
     exception.reason = 'UNKNOWN';
   }
   if (!errorReasons[exception.reason]) {
     exception.reason = 'UNKNOWN_TYPE';
   }
-  const error = errorReasons[exception.reason]({ exception })[protocol] || {};
+  const error = errorReasons[exception.reason]({ exception })[name] || {};
   return error;
 };
 
