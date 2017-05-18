@@ -30,6 +30,10 @@ const sendError = ({ onRequestError = () => {} }) => {
       const protocolErrorHandler = protocolErrorHandlers[protocol];
       const interfaceErrorHandler = interfaceErrorHandlers[interf];
 
+      if (typeof exception === 'string') {
+        exception = { message: exception };
+      }
+
       // Retrieves protocol-independent error information,
       // using the thrown exception
       const genericErrorInput = getErrorInfo({ exception });
@@ -81,30 +85,30 @@ const sendError = ({ onRequestError = () => {} }) => {
 };
 
 // Creates protocol-independent response error
-const createResponse = function ({ exception, errorInput }) {
-  const message = typeof exception === 'string' ? exception : exception.message;
-
-  const response = {
-    error: {
-      type: exception.reason,
-      title: errorInput.title,
-      // Long description
-      description: message || errorInput.description,
-    },
-    // See RFC 7807
-    contentType: 'application/problem+json',
-  };
-
+const createResponse = function ({
+  errorInput: { title, description: errorDescription },
+  exception: {
+    message: description = errorDescription,
+    reason: type,
+    stack,
+    innererror: { stack: details = stack } = {},
+    extra,
+  },
+}) {
+  const error = { type, description };
+  if (title) {
+    Object.assign(error, { title });
+  }
   // Not in production
   if (isDev()) {
-    // Recrursive stack trace
-    const details = (exception.innererror && exception.innererror.stack) ||
-      exception.stack;
-    Object.assign(response.error, { details });
+    Object.assign(error, { details });
   }
-
   // Any custom information
-  Object.assign(response.error, exception.extra);
+  Object.assign(error, extra);
+
+  // See RFC 7807
+  const contentType = 'application/problem+json';
+  const response = { error, contentType };
 
   return response;
 };
