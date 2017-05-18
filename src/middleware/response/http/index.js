@@ -13,13 +13,16 @@ const httpSendResponse = function () {
     const { type, content } = response;
 
     if (!content || !type) {
-      throw new EngineError('Server sent an empty response', { reason: 'WRONG_RESPONSE' });
+      throw new EngineError('Server sent an empty response', {
+        reason: 'WRONG_RESPONSE',
+      });
     }
 
     // Use different logic according to the content type
     const handler = handlers[type];
     if (!handler) {
-      throw new EngineError('Server tried to respond with an unsupported content type', { reason: 'WRONG_RESPONSE' });
+      const message = 'Server tried to respond with an unsupported content type';
+      throw new EngineError(message, { reason: 'WRONG_RESPONSE' });
     }
     handler({ res, message: content });
 
@@ -31,11 +34,19 @@ const httpSendResponse = function () {
 const handlers = {
 
   model({ res, message }) {
-    httpBody.send.json({ res, message, contentType: 'application/x-resource+json' });
+    httpBody.send.json({
+      res,
+      message,
+      contentType: 'application/x-resource+json',
+    });
   },
 
   collection({ res, message }) {
-    httpBody.send.json({ res, message, contentType: 'application/x-collection+json' });
+    httpBody.send.json({
+      res,
+      message,
+      contentType: 'application/x-collection+json',
+    });
   },
 
   object({ res, message }) {
