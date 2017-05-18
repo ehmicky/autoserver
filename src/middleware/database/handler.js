@@ -14,6 +14,7 @@ const executeDatabaseAction = function () {
       modelName,
       info,
       params,
+      protocol,
     } = input;
     const {
       order_by: orderBy,
@@ -24,7 +25,8 @@ const executeDatabaseAction = function () {
       data,
       filter,
     } = args;
-    const { ip, timestamp, helpers, variables } = info;
+    const { ip, helpers, variables } = info;
+    const { timestamp } = protocol;
     const requestInput = { ip, timestamp, params };
     const interfaceInput = { command };
     const jslInput = { helpers, variables, requestInput, interfaceInput };

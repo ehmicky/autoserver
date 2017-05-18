@@ -11,6 +11,7 @@ const crudConvertor = function () {
       modelName,
       info,
       params,
+      protocol,
     } = input;
 
     const newInfo = Object.assign({}, info, { command });
@@ -22,6 +23,7 @@ const crudConvertor = function () {
       modelName,
       info: newInfo,
       params,
+      protocol,
     };
 
     const response = await this.next(nextInput);
