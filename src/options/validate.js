@@ -47,7 +47,8 @@ const validateOptions = function ({ options }) {
     additionalProperties: false,
   };
 
-  validate({ schema, data: options, reportInfo: { type: 'options', dataVar: 'options' } });
+  const reportInfo = { type: 'options', dataVar: 'options' };
+  validate({ schema, data: options, reportInfo });
 };
 
 
