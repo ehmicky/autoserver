@@ -10,7 +10,7 @@ const { EngineError } = require('../../../error');
 // Retrieves the input for the "update" command
 const getUpdateInput = function ({ input, models, prefix }) {
   input = cloneDeep(input);
-  const { sysArgs = {}, args, action } = input;
+  const { sysArgs, args, action } = input;
 
   const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {

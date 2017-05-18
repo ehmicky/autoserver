@@ -12,7 +12,7 @@ const { getFilter } = require('./filter');
 // will create or update models.
 const getFirstReadInput = function ({ input, prefix }) {
   input = cloneDeep(input);
-  const { sysArgs = {} } = input;
+  const { sysArgs } = input;
 
   const isMultiple = true;
   const command = commands.find(({ type, multiple }) => {

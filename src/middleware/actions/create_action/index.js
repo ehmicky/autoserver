@@ -9,7 +9,7 @@ const { commands } = require('../../../constants');
  **/
 const createAction = async function () {
   return async function createAction(input) {
-    const { sysArgs = {}, action } = input;
+    const { sysArgs, action } = input;
 
     if (action.type === 'create') {
       const isMultiple = action.multiple;
