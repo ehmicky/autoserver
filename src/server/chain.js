@@ -11,14 +11,13 @@ const start = async function (opts) {
 
   return chain([
 
-    // Retrieves timestamp
-    mdw.getTimestamp,
-
     /**
      * Protocol-related middleware
      **/
     // Pick the protocol
     mdw.protocolNegotiator,
+    // Retrieves timestamp
+    mdw.getTimestamp,
     // The first middleware (not present here) is the error handler,
     // which sends final response, if errors
     branch(mdw.protocolNegotiation, {
