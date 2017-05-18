@@ -20,7 +20,7 @@ const sendResponse = function ({
 
 const processResponse = function ({
   response,
-  errorInput: { status = 500, info: { requestUrl } } = {},
+  errorInput: { status = 500, protocol: { requestUrl } } = {},
 }) {
   // HTTP status code
   response.status = status;
