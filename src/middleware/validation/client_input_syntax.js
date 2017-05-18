@@ -159,7 +159,6 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
  * `required` implies `allowed`
  * `dataSingle` is `data` as object, `dataMultiple` is `data` as array.
  **/
-/* eslint-disable key-spacing, no-multi-spaces */
 const rules = {
   readOne: {
     allowed: [],
@@ -206,7 +205,6 @@ const rules = {
     dataMultiple: true,
   },
 };
-/* eslint-enable key-spacing, no-multi-spaces */
 
 
 module.exports = {
