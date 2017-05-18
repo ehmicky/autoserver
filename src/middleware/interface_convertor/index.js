@@ -1,17 +1,15 @@
 'use strict';
 
 
+const { cloneDeep } = require('lodash');
+
+
 const interfaceConvertor = function () {
   return async function interfaceConvertor(input) {
-    const { method, route, params, payload, info, protocol } = input;
-    const response = await this.next({
-      method,
-      route,
-      params,
-      payload,
-      info,
-      protocol,
-    });
+    const { info, protocol } = input;
+    const { method, params, payload, route } = protocol;
+    const interf = cloneDeep({ method, params, payload, route });
+    const response = await this.next({ info, protocol, interf });
     return response;
   };
 };

@@ -16,9 +16,9 @@ const protocolNegotiator = function () {
       });
     }
 
-    const protocolVersion = protocolVersions[name](protocol);
+    const fullName = protocolVersions[name](protocol);
 
-    Object.assign(protocol, { name, protocolVersion });
+    Object.assign(protocol, { name, fullName });
 
     const response = await this.next(input);
     return response;
@@ -35,7 +35,7 @@ const protocols = [
 
 const protocolVersions = {
 
-  http: ({ specific: { req } }) => req.httpVersion,
+  http: ({ specific: { req } }) => `HTTP/${req.httpVersion}`,
 
 };
 

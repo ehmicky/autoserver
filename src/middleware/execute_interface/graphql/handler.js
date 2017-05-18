@@ -14,10 +14,11 @@ const executeGraphql = function (opts) {
   const { idl } = opts;
   const handleIntrospection = getHandleIntrospection(opts);
   const handleQuery = getHandleQuery({ idl });
-  return async function executeGraphql(request) {
+  return async function executeGraphql(input) {
     // Parameters can be in either query variables or payload
     // (including by using application/graphql)
-    const { params, payload, method } = request;
+    const { interf: { params, payload, method } } = input;
+
     const {
       query,
       variables,
@@ -41,7 +42,7 @@ const executeGraphql = function (opts) {
       });
     // Normal GraphQL query
     } else {
-      const callback = fireNext.bind(this, request);
+      const callback = fireNext.bind(this, input);
       const data = await handleQuery({
         queryDocument,
         variables,
