@@ -7,7 +7,7 @@ const { commands } = require('../../../constants');
 /**
  * "replace" action uses an "update" command
  **/
-const replaceAction = async function () {
+const replaceAction = function () {
   return async function replaceAction(input) {
     const { sysArgs, action } = input;
 

@@ -9,7 +9,7 @@ const printGraphql = async function (opts) {
   const schema = getSchema(opts);
   const content = await printSchema(schema);
 
-  return async function printGraphql() {
+  return function printGraphql() {
     return {
       type: 'html',
       content,

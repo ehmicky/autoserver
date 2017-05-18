@@ -2,7 +2,7 @@
 
 
 // Converts from API format to CRUD format
-const crudConvertor = async function () {
+const crudConvertor = function () {
   return async function crudConvertor(input) {
     const {
       command,

@@ -13,7 +13,7 @@ const { EngineError } = require('../../error');
  * Check API input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  **/
-const crudBasicValidation = async function ({ idl: { models } = {} }) {
+const crudBasicValidation = function ({ idl: { models } = {} }) {
   return async function crudBasicValidation(input) {
     const {
       modelName,

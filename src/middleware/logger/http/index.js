@@ -4,7 +4,7 @@
 const { log } = require('../../../utilities');
 
 
-const httpLogger = async function () {
+const httpLogger = function () {
   return async function httpLogger(input) {
     logRequest(input);
 

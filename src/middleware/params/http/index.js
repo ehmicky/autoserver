@@ -8,7 +8,7 @@ const { transtype } = require('../../../utilities');
 const { EngineError } = require('../../../error');
 
 
-const fillParams = async function () {
+const fillParams = function () {
   return async function fillParams(input) {
     const { req, route } = input;
     const method = req.method;

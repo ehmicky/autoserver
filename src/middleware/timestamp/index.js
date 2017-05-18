@@ -1,7 +1,7 @@
 'use strict';
 
 
-const getTimestamp = async function () {
+const getTimestamp = function () {
   return async function getTimestamp(input) {
     const { info } = input;
     info.timestamp = (new Date()).toISOString();

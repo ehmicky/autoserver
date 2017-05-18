@@ -1,7 +1,7 @@
 'use strict';
 
 
-const apiConvertor = async function () {
+const apiConvertor = function () {
   return async function apiConvertor(input) {
     const { api: { action, args, modelName }, info, params } = input;
     info.action = action;

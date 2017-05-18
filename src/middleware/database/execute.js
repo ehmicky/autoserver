@@ -6,7 +6,7 @@ const database = require('./data.json');
 const { fireCommand } = require('./commands');
 
 
-const executeDatabaseAction = async function () {
+const executeDatabaseAction = function () {
   return async function executeDatabaseAction(input) {
     const {
       command,

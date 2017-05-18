@@ -4,7 +4,7 @@
 const { getClientIp } = require('request-ip');
 
 
-const httpGetIp = async function () {
+const httpGetIp = function () {
   return async function httpGetIp(input) {
     const { req, info } = input;
     info.ip = getClientIp(req) || '';

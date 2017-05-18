@@ -5,7 +5,7 @@ const { renderGraphiQL } = require('./render');
 const { host, port } = require('../../../config');
 
 
-const executeGraphiql = async function () {
+const executeGraphiql = function () {
   const endpointURL = `http://${host}:${port}/graphql`;
   return async function executeGraphiql(request) {
     const { params = {}, payload = {} } = request;

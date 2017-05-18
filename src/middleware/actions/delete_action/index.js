@@ -7,7 +7,7 @@ const { commands } = require('../../../constants');
 /**
  * "delete" action uses a "delete" command
  **/
-const deleteAction = async function () {
+const deleteAction = function () {
   return async function deleteAction(input) {
     const { sysArgs, action } = input;
 

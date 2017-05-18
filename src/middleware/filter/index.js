@@ -7,7 +7,7 @@ const { EngineError } = require('../../error');
 
 // Transform `filter` argument into a format that is easily manageable
 // for the database layer
-const handleFilter = async function ({ idl }) {
+const handleFilter = function ({ idl }) {
   return async function handleFilter(input) {
     const { args } = input;
 
