@@ -18,8 +18,13 @@ const interfaceErrorHandlers = require('./interface');
  * @param {object} options.input - protocol-independent request/response object
  * @param {string} options.protocol - e.g. 'http'
  */
-const sendError = async ({ onRequestError = () => {} }) => {
-  const sendErrorFunc = function ({ exception, input = {}, info = {}, retry = false }) {
+const sendError = ({ onRequestError = () => {} }) => {
+  return function sendErrorFunc({
+    exception,
+    input = {},
+    info = {},
+    retry = false,
+  }) {
     const { protocol, interface: interf } = info;
     try {
       const protocolErrorHandler = protocolErrorHandlers[protocol];
@@ -53,7 +58,6 @@ const sendError = async ({ onRequestError = () => {} }) => {
       sendErrorFunc({ exception: innererror, input, info: { protocol }, retry: true });
     }
   };
-  return sendErrorFunc;
 };
 
 // Creates protocol-independent response error
