@@ -33,12 +33,12 @@ const start = async function (opts) {
     mdw.getPath,
     // Retrieves IP
     mdw.getIp,
-    // General request log
-    mdw.logger,
     // Merge request parameters and payload into protocol-agnostic format
     mdw.fillParams,
     // Retrieves input.route, using input.path
     mdw.router,
+    // General request log
+    mdw.logger,
 
     /**
      * Interface-related middleware
