@@ -20,7 +20,7 @@ const validateClientInputCommand = function ({
 
   const type = 'clientInputCommand';
   const schema = getSchema({ idl, modelName });
-  const reportInfo = { type, action, modelName };
+  const reportInfo = { type, action, modelName, command };
   validate({ schema, data: command.name, reportInfo });
 };
 
