@@ -25,26 +25,16 @@ const updateAction = function () {
   return async function updateAction(input) {
     const { action, modelName } = input;
 
-    if (action.type === 'update') {
-      const prefix = `In action '${action.name}', model '${modelName}',`;
-      const response = await performUpdate.call(this, { input, prefix });
-      return response;
-    }
+    const prefix = `In action '${action.name}', model '${modelName}',`;
 
-    const response = await this.next(input);
+    const readInput = getReadInput({ input });
+    const { data: models } = await this.next(readInput);
+
+    const updateInput = getUpdateInput({ input, models, prefix });
+    const response = await this.next(updateInput);
+
     return response;
   };
-};
-
-// Perform a "read" command, followed by an "update" command
-const performUpdate = async function ({ input, prefix }) {
-  const readInput = getReadInput({ input });
-  const { data: models } = await this.next(readInput);
-
-  const updateInput = getUpdateInput({ input, models, prefix });
-  const response = await this.next(updateInput);
-
-  return response;
 };
 
 

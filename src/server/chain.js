@@ -60,19 +60,8 @@ const start = async function (opts) {
     mdw.apiConvertor,
     // Basic validation layer
     mdw.basicValidation,
-    // Turn "create" action into a "create" command
-    mdw.createAction,
-    // Turn "find" action into a "read" command
-    mdw.findAction,
-    // Split "update" action into "read" then "update" commands
-    mdw.updateAction,
-    // Split "upsert" action into "read", then "create" or "update"
-    // commands, then a final "read" command
-    mdw.upsertAction,
-    // Turn "replace" action into an "update" command
-    mdw.replaceAction,
-    // Turn "delete" action into a "delete" command
-    mdw.deleteAction,
+    // Turn one action into 0, 1 or several commands
+    mdw.executeAction,
 
     /**
      * Normalization-related middleware
