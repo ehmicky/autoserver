@@ -7,7 +7,7 @@ const { commands } = require('../../../constants');
 /**
  * "create" action uses a "create" command
  **/
-const createAction = async function () {
+const createAction = function () {
   return async function createAction(input) {
     const { sysArgs, action } = input;
 

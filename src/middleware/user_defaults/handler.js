@@ -9,7 +9,7 @@ const { applyAllDefault } = require('./apply');
  * This can be a static value or any JSL
  * Not applied on partial write actions like 'update'
  **/
-const userDefaults = async function ({ idl }) {
+const userDefaults = function ({ idl }) {
   const defMap = getDefMap({ idl });
 
   return async function userDefaults(input) {

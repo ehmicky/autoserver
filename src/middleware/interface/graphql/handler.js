@@ -7,7 +7,7 @@ const { isIntrospectionQuery, getHandleIntrospection } = require('./introspectio
 
 
 // GraphQL query handling
-const executeGraphql = async function (opts) {
+const executeGraphql = function (opts) {
   const { idl } = opts;
   const handleIntrospection = getHandleIntrospection(opts);
   const handleQuery = getHandleQuery({ idl });

@@ -15,7 +15,7 @@ const { EngineError } = require('../../error');
  * In short: `action`, `args`, `modelName` should be defined and of the
  * right type
  **/
-const basicValidation = async function ({ idl: { models } = {} }) {
+const basicValidation = function ({ idl: { models } = {} }) {
   return async function basicValidation(input) {
     const {
       modelName,

@@ -5,7 +5,7 @@ const { getRoutes } = require('./routes');
 const { EngineError } = require('../../error');
 
 
-const router = async function () {
+const router = function () {
   const routes = getRoutes();
   return async function router(input) {
     const { path, params, method } = input;

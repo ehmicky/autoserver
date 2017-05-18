@@ -13,7 +13,7 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  * Checks that input and output conforms to API schema
  * Check for the syntax and the semantics of input and output
  **/
-const validation = async function ({ idl, maxDataLength }) {
+const validation = function ({ idl, maxDataLength }) {
   return async function validation(input) {
     const {
       modelName,

@@ -22,7 +22,7 @@ const { performUpsert } = require('./upsert');
  *     variable. Example: created_time should be set if upsert creates a model,
  *     but not if it updates it.
  **/
-const upsertAction = async function () {
+const upsertAction = function () {
   return async function upsertAction(input) {
     const { action, modelName } = input;
 

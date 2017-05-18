@@ -21,7 +21,7 @@ const { getUpdateInput } = require('./update');
  *        E.g. if attribute `a` must be equal to attribute `b`, when we update
  *        `a`, we need to fetch `b` to check that validation rule.
  **/
-const updateAction = async function () {
+const updateAction = function () {
   return async function updateAction(input) {
     const { action, modelName } = input;
 

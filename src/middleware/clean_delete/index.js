@@ -18,7 +18,7 @@ const { getModelsMap } = require('../../idl');
  *     i.e. nested models are left to interface layer, which will
  *     clean them
  **/
-const cleanDelete = async function ({ idl }) {
+const cleanDelete = function ({ idl }) {
   const modelsMap = getModelsMap({ idl });
   const nestedModelsMap = mapValues(modelsMap, modelIdl => {
     return Object.keys(pickBy(modelIdl, ({ model }) => model));

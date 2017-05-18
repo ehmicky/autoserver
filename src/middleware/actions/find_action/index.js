@@ -7,7 +7,7 @@ const { commands } = require('../../../constants');
 /**
  * "find" action uses a "read" command
  **/
-const findAction = async function () {
+const findAction = function () {
   return async function findAction(input) {
     const { sysArgs, action } = input;
 

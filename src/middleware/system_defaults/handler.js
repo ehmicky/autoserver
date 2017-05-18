@@ -7,7 +7,7 @@ const { defaults } = require('./defaults');
 
 
 // Apply system-defined defaults to input, including input arguments
-const systemDefaults = async function (opts) {
+const systemDefaults = function (opts) {
   return async function systemDefaults(input) {
     const newInput = getDefaultArgs({ opts, input });
     merge(input, newInput);

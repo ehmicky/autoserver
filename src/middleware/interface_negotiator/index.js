@@ -7,7 +7,7 @@ const { EngineError } = require('../../error');
 
 
 // Decides which interface to use (e.g. GraphQL) according to route
-const interfaceNegotiator = async function () {
+const interfaceNegotiator = function () {
   return async function interfaceNegotiator(input) {
     const { info, route } = input;
     const interf = findKey(interfaces, test => test({ route }));
@@ -20,7 +20,7 @@ const interfaceNegotiator = async function () {
     return response;
   };
 };
-const interfaceNegotiation = async () => ({ info: { interface: interf } }) => interf;
+const interfaceNegotiation = () => ({ info: { interface: interf } }) => interf;
 
 const interfaces = {
 

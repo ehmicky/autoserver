@@ -11,7 +11,7 @@ const { transformInput, transformOutput } = require('./transformer');
  * `transform` is applied on input, `transformOut` is applied on output.
  * They can be any static value or JSL.
  **/
-const transform = async function ({ idl: { models } }) {
+const transform = function ({ idl: { models } }) {
   return async function transform(input) {
     const { args, command, modelName, info: { ip, timestamp, helpers, variables }, params } = input;
     const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, interfaceInput: { command } };

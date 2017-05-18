@@ -6,7 +6,7 @@ const { format: urlFormat } = require('url');
 const { httpHeaders } = require('../../../parsing');
 
 
-const httpGetPath = async function () {
+const httpGetPath = function () {
   return async function httpGetPath(input) {
     const { req, info } = input;
 
