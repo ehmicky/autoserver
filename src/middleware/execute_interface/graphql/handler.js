@@ -3,7 +3,10 @@
 
 const { parseQuery } = require('./parse');
 const { getHandleQuery } = require('./query');
-const { isIntrospectionQuery, getHandleIntrospection } = require('./introspection');
+const {
+  isIntrospectionQuery,
+  getHandleIntrospection,
+} = require('./introspection');
 
 
 // GraphQL query handling
@@ -12,18 +15,30 @@ const executeGraphql = function (opts) {
   const handleIntrospection = getHandleIntrospection(opts);
   const handleQuery = getHandleQuery({ idl });
   return async function executeGraphql(request) {
-    // Parameters can be in either query variables or payload (including by using application/graphql)
+    // Parameters can be in either query variables or payload
+    // (including by using application/graphql)
     const { params, payload, method } = request;
-    const { query, variables, operationName } = Object.assign({}, params, payload);
+    const {
+      query,
+      variables,
+      operationName,
+    } = Object.assign({}, params, payload);
 
     // GraphQL parsing
-    const { queryDocument, graphqlMethod } = parseQuery({ query, method, operationName });
+    const {
+      queryDocument,
+      graphqlMethod,
+    } = parseQuery({ query, method, operationName });
 
     // GraphQL execution
     let content;
     // Introspection GraphQL query
     if (isIntrospectionQuery({ query })) {
-      content = await handleIntrospection({ queryDocument, variables, operationName });
+      content = await handleIntrospection({
+        queryDocument,
+        variables,
+        operationName,
+      });
     // Normal GraphQL query
     } else {
       const callback = fireNext.bind(this, request);
