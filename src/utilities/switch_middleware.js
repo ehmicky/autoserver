@@ -12,15 +12,24 @@ const { mapAsync } = require('./functional');
 //                                 as argument
 //   @param getKey {function}    - takes server options and request input as
 //                                 argument, returns key for middlewares[key]
-const getSwitchMiddleware = function ({ middlewares, getKey }) {
-  return async function switchMiddleware(opts) {
-    const mdws = await mapAsync(middlewares, async mdw => await mdw(opts));
+const getSwitchMiddleware = function ({
+  middlewares,
+  getKey,
+  name = 'switchMiddleware',
+}) {
+  // We use this weird object notation to dynamically set `function.name`
+  return {
+    async [name](opts) {
+      const mdws = await mapAsync(middlewares, async mdw => await mdw(opts));
 
-    return async function switchMiddleware(input) {
-      const key = getKey({ opts, input });
-      return mdws[key].call(this, input);
-    };
-  };
+      return {
+        async [name](input) {
+          const key = getKey({ opts, input });
+          return mdws[key].call(this, input);
+        },
+      }[name];
+    },
+  }[name];
 };
 
 

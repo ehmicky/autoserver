@@ -11,7 +11,11 @@ const middlewares = {
 const getKey = ({ input: { info: { protocol } } }) => protocol;
 
 // Sends the response at the end of the request
-const fillParams = getSwitchMiddleware({ middlewares, getKey });
+const fillParams = getSwitchMiddleware({
+  middlewares,
+  getKey,
+  name: 'fillParams',
+});
 
 
 module.exports = {
