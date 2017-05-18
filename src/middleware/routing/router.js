@@ -11,7 +11,8 @@ const router = function () {
     const { protocol: { path }, params, method } = input;
     const matchedRoute = routes.find({ path, method });
     if (!matchedRoute) {
-      throw new EngineError('The requested URL was not found', { reason: 'NOT_FOUND' });
+      const message = 'The requested URL was not found';
+      throw new EngineError(message, { reason: 'NOT_FOUND' });
     }
 
     // Add route and path parameters to input
