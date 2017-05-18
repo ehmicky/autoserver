@@ -20,7 +20,7 @@ const startServer = async function (options) {
 };
 
 const listeningHandler = function () {
-  log.log(`Listening on ${host}:${port}`);
+  log.log(`[HTTP] Listening on ${host}:${port}`);
 };
 
 
