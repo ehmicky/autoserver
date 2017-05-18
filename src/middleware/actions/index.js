@@ -1,12 +1,35 @@
 'use strict';
 
 
-module.exports = Object.assign(
-  {},
-  require('./update_action'),
-  require('./upsert_action'),
-  require('./replace_action'),
-  require('./create_action'),
-  require('./find_action'),
-  require('./delete_action')
-);
+const { getSwitchMiddleware } = require('../../utilities');
+const { createAction } = require('./create_action');
+const { findAction } = require('./find_action');
+const { updateAction } = require('./update_action');
+const { upsertAction } = require('./upsert_action');
+const { replaceAction } = require('./replace_action');
+const { deleteAction } = require('./delete_action');
+
+
+const middlewares = {
+  createOne: createAction,
+  createMany: createAction,
+  findOne: findAction,
+  findMany: findAction,
+  updateOne: updateAction,
+  updateMany: updateAction,
+  upsertOne: upsertAction,
+  upsertMany: upsertAction,
+  replaceOne: replaceAction,
+  replaceMany: replaceAction,
+  deleteOne: deleteAction,
+  deleteMany: deleteAction,
+};
+const getKey = ({ input: { action } }) => action.name;
+
+// Translates interface-specific calls into generic instance actions
+const executeAction = getSwitchMiddleware({ middlewares, getKey });
+
+
+module.exports = {
+  executeAction,
+};
