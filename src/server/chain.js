@@ -106,7 +106,7 @@ const start = async function (opts) {
      **/
     mdw.noResponse,
 
-  ]);
+  ])[0];
 };
 
 

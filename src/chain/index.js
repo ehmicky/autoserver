@@ -2,54 +2,49 @@
 
 
 /**
- * Calls a series of middleware (i.e. plain functions), in order.
- * As opposed to Express middleware, but similarly to Koa, the middleware series is though as a a stack, not a pipe.
- * As opposed to Koa, the `next` function can:
- *  - be done several times per middleware
- *  - take any arguments, and return any value (including promise)
- * The last function calling `this.next()` will actually call a placeholder identity function.
- * Returns a function firing the first (i.e. top-level) middleware.
+ * Transforms a series of functions into a middleware stack.
+ * More precisely:
+ *   - take an array of functions as input, and returns it transformed
+ *   - calling `this.next(...)` in any function will now call the next function
+ *     with the same arguments
+ *   - the last function's `this.next(...)` is an identity function
+ * Characteristics:
+ *   - as opposed to Express middleware, but similarly to Koa,
+ *     the middleware series is conceptually a stack, not a pipe.
+ *   - as opposed to Koa, the `next` function can:
+ *      - be done several times per middleware
+ *      - take any arguments, and return any value, including promise,
+ *        i.e. can use async functions
+ * Note:
+ *   - since this binds functions contexts, `this` can only be used to call
+ *     `this.next(...)` and functions contexts should not re-bound.
  *
- * @param {function[]} middlewares - arguments that are not functions
- *                                   are ignored
- * @returns {function} trigger
+ * @param {function[]} middlewares - non-functions will be ignored
+ * @returns {function[]} middlewares
  */
-const chain = function (middlewares) {
-  middlewares = middlewares
+const chain = function (funcs) {
+  return funcs
     // Allow using null or false in input
-    .filter(middleware => typeof middleware === 'function')
+    .filter(isFunction)
     // End of iteration
-    .concat(lastMiddleware);
-
-  // Starts all middleware
-  return async function bootstrapFunc(...args) {
-    return await callWithContext(middlewares[0], middlewares, ...args);
-  };
+    .concat(lastFunc)
+    // Bind each function context with { next(){} }
+    // where `next` points to next function
+    .reduceRight(bindFunctions, [])
+    .reverse();
 };
 
-const callWithContext = async function (middleware, middlewares, ...args) {
-  // Add this.next to next middleware
-  const context = createContext(middleware, middlewares);
-  // Call next middleware
-  return await middleware.call(context, ...args);
+const isFunction = function (val) {
+  return typeof val === 'function';
 };
 
-// Context bound to every middleware
-const createContext = function (middleware, middlewares) {
-  return {
-    // Go to next middleware
-    async next(...args) {
-      const currentIndex = middlewares.findIndex(mdw => mdw === middleware);
-      const next = middlewares[currentIndex + 1];
-
-      return await callWithContext(next, middlewares, ...args);
-    },
-  };
-};
-
-// Used as last iteration
-const lastMiddleware = function lastMiddleware(val) {
+const lastFunc = function (val) {
   return val;
+};
+
+const bindFunctions = function (funcs, func) {
+  const next = funcs[funcs.length - 1];
+  return [...funcs, func.bind({ next })];
 };
 
 
