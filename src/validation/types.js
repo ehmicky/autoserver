@@ -37,8 +37,11 @@ const validationTypes = {
   clientInputCommand: {
     reason: 'WRONG_COMMAND',
     ErrorType: EngineError,
-    messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action.name}', model '${modelName}', wrong command: ${message}`,
+    messageProcessor: ({
+      message,
+      reportInfo: { action, modelName, command },
+    }) =>
+      `In action '${action.name}', model '${modelName}', command '${command.name}' is not allowed: ${message}`,
   },
   clientInputSemantics: {
     reason: 'INPUT_VALIDATION',
