@@ -27,12 +27,16 @@ const startServer = async function (options) {
       httpStartServer(opts),
     ]);
     return server;
-  // Make sure all exceptions thrown at startup follow the EngineStartupError signature
+  // Make sure all exceptions thrown at startup follow
+  // the EngineStartupError signature
   } catch (innererror) {
     if (innererror instanceof EngineStartupError) {
       throw innererror;
     } else {
-      throw new EngineStartupError(innererror.message, { reason: 'UNKNOWN', innererror });
+      throw new EngineStartupError(innererror.message, {
+        reason: 'UNKNOWN',
+        innererror,
+      });
     }
   }
 };
