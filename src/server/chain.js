@@ -19,9 +19,8 @@ const start = async function (opts) {
     /**
      * Protocol-related middleware
      **/
-    // The first middleware (not present here) is the error handler,
-    // which sends final response, if errors
-
+    // Error handler, which sends final response, if errors
+    mdw.errorHandler,
     // Sets up protocol format
     mdw.protocolConvertor,
     // Pick the protocol
