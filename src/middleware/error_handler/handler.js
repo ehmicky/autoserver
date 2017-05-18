@@ -39,12 +39,14 @@ const sendError = ({ onRequestError = () => {} }) => {
       });
 
       // Adds protocol-specific error information
-      const errorInfo = getErrorInfo({ exception, protocol });
-      const protocolErrorInput = Object.assign({}, input, info, errorInfo);
-      response = protocolErrorHandler.processResponse({
-        response,
-        errorInput: protocolErrorInput,
-      });
+      if (protocolErrorHandler) {
+        const errorInfo = getErrorInfo({ exception, protocol });
+        const protocolErrorInput = Object.assign({}, input, info, errorInfo);
+        response = protocolErrorHandler.processResponse({
+          response,
+          errorInput: protocolErrorInput,
+        });
+      }
 
       // Adds interface-specific error information
       if (interfaceErrorHandler) {
@@ -54,7 +56,9 @@ const sendError = ({ onRequestError = () => {} }) => {
       response = sortResponseKeys({ response });
 
       // Use protocol-specific way to send back the response
-      protocolErrorHandler.sendResponse({ response, input });
+      if (protocolErrorHandler) {
+        protocolErrorHandler.sendResponse({ response, input });
+      }
       log.error(response.error);
       onRequestError(response.error);
     // Retries once if it fails
