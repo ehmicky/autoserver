@@ -49,11 +49,11 @@ const mergeLibraries = function ({ idl, attrName, filterFunc = () => true }) {
     // This translate this array of object of functions into a single object, which is merged into `idl[attrName]`
     const libraries = idl[attrName].libraries
       .map(library => Object.entries(library)
-        .filter(([_, value]) => filterFunc(value))
+        .filter(([, value]) => filterFunc(value))
         .map(([name, value]) => ({ [name]: value }))
         .reduce((memo, val) => Object.assign(memo, val), {})
       )
-      .reduce((memo, val) => Object.assign(memo, val), {})
+      .reduce((memo, val) => Object.assign(memo, val), {});
     idl[attrName] = Object.assign({}, libraries, idl[attrName]);
   }
 
