@@ -17,11 +17,11 @@ const transform = function ({ idl: { models } }) {
       args,
       command,
       modelName,
-      info: { ip, helpers, variables },
+      info: { helpers, variables },
       params,
       protocol,
     } = input;
-    const { timestamp } = protocol;
+    const { ip, timestamp } = protocol;
     const jslInput = { helpers, variables, requestInput: { ip, timestamp, params }, interfaceInput: { command } };
 
     // Retrieves IDL definition for this model

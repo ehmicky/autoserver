@@ -19,8 +19,8 @@ const logRequest = function ({
       req: { method, url, headers },
     },
     protocolVersion,
+    ip,
   },
-  info: { ip }
 }) {
   const protocol = `HTTP/${protocolVersion}`;
   headers = JSON.stringify(headers);

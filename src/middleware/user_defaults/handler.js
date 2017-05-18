@@ -47,8 +47,8 @@ const getOptions = function ({
   input: {
     modelName,
     command,
-    info: { ip, helpers, variables },
-    protocol: { timestamp },
+    info: { helpers, variables },
+    protocol: { ip, timestamp },
     params,
     args: { data },
   },
