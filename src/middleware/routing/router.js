@@ -8,7 +8,7 @@ const { EngineError } = require('../../error');
 const router = function () {
   const routes = getRoutes();
   return async function router(input) {
-    const { path, params, method } = input;
+    const { protocol: { path }, params, method } = input;
     const matchedRoute = routes.find({ path, method });
     if (!matchedRoute) {
       throw new EngineError('The requested URL was not found', { reason: 'NOT_FOUND' });

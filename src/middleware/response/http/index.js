@@ -8,7 +8,8 @@ const { EngineError } = require('../../../error');
 // Sends the HTTP response at the end of the request
 const httpSendResponse = function () {
   return async function httpSendResponse(input) {
-    const { res } = input;
+    const { protocol: { specific: { res } } } = input;
+
     const response = await this.next(input);
     const { type, content } = response;
 

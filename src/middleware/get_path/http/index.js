@@ -8,19 +8,20 @@ const { httpHeaders } = require('../../../parsing');
 
 const httpGetPath = function () {
   return async function httpGetPath(input) {
-    const { req, info } = input;
+    const { protocol } = input;
+    const { specific: { req } } = protocol;
 
-    info.requestUrl = getRequestUrl({ req });
-    const path = getPath(req.url);
+    const path = getPath({ req });
+    const requestUrl = getRequestUrl({ req });
+    Object.assign(protocol, { requestUrl, path });
 
-    const output = Object.assign({}, input, { path });
-    const response = await this.next(output);
+    const response = await this.next(input);
     return response;
   };
 };
 
 // Retrieves path, e.g. used by the router
-const getPath = function (url) {
+const getPath = function ({ req: { url } }) {
   return url.replace(/[?#].*/, '');
 };
 
@@ -32,7 +33,7 @@ const getRequestUrl = function ({ req }) {
   const requestUrl = urlFormat({
     protocol: proxiedProtocol || protocol,
     host,
-    pathname: getPath(req.url),
+    pathname: getPath({ req }),
   });
 
   return requestUrl;
