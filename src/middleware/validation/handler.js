@@ -18,6 +18,7 @@ const validation = async function ({ idl, maxDataLength }) {
     const {
       modelName,
       args,
+      sysArgs,
       command,
       info,
       params,
@@ -32,7 +33,7 @@ const validation = async function ({ idl, maxDataLength }) {
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
     validateClientInputSyntax({ modelName, action, command, args });
-    validateClientInputCommand({ idl, action, command, modelName });
+    validateClientInputCommand({ idl, action, command, modelName, sysArgs });
     validateClientInputSemantics({
       idl,
       modelName,
