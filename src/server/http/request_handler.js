@@ -10,7 +10,7 @@ const httpRequestHandler = async function (opts) {
   return async function (req, res) {
     const info = {};
     const protocol = { specific: { req, res } };
-    const response = await startFunc({ req, res, info, protocol });
+    const response = await startFunc({ info, protocol });
     return response;
   };
 };
