@@ -12,7 +12,12 @@ const validateClientInputCommand = function ({
   action,
   command,
   modelName,
+  sysArgs: { authorization },
 }) {
+  // If sysArgs.authorization is false, bypass this check because this
+  // is an intermediary command which should always succeed
+  if (!authorization) { return; }
+
   const type = 'clientInputCommand';
   const schema = getSchema({ idl, modelName });
   const reportInfo = { type, action, modelName };
