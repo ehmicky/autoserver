@@ -1,21 +1,25 @@
 'use strict';
 
 
-const { getSwitchMiddleware } = require('../../utilities');
-const { httpLogger } = require('./http');
+const { log } = require('../../utilities');
 
 
-const middlewares = {
-  http: httpLogger,
+const logger = function () {
+  return async function httpLogger(input) {
+    logRequest(input);
+
+    const response = await this.next(input);
+    return response;
+  };
 };
-const getKey = ({ input: { protocol: { name } } }) => name;
 
-// Sends the response at the end of the request
-const logger = getSwitchMiddleware({
-  middlewares,
-  getKey,
-  name: 'logger',
-});
+const logRequest = function ({
+  protocol: { fullName, method, path, ip, params },
+}) {
+  params = JSON.stringify(params);
+  const message = [fullName, method, path, ip, params].join(' ');
+  log.log(message);
+};
 
 
 module.exports = {
