@@ -9,7 +9,7 @@ const { commands } = require('../../../constants');
  **/
 const deleteAction = async function () {
   return async function deleteAction(input) {
-    const { sysArgs = {}, action } = input;
+    const { sysArgs, action } = input;
 
     if (action.type === 'delete') {
       const isMultiple = action.multiple;

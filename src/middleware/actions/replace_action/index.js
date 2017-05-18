@@ -9,7 +9,7 @@ const { commands } = require('../../../constants');
  **/
 const replaceAction = async function () {
   return async function replaceAction(input) {
-    const { sysArgs = {}, action } = input;
+    const { sysArgs, action } = input;
 
     if (action.type === 'replace') {
       const isMultiple = action.multiple;

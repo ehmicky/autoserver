@@ -9,7 +9,7 @@ const { commands } = require('../../../constants');
 // Retrieves the input for the "read" command
 const getReadInput = function ({ input }) {
   input = cloneDeep(input);
-  const { sysArgs = {}, args, action } = input;
+  const { sysArgs, args, action } = input;
 
   const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
