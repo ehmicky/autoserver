@@ -3,7 +3,7 @@
 
 const apiConvertor = function () {
   return async function apiConvertor(input) {
-    const { api: { action, args, modelName }, info, params } = input;
+    const { api: { action, args, modelName }, info, params, protocol } = input;
     info.action = action;
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
@@ -14,6 +14,7 @@ const apiConvertor = function () {
       modelName,
       info,
       params,
+      protocol,
     };
 
     const { data, metadata } = await this.next(nextInput);
