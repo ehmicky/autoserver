@@ -2,7 +2,7 @@
 
 
 const { EngineStartupError } = require('../error');
-const { setLogger, attachRequire } = require('../utilities');
+const { setLogger } = require('../utilities');
 const { processOptions } = require('../options');
 const { httpStartServer } = require('./http');
 
@@ -15,8 +15,6 @@ const { httpStartServer } = require('./http');
  */
 const startServer = async function (options) {
   try {
-    attachRequire();
-
     const opts = await processOptions(options);
 
     if (opts.logger) {
