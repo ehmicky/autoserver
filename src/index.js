@@ -14,10 +14,15 @@ Object.assign(inspect.defaultOptions, {
   depth: 10,
 });
 
+const dirPrefix = /\/home\/ether\/api-engine/g;
+
 const printer = level => function (...args) {
   if (level === 'info') { return; }
   const beautifiedArgs = args.map(arg => {
-    return typeof arg === 'string' ? arg : inspect(arg).replace(/\\n/g, '\n');
+    const message = typeof arg === 'string'
+      ? arg
+      : inspect(arg).replace(/\\n/g, '\n');
+    return message.replace(dirPrefix, '');
   });
   global.console[level](...beautifiedArgs);
 };
