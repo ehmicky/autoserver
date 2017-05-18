@@ -7,7 +7,7 @@ const { EngineStartupError } = require('../error');
 
 const resolveRefs = async function ({ idl, baseDir }) {
   const parsedIdl = await resolveJsonRefs({ idl, baseDir });
-  const mergedIdl = mergeAllLibraries({ idl });
+  const mergedIdl = mergeAllLibraries({ idl: parsedIdl });
   return mergedIdl;
 };
 
