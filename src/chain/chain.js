@@ -4,7 +4,6 @@
 const uuidv4 = require('uuid/v4');
 
 const { createLog } = require('./debug');
-const { MiddlewareModifier } = require('./modifiers');
 const { MiddlewareWrapper } = require('./wrapper');
 const { flatten, middlewaresSymbol } = require('./nesting');
 
@@ -30,7 +29,7 @@ const chain = function (...middlewares) {
   middlewares = flatten(middlewares)
     // Allow using null or false in input
     // TODO: does not work, as flatten() would throw an exception
-    .filter(middleware => typeof middleware === 'function' || middleware instanceof MiddlewareModifier)
+    .filter(middleware => typeof middleware === 'function')
     // End of iteration
     .concat(lastMiddleware);
 
@@ -74,16 +73,11 @@ const cloneMiddleware = function (middlewares) {
     .slice()
     // Make sure each function itself is not modified
     .map(middleware => {
-      if (middleware instanceof MiddlewareModifier) { return middleware; }
       return new MiddlewareWrapper({ type: 'generic', handler: middleware });
     });
 };
 
 const callWithContext = function (middleware, state, ...args) {
-  if (middleware instanceof MiddlewareModifier) {
-    return applyModifier(middleware, state, ...args);
-  }
-
   // Add this.next to next middleware
   const context = createContext(middleware, state);
   // Call next middleware
@@ -117,29 +111,6 @@ const createContext = function (middleware, state) {
       },
   });
   return context;
-};
-
-// Apply a modifier, i.e. let it change the list of middlewares following that modifier
-const applyModifier = function (modifier, state, ...args) {
-  const modifierIndex = state.middlewares.findIndex(mdw => mdw === modifier);
-  // Pick all the middlewares after the modifier, excluding the last one
-  const nextMiddlewares = state.middlewares
-    .slice(modifierIndex + 1, state.middlewares.length - 1);
-
-  state.log(`Starting modifier "${modifier.type}"`);
-  // Let modifier decide of the replacement middlewares
-  const modifiedMiddlewares = modifier.handler({ middlewares: nextMiddlewares, args, log: state.log });
-  // modifiers can return undefined to mean "unchanged"
-  if (modifiedMiddlewares) {
-    // Replace the middlewares
-    // The last middleware is kept
-    state.middlewares.splice(modifierIndex + 1, nextMiddlewares.length, ...modifiedMiddlewares);
-  }
-
-  // Calls next middleware, which might be a modifier itself
-  const next = state.middlewares[modifierIndex + 1];
-  const returnValue = callWithContext(next, state, ...args);
-  return returnValue;
 };
 
 // Used as last iteration
