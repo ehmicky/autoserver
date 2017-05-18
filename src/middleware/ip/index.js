@@ -1,7 +1,19 @@
 'use strict';
 
 
-module.exports = Object.assign(
-  {},
-  require('./handler')
-);
+const { getSwitchMiddleware } = require('../../utilities');
+const { httpGetIp } = require('./http');
+
+
+const middlewares = {
+  http: httpGetIp,
+};
+const getKey = ({ input: { info: { protocol } } }) => protocol;
+
+// Sends the response at the end of the request
+const getIp = getSwitchMiddleware({ middlewares, getKey });
+
+
+module.exports = {
+  getIp,
+};

@@ -3,5 +3,5 @@
 
 module.exports = Object.assign(
   {},
-  require('./execute')
+  require('./handler')
 );
