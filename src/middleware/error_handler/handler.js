@@ -30,13 +30,21 @@ const sendError = ({ onRequestError = () => {} }) => {
       const protocolErrorHandler = protocolErrorHandlers[protocol];
       const interfaceErrorHandler = interfaceErrorHandlers[interf];
 
-      // Retrieves protocol-independent error information, using the thrown exception
+      // Retrieves protocol-independent error information,
+      // using the thrown exception
       const genericErrorInput = getErrorInfo({ exception });
-      let response = createResponse({ exception, errorInput: genericErrorInput });
+      let response = createResponse({
+        exception,
+        errorInput: genericErrorInput,
+      });
 
       // Adds protocol-specific error information
-      const protocolErrorInput = Object.assign({}, input, info, getErrorInfo({ exception, protocol }));
-      response = protocolErrorHandler.processResponse({ response, errorInput: protocolErrorInput });
+      const errorInfo = getErrorInfo({ exception, protocol });
+      const protocolErrorInput = Object.assign({}, input, info, errorInfo);
+      response = protocolErrorHandler.processResponse({
+        response,
+        errorInput: protocolErrorInput,
+      });
 
       // Adds interface-specific error information
       if (interfaceErrorHandler) {
@@ -51,11 +59,19 @@ const sendError = ({ onRequestError = () => {} }) => {
       onRequestError(response.error);
     // Retries once if it fails
     } catch (innererror) {
-      const errorHandlerError = new ErrorHandlerError('Error handler failed', { reason: 'ERROR_HANDLER_FAILURE', innererror });
+      const errorHandlerError = new ErrorHandlerError('Error handler failed', {
+        reason: 'ERROR_HANDLER_FAILURE',
+        innererror,
+      });
       log.error(errorHandlerError);
       onRequestError(errorHandlerError);
       if (retry) { return; }
-      sendErrorFunc({ exception: innererror, input, info: { protocol }, retry: true });
+      sendErrorFunc({
+        exception: innererror,
+        input,
+        info: { protocol },
+        retry: true,
+      });
     }
   };
 };
@@ -77,10 +93,10 @@ const createResponse = function ({ exception, errorInput }) {
 
   // Not in production
   if (isDev()) {
-    Object.assign(response.error, {
-      // Recrursive stack trace
-      details: (exception.innererror && exception.innererror.stack) || exception.stack,
-    });
+    // Recrursive stack trace
+    const details = (exception.innererror && exception.innererror.stack) ||
+      exception.stack;
+    Object.assign(response.error, { details });
   }
 
   // Any custom information
@@ -89,7 +105,14 @@ const createResponse = function ({ exception, errorInput }) {
   return response;
 };
 
-const sortedKeys = ['status', 'type', 'title', 'description', 'instance', 'details'];
+const sortedKeys = [
+  'status',
+  'type',
+  'title',
+  'description',
+  'instance',
+  'details',
+];
 const sortResponseKeys = function ({ response }) {
   response.error = chain(response.error)
     .toPairs()
