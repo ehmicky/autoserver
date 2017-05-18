@@ -10,7 +10,7 @@ const { printGraphql } = require('./graphql_print');
 const middlewares = {
   graphql: executeGraphql,
   graphiql: executeGraphiql,
-  graphql_print: printGraphql,
+  graphqlprint: printGraphql,
 };
 const getKey = ({ input: { info } }) => info.interface;
 
