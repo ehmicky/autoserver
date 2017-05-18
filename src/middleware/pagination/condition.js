@@ -18,7 +18,7 @@ const mustPaginateOutput = function ({ args, sysArgs }) {
 // Using args.page_size 0 or defaultPageSize 0 disables pagination
 const isPaginationDisabled = function ({
   args: { page_size: pageSize },
-  sysArgs: { pagination = true },
+  sysArgs: { pagination },
 }) {
   return !pagination || pageSize === 0 || pageSize === undefined;
 };
