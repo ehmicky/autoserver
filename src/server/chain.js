@@ -46,14 +46,7 @@ const start = async function (opts) {
     // Compile JSL helpers, variables, etc.
     mdw.wrapCustomJsl,
     // Translates interface-specific calls into generic instance actions
-    branch(mdw.interfaceNegotiation, {
-      // GraphQL engine
-      graphql: mdw.executeGraphql,
-      // GraphQL debugger web app
-      graphiql: mdw.executeGraphiql,
-      // GraphQL schema printing
-      graphqlprint: mdw.printGraphql,
-    }),
+    mdw.executeInterface,
 
     /**
      * Middleware transforming one action into 0, 1 or several commands

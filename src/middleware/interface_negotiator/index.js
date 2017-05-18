@@ -20,7 +20,6 @@ const interfaceNegotiator = function () {
     return response;
   };
 };
-const interfaceNegotiation = () => ({ info: { interface: interf } }) => interf;
 
 const interfaces = {
 
@@ -34,6 +33,5 @@ const interfaces = {
 
 
 module.exports = {
-  interfaceNegotiation,
   interfaceNegotiator,
 };
