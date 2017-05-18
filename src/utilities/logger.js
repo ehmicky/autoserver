@@ -8,7 +8,8 @@ const levels = [
   'error',
 ];
 
-// Since we are setting members dynamically, consumers must not rely on references to logger.* functions (they can change)
+// Since we are setting members dynamically, consumers must not rely on
+// references to logger.* functions (they can change)
 // but on reference to logger instead
 const logger = {};
 const setLogger = ({ logger: newLogger = defaultLogger } = {}) => {
