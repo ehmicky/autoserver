@@ -4,6 +4,7 @@
 const { EngineStartupError } = require('../error');
 const { setLogger } = require('../utilities');
 const { processOptions } = require('../options');
+const { start } = require('./chain');
 const { httpStartServer } = require('./http');
 
 
@@ -20,6 +21,8 @@ const startServer = async function (options) {
     if (opts.logger) {
       setLogger({ logger: opts.logger });
     }
+
+    opts.handleRequest = await start(opts);
 
     // Make sure all servers are starting concurrently, not serially
     const [http] = await Promise.all([
