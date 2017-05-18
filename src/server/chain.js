@@ -10,8 +10,7 @@ const start = async function (opts) {
   // Apply options
   const mdw = await mapAsync(middlewares, async mdw => await mdw(opts));
 
-  return chain([
-
+  const allMiddlewares = chain([
     /**
      * Protocol-related middleware
      **/
@@ -100,8 +99,9 @@ const start = async function (opts) {
      * Catch-all error middleware
      **/
     mdw.noResponse,
+  ]);
 
-  ])[0];
+  return allMiddlewares[0];
 };
 
 
