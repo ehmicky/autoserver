@@ -72,6 +72,9 @@ const getValidateServerSchema = function ({ models = {} }) {
           pagination: {
             type: 'boolean',
           },
+          authorization: {
+            type: 'boolean',
+          },
         },
       },
       params: { type: 'object' },
