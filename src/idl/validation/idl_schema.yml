@@ -210,9 +210,6 @@ definitions:
       - allOf: [{contains: {const: delete}}, {contains: {const: deleteOne}}]
       - allOf: [{contains: {const: update}}, {contains: {const: updateOne}}]
       - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
-    # read or readOne has to be defined, because GraphQL requires at least one
-    # command
-    contains: {enum: [read, readOne]}
   # idl.helpers|variables.library
   librariesProperty:
     type: array
