@@ -6,7 +6,10 @@ const { STATUS_CODES } = require('http');
 const { httpBody } = require('../../../../parsing');
 
 
-const sendResponse = function ({ response: { error, status, contentType }, input: { res } }) {
+const sendResponse = function ({
+  response: { error, status, contentType },
+  input: { protocol: { res } },
+}) {
   res.statusCode = status;
   httpBody.send.json({
     res,
@@ -15,7 +18,10 @@ const sendResponse = function ({ response: { error, status, contentType }, input
   });
 };
 
-const processResponse = function ({ response, errorInput: { status = 500, requestUrl } = {} }) {
+const processResponse = function ({
+  response,
+  errorInput: { status = 500, info: { requestUrl } } = {},
+}) {
   // HTTP status code
   response.status = status;
 
