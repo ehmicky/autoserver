@@ -21,10 +21,12 @@ const startServer = async function (options) {
       setLogger({ logger: opts.logger });
     }
 
-    const server = await Promise.all([
+    // Make sure all servers are starting concurrently, not serially
+    const [http] = await Promise.all([
       httpStartServer(opts),
     ]);
-    return server;
+    const servers = { http };
+    return servers;
   // Make sure all exceptions thrown at startup follow
   // the EngineStartupError signature
   } catch (innererror) {
