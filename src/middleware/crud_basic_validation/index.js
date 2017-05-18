@@ -63,7 +63,17 @@ const getValidateServerSchema = function ({ models = {} }) {
         enum: modelNames,
       },
       args: { type: 'object' },
-      sysArgs: { type: 'object' },
+      sysArgs: {
+        type: 'object',
+        // We want to make sure action layer knows whether pagination
+        // will be applied or not
+        required: ['pagination'],
+        properties: {
+          pagination: {
+            type: 'boolean',
+          },
+        },
+      },
       params: { type: 'object' },
       info: { type: 'object' },
       command: { type: 'object' },
