@@ -3,7 +3,12 @@
 
 const { mapValues } = require('lodash');
 
-const { httpHeaders, httpAppHeaders, httpBody, httpQueryString } = require('../../../parsing');
+const {
+  httpHeaders,
+  httpAppHeaders,
+  httpBody,
+  httpQueryString,
+} = require('../../../parsing');
 const { transtype } = require('../../../utilities');
 const { EngineError } = require('../../../error');
 
@@ -24,7 +29,8 @@ const fillParams = function () {
 
 /**
  * Returns an HTTP request parameters (not payload)
- * Does not differentiate from where the input is from (query variables, headers, URL variable)
+ * Does not differentiate from where the input is from
+ * (query variables, headers, URL variable)
  * so the next layer can be protocol-agnostic
  *
  * @param {object} options
@@ -54,7 +60,9 @@ const getParams = function ({ req }) {
  *
  * @param {object} options
  * @param {Request} options.req
- * @returns {any} value - type differs according to Content-Type, e.g. application/json is object but text/plain is string
+ * @returns {any} value - type differs according to Content-Type,
+ *                        e.g. application/json is object but
+ *                        text/plain is string
  */
 const getPayload = async function ({ req }) {
   if (!hasPayload({ req })) { return; }
@@ -67,9 +75,11 @@ const getPayload = async function ({ req }) {
   // Wrong request errors
   const contentType = httpHeaders.get(req, 'Content-Type');
   if (!contentType) {
-    throw new EngineError('Must specify Content-Type when sending an HTTP request body', { reason: 'HTTP_NO_CONTENT_TYPE' });
+    const message = 'Must specify Content-Type when sending an HTTP request body';
+    throw new EngineError(message, { reason: 'HTTP_NO_CONTENT_TYPE' });
   }
-  throw new EngineError(`Unsupported Content-Type: ${contentType}`, { reason: 'HTTP_WRONG_CONTENT_TYPE' });
+  const message = `Unsupported Content-Type: ${contentType}`;
+  throw new EngineError(message, { reason: 'HTTP_WRONG_CONTENT_TYPE' });
 };
 
 const hasPayload = function ({ req }) {
