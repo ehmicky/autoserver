@@ -24,8 +24,8 @@ const validation = function ({ idl, maxDataLength }) {
       params,
       protocol,
     } = input;
-    const { ip, helpers, variables, action } = info;
-    const { timestamp } = protocol;
+    const { helpers, variables, action } = info;
+    const { ip, timestamp } = protocol;
 
     // Extra information passed to custom validation keywords
     const requestInput = { ip, timestamp, params };

@@ -25,8 +25,8 @@ const executeDatabaseAction = function () {
       data,
       filter,
     } = args;
-    const { ip, helpers, variables } = info;
-    const { timestamp } = protocol;
+    const { helpers, variables } = info;
+    const { ip, timestamp } = protocol;
     const requestInput = { ip, timestamp, params };
     const interfaceInput = { command };
     const jslInput = { helpers, variables, requestInput, interfaceInput };
