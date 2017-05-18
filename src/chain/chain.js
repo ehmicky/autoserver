@@ -1,9 +1,6 @@
 'use strict';
 
 
-const uuidv4 = require('uuid/v4');
-
-const { createLog } = require('./debug');
 const { MiddlewareWrapper } = require('./wrapper');
 const { flatten, middlewaresSymbol } = require('./nesting');
 
@@ -42,23 +39,13 @@ const createBootstrap = function (middlewares) {
   const bootstrapFunc = (...args) => {
     // Create shallow copy, so that each chain invocation does not change other invocations
     const clonedMiddleware = cloneMiddleware(middlewares);
-    const requestId = uuidv4();
     const state = {
       middlewares: clonedMiddleware,
-      requestId,
-      log: createLog(requestId),
     };
 
-    state.log('Starting chain');
     const returnValue = callWithContext(state.middlewares[0], state, ...args);
 
-    Promise.resolve(returnValue)
-    .then(() => {
-      state.log('Ending chain');
-    })
-    .catch(() => {
-      state.log('Ending chain (failure)');
-    });
+    Promise.resolve(returnValue);
 
     return returnValue;
   };
@@ -82,17 +69,9 @@ const callWithContext = function (middleware, state, ...args) {
   const context = createContext(middleware, state);
   // Call next middleware
   const originalFunction = MiddlewareWrapper.getFunction(middleware);
-  const functionName = originalFunction.name || 'anonymous';
-  state.log(`Starting middleware ${functionName}`);
   const returnValue = originalFunction.call(context, ...args);
 
-  Promise.resolve(returnValue)
-  .then(() => {
-    state.log(`Ending middleware ${functionName}`);
-  })
-  .catch(() => {
-    state.log(`Ending middleware (failure) ${functionName}`);
-  });
+  Promise.resolve(returnValue);
 
   return returnValue;
 };
@@ -101,14 +80,14 @@ const callWithContext = function (middleware, state, ...args) {
 const createContext = function (middleware, state) {
   // Make sure the context is a new object for each request and each middleware
   const context = Object.assign({}, middleware.context, {
-      // Go to next middleware
-      next(...args) {
-        const currentIndex = state.middlewares.findIndex(mdw => mdw === middleware);
-        const next = state.middlewares[currentIndex + 1];
+    // Go to next middleware
+    next(...args) {
+      const currentIndex = state.middlewares.findIndex(mdw => mdw === middleware);
+      const next = state.middlewares[currentIndex + 1];
 
-        const returnValue = callWithContext(next, state, ...args);
-        return returnValue;
-      },
+      const returnValue = callWithContext(next, state, ...args);
+      return returnValue;
+    },
   });
   return context;
 };

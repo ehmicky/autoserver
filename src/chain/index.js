@@ -5,6 +5,5 @@ module.exports = Object.assign(
   {},
   require('./chain'),
   require('./wrapper'),
-  require('./nesting'),
-  require('./debug')
+  require('./nesting')
 );
