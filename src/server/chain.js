@@ -6,13 +6,9 @@ const middlewares = require('../middleware');
 const { mapAsync } = require('../utilities');
 
 
-// Apply options
-const applyMiddlewares = async function (opts, middlewares) {
-  return await mapAsync(middlewares, async mdw => await mdw(opts));
-};
-
 const start = async function (opts) {
-  const mdw = await applyMiddlewares(opts, middlewares);
+  // Apply options
+  const mdw = await mapAsync(middlewares, async mdw => await mdw(opts));
 
   return chain([
 
