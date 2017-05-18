@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { chain, branch } = require('../chain');
+const { chain } = require('../chain');
 const middlewares = require('../middleware');
 const { mapAsync } = require('../utilities');
 
@@ -117,10 +117,7 @@ const start = async function (opts) {
 
 // Apply options
 const applyMiddlewares = async function (opts, middlewares) {
-  return await mapAsync(middlewares, applyMiddleware.bind(null, opts));
-};
-const applyMiddleware = async function (opts, middleware) {
-  return await middleware(opts);
+  return await mapAsync(middlewares, async mdw => await mdw(opts));
 };
 
 module.exports = {
