@@ -16,7 +16,7 @@ const startServer = async function (options) {
     listeningHandler();
     promise.resolve(server);
   });
-  return await promise;
+  return promise;
 };
 
 const listeningHandler = function () {
