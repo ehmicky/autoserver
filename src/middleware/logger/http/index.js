@@ -14,12 +14,17 @@ const httpLogger = function () {
 };
 
 const logRequest = function ({
-  req: { httpVersion, method, url, headers },
+  protocol: {
+    specific: {
+      req: { method, url, headers },
+    },
+    protocolVersion,
+  },
   info: { ip }
 }) {
-  const protocol = `HTTP${httpVersion}`;
+  const protocol = `HTTP/${protocolVersion}`;
   headers = JSON.stringify(headers);
-  const message = [ protocol, method, url, ip, headers ].join(' ');
+  const message = [protocol, method, url, ip, headers].join(' ');
   log.log(message);
 };
 

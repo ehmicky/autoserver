@@ -18,9 +18,10 @@ const interfaceErrorHandlers = require('./interface');
  */
 const sendError = function ({ onRequestError = () => {} }) {
   return function sendErrorFunc({ exception, input = {}, retry = false }) {
-    const { protocol, interface: interf } = input.info;
+    const { interface: interf } = input.info;
+    const { protocol } = input;
     try {
-      const protocolErrorHandler = protocolErrorHandlers[protocol];
+      const protocolErrorHandler = protocolErrorHandlers[protocol.name];
       const interfaceErrorHandler = interfaceErrorHandlers[interf];
 
       if (typeof exception === 'string') {
@@ -70,11 +71,8 @@ const sendError = function ({ onRequestError = () => {} }) {
       sendErrorFunc({
         exception: innererror,
         input: {
-          protocol: {
-            req: input.protocol.req,
-            res: input.protocol.res,
-          },
-          info: { protocol },
+          protocol: input.protocol,
+          info: {},
         },
         retry: true,
       });

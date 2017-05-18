@@ -8,7 +8,7 @@ const { httpGetPath } = require('./http');
 const middlewares = {
   http: httpGetPath,
 };
-const getKey = ({ input: { info: { protocol } } }) => protocol;
+const getKey = ({ input: { protocol: { name } } }) => name;
 
 // Sends the response at the end of the request
 const getPath = getSwitchMiddleware({
