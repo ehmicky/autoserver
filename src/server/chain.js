@@ -23,25 +23,16 @@ const start = async function (opts) {
     mdw.protocolNegotiator,
     // Retrieves timestamp
     mdw.getTimestamp,
-    branch(mdw.protocolNegotiation, {
-      http: [
-        // Sends final response, if success
-        mdw.httpSendResponse,
-        // Retrieves input.path
-        mdw.httpGetPath,
-        // Retrieves IP
-        mdw.httpGetIp,
-      ],
-    }),
-    // Retrieves request parameters
-    branch(mdw.protocolNegotiation, {
-      http: [
-        // General request log
-        mdw.httpLogger,
-        // Merge request parameters and payload into protocol-agnostic format
-        mdw.httpFillParams,
-      ],
-    }),
+    // Sends final response, if success
+    mdw.sendResponse,
+    // Retrieves input.path
+    mdw.getPath,
+    // Retrieves IP
+    mdw.getIp,
+    // General request log
+    mdw.logger,
+    // Merge request parameters and payload into protocol-agnostic format
+    mdw.fillParams,
     // Retrieves input.route, using input.path
     mdw.router,
 

@@ -24,7 +24,6 @@ const protocolNegotiator = function () {
     return response;
   };
 };
-const protocolNegotiation = () => ({ info: { protocol } }) => protocol;
 
 const protocols = {
 
@@ -41,5 +40,4 @@ const protocolVersions = {
 
 module.exports = {
   protocolNegotiator,
-  protocolNegotiation,
 };
