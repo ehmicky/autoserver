@@ -5,7 +5,7 @@ const { validate } = require('../../validation');
 const { commands } = require('../../constants');
 
 
-// Check API output, for the errors that should not happen,
+// Check output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)
 // In short: response should be an array of objects
 const validateServerOutputSyntax = function ({ command, response }) {

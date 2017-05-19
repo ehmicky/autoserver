@@ -1,10 +1,10 @@
 'use strict';
 
 
-const apiConvertor = function () {
-  return async function apiConvertor(input) {
+const actionConvertor = function () {
+  return async function actionConvertor(input) {
     const {
-      api: { action, fullAction, args, modelName },
+      actionInput: { action, fullAction, args, modelName },
       info,
       protocol,
       interf,
@@ -24,12 +24,12 @@ const apiConvertor = function () {
     };
 
     const { data, metadata } = await this.next(nextInput);
-    const response = apiConvertorOutput[info.interface]({ data, metadata });
+    const response = actionConvertorOutput[info.interface]({ data, metadata });
     return response;
   };
 };
 
-const apiConvertorOutput = {
+const actionConvertorOutput = {
 
   // Metadata are siblings to data in GraphQL
   graphql({ data, metadata }) {
@@ -46,5 +46,5 @@ const apiConvertorOutput = {
 
 
 module.exports = {
-  apiConvertor,
+  actionConvertor,
 };

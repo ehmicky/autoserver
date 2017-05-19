@@ -5,7 +5,7 @@ const { validate } = require('../../validation');
 
 
 /**
- * Validate API that input command.name is correct, e.g. allowed in IDL
+ * Validate that input command.name is correct, e.g. allowed in IDL
  **/
 const validateClientInputCommand = function ({
   idl,

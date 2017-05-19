@@ -60,8 +60,8 @@ const executeGraphql = function (opts) {
   };
 };
 
-const fireNext = async function (request, apiInput) {
-  const input = Object.assign({}, request, { api: apiInput });
+const fireNext = async function (request, actionInput) {
+  const input = Object.assign({}, request, { actionInput });
   const response = await this.next(input);
   return response;
 };

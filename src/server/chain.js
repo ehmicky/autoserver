@@ -53,12 +53,12 @@ const startChain = async function (opts) {
     mdw.executeInterface,
 
     /**
-     * Middleware transforming one action into 0, 1 or several commands
+     * Action-related middleware
      **/
-    // Convert from interface format to API format
-    mdw.apiConvertor,
-    // Basic validation layer
-    mdw.basicValidation,
+    // Convert from interface format to Action format
+    mdw.actionConvertor,
+    // Action-related validation layer
+    mdw.actionValidation,
     // Add action-specific attributes to thrown exceptions
     mdw.actionErrorHandler,
     // Turn one action into 0, 1 or several commands
@@ -67,7 +67,7 @@ const startChain = async function (opts) {
     /**
      * Normalization-related middleware
      **/
-    // Convert from API format to CRUD format
+    // Convert from Action format to CRUD format
     mdw.crudConvertor,
     // CRUD basic validation layer
     mdw.crudBasicValidation,

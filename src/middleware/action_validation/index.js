@@ -9,14 +9,14 @@ const { EngineError } = require('../../error');
 
 
 /**
- * API basic validation layer
- * Check API input, for the errors that should not happen,
+ * Action-related validation layer
+ * Check Action input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  * In short: `action`, `args`, `modelName` should be defined and of the
  * right type
  **/
-const basicValidation = function ({ idl: { models } = {} }) {
-  return async function basicValidation(input) {
+const actionValidation = function ({ idl: { models } = {} }) {
+  return async function actionValidation(input) {
     const {
       modelName,
       args,
@@ -82,5 +82,5 @@ const validateAction = function ({ action }) {
 
 
 module.exports = {
-  basicValidation,
+  actionValidation,
 };

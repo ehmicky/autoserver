@@ -6,7 +6,7 @@ const { EngineError } = require('../../error');
 
 
 /**
- * Validate API input semantics for all arguments but filter or data
+ * Validate input semantics for all arguments but filter or data
  * E.g. validate that order_by targets existing attributes.
  * Note that order_by has already been syntactically validated
  **/
