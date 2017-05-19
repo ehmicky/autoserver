@@ -16,7 +16,13 @@ const getHandleQuery = ({ idl }) => {
   return async function ({ queryDocument, variables, context, rootValue }) {
     const resolver = getResolver({ modelsMap });
     // GraphQL execution
-    const response = await graphqlAnywhere(resolver, queryDocument, rootValue, context, variables);
+    const response = await graphqlAnywhere(
+      resolver,
+      queryDocument,
+      rootValue,
+      context,
+      variables
+    );
     return response;
   };
 };
