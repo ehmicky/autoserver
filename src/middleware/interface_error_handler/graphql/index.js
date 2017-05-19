@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { omit } = require('lodash');
+const { omit, omitBy } = require('lodash');
 
 
 // Apply GraphQL-specific error transformation
@@ -25,6 +25,8 @@ const graphqlTransformResponse = function ({ content }) {
   ]);
   Object.assign(newContent, extraContent, { stack: details });
 
+  const cleanContent = omitBy(newContent, val => val === undefined);
+
   // Use Content-Type 'application/json' not 'application/problem+json'
   // in order to follow GraphQL spec
   const responseType = 'object';
@@ -32,7 +34,7 @@ const graphqlTransformResponse = function ({ content }) {
   const response = {
     type: responseType,
     content: {
-      errors: [newContent],
+      errors: [cleanContent],
     },
   };
 
