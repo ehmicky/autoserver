@@ -71,6 +71,8 @@ const startChain = async function (opts) {
     mdw.crudConvertor,
     // CRUD-related validation layer
     mdw.crudValidation,
+    // Add CRUD-specific attributes to thrown exceptions
+    mdw.crudErrorHandler,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
     // Apply user-defined default values

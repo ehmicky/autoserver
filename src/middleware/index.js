@@ -26,6 +26,7 @@ module.exports = Object.assign(
   require('./normalization'),
   require('./crud_convertor'),
   require('./crud_validation'),
+  require('./crud_error_handler'),
   require('./system_defaults'),
   require('./user_defaults'),
   require('./pagination'),
