@@ -15,8 +15,12 @@ const actionErrorHandler = function () {
       return response;
     } catch (error) {
       const keyName = 'action';
-      const { action: { name: key }, modelName: model } = input;
-      const genericInfo = { extra: { model, args } };
+      const {
+        action: { name: key },
+        fullAction,
+        modelName: model,
+      } = input;
+      const genericInfo = { extra: { model, action_path: fullAction, args } };
 
       error = processError({
         error,
