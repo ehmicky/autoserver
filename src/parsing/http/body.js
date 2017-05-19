@@ -60,32 +60,44 @@ for (const bodyParam of bodyParams) {
 
 const sendJson = function ({
   res,
-  message = {},
+  content = {},
   contentType = 'application/json',
+  status,
 }) {
-  message = JSON.stringify(message, null, 2);
-  res.setHeader('Content-Type', contentType);
-  res.setHeader('Content-Length', Buffer.byteLength(message));
-  res.end(message);
-  return message;
+  content = JSON.stringify(content, null, 2);
+  return genericSend({ res, content, contentType, status });
 };
 
-const sendHtml = function ({ res, message = '' }) {
-  res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Content-Length', Buffer.byteLength(message));
-  res.end(message);
-  return message;
+const sendHtml = function ({
+  res,
+  content = '',
+  contentType = 'text/html',
+  status,
+}) {
+  return genericSend({ res, content, contentType, status });
 };
 
-const sendText = function ({ res, message = '' }) {
-  res.setHeader('Content-Type', 'text/plain');
-  res.setHeader('Content-Length', Buffer.byteLength(message));
-  res.end(message);
-  return message;
+const sendText = function ({
+  res,
+  content = '',
+  contentType = 'text/plain',
+  status,
+}) {
+  return genericSend({ res, content, contentType, status });
 };
 
 const sendNoBody = function ({ res }) {
   res.end();
+};
+
+const genericSend = function ({ res, content, contentType, status }) {
+  if (status) {
+    res.statusCode = status;
+  }
+  res.setHeader('Content-Type', contentType);
+  res.setHeader('Content-Length', Buffer.byteLength(content));
+  res.end(content);
+  return content;
 };
 
 

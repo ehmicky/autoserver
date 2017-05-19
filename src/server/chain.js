@@ -11,15 +11,18 @@ const startChain = async function (opts) {
   const mdw = await mapAsync(middlewares, async mdw => await mdw(opts));
 
   const allMiddlewares = chain([
+    // Error handler, which sends final response, if errors
+    mdw.errorHandler,
+
     /**
      * Protocol-related middleware
      **/
-    // Error handler, which sends final response, if errors
-    mdw.errorHandler,
     // Sets up protocol format
     mdw.protocolConvertor,
     // Pick the protocol
     mdw.protocolNegotiator,
+    // Add protocol-specific attributes to thrown exceptions
+    mdw.protocolErrorHandler,
     // Sends final response, if success
     mdw.sendResponse,
     // Retrieves timestamp

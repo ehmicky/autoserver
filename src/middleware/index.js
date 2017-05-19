@@ -6,6 +6,7 @@ module.exports = Object.assign(
   require('./error_handler'),
   require('./protocol_convertor'),
   require('./protocol_negotiator'),
+  require('./protocol_error_handler'),
   require('./response'),
   require('./get_path'),
   require('./timestamp'),
