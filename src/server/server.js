@@ -4,7 +4,7 @@
 const { EngineStartupError } = require('../error');
 const { setLogger } = require('../utilities');
 const { processOptions } = require('../options');
-const { start } = require('./chain');
+const { startChain } = require('./chain');
 const { httpStartServer } = require('./http');
 
 
@@ -16,20 +16,7 @@ const { httpStartServer } = require('./http');
  */
 const startServer = async function (options) {
   try {
-    const opts = await processOptions(options);
-
-    if (opts.logger) {
-      setLogger({ logger: opts.logger });
-    }
-
-    opts.handleRequest = await start(opts);
-
-    // Make sure all servers are starting concurrently, not serially
-    const [http] = await Promise.all([
-      httpStartServer(opts),
-    ]);
-    const servers = { http };
-    return servers;
+    return await start(options);
   // Make sure all exceptions thrown at startup follow
   // the EngineStartupError signature
   } catch (innererror) {
@@ -42,6 +29,24 @@ const startServer = async function (options) {
       });
     }
   }
+};
+
+const start = async function (options) {
+  const opts = await processOptions(options);
+
+  const { logger } = opts;
+  if (logger) {
+    setLogger({ logger });
+  }
+
+  opts.handleRequest = await startChain(opts);
+
+  // Make sure all servers are starting concurrently, not serially
+  const [http] = await Promise.all([
+    httpStartServer(opts),
+  ]);
+  const servers = { http };
+  return servers;
 };
 
 
