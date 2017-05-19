@@ -9,12 +9,12 @@ const { EngineError } = require('../../error');
 
 
 /**
- * CRUD-related validation layer
+ * Command-related validation layer
  * Check input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  **/
-const crudValidation = function ({ idl: { models } = {} }) {
-  return async function crudValidation(input) {
+const commandValidation = function ({ idl: { models } = {} }) {
+  return async function commandValidation(input) {
     const {
       modelName,
       args,
@@ -93,5 +93,5 @@ const validateCommand = function ({ command }) {
 
 
 module.exports = {
-  crudValidation,
+  commandValidation,
 };

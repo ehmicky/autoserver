@@ -65,14 +65,14 @@ const startChain = async function (opts) {
     mdw.executeAction,
 
     /**
-     * Normalization-related middleware
+     * Command-related middleware, for normalization
      **/
-    // Convert from Action format to CRUD format
-    mdw.crudConvertor,
-    // CRUD-related validation layer
-    mdw.crudValidation,
-    // Add CRUD-specific attributes to thrown exceptions
-    mdw.crudErrorHandler,
+    // Convert from Action format to Command format
+    mdw.commandConvertor,
+    // Command-related validation layer
+    mdw.commandValidation,
+    // Add Command-specific attributes to thrown exceptions
+    mdw.commandErrorHandler,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
     // Apply user-defined default values
