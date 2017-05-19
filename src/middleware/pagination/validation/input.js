@@ -2,9 +2,9 @@
 
 
 const { allowFullPagination, mustPaginateOutput } = require('../condition');
-const { getThrowError } = require('../throw_error');
 const { decode } = require('../encoding');
 const { validate } = require('../../../validation');
+const { EngineError } = require('../../../error');
 
 
 // Validate args.before|after|page_size|page
@@ -16,8 +16,6 @@ const validatePaginationInput = function ({
   modelName,
   maxPageSize,
 }) {
-  const throwError = getThrowError({ action, modelName });
-
   let schema;
   if (allowFullPagination({ args, sysArgs, command })) {
     schema = getFullSchema({ args, maxPageSize });
@@ -26,7 +24,7 @@ const validatePaginationInput = function ({
   } else {
     schema = restrictedSchema;
   }
-  const data = getInputData({ throwError, args });
+  const data = getInputData({ args });
 
   const reportInfo = {
     type: 'paginationInput',
@@ -137,34 +135,37 @@ const restrictedSchema = {
 };
 
 // Returns arguments, after decoding tokens
-const getInputData = function ({ throwError, args }) {
+const getInputData = function ({ args }) {
   const inputData = Object.assign({}, args);
   const hasTwoDirections = inputData.before !== undefined &&
     inputData.after !== undefined;
   if (hasTwoDirections) {
-    const message = 'wrong parameters: cannot specify both \'before\' and \'after\'';
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    const message = 'Wrong parameters: cannot specify both \'before\' and \'after\'';
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
   const hasTwoPaginationTypes = inputData.page !== undefined &&
     (inputData.before !== undefined || inputData.after !== undefined);
   if (hasTwoPaginationTypes) {
-    const message = 'wrong parameters: cannot use both \'page\' and \'before|after\'';
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    const message = 'Wrong parameters: cannot use both \'page\' and \'before|after\'';
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   for (const name of ['before', 'after']) {
     const token = inputData[name];
     if (token === undefined || token === '') { continue; }
     if (typeof token !== 'string') {
-      const message = `wrong parameters: '${name}' must be a string`;
-      throwError(message, { reason: 'INPUT_VALIDATION' });
+      const message = `Wrong parameters: '${name}' must be a string`;
+      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
     }
     let decodedToken;
     try {
       decodedToken = decode({ token });
     } catch (innererror) {
-      const message = `wrong parameters: '${name}' is invalid`;
-      throwError(message, { reason: 'INPUT_VALIDATION', innererror });
+      const message = `Wrong parameters: '${name}' is invalid`;
+      throw new EngineError(message, {
+        reason: 'INPUT_VALIDATION',
+        innererror,
+      });
     }
 
     inputData[name] = decodedToken;

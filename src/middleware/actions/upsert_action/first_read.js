@@ -10,7 +10,7 @@ const { getFilter } = require('./filter');
 // Retrieves the input for the first "read" command
 // Goal is to check whether models exist, so we know if "upsert" action
 // will create or update models.
-const getFirstReadInput = function ({ input, prefix }) {
+const getFirstReadInput = function ({ input }) {
   input = cloneDeep(input);
   const { sysArgs } = input;
 
@@ -18,7 +18,7 @@ const getFirstReadInput = function ({ input, prefix }) {
   const command = commands.find(({ type, multiple }) => {
     return type === 'read' && multiple === isMultiple;
   });
-  const readArgs = getReadArgs({ input, prefix });
+  const readArgs = getReadArgs({ input });
   // The "real" commands are "create" and "update".
   // The first and second "find" commands are just here to patch things up,
   // and do not provide extra information to consumers, so should be
@@ -30,8 +30,8 @@ const getFirstReadInput = function ({ input, prefix }) {
 };
 
 // Only keep args: { filter }
-const getReadArgs = function ({ input, prefix }) {
-  const filter = getFilter({ input, prefix });
+const getReadArgs = function ({ input }) {
+  const filter = getFilter({ input });
   return { filter };
 };
 

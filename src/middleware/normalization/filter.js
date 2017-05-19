@@ -14,12 +14,12 @@ const { map } = require('../../utilities');
  * Normalize the shape number 3, i.e. arg.filter will always be a string
  * from that point, not an object.
  **/
-const normalizeFilter = function ({ filter, prefix = '' }) {
+const normalizeFilter = function ({ filter }) {
   // Already { filter: '($$.attr === 1)' }
   if (isJsl({ jsl: filter })) { return filter; }
 
   if (filter.constructor !== Object) {
-    const message = `${prefix} argument 'filter' format is invalid: ${filter}`;
+    const message = 'Argument \'filter\' format is invalid';
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
