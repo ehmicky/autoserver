@@ -17,7 +17,8 @@ const compileJsl = function ({ jsl, idl, target }) {
 const singleCompileJsl = ({ parameters }) => function (jsl) {
   // If this is not JSL, abort
   if (!isJsl({ jsl })) {
-    // Can escape (...) from being interpreted as JSL by escaping first parenthesis
+    // Can escape (...) from being interpreted as JSL by escaping
+    // first parenthesis
     if (isEscapedJsl({ jsl })) {
       jsl = jsl.replace('\\', '');
     }

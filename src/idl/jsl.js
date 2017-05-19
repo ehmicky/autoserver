@@ -35,17 +35,21 @@ const compileValidationJsl = function ({ idl }) {
   });
 };
 
-// Take JSL, inline or not, and turns into `function (...args)` firing the first one,
+// Take JSL, inline or not, and turns into `function (...args)`
+// firing the first one,
 // with $1, $2, etc. provided as extra arguments
 const wrapJsl = ({ jsl, idl, name }) => {
   const jslFunc = compileJslValue({ jsl, idl, target: name });
 
-  // We memoize for performance reasons, i.e. helpers|variables should be pure functions
+  // We memoize for performance reasons, i.e. helpers|variables should
+  // be pure functions
   // The memoizer is recreated at each request though, to avoid memory leaks
-  // The first invocation is done per request, providing request-specific information
+  // The first invocation is done per request, providing
+  // request-specific information
   // The second invovation is done when the helper|variables is actually used
   return ({ info, requestInput }) => memoize((...args) => {
-    // Helpers|variables can be non-JSL, but still needs to be fired as function by consumers
+    // Helpers|variables can be non-JSL, but still needs to be fired
+    // as function by consumers
     if (typeof jslFunc !== 'function') {
       return jslFunc;
     }
@@ -55,10 +59,17 @@ const wrapJsl = ({ jsl, idl, name }) => {
       return jslFunc(...args);
     }
 
-    // This will contain other variables|helpers, so they can reference each ohter
+    // This will contain other variables|helpers, so they can reference
+    // each other
     const { helpers, variables } = info;
-    // Make sure variables are fired runtime, so variables can be evaluated lazily
-    const jslArgs = getJslVariables({ jsl: jslFunc, helpers, variables, requestInput });
+    // Make sure variables are fired runtime, so variables can
+    // be evaluated lazily
+    const jslArgs = getJslVariables({
+      jsl: jslFunc,
+      helpers,
+      variables,
+      requestInput,
+    });
 
     // Provide $1, $2, etc. to inline JSL
     if (name === 'helpers') {
@@ -99,7 +110,11 @@ const compileJslValue = function ({ jsl, idl, target }) {
   try {
     return compileJsl({ jsl, idl, target });
   } catch (innererror) {
-    throw new EngineStartupError(`JSL syntax error: ${jsl}`, { reason: 'IDL_VALIDATION', innererror });
+    const message = `JSL syntax error: ${jsl}`;
+    throw new EngineStartupError(message, {
+      reason: 'IDL_VALIDATION',
+      innererror,
+    });
   }
 };
 
