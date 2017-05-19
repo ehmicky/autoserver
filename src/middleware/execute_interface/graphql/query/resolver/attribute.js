@@ -10,7 +10,12 @@ const attributeResolver = function ({ parent, name }) {
 
   // Forward parent model to children
   const parentModel = getParentModel(parent);
-  setParentModel(directReturn, Object.assign({}, parentModel, { nonNestedModel: true }));
+  const parentModelInfo = Object.assign(
+    {},
+    parentModel,
+    { nonNestedModel: true }
+  );
+  setParentModel(directReturn, parentModelInfo);
 
   return { directReturn };
 };

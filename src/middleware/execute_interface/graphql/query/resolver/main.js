@@ -13,7 +13,12 @@ const { setParentModel, hasParentModel } = require('./utilities');
 /**
  * GraphQL-anywhere uses a single resolver: here it is
  **/
-const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, { callback, graphqlMethod }) {
+const getResolver = ({ modelsMap }) => async function (
+  name,
+  parent = {},
+  args,
+  { callback, graphqlMethod }
+) {
   args = args || {};
 
   // Introspection type name
@@ -27,9 +32,16 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   }
 
   // Top-level and non-top-level attributes are handled differently
-  const subResolver = hasParentModel(parent) ? nestedModelResolver : topLevelModelResolver;
+  const subResolver = hasParentModel(parent)
+    ? nestedModelResolver
+    : topLevelModelResolver;
   // Retrieve main input passed to database layer
-  const { multiple, modelName, actionType, directReturn } = subResolver({ name, modelsMap, parent, args });
+  const { multiple, modelName, actionType, directReturn } = subResolver({
+    name,
+    modelsMap,
+    parent,
+    args,
+  });
   // Shortcuts resolver if we already know the final result
   if (directReturn !== undefined) { return directReturn; }
 
@@ -37,13 +49,16 @@ const getResolver = ({ modelsMap }) => async function (name, parent = {}, args, 
   const action = actions.find(act => {
     return act.multiple === multiple && act.type === actionType;
   });
-  // This means the query specified an attribute that is not present in IDL definition
+  // This means the query specified an attribute that is not present
+  // in IDL definition
   if (action == null || modelName == null) {
-    throw new EngineError(`Action '${name}' does not exist`, { reason: 'INPUT_VALIDATION' });
+    const message = `Action '${name}' does not exist`;
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   if (graphqlMethods[actionType] !== graphqlMethod) {
-    throw new EngineError(`Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`, { reason: 'INPUT_VALIDATION' });
+    const message = `Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`;
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   // Fire database layer, retrieving value passed to children
