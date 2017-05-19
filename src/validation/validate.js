@@ -30,7 +30,8 @@ const validate = function ({ schema, data, reportInfo, extra }) {
   // Retrieves validation library
   const validator = getValidator({ schema });
 
-  // Temporarily add hidden property to data, to communicate it to custom validation function
+  // Temporarily add hidden property to data, to communicate it to
+  // custom validation function
   if (extra) {
     data = Object.assign({}, data, { [Symbol.for('extra')]: extra });
   }
