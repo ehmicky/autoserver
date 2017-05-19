@@ -16,6 +16,7 @@ const getResponse = function ({ error }) {
     stack,
     innererror: { stack: details = stack } = {},
     extra,
+    transforms = [],
   } = error;
 
   // Order matters, as this will be kept in final output
@@ -30,7 +31,12 @@ const getResponse = function ({ error }) {
   const cleanContent = omitBy(content, val => val === undefined);
 
   const response = { type: 'error', content: cleanContent };
-  return response;
+
+  const transformedResponse = transforms.reduce((resp, transform) => {
+    return transform(resp);
+  }, response);
+
+  return transformedResponse;
 };
 
 
