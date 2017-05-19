@@ -37,11 +37,13 @@ const transform = function ({ idl: { models } }) {
 
     // Transform input, then output
     if (args.data) {
-      args.data = transformInput(Object.assign({ value: args.data }, transformArgs));
+      const tfArg = Object.assign({ value: args.data }, transformArgs);
+      args.data = transformInput(tfArg);
     }
 
     const response = await this.next(input);
-    response.data = transformOutput(Object.assign({ value: response.data }, transformArgs));
+    const tfArg = Object.assign({ value: response.data }, transformArgs);
+    response.data = transformOutput(tfArg);
 
     return response;
   };
