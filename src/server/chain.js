@@ -69,8 +69,8 @@ const startChain = async function (opts) {
      **/
     // Convert from Action format to CRUD format
     mdw.crudConvertor,
-    // CRUD basic validation layer
-    mdw.crudBasicValidation,
+    // CRUD-related validation layer
+    mdw.crudValidation,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
     // Apply user-defined default values
