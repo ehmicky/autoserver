@@ -21,11 +21,12 @@ const getResponse = function ({ error }) {
 
   // Order matters, as this will be kept in final output
   const content = { type, title, description, instance };
+  // Any custom information
+  Object.assign(content, extra);
+  // Stack trace is always at the end
   if (isDev()) {
     Object.assign(content, { details });
   }
-  // Any custom information
-  Object.assign(content, extra);
 
   // Do not expose undefined values
   const cleanContent = omitBy(content, val => val === undefined);
