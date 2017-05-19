@@ -8,7 +8,8 @@
  *  - generic {object} - always applied
  *  - protocol.PROTOCOL {object} - applied if protocol is PROTOCOL
  *  - interface.INTERFACE {object} - applied if interface is INTERFACE
- * The most specific has priority, i.e. interface > protocol > generic
+ *  - action.ACTION {object} - applied if action is ACTION
+ * The most specific has priority, i.e. action > interface > protocol > generic
  * Values are merged to exceptions thrown
  *
  * TODO: add `url` property pointing towards API documentation for that error

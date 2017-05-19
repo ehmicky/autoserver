@@ -59,6 +59,8 @@ const startChain = async function (opts) {
     mdw.apiConvertor,
     // Basic validation layer
     mdw.basicValidation,
+    // Add action-specific attributes to thrown exceptions
+    mdw.actionErrorHandler,
     // Turn one action into 0, 1 or several commands
     mdw.executeAction,
 
