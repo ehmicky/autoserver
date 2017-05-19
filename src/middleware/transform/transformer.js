@@ -13,10 +13,13 @@ const getTransform = ({ direction }) => function transformFunc(opts) {
   opts.props = transformProps[direction];
   // Recursion
   if (value instanceof Array) {
-    return value.map(child => transformFunc(Object.assign({}, opts, { value: child })));
+    return value.map(child => {
+      return transformFunc(Object.assign({}, opts, { value: child }));
+    });
   }
 
-  // Value should be an object if valid, but it might be invalid since the validation layer is not fired yet on input
+  // Value should be an object if valid, but it might be invalid
+  // since the validation layer is not fired yet on input
   if (value.constructor !== Object) { return value; }
 
   // Iterate over IDL for that model, to find models that have transforms
@@ -29,41 +32,63 @@ const getTransform = ({ direction }) => function transformFunc(opts) {
 
 // Do the actual transformation
 const transformValue = function (opts) {
-  const { value, attrName, props: { TRANSFORM_NAME, COMPUTE_NAME }, propIdl } = opts;
+  const {
+    value,
+    attrName,
+    props: { TRANSFORM_NAME, COMPUTE_NAME },
+    propIdl,
+  } = opts;
 
-  singleTransformValue(Object.assign({}, opts, { transformer: propIdl[COMPUTE_NAME] }));
+  const compute = propIdl[COMPUTE_NAME];
+  singleTransformValue(Object.assign({}, opts, { transformer: compute }));
 
   if (value[attrName] !== undefined) {
-    singleTransformValue(Object.assign({}, opts, { transformer: propIdl[TRANSFORM_NAME] }));
+    const transform = propIdl[TRANSFORM_NAME];
+    singleTransformValue(Object.assign({}, opts, { transformer: transform }));
   }
 };
 
 const singleTransformValue = function (opts) {
-  const { value, attrName, transformer, props: { VARIABLE_NAME }, jslInput } = opts;
+  const {
+    value,
+    attrName,
+    transformer,
+    props: { VARIABLE_NAME },
+    jslInput,
+  } = opts;
 
   if (transformer === undefined) { return; }
 
-  // If transform is an array, apply the first transform that works, i.e. is like a switch statement
+  // If transform is an array, apply the first transform that works,
+  // i.e. is like a switch statement
   if (transformer instanceof Array) {
-    return transformer.find(singleTransformer => {
-      return singleTransformValue(Object.assign({}, opts, { transformer: singleTransformer }));
+    return transformer.find(transformer => {
+      return singleTransformValue(Object.assign({}, opts, { transformer }));
     });
   }
 
   // Performs actual substitution
   let newValue;
   try {
-    const modelInput = { parent: value, [VARIABLE_NAME]: value, value: value[attrName] };
-    newValue = runJsl(Object.assign({ jsl: transformer }, jslInput, { modelInput }));
+    const modelInput = {
+      parent: value,
+      [VARIABLE_NAME]: value,
+      value: value[attrName],
+    };
+    const jsl = transformer;
+    const newJslInput = Object.assign({ jsl }, jslInput, { modelInput });
+    newValue = runJsl(newJslInput);
   } catch (innererror) {
-    throw new EngineError(`JSL expression used as transform failed: ${transformer}`, {
+    const message = `JSL expression used as transform failed: ${transformer}`;
+    throw new EngineError(message, {
       reason: 'IDL_RUNTIME_VALIDATION',
       innererror,
     });
   }
 
   // Transforms that return undefined do not apply
-  // This allows conditional transforms, e.g. { age: '$ > 30 ? $ - 1 : undefined' }
+  // This allows conditional transforms,
+  // e.g. { age: '$ > 30 ? $ - 1 : undefined' }
   if (newValue === undefined) { return; }
 
   value[attrName] = newValue;
