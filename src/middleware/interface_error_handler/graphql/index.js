@@ -13,7 +13,6 @@ const graphqlTransformResponse = function ({ content }) {
     title,
     type,
     status,
-    stack: details,
   };
 
   // Custom information not following GraphQL spec is always rendered
@@ -24,7 +23,7 @@ const graphqlTransformResponse = function ({ content }) {
     'details',
     'status',
   ]);
-  Object.assign(newContent, extraContent);
+  Object.assign(newContent, extraContent, { stack: details });
 
   // Use Content-Type 'application/json' not 'application/problem+json'
   // in order to follow GraphQL spec
