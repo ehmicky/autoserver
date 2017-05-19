@@ -4,9 +4,9 @@
 const { processError } = require('../../error');
 
 
-// Error handler adding CRUD-related information to exceptions
-const crudErrorHandler = function () {
-  return async function crudErrorHandler(input) {
+// Error handler adding Command-related information to exceptions
+const commandErrorHandler = function () {
+  return async function commandErrorHandler(input) {
     try {
       const response = await this.next(input);
       return response;
@@ -22,5 +22,5 @@ const crudErrorHandler = function () {
 
 
 module.exports = {
-  crudErrorHandler,
+  commandErrorHandler,
 };

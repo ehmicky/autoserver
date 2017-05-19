@@ -1,9 +1,9 @@
 'use strict';
 
 
-// Converts from Action format to CRUD format
-const crudConvertor = function () {
-  return async function crudConvertor(input) {
+// Converts from Action format to Command format
+const commandConvertor = function () {
+  return async function commandConvertor(input) {
     const {
       command,
       args,
@@ -33,5 +33,5 @@ const crudConvertor = function () {
 
 
 module.exports = {
-  crudConvertor,
+  commandConvertor,
 };
