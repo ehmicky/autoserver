@@ -4,7 +4,7 @@
 const apiConvertor = function () {
   return async function apiConvertor(input) {
     const {
-      api: { action, args, modelName },
+      api: { action, fullAction, args, modelName },
       info,
       protocol,
       interf,
@@ -14,6 +14,7 @@ const apiConvertor = function () {
     const sysArgs = {};
     const nextInput = {
       action,
+      fullAction,
       args,
       sysArgs,
       modelName,

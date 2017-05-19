@@ -7,7 +7,11 @@ const { typenameResolver } = require('./typename');
 const { metadataResolver } = require('./metadata');
 const { nestedModelResolver } = require('./nested_model');
 const { topLevelModelResolver } = require('./top_level_model');
-const { setParentModel, hasParentModel } = require('./utilities');
+const {
+  getParentModel,
+  setParentModel,
+  hasParentModel,
+} = require('./utilities');
 
 
 /**
@@ -61,11 +65,15 @@ const getResolver = ({ modelsMap }) => async function (
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
+  // Full recursive action path, e.g. 'findModel.findChild'
+  const { fullAction: parentFullAction } = getParentModel(parent);
+  const fullAction = parentFullAction ? `${parentFullAction}.${name}` : name;
+
   // Fire database layer, retrieving value passed to children
-  const response = await callback({ action, modelName, args });
+  const response = await callback({ action, fullAction, modelName, args });
 
   // Tags the response as belonging to that modelName
-  setParentModel(response, { action, modelName });
+  setParentModel(response, { action, modelName, fullAction });
 
   return response;
 };
