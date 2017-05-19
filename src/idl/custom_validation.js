@@ -14,18 +14,31 @@ const addCustomKeywords = function ({ idl: { validation } }) {
 };
 const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
   ajv.addKeyword(keyword, {
-    validate: function validate(expected, value, _, __, parent, attrName, { [Symbol.for('extra')]: extra }) {
+    validate: function validate(
+      expected,
+      value,
+      _,
+      __,
+      parent,
+      attrName,
+      { [Symbol.for('extra')]: extra }
+    ) {
       // Input passed by caller in order to fill in JSL variables
       const validationInput = { expected };
       const modelInput = { parent, [extra.shortcutName]: parent, value };
-      const jslInput = Object.assign({}, extra, { validationInput, modelInput });
+      const jslInput = Object.assign(
+        {},
+        extra,
+        { validationInput, modelInput }
+      );
       delete jslInput.shortcutName;
 
       let isValid = false;
       try {
         isValid = runJsl(Object.assign({ jsl: test }, jslInput));
       } catch (innererror) {
-        throw new EngineError(`JSL validation expression failed: ${test.jsl}`, { reason: 'UTILITY_ERROR', innererror });
+        const message = `JSL validation expression failed: ${test.jsl}`;
+        throw new EngineError(message, { reason: 'UTILITY_ERROR', innererror });
       }
       if (isValid === true) { return true; }
 
@@ -33,10 +46,8 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
       try {
         errorMessage = runJsl(Object.assign({ jsl: message }, jslInput));
       } catch (innererror) {
-        throw new EngineError(`JSL validation message expression failed: ${message.jsl}`, {
-          reason: 'UTILITY_ERROR',
-          innererror,
-        });
+        const message = `JSL validation message expression failed: ${message.jsl}`;
+        throw new EngineError(message, { reason: 'UTILITY_ERROR', innererror });
       }
       validate.errors = [{
         message: errorMessage,
