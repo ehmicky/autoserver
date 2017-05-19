@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { processJsl } = require('../../jsl');
+const { runJsl } = require('../../jsl');
 const { EngineError } = require('../../error');
 
 
@@ -41,7 +41,7 @@ const applyDefault = function ({ parent, defValue, attrName, jslInput }) {
   const modelInput = { parent, data: parent, value };
   const jslOpts = Object.assign({ jsl: defValue }, jslInput, { modelInput });
   try {
-    defValue = processJsl(jslOpts);
+    defValue = runJsl(jslOpts);
   } catch (innererror) {
     const message = `JSL expression used as transform failed: ${defValue}`;
     throw new EngineError(message, { reason: 'WRONG_TRANSFORM', innererror });

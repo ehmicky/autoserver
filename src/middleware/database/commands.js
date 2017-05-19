@@ -56,7 +56,7 @@ const { cloneDeep, orderBy, map } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
-const { processJsl } = require('../../jsl');
+const { runJsl } = require('../../jsl');
 
 
 const createId = function () {
@@ -121,7 +121,7 @@ const findIndexes = function({ collection, filter, opts: { jslInput } }) {
       try {
         const modelInput = { parent: model, model };
         const jslArg = Object.assign({ jsl: filter }, jslInput, { modelInput });
-        return processJsl(jslArg);
+        return runJsl(jslArg);
       } catch (innererror) {
         const message = `JSL expression used as filter failed: ${filter.jsl}`;
         throw new EngineError(message, {
