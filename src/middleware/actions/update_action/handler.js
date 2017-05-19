@@ -23,14 +23,10 @@ const { getUpdateInput } = require('./update');
  **/
 const updateAction = function () {
   return async function updateAction(input) {
-    const { action, modelName } = input;
-
-    const prefix = `In action '${action.name}', model '${modelName}',`;
-
     const readInput = getReadInput({ input });
     const { data: models } = await this.next(readInput);
 
-    const updateInput = getUpdateInput({ input, models, prefix });
+    const updateInput = getUpdateInput({ input, models });
     const response = await this.next(updateInput);
 
     return response;

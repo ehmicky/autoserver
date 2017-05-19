@@ -9,7 +9,7 @@ const { getFilter } = require('./filter');
 
 // Retrieves the input for the second "read" command
 // It is used for final output of "upsert" action
-const getSecondReadInput = function ({ input, prefix }) {
+const getSecondReadInput = function ({ input }) {
   input = cloneDeep(input);
   const { sysArgs, action } = input;
 
@@ -17,7 +17,7 @@ const getSecondReadInput = function ({ input, prefix }) {
   const command = commands.find(({ type, multiple }) => {
     return type === 'read' && multiple === isMultiple;
   });
-  const args = getReadArgs({ input, prefix });
+  const args = getReadArgs({ input });
   // The "real" commands are "create" and "update".
   // The first and second "find" commands are just here to patch things up,
   // and do not provide extra information to consumers, so should be
@@ -29,9 +29,9 @@ const getSecondReadInput = function ({ input, prefix }) {
 };
 
 // Only keep args: { filter, order_by, page_size }
-const getReadArgs = function ({ input, prefix }) {
+const getReadArgs = function ({ input }) {
   const readArgs = pick(input.args, ['order_by', 'page_size']);
-  const filter = getFilter({ input, prefix });
+  const filter = getFilter({ input });
 
   Object.assign(readArgs, { filter });
   return readArgs;

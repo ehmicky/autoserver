@@ -8,7 +8,7 @@ const { EngineError } = require('../../../error');
 
 
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input, models, prefix }) {
+const getUpdateInput = function ({ input, models }) {
   input = cloneDeep(input);
   const { sysArgs, args, action } = input;
 
@@ -16,24 +16,24 @@ const getUpdateInput = function ({ input, models, prefix }) {
   const command = commands.find(({ type, multiple }) => {
     return type === 'update' && multiple === isMultiple;
   });
-  const updateArgs = getUpdateArgs({ args, models, prefix });
+  const updateArgs = getUpdateArgs({ args, models });
   Object.assign(sysArgs, { pagination: isMultiple });
   Object.assign(input, { command, args: updateArgs, sysArgs });
 
   return input;
 };
 
-const getUpdateArgs = function ({ args, models, prefix }) {
+const getUpdateArgs = function ({ args, models }) {
   const { data } = args;
   // arg.filter is only used by first "read" command
   const updateArgs = omit(args, ['filter']);
 
   if (models instanceof Array) {
     updateArgs.data = models.map(model => {
-      return getUpdateData({ model, data, prefix });
+      return getUpdateData({ model, data });
     });
   } else {
-    updateArgs.data = getUpdateData({ model: models, data, prefix });
+    updateArgs.data = getUpdateData({ model: models, data });
   }
 
   return updateArgs;
@@ -41,21 +41,21 @@ const getUpdateArgs = function ({ args, models, prefix }) {
 
 // Merge current models with the data we want to update,
 // to obtain the final models we want to use as replacement
-const getUpdateData = function ({ model, data, prefix }) {
-  validateUpdateData({ data, prefix });
+const getUpdateData = function ({ model, data }) {
+  validateUpdateData({ data });
 
   const updateData = Object.assign({}, model, data);
   return updateData;
 };
 
-const validateUpdateData = function ({ data, prefix }) {
+const validateUpdateData = function ({ data }) {
   if (data === undefined) {
-    const message = `${prefix} argument 'data' must be defined`;
+    const message = 'Argument \'data\' must be defined';
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   if (data.constructor !== Object) {
-    const message = `${prefix} argument 'data' must be an object`;
+    const message = 'Argument \'data\' must be an object';
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 };

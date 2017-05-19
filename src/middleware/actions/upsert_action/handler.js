@@ -27,12 +27,8 @@ const { getSecondReadInput } = require('./second_read');
  **/
 const upsertAction = function () {
   return async function upsertAction(input) {
-    const { action, modelName } = input;
-
-    const prefix = `In action '${action.name}', model '${modelName}',`;
-
     // First check if models exist or not, by performing a "read" command
-    const firstReadInput = getFirstReadInput({ input, prefix });
+    const firstReadInput = getFirstReadInput({ input });
     const { data: models } = await this.next(firstReadInput);
 
     const { createModels, updateModels } = splitModels({ input, models });
@@ -50,7 +46,7 @@ const upsertAction = function () {
     }
 
     // Finally, retrieve output with a second "read" command
-    const secondReadInput = getSecondReadInput({ input, prefix });
+    const secondReadInput = getSecondReadInput({ input });
     const response = await this.next(secondReadInput);
 
     return response;
