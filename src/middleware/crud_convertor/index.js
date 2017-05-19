@@ -1,7 +1,7 @@
 'use strict';
 
 
-// Converts from API format to CRUD format
+// Converts from Action format to CRUD format
 const crudConvertor = function () {
   return async function crudConvertor(input) {
     const {

@@ -9,8 +9,8 @@ const { EngineError } = require('../../error');
 
 
 /**
- * CRUD basic validation layer
- * Check API input, for the errors that should not happen,
+ * CRUD-related validation layer
+ * Check input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  **/
 const crudBasicValidation = function ({ idl: { models } = {} }) {

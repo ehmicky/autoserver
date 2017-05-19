@@ -8,7 +8,7 @@ const { jslRegExp } = require('../../jsl');
 
 
 /**
- * Check API input, for client-side errors (e.g. 400)
+ * Check input, for client-side errors (e.g. 400)
  * Only checks basic input according to current command.name
  * In a nutshell, checks that:
  *  - required attributes are defined
