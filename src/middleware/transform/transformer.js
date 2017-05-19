@@ -3,7 +3,7 @@
 
 const { each } = require('lodash');
 
-const { processJsl } = require('../../jsl');
+const { runJsl } = require('../../jsl');
 const { EngineError } = require('../../error');
 
 
@@ -54,7 +54,7 @@ const singleTransformValue = function (opts) {
   let newValue;
   try {
     const modelInput = { parent: value, [VARIABLE_NAME]: value, value: value[attrName] };
-    newValue = processJsl(Object.assign({ jsl: transformer }, jslInput, { modelInput }));
+    newValue = runJsl(Object.assign({ jsl: transformer }, jslInput, { modelInput }));
   } catch (innererror) {
     throw new EngineError(`JSL expression used as transform failed: ${transformer}`, {
       reason: 'IDL_RUNTIME_VALIDATION',

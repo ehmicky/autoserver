@@ -3,7 +3,7 @@
 
 const { getRawValidator } = require('../validation');
 const { EngineError } = require('../error');
-const { processJsl } = require('../jsl');
+const { runJsl } = require('../jsl');
 
 
 const addCustomKeywords = function ({ idl: { validation } }) {
@@ -23,7 +23,7 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
 
       let isValid = false;
       try {
-        isValid = processJsl(Object.assign({ jsl: test }, jslInput));
+        isValid = runJsl(Object.assign({ jsl: test }, jslInput));
       } catch (innererror) {
         throw new EngineError(`JSL validation expression failed: ${test.jsl}`, { reason: 'UTILITY_ERROR', innererror });
       }
@@ -31,7 +31,7 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
 
       let errorMessage;
       try {
-        errorMessage = processJsl(Object.assign({ jsl: message }, jslInput));
+        errorMessage = runJsl(Object.assign({ jsl: message }, jslInput));
       } catch (innererror) {
         throw new EngineError(`JSL validation message expression failed: ${message.jsl}`, {
           reason: 'UTILITY_ERROR',
