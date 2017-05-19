@@ -6,9 +6,11 @@
  * Keys are the exception.reason of the exception thrown
  * Returns:
  *  - [status] {number} HTTP status, defaults to 500
- *  - [title] {string} short description, defaults to standard HTTP status code's
+ *  - [title] {string} short description,
+ *    defaults to standard HTTP status code's
  *  - [description] {string} long description, defaults to exception message
- * Returns value is specific to each protocol (using first-level key), but key `any` means any protocol
+ * Returns value is specific to each protocol (using first-level key),
+ * but key `any` means any protocol
  *
  * @param {object} input
  * @param {Error} input.exception
@@ -38,17 +40,20 @@ const errorReasons = {
     http: { status: 400 },
   }),
 
-  // HTTP request is trying to perform a GraphQL query, but does not specify the query
+  // HTTP request is trying to perform a GraphQL query,
+  // but does not specify the query
   GRAPHQL_NO_QUERY: () => ({
     http: { status: 400 },
   }),
 
-  // GraphQL query syntax error, i.e. GraphQL crashed trying to parse the raw query
+  // GraphQL query syntax error, i.e. GraphQL crashed trying to parse
+  // the raw query
   GRAPHQL_SYNTAX_ERROR: () => ({
     http: { status: 400 },
   }),
 
-  // General validation input errors, e.g. input data|filter does not match IDL schema
+  // General validation input errors, e.g. input data|filter does not
+  // match IDL schema
   INPUT_VALIDATION: () => ({
     http: { status: 400 },
   }),
@@ -134,13 +139,14 @@ const errorReasons = {
     http: { status: 500 },
   }),
 
-  // Request did not pass IDL validation, e.g. `args` was not provided, indicating a server bug
+  // Request did not pass IDL validation, e.g. `args` was not provided,
+  // indicating a server bug
   INPUT_SERVER_VALIDATION: () => ({
     http: { status: 500 },
   }),
 
-  // Response did not pass IDL validation, e.g. if the database is corrupted or new constraints were applied without
-  // being migrated
+  // Response did not pass IDL validation, e.g. if the database is corrupted
+  // or new constraints were applied without being migrated
   OUTPUT_VALIDATION: () => ({
     http: { status: 500 },
   }),
