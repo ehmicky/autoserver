@@ -8,10 +8,11 @@ const { port, host } = require('../../config');
 
 
 const startServer = async function ({ handleRequest }) {
-  const server = http.createServer(requestHandler.bind(null, handleRequest));
+  const handler = requestHandler.bind(null, handleRequest);
+  const server = http.createServer(handler);
   const promise = getPromise();
   server.listen(port, host, function () {
-    listeningHandler();
+    listeningHandler({ host, port });
     promise.resolve(server);
   });
   return promise;
@@ -24,7 +25,7 @@ const requestHandler = async function (handleRequest, req, res) {
   return response;
 };
 
-const listeningHandler = function () {
+const listeningHandler = function ({ host, port }) {
   log.log(`[HTTP] Listening on ${host}:${port}`);
 };
 
