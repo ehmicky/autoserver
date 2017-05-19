@@ -9,68 +9,58 @@ const { EngineError, EngineStartupError } = require('../error');
 const validationTypes = {
   idl: {
     reason: 'IDL_VALIDATION',
-    ErrorType: EngineStartupError,
-    messageProcessor: ({ message }) => `In schema file: ${message}`,
+    type: EngineStartupError,
+    message: 'Error in schema file',
   },
   options: {
     reason: 'OPTIONS_VALIDATION',
-    ErrorType: EngineStartupError,
-    messageProcessor: ({ message }) => `Server options syntax error: ${message}`,
+    type: EngineStartupError,
+    message: 'Server options syntax error',
   },
   paginationInput: {
     reason: 'INPUT_VALIDATION',
-    ErrorType: EngineError,
-    messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action.name}', model '${modelName}', wrong parameters: ${message}`,
+    type: EngineError,
+    message: 'Wrong parameters',
   },
   serverInputSyntax: {
     reason: 'INPUT_SERVER_VALIDATION',
-    ErrorType: EngineError,
-    messageProcessor: ({ message }) => `Server-side input error: ${message}`,
+    type: EngineError,
+    message: 'Server-side input error',
   },
   clientInputSyntax: {
     reason: 'INPUT_VALIDATION',
-    ErrorType: EngineError,
-    messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action.name}', model '${modelName}', wrong parameters: ${message}`,
+    type: EngineError,
+    message: 'Wrong parameters',
   },
   clientInputCommand: {
     reason: 'WRONG_COMMAND',
-    ErrorType: EngineError,
-    messageProcessor: ({
-      message,
-      reportInfo: { action, modelName, command },
-    }) =>
-      `In action '${action.name}', model '${modelName}', command '${command.name}' is not allowed: ${message}`,
+    type: EngineError,
+    message: 'Command is not allowed',
   },
   clientInputSemantics: {
     reason: 'INPUT_VALIDATION',
-    ErrorType: EngineError,
-    messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action.name}', model '${modelName}', wrong parameters: ${message}`,
+    type: EngineError,
+    message: 'Wrong parameters',
   },
   clientInputData: {
     reason: 'INPUT_VALIDATION',
-    ErrorType: EngineError,
-    messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action.name}', model '${modelName}', wrong parameters: ${message}`,
+    type: EngineError,
+    message: 'Wrong parameters',
   },
   serverOutputSyntax: {
     reason: 'OUTPUT_VALIDATION',
-    ErrorType: EngineError,
-    messageProcessor: ({ message }) => `Server-side output error: ${message}`,
+    type: EngineError,
+    message: 'Server-side output error',
   },
   serverOutputData: {
     reason: 'OUTPUT_VALIDATION',
-    ErrorType: EngineError,
-    messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action.name}', model '${modelName}', response is corrupted: ${message}`,
+    type: EngineError,
+    message: 'Response is corrupted',
   },
   paginationOutput: {
     reason: 'OUTPUT_VALIDATION',
-    ErrorType: EngineError,
-    messageProcessor: ({ message, reportInfo: { action, modelName } }) =>
-      `In action '${action.name}', model '${modelName}', response is corrupted: ${message}`,
+    type: EngineError,
+    message: 'Response is corrupted',
   },
 };
 

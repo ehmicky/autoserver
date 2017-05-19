@@ -6,15 +6,14 @@ const { getErrorMessage } = require('./message');
 
 
 // Report validation errors by throwing an exception, e.g. firing a HTTP 400
-const reportErrors = function ({ errors, reportInfo }) {
-  const type = reportInfo.type;
+const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
   // Retrieve error message as string, from error objects
   const extraNewline = errors.length > 1 ? '\n' : '';
   const errorsText = extraNewline + errors
     .map(error => {
       let inputPath = error.dataPath;
       // Prepends argument name, e.g. `filter.attr` instead of `attr`
-      const prefix = reportInfo.dataVar ? `/${reportInfo.dataVar}` : '';
+      const prefix = dataVar ? `/${dataVar}` : '';
       inputPath = prefix + inputPath;
       inputPath = inputPath.substr(1);
       // We use `jsonPointers` option because it is cleaner,
@@ -31,9 +30,9 @@ const reportErrors = function ({ errors, reportInfo }) {
     })
     .join('\n');
 
-  const { reason, ErrorType, messageProcessor } = validationTypes[type];
+  const { reason, type: ErrorType, message } = validationTypes[type];
 
-  const errorsMessage = messageProcessor ? messageProcessor({ message: errorsText, reportInfo }) : errorsText;
+  const errorsMessage = message ? `${message}: ${errorsText}` : errorsText;
 
   throw new ErrorType(errorsMessage, { reason });
 };
