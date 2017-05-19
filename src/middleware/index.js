@@ -21,6 +21,7 @@ module.exports = Object.assign(
   require('./execute_interface'),
   require('./api_convertor'),
   require('./basic_validation'),
+  require('./api_error_handler'),
   require('./actions'),
   require('./normalization'),
   require('./crud_convertor'),
