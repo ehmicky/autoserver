@@ -19,9 +19,7 @@ const startServer = async function ({ handleRequest }) {
 };
 
 const requestHandler = async function (handleRequest, req, res) {
-  const info = {};
-  const protocol = { specific: { req, res } };
-  const response = await handleRequest({ info, protocol });
+  const response = await handleRequest({ req, res });
   return response;
 };
 
