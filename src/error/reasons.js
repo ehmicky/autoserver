@@ -7,10 +7,10 @@
  * Subkeys are either:
  *  - generic {object} - always applied
  *  - protocol.PROTOCOL {object} - applied if protocol is PROTOCOL
- * The most specific has priority, i.e. protocol > generic
+ *  - interface.INTERFACE {object} - applied if interface is INTERFACE
+ * The most specific has priority, i.e. interface > protocol > generic
  * Values are merged to exceptions thrown
  *
- * TODO: interface
  * TODO: add `url` property pointing towards API documentation for that error
  * TODO: add all `title` properties to `generic`
  */

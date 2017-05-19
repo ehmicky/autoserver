@@ -45,6 +45,8 @@ const startChain = async function (opts) {
     mdw.interfaceConvertor,
     // Pick the interface
     mdw.interfaceNegotiator,
+    // Add interface-specific attributes to thrown exceptions
+    mdw.interfaceErrorHandler,
     // Compile JSL helpers, variables, etc.
     mdw.wrapCustomJsl,
     // Translates interface-specific calls into generic instance actions
