@@ -150,13 +150,6 @@ const errorReasons = {
     },
   },
 
-  // IDL definition is wrong, but this was caught runtime
-  IDL_RUNTIME_VALIDATION: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
-
   // Main options have syntax errors
   OPTIONS_VALIDATION: {
     protocol: {

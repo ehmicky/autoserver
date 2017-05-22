@@ -4,7 +4,6 @@
 const { each } = require('lodash');
 
 const { runJsl } = require('../../jsl');
-const { EngineError } = require('../../error');
 
 
 // Apply `transformValue` recursively
@@ -68,21 +67,12 @@ const singleTransformValue = function (opts) {
   }
 
   // Performs actual substitution
-  let newValue;
-  try {
-    const input = Object.assign({}, jslInput, {
-      $$: value,
-      [VARIABLE_NAME]: value,
-      $: value[attrName],
-    });
-    newValue = runJsl(transformer, input);
-  } catch (innererror) {
-    const message = `JSL expression used as transform failed: '${transformer.jsl}'`;
-    throw new EngineError(message, {
-      reason: 'IDL_RUNTIME_VALIDATION',
-      innererror,
-    });
-  }
+  const input = Object.assign({}, jslInput, {
+    $$: value,
+    [VARIABLE_NAME]: value,
+    $: value[attrName],
+  });
+  const newValue = runJsl(transformer, input);
 
   // Transforms that return undefined do not apply
   // This allows conditional transforms,
