@@ -15,7 +15,6 @@ const { validate } = require('../../validation');
 const validateClientInputData = function ({
   idl,
   modelName,
-  action,
   command,
   args,
   extra,
@@ -33,7 +32,7 @@ const validateClientInputData = function ({
     attribute.forEach(data => {
       data = cloneDeep(data);
       removeJsl({ value: data });
-      const reportInfo = { type, modelName, action, dataVar };
+      const reportInfo = { type, dataVar };
       validate({ schema, data, reportInfo, extra });
     });
   });

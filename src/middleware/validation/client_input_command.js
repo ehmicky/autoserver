@@ -9,7 +9,6 @@ const { validate } = require('../../validation');
  **/
 const validateClientInputCommand = function ({
   idl,
-  action,
   command,
   modelName,
   sysArgs: { authorization },
@@ -20,7 +19,7 @@ const validateClientInputCommand = function ({
 
   const type = 'clientInputCommand';
   const schema = getSchema({ idl, modelName });
-  const reportInfo = { type, action, modelName, command };
+  const reportInfo = { type };
   validate({ schema, data: command.name, reportInfo });
 };
 

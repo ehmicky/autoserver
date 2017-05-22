@@ -13,13 +13,12 @@ const { EngineError } = require('../../error');
 const validateClientInputSemantics = function ({
   idl,
   modelName,
-  action,
   args,
   maxDataLength,
 }) {
   const type = 'clientInputSemantics';
   const schema = getSchema({ idl, modelName });
-  validate({ schema, data: args, reportInfo: { type, modelName, action } });
+  validate({ schema, data: args, reportInfo: { type } });
 
   validateLimits({ args, maxDataLength });
 };
