@@ -3,7 +3,7 @@
 
 const { compileJsl, getJslVariables } = require('../jsl');
 const { EngineStartupError } = require('../error');
-const { transform, memoize, map } = require('../utilities');
+const { transform, memoize, map, recurseMap } = require('../utilities');
 
 
 // Compile all the IDL's JSL
@@ -101,15 +101,14 @@ const modelTransforms = function ({ idl }) {
 };
 
 const compileJslValue = function ({ jsl, idl, target }) {
-  try {
-    return compileJsl({ jsl, idl, target });
-  } catch (innererror) {
-    const message = `JSL syntax error: ${jsl}`;
-    throw new EngineStartupError(message, {
-      reason: 'IDL_VALIDATION',
-      innererror,
+  return recurseMap(jsl, jslLeaf => {
+    return compileJsl({
+      jsl: jslLeaf,
+      idl,
+      target,
+      error: { type: EngineStartupError, reason: 'IDL_VALIDATION' },
     });
-  }
+  });
 };
 
 
