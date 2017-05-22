@@ -4,6 +4,7 @@
 const { protocolValidation } = require('./validation');
 
 
+// Converts from no format to Protocol format
 const protocolConvertor = function () {
   return async function protocolConvertor(input) {
     const info = {};

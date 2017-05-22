@@ -1,6 +1,7 @@
 'use strict';
 
 
+// Converts from Interface format to Action format
 const actionConvertor = function () {
   return async function actionConvertor(input) {
     const {
