@@ -8,7 +8,7 @@ const { fireCommand } = require('./commands');
 
 const executeDatabaseAction = function () {
   return async function executeDatabaseAction(input) {
-    const { command, args = {}, modelName, jslInput } = input;
+    const { command, args = {}, modelName, jsl } = input;
     const {
       order_by: orderBy,
       limit,
@@ -21,7 +21,7 @@ const executeDatabaseAction = function () {
     const collection = database[modelName];
 
     const opts = {
-      jslInput,
+      jsl,
       orderBy,
       limit,
       offset,

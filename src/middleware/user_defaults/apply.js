@@ -27,7 +27,7 @@ const applyAllDefault = function applyAllDefault(opts) {
 };
 
 // Apply default value to args.data's attributes
-const applyDefault = function ({ parent, defValue, attrName, jslInput }) {
+const applyDefault = function ({ parent, defValue, attrName, jsl }) {
   const value = parent[attrName];
 
   // Only apply default if value is not defined by client
@@ -35,7 +35,7 @@ const applyDefault = function ({ parent, defValue, attrName, jslInput }) {
 
   // Process JSL if default value uses JSL
   const input = { $$: parent, $: value };
-  const newDefValue = jslInput.run(defValue, input);
+  const newDefValue = jsl.run(defValue, input);
 
   parent[attrName] = newDefValue;
 };

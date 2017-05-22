@@ -43,8 +43,8 @@ const wrapVariablesJsl = ({ jsl, idl }) => {
   // The first invocation is done per request, providing
   // request-specific information
   // The second invovation is done when the variables is actually used
-  return ({ jslInput }) => memoize(() => {
-    return jslInput.run(jslFunc);
+  return ({ jsl }) => memoize(() => {
+    return jsl.run(jslFunc);
   });
 };
 
@@ -59,7 +59,7 @@ const wrapHelpersJsl = ({ jsl, idl }) => {
   // The first invocation is done per request, providing
   // request-specific information
   // The second invovation is done when the helper is actually used
-  return ({ jslInput }) => memoize((...args) => {
+  return ({ jsl }) => memoize((...args) => {
     // Non-inline helpers only get positional arguments, no variables
     if (typeof jslFunc === 'function' && !jslFunc.isInlineJsl) {
       return jslFunc(...args);
@@ -69,7 +69,7 @@ const wrapHelpersJsl = ({ jsl, idl }) => {
     const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
     const extra = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-    return jslInput.run(jslFunc, extra);
+    return jsl.run(jslFunc, extra);
   });
 };
 

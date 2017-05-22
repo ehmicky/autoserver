@@ -6,8 +6,8 @@ const { omit } = require('lodash');
 
 // Values available as `$VARIABLE` in JSL
 // They are uppercase to avoid name conflict with attributes
-const getJslVariables = function (jslFunc, jslInput) {
-  const { helpers, variables } = jslInput;
+const getJslVariables = function (jslFunc, input) {
+  const { helpers, variables } = input;
 
   const vars = {};
 
@@ -34,7 +34,7 @@ const getJslVariables = function (jslFunc, jslInput) {
     Object.assign(vars, variablesParams);
   }
 
-  Object.assign(vars, omit(jslInput, ['helpers', 'variables']));
+  Object.assign(vars, omit(input, ['helpers', 'variables']));
 
   return vars;
 };

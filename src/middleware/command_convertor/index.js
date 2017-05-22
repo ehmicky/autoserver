@@ -9,7 +9,7 @@ const commandConvertor = function () {
       args,
       sysArgs,
       modelName,
-      jslInput,
+      jsl,
       info,
       interf,
       protocol,
@@ -17,14 +17,14 @@ const commandConvertor = function () {
 
     const newInfo = Object.assign({}, info, { command });
 
-    jslInput.add({ $COMMAND: command.type });
+    jsl.add({ $COMMAND: command.type });
 
     const nextInput = {
       command,
       args,
       sysArgs,
       modelName,
-      jslInput,
+      jsl,
       info: newInfo,
       interf,
       protocol,
