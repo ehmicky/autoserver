@@ -13,18 +13,13 @@ const { transtype } = require('../../../utilities');
 const { EngineError } = require('../../../error');
 
 
-const fillParams = function () {
-  return async function fillParams(input) {
-    const { protocol } = input;
-    const { specific: { req } } = protocol;
-
+const httpFillParams = function () {
+  return async function ({ protocol: { specific: { req } } }) {
     const { method } = req;
     const params = getParams({ req });
     const payload = await getPayload({ req });
-    Object.assign(protocol, { method, params, payload });
 
-    const response = await this.next(input);
-    return response;
+    return { method, params, payload };
   };
 };
 
@@ -124,5 +119,5 @@ const payloadHandlers = [
 
 
 module.exports = {
-  httpFillParams: fillParams,
+  httpFillParams,
 };

@@ -1,21 +1,29 @@
 'use strict';
 
 
-const { getSwitchMiddleware } = require('../../utilities');
+const { mapAsync } = require('../../utilities');
 const { httpGetIp } = require('./http');
 
 
-const middlewares = {
+// Retrieve request's IP, assigned to protocol input, and also to JSL $NOW
+const getIp = async function (opts) {
+  const map = await mapAsync(ipMap, async func => await func(opts));
+
+  return async function getIp(input) {
+    const { protocol, jslInput } = input;
+
+    const ip = map[protocol.name](input) || '';
+    protocol.ip = ip;
+    jslInput.$IP = ip;
+
+    const response = await this.next(input);
+    return response;
+  };
+};
+
+const ipMap = {
   http: httpGetIp,
 };
-const getKey = ({ input: { protocol: { name } } }) => name;
-
-// Sends the response at the end of the request
-const getIp = getSwitchMiddleware({
-  middlewares,
-  getKey,
-  name: 'getIp',
-});
 
 
 module.exports = {

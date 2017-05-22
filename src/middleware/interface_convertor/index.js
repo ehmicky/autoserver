@@ -8,15 +8,9 @@ const { cloneDeep } = require('lodash');
 const interfaceConvertor = function () {
   return async function interfaceConvertor(input) {
     const { info, jslInput, protocol } = input;
-    const { method, params, payload, route, ip, timestamp } = protocol;
+    const { method, params, payload, route } = protocol;
 
     const interf = cloneDeep({ method, params, payload, route });
-
-    Object.assign(jslInput, {
-      $PARAMS: params,
-      $IP: ip,
-      $NOW: timestamp,
-    });
 
     const response = await this.next({ info, protocol, interf, jslInput });
     return response;

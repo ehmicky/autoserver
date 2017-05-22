@@ -7,16 +7,11 @@ const { httpHeaders } = require('../../../parsing');
 
 
 const httpGetPath = function () {
-  return async function httpGetPath(input) {
-    const { protocol } = input;
-    const { specific: { req } } = protocol;
-
+  return function ({ protocol: { specific: { req } } }) {
     const path = getPath({ req });
     const requestUrl = getRequestUrl({ req });
-    Object.assign(protocol, { requestUrl, path });
 
-    const response = await this.next(input);
-    return response;
+    return { requestUrl, path };
   };
 };
 
