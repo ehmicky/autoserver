@@ -2,7 +2,7 @@
 
 
 const { compileJsl } = require('../../jsl');
-const { EngineError } = require('../../error');
+const { recurseMap } = require('../../utilities');
 
 
 // Transform `filter` argument into a format that is easily manageable
@@ -10,19 +10,12 @@ const { EngineError } = require('../../error');
 const handleFilter = function ({ idl }) {
   return async function handleFilter(input) {
     const { args } = input;
-    const { filter } = args;
 
-    if (filter) {
+    if (args.filter) {
       // Temporary hack until we add support for proper MongoDB objects
-      try {
-        args.filter = compileJsl({ jsl: filter, idl, target: 'filter' });
-      } catch (innererror) {
-        const message = `JSL syntax error: '${JSON.stringify(filter)}'`;
-        throw new EngineError(message, {
-          reason: 'INPUT_VALIDATION',
-          innererror,
-        });
-      }
+      args.filter = recurseMap(args.filter, jsl => {
+        return compileJsl({ jsl, idl, target: 'filter' });
+      });
     }
 
     const response = await this.next(input);
