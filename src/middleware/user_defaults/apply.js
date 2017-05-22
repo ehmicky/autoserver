@@ -38,9 +38,9 @@ const applyDefault = function ({ parent, defValue, attrName, jslInput }) {
   if (value !== undefined) { return; }
 
   // Process JSL if default value uses JSL
-  const modelInput = { parent, data: parent, value };
+  const extra = { $$: parent, $DATA: parent, $: value };
   try {
-    defValue = runJsl(defValue, jslInput, { modelInput });
+    defValue = runJsl(defValue, jslInput, extra);
   } catch (innererror) {
     const message = `JSL expression used as transform failed: '${defValue.jsl}'`;
     throw new EngineError(message, { reason: 'WRONG_TRANSFORM', innererror });

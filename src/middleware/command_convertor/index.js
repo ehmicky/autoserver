@@ -16,7 +16,10 @@ const commandConvertor = function () {
     } = input;
 
     const newInfo = Object.assign({}, info, { command });
-    jslInput.interfaceInput = { command };
+
+    Object.assign(jslInput, {
+      $COMMAND: command.type,
+    });
 
     const nextInput = {
       command,

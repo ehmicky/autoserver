@@ -70,12 +70,12 @@ const singleTransformValue = function (opts) {
   // Performs actual substitution
   let newValue;
   try {
-    const modelInput = {
-      parent: value,
+    const extra = {
+      $$: value,
       [VARIABLE_NAME]: value,
-      value: value[attrName],
+      $: value[attrName],
     };
-    newValue = runJsl(transformer, jslInput, { modelInput });
+    newValue = runJsl(transformer, jslInput, extra);
   } catch (innererror) {
     const message = `JSL expression used as transform failed: '${transformer.jsl}'`;
     throw new EngineError(message, {
@@ -99,12 +99,12 @@ const transformProps = {
     // IDL transform names depends on direction
     TRANSFORM_NAME: 'transform',
     COMPUTE_NAME: 'compute',
-    VARIABLE_NAME: 'data',
+    VARIABLE_NAME: '$DATA',
   },
   output: {
     TRANFORM_NAME: 'transformOut',
     COMPUTE_NAME: 'computeOut',
-    VARIABLE_NAME: 'model',
+    VARIABLE_NAME: '$MODEL',
   },
 };
 const transformInput = getTransform({ direction: 'input' });

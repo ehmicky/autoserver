@@ -18,8 +18,8 @@ const validation = function ({ idl, maxDataLength }) {
     const { modelName, args, sysArgs, command, jslInput } = input;
 
     // Extra information passed to custom validation keywords
-    const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
-    const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
+    const jslInputData = Object.assign({}, jslInput, { $DATA: jslInput.$$ });
+    const jslInputModel = Object.assign({}, jslInput, { $MODEL: jslInput.$$ });
 
     validateClientInputSyntax({ command, args });
     validateClientInputCommand({ idl, command, modelName, sysArgs });

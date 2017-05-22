@@ -119,8 +119,8 @@ const findIndexes = function({ collection, filter, opts: { jslInput } }) {
     .filter(([/*index*/, model]) => {
       // TODO: remove when using MongoDB query objects
       try {
-        const modelInput = { parent: model, model };
-        return runJsl(filter, jslInput, { modelInput });
+        const extra = { $$: model, $MODEL: model };
+        return runJsl(filter, jslInput, extra);
       } catch (innererror) {
         const message = `JSL expression used as filter failed: '${filter.jsl}'`;
         throw new EngineError(message, {
