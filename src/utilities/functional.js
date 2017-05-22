@@ -15,7 +15,8 @@ const map = function (obj, mapperFunc) {
   } else if (obj instanceof Array) {
     return obj.map(mapperFunc);
   } else {
-    throw new EngineError(`map utility must be used with objects or arrays: ${obj}`, { reason: 'UTILITY_ERROR' });
+    const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
   }
 };
 
@@ -28,7 +29,8 @@ const mapAsync = async function (obj, mapperFunc) {
     }
     return newObj;
   } else {
-    throw new EngineError(`map utility must be used with objects or arrays: ${obj}`, { reason: 'UTILITY_ERROR' });
+    const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
   }
 };
 
