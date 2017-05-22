@@ -21,7 +21,7 @@ class Jsl {
   // If this is not JSL, returns as is
   run(
     jslFunc,
-    jslInput = {},
+    jsl = {},
     {
       error: {
         type: ErrorType = EngineError,
@@ -31,7 +31,7 @@ class Jsl {
   ) {
     if (typeof jslFunc !== 'function') { return jslFunc; }
 
-    const input = Object.assign({}, this.input, jslInput);
+    const input = Object.assign({}, this.input, jsl);
     const variables = getJslVariables(jslFunc, input);
     try {
       return jslFunc(variables);

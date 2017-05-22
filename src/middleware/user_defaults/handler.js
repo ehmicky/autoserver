@@ -44,10 +44,10 @@ const getDefMap = function ({ idl: { models } }) {
 // Retrieves applyDefault() options from main input
 const getOptions = function ({
   defMap,
-  input: { modelName, args: { data }, jslInput },
+  input: { modelName, args: { data }, jsl },
 }) {
   const defAttributes = defMap.get(modelName);
-  return { jslInput, defAttributes, value: data };
+  return { jsl, defAttributes, value: data };
 };
 
 
