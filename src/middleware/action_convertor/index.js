@@ -5,6 +5,7 @@ const actionConvertor = function () {
   return async function actionConvertor(input) {
     const {
       actionInput: { action, fullAction, args, modelName },
+      jslInput,
       info,
       protocol,
       interf,
@@ -18,6 +19,7 @@ const actionConvertor = function () {
       args,
       sysArgs,
       modelName,
+      jslInput,
       info,
       interf,
       protocol,

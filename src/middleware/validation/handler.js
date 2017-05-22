@@ -15,23 +15,9 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  **/
 const validation = function ({ idl, maxDataLength }) {
   return async function validation(input) {
-    const {
-      modelName,
-      args,
-      sysArgs,
-      command,
-      info,
-      interf,
-      protocol,
-    } = input;
-    const { helpers, variables } = info;
-    const { ip, timestamp } = protocol;
-    const { params } = interf;
+    const { modelName, args, sysArgs, command, jslInput } = input;
 
     // Extra information passed to custom validation keywords
-    const requestInput = { ip, timestamp, params };
-    const interfaceInput = { command };
-    const jslInput = { helpers, variables, requestInput, interfaceInput };
     const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 

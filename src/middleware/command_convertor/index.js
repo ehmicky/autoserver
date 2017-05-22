@@ -9,18 +9,21 @@ const commandConvertor = function () {
       args,
       sysArgs,
       modelName,
+      jslInput,
       info,
       interf,
       protocol,
     } = input;
 
     const newInfo = Object.assign({}, info, { command });
+    jslInput.interfaceInput = { command };
 
     const nextInput = {
       command,
       args,
       sysArgs,
       modelName,
+      jslInput,
       info: newInfo,
       interf,
       protocol,

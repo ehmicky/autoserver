@@ -8,14 +8,7 @@ const { fireCommand } = require('./commands');
 
 const executeDatabaseAction = function () {
   return async function executeDatabaseAction(input) {
-    const {
-      command,
-      args = {},
-      modelName,
-      info,
-      interf,
-      protocol,
-    } = input;
+    const { command, args = {}, modelName, jslInput } = input;
     const {
       order_by: orderBy,
       limit,
@@ -25,12 +18,6 @@ const executeDatabaseAction = function () {
       data,
       filter,
     } = args;
-    const { helpers, variables } = info;
-    const { ip, timestamp } = protocol;
-    const { params } = interf;
-    const requestInput = { ip, timestamp, params };
-    const interfaceInput = { command };
-    const jslInput = { helpers, variables, requestInput, interfaceInput };
     const collection = database[modelName];
 
     const opts = {

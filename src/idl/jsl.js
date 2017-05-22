@@ -47,7 +47,7 @@ const wrapJsl = ({ jsl, idl, name }) => {
   // The first invocation is done per request, providing
   // request-specific information
   // The second invovation is done when the helper|variables is actually used
-  return ({ info, requestInput }) => memoize((...args) => {
+  return ({ jslInput }) => memoize((...args) => {
     // Helpers|variables can be non-JSL, but still needs to be fired
     // as function by consumers
     if (typeof jslFunc !== 'function') {
@@ -61,7 +61,7 @@ const wrapJsl = ({ jsl, idl, name }) => {
 
     // This will contain other variables|helpers, so they can reference
     // each other
-    const { helpers, variables } = info;
+    const { helpers, variables, requestInput } = jslInput;
     // Make sure variables are fired runtime, so variables can
     // be evaluated lazily
     const jslArgs = getJslVariables({
