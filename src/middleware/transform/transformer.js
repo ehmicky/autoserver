@@ -75,11 +75,10 @@ const singleTransformValue = function (opts) {
       [VARIABLE_NAME]: value,
       value: value[attrName],
     };
-    const jsl = transformer;
-    const jslArg = Object.assign({ jsl }, jslInput, { modelInput });
-    newValue = runJsl(jslArg);
+    const jslArg = Object.assign({}, jslInput, { modelInput });
+    newValue = runJsl(transformer, jslArg);
   } catch (innererror) {
-    const message = `JSL expression used as transform failed: ${transformer}`;
+    const message = `JSL expression used as transform failed: '${transformer.jsl}'`;
     throw new EngineError(message, {
       reason: 'IDL_RUNTIME_VALIDATION',
       innererror,
