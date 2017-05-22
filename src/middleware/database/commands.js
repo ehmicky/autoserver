@@ -118,16 +118,8 @@ const findIndexes = function({ collection, filter, opts: { jslInput } }) {
     // Check if a model matches a query filter
     .filter(([/*index*/, model]) => {
       // TODO: remove when using MongoDB query objects
-      try {
-        const input = Object.assign({}, jslInput, { $$: model, $MODEL: model });
-        return runJsl(filter, input);
-      } catch (innererror) {
-        const message = `JSL expression used as filter failed: '${filter.jsl}'`;
-        throw new EngineError(message, {
-          reason: 'INPUT_VALIDATION',
-          innererror,
-        });
-      }
+      const input = Object.assign({}, jslInput, { $$: model, $MODEL: model });
+      return runJsl(filter, input, { reason: 'INPUT_VALIDATION' });
     })
     .map(([index]) => index);
   return modelIndexes;

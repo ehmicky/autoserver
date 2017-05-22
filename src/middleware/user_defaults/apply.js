@@ -2,7 +2,6 @@
 
 
 const { runJsl } = require('../../jsl');
-const { EngineError } = require('../../error');
 
 
 // Apply default values to args.data's models
@@ -43,14 +42,9 @@ const applyDefault = function ({ parent, defValue, attrName, jslInput }) {
     $DATA: parent,
     $: value,
   });
-  try {
-    defValue = runJsl(defValue, input);
-  } catch (innererror) {
-    const message = `JSL expression used as transform failed: '${defValue.jsl}'`;
-    throw new EngineError(message, { reason: 'WRONG_TRANSFORM', innererror });
-  }
+  const newDefValue = runJsl(defValue, input);
 
-  parent[attrName] = defValue;
+  parent[attrName] = newDefValue;
 };
 
 

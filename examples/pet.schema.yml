@@ -140,7 +140,7 @@ models:
         compute: (String($moreRecursiveVariable))
         # Same for output. It is useless in this case,
         # but used for illustration.
-        computeOut: ($IP)
+        #computeOut: ($IP)
       best_friend:
         # This means this attribute is an instance of the `pet` model,
         # i.e. a foreign key
