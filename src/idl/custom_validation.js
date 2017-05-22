@@ -27,10 +27,10 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
         $: value,
       };
 
-      const isValid = jsl.run(test, input);
+      const isValid = jsl.run({ jsl: test, input });
       if (isValid === true) { return true; }
 
-      const errorMessage = jsl.run(message, input);
+      const errorMessage = jsl.run({ jsl: message, input });
       validate.errors = [{
         message: errorMessage,
         keyword,

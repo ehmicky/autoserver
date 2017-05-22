@@ -65,7 +65,7 @@ const singleTransformValue = function (opts) {
 
   // Performs actual substitution
   const input = { $$: value, $: value[attrName] };
-  const newValue = jsl.run(transformer, input);
+  const newValue = jsl.run({ jsl: transformer, input });
 
   // Transforms that return undefined do not apply
   // This allows conditional transforms,
