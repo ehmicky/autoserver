@@ -7,8 +7,12 @@ const { getJslVariables } = require('./variables');
 
 class Jsl {
 
-  constructor() {
+  constructor({ helpersGet, variablesGet }) {
     this.input = {};
+    this.add({
+      helpers: helpersGet(this),
+      variables: variablesGet(this),
+    });
   }
 
   // TODO: variable name check

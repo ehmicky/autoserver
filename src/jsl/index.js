@@ -4,7 +4,7 @@
 module.exports = Object.assign(
   {},
   require('./compile'),
-  require('./run'),
+  require('./main'),
   require('./test'),
   require('./parameters'),
   require('./tokenize')
