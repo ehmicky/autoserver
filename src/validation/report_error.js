@@ -17,7 +17,8 @@ const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
       inputPath = prefix + inputPath;
       inputPath = inputPath.substr(1);
       // We use `jsonPointers` option because it is cleaner,
-      // but we want dots (for properties) and brackets (for indexes) not slashes
+      // but we want dots (for properties) and brackets (for indexes)
+      // not slashes
       inputPath = inputPath
         .replace(/\/([0-9]+)/g, '[$1]')
         .replace(/\//g, '.');

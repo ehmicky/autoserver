@@ -32,7 +32,8 @@ const addKeywords = function (ajv) {
 };
 const customBaseKeywords = {
 
-  // Checks that a word (e.g. a model) is an English word with a different singular and plural form
+  // Checks that a word (e.g. a model) is an English word with a
+  // different singular and plural form
   hasPlural: {
     validate(schemaValue, data) {
       if (!schemaValue) { return true; }
@@ -55,7 +56,8 @@ const customBaseKeywords = {
   // Function is fired with no argument, i.e. it must:
   //  - be pure
   //  - always return the same return value type
-  //  - return a non-undefined|null return value when fired with no argument (unless it always returns undefined|null)
+  //  - return a non-undefined|null return value when fired with
+  //    no argument (unless it always returns undefined|null)
   returnType: {
     validate(schemaValue, data) {
       if (typeof data !== 'function') { return true; }
