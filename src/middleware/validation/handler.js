@@ -35,19 +35,12 @@ const validation = function ({ idl, maxDataLength }) {
     const jslInputData = Object.assign({ shortcutName: 'data' }, jslInput);
     const jslInputModel = Object.assign({ shortcutName: 'model' }, jslInput);
 
-    validateClientInputSyntax({ modelName, action, command, args });
-    validateClientInputCommand({ idl, action, command, modelName, sysArgs });
-    validateClientInputSemantics({
-      idl,
-      modelName,
-      action,
-      args,
-      maxDataLength,
-    });
+    validateClientInputSyntax({ command, args });
+    validateClientInputCommand({ idl, command, modelName, sysArgs });
+    validateClientInputSemantics({ idl, modelName, args, maxDataLength });
     validateClientInputData({
       idl,
       modelName,
-      action,
       command,
       args,
       extra: jslInputData,
@@ -59,7 +52,6 @@ const validation = function ({ idl, maxDataLength }) {
       idl,
       modelName,
       response,
-      action,
       command,
       args,
       extra: jslInputModel,

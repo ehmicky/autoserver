@@ -18,15 +18,10 @@ const { jslRegExp } = require('../../jsl');
  *  - `order_by` and `dry_run` syntax looks valid
  *    (does not check whether it is semantically correct)
  **/
-const validateClientInputSyntax = function ({
-  modelName,
-  action,
-  command,
-  args,
-}) {
+const validateClientInputSyntax = function ({ command, args }) {
   const type = 'clientInputSyntax';
   const schema = getValidateClientSchema({ command });
-  validate({ schema, data: args, reportInfo: { type, action, modelName } });
+  validate({ schema, data: args, reportInfo: { type } });
 };
 
 // Builds JSON schema to validate against
