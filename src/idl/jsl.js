@@ -10,92 +10,105 @@ const { transform, map, recurseMap } = require('../utilities');
 const compileIdlJsl = function ({ idl }) {
   idl.helpers = idl.helpers === undefined ? {} : idl.helpers;
   idl.variables = idl.variables === undefined ? {} : idl.variables;
+  idl.validation = idl.validation === undefined ? {} : idl.validation;
 
-  idl.helpers = map(idl.helpers, jsl => wrapHelpersJsl({ jsl, idl }));
-  idl.variables = map(idl.variables, jsl => wrapVariablesJsl({ jsl, idl }));
-  idl.validation = compileValidationJsl({ idl });
-  idl.models = compileModelsJsl({ idl });
+  idl.helpersGet = compileHelpers({ idl });
+  idl.variablesGet = compileVariables({ idl });
+  idl.validation = compileValidation({ idl });
+  idl.models = compileModels({ idl });
   return idl;
-};
-
-// Compile idl.validation.test|message JSL
-const compileValidationJsl = function ({ idl }) {
-  return map(idl.validation || {}, validator => {
-    return map(validator, (jsl, attrName) => {
-      if (!['test', 'message'].includes(attrName)) { return jsl; }
-      return compileJslValue({ jsl, idl, target: 'validation' });
-    });
-  });
-};
-
-const wrapVariablesJsl = ({ jsl, idl }) => {
-  const jslFunc = compileJslValue({ jsl, idl, target: 'variables' });
-
-  // The first invocation is done per request, providing
-  // request-specific information
-  // The second invovation is done when the variables is actually used
-  return ({ jsl }) => () => {
-    return jsl.run({ value: jslFunc });
-  };
 };
 
 // Take JSL, inline or not, and turns into `function (...args)`
 // firing the first one,
 // with $1, $2, etc. provided as extra arguments
-const wrapHelpersJsl = ({ jsl, idl }) => {
-  const jslFunc = compileJslValue({ jsl, idl, target: 'helpers' });
+const compileHelpers = function ({ idl }) {
+  return jsl => {
+    return Object.entries(idl.helpers)
+      .map(([name, helper]) => {
+        const jslFunc = compileJsl({
+          jsl: helper,
+          idl,
+          target: 'helpers',
+          error,
+        });
 
-  // The first invocation is done per request, providing
-  // request-specific information
-  // The second invovation is done when the helper is actually used
-  return ({ jsl }) => (...args) => {
-    // Non-inline helpers only get positional arguments, no variables
-    if (typeof jslFunc === 'function' && !jslFunc.isInlineJsl) {
-      return jslFunc(...args);
-    }
+        const func = (...args) => {
+          // Non-inline helpers only get positional arguments, no variables
+          if (typeof jslFunc === 'function' && !jslFunc.isInlineJsl) {
+            return jslFunc(...args);
+          }
 
-    // Provide $1, $2, etc. to inline JSL
-    const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-    const input = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+          // Provide $1, $2, etc. to inline JSL
+          const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
+          const input = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-    return jsl.run({ value: jslFunc, input });
+          return jsl.run({ value: jslFunc, input });
+        };
+        return { [name]: func };
+      })
+      .reduce((memo, obj) => Object.assign(memo, obj), {});
   };
 };
 
+const compileVariables = function ({ idl }) {
+  return jsl => {
+    return Object.entries(idl.variables)
+      .map(([name, variable]) => {
+        const jslFunc = compileJsl({
+          jsl: variable,
+          idl,
+          target: 'variables',
+          error,
+        });
 
-// Compile models attributes's JSL, e.g. `transform`
-const compileModelsJsl = function ({ idl }) {
-  transform({ transforms: modelTransforms({ idl }) })({ input: idl.models });
-  return idl.models;
+        const func = () => {
+          return jsl.run({ value: jslFunc });
+        };
+        return { [name]: func };
+      })
+      .reduce((memo, obj) => Object.assign(memo, obj), {});
+  };
+};
+
+// Compile idl.validation.test|message JSL
+const compileValidation = function ({ idl }) {
+  return map(idl.validation, validator => {
+    return map(validator, (jsl, attrName) => {
+      if (!['test', 'message'].includes(attrName)) { return jsl; }
+      return compileJsl({ jsl, idl, target: 'validation', error });
+    });
+  });
 };
 
 // These attributes might contain JSL
 const jslModelAttributes = [
-  { attrName: 'default', target: 'model' },
-  { attrName: 'transform', target: 'model' },
-  { attrName: 'compute', target: 'model' },
-  { attrName: 'transformOut', target: 'model' },
-  { attrName: 'computeOut', target: 'model' },
+  'default',
+  'transform',
+  'compute',
+  'transformOut',
+  'computeOut',
 ];
 
-// Compile JSL for all attributes that might contain it
-const modelTransforms = function ({ idl }) {
-  return jslModelAttributes.map(({ attrName, target }) => ({
-    [attrName]: ({ value: jsl }) => ({
-      [attrName]: compileJslValue({ jsl, idl, target }),
-    }),
-  }));
+// Compile models attributes's JSL, e.g. `transform`
+const compileModels = function ({ idl }) {
+  const transforms = jslModelAttributes.map(attrName => {
+    return {
+      [attrName]: ({ value }) => {
+        const func = recurseMap(value, jsl => {
+          return compileJsl({ jsl, idl, target: 'model', error });
+        });
+        return { [attrName]: func };
+      },
+    };
+  });
+  transform({ transforms })({ input: idl.models });
+  return idl.models;
 };
 
-const compileJslValue = function ({ jsl, idl, target }) {
-  return recurseMap(jsl, jslLeaf => {
-    return compileJsl({
-      jsl: jslLeaf,
-      idl,
-      target,
-      error: { type: EngineStartupError, reason: 'IDL_VALIDATION' },
-    });
-  });
+const error = {
+  type: EngineStartupError,
+  reason: 'IDL_VALIDATION',
 };
 
 

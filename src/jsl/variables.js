@@ -19,12 +19,11 @@ const getJslVariables = function (jslFunc, input) {
   // From idl.variables
   if (variables) {
     // Only pass the variables that are actually needed
+    // TODO: use a get function instead
     const usedVariables = getUsedVariables({ func: jslFunc, variables });
     const variablesParams = usedVariables
       .map(usedVariable => {
         const variable = variables[usedVariable];
-        // Instantiate variables lazily, i.e. when some JSL using them
-        // gets processed
         const evaluatedVar = typeof variable === 'function'
           ? variable()
           : variable;
