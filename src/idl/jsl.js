@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { compileJsl, getJslVariables, runJsl } = require('../jsl');
+const { compileJsl, runJsl } = require('../jsl');
 const { EngineStartupError } = require('../error');
 const { transform, memoize, map, recurseMap } = require('../utilities');
 
@@ -60,24 +60,16 @@ const wrapHelpersJsl = ({ jsl, idl }) => {
   // request-specific information
   // The second invovation is done when the helper is actually used
   return ({ jslInput }) => memoize((...args) => {
-    // Helpers can be non-JSL, but still needs to be fired
-    // as function by consumers
-    if (typeof jslFunc !== 'function') { return jslFunc; }
-
     // Non-inline helpers only get positional arguments, no variables
-    if (!jslFunc.isInlineJsl) {
+    if (typeof jslFunc === 'function' && !jslFunc.isInlineJsl) {
       return jslFunc(...args);
     }
 
-    // jslInput will contain other variables|helpers,
-    // so they can reference each other
-    const jslArgs = getJslVariables(jslFunc, jslInput);
-
     // Provide $1, $2, etc. to inline JSL
     const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-    Object.assign(jslArgs, { $1, $2, $3, $4, $5, $6, $7, $8, $9 });
+    const extra = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-    return jslFunc(jslArgs);
+    return runJsl(jslFunc, jslInput, extra);
   });
 };
 
