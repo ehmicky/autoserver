@@ -4,7 +4,6 @@
 const { find, omit, mapValues, difference } = require('lodash');
 
 const { transform } = require('../utilities');
-const { compileIdlJsl } = require('./jsl');
 const { actions: allActions } = require('../constants');
 
 
@@ -12,7 +11,6 @@ const { actions: allActions } = require('../constants');
 const normalizeIdl = function (idl) {
   idl.commands = normalizeCommandNames(idl.commands || defaultCommandNames);
   idl.models = normalizeModels(idl);
-  idl = compileIdlJsl({ idl });
   return idl;
 };
 
