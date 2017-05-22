@@ -35,7 +35,7 @@ const applyDefault = function ({ parent, defValue, attrName, jsl }) {
 
   // Process JSL if default value uses JSL
   const input = { $$: parent, $: value };
-  const newDefValue = jsl.run(defValue, input);
+  const newDefValue = jsl.run({ jsl: defValue, input });
 
   parent[attrName] = newDefValue;
 };
