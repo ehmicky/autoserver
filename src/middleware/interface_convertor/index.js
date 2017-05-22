@@ -12,7 +12,11 @@ const interfaceConvertor = function () {
 
     const interf = cloneDeep({ method, params, payload, route });
 
-    jslInput.requestInput = { params, ip, timestamp };
+    Object.assign(jslInput, {
+      $PARAMS: params,
+      $IP: ip,
+      $NOW: timestamp,
+    });
 
     const response = await this.next({ info, protocol, interf, jslInput });
     return response;

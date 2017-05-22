@@ -1,21 +1,13 @@
 'use strict';
 
 
+const { omit } = require('lodash');
+
+
 // Values available as `$VARIABLE` in JSL
 // They are uppercase to avoid name conflict with attributes
 const getJslVariables = function (jslFunc, jslInput) {
-  const {
-    helpers,
-    variables,
-    validationInput,
-    requestInput,
-    interfaceInput,
-    modelInput,
-  } = jslInput;
-  const { expected } = validationInput || {};
-  const { ip, timestamp, params } = requestInput || {};
-  const { command } = interfaceInput || {};
-  const { parent = {}, value, model, data } = modelInput || {};
+  const { helpers, variables } = jslInput;
 
   const vars = {};
 
@@ -42,44 +34,7 @@ const getJslVariables = function (jslFunc, jslInput) {
     Object.assign(vars, variablesParams);
   }
 
-  // Request-related variables
-  if (requestInput) {
-    Object.assign(vars, {
-      $NOW: timestamp,
-      $IP: ip,
-      $PARAMS: params,
-    });
-  }
-
-  // Database-request-related variables
-  if (interfaceInput) {
-    Object.assign(vars, {
-      $COMMAND: command.type,
-    });
-  }
-
-  // Model-related variables
-  if (modelInput) {
-    Object.assign(vars, {
-      $$: parent,
-    });
-    if (value) {
-      vars.$ = value;
-    }
-    if (model) {
-      vars.$MODEL = model;
-    }
-    if (data) {
-      vars.$DATA = data;
-    }
-  }
-
-  // Custom validation keywords variables
-  if (validationInput) {
-    Object.assign(vars, {
-      $EXPECTED: expected,
-    });
-  }
+  Object.assign(vars, omit(jslInput, ['helpers', 'variables']));
 
   return vars;
 };
