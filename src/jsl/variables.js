@@ -3,9 +3,8 @@
 
 // Values available as `$VARIABLE` in JSL
 // They are uppercase to avoid name conflict with attributes
-const getJslVariables = function (input = {}) {
+const getJslVariables = function (jslFunc, input = {}) {
   const {
-    jsl: jslFunc,
     helpers,
     variables,
     validationInput,
