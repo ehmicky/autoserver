@@ -3,7 +3,7 @@
 
 // Values available as `$VARIABLE` in JSL
 // They are uppercase to avoid name conflict with attributes
-const getJslVariables = function (jslFunc, input = {}) {
+const getJslVariables = function (jslFunc, jslInput) {
   const {
     helpers,
     variables,
@@ -11,7 +11,7 @@ const getJslVariables = function (jslFunc, input = {}) {
     requestInput,
     interfaceInput,
     modelInput,
-  } = input;
+  } = jslInput;
   const { expected } = validationInput || {};
   const { ip, timestamp, params } = requestInput || {};
   const { command } = interfaceInput || {};
