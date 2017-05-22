@@ -59,17 +59,11 @@ const wrapJsl = ({ jsl, idl, name }) => {
       return jslFunc(...args);
     }
 
-    // This will contain other variables|helpers, so they can reference
-    // each other
-    const { helpers, variables, requestInput } = jslInput;
-    // Make sure variables are fired runtime, so variables can
-    // be evaluated lazily
-    const jslArgs = getJslVariables({
-      jsl: jslFunc,
-      helpers,
-      variables,
-      requestInput,
-    });
+    // Make sure variables are fired runtime,
+    // so variables can be evaluated lazily
+    // jslInput will contain other variables|helpers,
+    // so they can reference each other
+    const jslArgs = getJslVariables(jslFunc, jslInput);
 
     // Provide $1, $2, etc. to inline JSL
     if (name === 'helpers') {

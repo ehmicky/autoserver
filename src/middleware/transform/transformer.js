@@ -75,8 +75,7 @@ const singleTransformValue = function (opts) {
       [VARIABLE_NAME]: value,
       value: value[attrName],
     };
-    const jslArg = Object.assign({}, jslInput, { modelInput });
-    newValue = runJsl(transformer, jslArg);
+    newValue = runJsl(transformer, jslInput, { modelInput });
   } catch (innererror) {
     const message = `JSL expression used as transform failed: '${transformer.jsl}'`;
     throw new EngineError(message, {
