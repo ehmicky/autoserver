@@ -24,7 +24,7 @@ const validation = function ({ idl, maxDataLength }) {
       interf,
       protocol,
     } = input;
-    const { helpers, variables, action } = info;
+    const { helpers, variables } = info;
     const { ip, timestamp } = protocol;
     const { params } = interf;
 
