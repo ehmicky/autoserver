@@ -42,7 +42,7 @@ const wrapVariablesJsl = ({ jsl, idl }) => {
   // request-specific information
   // The second invovation is done when the variables is actually used
   return ({ jsl }) => () => {
-    return jsl.run({ jsl: jslFunc });
+    return jsl.run({ value: jslFunc });
   };
 };
 
@@ -65,7 +65,7 @@ const wrapHelpersJsl = ({ jsl, idl }) => {
     const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
     const input = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-    return jsl.run({ jsl: jslFunc, input });
+    return jsl.run({ value: jslFunc, input });
   };
 };
 

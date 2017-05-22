@@ -20,7 +20,7 @@ class Jsl {
   // i.e. fires it and returns its value
   // If this is not JSL, returns as is
   run({
-    jsl: jslFunc,
+    value: jslFunc,
     input = {},
     errorType: ErrorType = EngineError,
     reason = 'UTILITY_ERROR',
