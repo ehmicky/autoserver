@@ -3,7 +3,7 @@
 
 const { compileJsl } = require('../jsl');
 const { EngineStartupError } = require('../error');
-const { transform, memoize, map, recurseMap } = require('../utilities');
+const { transform, map, recurseMap } = require('../utilities');
 
 
 // Compile all the IDL's JSL
@@ -38,14 +38,12 @@ const compileValidationJsl = function ({ idl }) {
 const wrapVariablesJsl = ({ jsl, idl }) => {
   const jslFunc = compileJslValue({ jsl, idl, target: 'variables' });
 
-  // We memoize for performance reasons, i.e. variables should be pure functions
-  // The memoizer is recreated at each request though, to avoid memory leaks
   // The first invocation is done per request, providing
   // request-specific information
   // The second invovation is done when the variables is actually used
-  return ({ jsl }) => memoize(() => {
+  return ({ jsl }) => () => {
     return jsl.run({ jsl: jslFunc });
-  });
+  };
 };
 
 // Take JSL, inline or not, and turns into `function (...args)`
@@ -54,12 +52,10 @@ const wrapVariablesJsl = ({ jsl, idl }) => {
 const wrapHelpersJsl = ({ jsl, idl }) => {
   const jslFunc = compileJslValue({ jsl, idl, target: 'helpers' });
 
-  // We memoize for performance reasons, i.e. helpers should be pure functions
-  // The memoizer is recreated at each request though, to avoid memory leaks
   // The first invocation is done per request, providing
   // request-specific information
   // The second invovation is done when the helper is actually used
-  return ({ jsl }) => memoize((...args) => {
+  return ({ jsl }) => (...args) => {
     // Non-inline helpers only get positional arguments, no variables
     if (typeof jslFunc === 'function' && !jslFunc.isInlineJsl) {
       return jslFunc(...args);
@@ -70,7 +66,7 @@ const wrapHelpersJsl = ({ jsl, idl }) => {
     const input = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
     return jsl.run({ jsl: jslFunc, input });
-  });
+  };
 };
 
 
