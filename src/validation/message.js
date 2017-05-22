@@ -19,46 +19,84 @@ const getErrorMessage = function({ error, hasInputPath }) {
 
 // List of custom error messages getters
 const errorMessages = {
-  type: ({ params: { type } }) => ` must be ${type}`,
-  format: ({ params: { format } }) => ` must match format '${format}'`,
-  enum: ({ params: { allowedValues } }) => ` must be one of ${sentence(allowedValues.map(val => `'${val}'`), ', ', ' or ')}`,
-  const: ({ schema }) => ` must be equal to '${schema}'`,
-  multipleOf: ({ params: { multipleOf } }) => ` must be multiple of ${multipleOf}`,
-  maximum: ({ params: { limit, comparison } }) => ` must be less than ${comparison === '<=' ? 'or equal to ' : ''}${limit}`,
-  minimum: ({ params: { limit, comparison } }) =>
-    ` must be greater than ${comparison === '>=' ? 'or equal to ' : ''}${limit}`,
-  formatMinimum: ({ params: { limit, comparison }, parentSchema: { format } }) => {
+  type: ({ params: { type } }) =>
+    ` must be ${type}`,
+  format: ({ params: { format } }) =>
+    ` must match format '${format}'`,
+  enum: ({ params: { allowedValues } }) => {
+    const quotedValues = allowedValues.map(val => `'${val}'`);
+    const values = sentence(quotedValues, ', ', ' or ');
+    return ` must be one of ${values}`;
+  },
+  const: ({ schema }) =>
+    ` must be equal to '${schema}'`,
+  multipleOf: ({ params: { multipleOf } }) =>
+    ` must be multiple of ${multipleOf}`,
+  maximum: ({ params: { limit, comparison } }) => {
+    const orEqualTo = comparison === '<=' ? 'or equal to ' : '';
+    return ` must be less than ${orEqualTo}${limit}`;
+  },
+  minimum: ({ params: { limit, comparison } }) => {
+    const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
+    return ` must be greater than ${orEqualTo}${limit}`;
+  },
+  formatMinimum: ({
+    params: { limit, comparison },
+    parentSchema: { format },
+  }) => {
     const isDate = ['date', 'date-time'].includes(format);
     const isTime = ['time'].includes(format);
     const comparative = isDate ? 'more recent' : isTime ? 'later' : 'greater';
-    return ` must be ${comparative} than ${comparison === '>=' ? 'or equal to ' : ''}${limit}`;
+    const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
+    return ` must be ${comparative} than ${orEqualTo}${limit}`;
   },
-  formatMaximum: ({ params: { limit, comparison }, parentSchema: { format } }) => {
+  formatMaximum: ({
+    params: { limit, comparison },
+    parentSchema: { format },
+  }) => {
     const isDate = ['date', 'date-time'].includes(format);
     const isTime = ['time'].includes(format);
     const comparative = isDate ? 'older' : isTime ? 'sooner' : 'less';
-    return ` must be ${comparative} than ${comparison === '>=' ? 'or equal to ' : ''}${limit}`;
+    const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
+    return ` must be ${comparative} than ${orEqualTo}${limit}`;
   },
-  minLength: ({ params: { limit } }) => ` must be at least ${pluralize('character', limit, true)} long`,
-  maxLength: ({ params: { limit } }) => ` must be at most ${pluralize('character', limit, true)} long`,
-  pattern: ({ params: { pattern } }) => ` must match pattern '${pattern}'`,
-  contains: () => ' must contain at least one valid item',
-  minItems: ({ params: { limit } }) => ` must contains at least ${pluralize('item', limit, true)}`,
-  maxItems: ({ params: { limit } }) => ` must contains at most ${pluralize('item', limit, true)}`,
-  uniqueItems: ({ params: { i, j } }) => ` must not contain any duplicated item, but items number ${j} and ${i} are identical`,
-  minProperties: ({ params: { limit } }) => ` must have ${limit} or more ${pluralize('property', limit)}`,
-  maxProperties: ({ params: { limit } }) => ` must have ${limit} or less ${pluralize('property', limit)}`,
-  required: ({ params: { missingProperty } }) => `.${missingProperty} must be defined`,
-  additionalProperties: ({ params: { additionalProperty } }) => `.${additionalProperty} is an unknown parameter`,
-  propertyNames: ({ params: { propertyName } }) => ` property '${propertyName}' name must be valid`,
+  minLength: ({ params: { limit } }) =>
+    ` must be at least ${pluralize('character', limit, true)} long`,
+  maxLength: ({ params: { limit } }) =>
+    ` must be at most ${pluralize('character', limit, true)} long`,
+  pattern: ({ params: { pattern } }) =>
+    ` must match pattern '${pattern}'`,
+  contains: () =>
+    ' must contain at least one valid item',
+  minItems: ({ params: { limit } }) =>
+    ` must contains at least ${pluralize('item', limit, true)}`,
+  maxItems: ({ params: { limit } }) =>
+    ` must contains at most ${pluralize('item', limit, true)}`,
+  uniqueItems: ({ params: { i, j } }) =>
+    ` must not contain any duplicated item, but items number ${j} and ${i} are identical`,
+  minProperties: ({ params: { limit } }) =>
+    ` must have ${limit} or more ${pluralize('property', limit)}`,
+  maxProperties: ({ params: { limit } }) =>
+    ` must have ${limit} or less ${pluralize('property', limit)}`,
+  required: ({ params: { missingProperty } }) =>
+    `.${missingProperty} must be defined`,
+  additionalProperties: ({ params: { additionalProperty } }) =>
+    `.${additionalProperty} is an unknown parameter`,
+  propertyNames: ({ params: { propertyName } }) =>
+    ` property '${propertyName}' name must be valid`,
   dependencies: ({ params: { missingProperty, property } }) =>
     `.${missingProperty} must be defined when property '${property} is defined`,
   // Custom keywords
-  hasPlural: ({ data }) => ` '${data}' must be an English word whose plural form differs from its singular form`,
-  returnType: ({ schema }) => ` must return values of type '${schema}'`,
-  arity: ({ schema }) => ` must have exactly ${pluralize('argument', schema, true)}`,
-  // Special keyword for schema that are `false`, e.g. `patternProperties: { pattern: false }`
-  'false schema': () => ' must not be defined',
+  hasPlural: ({ data }) =>
+    ` '${data}' must be an English word whose plural form differs from its singular form`,
+  returnType: ({ schema }) =>
+    ` must return values of type '${schema}'`,
+  arity: ({ schema }) =>
+    ` must have exactly ${pluralize('argument', schema, true)}`,
+  // Special keyword for schema that are `false`,
+  // e.g. `patternProperties: { pattern: false }`
+  'false schema': () =>
+    ' must not be defined',
 };
 
 
