@@ -1,21 +1,29 @@
 'use strict';
 
 
-const { getSwitchMiddleware } = require('../../utilities');
+const { mapAsync } = require('../../utilities');
 const { httpFillParams } = require('./http');
 
 
-const middlewares = {
+// Fill in request parameters: method, params, payload
+const fillParams = async function (opts) {
+  const map = await mapAsync(paramsMap, async func => await func(opts));
+
+  return async function fillParams(input) {
+    const { protocol, jslInput } = input;
+
+    const { method, params, payload } = await map[protocol.name](input);
+    Object.assign(protocol, { method, params, payload });
+    jslInput.$PARAMS = params;
+
+    const response = await this.next(input);
+    return response;
+  };
+};
+
+const paramsMap = {
   http: httpFillParams,
 };
-const getKey = ({ input: { protocol: { name } } }) => name;
-
-// Sends the response at the end of the request
-const fillParams = getSwitchMiddleware({
-  middlewares,
-  getKey,
-  name: 'fillParams',
-});
 
 
 module.exports = {
