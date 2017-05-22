@@ -31,7 +31,6 @@ module.exports = Object.assign(
   require('./pagination'),
   require('./clean_delete'),
   require('./transform'),
-  require('./filter'),
   require('./validation'),
   require('./database'),
   require('./no_response')

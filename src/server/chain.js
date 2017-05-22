@@ -87,8 +87,6 @@ const startChain = async function (opts) {
     mdw.pagination,
     // Process transforms
     mdw.transform,
-    // Parse filter's JSL, e.g. convert to format processable by database
-    mdw.handleFilter,
 
     /**
      * Validation-related middleware

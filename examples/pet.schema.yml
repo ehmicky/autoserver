@@ -137,7 +137,7 @@ models:
         # As opposed to `default`, this will also be set during update commands.
         # JSL can be used.
         # default and transforms can still be used (are performed afterwards).
-        compute: (String($moreRecursiveVariable))
+        compute: (String($moreRecursiveVariable()))
         # Same for output. It is useless in this case,
         # but used for illustration.
         #computeOut: ($IP)
@@ -296,8 +296,8 @@ helpers:
 variables:
   # Variables use JSL syntax themselves
   $exampleVariable: (exampleFunction())
-  $recursive_variable: ($exampleVariable)
-  $moreRecursiveVariable: ($recursive_variable + $TestVariable)
+  $recursive_variable: ($exampleVariable())
+  $moreRecursiveVariable: ($recursive_variable() + $TestVariable())
   # One can require sets of variables
   libraries:
   - $ref: variables.json
