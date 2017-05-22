@@ -1,9 +1,6 @@
 'use strict';
 
 
-const { runJsl } = require('../../jsl');
-
-
 // Apply default values to args.data's models
 const applyAllDefault = function applyAllDefault(opts) {
   const { defAttributes, value } = opts;
@@ -37,12 +34,8 @@ const applyDefault = function ({ parent, defValue, attrName, jslInput }) {
   if (value !== undefined) { return; }
 
   // Process JSL if default value uses JSL
-  const input = Object.assign({}, jslInput, {
-    $$: parent,
-    $DATA: parent,
-    $: value,
-  });
-  const newDefValue = runJsl(defValue, input);
+  const input = { $$: parent, $: value };
+  const newDefValue = jslInput.run(defValue, input);
 
   parent[attrName] = newDefValue;
 };

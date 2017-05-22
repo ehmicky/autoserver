@@ -56,7 +56,6 @@ const { cloneDeep, orderBy, map } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../error');
-const { runJsl } = require('../../jsl');
 
 
 const createId = function () {
@@ -118,8 +117,8 @@ const findIndexes = function({ collection, filter, opts: { jslInput } }) {
     // Check if a model matches a query filter
     .filter(([/*index*/, model]) => {
       // TODO: remove when using MongoDB query objects
-      const input = Object.assign({}, jslInput, { $$: model, $MODEL: model });
-      return runJsl(filter, input, { reason: 'INPUT_VALIDATION' });
+      const input = { $$: model };
+      return jslInput.run(filter, input, { reason: 'INPUT_VALIDATION' });
     })
     .map(([index]) => index);
   return modelIndexes;

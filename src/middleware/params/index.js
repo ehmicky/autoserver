@@ -14,7 +14,7 @@ const fillParams = async function (opts) {
 
     const { method, params, payload } = await map[protocol.name](input);
     Object.assign(protocol, { method, params, payload });
-    jslInput.$PARAMS = params;
+    jslInput.add({ $PARAMS: params });
 
     const response = await this.next(input);
     return response;

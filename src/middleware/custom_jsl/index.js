@@ -12,8 +12,9 @@ const wrapCustomJsl = function ({ idl: { helpers, variables } }) {
     const { jslInput } = input;
 
     // Add request-specific information to helpers and variables
-    jslInput.helpers = map(helpers, helper => helper({ jslInput }));
-    jslInput.variables = map(variables, variable => variable({ jslInput }));
+    const boundHelpers = map(helpers, helper => helper({ jslInput }));
+    const boundVariables = map(variables, variable => variable({ jslInput }));
+    jslInput.add({ helpers: boundHelpers, variables: boundVariables });
 
     const response = await this.next(input);
     return response;

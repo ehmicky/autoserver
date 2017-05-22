@@ -14,7 +14,7 @@ const getIp = async function (opts) {
 
     const ip = map[protocol.name](input) || '';
     protocol.ip = ip;
-    jslInput.$IP = ip;
+    jslInput.add({ $IP: ip });
 
     const response = await this.next(input);
     return response;

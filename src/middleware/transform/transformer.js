@@ -3,8 +3,6 @@
 
 const { each } = require('lodash');
 
-const { runJsl } = require('../../jsl');
-
 
 // Apply `transformValue` recursively
 const getTransform = ({ direction }) => function transformFunc(opts) {
@@ -52,7 +50,6 @@ const singleTransformValue = function (opts) {
     value,
     attrName,
     transformer,
-    props: { VARIABLE_NAME },
     jslInput,
   } = opts;
 
@@ -67,12 +64,8 @@ const singleTransformValue = function (opts) {
   }
 
   // Performs actual substitution
-  const input = Object.assign({}, jslInput, {
-    $$: value,
-    [VARIABLE_NAME]: value,
-    $: value[attrName],
-  });
-  const newValue = runJsl(transformer, input);
+  const input = { $$: value, $: value[attrName] };
+  const newValue = jslInput.run(transformer, input);
 
   // Transforms that return undefined do not apply
   // This allows conditional transforms,
@@ -89,12 +82,10 @@ const transformProps = {
     // IDL transform names depends on direction
     TRANSFORM_NAME: 'transform',
     COMPUTE_NAME: 'compute',
-    VARIABLE_NAME: '$DATA',
   },
   output: {
     TRANFORM_NAME: 'transformOut',
     COMPUTE_NAME: 'computeOut',
-    VARIABLE_NAME: '$MODEL',
   },
 };
 const transformInput = getTransform({ direction: 'input' });
