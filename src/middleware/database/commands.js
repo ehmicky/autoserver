@@ -118,7 +118,7 @@ const findIndexes = function({ collection, filter, opts: { jsl } }) {
     .filter(([/*index*/, model]) => {
       // TODO: remove when using MongoDB query objects
       const input = { $$: model };
-      return jsl.run({ jsl: filter, input, reason: 'INPUT_VALIDATION' });
+      return jsl.run({ value: filter, input, reason: 'INPUT_VALIDATION' });
     })
     .map(([index]) => index);
   return modelIndexes;
