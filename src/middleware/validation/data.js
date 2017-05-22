@@ -17,7 +17,7 @@ const validateClientInputData = function ({
   modelName,
   command,
   args,
-  extra,
+  jslInput,
 }) {
   const type = 'clientInputData';
   const schema = getDataValidationSchema({
@@ -33,7 +33,7 @@ const validateClientInputData = function ({
       data = cloneDeep(data);
       removeJsl({ value: data });
       const reportInfo = { type, dataVar };
-      validate({ schema, data, reportInfo, extra });
+      validate({ schema, data, reportInfo, extra: jslInput });
     });
   });
 };
@@ -71,7 +71,7 @@ const validateServerOutputData = function ({
   action,
   command,
   args: { no_output: noOutput },
-  extra,
+  jslInput,
 }) {
   if (noOutput) { return; }
 
@@ -80,7 +80,7 @@ const validateServerOutputData = function ({
   data = data instanceof Array ? data : [data];
   data.forEach(datum => {
     const reportInfo = { type, modelName, action, dataVar: 'response' };
-    validate({ schema, data: datum, reportInfo, extra });
+    validate({ schema, data: datum, reportInfo, extra: jslInput });
   });
 };
 

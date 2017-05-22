@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { Jsl } = require('../../jsl');
 const { protocolValidation } = require('./validation');
 
 
@@ -8,7 +9,7 @@ const { protocolValidation } = require('./validation');
 const protocolConvertor = function () {
   return async function protocolConvertor(input) {
     const info = {};
-    const jslInput = {};
+    const jslInput = new Jsl();
     const protocol = { specific: input };
     const nextInput = { info, jslInput, protocol };
 

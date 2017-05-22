@@ -2,7 +2,6 @@
 
 
 const { getRawValidator } = require('../validation');
-const { runJsl } = require('../jsl');
 
 
 const addCustomKeywords = function ({ idl: { validation } }) {
@@ -22,16 +21,16 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
       attrName,
       { [Symbol.for('extra')]: jslInput }
     ) {
-      const input = Object.assign({}, jslInput, {
+      const input = {
         $EXPECTED: expected,
         $$: parent,
         $: value,
-      });
+      };
 
-      const isValid = runJsl(test, input);
+      const isValid = jslInput.run(test, input);
       if (isValid === true) { return true; }
 
-      const errorMessage = runJsl(message, input);
+      const errorMessage = jslInput.run(message, input);
       validate.errors = [{
         message: errorMessage,
         keyword,

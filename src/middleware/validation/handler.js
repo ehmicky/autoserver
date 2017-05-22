@@ -17,20 +17,10 @@ const validation = function ({ idl, maxDataLength }) {
   return async function validation(input) {
     const { modelName, args, sysArgs, command, jslInput } = input;
 
-    // Extra information passed to custom validation keywords
-    const jslInputData = Object.assign({}, jslInput, { $DATA: jslInput.$$ });
-    const jslInputModel = Object.assign({}, jslInput, { $MODEL: jslInput.$$ });
-
     validateClientInputSyntax({ command, args });
     validateClientInputCommand({ idl, command, modelName, sysArgs });
     validateClientInputSemantics({ idl, modelName, args, maxDataLength });
-    validateClientInputData({
-      idl,
-      modelName,
-      command,
-      args,
-      extra: jslInputData,
-    });
+    validateClientInputData({ idl, modelName, command, args, jslInput });
 
     const response = await this.next(input);
     validateServerOutputSyntax({ command, response });
@@ -40,7 +30,7 @@ const validation = function ({ idl, maxDataLength }) {
       response,
       command,
       args,
-      extra: jslInputModel,
+      jslInput,
     });
 
     return response;

@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { compileJsl, runJsl } = require('../jsl');
+const { compileJsl } = require('../jsl');
 const { EngineStartupError } = require('../error');
 const { transform, memoize, map, recurseMap } = require('../utilities');
 
@@ -44,7 +44,7 @@ const wrapVariablesJsl = ({ jsl, idl }) => {
   // request-specific information
   // The second invovation is done when the variables is actually used
   return ({ jslInput }) => memoize(() => {
-    return runJsl(jslFunc, jslInput);
+    return jslInput.run(jslFunc);
   });
 };
 
@@ -68,9 +68,8 @@ const wrapHelpersJsl = ({ jsl, idl }) => {
     // Provide $1, $2, etc. to inline JSL
     const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
     const extra = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
-    const input = Object.assign({}, jslInput, extra);
 
-    return runJsl(jslFunc, input);
+    return jslInput.run(jslFunc, extra);
   });
 };
 
@@ -83,11 +82,11 @@ const compileModelsJsl = function ({ idl }) {
 
 // These attributes might contain JSL
 const jslModelAttributes = [
-  { attrName: 'default', target: 'modelInput' },
-  { attrName: 'transform', target: 'modelInput' },
-  { attrName: 'compute', target: 'modelInput' },
-  { attrName: 'transformOut', target: 'modelOutput' },
-  { attrName: 'computeOut', target: 'modelOutput' },
+  { attrName: 'default', target: 'model' },
+  { attrName: 'transform', target: 'model' },
+  { attrName: 'compute', target: 'model' },
+  { attrName: 'transformOut', target: 'model' },
+  { attrName: 'computeOut', target: 'model' },
 ];
 
 // Compile JSL for all attributes that might contain it
