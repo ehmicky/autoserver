@@ -68,8 +68,9 @@ const wrapHelpersJsl = ({ jsl, idl }) => {
     // Provide $1, $2, etc. to inline JSL
     const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
     const extra = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+    const input = Object.assign({}, jslInput, extra);
 
-    return runJsl(jslFunc, jslInput, extra);
+    return runJsl(jslFunc, input);
   });
 };
 

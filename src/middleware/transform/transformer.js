@@ -70,12 +70,12 @@ const singleTransformValue = function (opts) {
   // Performs actual substitution
   let newValue;
   try {
-    const extra = {
+    const input = Object.assign({}, jslInput, {
       $$: value,
       [VARIABLE_NAME]: value,
       $: value[attrName],
-    };
-    newValue = runJsl(transformer, jslInput, extra);
+    });
+    newValue = runJsl(transformer, input);
   } catch (innererror) {
     const message = `JSL expression used as transform failed: '${transformer.jsl}'`;
     throw new EngineError(message, {

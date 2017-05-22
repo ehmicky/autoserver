@@ -23,15 +23,15 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
       attrName,
       { [Symbol.for('extra')]: jslInput }
     ) {
-      const extra = {
+      const input = Object.assign({}, jslInput, {
         $EXPECTED: expected,
         $$: parent,
         $: value,
-      };
+      });
 
       let isValid = false;
       try {
-        isValid = runJsl(test, jslInput, extra);
+        isValid = runJsl(test, input);
       } catch (innererror) {
         const message = `JSL validation expression failed: '${test.jsl}'`;
         throw new EngineError(message, { reason: 'UTILITY_ERROR', innererror });
@@ -40,7 +40,7 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
 
       let errorMessage;
       try {
-        errorMessage = runJsl(message, jslInput, extra);
+        errorMessage = runJsl(message, input);
       } catch (innererror) {
         const message = `JSL validation message expression failed: '${message.jsl}'`;
         throw new EngineError(message, { reason: 'UTILITY_ERROR', innererror });
