@@ -10,13 +10,14 @@ const { EngineError } = require('../../error');
 const handleFilter = function ({ idl }) {
   return async function handleFilter(input) {
     const { args } = input;
+    const { filter } = args;
 
-    if (args.filter) {
+    if (filter) {
       // Temporary hack until we add support for proper MongoDB objects
       try {
-        args.filter = compileJsl({ jsl: args.filter, idl, target: 'filter' });
+        args.filter = compileJsl({ jsl: filter, idl, target: 'filter' });
       } catch (innererror) {
-        const message = `JSL syntax error: ${JSON.stringify(args.filter)}`;
+        const message = `JSL syntax error: '${JSON.stringify(filter)}'`;
         throw new EngineError(message, {
           reason: 'INPUT_VALIDATION',
           innererror,
