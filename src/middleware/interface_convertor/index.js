@@ -4,6 +4,7 @@
 const { cloneDeep } = require('lodash');
 
 
+// Converts from Protocol format to Interface format
 const interfaceConvertor = function () {
   return async function interfaceConvertor(input) {
     const { info, jslInput, protocol } = input;
