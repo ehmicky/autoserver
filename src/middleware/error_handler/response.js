@@ -14,7 +14,7 @@ const getResponse = function ({ error }) {
     message: description,
     instance,
     stack,
-    innererror: { stack: details = stack } = {},
+    innererror,
     extra,
     transforms = [],
   } = error;
@@ -25,6 +25,7 @@ const getResponse = function ({ error }) {
   Object.assign(content, extra);
   // Stack trace is always at the end
   if (isDev()) {
+    const details = getDetails({ stack, innererror });
     Object.assign(content, { details });
   }
 
@@ -38,6 +39,17 @@ const getResponse = function ({ error }) {
   }, response);
 
   return transformedResponse;
+};
+
+// Recursively find innererror stack
+const getDetails = function ({
+  stack,
+  innererror: {
+    stack: details = stack,
+    innererror,
+  } = {},
+}) {
+  return innererror === undefined ? details : getDetails({ stack, innererror });
 };
 
 
