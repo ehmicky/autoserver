@@ -8,20 +8,13 @@ const { transform, map, recurseMap } = require('../utilities');
 
 // Compile all the IDL's JSL
 const compileIdlJsl = function ({ idl }) {
-  idl = compileTopLevelJsl({ idl });
+  idl.helpers = idl.helpers === undefined ? {} : idl.helpers;
+  idl.variables = idl.variables === undefined ? {} : idl.variables;
+
+  idl.helpers = map(idl.helpers, jsl => wrapHelpersJsl({ jsl, idl }));
+  idl.variables = map(idl.variables, jsl => wrapVariablesJsl({ jsl, idl }));
   idl.validation = compileValidationJsl({ idl });
   idl.models = compileModelsJsl({ idl });
-  return idl;
-};
-
-// Compile top-level attributes's JSL, e.g. `helpers` or `variables`
-const compileTopLevelJsl = function ({ idl }) {
-  idl.helpers = map(idl.helpers || {}, jsl => {
-    return wrapHelpersJsl({ jsl, idl });
-  });
-  idl.variables = map(idl.variables || {}, jsl => {
-    return wrapVariablesJsl({ jsl, idl });
-  });
   return idl;
 };
 
