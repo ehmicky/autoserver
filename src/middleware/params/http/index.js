@@ -27,7 +27,7 @@ const httpFillParams = function () {
 /**
  * Returns an HTTP request parameters (not payload)
  * Does not differentiate from where the input is from
- * (query variables, headers, URL variable)
+ * (query parameters, headers, URL parameters)
  * so the next layer can be protocol-agnostic
  *
  * @param {object} options
@@ -36,14 +36,14 @@ const httpFillParams = function () {
  * @returns {object} params
  **/
 const getParams = function ({ req }) {
-  // Query variables
-  const queryVars = httpQueryString.parse(req.url);
+  // Query parameters
+  const queryParams = httpQueryString.parse(req.url);
 
   // Namespaced HTTP headers
   const appHeaders = httpAppHeaders.parse(req);
 
   // Merge everything
-  const rawParams = Object.assign({}, appHeaders, queryVars);
+  const rawParams = Object.assign({}, appHeaders, queryParams);
 
   // Tries to guess parameter types, e.g. '15' -> 15
   const params = mapValues(rawParams, value => transtype(value));

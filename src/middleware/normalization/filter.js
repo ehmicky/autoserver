@@ -36,8 +36,8 @@ const normalizeFilter = function ({ filter }) {
 
   return singleJslString;
 };
-// Look for single dollar variables ($), while exclusing double dollar
-// variables ($$) or normal variables ($var)
+// Look for single dollar parameter ($), while exclusing double dollar
+// parameters ($$) or normal parameters ($example)
 // TODO: use a JavaScript parser instead
 const singleDollarRegExp = /([^$a-zA-Z0-9_])\$(?![$a-zA-Z0-9_])/g;
 const normalizeJsl = function ([attrName, attrJsl]) {

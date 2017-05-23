@@ -242,47 +242,45 @@ models:
 #     (for filters only) in the future
 #     for security and performance reasons
 #   - it can use helpers (see below)
-#   - it can use variables (see below)
-# Variables:
-#   - parameters passed to any JSL
+# Parameters:
+#   - passed to any JSL
 #   - they are divided into several groups:
-#      - helpers and variables
-#      - "request variables":
+#      - helpers
+#      - "protocol parameters"
 #         - NOW {string} - current date and time
 #         - IP {string} - request IP
 #         - PARAMS {object} - contains all request parameters:
 #           query strings, (application-namespaced) HTTP headers
-#      - "interface variables":
+#      - "action parameters":
 #         - COMMAND {string} - current command, among 'create', 'read',
 #           'update' or 'delete'
-#      - "model variables":
+#      - "database parameters":
 #         - $ {any} - value of current attribute,
 #           e.g. { filter: { name: '$ !== "John"' } }
 #           checks whether model.name !== 'John'
 #         - $$ {object} - current model (input or output),
 #           e.g. { filter: { name: '$ === $$.first_name' } }
 #           checks whether model.name === model.first_name
-#      - "helpers variables" (only available in helpers):
+#      - "helpers parameters" (only available in inline helpers):
 #         - ARG_1, ARG_2, etc. {any} - position parameter when firing
 #           the helper function
-#      - "validation variables" (only available in validation keywords):
+#      - "validation parameters" (only available in validation keywords):
 #         - EXPECTED {any} - value passed to the validation rule
 #   - restrictions:
-#      - arg.filter can only use $ and $$ variables
-#      - helpers and variables cannot use "interface variables"
-#        nor "model variables"
+#      - arg.filter can only use $ and $$ parameters
+#      - helpers inherit the parameters of the function that calls them
 # Default `commands` values for each model
 # If unspecified, is all commands but deleteMany
 commands: [create, read, update, delete]
 # Helpers are functions that can be used in any JSL.
-# Their argument is passed as variables ARG_1, ARG_2, etc. in inline functions
+# Their argument is passed as parameters ARG_1, ARG_2, etc. in inline functions
 # They must be pure functions, because they are memoized.
 helpers:
   # Helpers use JSL syntax themselves
   myMathFunc: ((ARG_1 * ARG_2) + (ARG_3 * ARG_4))
   exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
   recursive_func: (exampleFunction())
-  moreRecursiveFunc: (recursive_func() + TestVariable())
+  moreRecursiveFunc: (recursive_func() + TestConstant())
   getBirthDate: 2005-01-01
   # One can require JavaScript files (Node.js)
   myOtherMathFunc:
@@ -294,7 +292,7 @@ helpers:
   - $ref: lodash
   # One can require sets of constants
   - $ref: constants.json
-  # Dummy variable
+  # Dummy constant
   user: '({ id: "1" })'
 # Plugins are functions that take `idl` as input, and returns a modified
 # IDL as output.

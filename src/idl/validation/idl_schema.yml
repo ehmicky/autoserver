@@ -39,18 +39,6 @@ properties:
       # helpers for forward compatibility
       not:
         pattern: '^[A-Z_]+$'
-  # Custom variables that can be used in JSL
-  variables:
-    type: object
-    properties:
-      libraries:
-        $ref: '#/definitions/librariesProperty'
-    propertyNames:
-      pattern: '^\$[a-zA-Z_][0-9a-zA-Z_]*$'
-      # system-defined variables use $THIS_CASE, so we forbid it for
-      # user-defined variables for forward compatibility
-      not:
-        pattern: '^\$[A-Z_]+$'
   # Functions that modifies IDL definition
   plugins:
     type: array
@@ -209,7 +197,7 @@ definitions:
       - allOf: [{contains: {const: delete}}, {contains: {const: deleteOne}}]
       - allOf: [{contains: {const: update}}, {contains: {const: updateOne}}]
       - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
-  # idl.helpers|variables.library
+  # idl.helpers.library
   librariesProperty:
     type: array
     items:
