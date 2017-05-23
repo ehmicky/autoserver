@@ -88,25 +88,25 @@ const limitResponse = function ({ data, limit }) {
 };
 
 // '($ === ID)' -> ID
-const filterToId = function ({ filter: { jsl } }) {
+const filterToId = function ({ filter }) {
   try {
-    const parts = idJslRegExp.exec(jsl);
+    const parts = idJslRegExp.exec(filter);
     if (!parts) {
-      const message = `JSL expression should be '($ === ID)': ${jsl}`;
+      const message = `JSL expression should be '($ === ID)': ${filter}`;
       throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
     }
     const id = JSON.parse(parts[1]);
     return id;
   } catch (innererror) {
-    const message = `JSL expression should be '($ === ID)': ${jsl}`;
+    const message = `JSL expression should be '($ === ID)': ${filter}`;
     throw new EngineError(message, {
       reason: 'INPUT_SERVER_VALIDATION',
       innererror,
     });
   }
 };
-// Look for '($ === ID)'
-const idJslRegExp = /^\(\$\$\.id\s*===\s*(.*)\)$/;
+// Look for '(($ === ID))'
+const idJslRegExp = /^\(\(\$\$\.id\s*===\s*(.*)\)\)$/;
 
 const findIndexes = function({ collection, filter, opts: { jsl } }) {
   if (!filter) {
