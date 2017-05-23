@@ -50,6 +50,8 @@ const startChain = async function (opts) {
     mdw.interfaceConvertor,
     // Pick the interface
     mdw.interfaceNegotiator,
+    // Interface-related validation layer
+    mdw.interfaceValidation,
     // Add interface-specific attributes to thrown exceptions
     mdw.interfaceErrorHandler,
     // Translates interface-specific calls into generic instance actions
@@ -92,6 +94,8 @@ const startChain = async function (opts) {
      **/
     // Convert from Command format to Api format
     mdw.apiConvertor,
+    // API-related validation layer
+    mdw.apiValidation,
     // Paginate output
     mdw.pagination,
 

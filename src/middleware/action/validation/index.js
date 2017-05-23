@@ -17,12 +17,10 @@ const { EngineError } = require('../../../error');
  **/
 const actionValidation = function ({ idl: { models } = {} }) {
   return async function actionValidation(input) {
-    const { modelName, args, sysArgs, action } = input;
+    const { action } = input;
 
     const schema = getValidateServerSchema({ models });
-    const data = { modelName, args, sysArgs, action };
-    const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
-    validate({ schema, data, reportInfo });
+    validate({ schema, data: input, reportInfo });
 
     validateAction({ action });
 
@@ -30,6 +28,8 @@ const actionValidation = function ({ idl: { models } = {} }) {
     return response;
   };
 };
+
+const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
 
 // Get JSON schema to validate against input
 const getValidateServerSchema = function ({ models = {} }) {
@@ -41,6 +41,9 @@ const getValidateServerSchema = function ({ models = {} }) {
       'args',
       'sysArgs',
       'action',
+      'fullAction',
+      'jsl',
+      'params',
     ],
     properties: {
       modelName: {
@@ -51,6 +54,9 @@ const getValidateServerSchema = function ({ models = {} }) {
       args: { type: 'object' },
       sysArgs: { type: 'object' },
       action: { type: 'object' },
+      fullAction: { type: 'string' },
+      jsl: { type: 'object' },
+      params: { type: 'object' },
     },
   };
 };

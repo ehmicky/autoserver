@@ -9,12 +9,11 @@ const { EngineError } = require('../../../error');
 
 
 /**
- * Command-related validation layer
- * Check input, for the errors that should not happen,
- * i.e. server-side (e.g. 500)
+ * API-related validation layer
+ * Check input, for errors that should not happen, i.e. server-side (e.g. 500)
  **/
-const commandValidation = function ({ idl: { models } = {} }) {
-  return async function commandValidation(input) {
+const apiValidation = function ({ idl: { models } = {} }) {
+  return async function apiValidation(input) {
     const { command } = input;
 
     const schema = getValidateServerSchema({ models });
@@ -37,6 +36,7 @@ const getValidateServerSchema = function ({ models = {} }) {
     required: [
       'modelName',
       'args',
+      'dbArgs',
       'sysArgs',
       'command',
       'jsl',
@@ -49,6 +49,7 @@ const getValidateServerSchema = function ({ models = {} }) {
         enum: modelNames,
       },
       args: { type: 'object' },
+      dbArgs: { type: 'object' },
       sysArgs: {
         type: 'object',
         // We want to make sure action layer knows whether pagination
@@ -83,5 +84,5 @@ const validateCommand = function ({ command }) {
 
 
 module.exports = {
-  commandValidation,
+  apiValidation,
 };
