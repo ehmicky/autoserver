@@ -8,11 +8,10 @@ const { protocolValidation } = require('./validation');
 // Converts from no format to Protocol format
 const protocolConvertor = function ({ idl: { helpers } }) {
   return async function protocolConvertor(input) {
-    const info = {};
     const jsl = (new Jsl()).addHelpers({ helpers });
 
     const protocol = { specific: input };
-    const nextInput = { info, jsl, protocol };
+    const nextInput = { jsl, protocol };
 
     protocolValidation({ input: nextInput });
 

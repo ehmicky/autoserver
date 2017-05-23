@@ -13,7 +13,7 @@ const interfaceErrorHandler = function () {
       return response;
     } catch (error) {
       const keyName = 'interface';
-      const key = input.info.interface;
+      const key = input.interface;
 
       error = processError({
         error,
