@@ -12,6 +12,7 @@ const { EngineError } = require('../../../error');
 const protocolValidation = function () {
   return function protocolValidation(input) {
     const { protocol } = input;
+
     if (!protocol) {
       const message = 'Unsupported protocol';
       throw new EngineError(message, { reason: 'UNSUPPORTED_PROTOCOL' });
@@ -26,10 +27,12 @@ const protocolValidation = function () {
 
 const schema = {
   type: 'object',
-  required: ['specific', 'jsl'],
+  required: ['specific', 'jsl', 'protocol', 'protocolFullName'],
   properties: {
     specific: { type: 'object' },
     jsl: { type: 'object' },
+    protocol: { type: 'string' },
+    protocolFullName: { type: 'string' },
   },
 };
 const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
