@@ -4,7 +4,6 @@
 const { set, merge, mergeWith } = require('lodash');
 
 const { validate } = require('../../validation');
-const { jslRegExp } = require('../../jsl');
 
 
 /**
@@ -68,12 +67,7 @@ const validateClientSchema = [
   },
   {
     name: 'filter',
-    value: {
-      typeof: 'function',
-      properties: {
-        jsl: { type: 'string', pattern: String(jslRegExp) }
-      },
-    },
+    value: { typeof: 'function' },
   },
   // TODO: re-enabled after we use ORM format for arg.filter
   // { name: 'filter.id', value: ({ isNotJslFilterId }) =>
