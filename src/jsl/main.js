@@ -5,6 +5,7 @@ const { EngineError } = require('../error');
 const { map } = require('../utilities');
 const { compileJsl } = require('./compile');
 const { checkNames } = require('./validation');
+const { isJsl } = require('./test');
 
 
 class Jsl {
@@ -26,12 +27,14 @@ class Jsl {
   // with ARG_1, ARG_2, etc. provided as extra arguments
   compileHelpers({ helpers }) {
     const compiledHelpers = map(helpers, helper => {
-      return (...args) => {
-        // Non-inline helpers only get positional arguments, no parameters
-        if (typeof helper === 'function') {
-          return helper(...args);
-        }
+      // Non-inline helpers only get positional arguments, no parameters
+      if (typeof helper === 'function') { return helper; }
 
+      // Constants are left as is
+      if (!isJsl({ jsl: helper })) { return helper; }
+
+      // JSL is run with current instance
+      return (...args) => {
         // Provide ARG_1, ARG_2, etc. to inline JSL
         const [ ARG_1, ARG_2, ARG_3, ARG_4, ARG_5, ARG_6, ARG_7 ] = args;
         const input = { ARG_1, ARG_2, ARG_3, ARG_4, ARG_5, ARG_6, ARG_7 };
