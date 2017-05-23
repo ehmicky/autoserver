@@ -69,13 +69,6 @@ const errorReasons = {
     },
   },
 
-  // A JSL expression failed, e.g. when being evaluated
-  JSL_SYNTAX: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
-
   // Standard 404, e.g. route not found
   NOT_FOUND: {
     protocol: {
