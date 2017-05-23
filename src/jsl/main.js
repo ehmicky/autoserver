@@ -9,6 +9,7 @@ const { isJsl } = require('./test');
 const { getRawJsl } = require('./tokenize');
 
 
+// Instance containing JSL parameters and helpers, re-created for each request
 class Jsl {
 
   constructor({ input = {} } = {}) {
