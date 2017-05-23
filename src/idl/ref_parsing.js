@@ -24,7 +24,11 @@ const resolveJsonRefs = async function ({ idl, baseDir }) {
   try {
     parsedIdl = await dereferenceRefs(idl);
   } catch (innererror) {
-    throw new EngineStartupError('Could not resolve references \'$ref\'', { reason: 'IDL_SYNTAX_ERROR', innererror });
+    const message = 'Could not resolve references \'$ref\'';
+    throw new EngineStartupError(message, {
+      reason: 'IDL_SYNTAX_ERROR',
+      innererror,
+    });
   }
 
   if (currentDir) {
@@ -46,7 +50,8 @@ const mergeLibraries = function ({ idl, attrName, filterFunc = () => true }) {
 
   if (idl[attrName].libraries instanceof Array) {
     // Each library must an object of functions (non-functions are ignored)
-    // This translate this array of object of functions into a single object, which is merged into `idl[attrName]`
+    // This translate this array of object of functions into a single object,
+    // which is merged into `idl[attrName]`
     const libraries = idl[attrName].libraries
       .map(library => Object.entries(library)
         .filter(([, value]) => filterFunc(value))
@@ -63,8 +68,13 @@ const mergeLibraries = function ({ idl, attrName, filterFunc = () => true }) {
 };
 // Which attributes in idl.* can use libraries
 const librariesAttrs = [
-  // Libraries like Lodash or underscore.string are objects that can be used as functions as well
-  { attrName: 'helpers', filterFunc: value => typeof value === 'function' && Object.keys(value).length === 0 },
+  // Libraries like Lodash or underscore.string are objects that can be used
+  // as functions as well
+  {
+    attrName: 'helpers',
+    filterFunc: value => typeof value === 'function' &&
+      Object.keys(value).length === 0,
+  },
   { attrName: 'variables' },
 ];
 
