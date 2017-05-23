@@ -16,6 +16,7 @@ const interfaceNegotiator = function () {
       throw new EngineError(message, { reason: 'UNSUPPORTED_INTERFACE' });
     }
     Object.assign(input, { interface: interf });
+    delete input.route;
 
     const response = await this.next(input);
     return response;

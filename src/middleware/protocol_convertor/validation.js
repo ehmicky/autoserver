@@ -14,11 +14,10 @@ const protocolValidation = function ({ input }) {
 
 const schema = {
   type: 'object',
-  required: ['specific'],
+  required: ['specific', 'jsl'],
   properties: {
-    specific: {
-      type: 'object',
-    },
+    specific: { type: 'object' },
+    jsl: { type: 'object' },
   },
 };
 const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };

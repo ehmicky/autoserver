@@ -5,7 +5,10 @@
 const actionConvertor = function () {
   return async function actionConvertor(input) {
     const {
-      actionInput: { action, fullAction, args, modelName },
+      action,
+      fullAction,
+      args,
+      modelName,
       jsl,
       interface: interf,
     } = input;
@@ -14,7 +17,9 @@ const actionConvertor = function () {
     const nextInput = { action, fullAction, args, sysArgs, modelName, jsl };
 
     const { data, metadata } = await this.next(nextInput);
+
     const response = actionConvertorOutput[interf]({ data, metadata });
+
     return response;
   };
 };

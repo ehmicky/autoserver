@@ -48,7 +48,7 @@ const startChain = async function (opts) {
     // Add interface-specific attributes to thrown exceptions
     mdw.interfaceErrorHandler,
     // Translates interface-specific calls into generic instance actions
-    mdw.executeInterface,
+    mdw.interfaceExecute,
 
     /**
      * Action-related middleware
@@ -60,7 +60,7 @@ const startChain = async function (opts) {
     // Add action-specific attributes to thrown exceptions
     mdw.actionErrorHandler,
     // Turn one action into 0, 1 or several commands
-    mdw.executeAction,
+    mdw.actionExecute,
 
     /**
      * Command-related middleware, for normalization
@@ -79,26 +79,22 @@ const startChain = async function (opts) {
     mdw.normalization,
     // Only keep minimal attributes in delete response
     mdw.cleanDelete,
+    // Process transforms
+    mdw.transform,
 
     /**
      * Generic API-related middleware
      **/
     // Paginate output
     mdw.pagination,
-    // Process transforms
-    mdw.transform,
-
-    /**
-     * Validation-related middleware
-     **/
-    // General validation layer
-    mdw.validation,
 
     /**
      * Database-related middleware
      **/
+    // General validation layer
+    mdw.validation,
     // Do the database action, protocol and interface-agnostic
-    mdw.executeDatabaseAction,
+    mdw.databaseExecute,
 
     /**
      * Catch-all error middleware
