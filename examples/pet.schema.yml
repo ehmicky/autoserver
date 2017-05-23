@@ -268,7 +268,7 @@ models:
 #         - EXPECTED {any} - value passed to the validation rule
 #   - restrictions:
 #      - arg.filter can only use $ and $$ parameters
-#      - helpers inherit the parameters of the function that calls them
+#      - helpers can only reference other helpers
 # Default `commands` values for each model
 # If unspecified, is all commands but deleteMany
 commands: [create, read, update, delete]
