@@ -54,12 +54,7 @@ class Jsl {
   // Process (already compiled) JSL function,
   // i.e. fires it and returns its value
   // If this is not JSL, returns as is
-  run({
-    value,
-    input = {},
-    errorType: ErrorType = EngineError,
-    errorReason = 'UTILITY_ERROR',
-  }) {
+  run({ value, input = {}, type = 'server' }) {
     try {
       const params = Object.assign({}, this.input, input);
       const paramsKeys = Object.keys(params);
@@ -76,7 +71,9 @@ class Jsl {
         `${value.name}()`;
       const expression = rawJsl || funcName || value;
       const message = `JSL expression failed: '${expression}'`;
-      throw new ErrorType(message, { reason: errorReason, innererror });
+
+      const reason = type === 'server' ? 'UTILITY_ERROR' : 'INPUT_VALIDATION';
+      throw new EngineError(message, { reason, innererror });
     }
   }
 }
