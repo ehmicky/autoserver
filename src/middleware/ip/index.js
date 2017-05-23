@@ -5,7 +5,7 @@ const { mapAsync } = require('../../utilities');
 const { httpGetIp } = require('./http');
 
 
-// Retrieve request's IP, assigned to protocol input, and also to JSL $NOW
+// Retrieve request's IP, assigned to protocol input, and also to JSL NOW
 const getIp = async function (opts) {
   const map = await mapAsync(ipMap, async func => await func(opts));
 
@@ -14,7 +14,7 @@ const getIp = async function (opts) {
 
     const ip = map[protocol.name](input) || '';
     protocol.ip = ip;
-    jsl.add({ $IP: ip });
+    jsl.add({ IP: ip });
 
     const response = await this.next(input);
     return response;

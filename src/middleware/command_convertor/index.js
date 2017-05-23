@@ -17,7 +17,7 @@ const commandConvertor = function () {
 
     const newInfo = Object.assign({}, info, { command });
 
-    jsl.add({ $COMMAND: command.type });
+    jsl.add({ COMMAND: command.type });
 
     const nextInput = {
       command,

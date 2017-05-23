@@ -140,7 +140,7 @@ models:
         compute: (String($moreRecursiveVariable()))
         # Same for output. It is useless in this case,
         # but used for illustration.
-        #computeOut: ($IP)
+        #computeOut: (IP)
       best_friend:
         # This means this attribute is an instance of the `pet` model,
         # i.e. a foreign key
@@ -248,12 +248,12 @@ models:
 #   - they are divided into several groups:
 #      - helpers and variables
 #      - "request variables":
-#         - $NOW {string} - current date and time
-#         - $IP {string} - request IP
-#         - $PARAMS {object} - contains all request parameters:
+#         - NOW {string} - current date and time
+#         - IP {string} - request IP
+#         - PARAMS {object} - contains all request parameters:
 #           query strings, (application-namespaced) HTTP headers
 #      - "interface variables":
-#         - $COMMAND {string} - current command, among 'create', 'read',
+#         - COMMAND {string} - current command, among 'create', 'read',
 #           'update' or 'delete'
 #      - "model variables":
 #         - $ {any} - value of current attribute,
