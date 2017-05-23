@@ -47,28 +47,8 @@ class Jsl {
         }
 
         // Provide ARG_1, ARG_2, etc. to inline JSL
-        const [
-          ARG_1,
-          ARG_2,
-          ARG_3,
-          ARG_4,
-          ARG_5,
-          ARG_6,
-          ARG_7,
-          ARG_8,
-          ARG_9,
-        ] = args;
-        const input = {
-          ARG_1,
-          ARG_2,
-          ARG_3,
-          ARG_4,
-          ARG_5,
-          ARG_6,
-          ARG_7,
-          ARG_8,
-          ARG_9,
-        };
+        const [ ARG_1, ARG_2, ARG_3, ARG_4, ARG_5, ARG_6, ARG_7 ] = args;
+        const input = { ARG_1, ARG_2, ARG_3, ARG_4, ARG_5, ARG_6, ARG_7 };
 
         return this.run({ value: helper, input });
       };
