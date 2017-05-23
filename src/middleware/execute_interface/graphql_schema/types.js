@@ -69,7 +69,7 @@ const getField = function (def, opts) {
   // Can only assign default to input data that is optional.
   // 'update' does not required anything, nor assign defaults
   let defaultValue;
-  const hasDefaultValue = opts.isRequired &&
+  const hasDefaultValue = !opts.isRequired &&
     opts.inputObjectType === 'data' &&
     opts.action.type !== 'update' &&
     def.default;
