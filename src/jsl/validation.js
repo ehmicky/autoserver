@@ -2,6 +2,7 @@
 
 
 const { EngineError } = require('../error');
+const { memoize } = require('../utilities');
 
 
 // Make sure there is no name conflicts between system helpers and
@@ -21,9 +22,7 @@ const checkNames = function (input, type) {
   }
 };
 
-const checkSystemName = function (name) {
-  return systemNameRegExp.test(name);
-};
+const checkSystemName = memoize(name => systemNameRegExp.test(name));
 const systemNameRegExp = /^[A-Z_]+$/;
 
 
