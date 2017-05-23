@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { omitBy } = require('lodash');
+const { omitBy, cloneDeep } = require('lodash');
 
 const { isDev } = require('../../utilities');
 
@@ -13,8 +13,8 @@ const getResponse = function ({ error }) {
     title,
     message: description,
     instance,
-    stack,
-    innererror,
+    stack: outerStack,
+    innererror: { stack: details = outerStack } = {},
     extra,
     transforms = [],
   } = error;
@@ -24,32 +24,25 @@ const getResponse = function ({ error }) {
   // Any custom information
   Object.assign(content, extra);
   // Stack trace is always at the end
-  if (isDev()) {
-    const details = getDetails({ stack, innererror });
-    Object.assign(content, { details });
-  }
+  Object.assign(content, { details });
 
   // Do not expose undefined values
-  const cleanContent = omitBy(content, val => val === undefined);
+  const errorObj = omitBy(content, val => val === undefined);
 
-  const response = { type: 'error', content: cleanContent };
+  const response = { type: 'error', content: cloneDeep(errorObj) };
 
+  // Remove development-related information, but only for the response sent
+  // to client, not the error sent reported by system (`errorObj`)
+  if (!isDev()) {
+    delete response.content.details;
+  }
+
+  // E.g. interface-specific error format, e.g. GraphQL
   const transformedResponse = transforms.reduce((resp, transform) => {
     return transform(resp);
   }, response);
 
-  return transformedResponse;
-};
-
-// Recursively find innererror stack
-const getDetails = function ({
-  stack,
-  innererror: {
-    stack: details = stack,
-    innererror,
-  } = {},
-}) {
-  return innererror === undefined ? details : getDetails({ stack, innererror });
+  return { errorObj, transformedResponse };
 };
 
 

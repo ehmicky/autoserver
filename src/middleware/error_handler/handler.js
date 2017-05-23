@@ -27,13 +27,13 @@ const errorHandler = function (opts) {
 const handleError = function ({ error, opts }) {
   error = processError({ error });
 
-  const response = getResponse({ error });
+  const { errorObj, transformedResponse } = getResponse({ error });
 
-  reportError({ response, opts });
+  reportError({ errorObj, opts });
 
   // Use protocol-specific way to send back the response to the client
   if (error.sendError) {
-    error.sendError(response);
+    error.sendError(transformedResponse);
   }
 };
 

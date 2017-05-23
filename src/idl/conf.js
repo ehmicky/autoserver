@@ -20,7 +20,8 @@ const getIdlConf = async function ({ conf }) {
     try {
       path = await realpathAsync(conf);
     } catch (innererror) {
-      throw new EngineStartupError(`Configuration file does not exist: ${conf}`, {
+      const message = `Configuration file does not exist: '${conf}'`;
+      throw new EngineStartupError(message, {
         reason: 'CONFIGURATION_LOADING',
         innererror,
       });
@@ -32,12 +33,17 @@ const getIdlConf = async function ({ conf }) {
     try {
       idl = await getYaml({ path });
     } catch (innererror) {
-      throw new EngineStartupError('Could not load configuration file', { reason: 'CONFIGURATION_LOADING', innererror });
+      const message = 'Could not load configuration file';
+      throw new EngineStartupError(message, {
+        reason: 'CONFIGURATION_LOADING',
+        innererror,
+      });
     }
   } else if (conf && conf.constructor === Object) {
     idl = conf;
   } else {
-    throw new EngineStartupError('Missing configuration file or \'conf\' option', { reason: 'CONFIGURATION_LOADING' });
+    const message = 'Missing configuration file or \'conf\' option';
+    throw new EngineStartupError(message, { reason: 'CONFIGURATION_LOADING' });
   }
 
   return { idl, baseDir };

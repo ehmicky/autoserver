@@ -6,8 +6,11 @@ const { reportError } = require('./report');
 
 // If error handler fails, only reports failure then gives up
 const handleFailure = function ({ error, innererror, opts }) {
-  const response = getErrorHandlerFailure({ error, innererror });
-  reportError({ response, opts });
+  innererror = typeof innererror === 'string'
+    ? { stack: innererror }
+    : innererror;
+  const errorObj = getErrorHandlerFailure({ error, innererror });
+  reportError({ errorObj, opts });
 };
 
 const getErrorHandlerFailure = function ({
