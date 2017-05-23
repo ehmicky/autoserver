@@ -10,11 +10,20 @@ const actionConvertor = function () {
       args,
       modelName,
       jsl,
+      params,
       interface: interf,
     } = input;
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
-    const nextInput = { action, fullAction, args, sysArgs, modelName, jsl };
+    const nextInput = {
+      action,
+      fullAction,
+      args,
+      sysArgs,
+      modelName,
+      jsl,
+      params,
+    };
 
     const { data, metadata } = await this.next(nextInput);
 
