@@ -292,8 +292,8 @@ helpers:
   libraries:
   - $ref: underscore.string
   - $ref: lodash
-  # One can require sets of variables
-  - $ref: variables.json
+  # One can require sets of constants
+  - $ref: constants.json
   # Dummy variable
   user: '({ id: "1" })'
 # Plugins are functions that take `idl` as input, and returns a modified
