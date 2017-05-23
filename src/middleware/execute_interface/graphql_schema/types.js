@@ -76,7 +76,9 @@ const getField = function (def, opts) {
   if (hasDefaultValue) {
     // JSL only shows as 'DYNAMIC_VALUE' in schema
     const defaults = def.default instanceof Array ? def.default : [def.default];
-    const isDynamic = defaults.some(jsl => isJsl({ jsl }));
+    const isDynamic = defaults.some(jsl => {
+      return isJsl({ jsl }) || typeof jsl === 'function';
+    });
     defaultValue = isDynamic ? 'DYNAMIC_VALUE' : def.default;
   }
 
