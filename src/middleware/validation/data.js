@@ -16,7 +16,7 @@ const validateClientInputData = function ({
   idl,
   modelName,
   command,
-  args,
+  dbArgs,
   jsl,
 }) {
   const type = 'clientInputData';
@@ -26,7 +26,7 @@ const validateClientInputData = function ({
     command,
     type,
   });
-  const attributes = getAttributes(args);
+  const attributes = getAttributes(dbArgs);
   each(attributes, (attribute, dataVar) => {
     attribute = attribute instanceof Array ? attribute : [attribute];
     attribute.forEach(data => {
@@ -70,7 +70,7 @@ const validateServerOutputData = function ({
   response: { data },
   action,
   command,
-  args: { no_output: noOutput },
+  dbArgs: { no_output: noOutput },
   jsl,
 }) {
   if (noOutput) { return; }
@@ -153,9 +153,9 @@ const transforms = [
 /**
  * Keeps the arguments to validate
  **/
-const getAttributes = function (args) {
+const getAttributes = function (dbArgs) {
   // TODO: validate `filter`
-  return pickBy(args, (arg, dataVar) => {
+  return pickBy(dbArgs, (arg, dataVar) => {
     return [/*'filter', */'data'].includes(dataVar) && arg;
   });
 };

@@ -70,17 +70,16 @@ const { getPaginationInfo } = require('./info');
  **/
 const pagination = function ({ maxPageSize }) {
   return async function pagination(input) {
-    const { args, sysArgs } = input;
+    const { args } = input;
     const originalArgs = cloneDeep(args);
 
-    const paginatedInput = processInput({ input, sysArgs, maxPageSize });
+    const paginatedInput = processInput({ input, maxPageSize });
     const response = await this.next(paginatedInput);
 
     const paginatedOutput = processOutput({
       input,
       response,
       args: originalArgs,
-      sysArgs,
       maxPageSize,
     });
     return paginatedOutput;
@@ -88,8 +87,8 @@ const pagination = function ({ maxPageSize }) {
 };
 
 // Transform args.page_size|before|after|page into args.limit|offset|filter
-const processInput = function ({ input, sysArgs, maxPageSize }) {
-  const { args, command, action, modelName } = input;
+const processInput = function ({ input, maxPageSize }) {
+  const { args, dbArgs, sysArgs, command, action, modelName } = input;
 
   validatePaginationInput({
     args,
@@ -102,7 +101,7 @@ const processInput = function ({ input, sysArgs, maxPageSize }) {
 
   if (mustPaginateOutput({ args, sysArgs })) {
     const paginationInput = getPaginationInput({ args });
-    Object.assign(input, paginationInput);
+    Object.assign(dbArgs, paginationInput);
   }
 
   return input;
@@ -114,10 +113,9 @@ const processOutput = function ({
   input,
   response,
   args,
-  sysArgs,
   maxPageSize,
 }) {
-  const { action, modelName } = input;
+  const { sysArgs, action, modelName } = input;
 
   reverseOutput({ args, response });
 

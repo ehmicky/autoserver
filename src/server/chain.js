@@ -11,13 +11,16 @@ const startChain = async function (opts) {
   const mdw = await mapAsync(middlewares, async mdw => await mdw(opts));
 
   const allMiddlewares = chain([
+    /**
+     * Catch-all error handler
+     **/
     // Error handler, which sends final response, if errors
     mdw.errorHandler,
 
     /**
-     * Protocol-related middleware
+     * Protocol layer
      **/
-    // Sets up protocol format
+    // Sets up Protocol format
     mdw.protocolConvertor,
     // Pick the protocol
     mdw.protocolNegotiator,
@@ -39,9 +42,9 @@ const startChain = async function (opts) {
     mdw.logger,
 
     /**
-     * Interface-related middleware
+     * Interface layer
      **/
-    // Convert from protocol format to interface format
+    // Convert from Protocol format to Interface format
     mdw.interfaceConvertor,
     // Pick the interface
     mdw.interfaceNegotiator,
@@ -51,9 +54,9 @@ const startChain = async function (opts) {
     mdw.interfaceExecute,
 
     /**
-     * Action-related middleware
+     * Action layer
      **/
-    // Convert from interface format to Action format
+    // Convert from Interface format to Action format
     mdw.actionConvertor,
     // Action-related validation layer
     mdw.actionValidation,
@@ -63,7 +66,7 @@ const startChain = async function (opts) {
     mdw.actionExecute,
 
     /**
-     * Command-related middleware, for normalization
+     * Command layer, for normalization
      **/
     // Convert from Action format to Command format
     mdw.commandConvertor,
@@ -83,14 +86,18 @@ const startChain = async function (opts) {
     mdw.transform,
 
     /**
-     * Generic API-related middleware
+     * API layer, for preparing database action
      **/
+    // Convert from Command format to Api format
+    mdw.apiConvertor,
     // Paginate output
     mdw.pagination,
 
     /**
-     * Database-related middleware
+     * Database layer
      **/
+    // Convert from Api format to Database format
+    mdw.databaseConvertor,
     // General validation layer
     mdw.validation,
     // Do the database action, protocol and interface-agnostic
