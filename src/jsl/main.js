@@ -8,16 +8,32 @@ const { compileJsl } = require('./compile');
 
 class Jsl {
 
-  // TODO: variable name check
   constructor({ idl }) {
     this.input = {};
     this.compileHelpers({ idl });
     this.compileVariables({ idl });
   }
 
-  // TODO: variable name check
-  add(input = {}) {
+  add(input = {}, { type = 'SYSTEM' } = {}) {
+    this.checkNames(input, type);
     Object.assign(this.input, input);
+  }
+
+  // Make sure there is no name conflicts between system helpers and
+  // user-supplied helpers, by forcing the former to be UPPER_CASE, and
+  // forbidding the latter to be so
+  checkNames(input, type) {
+    const isSystemType = type === 'SYSTEM';
+    for (const name of Object.keys(input)) {
+      const isSystemName = systemNameRegExp.test(name);
+      if (isSystemType && !isSystemName) {
+        const message = `JSL helper named '${name}' should be uppercase/underscore only`;
+        throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+      } else if (!isSystemType && isSystemName) {
+        const message = `JSL helper named '${name}' should not be uppercase/underscore only`;
+        throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+      }
+    }
   }
 
   // Take JSL, inline or not, and turns into `function (...args)`
@@ -38,7 +54,7 @@ class Jsl {
         return this.run({ value: helper, input });
       };
     });
-    this.add(compiledHelpers);
+    this.add(compiledHelpers, { type: 'USER' });
   }
 
   compileVariables({ idl: { variables = {} } }) {
@@ -47,7 +63,7 @@ class Jsl {
         return this.run({ value: variable });
       };
     });
-    this.add(compiledVariables);
+    this.add(compiledVariables, { type: 'USER' });
   }
 
   // Process (already compiled) JSL function,
@@ -71,6 +87,8 @@ class Jsl {
     }
   }
 }
+
+const systemNameRegExp = /^[A-Z_]+$/;
 
 
 module.exports = {
