@@ -6,6 +6,7 @@ const { map } = require('../utilities');
 const { compileJsl } = require('./compile');
 const { checkNames } = require('./validation');
 const { isJsl } = require('./test');
+const { getRawJsl } = require('./tokenize');
 
 
 class Jsl {
@@ -56,12 +57,20 @@ class Jsl {
   }) {
     try {
       const params = Object.assign({}, this.input, input);
-      const jslFunc = compileJsl({ jsl: value, params });
+      const paramsKeys = Object.keys(params);
+      const jslFunc = compileJsl({ jsl: value, paramsKeys });
 
       if (typeof jslFunc !== 'function') { return jslFunc; }
       return jslFunc(params);
     } catch (innererror) {
-      const message = `JSL expression failed: '${value}'`;
+      // JSL without parenthesis
+      const rawJsl = getRawJsl({ jsl: value });
+      // If non-inline function, function name
+      const funcName = typeof value === 'function' &&
+        value.name &&
+        `${value.name}()`;
+      const expression = rawJsl || funcName || value;
+      const message = `JSL expression failed: '${expression}'`;
       throw new ErrorType(message, { reason: errorReason, innererror });
     }
   }
