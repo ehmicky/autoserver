@@ -38,7 +38,7 @@ class Jsl {
 
   // Take JSL, inline or not, and turns into `function (...args)`
   // firing the first one,
-  // with $1, $2, etc. provided as extra arguments
+  // with ARG_1, ARG_2, etc. provided as extra arguments
   compileHelpers({ idl: { helpers = {} } }) {
     const compiledHelpers = map(helpers, helper => {
       return (...args) => {
@@ -47,9 +47,29 @@ class Jsl {
           return helper(...args);
         }
 
-        // Provide $1, $2, etc. to inline JSL
-        const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-        const input = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+        // Provide ARG_1, ARG_2, etc. to inline JSL
+        const [
+          ARG_1,
+          ARG_2,
+          ARG_3,
+          ARG_4,
+          ARG_5,
+          ARG_6,
+          ARG_7,
+          ARG_8,
+          ARG_9,
+        ] = args;
+        const input = {
+          ARG_1,
+          ARG_2,
+          ARG_3,
+          ARG_4,
+          ARG_5,
+          ARG_6,
+          ARG_7,
+          ARG_8,
+          ARG_9,
+        };
 
         return this.run({ value: helper, input });
       };
