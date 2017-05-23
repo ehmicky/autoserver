@@ -128,7 +128,8 @@ models:
         transform: ($.toLowerCase())
         transformOut: (capitalize($))
         # Applied default values, on input or output
-        default: happy
+        default:
+          $ref: default_value.js
       creator_ip:
         description: IP of the user that created this pet
         # compute sets the value of an attribute.
