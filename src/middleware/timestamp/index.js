@@ -6,7 +6,7 @@ const getTimestamp = function () {
     const { protocol, jsl } = input;
 
     protocol.timestamp = (new Date()).toISOString();
-    jsl.add({ NOW: protocol.timestamp });
+    input.jsl = jsl.add({ NOW: protocol.timestamp });
 
     const response = await this.next(input);
     return response;

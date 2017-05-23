@@ -11,22 +11,22 @@ const { getRawJsl } = require('./tokenize');
 
 class Jsl {
 
-  constructor({ helpers }) {
-    this.input = {};
-    if (helpers) {
-      this.compileHelpers({ helpers });
-    }
+  constructor({ input = {} } = {}) {
+    this.input = input;
   }
 
+  // Return a shallow copy.
+  // Reason: requests can trigger several sub-requests, which should be
+  // independant from each other, i.e. all get their own JSL instance.
   add(input = {}, { type = 'SYSTEM' } = {}) {
     checkNames(input, type);
-    Object.assign(this.input, input);
+    const newInput = Object.assign({}, this.input, input);
+    return new Jsl({ input: newInput });
   }
 
   // Take JSL, inline or not, and turns into `function (...args)`
-  // firing the first one,
-  // with ARG_1, ARG_2, etc. provided as extra arguments
-  compileHelpers({ helpers }) {
+  // firing the first one, with ARG_1, ARG_2, etc. provided as extra arguments
+  addHelpers({ helpers = {} }) {
     const compiledHelpers = map(helpers, helper => {
       // Non-inline helpers only get positional arguments, no parameters
       if (typeof helper === 'function') { return helper; }
@@ -43,7 +43,11 @@ class Jsl {
         return this.run({ value: helper, input });
       };
     });
-    this.add(compiledHelpers, { type: 'USER' });
+
+    // Allow helpers to reference each other
+    Object.assign(this.input, compiledHelpers);
+
+    return this.add(compiledHelpers, { type: 'USER' });
   }
 
   // Process (already compiled) JSL function,
