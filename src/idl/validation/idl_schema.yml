@@ -35,7 +35,6 @@ properties:
       libraries:
         $ref: '#/definitions/librariesProperty'
     propertyNames:
-      pattern: '^[a-zA-Z_][0-9a-zA-Z_]*$'
       # system-defined helpers use THIS_CASE, so we forbid it for user-defined
       # helpers for forward compatibility
       not:
