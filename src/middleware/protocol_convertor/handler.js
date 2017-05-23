@@ -9,7 +9,7 @@ const { protocolValidation } = require('./validation');
 const protocolConvertor = function ({ idl: { helpers } }) {
   return async function protocolConvertor(input) {
     const info = {};
-    const jsl = new Jsl({ helpers });
+    const jsl = (new Jsl()).addHelpers({ helpers });
 
     const protocol = { specific: input };
     const nextInput = { info, jsl, protocol };

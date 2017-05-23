@@ -15,16 +15,15 @@ const commandConvertor = function () {
       protocol,
     } = input;
 
+    const newJsl = jsl.add({ COMMAND: command.type });
     const newInfo = Object.assign({}, info, { command });
-
-    jsl.add({ COMMAND: command.type });
 
     const nextInput = {
       command,
       args,
       sysArgs,
       modelName,
-      jsl,
+      jsl: newJsl,
       info: newInfo,
       interf,
       protocol,
