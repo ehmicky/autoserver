@@ -40,24 +40,32 @@ const resolveJsonRefs = async function ({ idl, baseDir }) {
 
 // Merge idl.helpers|variables.libraries.* into idl.helpers|variables.*
 const mergeAllLibraries = function ({ idl }) {
-  for (const { attrName, filterFunc } of librariesAttrs) {
-    idl = mergeLibraries({ idl, attrName, filterFunc });
+  for (const attrName of librariesAttrs) {
+    idl = mergeLibraries({ idl, attrName });
   }
   return idl;
 };
-const mergeLibraries = function ({ idl, attrName, filterFunc = () => true }) {
+const mergeLibraries = function ({ idl, attrName }) {
   if (!idl[attrName] || !idl[attrName].libraries) { return idl; }
 
+  // Each library must an object
+  // This translates this array of object into a single object,
+  // which is merged into `idl[attrName]`
   if (idl[attrName].libraries instanceof Array) {
-    // Each library must an object of functions (non-functions are ignored)
-    // This translate this array of object of functions into a single object,
-    // which is merged into `idl[attrName]`
     const libraries = idl[attrName].libraries
-      .map(library => Object.entries(library)
-        .filter(([, value]) => filterFunc(value))
-        .map(([name, value]) => ({ [name]: value }))
-        .reduce((memo, val) => Object.assign(memo, val), {})
-      )
+      .map(library => {
+        // If there is any function, it is considered a library,
+        // and non-functions are ignored
+        const isLibrary = Object.values(library)
+          .some(value => typeof value === 'function');
+        return Object.entries(library)
+          .filter(([, value]) => {
+            return !isLibrary ||
+              (typeof value === 'function' && Object.keys(value).length === 0);
+          })
+          .map(([name, value]) => ({ [name]: value }))
+          .reduce((memo, val) => Object.assign(memo, val), {});
+      })
       .reduce((memo, val) => Object.assign(memo, val), {});
     idl[attrName] = Object.assign({}, libraries, idl[attrName]);
   }
@@ -67,16 +75,7 @@ const mergeLibraries = function ({ idl, attrName, filterFunc = () => true }) {
   return idl;
 };
 // Which attributes in idl.* can use libraries
-const librariesAttrs = [
-  // Libraries like Lodash or underscore.string are objects that can be used
-  // as functions as well
-  {
-    attrName: 'helpers',
-    filterFunc: value => typeof value === 'function' &&
-      Object.keys(value).length === 0,
-  },
-  { attrName: 'variables' },
-];
+const librariesAttrs = ['helpers'];
 
 
 module.exports = {
