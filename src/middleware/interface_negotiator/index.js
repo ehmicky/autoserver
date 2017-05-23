@@ -9,7 +9,7 @@ const { EngineError } = require('../../error');
 // Decides which interface to use (e.g. GraphQL) according to route
 const interfaceNegotiator = function () {
   return async function interfaceNegotiator(input) {
-    const { interf: { route } } = input;
+    const { route } = input;
     const interf = findKey(interfaces, test => test({ route }));
     if (!interf) {
       const message = `Unsupported interface: ${route}`;
