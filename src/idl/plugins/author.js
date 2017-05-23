@@ -11,7 +11,7 @@ const { propertiesPlugin } = require('./properties');
 //   updated_by {User} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
 // User is specified by opts:
-//   [user="($user)"] {jsl} - current user
+//   [user="(user())"] {jsl} - current user
 //   [model="user"] {string} - user's model name
 const authorPlugin = function ({ idl, opts }) {
   const { user, model } = opts;
@@ -32,7 +32,7 @@ const authorPlugin = function ({ idl, opts }) {
   return propertiesPlugin({ getProperties })({ idl, opts });
 };
 
-const getProperties = ({ user = '($user)', model = 'user' }) => ({
+const getProperties = ({ user = '(user())', model = 'user' }) => ({
   created_by: {
     type: 'object',
     description: 'Who created this model',

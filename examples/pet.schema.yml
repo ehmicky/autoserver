@@ -289,6 +289,8 @@ helpers:
   libraries:
   - $ref: underscore.string
   - $ref: lodash
+  # Dummy variable
+  user: '({ id: "1" })'
 # Custom variables can be used in any JSL by declaring it here
 # The variables will be lazily evaluated, i.e. only when some JSL is
 # referencing them
@@ -301,9 +303,6 @@ variables:
   # One can require sets of variables
   libraries:
   - $ref: variables.json
-  # Dummy variable
-  $user:
-    id: '1'
 # Plugins are functions that take `idl` as input, and returns a modified
 # IDL as output.
 # Use cases can be: adding a attribute to each model,
