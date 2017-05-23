@@ -280,7 +280,7 @@ helpers:
   myMathFunc: ((ARG_1 * ARG_2) + (ARG_3 * ARG_4))
   exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
   recursive_func: (exampleFunction())
-  moreRecursiveFunc: (recursive_func() + TestConstant())
+  moreRecursiveFunc: (recursive_func() + TestConstant)
   getBirthDate: 2005-01-01
   # One can require JavaScript files (Node.js)
   myOtherMathFunc:

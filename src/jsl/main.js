@@ -4,6 +4,7 @@
 const { EngineError } = require('../error');
 const { map } = require('../utilities');
 const { compileJsl } = require('./compile');
+const { checkNames } = require('./validation');
 
 
 class Jsl {
@@ -14,25 +15,8 @@ class Jsl {
   }
 
   add(input = {}, { type = 'SYSTEM' } = {}) {
-    this.checkNames(input, type);
+    checkNames(input, type);
     Object.assign(this.input, input);
-  }
-
-  // Make sure there is no name conflicts between system helpers and
-  // user-supplied helpers, by forcing the former to be UPPER_CASE, and
-  // forbidding the latter to be so
-  checkNames(input, type) {
-    const isSystemType = type === 'SYSTEM';
-    for (const name of Object.keys(input)) {
-      const isSystemName = systemNameRegExp.test(name);
-      if (isSystemType && !isSystemName) {
-        const message = `JSL helper named '${name}' should be uppercase/underscore only`;
-        throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-      } else if (!isSystemType && isSystemName) {
-        const message = `JSL helper named '${name}' should not be uppercase/underscore only`;
-        throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-      }
-    }
   }
 
   // Take JSL, inline or not, and turns into `function (...args)`
@@ -77,8 +61,6 @@ class Jsl {
     }
   }
 }
-
-const systemNameRegExp = /^[A-Z_]+$/;
 
 
 module.exports = {
