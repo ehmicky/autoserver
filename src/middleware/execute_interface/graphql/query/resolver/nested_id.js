@@ -7,11 +7,21 @@ const { isJsl } = require('../../../../../jsl');
 
 /**
  * Make nested models filtered by their parent model
- * E.g. if a model findParent() returns { child: 1 }, then a nested query findChild() will be filtered by `id: 1`
- * If the parent returns nothing|null, the nested query won't be performed and null will be returned
- *  - this means when performing a nested `create`, the parent must specify the id of its non-created-yet children
+ * E.g. if a model findParent() returns { child: 1 },
+ * then a nested query findChild() will be filtered by `id: 1`
+ * If the parent returns nothing|null, the nested query won't be performed
+ * and null will be returned
+ *  - this means when performing a nested `create`, the parent must specify
+ *    the id of its non-created-yet children
  **/
-const addNestedId = function ({ parent, name, attrName, multiple, args, actionType }) {
+const addNestedId = function ({
+  parent,
+  name,
+  attrName,
+  multiple,
+  args,
+  actionType,
+}) {
   // Uses the parent value as a nested filter|data
   const parentVal = parent[attrName];
 
@@ -32,7 +42,8 @@ const addNestedId = function ({ parent, name, attrName, multiple, args, actionTy
   if (arg instanceof Array) {
     parentVal.forEach((val, index) => {
       if (arg[index].id) {
-        wrongInput(`In '${name}' model, wrong parameters: id must not be defined`);
+        const message = `In '${name}' model, wrong parameters: id must not be defined`;
+        wrongInput(message);
       }
       arg[index].id = val;
     });
@@ -41,7 +52,8 @@ const addNestedId = function ({ parent, name, attrName, multiple, args, actionTy
   }
 };
 
-// If nested `arg.id` is present, do an intersection with parent id. Otherwise, do not do intersection.
+// If nested `arg.id` is present, do an intersection with parent id.
+// Otherwise, do not do intersection.
 // In all cases, uses JSL
 const getNestedIds = function({ childId, parentIds }) {
   // Uses JSL syntax
@@ -68,7 +80,8 @@ const getNestedIds = function({ childId, parentIds }) {
   return ids;
 };
 
-// Returns args.filter for find|delete|update, args.data for replace|upsert|create
+// Returns args.filter for find|delete|update,
+// args.data for replace|upsert|create
 const nestedFilterActionTypes = ['find', 'delete', 'update'];
 const nestedDataActionTypes = ['replace', 'upsert', 'create'];
 const getNestedArgument = function ({ multiple, args, actionType }) {
@@ -86,10 +99,12 @@ const getNestedArgument = function ({ multiple, args, actionType }) {
 const validateNestedId = function ({ parent, name, attrName, multiple, arg }) {
   const parentVal = parent[attrName];
   if (multiple && arg instanceof Array && arg.length !== parentVal.length) {
-    wrongInput(`In '${name}' model, wrong parameters: data length must be ${parentVal.length}`);
+    const message = `In '${name}' model, wrong parameters: data length must be ${parentVal.length}`;
+    wrongInput(message);
   }
   if (!multiple && arg.id) {
-    wrongInput(`In '${name}' model, wrong parameters: 'id' must not be defined`);
+    const message = `In '${name}' model, wrong parameters: 'id' must not be defined`;
+    wrongInput(message);
   }
 };
 
