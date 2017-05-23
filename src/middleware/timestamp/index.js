@@ -3,10 +3,11 @@
 
 const getTimestamp = function () {
   return async function getTimestamp(input) {
-    const { protocol, jsl } = input;
+    const { jsl } = input;
 
-    protocol.timestamp = (new Date()).toISOString();
-    input.jsl = jsl.add({ NOW: protocol.timestamp });
+    const timestamp = (new Date()).toISOString();
+    const newJsl = jsl.add({ NOW: timestamp });
+    Object.assign(input, { timestamp, jsl: newJsl });
 
     const response = await this.next(input);
     return response;

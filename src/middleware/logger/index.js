@@ -13,9 +13,7 @@ const logger = function () {
   };
 };
 
-const logRequest = function ({
-  protocol: { fullName, method, path, ip, params },
-}) {
+const logRequest = function ({ fullName, method, path, ip, params }) {
   params = JSON.stringify(params);
   const message = [fullName, method, path, ip, params].join(' ');
   log.log(message);

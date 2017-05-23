@@ -13,16 +13,11 @@ const protocolValidation = function ({ input }) {
 };
 
 const schema = {
-  required: ['protocol'],
+  type: 'object',
+  required: ['specific'],
   properties: {
-    protocol: {
+    specific: {
       type: 'object',
-      required: ['specific'],
-      properties: {
-        specific: {
-          type: 'object',
-        },
-      },
     },
   },
 };

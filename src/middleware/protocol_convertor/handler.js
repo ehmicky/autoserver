@@ -10,8 +10,7 @@ const protocolConvertor = function ({ idl: { helpers } }) {
   return async function protocolConvertor(input) {
     const jsl = (new Jsl()).addHelpers({ helpers });
 
-    const protocol = { specific: input };
-    const nextInput = { jsl, protocol };
+    const nextInput = { jsl, specific: input };
 
     protocolValidation({ input: nextInput });
 
