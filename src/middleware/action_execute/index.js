@@ -27,7 +27,7 @@ const middlewares = {
 const getKey = ({ input: { action } }) => action.name;
 
 // Translates interface-specific calls into generic instance actions
-const executeAction = getSwitchMiddleware({
+const actionExecute = getSwitchMiddleware({
   middlewares,
   getKey,
   name: 'executeAction',
@@ -35,5 +35,5 @@ const executeAction = getSwitchMiddleware({
 
 
 module.exports = {
-  executeAction,
+  actionExecute,
 };

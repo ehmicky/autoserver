@@ -9,9 +9,8 @@ const protocolNegotiator = function () {
   return async function protocolNegotiator(input) {
     const { protocol } = protocols.find(({ test }) => test(input));
     if (!protocol) {
-      throw new EngineError('Unsupported protocol', {
-        reason: 'UNSUPPORTED_PROTOCOL',
-      });
+      const message = 'Unsupported protocol';
+      throw new EngineError(message, { reason: 'UNSUPPORTED_PROTOCOL' });
     }
 
     const protocolFullName = protocolVersions[protocol](input);

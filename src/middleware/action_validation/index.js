@@ -17,20 +17,10 @@ const { EngineError } = require('../../error');
  **/
 const actionValidation = function ({ idl: { models } = {} }) {
   return async function actionValidation(input) {
-    const {
-      modelName,
-      args,
-      sysArgs,
-      action,
-    } = input;
+    const { modelName, args, sysArgs, action } = input;
 
     const schema = getValidateServerSchema({ models });
-    const data = {
-      modelName,
-      args,
-      sysArgs,
-      action,
-    };
+    const data = { modelName, args, sysArgs, action };
     const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
     validate({ schema, data, reportInfo });
 

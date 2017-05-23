@@ -6,7 +6,7 @@ const database = require('./data.json');
 const { fireCommand } = require('./commands');
 
 
-const executeDatabaseAction = function () {
+const databaseExecute = function () {
   return async function executeDatabaseAction(input) {
     const { command, args = {}, modelName, jsl } = input;
     const {
@@ -29,5 +29,5 @@ const executeDatabaseAction = function () {
 
 
 module.exports = {
-  executeDatabaseAction,
+  databaseExecute,
 };
