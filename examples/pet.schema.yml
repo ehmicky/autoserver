@@ -285,24 +285,18 @@ helpers:
   # One can require JavaScript files (Node.js)
   myOtherMathFunc:
     $ref: math.js
-  # One can require entire libraries. Only functions are kept.
+  # One can require entire libraries.
+  # If there is any function, only functions will be kept.
   libraries:
   - $ref: underscore.string
   - $ref: lodash
+  # One can require sets of variables
+  - $ref: variables.json
   # Dummy variable
   user: '({ id: "1" })'
-# Custom variables can be used in any JSL by declaring it here
-# The variables will be lazily evaluated, i.e. only when some JSL is
-# referencing them
-# They must be pure functions, because they are memoized.
-variables:
-  # Variables use JSL syntax themselves
   $exampleVariable: (exampleFunction())
   $recursive_variable: ($exampleVariable())
   $moreRecursiveVariable: ($recursive_variable() + $TestVariable())
-  # One can require sets of variables
-  libraries:
-  - $ref: variables.json
 # Plugins are functions that take `idl` as input, and returns a modified
 # IDL as output.
 # Use cases can be: adding a attribute to each model,
