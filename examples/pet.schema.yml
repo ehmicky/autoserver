@@ -168,7 +168,7 @@ models:
         formatExclusiveMinimum: true
         formatMaximum: 2100-01-01
         formatExclusiveMinimum: false
-        default: (getBirthDate())
+        default: (birthDate)
   owner:
     # It is possible to reference/include local files or remote files (HTTP[S])
     # using standard JSON reference syntax
@@ -281,7 +281,8 @@ helpers:
   exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
   recursive_func: (exampleFunction())
   moreRecursiveFunc: (recursive_func() + TestConstant)
-  getBirthDate: 2005-01-01
+  # Constant
+  birthDate: 2005-01-01
   # One can require JavaScript files (Node.js)
   myOtherMathFunc:
     $ref: math.js
