@@ -17,24 +17,24 @@ const getPaginationInput = function ({ args }) {
     usedPageSize,
     isOffsetPagination,
   } = getPaginationInfo({ args });
-  const newArgs = omit(args, ['page', 'before', 'after', 'page_size']);
+  const dbArgs = omit(args, ['page', 'before', 'after', 'page_size']);
 
   if (isOffsetPagination) {
-    newArgs.offset = (page - 1) * pageSize;
+    dbArgs.offset = (page - 1) * pageSize;
   } else {
     if (hasToken) {
-      newArgs.filter = getPaginatedFilter({ args, token, isBackward });
+      dbArgs.filter = getPaginatedFilter({ args, token, isBackward });
     }
     if (isBackward) {
-      newArgs.order_by = args.order_by.map(({ attrName, order }) => {
+      dbArgs.order_by = args.order_by.map(({ attrName, order }) => {
         return { attrName, order: order === 'asc' ? 'desc' : 'asc' };
       });
     }
   }
 
-  newArgs.limit = usedPageSize;
+  dbArgs.limit = usedPageSize;
 
-  return { args: newArgs };
+  return dbArgs;
 };
 
 // Patches args.filter to allow for cursor pagination

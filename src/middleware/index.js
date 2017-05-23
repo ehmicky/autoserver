@@ -28,9 +28,11 @@ module.exports = Object.assign(
   require('./command_error_handler'),
   require('./system_defaults'),
   require('./user_defaults'),
+  require('./api_convertor'),
   require('./pagination'),
   require('./clean_delete'),
   require('./transform'),
+  require('./database_convertor'),
   require('./validation'),
   require('./database_execute'),
   require('./no_response')

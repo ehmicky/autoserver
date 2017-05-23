@@ -15,16 +15,23 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  **/
 const validation = function ({ idl, maxDataLength }) {
   return async function validation(input) {
-    const { modelName, args, sysArgs, command, jsl } = input;
+    const { modelName, dbArgs, sysArgs, command, jsl } = input;
 
-    validateClientInputSyntax({ command, args });
+    validateClientInputSyntax({ command, dbArgs });
     validateClientInputCommand({ idl, command, modelName, sysArgs });
-    validateClientInputSemantics({ idl, modelName, args, maxDataLength });
-    validateClientInputData({ idl, modelName, command, args, jsl });
+    validateClientInputSemantics({ idl, modelName, dbArgs, maxDataLength });
+    validateClientInputData({ idl, modelName, command, dbArgs, jsl });
 
     const response = await this.next(input);
     validateServerOutputSyntax({ command, response });
-    validateServerOutputData({ idl, modelName, response, command, args, jsl });
+    validateServerOutputData({
+      idl,
+      modelName,
+      response,
+      command,
+      dbArgs,
+      jsl,
+    });
 
     return response;
   };
