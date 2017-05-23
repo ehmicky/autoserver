@@ -2,7 +2,6 @@
 
 
 const { EngineError } = require('../error');
-const { memoize } = require('../utilities');
 
 
 // Make sure there is no name conflicts between system helpers and
@@ -11,7 +10,7 @@ const { memoize } = require('../utilities');
 const checkNames = function (input, type) {
   const isSystemType = type === 'SYSTEM';
   for (const name of Object.keys(input)) {
-    const isSystemName = checkSystemName(name);
+    const isSystemName = systemNameRegExp.test(name);
     if (isSystemType && !isSystemName) {
       const message = `JSL helper named '${name}' should be uppercase/underscore only`;
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
@@ -22,7 +21,6 @@ const checkNames = function (input, type) {
   }
 };
 
-const checkSystemName = memoize(name => systemNameRegExp.test(name));
 const systemNameRegExp = /^[A-Z_]+$/;
 
 
