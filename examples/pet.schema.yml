@@ -137,7 +137,7 @@ models:
         # As opposed to `default`, this will also be set during update commands.
         # JSL can be used.
         # default and transforms can still be used (are performed afterwards).
-        compute: (String($moreRecursiveVariable()))
+        compute: (String(moreRecursiveFunc()))
         # Same for output. It is useless in this case,
         # but used for illustration.
         #computeOut: (IP)
@@ -266,7 +266,7 @@ models:
 #         - $1, $2, etc. {any} - position parameter when firing
 #           the helper function
 #      - "validation variables" (only available in validation keywords):
-#         - $EXPECTED {any} - value passed to the validation rule
+#         - EXPECTED {any} - value passed to the validation rule
 #   - restrictions:
 #      - arg.filter can only use $ and $$ variables
 #      - helpers and variables cannot use "interface variables"
@@ -281,6 +281,8 @@ helpers:
   # Helpers use JSL syntax themselves
   myMathFunc: (($1 * $2) + ($3 * $4))
   exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
+  recursive_func: (exampleFunction())
+  moreRecursiveFunc: (recursive_func() + TestVariable())
   getBirthDate: 2005-01-01
   # One can require JavaScript files (Node.js)
   myOtherMathFunc:
@@ -294,9 +296,6 @@ helpers:
   - $ref: variables.json
   # Dummy variable
   user: '({ id: "1" })'
-  $exampleVariable: (exampleFunction())
-  $recursive_variable: ($exampleVariable())
-  $moreRecursiveVariable: ($recursive_variable() + $TestVariable())
 # Plugins are functions that take `idl` as input, and returns a modified
 # IDL as output.
 # Use cases can be: adding a attribute to each model,
@@ -316,7 +315,7 @@ plugins:
     # Defines how to retrieve current user, so it can be used by updated_by
     # and created_by attributes
     opts:
-      # user: ($user)
+      # user: (user())
       model: owner
 # Custom validation keywords, to use on models' attributes
 validation:
@@ -324,10 +323,10 @@ validation:
     # Validation function.
     # Must return true for success, anything else for failure
     # Must use JSL.
-    test: ($ !== $EXPECTED)
+    test: ($ !== EXPECTED)
     # Error message
     # Can use JSL.
-    message: (`must not be equal to ${$EXPECTED}`)
+    message: (`must not be equal to ${EXPECTED}`)
     # Can restrict when the validation will be applied, using JSON schema types
     type: [number, integer]
 # No specific semantics, but can be used by $ref
