@@ -38,7 +38,7 @@ const resolveJsonRefs = async function ({ idl, baseDir }) {
   return parsedIdl;
 };
 
-// Merge idl.helpers|variables.libraries.* into idl.helpers|variables.*
+// Merge idl.helpers.libraries.* into idl.helpers.*
 const mergeAllLibraries = function ({ idl }) {
   for (const attrName of librariesAttrs) {
     idl = mergeLibraries({ idl, attrName });

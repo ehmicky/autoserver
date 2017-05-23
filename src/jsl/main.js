@@ -11,7 +11,6 @@ class Jsl {
   constructor({ idl }) {
     this.input = {};
     this.compileHelpers({ idl });
-    this.compileVariables({ idl });
   }
 
   add(input = {}, { type = 'SYSTEM' } = {}) {
@@ -42,7 +41,7 @@ class Jsl {
   compileHelpers({ idl: { helpers = {} } }) {
     const compiledHelpers = map(helpers, helper => {
       return (...args) => {
-        // Non-inline helpers only get positional arguments, no variables
+        // Non-inline helpers only get positional arguments, no parameters
         if (typeof helper === 'function') {
           return helper(...args);
         }
@@ -75,15 +74,6 @@ class Jsl {
       };
     });
     this.add(compiledHelpers, { type: 'USER' });
-  }
-
-  compileVariables({ idl: { variables = {} } }) {
-    const compiledVariables = map(variables, variable => {
-      return () => {
-        return this.run({ value: variable });
-      };
-    });
-    this.add(compiledVariables, { type: 'USER' });
   }
 
   // Process (already compiled) JSL function,
