@@ -2,14 +2,26 @@
 
 
 const { validate } = require('../../../validation');
+const { EngineError } = require('../../../error');
 
 
 /**
  * Protocol layer validation
  * Those errors should not happen, i.e. server-side (e.g. 500)
  **/
-const protocolValidation = function ({ input }) {
-  validate({ schema, data: input, reportInfo });
+const protocolValidation = function () {
+  return function protocolValidation(input) {
+    const { protocol } = input;
+    if (!protocol) {
+      const message = 'Unsupported protocol';
+      throw new EngineError(message, { reason: 'UNSUPPORTED_PROTOCOL' });
+    }
+
+    validate({ schema, data: input, reportInfo });
+
+    const response = this.next(input);
+    return response;
+  };
 };
 
 const schema = {
