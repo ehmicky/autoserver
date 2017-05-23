@@ -9,9 +9,11 @@ const { checkNames } = require('./validation');
 
 class Jsl {
 
-  constructor({ idl }) {
+  constructor({ helpers }) {
     this.input = {};
-    this.compileHelpers({ idl });
+    if (helpers) {
+      this.compileHelpers({ helpers });
+    }
   }
 
   add(input = {}, { type = 'SYSTEM' } = {}) {
@@ -22,7 +24,7 @@ class Jsl {
   // Take JSL, inline or not, and turns into `function (...args)`
   // firing the first one,
   // with ARG_1, ARG_2, etc. provided as extra arguments
-  compileHelpers({ idl: { helpers = {} } }) {
+  compileHelpers({ helpers }) {
     const compiledHelpers = map(helpers, helper => {
       return (...args) => {
         // Non-inline helpers only get positional arguments, no parameters
