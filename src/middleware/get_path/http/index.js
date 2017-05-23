@@ -7,7 +7,7 @@ const { httpHeaders } = require('../../../parsing');
 
 
 const httpGetPath = function () {
-  return function ({ protocol: { specific: { req } } }) {
+  return function ({ specific: { req } }) {
     const path = getPath({ req });
     const requestUrl = getRequestUrl({ req });
 

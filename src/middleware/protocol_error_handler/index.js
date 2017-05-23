@@ -13,12 +13,7 @@ const protocolErrorHandler = function () {
       return response;
     } catch (error) {
       const keyName = 'protocol';
-      const {
-        protocol: {
-          name: key,
-          requestUrl: instance = 'unknown',
-        },
-      } = input;
+      const { name: key, requestUrl: instance = 'unknown' } = input;
       const genericInfo = { instance };
 
       error = processError({

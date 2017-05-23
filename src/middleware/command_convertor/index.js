@@ -11,7 +11,6 @@ const commandConvertor = function () {
       modelName,
       jsl,
       interf,
-      protocol,
     } = input;
 
     const newJsl = jsl.add({ COMMAND: command.type });
@@ -23,7 +22,6 @@ const commandConvertor = function () {
       modelName,
       jsl: newJsl,
       interf,
-      protocol,
     };
 
     const response = await this.next(nextInput);

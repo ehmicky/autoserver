@@ -14,7 +14,7 @@ const { EngineError } = require('../../../error');
 
 
 const httpFillParams = function () {
-  return async function ({ protocol: { specific: { req } } }) {
+  return async function ({ specific: { req } }) {
     const { method } = req;
     const params = getParams({ req });
     const payload = await getPayload({ req });
