@@ -24,6 +24,8 @@ const startChain = async function (opts) {
     mdw.protocolConvertor,
     // Pick the protocol
     mdw.protocolNegotiator,
+    // Protocol-related validation layer
+    mdw.protocolValidation,
     // Add protocol-specific attributes to thrown exceptions
     mdw.protocolErrorHandler,
     // Sends final response, if success
