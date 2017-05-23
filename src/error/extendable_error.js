@@ -13,12 +13,9 @@ class ExtendableError extends Error {
 
     this.name = this.constructor.name;
 
-    // Adds stack trace
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, this.constructor);
-    } else {
-      this.stack = (new Error(message)).stack;
-    }
+    this.addInnerError(opts);
+
+    this.addStack(message);
 
     Object.assign(this, opts);
   }
@@ -48,6 +45,36 @@ class ExtendableError extends Error {
       throw new ThisError(`Must specify options ${missingOpts} when throwing ${ThisError.name}`, {
         reason: 'WRONG_EXCEPTION',
       });
+    }
+  }
+
+  // Keep track of innererror
+  addInnerError(opts) {
+    // Only keep innermost innererror
+    const innererror = opts.innererror && opts.innererror.innererror
+      ? opts.innererror.innererror
+      : opts.innererror;
+    if (innererror) {
+      // We only keep innererror's stack, so if it does not include the
+      // error message, which might be valuable information, prepends it
+      const { message, stack = '' } = innererror;
+      if (message && stack.indexOf(message) === -1) {
+        innererror.stack = `${message}\n${stack}`;
+      }
+
+      this.innererror = innererror;
+      delete opts.innererror;
+    }
+  }
+
+  // Adds stack trace
+  addStack(message) {
+    if (this.stack) { return; }
+    // Two possible ways to add this.stack, if not present yet
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, this.constructor);
+    } else {
+      this.stack = (new Error(message)).stack;
     }
   }
 

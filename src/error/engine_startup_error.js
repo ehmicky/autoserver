@@ -8,19 +8,35 @@ const { ExtendableError } = require('./extendable_error');
 class EngineStartupError extends ExtendableError {
 
   constructor(message, opts) {
-    // Rename options so it looks the same as other errors when printed on console
-    opts.type = opts.reason;
-    delete opts.reason;
-    const details = opts.innererror && opts.innererror.stack;
-    if (details) {
-      opts.details = details;
-    }
-    delete opts.innererror;
-
     super(message, Object.assign(opts, {
-      allowedOpts: ['type', 'details'],
-      requiredOpts: ['type'],
+      allowedOpts: ['reason', 'innererror', 'extra'],
+      requiredOpts: ['reason'],
     }));
+  }
+
+  // Normalize error shape to a "problem detail" (see RFC 7807)
+  normalize() {
+    if (this.reason) {
+      this.type = this.reason;
+      delete this.reason;
+    }
+
+    if (this.message) {
+      this.title = this.message;
+    }
+
+    this.details = this.innererror
+      ? this.innererror.stack
+      : this.stack
+        ? this.stack
+        : '';
+    delete this.innererror;
+    delete this.stack;
+
+    if (this.extra) {
+      Object.assign(this, this.extra);
+      delete this.extra;
+    }
   }
 
 }

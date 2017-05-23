@@ -5,12 +5,12 @@ const { log } = require('../../utilities');
 
 
 // Report error for monitoring
-const reportError = function ({ response, opts: { onRequestError } }) {
+const reportError = function ({ errorObj, opts: { onRequestError } }) {
   // Generic logger, by default console.error()
-  log.error(response);
+  log.error(errorObj);
   // Custom monitoring
   if (onRequestError) {
-    onRequestError(response);
+    onRequestError(errorObj);
   }
 };
 

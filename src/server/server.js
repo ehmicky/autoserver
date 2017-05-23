@@ -17,17 +17,21 @@ const { httpStartServer } = require('./http');
 const startServer = async function (options) {
   try {
     return await start(options);
-  // Make sure all exceptions thrown at startup follow
-  // the EngineStartupError signature
-  } catch (innererror) {
-    if (innererror instanceof EngineStartupError) {
-      throw innererror;
-    } else {
-      throw new EngineStartupError(innererror.message, {
+  } catch (error) {
+    // Make sure all exceptions thrown at startup follow
+    // the EngineStartupError signature
+    if (typeof error === 'string') {
+      error = new EngineStartupError(error, { reason: 'UNKNOWN' });
+    } else if (!(error instanceof EngineStartupError)) {
+      error = new EngineStartupError(error.message, {
         reason: 'UNKNOWN',
-        innererror,
+        innererror: error,
       });
     }
+
+    error.normalize();
+
+    throw error;
   }
 };
 
