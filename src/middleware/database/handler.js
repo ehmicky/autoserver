@@ -20,15 +20,7 @@ const executeDatabaseAction = function () {
     } = args;
     const collection = database[modelName];
 
-    const opts = {
-      jsl,
-      orderBy,
-      limit,
-      offset,
-      dryRun,
-      noOutput,
-      modelName,
-    };
+    const opts = { jsl, orderBy, limit, offset, dryRun, noOutput, modelName };
     const commandInput = { command, collection, filter, data, opts };
     const response = fireCommand(commandInput);
     return response;
