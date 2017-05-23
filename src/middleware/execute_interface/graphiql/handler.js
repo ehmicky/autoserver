@@ -8,7 +8,7 @@ const { host, port } = require('../../../config');
 const executeGraphiql = function () {
   const endpointURL = `http://${host}:${port}/graphql`;
   return async function executeGraphiql(input) {
-    const { interf: { params, payload = {} } } = input;
+    const { params, payload = {} } = input;
 
     const query = params.query || payload.query;
     const variables = params.variables || payload.variables;

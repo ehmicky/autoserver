@@ -17,7 +17,7 @@ const executeGraphql = function (opts) {
   return async function executeGraphql(input) {
     // Parameters can be in either query variables or payload
     // (including by using application/graphql)
-    const { interf: { params, payload, method } } = input;
+    const { params, payload, method } = input;
 
     const {
       query,
