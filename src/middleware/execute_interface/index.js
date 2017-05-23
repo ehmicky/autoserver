@@ -12,7 +12,7 @@ const middlewares = {
   graphiql: executeGraphiql,
   graphqlprint: printGraphql,
 };
-const getKey = ({ input: { info } }) => info.interface;
+const getKey = ({ input: { interface: interf } }) => interf;
 
 // Translates interface-specific calls into generic instance actions
 const executeInterface = getSwitchMiddleware({

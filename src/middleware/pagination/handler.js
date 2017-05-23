@@ -89,7 +89,7 @@ const pagination = function ({ maxPageSize }) {
 
 // Transform args.page_size|before|after|page into args.limit|offset|filter
 const processInput = function ({ input, sysArgs, maxPageSize }) {
-  const { args, command, info: { action }, modelName } = input;
+  const { args, command, action, modelName } = input;
 
   validatePaginationInput({
     args,
@@ -117,7 +117,7 @@ const processOutput = function ({
   sysArgs,
   maxPageSize,
 }) {
-  const { info: { action }, modelName } = input;
+  const { action, modelName } = input;
 
   reverseOutput({ args, response });
 

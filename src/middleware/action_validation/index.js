@@ -21,7 +21,6 @@ const actionValidation = function ({ idl: { models } = {} }) {
       modelName,
       args,
       sysArgs,
-      info,
       action,
     } = input;
 
@@ -30,7 +29,6 @@ const actionValidation = function ({ idl: { models } = {} }) {
       modelName,
       args,
       sysArgs,
-      info,
       action,
     };
     const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
@@ -52,7 +50,6 @@ const getValidateServerSchema = function ({ models = {} }) {
       'modelName',
       'args',
       'sysArgs',
-      'info',
       'action',
     ],
     properties: {
@@ -63,7 +60,6 @@ const getValidateServerSchema = function ({ models = {} }) {
       },
       args: { type: 'object' },
       sysArgs: { type: 'object' },
-      info: { type: 'object' },
       action: { type: 'object' },
     },
   };

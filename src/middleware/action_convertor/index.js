@@ -7,11 +7,9 @@ const actionConvertor = function () {
     const {
       actionInput: { action, fullAction, args, modelName },
       jsl,
-      info,
       protocol,
       interf,
     } = input;
-    info.action = action;
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
     const nextInput = {
@@ -21,13 +19,12 @@ const actionConvertor = function () {
       sysArgs,
       modelName,
       jsl,
-      info,
       interf,
       protocol,
     };
 
     const { data, metadata } = await this.next(nextInput);
-    const response = actionConvertorOutput[info.interface]({ data, metadata });
+    const response = actionConvertorOutput[input.interface]({ data, metadata });
     return response;
   };
 };

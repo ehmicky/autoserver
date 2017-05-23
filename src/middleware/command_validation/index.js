@@ -19,7 +19,6 @@ const commandValidation = function ({ idl: { models } = {} }) {
       modelName,
       args,
       sysArgs,
-      info,
       command,
     } = input;
 
@@ -28,7 +27,6 @@ const commandValidation = function ({ idl: { models } = {} }) {
       modelName,
       args,
       sysArgs,
-      info,
       command,
     };
     const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
@@ -50,7 +48,6 @@ const getValidateServerSchema = function ({ models = {} }) {
       'modelName',
       'args',
       'sysArgs',
-      'info',
       'command',
     ],
     properties: {
@@ -74,7 +71,6 @@ const getValidateServerSchema = function ({ models = {} }) {
           },
         },
       },
-      info: { type: 'object' },
       command: { type: 'object' },
     },
   };
