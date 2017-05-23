@@ -122,7 +122,7 @@ models:
         description: Has this pet been adopted
         # Applies transformations: status will be stored lowercase in database,
         # but returned uppercase to client
-        # JSL can be used
+        # Can be a function/JSL
         # This can be used to add compatibility layers,
         # computed attributes, etc.
         transform: ($.toLowerCase())
@@ -135,7 +135,7 @@ models:
         # The value provided by the user will be ignored,
         # unless this returns undefined
         # As opposed to `default`, this will also be set during update commands.
-        # JSL can be used.
+        # Can be a function/JSL
         # default and transforms can still be used (are performed afterwards).
         compute: (String(moreRecursiveFunc()))
         # Same for output. It is useless in this case,
@@ -239,44 +239,41 @@ models:
 #   - it can be used in `filter` (for findMany, updateMany or deleteMany),
 #     and in transforms|compute|default
 #   - at the moment, any JavaScript is allowed, but this will be restricted
-#     (for filters only) in the future
-#     for security and performance reasons
-#   - it can use helpers (see below)
-# Parameters:
-#   - passed to any JSL
-#   - they are divided into several groups:
-#      - helpers
-#      - "protocol parameters"
-#         - NOW {string} - current date and time
-#         - IP {string} - request IP
-#         - PARAMS {object} - contains all request parameters:
-#           query strings, (application-namespaced) HTTP headers
-#      - "action parameters":
-#         - COMMAND {string} - current command, among 'create', 'read',
-#           'update' or 'delete'
-#      - "database parameters":
-#         - $ {any} - value of current attribute,
-#           e.g. { filter: { name: '$ !== "John"' } }
-#           checks whether model.name !== 'John'
-#         - $$ {object} - current model (input or output),
-#           e.g. { filter: { name: '$ === $$.first_name' } }
-#           checks whether model.name === model.first_name
-#      - "helpers parameters" (only available in inline helpers):
-#         - ARG_1, ARG_2, etc. {any} - position parameter when firing
-#           the helper function
-#      - "validation parameters" (only available in validation keywords):
-#         - EXPECTED {any} - value passed to the validation rule
-#   - restrictions:
-#      - arg.filter can only use $ and $$ parameters
-#      - helpers can only reference other helpers
+#     (for filters only) in the future for security and performance reasons
+#   - it can use parameters:
+#      - they are divided into several groups:
+#         - helpers
+#         - "protocol parameters"
+#            - NOW {string} - current date and time
+#            - IP {string} - request IP
+#            - PARAMS {object} - contains all request parameters:
+#              query strings, (application-namespaced) HTTP headers
+#         - "action parameters":
+#            - COMMAND {string} - current command, among 'create', 'read',
+#              'update' or 'delete'
+#         - "database parameters":
+#            - $ {any} - value of current attribute,
+#              e.g. { filter: { name: '$ !== "John"' } }
+#              checks whether model.name !== 'John'
+#            - $$ {object} - current model (input or output),
+#              e.g. { filter: { name: '$ === $$.first_name' } }
+#              checks whether model.name === model.first_name
+#         - "helpers parameters" (only available in inline helpers):
+#            - ARG_1, ARG_2, etc. {any} - position parameter when firing
+#              the helper function
+#         - "validation parameters" (only available in validation keywords):
+#            - EXPECTED {any} - value passed to the validation rule
+#      - restrictions:
+#         - helpers can only reference other helpers
+#         - arg.filter can only use $ and $$ parameters
 # Default `commands` values for each model
 # If unspecified, is all commands but deleteMany
 commands: [create, read, update, delete]
 # Helpers are functions that can be used in any JSL.
 # Their argument is passed as parameters ARG_1, ARG_2, etc. in inline functions
-# They must be pure functions, because they are memoized.
+# They must be pure functions
 helpers:
-  # Helpers use JSL syntax themselves
+  # Helpers use function/JSL themselves
   myMathFunc: ((ARG_1 * ARG_2) + (ARG_3 * ARG_4))
   exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
   recursive_func: (exampleFunction())
@@ -321,10 +318,10 @@ validation:
   IsNotEqual:
     # Validation function.
     # Must return true for success, anything else for failure
-    # Must use JSL.
+    # Must be a function/JSL
     test: ($ !== EXPECTED)
     # Error message
-    # Can use JSL.
+    # Can be a function/JSL
     message: (`must not be equal to ${EXPECTED}`)
     # Can restrict when the validation will be applied, using JSON schema types
     type: [number, integer]
