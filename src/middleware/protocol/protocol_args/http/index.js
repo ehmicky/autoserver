@@ -10,9 +10,16 @@ const { omitBy } = require('lodash');
 const httpFillProtocolArgs = function () {
   return function httpFillProtocolArgs({
     headers: {
+      prefer,
     },
   }) {
     const protocolArgs = {};
+
+    const hasMinimalPreference = prefer === 'return=minimal';
+    if (hasMinimalPreference) {
+      protocolArgs.noOutput = true;
+    }
+
     const args = omitBy(protocolArgs, val => val === undefined);
 
     return args;
