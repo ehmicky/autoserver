@@ -21,10 +21,17 @@ const noOutputSet = function () {
   };
 };
 
-const flagNoOutput = function ({ args, fullAction }) {
-  const { no_output: noOutput } = args;
+const flagNoOutput = function ({ args, fullAction, action }) {
+  let { no_output: noOutput } = args;
 
-  if (noOutput === undefined) { return; }
+  if (noOutput === undefined) {
+    // Delete actions use no_output by default
+    if (action.type === 'delete') {
+      noOutput = true;
+    } else {
+      return;
+    }
+  }
 
   // Do not pass args.no_output to next layers
   delete args.no_output;
