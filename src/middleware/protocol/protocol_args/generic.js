@@ -8,9 +8,10 @@ const { omitBy } = require('lodash');
 const genericFillProtocolArgs = function () {
   return function genericFillProtocolArgs({
     headers: {
+      'x-no-output': noOutput,
     },
   }) {
-    const protocolArgs = {};
+    const protocolArgs = { noOutput };
     const args = omitBy(protocolArgs, val => val === undefined);
 
     return args;
