@@ -14,6 +14,7 @@ const logger = function () {
 };
 
 const logRequest = function ({
+  timestamp,
   protocolFullName,
   protocolMethod,
   method,
@@ -24,6 +25,7 @@ const logRequest = function ({
 }) {
   params = JSON.stringify(params);
   const message = [
+    timestamp,
     protocolFullName,
     protocolMethod,
     method,
