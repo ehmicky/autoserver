@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { cloneDeep } = require('lodash');
+
+
 // Converts from Interface format to Action format
 const actionConvertor = function () {
   return async function actionConvertor(input) {
@@ -13,15 +16,21 @@ const actionConvertor = function () {
       params,
       interface: interf,
     } = input;
+
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
+    const newJsl = jsl.add({
+      ARGS: cloneDeep(args),
+      MODEL: modelName,
+    });
+
     const nextInput = {
       action,
       fullAction,
       args,
       sysArgs,
       modelName,
-      jsl,
+      jsl: newJsl,
       params,
     };
 

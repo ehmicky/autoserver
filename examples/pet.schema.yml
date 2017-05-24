@@ -250,6 +250,9 @@ models:
 #            - PARAMS {object} - contains all request parameters:
 #              query strings, (application-namespaced) HTTP headers
 #         - "action parameters":
+#            - MODEL {string} - name of the model
+#            - ARGS {object} - arguments passed by client to the specific action
+#         - "command parameters":
 #            - COMMAND {string} - current command, among 'create', 'read',
 #              'update' or 'delete'
 #         - "database parameters":
