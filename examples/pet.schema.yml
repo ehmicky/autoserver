@@ -247,7 +247,6 @@ models:
 #         - "protocol parameters"
 #            - NOW {string} - current date and time
 #            - IP {string} - request IP
-#            - ROUTE {string} - contains the protocol-agnostic route name
 #            - PARAMS {object} - contains all request parameters:
 #              query strings, (application-namespaced) HTTP headers
 #         - "action parameters":
