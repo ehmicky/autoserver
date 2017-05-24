@@ -19,6 +19,7 @@ const getMethod = function ({ req: { method: protocolMethod } }) {
 
 const methodMap = {
   GET: 'find',
+  HEAD: 'find',
   POST: 'create',
   PUT: 'replace',
   PATCH: 'update',
