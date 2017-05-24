@@ -12,11 +12,15 @@ const httpFillProtocolArgs = function () {
     headers: {
       prefer,
     },
+    protocolMethod,
   }) {
     const protocolArgs = {};
 
+    // When using HEAD, or `Prefer: return=minimal` request header,
+    // there should be no output
+    const isHead = protocolMethod === 'HEAD';
     const hasMinimalPreference = prefer === 'return=minimal';
-    if (hasMinimalPreference) {
+    if (isHead || hasMinimalPreference) {
       protocolArgs.noOutput = true;
     }
 
