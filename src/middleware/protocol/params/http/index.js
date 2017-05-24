@@ -15,14 +15,33 @@ const { EngineError } = require('../../../../error');
 
 const httpFillParams = function () {
   return async function ({ specific: { req } }) {
-    const { method } = req;
+    const { method, protocolMethod } = getMethod({ req });
     const params = getParams({ req });
     const payload = await getPayload({ req });
 
-    return { method, params, payload };
+    return { method, protocolMethod, params, payload };
   };
 };
 
+/**
+ * Turn a HTTP method into a protocol-agnostic method
+ * Keep the protocol-specific method e.g. for logging/reporting
+ **/
+const getMethod = function ({ req: { method: protocolMethod } }) {
+  const method = methodMap[protocolMethod];
+  if (!method) {
+    const message = `Unsupported protocol method: ${protocolMethod}`;
+    throw new EngineError(message, { reason: 'UNSUPPORTED_METHOD' });
+  }
+  return { method, protocolMethod };
+};
+const methodMap = {
+  GET: 'find',
+  POST: 'create',
+  PUT: 'replace',
+  PATCH: 'update',
+  DELETE: 'delete',
+};
 
 /**
  * Returns an HTTP request parameters (not payload)

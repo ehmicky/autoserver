@@ -29,7 +29,10 @@ const schema = {
   type: 'object',
   required: ['method', 'params', 'route', 'jsl', 'interface'],
   properties: {
-    method: { type: 'string' },
+    method: {
+      type: 'string',
+      enum: ['find', 'create', 'replace', 'update', 'delete'],
+    },
     params: { type: 'object' },
     route: { type: 'string' },
     jsl: { type: 'object' },

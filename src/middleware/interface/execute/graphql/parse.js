@@ -62,8 +62,8 @@ const validateQuery = function ({ queryDocument, method, operationName }) {
     });
   }
 
-  if (method === 'GET' && definition.operation !== 'query') {
-    const message = 'Can only perform GraphQL queries, not mutations, when using GET method';
+  if (method === 'find' && definition.operation !== 'query') {
+    const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
     throw new EngineError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 
