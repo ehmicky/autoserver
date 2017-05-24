@@ -11,7 +11,9 @@ const transtype = function (string) {
   if (typeof string !== 'string') { return string; }
 
   const parsedNumber = Number.parseFloat(string);
-  if (parsedNumber) { return parsedNumber; }
+  const isValidNumber = typeof parsedNumber === 'number' &&
+    Number.isFinite(parsedNumber);
+  if (isValidNumber) { return parsedNumber; }
 
   const normalizedString = string.toLowerCase().trim();
   switch (normalizedString) {
