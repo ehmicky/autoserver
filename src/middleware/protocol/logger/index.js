@@ -18,6 +18,7 @@ const logRequest = function ({
   protocolMethod,
   method,
   path,
+  route,
   ip,
   params,
 }) {
@@ -27,6 +28,7 @@ const logRequest = function ({
     protocolMethod,
     method,
     path,
+    route,
     ip,
     params,
   ].join(' ');
