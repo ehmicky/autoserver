@@ -7,11 +7,11 @@
 const { titleize, dasherize } = require('underscore.string');
 const { chain, mapKeys } = require('lodash');
 
+
 // Headers that provide application data, not just HTTP protocol semantics
 // Must all be lowercase
 const PARAM_HEADERS = [
 ];
-
 
 /**
  * Returns a request's or response's HTTP headers
