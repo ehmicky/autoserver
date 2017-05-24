@@ -21,8 +21,15 @@ const noOutputSet = function () {
   };
 };
 
-const flagNoOutput = function ({ args, fullAction, action }) {
-  let { no_output: noOutput } = args;
+const flagNoOutput = function ({
+  protocolArgs: { noOutput: generalNoOutput },
+  args,
+  fullAction,
+  action,
+}) {
+  let noOutput = generalNoOutput !== undefined
+    ? generalNoOutput
+    : args.no_output;
 
   if (noOutput === undefined) {
     // Delete actions use no_output by default
