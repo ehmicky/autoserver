@@ -17,8 +17,10 @@ const PARAM_HEADERS = [
 
 /**
  * Returns a request's or response's HTTP headers
- * Only returns the namespaced ones, e.g. X-MYNAMESPACE-HEADER, and remove their namespace
- * Also returns the headers that provide application data, not just HTTP protocol semantics, according to a whitelist.
+ * Only returns the namespaced ones, e.g. X-MYNAMESPACE-HEADER,
+ * and remove their namespace
+ * Also returns the headers that provide application data,
+ * not just HTTP protocol semantics, according to a whitelist.
  *
  * @param {req|res} reqOrRes - HTTP request or response object
  * @returns {object} appHeaders
@@ -49,14 +51,17 @@ const getHeader = function (reqOrRes, headerName) {
 const getAppHeaders = function (headers) {
   const appHeaderRegex = new RegExp(`^${HEADERS_NAMESPACE}`);
   return chain(headers)
-    .pickBy((_, headerName) => appHeaderRegex.test(headerName) || PARAM_HEADERS.includes(headerName))
+    .pickBy((_, headerName) => appHeaderRegex.test(headerName) ||
+      PARAM_HEADERS.includes(headerName))
     .mapKeys((_, headerName) => headerName.replace(appHeaderRegex, ''))
     .value();
 };
 
 /**
- * Take a plain object of parameters, and transforms it in an object that can be set as headers to a HTTP request or response
- * Namespaces headers names, e.g. X-Mynamespace-Header, unless part of a whitelist
+ * Take a plain object of parameters, and transforms it in an object that
+ * can be set as headers to a HTTP request or response
+ * Namespaces headers names, e.g. X-Mynamespace-Header,
+ * unless part of a whitelist
  *
  * @param {object} appHeaders
  * @returns {object} headers
