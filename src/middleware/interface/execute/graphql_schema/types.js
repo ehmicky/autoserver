@@ -193,18 +193,9 @@ const getObjectFields = function (def, opts) {
 
         return memo;
       })
-      .omitBy((childDef, childDefName) => {
-        const subDef = getSubDef(childDef);
-        // Remove all return value fields for delete actions,
-        // except the recursive ones and `id`
-        // And except for delete filters
-        return (
-          action.type === 'delete' &&
-          !isModel(subDef) &&
-          childDefName !== 'id' &&
-          inputObjectType !== 'filter'
+      .omitBy((_, childDefName) => {
         // Filter arguments for single actions only include `id`
-        ) || (
+        return (
           childDefName !== 'id' &&
           inputObjectType === 'filter' &&
           !action.multiple
