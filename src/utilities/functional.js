@@ -47,7 +47,8 @@ const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
 
 // Set values recursively within an obj, using a dot-delimited path
 // I.e. similar to Lodash __.set() except it traverses array
-const set = function ({ obj, path, value }) {
+// Can also set a test(value) function to conditionally assign `value`
+const set = function ({ obj, path, value, test }) {
   if (typeof path === 'string') {
       path = path.split('.');
   }
@@ -55,17 +56,19 @@ const set = function ({ obj, path, value }) {
   if (!obj) { return obj; }
 
   if (obj instanceof Array) {
-    return obj.map(elem => set({ obj: elem, path, value }));
+    return obj.map(elem => set({ obj: elem, path, value, test }));
   }
 
   if (obj.constructor !== Object) { return obj; }
 
   if (path.length === 1) {
+    if (test && !test(obj[path[0]])) { return obj; }
+
     obj[path[0]] = value;
     return obj;
   } else if (path.length > 1) {
     const newPath = path.slice(1);
-    return map(obj, elem => set({ obj: elem, path: newPath, value }));
+    return map(obj, elem => set({ obj: elem, path: newPath, value, test }));
   }
 };
 

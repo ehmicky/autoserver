@@ -12,7 +12,7 @@ const applyModifiers = function ({ response, modifiers: { noOutput } }) {
   // Remove fields marked with arg.no_output `true`
   if (noOutput) {
     for (const path of noOutput) {
-      set({ obj: response, path, value: null });
+      set({ obj: response, path, value: null, test: val => val !== undefined });
     }
   }
   return response;
