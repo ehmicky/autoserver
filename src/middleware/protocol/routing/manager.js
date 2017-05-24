@@ -24,7 +24,6 @@ class RoutesManager {
     let methods = method;
     if (methods) {
       methods = methods instanceof Array ? methods : [methods];
-      methods = methods.map(method => method.toLowerCase());
     }
 
     this._routes.push({ path, route, regexp, variables, methods });
@@ -36,7 +35,7 @@ class RoutesManager {
       // Check path
       return regexp.test(path)
         // Check methods
-        && (!methods || methods.includes(method.toLowerCase()));
+        && (!methods || methods.includes(method));
     });
     if (!route) { return; }
 

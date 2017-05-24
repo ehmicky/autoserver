@@ -24,6 +24,13 @@ const errorReasons = {
     },
   },
 
+  // Tried to use a protocol method that is not supported, e.g. TRACE
+  UNSUPPORTED_METHOD: {
+    protocol: {
+      http: { extra: { status: 400 } },
+    },
+  },
+
   // HTTP request body has a Content-Length but no request body
   HTTP_NO_CONTENT_TYPE: {
     protocol: {
