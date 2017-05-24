@@ -270,6 +270,12 @@ models:
 #      - restrictions:
 #         - helpers can only reference other helpers
 #         - arg.filter can only use $ and $$ parameters
+#      - not every information is available as a parameter, following the
+#        principles:
+#         - should encourage agnosticism, e.g. we do not expose PROTOCOL,
+#           INTERFACE, and prefer exposing COMMAND over ACTION
+#         - should hide implementation details, e.g. we do not expose
+#           DB_ARGS, SYS_ARGS, etc.
 # Default `commands` values for each model
 # If unspecified, is all commands but deleteMany
 commands: [create, read, update, delete]
