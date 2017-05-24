@@ -52,40 +52,12 @@
  **/
 
 
-const { cloneDeep, orderBy, map } = require('lodash');
+const { cloneDeep } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../error');
+const { processResponse } = require('./process_response');
 
-
-const createId = function () {
-  return uuiv4();
-};
-
-// order_by sorting
-const sortResponse = function ({ data, orderByArg }) {
-  if (!data || !(data instanceof Array)) { return data; }
-
-  const sortedData = orderBy(
-    data,
-    map(orderByArg, 'attrName'),
-    map(orderByArg, 'order')
-  );
-  return sortedData;
-};
-
-// Pagination offsetting
-// If offset is too big, just return empty array
-const offsetResponse = function ({ data, offset }) {
-  if (offset === undefined) { return data; }
-  return data.slice(offset);
-};
-
-// Pagination limiting
-const limitResponse = function ({ data, limit }) {
-  if (limit === undefined) { return data; }
-  return data.slice(0, limit);
-};
 
 // '($ === ID)' -> ID
 const filterToId = function ({ filter }) {
@@ -192,6 +164,10 @@ const create = function ({ collection, data, opts }) {
   return newModel;
 };
 
+const createId = function () {
+  return uuiv4();
+};
+
 const createOne = function ({ collection, data, opts }) {
   const newModel = create({ collection, data, opts });
   return { data: newModel };
@@ -241,27 +217,10 @@ const commandHandlers = {
 };
 
 const fireCommand = function (commandInput) {
-  const {
-    command,
-    opts: { orderBy, limit, noOutput, offset },
-  } = commandInput;
+  const { command, opts } = commandInput;
   const response = commandHandlers[command.name](commandInput);
-  response.data = sortResponse({ data: response.data, orderByArg: orderBy });
-  response.data = offsetResponse({ data: response.data, offset });
-  response.data = limitResponse({ data: response.data, limit });
 
-  // Extra parameter used only for optimization, when we know we do
-  // not need the result of a command
-  // Only used internally by the system, i.e. not exposed to consumers.
-  if (noOutput) {
-    response.data = response.data instanceof Array ? [] : {};
-  }
-
-  if (response.metadata === undefined) {
-    response.metadata = response.data instanceof Array
-      ? Array(response.data.length).fill({})
-      : {};
-  }
+  Object.assign(response, processResponse({ response, command, opts }));
 
   // TODO: Only necessary as long as we do not use real database,
   // to make sure it is not modified
