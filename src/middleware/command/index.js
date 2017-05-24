@@ -9,6 +9,5 @@ module.exports = Object.assign(
   require('./system_defaults'),
   require('./user_defaults'),
   require('./normalization'),
-  require('./clean_delete'),
   require('./transform')
 );

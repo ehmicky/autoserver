@@ -90,8 +90,6 @@ const startChain = async function (opts) {
     mdw.userDefaults,
     // Normalize input
     mdw.normalization,
-    // Only keep minimal attributes in delete response
-    mdw.cleanDelete,
     // Process transforms
     mdw.transform,
 
