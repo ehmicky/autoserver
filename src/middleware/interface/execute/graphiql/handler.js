@@ -8,11 +8,12 @@ const { renderGraphiQL } = require('./render');
 const executeGraphiql = function () {
   const endpointURL = `http://${host}:${port}/graphql`;
   return async function executeGraphiql(input) {
-    const { params, payload = {} } = input;
-
-    const query = params.query || payload.query;
-    const variables = params.variables || payload.variables;
-    const operationName = params.operationName || payload.operationName;
+    const { queryVars, payload = {} } = input;
+    const {
+      query,
+      variables,
+      operationName,
+    } = Object.assign({}, queryVars, payload);
 
     const content = await renderGraphiQL({
       endpointURL,

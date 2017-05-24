@@ -15,6 +15,8 @@ const fillParams = async function (opts) {
     const {
       method,
       protocolMethod,
+      queryVars,
+      headers,
       params,
       payload,
     } = await map[protocol](input);
@@ -24,6 +26,8 @@ const fillParams = async function (opts) {
     Object.assign(input, {
       method,
       protocolMethod,
+      queryVars,
+      headers,
       params,
       payload,
       jsl: newJsl,

@@ -32,14 +32,16 @@ const startChain = async function (opts) {
     mdw.sendResponse,
     // Retrieves timestamp
     mdw.getTimestamp,
-    // Retrieves input.path
-    mdw.getPath,
     // Retrieves IP
     mdw.getIp,
     // Merge request parameters and payload into protocol-agnostic format
     mdw.fillParams,
+    // Retrieves input.path
+    mdw.getPath,
     // Retrieves input.route, using input.path
     mdw.router,
+    // Transform headers into protocol-agnostic protocolArgs
+    mdw.fillProtocolArgs,
     // General request log
     mdw.logger,
 
