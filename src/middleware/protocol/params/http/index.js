@@ -13,10 +13,10 @@ const { transtype } = require('../../../../utilities');
 const { EngineError } = require('../../../../error');
 
 
-const httpFillParams = function () {
+const httpFillParams = function ({ projectName }) {
   return async function ({ specific: { req } }) {
     const { method, protocolMethod } = getMethod({ req });
-    const params = getParams({ req });
+    const params = getParams({ req, projectName });
     const payload = await getPayload({ req });
 
     return { method, protocolMethod, params, payload };
@@ -54,12 +54,12 @@ const methodMap = {
  *
  * @returns {object} params
  **/
-const getParams = function ({ req }) {
+const getParams = function ({ req, projectName }) {
   // Query parameters
   const queryParams = httpQueryString.parse(req.url);
 
   // Namespaced HTTP headers
-  const appHeaders = httpAppHeaders.parse(req);
+  const appHeaders = httpAppHeaders.parse(req, projectName);
 
   // Merge everything
   const rawParams = Object.assign({}, appHeaders, queryParams);

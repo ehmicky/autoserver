@@ -15,6 +15,11 @@ const validateOptions = function ({ options }) {
         type: ['string', 'object'],
       },
 
+      projectName: {
+        type: 'string',
+        pattern: '^[a-zA-Z0-9_-]+$',
+      },
+
       onRequestError: {
         typeof: 'function',
         arity: 1,
