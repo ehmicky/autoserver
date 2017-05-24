@@ -7,5 +7,7 @@ module.exports = Object.assign(
   require('./negotiator'),
   require('./validation'),
   require('./error_handler'),
-  require('./execute')
+  require('./execute'),
+  require('./merge_modifiers'),
+  require('./no_output')
 );

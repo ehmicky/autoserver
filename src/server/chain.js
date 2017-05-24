@@ -58,6 +58,10 @@ const startChain = async function (opts) {
     mdw.interfaceErrorHandler,
     // Translates interface-specific calls into generic instance actions
     mdw.interfaceExecute,
+    // Merge single modifier into all modifiers
+    mdw.mergeModifiers,
+    // Flags that a response has `no_output`
+    mdw.noOutputSet,
 
     /**
      * Action layer

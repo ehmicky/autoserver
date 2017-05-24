@@ -36,9 +36,10 @@ const actionConvertor = function () {
 
     const { data, metadata } = await this.next(nextInput);
 
-    const response = actionConvertorOutput[interf]({ data, metadata });
+    const content = actionConvertorOutput[interf]({ data, metadata });
+    const modifiers = {};
 
-    return response;
+    return { content, modifiers };
   };
 };
 

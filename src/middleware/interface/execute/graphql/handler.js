@@ -7,6 +7,7 @@ const {
   isIntrospectionQuery,
   getHandleIntrospection,
 } = require('./introspection');
+const { applyModifiers } = require('./modifiers');
 
 
 // GraphQL query handling
@@ -32,6 +33,7 @@ const executeGraphql = function (opts) {
 
     // GraphQL execution
     let content;
+    const modifiers = {};
     // Introspection GraphQL query
     if (isIntrospectionQuery({ query })) {
       content = await handleIntrospection({
@@ -41,14 +43,15 @@ const executeGraphql = function (opts) {
       });
     // Normal GraphQL query
     } else {
-      const callback = fireNext.bind(this, input);
-      const data = await handleQuery({
+      const callback = fireNext.bind(this, input, modifiers);
+      const response = await handleQuery({
         queryDocument,
         variables,
         operationName,
         context: { graphqlMethod, callback },
         rootValue: {},
       });
+      const data = applyModifiers({ response, modifiers });
       content = { data };
     }
 
@@ -59,8 +62,8 @@ const executeGraphql = function (opts) {
   };
 };
 
-const fireNext = async function (request, actionInput) {
-  const input = Object.assign({}, request, actionInput);
+const fireNext = async function (request, modifiers, actionInput) {
+  const input = Object.assign({}, request, { modifiers }, actionInput);
   const response = await this.next(input);
   return response;
 };
