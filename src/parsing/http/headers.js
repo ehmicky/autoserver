@@ -5,13 +5,8 @@
  */
 
 const { titleize, dasherize } = require('underscore.string');
-const { chain, mapKeys } = require('lodash');
+const { mapKeys } = require('lodash');
 
-
-// Headers that provide application data, not just HTTP protocol semantics
-// Must all be lowercase
-const PARAM_HEADERS = [
-];
 
 /**
  * Returns a request's or response's HTTP headers
@@ -26,9 +21,10 @@ const PARAM_HEADERS = [
  */
 const parse = function (reqOrRes, projectName) {
   const headers = getHeaders(reqOrRes);
+  const nonAppHeaders = getNonAppHeaders(headers, projectName);
   const appHeaders = getAppHeaders(headers, projectName);
 
-  return appHeaders;
+  return { nonAppHeaders, appHeaders };
 };
 
 // Returns request or response headers
@@ -42,9 +38,6 @@ const getHeaders = function (reqOrRes) {
     return reqOrRes.headers || {};
   }
 };
-const getHeader = function (reqOrRes, headerName) {
-  return getHeaders(reqOrRes)[headerName.toLowerCase()];
-};
 
 // Filters headers with only the headers whose name starts with X-NAMESPACE-
 const getAppHeaders = function (headers, projectName) {
@@ -52,11 +45,23 @@ const getAppHeaders = function (headers, projectName) {
   // We don't need to RegExp-escape since `headersNamespace` only contains
   // ASCII letters, numbers and dashes
   const appHeaderRegex = new RegExp(`^${headersNamespace}`);
-  return chain(headers)
-    .pickBy((_, headerName) => appHeaderRegex.test(headerName) ||
-      PARAM_HEADERS.includes(headerName))
-    .mapKeys((_, headerName) => headerName.replace(appHeaderRegex, ''))
-    .value();
+  return Object.entries(headers)
+    .filter(([name]) => appHeaderRegex.test(name))
+    .map(([name, value]) => {
+      const shortName = name.replace(appHeaderRegex, '');
+      return { [shortName]: value };
+    })
+    .reduce((memo, obj) => Object.assign(memo, obj), {});
+};
+
+// Inverse
+const getNonAppHeaders = function (headers, projectName) {
+  const headersNamespace = `x-${dasherize(projectName)}-`;
+  const appHeaderRegex = new RegExp(`^${headersNamespace}`);
+  return Object.entries(headers)
+    .filter(([name]) => !appHeaderRegex.test(name))
+    .map(([name, value]) => ({ [name]: value }))
+    .reduce((memo, obj) => Object.assign(memo, obj), {});
 };
 
 /**
@@ -69,25 +74,17 @@ const getAppHeaders = function (headers, projectName) {
  * @param {string} projectName - MYNAMESPACE
  * @returns {object} headers
  */
-const serialize = function (headers, projectName) {
+const serializeAppHeaders = function (headers, projectName) {
   const headersNamespace = `x-${dasherize(projectName)}-`;
   return mapKeys(headers, (_, headerName) => {
-    if (!PARAM_HEADERS.includes(headerName.toLowerCase())) {
-      headerName = `${headersNamespace}${headerName}`;
-    }
-    // Make sure case is X-Mynamespace-Header
-    return titleize(headerName);
+    return titleize(`${headersNamespace}${headerName}`);
   });
 };
 
 
 module.exports = {
-  httpAppHeaders: {
-    parse,
-    serialize,
-  },
   httpHeaders: {
-    get: getHeader,
-    getAll: getHeaders,
+    parse,
+    serialize: serializeAppHeaders,
   },
 };

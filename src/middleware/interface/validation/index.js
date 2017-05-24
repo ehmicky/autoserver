@@ -27,12 +27,24 @@ const interfaceValidation = function () {
 
 const schema = {
   type: 'object',
-  required: ['method', 'params', 'route', 'jsl', 'interface'],
+  required: [
+    'method',
+    'queryVars',
+    'pathVars',
+    'protocolArgs',
+    'params',
+    'route',
+    'jsl',
+    'interface',
+  ],
   properties: {
     method: {
       type: 'string',
       enum: ['find', 'create', 'replace', 'update', 'delete'],
     },
+    queryVars: { type: 'object' },
+    pathVars: { type: 'object' },
+    protocolArgs: { type: 'object' },
     params: { type: 'object' },
     route: { type: 'string' },
     jsl: { type: 'object' },

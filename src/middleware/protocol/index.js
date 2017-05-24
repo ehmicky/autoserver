@@ -13,5 +13,6 @@ module.exports = Object.assign(
   require('./ip'),
   require('./params'),
   require('./routing'),
+  require('./protocol_args'),
   require('./logger')
 );

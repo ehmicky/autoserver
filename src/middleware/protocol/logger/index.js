@@ -22,8 +22,10 @@ const logRequest = function ({
   route,
   ip,
   params,
+  protocolArgs,
 }) {
   params = JSON.stringify(params);
+  protocolArgs = JSON.stringify(protocolArgs);
   const message = [
     timestamp,
     protocolFullName,
@@ -33,6 +35,7 @@ const logRequest = function ({
     route,
     ip,
     params,
+    protocolArgs,
   ].join(' ');
   log.log(message);
 };

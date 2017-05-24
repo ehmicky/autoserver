@@ -8,7 +8,7 @@ const { getRoutes } = require('./routes');
 const router = function () {
   const routes = getRoutes();
   return async function router(input) {
-    const { path, params, method } = input;
+    const { path, method } = input;
 
     const matchedRoute = routes.find({ path, method });
     if (!matchedRoute) {
@@ -17,9 +17,8 @@ const router = function () {
     }
 
     // Add route and path parameters to input
-    const { route, pathParams } = matchedRoute;
-    const newParams = Object.assign(params, pathParams);
-    Object.assign(input, { route, params: newParams });
+    const { route, pathVars } = matchedRoute;
+    Object.assign(input, { route, pathVars });
 
     const response = await this.next(input);
     return response;
