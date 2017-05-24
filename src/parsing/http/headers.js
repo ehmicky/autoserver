@@ -4,11 +4,9 @@
  * Parses and serializes HTTP headers, used as parameters, i.e. namespaced
  */
 
-const titleize = require('underscore.string/titleize');
+const { titleize, dasherize } = require('underscore.string');
 const { chain, mapKeys } = require('lodash');
 
-const NAMESPACE = require('../../utilities').CONSTANTS.NAMESPACE;
-const HEADERS_NAMESPACE = `x-${NAMESPACE.toLowerCase()}-`;
 // Headers that provide application data, not just HTTP protocol semantics
 // Must all be lowercase
 const PARAM_HEADERS = [
@@ -23,11 +21,12 @@ const PARAM_HEADERS = [
  * not just HTTP protocol semantics, according to a whitelist.
  *
  * @param {req|res} reqOrRes - HTTP request or response object
+ * @param {string} projectName - MYNAMESPACE
  * @returns {object} appHeaders
  */
-const parse = function (reqOrRes) {
+const parse = function (reqOrRes, projectName) {
   const headers = getHeaders(reqOrRes);
-  const appHeaders = getAppHeaders(headers);
+  const appHeaders = getAppHeaders(headers, projectName);
 
   return appHeaders;
 };
@@ -48,8 +47,11 @@ const getHeader = function (reqOrRes, headerName) {
 };
 
 // Filters headers with only the headers whose name starts with X-NAMESPACE-
-const getAppHeaders = function (headers) {
-  const appHeaderRegex = new RegExp(`^${HEADERS_NAMESPACE}`);
+const getAppHeaders = function (headers, projectName) {
+  const headersNamespace = `x-${dasherize(projectName)}-`;
+  // We don't need to RegExp-escape since `headersNamespace` only contains
+  // ASCII letters, numbers and dashes
+  const appHeaderRegex = new RegExp(`^${headersNamespace}`);
   return chain(headers)
     .pickBy((_, headerName) => appHeaderRegex.test(headerName) ||
       PARAM_HEADERS.includes(headerName))
@@ -64,12 +66,14 @@ const getAppHeaders = function (headers) {
  * unless part of a whitelist
  *
  * @param {object} appHeaders
+ * @param {string} projectName - MYNAMESPACE
  * @returns {object} headers
  */
-const serialize = function (headers) {
+const serialize = function (headers, projectName) {
+  const headersNamespace = `x-${dasherize(projectName)}-`;
   return mapKeys(headers, (_, headerName) => {
     if (!PARAM_HEADERS.includes(headerName.toLowerCase())) {
-      headerName = `${HEADERS_NAMESPACE}${headerName}`;
+      headerName = `${headersNamespace}${headerName}`;
     }
     // Make sure case is X-Mynamespace-Header
     return titleize(headerName);

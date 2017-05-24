@@ -8,7 +8,6 @@ module.exports = Object.assign(
   require('./logger'),
   require('./is_dev'),
   require('./transtype'),
-  require('./constants'),
   require('./filesystem'),
   require('./promise'),
   require('./memoize'),
