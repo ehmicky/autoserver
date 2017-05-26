@@ -17,7 +17,7 @@
   "author": "Autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
   "scripts": {
-    "setup": "./scripts/unbuild.sh; npm install; ./scripts/build.sh",
+    "build": "./scripts/unbuild.sh; npm install; ./scripts/build.sh",
     "unbuild": "./scripts/unbuild.sh",
     "start": "if [ \"$NODE_ENV\" = \"dev\" ]; then ./node_modules/.bin/nodemon --config ./nodemon.json; else node index.js; fi",
     "debug": "NODE_ENV=dev ./node_modules/.bin/nodemon --config ./nodemon_debug.json",

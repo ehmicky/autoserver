@@ -101,7 +101,7 @@ This is a minimalistic example. A lot is possible: validation, authorization, de
 
 # How to start
 
-First `npm run setup` (not `npm install`)
+First `npm run build` (not `npm install`)
 
 If in production, run with `npm start`
 
