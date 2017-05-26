@@ -17,7 +17,7 @@ const memoizeUnlessClient = function (func) {
   };
 };
 
-const clientTypes = ['arg', 'data'];
+const clientTypes = ['filter', 'data'];
 
 
 module.exports = {
