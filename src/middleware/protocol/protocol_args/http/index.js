@@ -3,15 +3,15 @@
 
 const { omitBy } = require('lodash');
 
+const { httpHeaders: { parsePrefer } } = require('../../../../parsing');
+
 
 // Transform headers into protocolArgs, for HTTP-specific headers
 // No protocolArgs should be protocol-specific, i.e. HTTP-specific headers
 // are redundant with protocol-agnostic ones.
 const httpFillProtocolArgs = function () {
   return function httpFillProtocolArgs({
-    headers: {
-      prefer,
-    },
+    headers,
     protocolMethod,
   }) {
     const protocolArgs = {};
@@ -19,7 +19,8 @@ const httpFillProtocolArgs = function () {
     // When using HEAD, or `Prefer: return=minimal` request header,
     // there should be no output
     const isHead = protocolMethod === 'HEAD';
-    const hasMinimalPreference = prefer === 'return=minimal';
+    const preferHeader = parsePrefer({ headers });
+    const hasMinimalPreference = preferHeader.return === 'minimal';
     if (isHead || hasMinimalPreference) {
       protocolArgs.noOutput = true;
     }

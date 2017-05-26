@@ -6,6 +6,9 @@
 
 const { titleize, dasherize } = require('underscore.string');
 const { mapKeys } = require('lodash');
+const parsePreferHeader = require('parse-prefer-header');
+
+const { EngineError } = require('../../error');
 
 
 /**
@@ -81,10 +84,23 @@ const serializeAppHeaders = function (headers, projectName) {
   });
 };
 
+// Parses Prefer HTTP header
+const parsePrefer = function ({ headers: { prefer } }) {
+  if (!prefer) { return {}; }
+
+  try {
+    return parsePreferHeader(prefer);
+  } catch (error) {
+    const message = `HTTP 'Prefer' header value syntax error: ${prefer}`;
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  }
+};
+
 
 module.exports = {
   httpHeaders: {
     parse,
+    parsePrefer,
     serialize: serializeAppHeaders,
   },
 };
