@@ -25,6 +25,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "acorn": "^5.0.3",
     "ajv": "^5.0.0",
     "ajv-keywords": "^2.0.0",
     "bluebird": "^3.5.0",
