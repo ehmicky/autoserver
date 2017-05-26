@@ -314,7 +314,7 @@ helpers:
   # One can require sets of constants
   - $ref: constants.json
   # Dummy constant
-  user: '({ id: "1" })'
+  user: '(({ id: "1" }))'
 # Plugins are functions that take `idl` as input, and returns a modified
 # IDL as output.
 # Use cases can be: adding a attribute to each model,
