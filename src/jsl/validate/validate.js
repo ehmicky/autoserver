@@ -60,7 +60,8 @@ const validateNode = function (throwError, rules, nodeType, node, ancestors) {
 
   if (rule === true) { return; }
 
-  const message = rule(node);
+  const nodeAncestors = ancestors.reverse().slice(1);
+  const message = rule(node, nodeAncestors);
   if (typeof message === 'string') {
     throwError(message);
   }
