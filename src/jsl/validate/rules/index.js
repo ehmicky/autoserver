@@ -3,5 +3,6 @@
 
 module.exports = Object.assign(
   {},
-  require('./system')
+  require('./system'),
+  require('./filter')
 );
