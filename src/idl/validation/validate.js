@@ -17,7 +17,11 @@ const validateIdl = async function (idl) {
   const schema = await getSchema();
   idl = getIdlCopy({ idl });
   idl = validateData({ idl });
-  validate({ schema, data: idl, reportInfo: { type: 'idl', dataVar: 'config' } });
+  validate({
+    schema,
+    data: idl,
+    reportInfo: { type: 'idl', dataVar: 'config' },
+  });
 
   jsonSchemaValidate({ idl });
 };
@@ -25,18 +29,25 @@ const validateIdl = async function (idl) {
 // Adds some temporary property on IDL, to help validation
 const getIdlCopy = function ({ idl }) {
   const modelNames = Object.keys(idl.models || {});
-  const customValidationNames = idl.validation && idl.validation.constructor === Object ? Object.keys(idl.validation) : [];
+  const customValidationNames = idl.validation &&
+    idl.validation.constructor === Object
+      ? Object.keys(idl.validation)
+      : [];
   return Object.assign({}, idl, { modelNames, customValidationNames });
 };
 
 // Retrieve IDL schema
 const getSchema = memoize(async function () {
   const schemaContent = await readFileAsync(IDL_SCHEMA_PATH);
-  const schema = yaml.load(schemaContent, { schema: yaml.CORE_SCHEMA, json: true });
+  const schema = yaml.load(schemaContent, {
+    schema: yaml.CORE_SCHEMA,
+    json: true,
+  });
   return schema;
 });
 
-// Validates that idl.models.MODEL are valid JSON schema by compiling them with AJV
+// Validates that idl.models.MODEL are valid JSON schema by compiling them
+// with AJV
 const jsonSchemaValidate = function ({ idl: { models } }) {
   for (const model of Object.values(models)) {
     getValidator({ schema: model });
