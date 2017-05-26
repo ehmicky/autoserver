@@ -1,9 +1,9 @@
 'use strict';
 
 
-const { EngineError } = require('../../error');
 const { map } = require('../../utilities');
 const { isJsl } = require('../test');
+const { throwJslError } = require('../error');
 const { getRawJsl } = require('../tokenize');
 const { compileJsl } = require('./compile');
 const { checkNames } = require('./validation');
@@ -71,9 +71,7 @@ class Jsl {
         `${value.name}()`;
       const expression = rawJsl || funcName || value;
       const message = `JSL expression failed: '${expression}'`;
-
-      const reason = type === 'server' ? 'UTILITY_ERROR' : 'INPUT_VALIDATION';
-      throw new EngineError(message, { reason, innererror });
+      throwJslError({ message, type, innererror });
     }
   }
 }
