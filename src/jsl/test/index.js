@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { tokenizeJsl } = require('./tokenize');
+const { tokenizeJsl } = require('../tokenize');
 
 
 // Test whether a value is JSL

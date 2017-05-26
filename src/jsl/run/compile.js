@@ -1,8 +1,8 @@
 'use strict';
 
 
-const { isJsl, isEscapedJsl } = require('./test');
-const { getRawJsl } = require('./tokenize');
+const { isJsl, isEscapedJsl } = require('../test');
+const { getRawJsl } = require('../tokenize');
 
 
 // Transform JSL into a function with the JSL as body

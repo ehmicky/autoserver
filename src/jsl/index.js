@@ -3,6 +3,7 @@
 
 module.exports = Object.assign(
   {},
-  require('./main'),
-  require('./test')
+  require('./run'),
+  require('./test'),
+  require('./validate')
 );
