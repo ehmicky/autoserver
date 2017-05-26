@@ -7,6 +7,7 @@ const { memoize, fs: { readFileAsync } } = require('../../utilities');
 const { getValidator, validate } = require('../../validation');
 const { validateCircularRefs } = require('./circular_refs');
 const { validateData } = require('./data');
+const { validateIdlJsl } = require('./jsl');
 const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
 
 
@@ -24,6 +25,7 @@ const validateIdl = async function (idl) {
   });
 
   jsonSchemaValidate({ idl });
+  validateIdlJsl({ idl });
 };
 
 // Adds some temporary property on IDL, to help validation
