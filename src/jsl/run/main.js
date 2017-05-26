@@ -54,11 +54,11 @@ class Jsl {
   // Process (already compiled) JSL function,
   // i.e. fires it and returns its value
   // If this is not JSL, returns as is
-  run({ value, input = {}, type = 'server' }) {
+  run({ value, input = {}, type = 'system' }) {
     try {
       const params = Object.assign({}, this.input, input);
       const paramsKeys = Object.keys(params);
-      const jslFunc = compileJsl({ jsl: value, paramsKeys });
+      const jslFunc = compileJsl({ jsl: value, paramsKeys, type });
 
       if (typeof jslFunc !== 'function') { return jslFunc; }
       return jslFunc(params);

@@ -103,7 +103,7 @@ const findIndexes = function({ collection, filter, opts: { jsl } }) {
     .filter(([/*index*/, model]) => {
       // TODO: remove when using MongoDB query objects
       const input = { $$: model };
-      return jsl.run({ value: filter, input, type: 'client' });
+      return jsl.run({ value: filter, input, type: 'filter' });
     })
     .map(([index]) => index);
   return modelIndexes;
