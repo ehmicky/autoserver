@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { findNodeAt } = require('acorn/dist/walk');
+const { base: walkBase } = require('acorn/dist/walk');
 
 const { parseNode } = require('../parse');
 const { throwJslError } = require('../error');
@@ -12,18 +12,32 @@ const allRules = require('./rules');
 const { printNode } = require('./print');
 
 
+// TODO: remove when https://github.com/ternjs/acorn/pull/559 is merged
+const fullAncestor = function (node, callback, base, state) {
+   if (!base) base = walkBase;
+   let ancestors = []
+   ;(function c(node, st, override) {
+     let type = override || node.type;
+     let isNew = node != ancestors[ancestors.length - 1];
+     if (isNew) ancestors.push(node);
+     base[type](node, st, c);
+     callback(type, node, st || ancestors, ancestors);
+     if (isNew) ancestors.pop();
+  })(node, state);
+};
+
 // Validate JSL by parsing it
 const validateJsl = function ({ jsl, type }) {
   const jslText = getJsl({ jsl, type });
   const node = parseNode({ jslText, type });
 
-  const globalKeys = getGlobalKeys();
+  const globalKeys = getGlobalKeys({ type });
   const rules = allRules[type].getRules({ globalKeys });
 
   const throwError = getThrowError({ jslText, type });
   const validate = validateNode.bind(null, throwError, rules);
 
-  findNodeAt(node, null, null, validate);
+  fullAncestor(node, validate);
 };
 
 const getJsl = function ({ jsl, type }) {
