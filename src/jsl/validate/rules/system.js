@@ -4,10 +4,23 @@
 const { memoize } = require('../../../utilities');
 
 
-// Rules to validate JSL
+// Rules to validate JSL defined in IDL file.
 // Each type is a node type.
 // If the node type is missing, it means it is not allowed.
 // Node types can be functions to create custom validation per type.
+// General idea:
+//  - functions should be pure, so we can memoize them:
+//     - no side-effects, including assignments and declarations
+//     - no access to global state
+//  - functions should be synchronous
+//  - functions should be short and simple.
+//    If one needs more complexity, use non-inline function instead.
+//     - single expression
+//     - no structures
+//     - functions must be arrow functions
+//     - function calls must be `func()` or `obj.func()`
+//     - no classes, generators, ArrayBuffer, TypedArray, Map, Set, SIMD, Proxy,
+//       Reflect or debugger
 const getRules = memoize(({ globalKeys }) => ({
 
   Program({ start, body }) {
