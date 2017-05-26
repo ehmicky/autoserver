@@ -24,7 +24,7 @@ const startServer = async function (options) {
       error = new EngineStartupError(error, { reason: 'UNKNOWN' });
     } else if (!(error instanceof EngineStartupError)) {
       error = new EngineStartupError(error.message, {
-        reason: 'UNKNOWN',
+        reason: error.reason || 'UNKNOWN',
         innererror: error,
       });
     }
