@@ -26,12 +26,13 @@ const validateData = function ({ idl }) {
 // Validates that $data is { $data: '...' }
 const validateDataFormat = function ({ value }) {
   if (typeof value.$data !== 'string') {
-    throw new EngineStartupError(`'$data' must be a string: ${JSON.stringify(value)}`, { reason: 'IDL_VALIDATION' });
+    const message = `'$data' must be a string: ${JSON.stringify(value)}`;
+    throw new EngineStartupError(message, { reason: 'IDL_VALIDATION' });
   }
   if (Object.entries(value).length > 1) {
-    throw new EngineStartupError(`'$data' must be the only property when specified: ${JSON.stringify(value)}`, {
-      reason: 'IDL_VALIDATION',
-    });
+    const val = JSON.stringify(value);
+    const message = `'$data' must be the only property when specified: ${val}`;
+    throw new EngineStartupError(message, { reason: 'IDL_VALIDATION' });
   }
 };
 
