@@ -42,7 +42,7 @@ const getThrowError = function ({ jslText, type }) {
   return msg => {
     const message = `Invalid inline function: '${jslText}'.
 ${msg}.
-Please use a normal function instead`;
+Please change the expression, or use a normal function instead.`;
     throwJslError({ type, message });
   };
 };
