@@ -64,6 +64,9 @@ const validateNode = function (throwError, rules, nodeType, node, ancestors) {
   const message = rule(node, nodeAncestors);
   if (typeof message === 'string') {
     throwError(message);
+  } else if (message === false) {
+    const message = `Cannot use the following code: '${printNode(node)}'`;
+    throwError(message);
   }
 };
 
