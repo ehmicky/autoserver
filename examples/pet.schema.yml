@@ -254,10 +254,14 @@ models:
 #      - they are divided into several groups:
 #         - helpers
 #         - "protocol parameters"
+#            - PROTOCOL {string} - possible values: 'http' only
 #            - NOW {string} - current date and time
 #            - IP {string} - request IP
 #            - PARAMS {object} - contains all request parameters:
 #              query strings, (application-namespaced) HTTP headers
+#         - "interface parameters":
+#            - INTERFACE {string} - possible values: 'graphql', 'graphiql',
+#              'graphqlprint'
 #         - "action parameters":
 #            - MODEL {string} - name of the model
 #            - ARGS {object} - arguments passed by client to the specific action
@@ -281,8 +285,8 @@ models:
 #         - arg.filter can only use $ and $$ parameters
 #      - not every information is available as a parameter, following the
 #        principles:
-#         - should encourage agnosticism, e.g. we do not expose PROTOCOL,
-#           INTERFACE, and prefer exposing COMMAND over ACTION
+#         - should encourage agnosticism, e.g. prefer exposing COMMAND over
+#           ACTION
 #         - should hide implementation details, e.g. we do not expose
 #           DB_ARGS, SYS_ARGS, etc.
 # Default `commands` values for each model

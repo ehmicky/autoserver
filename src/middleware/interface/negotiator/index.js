@@ -7,9 +7,13 @@ const { findKey } = require('lodash');
 // Decides which interface to use (e.g. GraphQL) according to route
 const interfaceNegotiator = function () {
   return async function interfaceNegotiator(input) {
-    const { route } = input;
+    const { route, jsl } = input;
+
     const interf = findKey(interfaces, test => test({ route }));
-    Object.assign(input, { interface: interf });
+
+    const newJsl = jsl.add({ INTERFACE: interf });
+
+    Object.assign(input, { interface: interf, jsl: newJsl });
 
     const response = await this.next(input);
     return response;
