@@ -51,8 +51,8 @@ const getJsl = function ({ jsl, type }) {
   return jslText;
 };
 
-const validateNode = function (throwError, rules, type, node) {
-  const rule = rules[type];
+const validateNode = function (throwError, rules, nodeType, node, ancestors) {
+  const rule = rules[nodeType];
   if (!rule) {
     const message = `Cannot use the following code: '${printNode(node)}'`;
     throwError(message);
