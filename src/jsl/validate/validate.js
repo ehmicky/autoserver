@@ -26,7 +26,7 @@ const validateJsl = function ({ jslText, type }) {
 const validateNode = function (throwError, rules, type, node) {
   const rule = rules[type];
   if (!rule) {
-    const message = `Cannot use the following node: ${printNode(node)}`;
+    const message = `Cannot use the following node: '${printNode(node)}'`;
     throwError(message);
   }
 
@@ -40,7 +40,7 @@ const validateNode = function (throwError, rules, type, node) {
 
 const getThrowError = function ({ jslText, type }) {
   return msg => {
-    const message = `Invalid inline function: ${jslText}.
+    const message = `Invalid inline function: '${jslText}'.
 ${msg}.
 Please use a normal function instead`;
     throwJslError({ type, message });
