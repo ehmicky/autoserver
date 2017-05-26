@@ -24,7 +24,7 @@ const getCreateInput = function ({ input, data }) {
 
 const getCreateArgs = function ({ input: { args }, data }) {
   const updateArgs = pick(args, ['dry_run']);
-  Object.assign(updateArgs, { data, no_output: true });
+  Object.assign(updateArgs, { data });
   return updateArgs;
 };
 

@@ -8,18 +8,8 @@ const { orderBy, map } = require('lodash');
 const processResponse = function ({
   response: { data, metadata },
   command,
-  opts: { orderBy, limit, noOutput, offset },
+  opts: { orderBy, limit, offset },
 }) {
-  // Argument used only for optimization, when we know we do
-  // not need the result of a command
-  if (noOutput) {
-    if (command.multiple) {
-      return { data: [], metadata: [] };
-    } else {
-      return { data: {}, metadata: {} };
-    }
-  }
-
   data = sortResponse({ data, orderByArg: orderBy });
   data = offsetResponse({ data, offset });
   data = limitResponse({ data, limit });

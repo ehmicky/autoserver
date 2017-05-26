@@ -86,7 +86,6 @@ const validateClientSchema = [
     },
   },
   { name: 'dry_run', value: { type: 'boolean' } },
-  { name: 'no_output', value: { type: 'boolean' } },
   // Other pagination arguments are validated and transformed by
   // pagination middleware, this is just an extra check
   { name: 'limit', value: { type: 'integer' } },
@@ -159,7 +158,7 @@ const rules = {
     required: [],
   },
   deleteOne: {
-    allowed: ['dry_run', 'no_output'],
+    allowed: ['dry_run'],
     required: ['filter'/*, 'filter.id'*/],
     isNotJslFilterId: true,
   },
@@ -171,25 +170,24 @@ const rules = {
       'limit',
       'offset',
       'dry_run',
-      'no_output',
     ],
     required: [],
   },
   updateOne: {
-    allowed: ['dry_run', 'no_output'],
+    allowed: ['dry_run'],
     required: ['data', 'data.id'],
   },
   updateMany: {
-    allowed: ['order_by', 'limit', 'offset', 'dry_run', 'no_output'],
+    allowed: ['order_by', 'limit', 'offset', 'dry_run'],
     required: ['data', 'data.*.id'],
     dataMultiple: true,
   },
   createOne: {
-    allowed: ['dry_run', 'no_output'],
+    allowed: ['dry_run'],
     required: ['data'],
   },
   createMany: {
-    allowed: ['order_by', 'limit', 'offset', 'dry_run', 'no_output'],
+    allowed: ['order_by', 'limit', 'offset', 'dry_run'],
     required: ['data'],
     dataMultiple: true,
   },

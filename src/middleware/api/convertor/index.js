@@ -14,7 +14,6 @@ const apiConvertor = function () {
       'filter',
       'order_by',
       'dry_run',
-      'no_output',
     ]);
     const nextInput = {
       command,

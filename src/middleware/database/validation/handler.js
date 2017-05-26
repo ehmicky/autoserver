@@ -24,14 +24,7 @@ const validation = function ({ idl, maxDataLength }) {
 
     const response = await this.next(input);
     validateServerOutputSyntax({ command, response });
-    validateServerOutputData({
-      idl,
-      modelName,
-      response,
-      command,
-      dbArgs,
-      jsl,
-    });
+    validateServerOutputData({ idl, modelName, response, command, jsl });
 
     return response;
   };
