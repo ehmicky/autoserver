@@ -5,13 +5,16 @@ const { findNodeAt } = require('acorn/dist/walk');
 
 const { parseNode } = require('../parse');
 const { throwJslError } = require('../error');
+const { isJsl } = require('../test');
+const { getRawJsl } = require('../tokenize');
 const { getGlobalKeys } = require('./global');
 const allRules = require('./rules');
 const { printNode } = require('./print');
 
 
 // Validate JSL by parsing it
-const validateJsl = function ({ jslText, type }) {
+const validateJsl = function ({ jsl, type }) {
+  const jslText = getJsl({ jsl, type });
   const node = parseNode({ jslText, type });
 
   const globalKeys = getGlobalKeys();
@@ -21,6 +24,17 @@ const validateJsl = function ({ jslText, type }) {
   const validate = validateNode.bind(null, throwError, rules);
 
   findNodeAt(node, null, null, validate);
+};
+
+const getJsl = function ({ jsl, type }) {
+  const valIsJsl = isJsl({ jsl });
+  if (!valIsJsl) {
+    const message = `Invalid JSL: ${jsl}`;
+    throwJslError({ type, message });
+  }
+
+  const jslText = getRawJsl({ jsl });
+  return jslText;
 };
 
 const validateNode = function (throwError, rules, type, node) {
