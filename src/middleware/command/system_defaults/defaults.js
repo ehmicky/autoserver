@@ -30,18 +30,6 @@ const defaults = {
       value: false,
     },
 
-    no_output: {
-      commandNames: [
-        'deleteOne',
-        'deleteMany',
-        'updateOne',
-        'updateMany',
-        'createOne',
-        'createMany',
-      ],
-      value: false,
-    },
-
     page_size: {
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
