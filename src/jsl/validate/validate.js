@@ -54,7 +54,7 @@ const getJsl = function ({ jsl, type }) {
 const validateNode = function (throwError, rules, type, node) {
   const rule = rules[type];
   if (!rule) {
-    const message = `Cannot use the following node: '${printNode(node)}'`;
+    const message = `Cannot use the following code: '${printNode(node)}'`;
     throwError(message);
   }
 
