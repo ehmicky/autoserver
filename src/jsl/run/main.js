@@ -1,12 +1,12 @@
 'use strict';
 
 
-const { EngineError } = require('../error');
-const { map } = require('../utilities');
+const { EngineError } = require('../../error');
+const { map } = require('../../utilities');
+const { isJsl } = require('../test');
+const { getRawJsl } = require('../tokenize');
 const { compileJsl } = require('./compile');
 const { checkNames } = require('./validation');
-const { isJsl } = require('./test');
-const { getRawJsl } = require('./tokenize');
 
 
 // Instance containing JSL parameters and helpers, re-created for each request

@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { EngineError } = require('../error');
+const { EngineError } = require('../../error');
 
 
 // Make sure there is no name conflicts between system helpers and
