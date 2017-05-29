@@ -7,6 +7,7 @@ const { throwJslError } = require('../error');
 const { getRawJsl } = require('../tokenize');
 const { compileJsl } = require('./compile');
 const { checkNames } = require('./validation');
+const { JslHelper } = require('./helper');
 
 
 // Instance containing JSL parameters and helpers, re-created for each request
@@ -14,6 +15,7 @@ class Jsl {
 
   constructor({ params = {} } = {}) {
     this.params = params;
+    this.cloneHelpers();
   }
 
   // Return a shallow copy.
@@ -35,20 +37,20 @@ class Jsl {
       // Constants are left as is
       if (!isJsl({ jsl: helper })) { return helper; }
 
-      // JSL is run with current instance
-      return (...args) => {
-        // Provide $1, $2, etc. to inline JSL
-        const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-        const params = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
-
-        return this.run({ value: helper, params });
-      };
+      return new JslHelper({ helper, jsl: this });
     });
 
-    // Allow helpers to reference each other
-    Object.assign(this.params, compiledHelpers);
-
     return this.add(compiledHelpers, { type: 'USER' });
+  }
+
+  // Each new JSL instance rebind helpers context, by using JslHelper.clone()
+  cloneHelpers() {
+    const { params } = this;
+    for (const [name, param] of Object.entries(params)) {
+      if (param instanceof JslHelper) {
+        params[name] = param.clone({ jsl: this });
+      }
+    }
   }
 
   // Process (already compiled) JSL function,
