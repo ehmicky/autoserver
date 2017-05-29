@@ -3,13 +3,12 @@
 
 const { base: walkBase } = require('acorn/dist/walk');
 
-const { parseNode } = require('../parse');
+const { parseNode, reverseParseNode } = require('../parse');
 const { throwJslError } = require('../error');
 const { isJsl } = require('../test');
 const { getRawJsl } = require('../tokenize');
 const { getGlobalKeys } = require('./global');
 const allRules = require('./rules');
-const { printNode } = require('./print');
 
 
 // TODO: remove when https://github.com/ternjs/acorn/pull/559 is merged
@@ -35,7 +34,8 @@ const validateJsl = function ({ jsl, type }) {
   const rules = allRules[type].getRules({ globalKeys });
 
   const throwError = getThrowError({ jslText, type });
-  const validate = validateNode.bind(null, throwError, rules);
+  const print = reverseParseNode.bind(null, jslText);
+  const validate = validateNode.bind(null, { throwError, print, rules });
 
   fullAncestor(node, validate);
 };
@@ -51,10 +51,14 @@ const getJsl = function ({ jsl, type }) {
   return jslText;
 };
 
-const validateNode = function (throwError, rules, node, parents, _, nodeType) {
+const validateNode = function (
+  { throwError, print, rules },
+  node, parents, _, nodeType
+) {
   const rule = rules[nodeType];
+  print(node);
   if (!rule) {
-    const message = `Cannot use the following code: '${printNode(node)}'`;
+    const message = `Cannot use the following code: '${print(node)}'`;
     throwError(message);
   }
 
@@ -64,7 +68,7 @@ const validateNode = function (throwError, rules, node, parents, _, nodeType) {
   if (typeof message === 'string') {
     throwError(message);
   } else if (message === false) {
-    const message = `Cannot use the following code: '${printNode(node)}'`;
+    const message = `Cannot use the following code: '${print(node)}'`;
     throwError(message);
   }
 };
