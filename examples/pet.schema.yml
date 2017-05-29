@@ -276,7 +276,7 @@ models:
 #              e.g. { filter: { name: '$ === $$.first_name' } }
 #              checks whether model.name === model.first_name
 #         - "helpers parameters" (only available in inline helpers):
-#            - $ARG_1, $ARG_2, etc. {any} - position parameter when firing
+#            - $1, $2, etc. {any} - position parameter when firing
 #              the helper function
 #         - "validation parameters" (only available in validation keywords):
 #            - $EXPECTED {any} - value passed to the validation rule
@@ -293,12 +293,12 @@ models:
 # If unspecified, is all commands but deleteMany
 commands: [create, read, update, delete]
 # Helpers are functions that can be used in any JSL.
-# Their argument is passed as parameters $ARG_1, $ARG_2, etc. in inline
+# Their argument is passed as parameters $1, $2, etc. in inline
 # functions
 # They must be pure functions
 helpers:
   # Helpers use function/JSL themselves
-  myMathFunc: (($ARG_1 * $ARG_2) + ($ARG_3 * $ARG_4))
+  myMathFunc: (($1 * $2) + ($3 * $4))
   exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
   recursive_func: (exampleFunction())
   moreRecursiveFunc: (recursive_func() + TestConstant)
