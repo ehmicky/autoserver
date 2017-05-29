@@ -21,7 +21,7 @@ const fillParams = async function (opts) {
       payload,
     } = await map[protocol](input);
 
-    const newJsl = jsl.add({ PARAMS: params });
+    const newJsl = jsl.add({ $PARAMS: params });
 
     Object.assign(input, {
       method,

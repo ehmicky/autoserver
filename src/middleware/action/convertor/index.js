@@ -20,8 +20,8 @@ const actionConvertor = function () {
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
     const newJsl = jsl.add({
-      ARGS: cloneDeep(args),
-      MODEL: modelName,
+      $ARGS: cloneDeep(args),
+      $MODEL: modelName,
     });
 
     const nextInput = {

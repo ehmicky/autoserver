@@ -6,7 +6,7 @@ const getTimestamp = function () {
     const { jsl } = input;
 
     const timestamp = (new Date()).toISOString();
-    const newJsl = jsl.add({ NOW: timestamp });
+    const newJsl = jsl.add({ $NOW: timestamp });
     Object.assign(input, { timestamp, jsl: newJsl });
 
     const response = await this.next(input);

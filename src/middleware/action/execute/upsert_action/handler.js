@@ -21,7 +21,7 @@ const { getSecondReadInput } = require('./second_read');
  *     to next layers
  *   - allow next layers to distinguish between an upsert action that creates
  *     a model, and one that updates a model.
- *     E.g. transforms might need to know this information using COMMAND
+ *     E.g. transforms might need to know this information using $COMMAND
  *     parameter. Example: created_time should be set if upsert creates a model,
  *     but not if it updates it.
  **/

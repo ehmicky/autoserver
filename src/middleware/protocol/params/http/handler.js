@@ -38,7 +38,7 @@ const { getPayload } = require('./payload');
  *   - namespaced headers:
  *      - i.e. namespaced by projectName (deg: 'x-api-engine-*').
  *      - semantics are defined by user, not system.
- *      - passed along to all next layers, e.g. as JSL parameter PARAMS.
+ *      - passed along to all next layers, e.g. as JSL parameter $PARAMS.
  **/
 const httpFillParams = function ({ projectName }) {
   return async function ({ specific: { req } }) {
