@@ -210,7 +210,10 @@ definitions:
       if:
         type: object
         required: [value]
-      then: {}
+      then:
+        properties:
+          useParams:
+            type: boolean
   # JSL can either be a function or a string '(...)'
   jsl:
     anyOf:

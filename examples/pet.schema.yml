@@ -311,6 +311,8 @@ helpers:
     myOtherMathFunc:
       value:
         $ref: math.js
+      # Pass JSL parameters as first argument to non-inline function
+      useParams: true
     # Dummy constant
     user: '(({ id: "1" }))'
   # One can require entire libraries.
