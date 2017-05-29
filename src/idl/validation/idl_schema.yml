@@ -30,16 +30,20 @@ properties:
     $ref: '#/definitions/commandsProperty'
   # Custom functions that can be used in JSL
   helpers:
-    anyOf:
-    - $ref: '#/definitions/helpersProperty'
+    oneOf:
     - type: array
       items:
         $ref: '#/definitions/helpersProperty'
+    - not:
+        type: array
+      $ref: '#/definitions/helpersProperty'
   # Functions that modifies IDL definition
   plugins:
     type: array
     items:
       typeof: object
+      not:
+        type: array
       properties:
         plugin:
           typeof: [function, string]
@@ -195,7 +199,7 @@ definitions:
       - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
   # idl.helpers
   helpersProperty:
-    typeof: object
+    typeof: [object, function]
     # system-defined helpers use $THIS_CASE, so we forbid it for user-defined
     # helpers for forward compatibility
     propertyNames:
