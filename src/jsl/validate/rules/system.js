@@ -111,6 +111,16 @@ const getRules = memoize(({ globalKeys }) => ({
       return 'No side-effects: \'Object.assign()\' first argument must be a literal object';
     }
   },
+  // Whitelist which constructor can be called
+  NewExpression({ callee: { type, name } }) {
+    const usesIdentifier = type === 'Identifier';
+    if (!usesIdentifier) {
+      return 'Constructor calls must be like: \'new Type()\'';
+    }
+    if (!allowedConstructors.includes(name)) {
+      return `Cannot call 'new ${name}()'`;
+    }
+  },
 
   ScopeExpression: true,
   ScopeBody: true,
@@ -161,6 +171,9 @@ const globalFuncNames = ['for', 'keyFor'];
 
 // Those methods imply async code
 const asyncFuncNames = ['then', 'catch'];
+
+// Those are the only constructors that can be called with `new`
+const allowedConstructors = ['Date', 'Array', 'RegExp'];
 
 
 module.exports = {
