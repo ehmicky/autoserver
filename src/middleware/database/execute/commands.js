@@ -102,8 +102,8 @@ const findIndexes = function({ collection, filter, opts: { jsl } }) {
     // Check if a model matches a query filter
     .filter(([/*index*/, model]) => {
       // TODO: remove when using MongoDB query objects
-      const input = { $$: model };
-      return jsl.run({ value: filter, input, type: 'filter' });
+      const params = { $$: model };
+      return jsl.run({ value: filter, params, type: 'filter' });
     })
     .map(([index]) => index);
   return modelIndexes;

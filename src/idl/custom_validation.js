@@ -21,12 +21,12 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
       attrName,
       { [Symbol.for('extra')]: jsl }
     ) {
-      const input = { $EXPECTED: expected, $$: parent, $: value };
+      const params = { $EXPECTED: expected, $$: parent, $: value };
 
-      const isValid = jsl.run({ value: test, input });
+      const isValid = jsl.run({ value: test, params });
       if (isValid === true) { return true; }
 
-      const errorMessage = jsl.run({ value: message, input });
+      const errorMessage = jsl.run({ value: message, params });
       validate.errors = [{
         message: errorMessage,
         keyword,

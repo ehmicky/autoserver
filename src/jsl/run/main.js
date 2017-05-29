@@ -12,17 +12,17 @@ const { checkNames } = require('./validation');
 // Instance containing JSL parameters and helpers, re-created for each request
 class Jsl {
 
-  constructor({ input = {} } = {}) {
-    this.input = input;
+  constructor({ params = {} } = {}) {
+    this.params = params;
   }
 
   // Return a shallow copy.
   // Reason: requests can trigger several sub-requests, which should be
   // independant from each other, i.e. all get their own JSL instance.
-  add(input = {}, { type = 'SYSTEM' } = {}) {
-    checkNames(input, type);
-    const newInput = Object.assign({}, this.input, input);
-    return new Jsl({ input: newInput });
+  add(params = {}, { type = 'SYSTEM' } = {}) {
+    checkNames(params, type);
+    const newParams = Object.assign({}, this.params, params);
+    return new Jsl({ params: newParams });
   }
 
   // Take JSL, inline or not, and turns into `function (...args)`
@@ -39,14 +39,14 @@ class Jsl {
       return (...args) => {
         // Provide $1, $2, etc. to inline JSL
         const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-        const input = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+        const params = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-        return this.run({ value: helper, input });
+        return this.run({ value: helper, params });
       };
     });
 
     // Allow helpers to reference each other
-    Object.assign(this.input, compiledHelpers);
+    Object.assign(this.params, compiledHelpers);
 
     return this.add(compiledHelpers, { type: 'USER' });
   }
@@ -54,14 +54,14 @@ class Jsl {
   // Process (already compiled) JSL function,
   // i.e. fires it and returns its value
   // If this is not JSL, returns as is
-  run({ value, input = {}, type = 'system' }) {
+  run({ value, params = {}, type = 'system' }) {
     try {
-      const params = Object.assign({}, this.input, input);
-      const paramsKeys = Object.keys(params);
+      const allParams = Object.assign({}, this.params, params);
+      const paramsKeys = Object.keys(allParams);
       const jslFunc = compileJsl({ jsl: value, paramsKeys, type });
 
       if (typeof jslFunc !== 'function') { return jslFunc; }
-      return jslFunc(params);
+      return jslFunc(allParams);
     } catch (innererror) {
       // JSL without parenthesis
       const rawJsl = getRawJsl({ jsl: value });
