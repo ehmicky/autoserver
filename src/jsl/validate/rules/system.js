@@ -9,12 +9,15 @@ const { memoize } = require('../../../utilities');
 // If the node type is missing, it means it is not allowed.
 // Node types can be functions to create custom validation per type.
 // General idea:
-//  - functions should be pure, so we can memoize them:
+//  - functions should be pure, so we can memoize them, and to prevent
+//    security risks
 //     - no side-effects, including assignments and declarations
 //     - no access to global state
 //  - functions should be synchronous
 //  - functions should be short and simple.
 //    If one needs more complexity, use non-inline function instead.
+//    This is also to prevent security risks (DDoS with expensive or
+//    long-running operations)
 //     - single expression
 //     - no structures
 //     - functions must be arrow functions
