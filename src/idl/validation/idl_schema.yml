@@ -30,15 +30,11 @@ properties:
     $ref: '#/definitions/commandsProperty'
   # Custom functions that can be used in JSL
   helpers:
-    type: object
-    properties:
-      libraries:
-        $ref: '#/definitions/librariesProperty'
-    propertyNames:
-      # system-defined helpers use THIS_CASE, so we forbid it for user-defined
-      # helpers for forward compatibility
-      not:
-        pattern: '^[A-Z_]+$'
+    oneOf:
+    - $ref: '#/definitions/helpersProperty'
+    - type: array
+      items:
+        $ref: '#/definitions/helpersProperty'
   # Functions that modifies IDL definition
   plugins:
     type: array
@@ -197,13 +193,14 @@ definitions:
       - allOf: [{contains: {const: delete}}, {contains: {const: deleteOne}}]
       - allOf: [{contains: {const: update}}, {contains: {const: updateOne}}]
       - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
-  # idl.helpers.library
-  librariesProperty:
-    type: array
-    items:
-      # Libraries like Lodash or underscore.string are objects that can be used
-      # as functions as well
-      typeof: [function, object]
+  # idl.helpers
+  helpersProperty:
+    typeof: object
+    propertyNames:
+      # system-defined helpers use $THIS_CASE, so we forbid it for user-defined
+      # helpers for forward compatibility
+      not:
+        pattern: '^\$[A-Z_]+$'
   # JSL can either be a function or a string '(...)'
   jsl:
     anyOf:

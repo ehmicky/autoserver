@@ -11,6 +11,7 @@ const { actions: allActions } = require('../constants');
 const normalizeIdl = function (idl) {
   idl.commands = normalizeCommandNames(idl.commands || defaultCommandNames);
   idl.models = normalizeModels(idl);
+  idl.helpers = normalizeHelpers(idl);
   return idl;
 };
 
@@ -128,6 +129,15 @@ const getActions = function ({ commandNames }) {
       return difference(requiredCommands, commandNames).length === 0;
     })
     .map(({ name }) => name);
+};
+
+// Normalize idl.helpers
+const normalizeHelpers = function ({ helpers }) {
+  if (!helpers) { return {}; }
+  if (helpers instanceof Array) {
+    return Object.assign({}, ...helpers);
+  }
+  return helpers;
 };
 
 

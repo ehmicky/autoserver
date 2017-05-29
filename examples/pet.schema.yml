@@ -296,26 +296,25 @@ commands: [create, read, update, delete]
 # Their argument is passed as parameters $1, $2, etc. in inline
 # functions
 # They must be pure functions
+# Helpers can be an array of objects (which are merged), or a single object
 helpers:
   # Helpers use function/JSL themselves
-  myMathFunc: (($1 * $2) + ($3 * $4))
-  exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
-  recursive_func: (exampleFunction())
-  moreRecursiveFunc: (recursive_func() + TestConstant)
-  # Constant
-  birthDate: 2005-01-01
-  # One can require JavaScript files (Node.js)
-  myOtherMathFunc:
-    $ref: math.js
+  - myMathFunc: (($1 * $2) + ($3 * $4))
+    exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
+    recursive_func: (exampleFunction())
+    moreRecursiveFunc: (recursive_func() + TestConstant)
+    # Constant
+    birthDate: 2005-01-01
+    # One can require JavaScript files (Node.js)
+    myOtherMathFunc:
+      $ref: math.js
+    # Dummy constant
+    user: '(({ id: "1" }))'
   # One can require entire libraries.
-  # If there is any function, only functions will be kept.
-  libraries:
   - $ref: underscore.string
   - $ref: lodash
   # One can require sets of constants
   - $ref: constants.json
-  # Dummy constant
-  user: '(({ id: "1" }))'
 # Plugins are functions that take `idl` as input, and returns a modified
 # IDL as output.
 # Use cases can be: adding a attribute to each model,
