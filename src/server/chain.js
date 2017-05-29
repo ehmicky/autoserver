@@ -28,6 +28,8 @@ const startChain = async function (opts) {
     mdw.protocolValidation,
     // Add protocol-specific attributes to thrown exceptions
     mdw.protocolErrorHandler,
+    // General request logger
+    mdw.logger,
     // Sends final response, if success
     mdw.sendResponse,
     // Retrieves timestamp
@@ -42,8 +44,6 @@ const startChain = async function (opts) {
     mdw.router,
     // Transform headers into protocol-agnostic protocolArgs
     mdw.fillProtocolArgs,
-    // General request log
-    mdw.logger,
 
     /**
      * Interface layer
