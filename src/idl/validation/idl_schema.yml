@@ -30,7 +30,7 @@ properties:
     $ref: '#/definitions/commandsProperty'
   # Custom functions that can be used in JSL
   helpers:
-    oneOf:
+    anyOf:
     - $ref: '#/definitions/helpersProperty'
     - type: array
       items:
