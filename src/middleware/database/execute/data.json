@@ -23,6 +23,7 @@
       "is_overweight": false,
       "name": "Cat",
       "photo_urls": ["http://cat.com/photo/1", "http://cat.com/photo/2"],
+      "tags": ["suspended"],
       "status": "grumpy",
       "skills": "2",
       "best_friend": "3",
