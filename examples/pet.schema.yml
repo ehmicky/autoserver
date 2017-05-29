@@ -195,6 +195,8 @@ models:
 #      - `id` is required for upsert and replace, optional for create,
 #        not allowed for update
 #      - contains the entities to modify or create
+#      - can contain JSL, where $/$$ represents the current attribute/model
+#        It will not be applied if the current attribute is null|undefined.
 #   - `filter`:
 #      - in find, delete and update actions.
 #      - must be an object, whose keys are named after the models attributes

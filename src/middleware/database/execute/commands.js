@@ -21,6 +21,9 @@
  *  - {object|object[]} data  - Attributes to update or create
  *                              Is an array in *Many actions
  *                              `data.id` is required in all but create*
+ *                              Can contain JSL, where $/$$ represents the
+ *                              current attribute/model. It will not be applied
+ *                              if the current attribute is null|undefined
  *  - {any} filter            - Filter the action by a specific attribute.
  *                              The argument name is that attribute name,
  *                              not `filter`

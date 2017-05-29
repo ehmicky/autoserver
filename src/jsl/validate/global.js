@@ -62,6 +62,7 @@ const filterWhitelistedGlobalKeys = [
 const whitelistedGlobalKeys = {
   system: systemWhitelistedGlobalKeys,
   startup: systemWhitelistedGlobalKeys,
+  data: systemWhitelistedGlobalKeys,
   filter: filterWhitelistedGlobalKeys,
 };
 

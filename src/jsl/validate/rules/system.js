@@ -183,6 +183,9 @@ module.exports = {
   startup: {
     getRules,
   },
+  data: {
+    getRules,
+  },
   // TODO: remove when we parse arg.filter into a database object
   filter: {
     getRules,
