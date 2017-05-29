@@ -11,7 +11,7 @@ const interfaceNegotiator = function () {
 
     const interf = findKey(interfaces, test => test({ route }));
 
-    const newJsl = jsl.add({ INTERFACE: interf });
+    const newJsl = jsl.add({ $INTERFACE: interf });
 
     Object.assign(input, { interface: interf, jsl: newJsl });
 

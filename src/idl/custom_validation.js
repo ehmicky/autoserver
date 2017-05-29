@@ -21,7 +21,7 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
       attrName,
       { [Symbol.for('extra')]: jsl }
     ) {
-      const input = { EXPECTED: expected, $$: parent, $: value };
+      const input = { $EXPECTED: expected, $$: parent, $: value };
 
       const isValid = jsl.run({ value: test, input });
       if (isValid === true) { return true; }

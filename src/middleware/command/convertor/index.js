@@ -6,7 +6,7 @@ const commandConvertor = function () {
   return async function commandConvertor(input) {
     const { command, args, sysArgs, modelName, jsl, params } = input;
 
-    const newJsl = jsl.add({ COMMAND: command.type });
+    const newJsl = jsl.add({ $COMMAND: command.type });
 
     const nextInput = {
       command,

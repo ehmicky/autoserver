@@ -9,7 +9,7 @@ const protocolNegotiator = function () {
     const { protocol } = protocols.find(({ test }) => test(input));
     const protocolFullName = protocolVersions[protocol](input);
 
-    const newJsl = jsl.add({ PROTOCOL: protocol });
+    const newJsl = jsl.add({ $PROTOCOL: protocol });
 
     Object.assign(input, { protocol, protocolFullName, jsl: newJsl });
 

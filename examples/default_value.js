@@ -1,8 +1,8 @@
 'use strict';
 
 
-const defaultValue = function ({ COMMAND }) {
-  return `happy ${COMMAND}`;
+const defaultValue = function ({ $COMMAND }) {
+  return `happy ${$COMMAND}`;
 };
 
 

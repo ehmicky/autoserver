@@ -141,7 +141,7 @@ models:
         compute: (String(moreRecursiveFunc()))
         # Same for output. It is useless in this case,
         # but used for illustration.
-        computeOut: (IP)
+        computeOut: ($IP)
       best_friend:
         # This means this attribute is an instance of the `pet` model,
         # i.e. a foreign key
@@ -254,19 +254,20 @@ models:
 #      - they are divided into several groups:
 #         - helpers
 #         - "protocol parameters"
-#            - PROTOCOL {string} - possible values: 'http' only
-#            - NOW {string} - current date and time
-#            - IP {string} - request IP
-#            - PARAMS {object} - contains all request parameters:
+#            - $PROTOCOL {string} - possible values: 'http' only
+#            - $NOW {string} - current date and time
+#            - $IP {string} - request IP
+#            - $PARAMS {object} - contains all request parameters:
 #              query strings, (application-namespaced) HTTP headers
 #         - "interface parameters":
-#            - INTERFACE {string} - possible values: 'graphql', 'graphiql',
+#            - $INTERFACE {string} - possible values: 'graphql', 'graphiql',
 #              'graphqlprint'
 #         - "action parameters":
-#            - MODEL {string} - name of the model
-#            - ARGS {object} - arguments passed by client to the specific action
+#            - $MODEL {string} - name of the model
+#            - $ARGS {object} - arguments passed by client to the specific
+#              action
 #         - "command parameters":
-#            - COMMAND {string} - current command, among 'create', 'read',
+#            - $COMMAND {string} - current command, among 'create', 'read',
 #              'update' or 'delete'
 #         - "database parameters":
 #            - $ {any} - value of current attribute,
@@ -276,28 +277,29 @@ models:
 #              e.g. { filter: { name: '$ === $$.first_name' } }
 #              checks whether model.name === model.first_name
 #         - "helpers parameters" (only available in inline helpers):
-#            - ARG_1, ARG_2, etc. {any} - position parameter when firing
+#            - $ARG_1, $ARG_2, etc. {any} - position parameter when firing
 #              the helper function
 #         - "validation parameters" (only available in validation keywords):
-#            - EXPECTED {any} - value passed to the validation rule
+#            - $EXPECTED {any} - value passed to the validation rule
 #      - restrictions:
 #         - helpers can only reference other helpers
 #         - arg.filter can only use $ and $$ parameters
 #      - not every information is available as a parameter, following the
 #        principles:
-#         - should encourage agnosticism, e.g. prefer exposing COMMAND over
-#           ACTION
+#         - should encourage agnosticism, e.g. prefer exposing $COMMAND over
+#           $ACTION
 #         - should hide implementation details, e.g. we do not expose
-#           DB_ARGS, SYS_ARGS, etc.
+#           $DB_ARGS, $SYS_ARGS, etc.
 # Default `commands` values for each model
 # If unspecified, is all commands but deleteMany
 commands: [create, read, update, delete]
 # Helpers are functions that can be used in any JSL.
-# Their argument is passed as parameters ARG_1, ARG_2, etc. in inline functions
+# Their argument is passed as parameters $ARG_1, $ARG_2, etc. in inline
+# functions
 # They must be pure functions
 helpers:
   # Helpers use function/JSL themselves
-  myMathFunc: ((ARG_1 * ARG_2) + (ARG_3 * ARG_4))
+  myMathFunc: (($ARG_1 * $ARG_2) + ($ARG_3 * $ARG_4))
   exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
   recursive_func: (exampleFunction())
   moreRecursiveFunc: (recursive_func() + TestConstant)
@@ -342,10 +344,10 @@ validation:
     # Validation function.
     # Must return true for success, anything else for failure
     # Must be a function/JSL
-    test: ($ !== EXPECTED)
+    test: ($ !== $EXPECTED)
     # Error message
     # Can be a function/JSL
-    message: (`must not be equal to ${EXPECTED}`)
+    message: (`must not be equal to ${$EXPECTED}`)
     # Can restrict when the validation will be applied, using JSON schema types
     type: [number, integer]
 # No specific semantics, but can be used by $ref

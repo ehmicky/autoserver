@@ -26,7 +26,7 @@ class Jsl {
   }
 
   // Take JSL, inline or not, and turns into `function (...args)`
-  // firing the first one, with ARG_1, ARG_2, etc. provided as extra arguments
+  // firing the first one, with $ARG_1, $ARG_2, etc. provided as extra arguments
   addHelpers({ helpers = {} }) {
     const compiledHelpers = map(helpers, helper => {
       // Non-inline helpers only get positional arguments, no parameters
@@ -37,9 +37,9 @@ class Jsl {
 
       // JSL is run with current instance
       return (...args) => {
-        // Provide ARG_1, ARG_2, etc. to inline JSL
-        const [ARG_1, ARG_2, ARG_3, ARG_4, ARG_5, ARG_6, ARG_7] = args;
-        const input = { ARG_1, ARG_2, ARG_3, ARG_4, ARG_5, ARG_6, ARG_7 };
+        // Provide $ARG_1, $ARG_2, etc. to inline JSL
+        const [$ARG_1, $ARG_2, $ARG_3, $ARG_4, $ARG_5, $ARG_6, $ARG_7] = args;
+        const input = { $ARG_1, $ARG_2, $ARG_3, $ARG_4, $ARG_5, $ARG_6, $ARG_7 };
 
         return this.run({ value: helper, input });
       };
