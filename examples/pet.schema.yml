@@ -309,7 +309,8 @@ helpers:
     birthDate: 2005-01-01
     # One can require JavaScript files (Node.js)
     myOtherMathFunc:
-      $ref: math.js
+      value:
+        $ref: math.js
     # Dummy constant
     user: '(({ id: "1" }))'
   # One can require entire libraries.

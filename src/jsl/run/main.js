@@ -30,7 +30,7 @@ class Jsl {
   // Take JSL, inline or not, and turns into `function (...args)`
   // firing the first one, with $1, $2, etc. provided as extra arguments
   addHelpers({ helpers = {} }) {
-    const compiledHelpers = map(helpers, helper => {
+    const compiledHelpers = map(helpers, ({ value: helper }) => {
       // Non-inline helpers only get positional arguments, no parameters
       if (typeof helper === 'function') { return helper; }
 
