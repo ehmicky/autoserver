@@ -129,8 +129,8 @@ models:
         # Applied default values, on input or output
         default:
           $ref: default_value.js
-      creator_ip:
-        description: IP of the user that created this pet
+      creator_key:
+        description: Key of the user that created this pet
         # compute sets the value of an attribute.
         # The value provided by the user will be ignored,
         # unless this returns undefined
@@ -138,9 +138,6 @@ models:
         # Can be a function/JSL
         # default and transforms can still be used (are performed afterwards).
         compute: (String(moreRecursiveFunc()))
-        # Same for output. It is useless in this case,
-        # but used for illustration.
-        computeOut: ($IP)
       best_friend:
         # This means this attribute is an instance of the `pet` model,
         # i.e. a foreign key
