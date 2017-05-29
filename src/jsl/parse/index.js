@@ -17,7 +17,13 @@ const parseNode = memoizeUnlessClient(function ({ jslText, type }) {
   }
 });
 
+// Reverse parse an AST node
+const reverseParseNode = function (jslText, node) {
+  return jslText.slice(node.start, node.end);
+};
+
 
 module.exports = {
   parseNode,
+  reverseParseNode,
 };
