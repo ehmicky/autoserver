@@ -21,7 +21,7 @@ const fullAncestor = function (node, callback, base, state) {
      let isNew = node != ancestors[ancestors.length - 1];
      if (isNew) ancestors.push(node);
      base[type](node, st, c);
-     callback(type, node, st || ancestors, ancestors);
+     callback(node, st || ancestors, ancestors, type);
      if (isNew) ancestors.pop();
   })(node, state);
 };
@@ -51,7 +51,7 @@ const getJsl = function ({ jsl, type }) {
   return jslText;
 };
 
-const validateNode = function (throwError, rules, nodeType, node, ancestors) {
+const validateNode = function (throwError, rules, node, parents, _, nodeType) {
   const rule = rules[nodeType];
   if (!rule) {
     const message = `Cannot use the following code: '${printNode(node)}'`;
@@ -59,9 +59,8 @@ const validateNode = function (throwError, rules, nodeType, node, ancestors) {
   }
 
   if (rule === true) { return; }
-
-  const nodeAncestors = ancestors.reverse().slice(1);
-  const message = rule(node, nodeAncestors);
+  const nodeParents = parents.slice(0, parents.length - 1).reverse();
+  const message = rule(node, nodeParents);
   if (typeof message === 'string') {
     throwError(message);
   } else if (message === false) {
