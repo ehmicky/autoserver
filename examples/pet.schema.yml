@@ -111,7 +111,6 @@ models:
           minLength: 2
           maxLength: 200
           pattern: '^[a-zA-Z0-9 ]+$'
-        contains:
           # This JSON schema validation keyword can be applied to any type
           enum: [suspended, adorable]
         minItems: 0
