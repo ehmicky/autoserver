@@ -3,11 +3,9 @@
 
 const { map } = require('../../utilities');
 const { isJsl } = require('../test');
-const { throwJslError } = require('../error');
-const { getRawJsl } = require('../tokenize');
-const { compileJsl } = require('./compile');
 const { checkNames } = require('./validation');
-const { JslHelper } = require('./helper');
+const { runJsl } = require('./run');
+const { JslHelper } = require('./helpers');
 
 
 // Instance containing JSL parameters and helpers, re-created for each request
@@ -15,7 +13,6 @@ class Jsl {
 
   constructor({ params = {} } = {}) {
     this.params = params;
-    this.cloneHelpers();
   }
 
   // Return a shallow copy.
@@ -36,44 +33,33 @@ class Jsl {
         !isJsl({ jsl: helper });
       if (isConstant) { return helper; }
 
-      return new JslHelper({ helper, jsl: this, useParams });
+      return new JslHelper({ helper, useParams });
     });
 
     return this.add(compiledHelpers, { type: 'USER' });
   }
 
-  // Each new JSL instance rebind helpers context, by using JslHelper.clone()
-  cloneHelpers() {
-    const { params } = this;
-    for (const [name, param] of Object.entries(params)) {
-      if (param instanceof JslHelper) {
-        params[name] = param.clone({ jsl: this });
-      }
-    }
+  run({ value, params, type }) {
+    const jslParams = this.getParams({ params });
+    return runJsl({ value, params: jslParams, type });
   }
 
-  // Process (already compiled) JSL function,
-  // i.e. fires it and returns its value
-  // If this is not JSL, returns as is
-  run({ value, params = {}, type = 'system' }) {
-    try {
-      const allParams = Object.assign({}, this.params, params);
-      const paramsKeys = Object.keys(allParams);
-      const jslFunc = compileJsl({ jsl: value, paramsKeys, type });
+  getParams({ params }) {
+    // Merge JSL parameters with JSL call parameters
+    const jslParams = Object.assign({}, this.params, params);
 
-      if (typeof jslFunc !== 'function') { return jslFunc; }
-      return jslFunc(allParams);
-    } catch (innererror) {
-      // JSL without parenthesis
-      const rawJsl = getRawJsl({ jsl: value });
-      // If non-inline function, function name
-      const funcName = typeof value === 'function' &&
-        value.name &&
-        `${value.name}()`;
-      const expression = rawJsl || funcName || value;
-      const message = `JSL expression failed: '${expression}'`;
-      throwJslError({ message, type, innererror });
+    // Pass JSL parameters to helpers by assigning to their context (`this`)
+    // I.e. helpers have same parameters as their caller
+    const helperContext = { params: jslParams };
+    for (const [name, helper] of Object.entries(jslParams)) {
+      if (helper instanceof JslHelper) {
+        // Note that `bind()` clones the function, i.e. there will be no
+        // side-effects in case of concurrent async JSL calls
+        jslParams[name] = jslParams[name].bind(helperContext);
+      }
     }
+
+    return jslParams;
   }
 }
 
