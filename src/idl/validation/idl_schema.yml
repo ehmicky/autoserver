@@ -214,6 +214,11 @@ definitions:
         properties:
           useParams:
             type: boolean
+          exposeTo:
+            type: array
+            uniqueItems: true
+            items:
+              enum: [filter, data]
   # JSL can either be a function or a string '(...)'
   jsl:
     anyOf:
