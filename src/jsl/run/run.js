@@ -10,6 +10,11 @@ const { compileJsl } = require('./compile');
 // i.e. fires it and returns its value
 // If this is not JSL, returns as is
 const runJsl = function ({ value, params = {}, type = 'system' }) {
+  if (!validTypes.includes(type)) {
+    const message = `Invalid JSL type: '${type}'`;
+    throwJslError({ message, type: 'system' });
+  }
+
   try {
     const paramsKeys = Object.keys(params);
     const jslFunc = compileJsl({ jsl: value, paramsKeys, type });
@@ -29,6 +34,8 @@ const runJsl = function ({ value, params = {}, type = 'system' }) {
     throwJslError({ message, type, innererror });
   }
 };
+
+const validTypes = ['system', 'startup', 'data', 'filter'];
 
 
 module.exports = {
