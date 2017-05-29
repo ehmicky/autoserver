@@ -205,6 +205,12 @@ definitions:
     propertyNames:
       not:
         pattern: '^\$[A-Z_]+$'
+    # Helpers can either be an options object, or the options.value directly
+    additionalProperties:
+      if:
+        type: object
+        required: [value]
+      then: {}
   # JSL can either be a function or a string '(...)'
   jsl:
     anyOf:

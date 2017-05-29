@@ -3,7 +3,7 @@
 
 const { find, omit, mapValues, difference } = require('lodash');
 
-const { transform } = require('../utilities');
+const { transform, map } = require('../utilities');
 const { actions: allActions } = require('../constants');
 
 
@@ -135,8 +135,12 @@ const getActions = function ({ commandNames }) {
 const normalizeHelpers = function ({ helpers }) {
   if (!helpers) { return {}; }
   if (helpers instanceof Array) {
-    return Object.assign({}, ...helpers);
+    helpers = Object.assign({}, ...helpers);
   }
+  // Helpers can either be an options object, or options.value directly
+  helpers = map(helpers, helper => {
+    return helper.value !== undefined ? helper : { value: helper };
+  });
   return helpers;
 };
 
