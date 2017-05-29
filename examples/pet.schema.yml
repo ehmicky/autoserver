@@ -281,7 +281,6 @@ models:
 #         - "validation parameters" (only available in validation keywords):
 #            - $EXPECTED {any} - value passed to the validation rule
 #      - restrictions:
-#         - helpers can only reference other helpers
 #         - arg.filter can only use $ and $$ parameters
 #      - not every information is available as a parameter, following the
 #        principles:
@@ -297,12 +296,15 @@ commands: [create, read, update, delete]
 # functions
 # They must be pure functions
 # Helpers can be an array of objects (which are merged), or a single object
+# Helpers inherit the JSL parameters from the function that calls them
 helpers:
   # Helpers use function/JSL themselves
   - myMathFunc: (($1 * $2) + ($3 * $4))
     exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
     recursive_func: (exampleFunction())
-    moreRecursiveFunc: (recursive_func() + TestConstant)
+    # Since this function uses $INTERFACE, caller must have access to this
+    # parameter
+    moreRecursiveFunc: (recursive_func() + TestConstant + $INTERFACE)
     # Constant
     birthDate: 2005-01-01
     # One can require JavaScript files (Node.js)
