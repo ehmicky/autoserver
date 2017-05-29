@@ -196,9 +196,9 @@ definitions:
   # idl.helpers
   helpersProperty:
     typeof: object
+    # system-defined helpers use $THIS_CASE, so we forbid it for user-defined
+    # helpers for forward compatibility
     propertyNames:
-      # system-defined helpers use $THIS_CASE, so we forbid it for user-defined
-      # helpers for forward compatibility
       not:
         pattern: '^\$[A-Z_]+$'
   # JSL can either be a function or a string '(...)'
