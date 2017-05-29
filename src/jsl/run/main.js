@@ -6,13 +6,14 @@ const { isJsl } = require('../test');
 const { checkNames } = require('./validation');
 const { runJsl } = require('./run');
 const { JslHelper } = require('./helpers');
+const { getParams } = require('./params');
 
 
 // Instance containing JSL parameters and helpers, re-created for each request
 class Jsl {
 
-  constructor({ params = {} } = {}) {
-    this.params = params;
+  constructor({ params = {}, exposeMap = {} } = {}) {
+    Object.assign(this, { params, exposeMap });
   }
 
   // Return a shallow copy.
@@ -21,7 +22,7 @@ class Jsl {
   add(params = {}, { type = 'SYSTEM' } = {}) {
     checkNames(params, type);
     const newParams = Object.assign({}, this.params, params);
-    return new Jsl({ params: newParams });
+    return new Jsl({ params: newParams, exposeMap: this.exposeMap });
   }
 
   // Take JSL, inline or not, and turns into `function (...args)`
@@ -40,26 +41,15 @@ class Jsl {
   }
 
   run({ value, params, type }) {
-    const jslParams = this.getParams({ params });
-    return runJsl({ value, params: jslParams, type });
-  }
-
-  getParams({ params }) {
     // Merge JSL parameters with JSL call parameters
-    const jslParams = Object.assign({}, this.params, params);
+    const allParams = Object.assign({}, this.params, params);
 
-    // Pass JSL parameters to helpers by assigning to their context (`this`)
-    // I.e. helpers have same parameters as their caller
-    const helperContext = { params: jslParams };
-    for (const [name, helper] of Object.entries(jslParams)) {
-      if (helper instanceof JslHelper) {
-        // Note that `bind()` clones the function, i.e. there will be no
-        // side-effects in case of concurrent async JSL calls
-        jslParams[name] = jslParams[name].bind(helperContext);
-      }
-    }
-
-    return jslParams;
+    const jslParams = getParams({
+      params: allParams,
+      type,
+      exposeMap: this.exposeMap,
+    });
+    return runJsl({ value, params: jslParams, type });
   }
 }
 

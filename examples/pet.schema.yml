@@ -281,7 +281,8 @@ models:
 #         - "validation parameters" (only available in validation keywords):
 #            - $EXPECTED {any} - value passed to the validation rule
 #      - restrictions:
-#         - arg.filter can only use $ and $$ parameters
+#         - arg.filter|data can only use $ and $$ parameters
+#           One can expose some helpers using `exposeTo` though (see below)
 #      - not every information is available as a parameter, following the
 #        principles:
 #         - should encourage agnosticism, e.g. prefer exposing $COMMAND over
@@ -306,13 +307,18 @@ helpers:
     # parameter
     moreRecursiveFunc: (recursive_func() + TestConstant + $INTERFACE)
     # Constant
-    birthDate: 2005-01-01
+    birthDate:
+      value: 2005-01-01
+      # By default, helpers are not available to arg.filter|data
+      # But they can be exposed with the following property
+      exposeTo: [filter, data]
     # One can require JavaScript files (Node.js)
     myOtherMathFunc:
       value:
         $ref: math.js
       # Pass JSL parameters as first argument to non-inline function
       useParams: true
+      exposeTo: [data]
     # Dummy constant
     user: '(({ id: "1" }))'
   # One can require entire libraries.
