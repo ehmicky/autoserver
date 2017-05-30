@@ -32,12 +32,10 @@ const flagNoOutput = function ({
     : args.no_output;
 
   if (noOutput === undefined) {
+    if (action.type !== 'delete') { return; }
+
     // Delete actions use no_output by default
-    if (action.type === 'delete') {
-      noOutput = true;
-    } else {
-      return;
-    }
+    noOutput = true;
   }
 
   // Do not pass args.no_output to next layers
