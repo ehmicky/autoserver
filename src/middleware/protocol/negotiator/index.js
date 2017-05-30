@@ -7,7 +7,7 @@ const protocolNegotiator = function () {
     const { jsl } = input;
 
     const { protocol } = protocols.find(({ test }) => test(input));
-    const protocolFullName = protocolVersions[protocol](input);
+    const protocolFullName = protocolFullNames[protocol](input);
 
     const newJsl = jsl.add({ $PROTOCOL: protocol });
 
@@ -26,7 +26,8 @@ const protocols = [
   },
 ];
 
-const protocolVersions = {
+// Includes version as well
+const protocolFullNames = {
 
   http: ({ specific: { req } }) => `HTTP/${req.httpVersion}`,
 
