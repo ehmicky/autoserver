@@ -36,11 +36,6 @@ const { getLeanLogInfo } = require('./lean');
 //   - response (the one that was sent): content, type
 //   - error reason
 // logInfo.lean: shortened version (see `lean.js` for more info)
-// requestId:
-//   - UUID/v4
-//   - available in response headers sent (including on errors)
-//   - as JSL param REQUEST_ID
-//   - available in logInfo
 // Need to decide about what goes in rawMessage
 // Try to vertically align
 // What happens if logger throw exception?

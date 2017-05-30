@@ -21,6 +21,7 @@ const getStandardError = function ({
     model,
     args,
     command,
+    requestId,
   },
 }) {
   if (!(error instanceof Error)) {
@@ -53,7 +54,7 @@ const getStandardError = function ({
     args,
     command: command.name,
   };
-  Object.assign(errorObj, extra, { details });
+  Object.assign(errorObj, extra, { request_id: requestId, details });
 
   // Do not expose undefined values
   const standardError = omitBy(errorObj, val => val === undefined);

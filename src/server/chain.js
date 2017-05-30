@@ -34,6 +34,8 @@ const startChain = async function (opts) {
     mdw.getStatus,
     // Retrieves timestamp
     mdw.getTimestamp,
+    // Sets requestId
+    mdw.setRequestId,
     // Retrieves IP
     mdw.getIp,
     // Merge request parameters and payload into protocol-agnostic format
