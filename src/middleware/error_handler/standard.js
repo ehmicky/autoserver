@@ -34,6 +34,7 @@ const getStandardError = function ({
     message: description,
     stack: outerStack,
     innererror: { stack: details = outerStack } = {},
+    extra,
   } = error;
 
   // Order matters, as this will be kept in final output
@@ -52,8 +53,8 @@ const getStandardError = function ({
     model,
     args,
     command: command.name,
-    details,
   };
+  Object.assign(errorObj, extra, { details });
 
   // Do not expose undefined values
   const standardError = omitBy(errorObj, val => val === undefined);

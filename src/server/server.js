@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { EngineStartupError } = require('../error');
+const { EngineStartupError, getErrorReason } = require('../error');
 const { setLogger } = require('../utilities');
 const { processOptions } = require('../options');
 const { startChain } = require('./chain');
@@ -23,8 +23,9 @@ const startServer = async function (options) {
     if (typeof error === 'string') {
       error = new EngineStartupError(error, { reason: 'UNKNOWN' });
     } else if (!(error instanceof EngineStartupError)) {
+      const reason = getErrorReason({ error });
       error = new EngineStartupError(error.message, {
-        reason: error.reason || 'UNKNOWN',
+        reason,
         innererror: error,
       });
     }
