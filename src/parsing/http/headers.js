@@ -67,23 +67,6 @@ const getNonAppHeaders = function (headers, projectName) {
     .reduce((memo, obj) => Object.assign(memo, obj), {});
 };
 
-/**
- * Take a plain object of parameters, and transforms it in an object that
- * can be set as headers to a HTTP request or response
- * Namespaces headers names, e.g. X-Mynamespace-Header,
- * unless part of a whitelist
- *
- * @param {object} appHeaders
- * @param {string} projectName - MYNAMESPACE
- * @returns {object} headers
- */
-const serializeAppHeaders = function (headers, projectName) {
-  const headersNamespace = `x-${dasherize(projectName)}-`;
-  return mapKeys(headers, (_, headerName) => {
-    return titleize(`${headersNamespace}${headerName}`);
-  });
-};
-
 // Parses Prefer HTTP header
 const parsePrefer = function ({ headers: { prefer } }) {
   if (!prefer) { return {}; }
@@ -96,11 +79,18 @@ const parsePrefer = function ({ headers: { prefer } }) {
   }
 };
 
+// Set HTTP header, ready to be sent with response
+const send = function ({ specific: { res }, headers = {} }) {
+  for (const [name, value] of Object.entries(headers)) {
+    res.setHeader(name, value);
+  }
+};
+
 
 module.exports = {
   httpHeaders: {
     parse,
     parsePrefer,
-    serialize: serializeAppHeaders,
+    send,
   },
 };
