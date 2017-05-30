@@ -22,7 +22,7 @@ const getResponse = function ({ error }) {
   // E.g. interface-specific error format, e.g. GraphQL
   const transformer = transformMap[error.interface];
   if (transformer) {
-    //response = transformer.transformResponse({ response });
+    response = transformer.transformResponse({ response });
   }
 
   return response;
