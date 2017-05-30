@@ -108,7 +108,7 @@ const errorReasons = {
 
 };
 
-const getErrorReason = function ({ error }) {
+const getGenericProps = function ({ error }) {
   const reason = getReason({ error });
   return errorReasons[reason];
 };
@@ -120,6 +120,6 @@ const getReason = function ({ error: { reason = 'UNKNOWN' } }) {
 
 
 module.exports = {
-  getErrorReason,
+  getGenericProps,
   getReason,
 };

@@ -3,21 +3,13 @@
 
 const { cloneDeep } = require('lodash');
 
-const { isDev } = require('../../utilities');
 const transformMap = require('./transform');
 
 
 // Creates protocol-independent response error, using an error object
 const getResponse = function ({ error }) {
-  error = cloneDeep(error);
-
-  // Remove development-related information, but only for the response sent
-  // to client, not the error sent reported by system (`errorObj`)
-  if (!isDev()) {
-    delete error.details;
-  }
-
-  let response = { type: 'error', content: error };
+  const content = cloneDeep(error);
+  let response = { type: 'error', content };
 
   // E.g. interface-specific error format, e.g. GraphQL
   const transformer = transformMap[error.interface];
