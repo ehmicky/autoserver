@@ -26,8 +26,6 @@ const startChain = async function (opts) {
     mdw.protocolNegotiator,
     // Protocol-related validation layer
     mdw.protocolValidation,
-    // Add protocol-specific attributes to thrown exceptions
-    mdw.protocolErrorHandler,
     // General request logger
     mdw.logger,
     // Sends final response, if success
@@ -56,8 +54,6 @@ const startChain = async function (opts) {
     mdw.interfaceNegotiator,
     // Interface-related validation layer
     mdw.interfaceValidation,
-    // Add interface-specific attributes to thrown exceptions
-    mdw.interfaceErrorHandler,
     // Translates interface-specific calls into generic instance actions
     mdw.interfaceExecute,
     // Merge single modifier into all modifiers
@@ -72,8 +68,6 @@ const startChain = async function (opts) {
     mdw.actionConvertor,
     // Action-related validation layer
     mdw.actionValidation,
-    // Add action-specific attributes to thrown exceptions
-    mdw.actionErrorHandler,
     // Turn one action into 0, 1 or several commands
     mdw.actionExecute,
 
@@ -84,8 +78,6 @@ const startChain = async function (opts) {
     mdw.commandConvertor,
     // Command-related validation layer
     mdw.commandValidation,
-    // Add Command-specific attributes to thrown exceptions
-    mdw.commandErrorHandler,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
     // Apply user-defined default values

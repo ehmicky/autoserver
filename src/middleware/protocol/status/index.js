@@ -28,11 +28,6 @@ const setStatus = function ({ input, error }) {
 
   logInfo.add({ protocolStatus, status });
   Object.assign(input, { protocolStatus, status });
-
-  if (error) {
-    error.extra = error.extra || {};
-    Object.assign(error.extra, { protocol_status: protocolStatus, status });
-  }
 };
 
 const statusMap = {

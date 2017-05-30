@@ -1,8 +1,8 @@
 'use strict';
 
 
-const { LogInfo } = require('../../logging');
-const { processError } = require('./process');
+const { LogInfo, infoSym } = require('../../logging');
+const { getStandardError } = require('./standard');
 const { handleFailure } = require('./failure');
 const { getResponse } = require('./response');
 const { reportError } = require('./report');
@@ -19,25 +19,26 @@ const errorHandler = function (opts) {
       return response;
     } catch (error) {
       try {
-        handleError({ error, opts });
+        const info = logInfo[infoSym] || {};
+        handleError({ error, info, opts });
       // If error handler itself fails
       } catch (innererror) {
-        handleFailure({ error, innererror, opts });
+        handleFailure({ error: innererror, opts });
       }
     }
   };
 };
 
-const handleError = function ({ error, opts }) {
-  error = processError({ error });
+const handleError = function ({ error, info, opts }) {
+  const standardError = getStandardError({ error, info });
 
-  const { errorObj, transformedResponse } = getResponse({ error });
+  const errorResponse = getResponse({ error: standardError });
 
-  reportError({ errorObj, opts });
+  reportError({ error: standardError, opts });
 
   // Use protocol-specific way to send back the response to the client
   if (error.sendError) {
-    error.sendError(transformedResponse);
+    error.sendError(errorResponse);
   }
 };
 

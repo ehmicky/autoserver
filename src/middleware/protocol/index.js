@@ -6,7 +6,6 @@ module.exports = Object.assign(
   require('./convertor'),
   require('./negotiator'),
   require('./validation'),
-  require('./error_handler'),
   require('./response'),
   require('./status'),
   require('./path'),
