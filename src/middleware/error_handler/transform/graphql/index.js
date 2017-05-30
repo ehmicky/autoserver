@@ -5,8 +5,14 @@ const { omit, omitBy } = require('lodash');
 
 
 // Apply GraphQL-specific error transformation
-const graphqlTransformResponse = function ({ content }) {
-  const { type, title, description, details, protocolStatus } = content;
+const transformResponse = function ({ response: { content } }) {
+  const {
+    type,
+    title,
+    description,
+    details,
+    protocol_status: protocolStatus,
+  } = content;
   // Content following GraphQL spec
   const newContent = {
     message: description,
@@ -22,7 +28,7 @@ const graphqlTransformResponse = function ({ content }) {
     'description',
     'details',
     'status',
-    'protocolStatus',
+    'protocol_status',
   ]);
   Object.assign(newContent, extraContent, { stack: details });
 
@@ -32,17 +38,19 @@ const graphqlTransformResponse = function ({ content }) {
   // in order to follow GraphQL spec
   const responseType = 'object';
 
-  const response = {
+  const transformedResponse = {
     type: responseType,
     content: {
       errors: [cleanContent],
     },
   };
 
-  return response;
+  return transformedResponse;
 };
 
 
 module.exports = {
-  graphqlTransformResponse,
+  graphql: {
+    transformResponse,
+  },
 };

@@ -18,7 +18,16 @@ const commandConvertor = function () {
       params,
     };
 
-    const response = await this.next(nextInput);
+    let response;
+
+    try {
+      response = await this.next(nextInput);
+    } catch (error) {
+      // Added only for final error handler
+      logInfo.add({ command });
+      throw error;
+    }
+
     return response;
   };
 };

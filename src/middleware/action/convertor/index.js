@@ -37,7 +37,16 @@ const actionConvertor = function () {
       params,
     };
 
-    const { data, metadata } = await this.next(nextInput);
+    let response;
+    try {
+      response = await this.next(nextInput);
+    } catch (error) {
+      // Added only for final error handler
+      logInfo.add({ action, fullAction, args: clonedArgs, model: modelName });
+      throw error;
+    }
+
+    const { data, metadata } = response;
 
     const content = actionConvertorOutput[interf]({ data, metadata });
     const modifiers = {};
