@@ -5,6 +5,7 @@ const { log } = require('../../../utilities');
 const { getReason } = require('../../../error');
 const { infoSym } = require('../../../logging');
 const { getLeanLogInfo } = require('./lean');
+const { getMessage } = require('./message');
 
 
 // logInfo:
@@ -36,10 +37,13 @@ const { getLeanLogInfo } = require('./lean');
 //   - response (the one that was sent): content, type
 //   - error reason
 // logInfo.lean: shortened version (see `lean.js` for more info)
-// Need to decide about what goes in rawMessage
-// Try to vertically align
-// What happens if logger throw exception?
 
+// Main request logging middleware.
+// Each request creates exactly one log, whether successful or not,
+// unless it crashed very early (i.e. before this middleware), in which case
+// it will still be handled by the error logging middleware.
+
+// TODO: explanation comments here
 const logger = function () {
   return async function httpLogger(input) {
     const { logInfo } = input;
@@ -71,41 +75,9 @@ const handleLog = function (logInfo, error) {
 
   info.lean = getLeanLogInfo(info);
 
-  info.rawMessage = getRawMessage(info);
+  const message = getMessage(info);
 
-  logRequest(info);
-};
-
-const getRawMessage = function ({
-  timestamp,
-  protocolFullName,
-  protocolMethod,
-  method,
-  path,
-  route,
-  ip,
-  params,
-}) {
-  timestamp = `[${timestamp}]`;
-  params = JSON.stringify(params);
-  const rawMessage = [
-    timestamp,
-    protocolFullName,
-    protocolMethod,
-    method,
-    path,
-    route,
-    ip,
-    params,
-  ].join(' ');
-  return rawMessage;
-};
-
-const logRequest = function (logInfo) {
-  console.log(JSON.stringify(logInfo.lean, null, 2));
-  return;
-  const { message, rawMessage } = logInfo;
-  log.log(message);
+  log.log(logInfo.lean);
 };
 
 
