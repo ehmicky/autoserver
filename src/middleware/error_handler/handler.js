@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { LogInfo } = require('../../logging');
 const { processError } = require('./process');
 const { handleFailure } = require('./failure');
 const { getResponse } = require('./response');
@@ -9,7 +10,10 @@ const { reportError } = require('./report');
 
 // Error handler, which sends final response, if errors
 const errorHandler = function (opts) {
-  return async function errorHandler(input) {
+  return async function errorHandler(specific) {
+    const logInfo = new LogInfo();
+    const input = { specific, logInfo };
+
     try {
       const response = await this.next(input);
       return response;

@@ -2,7 +2,6 @@
 
 
 const { Jsl } = require('../../../jsl');
-const { LogInfo } = require('../../../logging');
 
 
 // Converts from no format to Protocol format
@@ -11,11 +10,9 @@ const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
     const jsl = new Jsl({ exposeMap });
     const jslWithHelpers = jsl.addHelpers({ helpers });
 
-    const logInfo = new LogInfo();
+    Object.assign(input, { jsl: jslWithHelpers });
 
-    const nextInput = { jsl: jslWithHelpers, specific: input, logInfo };
-
-    const response = await this.next(nextInput);
+    const response = await this.next(input);
     return response;
   };
 };
