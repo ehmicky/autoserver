@@ -5,6 +5,7 @@ const { cloneDeep } = require('lodash');
 
 const { log } = require('../../../utilities');
 const { getReason } = require('../../../error');
+const { infoSym } = require('../../../logging');
 
 
 const logger = function () {
@@ -32,7 +33,7 @@ const logger = function () {
 };
 
 const handleLog = function (logInfo) {
-  const info = logInfo.get();
+  const info = logInfo[infoSym];
 
   const leanLogInfo = getLeanLogInfo(info);
   const rawMessage = getRawMessage(info);

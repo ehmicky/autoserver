@@ -1,14 +1,13 @@
 'use strict';
 
 
-const { deepMerge, onlyOnce } = require('../utilities');
+const { deepMerge } = require('../utilities');
 
 
 class LogInfo {
 
   constructor() {
     this[infoSym] = {};
-    this.get = onlyOnce(() => this[infoSym]);
   }
 
   add(obj) {
@@ -22,4 +21,5 @@ const infoSym = Symbol('info');
 
 module.exports = {
   LogInfo,
+  infoSym,
 };

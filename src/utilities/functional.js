@@ -108,18 +108,6 @@ const deepMerge = function (objA, objB, ...objects) {
   }
 };
 
-// Throw an exception if a function is called twice
-const onlyOnce = function (func) {
-  return (...args) => {
-    if (func.called) {
-      const message = 'This function can only be called once';
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
-    func.called = true;
-    return func(...args);
-  };
-};
-
 
 module.exports = {
   map,
@@ -127,5 +115,4 @@ module.exports = {
   recurseMap,
   set,
   deepMerge,
-  onlyOnce,
 };
