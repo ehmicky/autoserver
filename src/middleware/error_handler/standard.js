@@ -3,11 +3,10 @@
 
 const { omitBy } = require('lodash');
 
-const { getReason, getErrorReason } = require('../../error');
+const { getReason, getGenericProps } = require('../../error');
 
 
 // Gets normalized error information
-// TODO: how to see this is StartupError? error.name?
 const getStandardError = function ({
   error,
   info: {
@@ -29,7 +28,7 @@ const getStandardError = function ({
   }
 
   const type = getReason({ error });
-  const { title } = getErrorReason({ error });
+  const { title } = getGenericProps({ error });
   const {
     message: description,
     stack: outerStack,

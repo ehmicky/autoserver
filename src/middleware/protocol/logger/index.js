@@ -130,32 +130,32 @@ const leanResponse = function (leanLogInfo) {
 
 // logInfo:
 //   - requestId
-//   + timestamp
-//   + ip
-//   + protocol
-//   + protocolFullName
-//   + url
-//   + path
-//   + route
-//   + protocolMethod
-//   + method
-//   + status
-//   + protocolStatus
-//   + params
-//   + queryVars
-//   + pathVars
-//   + headers
-//   + payload
-//   + protocolArgs
-//   + interface
-//   + actions:
+//   - timestamp
+//   - ip
+//   - protocol
+//   - protocolFullName
+//   - url
+//   - path
+//   - route
+//   - protocolMethod
+//   - method
+//   - status
+//   - protocolStatus
+//   - params
+//   - queryVars
+//   - pathVars
+//   - headers
+//   - payload
+//   - protocolArgs
+//   - interface
+//   - actions:
 //      - ACTION_PATH:
 //          - model
 //          - args (original)
 //          - responses OBJ_ARR:
 //             - content
-//   + response (the one that was sent): content, type
-//   + error reason
+//   - response (the one that was sent): content, type
+//   - error reason
 // logInfo.lean:
 //   - shortened version, i.e.:
 //      - params -> paramsKeys (keys only)
@@ -170,11 +170,6 @@ const leanResponse = function (leanLogInfo) {
 //   - available in response headers sent (including on errors)
 //   - as JSL param REQUEST_ID
 //   - available in logInfo
-// Pass log object:
-//   - error handlers augment it, instead of modifying exception
-//   - main error_handler take it and convert it to error object
-//     Then error object is converted to error response by error transformers
-//   - merged with error handling
 // Need to decide about what goes in rawMessage
 // Try to vertically align
 // What happens if logger throw exception?

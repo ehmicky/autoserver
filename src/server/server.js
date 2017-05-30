@@ -1,11 +1,11 @@
 'use strict';
 
 
-const { EngineStartupError, getErrorReason } = require('../error');
 const { setLogger } = require('../utilities');
 const { processOptions } = require('../options');
 const { startChain } = require('./chain');
 const { httpStartServer } = require('./http');
+const { handleStartupError } = require('./error');
 
 
 /**
@@ -18,21 +18,7 @@ const startServer = async function (options) {
   try {
     return await start(options);
   } catch (error) {
-    // Make sure all exceptions thrown at startup follow
-    // the EngineStartupError signature
-    if (typeof error === 'string') {
-      error = new EngineStartupError(error, { reason: 'UNKNOWN' });
-    } else if (!(error instanceof EngineStartupError)) {
-      const reason = getErrorReason({ error });
-      error = new EngineStartupError(error.message, {
-        reason,
-        innererror: error,
-      });
-    }
-
-    error.normalize();
-
-    throw error;
+    handleStartupError(error);
   }
 };
 
