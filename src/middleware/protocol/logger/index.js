@@ -127,8 +127,7 @@ const leanResponse = function (leanLogInfo) {
 
 
 // logInfo:
-//   - requestId UUID/v4, also available in response headers sent
-//     (including on errors), and in JSL param
+//   - requestId
 //   + timestamp
 //   + ip
 //   + protocol
@@ -167,9 +166,11 @@ const leanResponse = function (leanLogInfo) {
 //      - actions.ACTION_PATH.args.data -> dataSize (size only)
 //      - actions.ACTION_PATH.responses.content -> contentSize (size only)
 //      - response.content -> contentSize (size only)
-// Add to error response:
-//   - requestId
-//   - protocolMethod
+// requestId:
+//   - UUID/v4
+//   - available in response headers sent (including on errors)
+//   - as JSL param REQUEST_ID
+//   - available in logInfo
 // Pass log object:
 //   - error handlers augment it, instead of modifying exception
 //   - main error_handler take it and convert it to error object
