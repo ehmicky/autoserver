@@ -1,6 +1,8 @@
 'use strict';
 
 
+const { cloneDeep } = require('lodash');
+
 const { log } = require('../../../utilities');
 
 
@@ -39,8 +41,90 @@ const handleLog = function (logInfo) {
 };
 
 const getLeanLogInfo = function (logInfo) {
-  return Object.assign({}, logInfo);
+  const leanLogInfo = cloneDeep(logInfo);
+
+  leanParams(leanLogInfo);
+  leanQueryVars(leanLogInfo);
+  leanHeaders(leanLogInfo);
+  leanPayload(leanLogInfo);
+  leanActions(leanLogInfo);
+  leanResponse(leanLogInfo);
+
+  return leanLogInfo;
 };
+const leanParams = function (leanLogInfo) {
+  if (!leanLogInfo.params) { return; }
+
+  leanLogInfo.paramsKeys = Object.keys(leanLogInfo.params);
+  delete leanLogInfo.params;
+};
+
+const leanQueryVars = function (leanLogInfo) {
+  if (!leanLogInfo.queryVars) { return; }
+
+  leanLogInfo.queryVarsKeys = Object.keys(leanLogInfo.queryVars);
+  delete leanLogInfo.queryVars;
+};
+
+const leanHeaders = function (leanLogInfo) {
+  if (!leanLogInfo.headers) { return; }
+
+  leanLogInfo.headersKeys = Object.keys(leanLogInfo.headers);
+  delete leanLogInfo.headers;
+};
+
+const leanPayload = function (leanLogInfo) {
+  leanLogInfo.payloadSize = leanLogInfo.payload === undefined
+    ? 0
+    : JSON.stringify(leanLogInfo.payload).length;
+  delete leanLogInfo.payload;
+};
+
+const leanActions = function (leanLogInfo) {
+  if (!leanLogInfo.actions) { return; }
+
+  for (const actionInfo of Object.values(leanLogInfo.actions)) {
+    leanAction(actionInfo);
+  }
+};
+
+const leanAction = function (actionInfo) {
+  leanArgData(actionInfo);
+  leanActionResponses(actionInfo);
+};
+
+const leanArgData = function (actionInfo) {
+  const { args } = actionInfo;
+  if (!args || !args.data) { return; }
+
+  args.dataSize = JSON.stringify(args.data).length;
+  delete args.data;
+};
+
+const leanActionResponses = function (actionInfo) {
+  const { responses } = actionInfo;
+  if (!responses) { return; }
+
+  actionInfo.responses = responses.map(response => {
+    leanActionResponse(response);
+    return response;
+  });
+};
+
+const leanActionResponse = function (response) {
+  if (!response.content) { return; }
+
+  response.contentSize = JSON.stringify(response.content).length;
+  delete response.content;
+};
+
+const leanResponse = function (leanLogInfo) {
+  if (!leanLogInfo.response) { return; }
+
+  leanLogInfo.responseSize = JSON.stringify(leanLogInfo.response).length;
+  delete leanLogInfo.response;
+};
+
 
 // logInfo:
 //   - requestId UUID/v4, also available in response headers sent
@@ -72,18 +156,17 @@ const getLeanLogInfo = function (logInfo) {
 //          - args (original)
 //          - responses OBJ_ARR:
 //             - content
-//             - pageSize (null if none)
-//   + full successful response (the one that was sent): content, type
-//   - error reason
+//   + response (the one that was sent): content, type
+//   + error reason
 // logInfo.lean:
 //   - shortened version, i.e.:
-//      - params: keys only
-//      - queryVars: keys only
-//      - headers: keys only
-//      - payload: length only
-//      - each action: args.data -> args.data.length
-//      - each action response: content -> content.length
-//      - full response: content -> content.length
+//      - params -> paramsKeys (keys only)
+//      - queryVars -> queryVarsKeys (keys only)
+//      - headers -> headersKeys (keys only)
+//      - payload -> payloadSize (size only)
+//      - actions.ACTION_PATH.args.data -> dataSize (size only)
+//      - actions.ACTION_PATH.responses.content -> contentSize (size only)
+//      - response.content -> contentSize (size only)
 // Add to error response:
 //   - requestId
 //   - protocolMethod
@@ -122,7 +205,7 @@ const getRawMessage = function ({
 };
 
 const logRequest = function (logInfo) {
-  console.log(JSON.stringify(logInfo, null, 2));
+  console.log(JSON.stringify(logInfo.lean, null, 2));
   return;
   const { message, rawMessage } = logInfo;
   log.log(message);
