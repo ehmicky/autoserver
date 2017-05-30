@@ -8,6 +8,7 @@ module.exports = Object.assign(
   require('./validation'),
   require('./error_handler'),
   require('./response'),
+  require('./status'),
   require('./path'),
   require('./timestamp'),
   require('./ip'),

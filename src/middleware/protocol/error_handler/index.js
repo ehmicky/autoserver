@@ -2,7 +2,6 @@
 
 
 const { processError } = require('../../../error');
-const { httpProcessError } = require('./http');
 
 
 // Error handler adding protocol-related information to exceptions
@@ -18,23 +17,21 @@ const protocolErrorHandler = function () {
         protocolMethod,
         url: instance = 'unknown',
       } = input;
-      const genericInfo = { instance, extra: { protocolMethod } };
+      const genericInfo = {
+        instance,
+        extra: { protocol_method: protocolMethod },
+      };
 
       error = processError({
         error,
         input,
         keyName,
         key,
-        processErrorMap,
         genericInfo,
       });
       throw error;
     }
   };
-};
-
-const processErrorMap = {
-  http: httpProcessError,
 };
 
 

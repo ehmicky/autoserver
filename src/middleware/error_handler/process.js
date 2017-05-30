@@ -14,7 +14,7 @@ const processError = function ({ error }) {
 
   error.reason = getReason({ error });
 
-  const { generic: genericErrorInput } = getErrorReason({ error });
+  const genericErrorInput = getErrorReason({ error });
   defaultsDeep(error, genericErrorInput);
 
   return error;

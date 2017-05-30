@@ -32,6 +32,8 @@ const startChain = async function (opts) {
     mdw.logger,
     // Sends final response, if success
     mdw.sendResponse,
+    // Sets response status
+    mdw.getStatus,
     // Retrieves timestamp
     mdw.getTimestamp,
     // Retrieves IP
