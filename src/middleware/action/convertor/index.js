@@ -42,7 +42,7 @@ const actionConvertor = function () {
     const content = actionConvertorOutput[interf]({ data, metadata });
     const modifiers = {};
 
-    const responses = getLogResponses({ data, metadata });
+    const responses = getLogResponses({ data });
     const logAction = { model: modelName, args: clonedArgs, responses };
     const logActions = { [fullAction]: logAction };
     logInfo.add({ actions: logActions });
@@ -66,14 +66,9 @@ const actionConvertorOutput = {
 
 };
 
-const getLogResponses = function ({ data, metadata }) {
+const getLogResponses = function ({ data }) {
   const logData = data instanceof Array ? data : [data];
-  const logMetadata = metadata instanceof Array ? metadata : [metadata];
-  return logData.map((content, index) => {
-    const metadatum = logMetadata[index];
-    const pageSize = (metadatum.pages && metadatum.pages.page_size) || null;
-    return { content, pageSize };
-  });
+  return logData.map(content => ({ content }));
 };
 
 
