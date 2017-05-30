@@ -6,13 +6,13 @@ const { omit, omitBy } = require('lodash');
 
 // Apply GraphQL-specific error transformation
 const graphqlTransformResponse = function ({ content }) {
-  const { type, title, description, details, status } = content;
+  const { type, title, description, details, protocolStatus } = content;
   // Content following GraphQL spec
   const newContent = {
     message: description,
     title,
     type,
-    status,
+    status: protocolStatus,
   };
 
   // Custom information not following GraphQL spec is always rendered
@@ -22,6 +22,7 @@ const graphqlTransformResponse = function ({ content }) {
     'description',
     'details',
     'status',
+    'protocolStatus',
   ]);
   Object.assign(newContent, extraContent, { stack: details });
 

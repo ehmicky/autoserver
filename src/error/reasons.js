@@ -4,12 +4,6 @@
 /**
  * List of errors
  * Keys are the exception.reason of the exception thrown
- * Subkeys are either:
- *  - generic {object} - always applied
- *  - protocol.PROTOCOL {object} - applied if protocol is PROTOCOL
- *  - interface.INTERFACE {object} - applied if interface is INTERFACE
- *  - action.ACTION {object} - applied if action is ACTION
- * The most specific has priority, i.e. action > interface > protocol > generic
  * Values are merged to exceptions thrown
  *
  * TODO: add `url` property pointing towards API documentation for that error
@@ -18,216 +12,99 @@
 const errorReasons = {
 
   // Tried to query a protocol that is not supported, e.g. UDP
-  UNSUPPORTED_PROTOCOL: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
+  UNSUPPORTED_PROTOCOL: {},
 
   // Tried to use a protocol method that is not supported, e.g. TRACE
-  UNSUPPORTED_METHOD: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
+  UNSUPPORTED_METHOD: {},
 
   // HTTP request body has a Content-Length but no request body
-  HTTP_NO_CONTENT_TYPE: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
+  HTTP_NO_CONTENT_TYPE: {},
 
   // HTTP query string is wrong
-  HTTP_QUERY_STRING_PARSE: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
+  HTTP_QUERY_STRING_PARSE: {},
 
   // Tried to query an interface that is not supported, e.g. SOAP
-  UNSUPPORTED_INTERFACE: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
+  UNSUPPORTED_INTERFACE: {},
 
   // HTTP request is trying to perform a GraphQL query,
   // but does not specify the query
-  GRAPHQL_NO_QUERY: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
+  GRAPHQL_NO_QUERY: {},
 
   // GraphQL query syntax error, i.e. GraphQL crashed trying to parse
   // the raw query
-  GRAPHQL_SYNTAX_ERROR: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
+  GRAPHQL_SYNTAX_ERROR: {},
 
   // General validation input errors, e.g. input data|filter does not
   // match IDL schema
-  INPUT_VALIDATION: {
-    protocol: {
-      http: { extra: { status: 400 } },
-    },
-  },
+  INPUT_VALIDATION: {},
 
   // Standard 404, e.g. route not found
-  NOT_FOUND: {
-    protocol: {
-      http: { extra: { status: 404 } },
-    },
-  },
+  NOT_FOUND: {},
 
   // A database model could not be found, e.g. incorrect id
   DATABASE_NOT_FOUND: {
-    generic: {
-      title: 'Model not found',
-    },
-    protocol: {
-      http: { extra: { status: 404 } },
-    },
+    title: 'Model not found',
   },
 
   // Command is not supported, or most likely not allowed for this model
-  WRONG_COMMAND: {
-    protocol: {
-      http: { extra: { status: 405 } },
-    },
-  },
+  WRONG_COMMAND: {},
 
   // A command conflicts with another one,
   // e.g. tries to create already existing model
-  DATABASE_MODEL_CONFLICT: {
-    protocol: {
-      http: { extra: { status: 409 } },
-    },
-  },
+  DATABASE_MODEL_CONFLICT: {},
 
   // input is too big, e.g. arg.data has too many items
-  INPUT_LIMIT: {
-    protocol: {
-      http: { extra: { status: 413 } },
-    },
-  },
+  INPUT_LIMIT: {},
 
   // HTTP request body Content-Type is unsupported
-  HTTP_WRONG_CONTENT_TYPE: {
-    protocol: {
-      http: { extra: { status: 415 } },
-    },
-  },
+  HTTP_WRONG_CONTENT_TYPE: {},
 
   // Filesystem error: could not open local file
-  FILE_OPEN_ERROR: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  FILE_OPEN_ERROR: {},
 
   // HTTP query string is wrong, but was created by the server
-  HTTP_QUERY_STRING_SERIALIZE: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  HTTP_QUERY_STRING_SERIALIZE: {},
 
   // IDL definition is syntactically invalid
-  IDL_SYNTAX_ERROR: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  IDL_SYNTAX_ERROR: {},
 
   // IDL definition is semantically invalid
-  IDL_VALIDATION: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  IDL_VALIDATION: {},
 
   // Main options have syntax errors
-  OPTIONS_VALIDATION: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  OPTIONS_VALIDATION: {},
 
   // IDL definition is invalid, for usage with GraphQL
-  GRAPHQL_WRONG_DEFINITION: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  GRAPHQL_WRONG_DEFINITION: {},
 
   // Introspection failed because of wrong schema
-  GRAPHQL_WRONG_INTROSPECTION_SCHEMA: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  GRAPHQL_WRONG_INTROSPECTION_SCHEMA: {},
 
   // GraphiQL HTML templating failed
-  GRAPHIQL_PARSING_ERROR: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  GRAPHIQL_PARSING_ERROR: {},
 
   // Request did not pass IDL validation, e.g. `args` was not provided,
   // indicating a server bug
-  INPUT_SERVER_VALIDATION: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  INPUT_SERVER_VALIDATION: {},
 
   // Response did not pass IDL validation, e.g. if the database is corrupted
   // or new constraints were applied without being migrated
-  OUTPUT_VALIDATION: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  OUTPUT_VALIDATION: {},
 
   // No middleware was able to handle the response
-  WRONG_RESPONSE: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  WRONG_RESPONSE: {},
 
   // Some utility got some wrong input
-  UTILITY_ERROR: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  UTILITY_ERROR: {},
 
   // Trying to throw an exception with the wrong signature
-  WRONG_EXCEPTION: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  WRONG_EXCEPTION: {},
 
   // The reason type is unknown
-  UNKNOWN_TYPE: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  UNKNOWN_TYPE: {},
 
   // General catch-all error
-  UNKNOWN: {
-    protocol: {
-      http: { extra: { status: 500 } },
-    },
-  },
+  UNKNOWN: {},
 
 };
 

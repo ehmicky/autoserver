@@ -4,6 +4,7 @@
 const { cloneDeep } = require('lodash');
 
 const { log } = require('../../../utilities');
+const { getReason } = require('../../../error');
 
 
 const logger = function () {
@@ -21,7 +22,7 @@ const logger = function () {
         error = new Error(String(error));
       }
 
-      const reason = error.reason || 'UNKNOWN';
+      const reason = getReason({ error });
       logInfo.add({ error: reason });
       handleLog(logInfo, error);
 
@@ -137,11 +138,8 @@ const leanResponse = function (leanLogInfo) {
 //   + route
 //   + protocolMethod
 //   + method
-//   - protocolInfo:
-//      - no more protocol-specific info. Only status
-//      - protocol specific info, e.g. HTTP status code
-//      - each protocol gives its own protocolInfo as fullLogData, logData,
-//        message, level
+//   + status
+//   + protocolStatus
 //   + params
 //   + queryVars
 //   + pathVars
