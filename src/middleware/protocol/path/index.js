@@ -11,8 +11,10 @@ const getPath = async function (opts) {
   const map = await mapAsync(getPathMap, async func => await func(opts));
 
   return async function getPath(input) {
-    const { protocol } = input;
+    const { protocol, logInfo } = input;
     const { url, path } = map[protocol](input);
+
+    logInfo.add({ url, path });
     Object.assign(input, { url, path });
 
     const response = await this.next(input);
