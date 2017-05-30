@@ -13,7 +13,12 @@ const { getResolver } = require('./resolver');
 const getHandleQuery = ({ idl }) => {
   const modelsMap = getModelsMap({ idl });
 
-  return async function ({ queryDocument, variables, context, rootValue }) {
+  return async function handleQuery({
+    queryDocument,
+    variables,
+    context,
+    rootValue,
+  }) {
     const resolver = getResolver({ modelsMap });
     // GraphQL execution
     const response = await graphqlAnywhere(
