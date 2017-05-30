@@ -18,7 +18,8 @@ const logger = function () {
       const message = colorize(rawMessage);
       Object.assign(fullLogData, { logData, rawMessage, message });
 
-      logRequest(fullLogData);
+      console.log(JSON.stringify(input.logInfo.get(), null, 2));
+      //logRequest(fullLogData);
 
       return response;
     } catch (error) {
@@ -90,32 +91,38 @@ const getLogData = function ({
 };
 
 // fullLogData:
-//   - request UUID/v4, also available in response headers sent
+//   - requestId UUID/v4, also available in response headers sent
 //     (including on errors), and in JSL param
-//   - timestamp
-//   - ip
-//   - protocol
-//   - protocolFullName
-//   - requestUrl
-//   - path
-//   - route
-//   - protocolMethod
-//   - method
+//   + timestamp
+//   + ip
+//   + protocol
+//   + protocolFullName
+//   + url
+//   + path
+//   + route
+//   + protocolMethod
+//   + method
 //   - protocolInfo:
+//      - no more protocol-specific info. Only status
 //      - protocol specific info, e.g. HTTP status code
 //      - each protocol gives its own protocolInfo as fullLogData, logData,
 //        message, level
-//   - params
-//   - queryVars
-//   - pathVars
-//   - headers
-//   - payload
-//   - protocolArgs
-//   - interface
-//   - each action: fullPath, path, model name, original args, count
-//   - each action response: content, type, page size (0 if none)
-//   - full response (the one that was sent): content, type
-//   - error object (the one that is logged, not the error response)
+//   + params
+//   + queryVars
+//   + pathVars
+//   + headers
+//   + payload
+//   + protocolArgs
+//   + interface
+//   + actions:
+//      - ACTION_PATH:
+//          - model
+//          - args (original)
+//          - responses OBJ_ARR:
+//             - content
+//             - pageSize (null if none)
+//   + full response (the one that was sent): content, type
+//   - error reason
 // logData:
 //   - shortened version, available under fullLogData.shortened
 //   - differences:
@@ -126,9 +133,18 @@ const getLogData = function ({
 //      - each action: args.data -> args.data.length
 //      - each action response: content -> content.length
 //      - full response: content -> content.length
-//      - error -> error.type
-// Any of that useful in error response? Merge with error handling?
-// Use log.add()?
+// Add to error response:
+//   - requestId
+//   - protocolMethod
+// Pass log object:
+//   - instantiated per request
+//   - with:
+//      - add(obj): deep merged, including arrays (concatenates)
+//      - get()->obj
+//   - error handlers augment it, instead of modifying exception
+//   - main error_handler take it and convert it to error object
+//     Then error object is converted to error response by error transformers
+// Merge with error handling? Use log.add()?
 // Need to decide about what goes in rawMessage
 // Try to vertically align
 

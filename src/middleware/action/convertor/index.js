@@ -13,14 +13,16 @@ const actionConvertor = function () {
       args,
       modelName,
       jsl,
+      logInfo,
       params,
       interface: interf,
     } = input;
 
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
+    const clonedArgs = cloneDeep(args);
     const newJsl = jsl.add({
-      $ARGS: cloneDeep(args),
+      $ARGS: clonedArgs,
       $MODEL: modelName,
     });
 
@@ -31,6 +33,7 @@ const actionConvertor = function () {
       sysArgs,
       modelName,
       jsl: newJsl,
+      logInfo,
       params,
     };
 
@@ -38,6 +41,11 @@ const actionConvertor = function () {
 
     const content = actionConvertorOutput[interf]({ data, metadata });
     const modifiers = {};
+
+    const responses = getLogResponses({ data, metadata });
+    const logAction = { model: modelName, args: clonedArgs, responses };
+    const logActions = { [fullAction]: logAction };
+    logInfo.add({ actions: logActions });
 
     return { content, modifiers };
   };
@@ -56,6 +64,16 @@ const actionConvertorOutput = {
     }
   },
 
+};
+
+const getLogResponses = function ({ data, metadata }) {
+  const logData = data instanceof Array ? data : [data];
+  const logMetadata = metadata instanceof Array ? metadata : [metadata];
+  return logData.map((content, index) => {
+    const metadatum = logMetadata[index];
+    const pageSize = (metadatum.pages && metadatum.pages.page_size) || null;
+    return { content, pageSize };
+  });
 };
 
 

@@ -1,9 +1,6 @@
 'use strict';
 
 
-const { cloneDeep } = require('lodash');
-
-
 // Converts from Protocol format to Interface format
 const interfaceConvertor = function () {
   return async function interfaceConvertor(input) {
@@ -16,9 +13,10 @@ const interfaceConvertor = function () {
       payload,
       route,
       jsl,
+      logInfo,
     } = input;
 
-    const newInput = cloneDeep({
+    const newInput = {
       method,
       queryVars,
       pathVars,
@@ -27,7 +25,8 @@ const interfaceConvertor = function () {
       payload,
       route,
       jsl,
-    });
+      logInfo,
+    };
 
     const response = await this.next(newInput);
     return response;
