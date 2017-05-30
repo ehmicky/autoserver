@@ -12,8 +12,8 @@ const getPath = async function (opts) {
 
   return async function getPath(input) {
     const { protocol } = input;
-    const { requestUrl, path } = map[protocol](input);
-    Object.assign(input, { requestUrl, path });
+    const { url, path } = map[protocol](input);
+    Object.assign(input, { url, path });
 
     const response = await this.next(input);
     return response;

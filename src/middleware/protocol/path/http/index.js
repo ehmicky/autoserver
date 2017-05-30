@@ -7,9 +7,9 @@ const { format: urlFormat } = require('url');
 const httpGetPath = function () {
   return function ({ specific: { req }, headers }) {
     const path = getPath({ req });
-    const requestUrl = getRequestUrl({ req, headers });
+    const url = getUrl({ req, headers });
 
-    return { requestUrl, path };
+    return { url, path };
   };
 };
 
@@ -19,17 +19,17 @@ const getPath = function ({ req: { url } }) {
 };
 
 // Keeps reference of request URL, so error handler can use it in output
-const getRequestUrl = function ({ req, headers }) {
+const getUrl = function ({ req, headers }) {
   const protocol = req.connection.encrypted ? 'https' : 'http';
   const proxiedProtocol = headers['x-forwarded-proto'];
   const host = headers['host'];
-  const requestUrl = urlFormat({
+  const url = urlFormat({
     protocol: proxiedProtocol || protocol,
     host,
     pathname: getPath({ req }),
   });
 
-  return requestUrl;
+  return url;
 };
 
 
