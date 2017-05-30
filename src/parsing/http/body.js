@@ -59,38 +59,43 @@ for (const bodyParam of bodyParams) {
 
 
 const sendJson = function ({
-  res,
+  specific,
   content = {},
   contentType = 'application/json',
   status,
 }) {
   content = JSON.stringify(content, null, 2);
-  return genericSend({ res, content, contentType, status });
+  return genericSend({ specific, content, contentType, status });
 };
 
 const sendHtml = function ({
-  res,
+  specific,
   content = '',
   contentType = 'text/html',
   status,
 }) {
-  return genericSend({ res, content, contentType, status });
+  return genericSend({ specific, content, contentType, status });
 };
 
 const sendText = function ({
-  res,
+  specific,
   content = '',
   contentType = 'text/plain',
   status,
 }) {
-  return genericSend({ res, content, contentType, status });
+  return genericSend({ specific, content, contentType, status });
 };
 
-const sendNoBody = function ({ res }) {
+const sendNoBody = function ({ specific: { res } }) {
   res.end();
 };
 
-const genericSend = function ({ res, content, contentType, status }) {
+const genericSend = function ({
+  specific: { res },
+  content,
+  contentType,
+  status,
+}) {
   if (status) {
     res.statusCode = status;
   }
