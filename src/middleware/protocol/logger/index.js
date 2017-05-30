@@ -2,24 +2,16 @@
 
 
 const { log } = require('../../../utilities');
-const logInfo = require('./log_info');
 
 
 const logger = function () {
   return async function httpLogger(input) {
-    //const getLogInfo = logInfo[input.protocol].bind(null, input);
+    const { logInfo } = input;
+
     try {
       const response = await this.next(input);
 
-      //const info = getLogInfo(response);
-      const fullLogData = getFullLogData({ input, response });
-      const logData = getLogData(fullLogData);
-      const rawMessage = getRawMessage(logData);
-      const message = colorize(rawMessage);
-      Object.assign(fullLogData, { logData, rawMessage, message });
-
-      console.log(JSON.stringify(input.logInfo.get(), null, 2));
-      //logRequest(fullLogData);
+      handleLog(logInfo);
 
       return response;
     } catch (error) {
@@ -27,70 +19,30 @@ const logger = function () {
         error = new Error(String(error));
       }
 
-      // Handler to send response error
-      //error.getLogInfo = getLogInfo;
+      const reason = error.reason || 'UNKNOWN';
+      logInfo.add({ error: reason });
+      handleLog(logInfo, error);
 
       throw error;
     }
   };
 };
 
-const getFullLogData = function ({
-  input: {
-    timestamp,
-    protocol,
-    protocolFullName,
-    protocolMethod,
-    method,
-    url,
-    path,
-    route,
-    ip,
-    params,
-  },
-  response,
-}) {
-  return {
-    timestamp,
-    protocol,
-    protocolFullName,
-    protocolMethod,
-    method,
-    url,
-    path,
-    route,
-    ip,
-    params,
-  };
+const handleLog = function (logInfo) {
+  const info = logInfo.get();
+
+  const leanLogInfo = getLeanLogInfo(info);
+  const rawMessage = getRawMessage(info);
+  Object.assign(info, { lean: leanLogInfo, rawMessage });
+
+  logRequest(info);
 };
 
-const getLogData = function ({
-  timestamp,
-  protocol,
-  protocolFullName,
-  protocolMethod,
-  method,
-  url,
-  path,
-  route,
-  ip,
-  params,
-}) {
-  return {
-    timestamp,
-    protocol,
-    protocolFullName,
-    protocolMethod,
-    method,
-    url,
-    path,
-    route,
-    ip,
-    params,
-  };
+const getLeanLogInfo = function (logInfo) {
+  return Object.assign({}, logInfo);
 };
 
-// fullLogData:
+// logInfo:
 //   - requestId UUID/v4, also available in response headers sent
 //     (including on errors), and in JSL param
 //   + timestamp
@@ -121,11 +73,10 @@ const getLogData = function ({
 //          - responses OBJ_ARR:
 //             - content
 //             - pageSize (null if none)
-//   + full response (the one that was sent): content, type
+//   + full successful response (the one that was sent): content, type
 //   - error reason
-// logData:
-//   - shortened version, available under fullLogData.shortened
-//   - differences:
+// logInfo.lean:
+//   - shortened version, i.e.:
 //      - params: keys only
 //      - queryVars: keys only
 //      - headers: keys only
@@ -137,16 +88,13 @@ const getLogData = function ({
 //   - requestId
 //   - protocolMethod
 // Pass log object:
-//   - instantiated per request
-//   - with:
-//      - add(obj): deep merged, including arrays (concatenates)
-//      - get()->obj
 //   - error handlers augment it, instead of modifying exception
 //   - main error_handler take it and convert it to error object
 //     Then error object is converted to error response by error transformers
-// Merge with error handling? Use log.add()?
+//   - merged with error handling
 // Need to decide about what goes in rawMessage
 // Try to vertically align
+// What happens if logger throw exception?
 
 const getRawMessage = function ({
   timestamp,
@@ -173,13 +121,10 @@ const getRawMessage = function ({
   return rawMessage;
 };
 
-const colorize = function (rawMessage) {
-  const message = rawMessage;
-  return message;
-};
-
-const logRequest = function (fullLogData) {
-  const { message, rawMessage } = fullLogData;
+const logRequest = function (logInfo) {
+  console.log(JSON.stringify(logInfo, null, 2));
+  return;
+  const { message, rawMessage } = logInfo;
   log.log(message);
 };
 

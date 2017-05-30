@@ -7,11 +7,17 @@ const { httpSendResponse } = require('./http');
 // Sends the response at the end of the request
 const sendResponse = async function () {
   return async function sendResponse(input) {
-    const send = sender.bind(null, input);
+    const { logInfo } = input;
+    const send = sendResponseMap[input.protocol].bind(null, input);
 
     try {
       const response = await this.next(input);
+      const { content, type } = response;
+
+      logInfo.add({ response: { content, type } });
+
       send(response);
+
       return response;
     } catch (error) {
       if (!(error instanceof Error)) {
@@ -25,20 +31,8 @@ const sendResponse = async function () {
   };
 };
 
-const sender = function (input, response) {
-  sendResponseMap[input.protocol](input, response);
-  addLogInfo({ input, response });
-};
-
 const sendResponseMap = {
   http: httpSendResponse,
-};
-
-const addLogInfo = function ({
-  input: { logInfo },
-  response: { content, type },
-}) {
-  logInfo.add({ response: { content, type } });
 };
 
 
