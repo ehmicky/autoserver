@@ -89,36 +89,46 @@ const getLogData = function ({
   };
 };
 
-// To have in fullLogData:
+// fullLogData:
+//   - request UUID/v4, also available in response headers sent
+//     (including on errors), and in JSL param
 //   - timestamp
+//   - ip
 //   - protocol
 //   - protocolFullName
-//   - protocolMethod
-//   - method
 //   - requestUrl
 //   - path
 //   - route
-//   - ip
+//   - protocolMethod
+//   - method
+//   - protocolInfo:
+//      - protocol specific info, e.g. HTTP status code
+//      - each protocol gives its own protocolInfo as fullLogData, logData,
+//        message, level
 //   - params
-//   - protocolInfo, i.e. protocol specific info, e.g. HTTP status code
-//   - error response
-//   - request UUID/v4, also available in response|error sent, and in JSL param
 //   - queryVars
 //   - pathVars
 //   - headers
 //   - payload
+//   - protocolArgs
 //   - interface
-//   - response type
-//   - response content
-//   - response content length
-//   - response page size (0 if none)
-// To not keep in logData:
-//   - error.type only
-//   - params
-//   - queryVars
-//   - headers
-//   - payload
-//   - response content
+//   - each action: fullPath, path, model name, original args, count
+//   - each action response: content, type, page size (0 if none)
+//   - full response (the one that was sent): content, type
+//   - error object (the one that is logged, not the error response)
+// logData:
+//   - shortened version, available under fullLogData.shortened
+//   - differences:
+//      - params: keys only
+//      - queryVars: keys only
+//      - headers: keys only
+//      - payload: length only
+//      - each action: args.data -> args.data.length
+//      - each action response: content -> content.length
+//      - full response: content -> content.length
+//      - error -> error.type
+// Any of that useful in error response? Merge with error handling?
+// Use log.add()?
 // Need to decide about what goes in rawMessage
 // Try to vertically align
 
