@@ -1,25 +1,23 @@
 'use strict';
 
 
-const { deepMerge } = require('../utilities');
+const { deepMerge, onlyOnce } = require('../utilities');
 
 
 class LogInfo {
 
   constructor() {
-    this.info = {};
+    this[infoSym] = {};
+    this.get = onlyOnce(() => this[infoSym]);
   }
 
   add(obj) {
-    this.info = deepMerge(this.info, obj);
-  }
-
-  // TODO: maybe allow this only once
-  get() {
-    return this.info;
+    this[infoSym] = deepMerge(this[infoSym], obj);
   }
 
 }
+
+const infoSym = Symbol('info');
 
 
 module.exports = {
