@@ -10,6 +10,7 @@ module.exports = Object.assign(
   require('./status'),
   require('./path'),
   require('./timestamp'),
+  require('./request_id'),
   require('./ip'),
   require('./params'),
   require('./routing'),

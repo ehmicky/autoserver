@@ -255,6 +255,7 @@ models:
 #            - $PROTOCOL {string} - possible values: 'http' only
 #            - $NOW {string} - current date and time
 #            - $IP {string} - request IP
+#            - $REQUEST_ID {string} - UUID identifying the current request
 #            - $PARAMS {object} - contains all request parameters:
 #              query strings, (application-namespaced) HTTP headers
 #         - "interface parameters":
