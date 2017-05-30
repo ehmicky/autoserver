@@ -48,11 +48,11 @@ const getStandardError = function ({
     protocol,
     protocol_method: protocolMethod,
     interface: interf,
-    action: action.name,
+    action: action && action.name,
     action_path: fullAction,
     model,
     args,
-    command: command.name,
+    command: command && command.name,
   };
   Object.assign(errorObj, extra, { request_id: requestId, details });
 
