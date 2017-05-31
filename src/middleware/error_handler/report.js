@@ -8,7 +8,7 @@ const { getErrorMessage } = require('../../error');
 const reportError = function ({ log, error = {} }) {
   if (!isError({ error })) { return; }
 
-  const message = getErrorMessage(error);
+  const message = getErrorMessage({ error });
   log.error(message, { type: 'failure', errorInfo: error });
 };
 

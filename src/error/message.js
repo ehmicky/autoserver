@@ -5,13 +5,15 @@ const chalk = require('chalk');
 
 
 const getErrorMessage = function ({
-  type,
-  description,
-  protocol,
-  interface: interf,
-  action_path,
-  command,
-  details,
+  error: {
+    type,
+    description,
+    protocol,
+    interface: interf,
+    action_path,
+    command,
+    details,
+  },
 }) {
   const stack = getStack(description, details);
   const message = [

@@ -9,18 +9,17 @@ const { getRequestMessage } = require('./request_message');
 
 
 // We use symbols to make those members private
-const infoSym = Symbol('info');
 const reportSym = Symbol('report');
 
 class Log {
 
   constructor({ logger, loggerLevel, type }) {
-    this[infoSym] = {};
+    this._info = {};
     Object.assign(this, { logger, loggerLevel, type });
   }
 
   add(obj) {
-    this[infoSym] = deepMerge(this[infoSym], obj);
+    this._info = deepMerge(this._info, obj);
   }
 
   info(...args) {
@@ -50,7 +49,7 @@ class Log {
     }
 
     if (this.type === 'request') {
-      logObj.requestInfo = getRequestInfo(this[infoSym]);
+      logObj.requestInfo = getRequestInfo(this._info);
       if (logObj.type === 'request') {
         rawMessage = getRequestMessage(logObj.requestInfo);
       }
@@ -64,5 +63,4 @@ class Log {
 
 module.exports = {
   Log,
-  infoSym,
 };
