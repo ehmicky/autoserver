@@ -3,7 +3,7 @@
 
 const { dirname } = require('path');
 
-const { EngineStartupError } = require('../error');
+const { EngineError } = require('../error');
 const { getYaml, fs: { realpathAsync } } = require('../utilities');
 
 
@@ -21,7 +21,7 @@ const getIdlConf = async function ({ conf }) {
       path = await realpathAsync(conf);
     } catch (innererror) {
       const message = `Configuration file does not exist: '${conf}'`;
-      throw new EngineStartupError(message, {
+      throw new EngineError(message, {
         reason: 'CONFIGURATION_LOADING',
         innererror,
       });
@@ -34,7 +34,7 @@ const getIdlConf = async function ({ conf }) {
       idl = await getYaml({ path });
     } catch (innererror) {
       const message = 'Could not load configuration file';
-      throw new EngineStartupError(message, {
+      throw new EngineError(message, {
         reason: 'CONFIGURATION_LOADING',
         innererror,
       });
@@ -43,7 +43,7 @@ const getIdlConf = async function ({ conf }) {
     idl = conf;
   } else {
     const message = 'Missing configuration file or \'conf\' option';
-    throw new EngineStartupError(message, { reason: 'CONFIGURATION_LOADING' });
+    throw new EngineError(message, { reason: 'CONFIGURATION_LOADING' });
   }
 
   return { idl, baseDir };

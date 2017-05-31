@@ -1,12 +1,12 @@
 'use strict';
 
 
-const { EngineError, EngineStartupError } = require('../error');
+const { EngineError } = require('../error');
 
 
 const throwJslError = function ({ type, message, innererror }) {
   if (type === 'startup') {
-    throw new EngineStartupError(message, {
+    throw new EngineError(message, {
       reason: 'IDL_VALIDATION',
       innererror,
     });

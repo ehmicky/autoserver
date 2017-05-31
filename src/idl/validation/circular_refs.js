@@ -3,7 +3,7 @@
 
 const { each } = require('lodash');
 
-const { EngineStartupError } = require('../../error');
+const { EngineError } = require('../../error');
 
 
 /**
@@ -13,7 +13,7 @@ const { EngineStartupError } = require('../../error');
  **/
 const validateCircularRefs = function ({ value, path = 'schema', pathSet = new WeakSet() }) {
   if (pathSet.has(value)) {
-    throw new EngineStartupError(`Schema cannot contain circular references: ${path}`, { reason: 'IDL_VALIDATION' });
+    throw new EngineError(`Schema cannot contain circular references: ${path}`, { reason: 'IDL_VALIDATION' });
   }
   if (typeof value === 'object' && value) {
     pathSet.add(value);
