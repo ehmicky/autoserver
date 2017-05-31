@@ -2,6 +2,7 @@
 
 
 const { deepMerge } = require('../utilities');
+const { EngineError } = require('../error');
 const { report } = require('./logger');
 const { getRequestInfo } = require('./request_info');
 const { getRequestMessage } = require('./request_message');
@@ -38,7 +39,16 @@ class LogInfo {
     this[reportSym]('error', ...args);
   }
 
-  [reportSym](level, rawMessage, logObj = {}){
+  [reportSym](level, rawMessage = '', logObj = {}){
+    if (typeof rawMessage !== 'string') {
+      const message = `Message must be a string: '${rawMessage}'`;
+      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    }
+    if (logObj == null || logObj.constructor !== Object) {
+      const message = `Log object must be an object: '${JSON.stringify(logObj)}'`;
+      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    }
+
     if (this.type === 'request') {
       logObj.requestInfo = getRequestInfo(this[infoSym]);
       if (logObj.type === 'request') {
