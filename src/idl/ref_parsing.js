@@ -2,7 +2,7 @@
 
 
 const { dereferenceRefs } = require('../utilities');
-const { EngineStartupError } = require('../error');
+const { EngineError } = require('../error');
 
 
 const resolveRefs = async function ({ idl, baseDir }) {
@@ -24,7 +24,7 @@ const resolveJsonRefs = async function ({ idl, baseDir }) {
     parsedIdl = await dereferenceRefs(idl);
   } catch (innererror) {
     const message = 'Could not resolve references \'$ref\'';
-    throw new EngineStartupError(message, {
+    throw new EngineError(message, {
       reason: 'IDL_SYNTAX_ERROR',
       innererror,
     });
