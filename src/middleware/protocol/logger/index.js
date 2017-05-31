@@ -2,6 +2,7 @@
 
 
 const { getReason } = require('../../../error');
+const { STATUS_LEVEL_MAP } = require('../../../logging');
 
 
 // Main request logging middleware.
@@ -29,15 +30,8 @@ const logger = function () {
 };
 
 const handleLog = function ({ input: { log, status = 'SERVER_ERROR' } }) {
-  const level = levelMap[status] || 'error';
+  const level = STATUS_LEVEL_MAP[status] || 'error';
   log[level]('', { type: 'request' });
-};
-
-const levelMap = {
-  INTERNALS: 'debug',
-  SUCCESS: 'log',
-  CLIENT_ERROR: 'warn',
-  SERVER_ERROR: 'error',
 };
 
 const addErrorReason = function ({ error, input: { log } }) {

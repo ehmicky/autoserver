@@ -3,5 +3,6 @@
 
 module.exports = Object.assign(
   {},
-  require('./log')
+  require('./log'),
+  require('./status_level_map'),
 );
