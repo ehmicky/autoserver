@@ -18,7 +18,7 @@ const getErrorMessage = function ({
   const stack = getStack(description, details);
   const message = [
     type,
-    '-',
+    protocol || interf || action_path || command ? '-' : '',
     protocol,
     interf,
     action_path,

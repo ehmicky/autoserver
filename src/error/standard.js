@@ -10,7 +10,7 @@ const { getReason, getGenericProps } = require('./reasons');
 const getStandardError = function ({
   log: {
     _info: {
-      url: instance = 'unknown',
+      url: instance,
       status,
       protocolStatus,
       protocol,

@@ -48,7 +48,7 @@ const start = async function (options) {
 
 const handleListening = function ({ startupLog }, { protocol, host, port }) {
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  startupLog.log(message, { type: 'startup' });
+  startupLog.log(message);
 };
 
 

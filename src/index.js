@@ -49,8 +49,8 @@ startServer({
 .then(() => {
   global.console.log('Server started');
 })
-.catch(exception => {
-  global.console.error('Exception at server startup:', exception);
+.catch(() => {
+  global.console.error('Exception at server startup');
 });
 
 
