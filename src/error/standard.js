@@ -3,27 +3,29 @@
 
 const { omitBy } = require('lodash');
 
-const { infoSym } = require('../logging');
 const { getReason, getGenericProps } = require('./reasons');
 
 
 // Gets normalized error information
-const getStandardError = function ({ log, error }) {
-  const {
-    url: instance = 'unknown',
-    status,
-    protocolStatus,
-    protocol,
-    protocolMethod,
-    interface: interf,
-    action,
-    fullAction,
-    model,
-    args,
-    command,
-    requestId,
-  } = log[infoSym] || {};
-
+const getStandardError = function ({
+  log: {
+    _info: {
+      url: instance = 'unknown',
+      status,
+      protocolStatus,
+      protocol,
+      protocolMethod,
+      interface: interf,
+      action,
+      fullAction,
+      model,
+      args,
+      command,
+      requestId,
+    } = {},
+  },
+  error,
+}) {
   if (!(error instanceof Error)) {
     error = new Error(String(error));
   }
