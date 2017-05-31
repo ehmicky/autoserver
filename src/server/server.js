@@ -26,7 +26,7 @@ const startServer = async function (options = {}) {
   try {
     return await start(options);
   } catch (error) {
-    handleStartupError(error);
+    handleStartupError(options, error);
   }
 };
 
