@@ -15,9 +15,11 @@ const { cloneDeep } = require('lodash');
 //      - actions.ACTION_PATH.args.data -> dataSize
 //      - actions.ACTION_PATH.responses.content -> contentSize
 //      - response.content -> contentSize
+// Also rename `errorReason` to `error`.
 const getRequestInfo = function (logInfo) {
   const requestInfo = cloneDeep(logInfo);
 
+  setError(requestInfo);
   setParams(requestInfo);
   setQueryVars(requestInfo);
   setHeaders(requestInfo);
@@ -26,6 +28,13 @@ const getRequestInfo = function (logInfo) {
   setResponse(requestInfo);
 
   return requestInfo;
+};
+
+const setError = function (requestInfo) {
+  if (!requestInfo.errorReason) { return; }
+
+  requestInfo.error = requestInfo.errorReason;
+  delete requestInfo.errorReason;
 };
 
 const setParams = function (requestInfo) {
