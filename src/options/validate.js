@@ -22,7 +22,6 @@ const validateOptions = function ({ options }) {
 
       logger: {
         typeof: 'function',
-        returnType: 'function',
         arity: 1,
       },
 

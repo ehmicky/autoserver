@@ -5,7 +5,6 @@ module.exports = Object.assign(
   {},
   require('./base64'),
   require('./connect_to_promise'),
-  require('./logger'),
   require('./is_dev'),
   require('./transtype'),
   require('./filesystem'),

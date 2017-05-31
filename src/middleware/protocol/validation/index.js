@@ -10,7 +10,7 @@ const { EngineError } = require('../../../error');
  * Those errors should not happen, i.e. server-side (e.g. 500)
  **/
 const protocolValidation = function () {
-  return function protocolValidation(input) {
+  return async function protocolValidation(input) {
     const { protocol } = input;
 
     if (!protocol) {
@@ -20,7 +20,7 @@ const protocolValidation = function () {
 
     validate({ schema, data: input, reportInfo });
 
-    const response = this.next(input);
+    const response = await this.next(input);
     return response;
   };
 };
