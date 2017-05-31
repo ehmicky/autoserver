@@ -4,7 +4,7 @@
 const { log } = require('../../../utilities');
 const { getReason } = require('../../../error');
 const { infoSym } = require('../../../logging');
-const { getLeanLogInfo } = require('./lean');
+const { getRequestInfo } = require('./request_info');
 const { getMessage } = require('./message');
 
 
@@ -73,11 +73,11 @@ const handleLog = function (logInfo, error) {
     info.error = getReason({ error });
   }
 
-  info.lean = getLeanLogInfo(info);
+  const requestInfo = getRequestInfo(info);
 
   const message = getMessage(info);
 
-  log.log(logInfo.lean);
+  log.log(requestInfo);
 };
 
 
