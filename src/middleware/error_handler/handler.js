@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { Log, infoSym } = require('../../logging');
+const { Log } = require('../../logging');
 const { handleError } = require('./error');
 const { handleFailure } = require('./failure');
 
@@ -17,8 +17,7 @@ const errorHandler = function ({ logger, loggerLevel }) {
       return response;
     } catch (error) {
       try {
-        const info = log[infoSym] || {};
-        handleError({ log, error, info });
+        handleError({ log, error });
       // If error handler itself fails
       } catch (innererror) {
         handleFailure({ log, error: innererror });
