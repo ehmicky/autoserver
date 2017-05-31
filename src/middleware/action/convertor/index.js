@@ -13,7 +13,7 @@ const actionConvertor = function () {
       args,
       modelName,
       jsl,
-      logInfo,
+      log,
       params,
       interface: interf,
     } = input;
@@ -33,7 +33,7 @@ const actionConvertor = function () {
       sysArgs,
       modelName,
       jsl: newJsl,
-      logInfo,
+      log,
       params,
     };
 
@@ -42,7 +42,7 @@ const actionConvertor = function () {
       response = await this.next(nextInput);
     } catch (error) {
       // Added only for final error handler
-      logInfo.add({ action, fullAction, args: clonedArgs, model: modelName });
+      log.add({ action, fullAction, args: clonedArgs, model: modelName });
       throw error;
     }
 
@@ -54,7 +54,7 @@ const actionConvertor = function () {
     const responses = getLogResponses({ data });
     const logAction = { model: modelName, args: clonedArgs, responses };
     const logActions = { [fullAction]: logAction };
-    logInfo.add({ actions: logActions });
+    log.add({ actions: logActions });
 
     return { content, modifiers };
   };

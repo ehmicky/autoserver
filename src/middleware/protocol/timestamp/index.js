@@ -3,11 +3,11 @@
 
 const getTimestamp = function () {
   return async function getTimestamp(input) {
-    const { jsl, logInfo } = input;
+    const { jsl, log } = input;
 
     const timestamp = (new Date()).toISOString();
     const newJsl = jsl.add({ $NOW: timestamp });
-    logInfo.add({ timestamp });
+    log.add({ timestamp });
 
     Object.assign(input, { timestamp, jsl: newJsl });
 

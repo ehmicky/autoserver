@@ -14,11 +14,11 @@ const { httpHeaders } = require('../../../parsing');
 //  - response headers, as `X-Request-Id`
 const setRequestId = function () {
   return async function setRequestId(input) {
-    const { jsl, logInfo } = input;
+    const { jsl, log } = input;
 
     const requestId = uuidv4();
     const newJsl = jsl.add({ $REQUEST_ID: requestId });
-    logInfo.add({ requestId });
+    log.add({ requestId });
 
     Object.assign(input, { requestId, jsl: newJsl });
 

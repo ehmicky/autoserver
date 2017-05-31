@@ -12,13 +12,13 @@ const fillProtocolArgs = function (opts) {
   const getGenericProcotolArgs = genericFillProtocolArgs(opts);
 
   return async function fillProtocolArgs(input) {
-    const { protocol, logInfo } = input;
+    const { protocol, log } = input;
 
     const nonSpecificArgs = getGenericProcotolArgs(input);
     const specificArgs = argsMap[protocol](input);
 
     const protocolArgs = Object.assign({}, nonSpecificArgs, specificArgs);
-    logInfo.add({ protocolArgs });
+    log.add({ protocolArgs });
     Object.assign(input, { protocolArgs });
 
     const response = await this.next(input);

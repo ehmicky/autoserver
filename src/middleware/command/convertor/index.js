@@ -4,7 +4,7 @@
 // Converts from Action format to Command format
 const commandConvertor = function () {
   return async function commandConvertor(input) {
-    const { command, args, sysArgs, modelName, jsl, logInfo, params } = input;
+    const { command, args, sysArgs, modelName, jsl, log, params } = input;
 
     const newJsl = jsl.add({ $COMMAND: command.type });
 
@@ -14,7 +14,7 @@ const commandConvertor = function () {
       sysArgs,
       modelName,
       jsl: newJsl,
-      logInfo,
+      log,
       params,
     };
 
@@ -24,7 +24,7 @@ const commandConvertor = function () {
       response = await this.next(nextInput);
     } catch (error) {
       // Added only for final error handler
-      logInfo.add({ command });
+      log.add({ command });
       throw error;
     }
 

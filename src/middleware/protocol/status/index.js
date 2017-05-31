@@ -20,13 +20,13 @@ const getStatus = function () {
 };
 
 const setStatus = function ({ input, error }) {
-  const { logInfo, protocol, protocolStatus: pStatus } = input;
+  const { log, protocol, protocolStatus: pStatus } = input;
 
   const protocolStatus = pStatus ||
     statusMap[protocol].getProtocolStatus({ error });
   const status = statusMap[protocol].getStatus({ protocolStatus });
 
-  logInfo.add({ protocolStatus, status });
+  log.add({ protocolStatus, status });
   Object.assign(input, { protocolStatus, status });
 };
 
