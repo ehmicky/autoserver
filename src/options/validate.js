@@ -20,11 +20,6 @@ const validateOptions = function ({ options }) {
         pattern: '^[a-zA-Z0-9_-]+$',
       },
 
-      onRequestError: {
-        typeof: 'function',
-        arity: 1,
-      },
-
       logger: {
         typeof: 'function',
         returnType: 'function',
