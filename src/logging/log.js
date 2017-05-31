@@ -55,6 +55,11 @@ class Log {
       }
     }
 
+    if (this.type === 'startup') {
+      const requestId = 'STARTUP';
+      logObj.requestInfo = { requestId };
+    }
+
     report(this.logger, this.loggerLevel, level, rawMessage, logObj);
   }
 

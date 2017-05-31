@@ -7,7 +7,7 @@ const { colorize } = require('./colorize');
 const levels = ['info', 'log', 'warn', 'error'];
 const levelsMaxLength = Math.max(...levels.map(level => level.length));
 
-const types = ['generic', 'startup', 'failure', 'request'];
+const types = ['generic', 'failure', 'request'];
 const typesMaxLength = Math.max(...types.map(type => type.length));
 const noConsoleTypes = [];
 
