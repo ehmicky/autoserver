@@ -2,16 +2,14 @@
 
 
 const { LogInfo, infoSym } = require('../../logging');
-const { getStandardError } = require('./standard');
+const { handleError } = require('./error');
 const { handleFailure } = require('./failure');
-const { getResponse } = require('./response');
-const { reportError } = require('./report');
 
 
 // Error handler, which sends final response, if errors
-const errorHandler = function ({ log }) {
+const errorHandler = function ({ logger }) {
   return async function errorHandler(specific) {
-    const logInfo = new LogInfo();
+    const logInfo = new LogInfo({ logger, type: 'request' });
     const input = { specific, logInfo };
 
     try {
@@ -20,26 +18,13 @@ const errorHandler = function ({ log }) {
     } catch (error) {
       try {
         const info = logInfo[infoSym] || {};
-        handleError({ log, error, info });
+        handleError({ logInfo, error, info });
       // If error handler itself fails
       } catch (innererror) {
-        handleFailure({ log, error: innererror });
+        handleFailure({ logInfo, error: innererror });
       }
     }
   };
-};
-
-const handleError = function ({ log, error, info }) {
-  const standardError = getStandardError({ error, info });
-
-  const errorResponse = getResponse({ error: standardError });
-
-  reportError({ log, error: standardError });
-
-  // Use protocol-specific way to send back the response to the client
-  if (error.sendError) {
-    error.sendError(errorResponse);
-  }
 };
 
 

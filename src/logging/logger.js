@@ -1,17 +1,11 @@
 'use strict';
 
 
-const { magenta, green, yellow, red, dim } = require('chalk');
+const { colorize } = require('./colorize');
 
 
 const levels = ['info', 'log', 'warn', 'error'];
 const levelsMaxLength = Math.max(...levels.map(level => level.length));
-const colors = {
-  info: magenta,
-  log: green,
-  warn: yellow,
-  error: red,
-};
 
 const types = ['generic', 'startup', 'failure', 'request'];
 const typesMaxLength = Math.max(...types.map(type => type.length));
@@ -19,14 +13,7 @@ const consoleTypes = ['generic', 'startup', 'failure', 'request'];
 
 const requestIdLength = 36;
 
-const getLog = function ({ logger }) {
-  return levels.reduce((newLog, level) => {
-    const levelLog = getLevelLog.bind(null, logger, level);
-    return Object.assign(newLog, { [level]: levelLog });
-  }, {});
-};
-
-const getLevelLog = function (logger, level, rawMessage, logObj = {}) {
+const report = function (logger, level, rawMessage, logObj = {}) {
   const info = Object.assign({}, logObj);
   const {
     type = 'generic',
@@ -68,27 +55,7 @@ const getMessage = function ({
   return colorMessage;
 };
 
-const colorize = function (level, message) {
-  const [, first, second, third, , fourth = ''] = messageRegExp.test(message)
-    ? messageRegExp.exec(message)
-    : shortMessageRexExp.exec(message);
-
-  const colorMessage = [
-    colors[level].bold(first),
-    colors[level](second),
-    third,
-    dim(fourth),
-  ].join(' ');
-
-  return colorMessage;
-};
-
-// Look for [...] [...] [...] [...] ... - ...
-const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n|\r)*) (- (.|\n|\r)*)/;
-// Look for [...] [...] [...] [...] ...
-const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n|\r)*)/;
-
 
 module.exports = {
-  getLog,
+  report,
 };
