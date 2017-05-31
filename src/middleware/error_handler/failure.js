@@ -5,7 +5,7 @@ const { reportError } = require('./report');
 
 
 // If error handler fails, only reports failure then gives up
-const handleFailure = function ({ log, error }) {
+const handleFailure = function ({ logInfo, error }) {
   const details = error.stack || error;
   const errorObj = {
     type: 'ERROR_HANDLER_FAILURE',
@@ -14,7 +14,7 @@ const handleFailure = function ({ log, error }) {
     details,
   };
 
-  reportError({ log, error: errorObj });
+  reportError({ logInfo, error: errorObj });
 };
 
 

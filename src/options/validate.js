@@ -25,6 +25,24 @@ const validateOptions = function ({ options }) {
         arity: 1,
       },
 
+      startupLog: {
+        type: 'object',
+        properties: {
+          info: {
+            typeof: 'function',
+          },
+          log: {
+            typeof: 'function',
+          },
+          warn: {
+            typeof: 'function',
+          },
+          error: {
+            typeof: 'function',
+          },
+        },
+      },
+
       maxDataLength: {
         type: 'integer',
         minimum: 0,

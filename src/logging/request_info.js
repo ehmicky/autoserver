@@ -4,6 +4,34 @@
 const { cloneDeep } = require('lodash');
 
 
+//   - requestId
+//   - timestamp
+//   - ip
+//   - protocol
+//   - protocolFullName
+//   - url
+//   - path
+//   - route
+//   - protocolMethod
+//   - method
+//   - status
+//   - protocolStatus
+//   - params
+//   - queryVars
+//   - pathVars
+//   - headers
+//   - payload
+//   - protocolArgs
+//   - interface
+//   - actions:
+//      - ACTION_PATH:
+//          - model
+//          - args (original)
+//          - responses OBJ_ARR:
+//             - content
+//   - response (the one that was sent): content, type
+//   - error
+
 // Keep almost all properties of logInfo.
 // Remove some properties of logInfo which could be of big size, specifically:
 //   - keep only keys in:
