@@ -25,6 +25,11 @@ const validateOptions = function ({ options }) {
         arity: 1,
       },
 
+      loggerLevel: {
+        type: 'string',
+        enum: ['info', 'log', 'warn', 'error', 'silent'],
+      },
+
       startupLog: {
         type: 'object',
         properties: {

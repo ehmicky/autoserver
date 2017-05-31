@@ -9,11 +9,11 @@ const levelsMaxLength = Math.max(...levels.map(level => level.length));
 
 const types = ['generic', 'startup', 'failure', 'request'];
 const typesMaxLength = Math.max(...types.map(type => type.length));
-const consoleTypes = ['generic', 'startup', 'failure', 'request'];
+const noConsoleTypes = [];
 
 const requestIdLength = 36;
 
-const report = function (logger, level, rawMessage, logObj = {}) {
+const report = function (logger, loggerLevel, level, rawMessage, logObj = {}) {
   const info = Object.assign({}, logObj);
   const {
     type = 'generic',
@@ -31,10 +31,7 @@ const report = function (logger, level, rawMessage, logObj = {}) {
     logger(info);
   }
 
-  const shouldConsolePrint = consoleTypes.includes(type);
-  if (shouldConsolePrint) {
-    global.console[level](message);
-  }
+  consolePrint({ type, level, message, loggerLevel });
 };
 
 const getMessage = function ({
@@ -53,6 +50,15 @@ const getMessage = function ({
   const colorMessage = colorize(level, message);
 
   return colorMessage;
+};
+
+const consolePrint = function ({ type, level, message, loggerLevel }) {
+  const noConsolePrint = noConsoleTypes.includes(type) ||
+    loggerLevel === 'silent' ||
+    levels.indexOf(level) < levels.indexOf(loggerLevel);
+  if (noConsolePrint) { return; }
+
+  global.console[level](message);
 };
 
 

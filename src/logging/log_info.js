@@ -13,9 +13,9 @@ const reportSym = Symbol('report');
 
 class LogInfo {
 
-  constructor({ logger, type }) {
+  constructor({ logger, loggerLevel, type }) {
     this[infoSym] = {};
-    Object.assign(this, { logger, type });
+    Object.assign(this, { logger, loggerLevel, type });
   }
 
   add(obj) {
@@ -46,7 +46,7 @@ class LogInfo {
       }
     }
 
-    report(this.logger, level, rawMessage, logObj);
+    report(this.logger, this.loggerLevel, level, rawMessage, logObj);
   }
 
 }
