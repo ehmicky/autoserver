@@ -32,6 +32,9 @@ startServer({
   logger(info) {
     //global.console.log('LOGGER', info);
   },
+  // Can customize logging level, among 'info' (default value), 'log', 'warn',
+  // 'error' or 'silent'
+  // loggerLevel: 'warn',
   // arg.data length is limited to 1000 by default.
   // This can be changed, or disabled (using 0)
   /* maxDataLength: 1000, */
