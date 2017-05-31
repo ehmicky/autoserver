@@ -29,8 +29,9 @@ const printer = level => function (...args) {
 
 startServer({
   conf: './examples/pet.schema.yml',
-  // Can overwrite logging (by default, uses console)
-  logger: printer,
+  logger(info) {
+    //global.console.log('LOGGER', info);
+  },
   // arg.data length is limited to 1000 by default.
   // This can be changed, or disabled (using 0)
   /* maxDataLength: 1000, */
@@ -43,10 +44,10 @@ startServer({
   projectName: 'example_api',
 })
 .then(() => {
-  printer('log')('Server started');
+  global.console.log('Server started');
 })
 .catch(exception => {
-  printer('error')('Exception at server startup:', exception);
+  global.console.error('Exception at server startup:', exception);
 });
 
 

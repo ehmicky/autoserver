@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { setLogger } = require('../utilities');
+const { getLog } = require('../logging');
 const { processOptions } = require('../options');
 const { startChain } = require('./chain');
 const { httpStartServer } = require('./http');
@@ -25,19 +25,30 @@ const startServer = async function (options) {
 const start = async function (options) {
   const opts = await processOptions(options);
 
-  const { logger } = opts;
-  if (logger) {
-    setLogger({ logger });
-  }
+  setLog(opts);
 
+  // Those two callbacks must be called by each server
   opts.handleRequest = await startChain(opts);
+  opts.handleListening = handleListening.bind(null, opts.log);
+
+  // Start each server
+  const httpServer = httpStartServer(opts);
 
   // Make sure all servers are starting concurrently, not serially
-  const [http] = await Promise.all([
-    httpStartServer(opts),
-  ]);
+  const [http] = await Promise.all([httpServer]);
   const servers = { http };
   return servers;
+};
+
+// Sets `opts.log` logging utility
+const setLog = function (opts) {
+  opts.log = getLog({ logger: opts.logger });
+  delete opts.logger;
+};
+
+const handleListening = function (log, { protocol, host, port }) {
+  const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
+  log.log(message, { type: 'startup' });
 };
 
 

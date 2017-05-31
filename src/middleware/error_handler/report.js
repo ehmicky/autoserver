@@ -1,13 +1,31 @@
 'use strict';
 
 
-const { log } = require('../../utilities');
-
-
-// Report error for monitoring
-const reportError = function ({ error }) {
-  // Generic logger, by default console.error()
-  log.error(error);
+const reportError = function ({ log, error }) {
+  const {
+    type,
+    description,
+    protocol,
+    interface: interf,
+    action_path,
+    command,
+    details,
+  } = error;
+  const stack = details && details.indexOf(description) !== -1
+    ? details
+    : `${description}\n${details}`;
+  const message = [
+    type,
+    '-',
+    protocol,
+    interf,
+    action_path,
+    command,
+    '\n',
+    stack,
+  ].filter(val => val)
+    .join(' ');
+  log.error(message, { type: 'failure', errorInfo: error });
 };
 
 
