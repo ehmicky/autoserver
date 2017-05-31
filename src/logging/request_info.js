@@ -32,8 +32,8 @@ const { cloneDeep } = require('lodash');
 //   - response (the one that was sent): content, type
 //   - error
 
-// Keep almost all properties of logInfo.
-// Remove some properties of logInfo which could be of big size, specifically:
+// Keep almost all properties of log.
+// Remove some properties of log which could be of big size, specifically:
 //   - keep only keys in:
 //      - params -> paramsKeys
 //      - queryVars -> queryVarsKeys
@@ -44,8 +44,8 @@ const { cloneDeep } = require('lodash');
 //      - actions.ACTION_PATH.responses.content -> contentSize
 //      - response.content -> contentSize
 // Also rename `errorReason` to `error`.
-const getRequestInfo = function (logInfo) {
-  const requestInfo = cloneDeep(logInfo);
+const getRequestInfo = function (log) {
+  const requestInfo = cloneDeep(log);
 
   setError(requestInfo);
   setParams(requestInfo);

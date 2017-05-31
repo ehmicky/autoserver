@@ -4,9 +4,9 @@
 const chalk = require('chalk');
 
 
-const reportError = function ({ logInfo, error }) {
+const reportError = function ({ log, error }) {
   const message = getErrorMessage(error);
-  logInfo.error(message, { type: 'failure', errorInfo: error });
+  log.error(message, { type: 'failure', errorInfo: error });
 };
 
 const getErrorMessage = function ({

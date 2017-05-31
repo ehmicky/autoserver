@@ -13,7 +13,7 @@ const interfaceConvertor = function () {
       payload,
       route,
       jsl,
-      logInfo,
+      log,
     } = input;
 
     const newInput = {
@@ -25,7 +25,7 @@ const interfaceConvertor = function () {
       payload,
       route,
       jsl,
-      logInfo,
+      log,
     };
 
     const response = await this.next(newInput);

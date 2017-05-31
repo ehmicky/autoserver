@@ -12,7 +12,7 @@ const { getRequestMessage } = require('./request_message');
 const infoSym = Symbol('info');
 const reportSym = Symbol('report');
 
-class LogInfo {
+class Log {
 
   constructor({ logger, loggerLevel, type }) {
     this[infoSym] = {};
@@ -63,6 +63,6 @@ class LogInfo {
 
 
 module.exports = {
-  LogInfo,
+  Log,
   infoSym,
 };

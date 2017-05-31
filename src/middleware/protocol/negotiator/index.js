@@ -4,13 +4,13 @@
 // Decide which middleware to pick according to request protocol
 const protocolNegotiator = function () {
   return async function protocolNegotiator(input) {
-    const { jsl, logInfo } = input;
+    const { jsl, log } = input;
 
     const { protocol } = protocols.find(({ test }) => test(input));
     const protocolFullName = protocolFullNames[protocol](input);
 
     const newJsl = jsl.add({ $PROTOCOL: protocol });
-    logInfo.add({ protocol, protocolFullName });
+    log.add({ protocol, protocolFullName });
 
     Object.assign(input, { protocol, protocolFullName, jsl: newJsl });
 

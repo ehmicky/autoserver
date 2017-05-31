@@ -10,11 +10,11 @@ const getIp = async function (opts) {
   const map = await mapAsync(ipMap, async func => await func(opts));
 
   return async function getIp(input) {
-    const { jsl, logInfo, protocol } = input;
+    const { jsl, log, protocol } = input;
 
     const ip = map[protocol](input) || '';
     const newJsl = jsl.add({ $IP: ip });
-    logInfo.add({ ip });
+    log.add({ ip });
 
     Object.assign(input, { ip, jsl: newJsl });
 

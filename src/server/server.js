@@ -3,7 +3,7 @@
 
 const { resolve } = require('path');
 
-const { LogInfo } = require('../logging');
+const { Log } = require('../logging');
 const { processOptions } = require('../options');
 const { startChain } = require('./chain');
 const { httpStartServer } = require('./http');
@@ -21,7 +21,7 @@ global.apiEngineDirName = resolve(__dirname, '../..');
  */
 const startServer = async function (options = {}) {
   const { logger, loggerLevel } = options;
-  options.startupLog = new LogInfo({ logger, loggerLevel, type: 'startup' });
+  options.startupLog = new Log({ logger, loggerLevel, type: 'startup' });
 
   try {
     return await start(options);

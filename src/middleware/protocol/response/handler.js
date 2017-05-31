@@ -10,11 +10,11 @@ const sendResponse = async function () {
     const send = sender.bind(null, input);
 
     try {
-      const { logInfo } = input;
+      const { log } = input;
       const response = await this.next(input);
       const { content, type } = response;
 
-      logInfo.add({ response: { content, type } });
+      log.add({ response: { content, type } });
 
       send(response);
 

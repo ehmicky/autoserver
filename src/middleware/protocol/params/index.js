@@ -10,7 +10,7 @@ const fillParams = async function (opts) {
   const map = await mapAsync(paramsMap, async func => await func(opts));
 
   return async function fillParams(input) {
-    const { jsl, protocol, logInfo } = input;
+    const { jsl, protocol, log } = input;
 
     const {
       method,
@@ -23,7 +23,7 @@ const fillParams = async function (opts) {
 
     const newJsl = jsl.add({ $PARAMS: params });
 
-    logInfo.add({
+    log.add({
       method,
       protocolMethod,
       queryVars,

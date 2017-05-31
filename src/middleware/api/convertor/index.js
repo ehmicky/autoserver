@@ -7,7 +7,7 @@ const { pick } = require('lodash');
 // Converts from Command format to Api format
 const apiConvertor = function () {
   return async function apiConvertor(input) {
-    const { command, args, sysArgs, modelName, jsl, logInfo, params } = input;
+    const { command, args, sysArgs, modelName, jsl, log, params } = input;
 
     const dbArgs = pick(args, [
       'data',
@@ -22,7 +22,7 @@ const apiConvertor = function () {
       sysArgs,
       modelName,
       jsl,
-      logInfo,
+      log,
       params,
     };
 

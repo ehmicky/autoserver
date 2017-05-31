@@ -28,9 +28,9 @@ const logger = function () {
   };
 };
 
-const handleLog = function ({ input: { logInfo, status = 'SERVER_ERROR' } }) {
+const handleLog = function ({ input: { log, status = 'SERVER_ERROR' } }) {
   const level = levelMap[status] || 'error';
-  logInfo[level]('', { type: 'request' });
+  log[level]('', { type: 'request' });
 };
 
 const levelMap = {
@@ -40,13 +40,13 @@ const levelMap = {
   SERVER_ERROR: 'error',
 };
 
-const addErrorReason = function ({ error, input: { logInfo } }) {
+const addErrorReason = function ({ error, input: { log } }) {
   if (!(error instanceof Error)) {
     error = new Error(String(error));
   }
 
   const errorReason = getReason({ error });
-  logInfo.add({ errorReason });
+  log.add({ errorReason });
 };
 
 
