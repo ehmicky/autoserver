@@ -14,16 +14,22 @@ const noConsoleTypes = [];
 const requestIdLength = 36;
 
 const report = function (logger, loggerLevel, level, rawMessage, logObj = {}) {
-  const info = Object.assign({}, logObj);
   const {
     type = 'generic',
-    requestInfo = {},
+    requestInfo: {
+      // Used in message prefix
+      requestId = '',
+      // Reuse the request timestamp if possible
+      timestamp = (new Date()).toISOString(),
+    } = {},
   } = logObj;
-  const { requestId } = requestInfo;
-  const timestamp = requestInfo.timestamp || (new Date()).toISOString();
-  requestInfo.timestamp = timestamp;
 
-  const message = getMessage({ rawMessage, type, level, timestamp, requestId });
+  const info = Object.assign({}, logObj);
+
+  info.timestamp = timestamp;
+
+  const prefix = getPrefix({ type, level, timestamp, requestId });
+  const message = getMessage({ prefix, rawMessage, level });
 
   Object.assign(info, { type, level, message });
 
@@ -34,21 +40,18 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj = {}) {
   consolePrint({ type, level, message, loggerLevel });
 };
 
-const getMessage = function ({
-  rawMessage,
-  type,
-  level,
-  timestamp,
-  requestId = '',
-}) {
+const getPrefix = function ({ type, level, timestamp, requestId }) {
   const logType = type.toUpperCase().padEnd(typesMaxLength);
   const logLevel = level.toUpperCase().padEnd(levelsMaxLength);
   const logRequestId = requestId.padEnd(requestIdLength);
 
-  const message = `[${logType}] [${logLevel}] [${timestamp}] [${logRequestId}] ${rawMessage}`;
+  const prefix = `[${logType}] [${logLevel}] [${timestamp}] [${logRequestId}]`;
+  return prefix;
+};
 
+const getMessage = function ({ prefix, rawMessage, level }) {
+  const message = `${prefix} ${rawMessage}`;
   const colorMessage = colorize(level, message);
-
   return colorMessage;
 };
 
