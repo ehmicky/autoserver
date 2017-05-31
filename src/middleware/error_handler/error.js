@@ -1,13 +1,13 @@
 'use strict';
 
 
-const { getStandardError } = require('./standard');
+const { getStandardError } = require('../../error');
 const { getResponse } = require('./response');
 const { reportError } = require('./report');
 
 
-const handleError = function ({ log, error, info }) {
-  const standardError = getStandardError({ error, info });
+const handleError = function ({ log, error }) {
+  const standardError = getStandardError({ log, error });
 
   const errorResponse = getResponse({ error: standardError });
 
