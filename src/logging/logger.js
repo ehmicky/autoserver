@@ -13,7 +13,7 @@ const noConsoleTypes = [];
 
 const requestIdLength = 36;
 
-const report = function (logger, loggerLevel, level, rawMessage, logObj = {}) {
+const report = function (logger, loggerLevel, level, rawMessage, logObj) {
   const {
     type = 'generic',
     requestInfo: {
