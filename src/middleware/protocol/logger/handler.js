@@ -59,6 +59,8 @@ const logger = function () {
         error = new Error(String(error));
       }
 
+      const errorReason = getReason({ error });
+      logInfo.add({ errorReason });
       handleLog(logInfo, error);
 
       throw error;
@@ -66,16 +68,9 @@ const logger = function () {
   };
 };
 
-const handleLog = function (logInfo, error) {
+const handleLog = function (logInfo) {
   const info = logInfo[infoSym];
-
-  if (error) {
-    info.error = getReason({ error });
-  }
-
   const requestInfo = getRequestInfo(info);
-
-  const message = getMessage(info);
 
   log.log(requestInfo);
 };
