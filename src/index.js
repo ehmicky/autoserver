@@ -4,28 +4,8 @@
 const { startServer } = require('./server');
 const { propertiesPlugin } = require('./idl');
 
-const { inspect } = require('util');
-
 
 Error.stackTraceLimit = 100;
-
-Object.assign(inspect.defaultOptions, {
-  colors: true,
-  depth: 10,
-});
-
-const dirPrefix = /\/home\/ether\/api-engine/g;
-
-const printer = level => function (...args) {
-  if (level === 'info') { return; }
-  const beautifiedArgs = args.map(arg => {
-    const message = typeof arg === 'string'
-      ? arg
-      : inspect(arg).replace(/\\n/g, '\n');
-    return message.replace(dirPrefix, '');
-  });
-  global.console[level](...beautifiedArgs);
-};
 
 startServer({
   conf: './examples/pet.schema.yml',
