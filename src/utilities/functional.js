@@ -108,6 +108,15 @@ const deepMerge = function (objA, objB, ...objects) {
   }
 };
 
+// Enforces that a function is only called once
+const onlyOnce = function (func) {
+  return (...args) => {
+    if (func.called) { return; }
+    func.called = true;
+    return func(...args);
+  };
+};
+
 
 module.exports = {
   map,
@@ -115,4 +124,5 @@ module.exports = {
   recurseMap,
   set,
   deepMerge,
+  onlyOnce,
 };
