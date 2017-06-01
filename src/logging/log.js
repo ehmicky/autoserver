@@ -15,6 +15,8 @@ class Log {
 
   constructor({ opts: { logger, loggerLevel, loggerFilter }, phase }) {
     this._info = {};
+    this._isBuffered = false;
+    this._buffer = [];
     Object.assign(this, { logger, loggerLevel, loggerFilter, phase });
   }
 
@@ -48,6 +50,11 @@ class Log {
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
     }
 
+    if (this._isBuffered) {
+      this._buffer.push({ level, rawMessage, logObj });
+      return;
+    }
+
     if (this.phase === 'request') {
       logObj.requestInfo = getRequestInfo(this._info, this.loggerFilter);
       if (logObj.type === 'call') {
@@ -58,6 +65,25 @@ class Log {
     logObj.phase = this.phase;
 
     report(this.logger, this.loggerLevel, level, rawMessage, logObj);
+  }
+
+  // Buffer log calls
+  // E.g. used in requests when requestInfo is not completely built yet
+  _setBuffered(isBuffered) {
+    this._isBuffered = Boolean(isBuffered);
+
+    const hasBufferedCalls = this._buffer.length > 0;
+    if (!isBuffered && hasBufferedCalls) {
+      this._releaseBuffer();
+    }
+  }
+
+  // Release buffered log calls
+  _releaseBuffer() {
+    for (const { level, rawMessage, logObj } of this._buffer) {
+      this[reportSym](level, rawMessage, logObj);
+    }
+    this._buffer = [];
   }
 
 }
