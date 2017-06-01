@@ -42,6 +42,9 @@ const start = async function (options) {
 
   // Make sure all servers are starting concurrently, not serially
   const [http] = await Promise.all([httpServer]);
+
+  startupLog.log('Server is ready', { type: 'start' });
+
   const servers = { http };
   return servers;
 };
