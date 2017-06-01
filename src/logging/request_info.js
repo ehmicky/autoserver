@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { cloneDeep } = require('lodash');
+const { cloneDeep, omit } = require('lodash');
 
 
 //   - requestId
@@ -16,22 +16,22 @@ const { cloneDeep } = require('lodash');
 //   - method
 //   - status
 //   - protocolStatus
-//   - params
-//   - queryVars
 //   - pathVars
-//   - headers
-//   - payload
+//   - (params)
+//   - (queryVars)
+//   - (headers)
+//   - (payload)
 //   - protocolArgs
 //   - interface
-//   - actions:
+//   - (actions):
 //      - ACTION_PATH:
 //          - model
 //          - args (original)
 //          - responses OBJ_ARR:
 //             - content
-//   - response (the one that was sent): content, type
-//   - error
+//   - (response): content, type
 //   - phase: 'request', 'startup' or 'shutdown'
+//   - error
 
 // Keep almost all properties of log.
 // Remove some properties of log which could be of big size, specifically:
@@ -46,7 +46,7 @@ const { cloneDeep } = require('lodash');
 //      - response.content -> contentSize
 // Also rename `errorReason` to `error`.
 const getRequestInfo = function (log) {
-  const requestInfo = cloneDeep(log);
+  const requestInfo = omit(cloneDeep(log), excludedKeys);
 
   setError(requestInfo);
   setParams(requestInfo);
@@ -58,6 +58,15 @@ const getRequestInfo = function (log) {
 
   return requestInfo;
 };
+
+const excludedKeys = [
+  // Those are already present in errorInfo
+  'action',
+  'fullAction',
+  'model',
+  'args',
+  'command',
+];
 
 const setError = function (requestInfo) {
   if (!requestInfo.errorReason) { return; }
