@@ -7,6 +7,8 @@ const PHASES = [
   'startup',
   // During a client request
   'request',
+  // During a server shutdown
+  'shutdown',
 ];
 
 // Why the log was performed
@@ -19,6 +21,8 @@ const TYPES = [
   'call',
   // An exception was thrown or an error occured
   'failure',
+  // The server has closed
+  'stop',
 ];
 
 // Log severity.
