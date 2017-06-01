@@ -31,6 +31,7 @@ const { cloneDeep } = require('lodash');
 //             - content
 //   - response (the one that was sent): content, type
 //   - error
+//   - phase: 'request', 'startup' or 'shutdown'
 
 // Keep almost all properties of log.
 // Remove some properties of log which could be of big size, specifically:

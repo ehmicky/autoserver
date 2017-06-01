@@ -10,13 +10,21 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj) {
     type = 'generic',
     requestInfo: {
       // Used in message prefix
-      requestId = '',
+      requestId,
       // Reuse the request timestamp if possible
       timestamp = (new Date()).toISOString(),
     } = {},
+    phase,
   } = logObj;
 
-  const message = getMessage({ type, level, timestamp, requestId, rawMessage });
+  const message = getMessage({
+    phase,
+    type,
+    level,
+    timestamp,
+    requestId,
+    rawMessage,
+  });
 
   if (logger) {
     const info = Object.assign({}, logObj, { timestamp, type, level, message });

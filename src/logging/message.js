@@ -6,44 +6,45 @@ const { TYPES, LEVELS } = require('./constants');
 
 
 const getMessage = function ({
+  phase,
   type,
   level,
   timestamp,
   requestId,
   rawMessage,
 }) {
-  const prefix = getPrefix({ type, level, timestamp, requestId });
+  const prefix = getPrefix({ phase, type, level, timestamp, requestId });
   const message = `${prefix} ${rawMessage}`;
   const colorMessage = colorize(level, message);
   return colorMessage;
 };
 
-const getPrefix = function ({ type, level, timestamp, requestId }) {
+const getPrefix = function ({ phase, type, level, timestamp, requestId }) {
   const prefixes = [
-    getPrefixType(type),
-    getPrefixLevel(level),
-    getPrefixTimestamp(timestamp),
-    getPrefixRequestId(requestId),
+    getType({ type }),
+    getLevel({ level }),
+    getTimestamp({ timestamp }),
+    getRequestId({ phase, requestId }),
   ];
   const prefix = prefixes.map(val => `[${val}]`).join(' ');
   return prefix;
 };
 
-const getPrefixType = function (type) {
+const getType = function ({ type }) {
   return type.toUpperCase().padEnd(typesMaxLength);
 };
 const typesMaxLength = Math.max(...TYPES.map(type => type.length));
 
-const getPrefixLevel = function (level) {
+const getLevel = function ({ level }) {
   return level.toUpperCase().padEnd(levelsMaxLength);
 };
 const levelsMaxLength = Math.max(...LEVELS.map(level => level.length));
 
-const getPrefixTimestamp = function (timestamp) {
+const getTimestamp = function ({ timestamp }) {
   return timestamp.replace('T', ' ').replace(/([0-9])Z$/, '$1');
 };
 
-const getPrefixRequestId = function (requestId) {
+const getRequestId = function ({ phase, requestId = phase.toUpperCase() }) {
   return requestId.substr(0, 8).padEnd(requestIdLength);
 };
 const requestIdLength = 8;

@@ -55,10 +55,7 @@ class Log {
       }
     }
 
-    if (this.type === 'startup') {
-      const requestId = 'STARTUP';
-      logObj.requestInfo = { requestId };
-    }
+    logObj.phase = this.type;
 
     report(this.logger, this.loggerLevel, level, rawMessage, logObj);
   }
