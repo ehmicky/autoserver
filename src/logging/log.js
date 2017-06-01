@@ -13,9 +13,9 @@ const reportSym = Symbol('report');
 
 class Log {
 
-  constructor({ logger, loggerLevel, type }) {
+  constructor({ opts: { logger, loggerLevel, loggerFilter }, type }) {
     this._info = {};
-    Object.assign(this, { logger, loggerLevel, type });
+    Object.assign(this, { logger, loggerLevel, loggerFilter, type });
   }
 
   add(obj) {
@@ -49,7 +49,7 @@ class Log {
     }
 
     if (this.type === 'request') {
-      logObj.requestInfo = getRequestInfo(this._info);
+      logObj.requestInfo = getRequestInfo(this._info, this.loggerFilter);
       if (logObj.type === 'request') {
         rawMessage = getRequestMessage(logObj.requestInfo);
       }

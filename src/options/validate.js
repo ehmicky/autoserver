@@ -22,7 +22,6 @@ const validateOptions = function ({ options }) {
 
       logger: {
         typeof: 'function',
-        arity: 1,
       },
 
       loggerLevel: {
@@ -30,22 +29,37 @@ const validateOptions = function ({ options }) {
         enum: ['info', 'log', 'warn', 'error', 'silent'],
       },
 
+      loggerFilter: {
+        type: 'object',
+        properties: [
+          'payload',
+          'response',
+          'argData',
+          'actionResponses',
+          'headers',
+          'queryVars',
+          'params',
+        ].reduce((memo, attrName) => Object.assign(memo, {
+          [attrName]: {
+            oneOf: [
+              {
+                type: 'array',
+                items: {
+                  type: 'string',
+                },
+              },
+              {
+                typeof: 'function',
+              },
+            ],
+          },
+        }), {}),
+        additionalProperties: false,
+      },
+
       startupLog: {
         type: 'object',
-        properties: {
-          info: {
-            typeof: 'function',
-          },
-          log: {
-            typeof: 'function',
-          },
-          warn: {
-            typeof: 'function',
-          },
-          error: {
-            typeof: 'function',
-          },
-        },
+        required: ['info', 'log', 'warn', 'error'],
       },
 
       maxDataLength: {
