@@ -1,17 +1,9 @@
 'use strict';
 
 
-const { colorize } = require('./colorize');
+const { getMessage } = require('./message');
+const { consolePrint } = require('./console');
 
-
-const levels = ['info', 'log', 'warn', 'error'];
-const levelsMaxLength = Math.max(...levels.map(level => level.length));
-
-const types = ['generic', 'failure', 'request'];
-const typesMaxLength = Math.max(...types.map(type => type.length));
-const noConsoleTypes = [];
-
-const requestIdLength = 8;
 
 const report = function (logger, loggerLevel, level, rawMessage, logObj) {
   const {
@@ -24,44 +16,14 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj) {
     } = {},
   } = logObj;
 
-  const info = Object.assign({}, logObj);
-
-  info.timestamp = timestamp;
-
-  const prefix = getPrefix({ type, level, timestamp, requestId });
-  const message = getMessage({ prefix, rawMessage, level });
-
-  Object.assign(info, { type, level, message });
+  const message = getMessage({ type, level, timestamp, requestId, rawMessage });
 
   if (logger) {
+    const info = Object.assign({}, logObj, { timestamp, type, level, message });
     logger(info);
   }
 
   consolePrint({ type, level, message, loggerLevel });
-};
-
-const getPrefix = function ({ type, level, timestamp, requestId }) {
-  const logType = type.toUpperCase().padEnd(typesMaxLength);
-  const logLevel = level.toUpperCase().padEnd(levelsMaxLength);
-  const logRequestId = requestId.substr(0, 8).padEnd(requestIdLength);
-
-  const prefix = `[${logType}] [${logLevel}] [${timestamp}] [${logRequestId}]`;
-  return prefix;
-};
-
-const getMessage = function ({ prefix, rawMessage, level }) {
-  const message = `${prefix} ${rawMessage}`;
-  const colorMessage = colorize(level, message);
-  return colorMessage;
-};
-
-const consolePrint = function ({ type, level, message, loggerLevel }) {
-  const noConsolePrint = noConsoleTypes.includes(type) ||
-    loggerLevel === 'silent' ||
-    levels.indexOf(level) < levels.indexOf(loggerLevel);
-  if (noConsolePrint) { return; }
-
-  global.console[level](message);
 };
 
 
