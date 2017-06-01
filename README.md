@@ -133,6 +133,12 @@ There are three ways of exploring the API:
 
 We recommend using the Chrome extension [Node Inspector Manager](https://github.com/june07/NIM) for
 Chrome devtools debugging.
+Note that when using nodemon, restarting the server will crash if there is a
+pending request (or if there was one in the last few seconds).
+This is because NIM tries to reconnect to node debugger while nodemon
+is restarting.
+A workaround is to restart the server again, or to wait for pending requests to
+be resolved before restarting.
 
 We are using [editorconfig](http://editorconfig.org/), so please install the plugin for your IDE.
 
