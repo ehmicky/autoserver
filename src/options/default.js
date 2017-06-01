@@ -1,9 +1,12 @@
 'use strict';
 
 
+const { defaultsDeep } = require('lodash');
+
+
 // Default value for main options
 const applyDefaultOptions = function ({ options }) {
-  return Object.assign({}, defaultOptions, options);
+  return defaultsDeep(options, defaultOptions);
 };
 
 const defaultOptions = {
@@ -13,6 +16,15 @@ const defaultOptions = {
   defaultPageSize: 100,
   maxPageSize: 100,
   loggerLevel: 'info',
+  loggerFilter: {
+    payload: ['id'],
+    response: ['id'],
+    argData: ['id'],
+    actionResponses: ['id'],
+    headers: [],
+    queryVars: [],
+    params: [],
+  },
 };
 
 

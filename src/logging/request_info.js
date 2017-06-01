@@ -35,30 +35,34 @@ const { cloneDeep, omit } = require('lodash');
 
 // Keep almost all properties of log.
 // Remove some properties of log which could be of big size, specifically:
-//   - keep only keys in:
-//      - params -> paramsKeys
-//      - queryVars -> queryVarsKeys
-//      - headers -> headersKeys
-//   - keep only size in:
-//      - payload -> payloadSize
-//      - actions.ACTION_PATH.args.data -> dataSize
-//      - actions.ACTION_PATH.responses.content -> contentSize
-//      - response.content -> contentSize
+//   - params, queryVars, headers:
+//      - apply server option loggerFilter.params|queryVars|headers, which is
+//        either a simple mapping function or a list of attribute names.
+//        It defaults to returning an empty object.
+//   - payload, actions.ACTION_PATH.args.data,
+//     actions.ACTION_PATH.responses.content, response.content:
+//      - apply server option loggerFilter.payload|argData|actionResponses|
+//        response, which is either a simple mapping function or a list of
+//        attribute names. It is applied to each model if the value is an array.
+//        It defaults to keeping only 'id'.
+//      - set JSON size, e.g. `payloadSize`
+//        'unknown' if cannot calculate. Not set if value is undefined.
+//      - set array length, e.g. `payloadCount` if it is an array.
 // Also rename `errorReason` to `error`.
-const getRequestInfo = function (log) {
-  const requestInfo = omit(cloneDeep(log), excludedKeys);
+const getRequestInfo = function (log, loggerFilter) {
+  const requestInfo = removeKeys(cloneDeep(log));
 
   setError(requestInfo);
-  setParams(requestInfo);
-  setQueryVars(requestInfo);
-  setHeaders(requestInfo);
-  setPayload(requestInfo);
-  setActions(requestInfo);
-  setResponse(requestInfo);
+  reduceInput(requestInfo, loggerFilter);
+  reduceAllModels(requestInfo, loggerFilter);
 
   return requestInfo;
 };
 
+
+const removeKeys = function (requestInfo) {
+  return omit(requestInfo, excludedKeys);
+};
 const excludedKeys = [
   // Those are already present in errorInfo
   'action',
@@ -70,82 +74,112 @@ const excludedKeys = [
 
 const setError = function (requestInfo) {
   if (!requestInfo.errorReason) { return; }
-
   requestInfo.error = requestInfo.errorReason;
   delete requestInfo.errorReason;
 };
 
-const setParams = function (requestInfo) {
-  if (!requestInfo.params) { return; }
-
-  requestInfo.paramsKeys = Object.keys(requestInfo.params);
-  delete requestInfo.params;
+const reduceInput = function (requestInfo, loggerFilter) {
+  setParams(requestInfo, loggerFilter);
+  setQueryVars(requestInfo, loggerFilter);
+  setHeaders(requestInfo, loggerFilter);
 };
 
-const setQueryVars = function (requestInfo) {
-  if (!requestInfo.queryVars) { return; }
-
-  requestInfo.queryVarsKeys = Object.keys(requestInfo.queryVars);
-  delete requestInfo.queryVars;
+const setParams = function (requestInfo, loggerFilter) {
+  const { params } = requestInfo;
+  if (!params || params.constructor !== Object) { return; }
+  requestInfo.params = loggerFilter.params(params);
 };
 
-const setHeaders = function (requestInfo) {
-  if (!requestInfo.headers) { return; }
-
-  requestInfo.headersKeys = Object.keys(requestInfo.headers);
-  delete requestInfo.headers;
+const setQueryVars = function (requestInfo, loggerFilter) {
+  const { queryVars } = requestInfo;
+  if (!queryVars || queryVars.constructor !== Object) { return; }
+  requestInfo.queryVars = loggerFilter.queryVars(queryVars);
 };
 
-const setPayload = function (requestInfo) {
-  requestInfo.payloadSize = requestInfo.payload === undefined
-    ? 0
-    : JSON.stringify(requestInfo.payload).length;
-  delete requestInfo.payload;
+const setHeaders = function (requestInfo, loggerFilter) {
+  const { headers } = requestInfo;
+  if (!headers || headers.constructor !== Object) { return; }
+  requestInfo.headers = loggerFilter.headers(headers);
 };
 
-const setActions = function (requestInfo) {
-  if (!requestInfo.actions) { return; }
-
-  for (const actionInfo of Object.values(requestInfo.actions)) {
-    setAction(actionInfo);
-  }
+const reduceAllModels = function (requestInfo, loggerFilter) {
+  setPayload(requestInfo, loggerFilter);
+  setActions(requestInfo, loggerFilter);
+  setResponse(requestInfo, loggerFilter);
 };
 
-const setAction = function (actionInfo) {
-  setArgData(actionInfo);
-  setActionResponses(actionInfo);
-};
-
-const setArgData = function (actionInfo) {
-  const { args } = actionInfo;
-  if (!args || !args.data) { return; }
-
-  args.dataSize = JSON.stringify(args.data).length;
-  delete args.data;
-};
-
-const setActionResponses = function (actionInfo) {
-  const { responses } = actionInfo;
-  if (!responses) { return; }
-
-  actionInfo.responses = responses.map(response => {
-    setActionResponse(response);
-    return response;
+const setPayload = function (requestInfo, loggerFilter) {
+  reduceModels({
+    info: requestInfo,
+    attrName: 'payload',
+    filter: loggerFilter.payload,
   });
 };
 
-const setActionResponse = function (response) {
-  if (!response.content) { return; }
+const setActions = function (requestInfo, loggerFilter) {
+  const { actions } = requestInfo;
+  if (!actions || actions.constructor !== Object) { return; }
 
-  response.contentSize = JSON.stringify(response.content).length;
-  delete response.content;
+  for (const actionInfo of Object.values(actions)) {
+    setArgData(actionInfo, loggerFilter);
+    setActionResponses(actionInfo, loggerFilter);
+  }
 };
 
-const setResponse = function (requestInfo) {
-  if (!requestInfo.response) { return; }
+const setArgData = function (actionInfo, loggerFilter) {
+  reduceModels({
+    info: actionInfo.args,
+    attrName: 'data',
+    filter: loggerFilter.argData,
+  });
+};
 
-  requestInfo.responseSize = JSON.stringify(requestInfo.response).length;
-  delete requestInfo.response;
+const setActionResponses = function (actionInfo, loggerFilter) {
+  if (actionInfo.responses && actionInfo.responses instanceof Array) {
+    actionInfo.responses = actionInfo.responses.map(({ content } = {}) => {
+      return content;
+    });
+  }
+
+  reduceModels({
+    info: actionInfo,
+    attrName: 'responses',
+    filter: loggerFilter.actionResponses,
+  });
+};
+
+const setResponse = function (requestInfo, loggerFilter) {
+  reduceModels({
+    info: requestInfo,
+    attrName: 'response',
+    filter: loggerFilter.response,
+  });
+};
+
+const reduceModels = function ({ info, attrName, filter }) {
+  if (!info) { return; }
+
+  if (info[attrName] === undefined) { return; }
+
+  let size;
+  try {
+    size = JSON.stringify(info[attrName]).length;
+  } catch (e) {
+    size = 'unknown';
+  }
+  info[`${attrName}Size`] = size;
+
+  if (info[attrName] instanceof Array) {
+    info[`${attrName}Count`] = info[attrName].length;
+    info[attrName] = info[attrName].map(obj => {
+      if (!obj || obj.constructor !== Object) { return; }
+      return filter(obj);
+    });
+  } else if (info[attrName] && info[attrName].constructor === Object) {
+    info[attrName] = filter(info[attrName]);
+  } else if (!info[attrName]) {
+    delete info[attrName];
+  }
 };
 
 
