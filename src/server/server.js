@@ -31,10 +31,11 @@ const startServer = async function (options = {}) {
 
 const start = async function (options) {
   const opts = await processOptions(options);
+  const { startupLog } = opts;
 
   // Those two callbacks must be called by each server
   opts.handleRequest = await startChain(opts);
-  opts.handleListening = handleListening.bind(null, opts);
+  opts.handleListening = handleListening.bind(null, startupLog);
 
   // Start each server
   const httpServer = httpStartServer(opts);
@@ -45,7 +46,7 @@ const start = async function (options) {
   return servers;
 };
 
-const handleListening = function ({ startupLog }, { protocol, host, port }) {
+const handleListening = function (startupLog, { protocol, host, port }) {
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
   startupLog.log(message);
 };

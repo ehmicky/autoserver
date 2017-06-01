@@ -50,7 +50,7 @@ class Log {
 
     if (this.type === 'request') {
       logObj.requestInfo = getRequestInfo(this._info, this.loggerFilter);
-      if (logObj.type === 'request') {
+      if (logObj.type === 'call') {
         rawMessage = getRequestMessage(logObj.requestInfo);
       }
     }
