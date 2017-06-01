@@ -40,7 +40,7 @@ const getPrefixLevel = function (level) {
 const levelsMaxLength = Math.max(...LEVELS.map(level => level.length));
 
 const getPrefixTimestamp = function (timestamp) {
-  return timestamp;
+  return timestamp.replace('T', ' ').replace(/([0-9])Z$/, '$1');
 };
 
 const getPrefixRequestId = function (requestId) {
