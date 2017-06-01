@@ -11,7 +11,7 @@ const types = ['generic', 'failure', 'request'];
 const typesMaxLength = Math.max(...types.map(type => type.length));
 const noConsoleTypes = [];
 
-const requestIdLength = 36;
+const requestIdLength = 8;
 
 const report = function (logger, loggerLevel, level, rawMessage, logObj) {
   const {
@@ -43,7 +43,7 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj) {
 const getPrefix = function ({ type, level, timestamp, requestId }) {
   const logType = type.toUpperCase().padEnd(typesMaxLength);
   const logLevel = level.toUpperCase().padEnd(levelsMaxLength);
-  const logRequestId = requestId.padEnd(requestIdLength);
+  const logRequestId = requestId.substr(0, 8).padEnd(requestIdLength);
 
   const prefix = `[${logType}] [${logLevel}] [${timestamp}] [${logRequestId}]`;
   return prefix;
