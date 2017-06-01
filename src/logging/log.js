@@ -13,9 +13,9 @@ const reportSym = Symbol('report');
 
 class Log {
 
-  constructor({ opts: { logger, loggerLevel, loggerFilter }, type }) {
+  constructor({ opts: { logger, loggerLevel, loggerFilter }, phase }) {
     this._info = {};
-    Object.assign(this, { logger, loggerLevel, loggerFilter, type });
+    Object.assign(this, { logger, loggerLevel, loggerFilter, phase });
   }
 
   add(obj) {
@@ -48,14 +48,14 @@ class Log {
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
     }
 
-    if (this.type === 'request') {
+    if (this.phase === 'request') {
       logObj.requestInfo = getRequestInfo(this._info, this.loggerFilter);
       if (logObj.type === 'call') {
         rawMessage = getRequestMessage(logObj.requestInfo);
       }
     }
 
-    logObj.phase = this.type;
+    logObj.phase = this.phase;
 
     report(this.logger, this.loggerLevel, level, rawMessage, logObj);
   }

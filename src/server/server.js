@@ -20,7 +20,7 @@ global.apiEngineDirName = resolve(__dirname, '../..');
  * @param {object} options.idl - IDL definitions
  */
 const startServer = async function (options = {}) {
-  options.startupLog = new Log({ opts: options, type: 'startup' });
+  options.startupLog = new Log({ opts: options, phase: 'startup' });
 
   try {
     return await start(options);

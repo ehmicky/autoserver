@@ -9,7 +9,7 @@ const { handleFailure } = require('./failure');
 // Error handler, which sends final response, if errors
 const errorHandler = function (opts) {
   return async function errorHandler(specific) {
-    const log = new Log({ opts, type: 'request' });
+    const log = new Log({ opts, phase: 'request' });
     const input = { specific, log };
 
     try {
