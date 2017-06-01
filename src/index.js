@@ -5,8 +5,6 @@ const { startServer } = require('./server');
 const { propertiesPlugin } = require('./idl');
 
 
-Error.stackTraceLimit = 100;
-
 startServer({
   conf: './examples/pet.schema.yml',
   logger(info) {
