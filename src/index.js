@@ -7,9 +7,11 @@ const { propertiesPlugin } = require('./idl');
 
 startServer({
   conf: './examples/pet.schema.yml',
-  logger(info) {
-    global.console.log('LOGGER', JSON.stringify(info, null, 2));
-  },
+  // Information to send for monitoring
+  // Triggered on server startup, shutdowns, requests, errors, logs
+  //logger(info) {
+  //  global.console.log('Sending to monitoring tool', JSON.stringify(info, null, 2));
+  //},
   // Customize what is logged as `requestInfo`
   loggerFilter: {
     // Can be a mapping function, or a list of attributes
