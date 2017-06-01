@@ -1,7 +1,6 @@
 'use strict';
 
 
-const { colorize } = require('./colorize');
 const { TYPES, LEVELS } = require('./constants');
 
 
@@ -15,8 +14,7 @@ const getMessage = function ({
 }) {
   const prefix = getPrefix({ phase, type, level, timestamp, requestId });
   const message = `${prefix} ${rawMessage}`;
-  const colorMessage = colorize(level, message);
-  return colorMessage;
+  return message;
 };
 
 const getPrefix = function ({ phase, type, level, timestamp, requestId }) {

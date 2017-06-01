@@ -1,19 +1,23 @@
 'use strict';
 
 
-const { magenta, green, yellow, red, dim } = require('chalk');
+const { magenta, green, yellow, red, gray, reset, dim } = require('chalk');
 
 
-const colorize = function (level, message) {
+const colorize = function ({ type, level, message }) {
   const [, first, second, third, , fourth = ''] = messageRegExp.test(message)
     ? messageRegExp.exec(message)
     : shortMessageRexExp.exec(message);
+
+  const coloredFourth = type === 'failure'
+    ? colorStack({ stack: fourth })
+    : dim(fourth);
 
   const colorMessage = [
     colors[level].bold(first),
     colors[level](second),
     third,
-    dim(fourth),
+    coloredFourth,
   ].join(' ');
 
   return colorMessage;
@@ -23,6 +27,21 @@ const colorize = function (level, message) {
 const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n|\r)*) (- (.|\n|\r)*)/;
 // Look for [...] [...] [...] [...] ...
 const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n|\r)*)/;
+
+// Make it easy to read stack trace with color hints
+const colorStack = function ({ stack }) {
+  return stack
+    // Error message is the most visible, other lines (stack trace) are gray
+    .replace(/.*/, firstLine => reset.dim(firstLine))
+    .replace(/(.*\n|\r)(.*)/, (_, firstLine, secondLine) =>
+      firstLine + reset(secondLine))
+    .replace(/.*/g, allLines => gray(allLines))
+    // Filepath is a bit more visible, and so is line number
+    .replace(/(\/[^:]+)(:)([0-9]+)(:[0-9]+)/g, (_, path, colon, line, loc) =>
+      reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc))
+    // Filepath slashes are less visible, so the filenames are easy to pick
+    .replace(/\//g, slash => gray(slash));
+};
 
 const colors = {
   info: magenta,

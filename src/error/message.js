@@ -1,9 +1,6 @@
 'use strict';
 
 
-const chalk = require('chalk');
-
-
 const getErrorMessage = function ({
   error: {
     type,
@@ -17,18 +14,16 @@ const getErrorMessage = function ({
 }) {
   const stack = getStack(description, details);
   const message = [
-    type,
-    protocol || interf || action_path || command ? '-' : '',
     protocol,
     interf,
     action_path,
     command,
-    '\n',
     stack,
   ].filter(val => val)
     .join(' ');
+  const fullMessage = message ? `${type} - ${message}` : type;
 
-  return message;
+  return fullMessage;
 };
 
 const getStack = function (description, details = '') {
@@ -39,19 +34,8 @@ const getStack = function (description, details = '') {
   const dirPrefixRegExp = new RegExp(global.apiEngineDirName, 'g');
   const trimmedStack = stack.replace(dirPrefixRegExp, '');
 
-  // Make it easy to read stack trace with color hints
-  const coloredStack = trimmedStack
-    // First line is the most visible, other lines are gray
-    .replace(/.*/, firstLine => chalk.reset(firstLine))
-    .replace(/.*/g, allLines => chalk.gray(allLines))
-    // Filepath is a bit more visible
-    .replace(/(\/[^:]+)(:[0-9]+:[0-9]+)/g, (_, path, fileLoc) => {
-      return chalk.reset.dim(path) + chalk.gray(fileLoc);
-    })
-    // Filepath slashes are less visible, so the filenames are easy to pick
-    .replace(/\//g, slash => chalk.gray(slash));
-
-  return coloredStack;
+  const finalStack = trimmedStack ? `\n${trimmedStack}` : '';
+  return finalStack;
 };
 
 
