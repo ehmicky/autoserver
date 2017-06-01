@@ -75,6 +75,10 @@ class EngineError extends Error {
 const allowedOpts = ['reason', 'innererror', 'extra'];
 const requiredOpts = ['reason'];
 
+// This is a global variable, i.e. affects calling code,
+// but we do want big stack traces.
+Error.stackTraceLimit = 100;
+
 
 module.exports = {
   EngineError,
