@@ -1,4 +1,4 @@
 {
-  "exec": "node --inspect",
+  "exec": "sleep 1 && node --inspect",
   "ext": ".js,.json,.yml,.yaml"
 }
