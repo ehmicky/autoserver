@@ -1,8 +1,8 @@
 'use strict';
 
 
-const { STATUS_LEVEL_MAP } = require('../../logging');
-const { getErrorMessage } = require('../../error');
+const { STATUS_LEVEL_MAP } = require('../../../logging');
+const { getErrorMessage } = require('../../../error');
 
 
 const reportError = function ({ log, error = {} }) {

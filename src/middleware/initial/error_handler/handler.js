@@ -1,16 +1,14 @@
 'use strict';
 
 
-const { Log } = require('../../logging');
 const { handleError } = require('./error');
 const { handleFailure } = require('./failure');
 
 
 // Error handler, which sends final response, if errors
-const errorHandler = function (opts) {
-  return async function errorHandler(specific) {
-    const log = new Log({ opts, phase: 'request' });
-    const input = { specific, log };
+const errorHandler = function () {
+  return async function errorHandler(input) {
+    const { log } = input;
 
     try {
       const response = await this.next(input);
