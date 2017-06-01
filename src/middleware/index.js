@@ -3,7 +3,7 @@
 
 module.exports = Object.assign(
   {},
-  require('./error_handler'),
+  require('./initial'),
   require('./protocol'),
   require('./interface'),
   require('./action'),

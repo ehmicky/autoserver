@@ -12,8 +12,10 @@ const startChain = async function (opts) {
 
   const allMiddlewares = chain([
     /**
-     * Catch-all error handler
+     * Initial layer
      **/
+    // Setup basic input
+    mdw.setupInput,
     // Error handler, which sends final response, if errors
     mdw.errorHandler,
 
