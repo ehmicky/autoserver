@@ -13,6 +13,8 @@ const PHASES = [
 const TYPES = [
   // Generic type
   'message',
+  // The server started and is ready to process requests
+  'start',
   // The server responded to a client request (either successful or not)
   'call',
   // An exception was thrown or an error occured
