@@ -7,6 +7,7 @@ const { Log } = require('../logging');
 const { processOptions } = require('../options');
 const { startChain } = require('./chain');
 const { httpStartServer } = require('./http');
+const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./error');
 
 
@@ -41,12 +42,15 @@ const start = async function (options) {
   const httpServer = httpStartServer(opts);
 
   // Make sure all servers are starting concurrently, not serially
-  const [http] = await Promise.all([httpServer]);
+  const servers = await Promise.all([httpServer]);
+  const [http] = servers;
 
   startupLog.log('Server is ready', { type: 'start' });
 
-  const servers = { http };
-  return servers;
+  setupGracefulExit({ servers, opts });
+
+  const serversObj = { http };
+  return serversObj;
 };
 
 const handleListening = function (startupLog, { protocol, host, port }) {
