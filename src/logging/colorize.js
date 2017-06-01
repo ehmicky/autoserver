@@ -24,18 +24,18 @@ const colorize = function ({ type, level, message }) {
 };
 
 // Look for [...] [...] [...] [...] ... - ...
-const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n|\r)*) (- (.|\n|\r)*)/;
+const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n)*) (- (.|\n)*)/;
 // Look for [...] [...] [...] [...] ...
-const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n|\r)*)/;
+const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n)*)/;
 
 // Make it easy to read stack trace with color hints
 const colorStack = function ({ stack }) {
   return stack
     // Error message is the most visible, other lines (stack trace) are gray
     .replace(/.*/, firstLine => reset.dim(firstLine))
-    .replace(/(.*\n|\r)(.*)/, (_, firstLine, secondLine) =>
+    .replace(/(.*\n)(([^ ].*\n)*)/, (_, firstLine, secondLine) =>
       firstLine + reset(secondLine))
-    .replace(/.*/g, allLines => gray(allLines))
+    .replace(/ {4,}at.*/g, allLines => gray(allLines))
     // Filepath is a bit more visible, and so is line number
     .replace(/(\/[^:]+)(:)([0-9]+)(:[0-9]+)/g, (_, path, colon, line, loc) =>
       reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc))
