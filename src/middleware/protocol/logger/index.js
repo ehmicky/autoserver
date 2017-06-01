@@ -31,7 +31,7 @@ const logger = function () {
 
 const handleLog = function ({ input: { log, status = 'SERVER_ERROR' } }) {
   const level = STATUS_LEVEL_MAP[status] || 'error';
-  log[level]('', { type: 'request' });
+  log[level]('', { type: 'call' });
 };
 
 const addErrorReason = function ({ error, input: { log } }) {
