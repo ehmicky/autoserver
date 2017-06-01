@@ -18,6 +18,8 @@ const startChain = async function (opts) {
     mdw.setupInput,
     // Error handler, which sends final response, if errors
     mdw.errorHandler,
+    // Buffers log calls
+    mdw.loggingBuffer,
 
     /**
      * Protocol layer
