@@ -2,6 +2,7 @@
 
 
 const { getMessage } = require('./message');
+const { colorize } = require('./colorize');
 const { consolePrint } = require('./console');
 
 
@@ -25,13 +26,14 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj) {
     requestId,
     rawMessage,
   });
+  const colorMessage = colorize({ type, level, message });
 
   if (logger) {
     const info = Object.assign({}, logObj, { timestamp, type, level, message });
     logger(info);
   }
 
-  consolePrint({ type, level, message, loggerLevel });
+  consolePrint({ type, level, message: colorMessage, loggerLevel });
 };
 
 
