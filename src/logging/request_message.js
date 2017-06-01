@@ -2,7 +2,7 @@
 
 
 const getRequestMessage = function ({
-  protocolFullName,
+  protocol,
   protocolMethod,
   path,
   protocolStatus,
@@ -15,7 +15,7 @@ const getRequestMessage = function ({
     protocolStatus,
     error,
     '-',
-    protocolFullName,
+    protocol,
     protocolMethod,
     path,
     action,
