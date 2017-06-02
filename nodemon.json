@@ -1,4 +1,4 @@
 {
-  "exec": "sleep 1 && node --inspect --trace-sync-io",
+  "exec": "sleep 1 && node --inspect",
   "ext": ".js,.json,.yml,.yaml"
 }
