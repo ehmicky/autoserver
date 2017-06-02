@@ -5,6 +5,7 @@ const { cloneDeep } = require('lodash');
 
 const { deepMerge, buffer } = require('../utilities');
 const { EngineError } = require('../error');
+const { getServerInfo } = require('../info');
 const { report } = require('./report');
 const { getRequestInfo } = require('./request_info');
 const { getRequestMessage } = require('./request_message');
@@ -53,6 +54,25 @@ const { LEVELS } = require('./constants');
 //           the log to be too big, or leak security information
 //     - loggerErrors {string[]} - when logging fails, it is retried with
 //       an exponential delay, and this property is set with the error messages.
+//     - serverInfo {object} - server or host-specific information
+//         - system {object}:
+//            - hostname {string}
+//            - osType {string} - e.g. 'Linux'
+//            - platform {string} - e.g. 'linux'
+//            - release {string} - e.g. '4.8.0-52-generic'
+//            - arch {string} - e.g. 'x64'
+//         - stats {object}
+//            - memory {number} - total memory in bytes
+//            - cpus {number} - number of CPUs
+//            - uptime {number} - how long the server has been running, in secs
+//         - node {object}
+//            - version {string} - e.g. 'v8.0.0'
+//         - apiEngine {object}
+//            - version {string} - e.g. '0.0.1'
+//         - serverId {UUID} - specific to a given process
+//         - serverName {UUID} - specific to a given machine.
+//           Uses (if defined) the environment variable API_ENGINE_SERVER_NAME,
+//           or otherwise the system hostname, or empty string if not available.
 // A textual summary is also printed on the console:
 //  - colorized, unless `node --no-color` or terminal does not support colors
 //  - will be filtered according to server option `loggerLevel`:
@@ -111,6 +131,8 @@ class Log {
     if (includeMessagesTypes.includes(type)) {
       logObj.messages = cloneDeep(this._messages);
     }
+
+    logObj.serverInfo = getServerInfo();
 
     report(this.logger, this.loggerLevel, level, rawMessage, logObj);
   }
