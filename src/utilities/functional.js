@@ -109,9 +109,16 @@ const deepMerge = function (objA, objB, ...objects) {
 };
 
 // Enforces that a function is only called once
-const onlyOnce = function (func) {
+const onlyOnce = function (func, { error = false } = {}) {
   return (...args) => {
-    if (func.called) { return; }
+    if (func.called) {
+      if (error) {
+        throw new Error('This function can only be called once');
+      } else {
+        return;
+      }
+    }
+
     func.called = true;
     return func(...args);
   };
