@@ -19,6 +19,9 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj) {
       // Reuse the request timestamp if possible
       timestamp = (new Date()).toISOString(),
     } = {},
+    serverInfo: {
+      serverName,
+    },
     phase,
   } = logObj;
 
@@ -29,6 +32,7 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj) {
     level,
     timestamp,
     requestId,
+    serverName,
     rawMessage,
   });
 

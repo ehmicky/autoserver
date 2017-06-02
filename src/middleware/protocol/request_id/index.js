@@ -4,6 +4,7 @@
 const uuidv4 = require('uuid/v4');
 
 const { httpHeaders } = require('../../../parsing');
+const { getServerInfo } = require('../../../info');
 
 
 // Assigns unique ID (UUIDv4) to each request
@@ -12,7 +13,8 @@ const { httpHeaders } = require('../../../parsing');
 //  - logs, as `requestId`
 //  - JSL parameters, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`
-const setRequestId = function () {
+// Also send response headers for `X-Server-Name` and `X-Server-Id`
+const setRequestIds = function () {
   return async function setRequestId(input) {
     const { jsl, log } = input;
 
@@ -23,17 +25,24 @@ const setRequestId = function () {
     Object.assign(input, { requestId, jsl: newJsl });
 
     sendRequestIdHeader(input);
+    sendServerIdsHeaders(input);
 
     const response = await this.next(input);
     return response;
   };
 };
 
-// Send e.g. HTTP request header
+// Send e.g. HTTP request header, `X-Request-Id`
 const sendRequestIdHeader = function ({ specific, protocol, requestId }) {
-  const sendHeader = sendHeadersMap[protocol].send;
   const headers = { 'X-Request-Id': requestId };
-  sendHeader({ specific, headers });
+  sendHeadersMap[protocol].send({ specific, headers });
+};
+
+// Send e.g. HTTP request header, `X-Server-Name` and `X-Server-Id`
+const sendServerIdsHeaders = function ({ specific, protocol }) {
+  const { serverId, serverName } = getServerInfo();
+  const headers = { 'X-Server-Name': serverName, 'X-Server-Id': serverId };
+  sendHeadersMap[protocol].send({ specific, headers });
 };
 
 const sendHeadersMap = {
@@ -42,5 +51,5 @@ const sendHeadersMap = {
 
 
 module.exports = {
-  setRequestId,
+  setRequestIds,
 };

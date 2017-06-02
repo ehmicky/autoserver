@@ -26,9 +26,9 @@ const colorize = function ({ type, level, message }) {
 };
 
 // Look for [...] [...] [...] [...] ... - ...
-const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n)*) (- (.|\n)*)/;
+const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\]) ((.|\n)*) (- (.|\n)*)/;
 // Look for [...] [...] [...] [...] ...
-const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\]) ((.|\n)*)/;
+const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\]) ((.|\n)*)/;
 
 // Make it easy to read stack trace with color hints
 const colorStack = function ({ stack }) {

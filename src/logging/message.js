@@ -5,7 +5,7 @@ const { TYPES, LEVELS } = require('./constants');
 
 
 // Build a standardized log message:
-// [TYPE] [LEVEL] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
+// [TYPE] [LEVEL] [SERVER_NAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestId if phase is `request`
 const getMessage = function ({
@@ -14,18 +14,34 @@ const getMessage = function ({
   level,
   timestamp,
   requestId,
+  serverName,
   rawMessage,
 }) {
-  const prefix = getPrefix({ phase, type, level, timestamp, requestId });
+  const prefix = getPrefix({
+    phase,
+    type,
+    level,
+    timestamp,
+    requestId,
+    serverName,
+  });
   const message = `${prefix} ${rawMessage}`;
   return message;
 };
 
-// Retrieves `[TYPE] [LEVEL] [TIMESTAMP] [PHASE]`
-const getPrefix = function ({ phase, type, level, timestamp, requestId }) {
+// Retrieves `[TYPE] [LEVEL] [SERVER_NAME] [TIMESTAMP] [PHASE]`
+const getPrefix = function ({
+  phase,
+  type,
+  level,
+  timestamp,
+  requestId,
+  serverName,
+}) {
   const prefixes = [
     getType({ type }),
     getLevel({ level }),
+    getServerName({ serverName }),
     getTimestamp({ timestamp }),
     getRequestId({ phase, requestId }),
   ];
@@ -43,13 +59,18 @@ const getLevel = function ({ level }) {
 };
 const levelsMaxLength = Math.max(...LEVELS.map(level => level.length));
 
+const getServerName = function ({ serverName }) {
+  return serverName.substr(0, serverNameMaxLength).padEnd(serverNameMaxLength);
+};
+const serverNameMaxLength = 12;
+
 const getTimestamp = function ({ timestamp }) {
   return timestamp.replace('T', ' ').replace(/([0-9])Z$/, '$1');
 };
 
 // Either requestId (if phase `request`), or the phase itself
 const getRequestId = function ({ phase, requestId = phase.toUpperCase() }) {
-  return requestId.substr(0, 8).padEnd(requestIdLength);
+  return requestId.substr(0, requestIdLength).padEnd(requestIdLength);
 };
 const requestIdLength = 8;
 
