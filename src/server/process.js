@@ -10,8 +10,11 @@ const processErrorHandler = function ({ opts }) {
   checkUniqueCall();
 
   const log = new Log({ opts, phase: 'process' });
+  log.process = processHandler.bind(null, log);
 
   setupHandlers({ log });
+
+  return log;
 };
 
 // Since `startServer()` manipulates process, e.g. by intercepting signals
@@ -37,24 +40,24 @@ const setupHandlers = function ({ log }) {
 const setupUnhandledRejection = function ({ log }) {
   process.on('unhandledRejection', value => {
     const message = 'A promise was rejected and not handled right away';
-    processHandler({ log, value, message });
+    log.process({ value, message });
   });
 };
 
 const setupRejectionHandled = function ({ log }) {
   process.on('rejectionHandled', () => {
     const message = 'A promise was rejected but handled too late';
-    processHandler({ log, message });
+    log.process({ message });
   });
 };
 
 const setupWarning = function ({ log }) {
   process.on('warning', value => {
-    processHandler({ log, value });
+    log.process({ value });
   });
 };
 
-const processHandler = function ({ log, value, message }) {
+const processHandler = function (log, { value, message }) {
   let innererror;
   if (value instanceof Error) {
     innererror = value;

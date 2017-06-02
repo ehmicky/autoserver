@@ -62,6 +62,11 @@ const validateOptions = function ({ options }) {
         required: ['info', 'log', 'warn', 'error'],
       },
 
+      processLog: {
+        type: 'object',
+        required: ['info', 'log', 'warn', 'error'],
+      },
+
       maxDataLength: {
         type: 'integer',
         minimum: 0,

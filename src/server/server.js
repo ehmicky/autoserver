@@ -32,7 +32,7 @@ const startServer = async function (options = {}) {
 };
 
 const start = async function (options) {
-  processErrorHandler({ opts: options });
+  options.processLog = processErrorHandler({ opts: options });
 
   const opts = await processOptions(options);
   const { startupLog } = opts;
