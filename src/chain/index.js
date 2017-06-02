@@ -19,23 +19,17 @@
  *   - since this binds functions contexts, `this` can only be used to call
  *     `this.next(...)` and functions contexts should not re-bound.
  *
- * @param {function[]} middlewares - non-functions will be ignored
+ * @param {function[]} middlewares
  * @returns {function[]} middlewares
  */
 const chain = function (funcs) {
   return funcs
-    // Allow using null or false in input
-    .filter(isFunction)
     // End of iteration
     .concat(lastFunc)
     // Bind each function context with { next(){} }
     // where `next` points to next function
     .reduceRight(bindFunctions, [])
     .reverse();
-};
-
-const isFunction = function (val) {
-  return typeof val === 'function';
 };
 
 const lastFunc = function (val) {
