@@ -13,6 +13,10 @@ const getStatus = function () {
       setStatus({ input });
       return response;
     } catch (error) {
+      if (!(error instanceof Error)) {
+        error = new Error(String(error));
+      }
+
       setStatus({ input, error });
       throw error;
     }
@@ -25,9 +29,10 @@ const setStatus = function ({ input, error }) {
   const protocolStatus = pStatus ||
     statusMap[protocol].getProtocolStatus({ error });
   const status = statusMap[protocol].getStatus({ protocolStatus });
+  const isStatusError = error !== undefined;
 
   log.add({ protocolStatus, status });
-  Object.assign(input, { protocolStatus, status });
+  Object.assign(input, { protocolStatus, status, isStatusError });
 };
 
 const statusMap = {
