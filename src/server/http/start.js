@@ -21,10 +21,22 @@ const startServer = function ({ handleRequest, handleListening, processLog }) {
     handleListening({ protocol: 'HTTP', host, port });
   });
 
+  handleClientError({ server, log: processLog });
+
   const promise = getPromise();
   server.on('listening', () => promise.resolve(server));
 
   return promise;
+};
+
+// Report TCP client errors
+const handleClientError = function ({ server, log }) {
+  server.on('clientError', (error, socket) => {
+    socket.end('');
+
+    const message = 'Client TCP socket error';
+    log.process({ value: error, message });
+  });
 };
 
 
