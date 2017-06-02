@@ -80,6 +80,8 @@ const parsePrefer = function ({ headers: { prefer } }) {
 
 // Set HTTP header, ready to be sent with response
 const send = function ({ specific: { res }, headers = {} }) {
+  if (res.headersSent) { return; }
+
   for (const [name, value] of Object.entries(headers)) {
     res.setHeader(name, value);
   }
