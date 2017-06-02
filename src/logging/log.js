@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { deepMerge } = require('../utilities');
+const { deepMerge, buffer } = require('../utilities');
 const { EngineError } = require('../error');
 const { report } = require('./logger');
 const { getRequestInfo } = require('./request_info');
@@ -15,8 +15,9 @@ class Log {
 
   constructor({ opts: { logger, loggerLevel, loggerFilter }, phase }) {
     this._info = {};
-    this._isBuffered = false;
-    this._buffer = [];
+
+    this[reportSym] = buffer(this[reportSym], this);
+
     Object.assign(this, { logger, loggerLevel, loggerFilter, phase });
   }
 
@@ -50,11 +51,6 @@ class Log {
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
     }
 
-    if (this._isBuffered) {
-      this._buffer.push({ level, rawMessage, logObj });
-      return;
-    }
-
     if (this.phase === 'request') {
       logObj.requestInfo = getRequestInfo(this._info, this.loggerFilter);
       if (logObj.type === 'call') {
@@ -70,20 +66,8 @@ class Log {
   // Buffer log calls
   // E.g. used in requests when requestInfo is not completely built yet
   _setBuffered(isBuffered) {
-    this._isBuffered = Boolean(isBuffered);
-
-    const hasBufferedCalls = this._buffer.length > 0;
-    if (!isBuffered && hasBufferedCalls) {
-      this._releaseBuffer();
-    }
-  }
-
-  // Release buffered log calls
-  _releaseBuffer() {
-    for (const { level, rawMessage, logObj } of this._buffer) {
-      this[reportSym](level, rawMessage, logObj);
-    }
-    this._buffer = [];
+    const method = isBuffered ? 'cork' : 'uncork';
+    this[reportSym][method]();
   }
 
 }
