@@ -27,7 +27,7 @@ class EngineError extends Error {
     const nonAllowedOpts = difference(optsKeys, allowedOpts);
     if (nonAllowedOpts.length > 0) {
       throw new EngineError(`Cannot use options ${nonAllowedOpts} when throwing 'EngineError'`, {
-        reason: 'WRONG_EXCEPTION',
+        reason: 'UTILITY_ERROR',
       });
     }
 
@@ -35,7 +35,7 @@ class EngineError extends Error {
     const missingOpts = difference(requiredOpts, optsKeys);
     if (missingOpts.length > 0) {
       throw new EngineError(`Must specify options ${missingOpts} when throwing 'EngineError'`, {
-        reason: 'WRONG_EXCEPTION',
+        reason: 'UTILITY_ERROR',
       });
     }
   }
