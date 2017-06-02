@@ -1,69 +1,25 @@
 'use strict';
 
 
-const { resolve } = require('path');
+const EventEmitter2 = require('eventemitter2');
 
-const { Log } = require('../logging');
-const { processErrorHandler } = require('./process');
-const { processOptions } = require('../options');
-const { startChain } = require('./chain');
-const { httpStartServer } = require('./http');
-const { setupGracefulExit } = require('./exit');
-const { handleStartupError } = require('./startup_error');
+const { getServerInfo } = require('../info');
 
 
-// Used e.g. to shorten stack traces
-global.apiEngineDirName = resolve(__dirname, '../..');
+class ApiEngineServer extends EventEmitter2 {
 
-/**
- * Start server for each protocol, for the moment only HTTP
- *
- * @param {object} options
- * @param {object} options.idl - IDL definitions
- */
-const startServer = async function (options = {}) {
-  options.startupLog = new Log({ opts: options, phase: 'startup' });
+  constructor() {
+    super({ wildcard: true });
 
-  try {
-    return await start(options);
-  } catch (error) {
-    handleStartupError(options, error);
+    const { serverId, serverName, apiEngine: { version } } = getServerInfo();
+    const info = { id: serverId, name: serverName, version };
+
+    Object.assign(this, { info });
   }
-};
 
-const start = async function (options) {
-  options.processLog = processErrorHandler({ opts: options });
-
-  const opts = await processOptions(options);
-  const { startupLog } = opts;
-
-  // Those two callbacks must be called by each server
-  opts.handleRequest = await startChain(opts);
-  opts.handleListening = handleListening.bind(null, startupLog);
-
-  // Start each server
-  const httpServer = httpStartServer(opts);
-
-  // Make sure all servers are starting concurrently, not serially
-  const servers = await Promise.all([httpServer]);
-  const [http] = servers;
-
-  setupGracefulExit({ servers, opts });
-
-  // Create log message when all protocol-specific servers have started
-  startupLog.log('Server is ready', { type: 'start' });
-
-  const serversObj = { http };
-  return serversObj;
-};
-
-// Create log message when each protocol-specific server starts
-const handleListening = function (startupLog, { protocol, host, port }) {
-  const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  startupLog.log(message);
-};
+}
 
 
 module.exports = {
-  startServer,
+  ApiEngineServer,
 };

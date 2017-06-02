@@ -18,6 +18,7 @@ const setupGracefulExit = function ({ servers, opts }) {
 
 // Setup graceful exit
 const gracefulExit = onlyOnce(async function ({ servers, opts }) {
+  const { server } = opts;
   const log = new Log({ opts, phase: 'shutdown' });
 
   const closingServers = servers.map(server => closeServer({ server, log }));
@@ -27,7 +28,7 @@ const gracefulExit = onlyOnce(async function ({ servers, opts }) {
 
   logEndShutdown({ log, statuses, failedProtocols, isSuccess });
 
-  exit({ isSuccess });
+  exit({ isSuccess, server });
 });
 
 // Attempts to close server
@@ -105,7 +106,10 @@ const logEndShutdown = function ({
 // Kills main process, with exit code 0 (success) or 1 (failure)
 // This means we consider owning the process, which will be problematic if
 // this is used together with other projects
-const exit = function ({ isSuccess }) {
+const exit = function ({ isSuccess, server }) {
+  const eventName = isSuccess ? 'stop.success' : 'stop.fail';
+  server.emit(eventName);
+
   // Used by Nodemon
   process.kill(process.pid, 'SIGUSR2');
 

@@ -5,13 +5,13 @@ const { getStandardError, getErrorMessage } = require('../error');
 
 
 // Handle exceptions thrown at server startup
-const handleStartupError = function ({ startupLog }, error) {
+const handleStartupError = function ({ startupLog }, server, error) {
   const standardError = getStandardError({ log: startupLog, error });
   const message = getErrorMessage({ error: standardError });
   startupLog.error(message, { type: 'failure', errorInfo: standardError });
 
-  // Startup error are rethrown, as opposed to request errors which are handled
-  throw standardError;
+  // Throws if no listener was setup
+  server.emit('error');
 };
 
 

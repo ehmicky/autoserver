@@ -20,6 +20,10 @@ const validateOptions = function ({ options }) {
         pattern: '^[a-zA-Z0-9_-]+$',
       },
 
+      server: {
+        type: 'object',
+      },
+
       logger: {
         typeof: 'function',
       },
