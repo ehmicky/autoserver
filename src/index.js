@@ -38,11 +38,27 @@ startServer({
   // Project name, used e.g. to namespace HTTP headers
   projectName: 'example_api',
 })
-.then(() => {
+// Returns an EventEmitter2 firing the following events
+// Also has the properties:
+//  - options {object}
+//  - serverId {string}
+//  - serverName {string}
+//  - version {string}
+.on('start', () => {
   global.console.log('Server started');
 })
-.catch(() => {
-  global.console.error('Exception at server startup');
+.on('error', () => {
+  global.console.log('Server startup failed');
+})
+// Can use globbing star
+.on('stop.*', () => {
+  global.console.log('Server exit');
+})
+.on('stop.success', () => {
+  global.console.log('Server exit (success)');
+})
+.on('stop.fail', () => {
+  global.console.log('Server exit (failure)');
 });
 
 
