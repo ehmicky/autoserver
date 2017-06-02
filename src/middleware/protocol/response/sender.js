@@ -7,7 +7,7 @@ const { EngineError } = require('../../../error');
 
 // Sends the HTTP response at the end of the request
 const sender = function (
-  { specific, protocolStatus: status, protocol },
+  { specific, protocolStatus: status = 500, protocol },
   { type, content }
 ) {
   if (!content || !type) {

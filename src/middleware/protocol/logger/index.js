@@ -22,15 +22,20 @@ const logger = function () {
     } catch (error) {
 
       addErrorReason({ error, input });
-      handleLog({ input });
+      handleLog({ error, input });
 
       throw error;
     }
   };
 };
 
-const handleLog = function ({ input: { log, status = 'SERVER_ERROR' } }) {
-  const level = STATUS_LEVEL_MAP[status] || 'error';
+const handleLog = function ({
+  error,
+  input: { log, status = 'SERVER_ERROR' },
+}) {
+  const level = error
+    ? (status === 'CLIENT_ERROR' ? 'warn' : 'error')
+    : (STATUS_LEVEL_MAP[status] || 'error');
   log[level]('', { type: 'call' });
 };
 
