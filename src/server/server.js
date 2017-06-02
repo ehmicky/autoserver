@@ -4,6 +4,7 @@
 const { resolve } = require('path');
 
 const { Log } = require('../logging');
+const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
 const { startChain } = require('./chain');
 const { httpStartServer } = require('./http');
@@ -31,6 +32,8 @@ const startServer = async function (options = {}) {
 };
 
 const start = async function (options) {
+  processErrorHandler({ opts: options });
+
   const opts = await processOptions(options);
   const { startupLog } = opts;
 

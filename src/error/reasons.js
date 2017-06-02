@@ -94,6 +94,9 @@ const errorReasons = {
   // No middleware was able to handle the response
   WRONG_RESPONSE: {},
 
+  // Only one server can be running per process
+  MULTIPLE_SERVERS: {},
+
   // Some utility got some wrong input
   UTILITY_ERROR: {},
 
