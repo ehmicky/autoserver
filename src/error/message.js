@@ -1,6 +1,7 @@
 'use strict';
 
 
+// Retrieve error message of a standard error
 const getErrorMessage = function ({
   error: {
     type,
@@ -12,8 +13,10 @@ const getErrorMessage = function ({
     details,
   },
 }) {
+  // Retrieve both the main message and the stack
   const stack = getStack(description, details);
 
+  // Add request-related info to message
   const message = [
     protocol,
     interf,
@@ -24,17 +27,21 @@ const getErrorMessage = function ({
 
   const messageStack = message && stack
     ? `${message}\n${stack}`
-    : message ? message : stack;
+    : (message ? message : stack);
+
+  // Add error type to message
   const fullMessage = messageStack ? `${type} - ${messageStack}` : type;
 
   return fullMessage;
 };
 
 const getStack = function (description, details = '') {
-  const stack = details.indexOf(description) !== -1
+  // Only include description if it's not already in the stack trace
+  const stack = !description || details.indexOf(description) !== -1
     ? details
     : `${description}\n${details}`;
 
+  // Shorten stack trace directory paths
   const dirPrefixRegExp = new RegExp(global.apiEngineDirName, 'g');
   const trimmedStack = stack.replace(dirPrefixRegExp, '');
 

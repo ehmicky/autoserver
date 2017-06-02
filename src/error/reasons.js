@@ -108,11 +108,13 @@ const errorReasons = {
 
 };
 
+// Get generic standard error properties, according to error reason
 const getGenericProps = function ({ error }) {
   const reason = getReason({ error });
   return errorReasons[reason];
 };
 
+// Get error reason
 const getReason = function ({ error: { reason = 'UNKNOWN' } }) {
   if (!errorReasons[reason]) { return 'UNKNOWN_TYPE'; }
   return reason;

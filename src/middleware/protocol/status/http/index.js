@@ -48,8 +48,9 @@ const protocolStatusesMap = {
 };
 
 // Retrieves generic status, using HTTP status code
-const httpGetStatus = function ({ protocolStatus = 200 }) {
-  return statusesMap[String(protocolStatus)[0]] || 'SERVER_ERROR';
+const httpGetStatus = function ({ protocolStatus }) {
+  const statusCategory = String(protocolStatus)[0];
+  return statusesMap[statusCategory] || 'SERVER_ERROR';
 };
 
 const statusesMap = {

@@ -5,6 +5,7 @@ const { STATUS_LEVEL_MAP } = require('../../../logging');
 const { getErrorMessage } = require('../../../error');
 
 
+// Report any exception thrown, for logging/monitoring
 const reportError = function ({ log, error = {} }) {
   if (!isError({ error })) { return; }
 

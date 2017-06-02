@@ -27,7 +27,7 @@ const getStandardError = function ({
   error,
 }) {
   if (!(error instanceof Error)) {
-    error = new Error(String(error));
+    error = new Error(typeof error === 'string' ? error : '');
   }
 
   const type = getReason({ error });

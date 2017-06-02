@@ -2,6 +2,7 @@
 
 
 const { EngineError } = require('../error');
+const { getPromise } = require('./promise');
 
 
 // Similar to Lodash map() and mapValues(), but with vanilla JavaScript
@@ -163,6 +164,15 @@ const uncorkFunc = function (state, func) {
   state.isBuffered = false;
 };
 
+// Like `setTimeout` but with a promise
+const waitFor = function (delay = 0) {
+  const promise = getPromise();
+  setTimeout(() => {
+    promise.resolve();
+  }, delay);
+  return promise;
+};
+
 
 module.exports = {
   map,
@@ -172,4 +182,5 @@ module.exports = {
   deepMerge,
   onlyOnce,
   buffer,
+  waitFor,
 };
