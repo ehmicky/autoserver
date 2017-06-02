@@ -13,15 +13,19 @@ const getErrorMessage = function ({
   },
 }) {
   const stack = getStack(description, details);
+
   const message = [
     protocol,
     interf,
     action_path,
     command,
-    stack,
   ].filter(val => val)
     .join(' ');
-  const fullMessage = message ? `${type} - ${message}` : type;
+
+  const messageStack = message && stack
+    ? `${message}\n${stack}`
+    : message ? message : stack;
+  const fullMessage = messageStack ? `${type} - ${messageStack}` : type;
 
   return fullMessage;
 };
@@ -34,8 +38,7 @@ const getStack = function (description, details = '') {
   const dirPrefixRegExp = new RegExp(global.apiEngineDirName, 'g');
   const trimmedStack = stack.replace(dirPrefixRegExp, '');
 
-  const finalStack = trimmedStack ? `\n${trimmedStack}` : '';
-  return finalStack;
+  return trimmedStack;
 };
 
 
