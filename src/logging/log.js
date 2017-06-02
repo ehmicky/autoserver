@@ -1,6 +1,8 @@
 'use strict';
 
 
+const { cloneDeep } = require('lodash');
+
 const { deepMerge, buffer } = require('../utilities');
 const { EngineError } = require('../error');
 const { report } = require('./logger');
@@ -13,11 +15,13 @@ class Log {
 
   constructor({ opts: { logger, loggerLevel, loggerFilter }, phase }) {
     this._info = {};
+    this._messages = {};
 
     this._report = buffer(this._report, this);
 
     for (const level of LEVELS) {
       this[level] = this._report.bind(this, level);
+      this._messages[level] = [];
     }
 
     Object.assign(this, { logger, loggerLevel, loggerFilter, phase });
@@ -48,6 +52,14 @@ class Log {
       }
     }
 
+    if (type === 'message') {
+      this._messages[level].push(rawMessage);
+    }
+
+    if (includeMessagesTypes.includes(type)) {
+      logObj.messages = cloneDeep(this._messages);
+    }
+
     report(this.logger, this.loggerLevel, level, rawMessage, logObj);
   }
 
@@ -59,6 +71,8 @@ class Log {
   }
 
 }
+
+const includeMessagesTypes = ['start', 'call', 'failure', 'stop'];
 
 
 module.exports = {
