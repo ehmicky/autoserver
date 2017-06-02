@@ -8,7 +8,7 @@ const { consolePrint } = require('./console');
 
 const report = function (logger, loggerLevel, level, rawMessage, logObj) {
   const {
-    type = 'message',
+    type,
     requestInfo: {
       // Used in message prefix
       requestId,
