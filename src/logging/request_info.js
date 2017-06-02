@@ -4,36 +4,45 @@
 const { cloneDeep, omit } = require('lodash');
 
 
-//   - requestId
-//   - timestamp
-//   - ip
-//   - protocol
-//   - protocolFullName
-//   - url
-//   - path
-//   - route
-//   - protocolMethod
-//   - method
-//   - status
-//   - protocolStatus
-//   - pathVars
-//   - (params)
-//   - (queryVars)
-//   - (headers)
-//   - (payload)
-//   - protocolArgs
-//   - interface
-//   - (actions):
-//      - ACTION_PATH:
-//          - model
-//          - args (original)
-//          - responses OBJ_ARR:
-//             - content
-//   - (response): content, type
-//   - phase: 'request', 'startup' or 'shutdown'
-//   - error
-
-// Keep almost all properties of log.
+// Builds `requestInfo` object, which contains request-related log information:
+//   - requestId {string}
+//   - timestamp {string}
+//   - ip {string}
+//   - protocol {string} - e.g. http
+//   - protocolFullName {string} - e.g. HTTP/1.1
+//   - url {string} - full URL
+//   - path {string} - only the URL path, with no query string nor hash
+//   - route {string} - internal route picked according to the URL,
+//     among `graphql`, `graphiql` and `graphqlprint`
+//   - protocolMethod {string} - protocol-specific method, e.g. GET
+//   - method {string} - protocol-agnostic method, e.g. `find`
+//   - protocolStatus {string} - protocol-specific status, e.g. HTTP status code
+//   - status {string} - protocol-agnostic status, among 'INTERNALS', 'SUCCESS',
+//     'CLIENT_ERROR' and 'SERVER_ERROR'
+//   - pathVars {object} - URL variables, as a hash table
+//   - params {object} - Parameters, as a hash table.
+//     E.g. app-specific HTTP headers.
+//   - queryVars {object} - Query variables, as a hash table
+//   - headers {object} - protocol headers (e.g. HTTP headers), as a hash table
+//   - payload {any} - request body
+//   - protocolArgs {object} - request arguments, deduced by the system from
+//     the parameters, queryVars, headers, etc.
+//   - interface {string} - interface, among `graphql`, `graphiql` and
+//     `graphqlprint`
+//   - actions {object} - represented all actions fired
+//      - ACTION_PATH {key} - action full path, e.g. 'findModel.findSubmodel'
+//         - model {string} - model name
+//         - args {object} - action arguments, e.g. filter or sort argument
+//         - responses {object[]}
+//            - content {object|object[]} - action response (model or
+//              collection)
+//   - response {object}
+//      - content {string} - full response raw content
+//      - type {string} - among 'model', 'collection', 'error', 'object',
+//        'html', 'text'
+//   - phase {string} - 'request', 'startup', 'shutdown' or 'process'
+//   - error {string} - error reason
+// Each of those fields is optional, i.e. might not be present.
 // Remove some properties of log which could be of big size, specifically:
 //   - params, queryVars, headers:
 //      - apply server option loggerFilter.params|queryVars|headers, which is

@@ -9,7 +9,7 @@ const { processOptions } = require('../options');
 const { startChain } = require('./chain');
 const { httpStartServer } = require('./http');
 const { setupGracefulExit } = require('./exit');
-const { handleStartupError } = require('./error');
+const { handleStartupError } = require('./startup_error');
 
 
 // Used e.g. to shorten stack traces
@@ -48,14 +48,16 @@ const start = async function (options) {
   const servers = await Promise.all([httpServer]);
   const [http] = servers;
 
-  startupLog.log('Server is ready', { type: 'start' });
-
   setupGracefulExit({ servers, opts });
+
+  // Create log message when all protocol-specific servers have started
+  startupLog.log('Server is ready', { type: 'start' });
 
   const serversObj = { http };
   return serversObj;
 };
 
+// Create log message when each protocol-specific server starts
 const handleListening = function (startupLog, { protocol, host, port }) {
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
   startupLog.log(message);

@@ -4,8 +4,7 @@
 const { httpGetStatus, httpGetProtocolStatus } = require('./http');
 
 
-// Retrieve response's status, which is protocol-specific
-// E.g. for HTTP it is status code
+// Retrieve response's status
 const getStatus = function () {
   return async function getStatus(input) {
     try {
@@ -24,11 +23,16 @@ const getStatus = function () {
 };
 
 const setStatus = function ({ input, error }) {
-  const { log, protocol, protocolStatus: pStatus } = input;
+  const { log, protocol, protocolStatus: currentProtocolStatus } = input;
 
-  const protocolStatus = pStatus ||
+  // Protocol-specific status, e.g. HTTP status code
+  const protocolStatus = currentProtocolStatus ||
     statusMap[protocol].getProtocolStatus({ error });
+  // protocol-agnostic status
   const status = statusMap[protocol].getStatus({ protocolStatus });
+
+  // Used to indicate that `status` and `protocolStatus` should be kept
+  // by the `error_status` middleware
   const isStatusError = error !== undefined;
 
   log.add({ protocolStatus, status });

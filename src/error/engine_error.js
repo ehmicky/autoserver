@@ -4,6 +4,8 @@
 const { difference } = require('lodash');
 
 
+// Note that any exception thrown in the `error` module might not be logged
+// (since this is the error), so we must be precautious.
 class EngineError extends Error {
 
   constructor(message, opts = {}) {
@@ -26,17 +28,15 @@ class EngineError extends Error {
     const optsKeys = Object.keys(opts);
     const nonAllowedOpts = difference(optsKeys, allowedOpts);
     if (nonAllowedOpts.length > 0) {
-      throw new EngineError(`Cannot use options ${nonAllowedOpts} when throwing 'EngineError'`, {
-        reason: 'UTILITY_ERROR',
-      });
+      const message = `Cannot use options ${nonAllowedOpts} when throwing 'EngineError'`;
+      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
     }
 
     // Check required options
     const missingOpts = difference(requiredOpts, optsKeys);
     if (missingOpts.length > 0) {
-      throw new EngineError(`Must specify options ${missingOpts} when throwing 'EngineError'`, {
-        reason: 'UTILITY_ERROR',
-      });
+      const message = `Must specify options ${missingOpts} when throwing 'EngineError'`;
+      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
     }
   }
 
@@ -66,6 +66,7 @@ class EngineError extends Error {
     if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor);
     } else {
+      message = typeof message === 'string' ? message : '';
       this.stack = (new Error(message)).stack;
     }
   }
@@ -74,10 +75,6 @@ class EngineError extends Error {
 
 const allowedOpts = ['reason', 'innererror', 'extra'];
 const requiredOpts = ['reason'];
-
-// This is a global variable, i.e. affects calling code,
-// but we do want big stack traces.
-Error.stackTraceLimit = 100;
 
 
 module.exports = {

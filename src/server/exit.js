@@ -16,6 +16,7 @@ const setupGracefulExit = function ({ servers, opts }) {
   process.once('SIGUSR2', gracefulExit.bind(null, { servers, opts }));
 };
 
+// Setup graceful exit
 const gracefulExit = onlyOnce(async function ({ servers, opts }) {
   const log = new Log({ opts, phase: 'shutdown' });
 
@@ -41,6 +42,7 @@ const closeServer = async function ({ server, log }) {
   return [protocol, status];
 };
 
+// Logs that graceful exit is ongoing, for each protocol
 const logStartShutdown = async function ({ server, log, protocol }) {
   try {
     const connectionsCount = await server.countPendingRequests();
@@ -52,9 +54,11 @@ const logStartShutdown = async function ({ server, log, protocol }) {
   }
 };
 
+// Ask each server to close
 const shutdownServer = async function ({ server, log, protocol }) {
   try {
     await server.stop();
+    // Logs that graceful exit is done, for each protocol
     const message = `${protocol} - Successful shutdown`;
     log.log(message);
     return true;
@@ -70,6 +74,7 @@ const handleError = async function ({ log, error, errorMessage }) {
   log.error(errorMessage, { type: 'failure', errorInfo });
 };
 
+// Retrieves which servers exits have failed, if any
 const processStatuses = function ({ statuses }) {
   const failedProtocols = statuses
     .filter(([, status]) => !status)
@@ -97,6 +102,9 @@ const logEndShutdown = function ({
   log[level](message, { type: 'stop', exitStatuses });
 };
 
+// Kills main process, with exit code 0 (success) or 1 (failure)
+// This means we consider owning the process, which will be problematic if
+// this is used together with other projects
 const exit = function ({ isSuccess }) {
   // Used by Nodemon
   process.kill(process.pid, 'SIGUSR2');

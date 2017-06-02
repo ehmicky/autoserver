@@ -6,10 +6,12 @@ const { Log } = require('../logging');
 const { EngineError, getStandardError, getErrorMessage } = require('../error');
 
 
+// Error handling for all failures that are process-related
 const processErrorHandler = function ({ opts }) {
   checkUniqueCall();
 
   const log = new Log({ opts, phase: 'process' });
+  // Shortcut method
   log.process = processHandler.bind(null, log);
 
   setupHandlers({ log });
@@ -57,11 +59,12 @@ const setupWarning = function ({ log }) {
   });
 };
 
+// Report process problems as logs with type 'failure'
 const processHandler = function (log, { value, message }) {
   let innererror;
   if (value instanceof Error) {
     innererror = value;
-  } else if (typeof value === 'string') {
+  } else {
     const message = typeof value === 'string' ? value : '';
     innererror = new EngineError(message, { reason: 'PROCESS_ERROR' });
   }

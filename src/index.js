@@ -10,7 +10,8 @@ startServer({
   // Information to send for monitoring
   // Triggered on server startup, shutdowns, requests, errors, logs
   //logger(info) {
-  //  global.console.log('Sending to monitoring tool', JSON.stringify(info, null, 2));
+  //  const jsonInfo = JSON.stringify(info, null, 2);
+  //  global.console.log('Sending to monitoring tool', jsonInfo);
   //},
   // Customize what is logged as `requestInfo`
   loggerFilter: {
