@@ -29,7 +29,23 @@ const checkUniqueCall = function () {
 const uniqueCall = onlyOnce(() => {}, { error: true });
 
 const setupHandlers = function ({ log }) {
+  setupUnhandledRejection({ log });
+  setupRejectionHandled({ log });
   setupWarning({ log });
+};
+
+const setupUnhandledRejection = function ({ log }) {
+  process.on('unhandledRejection', value => {
+    const message = 'A promise was rejected and not handled right away';
+    processHandler({ log, value, message });
+  });
+};
+
+const setupRejectionHandled = function ({ log }) {
+  process.on('rejectionHandled', () => {
+    const message = 'A promise was rejected but handled too late';
+    processHandler({ log, message });
+  });
 };
 
 const setupWarning = function ({ log }) {
