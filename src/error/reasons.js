@@ -100,9 +100,6 @@ const errorReasons = {
   // Some utility got some wrong input
   UTILITY_ERROR: {},
 
-  // Trying to throw an exception with the wrong signature
-  WRONG_EXCEPTION: {},
-
   // The reason type is unknown
   UNKNOWN_TYPE: {},
 
