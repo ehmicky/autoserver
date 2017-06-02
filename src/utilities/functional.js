@@ -117,6 +117,45 @@ const onlyOnce = function (func) {
   };
 };
 
+// Returns the function with the two added methods:
+//   - func.cork() will buffer calls, i.e. it will become a noop
+//   - func.uncork() will release all buffered calls
+const buffer = function (func, context = null) {
+  const state = getBufferState();
+  const newFunc = bufferedFunc.bind(context, state, func);
+
+  const cork = corkFunc.bind(null, state);
+  const uncork = uncorkFunc.bind(context, state, func);
+  Object.assign(newFunc, { cork, uncork });
+
+  return newFunc;
+};
+
+const getBufferState = () => ({
+  isBuffered: false,
+  bufferedCalls: [],
+});
+
+const bufferedFunc = function (state, func, ...args) {
+  if (state.isBuffered) {
+    state.bufferedCalls.push(args);
+    return;
+  }
+
+  func.call(this, ...args);
+};
+
+const corkFunc = function (state) {
+  state.isBuffered = true;
+};
+
+const uncorkFunc = function (state, func) {
+  for (const args of state.bufferedCalls) {
+    func.call(this, ...args);
+  }
+  state.isBuffered = false;
+};
+
 
 module.exports = {
   map,
@@ -125,4 +164,5 @@ module.exports = {
   set,
   deepMerge,
   onlyOnce,
+  buffer,
 };
