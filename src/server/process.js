@@ -2,11 +2,16 @@
 
 
 const { onlyOnce } = require('../utilities');
-const { EngineError } = require('../error');
+const { Log } = require('../logging');
+const { EngineError, getStandardError, getErrorMessage } = require('../error');
 
 
 const processErrorHandler = function ({ opts }) {
   checkUniqueCall();
+
+  const log = new Log({ opts, phase: 'process' });
+
+  setupHandlers({ log });
 };
 
 // Since `startServer()` manipulates process, e.g. by intercepting signals
@@ -18,10 +23,39 @@ const checkUniqueCall = function () {
     uniqueCall();
   } catch (innererror) {
     const message = '\'startServer()\' can only be called once per process.';
-    throw new EngineError(message, { reason: 'MULTIPLE_SERVERS', innererror });
+    throw new EngineError(message, { reason: 'PROCESS_ERROR', innererror });
   }
 };
 const uniqueCall = onlyOnce(() => {}, { error: true });
+
+const setupHandlers = function ({ log }) {
+  setupWarning({ log });
+};
+
+const setupWarning = function ({ log }) {
+  process.on('warning', value => {
+    processHandler({ log, value });
+  });
+};
+
+const processHandler = function ({ log, value, message }) {
+  let innererror;
+  if (value instanceof Error) {
+    innererror = value;
+  } else if (typeof value === 'string') {
+    const message = typeof value === 'string' ? value : '';
+    innererror = new EngineError(message, { reason: 'PROCESS_ERROR' });
+  }
+
+  const error = new EngineError(message, {
+    reason: 'PROCESS_ERROR',
+    innererror,
+  });
+
+  const standardError = getStandardError({ log, error });
+  const errorMessage = getErrorMessage({ error: standardError });
+  log.error(errorMessage, { type: 'failure', errorInfo: standardError });
+};
 
 
 module.exports = {

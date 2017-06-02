@@ -9,6 +9,8 @@ const PHASES = [
   'request',
   // During a server shutdown
   'shutdown',
+  // For the whole process, e.g. warnings and unhandled promises
+  'process',
 ];
 
 // Why the log was performed
