@@ -4,8 +4,7 @@
  * Parses and serializes HTTP headers, used as parameters, i.e. namespaced
  */
 
-const { titleize, dasherize } = require('underscore.string');
-const { mapKeys } = require('lodash');
+const { dasherize } = require('underscore.string');
 const parsePreferHeader = require('parse-prefer-header');
 
 const { EngineError } = require('../../error');
