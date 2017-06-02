@@ -22,30 +22,12 @@ const gracefulExit = onlyOnce(async function ({ servers, opts }) {
   const closingServers = servers.map(server => closeServer({ server, log }));
   const statuses = await Promise.all(closingServers);
 
-  logEndShutdown({ log, statuses });
+  const { failedProtocols, isSuccess } = processStatuses({ statuses });
 
-  // Used by Nodemon
-  process.kill(process.pid, 'SIGUSR2');
+  logEndShutdown({ log, statuses, failedProtocols, isSuccess });
+
+  exit({ isSuccess });
 });
-
-// Log successful or failed shutdown
-const logEndShutdown = function ({ log, statuses }) {
-  const exitStatuses = statuses.reduce((memo, status) => {
-    return Object.assign(memo, status);
-  }, {});
-  const failedProtocols = Object.entries(exitStatuses)
-    .filter(([, status]) => status !== 'success')
-    .map(([protocol]) => protocol);
-  const isSuccess = failedProtocols.length === 0;
-
-  const message = isSuccess
-    ? 'Server exited successfully'
-    : `Server exited with errors while shutting down ${failedProtocols.join(', ')}`;
-  const level = isSuccess ? 'log' : 'error';
-
-  log[level](message, { type: 'stop', exitStatuses });
-};
-
 
 // Attempts to close server
 // No new connections will be accepted, but we will wait for ongoing ones to end
@@ -54,10 +36,9 @@ const closeServer = async function ({ server, log }) {
 
   await logStartShutdown({ server, log, protocol });
 
-  let status = await shutdownServer({ server, log, protocol });
-  status = status || 'failure';
+  const status = Boolean(await shutdownServer({ server, log, protocol }));
 
-  return { [protocol]: status };
+  return [protocol, status];
 };
 
 const logStartShutdown = async function ({ server, log, protocol }) {
@@ -67,7 +48,7 @@ const logStartShutdown = async function ({ server, log, protocol }) {
     log.log(message);
   } catch (error) {
     const errorMessage = `${protocol} - Failed to count pending pending requests`;
-    await handleError({ log, error, errorMessage, server });
+    await handleError({ log, error, errorMessage });
   }
 };
 
@@ -76,19 +57,52 @@ const shutdownServer = async function ({ server, log, protocol }) {
     await server.stop();
     const message = `${protocol} - Successful shutdown`;
     log.log(message);
-    return 'success';
+    return true;
   } catch (error) {
     const errorMessage = `${protocol} - Failed to stop server`;
-    await handleError({ log, error, errorMessage, server });
+    await handleError({ log, error, errorMessage });
   }
 };
 
 // Log shutdown failures
-const handleError = async function ({ log, error, errorMessage, server }) {
+const handleError = async function ({ log, error, errorMessage }) {
   const errorInfo = getStandardError({ log, error });
   log.error(errorMessage, { type: 'failure', errorInfo });
-  // Force kill the server
-  await server.kill();
+};
+
+const processStatuses = function ({ statuses }) {
+  const failedProtocols = statuses
+    .filter(([, status]) => !status)
+    .map(([protocol]) => protocol);
+  const isSuccess = failedProtocols.length === 0;
+
+  return { failedProtocols, isSuccess };
+};
+
+// Log successful or failed shutdown
+const logEndShutdown = function ({
+  log,
+  statuses,
+  failedProtocols,
+  isSuccess,
+}) {
+  const message = isSuccess
+    ? 'Server exited successfully'
+    : `Server exited with errors while shutting down ${failedProtocols.join(', ')}`;
+  const level = isSuccess ? 'log' : 'error';
+  const exitStatuses = statuses.reduce((memo, [protocol, status]) => {
+    return Object.assign(memo, { [protocol]: status });
+  }, {});
+
+  log[level](message, { type: 'stop', exitStatuses });
+};
+
+const exit = function ({ isSuccess }) {
+  // Used by Nodemon
+  process.kill(process.pid, 'SIGUSR2');
+
+  const exitCode = isSuccess ? 0 : 1;
+  process.exit(exitCode);
 };
 
 
