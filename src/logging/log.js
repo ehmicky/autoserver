@@ -10,6 +10,7 @@ const { report } = require('./report');
 const { getRequestInfo } = require('./request_info');
 const { getRequestMessage } = require('./request_message');
 const { LEVELS } = require('./constants');
+const { PerfLog } = require('./perf');
 
 
 // Represents a logger
@@ -29,22 +30,24 @@ const { LEVELS } = require('./constants');
 //  - failure: an error occured, which should be looked into
 //  - call: a request has completed, i.e. a response was sent back to the
 //    client (with success or not)
+//  - perf: performance monitoring
 // Each log type has an associated `logObj`, i.e. structured log information
 // besides the error message and stack trace:
 //  - message, start, call: none
 //  - failure: `errorInfo`, containing a standard error
 //  - stop: `exitStatuses`, showing which server has successfully exited or
 //    not, e.g. { HTTP: false, ... }
+//  - perf: `measures`, containing performance measurement
 // Each log has a level among: info, log, warn, error.
 // Each logs fires the server event 'log.PHASE.TYPE.LEVEL' with payload `info`:
 //  - timestamp {string}
 //  - phase {string} - startup|shutdown|request|process
-//  - type {string} - message|start|stop|failure|call
+//  - type {string} - message|start|stop|failure|call|perf
 //  - level {string} - info|log|warn|error
 //  - message {string} - what's printed on console (see below)
 //  - messages.LEVEL {string[]} - all the logs with type `message` that have
 //    been produced by this Log instance so far.
-//    Not if current log type is `message`.
+//    Not if current log type is `message` or `perf`.
 //  - requestInfo {object}
 //      - request-specific information
 //      - only if the current phase is `request`:
@@ -93,6 +96,9 @@ class Log {
       this[level] = this._report.bind(this, level);
       this._messages[level] = [];
     }
+
+    this.perf = new PerfLog();
+    this.perf.report = this._reportPerf.bind(this);
 
     Object.assign(this, { opts, phase });
   }
@@ -154,6 +160,13 @@ class Log {
   _setBuffered(isBuffered) {
     const method = isBuffered ? 'cork' : 'uncork';
     this._report[method]();
+  }
+
+  _reportPerf() {
+    const { phase } = this;
+    const measures = this.perf.getMeasures()
+      .map(obj => Object.assign({}, obj, { phase }));
+    this.log('', { measures, type: 'perf' });
   }
 
 }

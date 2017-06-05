@@ -60,7 +60,7 @@ const report = function ({
 };
 
 // Those log types never prints to console
-const noConsoleTypes = [];
+const noConsoleTypes = ['perf'];
 
 // Try to log with an increasing delay
 const tryToLog = async function ({
