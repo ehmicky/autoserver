@@ -57,8 +57,18 @@ startServer({
 .on('log.*.*.*', info => {
   const { phase, type, level } = info;
   hasEmit(`${phase}.${type}.${level}`);
+  if (type === 'perf') { return; }
   //const jsonInfo = JSON.stringify(info, null, 2);
-  //global.console.log('Sending to monitoring tool', jsonInfo);
+  //global.console.log('Logging info', jsonInfo);
+})
+// Performance monitoring
+.on('log.*.perf.*', info => {
+  const measures = info.measures
+    .map(({ phase, category, label, average, count }) =>
+      `${phase.padEnd(8)} ${category.padEnd(9)} ${label.padEnd(10)} ${`${Math.round(average)}ms`.padEnd(7)} ${String(count).padStart(3)} items`
+    );
+  const jsonMeasures = measures.reduce((memo, str) => `${memo}\n${str}`, '');
+  global.console.log('Performance logging info', jsonMeasures);
 });
 
 const hasEmit = function (eventName) {
