@@ -20,15 +20,21 @@ const setupGracefulExit = function ({ servers, opts }) {
 const gracefulExit = onlyOnce(async function ({ servers, opts }) {
   const { apiServer } = opts;
   const log = new Log({ opts, phase: 'shutdown' });
+  const perf = log.perf.start('all');
 
+  perf.stop();
   const closingServers = servers.map(server => closeServer({ server, log }));
   const statuses = await Promise.all(closingServers);
+  perf.start();
 
   const { failedProtocols, isSuccess } = processStatuses({ statuses });
 
   logEndShutdown({ log, statuses, failedProtocols, isSuccess });
 
-  exit({ isSuccess, apiServer });
+  perf.stop();
+  log.perf.report();
+
+  exit({ isSuccess, apiServer, log });
 });
 
 // Attempts to close server
@@ -46,26 +52,42 @@ const closeServer = async function ({ server, log }) {
 // Logs that graceful exit is ongoing, for each protocol
 const logStartShutdown = async function ({ server, log, protocol }) {
   try {
+    const perf = log.perf.start(`${protocol}.init`);
+
     const connectionsCount = await server.countPendingRequests();
     const message = `${protocol} - Starts shutdown, ${connectionsCount} pending ${connectionsCount === 1 ? 'request' : 'requests'}`;
     log.log(message);
+
+    perf.stop();
   } catch (error) {
+    const perf = log.perf.start(`${protocol}.init`, 'exception');
+
     const errorMessage = `${protocol} - Failed to count pending pending requests`;
     await handleError({ log, error, errorMessage });
+
+    perf.stop();
   }
 };
 
 // Ask each server to close
 const shutdownServer = async function ({ server, log, protocol }) {
   try {
+    const perf = log.perf.start(`${protocol}.shutdown`);
+
     await server.stop();
     // Logs that graceful exit is done, for each protocol
     const message = `${protocol} - Successful shutdown`;
     log.log(message);
+
+    perf.stop();
     return true;
   } catch (error) {
+    const perf = log.perf.start(`${protocol}.shutdown`, 'exception');
+
     const errorMessage = `${protocol} - Failed to stop server`;
     await handleError({ log, error, errorMessage });
+
+    perf.stop();
   }
 };
 
