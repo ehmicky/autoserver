@@ -1,6 +1,8 @@
 'use strict';
 
 
+const { cloneDeep } = require('lodash');
+
 const { JslHelper } = require('./helpers');
 
 
@@ -11,7 +13,10 @@ const getParams = function ({ params, type, exposeMap }) {
 
   bindHelpers({ params: usedParams });
 
-  return usedParams;
+  // Make sure JSL does not modify parameters
+  const clonedParams = cloneDeep(usedParams);
+
+  return clonedParams;
 };
 
 // Restrict which JSL parameters are available for arg.filter|data
