@@ -103,38 +103,50 @@ class Log {
   }
 
   _report(level, rawMessage = '', logObj = {}){
-    if (typeof rawMessage !== 'string') {
-      const message = `Message must be a string: '${rawMessage}'`;
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
-    if (logObj == null || logObj.constructor !== Object) {
-      const strObj = JSON.stringify(logObj);
-      const message = `Log object must be an object: '${strObj}'`;
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
+    this._checkReportInput(rawMessage, logObj);
 
-    const phase = this.phase;
-    const type = logObj.type || 'message';
-    Object.assign(logObj, { phase, type });
+    this._buildLogObj({ logObj });
+    const { phase, type } = logObj;
 
-    if (phase === 'request') {
-      logObj.requestInfo = getRequestInfo(this._info, this.loggerFilter);
-      if (type === 'call') {
-        rawMessage = getRequestMessage(logObj.requestInfo);
-      }
+    if (phase === 'request' && type === 'call') {
+      rawMessage = getRequestMessage(logObj.requestInfo);
     }
 
     if (type === 'message') {
       this._messages[level].push(rawMessage);
     }
 
-    if (includeMessagesTypes.includes(type)) {
-      logObj.messages = cloneDeep(this._messages);
+    report(this.logger, this.loggerLevel, level, rawMessage, logObj);
+  }
+
+  _checkReportInput(rawMessage, logObj) {
+    if (typeof rawMessage !== 'string') {
+      const message = `Message must be a string: '${rawMessage}'`;
+      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
     }
+
+    if (logObj == null || logObj.constructor !== Object) {
+      const strObj = JSON.stringify(logObj);
+      const message = `Log object must be an object: '${strObj}'`;
+      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    }
+  }
+
+  // Adds information common to most logs: `phase`, `type`, `serverInfo`,
+  // `requestInfo`, `messages`
+  _buildLogObj({ logObj }) {
+    logObj.phase = this.phase;
+    logObj.type = logObj.type || 'message';
 
     logObj.serverInfo = getServerInfo();
 
-    report(this.logger, this.loggerLevel, level, rawMessage, logObj);
+    if (this.phase === 'request') {
+      logObj.requestInfo = getRequestInfo(this._info, this.loggerFilter);
+    }
+
+    if (includeMessagesTypes.includes(logObj.type)) {
+      logObj.messages = cloneDeep(this._messages);
+    }
   }
 
   // Buffer log calls
