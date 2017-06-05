@@ -6,7 +6,7 @@ const GRAPHIQL_HTML_FILE = `${__dirname}/graphiql.mustache`;
 const { mapValues } = require('lodash');
 
 const { EngineError } = require('../../../../error');
-const { readFile } = require('../../../../utilities');
+const { fs: { readFile } } = require('../../../../utilities');
 
 
 /*
@@ -16,7 +16,8 @@ const { readFile } = require('../../../../utilities');
  * TODO: do proper web app setup, not all-in-one HTML file
  *
  * @param {object} options
- * @param {string} options.endpointURL - the relative or absolute URL for the endpoint which GraphiQL will make queries to
+ * @param {string} options.endpointURL - the relative or absolute URL for
+ * the endpoint which GraphiQL will make queries to
  * @param {string} [options.query] - the GraphQL query to pre-fill
  * @param {object|json} [options.variables] - variables to pre-fill
  * @param {string} [options.operationName] - the operationName to pre-fill
@@ -37,11 +38,15 @@ const renderGraphiQL = async function (input) {
   const data = Object.assign(escapeData(dataToEscape), dataNotToEscape);
 
   try {
-    const htmlFile = await readFile(GRAPHIQL_HTML_FILE);
+    const htmlFile = await readFile(GRAPHIQL_HTML_FILE, { encoding: 'utf-8' });
     const htmlString = render(htmlFile, data);
     return htmlString;
   } catch (innererror) {
-    throw new EngineError('Could not render GraphiQL HTML document', { reason: 'GRAPHIQL_PARSING_ERROR', innererror });
+    const message = 'Could not render GraphiQL HTML document';
+    throw new EngineError(message, {
+      reason: 'GRAPHIQL_PARSING_ERROR',
+      innererror,
+    });
   }
 };
 
