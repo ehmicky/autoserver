@@ -44,6 +44,7 @@ startServer({
 //     - servers.HTTP {Server} - Node.js HTTP server
 // Note that `options` and `servers` will only be available after the `start`
 // event is fired
+// Must return promise if the handler is async.
 .on('start', () => hasEmit('start'))
 // If the `error` event handler is not setup, an exception will be
 // thrown instead
