@@ -3,7 +3,7 @@
 
 const yaml = require('js-yaml');
 
-const { fs: { readFileAsync } } = require('./fs');
+const { fs: { readFile } } = require('./filesystem');
 
 
 /**
@@ -13,7 +13,7 @@ const { fs: { readFileAsync } } = require('./fs');
  **/
 const getYaml = async function ({ path, content }) {
   if (!content) {
-    content = await readFileAsync(path, { encoding: 'utf-8' });
+    content = await readFile(path, { encoding: 'utf-8' });
   }
   const data = yaml.load(content, {
     // YAML needs to JSON-compatible, since JSON must provide same features as YAML

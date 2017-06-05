@@ -2,31 +2,16 @@
 
 
 const fs = require('fs');
+const { promisify } = require('util');
 
-const { EngineError } = require('../error');
-const { getPromise } = require('./promise');
-
-
-const readFile = async function (path) {
-  const promise = getPromise();
-  try {
-    fs.readFile(path, { encoding: 'utf-8' }, (error, file) => {
-      if (error) {
-        throwFileError({ path, error });
-      }
-      promise.resolve(file);
-    });
-    return await promise;
-  } catch (error) {
-    throwFileError({ path, error });
-  }
-};
-
-const throwFileError = function ({ path, error }) {
-  throw new EngineError(`Could not open file ${path}`, { reason: 'FILE_OPEN_ERROR', innererror: error });
-};
-
+// Make `fs` methods use promises instead of callbacks
+const newFs = Object.entries(fs)
+  .map(([name, value]) => {
+    const newValue = typeof value === 'function' ? promisify(value) : value;
+    return { [name]: newValue };
+  })
+  .reduce((memo, obj) => Object.assign(memo, obj), {});
 
 module.exports = {
-  readFile,
+  fs: newFs,
 };

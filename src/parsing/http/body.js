@@ -9,8 +9,7 @@
  **/
 
 const bodyParser = require('body-parser');
-
-const { connectToPromise } = require('../../utilities');
+const { promisify } = require('util');
 
 
 const parse = {};
@@ -20,14 +19,14 @@ const addParseFunc = function ({
   exportsType = type,
   options = {},
 } = {}) {
-  const parser = connectToPromise(bodyParser[type](options));
+  const parser = promisify(bodyParser[type](options));
   parse[exportsType] = async function (req) {
     // body-parser will fill req.body = {} even if there is no body.
     // We want to know if there is a body or not though,
     // so must keep req.body to undefined if there is non
     const emptyBody = {};
     req.body = req.body || emptyBody;
-    await parser(req);
+    await parser(req, null);
 
     // We just want the body, and will only do this once,
     // so let's not pollute req
