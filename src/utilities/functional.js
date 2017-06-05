@@ -127,6 +127,7 @@ const onlyOnce = function (func, { error = false } = {}) {
 // Returns the function with the two added methods:
 //   - func.cork() will buffer calls, i.e. it will become a noop
 //   - func.uncork() will release all buffered calls
+// Works with async functions as well.
 const buffer = function (func, context = null) {
   const state = getBufferState();
   const newFunc = bufferedFunc.bind(context, state, func);
@@ -143,22 +144,22 @@ const getBufferState = () => ({
   bufferedCalls: [],
 });
 
-const bufferedFunc = function (state, func, ...args) {
+const bufferedFunc = async function (state, func, ...args) {
   if (state.isBuffered) {
     state.bufferedCalls.push(args);
     return;
   }
 
-  func.call(this, ...args);
+  await func.call(this, ...args);
 };
 
 const corkFunc = function (state) {
   state.isBuffered = true;
 };
 
-const uncorkFunc = function (state, func) {
+const uncorkFunc = async function (state, func) {
   for (const args of state.bufferedCalls) {
-    func.call(this, ...args);
+    await func.call(this, ...args);
   }
   state.isBuffered = false;
 };
