@@ -34,24 +34,34 @@ const startServer = function (options = {}) {
 };
 
 const start = async function (options, apiServer, startupLog) {
+  const allPerf = startupLog.perf.start('all', 'all');
+  const perf = startupLog.perf.start('main');
+
   const originalOptions = cloneDeep(options);
 
   const processLog = processErrorHandler({ opts: options });
   // Assign them to `options` so they are easily available anywhere
   Object.assign(options, { apiServer, startupLog, processLog });
 
+  perf.stop();
   const opts = await processOptions(options);
 
   // Those two callbacks must be called by each server
   opts.handleRequest = await startChain(opts);
+
+  perf.start();
   opts.handleListening = handleListening.bind(null, startupLog);
+  perf.stop();
 
   // Start each server
+  const httpPerf = startupLog.perf.start('HTTP');
   const httpServer = httpStartServer(opts);
+  httpServer.then(() => httpPerf.stop());
 
   // Make sure all servers are starting concurrently, not serially
   const serversArray = await Promise.all([httpServer]);
   const [http] = serversArray;
+  perf.start();
 
   const servers = { http };
   Object.assign(apiServer, { servers, options: originalOptions });
@@ -61,6 +71,10 @@ const start = async function (options, apiServer, startupLog) {
   // Create log message when all protocol-specific servers have started
   startupLog.log('Server is ready', { type: 'start' });
   apiServer.emit('start');
+
+  perf.stop();
+  allPerf.stop();
+  startupLog.perf.report();
 };
 
 // Create log message when each protocol-specific server starts

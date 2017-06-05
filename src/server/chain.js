@@ -7,6 +7,8 @@ const { mapAsync } = require('../utilities');
 
 
 const startChain = async function (opts) {
+  const perf = opts.startupLog.perf.start('chain');
+
   // Apply options
   const mdw = await mapAsync(middlewares, async mdw => await mdw(opts));
 
@@ -120,6 +122,8 @@ const startChain = async function (opts) {
      **/
     mdw.noResponse,
   ]);
+
+  perf.stop();
 
   return allMiddlewares[0];
 };
