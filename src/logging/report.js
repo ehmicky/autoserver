@@ -10,7 +10,13 @@ const { waitFor } = require('../utilities');
 // Report some logs, i.e.:
 //  - fire server option `logger(info)`
 //  - print to console
-const report = function (logger, loggerLevel, level, rawMessage, logObj) {
+const report = function ({
+  apiServer,
+  loggerLevel,
+  level,
+  rawMessage,
+  logObj,
+}) {
   const {
     type,
     requestInfo: {
@@ -36,10 +42,9 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj) {
     rawMessage,
   });
 
-  if (logger) {
-    const info = Object.assign({}, logObj, { timestamp, type, level, message });
-    tryToLog({ logger, info });
-  }
+  const eventName = `log.${phase}.${type}.${level}`;
+  const info = Object.assign({}, logObj, { timestamp, type, level, message });
+  tryToLog({ apiServer, eventName, info });
 
   // Add colors, only for console
   const colorMessage = colorize({ type, level, message });
@@ -47,15 +52,20 @@ const report = function (logger, loggerLevel, level, rawMessage, logObj) {
 };
 
 // Try to log with an increasing delay
-const tryToLog = async function ({ logger, info, delay = defaultDelay }) {
+const tryToLog = async function ({
+  apiServer,
+  eventName,
+  info,
+  delay = defaultDelay,
+}) {
   try {
-    await logger(info);
+    apiServer.emit(eventName, info);
   } catch (innererror) {
     if (delay > maxDelay) { return; }
     await waitFor(delay);
 
     addLoggerError({ info, innererror });
-    tryToLog({ logger, info, delay: delay * delayExponent });
+    tryToLog({ apiServer, eventName, info, delay: delay * delayExponent });
   }
 };
 const defaultDelay = 1000;

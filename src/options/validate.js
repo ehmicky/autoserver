@@ -24,10 +24,6 @@ const validateOptions = function ({ options }) {
         type: 'object',
       },
 
-      logger: {
-        typeof: 'function',
-      },
-
       loggerLevel: {
         type: 'string',
         enum: ['info', 'log', 'warn', 'error', 'silent'],

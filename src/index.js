@@ -7,12 +7,6 @@ const { propertiesPlugin } = require('./idl');
 
 startServer({
   conf: './examples/pet.schema.yml',
-  // Information to send for monitoring
-  // Triggered on server startup, shutdowns, requests, errors, logs
-  //logger(info) {
-  //  const jsonInfo = JSON.stringify(info, null, 2);
-  //  global.console.log('Sending to monitoring tool', jsonInfo);
-  //},
   // Customize what is logged as `requestInfo`
   loggerFilter: {
     // Can be a mapping function, or a list of attributes
@@ -50,24 +44,26 @@ startServer({
 //     - servers.HTTP {Server} - Node.js HTTP server
 // Note that `options` and `servers` will only be available after the `start`
 // event is fired
-.on('start', () => {
-  global.console.log('Server started');
-})
+.on('start', () => hasEmit('start'))
 // If the `error` event handler is not setup, an exception will be
 // thrown instead
-.on('error', () => {
-  global.console.log('Server startup failed');
-})
+.on('error', () => hasEmit('error'))
 // Can use globbing star
-.on('stop.*', () => {
-  global.console.log('Server exit');
-})
-.on('stop.success', () => {
-  global.console.log('Server exit (success)');
-})
-.on('stop.fail', () => {
-  global.console.log('Server exit (failure)');
+.on('stop.*', () => {})
+.on('stop.success', () => hasEmit('stop.success'))
+.on('stop.fail', () => hasEmit('stop.fail'))
+// Information to send for monitoring
+// Triggered on server startup, shutdowns, requests, errors, logs
+.on('log.*.*.*', info => {
+  const { phase, type, level } = info;
+  hasEmit(`${phase}.${type}.${level}`);
+  //const jsonInfo = JSON.stringify(info, null, 2);
+  //global.console.log('Sending to monitoring tool', jsonInfo);
 });
+
+const hasEmit = function (eventName) {
+  global.console.log(`Emitting event '${eventName}'`);
+};
 
 
 module.exports = {
