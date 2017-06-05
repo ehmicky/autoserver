@@ -7,7 +7,7 @@ const { cloneDeep } = require('lodash');
 const { Log } = require('../logging');
 const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
-const { ApiEngineServer } = require('./server');
+const { ApiEngineServer } = require('./api_server');
 const { startChain } = require('./chain');
 const { httpStartServer } = require('./http');
 const { setupGracefulExit } = require('./exit');
@@ -24,22 +24,21 @@ global.apiEngineDirName = resolve(__dirname, '../..');
  * @param {object} options.idl - IDL definitions
  */
 const startServer = function (options = {}) {
-  const server = new ApiEngineServer();
+  const apiServer = new ApiEngineServer();
   const startupLog = new Log({ opts: options, phase: 'startup' });
 
-  start(options, server, startupLog)
-  .catch(error => {
-    handleStartupError(options, server, error);
-  });
+  start(options, apiServer, startupLog)
+  .catch(error => handleStartupError(options, apiServer, error));
 
-  return options.server;
+  return apiServer;
 };
 
-const start = async function (options, server, startupLog) {
+const start = async function (options, apiServer, startupLog) {
   const originalOptions = cloneDeep(options);
 
   const processLog = processErrorHandler({ opts: options });
-  Object.assign(options, { server, startupLog, processLog });
+  // Assign them to `options` so they are easily available anywhere
+  Object.assign(options, { apiServer, startupLog, processLog });
 
   const opts = await processOptions(options);
 
@@ -55,13 +54,13 @@ const start = async function (options, server, startupLog) {
   const [http] = serversArray;
 
   const servers = { http };
-  Object.assign(server, { servers, options: originalOptions });
+  Object.assign(apiServer, { servers, options: originalOptions });
 
   setupGracefulExit({ servers: serversArray, opts });
 
   // Create log message when all protocol-specific servers have started
   startupLog.log('Server is ready', { type: 'start' });
-  server.emit('start');
+  apiServer.emit('start');
 };
 
 // Create log message when each protocol-specific server starts

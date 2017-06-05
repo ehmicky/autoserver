@@ -20,7 +20,7 @@ const validateOptions = function ({ options }) {
         pattern: '^[a-zA-Z0-9_-]+$',
       },
 
-      server: {
+      apiServer: {
         type: 'object',
       },
 

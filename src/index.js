@@ -38,15 +38,23 @@ startServer({
   // Project name, used e.g. to namespace HTTP headers
   projectName: 'example_api',
 })
-// Returns an EventEmitter2 firing the following events
+// Returns an EventEmitter2 firing the following events: start, error,
+// stop.success, stop.fail
 // Also has the properties:
-//  - options {object}
-//  - serverId {string}
-//  - serverName {string}
-//  - version {string}
+//  - options {object} - options passed during initialization
+//  - info {object}
+//     - info.serverId {string}
+//     - info.serverName {string}
+//     - info.version {string}
+//  - servers {object}
+//     - servers.HTTP {Server} - Node.js HTTP server
+// Note that `options` and `servers` will only be available after the `start`
+// event is fired
 .on('start', () => {
   global.console.log('Server started');
 })
+// If the `error` event handler is not setup, an exception will be
+// thrown instead
 .on('error', () => {
   global.console.log('Server startup failed');
 })
