@@ -115,9 +115,8 @@ const onlyOnce = function (func, { error = false } = {}) {
     if (func.called) {
       if (error) {
         throw new Error('This function can only be called once');
-      } else {
-        return;
       }
+      return;
     }
 
     func.called = true;
