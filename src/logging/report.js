@@ -31,25 +31,36 @@ const report = function ({
     phase,
   } = logObj;
 
-  // Build a standardized log message
-  const message = getMessage({
-    phase,
-    type,
-    level,
-    timestamp,
-    requestId,
-    serverName,
-    rawMessage,
-  });
-
   const eventName = `log.${phase}.${type}.${level}`;
-  const info = Object.assign({}, logObj, { timestamp, type, level, message });
+  const info = Object.assign({}, logObj, { timestamp, type, level });
+
+  // Build a standardized log message
+  const noConsole = noConsoleTypes.includes(type);
+  let message;
+  if (!noConsole) {
+    message = getMessage({
+      phase,
+      type,
+      level,
+      timestamp,
+      requestId,
+      serverName,
+      rawMessage,
+    });
+    info.message = message;
+  }
+
   tryToLog({ apiServer, eventName, info });
 
   // Add colors, only for console
-  const colorMessage = colorize({ type, level, message });
-  consolePrint({ type, level, message: colorMessage, loggerLevel });
+  if (!noConsole) {
+    const colorMessage = colorize({ type, level, message });
+    consolePrint({ level, message: colorMessage, loggerLevel });
+  }
 };
+
+// Those log types never prints to console
+const noConsoleTypes = [];
 
 // Try to log with an increasing delay
 const tryToLog = async function ({
