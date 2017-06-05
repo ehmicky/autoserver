@@ -25,6 +25,8 @@ const TYPES = [
   'failure',
   // The server has closed
   'stop',
+  // Performance monitoring
+  'perf',
 ];
 
 // Log severity.
