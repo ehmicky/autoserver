@@ -70,7 +70,7 @@ const start = async function (options, apiServer, startupLog) {
 
   // Create log message when all protocol-specific servers have started
   startupLog.log('Server is ready', { type: 'start' });
-  apiServer.emit('start');
+  await apiServer.emitAsync('start');
 
   perf.stop();
   allPerf.stop();

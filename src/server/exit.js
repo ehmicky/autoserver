@@ -29,12 +29,12 @@ const gracefulExit = onlyOnce(async function ({ servers, opts }) {
 
   const { failedProtocols, isSuccess } = processStatuses({ statuses });
 
-  logEndShutdown({ log, statuses, failedProtocols, isSuccess });
+  await logEndShutdown({ log, statuses, failedProtocols, isSuccess });
 
   perf.stop();
-  log.perf.report();
+  await log.perf.report();
 
-  exit({ isSuccess, apiServer, log });
+  await exit({ isSuccess, apiServer, log });
 });
 
 // Attempts to close server
@@ -56,7 +56,7 @@ const logStartShutdown = async function ({ server, log, protocol }) {
 
     const connectionsCount = await server.countPendingRequests();
     const message = `${protocol} - Starts shutdown, ${connectionsCount} pending ${connectionsCount === 1 ? 'request' : 'requests'}`;
-    log.log(message);
+    await log.log(message);
 
     perf.stop();
   } catch (error) {
@@ -77,7 +77,7 @@ const shutdownServer = async function ({ server, log, protocol }) {
     await server.stop();
     // Logs that graceful exit is done, for each protocol
     const message = `${protocol} - Successful shutdown`;
-    log.log(message);
+    await log.log(message);
 
     perf.stop();
     return true;
@@ -94,7 +94,7 @@ const shutdownServer = async function ({ server, log, protocol }) {
 // Log shutdown failures
 const handleError = async function ({ log, error, errorMessage }) {
   const errorInfo = getStandardError({ log, error });
-  log.error(errorMessage, { type: 'failure', errorInfo });
+  await log.error(errorMessage, { type: 'failure', errorInfo });
 };
 
 // Retrieves which servers exits have failed, if any
@@ -108,7 +108,7 @@ const processStatuses = function ({ statuses }) {
 };
 
 // Log successful or failed shutdown
-const logEndShutdown = function ({
+const logEndShutdown = async function ({
   log,
   statuses,
   failedProtocols,
@@ -122,15 +122,15 @@ const logEndShutdown = function ({
     return Object.assign(memo, { [protocol]: status });
   }, {});
 
-  log[level](message, { type: 'stop', exitStatuses });
+  await log[level](message, { type: 'stop', exitStatuses });
 };
 
 // Kills main process, with exit code 0 (success) or 1 (failure)
 // This means we consider owning the process, which will be problematic if
 // this is used together with other projects
-const exit = function ({ isSuccess, apiServer }) {
+const exit = async function ({ isSuccess, apiServer }) {
   const eventName = isSuccess ? 'stop.success' : 'stop.fail';
-  apiServer.emit(eventName);
+  await apiServer.emitAsync(eventName);
 
   // Used by Nodemon
   process.kill(process.pid, 'SIGUSR2');

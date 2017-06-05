@@ -107,7 +107,7 @@ class Log {
     this._info = deepMerge(this._info, obj);
   }
 
-  _report(level, rawMessage = '', logObj = {}){
+  async _report(level, rawMessage = '', logObj = {}){
     this._checkReportInput(rawMessage, logObj);
 
     this._buildLogObj({ logObj });
@@ -122,7 +122,7 @@ class Log {
     }
 
     const { opts: { apiServer, loggerLevel } } = this;
-    report({ apiServer, loggerLevel, level, rawMessage, logObj });
+    await report({ apiServer, loggerLevel, level, rawMessage, logObj });
   }
 
   _checkReportInput(rawMessage, logObj) {
@@ -162,11 +162,11 @@ class Log {
     this._report[method]();
   }
 
-  _reportPerf() {
+  async _reportPerf() {
     const { phase } = this;
     const measures = this.perf.getMeasures()
       .map(obj => Object.assign({}, obj, { phase }));
-    this.log('', { measures, type: 'perf' });
+    await this.log('', { measures, type: 'perf' });
   }
 
 }

@@ -10,7 +10,7 @@ const { waitFor } = require('../utilities');
 // Report some logs, i.e.:
 //  - fire server option `logger(info)`
 //  - print to console
-const report = function ({
+const report = async function ({
   apiServer,
   loggerLevel,
   level,
@@ -50,7 +50,7 @@ const report = function ({
     info.message = message;
   }
 
-  tryToLog({ apiServer, eventName, info });
+  await tryToLog({ apiServer, eventName, info });
 
   // Add colors, only for console
   if (!noConsole) {
@@ -70,13 +70,14 @@ const tryToLog = async function ({
   delay = defaultDelay,
 }) {
   try {
-    apiServer.emit(eventName, info);
+    await apiServer.emitAsync(eventName, info);
   } catch (innererror) {
     if (delay > maxDelay) { return; }
     await waitFor(delay);
 
     addLoggerError({ info, innererror });
-    tryToLog({ apiServer, eventName, info, delay: delay * delayExponent });
+    delay *= delayExponent;
+    await tryToLog({ apiServer, eventName, info, delay });
   }
 };
 const defaultDelay = 1000;
