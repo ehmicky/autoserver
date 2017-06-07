@@ -20,7 +20,7 @@ const errorHandler = function () {
         perf.stop();
       // If error handler itself fails
       } catch (innererror) {
-        handleFailure({ log, error: innererror });
+        await handleFailure({ log, error: innererror });
       }
     }
   };

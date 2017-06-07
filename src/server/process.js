@@ -40,27 +40,27 @@ const setupHandlers = function ({ log }) {
 };
 
 const setupUnhandledRejection = function ({ log }) {
-  process.on('unhandledRejection', value => {
+  process.on('unhandledRejection', async value => {
     const message = 'A promise was rejected and not handled right away';
-    log.process({ value, message });
+    await log.process({ value, message });
   });
 };
 
 const setupRejectionHandled = function ({ log }) {
-  process.on('rejectionHandled', () => {
+  process.on('rejectionHandled', async () => {
     const message = 'A promise was rejected but handled too late';
-    log.process({ message });
+    await log.process({ message });
   });
 };
 
 const setupWarning = function ({ log }) {
-  process.on('warning', value => {
-    log.process({ value });
+  process.on('warning', async value => {
+    await log.process({ value });
   });
 };
 
 // Report process problems as logs with type 'failure'
-const processHandler = function (log, { value, message }) {
+const processHandler = async function (log, { value, message }) {
   let innererror;
   if (value instanceof Error) {
     innererror = value;
@@ -76,7 +76,7 @@ const processHandler = function (log, { value, message }) {
 
   const standardError = getStandardError({ log, error });
   const errorMessage = getErrorMessage({ error: standardError });
-  log.error(errorMessage, { type: 'failure', errorInfo: standardError });
+  await log.error(errorMessage, { type: 'failure', errorInfo: standardError });
 };
 
 

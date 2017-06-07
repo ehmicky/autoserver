@@ -6,11 +6,11 @@ const { getErrorMessage } = require('../../../error');
 
 
 // Report any exception thrown, for logging/monitoring
-const reportError = function ({ log, error = {} }) {
+const reportError = async function ({ log, error = {} }) {
   if (!isError({ error })) { return; }
 
   const message = getErrorMessage({ error });
-  log.error(message, { type: 'failure', errorInfo: error });
+  await log.error(message, { type: 'failure', errorInfo: error });
 };
 
 // Only report except with status 'error'

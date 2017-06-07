@@ -8,7 +8,7 @@ const { reportError } = require('./report');
 
 const handleError = async function ({ log, error }) {
   const standardError = getStandardError({ log, error });
-  reportError({ log, error: standardError });
+  await reportError({ log, error: standardError });
 
   // Use protocol-specific way to send back the response to the client
   if (error.sendError) {
