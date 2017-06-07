@@ -15,7 +15,7 @@ const interfaceConvertor = function () {
       jsl,
       log,
     } = input;
-    const perf = log.perf.start('interfaceConvertor', 'middleware');
+    const perf = log.perf.start('interface.convertor', 'middleware');
 
     const newInput = {
       method,

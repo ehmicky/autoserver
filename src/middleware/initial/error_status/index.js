@@ -15,7 +15,7 @@ const errorStatus = function () {
       // not the error-catching part of the middleware
       if (input.isStatusError === true) { throw error; }
 
-      const perf = log.perf.start('errorStatus', 'exception');
+      const perf = log.perf.start('initial.errorStatus', 'exception');
 
       const newValues = { protocolStatus: undefined, status: 'SERVER_ERROR' };
       log.add(newValues);

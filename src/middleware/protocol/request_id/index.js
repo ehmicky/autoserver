@@ -17,7 +17,7 @@ const { getServerInfo } = require('../../../info');
 const setRequestIds = function () {
   return async function setRequestId(input) {
     const { jsl, log } = input;
-    const perf = log.perf.start('setRequestId', 'middleware');
+    const perf = log.perf.start('protocol.setRequestId', 'middleware');
 
     const requestId = uuidv4();
     const newJsl = jsl.add({ $REQUEST_ID: requestId });

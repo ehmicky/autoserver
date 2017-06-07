@@ -4,7 +4,7 @@
 const getTimestamp = function () {
   return async function getTimestamp(input) {
     const { jsl, log } = input;
-    const perf = log.perf.start('getTimestamp', 'middleware');
+    const perf = log.perf.start('protocol.getTimestamp', 'middleware');
 
     const timestamp = (new Date()).toISOString();
     const newJsl = jsl.add({ $NOW: timestamp });

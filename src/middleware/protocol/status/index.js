@@ -12,13 +12,13 @@ const getStatus = function () {
     try {
       const response = await this.next(input);
 
-      const perf = log.perf.start('getStatus', 'middleware');
+      const perf = log.perf.start('protocol.getStatus', 'middleware');
       setStatus({ input });
       perf.stop();
 
       return response;
     } catch (error) {
-      const perf = log.perf.start('getStatus', 'exception');
+      const perf = log.perf.start('protocol.getStatus', 'exception');
 
       if (!(error instanceof Error)) {
         error = new Error(String(error));

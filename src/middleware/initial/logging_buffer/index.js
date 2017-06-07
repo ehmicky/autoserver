@@ -7,7 +7,7 @@ const loggingBuffer = function () {
   return async function loggingBuffer(input) {
     const { log } = input;
 
-    const perf = log.perf.start('loggingBuffer', 'middleware');
+    const perf = log.perf.start('initial.loggingBuffer', 'middleware');
 
     let response;
     try {

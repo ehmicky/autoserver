@@ -12,7 +12,7 @@ const { normalizeOrderBy } = require('./order_by');
 const normalization = function () {
   return async function normalization(input) {
     const { args, log } = input;
-    const perf = log.perf.start('normalization', 'middleware');
+    const perf = log.perf.start('command.normalization', 'middleware');
 
     if (args.filter) {
       args.filter = normalizeFilter({ filter: args.filter });

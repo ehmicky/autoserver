@@ -28,7 +28,7 @@ const { getSecondReadInput } = require('./second_read');
 const upsertAction = function () {
   return async function upsertAction(input) {
     const { log } = input;
-    const perf = log.perf.start('upsertAction', 'middleware');
+    const perf = log.perf.start('action.upsert', 'middleware');
 
     // First check if models exist or not, by performing a "read" command
     const firstReadInput = getFirstReadInput({ input });

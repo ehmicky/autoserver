@@ -10,7 +10,7 @@ const { EngineError } = require('../../../error');
 const noOutputSet = function () {
   return async function noOutputSet(input) {
     const { log } = input;
-    const perf = log.perf.start('noOutputSet', 'middleware');
+    const perf = log.perf.start('interface.noOutputSet', 'middleware');
 
     const flaggedAction = flagNoOutput(input);
 

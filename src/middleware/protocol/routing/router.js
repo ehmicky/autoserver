@@ -6,13 +6,13 @@ const { getRoutes } = require('./routes');
 
 
 const router = function ({ startupLog }) {
-  const perf = startupLog.perf.start('router', 'middleware');
+  const perf = startupLog.perf.start('protocol.router', 'middleware');
   const routes = getRoutes();
   perf.stop();
 
   return async function router(input) {
     const { path, method, log } = input;
-    const perf = log.perf.start('router', 'middleware');
+    const perf = log.perf.start('protocol.router', 'middleware');
 
     const matchedRoute = routes.find({ path, method });
     if (!matchedRoute) {

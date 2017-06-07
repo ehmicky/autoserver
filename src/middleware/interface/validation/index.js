@@ -12,7 +12,7 @@ const { EngineError } = require('../../../error');
 const interfaceValidation = function () {
   return async function interfaceValidation(input) {
     const { interface: interf, route, log } = input;
-    const perf = log.perf.start('interfaceValidation', 'middleware');
+    const perf = log.perf.start('interface.validation', 'middleware');
 
     if (!interf) {
       const message = `Unsupported interface: ${route}`;

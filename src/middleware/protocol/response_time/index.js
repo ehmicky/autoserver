@@ -9,7 +9,7 @@ const setResponseTime = function () {
     const { log, protocol, specific } = input;
 
     const response = await this.next(input);
-    const perf = log.perf.start('setResponseTime', 'middleware');
+    const perf = log.perf.start('protocol.setResponseTime', 'middleware');
 
     const responseTime = log.perf.all.stop();
     log.add({ responseTime });

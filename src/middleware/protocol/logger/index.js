@@ -16,13 +16,13 @@ const logger = function () {
     try {
       const response = await this.next(input);
 
-      const perf = log.perf.start('logger', 'middleware');
+      const perf = log.perf.start('protocol.logger', 'middleware');
       await handleLog({ input });
       perf.stop();
 
       return response;
     } catch (error) {
-      const perf = log.perf.start('logger', 'exception');
+      const perf = log.perf.start('protocol.logger', 'exception');
 
       addErrorReason({ error, input });
       await handleLog({ error, input });

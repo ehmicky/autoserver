@@ -10,7 +10,7 @@ const { commands } = require('../../../../constants');
 const replaceAction = function () {
   return async function replaceAction(input) {
     const { sysArgs, action, log } = input;
-    const perf = log.perf.start('replaceAction', 'middleware');
+    const perf = log.perf.start('action.replace', 'middleware');
 
     const isMultiple = action.multiple;
     const command = commands.find(({ type, multiple }) => {

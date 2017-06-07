@@ -10,7 +10,7 @@ const { commands } = require('../../../../constants');
 const createAction = function () {
   return async function createAction(input) {
     const { sysArgs, action, log } = input;
-    const perf = log.perf.start('createAction', 'middleware');
+    const perf = log.perf.start('action.create', 'middleware');
 
     const isMultiple = action.multiple;
     const command = commands.find(({ type, multiple }) => {

@@ -45,7 +45,7 @@ const fillParams = function (opts) {
 
   return async function fillParams(input) {
     const { specific, jsl, protocol, log } = input;
-    const perf = log.perf.start('fillParams', 'middleware');
+    const perf = log.perf.start('protocol.fillParams', 'middleware');
 
     const { method, protocolMethod } = getMethod({ specific, protocol });
     const queryVars = getQueryVars({ specific, protocol });

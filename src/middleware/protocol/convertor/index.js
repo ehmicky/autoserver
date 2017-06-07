@@ -9,7 +9,7 @@ const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
   return async function protocolConvertor(input) {
     const { log } = input;
 
-    const perf = log.perf.start('protocolConvertor', 'middleware');
+    const perf = log.perf.start('protocol.convertor', 'middleware');
 
     const jsl = new Jsl({ exposeMap });
     const jslWithHelpers = jsl.addHelpers({ helpers });

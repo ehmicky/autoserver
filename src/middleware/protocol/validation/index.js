@@ -13,7 +13,7 @@ const protocolValidation = function () {
   return async function protocolValidation(input) {
     const { protocol, log } = input;
 
-    const perf = log.perf.start('protocolValidation', 'middleware');
+    const perf = log.perf.start('protocol.validation', 'middleware');
 
     if (!protocol) {
       const message = 'Unsupported protocol';
