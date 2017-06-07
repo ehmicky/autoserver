@@ -10,7 +10,10 @@ const { isJsl } = require('../../../../jsl');
 
 // Retrieves the input for the "update" command
 const getUpdateInput = function ({ input, models }) {
-  input = cloneDeep(input);
+  input = Object.assign({}, input);
+  input.args = cloneDeep(input.args);
+  input.sysArgs = cloneDeep(input.sysArgs);
+
   const { sysArgs, args, action, jsl } = input;
 
   const isMultiple = action.multiple;

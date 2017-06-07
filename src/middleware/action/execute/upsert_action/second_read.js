@@ -10,7 +10,10 @@ const { getFilter } = require('./filter');
 // Retrieves the input for the second "read" command
 // It is used for final output of "upsert" action
 const getSecondReadInput = function ({ input }) {
-  input = cloneDeep(input);
+  input = Object.assign({}, input);
+  input.args = cloneDeep(input.args);
+  input.sysArgs = cloneDeep(input.sysArgs);
+
   const { sysArgs, action } = input;
 
   const isMultiple = action.multiple;
