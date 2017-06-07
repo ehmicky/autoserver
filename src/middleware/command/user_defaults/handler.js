@@ -9,8 +9,10 @@ const { applyAllDefault } = require('./apply');
  * This can be a static value or any JSL
  * Not applied on partial write actions like 'update'
  **/
-const userDefaults = function ({ idl }) {
+const userDefaults = function ({ idl, startupLog }) {
+  const perf = startupLog.perf.start('userDefaults', 'middleware');
   const defMap = getDefMap({ idl });
+  perf.stop();
 
   return async function userDefaults(input) {
     if (input.args.data) {
@@ -26,19 +28,19 @@ const userDefaults = function ({ idl }) {
 // Retrieves map of models's attributes for which a default value is defined
 // E.g. { User: { name: 'default_name', ... }, ... }
 const getDefMap = function ({ idl: { models } }) {
-  return new Map(Object.entries(models)
+  const defMap = Object.entries(models)
     .map(([modelName, { properties = {}, required = [] }]) => {
-      const props = new Map(Object.entries(properties)
+      const modelDefMap = Object.entries(properties)
         .map(([propName, prop]) => [propName, prop.default])
         .filter(([propName, defValue]) =>
           defValue !== undefined &&
           // Required values do not have default values
           !required.includes(propName)
-        )
-      );
+        );
+      const props = new Map(modelDefMap);
       return [modelName, props];
-    })
-  );
+    });
+  return new Map(defMap);
 };
 
 // Retrieves applyDefault() options from main input

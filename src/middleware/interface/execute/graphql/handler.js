@@ -12,9 +12,12 @@ const { applyModifiers } = require('./modifiers');
 
 // GraphQL query handling
 const executeGraphql = function (opts) {
-  const { idl } = opts;
+  const { idl, startupLog } = opts;
+  const perf = startupLog.perf.start('graphql', 'middleware');
   const handleIntrospection = getHandleIntrospection(opts);
   const handleQuery = getHandleQuery({ idl });
+  perf.stop();
+
   return async function executeGraphql(input) {
     // Parameters can be in either query variables or payload
     // (including by using application/graphql)
