@@ -7,7 +7,6 @@ module.exports = Object.assign(
   require('./is_dev'),
   require('./transtype'),
   require('./filesystem'),
-  require('./promise'),
   require('./memoize'),
   require('./transform'),
   require('./recurse_map_by_ref'),
