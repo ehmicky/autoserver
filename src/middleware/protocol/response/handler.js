@@ -18,7 +18,7 @@ const sendResponse = async function () {
 
       log.add({ response: { content, type } });
 
-      send(response);
+      await send(response);
 
       perf.stop();
       return response;
