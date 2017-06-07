@@ -20,7 +20,7 @@ const addParseFunc = function ({
   options = {},
 } = {}) {
   const parser = promisify(bodyParser[type](options));
-  parse[exportsType] = async function (req) {
+  parse[exportsType] = async function ({ specific: { req } }) {
     // body-parser will fill req.body = {} even if there is no body.
     // We want to know if there is a body or not though,
     // so must keep req.body to undefined if there is non
@@ -56,6 +56,10 @@ for (const bodyParam of bodyParams) {
   addParseFunc(bodyParam);
 }
 
+const hasPayload = function ({ specific: { req: { headers } } }) {
+  return Number(headers['content-length']) > 0
+    || headers['transfer-encoding'] !== undefined;
+};
 
 const sendJson = function ({
   specific,
@@ -108,8 +112,9 @@ const genericSend = function ({
 
 
 module.exports = {
-  httpBody: {
+  body: {
     parse: parse,
+    hasPayload,
     send: {
       json: sendJson,
       html: sendHtml,

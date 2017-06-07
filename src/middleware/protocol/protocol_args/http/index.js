@@ -3,7 +3,7 @@
 
 const { omitBy } = require('lodash');
 
-const { httpHeaders: { parsePrefer } } = require('../../../../parsing');
+const { http: { headers: { parsePrefer } } } = require('../../../../parsing');
 
 
 // Transform headers into protocolArgs, for HTTP-specific headers

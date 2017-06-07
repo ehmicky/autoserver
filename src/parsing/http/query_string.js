@@ -31,7 +31,7 @@ const MAX_ARRAY_LENGTH = 100;
  * @param {string|Url} url - Can either be a full URL, a path, a query string (with leading '?') or a URL object
  * @returns {object} queryObject
  */
-const parse = function (url) {
+const parse = function ({ specific: { req: { url } } }) {
   const queryString = getQueryString(url);
   try {
     const queryObject = qs.parse(queryString, {
@@ -43,7 +43,7 @@ const parse = function (url) {
     });
     return queryObject;
   } catch (innererror) {
-    throw new EngineError(`Request query string is invalid: ${url}`, { reason: 'HTTP_QUERY_STRING_PARSE', innererror });
+    throw new EngineError(`Request query string is invalid: ${url}`, { reason: 'QUERY_STRING_PARSE', innererror });
   }
 };
 
@@ -65,7 +65,7 @@ const getQueryString = function (url) {
         }
         url = new urlParser.URL(`http://localhost${path}`);
       } catch (e) {
-        throw new EngineError(`Could not retrieve query string from: ${url}`, { reason: 'HTTP_QUERY_STRING_PARSE' });
+        throw new EngineError(`Could not retrieve query string from: ${url}`, { reason: 'QUERY_STRING_PARSE' });
       }
     }
   }
@@ -100,7 +100,7 @@ const serialize = function (queryObject) {
     return queryString;
   } catch (innererror) {
     throw new EngineError(`Response query string is invalid: ${JSON.stringify(queryObject)}`, {
-      reason: 'HTTP_QUERY_STRING_SERIALIZE',
+      reason: 'QUERY_STRING_SERIALIZE',
       innererror,
     });
   }
@@ -108,7 +108,7 @@ const serialize = function (queryObject) {
 
 
 module.exports = {
-  httpQueryString: {
+  queryString: {
     parse,
     serialize,
   },

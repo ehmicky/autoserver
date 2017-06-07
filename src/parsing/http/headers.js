@@ -21,8 +21,8 @@ const { EngineError } = require('../../error');
  * @param {string} projectName - MYNAMESPACE
  * @returns {object} appHeaders
  */
-const parse = function (reqOrRes, projectName) {
-  const headers = getHeaders(reqOrRes);
+const parse = function ({ specific: { req }, projectName }) {
+  const headers = getHeaders(req);
   const nonAppHeaders = getNonAppHeaders(headers, projectName);
   const appHeaders = getAppHeaders(headers, projectName);
 
@@ -89,7 +89,7 @@ const send = function ({ specific: { res }, headers = {} }) {
 
 
 module.exports = {
-  httpHeaders: {
+  headers: {
     parse,
     parsePrefer,
     send,

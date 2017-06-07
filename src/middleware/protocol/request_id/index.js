@@ -3,7 +3,7 @@
 
 const uuidv4 = require('uuid/v4');
 
-const { httpHeaders } = require('../../../parsing');
+const parsing = require('../../../parsing');
 const { getServerInfo } = require('../../../info');
 
 
@@ -35,18 +35,14 @@ const setRequestIds = function () {
 // Send e.g. HTTP request header, `X-Request-Id`
 const sendRequestIdHeader = function ({ specific, protocol, requestId }) {
   const headers = { 'X-Request-Id': requestId };
-  sendHeadersMap[protocol].send({ specific, headers });
+  parsing[protocol].headers.send({ specific, headers });
 };
 
 // Send e.g. HTTP request header, `X-Server-Name` and `X-Server-Id`
 const sendServerIdsHeaders = function ({ specific, protocol }) {
   const { serverId, serverName } = getServerInfo();
   const headers = { 'X-Server-Name': serverName, 'X-Server-Id': serverId };
-  sendHeadersMap[protocol].send({ specific, headers });
-};
-
-const sendHeadersMap = {
-  http: httpHeaders,
+  parsing[protocol].headers.send({ specific, headers });
 };
 
 

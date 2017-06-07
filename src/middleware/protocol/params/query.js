@@ -3,14 +3,14 @@
 
 const { mapValues } = require('lodash');
 
-const { httpQueryString } = require('../../../../parsing');
-const { transtype } = require('../../../../utilities');
+const parsing = require('../../../parsing');
+const { transtype } = require('../../../utilities');
 
 
-// Retrieves HTTP query variables
-const getQueryVars = function ({ req }) {
+// Retrieves query variables
+const getQueryVars = function ({ specific, protocol }) {
   // Query parameters
-  const queryVars = httpQueryString.parse(req.url);
+  const queryVars = parsing[protocol].queryString.parse({ specific });
 
   // Tries to guess parameter types, e.g. '15' -> 15
   const transtypedQueryVars = mapValues(queryVars, value => transtype(value));
