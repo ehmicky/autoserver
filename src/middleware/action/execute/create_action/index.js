@@ -9,7 +9,8 @@ const { commands } = require('../../../../constants');
  **/
 const createAction = function () {
   return async function createAction(input) {
-    const { sysArgs, action } = input;
+    const { sysArgs, action, log } = input;
+    const perf = log.perf.start('createAction', 'middleware');
 
     const isMultiple = action.multiple;
     const command = commands.find(({ type, multiple }) => {
@@ -18,6 +19,7 @@ const createAction = function () {
     Object.assign(sysArgs, { pagination: false });
     Object.assign(input, { command, sysArgs });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };
