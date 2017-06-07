@@ -157,9 +157,9 @@ class Log {
 
   // Buffer log calls
   // E.g. used in requests when requestInfo is not completely built yet
-  _setBuffered(isBuffered) {
+  async _setBuffered(isBuffered) {
     const method = isBuffered ? 'cork' : 'uncork';
-    this._report[method]();
+    await this._report[method]();
   }
 
   async _reportPerf() {

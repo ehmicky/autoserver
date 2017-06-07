@@ -10,12 +10,13 @@ const loggingBuffer = function () {
     let response;
     try {
       // Buffer logging calls
-      log._setBuffered(true);
+      await log._setBuffered(true);
+
       response = await this.next(input);
     } finally {
       // Release logging calls, now that all possiblelog.add() calls
       // have been performed
-      log._setBuffered(false);
+      await log._setBuffered(false);
     }
     return response;
   };
