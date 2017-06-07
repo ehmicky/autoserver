@@ -61,11 +61,11 @@ startServer({
   if (type === 'perf') { return; }
   //const jsonInfo = JSON.stringify(info, null, 2);
   //global.console.log('Logging info', jsonInfo);
-})
-// Performance monitoring
-.on('log.*.perf.*', ({ measuresMessage }) => {
-  global.console.log(`Performance logging info ${measuresMessage}`);
 });
+// Performance monitoring
+/*.on('log.*.perf.*', ({ measuresMessage }) => {
+  global.console.log(`Performance logging info ${measuresMessage}`);
+})*/
 
 const hasEmit = function (eventName) {
   global.console.log(`Emitting event '${eventName}'`);
