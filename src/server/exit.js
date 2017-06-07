@@ -20,12 +20,10 @@ const setupGracefulExit = function ({ servers, opts }) {
 const gracefulExit = onlyOnce(async function ({ servers, opts }) {
   const { apiServer } = opts;
   const log = new Log({ opts, phase: 'shutdown' });
-  const perf = log.perf.start('all');
+  const perf = log.perf.start('all', 'all');
 
-  perf.stop();
   const closingServers = servers.map(server => closeServer({ server, log }));
   const statuses = await Promise.all(closingServers);
-  perf.start();
 
   const { failedProtocols, isSuccess } = processStatuses({ statuses });
 
@@ -116,6 +114,8 @@ const logEndShutdown = async function ({
   failedProtocols,
   isSuccess,
 }) {
+  const perf = log.perf.start('log');
+
   const message = isSuccess
     ? 'Server exited successfully'
     : `Server exited with errors while shutting down ${failedProtocols.join(', ')}`;
@@ -126,6 +126,8 @@ const logEndShutdown = async function ({
   try {
     await log[level](message, { type: 'stop', exitStatuses });
   } catch (error) {/* */}
+
+  perf.stop();
 };
 
 // Kills main process, with exit code 0 (success) or 1 (failure)
