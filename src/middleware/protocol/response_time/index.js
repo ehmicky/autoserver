@@ -7,7 +7,8 @@ const setResponseTime = function () {
 
     const response = await this.next(input);
 
-    log.perf.all.stop();
+    const responseTime = log.perf.all.stop();
+    log.add({ responseTime });
 
     return response;
   };

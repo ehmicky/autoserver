@@ -7,6 +7,8 @@ const { cloneDeep, omit } = require('lodash');
 // Builds `requestInfo` object, which contains request-related log information:
 //   - requestId {string}
 //   - timestamp {string}
+//   - requestTime {number} - time it took to handle the request, in millisecs.
+//     Only defined if the request was successful.
 //   - ip {string}
 //   - protocol {string} - e.g. http
 //   - protocolFullName {string} - e.g. HTTP/1.1
