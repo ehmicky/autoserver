@@ -65,7 +65,16 @@ startServer({
 // Performance monitoring
 .on('log.*.perf.*', info => {
   const measures = info.measures
-    .sort(({ duration: a }, { duration: b }) => a < b ? 1 : a > b ? -1 : 0)
+    .sort((
+      { category: catA, duration: timeA },
+      { category: catB, duration: timeB },
+    ) => {
+      if (catA < catB) { return -1; }
+      if (catA > catB) { return 1; }
+      if (timeA < timeB) { return 1; }
+      if (timeA > timeB) { return -1; }
+      return 0;
+    })
     .map(({
       phase,
       category,
