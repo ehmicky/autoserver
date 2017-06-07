@@ -6,6 +6,8 @@ const { validate } = require('../validation');
 
 // Validation for main options
 const validateOptions = function ({ options }) {
+  const perf = options.startupLog.perf.start('validate', 'options');
+
   const schema = {
     type: 'object',
     required: ['conf'],
@@ -90,6 +92,8 @@ const validateOptions = function ({ options }) {
 
   const reportInfo = { type: 'options', dataVar: 'options' };
   validate({ schema, data: options, reportInfo });
+
+  perf.stop();
 };
 
 

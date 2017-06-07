@@ -6,9 +6,11 @@ const { pick } = require('lodash');
 
 // Transform main options
 const transformOptions = function ({ options }) {
+  const perf = options.startupLog.perf.start('transform', 'options');
   if (options.loggerFilter && options.loggerFilter.constructor === Object) {
     transformLoggerFilters(options.loggerFilter);
   }
+  perf.stop();
 };
 
 const transformLoggerFilters = function (filters) {
