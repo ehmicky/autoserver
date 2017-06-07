@@ -14,6 +14,9 @@ const setupGracefulExit = function ({ servers, opts }) {
   process.once('SIGTERM', gracefulExit.bind(null, { servers, opts }));
   // Used by Nodemon
   process.once('SIGUSR2', gracefulExit.bind(null, { servers, opts }));
+  // Make sure servers exit on startup errors
+  const { apiServer } = opts;
+  apiServer.once('startupError', gracefulExit.bind(null, { servers, opts }));
 };
 
 // Setup graceful exit
