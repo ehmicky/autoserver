@@ -113,12 +113,17 @@ class PerfLog {
       .reduce((measures, [categoryLabel, labelMeasures]) => {
         const [category, label] = categoryLabel.split(' ');
         if (hasException && category !== 'exception') { return measures; }
+
         // Use milliseconds, but with nanoseconds precision
         const items = Object.values(labelMeasures)
+          .filter(({ duration }) => duration !== undefined)
           .map(({ duration }) => duration / 10 ** 6);
+        if (items.length === 0) { return measures; }
+
         const duration = items.reduce((sum, item) => sum + item, 0);
         const count = items.length;
         const average = duration / count;
+
         const measure = { category, label, duration, items, count, average };
         return [...measures, measure];
       }, []);
