@@ -61,8 +61,9 @@ startServer({
   if (type === 'perf') { return; }
   //const jsonInfo = JSON.stringify(info, null, 2);
   //global.console.log('Logging info', jsonInfo);
-})
+});
 // Performance monitoring
+/*
 .on('log.*.perf.*', info => {
   const measures = info.measures
     .sort((
@@ -93,7 +94,8 @@ startServer({
     });
   const jsonMeasures = measures.reduce((memo, str) => `${memo}\n${str}`, '');
   global.console.log('Performance logging info', jsonMeasures);
-});
+})
+*/
 
 const hasEmit = function (eventName) {
   global.console.log(`Emitting event '${eventName}'`);
