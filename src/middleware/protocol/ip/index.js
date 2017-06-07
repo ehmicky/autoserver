@@ -8,6 +8,7 @@ const { httpGetIp } = require('./http');
 const getIp = function () {
   return async function getIp(input) {
     const { jsl, log, protocol } = input;
+    const perf = log.perf.start('getIp', 'middleware');
 
     const ip = ipMap[protocol](input) || '';
     const newJsl = jsl.add({ $IP: ip });
@@ -15,6 +16,7 @@ const getIp = function () {
 
     Object.assign(input, { ip, jsl: newJsl });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

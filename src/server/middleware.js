@@ -117,7 +117,7 @@ const getMiddleware = async function (opts) {
     // Convert from Api format to Database format
     mdw.databaseConvertor,
     // General validation layer
-    mdw.validation,
+    mdw.databaseValidation,
     // Do the database action, protocol and interface-agnostic
     mdw.databaseExecute,
 

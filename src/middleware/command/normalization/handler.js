@@ -11,7 +11,8 @@ const { normalizeOrderBy } = require('./order_by');
  **/
 const normalization = function () {
   return async function normalization(input) {
-    const { args } = input;
+    const { args, log } = input;
+    const perf = log.perf.start('normalization', 'middleware');
 
     if (args.filter) {
       args.filter = normalizeFilter({ filter: args.filter });
@@ -21,6 +22,7 @@ const normalization = function () {
       args.order_by = normalizeOrderBy({ orderBy: args.order_by });
     }
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

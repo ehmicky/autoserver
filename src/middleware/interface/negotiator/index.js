@@ -8,6 +8,7 @@ const { findKey } = require('lodash');
 const interfaceNegotiator = function () {
   return async function interfaceNegotiator(input) {
     const { route, jsl, log } = input;
+    const perf = log.perf.start('interfaceNegotiator', 'middleware');
 
     const interf = findKey(interfaces, test => test({ route }));
 
@@ -16,6 +17,7 @@ const interfaceNegotiator = function () {
     log.add({ interface: interf });
     Object.assign(input, { interface: interf, jsl: newJsl });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

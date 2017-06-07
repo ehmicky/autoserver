@@ -17,6 +17,7 @@ const actionConvertor = function () {
       params,
       interface: interf,
     } = input;
+    const perf = log.perf.start('actionConvertor', 'middleware');
 
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
@@ -39,10 +40,16 @@ const actionConvertor = function () {
 
     let response;
     try {
+      perf.stop();
       response = await this.next(nextInput);
+      perf.start();
     } catch (error) {
+      const perf = log.perf.start('actionConvertor', 'exception');
+
       // Added only for final error handler
       log.add({ action, fullAction, args: clonedArgs, model: modelName });
+
+      perf.stop();
       throw error;
     }
 
@@ -56,6 +63,7 @@ const actionConvertor = function () {
     const logActions = { [fullAction]: logAction };
     log.add({ actions: logActions });
 
+    perf.stop();
     return { content, modifiers };
   };
 };

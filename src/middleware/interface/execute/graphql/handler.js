@@ -12,16 +12,17 @@ const { applyModifiers } = require('./modifiers');
 
 // GraphQL query handling
 const executeGraphql = function (opts) {
-  const { idl, startupLog } = opts;
-  const perf = startupLog.perf.start('graphql', 'middleware');
+  const { idl } = opts;
   const handleIntrospection = getHandleIntrospection(opts);
   const handleQuery = getHandleQuery({ idl });
-  perf.stop();
 
   return async function executeGraphql(input) {
     // Parameters can be in either query variables or payload
     // (including by using application/graphql)
-    const { queryVars, payload, method } = input;
+    const { queryVars, payload, method, log } = input;
+    const perf = log.perf.start('executeGraphql', 'middleware');
+    perf.ongoing = 0;
+
     const {
       query,
       variables,
@@ -46,7 +47,7 @@ const executeGraphql = function (opts) {
       });
     // Normal GraphQL query
     } else {
-      const callback = fireNext.bind(this, input, modifiers);
+      const callback = fireNext.bind(this, input, modifiers, perf);
       const response = await handleQuery({
         queryDocument,
         variables,
@@ -60,14 +61,27 @@ const executeGraphql = function (opts) {
 
     const type = getResponseType({ content });
 
+    perf.stop();
     const response = { content, type };
     return response;
   };
 };
 
-const fireNext = async function (request, modifiers, actionInput) {
+const fireNext = async function (request, modifiers, perf, actionInput) {
   const input = Object.assign({}, request, { modifiers }, actionInput);
+
+  // Several calls of this function are done concurrently, so we stop
+  // performance recording on the first in, and restart on the last out
+  if (perf.ongoing++ === 0) {
+    perf.stop();
+  }
+
   const response = await this.next(input);
+
+  if (--perf.ongoing === 0) {
+    perf.start();
+  }
+
   return response;
 };
 

@@ -15,6 +15,7 @@ const fillProtocolArgs = function (opts) {
 
   return async function fillProtocolArgs(input) {
     const { protocol, log } = input;
+    const perf = log.perf.start('fillProtocolArgs', 'middleware');
 
     const nonSpecificArgs = getGenericProcotolArgs(input);
     const specificArgs = argsMap[protocol](input);
@@ -23,6 +24,7 @@ const fillProtocolArgs = function (opts) {
     log.add({ protocolArgs });
     Object.assign(input, { protocolArgs });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

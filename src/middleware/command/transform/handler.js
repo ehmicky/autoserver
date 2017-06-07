@@ -13,7 +13,8 @@ const { transformInput, transformOutput } = require('./transformer');
  **/
 const transform = function ({ idl: { models } }) {
   return async function transform(input) {
-    const { args, jsl, modelName } = input;
+    const { args, jsl, modelName, log } = input;
+    const perf = log.perf.start('transform', 'middleware');
 
     // Retrieves IDL definition for this model
     const modelIdl = models[modelName];
@@ -26,10 +27,14 @@ const transform = function ({ idl: { models } }) {
       args.data = transformInput(tfArg);
     }
 
+    perf.stop();
     const response = await this.next(input);
+    perf.start();
+
     const tfArg = Object.assign({ value: response.data }, transformArgs);
     response.data = transformOutput(tfArg);
 
+    perf.stop();
     return response;
   };
 };

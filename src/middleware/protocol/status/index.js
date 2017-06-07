@@ -7,16 +7,26 @@ const { httpGetStatus, httpGetProtocolStatus } = require('./http');
 // Retrieve response's status
 const getStatus = function () {
   return async function getStatus(input) {
+    const { log } = input;
+
     try {
       const response = await this.next(input);
+
+      const perf = log.perf.start('getStatus', 'middleware');
       setStatus({ input });
+      perf.stop();
+
       return response;
     } catch (error) {
+      const perf = log.perf.start('getStatus', 'exception');
+
       if (!(error instanceof Error)) {
         error = new Error(String(error));
       }
 
       setStatus({ input, error });
+
+      perf.stop();
       throw error;
     }
   };

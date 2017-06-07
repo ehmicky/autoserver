@@ -15,7 +15,9 @@ const errorHandler = function () {
       return response;
     } catch (error) {
       try {
+        const perf = log.perf.start('errorHandler', 'exception');
         handleError({ log, error });
+        perf.stop();
       // If error handler itself fails
       } catch (innererror) {
         handleFailure({ log, error: innererror });

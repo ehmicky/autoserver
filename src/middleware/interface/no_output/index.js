@@ -9,8 +9,12 @@ const { EngineError } = require('../../../error');
 // but it's up to the main interface middleware to actually remove it
 const noOutputSet = function () {
   return async function noOutputSet(input) {
+    const { log } = input;
+    const perf = log.perf.start('noOutputSet', 'middleware');
+
     const flaggedAction = flagNoOutput(input);
 
+    perf.stop();
     const response = await this.next(input);
 
     if (flaggedAction) {

@@ -4,13 +4,15 @@
 // Merge the modifiers from a single action to the general request's modifier
 const mergeModifiers = function () {
   return async function noOutputSet(input) {
-    const { modifiers: allModifiers } = input;
+    const { modifiers: allModifiers, log } = input;
 
     const { content, modifiers } = await this.next(input);
+    const perf = log.perf.start('mergeModifiers', 'middleware');
 
     defaultMods({ allModifiers });
     mergeMods({ allModifiers, modifiers });
 
+    perf.stop();
     return content;
   };
 };

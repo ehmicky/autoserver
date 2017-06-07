@@ -11,7 +11,9 @@ const { EngineError } = require('../../../error');
  **/
 const protocolValidation = function () {
   return async function protocolValidation(input) {
-    const { protocol } = input;
+    const { protocol, log } = input;
+
+    const perf = log.perf.start('protocolValidation', 'middleware');
 
     if (!protocol) {
       const message = 'Unsupported protocol';
@@ -20,6 +22,7 @@ const protocolValidation = function () {
 
     validate({ schema, data: input, reportInfo });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

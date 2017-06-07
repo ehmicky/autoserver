@@ -17,13 +17,15 @@ const { EngineError } = require('../../../error');
  **/
 const actionValidation = function ({ idl: { models } = {} }) {
   return async function actionValidation(input) {
-    const { action } = input;
+    const { action, log } = input;
+    const perf = log.perf.start('actionValidation', 'middleware');
 
     const schema = getValidateServerSchema({ models });
     validate({ schema, data: input, reportInfo });
 
     validateAction({ action });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

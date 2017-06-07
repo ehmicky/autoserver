@@ -9,10 +9,17 @@ const { printGraphql } = require('./graphql_print');
 
 // Translates interface-specific calls into generic instance actions
 const interfaceExecute = async function (opts) {
-  const mdws = await mapAsync(middlewares, async mdw => await mdw(opts));
+  const { startupLog } = opts;
+  const mdws = await mapAsync(middlewares, async (mdw, name) => {
+    const perf = startupLog.perf.start(`interface.${name}`, 'middleware');
+    mdw = await mdw(opts);
+    perf.stop();
+    return mdw;
+  });
 
   return async function interfaceExecute(input) {
-    return await mdws[input.interface].call(this, input);
+    const response = await mdws[input.interface].call(this, input);
+    return response;
   };
 };
 
