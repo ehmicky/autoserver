@@ -10,7 +10,7 @@ const { EngineError } = require('../../../error');
  * Those errors should not happen, i.e. server-side (e.g. 500)
  **/
 const interfaceValidation = function () {
-  return function interfaceValidation(input) {
+  return async function interfaceValidation(input) {
     const { interface: interf, route } = input;
 
     if (!interf) {
@@ -20,7 +20,7 @@ const interfaceValidation = function () {
 
     validate({ schema, data: input, reportInfo });
 
-    const response = this.next(input);
+    const response = await this.next(input);
     return response;
   };
 };
