@@ -8,7 +8,7 @@ const { Log } = require('../logging');
 const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
 const { ApiEngineServer } = require('./api_server');
-const { startChain } = require('./chain');
+const { getMiddleware } = require('./middleware');
 const { httpStartServer } = require('./http');
 const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./startup_error');
@@ -47,7 +47,7 @@ const start = async function (options, apiServer, startupLog) {
   const opts = await processOptions(options);
 
   // Those two callbacks must be called by each server
-  opts.handleRequest = await startChain(opts);
+  opts.handleRequest = await getMiddleware(opts);
 
   const serversPerf = startupLog.perf.start('servers');
   opts.handleListening = handleListening.bind(null, startupLog);

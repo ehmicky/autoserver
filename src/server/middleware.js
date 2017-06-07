@@ -2,17 +2,17 @@
 
 
 const { chain } = require('../chain');
-const middlewares = require('../middleware');
+const middleware = require('../middleware');
 const { mapAsync } = require('../utilities');
 
 
-const startChain = async function (opts) {
+const getMiddleware = async function (opts) {
   const perf = opts.startupLog.perf.start('middleware');
 
   // Apply options
-  const mdw = await mapAsync(middlewares, async mdw => await mdw(opts));
+  const mdw = await mapAsync(middleware, async mdw => await mdw(opts));
 
-  const allMiddlewares = chain([
+  const allMiddleware = chain([
     /**
      * Initial layer
      **/
@@ -125,10 +125,10 @@ const startChain = async function (opts) {
 
   perf.stop();
 
-  return allMiddlewares[0];
+  return allMiddleware[0];
 };
 
 
 module.exports = {
-  startChain,
+  getMiddleware,
 };
