@@ -14,7 +14,7 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  * Check for the syntax and the semantics of input and output
  **/
 const databaseValidation = function ({ idl, maxDataLength }) {
-  return async function validation(input) {
+  return async function databaseValidation(input) {
     const { modelName, dbArgs, sysArgs, command, jsl, log } = input;
     const perf = log.perf.start('database.validation', 'middleware');
 
