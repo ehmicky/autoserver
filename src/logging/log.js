@@ -164,7 +164,7 @@ class Log {
 
   async _reportPerf() {
     const { phase } = this;
-    const measures = this.perf.getMeasures()
+    const measures = this.perf._getMeasures()
       .map(obj => Object.assign({}, obj, { phase }));
     await this.log('', { measures, type: 'perf' });
   }
