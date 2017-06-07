@@ -6,14 +6,14 @@ const { getResponse } = require('./response');
 const { reportError } = require('./report');
 
 
-const handleError = function ({ log, error }) {
+const handleError = async function ({ log, error }) {
   const standardError = getStandardError({ log, error });
   reportError({ log, error: standardError });
 
   // Use protocol-specific way to send back the response to the client
   if (error.sendError) {
     const errorResponse = getResponse({ error: standardError });
-    error.sendError(errorResponse);
+    await error.sendError(errorResponse);
   }
 };
 

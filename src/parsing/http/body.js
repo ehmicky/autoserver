@@ -61,39 +61,39 @@ const hasPayload = function ({ specific: { req: { headers } } }) {
     || headers['transfer-encoding'] !== undefined;
 };
 
-const sendJson = function ({
+const sendJson = async function ({
   specific,
   content = {},
   contentType = 'application/json',
   status,
 }) {
   content = JSON.stringify(content, null, 2);
-  return genericSend({ specific, content, contentType, status });
+  return await genericSend({ specific, content, contentType, status });
 };
 
-const sendHtml = function ({
+const sendHtml = async function ({
   specific,
   content = '',
   contentType = 'text/html',
   status,
 }) {
-  return genericSend({ specific, content, contentType, status });
+  return await genericSend({ specific, content, contentType, status });
 };
 
-const sendText = function ({
+const sendText = async function ({
   specific,
   content = '',
   contentType = 'text/plain',
   status,
 }) {
-  return genericSend({ specific, content, contentType, status });
+  return await genericSend({ specific, content, contentType, status });
 };
 
-const sendNoBody = function ({ specific: { res } }) {
-  res.end();
+const sendNoBody = async function ({ specific: { res } }) {
+  await promisify(res.end)();
 };
 
-const genericSend = function ({
+const genericSend = async function ({
   specific: { res },
   content,
   contentType,
@@ -106,7 +106,7 @@ const genericSend = function ({
   }
   res.setHeader('Content-Type', contentType);
   res.setHeader('Content-Length', Buffer.byteLength(content));
-  res.end(content);
+  await promisify(res.end.bind(res))(content);
   return content;
 };
 
