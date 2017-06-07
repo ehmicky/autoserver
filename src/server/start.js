@@ -70,9 +70,9 @@ const start = async function (options, apiServer, startupLog) {
 
   setupGracefulExit({ servers: serversArray, opts });
 
+  await apiServer.emitAsync('start');
   // Create log message when all protocol-specific servers have started
   startupLog.log('Server is ready', { type: 'start' });
-  await apiServer.emitAsync('start');
 
   perf.stop();
   allPerf.stop();
