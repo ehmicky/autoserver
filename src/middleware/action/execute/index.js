@@ -12,7 +12,13 @@ const { deleteAction } = require('./delete_action');
 
 // Translates interface-specific calls into generic instance actions
 const actionExecute = async function (opts) {
-  const mdws = await mapAsync(middlewares, async mdw => await mdw(opts));
+  const { startupLog } = opts;
+  const mdws = await mapAsync(middlewares, async (mdw, name) => {
+    const perf = startupLog.perf.start(`action.${name}`, 'middleware');
+    mdw = await mdw(opts);
+    perf.stop();
+    return mdw;
+  });
 
   return async function actionExecute(input) {
     return await mdws[input.action.name].call(this, input);

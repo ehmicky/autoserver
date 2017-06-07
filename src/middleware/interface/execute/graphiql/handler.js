@@ -9,7 +9,9 @@ const executeGraphiql = function () {
   const endpointURL = `http://${host}:${port}/graphql`;
 
   return async function executeGraphiql(input) {
-    const { queryVars, payload = {} } = input;
+    const { queryVars, payload = {}, log } = input;
+    const perf = log.perf.start('executeGraphiql', 'middleware');
+
     const {
       query,
       variables,
@@ -22,6 +24,8 @@ const executeGraphiql = function () {
       variables,
       operationName,
     });
+
+    perf.stop();
     return {
       type: 'html',
       content,

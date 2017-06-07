@@ -8,6 +8,7 @@ const { pick } = require('lodash');
 const apiConvertor = function () {
   return async function apiConvertor(input) {
     const { command, args, sysArgs, modelName, jsl, log, params } = input;
+    const perf = log.perf.start('apiConvertor', 'middleware');
 
     const dbArgs = pick(args, [
       'data',
@@ -26,6 +27,7 @@ const apiConvertor = function () {
       params,
     };
 
+    perf.stop();
     const response = await this.next(nextInput);
     return response;
   };

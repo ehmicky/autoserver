@@ -9,9 +9,13 @@ const { defaults } = require('./defaults');
 // Apply system-defined defaults to input, including input arguments
 const systemDefaults = function (opts) {
   return async function systemDefaults(input) {
+    const { log } = input;
+    const perf = log.perf.start('systemDefaults', 'middleware');
+
     const newInput = getDefaultArgs({ opts, input });
     merge(input, newInput);
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

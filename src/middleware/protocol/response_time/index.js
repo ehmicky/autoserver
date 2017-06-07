@@ -9,6 +9,7 @@ const setResponseTime = function () {
     const { log, protocol, specific } = input;
 
     const response = await this.next(input);
+    const perf = log.perf.start('setResponseTime', 'middleware');
 
     const responseTime = log.perf.all.stop();
     log.add({ responseTime });
@@ -16,6 +17,7 @@ const setResponseTime = function () {
     const headers = { 'X-Response-Time': Math.round(responseTime) };
     parsing[protocol].headers.send({ specific, headers });
 
+    perf.stop();
     return response;
   };
 };

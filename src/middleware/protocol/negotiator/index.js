@@ -6,6 +6,8 @@ const protocolNegotiator = function () {
   return async function protocolNegotiator(input) {
     const { jsl, log } = input;
 
+    const perf = log.perf.start('protocolNegotiator', 'middleware');
+
     const { protocol } = protocols.find(({ test }) => test(input));
     const protocolFullName = protocolFullNames[protocol](input);
 
@@ -14,6 +16,7 @@ const protocolNegotiator = function () {
 
     Object.assign(input, { protocol, protocolFullName, jsl: newJsl });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

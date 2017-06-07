@@ -15,11 +15,15 @@ const userDefaults = function ({ idl, startupLog }) {
   perf.stop();
 
   return async function userDefaults(input) {
-    if (input.args.data) {
+    const { args, log } = input;
+    const perf = log.perf.start('userDefaults', 'middleware');
+
+    if (args.data) {
       const opts = getOptions({ defMap, input });
-      input.args.data = applyAllDefault(opts);
+      args.data = applyAllDefault(opts);
     }
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

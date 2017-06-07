@@ -5,6 +5,8 @@
 const databaseConvertor = function () {
   return async function databaseConvertor(input) {
     const { command, dbArgs, sysArgs, modelName, jsl, log, params } = input;
+    const perf = log.perf.start('databaseConvertor', 'middleware');
+
     const nextInput = {
       command,
       dbArgs,
@@ -15,6 +17,7 @@ const databaseConvertor = function () {
       params,
     };
 
+    perf.stop();
     const response = await this.next(nextInput);
     return response;
   };

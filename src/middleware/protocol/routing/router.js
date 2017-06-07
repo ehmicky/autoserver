@@ -12,6 +12,7 @@ const router = function ({ startupLog }) {
 
   return async function router(input) {
     const { path, method, log } = input;
+    const perf = log.perf.start('router', 'middleware');
 
     const matchedRoute = routes.find({ path, method });
     if (!matchedRoute) {
@@ -25,6 +26,7 @@ const router = function ({ startupLog }) {
     log.add({ route, pathVars });
     Object.assign(input, { route, pathVars });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

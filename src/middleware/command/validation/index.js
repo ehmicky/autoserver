@@ -15,13 +15,15 @@ const { EngineError } = require('../../../error');
  **/
 const commandValidation = function ({ idl: { models } = {} }) {
   return async function commandValidation(input) {
-    const { command } = input;
+    const { command, log } = input;
+    const perf = log.perf.start('commandValidation', 'middleware');
 
     const schema = getValidateServerSchema({ models });
     validate({ schema, data: input, reportInfo });
 
     validateCommand({ command });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };
