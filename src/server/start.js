@@ -7,6 +7,7 @@ const { cloneDeep } = require('lodash');
 const { Log } = require('../logging');
 const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
+const { getIdl } = require('../idl');
 const { ApiEngineServer } = require('./api_server');
 const { getMiddleware } = require('./middleware');
 const { httpStartServer } = require('./http');
@@ -45,6 +46,7 @@ const start = async function (options, apiServer, startupLog) {
 
   perf.stop();
   const opts = await processOptions(options);
+  opts.idl = await getIdl({ opts });
 
   // Those two callbacks must be called by each server
   opts.handleRequest = await getMiddleware(opts);

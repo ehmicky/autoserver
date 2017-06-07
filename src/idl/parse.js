@@ -10,19 +10,41 @@ const { addCustomKeywords } = require('./custom_validation');
 
 
 // Retrieves IDL definition, after validation and transformation
-const getIdl = async function ({ conf }) {
+const getIdl = async function ({ opts }) {
+  const { conf, startupLog } = opts;
+  const perf = startupLog.perf.start('idl');
+
   // Retrieve raw IDL file
+  const confPerf = startupLog.perf.start('conf', 'idl');
   let { idl, baseDir } = await getIdlConf({ conf });
+  confPerf.stop();
+
   // Resolve JSON references
+  const refsPerf = startupLog.perf.start('refs', 'idl');
   idl = await resolveRefs({ idl, baseDir });
+  refsPerf.stop();
+
   // Apply idl.plugins
+  const pluginsPerf = startupLog.perf.start('plugins', 'idl');
   idl = await applyPlugins({ idl });
+  pluginsPerf.stop();
+
   // Validate IDL correctness
+  const validatePerf = startupLog.perf.start('validate', 'idl');
   await validateIdl(idl);
+  validatePerf.stop();
+
   // Transform IDL to normalized form, used by application
+  const normalizePerf = startupLog.perf.start('normalize', 'idl');
   idl = normalizeIdl(idl);
+  normalizePerf.stop();
+
   // Add custom validation keywords, from idl.validation
+  const customValidationPerf = startupLog.perf.start('customValidation', 'idl');
   addCustomKeywords({ idl });
+  customValidationPerf.stop();
+
+  perf.stop();
   return idl;
 };
 

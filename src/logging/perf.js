@@ -161,6 +161,8 @@ const CATEGORIES = [
   'layer',
   'middleware',
   'server',
+  'options',
+  'idl',
   'exception',
 ];
 
