@@ -63,12 +63,14 @@ startServer({
   //global.console.log('Logging info', jsonInfo);
 });
 // Performance monitoring
-/*.on('log.*.perf.*', ({ measuresMessage }) => {
+/*
+.on('log.*.perf.*', ({ measuresMessage }) => {
   global.console.log(`Performance logging info ${measuresMessage}`);
-})*/
+})
+*/
 
-const hasEmit = function (eventName) {
-  global.console.log(`Emitting event '${eventName}'`);
+const hasEmit = function (/* eventName */) {
+  //global.console.log(`Emitting event '${eventName}'`);
 };
 
 
