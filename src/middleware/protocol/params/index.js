@@ -1,13 +1,13 @@
 'use strict';
 
 
-const { mapAsync } = require('../../../utilities');
+const { map } = require('../../../utilities');
 const { httpFillParams } = require('./http');
 
 
 // Fill in request parameters: method, protocolMethod, params, payload
-const fillParams = async function (opts) {
-  const map = await mapAsync(paramsMap, async func => await func(opts));
+const fillParams = function (opts) {
+  const pMap = map(paramsMap, func => func(opts));
 
   return async function fillParams(input) {
     const { jsl, protocol, log } = input;
@@ -19,7 +19,7 @@ const fillParams = async function (opts) {
       headers,
       params,
       payload,
-    } = await map[protocol](input);
+    } = await pMap[protocol](input);
 
     const newJsl = jsl.add({ $PARAMS: params });
 
