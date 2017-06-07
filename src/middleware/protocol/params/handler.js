@@ -8,7 +8,7 @@ const { getPayload } = require('./payload');
 
 
 /**
- * Parameters can be:
+ * Fill in request parameters, which can be:
  *   - method
  *   - query variables
  *   - URL variables
@@ -40,18 +40,43 @@ const { getPayload } = require('./payload');
  *      - semantics are defined by user, not system.
  *      - passed along to all next layers, e.g. as JSL parameter $PARAMS.
  **/
-const httpFillParams = function ({ projectName }) {
-  return async function ({ specific: { req } }) {
-    const { method, protocolMethod } = getMethod({ req });
-    const queryVars = getQueryVars({ req });
-    const { headers, params } = getHeaders({ req, projectName });
-    const payload = await getPayload({ req, headers });
+const fillParams = function (opts) {
+  const { projectName } = opts;
 
-    return { method, protocolMethod, queryVars, headers, params, payload };
+  return async function fillParams(input) {
+    const { specific, jsl, protocol, log } = input;
+
+    const { method, protocolMethod } = getMethod({ specific, protocol });
+    const queryVars = getQueryVars({ specific, protocol });
+    const { params, headers } = getHeaders({ specific, protocol, projectName });
+    const payload = await getPayload({ specific, protocol, headers });
+
+    const newJsl = jsl.add({ $PARAMS: params });
+
+    log.add({
+      method,
+      protocolMethod,
+      queryVars,
+      headers,
+      params,
+      payload,
+    });
+    Object.assign(input, {
+      method,
+      protocolMethod,
+      queryVars,
+      headers,
+      params,
+      payload,
+      jsl: newJsl,
+    });
+
+    const response = await this.next(input);
+    return response;
   };
 };
 
 
 module.exports = {
-  httpFillParams,
+  fillParams,
 };

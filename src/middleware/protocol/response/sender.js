@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { httpBody } = require('../../../parsing');
+const parsing = require('../../../parsing');
 const { EngineError } = require('../../../error');
 
 
@@ -23,12 +23,8 @@ const sender = function (
     throw new EngineError(message, { reason: 'WRONG_RESPONSE' });
   }
 
-  const sendBody = sendBodyMap[protocol].send;
+  const sendBody = parsing[protocol].body.send;
   handler({ sendBody, specific, content, status });
-};
-
-const sendBodyMap = {
-  http: httpBody,
 };
 
 // Each content type is sent differently

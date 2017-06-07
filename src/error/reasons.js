@@ -17,11 +17,11 @@ const errorReasons = {
   // Tried to use a protocol method that is not supported, e.g. TRACE
   UNSUPPORTED_METHOD: {},
 
-  // HTTP request body has a Content-Length but no request body
-  HTTP_NO_CONTENT_TYPE: {},
+  // Request body has a Content-Length but no request body
+  NO_CONTENT_TYPE: {},
 
-  // HTTP query string is wrong
-  HTTP_QUERY_STRING_PARSE: {},
+  // Query string is wrong
+  QUERY_STRING_PARSE: {},
 
   // Tried to query an interface that is not supported, e.g. SOAP
   UNSUPPORTED_INTERFACE: {},
@@ -56,14 +56,14 @@ const errorReasons = {
   // input is too big, e.g. arg.data has too many items
   INPUT_LIMIT: {},
 
-  // HTTP request body Content-Type is unsupported
-  HTTP_WRONG_CONTENT_TYPE: {},
+  // Request body Content-Type is unsupported
+  WRONG_CONTENT_TYPE: {},
 
   // Filesystem error: could not open local file
   FILE_OPEN_ERROR: {},
 
-  // HTTP query string is wrong, but was created by the server
-  HTTP_QUERY_STRING_SERIALIZE: {},
+  // Query string is wrong, but was created by the server
+  QUERY_STRING_SERIALIZE: {},
 
   // IDL definition is syntactically invalid
   IDL_SYNTAX_ERROR: {},
