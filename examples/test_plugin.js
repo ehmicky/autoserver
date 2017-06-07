@@ -1,16 +1,14 @@
 'use strict';
 
 
-const { getPromise } = require('../src/utilities');
+const { promisify } = require('util');
 
-const testPlugin = function ({ idl, opts: { exampleOption } }) {
+const testPlugin = async function ({ idl, opts: { exampleOption } }) {
   // Plugins can be async
-  const promise = getPromise();
-  process.nextTick(() => {
-    idl['x-plugin-attr'] = exampleOption;
-    promise.resolve(idl);
-  });
-  return promise;
+  await promisify(process.nextTick)();
+
+  idl['x-plugin-attr'] = exampleOption;
+  return idl;
 };
 
 

@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { getPromise } = require('../../utilities');
+const { promisify } = require('util');
 
 
 // Add methods related to server exits
@@ -10,22 +10,13 @@ const addStopMethods = function (server) {
 };
 
 // Try a graceful server exit
-const stop = function () {
-  const promise = getPromise();
-  this.close(() => {
-    promise.resolve();
-  });
-  return promise;
+const stop = async function () {
+  await promisify(this.close.bind(this))();
 };
 
 // Count number of pending requests, to log information on server exits
-const countPendingRequests = function () {
-  const promise = getPromise();
-  this.getConnections((error, count) => {
-    if (error) { promise.reject(error); }
-    promise.resolve(count);
-  });
-  return promise;
+const countPendingRequests = async function () {
+  return await promisify(this.getConnections.bind(this))();
 };
 
 
