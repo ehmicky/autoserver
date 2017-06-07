@@ -94,7 +94,9 @@ const shutdownServer = async function ({ server, log, protocol }) {
 // Log shutdown failures
 const handleError = async function ({ log, error, errorMessage }) {
   const errorInfo = getStandardError({ log, error });
-  await log.error(errorMessage, { type: 'failure', errorInfo });
+  try {
+    await log.error(errorMessage, { type: 'failure', errorInfo });
+  } catch (error) {/* */}
 };
 
 // Retrieves which servers exits have failed, if any
@@ -122,7 +124,9 @@ const logEndShutdown = async function ({
     return Object.assign(memo, { [protocol]: status });
   }, {});
 
-  await log[level](message, { type: 'stop', exitStatuses });
+  try {
+    await log[level](message, { type: 'stop', exitStatuses });
+  } catch (error) {/* */}
 };
 
 // Kills main process, with exit code 0 (success) or 1 (failure)
@@ -130,7 +134,9 @@ const logEndShutdown = async function ({
 // this is used together with other projects
 const exit = async function ({ isSuccess, apiServer }) {
   const eventName = isSuccess ? 'stop.success' : 'stop.fail';
-  await apiServer.emitAsync(eventName);
+  try {
+    await apiServer.emitAsync(eventName);
+  } catch (error) {/* */}
 
   // Used by Nodemon
   process.kill(process.pid, 'SIGUSR2');
