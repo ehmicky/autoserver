@@ -10,7 +10,7 @@ const { commands } = require('../../../../constants');
 const deleteAction = function () {
   return async function deleteAction(input) {
     const { sysArgs, action, log } = input;
-    const perf = log.perf.start('deleteAction', 'middleware');
+    const perf = log.perf.start('action.delete', 'middleware');
 
     const isMultiple = action.multiple;
     const command = commands.find(({ type, multiple }) => {

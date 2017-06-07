@@ -14,7 +14,7 @@ const sendResponse = async function () {
       const response = await this.next(input);
       const { content, type } = response;
 
-      const perf = log.perf.start('sendResponse', 'middleware');
+      const perf = log.perf.start('protocol.sendResponse', 'middleware');
 
       log.add({ response: { content, type } });
 
@@ -23,7 +23,7 @@ const sendResponse = async function () {
       perf.stop();
       return response;
     } catch (error) {
-      const perf = log.perf.start('sendResponse', 'exception');
+      const perf = log.perf.start('protocol.sendResponse', 'exception');
 
       if (!(error instanceof Error)) {
         error = new Error(String(error));

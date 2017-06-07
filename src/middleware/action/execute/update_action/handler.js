@@ -24,7 +24,7 @@ const { getUpdateInput } = require('./update');
 const updateAction = function () {
   return async function updateAction(input) {
     const { log } = input;
-    const perf = log.perf.start('updateAction', 'middleware');
+    const perf = log.perf.start('action.update', 'middleware');
 
     const readInput = getReadInput({ input });
 

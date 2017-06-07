@@ -5,7 +5,7 @@
 const commandConvertor = function () {
   return async function commandConvertor(input) {
     const { command, args, sysArgs, modelName, jsl, log, params } = input;
-    const perf = log.perf.start('commandConvertor', 'middleware');
+    const perf = log.perf.start('command.convertor', 'middleware');
 
     const newJsl = jsl.add({ $COMMAND: command.type });
 
@@ -25,7 +25,7 @@ const commandConvertor = function () {
       perf.stop();
       response = await this.next(nextInput);
     } catch (error) {
-      const perf = log.perf.start('commandConvertor', 'exception');
+      const perf = log.perf.start('command.convertor', 'exception');
 
       // Added only for final error handler
       log.add({ command });

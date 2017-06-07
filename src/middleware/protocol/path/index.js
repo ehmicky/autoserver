@@ -9,7 +9,7 @@ const parsing = require('../../../parsing');
 const getPath = function () {
   return async function getPath(input) {
     const { protocol, log, specific } = input;
-    const perf = log.perf.start('getPath', 'middleware');
+    const perf = log.perf.start('protocol.getPath', 'middleware');
 
     const url = parsing[protocol].url.getUrl({ specific });
     const path = parsing[protocol].url.getPath({ specific });

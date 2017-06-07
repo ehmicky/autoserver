@@ -10,7 +10,7 @@ const { defaults } = require('./defaults');
 const systemDefaults = function (opts) {
   return async function systemDefaults(input) {
     const { log } = input;
-    const perf = log.perf.start('systemDefaults', 'middleware');
+    const perf = log.perf.start('command.systemDefaults', 'middleware');
 
     const newInput = getDefaultArgs({ opts, input });
     merge(input, newInput);

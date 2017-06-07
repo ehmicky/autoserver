@@ -16,7 +16,7 @@ const { EngineError } = require('../../../error');
 const commandValidation = function ({ idl: { models } = {} }) {
   return async function commandValidation(input) {
     const { command, log } = input;
-    const perf = log.perf.start('commandValidation', 'middleware');
+    const perf = log.perf.start('command.validation', 'middleware');
 
     const schema = getValidateServerSchema({ models });
     validate({ schema, data: input, reportInfo });

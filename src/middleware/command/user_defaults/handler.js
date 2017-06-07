@@ -10,13 +10,13 @@ const { applyAllDefault } = require('./apply');
  * Not applied on partial write actions like 'update'
  **/
 const userDefaults = function ({ idl, startupLog }) {
-  const perf = startupLog.perf.start('userDefaults', 'middleware');
+  const perf = startupLog.perf.start('command.userDefaults', 'middleware');
   const defMap = getDefMap({ idl });
   perf.stop();
 
   return async function userDefaults(input) {
     const { args, log } = input;
-    const perf = log.perf.start('userDefaults', 'middleware');
+    const perf = log.perf.start('command.userDefaults', 'middleware');
 
     if (args.data) {
       const opts = getOptions({ defMap, input });

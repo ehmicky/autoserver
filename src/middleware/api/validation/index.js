@@ -15,7 +15,7 @@ const { EngineError } = require('../../../error');
 const apiValidation = function ({ idl: { models } = {} }) {
   return async function apiValidation(input) {
     const { command, log } = input;
-    const perf = log.perf.start('apiValidation', 'middleware');
+    const perf = log.perf.start('api.validation', 'middleware');
 
     const schema = getValidateServerSchema({ models });
     validate({ schema, data: input, reportInfo });

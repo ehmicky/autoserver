@@ -8,7 +8,7 @@ const { findKey } = require('lodash');
 const interfaceNegotiator = function () {
   return async function interfaceNegotiator(input) {
     const { route, jsl, log } = input;
-    const perf = log.perf.start('interfaceNegotiator', 'middleware');
+    const perf = log.perf.start('interface.negotiator', 'middleware');
 
     const interf = findKey(interfaces, test => test({ route }));
 

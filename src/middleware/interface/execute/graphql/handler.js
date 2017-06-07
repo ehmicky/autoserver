@@ -20,7 +20,7 @@ const executeGraphql = function (opts) {
     // Parameters can be in either query variables or payload
     // (including by using application/graphql)
     const { queryVars, payload, method, log } = input;
-    const perf = log.perf.start('executeGraphql', 'middleware');
+    const perf = log.perf.start('interface.executeGraphql', 'middleware');
     perf.ongoing = 0;
 
     const {

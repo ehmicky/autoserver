@@ -17,7 +17,7 @@ const actionConvertor = function () {
       params,
       interface: interf,
     } = input;
-    const perf = log.perf.start('actionConvertor', 'middleware');
+    const perf = log.perf.start('action.convertor', 'middleware');
 
     // Request arguments that cannot be specified by clients
     const sysArgs = {};
@@ -44,7 +44,7 @@ const actionConvertor = function () {
       response = await this.next(nextInput);
       perf.start();
     } catch (error) {
-      const perf = log.perf.start('actionConvertor', 'exception');
+      const perf = log.perf.start('action.convertor', 'exception');
 
       // Added only for final error handler
       log.add({ action, fullAction, args: clonedArgs, model: modelName });

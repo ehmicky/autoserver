@@ -71,7 +71,7 @@ const { getPaginationInfo } = require('./info');
 const pagination = function ({ maxPageSize }) {
   return async function pagination(input) {
     const { args, log } = input;
-    const perf = log.perf.start('pagination', 'middleware');
+    const perf = log.perf.start('api.pagination', 'middleware');
     const originalArgs = cloneDeep(args);
 
     const paginatedInput = processInput({ input, maxPageSize });

@@ -8,14 +8,15 @@ const { httpFillProtocolArgs } = require('./http');
 
 // Transform headers into protocolArgs
 const fillProtocolArgs = function (opts) {
-  const perf = opts.startupLog.perf.start('protocolArgs', 'middleware');
+  const { startupLog } = opts;
+  const perf = startupLog.perf.start('protocol.protocolArgs', 'middleware');
   const argsMap = map(protocolArgsMap, func => func(opts));
   const getGenericProcotolArgs = genericFillProtocolArgs(opts);
   perf.stop();
 
   return async function fillProtocolArgs(input) {
     const { protocol, log } = input;
-    const perf = log.perf.start('fillProtocolArgs', 'middleware');
+    const perf = log.perf.start('protocol.fillProtocolArgs', 'middleware');
 
     const nonSpecificArgs = getGenericProcotolArgs(input);
     const specificArgs = argsMap[protocol](input);

@@ -6,7 +6,7 @@ const protocolNegotiator = function () {
   return async function protocolNegotiator(input) {
     const { jsl, log } = input;
 
-    const perf = log.perf.start('protocolNegotiator', 'middleware');
+    const perf = log.perf.start('protocol.negotiator', 'middleware');
 
     const { protocol } = protocols.find(({ test }) => test(input));
     const protocolFullName = protocolFullNames[protocol](input);

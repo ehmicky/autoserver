@@ -8,7 +8,7 @@ const { httpGetIp } = require('./http');
 const getIp = function () {
   return async function getIp(input) {
     const { jsl, log, protocol } = input;
-    const perf = log.perf.start('getIp', 'middleware');
+    const perf = log.perf.start('protocol.getIp', 'middleware');
 
     const ip = ipMap[protocol](input) || '';
     const newJsl = jsl.add({ $IP: ip });

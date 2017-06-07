@@ -9,7 +9,7 @@ const { fireCommand } = require('./commands');
 const databaseExecute = function () {
   return async function databaseExecute(input) {
     const { command, dbArgs = {}, modelName, jsl, log } = input;
-    const perf = log.perf.start('databaseExecute', 'middleware');
+    const perf = log.perf.start('database.execute', 'middleware');
 
     const {
       order_by: orderBy,
