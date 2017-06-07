@@ -32,9 +32,9 @@ const startServer = function ({ handleRequest, handleListening, processLog }) {
 
 // Report TCP client errors
 const handleClientError = function ({ server, log }) {
-  server.on('clientError', (error, socket) => {
+  server.on('clientError', async (error, socket) => {
     const message = 'Client TCP socket error';
-    log.process({ value: error, message });
+    await log.process({ value: error, message });
 
     socket.end('');
   });

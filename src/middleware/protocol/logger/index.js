@@ -17,7 +17,7 @@ const logger = function () {
       const response = await this.next(input);
 
       const perf = log.perf.start('logger', 'middleware');
-      handleLog({ input });
+      await handleLog({ input });
       perf.stop();
 
       return response;
@@ -25,7 +25,7 @@ const logger = function () {
       const perf = log.perf.start('logger', 'exception');
 
       addErrorReason({ error, input });
-      handleLog({ error, input });
+      await handleLog({ error, input });
 
       perf.stop();
       throw error;
@@ -33,7 +33,7 @@ const logger = function () {
   };
 };
 
-const handleLog = function ({
+const handleLog = async function ({
   error,
   input: { log, status = 'SERVER_ERROR' },
 }) {
@@ -45,7 +45,7 @@ const handleLog = function ({
   // The logger will build the message and the `requestInfo`
   // We do not do it now, because we want the full protocol layer to end first,
   // do `requestInfo` is full.
-  log[level]('', { type: 'call' });
+  await log[level]('', { type: 'call' });
 };
 
 // Add information for `requestInfo.error`
