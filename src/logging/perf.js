@@ -18,7 +18,8 @@ const { EngineError } = require('../error');
 //   - `const perfLog = new PerfLog();` is done once per phase
 //   - `const perf = perfLog.start();` is done once per item
 //   - alternating `perf.stop()` and `perf.start()` will freeze|unfreeze an item
-//   - `perf.getMeasures()` will return an array of measures:
+//   - `perf.stop()` will return current time, in milliseconds
+//   - `perf._getMeasures()` will return an array of measures:
 //       - [category="default"] {string}
 //       - label {string}
 //       - duration {number} - sum of all items durations, in milliseconds
@@ -63,11 +64,11 @@ class PerfLog {
   }
 
   _startItem(options) {
-    this._recordItem(Object.assign({}, options, { end: false }));
+    return this._recordItem(Object.assign({}, options, { end: false }));
   }
 
   _stopItem(options) {
-    this._recordItem(Object.assign({}, options, { end: true }));
+    return this._recordItem(Object.assign({}, options, { end: true }));
   }
 
   _recordItem({ end, itemId, label, category }) {
@@ -96,10 +97,12 @@ class PerfLog {
         ? measures.duration + duration
         : duration;
     }
+
+    return measures.duration / 10 ** 6;
   }
 
   // Returns structured measurements
-  getMeasures() {
+  _getMeasures() {
     // When an exception was thrown, only returns measurements with
     // category `exception`
     const hasException = Object.keys(this._measures).some(categoryLabel =>
@@ -149,7 +152,7 @@ class PerfLogItem {
     }
 
     this.end = true;
-    this.perfLog._stopItem(this.options);
+    return this.perfLog._stopItem(this.options);
   }
 
 }
