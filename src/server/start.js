@@ -49,18 +49,18 @@ const start = async function (options, apiServer, startupLog) {
   // Those two callbacks must be called by each server
   opts.handleRequest = await startChain(opts);
 
-  perf.start();
+  const serversPerf = startupLog.perf.start('servers');
   opts.handleListening = handleListening.bind(null, startupLog);
-  perf.stop();
 
   // Start each server
-  const httpPerf = startupLog.perf.start('HTTP');
+  const httpPerf = startupLog.perf.start('HTTP', 'server');
   const httpServer = httpStartServer(opts);
   httpServer.then(() => httpPerf.stop());
 
   // Make sure all servers are starting concurrently, not serially
   const serversArray = await Promise.all([httpServer]);
   const [http] = serversArray;
+  serversPerf.stop();
   perf.start();
 
   const servers = { http };
