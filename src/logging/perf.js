@@ -155,7 +155,14 @@ class PerfLogItem {
 }
 
 const DEFAULT_CATEGORY = 'default';
-const CATEGORIES = ['all', 'default', 'layer', 'exception'];
+const CATEGORIES = [
+  'all',
+  'default',
+  'layer',
+  'middleware',
+  'server',
+  'exception',
+];
 
 
 module.exports = {

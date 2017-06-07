@@ -7,7 +7,7 @@ const { mapAsync } = require('../utilities');
 
 
 const startChain = async function (opts) {
-  const perf = opts.startupLog.perf.start('chain');
+  const perf = opts.startupLog.perf.start('middleware');
 
   // Apply options
   const mdw = await mapAsync(middlewares, async mdw => await mdw(opts));
