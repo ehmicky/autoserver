@@ -84,7 +84,7 @@ startServer({
       duration,
     }) => {
       phase = phase.padEnd(8);
-      category = category.padEnd(9);
+      category = category.padEnd(12);
       label = label.padEnd(15);
       duration = `${Math.round(duration)}ms`.padEnd(8);
       average = `${Math.round(average)}ms`.padEnd(7);
