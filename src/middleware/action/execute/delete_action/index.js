@@ -9,7 +9,8 @@ const { commands } = require('../../../../constants');
  **/
 const deleteAction = function () {
   return async function deleteAction(input) {
-    const { sysArgs, action } = input;
+    const { sysArgs, action, log } = input;
+    const perf = log.perf.start('deleteAction', 'middleware');
 
     const isMultiple = action.multiple;
     const command = commands.find(({ type, multiple }) => {
@@ -18,6 +19,7 @@ const deleteAction = function () {
     Object.assign(sysArgs, { pagination: isMultiple });
     Object.assign(input, { command, sysArgs });
 
+    perf.stop();
     const response = await this.next(input);
     return response;
   };

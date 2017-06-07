@@ -23,10 +23,18 @@ const { getUpdateInput } = require('./update');
  **/
 const updateAction = function () {
   return async function updateAction(input) {
+    const { log } = input;
+    const perf = log.perf.start('updateAction', 'middleware');
+
     const readInput = getReadInput({ input });
+
+    perf.stop();
     const { data: models } = await this.next(readInput);
+    perf.start();
 
     const updateInput = getUpdateInput({ input, models });
+
+    perf.stop();
     const response = await this.next(updateInput);
 
     return response;
