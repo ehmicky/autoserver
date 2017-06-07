@@ -3,7 +3,6 @@
 
 const http = require('http');
 
-const { getPromise } = require('../../utilities');
 const { host, port } = require('../../config');
 const { addStopMethods } = require('./stop');
 
@@ -23,8 +22,10 @@ const startServer = function ({ handleRequest, handleListening, processLog }) {
 
   handleClientError({ server, log: processLog });
 
-  const promise = getPromise();
-  server.on('listening', () => promise.resolve(server));
+  const promise = new Promise((resolve, reject) => {
+    server.on('listening', () => resolve(server));
+    server.on('error', () => reject());
+  });
 
   return promise;
 };

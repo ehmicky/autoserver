@@ -2,7 +2,6 @@
 
 
 const { EngineError } = require('../error');
-const { getPromise } = require('./promise');
 
 
 // Similar to Lodash map() and mapValues(), but with vanilla JavaScript
@@ -166,11 +165,9 @@ const uncorkFunc = async function (state, func) {
 
 // Like `setTimeout` but with a promise
 const waitFor = function (delay = 0) {
-  const promise = getPromise();
-  setTimeout(() => {
-    promise.resolve();
-  }, delay);
-  return promise;
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), delay);
+  });
 };
 
 
