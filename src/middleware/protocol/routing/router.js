@@ -5,8 +5,11 @@ const { EngineError } = require('../../../error');
 const { getRoutes } = require('./routes');
 
 
-const router = function () {
+const router = function ({ startupLog }) {
+  const perf = startupLog.perf.start('router', 'middleware');
   const routes = getRoutes();
+  perf.stop();
+
   return async function router(input) {
     const { path, method, log } = input;
 
