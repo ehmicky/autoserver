@@ -7,4 +7,5 @@ module.exports = Object.assign(
   require('./error_handler'),
   require('./logging_buffer'),
   require('./error_status'),
+  require('./performance_log'),
 );
