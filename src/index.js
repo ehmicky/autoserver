@@ -61,41 +61,11 @@ startServer({
   if (type === 'perf') { return; }
   //const jsonInfo = JSON.stringify(info, null, 2);
   //global.console.log('Logging info', jsonInfo);
-});
-// Performance monitoring
-/*
-.on('log.*.perf.*', info => {
-  const measures = info.measures
-    .sort((
-      { category: catA, duration: timeA },
-      { category: catB, duration: timeB },
-    ) => {
-      if (catA < catB) { return -1; }
-      if (catA > catB) { return 1; }
-      if (timeA < timeB) { return 1; }
-      if (timeA > timeB) { return -1; }
-      return 0;
-    })
-    .map(({
-      phase,
-      category,
-      label,
-      average,
-      count,
-      duration,
-    }) => {
-      phase = phase.padEnd(8);
-      category = category.padEnd(12);
-      label = label.padEnd(26);
-      duration = `${Math.round(duration)}ms`.padEnd(8);
-      average = `${Math.round(average)}ms`.padEnd(7);
-      count = `${String(count).padStart(3)} ${count === 1 ? 'item' : 'items'}`;
-      return `${phase} ${category} ${label} ${duration} = ${average} * ${count}`;
-    });
-  const jsonMeasures = measures.reduce((memo, str) => `${memo}\n${str}`, '');
-  global.console.log('Performance logging info', jsonMeasures);
 })
-*/
+// Performance monitoring
+.on('log.*.perf.*', ({ measuresMessage }) => {
+  global.console.log(`Performance logging info ${measuresMessage}`);
+});
 
 const hasEmit = function (eventName) {
   global.console.log(`Emitting event '${eventName}'`);

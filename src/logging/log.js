@@ -37,7 +37,8 @@ const { PerfLog } = require('./perf');
 //  - failure: `errorInfo`, containing a standard error
 //  - stop: `exitStatuses`, showing which server has successfully exited or
 //    not, e.g. { HTTP: false, ... }
-//  - perf: `measures`, containing performance measurement
+//  - perf: `measures`, containing performance measurement.
+//    `measuresMessage` is also available as a console-friendly string.
 // Each log has a level among: info, log, warn, error.
 // Each logs fires the server event 'log.PHASE.TYPE.LEVEL' with payload `info`:
 //  - timestamp {string}
@@ -166,7 +167,8 @@ class Log {
     const { phase } = this;
     const measures = this.perf._getMeasures()
       .map(obj => Object.assign({}, obj, { phase }));
-    await this.log('', { measures, type: 'perf' });
+    const measuresMessage = this.perf._getMeasuresMessage({ measures });
+    await this.log('', { measures, measuresMessage, type: 'perf' });
   }
 
 }
