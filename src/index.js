@@ -57,7 +57,7 @@ startServer({
 // Triggered on server startup, shutdowns, requests, errors, logs
 .on('log.*.*.*', info => {
   const { phase, type, level } = info;
-  hasEmit(`${phase}.${type}.${level}`);
+  hasEmit(`log.${phase}.${type}.${level}`);
   if (type === 'perf') { return; }
   //const jsonInfo = JSON.stringify(info, null, 2);
   //global.console.log('Logging info', jsonInfo);
