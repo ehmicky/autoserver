@@ -26,6 +26,8 @@ const { EngineError } = require('../error');
 //       - items {number[]} - each item duration, in milliseconds
 //       - count {number} - number of items
 //       - average {number} - average item duration, in milliseconds
+//   - `perf._getMeasuresMessage({ measures })` will return as a string,
+//     ready to be printed on console
 class PerfLog {
 
   constructor() {
@@ -129,6 +131,39 @@ class PerfLog {
       }, []);
   }
 
+  // Returns measures but as a single string, for console debugging
+  _getMeasuresMessage({ measures }) {
+    return measures
+      // Sort by category (asc) then by duration (desc)
+      .sort((
+        { category: catA, duration: timeA },
+        { category: catB, duration: timeB },
+      ) => {
+        if (catA < catB) { return -1; }
+        if (catA > catB) { return 1; }
+        if (timeA < timeB) { return 1; }
+        if (timeA > timeB) { return -1; }
+        return 0;
+      })
+      // Prints as a table
+      .map(({
+        phase,
+        category,
+        label,
+        average,
+        count,
+        duration,
+      }) => {
+        phase = phase.padEnd(8);
+        category = category.padEnd(12);
+        label = label.padEnd(26);
+        duration = `${Math.round(duration)}ms`.padEnd(8);
+        average = `${Math.round(average)}ms`.padEnd(7);
+        count = `${String(count).padStart(3)} ${count === 1 ? 'item' : 'items'}`;
+        return `${phase} ${category} ${label} ${duration} = ${average} * ${count}`;
+      })
+      .reduce((memo, str) => `${memo}\n${str}`, '');
+  }
 }
 
 // A single measurement item
