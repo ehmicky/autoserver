@@ -48,7 +48,7 @@ startServer({
 .on('start', () => hasEmit('start'))
 // If the `error` event handler is not setup, an exception will be
 // thrown instead
-.on('error', () => hasEmit('error'))
+.on('error', (/* error */) => hasEmit('error'))
 // Can use globbing star
 .on('stop.*', () => {})
 .on('stop.success', () => hasEmit('stop.success'))
