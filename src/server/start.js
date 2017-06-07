@@ -76,7 +76,7 @@ const start = async function (options, apiServer, startupLog) {
 
   perf.stop();
   allPerf.stop();
-  startupLog.perf.report();
+  await startupLog.perf.report();
 };
 
 // Create log message when each protocol-specific server starts
