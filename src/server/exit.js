@@ -92,9 +92,7 @@ const shutdownServer = async function ({ server, log, protocol }) {
 // Log shutdown failures
 const handleError = async function ({ log, error, errorMessage }) {
   const errorInfo = getStandardError({ log, error });
-  try {
-    await log.error(errorMessage, { type: 'failure', errorInfo });
-  } catch (error) {/* */}
+  await log.error(errorMessage, { type: 'failure', errorInfo });
 };
 
 // Retrieves which servers exits have failed, if any
@@ -123,9 +121,7 @@ const logEndShutdown = async function ({
   const exitStatuses = statuses.reduce((memo, [protocol, status]) =>
     Object.assign(memo, { [protocol]: status }), {});
 
-  try {
-    await log[level](message, { type: 'stop', exitStatuses });
-  } catch (error) {/* */}
+  await log[level](message, { type: 'stop', exitStatuses });
 
   perf.stop();
 };
