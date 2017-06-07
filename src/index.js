@@ -65,9 +65,23 @@ startServer({
 // Performance monitoring
 .on('log.*.perf.*', info => {
   const measures = info.measures
-    .map(({ phase, category, label, average, count }) =>
-      `${phase.padEnd(8)} ${category.padEnd(9)} ${label.padEnd(10)} ${`${Math.round(average)}ms`.padEnd(7)} ${String(count).padStart(3)} items`
-    );
+    .sort(({ duration: a }, { duration: b }) => a < b ? 1 : a > b ? -1 : 0)
+    .map(({
+      phase,
+      category,
+      label,
+      average,
+      count,
+      duration,
+    }) => {
+      phase = phase.padEnd(8);
+      category = category.padEnd(9);
+      label = label.padEnd(15);
+      duration = `${Math.round(duration)}ms`.padEnd(8);
+      average = `${Math.round(average)}ms`.padEnd(7);
+      count = `${String(count).padStart(3)} ${count === 1 ? 'item' : 'items'}`;
+      return `${phase} ${category} ${label} ${duration} = ${average} * ${count}`;
+    });
   const jsonMeasures = measures.reduce((memo, str) => `${memo}\n${str}`, '');
   global.console.log('Performance logging info', jsonMeasures);
 });
