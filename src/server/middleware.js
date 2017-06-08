@@ -92,10 +92,10 @@ const getMiddleware = async function (opts) {
     mdw.commandConvertor,
     // Command-related validation layer
     mdw.commandValidation,
-    // Apply system-defined default values, e.g. order_by 'id+'
-    mdw.systemDefaults,
     // Apply user-defined default values
     mdw.userDefaults,
+    // Apply system-defined default values, e.g. order_by 'id+'
+    mdw.systemDefaults,
     // Normalize input
     mdw.normalization,
     // Process transforms
