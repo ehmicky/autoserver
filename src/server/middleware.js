@@ -99,7 +99,7 @@ const getMiddleware = async function (opts) {
     // Normalize input
     mdw.normalization,
     // Process transforms
-    mdw.transform,
+    // mdw.transform,
 
     /**
      * API layer, for preparing database action

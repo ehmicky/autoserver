@@ -124,10 +124,10 @@ definitions:
         - description
         - deprecated
         - examples
-        - transform
-        - transformOut
-        - compute
-        - computeOut
+        #- transform
+        #- transformOut
+        #- compute
+        #- computeOut
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -165,10 +165,10 @@ definitions:
       - $ref: '#/definitions/validPropertyNames'
       - enum:
         - model
-        - transform
-        - transformOut
-        - compute
-        - computeOut
+        #- transform
+        #- transformOut
+        #- compute
+        #- computeOut
       - enum:
           $data: /customValidationNames
     properties:
@@ -191,10 +191,10 @@ definitions:
       - deprecated
       - examples
       - default
-      - tranform
-      - transformOut
-      - compute
-      - computeOut
+      #- transform
+      #- transformOut
+      #- compute
+      #- computeOut
       - commands
     # Must have a `model` property
     required: [model]
