@@ -178,13 +178,7 @@ definitions:
       readOnly:
         type: boolean
       transform:
-        oneOf:
-        - type: array
-          items:
-            $ref: '#/definitions/transformCompute'
-        - not:
-            type: array
-          $ref: '#/definitions/transformCompute'
+        $ref: '#/definitions/transformCompute'
     # Only for nested models
     if:
       required: [model]
@@ -262,6 +256,14 @@ definitions:
               enum: [filter, data]
   # Transform/compute property
   transformCompute:
+    oneOf:
+    - type: array
+      items:
+        $ref: '#/definitions/singleTransformCompute'
+    - not:
+        type: array
+      $ref: '#/definitions/singleTransformCompute'
+  singleTransformCompute:
     # Can be an options object, or `value` option directly as a shortcut
     anyOf:
     - type: object
