@@ -25,7 +25,7 @@ const protocolNegotiator = function () {
 // Only protocol supported so far is HTTP
 const protocols = [
   {
-    protocol: 'http',
+    protocol: 'HTTP',
     test: ({ specific: { req } }) => [1, 2].includes(req.httpVersionMajor),
   },
 ];
@@ -33,7 +33,7 @@ const protocols = [
 // Includes version as well
 const protocolFullNames = {
 
-  http: ({ specific: { req } }) => `HTTP/${req.httpVersion}`,
+  HTTP: ({ specific: { req } }) => `HTTP/${req.httpVersion}`,
 
 };
 

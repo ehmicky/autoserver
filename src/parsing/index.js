@@ -3,5 +3,5 @@
 
 module.exports = Object.assign(
   {},
-  { http: require('./http') },
+  { HTTP: require('./http') },
 );
