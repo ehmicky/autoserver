@@ -39,7 +39,12 @@ const handleTransforms = function ({ idl, startupLog }) {
 
     if (data) {
       const transforms = transformsMap[modelName];
-      args.data = applyTransformsOnData({ data, transforms, jsl });
+      args.data = applyTransformsOnData({
+        data,
+        transforms,
+        jsl,
+        type: 'transform',
+      });
     }
 
     perf.stop();
@@ -50,6 +55,7 @@ const handleTransforms = function ({ idl, startupLog }) {
       data: response.data,
       transforms,
       jsl,
+      type: 'compute',
     });
 
     return response;

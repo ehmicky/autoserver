@@ -5,13 +5,13 @@ const { pick } = require('lodash');
 
 
 // Performs transformation on data array or single data
-const applyTransformsOnData = function ({ data, transforms, jsl }) {
+const applyTransformsOnData = function ({ data, transforms, jsl, type }) {
   return data instanceof Array
-    ? data.map(datum => applyTransforms({ data: datum, transforms, jsl }))
-    : applyTransforms({ data, transforms, jsl });
+    ? data.map(datum => applyTransforms({ data: datum, transforms, jsl, type }))
+    : applyTransforms({ data, transforms, jsl, type });
 };
 
-const applyTransforms = function ({ data, transforms, jsl }) {
+const applyTransforms = function ({ data, transforms, jsl, type }) {
   // Value should be an object if valid, but it might be invalid
   // since the validation layer is not fired yet on input
   if (!data || data.constructor !== Object) { return data; }
@@ -20,7 +20,7 @@ const applyTransforms = function ({ data, transforms, jsl }) {
   for (const { attrName, transform: allTransform } of transforms) {
     // There can be several transforms per attribute
     for (const transform of allTransform) {
-      applyTransform({ data, attrName, transform, jsl });
+      applyTransform({ data, attrName, transform, jsl, type });
     }
   }
 
@@ -32,6 +32,7 @@ const applyTransform = function ({
   attrName,
   transform: { value: transformer, test, using },
   jsl,
+  type,
 }) {
   // Ensure consumers use `using` property by deleting all other properties,
   // i.e. $$.ATTRIBUTE will be undefined in transforms unless `using` is
@@ -39,7 +40,12 @@ const applyTransform = function ({
   const model = pick(data, using);
 
   // Each successive transform will modify the next transform's $$ and $
-  const params = { $$: model, $: data[attrName] };
+  const params = { $$: model };
+
+  // `compute` cannot use $ in JSL, because the model is not persisted
+  if (type !== 'compute') {
+    params.$ = data[attrName];
+  }
 
   // Can add a `test` function
   const shouldPerform = test === undefined || jsl.run({ value: test, params });
