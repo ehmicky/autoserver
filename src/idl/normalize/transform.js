@@ -11,27 +11,15 @@ const normalizeAllTransforms = function ({ models }) {
   return map(models, (model, modelName) => {
     if (!model.properties) { return model; }
 
-    const attributes = Object.keys(model.properties);
-    const properties = map(model.properties, prop => {
+    model.properties = map(model.properties, prop => {
       const { transform } = prop;
       if (!transform) { return prop; }
 
-      const newTransform = normalizeTransforms({ transform });
-      const transformUsing = getTransformUsing({
-        modelName,
-        attributes,
-        transforms: newTransform,
-      });
-      Object.assign(prop, { transform: newTransform, transformUsing });
-
+      prop.transform = normalizeTransforms({ transform });
       return prop;
     });
 
-    const props = Object.entries(properties)
-      .filter(([, { transform }]) => transform)
-      .map(([attrName, { transformUsing }]) => ({ attrName, transformUsing }));
-    const transformOrder = getTransformOrder({ props, modelName });
-    Object.assign(model, { properties, transformOrder });
+    model.transformOrder = getTransformOrder({ model, modelName });
 
     return model;
   });
@@ -58,35 +46,53 @@ const normalizeTransform = function ({ transform }) {
   return { value: transform };
 };
 
-// Merge all `using` properties
-const getTransformUsing = function ({ modelName, attributes, transforms }) {
-  const transformUsing = transforms
-    .reduce((memo, { using = [] }) => [...memo, ...using], []);
-
-  // Make sure `using` properties point to an existing attribute
-  for (const using of transformUsing) {
-    if (!attributes.includes(using)) {
-      const message = `'using' property is invalid in model '${modelName}': attribute '${using}' does not exist`;
-      throw new EngineError(message, { reason: 'IDL_VALIDATION' });
-    }
-  }
-
-  return transformUsing;
+// Get transforms order according to `using` property
+const getTransformOrder = function ({ model, modelName }) {
+  const props = getTransformUsing({ model, modelName });
+  return findTransformOrder({ props, modelName });
 };
 
-// Get transforms order according to `using` property
-const getTransformOrder = function ({ props, modelName, triedProps = [] }) {
+// Returns array of properties having a transform, together with `using`
+// properties, as [{ attrName, using: [...] }, ...]
+const getTransformUsing = function ({ model: { properties }, modelName }) {
+  const attributes = Object.keys(properties);
+
+  return Object.entries(properties)
+    .filter(([, { transform }]) => transform)
+    .map(([attrName, { transform }]) => {
+      // Merge all `using` properties
+      const transformUsing = transform
+        .reduce((memo, { using = [] }) => [...memo, ...using], []);
+
+      // Make sure `using` properties point to an existing attribute
+      for (const using of transformUsing) {
+        if (!attributes.includes(using)) {
+          const message = `'using' property is invalid in model '${modelName}': attribute '${using}' does not exist`;
+          throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+        }
+      }
+
+      return { attrName, using: transformUsing };
+    });
+};
+
+// Returns order in which transforms should be applied, according to `using`
+// Returned as an array of attribute names
+const findTransformOrder = function ({ props, modelName, triedProps = [] }) {
   checkTransformCircular({ props, modelName, triedProps });
 
   for (const [index, prop] of props.entries()) {
     const nextProps = props.slice(index + 1);
-    const isWrongOrder = prop.transformUsing.some(orderAttr => {
+    // Means the attribute is currently behind another attribute that should be
+    // behind
+    const isWrongOrder = prop.using.some(orderAttr => {
       return nextProps.some(({ attrName }) => attrName === orderAttr);
     });
     if (isWrongOrder) {
+      // Push the current attribute to the end of the array, and try again
       const previousProps = props.slice(0, index);
       const newProps = [...previousProps, ...nextProps, prop];
-      return getTransformOrder({ props: newProps, modelName, triedProps });
+      return findTransformOrder({ props: newProps, modelName, triedProps });
     }
   }
 
