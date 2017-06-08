@@ -71,11 +71,16 @@ const applyTransforms = function ({ data, transforms, jsl }) {
 const applyTransform = function ({
   data,
   attrName,
-  transform: { value: transformer },
+  transform: { value: transformer, test },
   jsl,
 }) {
   // Each successive transform will modify the next transform's $$ and $
   const params = { $$: data, $: data[attrName] };
+
+  // Can add a `test` function
+  const shouldPerform = test === undefined || jsl.run({ value: test, params });
+  if (!shouldPerform) { return; }
+
   let newValue = jsl.run({ value: transformer, params });
 
   // `undefined` means a value has never been set, i.e. can only set `null`

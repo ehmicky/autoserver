@@ -124,7 +124,8 @@ models:
         # Can be the `value` directly as a shortcut,
         # and does not have to be an array.
         transform:
-        - value: '($ ? $.toLowerCase() : $)'
+        - value: ($.toLowerCase())
+          test: (typeof $ === 'string')
         # Applied default values, on input or output
         default:
           $ref: default_value.js

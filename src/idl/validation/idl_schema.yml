@@ -268,10 +268,12 @@ definitions:
       required: [value]
       properties:
         value:
-          $ref: '#/definitions/transformComputeValue'
-    - $ref: '#/definitions/transformComputeValue'
-  transformComputeValue:
-    # TODO: better validation of JSL
+          $ref: '#/definitions/jslOrValue'
+        test:
+          $ref: '#/definitions/jslOrValue'
+    - $ref: '#/definitions/jslOrValue'
+  # TODO: better validation of JSL
+  jslOrValue:
     anyOf:
     - $ref: '#/definitions/jsl'
     - true
