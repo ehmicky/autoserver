@@ -15,7 +15,7 @@ const defaults = {
 
     order_by: {
       commandNames: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
-      value: 'id+',
+      value: [{ attrName: 'id', order: 'asc' }],
     },
 
     dry_run: {
