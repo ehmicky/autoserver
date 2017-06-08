@@ -11,8 +11,8 @@ const getResponse = function ({ error }) {
   const content = cloneDeep(error);
   let response = { type: 'error', content };
 
-  // E.g. interface-specific error format, e.g. GraphQL
-  const transformer = transformMap[error.interface];
+  // E.g. operation-specific error format, e.g. GraphQL
+  const transformer = transformMap[error.operation];
   if (transformer) {
     response = transformer.transformResponse({ response });
   }

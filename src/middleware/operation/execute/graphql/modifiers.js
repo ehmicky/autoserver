@@ -5,8 +5,8 @@ const { set } = require('../../../../utilities');
 
 
 // Retrieves an empty modifiers
-// Modifiers are sets of interface-specific modifications
-// to apply to a response, that are determined at the interface layer
+// Modifiers are sets of operation-specific modifications
+// to apply to a response, that are determined at the operation layer
 // (not action|command|database layers)
 const applyModifiers = function ({ response, modifiers: { noOutput } }) {
   // Remove fields marked with arg.no_output `true`

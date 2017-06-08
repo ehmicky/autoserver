@@ -7,7 +7,7 @@ const mergeModifiers = function () {
     const { modifiers: allModifiers, log } = input;
 
     const { content, modifiers } = await this.next(input);
-    const perf = log.perf.start('interface.mergeModifiers', 'middleware');
+    const perf = log.perf.start('operation.mergeModifiers', 'middleware');
 
     defaultMods({ allModifiers });
     mergeMods({ allModifiers, modifiers });

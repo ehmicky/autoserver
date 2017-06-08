@@ -10,7 +10,7 @@ const executeGraphiql = function () {
 
   return async function executeGraphiql(input) {
     const { queryVars, payload = {}, log } = input;
-    const perf = log.perf.start('interface.executeGraphiql', 'middleware');
+    const perf = log.perf.start('operation.executeGraphiql', 'middleware');
 
     const {
       query,

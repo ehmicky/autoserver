@@ -7,7 +7,7 @@ const getErrorMessage = function ({
     type,
     description,
     protocol,
-    interface: interf,
+    operation,
     action_path,
     command,
     details,
@@ -19,7 +19,7 @@ const getErrorMessage = function ({
   // Add request-related info to message
   const message = [
     protocol,
-    interf,
+    operation,
     action_path,
     command,
   ].filter(val => val)

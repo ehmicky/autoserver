@@ -5,7 +5,7 @@ module.exports = Object.assign(
   {},
   require('./initial'),
   require('./protocol'),
-  require('./interface'),
+  require('./operation'),
   require('./action'),
   require('./command'),
   require('./api'),

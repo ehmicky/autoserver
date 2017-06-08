@@ -60,16 +60,16 @@ const getMiddleware = async function (opts) {
     mdw.fillProtocolArgs,
 
     /**
-     * Interface layer
+     * Operation layer
      **/
-    // Convert from Protocol format to Interface format
-    mdw.interfaceConvertor,
-    // Pick the interface
-    mdw.interfaceNegotiator,
-    // Interface-related validation layer
-    mdw.interfaceValidation,
-    // Translates interface-specific calls into generic instance actions
-    mdw.interfaceExecute,
+    // Convert from Protocol format to Operation format
+    mdw.operationConvertor,
+    // Pick the operation
+    mdw.operationNegotiator,
+    // Operation-related validation layer
+    mdw.operationValidation,
+    // Translates operation-specific calls into generic instance actions
+    mdw.operationExecute,
     // Merge single modifier into all modifiers
     mdw.mergeModifiers,
     // Flags that a response has `no_output`
@@ -78,7 +78,7 @@ const getMiddleware = async function (opts) {
     /**
      * Action layer
      **/
-    // Convert from Interface format to Action format
+    // Convert from Operation format to Action format
     mdw.actionConvertor,
     // Action-related validation layer
     mdw.actionValidation,
@@ -120,7 +120,7 @@ const getMiddleware = async function (opts) {
     mdw.databaseConvertor,
     // General validation layer
     mdw.databaseValidation,
-    // Do the database action, protocol and interface-agnostic
+    // Do the database action, protocol and operation-agnostic
     mdw.databaseExecute,
 
     /**

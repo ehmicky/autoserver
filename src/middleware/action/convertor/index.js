@@ -4,7 +4,7 @@
 const { cloneDeep } = require('lodash');
 
 
-// Converts from Interface format to Action format
+// Converts from Operation format to Action format
 const actionConvertor = function () {
   return async function actionConvertor(input) {
     const {
@@ -15,7 +15,7 @@ const actionConvertor = function () {
       jsl,
       log,
       params,
-      interface: interf,
+      operation,
     } = input;
     const perf = log.perf.start('action.convertor', 'middleware');
 
@@ -55,7 +55,7 @@ const actionConvertor = function () {
 
     const { data, metadata } = response;
 
-    const content = actionConvertorOutput[interf]({ data, metadata });
+    const content = actionConvertorOutput[operation]({ data, metadata });
     const modifiers = {};
 
     const responses = getLogResponses({ data });

@@ -17,9 +17,9 @@ const { getPayload } = require('./payload');
  * Are set in a protocol-agnostic format.
  * Generally-speaking:
  *   - goal, query variables, URL variables and payload:
- *      - meant to be the main input of the interface layer, which will
+ *      - meant to be the main input of the operation layer, which will
  *        convert them into actions and actions's arguments, according to
- *        interface-specific logic.
+ *        operation-specific logic.
  *        E.g. GraphQL uses payload or query variable for the action and
  *        arguments, and does not use goal nor URL variables.
  *        While REST uses payload for args.data, query variables and
@@ -27,7 +27,7 @@ const { getPayload } = require('./payload');
  *      - their format, syntax and valid names are set by the system only,
  *        i.e. cannot be customized by user.
  *   - non-namespaced headers:
- *      - converted to protocolArgs by protocol layer, interface-independant
+ *      - converted to protocolArgs by protocol layer, operation-independant
  *        protocolArgs are modifications applied to each action, including
  *        adding arguments.
  *      - a non-protocol-specific header exists for each of them,
