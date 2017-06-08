@@ -7,10 +7,17 @@ const { GraphQLInt, GraphQLString } = require('graphql');
 // Pagination arguments
 const paginationActionTypes = ['find', 'update', 'delete'];
 const fullPaginationActionTypes = ['find'];
-const getPaginationArgument = function ({ action, defaultPageSize, maxPageSize }) {
-  // Only with operations that return an array and do not provide array of data, i.e. only with findMany, deleteMany and
+const getPaginationArgument = function ({
+  action,
+  defaultPageSize,
+  maxPageSize,
+}) {
+  // Only with actions that return an array and do not provide array of data,
+  // i.e. only with findMany, deleteMany and
   // updateMany
-  if (!(paginationActionTypes.includes(action.type) && action.multiple)) { return; }
+  if (!(paginationActionTypes.includes(action.type) && action.multiple)) {
+    return;
+  }
 
   const paginationArgs = {
     page_size: {
@@ -23,7 +30,9 @@ const getPaginationArgument = function ({ action, defaultPageSize, maxPageSize }
   };
 
   // Only with safe operations that return an array, i.e. only with findMany
-  if (!(fullPaginationActionTypes.includes(action.type) && action.multiple)) { return paginationArgs; }
+  if (!(fullPaginationActionTypes.includes(action.type) && action.multiple)) {
+    return paginationArgs;
+  }
 
   return Object.assign(paginationArgs, {
     after: {
