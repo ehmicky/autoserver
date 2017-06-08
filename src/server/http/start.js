@@ -4,7 +4,7 @@
 const http = require('http');
 
 const { host, port } = require('../../config');
-const { addStopMethods } = require('./stop');
+const { addStopFunctions } = require('./stop');
 
 
 // Start HTTP server
@@ -13,7 +13,7 @@ const startServer = function ({ handleRequest, handleListening, processLog }) {
     handleRequest({ req, res });
   });
 
-  addStopMethods(server);
+  addStopFunctions(server);
   server.protocolName = 'HTTP';
 
   server.listen(port, host, function listeningHandler() {

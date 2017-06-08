@@ -4,8 +4,8 @@
 const { promisify } = require('util');
 
 
-// Add methods related to server exits
-const addStopMethods = function (server) {
+// Add functions related to server exits
+const addStopFunctions = function (server) {
   Object.assign(server, { stop, countPendingRequests });
 };
 
@@ -21,5 +21,5 @@ const countPendingRequests = async function () {
 
 
 module.exports = {
-  addStopMethods,
+  addStopFunctions,
 };
