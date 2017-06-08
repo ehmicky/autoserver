@@ -125,8 +125,7 @@ definitions:
         - deprecated
         - examples
         - readOnly
-        #- transform
-        #- transformOut
+        - transform
         #- compute
         #- computeOut
       - enum:
@@ -167,8 +166,7 @@ definitions:
       - enum:
         - model
         - readOnly
-        #- transform
-        #- transformOut
+        - transform
         #- compute
         #- computeOut
       - enum:
@@ -179,6 +177,14 @@ definitions:
         $ref: '#/definitions/attributeSchema'
       readOnly:
         type: boolean
+      transform:
+        oneOf:
+        - type: array
+          items:
+            $ref: '#/definitions/transformCompute'
+        - not:
+            type: array
+          $ref: '#/definitions/transformCompute'
     # Only for nested models
     if:
       required: [model]
@@ -196,8 +202,7 @@ definitions:
       - examples
       - default
       - readOnly
-      #- transform
-      #- transformOut
+      - transform
       #- compute
       #- computeOut
       - commands
@@ -255,6 +260,21 @@ definitions:
             uniqueItems: true
             items:
               enum: [filter, data]
+  # Transform/compute property
+  transformCompute:
+    # Can be an options object, or `value` option directly as a shortcut
+    anyOf:
+    - type: object
+      required: [value]
+      properties:
+        value:
+          $ref: '#/definitions/transformComputeValue'
+    - $ref: '#/definitions/transformComputeValue'
+  transformComputeValue:
+    # TODO: better validation of JSL
+    anyOf:
+    - $ref: '#/definitions/jsl'
+    - true
   # JSL can either be a function or a string '(...)'
   jsl:
     anyOf:
