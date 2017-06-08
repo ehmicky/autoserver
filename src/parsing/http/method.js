@@ -10,21 +10,18 @@ const getProtocolMethod = function ({
   return protocolMethod;
 };
 
-/**
- * Turn a HTTP method into a protocol-agnostic method
- * Keep the protocol-specific method e.g. for logging/reporting
- **/
-const getMethod = function ({ specific }) {
+// Turn a HTTP method into a protocol-agnostic "goal"
+const getGoal = function ({ specific }) {
   const protocolMethod = getProtocolMethod({ specific });
-  const method = methodMap[protocolMethod];
-  if (!method) {
+  const goal = goalMap[protocolMethod];
+  if (!goal) {
     const message = `Unsupported protocol method: ${protocolMethod}`;
     throw new EngineError(message, { reason: 'UNSUPPORTED_METHOD' });
   }
-  return method;
+  return goal;
 };
 
-const methodMap = {
+const goalMap = {
   GET: 'find',
   HEAD: 'find',
   POST: 'create',
@@ -37,6 +34,6 @@ const methodMap = {
 module.exports = {
   method: {
     getProtocolMethod,
-    getMethod,
+    getGoal,
   },
 };

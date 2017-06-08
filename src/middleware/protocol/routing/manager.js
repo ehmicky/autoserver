@@ -16,26 +16,26 @@ class RoutesManager {
     routes.forEach(route => this._add(route));
   }
 
-  _add({ path, route, method }) {
+  _add({ path, route, goal }) {
     const regexp = pathToRegExp(path);
     const variables = regexp.keys.map(key => key.name);
 
-    // Normalize methods
-    let methods = method;
-    if (methods) {
-      methods = methods instanceof Array ? methods : [methods];
+    // Normalize goals
+    let goals = goal;
+    if (goals) {
+      goals = goals instanceof Array ? goals : [goals];
     }
 
-    this._routes.push({ path, route, regexp, variables, methods });
+    this._routes.push({ path, route, regexp, variables, goals });
   }
 
-  find({ path, method }) {
+  find({ path, goal }) {
     // Retrieves correct route, according to path
-    const route = this._routes.find(({ regexp, methods }) => {
+    const route = this._routes.find(({ regexp, goals }) => {
       // Check path
       return regexp.test(path)
-        // Check methods
-        && (!methods || methods.includes(method));
+        // Check goals
+        && (!goals || goals.includes(goal));
     });
     if (!route) { return; }
 

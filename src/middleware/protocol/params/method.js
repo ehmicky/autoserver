@@ -4,14 +4,14 @@
 const parsing = require('../../../parsing');
 
 
-// Retrieves protocol methods
+// Retrieves protocol method and goal
 const getMethod = function ({ specific, protocol }) {
   const protocolMethod = parsing[protocol].method.getProtocolMethod({
     specific,
   });
-  const method = parsing[protocol].method.getMethod({ specific });
+  const goal = parsing[protocol].method.getGoal({ specific });
 
-  return { protocolMethod, method };
+  return { protocolMethod, goal };
 };
 
 

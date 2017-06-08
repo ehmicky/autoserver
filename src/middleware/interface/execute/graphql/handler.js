@@ -19,7 +19,7 @@ const executeGraphql = function (opts) {
   return async function executeGraphql(input) {
     // Parameters can be in either query variables or payload
     // (including by using application/graphql)
-    const { queryVars, payload, method, log } = input;
+    const { queryVars, payload, goal, log } = input;
     const perf = log.perf.start('interface.executeGraphql', 'middleware');
     perf.ongoing = 0;
 
@@ -33,7 +33,7 @@ const executeGraphql = function (opts) {
     const {
       queryDocument,
       graphqlMethod,
-    } = parseQuery({ query, method, operationName });
+    } = parseQuery({ query, goal, operationName });
 
     // GraphQL execution
     let content;

@@ -9,21 +9,21 @@ const { getPayload } = require('./payload');
 
 /**
  * Fill in request parameters, which can be:
- *   - method
+ *   - goal
  *   - query variables
  *   - URL variables
  *   - payload
  *   - headers
  * Are set in a protocol-agnostic format.
  * Generally-speaking:
- *   - method, query variables, URL variables and payload:
+ *   - goal, query variables, URL variables and payload:
  *      - meant to be the main input of the interface layer, which will
  *        convert them into actions and actions's arguments, according to
  *        interface-specific logic.
  *        E.g. GraphQL uses payload or query variable for the action and
- *        arguments, and does not use method nor URL variables.
+ *        arguments, and does not use goal nor URL variables.
  *        While REST uses payload for args.data, query variables and
- *        URL variables for other arguments, and method for action.
+ *        URL variables for other arguments, and goal for action.
  *      - their format, syntax and valid names are set by the system only,
  *        i.e. cannot be customized by user.
  *   - non-namespaced headers:
@@ -47,7 +47,7 @@ const fillParams = function (opts) {
     const { specific, jsl, protocol, log } = input;
     const perf = log.perf.start('protocol.fillParams', 'middleware');
 
-    const { method, protocolMethod } = getMethod({ specific, protocol });
+    const { goal, protocolMethod } = getMethod({ specific, protocol });
     const queryVars = getQueryVars({ specific, protocol });
     const { params, headers } = getHeaders({ specific, protocol, projectName });
     const payload = await getPayload({ specific, protocol, headers });
@@ -55,7 +55,7 @@ const fillParams = function (opts) {
     const newJsl = jsl.add({ $PARAMS: params });
 
     log.add({
-      method,
+      goal,
       protocolMethod,
       queryVars,
       headers,
@@ -63,7 +63,7 @@ const fillParams = function (opts) {
       payload,
     });
     Object.assign(input, {
-      method,
+      goal,
       protocolMethod,
       queryVars,
       headers,
