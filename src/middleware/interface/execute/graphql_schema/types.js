@@ -193,7 +193,7 @@ const getObjectFields = function (def, opts) {
 
         return memo;
       })
-      .omitBy((_, childDefName) => {
+      .omitBy((childDef, childDefName) => {
         // Filter arguments for single actions only include `id`
         return (
           childDefName !== 'id' &&
@@ -204,6 +204,10 @@ const getObjectFields = function (def, opts) {
           childDefName === 'id' &&
           inputObjectType === 'data' &&
           !def.isTopLevel
+        // Readonly fields cannot be specified as data argument
+        ) || (
+          inputObjectType === 'data' &&
+          childDef.readOnly
         // updateOne|updateMany do not allow data.id
         ) || (
           action.type === 'update' &&
