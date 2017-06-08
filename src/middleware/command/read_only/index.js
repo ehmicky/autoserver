@@ -25,8 +25,8 @@ const handleReadOnly = function ({ idl, startupLog }) {
     if (data) {
       const readOnlyAttrs = readOnlyMap[modelName];
       args.data = data instanceof Array
-        ? data.map(datum => omit(datum, readOnlyAttrs))
-        : omit(data, readOnlyAttrs);
+        ? data.map(datum => removeReadOnly({ data: datum, readOnlyAttrs }))
+        : removeReadOnly({ data, readOnlyAttrs });
     }
 
     perf.stop();
@@ -46,6 +46,14 @@ const getReadOnlyMap = function ({ idl: { models } }) {
       return { [modelName]: readOnlyProps };
     })
     .reduce((memo, obj) => Object.assign(memo, obj), {});
+};
+
+const removeReadOnly = function ({ data, readOnlyAttrs }) {
+  // Value should be an object if valid, but it might be invalid
+  // since the validation layer is not fired yet on input
+  if (!data || data.constructor !== Object) { return data; }
+
+  return omit(data, readOnlyAttrs);
 };
 
 
