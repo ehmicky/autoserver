@@ -14,7 +14,7 @@ const getRequestMessage = function ({
   responseTime,
 }) {
   const action = error ? fullAction : Object.keys(actions).join(' ');
-  responseTime = `${Math.round(responseTime)}ms`;
+  responseTime = responseTime && `${Math.round(responseTime)}ms`;
 
   const message = [
     protocolStatus,
