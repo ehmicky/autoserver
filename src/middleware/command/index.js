@@ -9,5 +9,4 @@ module.exports = Object.assign(
   require('./read_only'),
   require('./user_defaults'),
   require('./system_defaults'),
-  require('./transform')
 );
