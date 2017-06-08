@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { pick } = require('lodash');
+
+
 // Performs transformation on arg.data
 const applyTransforms = function ({ data, transforms, jsl }) {
   // Value should be an object if valid, but it might be invalid
@@ -21,11 +24,16 @@ const applyTransforms = function ({ data, transforms, jsl }) {
 const applyTransform = function ({
   data,
   attrName,
-  transform: { value: transformer, test },
+  transform: { value: transformer, test, using },
   jsl,
 }) {
+  // Ensure consumers use `using` property by deleting all other properties,
+  // i.e. $$.ATTRIBUTE will be undefined in transforms unless `using` is
+  // specified
+  const model = pick(data, using);
+
   // Each successive transform will modify the next transform's $$ and $
-  const params = { $$: data, $: data[attrName] };
+  const params = { $$: model, $: data[attrName] };
 
   // Can add a `test` function
   const shouldPerform = test === undefined || jsl.run({ value: test, params });
