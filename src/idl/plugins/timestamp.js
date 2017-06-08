@@ -18,6 +18,7 @@ const getProperties = () => ({
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
     format: 'date-time',
+    readOnly: true,
     transform: {
       value: '($NOW)',
       test: '($COMMAND === "create")',
@@ -28,6 +29,7 @@ const getProperties = () => ({
     description: 'Timestamp indicating when this model was last updated',
     examples: ['2017-04-26T11:19:45Z'],
     format: 'date-time',
+    readOnly: true,
     transform: '($NOW)',
   },
 });
