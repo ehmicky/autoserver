@@ -11,7 +11,7 @@ const processErrorHandler = function ({ opts }) {
   checkUniqueCall();
 
   const log = new Log({ opts, phase: 'process' });
-  // Shortcut method
+  // Shortcut function
   log.process = processHandler.bind(null, log);
 
   setupHandlers({ log });

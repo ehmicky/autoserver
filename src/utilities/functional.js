@@ -123,7 +123,7 @@ const onlyOnce = function (func, { error = false } = {}) {
   };
 };
 
-// Returns the function with the two added methods:
+// Returns the function with the two added functions:
 //   - func.cork() will buffer calls, i.e. it will become a noop
 //   - func.uncork() will release all buffered calls
 // Works with async functions as well.

@@ -133,7 +133,7 @@ const getRules = memoize(({ globalKeys }) => ({
 // We do not want things like eval() which could circumvent our restrictions
 const functionFuncNames = ['eval', 'Function', 'bind', 'call', 'apply'];
 
-// Those methods create side-effects, e.g. assignments
+// Those functions create side-effects, e.g. assignments
 const sideEffectsFuncNames = [
   'defineProperty',
   'defineProperties',
@@ -166,10 +166,10 @@ const sideEffectsFuncNames = [
   'setYear',
 ];
 
-// Those methods access global state
+// Those functions access global state
 const globalFuncNames = ['for', 'keyFor'];
 
-// Those methods imply async code
+// Those functions imply async code
 const asyncFuncNames = ['then', 'catch'];
 
 // Those are the only constructors that can be called with `new`
