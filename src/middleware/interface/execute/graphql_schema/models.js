@@ -14,18 +14,19 @@ const graphqlMethods = {
   mutation: ['create', 'replace', 'update', 'upsert', 'delete'],
 };
 
-// Retrieve models for a given method
-const getModelsByMethod = function ({ methodName, models }) {
+// Retrieve models for a given GraphQL method
+const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
   // Iterate through each action
   return chain(actions)
     // Only include actions for a given GraphQL method
-    .filter(({ type }) => graphqlMethods[methodName].includes(type))
+    .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type))
     // Iterate through each model
     .mapValues(action => chain(models)
       // Remove model that are not allowed for a given action
       .pickBy(model => isAllowedModel({ model, action }))
-      // Modify object key to include action information, e.g. 'my_model' + 'findMany' -> 'findMyModels'
-      // This will be used as the top-level methods names
+      // Modify object key to include action information,
+      // e.g. 'my_model' + 'findMany' -> 'findMyModels'
+      // This will be used as the top-level graphqlMethod
       .mapKeys((_, modelName) => getActionName({ modelName, action }))
       .mapValues(model => {
         // Deep copy
@@ -68,5 +69,5 @@ const isAllowedModel = function ({ model, action }) {
 
 
 module.exports = {
-  getModelsByMethod,
+  getModelsByGraphqlMethod,
 };

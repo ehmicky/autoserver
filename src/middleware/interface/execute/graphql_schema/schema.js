@@ -6,7 +6,7 @@ const { mapValues } = require('lodash');
 
 const { memoize } = require('../../../../utilities');
 const { getType } = require('./types');
-const { getModelsByMethod } = require('./models');
+const { getModelsByGraphqlMethod } = require('./models');
 const { nameSym } = require('./name');
 
 
@@ -16,10 +16,10 @@ const getSchema = memoize(function ({
   defaultPageSize,
   maxPageSize,
 }) {
-  // Apply `getType` to each top-level method, i.e. Query and Mutation
-  const schemaFields = mapValues(rootDefs, (rootDef, methodName) => {
+  // Apply `getType` to each top-level graphqlMethod, i.e. Query and Mutation
+  const schemaFields = mapValues(rootDefs, (rootDef, graphqlMethod) => {
     // Builds query|mutation type
-    const def = getMethodDef({ rootDef, methodName, models });
+    const def = getGraphqlMethodDef({ rootDef, graphqlMethod, models });
     return getType(def, { defaultPageSize, maxPageSize });
   });
 
@@ -38,12 +38,12 @@ const rootDefs = {
   },
 };
 
-const getMethodDef = function ({
+const getGraphqlMethodDef = function ({
   rootDef: { description, name },
-  methodName,
+  graphqlMethod,
   models,
 }) {
-  const properties = getModelsByMethod({ methodName, models });
+  const properties = getModelsByGraphqlMethod({ graphqlMethod, models });
   return {
     type: 'object',
     [nameSym]: name,
