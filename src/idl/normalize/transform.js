@@ -73,6 +73,11 @@ const getTransformUsing = function ({ model: { properties }, modelName }) {
           const message = `'using' property is invalid in model '${modelName}': attribute '${using}' does not exist`;
           throw new EngineError(message, { reason: 'IDL_VALIDATION' });
         }
+
+        if (using === attrName) {
+          const message = `'using' property is invalid in model '${modelName}': '${using}' refers to current attribute`;
+          throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+        }
       }
 
       return { attrName, using: transformUsing };
