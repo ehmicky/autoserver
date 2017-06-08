@@ -119,13 +119,12 @@ models:
         default: []
       status:
         description: Has this pet been adopted
-        # Applies transformations: status will be stored lowercase in database,
-        # but returned uppercase to client
-        # Can be a function/JSL
-        # This can be used to add compatibility layers,
-        # computed attributes, etc.
-        #transform: ($.toLowerCase())
-        #transformOut: (capitalize($))
+        # Applies transformations: status will be lowercased on write
+        # Can be a function/JSL, including using $ or $$
+        # Can be the `value` directly as a shortcut,
+        # and does not have to be an array.
+        transform:
+        - value: '($ ? $.toLowerCas() : $)'
         # Applied default values, on input or output
         default:
           $ref: default_value.js
