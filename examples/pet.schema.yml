@@ -137,14 +137,17 @@ models:
           $ref: default_value.js
       creator_key:
         description: Key of the user that created this pet
+        # This means trying to write this attribute will be a noop,
+        # but server might still return it.
         readOnly: true
-        # compute sets the value of an attribute.
-        # The value provided by the user will be ignored,
-        # unless this returns undefined
-        # As opposed to `default`, this will also be set during update commands.
-        # Can be a function/JSL
-        # default and transforms can still be used (are performed afterwards).
-        #compute: (String(moreRecursiveFunc()))
+        # compute is exactly like `transform`, except it is never persisted
+        # in the database, while present in response. This implies:
+        #  - JSL cannot use $ nor $$.CURRENT_ATTRIBUTE
+        #  - `readOnly` true is implied
+        #  - cannot be used together with any property that imply the attribute
+        #    should be persisted, including `transform`, `default` or input
+        #    validation
+        compute: (String(moreRecursiveFunc()))
       best_friend:
         # This means this attribute is an instance of the `pet` model,
         # i.e. a foreign key

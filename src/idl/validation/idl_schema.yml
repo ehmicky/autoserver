@@ -126,8 +126,7 @@ definitions:
         - examples
         - readOnly
         - transform
-        #- compute
-        #- computeOut
+        - compute
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -167,8 +166,7 @@ definitions:
         - model
         - readOnly
         - transform
-        #- compute
-        #- computeOut
+        - compute
       - enum:
           $data: /customValidationNames
     properties:
@@ -178,6 +176,8 @@ definitions:
       readOnly:
         type: boolean
       transform:
+        $ref: '#/definitions/transformCompute'
+      compute:
         $ref: '#/definitions/transformCompute'
     # Only for nested models
     if:
@@ -197,8 +197,7 @@ definitions:
       - default
       - readOnly
       - transform
-      #- compute
-      #- computeOut
+      - compute
       - commands
     # Must have a `model` property
     required: [model]

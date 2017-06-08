@@ -11,15 +11,18 @@ const normalizeAllTransforms = function ({ models }) {
   return map(models, (model, modelName) => {
     if (!model.properties) { return model; }
 
-    model.properties = map(model.properties, prop => {
-      const { transform } = prop;
-      if (!transform) { return prop; }
+    // `compute` reuse the same logic as `transform`
+    for (const type of ['transform', 'compute']) {
+      model.properties = map(model.properties, prop => {
+        const transform = prop[type];
+        if (!transform) { return prop; }
 
-      prop.transform = normalizeTransforms({ transform });
-      return prop;
-    });
+        prop[type] = normalizeTransforms({ transform });
+        return prop;
+      });
 
-    model.transformOrder = getTransformOrder({ model, modelName });
+      model[`${type}Order`] = getTransformOrder({ model, modelName });
+    }
 
     return model;
   });

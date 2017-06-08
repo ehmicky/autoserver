@@ -2,7 +2,7 @@
 
 
 const { getTransformsMap } = require('./map');
-const { applyTransforms } = require('./transformer');
+const { applyTransformsOnData } = require('./transformer');
 
 
 /**
@@ -19,10 +19,17 @@ const { applyTransforms } = require('./transformer');
  *        Note that without `test`, $ can be undefined in `value`.
  *      - [using] {str|str[]} - list of attribute names that one desires to
  *        use as $$.ATTRIBUTE in either `value` or `test`
+ * Also applies `compute`, which is essentially the same, except it is never
+ * persisted in the database, while present in response. This implies:
+ *  - JSL cannot use $ nor $$.CURRENT_ATTRIBUTE
+ *  - `readOnly` true is implied
+ *  - cannot be used together with any property that imply the attribute
+ *    should be persisted, including `transform`, `default` or input validation
  **/
 const handleTransforms = function ({ idl, startupLog }) {
   const perf = startupLog.perf.start('command.handleTransforms', 'middleware');
-  const transformsMap = getTransformsMap({ idl });
+  const transformsMap = getTransformsMap({ idl, type: 'transform' });
+  const computesMap = getTransformsMap({ idl, type: 'compute' });
   perf.stop();
 
   return async function handleTransforms(input) {
@@ -32,13 +39,19 @@ const handleTransforms = function ({ idl, startupLog }) {
 
     if (data) {
       const transforms = transformsMap[modelName];
-      args.data = data instanceof Array
-        ? data.map(datum => applyTransforms({ data: datum, transforms, jsl }))
-        : applyTransforms({ data, transforms, jsl });
+      args.data = applyTransformsOnData({ data, transforms, jsl });
     }
 
     perf.stop();
     const response = await this.next(input);
+
+    const transforms = computesMap[modelName];
+    response.data = applyTransformsOnData({
+      data: response.data,
+      transforms,
+      jsl,
+    });
+
     return response;
   };
 };
