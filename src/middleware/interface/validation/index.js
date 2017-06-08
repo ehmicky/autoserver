@@ -30,7 +30,7 @@ const interfaceValidation = function () {
 const schema = {
   type: 'object',
   required: [
-    'method',
+    'goal',
     'queryVars',
     'pathVars',
     'protocolArgs',
@@ -40,7 +40,7 @@ const schema = {
     'interface',
   ],
   properties: {
-    method: {
+    goal: {
       type: 'string',
       enum: ['find', 'create', 'replace', 'update', 'delete'],
     },

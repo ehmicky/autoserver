@@ -5,7 +5,7 @@
 const interfaceConvertor = function () {
   return async function interfaceConvertor(input) {
     const {
-      method,
+      goal,
       queryVars,
       pathVars,
       protocolArgs,
@@ -18,7 +18,7 @@ const interfaceConvertor = function () {
     const perf = log.perf.start('interface.convertor', 'middleware');
 
     const newInput = {
-      method,
+      goal,
       queryVars,
       pathVars,
       protocolArgs,

@@ -11,10 +11,10 @@ const router = function ({ startupLog }) {
   perf.stop();
 
   return async function router(input) {
-    const { path, method, log } = input;
+    const { path, goal, log } = input;
     const perf = log.perf.start('protocol.router', 'middleware');
 
-    const matchedRoute = routes.find({ path, method });
+    const matchedRoute = routes.find({ path, goal });
     if (!matchedRoute) {
       const message = 'The requested URL was not found';
       throw new EngineError(message, { reason: 'NOT_FOUND' });
