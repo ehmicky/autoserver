@@ -131,6 +131,7 @@ models:
           $ref: default_value.js
       creator_key:
         description: Key of the user that created this pet
+        readOnly: true
         # compute sets the value of an attribute.
         # The value provided by the user will be ignored,
         # unless this returns undefined
