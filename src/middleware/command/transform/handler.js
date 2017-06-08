@@ -13,7 +13,7 @@
  *        Can use JSL, including $ and $$.
  **/
 const handleTransforms = function ({ idl, startupLog }) {
-  const perf = startupLog.perf.start('command.handleReadOnly', 'middleware');
+  const perf = startupLog.perf.start('command.handleTransforms', 'middleware');
   const transformsMap = getTransformsMap({ idl });
   perf.stop();
 
