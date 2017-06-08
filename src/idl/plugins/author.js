@@ -37,6 +37,7 @@ const getProperties = ({ user = '(user())', model = 'user' }) => ({
     type: 'object',
     description: 'Who created this model',
     model,
+    readOnly: true,
     transform: {
       value: `(${user}.id)`,
       test: '($COMMAND === "create")',
@@ -46,6 +47,7 @@ const getProperties = ({ user = '(user())', model = 'user' }) => ({
     type: 'object',
     description: 'Who last updated this model',
     model,
+    readOnly: true,
     transform: `(${user}.id)`,
   },
 });
