@@ -19,6 +19,7 @@ const normalizeIdl = function (idl) {
 const normalizeModels = function ({ idl }) {
   let { models, commands: defaultCommandNames } = idl;
   models = addModelType({ models });
+  models = normalizeAllTransforms({ models });
   transform({ transforms, args: { defaultCommandNames } })({ input: models });
   return models;
 };
@@ -37,6 +38,50 @@ const addModelType = function ({ models }) {
     });
     return Object.assign({}, model, { modelType: 'model', properties });
   });
+};
+
+// Transforms can take several shapes, we normalize them
+// We also define transform order, with `using` property
+const normalizeAllTransforms = function ({ models }) {
+  return map(models, model => {
+    if (!model.properties) { return model; }
+
+    model.properties = map(model.properties, prop => {
+      const { transform } = prop;
+      if (!transform) { return prop; }
+
+      const newTransform = normalizeTransforms({ transform });
+      const transformUsing = newTransform
+        .reduce((memo, { using = [] }) => [...memo, ...using], []);
+      Object.assign(prop, { transform: newTransform, transformUsing });
+
+      return prop;
+    });
+
+    return model;
+    //const sortedProps = sortOrderAttrs({ props });
+  });
+};
+
+// Transforms can be either an array or not
+const normalizeTransforms = function ({ transform }) {
+  const transforms = transform instanceof Array ? transform : [transform];
+  return transforms.map(transform => normalizeTransform({ transform }));
+};
+
+// Transforms can be an option object, or the `value` option directly
+const normalizeTransform = function ({ transform }) {
+  const hasOptions = transform &&
+    transform.constructor === Object &&
+    transform.value !== undefined;
+  if (hasOptions) {
+    if (transform.using && !(transform.using instanceof Array)) {
+      transform.using = [transform.using];
+    }
+    return transform;
+  }
+
+  return { value: transform };
 };
 
 // List of transformations to apply to normalize IDL models
