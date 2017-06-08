@@ -25,11 +25,11 @@ const interfaceNegotiator = function () {
 
 const interfaces = {
 
-  graphql: ({ route }) => route === 'graphql',
+  GraphQL: ({ route }) => route === 'GraphQL',
 
-  graphiql: ({ route }) => route === 'graphiql',
+  GraphiQL: ({ route }) => route === 'GraphiQL',
 
-  graphqlprint: ({ route }) => route === 'graphqlprint',
+  GraphQLPrint: ({ route }) => route === 'GraphQLPrint',
 
 };
 

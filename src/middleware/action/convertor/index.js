@@ -71,7 +71,7 @@ const actionConvertor = function () {
 const actionConvertorOutput = {
 
   // Metadata are siblings to data in GraphQL
-  graphql({ data, metadata }) {
+  GraphQL({ data, metadata }) {
     if (data instanceof Array) {
       return data.map((datum, index) => {
         return Object.assign({}, datum, { __metadata: metadata[index] });
