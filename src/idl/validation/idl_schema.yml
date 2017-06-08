@@ -124,6 +124,7 @@ definitions:
         - description
         - deprecated
         - examples
+        - readOnly
         #- transform
         #- transformOut
         #- compute
@@ -165,6 +166,7 @@ definitions:
       - $ref: '#/definitions/validPropertyNames'
       - enum:
         - model
+        - readOnly
         #- transform
         #- transformOut
         #- compute
@@ -175,6 +177,8 @@ definitions:
       # Recursively applied to array members
       items:
         $ref: '#/definitions/attributeSchema'
+      readOnly:
+        type: boolean
     # Only for nested models
     if:
       required: [model]
@@ -191,6 +195,7 @@ definitions:
       - deprecated
       - examples
       - default
+      - readOnly
       #- transform
       #- transformOut
       #- compute
