@@ -94,6 +94,8 @@ const getMiddleware = async function (opts) {
     mdw.commandValidation,
     // Normalize input
     mdw.normalization,
+    // Remove readOnly attributes in `args.data`
+    mdw.handleReadOnly,
     // Apply user-defined default values
     mdw.userDefaults,
     // Apply system-defined default values, e.g. order_by 'id+'
