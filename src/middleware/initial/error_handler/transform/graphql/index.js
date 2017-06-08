@@ -50,7 +50,7 @@ const transformResponse = function ({ response: { content } }) {
 
 
 module.exports = {
-  graphql: {
+  GraphQL: {
     transformResponse,
   },
 };

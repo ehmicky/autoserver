@@ -24,9 +24,9 @@ const interfaceExecute = async function (opts) {
 };
 
 const middlewares = {
-  graphql: executeGraphql,
-  graphiql: executeGraphiql,
-  graphqlprint: printGraphql,
+  GraphQL: executeGraphql,
+  GraphiQL: executeGraphiql,
+  GraphQLPrint: printGraphql,
 };
 
 

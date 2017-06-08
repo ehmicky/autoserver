@@ -15,7 +15,7 @@ const { cloneDeep, omit } = require('lodash');
 //   - url {string} - full URL
 //   - path {string} - only the URL path, with no query string nor hash
 //   - route {string} - internal route picked according to the URL,
-//     among `graphql`, `graphiql` and `graphqlprint`
+//     among `GraphQL`, `GraphiQL` and `GraphQLPrint`
 //   - protocolMethod {string} - protocol-specific method, e.g. GET
 //   - method {string} - protocol-agnostic method, e.g. `find`
 //   - protocolStatus {string} - protocol-specific status, e.g. HTTP status code
@@ -29,8 +29,8 @@ const { cloneDeep, omit } = require('lodash');
 //   - payload {any} - request body
 //   - protocolArgs {object} - request arguments, deduced by the system from
 //     the parameters, queryVars, headers, etc.
-//   - interface {string} - interface, among `graphql`, `graphiql` and
-//     `graphqlprint`
+//   - interface {string} - interface, among `GraphQL`, `GraphiQL` and
+//     `GraphQLPrint`
 //   - actions {object} - represented all actions fired
 //      - ACTION_PATH {key} - action full path, e.g. 'findModel.findSubmodel'
 //         - model {string} - model name
