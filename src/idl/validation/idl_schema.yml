@@ -179,11 +179,23 @@ definitions:
         $ref: '#/definitions/transformCompute'
       compute:
         $ref: '#/definitions/transformCompute'
+    allOf:
     # Only for nested models
-    if:
-      required: [model]
-    then:
-      $ref: '#/definitions/nestedModel'
+    - if:
+        required: [model]
+      then:
+        $ref: '#/definitions/nestedModel'
+    # Those attributes cannot be used together with `compute` because they
+    # do not make any sense on an attribute that is not persisted.
+    - if:
+        required: [compute]
+      then:
+        not:
+          required: [transform, default]
+        properties:
+          readOnly:
+            not:
+              const: false
   # Only applies this to nested models
   nestedModel:
     # Restrict the possible properties
