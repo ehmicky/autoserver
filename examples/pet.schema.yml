@@ -345,12 +345,9 @@ plugins:
   - plugin: author
     # Defines how to retrieve current user, so it can be used by updated_by
     # and created_by attributes
-    enabled: false
     opts:
       # user: (user())
       model: owner
-  - plugin: timestamp
-    enabled: false
 # Custom validation keywords, to use on models' attributes
 validation:
   IsNotEqual:
