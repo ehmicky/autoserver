@@ -46,7 +46,7 @@ const normalizeAllTransforms = function ({ models }) {
   return map(models, model => {
     if (!model.properties) { return model; }
 
-    model.properties = map(model.properties, prop => {
+    const properties = map(model.properties, prop => {
       const { transform } = prop;
       if (!transform) { return prop; }
 
@@ -58,8 +58,13 @@ const normalizeAllTransforms = function ({ models }) {
       return prop;
     });
 
+    const props = Object.entries(properties)
+      .filter(([, { transform }]) => transform)
+      .map(([attrName, { transformUsing }]) => ({ attrName, transformUsing }));
+    const transformOrder = getTransformOrder({ props });
+
+    Object.assign(model, { properties, transformOrder });
     return model;
-    //const sortedProps = sortOrderAttrs({ props });
   });
 };
 
@@ -82,6 +87,22 @@ const normalizeTransform = function ({ transform }) {
   }
 
   return { value: transform };
+};
+
+// Get transforms order according to `using` property
+const getTransformOrder = function ({ props }) {
+  for (const [index, prop] of props.entries()) {
+    const nextProps = props.slice(index + 1);
+    const isWrongOrder = prop.transformUsing.some(orderAttr => {
+      return nextProps.some(({ attrName }) => attrName === orderAttr);
+    });
+    if (isWrongOrder) {
+      const previousProps = props.slice(0, index);
+      const newProps = [...previousProps, ...nextProps, prop];
+      return getTransformOrder({ props: newProps });
+    }
+  }
+  return props.map(({ attrName }) => attrName);
 };
 
 // List of transformations to apply to normalize IDL models
