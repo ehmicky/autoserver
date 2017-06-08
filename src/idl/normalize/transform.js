@@ -18,6 +18,12 @@ const normalizeAllTransforms = function ({ models }) {
         if (!transform) { return prop; }
 
         prop[type] = normalizeTransforms({ transform });
+
+        // Using `compute` implies `readOnly` true
+        if (type === 'compute') {
+          prop.readOnly = true;
+        }
+
         return prop;
       });
 
