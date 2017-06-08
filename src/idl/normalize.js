@@ -5,6 +5,7 @@ const { find, omit, mapValues, difference } = require('lodash');
 
 const { transform, map } = require('../utilities');
 const { actions: allActions } = require('../constants');
+const { EngineError } = require('../error');
 
 
 // Normalize IDL definition
@@ -43,16 +44,20 @@ const addModelType = function ({ models }) {
 // Transforms can take several shapes, we normalize them
 // We also define transform order, with `using` property
 const normalizeAllTransforms = function ({ models }) {
-  return map(models, model => {
+  return map(models, (model, modelName) => {
     if (!model.properties) { return model; }
 
+    const attributes = Object.keys(model.properties);
     const properties = map(model.properties, prop => {
       const { transform } = prop;
       if (!transform) { return prop; }
 
       const newTransform = normalizeTransforms({ transform });
-      const transformUsing = newTransform
-        .reduce((memo, { using = [] }) => [...memo, ...using], []);
+      const transformUsing = getTransformUsing({
+        modelName,
+        attributes,
+        transforms: newTransform,
+      });
       Object.assign(prop, { transform: newTransform, transformUsing });
 
       return prop;
@@ -87,6 +92,22 @@ const normalizeTransform = function ({ transform }) {
   }
 
   return { value: transform };
+};
+
+// Merge all `using` properties
+const getTransformUsing = function ({ modelName, attributes, transforms }) {
+  const transformUsing = transforms
+    .reduce((memo, { using = [] }) => [...memo, ...using], []);
+
+  // Make sure `using` properties point to an existing attribute
+  for (const using of transformUsing) {
+    if (!attributes.includes(using)) {
+      const message = `'using' property is invalid in model '${modelName}': attribute '${using}' does not exist`;
+      throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    }
+  }
+
+  return transformUsing;
 };
 
 // Get transforms order according to `using` property
