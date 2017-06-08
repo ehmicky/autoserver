@@ -1,14 +1,14 @@
 'use strict';
 
 
-// Gets a map of models' transforms
+// Gets a map of models' `transform` or `compute`
 // e.g. { my_model: [{ attrName, transform }, ...], ... }
-const getTransformsMap = function ({ idl: { models } }) {
+const getTransformsMap = function ({ idl: { models }, type }) {
   return Object.entries(models)
     .map(([modelName, { transformOrder, properties = {} }]) => {
       const props = Object.entries(properties)
-        .filter(([, { transform }]) => transform)
-        .map(([attrName, { transform }]) => ({ attrName, transform }));
+        .filter(([, prop]) => prop[type])
+        .map(([attrName, prop]) => ({ attrName, transform: prop[type] }));
       const sortedProps = sortProps({ props, transformOrder });
       return { [modelName]: sortedProps };
     })

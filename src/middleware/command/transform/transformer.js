@@ -4,7 +4,13 @@
 const { pick } = require('lodash');
 
 
-// Performs transformation on arg.data
+// Performs transformation on data array or single data
+const applyTransformsOnData = function ({ data, transforms, jsl }) {
+  return data instanceof Array
+    ? data.map(datum => applyTransforms({ data: datum, transforms, jsl }))
+    : applyTransforms({ data, transforms, jsl });
+};
+
 const applyTransforms = function ({ data, transforms, jsl }) {
   // Value should be an object if valid, but it might be invalid
   // since the validation layer is not fired yet on input
@@ -53,5 +59,5 @@ const applyTransform = function ({
 
 
 module.exports = {
-  applyTransforms,
+  applyTransformsOnData,
 };
