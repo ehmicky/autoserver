@@ -37,17 +37,13 @@ const handleTransforms = function ({ idl, startupLog }) {
 };
 
 // Gets a map of models' transforms
-// e.g. { my_model: { attr: transform ... }, ... }
+// e.g. { my_model: [{ attrName, transform }, ...], ... }
 const getTransformsMap = function ({ idl: { models } }) {
   return Object.entries(models)
     .map(([modelName, { properties = {} }]) => {
       const props = Object.entries(properties)
         .filter(([, { transform }]) => transform)
-        .map(([attrName, { transform }]) => {
-          const normalizedTransform = normalizeTransforms({ transform });
-          return { [attrName]: normalizedTransform };
-        })
-        .reduce((memo, obj) => Object.assign(memo, obj), {});
+        .map(([attrName, { transform }]) => ({ attrName, transform }));
       return { [modelName]: props };
     })
     .reduce((memo, obj) => Object.assign(memo, obj), {});
@@ -58,7 +54,7 @@ const applyTransforms = function ({ data, transforms, jsl }) {
   // since the validation layer is not fired yet on input
   if (!data || data.constructor !== Object) { return data; }
 
-  for (const [attrName, allTransform] of Object.entries(transforms)) {
+  for (const { attrName, transform: allTransform } of transforms) {
     for (const transform of allTransform) {
       applyTransform({ data, attrName, transform, jsl });
     }
@@ -91,22 +87,6 @@ const applyTransform = function ({
   */
 
   data[attrName] = newValue;
-};
-
-// Transforms can be either an array or not
-const normalizeTransforms = function ({ transform }) {
-  const transforms = transform instanceof Array ? transform : [transform];
-  return transforms.map(transform => normalizeTransform({ transform }));
-};
-
-// Transforms can be an option object, or the `value` option directly
-const normalizeTransform = function ({ transform }) {
-  const hasOptions = transform &&
-    transform.constructor === Object &&
-    transform.value !== undefined;
-  if (hasOptions) { return transform; }
-
-  return { value: transform };
 };
 
 
