@@ -10,15 +10,12 @@ const { HTTP: { headers: { parsePrefer } } } = require('../../../../parsing');
 // No protocolArgs should be protocol-specific, i.e. HTTP-specific headers
 // are redundant with protocol-agnostic ones.
 const httpFillProtocolArgs = function () {
-  return function httpFillProtocolArgs({
-    headers,
-    protocolMethod,
-  }) {
+  return function httpFillProtocolArgs({ headers, method }) {
     const protocolArgs = {};
 
     // When using HEAD, or `Prefer: return=minimal` request header,
     // there should be no output
-    const isHead = protocolMethod === 'HEAD';
+    const isHead = method === 'HEAD';
     const preferHeader = parsePrefer({ headers });
     const hasMinimalPreference = preferHeader.return === 'minimal';
     if (isHead || hasMinimalPreference) {

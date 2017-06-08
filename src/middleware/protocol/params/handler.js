@@ -47,7 +47,7 @@ const fillParams = function (opts) {
     const { specific, jsl, protocol, log } = input;
     const perf = log.perf.start('protocol.fillParams', 'middleware');
 
-    const { goal, protocolMethod } = getMethod({ specific, protocol });
+    const { goal, method } = getMethod({ specific, protocol });
     const queryVars = getQueryVars({ specific, protocol });
     const { params, headers } = getHeaders({ specific, protocol, projectName });
     const payload = await getPayload({ specific, protocol, headers });
@@ -56,7 +56,7 @@ const fillParams = function (opts) {
 
     log.add({
       goal,
-      protocolMethod,
+      method,
       queryVars,
       headers,
       params,
@@ -64,7 +64,7 @@ const fillParams = function (opts) {
     });
     Object.assign(input, {
       goal,
-      protocolMethod,
+      method,
       queryVars,
       headers,
       params,
