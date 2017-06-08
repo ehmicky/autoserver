@@ -61,11 +61,11 @@ const start = async function (options, apiServer, startupLog) {
 
   // Make sure all servers are starting concurrently, not serially
   const serversArray = await Promise.all([httpServer]);
-  const [http] = serversArray;
+  const [HTTP] = serversArray;
   serversPerf.stop();
   perf.start();
 
-  const servers = { http };
+  const servers = { HTTP };
   Object.assign(apiServer, { servers, options: originalOptions });
 
   setupGracefulExit({ servers: serversArray, opts });

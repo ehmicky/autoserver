@@ -32,7 +32,7 @@ const fillProtocolArgs = function (opts) {
 };
 
 const protocolArgsMap = {
-  http: httpFillProtocolArgs,
+  HTTP: httpFillProtocolArgs,
 };
 
 

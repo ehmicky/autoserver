@@ -10,7 +10,7 @@ const { cloneDeep, omit } = require('lodash');
 //   - requestTime {number} - time it took to handle the request, in millisecs.
 //     Only defined if the request was successful.
 //   - ip {string}
-//   - protocol {string} - e.g. http
+//   - protocol {string} - e.g. HTTP
 //   - protocolFullName {string} - e.g. HTTP/1.1
 //   - url {string} - full URL
 //   - path {string} - only the URL path, with no query string nor hash

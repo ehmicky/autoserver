@@ -23,7 +23,7 @@ const getIp = function () {
 };
 
 const ipMap = {
-  http: httpGetIp,
+  HTTP: httpGetIp,
 };
 
 

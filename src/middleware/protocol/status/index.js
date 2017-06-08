@@ -50,7 +50,7 @@ const setStatus = function ({ input, error }) {
 };
 
 const statusMap = {
-  http: {
+  HTTP: {
     getStatus: httpGetStatus,
     getProtocolStatus: httpGetProtocolStatus,
   },
