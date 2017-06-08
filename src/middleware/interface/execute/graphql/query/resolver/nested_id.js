@@ -62,8 +62,8 @@ const getNestedIds = function({ childId, parentIds }) {
   if (parentIds instanceof Array) {
     ids = `(${JSON.stringify(parentIds)}.includes($))`;
   } else {
-    // If parentIds is scalar, this means child operation is single.
-    // Single operation filters cannot use JSL, and childId will be undefined
+    // If parentIds is scalar, this means child action is single.
+    // Single action filters cannot use JSL, and childId will be undefined
     ids = parentIds;
   }
 

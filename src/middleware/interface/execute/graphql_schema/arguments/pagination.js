@@ -29,7 +29,7 @@ const getPaginationArgument = function ({
     }
   };
 
-  // Only with safe operations that return an array, i.e. only with findMany
+  // Only with safe actions that return an array, i.e. only with findMany
   if (!(fullPaginationActionTypes.includes(action.type) && action.multiple)) {
     return paginationArgs;
   }
