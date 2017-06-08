@@ -271,6 +271,12 @@ definitions:
           $ref: '#/definitions/jslOrValue'
         test:
           $ref: '#/definitions/jslOrValue'
+        using:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
     - $ref: '#/definitions/jslOrValue'
   # TODO: better validation of JSL
   jslOrValue:
