@@ -117,8 +117,17 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [commands, model, type, description, deprecated, examples,
-          transform, transformOut, compute, computeOut]
+      - enum:
+        - commands
+        - model
+        - type
+        - description
+        - deprecated
+        - examples
+        - transform
+        - transformOut
+        - compute
+        - computeOut
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -154,7 +163,12 @@ definitions:
     propertyNames:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
-      - enum: [model, transform, transformOut, compute, computeOut]
+      - enum:
+        - model
+        - transform
+        - transformOut
+        - compute
+        - computeOut
       - enum:
           $data: /customValidationNames
     properties:
@@ -170,8 +184,18 @@ definitions:
   nestedModel:
     # Restrict the possible properties
     propertyNames:
-      enum: [model, type, description, deprecated, examples, default, tranform,
-      transformOut, compute, computeOut, commands]
+      enum:
+      - model
+      - type
+      - description
+      - deprecated
+      - examples
+      - default
+      - tranform
+      - transformOut
+      - compute
+      - computeOut
+      - commands
     # Must have a `model` property
     required: [model]
     properties:
@@ -187,8 +211,15 @@ definitions:
     uniqueItems: true
     items:
       type: string
-      enum: [read, readOne, create, createOne, update, updateOne,
-        delete, deleteOne]
+      enum:
+      - read
+      - readOne
+      - create
+      - createOne
+      - update
+      - updateOne
+      - delete
+      - deleteOne
     # One can only choose between read (conceptually "readOne" + "readMany")
     # and "readOne". Same thing for other commands
     not:
