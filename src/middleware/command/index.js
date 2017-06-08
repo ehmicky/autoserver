@@ -7,6 +7,7 @@ module.exports = Object.assign(
   require('./validation'),
   require('./normalization'),
   require('./read_only'),
+  require('./transform'),
   require('./user_defaults'),
   require('./system_defaults'),
 );

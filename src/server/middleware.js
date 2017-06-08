@@ -96,12 +96,12 @@ const getMiddleware = async function (opts) {
     mdw.normalization,
     // Remove readOnly attributes in `args.data`
     mdw.handleReadOnly,
+    // Process transforms
+    mdw.handleTransforms,
     // Apply user-defined default values
     mdw.userDefaults,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
-    // Process transforms
-    // mdw.transform,
 
     /**
      * API layer, for preparing database action
