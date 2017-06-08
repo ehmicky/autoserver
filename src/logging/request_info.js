@@ -16,8 +16,8 @@ const { cloneDeep, omit } = require('lodash');
 //   - path {string} - only the URL path, with no query string nor hash
 //   - route {string} - internal route picked according to the URL,
 //     among `GraphQL`, `GraphiQL` and `GraphQLPrint`
-//   - protocolMethod {string} - protocol-specific method, e.g. GET
-//   - goal {string} - like protocolMethod, but protocol-agnostic, e.g. `find`
+//   - method {string} - protocol-specific method, e.g. GET
+//   - goal {string} - like method, but protocol-agnostic, e.g. `find`
 //   - protocolStatus {string} - protocol-specific status, e.g. HTTP status code
 //   - status {string} - protocol-agnostic status, among 'INTERNALS', 'SUCCESS',
 //     'CLIENT_ERROR' and 'SERVER_ERROR'

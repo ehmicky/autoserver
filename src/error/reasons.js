@@ -11,7 +11,7 @@
  */
 const errorReasons = {
 
-  // Tried to query a protocol that is not supported, e.g. UDP
+  // Tried to query a method that is not supported, e.g. UDP
   UNSUPPORTED_PROTOCOL: {},
 
   // Tried to use a protocol method that is not supported, e.g. TRACE

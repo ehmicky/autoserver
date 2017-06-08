@@ -4,18 +4,16 @@
 const { EngineError } = require('../../error');
 
 
-const getProtocolMethod = function ({
-  specific: { req: { method: protocolMethod } },
-}) {
-  return protocolMethod;
+const getMethod = function ({ specific: { req: { method } } }) {
+  return method;
 };
 
 // Turn a HTTP method into a protocol-agnostic "goal"
 const getGoal = function ({ specific }) {
-  const protocolMethod = getProtocolMethod({ specific });
-  const goal = goalMap[protocolMethod];
+  const method = getMethod({ specific });
+  const goal = goalMap[method];
   if (!goal) {
-    const message = `Unsupported protocol method: ${protocolMethod}`;
+    const message = `Unsupported protocol method: ${method}`;
     throw new EngineError(message, { reason: 'UNSUPPORTED_METHOD' });
   }
   return goal;
@@ -33,7 +31,7 @@ const goalMap = {
 
 module.exports = {
   method: {
-    getProtocolMethod,
+    getMethod,
     getGoal,
   },
 };

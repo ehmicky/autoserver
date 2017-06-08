@@ -5,7 +5,7 @@
 //  STATUS [ERROR] - PROTOCOL METHOD /PATH ACTION...
 const getRequestMessage = function ({
   protocol,
-  protocolMethod,
+  method,
   path,
   protocolStatus,
   error,
@@ -21,7 +21,7 @@ const getRequestMessage = function ({
     error,
     '-',
     protocol,
-    protocolMethod,
+    method,
     path,
     action,
     responseTime,
