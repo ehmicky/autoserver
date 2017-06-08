@@ -10,7 +10,7 @@ const { replaceAction } = require('./replace_action');
 const { deleteAction } = require('./delete_action');
 
 
-// Translates interface-specific calls into generic instance actions
+// Translates operation-specific calls into generic instance actions
 const actionExecute = async function (opts) {
   const { startupLog } = opts;
   const mdws = await mapAsync(middlewares, async (mdw, name) => {

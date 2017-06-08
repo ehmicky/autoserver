@@ -23,8 +23,8 @@ const errorReasons = {
   // Query string is wrong
   QUERY_STRING_PARSE: {},
 
-  // Tried to query an interface that is not supported, e.g. SOAP
-  UNSUPPORTED_INTERFACE: {},
+  // Tried to query an operation that is not supported, e.g. SOAP
+  UNSUPPORTED_OPERATION: {},
 
   // HTTP request is trying to perform a GraphQL query,
   // but does not specify the query

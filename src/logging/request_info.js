@@ -29,7 +29,7 @@ const { cloneDeep, omit } = require('lodash');
 //   - payload {any} - request body
 //   - protocolArgs {object} - request arguments, deduced by the system from
 //     the parameters, queryVars, headers, etc.
-//   - interface {string} - interface, among `GraphQL`, `GraphiQL` and
+//   - operation {string} - operation, among `GraphQL`, `GraphiQL` and
 //     `GraphQLPrint`
 //   - actions {object} - represented all actions fired
 //      - ACTION_PATH {key} - action full path, e.g. 'findModel.findSubmodel'

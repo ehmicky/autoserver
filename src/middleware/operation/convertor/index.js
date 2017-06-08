@@ -1,9 +1,9 @@
 'use strict';
 
 
-// Converts from Protocol format to Interface format
-const interfaceConvertor = function () {
-  return async function interfaceConvertor(input) {
+// Converts from Protocol format to Operation format
+const operationConvertor = function () {
+  return async function operationConvertor(input) {
     const {
       goal,
       queryVars,
@@ -15,7 +15,7 @@ const interfaceConvertor = function () {
       jsl,
       log,
     } = input;
-    const perf = log.perf.start('interface.convertor', 'middleware');
+    const perf = log.perf.start('operation.convertor', 'middleware');
 
     const newInput = {
       goal,
@@ -37,5 +37,5 @@ const interfaceConvertor = function () {
 
 
 module.exports = {
-  interfaceConvertor,
+  operationConvertor,
 };

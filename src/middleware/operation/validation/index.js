@@ -6,17 +6,17 @@ const { EngineError } = require('../../../error');
 
 
 /**
- * Interface layer validation
+ * Operation layer validation
  * Those errors should not happen, i.e. server-side (e.g. 500)
  **/
-const interfaceValidation = function () {
-  return async function interfaceValidation(input) {
-    const { interface: interf, route, log } = input;
-    const perf = log.perf.start('interface.validation', 'middleware');
+const operationValidation = function () {
+  return async function operationValidation(input) {
+    const { operation, route, log } = input;
+    const perf = log.perf.start('operation.validation', 'middleware');
 
-    if (!interf) {
-      const message = `Unsupported interface: ${route}`;
-      throw new EngineError(message, { reason: 'UNSUPPORTED_INTERFACE' });
+    if (!operation) {
+      const message = `Unsupported operation: ${route}`;
+      throw new EngineError(message, { reason: 'UNSUPPORTED_OPERATION' });
     }
 
     validate({ schema, data: input, reportInfo });
@@ -37,7 +37,7 @@ const schema = {
     'params',
     'route',
     'jsl',
-    'interface',
+    'operation',
   ],
   properties: {
     goal: {
@@ -50,12 +50,12 @@ const schema = {
     params: { type: 'object' },
     route: { type: 'string' },
     jsl: { type: 'object' },
-    interface: { type: 'string' },
+    operation: { type: 'string' },
   },
 };
 const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
 
 
 module.exports = {
-  interfaceValidation,
+  operationValidation,
 };

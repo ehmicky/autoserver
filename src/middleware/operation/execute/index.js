@@ -7,18 +7,18 @@ const { executeGraphiql } = require('./graphiql');
 const { printGraphql } = require('./graphql_print');
 
 
-// Translates interface-specific calls into generic instance actions
-const interfaceExecute = async function (opts) {
+// Translates operation-specific calls into generic instance actions
+const operationExecute = async function (opts) {
   const { startupLog } = opts;
   const mdws = await mapAsync(middlewares, async (mdw, name) => {
-    const perf = startupLog.perf.start(`interface.${name}`, 'middleware');
+    const perf = startupLog.perf.start(`operation.${name}`, 'middleware');
     mdw = await mdw(opts);
     perf.stop();
     return mdw;
   });
 
-  return async function interfaceExecute(input) {
-    const response = await mdws[input.interface].call(this, input);
+  return async function operationExecute(input) {
+    const response = await mdws[input.operation].call(this, input);
     return response;
   };
 };
@@ -31,5 +31,5 @@ const middlewares = {
 
 
 module.exports = {
-  interfaceExecute,
+  operationExecute,
 };

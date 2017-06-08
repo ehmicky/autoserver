@@ -268,8 +268,8 @@ models:
 #            - $REQUEST_ID {string} - UUID identifying the current request
 #            - $PARAMS {object} - contains all request parameters:
 #              query strings, (application-namespaced) HTTP headers
-#         - "interface parameters":
-#            - $INTERFACE {string} - possible values: 'graphql', 'graphiql',
+#         - "operation parameters":
+#            - $OPERATION {string} - possible values: 'graphql', 'graphiql',
 #              'graphqlprint'
 #         - "action parameters":
 #            - $MODEL {string} - name of the model
@@ -313,9 +313,9 @@ helpers:
   - myMathFunc: (($1 * $2) + ($3 * $4))
     exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
     recursive_func: (exampleFunction())
-    # Since this function uses $INTERFACE, caller must have access to this
+    # Since this function uses $OPERATION, caller must have access to this
     # parameter
-    moreRecursiveFunc: (recursive_func() + TestConstant + $INTERFACE)
+    moreRecursiveFunc: (recursive_func() + TestConstant + $OPERATION)
     # Constant
     birthDate:
       value: 2005-01-01
