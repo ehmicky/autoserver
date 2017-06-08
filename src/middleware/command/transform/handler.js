@@ -15,6 +15,10 @@ const { applyTransforms } = require('./transformer');
  *   - options {object}:
  *      - value {(jsl|any)} - value to transform to.
  *        Can use JSL, including $ and $$.
+ *      - [test] {(jsl|bool)} - if false, the transform is not applied
+ *        Note that without `test`, $ can be undefined in `value`.
+ *      - [using] {str|str[]} - list of attribute names that one desires to
+ *        use as $$.ATTRIBUTE in either `value` or `test`
  **/
 const handleTransforms = function ({ idl, startupLog }) {
   const perf = startupLog.perf.start('command.handleTransforms', 'middleware');
