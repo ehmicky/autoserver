@@ -22,6 +22,12 @@
 $schema: tag:apiengine,2017:v1.0.0
 # List of models
 models:
+  test:
+    required: [id]
+    properties:
+      id: {}
+      first_name: {}
+      last_name: {}
   # Name of the model, used in routes, e.g. REST endpoints or GraphQL actions
   # Must only be lowercase ASCII letters, digits or underscore.
   # Cannot start with one digit or two underscores.
