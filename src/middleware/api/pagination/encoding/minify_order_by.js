@@ -15,14 +15,11 @@ const unminifyOrderBy = function ({ token }) {
   if (!token.orderBy) { return; }
   token.orderBy = token.orderBy
     .split(',')
-    .map(order => {
-      let postfix = order[order.length - 1];
-      if (postfix !== '-') {
-        order = `${order}+`;
-      }
-      const attrName = order.slice(0, -1);
-      const value = postfix === '+' ? 'asc' : 'desc';
-      return { attrName, value };
+    .map(orderStr => {
+      const isDesc = orderStr[orderStr.length - 1] === '-';
+      const attrName = isDesc ? orderStr.slice(0, -1) : orderStr;
+      const order = isDesc ? 'desc' : 'asc';
+      return { attrName, order };
     });
 };
 
