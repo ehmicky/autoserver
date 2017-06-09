@@ -64,6 +64,12 @@ const getValidateServerSchema = function ({ models = {} }) {
           authorization: {
             type: 'boolean',
           },
+          current: {
+            oneOf: [
+              { type: 'object' },
+              { type: 'array', items: { type: 'object' } },
+            ],
+          },
         },
       },
       command: { type: 'object' },
