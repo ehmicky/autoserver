@@ -94,6 +94,8 @@ const getMiddleware = async function (opts) {
     mdw.commandValidation,
     // Normalize input
     mdw.normalization,
+    // Apply attribute aliases
+    mdw.renameAliases,
     // Remove readOnly attributes in `args.data`
     mdw.handleReadOnly,
     // Process transforms
