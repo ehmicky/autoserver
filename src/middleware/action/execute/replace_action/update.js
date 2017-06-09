@@ -1,13 +1,13 @@
 'use strict';
 
 
-const { cloneDeep, pick } = require('lodash');
+const { cloneDeep } = require('lodash');
 
 const { commands } = require('../../../../constants');
 
 
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input, data, models }) {
+const getUpdateInput = function ({ input, models }) {
   input = Object.assign({}, input);
   input.args = cloneDeep(input.args);
   input.sysArgs = cloneDeep(input.sysArgs);
@@ -18,18 +18,11 @@ const getUpdateInput = function ({ input, data, models }) {
   const command = commands.find(({ type, multiple }) => {
     return type === 'update' && multiple === isMultiple;
   });
-  const args = getUpdateArgs({ input, data });
   const current = isMultiple ? models : models[0];
   Object.assign(sysArgs, { pagination: false, current });
-  Object.assign(input, { command, args, sysArgs });
+  Object.assign(input, { command, sysArgs });
 
   return input;
-};
-
-const getUpdateArgs = function ({ input: { args }, data }) {
-  const updateArgs = pick(args, ['dry_run']);
-  Object.assign(updateArgs, { data });
-  return updateArgs;
 };
 
 

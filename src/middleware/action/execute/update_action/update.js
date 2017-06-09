@@ -21,7 +21,7 @@ const getUpdateInput = function ({ input, models }) {
     return type === 'update' && multiple === isMultiple;
   });
   const updateArgs = getUpdateArgs({ args, models, jsl });
-  Object.assign(sysArgs, { pagination: isMultiple });
+  Object.assign(sysArgs, { pagination: isMultiple, current: models });
   Object.assign(input, { command, args: updateArgs, sysArgs });
 
   return input;

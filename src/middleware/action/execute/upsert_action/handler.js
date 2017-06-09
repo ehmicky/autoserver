@@ -50,7 +50,7 @@ const upsertAction = function () {
 
     // If models exist, update them with "update" command
     if (isDefined({ models: updateModels })) {
-      const updateInput = getUpdateInput({ input, data: updateModels });
+      const updateInput = getUpdateInput({ input, data: updateModels, models });
 
       perf.stop();
       await this.next(updateInput);
