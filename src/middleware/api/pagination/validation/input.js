@@ -37,7 +37,7 @@ const validatePaginationInput = function ({
 
 // JSON schema when consumers can specify args.before|after|page_size|page
 const getFullSchema = function ({
-  args: { orderBy, filter } = {},
+  args: { order_by: orderBy, filter } = {},
   maxPageSize,
 }) {
   const parsedToken = {
@@ -67,7 +67,10 @@ const getFullSchema = function ({
                 },
               },
             },
-            const: orderBy,
+          },
+          orderByString: {
+            type: 'string',
+            const: JSON.stringify(orderBy),
           },
           filter: {
             type: 'string',
@@ -160,6 +163,10 @@ const getInputData = function ({ args }) {
     let decodedToken;
     try {
       decodedToken = decode({ token });
+
+      if (decodedToken.orderBy) {
+        decodedToken.orderByString = JSON.stringify(decodedToken.orderBy);
+      }
     } catch (innererror) {
       const message = `Wrong parameters: '${name}' is invalid`;
       throw new EngineError(message, {
