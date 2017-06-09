@@ -124,6 +124,7 @@ definitions:
         - description
         - deprecated
         - examples
+        - alias
         - readOnly
         - transform
         - compute
@@ -164,6 +165,7 @@ definitions:
       - $ref: '#/definitions/validPropertyNames'
       - enum:
         - model
+        - alias
         - readOnly
         - transform
         - compute
@@ -173,6 +175,12 @@ definitions:
       # Recursively applied to array members
       items:
         $ref: '#/definitions/attributeSchema'
+      alias:
+        oneOf:
+        - type: string
+        - type: array
+          items:
+            type: string
       readOnly:
         type: boolean
       transform:
@@ -207,6 +215,7 @@ definitions:
       - deprecated
       - examples
       - default
+      - alias
       - readOnly
       - transform
       - compute
