@@ -7,11 +7,13 @@ const { minifyToken, unminifyToken } = require('./minify');
 
 // Encode token from a useable object to a short opaque base64 token
 // Token is object:
-//   - parts {object[]} (model values)
-//      - attrName {string}
-//      - value {value}
-//   - order_by {string}, filter {string}: used by current query,
+//   - parts {any[]} (model values)
+//   - filter {string}: used by current query,
 //     so it can be used on next pagination requests
+//   - orderBy {object[]} - same as filter
+//      - orderBy.attrName {string} - also used to guess `parts` attributes
+//      - orderBy.order {string} - 'desc' or 'asc'
+
 const encode = function ({ token }) {
   const minifiedToken = minifyToken({ token });
   const jsonToken = JSON.stringify(minifiedToken);
