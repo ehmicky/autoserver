@@ -89,6 +89,8 @@ models:
         multipleOf: 0.000001
         # Custom validation
         IsNotEqual: 10
+        # Possible aliases for that attribute's name
+        alias: weightt
       is_overweight:
         type: boolean
         description: Has the pet being eating too much?
