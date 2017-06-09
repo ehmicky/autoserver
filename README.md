@@ -144,7 +144,7 @@ We are using [editorconfig](http://editorconfig.org/), so please install the plu
 
 # Troubleshooting
 
-  - Please use Node.js v8.0.0
+  - Please use Node.js v8.1.0
   - Orphans are not currently handled (but this will be fixed).
     This means if you are trying to query or mutate a model which contains a
     foreign key to a non-existing model, the action will crash.
