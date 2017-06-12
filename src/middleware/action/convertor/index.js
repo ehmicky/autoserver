@@ -53,6 +53,8 @@ const actionConvertor = function () {
       throw error;
     }
 
+    response.action = action;
+
     const responses = getLogResponses(response);
     const logAction = { model: modelName, args: clonedArgs, responses };
     const logActions = { [fullAction]: logAction };
@@ -68,15 +70,18 @@ const actionConvertor = function () {
 const actionConvertorOutput = {
 
   // Metadata are siblings to data in GraphQL
-  GraphQL({ data, metadata }) {
+  GraphQL(response) {
+    const { data, metadata } = response;
+
     if (data instanceof Array) {
-      data = data.map((datum, index) => {
+      response.data = data.map((datum, index) => {
         return Object.assign({}, datum, { __metadata: metadata[index] });
       });
     } else {
-      data = Object.assign({}, data, { __metadata: metadata });
+      response.data = Object.assign({}, data, { __metadata: metadata });
     }
-    return { data, metadata };
+
+    return response;
   },
 
 };
