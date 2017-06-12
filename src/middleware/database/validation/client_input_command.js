@@ -11,9 +11,9 @@ const validateClientInputCommand = function ({
   idl,
   command,
   modelName,
-  sysArgs: { authorization },
+  args: { authorization },
 }) {
-  // If sysArgs.authorization is false, bypass this check because this
+  // If args.authorization is false, bypass this check because this
   // is an intermediary command which should always succeed
   if (!authorization) { return; }
 

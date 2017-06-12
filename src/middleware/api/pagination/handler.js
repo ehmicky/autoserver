@@ -96,18 +96,17 @@ const pagination = function ({ maxPageSize }) {
 
 // Transform args.page_size|before|after|page into args.limit|offset|filter
 const processInput = function ({ input, maxPageSize }) {
-  const { args, sysArgs, command, action, modelName } = input;
+  const { args, command, action, modelName } = input;
 
   validatePaginationInput({
     args,
-    sysArgs,
     action,
     command,
     modelName,
     maxPageSize,
   });
 
-  if (mustPaginateOutput({ args, sysArgs })) {
+  if (mustPaginateOutput({ args })) {
     const paginationInput = getPaginationInput({ args });
     Object.assign(args, paginationInput);
   }
@@ -123,11 +122,11 @@ const processOutput = function ({
   args,
   maxPageSize,
 }) {
-  const { sysArgs, action, modelName } = input;
+  const { action, modelName } = input;
 
   reverseOutput({ args, response });
 
-  if (mustPaginateOutput({ args, sysArgs })) {
+  if (mustPaginateOutput({ args })) {
     const paginationOutput = getPaginationOutput({ args, response });
     Object.assign(response, paginationOutput);
 

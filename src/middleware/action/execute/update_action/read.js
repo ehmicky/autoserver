@@ -10,25 +10,19 @@ const { commands } = require('../../../../constants');
 const getReadInput = function ({ input }) {
   input = Object.assign({}, input);
   input.args = cloneDeep(input.args);
-  input.sysArgs = cloneDeep(input.sysArgs);
 
-  const { sysArgs, args, action } = input;
+  const { args, action } = input;
 
   const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'read' && multiple === isMultiple;
   });
-  const readArgs = getReadArgs({ args });
 
-  Object.assign(sysArgs, { pagination: false });
-  Object.assign(input, { command, args: readArgs, sysArgs });
+  const newArgs = pick(args, ['filter']);
+  Object.assign(newArgs, { pagination: false });
+  Object.assign(input, { command, args: newArgs });
 
   return input;
-};
-
-// Only keep args: { filter }
-const getReadArgs = function ({ args }) {
-  return pick(args, ['filter']);
 };
 
 

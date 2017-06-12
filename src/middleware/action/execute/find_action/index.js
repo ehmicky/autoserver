@@ -9,15 +9,16 @@ const { commands } = require('../../../../constants');
  **/
 const findAction = function () {
   return async function findAction(input) {
-    const { sysArgs, action, log } = input;
+    const { args, action, log } = input;
     const perf = log.perf.start('action.find', 'middleware');
 
     const isMultiple = action.multiple;
     const command = commands.find(({ type, multiple }) => {
       return type === 'read' && multiple === isMultiple;
     });
-    Object.assign(sysArgs, { pagination: isMultiple });
-    Object.assign(input, { command, sysArgs });
+
+    const newArgs = Object.assign({}, args, { pagination: isMultiple });
+    Object.assign(input, { command, args: newArgs });
 
     perf.stop();
     const response = await this.next(input);

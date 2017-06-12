@@ -10,9 +10,8 @@ const { commands } = require('../../../../constants');
 const getUpdateInput = function ({ input, models }) {
   input = Object.assign({}, input);
   input.args = cloneDeep(input.args);
-  input.sysArgs = cloneDeep(input.sysArgs);
 
-  const { sysArgs, action, args } = input;
+  const { action, args } = input;
 
   const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
@@ -21,10 +20,10 @@ const getUpdateInput = function ({ input, models }) {
   const currentData = isMultiple ? models : models[0];
 
   const newArgs = omit(args, ['data']);
-  newArgs.newData = args.data;
+  const newData = args.data;
 
-  Object.assign(sysArgs, { pagination: false, currentData });
-  Object.assign(input, { command, args: newArgs, sysArgs });
+  Object.assign(newArgs, { pagination: false, currentData, newData });
+  Object.assign(input, { command, args: newArgs });
 
   return input;
 };

@@ -10,16 +10,15 @@ const { decode } = require('../encoding');
 // Validate args.before|after|page_size|page
 const validatePaginationInput = function ({
   args,
-  sysArgs,
   action,
   command,
   modelName,
   maxPageSize,
 }) {
   let schema;
-  if (allowFullPagination({ args, sysArgs, command })) {
+  if (allowFullPagination({ args, command })) {
     schema = getFullSchema({ maxPageSize });
-  } else if (mustPaginateOutput({ args, sysArgs })) {
+  } else if (mustPaginateOutput({ args })) {
     schema = getLimitedSchema({ maxPageSize });
   } else {
     schema = restrictedSchema;

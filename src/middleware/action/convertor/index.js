@@ -20,7 +20,6 @@ const actionConvertor = function () {
     const perf = log.perf.start('action.convertor', 'middleware');
 
     // Request arguments that cannot be specified by clients
-    const sysArgs = {};
     const clonedArgs = cloneDeep(args);
     const newJsl = jsl.add({
       $ARGS: clonedArgs,
@@ -31,7 +30,6 @@ const actionConvertor = function () {
       action,
       fullAction,
       args,
-      sysArgs,
       modelName,
       jsl: newJsl,
       log,

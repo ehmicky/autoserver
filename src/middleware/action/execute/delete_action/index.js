@@ -9,15 +9,16 @@ const { commands } = require('../../../../constants');
  **/
 const deleteAction = function () {
   return async function deleteAction(input) {
-    const { sysArgs, action, log } = input;
+    const { args, action, log } = input;
     const perf = log.perf.start('action.delete', 'middleware');
 
     const isMultiple = action.multiple;
     const command = commands.find(({ type, multiple }) => {
       return type === 'delete' && multiple === isMultiple;
     });
-    Object.assign(sysArgs, { pagination: isMultiple });
-    Object.assign(input, { command, sysArgs });
+
+    const newArgs = Object.assign({}, args, { pagination: isMultiple });
+    Object.assign(input, { command, args: newArgs });
 
     perf.stop();
     const response = await this.next(input);
