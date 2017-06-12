@@ -4,18 +4,10 @@
 // Converts from Api format to Database format
 const databaseConvertor = function () {
   return async function databaseConvertor(input) {
-    const { command, args, sysArgs, modelName, jsl, log, params } = input;
+    const { command, args, modelName, jsl, log, params } = input;
     const perf = log.perf.start('database.convertor', 'middleware');
 
-    const nextInput = {
-      command,
-      args,
-      sysArgs,
-      modelName,
-      jsl,
-      log,
-      params,
-    };
+    const nextInput = { command, args, modelName, jsl, log, params };
 
     perf.stop();
     const response = await this.next(nextInput);

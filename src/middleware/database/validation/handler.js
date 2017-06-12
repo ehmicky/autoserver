@@ -15,11 +15,11 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  **/
 const databaseValidation = function ({ idl, maxDataLength }) {
   return async function databaseValidation(input) {
-    const { modelName, args, sysArgs, command, jsl, log } = input;
+    const { modelName, args, command, jsl, log } = input;
     const perf = log.perf.start('database.validation', 'middleware');
 
     validateClientInputSyntax({ command, args });
-    validateClientInputCommand({ idl, command, modelName, sysArgs });
+    validateClientInputCommand({ idl, command, modelName, args });
     validateClientInputSemantics({ idl, modelName, args, maxDataLength });
     validateClientInputData({ idl, modelName, command, args, jsl });
 

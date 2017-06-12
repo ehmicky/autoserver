@@ -11,7 +11,7 @@ const { getUpdateInput } = require('./update');
  *     Pagination is disabled for that query.
  *   - then a "update" command
  * The reasons why we split "replace" action are:
- *   - we need to know the current models so we can set sysArgs.currentData
+ *   - we need to know the current models so we can set args.currentData
  **/
 const replaceAction = function () {
   return async function replaceAction(input) {

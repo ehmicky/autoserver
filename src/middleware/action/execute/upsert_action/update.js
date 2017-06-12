@@ -10,26 +10,21 @@ const { commands } = require('../../../../constants');
 const getUpdateInput = function ({ input, data, models }) {
   input = Object.assign({}, input);
   input.args = cloneDeep(input.args);
-  input.sysArgs = cloneDeep(input.sysArgs);
 
-  const { sysArgs, action } = input;
+  const { args, action } = input;
 
   const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'update' && multiple === isMultiple;
   });
-  const args = getUpdateArgs({ input, data });
+
+  const newArgs = pick(args, ['dry_run']);
+  const newData = data;
   const currentData = isMultiple ? models : models[0];
-  Object.assign(sysArgs, { pagination: false, currentData });
-  Object.assign(input, { command, args, sysArgs });
+  Object.assign(newArgs, { pagination: false, currentData, newData });
+  Object.assign(input, { command, args: newArgs });
 
   return input;
-};
-
-const getUpdateArgs = function ({ input: { args }, data }) {
-  const updateArgs = pick(args, ['dry_run']);
-  updateArgs.newData = data;
-  return updateArgs;
 };
 
 

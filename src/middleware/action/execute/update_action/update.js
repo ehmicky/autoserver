@@ -12,17 +12,16 @@ const { isJsl } = require('../../../../jsl');
 const getUpdateInput = function ({ input, models }) {
   input = Object.assign({}, input);
   input.args = cloneDeep(input.args);
-  input.sysArgs = cloneDeep(input.sysArgs);
 
-  const { sysArgs, args, action, jsl } = input;
+  const { args, action, jsl } = input;
 
   const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'update' && multiple === isMultiple;
   });
-  const updateArgs = getUpdateArgs({ args, models, jsl });
-  Object.assign(sysArgs, { pagination: isMultiple, currentData: models });
-  Object.assign(input, { command, args: updateArgs, sysArgs });
+  const newArgs = getUpdateArgs({ args, models, jsl });
+  Object.assign(newArgs, { pagination: isMultiple, currentData: models });
+  Object.assign(input, { command, args: newArgs });
 
   return input;
 };

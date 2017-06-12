@@ -43,7 +43,7 @@ const defaults = {
       // Only if pagination is enabled
       test: ({
         opts: { defaultPageSize },
-        input: { sysArgs: { pagination } },
+        input: { args: { pagination } },
       }) => defaultPageSize !== 0 && pagination,
     },
 
@@ -53,15 +53,13 @@ const defaults = {
       // Only if pagination is enabled, and args.before|page is not specified
       test: ({
         opts: { defaultPageSize },
-        input: { args: { before, page }, sysArgs: { pagination } },
+        input: { args: { before, page, pagination } },
       }) => defaultPageSize !== 0 &&
         pagination &&
         before === undefined &&
         page === undefined
     },
-  },
 
-  sysArgs: {
     authorization: {
       value: true,
     },

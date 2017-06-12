@@ -7,20 +7,19 @@ const { applyTokenAliases } = require('./token');
 
 
 // Apply `alias` in server input
-const applyInputAliases = function ({ args, sysArgs, modelAliases }) {
+const applyInputAliases = function ({ args, modelAliases }) {
   for (const [attrName, aliases] of Object.entries(modelAliases)) {
-    applyInputAlias({ args, sysArgs, attrName, aliases });
+    applyInputAlias({ args, attrName, aliases });
   }
 };
 
 const applyInputAlias = function ({
   args = {},
-  sysArgs: { currentData } = {},
   attrName,
   aliases,
 }) {
   if (args.newData) {
-    const newData = args.newData;
+    const { currentData, newData } = args;
     args.newData = applyDataAliases({
       newData,
       currentData,

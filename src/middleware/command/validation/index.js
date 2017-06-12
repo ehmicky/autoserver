@@ -15,7 +15,7 @@ const { EngineError } = require('../../../error');
  **/
 const commandValidation = function ({ idl: { models } = {} }) {
   return async function commandValidation(input) {
-    const { command, log, args: { newData }, sysArgs: { currentData } } = input;
+    const { command, log, args: { newData, currentData } } = input;
     const perf = log.perf.start('command.validation', 'middleware');
 
     const schema = getValidateServerSchema({ models });
@@ -40,7 +40,6 @@ const getValidateServerSchema = function ({ models = {} }) {
     required: [
       'modelName',
       'args',
-      'sysArgs',
       'command',
       'jsl',
       'params',
@@ -51,8 +50,7 @@ const getValidateServerSchema = function ({ models = {} }) {
         minLength: 1,
         enum: modelNames,
       },
-      args: { type: 'object' },
-      sysArgs: {
+      args: {
         type: 'object',
         // We want to make sure action layer knows whether pagination
         // will be applied or not
@@ -90,7 +88,7 @@ const validateCommand = function ({ command }) {
   }
 };
 
-// Validate that `sysArgs.currentData` reflects `args.newData`
+// Validate that `args.currentData` reflects `args.newData`
 const validateCurrentData = function ({ newData, currentData }) {
   if (!currentData) { return; }
 
@@ -99,7 +97,7 @@ const validateCurrentData = function ({ newData, currentData }) {
     (!(newData instanceof Array) && currentData instanceof Array) ||
     (!newData && currentData);
   if (differentTypes) {
-    const message = `'sysArgs.currentData' is invalid: ${JSON.stringify(currentData)}`;
+    const message = `'args.currentData' is invalid: ${JSON.stringify(currentData)}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 
@@ -118,7 +116,7 @@ const validateCurrentData = function ({ newData, currentData }) {
 const validateSingleCurrentData = function ({ newData, currentData }) {
   const differentId = newData.id !== currentData.id;
   if (differentId) {
-    const message = `'sysArgs.currentData' has invalid 'id': ${currentData.id}`;
+    const message = `'args.currentData' has invalid 'id': ${currentData.id}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };

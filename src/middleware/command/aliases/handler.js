@@ -22,12 +22,12 @@ const renameAliases = function ({ idl, startupLog }) {
   perf.stop();
 
   return async function renameAliases(input) {
-    const { args, modelName, sysArgs, log } = input;
+    const { args, modelName, log } = input;
     const perf = log.perf.start('command.renameAliases', 'middleware');
 
     const modelAliases = aliasesMap[modelName];
 
-    applyInputAliases({ args, sysArgs, modelAliases });
+    applyInputAliases({ args, modelAliases });
 
     perf.stop();
     const response = await this.next(input);

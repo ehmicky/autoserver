@@ -41,7 +41,6 @@ const getValidateServerSchema = function ({ models = {} }) {
     required: [
       'modelName',
       'args',
-      'sysArgs',
       'action',
       'fullAction',
       'jsl',
@@ -54,7 +53,6 @@ const getValidateServerSchema = function ({ models = {} }) {
         enum: modelNames,
       },
       args: { type: 'object' },
-      sysArgs: { type: 'object' },
       action: { type: 'object' },
       fullAction: { type: 'string' },
       jsl: { type: 'object' },

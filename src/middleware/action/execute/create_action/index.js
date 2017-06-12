@@ -11,7 +11,7 @@ const { commands } = require('../../../../constants');
  **/
 const createAction = function () {
   return async function createAction(input) {
-    const { sysArgs, action, log, args } = input;
+    const { action, log, args } = input;
     const perf = log.perf.start('action.create', 'middleware');
 
     const isMultiple = action.multiple;
@@ -20,10 +20,10 @@ const createAction = function () {
     });
 
     const newArgs = omit(args, ['data']);
-    newArgs.newData = args.data;
+    const newData = args.data;
 
-    Object.assign(sysArgs, { pagination: false });
-    Object.assign(input, { command, sysArgs, args: newArgs });
+    Object.assign(newArgs, { pagination: false, newData });
+    Object.assign(input, { command, args: newArgs });
 
     perf.stop();
     const response = await this.next(input);
