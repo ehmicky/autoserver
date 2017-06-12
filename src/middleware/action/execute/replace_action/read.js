@@ -13,9 +13,9 @@ const getReadInput = function ({ input }) {
   input.args = cloneDeep(input.args);
   input.sysArgs = cloneDeep(input.sysArgs);
 
-  const { sysArgs } = input;
+  const { sysArgs, action } = input;
 
-  const isMultiple = true;
+  const isMultiple = action.multiple;
   const command = commands.find(({ type, multiple }) => {
     return type === 'read' && multiple === isMultiple;
   });
