@@ -8,12 +8,12 @@ const operationConvertor = function () {
       goal,
       queryVars,
       pathVars,
-      protocolArgs,
       params,
       payload,
       route,
       jsl,
       log,
+      args,
     } = input;
     const perf = log.perf.start('operation.convertor', 'middleware');
 
@@ -21,12 +21,12 @@ const operationConvertor = function () {
       goal,
       queryVars,
       pathVars,
-      protocolArgs,
       params,
       payload,
       route,
       jsl,
       log,
+      args,
     };
 
     perf.stop();

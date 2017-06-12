@@ -56,7 +56,7 @@ const getMiddleware = async function (opts) {
     mdw.getPath,
     // Retrieves input.route, using input.path
     mdw.router,
-    // Transform headers into protocol-agnostic protocolArgs
+    // Transform headers into protocol-agnostic args
     mdw.fillProtocolArgs,
 
     /**

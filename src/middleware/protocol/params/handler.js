@@ -27,8 +27,8 @@ const { getPayload } = require('./payload');
  *      - their format, syntax and valid names are set by the system only,
  *        i.e. cannot be customized by user.
  *   - non-namespaced headers:
- *      - converted to protocolArgs by protocol layer, operation-independant
- *        protocolArgs are modifications applied to each action, including
+ *      - converted to args by protocol layer, operation-independant
+ *        args are modifications applied to each action, including
  *        adding arguments.
  *      - a non-protocol-specific header exists for each of them,
  *        but redundant protocol-specific headers might exist.
