@@ -8,7 +8,7 @@ const { validate } = require('../../../validation');
 
 
 /**
- * Check that input filter|data passes IDL validation
+ * Check that input filter|newData passes IDL validation
  * E.g. if a model is marked as `required` or `minimum: 10` in IDL file,
  * this will be validated here
  **/
@@ -153,7 +153,7 @@ const transforms = [
 const getAttributes = function (dbArgs) {
   // TODO: validate `filter`
   return pickBy(dbArgs, (arg, dataVar) => {
-    return [/*'filter', */'data'].includes(dataVar) && arg;
+    return [/*'filter', */'newData'].includes(dataVar) && arg;
   });
 };
 

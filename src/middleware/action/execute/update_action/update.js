@@ -30,18 +30,18 @@ const getUpdateInput = function ({ input, models }) {
 const getUpdateArgs = function ({ args, models, jsl }) {
   const { data } = args;
   // args.filter is only used by first "read" command
-  const updateArgs = omit(args, ['filter']);
+  const updateArgs = omit(args, ['filter', 'data']);
 
   // Keys in args.* using JSL
   const jslKeys = Object.keys(data)
     .filter(key => isJsl({ jsl: data[key] }));
 
   if (models instanceof Array) {
-    updateArgs.data = models.map(model => {
+    updateArgs.newData = models.map(model => {
       return getUpdateData({ model, data, jsl, jslKeys });
     });
   } else {
-    updateArgs.data = getUpdateData({ model: models, data, jsl, jslKeys });
+    updateArgs.newData = getUpdateData({ model: models, data, jsl, jslKeys });
   }
 
   return updateArgs;

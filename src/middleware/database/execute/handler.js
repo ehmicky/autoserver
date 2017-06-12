@@ -16,13 +16,13 @@ const databaseExecute = function () {
       limit,
       offset,
       dry_run: dryRun,
-      data,
+      newData,
       filter,
     } = dbArgs;
     const collection = database[modelName];
 
     const opts = { jsl, orderBy, limit, offset, dryRun, modelName };
-    const commandInput = { command, collection, filter, data, opts };
+    const commandInput = { command, collection, filter, newData, opts };
     const response = fireCommand(commandInput);
 
     perf.stop();

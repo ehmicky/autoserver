@@ -15,12 +15,13 @@ const userDefaults = function ({ idl, startupLog }) {
   perf.stop();
 
   return async function userDefaults(input) {
-    const { args, log } = input;
+    const { args, log, modelName, jsl } = input;
+    const { newData } = args;
     const perf = log.perf.start('command.userDefaults', 'middleware');
 
-    if (args.data) {
-      const opts = getOptions({ defMap, input });
-      args.data = applyAllDefault(opts);
+    if (args.newData) {
+      const defAttributes = defMap.get(modelName);
+      args.newData = applyAllDefault({ jsl, defAttributes, value: newData });
     }
 
     perf.stop();
@@ -45,15 +46,6 @@ const getDefMap = function ({ idl: { models } }) {
       return [modelName, props];
     });
   return new Map(defMap);
-};
-
-// Retrieves applyDefault() options from main input
-const getOptions = function ({
-  defMap,
-  input: { modelName, args: { data }, jsl },
-}) {
-  const defAttributes = defMap.get(modelName);
-  return { jsl, defAttributes, value: data };
 };
 
 

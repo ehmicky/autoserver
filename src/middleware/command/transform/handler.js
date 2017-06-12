@@ -34,13 +34,13 @@ const handleTransforms = function ({ idl, startupLog }) {
 
   return async function handleTransforms(input) {
     const { args, modelName, log, jsl } = input;
-    const { data } = args;
+    const { newData } = args;
     const perf = log.perf.start('command.handleTransforms', 'middleware');
 
-    if (data) {
+    if (newData) {
       const transforms = transformsMap[modelName];
-      args.data = applyTransformsOnData({
-        data,
+      args.newData = applyTransformsOnData({
+        data: newData,
         transforms,
         jsl,
         type: 'transform',
@@ -51,7 +51,7 @@ const handleTransforms = function ({ idl, startupLog }) {
     const response = await this.next(input);
 
     const transforms = computesMap[modelName];
-    response.data = applyTransformsOnData({
+    response.newData = applyTransformsOnData({
       data: response.data,
       transforms,
       jsl,

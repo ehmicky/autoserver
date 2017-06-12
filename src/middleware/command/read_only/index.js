@@ -18,15 +18,18 @@ const handleReadOnly = function ({ idl, startupLog }) {
 
   return async function handleReadOnly(input) {
     const { args, modelName, log } = input;
-    const { data } = args;
+    const { newData } = args;
     const perf = log.perf.start('command.handleReadOnly', 'middleware');
 
     // Remove readonly attributes in `args.data`
-    if (data) {
+    if (newData) {
       const readOnlyAttrs = readOnlyMap[modelName];
-      args.data = data instanceof Array
-        ? data.map(datum => removeReadOnly({ data: datum, readOnlyAttrs }))
-        : removeReadOnly({ data, readOnlyAttrs });
+      args.newData = newData instanceof Array
+        ? newData.map(datum => removeReadOnly({
+          newData: datum,
+          readOnlyAttrs,
+        }))
+        : removeReadOnly({ newData, readOnlyAttrs });
     }
 
     perf.stop();
@@ -48,12 +51,12 @@ const getReadOnlyMap = function ({ idl: { models } }) {
     .reduce((memo, obj) => Object.assign(memo, obj), {});
 };
 
-const removeReadOnly = function ({ data, readOnlyAttrs }) {
+const removeReadOnly = function ({ newData, readOnlyAttrs }) {
   // Value should be an object if valid, but it might be invalid
   // since the validation layer is not fired yet on input
-  if (!data || data.constructor !== Object) { return data; }
+  if (!newData || newData.constructor !== Object) { return newData; }
 
-  return omit(data, readOnlyAttrs);
+  return omit(newData, readOnlyAttrs);
 };
 
 

@@ -5,15 +5,20 @@ const { omit, isEqual } = require('lodash');
 
 
 // Apply `alias` in `args.data`
-const applyDataAliases = function ({ data, currentData, attrName, aliases }) {
-  return data instanceof Array
-    ? data.map(datum => applyDataAliases({
-      data: datum,
+const applyDataAliases = function ({
+  newData,
+  currentData,
+  attrName,
+  aliases,
+}) {
+  return newData instanceof Array
+    ? newData.map(datum => applyDataAliases({
+      newData: datum,
       currentData,
       attrName,
       aliases,
     }))
-    : applyDataAlias({ data, currentData, attrName, aliases });
+    : applyDataAlias({ newData, currentData, attrName, aliases });
 };
 
 // Copy first defined alias to main attribute,
@@ -21,21 +26,21 @@ const applyDataAliases = function ({ data, currentData, attrName, aliases }) {
 // If the main attribute has the same value as the current value in the
 // database, it is considered "not defined", because setting that value would
 // induce no changes.
-const applyDataAlias = function ({ data, currentData, attrName, aliases }) {
-  const dataKeys = Object.keys(data);
-  const shouldSetAliases = !dataKeys.includes(attrName) ||
-    (currentData && isEqual(data[attrName], currentData[attrName]));
+const applyDataAlias = function ({ newData, currentData, attrName, aliases }) {
+  const newDataKeys = Object.keys(newData);
+  const shouldSetAliases = !newDataKeys.includes(attrName) ||
+    (currentData && isEqual(newData[attrName], currentData[attrName]));
 
   if (shouldSetAliases) {
-    const aliasName = aliases.find(alias => dataKeys.includes(alias));
+    const aliasName = aliases.find(alias => newDataKeys.includes(alias));
     if (aliasName) {
-      data[attrName] = data[aliasName];
+      newData[attrName] = newData[aliasName];
     }
   }
 
-  data = omit(data, aliases);
+  newData = omit(newData, aliases);
 
-  return data;
+  return newData;
 };
 
 
