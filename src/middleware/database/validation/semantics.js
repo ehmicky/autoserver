@@ -13,14 +13,14 @@ const { EngineError } = require('../../../error');
 const validateClientInputSemantics = function ({
   idl,
   modelName,
-  dbArgs,
+  args,
   maxDataLength,
 }) {
   const type = 'clientInputSemantics';
   const schema = getSchema({ idl, modelName });
-  validate({ schema, data: dbArgs, reportInfo: { type } });
+  validate({ schema, data: args, reportInfo: { type } });
 
-  validateLimits({ dbArgs, maxDataLength });
+  validateLimits({ args, maxDataLength });
 };
 
 const getSchema = function ({ idl, modelName }) {
@@ -45,7 +45,7 @@ const getSchema = function ({ idl, modelName }) {
 };
 
 // Check input is not too big
-const validateLimits = function ({ dbArgs: { newData }, maxDataLength: max }) {
+const validateLimits = function ({ args: { newData }, maxDataLength: max }) {
   const isDataTooBig = newData instanceof Array &&
     newData.length > max &&
     max !== 0;
