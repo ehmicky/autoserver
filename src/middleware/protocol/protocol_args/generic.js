@@ -3,6 +3,8 @@
 
 const { omitBy } = require('lodash');
 
+const { EngineError } = require('../../../error');
+
 
 // Transform headers into protocolArgs, for protocol-agnostic headers
 const genericFillProtocolArgs = function () {
