@@ -227,15 +227,6 @@ models:
 #      - in all actions except find. never required
 #      - if true, the action will not modify the database,
 #        but the return value will be the same as if it did
-#   - `no_output` {boolean}
-#      - in all actions. never required
-#      - defaults to true for `delete`, false otherwise
-#      - if true, the action will modify the database, but return an empty
-#        response (i.e. empty object or empty array)
-#      - this can also be set for all the actions using any of:
-#         - X-No-Output {boolean} request header, for any protocol
-#         - Prefer: return=minimal request header, for HTTP
-#         - HEAD HTTP method, instead of GET
 #   - `page_size` {integer}
 #      - in findMany, deleteMany or updateMany
 #      - defaults to server option defaultPageSize (default: 100)
@@ -252,6 +243,13 @@ models:
 #      - in findMany
 #      - page number, for pagination, starting at 1
 #      - cannot be used together with `before|after`
+# Possible settings:
+#   - `noOutput` {boolean}
+#      - if true, the action will modify the database, but return an empty
+#        response
+#      - defaults to true for `delete`, false otherwise
+#      - this can also be set for all the actions using:
+#         - Prefer: return=minimal HTTP request header
 # JSL is a restricted syntax of JavaScript:
 #   - any string that is surrounded by parenthesis will be interpreted as JSL,
 #     except if first parenthesis is escaped:

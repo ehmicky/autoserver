@@ -2,20 +2,18 @@
 
 /**
  * Summary of actions:
- *   findOne    ({ filter: { id }, [no_output] })
- *   findMany   ({ [filter], [order_by], [page_size], [before|after|page],
- *               [no_output] })
- *   deleteOne  ({ filter: { id }, [dry_run], [no_output] })
- *   deleteMany ({ [filter], [order_by], [dry_run], [page_size], [no_output] })
- *   updateOne  ({ data, filter: { id }, [dry_run], [no_output] })
- *   updateMany ({ data, [filter], [order_by], [dry_run], [page_size],
- *               [no_output] })
- *   createOne  ({ data, [dry_run], [no_output] })
- *   createMany ({ data[], [order_by], [dry_run], [page_size], [no_output] })
- *   replaceOne ({ data, [dry_run], [no_output] })
- *   replaceMany({ data[], [order_by], [dry_run], [page_size], [no_output] })
- *   upsertOne  ({ data, [dry_run], [no_output] })
- *   upsertMany ({ data[], [order_by], [dry_run], [page_size], [no_output] })
+ *   findOne    ({ filter: { id } })
+ *   findMany   ({ [filter], [order_by], [page_size], [before|after|page] })
+ *   deleteOne  ({ filter: { id }, [dry_run] })
+ *   deleteMany ({ [filter], [order_by], [dry_run], [page_size] })
+ *   updateOne  ({ data, filter: { id }, [dry_run] })
+ *   updateMany ({ data, [filter], [order_by], [dry_run], [page_size] })
+ *   createOne  ({ data, [dry_run] })
+ *   createMany ({ data[], [order_by], [dry_run], [page_size] })
+ *   replaceOne ({ data, [dry_run] })
+ *   replaceMany({ data[], [order_by], [dry_run], [page_size] })
+ *   upsertOne  ({ data, [dry_run] })
+ *   upsertMany ({ data[], [order_by], [dry_run], [page_size] })
  *
  * Summary of arguments:
  *  - {object|object[]} data  - Attributes to update or create
@@ -56,17 +54,12 @@
  *  - {boolean} [dry_run]     - If true, the action will not modify the
  *                              database, but the return value will be the
  *                              same as if it did.
- *  - {boolean} [no_output]  -  Defaults to true for `delete`, false otherwise
- *                              If true, the action will modify the database, '
- *                              but return an empty response
- *                              (i.e. empty object or empty array)
- *                              This can also be set for all the actions using
- *                              any of:
- *                                - X-No-Output {boolean} request header,
- *                                  for any protocol
- *                                - prefer: return=minimal request header,
- *                                  for HTTP
- *                                - HEAD HTTP method, instead of GET
+ * Summary of settings:
+ *  - {boolean} [noOutput]   -  If true, the operation will modify the database,
+ *                              but return an empty response.
+ *                              Defaults to true for `delete`, false otherwise.
+ *                              This can also be set with:
+ *                                - prefer: return=minimal HTTP request header
  **/
 
 

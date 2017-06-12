@@ -7,7 +7,6 @@ const {
   isIntrospectionQuery,
   getHandleIntrospection,
 } = require('./introspection');
-const { applyModifiers } = require('./modifiers');
 
 
 // GraphQL query handling
@@ -37,7 +36,6 @@ const executeGraphql = function (opts) {
 
     // GraphQL execution
     let content;
-    const modifiers = {};
     // Introspection GraphQL query
     if (isIntrospectionQuery({ query })) {
       content = await handleIntrospection({
@@ -47,15 +45,14 @@ const executeGraphql = function (opts) {
       });
     // Normal GraphQL query
     } else {
-      const callback = fireNext.bind(this, input, modifiers, perf);
-      const response = await handleQuery({
+      const callback = fireNext.bind(this, input, perf);
+      const data = await handleQuery({
         queryDocument,
         variables,
         operationName,
         context: { graphqlMethod, callback },
         rootValue: {},
       });
-      const data = applyModifiers({ response, modifiers });
       content = { data };
     }
 
@@ -67,8 +64,8 @@ const executeGraphql = function (opts) {
   };
 };
 
-const fireNext = async function (request, modifiers, perf, actionInput) {
-  const input = Object.assign({}, request, { modifiers }, actionInput);
+const fireNext = async function (request, perf, actionInput) {
+  const input = Object.assign({}, request, actionInput);
 
   // Several calls of this function are done concurrently, so we stop
   // performance recording on the first in, and restart on the last out
