@@ -9,8 +9,8 @@ const { getUpdateInput } = require('./update');
  * "update" action is split into two commands:
  *   - first a "read" command retrieving current models
  *     Pagination is disabled for that query.
- *   - then a "update" command using a merge of the update data and
- *     the current models
+ *   - then a "update" command using a merge `newData` of the update data
+ *     `args.data` and the current models `currentData`
  * The reasons why we split "update" action are:
  *   - we need to know the current models so we can:
  *      - apply JSL present in `args.data`

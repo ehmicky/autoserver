@@ -15,14 +15,14 @@ const { EngineError } = require('../../../error');
  **/
 const commandValidation = function ({ idl: { models } = {} }) {
   return async function commandValidation(input) {
-    const { command, log, args: { data }, sysArgs: { currentData } } = input;
+    const { command, log, args: { newData }, sysArgs: { currentData } } = input;
     const perf = log.perf.start('command.validation', 'middleware');
 
     const schema = getValidateServerSchema({ models });
     validate({ schema, data: input, reportInfo });
 
     validateCommand({ command });
-    validateCurrentData({ data, currentData });
+    validateCurrentData({ newData, currentData });
 
     perf.stop();
     const response = await this.next(input);
@@ -90,33 +90,33 @@ const validateCommand = function ({ command }) {
   }
 };
 
-// Validate that `sysArgs.currentData` reflects `args.data`
-const validateCurrentData = function ({ data, currentData }) {
+// Validate that `sysArgs.currentData` reflects `args.newData`
+const validateCurrentData = function ({ newData, currentData }) {
   if (!currentData) { return; }
 
   const differentTypes =
-    (data instanceof Array && !(currentData instanceof Array)) ||
-    (!(data instanceof Array) && currentData instanceof Array) ||
-    (!data && currentData);
+    (newData instanceof Array && !(currentData instanceof Array)) ||
+    (!(newData instanceof Array) && currentData instanceof Array) ||
+    (!newData && currentData);
   if (differentTypes) {
     const message = `'sysArgs.currentData' is invalid: ${JSON.stringify(currentData)}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 
-  if (data instanceof Array) {
-    for (const [index, datum] of data.entries()) {
+  if (newData instanceof Array) {
+    for (const [index, datum] of newData.entries()) {
       validateSingleCurrentData({
-        data: datum,
+        newData: datum,
         currentData: currentData[index],
       });
     }
   } else {
-    validateSingleCurrentData({ data, currentData });
+    validateSingleCurrentData({ newData, currentData });
   }
 };
 
-const validateSingleCurrentData = function ({ data, currentData }) {
-  const differentId = data.id !== currentData.id;
+const validateSingleCurrentData = function ({ newData, currentData }) {
+  const differentId = newData.id !== currentData.id;
   if (differentId) {
     const message = `'sysArgs.currentData' has invalid 'id': ${currentData.id}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });

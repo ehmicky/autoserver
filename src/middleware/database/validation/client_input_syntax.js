@@ -12,7 +12,7 @@ const { validate } = require('../../../validation');
  * In a nutshell, checks that:
  *  - required attributes are defined
  *  - disabled attributes are not defined
- *  - `filter` is an object, `data` is an array or object
+ *  - `filter` is an object, `newData` is an array or object
  *    (depending on command.name)
  *  - `order_by` and `dry_run` syntax looks valid
  *    (does not check whether it is semantically correct)
@@ -60,7 +60,7 @@ const getProperties = function ({ rule }) {
 // JSON schemas applied to input
 const validateClientSchema = [
   {
-    name: 'data',
+    name: 'newData',
     value: ({ dataMultiple }) => !dataMultiple
       ? { type: 'object' }
       : { type: 'array', items: { type: 'object' } },
@@ -145,7 +145,7 @@ const getForbiddenProperties = function ({ rule: { forbidden = [] } }) {
  * List of rules for allowed|required attributes,
  * according to the current command.name
  * `required` implies `allowed`
- * `dataSingle` is `data` as object, `dataMultiple` is `data` as array.
+ * `dataSingle` is `newData` as object, `dataMultiple` is `newData` as array.
  **/
 const rules = {
   readOne: {
@@ -175,20 +175,20 @@ const rules = {
   },
   updateOne: {
     allowed: ['dry_run'],
-    required: ['data', 'data.id'],
+    required: ['newData', 'newData.id'],
   },
   updateMany: {
     allowed: ['order_by', 'limit', 'offset', 'dry_run'],
-    required: ['data', 'data.*.id'],
+    required: ['newData', 'newData.*.id'],
     dataMultiple: true,
   },
   createOne: {
     allowed: ['dry_run'],
-    required: ['data'],
+    required: ['newData'],
   },
   createMany: {
     allowed: ['order_by', 'limit', 'offset', 'dry_run'],
-    required: ['data'],
+    required: ['newData'],
     dataMultiple: true,
   },
 };

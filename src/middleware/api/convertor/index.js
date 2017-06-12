@@ -11,7 +11,7 @@ const apiConvertor = function () {
     const perf = log.perf.start('api.convertor', 'middleware');
 
     const dbArgs = pick(args, [
-      'data',
+      'newData',
       'filter',
       'order_by',
       'dry_run',

@@ -158,9 +158,9 @@ const deleteMany = function ({ collection, filter, opts }) {
   return { data: models };
 };
 
-const create = function ({ collection, data, opts }) {
+const create = function ({ collection, newData, opts }) {
   const { dryRun } = opts;
-  let id = data.id;
+  let id = newData.id;
   if (id) {
     const findIndexOpts = Object.assign({}, opts, { mustExist: false });
     findIndex({ collection, id, opts: findIndexOpts });
@@ -168,7 +168,7 @@ const create = function ({ collection, data, opts }) {
     id = createId();
   }
 
-  const newModel = Object.assign({}, data, { id });
+  const newModel = Object.assign({}, newData, { id });
   if (!dryRun) {
     collection.push(newModel);
   }
@@ -179,24 +179,24 @@ const createId = function () {
   return uuiv4();
 };
 
-const createOne = function ({ collection, data, opts }) {
-  const newModel = create({ collection, data, opts });
+const createOne = function ({ collection, newData, opts }) {
+  const newModel = create({ collection, newData, opts });
   return { data: newModel };
 };
 
-const createMany = function ({ collection, data, opts }) {
-  const newModels = data.map(datum => {
-    return create({ collection, data: datum, opts });
+const createMany = function ({ collection, newData, opts }) {
+  const newModels = newData.map(datum => {
+    return create({ collection, newData: datum, opts });
   });
   return { data: newModels };
 };
 
-const update = function ({ collection, data, opts }) {
+const update = function ({ collection, newData, opts }) {
   const { dryRun } = opts;
-  const index = findIndex({ collection, id: data.id, opts });
+  const index = findIndex({ collection, id: newData.id, opts });
 
   const model = collection[index];
-  const newModel = Object.assign({}, model, data);
+  const newModel = Object.assign({}, model, newData);
   if (!dryRun) {
     collection.splice(index, 1, newModel);
   }
@@ -204,14 +204,14 @@ const update = function ({ collection, data, opts }) {
   return newModel;
 };
 
-const updateOne = function ({ collection, data, opts }) {
-  const newModel = update({ collection, data, opts });
+const updateOne = function ({ collection, newData, opts }) {
+  const newModel = update({ collection, newData, opts });
   return { data: newModel };
 };
 
-const updateMany = function ({ collection, data, opts }) {
-  const newModels = data.map(datum => {
-    return update({ collection, data: datum, opts });
+const updateMany = function ({ collection, newData, opts }) {
+  const newModels = newData.map(datum => {
+    return update({ collection, newData: datum, opts });
   });
   return { data: newModels };
 };

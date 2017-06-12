@@ -1,6 +1,8 @@
 'use strict';
 
 
+const { omit } = require('lodash');
+
 const { commands } = require('../../../../constants');
 
 
@@ -9,15 +11,19 @@ const { commands } = require('../../../../constants');
  **/
 const createAction = function () {
   return async function createAction(input) {
-    const { sysArgs, action, log } = input;
+    const { sysArgs, action, log, args } = input;
     const perf = log.perf.start('action.create', 'middleware');
 
     const isMultiple = action.multiple;
     const command = commands.find(({ type, multiple }) => {
       return type === 'create' && multiple === isMultiple;
     });
+
+    const newArgs = omit(args, ['data']);
+    newArgs.newData = args.data;
+
     Object.assign(sysArgs, { pagination: false });
-    Object.assign(input, { command, sysArgs });
+    Object.assign(input, { command, sysArgs, args: newArgs });
 
     perf.stop();
     const response = await this.next(input);

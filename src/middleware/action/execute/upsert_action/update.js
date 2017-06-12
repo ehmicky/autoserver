@@ -28,7 +28,7 @@ const getUpdateInput = function ({ input, data, models }) {
 
 const getUpdateArgs = function ({ input: { args }, data }) {
   const updateArgs = pick(args, ['dry_run']);
-  Object.assign(updateArgs, { data });
+  updateArgs.newData = data;
   return updateArgs;
 };
 

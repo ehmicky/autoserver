@@ -45,8 +45,10 @@ const getSchema = function ({ idl, modelName }) {
 };
 
 // Check input is not too big
-const validateLimits = function ({ dbArgs: { data }, maxDataLength: max }) {
-  const isDataTooBig = data instanceof Array && data.length > max && max !== 0;
+const validateLimits = function ({ dbArgs: { newData }, maxDataLength: max }) {
+  const isDataTooBig = newData instanceof Array &&
+    newData.length > max &&
+    max !== 0;
   if (isDataTooBig) {
     const message = `argument 'data' must contain at most ${max} items`;
     throw new EngineError(message, { reason: 'INPUT_LIMIT' });

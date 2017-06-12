@@ -19,9 +19,14 @@ const applyInputAlias = function ({
   attrName,
   aliases,
 }) {
-  if (args.data) {
-    const data = args.data;
-    args.data = applyDataAliases({ data, currentData, attrName, aliases });
+  if (args.newData) {
+    const newData = args.newData;
+    args.newData = applyDataAliases({
+      newData,
+      currentData,
+      attrName,
+      aliases,
+    });
   }
 
   if (args.order_by) {
