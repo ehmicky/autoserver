@@ -33,8 +33,8 @@ const { getPayload } = require('./payload');
  *      - a non-protocol-specific header exists for each of them,
  *        but redundant protocol-specific headers might exist.
  *        E.g. protocol-agnostic header 'X-No-Output' creates arg.no_output
- *        but HTTP method HEAD and HTTP header Prefer: return=minimal
- *        achieve the same for HTTP protocol.
+ *        but HTTP header Prefer: return=minimal achieves the same for
+ *        HTTP protocol.
  *   - namespaced headers:
  *      - i.e. namespaced by projectName (deg: 'x-api-engine-*').
  *      - semantics are defined by user, not system.
