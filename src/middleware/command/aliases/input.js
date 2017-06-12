@@ -15,13 +15,13 @@ const applyInputAliases = function ({ args, sysArgs, modelAliases }) {
 
 const applyInputAlias = function ({
   args = {},
-  sysArgs: { current } = {},
+  sysArgs: { currentData } = {},
   attrName,
   aliases,
 }) {
   if (args.data) {
     const data = args.data;
-    args.data = applyDataAliases({ data, current, attrName, aliases });
+    args.data = applyDataAliases({ data, currentData, attrName, aliases });
   }
 
   if (args.order_by) {

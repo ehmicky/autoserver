@@ -15,14 +15,14 @@ const { EngineError } = require('../../../error');
  **/
 const commandValidation = function ({ idl: { models } = {} }) {
   return async function commandValidation(input) {
-    const { command, log, args: { data }, sysArgs: { current } } = input;
+    const { command, log, args: { data }, sysArgs: { currentData } } = input;
     const perf = log.perf.start('command.validation', 'middleware');
 
     const schema = getValidateServerSchema({ models });
     validate({ schema, data: input, reportInfo });
 
     validateCommand({ command });
-    validateCurrent({ data, current });
+    validateCurrentData({ data, currentData });
 
     perf.stop();
     const response = await this.next(input);
@@ -64,7 +64,7 @@ const getValidateServerSchema = function ({ models = {} }) {
           authorization: {
             type: 'boolean',
           },
-          current: {
+          currentData: {
             oneOf: [
               { type: 'object' },
               { type: 'array', items: { type: 'object' } },
@@ -90,32 +90,35 @@ const validateCommand = function ({ command }) {
   }
 };
 
-// Validate that `sysArgs.current` reflects `args.data`
-const validateCurrent = function ({ data, current }) {
-  if (!current) { return; }
+// Validate that `sysArgs.currentData` reflects `args.data`
+const validateCurrentData = function ({ data, currentData }) {
+  if (!currentData) { return; }
 
   const differentTypes =
-    (data instanceof Array && !(current instanceof Array)) ||
-    (!(data instanceof Array) && current instanceof Array) ||
-    (!data && current);
+    (data instanceof Array && !(currentData instanceof Array)) ||
+    (!(data instanceof Array) && currentData instanceof Array) ||
+    (!data && currentData);
   if (differentTypes) {
-    const message = `'sysArgs.current' is invalid: ${JSON.stringify(current)}`;
+    const message = `'sysArgs.currentData' is invalid: ${JSON.stringify(currentData)}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 
   if (data instanceof Array) {
     for (const [index, datum] of data.entries()) {
-      validateSingleCurrent({ data: datum, current: current[index] });
+      validateSingleCurrentData({
+        data: datum,
+        currentData: currentData[index],
+      });
     }
   } else {
-    validateSingleCurrent({ data, current });
+    validateSingleCurrentData({ data, currentData });
   }
 };
 
-const validateSingleCurrent = function ({ data, current }) {
-  const differentId = data.id !== current.id;
+const validateSingleCurrentData = function ({ data, currentData }) {
+  const differentId = data.id !== currentData.id;
   if (differentId) {
-    const message = `'sysArgs.current' has invalid 'id': ${current.id}`;
+    const message = `'sysArgs.currentData' has invalid 'id': ${currentData.id}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };

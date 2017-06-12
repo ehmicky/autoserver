@@ -19,8 +19,8 @@ const getUpdateInput = function ({ input, data, models }) {
     return type === 'update' && multiple === isMultiple;
   });
   const args = getUpdateArgs({ input, data });
-  const current = isMultiple ? models : models[0];
-  Object.assign(sysArgs, { pagination: false, current });
+  const currentData = isMultiple ? models : models[0];
+  Object.assign(sysArgs, { pagination: false, currentData });
   Object.assign(input, { command, args, sysArgs });
 
   return input;
