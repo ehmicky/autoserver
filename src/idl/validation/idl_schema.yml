@@ -178,9 +178,11 @@ definitions:
       alias:
         oneOf:
         - type: string
+          $ref: '#/definitions/validModelName'
         - type: array
           items:
             type: string
+            $ref: '#/definitions/validModelName'
       readOnly:
         type: boolean
       transform:
