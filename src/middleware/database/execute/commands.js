@@ -49,6 +49,8 @@
  *  - {string} [before|after] - Retrieves previous|next pagination batch,
  *                              using the previous response's 'token'
  *                              Use '' for the start or the end.
+ *                              Cannot be used together with `filter` nor
+ *                              `order_by`.
  *  - {integer} [page]        - Page number, for pagination, starting at 1
  *                              Cannot be used together with `before|after`
  *  - {boolean} [dry_run]     - If true, the action will not modify the

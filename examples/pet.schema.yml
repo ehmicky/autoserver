@@ -247,6 +247,7 @@ models:
 #      - retrieves previous|next pagination batch,
 #        using the previous response's 'token'
 #      - use '' for the start or the end
+#      - cannot be used together with `filter` nor `order_by`.
 #   - `page` {integer}
 #      - in findMany
 #      - page number, for pagination, starting at 1

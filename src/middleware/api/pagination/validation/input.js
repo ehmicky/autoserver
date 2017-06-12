@@ -18,7 +18,7 @@ const validatePaginationInput = function ({
 }) {
   let schema;
   if (allowFullPagination({ args, sysArgs, command })) {
-    schema = getFullSchema({ args, maxPageSize });
+    schema = getFullSchema({ maxPageSize });
   } else if (mustPaginateOutput({ args, sysArgs })) {
     schema = getLimitedSchema({ maxPageSize });
   } else {
@@ -36,51 +36,7 @@ const validatePaginationInput = function ({
 };
 
 // JSON schema when consumers can specify args.before|after|page_size|page
-const getFullSchema = function ({
-  args: { order_by: orderBy, filter } = {},
-  maxPageSize,
-}) {
-  const parsedToken = {
-    oneOf: [
-      {
-        type: 'string',
-        const: '',
-      },
-      {
-        type: 'object',
-        required: ['orderBy', 'filter', 'parts'],
-        properties: {
-          parts: {
-            type: 'array',
-            minLength: 1,
-          },
-          orderBy: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                attrName: {
-                  type: 'string',
-                },
-                order: {
-                  enum: ['asc', 'desc'],
-                },
-              },
-            },
-          },
-          orderByString: {
-            type: 'string',
-            const: JSON.stringify(orderBy),
-          },
-          filter: {
-            type: 'string',
-            const: filter,
-          },
-        },
-      },
-    ],
-  };
-
+const getFullSchema = function ({ maxPageSize }) {
   return {
     type: 'object',
 
@@ -100,6 +56,41 @@ const getFullSchema = function ({
       },
     },
   };
+};
+const parsedToken = {
+  oneOf: [
+    {
+      type: 'string',
+      const: '',
+    },
+    {
+      type: 'object',
+      required: ['orderBy', 'filter', 'parts'],
+      properties: {
+        parts: {
+          type: 'array',
+          minLength: 1,
+        },
+        orderBy: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              attrName: {
+                type: 'string',
+              },
+              order: {
+                enum: ['asc', 'desc'],
+              },
+            },
+          },
+        },
+        filter: {
+          type: 'string',
+        },
+      },
+    },
+  ],
 };
 
 // JSON schema when consumers can only specify args.page_size
@@ -140,17 +131,32 @@ const restrictedSchema = {
 // Returns arguments, after decoding tokens
 const getInputData = function ({ args }) {
   const inputData = Object.assign({}, args);
+
   const hasTwoDirections = inputData.before !== undefined &&
     inputData.after !== undefined;
   if (hasTwoDirections) {
     const message = 'Wrong parameters: cannot specify both \'before\' and \'after\'';
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
+
+  // Cannot mix offset-based pagination and cursor-based pagination
   const hasTwoPaginationTypes = inputData.page !== undefined &&
     (inputData.before !== undefined || inputData.after !== undefined);
   if (hasTwoPaginationTypes) {
     const message = 'Wrong parameters: cannot use both \'page\' and \'before|after\'';
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  // Also, cannot specify 'filter' or 'order_by' with a cursor, because the
+  // cursor already includes them.
+  for (const forbiddenArg of ['filter', 'order_by']) {
+    const hasForbiddenArg = inputData[forbiddenArg] !== undefined &&
+      ((inputData.before !== undefined && inputData.before !== '') ||
+      (inputData.after !== undefined && inputData.after !== ''));
+    if (hasForbiddenArg) {
+      const message = `Wrong parameters: cannot use both '${forbiddenArg}' and 'before|after'`;
+      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+    }
   }
 
   for (const name of ['before', 'after']) {
@@ -163,10 +169,6 @@ const getInputData = function ({ args }) {
     let decodedToken;
     try {
       decodedToken = decode({ token });
-
-      if (decodedToken.orderBy) {
-        decodedToken.orderByString = JSON.stringify(decodedToken.orderBy);
-      }
     } catch (innererror) {
       const message = `Wrong parameters: '${name}' is invalid`;
       throw new EngineError(message, {

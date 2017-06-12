@@ -11,11 +11,19 @@ const defaults = {
     filter: {
       commandNames: ['readMany', 'deleteMany'],
       value: '(true)',
+      // Only if arg.before|after is not specified
+      test: ({ input: { args: { before, after } } }) =>
+        ((before === undefined || before === '') &&
+        (after === undefined || after === ''))
     },
 
     order_by: {
       commandNames: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: [{ attrName: 'id', order: 'asc' }],
+      // Only if arg.before|after is not specified
+      test: ({ input: { args: { before, after } } }) =>
+        ((before === undefined || before === '') &&
+        (after === undefined || after === ''))
     },
 
     dry_run: {
