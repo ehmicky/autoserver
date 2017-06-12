@@ -2,7 +2,7 @@
 
 
 const { getPaginationInfo } = require('./info');
-const { encode } = require('./encoding');
+const { decode, encode } = require('./encoding');
 
 
 // Add response metadata related to pagination:
@@ -12,6 +12,7 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
   const { order_by: orderBy, filter, page } = args;
   const {
     hasToken,
+    token,
     previous,
     next,
     usedPageSize,
@@ -59,7 +60,7 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
     if (isOffsetPagination) {
       pages.page = page;
     } else {
-      pages.token = getPaginationToken({ model, orderBy, filter });
+      pages.token = getPaginationToken({ model, orderBy, filter, token });
     }
 
     return Object.assign({}, metadata[index], { pages });
@@ -69,10 +70,17 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
 };
 
 // Calculate token to output
-const getPaginationToken = function ({ model, orderBy, filter }) {
+const getPaginationToken = function ({ model, orderBy, filter, token }) {
+  // Reuse old token
+  if (token !== undefined && token !== '') {
+    const oldToken = decode({ token });
+    orderBy = oldToken.orderBy;
+    filter = oldToken.filter;
+  }
+
   const parts = orderBy.map(({ attrName }) => model[attrName]);
-  const token = { orderBy, filter, parts };
-  const encodedToken = encode({ token });
+  const tokenObj = { orderBy, filter, parts };
+  const encodedToken = encode({ token: tokenObj });
   return encodedToken;
 };
 

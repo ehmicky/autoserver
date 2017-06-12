@@ -23,10 +23,14 @@ const getPaginationInput = function ({ args }) {
     dbArgs.offset = (page - 1) * pageSize;
   } else {
     if (hasToken) {
-      dbArgs.filter = getPaginatedFilter({ args, token, isBackward });
+      const tokenObj = decode({ token });
+      dbArgs.filter = getPaginatedFilter({ tokenObj, isBackward });
+      if (tokenObj.orderBy) {
+        dbArgs.order_by = tokenObj.orderBy;
+      }
     }
     if (isBackward) {
-      dbArgs.order_by = args.order_by.map(({ attrName, order }) => {
+      dbArgs.order_by = dbArgs.order_by.map(({ attrName, order }) => {
         return { attrName, order: order === 'asc' ? 'desc' : 'asc' };
       });
     }
@@ -46,12 +50,8 @@ const getPaginationInput = function ({ args }) {
 //   (($$.a === 1) && (($$.b > 2) || ($$.b === 2 && $$.c < 3) ||
 //     ($$.b === 2 && $$.c === 3 && $$.d > 4)))
 // Using backward pagination would replace < to > and vice-versa.
-const getPaginatedFilter = function ({
-  args: { filter, order_by: orderBy },
-  token,
-  isBackward,
-}) {
-  const { parts } = decode({ token });
+const getPaginatedFilter = function ({ tokenObj, isBackward }) {
+  const { parts, filter, orderBy } = tokenObj;
   const extraFilter = `(${tokenToJsl({ parts, orderBy, isBackward })})`;
   const newFilter = filter ? `(${filter} && ${extraFilter})` : extraFilter;
   return newFilter;

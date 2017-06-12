@@ -28,7 +28,6 @@ const { getPaginationInfo } = require('./info');
  *  - the cursor should be opaque to consumer, i.e. is base64'd
  *    (base64url variant so it is URL-friendly)
  *  - the cursor is minified
- *  - each paginated request must reuse the same args.filter and args.order_by
  * Parameters:
  *   page_size {integer}         - Default is server option defaultPageSize
  *                                 (default: 100)
@@ -38,6 +37,8 @@ const { getPaginationInfo } = require('./info');
  *   before|after {string}       - Retrieves previous|next pagination batch,
  *                                 using the previous response's 'token'
  *                                 Use '' for the start or the end.
+ *                                 Cannot be used together with `args.filter`
+ *                                 nor `args.order_by`.
  *   page {integer}              - Page number, for pagination, starting at 1
  *                                 Cannot be used together with `before|after`
  * Those parameters are removed and transformed for the database layer to:
@@ -46,13 +47,14 @@ const { getPaginationInfo } = require('./info');
  *                                 to guess if there is a previous or next page.
  *   offset {integer}            - offset response size.
  *                                 Only used with offset-based pagination
- *   filter                      - with cursor-based pagination, patches
- *                                 args.filter to make sure we start the request
- *                                 where we last left off.
+ *   filter                      - with cursor-based pagination, uses the
+ *                                 `args.filter` of the previous request,
+ *                                 which is encoded in the cursor.
  *                                 E.g. if last batch ended with model
  *                                 { a: 10, b: 20 }, then we transform
  *                                 args.filter { c: 30 } to
  *                                 { c: 30 } && > { a: 10, b: 20 }
+ *   order_by                    - same as `filter` but for `order_by`
  * Add metadata:
  *   token {string}              - token of a given model, to use with
  *                                 args.before|after
