@@ -7,11 +7,11 @@ const { map } = require('../../../utilities');
 
 
 /**
- * Normalize arg.filter, since it can take three shapes:
+ * Normalize args.filter, since it can take three shapes:
  *   1) { filter: { attr: 1 } }
  *   2) { filter: { attr: '($ === 1)' } }
  *   3) { filter: '($$.attr === 1)' }
- * Normalize the shape number 3, i.e. arg.filter will always be a string
+ * Normalize the shape number 3, i.e. args.filter will always be a string
  * from that point, not an object.
  **/
 const normalizeFilter = function ({ filter }) {

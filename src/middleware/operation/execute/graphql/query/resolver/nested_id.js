@@ -32,7 +32,7 @@ const addNestedId = function ({
     return null;
   }
 
-  // Retrieves arg.filter|data
+  // Retrieves args.filter|data
   const arg = getNestedArgument({ multiple, args, actionType });
 
   // Make sure query is correct
@@ -52,7 +52,7 @@ const addNestedId = function ({
   }
 };
 
-// If nested `arg.id` is present, do an intersection with parent id.
+// If nested `args.id` is present, do an intersection with parent id.
 // Otherwise, do not do intersection.
 // In all cases, uses JSL
 const getNestedIds = function({ childId, parentIds }) {

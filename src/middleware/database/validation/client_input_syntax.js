@@ -69,7 +69,7 @@ const validateClientSchema = [
     name: 'filter',
     value: { type: 'string' },
   },
-  // TODO: re-enabled after we use ORM format for arg.filter
+  // TODO: re-enabled after we use ORM format for args.filter
   // { name: 'filter.id', value: ({ isNotJslFilterId }) =>
   //   isNotJslFilterId ? { not: { typeof: 'function' } } : {} },
   {

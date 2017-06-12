@@ -11,7 +11,7 @@ const defaults = {
     filter: {
       commandNames: ['readMany', 'deleteMany'],
       value: '(true)',
-      // Only if arg.before|after is not specified
+      // Only if args.before|after is not specified
       test: ({ input: { args: { before, after } } }) =>
         ((before === undefined || before === '') &&
         (after === undefined || after === ''))
@@ -20,7 +20,7 @@ const defaults = {
     order_by: {
       commandNames: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: [{ attrName: 'id', order: 'asc' }],
-      // Only if arg.before|after is not specified
+      // Only if args.before|after is not specified
       test: ({ input: { args: { before, after } } }) =>
         ((before === undefined || before === '') &&
         (after === undefined || after === ''))
@@ -50,7 +50,7 @@ const defaults = {
     after: {
       commandNames: ['readMany'],
       value: '',
-      // Only if pagination is enabled, and arg.before|page is not specified
+      // Only if pagination is enabled, and args.before|page is not specified
       test: ({
         opts: { defaultPageSize },
         input: { args: { before, page }, sysArgs: { pagination } },

@@ -5,7 +5,7 @@ const { EngineError } = require('../../../error');
 
 
 /**
- * Normalize arg.order_by, e.g. 'a,b+,c-' would become:
+ * Normalize args.order_by, e.g. 'a,b+,c-' would become:
  *   [
  *     { attrName: 'a', order: 'asc' },
  *     { attrName: 'b', order: 'asc' },

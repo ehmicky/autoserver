@@ -44,9 +44,9 @@ const getPaginationInput = function ({ args }) {
 // Patches args.filter to allow for cursor pagination
 // E.g. if:
 //  - last paginated model was { b: 2, c: 3, d: 4 }
-//  - arg.filter is ($$.a === 1)
-//  - arg.order_by 'b,c-,d'
-// Transform arg.filter to
+//  - args.filter is ($$.a === 1)
+//  - args.order_by 'b,c-,d'
+// Transform args.filter to
 //   (($$.a === 1) && (($$.b > 2) || ($$.b === 2 && $$.c < 3) ||
 //     ($$.b === 2 && $$.c === 3 && $$.d > 4)))
 // Using backward pagination would replace < to > and vice-versa.
