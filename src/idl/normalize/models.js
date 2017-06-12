@@ -7,6 +7,7 @@ const { transform } = require('../../utilities');
 const { normalizeCommandNames } = require('./commands');
 const { getActions } = require('./actions');
 const { normalizeAllTransforms } = require('./transform');
+const { normalizeAliases } = require('./alias');
 
 
 // Normalize IDL definition models
@@ -14,6 +15,7 @@ const normalizeModels = function ({ idl }) {
   let { models, commands: defaultCommandNames } = idl;
   models = addModelType({ models });
   models = normalizeAllTransforms({ models });
+  models = normalizeAliases({ models });
   transform({ transforms, args: { defaultCommandNames } })({ input: models });
   idl.models = models;
   return idl;
