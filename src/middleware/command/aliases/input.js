@@ -2,6 +2,7 @@
 
 
 const { applyDataAliases } = require('./data');
+const { applyOrderByAliases } = require('./order_by');
 
 
 // Apply `alias` in server input
@@ -20,6 +21,11 @@ const applyInputAlias = function ({
   if (args.data) {
     const data = args.data;
     args.data = applyDataAliases({ data, current, attrName, aliases });
+  }
+
+  if (args.order_by) {
+    const orderBy = args.order_by;
+    args.order_by = applyOrderByAliases({ orderBy, attrName, aliases });
   }
 };
 
