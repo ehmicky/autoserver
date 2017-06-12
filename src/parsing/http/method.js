@@ -21,7 +21,6 @@ const getGoal = function ({ specific }) {
 
 const goalMap = {
   GET: 'find',
-  HEAD: 'find',
   POST: 'create',
   PUT: 'replace',
   PATCH: 'update',
