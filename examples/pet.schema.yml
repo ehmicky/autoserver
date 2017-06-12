@@ -90,7 +90,7 @@ models:
         # Custom validation
         IsNotEqual: 10
         # Possible aliases for that attribute's name
-        alias: weightt
+        alias: old_weight_name
       is_overweight:
         type: boolean
         description: Has the pet being eating too much?
