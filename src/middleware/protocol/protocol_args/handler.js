@@ -6,7 +6,7 @@ const { genericFillProtocolArgs } = require('./generic');
 const { httpFillProtocolArgs } = require('./http');
 
 
-// Transform headers into protocolArgs
+// Transform headers into args
 const fillProtocolArgs = function (opts) {
   const { startupLog } = opts;
   const perf = startupLog.perf.start('protocol.protocolArgs', 'middleware');
@@ -15,15 +15,13 @@ const fillProtocolArgs = function (opts) {
   perf.stop();
 
   return async function fillProtocolArgs(input) {
-    const { protocol, log } = input;
+    const { protocol, log, args } = input;
     const perf = log.perf.start('protocol.fillProtocolArgs', 'middleware');
 
     const nonSpecificArgs = getGenericProcotolArgs(input);
     const specificArgs = argsMap[protocol](input);
 
-    const protocolArgs = Object.assign({}, nonSpecificArgs, specificArgs);
-    log.add({ protocolArgs });
-    Object.assign(input, { protocolArgs });
+    Object.assign(args, nonSpecificArgs, specificArgs);
 
     perf.stop();
     const response = await this.next(input);

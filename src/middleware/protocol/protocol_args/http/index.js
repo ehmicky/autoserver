@@ -6,8 +6,8 @@ const { omitBy } = require('lodash');
 const { HTTP: { headers: { parsePrefer } } } = require('../../../../parsing');
 
 
-// Transform headers into protocolArgs, for HTTP-specific headers
-// No protocolArgs should be protocol-specific, i.e. HTTP-specific headers
+// Transform headers into args, for HTTP-specific headers
+// No args should be protocol-specific, i.e. HTTP-specific headers
 // are redundant with protocol-agnostic ones.
 const httpFillProtocolArgs = function () {
   return function httpFillProtocolArgs({ headers }) {

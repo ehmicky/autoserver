@@ -14,7 +14,9 @@ const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
     const jsl = new Jsl({ exposeMap });
     const jslWithHelpers = jsl.addHelpers({ helpers });
 
-    Object.assign(input, { jsl: jslWithHelpers });
+    const args = {};
+
+    Object.assign(input, { jsl: jslWithHelpers, args });
 
     perf.stop();
     const response = await this.next(input);

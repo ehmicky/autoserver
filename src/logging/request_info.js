@@ -27,8 +27,6 @@ const { cloneDeep, omit } = require('lodash');
 //   - queryVars {object} - Query variables, as a hash table
 //   - headers {object} - protocol headers (e.g. HTTP headers), as a hash table
 //   - payload {any} - request body
-//   - protocolArgs {object} - request arguments, deduced by the system from
-//     the parameters, queryVars, headers, etc.
 //   - operation {string} - operation, among `GraphQL`, `GraphiQL` and
 //     `GraphQLPrint`
 //   - actions {object} - represented all actions fired
