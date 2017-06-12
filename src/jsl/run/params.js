@@ -19,7 +19,7 @@ const getParams = function ({ params, type, exposeMap }) {
   return clonedParams;
 };
 
-// Restrict which JSL parameters are available for arg.filter|data
+// Restrict which JSL parameters are available for args.filter|data
 const filterParams = function ({ params, type, exposeMap }) {
   if (!restrictedTypes.includes(type)) { return params; }
 

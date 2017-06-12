@@ -29,10 +29,10 @@ const getUpdateInput = function ({ input, models }) {
 
 const getUpdateArgs = function ({ args, models, jsl }) {
   const { data } = args;
-  // arg.filter is only used by first "read" command
+  // args.filter is only used by first "read" command
   const updateArgs = omit(args, ['filter']);
 
-  // Keys in arg.* using JSL
+  // Keys in args.* using JSL
   const jslKeys = Object.keys(data)
     .filter(key => isJsl({ jsl: data[key] }));
 
@@ -70,7 +70,7 @@ const validateUpdateData = function ({ data }) {
   }
 };
 
-// Apply arg.data JSL
+// Apply args.data JSL
 const transformData = function ({ model, data, jsl, jslKeys }) {
   data = Object.assign({}, data);
 

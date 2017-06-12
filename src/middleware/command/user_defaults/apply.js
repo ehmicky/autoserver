@@ -5,7 +5,7 @@
 const applyAllDefault = function applyAllDefault(opts) {
   const { defAttributes, value } = opts;
 
-  // When arg.data is an array of models, apply this recursively
+  // When args.data is an array of models, apply this recursively
   if (value instanceof Array) {
     return value.map(child => {
       return applyAllDefault(Object.assign({}, opts, { value: child }));

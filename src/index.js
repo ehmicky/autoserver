@@ -21,7 +21,7 @@ startServer({
   // Can customize logging level, among 'info' (default value), 'log', 'warn',
   // 'error' or 'silent'
   loggerLevel: 'info',
-  // arg.data length is limited to 1000 by default.
+  // args.data length is limited to 1000 by default.
   // This can be changed, or disabled (using 0)
   maxDataLength: 1000,
   // Pagination default size. Defaults to 100. 0 to disable pagination.

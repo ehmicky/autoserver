@@ -186,7 +186,7 @@ module.exports = {
   data: {
     getRules,
   },
-  // TODO: remove when we parse arg.filter into a database object
+  // TODO: remove when we parse args.filter into a database object
   filter: {
     getRules,
   },

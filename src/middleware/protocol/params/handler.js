@@ -32,7 +32,7 @@ const { getPayload } = require('./payload');
  *        adding arguments.
  *      - a non-protocol-specific header exists for each of them,
  *        but redundant protocol-specific headers might exist.
- *        E.g. protocol-agnostic header 'X-No-Output' creates arg.no_output
+ *        E.g. protocol-agnostic header 'X-No-Output' creates args.no_output
  *        but HTTP header Prefer: return=minimal achieves the same for
  *        HTTP protocol.
  *   - namespaced headers:
