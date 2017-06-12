@@ -36,6 +36,7 @@ const executeGraphql = function (opts) {
 
     // GraphQL execution
     let content;
+    const actions = [];
     // Introspection GraphQL query
     if (isIntrospectionQuery({ query })) {
       content = await handleIntrospection({
@@ -45,7 +46,7 @@ const executeGraphql = function (opts) {
       });
     // Normal GraphQL query
     } else {
-      const callback = fireNext.bind(this, input, perf);
+      const callback = fireNext.bind(this, input, perf, actions);
       const data = await handleQuery({
         queryDocument,
         variables,
@@ -59,12 +60,12 @@ const executeGraphql = function (opts) {
     const type = getResponseType({ content });
 
     perf.stop();
-    const response = { content, type };
+    const response = { content, type, actions };
     return response;
   };
 };
 
-const fireNext = async function (request, perf, actionInput) {
+const fireNext = async function (request, perf, actions, actionInput) {
   const input = Object.assign({}, request, actionInput);
 
   // Several calls of this function are done concurrently, so we stop
@@ -74,6 +75,8 @@ const fireNext = async function (request, perf, actionInput) {
   }
 
   const response = await this.next(input);
+
+  actions.push(response.action);
 
   if (--perf.ongoing === 0) {
     perf.start();
