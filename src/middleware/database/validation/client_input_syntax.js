@@ -17,10 +17,10 @@ const { validate } = require('../../../validation');
  *  - `order_by` and `dry_run` syntax looks valid
  *    (does not check whether it is semantically correct)
  **/
-const validateClientInputSyntax = function ({ command, dbArgs }) {
+const validateClientInputSyntax = function ({ command, args }) {
   const type = 'clientInputSyntax';
   const schema = getValidateClientSchema({ command });
-  validate({ schema, data: dbArgs, reportInfo: { type } });
+  validate({ schema, data: args, reportInfo: { type } });
 };
 
 // Builds JSON schema to validate against
@@ -31,7 +31,7 @@ const getValidateClientSchema = function({ command }) {
   const forbiddenProperties = getForbiddenProperties({ rule });
 
   const schema = merge(
-    { type: 'object', additionalProperties: false },
+    { type: 'object' },
     properties,
     requiredProperties,
     forbiddenProperties

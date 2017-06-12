@@ -96,7 +96,7 @@ const pagination = function ({ maxPageSize }) {
 
 // Transform args.page_size|before|after|page into args.limit|offset|filter
 const processInput = function ({ input, maxPageSize }) {
-  const { args, dbArgs, sysArgs, command, action, modelName } = input;
+  const { args, sysArgs, command, action, modelName } = input;
 
   validatePaginationInput({
     args,
@@ -109,7 +109,7 @@ const processInput = function ({ input, maxPageSize }) {
 
   if (mustPaginateOutput({ args, sysArgs })) {
     const paginationInput = getPaginationInput({ args });
-    Object.assign(dbArgs, paginationInput);
+    Object.assign(args, paginationInput);
   }
 
   return input;
