@@ -45,30 +45,6 @@ const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
   return mapperFunc(value);
 };
 
-// Set values recursively within an obj, using a dot-delimited path
-// I.e. similar to Lodash __.set() except it traverses array
-const set = function ({ obj, path, value }) {
-  if (typeof path === 'string') {
-      path = path.split('.');
-  }
-
-  if (!obj) { return obj; }
-
-  if (obj instanceof Array) {
-    return obj.map(elem => set({ obj: elem, path, value }));
-  }
-
-  if (obj.constructor !== Object) { return obj; }
-
-  if (path.length === 1) {
-    obj[path[0]] = typeof value === 'function' ? value(obj[path[0]]) : value;
-    return obj;
-  } else if (path.length > 1) {
-    const newPath = path.slice(1);
-    return map(obj, elem => set({ obj: elem, path: newPath, value }));
-  }
-};
-
 // Deep merge objects and arrays (concatenates for arrays)
 const deepMerge = function (objA, objB, ...objects) {
   if (!objA) { return; }
@@ -168,7 +144,6 @@ module.exports = {
   map,
   mapAsync,
   recurseMap,
-  set,
   deepMerge,
   onlyOnce,
   buffer,

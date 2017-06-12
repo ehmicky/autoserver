@@ -73,9 +73,9 @@ const getResolver = ({ modelsMap }) => async function mainResolver(
   const response = await callback({ action, fullAction, modelName, args });
 
   // Tags the response as belonging to that modelName
-  setParentModel(response, { action, modelName, fullAction });
+  setParentModel(response.data, { action, modelName, fullAction });
 
-  return response;
+  return response.data;
 };
 
 // Mapping from IDL actions to GraphQL methods

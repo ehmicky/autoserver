@@ -68,12 +68,10 @@ const getMiddleware = async function (opts) {
     mdw.operationNegotiator,
     // Operation-related validation layer
     mdw.operationValidation,
+    // Remove response data if settings noOutput is specified
+    mdw.noOutput,
     // Translates operation-specific calls into generic instance actions
     mdw.operationExecute,
-    // Merge single modifier into all modifiers
-    mdw.mergeModifiers,
-    // Flags that a response has `no_output`
-    mdw.noOutputSet,
 
     /**
      * Action layer
