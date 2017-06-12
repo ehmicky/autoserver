@@ -16,7 +16,10 @@ const noOutput = function () {
     let response = await this.next(input);
     const perf = log.perf.start('operation.noOutput', 'middleware');
 
-    if (protocolArgs.noOutput) {
+    const isDelete = response.actions &&
+      response.actions.some(({ type }) => type === 'delete');
+    const shouldRemoveOutput = isDelete || protocolArgs.noOutput;
+    if (shouldRemoveOutput) {
       response = operations[operation].noOutput(response);
     }
 
