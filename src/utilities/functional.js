@@ -163,13 +163,6 @@ const uncorkFunc = async function (state, func) {
   state.isBuffered = false;
 };
 
-// Like `setTimeout` but with a promise
-const waitFor = function (delay = 0) {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(), delay);
-  });
-};
-
 
 module.exports = {
   map,
@@ -179,5 +172,4 @@ module.exports = {
   deepMerge,
   onlyOnce,
   buffer,
-  waitFor,
 };
