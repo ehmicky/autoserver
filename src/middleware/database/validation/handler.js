@@ -13,14 +13,14 @@ const { validateServerOutputSyntax } = require('./server_output_syntax');
  * Checks that input and output conforms to API schema
  * Check for the syntax and the semantics of input and output
  **/
-const databaseValidation = function ({ idl, maxDataLength }) {
+const databaseValidation = function ({ idl }) {
   return async function databaseValidation(input) {
     const { modelName, args, command, jsl, log } = input;
     const perf = log.perf.start('database.validation', 'middleware');
 
     validateClientInputSyntax({ command, args });
     validateClientInputCommand({ idl, command, modelName, args });
-    validateClientInputSemantics({ idl, modelName, args, maxDataLength });
+    validateClientInputSemantics({ idl, modelName, args });
     validateClientInputData({ idl, modelName, command, args, jsl });
 
     perf.stop();
