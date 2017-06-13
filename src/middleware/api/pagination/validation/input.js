@@ -7,7 +7,7 @@ const { allowFullPagination, mustPaginateOutput } = require('../condition');
 const { decode } = require('../encoding');
 
 
-// Validate args.before|after|page_size|page
+// Validate args.before|after|pageSize|page
 const validatePaginationInput = function ({
   args,
   action,
@@ -34,7 +34,7 @@ const validatePaginationInput = function ({
   validate({ schema, data, reportInfo });
 };
 
-// JSON schema when consumers can specify args.before|after|page_size|page
+// JSON schema when consumers can specify args.before|after|pageSize|page
 const getFullSchema = function ({ maxPageSize }) {
   return {
     type: 'object',
@@ -43,7 +43,7 @@ const getFullSchema = function ({ maxPageSize }) {
       before: parsedToken,
       after: parsedToken,
 
-      page_size: {
+      pageSize: {
         type: 'integer',
         minimum: 1,
         maximum: maxPageSize,
@@ -92,13 +92,13 @@ const parsedToken = {
   ],
 };
 
-// JSON schema when consumers can only specify args.page_size
+// JSON schema when consumers can only specify args.pageSize
 const getLimitedSchema = function ({ maxPageSize }) {
   return {
     type: 'object',
 
     properties: {
-      page_size: {
+      pageSize: {
         type: 'integer',
         minimum: 1,
         maximum: maxPageSize,
@@ -122,7 +122,7 @@ const restrictedSchema = {
       { required: ['before'] },
       { required: ['after'] },
       { required: ['page'] },
-      { required: ['page_size'] },
+      { required: ['pageSize'] },
     ],
   },
 };
@@ -146,9 +146,9 @@ const getInputData = function ({ args }) {
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  // Also, cannot specify 'filter' or 'order_by' with a cursor, because the
+  // Also, cannot specify 'filter' or 'orderBy' with a cursor, because the
   // cursor already includes them.
-  for (const forbiddenArg of ['filter', 'order_by']) {
+  for (const forbiddenArg of ['filter', 'orderBy']) {
     const hasForbiddenArg = inputData[forbiddenArg] !== undefined &&
       ((inputData.before !== undefined && inputData.before !== '') ||
       (inputData.after !== undefined && inputData.after !== ''));

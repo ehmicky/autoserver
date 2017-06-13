@@ -3,7 +3,7 @@
 
 // Extra pagination-related information from arguments
 const getPaginationInfo = function ({ args }) {
-  const { after, before, page_size: pageSize, page } = args;
+  const { after, before, pageSize, page } = args;
 
   const token = after || before;
   // Used for cursor pagination. If token is '' (i.e. start|end),

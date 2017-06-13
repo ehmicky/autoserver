@@ -5,9 +5,11 @@ const { cloneDeep } = require('lodash');
 
 const { validateSyntax } = require('./validate_syntax');
 const { validateLimits } = require('./validate_limits');
+const { renameArgs } = require('./rename');
 
 
 // Process client-supplied args: validates them and add them to JSL variables
+// Also rename them camelcase
 const handleArgs = function ({ maxDataLength }) {
   return async function handleArgs(input) {
     const { log, args, jsl, action } = input;
@@ -20,6 +22,7 @@ const handleArgs = function ({ maxDataLength }) {
 
       validateSyntax({ args, action, maxDataLength });
       validateLimits({ args, maxDataLength });
+      input.args = renameArgs({ args });
 
       perf.stop();
       const response = await this.next(input);

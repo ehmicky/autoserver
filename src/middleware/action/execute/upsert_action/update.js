@@ -19,7 +19,7 @@ const getUpdateInput = function ({ input, data, models }) {
     return type === 'update' && multiple === isMultiple;
   });
 
-  const newArgs = pick(args, ['dry_run']);
+  const newArgs = pick(args, ['dryRun']);
   const newData = data;
   const currentData = isMultiple ? models : models[0];
   Object.assign(newArgs, { pagination: false, currentData, newData });

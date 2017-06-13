@@ -12,14 +12,15 @@ const { normalizeOrderBy } = require('./order_by');
 const normalization = function () {
   return async function normalization(input) {
     const { args, log } = input;
+    const { orderBy, filter } = args;
     const perf = log.perf.start('command.normalization', 'middleware');
 
-    if (args.filter) {
-      args.filter = normalizeFilter({ filter: args.filter });
+    if (filter) {
+      args.filter = normalizeFilter({ filter });
     }
 
-    if (args.order_by) {
-      args.order_by = normalizeOrderBy({ orderBy: args.order_by });
+    if (orderBy) {
+      args.orderBy = normalizeOrderBy({ orderBy });
     }
 
     perf.stop();

@@ -28,9 +28,9 @@ const applyInputAlias = function ({
     });
   }
 
-  if (args.order_by) {
-    const orderBy = args.order_by;
-    args.order_by = applyOrderByAliases({ orderBy, attrName, aliases });
+  if (args.orderBy) {
+    const { orderBy } = args;
+    args.orderBy = applyOrderByAliases({ orderBy, attrName, aliases });
   }
 
   if (args.after !== undefined && args.after !== '') {
