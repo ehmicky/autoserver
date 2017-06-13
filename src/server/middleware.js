@@ -72,8 +72,6 @@ const getMiddleware = async function (opts) {
     mdw.noOutput,
     // Translates operation-specific calls into generic instance actions
     mdw.operationExecute,
-    // Process client arguments
-    mdw.handleArgs,
 
     /**
      * Action layer
@@ -82,6 +80,8 @@ const getMiddleware = async function (opts) {
     mdw.actionConvertor,
     // Action-related validation layer
     mdw.actionValidation,
+    // Process client arguments
+    mdw.handleArgs,
     // Turn one action into 0, 1 or several commands
     mdw.actionExecute,
 
