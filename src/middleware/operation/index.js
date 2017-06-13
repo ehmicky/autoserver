@@ -8,4 +8,5 @@ module.exports = Object.assign(
   require('./validation'),
   require('./no_output'),
   require('./execute'),
+  require('./handle_args'),
 );
