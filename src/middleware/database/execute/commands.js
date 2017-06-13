@@ -71,17 +71,17 @@ const { processResponse } = require('./process_response');
 
 
 // '($ === ID)' -> ID
-const filterToId = function ({ filter }) {
+const filterToId = function ({ nFilter }) {
   try {
-    const parts = idJslRegExp.exec(filter);
+    const parts = idJslRegExp.exec(nFilter);
     if (!parts) {
-      const message = `JSL expression should be '($ === ID)': ${filter}`;
+      const message = `JSL expression should be '($ === ID)': ${nFilter}`;
       throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
     }
     const id = JSON.parse(parts[1]);
     return id;
   } catch (innererror) {
-    const message = `JSL expression should be '($ === ID)': ${filter}`;
+    const message = `JSL expression should be '($ === ID)': ${nFilter}`;
     throw new EngineError(message, {
       reason: 'INPUT_SERVER_VALIDATION',
       innererror,
@@ -91,17 +91,17 @@ const filterToId = function ({ filter }) {
 // Look for '(($ === ID))'
 const idJslRegExp = /^\(\(\$\$\.id\s*===\s*(.*)\)\)$/;
 
-const findIndexes = function({ collection, filter, opts: { jsl } }) {
-  if (!filter) {
+const findIndexes = function({ collection, nFilter, opts: { jsl } }) {
+  if (!nFilter) {
     return collection.map((model, index) => index);
   }
 
   const modelIndexes = Object.entries(collection)
-    // Check if a model matches a query filter
+    // Check if a model matches a query nFilter
     .filter(([/*index*/, model]) => {
       // TODO: remove when using MongoDB query objects
       const params = { $$: model };
-      return jsl.run({ value: filter, params, type: 'filter' });
+      return jsl.run({ value: nFilter, params, type: 'filter' });
     })
     .map(([index]) => index);
   return modelIndexes;
@@ -126,29 +126,29 @@ const findIndex = function ({
   return index;
 };
 
-const readOne = function ({ collection, filter, opts }) {
-  const id = filterToId({ filter });
+const readOne = function ({ collection, nFilter, opts }) {
+  const id = filterToId({ nFilter });
   const index = findIndex({ collection, id, opts });
   return { data: collection[index] };
 };
 
-const readMany = function ({ collection, filter, opts }) {
-  const indexes = findIndexes({ collection, filter, opts });
+const readMany = function ({ collection, nFilter, opts }) {
+  const indexes = findIndexes({ collection, nFilter, opts });
   const models = indexes.map(index => collection[index]);
   return { data: models };
 };
 
-const deleteOne = function ({ collection, filter, opts }) {
+const deleteOne = function ({ collection, nFilter, opts }) {
   const { dryRun } = opts;
-  const id = filterToId({ filter });
+  const id = filterToId({ nFilter });
   const index = findIndex({ collection, id, opts });
   const model = dryRun ? collection[index] : collection.splice(index, 1)[0];
   return { data: model };
 };
 
-const deleteMany = function ({ collection, filter, opts }) {
+const deleteMany = function ({ collection, nFilter, opts }) {
   const { dryRun } = opts;
-  const indexes = findIndexes({ collection, filter, opts }).sort();
+  const indexes = findIndexes({ collection, nFilter, opts }).sort();
   const models = indexes.map((index, count) => {
     const model = dryRun
       ? collection[index]

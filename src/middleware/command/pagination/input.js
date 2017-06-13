@@ -6,7 +6,7 @@ const { getPaginationInfo } = require('./info');
 const { decode } = require('./encoding');
 
 
-// Transform args.pageSize|before|after|page into args.limit|offset|filter
+// Transform args.pageSize|before|after|page into args.limit|offset|nFilter
 const getPaginationInput = function ({ args }) {
   const { page, pageSize } = args;
   const {
@@ -23,7 +23,7 @@ const getPaginationInput = function ({ args }) {
   } else {
     if (hasToken) {
       const tokenObj = decode({ token });
-      newArgs.filter = getPaginatedFilter({ tokenObj, isBackward });
+      newArgs.nFilter = getPaginatedFilter({ tokenObj, isBackward });
       if (tokenObj.nOrderBy) {
         newArgs.nOrderBy = tokenObj.nOrderBy;
       }
@@ -40,19 +40,19 @@ const getPaginationInput = function ({ args }) {
   return newArgs;
 };
 
-// Patches args.filter to allow for cursor pagination
+// Patches args.nFilter to allow for cursor pagination
 // E.g. if:
 //  - last paginated model was { b: 2, c: 3, d: 4 }
-//  - args.filter is ($$.a === 1)
+//  - args.nFilter is ($$.a === 1)
 //  - args.nOrderBy 'b,c-,d'
-// Transform args.filter to
+// Transform args.nFilter to
 //   (($$.a === 1) && (($$.b > 2) || ($$.b === 2 && $$.c < 3) ||
 //     ($$.b === 2 && $$.c === 3 && $$.d > 4)))
 // Using backward pagination would replace < to > and vice-versa.
 const getPaginatedFilter = function ({ tokenObj, isBackward }) {
-  const { parts, filter, nOrderBy } = tokenObj;
+  const { parts, nFilter, nOrderBy } = tokenObj;
   const extraFilter = `(${tokenToJsl({ parts, nOrderBy, isBackward })})`;
-  const newFilter = filter ? `(${filter} && ${extraFilter})` : extraFilter;
+  const newFilter = nFilter ? `(${nFilter} && ${extraFilter})` : extraFilter;
   return newFilter;
 };
 

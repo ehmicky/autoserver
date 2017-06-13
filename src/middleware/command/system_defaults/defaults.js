@@ -8,7 +8,7 @@
 //    Can be a function taking the server options as first argument
 const defaults = {
   args: {
-    filter: {
+    nFilter: {
       commandNames: ['readMany', 'deleteMany'],
       value: '(true)',
       // Only if args.before|after is not specified

@@ -19,7 +19,7 @@ const addDefaultValues = function ({ token }) {
 };
 
 const defaultValues = {
-  filter: '(true)',
+  nFilter: '(true)',
   nOrderBy: [{ attrName: 'id', order: 'asc' }],
 };
 

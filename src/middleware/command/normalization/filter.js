@@ -32,9 +32,9 @@ const normalizeFilter = function ({ filter }) {
   // { filter: { attr: '($ === 1)', attrb: '($ === 2)' } }
   // -> { filter: '(($$.attr === 1) && ($$.attrb === 2))' }
   const singleJslArray = Object.entries(jslOnlyFilter).map(normalizeJsl);
-  const singleJslString = `(${singleJslArray.join(' && ')})`;
+  const nFilter = `(${singleJslArray.join(' && ')})`;
 
-  return singleJslString;
+  return nFilter;
 };
 // Look for single dollar parameter ($), while exclusing double dollar
 // parameters ($$) or normal parameters ($example)

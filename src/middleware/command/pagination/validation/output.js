@@ -48,7 +48,7 @@ const getOutputSchema = function ({ maxPageSize }) {
 
         token: {
           type: ['null', 'object'],
-          required: ['nOrderBy', 'filter', 'parts'],
+          required: ['nOrderBy', 'nFilter', 'parts'],
           properties: {
             parts: {
               type: 'array',
@@ -68,7 +68,7 @@ const getOutputSchema = function ({ maxPageSize }) {
                 },
               },
             },
-            filter: {
+            nFilter: {
               type: 'string',
             },
           },
