@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { pick } = require('lodash');
+const { pick } = require('../../../utilities');
 
 
 // Performs transformation on data array or single data

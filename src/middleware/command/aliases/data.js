@@ -1,8 +1,9 @@
 'use strict';
 
 
-const { omit, isEqual } = require('lodash');
+const { isEqual } = require('lodash');
 
+const { omit } = require('../../../utilities');
 const { EngineError } = require('../../../error');
 
 

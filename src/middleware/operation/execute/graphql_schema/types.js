@@ -11,11 +11,11 @@ const {
   GraphQLString,
   GraphQLNonNull,
 } = require('graphql');
-const { chain, omit } = require('lodash');
+const { chain } = require('lodash');
 const uuidv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../../error');
-const { memoize, stringify } = require('../../../../utilities');
+const { memoize, stringify, omit } = require('../../../../utilities');
 const { isJsl } = require('../../../../jsl');
 const { getTypeName, getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');

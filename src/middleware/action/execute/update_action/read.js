@@ -1,9 +1,10 @@
 'use strict';
 
 
-const { pick, cloneDeep } = require('lodash');
+const { cloneDeep } = require('lodash');
 
 const { commands } = require('../../../../constants');
+const { pick } = require('../../../../utilities');
 
 
 // Retrieves the input for the "read" command

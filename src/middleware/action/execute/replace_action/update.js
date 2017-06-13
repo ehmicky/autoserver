@@ -1,9 +1,10 @@
 'use strict';
 
 
-const { cloneDeep, omit } = require('lodash');
+const { cloneDeep } = require('lodash');
 
 const { commands } = require('../../../../constants');
+const { omit } = require('../../../../utilities');
 
 
 // Retrieves the input for the "update" command

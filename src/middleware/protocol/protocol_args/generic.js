@@ -1,9 +1,8 @@
 'use strict';
 
 
-const { omitBy } = require('lodash');
-
 const { EngineError } = require('../../../error');
+const { omitBy } = require('../../../utilities');
 
 
 // Transform headers into args, for protocol-agnostic headers

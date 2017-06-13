@@ -1,8 +1,9 @@
 'use strict';
 
 
-const { omit, cloneDeep } = require('lodash');
+const { cloneDeep } = require('lodash');
 
+const { omit } = require('../../../../utilities');
 const { commands } = require('../../../../constants');
 const { EngineError } = require('../../../../error');
 const { isJsl } = require('../../../../jsl');

@@ -1,9 +1,9 @@
 'use strict';
 
 
-const { cloneDeep, mapValues, pickBy, each } = require('lodash');
+const { cloneDeep, mapValues, each } = require('lodash');
 
-const { memoize, transform } = require('../../../utilities');
+const { memoize, transform, pickBy } = require('../../../utilities');
 const { validate } = require('../../../validation');
 
 

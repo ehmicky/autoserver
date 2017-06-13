@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { pick } = require('lodash');
+const { pick } = require('../utilities');
 
 
 // Transform main options
