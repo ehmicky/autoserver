@@ -8,4 +8,5 @@ module.exports = Object.assign(
   require('./query_string'),
   require('./url'),
   require('./method'),
+  require('./send'),
 );
