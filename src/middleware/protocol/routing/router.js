@@ -5,6 +5,7 @@ const { EngineError } = require('../../../error');
 const { getRoutes } = require('./routes');
 
 
+// Add route and URL parameters to input
 const router = function ({ startupLog }) {
   const perf = startupLog.perf.start('protocol.router', 'middleware');
   const routes = getRoutes();
@@ -14,17 +15,16 @@ const router = function ({ startupLog }) {
     const { path, goal, log } = input;
     const perf = log.perf.start('protocol.router', 'middleware');
 
-    const matchedRoute = routes.find({ path, goal });
-    if (!matchedRoute) {
+    const route = routes.find({ path, goal });
+    if (!route) {
       const message = 'The requested URL was not found';
       throw new EngineError(message, { reason: 'NOT_FOUND' });
     }
 
-    // Add route and path parameters to input
-    const { route, pathVars } = matchedRoute;
+    const pathVars = routes.getPathVars({ path, route });
 
-    log.add({ route, pathVars });
-    Object.assign(input, { route, pathVars });
+    log.add({ route: route.route, pathVars });
+    Object.assign(input, { route: route.route, pathVars });
 
     perf.stop();
     const response = await this.next(input);
