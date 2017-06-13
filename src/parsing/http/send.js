@@ -11,8 +11,6 @@ const send = async function ({
   contentType,
   status,
 }) {
-  if (res.headersSent) { return content; }
-
   if (status) {
     res.statusCode = status;
   }
