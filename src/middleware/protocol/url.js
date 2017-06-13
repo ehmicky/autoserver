@@ -4,12 +4,16 @@
 const parsing = require('../../parsing');
 
 
-// Retrieve request path, so it can be used e.g. by routing middleware and
-// logger
-const getPath = function () {
-  return async function getPath(input) {
+// Fill in:
+//  - `input.url`: full URL
+//  - `input.path`: URL's path
+// Uses protocol-specific URL retrieval, but are set in a
+// protocol-agnostic format, i.e. each protocol sets the same strings.
+// Meant to be used mainly by router.
+const parseUrl = function () {
+  return async function parseUrl(input) {
     const { protocol, log, specific } = input;
-    const perf = log.perf.start('protocol.getPath', 'middleware');
+    const perf = log.perf.start('protocol.parseUrl', 'middleware');
 
     const url = parsing[protocol].url.getUrl({ specific });
     const path = parsing[protocol].url.getPath({ specific });
@@ -25,5 +29,5 @@ const getPath = function () {
 
 
 module.exports = {
-  getPath,
+  parseUrl,
 };

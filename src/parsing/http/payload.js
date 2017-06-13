@@ -33,7 +33,7 @@ const parsers = [
   { type: 'raw' },
 ];
 
-// Parses and serializes HTTP request body
+// Parses and serializes HTTP request payload
 // Handles HTTP compression
 // Max limit 100KB
 // Recognizes: application/json, application/x-www-form-urlencoded,
@@ -65,7 +65,7 @@ const hasPayload = function ({ specific: { req: { headers } } }) {
 
 
 module.exports = {
-  body: {
+  payload: {
     parse,
     hasPayload,
   },

@@ -17,7 +17,7 @@ const errorReasons = {
   // Tried to use a protocol method that is not supported, e.g. TRACE
   UNSUPPORTED_METHOD: {},
 
-  // Request body has a Content-Length but no request body
+  // Request payload has a Content-Length but no request payload
   NO_CONTENT_TYPE: {},
 
   // Query string is wrong

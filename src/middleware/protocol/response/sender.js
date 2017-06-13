@@ -23,41 +23,41 @@ const sender = async function (
     throw new EngineError(message, { reason: 'WRONG_RESPONSE' });
   }
 
-  const sendBody = parsing[protocol].send;
-  await handler({ sendBody, specific, content, status });
+  const send = parsing[protocol].send;
+  await handler({ send, specific, content, status });
 };
 
 // Each content type is sent differently
 // TODO: validate content typeof?
 const handlers = {
 
-  async model({ sendBody, specific, content, status }) {
+  async model({ send, specific, content, status }) {
     const contentType = 'application/x-resource+json';
-    await sendBody.json({ specific, content, contentType, status });
+    await send.json({ specific, content, contentType, status });
   },
 
-  async collection({ sendBody, specific, content, status }) {
+  async collection({ send, specific, content, status }) {
     const contentType = 'application/x-collection+json';
-    await sendBody.json({ specific, content, contentType, status });
+    await send.json({ specific, content, contentType, status });
   },
 
-  async error({ sendBody, specific, content, status }) {
+  async error({ send, specific, content, status }) {
     // See RFC 7807
     // Exception: `status` is only present with HTTP protocol
     const contentType = 'application/problem+json';
-    await sendBody.json({ specific, content, contentType, status });
+    await send.json({ specific, content, contentType, status });
   },
 
-  async object({ sendBody, specific, content, status }) {
-    await sendBody.json({ specific, content, status });
+  async object({ send, specific, content, status }) {
+    await send.json({ specific, content, status });
   },
 
-  async html({ sendBody, specific, content, status }) {
-    await sendBody.html({ specific, content, status });
+  async html({ send, specific, content, status }) {
+    await send.html({ specific, content, status });
   },
 
-  async text({ sendBody, specific, content, status }) {
-    await sendBody.text({ specific, content, status });
+  async text({ send, specific, content, status }) {
+    await send.text({ specific, content, status });
   },
 
 };

@@ -12,8 +12,11 @@ module.exports = Object.assign(
   require('./timestamp'),
   require('./request_id'),
   require('./ip'),
-  require('./params'),
-  require('./path'),
+  require('./url'),
+  require('./method'),
+  require('./query_string'),
+  require('./headers'),
+  require('./payload'),
   require('./routing'),
   require('./protocol_args'),
   require('./logger')
