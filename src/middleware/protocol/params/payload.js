@@ -35,6 +35,12 @@ const getPayload = async function ({ specific, protocol, headers }) {
 // Request payload middleware, for several types of input
 const payloadHandlers = [
 
+  // application/graphql request body
+  async function ({ specific, protocol }) {
+    const textBody = await parsing[protocol].body.parse.graphql({ specific });
+    return textBody ? { query: textBody } : null;
+  },
+
   // JSON request body
   async function ({ specific, protocol }) {
     return await parsing[protocol].body.parse.json({ specific });
@@ -55,12 +61,6 @@ const payloadHandlers = [
   async function ({ specific, protocol }) {
     const rawBody = await parsing[protocol].body.parse.raw({ specific });
     return rawBody instanceof Buffer ? rawBody.toString() : null;
-  },
-
-  // application/graphql request body
-  async function ({ specific, protocol }) {
-    const textBody = await parsing[protocol].body.parse.graphql({ specific });
-    return textBody ? { query: textBody } : null;
   },
 
 ];
