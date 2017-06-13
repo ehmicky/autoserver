@@ -70,15 +70,17 @@ const fireNext = async function (request, perf, actions, actionInput) {
 
   // Several calls of this function are done concurrently, so we stop
   // performance recording on the first in, and restart on the last out
-  if (perf.ongoing++ === 0) {
+  if (perf.ongoing === 0) {
     perf.stop();
   }
+  ++perf.ongoing;
 
   const response = await this.next(input);
 
   actions.push(response.action);
 
-  if (--perf.ongoing === 0) {
+  --perf.ongoing;
+  if (perf.ongoing === 0) {
     perf.start();
   }
 
