@@ -15,6 +15,7 @@ const actionConvertor = function () {
       jsl,
       log,
       params,
+      settings,
       operation,
     } = input;
     const perf = log.perf.start('action.convertor', 'middleware');
@@ -31,6 +32,7 @@ const actionConvertor = function () {
       jsl: newJsl,
       log,
       params,
+      settings,
     };
 
     let response;
