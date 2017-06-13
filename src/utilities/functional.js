@@ -127,6 +127,15 @@ const omitBy = function (obj, condition) {
   }, {});
 };
 
+// Uses to reduce either:
+//  - an array of objects, e.g. [{...},{...}].reduce(assign, {})
+//  - an array of [key, value],
+//    e.g. Object.entries(object).map(...).reduce(assign, {})
+const assign = function (memo, obj) {
+  obj = obj instanceof Array ? { [obj[0]]: obj[1] } : obj;
+  return Object.assign(memo, obj);
+};
+
 // Enforces that a function is only called once
 const onlyOnce = function (func, { error = false } = {}) {
   return (...args) => {
@@ -193,6 +202,7 @@ module.exports = {
   pickBy,
   omit,
   omitBy,
+  assign,
   onlyOnce,
   buffer,
 };
