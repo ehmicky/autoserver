@@ -20,7 +20,7 @@ const normalization = function () {
     }
 
     if (orderBy) {
-      args.orderBy = normalizeOrderBy({ orderBy });
+      args.nOrderBy = normalizeOrderBy({ orderBy });
     }
 
     perf.stop();

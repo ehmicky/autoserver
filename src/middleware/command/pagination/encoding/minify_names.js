@@ -22,7 +22,7 @@ const removeNameShortcuts = function ({ token }) {
 
 const namesShortcuts = [
   { from: 'filter', to: 'f' },
-  { from: 'orderBy', to: 'o' },
+  { from: 'nOrderBy', to: 'o' },
   { from: 'parts', to: 'p' },
 ];
 

@@ -48,13 +48,13 @@ const getOutputSchema = function ({ maxPageSize }) {
 
         token: {
           type: ['null', 'object'],
-          required: ['orderBy', 'filter', 'parts'],
+          required: ['nOrderBy', 'filter', 'parts'],
           properties: {
             parts: {
               type: 'array',
               minLength: 1,
             },
-            orderBy: {
+            nOrderBy: {
               type: 'array',
               items: {
                 type: 'object',

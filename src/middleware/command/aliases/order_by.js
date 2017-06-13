@@ -2,17 +2,17 @@
 
 
 // Copy first defined alias to main attribute, providing it is not defined.
-const applyOrderByAliases = function ({ orderBy, attrName, aliases }) {
-  if (!(orderBy instanceof Array)) { return orderBy; }
+const applyOrderByAliases = function ({ nOrderBy, attrName, aliases }) {
+  if (!(nOrderBy instanceof Array)) { return nOrderBy; }
 
-  orderBy = orderBy.map(orderPart => {
+  nOrderBy = nOrderBy.map(orderPart => {
     if (!orderPart || orderPart.constructor !== Object) { return orderPart; }
     if (!aliases.includes(orderPart.attrName)) { return orderPart; }
     orderPart.attrName = attrName;
     return orderPart;
   });
 
-  return orderBy;
+  return nOrderBy;
 };
 
 

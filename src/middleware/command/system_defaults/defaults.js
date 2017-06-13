@@ -17,7 +17,7 @@ const defaults = {
         (after === undefined || after === ''))
     },
 
-    orderBy: {
+    nOrderBy: {
       commandNames: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: [{ attrName: 'id', order: 'asc' }],
       // Only if args.before|after is not specified

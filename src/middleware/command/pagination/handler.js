@@ -38,7 +38,7 @@ const { getPaginationInfo } = require('./info');
  *                                 using the previous response's 'token'
  *                                 Use '' for the start or the end.
  *                                 Cannot be used together with `args.filter`
- *                                 nor `args.orderBy`.
+ *                                 nor `args.nOrderBy`.
  *   page {integer}              - Page number, for pagination, starting at 1
  *                                 Cannot be used together with `before|after`
  * Those parameters are removed and transformed for the database layer to:
@@ -54,7 +54,7 @@ const { getPaginationInfo } = require('./info');
  *                                 { a: 10, b: 20 }, then we transform
  *                                 args.filter { c: 30 } to
  *                                 { c: 30 } && > { a: 10, b: 20 }
- *   orderBy                     - same as `filter` but for `orderBy`
+ *   nOrderBy                    - same as `filter` but for `nOrderBy`
  * Add metadata:
  *   token {string}              - token of a given model, to use with
  *                                 args.before|after
@@ -143,7 +143,7 @@ const processOutput = function ({
 };
 
 // When using args.before, pagination is performed backward.
-// We do this by inversing args.orderBy, which means we need to reverse output
+// We do this by inversing args.nOrderBy, which means we need to reverse output
 // afterwards.
 const reverseOutput = function ({ args, response }) {
   const { isBackward } = getPaginationInfo({ args });

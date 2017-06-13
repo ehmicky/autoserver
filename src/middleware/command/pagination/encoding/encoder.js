@@ -10,9 +10,9 @@ const { minifyToken, unminifyToken } = require('./minify');
 //   - parts {any[]} (model values)
 //   - filter {string}: used by current query,
 //     so it can be used on next pagination requests
-//   - orderBy {object[]} - same as filter
-//      - orderBy.attrName {string} - also used to guess `parts` attributes
-//      - orderBy.order {string} - 'desc' or 'asc'
+//   - nOrderBy {object[]} - same as filter
+//      - nOrderBy.attrName {string} - also used to guess `parts` attributes
+//      - nOrderBy.order {string} - 'desc' or 'asc'
 
 const encode = function ({ token }) {
   const minifiedToken = minifyToken({ token });

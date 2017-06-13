@@ -11,10 +11,10 @@ const databaseExecute = function () {
     const { command, args = {}, modelName, jsl, log } = input;
     const perf = log.perf.start('database.execute', 'middleware');
 
-    const { orderBy, limit, offset, dryRun, newData, filter } = args;
+    const { nOrderBy, limit, offset, dryRun, newData, filter } = args;
     const collection = database[modelName];
 
-    const opts = { jsl, orderBy, limit, offset, dryRun, modelName };
+    const opts = { jsl, nOrderBy, limit, offset, dryRun, modelName };
     const commandInput = { command, collection, filter, newData, opts };
     const response = fireCommand(commandInput);
 
