@@ -1,7 +1,7 @@
 'use strict';
 
 
-// Converts from Api format to Database format
+// Converts from Command format to Database format
 const databaseConvertor = function () {
   return async function databaseConvertor(input) {
     const { command, args, modelName, jsl, log, params } = input;

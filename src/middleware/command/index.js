@@ -11,4 +11,5 @@ module.exports = Object.assign(
   require('./transform'),
   require('./user_defaults'),
   require('./system_defaults'),
+  require('./pagination'),
 );
