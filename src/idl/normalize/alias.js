@@ -4,7 +4,7 @@
 const { cloneDeep } = require('lodash');
 const { toSentence } = require('underscore.string');
 
-const { map } = require('../../utilities');
+const { map, assignObject } = require('../../utilities');
 const { EngineError } = require('../../error');
 
 
@@ -24,11 +24,11 @@ const normalizeAliases = function ({ models }) {
       }, {});
 
     model.properties = Object.entries(model.properties)
-      .reduce((props, [attrName, attr]) => {
+      .map(([attrName, attr]) => {
         addAliasDescription({ attr });
-        props[attrName] = attr;
-        return props;
-      }, {});
+        return [attrName, attr];
+      })
+      .reduce(assignObject, {});
 
     return model;
   });
@@ -38,16 +38,17 @@ const createAliases = function ({ model, props, attr, attrName }) {
   if (!attr.alias) { return; }
   const aliases = attr.alias instanceof Array ? attr.alias : [attr.alias];
 
-  return aliases.reduce((newProps, alias) => {
-    checkAliasDuplicates({ model, props, attrName, alias });
+  return aliases
+    .map(alias => {
+      checkAliasDuplicates({ model, props, attrName, alias });
 
-    const aliasAttr = cloneDeep(attr);
-    aliasAttr.aliasOf = attrName;
-    delete aliasAttr.alias;
+      const aliasAttr = cloneDeep(attr);
+      aliasAttr.aliasOf = attrName;
+      delete aliasAttr.alias;
 
-    newProps[alias] = aliasAttr;
-    return newProps;
-  }, {});
+      return { [alias]: aliasAttr };
+    })
+    .reduce(assignObject, {});
 };
 
 const checkAliasDuplicates = function ({ model, props, attrName, alias }) {

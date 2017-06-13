@@ -4,13 +4,14 @@
 const fs = require('fs');
 const { promisify } = require('util');
 
+const { map } = require('./functional');
+
+
 // Make `fs` functions use promises instead of callbacks
-const newFs = Object.entries(fs)
-  .map(([name, value]) => {
-    const newValue = typeof value === 'function' ? promisify(value) : value;
-    return { [name]: newValue };
-  })
-  .reduce((memo, obj) => Object.assign(memo, obj), {});
+const newFs = map(fs, value => {
+  return typeof value === 'function' ? promisify(value) : value;
+});
+
 
 module.exports = {
   fs: newFs,

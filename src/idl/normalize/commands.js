@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { assignArray } = require('../../utilities');
+
+
 // Normalize `commands` shortcuts, e.g. 'read' -> 'readOne' + 'readMany'
 const normalizeCommands = function ({ idl }) {
   idl.commands = normalizeCommandNames(idl.commands || defaultCommandNames);
@@ -8,12 +11,11 @@ const normalizeCommands = function ({ idl }) {
 };
 
 const normalizeCommandNames = function (commandNames) {
-  return commandNames.reduce((memo, commandName) => {
-    const normalizedCommandName = /(One)|(Many)$/.test(commandName)
-      ? [commandName]
-      : [`${commandName}One`, `${commandName}Many`];
-    return [...memo, ...normalizedCommandName];
-  }, []);
+  return commandNames
+    .map(name => /(One)|(Many)$/.test(name)
+      ? name
+      : [`${name}One`, `${name}Many`])
+    .reduce(assignArray, []);
 };
 
 // By default, include all commandNames but deleteMany

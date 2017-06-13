@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { assignObject } = require('../../../utilities');
+
+
 // Gets a map of models' `transform` or `compute`
 // e.g. { my_model: [{ attrName, transform }, ...], ... }
 const getTransformsMap = function ({ idl: { models }, type }) {
@@ -12,7 +15,7 @@ const getTransformsMap = function ({ idl: { models }, type }) {
       const sortedProps = sortProps({ props, transformOrder });
       return { [modelName]: sortedProps };
     })
-    .reduce((memo, obj) => Object.assign(memo, obj), {});
+    .reduce(assignObject, {});
 };
 
 // Sort transforms according to `using` property

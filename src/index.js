@@ -65,7 +65,7 @@ startServer({
 // Performance monitoring
 /*
 .on('log.*.perf.*', ({ measuresMessage }) => {
-  global.console.log(`Performance logging info ${measuresMessage}`);
+  global.console.log(`Performance logging info\n${measuresMessage}`);
 })
 */
 

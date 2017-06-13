@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { assignObject } = require('../../../utilities');
+
+
 // Gets a map of models' attributes' aliases
 // e.g. { modelName: { attrName: ['alias', ...], ... }, ... }
 const getAliasesMap = function ({ idl: { models } }) {
@@ -12,10 +15,10 @@ const getAliasesMap = function ({ idl: { models } }) {
           const value = alias instanceof Array ? alias : [alias];
           return { [attrName]: value };
         })
-        .reduce((memo, obj) => Object.assign(memo, obj), {});
+        .reduce(assignObject, {});
       return { [modelName]: aliasProps };
     })
-    .reduce((memo, obj) => Object.assign(memo, obj), {});
+    .reduce(assignObject, {});
 };
 
 

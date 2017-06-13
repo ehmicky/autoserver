@@ -3,6 +3,7 @@
 
 const { merge } = require('lodash');
 
+const { assignObject } = require('../../../utilities');
 const { defaults } = require('./defaults');
 
 
@@ -43,10 +44,10 @@ const getDefaultArgs = function ({ opts, input }) {
             : value;
           return { [attrName]: val };
         })
-        .reduce((memo, object) => Object.assign(memo, object), {});
+        .reduce(assignObject, {});
       return { [name]: defaultsValue };
     })
-    .reduce((memo, object) => Object.assign(memo, object), {});
+    .reduce(assignObject, {});
 };
 
 

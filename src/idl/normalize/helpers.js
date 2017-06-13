@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { map } = require('../../utilities');
+const { map, assignObject, assignArray } = require('../../utilities');
 
 
 // Normalize idl.helpers
@@ -29,15 +29,16 @@ const exposeVars = ['filter', 'data'];
 // Extract idl.helpers.HELPER.exposeTo ['filter', ...] to
 // idl.exposeMap { filter: ['HELPER', ...] }
 const getExposeMap = function ({ helpers }) {
-  return exposeVars.reduce((memo, exposeVar) => {
-    const matchingHelpers = Object.entries(helpers)
-      .reduce((allHelpers, [helper, { exposeTo = [] }]) => {
-        return exposeTo.includes(exposeVar)
-          ? [...allHelpers, helper]
-          : allHelpers;
-      }, []);
-    return Object.assign(memo, { [exposeVar]: matchingHelpers });
-  }, {});
+  return exposeVars
+    .map(exposeVar => {
+      const matchingHelpers = Object.entries(helpers)
+        .map(([helper, { exposeTo = [] }]) => {
+          return exposeTo.includes(exposeVar) ? helper : [];
+        })
+        .reduce(assignArray, []);
+      return { [exposeVar]: matchingHelpers };
+    })
+    .reduce(assignObject, {});
 };
 
 
