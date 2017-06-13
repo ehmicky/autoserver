@@ -1,8 +1,7 @@
 'use strict';
 
 
-const { omitBy } = require('lodash');
-
+const { omitBy } = require('../utilities');
 const { getReason, getGenericProps } = require('./reasons');
 
 

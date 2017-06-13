@@ -1,8 +1,7 @@
 'use strict';
 
 
-const { omit } = require('lodash');
-
+const { omit } = require('../../../utilities');
 const { getPaginationInfo } = require('./info');
 const { decode } = require('./encoding');
 

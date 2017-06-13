@@ -1,9 +1,8 @@
 'use strict';
 
 
-const { omitBy } = require('lodash');
-
 const { HTTP: { headers: { parsePrefer } } } = require('../../../../parsing');
+const { omitBy } = require('../../../../utilities');
 
 
 // Transform headers into args, for HTTP-specific headers

@@ -1,9 +1,9 @@
 'use strict';
 
 
-const { find, omit, mapValues } = require('lodash');
+const { find, mapValues } = require('lodash');
 
-const { transform } = require('../../utilities');
+const { transform, omit } = require('../../utilities');
 const { normalizeCommandNames } = require('./commands');
 const { getActions } = require('./actions');
 const { normalizeAllTransforms } = require('./transform');

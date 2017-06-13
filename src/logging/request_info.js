@@ -1,7 +1,9 @@
 'use strict';
 
 
-const { cloneDeep, omit } = require('lodash');
+const { cloneDeep } = require('lodash');
+
+const { omit } = require('../utilities');
 
 
 // Builds `requestInfo` object, which contains request-related log information:

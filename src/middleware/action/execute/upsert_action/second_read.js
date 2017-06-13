@@ -1,9 +1,10 @@
 'use strict';
 
 
-const { cloneDeep, pick } = require('lodash');
+const { cloneDeep } = require('lodash');
 
 const { commands } = require('../../../../constants');
+const { pick } = require('../../../../utilities');
 const { getFilter } = require('./filter');
 
 

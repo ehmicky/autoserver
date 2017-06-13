@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { omit, omitBy } = require('lodash');
+const { omit, omitBy } = require('../../../../../utilities');
 
 
 // Apply GraphQL-specific error transformation

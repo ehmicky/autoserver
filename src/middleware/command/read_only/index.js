@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { omit } = require('lodash');
+const { omit } = require('../../../utilities');
 
 
 /**
