@@ -24,12 +24,12 @@ const getPaginationInput = function ({ args }) {
     if (hasToken) {
       const tokenObj = decode({ token });
       newArgs.filter = getPaginatedFilter({ tokenObj, isBackward });
-      if (tokenObj.orderBy) {
-        newArgs.orderBy = tokenObj.orderBy;
+      if (tokenObj.nOrderBy) {
+        newArgs.nOrderBy = tokenObj.nOrderBy;
       }
     }
     if (isBackward) {
-      newArgs.orderBy = newArgs.orderBy.map(({ attrName, order }) => {
+      newArgs.nOrderBy = newArgs.nOrderBy.map(({ attrName, order }) => {
         return { attrName, order: order === 'asc' ? 'desc' : 'asc' };
       });
     }
@@ -44,21 +44,21 @@ const getPaginationInput = function ({ args }) {
 // E.g. if:
 //  - last paginated model was { b: 2, c: 3, d: 4 }
 //  - args.filter is ($$.a === 1)
-//  - args.orderBy 'b,c-,d'
+//  - args.nOrderBy 'b,c-,d'
 // Transform args.filter to
 //   (($$.a === 1) && (($$.b > 2) || ($$.b === 2 && $$.c < 3) ||
 //     ($$.b === 2 && $$.c === 3 && $$.d > 4)))
 // Using backward pagination would replace < to > and vice-versa.
 const getPaginatedFilter = function ({ tokenObj, isBackward }) {
-  const { parts, filter, orderBy } = tokenObj;
-  const extraFilter = `(${tokenToJsl({ parts, orderBy, isBackward })})`;
+  const { parts, filter, nOrderBy } = tokenObj;
+  const extraFilter = `(${tokenToJsl({ parts, nOrderBy, isBackward })})`;
   const newFilter = filter ? `(${filter} && ${extraFilter})` : extraFilter;
   return newFilter;
 };
 
-const tokenToJsl = function ({ parts, orderBy, isBackward }) {
+const tokenToJsl = function ({ parts, nOrderBy, isBackward }) {
   const mainOrder = isBackward ? 'asc' : 'desc';
-  return orderBy
+  return nOrderBy
     .map(({ attrName, order }, index) => {
       return { attrName, order, value: parts[index] };
     })
@@ -66,7 +66,7 @@ const tokenToJsl = function ({ parts, orderBy, isBackward }) {
       const previousParts = parts
         .slice(0, index)
         .map((value, i) => {
-          return `$$.${orderBy[i].attrName} === ${JSON.stringify(value)}`;
+          return `$$.${nOrderBy[i].attrName} === ${JSON.stringify(value)}`;
         });
       const operator = order === mainOrder ? '<' : '>';
       const currentPart = `$$.${attrName} ${operator} ${JSON.stringify(value)}`;

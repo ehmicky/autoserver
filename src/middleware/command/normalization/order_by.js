@@ -27,7 +27,7 @@ const normalizeOrderBy = function ({ orderBy }) {
 
   // Transform each part from a string to an object
   // { attrName 'attr', order 'asc|desc' }
-  const parsedParts = parts.map(part => {
+  const nOrderBy = parts.map(part => {
     if (part === '') {
       const message = 'Argument \'order_by\' cannot have empty attributes';
       throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
@@ -46,12 +46,12 @@ const normalizeOrderBy = function ({ orderBy }) {
   //     the same response
   //   - the pagination layer needs this predictability
   // If an id sorting is already specified, do not need to do anything
-  const hasId = parsedParts.some(({ attrName }) => attrName === 'id');
+  const hasId = nOrderBy.some(({ attrName }) => attrName === 'id');
   if (!hasId) {
-    parsedParts.push({ attrName: 'id', order: 'asc' });
+    nOrderBy.push({ attrName: 'id', order: 'asc' });
   }
 
-  return parsedParts;
+  return nOrderBy;
 };
 
 // Matches attribute+ attribute- or attribute

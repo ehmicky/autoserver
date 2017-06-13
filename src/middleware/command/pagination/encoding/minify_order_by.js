@@ -5,15 +5,15 @@
 // e.g. [{ attrName: 'attr', order: 'asc'}, {attrName: 'attrb', order: 'desc' }]
 // -> 'attr,attrb-'
 const minifyOrderBy = function ({ token }) {
-  if (!token.orderBy) { return; }
-  token.orderBy = token.orderBy
+  if (!token.nOrderBy) { return; }
+  token.nOrderBy = token.nOrderBy
     .map(({ attrName, order }) => `${attrName}${order === 'asc' ? '' : '-'}`)
     .join(',');
 };
 
 const unminifyOrderBy = function ({ token }) {
-  if (!token.orderBy) { return; }
-  token.orderBy = token.orderBy
+  if (!token.nOrderBy) { return; }
+  token.nOrderBy = token.nOrderBy
     .split(',')
     .map(orderStr => {
       const isDesc = orderStr[orderStr.length - 1] === '-';

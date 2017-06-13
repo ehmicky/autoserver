@@ -8,9 +8,9 @@ const { orderBy, map } = require('lodash');
 const processResponse = function ({
   response: { data, metadata },
   command,
-  opts: { orderBy, limit, offset },
+  opts: { nOrderBy, limit, offset },
 }) {
-  data = sortResponse({ data, orderByArg: orderBy });
+  data = sortResponse({ data, nOrderBy });
   data = offsetResponse({ data, offset });
   data = limitResponse({ data, limit });
 
@@ -22,13 +22,13 @@ const processResponse = function ({
 };
 
 // order_by sorting
-const sortResponse = function ({ data, orderByArg }) {
+const sortResponse = function ({ data, nOrderBy }) {
   if (!data || !(data instanceof Array)) { return data; }
 
   const sortedData = orderBy(
     data,
-    map(orderByArg, 'attrName'),
-    map(orderByArg, 'order')
+    map(nOrderBy, 'attrName'),
+    map(nOrderBy, 'order')
   );
   return sortedData;
 };

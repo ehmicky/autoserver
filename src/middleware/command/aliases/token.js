@@ -5,15 +5,15 @@ const { decode, encode } = require('../pagination/encoding');
 const { applyOrderByAliases } = require('./order_by');
 
 
-// Copy same aliasing as `args.filter` and `args.orderBy` but inside
+// Copy same aliasing as `args.filter` and `args.nOrderBy` but inside
 // pagination tokens
 const applyTokenAliases = function ({ token, attrName, aliases }) {
   try {
     const tokenObj = decode({ token });
 
-    const { orderBy } = tokenObj;
-    if (orderBy) {
-      tokenObj.orderBy = applyOrderByAliases({ orderBy, attrName, aliases });
+    const { nOrderBy } = tokenObj;
+    if (nOrderBy) {
+      tokenObj.nOrderBy = applyOrderByAliases({ nOrderBy, attrName, aliases });
     }
 
     token = encode({ token: tokenObj });
