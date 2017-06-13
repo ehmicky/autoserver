@@ -13,11 +13,7 @@ const applyInputAliases = function ({ args, modelAliases }) {
   }
 };
 
-const applyInputAlias = function ({
-  args = {},
-  attrName,
-  aliases,
-}) {
+const applyInputAlias = function ({ args = {}, attrName, aliases }) {
   if (args.newData) {
     const { currentData, newData } = args;
     args.newData = applyDataAliases({
