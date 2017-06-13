@@ -25,7 +25,7 @@ const { omit } = require('../utilities');
 //     'CLIENT_ERROR' and 'SERVER_ERROR'
 //   - pathVars {object} - URL variables, as a hash table
 //   - params {object} - Parameters, as a hash table.
-//     E.g. app-specific HTTP headers.
+//   - settings {object} - Settings, as a hash table.
 //   - queryVars {object} - Query variables, as a hash table
 //   - headers {object} - protocol headers (e.g. HTTP headers), as a hash table
 //   - payload {any} - request payload

@@ -17,6 +17,8 @@ module.exports = Object.assign(
   require('./query_string'),
   require('./headers'),
   require('./payload'),
+  require('./settings'),
+  require('./params'),
   require('./routing'),
   require('./protocol_args'),
   require('./logger')

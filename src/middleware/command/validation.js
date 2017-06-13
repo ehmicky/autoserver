@@ -43,6 +43,7 @@ const getValidateServerSchema = function ({ models = {} }) {
       'command',
       'jsl',
       'params',
+      'settings',
     ],
     properties: {
       modelName: {
@@ -73,6 +74,7 @@ const getValidateServerSchema = function ({ models = {} }) {
       command: { type: 'object' },
       jsl: { type: 'object' },
       params: { type: 'object' },
+      settings: { type: 'object' },
     },
   };
 };

@@ -45,6 +45,7 @@ const getValidateServerSchema = function ({ models = {} }) {
       'fullAction',
       'jsl',
       'params',
+      'settings',
     ],
     properties: {
       modelName: {
@@ -57,6 +58,7 @@ const getValidateServerSchema = function ({ models = {} }) {
       fullAction: { type: 'string' },
       jsl: { type: 'object' },
       params: { type: 'object' },
+      settings: { type: 'object' },
     },
   };
 };
