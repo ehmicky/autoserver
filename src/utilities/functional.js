@@ -86,8 +86,14 @@ const deepMerge = function (objA, objB, ...objects) {
 
 // Similar to lodash pick(), but faster.
 const pick = function (obj, attributes) {
+  attributes = attributes instanceof Array ? attributes : [attributes];
+  return pickBy(obj, (value, name) => attributes.includes(name));
+};
+
+// Similar to lodash pickBy(), but faster.
+const pickBy = function (obj, condition) {
   return Object.entries(obj).reduce((memo, [name, value]) => {
-    if (attributes.includes(name)) {
+    if (condition(value, name)) {
       memo[name] = value;
     }
     return memo;
@@ -96,8 +102,14 @@ const pick = function (obj, attributes) {
 
 // Similar to lodash omit(), but faster.
 const omit = function (obj, attributes) {
+  attributes = attributes instanceof Array ? attributes : [attributes];
+  return omitBy(obj, (value, name) => attributes.includes(name));
+};
+
+// Similar to lodash omitBy(), but faster.
+const omitBy = function (obj, condition) {
   return Object.entries(obj).reduce((memo, [name, value]) => {
-    if (!attributes.includes(name)) {
+    if (!condition(value, name)) {
       memo[name] = value;
     }
     return memo;
@@ -166,7 +178,9 @@ module.exports = {
   recurseMap,
   deepMerge,
   pick,
+  pickBy,
   omit,
+  omitBy,
   onlyOnce,
   buffer,
 };
