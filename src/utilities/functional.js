@@ -1,9 +1,6 @@
 'use strict';
 
 
-const { EngineError } = require('../error');
-
-
 // Similar to Lodash map() and mapValues(), but with vanilla JavaScript
 const map = function (obj, mapperFunc) {
   if (obj && obj.constructor === Object) {
@@ -16,7 +13,7 @@ const map = function (obj, mapperFunc) {
     return obj.map(mapperFunc);
   } else {
     const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
-    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    throw new Error(message);
   }
 };
 
@@ -30,7 +27,7 @@ const mapAsync = async function (obj, mapperFunc) {
     return newObj;
   } else {
     const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
-    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    throw new Error(message);
   }
 };
 
@@ -61,7 +58,7 @@ const deepMerge = function (objA, objB, ...objects) {
     (objA.constructor !== Object && objB.constructor === Object);
   if (isInvalidType || isDifferentTypes) {
     const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
-    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    throw new Error(message);
   }
 
   if (objA instanceof Array) {
