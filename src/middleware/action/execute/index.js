@@ -2,12 +2,12 @@
 
 
 const { mapAsync } = require('../../../utilities');
-const { createAction } = require('./create_action');
-const { findAction } = require('./find_action');
-const { updateAction } = require('./update_action');
-const { upsertAction } = require('./upsert_action');
-const { replaceAction } = require('./replace_action');
-const { deleteAction } = require('./delete_action');
+const { createAction } = require('./create');
+const { findAction } = require('./find');
+const { updateAction } = require('./update');
+const { upsertAction } = require('./upsert');
+const { replaceAction } = require('./replace');
+const { deleteAction } = require('./delete');
 
 
 // Translates operation-specific calls into generic instance actions
