@@ -40,12 +40,8 @@ const getResolver = ({ modelsMap }) => async function mainResolver(
     ? nestedModelResolver
     : topLevelModelResolver;
   // Retrieve main input passed to database layer
-  const { multiple, modelName, actionType, directReturn } = subResolver({
-    name,
-    modelsMap,
-    parent,
-    args,
-  });
+  const resolverReturn = subResolver({ name, modelsMap, parent, args });
+  const { multiple, modelName, actionType, directReturn } = resolverReturn;
   // Shortcuts resolver if we already know the final result
   if (directReturn !== undefined) { return directReturn; }
 
