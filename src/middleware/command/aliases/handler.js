@@ -9,7 +9,7 @@ const { applyOutputAliases } = require('./output');
 /**
  * Rename attributes using IDL `alias`.
  * Aliases allow clients to use different possible names for the same attribute:
- *   - in input, i.e. `args.data`, `args.filter`, `args.nOrderBy`
+ *   - in input, i.e. `args.data`, `args.nFilter`, `args.nOrderBy`
  *   - in output, i.e. response will include all aliases, each with identical
  *     value
  * The server is unaware of aliases, i.e. only the main attribute name:

@@ -64,7 +64,7 @@ const parsedToken = {
     },
     {
       type: 'object',
-      required: ['nOrderBy', 'filter', 'parts'],
+      required: ['nOrderBy', 'nFilter', 'parts'],
       properties: {
         parts: {
           type: 'array',
@@ -84,7 +84,7 @@ const parsedToken = {
             },
           },
         },
-        filter: {
+        nFilter: {
           type: 'string',
         },
       },
@@ -146,9 +146,9 @@ const getInputData = function ({ args }) {
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  // Also, cannot specify 'filter' or 'nOrderBy' with a cursor, because the
+  // Also, cannot specify 'nFilter' or 'nOrderBy' with a cursor, because the
   // cursor already includes them.
-  for (const forbiddenArg of ['filter', 'nOrderBy']) {
+  for (const forbiddenArg of ['nFilter', 'nOrderBy']) {
     const hasForbiddenArg = inputData[forbiddenArg] !== undefined &&
       ((inputData.before !== undefined && inputData.before !== '') ||
       (inputData.after !== undefined && inputData.after !== ''));

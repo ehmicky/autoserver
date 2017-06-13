@@ -5,7 +5,7 @@ const { validate } = require('../../../validation');
 
 
 /**
- * Validate input semantics for all arguments but filter or data
+ * Validate input semantics for all arguments but nFilter or newData
  * E.g. validate that `nOrderBy` targets existing attributes.
  * Note that nOrderBy has already been syntactically validated
  **/

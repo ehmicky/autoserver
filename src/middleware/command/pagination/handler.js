@@ -38,7 +38,7 @@ const { getPaginationInfo } = require('./info');
  *                                 using the previous response's 'token'
  *                                 Use '' for the start or the end.
  *                                 Cannot be used together with `args.filter`
- *                                 nor `args.nOrderBy`.
+ *                                 nor `args.order_by`.
  *   page {integer}              - Page number, for pagination, starting at 1
  *                                 Cannot be used together with `before|after`
  * Those parameters are removed and transformed for the database layer to:
@@ -47,14 +47,14 @@ const { getPaginationInfo } = require('./info');
  *                                 to guess if there is a previous or next page.
  *   offset {integer}            - offset response size.
  *                                 Only used with offset-based pagination
- *   filter                      - with cursor-based pagination, uses the
- *                                 `args.filter` of the previous request,
+ *   nFilter                     - with cursor-based pagination, uses the
+ *                                 `args.nFilter` of the previous request,
  *                                 which is encoded in the cursor.
  *                                 E.g. if last batch ended with model
  *                                 { a: 10, b: 20 }, then we transform
- *                                 args.filter { c: 30 } to
+ *                                 args.nFilter { c: 30 } to
  *                                 { c: 30 } && > { a: 10, b: 20 }
- *   nOrderBy                    - same as `filter` but for `nOrderBy`
+ *   nOrderBy                    - same as `nFilter` but for `nOrderBy`
  * Add metadata:
  *   token {string}              - token of a given model, to use with
  *                                 args.before|after
@@ -94,7 +94,7 @@ const pagination = function ({ maxPageSize }) {
   };
 };
 
-// Transform args.pageSize|before|after|page into args.limit|offset|filter
+// Transform args.pageSize|before|after|page into args.limit|offset|nFilter
 const processInput = function ({ input, maxPageSize }) {
   const { args, command, action, modelName } = input;
 

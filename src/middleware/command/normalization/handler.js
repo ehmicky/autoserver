@@ -16,7 +16,7 @@ const normalization = function () {
     const perf = log.perf.start('command.normalization', 'middleware');
 
     if (filter) {
-      args.filter = normalizeFilter({ filter });
+      args.nFilter = normalizeFilter({ filter });
     }
 
     if (orderBy) {
