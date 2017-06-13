@@ -15,13 +15,17 @@ const normalization = function () {
     const { orderBy, filter } = args;
     const perf = log.perf.start('command.normalization', 'middleware');
 
+    const newArgs = Object.assign({}, args);
+
     if (filter) {
-      args.nFilter = normalizeFilter({ filter });
+      newArgs.nFilter = normalizeFilter({ filter });
     }
 
     if (orderBy) {
-      args.nOrderBy = normalizeOrderBy({ orderBy });
+      newArgs.nOrderBy = normalizeOrderBy({ orderBy });
     }
+
+    input.args = newArgs;
 
     perf.stop();
     const response = await this.next(input);
