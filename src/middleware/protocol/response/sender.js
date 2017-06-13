@@ -23,7 +23,7 @@ const sender = async function (
     throw new EngineError(message, { reason: 'WRONG_RESPONSE' });
   }
 
-  const sendBody = parsing[protocol].body.send;
+  const sendBody = parsing[protocol].send;
   await handler({ sendBody, specific, content, status });
 };
 
