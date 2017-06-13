@@ -31,18 +31,19 @@ class RoutesManager {
     this._routes.push({ path, route, regexp, variables, goals });
   }
 
+  // Retrieves correct route, according to path
   find({ path, goal }) {
-    // Retrieves correct route, according to path
-    const route = this._routes.find(({ regexp, goals }) => {
+    return this._routes.find(({ regexp, goals }) => {
       // Check path
       return regexp.test(path)
         // Check goals
         && (!goals || goals.includes(goal));
     });
-    if (!route) { return; }
+  }
 
-    // Retrieves path variables, e.g. /path/:id
-    const pathVars = route.regexp
+  // Retrieves path variables, e.g. /path/:id
+  getPathVars({ path, route }) {
+    return route.regexp
       .exec(path)
       // Removes first value, which is the full path
       .slice(1)
@@ -53,7 +54,6 @@ class RoutesManager {
         return { [key]: value };
       })
       .reduce(assignObject, {});
-    return Object.assign({ pathVars }, route);
   }
 
 }
