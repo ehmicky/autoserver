@@ -32,6 +32,19 @@ const mapAsync = async function (obj, mapperFunc) {
   }
 };
 
+// Similar to map() for keys
+const mapKeys = function (obj, mapperFunc) {
+  if (!obj || obj.constructor !== Object) {
+    const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
+    throw new Error(message);
+  }
+
+  return Object.entries(obj).reduce((newObj, [key, value]) => {
+    newObj[mapperFunc(key, value, obj)] = value;
+    return newObj;
+  }, {});
+};
+
 // Apply map() recursively
 const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
   // Recursion over objects and arrays
@@ -173,6 +186,7 @@ const uncorkFunc = async function (state, func) {
 module.exports = {
   map,
   mapAsync,
+  mapKeys,
   recurseMap,
   deepMerge,
   pick,
