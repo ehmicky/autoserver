@@ -20,7 +20,6 @@ const executeGraphql = function (opts) {
     // (including by using application/graphql)
     const { queryVars, payload, goal, log } = input;
     const perf = log.perf.start('operation.executeGraphql', 'middleware');
-    perf.ongoing = 0;
 
     const {
       query,
@@ -70,6 +69,7 @@ const fireNext = async function (request, perf, actions, actionInput) {
 
   // Several calls of this function are done concurrently, so we stop
   // performance recording on the first in, and restart on the last out
+  perf.ongoing = perf.ongoing || 0;
   if (perf.ongoing === 0) {
     perf.stop();
   }
