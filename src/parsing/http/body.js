@@ -22,7 +22,7 @@ const parsers = [
   {
     type: 'text',
     exportsType: 'graphql',
-    opts: { type: 'application/graphq' },
+    opts: { type: 'application/graphql' },
   },
   { type: 'json' },
   {
