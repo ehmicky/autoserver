@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { map } = require('../../utilities');
+const { map, assignArray } = require('../../utilities');
 const { EngineError } = require('../../error');
 
 
@@ -71,7 +71,8 @@ const getTransformUsing = function ({ model: { properties }, modelName }) {
     .map(([attrName, { transform }]) => {
       // Merge all `using` properties
       const transformUsing = transform
-        .reduce((memo, { using = [] }) => [...memo, ...using], []);
+        .map(({ using = [] }) => using)
+        .reduce(assignArray, []);
 
       // Make sure `using` properties point to an existing attribute
       for (const using of transformUsing) {

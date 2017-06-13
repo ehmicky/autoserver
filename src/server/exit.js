@@ -3,7 +3,7 @@
 
 const { Log } = require('../logging');
 const { getStandardError } = require('../error');
-const { onlyOnce } = require('../utilities');
+const { assignObject, onlyOnce } = require('../utilities');
 
 
 // Make sure the server stops when graceful exits are possible
@@ -121,8 +121,7 @@ const logEndShutdown = async function ({
     ? 'Server exited successfully'
     : `Server exited with errors while shutting down ${failedProtocols.join(', ')}`;
   const level = isSuccess ? 'log' : 'error';
-  const exitStatuses = statuses.reduce((memo, [protocol, status]) =>
-    Object.assign(memo, { [protocol]: status }), {});
+  const exitStatuses = statuses.reduce(assignObject, {});
 
   await log[level](message, { type: 'stop', exitStatuses });
 

@@ -3,6 +3,7 @@
 
 const { cloneDeep } = require('lodash');
 
+const { assignObject } = require('../../utilities');
 const { JslHelper } = require('./helpers');
 
 
@@ -26,9 +27,7 @@ const filterParams = function ({ params, type, exposeMap }) {
   const exposedParams = [...alwaysExposed, ...exposeMap[type]];
   const filteredParams = Object.entries(params)
     .filter(([name]) => exposedParams.includes(name))
-    .reduce((memo, [name, param]) => {
-      return Object.assign(memo, { [name]: param });
-    }, {});
+    .reduce(assignObject, {});
   return filteredParams;
 };
 

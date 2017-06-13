@@ -4,7 +4,7 @@
 const bodyParser = require('body-parser');
 const { promisify } = require('util');
 
-const { assign } = require('../../utilities');
+const { assignObject } = require('../../utilities');
 
 
 // Retrieves all parsers
@@ -13,9 +13,9 @@ const getParsers = function () {
     .map(({ type, exportsType = type, opts }) => {
       const parser = promisify(bodyParser[type](opts));
       const boundParseFunc = parseFunc.bind(null, parser);
-      return [exportsType, boundParseFunc];
+      return { [exportsType]: boundParseFunc };
     })
-    .reduce(assign, {});
+    .reduce(assignObject, {});
 };
 
 const parsers = [

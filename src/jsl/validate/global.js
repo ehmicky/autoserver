@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { memoize } = require('../../utilities');
+const { memoize, assignArray } = require('../../utilities');
 
 
 // Retrieves all global variables, to make sure JSL does not access them
@@ -16,12 +16,12 @@ const getGlobalKeys = memoize(function ({ type }) {
     global.__proto__.__proto__,
   ];
   const globalKeys = globalObjects
-    .reduce((keys, globalObj) => {
-      // Retrieves all global properties
-      const globalObjKeys = Object.getOwnPropertyNames(globalObj)
+    // Retrieves all global properties
+    .map(globalObj => {
+      return Object.getOwnPropertyNames(globalObj)
         .filter(key => !whitelistedGlobalKeys[type].includes(key));
-      return [...keys, ...globalObjKeys];
-    }, [])
+    })
+    .reduce(assignArray, [])
     // Make sure it is sorted, for the memoizer
     .sort();
   return globalKeys;

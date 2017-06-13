@@ -8,6 +8,7 @@ const { dasherize } = require('underscore.string');
 const parsePreferHeader = require('parse-prefer-header');
 
 const { EngineError } = require('../../error');
+const { assignObject } = require('../../utilities');
 
 
 /**
@@ -53,7 +54,7 @@ const getAppHeaders = function (headers, projectName) {
       const shortName = name.replace(appHeaderRegex, '');
       return { [shortName]: value };
     })
-    .reduce((memo, obj) => Object.assign(memo, obj), {});
+    .reduce(assignObject, {});
 };
 
 // Inverse
@@ -63,7 +64,7 @@ const getNonAppHeaders = function (headers, projectName) {
   return Object.entries(headers)
     .filter(([name]) => !appHeaderRegex.test(name))
     .map(([name, value]) => ({ [name]: value }))
-    .reduce((memo, obj) => Object.assign(memo, obj), {});
+    .reduce(assignObject, {});
 };
 
 // Parses Prefer HTTP header

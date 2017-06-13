@@ -4,6 +4,7 @@
 const { hrtime } = process;
 
 const { EngineError } = require('../error');
+const { assignArray } = require('../utilities');
 
 
 // This class calculates time intervals, in order to do performance monitoring
@@ -112,23 +113,24 @@ class PerfLog {
     );
 
     return Object.entries(this._measures)
-      .reduce((measures, [categoryLabel, labelMeasures]) => {
+      .map(([categoryLabel, labelMeasures]) => {
         const [category, label] = categoryLabel.split(' ');
-        if (hasException && category !== 'exception') { return measures; }
+        if (hasException && category !== 'exception') { return []; }
 
         // Use milliseconds, but with nanoseconds precision
         const items = Object.values(labelMeasures)
           .filter(({ duration }) => duration !== undefined)
           .map(({ duration }) => duration / 10 ** 6);
-        if (items.length === 0) { return measures; }
+        if (items.length === 0) { return []; }
 
         const duration = items.reduce((sum, item) => sum + item, 0);
         const count = items.length;
         const average = duration / count;
 
         const measure = { category, label, duration, items, count, average };
-        return [...measures, measure];
-      }, []);
+        return measure;
+      })
+      .reduce(assignArray, []);
   }
 
   // Returns measures but as a single string, for console debugging
@@ -162,7 +164,7 @@ class PerfLog {
         count = `${String(count).padStart(3)} ${count === 1 ? 'item' : 'items'}`;
         return `${phase} ${category} ${label} ${duration} = ${average} * ${count}`;
       })
-      .reduce((memo, str) => `${memo}\n${str}`, '');
+      .join('\n');
   }
 }
 

@@ -3,7 +3,7 @@
 
 const { isEqual } = require('lodash');
 
-const { omit } = require('../../../utilities');
+const { omit, assignObject } = require('../../../utilities');
 const { EngineError } = require('../../../error');
 
 
@@ -52,10 +52,8 @@ const getAliasData = function ({ newData, currentData, attrName, aliases }) {
   return [attrName, ...aliases]
     .filter(name => newDataKeys.includes(name) &&
       (!currentData || !isEqual(newData[name], currentData[name])))
-    .reduce((memo, name) => {
-      memo[name] = newData[name];
-      return memo;
-    }, {});
+    .map(name => ({ [name]: newData[name] }))
+    .reduce(assignObject, {});
 };
 
 // If the request specifies several aliases, all values must be equal

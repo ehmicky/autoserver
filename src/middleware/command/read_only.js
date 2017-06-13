@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { omit } = require('../../utilities');
+const { omit, assignObject } = require('../../utilities');
 
 
 /**
@@ -48,7 +48,7 @@ const getReadOnlyMap = function ({ idl: { models } }) {
         .map(([attrName]) => attrName);
       return { [modelName]: readOnlyProps };
     })
-    .reduce((memo, obj) => Object.assign(memo, obj), {});
+    .reduce(assignObject, {});
 };
 
 const removeReadOnly = function ({ newData, readOnlyAttrs }) {

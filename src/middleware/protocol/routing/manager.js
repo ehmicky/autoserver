@@ -3,6 +3,8 @@
 
 const pathToRegExp = require('path-to-regexp');
 
+const { assignObject } = require('../../../utilities');
+
 
 class RoutesManager {
 
@@ -46,11 +48,11 @@ class RoutesManager {
       .slice(1)
       // Adds the name of the variable to the value
       // Will be an incrementing index e.g. for /path/* or /path/(maybe)?/
-      .reduce((allVars, value, index) => {
+      .map((value, index) => {
         const key = route.variables[index];
-        allVars[key] = value;
-        return allVars;
-      }, {});
+        return { [key]: value };
+      })
+      .reduce(assignObject, {});
     return Object.assign({ pathVars }, route);
   }
 
