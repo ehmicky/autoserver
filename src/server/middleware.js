@@ -86,7 +86,7 @@ const getMiddleware = async function (opts) {
     mdw.actionExecute,
 
     /**
-     * Command layer, for normalization
+     * Command layer, for preparing database action
      **/
     // Convert from Action format to Command format
     mdw.commandConvertor,
@@ -104,21 +104,13 @@ const getMiddleware = async function (opts) {
     mdw.userDefaults,
     // Apply system-defined default values, e.g. order_by 'id+'
     mdw.systemDefaults,
-
-    /**
-     * API layer, for preparing database action
-     **/
-    // Convert from Command format to Api format
-    mdw.apiConvertor,
-    // API-related validation layer
-    mdw.apiValidation,
     // Paginate output
     mdw.pagination,
 
     /**
      * Database layer
      **/
-    // Convert from Api format to Database format
+    // Convert from Command format to Database format
     mdw.databaseConvertor,
     // General validation layer
     mdw.databaseValidation,

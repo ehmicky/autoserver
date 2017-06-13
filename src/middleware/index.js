@@ -8,7 +8,6 @@ module.exports = Object.assign(
   require('./operation'),
   require('./action'),
   require('./command'),
-  require('./api'),
   require('./database'),
   require('./no_response')
 );

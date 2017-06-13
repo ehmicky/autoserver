@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { decode, encode } = require('../../api/pagination/encoding');
+const { decode, encode } = require('../pagination/encoding');
 const { applyOrderByAliases } = require('./order_by');
 
 
