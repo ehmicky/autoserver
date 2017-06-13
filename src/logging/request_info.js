@@ -28,7 +28,7 @@ const { omit } = require('../utilities');
 //     E.g. app-specific HTTP headers.
 //   - queryVars {object} - Query variables, as a hash table
 //   - headers {object} - protocol headers (e.g. HTTP headers), as a hash table
-//   - payload {any} - request body
+//   - payload {any} - request payload
 //   - operation {string} - operation, among `GraphQL`, `GraphiQL` and
 //     `GraphQLPrint`
 //   - actions {object} - represented all actions fired

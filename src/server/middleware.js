@@ -50,10 +50,16 @@ const getMiddleware = async function (opts) {
     mdw.setRequestIds,
     // Retrieves IP
     mdw.getIp,
-    // Merge request parameters and payload into protocol-agnostic format
-    mdw.fillParams,
-    // Retrieves input.path
-    mdw.getPath,
+    // Parse URL and path into protocol-agnostic format
+    mdw.parseUrl,
+    // Parse protocol method into protocol-agnostic format
+    mdw.parseMethod,
+    // Parse URL query string into protocol-agnostic format
+    mdw.parseQueryString,
+    // Parse headers into protocol-agnostic format
+    mdw.parseHeaders,
+    // Parse request payload into protocol-agnostic format
+    mdw.parsePayload,
     // Retrieves input.route, using input.path
     mdw.router,
     // Transform headers into protocol-agnostic args

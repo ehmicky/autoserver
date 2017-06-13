@@ -48,7 +48,7 @@ const sendText = async function ({
   return await send({ specific, content, contentType, status });
 };
 
-const sendNoBody = async function ({ specific: { res } }) {
+const sendNothing = async function ({ specific: { res } }) {
   await promisify(res.end.bind(res))();
 };
 
@@ -59,6 +59,6 @@ module.exports = {
     json: sendJson,
     html: sendHtml,
     text: sendText,
-    noBody: sendNoBody
+    nothing: sendNothing
   },
 };

@@ -4,7 +4,7 @@
 module.exports = Object.assign(
   {},
   require('./headers'),
-  require('./body'),
+  require('./payload'),
   require('./query_string'),
   require('./url'),
   require('./method'),
