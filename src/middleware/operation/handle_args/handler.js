@@ -3,20 +3,23 @@
 
 const { cloneDeep } = require('lodash');
 
-const { validateArgs } = require('./validate');
+const { validateSyntax } = require('./validate_syntax');
+const { validateLimits } = require('./validate_limits');
 
 
 // Process client-supplied args: validates them and add them to JSL variables
 const handleArgs = function ({ maxDataLength }) {
   return async function handleArgs(input) {
-    const { log, args, jsl } = input;
+    const { log, args, jsl, action } = input;
     const perf = log.perf.start('operation.handleArgs', 'middleware');
 
     const clonedArgs = cloneDeep(args);
-    input.jsl = jsl.add({ $ARGS: clonedArgs });
 
     try {
-      validateArgs({ args, maxDataLength });
+      input.jsl = jsl.add({ $ARGS: clonedArgs });
+
+      validateSyntax({ args, action, maxDataLength });
+      validateLimits({ args, maxDataLength });
 
       perf.stop();
       const response = await this.next(input);

@@ -4,10 +4,6 @@
 const { EngineError } = require('../../../error');
 
 
-const validateArgs = function ({ args, maxDataLength }) {
-  validateLimits({ args, maxDataLength });
-};
-
 // Check input is not too big
 const validateLimits = function ({ args: { data }, maxDataLength }) {
   const isDataTooBig = data instanceof Array &&
@@ -21,5 +17,5 @@ const validateLimits = function ({ args: { data }, maxDataLength }) {
 
 
 module.exports = {
-  validateArgs,
+  validateLimits,
 };
