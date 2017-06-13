@@ -77,12 +77,12 @@ const fireNext = async function (request, perf, actions, actionInput) {
 
   const response = await this.next(input);
 
-  actions.push(response.action);
-
   --perf.ongoing;
   if (perf.ongoing === 0) {
     perf.start();
   }
+
+  actions.push(response.action);
 
   return response;
 };
