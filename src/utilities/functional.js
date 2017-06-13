@@ -3,18 +3,19 @@
 
 // Similar to Lodash map() and mapValues(), but with vanilla JavaScript
 const map = function (obj, mapperFunc) {
-  if (obj && obj.constructor === Object) {
-    const newObj = {};
-    for (const [key, value] of Object.entries(obj)) {
-      newObj[key] = mapperFunc(value, key, obj);
-    }
-    return newObj;
-  } else if (obj instanceof Array) {
+  if (obj instanceof Array) {
     return obj.map(mapperFunc);
-  } else {
+  }
+
+  if (!obj || obj.constructor !== Object) {
     const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
     throw new Error(message);
   }
+
+  return Object.entries(obj).reduce((newObj, [key, value]) => {
+    newObj[key] = mapperFunc(value, key, obj);
+    return newObj;
+  }, {});
 };
 
 // Same but async
