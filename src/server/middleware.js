@@ -72,6 +72,8 @@ const getMiddleware = async function (opts) {
     mdw.noOutput,
     // Translates operation-specific calls into generic instance actions
     mdw.operationExecute,
+    // Process client arguments
+    mdw.handleArgs,
 
     /**
      * Action layer

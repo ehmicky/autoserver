@@ -21,10 +21,7 @@ const actionConvertor = function () {
 
     // Request arguments that cannot be specified by clients
     const clonedArgs = cloneDeep(args);
-    const newJsl = jsl.add({
-      $ARGS: clonedArgs,
-      $MODEL: modelName,
-    });
+    const newJsl = jsl.add({ $MODEL: modelName });
 
     const nextInput = {
       action,
@@ -45,7 +42,7 @@ const actionConvertor = function () {
       const perf = log.perf.start('action.convertor', 'exception');
 
       // Added only for final error handler
-      log.add({ action, fullAction, args: clonedArgs, model: modelName });
+      log.add({ action, fullAction, model: modelName });
 
       perf.stop();
       throw error;
