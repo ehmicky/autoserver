@@ -21,7 +21,7 @@ const handleReadOnly = function ({ idl, startupLog }) {
     const { newData } = args;
     const perf = log.perf.start('command.handleReadOnly', 'middleware');
 
-    // Remove readonly attributes in `args.data`
+    // Remove readonly attributes in `args.newData`
     if (newData) {
       const readOnlyAttrs = readOnlyMap[modelName];
       args.newData = newData instanceof Array
