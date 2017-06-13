@@ -25,8 +25,8 @@ const getSecondReadInput = function ({ input }) {
   // The first and second "find" commands are just here to patch things up,
   // and do not provide extra information to consumers, so should be
   // transparent when it comes to pagination and authorization
-  // Only keep args: { filter, order_by, page_size }
-  const newArgs = pick(args, ['order_by', 'page_size']);
+  // Only keep args: { filter, orderBy, pageSize }
+  const newArgs = pick(args, ['orderBy', 'pageSize']);
   const filter = getFilter({ input });
   Object.assign(newArgs, { pagination: false, authorization: false, filter });
   Object.assign(input, { command, args: newArgs });

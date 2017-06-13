@@ -30,6 +30,8 @@ const argsSchema = {
   dry_run: { type: 'boolean' },
 
   // Database validation middleware does some extra checks on those attributes
+  // `args.data` can be an array, or not, depending on the action
+  // Also, `args.data` requires `id` on some actions.
   singleData: { type: 'object' },
   singleDataWithId: { type: 'object', required: ['id'] },
   multipleData: { type: 'array', items: { type: 'object' } },

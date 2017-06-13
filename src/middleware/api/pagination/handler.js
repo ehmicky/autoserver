@@ -38,12 +38,12 @@ const { getPaginationInfo } = require('./info');
  *                                 using the previous response's 'token'
  *                                 Use '' for the start or the end.
  *                                 Cannot be used together with `args.filter`
- *                                 nor `args.order_by`.
+ *                                 nor `args.orderBy`.
  *   page {integer}              - Page number, for pagination, starting at 1
  *                                 Cannot be used together with `before|after`
  * Those parameters are removed and transformed for the database layer to:
  *   limit {integer}             - limit response size.
- *                                 This might be higher than args.page_size,
+ *                                 This might be higher than args.pageSize,
  *                                 to guess if there is a previous or next page.
  *   offset {integer}            - offset response size.
  *                                 Only used with offset-based pagination
@@ -54,7 +54,7 @@ const { getPaginationInfo } = require('./info');
  *                                 { a: 10, b: 20 }, then we transform
  *                                 args.filter { c: 30 } to
  *                                 { c: 30 } && > { a: 10, b: 20 }
- *   order_by                    - same as `filter` but for `order_by`
+ *   orderBy                     - same as `filter` but for `orderBy`
  * Add metadata:
  *   token {string}              - token of a given model, to use with
  *                                 args.before|after
@@ -94,7 +94,7 @@ const pagination = function ({ maxPageSize }) {
   };
 };
 
-// Transform args.page_size|before|after|page into args.limit|offset|filter
+// Transform args.pageSize|before|after|page into args.limit|offset|filter
 const processInput = function ({ input, maxPageSize }) {
   const { args, command, action, modelName } = input;
 
@@ -143,7 +143,7 @@ const processOutput = function ({
 };
 
 // When using args.before, pagination is performed backward.
-// We do this by inversing args.order_by, which means we need to reverse output
+// We do this by inversing args.orderBy, which means we need to reverse output
 // afterwards.
 const reverseOutput = function ({ args, response }) {
   const { isBackward } = getPaginationInfo({ args });

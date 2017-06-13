@@ -19,7 +19,7 @@ const getCreateInput = function ({ input, data }) {
     return type === 'create' && multiple === isMultiple;
   });
 
-  const newArgs = pick(args, ['dry_run']);
+  const newArgs = pick(args, ['dryRun']);
   const newData = data;
   Object.assign(newArgs, { pagination: false, newData });
   Object.assign(input, { command, args: newArgs });

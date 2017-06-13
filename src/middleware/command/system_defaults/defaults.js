@@ -17,7 +17,7 @@ const defaults = {
         (after === undefined || after === ''))
     },
 
-    order_by: {
+    orderBy: {
       commandNames: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
       value: [{ attrName: 'id', order: 'asc' }],
       // Only if args.before|after is not specified
@@ -26,7 +26,7 @@ const defaults = {
         (after === undefined || after === ''))
     },
 
-    dry_run: {
+    dryRun: {
       commandNames: [
         'deleteOne',
         'deleteMany',
@@ -38,7 +38,7 @@ const defaults = {
       value: false,
     },
 
-    page_size: {
+    pageSize: {
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
       test: ({

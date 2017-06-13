@@ -9,7 +9,7 @@ const { decode, encode } = require('./encoding');
 //   token, page_size, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
 const getPaginationOutput = function ({ args, response: { data, metadata } }) {
-  const { order_by: orderBy, filter, page } = args;
+  const { orderBy, filter, page } = args;
   const {
     hasToken,
     token,

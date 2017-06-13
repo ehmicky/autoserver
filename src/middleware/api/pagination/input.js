@@ -6,9 +6,9 @@ const { getPaginationInfo } = require('./info');
 const { decode } = require('./encoding');
 
 
-// Transform args.page_size|before|after|page into args.limit|offset|filter
+// Transform args.pageSize|before|after|page into args.limit|offset|filter
 const getPaginationInput = function ({ args }) {
-  const { page, page_size: pageSize } = args;
+  const { page, pageSize } = args;
   const {
     token,
     hasToken,
@@ -16,7 +16,7 @@ const getPaginationInput = function ({ args }) {
     usedPageSize,
     isOffsetPagination,
   } = getPaginationInfo({ args });
-  const newArgs = omit(args, ['page', 'before', 'after', 'page_size']);
+  const newArgs = omit(args, ['page', 'before', 'after', 'pageSize']);
 
   if (isOffsetPagination) {
     newArgs.offset = (page - 1) * pageSize;
@@ -25,11 +25,11 @@ const getPaginationInput = function ({ args }) {
       const tokenObj = decode({ token });
       newArgs.filter = getPaginatedFilter({ tokenObj, isBackward });
       if (tokenObj.orderBy) {
-        newArgs.order_by = tokenObj.orderBy;
+        newArgs.orderBy = tokenObj.orderBy;
       }
     }
     if (isBackward) {
-      newArgs.order_by = newArgs.order_by.map(({ attrName, order }) => {
+      newArgs.orderBy = newArgs.orderBy.map(({ attrName, order }) => {
         return { attrName, order: order === 'asc' ? 'desc' : 'asc' };
       });
     }
@@ -44,7 +44,7 @@ const getPaginationInput = function ({ args }) {
 // E.g. if:
 //  - last paginated model was { b: 2, c: 3, d: 4 }
 //  - args.filter is ($$.a === 1)
-//  - args.order_by 'b,c-,d'
+//  - args.orderBy 'b,c-,d'
 // Transform args.filter to
 //   (($$.a === 1) && (($$.b > 2) || ($$.b === 2 && $$.c < 3) ||
 //     ($$.b === 2 && $$.c === 3 && $$.d > 4)))

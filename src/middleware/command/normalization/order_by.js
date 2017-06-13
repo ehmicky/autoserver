@@ -5,7 +5,7 @@ const { EngineError } = require('../../../error');
 
 
 /**
- * Normalize args.order_by, e.g. 'a,b+,c-' would become:
+ * Normalize args.orderBy, e.g. 'a,b+,c-' would become:
  *   [
  *     { attrName: 'a', order: 'asc' },
  *     { attrName: 'b', order: 'asc' },
@@ -41,7 +41,7 @@ const normalizeOrderBy = function ({ orderBy }) {
     return { attrName, order };
   });
 
-  // order_by always include an id sorting. The reasons:
+  // orderBy always include an id sorting. The reasons:
   //   - make output predictable, the same request should always get
   //     the same response
   //   - the pagination layer needs this predictability

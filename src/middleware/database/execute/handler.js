@@ -11,14 +11,7 @@ const databaseExecute = function () {
     const { command, args = {}, modelName, jsl, log } = input;
     const perf = log.perf.start('database.execute', 'middleware');
 
-    const {
-      order_by: orderBy,
-      limit,
-      offset,
-      dry_run: dryRun,
-      newData,
-      filter,
-    } = args;
+    const { orderBy, limit, offset, dryRun, newData, filter } = args;
     const collection = database[modelName];
 
     const opts = { jsl, orderBy, limit, offset, dryRun, modelName };
