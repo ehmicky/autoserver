@@ -84,6 +84,26 @@ const deepMerge = function (objA, objB, ...objects) {
   }
 };
 
+// Similar to lodash pick(), but faster.
+const pick = function (obj, attributes) {
+  return Object.entries(obj).reduce((memo, [name, value]) => {
+    if (attributes.includes(name)) {
+      memo[name] = value;
+    }
+    return memo;
+  }, {});
+};
+
+// Similar to lodash omit(), but faster.
+const omit = function (obj, attributes) {
+  return Object.entries(obj).reduce((memo, [name, value]) => {
+    if (!attributes.includes(name)) {
+      memo[name] = value;
+    }
+    return memo;
+  }, {});
+};
+
 // Enforces that a function is only called once
 const onlyOnce = function (func, { error = false } = {}) {
   return (...args) => {
@@ -145,6 +165,8 @@ module.exports = {
   mapAsync,
   recurseMap,
   deepMerge,
+  pick,
+  omit,
   onlyOnce,
   buffer,
 };
