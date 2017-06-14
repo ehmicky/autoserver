@@ -11,10 +11,10 @@ const { EngineError } = require('../../error');
 // Meant to be used by operation layer, e.g. to populate `input.args`
 const parsePayload = function () {
   return async function parsePayload(input) {
-    const { specific, protocol, headers, log } = input;
+    const { specific, protocol, log } = input;
     const perf = log.perf.start('protocol.parsePayload', 'middleware');
 
-    const payload = await getPayload({ specific, protocol, headers });
+    const payload = await getPayload({ specific, protocol });
 
     log.add({ payload });
     Object.assign(input, { payload });
@@ -25,31 +25,33 @@ const parsePayload = function () {
   };
 };
 
-/**
- * Returns an request payload
- *
- * @param {object} options
- * @param {Request} options.req
- * @returns {any} value - type differs according to Content-Type,
- *                        e.g. application/json is object but
- *                        text/plain is string
- */
-const getPayload = async function ({ specific, protocol, headers }) {
+// Returns an request payload
+//
+// @param {object} options
+// @param {Request} options.req
+// @returns {any} value - type differs according to Content-Type,
+//                        e.g. application/json is object but
+//                        text/plain is string
+const getPayload = async function ({ specific, protocol }) {
   if (!parsing[protocol].payload.hasPayload({ specific })) { return; }
 
-  for (let i = 0; i < payloadHandlers.length; i++) {
-    const parse = parsing[protocol].payload.parse;
-    let payload = await payloadHandlers[i]({ specific, parse });
-    if (payload) { return payload; }
+  const parse = parsing[protocol].payload.parse;
+  for (const payloadHandler of payloadHandlers) {
+    const payload = await payloadHandler({ specific, parse });
+    if (payload !== undefined) { return payload; }
   }
 
-  // Wrong request errors
-  const contentType = headers['content-type'];
+  payloadError({ specific, protocol });
+};
+
+// There is a payload, but it could not be read
+const payloadError = function ({ specific, protocol }) {
+  const contentType = parsing[protocol].payload.getContentType({ specific });
   if (!contentType) {
     const message = 'Must specify Content-Type when sending a request payload';
     throw new EngineError(message, { reason: 'NO_CONTENT_TYPE' });
   }
-  const message = `Unsupported Content-Type: ${contentType}`;
+  const message = `Unsupported Content-Type: '${contentType}'`;
   throw new EngineError(message, { reason: 'WRONG_CONTENT_TYPE' });
 };
 
@@ -59,7 +61,7 @@ const payloadHandlers = [
   // application/graphql request payload
   async function ({ specific, parse }) {
     const textPayload = await parse.graphql({ specific });
-    return textPayload ? { query: textPayload } : null;
+    return textPayload ? { query: textPayload } : undefined;
   },
 
   // JSON request payload
@@ -75,13 +77,13 @@ const payloadHandlers = [
   // string request payload
   async function ({ specific, parse }) {
     const textPayload = await parse.text({ specific });
-    return typeof textPayload === 'string' ? null : textPayload;
+    return typeof textPayload === 'string' ? undefined : textPayload;
   },
 
   // binary request payload
   async function ({ specific, parse }) {
     const rawPayload = await parse.raw({ specific });
-    return rawPayload instanceof Buffer ? rawPayload.toString() : null;
+    return rawPayload instanceof Buffer ? rawPayload.toString() : undefined;
   },
 
 ];

@@ -37,7 +37,7 @@ const parsers = [
 // Handles HTTP compression
 // Max limit 100KB
 // Recognizes: application/json, application/x-www-form-urlencoded,
-// string, binary
+// string, binary, application/graphql
 const parseFunc = async function (parser, { specific: { req } }) {
   // body-parser will fill req.body = {} even if there is no body.
   // We want to know if there is a body or not though,
@@ -58,9 +58,15 @@ const parseFunc = async function (parser, { specific: { req } }) {
 
 const parse = getParsers();
 
+// Check if there is a request payload
 const hasPayload = function ({ specific: { req: { headers } } }) {
   return Number(headers['content-length']) > 0
     || headers['transfer-encoding'] !== undefined;
+};
+
+// Retrieves payload MIME type
+const getContentType = function ({ specific: { req: { headers } } }) {
+  return headers['content-type'];
 };
 
 
@@ -68,5 +74,6 @@ module.exports = {
   payload: {
     parse,
     hasPayload,
+    getContentType
   },
 };
