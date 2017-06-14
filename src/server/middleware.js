@@ -66,8 +66,6 @@ const getMiddleware = async function (opts) {
     mdw.parseParams,
     // Retrieves input.route, using input.path
     mdw.router,
-    // Transform headers into protocol-agnostic args
-    mdw.fillProtocolArgs,
 
     /**
      * Operation layer
