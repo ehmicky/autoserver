@@ -11,26 +11,32 @@ const { assignObject, onlyOnce } = require('../utilities');
 const setupGracefulExit = function ({
   servers,
   serverOpts,
-  serverOpts: { apiServer },
+  serverState,
+  serverState: { apiServer },
 }) {
-  const exit = gracefulExit.bind(null, { servers, serverOpts });
+  const exitHandler = gracefulExit.bind(null, {
+    servers,
+    serverOpts,
+    serverState,
+  });
 
   // Note that this will not work with Nodemon, e.g. CTRL-C will exit
-  process.once('SIGINT', exit);
-  process.once('SIGTERM', exit);
+  process.once('SIGINT', exitHandler);
+  process.once('SIGTERM', exitHandler);
   // Used by Nodemon
-  process.once('SIGUSR2', exit);
+  process.once('SIGUSR2', exitHandler);
   // Make sure servers exit on startup errors
-  apiServer.once('startupError', exit);
+  apiServer.once('startupError', exitHandler);
 };
 
 // Setup graceful exit
 const gracefulExit = onlyOnce(async function ({
   servers,
   serverOpts,
-  serverOpts: { apiServer },
+  serverState,
+  serverState: { apiServer },
 }) {
-  const log = new Log({ serverOpts, phase: 'shutdown' });
+  const log = new Log({ serverOpts, serverState, phase: 'shutdown' });
   const perf = log.perf.start('all', 'all');
 
   const closingServers = Object.values(servers)

@@ -11,7 +11,7 @@ const { printGraphql } = require('./graphql_print');
 const operationExecute = async function ({
   idl,
   serverOpts,
-  serverOpts: { startupLog },
+  serverState: { startupLog },
 }) {
   const mdws = await mapAsync(middlewares, async (mdw, name) => {
     const perf = startupLog.perf.start(`operation.${name}`, 'middleware');

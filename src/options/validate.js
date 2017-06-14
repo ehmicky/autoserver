@@ -6,7 +6,7 @@ const { assignObject } = require('../utilities');
 
 
 // Validation for main options
-const validateOptions = function ({ serverOpts, serverOpts: { startupLog } }) {
+const validateOptions = function ({ serverOpts, serverState: { startupLog } }) {
   const perf = startupLog.perf.start('validate', 'options');
 
   validate({ schema, data: serverOpts, reportInfo });
@@ -45,10 +45,6 @@ const schema = {
       type: ['string', 'object'],
     },
 
-    apiServer: {
-      type: 'object',
-    },
-
     loggerLevel: {
       type: 'string',
       enum: ['info', 'log', 'warn', 'error', 'silent'],
@@ -58,16 +54,6 @@ const schema = {
       type: 'object',
       properties: loggerFilterProperties,
       additionalProperties: false,
-    },
-
-    startupLog: {
-      type: 'object',
-      required: ['info', 'log', 'warn', 'error'],
-    },
-
-    processLog: {
-      type: 'object',
-      required: ['info', 'log', 'warn', 'error'],
     },
 
     maxDataLength: {

@@ -9,7 +9,7 @@ const { applyAllDefault } = require('./apply');
  * This can be a static value or any JSL
  * Not applied on partial write actions like 'update'
  **/
-const userDefaults = function ({ idl, serverOpts: { startupLog } }) {
+const userDefaults = function ({ idl, serverState: { startupLog } }) {
   const perf = startupLog.perf.start('command.userDefaults', 'middleware');
   const defMap = getDefMap({ idl });
   perf.stop();

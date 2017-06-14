@@ -9,7 +9,7 @@ const { addStopFunctions } = require('./stop');
 
 // Start HTTP server
 const startServer = function ({
-  serverOpts: { handleRequest, handleListening, processLog },
+  serverState: { handleRequest, handleListening, processLog },
 }) {
   const server = http.createServer(function requestHandler(req, res) {
     handleRequest({ req, res });
