@@ -7,7 +7,7 @@ const { cloneDeep } = require('lodash');
 const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
-const { assignObject } = require('../utilities');
+const { makeImmutable, assignObject } = require('../utilities');
 const { getMiddleware } = require('./middleware');
 const { getServerState } = require('./state');
 const protocolStartServer = require('./protocols');
@@ -54,8 +54,8 @@ const start = async function (options, serverState) {
     serverState,
     idl,
   });
-
   serverState.handleListening = handleListening.bind(null, serverState);
+  makeImmutable(serverState);
 
   const servers = await startAllServers({ serverState });
   apiServer.servers = servers;
