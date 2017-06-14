@@ -8,15 +8,16 @@ const { validateOptions } = require('./validate');
 
 const processOptions = async function ({
   serverOpts,
-  serverOpts: { startupLog },
+  serverState,
+  serverState: { startupLog },
 }) {
   const perf = startupLog.perf.start('options');
 
-  serverOpts = applyDefaultOptions({ serverOpts });
+  serverOpts = applyDefaultOptions({ serverOpts, serverState });
 
-  transformOptions({ serverOpts });
+  transformOptions({ serverOpts, serverState });
 
-  validateOptions({ serverOpts });
+  validateOptions({ serverOpts, serverState });
 
   perf.stop();
   return serverOpts;

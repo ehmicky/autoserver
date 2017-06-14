@@ -11,7 +11,10 @@ const { addCustomKeywords } = require('./custom_validation');
 
 
 // Retrieves IDL definition, after validation and transformation
-const getIdl = async function ({ serverOpts: { conf, startupLog } }) {
+const getIdl = async function ({
+  serverOpts: { conf },
+  serverState: { startupLog },
+}) {
   const perf = startupLog.perf.start('idl');
 
   // Retrieve raw IDL file

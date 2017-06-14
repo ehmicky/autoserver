@@ -4,13 +4,12 @@
 const { resolve } = require('path');
 const { cloneDeep } = require('lodash');
 
-const { Log } = require('../logging');
 const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
 const { assignObject } = require('../utilities');
-const { ApiEngineServer } = require('./api_server');
 const { getMiddleware } = require('./middleware');
+const { getServerState } = require('./state');
 const protocolStartServer = require('./protocols');
 const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./startup_error');
@@ -26,42 +25,44 @@ global.apiEngineDirName = resolve(__dirname, '../..');
  * @param {object} options.idl - IDL definitions
  */
 const startServer = function (options = {}) {
-  const apiServer = new ApiEngineServer();
-  const startupLog = new Log({ serverOpts: options, phase: 'startup' });
+  const serverState = getServerState({ options });
 
-  start(options, apiServer, startupLog)
-  .catch(error => handleStartupError(startupLog, apiServer, error));
+  start(options, serverState)
+  .catch(error => handleStartupError(error, serverState));
 
-  return apiServer;
+  return serverState.apiServer;
 };
 
-const start = async function (options, apiServer, startupLog) {
+const start = async function (options, serverState) {
+  const { startupLog, apiServer } = serverState;
   const allPerf = startupLog.perf.start('all', 'all');
   const perf = startupLog.perf.start('main');
 
-  const serverOpts = cloneDeep(options);
+  let serverOpts = cloneDeep(options);
+  apiServer.options = options;
 
-  const processLog = processErrorHandler({ serverOpts });
-  // Assign them to `options` so they are easily available anywhere
-  Object.assign(serverOpts, { apiServer, startupLog, processLog });
+  serverState.processLog = processErrorHandler({ serverOpts, serverState });
 
   perf.stop();
 
-  serverOpts = await processOptions({ serverOpts });
-  const idl = await getIdl({ serverOpts });
+  serverOpts = await processOptions({ serverOpts, serverState });
+  const idl = await getIdl({ serverOpts, serverState });
 
   // Those two callbacks must be called by each server
-  serverOpts.handleRequest = await getMiddleware({ serverOpts, idl });
+  serverState.handleRequest = await getMiddleware({
+    serverOpts,
+    serverState,
+    idl,
+  });
 
-  serverOpts.handleListening = handleListening.bind(null, startupLog);
+  serverState.handleListening = handleListening.bind(null, serverState);
 
-  const servers = await startAllServers({ serverOpts, startupLog });
+  const servers = await startAllServers({ serverState });
+  apiServer.servers = servers;
 
   perf.start();
 
-  Object.assign(apiServer, { servers, options });
-
-  setupGracefulExit({ servers, serverOpts });
+  setupGracefulExit({ servers, serverOpts, serverState });
 
   await apiServer.emitAsync('start');
   // Create log message when all protocol-specific servers have started
@@ -73,18 +74,21 @@ const start = async function (options, apiServer, startupLog) {
 };
 
 // Create log message when each protocol-specific server starts
-const handleListening = function (startupLog, { protocol, host, port }) {
+const handleListening = function ({ startupLog }, { protocol, host, port }) {
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
   startupLog.log(message);
 };
 
 // Start each server
-const startAllServers = async function ({ serverOpts, startupLog }) {
+const startAllServers = async function ({
+  serverState,
+  serverState: { startupLog },
+}) {
   const serversPerf = startupLog.perf.start('servers');
 
   const protocols = Object.keys(protocolStartServer);
   const serversPromises = protocols.map(async protocol => {
-    return await startSingleServer({ protocol, serverOpts, startupLog });
+    return await startSingleServer({ protocol, serverState });
   });
 
   // Make sure all servers are starting concurrently, not serially
@@ -100,12 +104,12 @@ const startAllServers = async function ({ serverOpts, startupLog }) {
 
 const startSingleServer = async function ({
   protocol,
-  serverOpts,
-  startupLog,
+  serverState,
+  serverState: { startupLog },
 }) {
   const perf = startupLog.perf.start(protocol, 'server');
   const server = await protocolStartServer[protocol].startServer({
-    serverOpts,
+    serverState,
   });
   perf.stop();
   return server;

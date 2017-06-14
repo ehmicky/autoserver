@@ -8,14 +8,15 @@ const { mapAsync } = require('../utilities');
 
 const getMiddleware = async function ({
   serverOpts,
-  serverOpts: { startupLog },
+  serverState,
+  serverState: { startupLog },
   idl,
 }) {
   const perf = startupLog.perf.start('middleware');
 
   // Apply options
   const mdw = await mapAsync(middleware, async mdw => {
-    return await mdw({ serverOpts, idl });
+    return await mdw({ serverOpts, serverState, idl });
   });
 
   const allMiddleware = chain([

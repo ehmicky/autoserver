@@ -6,7 +6,7 @@ const { getRoutes } = require('./routes');
 
 
 // Add route and URL parameters to input
-const router = function ({ serverOpts: { startupLog } }) {
+const router = function ({ serverState: { startupLog } }) {
   const perf = startupLog.perf.start('protocol.router', 'middleware');
   const routes = getRoutes();
   perf.stop();
