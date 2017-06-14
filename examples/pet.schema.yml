@@ -267,8 +267,8 @@ models:
 #            - $NOW {string} - current date and time
 #            - $IP {string} - request IP
 #            - $REQUEST_ID {string} - UUID identifying the current request
-#            - $PARAMS {object} - contains all request parameters:
-#              query strings, (application-namespaced) HTTP headers
+#            - $PARAMS {object} - all params
+#            - $SETTINGS {object} - all settings
 #         - "operation parameters":
 #            - $OPERATION {string} - possible values: 'graphql', 'graphiql',
 #              'graphqlprint'

@@ -29,20 +29,34 @@ const parseParams = function () {
   };
 };
 
-const getParams = function ({ input: { headers }, appHeaderRegex }) {
-  // Filters headers with only the headers whose name starts with X-NAMESPACE-
-  const params = Object.entries(headers)
-    .filter(([name]) => appHeaderRegex.test(name))
-    .map(([name, value]) => {
-      const shortName = name.replace(appHeaderRegex, '');
-      return { [shortName]: value };
-    })
-    .reduce(assignObject, {});
+const getParams = function ({ input }) {
+  const queryParams = getQueryParams({ input });
+  const headersParams = getHeadersParams({ input });
+  const params = Object.assign({}, queryParams, headersParams);
 
   const transtypedParams = map(params, value => transtype(value));
 
   return transtypedParams;
 };
+
+// Retrieves ?params.PARAM query variables
+const getQueryParams = function ({ input: { queryVars: { params } } }) {
+  return params;
+};
+
+// Filters headers with only the headers whose name starts
+// with X-ApiEngineParam-
+const getHeadersParams = function ({ input: { headers } }) {
+  return Object.entries(headers)
+    .filter(([name]) => PARAMS_NAME_REGEXP.test(name))
+    .map(([name, value]) => {
+      const shortName = name.replace(PARAMS_NAME_REGEXP, '');
+      return { [shortName]: value };
+    })
+    .reduce(assignObject, {});
+};
+
+const PARAMS_NAME_REGEXP = /x-apiengine-param-/;
 
 
 module.exports = {
