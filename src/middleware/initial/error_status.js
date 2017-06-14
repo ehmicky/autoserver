@@ -13,7 +13,7 @@ const errorStatus = function () {
     } catch (error) {
       // Only if the status has been set with the regular middleware,
       // not the error-catching part of the middleware
-      if (input.isStatusError === true) { throw error; }
+      if (error.isStatusError === true) { throw error; }
 
       const perf = log.perf.start('initial.errorStatus', 'exception');
 
