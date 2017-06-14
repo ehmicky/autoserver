@@ -6,24 +6,24 @@ const { cloneDeep } = require('lodash');
 
 // Converts from Operation format to Action format
 const actionConvertor = function () {
-  return async function actionConvertor(input) {
-    const {
-      action,
-      fullAction,
-      args,
-      modelName,
-      jsl,
-      log,
-      params,
-      settings,
-      operation,
-    } = input;
+  return async function actionConvertor({
+    action,
+    fullAction,
+    args,
+    modelName,
+    jsl,
+    log,
+    params,
+    settings,
+    operation,
+  }) {
     const perf = log.perf.start('action.convertor', 'middleware');
 
     // Request arguments that cannot be specified by clients
     const clonedArgs = cloneDeep(args);
     const newJsl = jsl.add({ $MODEL: modelName });
 
+    // Not kept: goal, queryVars, pathVars, payload, route, operation
     const nextInput = {
       action,
       fullAction,
