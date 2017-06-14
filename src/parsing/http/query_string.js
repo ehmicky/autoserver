@@ -1,12 +1,8 @@
 'use strict';
 
-// Parses and serializes URL query strings
-// Can encode types such as: null, undefined, '', strings, integers,
-// floats, booleans
-
 
 const qs = require('qs');
-const urlParser = require('url');
+const { URL } = require('url');
 
 const { EngineError } = require('../../error');
 
@@ -20,17 +16,16 @@ const MAX_ARRAY_LENGTH = 100;
 //  - ?var.subvar=val -> { var: { subvar: val } }
 //  - ?var[0]=val -> { var: [ val ] }
 //  - ?var[]=val&var[]=secondval -> { var: [ val, secondval ] }
-// Can be nested, with max 10 levels of depts
+// Can be nested, with max 10 levels of depth
 // Array max length is 100
 // Performs proper URI decoding, using decodeURIComponent()
 // Differentiates between undefined, null and '' (see serialize() below)
-// Try to guess types: numbers, booleans, null
 //
 // @param {string|Url} url - Can either be a full URL, a path,
 // a query string (with leading '?') or a URL object
 // @returns {object} queryObject
 const parse = function ({ specific: { req: { url } } }) {
-  const queryString = getQueryString(url);
+  const queryString = getQueryString({ url });
   try {
     const queryObject = qs.parse(queryString, {
       depth: MAX_DEPTH,
@@ -54,26 +49,28 @@ const parse = function ({ specific: { req: { url } } }) {
 // @param {string|Url} url - Can either be a full URL, a path,
 // a query string (with leading '?') or a URL object
 // @returns {string} query - does not include the leading `?`
-const getQueryString = function (url) {
-  if (!(url instanceof urlParser.URL)) {
+const getQueryString = function ({ url }) {
+  const urlObj = parseUrl({ url });
+  const { search = '' } = urlObj;
+  const queryString = search.replace(/^\?/, '');
+  return queryString;
+};
+
+const parseUrl = function ({ url }) {
+  if (url instanceof URL) { return url; }
+
+  try {
+    return new URL(url);
+  } catch (e) {
     try {
-      url = new urlParser.URL(url);
+      const origin = 'http://localhost';
+      const slash = url.startsWith('/') ? '' : '/';
+      return new URL(`${origin}${slash}${url}`);
     } catch (e) {
-      try {
-        let path = url;
-        if (!path.startsWith('/')) {
-          path = `/${path}`;
-        }
-        url = new urlParser.URL(`http://localhost${path}`);
-      } catch (e) {
-        const message = `Could not retrieve query string from: ${url}`;
-        throw new EngineError(message, { reason: 'QUERY_STRING_PARSE' });
-      }
+      const message = `Could not retrieve query string from: '${url}'`;
+      throw new EngineError(message, { reason: 'QUERY_STRING_PARSE' });
     }
   }
-
-  const queryString = (url.search || '').replace(/^\?/, '');
-  return queryString;
 };
 
 const decodeValue = function (str) {

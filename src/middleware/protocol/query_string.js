@@ -1,15 +1,14 @@
 'use strict';
 
 
-const { mapValues } = require('lodash');
-
 const parsing = require('../../parsing');
-const { transtype } = require('../../utilities');
+const { transtype, map } = require('../../utilities');
 
 
 // Fill in `input.queryVars` using protocol-specific URL query variables
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
+// Automatic transtyping is performed
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
 const parseQueryString = function () {
@@ -30,11 +29,9 @@ const parseQueryString = function () {
 
 // Retrieves query variables
 const getQueryVars = function ({ specific, protocol }) {
-  // Query parameters
   const queryVars = parsing[protocol].queryString.parse({ specific });
 
-  // Tries to guess parameter types, e.g. '15' -> 15
-  const transtypedQueryVars = mapValues(queryVars, value => transtype(value));
+  const transtypedQueryVars = map(queryVars, value => transtype(value));
 
   return transtypedQueryVars;
 };
