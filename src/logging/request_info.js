@@ -46,9 +46,10 @@ const { omit } = require('../utilities');
 //   - error {string} - error reason
 // Each of those fields is optional, i.e. might not be present.
 // Remove some properties of log which could be of big size, specifically:
-//   - queryVars, headers:
-//      - apply server option loggerFilter.queryVars|headers, which is
-//        either a simple mapping function or a list of attribute names.
+//   - queryVars, headers, params, settings:
+//      - apply server option loggerFilter.queryVars|headers|params|settings,
+//        which is either a simple mapping function or a list of attribute
+//        names.
 //        It defaults to returning an empty object.
 //   - payload, actions.ACTION_PATH.args.data,
 //     actions.ACTION_PATH.responses.content, response.content:
@@ -92,6 +93,8 @@ const setError = function (requestInfo) {
 const reduceInput = function (requestInfo, loggerFilter) {
   setQueryVars(requestInfo, loggerFilter);
   setHeaders(requestInfo, loggerFilter);
+  setParams(requestInfo, loggerFilter);
+  setSettings(requestInfo, loggerFilter);
 };
 
 const setQueryVars = function (requestInfo, loggerFilter) {
@@ -104,6 +107,18 @@ const setHeaders = function (requestInfo, loggerFilter) {
   const { headers } = requestInfo;
   if (!headers || headers.constructor !== Object) { return; }
   requestInfo.headers = loggerFilter.headers(headers);
+};
+
+const setParams = function (requestInfo, loggerFilter) {
+  const { params } = requestInfo;
+  if (!params || params.constructor !== Object) { return; }
+  requestInfo.params = loggerFilter.params(params);
+};
+
+const setSettings = function (requestInfo, loggerFilter) {
+  const { settings } = requestInfo;
+  if (!settings || settings.constructor !== Object) { return; }
+  requestInfo.settings = loggerFilter.settings(settings);
 };
 
 const reduceAllModels = function (requestInfo, loggerFilter) {

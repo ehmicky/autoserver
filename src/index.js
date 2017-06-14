@@ -16,6 +16,8 @@ startServer({
   //   actionResponses,
   //   response,
   //   queryVars,
+  //   params,
+  //   settings,
   },
   // Can customize logging level, among 'info' (default value), 'log', 'warn',
   // 'error' or 'silent'
