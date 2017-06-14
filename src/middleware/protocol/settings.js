@@ -12,6 +12,7 @@ const { transtype, map, assignObject } = require('../../utilities');
 // Redundant protocol-specific headers might exist for some settings.
 // E.g. settings 'noOutput' can be defined using
 // HTTP header Prefer: return=minimal
+// Values are automatically transtyped.
 // Are set to JSL param $SETTINGS
 const parseSettings = function () {
   return async function parseSettings(input) {
@@ -31,19 +32,31 @@ const parseSettings = function () {
   };
 };
 
-const getSettings = function ({ input: { headers } }) {
-  // Filters headers with only the headers whose name starts with X-NAMESPACE-
-  const settings = Object.entries(headers)
+const getSettings = function ({ input }) {
+  const querySettings = getQuerySettings({ input });
+  const headersSettings = getHeadersSettings({ input });
+  const settings = Object.assign({}, querySettings, headersSettings);
+
+  const transtypedSettings = map(settings, value => transtype(value));
+
+  return transtypedSettings;
+};
+
+// Retrieves ?settings.SETTINGS query variables
+const getQuerySettings = function ({ input: { queryVars: { settings } } }) {
+  return settings;
+};
+
+// Filters headers with only the headers whose name starts
+// with X-ApiEngine-
+const getHeadersSettings = function ({ input: { headers } }) {
+  return Object.entries(headers)
     .filter(([name]) => SETTINGS_NAME_REGEXP.test(name))
     .map(([name, value]) => {
       const shortName = name.replace(SETTINGS_NAME_REGEXP, '');
       return { [shortName]: value };
     })
     .reduce(assignObject, {});
-
-  const transtypedSettings = map(settings, value => transtype(value));
-
-  return transtypedSettings;
 };
 
 const SETTINGS_NAME_REGEXP = /x-apiengine-/;
