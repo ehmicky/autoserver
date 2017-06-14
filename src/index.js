@@ -30,8 +30,6 @@ startServer({
   // User can override pagination size. This sets an upper limit.
   // Defaults to 100.
   maxPageSize: 100,
-  // Project name, used e.g. to namespace HTTP headers
-  projectName: 'example_api',
 })
 // Returns an EventEmitter2 firing the following events: start, error,
 // stop.success, stop.fail

@@ -45,11 +45,6 @@ const schema = {
       type: ['string', 'object'],
     },
 
-    projectName: {
-      type: 'string',
-      pattern: '^[a-zA-Z0-9_-]+$',
-    },
-
     apiServer: {
       type: 'object',
     },
