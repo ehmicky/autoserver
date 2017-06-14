@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { omitBy } = require('../../utilities');
 const { EngineError } = require('../../error');
 const { timestampPlugin } = require('./timestamp');
 const { authorPlugin } = require('./author');
@@ -17,12 +18,11 @@ const applyPlugins = async function ({ idl }) {
     : [];
 
   // Retrieve all builtinPlugins, except the ones that have been overriden
-  const defaultBuiltinPlugins = Object.entries(builtinPlugins)
-    .filter(([name]) => !plugins.some(({ plugin }) => plugin === name))
-    .map(([, value]) => value);
+  const defaultBuiltinPlugins = omitBy(builtinPlugins, (value, name) =>
+    plugins.some(({ plugin }) => plugin === name));
 
   // Apply each idl.plugins as FUNC({ idl }) returning idl
-  const allPlugins = [...plugins, ...defaultBuiltinPlugins];
+  const allPlugins = [...plugins, ...Object.values(defaultBuiltinPlugins)];
   for (let [index, pluginConf] of allPlugins.entries()) {
     // Plugin is either a function, or a string (for builtin plugins)
     if (typeof pluginConf.plugin === 'string') {
