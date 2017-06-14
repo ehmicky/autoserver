@@ -3,40 +3,33 @@
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
 const mapValues = function (obj, mapperFunc) {
-  if (!obj || obj.constructor !== Object) {
-    const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
-    throw new Error(message);
-  }
+  checkObject(obj);
 
   return Object.entries(obj).reduce((newObj, [key, value]) => {
-    newObj[key] = mapperFunc(value, key, obj);
+    const newValue = mapperFunc(value, key, obj);
+    newObj[key] = newValue;
     return newObj;
   }, {});
 };
 
 // Same but async
 const mapAsync = async function (obj, mapperFunc) {
-  if (obj && (obj.constructor === Object || obj instanceof Array)) {
-    const newObj = {};
-    for (const [key, value] of Object.entries(obj)) {
-      newObj[key] = await mapperFunc(value, key, obj);
-    }
-    return newObj;
-  } else {
-    const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
-    throw new Error(message);
+  checkObject(obj);
+
+  const newObj = {};
+  for (const [key, value] of Object.entries(obj)) {
+    newObj[key] = await mapperFunc(value, key, obj);
   }
+  return newObj;
 };
 
 // Similar to map() for keys
 const mapKeys = function (obj, mapperFunc) {
-  if (!obj || obj.constructor !== Object) {
-    const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
-    throw new Error(message);
-  }
+  checkObject(obj);
 
   return Object.entries(obj).reduce((newObj, [key, value]) => {
-    newObj[mapperFunc(key, value, obj)] = value;
+    const newKey = mapperFunc(key, value, obj);
+    newObj[newKey] = value;
     return newObj;
   }, {});
 };
@@ -97,12 +90,16 @@ const deepMerge = function (objA, objB, ...objects) {
 
 // Similar to lodash pick(), but faster.
 const pick = function (obj, attributes) {
+  checkObject(obj);
+
   attributes = attributes instanceof Array ? attributes : [attributes];
   return pickBy(obj, (value, name) => attributes.includes(name));
 };
 
 // Similar to lodash pickBy(), but faster.
 const pickBy = function (obj, condition) {
+  checkObject(obj);
+
   return Object.entries(obj).reduce((memo, [name, value]) => {
     if (condition(value, name)) {
       memo[name] = value;
@@ -113,12 +110,16 @@ const pickBy = function (obj, condition) {
 
 // Similar to lodash omit(), but faster.
 const omit = function (obj, attributes) {
+  checkObject(obj);
+
   attributes = attributes instanceof Array ? attributes : [attributes];
   return omitBy(obj, (value, name) => attributes.includes(name));
 };
 
 // Similar to lodash omitBy(), but faster.
 const omitBy = function (obj, condition) {
+  checkObject(obj);
+
   return Object.entries(obj).reduce((memo, [name, value]) => {
     if (!condition(value, name)) {
       memo[name] = value;
@@ -195,6 +196,17 @@ const uncorkFunc = async function (state, func) {
     await func.call(this, ...args);
   }
   state.isBuffered = false;
+};
+
+const checkObject = function (obj) {
+  const isObject = obj && obj.constructor === Object;
+  if (!isObject) {
+    try {
+      obj = JSON.stringify(obj);
+    } catch (e) {/* */}
+    const message = `Utility must be used with objects: ${obj}`;
+    throw new Error(message);
+  }
 };
 
 
