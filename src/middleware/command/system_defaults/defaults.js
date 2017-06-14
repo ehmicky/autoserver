@@ -26,18 +26,6 @@ const defaults = {
         (after === undefined || after === ''))
     },
 
-    dryRun: {
-      commandNames: [
-        'deleteOne',
-        'deleteMany',
-        'updateOne',
-        'updateMany',
-        'createOne',
-        'createMany',
-      ],
-      value: false,
-    },
-
     pageSize: {
       value: ({ opts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled

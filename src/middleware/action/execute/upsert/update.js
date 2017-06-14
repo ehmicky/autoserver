@@ -4,7 +4,6 @@
 const { cloneDeep } = require('lodash');
 
 const { commands } = require('../../../../constants');
-const { pick } = require('../../../../utilities');
 
 
 // Retrieves the input for the "update" command
@@ -19,7 +18,7 @@ const getUpdateInput = function ({ input, data, models }) {
     return type === 'update' && multiple === isMultiple;
   });
 
-  const newArgs = pick(args, ['dryRun']);
+  const newArgs = Object.assign({}, args);
   const newData = data;
   const currentData = isMultiple ? models : models[0];
   Object.assign(newArgs, { pagination: false, currentData, newData });

@@ -27,8 +27,6 @@ const commonSchema = {
 
 // JSON schema for each argument
 const argsSchema = {
-  dry_run: { type: 'boolean' },
-
   // Database validation middleware does some extra checks on those attributes
   // `args.data` can be an array, or not, depending on the action
   // Also, `args.data` requires `id` on some actions.
@@ -71,7 +69,6 @@ const findMany = Object.assign(
     properties: Object.assign(
       {},
       pick(argsSchema, [
-        'dry_run',
         'filter',
         'order_by',
         'page_size',
@@ -93,7 +90,6 @@ const createOne = Object.assign(
         data: argsSchema.singleData,
       },
       pick(argsSchema, [
-        'dry_run',
       ]),
     ),
     required: [
@@ -110,7 +106,6 @@ const createMany = Object.assign(
         data: argsSchema.multipleData,
       },
       pick(argsSchema, [
-        'dry_run',
         'order_by',
         'page_size',
       ]),
@@ -129,7 +124,6 @@ const replaceOne = Object.assign(
         data: argsSchema.singleDataWithId,
       },
       pick(argsSchema, [
-        'dry_run',
       ]),
     ),
     required: [
@@ -146,7 +140,6 @@ const replaceMany = Object.assign(
         data: argsSchema.multipleDataWithId,
       },
       pick(argsSchema, [
-        'dry_run',
         'order_by',
         'page_size',
       ]),
@@ -165,7 +158,6 @@ const updateOne = Object.assign(
         data: argsSchema.singleData,
       },
       pick(argsSchema, [
-        'dry_run',
         'filter',
       ]),
     ),
@@ -184,7 +176,6 @@ const updateMany = Object.assign(
         data: argsSchema.singleData,
       },
       pick(argsSchema, [
-        'dry_run',
         'filter',
         'order_by',
         'page_size',
@@ -204,7 +195,6 @@ const upsertOne = Object.assign(
         data: argsSchema.singleDataWithId,
       },
       pick(argsSchema, [
-        'dry_run',
       ]),
     ),
     required: [
@@ -221,7 +211,6 @@ const upsertMany = Object.assign(
         data: argsSchema.multipleDataWithId,
       },
       pick(argsSchema, [
-        'dry_run',
         'order_by',
         'page_size',
       ]),
@@ -238,7 +227,6 @@ const deleteOne = Object.assign(
     properties: Object.assign(
       {},
       pick(argsSchema, [
-        'dry_run',
         'filter',
       ]),
     ),
@@ -254,7 +242,6 @@ const deleteMany = Object.assign(
     properties: Object.assign(
       {},
       pick(argsSchema, [
-        'dry_run',
         'filter',
         'order_by',
         'page_size',

@@ -8,10 +8,11 @@ const { fireCommand } = require('./commands');
 
 const databaseExecute = function () {
   return async function databaseExecute(input) {
-    const { command, args = {}, modelName, jsl, log } = input;
+    const { command, args = {}, settings, modelName, jsl, log } = input;
     const perf = log.perf.start('database.execute', 'middleware');
 
-    const { nOrderBy, limit, offset, dryRun, newData, nFilter } = args;
+    const { nOrderBy, limit, offset, newData, nFilter } = args;
+    const { dryRun } = settings;
     const collection = database[modelName];
 
     const opts = { jsl, nOrderBy, limit, offset, dryRun, modelName };
