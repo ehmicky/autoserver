@@ -24,6 +24,7 @@ const loggerFilterProps = [
   'headers',
   'queryVars',
   'params',
+  'settings',
 ];
 const loggerFilterSchema = {
   oneOf: [

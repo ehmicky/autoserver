@@ -27,6 +27,7 @@ const defaultOptions = {
     headers: [],
     queryVars: [],
     params: [],
+    settings: [],
   },
 };
 
