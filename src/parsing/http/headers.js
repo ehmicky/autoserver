@@ -6,8 +6,7 @@ const parsePreferHeader = require('parse-prefer-header');
 const { EngineError } = require('../../error');
 
 
-// Returns a request's HTTP headers
-// Note that node.js automatically converts header names to lowercase
+// Returns a request's HTTP headers, normalized lowercase
 const parse = function ({ specific: { req: { headers = {} } } }) {
   return headers;
 };
@@ -19,7 +18,7 @@ const parsePrefer = function ({ headers: { prefer } }) {
   try {
     return parsePreferHeader(prefer);
   } catch (error) {
-    const message = `HTTP 'Prefer' header value syntax error: ${prefer}`;
+    const message = `HTTP 'Prefer' header value syntax error: '${prefer}'`;
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
 };
