@@ -20,6 +20,5 @@ module.exports = Object.assign(
   require('./settings'),
   require('./params'),
   require('./routing'),
-  require('./protocol_args'),
   require('./logger')
 );
