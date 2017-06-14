@@ -4,14 +4,14 @@
 const { cloneDeep } = require('lodash');
 const { toSentence } = require('underscore.string');
 
-const { map, assignObject } = require('../../utilities');
+const { mapValues, assignObject } = require('../../utilities');
 const { EngineError } = require('../../error');
 
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
 const normalizeAliases = function ({ models }) {
-  return map(models, model => {
+  return mapValues(models, model => {
     if (!model.properties) { return model; }
 
     model.properties = Object.entries(model.properties)

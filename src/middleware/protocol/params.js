@@ -3,7 +3,7 @@
 
 const { camelize } = require('underscore.string');
 
-const { transtype, map, assignObject } = require('../../utilities');
+const { transtype, mapValues, assignObject } = require('../../utilities');
 
 
 // Fill in `input.params`, which are custom application-specific information,
@@ -36,7 +36,7 @@ const getParams = function ({ input }) {
   const headersParams = getHeadersParams({ input });
   const params = Object.assign({}, queryParams, headersParams);
 
-  const transtypedParams = map(params, value => transtype(value));
+  const transtypedParams = mapValues(params, value => transtype(value));
 
   return transtypedParams;
 };

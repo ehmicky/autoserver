@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { map } = require('../../utilities');
+const { mapValues } = require('../../utilities');
 const { isJsl } = require('../test');
 const { checkNames } = require('./validation');
 const { runJsl } = require('./run');
@@ -28,7 +28,10 @@ class Jsl {
   // Take JSL, inline or not, and turns into `function (...args)`
   // firing the first one, with $1, $2, etc. provided as extra arguments
   addHelpers({ helpers = {} }) {
-    const compiledHelpers = map(helpers, ({ value: helper, useParams }) => {
+    const compiledHelpers = mapValues(helpers, ({
+      value: helper,
+      useParams,
+    }) => {
       // Constants are left as is
       const isConstant = typeof helper !== 'function' &&
         !isJsl({ jsl: helper });

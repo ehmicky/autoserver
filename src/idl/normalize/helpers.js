@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { map, assignObject, assignArray } = require('../../utilities');
+const { mapValues, assignObject, assignArray } = require('../../utilities');
 
 
 // Normalize idl.helpers
@@ -12,7 +12,7 @@ const normalizeHelpers = function ({ idl }) {
     helpers = Object.assign({}, ...helpers);
   }
   // Helpers can either be an options object, or options.value directly
-  helpers = map(helpers, helper => {
+  helpers = mapValues(helpers, helper => {
     return helper.value !== undefined ? helper : { value: helper };
   });
 

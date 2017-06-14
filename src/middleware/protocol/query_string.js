@@ -2,7 +2,7 @@
 
 
 const parsing = require('../../parsing');
-const { transtype, map } = require('../../utilities');
+const { transtype, mapValues } = require('../../utilities');
 
 
 // Fill in `input.queryVars` using protocol-specific URL query variables
@@ -31,7 +31,7 @@ const parseQueryString = function () {
 const getQueryVars = function ({ specific, protocol }) {
   const queryVars = parsing[protocol].queryString.parse({ specific });
 
-  const transtypedQueryVars = map(queryVars, value => transtype(value));
+  const transtypedQueryVars = mapValues(queryVars, value => transtype(value));
 
   return transtypedQueryVars;
 };

@@ -1,12 +1,8 @@
 'use strict';
 
 
-// Similar to Lodash map() and mapValues(), but with vanilla JavaScript
-const map = function (obj, mapperFunc) {
-  if (obj instanceof Array) {
-    return obj.map(mapperFunc);
-  }
-
+// Similar to Lodash mapValues(), but with vanilla JavaScript
+const mapValues = function (obj, mapperFunc) {
   if (!obj || obj.constructor !== Object) {
     const message = `map utility must be used with objects or arrays: ${JSON.stringify(obj)}`;
     throw new Error(message);
@@ -47,10 +43,14 @@ const mapKeys = function (obj, mapperFunc) {
 
 // Apply map() recursively
 const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
-  // Recursion over objects and arrays
-  if (value && (value.constructor === Object || value instanceof Array)) {
-    value = map(value, child => recurseMap(child, mapperFunc, onlyLeaves));
-    return onlyLeaves ? value : mapperFunc(value);
+  const isObject = value && value.constructor === Object;
+  const isArray = value instanceof Array;
+
+  if (isObject || isArray) {
+    value = isObject
+      ? mapValues(value, child => recurseMap(child, mapperFunc, onlyLeaves))
+      : value.map(child => recurseMap(child, mapperFunc, onlyLeaves));
+    if (onlyLeaves) { return value; }
   }
 
   return mapperFunc(value);
@@ -199,7 +199,7 @@ const uncorkFunc = async function (state, func) {
 
 
 module.exports = {
-  map,
+  mapValues,
   mapAsync,
   mapKeys,
   recurseMap,
