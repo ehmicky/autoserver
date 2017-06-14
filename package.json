@@ -44,8 +44,6 @@
     "path-to-regexp": "^1.7.0",
     "pluralize": "^4.0.0",
     "qs": "^6.4.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
     "request-ip": "^2.0.1",
     "underscore.string": "^3.3.4",
     "uuid": "^3.0.1"
