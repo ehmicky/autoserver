@@ -7,8 +7,8 @@ const { EngineError } = require('../../../../error');
 const { getSchema } = require('../graphql_schema');
 
 
-const getHandleIntrospection = function (opts) {
-  const schema = getSchema(opts);
+const getHandleIntrospection = function ({ idl, serverOpts }) {
+  const schema = getSchema({ idl, serverOpts });
   return async function ({ queryDocument, variables, operationName }) {
     let response;
     try {

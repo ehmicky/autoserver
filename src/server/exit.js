@@ -22,7 +22,7 @@ const setupGracefulExit = function ({ servers, opts }) {
 // Setup graceful exit
 const gracefulExit = onlyOnce(async function ({ servers, opts }) {
   const { apiServer } = opts;
-  const log = new Log({ opts, phase: 'shutdown' });
+  const log = new Log({ serverOpts: opts, phase: 'shutdown' });
   const perf = log.perf.start('all', 'all');
 
   const closingServers = Object.values(servers)

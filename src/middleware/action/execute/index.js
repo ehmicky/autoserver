@@ -11,11 +11,10 @@ const { deleteAction } = require('./delete');
 
 
 // Translates operation-specific calls into generic instance actions
-const actionExecute = async function (opts) {
-  const { startupLog } = opts;
+const actionExecute = async function ({ serverOpts: { startupLog } }) {
   const mdws = await mapAsync(middlewares, async (mdw, name) => {
     const perf = startupLog.perf.start(`action.${name}`, 'middleware');
-    mdw = await mdw(opts);
+    mdw = await mdw();
     perf.stop();
     return mdw;
   });

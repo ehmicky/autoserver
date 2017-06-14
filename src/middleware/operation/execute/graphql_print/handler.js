@@ -5,8 +5,8 @@ const { getSchema } = require('../graphql_schema');
 const { printSchema } = require('./print');
 
 
-const printGraphql = async function (opts) {
-  const schema = getSchema(opts);
+const printGraphql = async function ({ idl, serverOpts }) {
+  const schema = getSchema({ idl, serverOpts });
   const content = await printSchema(schema);
 
   return function printGraphql() {
