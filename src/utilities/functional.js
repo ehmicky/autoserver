@@ -198,6 +198,24 @@ const uncorkFunc = async function (state, func) {
   state.isBuffered = false;
 };
 
+// Deeply Object.freeze() over an object.
+const makeImmutable = function (obj) {
+  const isObject = obj && obj.constructor === Object;
+  // Not in production, because Object.freeze() can be slow.
+  const isDev = process.env.NODE_ENV === 'dev';
+  if (!isObject || !isDev) { return obj; }
+
+  // Avoid infinite recursions
+  const isFrozen = Object.isFrozen(obj);
+  if (isFrozen) { return; }
+
+  Object.freeze(obj);
+
+  for (const child of Object.values(obj)) {
+    makeImmutable(child);
+  }
+};
+
 const checkObject = function (obj) {
   const isObject = obj && obj.constructor === Object;
   if (!isObject) {
@@ -224,4 +242,5 @@ module.exports = {
   assignArray,
   onlyOnce,
   buffer,
+  makeImmutable,
 };
