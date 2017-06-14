@@ -3,7 +3,7 @@
 
 const pathToRegExp = require('path-to-regexp');
 
-const { assignObject } = require('../../../utilities');
+const { transtype, assignObject } = require('../../../utilities');
 
 
 class RoutesManager {
@@ -41,7 +41,8 @@ class RoutesManager {
       // Will be an incrementing index e.g. for /path/* or /path/(maybe)?/
       .map((value, index) => {
         const key = variables[index];
-        return { [key]: value };
+        const transtypedValue = transtype(value);
+        return { [key]: transtypedValue };
       })
       .reduce(assignObject, {});
   }
