@@ -10,18 +10,13 @@
 const transtype = function (string) {
   if (typeof string !== 'string') { return string; }
 
-  const parsedNumber = Number.parseFloat(string);
+  const parsedNumber = Number(string);
   const isValidNumber = typeof parsedNumber === 'number' &&
     Number.isFinite(parsedNumber);
   if (isValidNumber) { return parsedNumber; }
 
-  const normalizedString = string.toLowerCase().trim();
-  switch (normalizedString) {
-    case 'true':
-      return true;
-    case 'false':
-      return false;
-  }
+  if (string === 'true') { return true; }
+  if (string === 'false') { return false; }
 
   return string;
 };
