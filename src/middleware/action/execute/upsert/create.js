@@ -4,7 +4,6 @@
 const { cloneDeep } = require('lodash');
 
 const { commands } = require('../../../../constants');
-const { pick } = require('../../../../utilities');
 
 
 // Retrieves the input for the "create" command
@@ -19,7 +18,7 @@ const getCreateInput = function ({ input, data }) {
     return type === 'create' && multiple === isMultiple;
   });
 
-  const newArgs = pick(args, ['dryRun']);
+  const newArgs = Object.assign({}, args);
   const newData = data;
   Object.assign(newArgs, { pagination: false, newData });
   Object.assign(input, { command, args: newArgs });

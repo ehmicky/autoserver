@@ -223,10 +223,6 @@ models:
 #        by + or -, e.g. 'name-,id'
 #      - orders server response according to the specified attributes.
 #        Default order is +, i.e. ascending
-#   - `dry_run` {boolean}
-#      - in all actions except find. never required
-#      - if true, the action will not modify the database,
-#        but the return value will be the same as if it did
 #   - `page_size` {integer}
 #      - in findMany, deleteMany or updateMany
 #      - defaults to server option defaultPageSize (default: 100)
@@ -250,6 +246,10 @@ models:
 #      - defaults to true for `delete`, false otherwise
 #      - this can also be set for all the actions using:
 #         - Prefer: return=minimal HTTP request header
+#   - `dryRun` {boolean}
+#      - in all actions except find. never required
+#      - if true, the action will not modify the database,
+#        but the return value will be the same as if it did
 # JSL is a restricted syntax of JavaScript:
 #   - any string that is surrounded by parenthesis will be interpreted as JSL,
 #     except if first parenthesis is escaped:
