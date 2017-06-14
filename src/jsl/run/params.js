@@ -3,7 +3,7 @@
 
 const { cloneDeep } = require('lodash');
 
-const { assignObject } = require('../../utilities');
+const { pickBy } = require('../../utilities');
 const { JslHelper } = require('./helpers');
 
 
@@ -25,9 +25,8 @@ const filterParams = function ({ params, type, exposeMap }) {
   if (!restrictedTypes.includes(type)) { return params; }
 
   const exposedParams = [...alwaysExposed, ...exposeMap[type]];
-  const filteredParams = Object.entries(params)
-    .filter(([name]) => exposedParams.includes(name))
-    .reduce(assignObject, {});
+  const filteredParams = pickBy(params, (param, name) =>
+    exposedParams.includes(name));
   return filteredParams;
 };
 

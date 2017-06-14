@@ -29,7 +29,7 @@ const validateDataFormat = function ({ value }) {
     const message = `'$data' must be a string: ${JSON.stringify(value)}`;
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
   }
-  if (Object.entries(value).length > 1) {
+  if (Object.keys(value).length > 1) {
     const val = JSON.stringify(value);
     const message = `'$data' must be the only property when specified: ${val}`;
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
