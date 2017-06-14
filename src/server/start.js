@@ -2,7 +2,6 @@
 
 
 const { resolve } = require('path');
-const { cloneDeep } = require('lodash');
 
 const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
@@ -38,14 +37,16 @@ const start = async function (options, serverState) {
   const allPerf = startupLog.perf.start('all', 'all');
   const perf = startupLog.perf.start('main');
 
-  let serverOpts = cloneDeep(options);
   apiServer.options = options;
 
-  serverState.processLog = processErrorHandler({ serverOpts, serverState });
+  serverState.processLog = processErrorHandler({
+    serverOpts: options,
+    serverState,
+  });
 
   perf.stop();
 
-  serverOpts = await processOptions({ serverOpts, serverState });
+  const serverOpts = await processOptions({ options, serverState });
   const idl = await getIdl({ serverOpts, serverState });
 
   // Those two callbacks must be called by each server
