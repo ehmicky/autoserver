@@ -5,7 +5,7 @@ const { getStandardError, getErrorMessage } = require('../error');
 
 
 // Handle exceptions thrown at server startup
-const handleStartupError = async function ({ startupLog }, apiServer, error) {
+const handleStartupError = async function (startupLog, apiServer, error) {
   const perf = startupLog.perf.start('mainHandler', 'exception');
 
   const standardError = getStandardError({ log: startupLog, error });

@@ -30,16 +30,16 @@ const startServer = function (options = {}) {
   const startupLog = new Log({ serverOpts: options, phase: 'startup' });
 
   start(options, apiServer, startupLog)
-  .catch(error => handleStartupError(options, apiServer, error));
+  .catch(error => handleStartupError(startupLog, apiServer, error));
 
   return apiServer;
 };
 
-const start = async function (serverOpts, apiServer, startupLog) {
+const start = async function (options, apiServer, startupLog) {
   const allPerf = startupLog.perf.start('all', 'all');
   const perf = startupLog.perf.start('main');
 
-  const options = cloneDeep(serverOpts);
+  const serverOpts = cloneDeep(options);
 
   const processLog = processErrorHandler({ serverOpts });
   // Assign them to `options` so they are easily available anywhere
