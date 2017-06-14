@@ -5,9 +5,12 @@ const { defaultsDeep } = require('lodash');
 
 
 // Default value for main options
-const applyDefaultOptions = function ({ options }) {
-  const perf = options.startupLog.perf.start('default', 'options');
-  const newOptions = defaultsDeep(options, defaultOptions);
+const applyDefaultOptions = function ({
+  serverOpts,
+  serverOpts: { startupLog },
+}) {
+  const perf = startupLog.perf.start('default', 'options');
+  const newOptions = defaultsDeep(serverOpts, defaultOptions);
   perf.stop();
   return newOptions;
 };

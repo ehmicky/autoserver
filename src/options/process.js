@@ -6,17 +6,20 @@ const { transformOptions } = require('./transform');
 const { validateOptions } = require('./validate');
 
 
-const processOptions = async function (options) {
-  const perf = options.startupLog.perf.start('options');
+const processOptions = async function ({
+  serverOpts,
+  serverOpts: { startupLog },
+}) {
+  const perf = startupLog.perf.start('options');
 
-  options = applyDefaultOptions({ options });
+  serverOpts = applyDefaultOptions({ serverOpts });
 
-  transformOptions({ options });
+  transformOptions({ serverOpts });
 
-  validateOptions({ options });
+  validateOptions({ serverOpts });
 
   perf.stop();
-  return options;
+  return serverOpts;
 };
 
 
