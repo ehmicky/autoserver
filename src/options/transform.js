@@ -6,6 +6,7 @@ const { pick } = require('../utilities');
 
 // Transform main options
 const transformOptions = function ({
+  serverOpts,
   serverOpts: { loggerFilter },
   serverState: { startupLog },
 }) {
@@ -17,6 +18,8 @@ const transformOptions = function ({
   }
 
   perf.stop();
+
+  return serverOpts;
 };
 
 const transformLoggerFilters = function (filters) {
