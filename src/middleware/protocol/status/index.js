@@ -43,10 +43,12 @@ const setStatus = function ({ input, error }) {
 
   // Used to indicate that `status` and `protocolStatus` should be kept
   // by the `error_status` middleware
-  const isStatusError = error !== undefined;
+  if (error !== undefined) {
+    error.isStatusError = true;
+  }
 
   log.add({ protocolStatus, status });
-  Object.assign(input, { protocolStatus, status, isStatusError });
+  Object.assign(input, { protocolStatus, status });
 };
 
 const statusMap = {
