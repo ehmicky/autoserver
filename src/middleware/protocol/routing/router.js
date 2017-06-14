@@ -23,8 +23,8 @@ const router = function ({ startupLog }) {
 
     const pathVars = routes.getPathVars({ path, route });
 
-    log.add({ route: route.route, pathVars });
-    Object.assign(input, { route: route.route, pathVars });
+    log.add({ route: route.name, pathVars });
+    Object.assign(input, { route: route.name, pathVars });
 
     perf.stop();
     const response = await this.next(input);
