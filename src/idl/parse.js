@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { makeImmutable } = require('../utilities');
 const { getIdlConf } = require('./conf');
 const { resolveRefs } = require('./ref_parsing');
 const { applyPlugins } = require('./plugins');
@@ -42,6 +43,8 @@ const getIdl = async function ({ serverOpts: { conf, startupLog } }) {
   const customValidationPerf = startupLog.perf.start('customValidation', 'idl');
   addCustomKeywords({ idl });
   customValidationPerf.stop();
+
+  makeImmutable(idl);
 
   perf.stop();
   return idl;
