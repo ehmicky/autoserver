@@ -7,10 +7,10 @@ const { EngineError, getStandardError, getErrorMessage } = require('../error');
 
 
 // Error handling for all failures that are process-related
-const processErrorHandler = function ({ opts }) {
+const processErrorHandler = function ({ serverOpts }) {
   checkUniqueCall();
 
-  const log = new Log({ serverOpts: opts, phase: 'process' });
+  const log = new Log({ serverOpts, phase: 'process' });
   // Shortcut function
   log.process = processHandler.bind(null, log);
 
