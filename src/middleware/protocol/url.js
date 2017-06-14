@@ -5,11 +5,10 @@ const parsing = require('../../parsing');
 
 
 // Fill in:
-//  - `input.url`: full URL
-//  - `input.path`: URL's path
+//  - `input.url`: full URL, e.g. used for logging
+//  - `input.path`: URL's path, e.g. used by router
 // Uses protocol-specific URL retrieval, but are set in a
 // protocol-agnostic format, i.e. each protocol sets the same strings.
-// Meant to be used mainly by router.
 const parseUrl = function () {
   return async function parseUrl(input) {
     const { protocol, log, specific } = input;
