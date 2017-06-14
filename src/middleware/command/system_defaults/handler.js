@@ -8,12 +8,12 @@ const { defaults } = require('./defaults');
 
 
 // Apply system-defined defaults to input, including input arguments
-const systemDefaults = function (opts) {
+const systemDefaults = function ({ serverOpts }) {
   return async function systemDefaults(input) {
     const { log } = input;
     const perf = log.perf.start('command.systemDefaults', 'middleware');
 
-    const newInput = getDefaultArgs({ opts, input });
+    const newInput = getDefaultArgs({ serverOpts, input });
     merge(input, newInput);
 
     perf.stop();
@@ -23,7 +23,7 @@ const systemDefaults = function (opts) {
 };
 
 // Retrieve default arguments
-const getDefaultArgs = function ({ opts, input }) {
+const getDefaultArgs = function ({ serverOpts, input }) {
   const { command } = input;
   // Iterate through every possible default value
   return Object.entries(defaults)
@@ -34,13 +34,13 @@ const getDefaultArgs = function ({ opts, input }) {
           return !commandNames || commandNames.includes(command.name);
         })
         // Whitelist by tests
-        .filter(([, { test }]) => !test || test({ opts, input }))
+        .filter(([, { test }]) => !test || test({ serverOpts, input }))
         // Only if user has not specified that argument
         .filter(([attrName]) => input[name][attrName] === undefined)
         // Reduce to a single object
         .map(([attrName, { value }]) => {
           const val = typeof value === 'function'
-            ? value({ opts, input })
+            ? value({ serverOpts, input })
             : value;
           return { [attrName]: val };
         })

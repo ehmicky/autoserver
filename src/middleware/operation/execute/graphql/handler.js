@@ -10,9 +10,8 @@ const {
 
 
 // GraphQL query handling
-const executeGraphql = function (opts) {
-  const { idl } = opts;
-  const handleIntrospection = getHandleIntrospection(opts);
+const executeGraphql = function ({ idl, serverOpts }) {
+  const handleIntrospection = getHandleIntrospection({ idl, serverOpts });
   const handleQuery = getHandleQuery({ idl });
 
   return async function executeGraphql(input) {

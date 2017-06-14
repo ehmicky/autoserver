@@ -13,8 +13,10 @@ const { nameSym } = require('./name');
 // Returns GraphQL schema
 const getSchema = memoize(function ({
   idl: { models },
-  defaultPageSize,
-  maxPageSize,
+  serverOpts: {
+    defaultPageSize,
+    maxPageSize,
+  },
 }) {
   // Apply `getType` to each top-level graphqlMethod, i.e. Query and Mutation
   const schemaFields = mapValues(rootDefs, (rootDef, graphqlMethod) => {

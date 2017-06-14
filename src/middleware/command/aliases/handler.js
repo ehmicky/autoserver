@@ -16,7 +16,7 @@ const { applyOutputAliases } = require('./output');
  *   - is stored in the database
  *   - should be used in JSL (with `$$`) in IDL file
  **/
-const renameAliases = function ({ idl, startupLog }) {
+const renameAliases = function ({ idl, serverOpts: { startupLog } }) {
   const perf = startupLog.perf.start('command.renameAliases', 'middleware');
   const aliasesMap = getAliasesMap({ idl });
   perf.stop();

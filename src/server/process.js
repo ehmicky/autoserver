@@ -10,7 +10,7 @@ const { EngineError, getStandardError, getErrorMessage } = require('../error');
 const processErrorHandler = function ({ opts }) {
   checkUniqueCall();
 
-  const log = new Log({ opts, phase: 'process' });
+  const log = new Log({ serverOpts: opts, phase: 'process' });
   // Shortcut function
   log.process = processHandler.bind(null, log);
 

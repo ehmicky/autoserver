@@ -27,7 +27,7 @@ global.apiEngineDirName = resolve(__dirname, '../..');
  */
 const startServer = function (options = {}) {
   const apiServer = new ApiEngineServer();
-  const startupLog = new Log({ opts: options, phase: 'startup' });
+  const startupLog = new Log({ serverOpts: options, phase: 'startup' });
 
   start(options, apiServer, startupLog)
   .catch(error => handleStartupError(options, apiServer, error));
@@ -48,10 +48,10 @@ const start = async function (options, apiServer, startupLog) {
   perf.stop();
 
   const opts = await processOptions(options);
-  opts.idl = await getIdl({ opts });
+  const idl = await getIdl({ opts });
 
   // Those two callbacks must be called by each server
-  opts.handleRequest = await getMiddleware(opts);
+  opts.handleRequest = await getMiddleware({ serverOpts: opts, idl });
 
   opts.handleListening = handleListening.bind(null, startupLog);
 

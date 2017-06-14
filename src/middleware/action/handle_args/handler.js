@@ -10,7 +10,7 @@ const { renameArgs } = require('./rename');
 
 // Process client-supplied args: validates them and add them to JSL variables
 // Also rename them camelcase
-const handleArgs = function ({ maxDataLength }) {
+const handleArgs = function ({ serverOpts: { maxDataLength } }) {
   return async function handleArgs(input) {
     const { log, args, jsl, action } = input;
     const perf = log.perf.start('operation.handleArgs', 'middleware');

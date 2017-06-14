@@ -8,11 +8,14 @@ const { printGraphql } = require('./graphql_print');
 
 
 // Translates operation-specific calls into generic instance actions
-const operationExecute = async function (opts) {
-  const { startupLog } = opts;
+const operationExecute = async function ({
+  idl,
+  serverOpts,
+  serverOpts: { startupLog },
+}) {
   const mdws = await mapAsync(middlewares, async (mdw, name) => {
     const perf = startupLog.perf.start(`operation.${name}`, 'middleware');
-    mdw = await mdw(opts);
+    mdw = await mdw({ idl, serverOpts });
     perf.stop();
     return mdw;
   });

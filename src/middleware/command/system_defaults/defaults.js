@@ -27,10 +27,10 @@ const defaults = {
     },
 
     pageSize: {
-      value: ({ opts: { defaultPageSize } }) => defaultPageSize,
+      value: ({ serverOpts: { defaultPageSize } }) => defaultPageSize,
       // Only if pagination is enabled
       test: ({
-        opts: { defaultPageSize },
+        serverOpts: { defaultPageSize },
         input: { args: { pagination } },
       }) => defaultPageSize !== 0 && pagination,
     },
@@ -40,7 +40,7 @@ const defaults = {
       value: '',
       // Only if pagination is enabled, and args.before|page is not specified
       test: ({
-        opts: { defaultPageSize },
+        serverOpts: { defaultPageSize },
         input: { args: { before, page, pagination } },
       }) => defaultPageSize !== 0 &&
         pagination &&
