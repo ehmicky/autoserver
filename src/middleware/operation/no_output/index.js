@@ -12,13 +12,13 @@ const operations = require('./operations');
 //      - Prefer: return=minimal HTTP request header
 const noOutput = function () {
   return async function noOutput(input) {
-    const { operation, log, args } = input;
+    const { operation, log, settings } = input;
     let response = await this.next(input);
     const perf = log.perf.start('operation.noOutput', 'middleware');
 
     const isDelete = response.actions &&
       response.actions.some(({ type }) => type === 'delete');
-    const shouldRemoveOutput = isDelete || args.noOutput;
+    const shouldRemoveOutput = isDelete || settings.noOutput;
     if (shouldRemoveOutput) {
       response = operations[operation].noOutput(response);
     }
