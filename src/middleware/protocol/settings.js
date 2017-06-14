@@ -7,7 +7,7 @@ const { transtype, map, assignObject } = require('../../utilities');
 // Fill in `input.settings`, which are settings which apply to the whole
 // operation. The list is predefined by the API engine.
 // They can be defined:
-//  - in headers, namespaced, e.g. 'X-ApiEngine-SETTINGS'
+//  - in headers, namespaced, e.g. 'X-Api-Engine-SETTINGS'
 //  - in query string, using `settings.SETTINGS`
 // Redundant protocol-specific headers might exist for some settings.
 // E.g. settings 'noOutput' can be defined using
@@ -48,7 +48,7 @@ const getQuerySettings = function ({ input: { queryVars: { settings } } }) {
 };
 
 // Filters headers with only the headers whose name starts
-// with X-ApiEngine-
+// with X-Api-Engine-
 const getHeadersSettings = function ({ input: { headers } }) {
   return Object.entries(headers)
     .filter(([name]) => SETTINGS_NAME_REGEXP.test(name))
@@ -59,7 +59,7 @@ const getHeadersSettings = function ({ input: { headers } }) {
     .reduce(assignObject, {});
 };
 
-const SETTINGS_NAME_REGEXP = /x-apiengine-/;
+const SETTINGS_NAME_REGEXP = /x-api-engine-/;
 
 
 module.exports = {

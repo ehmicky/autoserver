@@ -7,7 +7,7 @@ const { transtype, map, assignObject } = require('../../utilities');
 // Fill in `input.params`, which are custom application-specific information,
 // defined by the library user, not by the API engine.
 // They can be defined:
-//  - in headers, namespaced, i.e. 'X-ApiEngine-Param-PARAM'
+//  - in headers, namespaced, i.e. 'X-Api-Engine-Param-PARAM'
 //  - in query string, using `params.PARAM`
 // Values are automatically transtyped.
 // Are set to JSL param $PARAMS
@@ -45,7 +45,7 @@ const getQueryParams = function ({ input: { queryVars: { params } } }) {
 };
 
 // Filters headers with only the headers whose name starts
-// with X-ApiEngineParam-
+// with X-Api-EngineParam-
 const getHeadersParams = function ({ input: { headers } }) {
   return Object.entries(headers)
     .filter(([name]) => PARAMS_NAME_REGEXP.test(name))
@@ -56,7 +56,7 @@ const getHeadersParams = function ({ input: { headers } }) {
     .reduce(assignObject, {});
 };
 
-const PARAMS_NAME_REGEXP = /x-apiengine-param-/;
+const PARAMS_NAME_REGEXP = /x-api-engine-param-/;
 
 
 module.exports = {
