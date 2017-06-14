@@ -120,6 +120,8 @@ If in production, run with `npm start`
 If in development, run with `NODE_ENV=dev npm start`.
 This will start in watch mode (using `nodemon` and `node --inspect`).
 
+`npm run debug` is like `npm start` but using `node --inspect-brk`.
+
 A local server at `localhost:5001` will be spawned.
 Can be configured with environment variables `PORT` and `HOST`.
 
