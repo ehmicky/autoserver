@@ -14,7 +14,6 @@ const operationConvertor = function () {
       route,
       jsl,
       log,
-      args,
     } = input;
     const perf = log.perf.start('operation.convertor', 'middleware');
 
@@ -28,7 +27,6 @@ const operationConvertor = function () {
       route,
       jsl,
       log,
-      args,
     };
 
     perf.stop();
