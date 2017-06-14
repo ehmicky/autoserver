@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { mapValues } = require('../../utilities');
+const { mapValues, makeImmutable } = require('../../utilities');
 const { isJsl } = require('../test');
 const { checkNames } = require('./validation');
 const { runJsl } = require('./run');
@@ -14,6 +14,7 @@ class Jsl {
 
   constructor({ params = {}, exposeMap = {} } = {}) {
     Object.assign(this, { params, exposeMap });
+    makeImmutable(this);
   }
 
   // Return a shallow copy.
