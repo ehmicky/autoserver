@@ -46,8 +46,8 @@ const { omit } = require('../utilities');
 //   - error {string} - error reason
 // Each of those fields is optional, i.e. might not be present.
 // Remove some properties of log which could be of big size, specifically:
-//   - params, queryVars, headers:
-//      - apply server option loggerFilter.params|queryVars|headers, which is
+//   - queryVars, headers:
+//      - apply server option loggerFilter.queryVars|headers, which is
 //        either a simple mapping function or a list of attribute names.
 //        It defaults to returning an empty object.
 //   - payload, actions.ACTION_PATH.args.data,
@@ -90,15 +90,8 @@ const setError = function (requestInfo) {
 };
 
 const reduceInput = function (requestInfo, loggerFilter) {
-  setParams(requestInfo, loggerFilter);
   setQueryVars(requestInfo, loggerFilter);
   setHeaders(requestInfo, loggerFilter);
-};
-
-const setParams = function (requestInfo, loggerFilter) {
-  const { params } = requestInfo;
-  if (!params || params.constructor !== Object) { return; }
-  requestInfo.params = loggerFilter.params(params);
 };
 
 const setQueryVars = function (requestInfo, loggerFilter) {
