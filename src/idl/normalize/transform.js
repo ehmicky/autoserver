@@ -1,19 +1,19 @@
 'use strict';
 
 
-const { map, assignArray } = require('../../utilities');
+const { mapValues, assignArray } = require('../../utilities');
 const { EngineError } = require('../../error');
 
 
 // Transforms can take several shapes, we normalize them
 // We also define transform order, with `using` property
 const normalizeAllTransforms = function ({ models }) {
-  return map(models, (model, modelName) => {
+  return mapValues(models, (model, modelName) => {
     if (!model.properties) { return model; }
 
     // `compute` reuse the same logic as `transform`
     for (const type of ['transform', 'compute']) {
-      model.properties = map(model.properties, prop => {
+      model.properties = mapValues(model.properties, prop => {
         const transform = prop[type];
         if (!transform) { return prop; }
 

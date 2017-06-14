@@ -3,7 +3,7 @@
 
 const { isJsl } = require('../../../jsl');
 const { EngineError } = require('../../../error');
-const { map } = require('../../../utilities');
+const { mapValues } = require('../../../utilities');
 
 
 /**
@@ -24,7 +24,7 @@ const normalizeFilter = function ({ filter }) {
   }
 
   // { filter: { attr: 1 } } -> { filter: { attr: '($ === 1)' } }
-  const jslOnlyFilter = map(filter, filterVal => {
+  const jslOnlyFilter = mapValues(filter, filterVal => {
     if (isJsl({ jsl: filterVal })) { return filterVal; }
     return `($ === ${JSON.stringify(filterVal)})`;
   });

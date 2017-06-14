@@ -1,9 +1,9 @@
 'use strict';
 
 
-const { cloneDeep, merge, mapValues } = require('lodash');
+const { cloneDeep, merge } = require('lodash');
 
-const { assignObject, map } = require('../../../../utilities');
+const { assignObject, mapValues } = require('../../../../utilities');
 const { actions } = require('../../../../constants');
 const { getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
@@ -34,7 +34,7 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
           const actionName = getActionName({ modelName, action });
 
           // Add action information to the nested models
-          const properties = map(model.properties, def => {
+          const properties = mapValues(model.properties, def => {
             const subDef = getSubDef(def);
             if (!isModel(subDef)) { return def; }
 

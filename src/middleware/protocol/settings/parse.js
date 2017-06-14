@@ -3,7 +3,7 @@
 
 const { camelize } = require('underscore.string');
 
-const { transtype, map, assignObject } = require('../../../utilities');
+const { transtype, mapValues, assignObject } = require('../../../utilities');
 
 
 // Retrieves settings
@@ -12,7 +12,7 @@ const getSettings = function ({ input }) {
   const headersSettings = getHeadersSettings({ input });
   const settings = Object.assign({}, querySettings, headersSettings);
 
-  const transtypedSettings = map(settings, value => transtype(value));
+  const transtypedSettings = mapValues(settings, value => transtype(value));
 
   return transtypedSettings;
 };
