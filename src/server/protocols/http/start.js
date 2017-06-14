@@ -3,7 +3,7 @@
 
 const http = require('http');
 
-const { host, port } = require('../../config');
+const { host, port } = require('../../../config');
 const { addStopFunctions } = require('./stop');
 
 
@@ -42,5 +42,7 @@ const handleClientError = function ({ server, log }) {
 
 
 module.exports = {
-  httpStartServer: startServer,
+  HTTP: {
+    startServer,
+  },
 };

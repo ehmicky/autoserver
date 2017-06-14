@@ -25,7 +25,8 @@ const gracefulExit = onlyOnce(async function ({ servers, opts }) {
   const log = new Log({ opts, phase: 'shutdown' });
   const perf = log.perf.start('all', 'all');
 
-  const closingServers = servers.map(server => closeServer({ server, log }));
+  const closingServers = Object.values(servers)
+    .map(server => closeServer({ server, log }));
   const statuses = await Promise.all(closingServers);
 
   const { failedProtocols, isSuccess } = processStatuses({ statuses });
