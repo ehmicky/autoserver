@@ -1,14 +1,16 @@
 'use strict';
 
 
+const { camelize } = require('underscore.string');
+
 const { transtype, map, assignObject } = require('../../utilities');
 
 
 // Fill in `input.settings`, which are settings which apply to the whole
 // operation. The list is predefined by the API engine.
 // They can be defined:
-//  - in headers, namespaced, e.g. 'X-Api-Engine-SETTINGS'
-//  - in query string, using `settings.SETTINGS`
+//  - in headers, namespaced, e.g. 'X-Api-Engine-My-Settings'
+//  - in query string, using `settings.mySettings`
 // Redundant protocol-specific headers might exist for some settings.
 // E.g. settings 'noOutput' can be defined using
 // HTTP header Prefer: return=minimal
@@ -42,19 +44,20 @@ const getSettings = function ({ input }) {
   return transtypedSettings;
 };
 
-// Retrieves ?settings.SETTINGS query variables
+// Retrieves ?settings.mySettings query variables
 const getQuerySettings = function ({ input: { queryVars: { settings } } }) {
   return settings;
 };
 
 // Filters headers with only the headers whose name starts
-// with X-Api-Engine-
+// with X-Api-Engine-My-Settings
 const getHeadersSettings = function ({ input: { headers } }) {
   return Object.entries(headers)
     .filter(([name]) => SETTINGS_NAME_REGEXP.test(name))
     .map(([name, value]) => {
       const shortName = name.replace(SETTINGS_NAME_REGEXP, '');
-      return { [shortName]: value };
+      const key = camelize(shortName, true);
+      return { [key]: value };
     })
     .reduce(assignObject, {});
 };
