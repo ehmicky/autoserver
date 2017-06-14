@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { ENV } = require('./env');
+
+
 // Similar to Lodash mapValues(), but with vanilla JavaScript
 const mapValues = function (obj, mapperFunc) {
   checkObject(obj);
@@ -199,11 +202,9 @@ const uncorkFunc = async function (state, func) {
 };
 
 // Deeply Object.freeze() over an object.
-const makeImmutable = function (obj) {
+const _makeImmutable = function (obj) {
   const isObject = obj && obj.constructor === Object;
-  // Not in production, because Object.freeze() can be slow.
-  const isDev = process.env.NODE_ENV === 'dev';
-  if (!isObject || !isDev) { return obj; }
+  if (!isObject) { return obj; }
 
   // Avoid infinite recursions
   const isFrozen = Object.isFrozen(obj);
@@ -212,9 +213,11 @@ const makeImmutable = function (obj) {
   Object.freeze(obj);
 
   for (const child of Object.values(obj)) {
-    makeImmutable(child);
+    _makeImmutable(child);
   }
 };
+// Not in production, because Object.freeze() can be slow.
+const makeImmutable = ENV === 'dev' ? _makeImmutable : val => val;
 
 const checkObject = function (obj) {
   const isObject = obj && obj.constructor === Object;

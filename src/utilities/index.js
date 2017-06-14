@@ -4,7 +4,6 @@
 module.exports = Object.assign(
   {},
   require('./base64'),
-  require('./is_dev'),
   require('./transtype'),
   require('./filesystem'),
   require('./memoize'),
@@ -13,5 +12,6 @@ module.exports = Object.assign(
   require('./ref_parser'),
   require('./yaml'),
   require('./functional'),
-  require('./stringify')
+  require('./stringify'),
+  require('./env'),
 );
