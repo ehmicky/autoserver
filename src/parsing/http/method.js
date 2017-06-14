@@ -4,6 +4,7 @@
 const { EngineError } = require('../../error');
 
 
+// Retrieves HTTP method
 const getMethod = function ({ specific: { req: { method } } }) {
   return method;
 };
