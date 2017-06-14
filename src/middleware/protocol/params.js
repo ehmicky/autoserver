@@ -1,30 +1,22 @@
 'use strict';
 
 
-const { dasherize } = require('underscore.string');
-
 const { transtype, map, assignObject } = require('../../utilities');
 
 
 // Fill in `input.params`, which are custom application-specific information,
 // defined by the library user, not by the API engine.
 // They can be defined:
-//  - in headers, namespaced, e.g. 'X-ProjectName-PARAM',
-//    using `serverOpts.projectName`
+//  - in headers, namespaced, i.e. 'X-ApiEngine-Param-PARAM'
 //  - in query string, using `params.PARAM`
+// Values are automatically transtyped.
 // Are set to JSL param $PARAMS
-const parseParams = function (opts) {
-  const { projectName } = opts;
-  const headersNamespace = `x-${dasherize(projectName)}-`;
-  // We don't need to RegExp-escape since `headersNamespace` only contains
-  // ASCII letters, numbers and dashes
-  const appHeaderRegex = new RegExp(`^${headersNamespace}`);
-
+const parseParams = function () {
   return async function parseParams(input) {
     const { jsl, log } = input;
     const perf = log.perf.start('protocol.parseParams', 'middleware');
 
-    const params = getParams({ input, appHeaderRegex });
+    const params = getParams({ input });
 
     const newJsl = jsl.add({ $PARAMS: params });
 

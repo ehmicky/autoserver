@@ -13,8 +13,6 @@ const applyDefaultOptions = function ({ options }) {
 };
 
 const defaultOptions = {
-  projectName: 'api_engine',
-
   maxDataLength: 1000,
   defaultPageSize: 100,
   maxPageSize: 100,
