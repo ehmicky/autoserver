@@ -56,10 +56,10 @@ const getMiddleware = async function (opts) {
     mdw.parseMethod,
     // Parse URL query string into protocol-agnostic format
     mdw.parseQueryString,
-    // Parse headers into protocol-agnostic format
-    mdw.parseHeaders,
     // Parse request payload into protocol-agnostic format
     mdw.parsePayload,
+    // Parse headers into protocol-agnostic format
+    mdw.parseHeaders,
     // Parse operation-wide settings
     mdw.parseSettings,
     // Parse application-specific headers
