@@ -15,7 +15,6 @@ startServer({
   //   argData,
   //   actionResponses,
   //   response,
-  //   params,
   //   queryVars,
   },
   // Can customize logging level, among 'info' (default value), 'log', 'warn',
