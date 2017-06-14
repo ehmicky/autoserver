@@ -3,12 +3,20 @@
 
 // Converts from Action format to Command format
 const commandConvertor = function () {
-  return async function commandConvertor(input) {
-    const { command, args, modelName, jsl, log, params, settings } = input;
+  return async function commandConvertor({
+    command,
+    args,
+    modelName,
+    jsl,
+    log,
+    params,
+    settings,
+  }) {
     const perf = log.perf.start('command.convertor', 'middleware');
 
     const newJsl = jsl.add({ $COMMAND: command.type });
 
+    // Not kept: action, fullAction
     const nextInput = {
       command,
       args,
