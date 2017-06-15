@@ -3,7 +3,12 @@
 
 const { cloneDeep, merge } = require('lodash');
 
-const { assignObject, mapValues } = require('../../../../utilities');
+const {
+  assignObject,
+  mapValues,
+  mapKeys,
+  pickBy,
+} = require('../../../../utilities');
 const { actions } = require('../../../../constants');
 const { getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
@@ -23,42 +28,45 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
 
   // Iterate through each action
   return graphqlActions
-    // Iterate through each model
     .map(action => {
-      return Object.entries(models)
-        // Remove model that are not allowed for a given action
-        .filter(([, model]) => isAllowedModel({ model, action }))
-        .map(([modelName, model]) => {
-          // E.g. 'my_model' + 'findMany' -> 'findMyModels'
-          // This will be used as the top-level graphqlMethod
-          const actionName = getActionName({ modelName, action });
+      // Remove model that are not allowed for a given action
+      const allowedModels = pickBy(models, model =>
+        isAllowedModel({ model, action })
+      );
 
-          // Add action information to the nested models
-          const properties = mapValues(model.properties, def => {
-            const subDef = getSubDef(def);
-            if (!isModel(subDef)) { return def; }
+      // E.g. 'my_model' + 'findMany' -> 'findMyModels'
+      // This will be used as the top-level graphqlMethod
+      const renamedModels = mapKeys(allowedModels, modelName =>
+        getActionName({ modelName, action })
+      );
 
-            const multiple = isMultiple(def);
-            const subAction = actions.find(act => {
-              return act.type === action.type && act.multiple === multiple;
-            });
-            return Object.assign({}, def, { action: subAction });
+      // Iterate through each model
+      return mapValues(renamedModels, model => {
+        // Add action information to the nested models
+        const properties = mapValues(model.properties, def => {
+          const subDef = getSubDef(def);
+          if (!isModel(subDef)) { return def; }
+
+          const multiple = isMultiple(def);
+          const subAction = actions.find(act => {
+            return act.type === action.type && act.multiple === multiple;
           });
+          return Object.assign({}, def, { action: subAction });
+        });
 
-          let modelCopy = cloneDeep(model);
-          merge(modelCopy, { properties, isTopLevel: true });
+        let modelCopy = cloneDeep(model);
+        merge(modelCopy, { properties, isTopLevel: true });
 
-          // Wrap in array if action is multiple
-          if (action.multiple) {
-            modelCopy = { type: 'array', items: modelCopy };
-          }
+        // Wrap in array if action is multiple
+        if (action.multiple) {
+          modelCopy = { type: 'array', items: modelCopy };
+        }
 
-          // Add action information to the top-level model
-          Object.assign(modelCopy, { action });
+        // Add action information to the top-level model
+        Object.assign(modelCopy, { action });
 
-          return [actionName, modelCopy];
-        })
-        .reduce(assignObject, {});
+        return modelCopy;
+      });
     })
     .reduce(assignObject, {});
 };
