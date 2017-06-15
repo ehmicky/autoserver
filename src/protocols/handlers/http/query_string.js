@@ -4,7 +4,7 @@
 const qs = require('qs');
 const { URL } = require('url');
 
-const { EngineError } = require('../../error');
+const { EngineError } = require('../../../error');
 
 
 const MAX_DEPTH = 10;
@@ -24,7 +24,7 @@ const MAX_ARRAY_LENGTH = 100;
 // @param {string|Url} url - Can either be a full URL, a path,
 // a query string (with leading '?') or a URL object
 // @returns {object} queryObject
-const parse = function ({ specific: { req: { url } } }) {
+const parseQueryString = function ({ specific: { req: { url } } }) {
   const queryString = getQueryString({ url });
   try {
     const queryObject = qs.parse(queryString, {
@@ -87,7 +87,7 @@ const decodeValue = function (str) {
 //
 // @param {object} queryObject
 // @returns {string} queryString
-const serialize = function (queryObject) {
+const serializeQueryString = function (queryObject) {
   try {
     const queryString = qs.stringify(queryObject, {
       depth: MAX_DEPTH,
@@ -106,8 +106,6 @@ const serialize = function (queryObject) {
 
 
 module.exports = {
-  queryString: {
-    parse,
-    serialize,
-  },
+  parseQueryString,
+  serializeQueryString,
 };

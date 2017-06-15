@@ -4,7 +4,7 @@
 const bodyParser = require('body-parser');
 const { promisify } = require('util');
 
-const { assignObject } = require('../../utilities');
+const { assignObject } = require('../../../utilities');
 
 
 // Retrieves all parsers
@@ -56,7 +56,7 @@ const parseFunc = async function (parser, { specific: { req } }) {
   return body;
 };
 
-const parse = getParsers();
+const parsePayload = getParsers();
 
 // Check if there is a request payload
 const hasPayload = function ({ specific: { req: { headers } } }) {
@@ -71,9 +71,7 @@ const getContentType = function ({ specific: { req: { headers } } }) {
 
 
 module.exports = {
-  payload: {
-    parse,
-    hasPayload,
-    getContentType
-  },
+  parsePayload,
+  hasPayload,
+  getContentType,
 };

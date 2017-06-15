@@ -1,10 +1,8 @@
 'use strict';
 
 
-const {
-  HTTP: { headers: { parsePrefer } },
-} = require('../../../../../parsing');
-const { mapValues, omitBy } = require('../../../../../utilities');
+const { mapValues, omitBy } = require('../../../utilities');
+const { parsePreferHeader } = require('./headers');
 
 
 // HTTP-specific ways to set settings
@@ -15,7 +13,7 @@ const getSettings = function ({ input }) {
 
 // Using `Prefer: return=minimal` request header -> settings.noOutput
 const noOutput = function ({ input: { headers } }) {
-  const preferHeader = parsePrefer({ headers });
+  const preferHeader = parsePreferHeader({ headers });
   const hasMinimalPreference = preferHeader.return === 'minimal';
   if (hasMinimalPreference) {
     return true;
@@ -28,7 +26,5 @@ const parsers = {
 
 
 module.exports = {
-  HTTP: {
-    getSettings,
-  },
+  getSettings,
 };

@@ -10,7 +10,7 @@ const { STATUS_LEVEL_MAP } = require('../../logging');
 // unless it crashed very early (i.e. before this middleware), in which case
 // it will still be handled by the error logging middleware.
 const logger = function () {
-  return async function httpLogger(input) {
+  return async function logger(input) {
     const { log } = input;
 
     try {

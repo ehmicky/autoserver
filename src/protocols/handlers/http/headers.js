@@ -1,22 +1,22 @@
 'use strict';
 
 
-const parsePreferHeader = require('parse-prefer-header');
+const parsePreferHeaderLib = require('parse-prefer-header');
 
-const { EngineError } = require('../../error');
+const { EngineError } = require('../../../error');
 
 
 // Returns a request's HTTP headers, normalized lowercase
-const parse = function ({ specific: { req: { headers = {} } } }) {
+const parseHeaders = function ({ specific: { req: { headers = {} } } }) {
   return headers;
 };
 
 // Parses Prefer HTTP header
-const parsePrefer = function ({ headers: { prefer } }) {
+const parsePreferHeader = function ({ headers: { prefer } }) {
   if (!prefer) { return {}; }
 
   try {
-    return parsePreferHeader(prefer);
+    return parsePreferHeaderLib(prefer);
   } catch (error) {
     const message = `HTTP 'Prefer' header value syntax error: '${prefer}'`;
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
@@ -24,7 +24,7 @@ const parsePrefer = function ({ headers: { prefer } }) {
 };
 
 // Set HTTP header, ready to be sent with response
-const send = function ({ specific: { res }, headers = {} }) {
+const sendHeaders = function ({ specific: { res }, headers = {} }) {
   for (const [name, value] of Object.entries(headers)) {
     res.setHeader(name, value);
   }
@@ -32,9 +32,7 @@ const send = function ({ specific: { res }, headers = {} }) {
 
 
 module.exports = {
-  headers: {
-    parse,
-    parsePrefer,
-    send,
-  },
+  parseHeaders,
+  parsePreferHeader,
+  sendHeaders,
 };

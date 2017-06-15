@@ -1,13 +1,12 @@
 'use strict';
 
 
-const parsing = require('../../../parsing');
 const { EngineError } = require('../../../error');
 
 
-// Sends the HTTP response at the end of the request
+// Sends the response at the end of the request
 const sender = async function (
-  { specific, protocolStatus: status = 500, protocol },
+  { specific, protocolStatus: status = 500, protocolHandler },
   { type, content }
 ) {
   if (!content || !type) {
@@ -23,7 +22,7 @@ const sender = async function (
     throw new EngineError(message, { reason: 'WRONG_RESPONSE' });
   }
 
-  const send = parsing[protocol].send;
+  const send = protocolHandler.send;
   await handler({ send, specific, content, status });
 };
 

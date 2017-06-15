@@ -2,7 +2,7 @@
 
 
 // Retrieves HTTP status code
-const httpGetProtocolStatus = function ({ error }) {
+const getProtocolStatus = function ({ error }) {
   if (!error) { return 200; }
 
   const { reason = 'UNKNOWN' } = error;
@@ -48,7 +48,7 @@ const protocolStatusesMap = {
 };
 
 // Retrieves generic status, using HTTP status code
-const httpGetStatus = function ({ protocolStatus }) {
+const getStatus = function ({ protocolStatus }) {
   const statusCategory = String(protocolStatus)[0];
   return statusesMap[statusCategory] || 'SERVER_ERROR';
 };
@@ -63,6 +63,6 @@ const statusesMap = {
 
 
 module.exports = {
-  httpGetProtocolStatus,
-  httpGetStatus,
+  getProtocolStatus,
+  getStatus,
 };

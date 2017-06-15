@@ -1,7 +1,6 @@
 'use strict';
 
 
-const parsing = require('../../parsing');
 const { transtype, mapValues, makeImmutable } = require('../../utilities');
 
 
@@ -13,10 +12,10 @@ const { transtype, mapValues, makeImmutable } = require('../../utilities');
 // `input.params`, but can also be used by operation layer as is.
 const parseQueryString = function () {
   return async function parseQueryString(input) {
-    const { specific, protocol, log } = input;
+    const { specific, protocolHandler, log } = input;
     const perf = log.perf.start('protocol.parseQueryString', 'middleware');
 
-    const queryVars = getQueryVars({ specific, protocol });
+    const queryVars = getQueryVars({ specific, protocolHandler });
     makeImmutable(queryVars);
 
     log.add({ queryVars });
@@ -29,8 +28,8 @@ const parseQueryString = function () {
 };
 
 // Retrieves query variables
-const getQueryVars = function ({ specific, protocol }) {
-  const queryVars = parsing[protocol].queryString.parse({ specific });
+const getQueryVars = function ({ specific, protocolHandler }) {
+  const queryVars = protocolHandler.parseQueryString({ specific });
 
   const transtypedQueryVars = mapValues(queryVars, value => transtype(value));
 
