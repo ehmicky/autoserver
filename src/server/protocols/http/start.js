@@ -19,14 +19,15 @@ const startServer = function ({
   server.protocolName = 'HTTP';
 
   server.listen(port, host, function listeningHandler() {
-    handleListening({ protocol: 'HTTP', host, port });
+    const { address: usedHost, port: usedPort } = server.address();
+    handleListening({ protocol: 'HTTP', host: usedHost, port: usedPort });
   });
 
   handleClientError({ server, log: processLog });
 
   const promise = new Promise((resolve, reject) => {
     server.on('listening', () => resolve(server));
-    server.on('error', () => reject());
+    server.on('error', error => reject(error));
   });
 
   return promise;
