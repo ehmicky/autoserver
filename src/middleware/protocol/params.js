@@ -59,7 +59,7 @@ const getHeadersParams = function ({ input: { headers } }) {
     .reduce(assignObject, {});
 };
 
-const PARAMS_NAME_REGEXP = /x-api-engine-param-/;
+const PARAMS_NAME_REGEXP = /x-api-engine-param-/i;
 
 
 module.exports = {
