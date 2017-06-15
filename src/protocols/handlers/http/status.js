@@ -9,6 +9,9 @@ const getProtocolStatus = function ({ error }) {
   return protocolStatusesMap[reason] || protocolStatusesMap.UNKNOWN_TYPE;
 };
 
+// Generic error status when none can be found
+const failureProtocolStatus = 500;
+
 // All error reasons and their related HTTP status code
 const protocolStatusesMap = {
   UNSUPPORTED_PROTOCOL: 400,
@@ -65,4 +68,5 @@ const statusesMap = {
 module.exports = {
   getProtocolStatus,
   getStatus,
+  failureProtocolStatus,
 };

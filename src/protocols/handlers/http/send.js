@@ -48,10 +48,12 @@ const sendText = async function ({
   return await send({ specific, content, contentType, status });
 };
 
-const sendNothing = async function ({ specific: { res } }) {
+const sendNothing = async function ({ specific: { res }, status }) {
+  if (status) {
+    res.statusCode = status;
+  }
   await promisify(res.end.bind(res))();
 };
-
 
 
 module.exports = {
