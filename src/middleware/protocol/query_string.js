@@ -2,7 +2,7 @@
 
 
 const parsing = require('../../parsing');
-const { transtype, mapValues } = require('../../utilities');
+const { transtype, mapValues, makeImmutable } = require('../../utilities');
 
 
 // Fill in `input.queryVars` using protocol-specific URL query variables
@@ -17,6 +17,7 @@ const parseQueryString = function () {
     const perf = log.perf.start('protocol.parseQueryString', 'middleware');
 
     const queryVars = getQueryVars({ specific, protocol });
+    makeImmutable(queryVars);
 
     log.add({ queryVars });
     Object.assign(input, { queryVars });

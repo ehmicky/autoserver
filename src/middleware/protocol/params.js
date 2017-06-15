@@ -3,7 +3,13 @@
 
 const { camelize } = require('underscore.string');
 
-const { transtype, mapValues, mapKeys, pickBy } = require('../../utilities');
+const {
+  transtype,
+  mapValues,
+  mapKeys,
+  pickBy,
+  makeImmutable,
+} = require('../../utilities');
 
 
 // Fill in `input.params`, which are custom application-specific information,
@@ -19,6 +25,7 @@ const parseParams = function () {
     const perf = log.perf.start('protocol.parseParams', 'middleware');
 
     const params = getParams({ input });
+    makeImmutable(params);
 
     const newJsl = jsl.add({ $PARAMS: params });
 
