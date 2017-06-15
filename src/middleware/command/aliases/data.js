@@ -58,11 +58,11 @@ const getAliasData = function ({ newData, currentData, attrName, aliases }) {
 
 // If the request specifies several aliases, all values must be equal
 const validateAliases = function ({ newValue, aliasData, firstAttrName }) {
-  const wrongAlias = Object.entries(aliasData)
-    .find(([, value]) => !isEqual(value, newValue));
+  const wrongAlias = Object.keys(aliasData)
+    .find(name => !isEqual(aliasData[name], newValue));
   if (!wrongAlias) { return; }
 
-  const message = `'data.${firstAttrName}' and 'data.${wrongAlias[0]}' have different values ('${JSON.stringify(newValue)}' and '${JSON.stringify(wrongAlias[1])}') but must have identical values because they are aliases.`;
+  const message = `'data.${firstAttrName}' and 'data.${wrongAlias}' have different values ('${JSON.stringify(newValue)}' and '${JSON.stringify(aliasData[wrongAlias])}') but must have identical values because they are aliases.`;
   throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
 };
 
