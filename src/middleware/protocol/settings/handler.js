@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { makeImmutable } = require('../../../utilities');
 const { getSettings } = require('./parse');
 const { validateSettings } = require('./validate');
 const protocolSettings = require('./protocols');
@@ -26,6 +27,7 @@ const parseSettings = function () {
     const settings = Object.assign({}, genericSettings, specificSettings);
 
     validateSettings({ settings });
+    makeImmutable(settings);
 
     const newJsl = jsl.add({ $SETTINGS: settings });
 

@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { makeImmutable } = require('../../../../utilities');
 const { parseQuery } = require('./parse');
 const { getHandleQuery } = require('./query');
 const {
@@ -57,6 +58,7 @@ const executeGraphql = function ({ idl, serverOpts }) {
 
     const type = getResponseType({ content });
 
+    makeImmutable(actions);
     perf.stop();
     const response = { content, type, actions };
     return response;

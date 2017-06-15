@@ -3,6 +3,7 @@
 
 const parsing = require('../../parsing');
 const { EngineError } = require('../../error');
+const { makeImmutable } = require('../../utilities');
 
 
 // Fill in `input.payload` using protocol-specific request payload.
@@ -15,6 +16,7 @@ const parsePayload = function () {
     const perf = log.perf.start('protocol.parsePayload', 'middleware');
 
     const payload = await getPayload({ specific, protocol });
+    makeImmutable(payload);
 
     log.add({ payload });
     Object.assign(input, { payload });

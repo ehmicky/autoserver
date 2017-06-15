@@ -2,6 +2,7 @@
 
 
 const parsing = require('../../parsing');
+const { makeImmutable } = require('../../utilities');
 
 
 // Fill in `input.headers` using protocol-specific headers.
@@ -15,6 +16,7 @@ const parseHeaders = function () {
     const perf = log.perf.start('protocol.parseHeaders', 'middleware');
 
     const headers = parsing[protocol].headers.parse({ specific });
+    makeImmutable(headers);
 
     log.add({ headers });
     Object.assign(input, { headers });

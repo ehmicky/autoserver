@@ -2,6 +2,7 @@
 
 
 const { EngineError } = require('../../../error');
+const { makeImmutable } = require('../../../utilities');
 const { getRoutes } = require('./routes');
 
 
@@ -22,6 +23,7 @@ const router = function ({ serverState: { startupLog } }) {
     }
 
     const pathVars = routes.getPathVars({ path, route });
+    makeImmutable(pathVars);
 
     log.add({ route: route.name, pathVars });
     Object.assign(input, { route: route.name, pathVars });
