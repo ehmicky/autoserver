@@ -58,7 +58,7 @@ const start = async function (options, serverState) {
   serverState.handleListening = handleListening.bind(null, serverState);
   makeImmutable(serverState);
 
-  const servers = await startAllServers({ serverState });
+  const servers = await startAllServers({ serverState, serverOpts });
   apiServer.servers = servers;
 
   perf.start();
@@ -84,12 +84,13 @@ const handleListening = function ({ startupLog }, { protocol, host, port }) {
 const startAllServers = async function ({
   serverState,
   serverState: { startupLog },
+  serverOpts,
 }) {
   const serversPerf = startupLog.perf.start('servers');
 
   const protocols = Object.keys(protocolStartServer);
   const serversPromises = protocols.map(async protocol => {
-    return await startSingleServer({ protocol, serverState });
+    return await startSingleServer({ protocol, serverState, serverOpts });
   });
 
   // Make sure all servers are starting concurrently, not serially
@@ -107,10 +108,12 @@ const startSingleServer = async function ({
   protocol,
   serverState,
   serverState: { startupLog },
+  serverOpts,
 }) {
   const perf = startupLog.perf.start(protocol, 'server');
   const server = await protocolStartServer[protocol].startServer({
     serverState,
+    serverOpts,
   });
   perf.stop();
   return server;

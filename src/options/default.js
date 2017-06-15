@@ -30,6 +30,10 @@ const defaultOptions = {
     params: [],
     settings: [],
   },
+  HTTP: {
+    host: process.env.HOST || 'localhost',
+    port: 80,
+  },
 };
 
 
