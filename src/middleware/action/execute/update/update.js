@@ -4,7 +4,7 @@
 const { cloneDeep } = require('lodash');
 
 const { omit } = require('../../../../utilities');
-const { commands } = require('../../../../constants');
+const { COMMANDS } = require('../../../../constants');
 const { EngineError } = require('../../../../error');
 const { isJsl } = require('../../../../jsl');
 
@@ -17,7 +17,7 @@ const getUpdateInput = function ({ input, models }) {
   const { args, action, jsl } = input;
 
   const isMultiple = action.multiple;
-  const command = commands.find(({ type, multiple }) => {
+  const command = COMMANDS.find(({ type, multiple }) => {
     return type === 'update' && multiple === isMultiple;
   });
   const newArgs = getUpdateArgs({ args, models, jsl });

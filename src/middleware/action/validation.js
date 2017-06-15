@@ -4,7 +4,7 @@
 const { isEqual } = require('lodash');
 
 const { validate } = require('../../validation');
-const { actions } = require('../../constants');
+const { ACTIONS } = require('../../constants');
 const { EngineError } = require('../../error');
 
 
@@ -65,7 +65,7 @@ const getValidateServerSchema = function ({ models = {} }) {
 
 // Validate that action is among the possible ones
 const validateAction = function ({ action }) {
-  const isValid = actions.some(possibleAction => {
+  const isValid = ACTIONS.some(possibleAction => {
     return isEqual(possibleAction, action);
   });
   if (!isValid) {

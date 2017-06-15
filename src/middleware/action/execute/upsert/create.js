@@ -3,7 +3,7 @@
 
 const { cloneDeep } = require('lodash');
 
-const { commands } = require('../../../../constants');
+const { COMMANDS } = require('../../../../constants');
 
 
 // Retrieves the input for the "create" command
@@ -14,7 +14,7 @@ const getCreateInput = function ({ input, data }) {
   const { args, action } = input;
 
   const isMultiple = action.multiple;
-  const command = commands.find(({ type, multiple }) => {
+  const command = COMMANDS.find(({ type, multiple }) => {
     return type === 'create' && multiple === isMultiple;
   });
 

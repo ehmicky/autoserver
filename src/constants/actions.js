@@ -1,7 +1,10 @@
 'use strict';
 
 
-const actions = [
+const { makeImmutable } = require('../utilities');
+
+
+const ACTIONS = [
   {
     name: 'findOne',
     type: 'find',
@@ -75,8 +78,9 @@ const actions = [
     commandNames: ['deleteMany'],
   },
 ];
+makeImmutable(ACTIONS);
 
 
 module.exports = {
-  actions,
+  ACTIONS,
 };

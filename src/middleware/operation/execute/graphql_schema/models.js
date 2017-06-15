@@ -9,7 +9,7 @@ const {
   mapKeys,
   pickBy,
 } = require('../../../../utilities');
-const { actions } = require('../../../../constants');
+const { ACTIONS } = require('../../../../constants');
 const { getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 
@@ -23,7 +23,7 @@ const graphqlMethods = {
 // Retrieve models for a given GraphQL method
 const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
   // Only include actions for a given GraphQL method
-  const graphqlActions = actions
+  const graphqlActions = ACTIONS
     .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type));
 
   // Iterate through each action
@@ -48,7 +48,7 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
           if (!isModel(subDef)) { return def; }
 
           const multiple = isMultiple(def);
-          const subAction = actions.find(act => {
+          const subAction = ACTIONS.find(act => {
             return act.type === action.type && act.multiple === multiple;
           });
           return Object.assign({}, def, { action: subAction });

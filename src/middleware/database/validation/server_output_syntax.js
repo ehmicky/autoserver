@@ -2,7 +2,7 @@
 
 
 const { validate } = require('../../../validation');
-const { commands } = require('../../../constants');
+const { COMMANDS } = require('../../../constants');
 
 
 // Check output, for the errors that should not happen,
@@ -10,7 +10,7 @@ const { commands } = require('../../../constants');
 // In short: response should be an array of objects
 const validateServerOutputSyntax = function ({ command, response }) {
   const type = 'serverOutputSyntax';
-  const { multiple } = commands.find(({ name }) => name === command.name);
+  const { multiple } = COMMANDS.find(({ name }) => name === command.name);
   const schema = getSchema({ multiple });
   validate({ schema, data: response, reportInfo: { type } });
 };

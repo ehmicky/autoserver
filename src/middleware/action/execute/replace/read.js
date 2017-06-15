@@ -3,7 +3,7 @@
 
 const { cloneDeep } = require('lodash');
 
-const { commands } = require('../../../../constants');
+const { COMMANDS } = require('../../../../constants');
 const { getFilter } = require('../upsert/filter');
 
 
@@ -15,7 +15,7 @@ const getReadInput = function ({ input }) {
   const { action } = input;
 
   const isMultiple = action.multiple;
-  const command = commands.find(({ type, multiple }) => {
+  const command = COMMANDS.find(({ type, multiple }) => {
     return type === 'read' && multiple === isMultiple;
   });
 

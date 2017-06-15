@@ -4,7 +4,7 @@
 const { isEqual } = require('lodash');
 
 const { validate } = require('../../validation');
-const { commands } = require('../../constants');
+const { COMMANDS } = require('../../constants');
 const { EngineError } = require('../../error');
 
 
@@ -81,7 +81,7 @@ const getValidateServerSchema = function ({ models = {} }) {
 
 // Validate that command is among the possible ones
 const validateCommand = function ({ command }) {
-  const isValid = commands.some(possibleCommand => {
+  const isValid = COMMANDS.some(possibleCommand => {
     return isEqual(possibleCommand, command);
   });
   if (!isValid) {
