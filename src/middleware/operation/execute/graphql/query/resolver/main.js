@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { actions } = require('../../../../../../constants');
+const { ACTIONS } = require('../../../../../../constants');
 const { EngineError } = require('../../../../../../error');
 const { typenameResolver } = require('./typename');
 const { metadataResolver } = require('./metadata');
@@ -46,7 +46,7 @@ const getResolver = ({ modelsMap }) => async function mainResolver(
   if (directReturn !== undefined) { return directReturn; }
 
   // Retrieve action name, passed to database layer
-  const action = actions.find(act => {
+  const action = ACTIONS.find(act => {
     return act.multiple === multiple && act.type === actionType;
   });
   // This means the query specified an attribute that is not present

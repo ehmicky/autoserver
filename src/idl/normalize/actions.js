@@ -3,12 +3,12 @@
 
 const { difference } = require('lodash');
 
-const { actions: allActions } = require('../../constants');
+const { ACTIONS } = require('../../constants');
 
 
 // Retrieve possible actions using possible commandNames
 const getActions = function ({ commandNames }) {
-  return allActions
+  return ACTIONS
     .filter(({ commandNames: requiredCommands }) => {
       return difference(requiredCommands, commandNames).length === 0;
     })

@@ -1,7 +1,10 @@
 'use strict';
 
 
-const commands = [
+const { makeImmutable } = require('../utilities');
+
+
+const COMMANDS = [
   { name: 'createOne', type: 'create', multiple: false },
   { name: 'createMany', type: 'create', multiple: true },
   { name: 'readOne', type: 'read', multiple: false },
@@ -11,8 +14,9 @@ const commands = [
   { name: 'deleteOne', type: 'delete', multiple: false },
   { name: 'deleteMany', type: 'delete', multiple: true },
 ];
+makeImmutable(COMMANDS);
 
 
 module.exports = {
-  commands,
+  COMMANDS,
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { commands } = require('../../../constants');
+const { COMMANDS } = require('../../../constants');
 
 
 /**
@@ -13,7 +13,7 @@ const findAction = function () {
     const perf = log.perf.start('action.find', 'middleware');
 
     const isMultiple = action.multiple;
-    const command = commands.find(({ type, multiple }) => {
+    const command = COMMANDS.find(({ type, multiple }) => {
       return type === 'read' && multiple === isMultiple;
     });
 

@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { commands } = require('../../../constants');
+const { COMMANDS } = require('../../../constants');
 const { omit } = require('../../../utilities');
 
 
@@ -14,7 +14,7 @@ const createAction = function () {
     const perf = log.perf.start('action.create', 'middleware');
 
     const isMultiple = action.multiple;
-    const command = commands.find(({ type, multiple }) => {
+    const command = COMMANDS.find(({ type, multiple }) => {
       return type === 'create' && multiple === isMultiple;
     });
 
