@@ -3,6 +3,7 @@
 
 const http = require('http');
 
+const { ENV } = require('../../../utilities');
 const { addStopFunctions } = require('./stop');
 
 
@@ -15,8 +16,15 @@ const startServer = function ({
     handleRequest({ protocol: 'HTTP', req, res });
   });
 
-  addStopFunctions({ server });
   server.protocolName = 'HTTP';
+
+  // In development, Nodemon restarts the server.
+  // Pending sockets slow down that restart, so we disable keep-alive.
+  if (ENV === 'dev') {
+    server.keepAliveTimeout = 1;
+  }
+
+  addStopFunctions({ server });
 
   server.on('listening', function listeningHandler() {
     const { address: usedHost, port: usedPort } = this.address();
