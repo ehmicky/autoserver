@@ -131,11 +131,6 @@ const getMiddleware = async function ({
     mdw.databaseValidation,
     // Do the database action, protocol and operation-agnostic
     mdw.databaseExecute,
-
-    /**
-     * Catch-all error middleware
-     **/
-    mdw.noResponse,
   ]);
 
   perf.stop();

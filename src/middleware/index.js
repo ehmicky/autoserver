@@ -9,5 +9,4 @@ module.exports = Object.assign(
   require('./action'),
   require('./command'),
   require('./database'),
-  require('./no_response')
 );

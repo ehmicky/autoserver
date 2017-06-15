@@ -7,7 +7,7 @@
  *   - take an array of functions as input, and returns it transformed
  *   - calling `this.next(...)` in any function will now call the next function
  *     with the same arguments
- *   - the last function's `this.next(...)` is an identity function
+ *   - the last function's `this.next(...)` throws an error
  * Characteristics:
  *   - as opposed to Express middleware, but similarly to Koa,
  *     the middleware series is conceptually a stack, not a pipe.
@@ -32,8 +32,8 @@ const chain = function (funcs) {
     .reverse();
 };
 
-const lastFunc = function (val) {
-  return val;
+const lastFunc = function () {
+  throw new Error('No middleware was able to handle the request');
 };
 
 const bindFunctions = function (funcs, func) {
