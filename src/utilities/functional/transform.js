@@ -3,7 +3,7 @@
 
 const { each } = require('lodash');
 
-const { recurseMapByRef } = require('./recurse_map_by_ref');
+const { recurseMapByRef } = require('./map');
 
 
 /**
