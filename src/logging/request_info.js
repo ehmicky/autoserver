@@ -15,6 +15,7 @@ const { omit } = require('../utilities');
 //   - protocol {string} - e.g. HTTP
 //   - protocolFullName {string} - e.g. HTTP/1.1
 //   - url {string} - full URL
+//   - origin {string} - protocol + host + port
 //   - path {string} - only the URL path, with no query string nor hash
 //   - route {string} - internal route picked according to the URL,
 //     among `GraphQL`, `GraphiQL` and `GraphQLPrint`

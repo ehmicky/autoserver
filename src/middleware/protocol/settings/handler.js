@@ -4,7 +4,6 @@
 const { makeImmutable } = require('../../../utilities');
 const { getSettings } = require('./parse');
 const { validateSettings } = require('./validate');
-const protocolSettings = require('./protocols');
 
 
 // Fill in `input.settings`, which are settings which apply to the whole
@@ -19,11 +18,11 @@ const protocolSettings = require('./protocols');
 // Are set to JSL param $SETTINGS
 const parseSettings = function () {
   return async function parseSettings(input) {
-    const { jsl, log, protocol } = input;
+    const { jsl, log, protocolHandler } = input;
     const perf = log.perf.start('protocol.parseSettings', 'middleware');
 
     const genericSettings = getSettings({ input });
-    const specificSettings = protocolSettings[protocol].getSettings({ input });
+    const specificSettings = protocolHandler.getSettings({ input });
     const settings = Object.assign({}, genericSettings, specificSettings);
 
     validateSettings({ settings });

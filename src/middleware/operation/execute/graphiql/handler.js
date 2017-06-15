@@ -4,12 +4,12 @@
 const { renderGraphiQL } = require('./render');
 
 
-const executeGraphiql = function ({ serverState }) {
+const executeGraphiql = function () {
   return async function executeGraphiql(input) {
-    const { queryVars, payload = {}, log } = input;
+    const { queryVars, payload = {}, origin, log } = input;
     const perf = log.perf.start('operation.executeGraphiql', 'middleware');
 
-    const endpointURL = getEndpointURL({ serverState });
+    const endpointURL = `${origin}/graphql`;
     const {
       query,
       variables,
@@ -29,21 +29,6 @@ const executeGraphiql = function ({ serverState }) {
       content,
     };
   };
-};
-
-const getEndpointURL = function ({
-  serverState: {
-    apiServer: {
-      servers: { HTTP },
-    },
-  },
-}) {
-  let { address, port } = HTTP.address();
-
-  // TODO: remove once we support CORS
-  address = 'localhost';
-
-  return `http://${address}:${port}/graphql`;
 };
 
 

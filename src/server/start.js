@@ -7,9 +7,9 @@ const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
 const { makeImmutable, assignObject } = require('../utilities');
+const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('./middleware');
 const { getServerState } = require('./state');
-const protocolStartServer = require('./protocols');
 const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./startup_error');
 
@@ -88,7 +88,6 @@ const startAllServers = async function ({
 }) {
   const serversPerf = startupLog.perf.start('servers');
 
-  const protocols = Object.keys(protocolStartServer);
   const serversPromises = protocols.map(async protocol => {
     return await startSingleServer({ protocol, serverState, serverOpts });
   });
@@ -111,7 +110,8 @@ const startSingleServer = async function ({
   serverOpts,
 }) {
   const perf = startupLog.perf.start(protocol, 'server');
-  const server = await protocolStartServer[protocol].startServer({
+  const protocolHandler = protocolHandlers[protocol];
+  const server = await protocolHandler.startServer({
     serverState,
     serverOpts,
   });

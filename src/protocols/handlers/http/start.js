@@ -12,14 +12,15 @@ const startServer = function ({
   serverOpts: { HTTP: { host, port } },
 }) {
   const server = http.createServer(function requestHandler(req, res) {
-    handleRequest({ req, res });
+    handleRequest({ protocol: 'HTTP', req, res });
   });
 
-  addStopFunctions(server);
+  addStopFunctions({ server });
   server.protocolName = 'HTTP';
 
   server.on('listening', function listeningHandler() {
     const { address: usedHost, port: usedPort } = this.address();
+    Object.assign(server, { host: usedHost, port: usedPort });
     handleListening({ protocol: 'HTTP', host: usedHost, port: usedPort });
   });
 
@@ -47,7 +48,5 @@ const handleClientError = function ({ server, log }) {
 
 
 module.exports = {
-  HTTP: {
-    startServer,
-  },
+  startServer,
 };

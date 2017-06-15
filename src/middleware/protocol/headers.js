@@ -1,7 +1,6 @@
 'use strict';
 
 
-const parsing = require('../../parsing');
 const { makeImmutable } = require('../../utilities');
 
 
@@ -12,10 +11,10 @@ const { makeImmutable } = require('../../utilities');
 // `input.params`, but can also be used by operation layer as is.
 const parseHeaders = function () {
   return async function parseHeaders(input) {
-    const { specific, protocol, log } = input;
+    const { specific, protocolHandler, log } = input;
     const perf = log.perf.start('protocol.parseHeaders', 'middleware');
 
-    const headers = parsing[protocol].headers.parse({ specific });
+    const headers = protocolHandler.parseHeaders({ specific });
     makeImmutable(headers);
 
     log.add({ headers });

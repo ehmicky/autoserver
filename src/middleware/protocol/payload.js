@@ -1,7 +1,6 @@
 'use strict';
 
 
-const parsing = require('../../parsing');
 const { EngineError } = require('../../error');
 const { makeImmutable } = require('../../utilities');
 
@@ -12,10 +11,10 @@ const { makeImmutable } = require('../../utilities');
 // Meant to be used by operation layer, e.g. to populate `input.args`
 const parsePayload = function () {
   return async function parsePayload(input) {
-    const { specific, protocol, log } = input;
+    const { specific, protocolHandler, log } = input;
     const perf = log.perf.start('protocol.parsePayload', 'middleware');
 
-    const payload = await getPayload({ specific, protocol });
+    const payload = await getPayload({ specific, protocolHandler });
     makeImmutable(payload);
 
     log.add({ payload });
@@ -34,21 +33,21 @@ const parsePayload = function () {
 // @returns {any} value - type differs according to Content-Type,
 //                        e.g. application/json is object but
 //                        text/plain is string
-const getPayload = async function ({ specific, protocol }) {
-  if (!parsing[protocol].payload.hasPayload({ specific })) { return; }
+const getPayload = async function ({ specific, protocolHandler }) {
+  if (!protocolHandler.hasPayload({ specific })) { return; }
 
-  const parse = parsing[protocol].payload.parse;
+  const parse = protocolHandler.parsePayload;
   for (const payloadHandler of payloadHandlers) {
     const payload = await payloadHandler({ specific, parse });
     if (payload !== undefined) { return payload; }
   }
 
-  payloadError({ specific, protocol });
+  payloadError({ specific, protocolHandler });
 };
 
 // There is a payload, but it could not be read
-const payloadError = function ({ specific, protocol }) {
-  const contentType = parsing[protocol].payload.getContentType({ specific });
+const payloadError = function ({ specific, protocolHandler }) {
+  const contentType = protocolHandler.getContentType({ specific });
   if (!contentType) {
     const message = 'Must specify Content-Type when sending a request payload';
     throw new EngineError(message, { reason: 'NO_CONTENT_TYPE' });

@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { EngineError } = require('../../error');
+const { EngineError } = require('../../../error');
 
 
 // Retrieves HTTP method
@@ -30,8 +30,6 @@ const goalMap = {
 
 
 module.exports = {
-  method: {
-    getMethod,
-    getGoal,
-  },
+  getMethod,
+  getGoal,
 };

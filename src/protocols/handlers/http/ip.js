@@ -4,11 +4,11 @@
 const { getClientIp } = require('request-ip');
 
 
-const httpGetIp = function ({ specific: { req } }) {
+const getIp = function ({ specific: { req } }) {
   return getClientIp(req);
 };
 
 
 module.exports = {
-  httpGetIp,
+  getIp,
 };

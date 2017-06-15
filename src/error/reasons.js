@@ -26,7 +26,7 @@ const errorReasons = {
   // Tried to query an operation that is not supported, e.g. SOAP
   UNSUPPORTED_OPERATION: {},
 
-  // HTTP request is trying to perform a GraphQL query,
+  // Request is trying to perform a GraphQL query,
   // but does not specify the query
   GRAPHQL_NO_QUERY: {},
 
