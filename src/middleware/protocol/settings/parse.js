@@ -35,7 +35,7 @@ const getHeadersSettings = function ({ input: { headers } }) {
     .reduce(assignObject, {});
 };
 
-const SETTINGS_NAME_REGEXP = /x-api-engine-/;
+const SETTINGS_NAME_REGEXP = /x-api-engine-/i;
 
 
 module.exports = {
