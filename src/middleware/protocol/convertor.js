@@ -8,7 +8,7 @@ const { protocolHandlers } = require('../../protocols');
 // Converts from no format to Protocol format
 const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
   return async function protocolConvertor(input) {
-    const { specific, log, protocol } = input;
+    const { specific, log, protocol, now } = input;
 
     const perf = log.perf.start('protocol.convertor', 'middleware');
 
@@ -24,6 +24,7 @@ const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
     const newInput = {
       specific,
       log,
+      now,
       protocol,
       protocolHandler,
       protocolFullName,
