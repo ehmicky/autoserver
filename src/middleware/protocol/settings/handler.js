@@ -25,7 +25,7 @@ const parseSettings = function () {
     const specificSettings = protocolSettings[protocol].getSettings({ input });
     const settings = Object.assign({}, genericSettings, specificSettings);
 
-    validateSettings({ settings: specificSettings });
+    validateSettings({ settings });
 
     const newJsl = jsl.add({ $SETTINGS: settings });
 
