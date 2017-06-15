@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { omit, assignObject } = require('../../utilities');
+const { omit, mapValues, pickBy } = require('../../utilities');
 
 
 /**
@@ -41,14 +41,10 @@ const handleReadOnly = function ({ idl, serverState: { startupLog } }) {
 // Gets a map of models' readonly attributes,
 // e.g. { my_model: ['my_readonly_attribute', ...], ... }
 const getReadOnlyMap = function ({ idl: { models } }) {
-  return Object.entries(models)
-    .map(([modelName, { properties = {} }]) => {
-      const readOnlyProps = Object.entries(properties)
-        .filter(([, { readOnly }]) => readOnly)
-        .map(([attrName]) => attrName);
-      return { [modelName]: readOnlyProps };
-    })
-    .reduce(assignObject, {});
+  return mapValues(models, ({ properties = {} }) => {
+    const readOnlyProps = pickBy(properties, ({ readOnly }) => readOnly);
+    return Object.keys(readOnlyProps);
+  });
 };
 
 const removeReadOnly = function ({ newData, readOnlyAttrs }) {

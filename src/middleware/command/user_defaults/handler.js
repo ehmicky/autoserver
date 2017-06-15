@@ -1,6 +1,7 @@
 'use strict';
 
 
+const { mapValues, pickBy } = require('../../../utilities');
 const { applyAllDefault } = require('./apply');
 
 
@@ -20,7 +21,7 @@ const userDefaults = function ({ idl, serverState: { startupLog } }) {
     const perf = log.perf.start('command.userDefaults', 'middleware');
 
     if (args.newData) {
-      const defAttributes = defMap.get(modelName);
+      const defAttributes = defMap[modelName];
       args.newData = applyAllDefault({ jsl, defAttributes, value: newData });
     }
 
@@ -33,19 +34,13 @@ const userDefaults = function ({ idl, serverState: { startupLog } }) {
 // Retrieves map of models's attributes for which a default value is defined
 // E.g. { User: { name: 'default_name', ... }, ... }
 const getDefMap = function ({ idl: { models } }) {
-  const defMap = Object.entries(models)
-    .map(([modelName, { properties = {}, required = [] }]) => {
-      const modelDefMap = Object.entries(properties)
-        .map(([propName, prop]) => [propName, prop.default])
-        .filter(([propName, defValue]) =>
-          defValue !== undefined &&
-          // Required values do not have default values
-          !required.includes(propName)
-        );
-      const props = new Map(modelDefMap);
-      return [modelName, props];
-    });
-  return new Map(defMap);
+  return mapValues(models, ({ properties = {}, required = [] }) => {
+    const propDefaults = mapValues(properties, prop => prop.default);
+    return pickBy(propDefaults, (defValue, propName) =>
+      // Required values do not have default values
+      defValue !== undefined && !required.includes(propName)
+    );
+  });
 };
 
 
