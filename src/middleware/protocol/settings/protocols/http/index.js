@@ -4,18 +4,13 @@
 const {
   HTTP: { headers: { parsePrefer } },
 } = require('../../../../../parsing');
-const { assignObject } = require('../../../../../utilities');
+const { mapValues, omitBy } = require('../../../../../utilities');
 
 
 // HTTP-specific ways to set settings
 const getSettings = function ({ input }) {
-  return Object.entries(parsers)
-    .map(([name, parser]) => {
-      const value = parser({ input });
-      return [name, value];
-    })
-    .filter(([, value]) => value !== undefined)
-    .reduce(assignObject, {});
+  const settings = mapValues(parsers, parser => parser({ input }));
+  return omitBy(settings, value => value === undefined);
 };
 
 // Using `Prefer: return=minimal` request header -> settings.noOutput

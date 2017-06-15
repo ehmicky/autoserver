@@ -3,7 +3,7 @@
 
 const { camelize } = require('underscore.string');
 
-const { transtype, mapValues, assignObject } = require('../../utilities');
+const { transtype, mapValues, mapKeys, pickBy } = require('../../utilities');
 
 
 // Fill in `input.params`, which are custom application-specific information,
@@ -49,14 +49,13 @@ const getQueryParams = function ({ input: { queryVars: { params } } }) {
 // Filters headers with only the headers whose name starts
 // with X-Api-Engine-Param-My-Param
 const getHeadersParams = function ({ input: { headers } }) {
-  return Object.entries(headers)
-    .filter(([name]) => PARAMS_NAME_REGEXP.test(name))
-    .map(([name, value]) => {
-      const shortName = name.replace(PARAMS_NAME_REGEXP, '');
-      const key = camelize(shortName, true);
-      return { [key]: value };
-    })
-    .reduce(assignObject, {});
+  const paramHeaders = pickBy(headers, (value, name) =>
+    PARAMS_NAME_REGEXP.test(name)
+  );
+  return mapKeys(paramHeaders, name => {
+    const shortName = name.replace(PARAMS_NAME_REGEXP, '');
+    return camelize(shortName, true);
+  });
 };
 
 const PARAMS_NAME_REGEXP = /x-api-engine-param-/i;

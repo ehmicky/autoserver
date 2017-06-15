@@ -3,7 +3,7 @@
 
 const { camelize } = require('underscore.string');
 
-const { transtype, mapValues, assignObject } = require('../../../utilities');
+const { transtype, mapValues, mapKeys, pickBy } = require('../../../utilities');
 
 
 // Retrieves settings
@@ -25,14 +25,13 @@ const getQuerySettings = function ({ input: { queryVars: { settings } } }) {
 // Filters headers with only the headers whose name starts
 // with X-Api-Engine-My-Settings
 const getHeadersSettings = function ({ input: { headers } }) {
-  return Object.entries(headers)
-    .filter(([name]) => SETTINGS_NAME_REGEXP.test(name))
-    .map(([name, value]) => {
-      const shortName = name.replace(SETTINGS_NAME_REGEXP, '');
-      const key = camelize(shortName, true);
-      return { [key]: value };
-    })
-    .reduce(assignObject, {});
+  const settingsHeaders = pickBy(headers, (value, name) =>
+    SETTINGS_NAME_REGEXP.test(name)
+  );
+  return mapKeys(settingsHeaders, name => {
+    const shortName = name.replace(SETTINGS_NAME_REGEXP, '');
+    return camelize(shortName, true);
+  });
 };
 
 const SETTINGS_NAME_REGEXP = /x-api-engine-/i;
