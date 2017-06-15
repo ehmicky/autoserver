@@ -3,13 +3,13 @@
 
 const http = require('http');
 
-const { host, port } = require('../../../config');
 const { addStopFunctions } = require('./stop');
 
 
 // Start HTTP server
 const startServer = function ({
   serverState: { handleRequest, handleListening, processLog },
+  serverOpts: { HTTP: { host, port } },
 }) {
   const server = http.createServer(function requestHandler(req, res) {
     handleRequest({ req, res });
@@ -18,17 +18,19 @@ const startServer = function ({
   addStopFunctions(server);
   server.protocolName = 'HTTP';
 
-  server.listen(port, host, function listeningHandler() {
-    const { address: usedHost, port: usedPort } = server.address();
+  server.on('listening', function listeningHandler() {
+    const { address: usedHost, port: usedPort } = this.address();
     handleListening({ protocol: 'HTTP', host: usedHost, port: usedPort });
   });
-
-  handleClientError({ server, log: processLog });
 
   const promise = new Promise((resolve, reject) => {
     server.on('listening', () => resolve(server));
     server.on('error', error => reject(error));
   });
+
+  handleClientError({ server, log: processLog });
+
+  server.listen(port, host);
 
   return promise;
 };

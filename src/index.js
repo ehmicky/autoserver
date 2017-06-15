@@ -30,6 +30,13 @@ startServer({
   // User can override pagination size. This sets an upper limit.
   // Defaults to 100.
   maxPageSize: 100,
+  // HTTP server options
+  HTTP: {
+    // Defaults to environment variable HOST, or 'localhost'
+    host: 'localhost',
+    // Defaults to 80. Can be 0 for "any available port".
+    port: 5001,
+  },
 })
 // Returns an EventEmitter2 firing the following events: start, error,
 // stop.success, stop.fail

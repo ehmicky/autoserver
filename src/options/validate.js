@@ -73,6 +73,21 @@ const schema = {
       },
     },
 
+    HTTP: {
+      type: 'object',
+      properties: {
+        host: {
+          type: 'string',
+        },
+        port: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 65535,
+        },
+      },
+      additionalProperties: false,
+    },
+
   },
   additionalProperties: false,
 };
