@@ -28,6 +28,8 @@ const protocolStatusesMap = {
 
   WRONG_COMMAND: 405,
 
+  REQUEST_TIMEOUT: 408,
+
   DATABASE_MODEL_CONFLICT: 409,
 
   INPUT_LIMIT: 413,

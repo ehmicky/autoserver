@@ -49,6 +49,8 @@ const getMiddleware = async function ({
     mdw.getStatus,
     // Sets how long it took to handle request before responding it
     mdw.setResponseTime,
+    // Abort request after a certain delay
+    mdw.setRequestTimeout,
     // Retrieves timestamp
     mdw.getTimestamp,
     // Sets requestId, serverId, serverName

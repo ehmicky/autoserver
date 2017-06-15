@@ -49,6 +49,9 @@ const errorReasons = {
   // Command is not supported, or most likely not allowed for this model
   WRONG_COMMAND: {},
 
+  // The request took too long
+  REQUEST_TIMEOUT: {},
+
   // A command conflicts with another one,
   // e.g. tries to create already existing model
   DATABASE_MODEL_CONFLICT: {},

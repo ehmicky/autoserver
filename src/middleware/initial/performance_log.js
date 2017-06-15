@@ -8,6 +8,9 @@ const performanceLog = function () {
     const { log } = input;
     log.perf.all = log.perf.start('all', 'all');
 
+    // Used by other middleware, like timestamp and requestTimeout
+    input.now = Date.now();
+
     try {
       const response = await this.next(input);
       return response;
