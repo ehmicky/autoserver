@@ -1,7 +1,8 @@
 'use strict';
 
 
-// Keeps track of the modelName associated with each response, so each child resolver knows what's the current model
+// Keeps track of the modelName associated with each response,
+// so each child resolver knows what's the current model
 const parentModelMap = new WeakMap();
 const setParentModel = function (parent, props) {
   // Database responses can be array of objects, or single object
