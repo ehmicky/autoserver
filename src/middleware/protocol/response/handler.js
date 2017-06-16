@@ -5,7 +5,7 @@ const { sender } = require('./sender');
 
 
 // Sends the response at the end of the request
-const sendResponse = async function () {
+const sendResponse = function () {
   return async function sendResponse(input) {
     const { log } = input;
     const send = sender.bind(null, input);
