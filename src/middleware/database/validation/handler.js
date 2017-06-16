@@ -1,26 +1,26 @@
 'use strict';
 
 
-const { validateClientInputData, validateServerOutputData } = require('./data');
+const { validateInputData } = require('./input');
+const { validateOutputData } = require('./output');
 
 
 /**
- * Database validation middleware
+ * Custom data validation middleware
  * Checks that input and output conforms to API schema
- * Check for the syntax and the semantics of input and output
  **/
-const databaseValidation = function ({ idl }) {
+const dataValidation = function ({ idl }) {
   return async function databaseValidation(input) {
     const { modelName, args, command, jsl, log } = input;
     const perf = log.perf.start('database.validation', 'middleware');
 
-    validateClientInputData({ idl, modelName, command, args, jsl });
+    validateInputData({ idl, modelName, command, args, jsl });
 
     perf.stop();
     const response = await this.next(input);
     perf.start();
 
-    validateServerOutputData({ idl, modelName, response, command, jsl });
+    validateOutputData({ idl, modelName, response, command, jsl });
 
     perf.stop();
     return response;
@@ -29,5 +29,5 @@ const databaseValidation = function ({ idl }) {
 
 
 module.exports = {
-  databaseValidation,
+  dataValidation,
 };
