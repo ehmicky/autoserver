@@ -40,7 +40,7 @@ const getIdl = async function ({
 
   // Transform IDL to normalized form, used by application
   const normalizePerf = startupLog.perf.start('normalize', 'idl');
-  idl = normalizeIdl({ idl, serverOpts });
+  idl = normalizeIdl({ idl, serverOpts, startupLog });
   normalizePerf.stop();
 
   // Add custom validation keywords, from idl.validation

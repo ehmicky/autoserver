@@ -207,6 +207,8 @@ const CATEGORIES = [
   'server',
   'options',
   'idl',
+  'normalize',
+  'graphql',
   'exception',
 ];
 
