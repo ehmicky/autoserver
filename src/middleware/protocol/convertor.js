@@ -8,7 +8,7 @@ const { EngineError } = require('../../error');
 // Converts from no format to Protocol format
 const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
   return async function protocolConvertor(input) {
-    const { specific = {}, log, protocol, protocolHandler, now } = input;
+    const { specific, log, protocol, protocolHandler, now } = input;
 
     const perf = log.perf.start('protocol.convertor', 'middleware');
 
@@ -16,13 +16,6 @@ const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
       const message = `'specific' must be an object, not ${specific}`;
       throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
     }
-
-    const protocolFullName = protocolHandler.getFullName({ specific });
-    if (typeof protocolFullName !== 'string') {
-      const message = `'protocolFullName' must be a string, not ${protocolFullName}`;
-      throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
-    }
-    log.add({ protocol, protocolFullName });
 
     const jsl = new Jsl({ exposeMap });
     const jslWithHelpers = jsl.addHelpers({ helpers });
@@ -34,7 +27,6 @@ const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
       now,
       protocol,
       protocolHandler,
-      protocolFullName,
       jsl: newJsl,
     };
 

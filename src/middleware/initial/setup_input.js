@@ -9,6 +9,8 @@ const { protocolHandlers } = require('../../protocols');
 const setupInput = function ({ serverOpts, serverState }) {
   return async function setupInput(protocol, specific) {
     const log = new Log({ serverOpts, serverState, phase: 'request' });
+    log.add({ protocol });
+
     const protocolHandler = protocolHandlers[protocol];
 
     const input = { specific, protocol, protocolHandler, log };
