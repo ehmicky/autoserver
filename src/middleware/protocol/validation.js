@@ -11,7 +11,6 @@ const { validate } = require('../../validation');
 const protocolValidation = function () {
   return async function protocolValidation(input) {
     const { log } = input;
-
     const perf = log.perf.start('protocol.validation', 'middleware');
 
     validate({ schema, data: input, reportInfo });
