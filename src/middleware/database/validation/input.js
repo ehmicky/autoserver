@@ -23,13 +23,13 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
   });
   const attributes = getAttributes(args);
   for (const [dataVar, attribute] of Object.entries(attributes)) {
-    attribute = attribute instanceof Array ? attribute : [attribute];
-    attribute.forEach(data => {
-      data = cloneDeep(data);
-      removeJsl({ value: data });
+    const allAttrs = attribute instanceof Array ? attribute : [attribute];
+    for (const data of allAttrs) {
+      const value = cloneDeep(data);
+      removeJsl({ value });
       const reportInfo = { type, dataVar };
-      validate({ schema, data, reportInfo, extra: jsl });
-    });
+      validate({ schema, data: value, reportInfo, extra: jsl });
+    };
   };
 };
 
