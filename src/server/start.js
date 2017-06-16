@@ -34,7 +34,7 @@ const start = async function (options, serverState) {
 
   serverState.processLog = processErrorHandler({
     serverOpts: options,
-    serverState,
+    apiServer,
   });
   makeImmutable(serverState);
 
@@ -47,6 +47,7 @@ const start = async function (options, serverState) {
   const requestHandler = await getMiddleware({ serverOpts, serverState, idl });
 
   const servers = await startAllServers({
+    idl,
     serverState,
     serverOpts,
     requestHandler,
@@ -55,7 +56,7 @@ const start = async function (options, serverState) {
 
   perf.start();
 
-  setupGracefulExit({ servers, serverOpts, serverState });
+  setupGracefulExit({ servers, serverOpts, apiServer });
 
   await apiServer.emitAsync('start');
   // Create log message when all protocol-specific servers have started
@@ -68,6 +69,7 @@ const start = async function (options, serverState) {
 
 // Start each server
 const startAllServers = async function ({
+  idl,
   serverState,
   serverState: { startupLog },
   serverOpts,
@@ -81,6 +83,7 @@ const startAllServers = async function ({
     .map(async protocol =>
       await startSingleServer({
         protocol,
+        idl,
         serverState,
         serverOpts,
         requestHandler,
@@ -100,7 +103,8 @@ const startAllServers = async function ({
 
 const startSingleServer = async function ({
   protocol,
-  serverState: { startupLog, processLog },
+  idl,
+  serverState: { apiServer, startupLog, processLog },
   serverOpts,
   requestHandler,
 }) {
@@ -108,7 +112,13 @@ const startSingleServer = async function ({
 
   const protocolHandler = protocolHandlers[protocol];
   const opts = serverOpts[protocol.toLowerCase()];
-  const handleRequest = requestHandler.bind(null, protocol);
+  const handleRequest = requestHandler.bind(
+    null,
+    protocol,
+    idl,
+    apiServer,
+    serverOpts,
+  );
   const handleListening = getHandleListening.bind(null, startupLog, protocol);
 
   const server = await protocolHandler.startServer({

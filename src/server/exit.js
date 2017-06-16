@@ -11,13 +11,12 @@ const { assignObject, onlyOnce } = require('../utilities');
 const setupGracefulExit = function ({
   servers,
   serverOpts,
-  serverState,
-  serverState: { apiServer },
+  apiServer,
 }) {
   const exitHandler = gracefulExit.bind(null, {
     servers,
     serverOpts,
-    serverState,
+    apiServer,
   });
 
   // Note that this will not work with Nodemon, e.g. CTRL-C will exit
@@ -33,10 +32,9 @@ const setupGracefulExit = function ({
 const gracefulExit = onlyOnce(async function ({
   servers,
   serverOpts,
-  serverState,
-  serverState: { apiServer },
+  apiServer,
 }) {
-  const log = new Log({ serverOpts, serverState, phase: 'shutdown' });
+  const log = new Log({ serverOpts, apiServer, phase: 'shutdown' });
   const perf = log.perf.start('all', 'all');
 
   const closingServers = Object.values(servers)

@@ -14,6 +14,9 @@ const operationConvertor = function () {
     origin,
     jsl,
     log,
+    idl,
+    serverOpts,
+    apiServer,
   }) {
     const perf = log.perf.start('operation.convertor', 'middleware');
 
@@ -30,6 +33,9 @@ const operationConvertor = function () {
       origin,
       jsl,
       log,
+      idl,
+      serverOpts,
+      apiServer,
     };
 
     perf.stop();

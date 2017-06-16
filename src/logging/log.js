@@ -15,7 +15,7 @@ const { PerfLog } = require('./perf');
 
 // Represents a logger
 // Can:
-//  - new Log({ serverOpts, serverState, phase })
+//  - new Log({ serverOpts, apiServer, phase })
 //  - log.info|log|warn|error(message, [logObj]) - sends some log
 //  - log.add(object) - add requestInfo information
 // There are different instances of loggers represented by the `phase`:
@@ -87,7 +87,7 @@ const { PerfLog } = require('./perf');
 // (since this is the logger itself), so we must be precautious.
 class Log {
 
-  constructor({ serverOpts, serverState, phase }) {
+  constructor({ serverOpts, apiServer, phase }) {
     this._info = {};
     this._messages = {};
 
@@ -101,7 +101,7 @@ class Log {
     this.perf = new PerfLog();
     this.perf.report = this._reportPerf.bind(this);
 
-    Object.assign(this, { serverOpts, serverState, phase });
+    Object.assign(this, { serverOpts, apiServer, phase });
   }
 
   add(obj) {
@@ -122,7 +122,7 @@ class Log {
       this._messages[level].push(rawMessage);
     }
 
-    const { serverState: { apiServer, loggerLevel } } = this;
+    const { apiServer, serverOpts: { loggerLevel } } = this;
     await report({ apiServer, loggerLevel, level, rawMessage, logObj });
   }
 
