@@ -5,7 +5,7 @@ const { chain } = require('../chain');
 const mdw = require('../middleware');
 
 
-const getMiddleware = async function ({ serverState: { startupLog } }) {
+const getMiddleware = async function ({ startupLog }) {
   const perf = startupLog.perf.start('middleware');
 
   const allMiddleware = chain([

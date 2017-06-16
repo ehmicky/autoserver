@@ -14,7 +14,7 @@ const { addCustomKeywords } = require('./custom_validation');
 const getIdl = async function ({
   serverOpts,
   serverOpts: { conf },
-  serverState: { startupLog },
+  startupLog,
 }) {
   const perf = startupLog.perf.start('idl');
 

@@ -6,8 +6,9 @@ const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
 const { makeImmutable, assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
+const { Log } = require('../logging');
+const { ApiEngineServer } = require('./api_server');
 const { getMiddleware } = require('./middleware');
-const { getServerState } = require('./state');
 const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./startup_error');
 
@@ -19,40 +20,46 @@ const { handleStartupError } = require('./startup_error');
  * @param {object} options.idl - IDL definitions
  */
 const startServer = function (options = {}) {
-  const serverState = getServerState({ options });
+  const apiServer = new ApiEngineServer({ serverOpts: options });
+  const startupLog = new Log({
+    serverOpts: options,
+    apiServer,
+    phase: 'startup',
+  });
 
-  start(options, serverState)
-  .catch(error => handleStartupError(error, serverState));
+  start({ options, startupLog, apiServer })
+  .catch(error => handleStartupError({ error, startupLog, apiServer }));
 
-  return serverState.apiServer;
+  return apiServer;
 };
 
-const start = async function (options, serverState) {
-  const { startupLog, apiServer } = serverState;
+const start = async function ({ options, startupLog, apiServer }) {
   const allPerf = startupLog.perf.start('all', 'all');
   const perf = startupLog.perf.start('main');
 
-  serverState.processLog = processErrorHandler({
+  const processLog = processErrorHandler({
     serverOpts: options,
     apiServer,
   });
-  makeImmutable(serverState);
 
   perf.stop();
 
-  const serverOpts = await processOptions({ options, serverState });
-  const idl = await getIdl({ serverOpts, serverState });
+  const serverOpts = await processOptions({ options, startupLog });
+  const idl = await getIdl({ serverOpts, startupLog });
 
   // This callback must be called by each server
-  const requestHandler = await getMiddleware({ serverOpts, serverState, idl });
+  const requestHandler = await getMiddleware({ serverOpts, startupLog, idl });
 
   const servers = await startAllServers({
     idl,
-    serverState,
+    apiServer,
+    startupLog,
+    processLog,
     serverOpts,
     requestHandler,
   });
   Object.assign(apiServer, { options, servers });
+  makeImmutable(apiServer);
 
   perf.start();
 
@@ -70,8 +77,9 @@ const start = async function (options, serverState) {
 // Start each server
 const startAllServers = async function ({
   idl,
-  serverState,
-  serverState: { startupLog },
+  apiServer,
+  startupLog,
+  processLog,
   serverOpts,
   requestHandler,
 }) {
@@ -84,7 +92,9 @@ const startAllServers = async function ({
       await startSingleServer({
         protocol,
         idl,
-        serverState,
+        apiServer,
+        startupLog,
+        processLog,
         serverOpts,
         requestHandler,
       })
@@ -104,7 +114,9 @@ const startAllServers = async function ({
 const startSingleServer = async function ({
   protocol,
   idl,
-  serverState: { apiServer, startupLog, processLog },
+  apiServer,
+  startupLog,
+  processLog,
   serverOpts,
   requestHandler,
 }) {
