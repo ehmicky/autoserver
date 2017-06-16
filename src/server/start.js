@@ -32,29 +32,26 @@ const start = async function (options, serverState) {
   const allPerf = startupLog.perf.start('all', 'all');
   const perf = startupLog.perf.start('main');
 
-  apiServer.options = options;
-
   serverState.processLog = processErrorHandler({
     serverOpts: options,
     serverState,
   });
+  makeImmutable(serverState);
 
   perf.stop();
 
   const serverOpts = await processOptions({ options, serverState });
   const idl = await getIdl({ serverOpts, serverState });
 
-  // Those two callbacks must be called by each server
-  serverState.handleRequest = await getMiddleware({
-    serverOpts,
-    serverState,
-    idl,
-  });
-  serverState.handleListening = handleListening.bind(null, serverState);
-  makeImmutable(serverState);
+  // This callback must be called by each server
+  const requestHandler = await getMiddleware({ serverOpts, serverState, idl });
 
-  const servers = await startAllServers({ serverState, serverOpts });
-  apiServer.servers = servers;
+  const servers = await startAllServers({
+    serverState,
+    serverOpts,
+    requestHandler,
+  });
+  Object.assign(apiServer, { options, servers });
 
   perf.start();
 
@@ -69,23 +66,23 @@ const start = async function (options, serverState) {
   await startupLog.perf.report();
 };
 
-// Create log message when each protocol-specific server starts
-const handleListening = function ({ startupLog }, { protocol, host, port }) {
-  const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  startupLog.log(message);
-};
-
 // Start each server
 const startAllServers = async function ({
   serverState,
   serverState: { startupLog },
   serverOpts,
+  requestHandler,
 }) {
   const serversPerf = startupLog.perf.start('servers');
 
-  const serversPromises = protocols.map(async protocol => {
-    return await startSingleServer({ protocol, serverState, serverOpts });
-  });
+  const serversPromises = protocols.map(async protocol =>
+    await startSingleServer({
+      protocol,
+      serverState,
+      serverOpts,
+      requestHandler,
+    })
+  );
 
   // Make sure all servers are starting concurrently, not serially
   const serversArray = await Promise.all(serversPromises);
@@ -100,18 +97,38 @@ const startAllServers = async function ({
 
 const startSingleServer = async function ({
   protocol,
-  serverState,
-  serverState: { startupLog },
+  serverState: { startupLog, processLog },
   serverOpts,
+  requestHandler,
 }) {
   const perf = startupLog.perf.start(protocol, 'server');
+
   const protocolHandler = protocolHandlers[protocol];
+  const opts = serverOpts[protocol.toLowerCase()];
+  const handleRequest = requestHandler.bind(null, protocol);
+  const handleListening = getHandleListening.bind(null, startupLog, protocol);
+
   const server = await protocolHandler.startServer({
-    serverState,
-    serverOpts,
+    opts,
+    processLog,
+    handleRequest,
+    handleListening,
   });
+
   perf.stop();
   return server;
+};
+
+// Create log message when each protocol-specific server starts
+// Also add `apiServer.servers.PROTOCOL.protocol|host|port`
+const getHandleListening = function (
+  startupLog,
+  protocol,
+  { server, host, port },
+) {
+  Object.assign(server, { protocol, host, port });
+  const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
+  startupLog.log(message);
 };
 
 

@@ -9,8 +9,6 @@ const { ApiEngineServer } = require('./api_server');
 //   `apiServer` {ApiServer} - return value of main function
 //   `startupLog` {Logger} - logger for the startup phase
 //   `processLog` {Logger} - logger for the process phase
-//   `handleRequest` {function} - passed to servers to handle request event
-//   `handleListening` {function} - passed to servers to handle listen event
 const getServerState = function ({ options }) {
   const serverState = {};
   const apiServer = new ApiEngineServer();
