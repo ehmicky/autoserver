@@ -35,11 +35,22 @@ const parseQueryString = function () {
 
 // Retrieves query variables
 const getQueryVars = function ({ specific, protocolHandler }) {
-  const queryString = protocolHandler.getQueryString({ specific });
+  const queryString = getQueryString({ specific, protocolHandler });
   const queryVars = parseQueryVars({ queryString });
 
   const transtypedQueryVars = mapValues(queryVars, value => transtype(value));
   return transtypedQueryVars;
+};
+
+const getQueryString = function ({ specific, protocolHandler }) {
+  const queryString = protocolHandler.getQueryString({ specific });
+
+  if (typeof queryString !== 'string') {
+    const message = `'queryString' must be a string, not '${queryString}'`;
+    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  }
+
+  return queryString;
 };
 
 // Parse query string as query object
