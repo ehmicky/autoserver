@@ -9,6 +9,9 @@ const databaseConvertor = function () {
     modelName,
     jsl,
     log,
+    idl,
+    serverOpts,
+    apiServer,
     params,
     settings,
   }) {
@@ -20,6 +23,9 @@ const databaseConvertor = function () {
       modelName,
       jsl,
       log,
+      idl,
+      serverOpts,
+      apiServer,
       params,
       settings,
     };

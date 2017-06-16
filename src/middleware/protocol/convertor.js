@@ -6,8 +6,16 @@ const { EngineError } = require('../../error');
 
 // Converts from no format to Protocol format
 const protocolConvertor = function () {
-  return async function protocolConvertor(input) {
-    const { specific, log, protocol, protocolHandler, now } = input;
+  return async function protocolConvertor({
+    specific,
+    idl,
+    serverOpts,
+    apiServer,
+    log,
+    protocol,
+    protocolHandler,
+    now,
+  }) {
     const perf = log.perf.start('protocol.convertor', 'middleware');
 
     if (!specific || specific.constructor !== Object) {
@@ -15,7 +23,16 @@ const protocolConvertor = function () {
       throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
     }
 
-    const newInput = { specific, log, protocol, protocolHandler, now };
+    const newInput = {
+      specific,
+      idl,
+      serverOpts,
+      apiServer,
+      log,
+      protocol,
+      protocolHandler,
+      now,
+    };
 
     perf.stop();
     const response = await this.next(newInput);

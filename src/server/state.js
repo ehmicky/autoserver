@@ -14,7 +14,7 @@ const getServerState = function ({ options }) {
   const apiServer = new ApiEngineServer({ serverOpts: options });
   const startupLog = new Log({
     serverOpts: options,
-    serverState,
+    apiServer,
     phase: 'startup',
   });
 

@@ -9,6 +9,9 @@ const commandConvertor = function () {
     modelName,
     jsl,
     log,
+    idl,
+    serverOpts,
+    apiServer,
     params,
     settings,
   }) {
@@ -23,6 +26,9 @@ const commandConvertor = function () {
       modelName,
       jsl: newJsl,
       log,
+      idl,
+      serverOpts,
+      apiServer,
       params,
       settings,
     };
