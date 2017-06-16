@@ -2,6 +2,7 @@
 
 
 const { makeImmutable } = require('../../../utilities');
+const { EngineError } = require('../../../error');
 const { getSettings } = require('./parse');
 const { validateSettings } = require('./validate');
 
@@ -22,7 +23,7 @@ const parseSettings = function () {
     const perf = log.perf.start('protocol.parseSettings', 'middleware');
 
     const genericSettings = getSettings({ input });
-    const specificSettings = protocolHandler.getSettings({ input });
+    const specificSettings = getSpecificSettings({ input, protocolHandler });
     const settings = Object.assign({}, genericSettings, specificSettings);
 
     validateSettings({ settings });
@@ -39,6 +40,16 @@ const parseSettings = function () {
   };
 };
 
+const getSpecificSettings = function ({ input, protocolHandler }) {
+  const specificSettings = protocolHandler.getSettings({ input });
+
+  if (!specificSettings || specificSettings.constructor !== Object) {
+    const message = `'specificSettings' must be an object, not '${specificSettings}'`;
+    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  }
+
+  return specificSettings;
+};
 
 
 module.exports = {
