@@ -10,10 +10,6 @@
  * TODO: add all `title` properties to `generic`
  */
 const errorReasons = {
-
-  // Tried to query a method that is not supported, e.g. UDP
-  UNSUPPORTED_PROTOCOL: {},
-
   // Tried to use a protocol method that is not supported, e.g. TRACE
   UNSUPPORTED_METHOD: {},
 
