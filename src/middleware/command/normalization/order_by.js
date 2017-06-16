@@ -13,7 +13,7 @@ const { EngineError } = require('../../../error');
  *     { attrName: 'id', order: 'asc' },
  *   ]
  **/
-const normalizeOrderBy = function ({ orderBy }) {
+const normalizeOrderBy = function ({ orderBy, attrNames }) {
   if (typeof orderBy !== 'string') {
     const message = 'Argument \'order_by\' must be a string';
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
@@ -38,6 +38,12 @@ const normalizeOrderBy = function ({ orderBy }) {
     // Parse the + or - postfix
     const [,attrName, orderPostfix] = partsPostfixRegexp.exec(partWithPrefix);
     const order = orderPostfix === '-' ? 'desc' : 'asc';
+
+    if (!attrNames.includes(attrName)) {
+      const message = `Argument 'order_by' attribute '${attrName}' does not exist`;
+      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+    }
+
     return { attrName, order };
   });
 

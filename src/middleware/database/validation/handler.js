@@ -1,7 +1,6 @@
 'use strict';
 
 
-const { validateClientInputSemantics } = require('./semantics');
 const { validateClientInputData, validateServerOutputData } = require('./data');
 const { validateServerOutputSyntax } = require('./server_output_syntax');
 
@@ -16,7 +15,6 @@ const databaseValidation = function ({ idl }) {
     const { modelName, args, command, jsl, log } = input;
     const perf = log.perf.start('database.validation', 'middleware');
 
-    validateClientInputSemantics({ idl, modelName, args });
     validateClientInputData({ idl, modelName, command, args, jsl });
 
     perf.stop();
