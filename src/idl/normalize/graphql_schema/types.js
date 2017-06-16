@@ -38,7 +38,7 @@ const getField = function (def, opts) {
     return possibleType.condition(def, opts);
   });
   if (!fieldGetter) {
-    const message = `Could not parse property into a GraphQL type: ${stringify(def)}`;
+    const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
     throw new EngineError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
