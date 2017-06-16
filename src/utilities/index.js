@@ -5,7 +5,6 @@ module.exports = Object.assign(
   {},
   require('./functional'),
   require('./env'),
-  require('./filesystem'),
   require('./json'),
   require('./yaml'),
   require('./base64'),

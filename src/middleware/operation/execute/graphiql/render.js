@@ -4,9 +4,10 @@
 const { render } = require('mustache');
 const GRAPHIQL_HTML_FILE = `${__dirname}/graphiql.mustache`;
 const { mapValues } = require('lodash');
+const { readFile } = require('fs');
+const { promisify } = require('util');
 
 const { EngineError } = require('../../../../error');
-const { fs: { readFile } } = require('../../../../utilities');
 
 
 /*
@@ -38,7 +39,9 @@ const renderGraphiQL = async function (input) {
   const data = Object.assign(escapeData(dataToEscape), dataNotToEscape);
 
   try {
-    const htmlFile = await readFile(GRAPHIQL_HTML_FILE, { encoding: 'utf-8' });
+    const htmlFile = await promisify(readFile)(GRAPHIQL_HTML_FILE, {
+      encoding: 'utf-8',
+    });
     const htmlString = render(htmlFile, data);
     return htmlString;
   } catch (innererror) {
