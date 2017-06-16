@@ -11,7 +11,7 @@ const { ApiEngineServer } = require('./api_server');
 //   `processLog` {Logger} - logger for the process phase
 const getServerState = function ({ options }) {
   const serverState = {};
-  const apiServer = new ApiEngineServer();
+  const apiServer = new ApiEngineServer({ serverOpts: options });
   const startupLog = new Log({
     serverOpts: options,
     serverState,

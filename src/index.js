@@ -30,6 +30,8 @@ startServer({
   // User can override pagination size. This sets an upper limit.
   // Defaults to 100.
   maxPageSize: 100,
+  // Used in logs, defaults to hostname
+  serverName: 'my-machine',
   // HTTP server options
   http: {
     // Defaults to environment variable HOST, or 'localhost'
