@@ -4,5 +4,6 @@
 module.exports = Object.assign(
   {},
   require('./actions'),
-  require('./commands')
+  require('./commands'),
+  require('./goals'),
 );
