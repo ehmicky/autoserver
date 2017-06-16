@@ -3,7 +3,6 @@
 
 const { isEqual } = require('lodash');
 
-const { validate } = require('../../validation');
 const { COMMANDS } = require('../../constants');
 const { EngineError } = require('../../error');
 
@@ -13,69 +12,17 @@ const { EngineError } = require('../../error');
  * Check input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  **/
-const commandValidation = function ({ idl: { models } = {} }) {
+const commandValidation = function () {
   return async function commandValidation(input) {
-    const { command, log, args: { newData, currentData } } = input;
+    const { command, log, args } = input;
     const perf = log.perf.start('command.validation', 'middleware');
 
-    const schema = getValidateServerSchema({ models });
-    validate({ schema, data: input, reportInfo });
-
     validateCommand({ command });
-    validateCurrentData({ newData, currentData });
+    validateArgs({ args });
 
     perf.stop();
     const response = await this.next(input);
     return response;
-  };
-};
-
-const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
-
-// Get JSON schema to validate against input
-const getValidateServerSchema = function ({ models = {} }) {
-  const modelNames = Object.keys(models);
-
-  return {
-    required: [
-      'modelName',
-      'args',
-      'command',
-      'jsl',
-      'params',
-      'settings',
-    ],
-    properties: {
-      modelName: {
-        type: 'string',
-        minLength: 1,
-        enum: modelNames,
-      },
-      args: {
-        type: 'object',
-        // We want to make sure action layer knows whether pagination
-        // will be applied or not
-        required: ['pagination'],
-        properties: {
-          pagination: {
-            type: 'boolean',
-          },
-          authorization: {
-            type: 'boolean',
-          },
-          currentData: {
-            oneOf: [
-              { type: 'object' },
-              { type: 'array', items: { type: 'object' } },
-            ],
-          },
-        },
-      },
-      command: { type: 'object' },
-      jsl: { type: 'object' },
-      params: { type: 'object' },
-      settings: { type: 'object' },
-    },
   };
 };
 
@@ -88,6 +35,22 @@ const validateCommand = function ({ command }) {
     const message = `Invalid command: ${JSON.stringify(command)}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
+};
+
+const validateArgs = function ({
+  args: { pagination, authorization, newData, currentData },
+}) {
+  if (pagination === undefined) {
+    const message = '\'args.pagination\' must be defined';
+    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  }
+
+  if (authorization !== undefined && typeof authorization !== 'boolean') {
+    const message = '\'args.authorization\' must be a boolean';
+    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  }
+
+  validateCurrentData({ newData, currentData });
 };
 
 // Validate that `args.currentData` reflects `args.newData`
