@@ -15,7 +15,7 @@ const CONTENT_TYPES = [
   {
     name: 'collection',
     test({ content }) {
-      return content instanceof Array && isJSON(content);
+      return content && typeof content === 'object' && isJSON(content);
     },
   },
 
