@@ -42,7 +42,7 @@ const apiServer = startServer({
   },
 })
 // Returns an EventEmitter2 firing the following events: start, error,
-// stop.success, stop.fail
+// stop.success, stop.fail, log.PHASE.TYPE.LEVEL
 // Also has the properties:
 //  - options {object} - options passed during initialization
 //  - info {object}
