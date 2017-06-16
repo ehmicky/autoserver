@@ -8,7 +8,7 @@ const { pick } = require('../utilities');
 const transformOptions = function ({
   serverOpts,
   serverOpts: { loggerFilter },
-  serverState: { startupLog },
+  startupLog,
 }) {
   const perf = startupLog.perf.start('transform', 'options');
 

@@ -6,7 +6,7 @@ const { assignObject } = require('../utilities');
 
 
 // Validation for main options
-const validateOptions = function ({ serverOpts, serverState: { startupLog } }) {
+const validateOptions = function ({ serverOpts, startupLog }) {
   const perf = startupLog.perf.start('validate', 'options');
 
   validate({ schema, data: serverOpts, reportInfo });

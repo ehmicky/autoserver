@@ -9,20 +9,16 @@ const { transformOptions } = require('./transform');
 const { validateOptions } = require('./validate');
 
 
-const processOptions = async function ({
-  options,
-  serverState,
-  serverState: { startupLog },
-}) {
+const processOptions = async function ({ options, startupLog }) {
   const perf = startupLog.perf.start('options');
 
   let serverOpts = cloneDeep(options);
 
-  serverOpts = applyDefaultOptions({ serverOpts, serverState });
+  serverOpts = applyDefaultOptions({ serverOpts, startupLog });
 
-  serverOpts = transformOptions({ serverOpts, serverState });
+  serverOpts = transformOptions({ serverOpts, startupLog });
 
-  validateOptions({ serverOpts, serverState });
+  validateOptions({ serverOpts, startupLog });
 
   makeImmutable(serverOpts);
 
