@@ -8,7 +8,7 @@ const { handleFailure } = require('./failure');
 // Error handler, which sends final response, if errors
 const errorHandler = function () {
   return async function errorHandler(input) {
-    const { log } = input;
+    const { log, protocolHandler, specific } = input;
 
     try {
       const response = await this.next(input);
@@ -20,7 +20,11 @@ const errorHandler = function () {
         perf.stop();
       // If error handler itself fails
       } catch (innererror) {
-        await handleFailure({ log, error, innererror });
+        await handleFailure({ log, error: innererror });
+      // Make sure a response is sent, or the socket will hang
+      } finally {
+        const status = protocolHandler.failureProtocolStatus;
+        protocolHandler.send.nothing({ specific, status });
       }
     }
   };
