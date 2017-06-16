@@ -1,8 +1,6 @@
 'use strict';
 
 
-const { resolve } = require('path');
-
 const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
@@ -13,9 +11,6 @@ const { getServerState } = require('./state');
 const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./startup_error');
 
-
-// Used e.g. to shorten stack traces
-global.apiEngineDirName = resolve(__dirname, '../..');
 
 /**
  * Start server for each protocol
