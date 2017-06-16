@@ -15,12 +15,12 @@ const sender = async function (
 ) {
   if (!type) {
     throw new EngineError('Server sent an response with no content type', {
-      reason: 'WRONG_RESPONSE',
+      reason: 'SERVER_INPUT_VALIDATION',
     });
   }
   if (content === undefined && type !== 'failure') {
     throw new EngineError('Server sent an empty response', {
-      reason: 'WRONG_RESPONSE',
+      reason: 'SERVER_INPUT_VALIDATION',
     });
   }
 
@@ -28,7 +28,7 @@ const sender = async function (
   const handler = handlers[type];
   if (!handler) {
     const message = 'Server tried to respond with an unsupported content type';
-    throw new EngineError(message, { reason: 'WRONG_RESPONSE' });
+    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   await handler({ protocolHandler, specific, content, status });
