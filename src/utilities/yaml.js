@@ -2,8 +2,8 @@
 
 
 const yaml = require('js-yaml');
-
-const { fs: { readFile } } = require('./filesystem');
+const { readFile } = require('fs');
+const { promisify } = require('util');
 
 
 // Retrieve and parses a YAML file
@@ -11,7 +11,7 @@ const { fs: { readFile } } = require('./filesystem');
 // or cannot access file (does not exist or no permissions)
 const getYaml = async function ({ path, content }) {
   if (!content) {
-    content = await readFile(path, { encoding: 'utf-8' });
+    content = await promisify(readFile)(path, { encoding: 'utf-8' });
   }
   const data = yaml.load(content, {
     // YAML needs to JSON-compatible, since JSON must provide same

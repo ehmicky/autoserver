@@ -2,9 +2,11 @@
 
 
 const { dirname } = require('path');
+const { realpath } = require('fs');
+const { promisify } = require('util');
 
 const { EngineError } = require('../error');
-const { getYaml, fs: { realpath } } = require('../utilities');
+const { getYaml } = require('../utilities');
 
 
 /**
@@ -18,7 +20,7 @@ const getIdlConf = async function ({ conf }) {
   if (typeof conf === 'string') {
     let path;
     try {
-      path = await realpath(conf);
+      path = await promisify(realpath)(conf);
     } catch (innererror) {
       const message = `Configuration file does not exist: '${conf}'`;
       throw new EngineError(message, {

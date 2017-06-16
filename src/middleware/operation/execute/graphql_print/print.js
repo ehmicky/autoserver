@@ -3,9 +3,10 @@
 
 const { printSchema: graphQLPrintSchema, } = require('graphql');
 const { render } = require('mustache');
+const { readFile } = require('fs');
+const { promisify } = require('util');
 
 const PRINT_HTML_FILE = `${__dirname}/print.mustache`;
-const { fs: { readFile } } = require('../../../../utilities');
 
 
 const printSchema = async function (schema) {
@@ -13,7 +14,9 @@ const printSchema = async function (schema) {
     printedSchema: graphQLPrintSchema(schema).trim(),
     prismVersion: '1.6.0',
   };
-  const htmlFile = await readFile(PRINT_HTML_FILE, { encoding: 'utf-8' });
+  const htmlFile = await promisify(readFile)(PRINT_HTML_FILE, {
+    encoding: 'utf-8',
+  });
   const htmlString = render(htmlFile, data);
   return htmlString;
 };

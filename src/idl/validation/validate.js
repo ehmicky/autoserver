@@ -2,8 +2,10 @@
 
 
 const yaml = require('js-yaml');
+const { readFile } = require('fs');
+const { promisify } = require('util');
 
-const { memoize, fs: { readFile } } = require('../../utilities');
+const { memoize } = require('../../utilities');
 const { getValidator, validate } = require('../../validation');
 const { validateCircularRefs } = require('./circular_refs');
 const { validateData } = require('./data');
@@ -40,7 +42,9 @@ const getIdlCopy = function ({ idl }) {
 
 // Retrieve IDL schema
 const getSchema = memoize(async function () {
-  const schemaContent = await readFile(IDL_SCHEMA_PATH, { encoding: 'utf-8' });
+  const schemaContent = await promisify(readFile)(IDL_SCHEMA_PATH, {
+    encoding: 'utf-8',
+  });
   const schema = yaml.load(schemaContent, {
     schema: yaml.CORE_SCHEMA,
     json: true,
