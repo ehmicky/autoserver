@@ -1,1 +1,7 @@
-module.exports = require('./src');
+'use strict';
+
+
+module.exports = Object.assign(
+  {},
+  require('./src'),
+);

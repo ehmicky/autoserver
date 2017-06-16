@@ -111,7 +111,7 @@ Which will respond with:
 This is a minimalistic example. A lot is possible: validation, authorization,
 default values, nested actions, all CRUD, etc.
 
-# How to start
+# How to start the test server
 
 First `npm run build` (not `npm install`)
 
@@ -122,7 +122,7 @@ This will start in watch mode (using `nodemon` and `node --inspect`).
 
 `npm run debug` is like `npm start` but using `node --inspect-brk`.
 
-A local server at `localhost:5001` will be spawned.
+A local HTTP server at `localhost:5001` will be spawned.
 
 There are three ways of exploring the API:
   - direct GraphQL calls to `localhost:5001/graphql`

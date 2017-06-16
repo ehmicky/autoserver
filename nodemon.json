@@ -1,4 +1,4 @@
 {
-  "exec": "sleep 1 && node --inspect --no-warnings",
+  "exec": "sleep 1 && node --inspect --no-warnings ./examples",
   "ext": ".js,.json,.yml,.yaml"
 }
