@@ -13,7 +13,12 @@ const normalizeShortcuts = function ({ idl }) {
   const transformsMap = getTransformsMap({ idl, type: 'transform' });
   const computesMap = getTransformsMap({ idl, type: 'compute' });
 
-  idl.shortcuts = { readOnlyMap, userDefaultsMap, transformsMap, computesMap };
+  idl.shortcuts = {
+    readOnlyMap,
+    userDefaultsMap,
+    transformsMap,
+    computesMap,
+  };
   return idl;
 };
 
