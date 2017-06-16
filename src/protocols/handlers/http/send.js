@@ -3,8 +3,6 @@
 
 const { promisify } = require('util');
 
-const { failureProtocolStatus } = require('./status');
-
 
 // Sends response
 const send = async function ({
