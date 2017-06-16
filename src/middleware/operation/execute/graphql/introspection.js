@@ -4,33 +4,34 @@
 const { execute } = require('graphql');
 
 const { EngineError } = require('../../../../error');
-const { getSchema } = require('../graphql_schema');
 
 
-const getHandleIntrospection = function ({ idl, serverOpts }) {
-  const schema = getSchema({ idl, serverOpts });
-  return async function ({ queryDocument, variables, operationName }) {
-    let response;
-    try {
-      response = await execute(
-        schema,
-        queryDocument,
-        {},
-        {},
-        variables,
-        operationName,
-      );
-    // Exception can be fired in several ways by GraphQL.js:
-    //  - throwing an exception
-    //  - returning errors in response
-    } catch (exception) {
-      throwError(exception);
-    }
-    if (response.errors && response.errors[0]) {
-      throwError(response.errors[0]);
-    }
-    return response;
-  };
+const handleIntrospection = async function ({
+  schema,
+  queryDocument,
+  variables,
+  operationName,
+}) {
+  let response;
+  try {
+    response = await execute(
+      schema,
+      queryDocument,
+      {},
+      {},
+      variables,
+      operationName,
+    );
+  // Exception can be fired in several ways by GraphQL.js:
+  //  - throwing an exception
+  //  - returning errors in response
+  } catch (exception) {
+    throwError(exception);
+  }
+  if (response.errors && response.errors[0]) {
+    throwError(response.errors[0]);
+  }
+  return response;
 };
 
 const throwError = function (innererror) {
@@ -51,6 +52,6 @@ const isIntrospectionQuery = function ({ query }) {
 
 
 module.exports = {
-  getHandleIntrospection,
+  handleIntrospection,
   isIntrospectionQuery,
 };

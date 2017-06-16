@@ -7,14 +7,12 @@ const { handleQuery } = require('./query');
 const { getResolver } = require('./resolver');
 const {
   isIntrospectionQuery,
-  getHandleIntrospection,
+  handleIntrospection,
 } = require('./introspection');
 
 
 // GraphQL query handling
-const executeGraphql = function ({ idl, serverOpts }) {
-  const handleIntrospection = getHandleIntrospection({ idl, serverOpts });
-
+const executeGraphql = function () {
   return async function executeGraphql(input) {
     // Parameters can be in either query variables or payload
     // (including by using application/graphql)
@@ -23,7 +21,7 @@ const executeGraphql = function ({ idl, serverOpts }) {
       payload,
       goal,
       log,
-      idl: { shortcuts: { modelsMap } },
+      idl: { shortcuts: { modelsMap }, GraphQLSchema: schema },
     } = input;
     const perf = log.perf.start('operation.executeGraphql', 'middleware');
 
@@ -45,6 +43,7 @@ const executeGraphql = function ({ idl, serverOpts }) {
     // Introspection GraphQL query
     if (isIntrospectionQuery({ query })) {
       content = await handleIntrospection({
+        schema,
         queryDocument,
         variables,
         operationName,

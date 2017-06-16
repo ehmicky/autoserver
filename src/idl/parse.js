@@ -12,6 +12,7 @@ const { addCustomKeywords } = require('./custom_validation');
 
 // Retrieves IDL definition, after validation and transformation
 const getIdl = async function ({
+  serverOpts,
   serverOpts: { conf },
   serverState: { startupLog },
 }) {
@@ -39,7 +40,7 @@ const getIdl = async function ({
 
   // Transform IDL to normalized form, used by application
   const normalizePerf = startupLog.perf.start('normalize', 'idl');
-  idl = normalizeIdl(idl);
+  idl = normalizeIdl({ idl, serverOpts });
   normalizePerf.stop();
 
   // Add custom validation keywords, from idl.validation

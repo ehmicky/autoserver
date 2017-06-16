@@ -1,15 +1,12 @@
 'use strict';
 
 
-const { getSchema } = require('../graphql_schema');
 const { printSchema } = require('./print');
 
 
-const printGraphql = async function ({ idl, serverOpts }) {
-  const schema = getSchema({ idl, serverOpts });
-  const content = await printSchema(schema);
-
-  return function printGraphql() {
+const printGraphql = function () {
+  return async function printGraphql({ idl: { GraphQLSchema: schema } }) {
+    const content = await printSchema({ schema });
     return {
       type: 'html',
       content,

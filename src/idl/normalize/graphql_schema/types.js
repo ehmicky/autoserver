@@ -14,9 +14,9 @@ const {
 const { chain } = require('lodash');
 const uuidv4 = require('uuid/v4');
 
-const { EngineError } = require('../../../../error');
-const { memoize, stringifyJSON, omit } = require('../../../../utilities');
-const { isJsl } = require('../../../../jsl');
+const { EngineError } = require('../../../error');
+const { memoize, stringifyJSON, omit } = require('../../../utilities');
+const { isJsl } = require('../../../jsl');
 const { getTypeName, getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
