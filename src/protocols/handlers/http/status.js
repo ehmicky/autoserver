@@ -14,7 +14,6 @@ const failureProtocolStatus = 500;
 
 // All error reasons and their related HTTP status code
 const protocolStatusesMap = {
-  UNSUPPORTED_PROTOCOL: 400,
   UNSUPPORTED_METHOD: 400,
   NO_CONTENT_TYPE: 400,
   QUERY_STRING_PARSE: 400,
