@@ -1,8 +1,14 @@
 'use strict';
 
 
+const qs = require('qs');
+
+const { EngineError } = require('../../error');
 const { transtype, mapValues, makeImmutable } = require('../../utilities');
 
+
+const MAX_DEPTH = 10;
+const MAX_ARRAY_LENGTH = 100;
 
 // Fill in `input.queryVars` using protocol-specific URL query variables
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -29,11 +35,40 @@ const parseQueryString = function () {
 
 // Retrieves query variables
 const getQueryVars = function ({ specific, protocolHandler }) {
-  const queryVars = protocolHandler.parseQueryString({ specific });
+  const queryString = protocolHandler.getQueryString({ specific });
+  const queryVars = parseQueryVars({ queryString });
 
   const transtypedQueryVars = mapValues(queryVars, value => transtype(value));
-
   return transtypedQueryVars;
+};
+
+// Parse query string as query object
+// Can use the following notations:
+//  - ?var[subvar]=val -> { var: { subvar: val } }
+//  - ?var.subvar=val -> { var: { subvar: val } }
+//  - ?var[0]=val -> { var: [ val ] }
+//  - ?var[]=val&var[]=secondval -> { var: [ val, secondval ] }
+// Can be nested, with max 10 levels of depth
+// Array max length is 100
+// Performs proper URI decoding, using decodeURIComponent()
+// Differentiates between undefined, null and '' (see serialize() below)
+const parseQueryVars = function ({ queryString }) {
+  try {
+    const queryObject = qs.parse(queryString, {
+      depth: MAX_DEPTH,
+      arrayLimit: MAX_ARRAY_LENGTH,
+      strictNullHandling: true,
+      allowDots: true,
+      decoder: str => decodeURIComponent(str.replace(/\+/g, ' ')),
+    });
+    return queryObject;
+  } catch (innererror) {
+    const message = `Request query string is invalid: '${queryString}'`;
+    throw new EngineError(message, {
+      reason: 'QUERY_STRING_PARSE',
+      innererror,
+    });
+  }
 };
 
 

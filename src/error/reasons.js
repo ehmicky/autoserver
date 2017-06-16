@@ -65,9 +65,6 @@ const errorReasons = {
   // Filesystem error: could not open local file
   FILE_OPEN_ERROR: {},
 
-  // Query string is wrong, but was created by the server
-  QUERY_STRING_SERIALIZE: {},
-
   // IDL definition is syntactically invalid
   IDL_SYNTAX_ERROR: {},
 
