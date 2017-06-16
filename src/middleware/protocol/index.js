@@ -9,6 +9,7 @@ module.exports = Object.assign(
   require('./response_time'),
   require('./timestamp'),
   require('./timeout'),
+  require('./name'),
   require('./request_id'),
   require('./ip'),
   require('./url'),

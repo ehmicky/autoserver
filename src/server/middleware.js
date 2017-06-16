@@ -49,6 +49,8 @@ const getMiddleware = async function ({
     mdw.setResponseTime,
     // Abort request after a certain delay
     mdw.setRequestTimeout,
+    // Set protocol full name for logging
+    mdw.getProtocolName,
     // Retrieves timestamp
     mdw.getTimestamp,
     // Sets requestId, serverId, serverName
