@@ -2,6 +2,7 @@
 
 
 const { makeImmutable } = require('../../utilities');
+const { EngineError } = require('../../error');
 
 
 // Fill in `input.headers` using protocol-specific headers.
@@ -14,7 +15,7 @@ const parseHeaders = function () {
     const { specific, protocolHandler, log } = input;
     const perf = log.perf.start('protocol.parseHeaders', 'middleware');
 
-    const headers = protocolHandler.parseHeaders({ specific });
+    const headers = getHeaders({ specific, protocolHandler });
     makeImmutable(headers);
 
     log.add({ headers });
@@ -24,6 +25,17 @@ const parseHeaders = function () {
     const response = await this.next(input);
     return response;
   };
+};
+
+const getHeaders = function ({ specific, protocolHandler }) {
+  const headers = protocolHandler.parseHeaders({ specific });
+
+  if (!headers || headers.constructor !== Object) {
+    const message = `'headers' must be an object, not '${headers}'`;
+    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  }
+
+  return headers;
 };
 
 
