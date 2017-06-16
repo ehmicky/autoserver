@@ -9,9 +9,9 @@ const { validateOutputData } = require('./output');
  * Custom data validation middleware
  * Checks that input and output conforms to API schema
  **/
-const dataValidation = function ({ idl }) {
+const dataValidation = function () {
   return async function databaseValidation(input) {
-    const { modelName, args, command, jsl, log } = input;
+    const { modelName, args, command, jsl, log, idl } = input;
     const perf = log.perf.start('database.validation', 'middleware');
 
     validateInputData({ idl, modelName, command, args, jsl });

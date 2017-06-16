@@ -5,9 +5,9 @@ const { Jsl } = require('../../jsl');
 
 
 // Sets up JSL helper
-const setJsl = function ({ idl: { helpers, exposeMap } }) {
+const setJsl = function () {
   return async function setJsl(input) {
-    const { log, protocol } = input;
+    const { log, protocol, idl: { helpers, exposeMap } } = input;
     const perf = log.perf.start('protocol.setJsl', 'middleware');
 
     const jsl = new Jsl({ exposeMap });

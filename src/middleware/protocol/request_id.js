@@ -13,9 +13,9 @@ const { getServerInfo } = require('../../info');
 //  - JSL parameters, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
-const setRequestIds = function ({ serverOpts }) {
+const setRequestIds = function () {
   return async function setRequestId(input) {
-    const { jsl, log, specific, protocolHandler } = input;
+    const { jsl, log, specific, protocolHandler, serverOpts } = input;
     const perf = log.perf.start('protocol.setRequestId', 'middleware');
 
     const requestId = uuidv4();

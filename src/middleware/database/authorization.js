@@ -5,9 +5,9 @@ const { EngineError } = require('../../error');
 
 
 // Main authorization layer
-const authorization = function ({ idl: { models } }) {
+const authorization = function () {
   return async function authorization(input) {
-    const { log, modelName, command } = input;
+    const { log, modelName, command, idl: { models } } = input;
     const perf = log.perf.start('database.authorization', 'middleware');
 
     const model = models[modelName];

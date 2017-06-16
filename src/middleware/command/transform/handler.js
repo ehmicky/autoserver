@@ -26,11 +26,9 @@ const { applyTransformsOnData } = require('./transformer');
  *  - cannot be used together with any property that imply the attribute
  *    should be persisted, including `transform`, `default` or input validation
  **/
-const handleTransforms = function ({ idl, serverState: { startupLog } }) {
-  const perf = startupLog.perf.start('command.handleTransforms', 'middleware');
+const handleTransforms = function ({ idl }) {
   const transformsMap = getTransformsMap({ idl, type: 'transform' });
   const computesMap = getTransformsMap({ idl, type: 'compute' });
-  perf.stop();
 
   return async function handleTransforms(input) {
     const { args, modelName, log, jsl } = input;

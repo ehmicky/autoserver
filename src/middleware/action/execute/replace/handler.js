@@ -13,24 +13,22 @@ const { getUpdateInput } = require('./update');
  * The reasons why we split "replace" action are:
  *   - we need to know the current models so we can set args.currentData
  **/
-const replaceAction = function () {
-  return async function replaceAction(input) {
-    const { log } = input;
-    const perf = log.perf.start('action.replace', 'middleware');
+const replaceAction = async function replaceAction(input) {
+  const { log } = input;
+  const perf = log.perf.start('action.replace', 'middleware');
 
-    const readInput = getReadInput({ input });
+  const readInput = getReadInput({ input });
 
-    perf.stop();
-    const { data: models } = await this.next(readInput);
-    perf.start();
+  perf.stop();
+  const { data: models } = await this.next(readInput);
+  perf.start();
 
-    const updateInput = getUpdateInput({ input, models });
+  const updateInput = getUpdateInput({ input, models });
 
-    perf.stop();
-    const response = await this.next(updateInput);
+  perf.stop();
+  const response = await this.next(updateInput);
 
-    return response;
-  };
+  return response;
 };
 
 
