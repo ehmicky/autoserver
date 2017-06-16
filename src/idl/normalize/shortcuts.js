@@ -1,10 +1,14 @@
 'use strict';
 
 
+const { getReadOnlyMap } = require('./read_only');
+
+
 // Compile-time transformations just meant for runtime performance optimization
 const normalizeShortcuts = function ({ idl }) {
-  idl.shortcuts = {};
+  const readOnlyMap = getReadOnlyMap({ idl });
 
+  idl.shortcuts = { readOnlyMap };
   return idl;
 };
 

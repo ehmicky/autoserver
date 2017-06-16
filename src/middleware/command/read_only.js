@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { omit, mapValues, pickBy } = require('../../utilities');
+const { omit } = require('../../utilities');
 
 
 /**
@@ -11,11 +11,9 @@ const { omit, mapValues, pickBy } = require('../../utilities');
  * should be able to send responses back as is without having to remove
  * readonly attributes.
  **/
-const handleReadOnly = function ({ idl }) {
-  const readOnlyMap = getReadOnlyMap({ idl });
-
+const handleReadOnly = function () {
   return async function handleReadOnly(input) {
-    const { args, modelName, log } = input;
+    const { args, modelName, log, idl: { shortcuts: { readOnlyMap } } } = input;
     const { newData } = args;
     const perf = log.perf.start('command.handleReadOnly', 'middleware');
 
@@ -34,15 +32,6 @@ const handleReadOnly = function ({ idl }) {
     const response = await this.next(input);
     return response;
   };
-};
-
-// Gets a map of models' readonly attributes,
-// e.g. { my_model: ['my_readonly_attribute', ...], ... }
-const getReadOnlyMap = function ({ idl: { models } }) {
-  return mapValues(models, ({ properties = {} }) => {
-    const readOnlyProps = pickBy(properties, ({ readOnly }) => readOnly);
-    return Object.keys(readOnlyProps);
-  });
 };
 
 const removeReadOnly = function ({ newData, readOnlyAttrs }) {
