@@ -131,8 +131,8 @@ const getMiddleware = async function ({
     mdw.databaseConvertor,
     // authorization middleware
     mdw.authorization,
-    // General validation middleware
-    mdw.databaseValidation,
+    // Custom data validation middleware
+    mdw.dataValidation,
     // Do the database action, protocol and operation-agnostic
     mdw.databaseExecute,
   ]);
