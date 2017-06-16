@@ -18,6 +18,10 @@ const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
     }
 
     const protocolFullName = protocolHandler.getFullName({ specific });
+    if (typeof protocolFullName !== 'string') {
+      const message = `'protocolFullName' must be a string, not ${protocolFullName}`;
+      throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    }
     log.add({ protocol, protocolFullName });
 
     const jsl = new Jsl({ exposeMap });

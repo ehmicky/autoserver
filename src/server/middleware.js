@@ -39,8 +39,6 @@ const getMiddleware = async function ({
      **/
     // Sets up Protocol format
     mdw.protocolConvertor,
-    // Protocol-related validation layer
-    mdw.protocolValidation,
     // General request logger
     mdw.logger,
     // Sends final response, if success
