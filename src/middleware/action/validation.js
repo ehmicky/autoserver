@@ -14,20 +14,18 @@ const { EngineError } = require('../../error');
  * In short: `action`, `args`, `modelName` should be defined and of the
  * right type
  **/
-const actionValidation = function () {
-  return async function actionValidation(input) {
-    const { action, fullAction, modelName, log, idl: { models } } = input;
-    const perf = log.perf.start('action.validation', 'middleware');
+const actionValidation = async function (input) {
+  const { action, fullAction, modelName, log, idl: { models } } = input;
+  const perf = log.perf.start('action.validation', 'middleware');
 
-    validateAction({ action });
-    validateFullAction({ fullAction });
-    const modelNames = Object.keys(models);
-    validateModelName({ modelName, modelNames });
+  validateAction({ action });
+  validateFullAction({ fullAction });
+  const modelNames = Object.keys(models);
+  validateModelName({ modelName, modelNames });
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 // Validate that action is among the possible ones

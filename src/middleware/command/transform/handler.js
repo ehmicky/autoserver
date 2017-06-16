@@ -25,41 +25,39 @@ const { applyTransformsOnData } = require('./transformer');
  *  - cannot be used together with any property that imply the attribute
  *    should be persisted, including `transform`, `default` or input validation
  **/
-const handleTransforms = function () {
-  return async function handleTransforms(input) {
-    const {
-      args,
-      modelName,
-      log,
-      jsl,
-      idl: { shortcuts: { transformsMap, computesMap } },
-    } = input;
-    const { newData } = args;
-    const perf = log.perf.start('command.handleTransforms', 'middleware');
+const handleTransforms = async function (input) {
+  const {
+    args,
+    modelName,
+    log,
+    jsl,
+    idl: { shortcuts: { transformsMap, computesMap } },
+  } = input;
+  const { newData } = args;
+  const perf = log.perf.start('command.handleTransforms', 'middleware');
 
-    if (newData) {
-      const transforms = transformsMap[modelName];
-      args.newData = applyTransformsOnData({
-        data: newData,
-        transforms,
-        jsl,
-        type: 'transform',
-      });
-    }
-
-    perf.stop();
-    const response = await this.next(input);
-
-    const transforms = computesMap[modelName];
-    response.newData = applyTransformsOnData({
-      data: response.data,
+  if (newData) {
+    const transforms = transformsMap[modelName];
+    args.newData = applyTransformsOnData({
+      data: newData,
       transforms,
       jsl,
-      type: 'compute',
+      type: 'transform',
     });
+  }
 
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+
+  const transforms = computesMap[modelName];
+  response.newData = applyTransformsOnData({
+    data: response.data,
+    transforms,
+    jsl,
+    type: 'compute',
+  });
+
+  return response;
 };
 
 

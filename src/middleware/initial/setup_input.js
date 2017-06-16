@@ -6,32 +6,30 @@ const { protocolHandlers } = require('../../protocols');
 
 
 // Setup basic input
-const setupInput = function () {
-  return async function setupInput(
+const setupInput = async function (
+  protocol,
+  idl,
+  apiServer,
+  serverOpts,
+  specific,
+) {
+  const log = new Log({ serverOpts, apiServer, phase: 'request' });
+  log.add({ protocol });
+
+  const protocolHandler = protocolHandlers[protocol];
+
+  const input = {
     protocol,
     idl,
-    apiServer,
     serverOpts,
+    apiServer,
     specific,
-  ) {
-    const log = new Log({ serverOpts, apiServer, phase: 'request' });
-    log.add({ protocol });
-
-    const protocolHandler = protocolHandlers[protocol];
-
-    const input = {
-      protocol,
-      idl,
-      serverOpts,
-      apiServer,
-      specific,
-      log,
-      protocolHandler,
-    };
-
-    const response = await this.next(input);
-    return response;
+    log,
+    protocolHandler,
   };
+
+  const response = await this.next(input);
+  return response;
 };
 
 

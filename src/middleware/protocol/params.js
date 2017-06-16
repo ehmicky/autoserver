@@ -19,23 +19,21 @@ const {
 //  - in query string, using `params.myParam`
 // Values are automatically transtyped.
 // Are set to JSL param $PARAMS
-const parseParams = function () {
-  return async function parseParams(input) {
-    const { jsl, log } = input;
-    const perf = log.perf.start('protocol.parseParams', 'middleware');
+const parseParams = async function (input) {
+  const { jsl, log } = input;
+  const perf = log.perf.start('protocol.parseParams', 'middleware');
 
-    const params = getParams({ input });
-    makeImmutable(params);
+  const params = getParams({ input });
+  makeImmutable(params);
 
-    const newJsl = jsl.add({ $PARAMS: params });
+  const newJsl = jsl.add({ $PARAMS: params });
 
-    log.add({ params });
-    Object.assign(input, { params, jsl: newJsl });
+  log.add({ params });
+  Object.assign(input, { params, jsl: newJsl });
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 const getParams = function ({ input }) {

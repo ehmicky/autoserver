@@ -11,37 +11,35 @@ const { renameArgs } = require('./rename');
 
 // Process client-supplied args: validates them and add them to JSL variables
 // Also rename them camelcase
-const handleArgs = function () {
-  return async function handleArgs(input) {
-    const { log, args, jsl, action, serverOpts: { maxDataLength } } = input;
-    const perf = log.perf.start('operation.handleArgs', 'middleware');
+const handleArgs = async function (input) {
+  const { log, args, jsl, action, serverOpts: { maxDataLength } } = input;
+  const perf = log.perf.start('operation.handleArgs', 'middleware');
 
-    if (!args || args.constructor !== Object) {
-      const message = `Invalid 'args': '${args}'`;
-      throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
-    }
-    const clonedArgs = cloneDeep(args);
+  if (!args || args.constructor !== Object) {
+    const message = `Invalid 'args': '${args}'`;
+    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  }
+  const clonedArgs = cloneDeep(args);
 
-    try {
-      input.jsl = jsl.add({ $ARGS: clonedArgs });
+  try {
+    input.jsl = jsl.add({ $ARGS: clonedArgs });
 
-      validateSyntax({ args, action, maxDataLength });
-      validateLimits({ args, maxDataLength });
-      input.args = renameArgs({ args });
+    validateSyntax({ args, action, maxDataLength });
+    validateLimits({ args, maxDataLength });
+    input.args = renameArgs({ args });
 
-      perf.stop();
-      const response = await this.next(input);
-      return response;
-    } catch (error) {
-      const perf = log.perf.start('operation.handleArgs', 'exception');
+    perf.stop();
+    const response = await this.next(input);
+    return response;
+  } catch (error) {
+    const perf = log.perf.start('operation.handleArgs', 'exception');
 
-      // Added only for final error handler
-      log.add({ args: clonedArgs });
+    // Added only for final error handler
+    log.add({ args: clonedArgs });
 
-      perf.stop();
-      throw error;
-    }
-  };
+    perf.stop();
+    throw error;
+  }
 };
 
 

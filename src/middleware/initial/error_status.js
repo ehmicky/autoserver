@@ -3,29 +3,27 @@
 
 // When throwing an exception after the normal status has been set,
 // we want to convert back the status to an error one.
-const errorStatus = function () {
-  return async function errorStatus(input) {
-    const { log } = input;
+const errorStatus = async function (input) {
+  const { log } = input;
 
-    try {
-      const response = await this.next(input);
-      return response;
-    } catch (error) {
-      // Only if the status has been set with the regular middleware,
-      // not the error-catching part of the middleware
-      if (error.isStatusError === true) { throw error; }
+  try {
+    const response = await this.next(input);
+    return response;
+  } catch (error) {
+    // Only if the status has been set with the regular middleware,
+    // not the error-catching part of the middleware
+    if (error.isStatusError === true) { throw error; }
 
-      const perf = log.perf.start('initial.errorStatus', 'exception');
+    const perf = log.perf.start('initial.errorStatus', 'exception');
 
-      const newValues = { protocolStatus: undefined, status: 'SERVER_ERROR' };
-      log.add(newValues);
-      Object.assign(input, newValues);
+    const newValues = { protocolStatus: undefined, status: 'SERVER_ERROR' };
+    log.add(newValues);
+    Object.assign(input, newValues);
 
-      perf.stop();
+    perf.stop();
 
-      throw error;
-    }
-  };
+    throw error;
+  }
 };
 
 

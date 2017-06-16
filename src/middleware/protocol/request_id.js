@@ -13,24 +13,22 @@ const { getServerInfo } = require('../../info');
 //  - JSL parameters, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
-const setRequestIds = function () {
-  return async function setRequestId(input) {
-    const { jsl, log, specific, protocolHandler, serverOpts } = input;
-    const perf = log.perf.start('protocol.setRequestId', 'middleware');
+const setRequestIds = async function (input) {
+  const { jsl, log, specific, protocolHandler, serverOpts } = input;
+  const perf = log.perf.start('protocol.setRequestId', 'middleware');
 
-    const requestId = uuidv4();
-    const newJsl = jsl.add({ $REQUEST_ID: requestId });
-    log.add({ requestId });
+  const requestId = uuidv4();
+  const newJsl = jsl.add({ $REQUEST_ID: requestId });
+  log.add({ requestId });
 
-    Object.assign(input, { requestId, jsl: newJsl });
+  Object.assign(input, { requestId, jsl: newJsl });
 
-    sendRequestIdHeader({ specific, requestId, protocolHandler });
-    sendServerIdsHeaders({ specific, serverOpts, protocolHandler });
+  sendRequestIdHeader({ specific, requestId, protocolHandler });
+  sendServerIdsHeaders({ specific, serverOpts, protocolHandler });
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 // Send e.g. HTTP request header, `X-Request-Id`

@@ -4,20 +4,18 @@
 const { EngineError } = require('../../error');
 
 
-const getProtocolName = function () {
-  return async function getProtocolName(input) {
-    const { log, specific, protocolHandler } = input;
-    const perf = log.perf.start('protocol.getProtocolName', 'middleware');
+const getProtocolName = async function (input) {
+  const { log, specific, protocolHandler } = input;
+  const perf = log.perf.start('protocol.getProtocolName', 'middleware');
 
-    const protocolFullName = getProtocolFullName({ specific, protocolHandler });
-    log.add({ protocolFullName });
+  const protocolFullName = getProtocolFullName({ specific, protocolHandler });
+  log.add({ protocolFullName });
 
-    Object.assign(input, { protocolFullName });
+  Object.assign(input, { protocolFullName });
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 const getProtocolFullName = function ({ specific, protocolHandler }) {

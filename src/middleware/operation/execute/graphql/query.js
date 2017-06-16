@@ -7,7 +7,7 @@ const { default: graphqlAnywhere } = require('graphql-anywhere');
 /**
  * Executes GraphQL request
  */
-const handleQuery = async function handleQuery({
+const handleQuery = async function ({
   resolver,
   queryDocument,
   variables,

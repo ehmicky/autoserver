@@ -5,26 +5,24 @@ const { EngineError } = require('../../error');
 
 
 // Retrieve request's IP, assigned to protocol input, and also to JSL $IP
-const getIp = function () {
-  return async function getIp(input) {
-    const { jsl, log, protocolHandler } = input;
-    const perf = log.perf.start('protocol.getIp', 'middleware');
+const getIp = async function (input) {
+  const { jsl, log, protocolHandler } = input;
+  const perf = log.perf.start('protocol.getIp', 'middleware');
 
-    const ip = protocolHandler.getIp(input) || '';
-    if (typeof ip !== 'string') {
-      const message = `'ip' must be a string, not '${ip}'`;
-      throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
-    }
+  const ip = protocolHandler.getIp(input) || '';
+  if (typeof ip !== 'string') {
+    const message = `'ip' must be a string, not '${ip}'`;
+    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  }
 
-    const newJsl = jsl.add({ $IP: ip });
-    log.add({ ip });
+  const newJsl = jsl.add({ $IP: ip });
+  log.add({ ip });
 
-    Object.assign(input, { ip, jsl: newJsl });
+  Object.assign(input, { ip, jsl: newJsl });
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 

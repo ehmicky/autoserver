@@ -15,22 +15,20 @@ const { applyOutputAliases } = require('./output');
  *   - is stored in the database
  *   - should be used in JSL (with `$$`) in IDL file
  **/
-const renameAliases = function () {
-  return async function renameAliases(input) {
-    const { args, modelName, log, idl: { shortcuts: { aliasesMap } } } = input;
-    const perf = log.perf.start('command.renameAliases', 'middleware');
+const renameAliases = async function (input) {
+  const { args, modelName, log, idl: { shortcuts: { aliasesMap } } } = input;
+  const perf = log.perf.start('command.renameAliases', 'middleware');
 
-    const modelAliases = aliasesMap[modelName];
+  const modelAliases = aliasesMap[modelName];
 
-    applyInputAliases({ args, modelAliases });
+  applyInputAliases({ args, modelAliases });
 
-    perf.stop();
-    const response = await this.next(input);
+  perf.stop();
+  const response = await this.next(input);
 
-    applyOutputAliases({ response, modelAliases });
+  applyOutputAliases({ response, modelAliases });
 
-    return response;
-  };
+  return response;
 };
 
 

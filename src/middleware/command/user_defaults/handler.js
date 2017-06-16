@@ -9,27 +9,25 @@ const { applyAllDefault } = require('./apply');
  * This can be a static value or any JSL
  * Not applied on partial write actions like 'update'
  **/
-const userDefaults = function () {
-  return async function userDefaults(input) {
-    const {
-      args,
-      log,
-      modelName,
-      jsl,
-      idl: { shortcuts: { userDefaultsMap } },
-    } = input;
-    const { newData } = args;
-    const perf = log.perf.start('command.userDefaults', 'middleware');
+const userDefaults = async function (input) {
+  const {
+    args,
+    log,
+    modelName,
+    jsl,
+    idl: { shortcuts: { userDefaultsMap } },
+  } = input;
+  const { newData } = args;
+  const perf = log.perf.start('command.userDefaults', 'middleware');
 
-    if (args.newData) {
-      const defAttributes = userDefaultsMap[modelName];
-      args.newData = applyAllDefault({ jsl, defAttributes, value: newData });
-    }
+  if (args.newData) {
+    const defAttributes = userDefaultsMap[modelName];
+    args.newData = applyAllDefault({ jsl, defAttributes, value: newData });
+  }
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 
