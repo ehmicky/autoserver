@@ -12,64 +12,62 @@ const {
 
 
 // GraphQL query handling
-const executeGraphql = function () {
-  return async function executeGraphql(input) {
-    // Parameters can be in either query variables or payload
-    // (including by using application/graphql)
-    const {
-      queryVars,
-      payload,
-      goal,
-      log,
-      idl: { shortcuts: { modelsMap }, GraphQLSchema: schema },
-    } = input;
-    const perf = log.perf.start('operation.executeGraphql', 'middleware');
+const executeGraphql = async function (input) {
+  // Parameters can be in either query variables or payload
+  // (including by using application/graphql)
+  const {
+    queryVars,
+    payload,
+    goal,
+    log,
+    idl: { shortcuts: { modelsMap }, GraphQLSchema: schema },
+  } = input;
+  const perf = log.perf.start('operation.executeGraphql', 'middleware');
 
-    const {
-      query,
+  const {
+    query,
+    variables,
+    operationName,
+  } = Object.assign({}, queryVars, payload);
+
+  // GraphQL parsing
+  const {
+    queryDocument,
+    graphqlMethod,
+  } = parseQuery({ query, goal, operationName });
+
+  // GraphQL execution
+  let content;
+  const actions = [];
+  // Introspection GraphQL query
+  if (isIntrospectionQuery({ query })) {
+    content = await handleIntrospection({
+      schema,
+      queryDocument,
       variables,
       operationName,
-    } = Object.assign({}, queryVars, payload);
-
-    // GraphQL parsing
-    const {
+    });
+  // Normal GraphQL query
+  } else {
+    const resolver = getResolver.bind(null, modelsMap);
+    const callback = fireNext.bind(this, input, perf, actions);
+    const data = await handleQuery({
+      resolver,
       queryDocument,
-      graphqlMethod,
-    } = parseQuery({ query, goal, operationName });
+      variables,
+      operationName,
+      context: { graphqlMethod, callback },
+      rootValue: {},
+    });
+    content = { data };
+  }
 
-    // GraphQL execution
-    let content;
-    const actions = [];
-    // Introspection GraphQL query
-    if (isIntrospectionQuery({ query })) {
-      content = await handleIntrospection({
-        schema,
-        queryDocument,
-        variables,
-        operationName,
-      });
-    // Normal GraphQL query
-    } else {
-      const resolver = getResolver.bind(null, modelsMap);
-      const callback = fireNext.bind(this, input, perf, actions);
-      const data = await handleQuery({
-        resolver,
-        queryDocument,
-        variables,
-        operationName,
-        context: { graphqlMethod, callback },
-        rootValue: {},
-      });
-      content = { data };
-    }
+  const type = getResponseType({ content });
 
-    const type = getResponseType({ content });
-
-    makeImmutable(actions);
-    perf.stop();
-    const response = { content, type, actions };
-    return response;
-  };
+  makeImmutable(actions);
+  perf.stop();
+  const response = { content, type, actions };
+  return response;
 };
 
 const fireNext = async function (request, perf, actions, actionInput) {
