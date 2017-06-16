@@ -4,6 +4,7 @@
 const pathToRegExp = require('path-to-regexp');
 
 const { transtype, assignObject } = require('../../../utilities');
+const { routes } = require('./routes');
 
 
 class RoutesManager {
@@ -49,7 +50,9 @@ class RoutesManager {
 
 }
 
+const routesManager = new RoutesManager({ routes });
+
 
 module.exports = {
-  RoutesManager,
+  routesManager,
 };
