@@ -34,6 +34,9 @@ const errorReasons = {
   // match IDL schema
   INPUT_VALIDATION: {},
 
+  // Not allowed, authorization-wise
+  AUTHORIZATION: {},
+
   // Standard 404, e.g. route not found
   NOT_FOUND: {},
 

@@ -8,7 +8,7 @@ const { EngineError } = require('../../error');
 
 
 /**
- * Command-related validation layer
+ * Command-related validation middleware
  * Check input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  **/

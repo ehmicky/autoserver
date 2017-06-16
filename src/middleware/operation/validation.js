@@ -5,7 +5,7 @@ const { EngineError } = require('../../error');
 const { ACTIONS, CONTENT_TYPES } = require('../../constants');
 
 
-// Operation layer validation
+// Operation middleware validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
 const operationValidation = function () {
   return async function operationValidation(input) {

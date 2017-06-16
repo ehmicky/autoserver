@@ -83,7 +83,7 @@ const getMiddleware = async function ({
     mdw.operationConvertor,
     // Pick the operation
     mdw.operationNegotiator,
-    // Operation-related validation layer
+    // Operation-related validation middleware
     mdw.operationValidation,
     // Remove response data if settings noOutput is specified
     mdw.noOutput,
@@ -95,7 +95,7 @@ const getMiddleware = async function ({
      **/
     // Convert from Operation format to Action format
     mdw.actionConvertor,
-    // Action-related validation layer
+    // Action-related validation middleware
     mdw.actionValidation,
     // Process client arguments
     mdw.handleArgs,
@@ -107,7 +107,7 @@ const getMiddleware = async function ({
      **/
     // Convert from Action format to Command format
     mdw.commandConvertor,
-    // Command-related validation layer
+    // Command-related validation middleware
     mdw.commandValidation,
     // Normalize input
     mdw.normalization,
@@ -129,7 +129,9 @@ const getMiddleware = async function ({
      **/
     // Convert from Command format to Database format
     mdw.databaseConvertor,
-    // General validation layer
+    // authorization middleware
+    mdw.authorization,
+    // General validation middleware
     mdw.databaseValidation,
     // Do the database action, protocol and operation-agnostic
     mdw.databaseExecute,
