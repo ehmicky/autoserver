@@ -7,7 +7,6 @@ module.exports = Object.assign(
   require('./env'),
   require('./json'),
   require('./yaml'),
-  require('./base64'),
   require('./ref_parser'),
   require('./transtype'),
 );

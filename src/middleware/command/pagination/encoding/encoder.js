@@ -1,7 +1,13 @@
 'use strict';
 
 
-const { base64UrlEncode, base64UrlDecode } = require('../../../../utilities');
+const {
+  Base64: {
+    encodeURI: base64UrlEncode,
+    decode: base64UrlDecode,
+  },
+} = require('js-base64');
+
 const { minifyToken, unminifyToken } = require('./minify');
 
 
