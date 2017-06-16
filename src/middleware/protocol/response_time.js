@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { EngineError } = require('../../error');
+
+
 const setResponseTime = function () {
   return async function setResponseTime(input) {
     const { log, protocolHandler, specific } = input;
@@ -9,6 +12,11 @@ const setResponseTime = function () {
     const perf = log.perf.start('protocol.setResponseTime', 'middleware');
 
     const responseTime = log.perf.all.stop();
+    if (typeof responseTime !== 'number') {
+      const message = `'responseTime' must be a number, not '${responseTime}'`;
+      throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    }
+
     log.add({ responseTime });
 
     const headers = { 'X-Response-Time': Math.round(responseTime) };
