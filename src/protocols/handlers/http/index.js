@@ -6,7 +6,6 @@ module.exports = Object.assign(
   require('./start'),
   require('./headers'),
   require('./payload'),
-  require('./query_string'),
   require('./url'),
   require('./method'),
   require('./send'),
