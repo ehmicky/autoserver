@@ -1,7 +1,6 @@
 'use strict';
 
 
-const { mapAsync } = require('../../../utilities');
 const { createAction } = require('./create');
 const { findAction } = require('./find');
 const { updateAction } = require('./update');
@@ -11,16 +10,9 @@ const { deleteAction } = require('./delete');
 
 
 // Translates operation-specific calls into generic instance actions
-const actionExecute = async function ({ serverState: { startupLog } }) {
-  const mdws = await mapAsync(middlewares, async (mdw, name) => {
-    const perf = startupLog.perf.start(`action.${name}`, 'middleware');
-    mdw = await mdw();
-    perf.stop();
-    return mdw;
-  });
-
+const actionExecute = function () {
   return async function actionExecute(input) {
-    return await mdws[input.action.name].call(this, input);
+    return await middlewares[input.action.name].call(this, input);
   };
 };
 

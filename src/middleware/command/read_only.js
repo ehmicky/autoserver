@@ -11,10 +11,8 @@ const { omit, mapValues, pickBy } = require('../../utilities');
  * should be able to send responses back as is without having to remove
  * readonly attributes.
  **/
-const handleReadOnly = function ({ idl, serverState: { startupLog } }) {
-  const perf = startupLog.perf.start('command.handleReadOnly', 'middleware');
+const handleReadOnly = function ({ idl }) {
   const readOnlyMap = getReadOnlyMap({ idl });
-  perf.stop();
 
   return async function handleReadOnly(input) {
     const { args, modelName, log } = input;
