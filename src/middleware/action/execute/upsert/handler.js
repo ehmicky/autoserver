@@ -25,7 +25,7 @@ const { getSecondReadInput } = require('./second_read');
  *     parameter. Example: created_time should be set if upsert creates a model,
  *     but not if it updates it.
  **/
-const upsertAction = async function upsertAction(input) {
+const upsertAction = async function (input) {
   const { log } = input;
   const perf = log.perf.start('action.upsert', 'middleware');
 

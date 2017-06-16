@@ -7,7 +7,7 @@ const { COMMANDS } = require('../../../constants');
 /**
  * "find" action uses a "read" command
  **/
-const findAction = async function findAction(input) {
+const findAction = async function (input) {
   const { args, action, log } = input;
   const perf = log.perf.start('action.find', 'middleware');
 

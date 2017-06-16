@@ -8,7 +8,7 @@ const { omit } = require('../../../utilities');
 /**
  * "create" action uses a "create" command
  **/
-const createAction = async function createAction(input) {
+const createAction = async function (input) {
   const { action, log, args } = input;
   const perf = log.perf.start('action.create', 'middleware');
 
