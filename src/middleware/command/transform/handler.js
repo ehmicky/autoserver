@@ -1,7 +1,6 @@
 'use strict';
 
 
-const { getTransformsMap } = require('./map');
 const { applyTransformsOnData } = require('./transformer');
 
 
@@ -26,12 +25,15 @@ const { applyTransformsOnData } = require('./transformer');
  *  - cannot be used together with any property that imply the attribute
  *    should be persisted, including `transform`, `default` or input validation
  **/
-const handleTransforms = function ({ idl }) {
-  const transformsMap = getTransformsMap({ idl, type: 'transform' });
-  const computesMap = getTransformsMap({ idl, type: 'compute' });
-
+const handleTransforms = function () {
   return async function handleTransforms(input) {
-    const { args, modelName, log, jsl } = input;
+    const {
+      args,
+      modelName,
+      log,
+      jsl,
+      idl: { shortcuts: { transformsMap, computesMap } },
+    } = input;
     const { newData } = args;
     const perf = log.perf.start('command.handleTransforms', 'middleware');
 
