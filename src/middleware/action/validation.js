@@ -3,7 +3,6 @@
 
 const { isEqual } = require('lodash');
 
-const { validate } = require('../../validation');
 const { ACTIONS } = require('../../constants');
 const { EngineError } = require('../../error');
 
@@ -15,51 +14,19 @@ const { EngineError } = require('../../error');
  * In short: `action`, `args`, `modelName` should be defined and of the
  * right type
  **/
-const actionValidation = function ({ idl: { models } = {} }) {
+const actionValidation = function ({ idl: { models } }) {
   return async function actionValidation(input) {
-    const { action, log } = input;
+    const { action, fullAction, modelName, log } = input;
     const perf = log.perf.start('action.validation', 'middleware');
 
-    const schema = getValidateServerSchema({ models });
-    validate({ schema, data: input, reportInfo });
-
     validateAction({ action });
+    validateFullAction({ fullAction });
+    const modelNames = Object.keys(models);
+    validateModelName({ modelName, modelNames });
 
     perf.stop();
     const response = await this.next(input);
     return response;
-  };
-};
-
-const reportInfo = { type: 'serverInputSyntax', dataVar: 'input' };
-
-// Get JSON schema to validate against input
-const getValidateServerSchema = function ({ models = {} }) {
-  const modelNames = Object.keys(models);
-
-  return {
-    required: [
-      'modelName',
-      'args',
-      'action',
-      'fullAction',
-      'jsl',
-      'params',
-      'settings',
-    ],
-    properties: {
-      modelName: {
-        type: 'string',
-        minLength: 1,
-        enum: modelNames,
-      },
-      args: { type: 'object' },
-      action: { type: 'object' },
-      fullAction: { type: 'string' },
-      jsl: { type: 'object' },
-      params: { type: 'object' },
-      settings: { type: 'object' },
-    },
   };
 };
 
@@ -69,7 +36,21 @@ const validateAction = function ({ action }) {
     return isEqual(possibleAction, action);
   });
   if (!isValid) {
-    const message = `Invalid action: ${JSON.stringify(action)}`;
+    const message = `Invalid 'action': '${JSON.stringify(action)}'`;
+    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  }
+};
+
+const validateFullAction = function ({ fullAction }) {
+  if (typeof fullAction !== 'string') {
+    const message = `Invalid 'fullAction': '${JSON.stringify(fullAction)}'`;
+    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  }
+};
+
+const validateModelName = function ({ modelName, modelNames }) {
+  if (!modelName || !modelNames.includes(modelName)) {
+    const message = `Invalid 'modelName': '${modelName}' must be one of: ${modelNames.join(', ')}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };

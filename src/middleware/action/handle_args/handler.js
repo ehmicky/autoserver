@@ -3,6 +3,7 @@
 
 const { cloneDeep } = require('lodash');
 
+const { EngineError } = require('../../../error');
 const { validateSyntax } = require('./validate_syntax');
 const { validateLimits } = require('./validate_limits');
 const { renameArgs } = require('./rename');
@@ -15,6 +16,10 @@ const handleArgs = function ({ serverOpts: { maxDataLength } }) {
     const { log, args, jsl, action } = input;
     const perf = log.perf.start('operation.handleArgs', 'middleware');
 
+    if (!args || args.constructor !== Object) {
+      const message = `Invalid 'args': '${args}'`;
+      throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+    }
     const clonedArgs = cloneDeep(args);
 
     try {
