@@ -4,6 +4,7 @@
 module.exports = Object.assign(
   {},
   require('./convertor'),
+  require('./jsl'),
   require('./response'),
   require('./status'),
   require('./response_time'),

@@ -1,15 +1,13 @@
 'use strict';
 
 
-const { Jsl } = require('../../jsl');
 const { EngineError } = require('../../error');
 
 
 // Converts from no format to Protocol format
-const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
+const protocolConvertor = function () {
   return async function protocolConvertor(input) {
     const { specific, log, protocol, protocolHandler, now } = input;
-
     const perf = log.perf.start('protocol.convertor', 'middleware');
 
     if (!specific || specific.constructor !== Object) {
@@ -17,18 +15,7 @@ const protocolConvertor = function ({ idl: { helpers, exposeMap } }) {
       throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
     }
 
-    const jsl = new Jsl({ exposeMap });
-    const jslWithHelpers = jsl.addHelpers({ helpers });
-    const newJsl = jslWithHelpers.add({ $PROTOCOL: protocol });
-
-    const newInput = {
-      specific,
-      log,
-      now,
-      protocol,
-      protocolHandler,
-      jsl: newJsl,
-    };
+    const newInput = { specific, log, protocol, protocolHandler, now };
 
     perf.stop();
     const response = await this.next(newInput);
