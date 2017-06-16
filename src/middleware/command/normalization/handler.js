@@ -9,9 +9,9 @@ const { normalizeOrderBy } = require('./order_by');
  * Normalize input, i.e. when input can take several shapes,
  * reduce it to a single shape
  **/
-const normalization = function () {
+const normalization = function ({ idl: { models } }) {
   return async function normalization(input) {
-    const { args, log } = input;
+    const { args, log, modelName } = input;
     const { orderBy, filter } = args;
     const perf = log.perf.start('command.normalization', 'middleware');
 
@@ -22,7 +22,8 @@ const normalization = function () {
     }
 
     if (orderBy) {
-      newArgs.nOrderBy = normalizeOrderBy({ orderBy });
+      const attrNames = Object.keys(models[modelName].properties);
+      newArgs.nOrderBy = normalizeOrderBy({ orderBy, attrNames });
     }
 
     input.args = newArgs;
