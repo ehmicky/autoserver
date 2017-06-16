@@ -11,12 +11,13 @@ const performanceLog = function () {
     // Used by other middleware, like timestamp and requestTimeout
     input.now = Date.now();
 
+    let response;
     try {
-      const response = await this.next(input);
-      return response;
+      response = await this.next(input);
     } finally {
       await log.perf.report();
     }
+    return response;
   };
 };
 

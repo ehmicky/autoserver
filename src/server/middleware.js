@@ -25,10 +25,10 @@ const getMiddleware = async function ({
      **/
     // Setup basic input
     mdw.setupInput,
-    // Log how the request handling takes
-    mdw.performanceLog,
     // Error handler, which sends final response, if errors
     mdw.errorHandler,
+    // Log how the request handling takes
+    mdw.performanceLog,
     // Buffers log calls
     mdw.loggingBuffer,
     // Sets response status as 'error'
