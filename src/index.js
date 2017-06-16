@@ -31,7 +31,7 @@ startServer({
   // Defaults to 100.
   maxPageSize: 100,
   // HTTP server options
-  HTTP: {
+  http: {
     // Defaults to environment variable HOST, or 'localhost'
     host: 'localhost',
     // Defaults to 80. Can be 0 for "any available port".

@@ -2,21 +2,21 @@
 
 
 const http = require('http');
+const { promisify } = require('util');
 
 const { ENV } = require('../../../utilities');
-const { addStopFunctions } = require('./stop');
 
 
 // Start HTTP server
 const startServer = function ({
-  serverState: { handleRequest, handleListening, processLog },
-  serverOpts: { HTTP: { host, port } },
+  opts: { host, port },
+  processLog,
+  handleRequest,
+  handleListening,
 }) {
-  const server = http.createServer(function requestHandler(req, res) {
-    handleRequest({ protocol: 'HTTP', req, res });
-  });
-
-  server.protocolName = 'HTTP';
+  // Create server
+  const server = http.createServer();
+  const promise = getServerPromise({ server });
 
   // In development, Nodemon restarts the server.
   // Pending sockets slow down that restart, so we disable keep-alive.
@@ -24,24 +24,48 @@ const startServer = function ({
     server.keepAliveTimeout = 1;
   }
 
-  addStopFunctions({ server });
+  // Add functions related to server exits
+  Object.assign(server, { stopServer, countPendingRequests });
 
-  server.on('listening', function listeningHandler() {
-    const { address: usedHost, port: usedPort } = this.address();
-    Object.assign(server, { host: usedHost, port: usedPort });
-    handleListening({ protocol: 'HTTP', host: usedHost, port: usedPort });
-  });
-
-  const promise = new Promise((resolve, reject) => {
-    server.on('listening', () => resolve(server));
-    server.on('error', error => reject(error));
-  });
-
+  // Handle server lifecycle events
+  handleClientRequest({ server, handleRequest });
+  handleServerListening({ server, handleListening });
   handleClientError({ server, log: processLog });
 
+  // Start server
   server.listen(port, host);
 
   return promise;
+};
+
+const getServerPromise = function ({ server }) {
+  return new Promise((resolve, reject) => {
+    server.on('listening', () => resolve(server));
+    server.on('error', error => reject(error));
+  });
+};
+
+// Try a graceful server exit
+const stopServer = async function () {
+  await promisify(this.close.bind(this))();
+};
+
+// Count number of pending requests, to log information on server exits
+const countPendingRequests = async function () {
+  return await promisify(this.getConnections.bind(this))();
+};
+
+const handleServerListening = function ({ server, handleListening }) {
+  server.on('listening', function listeningHandler() {
+    const { address: usedHost, port: usedPort } = this.address();
+    handleListening({ server, host: usedHost, port: usedPort });
+  });
+};
+
+const handleClientRequest = function ({ server, handleRequest }) {
+  server.on('request', function requestHandler(req, res) {
+    handleRequest({ req, res });
+  });
 };
 
 // Report TCP client errors

@@ -73,7 +73,7 @@ const schema = {
       },
     },
 
-    HTTP: {
+    http: {
       type: 'object',
       properties: {
         host: {

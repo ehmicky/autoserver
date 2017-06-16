@@ -55,9 +55,7 @@ const gracefulExit = onlyOnce(async function ({
 
 // Attempts to close server
 // No new connections will be accepted, but we will wait for ongoing ones to end
-const closeServer = async function ({ server, log }) {
-  const { protocolName: protocol } = server;
-
+const closeServer = async function ({ server, server: { protocol }, log }) {
   await logStartShutdown({ server, log, protocol });
 
   const status = Boolean(await shutdownServer({ server, log, protocol }));
@@ -90,7 +88,7 @@ const shutdownServer = async function ({ server, log, protocol }) {
   try {
     const perf = log.perf.start(`${protocol}.shutdown`);
 
-    await server.stop();
+    await server.stopServer();
     // Logs that graceful exit is done, for each protocol
     const message = `${protocol} - Successful shutdown`;
     await log.log(message);

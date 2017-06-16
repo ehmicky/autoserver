@@ -6,11 +6,8 @@ const { Log } = require('../../logging');
 
 // Setup basic input
 const setupInput = function ({ serverOpts, serverState }) {
-  return async function setupInput(specific) {
+  return async function setupInput(protocol, specific) {
     const log = new Log({ serverOpts, serverState, phase: 'request' });
-
-    const { protocol } = specific;
-    delete specific.protocol;
 
     const input = { specific, protocol, log };
 
