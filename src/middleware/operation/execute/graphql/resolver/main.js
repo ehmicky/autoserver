@@ -17,7 +17,7 @@ const {
 /**
  * GraphQL-anywhere uses a single resolver: here it is
  **/
-const getResolver = async function mainResolver(
+const getResolver = async function (
   modelsMap,
   name,
   parent = {},

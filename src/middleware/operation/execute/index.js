@@ -7,11 +7,9 @@ const { printGraphql } = require('./graphql_print');
 
 
 // Translates operation-specific calls into generic instance actions
-const operationExecute = function () {
-  return async function operationExecute(input) {
-    const response = await middlewares[input.operation].call(this, input);
-    return response;
-  };
+const operationExecute = async function (input) {
+  const response = await middlewares[input.operation].call(this, input);
+  return response;
 };
 
 const middlewares = {

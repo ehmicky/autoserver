@@ -2,15 +2,11 @@
 
 
 const { chain } = require('../chain');
-const middleware = require('../middleware');
-const { mapValues } = require('../utilities');
+const mdw = require('../middleware');
 
 
 const getMiddleware = async function ({ serverState: { startupLog } }) {
   const perf = startupLog.perf.start('middleware');
-
-  // Apply options
-  const mdw = mapValues(middleware, mdw => mdw());
 
   const allMiddleware = chain([
     /**
@@ -131,7 +127,6 @@ const getMiddleware = async function ({ serverState: { startupLog } }) {
   ]);
 
   perf.stop();
-
   return allMiddleware[0];
 };
 

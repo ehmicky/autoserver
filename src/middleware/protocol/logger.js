@@ -9,28 +9,26 @@ const { STATUS_LEVEL_MAP } = require('../../logging');
 // Each request creates exactly one log, whether successful or not,
 // unless it crashed very early (i.e. before this middleware), in which case
 // it will still be handled by the error logging middleware.
-const logger = function () {
-  return async function logger(input) {
-    const { log } = input;
+const logger = async function logger(input) {
+  const { log } = input;
 
-    try {
-      const response = await this.next(input);
+  try {
+    const response = await this.next(input);
 
-      const perf = log.perf.start('protocol.logger', 'middleware');
-      await handleLog({ input });
-      perf.stop();
+    const perf = log.perf.start('protocol.logger', 'middleware');
+    await handleLog({ input });
+    perf.stop();
 
-      return response;
-    } catch (error) {
-      const perf = log.perf.start('protocol.logger', 'exception');
+    return response;
+  } catch (error) {
+    const perf = log.perf.start('protocol.logger', 'exception');
 
-      addErrorReason({ error, input });
-      await handleLog({ error, input });
+    addErrorReason({ error, input });
+    await handleLog({ error, input });
 
-      perf.stop();
-      throw error;
-    }
-  };
+    perf.stop();
+    throw error;
+  }
 };
 
 const handleLog = async function ({

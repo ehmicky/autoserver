@@ -17,27 +17,25 @@ const { validateSettings } = require('./validate');
 // HTTP header Prefer: return=minimal
 // Values are automatically transtyped.
 // Are set to JSL param $SETTINGS
-const parseSettings = function () {
-  return async function parseSettings(input) {
-    const { jsl, log, protocolHandler } = input;
-    const perf = log.perf.start('protocol.parseSettings', 'middleware');
+const parseSettings = async function (input) {
+  const { jsl, log, protocolHandler } = input;
+  const perf = log.perf.start('protocol.parseSettings', 'middleware');
 
-    const genericSettings = getSettings({ input });
-    const specificSettings = getSpecificSettings({ input, protocolHandler });
-    const settings = Object.assign({}, genericSettings, specificSettings);
+  const genericSettings = getSettings({ input });
+  const specificSettings = getSpecificSettings({ input, protocolHandler });
+  const settings = Object.assign({}, genericSettings, specificSettings);
 
-    validateSettings({ settings });
-    makeImmutable(settings);
+  validateSettings({ settings });
+  makeImmutable(settings);
 
-    const newJsl = jsl.add({ $SETTINGS: settings });
+  const newJsl = jsl.add({ $SETTINGS: settings });
 
-    log.add({ settings });
-    Object.assign(input, { settings, jsl: newJsl });
+  log.add({ settings });
+  Object.assign(input, { settings, jsl: newJsl });
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 const getSpecificSettings = function ({ input, protocolHandler }) {

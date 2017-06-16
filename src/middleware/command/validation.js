@@ -12,18 +12,16 @@ const { EngineError } = require('../../error');
  * Check input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  **/
-const commandValidation = function () {
-  return async function commandValidation(input) {
-    const { command, log, args } = input;
-    const perf = log.perf.start('command.validation', 'middleware');
+const commandValidation = async function (input) {
+  const { command, log, args } = input;
+  const perf = log.perf.start('command.validation', 'middleware');
 
-    validateCommand({ command });
-    validateArgs({ args });
+  validateCommand({ command });
+  validateArgs({ args });
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 // Validate that command is among the possible ones

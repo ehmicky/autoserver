@@ -9,21 +9,19 @@ const { makeImmutable } = require('../../utilities');
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by operation layer, e.g. to populate `input.args`
-const parsePayload = function () {
-  return async function parsePayload(input) {
-    const { specific, protocolHandler, log } = input;
-    const perf = log.perf.start('protocol.parsePayload', 'middleware');
+const parsePayload = async function (input) {
+  const { specific, protocolHandler, log } = input;
+  const perf = log.perf.start('protocol.parsePayload', 'middleware');
 
-    const payload = await getPayload({ specific, protocolHandler });
-    makeImmutable(payload);
+  const payload = await getPayload({ specific, protocolHandler });
+  makeImmutable(payload);
 
-    log.add({ payload });
-    Object.assign(input, { payload });
+  log.add({ payload });
+  Object.assign(input, { payload });
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 // Returns an request payload

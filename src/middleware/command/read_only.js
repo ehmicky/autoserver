@@ -11,27 +11,25 @@ const { omit } = require('../../utilities');
  * should be able to send responses back as is without having to remove
  * readonly attributes.
  **/
-const handleReadOnly = function () {
-  return async function handleReadOnly(input) {
-    const { args, modelName, log, idl: { shortcuts: { readOnlyMap } } } = input;
-    const { newData } = args;
-    const perf = log.perf.start('command.handleReadOnly', 'middleware');
+const handleReadOnly = async function (input) {
+  const { args, modelName, log, idl: { shortcuts: { readOnlyMap } } } = input;
+  const { newData } = args;
+  const perf = log.perf.start('command.handleReadOnly', 'middleware');
 
-    // Remove readonly attributes in `args.newData`
-    if (newData) {
-      const readOnlyAttrs = readOnlyMap[modelName];
-      args.newData = newData instanceof Array
-        ? newData.map(datum => removeReadOnly({
-          newData: datum,
-          readOnlyAttrs,
-        }))
-        : removeReadOnly({ newData, readOnlyAttrs });
-    }
+  // Remove readonly attributes in `args.newData`
+  if (newData) {
+    const readOnlyAttrs = readOnlyMap[modelName];
+    args.newData = newData instanceof Array
+      ? newData.map(datum => removeReadOnly({
+        newData: datum,
+        readOnlyAttrs,
+      }))
+      : removeReadOnly({ newData, readOnlyAttrs });
+  }
 
-    perf.stop();
-    const response = await this.next(input);
-    return response;
-  };
+  perf.stop();
+  const response = await this.next(input);
+  return response;
 };
 
 const removeReadOnly = function ({ newData, readOnlyAttrs }) {
