@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { EngineError } = require('../../error');
+
+
 // Retrieve response's status
 const getStatus = function () {
   return async function getStatus(input) {
@@ -37,8 +40,17 @@ const setStatus = function ({
   // Protocol-specific status, e.g. HTTP status code
   const protocolStatus = currentProtocolStatus ||
     protocolHandler.getProtocolStatus({ error });
+  if (protocolStatus === undefined) {
+    const message = '\'protocolStatus\' must be defined';
+    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  }
+
   // protocol-agnostic status
   const status = protocolHandler.getStatus({ protocolStatus });
+  if (status === undefined) {
+    const message = '\'status\' must be defined';
+    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  }
 
   // Used to indicate that `status` and `protocolStatus` should be kept
   // by the `error_status` middleware
