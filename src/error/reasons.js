@@ -87,9 +87,6 @@ const errorReasons = {
   // or new constraints were applied without being migrated
   OUTPUT_VALIDATION: {},
 
-  // No middleware was able to handle the response
-  WRONG_RESPONSE: {},
-
   // An exception was fired on the process itself
   PROCESS_ERROR: {},
 
