@@ -34,7 +34,7 @@ startServer({
   serverName: 'my-machine',
   // HTTP server options
   http: {
-    // Defaults to environment variable HOST, or 'localhost'
+    // Defaults to 'localhost'
     host: 'localhost',
     // Defaults to 80. Can be 0 for "any available port".
     port: 5001,

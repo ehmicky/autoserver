@@ -31,7 +31,7 @@ const defaultOptions = {
     settings: [],
   },
   http: {
-    host: process.env.HOST || 'localhost',
+    host: 'localhost',
     port: 80,
   },
 };
