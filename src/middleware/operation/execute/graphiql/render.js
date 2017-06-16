@@ -2,12 +2,12 @@
 
 
 const { render } = require('mustache');
-const { mapValues } = require('lodash');
 const { readFile } = require('fs');
 const { resolve } = require('path');
 const { promisify } = require('util');
 
 const { EngineError } = require('../../../../error');
+const { mapValues } = require('../../../../utilities');
 
 const GRAPHIQL_HTML_FILE = resolve(__dirname, './graphiql.mustache');
 

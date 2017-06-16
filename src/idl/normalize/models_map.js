@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { mapValues } = require('lodash');
+const { mapValues } = require('../../utilities');
 
 
 /**

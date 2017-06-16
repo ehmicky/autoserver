@@ -1,8 +1,6 @@
 'use strict';
 
 
-const { each } = require('lodash');
-
 const { checkObject } = require('./validate');
 
 
@@ -72,9 +70,9 @@ const recurseMapByRef = function ({ value, mapFunc }) {
 
     ++depth;
     if (value && (value.constructor === Object || value instanceof Array)) {
-      each(value, (child, childKey) => {
+      for (const [childKey, child] of Object.entries(value)) {
         value[childKey] = recurse({ value: child, key: childKey, parent: value, parents, depth });
-      });
+      };
     }
 
     return value;

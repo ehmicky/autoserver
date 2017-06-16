@@ -10,7 +10,6 @@ const {
   totalmem: getMemory,
   cpus: getCpus,
 } = require('os');
-const { merge } = require('lodash');
 const uuidv4 = require('uuid/v4');
 
 const { memoize } = require('../utilities');
@@ -21,7 +20,12 @@ const { version: apiEngineVersion } = require('../../package.json');
 const getServerInfo = function ({ serverOpts: { serverName } }) {
   const staticServerInfo = getStaticServerInfo({ serverName });
   const dynamicServerInfo = getDynamicServerInfo();
-  return merge({}, staticServerInfo, dynamicServerInfo);
+  const stats = Object.assign(
+    {},
+    staticServerInfo.stats,
+    dynamicServerInfo.stats,
+  );
+  return Object.assign({}, staticServerInfo, dynamicServerInfo, { stats });
 };
 
 // Information that do not change across a specific process.
