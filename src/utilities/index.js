@@ -3,12 +3,12 @@
 
 module.exports = Object.assign(
   {},
-  require('./base64'),
-  require('./transtype'),
-  require('./filesystem'),
-  require('./ref_parser'),
-  require('./yaml'),
   require('./functional'),
-  require('./stringify'),
   require('./env'),
+  require('./filesystem'),
+  require('./json'),
+  require('./yaml'),
+  require('./base64'),
+  require('./ref_parser'),
+  require('./transtype'),
 );
