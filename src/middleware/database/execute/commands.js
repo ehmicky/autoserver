@@ -1,5 +1,6 @@
 'use strict';
 
+
 /**
  * Summary of actions:
  *   findOne    ({ filter: { id } })
@@ -70,6 +71,7 @@ const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../error');
 const { processResponse } = require('./process_response');
+const { validateResponse } = require('./validate');
 
 
 // '($ === ID)' -> ID
@@ -230,6 +232,8 @@ const fireCommand = function (commandInput) {
   const response = commandHandlers[command.name](commandInput);
 
   Object.assign(response, processResponse({ response, command, opts }));
+
+  validateResponse({ command, response });
 
   // TODO: Only necessary as long as we do not use real database,
   // to make sure it is not modified
