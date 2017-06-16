@@ -80,6 +80,9 @@ const schema = {
     http: {
       type: 'object',
       properties: {
+        enabled: {
+          type: 'boolean',
+        },
         host: {
           type: 'string',
         },

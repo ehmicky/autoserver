@@ -31,6 +31,7 @@ const defaultOptions = {
     settings: [],
   },
   http: {
+    enabled: true,
     host: 'localhost',
     port: 80,
   },
