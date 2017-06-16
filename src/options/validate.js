@@ -73,6 +73,10 @@ const schema = {
       },
     },
 
+    serverName: {
+      type: 'string',
+    },
+
     http: {
       type: 'object',
       properties: {

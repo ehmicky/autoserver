@@ -74,7 +74,7 @@ const { PerfLog } = require('./perf');
 //         - version {string} - e.g. '0.0.1'
 //      - serverId {UUID} - specific to a given process
 //      - serverName {UUID} - specific to a given machine.
-//        Uses (if defined) the environment variable API_ENGINE_SERVER_NAME,
+//        Uses (if defined) `serverOpts.serverName`
 //        or otherwise the system hostname, or empty string if not available.
 // A textual summary is also printed on the console:
 //  - colorized, unless `node --no-color` or terminal does not support colors
@@ -145,10 +145,11 @@ class Log {
     logObj.phase = this.phase;
     logObj.type = logObj.type || 'message';
 
-    logObj.serverInfo = getServerInfo();
+    const { serverOpts } = this;
+    logObj.serverInfo = getServerInfo({ serverOpts });
 
     if (this.phase === 'request') {
-      const { loggerFilter } = this.serverOpts;
+      const { loggerFilter } = serverOpts;
       logObj.requestInfo = getRequestInfo(this._info, loggerFilter);
     }
 

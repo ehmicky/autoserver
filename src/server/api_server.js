@@ -11,10 +11,14 @@ const { getServerInfo } = require('../info');
 // Emits events related to server lifecycle and logging.
 class ApiEngineServer extends EventEmitter2 {
 
-  constructor() {
+  constructor({ serverOpts }) {
     super({ wildcard: true });
 
-    const { serverId, serverName, apiEngine: { version } } = getServerInfo();
+    const {
+      serverId,
+      serverName,
+      apiEngine: { version },
+    } = getServerInfo({ serverOpts });
     const info = { id: serverId, name: serverName, version };
 
     Object.assign(this, { info });
