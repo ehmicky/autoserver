@@ -2,7 +2,6 @@
 
 
 const { validateClientInputData, validateServerOutputData } = require('./data');
-const { validateServerOutputSyntax } = require('./server_output_syntax');
 
 
 /**
@@ -21,7 +20,6 @@ const databaseValidation = function ({ idl }) {
     const response = await this.next(input);
     perf.start();
 
-    validateServerOutputSyntax({ command, response });
     validateServerOutputData({ idl, modelName, response, command, jsl });
 
     perf.stop();
