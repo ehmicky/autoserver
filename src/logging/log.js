@@ -27,7 +27,7 @@ const { PerfLog } = require('./perf');
 //  - message (default): generic message
 //  - start: the server is ready
 //  - stop: the server has exited
-//  - failure: an error occured, which should be looked into
+//  - failure: a client-side or server-side error occured
 //  - call: a request has completed, i.e. a response was sent back to the
 //    client (with success or not)
 //  - perf: performance monitoring
