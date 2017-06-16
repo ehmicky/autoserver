@@ -1,4 +1,4 @@
 {
-  "exec": "node --inspect-brk",
+  "exec": "node --inspect-brk ./examples",
   "ext": ".js,.json,.yml,.yaml"
 }
