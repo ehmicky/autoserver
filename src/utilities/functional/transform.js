@@ -1,8 +1,6 @@
 'use strict';
 
 
-const { each } = require('lodash');
-
 const { recurseMapByRef } = require('./map');
 
 
@@ -81,9 +79,9 @@ const singleTransform = function ({ input, transformsSet, args }) {
           // Assign transforms return value to `value`
           Object.assign(value, newValue);
           // Remove undefined values
-          each(newValue, (val, key) => {
+          for (const [key, val] of Object.entries(newValue)) {
             if (val === undefined) { delete value[key]; }
-          });
+          };
         });
 
       return value;

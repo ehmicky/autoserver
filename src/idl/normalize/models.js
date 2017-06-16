@@ -1,9 +1,7 @@
 'use strict';
 
 
-const { find, mapValues } = require('lodash');
-
-const { transform, omit } = require('../../utilities');
+const { transform, omit, mapValues } = require('../../utilities');
 const { normalizeCommandNames } = require('./commands');
 const { getActions } = require('./actions');
 const { normalizeAllTransforms } = require('./transform');
@@ -87,7 +85,8 @@ const transforms = [
   {
     // { model '...' } -> { model: '...', ...copyOfTopLevelModel }
     model({ value, parent, parents: [root] }) {
-      const instance = find(root, (_, modelName) => modelName === value);
+      const [, instance] = Object.entries(root)
+        .find(([modelName]) => modelName === value);
       if (instance === parent) { return; }
       // Dereference `model` pointers, using a shallow copy,
       // while avoiding overriding any property already defined

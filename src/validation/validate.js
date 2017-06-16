@@ -1,9 +1,7 @@
 'use strict';
 
 
-const { chain } = require('lodash');
-
-const { memoize } = require('../utilities');
+const { memoize, assignArray } = require('../utilities');
 const { reportErrors } = require('./report_error');
 const { getRawValidator } = require('./base');
 
@@ -38,10 +36,9 @@ const validate = function ({ schema, data, reportInfo, extra }) {
   const isValid = validator(data);
   if (isValid) { return; }
 
-  const errors = chain(validator.errors)
-    .flatten()
-    .compact()
-    .value();
+  const errors = validator.errors
+    .reduce(assignArray, [])
+    .filter(val => val);
 
   if (errors.length === 0) { return; }
   reportErrors({ errors, reportInfo });

@@ -1,9 +1,9 @@
 'use strict';
 
 
-const { cloneDeep, mapValues } = require('lodash');
+const { cloneDeep } = require('lodash');
 
-const { memoize, transform } = require('../../../utilities');
+const { memoize, transform, mapValues } = require('../../../utilities');
 
 
 // Retrieves JSON schema to validate against

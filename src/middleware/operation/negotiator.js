@@ -1,15 +1,13 @@
 'use strict';
 
 
-const { findKey } = require('lodash');
-
-
 // Decides which operation to use (e.g. GraphQL) according to route
 const operationNegotiator = async function (input) {
   const { route, jsl, log } = input;
   const perf = log.perf.start('operation.negotiator', 'middleware');
 
-  const operation = findKey(operations, test => test({ route }));
+  const [operation] = Object.entries(operations)
+    .find(([, test]) => test({ route })) || [];
 
   const newJsl = jsl.add({ $OPERATION: operation });
 

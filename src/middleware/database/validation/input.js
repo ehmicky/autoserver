@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { cloneDeep, each } = require('lodash');
+const { cloneDeep } = require('lodash');
 
 const { pickBy } = require('../../../utilities');
 const { validate } = require('../../../validation');
@@ -22,7 +22,7 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
     type,
   });
   const attributes = getAttributes(args);
-  each(attributes, (attribute, dataVar) => {
+  for (const [dataVar, attribute] of Object.entries(attributes)) {
     attribute = attribute instanceof Array ? attribute : [attribute];
     attribute.forEach(data => {
       data = cloneDeep(data);
@@ -30,7 +30,7 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
       const reportInfo = { type, dataVar };
       validate({ schema, data, reportInfo, extra: jsl });
     });
-  });
+  };
 };
 
 /**
@@ -59,9 +59,9 @@ const removeJsl = function ({ value, parent, key }) {
 
   // Recursion
   if (value instanceof Array || value.constructor === Object) {
-    each(value, (child, key) => {
+    for (const [key, child] of Object.entries(value)) {
       return removeJsl({ value: child, parent: value, key });
-    });
+    };
   }
 };
 
