@@ -30,19 +30,8 @@ const getPath = function ({ specific: { req: { url } } }) {
   return url.replace(/[?#].*/, '');
 };
 
-// Retrieves URL without query string nor hash
-// Works with proxies.
-const getUrl = function ({ specific }) {
-  const origin = getOrigin({ specific });
-  const pathname = getPath({ specific });
-
-  const url = `${origin}${pathname}`;
-  return url;
-};
-
 
 module.exports = {
   getOrigin,
   getPath,
-  getUrl,
 };

@@ -11,9 +11,9 @@ const parseUrl = function () {
     const { protocolHandler, log, specific } = input;
     const perf = log.perf.start('protocol.parseUrl', 'middleware');
 
-    const url = protocolHandler.getUrl({ specific });
     const origin = protocolHandler.getOrigin({ specific });
     const path = protocolHandler.getPath({ specific });
+    const url = `${origin}${path}`;
 
     log.add({ url, path, origin });
     Object.assign(input, { url, path, origin });
