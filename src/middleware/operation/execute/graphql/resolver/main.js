@@ -1,8 +1,8 @@
 'use strict';
 
 
-const { ACTIONS } = require('../../../../../../constants');
-const { EngineError } = require('../../../../../../error');
+const { ACTIONS } = require('../../../../../constants');
+const { EngineError } = require('../../../../../error');
 const { typenameResolver } = require('./typename');
 const { metadataResolver } = require('./metadata');
 const { nestedModelResolver } = require('./nested_model');
@@ -17,7 +17,8 @@ const {
 /**
  * GraphQL-anywhere uses a single resolver: here it is
  **/
-const getResolver = ({ modelsMap }) => async function mainResolver(
+const getResolver = async function mainResolver(
+  modelsMap,
   name,
   parent = {},
   args,

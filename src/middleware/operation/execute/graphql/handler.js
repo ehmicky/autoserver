@@ -3,7 +3,8 @@
 
 const { makeImmutable } = require('../../../../utilities');
 const { parseQuery } = require('./parse');
-const { getHandleQuery } = require('./query');
+const { handleQuery } = require('./query');
+const { getResolver } = require('./resolver');
 const {
   isIntrospectionQuery,
   getHandleIntrospection,
@@ -13,12 +14,17 @@ const {
 // GraphQL query handling
 const executeGraphql = function ({ idl, serverOpts }) {
   const handleIntrospection = getHandleIntrospection({ idl, serverOpts });
-  const handleQuery = getHandleQuery({ idl });
 
   return async function executeGraphql(input) {
     // Parameters can be in either query variables or payload
     // (including by using application/graphql)
-    const { queryVars, payload, goal, log } = input;
+    const {
+      queryVars,
+      payload,
+      goal,
+      log,
+      idl: { shortcuts: { modelsMap } },
+    } = input;
     const perf = log.perf.start('operation.executeGraphql', 'middleware');
 
     const {
@@ -45,8 +51,10 @@ const executeGraphql = function ({ idl, serverOpts }) {
       });
     // Normal GraphQL query
     } else {
+      const resolver = getResolver.bind(null, modelsMap);
       const callback = fireNext.bind(this, input, perf, actions);
       const data = await handleQuery({
+        resolver,
         queryDocument,
         variables,
         operationName,

@@ -1,8 +1,8 @@
 'use strict';
 
 
-const { EngineError } = require('../../../../../../error');
-const { isJsl } = require('../../../../../../jsl');
+const { EngineError } = require('../../../../../error');
+const { isJsl } = require('../../../../../jsl');
 
 
 /**
