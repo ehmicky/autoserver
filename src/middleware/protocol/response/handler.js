@@ -30,6 +30,9 @@ const sendResponse = async function () {
       }
 
       // Handler to send response error
+      // Since we only send response errors if `error.sendError` is defined,
+      // and it can only be defined if this middleware throws, we are sure
+      // to never send two responses.
       error.sendError = send;
 
       perf.stop();
