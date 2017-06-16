@@ -1,6 +1,9 @@
 'use strict';
 
 
+const { resolve } = require('path');
+
+
 // Retrieve error message of a standard error
 const getErrorMessage = function ({
   error: {
@@ -42,11 +45,12 @@ const getStack = function (description, details = '') {
     : `${description}\n${details}`;
 
   // Shorten stack trace directory paths
-  const dirPrefixRegExp = new RegExp(global.apiEngineDirName, 'g');
+  const dirPrefixRegExp = new RegExp(apiEngineDirName, 'g');
   const trimmedStack = stack.replace(dirPrefixRegExp, '');
 
   return trimmedStack;
 };
+const apiEngineDirName = resolve(__dirname, '../..');
 
 
 module.exports = {
