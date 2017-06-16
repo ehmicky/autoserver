@@ -61,6 +61,8 @@ const validateContent = function ({ content, type }) {
 };
 
 const validateActions = function ({ actions }) {
+  if (actions === undefined) { return; }
+
   if (!(actions instanceof Array)) {
     const message = `'actions' must be an array, not '${actions}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
