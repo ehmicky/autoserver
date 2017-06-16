@@ -1,7 +1,7 @@
 'use strict';
 
 
-const { mapValues, pickBy } = require('../../../utilities');
+const { mapValues, pickBy } = require('../../utilities');
 
 
 // Gets a map of models' attributes' aliases

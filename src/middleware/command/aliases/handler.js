@@ -1,7 +1,6 @@
 'use strict';
 
 
-const { getAliasesMap } = require('./map');
 const { applyInputAliases } = require('./input');
 const { applyOutputAliases } = require('./output');
 
@@ -16,11 +15,9 @@ const { applyOutputAliases } = require('./output');
  *   - is stored in the database
  *   - should be used in JSL (with `$$`) in IDL file
  **/
-const renameAliases = function ({ idl }) {
-  const aliasesMap = getAliasesMap({ idl });
-
+const renameAliases = function () {
   return async function renameAliases(input) {
-    const { args, modelName, log } = input;
+    const { args, modelName, log, idl: { shortcuts: { aliasesMap } } } = input;
     const perf = log.perf.start('command.renameAliases', 'middleware');
 
     const modelAliases = aliasesMap[modelName];
