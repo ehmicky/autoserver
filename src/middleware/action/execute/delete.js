@@ -7,7 +7,7 @@ const { COMMANDS } = require('../../../constants');
 /**
  * "delete" action uses a "delete" command
  **/
-const deleteAction = async function deleteAction(input) {
+const deleteAction = async function (input) {
   const { args, action, log } = input;
   const perf = log.perf.start('action.delete', 'middleware');
 
