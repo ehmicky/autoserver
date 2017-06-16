@@ -30,7 +30,7 @@ const getMethod = function ({ specific, protocolHandler }) {
   const method = protocolHandler.getMethod({ specific });
 
   if (typeof method !== 'string') {
-    const message = `'method' must be a string, not ${method}`;
+    const message = `'method' must be a string, not '${method}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
