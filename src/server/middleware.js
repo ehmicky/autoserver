@@ -3,21 +3,14 @@
 
 const { chain } = require('../chain');
 const middleware = require('../middleware');
-const { mapAsync } = require('../utilities');
+const { mapValues } = require('../utilities');
 
 
-const getMiddleware = async function ({
-  serverOpts,
-  serverState,
-  serverState: { startupLog },
-  idl,
-}) {
+const getMiddleware = async function ({ serverState: { startupLog } }) {
   const perf = startupLog.perf.start('middleware');
 
   // Apply options
-  const mdw = await mapAsync(middleware, async mdw => {
-    return await mdw({ serverOpts, serverState, idl });
-  });
+  const mdw = mapValues(middleware, mdw => mdw());
 
   const allMiddleware = chain([
     /**
