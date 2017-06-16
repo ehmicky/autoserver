@@ -34,7 +34,6 @@ const setStatus = function ({
   input: { log, protocolHandler, protocolStatus: currentProtocolStatus },
   error,
 }) {
-
   // Protocol-specific status, e.g. HTTP status code
   const protocolStatus = currentProtocolStatus ||
     protocolHandler.getProtocolStatus({ error });
