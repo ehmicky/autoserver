@@ -16,29 +16,13 @@ const validationTypes = {
     reason: 'INPUT_VALIDATION',
     message: 'Wrong parameters',
   },
-  serverInputSyntax: {
-    reason: 'INPUT_SERVER_VALIDATION',
-    message: 'Server-side input error',
-  },
   clientInputSyntax: {
-    reason: 'INPUT_VALIDATION',
-    message: 'Wrong parameters',
-  },
-  clientInputCommand: {
-    reason: 'WRONG_COMMAND',
-    message: 'Command is not allowed',
-  },
-  clientInputSemantics: {
     reason: 'INPUT_VALIDATION',
     message: 'Wrong parameters',
   },
   clientInputData: {
     reason: 'INPUT_VALIDATION',
     message: 'Wrong parameters',
-  },
-  serverOutputSyntax: {
-    reason: 'OUTPUT_VALIDATION',
-    message: 'Server-side output error',
   },
   serverOutputData: {
     reason: 'OUTPUT_VALIDATION',
