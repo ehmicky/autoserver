@@ -7,8 +7,8 @@ const { getIdl } = require('../idl');
 const { makeImmutable, assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { Log } = require('../logging');
+const { getMiddleware } = require('../middleware');
 const { ApiEngineServer } = require('./api_server');
-const { getMiddleware } = require('./middleware');
 const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./startup_error');
 
@@ -47,16 +47,12 @@ const start = async function ({ options, startupLog, apiServer }) {
   const serverOpts = await processOptions({ options, startupLog });
   const idl = await getIdl({ serverOpts, startupLog });
 
-  // This callback must be called by each server
-  const requestHandler = await getMiddleware({ serverOpts, startupLog, idl });
-
   const servers = await startAllServers({
     idl,
     apiServer,
     startupLog,
     processLog,
     serverOpts,
-    requestHandler,
   });
   Object.assign(apiServer, { options, servers });
   makeImmutable(apiServer);
@@ -81,9 +77,11 @@ const startAllServers = async function ({
   startupLog,
   processLog,
   serverOpts,
-  requestHandler,
 }) {
   const serversPerf = startupLog.perf.start('servers');
+
+  // This callback must be called by each server
+  const requestHandler = await getMiddleware();
 
   const serversPromises = protocols
     // Can use serverOpts.PROTOCOL.enabled {boolean}
