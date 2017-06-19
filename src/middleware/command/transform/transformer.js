@@ -12,10 +12,6 @@ const applyTransformsOnData = function ({ data, transforms, jsl, type }) {
 };
 
 const applyTransforms = function ({ data, transforms, jsl, type }) {
-  // Value should be an object if valid, but it might be invalid
-  // since the validation layer is not fired yet on input
-  if (!data || data.constructor !== Object) { return data; }
-
   // There can be transform for each attribute
   for (const { attrName, transform: allTransform } of transforms) {
     // There can be several transforms per attribute
