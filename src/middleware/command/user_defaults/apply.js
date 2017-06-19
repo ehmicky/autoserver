@@ -12,10 +12,6 @@ const applyAllDefault = function applyAllDefault(opts) {
     });
   }
 
-  // Value should be an object if valid, but it might be invalid since
-  // the validation layer is not fired yet on input
-  if (value.constructor !== Object) { return value; }
-
   // Iterate over default values for that model, to apply them
   const parent = value;
   for (const [attrName, defValue] of Object.entries(defAttributes)) {

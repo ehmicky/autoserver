@@ -33,10 +33,6 @@ const handleReadOnly = async function (input) {
 };
 
 const removeReadOnly = function ({ newData, readOnlyAttrs }) {
-  // Value should be an object if valid, but it might be invalid
-  // since the validation layer is not fired yet on input
-  if (!newData || newData.constructor !== Object) { return newData; }
-
   return omit(newData, readOnlyAttrs);
 };
 
