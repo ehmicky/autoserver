@@ -140,8 +140,10 @@ class PerfLog {
         { category: catA, duration: timeA },
         { category: catB, duration: timeB },
       ) => {
-        if (catA < catB) { return -1; }
-        if (catA > catB) { return 1; }
+        const indexCatA = CATEGORIES.indexOf(catA);
+        const indexCatB = CATEGORIES.indexOf(catB);
+        if (indexCatA < indexCatB) { return -1; }
+        if (indexCatA > indexCatB) { return 1; }
         if (timeA < timeB) { return 1; }
         if (timeA > timeB) { return -1; }
         return 0;
@@ -202,13 +204,12 @@ const DEFAULT_CATEGORY = 'default';
 const CATEGORIES = [
   'all',
   'default',
-  'layer',
-  'middleware',
-  'server',
   'options',
   'idl',
   'normalize',
   'graphql',
+  'middleware',
+  'server',
   'exception',
 ];
 
