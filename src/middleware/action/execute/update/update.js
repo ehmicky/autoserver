@@ -50,24 +50,10 @@ const getUpdateArgs = function ({ args, models, jsl }) {
 // Merge current models with the data we want to update,
 // to obtain the final models we want to use as replacement
 const getUpdateData = function ({ model, data, jsl, jslKeys }) {
-  validateUpdateData({ data });
-
   const transformedData = transformData({ model, data, jsl, jslKeys });
 
   const updateData = Object.assign({}, model, transformedData);
   return updateData;
-};
-
-const validateUpdateData = function ({ data }) {
-  if (data === undefined) {
-    const message = 'Argument \'data\' must be defined';
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  if (data.constructor !== Object) {
-    const message = 'Argument \'data\' must be an object';
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
-  }
 };
 
 // Apply args.data JSL
