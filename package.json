@@ -21,7 +21,8 @@
     "unbuild": "./scripts/unbuild.sh",
     "start": "if [ \"$NODE_ENV\" = \"dev\" ]; then ./node_modules/.bin/nodemon --config ./nodemon.json; else NODE_ENV=production node --no-warnings ./examples; fi",
     "debug": "NODE_ENV=dev ./node_modules/.bin/nodemon --config ./nodemon_debug.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ignore-path .gitignore --cache src/"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -49,7 +50,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^3.17.1",
+    "eslint": "^4.1.1",
     "nodemon": "^1.11.0"
   },
   "engines": {
