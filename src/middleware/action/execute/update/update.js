@@ -5,7 +5,6 @@ const { cloneDeep } = require('lodash');
 
 const { omit } = require('../../../../utilities');
 const { COMMANDS } = require('../../../../constants');
-const { EngineError } = require('../../../../error');
 const { isJsl } = require('../../../../jsl');
 
 
