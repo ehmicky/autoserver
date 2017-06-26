@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "eslint": "^4.1.1",
+    "gulp": "^3.9.1",
     "nodemon": "^1.11.0"
   },
   "engines": {
