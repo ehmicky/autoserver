@@ -1,4 +1,5 @@
 {
-  "src/**/*.js": { "lint": true },
-  "*.js": { "lint": true }
+  "*.js": { "lint": true },
+  "*.md": { "lint": true },
+  "src/**/*.js": { "lint": true }
 }
