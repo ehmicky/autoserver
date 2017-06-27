@@ -1,9 +1,9 @@
 root: true
 parserOptions:
   ecmaVersion: 8
-  sourceType: module
+  sourceType: script
   ecmaFeatures:
-    impliedStrict: true
+    impliedStrict: false
     jsx: true
     experimentalObjectRestSpread: true
     globalReturn: true
@@ -12,5 +12,82 @@ env:
   es6: true
   commonjs: true
   mocha: true
-rules: {}
+plugins:
+- compat
+- eslint-comments
+- filenames
+- fp
+- html
+- import
+- markdown
+- node
+- promise
+- unicorn
+- you-dont-need-lodash-underscore
+rules:
+  # Comments
+  no-inline-comments: 2
+  line-comment-position: 2
+  lines-around-comment: 2
+  spaced-comment: 2
+  capitalized-comments:
+  - 2
+  - always
+  - ignoreConsecutiveComments: true
+  # ESLint comments
+  eslint-comments/disable-enable-pair: 2
+  eslint-comments/no-unused-enable: 2
+  eslint-comments/no-duplicate-disable: 2
+  eslint-comments/no-unused-disable: 2
+  eslint-comments/no-unlimited-disable: 2
+  eslint-comments/no-use:
+  - 2
+  - allow:
+    - 'eslint-disable'
+    - 'eslint-enable'
+    - 'eslint-disable-next-line'
+  # JSDoc
+  # valid-jsdoc: 2
+  # require-jsdoc:
+  # - 2
+  # - require:
+  #     FunctionDeclaration: true
+  #     MethodDefinition: true
+  #     ClassDeclaration: true
+  # 'use strict'
+  strict: 2
+  # Long statements
+  operator-linebreak: 2
+  newline-per-chained-call: 2
+  dot-location:
+  - 2
+  - property
+  no-whitespace-before-property: 2
+  # Blank lines
+  no-multiple-empty-lines:
+  - 2
+  - max: 2
+    maxBOF: 0
+    maxEOF: 0
+  padding-line-between-statements:
+  - 2
+  - blankLine: always
+    prev: [multiline-block-like, directive]
+    next: '*'
+  - blankLine: always
+    prev: '*'
+    next: multiline-block-like
+  padded-blocks:
+  - 2
+  - blocks: never
+    classes: always
+    switches: always
+  # Indentation
+  indent:
+  - 2
+  - 2
+  - SwitchCase: 1
+    outerIIFEBody: 0
+  no-tabs: 2
+  no-mixed-spaces-and-tabs: 2
 settings: {}
