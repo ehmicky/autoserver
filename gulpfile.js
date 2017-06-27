@@ -4,25 +4,20 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 
-
-const files = {
-  'src/**/*.js': { lint: true },
-  '*.js': { lint: true },
-};
-const getFiles = function (type) {
-  return Object.entries(files)
-    .filter(([, opts]) => opts[type])
-    .map(([pattern]) => pattern);
-};
+const { gulpSrc } = require('./gulp');
 
 
 gulp.task('lint', () => {
-  // TODO: add --ignore-path .gitignore and --cache
-  gulp.src(getFiles('lint'))
-    .pipe(eslint())
+  return gulpSrc('lint')
+    .pipe(eslint({
+      cache: true,
+      ignorePath: '.gitignore',
+      // fix: true,
+    }))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
+
 
 gulp.task('test', ['lint']);
 

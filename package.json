@@ -21,7 +21,7 @@
     "unbuild": "./scripts/unbuild.sh",
     "start": "if [ \"$NODE_ENV\" = \"dev\" ]; then ./node_modules/.bin/nodemon --config ./nodemon.json; else NODE_ENV=production node --no-warnings ./examples; fi",
     "debug": "NODE_ENV=dev ./node_modules/.bin/nodemon --config ./nodemon_debug.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -52,6 +52,7 @@
     "eslint": "^4.1.1",
     "gulp": "^3.9.1",
     "gulp-eslint": "^4.0.0",
+    "gulp-plumber": "^1.1.0",
     "nodemon": "^1.11.0"
   },
   "engines": {
