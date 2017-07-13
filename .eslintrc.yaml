@@ -47,13 +47,13 @@ rules:
   #   - 'eslint-enable'
   #   - 'eslint-disable-next-line'
   # # JSDoc
-  # valid-jsdoc: 2
-  # require-jsdoc:
-  # - 2
-  # - require:
-  #     FunctionDeclaration: true
-  #     MethodDefinition: true
-  #     ClassDeclaration: true
+  # #  valid-jsdoc: 2
+  # #  require-jsdoc:
+  # #  - 2
+  # #  - require:
+  # #      FunctionDeclaration: true
+  # #      MethodDefinition: true
+  # #      ClassDeclaration: true
   # strict: 2
   # # Long statements
   # operator-linebreak: 2
@@ -117,6 +117,7 @@ rules:
   # comma-spacing: 2
   # semi-spacing: 2
   # key-spacing: 2
+  # switch-colon-spacing: 2
   # space-unary-ops: 2
   # keyword-spacing: 2
   # space-infix-ops: 2
@@ -274,4 +275,113 @@ rules:
   # guard-for-in: 2
   # # fp/no-loops: 2
   # # Switch
+  # no-duplicate-case: 2
+  # default-case: 2
+  # no-fallthrough: 2
+  # no-case-declarations: 2
+  # # Labels
+  # no-labels: 2
+  # no-unused-labels: 2
+  # no-extra-label: 2
+  # no-label-var: 2
+  # # Exceptions
+  # no-throw-literal: 2
+  # unicorn/throw-new-error: 2
+  # unicorn/catch-error-name:
+  # - 2
+  # - name: innererror
+  # no-ex-assign: 2
+  # no-catch-shadow: 2
+  # no-unsafe-finally: 2
+  # no-debugger: 2
+  # # fp/no-throw: 2
+  # unicorn/custom-error-definition: 2
+  # # Functions
+  # func-style: 2
+  # no-func-assign: 2
+  # no-loop-func: 2
+  # func-names:
+  # - 2
+  # - as-needed
+  # func-name-matching: 2
+  # prefer-arrow-callback: 2
+  # arrow-body-style: 2
+  # arrow-parens:
+  # - 2
+  # - as-needed
+  # no-confusing-arrow: 2
+  # max-params:
+  # - 2
+  # - 2
+  # no-dupe-args: 2
+  # prefer-spread: 2
+  # prefer-rest-params: 2
+  # fp/no-arguments: 2
+  # require-yield: 2
+  # accessor-pairs: 2
+  # fp/no-get-set: 2
+  # fp/no-proxy: 2
+  # no-empty-function: 2
+  # no-useless-return: 2
+  # # Objects
+  # object-property-newline:
+  # - 2
+  # - allowMultiplePropertiesPerLine: true
+  # comma-style: 2
+  # no-dupe-keys: 2
+  # dot-notation: 2
+  # no-useless-computed-key: 2
+  # quote-props:
+  # - 2
+  # - as-needed
+  # object-shorthand: 2
+  # no-useless-rename: 2
+  # prefer-destructuring:
+  # - 2
+  # - {}
+  # - enforceForRenamedProperties: true
+  # no-empty-pattern: 2
+  # no-new-object: 2
+  # # Inheritance
+  # no-useless-constructor: 2
+  # constructor-super: 2
+  # no-this-before-super: 2
+  # new-parens: 2
+  # no-useless-call: 2
+  # no-extra-bind: 2
+  # class-methods-use-this: 2
+  # consistent-this: 2
+  # no-class-assign: 2
+  # no-dupe-class-members: 2
+  # no-proto: 2
+  # no-prototype-builtins: 2
+  # no-extend-native: 2
+  # # fp/no-class: 2
+  # # Arrays
+  # comma-dangle:
+  # - 2
+  # - always-multiline
+  # no-sparse-arrays: 2
+  # array-callback-return: 2
+  # no-array-constructor: 2
+  # # String
+  # quotes:
+  # - 2
+  # - single
+  # no-multi-str: 2
+  # no-useless-concat: 2
+  # prefer-template: 2
+  # no-template-curly-in-string: 2
+  # unicorn/prefer-starts-ends-with: 2
+  # unicorn/no-hex-escape: 2
+  # unicorn/number-literal-case: 2
+  # unicorn/escape-case: 2
+  # # RegExps
+  # no-useless-escape: 2
+  # no-control-regex: 2
+  # no-div-regex: 2
+  # no-empty-character-class: 2
+  # no-regex-spaces: 2
+  # no-invalid-regexp: 2
+  # wrap-regex: 2
 settings: {}
