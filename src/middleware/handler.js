@@ -9,6 +9,7 @@ const command = require('./command');
 const database = require('./database');
 
 const middleware = [
+
   /**
    * Initial layer
    **/

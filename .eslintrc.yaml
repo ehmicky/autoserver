@@ -345,7 +345,7 @@ rules:
   # Comments
 ##  no-inline-comments: 2
   line-comment-position: 2
-##  lines-around-comment: 2
+  lines-around-comment: 2
 ##  capitalized-comments:
 ##  - 2
 ##  - always
