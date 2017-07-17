@@ -113,7 +113,7 @@ const graphQLArrayFieldGetter = function (def, opts) {
  * We also namespace with a UUID which is unique for each new call to
  * `getSchema()`, to avoid leaking
  **/
-const objectTypeSerializer = function ([ def, opts ]) {
+const objectTypeSerializer = function ([def, opts]) {
   const typeName = getTypeName({ def, opts });
   opts.schemaId = opts.schemaId || uuidv4();
   return `${opts.schemaId}/${typeName}`;
