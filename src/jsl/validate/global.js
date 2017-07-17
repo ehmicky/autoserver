@@ -10,8 +10,8 @@ const getGlobalKeys = memoize(({ type }) => {
     global,
     // Since global is an object, Object constructor and prototype are
     // global properties too
-    global.__proto__,
-    global.__proto__.__proto__,
+    Object.getPrototypeOf(global),
+    Object.getPrototypeOf(Object.getPrototypeOf(global)),
   ];
   const globalKeys = globalObjects
     // Retrieves all global properties
