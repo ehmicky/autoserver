@@ -27,6 +27,7 @@ const compileJsl = memoizeUnlessClient(({ jsl, paramsKeys, type }) => {
   const rawJsl = getRawJsl({ jsl });
 
   // Create a function with the JSL as body
+  // eslint-disable-next-line no-new-func
   const func = new Function(`{ ${paramsKeys} }`, `return ${rawJsl};`);
 
   return func;

@@ -165,7 +165,7 @@ rules:
     maxEOF: 0
   no-negated-in-lhs: error
   no-new: error
-##  no-new-func: error
+  no-new-func: error
   no-new-object: error
   no-new-require: error
   no-new-symbol: error
@@ -360,8 +360,6 @@ rules:
   eslint-comments/no-use:
   - 2
   - allow:
-    - 'eslint-disable'
-    - 'eslint-enable'
     - 'eslint-disable-next-line'
 
   # JSDoc
