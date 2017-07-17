@@ -50,7 +50,8 @@ const stopServer = async function () {
 
 // Count number of pending requests, to log information on server exits
 const countPendingRequests = async function () {
-  return await promisify(this.getConnections.bind(this))();
+  const count = await promisify(this.getConnections.bind(this))();
+  return count;
 };
 
 const handleServerListening = function ({ server, handleListening }) {

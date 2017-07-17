@@ -18,7 +18,7 @@ const { getYaml } = require('./yaml');
  * cannot access remote|local file, etc.
  */
 const dereferenceRefs = async function (obj) {
-  return await RefParser.dereference(obj, {
+  const dereferencedObj = await RefParser.dereference(obj, {
     resolve: {
       nodeModule: nodeModuleRefs.resolve,
       node: nodeRefs.resolve,
@@ -49,6 +49,7 @@ const dereferenceRefs = async function (obj) {
       node: nodeRefs.parse,
     },
   });
+  return dereferencedObj;
 };
 
 // Allow referencing Node.js modules, e.g. { "$ref": "lodash" }

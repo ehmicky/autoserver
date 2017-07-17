@@ -26,7 +26,7 @@ const sendJson = async function ({
   status,
 }) {
   content = JSON.stringify(content, null, 2);
-  return await send({ specific, content, contentType, status });
+  await send({ specific, content, contentType, status });
 };
 
 const sendHtml = async function ({
@@ -35,7 +35,7 @@ const sendHtml = async function ({
   contentType = 'text/html',
   status,
 }) {
-  return await send({ specific, content, contentType, status });
+  await send({ specific, content, contentType, status });
 };
 
 const sendText = async function ({
@@ -44,7 +44,7 @@ const sendText = async function ({
   contentType = 'text/plain',
   status,
 }) {
-  return await send({ specific, content, contentType, status });
+  await send({ specific, content, contentType, status });
 };
 
 // This function is special because it might be fired very early during the
