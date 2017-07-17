@@ -37,7 +37,7 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
 const getAttributes = function (args) {
   // TODO: validate `nFilter`
   return pickBy(args, (arg, dataVar) => {
-    return [/*'nFilter', */'newData'].includes(dataVar) && arg;
+    return [/* 'nFilter', */'newData'].includes(dataVar) && arg;
   });
 };
 
