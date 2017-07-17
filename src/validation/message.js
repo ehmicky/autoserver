@@ -72,8 +72,8 @@ const errorMessages = {
     ` must contains at least ${pluralize('item', limit, true)}`,
   maxItems: ({ params: { limit } }) =>
     ` must contains at most ${pluralize('item', limit, true)}`,
-  uniqueItems: ({ params: { i, j } }) =>
-    ` must not contain any duplicated item, but items number ${j} and ${i} are identical`,
+  uniqueItems: ({ params }) =>
+    ` must not contain any duplicated item, but items number ${params.j} and ${params.i} are identical`,
   minProperties: ({ params: { limit } }) =>
     ` must have ${limit} or more ${pluralize('property', limit)}`,
   maxProperties: ({ params: { limit } }) =>

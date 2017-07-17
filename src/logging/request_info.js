@@ -181,7 +181,7 @@ const reduceModels = function ({ info, attrName, filter }) {
 
   try {
     size = JSON.stringify(info[attrName]).length;
-  } catch (e) {
+  } catch (error) {
     size = 'unknown';
   }
 

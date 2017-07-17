@@ -24,7 +24,7 @@ const getGlobalKeys = memoize(({ type }) => {
 });
 
 // Whitelist those global properties as safe, i.e. they can be used in JSL
-const systemWhitelistedGlobalKeys = [
+const systemWhitelistedKeys = [
   'String',
   'Number',
   'Boolean',
@@ -49,17 +49,17 @@ const systemWhitelistedGlobalKeys = [
   'decodeURI',
   'encodeURI',
 ];
-const filterWhitelistedGlobalKeys = [
+const filterWhitelistedKeys = [
   'Date',
   'undefined',
   'NaN',
   'Infinity',
 ];
 const whitelistedGlobalKeys = {
-  system: systemWhitelistedGlobalKeys,
-  startup: systemWhitelistedGlobalKeys,
-  data: systemWhitelistedGlobalKeys,
-  filter: filterWhitelistedGlobalKeys,
+  system: systemWhitelistedKeys,
+  startup: systemWhitelistedKeys,
+  data: systemWhitelistedKeys,
+  filter: filterWhitelistedKeys,
 };
 
 module.exports = {

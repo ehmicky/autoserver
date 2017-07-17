@@ -4,11 +4,11 @@
 // including args.pageSize, args.before|after|page
 // Implies output pagination
 const allowFullPagination = function ({ args, command }) {
-  return fullPaginationCommandNames.includes(command.name) &&
+  return fullPaginationCommands.includes(command.name) &&
     !isPaginationDisabled({ args });
 };
 
-const fullPaginationCommandNames = ['readMany'];
+const fullPaginationCommands = ['readMany'];
 
 // Whether output will be paginated
 const mustPaginateOutput = function ({ args }) {

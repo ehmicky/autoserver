@@ -14,11 +14,11 @@ const fullAncestor = function (node, callback, base, state) {
   if (!base) base = walkBase;
   let ancestors = [];
 
-  (function c (child, st, override) {
+  (function crawl (child, st, override) {
     let type = override || child.type;
     let isNew = child !== ancestors[ancestors.length - 1];
     if (isNew) ancestors.push(child);
-    base[type](child, st, c);
+    base[type](child, st, crawl);
     callback(child, st || ancestors, ancestors, type);
     if (isNew) ancestors.pop();
   })(node, state);

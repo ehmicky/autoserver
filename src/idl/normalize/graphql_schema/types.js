@@ -32,7 +32,7 @@ const getType = function (def, opts = {}) {
 const getField = function (def, opts) {
   opts.inputObjectType = opts.inputObjectType || '';
 
-  const fieldGetter = graphQLFieldGetters.find(possibleType => possibleType.condition(def, opts));
+  const fieldGetter = graphQLFGetters.find(possibleType => possibleType.condition(def, opts));
 
   if (!fieldGetter) {
     const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
@@ -82,18 +82,18 @@ const getField = function (def, opts) {
   return field;
 };
 
-// Required field FieldGetter
-const graphQLRequiredFieldGetter = function (def, opts) {
+// Required field FGetter
+const graphQLRequiredFGetter = function (def, opts) {
   // Goal is to avoid infinite recursion,
-  // i.e. without modification the same graphQLFieldGetter would be hit again
+  // i.e. without modification the same graphQLFGetter would be hit again
   opts = Object.assign({}, opts, { isRequired: false });
   const { type: subType, args } = getField(def, opts);
   const type = new GraphQLNonNull(subType);
   return { type, args };
 };
 
-// Array field FieldGetter
-const graphQLArrayFieldGetter = function (def, opts) {
+// Array field FGetter
+const graphQLArrayFGetter = function (def, opts) {
   const subDef = getSubDef(def);
   const { type: subType, args } = getField(subDef, opts);
   const type = new GraphQLList(subType);
@@ -115,8 +115,8 @@ const objectTypeSerializer = function ([def, opts]) {
   return `${opts.schemaId}/${typeName}`;
 };
 
-// Object field FieldGetter
-const graphQLObjectFieldGetter = memoize((def, opts) => {
+// Object field FGetter
+const graphQLObjectFGetter = memoize((def, opts) => {
   const name = getTypeName({ def, opts });
   const description = def.description;
   const Type = opts.inputObjectType !== ''
@@ -282,24 +282,24 @@ const isRequired = function (parentDef, def, name, {
  * The first matching one will be used, i.e. order matters:
  * required modifier, then array modifier come first
  */
-const graphQLFieldGetters = [
+const graphQLFGetters = [
 
   // "Required" modifier type
   {
     condition: (def, opts) => opts.isRequired,
-    value: graphQLRequiredFieldGetter,
+    value: graphQLRequiredFGetter,
   },
 
   // "Array" modifier type
   {
     condition: def => def.type === 'array',
-    value: graphQLArrayFieldGetter,
+    value: graphQLArrayFGetter,
   },
 
   // "Object" type
   {
     condition: def => def.type === 'object',
-    value: graphQLObjectFieldGetter,
+    value: graphQLObjectFGetter,
   },
 
   // "Int" type

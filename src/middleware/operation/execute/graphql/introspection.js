@@ -37,7 +37,7 @@ const handleIntrospection = async function ({
 
 const throwError = function (innererror) {
   throw new EngineError('GraphQL introspection query failed', {
-    reason: 'GRAPHQL_WRONG_INTROSPECTION_SCHEMA',
+    reason: 'GRAPHQL_INTROSPECTION',
     innererror,
   });
 };
