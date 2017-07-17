@@ -174,7 +174,7 @@ rules:
   no-octal: error
   no-octal-escape: error
   no-path-concat: error
-##  no-proto: error
+  no-proto: error
   no-redeclare: error
   no-regex-spaces: error
   no-return-assign:
