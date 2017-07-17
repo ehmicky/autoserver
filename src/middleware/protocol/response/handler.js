@@ -22,18 +22,16 @@ const sendResponse = async function (input) {
   } catch (error) {
     const perf = log.perf.start('protocol.sendResponse', 'exception');
 
-    if (!(error instanceof Error)) {
-      error = new Error(String(error));
-    }
+    const errorObj = error instanceof Error ? error : new Error(String(error));
 
     // Handler to send response error
-    // Since we only send response errors if `error.sendError` is defined,
+    // Since we only send response errors if `errorObj.sendError` is defined,
     // and it can only be defined if this middleware throws, we are sure
     // to never send two responses.
-    error.sendError = send;
+    errorObj.sendError = send;
 
     perf.stop();
-    throw error;
+    throw errorObj;
   }
 };
 
