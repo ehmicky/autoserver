@@ -236,11 +236,11 @@ rules:
   - overrides:
       "?": before
       ":": before
-##  padded-blocks:
-##  - error
-##  - blocks: never
-##    switches: never
-##    classes: never
+  padded-blocks:
+  - error
+  - blocks: never
+    switches: never
+    classes: never
   prefer-promise-reject-errors: error
   quotes:
   - error

@@ -9,7 +9,6 @@ const { getParams } = require('./params');
 
 // Instance containing JSL parameters and helpers, re-created for each request
 class Jsl {
-
   constructor({ params = {}, exposeMap = {} } = {}) {
     Object.assign(this, { params, exposeMap });
     makeImmutable(this);

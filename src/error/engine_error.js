@@ -5,7 +5,6 @@ const { difference } = require('lodash');
 // Note that any exception thrown in the `error` module might not be logged
 // (since this is the error), so we must be precautious.
 class EngineError extends Error {
-
   constructor(message, opts = {}) {
     super(message);
 
@@ -68,7 +67,6 @@ class EngineError extends Error {
       this.stack = (new Error(message)).stack;
     }
   }
-
 }
 
 const allowedOpts = ['reason', 'innererror', 'extra'];

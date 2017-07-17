@@ -40,7 +40,6 @@ const validateResponse = function ({ command, response }) {
     const message = `'response.metadata' should be an object, not '${metadata}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
-
 };
 
 module.exports = {
