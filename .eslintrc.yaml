@@ -36,7 +36,7 @@ rules:
   - always-multiline
 
   # Comments
-##  no-inline-comments: 2
+  no-inline-comments: 2
   line-comment-position: 2
   lines-around-comment: 2
   capitalized-comments:
@@ -97,7 +97,9 @@ rules:
   no-extra-semi: 2
 
   # Statements
-  no-empty: 2
+  no-empty:
+  - 2
+  - allowEmptyCatch: true
 
   # Complexity
 ##  max-len:
