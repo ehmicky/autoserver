@@ -12,7 +12,7 @@ const normalizeHelpers = function ({ idl }) {
 
   // Helpers can either be an options object, or options.value directly
   helpers = mapValues(helpers, helper =>
-    helper.value === undefined ? { value: helper } : helper
+    (helper.value === undefined ? { value: helper } : helper)
   );
 
   const exposeMap = getExposeMap({ helpers });
@@ -31,7 +31,9 @@ const getExposeMap = function ({ helpers }) {
   return exposeVars
     .map(exposeVar => {
       const matchingHelpers = Object.entries(helpers)
-        .map(([helper, { exposeTo = [] }]) => exposeTo.includes(exposeVar) ? helper : [])
+        .map(([helper, { exposeTo = [] }]) =>
+          (exposeTo.includes(exposeVar) ? helper : [])
+        )
         .reduce(assignArray, []);
       return { [exposeVar]: matchingHelpers };
     })
