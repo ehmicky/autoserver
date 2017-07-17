@@ -4,7 +4,7 @@ const { toSentence: sentence } = require('underscore.string');
 const pluralize = require('pluralize');
 
 // Customize error messages when the library's ones are unclear
-const getErrorMessage = function({ error, hasInputPath }) {
+const getErrorMessage = function ({ error, hasInputPath }) {
   const customErrorMessage = errorMessages[error.keyword];
   // Failsafe
   if (!customErrorMessage) { return ` ${error.message}`; }

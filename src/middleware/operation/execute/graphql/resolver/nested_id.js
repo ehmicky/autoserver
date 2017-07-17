@@ -53,7 +53,7 @@ const addNestedId = function ({
 // If nested `args.id` is present, do an intersection with parent id.
 // Otherwise, do not do intersection.
 // In all cases, uses JSL
-const getNestedIds = function({ childId, parentIds }) {
+const getNestedIds = function ({ childId, parentIds }) {
   // Uses JSL syntax
   let ids;
 

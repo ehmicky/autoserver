@@ -32,7 +32,7 @@ const optionalOutputAttrCommandNames = [
 const transforms = [
   {
     // Fix `required` attribute according to the current command.name
-    required({ value: required, command, type }) {
+    required ({ value: required, command, type }) {
       if (!(required instanceof Array)) { return; }
 
       if (type === 'clientInputData') {
@@ -61,7 +61,7 @@ const transforms = [
     // Submodels should be validated against the model `id` attribute
     // By default, in the IDL, they are represented as the full model,
     // i.e. as an object
-    model({ parent, depth }) {
+    model ({ parent, depth }) {
       if (depth === 0) { return; }
       const idProp = parent.properties.id;
       const removeParentProps = mapValues(parent, () => undefined);

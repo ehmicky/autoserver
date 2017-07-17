@@ -18,7 +18,7 @@ const getYaml = async function ({ path, content }) {
     json: true,
     // Error handling
     filename: path,
-    onWarning(exception) {
+    onWarning (exception) {
       throw exception;
     },
   });

@@ -44,7 +44,7 @@ const transform = function ({ transforms, args }) {
 const singleTransform = function ({ input, transformsSet, args }) {
   return recurseMapByRef({
     value: input,
-    mapFunc(opts) {
+    mapFunc (opts) {
       const { value } = opts;
       if (!value || value.constructor !== Object) { return value; }
 

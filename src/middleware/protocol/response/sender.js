@@ -36,36 +36,36 @@ const sender = async function (
 // TODO: validate content typeof?
 const handlers = {
 
-  async model({ protocolHandler: { send }, specific, content, status }) {
+  async model ({ protocolHandler: { send }, specific, content, status }) {
     const contentType = 'application/x-resource+json';
     await send.json({ specific, content, contentType, status });
   },
 
-  async collection({ protocolHandler: { send }, specific, content, status }) {
+  async collection ({ protocolHandler: { send }, specific, content, status }) {
     const contentType = 'application/x-collection+json';
     await send.json({ specific, content, contentType, status });
   },
 
-  async error({ protocolHandler: { send }, specific, content, status }) {
+  async error ({ protocolHandler: { send }, specific, content, status }) {
     // See RFC 7807
     // Exception: `status` is only present with HTTP protocol
     const contentType = 'application/problem+json';
     await send.json({ specific, content, contentType, status });
   },
 
-  async object({ protocolHandler: { send }, specific, content, status }) {
+  async object ({ protocolHandler: { send }, specific, content, status }) {
     await send.json({ specific, content, status });
   },
 
-  async html({ protocolHandler: { send }, specific, content, status }) {
+  async html ({ protocolHandler: { send }, specific, content, status }) {
     await send.html({ specific, content, status });
   },
 
-  async text({ protocolHandler: { send }, specific, content, status }) {
+  async text ({ protocolHandler: { send }, specific, content, status }) {
     await send.text({ specific, content, status });
   },
 
-  async failure({
+  async failure ({
     protocolHandler: { send, failureProtocolStatus: status },
     specific,
   }) {

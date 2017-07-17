@@ -54,14 +54,14 @@ const countPendingRequests = async function () {
 };
 
 const handleServerListening = function ({ server, handleListening }) {
-  server.on('listening', function listeningHandler() {
+  server.on('listening', function listeningHandler () {
     const { address: usedHost, port: usedPort } = this.address();
     handleListening({ server, host: usedHost, port: usedPort });
   });
 };
 
 const handleClientRequest = function ({ server, handleRequest }) {
-  server.on('request', function requestHandler(req, res) {
+  server.on('request', function requestHandler (req, res) {
     handleRequest({ req, res });
   });
 };

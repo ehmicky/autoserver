@@ -5,49 +5,49 @@ const { makeImmutable } = require('../utilities');
 const CONTENT_TYPES = [
   {
     name: 'model',
-    test({ content }) {
+    test ({ content }) {
       return content && content.constructor === Object && isJSON(content);
     },
   },
 
   {
     name: 'collection',
-    test({ content }) {
+    test ({ content }) {
       return content && typeof content === 'object' && isJSON(content);
     },
   },
 
   {
     name: 'error',
-    test({ content }) {
+    test ({ content }) {
       return content && content.constructor === Object && isJSON(content);
     },
   },
 
   {
     name: 'object',
-    test({ content }) {
+    test ({ content }) {
       return content && content.constructor === Object && isJSON(content);
     },
   },
 
   {
     name: 'html',
-    test({ content }) {
+    test ({ content }) {
       return typeof content === 'string';
     },
   },
 
   {
     name: 'text',
-    test({ content }) {
+    test ({ content }) {
       return typeof content === 'string';
     },
   },
 
   {
     name: 'failure',
-    test({ content }) {
+    test ({ content }) {
       return content === undefined;
     },
   },
