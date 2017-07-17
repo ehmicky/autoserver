@@ -84,17 +84,15 @@ const startAllServers = async function ({
   const serversPromises = protocols
     // Can use serverOpts.PROTOCOL.enabled {boolean}
     .filter(protocol => serverOpts[protocol.toLowerCase()].enabled)
-    .map(async protocol =>
-      await startSingleServer({
-        protocol,
-        idl,
-        apiServer,
-        startupLog,
-        processLog,
-        serverOpts,
-        requestHandler,
-      })
-    );
+    .map(protocol => startSingleServer({
+      protocol,
+      idl,
+      apiServer,
+      startupLog,
+      processLog,
+      serverOpts,
+      requestHandler,
+    }));
 
   // Make sure all servers are starting concurrently, not serially
   const serversArray = await Promise.all(serversPromises);

@@ -60,30 +60,32 @@ const payloadHandlers = [
 
   // `application/graphql` request payload
   async function ({ specific, parse }) {
-    const textPayload = await parse.graphql({ specific });
-    return textPayload ? { query: textPayload } : undefined;
+    const payload = await parse.graphql({ specific });
+    return payload ? { query: payload } : undefined;
   },
 
   // JSON request payload
   async function ({ specific, parse }) {
-    return await parse.json({ specific });
+    const payload = await parse.json({ specific });
+    return payload;
   },
 
   // `x-www-form-urlencoded` request payload
   async function ({ specific, parse }) {
-    return await parse.urlencoded({ specific });
+    const payload = await parse.urlencoded({ specific });
+    return payload;
   },
 
   // String request payload
   async function ({ specific, parse }) {
-    const textPayload = await parse.text({ specific });
-    return typeof textPayload === 'string' ? undefined : textPayload;
+    const payload = await parse.text({ specific });
+    return typeof payload === 'string' ? undefined : payload;
   },
 
   // Binary request payload
   async function ({ specific, parse }) {
-    const rawPayload = await parse.raw({ specific });
-    return rawPayload instanceof Buffer ? rawPayload.toString() : undefined;
+    const payload = await parse.raw({ specific });
+    return payload instanceof Buffer ? payload.toString() : undefined;
   },
 
 ];

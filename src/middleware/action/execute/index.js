@@ -9,7 +9,8 @@ const { deleteAction } = require('./delete');
 
 // Translates operation-specific calls into generic instance actions
 const actionExecute = async function (input) {
-  return await middlewares[input.action.name].call(this, input);
+  const response = await middlewares[input.action.name].call(this, input);
+  return response;
 };
 
 const middlewares = {
