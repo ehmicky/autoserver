@@ -13,7 +13,7 @@ const allRules = require('./rules');
 const fullAncestor = function (node, callback, base, state) {
   if (!base) base = walkBase;
   let ancestors = []
-   ;(function c(node, st, override) {
+   ;(function c (node, st, override) {
     let type = override || node.type;
     let isNew = node != ancestors[ancestors.length - 1];
     if (isNew) ancestors.push(node);

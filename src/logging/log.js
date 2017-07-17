@@ -84,7 +84,7 @@ const { PerfLog } = require('./perf');
 // Note that any exception thrown in this module might not be logged
 // (since this is the logger itself), so we must be precautious.
 class Log {
-  constructor({ serverOpts, apiServer, phase }) {
+  constructor ({ serverOpts, apiServer, phase }) {
     this._info = {};
     this._messages = {};
 
@@ -101,11 +101,11 @@ class Log {
     Object.assign(this, { serverOpts, apiServer, phase });
   }
 
-  add(obj) {
+  add (obj) {
     this._info = deepMerge(this._info, obj);
   }
 
-  async _report(level, rawMessage = '', logObj = {}) {
+  async _report (level, rawMessage = '', logObj = {}) {
     this._checkReportInput(rawMessage, logObj);
 
     this._buildLogObj({ logObj });
@@ -123,7 +123,7 @@ class Log {
     await report({ apiServer, loggerLevel, level, rawMessage, logObj });
   }
 
-  _checkReportInput(rawMessage, logObj) {
+  _checkReportInput (rawMessage, logObj) {
     if (typeof rawMessage !== 'string') {
       const message = `Message must be a string: '${rawMessage}'`;
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
@@ -138,7 +138,7 @@ class Log {
 
   // Adds information common to most logs: `phase`, `type`, `serverInfo`,
   // `requestInfo`, `messages`
-  _buildLogObj({ logObj }) {
+  _buildLogObj ({ logObj }) {
     logObj.phase = this.phase;
     logObj.type = logObj.type || 'message';
 
@@ -157,12 +157,12 @@ class Log {
 
   // Buffer log calls
   // E.g. used in requests when requestInfo is not completely built yet
-  async _setBuffered(isBuffered) {
+  async _setBuffered (isBuffered) {
     const funcName = isBuffered ? 'cork' : 'uncork';
     await this._report[funcName]();
   }
 
-  async _reportPerf() {
+  async _reportPerf () {
     const { phase } = this;
     const measures = this.perf._getMeasures()
       .map(obj => Object.assign({}, obj, { phase }));

@@ -38,7 +38,7 @@ const transforms = [
 
   {
     // Defaults `type` for arrays
-    any({ parent: { type, items } }) {
+    any ({ parent: { type, items } }) {
       if (type || !items) { return; }
       return { type: 'array' };
     },
@@ -46,7 +46,7 @@ const transforms = [
 
   {
     // Defaults `model` and `type` for top-level models
-    any({ parent: { model, modelType }, parentKey }) {
+    any ({ parent: { model, modelType }, parentKey }) {
       if (modelType !== 'model') { return; }
       return { type: 'object', model: model || parentKey };
     },
@@ -54,7 +54,7 @@ const transforms = [
 
   {
     // Defaults `type` for nested attributes
-    any({ parent: { type, modelType, model } }) {
+    any ({ parent: { type, modelType, model } }) {
       if (modelType !== 'attribute' || type) { return; }
       type = model ? 'object' : 'string';
       return { type };
@@ -70,7 +70,7 @@ const transforms = [
     // Parent: specified or default
     // Attribute: intersection of parent model * referred model * specified
     // Normalize `commands` shortcuts, and adds defaults
-    model({
+    model ({
       defaultCommandNames,
       parent: { commands: commandNames = defaultCommandNames },
     }) {
@@ -82,7 +82,7 @@ const transforms = [
 
   {
     // { model '...' } -> { model: '...', ...copyOfTopLevelModel }
-    model({ value, parent, parents: [root] }) {
+    model ({ value, parent, parents: [root] }) {
       const [, instance] = Object.entries(root)
         .find(([modelName]) => modelName === value);
       if (instance === parent) { return; }

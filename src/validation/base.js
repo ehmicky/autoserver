@@ -33,7 +33,7 @@ const customBaseKeywords = {
   // Checks that a word (e.g. a model) is an English word with a
   // different singular and plural form
   hasPlural: {
-    validate(schemaValue, data) {
+    validate (schemaValue, data) {
       if (!schemaValue) { return true; }
       return singular(data) !== plural(data);
     },
@@ -43,7 +43,7 @@ const customBaseKeywords = {
 
   // Checks function number of arguments
   arity: {
-    validate(schemaValue, data) {
+    validate (schemaValue, data) {
       if (typeof data !== 'function') { return true; }
       return data.length === schemaValue;
     },
@@ -57,7 +57,7 @@ const customBaseKeywords = {
   //  - return a non-undefined|null return value when fired with
   //    no argument (unless it always returns undefined|null)
   returnType: {
-    validate(schemaValue, data) {
+    validate (schemaValue, data) {
       if (typeof data !== 'function') { return true; }
       return typeof data() === schemaValue;
     },

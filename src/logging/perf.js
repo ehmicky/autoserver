@@ -27,13 +27,13 @@ const { EngineError } = require('../error');
 //   - `perf._getMeasuresMessage({ measures })` will return as a string,
 //     ready to be printed on console
 class PerfLog {
-  constructor() {
+  constructor () {
     this._measures = {};
     this._counter = 0;
   }
 
   // Start a new measurement item
-  start(label, category = DEFAULT_CATEGORY) {
+  start (label, category = DEFAULT_CATEGORY) {
     // We use an incrementing counter as unique ID for items
     const itemId = ++this._counter;
     const options = { itemId, label, category };
@@ -45,7 +45,7 @@ class PerfLog {
     return new PerfLogItem({ perfLog: this, options });
   }
 
-  _validateOptions({ label, category }) {
+  _validateOptions ({ label, category }) {
     if (typeof label !== 'string') {
       const message = 'Performance label must be a string';
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
@@ -62,15 +62,15 @@ class PerfLog {
     }
   }
 
-  _startItem(options) {
+  _startItem (options) {
     return this._recordItem(Object.assign({}, options, { end: false }));
   }
 
-  _stopItem(options) {
+  _stopItem (options) {
     return this._recordItem(Object.assign({}, options, { end: true }));
   }
 
-  _recordItem({ end, itemId, label, category }) {
+  _recordItem ({ end, itemId, label, category }) {
     // `hrtime()` is more precise that `Date.now()`
     const [secs, nanoSecs] = hrtime();
 
@@ -101,7 +101,7 @@ class PerfLog {
   }
 
   // Returns structured measurements
-  _getMeasures() {
+  _getMeasures () {
     // When an exception was thrown, only returns measurements with
     // category `exception`
     const hasException = Object.keys(this._measures).some(categoryLabel =>
@@ -130,7 +130,7 @@ class PerfLog {
   }
 
   // Returns measures but as a single string, for console debugging
-  _getMeasuresMessage({ measures }) {
+  _getMeasuresMessage ({ measures }) {
     return measures
       // Sort by category (asc) then by duration (desc)
       .sort((
@@ -170,11 +170,11 @@ class PerfLog {
 // This class is returned by `perfLog.start()`, and allows user to
 // stop a measurement item, or to restart it
 class PerfLogItem {
-  constructor({ perfLog, options, end = false }) {
+  constructor ({ perfLog, options, end = false }) {
     Object.assign(this, { perfLog, options, end });
   }
 
-  start() {
+  start () {
     if (this.end === false) {
       const message = 'Must call \'stop()\' before calling \'start()\'';
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
@@ -184,7 +184,7 @@ class PerfLogItem {
     this.perfLog._startItem(this.options);
   }
 
-  stop() {
+  stop () {
     if (this.end === true) {
       const message = 'Must call \'start()\' before calling \'stop()\'';
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });

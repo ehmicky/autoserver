@@ -24,7 +24,7 @@ const { memoize } = require('../../../utilities');
 //       Reflect or debugger
 const getRules = memoize(({ globalKeys }) => ({
 
-  Program({ start, body }) {
+  Program ({ start, body }) {
     if (start !== 0) {
       return 'Top-level expression is invalid';
     }
@@ -42,7 +42,7 @@ const getRules = memoize(({ globalKeys }) => ({
 
   Expression: true,
   Statement: true,
-  ExpressionStatement({ expression: { type, value } }) {
+  ExpressionStatement ({ expression: { type, value } }) {
     if (type === 'Literal' && value === 'use strict') {
       return 'Cannot use "use strict"';
     }
@@ -53,7 +53,7 @@ const getRules = memoize(({ globalKeys }) => ({
   ArrowFunctionExpression: true,
 
   Pattern: true,
-  Identifier({ name }) {
+  Identifier ({ name }) {
     if (globalKeys.includes(name)) {
       return `No access to global state: cannot use '${name}'`;
     }
@@ -73,7 +73,7 @@ const getRules = memoize(({ globalKeys }) => ({
   ArrayExpression: true,
   ObjectExpression: true,
 
-  UnaryExpression({ operator }) {
+  UnaryExpression ({ operator }) {
     if (operator === 'delete') {
       return 'No side-effects: cannot use \'delete\'';
     }
@@ -83,7 +83,7 @@ const getRules = memoize(({ globalKeys }) => ({
   ConditionalExpression: true,
 
   // Blacklist which function can be called
-  CallExpression({ callee: { type, property, name }, arguments: args }) {
+  CallExpression ({ callee: { type, property, name }, arguments: args }) {
     const usesIdentifier = type === 'Identifier';
     const usesMemberExpression = type === 'MemberExpression' &&
       property.type === 'Identifier';
@@ -110,7 +110,7 @@ const getRules = memoize(({ globalKeys }) => ({
     }
   },
   // Whitelist which constructor can be called
-  NewExpression({ callee: { type, name } }) {
+  NewExpression ({ callee: { type, name } }) {
     const usesIdentifier = type === 'Identifier';
     if (!usesIdentifier) {
       return 'Constructor calls must be like: \'new Type()\'';

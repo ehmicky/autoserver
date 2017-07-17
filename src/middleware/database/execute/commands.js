@@ -92,7 +92,7 @@ const filterToId = function ({ nFilter }) {
 // Look for '(($ === ID))'
 const idJslRegExp = /^\(\(\$\$\.id\s*===\s*(.*)\)\)$/;
 
-const findIndexes = function({ collection, nFilter, opts: { jsl } }) {
+const findIndexes = function ({ collection, nFilter, opts: { jsl } }) {
   if (!nFilter) {
     return collection.map((model, index) => index);
   }

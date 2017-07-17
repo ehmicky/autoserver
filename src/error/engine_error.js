@@ -5,7 +5,7 @@ const { difference } = require('lodash');
 // Note that any exception thrown in the `error` module might not be logged
 // (since this is the error), so we must be precautious.
 class EngineError extends Error {
-  constructor(message, opts = {}) {
+  constructor (message, opts = {}) {
     super(message);
 
     this.checkSignature(opts);
@@ -20,7 +20,7 @@ class EngineError extends Error {
   }
 
   // Make sure signature is correct
-  checkSignature(opts) {
+  checkSignature (opts) {
     // Check whitelisted options
     const optsKeys = Object.keys(opts);
     const nonAllowedOpts = difference(optsKeys, allowedOpts);
@@ -38,7 +38,7 @@ class EngineError extends Error {
   }
 
   // Keep track of innererror
-  addInnerError(opts) {
+  addInnerError (opts) {
     // Only keep innermost innererror
     const innererror = opts.innererror && opts.innererror.innererror
       ? opts.innererror.innererror
@@ -57,7 +57,7 @@ class EngineError extends Error {
   }
 
   // Adds stack trace
-  addStack(message) {
+  addStack (message) {
     if (this.stack) { return; }
     // Two possible ways to add this.stack, if not present yet
     if (typeof Error.captureStackTrace === 'function') {

@@ -69,7 +69,7 @@ const actionConvertor = async function ({
 const actionConvertorOutput = {
 
   // Metadata are siblings to data in GraphQL
-  GraphQL(response) {
+  GraphQL (response) {
     const { data, metadata } = response;
 
     if (data instanceof Array) {

@@ -7,7 +7,7 @@ const { runJsl } = require('./run');
 // into $1 and $2 parameters, and JSL.run() is performed.
 // We perform this translation by extending Function, and applying a Proxy.apply
 class JslHelper extends Function {
-  constructor({ helper, useParams }) {
+  constructor ({ helper, useParams }) {
     super();
 
     Object.assign(this, { helper, useParams });
@@ -17,7 +17,7 @@ class JslHelper extends Function {
     return new Proxy(this, { apply });
   }
 
-  run(params, ...args) {
+  run (params, ...args) {
     const { helper, useParams } = this;
 
     // Provide $1, $2, etc. to inline JSL

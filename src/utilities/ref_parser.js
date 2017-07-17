@@ -31,7 +31,7 @@ const dereferenceRefs = async function (obj) {
         allowEmpty: false,
         // We need to override YAML parsing, as we use stricter YAML
         // parsing (CORE_SCHEMA only)
-        async parse({ data }) {
+        async parse ({ data }) {
           if (Buffer.isBuffer(data)) {
             data = data.toString();
           }

@@ -1,7 +1,7 @@
 'use strict';
 
 // Apply default values to args.data's models
-const applyAllDefault = function applyAllDefault(opts) {
+const applyAllDefault = function applyAllDefault (opts) {
   const { defAttributes, value } = opts;
 
   // When args.data is an array of models, apply this recursively

@@ -8,7 +8,7 @@ const { getServerInfo } = require('../info');
 // Contains general information (options, server name, version, etc.)
 // Emits events related to server lifecycle and logging.
 class ApiEngineServer extends EventEmitter2 {
-  constructor({ serverOpts }) {
+  constructor ({ serverOpts }) {
     super({ wildcard: true });
 
     const {

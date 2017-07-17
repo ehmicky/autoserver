@@ -10,7 +10,7 @@ const addCustomKeywords = function ({ idl: { validation = {} } }) {
 };
 const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
   ajv.addKeyword(keyword, {
-    validate: function validate(
+    validate: function validate (
       expected,
       value,
       _,

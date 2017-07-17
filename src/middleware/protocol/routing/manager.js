@@ -6,14 +6,14 @@ const { transtype, assignObject } = require('../../../utilities');
 const { routes } = require('./routes');
 
 class RoutesManager {
-  constructor({ routes = [] }) {
+  constructor ({ routes = [] }) {
     this._routes = [];
     for (const route of routes) {
       this.add(route);
     }
   }
 
-  add({ path, name, goal }) {
+  add ({ path, name, goal }) {
     const regexp = pathToRegExp(path);
     const variables = regexp.keys.map(({ name }) => name);
     const goals = goal && !(goal instanceof Array) ? [goal] : goal;
@@ -22,7 +22,7 @@ class RoutesManager {
   }
 
   // Retrieves correct route, according to path
-  find({ path, goal }) {
+  find ({ path, goal }) {
     // Check path and goals
     return this._routes.find(({ regexp, goals }) => {
       return regexp.test(path) && (!goals || goals.includes(goal));
@@ -30,7 +30,7 @@ class RoutesManager {
   }
 
   // Retrieves path variables, e.g. /path/:id
-  getPathVars({ path, route: { regexp, variables } }) {
+  getPathVars ({ path, route: { regexp, variables } }) {
     return regexp
       .exec(path)
       // Removes first value, which is the full path

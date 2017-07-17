@@ -7,7 +7,7 @@ const { STATUS_LEVEL_MAP } = require('../../logging');
 // Each request creates exactly one log, whether successful or not,
 // unless it crashed very early (i.e. before this middleware), in which case
 // it will still be handled by the error logging middleware.
-const logger = async function logger(input) {
+const logger = async function logger (input) {
   const { log } = input;
 
   try {
