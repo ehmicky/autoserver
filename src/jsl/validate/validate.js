@@ -16,7 +16,7 @@ const fullAncestor = function (node, callback, base, state) {
 
   (function c (node, st, override) {
     let type = override || node.type;
-    let isNew = node != ancestors[ancestors.length - 1];
+    let isNew = node !== ancestors[ancestors.length - 1];
     if (isNew) ancestors.push(node);
     base[type](node, st, c);
     callback(node, st || ancestors, ancestors, type);
