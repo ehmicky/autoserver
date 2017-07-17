@@ -577,7 +577,7 @@ rules:
 
   # RegExps
   no-div-regex: 2
-##  wrap-regex: 2
+  wrap-regex: 2
 
   # Number
   prefer-numeric-literals: 2
