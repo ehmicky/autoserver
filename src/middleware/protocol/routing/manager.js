@@ -5,29 +5,27 @@ const pathToRegExp = require('path-to-regexp');
 const { transtype, assignObject } = require('../../../utilities');
 const { routes: allRoutes } = require('./routes');
 
-class RoutesManager {
-  constructor ({ routes = [] }) {
-    this.routes = [];
+const getRoutes = function ({ rawRoutes }) {
+  return rawRoutes.map(rawRoute => getRoute(rawRoute));
+};
 
-    for (const route of routes) {
-      this.add(route);
-    }
-  }
+const getRoute = function ({ path, name, goal }) {
+  const regexp = pathToRegExp(path);
+  const variables = regexp.keys.map(key => key.name);
+  const goals = goal && !Array.isArray(goal) ? [goal] : goal;
 
-  add ({ path, name, goal }) {
-    const regexp = pathToRegExp(path);
-    const variables = regexp.keys.map(key => key.name);
-    const goals = goal && !Array.isArray(goal) ? [goal] : goal;
+  return { path, name, regexp, variables, goals };
+};
 
-    this.routes.push({ path, name, regexp, variables, goals });
-  }
+const exportedRoutes = getRoutes({ rawRoutes: allRoutes });
 
-  // Retrieves correct route, according to path
-  find ({ path, goal }) {
-    // Check path and goals
-    return this.routes.find(({ regexp, goals }) => regexp.test(path) && (!goals || goals.includes(goal)));
-  }
-}
+// Retrieves correct route, according to path
+const findRoute = function ({ routes, path, goal }) {
+  // Check path and goals
+  return routes.find(({ regexp, goals }) =>
+    regexp.test(path) && (!goals || goals.includes(goal))
+  );
+};
 
 // Retrieves path variables, e.g. /path/:id
 const getPathVars = function ({ path, route: { regexp, variables } }) {
@@ -45,9 +43,8 @@ const getPathVars = function ({ path, route: { regexp, variables } }) {
     .reduce(assignObject, {});
 };
 
-const routesManager = new RoutesManager({ routes: allRoutes });
-
 module.exports = {
-  routesManager,
+  routes: exportedRoutes,
+  findRoute,
   getPathVars,
 };
