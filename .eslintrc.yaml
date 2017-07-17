@@ -195,9 +195,9 @@ rules:
   no-undef-init: error
   no-unexpected-multiline: error
   no-unmodified-loop-condition: error
-##  no-unneeded-ternary:
-##  - error
-##  - defaultAssignment: false
+  no-unneeded-ternary:
+  - error
+  - defaultAssignment: false
   no-unreachable: error
   no-unsafe-finally: error
   no-unsafe-negation: error
