@@ -499,7 +499,7 @@ rules:
 ##  no-nested-ternary: 2
 
   # Structures
-##  no-lonely-if: 2
+  no-lonely-if: 2
 ##  no-else-return: 2
   for-direction: 2
   guard-for-in: 2
