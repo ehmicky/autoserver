@@ -10,7 +10,7 @@ class EngineError extends Error {
 
     this.checkSignature(opts);
 
-    this.name = this.constructor.name;
+    this.name = 'EngineError';
 
     this.addInnerError(opts);
 
