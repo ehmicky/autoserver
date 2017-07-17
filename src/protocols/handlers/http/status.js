@@ -57,11 +57,11 @@ const getStatus = function ({ protocolStatus }) {
 };
 
 const statusesMap = {
-  '1': 'INTERNALS',
-  '2': 'SUCCESS',
-  '3': 'INTERNALS',
-  '4': 'CLIENT_ERROR',
-  '5': 'SERVER_ERROR',
+  1: 'INTERNALS',
+  2: 'SUCCESS',
+  3: 'INTERNALS',
+  4: 'CLIENT_ERROR',
+  5: 'SERVER_ERROR',
 };
 
 module.exports = {
