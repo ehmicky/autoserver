@@ -27,26 +27,27 @@ class RoutesManager {
     // Check path and goals
     return this.routes.find(({ regexp, goals }) => regexp.test(path) && (!goals || goals.includes(goal)));
   }
-
-  // Retrieves path variables, e.g. /path/:id
-  getPathVars ({ path, route: { regexp, variables } }) {
-    return regexp
-      .exec(path)
-      // Removes first value, which is the full path
-      .slice(1)
-      // Adds the name of the variable to the value
-      // Will be an incrementing index e.g. for /path/* or /path/(maybe)?/
-      .map((value, index) => {
-        const key = variables[index];
-        const transtypedValue = transtype(value);
-        return { [key]: transtypedValue };
-      })
-      .reduce(assignObject, {});
-  }
 }
+
+// Retrieves path variables, e.g. /path/:id
+const getPathVars = function ({ path, route: { regexp, variables } }) {
+  return regexp
+    .exec(path)
+    // Removes first value, which is the full path
+    .slice(1)
+    // Adds the name of the variable to the value
+    // Will be an incrementing index e.g. for /path/* or /path/(maybe)?/
+    .map((value, index) => {
+      const key = variables[index];
+      const transtypedValue = transtype(value);
+      return { [key]: transtypedValue };
+    })
+    .reduce(assignObject, {});
+};
 
 const routesManager = new RoutesManager({ routes: allRoutes });
 
 module.exports = {
   routesManager,
+  getPathVars,
 };

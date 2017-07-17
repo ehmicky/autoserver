@@ -8,7 +8,7 @@ class EngineError extends Error {
   constructor (message, opts = {}) {
     super(message);
 
-    this.checkSignature(opts);
+    checkSignature(opts);
 
     this.name = 'EngineError';
 
@@ -17,26 +17,6 @@ class EngineError extends Error {
     this.addStack(message);
 
     Object.assign(this, opts);
-  }
-
-  // Make sure signature is correct
-  checkSignature (opts) {
-    // Check whitelisted options
-    const optsKeys = Object.keys(opts);
-    const nonAllowedOpts = difference(optsKeys, allowedOpts);
-
-    if (nonAllowedOpts.length > 0) {
-      const message = `Cannot use options ${nonAllowedOpts} when throwing 'EngineError'`;
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
-
-    // Check required options
-    const missingOpts = difference(requiredOpts, optsKeys);
-
-    if (missingOpts.length > 0) {
-      const message = `Must specify options ${missingOpts} when throwing 'EngineError'`;
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
   }
 
   // Keep track of innererror
@@ -73,6 +53,26 @@ class EngineError extends Error {
     }
   }
 }
+
+// Make sure signature is correct
+const checkSignature = function (opts) {
+  // Check whitelisted options
+  const optsKeys = Object.keys(opts);
+  const nonAllowedOpts = difference(optsKeys, allowedOpts);
+
+  if (nonAllowedOpts.length > 0) {
+    const message = `Cannot use options ${nonAllowedOpts} when throwing 'EngineError'`;
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+  }
+
+  // Check required options
+  const missingOpts = difference(requiredOpts, optsKeys);
+
+  if (missingOpts.length > 0) {
+    const message = `Must specify options ${missingOpts} when throwing 'EngineError'`;
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+  }
+};
 
 const allowedOpts = ['reason', 'innererror', 'extra'];
 const requiredOpts = ['reason'];

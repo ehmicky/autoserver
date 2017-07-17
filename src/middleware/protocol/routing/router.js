@@ -2,7 +2,7 @@
 
 const { EngineError } = require('../../../error');
 const { makeImmutable } = require('../../../utilities');
-const { routesManager } = require('./manager');
+const { routesManager, getPathVars } = require('./manager');
 
 // Add route and URL parameters to input
 const router = async function (input) {
@@ -16,7 +16,7 @@ const router = async function (input) {
     throw new EngineError(message, { reason: 'NOT_FOUND' });
   }
 
-  const pathVars = routesManager.getPathVars({ path, route });
+  const pathVars = getPathVars({ path, route });
   makeImmutable(pathVars);
 
   log.add({ route: route.name, pathVars });
