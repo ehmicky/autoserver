@@ -7,7 +7,9 @@ const { mapValues, pickBy } = require('../../utilities');
 const getAliasesMap = function ({ idl: { models } }) {
   return mapValues(models, ({ properties = {} }) => {
     const propsWithAlias = pickBy(properties, ({ alias }) => alias);
-    return mapValues(propsWithAlias, ({ alias }) => Array.isArray(alias) ? alias : [alias]);
+    return mapValues(propsWithAlias, ({ alias }) =>
+      (Array.isArray(alias) ? alias : [alias])
+    );
   });
 };
 

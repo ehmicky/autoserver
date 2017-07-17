@@ -10,9 +10,9 @@ const normalizeCommands = function ({ idl }) {
 
 const normalizeCommandNames = function (commandNames) {
   return commandNames
-    .map(name => (/(One)|(Many)$/).test(name)
-      ? name
-      : [`${name}One`, `${name}Many`])
+    .map(name =>
+      ((/(One)|(Many)$/).test(name) ? name : [`${name}One`, `${name}Many`])
+    )
     .reduce(assignArray, []);
 };
 

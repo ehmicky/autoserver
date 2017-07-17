@@ -63,7 +63,7 @@ const nodeModuleRefs = {
     allowEmpty: false,
     order: 500,
     canParse: true,
-    parse: async ({ data }) => isResolved(data) ? data : undefined,
+    parse: async ({ data }) => (isResolved(data) ? data : undefined),
   },
 };
 
@@ -78,7 +78,7 @@ const nodeRefs = {
     allowEmpty: false,
     order: 600,
     canParse: '.js',
-    parse: async ({ data }) => isResolved(data) ? data : undefined,
+    parse: async ({ data }) => (isResolved(data) ? data : undefined),
   },
 };
 
