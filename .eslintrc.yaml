@@ -299,9 +299,9 @@ rules:
   - error
   - never
   use-isnan: error
-##  valid-typeof:
-##  - error
-##  - requireStringLiterals: true
+  valid-typeof:
+  - error
+  - requireStringLiterals: true
   wrap-iife:
   - error
   - any
