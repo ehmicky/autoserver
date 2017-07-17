@@ -230,12 +230,12 @@ rules:
   one-var:
   - error
   - initialized: never
-##  operator-linebreak:
-##  - error
-##  - after
-##  - overrides:
-##      "?": before
-##      ":": before
+  operator-linebreak:
+  - error
+  - after
+  - overrides:
+      "?": before
+      ":": before
 ##  padded-blocks:
 ##  - error
 ##  - blocks: never

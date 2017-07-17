@@ -58,8 +58,8 @@ const parsePayload = getParsers();
 
 // Check if there is a request payload
 const hasPayload = function ({ specific: { req: { headers } } }) {
-  return Number(headers['content-length']) > 0
-    || headers['transfer-encoding'] !== undefined;
+  return Number(headers['content-length']) > 0 ||
+    headers['transfer-encoding'] !== undefined;
 };
 
 // Retrieves payload MIME type
