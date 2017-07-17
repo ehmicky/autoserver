@@ -27,7 +27,6 @@ const { EngineError } = require('../error');
 //   - `perf._getMeasuresMessage({ measures })` will return as a string,
 //     ready to be printed on console
 class PerfLog {
-
   constructor() {
     this._measures = {};
     this._counter = 0;
@@ -171,7 +170,6 @@ class PerfLog {
 // This class is returned by `perfLog.start()`, and allows user to
 // stop a measurement item, or to restart it
 class PerfLogItem {
-
   constructor({ perfLog, options, end = false }) {
     Object.assign(this, { perfLog, options, end });
   }
@@ -195,7 +193,6 @@ class PerfLogItem {
     this.end = true;
     return this.perfLog._stopItem(this.options);
   }
-
 }
 
 const DEFAULT_CATEGORY = 'default';

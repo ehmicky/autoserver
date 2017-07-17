@@ -84,7 +84,6 @@ const { PerfLog } = require('./perf');
 // Note that any exception thrown in this module might not be logged
 // (since this is the logger itself), so we must be precautious.
 class Log {
-
   constructor({ serverOpts, apiServer, phase }) {
     this._info = {};
     this._messages = {};
@@ -170,7 +169,6 @@ class Log {
     const measuresMessage = this.perf._getMeasuresMessage({ measures });
     await this.log('', { measures, measuresMessage, type: 'perf' });
   }
-
 }
 
 const includeMessagesTypes = ['start', 'call', 'failure', 'stop'];

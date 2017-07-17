@@ -6,7 +6,6 @@ const { transtype, assignObject } = require('../../../utilities');
 const { routes } = require('./routes');
 
 class RoutesManager {
-
   constructor({ routes = [] }) {
     this._routes = [];
     for (const route of routes) {
@@ -45,7 +44,6 @@ class RoutesManager {
       })
       .reduce(assignObject, {});
   }
-
 }
 
 const routesManager = new RoutesManager({ routes });
