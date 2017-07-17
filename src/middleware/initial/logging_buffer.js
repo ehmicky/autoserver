@@ -11,7 +11,7 @@ const loggingBuffer = async function (input) {
 
   try {
     // Buffer logging calls
-    await log._setBuffered(true);
+    await log.setBuffered(true);
 
     perf.stop();
     response = await this.next(input);
@@ -19,7 +19,7 @@ const loggingBuffer = async function (input) {
   } finally {
     // Release logging calls, now that all possiblelog.add() calls
     // have been performed
-    await log._setBuffered(false);
+    await log.setBuffered(false);
   }
 
   perf.stop();

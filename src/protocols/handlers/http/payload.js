@@ -50,6 +50,7 @@ const parseFunc = async function (parser, { specific: { req } }) {
   // We just want the body, and will only do this once,
   // so let's not pollute req
   delete req.body;
+  // eslint-disable-next-line no-underscore-dangle
   delete req._body;
 
   return body;

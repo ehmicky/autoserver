@@ -179,7 +179,7 @@ rules:
   - 2
   - '^[A-Za-z0-9_]+$'
   - onlyDeclarations: true
-##  no-underscore-dangle: 2
+  no-underscore-dangle: 2
 
   # Typecasting
   no-implicit-coercion: 2
