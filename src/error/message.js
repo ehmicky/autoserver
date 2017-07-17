@@ -9,7 +9,7 @@ const getErrorMessage = function ({
     description,
     protocol,
     operation,
-    action_path,
+    action_path: actionPath,
     command,
     details,
   },
@@ -21,7 +21,7 @@ const getErrorMessage = function ({
   const message = [
     protocol,
     operation,
-    action_path,
+    actionPath,
     command,
   ].filter(val => val)
     .join(' ');

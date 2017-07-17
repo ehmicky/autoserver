@@ -48,9 +48,9 @@ rules:
   - error
   - 1tbs
   - allowSingleLine: true
-##  camelcase:
-##  - error
-##  - properties: never
+  camelcase:
+  - error
+  - properties: never
   comma-spacing:
   - error
   - before: false
