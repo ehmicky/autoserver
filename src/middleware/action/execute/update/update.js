@@ -26,7 +26,7 @@ const getUpdateInput = function ({ input, models }) {
 
 const getUpdateArgs = function ({ args, models, jsl }) {
   const { data } = args;
-  // args.filter is only used by first "read" command
+  // `args.filter` is only used by first "read" command
   const updateArgs = omit(args, ['filter', 'data']);
 
   // Keys in args.* using JSL

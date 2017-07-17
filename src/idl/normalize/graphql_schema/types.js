@@ -206,7 +206,7 @@ const getObjectFields = function (def, opts) {
         ) || (
           inputObjectType === 'data' &&
           childDef.readOnly
-        // updateOne|updateMany do not allow data.id
+        // `updateOne|updateMany` do not allow data.id
         ) || (
           action.type === 'update' &&
           childDefName === 'id' &&
@@ -215,7 +215,7 @@ const getObjectFields = function (def, opts) {
       })
       // Recurse over children
       .mapValues((childDef, childDefName) => {
-        // if 'Query' or 'Mutation' objects, pass current action down to
+        // If 'Query' or 'Mutation' objects, pass current action down to
         // sub-fields, and top-level definition
         const childAction = childDef.action || action;
         const childOpts = Object.assign({}, opts, { action: childAction });
@@ -264,11 +264,11 @@ const isRequired = function (parentDef, def, name, {
     // except filter.id for single actions
     inputObjectType === 'filter' &&
       !isFilterId
-    // updateOne|updateMany does not require any attribute in input object
+    // `updateOne|updateMany` does not require any attribute in input object
   ) || (
       inputObjectType === 'data' &&
       action.type === 'update'
-    // data.id is optional in createOne|createMany
+    // `data.id` is optional in createOne|createMany
     ) || (
       inputObjectType === 'data' &&
       action.type === 'create' &&

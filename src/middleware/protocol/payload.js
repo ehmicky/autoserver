@@ -55,7 +55,7 @@ const payloadError = function ({ specific, protocolHandler }) {
 // Request payload middleware, for several types of input
 const payloadHandlers = [
 
-  // application/graphql request payload
+  // `application/graphql` request payload
   async function ({ specific, parse }) {
     const textPayload = await parse.graphql({ specific });
     return textPayload ? { query: textPayload } : undefined;
@@ -66,18 +66,18 @@ const payloadHandlers = [
     return await parse.json({ specific });
   },
 
-  // x-www-form-urlencoded request payload
+  // `x-www-form-urlencoded` request payload
   async function ({ specific, parse }) {
     return await parse.urlencoded({ specific });
   },
 
-  // string request payload
+  // String request payload
   async function ({ specific, parse }) {
     const textPayload = await parse.text({ specific });
     return typeof textPayload === 'string' ? undefined : textPayload;
   },
 
-  // binary request payload
+  // Binary request payload
   async function ({ specific, parse }) {
     const rawPayload = await parse.raw({ specific });
     return rawPayload instanceof Buffer ? rawPayload.toString() : undefined;

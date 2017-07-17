@@ -50,7 +50,7 @@ const sendText = async function ({
 // request, i.e. when responseSend middleware has not been reached yet.
 // This will be fired to make sure socket does not hang.
 const sendNothing = async function ({ specific: { res } = {}, status }) {
-  // specific might be undefined, if initial input was wrong.
+  // `specific` might be undefined, if initial input was wrong.
   if (!res) { return; }
 
   // However, we are not sure a response has already been sent or not,

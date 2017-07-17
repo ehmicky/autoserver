@@ -41,7 +41,7 @@ const setStatus = function ({
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  // protocol-agnostic status
+  // Protocol-agnostic status
   const status = protocolHandler.getStatus({ protocolStatus });
   if (status === undefined) {
     const message = '\'status\' must be defined';
