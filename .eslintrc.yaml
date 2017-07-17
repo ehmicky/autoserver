@@ -191,7 +191,7 @@ rules:
   no-this-before-super: error
   no-throw-literal: error
   no-trailing-spaces: error
-##  no-undef: error
+  no-undef: error
   no-undef-init: error
   no-unexpected-multiline: error
   no-unmodified-loop-condition: error
@@ -603,7 +603,10 @@ rules:
   import/no-unresolved:
   - 2
   - commonjs: true
-  node/no-missing-require: 2
+  node/no-missing-require:
+  - 2
+  - allowModules:
+    - api-engine
 ##  node/no-unpublished-require: 2
   node/no-missing-import: 2
   node/no-unpublished-import: 2
@@ -704,3 +707,8 @@ rules:
 #  unicorn/filename-case: 2
 #  unicorn/no-abusive-eslint-disable: 2
 #  unicorn/prefer-type-error: 2
+settings:
+  import/core-modules:
+  - api-engine
+  node/allowModules:
+  - api-engine
