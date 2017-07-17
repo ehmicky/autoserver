@@ -20,7 +20,7 @@ const getResolver = async function (
   name,
   parent = {},
   args,
-  { callback, graphqlMethod }
+  { callback: cbFunc, graphqlMethod }
 ) {
   args = args || {};
 
@@ -64,7 +64,7 @@ const getResolver = async function (
   const fullAction = parentFullAction ? `${parentFullAction}.${name}` : name;
 
   // Fire database layer, retrieving value passed to children
-  const response = await callback({ action, fullAction, modelName, args });
+  const response = await cbFunc({ action, fullAction, modelName, args });
 
   // Tags the response as belonging to that modelName
   setParentModel(response.data, { action, modelName, fullAction });
