@@ -74,9 +74,9 @@ const splitModels = function ({ input: { args: { data } }, models }) {
     return { createModels, updateModels };
   } else if (modelsIds.includes(data.id)) {
     return { createModels: [], updateModels: data };
-  } else {
-    return { createModels: data, updateModels: [] };
   }
+
+  return { createModels: data, updateModels: [] };
 };
 
 // If there no models to create or update, avoid performing a database command

@@ -9,17 +9,17 @@ const getFilter = function ({ input }) {
 
   if (Array.isArray(ids)) {
     return `(${JSON.stringify(ids)}.includes($$.id))`;
-  } else {
-    return `(($$.id === ${JSON.stringify(ids)}))`;
   }
+
+  return `(($$.id === ${JSON.stringify(ids)}))`;
 };
 
 const getDataIds = function ({ input: { args: { data } } }) {
   if (Array.isArray(data)) {
     return data.map(datum => getDataId({ data: datum }));
-  } else {
-    return getDataId({ data });
   }
+
+  return getDataId({ data });
 };
 
 const getDataId = function ({ data }) {
