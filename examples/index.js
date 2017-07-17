@@ -53,7 +53,7 @@ const apiServer = startServer({
   // thrown instead
   .on('error', () => hasEmit('error'))
   // Can use globbing star
-  .on('stop.*', () => {})
+  // .on('stop.*', () => {})
   .on('stop.success', () => hasEmit('stop.success'))
   .on('stop.fail', () => hasEmit('stop.fail'))
   // Information to send for monitoring
