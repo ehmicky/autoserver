@@ -325,7 +325,7 @@ rules:
   standard/computed-property-even-spacing:
   - error
   - even
-##  standard/no-callback-literal: error
+  standard/no-callback-literal: error
   standard/object-curly-even-spacing:
   - error
   - either
