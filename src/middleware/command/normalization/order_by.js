@@ -36,7 +36,7 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
     // Default order is +
     const partWithPrefix = partsPostfixRegexp.test(part) ? part : `${part}+`;
     // Parse the + or - postfix
-    const [,attrName, orderPostfix] = partsPostfixRegexp.exec(partWithPrefix);
+    const [, attrName, orderPostfix] = partsPostfixRegexp.exec(partWithPrefix);
     const order = orderPostfix === '-' ? 'desc' : 'asc';
 
     if (!attrNames.includes(attrName)) {
