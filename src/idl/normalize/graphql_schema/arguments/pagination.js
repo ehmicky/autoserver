@@ -24,7 +24,7 @@ const getPaginationArgument = function ({
   Using 0 disables pagination.
   Maximum: ${maxPageSize}`,
       defaultValue: defaultPageSize,
-    }
+    },
   };
 
   // Only with safe actions that return an array, i.e. only with findMany

@@ -12,7 +12,7 @@ const defaults = {
     // Only if args.before|after is not specified
     test: ({ input: { args: { before, after } } }) =>
       ((before === undefined || before === '') &&
-      (after === undefined || after === ''))
+      (after === undefined || after === '')),
   },
 
   nOrderBy: {
@@ -21,7 +21,7 @@ const defaults = {
     // Only if args.before|after is not specified
     test: ({ input: { args: { before, after } } }) =>
       ((before === undefined || before === '') &&
-      (after === undefined || after === ''))
+      (after === undefined || after === '')),
   },
 
   pageSize: {
@@ -43,7 +43,7 @@ const defaults = {
     }) => defaultPageSize !== 0 &&
       pagination &&
       before === undefined &&
-      page === undefined
+      page === undefined,
   },
 
   authorization: {

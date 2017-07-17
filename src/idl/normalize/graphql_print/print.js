@@ -1,6 +1,6 @@
 'use strict';
 
-const { printSchema: graphQLPrintSchema, } = require('graphql');
+const { printSchema: graphQLPrintSchema } = require('graphql');
 const { render } = require('mustache');
 const { readFile } = require('fs');
 const { resolve } = require('path');

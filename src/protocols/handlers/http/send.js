@@ -68,6 +68,6 @@ module.exports = {
     json: sendJson,
     html: sendHtml,
     text: sendText,
-    nothing: sendNothing
+    nothing: sendNothing,
   },
 };
