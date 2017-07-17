@@ -40,6 +40,7 @@ const validateQuery = function ({ queryDocument, goal, operationName }) {
   }) => {
     return !operationName || name === operationName;
   });
+
   if (definitions.length === 0) {
     if (operationName) {
       const message = `Could not find GraphQL operation ${operationName}`;
@@ -49,6 +50,7 @@ const validateQuery = function ({ queryDocument, goal, operationName }) {
       throw new EngineError(message, { reason: 'GRAPHQL_NO_QUERY' });
     }
   }
+
   const definition = definitions[0];
 
   // GraphQL-anywhere do not support operationName yet,

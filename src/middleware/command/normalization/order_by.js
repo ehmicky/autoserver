@@ -51,6 +51,7 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
   //   - the pagination layer needs this predictability
   // If an id sorting is already specified, do not need to do anything
   const hasId = nOrderBy.some(({ attrName }) => attrName === 'id');
+
   if (!hasId) {
     nOrderBy.push({ attrName: 'id', order: 'asc' });
   }

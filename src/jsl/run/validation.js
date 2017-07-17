@@ -7,8 +7,10 @@ const { EngineError } = require('../../error');
 // forbidding the latter to be so
 const checkNames = function (input, type) {
   const isSystemType = type === 'SYSTEM';
+
   for (const name of Object.keys(input)) {
     const isSystemName = systemNameRegExp.test(name);
+
     if (isSystemType && !isSystemName) {
       const message = `JSL helper named '${name}' should be uppercase/underscore only and start with $`;
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });

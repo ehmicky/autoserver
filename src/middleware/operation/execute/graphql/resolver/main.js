@@ -48,6 +48,7 @@ const getResolver = async function (
   const action = ACTIONS.find(act => {
     return act.multiple === multiple && act.type === actionType;
   });
+
   // This means the query specified an attribute that is not present
   // in IDL definition
   if (action == null || modelName == null) {

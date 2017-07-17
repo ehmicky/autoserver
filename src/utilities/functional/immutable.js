@@ -18,6 +18,7 @@ const _makeImmutable = function (obj) {
     _makeImmutable(child);
   }
 };
+
 // Not in production, because Object.freeze() can be slow.
 const makeImmutable = ENV === 'dev' ? _makeImmutable : val => val;
 

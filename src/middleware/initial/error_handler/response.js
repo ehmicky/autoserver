@@ -11,6 +11,7 @@ const getResponse = function ({ error }) {
 
   // E.g. operation-specific error format, e.g. GraphQL
   const transformer = transformMap[error.operation];
+
   if (transformer) {
     response = transformer.transformResponse({ response });
   }

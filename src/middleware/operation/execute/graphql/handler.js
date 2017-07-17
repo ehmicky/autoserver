@@ -37,6 +37,7 @@ const executeGraphql = async function (input) {
   // GraphQL execution
   let content;
   const actions = [];
+
   // Introspection GraphQL query
   if (isIntrospectionQuery({ query })) {
     content = await handleIntrospection({
@@ -74,14 +75,17 @@ const fireNext = async function (request, perf, actions, actionInput) {
   // Several calls of this function are done concurrently, so we stop
   // performance recording on the first in, and restart on the last out
   perf.ongoing = perf.ongoing || 0;
+
   if (perf.ongoing === 0) {
     perf.stop();
   }
+
   ++perf.ongoing;
 
   const response = await this.next(input);
 
   --perf.ongoing;
+
   if (perf.ongoing === 0) {
     perf.start();
   }

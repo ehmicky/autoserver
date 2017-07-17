@@ -6,6 +6,7 @@ const { EngineError } = require('../../../../error');
 // the first and the second "read" command
 const getFilter = function ({ input }) {
   const ids = getDataIds({ input });
+
   if (ids instanceof Array) {
     return `(${JSON.stringify(ids)}.includes($$.id))`;
   } else {

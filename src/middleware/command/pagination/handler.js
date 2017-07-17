@@ -143,6 +143,7 @@ const processOutput = function ({
 // afterwards.
 const reverseOutput = function ({ args, response }) {
   const { isBackward } = getPaginationInfo({ args });
+
   if (isBackward) {
     response.data = response.data.reverse();
   }

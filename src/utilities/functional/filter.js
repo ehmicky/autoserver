@@ -18,6 +18,7 @@ const pickBy = function (obj, condition) {
     if (condition(value, name)) {
       memo[name] = value;
     }
+
     return memo;
   }, {});
 };
@@ -38,6 +39,7 @@ const omitBy = function (obj, condition) {
     if (!condition(value, name)) {
       memo[name] = value;
     }
+
     return memo;
   }, {});
 };

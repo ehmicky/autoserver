@@ -16,6 +16,7 @@ const compileJsl = memoizeUnlessClient(function ({ jsl, paramsKeys, type }) {
     if (isEscapedJsl({ jsl })) {
       jsl = jsl.replace('\\', '');
     }
+
     return jsl;
   }
 

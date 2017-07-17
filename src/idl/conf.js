@@ -17,6 +17,7 @@ const getIdlConf = async function ({ conf }) {
 
   if (typeof conf === 'string') {
     let path;
+
     try {
       path = await promisify(realpath)(conf);
     } catch (innererror) {

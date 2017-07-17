@@ -24,6 +24,7 @@ class EngineError extends Error {
     // Check whitelisted options
     const optsKeys = Object.keys(opts);
     const nonAllowedOpts = difference(optsKeys, allowedOpts);
+
     if (nonAllowedOpts.length > 0) {
       const message = `Cannot use options ${nonAllowedOpts} when throwing 'EngineError'`;
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
@@ -31,6 +32,7 @@ class EngineError extends Error {
 
     // Check required options
     const missingOpts = difference(requiredOpts, optsKeys);
+
     if (missingOpts.length > 0) {
       const message = `Must specify options ${missingOpts} when throwing 'EngineError'`;
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
@@ -43,10 +45,12 @@ class EngineError extends Error {
     const innererror = opts.innererror && opts.innererror.innererror
       ? opts.innererror.innererror
       : opts.innererror;
+
     if (innererror) {
       // We only keep innererror's stack, so if it does not include the
       // error message, which might be valuable information, prepends it
       const { message, stack = '' } = innererror;
+
       if (message && stack.indexOf(message) === -1) {
         innererror.stack = `${message}\n${stack}`;
       }
@@ -59,6 +63,7 @@ class EngineError extends Error {
   // Adds stack trace
   addStack (message) {
     if (this.stack) { return; }
+
     // Two possible ways to add this.stack, if not present yet
     if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor);

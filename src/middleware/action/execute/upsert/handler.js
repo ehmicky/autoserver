@@ -84,6 +84,7 @@ const splitModels = function ({ input: { args: { data } }, models }) {
 // If there no models to create or update, avoid performing a database command
 const isDefined = function ({ models }) {
   if (!models) { return false; }
+
   if (models instanceof Array) {
     return models.length > 0;
   } else if (models.constructor === Object) {

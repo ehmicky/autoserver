@@ -9,6 +9,7 @@ const setResponseTime = async function (input) {
   const perf = log.perf.start('protocol.setResponseTime', 'middleware');
 
   const responseTime = log.perf.all.stop();
+
   if (typeof responseTime !== 'number') {
     const message = `'responseTime' must be a number, not '${responseTime}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });

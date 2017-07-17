@@ -18,9 +18,11 @@ const mapAsync = async function (obj, mapperFunc) {
   checkObject(obj);
 
   const newObj = {};
+
   for (const [key, value] of Object.entries(obj)) {
     newObj[key] = await mapperFunc(value, key, obj);
   }
+
   return newObj;
 };
 
@@ -67,10 +69,11 @@ const recurseMapByRef = function ({ value, mapFunc }) {
     }
 
     ++depth;
+
     if (value && (value.constructor === Object || value instanceof Array)) {
       for (const [childKey, child] of Object.entries(value)) {
         value[childKey] = recurse({ value: child, key: childKey, parent: value, parents, depth });
-      };
+      }
     }
 
     return value;

@@ -43,10 +43,12 @@ const normalizeTransform = function ({ transform }) {
   const hasOptions = transform &&
     transform.constructor === Object &&
     transform.value !== undefined;
+
   if (hasOptions) {
     if (transform.using && !(transform.using instanceof Array)) {
       transform.using = [transform.using];
     }
+
     return transform;
   }
 
@@ -101,6 +103,7 @@ const findTransformOrder = function ({ props, modelName, triedProps = [] }) {
     const isWrongOrder = prop.using.some(orderAttr => {
       return nextProps.some(({ attrName }) => attrName === orderAttr);
     });
+
     if (isWrongOrder) {
       // Push the current attribute to the end of the array, and try again
       const previousProps = props.slice(0, index);
@@ -118,10 +121,12 @@ const findTransformOrder = function ({ props, modelName, triedProps = [] }) {
 // exceptions during `getTransformOrder()`
 const checkTransformCircular = function ({ props, modelName, triedProps }) {
   const strProps = props.map(({ attrName }) => attrName).join(',');
+
   if (triedProps.includes(strProps)) {
     const message = `Circular dependencies in 'using' properties of model '${modelName}'`;
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
   }
+
   triedProps.push(strProps);
 };
 

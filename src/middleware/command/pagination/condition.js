@@ -7,6 +7,7 @@ const allowFullPagination = function ({ args, command }) {
   return fullPaginationCommandNames.includes(command.name) &&
     !isPaginationDisabled({ args });
 };
+
 const fullPaginationCommandNames = ['readMany'];
 
 // Whether output will be paginated

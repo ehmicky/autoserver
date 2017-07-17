@@ -7,6 +7,7 @@ const { memoize } = require('../utilities');
 // do not memoize
 const memoizeUnlessClient = function (func) {
   const memoizedFunc = memoize(func);
+
   return (obj, ...args) => {
     const { type } = obj;
     return clientTypes.includes(type)

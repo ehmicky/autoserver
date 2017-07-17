@@ -17,6 +17,7 @@ const handleArgs = async function (input) {
     const message = `Invalid 'args': '${args}'`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
+
   const clonedArgs = cloneDeep(args);
 
   try {

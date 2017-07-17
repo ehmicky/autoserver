@@ -16,6 +16,7 @@ const noOutput = async function (input) {
   const isDelete = response.actions &&
     response.actions.some(({ type }) => type === 'delete');
   const shouldRemoveOutput = isDelete || settings.noOutput;
+
   if (shouldRemoveOutput) {
     response = operations[operation].noOutput(response);
   }

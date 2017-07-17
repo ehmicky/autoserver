@@ -22,10 +22,12 @@ const getPaginationInput = function ({ args }) {
     if (hasToken) {
       const tokenObj = decode({ token });
       newArgs.nFilter = getPaginatedFilter({ tokenObj, isBackward });
+
       if (tokenObj.nOrderBy) {
         newArgs.nOrderBy = tokenObj.nOrderBy;
       }
     }
+
     if (isBackward) {
       newArgs.nOrderBy = newArgs.nOrderBy.map(({ attrName, order }) => {
         return { attrName, order: order === 'asc' ? 'desc' : 'asc' };

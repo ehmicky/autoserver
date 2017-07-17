@@ -11,6 +11,7 @@ const handleIntrospection = async function ({
   operationName,
 }) {
   let response;
+
   try {
     response = await execute(
       schema,
@@ -26,9 +27,11 @@ const handleIntrospection = async function ({
   } catch (exception) {
     throwError(exception);
   }
+
   if (response.errors && response.errors[0]) {
     throwError(response.errors[0]);
   }
+
   return response;
 };
 
@@ -44,6 +47,7 @@ const throwError = function (innererror) {
 // This means that `__schema` or `__type` must be the only top-level properties
 // when specified
 const introspectionQueryRegExp = /(\b__schema\b)|(\b__type\s*\()/;
+
 const isIntrospectionQuery = function ({ query }) {
   return introspectionQueryRegExp.test(query);
 };

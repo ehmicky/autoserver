@@ -58,6 +58,7 @@ const isJSON = function (val) {
   try {
     JSON.stringify(val);
   } catch (error) { return false; }
+
   return true;
 };
 

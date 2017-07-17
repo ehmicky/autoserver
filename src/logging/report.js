@@ -36,6 +36,7 @@ const report = async function ({
   // Build a standardized log message
   const noConsole = noConsoleTypes.includes(type);
   let message;
+
   if (!noConsole) {
     message = getMessage({
       phase,
@@ -79,6 +80,7 @@ const tryToLog = async function ({
     await tryToLog({ apiServer, eventName, info, delay });
   }
 };
+
 const defaultDelay = 1000;
 const delayExponent = 5;
 const maxDelay = 1000 * 60 * 3;

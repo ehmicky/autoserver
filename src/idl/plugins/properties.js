@@ -29,6 +29,7 @@ const propertiesPlugin = function ({
 
       // Make sure plugin does not override user-defined properties
       const alreadyDefinedProps = intersection(propNames, newPropNames);
+
       if (alreadyDefinedProps.length > 0) {
         const propMessage = getPropMessage(alreadyDefinedProps);
         const message = `In model ${modelName}, cannot override ${propMessage}`;
@@ -40,6 +41,7 @@ const propertiesPlugin = function ({
         requiredProperties,
         [...propNames, ...newPropNames]
       );
+
       if (missingRequiredProps.length > 0) {
         const propMessage = getPropMessage(missingRequiredProps);
         const message = `In model ${modelName}, ${propMessage} should exist`;

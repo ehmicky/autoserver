@@ -5,6 +5,7 @@ const { GraphQLInt, GraphQLString } = require('graphql');
 // Pagination arguments
 const paginationActionTypes = ['find', 'update', 'delete'];
 const fullPaginationActionTypes = ['find'];
+
 const getPaginationArgument = function ({
   action,
   defaultPageSize,

@@ -14,6 +14,7 @@ const validatePaginationInput = function ({
   maxPageSize,
 }) {
   let schema;
+
   if (allowFullPagination({ args, command })) {
     schema = getFullSchema({ maxPageSize });
   } else if (mustPaginateOutput({ args })) {
@@ -21,6 +22,7 @@ const validatePaginationInput = function ({
   } else {
     schema = restrictedSchema;
   }
+
   const data = getInputData({ args });
 
   const reportInfo = {
@@ -54,6 +56,7 @@ const getFullSchema = function ({ maxPageSize }) {
     },
   };
 };
+
 const parsedToken = {
   oneOf: [
     {
@@ -131,6 +134,7 @@ const getInputData = function ({ args }) {
 
   const hasTwoDirections = inputData.before !== undefined &&
     inputData.after !== undefined;
+
   if (hasTwoDirections) {
     const message = 'Wrong parameters: cannot specify both \'before\' and \'after\'';
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
@@ -139,6 +143,7 @@ const getInputData = function ({ args }) {
   // Cannot mix offset-based pagination and cursor-based pagination
   const hasTwoPaginationTypes = inputData.page !== undefined &&
     (inputData.before !== undefined || inputData.after !== undefined);
+
   if (hasTwoPaginationTypes) {
     const message = 'Wrong parameters: cannot use both \'page\' and \'before|after\'';
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
@@ -150,6 +155,7 @@ const getInputData = function ({ args }) {
     const hasForbiddenArg = inputData[forbiddenArg] !== undefined &&
       ((inputData.before !== undefined && inputData.before !== '') ||
       (inputData.after !== undefined && inputData.after !== ''));
+
     if (hasForbiddenArg) {
       const message = `Wrong parameters: cannot use both '${forbiddenArg}' and 'before|after'`;
       throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
@@ -159,11 +165,14 @@ const getInputData = function ({ args }) {
   for (const name of ['before', 'after']) {
     const token = inputData[name];
     if (token === undefined || token === '') { continue; }
+
     if (typeof token !== 'string') {
       const message = `Wrong parameters: '${name}' must be a string`;
       throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
     }
+
     let decodedToken;
+
     try {
       decodedToken = decode({ token });
     } catch (innererror) {
@@ -176,6 +185,7 @@ const getInputData = function ({ args }) {
 
     inputData[name] = decodedToken;
   }
+
   return inputData;
 };
 

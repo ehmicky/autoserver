@@ -8,6 +8,7 @@ const getIp = async function (input) {
   const perf = log.perf.start('protocol.getIp', 'middleware');
 
   const ip = protocolHandler.getIp(input) || '';
+
   if (typeof ip !== 'string') {
     const message = `'ip' must be a string, not '${ip}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });

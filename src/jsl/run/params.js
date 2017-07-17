@@ -32,6 +32,7 @@ const filterParams = function ({ params, type, exposeMap }) {
 // I.e. helpers have same parameters as their caller
 const bindHelpers = function ({ params }) {
   const helperContext = { params };
+
   for (const [name, helper] of Object.entries(params)) {
     if (helper instanceof JslHelper) {
       // Note that `bind()` clones the function, i.e. there will be no

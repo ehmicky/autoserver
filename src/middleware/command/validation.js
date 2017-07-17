@@ -27,6 +27,7 @@ const validateCommand = function ({ command }) {
   const isValid = COMMANDS.some(possibleCommand => {
     return isEqual(possibleCommand, command);
   });
+
   if (!isValid) {
     const message = `Invalid command: ${JSON.stringify(command)}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
@@ -57,6 +58,7 @@ const validateCurrentData = function ({ newData, currentData }) {
     (newData instanceof Array && !(currentData instanceof Array)) ||
     (!(newData instanceof Array) && currentData instanceof Array) ||
     (!newData && currentData);
+
   if (differentTypes) {
     const message = `'args.currentData' is invalid: ${JSON.stringify(currentData)}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
@@ -76,6 +78,7 @@ const validateCurrentData = function ({ newData, currentData }) {
 
 const validateSingleCurrentData = function ({ newData, currentData }) {
   const differentId = newData.id !== currentData.id;
+
   if (differentId) {
     const message = `'args.currentData' has invalid 'id': ${currentData.id}`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });

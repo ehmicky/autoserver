@@ -10,6 +10,7 @@ const router = async function (input) {
   const perf = log.perf.start('protocol.router', 'middleware');
 
   const route = routesManager.find({ path, goal });
+
   if (!route) {
     const message = 'The requested URL was not found';
     throw new EngineError(message, { reason: 'NOT_FOUND' });

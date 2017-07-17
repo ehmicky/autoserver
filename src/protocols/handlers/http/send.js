@@ -12,6 +12,7 @@ const send = async function ({
   if (status) {
     res.statusCode = status;
   }
+
   res.setHeader('Content-Type', contentType);
   res.setHeader('Content-Length', Buffer.byteLength(content));
   await promisify(res.end.bind(res))(content);
@@ -60,6 +61,7 @@ const sendNothing = async function ({ specific: { res } = {}, status }) {
   if (status) {
     res.statusCode = status;
   }
+
   await promisify(res.end.bind(res))();
 };
 

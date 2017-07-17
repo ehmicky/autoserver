@@ -31,6 +31,7 @@ const validate = function ({ schema, data, reportInfo, extra }) {
   if (extra) {
     data = Object.assign({}, data, { [Symbol.for('extra')]: extra });
   }
+
   const isValid = validator(data);
   if (isValid) { return; }
 
