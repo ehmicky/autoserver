@@ -72,12 +72,10 @@ const splitModels = function ({ input: { args: { data } }, models }) {
     const createModels = data.filter(({ id }) => !modelsIds.includes(id));
     const updateModels = data.filter(({ id }) => modelsIds.includes(id));
     return { createModels, updateModels };
+  } else if (modelsIds.includes(data.id)) {
+    return { createModels: [], updateModels: data };
   } else {
-    if (modelsIds.includes(data.id)) {
-      return { createModels: [], updateModels: data };
-    } else {
-      return { createModels: data, updateModels: [] };
-    }
+    return { createModels: data, updateModels: [] };
   }
 };
 
