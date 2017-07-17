@@ -17,14 +17,12 @@ const getStatus = async function (input) {
   } catch (error) {
     const perf = log.perf.start('protocol.getStatus', 'exception');
 
-    if (!(error instanceof Error)) {
-      error = new Error(String(error));
-    }
+    const errorObj = error instanceof Error ? error : new Error(String(error));
 
-    setStatus({ input, error });
+    setStatus({ input, error: errorObj });
 
     perf.stop();
-    throw error;
+    throw errorObj;
   }
 };
 
