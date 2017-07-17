@@ -87,9 +87,10 @@ const maxDelay = 1000 * 60 * 3;
 
 // Keep track of the error the logging utility threw
 const addLoggerError = function ({ info, innererror }) {
+  const innererrorString = typeof innererror === 'string' ? innererror : '';
   const loggerError = innererror instanceof Error
     ? `${innererror.message} ${innererror.stack || ''}`
-    : (typeof innererror === 'string' ? innererror : '');
+    : innererrorString;
   info.loggerErrors = info.loggerErrors || [];
   info.loggerErrors.push(loggerError);
 };

@@ -21,10 +21,14 @@ const getTypeName = function ({ def, opts: { inputObjectType, action = {} } }) {
 // Returns action name, camelized, in plural form,
 // e.g. `findPets` or `deletePets`
 const getActionName = function ({ modelName, action, noChange }) {
-  const model = noChange
-    ? modelName
-    : action.multiple ? plural(modelName) : singular(modelName);
+  const model = getModel({ modelName, action, noChange });
   return camelize(`${action.type} ${model}`);
+};
+
+const getModel = function ({ modelName, action, noChange }) {
+  if (noChange) { return modelName; }
+  if (action.multiple) { return plural(modelName); }
+  return singular(modelName);
 };
 
 module.exports = {

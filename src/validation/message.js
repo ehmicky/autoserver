@@ -44,9 +44,12 @@ const errorMessages = {
     params: { limit, comparison },
     parentSchema: { format },
   }) => {
-    const isDate = ['date', 'date-time'].includes(format);
-    const isTime = ['time'].includes(format);
-    const comparative = isDate ? 'more recent' : isTime ? 'later' : 'greater';
+    const comparatives = {
+      date: 'more recent',
+      'date-time': 'more recent',
+      time: 'later',
+    };
+    const comparative = comparatives[format] || 'greater';
     const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
     return ` must be ${comparative} than ${orEqualTo}${limit}`;
   },
@@ -54,9 +57,12 @@ const errorMessages = {
     params: { limit, comparison },
     parentSchema: { format },
   }) => {
-    const isDate = ['date', 'date-time'].includes(format);
-    const isTime = ['time'].includes(format);
-    const comparative = isDate ? 'older' : isTime ? 'sooner' : 'less';
+    const comparatives = {
+      date: 'older',
+      'date-time': 'older',
+      time: 'sooner',
+    };
+    const comparative = comparatives[format] || 'less';
     const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
     return ` must be ${comparative} than ${orEqualTo}${limit}`;
   },
