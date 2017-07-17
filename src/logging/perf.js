@@ -88,17 +88,17 @@ class PerfLog {
 
     const measures = this.measures[key][itemId];
 
-    // `start()` marks the current time
-    if (!end) {
-      measures.pending = [secs, nanoSecs];
     // `end()` substracts the current time with the previous time
-    } else {
+    if (end) {
       const [lastSecs, lastNanoSecs] = measures.pending;
       const duration = (secs - lastSecs) * 10 ** 9 + (nanoSecs - lastNanoSecs);
       // We sum up the calculated duration with the previous items
       measures.duration = measures.duration
         ? measures.duration + duration
         : duration;
+    // `start()` marks the current time
+    } else {
+      measures.pending = [secs, nanoSecs];
     }
 
     return measures.duration / 10 ** 6;

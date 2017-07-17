@@ -119,9 +119,9 @@ const objectTypeSerializer = function ([def, opts]) {
 const graphQLObjectFGetter = memoize((def, opts) => {
   const name = getTypeName({ def, opts });
   const description = def.description;
-  const Type = opts.inputObjectType !== ''
-    ? GraphQLInputObjectType
-    : GraphQLObjectType;
+  const Type = opts.inputObjectType === ''
+    ? GraphQLObjectType
+    : GraphQLInputObjectType;
   const fields = getObjectFields(def, opts);
 
   const type = new Type({ name, description, fields });

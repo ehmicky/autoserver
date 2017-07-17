@@ -13,7 +13,7 @@ const getTypeName = function ({ def, opts: { inputObjectType, action = {} } }) {
   // so use def[nameSym] instead
   const actualModel = model || modelName;
   const name = action.multiple ? plural(actualModel) : singular(actualModel);
-  const nestedPostfix = !def.isTopLevel ? ' Nested' : '';
+  const nestedPostfix = def.isTopLevel ? '' : ' Nested';
   const typeName = `${action.type || ''} ${name} ${inputObjectType}${nestedPostfix}`;
   return camelize(capitalize(typeName));
 };
