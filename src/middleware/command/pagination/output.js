@@ -44,7 +44,7 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
 
   // Add response.metadata
   const newMetadata = data.map((model, index) => {
-    // has_previous_page and has_next_page are only true
+    // `has_previous_page` and `has_next_page` are only true
     // when on the batch's edges
     const hasPreviousPage = info.has_previous_page || index !== 0;
     const hasNextPage = info.has_next_page || index !== data.length - 1;

@@ -346,10 +346,10 @@ rules:
 ##  no-inline-comments: 2
   line-comment-position: 2
   lines-around-comment: 2
-##  capitalized-comments:
-##  - 2
-##  - always
-##  - ignoreConsecutiveComments: true
+  capitalized-comments:
+  - 2
+  - always
+  - ignoreConsecutiveComments: true
 
   # ESLint comments
   eslint-comments/disable-enable-pair: 2

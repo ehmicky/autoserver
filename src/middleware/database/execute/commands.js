@@ -99,7 +99,7 @@ const findIndexes = function ({ collection, nFilter, opts: { jsl } }) {
 
   const modelIndexes = Object.entries(collection)
     // Check if a model matches a query nFilter
-    .filter(([/* index */, model]) => {
+    .filter(([, model]) => {
       // TODO: remove when using MongoDB query objects
       const params = { $$: model };
       return jsl.run({ value: nFilter, params, type: 'filter' });

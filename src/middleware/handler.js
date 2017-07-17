@@ -119,7 +119,7 @@ const middleware = [
    **/
   // Convert from Command format to Database format
   database.databaseConvertor,
-  // authorization middleware
+  // Authorization middleware
   database.authorization,
   // Custom data validation middleware
   database.dataValidation,

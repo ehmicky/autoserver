@@ -45,7 +45,7 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
     return { attrName, order };
   });
 
-  // orderBy always include an id sorting. The reasons:
+  // `orderBy` always include an id sorting. The reasons:
   //   - make output predictable, the same request should always get
   //     the same response
   //   - the pagination layer needs this predictability

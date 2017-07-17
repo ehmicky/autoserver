@@ -54,7 +54,7 @@ const errorReasons = {
   // e.g. tries to create already existing model
   DATABASE_MODEL_CONFLICT: {},
 
-  // input is too big, e.g. args.data has too many items
+  // Input is too big, e.g. args.data has too many items
   INPUT_LIMIT: {},
 
   // Request body Content-Type is unsupported

@@ -19,7 +19,7 @@ const processResponse = function ({
   return { data, metadata };
 };
 
-// order_by sorting
+// `order_by` sorting
 const sortResponse = function ({ data, nOrderBy }) {
   if (!data || !(data instanceof Array)) { return data; }
 

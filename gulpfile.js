@@ -10,7 +10,6 @@ gulp.task('lint', () =>
     .pipe(eslint({
       cache: true,
       ignorePath: '.gitignore',
-      // fix: true,
     }))
     .pipe(eslint.format('codeframe'))
     .pipe(eslint.failAfterError())
