@@ -28,7 +28,7 @@ const getErrorMessage = function ({
 
   const messageStack = message && stack
     ? `${message}\n${stack}`
-    : (message ? message : stack);
+    : (message || stack);
 
   // Add error type to message
   const fullMessage = messageStack ? `${type} - ${messageStack}` : type;
