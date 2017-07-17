@@ -73,7 +73,7 @@ const actionConvertorOutput = {
   GraphQL (response) {
     const { data, metadata } = response;
 
-    if (data instanceof Array) {
+    if (Array.isArray(data)) {
       response.data = data.map((datum, index) => {
         return Object.assign({}, datum, { __metadata: metadata[index] });
       });
@@ -87,7 +87,7 @@ const actionConvertorOutput = {
 };
 
 const getLogResponses = function ({ data }) {
-  const logData = data instanceof Array ? data : [data];
+  const logData = Array.isArray(data) ? data : [data];
   return logData.map(content => ({ content }));
 };
 

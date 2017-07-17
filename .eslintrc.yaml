@@ -494,7 +494,7 @@ rules:
   fp/no-valueof-field: 2
 
   # Tests
-##  unicorn/no-array-instanceof: 2
+  unicorn/no-array-instanceof: 2
 ##  no-negated-condition: 2
 ##  no-nested-ternary: 2
 

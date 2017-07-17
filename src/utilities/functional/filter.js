@@ -6,7 +6,7 @@ const { checkObject } = require('./validate');
 const pick = function (obj, attributes) {
   checkObject(obj);
 
-  attributes = attributes instanceof Array ? attributes : [attributes];
+  attributes = Array.isArray(attributes) ? attributes : [attributes];
   return pickBy(obj, (value, name) => attributes.includes(name));
 };
 
@@ -27,7 +27,7 @@ const pickBy = function (obj, condition) {
 const omit = function (obj, attributes) {
   checkObject(obj);
 
-  attributes = attributes instanceof Array ? attributes : [attributes];
+  attributes = Array.isArray(attributes) ? attributes : [attributes];
   return omitBy(obj, (value, name) => attributes.includes(name));
 };
 

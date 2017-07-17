@@ -55,8 +55,8 @@ const validateCurrentData = function ({ newData, currentData }) {
   if (!currentData) { return; }
 
   const differentTypes =
-    (newData instanceof Array && !(currentData instanceof Array)) ||
-    (!(newData instanceof Array) && currentData instanceof Array) ||
+    (Array.isArray(newData) && !Array.isArray(currentData)) ||
+    (!Array.isArray(newData) && Array.isArray(currentData)) ||
     (!newData && currentData);
 
   if (differentTypes) {
@@ -64,7 +64,7 @@ const validateCurrentData = function ({ newData, currentData }) {
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 
-  if (newData instanceof Array) {
+  if (Array.isArray(newData)) {
     for (const [index, datum] of newData.entries()) {
       validateSingleCurrentData({
         newData: datum,

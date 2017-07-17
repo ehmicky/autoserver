@@ -10,8 +10,8 @@ const deepMerge = function (objA, objB, ...objects) {
   }
 
   const isInvalidType =
-    (objA.constructor !== Object && !(objA instanceof Array)) ||
-    (objB.constructor !== Object && !(objB instanceof Array));
+    (objA.constructor !== Object && !Array.isArray(objA)) ||
+    (objB.constructor !== Object && !Array.isArray(objB));
   const isDifferentTypes =
     (objA.constructor === Object && objB.constructor !== Object) ||
     (objA.constructor !== Object && objB.constructor === Object);
@@ -21,7 +21,7 @@ const deepMerge = function (objA, objB, ...objects) {
     throw new Error(message);
   }
 
-  if (objA instanceof Array) {
+  if (Array.isArray(objA)) {
     return [...objA, ...objB];
   }
 
@@ -32,7 +32,7 @@ const deepMerge = function (objA, objB, ...objects) {
       const objAVal = newObjA[objBKey];
       const shouldDeepMerge = objAVal &&
         objBVal &&
-        ((objAVal instanceof Array && objBVal instanceof Array) ||
+        ((Array.isArray(objAVal) && Array.isArray(objBVal)) ||
         (objAVal.constructor === Object && objBVal.constructor === Object));
       newObjA[objBKey] = shouldDeepMerge
         ? deepMerge(objAVal, objBVal)

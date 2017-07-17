@@ -32,7 +32,7 @@ const normalizeAliases = function ({ models }) {
 
 const createAliases = function ({ model, props, attr, attrName }) {
   if (!attr.alias) { return; }
-  const aliases = attr.alias instanceof Array ? attr.alias : [attr.alias];
+  const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
 
   return aliases
     .map(alias => {
@@ -63,7 +63,7 @@ const checkAliasDuplicates = function ({ model, props, attrName, alias }) {
 // Add information about aliases in `description`
 const addAliasDescription = function ({ attr }) {
   if (attr.alias) {
-    const aliases = attr.alias instanceof Array ? attr.alias : [attr.alias];
+    const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
     const aliasNames = toSentence(aliases.map(alias => `'${alias}'`));
     const description = attr.description ? `\n${attr.description}` : '';
     attr.description = `Aliases: ${aliasNames}.${description}`;

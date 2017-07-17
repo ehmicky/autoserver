@@ -24,7 +24,7 @@ const addNestedId = function ({
   const parentVal = parent[attrName];
 
   // When parent value is not defined, returns empty value
-  if (multiple && !(parentVal instanceof Array)) {
+  if (multiple && !Array.isArray(parentVal)) {
     return [];
   } else if (!multiple && parentVal == null) {
     return null;
@@ -37,7 +37,7 @@ const addNestedId = function ({
   validateNestedId({ parent, name, attrName, multiple, arg });
 
   // Add `id` argument
-  if (arg instanceof Array) {
+  if (Array.isArray(arg)) {
     parentVal.forEach((val, index) => {
       if (arg[index].id) {
         const message = `In '${name}' model, wrong parameters: id must not be defined`;
@@ -58,7 +58,7 @@ const getNestedIds = function ({ childId, parentIds }) {
   // Uses JSL syntax
   let ids;
 
-  if (parentIds instanceof Array) {
+  if (Array.isArray(parentIds)) {
     ids = `(${JSON.stringify(parentIds)}.includes($))`;
   } else {
     // If parentIds is scalar, this means child action is single.
@@ -101,7 +101,7 @@ const getNestedArgument = function ({ multiple, args, actionType }) {
 const validateNestedId = function ({ parent, name, attrName, multiple, arg }) {
   const parentVal = parent[attrName];
 
-  if (multiple && arg instanceof Array && arg.length !== parentVal.length) {
+  if (multiple && Array.isArray(arg) && arg.length !== parentVal.length) {
     const message = `In '${name}' model, wrong parameters: data length must be ${parentVal.length}`;
     wrongInput(message);
   }

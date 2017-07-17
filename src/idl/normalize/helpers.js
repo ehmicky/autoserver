@@ -6,7 +6,7 @@ const { mapValues, assignObject, assignArray } = require('../../utilities');
 const normalizeHelpers = function ({ idl }) {
   let { helpers = {} } = idl;
 
-  if (helpers instanceof Array) {
+  if (Array.isArray(helpers)) {
     helpers = Object.assign({}, ...helpers);
   }
 

@@ -7,7 +7,7 @@ const { EngineError } = require('../../../../error');
 const getFilter = function ({ input }) {
   const ids = getDataIds({ input });
 
-  if (ids instanceof Array) {
+  if (Array.isArray(ids)) {
     return `(${JSON.stringify(ids)}.includes($$.id))`;
   } else {
     return `(($$.id === ${JSON.stringify(ids)}))`;
@@ -15,7 +15,7 @@ const getFilter = function ({ input }) {
 };
 
 const getDataIds = function ({ input: { args: { data } } }) {
-  if (data instanceof Array) {
+  if (Array.isArray(data)) {
     return data.map(datum => getDataId({ data: datum }));
   } else {
     return getDataId({ data });

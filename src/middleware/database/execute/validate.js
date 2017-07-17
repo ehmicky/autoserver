@@ -26,7 +26,7 @@ const validateResponse = function ({ command, response }) {
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  if (multiple && !(data instanceof Array)) {
+  if (multiple && !Array.isArray(data)) {
     const message = `'response.data' should be an array, not '${data}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
@@ -36,7 +36,7 @@ const validateResponse = function ({ command, response }) {
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  if (multiple && !(metadata instanceof Array)) {
+  if (multiple && !Array.isArray(metadata)) {
     const message = `'response.metadata' should be an array, not '${metadata}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }

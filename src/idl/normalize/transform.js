@@ -34,7 +34,7 @@ const normalizeAllTransforms = function ({ models }) {
 
 // Transforms can be either an array or not
 const normalizeTransforms = function ({ transform }) {
-  const transforms = transform instanceof Array ? transform : [transform];
+  const transforms = Array.isArray(transform) ? transform : [transform];
   return transforms.map(transform => normalizeTransform({ transform }));
 };
 
@@ -45,7 +45,7 @@ const normalizeTransform = function ({ transform }) {
     transform.value !== undefined;
 
   if (hasOptions) {
-    if (transform.using && !(transform.using instanceof Array)) {
+    if (transform.using && !Array.isArray(transform.using)) {
       transform.using = [transform.using];
     }
 

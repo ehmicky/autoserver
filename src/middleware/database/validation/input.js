@@ -22,7 +22,7 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
   const attributes = getAttributes(args);
 
   for (const [dataVar, attribute] of Object.entries(attributes)) {
-    const allAttrs = attribute instanceof Array ? attribute : [attribute];
+    const allAttrs = Array.isArray(attribute) ? attribute : [attribute];
 
     for (const data of allAttrs) {
       const value = cloneDeep(data);
@@ -49,7 +49,7 @@ const removeJsl = function ({ value, parent, key }) {
   if (!value) { return; }
 
   if (typeof value === 'function' && parent) {
-    if (parent instanceof Array) {
+    if (Array.isArray(parent)) {
       parent.splice(key, 1);
     } else if (parent.constructor === Object) {
       delete parent[key];
@@ -59,7 +59,7 @@ const removeJsl = function ({ value, parent, key }) {
   }
 
   // Recursion
-  if (value instanceof Array || value.constructor === Object) {
+  if (Array.isArray(value) || value.constructor === Object) {
     for (const [key, child] of Object.entries(value)) {
       return removeJsl({ value: child, parent: value, key });
     }

@@ -21,7 +21,7 @@ const processResponse = function ({
 
 // `order_by` sorting
 const sortResponse = function ({ data, nOrderBy }) {
-  if (!data || !(data instanceof Array)) { return data; }
+  if (!data || !Array.isArray(data)) { return data; }
 
   const sortedData = orderBy(
     data,

@@ -33,7 +33,7 @@ const transforms = [
   {
     // Fix `required` attribute according to the current command.name
     required ({ value: required, command, type }) {
-      if (!(required instanceof Array)) { return; }
+      if (!Array.isArray(required)) { return; }
 
       if (type === 'clientInputData') {
         // Nothing is required for those command.name,

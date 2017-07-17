@@ -6,7 +6,7 @@ const parentModelMap = new WeakMap();
 
 const setParentModel = function (parent, props) {
   // Database responses can be array of objects, or single object
-  parent = parent instanceof Array ? parent : [parent];
+  parent = Array.isArray(parent) ? parent : [parent];
   parent.forEach(item => {
     if (!item || typeof item !== 'object') { return; }
     parentModelMap.set(item, props);

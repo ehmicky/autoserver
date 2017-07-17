@@ -2,7 +2,7 @@
 
 // Apply `alias` in responses
 const applyResponseAliases = function ({ data, attrName, aliases }) {
-  return data instanceof Array
+  return Array.isArray(data)
     ? data.map(datum => applyResponseAlias({ data: datum, attrName, aliases }))
     : applyResponseAlias({ data, attrName, aliases });
 };
