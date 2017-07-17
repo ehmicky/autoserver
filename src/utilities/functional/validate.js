@@ -6,7 +6,7 @@ const checkObject = function (obj) {
   if (!isObject) {
     try {
       obj = JSON.stringify(obj);
-    } catch (e) { /* */ }
+    } catch (e) {}
 
     const message = `Utility must be used with objects: ${obj}`;
     throw new Error(message);
