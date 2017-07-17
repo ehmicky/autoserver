@@ -19,13 +19,13 @@ const getDataValidationSchema = memoize(({
   return schema;
 });
 
-const optionalInputAttrCommandNames = [
+const optionalInputCommands = [
   'readOne',
   'readMany',
   'deleteOne',
   'deleteMany',
 ];
-const optionalOutputAttrCommandNames = [
+const optionalOutputCommands = [
   'deleteOne',
   'deleteMany',
 ];
@@ -38,7 +38,7 @@ const transforms = [
       if (type === 'clientInputData') {
         // Nothing is required for those command.name,
         // except maybe `id` (previously validated)
-        if (optionalInputAttrCommandNames.includes(command.name)) {
+        if (optionalInputCommands.includes(command.name)) {
           required = [];
         // `id` requiredness has already been checked by previous validator,
         // so we skip it here
@@ -48,7 +48,7 @@ const transforms = [
       } else if (type === 'serverOutputData') {
         // Some command.name do not require normal attributes as output
         // (except for `id`)
-        if (optionalOutputAttrCommandNames.includes(command.name)) {
+        if (optionalOutputCommands.includes(command.name)) {
           required = required.filter(requiredProp => requiredProp === 'id');
         }
       }

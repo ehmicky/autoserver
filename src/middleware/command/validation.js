@@ -64,17 +64,17 @@ const validateCurrentData = function ({ newData, currentData }) {
 
   if (Array.isArray(newData)) {
     for (const [index, datum] of newData.entries()) {
-      validateSingleCurrentData({
+      validateCurrentDatum({
         newData: datum,
         currentData: currentData[index],
       });
     }
   } else {
-    validateSingleCurrentData({ newData, currentData });
+    validateCurrentDatum({ newData, currentData });
   }
 };
 
-const validateSingleCurrentData = function ({ newData, currentData }) {
+const validateCurrentDatum = function ({ newData, currentData }) {
   const differentId = newData.id !== currentData.id;
 
   if (differentId) {

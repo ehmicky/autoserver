@@ -3,8 +3,8 @@
 const { GraphQLInt, GraphQLString } = require('graphql');
 
 // Pagination arguments
-const paginationActionTypes = ['find', 'update', 'delete'];
-const fullPaginationActionTypes = ['find'];
+const paginationActions = ['find', 'update', 'delete'];
+const fullPaginationActions = ['find'];
 
 const getPaginationArgument = function ({
   action,
@@ -14,7 +14,7 @@ const getPaginationArgument = function ({
   // Only with actions that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and
   // updateMany
-  if (!(paginationActionTypes.includes(action.type) && action.multiple)) {
+  if (!(paginationActions.includes(action.type) && action.multiple)) {
     return;
   }
 
@@ -29,7 +29,7 @@ const getPaginationArgument = function ({
   };
 
   // Only with safe actions that return an array, i.e. only with findMany
-  if (!(fullPaginationActionTypes.includes(action.type) && action.multiple)) {
+  if (!(fullPaginationActions.includes(action.type) && action.multiple)) {
     return paginationArgs;
   }
 

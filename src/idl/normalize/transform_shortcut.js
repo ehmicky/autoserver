@@ -16,10 +16,10 @@ const getTransformsMap = function ({ idl: { models }, type }) {
 
 // Sort transforms according to `using` property
 const sortProps = function ({ props, transformOrder }) {
-  return props.sort((a, b) => {
-    const indexA = transformOrder.indexOf(a.attrName);
-    const indexB = transformOrder.indexOf(b.attrName);
-    return indexA > indexB ? 1 : indexA < indexB ? -1 : 0;
+  return props.sort((first, second) => {
+    const indexFirst = transformOrder.indexOf(first.attrName);
+    const indexSecond = transformOrder.indexOf(second.attrName);
+    return indexFirst > indexSecond ? 1 : indexFirst < indexSecond ? -1 : 0;
   });
 };
 

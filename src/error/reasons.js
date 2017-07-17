@@ -76,7 +76,7 @@ const errorReasons = {
   GRAPHQL_WRONG_DEFINITION: {},
 
   // Introspection failed because of wrong schema
-  GRAPHQL_WRONG_INTROSPECTION_SCHEMA: {},
+  GRAPHQL_INTROSPECTION: {},
 
   // GraphiQL HTML templating failed
   GRAPHIQL_PARSING_ERROR: {},
