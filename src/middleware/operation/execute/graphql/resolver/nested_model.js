@@ -51,10 +51,10 @@ const getNestedProp = function ({ modelsMap, parent, name }) {
     modelsMap[parentModel][isModel ? attrName : name];
 
   // This means tried to do a nested action that does not exist
-  if (!prop
+  if (!prop ||
   // This means nested action is not a simple attribute,
   // or that it has different actionType than parent
-  || (isModel && (!prop.model || parentAction.type !== actionType))) {
+  (isModel && (!prop.model || parentAction.type !== actionType))) {
     const message = `In ${parentModel} model, attribute ${name} does not exist`;
     throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
   }
