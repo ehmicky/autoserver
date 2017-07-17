@@ -319,9 +319,9 @@ rules:
   node/no-deprecated-api: error
   node/process-exit-as-throw: error
   promise/param-names: error
-##  standard/array-bracket-even-spacing:
-##  - error
-##  - either
+  standard/array-bracket-even-spacing:
+  - error
+  - either
   standard/computed-property-even-spacing:
   - error
   - even
