@@ -51,13 +51,13 @@ rules:
     - 'eslint-disable-next-line'
 
   # JSDoc
-  #  valid-jsdoc: 2
-  #  require-jsdoc:
-  #  - 2
-  #  - require:
-  #      FunctionDeclaration: true
-  #      MethodDefinition: true
-  #      ClassDeclaration: true
+  # valid-jsdoc: 2
+  # require-jsdoc:
+  # - 2
+  # - require:
+  #     FunctionDeclaration: true
+  #     MethodDefinition: true
+  #     ClassDeclaration: true
   strict: 2
 
   # Long statements
