@@ -11,4 +11,5 @@ module.exports = Object.assign(
   require('./memoize'),
   require('./once'),
   require('./buffer'),
+  require('./noop'),
 );
