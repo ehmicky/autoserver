@@ -11,7 +11,9 @@ const normalizeHelpers = function ({ idl }) {
   }
 
   // Helpers can either be an options object, or options.value directly
-  helpers = mapValues(helpers, helper => helper.value !== undefined ? helper : { value: helper });
+  helpers = mapValues(helpers, helper =>
+    helper.value === undefined ? { value: helper } : helper
+  );
 
   const exposeMap = getExposeMap({ helpers });
 

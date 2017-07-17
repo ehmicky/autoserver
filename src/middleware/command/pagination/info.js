@@ -8,7 +8,7 @@ const getPaginationInfo = function ({ args }) {
   // Used for cursor pagination. If token is '' (i.e. start|end),
   // does not actually really cursors.
   const hasToken = token !== undefined && token !== '';
-  const directionName = before !== undefined ? 'before' : 'after';
+  const directionName = before === undefined ? 'after' : 'before';
   const { isBackward, previous, next } = directionInfo[directionName];
   // We try to fetch the models before and after the current batch in order to
   // guess has_previous_page and has_next_page
