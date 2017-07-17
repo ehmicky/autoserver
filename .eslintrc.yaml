@@ -1,15 +1,23 @@
 extends:
-- standard
+#- standard
 - plugin:you-dont-need-lodash-underscore/all
 
 root: true
 
 # Most parserOptions are implied by feross/standard
 parserOptions:
+  ecmaVersion: 8 ## TO REMOVE
   sourceType: script
+  ecmaFeatures: ## TO REMOVE
+    impliedStrict: false
+    jsx: true
+    experimentalObjectRestSpread: true
+    globalReturn: true
 
 # feross/standard implies "node" and "es6"
 env:
+  node: true ## TO REMOVE
+  es6: true ## TO REMOVE
   mocha: true
 
 # feross/standard implies "import", "node", "promise" and "standard"
@@ -19,7 +27,11 @@ plugins:
 - filenames
 - fp
 - html
+- import ## TO REMOVE
 - markdown
+- node ## TO REMOVE
+- promise ## TO REMOVE
+- standard ## TO REMOVE
 - unicorn
 
 rules:
@@ -29,20 +41,20 @@ rules:
   - error
   - before: true
     after: true
-  block-spacing:
-  - error
-  - always
+##  block-spacing:
+##  - error
+##  - always
   brace-style:
   - error
   - 1tbs
   - allowSingleLine: true
-  camelcase:
-  - error
-  - properties: never
-  comma-spacing:
-  - error
-  - before: false
-    after: true
+##  camelcase:
+##  - error
+##  - properties: never
+##  comma-spacing:
+##  - error
+##  - before: false
+##    after: true
   comma-style:
   - error
   - last
@@ -53,11 +65,11 @@ rules:
   dot-location:
   - error
   - property
-  eol-last: error
-  eqeqeq:
-  - error
-  - always
-  - 'null': ignore
+##  eol-last: error
+##  eqeqeq:
+##  - error
+##  - always
+##  - 'null': ignore
   func-call-spacing:
   - error
   - never
@@ -68,10 +80,10 @@ rules:
   handle-callback-err:
   - error
   - "^(err|error)$"
-  indent:
-  - error
-  - 2
-  - SwitchCase: 1
+##  indent:
+##  - error
+##  - 2
+##  - SwitchCase: 1
   key-spacing:
   - error
   - beforeColon: false
@@ -104,13 +116,13 @@ rules:
   no-empty-character-class: error
   no-empty-pattern: error
   no-eval: error
-  no-ex-assign: error
+##  no-ex-assign: error
   no-extend-native: error
   no-extra-bind: error
   no-extra-boolean-cast: error
-  no-extra-parens:
-  - error
-  - functions
+##  no-extra-parens:
+##  - error
+##  - functions
   no-fallthrough: error
   no-floating-decimal: error
   no-func-assign: error
@@ -147,13 +159,13 @@ rules:
   no-mixed-spaces-and-tabs: error
   no-multi-spaces: error
   no-multi-str: error
-  no-multiple-empty-lines:
-  - error
-  - max: 1
-    maxEOF: 0
+##  no-multiple-empty-lines:
+##  - error
+##  - max: 1
+##    maxEOF: 0
   no-negated-in-lhs: error
   no-new: error
-  no-new-func: error
+##  no-new-func: error
   no-new-object: error
   no-new-require: error
   no-new-symbol: error
@@ -162,30 +174,30 @@ rules:
   no-octal: error
   no-octal-escape: error
   no-path-concat: error
-  no-proto: error
+##  no-proto: error
   no-redeclare: error
   no-regex-spaces: error
   no-return-assign:
   - error
   - except-parens
-  no-return-await: error
+##  no-return-await: error
   no-self-assign: error
   no-self-compare: error
   no-sequences: error
   no-shadow-restricted-names: error
   no-sparse-arrays: error
-  no-tabs: error
+##  no-tabs: error
   no-template-curly-in-string: error
   no-this-before-super: error
   no-throw-literal: error
   no-trailing-spaces: error
-  no-undef: error
+##  no-undef: error
   no-undef-init: error
   no-unexpected-multiline: error
   no-unmodified-loop-condition: error
-  no-unneeded-ternary:
-  - error
-  - defaultAssignment: false
+##  no-unneeded-ternary:
+##  - error
+##  - defaultAssignment: false
   no-unreachable: error
   no-unsafe-finally: error
   no-unsafe-negation: error
@@ -218,17 +230,17 @@ rules:
   one-var:
   - error
   - initialized: never
-  operator-linebreak:
-  - error
-  - after
-  - overrides:
-      "?": before
-      ":": before
-  padded-blocks:
-  - error
-  - blocks: never
-    switches: never
-    classes: never
+##  operator-linebreak:
+##  - error
+##  - after
+##  - overrides:
+##      "?": before
+##      ":": before
+##  padded-blocks:
+##  - error
+##  - blocks: never
+##    switches: never
+##    classes: never
   prefer-promise-reject-errors: error
   quotes:
   - error
@@ -242,12 +254,12 @@ rules:
   - error
   - before: false
     after: true
-  space-before-blocks:
-  - error
-  - always
-  space-before-function-paren:
-  - error
-  - always
+##  space-before-blocks:
+##  - error
+##  - always
+##  space-before-function-paren:
+##  - error
+##  - always
   space-in-parens:
   - error
   - never
@@ -256,26 +268,26 @@ rules:
   - error
   - words: true
     nonwords: false
-  spaced-comment:
-  - error
-  - always
-  - line:
-      markers:
-      - "*package"
-      - "!"
-      - "/"
-      - ","
-    block:
-      balanced: true
-      markers:
-      - "*package"
-      - "!"
-      - ","
-      - ":"
-      - "::"
-      - flow-include
-      exceptions:
-      - "*"
+##  spaced-comment:
+##  - error
+##  - always
+##  - line:
+##      markers:
+##      - "*package"
+##      - "!"
+##      - "/"
+##      - ","
+##    block:
+##      balanced: true
+##      markers:
+##      - "*package"
+##      - "!"
+##      - ","
+##      - ":"
+##      - "::"
+##      - flow-include
+##      exceptions:
+##      - "*"
   symbol-description: error
   template-curly-spacing:
   - error
@@ -287,9 +299,9 @@ rules:
   - error
   - never
   use-isnan: error
-  valid-typeof:
-  - error
-  - requireStringLiterals: true
+##  valid-typeof:
+##  - error
+##  - requireStringLiterals: true
   wrap-iife:
   - error
   - any
@@ -307,13 +319,13 @@ rules:
   node/no-deprecated-api: error
   node/process-exit-as-throw: error
   promise/param-names: error
-  standard/array-bracket-even-spacing:
-  - error
-  - either
+##  standard/array-bracket-even-spacing:
+##  - error
+##  - either
   standard/computed-property-even-spacing:
   - error
   - even
-  standard/no-callback-literal: error
+##  standard/no-callback-literal: error
   standard/object-curly-even-spacing:
   - error
   - either
@@ -326,18 +338,18 @@ rules:
   semi:
   - 2
   - always
-  comma-dangle:
-  - 2
-  - always-multiline
+##  comma-dangle:
+##  - 2
+##  - always-multiline
 
   # Comments
-  no-inline-comments: 2
+##  no-inline-comments: 2
   line-comment-position: 2
-  lines-around-comment: 2
-  capitalized-comments:
-  - 2
-  - always
-  - ignoreConsecutiveComments: true
+##  lines-around-comment: 2
+##  capitalized-comments:
+##  - 2
+##  - always
+##  - ignoreConsecutiveComments: true
 
   # ESLint comments
   eslint-comments/disable-enable-pair: 2
@@ -360,20 +372,20 @@ rules:
 #      FunctionDeclaration: true
 #      MethodDefinition: true
 #      ClassDeclaration: true
-  strict: 2
+##  strict: 2
 
   # Long statements
   newline-per-chained-call: 2
 
   # Blank lines
-  padding-line-between-statements:
-  - 2
-  - blankLine: always
-    prev: [multiline-block-like, directive]
-    next: '*'
-  - blankLine: always
-    prev: '*'
-    next: multiline-block-like
+##  padding-line-between-statements:
+##  - 2
+##  - blankLine: always
+##    prev: [multiline-block-like, directive]
+##    next: '*'
+##  - blankLine: always
+##    prev: '*'
+##    next: multiline-block-like
 
   # Whitespaces
   linebreak-style: 2
@@ -385,73 +397,73 @@ rules:
   object-curly-spacing:
   - 2
   - always
-  array-bracket-spacing: 2
+##  array-bracket-spacing: 2
   computed-property-spacing: 2
   switch-colon-spacing: 2
 
   # Semicolons
-  semi-style: 2
-  no-extra-semi: 2
+##  semi-style: 2
+##  no-extra-semi: 2
 
   # Statements
   no-empty: 2
 
   # Complexity
-  max-len:
-  - 2
-  - code: 80
-    tabWidth: 2
-    ignoreUrls: true
-    ignoreStrings: true
-    ignoreTemplateLiterals: true
-    ignoreRegExpLiterals: true
-  max-lines:
-  - 2
-  - max: 100
-    skipBlankLines: true
-    skipComments: true
-  max-statements:
-  - 2
-  - 13
+##  max-len:
+##  - 2
+##  - code: 80
+##    tabWidth: 2
+##    ignoreUrls: true
+##    ignoreStrings: true
+##    ignoreTemplateLiterals: true
+##    ignoreRegExpLiterals: true
+##  max-lines:
+##  - 2
+##  - max: 100
+##    skipBlankLines: true
+##    skipComments: true
+##  max-statements:
+##  - 2
+##  - 13
   max-statements-per-line:
   - 2
   - max: 2
-  import/max-dependencies: 2
-  complexity:
-  - 2
-  - 5
-  max-depth:
-  - 2
-  - 2
-  max-nested-callbacks:
-  - 2
-  - 2
+##  import/max-dependencies: 2
+##  complexity:
+##  - 2
+##  - 5
+##  max-depth:
+##  - 2
+##  - 2
+##  max-nested-callbacks:
+##  - 2
+##  - 2
 
   # Referencing
-  no-shadow:
-  - 2
-  - builtinGlobals: true
-    hoist: all
+##  no-shadow:
+##  - 2
+##  - builtinGlobals: true
+##    hoist: all
 
   # Declarations
   block-scoped-var: 2
   no-var: 2
-  fp/no-let: 2
+##  fp/no-let: 2
   import/no-mutable-exports: 2
-  prefer-const: 2
+##  prefer-const: 2
   no-implicit-globals: 2
   one-var-declaration-per-line: 2
   vars-on-top: 2
-  sort-vars: 2
+##  sort-vars: 2
 #  fp/no-nil: 2
 
   # Assignments
-  init-declarations: 2
-  no-plusplus: 2
+##  init-declarations: 2
+##  no-plusplus: 2
   operator-assignment: 2
-  no-multi-assign: 2
-  no-param-reassign:
-  - 2
+##  no-multi-assign: 2
+##  no-param-reassign:
+##  - 2
 #  - props: true
 #  fp/no-mutation:
 #  - 2
@@ -464,17 +476,17 @@ rules:
 #  fp/no-mutating-methods: 2
 
   # Naming
-  id-length:
-  - 2
-  - max: 25
-    exceptions:
-    - $
-    - _
+##  id-length:
+##  - 2
+##  - max: 25
+##    exceptions:
+##    - $
+##    - _
   id-match:
   - 2
   - '^[A-Za-z0-9_]+$'
   - onlyDeclarations: true
-  no-underscore-dangle: 2
+##  no-underscore-dangle: 2
 
   # Typecasting
   no-implicit-coercion: 2
@@ -482,13 +494,13 @@ rules:
   fp/no-valueof-field: 2
 
   # Tests
-  unicorn/no-array-instanceof: 2
-  no-negated-condition: 2
-  no-nested-ternary: 2
+##  unicorn/no-array-instanceof: 2
+##  no-negated-condition: 2
+##  no-nested-ternary: 2
 
   # Structures
-  no-lonely-if: 2
-  no-else-return: 2
+##  no-lonely-if: 2
+##  no-else-return: 2
   for-direction: 2
   guard-for-in: 2
 #  fp/no-loops: 2
@@ -503,55 +515,55 @@ rules:
 
   # Exceptions
   unicorn/throw-new-error: 2
-  unicorn/catch-error-name: 2
-  no-catch-shadow: 2
+##  unicorn/catch-error-name: 2
+##  no-catch-shadow: 2
 #  fp/no-throw: 2
-  unicorn/custom-error-definition: 2
+##  unicorn/custom-error-definition: 2
 
   # Functions
   func-style: 2
   no-loop-func: 2
-  func-names:
-  - 2
-  - as-needed
+##  func-names:
+##  - 2
+##  - as-needed
   func-name-matching: 2
-  prefer-arrow-callback: 2
-  arrow-body-style: 2
+##  prefer-arrow-callback: 2
+##  arrow-body-style: 2
   arrow-parens:
   - 2
   - as-needed
-  no-confusing-arrow: 2
-  max-params:
-  - 2
-  - 2
+##  no-confusing-arrow: 2
+##  max-params:
+##  - 2
+##  - 2
   prefer-spread: 2
   prefer-rest-params: 2
   fp/no-arguments: 2
   require-yield: 2
   getter-return: 2
   fp/no-get-set: 2
-  fp/no-proxy: 2
-  no-empty-function: 2
+##  fp/no-proxy: 2
+##  no-empty-function: 2
 
   # Objects
   dot-notation: 2
-  quote-props:
-  - 2
-  - as-needed
+##  quote-props:
+##  - 2
+##  - as-needed
   object-shorthand: 2
-  prefer-destructuring:
-  - 2
-  - {}
-  - enforceForRenamedProperties: true
+##  prefer-destructuring:
+##  - 2
+##  - {}
+##  - enforceForRenamedProperties: true
 
   # Inheritance
-  class-methods-use-this: 2
+##  class-methods-use-this: 2
   consistent-this: 2
   no-prototype-builtins: 2
 #  fp/no-class: 2
 
   # Arrays
-  array-callback-return: 2
+##  array-callback-return: 2
 
   # String
   no-useless-concat: 2
@@ -563,7 +575,7 @@ rules:
 
   # RegExps
   no-div-regex: 2
-  wrap-regex: 2
+##  wrap-regex: 2
 
   # Number
   prefer-numeric-literals: 2
@@ -573,9 +585,9 @@ rules:
   no-bitwise: 2
 
   # Async
-  callback-return: 2
-  require-await: 2
-  no-await-in-loop: 2
+##  callback-return: 2
+##  require-await: 2
+##  no-await-in-loop: 2
   no-sync: 2
   promise/catch-or-return: 2
   promise/always-return: 2
@@ -583,16 +595,16 @@ rules:
   promise/no-nesting: 2
   promise/no-promise-in-callback: 2
   promise/no-callback-in-promise: 2
-  promise/avoid-new: 2
-  promise/prefer-await-to-then: 2
-  promise/prefer-await-to-callbacks: 2
+##  promise/avoid-new: 2
+##  promise/prefer-await-to-then: 2
+##  promise/prefer-await-to-callbacks: 2
 
   # Modules
   import/no-unresolved:
   - 2
   - commonjs: true
   node/no-missing-require: 2
-  node/no-unpublished-require: 2
+##  node/no-unpublished-require: 2
   node/no-missing-import: 2
   node/no-unpublished-import: 2
   import/named: 2
@@ -608,7 +620,7 @@ rules:
   - module.exports
   import/extensions: 2
   import/no-absolute-path: 2
-  import/no-internal-modules: 2
+##  import/no-internal-modules: 2
   no-duplicate-imports:
   - 2
   - includeExports: true
@@ -616,15 +628,15 @@ rules:
   node/no-extraneous-require: 2
   node/no-extraneous-import: 2
   no-mixed-requires: 2
-  import/order:
-  - 2
-  - newlines-between: always
-  import/newline-after-import:
-  - 2
-  - count: 2
+##  import/order:
+##  - 2
+##  - newlines-between: always
+##  import/newline-after-import:
+##  - 2
+##  - count: 2
   import/unambiguous: 2
-  global-require: 2
-  import/no-dynamic-require: 2
+##  global-require: 2
+##  import/no-dynamic-require: 2
 #  import/no-commonjs: 2
   import/no-amd: 2
   import/no-deprecated: 2
@@ -648,16 +660,16 @@ rules:
   - version: 8
 
   # To avoid
-  fp/no-delete: 2
+##  fp/no-delete: 2
   no-void: 2
-  no-continue: 2
+##  no-continue: 2
   no-console: 2
   fp/no-events: 2
   no-buffer-constructor: 2
   unicorn/no-new-buffer: 2
-  no-process-env: 2
-  no-process-exit: 2
-  unicorn/no-process-exit: 2
+##  no-process-env: 2
+##  no-process-exit: 2
+##  unicorn/no-process-exit: 2
   no-script-url: 2
   no-alert: 2
 
