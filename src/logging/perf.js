@@ -35,7 +35,8 @@ class PerfLog {
   // Start a new measurement item
   start (label, category = DEFAULT_CATEGORY) {
     // We use an incrementing counter as unique ID for items
-    const itemId = ++this._counter;
+    this._counter += 1;
+    const itemId = this._counter;
     const options = { itemId, label, category };
 
     this._validateOptions(options);

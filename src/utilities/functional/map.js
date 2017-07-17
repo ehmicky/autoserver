@@ -68,7 +68,7 @@ const recurseMapByRef = function ({ value: val, mapFunc }) {
       cache.set(originalValue, value);
     }
 
-    ++depth;
+    depth += 1;
 
     if (value && (value.constructor === Object || Array.isArray(value))) {
       for (const [childKey, child] of Object.entries(value)) {
