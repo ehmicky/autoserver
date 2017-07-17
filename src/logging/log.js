@@ -85,7 +85,7 @@ const { PerfLog, getMeasuresMessage } = require('./perf');
 // (since this is the logger itself), so we must be precautious.
 class Log {
   constructor ({ serverOpts, apiServer, phase }) {
-    this.info = {};
+    this.logInfo = {};
     this.messages = {};
 
     this.report = buffer(this.report, this);
@@ -102,7 +102,7 @@ class Log {
   }
 
   add (obj) {
-    this.info = deepMerge(this.info, obj);
+    this.logInfo = deepMerge(this.logInfo, obj);
   }
 
   async report (level, rawMessage = '', logObj = {}) {
@@ -134,7 +134,7 @@ class Log {
 
     if (this.phase === 'request') {
       const { loggerFilter } = serverOpts;
-      logObj.requestInfo = getRequestInfo(this.info, loggerFilter);
+      logObj.requestInfo = getRequestInfo(this.logInfo, loggerFilter);
     }
 
     if (includeMessagesTypes.includes(logObj.type)) {
