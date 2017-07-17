@@ -25,9 +25,7 @@ class RoutesManager {
   // Retrieves correct route, according to path
   find ({ path, goal }) {
     // Check path and goals
-    return this._routes.find(({ regexp, goals }) => {
-      return regexp.test(path) && (!goals || goals.includes(goal));
-    });
+    return this._routes.find(({ regexp, goals }) => regexp.test(path) && (!goals || goals.includes(goal)));
   }
 
   // Retrieves path variables, e.g. /path/:id

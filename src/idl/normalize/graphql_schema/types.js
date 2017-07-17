@@ -32,9 +32,7 @@ const getType = function (def, opts = {}) {
 const getField = function (def, opts) {
   opts.inputObjectType = opts.inputObjectType || '';
 
-  const fieldGetter = graphQLFieldGetters.find(possibleType => {
-    return possibleType.condition(def, opts);
-  });
+  const fieldGetter = graphQLFieldGetters.find(possibleType => possibleType.condition(def, opts));
 
   if (!fieldGetter) {
     const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
@@ -76,9 +74,7 @@ const getField = function (def, opts) {
   if (hasDefaultValue) {
     // JSL only shows as 'DYNAMIC_VALUE' in schema
     const defaults = Array.isArray(def.default) ? def.default : [def.default];
-    const isDynamic = defaults.some(jsl => {
-      return isJsl({ jsl }) || typeof jsl === 'function';
-    });
+    const isDynamic = defaults.some(jsl => isJsl({ jsl }) || typeof jsl === 'function');
     defaultValue = isDynamic ? 'DYNAMIC_VALUE' : def.default;
   }
 
@@ -195,9 +191,9 @@ const getObjectFields = function (def, opts) {
 
         return memo;
       })
-      .omitBy((childDef, childDefName) => {
+      .omitBy((childDef, childDefName) =>
         // Filter arguments for single actions only include `id`
-        return (
+        (
           childDefName !== 'id' &&
           inputObjectType === 'filter' &&
           !action.multiple
@@ -215,8 +211,8 @@ const getObjectFields = function (def, opts) {
           action.type === 'update' &&
           childDefName === 'id' &&
           inputObjectType === 'data'
-        );
-      })
+        )
+      )
       // Recurse over children
       .mapValues((childDef, childDefName) => {
         // If 'Query' or 'Mutation' objects, pass current action down to

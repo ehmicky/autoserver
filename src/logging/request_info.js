@@ -154,9 +154,7 @@ const setArgData = function (actionInfo, loggerFilter) {
 
 const setActionResponses = function (actionInfo, loggerFilter) {
   if (actionInfo.responses && Array.isArray(actionInfo.responses)) {
-    actionInfo.responses = actionInfo.responses.map(({ content } = {}) => {
-      return content;
-    });
+    actionInfo.responses = actionInfo.responses.map(({ content } = {}) => content);
   }
 
   reduceModels({

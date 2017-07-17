@@ -13,9 +13,7 @@ const getReadInput = function ({ input }) {
   const { args, action } = input;
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => {
-    return type === 'read' && multiple === isMultiple;
-  });
+  const command = COMMANDS.find(({ type, multiple }) => type === 'read' && multiple === isMultiple);
 
   const newArgs = pick(args, ['filter']);
   Object.assign(newArgs, { pagination: false });

@@ -530,7 +530,7 @@ rules:
   prefer-arrow-callback:
   - 2
   - allowNamedFunctions: true
-##  arrow-body-style: 2
+  arrow-body-style: 2
   arrow-parens:
   - 2
   - as-needed

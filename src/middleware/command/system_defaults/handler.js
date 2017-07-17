@@ -32,9 +32,7 @@ const getDefaultArgs = function ({
   );
 
   // Reduce to a single object
-  const defaultArgs = mapValues(filteredDefaults, ({ value }) => {
-    return typeof value === 'function' ? value({ serverOpts, input }) : value;
-  });
+  const defaultArgs = mapValues(filteredDefaults, ({ value }) => typeof value === 'function' ? value({ serverOpts, input }) : value);
 
   return defaultArgs;
 };

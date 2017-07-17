@@ -74,9 +74,7 @@ const actionConvertorOutput = {
     const { data, metadata } = response;
 
     if (Array.isArray(data)) {
-      response.data = data.map((datum, index) => {
-        return Object.assign({}, datum, { __metadata: metadata[index] });
-      });
+      response.data = data.map((datum, index) => Object.assign({}, datum, { __metadata: metadata[index] }));
     } else {
       response.data = Object.assign({}, data, { __metadata: metadata });
     }

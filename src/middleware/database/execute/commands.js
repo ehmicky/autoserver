@@ -192,9 +192,7 @@ const createOne = function ({ collection, newData, opts }) {
 };
 
 const createMany = function ({ collection, newData, opts }) {
-  const newModels = newData.map(datum => {
-    return create({ collection, newData: datum, opts });
-  });
+  const newModels = newData.map(datum => create({ collection, newData: datum, opts }));
   return { data: newModels };
 };
 
@@ -217,9 +215,7 @@ const updateOne = function ({ collection, newData, opts }) {
 };
 
 const updateMany = function ({ collection, newData, opts }) {
-  const newModels = newData.map(datum => {
-    return update({ collection, newData: datum, opts });
-  });
+  const newModels = newData.map(datum => update({ collection, newData: datum, opts }));
   return { data: newModels };
 };
 

@@ -15,10 +15,8 @@ const getGlobalKeys = memoize(({ type }) => {
   ];
   const globalKeys = globalObjects
     // Retrieves all global properties
-    .map(globalObj => {
-      return Object.getOwnPropertyNames(globalObj)
-        .filter(key => !whitelistedGlobalKeys[type].includes(key));
-    })
+    .map(globalObj => Object.getOwnPropertyNames(globalObj)
+      .filter(key => !whitelistedGlobalKeys[type].includes(key)))
     .reduce(assignArray, [])
     // Make sure it is sorted, for the memoizer
     .sort();

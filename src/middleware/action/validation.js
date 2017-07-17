@@ -28,9 +28,7 @@ const actionValidation = async function (input) {
 
 // Validate that action is among the possible ones
 const validateAction = function ({ action }) {
-  const isValid = ACTIONS.some(possibleAction => {
-    return isEqual(possibleAction, action);
-  });
+  const isValid = ACTIONS.some(possibleAction => isEqual(possibleAction, action));
 
   if (!isValid) {
     const message = `Invalid 'action': '${JSON.stringify(action)}'`;

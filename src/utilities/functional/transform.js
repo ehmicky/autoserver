@@ -33,12 +33,9 @@ const { recurseMapByRef } = require('./map');
  * TODO: remove this for a simpler approach, probably relying on an external library
  */
 const transform = function ({ transforms, args }) {
-  return ({ input }) => {
+  return ({ input }) =>
     // Apply transformations in several passes, i.e. transforms[0], then transforms[1], etc.
-    return transforms.reduce((memo, transformsSet) => {
-      return singleTransform({ input: memo, transformsSet, args });
-    }, input);
-  };
+    transforms.reduce((memo, transformsSet) => singleTransform({ input: memo, transformsSet, args }), input);
 };
 
 const singleTransform = function ({ input, transformsSet, args }) {

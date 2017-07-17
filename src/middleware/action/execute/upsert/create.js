@@ -12,9 +12,7 @@ const getCreateInput = function ({ input, data }) {
   const { args, action } = input;
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => {
-    return type === 'create' && multiple === isMultiple;
-  });
+  const command = COMMANDS.find(({ type, multiple }) => type === 'create' && multiple === isMultiple);
 
   const newArgs = Object.assign({}, args);
   const newData = data;
