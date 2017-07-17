@@ -65,7 +65,7 @@ rules:
   dot-location:
   - error
   - property
-##  eol-last: error
+  eol-last: error
 ##  eqeqeq:
 ##  - error
 ##  - always
