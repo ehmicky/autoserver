@@ -12,10 +12,28 @@ const topLevelModelResolver = function ({ name, modelsMap }) {
   const singularName = singular(attrName);
   const pluralName = plural(attrName);
   // Guess whether the action is multiple by whether the attribute looks singular or plural
-  const multiple = singularName === attrName ? false : pluralName === attrName ? true : null;
+  const multiple = getMultiple({ attrName, singularName, pluralName });
   // Retrieve actual model name from the IDL
-  const modelName = modelsMap[singularName] ? singularName : modelsMap[pluralName] ? pluralName : null;
+  const modelName = getModelName({ modelsMap, singularName, pluralName });
   return { multiple, modelName, actionType };
+};
+
+const getMultiple = function ({ attrName, singularName, pluralName }) {
+  if (attrName === singularName) { return false; }
+  if (attrName === pluralName) { return true; }
+  return null;
+};
+
+const getModelName = function ({ modelsMap, singularName, pluralName }) {
+  if (modelsMap[singularName]) {
+    return singularName;
+  }
+
+  if (modelsMap[pluralName]) {
+    return pluralName;
+  }
+
+  return null;
 };
 
 module.exports = {

@@ -34,10 +34,10 @@ const handleLog = async function ({
   input: { log, status = 'SERVER_ERROR' },
 }) {
   // If input.status is already set, reuse it
-  const level = error
-    // If an error was thrown, level should always be 'warn' or 'error'
-    ? (status === 'CLIENT_ERROR' ? 'warn' : 'error')
-    : (STATUS_LEVEL_MAP[status] || 'error');
+  // If an error was thrown, level should always be 'warn' or 'error'
+  const errorLevel = status === 'CLIENT_ERROR' ? 'warn' : 'error';
+  const defaultLevel = STATUS_LEVEL_MAP[status] || 'error';
+  const level = error ? errorLevel : defaultLevel;
   // The logger will build the message and the `requestInfo`
   // We do not do it now, because we want the full protocol layer to end first,
   // do `requestInfo` is full.

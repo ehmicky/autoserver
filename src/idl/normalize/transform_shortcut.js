@@ -19,7 +19,9 @@ const sortProps = function ({ props, transformOrder }) {
   return props.sort((first, second) => {
     const indexFirst = transformOrder.indexOf(first.attrName);
     const indexSecond = transformOrder.indexOf(second.attrName);
-    return indexFirst > indexSecond ? 1 : indexFirst < indexSecond ? -1 : 0;
+    if (indexFirst > indexSecond) { return 1; }
+    if (indexFirst < indexSecond) { return -1; }
+    return 0;
   });
 };
 

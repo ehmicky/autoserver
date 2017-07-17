@@ -85,16 +85,30 @@ const nestedFilterActionTypes = ['find', 'delete', 'update'];
 const nestedDataActionTypes = ['replace', 'upsert', 'create'];
 
 const getNestedArgument = function ({ multiple, args, actionType }) {
-  const usesFilter = nestedFilterActionTypes.includes(actionType);
-  const usesData = nestedDataActionTypes.includes(actionType);
-  const argType = usesFilter ? 'filter' : usesData ? 'data' : null;
+  const argType = getArgType({ actionType });
 
   // If args.filter|data absent, adds default value
   if (!args[argType]) {
-    args[argType] = usesData && multiple ? [] : {};
+    const multipleData = argType === 'data' && multiple;
+    args[argType] = multipleData ? [] : {};
   }
 
   return args[argType];
+};
+
+const getArgType = function ({ actionType }) {
+  const usesFilter = nestedFilterActionTypes.includes(actionType);
+  const usesData = nestedDataActionTypes.includes(actionType);
+
+  if (usesFilter) {
+    return 'filter';
+  }
+
+  if (usesData) {
+    return 'data';
+  }
+
+  return null;
 };
 
 // Make sure query is correct, when it comes to nested id
