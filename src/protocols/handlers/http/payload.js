@@ -40,7 +40,8 @@ const parseFunc = async function (parser, { specific: { req } }) {
   // `body-parser` will fill req.body = {} even if there is no body.
   // We want to know if there is a body or not though,
   // so must keep req.body to undefined if there is none
-  const previousBody = req.body = req.body || {};
+  req.body = req.body || {};
+  const previousBody = req.body;
 
   await parser(req, null);
 
