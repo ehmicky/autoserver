@@ -133,10 +133,10 @@ rules:
 ##  - 2
 
   # Referencing
-##  no-shadow:
-##  - 2
-##  - builtinGlobals: true
-##    hoist: all
+  no-shadow:
+  - 2
+  - builtinGlobals: true
+    hoist: all
 
   # Declarations
   block-scoped-var: 2

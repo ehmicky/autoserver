@@ -6,7 +6,7 @@ const operationNegotiator = async function (input) {
   const perf = log.perf.start('operation.negotiator', 'middleware');
 
   const [operation] = Object.entries(operations)
-    .find(([, test]) => test({ route })) || [];
+    .find(([, testFunc]) => testFunc({ route })) || [];
 
   const newJsl = jsl.add({ $OPERATION: operation });
 

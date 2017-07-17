@@ -35,7 +35,7 @@ const normalizeAllTransforms = function ({ models }) {
 // Transforms can be either an array or not
 const normalizeTransforms = function ({ transform }) {
   const transforms = Array.isArray(transform) ? transform : [transform];
-  return transforms.map(transform => normalizeTransform({ transform }));
+  return transforms.map(func => normalizeTransform({ transform: func }));
 };
 
 // Transforms can be an option object, or the `value` option directly

@@ -4,12 +4,12 @@
 //   - func.cork() will buffer calls, i.e. it will become a noop
 //   - func.uncork() will release all buffered calls
 // Works with async functions as well.
-const buffer = function (func, context = null) {
+const buffer = function (func, ctx = null) {
   const state = getBufferState();
-  const newFunc = bufferedFunc.bind(context, state, func);
+  const newFunc = bufferedFunc.bind(ctx, state, func);
 
   const cork = corkFunc.bind(null, state);
-  const uncork = uncorkFunc.bind(context, state, func);
+  const uncork = uncorkFunc.bind(ctx, state, func);
   Object.assign(newFunc, { cork, uncork });
 
   return newFunc;

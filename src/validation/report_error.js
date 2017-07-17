@@ -24,9 +24,9 @@ const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
       const hasInputPath = inputPath !== '';
 
       // Get custom error message
-      const message = getErrorMessage({ error, hasInputPath });
+      const msg = getErrorMessage({ error, hasInputPath });
       // Prepends argument name to error message
-      return `${inputPath}${message}`;
+      return `${inputPath}${msg}`;
     })
     .join('\n');
 

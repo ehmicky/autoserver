@@ -19,7 +19,7 @@ const handleStartupError = async function ({ error, startupLog, apiServer }) {
   // Stops servers if some were started
   try {
     await apiServer.emitAsync('startupError');
-  } catch (error) {}
+  } catch (e) {}
 
   // Throws if no listener was setup
   await apiServer.emitAsync('error', standardError);

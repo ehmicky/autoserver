@@ -35,10 +35,9 @@ const handleTransforms = async function (input) {
   const perf = log.perf.start('command.handleTransforms', 'middleware');
 
   if (newData) {
-    const transforms = transformsMap[modelName];
     args.newData = applyTransformsOnData({
       data: newData,
-      transforms,
+      transforms: transformsMap[modelName],
       jsl,
       type: 'transform',
     });

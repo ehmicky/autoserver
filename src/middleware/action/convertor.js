@@ -45,12 +45,12 @@ const actionConvertor = async function ({
     response = await this.next(nextInput);
     perf.start();
   } catch (error) {
-    const perf = log.perf.start('action.convertor', 'exception');
+    const exceptionPerf = log.perf.start('action.convertor', 'exception');
 
     // Added only for final error handler
     log.add({ action, fullAction, model: modelName });
 
-    perf.stop();
+    exceptionPerf.stop();
     throw error;
   }
 

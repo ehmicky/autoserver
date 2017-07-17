@@ -65,8 +65,8 @@ const processHandler = async function (log, { value, message }) {
   if (value instanceof Error) {
     innererror = value;
   } else {
-    const message = typeof value === 'string' ? value : '';
-    innererror = new EngineError(message, { reason: 'PROCESS_ERROR' });
+    const innerMessage = typeof value === 'string' ? value : '';
+    innererror = new EngineError(innerMessage, { reason: 'PROCESS_ERROR' });
   }
 
   const error = new EngineError(message, {

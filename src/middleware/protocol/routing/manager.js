@@ -3,7 +3,7 @@
 const pathToRegExp = require('path-to-regexp');
 
 const { transtype, assignObject } = require('../../../utilities');
-const { routes } = require('./routes');
+const { routes: allRoutes } = require('./routes');
 
 class RoutesManager {
   constructor ({ routes = [] }) {
@@ -16,7 +16,7 @@ class RoutesManager {
 
   add ({ path, name, goal }) {
     const regexp = pathToRegExp(path);
-    const variables = regexp.keys.map(({ name }) => name);
+    const variables = regexp.keys.map(key => key.name);
     const goals = goal && !Array.isArray(goal) ? [goal] : goal;
 
     this._routes.push({ path, name, regexp, variables, goals });
@@ -45,7 +45,7 @@ class RoutesManager {
   }
 }
 
-const routesManager = new RoutesManager({ routes });
+const routesManager = new RoutesManager({ routes: allRoutes });
 
 module.exports = {
   routesManager,

@@ -61,7 +61,7 @@ const tokenToJsl = function ({ parts, nOrderBy, isBackward }) {
     .map(({ attrName, order, value }, index) => {
       const previousParts = parts
         .slice(0, index)
-        .map((value, i) => `$$.${nOrderBy[i].attrName} === ${JSON.stringify(value)}`);
+        .map((val, i) => `$$.${nOrderBy[i].attrName} === ${JSON.stringify(val)}`);
       const operator = order === mainOrder ? '<' : '>';
       const currentPart = `$$.${attrName} ${operator} ${JSON.stringify(value)}`;
       const partJsl = `(${[...previousParts, currentPart].join(' && ')})`;

@@ -22,13 +22,15 @@ const getDefaultArgs = function ({
   input,
   input: { command, args },
 }) {
-  const filteredDefaults = omitBy(defaults, ({ commands, test }, attrName) =>
-    // Whitelist by command.name
-    (commands && !commands.includes(command.name)) ||
-    // Whitelist by tests
-    (test && !test({ serverOpts, input })) ||
-    // Only if user has not specified that argument
-    args[attrName] !== undefined
+  const filteredDefaults = omitBy(
+    defaults,
+    ({ commands, test: testFunc }, attrName) =>
+      // Whitelist by command.name
+      (commands && !commands.includes(command.name)) ||
+      // Whitelist by tests
+      (testFunc && !testFunc({ serverOpts, input })) ||
+      // Only if user has not specified that argument
+      args[attrName] !== undefined
   );
 
   // Reduce to a single object

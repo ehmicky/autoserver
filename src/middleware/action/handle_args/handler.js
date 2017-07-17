@@ -31,12 +31,12 @@ const handleArgs = async function (input) {
     const response = await this.next(input);
     return response;
   } catch (error) {
-    const perf = log.perf.start('operation.handleArgs', 'exception');
+    const exceptionPerf = log.perf.start('operation.handleArgs', 'exception');
 
     // Added only for final error handler
     log.add({ args: clonedArgs });
 
-    perf.stop();
+    exceptionPerf.stop();
     throw error;
   }
 };

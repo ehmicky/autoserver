@@ -84,8 +84,8 @@ const transforms = [
 
   {
     // { model '...' } -> { model: '...', ...copyOfTopLevelModel }
-    model ({ value, parent, parents: [root] }) {
-      const [, instance] = Object.entries(root)
+    model ({ value, parent, parents: [rootParent] }) {
+      const [, instance] = Object.entries(rootParent)
         .find(([modelName]) => modelName === value);
       if (instance === parent) { return; }
       // Dereference `model` pointers, using a shallow copy,

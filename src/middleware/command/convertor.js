@@ -37,12 +37,12 @@ const commandConvertor = async function ({
     perf.stop();
     response = await this.next(nextInput);
   } catch (error) {
-    const perf = log.perf.start('command.convertor', 'exception');
+    const exceptionPerf = log.perf.start('command.convertor', 'exception');
 
     // Added only for final error handler
     log.add({ command });
 
-    perf.stop();
+    exceptionPerf.stop();
     throw error;
   }
 
