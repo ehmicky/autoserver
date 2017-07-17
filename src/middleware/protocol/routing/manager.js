@@ -7,7 +7,7 @@ const { routes: allRoutes } = require('./routes');
 
 class RoutesManager {
   constructor ({ routes = [] }) {
-    this._routes = [];
+    this.routes = [];
 
     for (const route of routes) {
       this.add(route);
@@ -19,13 +19,13 @@ class RoutesManager {
     const variables = regexp.keys.map(key => key.name);
     const goals = goal && !Array.isArray(goal) ? [goal] : goal;
 
-    this._routes.push({ path, name, regexp, variables, goals });
+    this.routes.push({ path, name, regexp, variables, goals });
   }
 
   // Retrieves correct route, according to path
   find ({ path, goal }) {
     // Check path and goals
-    return this._routes.find(({ regexp, goals }) => regexp.test(path) && (!goals || goals.includes(goal)));
+    return this.routes.find(({ regexp, goals }) => regexp.test(path) && (!goals || goals.includes(goal)));
   }
 
   // Retrieves path variables, e.g. /path/:id

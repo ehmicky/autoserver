@@ -17,36 +17,36 @@ const { EngineError } = require('../error');
 //   - `const perf = perfLog.start();` is done once per item
 //   - alternating `perf.stop()` and `perf.start()` will freeze|unfreeze an item
 //   - `perf.stop()` will return current time, in milliseconds
-//   - `perf._getMeasures()` will return an array of measures:
+//   - `perf.getMeasures()` will return an array of measures:
 //       - [category="default"] {string}
 //       - label {string}
 //       - duration {number} - sum of all items durations, in milliseconds
 //       - items {number[]} - each item duration, in milliseconds
 //       - count {number} - number of items
 //       - average {number} - average item duration, in milliseconds
-//   - `perf._getMeasuresMessage({ measures })` will return as a string,
+//   - `perf.getMeasuresMessage({ measures })` will return as a string,
 //     ready to be printed on console
 class PerfLog {
   constructor () {
-    this._measures = {};
-    this._counter = 0;
+    this.measures = {};
+    this.counter = 0;
   }
 
   // Start a new measurement item
   start (label, category = DEFAULT_CATEGORY) {
     // We use an incrementing counter as unique ID for items
-    this._counter += 1;
-    const itemId = this._counter;
+    this.counter += 1;
+    const itemId = this.counter;
     const options = { itemId, label, category };
 
-    this._validateOptions(options);
+    this.validateOptions(options);
 
-    this._startItem(options);
+    this.startItem(options);
 
     return new PerfLogItem({ perfLog: this, options });
   }
 
-  _validateOptions ({ label, category }) {
+  validateOptions ({ label, category }) {
     if (typeof label !== 'string') {
       const message = 'Performance label must be a string';
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
@@ -63,30 +63,30 @@ class PerfLog {
     }
   }
 
-  _startItem (options) {
-    return this._recordItem(Object.assign({}, options, { end: false }));
+  startItem (options) {
+    return this.recordItem(Object.assign({}, options, { end: false }));
   }
 
-  _stopItem (options) {
-    return this._recordItem(Object.assign({}, options, { end: true }));
+  stopItem (options) {
+    return this.recordItem(Object.assign({}, options, { end: true }));
   }
 
-  _recordItem ({ end, itemId, label, category }) {
+  recordItem ({ end, itemId, label, category }) {
     // `hrtime()` is more precise that `Date.now()`
     const [secs, nanoSecs] = hrtime();
 
     // Sort measurements by category, label and itemId
     const key = `${category} ${label}`;
 
-    if (!this._measures[key]) {
-      this._measures[key] = {};
+    if (!this.measures[key]) {
+      this.measures[key] = {};
     }
 
-    if (!this._measures[key][itemId]) {
-      this._measures[key][itemId] = {};
+    if (!this.measures[key][itemId]) {
+      this.measures[key][itemId] = {};
     }
 
-    const measures = this._measures[key][itemId];
+    const measures = this.measures[key][itemId];
 
     // `start()` marks the current time
     if (!end) {
@@ -105,14 +105,14 @@ class PerfLog {
   }
 
   // Returns structured measurements
-  _getMeasures () {
+  getMeasures () {
     // When an exception was thrown, only returns measurements with
     // category `exception`
-    const hasException = Object.keys(this._measures).some(categoryLabel =>
+    const hasException = Object.keys(this.measures).some(categoryLabel =>
       categoryLabel.startsWith('exception')
     );
 
-    return Object.entries(this._measures)
+    return Object.entries(this.measures)
       .map(([categoryLabel, labelMeasures]) => {
         const [category, label] = categoryLabel.split(' ');
         // Use milliseconds, but with nanoseconds precision
@@ -134,7 +134,7 @@ class PerfLog {
   }
 
   // Returns measures but as a single string, for console debugging
-  _getMeasuresMessage ({ measures }) {
+  getMeasuresMessage ({ measures }) {
     return measures
       // Sort by category (asc) then by duration (desc)
       .sort((
@@ -185,7 +185,7 @@ class PerfLogItem {
     }
 
     this.end = false;
-    this.perfLog._startItem(this.options);
+    this.perfLog.startItem(this.options);
   }
 
   stop () {
@@ -195,7 +195,7 @@ class PerfLogItem {
     }
 
     this.end = true;
-    return this.perfLog._stopItem(this.options);
+    return this.perfLog.stopItem(this.options);
   }
 }
 

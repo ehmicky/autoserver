@@ -85,30 +85,30 @@ const { PerfLog } = require('./perf');
 // (since this is the logger itself), so we must be precautious.
 class Log {
   constructor ({ serverOpts, apiServer, phase }) {
-    this._info = {};
-    this._messages = {};
+    this.info = {};
+    this.messages = {};
 
-    this._report = buffer(this._report, this);
+    this.report = buffer(this.report, this);
 
     for (const level of LEVELS) {
-      this[level] = this._report.bind(this, level);
-      this._messages[level] = [];
+      this[level] = this.report.bind(this, level);
+      this.messages[level] = [];
     }
 
     this.perf = new PerfLog();
-    this.perf.report = this._reportPerf.bind(this);
+    this.perf.report = this.reportPerf.bind(this);
 
     Object.assign(this, { serverOpts, apiServer, phase });
   }
 
   add (obj) {
-    this._info = deepMerge(this._info, obj);
+    this.info = deepMerge(this.info, obj);
   }
 
-  async _report (level, rawMessage = '', logObj = {}) {
-    this._checkReportInput(rawMessage, logObj);
+  async report (level, rawMessage = '', logObj = {}) {
+    this.checkReportInput(rawMessage, logObj);
 
-    this._buildLogObj({ logObj });
+    this.buildLogObj({ logObj });
     const { phase, type } = logObj;
 
     if (phase === 'request' && type === 'call') {
@@ -116,14 +116,14 @@ class Log {
     }
 
     if (type === 'message') {
-      this._messages[level].push(rawMessage);
+      this.messages[level].push(rawMessage);
     }
 
     const { apiServer, serverOpts: { loggerLevel } } = this;
     await report({ apiServer, loggerLevel, level, rawMessage, logObj });
   }
 
-  _checkReportInput (rawMessage, logObj) {
+  checkReportInput (rawMessage, logObj) {
     if (typeof rawMessage !== 'string') {
       const message = `Message must be a string: '${rawMessage}'`;
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
@@ -138,7 +138,7 @@ class Log {
 
   // Adds information common to most logs: `phase`, `type`, `serverInfo`,
   // `requestInfo`, `messages`
-  _buildLogObj ({ logObj }) {
+  buildLogObj ({ logObj }) {
     logObj.phase = this.phase;
     logObj.type = logObj.type || 'message';
 
@@ -147,26 +147,26 @@ class Log {
 
     if (this.phase === 'request') {
       const { loggerFilter } = serverOpts;
-      logObj.requestInfo = getRequestInfo(this._info, loggerFilter);
+      logObj.requestInfo = getRequestInfo(this.info, loggerFilter);
     }
 
     if (includeMessagesTypes.includes(logObj.type)) {
-      logObj.messages = cloneDeep(this._messages);
+      logObj.messages = cloneDeep(this.messages);
     }
   }
 
   // Buffer log calls
   // E.g. used in requests when requestInfo is not completely built yet
-  async _setBuffered (isBuffered) {
+  async setBuffered (isBuffered) {
     const funcName = isBuffered ? 'cork' : 'uncork';
-    await this._report[funcName]();
+    await this.report[funcName]();
   }
 
-  async _reportPerf () {
+  async reportPerf () {
     const { phase } = this;
-    const measures = this.perf._getMeasures()
+    const measures = this.perf.getMeasures()
       .map(obj => Object.assign({}, obj, { phase }));
-    const measuresMessage = this.perf._getMeasuresMessage({ measures });
+    const measuresMessage = this.perf.getMeasuresMessage({ measures });
     await this.log('', { measures, measuresMessage, type: 'perf' });
   }
 }

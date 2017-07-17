@@ -3,7 +3,7 @@
 const { ENV } = require('../env');
 
 // Deeply Object.freeze() over an object.
-const _makeImmutable = function (obj) {
+const deepFreeze = function (obj) {
   const isObjectOrArray = obj &&
     (obj.constructor === Object || Array.isArray(obj));
   if (!isObjectOrArray) { return obj; }
@@ -15,12 +15,12 @@ const _makeImmutable = function (obj) {
   Object.freeze(obj);
 
   for (const child of Object.values(obj)) {
-    _makeImmutable(child);
+    deepFreeze(child);
   }
 };
 
 // Not in production, because Object.freeze() can be slow.
-const makeImmutable = ENV === 'dev' ? _makeImmutable : val => val;
+const makeImmutable = ENV === 'dev' ? deepFreeze : val => val;
 
 module.exports = {
   makeImmutable,
