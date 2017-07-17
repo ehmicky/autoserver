@@ -80,11 +80,11 @@ const fireNext = async function (request, perf, actions, actionInput) {
     perf.stop();
   }
 
-  ++perf.ongoing;
+  perf.ongoing += 1;
 
   const response = await this.next(input);
 
-  --perf.ongoing;
+  perf.ongoing -= 1;
 
   if (perf.ongoing === 0) {
     perf.start();
