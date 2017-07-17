@@ -105,7 +105,7 @@ class Log {
     this._info = deepMerge(this._info, obj);
   }
 
-  async _report(level, rawMessage = '', logObj = {}){
+  async _report(level, rawMessage = '', logObj = {}) {
     this._checkReportInput(rawMessage, logObj);
 
     this._buildLogObj({ logObj });
