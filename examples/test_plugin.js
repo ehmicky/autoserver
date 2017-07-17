@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { promisify } = require('util');
 
 const testPlugin = async function ({ idl, opts: { exampleOption } }) {
@@ -10,6 +9,5 @@ const testPlugin = async function ({ idl, opts: { exampleOption } }) {
   idl['x-plugin-attr'] = exampleOption;
   return idl;
 };
-
 
 module.exports = testPlugin;
