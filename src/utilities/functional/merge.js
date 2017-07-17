@@ -4,6 +4,7 @@
 const deepMerge = function (objA, objB, ...objects) {
   if (!objA) { return; }
   if (!objB) { return objA; }
+
   if (objects.length > 0) {
     return deepMerge(deepMerge(objA, objB), ...objects);
   }
@@ -14,6 +15,7 @@ const deepMerge = function (objA, objB, ...objects) {
   const isDifferentTypes =
     (objA.constructor === Object && objB.constructor !== Object) ||
     (objA.constructor !== Object && objB.constructor === Object);
+
   if (isInvalidType || isDifferentTypes) {
     const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
     throw new Error(message);
@@ -25,6 +27,7 @@ const deepMerge = function (objA, objB, ...objects) {
 
   if (objA.constructor === Object) {
     const newObjA = Object.assign({}, objA);
+
     for (const [objBKey, objBVal] of Object.entries(objB)) {
       const objAVal = newObjA[objBKey];
       const shouldDeepMerge = objAVal &&
@@ -35,6 +38,7 @@ const deepMerge = function (objA, objB, ...objects) {
         ? deepMerge(objAVal, objBVal)
         : objBVal;
     }
+
     return newObjA;
   }
 };

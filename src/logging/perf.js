@@ -76,12 +76,15 @@ class PerfLog {
 
     // Sort measurements by category, label and itemId
     const key = `${category} ${label}`;
+
     if (!this._measures[key]) {
       this._measures[key] = {};
     }
+
     if (!this._measures[key][itemId]) {
       this._measures[key][itemId] = {};
     }
+
     const measures = this._measures[key][itemId];
 
     // `start()` marks the current time

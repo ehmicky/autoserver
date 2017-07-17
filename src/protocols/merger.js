@@ -12,6 +12,7 @@ const getProtocolHandlers = function () {
     .map(handler => ({ [handler.name]: handler }))
     .reduce(assignObject, {});
 };
+
 const protocolHandlers = getProtocolHandlers();
 const protocols = Object.keys(protocolHandlers);
 

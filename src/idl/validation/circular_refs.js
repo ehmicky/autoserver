@@ -18,6 +18,7 @@ const validateCircularRefs = function ({
     const message = `Schema cannot contain circular references: ${path}`;
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
   }
+
   if (typeof value === 'object' && value) {
     pathSet.add(value);
   }
@@ -30,7 +31,7 @@ const validateCircularRefs = function ({
         : `.${childKey}`;
       const childPath = `${path}${pathPart}`;
       validateCircularRefs({ value: child, path: childPath, pathSet });
-    };
+    }
   }
 
   pathSet.delete(value);

@@ -75,10 +75,12 @@ const { validateResponse } = require('./validate');
 const filterToId = function ({ nFilter }) {
   try {
     const parts = idJslRegExp.exec(nFilter);
+
     if (!parts) {
       const message = `JSL expression should be '($ === ID)': ${nFilter}`;
       throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
     }
+
     const id = JSON.parse(parts[1]);
     return id;
   } catch (innererror) {
@@ -89,6 +91,7 @@ const filterToId = function ({ nFilter }) {
     });
   }
 };
+
 // Look for '(($ === ID))'
 const idJslRegExp = /^\(\(\$\$\.id\s*===\s*(.*)\)\)$/;
 
@@ -116,14 +119,17 @@ const findIndex = function ({
   const index = Object.entries(collection)
     .filter(([, { id: modelId }]) => modelId === id)
     .map(([index]) => index)[0];
+
   if (!index && mustExist === true) {
     const message = `Could not find the model with id ${id} in: ${modelName} (collection)`;
     throw new EngineError(message, { reason: 'DATABASE_NOT_FOUND' });
   }
+
   if (index && mustExist === false) {
     const message = `Model with id ${id} already exists in: ${modelName} (collection)`;
     throw new EngineError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
   }
+
   return index;
 };
 
@@ -159,6 +165,7 @@ const deleteMany = function ({ collection, nFilter, opts, opts: { dryRun } }) {
 
 const create = function ({ collection, newData, opts, opts: { dryRun } }) {
   let id = newData.id;
+
   if (id) {
     const findIndexOpts = Object.assign({}, opts, { mustExist: false });
     findIndex({ collection, id, opts: findIndexOpts });
@@ -167,9 +174,11 @@ const create = function ({ collection, newData, opts, opts: { dryRun } }) {
   }
 
   const newModel = Object.assign({}, newData, { id });
+
   if (!dryRun) {
     collection.push(newModel);
   }
+
   return newModel;
 };
 
@@ -194,6 +203,7 @@ const update = function ({ collection, newData, opts, opts: { dryRun } }) {
 
   const model = collection[index];
   const newModel = Object.assign({}, model, newData);
+
   if (!dryRun) {
     collection.splice(index, 1, newModel);
   }

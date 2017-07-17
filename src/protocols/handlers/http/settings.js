@@ -13,6 +13,7 @@ const getSettings = function ({ input }) {
 const noOutput = function ({ input: { headers } }) {
   const preferHeader = parsePreferHeader({ headers });
   const hasMinimalPreference = preferHeader.return === 'minimal';
+
   if (hasMinimalPreference) {
     return true;
   }

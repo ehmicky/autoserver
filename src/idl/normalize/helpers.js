@@ -9,6 +9,7 @@ const normalizeHelpers = function ({ idl }) {
   if (helpers instanceof Array) {
     helpers = Object.assign({}, ...helpers);
   }
+
   // Helpers can either be an options object, or options.value directly
   helpers = mapValues(helpers, helper => {
     return helper.value !== undefined ? helper : { value: helper };

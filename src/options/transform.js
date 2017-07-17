@@ -11,6 +11,7 @@ const transformOptions = function ({
   const perf = startupLog.perf.start('transform', 'options');
 
   const hasLoggerFilter = loggerFilter && loggerFilter.constructor === Object;
+
   if (hasLoggerFilter) {
     transformLoggerFilters(loggerFilter);
   }

@@ -31,6 +31,7 @@ const validateAction = function ({ action }) {
   const isValid = ACTIONS.some(possibleAction => {
     return isEqual(possibleAction, action);
   });
+
   if (!isValid) {
     const message = `Invalid 'action': '${JSON.stringify(action)}'`;
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });

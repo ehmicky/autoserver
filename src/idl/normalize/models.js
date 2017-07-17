@@ -24,9 +24,11 @@ const addModelType = function ({ models }) {
   return mapValues(models, model => {
     const properties = mapValues(model.properties, prop => {
       prop = Object.assign({}, prop, { modelType: 'attribute' });
+
       if (prop.items) {
         prop.items = Object.assign({}, prop.items, { modelType: 'attribute' });
       }
+
       return prop;
     });
     return Object.assign({}, model, { modelType: 'model', properties });

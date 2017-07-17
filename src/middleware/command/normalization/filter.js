@@ -34,10 +34,12 @@ const normalizeFilter = function ({ filter }) {
 
   return nFilter;
 };
+
 // Look for single dollar parameter ($), while exclusing double dollar
 // parameters ($$) or normal parameters ($example)
 // TODO: use a JavaScript parser instead
 const singleDollarRegExp = /([^$a-zA-Z0-9_])\$(?![$a-zA-Z0-9_])/g;
+
 const normalizeJsl = function ([attrName, attrJsl]) {
   return attrJsl.replace(singleDollarRegExp, `$1$$$$.${attrName}`);
 };

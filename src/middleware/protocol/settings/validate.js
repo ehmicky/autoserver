@@ -6,6 +6,7 @@ const { EngineError } = require('../../../error');
 const validateSettings = function ({ settings }) {
   for (const [name, value] of Object.entries(settings)) {
     const validator = validators[name];
+
     if (!validator) {
       const message = `Unknown settings: '${name}'`;
       throw new EngineError(message, { reason: 'INPUT_VALIDATION' });

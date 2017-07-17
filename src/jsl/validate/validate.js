@@ -13,6 +13,7 @@ const allRules = require('./rules');
 const fullAncestor = function (node, callback, base, state) {
   if (!base) base = walkBase;
   let ancestors = []
+
    ;(function c (node, st, override) {
     let type = override || node.type;
     let isNew = node != ancestors[ancestors.length - 1];
@@ -40,6 +41,7 @@ const validateJsl = function ({ jsl, type }) {
 
 const getJsl = function ({ jsl, type }) {
   const valIsJsl = isJsl({ jsl });
+
   if (!valIsJsl) {
     const message = `Invalid JSL: ${jsl}`;
     throwJslError({ type, message });
@@ -55,6 +57,7 @@ const validateNode = function (
 ) {
   const rule = rules[nodeType];
   print(node);
+
   if (!rule) {
     const message = `Cannot use the following code: '${print(node)}'`;
     throwError(message);
@@ -63,6 +66,7 @@ const validateNode = function (
   if (rule === true) { return; }
   const nodeParents = parents.slice(0, parents.length - 1).reverse();
   const message = rule(node, nodeParents);
+
   if (typeof message === 'string') {
     throwError(message);
   } else if (message === false) {

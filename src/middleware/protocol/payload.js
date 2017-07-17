@@ -33,6 +33,7 @@ const getPayload = async function ({ specific, protocolHandler }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
   const parse = protocolHandler.parsePayload;
+
   for (const payloadHandler of payloadHandlers) {
     const payload = await payloadHandler({ specific, parse });
     if (payload !== undefined) { return payload; }
@@ -44,10 +45,12 @@ const getPayload = async function ({ specific, protocolHandler }) {
 // There is a payload, but it could not be read
 const payloadError = function ({ specific, protocolHandler }) {
   const contentType = protocolHandler.getContentType({ specific });
+
   if (!contentType) {
     const message = 'Must specify Content-Type when sending a request payload';
     throw new EngineError(message, { reason: 'NO_CONTENT_TYPE' });
   }
+
   const message = `Unsupported Content-Type: '${contentType}'`;
   throw new EngineError(message, { reason: 'WRONG_CONTENT_TYPE' });
 };

@@ -40,10 +40,12 @@ const getGoal = function ({ method, protocolHandler }) {
     const message = `Unsupported protocol method: '${method}'`;
     throw new EngineError(message, { reason: 'UNSUPPORTED_METHOD' });
   }
+
   if (typeof goal !== 'string') {
     const message = `'goal' must be a string, not '${goal}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
+
   if (!GOALS.includes(goal)) {
     const message = `Invalid 'goal' '${goal}', must be one of: ${GOALS.join(', ')}`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });

@@ -13,10 +13,11 @@ const applyAllDefault = function applyAllDefault (opts) {
 
   // Iterate over default values for that model, to apply them
   const parent = value;
+
   for (const [attrName, defValue] of Object.entries(defAttributes)) {
     const childOpts = Object.assign({}, opts, { defValue, attrName, parent });
     applyDefault(childOpts);
-  };
+  }
 
   return value;
 };

@@ -16,6 +16,7 @@ const sender = async function (
       reason: 'SERVER_INPUT_VALIDATION',
     });
   }
+
   if (content === undefined && type !== 'failure') {
     throw new EngineError('Server sent an empty response', {
       reason: 'SERVER_INPUT_VALIDATION',
@@ -24,6 +25,7 @@ const sender = async function (
 
   // Use different logic according to the content type
   const handler = handlers[type];
+
   if (!handler) {
     const message = 'Server tried to respond with an unsupported content type';
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });

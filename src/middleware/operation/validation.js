@@ -27,6 +27,7 @@ const validateResponse = function ({ response }) {
     const message = `'response' must be an object, not '${response}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
+
   let { content, type, actions } = response;
 
   validateType({ type });
@@ -41,6 +42,7 @@ const validateType = function ({ type }) {
   }
 
   const isWrongType = !CONTENT_TYPES.some(({ name }) => name === type);
+
   if (isWrongType) {
     const message = `Invalid 'type': '${type}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
@@ -50,6 +52,7 @@ const validateType = function ({ type }) {
 const validateContent = function ({ content, type }) {
   const contentType = CONTENT_TYPES.find(({ name }) => name === type);
   const isWrongContent = !contentType.test({ content });
+
   if (isWrongContent) {
     const message = `Invalid 'content': '${content}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
@@ -67,6 +70,7 @@ const validateActions = function ({ actions }) {
   const wrongAction = actions.find(({ name }) =>
     !ACTIONS.some(({ name: actionName }) => name === actionName)
   );
+
   if (wrongAction) {
     const message = `'actions' contains invalid action: '${JSON.stringify(wrongAction)}'`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });

@@ -24,6 +24,7 @@ const validatePaginationOutput = function ({
   validate({ schema, data: pages, reportInfo });
 
   const { usedPageSize } = getPaginationInfo({ args });
+
   if (data.length > usedPageSize) {
     const message = `Database returned pagination batch larger than specified page size ${args.pageSize}`;
     throw new EngineError(message, { reason: 'OUTPUT_VALIDATION' });
@@ -92,10 +93,12 @@ const getOutputData = function ({ metadata }) {
   return metadata.map(({ pages }) => {
     const { token } = pages;
     if (token === undefined || token === '') { return pages; }
+
     if (typeof token !== 'string') {
       const message = 'Wrong response: \'token\' must be a string';
       throw new EngineError(message, { reason: 'OUTPUT_VALIDATION' });
     }
+
     try {
       const parsedToken = decode({ token });
       return Object.assign({}, pages, { token: parsedToken });

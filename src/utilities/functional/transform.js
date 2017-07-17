@@ -76,10 +76,11 @@ const singleTransform = function ({ input, transformsSet, args }) {
         .forEach(newValue => {
           // Assign transforms return value to `value`
           Object.assign(value, newValue);
+
           // Remove undefined values
           for (const [key, val] of Object.entries(newValue)) {
             if (val === undefined) { delete value[key]; }
-          };
+          }
         });
 
       return value;

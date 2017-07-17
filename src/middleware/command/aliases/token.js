@@ -10,6 +10,7 @@ const applyTokenAliases = function ({ token, attrName, aliases }) {
     const tokenObj = decode({ token });
 
     const { nOrderBy } = tokenObj;
+
     if (nOrderBy) {
       tokenObj.nOrderBy = applyOrderByAliases({ nOrderBy, attrName, aliases });
     }

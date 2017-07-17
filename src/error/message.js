@@ -48,6 +48,7 @@ const getStack = function (description, details = '') {
 
   return trimmedStack;
 };
+
 const apiEngineDirName = resolve(__dirname, '../..');
 
 module.exports = {

@@ -11,6 +11,7 @@ const getYaml = async function ({ path, content }) {
   if (!content) {
     content = await promisify(readFile)(path, { encoding: 'utf-8' });
   }
+
   const data = yaml.load(content, {
     // YAML needs to JSON-compatible, since JSON must provide same
     // features as YAML

@@ -29,6 +29,7 @@ const checkUniqueCall = function () {
     throw new EngineError(message, { reason: 'PROCESS_ERROR', innererror });
   }
 };
+
 const uniqueCall = onlyOnce(() => {}, { error: true });
 
 const setupHandlers = function ({ log }) {
@@ -60,6 +61,7 @@ const setupWarning = function ({ log }) {
 // Report process problems as logs with type 'failure'
 const processHandler = async function (log, { value, message }) {
   let innererror;
+
   if (value instanceof Error) {
     innererror = value;
   } else {

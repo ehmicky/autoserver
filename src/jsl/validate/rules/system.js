@@ -28,13 +28,17 @@ const getRules = memoize(({ globalKeys }) => ({
     if (start !== 0) {
       return 'Top-level expression is invalid';
     }
+
     if (body.length === 0) {
       return 'Must include at least one expression';
     }
+
     if (body.length > 1) {
       return 'Cannot include several statements';
     }
+
     const statement = body[0];
+
     if (statement.type !== 'ExpressionStatement') {
       return 'Top-level must be simple expression';
     }
@@ -87,24 +91,32 @@ const getRules = memoize(({ globalKeys }) => ({
     const usesIdentifier = type === 'Identifier';
     const usesMemberExpression = type === 'MemberExpression' &&
       property.type === 'Identifier';
+
     if (!usesIdentifier && !usesMemberExpression) {
       return 'Function calls must be like: \'func()\' or \'obj.func()\'';
     }
+
     const funcName = usesMemberExpression ? property.name : name;
+
     if (functionFuncNames.includes(funcName)) {
       return `Cannot call '${funcName}()'`;
     }
+
     if (sideEffectsFuncNames.includes(funcName)) {
       return `No side-effects: cannot call '${funcName}()'`;
     }
+
     if (globalFuncNames.includes(funcName)) {
       return `No access to global state: cannot call '${funcName}()'`;
     }
+
     if (asyncFuncNames.includes(funcName)) {
       return `Must be synchronous: cannot call '${funcName}()'`;
     }
+
     const isWrongAssign = funcName === 'assign' &&
       (!args[0] || args[0].type !== 'ObjectExpression');
+
     if (isWrongAssign) {
       return 'No side-effects: \'Object.assign()\' first argument must be a literal object';
     }
@@ -112,9 +124,11 @@ const getRules = memoize(({ globalKeys }) => ({
   // Whitelist which constructor can be called
   NewExpression ({ callee: { type, name } }) {
     const usesIdentifier = type === 'Identifier';
+
     if (!usesIdentifier) {
       return 'Constructor calls must be like: \'new Type()\'';
     }
+
     if (!allowedConstructors.includes(name)) {
       return `Cannot call 'new ${name}()'`;
     }

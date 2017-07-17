@@ -35,6 +35,7 @@ const getField = function (def, opts) {
   const fieldGetter = graphQLFieldGetters.find(possibleType => {
     return possibleType.condition(def, opts);
   });
+
   if (!fieldGetter) {
     const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
     throw new EngineError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
@@ -71,6 +72,7 @@ const getField = function (def, opts) {
     opts.inputObjectType === 'data' &&
     opts.action.type !== 'update' &&
     def.default;
+
   if (hasDefaultValue) {
     // JSL only shows as 'DYNAMIC_VALUE' in schema
     const defaults = def.default instanceof Array ? def.default : [def.default];
@@ -133,6 +135,7 @@ const graphQLObjectFieldGetter = memoize(function (def, opts) {
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts) {
   const { action = {}, inputObjectType } = opts;
+
   // This needs to be function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type
   return () => {
@@ -161,6 +164,7 @@ const getObjectFields = function (def, opts) {
           const isRequired = def.required instanceof Array &&
             def.required.includes(childDefName) &&
             !def.required.includes(name);
+
           if (isRequired) {
             def.required.push(name);
           }

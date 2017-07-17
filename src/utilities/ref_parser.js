@@ -35,6 +35,7 @@ const dereferenceRefs = async function (obj) {
           if (Buffer.isBuffer(data)) {
             data = data.toString();
           }
+
           if (typeof data !== 'string') { return data; }
           // `content` cannot be `null` because of a bug
           // with `json-schema-ref-parser`
@@ -87,11 +88,13 @@ const requireFile = function (url) {
   const currenDir = process.cwd();
   process.chdir(dirname(url));
   let file;
+
   try {
     file = require(url);
   } finally {
     process.chdir(currenDir);
   }
+
   return file;
 };
 

@@ -43,6 +43,7 @@ const addNestedId = function ({
         const message = `In '${name}' model, wrong parameters: id must not be defined`;
         wrongInput(message);
       }
+
       arg[index].id = val;
     });
   } else {
@@ -82,24 +83,29 @@ const getNestedIds = function ({ childId, parentIds }) {
 // args.data for replace|upsert|create
 const nestedFilterActionTypes = ['find', 'delete', 'update'];
 const nestedDataActionTypes = ['replace', 'upsert', 'create'];
+
 const getNestedArgument = function ({ multiple, args, actionType }) {
   const usesFilter = nestedFilterActionTypes.includes(actionType);
   const usesData = nestedDataActionTypes.includes(actionType);
   const argType = usesFilter ? 'filter' : usesData ? 'data' : null;
+
   // If args.filter|data absent, adds default value
   if (!args[argType]) {
     args[argType] = usesData && multiple ? [] : {};
   }
+
   return args[argType];
 };
 
 // Make sure query is correct, when it comes to nested id
 const validateNestedId = function ({ parent, name, attrName, multiple, arg }) {
   const parentVal = parent[attrName];
+
   if (multiple && arg instanceof Array && arg.length !== parentVal.length) {
     const message = `In '${name}' model, wrong parameters: data length must be ${parentVal.length}`;
     wrongInput(message);
   }
+
   if (!multiple && arg.id) {
     const message = `In '${name}' model, wrong parameters: 'id' must not be defined`;
     wrongInput(message);

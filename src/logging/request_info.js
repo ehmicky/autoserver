@@ -73,6 +73,7 @@ const getRequestInfo = function (log, loggerFilter) {
 const removeKeys = function (requestInfo) {
   return omit(requestInfo, excludedKeys);
 };
+
 const excludedKeys = [
   // Those are already present in errorInfo
   'action',
@@ -179,11 +180,13 @@ const reduceModels = function ({ info, attrName, filter }) {
   if (info[attrName] === undefined) { return; }
 
   let size;
+
   try {
     size = JSON.stringify(info[attrName]).length;
   } catch (e) {
     size = 'unknown';
   }
+
   info[`${attrName}Size`] = size;
 
   if (info[attrName] instanceof Array) {

@@ -8,6 +8,7 @@ const loggingBuffer = async function (input) {
   const perf = log.perf.start('initial.loggingBuffer', 'middleware');
 
   let response;
+
   try {
     // Buffer logging calls
     await log._setBuffered(true);

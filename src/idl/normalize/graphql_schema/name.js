@@ -4,6 +4,7 @@ const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
 const nameSym = Symbol('modelName');
+
 // Returns type name, titleized with action prepended, in singular form,
 // e.g. `FindPet`, for schema type name
 const getTypeName = function ({ def, opts: { inputObjectType, action = {} } }) {

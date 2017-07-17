@@ -8,6 +8,7 @@ const { routes } = require('./routes');
 class RoutesManager {
   constructor ({ routes = [] }) {
     this._routes = [];
+
     for (const route of routes) {
       this.add(route);
     }

@@ -21,10 +21,12 @@ const applyPlugins = async function ({ idl }) {
 
   // Apply each idl.plugins as FUNC({ idl }) returning idl
   const allPlugins = [...plugins, ...Object.values(defaultBuiltinPlugins)];
+
   for (let [index, pluginConf] of allPlugins.entries()) {
     // Plugin is either a function, or a string (for builtin plugins)
     if (typeof pluginConf.plugin === 'string') {
       const builtinPlugin = builtinPlugins[pluginConf.plugin];
+
       if (!builtinPlugin) {
         const message = `The plugin '${pluginConf.plugin}' does not exist`;
         throw new EngineError(message, { reason: 'IDL_VALIDATION' });

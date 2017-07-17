@@ -24,10 +24,12 @@ const ajvOptions = {
 const addKeywords = function (ajv) {
   // Add future JSON standard keywords
   ajvKeywords(ajv, ['if', 'formatMinimum', 'formatMaximum', 'typeof']);
+
   for (const [name, definition] of Object.entries(customBaseKeywords)) {
     ajv.addKeyword(name, definition);
   }
 };
+
 const customBaseKeywords = {
 
   // Checks that a word (e.g. a model) is an English word with a

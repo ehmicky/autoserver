@@ -20,15 +20,17 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
     type,
   });
   const attributes = getAttributes(args);
+
   for (const [dataVar, attribute] of Object.entries(attributes)) {
     const allAttrs = attribute instanceof Array ? attribute : [attribute];
+
     for (const data of allAttrs) {
       const value = cloneDeep(data);
       removeJsl({ value });
       const reportInfo = { type, dataVar };
       validate({ schema, data: value, reportInfo, extra: jsl });
-    };
-  };
+    }
+  }
 };
 
 /**
@@ -52,6 +54,7 @@ const removeJsl = function ({ value, parent, key }) {
     } else if (parent.constructor === Object) {
       delete parent[key];
     }
+
     return;
   }
 
@@ -59,7 +62,7 @@ const removeJsl = function ({ value, parent, key }) {
   if (value instanceof Array || value.constructor === Object) {
     for (const [key, child] of Object.entries(value)) {
       return removeJsl({ value: child, parent: value, key });
-    };
+    }
   }
 };
 

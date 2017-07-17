@@ -10,11 +10,13 @@ const performanceLog = async function (input) {
   input.now = Date.now();
 
   let response;
+
   try {
     response = await this.next(input);
   } finally {
     await log.perf.report();
   }
+
   return response;
 };
 

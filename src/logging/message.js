@@ -50,16 +50,19 @@ const getPrefix = function ({
 const getType = function ({ type }) {
   return type.toUpperCase().padEnd(typesMaxLength);
 };
+
 const typesMaxLength = Math.max(...TYPES.map(type => type.length));
 
 const getLevel = function ({ level }) {
   return level.toUpperCase().padEnd(levelsMaxLength);
 };
+
 const levelsMaxLength = Math.max(...LEVELS.map(level => level.length));
 
 const getServerName = function ({ serverName }) {
   return serverName.substr(0, serverNameMaxLength).padEnd(serverNameMaxLength);
 };
+
 const serverNameMaxLength = 12;
 
 const getTimestamp = function ({ timestamp }) {
@@ -70,6 +73,7 @@ const getTimestamp = function ({ timestamp }) {
 const getRequestId = function ({ phase, requestId = phase.toUpperCase() }) {
   return requestId.substr(0, requestIdLength).padEnd(requestIdLength);
 };
+
 const requestIdLength = 8;
 
 module.exports = {

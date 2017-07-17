@@ -19,6 +19,7 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
   } = getPaginationInfo({ args });
 
   const info = {};
+
   if (isOffsetPagination) {
     info[`has_${previous}_page`] = page !== 1;
   // If a token (except '') has been used, it means there is a previous page
@@ -31,6 +32,7 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
   // We fetch an extra model to guess has_next_page. If it was founds, remove it
   if (data.length === usedPageSize) {
     info[`has_${next}_page`] = true;
+
     if (isBackward) {
       data = data.slice(1);
       metadata = metadata.slice(1);

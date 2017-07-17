@@ -12,12 +12,14 @@ const resolveRefs = async function ({ idl, baseDir }) {
 const resolveJsonRefs = async function ({ idl, baseDir }) {
   // Make $ref relative to IDL file itself
   let currentDir;
+
   if (baseDir) {
     currentDir = process.cwd();
     process.chdir(baseDir);
   }
 
   let parsedIdl;
+
   try {
     parsedIdl = await dereferenceRefs(idl);
   } catch (innererror) {

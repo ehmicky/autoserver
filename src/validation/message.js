@@ -9,9 +9,11 @@ const getErrorMessage = function ({ error, hasInputPath }) {
   // Failsafe
   if (!customErrorMessage) { return ` ${error.message}`; }
   let message = customErrorMessage(error);
+
   if (!hasInputPath && message[0] === '.') {
     message = message.substring(1);
   }
+
   return message;
 };
 

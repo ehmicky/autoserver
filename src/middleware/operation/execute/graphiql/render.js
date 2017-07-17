@@ -56,6 +56,7 @@ const renderGraphiQL = async function (input) {
 const escapeData = function (dataToEscape) {
   return mapValues(dataToEscape, data => escapeJSON(data));
 };
+
 const escapeJSON = function (string = null) {
   return JSON.stringify(string, null, 2);
 };

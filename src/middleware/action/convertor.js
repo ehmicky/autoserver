@@ -39,6 +39,7 @@ const actionConvertor = async function ({
   };
 
   let response;
+
   try {
     perf.stop();
     response = await this.next(nextInput);
