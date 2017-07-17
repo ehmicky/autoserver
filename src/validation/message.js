@@ -89,8 +89,6 @@ const errorMessages = {
   // Custom keywords
   hasPlural: ({ data }) =>
     ` '${data}' must be an English word whose plural form differs from its singular form`,
-  returnType: ({ schema }) =>
-    ` must return values of type '${schema}'`,
   arity: ({ schema, data: func }) =>
     ` must have ${pluralize('argument', schema, true)} not ${func.length}`,
   // Special keyword for schema that are `false`,
