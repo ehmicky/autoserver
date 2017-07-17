@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
 const { makeImmutable } = require('../../utilities');
-
 
 // Fill in `input.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -86,7 +84,6 @@ const payloadHandlers = [
   },
 
 ];
-
 
 module.exports = {
   parsePayload,

@@ -1,6 +1,5 @@
 'use strict';
 
-
 const {
   hostname: getHostname,
   type: getOsType,
@@ -14,7 +13,6 @@ const uuidv4 = require('uuid/v4');
 
 const { memoize } = require('../utilities');
 const { version: apiEngineVersion } = require('../../package.json');
-
 
 // Retrieve process-specific and host-specific information
 const getServerInfo = function ({ serverOpts: { serverName } }) {
@@ -69,8 +67,6 @@ const getDynamicServerInfo = function () {
   const dynamicServerInfo = { stats: { uptime } };
   return dynamicServerInfo;
 };
-
-
 
 module.exports = {
   getServerInfo,

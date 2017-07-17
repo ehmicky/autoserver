@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { deepMerge, buffer } = require('../utilities');
@@ -11,7 +10,6 @@ const { getRequestInfo } = require('./request_info');
 const { getRequestMessage } = require('./request_message');
 const { LEVELS } = require('./constants');
 const { PerfLog } = require('./perf');
-
 
 // Represents a logger
 // Can:
@@ -176,7 +174,6 @@ class Log {
 }
 
 const includeMessagesTypes = ['start', 'call', 'failure', 'stop'];
-
 
 module.exports = {
   Log,

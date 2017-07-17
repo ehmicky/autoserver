@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { dereferenceRefs } = require('../utilities');
 const { EngineError } = require('../error');
-
 
 const resolveRefs = async function ({ idl, baseDir }) {
   const parsedIdl = await resolveJsonRefs({ idl, baseDir });
@@ -36,7 +34,6 @@ const resolveJsonRefs = async function ({ idl, baseDir }) {
 
   return parsedIdl;
 };
-
 
 module.exports = {
   resolveRefs,

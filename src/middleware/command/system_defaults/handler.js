@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { mapValues, omitBy } = require('../../../utilities');
 const { defaults } = require('./defaults');
-
 
 // Apply system-defined defaults to input, including input arguments
 const systemDefaults = async function (input) {
@@ -40,7 +38,6 @@ const getDefaultArgs = function ({
 
   return defaultArgs;
 };
-
 
 module.exports = {
   systemDefaults,

@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Log how the request handling takes
 const performanceLog = async function (input) {
   // Total request time, stopped just before the response is sent
@@ -18,7 +17,6 @@ const performanceLog = async function (input) {
   }
   return response;
 };
-
 
 module.exports = {
   performanceLog,

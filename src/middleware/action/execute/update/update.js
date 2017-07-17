@@ -1,12 +1,10 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { omit } = require('../../../../utilities');
 const { COMMANDS } = require('../../../../constants');
 const { isJsl } = require('../../../../jsl');
-
 
 // Retrieves the input for the "update" command
 const getUpdateInput = function ({ input, models }) {
@@ -73,7 +71,6 @@ const transformData = function ({ model, data, jsl, jslKeys }) {
 
   return data;
 };
-
 
 module.exports = {
   getUpdateInput,

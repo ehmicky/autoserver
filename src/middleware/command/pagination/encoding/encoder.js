@@ -1,6 +1,5 @@
 'use strict';
 
-
 const {
   Base64: {
     encodeURI: base64UrlEncode,
@@ -9,7 +8,6 @@ const {
 } = require('js-base64');
 
 const { minifyToken, unminifyToken } = require('./minify');
-
 
 // Encode token from a useable object to a short opaque base64 token
 // Token is object:
@@ -34,7 +32,6 @@ const decode = function ({ token: base64Token }) {
   const token = unminifyToken({ token: minifiedToken });
   return token;
 };
-
 
 module.exports = {
   encode,

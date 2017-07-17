@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { COMMANDS } = require('../../../../constants');
-
 
 // Retrieves the input for the "update" command
 const getUpdateInput = function ({ input, data, models }) {
@@ -26,7 +24,6 @@ const getUpdateInput = function ({ input, data, models }) {
 
   return input;
 };
-
 
 module.exports = {
   getUpdateInput,

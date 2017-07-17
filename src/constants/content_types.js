@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { makeImmutable } = require('../utilities');
-
 
 const CONTENT_TYPES = [
   {
@@ -62,7 +60,6 @@ const isJSON = function (val) {
   } catch (error) { return false; }
   return true;
 };
-
 
 module.exports = {
   CONTENT_TYPES,

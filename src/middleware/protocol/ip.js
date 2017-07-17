@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 // Retrieve request's IP, assigned to protocol input, and also to JSL $IP
 const getIp = async function (input) {
@@ -24,7 +22,6 @@ const getIp = async function (input) {
   const response = await this.next(input);
   return response;
 };
-
 
 module.exports = {
   getIp,

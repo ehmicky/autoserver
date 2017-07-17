@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { ENV } = require('../env');
-
 
 // Deeply Object.freeze() over an object.
 const _makeImmutable = function (obj) {
@@ -22,7 +20,6 @@ const _makeImmutable = function (obj) {
 };
 // Not in production, because Object.freeze() can be slow.
 const makeImmutable = ENV === 'dev' ? _makeImmutable : val => val;
-
 
 module.exports = {
   makeImmutable,

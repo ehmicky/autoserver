@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { recurseMapByRef } = require('./map');
-
 
 /**
  * Transform some input using a set of transformations
@@ -88,7 +86,6 @@ const singleTransform = function ({ input, transformsSet, args }) {
     },
   });
 };
-
 
 module.exports = {
   transform,

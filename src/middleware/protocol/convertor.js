@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 // Converts from no format to Protocol format
 const protocolConvertor = async function ({
@@ -37,7 +35,6 @@ const protocolConvertor = async function ({
   const response = await this.next(newInput);
   return response;
 };
-
 
 module.exports = {
   protocolConvertor,

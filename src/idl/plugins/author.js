@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
 const { isJsl } = require('../../jsl');
 const { propertiesPlugin } = require('./properties');
-
 
 // Plugin that adds who modified last each model:
 //   created_by {User} - set on model creation
@@ -51,7 +49,6 @@ const getProperties = ({ user = '(user())', model = 'user' }) => ({
     transform: `(${user}.id)`,
   },
 });
-
 
 module.exports = {
   authorPlugin,

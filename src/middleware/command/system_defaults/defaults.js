@@ -1,6 +1,5 @@
 'use strict';
 
-
 // List of defaults:
 //  - key is argument attribute name
 //  - command.name is whitelisted
@@ -51,7 +50,6 @@ const defaults = {
     value: true,
   },
 };
-
 
 module.exports = {
   defaults,

@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { getDataArgument } = require('./data');
 const { getFilterArgument } = require('./filter');
 const { getOrderArgument } = require('./order');
 const { getPaginationArgument } = require('./pagination');
-
 
 // Retrieves all resolver arguments, before resolve function is fired
 const getArguments = function (def, opts) {
@@ -18,7 +16,6 @@ const getArguments = function (def, opts) {
     getPaginationArgument(options),
   );
 };
-
 
 module.exports = {
   getArguments,

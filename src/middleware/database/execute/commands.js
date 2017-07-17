@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * Summary of actions:
  *   findOne    ({ filter: { id } })
@@ -65,14 +64,12 @@
  *                                 same as if it did.
  **/
 
-
 const { cloneDeep } = require('lodash');
 const uuiv4 = require('uuid/v4');
 
 const { EngineError } = require('../../../error');
 const { processResponse } = require('./process_response');
 const { validateResponse } = require('./validate');
-
 
 // '($ === ID)' -> ID
 const filterToId = function ({ nFilter }) {
@@ -241,7 +238,6 @@ const fireCommand = function (commandInput) {
 
   return copiedResponse;
 };
-
 
 module.exports = {
   fireCommand,

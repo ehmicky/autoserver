@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { COMMANDS } = require('../../../../constants');
 const { getFilter } = require('./filter');
-
 
 // Retrieves the input for the first "read" command
 // Goal is to check whether models exist, so we know if "upsert" action
@@ -29,7 +27,6 @@ const getFirstReadInput = function ({ input }) {
 
   return input;
 };
-
 
 module.exports = {
   getFirstReadInput,

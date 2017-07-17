@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { applyDataAliases } = require('./data');
 const { applyOrderByAliases } = require('./order_by');
 const { applyTokenAliases } = require('./token');
-
 
 // Apply `alias` in server input
 const applyInputAliases = function ({ args, modelAliases }) {
@@ -39,7 +37,6 @@ const applyInputAlias = function ({ args = {}, attrName, aliases }) {
     args.before = applyTokenAliases({ token, attrName, aliases });
   }
 };
-
 
 module.exports = {
   applyInputAliases,

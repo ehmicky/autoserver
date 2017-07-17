@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Buffer logging calls, to ensure those calls get the full requestInfo
 // information
 const loggingBuffer = async function (input) {
@@ -26,7 +25,6 @@ const loggingBuffer = async function (input) {
 
   return response;
 };
-
 
 module.exports = {
   loggingBuffer,

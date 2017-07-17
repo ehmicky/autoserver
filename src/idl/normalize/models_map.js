@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { mapValues } = require('../../utilities');
-
 
 /**
  * Returns a simplified map of all the models in the IDL
@@ -18,7 +16,6 @@ const getModelsMap = function ({ idl }) {
     });
   });
 };
-
 
 module.exports = {
   getModelsMap,

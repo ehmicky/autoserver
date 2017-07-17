@@ -1,6 +1,5 @@
 'use strict';
 
-
 const getTimestamp = async function (input) {
   const { jsl, log, now } = input;
   const perf = log.perf.start('protocol.getTimestamp', 'middleware');
@@ -15,7 +14,6 @@ const getTimestamp = async function (input) {
   const response = await this.next(input);
   return response;
 };
-
 
 module.exports = {
   getTimestamp,

@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { EngineError } = require('../error');
 const { validationTypes } = require('./types');
 const { getErrorMessage } = require('./message');
-
 
 // Report validation errors by throwing an exception, e.g. firing a HTTP 400
 const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
@@ -38,7 +36,6 @@ const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
 
   throw new EngineError(errorsMessage, { reason });
 };
-
 
 module.exports = {
   reportErrors,

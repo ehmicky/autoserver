@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { GraphQLInt, GraphQLString } = require('graphql');
-
 
 // Pagination arguments
 const paginationActionTypes = ['find', 'update', 'delete'];
@@ -56,7 +54,6 @@ Cannot be used with 'before' or 'after'`,
     },
   });
 };
-
 
 module.exports = {
   getPaginationArgument,

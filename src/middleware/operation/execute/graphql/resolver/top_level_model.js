@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { singular, plural } = require('pluralize');
 
 const { parseName } = require('./utilities');
-
 
 // Resolver for top-level models actions
 const topLevelModelResolver = function ({ name, modelsMap }) {
@@ -19,7 +17,6 @@ const topLevelModelResolver = function ({ name, modelsMap }) {
   const modelName = modelsMap[singularName] ? singularName : modelsMap[pluralName] ? pluralName : null;
   return { multiple, modelName, actionType };
 };
-
 
 module.exports = {
   topLevelModelResolver,

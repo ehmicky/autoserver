@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
-
 
 const nameSym = Symbol('modelName');
 // Returns type name, titleized with action prepended, in singular form,
@@ -27,7 +25,6 @@ const getActionName = function ({ modelName, action, noChange }) {
     : action.multiple ? plural(modelName) : singular(modelName);
   return camelize(`${action.type} ${model}`);
 };
-
 
 module.exports = {
   getTypeName,

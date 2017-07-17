@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Retrieves HTTP status code
 const getProtocolStatus = function ({ error }) {
   if (!error) { return 200; }
@@ -64,7 +63,6 @@ const statusesMap = {
   '4': 'CLIENT_ERROR',
   '5': 'SERVER_ERROR',
 };
-
 
 module.exports = {
   getProtocolStatus,

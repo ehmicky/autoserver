@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
 const { GOALS } = require('../../constants');
-
 
 // Fill in:
 //  - `input.method`: protocol-specific method, e.g. 'POST'
@@ -53,7 +51,6 @@ const getGoal = function ({ method, protocolHandler }) {
 
   return goal;
 };
-
 
 module.exports = {
   parseMethod,

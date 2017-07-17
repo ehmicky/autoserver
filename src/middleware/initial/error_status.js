@@ -1,6 +1,5 @@
 'use strict';
 
-
 // When throwing an exception after the normal status has been set,
 // we want to convert back the status to an error one.
 const errorStatus = async function (input) {
@@ -25,7 +24,6 @@ const errorStatus = async function (input) {
     throw error;
   }
 };
-
 
 module.exports = {
   errorStatus,

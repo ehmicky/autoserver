@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { getSchema } = require('./graphql_schema');
 const { printSchema } = require('./graphql_print');
 
@@ -17,7 +16,6 @@ const normalizeGraphQL = async function ({ idl, serverOpts, startupLog }) {
   Object.assign(idl, { GraphQLSchema, GraphQLPrintedSchema });
   return idl;
 };
-
 
 module.exports = {
   normalizeGraphQL,

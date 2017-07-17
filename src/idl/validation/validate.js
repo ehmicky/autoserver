@@ -1,6 +1,5 @@
 'use strict';
 
-
 const yaml = require('js-yaml');
 const { readFile } = require('fs');
 const { promisify } = require('util');
@@ -11,7 +10,6 @@ const { validateCircularRefs } = require('./circular_refs');
 const { validateData } = require('./data');
 const { validateIdlJsl } = require('./jsl');
 const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
-
 
 // Validate IDL definition against a JSON schema
 const validateIdl = async function (idl) {
@@ -59,7 +57,6 @@ const jsonSchemaValidate = function ({ idl: { models } }) {
     getValidator({ schema: model });
   }
 };
-
 
 module.exports = {
   validateIdl,

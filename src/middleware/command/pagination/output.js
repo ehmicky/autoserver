@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { getPaginationInfo } = require('./info');
 const { decode, encode } = require('./encoding');
-
 
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
@@ -83,7 +81,6 @@ const getPaginationToken = function ({ model, nOrderBy, nFilter, token }) {
   const encodedToken = encode({ token: tokenObj });
   return encodedToken;
 };
-
 
 module.exports = {
   getPaginationOutput,

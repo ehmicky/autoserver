@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
 const { ACTIONS, CONTENT_TYPES } = require('../../constants');
-
 
 // Operation middleware validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
@@ -74,7 +72,6 @@ const validateActions = function ({ actions }) {
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
-
 
 module.exports = {
   operationValidation,

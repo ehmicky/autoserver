@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { promisify } = require('util');
 
 const { EngineError } = require('../../error');
-
 
 // Make request fail after some timeout
 const setRequestTimeout = async function (input) {
@@ -41,7 +39,6 @@ const startRequestTimeout = async function ({ now }) {
 };
 
 const TIMEOUT = 5000;
-
 
 module.exports = {
   setRequestTimeout,

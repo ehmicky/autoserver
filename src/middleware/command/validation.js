@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { isEqual } = require('lodash');
 
 const { COMMANDS } = require('../../constants');
 const { EngineError } = require('../../error');
-
 
 /**
  * Command-related validation middleware
@@ -83,7 +81,6 @@ const validateSingleCurrentData = function ({ newData, currentData }) {
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };
-
 
 module.exports = {
   commandValidation,

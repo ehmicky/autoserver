@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Decides which operation to use (e.g. GraphQL) according to route
 const operationNegotiator = async function (input) {
   const { route, jsl, log } = input;
@@ -28,7 +27,6 @@ const operations = {
   GraphQLPrint: ({ route }) => route === 'GraphQLPrint',
 
 };
-
 
 module.exports = {
   operationNegotiator,

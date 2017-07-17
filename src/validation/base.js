@@ -1,12 +1,10 @@
 'use strict';
 
-
 const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
 const { singular, plural } = require('pluralize');
 
 const { memoize } = require('../utilities');
-
 
 const getRawValidator = memoize(() => {
   const ajv = new Ajv(ajvOptions);
@@ -67,7 +65,6 @@ const customBaseKeywords = {
   },
 
 };
-
 
 module.exports = {
   getRawValidator,

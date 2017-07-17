@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { runJsl } = require('./run');
-
 
 // Inline JSL helper function.
 // When consumer fires Helper('a', 'b'), inline JSL translates 'a' and 'b'
@@ -36,7 +34,6 @@ class JslHelper extends Function {
     return useParams ? helper(allParams, ...args) : helper(...args);
   }
 }
-
 
 module.exports = {
   JslHelper,

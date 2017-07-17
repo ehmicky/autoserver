@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { ACTIONS } = require('../../../../../constants');
 const { EngineError } = require('../../../../../error');
 const { typenameResolver } = require('./typename');
@@ -12,7 +11,6 @@ const {
   setParentModel,
   hasParentModel,
 } = require('./utilities');
-
 
 /**
  * GraphQL-anywhere uses a single resolver: here it is
@@ -84,7 +82,6 @@ const graphqlMethods = {
   upsert: 'mutation',
   delete: 'mutation',
 };
-
 
 module.exports = {
   getResolver,

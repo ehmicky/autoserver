@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Shortcut notation of order_by,
 // e.g. [{ attrName: 'attr', order: 'asc'}, {attrName: 'attrb', order: 'desc' }]
 // -> 'attr,attrb-'
@@ -22,7 +21,6 @@ const unminifyOrderBy = function ({ token }) {
       return { attrName, order };
     });
 };
-
 
 module.exports = {
   minifyOrderBy,

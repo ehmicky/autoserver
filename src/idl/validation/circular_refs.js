@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 /**
  * There should be no circular references.
@@ -37,7 +35,6 @@ const validateCircularRefs = function ({
 
   pathSet.delete(value);
 };
-
 
 module.exports = {
   validateCircularRefs,

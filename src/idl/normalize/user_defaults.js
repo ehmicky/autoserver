@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { mapValues, pickBy } = require('../../utilities');
-
 
 // Retrieves map of models's attributes for which a default value is defined
 // E.g. { User: { name: 'default_name', ... }, ... }
@@ -15,7 +13,6 @@ const getUserDefaultsMap = function ({ idl: { models } }) {
     );
   });
 };
-
 
 module.exports = {
   getUserDefaultsMap,

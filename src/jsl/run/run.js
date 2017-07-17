@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { throwJslError } = require('../error');
 const { getRawJsl } = require('../tokenize');
 const { compileJsl } = require('./compile');
-
 
 // Process (already compiled) JSL function,
 // i.e. fires it and returns its value
@@ -36,7 +34,6 @@ const runJsl = function ({ value, params = {}, type = 'system' }) {
 };
 
 const validTypes = ['system', 'startup', 'data', 'filter'];
-
 
 module.exports = {
   runJsl,

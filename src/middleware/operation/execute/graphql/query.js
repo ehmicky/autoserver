@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { default: graphqlAnywhere } = require('graphql-anywhere');
-
 
 /**
  * Executes GraphQL request
@@ -24,7 +22,6 @@ const handleQuery = async function ({
   );
   return response;
 };
-
 
 module.exports = {
   handleQuery,

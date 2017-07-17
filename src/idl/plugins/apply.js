@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { omitBy } = require('../../utilities');
 const { EngineError } = require('../../error');
 const { timestampPlugin } = require('./timestamp');
 const { authorPlugin } = require('./author');
-
 
 // Plugins are functions that take `idl` as input,
 // and returns a modified IDL as output
@@ -62,7 +60,6 @@ const builtinPlugins = {
     plugin: authorPlugin,
   },
 };
-
 
 module.exports = {
   applyPlugins,

@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { memoize } = require('../utilities');
-
 
 // Like memoize(), except if first argument `type` indicates the
 // JSL is supplied by client, i.e. is subject to constant change,
@@ -18,7 +16,6 @@ const memoizeUnlessClient = function (func) {
 };
 
 const clientTypes = ['filter', 'data'];
-
 
 module.exports = {
   memoizeUnlessClient,

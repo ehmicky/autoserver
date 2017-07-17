@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Build message of logs of type `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD /PATH ACTION...
 const getRequestMessage = function ({
@@ -29,7 +28,6 @@ const getRequestMessage = function ({
     .join(' ');
   return message;
 };
-
 
 module.exports = {
   getRequestMessage,

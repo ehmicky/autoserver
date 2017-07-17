@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Check if a definition is an array
 const isMultiple = function (def) {
   return def.items !== undefined;
@@ -15,7 +14,6 @@ const getSubDef = function (def) {
 const isModel = function (def) {
   return def.model !== undefined;
 };
-
 
 module.exports = {
   isMultiple,

@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { pick } = require('../../../utilities');
 const { validate } = require('../../../validation');
-
 
 /**
  * Check arguments, for client-side errors.
@@ -268,7 +266,6 @@ const actionSchemas = {
   deleteOne,
   deleteMany,
 };
-
 
 module.exports = {
   validateSyntax,

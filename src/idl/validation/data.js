@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { recurseMap } = require('../../utilities');
 const { EngineError } = require('../../error');
-
 
 // Validate JSON schema `$data` properties
 const validateData = function ({ idl }) {
@@ -35,7 +33,6 @@ const validateDataFormat = function ({ value }) {
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
   }
 };
-
 
 module.exports = {
   validateData,

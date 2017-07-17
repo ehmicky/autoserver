@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Apply default values to args.data's models
 const applyAllDefault = function applyAllDefault(opts) {
   const { defAttributes, value } = opts;
@@ -35,7 +34,6 @@ const applyDefault = function ({ parent, defValue, attrName, jsl }) {
 
   parent[attrName] = newDefValue;
 };
-
 
 module.exports = {
   applyAllDefault,

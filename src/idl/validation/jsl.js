@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { recurseMap } = require('../../utilities');
 const { isJsl, validateJsl } = require('../../jsl');
-
 
 // Validate all IDL JSL expressions
 const validateIdlJsl = function ({ idl }) {
@@ -13,7 +11,6 @@ const validateIdlJsl = function ({ idl }) {
     validateJsl({ jsl, type: 'startup' });
   });
 };
-
 
 module.exports = {
   validateIdlJsl,

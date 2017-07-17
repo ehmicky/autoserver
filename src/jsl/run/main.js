@@ -1,13 +1,11 @@
 'use strict';
 
-
 const { mapValues, makeImmutable } = require('../../utilities');
 const { isJsl } = require('../test');
 const { checkNames } = require('./validation');
 const { runJsl } = require('./run');
 const { JslHelper } = require('./helpers');
 const { getParams } = require('./params');
-
 
 // Instance containing JSL parameters and helpers, re-created for each request
 class Jsl {
@@ -56,7 +54,6 @@ class Jsl {
     return runJsl({ value, params: jslParams, type });
   }
 }
-
 
 module.exports = {
   Jsl,

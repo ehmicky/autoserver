@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../error');
-
 
 const throwJslError = function ({ type, message, innererror }) {
   if (type === 'startup') {
@@ -27,7 +25,6 @@ const throwJslError = function ({ type, message, innererror }) {
     });
   }
 };
-
 
 module.exports = {
   throwJslError,

@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { omitBy } = require('../utilities');
 const { getReason, getGenericProps } = require('./reasons');
-
 
 // Gets normalized error information
 const getStandardError = function ({
@@ -66,7 +64,6 @@ const getStandardError = function ({
 
   return standardError;
 };
-
 
 module.exports = {
   getStandardError,

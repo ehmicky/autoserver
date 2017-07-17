@@ -1,10 +1,8 @@
 'use strict';
 
-
 const uuidv4 = require('uuid/v4');
 
 const { getServerInfo } = require('../../info');
-
 
 // Assigns unique ID (UUIDv4) to each request
 // Available in:
@@ -51,7 +49,6 @@ const sendServerIdsHeaders = function ({
   const headers = { 'X-Server-Name': serverName, 'X-Server-Id': serverId };
   protocolHandler.sendHeaders({ specific, headers });
 };
-
 
 module.exports = {
   setRequestIds,

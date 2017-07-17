@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Enforces that a function is only called once
 const onlyOnce = function (func, { error = false } = {}) {
   return (...args) => {
@@ -15,7 +14,6 @@ const onlyOnce = function (func, { error = false } = {}) {
     return func(...args);
   };
 };
-
 
 module.exports = {
   onlyOnce,

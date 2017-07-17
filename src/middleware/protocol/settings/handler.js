@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { makeImmutable } = require('../../../utilities');
 const { EngineError } = require('../../../error');
 const { getSettings } = require('./parse');
 const { validateSettings } = require('./validate');
-
 
 // Fill in `input.settings`, which are settings which apply to the whole
 // operation. The list is predefined by the API engine.
@@ -48,7 +46,6 @@ const getSpecificSettings = function ({ input, protocolHandler }) {
 
   return specificSettings;
 };
-
 
 module.exports = {
   parseSettings,

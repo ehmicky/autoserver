@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { GraphQLString } = require('graphql');
-
 
 // order_by argument, i.e. used for sorting results
 const getOrderArgument = function ({ action }) {
@@ -18,7 +16,6 @@ Specify ascending or descending order by appending + or - (default is ascending)
     },
   };
 };
-
 
 module.exports = {
   getOrderArgument,

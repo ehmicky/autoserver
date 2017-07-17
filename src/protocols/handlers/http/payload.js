@@ -1,11 +1,9 @@
 'use strict';
 
-
 const bodyParser = require('body-parser');
 const { promisify } = require('util');
 
 const { assignObject } = require('../../../utilities');
-
 
 // Retrieves all parsers
 const getParsers = function () {
@@ -68,7 +66,6 @@ const hasPayload = function ({ specific: { req: { headers } } }) {
 const getContentType = function ({ specific: { req: { headers } } }) {
   return headers['content-type'];
 };
-
 
 module.exports = {
   parsePayload,

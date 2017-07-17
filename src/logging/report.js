@@ -1,12 +1,10 @@
 'use strict';
 
-
 const { promisify } = require('util');
 
 const { getMessage } = require('./message');
 const { colorize } = require('./colorize');
 const { consolePrint } = require('./console');
-
 
 // Report some logs, i.e.:
 //  - fire server option `logger(info)`
@@ -93,7 +91,6 @@ const addLoggerError = function ({ info, innererror }) {
   info.loggerErrors = info.loggerErrors || [];
   info.loggerErrors.push(loggerError);
 };
-
 
 module.exports = {
   report,

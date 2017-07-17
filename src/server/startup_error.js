@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { getStandardError, getErrorMessage } = require('../error');
-
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function ({ error, startupLog, apiServer }) {
@@ -26,7 +24,6 @@ const handleStartupError = async function ({ error, startupLog, apiServer }) {
   // Throws if no listener was setup
   await apiServer.emitAsync('error', standardError);
 };
-
 
 module.exports = {
   handleStartupError,

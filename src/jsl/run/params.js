@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { pickBy } = require('../../utilities');
 const { JslHelper } = require('./helpers');
-
 
 // Retrieve parameters to use for a given JSL execution,
 // after filtering and helpers binding
@@ -47,7 +45,6 @@ const bindHelpers = function ({ params }) {
 const restrictedTypes = ['filter', 'data'];
 // Those JSL parameters are always exposed
 const alwaysExposed = ['$', '$$'];
-
 
 module.exports = {
   getParams,

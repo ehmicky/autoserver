@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { isJsl } = require('../../../jsl');
 const { EngineError } = require('../../../error');
 const { mapValues } = require('../../../utilities');
-
 
 /**
  * Normalize args.filter, since it can take three shapes:
@@ -43,7 +41,6 @@ const singleDollarRegExp = /([^$a-zA-Z0-9_])\$(?![$a-zA-Z0-9_])/g;
 const normalizeJsl = function ([attrName, attrJsl]) {
   return attrJsl.replace(singleDollarRegExp, `$1$$$$.${attrName}`);
 };
-
 
 module.exports = {
   normalizeFilter,

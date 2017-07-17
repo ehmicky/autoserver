@@ -1,10 +1,8 @@
 'use strict';
 
-
 // Fake database for the moment
 const database = require('./data.json');
 const { fireCommand } = require('./commands');
-
 
 const databaseExecute = async function (input) {
   const { command, args = {}, settings, modelName, jsl, log } = input;
@@ -21,7 +19,6 @@ const databaseExecute = async function (input) {
   perf.stop();
   return response;
 };
-
 
 module.exports = {
   databaseExecute,

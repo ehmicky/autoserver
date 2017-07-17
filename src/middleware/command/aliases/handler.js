@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { applyInputAliases } = require('./input');
 const { applyOutputAliases } = require('./output');
-
 
 /**
  * Rename attributes using IDL `alias`.
@@ -30,7 +28,6 @@ const renameAliases = async function (input) {
 
   return response;
 };
-
 
 module.exports = {
   renameAliases,

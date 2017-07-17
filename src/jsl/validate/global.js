@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { memoize, assignArray } = require('../../utilities');
-
 
 // Retrieves all global variables, to make sure JSL does not access them
 // This is memoized, i.e. no global variables should be added runtime,

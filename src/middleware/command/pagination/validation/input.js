@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { validate } = require('../../../../validation');
 const { EngineError } = require('../../../../error');
 const { allowFullPagination, mustPaginateOutput } = require('../condition');
 const { decode } = require('../encoding');
-
 
 // Validate args.before|after|pageSize|page
 const validatePaginationInput = function ({
@@ -180,7 +178,6 @@ const getInputData = function ({ args }) {
   }
   return inputData;
 };
-
 
 module.exports = {
   validatePaginationInput,

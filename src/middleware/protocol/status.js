@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 // Retrieve response's status
 const getStatus = async function (input) {
@@ -59,7 +57,6 @@ const setStatus = function ({
   log.add({ protocolStatus, status });
   Object.assign(input, { protocolStatus, status });
 };
-
 
 module.exports = {
   getStatus,

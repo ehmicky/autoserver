@@ -1,13 +1,11 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { EngineError } = require('../../../error');
 const { validateSyntax } = require('./validate_syntax');
 const { validateLimits } = require('./validate_limits');
 const { renameArgs } = require('./rename');
-
 
 // Process client-supplied args: validates them and add them to JSL variables
 // Also rename them camelcase
@@ -41,7 +39,6 @@ const handleArgs = async function (input) {
     throw error;
   }
 };
-
 
 module.exports = {
   handleArgs,

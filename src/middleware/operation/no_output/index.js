@@ -1,8 +1,6 @@
 'use strict';
 
-
 const operations = require('./operations');
-
 
 // Apply `noOutput` settings:
 //   - if true, the action will modify the database, but return an empty
@@ -25,7 +23,6 @@ const noOutput = async function (input) {
   perf.stop();
   return response;
 };
-
 
 module.exports = {
   noOutput,

@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { pick } = require('../utilities');
-
 
 // Transform main options
 const transformOptions = function ({
@@ -35,8 +33,6 @@ const transformLoggerFilter = function (filter) {
     ? obj => pick(obj, filter)
     : filter;
 };
-
-
 
 module.exports = {
   transformOptions,

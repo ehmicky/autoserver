@@ -1,12 +1,10 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { pickBy } = require('../../../utilities');
 const { validate } = require('../../../validation');
 const { getDataValidationSchema } = require('./schema');
-
 
 /**
  * Check that input nFilter|newData passes IDL validation
@@ -64,7 +62,6 @@ const removeJsl = function ({ value, parent, key }) {
     };
   }
 };
-
 
 module.exports = {
   validateInputData,

@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { Log } = require('../logging');
 const { getStandardError } = require('../error');
 const { assignObject, onlyOnce } = require('../utilities');
-
 
 // Make sure the server stops when graceful exits are possible
 // Also send related logging messages
@@ -154,7 +152,6 @@ const exit = async function ({ isSuccess, apiServer }) {
   const exitCode = isSuccess ? 0 : 1;
   process.exit(exitCode);
 };
-
 
 module.exports = {
   setupGracefulExit,

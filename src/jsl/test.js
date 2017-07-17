@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { tokenizeJsl } = require('./tokenize');
-
 
 // Test whether a value is JSL
 const isJsl = ({ jsl }) => testJsl({ jsl }) === 'Jsl';
@@ -18,7 +16,6 @@ const testJsl = ({ jsl }) => {
   if (isEscaped) { return 'Escaped'; }
   return 'Jsl';
 };
-
 
 module.exports = {
   isJsl,

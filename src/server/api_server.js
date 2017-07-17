@@ -1,10 +1,8 @@
 'use strict';
 
-
 const EventEmitter2 = require('eventemitter2');
 
 const { getServerInfo } = require('../info');
-
 
 // Object returned by main function `startServer()`
 // Contains general information (options, server name, version, etc.)
@@ -25,7 +23,6 @@ class ApiEngineServer extends EventEmitter2 {
   }
 
 }
-
 
 module.exports = {
   ApiEngineServer,

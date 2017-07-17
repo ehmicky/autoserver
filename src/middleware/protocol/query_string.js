@@ -1,11 +1,9 @@
 'use strict';
 
-
 const qs = require('qs');
 
 const { EngineError } = require('../../error');
 const { transtype, mapValues, makeImmutable } = require('../../utilities');
-
 
 const MAX_DEPTH = 10;
 const MAX_ARRAY_LENGTH = 100;
@@ -79,7 +77,6 @@ const parseQueryVars = function ({ queryString }) {
     });
   }
 };
-
 
 module.exports = {
   parseQueryString,

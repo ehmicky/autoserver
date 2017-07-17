@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { getReason } = require('../../error');
 const { STATUS_LEVEL_MAP } = require('../../logging');
-
 
 // Main request logging middleware.
 // Each request creates exactly one log, whether successful or not,
@@ -55,7 +53,6 @@ const addErrorReason = function ({ error, input: { log } }) {
   const errorReason = getReason({ error });
   log.add({ errorReason });
 };
-
 
 module.exports = {
   logger,

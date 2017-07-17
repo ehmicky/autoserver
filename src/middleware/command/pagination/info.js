@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Extra pagination-related information from arguments
 const getPaginationInfo = function ({ args }) {
   const { after, before, pageSize, page } = args;
@@ -43,7 +42,6 @@ const directionInfo = {
     next: 'next',
   },
 };
-
 
 module.exports = {
   getPaginationInfo,

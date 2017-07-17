@@ -1,12 +1,10 @@
 'use strict';
 
-
 const { normalizeCommands } = require('./commands');
 const { normalizeModels } = require('./models');
 const { normalizeHelpers } = require('./helpers');
 const { normalizeShortcuts } = require('./shortcuts');
 const { normalizeGraphQL } = require('./graphql');
-
 
 // Normalize IDL definition
 const normalizeIdl = function ({ idl, serverOpts, startupLog }) {
@@ -32,7 +30,6 @@ const normalizeIdl = function ({ idl, serverOpts, startupLog }) {
 
   return idl;
 };
-
 
 module.exports = {
   normalizeIdl,

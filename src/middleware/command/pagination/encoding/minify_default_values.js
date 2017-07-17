@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { isEqual } = require('lodash');
-
 
 const removeDefaultValues = function ({ token }) {
   for (const [attrName, value] of Object.entries(defaultValues)) {
@@ -22,7 +20,6 @@ const defaultValues = {
   nFilter: '(true)',
   nOrderBy: [{ attrName: 'id', order: 'asc' }],
 };
-
 
 module.exports = {
   removeDefaultValues,

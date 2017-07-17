@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../../error');
-
 
 /**
  * Normalize args.orderBy, e.g. 'a,b+,c-' would become:
@@ -62,7 +60,6 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
 
 // Matches attribute+ attribute- or attribute
 const partsPostfixRegexp = /^(.*)(\+|-)$/;
-
 
 module.exports = {
   normalizeOrderBy,

@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { getRawValidator } = require('../validation');
-
 
 const addCustomKeywords = function ({ idl: { validation = {} } }) {
   const ajv = getRawValidator();
@@ -38,7 +36,6 @@ const addCustomKeyword = function ({ ajv, keyword, test, message, type }) {
     $data: true,
   });
 };
-
 
 module.exports = {
   addCustomKeywords,

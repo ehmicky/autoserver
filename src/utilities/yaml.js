@@ -1,10 +1,8 @@
 'use strict';
 
-
 const yaml = require('js-yaml');
 const { readFile } = require('fs');
 const { promisify } = require('util');
-
 
 // Retrieve and parses a YAML file
 // This might throw for many different reasons, e.g. wrong YAML syntax,
@@ -26,7 +24,6 @@ const getYaml = async function ({ path, content }) {
   });
   return data;
 };
-
 
 module.exports = {
   getYaml,

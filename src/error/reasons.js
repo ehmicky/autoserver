@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * List of errors
  * Keys are the exception.reason of the exception thrown
@@ -115,7 +114,6 @@ const getReason = function ({ error: { reason = 'UNKNOWN' } }) {
   if (!errorReasons[reason]) { return 'UNKNOWN_TYPE'; }
   return reason;
 };
-
 
 module.exports = {
   getGenericProps,

@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * Transforms a series of functions into a middleware stack.
  * More precisely:
@@ -40,7 +39,6 @@ const bindFunctions = function (funcs, func) {
   const next = funcs[funcs.length - 1];
   return [...funcs, func.bind({ next })];
 };
-
 
 module.exports = {
   chain,

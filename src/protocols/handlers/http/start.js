@@ -1,11 +1,9 @@
 'use strict';
 
-
 const http = require('http');
 const { promisify } = require('util');
 
 const { ENV } = require('../../../utilities');
-
 
 // Start HTTP server
 const startServer = function ({
@@ -77,7 +75,6 @@ const handleClientError = function ({ server, log }) {
     socket.end('');
   });
 };
-
 
 module.exports = {
   startServer,

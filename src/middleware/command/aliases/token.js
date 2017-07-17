@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { decode, encode } = require('../pagination/encoding');
 const { applyOrderByAliases } = require('./order_by');
-
 
 // Copy same aliasing as `args.nFilter` and `args.nOrderBy` but inside
 // pagination tokens
@@ -22,7 +20,6 @@ const applyTokenAliases = function ({ token, attrName, aliases }) {
   // reported by pagination layer
   } catch (error) { return token; }
 };
-
 
 module.exports = {
   applyTokenAliases,

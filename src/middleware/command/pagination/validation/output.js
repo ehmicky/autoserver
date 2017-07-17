@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { validate } = require('../../../../validation');
 const { EngineError } = require('../../../../error');
 const { getPaginationInfo } = require('../info');
 const { decode } = require('../encoding');
-
 
 // Validate response.metadata related to pagination
 const validatePaginationOutput = function ({
@@ -110,7 +108,6 @@ const getOutputData = function ({ metadata }) {
     }
   });
 };
-
 
 module.exports = {
   validatePaginationOutput,

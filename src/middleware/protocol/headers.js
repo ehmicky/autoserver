@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { makeImmutable } = require('../../utilities');
 const { EngineError } = require('../../error');
-
 
 // Fill in `input.headers` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -35,7 +33,6 @@ const getHeaders = function ({ specific, protocolHandler }) {
 
   return headers;
 };
-
 
 module.exports = {
   parseHeaders,

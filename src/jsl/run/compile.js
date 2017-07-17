@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { isJsl, isEscapedJsl } = require('../test');
 const { getRawJsl } = require('../tokenize');
 const { memoizeUnlessClient } = require('../memoize');
 const { validateJsl } = require('../validate');
-
 
 // Transform JSL into a function with the JSL as body
 // Returns as it is not JSL
@@ -32,7 +30,6 @@ const compileJsl = memoizeUnlessClient(function ({ jsl, paramsKeys, type }) {
 
   return func;
 });
-
 
 module.exports = {
   compileJsl,

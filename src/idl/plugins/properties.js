@@ -1,13 +1,11 @@
 'use strict';
 
-
 const { uniq, intersection, difference } = require('lodash');
 const { toSentence } = require('underscore.string');
 const pluralize = require('pluralize');
 
 const { EngineError } = require('../../error');
 const { mapValues } = require('../../utilities');
-
 
 // Generic plugin factory
 // It adds properties to each model, using `getProperties(pluginOpts)` option
@@ -67,7 +65,6 @@ const getPropMessage = function (properties) {
   const propsValue = toSentence(properties);
   return `${propsName} ${propsValue}`;
 };
-
 
 module.exports = {
   propertiesPlugin,

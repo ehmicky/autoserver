@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { reportError } = require('./report');
-
 
 // If error handler fails, only reports failure then gives up
 const handleFailure = async function ({ log, error }) {
@@ -16,7 +14,6 @@ const handleFailure = async function ({ log, error }) {
 
   await reportError({ log, error: errorObj });
 };
-
 
 module.exports = {
   handleFailure,

@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { LEVELS } = require('./constants');
-
 
 // Prints logs messages to console.
 const consolePrint = function ({ level, message, loggerLevel }) {
@@ -13,7 +11,6 @@ const consolePrint = function ({ level, message, loggerLevel }) {
 
   global.console[level](message);
 };
-
 
 module.exports = {
   consolePrint,

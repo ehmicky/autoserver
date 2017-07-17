@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { mapValues, assignObject, assignArray } = require('../../utilities');
-
 
 // Normalize idl.helpers
 const normalizeHelpers = function ({ idl }) {
@@ -40,7 +38,6 @@ const getExposeMap = function ({ helpers }) {
     })
     .reduce(assignObject, {});
 };
-
 
 module.exports = {
   normalizeHelpers,

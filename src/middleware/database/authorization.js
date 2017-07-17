@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 // Main authorization layer
 const authorization = async function (input) {
@@ -23,7 +21,6 @@ const validateCommands = function ({ model: { commands }, command }) {
     throw new EngineError(message, { reason: 'AUTHORIZATION' });
   }
 };
-
 
 module.exports = {
   authorization,

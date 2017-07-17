@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { printSchema: graphQLPrintSchema, } = require('graphql');
 const { render } = require('mustache');
 const { readFile } = require('fs');
@@ -8,7 +7,6 @@ const { resolve } = require('path');
 const { promisify } = require('util');
 
 const PRINT_HTML_FILE = resolve(__dirname, './print.mustache');
-
 
 const printSchema = async function ({ schema }) {
   const data = {
@@ -21,7 +19,6 @@ const printSchema = async function ({ schema }) {
   const htmlString = render(htmlFile, data);
   return htmlString;
 };
-
 
 module.exports = {
   printSchema,

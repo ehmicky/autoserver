@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { sender } = require('./sender');
-
 
 // Sends the response at the end of the request
 const sendResponse = async function (input) {
@@ -38,7 +36,6 @@ const sendResponse = async function (input) {
     throw error;
   }
 };
-
 
 module.exports = {
   sendResponse,

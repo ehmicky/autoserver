@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { parse } = require('graphql');
 
 const { EngineError } = require('../../../../error');
 const { memoize } = require('../../../../utilities');
-
 
 // Raw GraphQL parsing
 const parseQuery = memoize(function ({ query, goal, operationName }) {
@@ -69,7 +67,6 @@ const validateQuery = function ({ queryDocument, goal, operationName }) {
 
   return { graphqlMethod: definition.operation };
 };
-
 
 module.exports = {
   parseQuery,

@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { memoize, transform, mapValues } = require('../../../utilities');
-
 
 // Retrieves JSON schema to validate against
 const getDataValidationSchema = memoize(function ({
@@ -71,7 +69,6 @@ const transforms = [
     },
   },
 ];
-
 
 module.exports = {
   getDataValidationSchema,

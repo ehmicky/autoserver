@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Protocol name, without version
 const name = 'HTTP';
 
@@ -8,7 +7,6 @@ const name = 'HTTP';
 const getFullName = function ({ specific: { req: { httpVersion } } }) {
   return `HTTP/${httpVersion}`;
 };
-
 
 module.exports = {
   name,

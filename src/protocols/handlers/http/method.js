@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Retrieves HTTP method
 const getMethod = function ({ specific: { req: { method } } }) {
   return method;
@@ -18,7 +17,6 @@ const goalMap = {
   PATCH: 'update',
   DELETE: 'delete',
 };
-
 
 module.exports = {
   getMethod,

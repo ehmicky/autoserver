@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Uses to reduce:
 //  - an array of objects -> object, e.g. [{...},{...}].reduce(assign, {})
 //  - an array of [key, value] -> object,
@@ -15,7 +14,6 @@ const assignObject = function (memo, val) {
 const assignArray = function (memo, val) {
   return memo.concat(val);
 };
-
 
 module.exports = {
   assignObject,

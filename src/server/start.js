@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
@@ -11,7 +10,6 @@ const { getMiddleware } = require('../middleware');
 const { ApiEngineServer } = require('./api_server');
 const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./startup_error');
-
 
 /**
  * Start server for each protocol
@@ -153,7 +151,6 @@ const getHandleListening = function (
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
   startupLog.log(message);
 };
-
 
 module.exports = {
   startServer,

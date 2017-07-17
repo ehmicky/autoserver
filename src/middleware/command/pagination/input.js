@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { omit } = require('../../../utilities');
 const { getPaginationInfo } = require('./info');
 const { decode } = require('./encoding');
-
 
 // Transform args.pageSize|before|after|page into args.limit|offset|nFilter
 const getPaginationInput = function ({ args }) {
@@ -75,7 +73,6 @@ const tokenToJsl = function ({ parts, nOrderBy, isBackward }) {
     })
     .join(' || ');
 };
-
 
 module.exports = {
   getPaginationInput,

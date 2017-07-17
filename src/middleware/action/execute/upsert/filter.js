@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../../../error');
-
 
 // Transform `args.data`'s ids into a `args.filter` that can be used by
 // the first and the second "read" command
@@ -34,7 +32,6 @@ const getDataId = function ({ data }) {
 
   return id;
 };
-
 
 module.exports = {
   getFilter,

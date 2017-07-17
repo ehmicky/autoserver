@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 // Fill in:
 //  - `input.url`: full URL, e.g. used for logging
@@ -46,7 +44,6 @@ const getPath = function ({ specific, protocolHandler }) {
 
   return path;
 };
-
 
 module.exports = {
   parseUrl,
