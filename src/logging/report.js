@@ -71,11 +71,11 @@ const tryToLog = async function ({
 }) {
   try {
     await apiServer.emitAsync(eventName, info);
-  } catch (innererror) {
+  } catch (error) {
     if (delay > maxDelay) { return; }
     await promisify(setTimeout)(delay);
 
-    addLoggerError({ info, innererror });
+    addLoggerError({ info, error });
     delay *= delayExponent;
     await tryToLog({ apiServer, eventName, info, delay });
   }
@@ -86,11 +86,11 @@ const delayExponent = 5;
 const maxDelay = 1000 * 60 * 3;
 
 // Keep track of the error the logging utility threw
-const addLoggerError = function ({ info, innererror }) {
-  const innererrorString = typeof innererror === 'string' ? innererror : '';
-  const loggerError = innererror instanceof Error
-    ? `${innererror.message} ${innererror.stack || ''}`
-    : innererrorString;
+const addLoggerError = function ({ info, error }) {
+  const errorString = typeof error === 'string' ? error : '';
+  const loggerError = error instanceof Error
+    ? `${error.message} ${error.stack || ''}`
+    : errorString;
   info.loggerErrors = info.loggerErrors || [];
   info.loggerErrors.push(loggerError);
 };

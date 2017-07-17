@@ -24,9 +24,12 @@ const processErrorHandler = function ({ serverOpts, apiServer }) {
 const checkUniqueCall = function () {
   try {
     uniqueCall();
-  } catch (innererror) {
+  } catch (error) {
     const message = '\'startServer()\' can only be called once per process.';
-    throw new EngineError(message, { reason: 'PROCESS_ERROR', innererror });
+    throw new EngineError(message, {
+      reason: 'PROCESS_ERROR',
+      innererror: error,
+    });
   }
 };
 

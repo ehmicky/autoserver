@@ -21,11 +21,11 @@ const getIdlConf = async function ({ conf }) {
 
     try {
       path = await promisify(realpath)(conf);
-    } catch (innererror) {
+    } catch (error) {
       const message = `Configuration file does not exist: '${conf}'`;
       throw new EngineError(message, {
         reason: 'CONFIGURATION_LOADING',
-        innererror,
+        innererror: error,
       });
     }
 
@@ -34,11 +34,11 @@ const getIdlConf = async function ({ conf }) {
 
     try {
       idl = await getYaml({ path });
-    } catch (innererror) {
+    } catch (error) {
       const message = 'Could not load configuration file';
       throw new EngineError(message, {
         reason: 'CONFIGURATION_LOADING',
-        innererror,
+        innererror: error,
       });
     }
   } else if (conf && conf.constructor === Object) {

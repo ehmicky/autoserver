@@ -175,11 +175,11 @@ const getInputData = function ({ args }) {
 
     try {
       decodedToken = decode({ token });
-    } catch (innererror) {
+    } catch (error) {
       const message = `Wrong parameters: '${name}' is invalid`;
       throw new EngineError(message, {
         reason: 'INPUT_VALIDATION',
-        innererror,
+        innererror: error,
       });
     }
 

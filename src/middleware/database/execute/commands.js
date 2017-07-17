@@ -83,11 +83,11 @@ const filterToId = function ({ nFilter }) {
 
     const id = JSON.parse(parts[1]);
     return id;
-  } catch (innererror) {
+  } catch (error) {
     const message = `JSL expression should be '($ === ID)': ${nFilter}`;
     throw new EngineError(message, {
       reason: 'INPUT_SERVER_VALIDATION',
-      innererror,
+      innererror: error,
     });
   }
 };

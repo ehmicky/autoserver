@@ -102,11 +102,11 @@ const getOutputData = function ({ metadata }) {
     try {
       const parsedToken = decode({ token });
       return Object.assign({}, pages, { token: parsedToken });
-    } catch (innererror) {
+    } catch (error) {
       const message = 'Wrong response: \'token\' is invalid';
       throw new EngineError(message, {
         reason: 'OUTPUT_VALIDATION',
-        innererror,
+        innererror: error,
       });
     }
   });
