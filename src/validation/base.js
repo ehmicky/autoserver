@@ -52,20 +52,6 @@ const customBaseKeywords = {
     $data: true,
   },
 
-  // Checks function return value.
-  // Function is fired with no argument, i.e. it must:
-  //  - be pure
-  //  - always return the same return value type
-  //  - return a non-undefined|null return value when fired with
-  //    no argument (unless it always returns undefined|null)
-  returnType: {
-    validate (schemaValue, data) {
-      if (typeof data !== 'function') { return true; }
-      return typeof data() === schemaValue;
-    },
-    $data: true,
-  },
-
 };
 
 module.exports = {
