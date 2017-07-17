@@ -47,7 +47,7 @@ const getField = function (def, opts) {
   // Fields description|deprecation_reason are taken from IDL definition
   const { description, deprecationReason } = def;
 
-	// Only for models, and not for argument types
+  // Only for models, and not for argument types
   // Modifiers (Array and NonNull) retrieve their arguments from
   // underlying type (i.e. `args` is already defined)
   if (isModel(def) && opts.inputObjectType === '' && !args) {
@@ -123,7 +123,7 @@ const objectTypeSerializer = function ([ def, opts ]) {
 const graphQLObjectFieldGetter = memoize(function (def, opts) {
   const name = getTypeName({ def, opts });
   const description = def.description;
-	const constructor = opts.inputObjectType !== ''
+  const constructor = opts.inputObjectType !== ''
     ? GraphQLInputObjectType
     : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
@@ -264,10 +264,10 @@ const isRequired = function (parentDef, def, name, {
   const shouldNotRequire = (
     // Query inputObjects do not require any attribute,
     // except filter.id for single actions
-      inputObjectType === 'filter' &&
+    inputObjectType === 'filter' &&
       !isFilterId
     // updateOne|updateMany does not require any attribute in input object
-    ) || (
+  ) || (
       inputObjectType === 'data' &&
       action.type === 'update'
     // data.id is optional in createOne|createMany
@@ -286,43 +286,43 @@ const isRequired = function (parentDef, def, name, {
  */
 const graphQLFieldGetters = [
 
-	// "Required" modifier type
+  // "Required" modifier type
   {
     condition: (def, opts) => opts.isRequired,
     value: graphQLRequiredFieldGetter,
   },
 
-	// "Array" modifier type
+  // "Array" modifier type
   {
     condition: def => def.type === 'array',
     value: graphQLArrayFieldGetter,
   },
 
-	// "Object" type
+  // "Object" type
   {
     condition: def => def.type === 'object',
     value: graphQLObjectFieldGetter,
   },
 
-	// "Int" type
+  // "Int" type
   {
     condition: def => def.type === 'integer',
     value: () => ({ type: GraphQLInt }),
   },
 
-	// "Float" type
+  // "Float" type
   {
     condition: def => def.type === 'number',
     value: () => ({ type: GraphQLFloat }),
   },
 
-	// "String" type
+  // "String" type
   {
     condition: def => def.type === 'string' || def.type === 'null',
     value: () => ({ type: GraphQLString }),
   },
 
-	// "Boolean" type
+  // "Boolean" type
   {
     condition: def => def.type === 'boolean',
     value: () => ({ type: GraphQLBoolean }),

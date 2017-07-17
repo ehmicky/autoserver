@@ -28,7 +28,7 @@ const startServer = function (options = {}) {
   });
 
   start({ options, startupLog, apiServer })
-  .catch(error => handleStartupError({ error, startupLog, apiServer }));
+    .catch(error => handleStartupError({ error, startupLog, apiServer }));
 
   return apiServer;
 };

@@ -12,8 +12,8 @@ const getArguments = function (def, opts) {
   const options = Object.assign({}, opts, { def });
   return Object.assign(
     {},
-		getDataArgument(options),
-		getFilterArgument(options),
+    getDataArgument(options),
+    getFilterArgument(options),
     getOrderArgument(options),
     getPaginationArgument(options),
   );
