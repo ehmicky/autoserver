@@ -6,7 +6,7 @@ const { throwJslError } = require('./error');
 const { memoizeUnlessClient } = require('./memoize');
 
 // Parse JSL into a top-level node
-const parseNode = memoizeUnlessClient(function ({ jslText, type }) {
+const parseNode = memoizeUnlessClient(({ jslText, type }) => {
   try {
     return parse(jslText);
   } catch (innererror) {

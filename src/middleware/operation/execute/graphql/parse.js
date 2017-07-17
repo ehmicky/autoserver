@@ -6,7 +6,7 @@ const { EngineError } = require('../../../../error');
 const { memoize } = require('../../../../utilities');
 
 // Raw GraphQL parsing
-const parseQuery = memoize(function ({ query, goal, operationName }) {
+const parseQuery = memoize(({ query, goal, operationName }) => {
   if (!query) {
     const message = 'Missing GraphQL query';
     throw new EngineError(message, { reason: 'GRAPHQL_NO_QUERY' });

@@ -27,11 +27,11 @@ const setupGracefulExit = function ({
 };
 
 // Setup graceful exit
-const gracefulExit = onlyOnce(async function ({
+const gracefulExit = onlyOnce(async ({
   servers,
   serverOpts,
   apiServer,
-}) {
+}) => {
   const log = new Log({ serverOpts, apiServer, phase: 'shutdown' });
   const perf = log.perf.start('all', 'all');
 

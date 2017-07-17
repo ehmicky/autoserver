@@ -29,7 +29,7 @@ const getServerInfo = function ({ serverOpts: { serverName } }) {
 // Information that do not change across a specific process.
 // We need to memoize both for performnace and predictability,
 // e.g. to assign a single `serverId` per process.
-const getStaticServerInfo = memoize(function ({ serverName }) {
+const getStaticServerInfo = memoize(({ serverName }) => {
   const hostname = getHostname();
   const osType = getOsType();
   const platform = getPlatform();

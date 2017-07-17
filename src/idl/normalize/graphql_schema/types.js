@@ -120,7 +120,7 @@ const objectTypeSerializer = function ([def, opts]) {
 };
 
 // Object field FieldGetter
-const graphQLObjectFieldGetter = memoize(function (def, opts) {
+const graphQLObjectFieldGetter = memoize((def, opts) => {
   const name = getTypeName({ def, opts });
   const description = def.description;
   const constructor = opts.inputObjectType !== ''
