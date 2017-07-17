@@ -5,12 +5,12 @@ const { cloneDeep } = require('lodash');
 const { memoize, transform, mapValues } = require('../../../utilities');
 
 // Retrieves JSON schema to validate against
-const getDataValidationSchema = memoize(function ({
+const getDataValidationSchema = memoize(({
   idl,
   modelName,
   command,
   type,
-}) {
+}) => {
   const schema = cloneDeep(idl.models[modelName]);
   // Adapt the IDL schema validation to the current command.name,
   // and to what the validator library expects

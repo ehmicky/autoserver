@@ -5,7 +5,7 @@ const { memoize, assignArray } = require('../../utilities');
 // Retrieves all global variables, to make sure JSL does not access them
 // This is memoized, i.e. no global variables should be added runtime,
 // as they could be accessed in JSL
-const getGlobalKeys = memoize(function ({ type }) {
+const getGlobalKeys = memoize(({ type }) => {
   const globalObjects = [
     global,
     // Since global is an object, Object constructor and prototype are

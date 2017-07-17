@@ -8,13 +8,13 @@ const { getModelsByGraphqlMethod } = require('./models');
 const { nameSym } = require('./name');
 
 // Returns GraphQL schema
-const getSchema = memoize(function ({
+const getSchema = memoize(({
   idl: { models },
   serverOpts: {
     defaultPageSize,
     maxPageSize,
   },
-}) {
+}) => {
   // Apply `getType` to each top-level graphqlMethod, i.e. Query and Mutation
   const schemaFields = mapValues(rootDefs, (rootDef, graphqlMethod) => {
     // Builds query|mutation type

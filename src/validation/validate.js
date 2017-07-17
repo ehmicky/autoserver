@@ -4,7 +4,7 @@ const { memoize, assignArray } = require('../utilities');
 const { reportErrors } = require('./report_error');
 const { getRawValidator } = require('./base');
 
-const getValidator = memoize(function ({ schema }) {
+const getValidator = memoize(({ schema }) => {
   const ajv = getRawValidator();
   return ajv.compile(schema);
 });

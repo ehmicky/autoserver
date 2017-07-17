@@ -39,7 +39,7 @@ const getIdlCopy = function ({ idl }) {
 };
 
 // Retrieve IDL schema
-const getSchema = memoize(async function () {
+const getSchema = memoize(async () => {
   const schemaContent = await promisify(readFile)(IDL_SCHEMA_PATH, {
     encoding: 'utf-8',
   });
