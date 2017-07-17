@@ -59,31 +59,31 @@ const payloadError = function ({ specific, protocolHandler }) {
 const payloadHandlers = [
 
   // `application/graphql` request payload
-  async function ({ specific, parse }) {
+  async function graphqlHandler ({ specific, parse }) {
     const payload = await parse.graphql({ specific });
     return payload ? { query: payload } : undefined;
   },
 
   // JSON request payload
-  async function ({ specific, parse }) {
+  async function jsonHandler ({ specific, parse }) {
     const payload = await parse.json({ specific });
     return payload;
   },
 
   // `x-www-form-urlencoded` request payload
-  async function ({ specific, parse }) {
+  async function urlencodedHandler ({ specific, parse }) {
     const payload = await parse.urlencoded({ specific });
     return payload;
   },
 
   // String request payload
-  async function ({ specific, parse }) {
+  async function textHandler ({ specific, parse }) {
     const payload = await parse.text({ specific });
     return typeof payload === 'string' ? undefined : payload;
   },
 
   // Binary request payload
-  async function ({ specific, parse }) {
+  async function rawHandler ({ specific, parse }) {
     const payload = await parse.raw({ specific });
     return payload instanceof Buffer ? payload.toString() : undefined;
   },
