@@ -41,9 +41,9 @@ rules:
   - error
   - before: true
     after: true
-##  block-spacing:
-##  - error
-##  - always
+  block-spacing:
+  - error
+  - always
   brace-style:
   - error
   - 1tbs

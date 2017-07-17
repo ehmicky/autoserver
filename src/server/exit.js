@@ -146,7 +146,7 @@ const exit = async function ({ isSuccess, apiServer }) {
   const eventName = isSuccess ? 'stop.success' : 'stop.fail';
   try {
     await apiServer.emitAsync(eventName);
-  } catch (error) {/* */}
+  } catch (error) { /* */ }
 
   // Used by Nodemon
   process.kill(process.pid, 'SIGUSR2');
