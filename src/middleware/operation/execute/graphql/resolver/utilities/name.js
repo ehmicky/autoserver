@@ -5,6 +5,7 @@ const { singular } = require('pluralize');
 
 // Matches e.g. 'findMyModels' -> ['find', 'MyModels'];
 const nameRegExp = /^([a-z0-9]+)([A-Z][a-zA-Z0-9]*)/;
+
 /**
  * Parse a GraphQL query attribute name into tokens.
  * E.g. `findMyModels` -> { actionType: 'find', attrName: 'my_models' }
