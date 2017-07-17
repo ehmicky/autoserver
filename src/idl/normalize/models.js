@@ -77,7 +77,7 @@ const transforms = [
       const normalizedCommandNames = normalizeCommandNames(commandNames);
       const actions = getActions({ commandNames: normalizedCommandNames });
       return { commands: normalizedCommandNames, actions };
-    }
+    },
   },
 
   {
