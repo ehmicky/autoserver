@@ -63,7 +63,7 @@ rules:
 #      FunctionDeclaration: true
 #      MethodDefinition: true
 #      ClassDeclaration: true
-##  strict: 2
+  strict: 2
 
   # Long statements
   newline-per-chained-call: 2

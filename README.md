@@ -58,6 +58,8 @@ Includes (but is not limited to):
 Start the server with:
 
 ```javascript
+'use strict';
+
 const { startServer } = require('api-engine');
 
 startServer({ conf: 'my_schema.yml' });
