@@ -4,7 +4,7 @@ const { EngineError } = require('../../../error');
 
 // Check input is not too big
 const validateLimits = function ({ args: { data }, maxDataLength }) {
-  const isDataTooBig = data instanceof Array &&
+  const isDataTooBig = Array.isArray(data) &&
     data.length > maxDataLength &&
     maxDataLength > 0;
 

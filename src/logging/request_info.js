@@ -153,7 +153,7 @@ const setArgData = function (actionInfo, loggerFilter) {
 };
 
 const setActionResponses = function (actionInfo, loggerFilter) {
-  if (actionInfo.responses && actionInfo.responses instanceof Array) {
+  if (actionInfo.responses && Array.isArray(actionInfo.responses)) {
     actionInfo.responses = actionInfo.responses.map(({ content } = {}) => {
       return content;
     });
@@ -189,7 +189,7 @@ const reduceModels = function ({ info, attrName, filter }) {
 
   info[`${attrName}Size`] = size;
 
-  if (info[attrName] instanceof Array) {
+  if (Array.isArray(info[attrName])) {
     info[`${attrName}Count`] = info[attrName].length;
     info[attrName] = info[attrName].map(obj => {
       if (!obj || obj.constructor !== Object) { return; }

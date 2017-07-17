@@ -33,7 +33,7 @@ const getUpdateArgs = function ({ args, models, jsl }) {
   const jslKeys = Object.keys(data)
     .filter(key => isJsl({ jsl: data[key] }));
 
-  if (models instanceof Array) {
+  if (Array.isArray(models)) {
     updateArgs.newData = models.map(model => {
       return getUpdateData({ model, data, jsl, jslKeys });
     });

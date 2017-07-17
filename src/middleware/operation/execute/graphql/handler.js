@@ -97,7 +97,7 @@ const fireNext = async function (request, perf, actions, actionInput) {
 
 const getResponseType = function ({ content: { data } }) {
   const mainData = data[Object.keys(data)[0]];
-  return mainData instanceof Array ? 'collection' : 'model';
+  return Array.isArray(mainData) ? 'collection' : 'model';
 };
 
 module.exports = {

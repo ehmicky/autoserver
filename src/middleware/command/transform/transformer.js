@@ -4,7 +4,7 @@ const { pick } = require('../../../utilities');
 
 // Performs transformation on data array or single data
 const applyTransformsOnData = function ({ data, transforms, jsl, type }) {
-  return data instanceof Array
+  return Array.isArray(data)
     ? data.map(datum => applyTransforms({ data: datum, transforms, jsl, type }))
     : applyTransforms({ data, transforms, jsl, type });
 };

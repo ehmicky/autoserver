@@ -5,7 +5,7 @@ const { ENV } = require('../env');
 // Deeply Object.freeze() over an object.
 const _makeImmutable = function (obj) {
   const isObjectOrArray = obj &&
-    (obj.constructor === Object || obj instanceof Array);
+    (obj.constructor === Object || Array.isArray(obj));
   if (!isObjectOrArray) { return obj; }
 
   // Avoid infinite recursions

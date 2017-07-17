@@ -24,9 +24,9 @@ const validateCircularRefs = function ({
   }
 
   // Recursion
-  if (value && (value instanceof Array || value.constructor === Object)) {
+  if (value && (Array.isArray(value) || value.constructor === Object)) {
     for (const [childKey, child] of Object.entries(value)) {
-      const pathPart = value instanceof Array
+      const pathPart = Array.isArray(value)
         ? `[${childKey}]`
         : `.${childKey}`;
       const childPath = `${path}${pathPart}`;

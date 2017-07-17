@@ -28,7 +28,7 @@ const transformLoggerFilters = function (filters) {
 };
 
 const transformLoggerFilter = function (filter) {
-  const isShortcut = filter instanceof Array &&
+  const isShortcut = Array.isArray(filter) &&
     filter.every(attrName => typeof attrName === 'string');
   return isShortcut
     ? obj => pick(obj, filter)

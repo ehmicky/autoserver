@@ -17,7 +17,7 @@ const handleReadOnly = async function (input) {
   // Remove readonly attributes in `args.newData`
   if (newData) {
     const readOnlyAttrs = readOnlyMap[modelName];
-    args.newData = newData instanceof Array
+    args.newData = Array.isArray(newData)
       ? newData.map(datum => removeReadOnly({
         newData: datum,
         readOnlyAttrs,

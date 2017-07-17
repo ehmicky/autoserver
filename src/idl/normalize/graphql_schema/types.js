@@ -75,7 +75,7 @@ const getField = function (def, opts) {
 
   if (hasDefaultValue) {
     // JSL only shows as 'DYNAMIC_VALUE' in schema
-    const defaults = def.default instanceof Array ? def.default : [def.default];
+    const defaults = Array.isArray(def.default) ? def.default : [def.default];
     const isDynamic = defaults.some(jsl => {
       return isJsl({ jsl }) || typeof jsl === 'function';
     });
@@ -161,7 +161,7 @@ const getObjectFields = function (def, opts) {
           memo[name] = childDef;
           // Add transformed name to `required` array,
           // if non-transformed name was present
-          const isRequired = def.required instanceof Array &&
+          const isRequired = Array.isArray(def.required) &&
             def.required.includes(childDefName) &&
             !def.required.includes(name);
 
@@ -262,7 +262,7 @@ const isRequired = function (parentDef, def, name, {
     !action.multiple;
   const shouldRequire = isFilterId ||
     // When user declared an attribute as required
-    (parentDef.required instanceof Array && parentDef.required.includes(name));
+    (Array.isArray(parentDef.required) && parentDef.required.includes(name));
   const shouldNotRequire = (
     // Query inputObjects do not require any attribute,
     // except filter.id for single actions

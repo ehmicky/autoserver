@@ -68,7 +68,7 @@ const upsertAction = async function (input) {
 const splitModels = function ({ input: { args: { data } }, models }) {
   const modelsIds = models.map(({ id }) => id);
 
-  if (data instanceof Array) {
+  if (Array.isArray(data)) {
     const createModels = data.filter(({ id }) => !modelsIds.includes(id));
     const updateModels = data.filter(({ id }) => modelsIds.includes(id));
     return { createModels, updateModels };
@@ -85,7 +85,7 @@ const splitModels = function ({ input: { args: { data } }, models }) {
 const isDefined = function ({ models }) {
   if (!models) { return false; }
 
-  if (models instanceof Array) {
+  if (Array.isArray(models)) {
     return models.length > 0;
   } else if (models.constructor === Object) {
     return true;

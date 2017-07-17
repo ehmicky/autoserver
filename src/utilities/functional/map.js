@@ -40,7 +40,7 @@ const mapKeys = function (obj, mapperFunc) {
 // Apply map() recursively
 const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
   const isObject = value && value.constructor === Object;
-  const isArray = value instanceof Array;
+  const isArray = Array.isArray(value);
 
   if (isObject || isArray) {
     value = isObject
@@ -70,7 +70,7 @@ const recurseMapByRef = function ({ value, mapFunc }) {
 
     ++depth;
 
-    if (value && (value.constructor === Object || value instanceof Array)) {
+    if (value && (value.constructor === Object || Array.isArray(value))) {
       for (const [childKey, child] of Object.entries(value)) {
         value[childKey] = recurse({ value: child, key: childKey, parent: value, parents, depth });
       }

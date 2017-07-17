@@ -17,7 +17,7 @@ class RoutesManager {
   add ({ path, name, goal }) {
     const regexp = pathToRegExp(path);
     const variables = regexp.keys.map(({ name }) => name);
-    const goals = goal && !(goal instanceof Array) ? [goal] : goal;
+    const goals = goal && !Array.isArray(goal) ? [goal] : goal;
 
     this._routes.push({ path, name, regexp, variables, goals });
   }

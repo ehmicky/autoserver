@@ -12,7 +12,7 @@ const applyDataAliases = function ({
   attrName,
   aliases,
 }) {
-  return newData instanceof Array
+  return Array.isArray(newData)
     ? newData.map((datum, index) => applyDataAliases({
       newData: datum,
       currentData: currentData && currentData[index],
