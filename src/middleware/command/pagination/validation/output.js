@@ -7,7 +7,7 @@ const { getPaginationInfo } = require('../info');
 const { decode } = require('../encoding');
 
 
- // Validate response.metadata related to pagination
+// Validate response.metadata related to pagination
 const validatePaginationOutput = function ({
   args,
   action,

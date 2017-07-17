@@ -80,10 +80,10 @@ rules:
   handle-callback-err:
   - error
   - "^(err|error)$"
-##  indent:
-##  - error
-##  - 2
-##  - SwitchCase: 1
+  indent:
+  - error
+  - 2
+  - SwitchCase: 1
   key-spacing:
   - error
   - beforeColon: false

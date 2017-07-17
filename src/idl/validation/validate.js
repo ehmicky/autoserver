@@ -35,8 +35,8 @@ const getIdlCopy = function ({ idl }) {
   const modelNames = Object.keys(idl.models || {});
   const customValidationNames = idl.validation &&
     idl.validation.constructor === Object
-      ? Object.keys(idl.validation)
-      : [];
+    ? Object.keys(idl.validation)
+    : [];
   return Object.assign({}, idl, { modelNames, customValidationNames });
 };
 
