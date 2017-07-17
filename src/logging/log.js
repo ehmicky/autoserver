@@ -9,7 +9,7 @@ const { report } = require('./report');
 const { getRequestInfo } = require('./request_info');
 const { getRequestMessage } = require('./request_message');
 const { LEVELS } = require('./constants');
-const { PerfLog } = require('./perf');
+const { PerfLog, getMeasuresMessage } = require('./perf');
 
 // Represents a logger
 // Can:
@@ -106,7 +106,7 @@ class Log {
   }
 
   async report (level, rawMessage = '', logObj = {}) {
-    this.checkReportInput(rawMessage, logObj);
+    checkReportInput(rawMessage, logObj);
 
     this.buildLogObj({ logObj });
     const { phase, type } = logObj;
@@ -121,19 +121,6 @@ class Log {
 
     const { apiServer, serverOpts: { loggerLevel } } = this;
     await report({ apiServer, loggerLevel, level, rawMessage, logObj });
-  }
-
-  checkReportInput (rawMessage, logObj) {
-    if (typeof rawMessage !== 'string') {
-      const message = `Message must be a string: '${rawMessage}'`;
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
-
-    if (logObj == null || logObj.constructor !== Object) {
-      const strObj = JSON.stringify(logObj);
-      const message = `Log object must be an object: '${strObj}'`;
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
   }
 
   // Adds information common to most logs: `phase`, `type`, `serverInfo`,
@@ -166,10 +153,23 @@ class Log {
     const { phase } = this;
     const measures = this.perf.getMeasures()
       .map(obj => Object.assign({}, obj, { phase }));
-    const measuresMessage = this.perf.getMeasuresMessage({ measures });
+    const measuresMessage = getMeasuresMessage({ measures });
     await this.log('', { measures, measuresMessage, type: 'perf' });
   }
 }
+
+const checkReportInput = function (rawMessage, logObj) {
+  if (typeof rawMessage !== 'string') {
+    const message = `Message must be a string: '${rawMessage}'`;
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+  }
+
+  if (logObj == null || logObj.constructor !== Object) {
+    const strObj = JSON.stringify(logObj);
+    const message = `Log object must be an object: '${strObj}'`;
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+  }
+};
 
 const includeMessagesTypes = ['start', 'call', 'failure', 'stop'];
 

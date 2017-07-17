@@ -39,28 +39,11 @@ class PerfLog {
     const itemId = this.counter;
     const options = { itemId, label, category };
 
-    this.validateOptions(options);
+    validateOptions(options);
 
     this.startItem(options);
 
     return new PerfLogItem({ perfLog: this, options });
-  }
-
-  validateOptions ({ label, category }) {
-    if (typeof label !== 'string') {
-      const message = 'Performance label must be a string';
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
-
-    if (typeof category !== 'string') {
-      const message = 'Performance category must be a string';
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
-
-    if (!CATEGORIES.includes(category)) {
-      const message = `Unknown performance category: '${category}'`;
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
-    }
   }
 
   startItem (options) {
@@ -132,43 +115,60 @@ class PerfLog {
         return measure;
       });
   }
-
-  // Returns measures but as a single string, for console debugging
-  getMeasuresMessage ({ measures }) {
-    return measures
-      // Sort by category (asc) then by duration (desc)
-      .sort((
-        { category: catA, duration: timeA },
-        { category: catB, duration: timeB },
-      ) => {
-        const indexCatA = CATEGORIES.indexOf(catA);
-        const indexCatB = CATEGORIES.indexOf(catB);
-        if (indexCatA < indexCatB) { return -1; }
-        if (indexCatA > indexCatB) { return 1; }
-        if (timeA < timeB) { return 1; }
-        if (timeA > timeB) { return -1; }
-        return 0;
-      })
-      // Prints as a table
-      .map(({
-        phase,
-        category,
-        label,
-        average,
-        count,
-        duration,
-      }) => {
-        phase = phase.padEnd(8);
-        category = category.padEnd(12);
-        label = label.padEnd(26);
-        duration = `${Math.round(duration)}ms`.padEnd(8);
-        average = `${Math.round(average)}ms`.padEnd(7);
-        count = `${String(count).padStart(3)} ${count === 1 ? 'item' : 'items'}`;
-        return `${phase} ${category} ${label} ${duration} = ${average} * ${count}`;
-      })
-      .join('\n');
-  }
 }
+
+const validateOptions = function ({ label, category }) {
+  if (typeof label !== 'string') {
+    const message = 'Performance label must be a string';
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+  }
+
+  if (typeof category !== 'string') {
+    const message = 'Performance category must be a string';
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+  }
+
+  if (!CATEGORIES.includes(category)) {
+    const message = `Unknown performance category: '${category}'`;
+    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+  }
+};
+
+// Returns measures but as a single string, for console debugging
+const getMeasuresMessage = function ({ measures }) {
+  return measures
+    // Sort by category (asc) then by duration (desc)
+    .sort((
+      { category: catA, duration: timeA },
+      { category: catB, duration: timeB },
+    ) => {
+      const indexCatA = CATEGORIES.indexOf(catA);
+      const indexCatB = CATEGORIES.indexOf(catB);
+      if (indexCatA < indexCatB) { return -1; }
+      if (indexCatA > indexCatB) { return 1; }
+      if (timeA < timeB) { return 1; }
+      if (timeA > timeB) { return -1; }
+      return 0;
+    })
+    // Prints as a table
+    .map(({
+      phase,
+      category,
+      label,
+      average,
+      count,
+      duration,
+    }) => {
+      phase = phase.padEnd(8);
+      category = category.padEnd(12);
+      label = label.padEnd(26);
+      duration = `${Math.round(duration)}ms`.padEnd(8);
+      average = `${Math.round(average)}ms`.padEnd(7);
+      count = `${String(count).padStart(3)} ${count === 1 ? 'item' : 'items'}`;
+      return `${phase} ${category} ${label} ${duration} = ${average} * ${count}`;
+    })
+    .join('\n');
+};
 
 // A single measurement item
 // This class is returned by `perfLog.start()`, and allows user to
@@ -214,4 +214,5 @@ const CATEGORIES = [
 
 module.exports = {
   PerfLog,
+  getMeasuresMessage,
 };
