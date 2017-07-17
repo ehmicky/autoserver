@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { memoize } = require('../../../utilities');
-
 
 // Rules to validate JSL defined in IDL file.
 // Each type is a node type.
@@ -174,7 +172,6 @@ const asyncFuncNames = ['then', 'catch'];
 
 // Those are the only constructors that can be called with `new`
 const allowedConstructors = ['Date', 'Array', 'RegExp'];
-
 
 module.exports = {
   system: {

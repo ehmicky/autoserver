@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Keeps track of the modelName associated with each response,
 // so each child resolver knows what's the current model
 const parentModelMap = new WeakMap();
@@ -18,7 +17,6 @@ const getParentModel = function (parent) {
 const hasParentModel = function (parent) {
   return parentModelMap.has(parent);
 };
-
 
 module.exports = {
   setParentModel,

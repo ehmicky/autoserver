@@ -1,6 +1,5 @@
 'use strict';
 
-
 const checkObject = function (obj) {
   const isObject = obj && obj.constructor === Object;
   if (!isObject) {
@@ -11,7 +10,6 @@ const checkObject = function (obj) {
     throw new Error(message);
   }
 };
-
 
 module.exports = {
   checkObject,

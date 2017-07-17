@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { pick } = require('../../../utilities');
-
 
 // Performs transformation on data array or single data
 const applyTransformsOnData = function ({ data, transforms, jsl, type }) {
@@ -58,7 +56,6 @@ const applyTransform = function ({
 
   data[attrName] = newValue;
 };
-
 
 module.exports = {
   applyTransformsOnData,

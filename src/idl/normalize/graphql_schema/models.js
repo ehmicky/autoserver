@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { cloneDeep, merge } = require('lodash');
 
 const {
@@ -12,7 +11,6 @@ const {
 const { ACTIONS } = require('../../../constants');
 const { getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
-
 
 // Mapping from IDL actions to GraphQL methods
 const graphqlMethods = {
@@ -76,7 +74,6 @@ const isAllowedModel = function ({ model, action }) {
   // IDL property `def.actions` allows whitelisting specific actions
   return model.actions.includes(action.name);
 };
-
 
 module.exports = {
   getModelsByGraphqlMethod,

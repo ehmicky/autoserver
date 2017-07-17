@@ -1,13 +1,11 @@
 'use strict';
 
-
 const { createAction } = require('./create');
 const { findAction } = require('./find');
 const { updateAction } = require('./update');
 const { upsertAction } = require('./upsert');
 const { replaceAction } = require('./replace');
 const { deleteAction } = require('./delete');
-
 
 // Translates operation-specific calls into generic instance actions
 const actionExecute = async function (input) {
@@ -28,7 +26,6 @@ const middlewares = {
   deleteOne: deleteAction,
   deleteMany: deleteAction,
 };
-
 
 module.exports = {
   actionExecute,

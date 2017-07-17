@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { normalizeFilter } = require('./filter');
 const { normalizeOrderBy } = require('./order_by');
-
 
 /**
  * Normalize input, i.e. when input can take several shapes,
@@ -31,7 +29,6 @@ const normalization = async function (input) {
   const response = await this.next(input);
   return response;
 };
-
 
 module.exports = {
   normalization,

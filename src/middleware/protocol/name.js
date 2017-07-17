@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 const getProtocolName = async function (input) {
   const { log, specific, protocolHandler } = input;
@@ -28,7 +26,6 @@ const getProtocolFullName = function ({ specific, protocolHandler }) {
 
   return protocolFullName;
 };
-
 
 module.exports = {
   getProtocolName,

@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { makeImmutable } = require('../../../../utilities');
 const { parseQuery } = require('./parse');
 const { handleQuery } = require('./query');
@@ -9,7 +8,6 @@ const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
-
 
 // GraphQL query handling
 const executeGraphql = async function (input) {
@@ -97,7 +95,6 @@ const getResponseType = function ({ content: { data } }) {
   const mainData = data[Object.keys(data)[0]];
   return mainData instanceof Array ? 'collection' : 'model';
 };
-
 
 module.exports = {
   executeGraphql,

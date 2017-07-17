@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const transformMap = require('./transform');
-
 
 // Creates protocol-independent response error, using an error object
 const getResponse = function ({ error }) {
@@ -19,7 +17,6 @@ const getResponse = function ({ error }) {
 
   return response;
 };
-
 
 module.exports = {
   getResponse,

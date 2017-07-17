@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { GraphQLNonNull } = require('graphql');
-
 
 // Filters argument, i.e. only queries entities that match specified attributes
 const filterActionTypes = ['find', 'delete', 'update'];
@@ -17,7 +15,6 @@ const getFilterArgument = function ({ def, action = {}, filterObjectType }) {
     },
   };
 };
-
 
 module.exports = {
   getFilterArgument,

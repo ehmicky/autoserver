@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
-
 
 // Converts from Operation format to Action format
 const actionConvertor = async function ({
@@ -91,7 +89,6 @@ const getLogResponses = function ({ data }) {
   const logData = data instanceof Array ? data : [data];
   return logData.map(content => ({ content }));
 };
-
 
 module.exports = {
   actionConvertor,

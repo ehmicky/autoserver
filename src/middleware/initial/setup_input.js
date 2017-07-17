@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { Log } = require('../../logging');
 const { protocolHandlers } = require('../../protocols');
-
 
 // Setup basic input
 const setupInput = async function (
@@ -31,7 +29,6 @@ const setupInput = async function (
   const response = await this.next(input);
   return response;
 };
-
 
 module.exports = {
   setupInput,

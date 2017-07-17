@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { EngineError } = require('../../../../../error');
 const { getParentModel, parseName } = require('./utilities');
 const { attributeResolver } = require('./attribute');
 const { addNestedId } = require('./nested_id');
-
 
 // Resolver for nested model actions
 const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
@@ -64,7 +62,6 @@ const getNestedProp = function ({ modelsMap, parent, name }) {
   const model = isModel ? prop : null;
   return { model, attrName, actionType };
 };
-
 
 module.exports = {
   nestedModelResolver,

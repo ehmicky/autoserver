@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { hrtime } = process;
 
 const { EngineError } = require('../error');
-
 
 // This class calculates time intervals, in order to do performance monitoring
 // Concepts:
@@ -212,7 +210,6 @@ const CATEGORIES = [
   'server',
   'exception',
 ];
-
 
 module.exports = {
   PerfLog,

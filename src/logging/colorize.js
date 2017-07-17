@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { magenta, green, yellow, red, gray, reset, dim } = require('chalk');
-
 
 // Colorize a standard error message
 // Not performed if `node --no-color` or terminal does not support colors
@@ -51,7 +49,6 @@ const colors = {
   warn: yellow,
   error: red,
 };
-
 
 module.exports = {
   colorize,

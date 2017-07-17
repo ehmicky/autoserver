@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { handleError } = require('./error');
 const { handleFailure } = require('./failure');
-
 
 // Error handler, which sends final response, if errors
 const errorHandler = async function (input) {
@@ -27,7 +25,6 @@ const errorHandler = async function (input) {
     }
   }
 };
-
 
 module.exports = {
   errorHandler,

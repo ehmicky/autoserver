@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * Tries to guess a value's type from its string serialized value
  *
@@ -20,7 +19,6 @@ const transtype = function (string) {
 
   return string;
 };
-
 
 module.exports = {
   transtype,

@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 // Make sure there is no name conflicts between system helpers and
 // user-supplied helpers, by forcing the former to be $UPPER_CASE, and
@@ -22,7 +20,6 @@ const checkNames = function (input, type) {
 };
 
 const systemNameRegExp = /^\$[A-Z_]+$/;
-
 
 module.exports = {
   checkNames,

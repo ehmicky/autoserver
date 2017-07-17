@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { isEqual } = require('lodash');
 
 const { ACTIONS } = require('../../constants');
 const { EngineError } = require('../../error');
-
 
 /**
  * Action-related validation middleware
@@ -52,7 +50,6 @@ const validateModelName = function ({ modelName, modelNames }) {
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };
-
 
 module.exports = {
   actionValidation,

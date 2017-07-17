@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { render } = require('mustache');
 const { readFile } = require('fs');
 const { resolve } = require('path');
@@ -10,7 +9,6 @@ const { EngineError } = require('../../../../error');
 const { mapValues } = require('../../../../utilities');
 
 const GRAPHIQL_HTML_FILE = resolve(__dirname, './graphiql.mustache');
-
 
 /*
  * Returns HTML document loading a GraphQL debugger
@@ -55,14 +53,12 @@ const renderGraphiQL = async function (input) {
   }
 };
 
-
 const escapeData = function (dataToEscape) {
   return mapValues(dataToEscape, data => escapeJSON(data));
 };
 const escapeJSON = function (string = null) {
   return JSON.stringify(string, null, 2);
 };
-
 
 module.exports = {
   renderGraphiQL,

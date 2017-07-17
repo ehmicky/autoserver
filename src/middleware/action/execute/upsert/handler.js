@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { getFirstReadInput } = require('./first_read');
 const { getCreateInput } = require('./create');
 const { getUpdateInput } = require('./update');
 const { getSecondReadInput } = require('./second_read');
-
 
 /**
  * "upsert" action is split into three commands:

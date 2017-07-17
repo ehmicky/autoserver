@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { omit } = require('../../utilities');
-
 
 /**
  * Removes attributes marked in IDL as `readOnly`.
@@ -35,7 +33,6 @@ const handleReadOnly = async function (input) {
 const removeReadOnly = function ({ newData, readOnlyAttrs }) {
   return omit(newData, readOnlyAttrs);
 };
-
 
 module.exports = {
   handleReadOnly,

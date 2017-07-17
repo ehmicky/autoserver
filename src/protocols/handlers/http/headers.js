@@ -1,10 +1,8 @@
 'use strict';
 
-
 const parsePreferHeaderLib = require('parse-prefer-header');
 
 const { EngineError } = require('../../../error');
-
 
 // Returns a request's HTTP headers, normalized lowercase
 const parseHeaders = function ({ specific: { req: { headers = {} } } }) {
@@ -29,7 +27,6 @@ const sendHeaders = function ({ specific: { res }, headers = {} }) {
     res.setHeader(name, value);
   }
 };
-
 
 module.exports = {
   parseHeaders,

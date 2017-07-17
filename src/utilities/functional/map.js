@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { checkObject } = require('./validate');
-
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
 const mapValues = function (obj, mapperFunc) {
@@ -80,7 +78,6 @@ const recurseMapByRef = function ({ value, mapFunc }) {
 
   return recurse({ value, key: null, parent: null, parents: [], depth: 0 });
 };
-
 
 module.exports = {
   mapValues,

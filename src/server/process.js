@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { onlyOnce } = require('../utilities');
 const { Log } = require('../logging');
 const { EngineError, getStandardError, getErrorMessage } = require('../error');
-
 
 // Error handling for all failures that are process-related
 const processErrorHandler = function ({ serverOpts, apiServer }) {
@@ -78,7 +76,6 @@ const processHandler = async function (log, { value, message }) {
   const errorMessage = getErrorMessage({ error: standardError });
   await log.error(errorMessage, { type: 'failure', errorInfo: standardError });
 };
-
 
 module.exports = {
   processErrorHandler,

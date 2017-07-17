@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { makeImmutable } = require('../utilities');
 const { getIdlConf } = require('./conf');
 const { resolveRefs } = require('./ref_parsing');
@@ -8,7 +7,6 @@ const { applyPlugins } = require('./plugins');
 const { validateIdl } = require('./validation');
 const { normalizeIdl } = require('./normalize');
 const { addCustomKeywords } = require('./custom_validation');
-
 
 // Retrieves IDL definition, after validation and transformation
 const getIdl = async function ({
@@ -53,7 +51,6 @@ const getIdl = async function ({
   perf.stop();
   return idl;
 };
-
 
 module.exports = {
   getIdl,

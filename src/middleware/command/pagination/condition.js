@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Whether consumers can specify all pagination arguments,
 // including args.pageSize, args.before|after|page
 // Implies output pagination

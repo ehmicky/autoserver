@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { mapValues, pickBy } = require('../../utilities');
-
 
 // Gets a map of models' `transform` or `compute`
 // e.g. { my_model: [{ attrName, transform }, ...], ... }
@@ -24,7 +22,6 @@ const sortProps = function ({ props, transformOrder }) {
     return indexA > indexB ? 1 : indexA < indexB ? -1 : 0;
   });
 };
-
 
 module.exports = {
   getTransformsMap,

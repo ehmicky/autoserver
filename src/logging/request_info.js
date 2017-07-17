@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { omit } = require('../utilities');
-
 
 // Builds `requestInfo` object, which contains request-related log information:
 //   - requestId {string}
@@ -71,7 +69,6 @@ const getRequestInfo = function (log, loggerFilter) {
 
   return requestInfo;
 };
-
 
 const removeKeys = function (requestInfo) {
   return omit(requestInfo, excludedKeys);
@@ -201,7 +198,6 @@ const reduceModels = function ({ info, attrName, filter }) {
     delete info[attrName];
   }
 };
-
 
 module.exports = {
   getRequestInfo,

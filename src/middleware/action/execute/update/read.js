@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { COMMANDS } = require('../../../../constants');
 const { pick } = require('../../../../utilities');
-
 
 // Retrieves the input for the "read" command
 const getReadInput = function ({ input }) {
@@ -25,7 +23,6 @@ const getReadInput = function ({ input }) {
 
   return input;
 };
-
 
 module.exports = {
   getReadInput,

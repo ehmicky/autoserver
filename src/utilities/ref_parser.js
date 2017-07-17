@@ -1,11 +1,9 @@
 'use strict';
 
-
 const { basename, dirname } = require('path');
 const RefParser = require('json-schema-ref-parser');
 
 const { getYaml } = require('./yaml');
-
 
 /**
  * Dereference JSON references.
@@ -99,7 +97,6 @@ const requireFile = function (url) {
 
 // Make sure a `resolve` function has previously been called
 const isResolved = val => typeof val !== 'string' && !Buffer.isBuffer(val);
-
 
 module.exports = {
   dereferenceRefs,

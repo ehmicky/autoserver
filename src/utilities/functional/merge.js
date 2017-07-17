@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Deep merge objects and arrays (concatenates for arrays)
 const deepMerge = function (objA, objB, ...objects) {
   if (!objA) { return; }
@@ -39,7 +38,6 @@ const deepMerge = function (objA, objB, ...objects) {
     return newObjA;
   }
 };
-
 
 module.exports = {
   deepMerge,

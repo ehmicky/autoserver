@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { promisify } = require('util');
-
 
 // Sends response
 const send = async function ({
@@ -64,7 +62,6 @@ const sendNothing = async function ({ specific: { res } = {}, status }) {
   }
   await promisify(res.end.bind(res))();
 };
-
 
 module.exports = {
   send: {

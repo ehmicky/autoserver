@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Apply `alias` in responses
 const applyResponseAliases = function ({ data, attrName, aliases }) {
   return data instanceof Array
@@ -19,7 +18,6 @@ const applyResponseAlias = function ({ data, attrName, aliases }) {
   const newData = Object.assign({}, data, ...aliasesObj);
   return newData;
 };
-
 
 module.exports = {
   applyResponseAliases,

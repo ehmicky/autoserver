@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { applyAllDefault } = require('./apply');
-
 
 /**
  * Applies schema `default`, if input value is undefined
@@ -29,7 +27,6 @@ const userDefaults = async function (input) {
   const response = await this.next(input);
   return response;
 };
-
 
 module.exports = {
   userDefaults,

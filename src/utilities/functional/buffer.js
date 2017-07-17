@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Returns the function with the two added functions:
 //   - func.cork() will buffer calls, i.e. it will become a noop
 //   - func.uncork() will release all buffered calls
@@ -40,7 +39,6 @@ const uncorkFunc = async function (state, func) {
   }
   state.isBuffered = false;
 };
-
 
 module.exports = {
   buffer,

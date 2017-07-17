@@ -1,13 +1,11 @@
 'use strict';
 
-
 const { dirname } = require('path');
 const { realpath } = require('fs');
 const { promisify } = require('util');
 
 const { EngineError } = require('../error');
 const { getYaml } = require('../utilities');
-
 
 /**
  * Retrieve the configuration using either:
@@ -50,7 +48,6 @@ const getIdlConf = async function ({ conf }) {
 
   return { idl, baseDir };
 };
-
 
 module.exports = {
   getIdlConf,

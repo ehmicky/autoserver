@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Copy first defined alias to main attribute, providing it is not defined.
 const applyOrderByAliases = function ({ nOrderBy, attrName, aliases }) {
   if (!(nOrderBy instanceof Array)) { return nOrderBy; }
@@ -14,7 +13,6 @@ const applyOrderByAliases = function ({ nOrderBy, attrName, aliases }) {
 
   return nOrderBy;
 };
-
 
 module.exports = {
   applyOrderByAliases,

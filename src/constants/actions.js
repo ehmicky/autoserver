@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { makeImmutable } = require('../utilities');
-
 
 const ACTIONS = [
   {
@@ -79,7 +77,6 @@ const ACTIONS = [
   },
 ];
 makeImmutable(ACTIONS);
-
 
 module.exports = {
   ACTIONS,

@@ -1,12 +1,10 @@
 'use strict';
 
-
 const { getReadOnlyMap } = require('./read_only');
 const { getUserDefaultsMap } = require('./user_defaults');
 const { getTransformsMap } = require('./transform_shortcut');
 const { getAliasesMap } = require('./aliases');
 const { getModelsMap } = require('./models_map');
-
 
 // Compile-time transformations just meant for runtime performance optimization
 const normalizeShortcuts = function ({ idl }) {
@@ -27,7 +25,6 @@ const normalizeShortcuts = function ({ idl }) {
   };
   return idl;
 };
-
 
 module.exports = {
   normalizeShortcuts,

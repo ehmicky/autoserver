@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Converts from Protocol format to Operation format
 const operationConvertor = async function ({
   goal,
@@ -41,7 +40,6 @@ const operationConvertor = async function ({
   const response = await this.next(newInput);
   return response;
 };
-
 
 module.exports = {
   operationConvertor,

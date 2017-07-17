@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { resolve } = require('path');
-
 
 // Retrieve error message of a standard error
 const getErrorMessage = function ({
@@ -51,7 +49,6 @@ const getStack = function (description, details = '') {
   return trimmedStack;
 };
 const apiEngineDirName = resolve(__dirname, '../..');
-
 
 module.exports = {
   getErrorMessage,

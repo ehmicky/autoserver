@@ -1,12 +1,10 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { COMMANDS } = require('../../../../constants');
 const { pick } = require('../../../../utilities');
 const { getFilter } = require('./filter');
-
 
 // Retrieves the input for the second "read" command
 // It is used for final output of "upsert" action
@@ -33,7 +31,6 @@ const getSecondReadInput = function ({ input }) {
 
   return input;
 };
-
 
 module.exports = {
   getSecondReadInput,

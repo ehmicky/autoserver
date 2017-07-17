@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../../error');
-
 
 // Check input is not too big
 const validateLimits = function ({ args: { data }, maxDataLength }) {
@@ -14,7 +12,6 @@ const validateLimits = function ({ args: { data }, maxDataLength }) {
     throw new EngineError(message, { reason: 'INPUT_LIMIT' });
   }
 };
-
 
 module.exports = {
   validateLimits,

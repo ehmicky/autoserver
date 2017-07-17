@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { getReadInput } = require('./read');
 const { getUpdateInput } = require('./update');
-
 
 /**
  * "update" action is split into two commands:
@@ -38,7 +36,6 @@ const updateAction = async function (input) {
 
   return response;
 };
-
 
 module.exports = {
   updateAction,

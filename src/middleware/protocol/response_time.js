@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../error');
-
 
 const setResponseTime = async function (input) {
   const { log, protocolHandler, specific } = input;
@@ -24,7 +22,6 @@ const setResponseTime = async function (input) {
   perf.stop();
   return response;
 };
-
 
 module.exports = {
   setResponseTime,

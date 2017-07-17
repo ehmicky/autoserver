@@ -1,13 +1,11 @@
 'use strict';
 
-
 const { GraphQLSchema } = require('graphql');
 
 const { memoize, mapValues } = require('../../../utilities');
 const { getType } = require('./types');
 const { getModelsByGraphqlMethod } = require('./models');
 const { nameSym } = require('./name');
-
 
 // Returns GraphQL schema
 const getSchema = memoize(function ({
@@ -53,7 +51,6 @@ const getGraphqlMethodDef = function ({
     isTopLevel: true,
   };
 };
-
 
 module.exports = {
   getSchema,

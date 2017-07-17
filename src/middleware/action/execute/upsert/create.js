@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const { COMMANDS } = require('../../../../constants');
-
 
 // Retrieves the input for the "create" command
 const getCreateInput = function ({ input, data }) {
@@ -25,7 +23,6 @@ const getCreateInput = function ({ input, data }) {
 
   return input;
 };
-
 
 module.exports = {
   getCreateInput,

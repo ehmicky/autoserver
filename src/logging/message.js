@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { TYPES, LEVELS } = require('./constants');
-
 
 // Build a standardized log message:
 // [TYPE] [LEVEL] [SERVER_NAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
@@ -73,7 +71,6 @@ const getRequestId = function ({ phase, requestId = phase.toUpperCase() }) {
   return requestId.substr(0, requestIdLength).padEnd(requestIdLength);
 };
 const requestIdLength = 8;
-
 
 module.exports = {
   getMessage,

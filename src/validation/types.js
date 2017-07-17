@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Validation can be called from different places in the codebase
 // Each come with its specific reason and error message
 const validationTypes = {
@@ -33,7 +32,6 @@ const validationTypes = {
     message: 'Response is corrupted',
   },
 };
-
 
 module.exports = {
   validationTypes,

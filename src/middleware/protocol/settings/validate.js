@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../../error');
-
 
 // Generic settings validation
 const validateSettings = function ({ settings }) {
@@ -27,7 +25,6 @@ const noOutput = function ({ name, value }) {
 const validators = {
   noOutput,
 };
-
 
 module.exports = {
   validateSettings,

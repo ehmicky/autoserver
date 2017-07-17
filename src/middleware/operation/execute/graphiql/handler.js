@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { renderGraphiQL } = require('./render');
-
 
 const executeGraphiql = async function (input) {
   const { queryVars, payload = {}, origin, log } = input;
@@ -28,7 +26,6 @@ const executeGraphiql = async function (input) {
     content,
   };
 };
-
 
 module.exports = {
   executeGraphiql,

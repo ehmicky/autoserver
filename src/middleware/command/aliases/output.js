@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { applyResponseAliases } = require('./response');
-
 
 // Apply `alias` in server output
 const applyOutputAliases = function ({ response, modelAliases }) {
@@ -15,7 +13,6 @@ const applyOutputAlias = function ({ response, attrName, aliases }) {
   const data = response.data;
   response.data = applyResponseAliases({ data, attrName, aliases });
 };
-
 
 module.exports = {
   applyOutputAliases,

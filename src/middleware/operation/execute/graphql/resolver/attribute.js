@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { getParentModel, setParentModel } = require('./utilities');
-
 
 // Resolver for normal attributes
 const attributeResolver = function ({ parent, name }) {
@@ -19,7 +17,6 @@ const attributeResolver = function ({ parent, name }) {
 
   return { directReturn };
 };
-
 
 module.exports = {
   attributeResolver,

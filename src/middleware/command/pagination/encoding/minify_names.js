@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Name shortcuts, e.g. { nFilter: value } -> { f: value }
 const addNameShortcuts = function ({ token }) {
   for (let { from, to } of namesShortcuts) {
@@ -25,7 +24,6 @@ const namesShortcuts = [
   { from: 'nOrderBy', to: 'o' },
   { from: 'parts', to: 'p' },
 ];
-
 
 module.exports = {
   addNameShortcuts,

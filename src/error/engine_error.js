@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { difference } = require('lodash');
-
 
 // Note that any exception thrown in the `error` module might not be logged
 // (since this is the error), so we must be precautious.
@@ -75,7 +73,6 @@ class EngineError extends Error {
 
 const allowedOpts = ['reason', 'innererror', 'extra'];
 const requiredOpts = ['reason'];
-
 
 module.exports = {
   EngineError,

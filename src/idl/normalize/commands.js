@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { assignArray } = require('../../utilities');
-
 
 // Normalize `commands` shortcuts, e.g. 'read' -> 'readOne' + 'readMany'
 const normalizeCommands = function ({ idl }) {
@@ -28,7 +26,6 @@ const defaultCommandNames = [
   'updateMany',
   'deleteOne',
 ];
-
 
 module.exports = {
   normalizeCommands,

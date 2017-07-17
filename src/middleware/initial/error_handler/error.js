@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { getStandardError } = require('../../../error');
 const { getResponse } = require('./response');
 const { reportError } = require('./report');
-
 
 const handleError = async function ({ log, error }) {
   const standardError = getStandardError({ log, error });
@@ -16,7 +14,6 @@ const handleError = async function ({ log, error }) {
     await error.sendError(errorResponse);
   }
 };
-
 
 module.exports = {
   handleError,

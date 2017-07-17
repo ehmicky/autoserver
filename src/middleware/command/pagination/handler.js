@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { cloneDeep } = require('lodash');
 
 const {
@@ -11,7 +10,6 @@ const { mustPaginateOutput } = require('./condition');
 const { getPaginationInput } = require('./input');
 const { getPaginationOutput } = require('./output');
 const { getPaginationInfo } = require('./info');
-
 
 /**
  * Pagination layer.
@@ -149,7 +147,6 @@ const reverseOutput = function ({ args, response }) {
     response.data = response.data.reverse();
   }
 };
-
 
 module.exports = {
   pagination,

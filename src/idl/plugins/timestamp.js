@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { propertiesPlugin } = require('./properties');
-
 
 // Plugin that adds default timestamps to each model:
 //   created_time {string} - set on model creation
@@ -33,7 +31,6 @@ const getProperties = () => ({
     transform: '($NOW)',
   },
 });
-
 
 module.exports = {
   timestampPlugin,

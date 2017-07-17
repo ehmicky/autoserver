@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { checkObject } = require('./validate');
-
 
 // Similar to lodash pick(), but faster.
 const pick = function (obj, attributes) {
@@ -43,7 +41,6 @@ const omitBy = function (obj, condition) {
     return memo;
   }, {});
 };
-
 
 module.exports = {
   pick,

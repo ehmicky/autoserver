@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Converts from Action format to Command format
 const commandConvertor = async function ({
   command,
@@ -49,7 +48,6 @@ const commandConvertor = async function ({
 
   return response;
 };
-
 
 module.exports = {
   commandConvertor,

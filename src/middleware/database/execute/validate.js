@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { COMMANDS } = require('../../../constants');
 const { EngineError } = require('../../../error');
-
 
 // Check output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)
@@ -44,7 +42,6 @@ const validateResponse = function ({ command, response }) {
   }
 
 };
-
 
 module.exports = {
   validateResponse,

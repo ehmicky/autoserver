@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { EngineError } = require('../../../error');
-
 
 // Sends the response at the end of the request
 const sender = async function (
@@ -75,7 +73,6 @@ const handlers = {
   },
 
 };
-
 
 module.exports = {
   sender,

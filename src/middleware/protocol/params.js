@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { camelize } = require('underscore.string');
 
 const {
@@ -10,7 +9,6 @@ const {
   pickBy,
   makeImmutable,
 } = require('../../utilities');
-
 
 // Fill in `input.params`, which are custom application-specific information,
 // defined by the library user, not by the API engine.
@@ -64,7 +62,6 @@ const getHeadersParams = function ({ input: { headers } }) {
 };
 
 const PARAMS_NAME_REGEXP = /x-api-engine-param-/i;
-
 
 module.exports = {
   parseParams,

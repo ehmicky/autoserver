@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { EngineError } = require('../../../error');
 const { makeImmutable } = require('../../../utilities');
 const { routesManager } = require('./manager');
-
 
 // Add route and URL parameters to input
 const router = async function (input) {
@@ -27,7 +25,6 @@ const router = async function (input) {
   const response = await this.next(input);
   return response;
 };
-
 
 module.exports = {
   router,

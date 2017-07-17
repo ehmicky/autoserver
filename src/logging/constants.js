@@ -1,6 +1,5 @@
 'use strict';
 
-
 // When the log was performed
 const PHASES = [
   // During server startup
@@ -40,7 +39,6 @@ const LEVELS = [
   // Something wrong happened that should be looked at
   'error',
 ];
-
 
 module.exports = {
   PHASES,

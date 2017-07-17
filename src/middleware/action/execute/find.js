@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { COMMANDS } = require('../../../constants');
-
 
 /**
  * "find" action uses a "read" command
@@ -23,7 +21,6 @@ const findAction = async function (input) {
   const response = await this.next(input);
   return response;
 };
-
 
 module.exports = {
   findAction,

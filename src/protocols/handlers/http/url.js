@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { format: urlFormat, URL } = require('url');
 
 const { EngineError } = require('../../../error');
-
 
 // Retrieves origin, i.e. protocol + host + port
 const getOrigin = function ({
@@ -42,7 +40,6 @@ const getQueryString = function ({ specific: { req: { url } } }) {
     throw new EngineError(message, { reason: 'QUERY_STRING_PARSE' });
   }
 };
-
 
 module.exports = {
   getOrigin,

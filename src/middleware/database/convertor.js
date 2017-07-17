@@ -1,6 +1,5 @@
 'use strict';
 
-
 // Converts from Command format to Database format
 const databaseConvertor = async function ({
   command,
@@ -33,7 +32,6 @@ const databaseConvertor = async function ({
   const response = await this.next(nextInput);
   return response;
 };
-
 
 module.exports = {
   databaseConvertor,

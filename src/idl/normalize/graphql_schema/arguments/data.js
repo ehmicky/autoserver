@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { GraphQLNonNull, GraphQLList } = require('graphql');
-
 
 // Data argument, i.e. payload used by mutation actions
 const dataActionTypes = ['create', 'upsert', 'replace', 'update'];
@@ -28,7 +26,6 @@ const getDataArgument = function ({ action = {}, dataObjectType }) {
     },
   };
 };
-
 
 module.exports = {
   getDataArgument,

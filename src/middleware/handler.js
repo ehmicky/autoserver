@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { chain } = require('../chain');
 const initial = require('./initial');
 const protocol = require('./protocol');
@@ -8,7 +7,6 @@ const operation = require('./operation');
 const action = require('./action');
 const command = require('./command');
 const database = require('./database');
-
 
 const middleware = [
   /**
@@ -131,7 +129,6 @@ const middleware = [
 const getMiddleware = async function () {
   return chain(middleware)[0];
 };
-
 
 module.exports = {
   getMiddleware,

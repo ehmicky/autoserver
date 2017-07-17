@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { applyTransformsOnData } = require('./transformer');
-
 
 /**
  * Applies schema `transform`
@@ -59,7 +57,6 @@ const handleTransforms = async function (input) {
 
   return response;
 };
-
 
 module.exports = {
   handleTransforms,

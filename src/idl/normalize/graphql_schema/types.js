@@ -1,6 +1,5 @@
 'use strict';
 
-
 const {
   GraphQLObjectType,
   GraphQLInputObjectType,
@@ -20,7 +19,6 @@ const { isJsl } = require('../../../jsl');
 const { getTypeName, getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 const { getArguments } = require('./arguments');
-
 
 // Retrieves the GraphQL type for a given IDL definition
 const getType = function (def, opts = {}) {
@@ -329,7 +327,6 @@ const graphQLFieldGetters = [
   },
 
 ];
-
 
 module.exports = {
   getType,

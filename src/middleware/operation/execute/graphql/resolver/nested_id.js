@@ -1,9 +1,7 @@
 'use strict';
 
-
 const { EngineError } = require('../../../../../error');
 const { isJsl } = require('../../../../../jsl');
-
 
 /**
  * Make nested models filtered by their parent model
@@ -111,7 +109,6 @@ const validateNestedId = function ({ parent, name, attrName, multiple, arg }) {
 const wrongInput = function (message) {
   throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
 };
-
 
 module.exports = {
   addNestedId,

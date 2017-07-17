@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { execute } = require('graphql');
 
 const { EngineError } = require('../../../../error');
-
 
 const handleIntrospection = async function ({
   schema,
@@ -49,7 +47,6 @@ const introspectionQueryRegExp = /(\b__schema\b)|(\b__type\s*\()/;
 const isIntrospectionQuery = function ({ query }) {
   return introspectionQueryRegExp.test(query);
 };
-
 
 module.exports = {
   handleIntrospection,

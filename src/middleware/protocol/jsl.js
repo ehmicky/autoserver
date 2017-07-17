@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { Jsl } = require('../../jsl');
-
 
 // Sets up JSL helper
 const setJsl = async function (input) {
@@ -19,7 +17,6 @@ const setJsl = async function (input) {
   const response = await this.next(input);
   return response;
 };
-
 
 module.exports = {
   setJsl,

@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { orderBy, map } = require('lodash');
-
 
 // Apply sorting, paginating, etc. on response
 const processResponse = function ({
@@ -45,7 +43,6 @@ const limitResponse = function ({ data, limit }) {
   if (limit === undefined) { return data; }
   return data.slice(0, limit);
 };
-
 
 module.exports = {
   processResponse,

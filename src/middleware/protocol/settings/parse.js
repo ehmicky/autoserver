@@ -1,10 +1,8 @@
 'use strict';
 
-
 const { camelize } = require('underscore.string');
 
 const { transtype, mapValues, mapKeys, pickBy } = require('../../../utilities');
-
 
 // Retrieves settings
 const getSettings = function ({ input }) {
@@ -35,7 +33,6 @@ const getHeadersSettings = function ({ input: { headers } }) {
 };
 
 const SETTINGS_NAME_REGEXP = /x-api-engine-/i;
-
 
 module.exports = {
   getSettings,

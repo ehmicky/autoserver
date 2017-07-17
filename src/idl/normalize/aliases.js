@@ -1,8 +1,6 @@
 'use strict';
 
-
 const { mapValues, pickBy } = require('../../utilities');
-
 
 // Gets a map of models' attributes' aliases
 // e.g. { modelName: { attrName: ['alias', ...], ... }, ... }
@@ -14,7 +12,6 @@ const getAliasesMap = function ({ idl: { models } }) {
     });
   });
 };
-
 
 module.exports = {
   getAliasesMap,

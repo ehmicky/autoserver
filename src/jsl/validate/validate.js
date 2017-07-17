@@ -1,6 +1,5 @@
 'use strict';
 
-
 const { base: walkBase } = require('acorn/dist/walk');
 
 const { parseNode, reverseParseNode } = require('../parse');
@@ -9,7 +8,6 @@ const { isJsl } = require('../test');
 const { getRawJsl } = require('../tokenize');
 const { getGlobalKeys } = require('./global');
 const allRules = require('./rules');
-
 
 // TODO: remove when https://github.com/ternjs/acorn/pull/559 is merged
 const fullAncestor = function (node, callback, base, state) {
@@ -81,7 +79,6 @@ Please change the expression, or use a normal function instead.`;
     throwJslError({ type, message });
   };
 };
-
 
 module.exports = {
   validateJsl,
