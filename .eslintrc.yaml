@@ -211,7 +211,7 @@ rules:
   unicorn/catch-error-name:
   - 2
   - name: error
-##  no-catch-shadow: 2
+  no-catch-shadow: 2
 #  fp/no-throw: 2
 ##  unicorn/custom-error-definition: 2
 
