@@ -402,7 +402,7 @@ rules:
   switch-colon-spacing: 2
 
   # Semicolons
-##  semi-style: 2
+  semi-style: 2
 ##  no-extra-semi: 2
 
   # Statements
