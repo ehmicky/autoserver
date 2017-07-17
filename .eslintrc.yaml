@@ -218,9 +218,9 @@ rules:
   # Functions
   func-style: 2
   no-loop-func: 2
-##  func-names:
-##  - 2
-##  - as-needed
+  func-names:
+  - 2
+  - as-needed
   func-name-matching: 2
   prefer-arrow-callback:
   - 2
