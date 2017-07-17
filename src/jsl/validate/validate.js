@@ -14,12 +14,12 @@ const fullAncestor = function (node, callback, base, state) {
   if (!base) base = walkBase;
   let ancestors = [];
 
-  (function c (node, st, override) {
-    let type = override || node.type;
-    let isNew = node !== ancestors[ancestors.length - 1];
-    if (isNew) ancestors.push(node);
-    base[type](node, st, c);
-    callback(node, st || ancestors, ancestors, type);
+  (function c (child, st, override) {
+    let type = override || child.type;
+    let isNew = child !== ancestors[ancestors.length - 1];
+    if (isNew) ancestors.push(child);
+    base[type](child, st, c);
+    callback(child, st || ancestors, ancestors, type);
     if (isNew) ancestors.pop();
   })(node, state);
 };
@@ -59,8 +59,8 @@ const validateNode = function (
   print(node);
 
   if (!rule) {
-    const message = `Cannot use the following code: '${print(node)}'`;
-    throwError(message);
+    const msg = `Cannot use the following code: '${print(node)}'`;
+    throwError(msg);
   }
 
   if (rule === true) { return; }
@@ -70,8 +70,8 @@ const validateNode = function (
   if (typeof message === 'string') {
     throwError(message);
   } else if (message === false) {
-    const message = `Cannot use the following code: '${print(node)}'`;
-    throwError(message);
+    const msg = `Cannot use the following code: '${print(node)}'`;
+    throwError(msg);
   }
 };
 

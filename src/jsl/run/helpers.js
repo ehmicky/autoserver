@@ -13,7 +13,7 @@ class JslHelper extends Function {
     Object.assign(this, { helper, useParams });
 
     // Parameters are passed by the caller by binding the context `this`
-    const apply = (_, context, args) => this.run(context.params, ...args);
+    const apply = (_, ctx, args) => this.run(ctx.params, ...args);
     return new Proxy(this, { apply });
   }
 

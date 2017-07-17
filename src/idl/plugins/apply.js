@@ -32,8 +32,9 @@ const applyPlugins = async function ({ idl }) {
         throw new EngineError(message, { reason: 'IDL_VALIDATION' });
       }
 
-      const { plugin } = builtinPlugin;
-      pluginConf = Object.assign({}, builtinPlugin, pluginConf, { plugin });
+      pluginConf = Object.assign({}, builtinPlugin, pluginConf, {
+        plugin: builtinPlugin.plugin,
+      });
     }
 
     const { plugin, enabled = true, opts = {} } = pluginConf;

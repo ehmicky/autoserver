@@ -2,9 +2,9 @@
 
 // Extra pagination-related information from arguments
 const getPaginationInfo = function ({ args }) {
-  const { after, before, pageSize, page } = args;
+  const { pageSize, page } = args;
 
-  const token = after || before;
+  const token = args.after || args.before;
   // Used for cursor pagination. If token is '' (i.e. start|end),
   // does not actually really cursors.
   const hasToken = token !== undefined && token !== '';

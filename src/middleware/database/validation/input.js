@@ -60,8 +60,8 @@ const removeJsl = function ({ value, parent, key }) {
 
   // Recursion
   if (Array.isArray(value) || value.constructor === Object) {
-    for (const [key, child] of Object.entries(value)) {
-      return removeJsl({ value: child, parent: value, key });
+    for (const [childKey, child] of Object.entries(value)) {
+      return removeJsl({ value: child, parent: value, key: childKey });
     }
   }
 };

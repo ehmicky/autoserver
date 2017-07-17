@@ -53,7 +53,7 @@ const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
 };
 
 // Like lodash mapValues(), but recursive and by reference
-const recurseMapByRef = function ({ value, mapFunc }) {
+const recurseMapByRef = function ({ value: val, mapFunc }) {
   const cache = new WeakMap();
 
   const recurse = function ({ value, key, parent, parents, depth }) {
@@ -79,7 +79,13 @@ const recurseMapByRef = function ({ value, mapFunc }) {
     return value;
   };
 
-  return recurse({ value, key: null, parent: null, parents: [], depth: 0 });
+  return recurse({
+    value: val,
+    key: null,
+    parent: null,
+    parents: [],
+    depth: 0,
+  });
 };
 
 module.exports = {

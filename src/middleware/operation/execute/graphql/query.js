@@ -9,7 +9,7 @@ const handleQuery = async function ({
   resolver,
   queryDocument,
   variables,
-  context,
+  context: ctx,
   rootValue,
 }) {
   // GraphQL execution
@@ -17,7 +17,7 @@ const handleQuery = async function ({
     resolver,
     queryDocument,
     rootValue,
-    context,
+    ctx,
     variables
   );
   return response;

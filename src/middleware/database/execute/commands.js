@@ -118,7 +118,7 @@ const findIndex = function ({
 }) {
   const index = Object.entries(collection)
     .filter(([, { id: modelId }]) => modelId === id)
-    .map(([index]) => index)[0];
+    .map(([modelIndex]) => modelIndex)[0];
 
   if (!index && mustExist === true) {
     const message = `Could not find the model with id ${id} in: ${modelName} (collection)`;

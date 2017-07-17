@@ -47,8 +47,8 @@ const payloadError = function ({ specific, protocolHandler }) {
   const contentType = protocolHandler.getContentType({ specific });
 
   if (!contentType) {
-    const message = 'Must specify Content-Type when sending a request payload';
-    throw new EngineError(message, { reason: 'NO_CONTENT_TYPE' });
+    const msg = 'Must specify Content-Type when sending a request payload';
+    throw new EngineError(msg, { reason: 'NO_CONTENT_TYPE' });
   }
 
   const message = `Unsupported Content-Type: '${contentType}'`;

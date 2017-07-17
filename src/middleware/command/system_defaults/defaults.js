@@ -10,18 +10,18 @@ const defaults = {
     commands: ['readMany', 'deleteMany'],
     value: '(true)',
     // Only if args.before|after is not specified
-    test: ({ input: { args: { before, after } } }) =>
-      ((before === undefined || before === '') &&
-      (after === undefined || after === '')),
+    test: ({ input: { args } }) =>
+      ((args.before === undefined || args.before === '') &&
+      (args.after === undefined || args.after === '')),
   },
 
   nOrderBy: {
     commands: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
     value: [{ attrName: 'id', order: 'asc' }],
     // Only if args.before|after is not specified
-    test: ({ input: { args: { before, after } } }) =>
-      ((before === undefined || before === '') &&
-      (after === undefined || after === '')),
+    test: ({ input: { args } }) =>
+      ((args.before === undefined || args.before === '') &&
+      (args.after === undefined || args.after === '')),
   },
 
   pageSize: {
@@ -39,11 +39,11 @@ const defaults = {
     // Only if pagination is enabled, and args.before|page is not specified
     test: ({
       serverOpts: { defaultPageSize },
-      input: { args: { before, page, pagination } },
+      input: { args },
     }) => defaultPageSize !== 0 &&
-      pagination &&
-      before === undefined &&
-      page === undefined,
+      args.pagination &&
+      args.before === undefined &&
+      args.page === undefined,
   },
 
   authorization: {

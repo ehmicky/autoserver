@@ -325,7 +325,7 @@ helpers:
     # One can require JavaScript files (Node.js)
     myOtherMathFunc:
       value:
-        $ref: math.js
+        $ref: math_func.js
       # Pass JSL parameters as first argument to non-inline function
       useParams: true
       exposeTo: [data]

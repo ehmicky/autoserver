@@ -119,12 +119,12 @@ const objectTypeSerializer = function ([def, opts]) {
 const graphQLObjectFieldGetter = memoize((def, opts) => {
   const name = getTypeName({ def, opts });
   const description = def.description;
-  const constructor = opts.inputObjectType !== ''
+  const Type = opts.inputObjectType !== ''
     ? GraphQLInputObjectType
     : GraphQLObjectType;
   const fields = getObjectFields(def, opts);
 
-  const type = new constructor({ name, description, fields });
+  const type = new Type({ name, description, fields });
   return { type };
 }, { serializer: objectTypeSerializer });
 
@@ -157,11 +157,11 @@ const getObjectFields = function (def, opts) {
           memo[name] = childDef;
           // Add transformed name to `required` array,
           // if non-transformed name was present
-          const isRequired = Array.isArray(def.required) &&
+          const required = Array.isArray(def.required) &&
             def.required.includes(childDefName) &&
             !def.required.includes(name);
 
-          if (isRequired) {
+          if (required) {
             def.required.push(name);
           }
         }

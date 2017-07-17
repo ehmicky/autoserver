@@ -24,7 +24,7 @@ const applyTransforms = function ({ data, transforms, jsl, type }) {
 const applyTransform = function ({
   data,
   attrName,
-  transform: { value: transformer, test, using },
+  transform: { value: transformer, test: testFunc, using },
   jsl,
   type,
 }) {
@@ -42,7 +42,8 @@ const applyTransform = function ({
   }
 
   // Can add a `test` function
-  const shouldPerform = test === undefined || jsl.run({ value: test, params });
+  const shouldPerform = testFunc === undefined ||
+    jsl.run({ value: testFunc, params });
   if (!shouldPerform) { return; }
 
   let newValue = jsl.run({ value: transformer, params });
