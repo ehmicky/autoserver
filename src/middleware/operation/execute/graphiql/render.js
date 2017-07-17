@@ -44,11 +44,11 @@ const renderGraphiQL = async function (input) {
     });
     const htmlString = render(htmlFile, data);
     return htmlString;
-  } catch (innererror) {
+  } catch (error) {
     const message = 'Could not render GraphiQL HTML document';
     throw new EngineError(message, {
       reason: 'GRAPHIQL_PARSING_ERROR',
-      innererror,
+      innererror: error,
     });
   }
 };

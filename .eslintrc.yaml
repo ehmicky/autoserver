@@ -208,7 +208,9 @@ rules:
 
   # Exceptions
   unicorn/throw-new-error: 2
-##  unicorn/catch-error-name: 2
+  unicorn/catch-error-name:
+  - 2
+  - name: error
 ##  no-catch-shadow: 2
 #  fp/no-throw: 2
 ##  unicorn/custom-error-definition: 2

@@ -20,7 +20,7 @@ const runJsl = function ({ value, params = {}, type = 'system' }) {
     if (typeof jslFunc !== 'function') { return jslFunc; }
 
     return jslFunc(params);
-  } catch (innererror) {
+  } catch (error) {
     // JSL without parenthesis
     const rawJsl = getRawJsl({ jsl: value });
     // If non-inline function, function name
@@ -29,7 +29,7 @@ const runJsl = function ({ value, params = {}, type = 'system' }) {
       `${value.name}()`;
     const expression = rawJsl || funcName || value;
     const message = `JSL expression failed: '${expression}'`;
-    throwJslError({ message, type, innererror });
+    throwJslError({ message, type, innererror: error });
   }
 };
 

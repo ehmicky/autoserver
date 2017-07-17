@@ -69,11 +69,11 @@ const parseQueryVars = function ({ queryString }) {
       decoder: str => decodeURIComponent(str.replace(/\+/g, ' ')),
     });
     return queryObject;
-  } catch (innererror) {
+  } catch (error) {
     const message = `Request query string is invalid: '${queryString}'`;
     throw new EngineError(message, {
       reason: 'QUERY_STRING_PARSE',
-      innererror,
+      innererror: error,
     });
   }
 };

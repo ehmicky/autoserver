@@ -9,9 +9,9 @@ const { memoizeUnlessClient } = require('./memoize');
 const parseNode = memoizeUnlessClient(({ jslText, type }) => {
   try {
     return parse(jslText);
-  } catch (innererror) {
+  } catch (error) {
     const message = `JSL syntax error: '${jslText}'`;
-    throwJslError({ message, type, innererror });
+    throwJslError({ message, type, innererror: error });
   }
 });
 

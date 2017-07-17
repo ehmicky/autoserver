@@ -3,10 +3,14 @@
 const { getStandardError, getErrorMessage } = require('../error');
 
 // Handle exceptions thrown at server startup
-const handleStartupError = async function ({ error, startupLog, apiServer }) {
+const handleStartupError = async function ({
+  error: err,
+  startupLog,
+  apiServer,
+}) {
   const perf = startupLog.perf.start('mainHandler', 'exception');
 
-  const standardError = getStandardError({ log: startupLog, error });
+  const standardError = getStandardError({ log: startupLog, error: err });
   const message = getErrorMessage({ error: standardError });
   await startupLog.error(message, {
     type: 'failure',
@@ -19,7 +23,7 @@ const handleStartupError = async function ({ error, startupLog, apiServer }) {
   // Stops servers if some were started
   try {
     await apiServer.emitAsync('startupError');
-  } catch (err) {}
+  } catch (error) {}
 
   // Throws if no listener was setup
   await apiServer.emitAsync('error', standardError);

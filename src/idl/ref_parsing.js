@@ -22,11 +22,11 @@ const resolveJsonRefs = async function ({ idl, baseDir }) {
 
   try {
     parsedIdl = await dereferenceRefs(idl);
-  } catch (innererror) {
+  } catch (error) {
     const message = 'Could not resolve references \'$ref\'';
     throw new EngineError(message, {
       reason: 'IDL_SYNTAX_ERROR',
-      innererror,
+      innererror: error,
     });
   }
 

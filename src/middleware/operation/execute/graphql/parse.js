@@ -20,11 +20,11 @@ const parseQuery = memoize(({ query, goal, operationName }) => {
       operationName,
     });
     return { queryDocument, graphqlMethod };
-  } catch (innererror) {
+  } catch (error) {
     const message = 'Could not parse GraphQL query';
     throw new EngineError(message, {
       reason: 'GRAPHQL_SYNTAX_ERROR',
-      innererror,
+      innererror: error,
     });
   }
 });

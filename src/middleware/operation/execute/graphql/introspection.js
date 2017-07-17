@@ -24,8 +24,8 @@ const handleIntrospection = async function ({
   // Exception can be fired in several ways by GraphQL.js:
   //  - throwing an exception
   //  - returning errors in response
-  } catch (exception) {
-    throwError(exception);
+  } catch (error) {
+    throwError(error);
   }
 
   if (response.errors && response.errors[0]) {
