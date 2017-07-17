@@ -66,10 +66,10 @@ rules:
   - error
   - property
   eol-last: error
-##  eqeqeq:
-##  - error
-##  - always
-##  - 'null': ignore
+  eqeqeq:
+  - error
+  - always
+  - 'null': ignore
   func-call-spacing:
   - error
   - never
