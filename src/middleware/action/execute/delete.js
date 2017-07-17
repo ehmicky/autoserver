@@ -10,9 +10,7 @@ const deleteAction = async function (input) {
   const perf = log.perf.start('action.delete', 'middleware');
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => {
-    return type === 'delete' && multiple === isMultiple;
-  });
+  const command = COMMANDS.find(({ type, multiple }) => type === 'delete' && multiple === isMultiple);
 
   const newArgs = Object.assign({}, args, { pagination: isMultiple });
   Object.assign(input, { command, args: newArgs });

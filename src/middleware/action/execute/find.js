@@ -10,9 +10,7 @@ const findAction = async function (input) {
   const perf = log.perf.start('action.find', 'middleware');
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => {
-    return type === 'read' && multiple === isMultiple;
-  });
+  const command = COMMANDS.find(({ type, multiple }) => type === 'read' && multiple === isMultiple);
 
   const newArgs = Object.assign({}, args, { pagination: isMultiple });
   Object.assign(input, { command, args: newArgs });

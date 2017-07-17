@@ -14,9 +14,7 @@ const getUpdateInput = function ({ input, models }) {
   const { args, action, jsl } = input;
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => {
-    return type === 'update' && multiple === isMultiple;
-  });
+  const command = COMMANDS.find(({ type, multiple }) => type === 'update' && multiple === isMultiple);
   const newArgs = getUpdateArgs({ args, models, jsl });
   Object.assign(newArgs, { pagination: isMultiple, currentData: models });
   Object.assign(input, { command, args: newArgs });
@@ -34,9 +32,7 @@ const getUpdateArgs = function ({ args, models, jsl }) {
     .filter(key => isJsl({ jsl: data[key] }));
 
   if (Array.isArray(models)) {
-    updateArgs.newData = models.map(model => {
-      return getUpdateData({ model, data, jsl, jslKeys });
-    });
+    updateArgs.newData = models.map(model => getUpdateData({ model, data, jsl, jslKeys }));
   } else {
     updateArgs.newData = getUpdateData({ model: models, data, jsl, jslKeys });
   }

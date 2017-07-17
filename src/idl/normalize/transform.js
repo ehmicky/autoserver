@@ -100,9 +100,7 @@ const findTransformOrder = function ({ props, modelName, triedProps = [] }) {
     const nextProps = props.slice(index + 1);
     // Means the attribute is currently behind another attribute that should be
     // behind
-    const isWrongOrder = prop.using.some(orderAttr => {
-      return nextProps.some(({ attrName }) => attrName === orderAttr);
-    });
+    const isWrongOrder = prop.using.some(orderAttr => nextProps.some(({ attrName }) => attrName === orderAttr));
 
     if (isWrongOrder) {
       // Push the current attribute to the end of the array, and try again

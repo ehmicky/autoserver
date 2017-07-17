@@ -29,9 +29,7 @@ const getPaginationInput = function ({ args }) {
     }
 
     if (isBackward) {
-      newArgs.nOrderBy = newArgs.nOrderBy.map(({ attrName, order }) => {
-        return { attrName, order: order === 'asc' ? 'desc' : 'asc' };
-      });
+      newArgs.nOrderBy = newArgs.nOrderBy.map(({ attrName, order }) => ({ attrName, order: order === 'asc' ? 'desc' : 'asc' }));
     }
   }
 
@@ -59,15 +57,11 @@ const getPaginatedFilter = function ({ tokenObj, isBackward }) {
 const tokenToJsl = function ({ parts, nOrderBy, isBackward }) {
   const mainOrder = isBackward ? 'asc' : 'desc';
   return nOrderBy
-    .map(({ attrName, order }, index) => {
-      return { attrName, order, value: parts[index] };
-    })
+    .map(({ attrName, order }, index) => ({ attrName, order, value: parts[index] }))
     .map(({ attrName, order, value }, index) => {
       const previousParts = parts
         .slice(0, index)
-        .map((value, i) => {
-          return `$$.${nOrderBy[i].attrName} === ${JSON.stringify(value)}`;
-        });
+        .map((value, i) => `$$.${nOrderBy[i].attrName} === ${JSON.stringify(value)}`);
       const operator = order === mainOrder ? '<' : '>';
       const currentPart = `$$.${attrName} ${operator} ${JSON.stringify(value)}`;
       const partJsl = `(${[...previousParts, currentPart].join(' && ')})`;

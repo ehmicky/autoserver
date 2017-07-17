@@ -46,9 +46,7 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
           if (!isModel(subDef)) { return def; }
 
           const multiple = isMultiple(def);
-          const subAction = ACTIONS.find(act => {
-            return act.type === action.type && act.multiple === multiple;
-          });
+          const subAction = ACTIONS.find(act => act.type === action.type && act.multiple === multiple);
           return Object.assign({}, def, { action: subAction });
         });
 

@@ -12,9 +12,7 @@ const getUpdateInput = function ({ input, data, models }) {
   const { args, action } = input;
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => {
-    return type === 'update' && multiple === isMultiple;
-  });
+  const command = COMMANDS.find(({ type, multiple }) => type === 'update' && multiple === isMultiple);
 
   const newArgs = Object.assign({}, args);
   const newData = data;

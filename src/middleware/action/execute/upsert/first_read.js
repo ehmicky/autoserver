@@ -13,9 +13,7 @@ const getFirstReadInput = function ({ input }) {
   input.args = cloneDeep(input.args);
 
   const isMultiple = true;
-  const command = COMMANDS.find(({ type, multiple }) => {
-    return type === 'read' && multiple === isMultiple;
-  });
+  const command = COMMANDS.find(({ type, multiple }) => type === 'read' && multiple === isMultiple);
 
   // The "real" commands are "create" and "update".
   // The first and second "find" commands are just here to patch things up,
