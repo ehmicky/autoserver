@@ -549,9 +549,9 @@ rules:
 
   # Objects
   dot-notation: 2
-##  quote-props:
-##  - 2
-##  - as-needed
+  quote-props:
+  - 2
+  - as-needed
   object-shorthand: 2
 ##  prefer-destructuring:
 ##  - 2
