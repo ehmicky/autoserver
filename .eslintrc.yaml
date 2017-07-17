@@ -147,7 +147,7 @@ rules:
   no-implicit-globals: 2
   one-var-declaration-per-line: 2
   vars-on-top: 2
-##  sort-vars: 2
+  sort-vars: 2
 #  fp/no-nil: 2
 
   # Assignments

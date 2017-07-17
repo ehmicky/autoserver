@@ -13,7 +13,8 @@ const { getYaml } = require('../utilities');
  *  - directly a JavaScript object
  **/
 const getIdlConf = async function ({ conf }) {
-  let idl, baseDir;
+  let idl;
+  let baseDir;
 
   if (typeof conf === 'string') {
     let path;
