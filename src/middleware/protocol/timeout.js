@@ -17,6 +17,7 @@ const setRequestTimeout = async function (input) {
     // to properly work, i.e. we need to make current macrotask end.
     // E.g. if the whole request was done in a single macrotask that took
     // 20 minutes, setTimeout(requestTimeout) would still not be called.
+    // eslint-disable-next-line promise/prefer-await-to-then
     .then(async val => {
       await promisify(setTimeout)(0);
       return val;
