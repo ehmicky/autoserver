@@ -7,6 +7,7 @@ const { TYPES, LEVELS } = require('./constants');
 //   STACK_TRACE
 // `PHASE` is requestId if phase is `request`
 const getMessage = function ({
+  noConsole,
   phase,
   type,
   level,
@@ -15,6 +16,8 @@ const getMessage = function ({
   serverName,
   rawMessage,
 }) {
+  if (noConsole) { return; }
+
   const prefix = getPrefix({
     phase,
     type,

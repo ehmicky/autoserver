@@ -9,20 +9,26 @@ const operations = require('./operations');
 //   - this can also be set for all the actions using:
 //      - Prefer: return=minimal HTTP request header
 const noOutput = async function (input) {
-  const { operation, log, settings } = input;
-  let response = await this.next(input);
+  const { log } = input;
+  const response = await this.next(input);
+
   const perf = log.perf.start('operation.noOutput', 'middleware');
-
-  const isDelete = response.actions &&
-    response.actions.some(({ type }) => type === 'delete');
-  const shouldRemoveOutput = isDelete || settings.noOutput;
-
-  if (shouldRemoveOutput) {
-    response = operations[operation].noOutput(response);
-  }
-
+  const newResponse = getResponse({ input, response });
   perf.stop();
-  return response;
+
+  return newResponse;
+};
+
+const getResponse = function ({
+  input: { operation, settings: { noOutput: noOutputSettings } },
+  response,
+  response: { actions },
+}) {
+  const isDelete = actions && actions.some(({ type }) => type === 'delete');
+  const shouldRemoveOutput = isDelete || noOutputSettings;
+  if (!shouldRemoveOutput) { return response; }
+
+  return operations[operation].noOutput(response);
 };
 
 module.exports = {

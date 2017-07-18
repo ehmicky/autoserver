@@ -8,10 +8,10 @@ const getErrorMessage = function ({ error, hasInputPath }) {
   const customErrorMessage = errorMessages.keyword;
   // Failsafe
   if (!customErrorMessage) { return ` ${error.message}`; }
-  let message = customErrorMessage(error);
+  const message = customErrorMessage(error);
 
   if (!hasInputPath && message[0] === '.') {
-    message = message.substring(1);
+    return message.substring(1);
   }
 
   return message;

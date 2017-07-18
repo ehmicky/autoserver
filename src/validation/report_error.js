@@ -11,15 +11,14 @@ const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
   const extraNewline = errors.length > 1 ? '\n' : '';
   const errorsText = extraNewline + errors
     .map(error => {
-      let { dataPath: inputPath } = error;
+      const { dataPath } = error;
       // Prepends argument name, e.g. `filter.attr` instead of `attr`
       const prefix = dataVar ? `/${dataVar}` : '';
-      inputPath = prefix + inputPath;
-      inputPath = inputPath.substr(1);
-      // We use `jsonPointers` option because it is cleaner,
-      // but we want dots (for properties) and brackets (for indexes)
-      // not slashes
-      inputPath = inputPath
+      const inputPath = `${prefix}${dataPath}`
+        .substr(1)
+        // We use `jsonPointers` option because it is cleaner,
+        // but we want dots (for properties) and brackets (for indexes)
+        // not slashes
         .replace(/\/([0-9]+)/g, '[$1]')
         .replace(/\//g, '.');
       const hasInputPath = inputPath !== '';

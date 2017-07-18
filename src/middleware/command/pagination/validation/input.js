@@ -13,18 +13,8 @@ const validatePaginationInput = function ({
   modelName,
   maxPageSize,
 }) {
-  let schema;
-
-  if (allowFullPagination({ args, command })) {
-    schema = getFullSchema({ maxPageSize });
-  } else if (mustPaginateOutput({ args })) {
-    schema = getLimitedSchema({ maxPageSize });
-  } else {
-    schema = restrictedSchema;
-  }
-
+  const schema = getSchema({ args, command, maxPageSize });
   const data = getInputData({ args });
-
   const reportInfo = {
     type: 'paginationInput',
     action,
@@ -32,6 +22,18 @@ const validatePaginationInput = function ({
     dataVar: 'arguments',
   };
   validate({ schema, data, reportInfo });
+};
+
+const getSchema = function ({ args, command, maxPageSize }) {
+  if (allowFullPagination({ args, command })) {
+    return getFullSchema({ maxPageSize });
+  }
+
+  if (mustPaginateOutput({ args })) {
+    return getLimitedSchema({ maxPageSize });
+  }
+
+  return restrictedSchema;
 };
 
 // JSON schema when consumers can specify args.before|after|pageSize|page

@@ -165,15 +165,7 @@ const deleteMany = function ({ collection, nFilter, opts, opts: { dryRun } }) {
 };
 
 const create = function ({ collection, newData, opts, opts: { dryRun } }) {
-  let { id } = newData;
-
-  if (id) {
-    const findIndexOpts = Object.assign({}, opts, { mustExist: false });
-    findIndex({ collection, id, opts: findIndexOpts });
-  } else {
-    id = createId();
-  }
-
+  const id = getCreateId({ collection, newData, opts });
   const newModel = Object.assign({}, newData, { id });
 
   if (!dryRun) {
@@ -183,8 +175,19 @@ const create = function ({ collection, newData, opts, opts: { dryRun } }) {
   return newModel;
 };
 
-const createId = function () {
-  return uuiv4();
+const getCreateId = function ({ collection, newData: { id }, opts }) {
+  if (!id) {
+    return uuiv4();
+  }
+
+  checkCreateId({ collection, id, opts });
+
+  return id;
+};
+
+const checkCreateId = function ({ collection, id, opts }) {
+  const findIndexOpts = Object.assign({}, opts, { mustExist: false });
+  findIndex({ collection, id, opts: findIndexOpts });
 };
 
 const createOne = function ({ collection, newData, opts }) {

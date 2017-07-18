@@ -11,30 +11,26 @@ const resolveRefs = async function ({ idl, baseDir }) {
 // Resolve JSON references, i.e. $ref
 const resolveJsonRefs = async function ({ idl, baseDir }) {
   // Make $ref relative to IDL file itself
-  let currentDir;
+  const currentDir = process.cwd();
 
   if (baseDir) {
-    currentDir = process.cwd();
     process.chdir(baseDir);
   }
 
-  let parsedIdl;
-
   try {
-    parsedIdl = await dereferenceRefs(idl);
+    const parsedIdl = await dereferenceRefs(idl);
+    return parsedIdl;
   } catch (error) {
     const message = 'Could not resolve references \'$ref\'';
     throw new EngineError(message, {
       reason: 'IDL_SYNTAX_ERROR',
       innererror: error,
     });
+  } finally {
+    if (baseDir) {
+      process.chdir(currentDir);
+    }
   }
-
-  if (currentDir) {
-    process.chdir(currentDir);
-  }
-
-  return parsedIdl;
 };
 
 module.exports = {

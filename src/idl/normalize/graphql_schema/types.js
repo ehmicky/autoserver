@@ -42,49 +42,60 @@ const getField = function (def, opts) {
     throw new EngineError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
-  let { type, args } = fieldGetter.value(def, opts);
+  const { type, args: originalArgs } = fieldGetter.value(def, opts);
 
   // Fields description|deprecation_reason are taken from IDL definition
   const { description, deprecationReason } = def;
 
+  const args = getArgs({ originalArgs, def, opts });
+
+  const defaultValue = getDefaultValue({ def, opts });
+  const field = { type, description, deprecationReason, args, defaultValue };
+  return field;
+};
+
+const getArgs = function ({ originalArgs, def, opts }) {
   // Only for models, and not for argument types
   // Modifiers (Array and NonNull) retrieve their arguments from
   // underlying type (i.e. `args` is already defined)
-  if (isModel(def) && opts.inputObjectType === '' && !args) {
-    // Builds types used for `data` and `filter` arguments
-    const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });
-    const dataObjectType = getType(def, dataObjectOpts);
-    const filterObjectOpts = Object.assign({}, opts, {
-      inputObjectType: 'filter',
-    });
-    const filterObjectType = getType(def, filterObjectOpts);
-    // Retrieves arguments
-    const argsOpts = Object.assign({}, opts, {
-      dataObjectType,
-      filterObjectType,
-    });
-    args = getArguments(def, argsOpts);
+  if (!isModel(def) || opts.inputObjectType !== '' || originalArgs) {
+    return originalArgs;
   }
 
+  // Builds types used for `data` and `filter` arguments
+  const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });
+  const dataObjectType = getType(def, dataObjectOpts);
+  const filterObjectOpts = Object.assign({}, opts, {
+    inputObjectType: 'filter',
+  });
+  const filterObjectType = getType(def, filterObjectOpts);
+  // Retrieves arguments
+  const argsOpts = Object.assign({}, opts, {
+    dataObjectType,
+    filterObjectType,
+  });
+
+  return getArguments(def, argsOpts);
+};
+
+const getDefaultValue = function ({
+  def,
+  opts: { isRequired: isRequiredOpt, inputObjectType, action },
+}) {
   // Can only assign default to input data that is optional.
   // 'update' does not required anything, nor assign defaults
-  let defaultValue;
-  const hasDefaultValue = !opts.isRequired &&
-    opts.inputObjectType === 'data' &&
-    opts.action.type !== 'update' &&
+  const hasDefaultValue = !isRequiredOpt &&
+    inputObjectType === 'data' &&
+    action.type !== 'update' &&
     def.default;
+  if (!hasDefaultValue) { return; }
 
-  if (hasDefaultValue) {
-    // JSL only shows as 'DYNAMIC_VALUE' in schema
-    const defaults = Array.isArray(def.default) ? def.default : [def.default];
-    const isDynamic = defaults.some(jsl =>
-      isJsl({ jsl }) || typeof jsl === 'function'
-    );
-    defaultValue = isDynamic ? 'DYNAMIC_VALUE' : def.default;
-  }
-
-  const field = { type, description, deprecationReason, args, defaultValue };
-  return field;
+  // JSL only shows as 'DYNAMIC_VALUE' in schema
+  const defaults = Array.isArray(def.default) ? def.default : [def.default];
+  const isDynamic = defaults.some(jsl =>
+    isJsl({ jsl }) || typeof jsl === 'function'
+  );
+  return isDynamic ? 'DYNAMIC_VALUE' : def.default;
 };
 
 // Required field FGetter

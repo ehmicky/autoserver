@@ -38,21 +38,9 @@ const actionConvertor = async function ({
     settings,
   };
 
-  let response;
-
-  try {
-    perf.stop();
-    response = await this.next(nextInput);
-    perf.start();
-  } catch (error) {
-    const exceptionPerf = log.perf.start('action.convertor', 'exception');
-
-    // Added only for final error handler
-    log.add({ action, fullAction, model: modelName });
-
-    exceptionPerf.stop();
-    throw error;
-  }
+  perf.stop();
+  const response = await getResponse.call(this, { nextInput });
+  perf.start();
 
   response.action = action;
 
@@ -65,6 +53,29 @@ const actionConvertor = async function ({
 
   perf.stop();
   return transformedResponse;
+};
+
+const getResponse = async function ({
+  nextInput,
+  nextInput: {
+    log,
+    action,
+    fullAction,
+    modelName,
+  },
+}) {
+  try {
+    const response = await this.next(nextInput);
+    return response;
+  } catch (error) {
+    const exceptionPerf = log.perf.start('action.convertor', 'exception');
+
+    // Added only for final error handler
+    log.add({ action, fullAction, model: modelName });
+
+    exceptionPerf.stop();
+    throw error;
+  }
 };
 
 const actionConvertorOutput = {

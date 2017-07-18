@@ -13,42 +13,47 @@ const { getYaml } = require('../utilities');
  *  - directly a JavaScript object
  **/
 const getIdlConf = async function ({ conf }) {
-  let idl;
-  let baseDir;
-
   if (typeof conf === 'string') {
-    let path;
-
-    try {
-      path = await promisify(realpath)(conf);
-    } catch (error) {
-      const message = `Configuration file does not exist: '${conf}'`;
-      throw new EngineError(message, {
-        reason: 'CONFIGURATION_LOADING',
-        innererror: error,
-      });
-    }
-
-    // Remember IDL file directory, so it can be used for $ref path resolution
-    baseDir = dirname(path);
-
-    try {
-      idl = await getYaml({ path });
-    } catch (error) {
-      const message = 'Could not load configuration file';
-      throw new EngineError(message, {
-        reason: 'CONFIGURATION_LOADING',
-        innererror: error,
-      });
-    }
-  } else if (conf && conf.constructor === Object) {
-    idl = conf;
-  } else {
-    const message = 'Missing configuration file or \'conf\' option';
-    throw new EngineError(message, { reason: 'CONFIGURATION_LOADING' });
+    const idlConf = await getIdlFromPath({ conf });
+    return idlConf;
   }
 
-  return { idl, baseDir };
+  if (conf && conf.constructor === Object) {
+    return { idl: conf };
+  }
+
+  const message = 'Missing configuration file or \'conf\' option';
+  throw new EngineError(message, { reason: 'CONFIGURATION_LOADING' });
+};
+
+const getIdlFromPath = async function ({ conf }) {
+  const path = await getIdlPath({ path: conf });
+
+  // Remember IDL file directory, so it can be used for $ref path resolution
+  const baseDir = dirname(path);
+
+  try {
+    const idl = await getYaml({ path });
+    return { idl, baseDir };
+  } catch (error) {
+    const message = 'Could not load configuration file';
+    throw new EngineError(message, {
+      reason: 'CONFIGURATION_LOADING',
+      innererror: error,
+    });
+  }
+};
+
+const getIdlPath = async function ({ path }) {
+  try {
+    return await promisify(realpath)(path);
+  } catch (error) {
+    const message = `Configuration file does not exist: '${path}'`;
+    throw new EngineError(message, {
+      reason: 'CONFIGURATION_LOADING',
+      innererror: error,
+    });
+  }
 };
 
 module.exports = {

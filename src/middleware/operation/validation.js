@@ -28,7 +28,7 @@ const validateResponse = function ({ response }) {
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  let { content, type, actions } = response;
+  const { content, type, actions } = response;
 
   validateType({ type });
   validateContent({ content, type });

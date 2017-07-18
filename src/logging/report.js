@@ -35,18 +35,18 @@ const report = async function ({
 
   // Build a standardized log message
   const noConsole = noConsoleTypes.includes(type);
-  let message;
+  const message = getMessage({
+    noConsole,
+    phase,
+    type,
+    level,
+    timestamp,
+    requestId,
+    serverName,
+    rawMessage,
+  });
 
-  if (!noConsole) {
-    message = getMessage({
-      phase,
-      type,
-      level,
-      timestamp,
-      requestId,
-      serverName,
-      rawMessage,
-    });
+  if (message) {
     info.message = message;
   }
 

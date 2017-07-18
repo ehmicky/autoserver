@@ -11,11 +11,17 @@ const { validateOptions } = require('./validate');
 const processOptions = function ({ options, startupLog }) {
   const perf = startupLog.perf.start('options');
 
-  let serverOpts = cloneDeep(options);
+  const copiedOpts = cloneDeep(options);
 
-  serverOpts = applyDefaultOptions({ serverOpts, startupLog });
+  const defaultedOpts = applyDefaultOptions({
+    serverOpts: copiedOpts,
+    startupLog,
+  });
 
-  serverOpts = transformOptions({ serverOpts, startupLog });
+  const serverOpts = transformOptions({
+    serverOpts: defaultedOpts,
+    startupLog,
+  });
 
   validateOptions({ serverOpts, startupLog });
 
