@@ -42,7 +42,7 @@ const start = async function ({ options, startupLog, apiServer }) {
 
   perf.stop();
 
-  const serverOpts = await processOptions({ options, startupLog });
+  const serverOpts = processOptions({ options, startupLog });
   const idl = await getIdl({ serverOpts, startupLog });
 
   const servers = await startAllServers({

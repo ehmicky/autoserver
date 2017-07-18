@@ -5,7 +5,7 @@ const { promisify } = require('util');
 const { EngineError } = require('../../error');
 
 // Make request fail after some timeout
-const setRequestTimeout = async function (input) {
+const setRequestTimeout = function (input) {
   const { log, now } = input;
   const perf = log.perf.start('protocol.setRequestTimeout', 'middleware');
 
