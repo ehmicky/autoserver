@@ -227,7 +227,6 @@ const getObjectFields = function (def, opts) {
 
         childOpts.isRequired = isRequired(Object.assign({
           parentDef: def,
-          def: childDef,
           name: childDefName,
         }, childOpts));
 
@@ -254,7 +253,6 @@ This is a dummy attribute.`,
 // Returns whether a field is required
 const isRequired = function ({
   parentDef,
-  def,
   name,
   action = {},
   inputObjectType,

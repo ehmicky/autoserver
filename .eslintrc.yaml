@@ -34,6 +34,9 @@ rules:
   comma-dangle:
   - 2
   - always-multiline
+  no-unused-vars:
+  - 2
+  - {}
 
   # Comments
   no-inline-comments: 2
