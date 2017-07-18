@@ -47,7 +47,7 @@ const validateQuery = function ({ queryDocument, goal, operationName }) {
     }
   }
 
-  const definition = definitions[0];
+  const [definition] = definitions;
 
   // GraphQL-anywhere do not support operationName yet,
   // so we must patch it until they do

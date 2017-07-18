@@ -12,7 +12,7 @@ const deepMerge = function (objA, ...objects) {
     return deepMerge(newObjA, ...newObjects);
   }
 
-  const objB = objects[0];
+  const [objB] = objects;
   const isInvalidType =
     (objA.constructor !== Object && !Array.isArray(objA)) ||
     (objB.constructor !== Object && !Array.isArray(objB));

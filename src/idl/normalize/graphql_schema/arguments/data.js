@@ -11,7 +11,7 @@ const getDataArgument = function ({ action = {}, dataObjectType }) {
   if (!dataActionTypes.includes(action.type)) { return; }
 
   // Retrieves description before wrapping in modifers
-  const description = dataObjectType.description;
+  const { description } = dataObjectType;
 
   // Add required and array modifiers
   dataObjectType = new GraphQLNonNull(dataObjectType);

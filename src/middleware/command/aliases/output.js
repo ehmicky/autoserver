@@ -10,7 +10,7 @@ const applyOutputAliases = function ({ response, modelAliases }) {
 };
 
 const applyOutputAlias = function ({ response, attrName, aliases }) {
-  const data = response.data;
+  const { data } = response;
   response.data = applyResponseAliases({ data, attrName, aliases });
 };
 

@@ -1,5 +1,7 @@
 'use strict';
 
+const { pick } = require('../../../utilities');
+
 const { getPaginationInfo } = require('./info');
 const { decode, encode } = require('./encoding');
 
@@ -71,17 +73,20 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
 
 // Calculate token to output
 const getPaginationToken = function ({ model, nOrderBy, nFilter, token }) {
-  // Reuse old token
-  if (token !== undefined && token !== '') {
-    const oldToken = decode({ token });
-    nOrderBy = oldToken.nOrderBy;
-    nFilter = oldToken.nFilter;
-  }
-
-  const parts = nOrderBy.map(({ attrName }) => model[attrName]);
-  const tokenObj = { nOrderBy, nFilter, parts };
+  const tokenObj = getTokenObj({ nOrderBy, nFilter, token });
+  tokenObj.parts = tokenObj.nOrderBy.map(({ attrName }) => model[attrName]);
   const encodedToken = encode({ token: tokenObj });
   return encodedToken;
+};
+
+const getTokenObj = function ({ nOrderBy, nFilter, token }) {
+  if (token === undefined || token === '') {
+    return { nOrderBy, nFilter };
+  }
+
+  // Reuse old token
+  const oldToken = decode({ token });
+  return pick(oldToken, ['nOrderBy', 'nFilter']);
 };
 
 module.exports = {
