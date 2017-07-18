@@ -127,7 +127,7 @@ const middleware = [
   database.databaseExecute,
 ];
 
-const getMiddleware = async function () {
+const getMiddleware = function () {
   return chain(middleware)[0];
 };
 

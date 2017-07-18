@@ -4,7 +4,7 @@
 const database = require('./data.json');
 const { fireCommand } = require('./commands');
 
-const databaseExecute = async function (input) {
+const databaseExecute = function (input) {
   const { command, args = {}, settings, modelName, jsl, log } = input;
   const perf = log.perf.start('database.execute', 'middleware');
 

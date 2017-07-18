@@ -57,13 +57,13 @@ const nodeModuleRefs = {
   resolve: {
     order: 50,
     canRead: true,
-    read: async ({ url }) => requireFile(basename(url)),
+    read: ({ url }) => requireFile(basename(url)),
   },
   parse: {
     allowEmpty: false,
     order: 500,
     canParse: true,
-    parse: async ({ data }) => (isResolved(data) ? data : undefined),
+    parse: ({ data }) => (isResolved(data) ? data : undefined),
   },
 };
 
@@ -72,13 +72,13 @@ const nodeRefs = {
   resolve: {
     order: 60,
     canRead: '.js',
-    read: async ({ url }) => requireFile(url),
+    read: ({ url }) => requireFile(url),
   },
   parse: {
     allowEmpty: false,
     order: 600,
     canParse: '.js',
-    parse: async ({ data }) => (isResolved(data) ? data : undefined),
+    parse: ({ data }) => (isResolved(data) ? data : undefined),
   },
 };
 

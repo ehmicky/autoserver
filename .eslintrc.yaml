@@ -285,7 +285,7 @@ rules:
 
   # Async
   callback-return: 2
-##  require-await: 2
+  require-await: 2
   no-await-in-loop: 2
   no-sync: 2
   promise/catch-or-return: 2
