@@ -146,7 +146,7 @@ rules:
   no-var: 2
   fp/no-let: 2
   import/no-mutable-exports: 2
-##  prefer-const: 2
+  prefer-const: 2
   no-implicit-globals: 2
   one-var-declaration-per-line: 2
   vars-on-top: 2
