@@ -10,7 +10,7 @@ const { getGlobalKeys } = require('./global');
 const allRules = require('./rules');
 
 // TODO: remove when https://github.com/ternjs/acorn/pull/559 is merged
-const fullAncestor = function (node, callback, base, state) {
+const fullAncestor = function (node, callbackFunc, base, state) {
   if (!base) base = walkBase;
   let ancestors = [];
 
@@ -19,7 +19,7 @@ const fullAncestor = function (node, callback, base, state) {
     let isNew = child !== ancestors[ancestors.length - 1];
     if (isNew) ancestors.push(child);
     base[type](child, st, crawl);
-    callback(child, st || ancestors, ancestors, type);
+    callbackFunc(child, st || ancestors, ancestors, type);
     if (isNew) ancestors.pop();
   })(node, state);
 };

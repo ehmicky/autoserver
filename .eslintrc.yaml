@@ -284,7 +284,7 @@ rules:
   no-bitwise: 2
 
   # Async
-##  callback-return: 2
+  callback-return: 2
 ##  require-await: 2
 ##  no-await-in-loop: 2
   no-sync: 2
