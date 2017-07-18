@@ -259,10 +259,10 @@ rules:
   class-methods-use-this: 2
   consistent-this: 2
   no-prototype-builtins: 2
-#  fp/no-class: 2
+##  fp/no-class: 2
 
   # Arrays
-##  array-callback-return: 2
+  array-callback-return: 2
 
   # String
   no-useless-concat: 2

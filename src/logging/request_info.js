@@ -173,30 +173,28 @@ const setResponse = function (requestInfo, loggerFilter) {
 };
 
 const reduceModels = function ({ info, attrName, filter }) {
-  if (!info) { return; }
+  if (!info || info[attrName] === undefined) { return; }
 
-  if (info[attrName] === undefined) { return; }
-
-  let size;
-
-  try {
-    size = JSON.stringify(info[attrName]).length;
-  } catch (error) {
-    size = 'unknown';
-  }
-
+  const size = getSize({ value: info[attrName] });
   info[`${attrName}Size`] = size;
 
   if (Array.isArray(info[attrName])) {
     info[`${attrName}Count`] = info[attrName].length;
-    info[attrName] = info[attrName].map(obj => {
-      if (!obj || obj.constructor !== Object) { return; }
-      return filter(obj);
-    });
+    info[attrName] = info[attrName]
+      .filter(obj => obj && obj.constructor === Object)
+      .map(obj => filter(obj));
   } else if (info[attrName] && info[attrName].constructor === Object) {
     info[attrName] = filter(info[attrName]);
   } else if (!info[attrName]) {
     delete info[attrName];
+  }
+};
+
+const getSize = function ({ value }) {
+  try {
+    return JSON.stringify(value).length;
+  } catch (error) {
+    return 'unknown';
   }
 };
 
