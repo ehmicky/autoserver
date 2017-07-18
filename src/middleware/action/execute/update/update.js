@@ -14,7 +14,9 @@ const getUpdateInput = function ({ input, models }) {
   const { args, action, jsl } = input;
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => type === 'update' && multiple === isMultiple);
+  const command = COMMANDS.find(({ type, multiple }) =>
+    type === 'update' && multiple === isMultiple
+  );
   const newArgs = getUpdateArgs({ args, models, jsl });
   Object.assign(newArgs, { pagination: isMultiple, currentData: models });
   Object.assign(input, { command, args: newArgs });
@@ -32,7 +34,9 @@ const getUpdateArgs = function ({ args, models, jsl }) {
     .filter(key => isJsl({ jsl: data[key] }));
 
   if (Array.isArray(models)) {
-    updateArgs.newData = models.map(model => getUpdateData({ model, data, jsl, jslKeys }));
+    updateArgs.newData = models.map(model =>
+      getUpdateData({ model, data, jsl, jslKeys })
+    );
   } else {
     updateArgs.newData = getUpdateData({ model: models, data, jsl, jslKeys });
   }
@@ -51,21 +55,21 @@ const getUpdateData = function ({ model, data, jsl, jslKeys }) {
 
 // Apply args.data JSL
 const transformData = function ({ model, data, jsl, jslKeys }) {
-  data = Object.assign({}, data);
+  const transformedData = jslKeys.map(attrName => {
+    const newData = getNewData({ data, model, attrName, jsl });
+    return { [attrName]: newData };
+  });
 
-  for (const attrName of jslKeys) {
-    // If current attribute value is null|undefined, leave it as is
-    // This simplifies JSL, as $ is guaranteed to be defined
-    if (model[attrName] == null) {
-      data[attrName] = model[attrName];
-      continue;
-    }
+  return Object.assign({}, data, ...transformedData);
+};
 
-    const params = { $$: model, $: model[attrName] };
-    data[attrName] = jsl.run({ value: data[attrName], params, type: 'data' });
-  }
+const getNewData = function ({ data, model, attrName, jsl }) {
+  // If current attribute value is null|undefined, leave it as is
+  // This simplifies JSL, as $ is guaranteed to be defined
+  if (model[attrName] == null) { return null; }
 
-  return data;
+  const params = { $$: model, $: model[attrName] };
+  return jsl.run({ value: data[attrName], params, type: 'data' });
 };
 
 module.exports = {

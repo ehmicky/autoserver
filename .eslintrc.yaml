@@ -367,7 +367,7 @@ rules:
   # To avoid
 #  fp/no-delete: 2
   no-void: 2
-##  no-continue: 2
+  no-continue: 2
   no-console: 2
   fp/no-events: 2
   no-buffer-constructor: 2

@@ -9,8 +9,10 @@ const validateData = function ({ idl }) {
     if (typeof prop !== 'object') { return prop; }
 
     // Find all $data properties
-    for (const [key, value] of Object.entries(prop)) {
-      if (!value.$data) { continue; }
+    const dataProps = Object.entries(prop)
+      .filter(([, { $data }]) => $data);
+
+    for (const [key, value] of dataProps) {
       validateDataFormat({ value });
       // At the moment, main IDL validation does not support `$data`,
       // so we remove them
