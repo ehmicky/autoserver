@@ -372,7 +372,7 @@ rules:
   fp/no-events: 2
   no-buffer-constructor: 2
   unicorn/no-new-buffer: 2
-##  no-process-env: 2
+  no-process-env: 2
 ##  no-process-exit: 2
 ##  unicorn/no-process-exit: 2
   no-script-url: 2
