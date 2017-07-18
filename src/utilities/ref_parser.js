@@ -91,7 +91,7 @@ const requireFile = function (url) {
   let file;
 
   try {
-    // eslint-disable-next-line global-require
+    // eslint-disable-next-line global-require, import/no-dynamic-require
     file = require(url);
   } finally {
     process.chdir(currenDir);
