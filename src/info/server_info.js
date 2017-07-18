@@ -9,6 +9,7 @@ const {
   totalmem: getMemory,
   cpus: getCpus,
 } = require('os');
+
 const { v4: uuidv4 } = require('uuid');
 
 const { memoize } = require('../utilities');

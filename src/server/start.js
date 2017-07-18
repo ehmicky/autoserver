@@ -1,12 +1,13 @@
 'use strict';
 
-const { processErrorHandler } = require('./process');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
 const { makeImmutable, assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { Log } = require('../logging');
 const { getMiddleware } = require('../middleware');
+
+const { processErrorHandler } = require('./process');
 const { ApiEngineServer } = require('./api_server');
 const { setupGracefulExit } = require('./exit');
 const { handleStartupError } = require('./startup_error');

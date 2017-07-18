@@ -1,6 +1,7 @@
 'use strict';
 
 const { validate } = require('../../../validation');
+
 const { getDataValidationSchema } = require('./schema');
 
 /**

@@ -3,6 +3,7 @@
 const pathToRegExp = require('path-to-regexp');
 
 const { transtype, assignObject } = require('../../../utilities');
+
 const { routes: allRoutes } = require('./routes');
 
 const getRoutes = function ({ rawRoutes }) {

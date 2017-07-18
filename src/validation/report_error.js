@@ -1,6 +1,7 @@
 'use strict';
 
 const { EngineError } = require('../error');
+
 const { validationTypes } = require('./types');
 const { getErrorMessage } = require('./message');
 

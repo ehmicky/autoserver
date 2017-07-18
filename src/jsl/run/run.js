@@ -2,6 +2,7 @@
 
 const { throwJslError } = require('../error');
 const { getRawJsl } = require('../tokenize');
+
 const { compileJsl } = require('./compile');
 
 // Process (already compiled) JSL function,

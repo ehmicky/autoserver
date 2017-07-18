@@ -7,6 +7,7 @@ const { parseNode, reverseParseNode } = require('../parse');
 const { throwJslError } = require('../error');
 const { isJsl } = require('../test');
 const { getRawJsl } = require('../tokenize');
+
 const { getGlobalKeys } = require('./global');
 const allRules = require('./rules');
 

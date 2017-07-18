@@ -1,7 +1,8 @@
 'use strict';
 
-const bodyParser = require('body-parser');
 const { promisify } = require('util');
+
+const bodyParser = require('body-parser');
 
 const { assignObject } = require('../../../utilities');
 

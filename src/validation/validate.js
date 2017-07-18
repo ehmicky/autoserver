@@ -1,6 +1,7 @@
 'use strict';
 
 const { memoize, assignArray } = require('../utilities');
+
 const { reportErrors } = require('./report_error');
 const { getRawValidator } = require('./base');
 

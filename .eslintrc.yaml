@@ -335,9 +335,9 @@ rules:
   node/no-extraneous-require: 2
   node/no-extraneous-import: 2
   no-mixed-requires: 2
-##  import/order:
-##  - 2
-##  - newlines-between: always
+  import/order:
+  - 2
+  - newlines-between: always
   import/newline-after-import: 2
   import/unambiguous: 2
   global-require: 2

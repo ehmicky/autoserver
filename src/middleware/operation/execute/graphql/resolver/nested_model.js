@@ -1,6 +1,7 @@
 'use strict';
 
 const { EngineError } = require('../../../../../error');
+
 const { getParentModel, parseName } = require('./utilities');
 const { attributeResolver } = require('./attribute');
 const { addNestedId } = require('./nested_id');

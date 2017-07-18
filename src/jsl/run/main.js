@@ -2,6 +2,7 @@
 
 const { mapValues, makeImmutable } = require('../../utilities');
 const { isJsl } = require('../test');
+
 const { checkNames } = require('./validation');
 const { runJsl } = require('./run');
 const { JslHelper } = require('./helpers');

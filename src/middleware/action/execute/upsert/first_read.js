@@ -3,6 +3,7 @@
 const { cloneDeep } = require('lodash');
 
 const { COMMANDS } = require('../../../../constants');
+
 const { getFilter } = require('./filter');
 
 // Retrieves the input for the first "read" command
@@ -13,7 +14,9 @@ const getFirstReadInput = function ({ input }) {
   input.args = cloneDeep(input.args);
 
   const isMultiple = true;
-  const command = COMMANDS.find(({ type, multiple }) => type === 'read' && multiple === isMultiple);
+  const command = COMMANDS.find(({ type, multiple }) =>
+    type === 'read' && multiple === isMultiple
+  );
 
   // The "real" commands are "create" and "update".
   // The first and second "find" commands are just here to patch things up,

@@ -1,6 +1,7 @@
 'use strict';
 
 const { assignObject } = require('../utilities');
+
 const handlers = require('./handlers');
 
 // Return object of all protocol-specific methods, as { PROTOCOL: OBJECT }

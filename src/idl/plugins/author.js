@@ -2,6 +2,7 @@
 
 const { EngineError } = require('../../error');
 const { isJsl } = require('../../jsl');
+
 const { propertiesPlugin } = require('./properties');
 
 // Plugin that adds who modified last each model:

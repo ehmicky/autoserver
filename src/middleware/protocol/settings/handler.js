@@ -2,6 +2,7 @@
 
 const { makeImmutable } = require('../../../utilities');
 const { EngineError } = require('../../../error');
+
 const { getSettings } = require('./parse');
 const { validateSettings } = require('./validate');
 
