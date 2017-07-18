@@ -341,7 +341,7 @@ rules:
   import/newline-after-import: 2
   import/unambiguous: 2
   global-require: 2
-##  import/no-dynamic-require: 2
+  import/no-dynamic-require: 2
 #  import/no-commonjs: 2
   import/no-amd: 2
   import/no-deprecated: 2
