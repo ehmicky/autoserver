@@ -1,6 +1,7 @@
 'use strict';
 
 const { basename, dirname } = require('path');
+
 const RefParser = require('json-schema-ref-parser');
 
 const { getYaml } = require('./yaml');

@@ -1,11 +1,13 @@
 'use strict';
 
-const yaml = require('js-yaml');
 const { readFile } = require('fs');
 const { promisify } = require('util');
 
+const yaml = require('js-yaml');
+
 const { memoize } = require('../../utilities');
 const { getValidator, validate } = require('../../validation');
+
 const { validateCircularRefs } = require('./circular_refs');
 const { validateData } = require('./data');
 const { validateIdlJsl } = require('./jsl');

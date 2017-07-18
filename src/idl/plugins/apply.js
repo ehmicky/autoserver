@@ -2,6 +2,7 @@
 
 const { omit, omitBy } = require('../../utilities');
 const { EngineError } = require('../../error');
+
 const { timestampPlugin } = require('./timestamp');
 const { authorPlugin } = require('./author');
 

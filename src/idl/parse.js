@@ -1,6 +1,7 @@
 'use strict';
 
 const { makeImmutable } = require('../utilities');
+
 const { getIdlConf } = require('./conf');
 const { resolveRefs } = require('./ref_parsing');
 const { applyPlugins } = require('./plugins');

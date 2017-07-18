@@ -1,6 +1,7 @@
 'use strict';
 
 const { mapValues, omitBy } = require('../../../utilities');
+
 const { parsePreferHeader } = require('./headers');
 
 // HTTP-specific ways to set settings

@@ -3,6 +3,7 @@
 const { cloneDeep } = require('lodash');
 
 const { makeImmutable } = require('../utilities');
+
 const { applyDefaultOptions } = require('./default');
 const { transformOptions } = require('./transform');
 const { validateOptions } = require('./validate');

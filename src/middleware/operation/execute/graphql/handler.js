@@ -1,6 +1,7 @@
 'use strict';
 
 const { makeImmutable } = require('../../../../utilities');
+
 const { parseQuery } = require('./parse');
 const { handleQuery } = require('./query');
 const { getResolver } = require('./resolver');

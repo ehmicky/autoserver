@@ -1,9 +1,10 @@
 'use strict';
 
-const { render } = require('mustache');
 const { readFile } = require('fs');
 const { resolve } = require('path');
 const { promisify } = require('util');
+
+const { render } = require('mustache');
 
 const { EngineError } = require('../../../../error');
 const { mapValues } = require('../../../../utilities');

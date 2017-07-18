@@ -1,6 +1,7 @@
 'use strict';
 
 const { getStandardError } = require('../../../error');
+
 const { getResponse } = require('./response');
 const { reportError } = require('./report');
 
