@@ -306,7 +306,12 @@ rules:
   - 2
   - allowModules:
     - api-engine
-##  node/no-unpublished-require: 2
+  node/no-unpublished-require:
+  - 2
+  - allowModules:
+    - gulp
+    - gulp-eslint
+    - gulp-plumber
   node/no-missing-import: 2
   node/no-unpublished-import: 2
   import/named: 2
