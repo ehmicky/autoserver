@@ -20,5 +20,6 @@ module.exports = Object.assign(
   require('./settings'),
   require('./params'),
   require('./routing'),
-  require('./logger')
+  // eslint-disable-next-line import/max-dependencies
+  require('./logger'),
 );
