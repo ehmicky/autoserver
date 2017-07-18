@@ -22,11 +22,11 @@ const graphqlMethods = {
 // Retrieve models for a given GraphQL method
 const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
   // Only include actions for a given GraphQL method
-  const graphqlActions = ACTIONS
+  const actions = ACTIONS
     .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type));
 
   // Iterate through each action
-  return graphqlActions
+  return actions
     .map(action => {
       // Remove model that are not allowed for a given action
       const allowedModels = pickBy(models, model =>
@@ -40,25 +40,31 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
       );
 
       // Iterate through each model
-      return mapValues(renamedModels, model => {
-        // Add action information to the nested models
-        const properties = mapValues(model.properties, def => {
-          const subDef = getSubDef(def);
-          if (!isModel(subDef)) { return def; }
-
-          const multiple = isMultiple(def);
-          const subAction = ACTIONS.find(act => act.type === action.type && act.multiple === multiple);
-          return Object.assign({}, def, { action: subAction });
-        });
-
-        const modelCopy = getModelCopy({ model, properties, action });
-        // Add action information to the top-level model
-        Object.assign(modelCopy, { action });
-
-        return modelCopy;
-      });
+      return mapValues(renamedModels, model =>
+        getModelByAction({ model, action })
+      );
     })
     .reduce(assignObject, {});
+};
+
+const getModelByAction = function ({ model, action }) {
+  // Add action information to the nested models
+  const properties = mapValues(model.properties, def => {
+    const subDef = getSubDef(def);
+    if (!isModel(subDef)) { return def; }
+
+    const multiple = isMultiple(def);
+    const subAction = ACTIONS.find(act =>
+      act.type === action.type && act.multiple === multiple
+    );
+    return Object.assign({}, def, { action: subAction });
+  });
+
+  const modelCopy = getModelCopy({ model, properties, action });
+  // Add action information to the top-level model
+  Object.assign(modelCopy, { action });
+
+  return modelCopy;
 };
 
 const getModelCopy = function ({ model, properties, action: { multiple } }) {

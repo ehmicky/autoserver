@@ -14,14 +14,18 @@ const getGlobalKeys = memoize(({ type }) => {
     Object.getPrototypeOf(Object.getPrototypeOf(global)),
   ];
   const globalKeys = globalObjects
-    // Retrieves all global properties
-    .map(globalObj => Object.getOwnPropertyNames(globalObj)
-      .filter(key => !whitelistedGlobalKeys[type].includes(key)))
+    .map(globalObj => filterGlobalObj({ globalObj, type }))
     .reduce(assignArray, [])
     // Make sure it is sorted, for the memoizer
     .sort();
   return globalKeys;
 });
+
+// Retrieves all global properties
+const filterGlobalObj = function ({ globalObj, type }) {
+  return Object.getOwnPropertyNames(globalObj)
+    .filter(key => !whitelistedGlobalKeys[type].includes(key));
+};
 
 // Whitelist those global properties as safe, i.e. they can be used in JSL
 const systemWhitelistedKeys = [
