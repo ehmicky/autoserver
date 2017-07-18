@@ -3,6 +3,7 @@
 const { cloneDeep } = require('lodash');
 
 const { COMMANDS } = require('../../../../constants');
+// eslint-disable-next-line import/no-internal-modules
 const { getFilter } = require('../upsert/filter');
 
 // Retrieves the input for the "read" command
