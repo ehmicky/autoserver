@@ -132,9 +132,9 @@ rules:
   max-depth:
   - 2
   - 2
-##  max-nested-callbacks:
-##  - 2
-##  - 2
+  max-nested-callbacks:
+  - 2
+  - 2
 
   # Referencing
   no-shadow:
