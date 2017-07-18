@@ -15,12 +15,12 @@ const { validateIdlJsl } = require('./jsl');
 const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
 
 // Validate IDL definition against a JSON schema
-const validateIdl = async function ({ idl }) {
-  validateCircularRefs({ value: idl });
+const validateIdl = async function ({ idl: oIdl }) {
+  validateCircularRefs({ value: oIdl });
 
   const schema = await getSchema();
-  idl = getIdlCopy({ idl });
-  idl = validateData({ idl });
+  const copiedIdl = getIdlCopy({ idl: oIdl });
+  const idl = validateData({ idl: copiedIdl });
   validate({
     schema,
     data: idl,

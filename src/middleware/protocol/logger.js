@@ -46,11 +46,9 @@ const handleLog = async function ({
 
 // Add information for `requestInfo.error`
 const addErrorReason = function ({ error, input: { log } }) {
-  if (!(error instanceof Error)) {
-    error = new Error(String(error));
-  }
+  const errorObj = error instanceof Error ? error : new Error(String(error));
 
-  const errorReason = getReason({ error });
+  const errorReason = getReason({ error: errorObj });
   log.add({ errorReason });
 };
 

@@ -17,8 +17,7 @@ const applyTokenAliases = function ({ token, attrName, aliases }) {
       tokenObj.nOrderBy = applyOrderByAliases({ nOrderBy, attrName, aliases });
     }
 
-    token = encode({ token: tokenObj });
-    return token;
+    return encode({ token: tokenObj });
   // If this fails, this means token has an invalid format, which will be
   // reported by pagination layer
   } catch (error) { return token; }

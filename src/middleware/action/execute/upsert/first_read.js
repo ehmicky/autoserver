@@ -9,8 +9,8 @@ const { getFilter } = require('./filter');
 // Retrieves the input for the first "read" command
 // Goal is to check whether models exist, so we know if "upsert" action
 // will create or update models.
-const getFirstReadInput = function ({ input }) {
-  input = Object.assign({}, input);
+const getFirstReadInput = function ({ input: oInput }) {
+  const input = Object.assign({}, oInput);
   input.args = cloneDeep(input.args);
 
   const isMultiple = true;

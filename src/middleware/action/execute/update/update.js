@@ -7,8 +7,8 @@ const { COMMANDS } = require('../../../../constants');
 const { isJsl } = require('../../../../jsl');
 
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input, models }) {
-  input = Object.assign({}, input);
+const getUpdateInput = function ({ input: oInput, models }) {
+  const input = Object.assign({}, oInput);
   input.args = cloneDeep(input.args);
 
   const { args, action, jsl } = input;

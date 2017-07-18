@@ -18,8 +18,8 @@ const validateOutputData = function ({
 }) {
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, command, type });
-  data = Array.isArray(data) ? data : [data];
-  data.forEach(datum => {
+  const allData = Array.isArray(data) ? data : [data];
+  allData.forEach(datum => {
     const reportInfo = { type, modelName, action, dataVar: 'response' };
     validate({ schema, data: datum, reportInfo, extra: jsl });
   });

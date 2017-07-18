@@ -48,7 +48,7 @@ const getStaticServerInfo = memoize(({ serverName }) => {
   const apiEngine = { version: apiEngineVersion };
 
   const serverId = uuidv4();
-  serverName = serverName || hostname || '';
+  const name = serverName || hostname || '';
 
   const staticServerInfo = {
     system,
@@ -56,7 +56,7 @@ const getStaticServerInfo = memoize(({ serverName }) => {
     node,
     apiEngine,
     serverId,
-    serverName,
+    serverName: name,
   };
   return staticServerInfo;
 });

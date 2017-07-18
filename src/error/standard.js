@@ -24,11 +24,11 @@ const getStandardError = function ({
       requestId,
     } = {},
   },
-  error,
+  error: oError,
 }) {
-  if (!(error instanceof Error)) {
-    error = new Error(typeof error === 'string' ? error : '');
-  }
+  const error = oError instanceof Error
+    ? oError
+    : new Error(typeof oError === 'string' ? oError : '');
 
   const type = getReason({ error });
   const { title } = getGenericProps({ error });

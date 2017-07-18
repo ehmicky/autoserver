@@ -13,7 +13,7 @@ const getRequestMessage = function ({
   responseTime,
 }) {
   const action = error ? fullAction : Object.keys(actions).join(' ');
-  responseTime = responseTime && `${Math.round(responseTime)}ms`;
+  const responseTimeText = responseTime && `${Math.round(responseTime)}ms`;
 
   const message = [
     protocolStatus,
@@ -23,7 +23,7 @@ const getRequestMessage = function ({
     method,
     path,
     action,
-    responseTime,
+    responseTimeText,
   ].filter(val => val)
     .join(' ');
   return message;

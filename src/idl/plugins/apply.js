@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit, omitBy } = require('../../utilities');
+const { omit, omitBy, reduceAsync } = require('../../utilities');
 const { EngineError } = require('../../error');
 
 const { timestampPlugin } = require('./timestamp');
@@ -24,12 +24,13 @@ const applyPlugins = async function ({ idl }) {
   // Apply each idl.plugins as FUNC({ idl }) returning idl
   const allPlugins = [...plugins, ...Object.values(defaultBuiltinPlugins)];
 
-  for (const [index, pluginConf] of allPlugins.entries()) {
-    // eslint-disable-next-line no-await-in-loop
-    idl = await applyPlugin({ idl, index, pluginConf });
-  }
+  const idlWithPlugins = await reduceAsync(allPlugins, pluginReducer, idl);
+  return idlWithPlugins;
+};
 
-  return idl;
+const pluginReducer = async function (previousIdl, pluginConf, index) {
+  const newIdl = await applyPlugin({ idl: previousIdl, index, pluginConf });
+  return newIdl;
 };
 
 const applyPlugin = async function ({ idl, index, pluginConf }) {

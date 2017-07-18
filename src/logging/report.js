@@ -76,8 +76,8 @@ const tryToLog = async function ({
     await promisify(setTimeout)(delay);
 
     addLoggerError({ info, error });
-    delay *= delayExponent;
-    await tryToLog({ apiServer, eventName, info, delay });
+    const newDelay = delay * delayExponent;
+    await tryToLog({ apiServer, eventName, info, delay: newDelay });
   }
 };
 

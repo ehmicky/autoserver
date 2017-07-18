@@ -32,28 +32,30 @@ const optionalOutputCommands = [
 const transforms = [
   {
     // Fix `required` attribute according to the current command.name
-    required ({ value: required, command, type }) {
-      if (!Array.isArray(required)) { return; }
+    required ({ value, command, type }) {
+      if (!Array.isArray(value)) { return; }
 
       if (type === 'clientInputData') {
         // Nothing is required for those command.name,
         // except maybe `id` (previously validated)
         if (optionalInputCommands.includes(command.name)) {
-          required = [];
+          return { required: [] };
+        }
+
         // `id` requiredness has already been checked by previous validator,
         // so we skip it here
-        } else {
-          required = required.filter(requiredProp => requiredProp !== 'id');
-        }
+        const required = value.filter(requiredProp => requiredProp !== 'id');
+        return { required };
       } else if (type === 'serverOutputData') {
         // Some command.name do not require normal attributes as output
         // (except for `id`)
         if (optionalOutputCommands.includes(command.name)) {
-          required = required.filter(requiredProp => requiredProp === 'id');
+          const required = value.filter(requiredProp => requiredProp === 'id');
+          return { required };
         }
       }
 
-      return { required };
+      return { required: value };
     },
   },
 

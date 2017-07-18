@@ -10,23 +10,24 @@ const getDataArgument = function ({ action = {}, dataObjectType }) {
   // Only for mutation actions, but not delete
   if (!dataActionTypes.includes(action.type)) { return; }
 
-  // Retrieves description before wrapping in modifers
-  const { description } = dataObjectType;
+  const type = getDataObjectType({ action, dataObjectType });
 
+  // Retrieves description before wrapping in modifers
+  const { description } = type;
+
+  return { data: { type, description } };
+};
+
+const getDataObjectType = function ({ action, dataObjectType }) {
   // Add required and array modifiers
-  dataObjectType = new GraphQLNonNull(dataObjectType);
+  const type = new GraphQLNonNull(dataObjectType);
 
   // Only multiple with createMany or upsertMany or replaceMany
   if (action.multiple && multipleDataActionTypes.includes(action.type)) {
-    dataObjectType = new GraphQLNonNull(new GraphQLList(dataObjectType));
+    return new GraphQLNonNull(new GraphQLList(type));
   }
 
-  return {
-    data: {
-      type: dataObjectType,
-      description,
-    },
-  };
+  return type;
 };
 
 module.exports = {

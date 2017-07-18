@@ -42,24 +42,24 @@ const getField = function (def, opts) {
     throw new EngineError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
-  const { type, args: originalArgs } = fieldGetter.value(def, opts);
+  const { type, args: oArgs } = fieldGetter.value(def, opts);
 
   // Fields description|deprecation_reason are taken from IDL definition
   const { description, deprecationReason } = def;
 
-  const args = getArgs({ originalArgs, def, opts });
+  const args = getArgs({ oArgs, def, opts });
 
   const defaultValue = getDefaultValue({ def, opts });
   const field = { type, description, deprecationReason, args, defaultValue };
   return field;
 };
 
-const getArgs = function ({ originalArgs, def, opts }) {
+const getArgs = function ({ oArgs, def, opts }) {
   // Only for models, and not for argument types
   // Modifiers (Array and NonNull) retrieve their arguments from
   // underlying type (i.e. `args` is already defined)
-  if (!isModel(def) || opts.inputObjectType !== '' || originalArgs) {
-    return originalArgs;
+  if (!isModel(def) || opts.inputObjectType !== '' || oArgs) {
+    return oArgs;
   }
 
   // Builds types used for `data` and `filter` arguments
@@ -102,8 +102,8 @@ const getDefaultValue = function ({
 const graphQLRequiredFGetter = function (def, opts) {
   // Goal is to avoid infinite recursion,
   // i.e. without modification the same graphQLFGetter would be hit again
-  opts = Object.assign({}, opts, { isRequired: false });
-  const { type: subType, args } = getField(def, opts);
+  const fieldOpts = Object.assign({}, opts, { isRequired: false });
+  const { type: subType, args } = getField(def, fieldOpts);
   const type = new GraphQLNonNull(subType);
   return { type, args };
 };

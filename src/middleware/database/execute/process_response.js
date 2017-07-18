@@ -4,17 +4,15 @@ const { orderBy, map } = require('lodash');
 
 // Apply sorting, paginating, etc. on response
 const processResponse = function ({
-  response: { data, metadata },
+  response,
   command,
   opts: { nOrderBy, limit, offset },
 }) {
-  data = sortResponse({ data, nOrderBy });
-  data = offsetResponse({ data, offset });
-  data = limitResponse({ data, limit });
+  const sortedData = sortResponse({ data: response.data, nOrderBy });
+  const offsetData = offsetResponse({ data: sortedData, offset });
+  const data = limitResponse({ data: offsetData, limit });
 
-  if (metadata === undefined) {
-    metadata = command.multiple ? Array(data.length).fill({}) : {};
-  }
+  const metadata = getMetadata({ metadata: response.metadata, command, data });
 
   return { data, metadata };
 };
@@ -42,6 +40,12 @@ const offsetResponse = function ({ data, offset }) {
 const limitResponse = function ({ data, limit }) {
   if (limit === undefined) { return data; }
   return data.slice(0, limit);
+};
+
+const getMetadata = function ({ metadata, command, data }) {
+  if (metadata !== undefined) { return metadata; }
+
+  return command.multiple ? Array(data.length).fill({}) : {};
 };
 
 module.exports = {

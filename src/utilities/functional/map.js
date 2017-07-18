@@ -47,23 +47,22 @@ const mapKeys = function (obj, mapperFunc) {
 const recurseMap = function ({ value, mapperFunc, onlyLeaves = true }) {
   const isObject = value && value.constructor === Object;
   const isArray = Array.isArray(value);
+  if (!isObject && !isArray) { return mapperFunc(value); }
 
-  if (isObject || isArray) {
-    value = isObject
-      ? mapValues(value, child => recurseMap({
-        value: child,
-        mapperFunc,
-        onlyLeaves,
-      }))
-      : value.map(child => recurseMap({
-        value: child,
-        mapperFunc,
-        onlyLeaves,
-      }));
-    if (onlyLeaves) { return value; }
-  }
+  const nextValue = isObject
+    ? mapValues(value, child => recurseMap({
+      value: child,
+      mapperFunc,
+      onlyLeaves,
+    }))
+    : value.map(child => recurseMap({
+      value: child,
+      mapperFunc,
+      onlyLeaves,
+    }));
+  if (onlyLeaves) { return nextValue; }
 
-  return mapperFunc(value);
+  return mapperFunc(nextValue);
 };
 
 // Like lodash mapValues(), but recursive and by reference
@@ -72,25 +71,30 @@ const recurseMapByRef = function ({ value: val, mapFunc }) {
 
   const recurse = function ({ value, key, parent, parents, depth }) {
     // Avoids infinite recursions
-    const originalValue = value;
-    if (cache.has(originalValue)) { return cache.get(originalValue); }
+    if (cache.has(value)) { return cache.get(value); }
 
-    parents = parents.concat(value);
-    value = mapFunc({ value, key, parent, parents, depth });
+    const nextParents = parents.concat(value);
+    const mapVal = mapFunc({ value, key, parent, parents: nextParents, depth });
 
-    if (value && typeof value === 'object') {
-      cache.set(originalValue, value);
+    if (mapVal && typeof mapVal === 'object') {
+      cache.set(value, mapVal);
     }
 
-    depth += 1;
+    const nextDepth = depth + 1;
 
-    if (value && (value.constructor === Object || Array.isArray(value))) {
-      for (const [childKey, child] of Object.entries(value)) {
-        value[childKey] = recurse({ value: child, key: childKey, parent: value, parents, depth });
+    if (mapVal && (mapVal.constructor === Object || Array.isArray(mapVal))) {
+      for (const [childKey, child] of Object.entries(mapVal)) {
+        mapVal[childKey] = recurse({
+          value: child,
+          key: childKey,
+          parent: mapVal,
+          parents: nextParents,
+          depth: nextDepth,
+        });
       }
     }
 
-    return value;
+    return mapVal;
   };
 
   return recurse({

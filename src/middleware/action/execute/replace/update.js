@@ -6,14 +6,16 @@ const { COMMANDS } = require('../../../../constants');
 const { omit } = require('../../../../utilities');
 
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input, models }) {
-  input = Object.assign({}, input);
+const getUpdateInput = function ({ input: oInput, models }) {
+  const input = Object.assign({}, oInput);
   input.args = cloneDeep(input.args);
 
   const { action, args } = input;
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => type === 'update' && multiple === isMultiple);
+  const command = COMMANDS.find(({ type, multiple }) =>
+    type === 'update' && multiple === isMultiple
+  );
   const currentData = isMultiple ? models : models[0];
 
   const newArgs = omit(args, ['data']);
