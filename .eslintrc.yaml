@@ -129,9 +129,9 @@ rules:
 ##  complexity:
 ##  - 2
 ##  - 5
-##  max-depth:
-##  - 2
-##  - 2
+  max-depth:
+  - 2
+  - 2
 ##  max-nested-callbacks:
 ##  - 2
 ##  - 2
