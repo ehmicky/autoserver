@@ -37,6 +37,7 @@ const startServer = function ({
 };
 
 const getServerPromise = function ({ server }) {
+  // eslint-disable-next-line promise/avoid-new
   return new Promise((resolve, reject) => {
     server.on('listening', () => resolve(server));
     server.on('error', error => reject(error));
