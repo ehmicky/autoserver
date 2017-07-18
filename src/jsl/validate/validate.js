@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line import/no-internal-modules
 const { base: walkBase } = require('acorn/dist/walk');
 
 const { parseNode, reverseParseNode } = require('../parse');

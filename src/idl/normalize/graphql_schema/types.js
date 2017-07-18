@@ -11,7 +11,7 @@ const {
   GraphQLNonNull,
 } = require('graphql');
 const { chain } = require('lodash');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const { EngineError } = require('../../../error');
 const { memoize, stringifyJSON, omit } = require('../../../utilities');

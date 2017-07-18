@@ -9,7 +9,7 @@ const {
   totalmem: getMemory,
   cpus: getCpus,
 } = require('os');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const { memoize } = require('../utilities');
 const { version: apiEngineVersion } = require('../../package.json');
