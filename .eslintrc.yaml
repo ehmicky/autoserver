@@ -373,8 +373,6 @@ rules:
   no-buffer-constructor: 2
   unicorn/no-new-buffer: 2
   no-process-env: 2
-##  no-process-exit: 2
-##  unicorn/no-process-exit: 2
   no-script-url: 2
   no-alert: 2
 
@@ -411,6 +409,8 @@ rules:
 #  unicorn/filename-case: 2
 #  unicorn/no-abusive-eslint-disable: 2
 #  unicorn/prefer-type-error: 2
+#  no-process-exit: 2
+#  unicorn/no-process-exit: 2
 settings:
   import/core-modules:
   - api-engine
