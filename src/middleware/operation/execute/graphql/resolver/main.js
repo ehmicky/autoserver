@@ -47,7 +47,9 @@ const getResolver = async function (
   if (directReturn !== undefined) { return directReturn; }
 
   // Retrieve action name, passed to database layer
-  const action = ACTIONS.find(act => act.multiple === multiple && act.type === actionType);
+  const action = ACTIONS.find(act =>
+    act.multiple === multiple && act.type === actionType
+  );
 
   // This means the query specified an attribute that is not present
   // in IDL definition
