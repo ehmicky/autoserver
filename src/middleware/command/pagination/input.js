@@ -23,14 +23,13 @@ const getPaginationInput = function ({ args }) {
     if (hasToken) {
       const tokenObj = decode({ token });
       newArgs.nFilter = getPaginatedFilter({ tokenObj, isBackward });
-
-      if (tokenObj.nOrderBy) {
-        newArgs.nOrderBy = tokenObj.nOrderBy;
-      }
+      newArgs.nOrderBy = tokenObj.nOrderBy || newArgs.nOrderBy;
     }
 
     if (isBackward) {
-      newArgs.nOrderBy = newArgs.nOrderBy.map(({ attrName, order }) => ({ attrName, order: order === 'asc' ? 'desc' : 'asc' }));
+      newArgs.nOrderBy = newArgs.nOrderBy.map(({ attrName, order }) =>
+        ({ attrName, order: order === 'asc' ? 'desc' : 'asc' })
+      );
     }
   }
 
