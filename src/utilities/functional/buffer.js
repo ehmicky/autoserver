@@ -6,7 +6,7 @@
 // Works with async functions as well.
 const buffer = function (func, ctx = null) {
   const state = getBufferState();
-  const newFunc = bufferedFunc.bind(ctx, state, func);
+  const newFunc = bufferedFunc.bind(ctx, { state, func });
 
   const cork = corkFunc.bind(null, state);
   const uncork = uncorkFunc.bind(ctx, state, func);
@@ -20,7 +20,7 @@ const getBufferState = () => ({
   bufferedCalls: [],
 });
 
-const bufferedFunc = async function (state, func, ...args) {
+const bufferedFunc = async function ({ state, func }, ...args) {
   if (state.isBuffered) {
     state.bufferedCalls.push(args);
     return;

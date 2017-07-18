@@ -230,11 +230,9 @@ rules:
   - 2
   - as-needed
   no-confusing-arrow:
-  - 2
+  -  2
   - allowParens: true
-##  max-params:
-##  - 2
-##  - 2
+  max-params: 2
   prefer-spread: 2
   prefer-rest-params: 2
   fp/no-arguments: 2

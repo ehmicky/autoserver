@@ -33,7 +33,9 @@ const getType = function (def, opts = {}) {
 const getField = function (def, opts) {
   opts.inputObjectType = opts.inputObjectType || '';
 
-  const fieldGetter = graphQLFGetters.find(possibleType => possibleType.condition(def, opts));
+  const fieldGetter = graphQLFGetters.find(possibleType =>
+    possibleType.condition(def, opts)
+  );
 
   if (!fieldGetter) {
     const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
@@ -75,7 +77,9 @@ const getField = function (def, opts) {
   if (hasDefaultValue) {
     // JSL only shows as 'DYNAMIC_VALUE' in schema
     const defaults = Array.isArray(def.default) ? def.default : [def.default];
-    const isDynamic = defaults.some(jsl => isJsl({ jsl }) || typeof jsl === 'function');
+    const isDynamic = defaults.some(jsl =>
+      isJsl({ jsl }) || typeof jsl === 'function'
+    );
     defaultValue = isDynamic ? 'DYNAMIC_VALUE' : def.default;
   }
 
@@ -221,12 +225,11 @@ const getObjectFields = function (def, opts) {
         const childAction = childDef.action || action;
         const childOpts = Object.assign({}, opts, { action: childAction });
 
-        childOpts.isRequired = isRequired(
-          def,
-          childDef,
-          childDefName,
-          childOpts
-        );
+        childOpts.isRequired = isRequired(Object.assign({
+          parentDef: def,
+          def: childDef,
+          name: childDefName,
+        }, childOpts));
 
         const field = getField(childDef, childOpts);
         return field;
@@ -249,7 +252,10 @@ This is a dummy attribute.`,
 };
 
 // Returns whether a field is required
-const isRequired = function (parentDef, def, name, {
+const isRequired = function ({
+  parentDef,
+  def,
+  name,
   action = {},
   inputObjectType,
 }) {

@@ -44,14 +44,22 @@ const mapKeys = function (obj, mapperFunc) {
 };
 
 // Apply map() recursively
-const recurseMap = function (value, mapperFunc, onlyLeaves = true) {
+const recurseMap = function ({ value, mapperFunc, onlyLeaves = true }) {
   const isObject = value && value.constructor === Object;
   const isArray = Array.isArray(value);
 
   if (isObject || isArray) {
     value = isObject
-      ? mapValues(value, child => recurseMap(child, mapperFunc, onlyLeaves))
-      : value.map(child => recurseMap(child, mapperFunc, onlyLeaves));
+      ? mapValues(value, child => recurseMap({
+        value: child,
+        mapperFunc,
+        onlyLeaves,
+      }))
+      : value.map(child => recurseMap({
+        value: child,
+        mapperFunc,
+        onlyLeaves,
+      }));
     if (onlyLeaves) { return value; }
   }
 

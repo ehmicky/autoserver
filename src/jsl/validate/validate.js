@@ -12,6 +12,7 @@ const { getGlobalKeys } = require('./global');
 const allRules = require('./rules');
 
 // TODO: remove when https://github.com/ternjs/acorn/pull/559 is merged
+// eslint-disable-next-line max-params
 const fullAncestor = function (node, callbackFunc, base, state) {
   if (!base) base = walkBase;
   let ancestors = [];
@@ -53,6 +54,7 @@ const getJsl = function ({ jsl, type }) {
   return jslText;
 };
 
+// eslint-disable-next-line max-params
 const validateNode = function (
   { throwError, print, rules },
   node, parents, _, nodeType

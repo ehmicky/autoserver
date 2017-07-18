@@ -311,7 +311,7 @@ commands: [create, read, update, delete]
 helpers:
   # Helpers use function/JSL themselves
   - myMathFunc: (($1 * $2) + ($3 * $4))
-    exampleFunction: (myMathFunc(1, 10, 100, 2) + myOtherMathFunc(1, 10, 100, 2))
+    exampleFunction: '(myMathFunc(1, 10, 100, 2) + myOtherMathFunc({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
     recursive_func: (exampleFunction())
     # Since this function uses $OPERATION, caller must have access to this
     # parameter

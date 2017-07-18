@@ -16,6 +16,7 @@ const {
 /**
  * GraphQL-anywhere uses a single resolver: here it is
  **/
+// eslint-disable-next-line max-params
 const getResolver = async function (
   modelsMap,
   name,

@@ -1,14 +1,18 @@
 'use strict';
 
 // Deep merge objects and arrays (concatenates for arrays)
-const deepMerge = function (objA, objB, ...objects) {
+const deepMerge = function (objA, ...objects) {
   if (!objA) { return; }
-  if (!objB) { return objA; }
 
-  if (objects.length > 0) {
-    return deepMerge(deepMerge(objA, objB), ...objects);
+  if (objects.length === 0) { return objA; }
+
+  if (objects.length > 1) {
+    const newObjA = deepMerge(objA, objects[0]);
+    const newObjects = objects.slice(1);
+    return deepMerge(newObjA, ...newObjects);
   }
 
+  const objB = objects[0];
   const isInvalidType =
     (objA.constructor !== Object && !Array.isArray(objA)) ||
     (objB.constructor !== Object && !Array.isArray(objB));

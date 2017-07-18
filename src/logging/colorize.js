@@ -37,8 +37,10 @@ const colorStack = function ({ stack }) {
       firstLine + reset(secondLine))
     .replace(/ {4,}at.*/g, allLines => gray(allLines))
     // Filepath is a bit more visible, and so is line number
+    // eslint-disable-next-line max-params
     .replace(/(\/[^:]+)(:)([0-9]+)(:[0-9]+)/g, (_, path, colon, line, loc) =>
-      reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc))
+      reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc)
+    )
     // Filepath slashes are less visible, so the filenames are easy to pick
     .replace(/\//g, slash => gray(slash));
 };
