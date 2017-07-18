@@ -1,6 +1,6 @@
 'use strict';
 
-const { omitBy } = require('../../utilities');
+const { omit, omitBy } = require('../../utilities');
 const { EngineError } = require('../../error');
 const { timestampPlugin } = require('./timestamp');
 const { authorPlugin } = require('./author');
@@ -17,42 +17,49 @@ const applyPlugins = async function ({ idl }) {
 
   // Retrieve all builtinPlugins, except the ones that have been overriden
   const defaultBuiltinPlugins = omitBy(builtinPlugins, (value, name) =>
-    plugins.some(({ plugin }) => plugin === name));
+    plugins.some(({ plugin }) => plugin === name)
+  );
 
   // Apply each idl.plugins as FUNC({ idl }) returning idl
   const allPlugins = [...plugins, ...Object.values(defaultBuiltinPlugins)];
 
-  for (let [index, pluginConf] of allPlugins.entries()) {
-    // Plugin is either a function, or a string (for builtin plugins)
-    if (typeof pluginConf.plugin === 'string') {
-      const builtinPlugin = builtinPlugins[pluginConf.plugin];
-
-      if (!builtinPlugin) {
-        const message = `The plugin '${pluginConf.plugin}' does not exist`;
-        throw new EngineError(message, { reason: 'IDL_VALIDATION' });
-      }
-
-      pluginConf = Object.assign({}, builtinPlugin, pluginConf, {
-        plugin: builtinPlugin.plugin,
-      });
-    }
-
-    const { plugin, enabled = true, opts = {} } = pluginConf;
-
-    // Plugins are only enabled if specified in `idl.plugins`.
-    // But builtin plugins, or plugins added by other plugins,
-    // need to be manually disabled if desired.
-    if (!enabled) { continue; }
-
-    if (typeof plugin !== 'function') {
-      const message = `The plugin at 'plugins[${index}]' is not a function`;
-      throw new EngineError(message, { reason: 'IDL_VALIDATION' });
-    }
-
-    idl = await plugin({ idl, opts });
+  for (const [index, pluginConf] of allPlugins.entries()) {
+    // eslint-disable-next-line no-await-in-loop
+    idl = await applyPlugin({ idl, index, pluginConf });
   }
 
   return idl;
+};
+
+const applyPlugin = async function ({ idl, index, pluginConf }) {
+  const { plugin, enabled = true, opts = {} } = getPluginConf({ pluginConf });
+
+  // Plugins are only enabled if specified in `idl.plugins`.
+  // But builtin plugins, or plugins added by other plugins,
+  // need to be manually disabled if desired.
+  if (!enabled) { return idl; }
+
+  if (typeof plugin !== 'function') {
+    const message = `The plugin at 'plugins[${index}]' is not a function`;
+    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+  }
+
+  const newIdl = await plugin({ idl, opts });
+  return newIdl;
+};
+
+const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
+  // Plugin is either a function, or a string (for builtin plugins)
+  if (typeof plugin !== 'string') { return pluginConf; }
+
+  const builtinPlugin = builtinPlugins[plugin];
+
+  if (!builtinPlugin) {
+    const message = `The plugin '${plugin}' does not exist`;
+    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+  }
+
+  return Object.assign({}, builtinPlugin, omit(pluginConf, 'plugin'));
 };
 
 const builtinPlugins = {

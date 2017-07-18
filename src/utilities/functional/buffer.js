@@ -34,9 +34,8 @@ const corkFunc = function (state) {
 };
 
 const uncorkFunc = async function (state, func) {
-  for (const args of state.bufferedCalls) {
-    await func.call(this, ...args);
-  }
+  const promises = state.bufferedCalls.map(args => func.call(this, ...args));
+  await Promise.all(promises);
 
   state.isBuffered = false;
 };

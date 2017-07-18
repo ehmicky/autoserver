@@ -1,6 +1,7 @@
 'use strict';
 
 const { checkObject } = require('./validate');
+const { assignObject } = require('./reduce');
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
 const mapValues = function (obj, mapperFunc) {
@@ -17,13 +18,17 @@ const mapValues = function (obj, mapperFunc) {
 const mapAsync = async function (obj, mapperFunc) {
   checkObject(obj);
 
-  const newObj = {};
+  const promises = Object.entries(obj).map(([key, value]) => {
+    const mappedVal = mapperFunc(value, key, obj);
+    const promise = Promise.resolve(mappedVal);
+    return promise.then(val => ({ [key]: val }));
+  });
 
-  for (const [key, value] of Object.entries(obj)) {
-    newObj[key] = await mapperFunc(value, key, obj);
-  }
+  // Run in parallel
+  const valuesArray = await Promise.all(promises);
+  const valuesObj = valuesArray.reduce(assignObject, {});
 
-  return newObj;
+  return valuesObj;
 };
 
 // Similar to map() for keys
