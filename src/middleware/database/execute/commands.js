@@ -117,9 +117,9 @@ const findIndex = function ({
   id,
   opts: { modelName, mustExist = true },
 }) {
-  const index = Object.entries(collection)
+  const [index] = Object.entries(collection)
     .filter(([, { id: modelId }]) => modelId === id)
-    .map(([modelIndex]) => modelIndex)[0];
+    .map(([modelIndex]) => modelIndex);
 
   if (!index && mustExist === true) {
     const message = `Could not find the model with id ${id} in: ${modelName} (collection)`;
@@ -165,7 +165,7 @@ const deleteMany = function ({ collection, nFilter, opts, opts: { dryRun } }) {
 };
 
 const create = function ({ collection, newData, opts, opts: { dryRun } }) {
-  let id = newData.id;
+  let { id } = newData;
 
   if (id) {
     const findIndexOpts = Object.assign({}, opts, { mustExist: false });

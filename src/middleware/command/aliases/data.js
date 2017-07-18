@@ -34,7 +34,7 @@ const applyDataAlias = function ({ newData, currentData, attrName, aliases }) {
   const aliasDataKeys = Object.keys(aliasData);
   if (aliasDataKeys.length === 0) { return data; }
 
-  const firstAttrName = aliasDataKeys[0];
+  const [firstAttrName] = aliasDataKeys;
   const newValue = newData[firstAttrName];
 
   validateAliases({ newValue, aliasData, firstAttrName });

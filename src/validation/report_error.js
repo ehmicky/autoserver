@@ -11,7 +11,7 @@ const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
   const extraNewline = errors.length > 1 ? '\n' : '';
   const errorsText = extraNewline + errors
     .map(error => {
-      let inputPath = error.dataPath;
+      let { dataPath: inputPath } = error;
       // Prepends argument name, e.g. `filter.attr` instead of `attr`
       const prefix = dataVar ? `/${dataVar}` : '';
       inputPath = prefix + inputPath;

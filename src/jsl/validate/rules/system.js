@@ -37,7 +37,7 @@ const getRules = memoize(({ globalKeys }) => ({
       return 'Cannot include several statements';
     }
 
-    const statement = body[0];
+    const [statement] = body;
 
     if (statement.type !== 'ExpressionStatement') {
       return 'Top-level must be simple expression';

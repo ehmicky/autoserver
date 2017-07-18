@@ -248,10 +248,7 @@ rules:
   - 2
   - as-needed
   object-shorthand: 2
-##  prefer-destructuring:
-##  - 2
-##  - {}
-##  - enforceForRenamedProperties: true
+  prefer-destructuring: 2
 
   # Inheritance
   class-methods-use-this: 2
