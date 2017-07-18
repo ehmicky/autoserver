@@ -57,6 +57,7 @@ rules:
   - 2
   - allow:
     - 'eslint-disable-next-line'
+  unicorn/no-abusive-eslint-disable: 2
 
   # JSDoc
 #  valid-jsdoc: 2
@@ -164,6 +165,7 @@ rules:
 #  fp/no-mutation:
 #  - 2
 #  - commonjs: true
+#  fp/no-delete: 2
 #  fp/no-unused-expression:
 #  - 2
 #  - allowUseStrict: true
@@ -363,7 +365,6 @@ rules:
   - version: 8
 
   # To avoid
-#  fp/no-delete: 2
   no-void: 2
   no-continue: 2
   no-console: 2
@@ -405,7 +406,6 @@ rules:
 #  sort-imports: 2
 #  sort-keys: 2
 #  unicorn/filename-case: 2
-#  unicorn/no-abusive-eslint-disable: 2
 #  unicorn/prefer-type-error: 2
 #  no-process-exit: 2
 #  unicorn/no-process-exit: 2
