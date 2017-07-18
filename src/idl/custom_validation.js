@@ -15,6 +15,7 @@ const addCustomKeywords = function ({ idl: { validation = {} } }) {
 
 const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
   ajv.addKeyword(keyword, {
+    // eslint-disable-next-line max-params
     validate: function validate (
       expected,
       value,

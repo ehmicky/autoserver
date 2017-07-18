@@ -5,10 +5,7 @@ const { protocolHandlers } = require('../../protocols');
 
 // Setup basic input
 const setupInput = async function (
-  protocol,
-  idl,
-  apiServer,
-  serverOpts,
+  { protocol, idl, apiServer, serverOpts },
   specific,
 ) {
   const log = new Log({ serverOpts, apiServer, phase: 'request' });

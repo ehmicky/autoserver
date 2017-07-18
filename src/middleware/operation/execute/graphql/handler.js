@@ -50,7 +50,7 @@ const executeGraphql = async function (input) {
   // Normal GraphQL query
   } else {
     const resolver = getResolver.bind(null, modelsMap);
-    const callback = fireNext.bind(this, input, perf, actions);
+    const callback = fireNext.bind(this, { input, perf, actions });
     const data = await handleQuery({
       resolver,
       queryDocument,
@@ -70,8 +70,8 @@ const executeGraphql = async function (input) {
   return response;
 };
 
-const fireNext = async function (request, perf, actions, actionInput) {
-  const input = Object.assign({}, request, actionInput);
+const fireNext = async function ({ input, perf, actions }, actionInput) {
+  const nextInput = Object.assign({}, input, actionInput);
 
   // Several calls of this function are done concurrently, so we stop
   // performance recording on the first in, and restart on the last out
@@ -83,7 +83,7 @@ const fireNext = async function (request, perf, actions, actionInput) {
 
   perf.ongoing += 1;
 
-  const response = await this.next(input);
+  const response = await this.next(nextInput);
 
   perf.ongoing -= 1;
 

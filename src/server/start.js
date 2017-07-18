@@ -121,12 +121,12 @@ const startSingleServer = async function ({
   const opts = serverOpts[protocol.toLowerCase()];
   const handleRequest = requestHandler.bind(
     null,
-    protocol,
-    idl,
-    apiServer,
-    serverOpts,
+    { protocol, idl, apiServer, serverOpts },
   );
-  const handleListening = getHandleListening.bind(null, startupLog, protocol);
+  const handleListening = getHandleListening.bind(null, {
+    startupLog,
+    protocol,
+  });
 
   const server = await protocolHandler.startServer({
     opts,
@@ -142,8 +142,7 @@ const startSingleServer = async function ({
 // Create log message when each protocol-specific server starts
 // Also add `apiServer.servers.PROTOCOL.protocol|host|port`
 const getHandleListening = function (
-  startupLog,
-  protocol,
+  { startupLog, protocol },
   { server, host, port },
 ) {
   Object.assign(server, { protocol, host, port });

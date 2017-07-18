@@ -5,22 +5,28 @@ const { EngineError } = require('../../error');
 
 // Validate JSON schema `$data` properties
 const validateData = function ({ idl }) {
-  return recurseMap(idl, prop => {
-    if (typeof prop !== 'object') { return prop; }
+  return recurseMap({
+    value: idl,
+    mapperFunc: validateDataMapper,
+    onlyLeaves: false,
+  });
+};
 
-    // Find all $data properties
-    const dataProps = Object.entries(prop)
-      .filter(([, { $data }]) => $data);
+const validateDataMapper = function (prop) {
+  if (typeof prop !== 'object') { return prop; }
 
-    for (const [key, value] of dataProps) {
-      validateDataFormat({ value });
-      // At the moment, main IDL validation does not support `$data`,
-      // so we remove them
-      delete prop[key];
-    }
+  // Find all $data properties
+  const dataProps = Object.entries(prop)
+    .filter(([, { $data }]) => $data);
 
-    return prop;
-  }, false);
+  for (const [key, value] of dataProps) {
+    validateDataFormat({ value });
+    // At the moment, main IDL validation does not support `$data`,
+    // so we remove them
+    delete prop[key];
+  }
+
+  return prop;
 };
 
 // Validates that $data is { $data: '...' }
