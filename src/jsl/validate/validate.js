@@ -1,7 +1,7 @@
 'use strict';
 
 // eslint-disable-next-line import/no-internal-modules
-const { base: walkBase } = require('acorn/dist/walk');
+const { fullAncestor } = require('acorn/dist/walk');
 
 const { parseNode, reverseParseNode } = require('../parse');
 const { throwJslError } = require('../error');
@@ -10,22 +10,6 @@ const { getRawJsl } = require('../tokenize');
 
 const { getGlobalKeys } = require('./global');
 const allRules = require('./rules');
-
-// TODO: remove when https://github.com/ternjs/acorn/pull/559 is merged
-// eslint-disable-next-line max-params
-const fullAncestor = function (node, callbackFunc, base, state) {
-  if (!base) base = walkBase;
-  let ancestors = [];
-
-  (function crawl (child, st, override) {
-    let type = override || child.type;
-    let isNew = child !== ancestors[ancestors.length - 1];
-    if (isNew) ancestors.push(child);
-    base[type](child, st, crawl);
-    callbackFunc(child, st || ancestors, ancestors, type);
-    if (isNew) ancestors.pop();
-  })(node, state);
-};
 
 // Validate JSL by parsing it
 const validateJsl = function ({ jsl, type }) {
