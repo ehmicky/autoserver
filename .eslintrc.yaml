@@ -365,7 +365,7 @@ rules:
   - version: 8
 
   # To avoid
-##  fp/no-delete: 2
+#  fp/no-delete: 2
   no-void: 2
 ##  no-continue: 2
   no-console: 2
