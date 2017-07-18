@@ -21,6 +21,7 @@ const mapAsync = async function (obj, mapperFunc) {
   const promises = Object.entries(obj).map(([key, value]) => {
     const mappedVal = mapperFunc(value, key, obj);
     const promise = Promise.resolve(mappedVal);
+    // eslint-disable-next-line promise/prefer-await-to-then
     return promise.then(val => ({ [key]: val }));
   });
 
