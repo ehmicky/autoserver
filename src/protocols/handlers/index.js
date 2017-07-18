@@ -1,5 +1,7 @@
 'use strict';
 
+const http = require('./http');
+
 module.exports = [
-  require('./http'),
+  http,
 ];
