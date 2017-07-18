@@ -31,11 +31,10 @@ const commandConvertor = async function ({
     settings,
   };
 
-  let response;
-
   try {
     perf.stop();
-    response = await this.next(nextInput);
+    const response = await this.next(nextInput);
+    return response;
   } catch (error) {
     const exceptionPerf = log.perf.start('command.convertor', 'exception');
 
@@ -45,8 +44,6 @@ const commandConvertor = async function ({
     exceptionPerf.stop();
     throw error;
   }
-
-  return response;
 };
 
 module.exports = {

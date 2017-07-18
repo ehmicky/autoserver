@@ -4,27 +4,22 @@
 // information
 const loggingBuffer = async function (input) {
   const { log } = input;
-
   const perf = log.perf.start('initial.loggingBuffer', 'middleware');
-
-  let response;
 
   try {
     // Buffer logging calls
     await log.setBuffered(true);
-
     perf.stop();
-    response = await this.next(input);
-    perf.start();
+
+    const response = await this.next(input);
+    return response;
   } finally {
     // Release logging calls, now that all possiblelog.add() calls
     // have been performed
+    perf.start();
     await log.setBuffered(false);
+    perf.stop();
   }
-
-  perf.stop();
-
-  return response;
 };
 
 module.exports = {

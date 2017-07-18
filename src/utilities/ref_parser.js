@@ -89,16 +89,13 @@ const requireFile = function (url) {
   // itself, so we temporarily change cwd
   const currenDir = process.cwd();
   process.chdir(dirname(url));
-  let file;
 
   try {
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    file = require(url);
+    return require(url);
   } finally {
     process.chdir(currenDir);
   }
-
-  return file;
 };
 
 // Make sure a `resolve` function has previously been called

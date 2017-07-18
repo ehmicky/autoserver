@@ -51,14 +51,7 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
           return Object.assign({}, def, { action: subAction });
         });
 
-        let modelCopy = cloneDeep(model);
-        merge(modelCopy, { properties, isTopLevel: true });
-
-        // Wrap in array if action is multiple
-        if (action.multiple) {
-          modelCopy = { type: 'array', items: modelCopy };
-        }
-
+        const modelCopy = getModelCopy({ model, properties, action });
         // Add action information to the top-level model
         Object.assign(modelCopy, { action });
 
@@ -66,6 +59,14 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
       });
     })
     .reduce(assignObject, {});
+};
+
+const getModelCopy = function ({ model, properties, action: { multiple } }) {
+  const modelCopy = cloneDeep(model);
+  merge(modelCopy, { properties, isTopLevel: true });
+
+  // Wrap in array if action is multiple
+  return multiple ? { type: 'array', items: modelCopy } : modelCopy;
 };
 
 // Filter allowed actions on a given model

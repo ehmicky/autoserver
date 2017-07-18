@@ -46,14 +46,7 @@ const applyTransform = function ({
     jsl.run({ value: testFunc, params });
   if (!shouldPerform) { return; }
 
-  let newValue = jsl.run({ value: transformer, params });
-
-  // `undefined` means a value has never been set, i.e. can only set `null`
-  /*
-  if (newValue === undefined) {
-    newValue = null;
-  }
-  */
+  const newValue = jsl.run({ value: transformer, params });
 
   data[attrName] = newValue;
 };

@@ -9,10 +9,10 @@ const { normalizeAliases } = require('./alias');
 
 // Normalize IDL definition models
 const normalizeModels = function ({ idl }) {
-  let { models, commands: defaultCommandNames } = idl;
-  models = addModelType({ models });
-  models = normalizeAllTransforms({ models });
-  models = normalizeAliases({ models });
+  const { models: originalModels, commands: defaultCommandNames } = idl;
+  const typedModels = addModelType({ models: originalModels });
+  const transformedModels = normalizeAllTransforms({ models: typedModels });
+  const models = normalizeAliases({ models: transformedModels });
   transform({ transforms, args: { defaultCommandNames } })({ input: models });
   idl.models = models;
   return idl;

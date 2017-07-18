@@ -63,15 +63,7 @@ const setupWarning = function ({ log }) {
 
 // Report process problems as logs with type 'failure'
 const processHandler = async function (log, { value, message }) {
-  let innererror;
-
-  if (value instanceof Error) {
-    innererror = value;
-  } else {
-    const innerMessage = typeof value === 'string' ? value : '';
-    innererror = new EngineError(innerMessage, { reason: 'PROCESS_ERROR' });
-  }
-
+  const innererror = getInnerError({ value });
   const error = new EngineError(message, {
     reason: 'PROCESS_ERROR',
     innererror,
@@ -80,6 +72,13 @@ const processHandler = async function (log, { value, message }) {
   const standardError = getStandardError({ log, error });
   const errorMessage = getErrorMessage({ error: standardError });
   await log.error(errorMessage, { type: 'failure', errorInfo: standardError });
+};
+
+const getInnerError = function ({ value }) {
+  if (value instanceof Error) { return value; }
+
+  const innerMessage = typeof value === 'string' ? value : '';
+  return new EngineError(innerMessage, { reason: 'PROCESS_ERROR' });
 };
 
 module.exports = {

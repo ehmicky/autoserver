@@ -4,22 +4,29 @@ const { mapValues, assignObject, assignArray } = require('../../utilities');
 
 // Normalize idl.helpers
 const normalizeHelpers = function ({ idl }) {
-  let { helpers = {} } = idl;
-
-  if (Array.isArray(helpers)) {
-    helpers = Object.assign({}, ...helpers);
-  }
-
-  // Helpers can either be an options object, or options.value directly
-  helpers = mapValues(helpers, helper =>
-    (helper.value === undefined ? { value: helper } : helper)
-  );
-
+  const helpers = getNormalizedHelpers({ idl });
   const exposeMap = getExposeMap({ helpers });
 
   Object.assign(idl, { helpers, exposeMap });
 
   return idl;
+};
+
+const getNormalizedHelpers = function ({ idl }) {
+  const helpers = getHelpers({ idl });
+
+  // Helpers can either be an options object, or options.value directly
+  return mapValues(helpers, helper =>
+    (helper.value === undefined ? { value: helper } : helper)
+  );
+};
+
+const getHelpers = function ({ idl: { helpers = {} } }) {
+  if (Array.isArray(helpers)) {
+    return Object.assign({}, ...helpers);
+  }
+
+  return helpers;
 };
 
 // Possible values of helpers.HELPER.exposeTo

@@ -2,7 +2,7 @@
 
 // Name shortcuts, e.g. { nFilter: value } -> { f: value }
 const addNameShortcuts = function ({ token }) {
-  for (let { from, to } of namesShortcuts) {
+  for (const { from, to } of namesShortcuts) {
     if (token[from] !== undefined) {
       token[to] = token[from];
       delete token[from];
@@ -11,7 +11,7 @@ const addNameShortcuts = function ({ token }) {
 };
 
 const removeNameShortcuts = function ({ token }) {
-  for (let { from, to } of namesShortcuts) {
+  for (const { from, to } of namesShortcuts) {
     if (token[to] !== undefined) {
       token[from] = token[to];
       delete token[to];

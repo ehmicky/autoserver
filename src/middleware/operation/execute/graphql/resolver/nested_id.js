@@ -55,28 +55,31 @@ const addNestedId = function ({
 // Otherwise, do not do intersection.
 // In all cases, uses JSL
 const getNestedIds = function ({ childId, parentIds }) {
-  // Uses JSL syntax
-  let ids;
+  const ids = getIds({ parentIds });
+  return getIntersectedIds({ ids, childId });
+};
 
+// Uses JSL syntax
+const getIds = function ({ parentIds }) {
   if (Array.isArray(parentIds)) {
-    ids = `(${JSON.stringify(parentIds)}.includes($))`;
-  } else {
-    // If parentIds is scalar, this means child action is single.
-    // Single action filters cannot use JSL, and childId will be undefined
-    ids = parentIds;
+    return `(${JSON.stringify(parentIds)}.includes($))`;
   }
 
-  // Intersections
-  if (childId) {
-    // Converts to JSL if not JSL already
-    if (isJsl({ jsl: childId })) {
-      ids = `(${ids} && ${childId})`;
-    } else {
-      ids = `(${ids} && ($ === ${JSON.stringify(childId)}))`;
-    }
+  // If parentIds is scalar, this means child action is single.
+  // Single action filters cannot use JSL, and childId will be undefined
+  return parentIds;
+};
+
+// Intersections
+const getIntersectedIds = function ({ ids, childId }) {
+  if (!childId) { return ids; }
+
+  // Converts to JSL if not JSL already
+  if (!isJsl({ jsl: childId })) {
+    return `(${ids} && ($ === ${JSON.stringify(childId)}))`;
   }
 
-  return ids;
+  return `(${ids} && ${childId})`;
 };
 
 // Returns args.filter for find|delete|update,

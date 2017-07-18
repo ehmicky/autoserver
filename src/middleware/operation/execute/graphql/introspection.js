@@ -10,10 +10,28 @@ const handleIntrospection = async function ({
   variables,
   operationName,
 }) {
-  let response;
+  const response = await getIntrospectionResponse({
+    schema,
+    queryDocument,
+    variables,
+    operationName,
+  });
 
+  if (response.errors && response.errors[0]) {
+    throwError(response.errors[0]);
+  }
+
+  return response;
+};
+
+const getIntrospectionResponse = async function ({
+  schema,
+  queryDocument,
+  variables,
+  operationName,
+}) {
   try {
-    response = await execute(
+    return await execute(
       schema,
       queryDocument,
       {},
@@ -27,12 +45,6 @@ const handleIntrospection = async function ({
   } catch (error) {
     throwError(error);
   }
-
-  if (response.errors && response.errors[0]) {
-    throwError(response.errors[0]);
-  }
-
-  return response;
 };
 
 const throwError = function (innererror) {
