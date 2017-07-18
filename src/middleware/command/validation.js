@@ -24,7 +24,9 @@ const commandValidation = async function (input) {
 
 // Validate that command is among the possible ones
 const validateCommand = function ({ command }) {
-  const isValid = COMMANDS.some(possibleCommand => isEqual(possibleCommand, command));
+  const isValid = COMMANDS.some(possibleCommand =>
+    isEqual(possibleCommand, command)
+  );
 
   if (!isValid) {
     const message = `Invalid command: ${JSON.stringify(command)}`;

@@ -32,7 +32,9 @@ const parseQuery = memoize(({ query, goal, operationName }) => {
 // Make sure GraphQL query is valid
 const validateQuery = function ({ queryDocument, goal, operationName }) {
   // Get all query|mutation definitions
-  const operationDefinitions = queryDocument.definitions.filter(({ kind }) => kind === 'OperationDefinition');
+  const operationDefinitions = queryDocument.definitions.filter(({ kind }) =>
+    kind === 'OperationDefinition'
+  );
   const definitions = operationDefinitions.filter(({
     name: { value: name } = {},
   }) => !operationName || name === operationName);
@@ -53,7 +55,9 @@ const validateQuery = function ({ queryDocument, goal, operationName }) {
   // so we must patch it until they do
   // See https://github.com/apollographql/graphql-anywhere/issues/34
   if (operationDefinitions.length > 1) {
-    queryDocument.definitions = queryDocument.definitions.filter(def => !operationDefinitions.includes(def) || def === definition);
+    queryDocument.definitions = queryDocument.definitions.filter(def =>
+      !operationDefinitions.includes(def) || def === definition
+    );
   }
 
   if (goal === 'find' && definition.operation !== 'query') {

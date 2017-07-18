@@ -7,7 +7,9 @@ const { ACTIONS } = require('../../constants');
 // Retrieve possible actions using possible commandNames
 const getActions = function ({ commandNames }) {
   return ACTIONS
-    .filter(({ commandNames: requiredCommands }) => difference(requiredCommands, commandNames).length === 0)
+    .filter(({ commandNames: requiredCommands }) =>
+      difference(requiredCommands, commandNames).length === 0
+    )
     .map(({ name }) => name);
 };
 

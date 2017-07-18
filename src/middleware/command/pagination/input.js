@@ -57,7 +57,9 @@ const getPaginatedFilter = function ({ tokenObj, isBackward }) {
 const tokenToJsl = function ({ parts, nOrderBy, isBackward }) {
   const mainOrder = isBackward ? 'asc' : 'desc';
   return nOrderBy
-    .map(({ attrName, order }, index) => ({ attrName, order, value: parts[index] }))
+    .map(({ attrName, order }, index) =>
+      ({ attrName, order, value: parts[index] })
+    )
     .map(({ attrName, order, value }, index) => {
       const previousParts = parts
         .slice(0, index)

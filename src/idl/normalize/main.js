@@ -25,7 +25,11 @@ const normalizeIdl = function ({ idl: oIdl, serverOpts, startupLog }) {
   shortcutsPerf.stop();
 
   const graphqlPerf = startupLog.perf.start('graphql', 'normalize');
-  const idl = normalizeGraphQL({ idl: idlWithShortcuts, serverOpts, startupLog });
+  const idl = normalizeGraphQL({
+    idl: idlWithShortcuts,
+    serverOpts,
+    startupLog,
+  });
   graphqlPerf.stop();
 
   return idl;

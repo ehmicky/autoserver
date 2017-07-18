@@ -106,14 +106,14 @@ rules:
   - allowEmptyCatch: true
 
   # Complexity
-##  max-len:
-##  - 2
-##  - code: 80
-##    tabWidth: 2
-##    ignoreUrls: true
-##    ignoreStrings: true
-##    ignoreTemplateLiterals: true
-##    ignoreRegExpLiterals: true
+  max-len:
+  - 2
+  - code: 80
+    tabWidth: 2
+    ignoreUrls: true
+    ignoreStrings: true
+    ignoreTemplateLiterals: true
+    ignoreRegExpLiterals: true
 ##  max-lines:
 ##  - 2
 ##  - max: 100

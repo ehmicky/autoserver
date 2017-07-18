@@ -11,7 +11,8 @@ const topLevelModelResolver = function ({ name, modelsMap }) {
 
   const singularName = singular(attrName);
   const pluralName = plural(attrName);
-  // Guess whether the action is multiple by whether the attribute looks singular or plural
+  // Guess whether the action is multiple by whether the attribute
+  // looks singular or plural
   const multiple = getMultiple({ attrName, singularName, pluralName });
   // Retrieve actual model name from the IDL
   const modelName = getModelName({ modelsMap, singularName, pluralName });
