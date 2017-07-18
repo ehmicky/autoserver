@@ -126,7 +126,7 @@ models:
         # Can be the `value` directly as a shortcut,
         # and does not have to be an array.
         transform:
-        - value: ($.toLowerCase() + " " + $$.weight)
+        - value: ($.toLowerCase() + " " + $$.weight + global.a)
           # Optional test function. If false, the transform is not applied
           # Note that without `test`, $ can be undefined in `value`.
           test: (typeof $ === 'string')
