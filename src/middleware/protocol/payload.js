@@ -35,6 +35,7 @@ const getPayload = async function ({ specific, protocolHandler }) {
   const parse = protocolHandler.parsePayload;
 
   for (const payloadHandler of payloadHandlers) {
+    // eslint-disable-next-line no-await-in-loop
     const payload = await payloadHandler({ specific, parse });
     if (payload !== undefined) { return payload; }
   }
