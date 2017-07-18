@@ -7,14 +7,16 @@ const { COMMANDS } = require('../../../../constants');
 const { getFilter } = require('../upsert/filter');
 
 // Retrieves the input for the "read" command
-const getReadInput = function ({ input }) {
-  input = Object.assign({}, input);
+const getReadInput = function ({ input: oInput }) {
+  const input = Object.assign({}, oInput);
   input.args = cloneDeep(input.args);
 
   const { action } = input;
 
   const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) => type === 'read' && multiple === isMultiple);
+  const command = COMMANDS.find(({ type, multiple }) =>
+    type === 'read' && multiple === isMultiple
+  );
 
   const filter = getFilter({ input });
   const newArgs = { filter, pagination: false };

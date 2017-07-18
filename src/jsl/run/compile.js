@@ -14,7 +14,7 @@ const compileJsl = memoizeUnlessClient(({ jsl, paramsKeys, type }) => {
     // Can escape (...) from being interpreted as JSL by escaping
     // first parenthesis
     if (isEscapedJsl({ jsl })) {
-      jsl = jsl.replace('\\', '');
+      return jsl.replace('\\', '');
     }
 
     return jsl;

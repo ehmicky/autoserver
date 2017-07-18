@@ -112,16 +112,22 @@ class Log {
     this.buildLogObj({ logObj });
     const { phase, type } = logObj;
 
-    if (phase === 'request' && type === 'call') {
-      rawMessage = getRequestMessage(logObj.requestInfo);
-    }
+    const rMessage = phase === 'request' && type === 'call'
+      ? getRequestMessage(logObj.requestInfo)
+      : rawMessage;
 
     if (type === 'message') {
-      this.messages[level].push(rawMessage);
+      this.messages[level].push(rMessage);
     }
 
     const { apiServer, serverOpts: { loggerLevel } } = this;
-    await report({ apiServer, loggerLevel, level, rawMessage, logObj });
+    await report({
+      apiServer,
+      loggerLevel,
+      level,
+      rawMessage: rMessage,
+      logObj,
+    });
   }
 
   // Adds information common to most logs: `phase`, `type`, `serverInfo`,

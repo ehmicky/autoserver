@@ -25,8 +25,8 @@ const sendJson = async function ({
   contentType = 'application/json',
   status,
 }) {
-  content = JSON.stringify(content, null, 2);
-  await send({ specific, content, contentType, status });
+  const contentString = JSON.stringify(content, null, 2);
+  await send({ specific, content: contentString, contentType, status });
 };
 
 const sendHtml = async function ({

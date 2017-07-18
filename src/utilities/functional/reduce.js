@@ -15,7 +15,17 @@ const assignArray = function (memo, val) {
   return memo.concat(val);
 };
 
+// Like Array.reduce(), but async
+const reduceAsync = async function (arr, mapperFunc, initial) {
+  const finalValue = await arr.reduce(async (memo, value, index) => {
+    const previousValue = await Promise.resolve(memo);
+    return mapperFunc(previousValue, value, index, arr);
+  }, initial);
+  return finalValue;
+};
+
 module.exports = {
   assignObject,
   assignArray,
+  reduceAsync,
 };

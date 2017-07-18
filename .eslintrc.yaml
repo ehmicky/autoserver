@@ -158,8 +158,8 @@ rules:
   no-plusplus: 2
   operator-assignment: 2
   no-multi-assign: 2
-##  no-param-reassign:
-##  - 2
+  no-param-reassign:
+  - 2
 #  - props: true
 #  fp/no-mutation:
 #  - 2

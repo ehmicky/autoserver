@@ -9,8 +9,8 @@ const { getFilter } = require('./filter');
 
 // Retrieves the input for the second "read" command
 // It is used for final output of "upsert" action
-const getSecondReadInput = function ({ input }) {
-  input = Object.assign({}, input);
+const getSecondReadInput = function ({ input: oInput }) {
+  const input = Object.assign({}, oInput);
   input.args = cloneDeep(input.args);
 
   const { args, action } = input;

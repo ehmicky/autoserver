@@ -159,13 +159,14 @@ const getMeasuresMessage = function ({ measures }) {
       count,
       duration,
     }) => {
-      phase = phase.padEnd(8);
-      category = category.padEnd(12);
-      label = label.padEnd(26);
-      duration = `${Math.round(duration)}ms`.padEnd(8);
-      average = `${Math.round(average)}ms`.padEnd(7);
-      count = `${String(count).padStart(3)} ${count === 1 ? 'item' : 'items'}`;
-      return `${phase} ${category} ${label} ${duration} = ${average} * ${count}`;
+      const phaseS = phase.padEnd(8);
+      const categoryS = category.padEnd(12);
+      const labelS = label.padEnd(26);
+      const durationS = `${Math.round(duration)}ms`.padEnd(8);
+      const averageS = `${Math.round(average)}ms`.padEnd(7);
+      const items = count === 1 ? 'item' : 'items';
+      const countS = `${String(count).padStart(3)} ${items}`;
+      return `${phaseS} ${categoryS} ${labelS} ${durationS} = ${averageS} * ${countS}`;
     })
     .join('\n');
 };

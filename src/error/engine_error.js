@@ -48,8 +48,8 @@ class EngineError extends Error {
     if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor);
     } else {
-      message = typeof message === 'string' ? message : '';
-      this.stack = (new Error(message)).stack;
+      const messageStr = typeof message === 'string' ? message : '';
+      this.stack = (new Error(messageStr)).stack;
     }
   }
 }

@@ -8,7 +8,7 @@ const { decode, encode } = require('./encoding');
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
-const getPaginationOutput = function ({ args, response: { data, metadata } }) {
+const getPaginationOutput = function ({ args, response }) {
   const { nOrderBy, nFilter, page } = args;
   const {
     hasToken,
@@ -20,29 +20,20 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
     isOffsetPagination,
   } = getPaginationInfo({ args });
 
-  const info = {};
-
-  if (isOffsetPagination) {
-    info[`has_${previous}_page`] = page !== 1;
   // If a token (except '') has been used, it means there is a previous page
   // We use ${previous} amd ${next} to reverse directions
   // when doing backward pagination
-  } else {
-    info[`has_${previous}_page`] = hasToken;
-  }
+  const firstHasPreviousPage = isOffsetPagination ? page !== 1 : hasToken;
 
   // We fetch an extra model to guess has_next_page. If it was founds, remove it
-  if (data.length === usedPageSize) {
-    info[`has_${next}_page`] = true;
+  const lastHasNextPage = response.data.length === usedPageSize;
 
-    if (isBackward) {
-      data = data.slice(1);
-      metadata = metadata.slice(1);
-    } else {
-      data = data.slice(0, -1);
-      metadata = metadata.slice(0, -1);
-    }
-  }
+  const info = {
+    [`has_${previous}_page`]: firstHasPreviousPage,
+    [`has_${next}_page`]: lastHasNextPage,
+  };
+
+  const { data, metadata } = getData({ response, lastHasNextPage, isBackward });
 
   const pageSize = data.length;
 
@@ -69,6 +60,28 @@ const getPaginationOutput = function ({ args, response: { data, metadata } }) {
   });
 
   return { data, metadata: newMetadata };
+};
+
+const getData = function ({
+  response: { data, metadata },
+  lastHasNextPage,
+  isBackward,
+}) {
+  if (!lastHasNextPage) {
+    return { data, metadata };
+  }
+
+  if (isBackward) {
+    return {
+      data: data.slice(1),
+      metadata: metadata.slice(1),
+    };
+  }
+
+  return {
+    data: data.slice(0, -1),
+    metadata: metadata.slice(0, -1),
+  };
 };
 
 // Calculate token to output

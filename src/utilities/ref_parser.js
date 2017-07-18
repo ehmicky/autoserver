@@ -33,15 +33,13 @@ const dereferenceRefs = async function (obj) {
         // We need to override YAML parsing, as we use stricter YAML
         // parsing (CORE_SCHEMA only)
         async parse ({ data }) {
-          if (Buffer.isBuffer(data)) {
-            data = data.toString();
-          }
+          const content = Buffer.isBuffer(data) ? data.toString() : data;
+          if (typeof content !== 'string') { return content; }
 
-          if (typeof data !== 'string') { return data; }
           // `content` cannot be `null` because of a bug
           // with `json-schema-ref-parser`
-          const content = await getYaml({ content: data }) || undefined;
-          return content;
+          const yamlContent = await getYaml({ content }) || undefined;
+          return yamlContent;
         },
       },
       text: false,

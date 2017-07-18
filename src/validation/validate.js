@@ -26,14 +26,8 @@ const getValidator = memoize(({ schema }) => {
 const validate = function ({ schema, data, reportInfo, extra }) {
   // Retrieves validation library
   const validator = getValidator({ schema });
-
-  // Temporarily add hidden property to data, to communicate it to
-  // custom validation function
-  if (extra) {
-    data = Object.assign({}, data, { [Symbol.for('extra')]: extra });
-  }
-
-  const isValid = validator(data);
+  const dataWithExtra = getDataWithExtra({ data, extra });
+  const isValid = validator(dataWithExtra);
   if (isValid) { return; }
 
   const errors = validator.errors
@@ -42,6 +36,14 @@ const validate = function ({ schema, data, reportInfo, extra }) {
 
   if (errors.length === 0) { return; }
   reportErrors({ errors, reportInfo });
+};
+
+const getDataWithExtra = function ({ data, extra }) {
+  if (!extra) { return data; }
+
+  // Temporarily add hidden property to data, to communicate it to
+  // custom validation function
+  return Object.assign({}, data, { [Symbol.for('extra')]: extra });
 };
 
 module.exports = {

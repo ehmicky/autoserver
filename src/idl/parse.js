@@ -19,12 +19,12 @@ const getIdl = async function ({
 
   // Retrieve raw IDL file
   const confPerf = startupLog.perf.start('conf', 'idl');
-  const { idl: originalIdl, baseDir } = await getIdlConf({ conf });
+  const { idl: oIdl, baseDir } = await getIdlConf({ conf });
   confPerf.stop();
 
   // Resolve JSON references
   const refsPerf = startupLog.perf.start('refs', 'idl');
-  const resolvedIdl = await resolveRefs({ idl: originalIdl, baseDir });
+  const resolvedIdl = await resolveRefs({ idl: oIdl, baseDir });
   refsPerf.stop();
 
   // Apply idl.plugins

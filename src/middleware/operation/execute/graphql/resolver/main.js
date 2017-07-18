@@ -21,10 +21,10 @@ const getResolver = async function (
   modelsMap,
   name,
   parent = {},
-  args,
+  oArgs,
   { callback: cbFunc, graphqlMethod }
 ) {
-  args = args || {};
+  const args = oArgs || {};
 
   // Introspection type name
   if (name === '__typename') {

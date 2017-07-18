@@ -3,10 +3,10 @@
 const { checkObject } = require('./validate');
 
 // Similar to lodash pick(), but faster.
-const pick = function (obj, attributes) {
+const pick = function (obj, attribute) {
   checkObject(obj);
 
-  attributes = Array.isArray(attributes) ? attributes : [attributes];
+  const attributes = Array.isArray(attribute) ? attribute : [attribute];
   return pickBy(obj, (value, name) => attributes.includes(name));
 };
 
@@ -24,10 +24,10 @@ const pickBy = function (obj, condition) {
 };
 
 // Similar to lodash omit(), but faster.
-const omit = function (obj, attributes) {
+const omit = function (obj, attribute) {
   checkObject(obj);
 
-  attributes = Array.isArray(attributes) ? attributes : [attributes];
+  const attributes = Array.isArray(attribute) ? attribute : [attribute];
   return omitBy(obj, (value, name) => attributes.includes(name));
 };
 

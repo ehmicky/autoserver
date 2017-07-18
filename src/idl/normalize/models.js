@@ -9,8 +9,8 @@ const { normalizeAliases } = require('./alias');
 
 // Normalize IDL definition models
 const normalizeModels = function ({ idl }) {
-  const { models: originalModels, commands: defaultCommandNames } = idl;
-  const typedModels = addModelType({ models: originalModels });
+  const { models: oModels, commands: defaultCommandNames } = idl;
+  const typedModels = addModelType({ models: oModels });
   const transformedModels = normalizeAllTransforms({ models: typedModels });
   const models = normalizeAliases({ models: transformedModels });
   transform({ transforms, args: { defaultCommandNames } })({ input: models });
@@ -23,8 +23,8 @@ const normalizeModels = function ({ idl }) {
 // Used as extra hints for transforms
 const addModelType = function ({ models }) {
   return mapValues(models, model => {
-    const properties = mapValues(model.properties, prop => {
-      prop = Object.assign({}, prop, { modelType: 'attribute' });
+    const properties = mapValues(model.properties, oProp => {
+      const prop = Object.assign({}, oProp, { modelType: 'attribute' });
 
       if (prop.items) {
         prop.items = Object.assign({}, prop.items, { modelType: 'attribute' });
@@ -59,8 +59,8 @@ const transforms = [
     // Defaults `type` for nested attributes
     any ({ parent: { type, modelType, model } }) {
       if (modelType !== 'attribute' || type) { return; }
-      type = model ? 'object' : 'string';
-      return { type };
+      const finalType = model ? 'object' : 'string';
+      return { type: finalType };
     },
   },
 
