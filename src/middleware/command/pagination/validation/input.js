@@ -162,31 +162,34 @@ const getInputData = function ({ args }) {
     }
   }
 
-  for (const name of ['before', 'after']) {
-    const token = inputData[name];
-    if (token === undefined || token === '') { continue; }
+  const decodedTokens = ['before', 'after']
+    .filter(name => inputData[name] !== undefined && inputData[name] !== '')
+    .map(name => {
+      const token = inputData[name];
 
-    if (typeof token !== 'string') {
-      const message = `Wrong parameters: '${name}' must be a string`;
-      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
-    }
+      if (typeof token !== 'string') {
+        const message = `Wrong parameters: '${name}' must be a string`;
+        throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+      }
 
-    let decodedToken;
-
-    try {
-      decodedToken = decode({ token });
-    } catch (error) {
-      const message = `Wrong parameters: '${name}' is invalid`;
-      throw new EngineError(message, {
-        reason: 'INPUT_VALIDATION',
-        innererror: error,
-      });
-    }
-
-    inputData[name] = decodedToken;
-  }
+      const decodedToken = getDecodedToken({ token, name });
+      return { [name]: decodedToken };
+    });
+  Object.assign(inputData, ...decodedTokens);
 
   return inputData;
+};
+
+const getDecodedToken = function ({ token, name }) {
+  try {
+    return decode({ token });
+  } catch (error) {
+    const message = `Wrong parameters: '${name}' is invalid`;
+    throw new EngineError(message, {
+      reason: 'INPUT_VALIDATION',
+      innererror: error,
+    });
+  }
 };
 
 module.exports = {
