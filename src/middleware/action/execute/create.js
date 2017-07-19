@@ -3,10 +3,17 @@
 const { COMMANDS } = require('../../../constants');
 const { omit } = require('../../../utilities');
 
+const { renameThis } = require('./rename_this');
+
 /**
  * "create" action uses a "create" command
  **/
 const createAction = async function (input) {
+  const response = await renameThis.call(this, { input, actions });
+  return response;
+};
+
+const getInput = function ({ input }) {
   const { action, args } = input;
 
   const isMultiple = action.multiple;
@@ -20,9 +27,14 @@ const createAction = async function (input) {
   Object.assign(newArgs, { pagination: false, newData });
   Object.assign(input, { command, args: newArgs });
 
-  const response = await this.next(input);
-  return response;
+  return input;
 };
+
+const actions = [
+  {
+    getArgs: getInput,
+  },
+];
 
 module.exports = {
   createAction,

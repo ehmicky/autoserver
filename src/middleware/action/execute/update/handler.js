@@ -1,5 +1,7 @@
 'use strict';
 
+const { renameThis } = require('../rename_this');
+
 const { getReadInput } = require('./read');
 const { getUpdateInput } = require('./update');
 
@@ -20,14 +22,18 @@ const { getUpdateInput } = require('./update');
  *        `a`, we need to fetch `b` to check that validation rule.
  **/
 const updateAction = async function (input) {
-  const readInput = getReadInput({ input });
-  const { data: models } = await this.next(readInput);
-
-  const updateInput = getUpdateInput({ input, models });
-  const response = await this.next(updateInput);
-
+  const response = await renameThis.call(this, { input, actions });
   return response;
 };
+
+const actions = [
+  {
+    getArgs: getReadInput,
+  },
+  {
+    getArgs: getUpdateInput,
+  },
+];
 
 module.exports = {
   updateAction,
