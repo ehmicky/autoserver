@@ -7,7 +7,7 @@ const { getReason, getGenericProps } = require('./reasons');
 // Gets normalized error information
 const getStandardError = function ({
   log: {
-    _info: {
+    logInfo: {
       url: instance,
       status,
       protocolStatus,
