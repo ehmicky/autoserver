@@ -29,6 +29,8 @@ const validateIdl = async function ({ idl: oIdl }) {
 
   jsonSchemaValidate({ idl });
   validateIdlJsl({ idl });
+
+  return idl;
 };
 
 // Adds some temporary property on IDL, to help validation

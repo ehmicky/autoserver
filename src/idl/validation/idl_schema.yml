@@ -95,6 +95,9 @@ properties:
     type: array
     items:
       type: string
+  # Used internally
+  baseDir:
+    type: string
 # Users can define anything under properties named x-*
 patternProperties:
   '^x-': true

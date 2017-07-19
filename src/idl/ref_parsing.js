@@ -9,7 +9,7 @@ const resolveRefs = async function ({ idl, baseDir }) {
 };
 
 // Resolve JSON references, i.e. $ref
-const resolveJsonRefs = async function ({ idl, baseDir }) {
+const resolveJsonRefs = async function ({ idl, idl: { baseDir } }) {
   // Make $ref relative to IDL file itself
   const currentDir = process.cwd();
 
