@@ -10,20 +10,17 @@ const { applyAllDefault } = require('./apply');
 const userDefaults = async function (input) {
   const {
     args,
-    log,
     modelName,
     jsl,
     idl: { shortcuts: { userDefaultsMap } },
   } = input;
   const { newData } = args;
-  const perf = log.perf.start('command.userDefaults', 'middleware');
 
   if (args.newData) {
     const defAttributes = userDefaultsMap[modelName];
     args.newData = applyAllDefault({ jsl, defAttributes, value: newData });
   }
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

@@ -4,14 +4,12 @@ const { EngineError } = require('../../error');
 
 const getProtocolName = async function (input) {
   const { log, specific, protocolHandler } = input;
-  const perf = log.perf.start('protocol.getProtocolName', 'middleware');
 
   const protocolFullName = getProtocolFullName({ specific, protocolHandler });
   log.add({ protocolFullName });
 
   Object.assign(input, { protocolFullName });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

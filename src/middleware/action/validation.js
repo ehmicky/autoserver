@@ -13,15 +13,13 @@ const { EngineError } = require('../../error');
  * right type
  **/
 const actionValidation = async function (input) {
-  const { action, fullAction, modelName, log, idl: { models } } = input;
-  const perf = log.perf.start('action.validation', 'middleware');
+  const { action, fullAction, modelName, idl: { models } } = input;
 
   validateAction({ action });
   validateFullAction({ fullAction });
   const modelNames = Object.keys(models);
   validateModelName({ modelName, modelNames });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

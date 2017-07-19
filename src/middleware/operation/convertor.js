@@ -12,12 +12,11 @@ const operationConvertor = async function ({
   origin,
   jsl,
   log,
+  perf,
   idl,
   serverOpts,
   apiServer,
 }) {
-  const perf = log.perf.start('operation.convertor', 'middleware');
-
   // Not kept: protocol, protocolFullName, timestamp, requestId, ip, url,
   // path, method, headers
   const newInput = {
@@ -31,12 +30,12 @@ const operationConvertor = async function ({
     origin,
     jsl,
     log,
+    perf,
     idl,
     serverOpts,
     apiServer,
   };
 
-  perf.stop();
   const response = await this.next(newInput);
   return response;
 };

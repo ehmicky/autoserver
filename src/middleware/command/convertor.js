@@ -7,14 +7,13 @@ const commandConvertor = async function ({
   modelName,
   jsl,
   log,
+  perf,
   idl,
   serverOpts,
   apiServer,
   params,
   settings,
 }) {
-  const perf = log.perf.start('command.convertor', 'middleware');
-
   const newJsl = jsl.add({ $COMMAND: command.type });
 
   // Not kept: action, fullAction
@@ -24,6 +23,7 @@ const commandConvertor = async function ({
     modelName,
     jsl: newJsl,
     log,
+    perf,
     idl,
     serverOpts,
     apiServer,
@@ -32,16 +32,12 @@ const commandConvertor = async function ({
   };
 
   try {
-    perf.stop();
     const response = await this.next(nextInput);
     return response;
   } catch (error) {
-    const exceptionPerf = log.perf.start('command.convertor', 'exception');
-
     // Added only for final error handler
     log.add({ command });
 
-    exceptionPerf.stop();
     throw error;
   }
 };

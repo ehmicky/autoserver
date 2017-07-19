@@ -14,14 +14,12 @@ const { applyOutputAliases } = require('./output');
  *   - should be used in JSL (with `$$`) in IDL file
  **/
 const renameAliases = async function (input) {
-  const { args, modelName, log, idl: { shortcuts: { aliasesMap } } } = input;
-  const perf = log.perf.start('command.renameAliases', 'middleware');
+  const { args, modelName, idl: { shortcuts: { aliasesMap } } } = input;
 
   const modelAliases = aliasesMap[modelName];
 
   applyInputAliases({ args, modelAliases });
 
-  perf.stop();
   const response = await this.next(input);
 
   applyOutputAliases({ response, modelAliases });

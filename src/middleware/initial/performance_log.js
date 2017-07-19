@@ -9,12 +9,12 @@ const performanceLog = async function (input) {
   // Used by other middleware, like timestamp and requestTimeout
   input.now = Date.now();
 
-  try {
-    const response = await this.next(input);
-    return response;
-  } finally {
-    await log.perf.report();
-  }
+  const response = await this.next(input);
+
+  // Do not report if exception was thrown
+  await log.perf.report();
+
+  return response;
 };
 
 module.exports = {

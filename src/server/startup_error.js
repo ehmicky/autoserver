@@ -8,8 +8,6 @@ const handleStartupError = async function ({
   startupLog,
   apiServer,
 }) {
-  const perf = startupLog.perf.start('mainHandler', 'exception');
-
   const standardError = getStandardError({ log: startupLog, error: err });
   const message = getErrorMessage({ error: standardError });
   await startupLog.error(message, {
@@ -17,7 +15,6 @@ const handleStartupError = async function ({
     errorInfo: standardError,
   });
 
-  perf.stop();
   await startupLog.perf.report();
 
   // Stops servers if some were started

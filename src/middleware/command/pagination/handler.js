@@ -69,15 +69,12 @@ const { getPaginationInfo } = require('./info');
  *    but to iterate through the next batches, readMany must be used
  **/
 const pagination = async function (input) {
-  const { args, log, serverOpts: { maxPageSize } } = input;
-  const perf = log.perf.start('command.pagination', 'middleware');
+  const { args, serverOpts: { maxPageSize } } = input;
   const oArgs = cloneDeep(args);
 
   const paginatedInput = processInput({ input, maxPageSize });
 
-  perf.stop();
   const response = await this.next(paginatedInput);
-  perf.start();
 
   const paginatedOutput = processOutput({
     input,
@@ -86,7 +83,6 @@ const pagination = async function (input) {
     maxPageSize,
   });
 
-  perf.stop();
   return paginatedOutput;
 };
 

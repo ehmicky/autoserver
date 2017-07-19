@@ -10,7 +10,6 @@ const { EngineError } = require('../../error');
 // `input.params`, but can also be used by operation layer as is.
 const parseHeaders = async function (input) {
   const { specific, protocolHandler, log } = input;
-  const perf = log.perf.start('protocol.parseHeaders', 'middleware');
 
   const headers = getHeaders({ specific, protocolHandler });
   makeImmutable(headers);
@@ -18,7 +17,6 @@ const parseHeaders = async function (input) {
   log.add({ headers });
   Object.assign(input, { headers });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

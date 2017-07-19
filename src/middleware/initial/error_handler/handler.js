@@ -12,9 +12,7 @@ const errorHandler = async function (input) {
     return response;
   } catch (error) {
     try {
-      const perf = log.perf.start('initial.errorHandler', 'exception');
       await handleError({ log, error });
-      perf.stop();
     // If error handler itself fails
     } catch (innererror) {
       await handleFailure({ log, error: innererror });

@@ -13,13 +13,9 @@ const errorStatus = async function (input) {
     // not the error-catching part of the middleware
     if (error.isStatusError === true) { throw error; }
 
-    const perf = log.perf.start('initial.errorStatus', 'exception');
-
     const newValues = { protocolStatus: undefined, status: 'SERVER_ERROR' };
     log.add(newValues);
-    Object.assign(input, newValues);
-
-    perf.stop();
+    Object.assign(error, newValues);
 
     throw error;
   }

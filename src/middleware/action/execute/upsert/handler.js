@@ -24,40 +24,26 @@ const { getSecondReadInput } = require('./second_read');
  *     but not if it updates it.
  **/
 const upsertAction = async function (input) {
-  const { log } = input;
-  const perf = log.perf.start('action.upsert', 'middleware');
-
   // First check if models exist or not, by performing a "read" command
   const firstReadInput = getFirstReadInput({ input });
-
-  perf.stop();
   const { data: models } = await this.next(firstReadInput);
-  perf.start();
 
   const { createModels, updateModels } = splitModels({ input, models });
 
   // If models do not exist, create them with "create" command
   if (isDefined({ models: createModels })) {
     const createInput = getCreateInput({ input, data: createModels });
-
-    perf.stop();
     await this.next(createInput);
-    perf.start();
   }
 
   // If models exist, update them with "update" command
   if (isDefined({ models: updateModels })) {
     const updateInput = getUpdateInput({ input, data: updateModels, models });
-
-    perf.stop();
     await this.next(updateInput);
-    perf.start();
   }
 
   // Finally, retrieve output with a second "read" command
   const secondReadInput = getSecondReadInput({ input });
-
-  perf.stop();
   const response = await this.next(secondReadInput);
 
   return response;

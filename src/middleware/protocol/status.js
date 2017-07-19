@@ -4,30 +4,24 @@ const { EngineError } = require('../../error');
 
 // Retrieve response's status
 const getStatus = async function (input) {
-  const { log } = input;
-
   try {
     const response = await this.next(input);
 
-    const perf = log.perf.start('protocol.getStatus', 'middleware');
-    setStatus({ input });
-    perf.stop();
+    const { protocolStatus, status } = getStatuses({ input });
+    Object.assign(response, { protocolStatus, status });
 
     return response;
   } catch (error) {
-    const perf = log.perf.start('protocol.getStatus', 'exception');
-
     const errorObj = error instanceof Error ? error : new Error(String(error));
 
-    setStatus({ input, error: errorObj });
+    const { protocolStatus, status } = getStatuses({ input, error: errorObj });
+    Object.assign(errorObj, { protocolStatus, status });
 
-    perf.stop();
     throw errorObj;
   }
 };
 
-const setStatus = function ({
-  input,
+const getStatuses = function ({
   input: { log, protocolHandler, protocolStatus: currentProtocolStatus },
   error,
 }) {
@@ -55,7 +49,7 @@ const setStatus = function ({
   }
 
   log.add({ protocolStatus, status });
-  Object.assign(input, { protocolStatus, status });
+  return { protocolStatus, status };
 };
 
 module.exports = {

@@ -1,6 +1,7 @@
 'use strict';
 
 const { chain } = require('../chain');
+const { getMiddlewarePerfLog } = require('../logging');
 
 const initial = require('./initial');
 const protocol = require('./protocol');
@@ -129,7 +130,7 @@ const middleware = [
 ];
 
 const getMiddleware = function () {
-  return chain(middleware)[0];
+  return chain(middleware, { before: [getMiddlewarePerfLog] })[0];
 };
 
 module.exports = {

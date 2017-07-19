@@ -18,7 +18,6 @@ const { validateSettings } = require('./validate');
 // Are set to JSL param $SETTINGS
 const parseSettings = async function (input) {
   const { jsl, log, protocolHandler } = input;
-  const perf = log.perf.start('protocol.parseSettings', 'middleware');
 
   const genericSettings = getSettings({ input });
   const specificSettings = getSpecificSettings({ input, protocolHandler });
@@ -32,7 +31,6 @@ const parseSettings = async function (input) {
   log.add({ settings });
   Object.assign(input, { settings, jsl: newJsl });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

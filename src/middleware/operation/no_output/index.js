@@ -9,13 +9,9 @@ const operations = require('./operations');
 //   - this can also be set for all the actions using:
 //      - Prefer: return=minimal HTTP request header
 const noOutput = async function (input) {
-  const { log } = input;
   const response = await this.next(input);
 
-  const perf = log.perf.start('operation.noOutput', 'middleware');
   const newResponse = getResponse({ input, response });
-  perf.stop();
-
   return newResponse;
 };
 

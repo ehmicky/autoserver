@@ -27,12 +27,10 @@ const handleTransforms = async function (input) {
   const {
     args,
     modelName,
-    log,
     jsl,
     idl: { shortcuts: { transformsMap, computesMap } },
   } = input;
   const { newData } = args;
-  const perf = log.perf.start('command.handleTransforms', 'middleware');
 
   if (newData) {
     args.newData = applyTransformsOnData({
@@ -43,7 +41,6 @@ const handleTransforms = async function (input) {
     });
   }
 
-  perf.stop();
   const response = await this.next(input);
 
   const transforms = computesMap[modelName];

@@ -6,12 +6,10 @@ const { EngineError } = require('../../error');
 
 // Make request fail after some timeout
 const setRequestTimeout = function (input) {
-  const { log, now } = input;
-  const perf = log.perf.start('protocol.setRequestTimeout', 'middleware');
+  const { now } = input;
 
   const timeoutPromise = startRequestTimeout({ now });
 
-  perf.stop();
   const responsePromise = this.next(input)
     // We must use `setTimeout(0)` to allow the `setTimeout(requestTimeout)`
     // to properly work, i.e. we need to make current macrotask end.

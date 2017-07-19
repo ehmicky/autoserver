@@ -70,12 +70,8 @@ const logStartShutdown = async function ({ server, log, protocol }) {
 
     perf.stop();
   } catch (error) {
-    const perf = log.perf.start(`${protocol}.init`, 'exception');
-
     const errorMessage = `${protocol} - Failed to count pending pending requests`;
     await handleError({ log, error, errorMessage });
-
-    perf.stop();
   }
 };
 
@@ -92,12 +88,8 @@ const shutdownServer = async function ({ server, log, protocol }) {
     perf.stop();
     return true;
   } catch (error) {
-    const perf = log.perf.start(`${protocol}.shutdown`, 'exception');
-
     const errorMessage = `${protocol} - Failed to stop server`;
     await handleError({ log, error, errorMessage });
-
-    perf.stop();
   }
 };
 

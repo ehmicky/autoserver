@@ -12,18 +12,10 @@ const { getUpdateInput } = require('./update');
  *   - we need to know the current models so we can set args.currentData
  **/
 const replaceAction = async function (input) {
-  const { log } = input;
-  const perf = log.perf.start('action.replace', 'middleware');
-
   const readInput = getReadInput({ input });
-
-  perf.stop();
   const { data: models } = await this.next(readInput);
-  perf.start();
 
   const updateInput = getUpdateInput({ input, models });
-
-  perf.stop();
   const response = await this.next(updateInput);
 
   return response;

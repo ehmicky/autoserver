@@ -11,13 +11,11 @@ const { EngineError } = require('../../error');
  * i.e. server-side (e.g. 500)
  **/
 const commandValidation = async function (input) {
-  const { command, log, args } = input;
-  const perf = log.perf.start('command.validation', 'middleware');
+  const { command, args } = input;
 
   validateCommand({ command });
   validateArgs({ args });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

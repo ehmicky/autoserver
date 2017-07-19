@@ -4,13 +4,11 @@ const { EngineError } = require('../../error');
 
 // Main authorization layer
 const authorization = async function (input) {
-  const { log, modelName, command, idl: { models } } = input;
-  const perf = log.perf.start('database.authorization', 'middleware');
+  const { modelName, command, idl: { models } } = input;
 
   const model = models[modelName];
   validateCommands({ model, command });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };
