@@ -5,16 +5,16 @@ const { Log } = require('../logging');
 const { EngineError, getStandardError, getErrorMessage } = require('../error');
 
 // Error handling for all failures that are process-related
-const processErrorHandler = function ({ serverOpts, apiServer }) {
+const processErrorHandler = function ({ options: serverOpts, apiServer }) {
   checkUniqueCall();
 
-  const log = new Log({ serverOpts, apiServer, phase: 'process' });
+  const processLog = new Log({ serverOpts, apiServer, phase: 'process' });
   // Shortcut function
-  log.process = processHandler.bind(null, log);
+  processLog.process = processHandler.bind(null, processLog);
 
-  setupHandlers({ log });
+  setupHandlers({ log: processLog });
 
-  return log;
+  return { processLog };
 };
 
 // Since `startServer()` manipulates process, e.g. by intercepting signals
