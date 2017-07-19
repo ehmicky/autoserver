@@ -34,6 +34,7 @@ rules:
   comma-dangle:
   - 2
   - always-multiline
+  # feross/standard does not check arguments for unused-vars
   no-unused-vars:
   - 2
   - {}
