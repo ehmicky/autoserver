@@ -35,19 +35,19 @@ const apiServer = startServer({
     port: 5001,
   },
 })
-// Returns an EventEmitter2 firing the following events: start, error,
-// stop.success, stop.fail, log.PHASE.TYPE.LEVEL
-// Also has the properties:
-//  - options {object} - options passed during initialization
-//  - info {object}
-//     - info.serverId {string}
-//     - info.serverName {string}
-//     - info.version {string}
-//  - servers {object}
-//     - servers.HTTP {Server} - Node.js HTTP server
-// Note that `options` and `servers` will only be available after the `start`
-// event is fired
-// Must return promise if the handler is async.
+  // Returns an EventEmitter2 firing the following events: start, error,
+  // stop.success, stop.fail, log.PHASE.TYPE.LEVEL
+  // Also has the properties:
+  //  - options {object} - options passed during initialization
+  //  - info {object}
+  //     - info.serverId {string}
+  //     - info.serverName {string}
+  //     - info.version {string}
+  //  - servers {object}
+  //     - servers.HTTP {Server} - Node.js HTTP server
+  // Note that `options` and `servers` will only be available after the `start`
+  // event is fired
+  // Must return promise if the handler is async.
   .on('start', () => hasEmit('start'))
   // If the `error` event handler is not setup, an exception will be
   // thrown instead
@@ -67,13 +67,11 @@ const apiServer = startServer({
       // const jsonInfo = JSON.stringify(info, null, 2);
       // global.console.log('Logging info', jsonInfo);
     }
+  })
+  // Performance monitoring
+  .on('log.*.perf.*', ({ measuresMessage }) => {
+    console.log(`Performance logging info\n${measuresMessage}`);
   });
-// Performance monitoring
-/*
-.on('log.*.perf.*', ({ measuresMessage }) => {
-  global.console.log(`Performance logging info\n${measuresMessage}`);
-})
-*/
 
 const hasEmit = function () {
   // For debugging
