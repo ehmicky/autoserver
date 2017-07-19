@@ -4,6 +4,8 @@ const { cloneDeep } = require('lodash');
 
 const { COMMANDS } = require('../../../../constants');
 
+const { getCreateModels } = require('./split');
+
 // Retrieves the input for the "create" command
 const getCreateInput = function ({ input: oInput, data }) {
   const input = Object.assign({}, oInput);
@@ -17,8 +19,8 @@ const getCreateInput = function ({ input: oInput, data }) {
   );
 
   const newArgs = Object.assign({}, args);
-  const newData = data;
-  Object.assign(newArgs, { pagination: false, newData });
+  const createModels = getCreateModels({ input: oInput, data });
+  Object.assign(newArgs, { pagination: false, newData: createModels });
   Object.assign(input, { command, args: newArgs });
 
   return input;

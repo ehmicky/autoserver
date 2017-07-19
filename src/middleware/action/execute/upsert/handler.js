@@ -1,9 +1,12 @@
 'use strict';
 
+const { renameThis } = require('../rename_this');
+
 const { getFirstReadInput } = require('./first_read');
 const { getCreateInput } = require('./create');
 const { getUpdateInput } = require('./update');
 const { getSecondReadInput } = require('./second_read');
+const { getCreateModels, getUpdateModels } = require('./split');
 
 /**
  * "upsert" action is split into three commands:
@@ -24,45 +27,22 @@ const { getSecondReadInput } = require('./second_read');
  *     but not if it updates it.
  **/
 const upsertAction = async function (input) {
-  // First check if models exist or not, by performing a "read" command
-  const firstReadInput = getFirstReadInput({ input });
-  const { data: models } = await this.next(firstReadInput);
-
-  const { createModels, updateModels } = splitModels({ input, models });
-
-  // If models do not exist, create them with "create" command
-  if (isDefined({ models: createModels })) {
-    const createInput = getCreateInput({ input, data: createModels });
-    await this.next(createInput);
-  }
-
-  // If models exist, update them with "update" command
-  if (isDefined({ models: updateModels })) {
-    const updateInput = getUpdateInput({ input, data: updateModels, models });
-    await this.next(updateInput);
-  }
-
-  // Finally, retrieve output with a second "read" command
-  const secondReadInput = getSecondReadInput({ input });
-  const response = await this.next(secondReadInput);
-
+  const response = await renameThis.call(this, { input, actions });
   return response;
 };
 
-// Check among args.data which ones exist or not, using the result
-// of the first "read" command
-const splitModels = function ({ input: { args: { data } }, models }) {
-  const modelsIds = models.map(({ id }) => id);
+// First check if models exist or not, by performing a "read" command
+// If models do not exist, create them with "create" command
+// If models exist, update them with "update" command
+// Finally, retrieve output with a second "read" command
+const shouldCreate = function ({ input, data }) {
+  const models = getCreateModels({ input, data });
+  return isDefined({ models });
+};
 
-  if (Array.isArray(data)) {
-    const createModels = data.filter(({ id }) => !modelsIds.includes(id));
-    const updateModels = data.filter(({ id }) => modelsIds.includes(id));
-    return { createModels, updateModels };
-  } else if (modelsIds.includes(data.id)) {
-    return { createModels: [], updateModels: data };
-  }
-
-  return { createModels: data, updateModels: [] };
+const shouldUpdate = function ({ input, data }) {
+  const models = getUpdateModels({ input, data });
+  return isDefined({ models });
 };
 
 // If there no models to create or update, avoid performing a database command
@@ -71,10 +51,30 @@ const isDefined = function ({ models }) {
 
   if (Array.isArray(models)) {
     return models.length > 0;
-  } else if (models.constructor === Object) {
-    return true;
   }
+
+  if (models.constructor === Object) { return true; }
+
+  return false;
 };
+
+const actions = [
+  {
+    getArgs: getFirstReadInput,
+  },
+  {
+    getArgs: getCreateInput,
+    test: shouldCreate,
+    skipResponse: true,
+  },
+  {
+    getArgs: getUpdateInput,
+    test: shouldUpdate,
+  },
+  {
+    getArgs: getSecondReadInput,
+  },
+];
 
 module.exports = {
   upsertAction,

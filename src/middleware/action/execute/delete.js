@@ -2,10 +2,17 @@
 
 const { COMMANDS } = require('../../../constants');
 
+const { renameThis } = require('./rename_this');
+
 /**
  * "delete" action uses a "delete" command
  **/
 const deleteAction = async function (input) {
+  const response = await renameThis.call(this, { input, actions });
+  return response;
+};
+
+const getInput = function ({ input }) {
   const { args, action } = input;
 
   const isMultiple = action.multiple;
@@ -16,9 +23,14 @@ const deleteAction = async function (input) {
   const newArgs = Object.assign({}, args, { pagination: isMultiple });
   Object.assign(input, { command, args: newArgs });
 
-  const response = await this.next(input);
-  return response;
+  return input;
 };
+
+const actions = [
+  {
+    getArgs: getInput,
+  },
+];
 
 module.exports = {
   deleteAction,
