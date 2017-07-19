@@ -15,8 +15,6 @@ const processors = [
 ];
 
 const processOptions = function ({ options, startupLog }) {
-  const optionsPerf = startupLog.perf.start('options');
-
   const copiedOpts = cloneDeep(options);
 
   const finalServerOpts = processors.reduce((serverOpts, processor) => {
@@ -28,8 +26,7 @@ const processOptions = function ({ options, startupLog }) {
 
   makeImmutable(finalServerOpts);
 
-  optionsPerf.stop();
-  return finalServerOpts;
+  return { serverOpts: finalServerOpts };
 };
 
 module.exports = {

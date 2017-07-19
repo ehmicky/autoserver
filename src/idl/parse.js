@@ -30,8 +30,6 @@ const getIdl = async function ({
   serverOpts: { conf },
   startupLog,
 }) {
-  const idlPerf = startupLog.perf.start('idl');
-
   const finalIdl = await reduceAsync(processors, async (idl, processor) => {
     const perf = startupLog.perf.start(processor.name, 'idl');
     const newIdl = await processor({ idl, serverOpts, startupLog });
@@ -41,8 +39,7 @@ const getIdl = async function ({
 
   makeImmutable(finalIdl);
 
-  idlPerf.stop();
-  return finalIdl;
+  return { idl: finalIdl };
 };
 
 module.exports = {
