@@ -3,6 +3,7 @@
 const { promisify } = require('util');
 
 const { EngineError } = require('../../error');
+const { ENV } = require('../../utilities');
 
 // Make request fail after some timeout
 const setRequestTimeout = function (input) {
@@ -37,7 +38,8 @@ const startRequestTimeout = async function ({ now }) {
   throw new EngineError(message, { reason: 'REQUEST_TIMEOUT' });
 };
 
-const TIMEOUT = 5000;
+// When debugging with breakpoints, we do not want any request timeout
+const TIMEOUT = ENV === 'dev' ? 1e9 : 5000;
 
 module.exports = {
   setRequestTimeout,
