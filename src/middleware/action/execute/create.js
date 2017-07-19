@@ -13,9 +13,7 @@ const createAction = async function (input) {
   return response;
 };
 
-const getInput = function ({ input }) {
-  const { action, args } = input;
-
+const getInput = function ({ input: { action, args } }) {
   const isMultiple = action.multiple;
   const command = COMMANDS.find(({ type, multiple }) =>
     type === 'create' && multiple === isMultiple
@@ -25,9 +23,7 @@ const getInput = function ({ input }) {
   const newData = args.data;
 
   Object.assign(newArgs, { pagination: false, newData });
-  Object.assign(input, { command, args: newArgs });
-
-  return input;
+  return { command, args: newArgs };
 };
 
 const actions = [

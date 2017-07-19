@@ -1,7 +1,5 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
 const { COMMANDS } = require('../../../../constants');
 
 const { getFilter } = require('./filter');
@@ -9,10 +7,7 @@ const { getFilter } = require('./filter');
 // Retrieves the input for the first "read" command
 // Goal is to check whether models exist, so we know if "upsert" action
 // will create or update models.
-const getFirstReadInput = function ({ input: oInput }) {
-  const input = Object.assign({}, oInput);
-  input.args = cloneDeep(input.args);
-
+const getFirstReadInput = function ({ input }) {
   const isMultiple = true;
   const command = COMMANDS.find(({ type, multiple }) =>
     type === 'read' && multiple === isMultiple
@@ -24,9 +19,7 @@ const getFirstReadInput = function ({ input: oInput }) {
   // transparent when it comes to pagination and authorization
   const filter = getFilter({ input });
   const newArgs = { filter, pagination: false, authorization: false };
-  Object.assign(input, { command, args: newArgs });
-
-  return input;
+  return { command, args: newArgs };
 };
 
 module.exports = {

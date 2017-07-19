@@ -1,27 +1,21 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
 const { omit } = require('../../../../utilities');
 const { COMMANDS } = require('../../../../constants');
 const { isJsl } = require('../../../../jsl');
 
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input: oInput, data: models }) {
-  const input = Object.assign({}, oInput);
-  input.args = cloneDeep(input.args);
-
-  const { args, action, jsl } = input;
-
+const getUpdateInput = function ({
+  input: { args, action, jsl },
+  data: models,
+}) {
   const isMultiple = action.multiple;
   const command = COMMANDS.find(({ type, multiple }) =>
     type === 'update' && multiple === isMultiple
   );
   const newArgs = getUpdateArgs({ args, models, jsl });
   Object.assign(newArgs, { pagination: isMultiple, currentData: models });
-  Object.assign(input, { command, args: newArgs });
-
-  return input;
+  return { command, args: newArgs };
 };
 
 const getUpdateArgs = function ({ args, models, jsl }) {

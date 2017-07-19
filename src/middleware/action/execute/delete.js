@@ -12,18 +12,14 @@ const deleteAction = async function (input) {
   return response;
 };
 
-const getInput = function ({ input }) {
-  const { args, action } = input;
-
+const getInput = function ({ input: { args, action } }) {
   const isMultiple = action.multiple;
   const command = COMMANDS.find(({ type, multiple }) =>
     type === 'delete' && multiple === isMultiple
   );
 
   const newArgs = Object.assign({}, args, { pagination: isMultiple });
-  Object.assign(input, { command, args: newArgs });
-
-  return input;
+  return { command, args: newArgs };
 };
 
 const actions = [

@@ -7,11 +7,11 @@ const renameThis = async function ({ input, actions }) {
     formerResponse,
     { getArgs, test: testFunc, skipResponse },
   ) => {
-    const argsArgs = Object.assign({ input }, formerResponse);
-    const argsInput = getArgs(argsArgs);
-    const nextInput = Object.assign({}, argsArgs, argsInput);
+    const argsInput = Object.assign({}, formerResponse, { input });
+    const nextInput = Object.assign({}, input, getArgs(argsInput));
 
-    if (testFunc && !testFunc(nextInput)) { return formerResponse; }
+    const testInput = Object.assign({}, formerResponse, { input: nextInput });
+    if (testFunc && !testFunc(testInput)) { return formerResponse; }
 
     const response = await this.next(nextInput);
     return skipResponse ? formerResponse : response;
