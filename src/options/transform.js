@@ -6,17 +6,12 @@ const { pick } = require('../utilities');
 const transformOptions = function ({
   serverOpts,
   serverOpts: { loggerFilter },
-  startupLog,
 }) {
-  const perf = startupLog.perf.start('transform', 'options');
-
   const hasLoggerFilter = loggerFilter && loggerFilter.constructor === Object;
 
   if (hasLoggerFilter) {
     transformLoggerFilters(loggerFilter);
   }
-
-  perf.stop();
 
   return serverOpts;
 };
