@@ -12,29 +12,28 @@ const { getYaml } = require('../utilities');
  *  - a filename pointing to a JSON or YAML file
  *  - directly a JavaScript object
  **/
-const getIdlConf = async function ({ conf }) {
-  if (typeof conf === 'string') {
-    const idlConf = await getIdlFromPath({ conf });
+const getIdlConf = async function ({ idl }) {
+  if (typeof idl === 'string') {
+    const idlConf = await getIdlFromPath({ path: idl });
     return idlConf;
   }
 
-  if (conf && conf.constructor === Object) {
-    return { idl: conf };
-  }
+  if (idl && idl.constructor === Object) { return idl; }
 
   const message = 'Missing configuration file or \'conf\' option';
   throw new EngineError(message, { reason: 'CONFIGURATION_LOADING' });
 };
 
-const getIdlFromPath = async function ({ conf }) {
-  const path = await getIdlPath({ path: conf });
+const getIdlFromPath = async function ({ path }) {
+  const realPath = await getIdlPath({ path });
 
   // Remember IDL file directory, so it can be used for $ref path resolution
-  const baseDir = dirname(path);
+  const baseDir = dirname(realPath);
 
   try {
-    const idl = await getYaml({ path });
-    return { idl, baseDir };
+    const idl = await getYaml({ path: realPath });
+    Object.assign(idl, { baseDir });
+    return idl;
   } catch (error) {
     const message = 'Could not load configuration file';
     throw new EngineError(message, {

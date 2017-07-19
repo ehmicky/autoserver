@@ -2,7 +2,7 @@
 
 const { getRawValidator } = require('../validation');
 
-const addCustomKeywords = function ({ idl: { validation = {} } }) {
+const addCustomKeywords = function ({ idl, idl: { validation = {} } }) {
   const ajv = getRawValidator();
 
   for (const [
@@ -11,6 +11,8 @@ const addCustomKeywords = function ({ idl: { validation = {} } }) {
   ] of Object.entries(validation)) {
     addCustomKeyword({ ajv, keyword, testFunc, message, type });
   }
+
+  return idl;
 };
 
 const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
