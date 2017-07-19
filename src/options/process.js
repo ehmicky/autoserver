@@ -8,27 +8,28 @@ const { applyDefaultOptions } = require('./default');
 const { transformOptions } = require('./transform');
 const { validateOptions } = require('./validate');
 
+const processors = [
+  applyDefaultOptions,
+  transformOptions,
+  validateOptions,
+];
+
 const processOptions = function ({ options, startupLog }) {
-  const perf = startupLog.perf.start('options');
+  const optionsPerf = startupLog.perf.start('options');
 
   const copiedOpts = cloneDeep(options);
 
-  const defaultedOpts = applyDefaultOptions({
-    serverOpts: copiedOpts,
-    startupLog,
-  });
+  const finalServerOpts = processors.reduce((serverOpts, processor) => {
+    const perf = startupLog.perf.start(processor.name, 'options');
+    const newServerOpts = processor({ serverOpts });
+    perf.stop();
+    return newServerOpts;
+  }, copiedOpts);
 
-  const serverOpts = transformOptions({
-    serverOpts: defaultedOpts,
-    startupLog,
-  });
+  makeImmutable(finalServerOpts);
 
-  validateOptions({ serverOpts, startupLog });
-
-  makeImmutable(serverOpts);
-
-  perf.stop();
-  return serverOpts;
+  optionsPerf.stop();
+  return finalServerOpts;
 };
 
 module.exports = {

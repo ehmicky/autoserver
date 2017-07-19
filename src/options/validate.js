@@ -4,12 +4,10 @@ const { validate } = require('../validation');
 const { assignObject } = require('../utilities');
 
 // Validation for main options
-const validateOptions = function ({ serverOpts, startupLog }) {
-  const perf = startupLog.perf.start('validate', 'options');
-
+const validateOptions = function ({ serverOpts }) {
   validate({ schema, data: serverOpts, reportInfo });
 
-  perf.stop();
+  return serverOpts;
 };
 
 const reportInfo = { type: 'options', dataVar: 'options' };
