@@ -18,11 +18,18 @@
  *   - since this binds functions contexts, `this` can only be used to call
  *     `this.next(...)` and functions contexts should not re-bound.
  *
- * @param {function[]} middlewares
+ * @param {function[]} funcs
+ * @param {object} [options]
+ * @param {function[]} [options.before]: inserted before each middleware
  * @returns {function[]} middlewares
  */
-const chain = function (funcs) {
+const chain = function (funcs, { before: beforeOpt = [] } = {}) {
   return funcs
+    // Insert recurring functions before each middleware
+    .reduce((allFuncs, func) => {
+      const beforeFuncs = beforeOpt.map(beforeFunc => beforeFunc(func));
+      return [...allFuncs, ...beforeFuncs, func];
+    }, [])
     // End of iteration
     .concat(lastFunc)
     // Bind each function context with { next(){} }
