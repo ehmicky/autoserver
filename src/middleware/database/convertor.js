@@ -7,20 +7,20 @@ const databaseConvertor = async function ({
   modelName,
   jsl,
   log,
+  perf,
   idl,
   serverOpts,
   apiServer,
   params,
   settings,
 }) {
-  const perf = log.perf.start('database.convertor', 'middleware');
-
   const nextInput = {
     command,
     args,
     modelName,
     jsl,
     log,
+    perf,
     idl,
     serverOpts,
     apiServer,
@@ -28,7 +28,6 @@ const databaseConvertor = async function ({
     settings,
   };
 
-  perf.stop();
   const response = await this.next(nextInput);
   return response;
 };

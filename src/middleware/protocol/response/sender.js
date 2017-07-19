@@ -7,9 +7,12 @@ const sender = async function (
   {
     specific,
     protocolHandler,
-    protocolStatus: status = protocolHandler.failureProtocolStatus,
   },
-  { type, content }
+  {
+    type,
+    content,
+    protocolStatus: status = protocolHandler.failureProtocolStatus,
+  }
 ) {
   if (!type) {
     throw new EngineError('Server sent an response with no content type', {

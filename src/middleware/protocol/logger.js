@@ -8,36 +8,31 @@ const { STATUS_LEVEL_MAP } = require('../../logging');
 // unless it crashed very early (i.e. before this middleware), in which case
 // it will still be handled by the error logging middleware.
 const logger = async function logger (input) {
-  const { log } = input;
-
   try {
     const response = await this.next(input);
 
-    const perf = log.perf.start('protocol.logger', 'middleware');
-    await handleLog({ input });
-    perf.stop();
+    await handleLog({ response, input });
 
     return response;
   } catch (error) {
-    const perf = log.perf.start('protocol.logger', 'exception');
-
     addErrorReason({ error, input });
     await handleLog({ error, input });
 
-    perf.stop();
     throw error;
   }
 };
 
-const handleLog = async function ({
-  error,
-  input: { log, status = 'SERVER_ERROR' },
-}) {
-  // If input.status is already set, reuse it
+const handleLog = async function ({ error, response, input: { log } }) {
+  const status = (error && error.status) ||
+    (response && response.status) ||
+    'SERVER_ERROR';
+
+  // If status is already set, reuse it
   // If an error was thrown, level should always be 'warn' or 'error'
   const errorLevel = status === 'CLIENT_ERROR' ? 'warn' : 'error';
   const defaultLevel = STATUS_LEVEL_MAP[status] || 'error';
   const level = error ? errorLevel : defaultLevel;
+
   // The logger will build the message and the `requestInfo`
   // We do not do it now, because we want the full protocol layer to end first,
   // do `requestInfo` is full.

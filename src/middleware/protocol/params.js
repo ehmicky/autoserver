@@ -19,7 +19,6 @@ const {
 // Are set to JSL param $PARAMS
 const parseParams = async function (input) {
   const { jsl, log } = input;
-  const perf = log.perf.start('protocol.parseParams', 'middleware');
 
   const params = getParams({ input });
   makeImmutable(params);
@@ -29,7 +28,6 @@ const parseParams = async function (input) {
   log.add({ params });
   Object.assign(input, { params, jsl: newJsl });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

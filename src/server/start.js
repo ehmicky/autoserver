@@ -119,9 +119,9 @@ const startSingleServer = async function ({
 
   const protocolHandler = protocolHandlers[protocol];
   const opts = serverOpts[protocol.toLowerCase()];
-  const handleRequest = requestHandler.bind(
-    null,
+  const handleRequest = (...args) => requestHandler(
     { protocol, idl, apiServer, serverOpts },
+    ...args,
   );
   const handleListening = getHandleListening.bind(null, {
     startupLog,

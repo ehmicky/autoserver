@@ -12,7 +12,6 @@ const { renameArgs } = require('./rename');
 // Also rename them camelcase
 const handleArgs = async function (input) {
   const { log, args, jsl, action, serverOpts: { maxDataLength } } = input;
-  const perf = log.perf.start('operation.handleArgs', 'middleware');
 
   if (!args || args.constructor !== Object) {
     const message = `Invalid 'args': '${args}'`;
@@ -28,16 +27,12 @@ const handleArgs = async function (input) {
     validateLimits({ args, maxDataLength });
     input.args = renameArgs({ args });
 
-    perf.stop();
     const response = await this.next(input);
     return response;
   } catch (error) {
-    const exceptionPerf = log.perf.start('operation.handleArgs', 'exception');
-
     // Added only for final error handler
     log.add({ args: clonedArgs });
 
-    exceptionPerf.stop();
     throw error;
   }
 };

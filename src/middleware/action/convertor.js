@@ -10,6 +10,7 @@ const actionConvertor = async function ({
   modelName,
   jsl,
   log,
+  perf,
   idl,
   serverOpts,
   apiServer,
@@ -17,8 +18,6 @@ const actionConvertor = async function ({
   settings,
   operation,
 }) {
-  const perf = log.perf.start('action.convertor', 'middleware');
-
   // Request arguments that cannot be specified by clients
   const clonedArgs = cloneDeep(args);
   const newJsl = jsl.add({ $MODEL: modelName });
@@ -31,6 +30,7 @@ const actionConvertor = async function ({
     modelName,
     jsl: newJsl,
     log,
+    perf,
     idl,
     serverOpts,
     apiServer,
@@ -38,9 +38,7 @@ const actionConvertor = async function ({
     settings,
   };
 
-  perf.stop();
   const response = await getResponse.call(this, { nextInput });
-  perf.start();
 
   response.action = action;
 
@@ -51,7 +49,6 @@ const actionConvertor = async function ({
 
   const transformedResponse = actionConvertorOutput[operation](response);
 
-  perf.stop();
   return transformedResponse;
 };
 
@@ -68,12 +65,9 @@ const getResponse = async function ({
     const response = await this.next(nextInput);
     return response;
   } catch (error) {
-    const exceptionPerf = log.perf.start('action.convertor', 'exception');
-
     // Added only for final error handler
     log.add({ action, fullAction, model: modelName });
 
-    exceptionPerf.stop();
     throw error;
   }
 };

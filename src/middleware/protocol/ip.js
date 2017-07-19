@@ -5,7 +5,6 @@ const { EngineError } = require('../../error');
 // Retrieve request's IP, assigned to protocol input, and also to JSL $IP
 const getIp = async function (input) {
   const { jsl, log, protocolHandler } = input;
-  const perf = log.perf.start('protocol.getIp', 'middleware');
 
   const ip = protocolHandler.getIp(input) || '';
 
@@ -19,7 +18,6 @@ const getIp = async function (input) {
 
   Object.assign(input, { ip, jsl: newJsl });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

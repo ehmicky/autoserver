@@ -16,7 +16,6 @@ const MAX_ARRAY_LENGTH = 100;
 // `input.params`, but can also be used by operation layer as is.
 const parseQueryString = async function (input) {
   const { specific, protocolHandler, log } = input;
-  const perf = log.perf.start('protocol.parseQueryString', 'middleware');
 
   const queryVars = getQueryVars({ specific, protocolHandler });
   makeImmutable(queryVars);
@@ -24,7 +23,6 @@ const parseQueryString = async function (input) {
   log.add({ queryVars });
   Object.assign(input, { queryVars });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

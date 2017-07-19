@@ -12,16 +12,12 @@ const {
 
 // GraphQL query handling
 const executeGraphql = async function (input) {
-  const { log } = input;
-  const perf = log.perf.start('operation.executeGraphql', 'middleware');
-
   // GraphQL execution
   const actions = [];
-  const content = await getContent.call(this, { input, perf, actions });
+  const content = await getContent.call(this, { input, actions });
   const type = getResponseType({ content });
 
   makeImmutable(actions);
-  perf.stop();
   const response = { content, type, actions };
   return response;
 };
@@ -29,7 +25,6 @@ const executeGraphql = async function (input) {
 const getContent = async function ({
   input,
   input: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
-  perf,
   actions,
 }) {
   const {
@@ -53,7 +48,7 @@ const getContent = async function ({
 
   // Normal GraphQL query
   const resolver = getResolver.bind(null, modelsMap);
-  const callback = fireNext.bind(this, { input, perf, actions });
+  const callback = fireNext.bind(this, { input, actions });
   const data = await handleQuery({
     resolver,
     queryDocument,
@@ -83,26 +78,10 @@ const getGraphQLInput = function ({ input: { queryVars, payload, goal } }) {
   return { query, variables, operationName, queryDocument, graphqlMethod };
 };
 
-const fireNext = async function ({ input, perf, actions }, actionInput) {
+const fireNext = async function ({ input, actions }, actionInput) {
   const nextInput = Object.assign({}, input, actionInput);
 
-  // Several calls of this function are done concurrently, so we stop
-  // performance recording on the first in, and restart on the last out
-  perf.ongoing = perf.ongoing || 0;
-
-  if (perf.ongoing === 0) {
-    perf.stop();
-  }
-
-  perf.ongoing += 1;
-
   const response = await this.next(nextInput);
-
-  perf.ongoing -= 1;
-
-  if (perf.ongoing === 0) {
-    perf.start();
-  }
 
   actions.push(response.action);
 

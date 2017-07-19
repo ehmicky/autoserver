@@ -3,7 +3,6 @@
 // Decides which operation to use (e.g. GraphQL) according to route
 const operationNegotiator = async function (input) {
   const { route, jsl, log } = input;
-  const perf = log.perf.start('operation.negotiator', 'middleware');
 
   const [operation] = Object.entries(operations)
     .find(([, testFunc]) => testFunc({ route })) || [];
@@ -13,7 +12,6 @@ const operationNegotiator = async function (input) {
   log.add({ operation });
   Object.assign(input, { operation, jsl: newJsl });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

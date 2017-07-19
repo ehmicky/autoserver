@@ -11,17 +11,12 @@ const sendResponse = async function (input) {
     const response = await this.next(input);
     const { content, type } = response;
 
-    const perf = log.perf.start('protocol.sendResponse', 'middleware');
-
     log.add({ response: { content, type } });
 
     await send(response);
 
-    perf.stop();
     return response;
   } catch (error) {
-    const perf = log.perf.start('protocol.sendResponse', 'exception');
-
     const errorObj = error instanceof Error ? error : new Error(String(error));
 
     // Handler to send response error
@@ -30,7 +25,6 @@ const sendResponse = async function (input) {
     // to never send two responses.
     errorObj.sendError = send;
 
-    perf.stop();
     throw errorObj;
   }
 };

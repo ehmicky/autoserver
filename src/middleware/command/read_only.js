@@ -10,9 +10,8 @@ const { omit } = require('../../utilities');
  * readonly attributes.
  **/
 const handleReadOnly = async function (input) {
-  const { args, modelName, log, idl: { shortcuts: { readOnlyMap } } } = input;
+  const { args, modelName, idl: { shortcuts: { readOnlyMap } } } = input;
   const { newData } = args;
-  const perf = log.perf.start('command.handleReadOnly', 'middleware');
 
   // Remove readonly attributes in `args.newData`
   if (newData) {
@@ -25,7 +24,6 @@ const handleReadOnly = async function (input) {
       : removeReadOnly({ newData, readOnlyAttrs });
   }
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

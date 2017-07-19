@@ -3,8 +3,7 @@
 const { renderGraphiQL } = require('./render');
 
 const executeGraphiql = async function (input) {
-  const { queryVars, payload = {}, origin, log } = input;
-  const perf = log.perf.start('operation.executeGraphiql', 'middleware');
+  const { queryVars, payload = {}, origin } = input;
 
   const endpointURL = `${origin}/graphql`;
   const {
@@ -20,7 +19,6 @@ const executeGraphiql = async function (input) {
     operationName,
   });
 
-  perf.stop();
   return {
     type: 'html',
     content,

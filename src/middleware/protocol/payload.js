@@ -9,7 +9,6 @@ const { makeImmutable } = require('../../utilities');
 // Meant to be used by operation layer, e.g. to populate `input.args`
 const parsePayload = async function (input) {
   const { specific, protocolHandler, log } = input;
-  const perf = log.perf.start('protocol.parsePayload', 'middleware');
 
   const payload = await getPayload({ specific, protocolHandler });
   makeImmutable(payload);
@@ -17,7 +16,6 @@ const parsePayload = async function (input) {
   log.add({ payload });
   Object.assign(input, { payload });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

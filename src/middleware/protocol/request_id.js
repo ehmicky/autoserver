@@ -13,7 +13,6 @@ const { getServerInfo } = require('../../info');
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
 const setRequestIds = async function (input) {
   const { jsl, log, specific, protocolHandler, serverOpts } = input;
-  const perf = log.perf.start('protocol.setRequestId', 'middleware');
 
   const requestId = uuidv4();
   const newJsl = jsl.add({ $REQUEST_ID: requestId });
@@ -24,7 +23,6 @@ const setRequestIds = async function (input) {
   sendRequestIdHeader({ specific, requestId, protocolHandler });
   sendServerIdsHeaders({ specific, serverOpts, protocolHandler });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

@@ -8,9 +8,8 @@ const { normalizeOrderBy } = require('./order_by');
  * reduce it to a single shape
  **/
 const normalization = async function (input) {
-  const { args, log, modelName, idl: { models } } = input;
+  const { args, modelName, idl: { models } } = input;
   const { orderBy, filter } = args;
-  const perf = log.perf.start('command.normalization', 'middleware');
 
   const newArgs = Object.assign({}, args);
 
@@ -25,7 +24,6 @@ const normalization = async function (input) {
 
   input.args = newArgs;
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

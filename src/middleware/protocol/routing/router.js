@@ -8,7 +8,6 @@ const { routes, findRoute, getPathVars } = require('./manager');
 // Add route and URL parameters to input
 const router = async function (input) {
   const { path, goal, log } = input;
-  const perf = log.perf.start('protocol.router', 'middleware');
 
   const route = findRoute({ routes, path, goal });
 
@@ -23,7 +22,6 @@ const router = async function (input) {
   log.add({ route: route.name, pathVars });
   Object.assign(input, { route: route.name, pathVars });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };

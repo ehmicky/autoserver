@@ -5,8 +5,7 @@ const database = require('./data.json');
 const { fireCommand } = require('./commands');
 
 const databaseExecute = function (input) {
-  const { command, args = {}, settings, modelName, jsl, log } = input;
-  const perf = log.perf.start('database.execute', 'middleware');
+  const { command, args = {}, settings, modelName, jsl } = input;
 
   const { nOrderBy, limit, offset, newData, nFilter } = args;
   const { dryRun } = settings;
@@ -16,7 +15,6 @@ const databaseExecute = function (input) {
   const commandInput = { command, collection, nFilter, newData, opts };
   const response = fireCommand(commandInput);
 
-  perf.stop();
   return response;
 };
 

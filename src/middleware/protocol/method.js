@@ -9,7 +9,6 @@ const { GOALS } = require('../../constants');
 // Meant to be used by operation layer.
 const parseMethod = async function (input) {
   const { specific, protocolHandler, log } = input;
-  const perf = log.perf.start('protocol.parseMethod', 'middleware');
 
   const method = getMethod({ specific, protocolHandler });
   const goal = getGoal({ method, protocolHandler });
@@ -17,7 +16,6 @@ const parseMethod = async function (input) {
   log.add({ method, goal });
   Object.assign(input, { method, goal });
 
-  perf.stop();
   const response = await this.next(input);
   return response;
 };
