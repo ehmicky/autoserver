@@ -364,6 +364,14 @@ rules:
   - 2
   - version: 8
 
+  # Blacklist
+  no-restricted-globals:
+  - 2
+  - global
+  - GLOBAL
+  - console
+  - exports
+
   # To avoid
   no-void: 2
   no-continue: 2
@@ -393,7 +401,6 @@ rules:
 #  multiline-ternary: 2
 #  no-invalid-this: 2
 #  no-magic-numbers: 2
-#  no-restricted-globals: 2
 #  no-restricted-imports: 2
 #  no-restricted-modules: 2
 #  no-restricted-properties: 2

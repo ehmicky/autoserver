@@ -2,24 +2,28 @@
 
 const { memoize, assignArray } = require('../../utilities');
 
+// eslint-disable-next-line no-restricted-globals
+const globalVar = global;
+const globalProto = Object.getPrototypeOf(globalVar);
+const globalProtoProto = Object.getPrototypeOf(globalProto);
+const globalObjects = [
+  globalVar,
+  // Since global is an object, Object constructor and prototype are
+  // global properties too
+  globalProto,
+  globalProtoProto,
+];
+
 // Retrieves all global variables, to make sure JSL does not access them
 // This is memoized, i.e. no global variables should be added runtime,
 // as they could be accessed in JSL
-const getGlobalKeys = memoize(({ type }) => {
-  const globalObjects = [
-    global,
-    // Since global is an object, Object constructor and prototype are
-    // global properties too
-    Object.getPrototypeOf(global),
-    Object.getPrototypeOf(Object.getPrototypeOf(global)),
-  ];
-  const globalKeys = globalObjects
+const getGlobalKeys = memoize(({ type }) =>
+  globalObjects
     .map(globalObj => filterGlobalObj({ globalObj, type }))
     .reduce(assignArray, [])
     // Make sure it is sorted, for the memoizer
-    .sort();
-  return globalKeys;
-});
+    .sort()
+);
 
 // Retrieves all global properties
 const filterGlobalObj = function ({ globalObj, type }) {

@@ -9,7 +9,8 @@ const consolePrint = function ({ level, message, loggerLevel }) {
     LEVELS.indexOf(level) < LEVELS.indexOf(loggerLevel);
   if (noConsolePrint) { return; }
 
-  global.console[level](message);
+  // eslint-disable-next-line no-console, no-restricted-globals
+  console[level](message);
 };
 
 module.exports = {
