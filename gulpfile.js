@@ -2,6 +2,7 @@
 
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
+const jscpd = require('gulp-jscpd');
 
 const { gulpSrc } = require('./gulp');
 
@@ -15,6 +16,17 @@ gulp.task('lint', () =>
     .pipe(eslint.failAfterError())
 );
 
-gulp.task('test', ['lint']);
+gulp.task('dupLint', () =>
+  gulpSrc('lint')
+    .pipe(jscpd({
+      verbose: true,
+      blame: true,
+      'min-lines': 0,
+      'min-tokens': 30,
+      'skip-comments': true,
+    }))
+);
+
+gulp.task('test', ['lint', 'dupLint']);
 
 gulp.task('default', ['test']);
