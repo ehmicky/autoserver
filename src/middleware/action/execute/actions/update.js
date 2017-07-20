@@ -3,7 +3,7 @@
 const { isJsl } = require('../../../../jsl');
 
 const readCommand = {
-  command: 'read',
+  commandType: 'read',
   args: {
     pagination: false,
   },
@@ -16,7 +16,7 @@ const updateCommand = function (
   const newData = getNewData({ dataArg, currentData, jsl });
 
   return {
-    command: 'update',
+    commandType: 'update',
     args: {
       pagination: isMultiple,
       currentData,

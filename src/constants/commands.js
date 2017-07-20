@@ -11,6 +11,8 @@ const COMMANDS = [
   { name: 'updateMany', type: 'update', multiple: true },
   { name: 'deleteOne', type: 'delete', multiple: false },
   { name: 'deleteMany', type: 'delete', multiple: true },
+  { name: 'upsertOne', type: 'upsert', multiple: false },
+  { name: 'upsertMany', type: 'upsert', multiple: true },
 ];
 makeImmutable(COMMANDS);
 

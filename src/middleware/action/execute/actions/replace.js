@@ -1,12 +1,14 @@
 'use strict';
 
 const { dataToFilter } = require('../data_to_filter');
+const { getCurrentData } = require('../current_data');
 
 const readCommand = ({ args: { data: dataArg } }) => ({
-  command: 'read',
+  commandType: 'read',
   args: {
     filter: dataToFilter({ dataArg }),
     pagination: false,
+    authorization: false,
   },
 });
 
@@ -14,22 +16,13 @@ const updateCommand = function ({ args: { data: dataArg } }, { data: models }) {
   const currentData = getCurrentData({ dataArg, models });
 
   return {
-    command: 'update',
+    commandType: 'update',
     args: {
       pagination: false,
       currentData,
       newData: dataArg,
     },
   };
-};
-
-const getCurrentData = function ({ dataArg, models }) {
-  if (!Array.isArray(models)) { return models; }
-
-  return dataArg.map(newDatum => {
-    const currentDatum = models.find(model => model.id === newDatum.id);
-    return currentDatum || null;
-  });
 };
 
 /**
