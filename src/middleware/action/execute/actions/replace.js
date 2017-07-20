@@ -8,7 +8,6 @@ const readCommand = ({ args: { data: dataArg } }) => ({
   args: {
     filter: dataToFilter({ dataArg }),
     pagination: false,
-    authorization: false,
   },
 });
 

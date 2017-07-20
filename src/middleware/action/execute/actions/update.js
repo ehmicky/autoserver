@@ -21,8 +21,6 @@ const updateCommand = function (
       pagination: isMultiple,
       currentData,
       newData,
-      // `args.filter` is only used by first "read" command
-      filter: undefined,
     },
   };
 };

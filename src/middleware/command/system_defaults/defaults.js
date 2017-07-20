@@ -52,8 +52,8 @@ const defaults = {
       args.page === undefined,
   },
 
-  authorization: {
-    value: true,
+  internal: {
+    value: false,
   },
 };
 
