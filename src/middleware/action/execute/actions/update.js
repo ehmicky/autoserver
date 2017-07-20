@@ -9,20 +9,26 @@ const readCommand = {
   },
 };
 
-const updateCommand = (
+const updateCommand = function (
   { args: { data: dataArg }, action: { multiple: isMultiple }, jsl },
   { data: currentData },
-) => ({
-  command: 'update',
-  args: {
-    pagination: isMultiple,
-    currentData,
-    newData: getNewData({ dataArg, currentData, jsl }),
-    // `args.filter` is only used by first "read" command
-    filter: undefined,
-  },
-});
+) {
+  const newData = getNewData({ dataArg, currentData, jsl });
 
+  return {
+    command: 'update',
+    args: {
+      pagination: isMultiple,
+      currentData,
+      newData,
+      // `args.filter` is only used by first "read" command
+      filter: undefined,
+    },
+  };
+};
+
+// Merge current models with the data we want to update,
+// to obtain the final models we want to use as replacement
 const getNewData = function ({ dataArg, currentData, jsl }) {
   // Keys in args.* using JSL
   const jslKeys = Object.keys(dataArg)
@@ -37,8 +43,6 @@ const getNewData = function ({ dataArg, currentData, jsl }) {
   return getNewDatum({ currentDatum: currentData, dataArg, jsl, jslKeys });
 };
 
-// Merge current models with the data we want to update,
-// to obtain the final models we want to use as replacement
 const getNewDatum = function ({ currentDatum, dataArg, jsl, jslKeys }) {
   const newAttrs = getAttrsAfterJsl({ currentDatum, dataArg, jsl, jslKeys });
   return Object.assign({}, currentDatum, dataArg, ...newAttrs);

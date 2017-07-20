@@ -6,6 +6,6 @@ module.exports = Object.assign(
   require('./delete'),
   require('./update'),
   require('./create'),
-  require('./update'),
+  require('./replace'),
   require('./upsert'),
 );

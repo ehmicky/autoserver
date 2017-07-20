@@ -1,6 +1,6 @@
 'use strict';
 
-const { getFilter } = require('../filter');
+const { dataToFilter } = require('../data_to_filter');
 
 // Goal is to check whether models exist, so we know if "upsert" action
 // will create or update models.
@@ -8,10 +8,10 @@ const { getFilter } = require('../filter');
 // The first and second "find" commands are just here to patch things up,
 // and do not provide extra information to consumers, so should be
 // transparent when it comes to pagination and authorization
-const firstReadCommand = ({ args: { data: argData } }) => ({
+const firstReadCommand = ({ args: { data: dataArg } }) => ({
   command: 'read',
   args: {
-    filter: getFilter({ argData }),
+    filter: dataToFilter({ dataArg }),
     pagination: false,
     authorization: false,
   },
@@ -29,7 +29,7 @@ const createCommand = (input, data) => ({
 // If models do not exist, create them with "create" command
 // If models exist, update them with "update" command
 // Finally, retrieve output with a second "read" command
-const shouldCreate = ({ input, data }) =>
+const shouldCreate = (input, data) =>
   isDefined({ models: getCreateModels({ input, data }) });
 
 const updateCommand = function (input, models) {
@@ -44,14 +44,14 @@ const updateCommand = function (input, models) {
   };
 };
 
-const shouldUpdate = ({ input, data }) =>
+const shouldUpdate = (input, data) =>
   isDefined({ models: getUpdateModels({ input, data }) });
 
 // Final output
-const secondReadCommand = ({ args: { data: argData } }) => ({
+const secondReadCommand = ({ args: { data: dataArg } }) => ({
   command: 'read',
   args: {
-    filter: getFilter({ argData }),
+    filter: dataToFilter({ dataArg }),
     pagination: false,
     authorization: false,
   },

@@ -4,18 +4,18 @@ const { EngineError } = require('../../../error');
 
 // Transform `args.data`'s ids into a `args.filter` that can be used by
 // the first and the second "read" command
-const getFilter = function ({ argData }) {
-  const ids = getDataIds({ argData });
+const dataToFilter = function ({ dataArg }) {
+  const ids = getDataIds({ dataArg });
   const idsJsl = idsToJsl({ ids });
   return idsJsl;
 };
 
-const getDataIds = function ({ argData }) {
-  if (Array.isArray(argData)) {
-    return argData.map(datum => getDataId({ model: datum }));
+const getDataIds = function ({ dataArg }) {
+  if (Array.isArray(dataArg)) {
+    return dataArg.map(datum => getDataId({ model: datum }));
   }
 
-  return getDataId({ model: argData });
+  return getDataId({ model: dataArg });
 };
 
 const getDataId = function ({ model, model: { id } }) {
@@ -39,5 +39,5 @@ const idsToJsl = function ({ ids }) {
 };
 
 module.exports = {
-  getFilter,
+  dataToFilter,
 };
