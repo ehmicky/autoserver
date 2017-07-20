@@ -3,38 +3,38 @@
 const { reduceAsync, omitBy } = require('../../../utilities');
 const { COMMANDS } = require('../../../constants');
 
-const renameThis = async function ({ input, actions: allActions }) {
+const fireAction = async function ({ input, action }) {
   const nextFunc = this.next.bind(this);
-  const finalResponse = await reduceAsync(allActions, (
+  const finalResponse = await reduceAsync(action, (
     formerResponse,
-    actions,
-  ) => fireActions({
+    commands,
+  ) => fireCommands({
     nextFunc,
     input,
     formerResponse,
-    actions,
+    commands,
   }), {});
   return finalResponse;
 };
 
-// Each action can be an array of actions, in which case they will be run
+// Each command can be an array of commands, in which case they will be run
 // concurrently, using the same input|formerResponse.
 // The first of them will be used for final output
-const fireActions = async function ({
+const fireCommands = async function ({
   nextFunc,
   input,
   formerResponse,
-  actions,
+  commands,
 }) {
-  const actionsArray = Array.isArray(actions) ? actions : [actions];
-  const promises = actionsArray.map(action =>
-    fireAction({ nextFunc, input, formerResponse, action })
+  const commandsArray = Array.isArray(commands) ? commands : [commands];
+  const promises = commandsArray.map(command =>
+    fireCommand({ nextFunc, input, formerResponse, command })
   );
   const [firstResponse] = await Promise.all(promises);
   return firstResponse;
 };
 
-const fireAction = async function ({
+const fireCommand = async function ({
   nextFunc,
   input,
   input: {
@@ -43,12 +43,12 @@ const fireAction = async function ({
     },
   },
   formerResponse,
-  action: {
+  command: {
     input: getNewInput,
     test: testFunc,
   },
 }) {
-  // Each action must specify its input
+  // Each command must specify its input
   // `input` can be a function or the new input directly
   const inputInput = Object.assign({}, formerResponse, { input });
   const newInput = typeof getNewInput === 'function'
@@ -80,5 +80,5 @@ const fireAction = async function ({
 };
 
 module.exports = {
-  renameThis,
+  fireAction,
 };

@@ -1,27 +1,16 @@
 'use strict';
 
-const { renameThis } = require('./rename_this');
-
 /**
  * "delete" action uses a "delete" command
  **/
-const deleteAction = async function (input) {
-  const response = await renameThis.call(this, { input, actions });
-  return response;
-};
-
-const getInput = function ({ input: { action: { multiple: isMultiple } } }) {
-  return {
-    command: 'delete',
-    args: {
-      pagination: isMultiple,
-    },
-  };
-};
-
-const actions = [
+const deleteAction = [
   {
-    input: getInput,
+    input: ({ input: { action: { multiple: isMultiple } } }) => ({
+      command: 'delete',
+      args: {
+        pagination: isMultiple,
+      },
+    }),
   },
 ];
 
