@@ -1,69 +1,56 @@
 'use strict';
 
 const { omit } = require('../../../../utilities');
-const { COMMANDS } = require('../../../../constants');
 const { isJsl } = require('../../../../jsl');
 
 // Retrieves the input for the "update" command
 const getUpdateInput = function ({
-  input: { args, action, jsl },
-  data: models,
+  input: { args, args: { data: dataArg }, action, jsl },
+  data: currentData,
 }) {
-  const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) =>
-    type === 'update' && multiple === isMultiple
-  );
-  const newArgs = getUpdateArgs({ args, models, jsl });
-  Object.assign(newArgs, { pagination: isMultiple, currentData: models });
-  return { command, args: newArgs };
+  const pagination = action.multiple;
+  // `args.filter` is only used by first "read" command
+  const newArgs = omit(args, ['filter', 'data']);
+  // Keys in args.* using JSL
+  const jslKeys = Object.keys(dataArg)
+    .filter(key => isJsl({ jsl: dataArg[key] }));
+  const newData = getNewData({ dataArg, currentData, jsl, jslKeys });
+  Object.assign(newArgs, { pagination, currentData, newData });
+  return { command: 'update', args: newArgs };
 };
 
-const getUpdateArgs = function ({ args, models, jsl }) {
-  const { data } = args;
-  // `args.filter` is only used by first "read" command
-  const updateArgs = omit(args, ['filter', 'data']);
-
-  // Keys in args.* using JSL
-  const jslKeys = Object.keys(data)
-    .filter(key => isJsl({ jsl: data[key] }));
-
-  if (Array.isArray(models)) {
-    updateArgs.newData = models.map(model =>
-      getUpdateData({ model, data, jsl, jslKeys })
+const getNewData = function ({ dataArg, currentData, jsl, jslKeys }) {
+  if (Array.isArray(currentData)) {
+    return currentData.map(currentDatum =>
+      getNewDatum({ currentDatum, dataArg, jsl, jslKeys })
     );
-  } else {
-    updateArgs.newData = getUpdateData({ model: models, data, jsl, jslKeys });
   }
 
-  return updateArgs;
+  return getNewDatum({ currentDatum: currentData, dataArg, jsl, jslKeys });
 };
 
 // Merge current models with the data we want to update,
 // to obtain the final models we want to use as replacement
-const getUpdateData = function ({ model, data, jsl, jslKeys }) {
-  const transformedData = transformData({ model, data, jsl, jslKeys });
-
-  const updateData = Object.assign({}, model, transformedData);
-  return updateData;
+const getNewDatum = function ({ currentDatum, dataArg, jsl, jslKeys }) {
+  const newAttrs = getAttrsAfterJsl({ currentDatum, dataArg, jsl, jslKeys });
+  return Object.assign({}, currentDatum, dataArg, ...newAttrs);
 };
 
 // Apply args.data JSL
-const transformData = function ({ model, data, jsl, jslKeys }) {
-  const transformedData = jslKeys.map(attrName => {
-    const newData = getNewData({ data, model, attrName, jsl });
-    return { [attrName]: newData };
+const getAttrsAfterJsl = function ({ currentDatum, dataArg, jsl, jslKeys }) {
+  return jslKeys.map(attrName => {
+    const newAttr = getAttrAfterJsl({ currentDatum, dataArg, attrName, jsl });
+    return { [attrName]: newAttr };
   });
-
-  return Object.assign({}, data, ...transformedData);
 };
 
-const getNewData = function ({ data, model, attrName, jsl }) {
+const getAttrAfterJsl = function ({ currentDatum, dataArg, attrName, jsl }) {
   // If current attribute value is null|undefined, leave it as is
   // This simplifies JSL, as $ is guaranteed to be defined
-  if (model[attrName] == null) { return null; }
+  if (currentDatum[attrName] == null) { return null; }
 
-  const params = { $$: model, $: model[attrName] };
-  return jsl.run({ value: data[attrName], params, type: 'data' });
+  const params = { $$: currentDatum, $: currentDatum[attrName] };
+  return jsl.run({ value: dataArg[attrName], params, type: 'data' });
 };
 
 module.exports = {

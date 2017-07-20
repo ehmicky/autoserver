@@ -1,6 +1,5 @@
 'use strict';
 
-const { COMMANDS } = require('../../../constants');
 const { omit } = require('../../../utilities');
 
 const { renameThis } = require('./rename_this');
@@ -13,17 +12,12 @@ const createAction = async function (input) {
   return response;
 };
 
-const getInput = function ({ input: { action, args } }) {
-  const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) =>
-    type === 'create' && multiple === isMultiple
-  );
-
+const getInput = function ({ input: { args } }) {
   const newArgs = omit(args, ['data']);
   const newData = args.data;
 
   Object.assign(newArgs, { pagination: false, newData });
-  return { command, args: newArgs };
+  return { command: 'create', args: newArgs };
 };
 
 const actions = [

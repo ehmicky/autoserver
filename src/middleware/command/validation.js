@@ -75,6 +75,8 @@ const validateCurrentData = function ({ newData, currentData }) {
 };
 
 const validateCurrentDatum = function ({ newData, currentData }) {
+  if (!currentData) { return; }
+
   const differentId = newData.id !== currentData.id;
 
   if (differentId) {

@@ -1,19 +1,13 @@
 'use strict';
 
-const { COMMANDS } = require('../../../../constants');
 // eslint-disable-next-line import/no-internal-modules
 const { getFilter } = require('../upsert/filter');
 
 // Retrieves the input for the "read" command
-const getReadInput = function ({ input, input: { action } }) {
-  const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) =>
-    type === 'read' && multiple === isMultiple
-  );
-
+const getReadInput = function ({ input }) {
   const filter = getFilter({ input });
   const newArgs = { filter, pagination: false };
-  return { command, args: newArgs };
+  return { command: 'read', args: newArgs };
 };
 
 module.exports = {
