@@ -44,7 +44,7 @@ const handleTransforms = async function (input) {
   const response = await this.next(input);
 
   const transforms = computesMap[modelName];
-  response.newData = applyTransformsOnData({
+  response.data = applyTransformsOnData({
     data: response.data,
     transforms,
     jsl,

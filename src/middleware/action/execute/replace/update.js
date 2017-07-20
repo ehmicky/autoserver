@@ -1,21 +1,24 @@
 'use strict';
 
-const { COMMANDS } = require('../../../../constants');
 const { omit } = require('../../../../utilities');
 
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input: { action, args }, data: models }) {
-  const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) =>
-    type === 'update' && multiple === isMultiple
-  );
-  const currentData = isMultiple ? models : models[0];
-
+const getUpdateInput = function ({ input: { args }, data: models }) {
   const newArgs = omit(args, ['data']);
+  const currentData = getCurrentData({ dataArg: args.data, models });
   const newData = args.data;
 
   Object.assign(newArgs, { pagination: false, currentData, newData });
-  return { command, args: newArgs };
+  return { command: 'update', args: newArgs };
+};
+
+const getCurrentData = function ({ dataArg, models }) {
+  if (!Array.isArray(models)) { return models; }
+
+  return dataArg.map(newDatum => {
+    const currentDatum = models.find(model => model.id === newDatum.id);
+    return currentDatum || null;
+  });
 };
 
 module.exports = {

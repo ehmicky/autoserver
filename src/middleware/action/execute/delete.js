@@ -1,7 +1,5 @@
 'use strict';
 
-const { COMMANDS } = require('../../../constants');
-
 const { renameThis } = require('./rename_this');
 
 /**
@@ -13,13 +11,9 @@ const deleteAction = async function (input) {
 };
 
 const getInput = function ({ input: { args, action } }) {
-  const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) =>
-    type === 'delete' && multiple === isMultiple
-  );
-
-  const newArgs = Object.assign({}, args, { pagination: isMultiple });
-  return { command, args: newArgs };
+  const pagination = action.multiple;
+  const newArgs = Object.assign({}, args, { pagination });
+  return { command: 'delete', args: newArgs };
 };
 
 const actions = [

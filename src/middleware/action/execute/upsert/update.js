@@ -1,25 +1,27 @@
 'use strict';
 
-const { COMMANDS } = require('../../../../constants');
-
 const { getUpdateModels } = require('./split');
 
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input, input: { args, action }, data }) {
-  const isMultiple = action.multiple;
-  const command = COMMANDS.find(({ type, multiple }) =>
-    type === 'update' && multiple === isMultiple
-  );
-
+const getUpdateInput = function ({ input, input: { args }, data: models }) {
   const newArgs = Object.assign({}, args);
-  const currentData = isMultiple ? data : data[0];
-  const updateModels = getUpdateModels({ input, data });
+  const updateModels = getUpdateModels({ input, data: models });
+  const currentData = getCurrentData({ dataArg: updateModels, models });
   Object.assign(newArgs, {
     pagination: false,
     currentData,
     newData: updateModels,
   });
-  return { command, args: newArgs };
+  return { command: 'update', args: newArgs };
+};
+
+const getCurrentData = function ({ dataArg, models }) {
+  if (!Array.isArray(models)) { return models; }
+
+  return dataArg.map(newDatum => {
+    const currentDatum = models.find(model => model.id === newDatum.id);
+    return currentDatum || null;
+  });
 };
 
 module.exports = {
