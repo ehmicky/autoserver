@@ -1,7 +1,7 @@
 'use strict';
 
 const deleteCommand = ({ action: { multiple: isMultiple } }) => ({
-  command: 'delete',
+  commandType: 'delete',
   args: {
     pagination: isMultiple,
   },

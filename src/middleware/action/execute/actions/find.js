@@ -1,7 +1,7 @@
 'use strict';
 
 const readCommand = ({ action: { multiple: isMultiple } }) => ({
-  command: 'read',
+  commandType: 'read',
   args: {
     pagination: isMultiple,
   },

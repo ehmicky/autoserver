@@ -227,15 +227,36 @@ const updateMany = function ({ collection, newData, opts }) {
   return { data: newModels };
 };
 
+const upsert = function ({ collection, newData, opts }) {
+  const findIndexOpts = Object.assign({}, opts, { mustExist: null });
+  const index = findIndex({ collection, id: newData.id, opts: findIndexOpts });
+  const databaseFunc = index === undefined ? create : update;
+  return databaseFunc({ collection, newData, opts });
+};
+
+const upsertOne = function ({ collection, newData, opts }) {
+  const newModel = upsert({ collection, newData, opts });
+  return { data: newModel };
+};
+
+const upsertMany = function ({ collection, newData, opts }) {
+  const newModels = newData.map(datum =>
+    upsert({ collection, newData: datum, opts })
+  );
+  return { data: newModels };
+};
+
 const commandHandlers = {
   readOne,
   readMany,
   deleteOne,
   deleteMany,
-  updateOne,
-  updateMany,
   createOne,
   createMany,
+  updateOne,
+  updateMany,
+  upsertOne,
+  upsertMany,
 };
 
 const fireCommand = function (commandInput) {

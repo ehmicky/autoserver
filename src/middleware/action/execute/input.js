@@ -31,8 +31,13 @@ const getArgs = function ({ input, newInput }) {
     {},
     input.args,
     newInput.args,
-    // `args.data` should be transformed into `newData` and/or `currentData`
-    { data: undefined },
+    {
+      // `args.data` should be transformed into `newData` and/or `currentData`
+      data: undefined,
+      // Those are only used temporarily
+      commandType: undefined,
+      commandMultiple: undefined,
+    },
   );
   // Specifying `undefined` allows removing specific arguments
   const newArgs = omitBy(newInputArgs, argValue => argValue === undefined);
@@ -43,11 +48,10 @@ const getArgs = function ({ input, newInput }) {
 // The full command is retrieved by using `action.multiple`
 const getCommand = function ({
   input: { action: { multiple: isMultiple } },
-  newInput,
+  newInput: { commandType = 'read', commandMultiple = isMultiple },
 }) {
-  const { command: commandType = 'read' } = newInput;
   const command = COMMANDS.find(({ type, multiple }) =>
-    type === commandType && multiple === isMultiple
+    type === commandType && multiple === commandMultiple
   );
   return command;
 };

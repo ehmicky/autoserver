@@ -1,7 +1,7 @@
 'use strict';
 
 const createCommand = ({ args: { data: dataArg } }) => ({
-  command: 'create',
+  commandType: 'create',
   args: {
     pagination: false,
     newData: dataArg,

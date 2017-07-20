@@ -16,7 +16,13 @@ const defaults = {
   },
 
   nOrderBy: {
-    commands: ['readMany', 'deleteMany', 'updateMany', 'createMany'],
+    commands: [
+      'readMany',
+      'deleteMany',
+      'updateMany',
+      'upsertMany',
+      'createMany',
+    ],
     value: [{ attrName: 'id', order: 'asc' }],
     // Only if args.before|after is not specified
     test: ({ input: { args } }) =>
