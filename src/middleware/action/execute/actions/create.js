@@ -3,7 +3,6 @@
 const createCommand = ({ args: { data: dataArg } }) => ({
   commandType: 'create',
   args: {
-    pagination: false,
     newData: dataArg,
   },
 });

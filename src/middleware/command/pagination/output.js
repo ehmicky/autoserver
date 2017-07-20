@@ -8,8 +8,11 @@ const { decode, encode } = require('./encoding');
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
-const getPaginationOutput = function ({ args, response }) {
-  const { nOrderBy, nFilter, page } = args;
+const getPaginationOutput = function ({
+  args,
+  args: { nOrderBy, nFilter, page },
+  response,
+}) {
   const {
     hasToken,
     token,

@@ -7,7 +7,6 @@ const readCommand = ({ args: { data: dataArg } }) => ({
   commandType: 'read',
   args: {
     filter: dataToFilter({ dataArg }),
-    pagination: false,
   },
 });
 
@@ -17,7 +16,6 @@ const updateCommand = function ({ args: { data: dataArg } }, { data: models }) {
   return {
     commandType: 'update',
     args: {
-      pagination: false,
       currentData,
       newData: dataArg,
     },

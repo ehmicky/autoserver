@@ -1,11 +1,8 @@
 'use strict';
 
-const readCommand = ({ action: { multiple: isMultiple } }) => ({
+const readCommand = {
   commandType: 'read',
-  args: {
-    pagination: isMultiple,
-  },
-});
+};
 
 /**
  * 'find' action uses a single 'read' command

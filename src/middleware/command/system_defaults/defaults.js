@@ -35,21 +35,15 @@ const defaults = {
     // Only if pagination is enabled
     test: ({
       serverOpts: { defaultPageSize },
-      input: { args: { pagination } },
-    }) => defaultPageSize !== 0 && pagination,
+    }) => defaultPageSize !== 0,
   },
 
   after: {
     commands: ['readMany'],
     value: '',
-    // Only if pagination is enabled, and args.before|page is not specified
-    test: ({
-      serverOpts: { defaultPageSize },
-      input: { args },
-    }) => defaultPageSize !== 0 &&
-      args.pagination &&
-      args.before === undefined &&
-      args.page === undefined,
+    // Only if args.before|page is not specified
+    test: ({ input: { args } }) =>
+      args.before === undefined && args.page === undefined,
   },
 
   internal: {
