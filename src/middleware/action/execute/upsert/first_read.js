@@ -10,9 +10,14 @@ const getFirstReadInput = function ({ input }) {
   // The first and second "find" commands are just here to patch things up,
   // and do not provide extra information to consumers, so should be
   // transparent when it comes to pagination and authorization
-  const filter = getFilter({ input });
-  const newArgs = { filter, pagination: false, authorization: false };
-  return { command: 'read', args: newArgs };
+  return {
+    command: 'read',
+    args: {
+      filter: getFilter({ input }),
+      pagination: false,
+      authorization: false,
+    },
+  };
 };
 
 module.exports = {

@@ -1,25 +1,33 @@
 'use strict';
 
-const { omit } = require('../../../../utilities');
 const { isJsl } = require('../../../../jsl');
 
 // Retrieves the input for the "update" command
 const getUpdateInput = function ({
-  input: { args, args: { data: dataArg }, action, jsl },
+  input: {
+    args: { data: dataArg },
+    action: { multiple: isMultiple },
+    jsl,
+  },
   data: currentData,
 }) {
-  const pagination = action.multiple;
-  // `args.filter` is only used by first "read" command
-  const newArgs = omit(args, ['filter', 'data']);
+  return {
+    command: 'update',
+    args: {
+      pagination: isMultiple,
+      currentData,
+      newData: getNewData({ dataArg, currentData, jsl }),
+      // `args.filter` is only used by first "read" command
+      filter: undefined,
+    },
+  };
+};
+
+const getNewData = function ({ dataArg, currentData, jsl }) {
   // Keys in args.* using JSL
   const jslKeys = Object.keys(dataArg)
     .filter(key => isJsl({ jsl: dataArg[key] }));
-  const newData = getNewData({ dataArg, currentData, jsl, jslKeys });
-  Object.assign(newArgs, { pagination, currentData, newData });
-  return { command: 'update', args: newArgs };
-};
 
-const getNewData = function ({ dataArg, currentData, jsl, jslKeys }) {
   if (Array.isArray(currentData)) {
     return currentData.map(currentDatum =>
       getNewDatum({ currentDatum, dataArg, jsl, jslKeys })

@@ -1,7 +1,5 @@
 'use strict';
 
-const { omit } = require('../../../utilities');
-
 const { renameThis } = require('./rename_this');
 
 /**
@@ -12,12 +10,14 @@ const createAction = async function (input) {
   return response;
 };
 
-const getInput = function ({ input: { args } }) {
-  const newArgs = omit(args, ['data']);
-  const newData = args.data;
-
-  Object.assign(newArgs, { pagination: false, newData });
-  return { command: 'create', args: newArgs };
+const getInput = function ({ input: { args: { data: argData } } }) {
+  return {
+    command: 'create',
+    args: {
+      pagination: false,
+      newData: argData,
+    },
+  };
 };
 
 const actions = [

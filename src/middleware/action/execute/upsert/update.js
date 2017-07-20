@@ -3,16 +3,16 @@
 const { getUpdateModels } = require('./split');
 
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input, input: { args }, data: models }) {
-  const newArgs = Object.assign({}, args);
+const getUpdateInput = function ({ input, data: models }) {
   const updateModels = getUpdateModels({ input, data: models });
-  const currentData = getCurrentData({ dataArg: updateModels, models });
-  Object.assign(newArgs, {
-    pagination: false,
-    currentData,
-    newData: updateModels,
-  });
-  return { command: 'update', args: newArgs };
+  return {
+    command: 'update',
+    args: {
+      pagination: false,
+      currentData: getCurrentData({ dataArg: updateModels, models }),
+      newData: updateModels,
+    },
+  };
 };
 
 const getCurrentData = function ({ dataArg, models }) {

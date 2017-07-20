@@ -5,9 +5,13 @@ const { getFilter } = require('../upsert/filter');
 
 // Retrieves the input for the "read" command
 const getReadInput = function ({ input }) {
-  const filter = getFilter({ input });
-  const newArgs = { filter, pagination: false };
-  return { command: 'read', args: newArgs };
+  return {
+    command: 'read',
+    args: {
+      filter: getFilter({ input }),
+      pagination: false,
+    },
+  };
 };
 
 module.exports = {

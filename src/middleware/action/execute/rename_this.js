@@ -1,6 +1,6 @@
 'use strict';
 
-const { reduceAsync } = require('../../../utilities');
+const { reduceAsync, omitBy } = require('../../../utilities');
 const { COMMANDS } = require('../../../constants');
 
 const renameThis = async function ({ input, actions: allActions }) {
@@ -54,6 +54,13 @@ const fireAction = async function ({
   const newInput = typeof getNewInput === 'function'
     ? getNewInput(inputInput)
     : getNewInput;
+  const newInputArgs = Object.assign(
+    {},
+    input.args,
+    newInput.args,
+    { data: undefined },
+  );
+  const newArgs = omitBy(newInputArgs, argValue => argValue === undefined);
   const { command: commandType = 'read' } = newInput;
   const command = COMMANDS.find(({ type, multiple }) =>
     type === commandType && multiple === isMultiple
@@ -62,7 +69,7 @@ const fireAction = async function ({
     {},
     input,
     newInput,
-    { command },
+    { args: newArgs, command },
   );
 
   const testInput = Object.assign({}, formerResponse, { input: nextInput });

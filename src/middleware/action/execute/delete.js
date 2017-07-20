@@ -10,10 +10,13 @@ const deleteAction = async function (input) {
   return response;
 };
 
-const getInput = function ({ input: { args, action } }) {
-  const pagination = action.multiple;
-  const newArgs = Object.assign({}, args, { pagination });
-  return { command: 'delete', args: newArgs };
+const getInput = function ({ input: { action: { multiple: isMultiple } } }) {
+  return {
+    command: 'delete',
+    args: {
+      pagination: isMultiple,
+    },
+  };
 };
 
 const actions = [
