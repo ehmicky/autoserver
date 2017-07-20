@@ -1,6 +1,6 @@
 'use strict';
 
-const { isJsl } = require('../../../jsl');
+const { isJsl } = require('../../../../jsl');
 
 const readCommand = {
   command: 'read',
@@ -83,5 +83,5 @@ const updateAction = [
 ];
 
 module.exports = {
-  updateAction,
+  update: updateAction,
 };

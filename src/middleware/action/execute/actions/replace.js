@@ -1,6 +1,6 @@
 'use strict';
 
-const { getFilter } = require('./filter');
+const { getFilter } = require('../filter');
 
 const readCommand = ({ args: { data: argData } }) => ({
   command: 'read',
@@ -42,5 +42,5 @@ const replaceAction = [
 ];
 
 module.exports = {
-  replaceAction,
+  replace: replaceAction,
 };
