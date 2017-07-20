@@ -3,6 +3,7 @@
 const { reduceAsync, omitBy } = require('../../../utilities');
 const { COMMANDS } = require('../../../constants');
 
+// Fire all commands defined by a specific action
 const fireAction = async function ({ input, action }) {
   const nextFunc = this.next.bind(this);
   const finalResponse = await reduceAsync(action, (
@@ -34,26 +35,50 @@ const fireCommands = async function ({
   return firstResponse;
 };
 
+// Fire a single command
 const fireCommand = async function ({
   nextFunc,
   input,
-  input: {
-    action: {
-      multiple: isMultiple,
-    },
-  },
   formerResponse,
   command: {
-    input: getNewInput,
+    input: getInputFunc,
     test: testFunc,
   },
 }) {
-  // Each command must specify its input
-  // `input` can be a function or the new input directly
+  const nextInput = getNextInput({ input, formerResponse, getInputFunc });
+
+  const shouldFireCommand = testFireCommand({
+    input: nextInput,
+    formerResponse,
+    testFunc,
+  });
+  if (!shouldFireCommand) { return formerResponse; }
+
+  const response = await nextFunc(nextInput);
+  return response;
+};
+
+const getNextInput = function ({ input, formerResponse, getInputFunc }) {
+  const newInput = getNewInput({ input, formerResponse, getInputFunc });
+  const args = getArgs({ input, newInput });
+  const command = getCommand({ input, newInput });
+  const nextInput = Object.assign({}, input, newInput, { args, command });
+  return nextInput;
+};
+
+// Each command must specify its input
+// `input` can be a function or the new input directly
+// The response from the previous command is passed to `input` function,
+// together with the general input
+const getNewInput = function ({ input, formerResponse, getInputFunc }) {
   const inputInput = Object.assign({}, formerResponse, { input });
-  const newInput = typeof getNewInput === 'function'
-    ? getNewInput(inputInput)
-    : getNewInput;
+  const newInput = typeof getInputFunc === 'function'
+    ? getInputFunc(inputInput)
+    : getInputFunc;
+  return newInput;
+};
+
+const getArgs = function ({ input, newInput }) {
   const newInputArgs = Object.assign(
     {},
     input.args,
@@ -61,22 +86,23 @@ const fireCommand = async function ({
     { data: undefined },
   );
   const newArgs = omitBy(newInputArgs, argValue => argValue === undefined);
+  return newArgs;
+};
+
+const getCommand = function ({
+  input: { action: { multiple: isMultiple } },
+  newInput,
+}) {
   const { command: commandType = 'read' } = newInput;
   const command = COMMANDS.find(({ type, multiple }) =>
     type === commandType && multiple === isMultiple
   );
-  const nextInput = Object.assign(
-    {},
-    input,
-    newInput,
-    { args: newArgs, command },
-  );
+  return command;
+};
 
-  const testInput = Object.assign({}, formerResponse, { input: nextInput });
-  if (testFunc && !testFunc(testInput)) { return formerResponse; }
-
-  const response = await nextFunc(nextInput);
-  return response;
+const testFireCommand = function ({ input, formerResponse, testFunc }) {
+  const testInput = Object.assign({}, formerResponse, { input });
+  return !testFunc || testFunc(testInput);
 };
 
 module.exports = {
