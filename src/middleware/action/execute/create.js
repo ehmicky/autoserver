@@ -28,7 +28,7 @@ const getInput = function ({ input: { action, args } }) {
 
 const actions = [
   {
-    getArgs: getInput,
+    input: getInput,
   },
 ];
 
