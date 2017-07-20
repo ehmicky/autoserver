@@ -33,15 +33,15 @@ const validateCommand = function ({ command }) {
 };
 
 const validateArgs = function ({
-  args: { pagination, authorization, newData, currentData },
+  args: { pagination, internal, newData, currentData },
 }) {
   if (pagination === undefined) {
     const message = '\'args.pagination\' must be defined';
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 
-  if (authorization !== undefined && typeof authorization !== 'boolean') {
-    const message = '\'args.authorization\' must be a boolean';
+  if (internal !== undefined && typeof internal !== 'boolean') {
+    const message = '\'args.internal\' must be a boolean';
     throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 

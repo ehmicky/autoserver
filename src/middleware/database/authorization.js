@@ -18,9 +18,10 @@ const authorization = async function (input) {
 const validateCommands = function ({
   model: { commands },
   command,
-  args: { authorization: shouldAuthorize },
+  args: { internal },
 }) {
-  if (!shouldAuthorize) { return; }
+  // Intermediary commands are not checked for authorization
+  if (internal) { return; }
 
   const mappedCommands = authorizationMap[command.name] || [command];
 
@@ -34,13 +35,23 @@ const validateCommands = function ({
   }
 };
 
-// `upsert` becomes `update` + `create` for authorization purpose
-const { updateOne, createOne, updateMany, createMany } = COMMANDS
+const {
+  readOne,
+  readMany,
+  updateOne,
+  createOne,
+  updateMany,
+  createMany,
+} = COMMANDS
   .map(command => ({ [command.name]: command }))
   .reduce(assignObject, {});
 const authorizationMap = {
+  // `upsert` action requires both `update` + `create` commands
   upsertOne: [updateOne, createOne],
   upsertMany: [updateMany, createMany],
+  // `update` action requires both `update` + `read` commands
+  updateOne: [updateOne, readOne],
+  updateMany: [updateMany, readMany],
 };
 
 module.exports = {

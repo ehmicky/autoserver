@@ -8,8 +8,16 @@ const { getNextInput } = require('./input');
 const fireAction = async function ({ input, action, nextFunc }) {
   const finalResponse = await reduceAsync(
     action,
-    (formerResponse, commands) =>
-      fireCommands({ nextFunc, input, formerResponse, commands }),
+    (formerResponse, commands, index) => {
+      const isLastCommand = index === action.length - 1;
+      return fireCommands({
+        nextFunc,
+        input,
+        formerResponse,
+        commands,
+        isLastCommand,
+      });
+    },
     {},
   );
   return finalResponse;
@@ -23,10 +31,11 @@ const fireCommands = async function ({
   input,
   formerResponse,
   commands,
+  isLastCommand,
 }) {
   const commandsArray = Array.isArray(commands) ? commands : [commands];
   const promises = commandsArray.map(commandDef =>
-    fireCommand({ nextFunc, input, formerResponse, commandDef })
+    fireCommand({ nextFunc, input, formerResponse, commandDef, isLastCommand })
   );
   const [firstResponse] = await Promise.all(promises);
   return firstResponse;
@@ -39,8 +48,14 @@ const fireCommand = async function ({
   formerResponse,
   commandDef,
   commandDef: { test: testFunc },
+  isLastCommand,
 }) {
-  const nextInput = getNextInput({ input, formerResponse, commandDef });
+  const nextInput = getNextInput({
+    input,
+    formerResponse,
+    commandDef,
+    isLastCommand,
+  });
 
   // Can add a test function to fire commands conditionally
   const shouldFireCommand = !testFunc || testFunc(input, formerResponse);

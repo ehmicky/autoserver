@@ -7,9 +7,14 @@ const { COMMANDS } = require('../../../constants');
 // `input` can be a function or the new input directly
 // The response from the previous command is passed to `input` function,
 // together with the general input
-const getNextInput = function ({ input, formerResponse, commandDef }) {
+const getNextInput = function ({
+  input,
+  formerResponse,
+  commandDef,
+  isLastCommand,
+}) {
   const newInput = getNewInput({ input, formerResponse, commandDef });
-  const args = getArgs({ input, newInput });
+  const args = getArgs({ input, newInput, isLastCommand });
   const command = getCommand({ input, newInput });
 
   const nextInput = Object.assign({}, input, newInput, { args, command });
@@ -26,12 +31,15 @@ const getNewInput = function ({
     : getInputFunc;
 };
 
-const getArgs = function ({ input, newInput }) {
+const getArgs = function ({ input, newInput, isLastCommand }) {
   const newInputArgs = Object.assign(
     {},
     input.args,
     newInput.args,
     {
+      // All commands but last are considered 'internal'
+      // E.g. authorization is not checked
+      internal: !isLastCommand,
       // `args.data` should be transformed into `newData` and/or `currentData`
       data: undefined,
       // Those are only used temporarily
