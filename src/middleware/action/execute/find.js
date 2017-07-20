@@ -10,12 +10,12 @@ const findAction = async function (input) {
   return response;
 };
 
-const getInput = function ({ input: { args, action } }) {
-  const pagination = action.multiple;
-  const newArgs = Object.assign({}, args, { pagination });
+const getInput = function ({ input: { action: { multiple: isMultiple } } }) {
   return {
     command: 'read',
-    args: newArgs,
+    args: {
+      pagination: isMultiple,
+    },
   };
 };
 

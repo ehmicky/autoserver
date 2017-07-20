@@ -1,15 +1,18 @@
 'use strict';
 
-const { omit } = require('../../../../utilities');
-
 // Retrieves the input for the "update" command
-const getUpdateInput = function ({ input: { args }, data: models }) {
-  const newArgs = omit(args, ['data']);
-  const currentData = getCurrentData({ dataArg: args.data, models });
-  const newData = args.data;
-
-  Object.assign(newArgs, { pagination: false, currentData, newData });
-  return { command: 'update', args: newArgs };
+const getUpdateInput = function ({
+  input: { args: { data: dataArg } },
+  data: models,
+}) {
+  return {
+    command: 'update',
+    args: {
+      pagination: false,
+      currentData: getCurrentData({ dataArg, models }),
+      newData: dataArg,
+    },
+  };
 };
 
 const getCurrentData = function ({ dataArg, models }) {
