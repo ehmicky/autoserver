@@ -11,7 +11,6 @@ const readCommand = ({ args: { data: dataArg } }) => ({
 
   args: {
     filter: dataToFilter({ dataArg }),
-    pagination: false,
   },
 });
 
@@ -26,7 +25,6 @@ const upsertCommand = function (
   return {
     commandType: 'upsert',
     args: {
-      pagination: false,
       currentData,
       newData: dataArg,
     },

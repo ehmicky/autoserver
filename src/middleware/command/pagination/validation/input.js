@@ -29,7 +29,7 @@ const getSchema = function ({ args, command, maxPageSize }) {
     return getFullSchema({ maxPageSize });
   }
 
-  if (mustPaginateOutput({ args })) {
+  if (mustPaginateOutput({ args, command })) {
     return getLimitedSchema({ maxPageSize });
   }
 
@@ -110,8 +110,6 @@ const getLimitedSchema = function ({ maxPageSize }) {
 
     not: {
       anyOf: [
-        { required: ['before'] },
-        { required: ['after'] },
         { required: ['page'] },
       ],
     },
@@ -122,10 +120,7 @@ const getLimitedSchema = function ({ maxPageSize }) {
 const restrictedSchema = {
   not: {
     anyOf: [
-      { required: ['before'] },
-      { required: ['after'] },
       { required: ['page'] },
-      { required: ['pageSize'] },
     ],
   },
 };

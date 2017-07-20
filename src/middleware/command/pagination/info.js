@@ -1,9 +1,7 @@
 'use strict';
 
 // Extra pagination-related information from arguments
-const getPaginationInfo = function ({ args }) {
-  const { pageSize, page } = args;
-
+const getPaginationInfo = function ({ args, args: { pageSize, page } }) {
   const token = args.after || args.before;
   // Used for cursor pagination. If token is '' (i.e. start|end),
   // does not actually really cursors.

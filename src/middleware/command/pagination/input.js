@@ -6,8 +6,7 @@ const { getPaginationInfo } = require('./info');
 const { decode } = require('./encoding');
 
 // Transform args.pageSize|before|after|page into args.limit|offset|nFilter
-const getPaginationInput = function ({ args }) {
-  const { page, pageSize } = args;
+const getPaginationInput = function ({ args, args: { page, pageSize } }) {
   const {
     token,
     hasToken,

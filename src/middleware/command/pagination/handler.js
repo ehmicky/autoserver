@@ -87,9 +87,11 @@ const pagination = async function (input) {
 };
 
 // Transform args.pageSize|before|after|page into args.limit|offset|nFilter
-const processInput = function ({ input, maxPageSize }) {
-  const { args, command, action, modelName } = input;
-
+const processInput = function ({
+  input,
+  input: { args, command, action, modelName },
+  maxPageSize,
+}) {
   validatePaginationInput({
     args,
     action,
@@ -98,7 +100,7 @@ const processInput = function ({ input, maxPageSize }) {
     maxPageSize,
   });
 
-  if (mustPaginateOutput({ args })) {
+  if (mustPaginateOutput({ args, command })) {
     const paginationInput = getPaginationInput({ args });
     Object.assign(args, paginationInput);
   }
@@ -109,27 +111,25 @@ const processInput = function ({ input, maxPageSize }) {
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
 const processOutput = function ({
-  input,
+  input: { command, action, modelName },
   response,
   args,
   maxPageSize,
 }) {
-  const { action, modelName } = input;
+  if (!mustPaginateOutput({ args, command })) { return response; }
 
   reverseOutput({ args, response });
 
-  if (mustPaginateOutput({ args })) {
-    const paginationOutput = getPaginationOutput({ args, response });
-    Object.assign(response, paginationOutput);
+  const paginationOutput = getPaginationOutput({ args, response });
+  Object.assign(response, paginationOutput);
 
-    validatePaginationOutput({
-      args,
-      action,
-      modelName,
-      maxPageSize,
-      response,
-    });
-  }
+  validatePaginationOutput({
+    args,
+    action,
+    modelName,
+    maxPageSize,
+    response,
+  });
 
   return response;
 };
