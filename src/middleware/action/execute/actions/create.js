@@ -16,5 +16,5 @@ const createAction = [
 ];
 
 module.exports = {
-  createAction,
+  create: createAction,
 };

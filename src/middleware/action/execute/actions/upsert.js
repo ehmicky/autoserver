@@ -1,6 +1,6 @@
 'use strict';
 
-const { getFilter } = require('./filter');
+const { getFilter } = require('../filter');
 
 // Goal is to check whether models exist, so we know if "upsert" action
 // will create or update models.
@@ -131,5 +131,5 @@ const upsertAction = [
 ];
 
 module.exports = {
-  upsertAction,
+  upsert: upsertAction,
 };

@@ -15,5 +15,5 @@ const findAction = [
 ];
 
 module.exports = {
-  findAction,
+  find: findAction,
 };

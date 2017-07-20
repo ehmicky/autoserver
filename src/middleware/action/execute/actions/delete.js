@@ -15,5 +15,5 @@ const deleteAction = [
 ];
 
 module.exports = {
-  deleteAction,
+  delete: deleteAction,
 };
