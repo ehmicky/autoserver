@@ -5,17 +5,13 @@ const { reduceAsync } = require('../../../utilities');
 const { getNextInput } = require('./input');
 
 // Fire all commands defined by a specific action
-const fireAction = async function ({ input, action }) {
-  const nextFunc = this.next.bind(this);
-  const finalResponse = await reduceAsync(action, (
-    formerResponse,
-    commands,
-  ) => fireCommands({
-    nextFunc,
-    input,
-    formerResponse,
-    commands,
-  }), {});
+const fireAction = async function ({ input, action, nextFunc }) {
+  const finalResponse = await reduceAsync(
+    action,
+    (formerResponse, commands) =>
+      fireCommands({ nextFunc, input, formerResponse, commands }),
+    {},
+  );
   return finalResponse;
 };
 
@@ -29,8 +25,8 @@ const fireCommands = async function ({
   commands,
 }) {
   const commandsArray = Array.isArray(commands) ? commands : [commands];
-  const promises = commandsArray.map(command =>
-    fireCommand({ nextFunc, input, formerResponse, command })
+  const promises = commandsArray.map(commandDef =>
+    fireCommand({ nextFunc, input, formerResponse, commandDef })
   );
   const [firstResponse] = await Promise.all(promises);
   return firstResponse;
@@ -41,15 +37,13 @@ const fireCommand = async function ({
   nextFunc,
   input,
   formerResponse,
-  command: {
-    input: getInputFunc,
-    test: testFunc,
-  },
+  commandDef,
+  commandDef: { test: testFunc },
 }) {
-  const nextInput = getNextInput({ input, formerResponse, getInputFunc });
+  const nextInput = getNextInput({ input, formerResponse, commandDef });
 
-  const testInput = Object.assign({}, formerResponse, { input });
-  const shouldFireCommand = !testFunc || testFunc(testInput);
+  // Can add a test function to fire commands conditionally
+  const shouldFireCommand = !testFunc || testFunc(input, formerResponse);
   if (!shouldFireCommand) { return formerResponse; }
 
   const response = await nextFunc(nextInput);

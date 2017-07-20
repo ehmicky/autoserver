@@ -7,15 +7,23 @@ const { COMMANDS } = require('../../../constants');
 // `input` can be a function or the new input directly
 // The response from the previous command is passed to `input` function,
 // together with the general input
-const getNextInput = function ({ input, formerResponse, getInputFunc }) {
-  const newInput = typeof getInputFunc === 'function'
-    ? getInputFunc(input, formerResponse)
-    : getInputFunc;
+const getNextInput = function ({ input, formerResponse, commandDef }) {
+  const newInput = getNewInput({ input, formerResponse, commandDef });
   const args = getArgs({ input, newInput });
   const command = getCommand({ input, newInput });
 
   const nextInput = Object.assign({}, input, newInput, { args, command });
   return nextInput;
+};
+
+const getNewInput = function ({
+  input,
+  formerResponse,
+  commandDef: { input: getInputFunc },
+}) {
+  return typeof getInputFunc === 'function'
+    ? getInputFunc(input, formerResponse)
+    : getInputFunc;
 };
 
 const getArgs = function ({ input, newInput }) {

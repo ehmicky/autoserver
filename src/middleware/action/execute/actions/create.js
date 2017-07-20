@@ -1,10 +1,10 @@
 'use strict';
 
-const createCommand = ({ args: { data: argData } }) => ({
+const createCommand = ({ args: { data: dataArg } }) => ({
   command: 'create',
   args: {
     pagination: false,
-    newData: argData,
+    newData: dataArg,
   },
 });
 

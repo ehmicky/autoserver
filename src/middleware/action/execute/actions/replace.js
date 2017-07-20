@@ -1,23 +1,27 @@
 'use strict';
 
-const { getFilter } = require('../filter');
+const { dataToFilter } = require('../data_to_filter');
 
-const readCommand = ({ args: { data: argData } }) => ({
+const readCommand = ({ args: { data: dataArg } }) => ({
   command: 'read',
   args: {
-    filter: getFilter({ argData }),
+    filter: dataToFilter({ dataArg }),
     pagination: false,
   },
 });
 
-const updateCommand = ({ args: { data: dataArg } }, { data: models }) => ({
-  command: 'update',
-  args: {
-    pagination: false,
-    currentData: getCurrentData({ dataArg, models }),
-    newData: dataArg,
-  },
-});
+const updateCommand = function ({ args: { data: dataArg } }, { data: models }) {
+  const currentData = getCurrentData({ dataArg, models });
+
+  return {
+    command: 'update',
+    args: {
+      pagination: false,
+      currentData,
+      newData: dataArg,
+    },
+  };
+};
 
 const getCurrentData = function ({ dataArg, models }) {
   if (!Array.isArray(models)) { return models; }
