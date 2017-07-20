@@ -28,10 +28,10 @@ const updateAction = async function (input) {
 
 const actions = [
   {
-    getArgs: getReadInput,
+    input: getReadInput,
   },
   {
-    getArgs: getUpdateInput,
+    input: getUpdateInput,
   },
 ];
 

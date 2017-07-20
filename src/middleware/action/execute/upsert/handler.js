@@ -60,19 +60,20 @@ const isDefined = function ({ models }) {
 
 const actions = [
   {
-    getArgs: getFirstReadInput,
+    input: getFirstReadInput,
   },
+  [
+    {
+      input: getCreateInput,
+      test: shouldCreate,
+    },
+    {
+      input: getUpdateInput,
+      test: shouldUpdate,
+    },
+  ],
   {
-    getArgs: getCreateInput,
-    test: shouldCreate,
-    skipResponse: true,
-  },
-  {
-    getArgs: getUpdateInput,
-    test: shouldUpdate,
-  },
-  {
-    getArgs: getSecondReadInput,
+    input: getSecondReadInput,
   },
 ];
 
