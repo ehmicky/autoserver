@@ -1,17 +1,17 @@
 'use strict';
 
+const deleteCommand = ({ input: { action: { multiple: isMultiple } } }) => ({
+  command: 'delete',
+  args: {
+    pagination: isMultiple,
+  },
+});
+
 /**
- * "delete" action uses a "delete" command
+ * 'delete' action uses a single 'delete' command
  **/
 const deleteAction = [
-  {
-    input: ({ input: { action: { multiple: isMultiple } } }) => ({
-      command: 'delete',
-      args: {
-        pagination: isMultiple,
-      },
-    }),
-  },
+  { input: deleteCommand },
 ];
 
 module.exports = {

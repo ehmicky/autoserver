@@ -1,18 +1,18 @@
 'use strict';
 
+const createCommand = ({ input: { args: { data: argData } } }) => ({
+  command: 'create',
+  args: {
+    pagination: false,
+    newData: argData,
+  },
+});
+
 /**
- * "create" action uses a "create" command
+ * 'create' action uses a single 'create' command
  **/
 const createAction = [
-  {
-    input: ({ input: { args: { data: argData } } }) => ({
-      command: 'create',
-      args: {
-        pagination: false,
-        newData: argData,
-      },
-    }),
-  },
+  { input: createCommand },
 ];
 
 module.exports = {

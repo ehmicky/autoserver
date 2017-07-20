@@ -1,17 +1,17 @@
 'use strict';
 
+const readCommand = ({ input: { action: { multiple: isMultiple } } }) => ({
+  command: 'read',
+  args: {
+    pagination: isMultiple,
+  },
+});
+
 /**
- * "find" action uses a "read" command
+ * 'find' action uses a single 'read' command
  **/
 const findAction = [
-  {
-    input: ({ input: { action: { multiple: isMultiple } } }) => ({
-      command: 'read',
-      args: {
-        pagination: isMultiple,
-      },
-    }),
-  },
+  { input: readCommand },
 ];
 
 module.exports = {
