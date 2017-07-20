@@ -5,7 +5,7 @@ const pluralize = require('pluralize');
 
 // Customize error messages when the library's ones are unclear
 const getErrorMessage = function ({ error, hasInputPath }) {
-  const customErrorMessage = errorMessages.keyword;
+  const customErrorMessage = errorMessages[error.keyword];
   // Failsafe
   if (!customErrorMessage) { return ` ${error.message}`; }
   const message = customErrorMessage(error);

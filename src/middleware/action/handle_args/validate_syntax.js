@@ -14,7 +14,7 @@ const { validate } = require('../../../validation');
 const validateSyntax = function ({ args, action }) {
   const type = 'clientInputSyntax';
   const schema = actionSchemas[action.name];
-  validate({ schema, data: args, reportInfo: { type } });
+  validate({ schema, data: args, reportInfo: { type, dataVar: 'args' } });
 };
 
 // JSON schema common to any argument
