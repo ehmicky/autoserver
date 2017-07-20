@@ -23,7 +23,6 @@ class PerfLogItem {
   stop () {
     if (this.end === true) {
       const message = 'Must call \'start()\' before calling \'stop()\'';
-      //debugger;
       throw new EngineError(message, { reason: 'UTILITY_ERROR' });
     }
 
