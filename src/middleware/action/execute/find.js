@@ -1,6 +1,6 @@
 'use strict';
 
-const readCommand = ({ input: { action: { multiple: isMultiple } } }) => ({
+const readCommand = ({ action: { multiple: isMultiple } }) => ({
   command: 'read',
   args: {
     pagination: isMultiple,

@@ -9,10 +9,10 @@ const readCommand = {
   },
 };
 
-const updateCommand = ({
-  input: { args: { data: dataArg }, action: { multiple: isMultiple }, jsl },
-  data: currentData,
-}) => ({
+const updateCommand = (
+  { args: { data: dataArg }, action: { multiple: isMultiple }, jsl },
+  { data: currentData },
+) => ({
   command: 'update',
   args: {
     pagination: isMultiple,

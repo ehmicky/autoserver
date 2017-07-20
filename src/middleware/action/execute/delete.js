@@ -1,6 +1,6 @@
 'use strict';
 
-const deleteCommand = ({ input: { action: { multiple: isMultiple } } }) => ({
+const deleteCommand = ({ action: { multiple: isMultiple } }) => ({
   command: 'delete',
   args: {
     pagination: isMultiple,

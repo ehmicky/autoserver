@@ -1,6 +1,6 @@
 'use strict';
 
-const createCommand = ({ input: { args: { data: argData } } }) => ({
+const createCommand = ({ args: { data: argData } }) => ({
   command: 'create',
   args: {
     pagination: false,

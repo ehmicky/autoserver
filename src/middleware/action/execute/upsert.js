@@ -8,7 +8,7 @@ const { getFilter } = require('./filter');
 // The first and second "find" commands are just here to patch things up,
 // and do not provide extra information to consumers, so should be
 // transparent when it comes to pagination and authorization
-const firstReadCommand = ({ input: { args: { data: argData } } }) => ({
+const firstReadCommand = ({ args: { data: argData } }) => ({
   command: 'read',
   args: {
     filter: getFilter({ argData }),
@@ -17,7 +17,7 @@ const firstReadCommand = ({ input: { args: { data: argData } } }) => ({
   },
 });
 
-const createCommand = ({ input, data }) => ({
+const createCommand = (input, data) => ({
   command: 'create',
   args: {
     pagination: false,
@@ -32,7 +32,7 @@ const createCommand = ({ input, data }) => ({
 const shouldCreate = ({ input, data }) =>
   isDefined({ models: getCreateModels({ input, data }) });
 
-const updateCommand = function ({ input, data: models }) {
+const updateCommand = function (input, models) {
   const newData = getUpdateModels({ input, data: models });
   return {
     command: 'update',
@@ -48,7 +48,7 @@ const shouldUpdate = ({ input, data }) =>
   isDefined({ models: getUpdateModels({ input, data }) });
 
 // Final output
-const secondReadCommand = ({ input: { args: { data: argData } } }) => ({
+const secondReadCommand = ({ args: { data: argData } }) => ({
   command: 'read',
   args: {
     filter: getFilter({ argData }),

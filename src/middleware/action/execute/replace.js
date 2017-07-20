@@ -2,7 +2,7 @@
 
 const { getFilter } = require('./filter');
 
-const readCommand = ({ input: { args: { data: argData } } }) => ({
+const readCommand = ({ args: { data: argData } }) => ({
   command: 'read',
   args: {
     filter: getFilter({ argData }),
@@ -10,10 +10,7 @@ const readCommand = ({ input: { args: { data: argData } } }) => ({
   },
 });
 
-const updateCommand = ({
-  input: { args: { data: dataArg } },
-  data: models,
-}) => ({
+const updateCommand = ({ args: { data: dataArg } }, { data: models }) => ({
   command: 'update',
   args: {
     pagination: false,
