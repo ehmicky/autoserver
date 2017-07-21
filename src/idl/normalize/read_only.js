@@ -1,15 +1,14 @@
 'use strict';
 
-const { mapValues, pickBy } = require('../../utilities');
+const { mapModels } = require('./map_helper');
 
 // Gets a map of models' readonly attributes,
 // e.g. { my_model: ['my_readonly_attribute', ...], ... }
 const getReadOnlyMap = function ({ idl: { models } }) {
-  return mapValues(models, ({ properties = {} }) => {
-    const readOnlyProps = pickBy(properties, ({ readOnly }) => readOnly);
-    return Object.keys(readOnlyProps);
-  });
+  return mapModels({ models, filter: 'readOnly', mapProps });
 };
+
+const mapProps = props => Object.keys(props);
 
 module.exports = {
   getReadOnlyMap,

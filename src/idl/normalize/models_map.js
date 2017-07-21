@@ -1,20 +1,20 @@
 'use strict';
 
-const { mapValues } = require('../../utilities');
+const { mapModels } = require('./map_helper');
 
 /**
  * Returns a simplified map of all the models in the IDL
  * Example: { my_model: { my_sub_model:
  * { multiple: true, model: 'another_model' } } }
  **/
-const getModelsMap = function ({ idl }) {
-  return mapValues(idl.models, ({ properties }) =>
-    mapValues(properties, prop => {
-      const multiple = prop.items !== undefined;
-      const model = multiple ? prop.items.model : prop.model;
-      return { multiple, model };
-    })
-  );
+const getModelsMap = function ({ idl: { models } }) {
+  return mapModels({ models, mapProp });
+};
+
+const mapProp = function ({ items, model }) {
+  const multiple = items !== undefined;
+  const itemsModel = multiple ? items.model : model;
+  return { multiple, model: itemsModel };
 };
 
 module.exports = {

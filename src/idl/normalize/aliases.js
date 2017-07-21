@@ -1,17 +1,14 @@
 'use strict';
 
-const { mapValues, pickBy } = require('../../utilities');
+const { mapModels } = require('./map_helper');
 
 // Gets a map of models' attributes' aliases
 // e.g. { modelName: { attrName: ['alias', ...], ... }, ... }
 const getAliasesMap = function ({ idl: { models } }) {
-  return mapValues(models, ({ properties = {} }) => {
-    const propsWithAlias = pickBy(properties, ({ alias }) => alias);
-    return mapValues(propsWithAlias, ({ alias }) =>
-      (Array.isArray(alias) ? alias : [alias])
-    );
-  });
+  return mapModels({ models, filter: 'alias', mapProp });
 };
+
+const mapProp = ({ alias }) => (Array.isArray(alias) ? alias : [alias]);
 
 module.exports = {
   getAliasesMap,

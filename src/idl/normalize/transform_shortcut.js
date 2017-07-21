@@ -1,17 +1,22 @@
 'use strict';
 
-const { mapValues, pickBy } = require('../../utilities');
+const { mapModels } = require('./map_helper');
 
 // Gets a map of models' `transform` or `compute`
 // e.g. { my_model: [{ attrName, transform }, ...], ... }
 const getTransformsMap = function ({ idl: { models }, type }) {
-  return mapValues(models, ({ transformOrder, properties = {} }) => {
-    const typedProperties = pickBy(properties, prop => prop[type]);
-    const props = Object.entries(typedProperties)
-      .map(([attrName, prop]) => ({ attrName, transform: prop[type] }));
-    const sortedProps = sortProps({ props, transformOrder });
-    return sortedProps;
+  return mapModels({
+    models,
+    filter: type,
+    mapProps: mapProps.bind(null, type),
   });
+};
+
+const mapProps = function (type, props, { transformOrder }) {
+  const newProps = Object.entries(props)
+    .map(([attrName, { [type]: transform }]) => ({ attrName, transform }));
+  const sortedProps = sortProps({ props: newProps, transformOrder });
+  return sortedProps;
 };
 
 // Sort transforms according to `using` property
