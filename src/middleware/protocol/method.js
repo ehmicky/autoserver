@@ -33,7 +33,11 @@ const getMethod = function ({ specific, protocolHandler }) {
 
 const getGoal = function ({ method, protocolHandler }) {
   const goal = protocolHandler.getGoal({ method });
+  validateGoal({ goal, method });
+  return goal;
+};
 
+const validateGoal = function ({ goal, method }) {
   if (!goal) {
     const message = `Unsupported protocol method: '${method}'`;
     throw new EngineError(message, { reason: 'UNSUPPORTED_METHOD' });
@@ -48,8 +52,6 @@ const getGoal = function ({ method, protocolHandler }) {
     const message = `Invalid 'goal' '${goal}', must be one of: ${GOALS.join(', ')}`;
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
-
-  return goal;
 };
 
 module.exports = {
