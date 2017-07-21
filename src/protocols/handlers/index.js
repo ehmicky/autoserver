@@ -2,6 +2,7 @@
 
 const http = require('./http');
 
-module.exports = [
-  http,
-];
+module.exports = Object.assign(
+  {},
+  { http },
+);
