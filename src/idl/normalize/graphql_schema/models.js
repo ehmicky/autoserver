@@ -35,7 +35,7 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
 
       // E.g. 'my_model' + 'findMany' -> 'findMyModels'
       // This will be used as the top-level graphqlMethod
-      const renamedModels = mapKeys(allowedModels, modelName =>
+      const renamedModels = mapKeys(allowedModels, (model, modelName) =>
         getActionName({ modelName, action })
       );
 

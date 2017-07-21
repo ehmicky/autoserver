@@ -53,7 +53,7 @@ const getHeadersParams = function ({ input: { headers } }) {
   const paramHeaders = pickBy(headers, (value, name) =>
     PARAMS_NAME_REGEXP.test(name)
   );
-  return mapKeys(paramHeaders, name => {
+  return mapKeys(paramHeaders, (header, name) => {
     const shortName = name.replace(PARAMS_NAME_REGEXP, '');
     return camelize(shortName, true);
   });

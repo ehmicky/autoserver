@@ -6,7 +6,7 @@ const { mapKeys } = require('../../../utilities');
 
 // Change arguments cases
 const renameArgs = function ({ args }) {
-  return mapKeys(args, name => camelize(name));
+  return mapKeys(args, (arg, name) => camelize(name));
 };
 
 module.exports = {

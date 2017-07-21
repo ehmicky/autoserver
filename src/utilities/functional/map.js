@@ -5,12 +5,30 @@ const { assignObject } = require('./reduce');
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
 const mapValues = function (obj, mapperFunc) {
+  return generalMap({ obj, mapperFunc, iterationFunc: mapValuesFunc });
+};
+
+const mapValuesFunc = function ({ key, obj, newValue }) {
+  obj[key] = newValue;
+  return obj;
+};
+
+// Similar to map() for keys
+const mapKeys = function (obj, mapperFunc) {
+  return generalMap({ obj, mapperFunc, iterationFunc: mapKeysFunc });
+};
+
+const mapKeysFunc = function ({ value, obj, newValue }) {
+  obj[newValue] = value;
+  return obj;
+};
+
+const generalMap = function ({ obj, mapperFunc, iterationFunc }) {
   checkObject(obj);
 
   return Object.entries(obj).reduce((newObj, [key, value]) => {
     const newValue = mapperFunc(value, key, obj);
-    newObj[key] = newValue;
-    return newObj;
+    return iterationFunc({ value, key, obj: newObj, newValue });
   }, {});
 };
 
@@ -30,17 +48,6 @@ const mapAsync = async function (obj, mapperFunc) {
   const valuesObj = valuesArray.reduce(assignObject, {});
 
   return valuesObj;
-};
-
-// Similar to map() for keys
-const mapKeys = function (obj, mapperFunc) {
-  checkObject(obj);
-
-  return Object.entries(obj).reduce((newObj, [key, value]) => {
-    const newKey = mapperFunc(key, value, obj);
-    newObj[newKey] = value;
-    return newObj;
-  }, {});
 };
 
 // Apply map() recursively
