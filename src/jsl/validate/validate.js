@@ -43,15 +43,22 @@ const validateNode = function (
   { throwError, print, rules },
   node, parents, _, nodeType
 ) {
-  const rule = rules[nodeType];
+  // Verify it can be reversed parsed
   print(node);
+
+  const rule = rules[nodeType];
+
+  if (rule === true) { return; }
 
   if (!rule) {
     const msg = `Cannot use the following code: '${print(node)}'`;
     throwError(msg);
   }
 
-  if (rule === true) { return; }
+  checkNodeRule({ rule, node, parents, throwError, print });
+};
+
+const checkNodeRule = function ({ rule, node, parents, throwError, print }) {
   const nodeParents = parents.slice(0, parents.length - 1).reverse();
   const message = rule(node, nodeParents);
 
