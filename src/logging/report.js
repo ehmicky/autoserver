@@ -17,8 +17,7 @@ const report = async function ({
   level,
   rawMessage,
   logObj,
-}) {
-  const {
+  logObj: {
     type,
     requestInfo: {
       // Used in message prefix
@@ -26,12 +25,10 @@ const report = async function ({
       // Reuse the request timestamp if possible
       timestamp = (new Date()).toISOString(),
     } = {},
-    serverInfo: {
-      serverName,
-    },
+    serverInfo: { serverName },
     phase,
-  } = logObj;
-
+  },
+}) {
   const eventName = `log.${phase}.${type}.${level}`;
   const info = Object.assign({}, logObj, { timestamp, type, level });
 
