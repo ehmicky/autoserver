@@ -15,14 +15,13 @@ const validateResponse = function ({ command, response }) {
   }
 
   const { data, metadata } = response;
+  validateData({ data, multiple });
+  validateMetadata({ metadata, multiple });
+};
 
+const validateData = function ({ data, multiple }) {
   if (!data) {
     const message = '\'response.data\' should be defined';
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
-  }
-
-  if (!metadata) {
-    const message = '\'response.metadata\' should be defined';
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
@@ -33,6 +32,13 @@ const validateResponse = function ({ command, response }) {
 
   if (!multiple && data.constructor !== Object) {
     const message = `'response.data' should be an object, not '${data}'`;
+    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  }
+};
+
+const validateMetadata = function ({ metadata, multiple }) {
+  if (!metadata) {
+    const message = '\'response.metadata\' should be defined';
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
