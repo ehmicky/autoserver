@@ -2,20 +2,21 @@
 
 const { isEqual } = require('lodash');
 
-const removeDefaultValues = function ({ token }) {
-  for (const [attrName, value] of Object.entries(defaultValues)) {
-    if (isEqual(value, token[attrName])) {
-      delete token[attrName];
-    }
-  }
+const { omit, assignObject } = require('../../../../utilities');
+
+const removeDefaultValues = function (token) {
+  const attrsToRemove = Object.entries(defaultValues)
+    .filter(([attrName, value]) => isEqual(value, token[attrName]))
+    .map(([attrName]) => attrName);
+  return omit(token, attrsToRemove);
 };
 
-const addDefaultValues = function ({ token }) {
-  for (const [attrName, value] of Object.entries(defaultValues)) {
-    if (token[attrName] === undefined) {
-      token[attrName] = value;
-    }
-  }
+const addDefaultValues = function (token) {
+  const attrsToAdd = Object.entries(defaultValues)
+    .filter(([attrName]) => token[attrName] === undefined)
+    .map(([attrName, value]) => ({ [attrName]: value }))
+    .reduce(assignObject, {});
+  return Object.assign({}, token, attrsToAdd);
 };
 
 const defaultValues = {

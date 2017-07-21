@@ -7,7 +7,12 @@ const {
   },
 } = require('js-base64');
 
-const { minifyToken, unminifyToken } = require('./minify');
+const { minifyOrderBy, unminifyOrderBy } = require('./minify_order_by');
+const {
+  removeDefaultValues,
+  addDefaultValues,
+} = require('./minify_default_values');
+const { addNameShortcuts, removeNameShortcuts } = require('./minify_names');
 
 // Encode token from a useable object to a short opaque base64 token
 // Token is object:
@@ -17,21 +22,31 @@ const { minifyToken, unminifyToken } = require('./minify');
 //   - nOrderBy {object[]} - same as nFilter
 //      - nOrderBy.attrName {string} - also used to guess `parts` attributes
 //      - nOrderBy.order {string} - 'desc' or 'asc'
+// Make sure token is small by minifying it
+const encode = function ({ token: oToken }) {
+  return encoders.reduce((token, encoder) => encoder(token), oToken);
+};
 
-const encode = function ({ token }) {
-  const minifiedToken = minifyToken({ token });
-  const jsonToken = JSON.stringify(minifiedToken);
-  const base64Token = base64UrlEncode(jsonToken);
-  return base64Token;
+const encoders = [
+  removeDefaultValues,
+  minifyOrderBy,
+  addNameShortcuts,
+  JSON.stringify,
+  base64UrlEncode,
+];
+
+const decode = function ({ token: oToken }) {
+  return decoders.reduce((token, decoder) => decoder(token), oToken);
 };
 
 // Inverse
-const decode = function ({ token: base64Token }) {
-  const jsonToken = base64UrlDecode(base64Token);
-  const minifiedToken = JSON.parse(jsonToken);
-  const token = unminifyToken({ token: minifiedToken });
-  return token;
-};
+const decoders = [
+  base64UrlDecode,
+  JSON.parse,
+  removeNameShortcuts,
+  unminifyOrderBy,
+  addDefaultValues,
+];
 
 module.exports = {
   encode,
