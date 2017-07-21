@@ -17,15 +17,9 @@ const getMiddlewarePerfLog = func => async function middlewarePerfLog (
   try {
     const nextInput = Object.assign({}, input, { perf });
     const response = await this.next(nextInput);
-
-    await stopPerf({ input, perf });
-
     return response;
-  // Make sure it is always called
-  } catch (error) {
+  } finally {
     await stopPerf({ input, perf });
-
-    throw error;
   }
 };
 
