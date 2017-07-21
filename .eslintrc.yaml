@@ -166,7 +166,7 @@ rules:
 ##  fp/no-mutation:
 ##  - 2
 ##  - commonjs: true
-##  fp/no-delete: 2
+  fp/no-delete: 2
 #  fp/no-unused-expression:
 #  - 2
 #  - allowUseStrict: true

@@ -74,6 +74,8 @@ const getNestedId = function ({
     'description',
     'deprecation_reason',
     'examples',
+    // Consider this attribute as a normal attribute, not a model anymore
+    'model',
   ];
   const recursiveAttrs = ['model', 'type'];
   const idDef = Object.assign(
@@ -81,8 +83,6 @@ const getNestedId = function ({
     omit(subDef.properties.id, nonRecursiveAttrs),
     omit(subDef, recursiveAttrs)
   );
-  // Consider this attribute as a normal attribute, not a model anymore
-  delete idDef.model;
 
   // Assign `id` field definition to e.g. `model.user`
   const idsDef = isMultiple(childDef)
