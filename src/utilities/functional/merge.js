@@ -7,12 +7,29 @@ const deepMerge = function (objA, ...objects) {
   if (objects.length === 0) { return objA; }
 
   if (objects.length > 1) {
-    const newObjA = deepMerge(objA, objects[0]);
-    const newObjects = objects.slice(1);
-    return deepMerge(newObjA, ...newObjects);
+    return recursiveMerge({ objA, objects });
   }
 
   const [objB] = objects;
+
+  validateInput({ objA, objB });
+
+  if (Array.isArray(objA)) {
+    return [...objA, ...objB];
+  }
+
+  if (objA.constructor === Object) {
+    return mergeObjects({ objA, objB });
+  }
+};
+
+const recursiveMerge = function ({ objA, objects }) {
+  const newObjA = deepMerge(objA, objects[0]);
+  const newObjects = objects.slice(1);
+  return deepMerge(newObjA, ...newObjects);
+};
+
+const validateInput = function ({ objA, objB }) {
   const isInvalidType =
     (objA.constructor !== Object && !Array.isArray(objA)) ||
     (objB.constructor !== Object && !Array.isArray(objB));
@@ -24,27 +41,23 @@ const deepMerge = function (objA, ...objects) {
     const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
     throw new Error(message);
   }
+};
 
-  if (Array.isArray(objA)) {
-    return [...objA, ...objB];
+const mergeObjects = function ({ objA, objB }) {
+  const newObjA = Object.assign({}, objA);
+
+  for (const [objBKey, objBVal] of Object.entries(objB)) {
+    const objAVal = newObjA[objBKey];
+    const shouldDeepMerge = objAVal &&
+      objBVal &&
+      ((Array.isArray(objAVal) && Array.isArray(objBVal)) ||
+      (objAVal.constructor === Object && objBVal.constructor === Object));
+    newObjA[objBKey] = shouldDeepMerge
+      ? deepMerge(objAVal, objBVal)
+      : objBVal;
   }
 
-  if (objA.constructor === Object) {
-    const newObjA = Object.assign({}, objA);
-
-    for (const [objBKey, objBVal] of Object.entries(objB)) {
-      const objAVal = newObjA[objBKey];
-      const shouldDeepMerge = objAVal &&
-        objBVal &&
-        ((Array.isArray(objAVal) && Array.isArray(objBVal)) ||
-        (objAVal.constructor === Object && objBVal.constructor === Object));
-      newObjA[objBKey] = shouldDeepMerge
-        ? deepMerge(objAVal, objBVal)
-        : objBVal;
-    }
-
-    return newObjA;
-  }
+  return newObjA;
 };
 
 module.exports = {
