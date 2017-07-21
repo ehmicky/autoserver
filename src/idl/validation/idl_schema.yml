@@ -331,20 +331,55 @@ definitions:
   # Custom properties can be added as `x-*`
   validPropertyNames:
     anyOf:
-    - enum: [
+    - enum:
       # Standard JSON schema properties
-      $id, $schema, $ref, title, description, default, multipleOf, maximum,
-      exclusiveMaximum, minimum, exclusiveMinimum, maxLength, minLength,
-      pattern, items, maxItems, minItems, uniqueItems, contains, maxProperties,
-      minProperties, required, additionalProperties, definitions, properties,
-      patternProperties, dependencies, propertyNames, const, enum, type,
-      format, allOf, anyOf, oneOf, not,
+      - $id
+      - $schema
+      - $ref
+      - title
+      - description
+      - default
+      - multipleOf
+      - maximum
+      - exclusiveMaximum
+      - minimum
+      - exclusiveMinimum
+      - maxLength
+      - minLength
+      - pattern
+      - items
+      - maxItems
+      - minItems
+      - uniqueItems
+      - contains
+      - maxProperties
+      - minProperties
+      - required
+      - additionalProperties
+      - definitions
+      - properties
+      - patternProperties
+      - dependencies
+      - propertyNames
+      - const
+      - enum
+      - type
+      - format
+      - allOf
+      - anyOf
+      - oneOf
+      - not
       # Future standard JSON schema properties
-      examples, formatMaximum, formatMinimum, formatExclusiveMinimum,
-      formatExclusiveMaximum, if, then, else,
+      - examples
+      - formatMaximum
+      - formatMinimum
+      - formatExclusiveMinimum
+      - formatExclusiveMaximum
+      - if
+      - then
+      - else
       # Properties specific to this project
-      deprecated,
-    ]
+      - deprecated
     # Users can define anything under property named x-*
     - pattern: '^x-*'
   validModelName:
