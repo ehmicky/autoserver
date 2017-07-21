@@ -57,26 +57,42 @@ const validateProps = function ({
   const propNames = Object.keys(modelProperties);
   const newPropNames = Object.keys(properties);
 
-  // Make sure plugin does not override user-defined properties
+  validateDefinedProps({ modelName, propNames, newPropNames });
+  validateMissingProps({
+    modelName,
+    requiredProperties,
+    propNames,
+    newPropNames,
+  });
+};
+
+// Make sure plugin does not override user-defined properties
+const validateDefinedProps = function ({ modelName, propNames, newPropNames }) {
   const alreadyDefinedProps = intersection(propNames, newPropNames);
+  if (alreadyDefinedProps.length === 0) { return; }
 
-  if (alreadyDefinedProps.length > 0) {
-    const propMessage = getPropMessage(alreadyDefinedProps);
-    const message = `In model ${modelName}, cannot override ${propMessage}`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
-  }
+  const propMessage = getPropMessage(alreadyDefinedProps);
+  const message = `In model ${modelName}, cannot override ${propMessage}`;
+  throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+};
 
-  // Make sure plugin required properties exist
+// Make sure plugin required properties exist
+const validateMissingProps = function ({
+  modelName,
+  requiredProperties,
+  propNames,
+  newPropNames,
+}) {
   const missingRequiredProps = difference(
     requiredProperties,
     [...propNames, ...newPropNames]
   );
 
-  if (missingRequiredProps.length > 0) {
-    const propMessage = getPropMessage(missingRequiredProps);
-    const message = `In model ${modelName}, ${propMessage} should exist`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
-  }
+  if (missingRequiredProps.length === 0) { return; }
+
+  const propMessage = getPropMessage(missingRequiredProps);
+  const message = `In model ${modelName}, ${propMessage} should exist`;
+  throw new EngineError(message, { reason: 'IDL_VALIDATION' });
 };
 
 // Returns human-friendly version of properties, e.g. 'property my_prop' or
