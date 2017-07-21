@@ -153,100 +153,164 @@ const getObjectFields = function (def, opts) {
   return () => {
     const objectFields = chain(def.properties)
       .transform((memo, childDef, childDefName) => {
-        const subDef = getSubDef(childDef);
-
-        // Only for nested models
-        if (!(isModel(subDef) && !subDef.isTopLevel)) {
-          memo[childDefName] = childDef;
-          return memo;
-        }
-
-        // Copy nested models with a different name that includes the action,
-        // e.g. `my_attribute` -> `createMyAttribute`
-        // Not for data|filter arguments
-        if (inputObjectType === '') {
-          const name = getActionName({
-            modelName: childDefName,
-            action,
-            noChange: true,
-          });
-          memo[name] = childDef;
-          // Add transformed name to `required` array,
-          // if non-transformed name was present
-          const required = Array.isArray(def.required) &&
-            def.required.includes(childDefName) &&
-            !def.required.includes(name);
-
-          if (required) {
-            def.required.push(name);
-          }
-        }
-
-        // Nested models use the regular name as well, but as simple ids,
-        // not recursive definition
-        // Retrieves `id` field definition of subfield
-        const nonRecursiveAttrs = [
-          'description',
-          'deprecation_reason',
-          'examples',
-        ];
-        const recursiveAttrs = ['model', 'type'];
-        const idDef = Object.assign(
-          {},
-          omit(subDef.properties.id, nonRecursiveAttrs),
-          omit(subDef, recursiveAttrs)
-        );
-        // Consider this attribute as a normal attribute, not a model anymore
-        delete idDef.model;
-
-        // Assign `id` field definition to e.g. `model.user`
-        const idsDef = isMultiple(childDef)
-          ? Object.assign({}, childDef, { items: idDef })
-          : idDef;
-        memo[childDefName] = idsDef;
-
+        const newAttrs = getNestedModels({
+          childDef,
+          childDefName,
+          inputObjectType,
+          action,
+          def,
+        });
+        Object.assign(memo, newAttrs);
         return memo;
       })
       .omitBy((childDef, childDefName) =>
-        // Filter arguments for single actions only include `id`
-        (
-          childDefName !== 'id' &&
-          inputObjectType === 'filter' &&
-          !action.multiple
-        // Nested data arguments do not include `id`
-        ) || (
-          childDefName === 'id' &&
-          inputObjectType === 'data' &&
-          !def.isTopLevel
-        // Readonly fields cannot be specified as data argument
-        ) || (
-          inputObjectType === 'data' &&
-          childDef.readOnly
-        // `updateOne|updateMany` do not allow data.id
-        ) || (
-          action.type === 'update' &&
-          childDefName === 'id' &&
-          inputObjectType === 'data'
-        )
+        filterArgs({ childDef, childDefName, inputObjectType, action, def })
       )
-      // Recurse over children
-      .mapValues((childDef, childDefName) => {
-        // If 'Query' or 'Mutation' objects, pass current action down to
-        // sub-fields, and top-level definition
-        const childAction = childDef.action || action;
-        const childOpts = Object.assign({}, opts, { action: childAction });
-
-        childOpts.isRequired = isRequired(Object.assign({
-          parentDef: def,
-          name: childDefName,
-        }, childOpts));
-
-        const field = getField(childDef, childOpts);
-        return field;
-      })
+      .mapValues((childDef, childDefName) =>
+        getChildField({ childDef, childDefName, action, def, opts })
+      )
       .value();
     return Object.keys(objectFields).length === 0 ? noAttributes : objectFields;
   };
+};
+
+const getNestedModels = function ({
+  childDef,
+  childDefName,
+  inputObjectType,
+  action,
+  def,
+}) {
+  const subDef = getSubDef(childDef);
+
+  // Only for nested models
+  if (!(isModel(subDef) && !subDef.isTopLevel)) {
+    return { [childDefName]: childDef };
+  }
+
+  const nestedModel = getNestedModel({
+    childDef,
+    childDefName,
+    inputObjectType,
+    action,
+    def,
+  });
+
+  const nestedId = getNestedId({ childDef, childDefName, subDef });
+
+  return Object.assign({}, nestedModel, nestedId);
+};
+
+// Copy nested models with a different name that includes the action,
+// e.g. `my_attribute` -> `createMyAttribute`
+const getNestedModel = function ({
+  childDef,
+  childDefName,
+  inputObjectType,
+  action,
+  def,
+}) {
+  // Not for data|filter arguments
+  if (inputObjectType !== '') { return {}; }
+
+  const name = getActionName({
+    modelName: childDefName,
+    action,
+    noChange: true,
+  });
+
+  // Add transformed name to `required` array,
+  // if non-transformed name was present
+  const required = Array.isArray(def.required) &&
+    def.required.includes(childDefName) &&
+    !def.required.includes(name);
+
+  if (required) {
+    def.required.push(name);
+  }
+
+  return { [name]: childDef };
+};
+
+const getNestedId = function ({
+  childDef,
+  childDefName,
+  subDef,
+}) {
+  // Nested models use the regular name as well, but as simple ids,
+  // not recursive definition
+  // Retrieves `id` field definition of subfield
+  const nonRecursiveAttrs = [
+    'description',
+    'deprecation_reason',
+    'examples',
+  ];
+  const recursiveAttrs = ['model', 'type'];
+  const idDef = Object.assign(
+    {},
+    omit(subDef.properties.id, nonRecursiveAttrs),
+    omit(subDef, recursiveAttrs)
+  );
+  // Consider this attribute as a normal attribute, not a model anymore
+  delete idDef.model;
+
+  // Assign `id` field definition to e.g. `model.user`
+  const idsDef = isMultiple(childDef)
+    ? Object.assign({}, childDef, { items: idDef })
+    : idDef;
+
+  return { [childDefName]: idsDef };
+};
+
+const filterArgs = function ({
+  childDef,
+  childDefName,
+  inputObjectType,
+  action,
+  def,
+}) {
+  // Filter arguments for single actions only include `id`
+  return (
+    childDefName !== 'id' &&
+    inputObjectType === 'filter' &&
+    !action.multiple
+  // Nested data arguments do not include `id`
+  ) || (
+    childDefName === 'id' &&
+    inputObjectType === 'data' &&
+    !def.isTopLevel
+  // Readonly fields cannot be specified as data argument
+  ) || (
+    inputObjectType === 'data' &&
+    childDef.readOnly
+  // `updateOne|updateMany` do not allow data.id
+  ) || (
+    action.type === 'update' &&
+    childDefName === 'id' &&
+    inputObjectType === 'data'
+  );
+};
+
+// Recurse over children
+const getChildField = function ({
+  childDef,
+  childDefName,
+  action,
+  def,
+  opts,
+}) {
+  // If 'Query' or 'Mutation' objects, pass current action down to
+  // sub-fields, and top-level definition
+  const childAction = childDef.action || action;
+  const childOpts = Object.assign({}, opts, { action: childAction });
+
+  childOpts.isRequired = isRequired(Object.assign({
+    parentDef: def,
+    name: childDefName,
+  }, childOpts));
+
+  const field = getField(childDef, childOpts);
+  return field;
 };
 
 // GraphQL requires every object field to have attributes,
