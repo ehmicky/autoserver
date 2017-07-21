@@ -9,7 +9,7 @@ const handlers = require('./handlers');
 // E.g. there should be no HTTP-related code outside of this directory,
 // to enforce protocol-agnosticism and separation of concerns.
 const getProtocolHandlers = function () {
-  return handlers
+  return Object.values(handlers)
     .map(handler => ({ [handler.name]: handler }))
     .reduce(assignObject, {});
 };
