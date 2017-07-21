@@ -2,57 +2,31 @@
 
 const { makeImmutable } = require('../utilities');
 
-const CONTENT_TYPES = [
-  {
-    name: 'model',
-    test ({ content }) {
-      return content && content.constructor === Object && isJSON(content);
-    },
-  },
+const CONTENT_TYPES = {
+  model: ({ content }) => isObject(content),
 
-  {
-    name: 'collection',
-    test ({ content }) {
-      return content && typeof content === 'object' && isJSON(content);
-    },
-  },
+  collection: ({ content }) => isObject(content) || isArray(content),
 
-  {
-    name: 'error',
-    test ({ content }) {
-      return content && content.constructor === Object && isJSON(content);
-    },
-  },
+  error: ({ content }) => isObject(content),
 
-  {
-    name: 'object',
-    test ({ content }) {
-      return content && content.constructor === Object && isJSON(content);
-    },
-  },
+  object: ({ content }) => isObject(content),
 
-  {
-    name: 'html',
-    test ({ content }) {
-      return typeof content === 'string';
-    },
-  },
+  html: ({ content }) => typeof content === 'string',
 
-  {
-    name: 'text',
-    test ({ content }) {
-      return typeof content === 'string';
-    },
-  },
+  text: ({ content }) => typeof content === 'string',
 
-  {
-    name: 'failure',
-    test ({ content }) {
-      return content === undefined;
-    },
-  },
-];
+  failure: ({ content }) => content === undefined,
+};
+
 makeImmutable(CONTENT_TYPES);
+
+const isObject = function (value) {
+  return value && value.constructor === Object && isJSON(value);
+};
+
+const isArray = function (value) {
+  return value && Array.isArray(value) && isJSON(value);
+};
 
 const isJSON = function (val) {
   try {

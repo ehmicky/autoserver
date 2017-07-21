@@ -39,7 +39,7 @@ const validateType = function ({ type }) {
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  const isWrongType = !CONTENT_TYPES.some(({ name }) => name === type);
+  const isWrongType = !CONTENT_TYPES[type];
 
   if (isWrongType) {
     const message = `Invalid 'type': '${type}'`;
@@ -48,8 +48,7 @@ const validateType = function ({ type }) {
 };
 
 const validateContent = function ({ content, type }) {
-  const contentType = CONTENT_TYPES.find(({ name }) => name === type);
-  const isWrongContent = !contentType.test({ content });
+  const isWrongContent = !CONTENT_TYPES[type]({ content });
 
   if (isWrongContent) {
     const message = `Invalid 'content': '${content}'`;
