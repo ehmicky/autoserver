@@ -51,17 +51,30 @@ const getNestedProp = function ({ modelsMap, parent, name }) {
   const prop = modelsMap[parentModel] &&
     modelsMap[parentModel][isModel ? attrName : name];
 
-  // This means tried to do a nested action that does not exist
-  if (!prop ||
-  // This means nested action is not a simple attribute,
-  // or that it has different actionType than parent
-  (isModel && (!prop.model || parentAction.type !== actionType))) {
-    const message = `In ${parentModel} model, attribute ${name} does not exist`;
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  validateProp({ prop, isModel, parentAction, parentModel, name, actionType });
 
   const model = isModel ? prop : null;
   return { model, attrName, actionType };
+};
+
+const validateProp = function ({
+  prop,
+  isModel,
+  parentAction,
+  parentModel,
+  name,
+  actionType,
+}) {
+  const doesNotExist =
+    // This means tried to do a nested action that does not exist
+    !prop ||
+    // This means nested action is not a simple attribute,
+    // or that it has different actionType than parent
+    (isModel && (!prop.model || parentAction.type !== actionType));
+  if (!doesNotExist) { return; }
+
+  const message = `In ${parentModel} model, attribute ${name} does not exist`;
+  throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 module.exports = {
