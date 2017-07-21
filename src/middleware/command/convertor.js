@@ -7,9 +7,7 @@ const commandConvertor = async function (input) {
   const { jsl, log, command } = input;
 
   const trimmedInput = pick(input, commandAttributes);
-
-  const newJsl = jsl.add({ $COMMAND: command.type });
-  const nextInput = Object.assign({}, trimmedInput, { jsl: newJsl });
+  const nextInput = jsl.addToInput(trimmedInput, { $COMMAND: command.type });
 
   try {
     const response = await this.next(nextInput);

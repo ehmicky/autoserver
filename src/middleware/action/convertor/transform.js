@@ -1,8 +1,9 @@
 'use strict';
 
 const getTransformedResponse = function ({
-  input: { action, operation },
+  input: { action },
   response,
+  operation,
 }) {
   const newResponse = Object.assign({}, response, { action });
   const transformedResponse = actionConvertorOutput[operation](newResponse);

@@ -9,12 +9,10 @@ const { getTransformedResponse } = require('./transform');
 
 // Converts from Operation format to Action format
 const actionConvertor = async function (input) {
-  const { args, modelName, jsl, log, action, fullAction } = input;
+  const { args, modelName, jsl, log, action, fullAction, operation } = input;
 
   const trimmedInput = pick(input, actionAttributes);
-
-  const newJsl = jsl.add({ $MODEL: modelName });
-  const nextInput = Object.assign({}, trimmedInput, { jsl: newJsl });
+  const nextInput = jsl.addToInput(trimmedInput, { $MODEL: modelName });
 
   // Request arguments that cannot be specified by clients
   const clonedArgs = cloneDeep(args);
@@ -22,13 +20,14 @@ const actionConvertor = async function (input) {
   try {
     const response = await this.next(nextInput);
 
-    const logActions = getLogActions({ input, response, args });
+    const logActions = getLogActions({ input: nextInput, response, args });
     log.add({ actions: logActions });
 
     const transformedResponse = getTransformedResponse({
-      input,
+      input: nextInput,
       response,
       args: clonedArgs,
+      operation,
     });
     return transformedResponse;
   } catch (error) {

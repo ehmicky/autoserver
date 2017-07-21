@@ -7,12 +7,11 @@ const operationNegotiator = async function (input) {
   const [operation] = Object.entries(operations)
     .find(([, testFunc]) => testFunc({ route })) || [];
 
-  const newJsl = jsl.add({ $OPERATION: operation });
-
+  const nextInput = jsl.addToInput(input, { $OPERATION: operation });
   log.add({ operation });
-  Object.assign(input, { operation, jsl: newJsl });
+  Object.assign(nextInput, { operation });
 
-  const response = await this.next(input);
+  const response = await this.next(nextInput);
   return response;
 };
 

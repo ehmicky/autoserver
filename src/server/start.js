@@ -47,9 +47,9 @@ const start = async function ({ options, startupLog, apiServer }) {
 
   await reduceAsync(processors, async (input, processor) => {
     const perf = startupLog.perf.start(processor.name);
-    const newInput = await processor(input);
+    const nextInput = await processor(input);
     perf.stop();
-    return Object.assign({}, input, newInput);
+    return Object.assign({}, input, nextInput);
   }, { options, startupLog, apiServer });
 
   allPerf.stop();

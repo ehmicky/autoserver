@@ -21,13 +21,13 @@ const handleArgs = async function (input) {
   const clonedArgs = cloneDeep(args);
 
   try {
-    input.jsl = jsl.add({ $ARGS: clonedArgs });
+    const nextInput = jsl.addToInput(input, { $ARGS: clonedArgs });
 
     validateSyntax({ args, action, maxDataLength });
     validateLimits({ args, maxDataLength });
-    input.args = renameArgs({ args });
+    nextInput.args = renameArgs({ args });
 
-    const response = await this.next(input);
+    const response = await this.next(nextInput);
     return response;
   } catch (error) {
     // Added only for final error handler

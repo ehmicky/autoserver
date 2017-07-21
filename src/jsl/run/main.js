@@ -24,6 +24,11 @@ class Jsl {
     return new Jsl({ params: newParams, exposeMap: this.exposeMap });
   }
 
+  addToInput (input, params) {
+    const newJsl = this.add(params);
+    return Object.assign({}, input, { jsl: newJsl });
+  }
+
   // Take JSL, inline or not, and turns into `function (...args)`
   // firing the first one, with $1, $2, etc. provided as extra arguments
   addHelpers ({ helpers = {} }) {
