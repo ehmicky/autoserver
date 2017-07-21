@@ -87,28 +87,10 @@ const getRules = memoize(({ globalKeys }) => ({
   ConditionalExpression: true,
 
   // Blacklist which function can be called
-  CallExpression ({ callee: { type, property, name }, arguments: args }) {
-    const usesIdentifier = type === 'Identifier';
-    const usesMemberExpression = type === 'MemberExpression' &&
-      property.type === 'Identifier';
-
-    if (!usesIdentifier && !usesMemberExpression) {
-      return 'Function calls must be like: \'func()\' or \'obj.func()\'';
-    }
-
-    const funcName = usesMemberExpression ? property.name : name;
-
-    const funcNameMessage = funcNames.find(({ values }) =>
-      values.includes(funcName)
-    );
-    if (funcNameMessage) { return funcNameMessage.message(funcName); }
-
-    const isWrongAssign = funcName === 'assign' &&
-      (!args[0] || args[0].type !== 'ObjectExpression');
-
-    if (isWrongAssign) {
-      return 'No side-effects: \'Object.assign()\' first argument must be a literal object';
-    }
+  CallExpression (node) {
+    return validateSimpleFunction(node) ||
+      validateFuncNames(node) ||
+      validateWrongAssign(node);
   },
   // Whitelist which constructor can be called
   NewExpression ({ callee: { type, name } }) {
@@ -130,6 +112,45 @@ const getRules = memoize(({ globalKeys }) => ({
   VariablePattern: true,
   MemberPattern: true,
 }));
+
+const getFuncName = function ({ type, property, name }) {
+  const usesMemberExpression = type === 'MemberExpression' &&
+    property.type === 'Identifier';
+  const funcName = usesMemberExpression ? property.name : name;
+  return funcName;
+};
+
+const validateSimpleFunction = function ({ callee: { type, property } }) {
+  const usesIdentifier = type === 'Identifier';
+  const usesMemberExpression = type === 'MemberExpression' &&
+    property.type === 'Identifier';
+
+  if (usesIdentifier || usesMemberExpression) { return; }
+
+  return 'Function calls must be like: \'func()\' or \'obj.func()\'';
+};
+
+const validateFuncNames = function ({ callee: { type, property, name } }) {
+  const funcName = getFuncName({ type, property, name });
+  const funcNameMessage = funcNames.find(({ values }) =>
+    values.includes(funcName)
+  );
+  if (!funcNameMessage) { return; }
+
+  return funcNameMessage.message(funcName);
+};
+
+const validateWrongAssign = function ({
+  callee: { type, property, name },
+  arguments: args,
+}) {
+  const funcName = getFuncName({ type, property, name });
+  const isWrongAssign = funcName === 'assign' &&
+    (!args[0] || args[0].type !== 'ObjectExpression');
+  if (!isWrongAssign) { return; }
+
+  return 'No side-effects: \'Object.assign()\' first argument must be a literal object';
+};
 
 // We do not want things like eval() which could circumvent our restrictions
 const functionFuncNames = ['eval', 'Function', 'bind', 'call', 'apply'];
