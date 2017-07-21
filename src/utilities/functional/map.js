@@ -87,19 +87,24 @@ const recurseMapByRef = function ({ value: val, mapFunc }) {
       cache.set(value, mapVal);
     }
 
-    if (mapVal && (mapVal.constructor === Object || Array.isArray(mapVal))) {
-      for (const [childKey, child] of Object.entries(mapVal)) {
-        mapVal[childKey] = recurse({
-          value: child,
-          key: childKey,
-          parent: mapVal,
-          parents: nextParents,
-          depth: depth + 1,
-        });
-      }
-    }
+    recurseChildren({ mapVal, parents: nextParents, depth: depth + 1 });
 
     return mapVal;
+  };
+
+  const recurseChildren = function ({ mapVal, parents, depth }) {
+    if (!mapVal) { return; }
+    if (mapVal.constructor !== Object && !Array.isArray(mapVal)) { return; }
+
+    for (const [childKey, child] of Object.entries(mapVal)) {
+      mapVal[childKey] = recurse({
+        value: child,
+        key: childKey,
+        parent: mapVal,
+        parents,
+        depth,
+      });
+    }
   };
 
   return recurse({

@@ -65,14 +65,18 @@ const addAliasDescription = function ({ attr }) {
   if (attr.alias) {
     const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
     const aliasNames = toSentence(aliases.map(alias => `'${alias}'`));
-    const description = attr.description ? `\n${attr.description}` : '';
+    const description = getDescription({ attr });
     attr.description = `Aliases: ${aliasNames}.${description}`;
   }
 
   if (attr.aliasOf) {
-    const description = attr.description ? `\n${attr.description}` : '';
+    const description = getDescription({ attr });
     attr.description = `Alias of: '${attr.aliasOf}'.${description}`;
   }
+};
+
+const getDescription = function ({ attr: { description } }) {
+  return description ? `\n${description}` : '';
 };
 
 module.exports = {

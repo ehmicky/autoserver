@@ -47,15 +47,7 @@ const validateArgs = function ({
 const validateCurrentData = function ({ newData, currentData }) {
   if (!currentData) { return; }
 
-  const differentTypes =
-    (Array.isArray(newData) && !Array.isArray(currentData)) ||
-    (!Array.isArray(newData) && Array.isArray(currentData)) ||
-    (!newData && currentData);
-
-  if (differentTypes) {
-    const message = `'args.currentData' is invalid: ${JSON.stringify(currentData)}`;
-    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
-  }
+  validateDifferentTypes({ newData, currentData });
 
   if (Array.isArray(newData)) {
     for (const [index, datum] of newData.entries()) {
@@ -67,6 +59,17 @@ const validateCurrentData = function ({ newData, currentData }) {
   } else {
     validateCurrentDatum({ newData, currentData });
   }
+};
+
+const validateDifferentTypes = function ({ newData, currentData }) {
+  const differentTypes =
+    (Array.isArray(newData) && !Array.isArray(currentData)) ||
+    (!Array.isArray(newData) && Array.isArray(currentData)) ||
+    (!newData && currentData);
+  if (!differentTypes) { return; }
+
+  const message = `'args.currentData' is invalid: ${JSON.stringify(currentData)}`;
+  throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
 };
 
 const validateCurrentDatum = function ({ newData, currentData }) {
