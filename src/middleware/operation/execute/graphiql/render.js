@@ -1,15 +1,11 @@
 'use strict';
 
-const { readFile } = require('fs');
 const { resolve } = require('path');
-const { promisify } = require('util');
-
-const { render } = require('mustache');
 
 const { EngineError } = require('../../../../error');
-const { mapValues } = require('../../../../utilities');
+const { mapValues, renderTemplate } = require('../../../../utilities');
 
-const GRAPHIQL_HTML_FILE = resolve(__dirname, './graphiql.mustache');
+const template = resolve(__dirname, './graphiql.mustache');
 
 /*
  * Returns HTML document loading a GraphQL debugger
@@ -40,10 +36,7 @@ const renderGraphiQL = async function (input) {
   const data = Object.assign(escapeData(dataToEscape), dataNotToEscape);
 
   try {
-    const htmlFile = await promisify(readFile)(GRAPHIQL_HTML_FILE, {
-      encoding: 'utf-8',
-    });
-    const htmlString = render(htmlFile, data);
+    const htmlString = await renderTemplate({ template, data });
     return htmlString;
   } catch (error) {
     const message = 'Could not render GraphiQL HTML document';
