@@ -62,8 +62,12 @@ const normalResolver = async function ({
   const args = oArgs || {};
 
   // Retrieve main input passed to database layer
-  const resolverReturn = subResolver({ name, modelsMap, parent, args });
-  const { multiple, modelName, actionType, directReturn } = resolverReturn;
+  const { multiple, modelName, actionType, directReturn } = subResolver({
+    name,
+    modelsMap,
+    parent,
+    args,
+  });
   // Shortcuts resolver if we already know the final result
   if (directReturn !== undefined) { return directReturn; }
 
@@ -74,9 +78,7 @@ const normalResolver = async function ({
 
   validateAction({ action, modelName, name, graphqlMethod, actionType });
 
-  // Full recursive action path, e.g. 'findModel.findChild'
-  const { fullAction: parentFullAction } = getParentModel(parent);
-  const fullAction = parentFullAction ? `${parentFullAction}.${name}` : name;
+  const fullAction = getFullAction({ parent, name });
 
   // Fire database layer, retrieving value passed to children
   const response = await cbFunc({ action, fullAction, modelName, args });
@@ -85,6 +87,13 @@ const normalResolver = async function ({
   setParentModel(response.data, { action, modelName, fullAction });
 
   return response.data;
+};
+
+// Full recursive action path, e.g. 'findModel.findChild'
+const getFullAction = function ({ parent, name }) {
+  const { fullAction: parentFullAction } = getParentModel(parent);
+  const fullAction = parentFullAction ? `${parentFullAction}.${name}` : name;
+  return fullAction;
 };
 
 const validateAction = function ({
