@@ -1,8 +1,8 @@
 'use strict';
 
-const { transform, omit, mapValues } = require('../../utilities');
+const { transform, omit, mapValues } = require('../../../utilities');
+const { normalizeCommandNames } = require('../commands');
 
-const { normalizeCommandNames } = require('./commands');
 const { getActions } = require('./actions');
 const { normalizeAllTransforms } = require('./transform');
 const { normalizeAliases } = require('./alias');

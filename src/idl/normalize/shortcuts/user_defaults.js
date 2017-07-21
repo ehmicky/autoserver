@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapModels } = require('./map_helper');
+const { mapModels } = require('./helper');
 
 // Retrieves map of models's attributes for which a default value is defined
 // E.g. { User: { name: 'default_name', ... }, ... }

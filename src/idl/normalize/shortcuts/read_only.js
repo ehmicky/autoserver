@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapModels } = require('./map_helper');
+const { mapModels } = require('./helper');
 
 // Gets a map of models' readonly attributes,
 // e.g. { my_model: ['my_readonly_attribute', ...], ... }
