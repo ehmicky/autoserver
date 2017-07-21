@@ -2,7 +2,11 @@
 
 const { mapValues, pickBy } = require('../../../utilities');
 
-const mapModels = function ({ models, filter, mapProps, mapProp }) {
+// Create shortcuts maps by iterating over each model and its properties
+// `filter` allow selecting properties
+// `mapProps` allow modifying properties, as a whole
+// `mapProp` allow modifying each individual property
+const mapModels = function ({ models }, { filter, mapProps, mapProp }) {
   const filterFunc = getFilter({ filter });
 
   return mapValues(models, model => {
@@ -27,6 +31,7 @@ const getFilter = function ({ filter = () => true }) {
   return filter;
 };
 
+// Shortcut notation for `filter`
 const attrFilter = function (attrName, prop) {
   return prop[attrName] !== undefined;
 };

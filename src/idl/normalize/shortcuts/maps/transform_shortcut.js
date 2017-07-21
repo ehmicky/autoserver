@@ -1,17 +1,5 @@
 'use strict';
 
-const { mapModels } = require('./helper');
-
-// Gets a map of models' `transform` or `compute`
-// e.g. { my_model: [{ attrName, transform }, ...], ... }
-const getTransformsMap = function ({ idl: { models }, type }) {
-  return mapModels({
-    models,
-    filter: type,
-    mapProps: mapProps.bind(null, type),
-  });
-};
-
 const mapProps = function (type, props, { transformOrder }) {
   const newProps = Object.entries(props)
     .map(([attrName, { [type]: transform }]) => ({ attrName, transform }));
@@ -30,6 +18,16 @@ const sortProps = function ({ props, transformOrder }) {
   });
 };
 
+// Gets a map of models' `transform` or `compute`
+// e.g. { my_model: [{ attrName, transform }, ...], ... }
+const getTransformsMap = type => ({
+  filter: type,
+  mapProps: mapProps.bind(null, type),
+});
+const transformsMap = getTransformsMap('transform');
+const computesMap = getTransformsMap('compute');
+
 module.exports = {
-  getTransformsMap,
+  transformsMap,
+  computesMap,
 };

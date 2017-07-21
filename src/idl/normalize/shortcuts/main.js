@@ -1,29 +1,20 @@
 'use strict';
 
-const { getReadOnlyMap } = require('./read_only');
-const { getUserDefaultsMap } = require('./user_defaults');
-const { getTransformsMap } = require('./transform_shortcut');
-const { getAliasesMap } = require('./aliases');
-const { getModelsMap } = require('./models_map');
+const { assignObject } = require('../../../utilities');
+
+const maps = require('./maps');
+const { mapModels } = require('./helper');
 
 // Compile-time transformations just meant for runtime performance optimization
-const normalizeShortcuts = function ({ idl }) {
-  const readOnlyMap = getReadOnlyMap({ idl });
-  const userDefaultsMap = getUserDefaultsMap({ idl });
-  const transformsMap = getTransformsMap({ idl, type: 'transform' });
-  const computesMap = getTransformsMap({ idl, type: 'compute' });
-  const aliasesMap = getAliasesMap({ idl });
-  const modelsMap = getModelsMap({ idl });
-
-  idl.shortcuts = {
-    readOnlyMap,
-    userDefaultsMap,
-    transformsMap,
-    computesMap,
-    aliasesMap,
-    modelsMap,
-  };
-  return idl;
+const normalizeShortcuts = function ({ idl, idl: { models } }) {
+  const shortcuts = Object.entries(maps)
+    .map(([name, input]) => {
+      const shortcut = mapModels({ models }, input);
+      return { [name]: shortcut };
+    })
+    .reduce(assignObject, {});
+  const newIdl = Object.assign({}, idl, { shortcuts });
+  return newIdl;
 };
 
 module.exports = {
