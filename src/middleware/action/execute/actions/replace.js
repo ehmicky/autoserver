@@ -3,10 +3,10 @@
 const { dataToFilter } = require('../data_to_filter');
 const { getCurrentData } = require('../current_data');
 
-const readCommand = ({ args: { data: dataArg } }) => ({
+const readCommand = ({ args }) => ({
   commandType: 'read',
   args: {
-    filter: dataToFilter({ dataArg }),
+    filter: dataToFilter({ args }),
   },
 });
 

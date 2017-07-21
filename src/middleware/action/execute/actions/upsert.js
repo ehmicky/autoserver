@@ -1,16 +1,16 @@
 'use strict';
 
-const { dataToFilter } = require('../data_to_filter');
 const { getCurrentData } = require('../current_data');
+const { dataToFilter } = require('../data_to_filter');
 
-const readCommand = ({ args: { data: dataArg } }) => ({
+const readCommand = ({ args }) => ({
   commandType: 'read',
   // We want to avoid 404 (since models might exist or not)
   // that might arise when using non-multiple command
   commandMultiple: true,
 
   args: {
-    filter: dataToFilter({ dataArg }),
+    filter: dataToFilter({ args }),
   },
 });
 

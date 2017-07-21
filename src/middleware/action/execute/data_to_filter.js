@@ -4,7 +4,7 @@ const { EngineError } = require('../../../error');
 
 // Transform `args.data`'s ids into a `args.filter` that can be used by
 // the first and the second "read" command
-const dataToFilter = function ({ dataArg }) {
+const dataToFilter = function ({ args: { data: dataArg } }) {
   const ids = getDataIds({ dataArg });
   const idsJsl = idsToJsl({ ids });
   return idsJsl;
