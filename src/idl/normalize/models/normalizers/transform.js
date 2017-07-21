@@ -1,7 +1,7 @@
 'use strict';
 
-const { mapValues, assignArray } = require('../../../utilities');
-const { EngineError } = require('../../../error');
+const { mapValues, assignArray } = require('../../../../utilities');
+const { EngineError } = require('../../../../error');
 
 // Transforms can take several shapes, we normalize them
 // We also define transform order, with `using` property
