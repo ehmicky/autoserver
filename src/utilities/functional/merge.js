@@ -6,10 +6,16 @@ const deepMerge = function (objA, ...objects) {
 
   if (objects.length === 0) { return objA; }
 
+  if (objects.length === 1) {
+    return simpleMerge({ objA, objects });
+  }
+
   if (objects.length > 1) {
     return recursiveMerge({ objA, objects });
   }
+};
 
+const simpleMerge = function ({ objA, objects }) {
   const [objB] = objects;
 
   validateInput({ objA, objB });
@@ -21,12 +27,6 @@ const deepMerge = function (objA, ...objects) {
   if (objA.constructor === Object) {
     return mergeObjects({ objA, objB });
   }
-};
-
-const recursiveMerge = function ({ objA, objects }) {
-  const newObjA = deepMerge(objA, objects[0]);
-  const newObjects = objects.slice(1);
-  return deepMerge(newObjA, ...newObjects);
 };
 
 const validateInput = function ({ objA, objB }) {
@@ -58,6 +58,12 @@ const mergeObjects = function ({ objA, objB }) {
   }
 
   return newObjA;
+};
+
+const recursiveMerge = function ({ objA, objects }) {
+  const newObjA = deepMerge(objA, objects[0]);
+  const newObjects = objects.slice(1);
+  return deepMerge(newObjA, ...newObjects);
 };
 
 module.exports = {
