@@ -33,15 +33,7 @@ const getType = function (def, opts = {}) {
 const getField = function (def, opts) {
   opts.inputObjectType = opts.inputObjectType || '';
 
-  const fieldGetter = graphQLFGetters.find(possibleType =>
-    possibleType.condition(def, opts)
-  );
-
-  if (!fieldGetter) {
-    const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
-    throw new EngineError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
-  }
-
+  const fieldGetter = getFieldGetter({ def, opts });
   const { type, args: oArgs } = fieldGetter.value(def, opts);
 
   // Fields description|deprecation_reason are taken from IDL definition
@@ -52,6 +44,19 @@ const getField = function (def, opts) {
   const defaultValue = getDefaultValue({ def, opts });
   const field = { type, description, deprecationReason, args, defaultValue };
   return field;
+};
+
+const getFieldGetter = function ({ def, opts }) {
+  const fieldGetter = graphQLFGetters.find(possibleType =>
+    possibleType.condition(def, opts)
+  );
+
+  if (!fieldGetter) {
+    const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
+    throw new EngineError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+  }
+
+  return fieldGetter;
 };
 
 const getArgs = function ({ oArgs, def, opts }) {
