@@ -162,17 +162,17 @@ rules:
   no-multi-assign: 2
   no-param-reassign:
   - 2
-#  - props: true
-#  fp/no-mutation:
-#  - 2
-#  - commonjs: true
-#  fp/no-delete: 2
+##  - props: true
+##  fp/no-mutation:
+##  - 2
+##  - commonjs: true
+##  fp/no-delete: 2
 #  fp/no-unused-expression:
 #  - 2
 #  - allowUseStrict: true
   import/no-unassigned-import: 2
-#  fp/no-mutating-assign: 2
-#  fp/no-mutating-methods: 2
+##  fp/no-mutating-assign: 2
+##  fp/no-mutating-methods: 2
 
   # Naming
   id-length:
