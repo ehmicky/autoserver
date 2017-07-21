@@ -1,35 +1,15 @@
 'use strict';
 
-// Converts from Action format to Command format
-const commandConvertor = async function ({
-  command,
-  args,
-  modelName,
-  jsl,
-  log,
-  perf,
-  idl,
-  serverOpts,
-  apiServer,
-  params,
-  settings,
-}) {
-  const newJsl = jsl.add({ $COMMAND: command.type });
+const { pick } = require('../../utilities');
 
-  // Not kept: action, fullAction
-  const nextInput = {
-    command,
-    args,
-    modelName,
-    jsl: newJsl,
-    log,
-    perf,
-    idl,
-    serverOpts,
-    apiServer,
-    params,
-    settings,
-  };
+// Converts from Action format to Command format
+const commandConvertor = async function (input) {
+  const { jsl, log, command } = input;
+
+  const trimmedInput = pick(input, commandAttributes);
+
+  const newJsl = jsl.add({ $COMMAND: command.type });
+  const nextInput = Object.assign({}, trimmedInput, { jsl: newJsl });
 
   try {
     const response = await this.next(nextInput);
@@ -41,6 +21,20 @@ const commandConvertor = async function ({
     throw error;
   }
 };
+
+// Not kept: action, fullAction
+const commandAttributes = [
+  'command',
+  'args',
+  'modelName',
+  'log',
+  'perf',
+  'idl',
+  'serverOpts',
+  'apiServer',
+  'params',
+  'settings',
+];
 
 module.exports = {
   commandConvertor,
