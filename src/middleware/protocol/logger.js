@@ -1,6 +1,6 @@
 'use strict';
 
-const { getReason } = require('../../error');
+const { getReason, normalizeError } = require('../../error');
 const { STATUS_LEVEL_MAP } = require('../../logging');
 
 // Main request logging middleware.
@@ -41,7 +41,7 @@ const handleLog = async function ({ error, response, input: { log } }) {
 
 // Add information for `requestInfo.error`
 const addErrorReason = function ({ error, input: { log } }) {
-  const errorObj = error instanceof Error ? error : new Error(String(error));
+  const errorObj = normalizeError({ error });
 
   const errorReason = getReason({ error: errorObj });
   log.add({ errorReason });

@@ -72,7 +72,7 @@ const handleClientRequest = function ({ server, handleRequest }) {
 const handleClientError = function ({ server, log }) {
   server.on('clientError', async (error, socket) => {
     const message = 'Client TCP socket error';
-    await log.process({ value: error, message });
+    await log.process({ error, message });
 
     socket.end('');
   });

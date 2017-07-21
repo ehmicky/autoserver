@@ -1,5 +1,7 @@
 'use strict';
 
+const { normalizeError } = require('../../../error');
+
 const { sender } = require('./sender');
 
 // Sends the response at the end of the request
@@ -17,7 +19,7 @@ const sendResponse = async function (input) {
 
     return response;
   } catch (error) {
-    const errorObj = error instanceof Error ? error : new Error(String(error));
+    const errorObj = normalizeError({ error });
 
     // Handler to send response error
     // Since we only send response errors if `errorObj.sendError` is defined,
