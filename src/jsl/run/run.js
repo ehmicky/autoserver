@@ -22,19 +22,23 @@ const runJsl = function ({ value, params = {}, type = 'system' }) {
 
     return jslFunc(params);
   } catch (error) {
-    // JSL without parenthesis
-    const rawJsl = getRawJsl({ jsl: value });
-    // If non-inline function, function name
-    const funcName = typeof value === 'function' &&
-      value.name &&
-      `${value.name}()`;
-    const expression = rawJsl || funcName || value;
-    const message = `JSL expression failed: '${expression}'`;
-    throwJslError({ message, type, innererror: error });
+    handleJslError({ error, value, type });
   }
 };
 
 const validTypes = ['system', 'startup', 'data', 'filter'];
+
+const handleJslError = function ({ error, value, type }) {
+  // JSL without parenthesis
+  const rawJsl = getRawJsl({ jsl: value });
+  // If non-inline function, function name
+  const funcName = typeof value === 'function' &&
+    value.name &&
+    `${value.name}()`;
+  const expression = rawJsl || funcName || value;
+  const message = `JSL expression failed: '${expression}'`;
+  throwJslError({ message, type, innererror: error });
+};
 
 module.exports = {
   runJsl,
