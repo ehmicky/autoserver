@@ -1,22 +1,28 @@
 'use strict';
 
+const { omit, assignObject } = require('../../../../utilities');
+
 // Name shortcuts, e.g. { nFilter: value } -> { f: value }
-const addNameShortcuts = function ({ token }) {
-  for (const { from, to } of namesShortcuts) {
-    if (token[from] !== undefined) {
-      token[to] = token[from];
-      delete token[from];
-    }
-  }
+const addNameShortcuts = function (token) {
+  const shortcuts = namesShortcuts
+    .filter(({ from }) => token[from] !== undefined)
+    .map(({ from, to }) => ({ [to]: token[from] }))
+    .reduce(assignObject, {});
+  const attrsToRemove = namesShortcuts
+    .filter(({ from }) => token[from] !== undefined)
+    .map(({ from }) => from);
+  return Object.assign({}, omit(token, attrsToRemove), shortcuts);
 };
 
-const removeNameShortcuts = function ({ token }) {
-  for (const { from, to } of namesShortcuts) {
-    if (token[to] !== undefined) {
-      token[from] = token[to];
-      delete token[to];
-    }
-  }
+const removeNameShortcuts = function (token) {
+  const shortcuts = namesShortcuts
+    .filter(({ to }) => token[to] !== undefined)
+    .map(({ from, to }) => ({ [from]: token[to] }))
+    .reduce(assignObject, {});
+  const attrsToRemove = namesShortcuts
+    .filter(({ to }) => token[to] !== undefined)
+    .map(({ to }) => to);
+  return Object.assign({}, omit(token, attrsToRemove), shortcuts);
 };
 
 const namesShortcuts = [
