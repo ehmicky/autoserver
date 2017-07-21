@@ -7,6 +7,15 @@ const { decode } = require('../../encoding');
 const getInputData = function ({ args }) {
   const inputData = Object.assign({}, args);
 
+  validateInputData({ inputData });
+
+  const decodedTokens = getDecodedTokens({ inputData });
+  Object.assign(inputData, ...decodedTokens);
+
+  return inputData;
+};
+
+const validateInputData = function ({ inputData }) {
   const hasTwoDirections = inputData.before !== undefined &&
     inputData.after !== undefined;
 
@@ -36,7 +45,9 @@ const getInputData = function ({ args }) {
       throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
     }
   }
+};
 
+const getDecodedTokens = function ({ inputData }) {
   const decodedTokens = ['before', 'after']
     .filter(name => inputData[name] !== undefined && inputData[name] !== '')
     .map(name => {
@@ -50,9 +61,7 @@ const getInputData = function ({ args }) {
       const decodedToken = getDecodedToken({ token, name });
       return { [name]: decodedToken };
     });
-  Object.assign(inputData, ...decodedTokens);
-
-  return inputData;
+  return decodedTokens;
 };
 
 const getDecodedToken = function ({ token, name }) {
