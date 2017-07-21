@@ -6,35 +6,64 @@ const { getPaginationInfo } = require('./info');
 const { decode } = require('./encoding');
 
 // Transform args.pageSize|before|after|page into args.limit|offset|nFilter
-const getPaginationInput = function ({ args, args: { page, pageSize } }) {
-  const {
-    token,
-    hasToken,
-    isBackward,
-    usedPageSize,
-    isOffsetPagination,
-  } = getPaginationInfo({ args });
+const getPaginationInput = function ({ args }) {
+  const info = getPaginationInfo({ args });
+  const paginationNewInput = getPaginationNewInput({ info, args });
+
   const newArgs = omit(args, ['page', 'before', 'after', 'pageSize']);
+  const nextArgs = Object.assign({}, newArgs, paginationNewInput);
+  return nextArgs;
+};
 
+const getPaginationNewInput = function ({
+  info,
+  info: { isOffsetPagination },
+  args,
+}) {
   if (isOffsetPagination) {
-    newArgs.offset = (page - 1) * pageSize;
-  } else {
-    if (hasToken) {
-      const tokenObj = decode({ token });
-      newArgs.nFilter = getPaginatedFilter({ tokenObj, isBackward });
-      newArgs.nOrderBy = tokenObj.nOrderBy || newArgs.nOrderBy;
-    }
-
-    if (isBackward) {
-      newArgs.nOrderBy = newArgs.nOrderBy.map(({ attrName, order }) =>
-        ({ attrName, order: order === 'asc' ? 'desc' : 'asc' })
-      );
-    }
+    return getOffsetInput({ info, args });
   }
 
-  newArgs.limit = usedPageSize;
+  return getTokensInput({ info, args });
+};
 
-  return newArgs;
+const getOffsetInput = function ({
+  info: { usedPageSize },
+  args: { page, pageSize },
+}) {
+  const offset = (page - 1) * pageSize;
+  const limit = usedPageSize;
+
+  return { offset, limit };
+};
+
+const getTokensInput = function ({ info, info: { usedPageSize }, args }) {
+  const tokenInput = getTokenInput({ info, args });
+  const backwardInput = getBackwardInput({ info, args });
+  const limit = usedPageSize;
+  return Object.assign({}, tokenInput, backwardInput, { limit });
+};
+
+const getTokenInput = function ({
+  info: { token, hasToken, isBackward },
+  args,
+}) {
+  if (!hasToken) { return; }
+
+  const tokenObj = decode({ token });
+  const nFilter = getPaginatedFilter({ tokenObj, isBackward });
+  const nOrderBy = tokenObj.nOrderBy || args.nOrderBy;
+
+  return { nFilter, nOrderBy };
+};
+
+const getBackwardInput = function ({ info: { isBackward }, args }) {
+  if (!isBackward) { return; }
+
+  const nOrderBy = args.nOrderBy.map(({ attrName, order }) =>
+    ({ attrName, order: order === 'asc' ? 'desc' : 'asc' })
+  );
+  return { nOrderBy };
 };
 
 // Patches args.nFilter to allow for cursor pagination
