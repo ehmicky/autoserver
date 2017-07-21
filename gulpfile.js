@@ -6,7 +6,7 @@ const jscpd = require('gulp-jscpd');
 
 const { gulpSrc } = require('./gulp');
 
-gulp.task('lint', () =>
+gulp.task('general_lint', () =>
   gulpSrc('lint')
     .pipe(eslint({
       cache: true,
@@ -16,7 +16,7 @@ gulp.task('lint', () =>
     .pipe(eslint.failAfterError())
 );
 
-gulp.task('dupLint', () =>
+gulp.task('dup_lint', () =>
   gulpSrc('lint')
     .pipe(jscpd({
       verbose: true,
@@ -27,6 +27,8 @@ gulp.task('dupLint', () =>
     }))
 );
 
-gulp.task('test', ['lint', 'dupLint']);
+gulp.task('lint', ['general_lint', 'dup_lint']);
+
+gulp.task('test', ['lint']);
 
 gulp.task('default', ['test']);
