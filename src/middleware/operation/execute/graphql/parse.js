@@ -35,21 +35,7 @@ const validateQuery = function ({ queryDocument, goal, operationName }) {
   const operationDefinitions = queryDocument.definitions.filter(({ kind }) =>
     kind === 'OperationDefinition'
   );
-  const definitions = operationDefinitions.filter(({
-    name: { value: name } = {},
-  }) => !operationName || name === operationName);
-
-  if (definitions.length === 0) {
-    if (operationName) {
-      const message = `Could not find GraphQL operation ${operationName}`;
-      throw new EngineError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
-    } else {
-      const message = 'Missing GraphQL query';
-      throw new EngineError(message, { reason: 'GRAPHQL_NO_QUERY' });
-    }
-  }
-
-  const [definition] = definitions;
+  const definition = getDefinition({ operationDefinitions, operationName });
 
   // GraphQL-anywhere do not support operationName yet,
   // so we must patch it until they do
@@ -66,6 +52,25 @@ const validateQuery = function ({ queryDocument, goal, operationName }) {
   }
 
   return { graphqlMethod: definition.operation };
+};
+
+const getDefinition = function ({ operationDefinitions, operationName }) {
+  const definitions = operationDefinitions.filter(({
+    name: { value: name } = {},
+  }) => !operationName || name === operationName);
+
+  if (definitions.length === 0) {
+    if (operationName) {
+      const message = `Could not find GraphQL operation ${operationName}`;
+      throw new EngineError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+    } else {
+      const message = 'Missing GraphQL query';
+      throw new EngineError(message, { reason: 'GRAPHQL_NO_QUERY' });
+    }
+  }
+
+  const [definition] = definitions;
+  return definition;
 };
 
 module.exports = {
