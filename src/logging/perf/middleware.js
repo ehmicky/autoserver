@@ -12,6 +12,24 @@ const getMiddlewarePerfLog = func => async function middlewarePerfLog (
   // E.g. for the first middleware
   if (!log) { return this.next(input, ...args); }
 
+  const perf = startPerf({ func, input });
+
+  try {
+    const nextInput = Object.assign({}, input, { perf });
+    const response = await this.next(nextInput);
+
+    await stopPerf({ input, perf });
+
+    return response;
+  // Make sure it is always called
+  } catch (error) {
+    await stopPerf({ input, perf });
+
+    throw error;
+  }
+};
+
+const startPerf = function ({ func, input, input: { log } }) {
   stopParent(input);
 
   // When a middleware is simply a "switch", we try to get the selected
@@ -19,31 +37,23 @@ const getMiddlewarePerfLog = func => async function middlewarePerfLog (
   const nextFunc = (func.getMiddleware && func.getMiddleware(input)) || func;
 
   const perf = log.perf.start(nextFunc.name, 'middleware');
+  return perf;
+};
 
-  try {
-    const nextInput = Object.assign({}, input, { perf });
-    const response = await this.next(nextInput);
+const stopPerf = async function ({ input, perf }) {
+  perf.stop();
 
-    perf.stop();
+  // When performing await middlewarePerfLog(),
+  // `await` might yield the current macrotask, i.e. the parentPerf will be
+  // restarted, but another macrotask will be run first, although the parent
+  // is still waiting.
+  // Forcing to wait for the current macrotask to end mitigates that problem,
+  // although it still exists, and concurrent items might have their reported
+  // time inflated by the time they waited for the concurrent tasks
+  // to complete.
+  await promisify(setTimeout)(0);
 
-    // When performing await middlewarePerfLog(),
-    // `await` might yield the current macrotask, i.e. the parentPerf will be
-    // restarted, but another macrotask will be run first, although the parent
-    // is still waiting.
-    // Forcing to wait for the current macrotask to end mitigates that problem,
-    // although it still exists, and concurrent items might have their reported
-    // time inflated by the time they waited for the concurrent tasks
-    // to complete.
-    await promisify(setTimeout)(0);
-
-    restartParent(input);
-
-    return response;
-  } catch (error) {
-    // Make sure it is always called
-    restartParent(input);
-    throw error;
-  }
+  restartParent(input);
 };
 
 const stopCounter = new WeakMap();
