@@ -180,17 +180,23 @@ const reduceModels = function ({ info, attrName, filter }) {
   const size = getSize({ value: info[attrName] });
   info[`${attrName}Size`] = size;
 
+  modelReducer({ info, attrName, filter });
+};
+
+const modelReducer = function ({ info, attrName, filter }) {
   if (Array.isArray(info[attrName])) {
     info[`${attrName}Count`] = info[attrName].length;
     info[attrName] = info[attrName]
-      .filter(obj => obj && obj.constructor === Object)
+      .filter(isObject)
       .map(obj => filter(obj));
-  } else if (info[attrName] && info[attrName].constructor === Object) {
+  } else if (isObject(info[attrName])) {
     info[attrName] = filter(info[attrName]);
   } else if (!info[attrName]) {
     delete info[attrName];
   }
 };
+
+const isObject = obj => obj && obj.constructor === Object;
 
 const getSize = function ({ value }) {
   try {

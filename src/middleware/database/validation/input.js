@@ -27,7 +27,7 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
 
     for (const data of allAttrs) {
       const value = cloneDeep(data);
-      removeJsl({ value });
+      removeAllJsl({ value });
       const reportInfo = { type, dataVar };
       validate({ schema, data: value, reportInfo, extra: jsl });
     }
@@ -46,24 +46,29 @@ const getAttributes = function (args) {
 
 // Do not validate JSL code
 // TODO: remove when using MongoDB query objects
-const removeJsl = function ({ value, parent, key }) {
+const removeAllJsl = function ({ value, parent, key }) {
   if (!value) { return; }
 
   if (typeof value === 'function' && parent) {
-    if (Array.isArray(parent)) {
-      parent.splice(key, 1);
-    } else if (parent.constructor === Object) {
-      delete parent[key];
-    }
-
-    return;
+    return removeJsl({ parent, key });
   }
 
-  // Recursion
-  if (Array.isArray(value) || value.constructor === Object) {
-    for (const [childKey, child] of Object.entries(value)) {
-      return removeJsl({ value: child, parent: value, key: childKey });
-    }
+  recurseJsl({ value });
+};
+
+const removeJsl = function ({ parent, key }) {
+  if (Array.isArray(parent)) {
+    parent.splice(key, 1);
+  } else if (parent.constructor === Object) {
+    delete parent[key];
+  }
+};
+
+const recurseJsl = function ({ value }) {
+  if (!Array.isArray(value) && value.constructor !== Object) { return; }
+
+  for (const [childKey, child] of Object.entries(value)) {
+    return removeAllJsl({ value: child, parent: value, key: childKey });
   }
 };
 

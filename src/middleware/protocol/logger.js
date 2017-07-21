@@ -23,20 +23,29 @@ const logger = async function logger (input) {
 };
 
 const handleLog = async function ({ error, response, input: { log } }) {
-  const status = (error && error.status) ||
-    (response && response.status) ||
-    'SERVER_ERROR';
+  const level = getLevel({ error, response });
+
+  // The logger will build the message and the `requestInfo`
+  // We do not do it now, because we want the full protocol layer to end first,
+  // do `requestInfo` is full.
+  await log[level]('', { type: 'call' });
+};
+
+const getLevel = function ({ error, response }) {
+  const status = getStatus({ error, response });
 
   // If status is already set, reuse it
   // If an error was thrown, level should always be 'warn' or 'error'
   const errorLevel = status === 'CLIENT_ERROR' ? 'warn' : 'error';
   const defaultLevel = STATUS_LEVEL_MAP[status] || 'error';
   const level = error ? errorLevel : defaultLevel;
+  return level;
+};
 
-  // The logger will build the message and the `requestInfo`
-  // We do not do it now, because we want the full protocol layer to end first,
-  // do `requestInfo` is full.
-  await log[level]('', { type: 'call' });
+const getStatus = function ({ error, response }) {
+  return (error && error.status) ||
+    (response && response.status) ||
+    'SERVER_ERROR';
 };
 
 // Add information for `requestInfo.error`
