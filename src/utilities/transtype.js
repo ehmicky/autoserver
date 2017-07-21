@@ -9,15 +9,28 @@
 const transtype = function (string) {
   if (typeof string !== 'string') { return string; }
 
-  const parsedNumber = Number(string);
-  const isValidNumber = typeof parsedNumber === 'number' &&
-    Number.isFinite(parsedNumber);
-  if (isValidNumber) { return parsedNumber; }
+  const number = parseNumber(string);
+  if (number !== undefined) { return number; }
 
-  if (string === 'true') { return true; }
-  if (string === 'false') { return false; }
+  const boolean = parseBoolean(string);
+  if (boolean !== undefined) { return boolean; }
 
   return string;
+};
+
+const parseNumber = function (string) {
+  const parsedNumber = Number(string);
+
+  const isValidNumber = typeof parsedNumber === 'number' &&
+    Number.isFinite(parsedNumber);
+  if (!isValidNumber) { return; }
+
+  return parsedNumber;
+};
+
+const parseBoolean = function (string) {
+  if (string === 'true') { return true; }
+  if (string === 'false') { return false; }
 };
 
 module.exports = {
