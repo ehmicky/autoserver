@@ -10,16 +10,13 @@ const { renameArgs } = require('./rename');
 // Process client-supplied args: validates them and add them to JSL variables
 // Also rename them camelcase
 const handleArgs = async function (input) {
-  const { log, args, jsl, action, serverOpts: { maxDataLength } } = input;
+  const { log, args, jsl } = input;
 
   const clonedArgs = cloneDeep(args);
   const nextInput = jsl.addToInput(input, { $ARGS: clonedArgs });
 
-  validateBasic({ args });
-
   try {
-    validateSyntax({ args, action, maxDataLength });
-    validateLimits({ args, maxDataLength });
+    validateArgs({ input });
     nextInput.args = renameArgs({ args });
 
     const response = await this.next(nextInput);
@@ -30,6 +27,14 @@ const handleArgs = async function (input) {
 
     throw error;
   }
+};
+
+const validateArgs = function ({
+  input: { args, action, serverOpts: { maxDataLength } },
+}) {
+  validateBasic({ args });
+  validateSyntax({ args, action, maxDataLength });
+  validateLimits({ args, maxDataLength });
 };
 
 module.exports = {
