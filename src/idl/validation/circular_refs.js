@@ -23,18 +23,22 @@ const validateCircularRefs = function ({
     pathSet.add(value);
   }
 
-  // Recursion
-  if (value && (Array.isArray(value) || value.constructor === Object)) {
-    for (const [childKey, child] of Object.entries(value)) {
-      const pathPart = Array.isArray(value)
-        ? `[${childKey}]`
-        : `.${childKey}`;
-      const childPath = `${path}${pathPart}`;
-      validateCircularRefs({ value: child, path: childPath, pathSet });
-    }
-  }
+  walkCircularRefs({ value, path, pathSet });
 
   pathSet.delete(value);
+};
+
+// Recursion
+const walkCircularRefs = function ({ value, path, pathSet }) {
+  if (!value) { return; }
+  if (!Array.isArray(value) && value.constructor !== Object) { return; }
+
+  for (const [childKey, child] of Object.entries(value)) {
+    const childPath = Array.isArray(value)
+      ? `${path}[${childKey}]`
+      : `${path}.${childKey}`;
+    validateCircularRefs({ value: child, path: childPath, pathSet });
+  }
 };
 
 module.exports = {
