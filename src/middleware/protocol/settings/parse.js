@@ -26,7 +26,7 @@ const getHeadersSettings = function ({ input: { headers } }) {
   const settingsHeaders = pickBy(headers, (value, name) =>
     SETTINGS_NAME_REGEXP.test(name)
   );
-  return mapKeys(settingsHeaders, name => {
+  return mapKeys(settingsHeaders, (header, name) => {
     const shortName = name.replace(SETTINGS_NAME_REGEXP, '');
     return camelize(shortName, true);
   });

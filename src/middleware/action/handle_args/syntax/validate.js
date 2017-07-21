@@ -22,7 +22,7 @@ const validateSyntax = function ({ args, action }) {
 
 const getActionSchema = function ({ optional = [], required = [] }) {
   const optionalProps = pick(argsSchema, [...optional, ...required]);
-  const mappedProps = mapKeys(optionalProps, (key, { name }) => name || key);
+  const mappedProps = mapKeys(optionalProps, ({ name }, key) => name || key);
   const requiredProps = required.map(name => argsSchema[name].name || name);
   const properties = mapValues(mappedProps, value => omit(value, 'name'));
 
