@@ -96,6 +96,12 @@ const filterToId = function ({ nFilter }) {
 // Look for '(($ === ID))'
 const idJslRegExp = /^\(\(\$\$\.id\s*===\s*(.*)\)\)$/;
 
+const findIndexByFilter = function ({ nFilter, collection, opts }) {
+  const id = filterToId({ nFilter });
+  const index = findIndex({ collection, id, opts });
+  return index;
+};
+
 const findIndexes = function ({ collection, nFilter, opts: { jsl } }) {
   if (!nFilter) {
     return collection.map((model, index) => index);
@@ -135,8 +141,7 @@ const findIndex = function ({
 };
 
 const readOne = function ({ collection, nFilter, opts }) {
-  const id = filterToId({ nFilter });
-  const index = findIndex({ collection, id, opts });
+  const index = findIndexByFilter({ collection, nFilter, opts });
   return { data: collection[index] };
 };
 
@@ -147,8 +152,7 @@ const readMany = function ({ collection, nFilter, opts }) {
 };
 
 const deleteOne = function ({ collection, nFilter, opts, opts: { dryRun } }) {
-  const id = filterToId({ nFilter });
-  const index = findIndex({ collection, id, opts });
+  const index = findIndexByFilter({ collection, nFilter, opts });
   const model = dryRun ? collection[index] : collection.splice(index, 1)[0];
   return { data: model };
 };
