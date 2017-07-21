@@ -3,6 +3,7 @@
 const { omitBy } = require('../utilities');
 
 const { getReason, getGenericProps } = require('./reasons');
+const { normalizeError } = require('./normalize');
 
 // Gets normalized error information
 const getStandardError = function ({
@@ -26,10 +27,7 @@ const getStandardError = function ({
   },
   error: oError,
 }) {
-  const error = oError instanceof Error
-    ? oError
-    : new Error(typeof oError === 'string' ? oError : '');
-
+  const error = normalizeError({ error: oError });
   const type = getReason({ error });
   const { title } = getGenericProps({ error });
   const {

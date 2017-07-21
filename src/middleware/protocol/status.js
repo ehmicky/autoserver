@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { EngineError, normalizeError } = require('../../error');
 
 // Retrieve response's status
 const getStatus = async function (input) {
@@ -12,7 +12,7 @@ const getStatus = async function (input) {
 
     return response;
   } catch (error) {
-    const errorObj = error instanceof Error ? error : new Error(String(error));
+    const errorObj = normalizeError({ error });
 
     const { protocolStatus, status } = getStatuses({ input, error: errorObj });
     Object.assign(errorObj, { protocolStatus, status });

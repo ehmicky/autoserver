@@ -2,7 +2,12 @@
 
 const { onlyOnce, noop } = require('../utilities');
 const { Log } = require('../logging');
-const { EngineError, getStandardError, getErrorMessage } = require('../error');
+const {
+  EngineError,
+  getStandardError,
+  getErrorMessage,
+  normalizeError,
+} = require('../error');
 
 // Error handling for all failures that are process-related
 const processErrorHandler = function ({ options: serverOpts, apiServer }) {
@@ -42,9 +47,9 @@ const setupHandlers = function ({ log }) {
 };
 
 const setupUnhandledRejection = function ({ log }) {
-  process.on('unhandledRejection', async value => {
+  process.on('unhandledRejection', async error => {
     const message = 'A promise was rejected and not handled right away';
-    await log.process({ value, message });
+    await log.process({ error, message });
   });
 };
 
@@ -56,29 +61,22 @@ const setupRejectionHandled = function ({ log }) {
 };
 
 const setupWarning = function ({ log }) {
-  process.on('warning', async value => {
-    await log.process({ value });
+  process.on('warning', async error => {
+    await log.process({ error });
   });
 };
 
 // Report process problems as logs with type 'failure'
-const processHandler = async function (log, { value, message }) {
-  const innererror = getInnerError({ value });
-  const error = new EngineError(message, {
+const processHandler = async function (log, { error, message }) {
+  const innererror = normalizeError({ error });
+  const errorObj = new EngineError(message, {
     reason: 'PROCESS_ERROR',
     innererror,
   });
-
-  const standardError = getStandardError({ log, error });
+  const standardError = getStandardError({ log, error: errorObj });
   const errorMessage = getErrorMessage({ error: standardError });
+
   await log.error(errorMessage, { type: 'failure', errorInfo: standardError });
-};
-
-const getInnerError = function ({ value }) {
-  if (value instanceof Error) { return value; }
-
-  const innerMessage = typeof value === 'string' ? value : '';
-  return new EngineError(innerMessage, { reason: 'PROCESS_ERROR' });
 };
 
 module.exports = {

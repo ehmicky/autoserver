@@ -7,4 +7,5 @@ module.exports = Object.assign(
   require('./standard'),
   require('./message'),
   require('./conf'),
+  require('./normalize'),
 );

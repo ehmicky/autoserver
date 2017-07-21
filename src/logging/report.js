@@ -2,6 +2,8 @@
 
 const { promisify } = require('util');
 
+const { normalizeError } = require('../error');
+
 const { getMessage } = require('./message');
 const { colorize } = require('./colorize');
 const { consolePrint } = require('./console');
@@ -86,11 +88,9 @@ const delayExponent = 5;
 const maxDelay = 1000 * 60 * 3;
 
 // Keep track of the error the logging utility threw
-const addLoggerError = function ({ info, error }) {
-  const errorString = typeof error === 'string' ? error : '';
-  const loggerError = error instanceof Error
-    ? `${error.message} ${error.stack || ''}`
-    : errorString;
+const addLoggerError = function ({ info, error, error: { stack = '' } }) {
+  const { message } = normalizeError({ error });
+  const loggerError = `${message} ${stack}`;
   info.loggerErrors = info.loggerErrors || [];
   info.loggerErrors.push(loggerError);
 };
