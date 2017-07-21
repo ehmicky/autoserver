@@ -115,11 +115,11 @@ rules:
     ignoreStrings: true
     ignoreTemplateLiterals: true
     ignoreRegExpLiterals: true
-##  max-lines:
-##  - 2
-##  - max: 100
-##    skipBlankLines: true
-##    skipComments: true
+  max-lines:
+  - 2
+  - max: 90
+    skipBlankLines: true
+    skipComments: true
   max-statements:
   - 2
   - 10

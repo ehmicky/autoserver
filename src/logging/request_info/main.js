@@ -2,7 +2,10 @@
 
 const { cloneDeep } = require('lodash');
 
-const { omit } = require('../utilities');
+const { omit } = require('../../utilities');
+
+const { reduceInput } = require('./input');
+const { reduceAllModels } = require('./models');
 
 // Builds `requestInfo` object, which contains request-related log information:
 //   - requestId {string}
@@ -87,123 +90,6 @@ const setError = function (requestInfo) {
   if (!requestInfo.errorReason) { return; }
   requestInfo.error = requestInfo.errorReason;
   delete requestInfo.errorReason;
-};
-
-const reduceInput = function (requestInfo, loggerFilter) {
-  setQueryVars(requestInfo, loggerFilter);
-  setHeaders(requestInfo, loggerFilter);
-  setParams(requestInfo, loggerFilter);
-  setSettings(requestInfo, loggerFilter);
-};
-
-const setQueryVars = function (requestInfo, loggerFilter) {
-  const { queryVars } = requestInfo;
-  if (!queryVars || queryVars.constructor !== Object) { return; }
-  requestInfo.queryVars = loggerFilter.queryVars(queryVars);
-};
-
-const setHeaders = function (requestInfo, loggerFilter) {
-  const { headers } = requestInfo;
-  if (!headers || headers.constructor !== Object) { return; }
-  requestInfo.headers = loggerFilter.headers(headers);
-};
-
-const setParams = function (requestInfo, loggerFilter) {
-  const { params } = requestInfo;
-  if (!params || params.constructor !== Object) { return; }
-  requestInfo.params = loggerFilter.params(params);
-};
-
-const setSettings = function (requestInfo, loggerFilter) {
-  const { settings } = requestInfo;
-  if (!settings || settings.constructor !== Object) { return; }
-  requestInfo.settings = loggerFilter.settings(settings);
-};
-
-const reduceAllModels = function (requestInfo, loggerFilter) {
-  setPayload(requestInfo, loggerFilter);
-  setActions(requestInfo, loggerFilter);
-  setResponse(requestInfo, loggerFilter);
-};
-
-const setPayload = function (requestInfo, loggerFilter) {
-  reduceModels({
-    info: requestInfo,
-    attrName: 'payload',
-    filter: loggerFilter.payload,
-  });
-};
-
-const setActions = function (requestInfo, loggerFilter) {
-  const { actions } = requestInfo;
-  if (!actions || actions.constructor !== Object) { return; }
-
-  for (const actionInfo of Object.values(actions)) {
-    setArgData(actionInfo, loggerFilter);
-    setActionResponses(actionInfo, loggerFilter);
-  }
-};
-
-const setArgData = function (actionInfo, loggerFilter) {
-  reduceModels({
-    info: actionInfo.args,
-    attrName: 'data',
-    filter: loggerFilter.argData,
-  });
-};
-
-const setActionResponses = function (actionInfo, loggerFilter) {
-  if (actionInfo.responses && Array.isArray(actionInfo.responses)) {
-    actionInfo.responses = actionInfo.responses.map(({ content } = {}) =>
-      content
-    );
-  }
-
-  reduceModels({
-    info: actionInfo,
-    attrName: 'responses',
-    filter: loggerFilter.actionResponses,
-  });
-};
-
-const setResponse = function (requestInfo, loggerFilter) {
-  reduceModels({
-    info: requestInfo,
-    attrName: 'response',
-    filter: loggerFilter.response,
-  });
-};
-
-const reduceModels = function ({ info, attrName, filter }) {
-  if (!info || info[attrName] === undefined) { return; }
-
-  const size = getSize({ value: info[attrName] });
-  info[`${attrName}Size`] = size;
-
-  modelReducer({ info, attrName, filter });
-};
-
-const modelReducer = function ({ info, attrName, filter }) {
-  if (Array.isArray(info[attrName])) {
-    info[`${attrName}Count`] = info[attrName].length;
-    info[attrName] = info[attrName]
-      .filter(isObject)
-      .map(obj => filter(obj));
-  } else if (isObject(info[attrName])) {
-    info[attrName] = filter(info[attrName]);
-  } else if (!info[attrName]) {
-    delete info[attrName];
-  }
-};
-
-const isObject = obj => obj && obj.constructor === Object;
-
-const getSize = function ({ value }) {
-  try {
-    return JSON.stringify(value).length;
-  } catch (error) {
-    return 'unknown';
-  }
 };
 
 module.exports = {

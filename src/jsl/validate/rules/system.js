@@ -2,6 +2,8 @@
 
 const { memoize } = require('../../../utilities');
 
+const { validateCallExpression } = require('./call_expression');
+
 // Rules to validate JSL defined in IDL file.
 // Each type is a node type.
 // If the node type is missing, it means it is not allowed.
@@ -86,11 +88,8 @@ const getRules = memoize(({ globalKeys }) => ({
   LogicalExpression: true,
   ConditionalExpression: true,
 
-  // Blacklist which function can be called
   CallExpression (node) {
-    return validateSimpleFunction(node) ||
-      validateFuncNames(node) ||
-      validateWrongAssign(node);
+    return validateCallExpression(node);
   },
   // Whitelist which constructor can be called
   NewExpression ({ callee: { type, name } }) {
@@ -112,107 +111,6 @@ const getRules = memoize(({ globalKeys }) => ({
   VariablePattern: true,
   MemberPattern: true,
 }));
-
-const getFuncName = function ({ type, property, name }) {
-  const usesMemberExpression = type === 'MemberExpression' &&
-    property.type === 'Identifier';
-  const funcName = usesMemberExpression ? property.name : name;
-  return funcName;
-};
-
-const validateSimpleFunction = function ({ callee: { type, property } }) {
-  const usesIdentifier = type === 'Identifier';
-  const usesMemberExpression = type === 'MemberExpression' &&
-    property.type === 'Identifier';
-
-  if (usesIdentifier || usesMemberExpression) { return; }
-
-  return 'Function calls must be like: \'func()\' or \'obj.func()\'';
-};
-
-const validateFuncNames = function ({ callee: { type, property, name } }) {
-  const funcName = getFuncName({ type, property, name });
-  const funcNameMessage = funcNames.find(({ values }) =>
-    values.includes(funcName)
-  );
-  if (!funcNameMessage) { return; }
-
-  return funcNameMessage.message(funcName);
-};
-
-const validateWrongAssign = function ({
-  callee: { type, property, name },
-  arguments: args,
-}) {
-  const funcName = getFuncName({ type, property, name });
-  const isWrongAssign = funcName === 'assign' &&
-    (!args[0] || args[0].type !== 'ObjectExpression');
-  if (!isWrongAssign) { return; }
-
-  return 'No side-effects: \'Object.assign()\' first argument must be a literal object';
-};
-
-// We do not want things like eval() which could circumvent our restrictions
-const functionFuncNames = ['eval', 'Function', 'bind', 'call', 'apply'];
-
-// Those functions create side-effects, e.g. assignments
-const sideEffectsFuncNames = [
-  'defineProperty',
-  'defineProperties',
-  'preventExtensions',
-  'seal',
-  'freeze',
-  'setPrototypeOf',
-  'splice',
-  'fill',
-  'copyWithin',
-  'push',
-  'pop',
-  'unshift',
-  'shift',
-  'setDate',
-  'setFullYear',
-  'setHours',
-  'setMilliseconds',
-  'setMinutes',
-  'setMonth',
-  'setSeconds',
-  'setTime',
-  'setUTCDate',
-  'setUTCFullYear',
-  'setUTCHours',
-  'setUTCMilliseconds',
-  'setUTCMinutes',
-  'setUTCMonth',
-  'setUTCSeconds',
-  'setYear',
-];
-
-// Those functions access global state
-const globalFuncNames = ['for', 'keyFor'];
-
-// Those functions imply async code
-const asyncFuncNames = ['then', 'catch'];
-
-const funcNames = [
-  {
-    values: functionFuncNames,
-    message: funcName => `Cannot call '${funcName}()'`,
-  },
-  {
-    values: sideEffectsFuncNames,
-    message: funcName => `No side-effects: cannot call '${funcName}()'`,
-  },
-  {
-    values: globalFuncNames,
-    message: funcName =>
-      `No access to global state: cannot call '${funcName}()'`,
-  },
-  {
-    values: asyncFuncNames,
-    message: funcName => `Must be synchronous: cannot call '${funcName}()'`,
-  },
-];
 
 // Those are the only constructors that can be called with `new`
 const allowedConstructors = ['Date', 'Array', 'RegExp'];

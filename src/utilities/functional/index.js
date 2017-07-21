@@ -3,6 +3,7 @@
 module.exports = Object.assign(
   {},
   require('./map'),
+  require('./recurse_map'),
   require('./reduce'),
   require('./filter'),
   require('./transform'),
@@ -11,5 +12,6 @@ module.exports = Object.assign(
   require('./memoize'),
   require('./once'),
   require('./buffer'),
+  // eslint-disable-next-line import/max-dependencies
   require('./noop'),
 );

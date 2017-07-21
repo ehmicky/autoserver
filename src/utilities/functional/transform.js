@@ -1,6 +1,6 @@
 'use strict';
 
-const { recurseMapByRef } = require('./map');
+const { recurseMapByRef } = require('./recurse_map');
 
 /**
  * Transform some input using a set of transformations
