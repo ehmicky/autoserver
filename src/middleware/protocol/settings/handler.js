@@ -26,12 +26,11 @@ const parseSettings = async function (input) {
   validateSettings({ settings });
   makeImmutable(settings);
 
-  const newJsl = jsl.add({ $SETTINGS: settings });
-
+  const nextInput = jsl.addToInput(input, { $SETTINGS: settings });
   log.add({ settings });
-  Object.assign(input, { settings, jsl: newJsl });
+  Object.assign(nextInput, { settings });
 
-  const response = await this.next(input);
+  const response = await this.next(nextInput);
   return response;
 };
 

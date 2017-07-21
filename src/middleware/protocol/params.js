@@ -23,12 +23,11 @@ const parseParams = async function (input) {
   const params = getParams({ input });
   makeImmutable(params);
 
-  const newJsl = jsl.add({ $PARAMS: params });
-
+  const nextInput = jsl.addToInput(input, { $PARAMS: params });
   log.add({ params });
-  Object.assign(input, { params, jsl: newJsl });
+  Object.assign(nextInput, { params });
 
-  const response = await this.next(input);
+  const response = await this.next(nextInput);
   return response;
 };
 
