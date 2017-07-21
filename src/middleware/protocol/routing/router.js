@@ -1,6 +1,5 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
 const { makeImmutable } = require('../../../utilities');
 
 const { routes, findRoute, getPathVars } = require('./manager');
@@ -10,11 +9,6 @@ const router = async function (input) {
   const { path, goal, log } = input;
 
   const route = findRoute({ routes, path, goal });
-
-  if (!route) {
-    const message = 'The requested URL was not found';
-    throw new EngineError(message, { reason: 'NOT_FOUND' });
-  }
 
   const pathVars = getPathVars({ path, route });
   makeImmutable(pathVars);

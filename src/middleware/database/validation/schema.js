@@ -35,27 +35,9 @@ const transforms = [
     required ({ value, command, type }) {
       if (!Array.isArray(value)) { return; }
 
-      if (type === 'clientInputData') {
-        // Nothing is required for those command.name,
-        // except maybe `id` (previously validated)
-        if (optionalInputCommands.includes(command.name)) {
-          return { required: [] };
-        }
-
-        // `id` requiredness has already been checked by previous validator,
-        // so we skip it here
-        const required = value.filter(requiredProp => requiredProp !== 'id');
-        return { required };
-      } else if (type === 'serverOutputData') {
-        // Some command.name do not require normal attributes as output
-        // (except for `id`)
-        if (optionalOutputCommands.includes(command.name)) {
-          const required = value.filter(requiredProp => requiredProp === 'id');
-          return { required };
-        }
-      }
-
-      return { required: value };
+      const requiredFunc = getRequiredFunc({ type });
+      const required = requiredFunc({ value, command });
+      return { required };
     },
   },
 
@@ -71,6 +53,36 @@ const transforms = [
     },
   },
 ];
+
+const getRequiredFunc = function ({ type }) {
+  if (type === 'clientInputData') { return getClientInputRequired; }
+  if (type === 'serverOutputData') { return getServerOutputRequired; }
+  return getOtherRequired;
+};
+
+const getClientInputRequired = function ({ value, command }) {
+  // Nothing is required for those command.name,
+  // except maybe `id` (previously validated)
+  if (optionalInputCommands.includes(command.name)) { return []; }
+
+  // `id` requiredness has already been checked by previous validator,
+  // so we skip it here
+  return value.filter(requiredProp => requiredProp !== 'id');
+};
+
+const getServerOutputRequired = function ({ value, command }) {
+  // Some command.name do not require normal attributes as output
+  // (except for `id`)
+  if (optionalOutputCommands.includes(command.name)) {
+    return value.filter(requiredProp => requiredProp === 'id');
+  }
+
+  return value;
+};
+
+const getOtherRequired = function ({ value }) {
+  return value;
+};
 
 module.exports = {
   getDataValidationSchema,

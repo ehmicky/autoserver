@@ -3,6 +3,7 @@
 const pathToRegExp = require('path-to-regexp');
 
 const { transtype, assignObject } = require('../../../utilities');
+const { EngineError } = require('../../../error');
 
 const { routes: allRoutes } = require('./routes');
 
@@ -23,9 +24,16 @@ const exportedRoutes = getRoutes({ rawRoutes: allRoutes });
 // Retrieves correct route, according to path
 const findRoute = function ({ routes, path, goal }) {
   // Check path and goals
-  return routes.find(({ regexp, goals }) =>
+  const route = routes.find(({ regexp, goals }) =>
     regexp.test(path) && (!goals || goals.includes(goal))
   );
+
+  if (!route) {
+    const message = 'The requested URL was not found';
+    throw new EngineError(message, { reason: 'NOT_FOUND' });
+  }
+
+  return route;
 };
 
 // Retrieves path variables, e.g. /path/:id

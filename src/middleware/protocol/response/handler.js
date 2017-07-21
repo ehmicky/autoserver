@@ -1,5 +1,6 @@
 'use strict';
 
+const { pick } = require('../../../utilities');
 const { normalizeError } = require('../../../error');
 
 const { sender } = require('./sender');
@@ -11,9 +12,8 @@ const sendResponse = async function (input) {
 
   try {
     const response = await this.next(input);
-    const { content, type } = response;
 
-    log.add({ response: { content, type } });
+    log.add({ response: pick(response, ['content', 'type']) });
 
     await send(response);
 
