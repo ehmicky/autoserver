@@ -19,13 +19,9 @@ const actionConvertor = async function (input) {
 
   try {
     const response = await this.next(nextInput);
-
-    const logActions = getLogActions({ input: nextInput, response, args });
-    log.add({ actions: logActions });
-
-    const transformedResponse = getTransformedResponse({
-      input: nextInput,
+    const transformedResponse = handleResponse({
       response,
+      input: nextInput,
       args: clonedArgs,
       operation,
     });
@@ -52,6 +48,25 @@ const actionAttributes = [
   'params',
   'settings',
 ];
+
+const handleResponse = function ({
+  response,
+  input,
+  input: { log },
+  args,
+  operation,
+}) {
+  const logActions = getLogActions({ input, response, args });
+  log.add({ actions: logActions });
+
+  const transformedResponse = getTransformedResponse({
+    input,
+    response,
+    args,
+    operation,
+  });
+  return transformedResponse;
+};
 
 module.exports = {
   actionConvertor,
