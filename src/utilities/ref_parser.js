@@ -4,7 +4,7 @@ const { basename, dirname } = require('path');
 
 const RefParser = require('json-schema-ref-parser');
 
-const { getYaml } = require('./yaml');
+const { loadYaml } = require('./yaml');
 
 /**
  * Dereference JSON references.
@@ -32,13 +32,16 @@ const dereferenceRefs = async function (obj) {
         allowEmpty: false,
         // We need to override YAML parsing, as we use stricter YAML
         // parsing (CORE_SCHEMA only)
-        async parse ({ data }) {
+        async parse ({ data, url }) {
           const content = Buffer.isBuffer(data) ? data.toString() : data;
           if (typeof content !== 'string') { return content; }
 
+          const yamlContent = await loadYaml({ path: url, content });
+
           // `content` cannot be `null` because of a bug
           // with `json-schema-ref-parser`
-          const yamlContent = await getYaml({ content }) || undefined;
+          if (yamlContent === null) { return; }
+
           return yamlContent;
         },
       },
