@@ -31,26 +31,14 @@ const getServerInfo = function ({ serverOpts: { serverName } }) {
 // We need to memoize both for performnace and predictability,
 // e.g. to assign a single `serverId` per process.
 const getStaticServerInfo = memoize(({ serverName }) => {
-  const hostname = getHostname();
-  const osType = getOsType();
-  const platform = getPlatform();
-  const release = getRelease();
-  const arch = getArch();
-  const system = { hostname, osType, platform, release, arch };
-
-  const memory = getMemory();
-  const cpus = getCpus().length;
-  const stats = { memory, cpus };
-
-  const nodeVersion = process.version;
-  const node = { version: nodeVersion };
-
+  const system = getSystemInfo();
+  const stats = getStatsInfo();
+  const node = getNodeInfo();
   const apiEngine = { version: apiEngineVersion };
-
   const serverId = uuidv4();
-  const name = serverName || hostname || '';
+  const name = serverName || system.hostname || '';
 
-  const staticServerInfo = {
+  return {
     system,
     stats,
     node,
@@ -58,8 +46,27 @@ const getStaticServerInfo = memoize(({ serverName }) => {
     serverId,
     serverName: name,
   };
-  return staticServerInfo;
 });
+
+const getSystemInfo = function () {
+  const hostname = getHostname();
+  const osType = getOsType();
+  const platform = getPlatform();
+  const release = getRelease();
+  const arch = getArch();
+  return { hostname, osType, platform, release, arch };
+};
+
+const getStatsInfo = function () {
+  const memory = getMemory();
+  const cpus = getCpus().length;
+  return { memory, cpus };
+};
+
+const getNodeInfo = function () {
+  const nodeVersion = process.version;
+  return { version: nodeVersion };
+};
 
 // Information that change across a specific process.
 const getDynamicServerInfo = function () {
