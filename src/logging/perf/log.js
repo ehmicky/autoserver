@@ -57,9 +57,28 @@ class PerfLog {
   }
 
   recordItem ({ end, itemId, label, category }) {
+    const measure = this.getMeasure({ itemId, label, category });
+
     // `hrtime()` is more precise that `Date.now()`
     const [secs, nanoSecs] = hrtime();
 
+    // `end()` substracts the current time with the previous time
+    if (end) {
+      const [lastSecs, lastNanoSecs] = measure.pending;
+      const duration = (secs - lastSecs) * 10 ** 9 + (nanoSecs - lastNanoSecs);
+      // We sum up the calculated duration with the previous items
+      measure.duration = measure.duration
+        ? measure.duration + duration
+        : duration;
+    // `start()` marks the current time
+    } else {
+      measure.pending = [secs, nanoSecs];
+    }
+
+    return measure.duration / 10 ** 6;
+  }
+
+  getMeasure ({ itemId, label, category }) {
     // Sort measurements by category, label and itemId
     const key = `${category} ${label}`;
 
@@ -71,22 +90,8 @@ class PerfLog {
       this.measures[key][itemId] = {};
     }
 
-    const measures = this.measures[key][itemId];
-
-    // `end()` substracts the current time with the previous time
-    if (end) {
-      const [lastSecs, lastNanoSecs] = measures.pending;
-      const duration = (secs - lastSecs) * 10 ** 9 + (nanoSecs - lastNanoSecs);
-      // We sum up the calculated duration with the previous items
-      measures.duration = measures.duration
-        ? measures.duration + duration
-        : duration;
-    // `start()` marks the current time
-    } else {
-      measures.pending = [secs, nanoSecs];
-    }
-
-    return measures.duration / 10 ** 6;
+    const measure = this.measures[key][itemId];
+    return measure;
   }
 
   // Returns structured measurements
