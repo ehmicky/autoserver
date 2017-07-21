@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues, pickBy } = require('../../utilities');
+const { mapValues, pickBy } = require('../../../utilities');
 
 const mapModels = function ({ models, filter, mapProps, mapProp }) {
   const filterFunc = getFilter({ filter });

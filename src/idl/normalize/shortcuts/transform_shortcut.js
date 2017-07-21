@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapModels } = require('./map_helper');
+const { mapModels } = require('./helper');
 
 // Gets a map of models' `transform` or `compute`
 // e.g. { my_model: [{ attrName, transform }, ...], ... }

@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapModels } = require('./map_helper');
+const { mapModels } = require('./helper');
 
 // Gets a map of models' attributes' aliases
 // e.g. { modelName: { attrName: ['alias', ...], ... }, ... }

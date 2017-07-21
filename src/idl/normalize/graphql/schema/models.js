@@ -7,8 +7,8 @@ const {
   mapValues,
   mapKeys,
   pickBy,
-} = require('../../../utilities');
-const { ACTIONS } = require('../../../constants');
+} = require('../../../../utilities');
+const { ACTIONS } = require('../../../../constants');
 
 const { getActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');

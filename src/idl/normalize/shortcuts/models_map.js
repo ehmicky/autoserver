@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapModels } = require('./map_helper');
+const { mapModels } = require('./helper');
 
 /**
  * Returns a simplified map of all the models in the IDL

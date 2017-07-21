@@ -4,7 +4,7 @@ const { resolve } = require('path');
 
 const { printSchema: graphQLPrintSchema } = require('graphql');
 
-const { renderTemplate } = require('../../../utilities');
+const { renderTemplate } = require('../../../../utilities');
 
 const template = resolve(__dirname, './print.mustache');
 

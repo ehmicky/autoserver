@@ -22,7 +22,7 @@ gulp.task('dup_lint', () =>
       verbose: true,
       blame: true,
       'min-lines': 0,
-      'min-tokens': 30,
+      'min-tokens': 28,
       'skip-comments': true,
     }))
 );
