@@ -98,21 +98,10 @@ const getRules = memoize(({ globalKeys }) => ({
 
     const funcName = usesMemberExpression ? property.name : name;
 
-    if (functionFuncNames.includes(funcName)) {
-      return `Cannot call '${funcName}()'`;
-    }
-
-    if (sideEffectsFuncNames.includes(funcName)) {
-      return `No side-effects: cannot call '${funcName}()'`;
-    }
-
-    if (globalFuncNames.includes(funcName)) {
-      return `No access to global state: cannot call '${funcName}()'`;
-    }
-
-    if (asyncFuncNames.includes(funcName)) {
-      return `Must be synchronous: cannot call '${funcName}()'`;
-    }
+    const funcNameMessage = funcNames.find(({ values }) =>
+      values.includes(funcName)
+    );
+    if (funcNameMessage) { return funcNameMessage.message(funcName); }
 
     const isWrongAssign = funcName === 'assign' &&
       (!args[0] || args[0].type !== 'ObjectExpression');
@@ -183,6 +172,26 @@ const globalFuncNames = ['for', 'keyFor'];
 
 // Those functions imply async code
 const asyncFuncNames = ['then', 'catch'];
+
+const funcNames = [
+  {
+    values: functionFuncNames,
+    message: funcName => `Cannot call '${funcName}()'`,
+  },
+  {
+    values: sideEffectsFuncNames,
+    message: funcName => `No side-effects: cannot call '${funcName}()'`,
+  },
+  {
+    values: globalFuncNames,
+    message: funcName =>
+      `No access to global state: cannot call '${funcName}()'`,
+  },
+  {
+    values: asyncFuncNames,
+    message: funcName => `Must be synchronous: cannot call '${funcName}()'`,
+  },
+];
 
 // Those are the only constructors that can be called with `new`
 const allowedConstructors = ['Date', 'Array', 'RegExp'];
