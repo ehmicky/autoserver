@@ -122,7 +122,7 @@ rules:
 ##    skipComments: true
   max-statements:
   - 2
-  - 12
+  - 10
   max-statements-per-line:
   - 2
   - max: 2
