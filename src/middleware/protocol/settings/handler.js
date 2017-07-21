@@ -17,12 +17,9 @@ const { validateSettings } = require('./validate');
 // Values are automatically transtyped.
 // Are set to JSL param $SETTINGS
 const parseSettings = async function (input) {
-  const { jsl, log, protocolHandler } = input;
+  const { jsl, log } = input;
 
-  const genericSettings = getSettings({ input });
-  const specificSettings = getSpecificSettings({ input, protocolHandler });
-  const settings = Object.assign({}, genericSettings, specificSettings);
-
+  const settings = getMergedSettings({ input });
   validateSettings({ settings });
   makeImmutable(settings);
 
@@ -34,7 +31,13 @@ const parseSettings = async function (input) {
   return response;
 };
 
-const getSpecificSettings = function ({ input, protocolHandler }) {
+const getMergedSettings = function ({ input }) {
+  const genericSettings = getSettings({ input });
+  const specificSettings = getSpecificSettings({ input });
+  return Object.assign({}, genericSettings, specificSettings);
+};
+
+const getSpecificSettings = function ({ input, input: { protocolHandler } }) {
   const specificSettings = protocolHandler.getSettings({ input });
 
   if (!specificSettings || specificSettings.constructor !== Object) {
