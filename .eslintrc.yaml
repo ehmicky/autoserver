@@ -120,9 +120,9 @@ rules:
 ##  - max: 100
 ##    skipBlankLines: true
 ##    skipComments: true
-##  max-statements:
-##  - 2
-##  - 13
+  max-statements:
+  - 2
+  - 13
   max-statements-per-line:
   - 2
   - max: 2

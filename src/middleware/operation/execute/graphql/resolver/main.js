@@ -24,8 +24,6 @@ const getResolver = async function (
   oArgs,
   { callback: cbFunc, graphqlMethod }
 ) {
-  const args = oArgs || {};
-
   // Introspection type name
   if (name === '__typename') {
     return typenameResolver({ parent });
@@ -40,6 +38,29 @@ const getResolver = async function (
   const subResolver = hasParentModel(parent)
     ? nestedModelResolver
     : topLevelModelResolver;
+  const response = await normalResolver({
+    modelsMap,
+    name,
+    parent,
+    oArgs,
+    cbFunc,
+    graphqlMethod,
+    subResolver,
+  });
+  return response;
+};
+
+const normalResolver = async function ({
+  modelsMap,
+  name,
+  parent,
+  oArgs,
+  cbFunc,
+  graphqlMethod,
+  subResolver,
+}) {
+  const args = oArgs || {};
+
   // Retrieve main input passed to database layer
   const resolverReturn = subResolver({ name, modelsMap, parent, args });
   const { multiple, modelName, actionType, directReturn } = resolverReturn;
@@ -51,17 +72,7 @@ const getResolver = async function (
     act.multiple === multiple && act.type === actionType
   );
 
-  // This means the query specified an attribute that is not present
-  // in IDL definition
-  if (action == null || modelName == null) {
-    const message = `Action '${name}' does not exist`;
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  if (graphqlMethods[actionType] !== graphqlMethod) {
-    const message = `Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`;
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  validateAction({ action, modelName, name, graphqlMethod, actionType });
 
   // Full recursive action path, e.g. 'findModel.findChild'
   const { fullAction: parentFullAction } = getParentModel(parent);
@@ -74,6 +85,26 @@ const getResolver = async function (
   setParentModel(response.data, { action, modelName, fullAction });
 
   return response.data;
+};
+
+const validateAction = function ({
+  action,
+  modelName,
+  name,
+  graphqlMethod,
+  actionType,
+}) {
+  // This means the query specified an attribute that is not present
+  // in IDL definition
+  if (action == null || modelName == null) {
+    const message = `Action '${name}' does not exist`;
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  if (graphqlMethods[actionType] !== graphqlMethod) {
+    const message = `Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`;
+    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  }
 };
 
 // Mapping from IDL actions to GraphQL methods
