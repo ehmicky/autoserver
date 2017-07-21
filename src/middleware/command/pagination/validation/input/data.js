@@ -16,23 +16,31 @@ const getInputData = function ({ args }) {
 };
 
 const validateInputData = function ({ inputData }) {
+  validateSingleDirection({ inputData });
+  validateSingleType({ inputData });
+  validateForbiddenArg({ inputData });
+};
+
+const validateSingleDirection = function ({ inputData }) {
   const hasTwoDirections = inputData.before !== undefined &&
     inputData.after !== undefined;
+  if (!hasTwoDirections) { return; }
 
-  if (hasTwoDirections) {
-    const message = 'Wrong parameters: cannot specify both \'before\' and \'after\'';
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  const message = 'Wrong parameters: cannot specify both \'before\' and \'after\'';
+  throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+};
 
+const validateSingleType = function ({ inputData }) {
   // Cannot mix offset-based pagination and cursor-based pagination
   const hasTwoPaginationTypes = inputData.page !== undefined &&
     (inputData.before !== undefined || inputData.after !== undefined);
+  if (!hasTwoPaginationTypes) { return; }
 
-  if (hasTwoPaginationTypes) {
-    const message = 'Wrong parameters: cannot use both \'page\' and \'before|after\'';
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  const message = 'Wrong parameters: cannot use both \'page\' and \'before|after\'';
+  throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+};
 
+const validateForbiddenArg = function ({ inputData }) {
   // Also, cannot specify 'nFilter' or 'nOrderBy' with a cursor, because the
   // cursor already includes them.
   for (const forbiddenArg of ['nFilter', 'nOrderBy']) {
