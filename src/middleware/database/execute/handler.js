@@ -2,7 +2,7 @@
 
 // Fake database for the moment
 const database = require('./data.json');
-const { fireCommand } = require('./commands');
+const { fireCommand } = require('./fire');
 
 const databaseExecute = function (input) {
   const { command, args = {}, settings, modelName, jsl } = input;
