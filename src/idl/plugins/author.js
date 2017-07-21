@@ -13,8 +13,11 @@ const { propertiesPlugin } = require('./properties');
 //   [user="(user())"] {jsl} - current user
 //   [model="user"] {string} - user's model name
 const authorPlugin = function ({ idl, opts }) {
-  const { user, model } = opts;
+  validateConf({ idl, opts });
+  return propertiesPlugin({ getProperties })({ idl, opts });
+};
 
+const validateConf = function ({ idl, opts: { user, model } }) {
   if (user && !isJsl({ jsl: user })) {
     const message = 'In \'author\' plugin, \'user\' must be a JSL string';
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
@@ -31,8 +34,6 @@ const authorPlugin = function ({ idl, opts }) {
     const message = `'author' plugin requires 'idl.models.${usedModel}'`;
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
   }
-
-  return propertiesPlugin({ getProperties })({ idl, opts });
 };
 
 const getProperties = ({ user = '(user())', model = 'user' }) => ({
