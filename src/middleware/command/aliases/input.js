@@ -27,14 +27,12 @@ const applyInputAlias = function ({ args = {}, attrName, aliases }) {
     args.nOrderBy = applyOrderByAliases({ nOrderBy, attrName, aliases });
   }
 
-  if (args.after !== undefined && args.after !== '') {
-    const token = args.after;
-    args.after = applyTokenAliases({ token, attrName, aliases });
-  }
+  for (const direction of ['after', 'before']) {
+    const token = args[direction];
 
-  if (args.before !== undefined && args.before !== '') {
-    const token = args.before;
-    args.before = applyTokenAliases({ token, attrName, aliases });
+    if (token !== undefined && token !== '') {
+      args[direction] = applyTokenAliases({ token, attrName, aliases });
+    }
   }
 };
 
