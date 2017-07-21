@@ -9,10 +9,7 @@ const defaults = {
   nFilter: {
     commands: ['readMany', 'deleteMany'],
     value: '(true)',
-    // Only if args.before|after is not specified
-    test: ({ input: { args } }) =>
-      ((args.before === undefined || args.before === '') &&
-      (args.after === undefined || args.after === '')),
+    test: ({ input }) => hasNoPaginationTokens({ input }),
   },
 
   nOrderBy: {
@@ -24,10 +21,7 @@ const defaults = {
       'createMany',
     ],
     value: [{ attrName: 'id', order: 'asc' }],
-    // Only if args.before|after is not specified
-    test: ({ input: { args } }) =>
-      ((args.before === undefined || args.before === '') &&
-      (args.after === undefined || args.after === '')),
+    test: ({ input }) => hasNoPaginationTokens({ input }),
   },
 
   pageSize: {
@@ -41,7 +35,6 @@ const defaults = {
   after: {
     commands: ['readMany'],
     value: '',
-    // Only if args.before|page is not specified
     test: ({ input: { args } }) =>
       args.before === undefined && args.page === undefined,
   },
@@ -49,6 +42,11 @@ const defaults = {
   internal: {
     value: false,
   },
+};
+
+const hasNoPaginationTokens = function ({ input: { args } }) {
+  return (args.before === undefined || args.before === '') &&
+    (args.after === undefined || args.after === '');
 };
 
 module.exports = {
