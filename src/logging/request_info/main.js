@@ -1,7 +1,5 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
 const { removeKeys } = require('./exclude');
 const { renameKeys } = require('./rename');
 const { reduceInput } = require('./input');
@@ -64,10 +62,9 @@ const { reduceAllModels } = require('./models');
 //      - set array length, e.g. `payloadCount` if it is an array.
 // Also rename `errorReason` to `error`.
 const getRequestInfo = function (log, loggerFilter) {
-  const requestInfo = cloneDeep(log);
   return processors.reduce(
-    (info, processor) => processor(info, loggerFilter),
-    requestInfo,
+    (requestInfo, processor) => processor(requestInfo, loggerFilter),
+    log,
   );
 };
 
