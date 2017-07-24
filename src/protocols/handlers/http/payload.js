@@ -1,5 +1,6 @@
 'use strict';
 
+const { IncomingMessage } = require('http');
 const { promisify } = require('util');
 
 const bodyParser = require('body-parser');
@@ -41,20 +42,17 @@ const parseFunc = async function (parser, { specific: { req } }) {
   // `body-parser` will fill req.body = {} even if there is no body.
   // We want to know if there is a body or not though,
   // so must keep req.body to undefined if there is none
-  req.body = req.body || {};
-  const previousBody = req.body;
+  const body = req.body || {};
+  // Parsers have side-effects, i.e. adding req.body and req._body,
+  // and we do not want those side-effects
+  const newReq = new IncomingMessage();
+  const reqCopy = Object.assign(newReq, req, { body });
 
-  await parser(req, null);
+  await parser(reqCopy, null);
 
-  const body = req.body === previousBody ? undefined : req.body;
-
-  // We just want the body, and will only do this once,
-  // so let's not pollute req
-  delete req.body;
-  // eslint-disable-next-line no-underscore-dangle
-  delete req._body;
-
-  return body;
+  const { body: newBody } = reqCopy;
+  const finalBody = newBody === body ? undefined : newBody;
+  return finalBody;
 };
 
 const parsePayload = getParsers();
