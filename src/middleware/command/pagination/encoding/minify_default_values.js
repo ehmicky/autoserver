@@ -2,21 +2,16 @@
 
 const { isEqual } = require('lodash');
 
-const { omit, assignObject } = require('../../../../utilities');
+const { omitBy } = require('../../../../utilities');
 
 const removeDefaultValues = function (token) {
-  const attrsToRemove = Object.entries(defaultValues)
-    .filter(([attrName, value]) => isEqual(value, token[attrName]))
-    .map(([attrName]) => attrName);
-  return omit(token, attrsToRemove);
+  return omitBy(token, (value, attrName) =>
+    isEqual(value, defaultValues[attrName])
+  );
 };
 
 const addDefaultValues = function (token) {
-  const attrsToAdd = Object.entries(defaultValues)
-    .filter(([attrName]) => token[attrName] === undefined)
-    .map(([attrName, value]) => ({ [attrName]: value }))
-    .reduce(assignObject, {});
-  return Object.assign({}, token, attrsToAdd);
+  return Object.assign({}, defaultValues, token);
 };
 
 const defaultValues = {
