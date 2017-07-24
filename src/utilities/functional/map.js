@@ -33,7 +33,7 @@ const generalMap = function ({ obj, mapperFunc, iterationFunc }) {
 };
 
 // Same but async
-const mapAsync = async function (obj, mapperFunc) {
+const mapValuesAsync = async function (obj, mapperFunc) {
   checkObject(obj);
 
   const promises = Object.entries(obj).map(([key, value]) => {
@@ -83,7 +83,7 @@ const fullRecurseMap = function (value, mapperFunc, opts) {
 
 module.exports = {
   mapValues,
-  mapAsync,
+  mapValuesAsync,
   mapKeys,
   recurseMap,
   fullRecurseMap,
