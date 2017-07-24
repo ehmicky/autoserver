@@ -1,6 +1,6 @@
 'use strict';
 
-const printGraphql = function ({ idl: { GraphQLPrintedSchema } }) {
+const printGraphql = function (nextFunc, { idl: { GraphQLPrintedSchema } }) {
   return {
     type: 'html',
     content: GraphQLPrintedSchema,

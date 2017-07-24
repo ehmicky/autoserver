@@ -20,7 +20,7 @@ const getSchema = memoize(({
   const schemaFields = mapValues(rootDefs, (rootDef, graphqlMethod) => {
     // Builds query|mutation type
     const def = getGraphqlMethodDef({ rootDef, graphqlMethod, models });
-    return getType(def, { defaultPageSize, maxPageSize });
+    return getType(def, { defaultPageSize, maxPageSize, rootDef: def });
   });
 
   const schema = new GraphQLSchema(schemaFields);

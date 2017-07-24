@@ -1,13 +1,15 @@
 'use strict';
 
-const { transform, omit, mapValues } = require('../../../../utilities');
+const { mapValues } = require('../../../../utilities');
 const { normalizeCommandNames } = require('../../commands');
 
-// TODO: remove `modelType`
-
 const transformModels = function ({ idl, models }) {
-  const newModels = mapValues(models, (model, name) => {
+  return mapValues(models, (model, name) => {
     const newModel = mapper({ value: model, type: 'model', key: name, idl });
+
+    // TODO: model.properties might not exist
+    // TODO: merge with other sigling files
+
     const properties = mapValues(newModel.properties, (attr, attrName) => {
       const newAttr = mapper({ value: attr, type: 'attr', key: attrName, idl });
       const items = newAttr.items
@@ -17,9 +19,6 @@ const transformModels = function ({ idl, models }) {
     });
     return Object.assign({}, newModel, { properties });
   });
-  transform({ transforms, input: newModels });
-
-  return newModels;
 };
 
 const mapper = function ({ value, type, key, idl }) {
@@ -83,20 +82,6 @@ const transformers = {
     addAttrDefaultType,
   ],
 };
-
-const transforms = [
-
-  {
-    model ({ value, parent, parents: [rootParent] }) {
-      if (!parent.model || parent.modelType !== 'attribute') { return; }
-
-      // Dereference `model` pointers, using a shallow copy,
-      // while avoiding overriding any property already defined
-      return omit(rootParent[value], Object.keys(parent));
-    },
-  },
-
-];
 
 module.exports = {
   transformModels,
