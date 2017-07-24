@@ -2,7 +2,7 @@
 
 const { cloneDeep } = require('lodash');
 
-const { pickBy } = require('../../../utilities');
+const { pickBy, omitBy, recurseMap } = require('../../../utilities');
 const { validate } = require('../../../validation');
 
 const { getDataValidationSchema } = require('./schema');
@@ -27,9 +27,9 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
 
     for (const data of allAttrs) {
       const value = cloneDeep(data);
-      removeAllJsl({ value });
+      const newValue = removeAllJsl(value);
       const reportInfo = { type, dataVar };
-      validate({ schema, data: value, reportInfo, extra: jsl });
+      validate({ schema, data: newValue, reportInfo, extra: jsl });
     }
   }
 };
@@ -39,37 +39,25 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
  **/
 const getAttributes = function (args) {
   // TODO: validate `nFilter`
-  return pickBy(args, (arg, dataVar) =>
-    ['newData'].includes(dataVar) && arg
-  );
+  return pickBy(args, (arg, dataVar) => ['newData'].includes(dataVar) && arg);
 };
 
 // Do not validate JSL code
 // TODO: remove when using MongoDB query objects
-const removeAllJsl = function ({ value, parent, key }) {
-  if (!value) { return; }
-
-  if (typeof value === 'function' && parent) {
-    return removeJsl({ parent, key });
-  }
-
-  recurseJsl({ value });
+const removeAllJsl = function (value) {
+  return recurseMap({ value, mapperFunc: removeJsl, onlyLeaves: false });
 };
 
-const removeJsl = function ({ parent, key }) {
-  if (Array.isArray(parent)) {
-    parent.splice(key, 1);
-  } else if (parent.constructor === Object) {
-    delete parent[key];
+const removeJsl = function (value) {
+  if (Array.isArray(value)) {
+    return value.filter(child => typeof child !== 'function');
   }
-};
 
-const recurseJsl = function ({ value }) {
-  if (!Array.isArray(value) && value.constructor !== Object) { return; }
-
-  for (const [childKey, child] of Object.entries(value)) {
-    return removeAllJsl({ value: child, parent: value, key: childKey });
+  if (value && value.constructor === Object) {
+    return omitBy(value, child => typeof child === 'function');
   }
+
+  return value;
 };
 
 module.exports = {
