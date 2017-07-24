@@ -1,21 +1,33 @@
 'use strict';
 
-const { transform, omit, fullRecurseMap } = require('../../../../utilities');
+const { transform, omit, mapValues } = require('../../../../utilities');
 const { normalizeCommandNames } = require('../../commands');
 
 // TODO: remove `modelType`
 
 const transformModels = function ({ idl, models }) {
-  const newModels = fullRecurseMap(
-    models,
-    (value, key) => transformers.reduce(
-      (obj, transformer) => reduceModels({ obj, transformer, key, idl }),
-      value,
-    )
-  );
+  const newModels = mapValues(models, (model, name) => {
+    const newModel = mapper({ value: model, type: 'model', key: name, idl });
+    const properties = mapValues(newModel.properties, (attr, attrName) => {
+      const newAttr = mapper({ value: attr, type: 'attr', key: attrName, idl });
+      const items = newAttr.items
+        ? mapper({ value: attr.items, type: 'attr', key: 'items', idl })
+        : undefined;
+      return Object.assign({}, newAttr, { items });
+    });
+    return Object.assign({}, newModel, { properties });
+  });
   transform({ transforms, input: newModels });
 
   return newModels;
+};
+
+const mapper = function ({ value, type, key, idl }) {
+  const trans = transformers[type];
+  return trans.reduce(
+    (obj, transformer) => reduceModels({ obj, transformer, key, idl }),
+    value,
+  );
 };
 
 const reduceModels = function ({ obj, transformer, key, idl }) {
@@ -27,22 +39,20 @@ const reduceModels = function ({ obj, transformer, key, idl }) {
 
 // Default `model.type` to `object`
 const addModelDefaultType = function (model) {
-  if (model.modelType !== 'model' || model.type) { return; }
+  if (model.type) { return; }
 
   return { type: 'object' };
 };
 
 // Default `model.model` to parent key
 const addModelName = function (model, { key }) {
-  if (model.modelType !== 'model' || model.model) { return; }
+  if (model.model) { return; }
 
   return { model: key };
 };
 
 // Normalize `commands`, and adds defaults
 const normalizeCommands = function (model, { idl }) {
-  if (model.modelType !== 'model') { return; }
-
   const commandNames = model.commands || idl.commands;
   const commands = normalizeCommandNames(commandNames);
   return { commands };
@@ -50,7 +60,7 @@ const normalizeCommands = function (model, { idl }) {
 
 // Defaults `type` for nested attributes, or normal attributes
 const addAttrDefaultType = function (attr) {
-  if (attr.modelType !== 'attribute' || attr.type) { return; }
+  if (attr.type) { return; }
 
   const type = getDefaultType(attr);
   return { type };
@@ -62,13 +72,17 @@ const getDefaultType = function (attr) {
   return 'string';
 };
 
-// List of transformations to apply to normalize IDL models
-const transformers = [
-  addModelDefaultType,
-  addModelName,
-  normalizeCommands,
-  addAttrDefaultType,
-];
+// List of transformations to apply to normalize IDL models and attributes
+const transformers = {
+  model: [
+    addModelDefaultType,
+    addModelName,
+    normalizeCommands,
+  ],
+  attr: [
+    addAttrDefaultType,
+  ],
+};
 
 const transforms = [
 
