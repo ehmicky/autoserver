@@ -1,6 +1,6 @@
 'use strict';
 
-const { onlyOnce, noop } = require('../utilities');
+const { onlyOnce, identity } = require('../utilities');
 const { Log } = require('../logging');
 const {
   EngineError,
@@ -38,7 +38,7 @@ const checkUniqueCall = function () {
   }
 };
 
-const uniqueCall = onlyOnce(noop, { error: true });
+const uniqueCall = onlyOnce(identity, { error: true });
 
 const setupHandlers = function ({ log }) {
   setupUnhandledRejection({ log });

@@ -14,5 +14,5 @@ module.exports = Object.assign(
   require('./once'),
   require('./buffer'),
   // eslint-disable-next-line import/max-dependencies
-  require('./noop'),
+  require('./identity'),
 );
