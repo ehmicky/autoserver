@@ -6,16 +6,18 @@ const { chain } = require('lodash');
 const { isRequired } = require('../required');
 
 const { getNestedModels } = require('./nested_models');
+const { getRecursiveModels } = require('./recursive_models');
 const { filterArgs } = require('./filter_args');
 
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts, getField) {
-  const { action = {}, inputObjectType } = opts;
+  const { action = {}, inputObjectType, rootDef } = opts;
 
   // This needs to be function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type
   return () => {
     const objectFields = chain(def.properties)
+      .mapValues(childDef => getRecursiveModels({ childDef, rootDef }))
       .transform((memo, childDef, childDefName) => {
         const newAttrs = getNestedModels({
           childDef,
