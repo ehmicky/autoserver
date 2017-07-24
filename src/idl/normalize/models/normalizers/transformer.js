@@ -27,14 +27,14 @@ const reduceModels = function ({ obj, transformer, key, idl }) {
 
 // Default `model.type` to `object`
 const addModelDefaultType = function (model) {
-  if (model.modelType !== 'model') { return; }
+  if (model.modelType !== 'model' || model.type) { return; }
 
   return { type: 'object' };
 };
 
 // Default `model.model` to parent key
 const addModelName = function (model, { key }) {
-  if (model.modelType !== 'model') { return; }
+  if (model.modelType !== 'model' || model.model) { return; }
 
   return { model: key };
 };
@@ -48,19 +48,18 @@ const normalizeCommands = function (model, { idl }) {
   return { commands };
 };
 
-// Default `prop.type` to `array` if `prop.items` exist
-const addArrayDefaultType = function (attr) {
-  if (attr.modelType !== 'attribute' || attr.type || !attr.items) { return; }
-
-  return { type: 'array' };
-};
-
 // Defaults `type` for nested attributes, or normal attributes
-const addAttributeDefaultType = function (attr) {
+const addAttrDefaultType = function (attr) {
   if (attr.modelType !== 'attribute' || attr.type) { return; }
 
-  const type = attr.model ? 'object' : 'string';
+  const type = getDefaultType(attr);
   return { type };
+};
+
+const getDefaultType = function (attr) {
+  if (attr.items) { return 'array'; }
+  if (attr.model) { return 'object'; }
+  return 'string';
 };
 
 // List of transformations to apply to normalize IDL models
@@ -68,8 +67,7 @@ const transformers = [
   addModelDefaultType,
   addModelName,
   normalizeCommands,
-  addArrayDefaultType,
-  addAttributeDefaultType,
+  addAttrDefaultType,
 ];
 
 const transforms = [
