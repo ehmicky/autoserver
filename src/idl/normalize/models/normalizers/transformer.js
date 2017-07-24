@@ -101,13 +101,11 @@ const transforms = [
 
   {
     model ({ value, parent, parents: [rootParent] }) {
-      const [, instance] = Object.entries(rootParent)
-        .find(([modelName]) => modelName === value);
-      if (instance === parent) { return; }
+      if (!parent.model || parent.modelType !== 'attribute') { return; }
 
       // Dereference `model` pointers, using a shallow copy,
       // while avoiding overriding any property already defined
-      return omit(instance, Object.keys(parent));
+      return omit(rootParent[value], Object.keys(parent));
     },
   },
 
