@@ -7,7 +7,7 @@ const { GOALS } = require('../../constants');
 //  - `input.method`: protocol-specific method, e.g. 'POST'
 //  - `input.goal`: protocol-agnostic method, e.g. 'create'
 // Meant to be used by operation layer.
-const parseMethod = async function (input) {
+const parseMethod = async function (nextFunc, input) {
   const { specific, protocolHandler, log } = input;
 
   const method = getMethod({ specific, protocolHandler });
@@ -16,7 +16,7 @@ const parseMethod = async function (input) {
   log.add({ method, goal });
   Object.assign(input, { method, goal });
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

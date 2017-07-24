@@ -6,12 +6,12 @@ const { normalizeError } = require('../../../error');
 const { sender } = require('./sender');
 
 // Sends the response at the end of the request
-const sendResponse = async function (input) {
+const sendResponse = async function (nextFunc, input) {
   const { log } = input;
   const send = sender.bind(null, input);
 
   try {
-    const response = await this.next(input);
+    const response = await nextFunc(input);
 
     log.add({ response: pick(response, ['content', 'type']) });
 

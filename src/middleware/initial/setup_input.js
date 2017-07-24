@@ -5,6 +5,7 @@ const { protocolHandlers } = require('../../protocols');
 
 // Setup basic input
 const setupInput = async function (
+  nextFunc,
   { protocol, idl, apiServer, serverOpts },
   specific,
 ) {
@@ -23,7 +24,7 @@ const setupInput = async function (
     protocolHandler,
   };
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

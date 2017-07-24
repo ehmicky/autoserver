@@ -1,6 +1,6 @@
 'use strict';
 
-const getTimestamp = async function (input) {
+const getTimestamp = async function (nextFunc, input) {
   const { jsl, log, now } = input;
 
   const timestamp = (new Date(now)).toISOString();
@@ -8,7 +8,7 @@ const getTimestamp = async function (input) {
   log.add({ timestamp });
   Object.assign(nextInput, { timestamp });
 
-  const response = await this.next(nextInput);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

@@ -16,7 +16,7 @@ const { validateSettings } = require('./validate');
 // HTTP header Prefer: return=minimal
 // Values are automatically transtyped.
 // Are set to JSL param $SETTINGS
-const parseSettings = async function (input) {
+const parseSettings = async function (nextFunc, input) {
   const { jsl, log } = input;
 
   const settings = getMergedSettings({ input });
@@ -27,7 +27,7 @@ const parseSettings = async function (input) {
   log.add({ settings });
   Object.assign(nextInput, { settings });
 
-  const response = await this.next(nextInput);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

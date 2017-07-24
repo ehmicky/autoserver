@@ -3,9 +3,9 @@
 const { pick } = require('../../utilities');
 
 // Converts from Command format to Database format
-const databaseConvertor = async function (input) {
+const databaseConvertor = async function (nextFunc, input) {
   const nextInput = pick(input, databaseAttributes);
-  const response = await this.next(nextInput);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

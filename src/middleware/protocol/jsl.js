@@ -3,7 +3,7 @@
 const { Jsl } = require('../../jsl');
 
 // Sets up JSL helper
-const setJsl = async function (input) {
+const setJsl = async function (nextFunc, input) {
   const { protocol, idl: { helpers, exposeMap } } = input;
 
   const firstJsl = new Jsl({ exposeMap });
@@ -12,7 +12,7 @@ const setJsl = async function (input) {
 
   const nextInput = jsl.addToInput(input, { $PROTOCOL: protocol });
 
-  const response = await this.next(nextInput);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

@@ -8,8 +8,8 @@ const operations = require('./operations');
 //   - defaults to true for `delete`, false otherwise
 //   - this can also be set for all the actions using:
 //      - Prefer: return=minimal HTTP request header
-const noOutput = async function (input) {
-  const response = await this.next(input);
+const noOutput = async function (nextFunc, input) {
+  const response = await nextFunc(input);
 
   const newResponse = getResponse({ input, response });
   return newResponse;

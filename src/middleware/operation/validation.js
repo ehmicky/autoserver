@@ -5,7 +5,7 @@ const { ACTIONS, CONTENT_TYPES } = require('../../constants');
 
 // Operation middleware validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
-const operationValidation = async function (input) {
+const operationValidation = async function (nextFunc, input) {
   const { operation, route } = input;
 
   if (!operation) {
@@ -13,7 +13,7 @@ const operationValidation = async function (input) {
     throw new EngineError(message, { reason: 'UNSUPPORTED_OPERATION' });
   }
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
 
   validateResponse({ response });
 

@@ -9,7 +9,7 @@ const { renameArgs } = require('./rename');
 
 // Process client-supplied args: validates them and add them to JSL variables
 // Also rename them camelcase
-const handleArgs = async function (input) {
+const handleArgs = async function (nextFunc, input) {
   const { log, args, jsl } = input;
 
   const clonedArgs = cloneDeep(args);
@@ -19,7 +19,7 @@ const handleArgs = async function (input) {
     validateArgs({ input });
     nextInput.args = renameArgs({ args });
 
-    const response = await this.next(nextInput);
+    const response = await nextFunc(nextInput);
     return response;
   } catch (error) {
     // Added only for final error handler

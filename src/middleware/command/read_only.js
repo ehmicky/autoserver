@@ -9,7 +9,7 @@ const { omit } = require('../../utilities');
  * should be able to send responses back as is without having to remove
  * readonly attributes.
  **/
-const handleReadOnly = async function (input) {
+const handleReadOnly = async function (nextFunc, input) {
   const { args, modelName, idl: { shortcuts: { readOnlyMap } } } = input;
   const { newData } = args;
 
@@ -24,7 +24,7 @@ const handleReadOnly = async function (input) {
       : removeReadOnly({ newData, readOnlyAttrs });
   }
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

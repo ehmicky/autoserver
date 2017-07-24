@@ -8,7 +8,7 @@ const { EngineError } = require('../../error');
 // object.
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
-const parseHeaders = async function (input) {
+const parseHeaders = async function (nextFunc, input) {
   const { specific, protocolHandler, log } = input;
 
   const headers = getHeaders({ specific, protocolHandler });
@@ -17,7 +17,7 @@ const parseHeaders = async function (input) {
   log.add({ headers });
   Object.assign(input, { headers });
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

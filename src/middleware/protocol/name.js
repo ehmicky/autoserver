@@ -2,7 +2,7 @@
 
 const { EngineError } = require('../../error');
 
-const getProtocolName = async function (input) {
+const getProtocolName = async function (nextFunc, input) {
   const { log, specific, protocolHandler } = input;
 
   const protocolFullName = getProtocolFullName({ specific, protocolHandler });
@@ -10,7 +10,7 @@ const getProtocolName = async function (input) {
 
   Object.assign(input, { protocolFullName });
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 
