@@ -6,10 +6,10 @@
 // Works with async functions as well.
 const buffer = function (func, ctx = null) {
   const state = getBufferState();
-  const newFunc = bufferedFunc.bind(ctx, { state, func });
+  const newFunc = bufferedFunc.bind(ctx, { state, func, ctx });
 
-  const cork = corkFunc.bind(null, state);
-  const uncork = uncorkFunc.bind(ctx, state, func);
+  const cork = corkFunc.bind(null, { state });
+  const uncork = uncorkFunc.bind(null, { state, func, ctx });
   Object.assign(newFunc, { cork, uncork });
 
   return newFunc;
@@ -20,21 +20,21 @@ const getBufferState = () => ({
   bufferedCalls: [],
 });
 
-const bufferedFunc = async function ({ state, func }, ...args) {
+const bufferedFunc = async function ({ state, func, ctx }, ...args) {
   if (state.isBuffered) {
     state.bufferedCalls.push(args);
     return;
   }
 
-  await func.call(this, ...args);
+  await func.call(ctx, ...args);
 };
 
-const corkFunc = function (state) {
+const corkFunc = function ({ state }) {
   state.isBuffered = true;
 };
 
-const uncorkFunc = async function (state, func) {
-  const promises = state.bufferedCalls.map(args => func.call(this, ...args));
+const uncorkFunc = async function ({ state, func, ctx }) {
+  const promises = state.bufferedCalls.map(args => func.call(ctx, ...args));
   await Promise.all(promises);
 
   state.isBuffered = false;

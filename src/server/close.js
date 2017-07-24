@@ -1,6 +1,7 @@
 'use strict';
 
 const { getStandardError } = require('../error');
+const { protocolHandlers } = require('../protocols');
 
 // Attempts to close server
 // No new connections will be accepted, but we will wait for ongoing ones to end
@@ -17,7 +18,8 @@ const logStartShutdown = async function ({ server, log, protocol }) {
   try {
     const perf = log.perf.start(`${protocol}.init`);
 
-    const connectionsCount = await server.countPendingRequests();
+    const { countPendingRequests } = protocolHandlers[protocol];
+    const connectionsCount = await countPendingRequests(server);
     const message = `${protocol} - Starts shutdown, ${connectionsCount} pending ${connectionsCount === 1 ? 'request' : 'requests'}`;
     await log.log(message);
 
@@ -33,7 +35,8 @@ const shutdownServer = async function ({ server, log, protocol }) {
   try {
     const perf = log.perf.start(`${protocol}.shutdown`);
 
-    await server.stopServer();
+    const { stopServer } = protocolHandlers[protocol];
+    await stopServer(server);
     // Logs that graceful exit is done, for each protocol
     const message = `${protocol} - Successful shutdown`;
     await log.log(message);

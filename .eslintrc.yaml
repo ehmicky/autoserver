@@ -259,10 +259,12 @@ rules:
   prefer-destructuring: 2
 
   # Inheritance
+  no-invalid-this: 2
   class-methods-use-this: 2
   consistent-this: 2
   no-prototype-builtins: 2
 ##  fp/no-class: 2
+##  fp/no-this: 2
 
   # Arrays
   array-callback-return: 2
@@ -397,13 +399,11 @@ rules:
 #  consistent-return: 2
 #  filenames/no-index: 2
 #  fp/no-rest-parameters: 2
-#  fp/no-this: 2
 #  id-blacklist: 2
 #  import/no-nodejs-modules: 2
 #  import/no-restricted-paths: 2
 #  import/prefer-default-export: 2
 #  multiline-ternary: 2
-#  no-invalid-this: 2
 #  no-magic-numbers: 2
 #  no-restricted-imports: 2
 #  no-restricted-modules: 2
