@@ -1,6 +1,6 @@
 'use strict';
 
-const { recurseMap } = require('../../utilities');
+const { recurseMap, mapValues, omitBy } = require('../../utilities');
 const { EngineError } = require('../../error');
 
 // Validate JSON schema `$data` properties
@@ -12,35 +12,35 @@ const validateData = function ({ idl }) {
   });
 };
 
-const validateDataMapper = function (prop) {
-  if (typeof prop !== 'object') { return prop; }
+const validateDataMapper = function (obj) {
+  if (!obj || obj.constructor !== Object) { return obj; }
 
-  // Find all $data properties
-  const dataProps = Object.entries(prop)
-    .filter(([, { $data }]) => $data);
+  const validatedObj = mapValues(obj, child => {
+    if (!child.$data) { return child; }
+    return validateDataFormat(child);
+  });
 
-  for (const [key, value] of dataProps) {
-    validateDataFormat({ value });
-    // At the moment, main IDL validation does not support `$data`,
-    // so we remove them
-    delete prop[key];
-  }
+  // At the moment, main IDL validation does not support `$data`,
+  // so we remove them
+  const objWithoutData = omitBy(validatedObj, ({ $data }) => $data);
 
-  return prop;
+  return objWithoutData;
 };
 
 // Validates that $data is { $data: '...' }
-const validateDataFormat = function ({ value }) {
-  if (typeof value.$data !== 'string') {
-    const message = `'$data' must be a string: ${JSON.stringify(value)}`;
+const validateDataFormat = function (obj) {
+  if (typeof obj.$data !== 'string') {
+    const message = `'$data' must be a string: ${obj.$data}`;
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  if (Object.keys(value).length > 1) {
-    const val = JSON.stringify(value);
-    const message = `'$data' must be the only property when specified: ${val}`;
+  if (Object.keys(obj).length > 1) {
+    const val = JSON.stringify(obj);
+    const message = `'$data' must be the only property when specified: '${val}'`;
     throw new EngineError(message, { reason: 'IDL_VALIDATION' });
   }
+
+  return obj;
 };
 
 module.exports = {
