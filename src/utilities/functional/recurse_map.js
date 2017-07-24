@@ -1,29 +1,5 @@
 'use strict';
 
-const { mapValues } = require('./map');
-
-// Apply map() recursively
-const recurseMap = function ({ value, mapperFunc, onlyLeaves = true }) {
-  const isObject = value && value.constructor === Object;
-  const isArray = Array.isArray(value);
-  if (!isObject && !isArray) { return mapperFunc(value); }
-
-  const nextValue = isObject
-    ? mapValues(value, child => recurseMap({
-      value: child,
-      mapperFunc,
-      onlyLeaves,
-    }))
-    : value.map(child => recurseMap({
-      value: child,
-      mapperFunc,
-      onlyLeaves,
-    }));
-  if (onlyLeaves) { return nextValue; }
-
-  return mapperFunc(nextValue);
-};
-
 // Like lodash mapValues(), but recursive and by reference
 const recurseMapByRef = function ({ value: val, mapFunc }) {
   const cache = new WeakMap();
@@ -69,6 +45,5 @@ const recurseMapByRef = function ({ value: val, mapFunc }) {
 };
 
 module.exports = {
-  recurseMap,
   recurseMapByRef,
 };
