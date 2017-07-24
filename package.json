@@ -49,7 +49,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^4.2.0",
+    "eslint": "^4.3.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-import-resolver-node": "^0.3.1",
     "eslint-plugin-compat": "^1.0.4",
