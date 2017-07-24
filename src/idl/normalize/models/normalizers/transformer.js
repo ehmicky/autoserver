@@ -25,11 +25,11 @@ const reduceModels = function ({ obj, transformer, key, idl }) {
   return Object.assign({}, obj, newValues);
 };
 
-// Default `prop.type` to `array` if `prop.items` exist
-const addArrayDefaultType = function (prop) {
-  if (prop.type || !prop.items) { return; }
+// Do not allow custom properties
+const noCustomProps = function (obj) {
+  if (!['model', 'attribute'].includes(obj.modelType)) { return; }
 
-  return { type: 'array' };
+  return { additionalProperties: false };
 };
 
 // Default `model.type` to `object`
@@ -46,21 +46,6 @@ const addModelName = function (model, { key }) {
   return { model: key };
 };
 
-// Defaults `type` for nested attributes, or normal attributes
-const addAttributeDefaultType = function (attr) {
-  if (attr.modelType !== 'attribute' || attr.type) { return; }
-
-  const type = attr.model ? 'object' : 'string';
-  return { type };
-};
-
-// Do not allow custom properties
-const noCustomProps = function (obj) {
-  if (!['model', 'attribute'].includes(obj.modelType)) { return; }
-
-  return { additionalProperties: false };
-};
-
 // Normalize `commands`, and adds defaults
 const normalizeCommands = function (model, { idl }) {
   if (model.modelType !== 'model') { return; }
@@ -70,14 +55,29 @@ const normalizeCommands = function (model, { idl }) {
   return { commands };
 };
 
+// Default `prop.type` to `array` if `prop.items` exist
+const addArrayDefaultType = function (attr) {
+  if (attr.modelType !== 'attribute' || attr.type || !attr.items) { return; }
+
+  return { type: 'array' };
+};
+
+// Defaults `type` for nested attributes, or normal attributes
+const addAttributeDefaultType = function (attr) {
+  if (attr.modelType !== 'attribute' || attr.type) { return; }
+
+  const type = attr.model ? 'object' : 'string';
+  return { type };
+};
+
 // List of transformations to apply to normalize IDL models
 const transformers = [
-  addArrayDefaultType,
+  noCustomProps,
   addModelDefaultType,
   addModelName,
-  addAttributeDefaultType,
-  noCustomProps,
   normalizeCommands,
+  addArrayDefaultType,
+  addAttributeDefaultType,
 ];
 
 const transforms = [
