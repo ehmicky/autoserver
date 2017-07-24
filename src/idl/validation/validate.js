@@ -15,11 +15,11 @@ const validateIdl = async function ({ idl: oIdl }) {
 
   // Retrieve IDL schema
   const schema = await getYaml({ path: IDL_SCHEMA_PATH });
-  const copiedIdl = getIdlCopy({ idl: oIdl });
-  const idl = validateData({ idl: copiedIdl });
+  const idl = getIdlCopy({ idl: oIdl });
+  const idlWithNoData = validateData({ idl });
   validate({
     schema,
-    data: idl,
+    data: idlWithNoData,
     reportInfo: { type: 'idl', dataVar: 'config' },
   });
 
