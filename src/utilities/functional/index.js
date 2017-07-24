@@ -7,6 +7,7 @@ module.exports = Object.assign(
   require('./reduce'),
   require('./filter'),
   require('./transform'),
+  require('./invert'),
   require('./merge'),
   require('./immutable'),
   require('./memoize'),
