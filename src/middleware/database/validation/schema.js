@@ -15,7 +15,7 @@ const getDataValidationSchema = memoize(({
   // Adapt the IDL schema validation to the current command.name,
   // and to what the validator library expects
   // Apply each transform recursively
-  transform({ transforms, args: { command, type } })({ input: schema });
+  transform({ transforms, args: { command, type }, input: schema });
   return schema;
 });
 

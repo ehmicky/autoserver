@@ -2,6 +2,17 @@
 
 const { assignArray } = require('../../utilities');
 
+// By default, include all commandNames but deleteMany
+const defaultCommandNames = [
+  'createOne',
+  'createMany',
+  'readOne',
+  'readMany',
+  'updateOne',
+  'updateMany',
+  'deleteOne',
+];
+
 // Normalize `commands` shortcuts, e.g. 'read' -> 'readOne' + 'readMany'
 const normalizeCommands = function ({ idl }) {
   idl.commands = normalizeCommandNames(idl.commands || defaultCommandNames);
@@ -15,17 +26,6 @@ const normalizeCommandNames = function (commandNames) {
     )
     .reduce(assignArray, []);
 };
-
-// By default, include all commandNames but deleteMany
-const defaultCommandNames = [
-  'createOne',
-  'createMany',
-  'readOne',
-  'readMany',
-  'updateOne',
-  'updateMany',
-  'deleteOne',
-];
 
 module.exports = {
   normalizeCommands,
