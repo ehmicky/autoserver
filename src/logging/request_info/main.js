@@ -2,8 +2,8 @@
 
 const { cloneDeep } = require('lodash');
 
-const { omit } = require('../../utilities');
-
+const { removeKeys } = require('./exclude');
+const { renameKeys } = require('./rename');
 const { reduceInput } = require('./input');
 const { reduceAllModels } = require('./models');
 
@@ -64,33 +64,19 @@ const { reduceAllModels } = require('./models');
 //      - set array length, e.g. `payloadCount` if it is an array.
 // Also rename `errorReason` to `error`.
 const getRequestInfo = function (log, loggerFilter) {
-  const requestInfo = removeKeys(cloneDeep(log));
-
-  setError(requestInfo);
-  reduceInput(requestInfo, loggerFilter);
-  reduceAllModels(requestInfo, loggerFilter);
-
-  return requestInfo;
+  const requestInfo = cloneDeep(log);
+  return processors.reduce(
+    (info, processor) => processor(info, loggerFilter),
+    requestInfo,
+  );
 };
 
-const removeKeys = function (requestInfo) {
-  return omit(requestInfo, excludedKeys);
-};
-
-const excludedKeys = [
-  // Those are already present in errorInfo
-  'action',
-  'fullAction',
-  'model',
-  'args',
-  'command',
+const processors = [
+  removeKeys,
+  renameKeys,
+  reduceInput,
+  reduceAllModels,
 ];
-
-const setError = function (requestInfo) {
-  if (!requestInfo.errorReason) { return; }
-  requestInfo.error = requestInfo.errorReason;
-  delete requestInfo.errorReason;
-};
 
 module.exports = {
   getRequestInfo,
