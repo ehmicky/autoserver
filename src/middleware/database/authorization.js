@@ -5,13 +5,13 @@ const { COMMANDS } = require('../../constants');
 const { assignObject } = require('../../utilities');
 
 // Main authorization layer
-const authorization = async function (input) {
+const authorization = async function (nextFunc, input) {
   const { modelName, command, idl: { models }, args } = input;
 
   const model = models[modelName];
   validateCommands({ model, command, args });
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

@@ -8,7 +8,7 @@ const { getLogActions } = require('./log_actions');
 const { getTransformedResponse } = require('./transform');
 
 // Converts from Operation format to Action format
-const actionConvertor = async function (input) {
+const actionConvertor = async function (nextFunc, input) {
   const { args, modelName, jsl, log, action, fullAction, operation } = input;
 
   const trimmedInput = pick(input, actionAttributes);
@@ -18,7 +18,7 @@ const actionConvertor = async function (input) {
   const clonedArgs = cloneDeep(args);
 
   try {
-    const response = await this.next(nextInput);
+    const response = await nextFunc(nextInput);
     const transformedResponse = handleResponse({
       response,
       input: nextInput,

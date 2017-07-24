@@ -4,7 +4,7 @@
 const database = require('./data.json');
 const { fireCommand } = require('./fire');
 
-const databaseExecute = function (input) {
+const databaseExecute = function (nextFunc, input) {
   const { command, args = {}, settings, modelName, jsl } = input;
 
   const { nOrderBy, limit, offset, newData, nFilter } = args;

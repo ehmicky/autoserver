@@ -17,7 +17,7 @@ const {
 //  - in query string, using `params.myParam`
 // Values are automatically transtyped.
 // Are set to JSL param $PARAMS
-const parseParams = async function (input) {
+const parseParams = async function (nextFunc, input) {
   const { jsl, log } = input;
 
   const params = getParams({ input });
@@ -27,7 +27,7 @@ const parseParams = async function (input) {
   log.add({ params });
   Object.assign(nextInput, { params });
 
-  const response = await this.next(nextInput);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

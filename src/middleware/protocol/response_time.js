@@ -2,10 +2,10 @@
 
 const { EngineError } = require('../../error');
 
-const setResponseTime = async function (input) {
+const setResponseTime = async function (nextFunc, input) {
   const { log, protocolHandler, specific } = input;
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
 
   const responseTime = log.perf.all.stop();
 

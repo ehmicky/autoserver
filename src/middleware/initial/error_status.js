@@ -2,11 +2,11 @@
 
 // When throwing an exception after the normal status has been set,
 // we want to convert back the status to an error one.
-const errorStatus = async function (input) {
+const errorStatus = async function (nextFunc, input) {
   const { log } = input;
 
   try {
-    const response = await this.next(input);
+    const response = await nextFunc(input);
     return response;
   } catch (error) {
     // Only if the status has been set with the regular middleware,

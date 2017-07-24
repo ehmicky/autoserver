@@ -4,19 +4,20 @@ const { promisify } = require('util');
 
 // Generic middleware that performs performance logging before each middleware
 const getMiddlewarePerfLog = func => async function middlewarePerfLog (
+  nextFunc,
   input,
   ...args
 ) {
   const { log } = input;
 
   // E.g. for the first middleware
-  if (!log) { return this.next(input, ...args); }
+  if (!log) { return nextFunc(input, ...args); }
 
   const perf = startPerf({ func, input });
 
   try {
     const nextInput = Object.assign({}, input, { perf });
-    const response = await this.next(nextInput);
+    const response = await nextFunc(nextInput);
     return response;
   } finally {
     await stopPerf({ input, perf });

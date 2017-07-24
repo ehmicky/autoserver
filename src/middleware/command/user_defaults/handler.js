@@ -7,7 +7,7 @@ const { applyAllDefault } = require('./apply');
  * This can be a static value or any JSL
  * Not applied on partial write actions like 'update'
  **/
-const userDefaults = async function (input) {
+const userDefaults = async function (nextFunc, input) {
   const {
     args,
     modelName,
@@ -21,7 +21,7 @@ const userDefaults = async function (input) {
     args.newData = applyAllDefault({ jsl, defAttributes, value: newData });
   }
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

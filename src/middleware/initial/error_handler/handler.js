@@ -4,11 +4,11 @@ const { handleError } = require('./error');
 const { handleFailure } = require('./failure');
 
 // Error handler, which sends final response, if errors
-const errorHandler = async function (input) {
+const errorHandler = async function (nextFunc, input) {
   const { log, protocolHandler, specific } = input;
 
   try {
-    const response = await this.next(input);
+    const response = await nextFunc(input);
     return response;
   } catch (error) {
     try {

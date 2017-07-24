@@ -3,9 +3,9 @@
 const { EngineError, normalizeError } = require('../../error');
 
 // Retrieve response's status
-const getStatus = async function (input) {
+const getStatus = async function (nextFunc, input) {
   try {
-    const response = await this.next(input);
+    const response = await nextFunc(input);
 
     const { protocolStatus, status } = getStatuses({ input });
     Object.assign(response, { protocolStatus, status });

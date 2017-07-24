@@ -10,13 +10,13 @@ const { EngineError } = require('../../error');
  * Check input, for the errors that should not happen,
  * i.e. server-side (e.g. 500)
  **/
-const commandValidation = async function (input) {
+const commandValidation = async function (nextFunc, input) {
   const { command, args } = input;
 
   validateCommand({ command });
   validateArgs({ args });
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

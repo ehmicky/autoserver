@@ -3,9 +3,9 @@
 const { pick } = require('../../utilities');
 
 // Converts from no format to Protocol format
-const protocolConvertor = async function (input) {
+const protocolConvertor = async function (nextFunc, input) {
   const nextInput = pick(input, protocolAttributes);
-  const response = await this.next(nextInput);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

@@ -7,7 +7,7 @@ const { normalizeOrderBy } = require('./order_by');
  * Normalize input, i.e. when input can take several shapes,
  * reduce it to a single shape
  **/
-const normalization = async function (input) {
+const normalization = async function (nextFunc, input) {
   const { args, args: { orderBy, filter }, modelName, idl: { models } } = input;
 
   const newArgs = Object.assign({}, args);
@@ -23,7 +23,7 @@ const normalization = async function (input) {
 
   input.args = newArgs;
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

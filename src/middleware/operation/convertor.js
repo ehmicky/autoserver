@@ -3,9 +3,9 @@
 const { pick } = require('../../utilities');
 
 // Converts from Protocol format to Operation format
-const operationConvertor = async function (input) {
+const operationConvertor = async function (nextFunc, input) {
   const nextInput = pick(input, operationAttributes);
-  const response = await this.next(nextInput);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

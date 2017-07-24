@@ -4,9 +4,9 @@
  * Transforms a series of functions into a middleware stack.
  * More precisely:
  *   - take an array of functions as input, and returns it transformed
- *   - calling `this.next(...)` in any function will now call the next function
- *     with the same arguments
- *   - the last function's `this.next(...)` throws an error
+ *   - calling `nextFunc(...)` in any function will now call the next function
+ *     with the same arguments, where `nextFunc` is passed as the first argument
+ *   - the last function's `nextFunc(...)` throws an error
  * Characteristics:
  *   - as opposed to Express middleware, but similarly to Koa,
  *     the middleware series is conceptually a stack, not a pipe.
@@ -15,8 +15,7 @@
  *      - take any arguments, and return any value, including promise,
  *        i.e. can use async functions
  * Note:
- *   - since this binds functions contexts, `this` can only be used to call
- *     `this.next(...)` and functions contexts should not re-bound.
+ *   - since this binds functions arguments, `this` can not be used.
  *
  * @param {function[]} funcs
  * @param {object} [options]
@@ -44,7 +43,7 @@ const lastFunc = function () {
 
 const bindFunctions = function (funcs, func) {
   const next = funcs[funcs.length - 1];
-  return [...funcs, func.bind({ next })];
+  return [...funcs, func.bind(null, next)];
 };
 
 module.exports = {

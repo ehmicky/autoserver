@@ -23,7 +23,7 @@ const { applyTransformsOnData } = require('./transformer');
  *  - cannot be used together with any property that imply the attribute
  *    should be persisted, including `transform`, `default` or input validation
  **/
-const handleTransforms = async function (input) {
+const handleTransforms = async function (nextFunc, input) {
   const {
     args,
     modelName,
@@ -41,7 +41,7 @@ const handleTransforms = async function (input) {
     });
   }
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
 
   const transforms = computesMap[modelName];
   response.data = applyTransformsOnData({

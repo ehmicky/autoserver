@@ -7,7 +7,7 @@ const { EngineError } = require('../../error');
 //  - `input.path`: URL's path, e.g. used by router
 // Uses protocol-specific URL retrieval, but are set in a
 // protocol-agnostic format, i.e. each protocol sets the same strings.
-const parseUrl = async function (input) {
+const parseUrl = async function (nextFunc, input) {
   const { protocolHandler, log, specific } = input;
 
   const origin = getOrigin({ specific, protocolHandler });
@@ -17,7 +17,7 @@ const parseUrl = async function (input) {
   log.add({ url, path, origin });
   Object.assign(input, { url, path, origin });
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

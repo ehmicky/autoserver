@@ -3,7 +3,7 @@
 const { EngineError } = require('../../error');
 
 // Protocol-related validation middleware
-const protocolValidation = async function (input) {
+const protocolValidation = async function (nextFunc, input) {
   const { specific } = input;
 
   if (!specific || specific.constructor !== Object) {
@@ -11,7 +11,7 @@ const protocolValidation = async function (input) {
     throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  const response = await this.next(input);
+  const response = await nextFunc(input);
   return response;
 };
 

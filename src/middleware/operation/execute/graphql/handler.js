@@ -11,10 +11,10 @@ const {
 } = require('./introspection');
 
 // GraphQL query handling
-const executeGraphql = async function (input) {
+const executeGraphql = async function (nextFunc, input) {
   // GraphQL execution
   const actions = [];
-  const content = await getContent.call(this, { input, actions });
+  const content = await getContent({ nextFunc, input, actions });
   const type = getResponseType({ content });
 
   makeImmutable(actions);
@@ -23,6 +23,7 @@ const executeGraphql = async function (input) {
 };
 
 const getContent = async function ({
+  nextFunc,
   input,
   input: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
   actions,
@@ -48,7 +49,7 @@ const getContent = async function ({
 
   // Normal GraphQL query
   const resolver = getResolver.bind(null, modelsMap);
-  const callback = fireNext.bind(this, { input, actions });
+  const callback = fireNext.bind(null, { nextFunc, input, actions });
   const data = await handleQuery({
     resolver,
     queryDocument,
@@ -78,10 +79,10 @@ const getGraphQLInput = function ({ input: { queryVars, payload, goal } }) {
   return { query, variables, operationName, queryDocument, graphqlMethod };
 };
 
-const fireNext = async function ({ input, actions }, actionInput) {
+const fireNext = async function ({ nextFunc, input, actions }, actionInput) {
   const nextInput = Object.assign({}, input, actionInput);
 
-  const response = await this.next(nextInput);
+  const response = await nextFunc(nextInput);
 
   actions.push(response.action);
 
