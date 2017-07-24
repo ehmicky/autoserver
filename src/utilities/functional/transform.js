@@ -39,15 +39,14 @@ const { recurseMapByRef } = require('./recurse_map');
  * TODO: remove this for a simpler approach, probably relying on
  * an external library
  */
-const transform = function ({ transforms, args }) {
-  return ({ input }) =>
-    // Apply transformations in several passes, i.e. transforms[0],
-    // then transforms[1], etc.
-    transforms.reduce(
-      (memo, transformsSet) =>
-        singleTransform({ input: memo, transformsSet, args }),
-      input,
-    );
+const transform = function ({ transforms, args, input }) {
+  // Apply transformations in several passes, i.e. transforms[0],
+  // then transforms[1], etc.
+  return transforms.reduce(
+    (memo, transformsSet) =>
+      singleTransform({ input: memo, transformsSet, args }),
+    input,
+  );
 };
 
 const singleTransform = function ({ input, transformsSet, args }) {
@@ -56,9 +55,6 @@ const singleTransform = function ({ input, transformsSet, args }) {
     mapFunc (opts) {
       const { value } = opts;
       if (!value || value.constructor !== Object) { return value; }
-
-      // Adds opts.args
-      const newArgs = typeof args === 'function' ? args(opts) : args;
 
       const newValues = Object.keys(value)
         // Sort keys for transformation order predictability,
@@ -69,7 +65,7 @@ const singleTransform = function ({ input, transformsSet, args }) {
         // Fire each transform, if defined
         .filter(name => transformsSet[name])
         .map(name => {
-          const currentArgs = Object.assign({}, opts, newArgs, {
+          const currentArgs = Object.assign({}, opts, args, {
             value: value[name],
             parent: value,
             parentKey: opts.key,

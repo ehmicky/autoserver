@@ -98,7 +98,6 @@ models:
         #  - for top-level models, type defaults to 'object',
         #    and must be 'object'
         #  - otherwise, defaults to 'string'
-        type: array
         description: Sweet pictures of a pet
         # This is how to specify an array's elements
         items: {}

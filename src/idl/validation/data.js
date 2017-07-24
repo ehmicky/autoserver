@@ -1,15 +1,11 @@
 'use strict';
 
-const { recurseMap, mapValues, omitBy } = require('../../utilities');
+const { fullRecurseMap, mapValues, omitBy } = require('../../utilities');
 const { EngineError } = require('../../error');
 
 // Validate JSON schema `$data` properties
 const validateData = function ({ idl }) {
-  return recurseMap({
-    value: idl,
-    mapperFunc: validateDataMapper,
-    onlyLeaves: false,
-  });
+  return fullRecurseMap(idl, validateDataMapper);
 };
 
 const validateDataMapper = function (obj) {

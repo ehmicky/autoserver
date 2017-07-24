@@ -51,22 +51,34 @@ const mapAsync = async function (obj, mapperFunc) {
 };
 
 // Apply map() recursively
-const recurseMap = function ({ value, mapperFunc, onlyLeaves = true }) {
-  const isObject = value && value.constructor === Object;
-  const isArray = Array.isArray(value);
-  if (!isObject && !isArray) { return mapperFunc(value); }
+const recurseMap = function (
+  value,
+  mapperFunc,
+  { key, onlyLeaves = true } = {},
+) {
+  const recurseFunc = getRecurseFunc(value);
+  const nextValue = recurseFunc
+    ? recurseFunc((child, childKey) =>
+      recurseMap(child, mapperFunc, { key: childKey, onlyLeaves }))
+    : value;
 
-  const recurseFunc = isObject
-    ? mapValues.bind(null, value)
-    : value.map.bind(value);
-  const nextValue = recurseFunc(child => recurseMap({
-    value: child,
-    mapperFunc,
-    onlyLeaves,
-  }));
-  if (onlyLeaves) { return nextValue; }
+  if (recurseFunc && onlyLeaves) { return nextValue; }
+  return mapperFunc(nextValue, key);
+};
 
-  return mapperFunc(nextValue);
+const getRecurseFunc = function (value) {
+  if (value && value.constructor === Object) {
+    return mapValues.bind(null, value);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map.bind(value);
+  }
+};
+
+const fullRecurseMap = function (value, mapperFunc, opts) {
+  const newOpts = Object.assign({}, opts, { onlyLeaves: false });
+  return recurseMap(value, mapperFunc, newOpts);
 };
 
 module.exports = {
@@ -74,4 +86,5 @@ module.exports = {
   mapAsync,
   mapKeys,
   recurseMap,
+  fullRecurseMap,
 };

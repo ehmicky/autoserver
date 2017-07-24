@@ -5,7 +5,7 @@ const { isJsl, validateJsl } = require('../../jsl');
 
 // Validate all IDL JSL expressions
 const validateIdlJsl = function ({ idl }) {
-  recurseMap({ value: idl, mapperFunc: validateJslMapper });
+  recurseMap(idl, validateJslMapper);
 };
 
 const validateJslMapper = function (jsl) {

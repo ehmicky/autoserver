@@ -2,7 +2,7 @@
 
 const { cloneDeep } = require('lodash');
 
-const { pickBy, omitBy, recurseMap } = require('../../../utilities');
+const { pickBy, omitBy, fullRecurseMap } = require('../../../utilities');
 const { validate } = require('../../../validation');
 
 const { getDataValidationSchema } = require('./schema');
@@ -45,7 +45,7 @@ const getAttributes = function (args) {
 // Do not validate JSL code
 // TODO: remove when using MongoDB query objects
 const removeAllJsl = function (value) {
-  return recurseMap({ value, mapperFunc: removeJsl, onlyLeaves: false });
+  return fullRecurseMap(value, removeJsl);
 };
 
 const removeJsl = function (value) {
