@@ -22,9 +22,6 @@ const startServer = function ({
     server.keepAliveTimeout = 1;
   }
 
-  // Add functions related to server exits
-  Object.assign(server, { stopServer, countPendingRequests });
-
   // Handle server lifecycle events
   handleClientRequest({ server, handleRequest });
   handleServerListening({ server, handleListening });
@@ -45,19 +42,19 @@ const getServerPromise = function ({ server }) {
 };
 
 // Try a graceful server exit
-const stopServer = async function () {
-  await promisify(this.close.bind(this))();
+const stopServer = async function (server) {
+  await promisify(server.close.bind(server))();
 };
 
 // Count number of pending requests, to log information on server exits
-const countPendingRequests = async function () {
-  const count = await promisify(this.getConnections.bind(this))();
+const countPendingRequests = async function (server) {
+  const count = await promisify(server.getConnections.bind(server))();
   return count;
 };
 
 const handleServerListening = function ({ server, handleListening }) {
   server.on('listening', function listeningHandler () {
-    const { address: usedHost, port: usedPort } = this.address();
+    const { address: usedHost, port: usedPort } = server.address();
     handleListening({ server, host: usedHost, port: usedPort });
   });
 };
@@ -80,4 +77,6 @@ const handleClientError = function ({ server, log }) {
 
 module.exports = {
   startServer,
+  stopServer,
+  countPendingRequests,
 };
