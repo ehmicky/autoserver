@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { EngineError } = require('../../../error');
 
 /**
  * There should be no circular references.
@@ -9,6 +9,10 @@ const { EngineError } = require('../../error');
  * The only legal way to introduce circular references is by using
  * `model` property, which is dereferenced later.
  **/
+const validateIdlCircularRefs = function (idl) {
+  return validateCircularRefs({ value: idl });
+};
+
 const validateCircularRefs = function ({
   value,
   path = 'schema',
@@ -26,6 +30,8 @@ const validateCircularRefs = function ({
   walkCircularRefs({ value, path, pathSet });
 
   pathSet.delete(value);
+
+  return value;
 };
 
 // Recursion
@@ -42,5 +48,5 @@ const walkCircularRefs = function ({ value, path, pathSet }) {
 };
 
 module.exports = {
-  validateCircularRefs,
+  validateIdlCircularRefs,
 };

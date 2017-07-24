@@ -1,26 +1,20 @@
 'use strict';
 
-const { fullRecurseMap, mapValues, omitBy } = require('../../utilities');
-const { EngineError } = require('../../error');
+const { fullRecurseMap, mapValues } = require('../../../utilities');
+const { EngineError } = require('../../../error');
 
 // Validate JSON schema `$data` properties
-const validateData = function ({ idl }) {
+const validateData = function (idl) {
   return fullRecurseMap(idl, validateDataMapper);
 };
 
 const validateDataMapper = function (obj) {
   if (!obj || obj.constructor !== Object) { return obj; }
 
-  const validatedObj = mapValues(obj, child => {
+  return mapValues(obj, child => {
     if (!child.$data) { return child; }
     return validateDataFormat(child);
   });
-
-  // At the moment, main IDL validation does not support `$data`,
-  // so we remove them
-  const objWithoutData = omitBy(validatedObj, ({ $data }) => $data);
-
-  return objWithoutData;
 };
 
 // Validates that $data is { $data: '...' }
