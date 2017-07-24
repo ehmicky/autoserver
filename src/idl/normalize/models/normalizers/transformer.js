@@ -25,13 +25,6 @@ const reduceModels = function ({ obj, transformer, key, idl }) {
   return Object.assign({}, obj, newValues);
 };
 
-// Do not allow custom properties
-const noCustomProps = function (obj) {
-  if (!['model', 'attribute'].includes(obj.modelType)) { return; }
-
-  return { additionalProperties: false };
-};
-
 // Default `model.type` to `object`
 const addModelDefaultType = function (model) {
   if (model.modelType !== 'model') { return; }
@@ -72,7 +65,6 @@ const addAttributeDefaultType = function (attr) {
 
 // List of transformations to apply to normalize IDL models
 const transformers = [
-  noCustomProps,
   addModelDefaultType,
   addModelName,
   normalizeCommands,
