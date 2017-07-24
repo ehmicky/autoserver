@@ -56,17 +56,14 @@ const recurseMap = function ({ value, mapperFunc, onlyLeaves = true }) {
   const isArray = Array.isArray(value);
   if (!isObject && !isArray) { return mapperFunc(value); }
 
-  const nextValue = isObject
-    ? mapValues(value, child => recurseMap({
-      value: child,
-      mapperFunc,
-      onlyLeaves,
-    }))
-    : value.map(child => recurseMap({
-      value: child,
-      mapperFunc,
-      onlyLeaves,
-    }));
+  const recurseFunc = isObject
+    ? mapValues.bind(null, value)
+    : value.map.bind(value);
+  const nextValue = recurseFunc(child => recurseMap({
+    value: child,
+    mapperFunc,
+    onlyLeaves,
+  }));
   if (onlyLeaves) { return nextValue; }
 
   return mapperFunc(nextValue);
