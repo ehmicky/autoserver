@@ -1,6 +1,6 @@
 'use strict';
 
-const { cloneDeep, merge } = require('lodash');
+const { cloneDeep, merge, difference } = require('lodash');
 
 const {
   assignObject,
@@ -76,9 +76,13 @@ const getModelCopy = function ({ model, properties, action: { multiple } }) {
 };
 
 // Filter allowed actions on a given model
-const isAllowedModel = function ({ model, action }) {
-  // IDL property `def.actions` allows whitelisting specific actions
-  return model.actions.includes(action.name);
+const isAllowedModel = function ({ model: { commands }, action }) {
+  const actions = ACTIONS
+    .filter(({ commandNames }) =>
+      difference(commandNames, commands).length === 0
+    )
+    .map(({ name }) => name);
+  return actions.includes(action.name);
 };
 
 module.exports = {

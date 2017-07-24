@@ -1,8 +1,5 @@
 'use strict';
 
-const { difference } = require('lodash');
-
-const { ACTIONS } = require('../../../../constants');
 const { transform, omit, fullRecurseMap } = require('../../../../utilities');
 const { normalizeCommandNames } = require('../../commands');
 
@@ -73,19 +70,6 @@ const normalizeCommands = function (model, { idl }) {
   return { commands };
 };
 
-// Add allowed `actions` to each model
-const addActions = function (model) {
-  if (model.modelType !== 'model') { return; }
-
-  const { commands } = model;
-  const actions = ACTIONS
-    .filter(({ commandNames }) =>
-      difference(commandNames, commands).length === 0
-    )
-    .map(({ name }) => name);
-  return { actions };
-};
-
 // List of transformations to apply to normalize IDL models
 const transformers = [
   addArrayDefaultType,
@@ -94,7 +78,6 @@ const transformers = [
   addAttributeDefaultType,
   noCustomProps,
   normalizeCommands,
-  addActions,
 ];
 
 const transforms = [
