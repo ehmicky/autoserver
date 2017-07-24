@@ -36,7 +36,6 @@ class EngineError extends Error {
       }
 
       this.innererror = innererror;
-      delete opts.innererror;
     }
   }
 

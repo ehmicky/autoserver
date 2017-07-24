@@ -3,7 +3,7 @@
 const { cloneDeep } = require('lodash');
 const { toSentence } = require('underscore.string');
 
-const { mapValues, assignObject } = require('../../../../utilities');
+const { mapValues, omit, assignObject } = require('../../../../utilities');
 const { EngineError } = require('../../../../error');
 
 // Transforms can copy each `alias` as a real attribute,
@@ -38,11 +38,10 @@ const createAliases = function ({ model, props, attr, attrName }) {
     .map(alias => {
       checkAliasDuplicates({ model, props, attrName, alias });
 
-      const aliasAttr = cloneDeep(attr);
-      aliasAttr.aliasOf = attrName;
-      delete aliasAttr.alias;
+      const aliasAttr = omit(cloneDeep(attr), 'alias');
+      const newAttr = Object.assign({}, aliasAttr, { aliasOf: attrName });
 
-      return { [alias]: aliasAttr };
+      return { [alias]: newAttr };
     })
     .reduce(assignObject, {});
 };

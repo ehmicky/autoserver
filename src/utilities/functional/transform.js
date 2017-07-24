@@ -58,12 +58,9 @@ const singleTransform = function ({ input, transformsSet, args }) {
       if (!value || value.constructor !== Object) { return value; }
 
       // Adds opts.args
-      if (args) {
-        const newArgs = typeof args === 'function' ? args(opts) : args;
-        Object.assign(opts, newArgs);
-      }
+      const newArgs = typeof args === 'function' ? args(opts) : args;
 
-      Object.keys(value)
+      const newValues = Object.keys(value)
         // Sort keys for transformation order predictability,
         // but pass order should be used instead for that
         .sort()
@@ -72,7 +69,7 @@ const singleTransform = function ({ input, transformsSet, args }) {
         // Fire each transform, if defined
         .filter(name => transformsSet[name])
         .map(name => {
-          const currentArgs = Object.assign({}, opts, {
+          const currentArgs = Object.assign({}, opts, newArgs, {
             value: value[name],
             parent: value,
             parentKey: opts.key,
@@ -81,17 +78,18 @@ const singleTransform = function ({ input, transformsSet, args }) {
           return transformsSet[name](currentArgs);
         })
         // Transform returning undefined means 'no change'
-        .filter(newValue => newValue)
-        // Apply transformation, by reference
-        .forEach(newValue => {
-          // Assign transforms return value to `value`
-          Object.assign(value, newValue);
+        .filter(newValue => newValue);
 
-          // Remove undefined values
-          for (const [key, val] of Object.entries(newValue)) {
-            if (val === undefined) { delete value[key]; }
-          }
-        });
+      // Apply transformation, by reference
+      Object.assign(value, ...newValues);
+
+      // Remove undefined values
+      // TODO: uncomment
+      /*
+      for (const [key, val] of Object.entries(value)) {
+        if (val === undefined) { delete value[key]; }
+      }
+      */
 
       return value;
     },
