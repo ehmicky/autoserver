@@ -1,7 +1,5 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
 const { pickBy, omitBy, fullRecurseMap } = require('../../../utilities');
 const { validate } = require('../../../validation');
 
@@ -26,8 +24,7 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
     const allAttrs = Array.isArray(attribute) ? attribute : [attribute];
 
     for (const data of allAttrs) {
-      const value = cloneDeep(data);
-      const newValue = removeAllJsl(value);
+      const newValue = removeAllJsl(data);
       const reportInfo = { type, dataVar };
       validate({ schema, data: newValue, reportInfo, extra: jsl });
     }
