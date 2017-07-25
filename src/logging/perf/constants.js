@@ -7,6 +7,7 @@ const CATEGORIES = [
   'options',
   'idl',
   'normalize',
+  'validate',
   'graphql',
   'middleware',
   'server',

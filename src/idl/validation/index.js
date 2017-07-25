@@ -2,5 +2,5 @@
 
 module.exports = Object.assign(
   {},
-  require('./validate')
+  require('./main')
 );
