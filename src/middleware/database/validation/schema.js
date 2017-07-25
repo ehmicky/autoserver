@@ -41,6 +41,8 @@ const transforms = [
     },
   },
 
+  // TODO: fix
+  /*
   {
     // Submodels should be validated against the model `id` attribute
     // By default, in the IDL, they are represented as the full model,
@@ -52,6 +54,7 @@ const transforms = [
       return Object.assign(removeParentProps, idProp);
     },
   },
+  */
 ];
 
 const getRequiredFunc = function ({ type }) {

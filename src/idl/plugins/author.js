@@ -38,7 +38,6 @@ const validateConf = function ({ idl, opts: { user, model } }) {
 
 const getProperties = ({ user = '(user())', model = 'user' }) => ({
   created_by: {
-    type: 'object',
     description: 'Who created this model',
     model,
     readOnly: true,
@@ -48,7 +47,6 @@ const getProperties = ({ user = '(user())', model = 'user' }) => ({
     },
   },
   updated_by: {
-    type: 'object',
     description: 'Who last updated this model',
     model,
     readOnly: true,

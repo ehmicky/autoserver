@@ -1,12 +1,11 @@
 'use strict';
 
 const { GraphQLString } = require('graphql');
-const { chain } = require('lodash');
 
+const { omitBy, mapValues } = require('../../../../../utilities');
 const { isRequired } = require('../required');
 
 const { getNestedModels } = require('./nested_models');
-const { getRecursiveModels } = require('./recursive_models');
 const { filterArgs } = require('./filter_args');
 
 // Retrieve the fields of an object, using IDL definition
@@ -16,27 +15,26 @@ const getObjectFields = function (def, opts, getField) {
   // This needs to be function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type
   return () => {
-    const objectFields = chain(def.properties)
-      .mapValues(childDef => getRecursiveModels({ childDef, rootDef }))
-      .transform((memo, childDef, childDefName) => {
-        const newAttrs = getNestedModels({
-          childDef,
-          childDefName,
-          inputObjectType,
-          action,
-          def,
-        });
-        Object.assign(memo, newAttrs);
-        return memo;
-      })
-      .omitBy((childDef, childDefName) =>
-        filterArgs({ childDef, childDefName, inputObjectType, action, def })
-      )
-      .mapValues((childDef, childDefName) =>
-        getChildField({ childDef, childDefName, action, def, opts, getField })
-      )
-      .value();
-    return Object.keys(objectFields).length === 0 ? noAttributes : objectFields;
+    const fieldsWithNested = Object.entries(def.properties)
+      .map(([childDefName, childDef]) => getNestedModels({
+        childDef,
+        childDefName,
+        inputObjectType,
+        action,
+        def,
+        rootDef,
+      }))
+      .reduce((memo, value) => Object.assign(memo, ...value), {});
+    const filteredFields = omitBy(fieldsWithNested, (childDef, childDefName) =>
+      filterArgs({ childDef, childDefName, inputObjectType, action, def })
+    );
+    const finalFields = mapValues(filteredFields, (childDef, childDefName) =>
+      getChildField({ childDef, childDefName, action, def, opts, getField })
+    );
+    const fieldsWithDefault = Object.keys(finalFields).length === 0
+      ? noAttributes
+      : finalFields;
+    return fieldsWithDefault;
   };
 };
 

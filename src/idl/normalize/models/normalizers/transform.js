@@ -5,7 +5,7 @@ const { EngineError } = require('../../../../error');
 
 // Transforms can take several shapes, we normalize them
 // We also define transform order, with `using` property
-const normalizeAllTransforms = function ({ models }) {
+const normalizeAllTransforms = function ({ idl: { models } }) {
   return mapValues(models, (model, modelName) => {
     if (!model.properties) { return model; }
 

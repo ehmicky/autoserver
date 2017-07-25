@@ -15,26 +15,30 @@ const getTypeName = function ({
   // so use def[nameSym] instead
   const actualModel = model || modelName;
   const name = multiple ? plural(actualModel) : singular(actualModel);
-  const nestedPostfix = isTopLevel ? '' : ' Nested';
-  const typeName = `${actionType} ${name} ${inputObjectType}${nestedPostfix}`;
+  const nestedPostfix = isTopLevel ? '' : 'nested';
+  const typeName = `${actionType} ${name} ${inputObjectType} ${nestedPostfix}`;
   return camelize(capitalize(typeName));
+};
+
+const getActionName = function ({ modelName, action }) {
+  return camelize(`${action.type} ${modelName}`);
 };
 
 // Returns action name, camelized, in plural form,
 // e.g. `findPets` or `deletePets`
-const getActionName = function ({ modelName, action, noChange }) {
-  const model = getModel({ modelName, action, noChange });
-  return camelize(`${action.type} ${model}`);
+const getPluralActionName = function ({ modelName, action }) {
+  const pluralModelName = pluralizeModel({ modelName, action });
+  return getActionName({ modelName: pluralModelName, action });
 };
 
-const getModel = function ({ modelName, action, noChange }) {
-  if (noChange) { return modelName; }
-  if (action.multiple) { return plural(modelName); }
+const pluralizeModel = function ({ modelName, action: { multiple } }) {
+  if (multiple) { return plural(modelName); }
   return singular(modelName);
 };
 
 module.exports = {
   getTypeName,
+  getPluralActionName,
   getActionName,
   nameSym,
 };

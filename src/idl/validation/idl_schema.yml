@@ -210,21 +210,8 @@ definitions:
             not:
               const: false
   # Only applies this to nested models
+  # The refered model will be shallow copied, but can override any property
   nestedModel:
-    # Restrict the possible properties
-    propertyNames:
-      enum:
-      - model
-      - type
-      - description
-      - deprecated
-      - examples
-      - default
-      - alias
-      - readOnly
-      - transform
-      - compute
-      - commands
     # Must have a `model` property
     required: [model]
     properties:

@@ -10,7 +10,7 @@ const {
 } = require('../../../../utilities');
 const { ACTIONS } = require('../../../../constants');
 
-const { getActionName } = require('./name');
+const { getPluralActionName } = require('./name');
 const { getSubDef, isModel, isMultiple } = require('./utilities');
 
 // Mapping from IDL actions to GraphQL methods
@@ -36,7 +36,7 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
       // E.g. 'my_model' + 'findMany' -> 'findMyModels'
       // This will be used as the top-level graphqlMethod
       const renamedModels = mapKeys(allowedModels, (model, modelName) =>
-        getActionName({ modelName, action })
+        getPluralActionName({ modelName, action })
       );
 
       // Iterate through each model

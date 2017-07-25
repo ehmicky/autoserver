@@ -166,7 +166,6 @@ models:
           model: pet
       owners:
         items:
-          type: object
           model: owner
       birth_date:
         # The following JSON schema validation keywords can be applied to
