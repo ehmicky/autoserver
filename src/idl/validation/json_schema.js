@@ -1,6 +1,6 @@
 'use strict';
 
-const { getValidator } = require('../../../validation');
+const { getValidator } = require('../../validation');
 
 // Validates that idl.models.MODEL are valid JSON schema by compiling them
 // with AJV

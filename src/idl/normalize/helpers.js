@@ -7,9 +7,7 @@ const normalizeHelpers = function ({ idl }) {
   const helpers = getNormalizedHelpers({ idl });
   const exposeMap = getExposeMap({ helpers });
 
-  Object.assign(idl, { helpers, exposeMap });
-
-  return idl;
+  return Object.assign({}, idl, { helpers, exposeMap });
 };
 
 const getNormalizedHelpers = function ({ idl }) {

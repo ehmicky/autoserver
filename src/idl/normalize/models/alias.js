@@ -3,31 +3,29 @@
 const { cloneDeep } = require('lodash');
 const { toSentence } = require('underscore.string');
 
-const { mapValues, omit, assignObject } = require('../../../../utilities');
-const { EngineError } = require('../../../../error');
+const { mapValues, omit, assignObject } = require('../../../utilities');
+const { EngineError } = require('../../../error');
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
-const normalizeAliases = function ({ idl: { models } }) {
-  return mapValues(models, model => {
-    if (!model.properties) { return model; }
+const normalizeAliases = function (model) {
+  if (!model.properties) { return; }
 
-    const newProps = Object.entries(model.properties)
-      .reduce((props, [attrName, attr]) => {
-        const aliases = createAliases({ model, props, attr, attrName });
-        Object.assign(props, aliases);
+  const newProps = Object.entries(model.properties)
+    .reduce((props, [attrName, attr]) => {
+      const aliases = createAliases({ model, props, attr, attrName });
+      Object.assign(props, aliases);
 
-        props[attrName] = attr;
-        return props;
-      }, {});
+      props[attrName] = attr;
+      return props;
+    }, {});
 
-    model.properties = mapValues(newProps, attr => {
-      addAliasDescription({ attr });
-      return attr;
-    });
-
-    return model;
+  const properties = mapValues(newProps, attr => {
+    addAliasDescription({ attr });
+    return attr;
   });
+
+  return { properties };
 };
 
 const createAliases = function ({ model, props, attr, attrName }) {
