@@ -2,7 +2,7 @@
 
 const { renderGraphiQL } = require('./render');
 
-const executeGraphiql = async function (input) {
+const executeGraphiql = async function (nextFunc, input) {
   const { queryVars, payload = {}, origin } = input;
 
   const endpointURL = `${origin}/graphql`;
