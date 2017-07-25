@@ -3,7 +3,7 @@
 const { isEqual } = require('lodash');
 
 const { ACTIONS } = require('../../constants');
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 /**
  * Action-related validation middleware
@@ -32,21 +32,21 @@ const validateAction = function ({ action }) {
 
   if (!isValid) {
     const message = `Invalid 'action': '${JSON.stringify(action)}'`;
-    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+    throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };
 
 const validateFullAction = function ({ fullAction }) {
   if (typeof fullAction !== 'string') {
     const message = `Invalid 'fullAction': '${JSON.stringify(fullAction)}'`;
-    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+    throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };
 
 const validateModelName = function ({ modelName, modelNames }) {
   if (!modelName || !modelNames.includes(modelName)) {
     const message = `Invalid 'modelName': '${modelName}' must be one of: ${modelNames.join(', ')}`;
-    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+    throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };
 

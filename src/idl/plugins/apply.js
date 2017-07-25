@@ -1,7 +1,7 @@
 'use strict';
 
 const { omit, omitBy, reduceAsync } = require('../../utilities');
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 const { timestampPlugin } = require('./timestamp');
 const { authorPlugin } = require('./author');
@@ -43,7 +43,7 @@ const applyPlugin = async function ({ idl, index, pluginConf }) {
 
   if (typeof plugin !== 'function') {
     const message = `The plugin at 'plugins[${index}]' is not a function`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
   const newIdl = await plugin({ idl, opts });
@@ -58,7 +58,7 @@ const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
 
   if (!builtinPlugin) {
     const message = `The plugin '${plugin}' does not exist`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
   return Object.assign({}, builtinPlugin, omit(pluginConf, 'plugin'));

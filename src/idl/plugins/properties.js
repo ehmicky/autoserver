@@ -4,7 +4,7 @@ const { uniq, intersection, difference } = require('lodash');
 const { toSentence } = require('underscore.string');
 const pluralize = require('pluralize');
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 const { mapValues } = require('../../utilities');
 
 // Generic plugin factory
@@ -73,7 +73,7 @@ const validateDefinedProps = function ({ modelName, propNames, newPropNames }) {
 
   const propMessage = getPropMessage(alreadyDefinedProps);
   const message = `In model ${modelName}, cannot override ${propMessage}`;
-  throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+  throwError(message, { reason: 'IDL_VALIDATION' });
 };
 
 // Make sure plugin required properties exist
@@ -92,7 +92,7 @@ const validateMissingProps = function ({
 
   const propMessage = getPropMessage(missingRequiredProps);
   const message = `In model ${modelName}, ${propMessage} should exist`;
-  throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+  throwError(message, { reason: 'IDL_VALIDATION' });
 };
 
 // Returns human-friendly version of properties, e.g. 'property my_prop' or

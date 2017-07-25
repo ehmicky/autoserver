@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../../../error');
+const { throwError } = require('../../../../../error');
 
 const { getParentModel, parseName } = require('./utilities');
 const { attributeResolver } = require('./attribute');
@@ -74,7 +74,7 @@ const validateProp = function ({
   if (!doesNotExist) { return; }
 
   const message = `In ${parentModel} model, attribute ${name} does not exist`;
-  throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 module.exports = {

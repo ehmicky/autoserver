@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 /**
  * There should be no circular references.
@@ -20,7 +20,7 @@ const validateCircularRefs = function ({
 }) {
   if (pathSet.has(value)) {
     const message = `Schema cannot contain circular references: ${path}`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
   if (typeof value === 'object' && value) {

@@ -3,6 +3,7 @@
 const yaml = require('js-yaml');
 
 const { readFile } = require('./filesystem');
+const { throwError } = require('./error');
 
 // Retrieve and parses a YAML file
 // This might throw for many different reasons, e.g. wrong YAML syntax,
@@ -20,8 +21,8 @@ const loadYaml = function ({ path, content }) {
     json: true,
     // Error handling
     filename: path,
-    onWarning (exception) {
-      throw exception;
+    onWarning (error) {
+      throwError(error);
     },
   });
 };

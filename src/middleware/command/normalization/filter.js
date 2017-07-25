@@ -1,7 +1,7 @@
 'use strict';
 
 const { isJsl } = require('../../../jsl');
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 const { mapValues } = require('../../../utilities');
 
 /**
@@ -18,7 +18,7 @@ const normalizeFilter = function ({ filter }) {
 
   if (filter.constructor !== Object) {
     const message = 'Argument \'filter\' format is invalid';
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   // { filter: { attr: 1 } } -> { filter: { attr: '($ === 1)' } }

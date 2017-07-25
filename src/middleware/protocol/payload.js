@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 const { makeImmutable } = require('../../utilities');
 
 // Fill in `input.payload` using protocol-specific request payload.
@@ -47,11 +47,11 @@ const payloadError = function ({ specific, protocolHandler }) {
 
   if (!contentType) {
     const msg = 'Must specify Content-Type when sending a request payload';
-    throw new EngineError(msg, { reason: 'NO_CONTENT_TYPE' });
+    throwError(msg, { reason: 'NO_CONTENT_TYPE' });
   }
 
   const message = `Unsupported Content-Type: '${contentType}'`;
-  throw new EngineError(message, { reason: 'WRONG_CONTENT_TYPE' });
+  throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
 };
 
 // Request payload middleware, for several types of input

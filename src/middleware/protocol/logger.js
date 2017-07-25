@@ -1,6 +1,6 @@
 'use strict';
 
-const { getReason, normalizeError } = require('../../error');
+const { getReason, normalizeError, throwError } = require('../../error');
 const { STATUS_LEVEL_MAP } = require('../../logging');
 
 // Main request logging middleware.
@@ -18,7 +18,7 @@ const logger = async function logger (nextFunc, input) {
     addErrorReason({ error, input });
     await handleLog({ error, input });
 
-    throw error;
+    throwError(error);
   }
 };
 

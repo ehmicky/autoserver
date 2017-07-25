@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../../../error');
+const { throwError } = require('../../../../../error');
 const { isJsl } = require('../../../../../jsl');
 
 /**
@@ -130,7 +130,7 @@ const validateNestedId = function ({ parent, name, attrName, multiple, arg }) {
 };
 
 const wrongInput = function (message) {
-  throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 module.exports = {

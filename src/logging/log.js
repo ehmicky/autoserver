@@ -3,7 +3,7 @@
 const { cloneDeep } = require('lodash');
 
 const { deepMerge, buffer } = require('../utilities');
-const { EngineError } = require('../error');
+const { throwError } = require('../error');
 const { getServerInfo } = require('../info');
 
 const { report } = require('./report');
@@ -168,13 +168,13 @@ class Log {
 const checkReportInput = function (rawMessage, logObj) {
   if (typeof rawMessage !== 'string') {
     const message = `Message must be a string: '${rawMessage}'`;
-    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    throwError(message, { reason: 'UTILITY_ERROR' });
   }
 
   if (logObj == null || logObj.constructor !== Object) {
     const strObj = JSON.stringify(logObj);
     const message = `Log object must be an object: '${strObj}'`;
-    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    throwError(message, { reason: 'UTILITY_ERROR' });
   }
 };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const { makeImmutable } = require('../../../utilities');
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 const { getSettings } = require('./parse');
 const { validateSettings } = require('./validate');
@@ -42,7 +42,7 @@ const getSpecificSettings = function ({ input, input: { protocolHandler } }) {
 
   if (!specificSettings || specificSettings.constructor !== Object) {
     const message = `'specificSettings' must be an object, not '${specificSettings}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   return specificSettings;

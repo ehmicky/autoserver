@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../../../error');
+const { throwError } = require('../../../../../error');
 const { decode } = require('../../encoding');
 
 // Returns response.metadata related to pagination, after decoding token
@@ -15,7 +15,7 @@ const getOutputMetadata = function ({
 
   if (typeof token !== 'string') {
     const message = 'Wrong response: \'token\' must be a string';
-    throw new EngineError(message, { reason: 'OUTPUT_VALIDATION' });
+    throwError(message, { reason: 'OUTPUT_VALIDATION' });
   }
 
   try {
@@ -23,7 +23,7 @@ const getOutputMetadata = function ({
     return Object.assign({}, pages, { token: parsedToken });
   } catch (error) {
     const message = 'Wrong response: \'token\' is invalid';
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'OUTPUT_VALIDATION',
       innererror: error,
     });

@@ -220,7 +220,7 @@ rules:
   - 2
   - name: error
   no-catch-shadow: 2
-#  fp/no-throw: 2
+  fp/no-throw: 2
   unicorn/custom-error-definition: 2
 
   # Functions

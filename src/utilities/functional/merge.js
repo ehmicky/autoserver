@@ -1,5 +1,7 @@
 'use strict';
 
+const { throwError } = require('../error');
+
 // Deep merge objects and arrays (concatenates for arrays)
 const deepMerge = function (objA, ...objects) {
   if (!objA) { return; }
@@ -39,7 +41,7 @@ const validateInput = function ({ objA, objB }) {
 
   if (isInvalidType || isDifferentTypes) {
     const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
-    throw new Error(message);
+    throwError(message);
   }
 };
 

@@ -2,7 +2,7 @@
 
 const { promisify } = require('util');
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 const { ENV } = require('../../utilities');
 
 // Make request fail after some timeout
@@ -35,7 +35,7 @@ const startRequestTimeout = async function ({ now }) {
   await promisify(setTimeout)(timeout);
 
   const message = `The request took too long (more than ${TIMEOUT / 1000} seconds)`;
-  throw new EngineError(message, { reason: 'REQUEST_TIMEOUT' });
+  throwError(message, { reason: 'REQUEST_TIMEOUT' });
 };
 
 // When debugging with breakpoints, we do not want any request timeout

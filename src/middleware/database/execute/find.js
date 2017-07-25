@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 const findIndexes = function ({ collection, nFilter, opts: { jsl } }) {
   if (!nFilter) {
@@ -29,12 +29,12 @@ const findIndex = function ({
 
   if (!index && mustExist === true) {
     const message = `Could not find the model with id ${id} in: ${modelName} (collection)`;
-    throw new EngineError(message, { reason: 'DATABASE_NOT_FOUND' });
+    throwError(message, { reason: 'DATABASE_NOT_FOUND' });
   }
 
   if (index && mustExist === false) {
     const message = `Model with id ${id} already exists in: ${modelName} (collection)`;
-    throw new EngineError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
+    throwError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
   }
 
   return index;
@@ -47,14 +47,14 @@ const filterToId = function ({ nFilter }) {
 
     if (!parts) {
       const message = `JSL expression should be '($ === ID)': ${nFilter}`;
-      throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+      throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
     }
 
     const id = JSON.parse(parts[1]);
     return id;
   } catch (error) {
     const message = `JSL expression should be '($ === ID)': ${nFilter}`;
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'INPUT_SERVER_VALIDATION',
       innererror: error,
     });

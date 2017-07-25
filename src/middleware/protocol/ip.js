@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 // Retrieve request's IP, assigned to protocol input, and also to JSL $IP
 const getIp = async function (nextFunc, input) {
@@ -22,7 +22,7 @@ const getRequestIp = function (input) {
 
   if (typeof ip !== 'string') {
     const message = `'ip' must be a string, not '${ip}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   return ip;

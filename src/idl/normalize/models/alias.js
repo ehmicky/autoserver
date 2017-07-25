@@ -4,7 +4,7 @@ const { cloneDeep } = require('lodash');
 const { toSentence } = require('underscore.string');
 
 const { mapValues, omit, assignObject } = require('../../../utilities');
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
@@ -47,13 +47,13 @@ const createAliases = function ({ model, props, attr, attrName }) {
 const checkAliasDuplicates = function ({ model, props, attrName, alias }) {
   if (model.properties[alias]) {
     const message = `Attribute '${attrName}' cannot have an alias '${alias}' because this attribute already exists`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
   if (props[alias]) {
     const otherAttrName = props[alias].aliasOf;
     const message = `Attributes '${otherAttrName}' and '${attrName}' cannot have the same alias '${alias}'`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    throwError(message, { reason: 'IDL_VALIDATION' });
   }
 };
 

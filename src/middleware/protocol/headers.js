@@ -1,7 +1,7 @@
 'use strict';
 
 const { makeImmutable } = require('../../utilities');
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 // Fill in `input.headers` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -26,7 +26,7 @@ const getHeaders = function ({ specific, protocolHandler }) {
 
   if (!headers || headers.constructor !== Object) {
     const message = `'headers' must be an object, not '${headers}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   return headers;

@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 // A single measurement item
 // This class is returned by `perfLog.start()`, and allows user to
@@ -13,7 +13,7 @@ class PerfLogItem {
   start () {
     if (this.end === false) {
       const message = 'Must call \'stop()\' before calling \'start()\'';
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+      throwError(message, { reason: 'UTILITY_ERROR' });
     }
 
     this.end = false;
@@ -23,7 +23,7 @@ class PerfLogItem {
   stop () {
     if (this.end === true) {
       const message = 'Must call \'start()\' before calling \'stop()\'';
-      throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+      throwError(message, { reason: 'UTILITY_ERROR' });
     }
 
     this.end = true;

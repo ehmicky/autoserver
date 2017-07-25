@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 const { assignObject } = require('../../utilities');
 
@@ -30,7 +30,7 @@ const validateCommands = function ({
 
     if (!isAllowed) {
       const message = `Command '${mappedCommand.type}' is not allowed`;
-      throw new EngineError(message, { reason: 'AUTHORIZATION' });
+      throwError(message, { reason: 'AUTHORIZATION' });
     }
   }
 };

@@ -2,7 +2,7 @@
 
 const { hrtime } = process;
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 const { PerfLogItem } = require('./log_item');
 const { CATEGORIES, DEFAULT_CATEGORY } = require('./constants');
@@ -128,17 +128,17 @@ class PerfLog {
 const validateOptions = function ({ label, category }) {
   if (typeof label !== 'string') {
     const message = 'Performance label must be a string';
-    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    throwError(message, { reason: 'UTILITY_ERROR' });
   }
 
   if (typeof category !== 'string') {
     const message = 'Performance category must be a string';
-    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    throwError(message, { reason: 'UTILITY_ERROR' });
   }
 
   if (!CATEGORIES.includes(category)) {
     const message = `Unknown performance category: '${category}'`;
-    throw new EngineError(message, { reason: 'UTILITY_ERROR' });
+    throwError(message, { reason: 'UTILITY_ERROR' });
   }
 };
 

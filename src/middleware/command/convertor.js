@@ -1,6 +1,7 @@
 'use strict';
 
 const { pick } = require('../../utilities');
+const { throwError } = require('../../error');
 
 // Converts from Action format to Command format
 const commandConvertor = async function (nextFunc, input) {
@@ -16,7 +17,7 @@ const commandConvertor = async function (nextFunc, input) {
     // Added only for final error handler
     log.add({ command });
 
-    throw error;
+    throwError(error);
   }
 };
 

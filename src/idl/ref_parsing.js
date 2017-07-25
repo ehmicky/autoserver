@@ -1,7 +1,7 @@
 'use strict';
 
 const { dereferenceRefs } = require('../utilities');
-const { EngineError } = require('../error');
+const { throwError } = require('../error');
 
 const resolveRefs = async function ({ idl, baseDir }) {
   const parsedIdl = await resolveJsonRefs({ idl, baseDir });
@@ -22,7 +22,7 @@ const resolveJsonRefs = async function ({ idl, idl: { baseDir } }) {
     return parsedIdl;
   } catch (error) {
     const message = 'Could not resolve references \'$ref\'';
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'IDL_SYNTAX_ERROR',
       innererror: error,
     });

@@ -1,11 +1,11 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 const validateBasic = function ({ args }) {
   if (!args || args.constructor !== Object) {
     const message = `Invalid 'args': '${args}'`;
-    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+    throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };
 

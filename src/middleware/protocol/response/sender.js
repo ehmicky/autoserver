@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Sends the response at the end of the request
 const sender = async function (
@@ -15,13 +15,13 @@ const sender = async function (
   }
 ) {
   if (!type) {
-    throw new EngineError('Server sent an response with no content type', {
+    throwError('Server sent an response with no content type', {
       reason: 'SERVER_INPUT_VALIDATION',
     });
   }
 
   if (content === undefined && type !== 'failure') {
-    throw new EngineError('Server sent an empty response', {
+    throwError('Server sent an empty response', {
       reason: 'SERVER_INPUT_VALIDATION',
     });
   }
@@ -31,7 +31,7 @@ const sender = async function (
 
   if (!handler) {
     const message = 'Server tried to respond with an unsupported content type';
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   await handler({ protocolHandler, specific, content, status });

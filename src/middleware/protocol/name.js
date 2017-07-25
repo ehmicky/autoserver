@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 const getProtocolName = async function (nextFunc, input) {
   const { log, specific, protocolHandler } = input;
@@ -19,7 +19,7 @@ const getProtocolFullName = function ({ specific, protocolHandler }) {
 
   if (typeof protocolFullName !== 'string') {
     const message = `'protocolFullName' must be a string, not ${protocolFullName}`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   return protocolFullName;

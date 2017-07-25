@@ -19,9 +19,9 @@ const validateJsl = function ({ jsl, type }) {
   const globalKeys = getGlobalKeys({ type });
   const rules = allRules[type].getRules({ globalKeys });
 
-  const throwError = getThrowError({ jslText, type });
+  const throwJslErr = getThrowError({ jslText, type });
   const print = reverseParseNode.bind(null, jslText);
-  const validate = validateNode.bind(null, { throwError, print, rules });
+  const validate = validateNode.bind(null, { throwJslErr, print, rules });
 
   fullAncestor(node, validate);
 };
@@ -40,7 +40,7 @@ const getJsl = function ({ jsl, type }) {
 
 // eslint-disable-next-line max-params
 const validateNode = function (
-  { throwError, print, rules },
+  { throwJslErr, print, rules },
   node, parents, _, nodeType
 ) {
   // Verify it can be reversed parsed
@@ -52,21 +52,21 @@ const validateNode = function (
 
   if (!rule) {
     const msg = `Cannot use the following code: '${print(node)}'`;
-    throwError(msg);
+    throwJslErr(msg);
   }
 
-  checkNodeRule({ rule, node, parents, throwError, print });
+  checkNodeRule({ rule, node, parents, throwJslErr, print });
 };
 
-const checkNodeRule = function ({ rule, node, parents, throwError, print }) {
+const checkNodeRule = function ({ rule, node, parents, throwJslErr, print }) {
   const nodeParents = parents.slice(0, parents.length - 1).reverse();
   const message = rule(node, nodeParents);
 
   if (typeof message === 'string') {
-    throwError(message);
+    throwJslErr(message);
   } else if (message === false) {
     const msg = `Cannot use the following code: '${print(node)}'`;
-    throwError(msg);
+    throwJslErr(msg);
   }
 };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const { validate } = require('../../../../../validation');
-const { EngineError } = require('../../../../../error');
+const { throwError } = require('../../../../../error');
 const { getPaginationInfo } = require('../../info');
 
 const { getOutputSchema } = require('./schema');
@@ -29,7 +29,7 @@ const validatePaginationOutput = function ({
 
   if (data.length > usedPageSize) {
     const message = `Database returned pagination batch larger than specified page size ${args.pageSize}`;
-    throw new EngineError(message, { reason: 'OUTPUT_VALIDATION' });
+    throwError(message, { reason: 'OUTPUT_VALIDATION' });
   }
 };
 

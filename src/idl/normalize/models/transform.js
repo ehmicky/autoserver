@@ -1,7 +1,7 @@
 'use strict';
 
 const { assignArray } = require('../../../utilities');
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Get transforms order according to `using` property
 const setOrder = function (type, model, { modelName }) {
@@ -46,12 +46,12 @@ const validateUsing = function ({
   for (const using of transformUsing) {
     if (!attributes.includes(using)) {
       const message = `'using' property is invalid in model '${modelName}': attribute '${using}' does not exist`;
-      throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+      throwError(message, { reason: 'IDL_VALIDATION' });
     }
 
     if (using === attrName) {
       const message = `'using' property is invalid in model '${modelName}': '${using}' refers to current attribute`;
-      throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+      throwError(message, { reason: 'IDL_VALIDATION' });
     }
   }
 };
@@ -89,7 +89,7 @@ const checkTransformCircular = function ({ props, modelName, triedProps }) {
 
   if (triedProps.includes(strProps)) {
     const message = `Circular dependencies in 'using' properties of model '${modelName}'`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
   triedProps.push(strProps);

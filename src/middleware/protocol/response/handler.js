@@ -1,7 +1,7 @@
 'use strict';
 
 const { pick } = require('../../../utilities');
-const { normalizeError } = require('../../../error');
+const { normalizeError, throwError } = require('../../../error');
 
 const { sender } = require('./sender');
 
@@ -27,7 +27,7 @@ const sendResponse = async function (nextFunc, input) {
     // to never send two responses.
     errorObj.sendError = send;
 
-    throw errorObj;
+    throwError(errorObj);
   }
 };
 

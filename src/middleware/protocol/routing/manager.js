@@ -3,7 +3,7 @@
 const pathToRegExp = require('path-to-regexp');
 
 const { transtype, assignObject } = require('../../../utilities');
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 const { routes: allRoutes } = require('./routes');
 
@@ -30,7 +30,7 @@ const findRoute = function ({ routes, path, goal }) {
 
   if (!route) {
     const message = 'The requested URL was not found';
-    throw new EngineError(message, { reason: 'NOT_FOUND' });
+    throwError(message, { reason: 'NOT_FOUND' });
   }
 
   return route;

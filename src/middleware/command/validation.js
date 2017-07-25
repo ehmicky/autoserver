@@ -3,7 +3,7 @@
 const { isEqual } = require('lodash');
 
 const { COMMANDS } = require('../../constants');
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 /**
  * Command-related validation middleware
@@ -28,7 +28,7 @@ const validateCommand = function ({ command }) {
 
   if (!isValid) {
     const message = `Invalid command: ${JSON.stringify(command)}`;
-    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+    throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };
 
@@ -37,7 +37,7 @@ const validateArgs = function ({
 }) {
   if (internal !== undefined && typeof internal !== 'boolean') {
     const message = '\'args.internal\' must be a boolean';
-    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+    throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 
   validateCurrentData({ newData, currentData });
@@ -69,7 +69,7 @@ const validateDifferentTypes = function ({ newData, currentData }) {
   if (!differentTypes) { return; }
 
   const message = `'args.currentData' is invalid: ${JSON.stringify(currentData)}`;
-  throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
 };
 
 const validateCurrentDatum = function ({ newData, currentData }) {
@@ -79,7 +79,7 @@ const validateCurrentDatum = function ({ newData, currentData }) {
 
   if (differentId) {
     const message = `'args.currentData' has invalid 'id': ${currentData.id}`;
-    throw new EngineError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+    throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
   }
 };
 

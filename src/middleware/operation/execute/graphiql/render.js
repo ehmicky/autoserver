@@ -2,7 +2,7 @@
 
 const { resolve } = require('path');
 
-const { EngineError } = require('../../../../error');
+const { throwError } = require('../../../../error');
 const { mapValues, renderTemplate } = require('../../../../utilities');
 
 const template = resolve(__dirname, './graphiql.mustache');
@@ -40,7 +40,7 @@ const renderGraphiQL = async function (input) {
     return htmlString;
   } catch (error) {
     const message = 'Could not render GraphiQL HTML document';
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'GRAPHIQL_PARSING_ERROR',
       innererror: error,
     });
