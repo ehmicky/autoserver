@@ -1,8 +1,10 @@
 'use strict';
 
-const { omit } = require('../../../../../utilities');
+const { pick } = require('../../../../../utilities');
 const { getActionName } = require('../name');
 const { getSubDef, isModel, isMultiple } = require('../utilities');
+
+const { getNestedIdAttr } = require('./nested_id');
 
 const getNestedModels = function ({
   childDef,
@@ -10,47 +12,90 @@ const getNestedModels = function ({
   inputObjectType,
   action,
   def,
+  rootDef,
 }) {
-  const subDef = getSubDef(childDef);
+  const originalAttr = { [childDefName]: childDef };
+  if (!isNestedModel({ childDef })) { return [originalAttr]; }
 
-  // Only for nested models
-  if (!(isModel(subDef) && !subDef.isTopLevel)) {
-    return { [childDefName]: childDef };
-  }
-
-  const nestedModel = getNestedModel({
+  const nestedId = getNestedIdAttr({ childDef, childDefName });
+  const nestedModels = getRecursiveModels({
     childDef,
     childDefName,
     inputObjectType,
     action,
     def,
+    rootDef,
   });
+  return [nestedId, nestedModels];
+};
 
-  const nestedId = getNestedId({ childDef, childDefName, subDef });
-
-  return Object.assign({}, nestedModel, nestedId);
+const isNestedModel = function ({ childDef }) {
+  const subDef = getSubDef(childDef);
+  return isModel(subDef) && !subDef.isTopLevel;
 };
 
 // Copy nested models with a different name that includes the action,
 // e.g. `my_attribute` -> `createMyAttribute`
-const getNestedModel = function ({
+const getRecursiveModels = function ({
   childDef,
   childDefName,
   inputObjectType,
   action,
   def,
+  rootDef,
 }) {
   // Not for data|filter arguments
-  if (inputObjectType !== '') { return {}; }
+  if (inputObjectType !== '') { return; }
 
-  const name = getActionName({
-    modelName: childDefName,
-    action,
-    noChange: true,
-  });
+  const recursiveDef = getRecursiveDef({ childDef, action, rootDef });
 
-  // Add transformed name to `required` array,
-  // if non-transformed name was present
+  const name = getActionName({ modelName: childDefName, action });
+
+  addToRequiredProps({ name, childDefName, def });
+
+  return { [name]: recursiveDef };
+};
+
+const getRecursiveDef = function ({ childDef, action, rootDef }) {
+  const subDef = getSubDef(childDef);
+  const multiple = isMultiple(childDef);
+
+  const topLevelModel = Object.values(rootDef.properties)
+    .find(prop => getSubDef(prop).model === subDef.model &&
+      prop.action.type === action.type &&
+      prop.action.multiple === multiple
+    );
+
+  // Keep metadata of nested model, if defined
+  const childDefMetadata = pick(childDef, metadataProps);
+
+  const recursiveDef = Object.assign({}, topLevelModel, childDefMetadata);
+
+  return removeTopLevel({ def: recursiveDef });
+};
+
+const metadataProps = [
+  'description',
+  'deprecated',
+  'examples',
+];
+
+// Distinguish top-level from nested models with `isTopLevel` true|false
+const removeTopLevel = function ({ def }) {
+  const subDef = getSubDef(def);
+  const multiple = isMultiple(def);
+
+  if (multiple) {
+    const items = Object.assign({}, subDef, { isTopLevel: false });
+    return Object.assign({}, def, { items });
+  }
+
+  return Object.assign({}, subDef, { isTopLevel: false });
+};
+
+// Add transformed name to `required` array,
+// if non-transformed name was present
+const addToRequiredProps = function ({ name, childDefName, def }) {
   const required = Array.isArray(def.required) &&
     def.required.includes(childDefName) &&
     !def.required.includes(name);
@@ -58,38 +103,6 @@ const getNestedModel = function ({
   if (required) {
     def.required.push(name);
   }
-
-  return { [name]: childDef };
-};
-
-const getNestedId = function ({
-  childDef,
-  childDefName,
-  subDef,
-}) {
-  // Nested models use the regular name as well, but as simple ids,
-  // not recursive definition
-  // Retrieves `id` field definition of subfield
-  const nonRecursiveAttrs = [
-    'description',
-    'deprecation_reason',
-    'examples',
-    // Consider this attribute as a normal attribute, not a model anymore
-    'model',
-  ];
-  const recursiveAttrs = ['model', 'type'];
-  const idDef = Object.assign(
-    {},
-    omit(subDef.properties.id, nonRecursiveAttrs),
-    omit(subDef, recursiveAttrs)
-  );
-
-  // Assign `id` field definition to e.g. `model.user`
-  const idsDef = isMultiple(childDef)
-    ? Object.assign({}, childDef, { items: idDef })
-    : idDef;
-
-  return { [childDefName]: idsDef };
 };
 
 module.exports = {

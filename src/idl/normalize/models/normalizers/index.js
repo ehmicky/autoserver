@@ -4,5 +4,5 @@ module.exports = Object.assign(
   {},
   require('./transform'),
   require('./alias'),
-  require('./transformer'),
+  require('./model'),
 );

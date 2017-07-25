@@ -1,16 +1,28 @@
 'use strict';
 
-const normalizers = require('./normalizers');
+const {
+  transformModels,
+  transformAttributes,
+  normalizeAllTransforms,
+  normalizeAliases,
+} = require('./normalizers');
+
+const normalizers = [
+  transformModels,
+  transformAttributes,
+  normalizeAllTransforms,
+  normalizeAliases,
+];
 
 // Normalize IDL definition models
-const normalizeModels = function ({ idl, idl: { models: oModels } }) {
-  const newModels = Object.values(normalizers).reduce(
-    (models, normalizer) => normalizer({ idl, models }),
-    oModels,
+const normalizeModels = function ({ idl: oIdl }) {
+  return Object.values(normalizers).reduce(
+    (idl, normalizer) => {
+      const models = normalizer({ idl });
+      return Object.assign({}, idl, { models });
+    },
+    oIdl,
   );
-
-  const newIdl = Object.assign({}, idl, { models: newModels });
-  return newIdl;
 };
 
 module.exports = {

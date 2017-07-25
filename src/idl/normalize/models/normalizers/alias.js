@@ -8,7 +8,7 @@ const { EngineError } = require('../../../../error');
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
-const normalizeAliases = function ({ models }) {
+const normalizeAliases = function ({ idl: { models } }) {
   return mapValues(models, model => {
     if (!model.properties) { return model; }
 
