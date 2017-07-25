@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 /**
  * Normalize args.orderBy, e.g. 'a,b+,c-' would become:
@@ -14,7 +14,7 @@ const { EngineError } = require('../../../error');
 const normalizeOrderBy = function ({ orderBy, attrNames }) {
   if (typeof orderBy !== 'string') {
     const message = 'Argument \'order_by\' must be a string';
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   // Remove whitespaces
@@ -28,7 +28,7 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
   const nOrderBy = parts.map(part => {
     if (part === '') {
       const message = 'Argument \'order_by\' cannot have empty attributes';
-      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+      throwError(message, { reason: 'INPUT_VALIDATION' });
     }
 
     // Default order is +
@@ -39,7 +39,7 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
 
     if (!attrNames.includes(attrName)) {
       const message = `Argument 'order_by' attribute '${attrName}' does not exist`;
-      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+      throwError(message, { reason: 'INPUT_VALIDATION' });
     }
 
     return { attrName, order };

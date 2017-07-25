@@ -1,7 +1,7 @@
 'use strict';
 
 const { ACTIONS } = require('../../../../../constants');
-const { EngineError } = require('../../../../../error');
+const { throwError } = require('../../../../../error');
 
 const { nestedModelResolver } = require('./nested_model');
 const { topLevelModelResolver } = require('./top_level_model');
@@ -79,12 +79,12 @@ const validateAction = function ({
   // in IDL definition
   if (action == null || modelName == null) {
     const message = `Action '${name}' does not exist`;
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   if (graphqlMethods[actionType] !== graphqlMethod) {
     const message = `Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`;
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 };
 

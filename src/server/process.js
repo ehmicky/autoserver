@@ -3,7 +3,7 @@
 const { onlyOnce, identity } = require('../utilities');
 const { Log } = require('../logging');
 const {
-  EngineError,
+  throwError,
   getStandardError,
   getErrorMessage,
   normalizeError,
@@ -31,7 +31,7 @@ const checkUniqueCall = function () {
     uniqueCall();
   } catch (error) {
     const message = '\'startServer()\' can only be called once per process.';
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'PROCESS_ERROR',
       innererror: error,
     });
@@ -68,11 +68,7 @@ const setupWarning = function ({ log }) {
 
 // Report process problems as logs with type 'failure'
 const processHandler = async function (log, { error, message }) {
-  const innererror = normalizeError({ error });
-  const errorObj = new EngineError(message, {
-    reason: 'PROCESS_ERROR',
-    innererror,
-  });
+  const errorObj = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
   const standardError = getStandardError({ log, error: errorObj });
   const errorMessage = getErrorMessage({ error: standardError });
 

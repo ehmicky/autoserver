@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../error');
+const { throwError } = require('../error');
 
 const { validationTypes } = require('./types');
 const { getErrorMessage } = require('./message');
@@ -34,7 +34,7 @@ const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
 
   const errorsMessage = message ? `${message}: ${errorsText}` : errorsText;
 
-  throw new EngineError(errorsMessage, { reason });
+  throwError(errorsMessage, { reason });
 };
 
 module.exports = {

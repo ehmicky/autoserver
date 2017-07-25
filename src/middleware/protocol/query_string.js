@@ -2,7 +2,7 @@
 
 const qs = require('qs');
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 const { transtype, mapValues, makeImmutable } = require('../../utilities');
 
 const MAX_DEPTH = 10;
@@ -41,7 +41,7 @@ const getQueryString = function ({ specific, protocolHandler }) {
 
   if (typeof queryString !== 'string') {
     const message = `'queryString' must be a string, not '${queryString}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   return queryString;
@@ -69,7 +69,7 @@ const parseQueryVars = function ({ queryString }) {
     return queryObject;
   } catch (error) {
     const message = `Request query string is invalid: '${queryString}'`;
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'QUERY_STRING_PARSE',
       innererror: error,
     });

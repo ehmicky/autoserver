@@ -2,7 +2,7 @@
 
 const { format: urlFormat, URL } = require('url');
 
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Retrieves origin, i.e. protocol + host + port
 const getOrigin = function ({
@@ -37,7 +37,7 @@ const getQueryString = function ({ specific: { req: { url } } }) {
     return search.replace(/^\?/, '');
   } catch (error) {
     const message = `Could not retrieve query string from: '${url}'`;
-    throw new EngineError(message, { reason: 'QUERY_STRING_PARSE' });
+    throwError(message, { reason: 'QUERY_STRING_PARSE' });
   }
 };
 

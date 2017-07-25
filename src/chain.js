@@ -1,5 +1,7 @@
 'use strict';
 
+const { throwError } = require('./utilities');
+
 /**
  * Transforms a series of functions into a middleware stack.
  * More precisely:
@@ -38,7 +40,7 @@ const chain = function (funcs, { before: beforeOpt = [] } = {}) {
 };
 
 const lastFunc = function () {
-  throw new Error('No middleware was able to handle the request');
+  throwError('No middleware was able to handle the request');
 };
 
 const bindFunctions = function (funcs, func) {

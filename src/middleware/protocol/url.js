@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 // Fill in:
 //  - `input.url`: full URL, e.g. used for logging
@@ -26,7 +26,7 @@ const getOrigin = function ({ specific, protocolHandler }) {
 
   if (typeof origin !== 'string') {
     const message = `'origin' must be a string, not '${origin}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   return origin;
@@ -37,7 +37,7 @@ const getPath = function ({ specific, protocolHandler }) {
 
   if (typeof path !== 'string') {
     const message = `'path' must be a string, not '${path}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   return path;

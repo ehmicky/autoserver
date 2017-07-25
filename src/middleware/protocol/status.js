@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError, normalizeError } = require('../../error');
+const { throwError, normalizeError } = require('../../error');
 
 // Retrieve response's status
 const getStatus = async function (nextFunc, input) {
@@ -14,15 +14,16 @@ const getStatus = async function (nextFunc, input) {
   } catch (error) {
     const errorObj = normalizeError({ error });
 
-    const { protocolStatus, status } = getStatuses({ input, error: errorObj });
-    Object.assign(errorObj, { protocolStatus, status });
+    const statuses = getStatuses({ input, error: errorObj });
+    input.log.add(statuses);
+    Object.assign(errorObj, statuses);
 
-    throw errorObj;
+    throwError(errorObj);
   }
 };
 
 const getStatuses = function ({
-  input: { log, protocolHandler, protocolStatus: currentProtocolStatus },
+  input: { protocolHandler, protocolStatus: currentProtocolStatus },
   error,
 }) {
   // Protocol-specific status, e.g. HTTP status code
@@ -34,25 +35,18 @@ const getStatuses = function ({
 
   validateStatuses({ protocolStatus, status });
 
-  // Used to indicate that `status` and `protocolStatus` should be kept
-  // by the `error_status` middleware
-  if (error !== undefined) {
-    error.isStatusError = true;
-  }
-
-  log.add({ protocolStatus, status });
   return { protocolStatus, status };
 };
 
 const validateStatuses = function ({ protocolStatus, status }) {
   if (protocolStatus === undefined) {
     const message = '\'protocolStatus\' must be defined';
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   if (status === undefined) {
     const message = '\'status\' must be defined';
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
 

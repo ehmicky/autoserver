@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Generic settings validation
 const validateSettings = function ({ settings }) {
@@ -9,7 +9,7 @@ const validateSettings = function ({ settings }) {
 
     if (!validator) {
       const message = `Unknown settings: '${name}'`;
-      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+      throwError(message, { reason: 'INPUT_VALIDATION' });
     }
 
     validator({ name, value });
@@ -19,7 +19,7 @@ const validateSettings = function ({ settings }) {
 const noOutput = function ({ name, value }) {
   if (typeof value !== 'boolean') {
     const message = `'${name}' settings must be 'true' or 'false', not '${value}'`;
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 };
 

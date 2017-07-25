@@ -2,7 +2,7 @@
 
 const { execute } = require('graphql');
 
-const { EngineError } = require('../../../../error');
+const { throwError } = require('../../../../error');
 
 const handleIntrospection = async function ({
   schema,
@@ -18,7 +18,11 @@ const handleIntrospection = async function ({
   });
 
   if (response.errors && response.errors[0]) {
-    throwError(response.errors[0]);
+    const [innererror] = response.errors;
+    throwError('GraphQL introspection query failed', {
+      reason: 'GRAPHQL_INTROSPECTION',
+      innererror,
+    });
   }
 
   return response;
@@ -43,15 +47,11 @@ const getIntrospectionResponse = async function ({
   //  - throwing an exception
   //  - returning errors in response
   } catch (error) {
-    throwError(error);
+    throwError('GraphQL introspection query failed', {
+      reason: 'GRAPHQL_INTROSPECTION',
+      innererror: error,
+    });
   }
-};
-
-const throwError = function (innererror) {
-  throw new EngineError('GraphQL introspection query failed', {
-    reason: 'GRAPHQL_INTROSPECTION',
-    innererror,
-  });
 };
 
 // At the moment, we do not support mixing introspection query with

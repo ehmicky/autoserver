@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 const { GOALS } = require('../../constants');
 
 // Fill in:
@@ -25,7 +25,7 @@ const getMethod = function ({ specific, protocolHandler }) {
 
   if (typeof method !== 'string') {
     const message = `'method' must be a string, not '${method}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   return method;
@@ -40,17 +40,17 @@ const getGoal = function ({ method, protocolHandler }) {
 const validateGoal = function ({ goal, method }) {
   if (!goal) {
     const message = `Unsupported protocol method: '${method}'`;
-    throw new EngineError(message, { reason: 'UNSUPPORTED_METHOD' });
+    throwError(message, { reason: 'UNSUPPORTED_METHOD' });
   }
 
   if (typeof goal !== 'string') {
     const message = `'goal' must be a string, not '${goal}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   if (!GOALS.includes(goal)) {
     const message = `Invalid 'goal' '${goal}', must be one of: ${GOALS.join(', ')}`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Check input is not too big
 const validateLimits = function ({ args: { data }, maxDataLength }) {
@@ -10,7 +10,7 @@ const validateLimits = function ({ args: { data }, maxDataLength }) {
 
   if (isDataTooBig) {
     const message = `argument 'data' must contain at most ${maxDataLength} items`;
-    throw new EngineError(message, { reason: 'INPUT_LIMIT' });
+    throwError(message, { reason: 'INPUT_LIMIT' });
   }
 };
 

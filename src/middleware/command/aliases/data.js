@@ -3,7 +3,7 @@
 const { isEqual } = require('lodash');
 
 const { omit, assignObject } = require('../../../utilities');
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Apply `alias` in `args.data`
 const applyDataAliases = function ({
@@ -61,7 +61,7 @@ const validateAliases = function ({ newValue, aliasData, firstAttrName }) {
   if (!wrongAlias) { return; }
 
   const message = `'data.${firstAttrName}' and 'data.${wrongAlias}' have different values ('${JSON.stringify(newValue)}' and '${JSON.stringify(aliasData[wrongAlias])}') but must have identical values because they are aliases.`;
-  throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 module.exports = {

@@ -2,14 +2,14 @@
 
 const { parse } = require('graphql');
 
-const { EngineError } = require('../../../../error');
+const { throwError } = require('../../../../error');
 const { memoize } = require('../../../../utilities');
 
 // Raw GraphQL parsing
 const parseQuery = memoize(({ query, goal, operationName }) => {
   if (!query) {
     const message = 'Missing GraphQL query';
-    throw new EngineError(message, { reason: 'GRAPHQL_NO_QUERY' });
+    throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
   }
 
   try {
@@ -22,7 +22,7 @@ const parseQuery = memoize(({ query, goal, operationName }) => {
     return { queryDocument, graphqlMethod };
   } catch (error) {
     const message = 'Could not parse GraphQL query';
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'GRAPHQL_SYNTAX_ERROR',
       innererror: error,
     });
@@ -48,7 +48,7 @@ const validateQuery = function ({ queryDocument, goal, operationName }) {
 
   if (goal === 'find' && definition.operation !== 'query') {
     const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
-    throw new EngineError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 
   return { graphqlMethod: definition.operation };
@@ -62,10 +62,10 @@ const getDefinition = function ({ operationDefinitions, operationName }) {
   if (definitions.length === 0) {
     if (operationName) {
       const message = `Could not find GraphQL operation ${operationName}`;
-      throw new EngineError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+      throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
     } else {
       const message = 'Missing GraphQL query';
-      throw new EngineError(message, { reason: 'GRAPHQL_NO_QUERY' });
+      throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
     }
   }
 

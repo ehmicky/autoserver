@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../../../error');
+const { throwError } = require('../../../../../error');
 const { decode } = require('../../encoding');
 
 // Returns arguments, after decoding tokens
@@ -27,7 +27,7 @@ const validateSingleDirection = function ({ inputData }) {
   if (!hasTwoDirections) { return; }
 
   const message = 'Wrong parameters: cannot specify both \'before\' and \'after\'';
-  throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 const validateSingleType = function ({ inputData }) {
@@ -37,7 +37,7 @@ const validateSingleType = function ({ inputData }) {
   if (!hasTwoPaginationTypes) { return; }
 
   const message = 'Wrong parameters: cannot use both \'page\' and \'before|after\'';
-  throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 const validateForbiddenArg = function ({ inputData }) {
@@ -50,7 +50,7 @@ const validateForbiddenArg = function ({ inputData }) {
 
     if (hasForbiddenArg) {
       const message = `Wrong parameters: cannot use both '${forbiddenArg}' and 'before|after'`;
-      throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+      throwError(message, { reason: 'INPUT_VALIDATION' });
     }
   }
 };
@@ -63,7 +63,7 @@ const getDecodedTokens = function ({ inputData }) {
 
       if (typeof token !== 'string') {
         const message = `Wrong parameters: '${name}' must be a string`;
-        throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+        throwError(message, { reason: 'INPUT_VALIDATION' });
       }
 
       const decodedToken = getDecodedToken({ token, name });
@@ -77,7 +77,7 @@ const getDecodedToken = function ({ token, name }) {
     return decode({ token });
   } catch (error) {
     const message = `Wrong parameters: '${name}' is invalid`;
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'INPUT_VALIDATION',
       innererror: error,
     });

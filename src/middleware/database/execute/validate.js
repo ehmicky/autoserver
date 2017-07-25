@@ -1,7 +1,7 @@
 'use strict';
 
 const { COMMANDS } = require('../../../constants');
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Check output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)
@@ -11,7 +11,7 @@ const validateResponse = function ({ command, response }) {
 
   if (!response) {
     const message = '\'response\' should be defined';
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   const { data, metadata } = response;
@@ -22,34 +22,34 @@ const validateResponse = function ({ command, response }) {
 const validateData = function ({ data, multiple }) {
   if (!data) {
     const message = '\'response.data\' should be defined';
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   if (multiple && !Array.isArray(data)) {
     const message = `'response.data' should be an array, not '${data}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   if (!multiple && data.constructor !== Object) {
     const message = `'response.data' should be an object, not '${data}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
 
 const validateMetadata = function ({ metadata, multiple }) {
   if (!metadata) {
     const message = '\'response.metadata\' should be defined';
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   if (multiple && !Array.isArray(metadata)) {
     const message = `'response.metadata' should be an array, not '${metadata}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   if (!multiple && metadata.constructor !== Object) {
     const message = `'response.metadata' should be an object, not '${metadata}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
 

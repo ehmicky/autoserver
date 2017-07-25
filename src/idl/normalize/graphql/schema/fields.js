@@ -7,7 +7,7 @@ const {
   GraphQLString,
 } = require('graphql');
 
-const { EngineError } = require('../../../../error');
+const { throwError } = require('../../../../error');
 const { stringifyJSON } = require('../../../../utilities');
 
 const { graphQLRequiredFGetter } = require('./required');
@@ -72,7 +72,7 @@ const getFieldGetter = function ({ def, opts }) {
 
   if (!fieldGetter) {
     const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
-    throw new EngineError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throwError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
   return fieldGetter;

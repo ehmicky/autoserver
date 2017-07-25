@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 const { ACTIONS, CONTENT_TYPES } = require('../../constants');
 
 // Operation middleware validation
@@ -10,7 +10,7 @@ const operationValidation = async function (nextFunc, input) {
 
   if (!operation) {
     const message = `Unsupported operation: ${route}`;
-    throw new EngineError(message, { reason: 'UNSUPPORTED_OPERATION' });
+    throwError(message, { reason: 'UNSUPPORTED_OPERATION' });
   }
 
   const response = await nextFunc(input);
@@ -23,7 +23,7 @@ const operationValidation = async function (nextFunc, input) {
 const validateResponse = function ({ response }) {
   if (!response || response.constructor !== Object) {
     const message = `'response' must be an object, not '${response}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   const { content, type, actions } = response;
@@ -36,14 +36,14 @@ const validateResponse = function ({ response }) {
 const validateType = function ({ type }) {
   if (typeof type !== 'string') {
     const message = `'type' must be a string, not '${type}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   const isWrongType = !CONTENT_TYPES[type];
 
   if (isWrongType) {
     const message = `Invalid 'type': '${type}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
 
@@ -52,7 +52,7 @@ const validateContent = function ({ content, type }) {
 
   if (isWrongContent) {
     const message = `Invalid 'content': '${content}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
 
@@ -61,7 +61,7 @@ const validateActions = function ({ actions }) {
 
   if (!Array.isArray(actions)) {
     const message = `'actions' must be an array, not '${actions}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
   const wrongAction = actions.find(({ name }) =>
@@ -70,7 +70,7 @@ const validateActions = function ({ actions }) {
 
   if (wrongAction) {
     const message = `'actions' contains invalid action: '${JSON.stringify(wrongAction)}'`;
-    throw new EngineError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
 

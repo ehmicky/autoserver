@@ -3,7 +3,7 @@
 const { omitBy } = require('../utilities');
 
 const { getReason, getGenericProps } = require('./reasons');
-const { normalizeError } = require('./normalize');
+const { normalizeError } = require('./main');
 
 // Gets normalized error information
 const getStandardError = function ({

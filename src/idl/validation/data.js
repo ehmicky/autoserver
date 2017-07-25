@@ -1,7 +1,7 @@
 'use strict';
 
 const { fullRecurseMap, mapValues } = require('../../utilities');
-const { EngineError } = require('../../error');
+const { throwError } = require('../../error');
 
 // Validate JSON schema `$data` properties
 const validateData = function (idl) {
@@ -21,13 +21,13 @@ const validateDataMapper = function (obj) {
 const validateDataFormat = function (obj) {
   if (typeof obj.$data !== 'string') {
     const message = `'$data' must be a string: ${obj.$data}`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
   if (Object.keys(obj).length > 1) {
     const val = JSON.stringify(obj);
     const message = `'$data' must be the only property when specified: '${val}'`;
-    throw new EngineError(message, { reason: 'IDL_VALIDATION' });
+    throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
   return obj;

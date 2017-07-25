@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
+const { throwError } = require('../../../error');
 
 // Transform `args.data`'s ids into a `args.filter` that can be used by
 // the first and the second "read" command
@@ -22,7 +22,7 @@ const getDataId = function ({ model, model: { id } }) {
   if (id === undefined) {
     const modelStr = JSON.stringify(model);
     const message = `Missing 'id' in argument 'data': ${modelStr}`;
-    throw new EngineError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   return id;

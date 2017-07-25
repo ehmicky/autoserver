@@ -4,7 +4,7 @@ const { dirname } = require('path');
 const { realpath } = require('fs');
 const { promisify } = require('util');
 
-const { EngineError } = require('../error');
+const { throwError } = require('../error');
 const { getYaml } = require('../utilities');
 
 /**
@@ -21,7 +21,7 @@ const getIdlConf = async function ({ idl }) {
   if (idl && idl.constructor === Object) { return idl; }
 
   const message = 'Missing configuration file or \'conf\' option';
-  throw new EngineError(message, { reason: 'CONFIGURATION_LOADING' });
+  throwError(message, { reason: 'CONFIGURATION_LOADING' });
 };
 
 const getIdlFromPath = async function ({ path }) {
@@ -35,7 +35,7 @@ const getIdlFromPath = async function ({ path }) {
     return Object.assign({}, idl, { baseDir });
   } catch (error) {
     const message = 'Could not load configuration file';
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'CONFIGURATION_LOADING',
       innererror: error,
     });
@@ -47,7 +47,7 @@ const getIdlPath = async function ({ path }) {
     return await promisify(realpath)(path);
   } catch (error) {
     const message = `Configuration file does not exist: '${path}'`;
-    throw new EngineError(message, {
+    throwError(message, {
       reason: 'CONFIGURATION_LOADING',
       innererror: error,
     });
