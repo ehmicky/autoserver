@@ -1,24 +1,29 @@
 'use strict';
 
+const { reduceAsync } = require('../../utilities');
+
 const { normalizeCommands } = require('./commands');
-const { normalizeModels } = require('./models');
 const { normalizeHelpers } = require('./helpers');
-const { normalizeShortcuts } = require('./shortcuts');
+const { normalizeAttrsBefore, normalizeAttrsAfter } = require('./attribute');
+const { normalizeModels } = require('./models');
 const { normalizeGraphQL } = require('./graphql');
+const { normalizeShortcuts } = require('./shortcuts');
 
 const normalizers = [
   normalizeCommands,
-  normalizeModels,
   normalizeHelpers,
-  normalizeShortcuts,
+  normalizeAttrsBefore,
+  normalizeModels,
+  normalizeAttrsAfter,
   normalizeGraphQL,
+  normalizeShortcuts,
 ];
 
 // Normalize IDL definition
 const normalizeIdl = function ({ idl: oIdl, serverOpts, startupLog }) {
-  return normalizers.reduce((idl, normalizer) => {
+  return reduceAsync(normalizers, async (idl, normalizer) => {
     const perf = startupLog.perf.start(normalizer.name, 'normalize');
-    const newIdl = normalizer({ idl, serverOpts, startupLog });
+    const newIdl = await normalizer({ idl, serverOpts, startupLog });
     perf.stop();
     return newIdl;
   }, oIdl);

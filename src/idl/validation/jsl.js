@@ -1,7 +1,7 @@
 'use strict';
 
-const { recurseMap } = require('../../../utilities');
-const { isJsl, validateJsl } = require('../../../jsl');
+const { recurseMap } = require('../../utilities');
+const { isJsl, validateJsl } = require('../../jsl');
 
 // Validate all IDL JSL expressions
 const validateIdlJsl = function (idl) {

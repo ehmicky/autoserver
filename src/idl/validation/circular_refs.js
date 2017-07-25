@@ -1,6 +1,6 @@
 'use strict';
 
-const { EngineError } = require('../../../error');
+const { EngineError } = require('../../error');
 
 /**
  * There should be no circular references.
