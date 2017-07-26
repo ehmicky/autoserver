@@ -19,6 +19,7 @@ const protocolAttributes = [
   'protocol',
   'protocolHandler',
   'now',
+  'reqPerf',
 ];
 
 module.exports = {

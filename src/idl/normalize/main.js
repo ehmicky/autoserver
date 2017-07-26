@@ -1,6 +1,6 @@
 'use strict';
 
-const { reduceAsync } = require('../../utilities');
+const { monitoredReduce } = require('../../perf');
 
 const { normalizeCommands } = require('./commands');
 const { normalizeHelpers } = require('./helpers');
@@ -20,13 +20,16 @@ const normalizers = [
 ];
 
 // Normalize IDL definition
-const normalizeIdl = function ({ idl: oIdl, serverOpts, startupLog }) {
-  return reduceAsync(normalizers, async (idl, normalizer) => {
-    const perf = startupLog.perf.start(normalizer.name, 'normalize');
-    const newIdl = await normalizer({ idl, serverOpts, startupLog });
-    perf.stop();
-    return newIdl;
-  }, oIdl);
+const normalizeIdl = async function ({ idl: oIdl, serverOpts }) {
+  const initialInput = { serverOpts, idl: oIdl };
+  const [{ idl: newIdl }, measures] = await monitoredReduce({
+    funcs: normalizers,
+    initialInput,
+    category: 'normalize',
+    mapResponse: idl => ({ serverOpts, idl }),
+  });
+
+  return [newIdl, measures];
 };
 
 module.exports = {

@@ -3,9 +3,10 @@
 const { makeImmutable, assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
+const { monitor } = require('../perf');
 
 // Start each server
-const startAllServers = async function ({
+const startServers = async function ({
   idl,
   apiServer,
   startupLog,
@@ -19,7 +20,7 @@ const startAllServers = async function ({
   const serversPromises = protocols
     // Can use serverOpts.PROTOCOL.enabled {boolean}
     .filter(protocol => serverOpts[protocol.toLowerCase()].enabled)
-    .map(protocol => startSingleServer({
+    .map(protocol => monitoredStartServer({
       protocol,
       idl,
       apiServer,
@@ -30,7 +31,11 @@ const startAllServers = async function ({
     }));
 
   // Make sure all servers are starting concurrently, not serially
-  const serversArray = await Promise.all(serversPromises);
+  const responseArray = await Promise.all(serversPromises);
+
+  const serversArray = responseArray.map(([server]) => server);
+  const measures = responseArray.map(([, perf]) => perf);
+
   // From [server, ...] to { protocol: server }
   const servers = serversArray
     .map((server, index) => ({ [protocols[index]]: server }))
@@ -39,10 +44,10 @@ const startAllServers = async function ({
   Object.assign(apiServer, { options, servers });
   makeImmutable(apiServer);
 
-  return { servers };
+  return [{ servers }, measures];
 };
 
-const startSingleServer = async function ({
+const startServer = async function ({
   protocol,
   idl,
   apiServer,
@@ -51,8 +56,6 @@ const startSingleServer = async function ({
   serverOpts,
   requestHandler,
 }) {
-  const perf = startupLog.perf.start(protocol, 'server');
-
   const protocolHandler = protocolHandlers[protocol];
   const opts = serverOpts[protocol.toLowerCase()];
   const handleRequest = (...args) => requestHandler(
@@ -71,9 +74,14 @@ const startSingleServer = async function ({
     handleListening,
   });
 
-  perf.stop();
   return server;
 };
+
+const monitoredStartServer = monitor(
+  startServer,
+  ({ protocol }) => protocol,
+  'server',
+);
 
 // Create log message when each protocol-specific server starts
 // Also add `apiServer.servers.PROTOCOL.protocol|host|port`
@@ -87,5 +95,5 @@ const getHandleListening = function (
 };
 
 module.exports = {
-  startAllServers,
+  startServers,
 };

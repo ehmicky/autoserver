@@ -1,6 +1,7 @@
 'use strict';
 
-const { makeImmutable, reduceAsync } = require('../utilities');
+const { makeImmutable } = require('../utilities');
+const { monitoredReduce } = require('../perf');
 
 const { getIdlConf } = require('./conf');
 const { resolveRefs } = require('./ref_parsing');
@@ -25,21 +26,18 @@ const processors = [
 ];
 
 // Retrieves IDL definition, after validation and transformation
-const getIdl = async function ({
-  serverOpts,
-  serverOpts: { conf },
-  startupLog,
-}) {
-  const finalIdl = await reduceAsync(processors, async (idl, processor) => {
-    const perf = startupLog.perf.start(processor.name, 'idl');
-    const newIdl = await processor({ idl, serverOpts, startupLog });
-    perf.stop();
-    return newIdl;
-  }, conf);
+const getIdl = async function ({ serverOpts, serverOpts: { conf } }) {
+  const initialInput = { serverOpts, idl: conf };
+  const [{ idl: newIdl }, measures] = await monitoredReduce({
+    funcs: processors,
+    initialInput,
+    category: 'idl',
+    mapResponse: idl => ({ serverOpts, idl }),
+  });
 
-  makeImmutable(finalIdl);
+  makeImmutable(newIdl);
 
-  return { idl: finalIdl };
+  return [{ idl: newIdl }, measures];
 };
 
 module.exports = {

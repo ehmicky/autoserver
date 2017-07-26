@@ -15,8 +15,6 @@ const handleStartupError = async function ({
     errorInfo: standardError,
   });
 
-  await startupLog.perf.report();
-
   // Stops servers if some were started
   try {
     await apiServer.emitAsync('startupError');

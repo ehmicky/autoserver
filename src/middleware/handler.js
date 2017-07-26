@@ -1,7 +1,7 @@
 'use strict';
 
 const { chain } = require('../chain');
-const { getMiddlewarePerfLog } = require('../logging');
+const { getMiddlewarePerfLog } = require('../perf');
 
 const initial = require('./initial');
 const protocol = require('./protocol');
