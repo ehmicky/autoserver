@@ -1,6 +1,5 @@
 'use strict';
 
-const { makeImmutable } = require('../utilities');
 const { monitoredReduce } = require('../perf');
 
 const { getIdlConf } = require('./conf');
@@ -26,18 +25,14 @@ const processors = [
 ];
 
 // Retrieves IDL definition, after validation and transformation
-const getIdl = async function ({ serverOpts, serverOpts: { conf } }) {
-  const initialInput = { serverOpts, idl: conf };
-  const [{ idl: newIdl }, measures] = await monitoredReduce({
+const getIdl = function ({ serverOpts, serverOpts: { conf } }) {
+  return monitoredReduce({
     funcs: processors,
-    initialInput,
+    initialInput: { idl: conf },
     category: 'idl',
-    mapResponse: idl => ({ serverOpts, idl }),
+    mapInput: ({ idl }) => ({ serverOpts, idl }),
+    mapResponse: idl => ({ idl }),
   });
-
-  makeImmutable(newIdl);
-
-  return [{ idl: newIdl }, measures];
 };
 
 module.exports = {

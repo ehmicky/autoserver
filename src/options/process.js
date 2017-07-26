@@ -2,7 +2,6 @@
 
 const { cloneDeep } = require('lodash');
 
-const { makeImmutable } = require('../utilities');
 const { monitoredReduce } = require('../perf');
 
 const { applyDefaultOptions } = require('./default');
@@ -15,18 +14,14 @@ const processors = [
   validateOptions,
 ];
 
-const processOptions = async function ({ options }) {
-  const copiedOpts = cloneDeep(options);
-
-  const [finalServerOpts, measures] = await monitoredReduce({
+const processOptions = function ({ options }) {
+  return monitoredReduce({
     funcs: processors,
-    initialInput: copiedOpts,
+    initialInput: { serverOpts: cloneDeep(options) },
     category: 'options',
+    mapInput: ({ serverOpts }) => serverOpts,
+    mapResponse: serverOpts => ({ serverOpts }),
   });
-
-  makeImmutable(finalServerOpts);
-
-  return [{ serverOpts: finalServerOpts }, measures];
 };
 
 module.exports = {

@@ -3,6 +3,8 @@
 const { throwError } = require('../../error');
 const { stopPerf } = require('../../perf');
 
+// Request response time, from request handling start to response sending
+// Note that other functions might happen after response sending, e.g. logging
 const setResponseTime = async function (nextFunc, input) {
   const { log } = input;
 

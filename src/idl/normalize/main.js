@@ -20,16 +20,13 @@ const normalizers = [
 ];
 
 // Normalize IDL definition
-const normalizeIdl = async function ({ idl: oIdl, serverOpts }) {
-  const initialInput = { serverOpts, idl: oIdl };
-  const [{ idl: newIdl }, measures] = await monitoredReduce({
+const normalizeIdl = function ({ idl: oIdl, serverOpts }) {
+  return monitoredReduce({
     funcs: normalizers,
-    initialInput,
+    initialInput: oIdl,
     category: 'normalize',
-    mapResponse: idl => ({ serverOpts, idl }),
+    mapInput: idl => ({ serverOpts, idl }),
   });
-
-  return [newIdl, measures];
 };
 
 module.exports = {

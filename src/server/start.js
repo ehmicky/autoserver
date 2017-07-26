@@ -44,20 +44,18 @@ const processors = [
 
 const start = async function (input) {
   const { startupLog } = input;
-  const [childrenPerf, perf] = await monitoredStartAll(input);
+  const [[, childrenPerf], perf] = await monitoredStartAll(input);
 
   const measures = [perf, ...childrenPerf];
   await startupLog.reportPerf({ measures });
 };
 
-const startAll = async function ({ options, startupLog, apiServer }) {
-  const initialInput = { options, startupLog, apiServer };
-  const [, childrenPerf] = await monitoredReduce({
+const startAll = function (initialInput) {
+  return monitoredReduce({
     funcs: processors,
     initialInput,
     mapResponse: (newInput, input) => Object.assign({}, input, newInput),
   });
-  return childrenPerf;
 };
 
 const monitoredStartAll = monitor(startAll, 'all', 'all');
