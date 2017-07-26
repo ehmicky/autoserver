@@ -1,13 +1,14 @@
 'use strict';
 
-const { Jsl } = require('../../jsl');
+const { Jsl, getHelpers } = require('../../jsl');
 
 // Sets up JSL helper
 const setJsl = async function (nextFunc, input) {
-  const { protocol, idl: { helpers } } = input;
+  const { protocol, idl } = input;
 
   const firstJsl = new Jsl();
-  const jsl = firstJsl.addHelpers({ helpers });
+  const helpers = getHelpers({ idl });
+  const jsl = firstJsl.add(helpers, { type: 'USER' });
   Object.assign(input, { jsl });
 
   const nextInput = jsl.addToInput(input, { $PROTOCOL: protocol });

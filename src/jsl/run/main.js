@@ -29,24 +29,6 @@ class Jsl {
     return Object.assign({}, input, { jsl: newJsl });
   }
 
-  // Take JSL, inline or not, and turns into `function (...args)`
-  // firing the first one, with $1, $2, etc. provided as extra arguments
-  addHelpers ({ helpers = {} }) {
-    const compiledHelpers = mapValues(helpers, ({
-      value: helper,
-      useParams,
-    }) => {
-      // Constants are left as is
-      const isConstant = typeof helper !== 'function' &&
-        !isJsl({ jsl: helper });
-      if (isConstant) { return helper; }
-
-      return new JslHelper({ helper, useParams });
-    });
-
-    return this.add(compiledHelpers, { type: 'USER' });
-  }
-
   run ({ value, params, type, idl: { exposeMap } }) {
     // Merge JSL parameters with JSL call parameters
     const allParams = Object.assign({}, this.params, params);
@@ -56,6 +38,20 @@ class Jsl {
   }
 }
 
+// Take JSL, inline or not, and turns into `function (...args)`
+// firing the first one, with $1, $2, etc. provided as extra arguments
+const getHelpers = function ({ idl: { helpers = {} } }) {
+  return mapValues(helpers, ({ value: helper, useParams }) => {
+    // Constants are left as is
+    const isConstant = typeof helper !== 'function' &&
+      !isJsl({ jsl: helper });
+    if (isConstant) { return helper; }
+
+    return new JslHelper({ helper, useParams });
+  });
+};
+
 module.exports = {
   Jsl,
+  getHelpers,
 };
