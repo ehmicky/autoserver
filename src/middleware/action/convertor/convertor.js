@@ -37,6 +37,7 @@ const actionConvertor = async function (nextFunc, input) {
 
 // Not kept: goal, queryVars, pathVars, payload, route, operation
 const actionAttributes = [
+  'currentPerf',
   'action',
   'fullAction',
   'args',

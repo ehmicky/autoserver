@@ -2,9 +2,7 @@
 
 const { promisify } = require('util');
 
-const { normalizeError, throwError } = require('../error');
-
-const { startPerf, stopPerf } = require('./measure');
+const { startPerf, stopPerf, restartPerf } = require('./measure');
 
 // Generic middleware that performs performance logging before each middleware
 const getMiddlewarePerfLog = func => async function middlewarePerfLog (
@@ -12,41 +10,17 @@ const getMiddlewarePerfLog = func => async function middlewarePerfLog (
   input,
   ...args
 ) {
-  return await nextFunc(input, ...args);
+  // Freeze parent `currentPerf`
+  const parentPerf = input.currentPerf;
+  // `parentPerf` is undefined in the first middleware
+  const stoppedParentPerf = parentPerf && stopPerf(parentPerf);
 
-  const startedPerf = start({ func, input });
-
-  try {
-    const response = await nextFunc(input, ...args);
-    const finishedPerf = await stop({ perf: startedPerf });
-    const currentPerf = response.perf || [];
-    const newPerf = [...currentPerf, finishedPerf];
-    const newResponse = Object.assign({}, response, { perf: newPerf });
-    return newResponse;
-  } catch (error) {
-    const errorObj = normalizeError({ error });
-
-    const finishedPerf = await stop({ perf: startedPerf });
-    const currentPerf = error.perf || [];
-    const newPerf = [...currentPerf, finishedPerf];
-    const newError = Object.assign({}, errorObj, { perf: newPerf });
-    throwError({ error: newError });
-  }
-};
-
-// TODO: difference between middleware
-
-const start = function ({ func, input }) {
-  // When a middleware is simply a "switch", we try to get the selected
-  // function's name instead
-  const nextFunc = (func.getMiddleware && func.getMiddleware(input)) || func;
-
-  const startedPerf = startPerf(nextFunc.name, 'middleware');
-  return startedPerf;
-};
-
-const stop = async function ({ perf }) {
-  const finishedPerf = stopPerf(perf);
+  const { response, measures } = await fireMiddleware({
+    func,
+    nextFunc,
+    input,
+    args,
+  });
 
   // When performing await middlewarePerfLog(),
   // `await` might yield the current macrotask, i.e. the parentPerf will be
@@ -57,8 +31,41 @@ const stop = async function ({ perf }) {
   // time inflated by the time they waited for the concurrent tasks
   // to complete.
   await promisify(setTimeout)(0);
+  // Unfreeze parent `currentPerf`
+  const restartedParentPerf = parentPerf && restartPerf(stoppedParentPerf);
 
-  return finishedPerf;
+  const newResponse = Object.assign(
+    {},
+    response,
+    { measures, currentPerf: restartedParentPerf },
+  );
+  return newResponse;
+};
+
+// Execute next middleware, while calculating performance measures
+const fireMiddleware = async function ({ func, nextFunc, input, args }) {
+  // When a middleware is simply a "switch", we try to get the selected
+  // function's name instead
+  const { name } = (func.getMiddleware && func.getMiddleware(input)) || func;
+
+  // Start middleware performance
+  const currentPerf = startPerf(name, 'middleware');
+
+  // Pass `currentPerf` as argument so it can be frozen by its children
+  const nextInput = Object.assign({}, input, { currentPerf });
+  const response = await nextFunc(nextInput, ...args) || {};
+
+  // Add `currentPerf` to `response.measures` array
+  const {
+    measures: currentMeasures = [],
+    currentPerf: currentMeasure = currentPerf,
+  } = response;
+
+  // Stops middleware performance
+  const finishedMeasure = stopPerf(currentMeasure);
+
+  const measures = [...currentMeasures, finishedMeasure];
+  return { response, measures };
 };
 
 module.exports = {

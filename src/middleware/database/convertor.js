@@ -10,6 +10,7 @@ const databaseConvertor = async function (nextFunc, input) {
 };
 
 const databaseAttributes = [
+  'currentPerf',
   'command',
   'args',
   'modelName',

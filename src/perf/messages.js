@@ -12,8 +12,8 @@ const stringifyMeasures = function ({ phase = '', measuresGroups }) {
 
 // Sort by category (asc) then by duration (desc)
 const sortMeasures = function (
-  { category: catA, duration: timeA },
-  { category: catB, duration: timeB },
+  { category: catA, average: timeA },
+  { category: catB, average: timeB },
 ) {
   const indexCatA = CATEGORIES.indexOf(catA);
   const indexCatB = CATEGORIES.indexOf(catB);
