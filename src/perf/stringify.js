@@ -35,6 +35,7 @@ const stringifyMeasure = function (
   const averageS = `${Math.round(average)}ms`.padEnd(7);
   const items = count === 1 ? 'item' : 'items';
   const countS = `${String(count).padStart(3)} ${items}`;
+
   return `${phaseS} ${categoryS} ${labelS} ${durationS} = ${averageS} * ${countS}`;
 };
 
