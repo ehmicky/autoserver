@@ -3,6 +3,7 @@
 const { cloneDeep } = require('lodash');
 
 const { throwError } = require('../../../error');
+const { addJslToInput } = require('../../../jsl');
 
 const { validateBasic } = require('./validate_basic');
 const { validateSyntax } = require('./syntax');
@@ -15,7 +16,7 @@ const handleArgs = async function (nextFunc, input) {
   const { log, args, jsl } = input;
 
   const clonedArgs = cloneDeep(args);
-  const nextInput = jsl.addToInput(input, { $ARGS: clonedArgs });
+  const nextInput = addJslToInput(input, jsl, { $ARGS: clonedArgs });
 
   try {
     validateArgs({ input });
