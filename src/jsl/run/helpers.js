@@ -1,6 +1,6 @@
 'use strict';
 
-const { runJsl } = require('./run');
+const { runJSL } = require('./run');
 
 // Inline JSL helper function.
 // When consumer fires Helper('a', 'b'), inline JSL translates 'a' and 'b'
@@ -27,7 +27,7 @@ class JslHelper extends Function {
 
     // JSL is run
     if (typeof helper !== 'function') {
-      return runJsl({ value: helper, params: allParams });
+      return runJSL({ value: helper, params: allParams });
     }
 
     // Non-inline helpers only get positional arguments, no parameters

@@ -1,6 +1,6 @@
 'use strict';
 
-const { isJsl } = require('../../../../jsl');
+const { isJsl, runJsl } = require('../../../../jsl');
 
 const readCommand = {
   commandType: 'read',
@@ -80,7 +80,7 @@ const getAttrAfterJsl = function ({
   if (currentDatum[attrName] == null) { return null; }
 
   const params = { $$: currentDatum, $: currentDatum[attrName] };
-  return jsl.run({ value: dataArg[attrName], params, type: 'data', idl });
+  return runJsl({ jsl, value: dataArg[attrName], params, type: 'data', idl });
 };
 
 /**

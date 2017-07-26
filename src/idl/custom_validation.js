@@ -1,6 +1,7 @@
 'use strict';
 
 const { getRawValidator } = require('../validation');
+const { runJsl } = require('../jsl');
 
 const addCustomKeywords = function ({ idl, idl: { validation = {} } }) {
   const ajv = getRawValidator();
@@ -36,10 +37,10 @@ const addCustomKeyword = function ({
     ) {
       const params = { $EXPECTED: expected, $$: parent, $: value };
 
-      const isValid = jsl.run({ value: testFunc, params, idl });
+      const isValid = runJsl({ jsl, value: testFunc, params, idl });
       if (isValid === true) { return true; }
 
-      const errorMessage = jsl.run({ value: message, params, idl });
+      const errorMessage = runJsl({ jsl, value: message, params, idl });
       validate.errors = [{
         message: errorMessage,
         keyword,

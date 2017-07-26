@@ -8,7 +8,7 @@ const { compileJsl } = require('./compile');
 // Process (already compiled) JSL function,
 // i.e. fires it and returns its value
 // If this is not JSL, returns as is
-const runJsl = function ({ value, params = {}, type = 'system' }) {
+const runJSL = function ({ value, params = {}, type = 'system' }) {
   if (!validTypes.includes(type)) {
     const message = `Invalid JSL type: '${type}'`;
     throwJslError({ message, type: 'system' });
@@ -41,5 +41,5 @@ const handleJslError = function ({ error, value, type }) {
 };
 
 module.exports = {
-  runJsl,
+  runJSL,
 };

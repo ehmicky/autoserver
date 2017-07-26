@@ -1,6 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../error');
+const { runJsl } = require('../../../jsl');
 
 const findIndexes = function ({ collection, nFilter, opts: { jsl, idl } }) {
   if (!nFilter) {
@@ -12,7 +13,7 @@ const findIndexes = function ({ collection, nFilter, opts: { jsl, idl } }) {
     .filter(([, model]) => {
       // TODO: remove when using MongoDB query objects
       const params = { $$: model };
-      return jsl.run({ value: nFilter, params, type: 'filter', idl });
+      return runJsl({ jsl, value: nFilter, params, type: 'filter', idl });
     })
     .map(([index]) => index);
   return modelIndexes;

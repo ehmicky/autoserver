@@ -4,9 +4,9 @@ const { mapValues, makeImmutable } = require('../../utilities');
 const { isJsl } = require('../test');
 
 const { checkNames } = require('./validation');
-const { runJsl } = require('./run');
 const { JslHelper } = require('./helpers');
 const { getParams } = require('./params');
+const { runJSL } = require('./run');
 
 // Instance containing JSL parameters and helpers, re-created for each request
 class Jsl {
@@ -28,14 +28,6 @@ class Jsl {
     const newJsl = this.add(params);
     return Object.assign({}, input, { jsl: newJsl });
   }
-
-  run ({ value, params, type, idl: { exposeMap } }) {
-    // Merge JSL parameters with JSL call parameters
-    const allParams = Object.assign({}, this.params, params);
-
-    const jslParams = getParams({ params: allParams, type, exposeMap });
-    return runJsl({ value, params: jslParams, type });
-  }
 }
 
 // Take JSL, inline or not, and turns into `function (...args)`
@@ -51,7 +43,23 @@ const getHelpers = function ({ idl: { helpers = {} } }) {
   });
 };
 
+const runJsl = function ({
+  jsl,
+  value,
+  params: oParams,
+  type,
+  idl: { exposeMap },
+}) {
+  // Merge JSL parameters with JSL call parameters
+  const allParams = Object.assign({}, jsl.params, oParams);
+
+  const params = getParams({ params: allParams, type, exposeMap });
+  // TODO: merge with `runJSL`
+  return runJSL({ value, params, type });
+};
+
 module.exports = {
   Jsl,
   getHelpers,
+  runJsl,
 };
