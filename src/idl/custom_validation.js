@@ -9,13 +9,20 @@ const addCustomKeywords = function ({ idl, idl: { validation = {} } }) {
     keyword,
     { test: testFunc, message, type },
   ] of Object.entries(validation)) {
-    addCustomKeyword({ ajv, keyword, testFunc, message, type });
+    addCustomKeyword({ ajv, keyword, testFunc, message, type, idl });
   }
 
   return idl;
 };
 
-const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
+const addCustomKeyword = function ({
+  ajv,
+  keyword,
+  testFunc,
+  message,
+  type,
+  idl,
+}) {
   ajv.addKeyword(keyword, {
     // eslint-disable-next-line max-params
     validate: function validate (
@@ -29,10 +36,10 @@ const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
     ) {
       const params = { $EXPECTED: expected, $$: parent, $: value };
 
-      const isValid = jsl.run({ value: testFunc, params });
+      const isValid = jsl.run({ value: testFunc, params, idl });
       if (isValid === true) { return true; }
 
-      const errorMessage = jsl.run({ value: message, params });
+      const errorMessage = jsl.run({ value: message, params, idl });
       validate.errors = [{
         message: errorMessage,
         keyword,

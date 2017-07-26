@@ -2,7 +2,7 @@
 
 // Apply default values to args.data's models
 const applyAllDefault = function applyAllDefault (opts) {
-  const { defAttributes, value } = opts;
+  const { defAttributes, value, idl } = opts;
 
   // When args.data is an array of models, apply this recursively
   if (Array.isArray(value)) {
@@ -15,7 +15,11 @@ const applyAllDefault = function applyAllDefault (opts) {
   const parent = value;
 
   for (const [attrName, defValue] of Object.entries(defAttributes)) {
-    const childOpts = Object.assign({}, opts, { defValue, attrName, parent });
+    const childOpts = Object.assign(
+      {},
+      opts,
+      { defValue, attrName, parent, idl },
+    );
     applyDefault(childOpts);
   }
 
@@ -23,7 +27,7 @@ const applyAllDefault = function applyAllDefault (opts) {
 };
 
 // Apply default value to args.data's attributes
-const applyDefault = function ({ parent, defValue, attrName, jsl }) {
+const applyDefault = function ({ parent, defValue, attrName, jsl, idl }) {
   const value = parent[attrName];
 
   // Only apply default if value is not defined by client
@@ -31,7 +35,7 @@ const applyDefault = function ({ parent, defValue, attrName, jsl }) {
 
   // Process JSL if default value uses JSL
   const params = { $$: parent, $: value };
-  const newDefValue = jsl.run({ value: defValue, params });
+  const newDefValue = jsl.run({ value: defValue, params, idl });
 
   parent[attrName] = newDefValue;
 };
