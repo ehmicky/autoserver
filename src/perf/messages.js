@@ -3,10 +3,10 @@
 const { CATEGORIES } = require('./constants');
 
 // Returns measures but as a single string, for console debugging
-const getMeasuresMessage = function ({ measures }) {
-  return measures
+const stringifyMeasures = function ({ phase = '', measuresGroups }) {
+  return measuresGroups
     .sort(sortMeasures)
-    .map(stringifyMeasure)
+    .map(stringifyMeasure.bind(null, phase))
     .join('\n');
 };
 
@@ -24,14 +24,10 @@ const sortMeasures = function (
 };
 
 // Prints as a table
-const stringifyMeasure = function ({
+const stringifyMeasure = function (
   phase,
-  category,
-  label,
-  average,
-  count,
-  duration,
-}) {
+  { category, label, average, count, duration },
+) {
   const phaseS = phase.padEnd(8);
   const categoryS = category.padEnd(12);
   const labelS = label.padEnd(26);
@@ -43,5 +39,5 @@ const stringifyMeasure = function ({
 };
 
 module.exports = {
-  getMeasuresMessage,
+  stringifyMeasures,
 };

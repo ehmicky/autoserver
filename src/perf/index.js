@@ -2,7 +2,9 @@
 
 module.exports = Object.assign(
   {},
-  require('./log'),
+  require('./measure'),
   require('./middleware'),
+  require('./group'),
   require('./messages'),
+  require('./helpers'),
 );

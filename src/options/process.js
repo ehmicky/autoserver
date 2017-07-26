@@ -3,6 +3,7 @@
 const { cloneDeep } = require('lodash');
 
 const { makeImmutable } = require('../utilities');
+const { monitoredReduce } = require('../perf');
 
 const { applyDefaultOptions } = require('./default');
 const { transformOptions } = require('./transform');
@@ -14,19 +15,18 @@ const processors = [
   validateOptions,
 ];
 
-const processOptions = function ({ options, startupLog }) {
+const processOptions = async function ({ options }) {
   const copiedOpts = cloneDeep(options);
 
-  const finalServerOpts = processors.reduce((serverOpts, processor) => {
-    const perf = startupLog.perf.start(processor.name, 'options');
-    const newServerOpts = processor({ serverOpts });
-    perf.stop();
-    return newServerOpts;
-  }, copiedOpts);
+  const [finalServerOpts, measures] = await monitoredReduce({
+    funcs: processors,
+    initialInput: copiedOpts,
+    category: 'options',
+  });
 
   makeImmutable(finalServerOpts);
 
-  return { serverOpts: finalServerOpts };
+  return [{ serverOpts: finalServerOpts }, measures];
 };
 
 module.exports = {

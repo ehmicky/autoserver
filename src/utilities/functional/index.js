@@ -12,4 +12,6 @@ module.exports = Object.assign(
   require('./once'),
   require('./buffer'),
   require('./identity'),
+  // eslint-disable-next-line import/max-dependencies
+  require('./group'),
 );

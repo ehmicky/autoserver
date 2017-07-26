@@ -1,14 +1,14 @@
 'use strict';
 
-const { reduceAsync } = require('../utilities');
 const { Log } = require('../logging');
+const { monitor, monitoredReduce } = require('../perf');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
 
 const { ApiEngineServer } = require('./api_server');
 const { handleStartupError } = require('./startup_error');
 const { processErrorHandler } = require('./process');
-const { startAllServers } = require('./servers');
+const { startServers } = require('./servers');
 const { setupGracefulExit } = require('./exit');
 const { emitStartEvent } = require('./start_event');
 
@@ -37,24 +37,30 @@ const processors = [
   processErrorHandler,
   processOptions,
   getIdl,
-  startAllServers,
+  startServers,
   setupGracefulExit,
   emitStartEvent,
 ];
 
-const start = async function ({ options, startupLog, apiServer }) {
-  const allPerf = startupLog.perf.start('all', 'all');
+const start = async function (input) {
+  const { startupLog } = input;
+  const [childrenPerf, perf] = await monitoredStartAll(input);
 
-  await reduceAsync(processors, async (input, processor) => {
-    const perf = startupLog.perf.start(processor.name);
-    const nextInput = await processor(input);
-    perf.stop();
-    return Object.assign({}, input, nextInput);
-  }, { options, startupLog, apiServer });
-
-  allPerf.stop();
-  await startupLog.perf.report();
+  const measures = [perf, ...childrenPerf];
+  await startupLog.reportPerf({ measures });
 };
+
+const startAll = async function ({ options, startupLog, apiServer }) {
+  const initialInput = { options, startupLog, apiServer };
+  const [, childrenPerf] = await monitoredReduce({
+    funcs: processors,
+    initialInput,
+    mapResponse: (newInput, input) => Object.assign({}, input, newInput),
+  });
+  return childrenPerf;
+};
+
+const monitoredStartAll = monitor(startAll, 'all', 'all');
 
 module.exports = {
   startServer,

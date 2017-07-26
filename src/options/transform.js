@@ -3,10 +3,8 @@
 const { pick } = require('../utilities');
 
 // Transform main options
-const transformOptions = function ({
-  serverOpts,
-  serverOpts: { loggerFilter },
-}) {
+const transformOptions = function (serverOpts) {
+  const { loggerFilter } = serverOpts;
   const hasLoggerFilter = loggerFilter && loggerFilter.constructor === Object;
 
   if (hasLoggerFilter) {

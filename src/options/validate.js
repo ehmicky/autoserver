@@ -4,7 +4,7 @@ const { validate } = require('../validation');
 const { assignObject } = require('../utilities');
 
 // Validation for main options
-const validateOptions = function ({ serverOpts }) {
+const validateOptions = function (serverOpts) {
   validate({ schema, data: serverOpts, reportInfo });
 
   return serverOpts;

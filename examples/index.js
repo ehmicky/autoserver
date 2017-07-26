@@ -67,13 +67,11 @@ const apiServer = startServer({
       // const jsonInfo = JSON.stringify(info, null, 2);
       // global.console.log('Logging info', jsonInfo);
     }
-  });
+  })
   // Performance monitoring
-  /*
   .on('log.*.perf.*', ({ measuresMessage }) => {
     console.log(`Performance logging info\n${measuresMessage}`);
   });
-  */
 
 const hasEmit = function () {
   // For debugging

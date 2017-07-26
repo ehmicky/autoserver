@@ -5,12 +5,12 @@ const { cloneDeep } = require('lodash');
 const { deepMerge, buffer } = require('../utilities');
 const { throwError } = require('../error');
 const { getServerInfo } = require('../info');
+const { groupMeasures, stringifyMeasures } = require('../perf');
 
 const { report } = require('./report');
 const { getRequestInfo } = require('./request_info');
 const { getRequestMessage } = require('./request_message');
 const { LEVELS } = require('./constants');
-const { PerfLog, getMeasuresMessage } = require('./perf');
 
 // Represents a logger
 // Can:
@@ -96,9 +96,6 @@ class Log {
       this.messages[level] = [];
     }
 
-    this.perf = new PerfLog();
-    this.perf.report = this.reportPerf.bind(this);
-
     Object.assign(this, { serverOpts, apiServer, phase });
   }
 
@@ -156,12 +153,15 @@ class Log {
     await this.report[funcName]();
   }
 
-  async reportPerf () {
+  async reportPerf ({ measures }) {
     const { phase } = this;
-    const measures = this.perf.getMeasures()
-      .map(obj => Object.assign({}, obj, { phase }));
-    const measuresMessage = getMeasuresMessage({ measures });
-    await this.log('', { measures, measuresMessage, type: 'perf' });
+    const measuresGroups = groupMeasures({ measures });
+    const measuresMessage = stringifyMeasures({ phase, measuresGroups });
+    await this.log('', {
+      measures: measuresGroups,
+      measuresMessage,
+      type: 'perf',
+    });
   }
 }
 

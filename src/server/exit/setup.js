@@ -1,7 +1,8 @@
 'use strict';
 
-const { Log } = require('../logging');
-const { assignObject, onlyOnce } = require('../utilities');
+const { Log } = require('../../logging');
+const { monitor } = require('../../perf');
+const { assignObject, onlyOnce } = require('../../utilities');
 
 const { closeServer } = require('./close');
 
@@ -34,21 +35,41 @@ const gracefulExit = onlyOnce(async ({
   apiServer,
 }) => {
   const log = new Log({ serverOpts, apiServer, phase: 'shutdown' });
-  const perf = log.perf.start('all', 'all');
 
-  const closingServers = Object.values(servers)
-    .map(server => closeServer({ server, log }));
-  const statuses = await Promise.all(closingServers);
+  const [[isSuccess, childMeasures], measure] = await monitoredSetupExit({
+    servers,
+    log,
+  });
 
-  const { failedProtocols, isSuccess } = processStatuses({ statuses });
-
-  await logEndShutdown({ log, statuses, failedProtocols, isSuccess });
-
-  perf.stop();
-  await log.perf.report();
+  const measures = [...childMeasures, measure];
+  await log.reportPerf({ measures });
 
   await exit({ isSuccess, apiServer, log });
 });
+
+const setupExit = async function ({ servers, log }) {
+  const statusesPromises = Object.values(servers)
+    .map(server => closeServer({ server, log }));
+  const oStatuses = await Promise.all(statusesPromises);
+  const statuses = oStatuses
+    .map(([{ protocol, status }]) => [protocol, status]);
+  const childMeasures = oStatuses
+    .reduce((allMeasures, [, meas]) => [...allMeasures, ...meas], []);
+
+  const { failedProtocols, isSuccess } = processStatuses({ statuses });
+
+  const [, measure] = await monitoredLogEnd({
+    log,
+    statuses,
+    failedProtocols,
+    isSuccess,
+  });
+
+  const measures = [measure, ...childMeasures];
+  return [isSuccess, measures];
+};
+
+const monitoredSetupExit = monitor(setupExit, 'all', 'all');
 
 // Retrieves which servers exits have failed, if any
 const processStatuses = function ({ statuses }) {
@@ -67,8 +88,6 @@ const logEndShutdown = async function ({
   failedProtocols,
   isSuccess,
 }) {
-  const perf = log.perf.start('log');
-
   const message = isSuccess
     ? 'Server exited successfully'
     : `Server exited with errors while shutting down ${failedProtocols.join(', ')}`;
@@ -76,9 +95,9 @@ const logEndShutdown = async function ({
   const exitStatuses = statuses.reduce(assignObject, {});
 
   await log[level](message, { type: 'stop', exitStatuses });
-
-  perf.stop();
 };
+
+const monitoredLogEnd = monitor(logEndShutdown, 'log');
 
 // Kills main process, with exit code 0 (success) or 1 (failure)
 // This means we consider owning the process, which will be problematic if
