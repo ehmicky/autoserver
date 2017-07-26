@@ -2,5 +2,5 @@
 
 module.exports = Object.assign(
   {},
-  require('./main')
+  require('./main'),
 );

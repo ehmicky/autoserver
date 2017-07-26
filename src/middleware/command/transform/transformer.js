@@ -1,6 +1,7 @@
 'use strict';
 
 const { pick } = require('../../../utilities');
+const { runJsl } = require('../../../jsl');
 
 // Performs transformation on data array or single data
 const applyTransformsOnData = function ({ data, transforms, jsl, type, idl }) {
@@ -46,10 +47,10 @@ const applyTransform = function ({
 
   // Can add a `test` function
   const shouldPerform = testFunc === undefined ||
-    jsl.run({ value: testFunc, params, idl });
+    runJsl({ jsl, value: testFunc, params, idl });
   if (!shouldPerform) { return; }
 
-  const newValue = jsl.run({ value: transformer, params, idl });
+  const newValue = runJsl({ jsl, value: transformer, params, idl });
 
   data[attrName] = newValue;
 };
