@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../../error');
 
-const findIndexes = function ({ collection, nFilter, opts: { jsl } }) {
+const findIndexes = function ({ collection, nFilter, opts: { jsl, idl } }) {
   if (!nFilter) {
     return collection.map((model, index) => index);
   }
@@ -12,7 +12,7 @@ const findIndexes = function ({ collection, nFilter, opts: { jsl } }) {
     .filter(([, model]) => {
       // TODO: remove when using MongoDB query objects
       const params = { $$: model };
-      return jsl.run({ value: nFilter, params, type: 'filter' });
+      return jsl.run({ value: nFilter, params, type: 'filter', idl });
     })
     .map(([index]) => index);
   return modelIndexes;

@@ -4,9 +4,9 @@ const { Jsl } = require('../../jsl');
 
 // Sets up JSL helper
 const setJsl = async function (nextFunc, input) {
-  const { protocol, idl: { helpers, exposeMap } } = input;
+  const { protocol, idl: { helpers } } = input;
 
-  const firstJsl = new Jsl({ exposeMap });
+  const firstJsl = new Jsl();
   const jsl = firstJsl.addHelpers({ helpers });
   Object.assign(input, { jsl });
 

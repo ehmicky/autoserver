@@ -28,6 +28,7 @@ const handleTransforms = async function (nextFunc, input) {
     args,
     modelName,
     jsl,
+    idl,
     idl: { shortcuts: { transformsMap, computesMap } },
   } = input;
   const { newData } = args;
@@ -37,6 +38,7 @@ const handleTransforms = async function (nextFunc, input) {
       data: newData,
       transforms: transformsMap[modelName],
       jsl,
+      idl,
       type: 'transform',
     });
   }
@@ -48,6 +50,7 @@ const handleTransforms = async function (nextFunc, input) {
     data: response.data,
     transforms,
     jsl,
+    idl,
     type: 'compute',
   });
 

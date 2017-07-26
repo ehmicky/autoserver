@@ -10,8 +10,8 @@ const { getParams } = require('./params');
 
 // Instance containing JSL parameters and helpers, re-created for each request
 class Jsl {
-  constructor ({ params = {}, exposeMap = {} } = {}) {
-    Object.assign(this, { params, exposeMap });
+  constructor ({ params = {} } = {}) {
+    Object.assign(this, { params });
     makeImmutable(this);
   }
 
@@ -21,7 +21,7 @@ class Jsl {
   add (params = {}, { type = 'SYSTEM' } = {}) {
     checkNames(params, type);
     const newParams = Object.assign({}, this.params, params);
-    return new Jsl({ params: newParams, exposeMap: this.exposeMap });
+    return new Jsl({ params: newParams });
   }
 
   addToInput (input, params) {
@@ -47,15 +47,11 @@ class Jsl {
     return this.add(compiledHelpers, { type: 'USER' });
   }
 
-  run ({ value, params, type }) {
+  run ({ value, params, type, idl: { exposeMap } }) {
     // Merge JSL parameters with JSL call parameters
     const allParams = Object.assign({}, this.params, params);
 
-    const jslParams = getParams({
-      params: allParams,
-      type,
-      exposeMap: this.exposeMap,
-    });
+    const jslParams = getParams({ params: allParams, type, exposeMap });
     return runJsl({ value, params: jslParams, type });
   }
 }

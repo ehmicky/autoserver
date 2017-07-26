@@ -12,13 +12,14 @@ const userDefaults = async function (nextFunc, input) {
     args,
     modelName,
     jsl,
+    idl,
     idl: { shortcuts: { userDefaultsMap } },
   } = input;
   const { newData } = args;
 
   if (args.newData) {
     const defAttributes = userDefaultsMap[modelName];
-    args.newData = applyAllDefault({ jsl, defAttributes, value: newData });
+    args.newData = applyAllDefault({ jsl, defAttributes, value: newData, idl });
   }
 
   const response = await nextFunc(input);
