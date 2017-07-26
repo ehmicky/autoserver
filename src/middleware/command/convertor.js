@@ -2,13 +2,16 @@
 
 const { pick } = require('../../utilities');
 const { throwError } = require('../../error');
+const { addJslToInput } = require('../../jsl');
 
 // Converts from Action format to Command format
 const commandConvertor = async function (nextFunc, input) {
   const { jsl, log, command } = input;
 
   const trimmedInput = pick(input, commandAttributes);
-  const nextInput = jsl.addToInput(trimmedInput, { $COMMAND: command.type });
+  const nextInput = addJslToInput(trimmedInput, jsl, {
+    $COMMAND: command.type,
+  });
 
   try {
     const response = await nextFunc(nextInput);
