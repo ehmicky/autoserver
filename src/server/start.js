@@ -5,7 +5,7 @@ const { monitor, monitoredReduce } = require('../perf');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
 
-const { ApiEngineServer } = require('./api_server');
+const { createApiServer } = require('./api_server');
 const { handleStartupError } = require('./startup_error');
 const { processErrorHandler } = require('./process');
 const { startServers } = require('./servers');
@@ -19,7 +19,7 @@ const { emitStartEvent } = require('./start_event');
  * @param {object} options.idl - IDL definitions
  */
 const startServer = function (options = {}) {
-  const apiServer = new ApiEngineServer({ serverOpts: options });
+  const apiServer = createApiServer({ serverOpts: options });
   const startupLog = new Log({
     serverOpts: options,
     apiServer,

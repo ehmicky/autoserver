@@ -7,21 +7,21 @@ const { getServerInfo } = require('../info');
 // Object returned by main function `startServer()`
 // Contains general information (options, server name, version, etc.)
 // Emits events related to server lifecycle and logging.
-class ApiEngineServer extends EventEmitter2 {
-  constructor ({ serverOpts }) {
-    super({ wildcard: true });
+const createApiServer = function ({ serverOpts }) {
+  const apiServer = new EventEmitter2({ wildcard: true });
 
-    const {
-      serverId,
-      serverName,
-      apiEngine: { version },
-    } = getServerInfo({ serverOpts });
-    const info = { id: serverId, name: serverName, version };
+  const {
+    serverId,
+    serverName,
+    apiEngine: { version },
+  } = getServerInfo({ serverOpts });
+  const info = { id: serverId, name: serverName, version };
 
-    Object.assign(this, { info });
-  }
-}
+  Object.assign(apiServer, { info });
+
+  return apiServer;
+};
 
 module.exports = {
-  ApiEngineServer,
+  createApiServer,
 };
