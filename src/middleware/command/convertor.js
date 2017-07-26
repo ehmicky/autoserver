@@ -23,6 +23,7 @@ const commandConvertor = async function (nextFunc, input) {
 
 // Not kept: action, fullAction
 const commandAttributes = [
+  'currentPerf',
   'command',
   'args',
   'modelName',

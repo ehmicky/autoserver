@@ -10,6 +10,7 @@ const protocolConvertor = async function (nextFunc, input) {
 };
 
 const protocolAttributes = [
+  'currentPerf',
   'specific',
   'idl',
   'serverOpts',

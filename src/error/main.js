@@ -26,18 +26,9 @@ const validateError = function (opts) {
     const message = `Cannot use options ${nonAllowedOpts} when throwing an error`;
     throwError(message, { reason: 'UTILITY_ERROR' });
   }
-
-  // Check required options
-  const missingOpts = difference(requiredOpts, optsKeys);
-
-  if (missingOpts.length > 0) {
-    const message = `Must specify options ${missingOpts} when throwing an error`;
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
 };
 
 const allowedOpts = ['reason', 'innererror', 'extra'];
-const requiredOpts = ['reason'];
 
 // Keep track of innererror
 const getInnerError = function (opts) {
@@ -66,7 +57,7 @@ const throwError = function (message, opts) {
   // eslint-disable-next-line fp/no-throw
   if (isError({ error: message })) { throw message; }
 
-  const stack = getStack({ caller: throwError });
+  const stack = message.stack || getStack({ caller: throwError });
   const error = createError(message, stack, opts);
   // eslint-disable-next-line fp/no-throw
   throw error;

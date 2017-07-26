@@ -17,7 +17,7 @@ const performanceLog = async function (nextFunc, input) {
 
   // Total request time, stopped just before the response is sent
   // Do not report if exception was thrown
-  const measures = [response.respPerf];
+  const measures = [response.respPerf, ...response.measures];
   await log.reportPerf({ measures });
 
   return response;

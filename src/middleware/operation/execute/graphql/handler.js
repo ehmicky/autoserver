@@ -1,6 +1,7 @@
 'use strict';
 
 const { makeImmutable } = require('../../../../utilities');
+const { stopPerf, restartPerf } = require('../../../../perf');
 
 const { parseQuery } = require('./parse');
 const { handleQuery } = require('./query');
@@ -14,11 +15,18 @@ const {
 const executeGraphql = async function (nextFunc, input) {
   // GraphQL execution
   const actions = [];
-  const content = await getContent({ nextFunc, input, actions });
+  const measures = [];
+  const [content, currentPerf] = await getContent({
+    nextFunc,
+    input,
+    actions,
+    measures,
+  });
   const type = getResponseType({ content });
 
   makeImmutable(actions);
-  const response = { content, type, actions };
+
+  const response = { content, type, actions, measures, currentPerf };
   return response;
 };
 
@@ -27,6 +35,7 @@ const getContent = async function ({
   input,
   input: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
   actions,
+  measures,
 }) {
   const {
     query,
@@ -44,12 +53,17 @@ const getContent = async function ({
       variables,
       operationName,
     });
-    return content;
+    return [content];
   }
 
   // Normal GraphQL query
   const resolver = getResolver.bind(null, modelsMap);
-  const callback = fireNext.bind(null, { nextFunc, input, actions });
+  const callback = fireNext.bind(null, { nextFunc, input, actions, measures });
+
+  // This middleware spurs several children in parallel.
+  // We need to manually call the performance monitoring functions to make
+  // them work
+  const stoppedMeasure = stopPerf(input.currentPerf);
   const data = await handleQuery({
     resolver,
     queryDocument,
@@ -58,7 +72,9 @@ const getContent = async function ({
     context: { graphqlMethod, callback },
     rootValue: {},
   });
-  return { data };
+  const currentPerf = restartPerf(stoppedMeasure);
+
+  return [{ data }, currentPerf];
 };
 
 const getGraphQLInput = function ({ input: { queryVars, payload, goal } }) {
@@ -79,12 +95,16 @@ const getGraphQLInput = function ({ input: { queryVars, payload, goal } }) {
   return { query, variables, operationName, queryDocument, graphqlMethod };
 };
 
-const fireNext = async function ({ nextFunc, input, actions }, actionInput) {
+const fireNext = async function (
+  { nextFunc, input, actions, measures },
+  actionInput,
+) {
   const nextInput = Object.assign({}, input, actionInput);
 
   const response = await nextFunc(nextInput);
 
   actions.push(response.action);
+  measures.push(...response.measures);
 
   return response;
 };

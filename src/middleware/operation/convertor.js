@@ -12,6 +12,7 @@ const operationConvertor = async function (nextFunc, input) {
 // Not kept: protocol, protocolFullName, timestamp, requestId, ip, url,
 // path, method, headers
 const operationAttributes = [
+  'currentPerf',
   'goal',
   'queryVars',
   'pathVars',
