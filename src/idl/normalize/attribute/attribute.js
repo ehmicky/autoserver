@@ -25,8 +25,10 @@ const normalizeAttrs = function (type, { idl, idl: { models: oModels } }) {
   return Object.assign({}, idl, { models });
 };
 
-const normalizeAttrsBefore = normalizeAttrs.bind(null, 'before');
-const normalizeAttrsAfter = normalizeAttrs.bind(null, 'after');
+// Do not use .bind() because we want a clean function name,
+// because the performance monitoring uses it
+const normalizeAttrsBefore = (...args) => normalizeAttrs('before', ...args);
+const normalizeAttrsAfter = (...args) => normalizeAttrs('after', ...args);
 
 const mapperFunc = function ({ transformers, idl }, { attr: oAttr, attrName }) {
   return transformers.reduce(
