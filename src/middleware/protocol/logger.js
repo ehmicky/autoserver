@@ -1,36 +1,42 @@
 'use strict';
 
 const { getReason, normalizeError, rethrowError } = require('../../error');
-const { STATUS_LEVEL_MAP } = require('../../logging');
+const { STATUS_LEVEL_MAP, bufferLogReport } = require('../../logging');
 
 // Main request logging middleware.
 // Each request creates exactly one log, whether successful or not,
 // unless it crashed very early (i.e. before this middleware), in which case
 // it will still be handled by the error logging middleware.
 const logger = async function logger (nextFunc, input) {
+  const { log } = input;
+
   try {
     const response = await nextFunc(input);
 
-    await handleLog({ response, input });
+    const newResponse = getLogReport({ response });
 
-    return response;
+    return newResponse;
   } catch (error) {
     const errorObj = normalizeError({ error });
 
-    addErrorReason({ error: errorObj, input });
-    await handleLog({ error: errorObj, input });
+    const errorReason = getReason({ error });
+    log.add({ errorReason });
 
-    rethrowError(errorObj);
+    const newError = getLogReport({ error: errorObj });
+
+    rethrowError(newError);
   }
 };
 
-const handleLog = async function ({ error, response, input: { log } }) {
+// The logger will build the message and the `requestInfo`
+// We do not do it now, because we want the full protocol layer to end first,
+// do `requestInfo` is full.
+const getLogReport = function ({ error, response }) {
   const level = getLevel({ error, response });
 
-  // The logger will build the message and the `requestInfo`
-  // We do not do it now, because we want the full protocol layer to end first,
-  // do `requestInfo` is full.
-  await log[level]('', { type: 'call' });
+  const logReport = { level, message: '', opts: { type: 'call' } };
+
+  return bufferLogReport(response || error, logReport);
 };
 
 const getLevel = function ({ error, response }) {
@@ -48,12 +54,6 @@ const getStatus = function ({ error, response }) {
   return (error && error.status) ||
     (response && response.status) ||
     'SERVER_ERROR';
-};
-
-// Add information for `requestInfo.error`
-const addErrorReason = function ({ error, input: { log } }) {
-  const errorReason = getReason({ error });
-  log.add({ errorReason });
 };
 
 module.exports = {
