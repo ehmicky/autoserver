@@ -2,7 +2,7 @@
 
 const { cloneDeep } = require('lodash');
 
-const { deepMerge, buffer } = require('../utilities');
+const { deepMerge } = require('../utilities');
 const { getServerInfo } = require('../info');
 const { groupMeasures, stringifyMeasures } = require('../perf');
 
@@ -88,8 +88,6 @@ class Log {
     this.logInfo = {};
     this.messages = {};
 
-    this.report = buffer(this.report, this);
-
     for (const level of LEVELS) {
       this[level] = this.report.bind(this, level);
       this.messages[level] = [];
@@ -123,13 +121,6 @@ class Log {
       rawMessage: rMessage,
       logObj: builtLogObj,
     });
-  }
-
-  // Buffer log calls
-  // E.g. used in requests when requestInfo is not completely built yet
-  async setBuffered (isBuffered) {
-    const funcName = isBuffered ? 'cork' : 'uncork';
-    await this.report[funcName]();
   }
 }
 
@@ -168,7 +159,30 @@ const reportPerf = async function ({ log, measures }) {
 
 const includeMessagesTypes = ['start', 'call', 'failure', 'stop'];
 
+// If we want to delay log calls before logInfo is not fully known yet
+// (e.g. in the middle of a request), we can use this method to buffer those
+// calls and attach them to the return value `obj`, until a function makes
+// the actual calls
+const bufferLogReport = function (obj, logReport) {
+  const { logReports = [] } = obj;
+  const newLogReports = [...logReports, logReport];
+  return Object.assign({}, obj, { logReports: newLogReports });
+};
+
+const unbufferLogReports = async function (obj, log) {
+  const { logReports = [] } = obj;
+
+  const promises = logReports.map(({ level, message, opts }) =>
+    log[level](message, opts)
+  );
+  await Promise.all(promises);
+
+  return Object.assign({}, obj, { logReports: [] });
+};
+
 module.exports = {
   Log,
   reportPerf,
+  bufferLogReport,
+  unbufferLogReports,
 };

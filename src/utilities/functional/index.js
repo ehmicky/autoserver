@@ -10,8 +10,6 @@ module.exports = Object.assign(
   require('./immutable'),
   require('./memoize'),
   require('./once'),
-  require('./buffer'),
   require('./identity'),
-  // eslint-disable-next-line import/max-dependencies
   require('./group'),
 );

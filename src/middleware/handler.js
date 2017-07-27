@@ -21,8 +21,8 @@ const middleware = [
   initial.errorHandler,
   // Log how the request handling takes
   initial.performanceLog,
-  // Buffers log calls
-  initial.loggingBuffer,
+  // Make actual logging calls
+  initial.loggingReporter,
   // Sets response status as 'error'
   initial.errorStatus,
 
