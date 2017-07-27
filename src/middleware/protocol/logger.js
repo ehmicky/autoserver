@@ -1,15 +1,17 @@
 'use strict';
 
 const { getReason, normalizeError, rethrowError } = require('../../error');
-const { STATUS_LEVEL_MAP, bufferLogReport } = require('../../logging');
+const {
+  STATUS_LEVEL_MAP,
+  bufferLogReport,
+  addLogInfo,
+} = require('../../logging');
 
 // Main request logging middleware.
 // Each request creates exactly one log, whether successful or not,
 // unless it crashed very early (i.e. before this middleware), in which case
 // it will still be handled by the error logging middleware.
 const logger = async function logger (nextFunc, input) {
-  const { log } = input;
-
   try {
     const response = await nextFunc(input);
 
@@ -20,9 +22,9 @@ const logger = async function logger (nextFunc, input) {
     const errorObj = normalizeError({ error });
 
     const errorReason = getReason({ error });
-    log.add({ errorReason });
+    const nextError = addLogInfo(errorObj, { errorReason });
 
-    const newError = getLogReport({ error: errorObj });
+    const newError = getLogReport({ error: nextError });
 
     rethrowError(newError);
   }

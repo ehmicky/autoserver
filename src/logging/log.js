@@ -10,9 +10,11 @@ const { getRequestMessage } = require('./request_message');
 
 // Represents a logger
 // Can:
-//  - new Log({ serverOpts, apiServer, phase })
-//  - log.info|log|warn|error(message, [logObj]) - sends some log
-//  - log.add(object) - add requestInfo information
+//  - createLog({ serverOpts, apiServer, phase }) - returns new `log`
+//  - reportLog({ log, level, message, info }) - sends some log
+//  - addLog(obj, info) - add requestInfo information.
+//    Returns new `obj`, storing info at `obj.log`,
+//    i.e. does not modify original `obj`
 // There are different instances of loggers represented by the `phase`:
 //  - startup, shutdown: during startup, shutdown
 //  - request: one instance is created for each request
@@ -80,14 +82,20 @@ const { getRequestMessage } = require('./request_message');
 const createLog = function ({ serverOpts, apiServer, phase }) {
   const logInfo = {};
   const log = { serverOpts, apiServer, phase, logInfo };
-  log.add = addLog.bind(null, log);
   return log;
 };
 
-const addLog = function (log, obj) {
-  log.logInfo = deepMerge(log.logInfo, obj);
+// Add log information to `obj.log`
+// Returns a new copy, i.e. does not modify original `obj`
+const addLogInfo = function (obj, newLogInfo) {
+  const { log, log: { logInfo } } = obj;
+  const nextLogInfo = deepMerge(logInfo, newLogInfo);
+  const newLog = Object.assign({}, log, { logInfo: nextLogInfo });
+  const newObj = Object.assign({}, obj, { log: newLog });
+  return newObj;
 };
 
+// Sends logging information
 const reportLog = async function ({
   level,
   log,
@@ -113,8 +121,9 @@ const getLogObj = function ({
   info: { type = 'message' },
 }) {
   const serverInfo = getServerInfo({ serverOpts });
-  const requestInfo = phase === 'request' &&
-    getRequestInfo(logInfo, loggerFilter);
+  const requestInfo = phase === 'request'
+    ? getRequestInfo(logInfo, loggerFilter)
+    : undefined;
   return Object.assign({}, info, { phase, type, serverInfo, requestInfo });
 };
 
@@ -153,6 +162,7 @@ const unbufferLogReports = async function (obj, log) {
 
 module.exports = {
   createLog,
+  addLogInfo,
   reportLog,
   reportPerf,
   bufferLogReport,

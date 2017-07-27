@@ -10,6 +10,7 @@ const {
   makeImmutable,
 } = require('../../utilities');
 const { addJsl } = require('../../jsl');
+const { addLogInfo } = require('../../logging');
 
 // Fill in `input.params`, which are custom application-specific information,
 // defined by the library user, not by the API engine.
@@ -19,14 +20,14 @@ const { addJsl } = require('../../jsl');
 // Values are automatically transtyped.
 // Are set to JSL param $PARAMS
 const parseParams = async function (nextFunc, input) {
-  const { jsl, log } = input;
+  const { jsl } = input;
 
   const params = getParams({ input });
   makeImmutable(params);
 
-  const nextInput = addJsl({ input, jsl, params: { $PARAMS: params } });
-  log.add({ params });
-  Object.assign(nextInput, { params });
+  const newInput = addJsl({ input, jsl, params: { $PARAMS: params } });
+  const loggedInput = addLogInfo(newInput, { params });
+  const nextInput = Object.assign({}, loggedInput, { params });
 
   const response = await nextFunc(nextInput);
   return response;

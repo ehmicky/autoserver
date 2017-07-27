@@ -5,8 +5,6 @@ const { reportPerf } = require('../../logging');
 
 // Log how the request handling takes
 const performanceLog = async function (nextFunc, input) {
-  const { log } = input;
-
   // Used by other middleware, like timestamp, requestTimeout
   const now = Date.now();
 
@@ -18,6 +16,7 @@ const performanceLog = async function (nextFunc, input) {
 
   // Total request time, stopped just before the response is sent
   // Do not report if exception was thrown
+  const { log } = response;
   const measures = [response.respPerf, ...response.measures];
   await reportPerf({ log, measures });
 

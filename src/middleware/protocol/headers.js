@@ -2,6 +2,7 @@
 
 const { makeImmutable } = require('../../utilities');
 const { throwError } = require('../../error');
+const { addLogInfo } = require('../../logging');
 
 // Fill in `input.headers` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -9,15 +10,15 @@ const { throwError } = require('../../error');
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
 const parseHeaders = async function (nextFunc, input) {
-  const { specific, protocolHandler, log } = input;
+  const { specific, protocolHandler } = input;
 
   const headers = getHeaders({ specific, protocolHandler });
   makeImmutable(headers);
 
-  log.add({ headers });
-  Object.assign(input, { headers });
+  const newInput = addLogInfo(input, { headers });
+  const nextInput = Object.assign({}, newInput, { headers });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

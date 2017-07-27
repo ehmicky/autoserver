@@ -1,25 +1,19 @@
 'use strict';
 
 const { pick } = require('../../utilities');
-const { rethrowError } = require('../../error');
 const { addJsl } = require('../../jsl');
+const { addLogInfo } = require('../../logging');
 
 // Converts from Action format to Command format
 const commandConvertor = async function (nextFunc, oInput) {
-  const { jsl, log, command } = oInput;
+  const { jsl, command } = oInput;
 
   const input = pick(oInput, commandAttributes);
-  const nextInput = addJsl({ input, jsl, params: { $COMMAND: command.type } });
+  const newInput = addJsl({ input, jsl, params: { $COMMAND: command.type } });
+  const nextInput = addLogInfo(newInput, { command });
 
-  try {
-    const response = await nextFunc(nextInput);
-    return response;
-  } catch (error) {
-    // Added only for final error handler
-    log.add({ command });
-
-    rethrowError(error);
-  }
+  const response = await nextFunc(nextInput);
+  return response;
 };
 
 // Not kept: action, fullAction

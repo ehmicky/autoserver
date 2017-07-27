@@ -2,21 +2,22 @@
 
 const { throwError } = require('../../error');
 const { makeImmutable } = require('../../utilities');
+const { addLogInfo } = require('../../logging');
 
 // Fill in `input.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by operation layer, e.g. to populate `input.args`
 const parsePayload = async function (nextFunc, input) {
-  const { specific, protocolHandler, log } = input;
+  const { specific, protocolHandler } = input;
 
   const payload = await getPayload({ specific, protocolHandler });
   makeImmutable(payload);
 
-  log.add({ payload });
-  Object.assign(input, { payload });
+  const newInput = addLogInfo(input, { payload });
+  const nextInput = Object.assign({}, newInput, { payload });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

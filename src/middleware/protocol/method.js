@@ -2,21 +2,22 @@
 
 const { throwError } = require('../../error');
 const { GOALS } = require('../../constants');
+const { addLogInfo } = require('../../logging');
 
 // Fill in:
 //  - `input.method`: protocol-specific method, e.g. 'POST'
 //  - `input.goal`: protocol-agnostic method, e.g. 'create'
 // Meant to be used by operation layer.
 const parseMethod = async function (nextFunc, input) {
-  const { specific, protocolHandler, log } = input;
+  const { specific, protocolHandler } = input;
 
   const method = getMethod({ specific, protocolHandler });
   const goal = getGoal({ method, protocolHandler });
 
-  log.add({ method, goal });
-  Object.assign(input, { method, goal });
+  const newInput = addLogInfo(input, { method, goal });
+  const nextInput = Object.assign({}, newInput, { method, goal });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

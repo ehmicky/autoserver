@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const { getServerInfo } = require('../../info');
 const { addJsl } = require('../../jsl');
+const { addLogInfo } = require('../../logging');
 
 // Assigns unique ID (UUIDv4) to each request
 // Available in:
@@ -13,12 +14,12 @@ const { addJsl } = require('../../jsl');
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
 const setRequestIds = async function (nextFunc, input) {
-  const { jsl, log, specific, protocolHandler, serverOpts } = input;
+  const { jsl, specific, protocolHandler, serverOpts } = input;
 
   const requestId = uuidv4();
-  const nextInput = addJsl({ input, jsl, params: { $REQUEST_ID: requestId } });
-  log.add({ requestId });
-  Object.assign(nextInput, { requestId });
+  const newInput = addJsl({ input, jsl, params: { $REQUEST_ID: requestId } });
+  const loggedInput = addLogInfo(newInput, { requestId });
+  const nextInput = Object.assign({}, loggedInput, { requestId });
 
   sendRequestIdHeader({ specific, requestId, protocolHandler });
   sendServerIdsHeaders({ specific, serverOpts, protocolHandler });

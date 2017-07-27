@@ -1,6 +1,6 @@
 'use strict';
 
-const { createLog } = require('../../logging');
+const { createLog, addLogInfo } = require('../../logging');
 const { protocolHandlers } = require('../../protocols');
 const { pSetTimeout } = require('../../utilities');
 const { addJsl } = require('../../jsl');
@@ -34,8 +34,8 @@ const setupInput = async function (
     currentPerf,
   };
 
-  const nextInput = addJsl({ input, jsl, params: { $PROTOCOL: protocol } });
-  log.add({ protocol });
+  const newInput = addJsl({ input, jsl, params: { $PROTOCOL: protocol } });
+  const nextInput = addLogInfo(newInput, { protocol });
 
   const response = await nextFunc(nextInput);
   return response;

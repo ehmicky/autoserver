@@ -1,6 +1,6 @@
 'use strict';
 
-const { makeImmutable } = require('../../../../utilities');
+const { deepMerge, makeImmutable } = require('../../../../utilities');
 const { stopPerf, restartPerf } = require('../../../../perf');
 
 const { parseQuery } = require('./parse');
@@ -16,17 +16,21 @@ const executeGraphql = async function (nextFunc, input) {
   // GraphQL execution
   const actions = [];
   const measures = [];
+  const logs = [];
   const [content, currentPerf] = await getContent({
     nextFunc,
     input,
     actions,
     measures,
+    logs,
   });
   const type = getResponseType({ content });
 
   makeImmutable(actions);
 
-  const response = { content, type, actions, measures, currentPerf };
+  const log = deepMerge({}, ...logs);
+
+  const response = { content, type, actions, measures, log, currentPerf };
   return response;
 };
 
@@ -36,6 +40,7 @@ const getContent = async function ({
   input: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
   actions,
   measures,
+  logs,
 }) {
   const {
     query,
@@ -58,7 +63,13 @@ const getContent = async function ({
 
   // Normal GraphQL query
   const resolver = getResolver.bind(null, modelsMap);
-  const callback = fireNext.bind(null, { nextFunc, input, actions, measures });
+  const callback = fireNext.bind(null, {
+    nextFunc,
+    input,
+    actions,
+    measures,
+    logs,
+  });
 
   // This middleware spurs several children in parallel.
   // We need to manually call the performance monitoring functions to make
@@ -96,7 +107,7 @@ const getGraphQLInput = function ({ input: { queryVars, payload, goal } }) {
 };
 
 const fireNext = async function (
-  { nextFunc, input, actions, measures },
+  { nextFunc, input, actions, measures, logs },
   actionInput,
 ) {
   const nextInput = Object.assign({}, input, actionInput);
@@ -105,6 +116,7 @@ const fireNext = async function (
 
   actions.push(response.action);
   measures.push(...response.measures);
+  logs.push(response.log);
 
   return response;
 };

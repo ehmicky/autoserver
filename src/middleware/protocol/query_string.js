@@ -4,6 +4,7 @@ const qs = require('qs');
 
 const { throwError } = require('../../error');
 const { transtype, mapValues, makeImmutable } = require('../../utilities');
+const { addLogInfo } = require('../../logging');
 
 const MAX_DEPTH = 10;
 const MAX_ARRAY_LENGTH = 100;
@@ -15,15 +16,15 @@ const MAX_ARRAY_LENGTH = 100;
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
 const parseQueryString = async function (nextFunc, input) {
-  const { specific, protocolHandler, log } = input;
+  const { specific, protocolHandler } = input;
 
   const queryVars = getQueryVars({ specific, protocolHandler });
   makeImmutable(queryVars);
 
-  log.add({ queryVars });
-  Object.assign(input, { queryVars });
+  const newInput = addLogInfo(input, { queryVars });
+  const nextInput = Object.assign({}, newInput, { queryVars });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(nextInput);
   return response;
 };
 
