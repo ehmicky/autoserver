@@ -19,7 +19,7 @@ const errorHandler = async function (nextFunc, input) {
     // Make sure a response is sent, or the socket will hang
     } finally {
       const status = protocolHandler.failureProtocolStatus;
-      protocolHandler.send.nothing({ specific, status });
+      await protocolHandler.send.nothing({ specific, status });
     }
   }
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 const { pick } = require('../../../utilities');
-const { normalizeError, throwError } = require('../../../error');
+const { normalizeError, rethrowError } = require('../../../error');
 
 const { sender } = require('./sender');
 
@@ -25,9 +25,9 @@ const sendResponse = async function (nextFunc, input) {
     // Since we only send response errors if `errorObj.sendError` is defined,
     // and it can only be defined if this middleware throws, we are sure
     // to never send two responses.
-    errorObj.sendError = send;
+    const newError = Object.assign({}, errorObj, { sendError: send });
 
-    throwError(errorObj);
+    rethrowError(newError);
   }
 };
 
