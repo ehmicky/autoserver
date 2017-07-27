@@ -1,6 +1,6 @@
 'use strict';
 
-const { Log, reportPerf } = require('../logging');
+const { createLog, reportPerf } = require('../logging');
 const { monitor, monitoredReduce } = require('../perf');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
@@ -20,7 +20,7 @@ const { emitStartEvent } = require('./start_event');
  */
 const startServer = function (options = {}) {
   const apiServer = createApiServer({ serverOpts: options });
-  const startupLog = new Log({
+  const startupLog = createLog({
     serverOpts: options,
     apiServer,
     phase: 'startup',

@@ -1,13 +1,12 @@
 'use strict';
 
-const { deepMerge, assignObject } = require('../utilities');
+const { deepMerge } = require('../utilities');
 const { getServerInfo } = require('../info');
 const { groupMeasures, stringifyMeasures } = require('../perf');
 
 const { report } = require('./report');
 const { getRequestInfo } = require('./request_info');
 const { getRequestMessage } = require('./request_message');
-const { LEVELS } = require('./constants');
 
 // Represents a logger
 // Can:
@@ -78,16 +77,16 @@ const { LEVELS } = require('./constants');
 //    store logs for monitoring.
 // Note that any exception thrown in this module might not be logged
 // (since this is the logger itself), so we must be precautious.
-class Log {
-  constructor ({ serverOpts, apiServer, phase }) {
-    this.logInfo = {};
-    Object.assign(this, { serverOpts, apiServer, phase });
-  }
+const createLog = function ({ serverOpts, apiServer, phase }) {
+  const logInfo = {};
+  const log = { serverOpts, apiServer, phase, logInfo };
+  log.add = addLog.bind(null, log);
+  return log;
+};
 
-  add (obj) {
-    this.logInfo = deepMerge(this.logInfo, obj);
-  }
-}
+const addLog = function (log, obj) {
+  log.logInfo = deepMerge(log.logInfo, obj);
+};
 
 const reportLog = async function ({
   level,
@@ -153,7 +152,7 @@ const unbufferLogReports = async function (obj, log) {
 };
 
 module.exports = {
-  Log,
+  createLog,
   reportLog,
   reportPerf,
   bufferLogReport,
