@@ -1,9 +1,7 @@
 'use strict';
 
-const { promisify } = require('util');
-
 const { throwError } = require('../../error');
-const { ENV } = require('../../utilities');
+const { ENV, pSetTimeout } = require('../../utilities');
 
 // Make request fail after some timeout
 const setRequestTimeout = function (nextFunc, input) {
@@ -18,7 +16,7 @@ const setRequestTimeout = function (nextFunc, input) {
     // 20 minutes, setTimeout(requestTimeout) would still not be called.
     // eslint-disable-next-line promise/prefer-await-to-then
     .then(async val => {
-      await promisify(setTimeout)(0);
+      await pSetTimeout(0);
       return val;
     });
 
@@ -32,7 +30,7 @@ const startRequestTimeout = async function ({ now }) {
   const delay = Date.now() - now;
   const timeout = Math.max(TIMEOUT - delay, 0);
 
-  await promisify(setTimeout)(timeout);
+  await pSetTimeout(timeout);
 
   const message = `The request took too long (more than ${TIMEOUT / 1000} seconds)`;
   throwError(message, { reason: 'REQUEST_TIMEOUT' });

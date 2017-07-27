@@ -1,8 +1,7 @@
 'use strict';
 
-const { promisify } = require('util');
-
 const { normalizeError } = require('../error');
+const { pSetTimeout } = require('../utilities');
 
 const { getMessage } = require('./message');
 const { colorize } = require('./colorize');
@@ -72,7 +71,7 @@ const tryToLog = async function ({
     await apiServer.emitAsync(eventName, info);
   } catch (error) {
     if (delay > maxDelay) { return; }
-    await promisify(setTimeout)(delay);
+    await pSetTimeout(delay);
 
     addLoggerError({ info, error });
     const newDelay = delay * delayExponent;

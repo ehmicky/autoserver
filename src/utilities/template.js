@@ -2,10 +2,10 @@
 
 const { render } = require('mustache');
 
-const { readFile } = require('./filesystem');
+const { pReadFile } = require('./promise');
 
 const renderTemplate = async function ({ template, data }) {
-  const htmlFile = await readFile(template);
+  const htmlFile = await pReadFile(template, { encoding: 'utf-8' });
   const htmlString = render(htmlFile, data);
   return htmlString;
 };
