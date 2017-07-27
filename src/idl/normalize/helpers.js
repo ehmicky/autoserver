@@ -1,25 +1,19 @@
 'use strict';
 
-const { mapValues, assignObject, assignArray } = require('../../utilities');
+const { mapValues, assignObject, pickBy } = require('../../utilities');
 
 // Normalize idl.helpers
-const normalizeHelpers = function ({ idl }) {
-  const helpers = getNormalizedHelpers({ idl });
-  const exposeMap = getExposeMap({ helpers });
+const normalizeHelpers = function ({ idl, idl: { helpers = {} } }) {
+  const flatHelpers = flattenHelpers({ helpers });
+  const normalizedHelpers = normalizeSyntax({ helpers: flatHelpers });
+  const exposeMap = getExposeMap({ helpers: normalizedHelpers });
 
-  return Object.assign({}, idl, { helpers, exposeMap });
+  return Object.assign({}, idl, { helpers: normalizedHelpers, exposeMap });
 };
 
-const getNormalizedHelpers = function ({ idl }) {
-  const helpers = getHelpers({ idl });
-
-  // Helpers can either be an options object, or options.value directly
-  return mapValues(helpers, helper =>
-    (helper.value === undefined ? { value: helper } : helper)
-  );
-};
-
-const getHelpers = function ({ idl: { helpers = {} } }) {
+// Helpers can be an array of objects, to help importing libraries using
+// JSON references
+const flattenHelpers = function ({ helpers }) {
   if (Array.isArray(helpers)) {
     return Object.assign({}, ...helpers);
   }
@@ -27,23 +21,30 @@ const getHelpers = function ({ idl: { helpers = {} } }) {
   return helpers;
 };
 
-// Possible values of helpers.HELPER.exposeTo
-const exposeVars = ['filter', 'data'];
+// Helpers can either be an options object, or options.value directly
+const normalizeSyntax = function ({ helpers }) {
+  return mapValues(helpers, helper => {
+    if (helper.value === undefined) { return { value: helper }; }
+    return helper;
+  });
+};
 
 // Extract idl.helpers.HELPER.exposeTo ['filter', ...] to
 // idl.exposeMap { filter: ['HELPER', ...] }
 const getExposeMap = function ({ helpers }) {
   return exposeVars
     .map(exposeVar => {
-      const matchingHelpers = Object.entries(helpers)
-        .map(([helper, { exposeTo = [] }]) =>
-          (exposeTo.includes(exposeVar) ? helper : [])
-        )
-        .reduce(assignArray, []);
-      return { [exposeVar]: matchingHelpers };
+      const matchingHelpers = pickBy(helpers, ({ exposeTo }) =>
+        exposeTo && exposeTo.includes(exposeVar)
+      );
+      const matchingHelpersKeys = Object.keys(matchingHelpers);
+      return { [exposeVar]: matchingHelpersKeys };
     })
     .reduce(assignObject, {});
 };
+
+// Possible values of helpers.HELPER.exposeTo
+const exposeVars = ['filter', 'data'];
 
 module.exports = {
   normalizeHelpers,
