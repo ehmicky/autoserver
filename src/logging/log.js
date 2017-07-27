@@ -152,18 +152,18 @@ class Log {
     const funcName = isBuffered ? 'cork' : 'uncork';
     await this.report[funcName]();
   }
-
-  async reportPerf ({ measures }) {
-    const { phase } = this;
-    const measuresGroups = groupMeasures({ measures });
-    const measuresMessage = stringifyMeasures({ phase, measuresGroups });
-    await this.log('', {
-      measures: measuresGroups,
-      measuresMessage,
-      type: 'perf',
-    });
-  }
 }
+
+const reportPerf = async function ({ log, measures }) {
+  const { phase } = log;
+  const measuresGroups = groupMeasures({ measures });
+  const measuresMessage = stringifyMeasures({ phase, measuresGroups });
+  await log.log('', {
+    measures: measuresGroups,
+    measuresMessage,
+    type: 'perf',
+  });
+};
 
 const checkReportInput = function (rawMessage, logObj) {
   if (typeof rawMessage !== 'string') {
@@ -182,4 +182,5 @@ const includeMessagesTypes = ['start', 'call', 'failure', 'stop'];
 
 module.exports = {
   Log,
+  reportPerf,
 };
