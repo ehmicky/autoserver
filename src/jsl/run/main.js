@@ -8,7 +8,7 @@ const { JslHelper } = require('./helpers');
 const { getParams } = require('./params');
 const { runJSL } = require('./run');
 
-const addJslToInput = function (input, jsl, params, { type = 'SYSTEM' } = {}) {
+const addJsl = function ({ input, jsl = {}, params, type = 'SYSTEM' }) {
   checkNames(params, type);
   const newParams = Object.assign({}, jsl.params, params);
   const newInput = Object.assign({}, input, { jsl: { params: newParams } });
@@ -44,7 +44,7 @@ const runJsl = function ({
 };
 
 module.exports = {
-  addJslToInput,
+  addJsl,
   getHelpers,
   runJsl,
 };
