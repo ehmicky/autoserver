@@ -9,8 +9,8 @@ const { getParams } = require('./params');
 const { runJSL } = require('./run');
 
 const addJsl = function ({ input, jsl = {}, params, type = 'SYSTEM' }) {
-  checkNames(params, type);
-  const newParams = Object.assign({}, jsl.params, params);
+  const validParams = checkNames({ params, type });
+  const newParams = Object.assign({}, jsl.params, validParams);
   const newInput = Object.assign({}, input, { jsl: { params: newParams } });
   return newInput;
 };
