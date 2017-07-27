@@ -10,7 +10,7 @@ const createError = function (message, stack, opts = {}) {
   const innererror = getInnerError(opts);
   const type = errorType;
 
-  const error = Object.assign({ message, stack, innererror, type }, opts);
+  const error = Object.assign({}, opts, { message, stack, innererror, type });
   return error;
 };
 
