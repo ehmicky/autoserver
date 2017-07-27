@@ -1,11 +1,9 @@
 'use strict';
 
 const { dirname } = require('path');
-const { realpath } = require('fs');
-const { promisify } = require('util');
 
 const { throwError } = require('../error');
-const { getYaml } = require('../utilities');
+const { getYaml, pRealpath } = require('../utilities');
 
 /**
  * Retrieve the configuration using either:
@@ -44,7 +42,7 @@ const getIdlFromPath = async function ({ path }) {
 
 const getIdlPath = async function ({ path }) {
   try {
-    return await promisify(realpath)(path);
+    return await pRealpath(path);
   } catch (error) {
     const message = `Configuration file does not exist: '${path}'`;
     throwError(message, {

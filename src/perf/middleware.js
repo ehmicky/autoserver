@@ -1,6 +1,6 @@
 'use strict';
 
-const { promisify } = require('util');
+const { pSetTimeout } = require('../utilities');
 
 const { startPerf, stopPerf, restartPerf } = require('./measure');
 
@@ -30,7 +30,7 @@ const getMiddlewarePerfLog = func => async function middlewarePerfLog (
   // although it still exists, and concurrent measures might have their reported
   // time inflated by the time they waited for the concurrent tasks
   // to complete.
-  await promisify(setTimeout)(0);
+  await pSetTimeout(0);
   // Unfreeze parent `currentPerf`
   const restartedParentPerf = parentPerf && restartPerf(stoppedParentPerf);
 
