@@ -54,11 +54,13 @@ const isError = function ({ error }) {
 };
 
 const throwError = function (message, opts) {
-  // eslint-disable-next-line fp/no-throw
-  if (isError({ error: message })) { throw message; }
-
   const stack = message.stack || getStack({ caller: throwError });
   const error = createError(message, stack, opts);
+  // eslint-disable-next-line fp/no-throw
+  throw error;
+};
+
+const rethrowError = function (error) {
   // eslint-disable-next-line fp/no-throw
   throw error;
 };
@@ -81,5 +83,6 @@ const getStack = function ({ caller } = {}) {
 
 module.exports = {
   throwError,
+  rethrowError,
   normalizeError,
 };

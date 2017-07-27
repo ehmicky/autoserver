@@ -1,6 +1,6 @@
 'use strict';
 
-const { getReason, normalizeError, throwError } = require('../../error');
+const { getReason, normalizeError, rethrowError } = require('../../error');
 const { STATUS_LEVEL_MAP } = require('../../logging');
 
 // Main request logging middleware.
@@ -15,10 +15,12 @@ const logger = async function logger (nextFunc, input) {
 
     return response;
   } catch (error) {
-    addErrorReason({ error, input });
-    await handleLog({ error, input });
+    const errorObj = normalizeError({ error });
 
-    throwError(error);
+    addErrorReason({ error: errorObj, input });
+    await handleLog({ error: errorObj, input });
+
+    rethrowError(errorObj);
   }
 };
 
@@ -50,9 +52,7 @@ const getStatus = function ({ error, response }) {
 
 // Add information for `requestInfo.error`
 const addErrorReason = function ({ error, input: { log } }) {
-  const errorObj = normalizeError({ error });
-
-  const errorReason = getReason({ error: errorObj });
+  const errorReason = getReason({ error });
   log.add({ errorReason });
 };
 

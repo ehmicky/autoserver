@@ -2,7 +2,7 @@
 
 const { cloneDeep } = require('lodash');
 
-const { throwError } = require('../../../error');
+const { rethrowError } = require('../../../error');
 const { addJsl } = require('../../../jsl');
 
 const { validateBasic } = require('./validate_basic');
@@ -28,7 +28,7 @@ const handleArgs = async function (nextFunc, input) {
     // Added only for final error handler
     log.add({ args: clonedArgs });
 
-    throwError(error);
+    rethrowError(error);
   }
 };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError, normalizeError } = require('../../error');
+const { throwError, rethrowError, normalizeError } = require('../../error');
 
 // Retrieve response's status
 const getStatus = async function (nextFunc, input) {
@@ -16,9 +16,9 @@ const getStatus = async function (nextFunc, input) {
 
     const statuses = getStatuses({ input, error: errorObj });
     input.log.add(statuses);
-    Object.assign(errorObj, statuses);
+    const newError = Object.assign({}, errorObj, statuses);
 
-    throwError(errorObj);
+    rethrowError(newError);
   }
 };
 

@@ -3,7 +3,7 @@
 const { cloneDeep } = require('lodash');
 
 const { pick } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { rethrowError } = require('../../../error');
 const { addJsl } = require('../../../jsl');
 
 const { getLogActions } = require('./log_actions');
@@ -33,7 +33,7 @@ const actionConvertor = async function (nextFunc, oInput) {
     // Added only for final error handler
     log.add({ action, fullAction, model: modelName });
 
-    throwError(error);
+    rethrowError(error);
   }
 };
 
