@@ -28,6 +28,16 @@ const checkName = function ({ name, type }) {
 
 const systemNameRegExp = /^\$[A-Z_]+$/;
 
+const validateType = function ({ type }) {
+  if (!validTypes.includes(type)) {
+    const message = `Invalid JSL type: '${type}'`;
+    throwError(message, { reason: 'UTILITY_ERROR' });
+  }
+};
+
+const validTypes = ['system', 'startup', 'data', 'filter'];
+
 module.exports = {
   checkNames,
+  validateType,
 };

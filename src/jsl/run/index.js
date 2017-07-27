@@ -2,5 +2,6 @@
 
 module.exports = Object.assign(
   {},
-  require('./main'),
+  require('./add'),
+  require('./run'),
 );

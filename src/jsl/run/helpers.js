@@ -1,40 +1,49 @@
 'use strict';
 
-const { runJSL } = require('./run');
+const { mapValues } = require('../../utilities');
+const { isJsl } = require('../test');
+
+const { runJsl } = require('./run');
+
+// Take JSL, inline or not, and turns into `function (...args)`
+// firing the first one, with $1, $2, etc. provided as extra arguments
+const getHelpers = function ({ idl: { helpers = {} } }) {
+  return mapValues(helpers, ({ value: helper, useParams }) => {
+    // Constants are left as is
+    const isConstant = typeof helper !== 'function' && !isJsl({ jsl: helper });
+    if (isConstant) { return helper; }
+
+    return createJslHelper({ helper, useParams });
+  });
+};
 
 // Inline JSL helper function.
 // When consumer fires Helper('a', 'b'), inline JSL translates 'a' and 'b'
 // into $1 and $2 parameters, and JSL.run() is performed.
-// We perform this translation by extending Function, and applying a Proxy.apply
-class JslHelper extends Function {
-  constructor ({ helper, useParams }) {
-    super();
+const createJslHelper = function ({ helper, useParams }) {
+  // The function name is used to distinguish it from other non-helper functions
+  return function unboundJslHelper ({ params: oParams, type, idl }) {
+    return function jslHelper (...args) {
+      // Provide $1, $2, etc. to inline JSL
+      const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
+      const posParams = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+      const params = Object.assign({}, oParams, posParams);
 
-    Object.assign(this, { helper, useParams });
+      // JSL is run
+      if (typeof helper !== 'function') {
+        return runJsl({ value: helper, jsl: { params }, type, idl });
+      }
 
-    // Parameters are passed by the caller by binding the context `this`
-    const apply = (_, ctx, args) => this.run(ctx.params, ...args);
-    return new Proxy(this, { apply });
-  }
+      // Non-inline helpers only get positional arguments, no parameters
+      if (useParams) {
+        return helper(params, ...args);
+      }
 
-  run (params, ...args) {
-    const { helper, useParams } = this;
-
-    // Provide $1, $2, etc. to inline JSL
-    const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-    const posParams = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
-    const allParams = Object.assign({}, params, posParams);
-
-    // JSL is run
-    if (typeof helper !== 'function') {
-      return runJSL({ value: helper, params: allParams });
-    }
-
-    // Non-inline helpers only get positional arguments, no parameters
-    return useParams ? helper(allParams, ...args) : helper(...args);
-  }
-}
+      return helper(...args);
+    };
+  };
+};
 
 module.exports = {
-  JslHelper,
+  getHelpers,
 };
