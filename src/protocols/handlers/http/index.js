@@ -3,6 +3,7 @@
 module.exports = Object.assign(
   {},
   require('./start'),
+  require('./stop'),
   require('./headers'),
   require('./payload'),
   require('./url'),
@@ -11,5 +12,6 @@ module.exports = Object.assign(
   require('./name'),
   require('./ip'),
   require('./settings'),
+  // eslint-disable-next-line import/max-dependencies
   require('./status'),
 );

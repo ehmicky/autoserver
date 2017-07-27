@@ -1,7 +1,6 @@
 'use strict';
 
 const http = require('http');
-const { promisify } = require('util');
 
 const { ENV } = require('../../../utilities');
 
@@ -41,17 +40,6 @@ const getServerPromise = function ({ server }) {
   });
 };
 
-// Try a graceful server exit
-const stopServer = async function (server) {
-  await promisify(server.close.bind(server))();
-};
-
-// Count number of pending requests, to log information on server exits
-const countPendingRequests = async function (server) {
-  const count = await promisify(server.getConnections.bind(server))();
-  return count;
-};
-
 const handleServerListening = function ({ server, handleListening }) {
   server.on('listening', function listeningHandler () {
     const { address: usedHost, port: usedPort } = server.address();
@@ -77,6 +65,4 @@ const handleClientError = function ({ server, log }) {
 
 module.exports = {
   startServer,
-  stopServer,
-  countPendingRequests,
 };
