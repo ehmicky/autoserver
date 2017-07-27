@@ -263,8 +263,8 @@ rules:
   class-methods-use-this: 2
   consistent-this: 2
   no-prototype-builtins: 2
-##  fp/no-class: 2
-##  fp/no-this: 2
+  fp/no-class: 2
+  fp/no-this: 2
 
   # Arrays
   array-callback-return: 2
