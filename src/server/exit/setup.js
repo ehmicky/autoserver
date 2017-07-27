@@ -1,6 +1,6 @@
 'use strict';
 
-const { Log, reportPerf } = require('../../logging');
+const { Log, reportLog, reportPerf } = require('../../logging');
 const { monitor } = require('../../perf');
 const { assignObject, onlyOnce } = require('../../utilities');
 
@@ -94,7 +94,8 @@ const logEndShutdown = async function ({
   const level = isSuccess ? 'log' : 'error';
   const exitStatuses = statuses.reduce(assignObject, {});
 
-  await log[level](message, { type: 'stop', exitStatuses });
+  const type = 'stop';
+  await reportLog({ log, level, message, info: { type, exitStatuses } });
 };
 
 const monitoredLogEnd = monitor(logEndShutdown, 'log');

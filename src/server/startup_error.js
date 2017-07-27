@@ -1,6 +1,7 @@
 'use strict';
 
 const { getStandardError, getErrorMessage } = require('../error');
+const { reportLog } = require('../logging');
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function ({
@@ -10,9 +11,11 @@ const handleStartupError = async function ({
 }) {
   const standardError = getStandardError({ log: startupLog, error: err });
   const message = getErrorMessage({ error: standardError });
-  await startupLog.error(message, {
-    type: 'failure',
-    errorInfo: standardError,
+  await reportLog({
+    log: startupLog,
+    level: 'error',
+    message,
+    info: { type: 'failure', errorInfo: standardError },
   });
 
   // Stops servers if some were started
