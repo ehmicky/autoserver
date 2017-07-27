@@ -1,7 +1,7 @@
 'use strict';
 
 const { onlyOnce, identity } = require('../utilities');
-const { Log, reportLog } = require('../logging');
+const { createLog, reportLog } = require('../logging');
 const {
   throwError,
   getStandardError,
@@ -13,7 +13,7 @@ const {
 const processErrorHandler = function ({ options: serverOpts, apiServer }) {
   checkUniqueCall();
 
-  const processLog = new Log({ serverOpts, apiServer, phase: 'process' });
+  const processLog = createLog({ serverOpts, apiServer, phase: 'process' });
   // Shortcut function
   processLog.process = processHandler.bind(null, processLog);
 

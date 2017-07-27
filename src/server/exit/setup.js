@@ -1,6 +1,6 @@
 'use strict';
 
-const { Log, reportLog, reportPerf } = require('../../logging');
+const { createLog, reportLog, reportPerf } = require('../../logging');
 const { monitor } = require('../../perf');
 const { assignObject, onlyOnce } = require('../../utilities');
 
@@ -34,7 +34,7 @@ const gracefulExit = onlyOnce(async ({
   serverOpts,
   apiServer,
 }) => {
-  const log = new Log({ serverOpts, apiServer, phase: 'shutdown' });
+  const log = createLog({ serverOpts, apiServer, phase: 'shutdown' });
 
   const [[isSuccess, childMeasures], measure] = await monitoredSetupExit({
     servers,
