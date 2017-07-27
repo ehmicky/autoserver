@@ -1,7 +1,7 @@
 'use strict';
 
 const { onlyOnce, identity } = require('../utilities');
-const { Log } = require('../logging');
+const { Log, reportLog } = require('../logging');
 const {
   throwError,
   getStandardError,
@@ -72,7 +72,12 @@ const processHandler = async function (log, { error, message }) {
   const standardError = getStandardError({ log, error: errorObj });
   const errorMessage = getErrorMessage({ error: standardError });
 
-  await log.error(errorMessage, { type: 'failure', errorInfo: standardError });
+  await reportLog({
+    log,
+    level: 'error',
+    message: errorMessage,
+    info: { type: 'failure', errorInfo: standardError },
+  });
 };
 
 module.exports = {

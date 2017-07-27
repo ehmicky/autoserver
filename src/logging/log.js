@@ -1,8 +1,6 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
-const { deepMerge } = require('../utilities');
+const { deepMerge, assignObject } = require('../utilities');
 const { getServerInfo } = require('../info');
 const { groupMeasures, stringifyMeasures } = require('../perf');
 
@@ -44,9 +42,6 @@ const { LEVELS } = require('./constants');
 //  - type {string} - message|start|stop|failure|call|perf
 //  - level {string} - info|log|warn|error
 //  - message {string} - what's printed on console (see below)
-//  - messages.LEVEL {string[]} - all the logs with type `message` that have
-//    been produced by this Log instance so far.
-//    Not if current log type is `message` or `perf`.
 //  - requestInfo {object}
 //      - request-specific information
 //      - only if the current phase is `request`:
@@ -86,78 +81,55 @@ const { LEVELS } = require('./constants');
 class Log {
   constructor ({ serverOpts, apiServer, phase }) {
     this.logInfo = {};
-    this.messages = {};
-
-    for (const level of LEVELS) {
-      this[level] = this.report.bind(this, level);
-      this.messages[level] = [];
-    }
-
     Object.assign(this, { serverOpts, apiServer, phase });
   }
 
   add (obj) {
     this.logInfo = deepMerge(this.logInfo, obj);
   }
-
-  async report (level, rawMessage = '', logObj = {}) {
-    const { type = 'message' } = logObj;
-    const { phase, apiServer, serverOpts: { loggerLevel } } = this;
-
-    const builtLogObj = buildLogObj({ log: this, logObj });
-
-    const rMessage = phase === 'request' && type === 'call'
-      ? getRequestMessage(builtLogObj.requestInfo)
-      : rawMessage;
-
-    if (type === 'message') {
-      this.messages[level].push(rMessage);
-    }
-
-    await report({
-      apiServer,
-      loggerLevel,
-      level,
-      rawMessage: rMessage,
-      logObj: builtLogObj,
-    });
-  }
 }
+
+const reportLog = async function ({
+  level,
+  log,
+  log: { phase, apiServer, serverOpts: { loggerLevel } },
+  message = '',
+  info = {},
+  info: { type = 'message' } = {},
+}) {
+  const logObj = getLogObj({ log, info });
+
+  const rawMessage = phase === 'request' && type === 'call'
+    ? getRequestMessage(logObj.requestInfo)
+    : message;
+
+  await report({ apiServer, loggerLevel, level, rawMessage, logObj });
+};
 
 // Adds information common to most logs: `phase`, `type`, `serverInfo`,
 // `requestInfo`, `messages`
-const buildLogObj = function ({
-  log: { phase, serverOpts, serverOpts: { loggerFilter }, logInfo, messages },
-  logObj,
-  logObj: { type = 'message' },
+const getLogObj = function ({
+  log: { phase, serverOpts, serverOpts: { loggerFilter }, logInfo },
+  info,
+  info: { type = 'message' },
 }) {
   const serverInfo = getServerInfo({ serverOpts });
   const requestInfo = phase === 'request' &&
     getRequestInfo(logInfo, loggerFilter);
-  const clonedMessages = includeMessagesTypes.includes(type) &&
-    cloneDeep(messages);
-
-  return Object.assign({}, logObj, {
-    phase,
-    type,
-    serverInfo,
-    requestInfo,
-    messages: clonedMessages,
-  });
+  return Object.assign({}, info, { phase, type, serverInfo, requestInfo });
 };
 
 const reportPerf = async function ({ log, measures }) {
   const { phase } = log;
   const measuresGroups = groupMeasures({ measures });
   const measuresMessage = stringifyMeasures({ phase, measuresGroups });
-  await log.log('', {
-    measures: measuresGroups,
-    measuresMessage,
-    type: 'perf',
+  await reportLog({
+    log,
+    level: 'log',
+    message: '',
+    info: { measures: measuresGroups, measuresMessage, type: 'perf' },
   });
 };
-
-const includeMessagesTypes = ['start', 'call', 'failure', 'stop'];
 
 // If we want to delay log calls before logInfo is not fully known yet
 // (e.g. in the middle of a request), we can use this method to buffer those
@@ -172,8 +144,8 @@ const bufferLogReport = function (obj, logReport) {
 const unbufferLogReports = async function (obj, log) {
   const { logReports = [] } = obj;
 
-  const promises = logReports.map(({ level, message, opts }) =>
-    log[level](message, opts)
+  const promises = logReports.map(({ level, message, info }) =>
+    reportLog({ log, level, message, info })
   );
   await Promise.all(promises);
 
@@ -182,6 +154,7 @@ const unbufferLogReports = async function (obj, log) {
 
 module.exports = {
   Log,
+  reportLog,
   reportPerf,
   bufferLogReport,
   unbufferLogReports,

@@ -2,6 +2,7 @@
 
 const { getStandardError } = require('../../error');
 const { monitor } = require('../../perf');
+const { reportLog } = require('../../logging');
 
 // Add logging and monitoring capabilities to the function
 const wrapCloseFunc = function (func, { successMessage, errorMessage, label }) {
@@ -21,12 +22,21 @@ const handleLog = function (func, { successMessage, errorMessage }) {
       const message = typeof successMessage === 'function'
         ? successMessage(response)
         : successMessage;
-      await log.log(`${protocol} - ${message}`);
+      await reportLog({
+        log,
+        level: 'log',
+        message: `${protocol} - ${message}`,
+      });
       return response;
     } catch (error) {
       const message = `${protocol} - ${errorMessage}`;
       const errorInfo = getStandardError({ log, error });
-      await log.error(message, { type: 'failure', errorInfo });
+      await reportLog({
+        log,
+        level: 'error',
+        message,
+        info: { type: 'failure', errorInfo },
+      });
     }
   };
 };

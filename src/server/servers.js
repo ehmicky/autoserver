@@ -3,6 +3,7 @@
 const { makeImmutable, assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
+const { reportLog } = require('../logging');
 const { monitor } = require('../perf');
 const { createJsl } = require('../jsl');
 
@@ -95,13 +96,13 @@ const monitoredStartServer = monitor(
 
 // Create log message when each protocol-specific server starts
 // Also add `apiServer.servers.PROTOCOL.protocol|host|port`
-const getHandleListening = function (
+const getHandleListening = async function (
   { startupLog, protocol },
   { server, host, port },
 ) {
   Object.assign(server, { protocol, host, port });
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  startupLog.log(message);
+  await reportLog({ log: startupLog, level: 'log', message });
 };
 
 module.exports = {

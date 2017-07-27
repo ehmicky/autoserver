@@ -1,9 +1,12 @@
 'use strict';
 
-const emitStartEvent = async function ({ apiServer, startupLog }) {
+const { reportLog } = require('../logging');
+
+const emitStartEvent = async function ({ apiServer, startupLog: log }) {
   await apiServer.emitAsync('start');
   // Create log message when all protocol-specific servers have started
-  startupLog.log('Server is ready', { type: 'start' });
+  const message = 'Server is ready';
+  await reportLog({ log, level: 'log', message, info: { type: 'start' } });
 };
 
 module.exports = {
