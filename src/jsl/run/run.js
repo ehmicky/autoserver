@@ -4,15 +4,24 @@ const { throwJslError } = require('../error');
 const { getRawJsl } = require('../tokenize');
 
 const { compileJsl } = require('./compile');
+const { getParams } = require('./params');
+const { validateType } = require('./validation');
 
 // Process (already compiled) JSL function,
 // i.e. fires it and returns its value
 // If this is not JSL, returns as is
-const runJSL = function ({ value, params = {}, type = 'system' }) {
-  if (!validTypes.includes(type)) {
-    const message = `Invalid JSL type: '${type}'`;
-    throwJslError({ message, type: 'system' });
-  }
+const runJsl = function ({
+  jsl,
+  value,
+  params: oParams,
+  type = 'system',
+  idl,
+}) {
+  // Merge JSL parameters with JSL call parameters
+  const allParams = Object.assign({}, jsl.params, oParams);
+  const params = getParams({ params: allParams, type, idl });
+
+  validateType({ type });
 
   try {
     const paramsKeys = Object.keys(params);
@@ -25,8 +34,6 @@ const runJSL = function ({ value, params = {}, type = 'system' }) {
     handleJslError({ error, value, type });
   }
 };
-
-const validTypes = ['system', 'startup', 'data', 'filter'];
 
 const handleJslError = function ({ error, value, type }) {
   // JSL without parenthesis
@@ -41,5 +48,5 @@ const handleJslError = function ({ error, value, type }) {
 };
 
 module.exports = {
-  runJSL,
+  runJsl,
 };

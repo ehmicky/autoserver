@@ -1,46 +1,39 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
-const { pickBy } = require('../../utilities');
-
-const { JslHelper } = require('./helpers');
+const { pickBy, mapValues } = require('../../utilities');
 
 // Retrieve parameters to use for a given JSL execution,
 // after filtering and helpers binding
-const getParams = function ({ params, type, exposeMap }) {
-  const usedParams = filterParams({ params, type, exposeMap });
+const getParams = function ({ params, type, idl }) {
+  const newParams = bindHelpers({ params, type, idl });
 
-  bindHelpers({ params: usedParams });
+  const usedParams = filterParams({ params: newParams, type, idl });
 
-  // Make sure JSL does not modify parameters
-  const clonedParams = cloneDeep(usedParams);
+  return usedParams;
+};
 
-  return clonedParams;
+// Pass JSL parameters to helpers
+// I.e. helpers have same parameters as their caller
+const bindHelpers = function ({ params, type, idl }) {
+  // Checking the name also make sure that this won't be called twice
+  // in case of recursive calls (helpers calling each other)
+  const unboundHelpers = pickBy(params, helper =>
+    typeof helper === 'function' && helper.name === 'unboundJslHelper'
+  );
+  const boundHelpers = mapValues(unboundHelpers, helper =>
+    helper({ params, type, idl })
+  );
+  return Object.assign({}, params, boundHelpers);
 };
 
 // Restrict which JSL parameters are available for args.filter|data
-const filterParams = function ({ params, type, exposeMap }) {
+const filterParams = function ({ params, type, idl: { exposeMap } }) {
   if (!restrictedTypes.includes(type)) { return params; }
 
   const exposedParams = [...alwaysExposed, ...exposeMap[type]];
   const filteredParams = pickBy(params, (param, name) =>
     exposedParams.includes(name));
   return filteredParams;
-};
-
-// Pass JSL parameters to helpers by assigning to their context (`this`)
-// I.e. helpers have same parameters as their caller
-const bindHelpers = function ({ params }) {
-  const helperContext = { params };
-
-  for (const [name, helper] of Object.entries(params)) {
-    if (helper instanceof JslHelper) {
-      // Note that `bind()` clones the function, i.e. there will be no
-      // side-effects in case of concurrent async JSL calls
-      params[name] = params[name].bind(helperContext);
-    }
-  }
 };
 
 // Those JSL execution types restrict which JSL parameters are available
