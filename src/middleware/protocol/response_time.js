@@ -22,7 +22,7 @@ const setResponseTime = async function (nextFunc, input) {
 
 const getResponseTime = function ({ input: { reqPerf } }) {
   const respPerf = stopPerf(reqPerf);
-  const responseTime = Math.round(respPerf, respPerf.duration / 10 ** 6);
+  const responseTime = Math.round(respPerf.duration / 10 ** 6);
 
   if (typeof responseTime !== 'number') {
     const message = `'responseTime' must be a number, not '${responseTime}'`;
