@@ -4,6 +4,7 @@ const { makeImmutable, assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
 const { monitor } = require('../perf');
+const { createJsl } = require('../jsl');
 
 // Start each server
 const startServers = async function ({
@@ -14,21 +15,39 @@ const startServers = async function ({
   serverOpts,
   options,
 }) {
-  // This callback must be called by each server
-  const requestHandler = await getMiddleware();
+  const [jsl, jslMeasure] = await monitoredCreateJsl({ idl });
 
+  // This callback must be called by each server
+  const middleware = await getMiddleware();
+  const requestHandler = middleware.bind(null, {
+    idl,
+    apiServer,
+    serverOpts,
+    jsl,
+  });
+
+  const [servers, serverMeasures] = await startEachServer({
+    startupLog,
+    processLog,
+    serverOpts,
+    requestHandler,
+  });
+
+  Object.assign(apiServer, { options, servers });
+  makeImmutable(apiServer);
+
+  const measures = [jslMeasure, ...serverMeasures];
+
+  return [{ servers }, measures];
+};
+
+const monitoredCreateJsl = monitor(createJsl, 'createJsl', 'server');
+
+const startEachServer = async function (options) {
   const serversPromises = protocols
     // Can use serverOpts.PROTOCOL.enabled {boolean}
-    .filter(protocol => serverOpts[protocol.toLowerCase()].enabled)
-    .map(protocol => monitoredStartServer({
-      protocol,
-      idl,
-      apiServer,
-      startupLog,
-      processLog,
-      serverOpts,
-      requestHandler,
-    }));
+    .filter(protocol => options.serverOpts[protocol.toLowerCase()].enabled)
+    .map(protocol => monitoredStartServer(protocol, options));
 
   // Make sure all servers are starting concurrently, not serially
   const responseArray = await Promise.all(serversPromises);
@@ -41,16 +60,10 @@ const startServers = async function ({
     .map((server, index) => ({ [protocols[index]]: server }))
     .reduce(assignObject, {});
 
-  Object.assign(apiServer, { options, servers });
-  makeImmutable(apiServer);
-
-  return [{ servers }, measures];
+  return [servers, measures];
 };
 
-const startServer = async function ({
-  protocol,
-  idl,
-  apiServer,
+const startServer = async function (protocol, {
   startupLog,
   processLog,
   serverOpts,
@@ -58,10 +71,7 @@ const startServer = async function ({
 }) {
   const protocolHandler = protocolHandlers[protocol];
   const opts = serverOpts[protocol.toLowerCase()];
-  const handleRequest = (...args) => requestHandler(
-    { protocol, idl, apiServer, serverOpts },
-    ...args,
-  );
+  const handleRequest = specific => requestHandler({ protocol, specific });
   const handleListening = getHandleListening.bind(null, {
     startupLog,
     protocol,
@@ -79,7 +89,7 @@ const startServer = async function ({
 
 const monitoredStartServer = monitor(
   startServer,
-  ({ protocol }) => protocol,
+  protocol => protocol,
   'server',
 );
 

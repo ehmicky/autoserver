@@ -13,6 +13,7 @@ const protocolAttributes = [
   'currentPerf',
   'specific',
   'idl',
+  'jsl',
   'serverOpts',
   'apiServer',
   'log',

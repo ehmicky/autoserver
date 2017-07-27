@@ -3,12 +3,13 @@
 const { Log } = require('../../logging');
 const { protocolHandlers } = require('../../protocols');
 const { pSetTimeout } = require('../../utilities');
+const { addJsl } = require('../../jsl');
 
 // Setup basic input
 const setupInput = async function (
   nextFunc,
-  { protocol, idl, apiServer, serverOpts, currentPerf },
-  specific,
+  { idl, apiServer, serverOpts, currentPerf, jsl },
+  { protocol, specific },
 ) {
   // When an exception is thrown in the same macrotask as the one that started
   // the request (e.g. in one of the first middleware), the socket won't be
@@ -18,13 +19,13 @@ const setupInput = async function (
   await pSetTimeout(0);
 
   const log = new Log({ serverOpts, apiServer, phase: 'request' });
-  log.add({ protocol });
 
   const protocolHandler = protocolHandlers[protocol];
 
   const input = {
     protocol,
     idl,
+    jsl,
     serverOpts,
     apiServer,
     specific,
@@ -33,7 +34,10 @@ const setupInput = async function (
     currentPerf,
   };
 
-  const response = await nextFunc(input);
+  const nextInput = addJsl({ input, jsl, params: { $PROTOCOL: protocol } });
+  log.add({ protocol });
+
+  const response = await nextFunc(nextInput);
   return response;
 };
 

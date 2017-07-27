@@ -33,8 +33,6 @@ const middleware = [
   protocol.protocolConvertor,
   // Protocol-related validation middleware
   protocol.protocolValidation,
-  // Sets up JSL helper
-  protocol.setJsl,
   // General request logger
   protocol.logger,
   // Sends final response, if success

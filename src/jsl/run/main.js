@@ -8,6 +8,12 @@ const { JslHelper } = require('./helpers');
 const { getParams } = require('./params');
 const { runJSL } = require('./run');
 
+const createJsl = function ({ idl }) {
+  const helpers = getHelpers({ idl });
+  const params = checkNames({ params: helpers, type: 'USER' });
+  return { params };
+};
+
 const addJsl = function ({ input, jsl = {}, params, type = 'SYSTEM' }) {
   const validParams = checkNames({ params, type });
   const newParams = Object.assign({}, jsl.params, validParams);
@@ -44,6 +50,7 @@ const runJsl = function ({
 };
 
 module.exports = {
+  createJsl,
   addJsl,
   getHelpers,
   runJsl,
