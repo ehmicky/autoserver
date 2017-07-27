@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addJslToInput } = require('../../jsl');
+const { addJsl } = require('../../jsl');
 
 // Retrieve request's IP, assigned to protocol input, and also to JSL $IP
 const getIp = async function (nextFunc, input) {
@@ -9,7 +9,7 @@ const getIp = async function (nextFunc, input) {
 
   const ip = getRequestIp(input);
 
-  const nextInput = addJslToInput(input, jsl, { $IP: ip });
+  const nextInput = addJsl({ input, jsl, params: { $IP: ip } });
   log.add({ ip });
   Object.assign(nextInput, { ip });
 

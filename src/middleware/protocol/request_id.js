@@ -3,7 +3,7 @@
 const { v4: uuidv4 } = require('uuid');
 
 const { getServerInfo } = require('../../info');
-const { addJslToInput } = require('../../jsl');
+const { addJsl } = require('../../jsl');
 
 // Assigns unique ID (UUIDv4) to each request
 // Available in:
@@ -16,7 +16,7 @@ const setRequestIds = async function (nextFunc, input) {
   const { jsl, log, specific, protocolHandler, serverOpts } = input;
 
   const requestId = uuidv4();
-  const nextInput = addJslToInput(input, jsl, { $REQUEST_ID: requestId });
+  const nextInput = addJsl({ input, jsl, params: { $REQUEST_ID: requestId } });
   log.add({ requestId });
   Object.assign(nextInput, { requestId });
 

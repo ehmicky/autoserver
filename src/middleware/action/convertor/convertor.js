@@ -4,17 +4,18 @@ const { cloneDeep } = require('lodash');
 
 const { pick } = require('../../../utilities');
 const { throwError } = require('../../../error');
-const { addJslToInput } = require('../../../jsl');
+const { addJsl } = require('../../../jsl');
 
 const { getLogActions } = require('./log_actions');
 const { getTransformedResponse } = require('./transform');
 
 // Converts from Operation format to Action format
-const actionConvertor = async function (nextFunc, input) {
-  const { args, modelName, jsl, log, action, fullAction, operation } = input;
+const actionConvertor = async function (nextFunc, oInput) {
+  const { args, modelName, jsl, log, action, fullAction, operation } = oInput;
 
-  const trimmedInput = pick(input, actionAttributes);
-  const nextInput = addJslToInput(trimmedInput, jsl, { $MODEL: modelName });
+  const input = pick(oInput, actionAttributes);
+
+  const nextInput = addJsl({ input, jsl, params: { $MODEL: modelName } });
 
   // Request arguments that cannot be specified by clients
   const clonedArgs = cloneDeep(args);

@@ -2,7 +2,7 @@
 
 const { makeImmutable } = require('../../../utilities');
 const { throwError } = require('../../../error');
-const { addJslToInput } = require('../../../jsl');
+const { addJsl } = require('../../../jsl');
 
 const { getSettings } = require('./parse');
 const { validateSettings } = require('./validate');
@@ -24,7 +24,7 @@ const parseSettings = async function (nextFunc, input) {
   validateSettings({ settings });
   makeImmutable(settings);
 
-  const nextInput = addJslToInput(input, jsl, { $SETTINGS: settings });
+  const nextInput = addJsl({ input, jsl, params: { $SETTINGS: settings } });
   log.add({ settings });
   Object.assign(nextInput, { settings });
 
