@@ -3,7 +3,6 @@
 const { cloneDeep } = require('lodash');
 
 const { deepMerge, buffer } = require('../utilities');
-const { throwError } = require('../error');
 const { getServerInfo } = require('../info');
 const { groupMeasures, stringifyMeasures } = require('../perf');
 
@@ -104,46 +103,26 @@ class Log {
   }
 
   async report (level, rawMessage = '', logObj = {}) {
-    checkReportInput(rawMessage, logObj);
+    const { type = 'message' } = logObj;
+    const { phase, apiServer, serverOpts: { loggerLevel } } = this;
 
-    this.buildLogObj({ logObj });
-    const { phase, type } = logObj;
+    const builtLogObj = buildLogObj({ log: this, logObj });
 
     const rMessage = phase === 'request' && type === 'call'
-      ? getRequestMessage(logObj.requestInfo)
+      ? getRequestMessage(builtLogObj.requestInfo)
       : rawMessage;
 
     if (type === 'message') {
       this.messages[level].push(rMessage);
     }
 
-    const { apiServer, serverOpts: { loggerLevel } } = this;
     await report({
       apiServer,
       loggerLevel,
       level,
       rawMessage: rMessage,
-      logObj,
+      logObj: builtLogObj,
     });
-  }
-
-  // Adds information common to most logs: `phase`, `type`, `serverInfo`,
-  // `requestInfo`, `messages`
-  buildLogObj ({ logObj }) {
-    logObj.phase = this.phase;
-    logObj.type = logObj.type || 'message';
-
-    const { serverOpts } = this;
-    logObj.serverInfo = getServerInfo({ serverOpts });
-
-    if (this.phase === 'request') {
-      const { loggerFilter } = serverOpts;
-      logObj.requestInfo = getRequestInfo(this.logInfo, loggerFilter);
-    }
-
-    if (includeMessagesTypes.includes(logObj.type)) {
-      logObj.messages = cloneDeep(this.messages);
-    }
   }
 
   // Buffer log calls
@@ -154,6 +133,28 @@ class Log {
   }
 }
 
+// Adds information common to most logs: `phase`, `type`, `serverInfo`,
+// `requestInfo`, `messages`
+const buildLogObj = function ({
+  log: { phase, serverOpts, serverOpts: { loggerFilter }, logInfo, messages },
+  logObj,
+  logObj: { type = 'message' },
+}) {
+  const serverInfo = getServerInfo({ serverOpts });
+  const requestInfo = phase === 'request' &&
+    getRequestInfo(logInfo, loggerFilter);
+  const clonedMessages = includeMessagesTypes.includes(type) &&
+    cloneDeep(messages);
+
+  return Object.assign({}, logObj, {
+    phase,
+    type,
+    serverInfo,
+    requestInfo,
+    messages: clonedMessages,
+  });
+};
+
 const reportPerf = async function ({ log, measures }) {
   const { phase } = log;
   const measuresGroups = groupMeasures({ measures });
@@ -163,19 +164,6 @@ const reportPerf = async function ({ log, measures }) {
     measuresMessage,
     type: 'perf',
   });
-};
-
-const checkReportInput = function (rawMessage, logObj) {
-  if (typeof rawMessage !== 'string') {
-    const message = `Message must be a string: '${rawMessage}'`;
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
-
-  if (logObj == null || logObj.constructor !== Object) {
-    const strObj = JSON.stringify(logObj);
-    const message = `Log object must be an object: '${strObj}'`;
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
 };
 
 const includeMessagesTypes = ['start', 'call', 'failure', 'stop'];
