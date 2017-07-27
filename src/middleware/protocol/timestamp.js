@@ -1,14 +1,15 @@
 'use strict';
 
 const { addJsl } = require('../../jsl');
+const { addLogInfo } = require('../../logging');
 
 const getTimestamp = async function (nextFunc, input) {
-  const { jsl, log, now } = input;
+  const { jsl, now } = input;
 
   const timestamp = (new Date(now)).toISOString();
-  const nextInput = addJsl({ input, jsl, params: { $NOW: timestamp } });
-  log.add({ timestamp });
-  Object.assign(nextInput, { timestamp });
+  const newInput = addJsl({ input, jsl, params: { $NOW: timestamp } });
+  const loggedInput = addLogInfo(newInput, { timestamp });
+  const nextInput = Object.assign({}, loggedInput, { timestamp });
 
   const response = await nextFunc(nextInput);
   return response;

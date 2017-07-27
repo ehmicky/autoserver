@@ -3,38 +3,36 @@
 const { cloneDeep } = require('lodash');
 
 const { pick } = require('../../../utilities');
-const { rethrowError } = require('../../../error');
 const { addJsl } = require('../../../jsl');
+const { addLogInfo } = require('../../../logging');
 
 const { getLogActions } = require('./log_actions');
 const { getTransformedResponse } = require('./transform');
 
 // Converts from Operation format to Action format
 const actionConvertor = async function (nextFunc, oInput) {
-  const { args, modelName, jsl, log, action, fullAction, operation } = oInput;
+  const { args, modelName, jsl, action, fullAction, operation } = oInput;
 
   const input = pick(oInput, actionAttributes);
 
-  const nextInput = addJsl({ input, jsl, params: { $MODEL: modelName } });
+  const newInput = addJsl({ input, jsl, params: { $MODEL: modelName } });
+  const nextInput = addLogInfo(newInput, {
+    action,
+    fullAction,
+    model: modelName,
+  });
 
   // Request arguments that cannot be specified by clients
   const clonedArgs = cloneDeep(args);
 
-  try {
-    const response = await nextFunc(nextInput);
-    const transformedResponse = handleResponse({
-      response,
-      input: nextInput,
-      args: clonedArgs,
-      operation,
-    });
-    return transformedResponse;
-  } catch (error) {
-    // Added only for final error handler
-    log.add({ action, fullAction, model: modelName });
-
-    rethrowError(error);
-  }
+  const response = await nextFunc(nextInput);
+  const transformedResponse = handleResponse({
+    response,
+    input: nextInput,
+    args: clonedArgs,
+    operation,
+  });
+  return transformedResponse;
 };
 
 // Not kept: goal, queryVars, pathVars, payload, route, operation
@@ -53,19 +51,13 @@ const actionAttributes = [
   'settings',
 ];
 
-const handleResponse = function ({
-  response,
-  input,
-  input: { log },
-  args,
-  operation,
-}) {
+const handleResponse = function ({ response, input, args, operation }) {
   const logActions = getLogActions({ input, response, args });
-  log.add({ actions: logActions });
+  const newResponse = addLogInfo(response, { actions: logActions });
 
   const transformedResponse = getTransformedResponse({
     input,
-    response,
+    response: newResponse,
     args,
     operation,
   });

@@ -2,22 +2,23 @@
 
 const { pick } = require('../../../utilities');
 const { normalizeError, rethrowError } = require('../../../error');
+const { addLogInfo } = require('../../../logging');
 
 const { sender } = require('./sender');
 
 // Sends the response at the end of the request
 const sendResponse = async function (nextFunc, input) {
-  const { log } = input;
   const send = sender.bind(null, input);
 
   try {
     const response = await nextFunc(input);
 
-    log.add({ response: pick(response, ['content', 'type']) });
+    const responseInfo = pick(response, ['content', 'type']);
+    const newResponse = addLogInfo(response, { response: responseInfo });
 
-    await send(response);
+    await send(newResponse);
 
-    return response;
+    return newResponse;
   } catch (error) {
     const errorObj = normalizeError({ error });
 

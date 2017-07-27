@@ -1,17 +1,18 @@
 'use strict';
 
 const { addJsl } = require('../../jsl');
+const { addLogInfo } = require('../../logging');
 
 // Decides which operation to use (e.g. GraphQL) according to route
 const operationNegotiator = async function (nextFunc, input) {
-  const { route, jsl, log } = input;
+  const { route, jsl } = input;
 
   const [operation] = Object.entries(operations)
     .find(([, testFunc]) => testFunc({ route })) || [];
 
-  const nextInput = addJsl({ input, jsl, params: { $OPERATION: operation } });
-  log.add({ operation });
-  Object.assign(nextInput, { operation });
+  const newInput = addJsl({ input, jsl, params: { $OPERATION: operation } });
+  const loggedInput = addLogInfo(newInput, { operation });
+  const nextInput = Object.assign({}, loggedInput, { operation });
 
   const response = await nextFunc(nextInput);
   return response;

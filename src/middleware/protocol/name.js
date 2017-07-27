@@ -1,16 +1,17 @@
 'use strict';
 
 const { throwError } = require('../../error');
+const { addLogInfo } = require('../../logging');
 
 const getProtocolName = async function (nextFunc, input) {
-  const { log, specific, protocolHandler } = input;
+  const { specific, protocolHandler } = input;
 
   const protocolFullName = getProtocolFullName({ specific, protocolHandler });
-  log.add({ protocolFullName });
 
-  Object.assign(input, { protocolFullName });
+  const newInput = addLogInfo(input, { protocolFullName });
+  const nextInput = Object.assign({}, newInput, { protocolFullName });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

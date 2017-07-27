@@ -3,6 +3,7 @@
 const { makeImmutable } = require('../../../utilities');
 const { throwError } = require('../../../error');
 const { addJsl } = require('../../../jsl');
+const { addLogInfo } = require('../../../logging');
 
 const { getSettings } = require('./parse');
 const { validateSettings } = require('./validate');
@@ -18,15 +19,15 @@ const { validateSettings } = require('./validate');
 // Values are automatically transtyped.
 // Are set to JSL param $SETTINGS
 const parseSettings = async function (nextFunc, input) {
-  const { jsl, log } = input;
+  const { jsl } = input;
 
   const settings = getMergedSettings({ input });
   validateSettings({ settings });
   makeImmutable(settings);
 
-  const nextInput = addJsl({ input, jsl, params: { $SETTINGS: settings } });
-  log.add({ settings });
-  Object.assign(nextInput, { settings });
+  const newInput = addJsl({ input, jsl, params: { $SETTINGS: settings } });
+  const loggedInput = addLogInfo(newInput, { settings });
+  const nextInput = Object.assign({}, loggedInput, { settings });
 
   const response = await nextFunc(nextInput);
   return response;

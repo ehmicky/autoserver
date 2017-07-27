@@ -1,6 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
+const { addLogInfo } = require('../../logging');
 
 // Fill in:
 //  - `input.url`: full URL, e.g. used for logging
@@ -8,16 +9,16 @@ const { throwError } = require('../../error');
 // Uses protocol-specific URL retrieval, but are set in a
 // protocol-agnostic format, i.e. each protocol sets the same strings.
 const parseUrl = async function (nextFunc, input) {
-  const { protocolHandler, log, specific } = input;
+  const { protocolHandler, specific } = input;
 
   const origin = getOrigin({ specific, protocolHandler });
   const path = getPath({ specific, protocolHandler });
   const url = `${origin}${path}`;
 
-  log.add({ url, path, origin });
-  Object.assign(input, { url, path, origin });
+  const newInput = addLogInfo(input, { url, path, origin });
+  const nextInput = Object.assign({}, newInput, { url, path, origin });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(nextInput);
   return response;
 };
 
