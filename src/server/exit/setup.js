@@ -1,6 +1,6 @@
 'use strict';
 
-const { Log } = require('../../logging');
+const { Log, reportPerf } = require('../../logging');
 const { monitor } = require('../../perf');
 const { assignObject, onlyOnce } = require('../../utilities');
 
@@ -42,7 +42,7 @@ const gracefulExit = onlyOnce(async ({
   });
 
   const measures = [...childMeasures, measure];
-  await log.reportPerf({ measures });
+  await reportPerf({ log, measures });
 
   await exit({ isSuccess, apiServer, log });
 });

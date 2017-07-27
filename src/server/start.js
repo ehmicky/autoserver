@@ -1,6 +1,6 @@
 'use strict';
 
-const { Log } = require('../logging');
+const { Log, reportPerf } = require('../logging');
 const { monitor, monitoredReduce } = require('../perf');
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
@@ -47,7 +47,7 @@ const start = async function (input) {
   const [[, childrenPerf], perf] = await monitoredStartAll(input);
 
   const measures = [perf, ...childrenPerf];
-  await startupLog.reportPerf({ measures });
+  await reportPerf({ log: startupLog, measures });
 };
 
 const startAll = function (initialInput) {

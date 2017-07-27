@@ -1,6 +1,7 @@
 'use strict';
 
 const { startPerf } = require('../../perf');
+const { reportPerf } = require('../../logging');
 
 // Log how the request handling takes
 const performanceLog = async function (nextFunc, input) {
@@ -18,7 +19,7 @@ const performanceLog = async function (nextFunc, input) {
   // Total request time, stopped just before the response is sent
   // Do not report if exception was thrown
   const measures = [response.respPerf, ...response.measures];
-  await log.reportPerf({ measures });
+  await reportPerf({ log, measures });
 
   return response;
 };
