@@ -204,7 +204,7 @@ rules:
   no-else-return: 2
   for-direction: 2
   guard-for-in: 2
-#  fp/no-loops: 2
+  fp/no-loops: 2
 
   # Switch
   default-case: 2
