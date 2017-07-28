@@ -46,20 +46,21 @@ const validateInput = function ({ objA, objB }) {
 };
 
 const mergeObjects = function ({ objA, objB }) {
-  const newObjA = { ...objA };
+  return Object.entries(objB).reduce(
+    (newObjA, [objBKey, objBVal]) =>
+      mergeObjectProp({ objA: newObjA, objBKey, objBVal }),
+    objA,
+  );
+};
 
-  for (const [objBKey, objBVal] of Object.entries(objB)) {
-    const objAVal = newObjA[objBKey];
-    const shouldDeepMerge = objAVal &&
-      objBVal &&
-      ((Array.isArray(objAVal) && Array.isArray(objBVal)) ||
-      (objAVal.constructor === Object && objBVal.constructor === Object));
-    newObjA[objBKey] = shouldDeepMerge
-      ? deepMerge(objAVal, objBVal)
-      : objBVal;
-  }
-
-  return newObjA;
+const mergeObjectProp = function ({ objA, objBKey, objBVal }) {
+  const objAVal = objA[objBKey];
+  const shouldDeepMerge = objAVal &&
+    objBVal &&
+    ((Array.isArray(objAVal) && Array.isArray(objBVal)) ||
+    (objAVal.constructor === Object && objBVal.constructor === Object));
+  const newVal = shouldDeepMerge ? deepMerge(objAVal, objBVal) : objBVal;
+  return { ...objA, [objBKey]: newVal };
 };
 
 const recursiveMerge = function ({ objA, objects }) {
