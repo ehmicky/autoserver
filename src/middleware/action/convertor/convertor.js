@@ -11,11 +11,11 @@ const { getTransformedResponse } = require('./transform');
 
 // Converts from Operation format to Action format
 const actionConvertor = async function (nextFunc, oInput) {
-  const { args, modelName, jsl, action, fullAction, operation } = oInput;
+  const { args, modelName, action, fullAction, operation } = oInput;
 
   const input = pick(oInput, actionAttributes);
 
-  const newInput = addJsl({ input, jsl, params: { $MODEL: modelName } });
+  const newInput = addJsl({ input, params: { $MODEL: modelName } });
   const nextInput = addLogInfo(newInput, {
     action,
     fullAction,
@@ -43,6 +43,7 @@ const actionAttributes = [
   'args',
   'modelName',
   'log',
+  'jsl',
   'perf',
   'idl',
   'serverOpts',

@@ -14,10 +14,10 @@ const { addLogInfo } = require('../../logging');
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
 const setRequestIds = async function (nextFunc, input) {
-  const { jsl, specific, protocolHandler, serverOpts } = input;
+  const { specific, protocolHandler, serverOpts } = input;
 
   const requestId = uuidv4();
-  const newInput = addJsl({ input, jsl, params: { $REQUEST_ID: requestId } });
+  const newInput = addJsl({ input, params: { $REQUEST_ID: requestId } });
   const loggedInput = addLogInfo(newInput, { requestId });
   const nextInput = Object.assign({}, loggedInput, { requestId });
 

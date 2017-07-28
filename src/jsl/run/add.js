@@ -9,7 +9,12 @@ const createJsl = function ({ idl }) {
   return { params };
 };
 
-const addJsl = function ({ input, jsl = {}, params, type = 'SYSTEM' }) {
+const addJsl = function ({
+  input,
+  input: { jsl = {} },
+  params,
+  type = 'SYSTEM',
+}) {
   const validParams = checkNames({ params, type });
   const newParams = Object.assign({}, jsl.params, validParams);
   const newInput = Object.assign({}, input, { jsl: { params: newParams } });

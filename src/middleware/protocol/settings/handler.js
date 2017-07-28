@@ -19,13 +19,11 @@ const { validateSettings } = require('./validate');
 // Values are automatically transtyped.
 // Are set to JSL param $SETTINGS
 const parseSettings = async function (nextFunc, input) {
-  const { jsl } = input;
-
   const settings = getMergedSettings({ input });
   validateSettings({ settings });
   makeImmutable(settings);
 
-  const newInput = addJsl({ input, jsl, params: { $SETTINGS: settings } });
+  const newInput = addJsl({ input, params: { $SETTINGS: settings } });
   const loggedInput = addLogInfo(newInput, { settings });
   const nextInput = Object.assign({}, loggedInput, { settings });
 

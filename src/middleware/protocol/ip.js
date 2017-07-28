@@ -6,11 +6,9 @@ const { addLogInfo } = require('../../logging');
 
 // Retrieve request's IP, assigned to protocol input, and also to JSL $IP
 const getIp = async function (nextFunc, input) {
-  const { jsl } = input;
-
   const ip = getRequestIp(input);
 
-  const newInput = addJsl({ input, jsl, params: { $IP: ip } });
+  const newInput = addJsl({ input, params: { $IP: ip } });
   const loggedInput = addLogInfo(newInput, { ip });
   const nextInput = Object.assign({}, loggedInput, { ip });
 
