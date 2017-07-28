@@ -20,12 +20,12 @@ const { validateSettings } = require('./validate');
 // Are set to JSL param $SETTINGS
 const parseSettings = async function (nextFunc, input) {
   const settings = getMergedSettings({ input });
-  validateSettings({ settings });
-  makeImmutable(settings);
+  const settingsA = validateSettings({ settings });
+  makeImmutable(settingsA);
 
-  const inputA = addJsl(input, { $SETTINGS: settings });
-  const inputB = addLogInfo(inputA, { settings });
-  const inputC = { ...inputB, settings };
+  const inputA = addJsl(input, { $SETTINGS: settingsA });
+  const inputB = addLogInfo(inputA, { settings: settingsA });
+  const inputC = { ...inputB, settings: settingsA };
 
   const response = await nextFunc(inputC);
   return response;
