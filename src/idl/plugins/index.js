@@ -1,7 +1,6 @@
 'use strict';
 
-module.exports = Object.assign(
-  {},
-  require('./apply'),
-  require('./properties')
-);
+module.exports = {
+  ...require('./apply'),
+  ...require('./properties'),
+};

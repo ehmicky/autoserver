@@ -1,6 +1,5 @@
 'use strict';
 
-module.exports = Object.assign(
-  {},
-  require('./system')
-);
+module.exports = {
+  ...require('./system'),
+};

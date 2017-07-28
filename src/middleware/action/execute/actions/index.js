@@ -1,11 +1,10 @@
 'use strict';
 
-module.exports = Object.assign(
-  {},
-  require('./find'),
-  require('./delete'),
-  require('./update'),
-  require('./create'),
-  require('./replace'),
-  require('./upsert'),
-);
+module.exports = {
+  ...require('./find'),
+  ...require('./delete'),
+  ...require('./update'),
+  ...require('./create'),
+  ...require('./replace'),
+  ...require('./upsert'),
+};

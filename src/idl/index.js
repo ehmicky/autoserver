@@ -1,7 +1,6 @@
 'use strict';
 
-module.exports = Object.assign(
-  {},
-  require('./parse'),
-  require('./plugins')
-);
+module.exports = {
+  ...require('./parse'),
+  ...require('./plugins'),
+};

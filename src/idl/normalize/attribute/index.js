@@ -1,6 +1,5 @@
 'use strict';
 
-module.exports = Object.assign(
-  {},
-  require('./attribute'),
-);
+module.exports = {
+  ...require('./attribute'),
+};
