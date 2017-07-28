@@ -8,7 +8,7 @@ const groupBy = function (array, key) {
     const groupName = getGroupName(key, obj);
     const currentGroup = groups[groupName] || [];
     const newGroup = [...currentGroup, obj];
-    return Object.assign({}, groups, { [groupName]: newGroup });
+    return { ...groups, [groupName]: newGroup };
   }, []);
 };
 

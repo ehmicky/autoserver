@@ -6,11 +6,7 @@ const executeGraphiql = async function (nextFunc, input) {
   const { queryVars, payload = {}, origin } = input;
 
   const endpointURL = `${origin}/graphql`;
-  const {
-    query,
-    variables,
-    operationName,
-  } = Object.assign({}, queryVars, payload);
+  const { query, variables, operationName } = { ...queryVars, ...payload };
 
   const content = await renderGraphiQL({
     endpointURL,

@@ -46,7 +46,7 @@ const validateInput = function ({ objA, objB }) {
 };
 
 const mergeObjects = function ({ objA, objB }) {
-  const newObjA = Object.assign({}, objA);
+  const newObjA = { ...objA };
 
   for (const [objBKey, objBVal] of Object.entries(objB)) {
     const objAVal = newObjA[objBKey];

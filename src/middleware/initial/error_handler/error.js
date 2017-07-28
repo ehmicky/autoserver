@@ -12,7 +12,7 @@ const handleError = async function ({ log, error, error: { protocolStatus } }) {
   // Use protocol-specific way to send back the response to the client
   if (error.sendError) {
     const errorResponse = getResponse({ error: standardError });
-    const response = Object.assign({}, errorResponse, { protocolStatus });
+    const response = { ...errorResponse, protocolStatus };
     await error.sendError(response);
   }
 };

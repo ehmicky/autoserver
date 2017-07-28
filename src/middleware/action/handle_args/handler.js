@@ -22,7 +22,7 @@ const handleArgs = async function (nextFunc, input) {
   validateArgs({ input });
 
   const argsB = renameArgs({ args });
-  const inputC = Object.assign({}, inputB, { args: argsB });
+  const inputC = { ...inputB, args: argsB };
 
   const response = await nextFunc(inputC);
   return response;

@@ -11,7 +11,7 @@ const reduceInfo = function ({ info, attrName, filter }) {
 
   const size = getSize({ value });
 
-  return Object.assign({}, info, reducedValue, { [`${attrName}Size`]: size });
+  return { ...info, ...reducedValue, [`${attrName}Size`]: size };
 };
 
 const getInfoReducer = function ({ value }) {

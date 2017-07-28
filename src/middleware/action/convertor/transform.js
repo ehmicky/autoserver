@@ -5,7 +5,7 @@ const getTransformedResponse = function ({
   response,
   operation,
 }) {
-  const responseA = Object.assign({}, response, { action });
+  const responseA = { ...response, action };
   const responseB = actionConvertorOutput[operation](responseA);
   return responseB;
 };
@@ -16,7 +16,7 @@ const actionConvertorOutput = {
   GraphQL (response) {
     const { data, metadata } = response;
     const dataA = getGraphQLData({ data, metadata });
-    return Object.assign({}, response, { data: dataA });
+    return { ...response, data: dataA };
   },
 
 };
@@ -28,7 +28,7 @@ const getGraphQLData = function ({ data, metadata }) {
     );
   }
 
-  return Object.assign({}, data, { __metadata: metadata });
+  return { ...data, __metadata: metadata };
 };
 
 module.exports = {

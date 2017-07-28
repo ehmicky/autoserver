@@ -9,7 +9,7 @@ const { reportLog } = require('./report');
 const bufferLogReport = function (obj, logReport) {
   const { logReports = [] } = obj;
   const logReportsA = [...logReports, logReport];
-  return Object.assign({}, obj, { logReports: logReportsA });
+  return { ...obj, logReports: logReportsA };
 };
 
 const unbufferLogReports = async function (obj, log) {
@@ -20,7 +20,7 @@ const unbufferLogReports = async function (obj, log) {
   );
   await Promise.all(promises);
 
-  return Object.assign({}, obj, { logReports: [] });
+  return { ...obj, logReports: [] };
 };
 
 module.exports = {

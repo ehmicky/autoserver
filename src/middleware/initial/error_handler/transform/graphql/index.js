@@ -21,11 +21,14 @@ const transformResponse = function ({ response: { content } }) {
     'status',
     'protocol_status',
   ]);
-  const newContent = Object.assign(
-    { message: description, title, type, status: protocolStatus },
-    extraContent,
-    { stack: details },
-  );
+  const newContent = {
+    message: description,
+    title,
+    type,
+    status: protocolStatus,
+    ...extraContent,
+    stack: details,
+  };
 
   const cleanContent = omitBy(newContent, val => val === undefined);
 

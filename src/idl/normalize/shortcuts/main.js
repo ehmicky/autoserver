@@ -13,7 +13,7 @@ const normalizeShortcuts = function ({ idl, idl: { models } }) {
       return { [name]: shortcut };
     })
     .reduce(assignObject, {});
-  return Object.assign({}, idl, { shortcuts });
+  return { ...idl, shortcuts };
 };
 
 module.exports = {

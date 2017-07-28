@@ -18,7 +18,7 @@ const getNestedId = function ({ childDef }) {
   const nestedIdDef = omit(subDef, 'model');
 
   if (multiple) {
-    return Object.assign({}, childDef, { items: nestedIdDef });
+    return { ...childDef, items: nestedIdDef };
   }
 
   return nestedIdDef;

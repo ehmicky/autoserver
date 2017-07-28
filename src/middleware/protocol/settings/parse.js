@@ -8,7 +8,7 @@ const { transtype, mapValues, mapKeys, pickBy } = require('../../../utilities');
 const getSettings = function ({ input }) {
   const querySettings = getQuerySettings({ input });
   const headersSettings = getHeadersSettings({ input });
-  const settings = Object.assign({}, querySettings, headersSettings);
+  const settings = { ...querySettings, ...headersSettings };
 
   const settingsA = mapValues(settings, value => transtype(value));
 

@@ -8,7 +8,7 @@ const minifyOrderBy = function (token) {
   const nOrderBy = token.nOrderBy
     .map(({ attrName, order }) => `${attrName}${order === 'asc' ? '' : '-'}`)
     .join(',');
-  return Object.assign({}, token, { nOrderBy });
+  return { ...token, nOrderBy };
 };
 
 const unminifyOrderBy = function (token) {
@@ -21,7 +21,7 @@ const unminifyOrderBy = function (token) {
       const order = isDesc ? 'desc' : 'asc';
       return { attrName, order };
     });
-  return Object.assign({}, token, { nOrderBy });
+  return { ...token, nOrderBy };
 };
 
 module.exports = {

@@ -15,7 +15,7 @@ const router = async function (nextFunc, input) {
   makeImmutable(pathVars);
 
   const inputA = addLogInfo(input, { route: route.name, pathVars });
-  const inputB = Object.assign({}, inputA, { route: route.name, pathVars });
+  const inputB = { ...inputA, route: route.name, pathVars };
 
   const response = await nextFunc(inputB);
   return response;

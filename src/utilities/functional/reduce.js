@@ -6,7 +6,7 @@
 //    e.g. Object.entries(object).map(...).reduce(assign, {})
 const assignObject = function (memo, val) {
   const obj = Array.isArray(val) ? { [val[0]]: val[1] } : val;
-  return Object.assign({}, memo, obj);
+  return { ...memo, ...(obj || {}) };
 };
 
 // Uses to reduce:

@@ -82,7 +82,7 @@ const startServer = async function (protocol, {
 
   await logStart({ serverInfo, startupLog, protocol });
 
-  return Object.assign({}, serverInfo, { protocol });
+  return { ...serverInfo, protocol };
 };
 
 const logStart = async function ({ serverInfo, startupLog, protocol }) {

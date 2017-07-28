@@ -76,8 +76,8 @@ const getRecurseFunc = function (value) {
   }
 };
 
-const fullRecurseMap = function (value, mapperFunc, opts) {
-  const optsA = Object.assign({}, opts, { onlyLeaves: false });
+const fullRecurseMap = function (value, mapperFunc, opts = {}) {
+  const optsA = { ...opts, onlyLeaves: false };
   return recurseMap(value, mapperFunc, optsA);
 };
 

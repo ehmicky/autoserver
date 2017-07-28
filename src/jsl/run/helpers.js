@@ -28,7 +28,7 @@ const jslHelper = function (
   // Provide $1, $2, etc. to inline JSL
   const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
   const posParams = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
-  const paramsA = Object.assign({}, params, posParams);
+  const paramsA = { ...params, ...posParams };
 
   // JSL is run
   if (typeof helper !== 'function') {

@@ -14,7 +14,7 @@ const normalizeAliases = function (model) {
   const propsA = Object.entries(model.properties)
     .reduce((props, [attrName, attr]) => {
       const aliases = createAliases({ model, props, attr, attrName });
-      return Object.assign({}, props, aliases, { [attrName]: attr });
+      return { ...props, ...aliases, [attrName]: attr };
     }, {});
 
   const properties = mapValues(propsA, attr => {
@@ -26,7 +26,7 @@ const normalizeAliases = function (model) {
 };
 
 const createAliases = function ({ model, props, attr, attrName }) {
-  if (!attr.alias) { return; }
+  if (!attr.alias) { return {}; }
   const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
 
   return aliases
@@ -34,7 +34,7 @@ const createAliases = function ({ model, props, attr, attrName }) {
       checkAliasDuplicates({ model, props, attrName, alias });
 
       const aliasAttr = omit(cloneDeep(attr), 'alias');
-      const attrA = Object.assign({}, aliasAttr, { aliasOf: attrName });
+      const attrA = { ...aliasAttr, aliasOf: attrName };
 
       return { [alias]: attrA };
     })

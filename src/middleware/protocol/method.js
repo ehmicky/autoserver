@@ -15,7 +15,7 @@ const parseMethod = async function (nextFunc, input) {
   const goal = getGoal({ method, protocolHandler });
 
   const inputA = addLogInfo(input, { method, goal });
-  const inputB = Object.assign({}, inputA, { method, goal });
+  const inputB = { ...inputA, method, goal };
 
   const response = await nextFunc(inputB);
   return response;

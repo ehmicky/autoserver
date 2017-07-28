@@ -40,13 +40,10 @@ const getNewModel = function ({
   validateProps({ modelProperties, modelName, properties, required });
 
   // Modifies models
-  const propertiesA = Object.assign({}, modelProperties, properties);
+  const propertiesA = { ...modelProperties, ...properties };
   const currentRequired = model.required || [];
   const requiredA = uniq([...currentRequired, ...required]);
-  const modelA = Object.assign({}, model, {
-    properties: propertiesA,
-    required: requiredA,
-  });
+  const modelA = { ...model, properties: propertiesA, required: requiredA };
 
   return modelA;
 };

@@ -12,7 +12,7 @@ const setResponseTime = async function (nextFunc, input) {
   const { responseTime, respPerf } = getResponseTime({ input });
 
   const responseA = addLogInfo(response, { responseTime });
-  const responseB = Object.assign({}, responseA, { respPerf });
+  const responseB = { ...responseA, respPerf };
 
   sendHeaders({ input, responseTime });
 

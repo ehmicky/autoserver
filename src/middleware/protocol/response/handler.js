@@ -26,7 +26,7 @@ const sendResponse = async function (nextFunc, input) {
     // Since we only send response errors if `errorObj.sendError` is defined,
     // and it can only be defined if this middleware throws, we are sure
     // to never send two responses.
-    const errorB = Object.assign({}, errorA, { sendError: send });
+    const errorB = { ...errorA, sendError: send };
 
     rethrowError(errorB);
   }

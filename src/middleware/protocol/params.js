@@ -25,7 +25,7 @@ const parseParams = async function (nextFunc, input) {
 
   const inputA = addJsl(input, { $PARAMS: params });
   const inputB = addLogInfo(inputA, { params });
-  const inputC = Object.assign({}, inputB, { params });
+  const inputC = { ...inputB, params };
 
   const response = await nextFunc(inputC);
   return response;
@@ -34,7 +34,7 @@ const parseParams = async function (nextFunc, input) {
 const getParams = function ({ input }) {
   const queryParams = getQueryParams({ input });
   const headersParams = getHeadersParams({ input });
-  const params = Object.assign({}, queryParams, headersParams);
+  const params = { ...queryParams, ...headersParams };
 
   const paramsA = mapValues(params, value => transtype(value));
 

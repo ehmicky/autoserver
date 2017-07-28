@@ -20,7 +20,7 @@ const addStatuses = function ({ input, error, response }) {
   const statuses = getStatuses({ input, error });
   const obj = error || response;
   const objA = addLogInfo(obj, statuses);
-  return Object.assign({}, objA, statuses);
+  return { ...objA, ...statuses };
 };
 
 const getStatuses = function ({

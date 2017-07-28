@@ -13,7 +13,7 @@ const inputReducer = function (attrName, requestInfo, loggerFilter) {
 
   const valueA = loggerFilter[attrName](value);
 
-  return Object.assign({}, requestInfo, { [attrName]: valueA });
+  return { ...requestInfo, [attrName]: valueA };
 };
 
 const reducers = ['queryVars', 'headers', 'params', 'settings']

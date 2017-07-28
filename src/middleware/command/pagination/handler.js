@@ -103,9 +103,8 @@ const processInput = function ({
   if (!mustPaginateOutput({ args, command })) { return input; }
 
   const paginationInput = getPaginationInput({ args });
-  const argsA = Object.assign({}, args, paginationInput);
 
-  return Object.assign({}, input, { args: argsA });
+  return { ...input, args: { ...args, ...paginationInput } };
 };
 
 // Add response metadata related to pagination:
@@ -121,7 +120,7 @@ const processOutput = function ({
   reverseOutput({ args, response });
 
   const paginationOutput = getPaginationOutput({ args, response });
-  const responseA = Object.assign({}, response, paginationOutput);
+  const responseA = { ...response, ...paginationOutput };
 
   validatePaginationOutput({
     args,

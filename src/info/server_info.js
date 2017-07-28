@@ -19,12 +19,11 @@ const { version: apiEngineVersion } = require('../../package.json');
 const getServerInfo = function ({ serverOpts: { serverName } }) {
   const staticServerInfo = getStaticServerInfo({ serverName });
   const dynamicServerInfo = getDynamicServerInfo();
-  const stats = Object.assign(
-    {},
-    staticServerInfo.stats,
-    dynamicServerInfo.stats,
-  );
-  return Object.assign({}, staticServerInfo, dynamicServerInfo, { stats });
+  return {
+    ...staticServerInfo,
+    ...dynamicServerInfo,
+    stats: { ...staticServerInfo.stats, ...dynamicServerInfo.stats },
+  };
 };
 
 // Information that do not change across a specific process.

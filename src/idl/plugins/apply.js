@@ -61,7 +61,7 @@ const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  return Object.assign({}, builtinPlugin, omit(pluginConf, 'plugin'));
+  return { ...builtinPlugin, ...omit(pluginConf, 'plugin') };
 };
 
 const builtinPlugins = {

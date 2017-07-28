@@ -16,7 +16,7 @@ const parseHeaders = async function (nextFunc, input) {
   makeImmutable(headers);
 
   const inputA = addLogInfo(input, { headers });
-  const inputB = Object.assign({}, inputA, { headers });
+  const inputB = { ...inputA, headers };
 
   const response = await nextFunc(inputB);
   return response;

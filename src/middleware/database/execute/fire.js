@@ -75,7 +75,7 @@ const fireCommand = function (commandInput) {
   const response = commands[command.name](commandInput);
 
   const responseA = processResponse({ response, command, opts });
-  const responseB = Object.assign({}, response, responseA);
+  const responseB = { ...response, ...responseA };
 
   validateResponse({ command, response: responseB });
 

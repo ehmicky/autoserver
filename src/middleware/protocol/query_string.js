@@ -22,7 +22,7 @@ const parseQueryString = async function (nextFunc, input) {
   makeImmutable(queryVars);
 
   const inputA = addLogInfo(input, { queryVars });
-  const inputB = Object.assign({}, inputA, { queryVars });
+  const inputB = { ...inputA, queryVars };
 
   const response = await nextFunc(inputB);
   return response;

@@ -8,7 +8,7 @@ const normalizeHelpers = function ({ idl, idl: { helpers = {} } }) {
   const normalizedHelpers = normalizeSyntax({ helpers: flatHelpers });
   const exposeMap = getExposeMap({ helpers: normalizedHelpers });
 
-  return Object.assign({}, idl, { helpers: normalizedHelpers, exposeMap });
+  return { ...idl, helpers: normalizedHelpers, exposeMap };
 };
 
 // Helpers can be an array of objects, to help importing libraries using

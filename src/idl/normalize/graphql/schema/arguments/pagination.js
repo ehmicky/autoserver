@@ -15,7 +15,7 @@ const getPaginationArgument = function ({
   // i.e. only with findMany, deleteMany and
   // updateMany
   if (!(paginationActions.includes(action.type) && action.multiple)) {
-    return;
+    return {};
   }
 
   const pageSizeArg = getPageSizeArg({ maxPageSize, defaultPageSize });
@@ -25,7 +25,7 @@ const getPaginationArgument = function ({
     return pageSizeArg;
   }
 
-  return Object.assign({}, pageSizeArg, paginationArgs);
+  return { ...pageSizeArg, ...paginationArgs };
 };
 
 const getPageSizeArg = ({ maxPageSize, defaultPageSize }) => ({
