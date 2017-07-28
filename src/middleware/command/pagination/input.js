@@ -10,9 +10,9 @@ const getPaginationInput = function ({ args }) {
   const info = getPaginationInfo({ args });
   const paginationNewInput = getPaginationNewInput({ info, args });
 
-  const newArgs = omit(args, ['page', 'before', 'after', 'pageSize']);
-  const nextArgs = Object.assign({}, newArgs, paginationNewInput);
-  return nextArgs;
+  const argsA = omit(args, ['page', 'before', 'after', 'pageSize']);
+  const argsB = Object.assign({}, argsA, paginationNewInput);
+  return argsB;
 };
 
 const getPaginationNewInput = function ({
@@ -78,8 +78,8 @@ const getBackwardInput = function ({ info: { isBackward }, args }) {
 const getPaginatedFilter = function ({ tokenObj, isBackward }) {
   const { parts, nFilter, nOrderBy } = tokenObj;
   const extraFilter = `(${tokenToJsl({ parts, nOrderBy, isBackward })})`;
-  const newFilter = nFilter ? `(${nFilter} && ${extraFilter})` : extraFilter;
-  return newFilter;
+  const filterA = nFilter ? `(${nFilter} && ${extraFilter})` : extraFilter;
+  return filterA;
 };
 
 const tokenToJsl = function ({ parts, nOrderBy, isBackward }) {

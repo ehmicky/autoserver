@@ -50,7 +50,7 @@ const fireCommand = async function ({
   commandDef: { test: testFunc },
   isLastCommand,
 }) {
-  const nextInput = getNextInput({
+  const inputA = getNextInput({
     input,
     formerResponse,
     commandDef,
@@ -61,7 +61,7 @@ const fireCommand = async function ({
   const shouldFireCommand = !testFunc || testFunc(input, formerResponse);
   if (!shouldFireCommand) { return formerResponse; }
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputA);
   return response;
 };
 

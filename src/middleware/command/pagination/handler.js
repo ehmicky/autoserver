@@ -70,7 +70,7 @@ const { getPaginationInfo } = require('./info');
  **/
 const pagination = async function (nextFunc, input) {
   const { args, serverOpts: { maxPageSize } } = input;
-  const oArgs = cloneDeep(args);
+  const argsA = cloneDeep(args);
 
   const paginatedInput = processInput({ input, maxPageSize });
 
@@ -79,7 +79,7 @@ const pagination = async function (nextFunc, input) {
   const paginatedOutput = processOutput({
     input,
     response,
-    args: oArgs,
+    args: argsA,
     maxPageSize,
   });
 
@@ -103,9 +103,9 @@ const processInput = function ({
   if (!mustPaginateOutput({ args, command })) { return input; }
 
   const paginationInput = getPaginationInput({ args });
-  const newArgs = Object.assign({}, args, paginationInput);
+  const argsA = Object.assign({}, args, paginationInput);
 
-  return Object.assign({}, input, { args: newArgs });
+  return Object.assign({}, input, { args: argsA });
 };
 
 // Add response metadata related to pagination:
@@ -121,17 +121,17 @@ const processOutput = function ({
   reverseOutput({ args, response });
 
   const paginationOutput = getPaginationOutput({ args, response });
-  const newResponse = Object.assign({}, response, paginationOutput);
+  const responseA = Object.assign({}, response, paginationOutput);
 
   validatePaginationOutput({
     args,
     action,
     modelName,
     maxPageSize,
-    response: newResponse,
+    response: responseA,
   });
 
-  return newResponse;
+  return responseA;
 };
 
 // When using args.before, pagination is performed backward.

@@ -5,11 +5,11 @@ const { pickBy, mapValues } = require('../../utilities');
 // Retrieve parameters to use for a given JSL execution,
 // after filtering and helpers binding
 const getParams = function ({ params, type, idl }) {
-  const newParams = bindHelpers({ params, type, idl });
+  const paramsA = bindHelpers({ params, type, idl });
 
-  const usedParams = filterParams({ params: newParams, type, idl });
+  const paramsB = filterParams({ params: paramsA, type, idl });
 
-  return usedParams;
+  return paramsB;
 };
 
 // Pass JSL parameters to helpers

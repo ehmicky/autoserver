@@ -4,8 +4,8 @@ const { defaultsDeep } = require('lodash');
 
 // Default value for main options
 const applyDefaultOptions = function (serverOpts) {
-  const newOptions = defaultsDeep(serverOpts, defaultOptions);
-  return newOptions;
+  const serverOptsA = defaultsDeep(serverOpts, defaultOptions);
+  return serverOptsA;
 };
 
 const defaultOptions = {

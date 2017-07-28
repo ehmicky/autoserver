@@ -50,9 +50,9 @@ const applyTransform = function ({
     runJsl({ jsl, value: testFunc, params, idl });
   if (!shouldPerform) { return; }
 
-  const newValue = runJsl({ jsl, value: transformer, params, idl });
+  const valueA = runJsl({ jsl, value: transformer, params, idl });
 
-  data[attrName] = newValue;
+  data[attrName] = valueA;
 };
 
 module.exports = {

@@ -72,8 +72,8 @@ const findTransformOrder = function ({ props, modelName, triedProps = [] }) {
     if (isWrongOrder) {
       // Push the current attribute to the end of the array, and try again
       const previousProps = props.slice(0, index);
-      const newProps = [...previousProps, ...nextProps, prop];
-      return findTransformOrder({ props: newProps, modelName, triedProps });
+      const propsA = [...previousProps, ...nextProps, prop];
+      return findTransformOrder({ props: propsA, modelName, triedProps });
     }
   }
 

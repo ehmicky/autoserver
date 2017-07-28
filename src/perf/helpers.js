@@ -31,7 +31,7 @@ const monitoredReduce = function ({
     const monitoredFunc = monitor(func, label, category);
     // Optional modification of function input
     const funcInput = mapInput(input);
-    const [returnValue, newMeasure] = await monitoredFunc(funcInput);
+    const [returnValue, measureA] = await monitoredFunc(funcInput);
     // Functions can recursively return their own measures by returning
     // an array [returnValue, responses]
     // This means `monitoredReduce()` cannot be used with functions that
@@ -41,10 +41,10 @@ const monitoredReduce = function ({
       ? returnValue[1] || []
       : [];
     // Optional modification of function return value
-    const newInput = mapResponse(response, input);
+    const inputA = mapResponse(response, input);
 
-    const nextMeasures = [...currentMeasures, ...childMeasures, newMeasure];
-    return [newInput, nextMeasures];
+    const measuresA = [...currentMeasures, ...childMeasures, measureA];
+    return [inputA, measuresA];
   }, [initialInput, []]);
 };
 

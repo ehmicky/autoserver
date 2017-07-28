@@ -7,11 +7,11 @@ const getTimestamp = async function (nextFunc, input) {
   const { now } = input;
 
   const timestamp = (new Date(now)).toISOString();
-  const newInput = addJsl(input, { $NOW: timestamp });
-  const loggedInput = addLogInfo(newInput, { timestamp });
-  const nextInput = Object.assign({}, loggedInput, { timestamp });
+  const inputA = addJsl(input, { $NOW: timestamp });
+  const inputB = addLogInfo(inputA, { timestamp });
+  const inputC = Object.assign({}, inputB, { timestamp });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputC);
   return response;
 };
 

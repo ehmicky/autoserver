@@ -12,7 +12,7 @@ const normalResolver = async function ({
   modelsMap,
   name,
   parent,
-  oArgs,
+  args,
   cbFunc,
   graphqlMethod,
 }) {
@@ -21,14 +21,14 @@ const normalResolver = async function ({
     ? nestedModelResolver
     : topLevelModelResolver;
 
-  const args = oArgs || {};
+  const argsA = args || {};
 
   // Retrieve main input passed to database layer
   const { multiple, modelName, actionType, directReturn } = subResolver({
     name,
     modelsMap,
     parent,
-    args,
+    args: argsA,
   });
   // Shortcuts resolver if we already know the final result
   if (directReturn !== undefined) { return directReturn; }
@@ -43,7 +43,7 @@ const normalResolver = async function ({
   const fullAction = getFullAction({ parent, name });
 
   // Fire database layer, retrieving value passed to children
-  const response = await cbFunc({ action, fullAction, modelName, args });
+  const response = await cbFunc({ action, fullAction, modelName, args: argsA });
 
   // Tags the response as belonging to that modelName
   setParentModel(response.data, { action, modelName, fullAction });

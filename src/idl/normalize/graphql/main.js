@@ -15,12 +15,12 @@ const normalizeGraphQL = async function ({ idl, serverOpts }) {
     schema: GraphQLSchema,
   });
 
-  const newIdl = Object.assign({}, idl, {
+  const idlA = Object.assign({}, idl, {
     GraphQLSchema,
     GraphQLPrintedSchema,
   });
   const measures = [getMeasure, printMeasure];
-  return [newIdl, measures];
+  return [idlA, measures];
 };
 
 const monitoredGetSchema = monitor(getSchema, 'schema', 'graphql');

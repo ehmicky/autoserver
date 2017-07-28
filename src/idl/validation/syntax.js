@@ -20,7 +20,7 @@ const validateIdlSyntax = async function (idl) {
 // At the moment, the IDL needs to be modified for proper JSON schema validation
 // TODO: remove this
 const getIdl = function (idl) {
-  return modifiers.reduce((newIdl, modifier) => modifier(newIdl), idl);
+  return modifiers.reduce((idlA, modifier) => modifier(idlA), idl);
 };
 
 // Adds some temporary property on IDL, to help validation

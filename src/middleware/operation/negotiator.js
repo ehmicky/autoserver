@@ -10,11 +10,11 @@ const operationNegotiator = async function (nextFunc, input) {
   const [operation] = Object.entries(operations)
     .find(([, testFunc]) => testFunc({ route })) || [];
 
-  const newInput = addJsl(input, { $OPERATION: operation });
-  const loggedInput = addLogInfo(newInput, { operation });
-  const nextInput = Object.assign({}, loggedInput, { operation });
+  const inputA = addJsl(input, { $OPERATION: operation });
+  const inputB = addLogInfo(inputA, { operation });
+  const inputC = Object.assign({}, inputB, { operation });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputC);
   return response;
 };
 

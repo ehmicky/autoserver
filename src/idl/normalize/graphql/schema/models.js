@@ -67,11 +67,11 @@ const getModelByAction = function ({ model, action }) {
 };
 
 const getModelCopy = function ({ model, properties, action: { multiple } }) {
-  const modelCopy = cloneDeep(model);
-  merge(modelCopy, { properties, isTopLevel: true });
+  const modelA = cloneDeep(model);
+  merge(modelA, { properties, isTopLevel: true });
 
   // Wrap in array if action is multiple
-  return multiple ? { type: 'array', items: modelCopy } : modelCopy;
+  return multiple ? { type: 'array', items: modelA } : modelA;
 };
 
 // Filter allowed actions on a given model

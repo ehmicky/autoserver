@@ -7,20 +7,20 @@ const { addLogInfo } = require('../../logging');
 const getStatus = async function (nextFunc, input) {
   try {
     const response = await nextFunc(input);
-    const newResponse = addStatuses({ input, response });
-    return newResponse;
+    const responseA = addStatuses({ input, response });
+    return responseA;
   } catch (error) {
-    const errorObj = normalizeError({ error });
-    const newError = addStatuses({ input, error: errorObj });
-    rethrowError(newError);
+    const errorA = normalizeError({ error });
+    const errorB = addStatuses({ input, error: errorA });
+    rethrowError(errorB);
   }
 };
 
 const addStatuses = function ({ input, error, response }) {
   const statuses = getStatuses({ input, error });
   const obj = error || response;
-  const nextObj = addLogInfo(obj, statuses);
-  return Object.assign({}, nextObj, statuses);
+  const objA = addLogInfo(obj, statuses);
+  return Object.assign({}, objA, statuses);
 };
 
 const getStatuses = function ({

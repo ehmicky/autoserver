@@ -67,8 +67,8 @@ const restartPerf = function ({ pending, duration, label, category }) {
     throwError(message, { reason: 'UTILITY_ERROR' });
   }
 
-  const newPending = hrtime();
-  return { pending: newPending, duration, label, category };
+  const pendingA = hrtime();
+  return { pending: pendingA, duration, label, category };
 };
 
 module.exports = {

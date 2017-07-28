@@ -26,11 +26,7 @@ const getActionSchema = function ({ optional = [], required = [] }) {
   const requiredProps = required.map(name => argsSchema[name].name || name);
   const properties = mapValues(mappedProps, value => omit(value, 'name'));
 
-  const schema = Object.assign(
-    { properties, required: requiredProps },
-    commonSchema,
-  );
-  return schema;
+  return Object.assign({ properties, required: requiredProps }, commonSchema);
 };
 
 // JSON schemas validating `args` for each action

@@ -14,10 +14,10 @@ const parsePayload = async function (nextFunc, input) {
   const payload = await getPayload({ specific, protocolHandler });
   makeImmutable(payload);
 
-  const newInput = addLogInfo(input, { payload });
-  const nextInput = Object.assign({}, newInput, { payload });
+  const inputA = addLogInfo(input, { payload });
+  const inputB = Object.assign({}, inputA, { payload });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputB);
   return response;
 };
 

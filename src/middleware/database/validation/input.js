@@ -24,9 +24,9 @@ const validateInputData = function ({ idl, modelName, command, args, jsl }) {
     const allAttrs = Array.isArray(attribute) ? attribute : [attribute];
 
     for (const data of allAttrs) {
-      const newValue = removeAllJsl(data);
+      const valueA = removeAllJsl(data);
       const reportInfo = { type, dataVar };
-      validate({ schema, data: newValue, reportInfo, extra: jsl });
+      validate({ schema, data: valueA, reportInfo, extra: jsl });
     }
   }
 };

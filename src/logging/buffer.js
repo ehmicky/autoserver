@@ -8,8 +8,8 @@ const { reportLog } = require('./report');
 // the actual calls
 const bufferLogReport = function (obj, logReport) {
   const { logReports = [] } = obj;
-  const newLogReports = [...logReports, logReport];
-  return Object.assign({}, obj, { logReports: newLogReports });
+  const logReportsA = [...logReports, logReport];
+  return Object.assign({}, obj, { logReports: logReportsA });
 };
 
 const unbufferLogReports = async function (obj, log) {

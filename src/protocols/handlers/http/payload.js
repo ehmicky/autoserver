@@ -45,16 +45,16 @@ const parseFunc = async function (parser, { specific: { req } }) {
   const body = req.body || {};
   // Parsers have side-effects, i.e. adding req.body and req._body,
   // and we do not want those side-effects
-  const newReq = new IncomingMessage();
+  const reqA = new IncomingMessage();
   // We have to directly assign newReq to keep its prototype
   // eslint-disable-next-line fp/no-mutating-assign
-  const reqCopy = Object.assign(newReq, req, { body });
+  const reqB = Object.assign(reqA, req, { body });
 
-  await parser(reqCopy, null);
+  await parser(reqB, null);
 
-  const { body: newBody } = reqCopy;
-  const finalBody = newBody === body ? undefined : newBody;
-  return finalBody;
+  const { body: bodyB } = reqB;
+  const bodyC = bodyB === body ? undefined : bodyB;
+  return bodyC;
 };
 
 const parsePayload = getParsers();

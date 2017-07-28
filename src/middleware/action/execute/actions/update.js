@@ -57,14 +57,14 @@ const getAttrsAfterJsl = function ({
   idl,
 }) {
   return jslKeys.map(attrName => {
-    const newAttr = getAttrAfterJsl({
+    const attrA = getAttrAfterJsl({
       currentDatum,
       dataArg,
       attrName,
       jsl,
       idl,
     });
-    return { [attrName]: newAttr };
+    return { [attrName]: attrA };
   });
 };
 

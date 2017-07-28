@@ -8,26 +8,26 @@ const { normalizeCommands } = require('./commands');
 const { setTransformOrder, setComputeOrder } = require('./transform');
 const { normalizeAliases } = require('./alias');
 
-const normalizeModels = function ({ idl, idl: { models: oModels } }) {
-  const models = mapValues(oModels, (oModel, modelName) =>
+const normalizeModels = function ({ idl, idl: { models } }) {
+  const modelsA = mapValues(models, (model, modelName) =>
     transformers.reduce(
-      (model, transformer) => reduceModels({
+      (modelA, transformer) => reduceModels({
         transformer,
-        model,
+        model: modelA,
         modelName,
         idl,
       }),
-      oModel,
+      model,
     )
   );
-  return Object.assign({}, idl, { models });
+  return Object.assign({}, idl, { models: modelsA });
 };
 
 const reduceModels = function ({ transformer, model, modelName, idl }) {
   if (!model || model.constructor !== Object) { return model; }
 
-  const newModel = transformer(model, { modelName, idl });
-  return Object.assign({}, model, newModel);
+  const modelA = transformer(model, { modelName, idl });
+  return Object.assign({}, model, modelA);
 };
 
 const transformers = [

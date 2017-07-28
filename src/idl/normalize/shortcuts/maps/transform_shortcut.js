@@ -1,10 +1,10 @@
 'use strict';
 
 const mapProps = function (type, props, { transformOrder }) {
-  const newProps = Object.entries(props)
+  const propsA = Object.entries(props)
     .map(([attrName, { [type]: transform }]) => ({ attrName, transform }));
-  const sortedProps = sortProps({ props: newProps, transformOrder });
-  return sortedProps;
+  const propsB = sortProps({ props: propsA, transformOrder });
+  return propsB;
 };
 
 // Sort transforms according to `using` property

@@ -16,13 +16,13 @@ const emitLogEvent = async function ({
     if (delay > maxDelay) { return; }
     await pSetTimeout(delay);
 
-    const newReportedLog = addLoggerError({ reportedLog, error });
-    const newDelay = delay * delayExponent;
+    const reportedLogA = addLoggerError({ reportedLog, error });
+    const delayA = delay * delayExponent;
     await emitLogEvent({
       apiServer,
       eventName,
-      reportedLog: newReportedLog,
-      delay: newDelay,
+      reportedLog: reportedLogA,
+      delay: delayA,
     });
   }
 };
@@ -39,9 +39,9 @@ const addLoggerError = function ({
   error: { stack = '' },
 }) {
   const { message } = normalizeError({ error });
-  const newLoggerError = `${message} ${stack}`;
-  const newLoggerErrors = [...loggerErrors, newLoggerError];
-  return Object.assign({}, reportedLog, { loggerErrors: newLoggerErrors });
+  const loggerError = `${message} ${stack}`;
+  const loggerErrorsA = [...loggerErrors, loggerError];
+  return Object.assign({}, reportedLog, { loggerErrors: loggerErrorsA });
 };
 
 module.exports = {

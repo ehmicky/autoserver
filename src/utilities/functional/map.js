@@ -26,9 +26,9 @@ const mapKeysFunc = function ({ value, obj, newValue }) {
 const generalMap = function ({ obj, mapperFunc, iterationFunc }) {
   checkObject(obj);
 
-  return Object.entries(obj).reduce((newObj, [key, value]) => {
+  return Object.entries(obj).reduce((objA, [key, value]) => {
     const newValue = mapperFunc(value, key, obj);
-    return iterationFunc({ value, key, obj: newObj, newValue });
+    return iterationFunc({ value, key, obj: objA, newValue });
   }, {});
 };
 
@@ -77,8 +77,8 @@ const getRecurseFunc = function (value) {
 };
 
 const fullRecurseMap = function (value, mapperFunc, opts) {
-  const newOpts = Object.assign({}, opts, { onlyLeaves: false });
-  return recurseMap(value, mapperFunc, newOpts);
+  const optsA = Object.assign({}, opts, { onlyLeaves: false });
+  return recurseMap(value, mapperFunc, optsA);
 };
 
 module.exports = {

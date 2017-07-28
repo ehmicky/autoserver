@@ -12,7 +12,7 @@ const getResolver = async function (
   modelsMap,
   name,
   parent = {},
-  oArgs,
+  args,
   { callback: cbFunc, graphqlMethod }
 ) {
   // Introspection type name
@@ -29,7 +29,7 @@ const getResolver = async function (
     modelsMap,
     name,
     parent,
-    oArgs,
+    args,
     cbFunc,
     graphqlMethod,
   });

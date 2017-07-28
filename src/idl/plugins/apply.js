@@ -28,9 +28,9 @@ const applyPlugins = async function ({ idl }) {
   return idlWithPlugins;
 };
 
-const pluginReducer = async function (previousIdl, pluginConf, index) {
-  const newIdl = await applyPlugin({ idl: previousIdl, index, pluginConf });
-  return newIdl;
+const pluginReducer = async function (idl, pluginConf, index) {
+  const idlA = await applyPlugin({ idl, index, pluginConf });
+  return idlA;
 };
 
 const applyPlugin = async function ({ idl, index, pluginConf }) {
@@ -46,8 +46,8 @@ const applyPlugin = async function ({ idl, index, pluginConf }) {
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  const newIdl = await plugin({ idl, opts });
-  return newIdl;
+  const idlA = await plugin({ idl, opts });
+  return idlA;
 };
 
 const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {

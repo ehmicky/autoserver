@@ -15,8 +15,7 @@ const applyResponseAlias = function ({ data, attrName, aliases }) {
 
   const aliasesObj = aliases.map(alias => ({ [alias]: data[attrName] }));
 
-  const newData = Object.assign({}, data, ...aliasesObj);
-  return newData;
+  return Object.assign({}, data, ...aliasesObj);
 };
 
 module.exports = {
