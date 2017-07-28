@@ -24,8 +24,6 @@ const middleware = [
   initial.performanceLog,
   // Make actual logging calls
   initial.loggingReporter,
-  // Sets response status as 'error'
-  initial.errorStatus,
 
   /**
    * Protocol layer
