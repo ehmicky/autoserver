@@ -1,15 +1,14 @@
 'use strict';
 
 // Retrieves HTTP status code
-const getProtocolStatus = function ({ error }) {
+const getProtocolStatus = function ({
+  error,
+  error: { reason = 'UNKNOWN' } = {},
+}) {
   if (!error) { return 200; }
 
-  const { reason = 'UNKNOWN' } = error;
   return protocolStatusesMap[reason] || protocolStatusesMap.UNKNOWN_TYPE;
 };
-
-// Generic error status when none can be found
-const failureProtocolStatus = 500;
 
 // All error reasons and their related HTTP status code
 const protocolStatusesMap = {
@@ -50,8 +49,11 @@ const protocolStatusesMap = {
   UNKNOWN: 500,
 };
 
+// Generic error status when none can be found
+const failureProtocolStatus = 500;
+
 // Retrieves generic status, using HTTP status code
-const getStatus = function ({ protocolStatus }) {
+const getStatus = function ({ protocolStatus = '' }) {
   const [statusCategory] = String(protocolStatus);
   return statusesMap[statusCategory] || 'SERVER_ERROR';
 };

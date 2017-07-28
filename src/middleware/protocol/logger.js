@@ -43,19 +43,13 @@ const getLogReport = function ({ error, response }) {
 
 const getLevel = function ({ error, response }) {
   const status = getStatus({ error, response });
-
-  // If status is already set, reuse it
-  // If an error was thrown, level should always be 'warn' or 'error'
-  const errorLevel = status === 'CLIENT_ERROR' ? 'warn' : 'error';
-  const defaultLevel = STATUS_LEVEL_MAP[status] || 'error';
-  const level = error ? errorLevel : defaultLevel;
+  const level = STATUS_LEVEL_MAP[status] || 'error';
   return level;
 };
 
 const getStatus = function ({ error, response }) {
-  return (error && error.status) ||
-    (response && response.status) ||
-    'SERVER_ERROR';
+  const obj = error || response;
+  return obj.status || 'SERVER_ERROR';
 };
 
 module.exports = {

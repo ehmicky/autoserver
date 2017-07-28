@@ -10,7 +10,7 @@ const getStandardError = function ({
   log: {
     logInfo: {
       url: instance,
-      status,
+      status = 'SERVER_ERROR',
       protocolStatus,
       protocol,
       method,

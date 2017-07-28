@@ -7,32 +7,30 @@ const { addLogInfo } = require('../../logging');
 const getStatus = async function (nextFunc, input) {
   try {
     const response = await nextFunc(input);
-
-    const { protocolStatus, status } = getStatuses({ input });
-    Object.assign(response, { protocolStatus, status });
-
-    return response;
+    const newResponse = addStatuses({ input, response });
+    return newResponse;
   } catch (error) {
     const errorObj = normalizeError({ error });
-
-    const statuses = getStatuses({ input, error: errorObj });
-    const nextError = addLogInfo(errorObj, statuses);
-    const newError = Object.assign({}, nextError, statuses);
-
+    const newError = addStatuses({ input, error: errorObj });
     rethrowError(newError);
   }
 };
 
+const addStatuses = function ({ input, error, response }) {
+  const statuses = getStatuses({ input, error });
+  const obj = error || response;
+  const nextObj = addLogInfo(obj, statuses);
+  return Object.assign({}, nextObj, statuses);
+};
+
 const getStatuses = function ({
-  input: { protocolHandler, protocolStatus: currentProtocolStatus },
+  input: { protocolHandler },
   error,
 }) {
   // Protocol-specific status, e.g. HTTP status code
-  const protocolStatus = currentProtocolStatus ||
-    protocolHandler.getProtocolStatus({ error });
+  const protocolStatus = protocolHandler.getProtocolStatus({ error });
   // Protocol-agnostic status
-  const status = protocolStatus &&
-    protocolHandler.getStatus({ protocolStatus });
+  const status = protocolHandler.getStatus({ protocolStatus });
 
   validateStatuses({ protocolStatus, status });
 
