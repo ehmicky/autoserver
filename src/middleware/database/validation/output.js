@@ -11,6 +11,7 @@ const { getDataValidationSchema } = require('./schema');
 const validateOutputData = function ({
   idl,
   modelName,
+  response,
   response: { data },
   action,
   command,
@@ -23,6 +24,8 @@ const validateOutputData = function ({
     const reportInfo = { type, modelName, action, dataVar: 'response' };
     validate({ schema, data: datum, reportInfo, extra: jsl });
   });
+
+  return response;
 };
 
 module.exports = {
