@@ -40,8 +40,7 @@ const addLoggerError = function ({
 }) {
   const { message } = normalizeError({ error });
   const loggerError = `${message} ${stack}`;
-  const loggerErrorsA = [...loggerErrors, loggerError];
-  return Object.assign({}, reportedLog, { loggerErrors: loggerErrorsA });
+  return { ...reportedLog, loggerErrors: [...loggerErrors, loggerError] };
 };
 
 module.exports = {

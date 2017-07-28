@@ -16,7 +16,7 @@ const defaultCommandNames = [
 // Normalize `commands` shortcuts, e.g. 'read' -> 'readOne' + 'readMany'
 const normalizeCommands = function ({ idl }) {
   const commands = normalizeCommandNames(idl.commands || defaultCommandNames);
-  return Object.assign({}, idl, { commands });
+  return { ...idl, commands };
 };
 
 const normalizeCommandNames = function (commandNames) {

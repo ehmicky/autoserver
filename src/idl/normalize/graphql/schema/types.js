@@ -44,17 +44,12 @@ const getArgs = function ({ args, def, opts }) {
   if (!isModel(def) || opts.inputObjectType !== '' || args) { return args; }
 
   // Builds types used for `data` and `filter` arguments
-  const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });
+  const dataObjectOpts = { ...opts, inputObjectType: 'data' };
   const dataObjectType = getType(def, dataObjectOpts);
-  const filterObjectOpts = Object.assign({}, opts, {
-    inputObjectType: 'filter',
-  });
+  const filterObjectOpts = { ...opts, inputObjectType: 'filter' };
   const filterObjectType = getType(def, filterObjectOpts);
   // Retrieves arguments
-  const argsOpts = Object.assign({}, opts, {
-    dataObjectType,
-    filterObjectType,
-  });
+  const argsOpts = { ...opts, dataObjectType, filterObjectType };
 
   return getArguments(def, argsOpts);
 };

@@ -11,7 +11,7 @@ const removeDefaultValues = function (token) {
 };
 
 const addDefaultValues = function (token) {
-  return Object.assign({}, defaultValues, token);
+  return { ...defaultValues, ...token };
 };
 
 const defaultValues = {

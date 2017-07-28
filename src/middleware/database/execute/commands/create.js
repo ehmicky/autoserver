@@ -6,7 +6,7 @@ const { findIndex } = require('../find');
 
 const create = function ({ collection, newData, opts, opts: { dryRun } }) {
   const id = getCreateId({ collection, newData, opts });
-  const newModel = Object.assign({}, newData, { id });
+  const newModel = { ...newData, id };
 
   if (!dryRun) {
     collection.push(newModel);
@@ -26,7 +26,7 @@ const getCreateId = function ({ collection, newData: { id }, opts }) {
 };
 
 const checkCreateId = function ({ collection, id, opts }) {
-  const findIndexOpts = Object.assign({}, opts, { mustExist: false });
+  const findIndexOpts = { ...opts, mustExist: false };
   findIndex({ collection, id, opts: findIndexOpts });
 };
 

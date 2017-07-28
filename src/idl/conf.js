@@ -30,7 +30,7 @@ const getIdlFromPath = async function ({ path }) {
 
   try {
     const idl = await getYaml({ path: realPath });
-    return Object.assign({}, idl, { baseDir });
+    return { ...idl, baseDir };
   } catch (error) {
     const message = 'Could not load configuration file';
     throwError(message, {

@@ -64,14 +64,12 @@ const getContent = async function ({
   return [{ data }, currentPerf];
 };
 
-const getGraphQLInput = function ({ input: { queryVars, payload, goal } }) {
+const getGraphQLInput = function ({
+  input: { queryVars, payload = {}, goal },
+}) {
   // Parameters can be in either query variables or payload
   // (including by using application/graphql)
-  const {
-    query,
-    variables,
-    operationName,
-  } = Object.assign({}, queryVars, payload);
+  const { query, variables, operationName } = { ...queryVars, ...payload };
 
   // GraphQL parsing
   const {
@@ -86,7 +84,7 @@ const fireNext = async function (
   { nextFunc, input, actions, measures, logs },
   actionInput,
 ) {
-  const inputA = Object.assign({}, input, actionInput);
+  const inputA = { ...input, ...actionInput };
 
   const response = await nextFunc(inputA);
 

@@ -9,7 +9,7 @@ const systemDefaults = async function (nextFunc, input) {
   const { serverOpts } = input;
 
   const argsA = getDefaultArgs({ serverOpts, input });
-  const inputA = Object.assign({}, input, { args: argsA });
+  const inputA = { ...input, args: argsA };
 
   const response = await nextFunc(inputA);
   return response;

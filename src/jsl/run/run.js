@@ -13,12 +13,12 @@ const { validateType } = require('./validation');
 const runJsl = function ({
   jsl,
   value,
-  params,
+  params = {},
   type = 'system',
   idl,
 }) {
   // Merge JSL parameters with JSL call parameters
-  const paramsA = Object.assign({}, jsl.params, params);
+  const paramsA = { ...jsl.params, ...params };
   const paramsB = getParams({ params: paramsA, type, idl });
 
   validateType({ type });

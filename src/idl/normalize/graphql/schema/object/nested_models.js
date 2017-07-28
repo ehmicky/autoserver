@@ -69,7 +69,7 @@ const getRecursiveDef = function ({ childDef, action, rootDef }) {
   // Keep metadata of nested model, if defined
   const childDefMetadata = pick(childDef, metadataProps);
 
-  const recursiveDef = Object.assign({}, topLevelModel, childDefMetadata);
+  const recursiveDef = { ...topLevelModel, ...childDefMetadata };
 
   return removeTopLevel({ def: recursiveDef });
 };
@@ -85,12 +85,13 @@ const removeTopLevel = function ({ def }) {
   const subDef = getSubDef(def);
   const multiple = isMultiple(def);
 
+  const items = { ...subDef, isTopLevel: false };
+
   if (multiple) {
-    const items = Object.assign({}, subDef, { isTopLevel: false });
-    return Object.assign({}, def, { items });
+    return { ...def, items };
   }
 
-  return Object.assign({}, subDef, { isTopLevel: false });
+  return items;
 };
 
 // Add transformed name to `required` array,

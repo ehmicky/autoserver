@@ -17,7 +17,7 @@ const getNextInput = function ({
   const args = getArgs({ input, newInput, isLastCommand });
   const command = getCommand({ input, newInput });
 
-  return Object.assign({}, input, newInput, { args, command });
+  return { ...input, ...newInput, args, command };
 };
 
 const getNewInput = function ({
@@ -31,21 +31,18 @@ const getNewInput = function ({
 };
 
 const getArgs = function ({ input, newInput, isLastCommand }) {
-  const newInputArgs = Object.assign(
-    {},
-    input.args,
-    newInput.args,
-    {
-      // All commands but last are considered 'internal'
-      // E.g. authorization is not checked
-      internal: !isLastCommand,
-      // `args.data` should be transformed into `newData` and/or `currentData`
-      data: undefined,
-      // Those are only used temporarily
-      commandType: undefined,
-      commandMultiple: undefined,
-    },
-  );
+  const newInputArgs = {
+    ...input.args,
+    ...(newInput.args || {}),
+    // All commands but last are considered 'internal'
+    // E.g. authorization is not checked
+    internal: !isLastCommand,
+    // `args.data` should be transformed into `newData` and/or `currentData`
+    data: undefined,
+    // Those are only used temporarily
+    commandType: undefined,
+    commandMultiple: undefined,
+  };
   // Specifying `undefined` allows removing specific arguments
   const newArgs = omitBy(newInputArgs, argValue => argValue === undefined);
   return newArgs;

@@ -57,13 +57,13 @@ const getModelByAction = function ({ model, action }) {
     const subAction = ACTIONS.find(act =>
       act.type === action.type && act.multiple === multiple
     );
-    return Object.assign({}, def, { action: subAction });
+    return { ...def, action: subAction };
   });
 
   const modelCopy = getModelCopy({ model, properties, action });
 
   // Add action information to the top-level model
-  return Object.assign({}, modelCopy, { action });
+  return { ...modelCopy, action };
 };
 
 const getModelCopy = function ({ model, properties, action: { multiple } }) {

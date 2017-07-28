@@ -12,13 +12,13 @@ const getMiddlewareLogging = () => async function middlewareLogging (
     const response = await nextFunc(input, ...args) || {};
 
     const log = response.log || input.log;
-    const responseA = Object.assign({}, response, { log });
+    const responseA = { ...response, log };
 
     return responseA;
   } catch (error) {
     const errorA = normalizeError({ error });
     const log = errorA.log || input.log;
-    const errorB = Object.assign({}, errorA, { log });
+    const errorB = { ...errorA, log };
     rethrowError(errorB);
   }
 };

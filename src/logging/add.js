@@ -85,8 +85,7 @@ const createLog = function ({ serverOpts, apiServer, phase }) {
 const addLogInfo = function (obj, logInfo) {
   const { log, log: { logInfo: logInfoA } } = obj;
   const logInfoB = deepMerge(logInfoA, logInfo);
-  const logA = Object.assign({}, log, { logInfo: logInfoB });
-  return Object.assign({}, obj, { log: logA });
+  return { ...obj, log: { ...log, logInfo: logInfoB } };
 };
 
 module.exports = {

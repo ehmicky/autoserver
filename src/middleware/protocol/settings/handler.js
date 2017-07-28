@@ -25,7 +25,7 @@ const parseSettings = async function (nextFunc, input) {
 
   const inputA = addJsl(input, { $SETTINGS: settings });
   const inputB = addLogInfo(inputA, { settings });
-  const inputC = Object.assign({}, inputB, { settings });
+  const inputC = { ...inputB, settings };
 
   const response = await nextFunc(inputC);
   return response;
@@ -34,7 +34,7 @@ const parseSettings = async function (nextFunc, input) {
 const getMergedSettings = function ({ input }) {
   const genericSettings = getSettings({ input });
   const specificSettings = getSpecificSettings({ input });
-  return Object.assign({}, genericSettings, specificSettings);
+  return { ...genericSettings, ...specificSettings };
 };
 
 const getSpecificSettings = function ({ input, input: { protocolHandler } }) {

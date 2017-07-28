@@ -34,7 +34,7 @@ const normalizeValue = function ({ transform }) {
 
   if (options.using && !Array.isArray(options.using)) {
     const using = [options.using];
-    return Object.assign({}, options, { using });
+    return { ...options, using };
   }
 
   return options;

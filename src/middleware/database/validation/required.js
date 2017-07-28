@@ -2,7 +2,7 @@
 
 // Fix `required` attribute according to the current command.name
 const getRequired = function ({ model, command, type }) {
-  if (!Array.isArray(model.required)) { return; }
+  if (!Array.isArray(model.required)) { return {}; }
 
   const requiredFunc = getRequiredFunc({ type });
   const required = requiredFunc({ model, command });

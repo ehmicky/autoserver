@@ -18,11 +18,11 @@ const normalizeAttrs = function (type, { idl, idl: { models } }) {
       const itemsA = attr.items
         ? { items: mapper({ attr: attr.items, attrName: 'items' }) }
         : {};
-      return Object.assign({}, attrA, itemsA);
+      return { ...attrA, ...itemsA };
     });
-    return Object.assign({}, model, { properties });
+    return { ...model, properties };
   });
-  return Object.assign({}, idl, { models: modelsA });
+  return { ...idl, models: modelsA };
 };
 
 // Do not use .bind() because we want a clean function name,
@@ -46,7 +46,7 @@ const reduceAttrs = function ({ transformer, attr, attrName, idl }) {
   if (!attr || attr.constructor !== Object) { return attr; }
 
   const attrA = transformer(attr, { attrName, idl });
-  return Object.assign({}, attr, attrA);
+  return { ...attr, ...attrA };
 };
 
 const allTransformers = {

@@ -12,7 +12,7 @@ const operationNegotiator = async function (nextFunc, input) {
 
   const inputA = addJsl(input, { $OPERATION: operation });
   const inputB = addLogInfo(inputA, { operation });
-  const inputC = Object.assign({}, inputB, { operation });
+  const inputC = { ...inputB, operation };
 
   const response = await nextFunc(inputC);
   return response;

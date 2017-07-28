@@ -20,14 +20,14 @@ const normalizeModels = function ({ idl, idl: { models } }) {
       model,
     )
   );
-  return Object.assign({}, idl, { models: modelsA });
+  return { ...idl, models: modelsA };
 };
 
 const reduceModels = function ({ transformer, model, modelName, idl }) {
   if (!model || model.constructor !== Object) { return model; }
 
-  const modelA = transformer(model, { modelName, idl });
-  return Object.assign({}, model, modelA);
+  const modelA = transformer(model, { modelName, idl }) || {};
+  return { ...model, ...modelA };
 };
 
 const transformers = [

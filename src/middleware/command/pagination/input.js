@@ -11,7 +11,7 @@ const getPaginationInput = function ({ args }) {
   const paginationNewInput = getPaginationNewInput({ info, args });
 
   const argsA = omit(args, ['page', 'before', 'after', 'pageSize']);
-  const argsB = Object.assign({}, argsA, paginationNewInput);
+  const argsB = { ...argsA, ...paginationNewInput };
   return argsB;
 };
 
@@ -41,14 +41,14 @@ const getTokensInput = function ({ info, info: { usedPageSize }, args }) {
   const tokenInput = getTokenInput({ info, args });
   const backwardInput = getBackwardInput({ info, args });
   const limit = usedPageSize;
-  return Object.assign({}, tokenInput, backwardInput, { limit });
+  return { ...tokenInput, ...backwardInput, limit };
 };
 
 const getTokenInput = function ({
   info: { token, hasToken, isBackward },
   args,
 }) {
-  if (!hasToken) { return; }
+  if (!hasToken) { return {}; }
 
   const tokenObj = decode({ token });
   const nFilter = getPaginatedFilter({ tokenObj, isBackward });
@@ -58,7 +58,7 @@ const getTokenInput = function ({
 };
 
 const getBackwardInput = function ({ info: { isBackward }, args }) {
-  if (!isBackward) { return; }
+  if (!isBackward) { return {}; }
 
   const nOrderBy = args.nOrderBy.map(({ attrName, order }) =>
     ({ attrName, order: order === 'asc' ? 'desc' : 'asc' })

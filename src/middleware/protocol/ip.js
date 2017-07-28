@@ -10,7 +10,7 @@ const getIp = async function (nextFunc, input) {
 
   const inputA = addJsl(input, { $IP: ip });
   const inputB = addLogInfo(inputA, { ip });
-  const inputC = Object.assign({}, inputB, { ip });
+  const inputC = { ...inputB, ip };
 
   const response = await nextFunc(inputC);
   return response;

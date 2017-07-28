@@ -9,7 +9,7 @@ const getProtocolName = async function (nextFunc, input) {
   const protocolFullName = getProtocolFullName({ specific, protocolHandler });
 
   const inputA = addLogInfo(input, { protocolFullName });
-  const inputB = Object.assign({}, inputA, { protocolFullName });
+  const inputB = { ...inputA, protocolFullName };
 
   const response = await nextFunc(inputB);
   return response;

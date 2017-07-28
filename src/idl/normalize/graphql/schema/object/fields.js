@@ -50,12 +50,13 @@ const getChildField = function ({
   // If 'Query' or 'Mutation' objects, pass current action down to
   // sub-fields, and top-level definition
   const childAction = childDef.action || action;
-  const childOpts = Object.assign({}, opts, { action: childAction });
+  const childOpts = { ...opts, action: childAction };
 
-  childOpts.isRequired = isRequired(Object.assign({
+  childOpts.isRequired = isRequired({
     parentDef: def,
     name: childDefName,
-  }, childOpts));
+    ...childOpts,
+  });
 
   const field = getField(childDef, childOpts);
   return field;

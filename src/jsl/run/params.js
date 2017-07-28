@@ -23,7 +23,7 @@ const bindHelpers = function ({ params, type, idl }) {
   const boundHelpers = mapValues(unboundHelpers, helper =>
     helper.bind(null, { params, type, idl })
   );
-  return Object.assign({}, params, boundHelpers);
+  return { ...params, ...boundHelpers };
 };
 
 // Restrict which JSL parameters are available for args.filter|data

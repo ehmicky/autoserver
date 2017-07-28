@@ -40,7 +40,7 @@ const startAll = function (initialInput) {
   return monitoredReduce({
     funcs: startSteps,
     initialInput,
-    mapResponse: (newInput, input) => Object.assign({}, input, newInput),
+    mapResponse: (newInput, input) => ({ ...input, ...newInput }),
   });
 };
 

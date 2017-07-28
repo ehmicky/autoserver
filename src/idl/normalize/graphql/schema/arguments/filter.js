@@ -10,7 +10,7 @@ const getFilterArgument = function ({ def, action = {}, filterObjectType }) {
   // as it is implied from parent return value
   const isTopLevelFilter = filterActionTypes.includes(action.type) &&
     (def.isTopLevel || action.multiple);
-  if (!isTopLevelFilter) { return; }
+  if (!isTopLevelFilter) { return {}; }
 
   const type = action.multiple
     ? filterObjectType

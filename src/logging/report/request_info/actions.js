@@ -14,7 +14,7 @@ const reduceActions = function (requestInfo, loggerFilter) {
       actionInfo,
     )
   );
-  return Object.assign({}, requestInfo, { actions: actionsA });
+  return { ...requestInfo, actions: actionsA };
 };
 
 const reduceArgData = function (actionInfo, loggerFilter) {
@@ -23,7 +23,7 @@ const reduceArgData = function (actionInfo, loggerFilter) {
     attrName: 'data',
     filter: loggerFilter.argData,
   });
-  return Object.assign({}, actionInfo, { args });
+  return { ...actionInfo, args };
 };
 
 const reduceActionResponses = function (
@@ -41,7 +41,7 @@ const simplifyActionResponses = function (actionInfo) {
   if (!Array.isArray(responses)) { return actionInfo; }
 
   const responsesA = responses.map(({ content } = {}) => content);
-  return Object.assign({}, actionInfo, { responses: responsesA });
+  return { ...actionInfo, responses: responsesA };
 };
 
 const isObject = obj => obj && obj.constructor === Object;

@@ -15,7 +15,7 @@ const normalization = async function (nextFunc, input) {
     idl: { models },
   } = input;
 
-  const argsA = Object.assign({}, args);
+  const argsA = { ...args };
 
   if (filter) {
     argsA.nFilter = normalizeFilter({ filter });
@@ -26,7 +26,7 @@ const normalization = async function (nextFunc, input) {
     argsA.nOrderBy = normalizeOrderBy({ orderBy, attrNames });
   }
 
-  const inputA = Object.assign({}, input, { args: argsA });
+  const inputA = { ...input, args: argsA };
 
   const response = await nextFunc(inputA);
   return response;

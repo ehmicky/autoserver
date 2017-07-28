@@ -20,7 +20,7 @@ const getOutputMetadata = function ({
 
   try {
     const parsedToken = decode({ token });
-    return Object.assign({}, pages, { token: parsedToken });
+    return { ...pages, token: parsedToken };
   } catch (error) {
     const message = 'Wrong response: \'token\' is invalid';
     throwError(message, {

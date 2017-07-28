@@ -6,7 +6,7 @@ const { GraphQLNonNull } = require('graphql');
 const graphQLRequiredFGetter = function (def, opts, getField) {
   // Goal is to avoid infinite recursion,
   // i.e. without modification the same graphQLFGetter would be hit again
-  const fieldOpts = Object.assign({}, opts, { isRequired: false });
+  const fieldOpts = { ...opts, isRequired: false };
   const { type: subType, args } = getField(def, fieldOpts);
   const type = new GraphQLNonNull(subType);
   return { type, args };

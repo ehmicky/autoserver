@@ -36,7 +36,8 @@ const getReportedLog = function ({
     rawMessage,
   });
 
-  return Object.assign({}, info, {
+  return {
+    ...info,
     requestInfo,
     errorInfo,
     phase,
@@ -45,7 +46,7 @@ const getReportedLog = function ({
     timestamp,
     level,
     message,
-  });
+  };
 };
 
 module.exports = {

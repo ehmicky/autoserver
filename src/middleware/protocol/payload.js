@@ -15,7 +15,7 @@ const parsePayload = async function (nextFunc, input) {
   makeImmutable(payload);
 
   const inputA = addLogInfo(input, { payload });
-  const inputB = Object.assign({}, inputA, { payload });
+  const inputB = { ...inputA, payload };
 
   const response = await nextFunc(inputB);
   return response;

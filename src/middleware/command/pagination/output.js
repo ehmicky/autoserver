@@ -59,7 +59,7 @@ const getPaginationOutput = function ({
       pages.token = getPaginationToken({ model, nOrderBy, nFilter, token });
     }
 
-    return Object.assign({}, metadata[index], { pages });
+    return { ...metadata[index], pages };
   });
 
   return { data, metadata: metadataA };

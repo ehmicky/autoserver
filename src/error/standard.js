@@ -34,35 +34,31 @@ const getStandardError = function ({
     message: description,
     stack: outerStack,
     innererror: { stack: details = outerStack } = {},
-    extra,
+    extra = {},
   } = errorA;
 
   // Order matters, as this will be kept in final output
-  const errorB = Object.assign(
-    {
-      type,
-      title,
-      description,
-      instance,
-      status,
-      protocol_status: protocolStatus,
-      protocol,
-      method,
-      headers,
-      queryVars,
-      operation,
-      action: action && action.name,
-      action_path: fullAction,
-      model,
-      args,
-      command: command && command.name,
-    },
-    extra,
-    {
-      request_id: requestId,
-      details,
-    },
-  );
+  const errorB = {
+    type,
+    title,
+    description,
+    instance,
+    status,
+    protocol_status: protocolStatus,
+    protocol,
+    method,
+    headers,
+    queryVars,
+    operation,
+    action: action && action.name,
+    action_path: fullAction,
+    model,
+    args,
+    command: command && command.name,
+    ...extra,
+    request_id: requestId,
+    details,
+  };
 
   // Do not expose undefined values
   const errorC = omitBy(errorB, val => val === undefined);

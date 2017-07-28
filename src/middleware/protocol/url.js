@@ -16,7 +16,7 @@ const parseUrl = async function (nextFunc, input) {
   const url = `${origin}${path}`;
 
   const inputA = addLogInfo(input, { url, path, origin });
-  const inputB = Object.assign({}, inputA, { url, path, origin });
+  const inputB = { ...inputA, url, path, origin };
 
   const response = await nextFunc(inputB);
   return response;

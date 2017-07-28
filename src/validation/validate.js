@@ -43,7 +43,7 @@ const getDataWithExtra = function ({ data, extra }) {
 
   // Temporarily add hidden property to data, to communicate it to
   // custom validation function
-  return Object.assign({}, data, { [Symbol.for('extra')]: extra });
+  return { ...data, [Symbol.for('extra')]: extra };
 };
 
 module.exports = {

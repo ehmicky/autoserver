@@ -6,7 +6,7 @@ const { create } = require('./create');
 const { update } = require('./update');
 
 const upsert = function ({ collection, newData, opts }) {
-  const findIndexOpts = Object.assign({}, opts, { mustExist: null });
+  const findIndexOpts = { ...opts, mustExist: null };
   const index = findIndex({ collection, id: newData.id, opts: findIndexOpts });
   const databaseFunc = index === undefined ? create : update;
   return databaseFunc({ collection, newData, opts });

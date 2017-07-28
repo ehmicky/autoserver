@@ -6,7 +6,7 @@ const update = function ({ collection, newData, opts, opts: { dryRun } }) {
   const index = findIndex({ collection, id: newData.id, opts });
 
   const model = collection[index];
-  const newModel = Object.assign({}, model, newData);
+  const newModel = { ...model, ...newData };
 
   if (!dryRun) {
     collection.splice(index, 1, newModel);

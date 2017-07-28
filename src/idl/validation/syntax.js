@@ -31,7 +31,7 @@ const addProps = function (idl) {
     ? Object.keys(idl.validation)
     : [];
 
-  return Object.assign({}, idl, { modelNames, customValidationNames });
+  return { ...idl, modelNames, customValidationNames };
 };
 
 // At the moment, main IDL validation does not support `$data`,
