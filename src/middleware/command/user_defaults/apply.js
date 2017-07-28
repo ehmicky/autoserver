@@ -12,14 +12,11 @@ const applyAllDefault = function applyAllDefault (opts) {
   }
 
   // Iterate over default values for that model, to apply them
-  const parent = value;
-
-  for (const [attrName, defValue] of Object.entries(defAttributes)) {
-    const childOpts = { ...opts, defValue, attrName, parent, idl };
-    applyDefault(childOpts);
-  }
-
-  return value;
+  return Object.entries(defAttributes).reduce(
+    (parent, [attrName, defValue]) =>
+      applyDefault({ ...opts, defValue, attrName, parent, idl }),
+    value,
+  );
 };
 
 // Apply default value to args.data's attributes
@@ -27,13 +24,13 @@ const applyDefault = function ({ parent, defValue, attrName, jsl, idl }) {
   const value = parent[attrName];
 
   // Only apply default if value is not defined by client
-  if (value !== undefined) { return; }
+  if (value !== undefined) { return parent; }
 
   // Process JSL if default value uses JSL
   const params = { $$: parent, $: value };
   const defValueA = runJsl({ jsl, value: defValue, params, idl });
 
-  parent[attrName] = defValueA;
+  return { ...parent, [attrName]: defValueA };
 };
 
 module.exports = {
