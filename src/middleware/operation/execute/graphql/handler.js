@@ -28,7 +28,7 @@ const executeGraphql = async function (nextFunc, input) {
 
   makeImmutable(actions);
 
-  const log = deepMerge({}, ...logs);
+  const log = logs.length === 0 ? undefined : deepMerge({}, ...logs);
 
   const response = { content, type, actions, measures, log, currentPerf };
   return response;
