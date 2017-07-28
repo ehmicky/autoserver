@@ -116,15 +116,14 @@ const reportLog = async function ({
 // Adds information common to most logs: `phase`, `type`, `serverInfo`,
 // `requestInfo`, `messages`
 const getLogObj = function ({
-  log: { phase, serverOpts, serverOpts: { loggerFilter }, logInfo },
+  log,
+  log: { phase, serverOpts },
   info,
   info: { type = 'message' },
 }) {
   const serverInfo = getServerInfo({ serverOpts });
-  const requestInfo = phase === 'request'
-    ? getRequestInfo(logInfo, loggerFilter)
-    : undefined;
-  return Object.assign({}, info, { phase, type, serverInfo, requestInfo });
+  const requestInfo = getRequestInfo({ log, info });
+  return Object.assign({}, info, requestInfo, { phase, type, serverInfo });
 };
 
 const reportPerf = async function ({ log, measures }) {
