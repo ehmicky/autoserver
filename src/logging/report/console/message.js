@@ -1,21 +1,24 @@
 'use strict';
 
-const { TYPES, LEVELS } = require('./constants');
+const { TYPES, NO_CONSOLE_TYPES, LEVELS } = require('../../constants');
+
+const { getRequestMessage } = require('./request_message');
 
 // Build a standardized log message:
 // [TYPE] [LEVEL] [SERVER_NAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestId if phase is `request`
-const getMessage = function ({
-  noConsole,
+const getConsoleMessage = function ({
   phase,
   type,
   level,
   timestamp,
   requestId,
-  serverName,
+  requestInfo,
+  serverInfo: { serverName },
   rawMessage,
 }) {
+  const noConsole = NO_CONSOLE_TYPES.includes(type);
   if (noConsole) { return; }
 
   const prefix = getPrefix({
@@ -26,7 +29,11 @@ const getMessage = function ({
     requestId,
     serverName,
   });
-  const message = `${prefix} ${rawMessage}`;
+  const requestMessage = phase === 'request' && type === 'call'
+    ? getRequestMessage(requestInfo)
+    : rawMessage;
+
+  const message = `${prefix} ${requestMessage}`;
   return message;
 };
 
@@ -80,5 +87,5 @@ const getRequestId = function ({ phase, requestId = phase.toUpperCase() }) {
 const requestIdLength = 8;
 
 module.exports = {
-  getMessage,
+  getConsoleMessage,
 };

@@ -2,7 +2,10 @@
 
 module.exports = Object.assign(
   {},
-  require('./log'),
-  require('./status_level_map'),
+  require('./add'),
+  require('./report'),
+  require('./constants'),
   require('./middleware'),
+  require('./buffer'),
+  require('./perf'),
 );

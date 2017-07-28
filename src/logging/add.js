@@ -1,13 +1,5 @@
 'use strict';
 
-const { deepMerge } = require('../utilities');
-const { getServerInfo } = require('../info');
-const { groupMeasures, stringifyMeasures } = require('../perf');
-
-const { report } = require('./report');
-const { getRequestInfo } = require('./request_info');
-const { getRequestMessage } = require('./request_message');
-
 // Represents a logger
 // Can:
 //  - createLog({ serverOpts, apiServer, phase }) - returns new `log`
@@ -79,6 +71,9 @@ const { getRequestMessage } = require('./request_message');
 //    store logs for monitoring.
 // Note that any exception thrown in this module might not be logged
 // (since this is the logger itself), so we must be precautious.
+
+const { deepMerge } = require('../utilities');
+
 const createLog = function ({ serverOpts, apiServer, phase }) {
   const logInfo = {};
   const log = { serverOpts, apiServer, phase, logInfo };
@@ -95,75 +90,7 @@ const addLogInfo = function (obj, newLogInfo) {
   return newObj;
 };
 
-// Sends logging information
-const reportLog = async function ({
-  level,
-  log,
-  log: { phase, apiServer, serverOpts: { loggerLevel } },
-  message = '',
-  info = {},
-  info: { type = 'message' } = {},
-}) {
-  const logObj = getLogObj({ log, info });
-
-  const rawMessage = phase === 'request' && type === 'call'
-    ? getRequestMessage(logObj.requestInfo)
-    : message;
-
-  await report({ apiServer, loggerLevel, level, rawMessage, logObj });
-};
-
-// Adds information common to most logs: `phase`, `type`, `serverInfo`,
-// `requestInfo`, `messages`
-const getLogObj = function ({
-  log,
-  log: { phase, serverOpts },
-  info,
-  info: { type = 'message' },
-}) {
-  const serverInfo = getServerInfo({ serverOpts });
-  const requestInfo = getRequestInfo({ log, info });
-  return Object.assign({}, info, requestInfo, { phase, type, serverInfo });
-};
-
-const reportPerf = async function ({ log, measures }) {
-  const { phase } = log;
-  const measuresGroups = groupMeasures({ measures });
-  const measuresMessage = stringifyMeasures({ phase, measuresGroups });
-  await reportLog({
-    log,
-    level: 'log',
-    message: '',
-    info: { measures: measuresGroups, measuresMessage, type: 'perf' },
-  });
-};
-
-// If we want to delay log calls before logInfo is not fully known yet
-// (e.g. in the middle of a request), we can use this method to buffer those
-// calls and attach them to the return value `obj`, until a function makes
-// the actual calls
-const bufferLogReport = function (obj, logReport) {
-  const { logReports = [] } = obj;
-  const newLogReports = [...logReports, logReport];
-  return Object.assign({}, obj, { logReports: newLogReports });
-};
-
-const unbufferLogReports = async function (obj, log) {
-  const { logReports = [] } = obj;
-
-  const promises = logReports.map(({ level, message, info }) =>
-    reportLog({ log, level, message, info })
-  );
-  await Promise.all(promises);
-
-  return Object.assign({}, obj, { logReports: [] });
-};
-
 module.exports = {
   createLog,
   addLogInfo,
-  reportLog,
-  reportPerf,
-  bufferLogReport,
-  unbufferLogReports,
 };

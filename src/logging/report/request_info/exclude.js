@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit } = require('../../utilities');
+const { omit } = require('../../../utilities');
 
 const removeKeys = function (requestInfo) {
   return omit(requestInfo, excludedKeys);

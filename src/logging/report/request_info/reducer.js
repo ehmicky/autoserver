@@ -1,6 +1,6 @@
 'use strict';
 
-const { identity } = require('../../utilities');
+const { identity } = require('../../../utilities');
 
 const reduceInfo = function ({ info, attrName, filter }) {
   if (!info || info[attrName] === undefined) { return info; }
