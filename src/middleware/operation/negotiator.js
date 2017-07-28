@@ -10,7 +10,7 @@ const operationNegotiator = async function (nextFunc, input) {
   const [operation] = Object.entries(operations)
     .find(([, testFunc]) => testFunc({ route })) || [];
 
-  const newInput = addJsl({ input, params: { $OPERATION: operation } });
+  const newInput = addJsl(input, { $OPERATION: operation });
   const loggedInput = addLogInfo(newInput, { operation });
   const nextInput = Object.assign({}, loggedInput, { operation });
 
