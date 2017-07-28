@@ -11,13 +11,13 @@ const { throwError } = require('../../../error');
 const normalizeAliases = function (model) {
   if (!model.properties) { return; }
 
-  const newProps = Object.entries(model.properties)
+  const propsA = Object.entries(model.properties)
     .reduce((props, [attrName, attr]) => {
       const aliases = createAliases({ model, props, attr, attrName });
       return Object.assign({}, props, aliases, { [attrName]: attr });
     }, {});
 
-  const properties = mapValues(newProps, attr => {
+  const properties = mapValues(propsA, attr => {
     addAliasDescription({ attr });
     return attr;
   });
@@ -34,9 +34,9 @@ const createAliases = function ({ model, props, attr, attrName }) {
       checkAliasDuplicates({ model, props, attrName, alias });
 
       const aliasAttr = omit(cloneDeep(attr), 'alias');
-      const newAttr = Object.assign({}, aliasAttr, { aliasOf: attrName });
+      const attrA = Object.assign({}, aliasAttr, { aliasOf: attrName });
 
-      return { [alias]: newAttr };
+      return { [alias]: attrA };
     })
     .reduce(assignObject, {});
 };

@@ -10,26 +10,22 @@ const { getLogActions } = require('./log_actions');
 const { getTransformedResponse } = require('./transform');
 
 // Converts from Operation format to Action format
-const actionConvertor = async function (nextFunc, oInput) {
-  const { args, modelName, action, fullAction, operation } = oInput;
+const actionConvertor = async function (nextFunc, input) {
+  const { args, modelName, action, fullAction, operation } = input;
 
-  const input = pick(oInput, actionAttributes);
+  const inputA = pick(input, actionAttributes);
 
-  const newInput = addJsl(input, { $MODEL: modelName });
-  const nextInput = addLogInfo(newInput, {
-    action,
-    fullAction,
-    model: modelName,
-  });
+  const inputB = addJsl(inputA, { $MODEL: modelName });
+  const inputC = addLogInfo(inputB, { action, fullAction, model: modelName });
 
   // Request arguments that cannot be specified by clients
-  const clonedArgs = cloneDeep(args);
+  const argsA = cloneDeep(args);
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputC);
   const transformedResponse = handleResponse({
     response,
-    input: nextInput,
-    args: clonedArgs,
+    input: inputC,
+    args: argsA,
     operation,
   });
   return transformedResponse;
@@ -54,15 +50,15 @@ const actionAttributes = [
 
 const handleResponse = function ({ response, input, args, operation }) {
   const logActions = getLogActions({ input, response, args });
-  const newResponse = addLogInfo(response, { actions: logActions });
+  const responseA = addLogInfo(response, { actions: logActions });
 
-  const transformedResponse = getTransformedResponse({
+  const responseB = getTransformedResponse({
     input,
-    response: newResponse,
+    response: responseA,
     args,
     operation,
   });
-  return transformedResponse;
+  return responseB;
 };
 
 module.exports = {

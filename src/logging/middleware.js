@@ -11,15 +11,15 @@ const getMiddlewareLogging = () => async function middlewareLogging (
   try {
     const response = await nextFunc(input, ...args) || {};
 
-    const newLog = response.log || input.log;
-    const nextResponse = Object.assign({}, response, { log: newLog });
+    const log = response.log || input.log;
+    const responseA = Object.assign({}, response, { log });
 
-    return nextResponse;
+    return responseA;
   } catch (error) {
-    const errorObj = normalizeError({ error });
-    const newLog = errorObj.log || input.log;
-    const newError = Object.assign({}, errorObj, { log: newLog });
-    rethrowError(newError);
+    const errorA = normalizeError({ error });
+    const log = errorA.log || input.log;
+    const errorB = Object.assign({}, errorA, { log });
+    rethrowError(errorB);
   }
 };
 

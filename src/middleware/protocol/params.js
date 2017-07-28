@@ -23,11 +23,11 @@ const parseParams = async function (nextFunc, input) {
   const params = getParams({ input });
   makeImmutable(params);
 
-  const newInput = addJsl(input, { $PARAMS: params });
-  const loggedInput = addLogInfo(newInput, { params });
-  const nextInput = Object.assign({}, loggedInput, { params });
+  const inputA = addJsl(input, { $PARAMS: params });
+  const inputB = addLogInfo(inputA, { params });
+  const inputC = Object.assign({}, inputB, { params });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputC);
   return response;
 };
 
@@ -36,9 +36,9 @@ const getParams = function ({ input }) {
   const headersParams = getHeadersParams({ input });
   const params = Object.assign({}, queryParams, headersParams);
 
-  const transtypedParams = mapValues(params, value => transtype(value));
+  const paramsA = mapValues(params, value => transtype(value));
 
-  return transtypedParams;
+  return paramsA;
 };
 
 // Retrieves ?params.myParam query variables

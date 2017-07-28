@@ -33,40 +33,35 @@ const getNewModel = function ({
   model,
   modelName,
   properties,
-  requiredProperties,
+  requiredProperties: required,
 }) {
   const modelProperties = model.properties || {};
 
-  validateProps({ modelProperties, modelName, properties, requiredProperties });
+  validateProps({ modelProperties, modelName, properties, required });
 
   // Modifies models
-  const newProperties = Object.assign({}, modelProperties, properties);
+  const propertiesA = Object.assign({}, modelProperties, properties);
   const currentRequired = model.required || [];
-  const newRequired = uniq([...currentRequired, ...requiredProperties]);
-  const newModel = Object.assign({}, model, {
-    properties: newProperties,
-    required: newRequired,
+  const requiredA = uniq([...currentRequired, ...required]);
+  const modelA = Object.assign({}, model, {
+    properties: propertiesA,
+    required: requiredA,
   });
 
-  return newModel;
+  return modelA;
 };
 
 const validateProps = function ({
   modelProperties,
   modelName,
   properties,
-  requiredProperties,
+  required,
 }) {
   const propNames = Object.keys(modelProperties);
   const newPropNames = Object.keys(properties);
 
   validateDefinedProps({ modelName, propNames, newPropNames });
-  validateMissingProps({
-    modelName,
-    requiredProperties,
-    propNames,
-    newPropNames,
-  });
+  validateMissingProps({ modelName, required, propNames, newPropNames });
 };
 
 // Make sure plugin does not override user-defined properties
@@ -82,12 +77,12 @@ const validateDefinedProps = function ({ modelName, propNames, newPropNames }) {
 // Make sure plugin required properties exist
 const validateMissingProps = function ({
   modelName,
-  requiredProperties,
+  required,
   propNames,
   newPropNames,
 }) {
   const missingRequiredProps = difference(
-    requiredProperties,
+    required,
     [...propNames, ...newPropNames]
   );
 

@@ -11,8 +11,8 @@ const performanceLog = async function (nextFunc, input) {
   // Stopped by responseTime middleware. Reported by this middleware.
   const reqPerf = startPerf('all', 'all');
 
-  const nextInput = Object.assign({}, input, { reqPerf, now });
-  const response = await nextFunc(nextInput);
+  const inputA = Object.assign({}, input, { reqPerf, now });
+  const response = await nextFunc(inputA);
 
   // Total request time, stopped just before the response is sent
   // Do not report if exception was thrown

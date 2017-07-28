@@ -14,21 +14,21 @@ const sendResponse = async function (nextFunc, input) {
     const response = await nextFunc(input);
 
     const responseInfo = pick(response, ['content', 'type']);
-    const newResponse = addLogInfo(response, { response: responseInfo });
+    const responseA = addLogInfo(response, { response: responseInfo });
 
-    await send(newResponse);
+    await send(responseA);
 
-    return newResponse;
+    return responseA;
   } catch (error) {
-    const errorObj = normalizeError({ error });
+    const errorA = normalizeError({ error });
 
     // Handler to send response error
     // Since we only send response errors if `errorObj.sendError` is defined,
     // and it can only be defined if this middleware throws, we are sure
     // to never send two responses.
-    const newError = Object.assign({}, errorObj, { sendError: send });
+    const errorB = Object.assign({}, errorA, { sendError: send });
 
-    rethrowError(newError);
+    rethrowError(errorB);
   }
 };
 

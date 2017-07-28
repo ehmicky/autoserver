@@ -82,12 +82,11 @@ const createLog = function ({ serverOpts, apiServer, phase }) {
 
 // Add log information to `obj.log`
 // Returns a new copy, i.e. does not modify original `obj`
-const addLogInfo = function (obj, newLogInfo) {
-  const { log, log: { logInfo } } = obj;
-  const nextLogInfo = deepMerge(logInfo, newLogInfo);
-  const newLog = Object.assign({}, log, { logInfo: nextLogInfo });
-  const newObj = Object.assign({}, obj, { log: newLog });
-  return newObj;
+const addLogInfo = function (obj, logInfo) {
+  const { log, log: { logInfo: logInfoA } } = obj;
+  const logInfoB = deepMerge(logInfoA, logInfo);
+  const logA = Object.assign({}, log, { logInfo: logInfoB });
+  return Object.assign({}, obj, { log: logA });
 };
 
 module.exports = {

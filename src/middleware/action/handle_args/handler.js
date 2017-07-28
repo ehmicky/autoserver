@@ -15,14 +15,16 @@ const { renameArgs } = require('./rename');
 const handleArgs = async function (nextFunc, input) {
   const { args } = input;
 
-  const clonedArgs = cloneDeep(args);
-  const newInput = addJsl(input, { $ARGS: clonedArgs });
-  const nextInput = addLogInfo(newInput, { args: clonedArgs });
+  const argsA = cloneDeep(args);
+  const inputA = addJsl(input, { $ARGS: argsA });
+  const inputB = addLogInfo(inputA, { args: argsA });
 
   validateArgs({ input });
-  nextInput.args = renameArgs({ args });
 
-  const response = await nextFunc(nextInput);
+  const argsB = renameArgs({ args });
+  const inputC = Object.assign({}, inputB, { args: argsB });
+
+  const response = await nextFunc(inputC);
   return response;
 };
 

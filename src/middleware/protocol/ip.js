@@ -8,11 +8,11 @@ const { addLogInfo } = require('../../logging');
 const getIp = async function (nextFunc, input) {
   const ip = getRequestIp(input);
 
-  const newInput = addJsl(input, { $IP: ip });
-  const loggedInput = addLogInfo(newInput, { ip });
-  const nextInput = Object.assign({}, loggedInput, { ip });
+  const inputA = addJsl(input, { $IP: ip });
+  const inputB = addLogInfo(inputA, { ip });
+  const inputC = Object.assign({}, inputB, { ip });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputC);
   return response;
 };
 

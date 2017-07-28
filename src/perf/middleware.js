@@ -34,12 +34,12 @@ const getMiddlewarePerfLog = func => async function middlewarePerfLog (
   // Unfreeze parent `currentPerf`
   const restartedParentPerf = parentPerf && restartPerf(stoppedParentPerf);
 
-  const newResponse = Object.assign(
+  const responseA = Object.assign(
     {},
     response,
     { measures, currentPerf: restartedParentPerf },
   );
-  return newResponse;
+  return responseA;
 };
 
 // Execute next middleware, while calculating performance measures
@@ -48,8 +48,8 @@ const fireMiddleware = async function ({ func, nextFunc, input, args }) {
   const currentPerf = startPerf(func.name, 'middleware');
 
   // Pass `currentPerf` as argument so it can be frozen by its children
-  const nextInput = Object.assign({}, input, { currentPerf });
-  const response = await nextFunc(nextInput, ...args) || {};
+  const inputA = Object.assign({}, input, { currentPerf });
+  const response = await nextFunc(inputA, ...args) || {};
 
   // Add `currentPerf` to `response.measures` array
   const {

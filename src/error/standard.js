@@ -25,20 +25,20 @@ const getStandardError = function ({
       requestId,
     } = {},
   },
-  error: oError,
+  error,
 }) {
-  const error = normalizeError({ error: oError });
-  const type = getReason({ error });
-  const { title } = getGenericProps({ error });
+  const errorA = normalizeError({ error });
+  const type = getReason({ error: errorA });
+  const { title } = getGenericProps({ error: errorA });
   const {
     message: description,
     stack: outerStack,
     innererror: { stack: details = outerStack } = {},
     extra,
-  } = error;
+  } = errorA;
 
   // Order matters, as this will be kept in final output
-  const newError = Object.assign(
+  const errorB = Object.assign(
     {
       type,
       title,
@@ -65,9 +65,9 @@ const getStandardError = function ({
   );
 
   // Do not expose undefined values
-  const standardError = omitBy(newError, val => val === undefined);
+  const errorC = omitBy(errorB, val => val === undefined);
 
-  return standardError;
+  return errorC;
 };
 
 module.exports = {

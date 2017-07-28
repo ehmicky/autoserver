@@ -50,10 +50,10 @@ const gracefulExit = onlyOnce(async ({
 const setupExit = async function ({ servers, log }) {
   const statusesPromises = Object.values(servers)
     .map(({ server, protocol }) => closeServer({ server, protocol, log }));
-  const oStatuses = await Promise.all(statusesPromises);
-  const statuses = oStatuses
+  const statusesPromise = await Promise.all(statusesPromises);
+  const statuses = statusesPromise
     .map(([{ protocol, status }]) => [protocol, status]);
-  const childMeasures = oStatuses
+  const childMeasures = statusesPromise
     .reduce((allMeasures, [, meas]) => [...allMeasures, ...meas], []);
 
   const { failedProtocols, isSuccess } = processStatuses({ statuses });

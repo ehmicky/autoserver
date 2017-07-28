@@ -24,19 +24,19 @@ const getInfoReducer = function ({ value }) {
 
 const reducerArray = function ({ value, attrName, filter }) {
   const count = value.length;
-  const newValue = value
+  const valueA = value
     .filter(isObject)
     .map(obj => filter(obj));
 
   return {
     [`${attrName}Count`]: count,
-    [attrName]: newValue,
+    [attrName]: valueA,
   };
 };
 
 const reducerObject = function ({ value, attrName, filter }) {
-  const newValue = filter(value);
-  return { [attrName]: newValue };
+  const valueA = filter(value);
+  return { [attrName]: valueA };
 };
 
 const reducerFalsy = function ({ attrName }) {

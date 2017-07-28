@@ -74,16 +74,16 @@ const fireCommand = function (commandInput) {
   const { command, opts } = commandInput;
   const response = commands[command.name](commandInput);
 
-  const processedResponse = processResponse({ response, command, opts });
-  const nextResponse = Object.assign({}, response, processedResponse);
+  const responseA = processResponse({ response, command, opts });
+  const responseB = Object.assign({}, response, responseA);
 
-  validateResponse({ command, response });
+  validateResponse({ command, response: responseB });
 
   // TODO: Only necessary as long as we do not use real database,
   // to make sure it is not modified
-  const copiedResponse = cloneDeep(nextResponse);
+  const responseC = cloneDeep(responseB);
 
-  return copiedResponse;
+  return responseC;
 };
 
 module.exports = {

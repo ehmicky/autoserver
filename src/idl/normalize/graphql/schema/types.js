@@ -19,25 +19,29 @@ const getField = function (def, opts) {
   opts.inputObjectType = opts.inputObjectType || '';
 
   const fieldGetter = getFieldGetter({ def, opts });
-  const { type, args: oArgs } = fieldGetter.value(def, opts, getField);
+  const { type, args } = fieldGetter.value(def, opts, getField);
 
   // Fields description|deprecation_reason are taken from IDL definition
   const { description, deprecationReason } = def;
 
-  const args = getArgs({ oArgs, def, opts });
+  const argsA = getArgs({ args, def, opts });
 
   const defaultValue = getDefaultValue({ def, opts });
-  const field = { type, description, deprecationReason, args, defaultValue };
+  const field = {
+    type,
+    description,
+    deprecationReason,
+    args: argsA,
+    defaultValue,
+  };
   return field;
 };
 
-const getArgs = function ({ oArgs, def, opts }) {
+const getArgs = function ({ args, def, opts }) {
   // Only for models, and not for argument types
   // Modifiers (Array and NonNull) retrieve their arguments from
   // underlying type (i.e. `args` is already defined)
-  if (!isModel(def) || opts.inputObjectType !== '' || oArgs) {
-    return oArgs;
-  }
+  if (!isModel(def) || opts.inputObjectType !== '' || args) { return args; }
 
   // Builds types used for `data` and `filter` arguments
   const dataObjectOpts = Object.assign({}, opts, { inputObjectType: 'data' });

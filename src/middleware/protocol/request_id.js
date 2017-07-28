@@ -17,14 +17,14 @@ const setRequestIds = async function (nextFunc, input) {
   const { specific, protocolHandler, serverOpts } = input;
 
   const requestId = uuidv4();
-  const newInput = addJsl(input, { $REQUEST_ID: requestId });
-  const loggedInput = addLogInfo(newInput, { requestId });
-  const nextInput = Object.assign({}, loggedInput, { requestId });
+  const inputA = addJsl(input, { $REQUEST_ID: requestId });
+  const inputB = addLogInfo(inputA, { requestId });
+  const inputC = Object.assign({}, inputB, { requestId });
 
   sendRequestIdHeader({ specific, requestId, protocolHandler });
   sendServerIdsHeaders({ specific, serverOpts, protocolHandler });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputC);
   return response;
 };
 

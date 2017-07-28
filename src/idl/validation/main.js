@@ -18,10 +18,10 @@ const validators = [
 ];
 
 // Validate IDL definition
-const validateIdl = function ({ idl: oIdl }) {
+const validateIdl = function ({ idl }) {
   return monitoredReduce({
     funcs: validators,
-    initialInput: oIdl,
+    initialInput: idl,
     category: 'validate',
   });
 };

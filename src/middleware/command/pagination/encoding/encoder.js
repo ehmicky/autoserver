@@ -23,8 +23,8 @@ const { addNameShortcuts, removeNameShortcuts } = require('./minify_names');
 //      - nOrderBy.attrName {string} - also used to guess `parts` attributes
 //      - nOrderBy.order {string} - 'desc' or 'asc'
 // Make sure token is small by minifying it
-const encode = function ({ token: oToken }) {
-  return encoders.reduce((token, encoder) => encoder(token), oToken);
+const encode = function ({ token }) {
+  return encoders.reduce((tokenA, encoder) => encoder(tokenA), token);
 };
 
 const encoders = [
@@ -35,8 +35,8 @@ const encoders = [
   base64UrlEncode,
 ];
 
-const decode = function ({ token: oToken }) {
-  return decoders.reduce((token, decoder) => decoder(token), oToken);
+const decode = function ({ token }) {
+  return decoders.reduce((tokenA, decoder) => decoder(tokenA), token);
 };
 
 // Inverse

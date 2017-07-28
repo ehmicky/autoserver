@@ -17,8 +17,7 @@ const getNextInput = function ({
   const args = getArgs({ input, newInput, isLastCommand });
   const command = getCommand({ input, newInput });
 
-  const nextInput = Object.assign({}, input, newInput, { args, command });
-  return nextInput;
+  return Object.assign({}, input, newInput, { args, command });
 };
 
 const getNewInput = function ({

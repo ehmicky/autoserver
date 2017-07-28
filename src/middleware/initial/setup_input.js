@@ -34,10 +34,10 @@ const setupInput = async function (
     currentPerf,
   };
 
-  const newInput = addJsl(input, { $PROTOCOL: protocol });
-  const nextInput = addLogInfo(newInput, { protocol });
+  const inputA = addJsl(input, { $PROTOCOL: protocol });
+  const inputB = addLogInfo(inputA, { protocol });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputB);
   return response;
 };
 

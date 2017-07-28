@@ -86,9 +86,9 @@ const fireNext = async function (
   { nextFunc, input, actions, measures, logs },
   actionInput,
 ) {
-  const nextInput = Object.assign({}, input, actionInput);
+  const inputA = Object.assign({}, input, actionInput);
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputA);
 
   actions.push(response.action);
   measures.push(...response.measures);

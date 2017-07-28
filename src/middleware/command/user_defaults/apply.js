@@ -37,9 +37,9 @@ const applyDefault = function ({ parent, defValue, attrName, jsl, idl }) {
 
   // Process JSL if default value uses JSL
   const params = { $$: parent, $: value };
-  const newDefValue = runJsl({ jsl, value: defValue, params, idl });
+  const defValueA = runJsl({ jsl, value: defValue, params, idl });
 
-  parent[attrName] = newDefValue;
+  parent[attrName] = defValueA;
 };
 
 module.exports = {

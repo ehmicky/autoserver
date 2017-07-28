@@ -8,10 +8,10 @@ const getProtocolName = async function (nextFunc, input) {
 
   const protocolFullName = getProtocolFullName({ specific, protocolHandler });
 
-  const newInput = addLogInfo(input, { protocolFullName });
-  const nextInput = Object.assign({}, newInput, { protocolFullName });
+  const inputA = addLogInfo(input, { protocolFullName });
+  const inputB = Object.assign({}, inputA, { protocolFullName });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputB);
   return response;
 };
 

@@ -15,10 +15,10 @@ const parseHeaders = async function (nextFunc, input) {
   const headers = getHeaders({ specific, protocolHandler });
   makeImmutable(headers);
 
-  const newInput = addLogInfo(input, { headers });
-  const nextInput = Object.assign({}, newInput, { headers });
+  const inputA = addLogInfo(input, { headers });
+  const inputB = Object.assign({}, inputA, { headers });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputB);
   return response;
 };
 

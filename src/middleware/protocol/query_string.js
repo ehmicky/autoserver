@@ -21,10 +21,10 @@ const parseQueryString = async function (nextFunc, input) {
   const queryVars = getQueryVars({ specific, protocolHandler });
   makeImmutable(queryVars);
 
-  const newInput = addLogInfo(input, { queryVars });
-  const nextInput = Object.assign({}, newInput, { queryVars });
+  const inputA = addLogInfo(input, { queryVars });
+  const inputB = Object.assign({}, inputA, { queryVars });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputB);
   return response;
 };
 

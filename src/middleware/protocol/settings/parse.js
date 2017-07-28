@@ -10,9 +10,9 @@ const getSettings = function ({ input }) {
   const headersSettings = getHeadersSettings({ input });
   const settings = Object.assign({}, querySettings, headersSettings);
 
-  const transtypedSettings = mapValues(settings, value => transtype(value));
+  const settingsA = mapValues(settings, value => transtype(value));
 
-  return transtypedSettings;
+  return settingsA;
 };
 
 // Retrieves ?settings.mySettings query variables

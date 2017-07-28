@@ -15,10 +15,10 @@ const parseUrl = async function (nextFunc, input) {
   const path = getPath({ specific, protocolHandler });
   const url = `${origin}${path}`;
 
-  const newInput = addLogInfo(input, { url, path, origin });
-  const nextInput = Object.assign({}, newInput, { url, path, origin });
+  const inputA = addLogInfo(input, { url, path, origin });
+  const inputB = Object.assign({}, inputA, { url, path, origin });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputB);
   return response;
 };
 

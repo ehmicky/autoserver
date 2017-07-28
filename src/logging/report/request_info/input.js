@@ -11,9 +11,9 @@ const inputReducer = function (attrName, requestInfo, loggerFilter) {
   const { [attrName]: value } = requestInfo;
   if (!value || value.constructor !== Object) { return requestInfo; }
 
-  const newValue = loggerFilter[attrName](value);
+  const valueA = loggerFilter[attrName](value);
 
-  return Object.assign({}, requestInfo, { [attrName]: newValue });
+  return Object.assign({}, requestInfo, { [attrName]: valueA });
 };
 
 const reducers = ['queryVars', 'headers', 'params', 'settings']

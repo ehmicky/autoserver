@@ -8,13 +8,13 @@ const reduceActions = function (requestInfo, loggerFilter) {
   const { actions } = requestInfo;
   if (!isObject(actions)) { return requestInfo; }
 
-  const newActions = mapValues(actions, actionInfo =>
+  const actionsA = mapValues(actions, actionInfo =>
     actionsReducers.reduce(
       (info, reducer) => reducer(info, loggerFilter),
       actionInfo,
     )
   );
-  return Object.assign({}, requestInfo, { actions: newActions });
+  return Object.assign({}, requestInfo, { actions: actionsA });
 };
 
 const reduceArgData = function (actionInfo, loggerFilter) {
@@ -40,8 +40,8 @@ const simplifyActionResponses = function (actionInfo) {
 
   if (!Array.isArray(responses)) { return actionInfo; }
 
-  const newResponses = responses.map(({ content } = {}) => content);
-  return Object.assign({}, actionInfo, { responses: newResponses });
+  const responsesA = responses.map(({ content } = {}) => content);
+  return Object.assign({}, actionInfo, { responses: responsesA });
 };
 
 const isObject = obj => obj && obj.constructor === Object;

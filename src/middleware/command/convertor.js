@@ -5,14 +5,14 @@ const { addJsl } = require('../../jsl');
 const { addLogInfo } = require('../../logging');
 
 // Converts from Action format to Command format
-const commandConvertor = async function (nextFunc, oInput) {
-  const { command } = oInput;
+const commandConvertor = async function (nextFunc, input) {
+  const { command } = input;
 
-  const input = pick(oInput, commandAttributes);
-  const newInput = addJsl(input, { $COMMAND: command.type });
-  const nextInput = addLogInfo(newInput, { command });
+  const inputA = pick(input, commandAttributes);
+  const inputB = addJsl(inputA, { $COMMAND: command.type });
+  const inputC = addLogInfo(inputB, { command });
 
-  const response = await nextFunc(nextInput);
+  const response = await nextFunc(inputC);
   return response;
 };
 

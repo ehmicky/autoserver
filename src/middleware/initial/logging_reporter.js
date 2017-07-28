@@ -9,16 +9,16 @@ const loggingReporter = async function (nextFunc, input) {
     const response = await nextFunc(input);
 
     const { log } = response;
-    const newResponse = await unbufferLogReports(response, log);
+    const responseA = await unbufferLogReports(response, log);
 
-    return newResponse;
+    return responseA;
   } catch (error) {
-    const errorObj = normalizeError({ error });
+    const errorA = normalizeError({ error });
 
-    const { log } = errorObj;
-    const newError = await unbufferLogReports(errorObj, log);
+    const { log } = errorA;
+    const errorB = await unbufferLogReports(errorA, log);
 
-    rethrowError(newError);
+    rethrowError(errorB);
   }
 };
 

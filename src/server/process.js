@@ -72,15 +72,15 @@ const setupWarning = function ({ log }) {
 
 // Report process problems as logs with type 'failure'
 const processHandler = async function (log, { error, message }) {
-  const errorObj = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
-  const standardError = getStandardError({ log, error: errorObj });
-  const errorMessage = getErrorMessage({ error: standardError });
+  const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
+  const errorB = getStandardError({ log, error: errorA });
+  const errorMessage = getErrorMessage({ error: errorB });
 
   await reportLog({
     log,
     level: 'error',
     message: errorMessage,
-    info: { type: 'failure', errorInfo: standardError },
+    info: { type: 'failure', errorInfo: errorB },
   });
 };
 

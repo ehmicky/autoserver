@@ -15,18 +15,18 @@ const logger = async function logger (nextFunc, input) {
   try {
     const response = await nextFunc(input);
 
-    const newResponse = getLogReport({ response });
+    const responseA = getLogReport({ response });
 
-    return newResponse;
+    return responseA;
   } catch (error) {
-    const errorObj = normalizeError({ error });
+    const errorA = normalizeError({ error });
 
-    const errorReason = getReason({ error });
-    const nextError = addLogInfo(errorObj, { errorReason });
+    const errorReason = getReason({ error: errorA });
+    const errorB = addLogInfo(errorA, { errorReason });
 
-    const newError = getLogReport({ error: nextError });
+    const errorC = getLogReport({ error: errorB });
 
-    rethrowError(newError);
+    rethrowError(errorC);
   }
 };
 
