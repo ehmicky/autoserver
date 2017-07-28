@@ -23,7 +23,7 @@ const parseParams = async function (nextFunc, input) {
   const params = getParams({ input });
   makeImmutable(params);
 
-  const newInput = addJsl({ input, params: { $PARAMS: params } });
+  const newInput = addJsl(input, { $PARAMS: params });
   const loggedInput = addLogInfo(newInput, { params });
   const nextInput = Object.assign({}, loggedInput, { params });
 

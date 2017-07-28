@@ -15,7 +15,7 @@ const actionConvertor = async function (nextFunc, oInput) {
 
   const input = pick(oInput, actionAttributes);
 
-  const newInput = addJsl({ input, params: { $MODEL: modelName } });
+  const newInput = addJsl(input, { $MODEL: modelName });
   const nextInput = addLogInfo(newInput, {
     action,
     fullAction,

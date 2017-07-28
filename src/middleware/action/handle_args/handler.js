@@ -16,7 +16,7 @@ const handleArgs = async function (nextFunc, input) {
   const { args } = input;
 
   const clonedArgs = cloneDeep(args);
-  const newInput = addJsl({ input, params: { $ARGS: clonedArgs } });
+  const newInput = addJsl(input, { $ARGS: clonedArgs });
   const nextInput = addLogInfo(newInput, { args: clonedArgs });
 
   validateArgs({ input });

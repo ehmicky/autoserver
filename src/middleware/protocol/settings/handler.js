@@ -23,7 +23,7 @@ const parseSettings = async function (nextFunc, input) {
   validateSettings({ settings });
   makeImmutable(settings);
 
-  const newInput = addJsl({ input, params: { $SETTINGS: settings } });
+  const newInput = addJsl(input, { $SETTINGS: settings });
   const loggedInput = addLogInfo(newInput, { settings });
   const nextInput = Object.assign({}, loggedInput, { settings });
 

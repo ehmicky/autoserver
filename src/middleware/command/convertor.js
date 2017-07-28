@@ -9,7 +9,7 @@ const commandConvertor = async function (nextFunc, oInput) {
   const { command } = oInput;
 
   const input = pick(oInput, commandAttributes);
-  const newInput = addJsl({ input, params: { $COMMAND: command.type } });
+  const newInput = addJsl(input, { $COMMAND: command.type });
   const nextInput = addLogInfo(newInput, { command });
 
   const response = await nextFunc(nextInput);
