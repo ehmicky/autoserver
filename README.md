@@ -134,6 +134,13 @@ There are three ways of exploring the API:
     Click on "docs" to see the schema.
   - schema printed as HTML with `localhost:5001/graphql/schema`
 
+# Testing
+
+There are no unit tests yet.
+
+`gulp test` will run linting though, using ESLint for general linting,
+and also checking code duplication.
+
 # Tooling
 
 We recommend using the Chrome extension [Node Inspector Manager](https://github.com/june07/NIM) for
