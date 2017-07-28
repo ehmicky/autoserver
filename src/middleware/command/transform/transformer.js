@@ -4,24 +4,28 @@ const { pick } = require('../../../utilities');
 const { runJsl } = require('../../../jsl');
 
 // Performs transformation on data array or single data
-const applyTransformsOnData = function ({ data, transforms, jsl, type, idl }) {
+const applyTransformsOnData = function ({ data, ...rest }) {
   return Array.isArray(data)
     ? data.map(datum =>
-      applyTransforms({ data: datum, transforms, jsl, type, idl })
-    )
-    : applyTransforms({ data, transforms, jsl, type, idl });
+      applyAllTransforms({ data: datum, ...rest }))
+    : applyAllTransforms({ data, ...rest });
 };
 
-const applyTransforms = function ({ data, transforms, jsl, type, idl }) {
-  // There can be transform for each attribute
-  for (const { attrName, transform: allTransform } of transforms) {
-    // There can be several transforms per attribute
-    for (const transform of allTransform) {
-      applyTransform({ data, attrName, transform, jsl, type, idl });
-    }
-  }
+// There can be transform for each attribute
+const applyAllTransforms = function ({ data, transforms, ...rest }) {
+  return transforms.reduce(
+    (dataA, { attrName, transform: transA }) =>
+      applyTransforms({ data: dataA, transforms: transA, ...rest, attrName }),
+    data,
+  );
+};
 
-  return data;
+// There can be several transforms per attribute
+const applyTransforms = function ({ data, transforms, ...rest }) {
+  return transforms.reduce(
+    (dataA, transform) => applyTransform({ data: dataA, transform, ...rest }),
+    data,
+  );
 };
 
 const applyTransform = function ({
@@ -48,11 +52,11 @@ const applyTransform = function ({
   // Can add a `test` function
   const shouldPerform = testFunc === undefined ||
     runJsl({ jsl, value: testFunc, params, idl });
-  if (!shouldPerform) { return; }
+  if (!shouldPerform) { return data; }
 
   const valueA = runJsl({ jsl, value: transformer, params, idl });
 
-  data[attrName] = valueA;
+  return { ...data, [attrName]: valueA };
 };
 
 module.exports = {
