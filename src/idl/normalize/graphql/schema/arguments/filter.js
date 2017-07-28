@@ -15,13 +15,15 @@ const getFilterArgument = function ({ def, action = {}, filterObjectType }) {
   const type = action.multiple
     ? filterObjectType
     : new GraphQLNonNull(filterObjectType);
-  return {
-    filter: {
-      type,
-      description: 'Filter results according to those attributes',
-    },
-  };
+  return getFilterArgs({ type });
 };
+
+const getFilterArgs = ({ type }) => ({
+  filter: {
+    type,
+    description: 'Filter results according to those attributes',
+  },
+});
 
 module.exports = {
   getFilterArgument,

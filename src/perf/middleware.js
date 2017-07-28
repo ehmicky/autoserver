@@ -44,12 +44,8 @@ const getMiddlewarePerfLog = func => async function middlewarePerfLog (
 
 // Execute next middleware, while calculating performance measures
 const fireMiddleware = async function ({ func, nextFunc, input, args }) {
-  // When a middleware is simply a "switch", we try to get the selected
-  // function's name instead
-  const { name } = (func.getMiddleware && func.getMiddleware(input)) || func;
-
   // Start middleware performance
-  const currentPerf = startPerf(name, 'middleware');
+  const currentPerf = startPerf(func.name, 'middleware');
 
   // Pass `currentPerf` as argument so it can be frozen by its children
   const nextInput = Object.assign({}, input, { currentPerf });

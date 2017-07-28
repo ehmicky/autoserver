@@ -14,10 +14,10 @@ const processors = [
   validateOptions,
 ];
 
-const processOptions = function ({ options }) {
+const processOptions = function ({ oServerOpts }) {
   return monitoredReduce({
     funcs: processors,
-    initialInput: { serverOpts: cloneDeep(options) },
+    initialInput: { serverOpts: cloneDeep(oServerOpts) },
     category: 'options',
     mapInput: ({ serverOpts }) => serverOpts,
     mapResponse: serverOpts => ({ serverOpts }),

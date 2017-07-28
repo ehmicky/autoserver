@@ -2,45 +2,31 @@
 
 const { createLog, reportPerf } = require('../logging');
 const { monitor, monitoredReduce } = require('../perf');
-const { processOptions } = require('../options');
-const { getIdl } = require('../idl');
+const { makeImmutable } = require('../utilities');
 
 const { createApiServer } = require('./api_server');
 const { handleStartupError } = require('./startup_error');
-const { processErrorHandler } = require('./process');
-const { startServers } = require('./servers');
-const { setupGracefulExit } = require('./exit');
-const { emitStartEvent } = require('./start_event');
+const { startSteps } = require('./start_steps');
 
 /**
  * Start server for each protocol
  *
- * @param {object} options
- * @param {object} options.idl - IDL definitions
+ * @param {object} serverOpts
  */
-const startServer = function (options = {}) {
-  const apiServer = createApiServer({ serverOpts: options });
+const startServer = function (oServerOpts = {}) {
+  const apiServer = createApiServer({ oServerOpts });
   const startupLog = createLog({
-    serverOpts: options,
+    serverOpts: oServerOpts,
     apiServer,
     phase: 'startup',
   });
 
-  start({ options, startupLog, apiServer })
+  start({ oServerOpts, startupLog, apiServer })
     .catch(error => handleStartupError({ error, startupLog, apiServer }));
 
+  makeImmutable(apiServer);
   return apiServer;
 };
-
-// Each of the steps performed at startup
-const processors = [
-  processErrorHandler,
-  processOptions,
-  getIdl,
-  startServers,
-  setupGracefulExit,
-  emitStartEvent,
-];
 
 const start = async function (input) {
   const { startupLog } = input;
@@ -52,7 +38,7 @@ const start = async function (input) {
 
 const startAll = function (initialInput) {
   return monitoredReduce({
-    funcs: processors,
+    funcs: startSteps,
     initialInput,
     mapResponse: (newInput, input) => Object.assign({}, input, newInput),
   });

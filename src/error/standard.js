@@ -38,28 +38,34 @@ const getStandardError = function ({
   } = error;
 
   // Order matters, as this will be kept in final output
-  const errorObj = {
-    type,
-    title,
-    description,
-    instance,
-    status,
-    protocol_status: protocolStatus,
-    protocol,
-    method,
-    headers,
-    queryVars,
-    operation,
-    action: action && action.name,
-    action_path: fullAction,
-    model,
-    args,
-    command: command && command.name,
-  };
-  Object.assign(errorObj, extra, { request_id: requestId, details });
+  const newError = Object.assign(
+    {
+      type,
+      title,
+      description,
+      instance,
+      status,
+      protocol_status: protocolStatus,
+      protocol,
+      method,
+      headers,
+      queryVars,
+      operation,
+      action: action && action.name,
+      action_path: fullAction,
+      model,
+      args,
+      command: command && command.name,
+    },
+    extra,
+    {
+      request_id: requestId,
+      details,
+    },
+  );
 
   // Do not expose undefined values
-  const standardError = omitBy(errorObj, val => val === undefined);
+  const standardError = omitBy(newError, val => val === undefined);
 
   return standardError;
 };

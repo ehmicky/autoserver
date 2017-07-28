@@ -9,7 +9,6 @@ const startServer = function ({
   opts: { host, port },
   processLog,
   handleRequest,
-  handleListening,
 }) {
   // Create server
   const server = http.createServer();
@@ -23,7 +22,6 @@ const startServer = function ({
 
   // Handle server lifecycle events
   handleClientRequest({ server, handleRequest });
-  handleServerListening({ server, handleListening });
   handleClientError({ server, log: processLog });
 
   // Start server
@@ -35,15 +33,11 @@ const startServer = function ({
 const getServerPromise = function ({ server }) {
   // eslint-disable-next-line promise/avoid-new
   return new Promise((resolve, reject) => {
-    server.on('listening', () => resolve(server));
+    server.on('listening', () => {
+      const { address: usedHost, port: usedPort } = server.address();
+      resolve({ server, host: usedHost, port: usedPort });
+    });
     server.on('error', error => reject(error));
-  });
-};
-
-const handleServerListening = function ({ server, handleListening }) {
-  server.on('listening', function listeningHandler () {
-    const { address: usedHost, port: usedPort } = server.address();
-    handleListening({ server, host: usedHost, port: usedPort });
   });
 };
 
