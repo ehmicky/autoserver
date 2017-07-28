@@ -5,48 +5,45 @@ const { decode } = require('../../encoding');
 
 // Returns arguments, after decoding tokens
 const getInputData = function ({ args }) {
-  const inputData = Object.assign({}, args);
+  validateInputData({ args });
 
-  validateInputData({ inputData });
+  const decodedTokens = getDecodedTokens({ args });
 
-  const decodedTokens = getDecodedTokens({ inputData });
-  Object.assign(inputData, ...decodedTokens);
-
-  return inputData;
+  return Object.assign({}, args, ...decodedTokens);
 };
 
-const validateInputData = function ({ inputData }) {
-  validateSingleDirection({ inputData });
-  validateSingleType({ inputData });
-  validateForbiddenArg({ inputData });
+const validateInputData = function ({ args }) {
+  validateSingleDirection({ args });
+  validateSingleType({ args });
+  validateForbiddenArg({ args });
 };
 
-const validateSingleDirection = function ({ inputData }) {
-  const hasTwoDirections = inputData.before !== undefined &&
-    inputData.after !== undefined;
+const validateSingleDirection = function ({ args }) {
+  const hasTwoDirections = args.before !== undefined &&
+    args.after !== undefined;
   if (!hasTwoDirections) { return; }
 
   const message = 'Wrong parameters: cannot specify both \'before\' and \'after\'';
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const validateSingleType = function ({ inputData }) {
+const validateSingleType = function ({ args }) {
   // Cannot mix offset-based pagination and cursor-based pagination
-  const hasTwoPaginationTypes = inputData.page !== undefined &&
-    (inputData.before !== undefined || inputData.after !== undefined);
+  const hasTwoPaginationTypes = args.page !== undefined &&
+    (args.before !== undefined || args.after !== undefined);
   if (!hasTwoPaginationTypes) { return; }
 
   const message = 'Wrong parameters: cannot use both \'page\' and \'before|after\'';
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const validateForbiddenArg = function ({ inputData }) {
+const validateForbiddenArg = function ({ args }) {
   // Also, cannot specify 'nFilter' or 'nOrderBy' with a cursor, because the
   // cursor already includes them.
   for (const forbiddenArg of ['nFilter', 'nOrderBy']) {
-    const hasForbiddenArg = inputData[forbiddenArg] !== undefined &&
-      ((inputData.before !== undefined && inputData.before !== '') ||
-      (inputData.after !== undefined && inputData.after !== ''));
+    const hasForbiddenArg = args[forbiddenArg] !== undefined &&
+      ((args.before !== undefined && args.before !== '') ||
+      (args.after !== undefined && args.after !== ''));
 
     if (hasForbiddenArg) {
       const message = `Wrong parameters: cannot use both '${forbiddenArg}' and 'before|after'`;
@@ -55,11 +52,11 @@ const validateForbiddenArg = function ({ inputData }) {
   }
 };
 
-const getDecodedTokens = function ({ inputData }) {
+const getDecodedTokens = function ({ args }) {
   const decodedTokens = ['before', 'after']
-    .filter(name => inputData[name] !== undefined && inputData[name] !== '')
+    .filter(name => args[name] !== undefined && args[name] !== '')
     .map(name => {
-      const token = inputData[name];
+      const token = args[name];
 
       if (typeof token !== 'string') {
         const message = `Wrong parameters: '${name}' must be a string`;

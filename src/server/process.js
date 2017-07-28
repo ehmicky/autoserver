@@ -10,10 +10,14 @@ const {
 } = require('../error');
 
 // Error handling for all failures that are process-related
-const processErrorHandler = function ({ options: serverOpts, apiServer }) {
+const processErrorHandler = function ({ oServerOpts, apiServer }) {
   checkUniqueCall();
 
-  const processLog = createLog({ serverOpts, apiServer, phase: 'process' });
+  const processLog = createLog({
+    serverOpts: oServerOpts,
+    apiServer,
+    phase: 'process',
+  });
   // Shortcut function
   processLog.process = processHandler.bind(null, processLog);
 

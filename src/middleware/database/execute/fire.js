@@ -74,13 +74,14 @@ const fireCommand = function (commandInput) {
   const { command, opts } = commandInput;
   const response = commands[command.name](commandInput);
 
-  Object.assign(response, processResponse({ response, command, opts }));
+  const processedResponse = processResponse({ response, command, opts });
+  const nextResponse = Object.assign({}, response, processedResponse);
 
   validateResponse({ command, response });
 
   // TODO: Only necessary as long as we do not use real database,
   // to make sure it is not modified
-  const copiedResponse = cloneDeep(response);
+  const copiedResponse = cloneDeep(nextResponse);
 
   return copiedResponse;
 };

@@ -61,10 +61,9 @@ const getModelByAction = function ({ model, action }) {
   });
 
   const modelCopy = getModelCopy({ model, properties, action });
-  // Add action information to the top-level model
-  Object.assign(modelCopy, { action });
 
-  return modelCopy;
+  // Add action information to the top-level model
+  return Object.assign({}, modelCopy, { action });
 };
 
 const getModelCopy = function ({ model, properties, action: { multiple } }) {

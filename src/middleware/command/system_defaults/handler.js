@@ -9,9 +9,9 @@ const systemDefaults = async function (nextFunc, input) {
   const { serverOpts } = input;
 
   const nextArgs = getDefaultArgs({ serverOpts, input });
-  Object.assign(input.args, nextArgs);
+  const nextInput = Object.assign({}, input, { args: nextArgs });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(nextInput);
   return response;
 };
 

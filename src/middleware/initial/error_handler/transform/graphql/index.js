@@ -12,13 +12,6 @@ const transformResponse = function ({ response: { content } }) {
     protocol_status: protocolStatus,
   } = content;
   // Content following GraphQL spec
-  const newContent = {
-    message: description,
-    title,
-    type,
-    status: protocolStatus,
-  };
-
   // Custom information not following GraphQL spec is always rendered
   const extraContent = omit(content, [
     'type',
@@ -28,7 +21,11 @@ const transformResponse = function ({ response: { content } }) {
     'status',
     'protocol_status',
   ]);
-  Object.assign(newContent, extraContent, { stack: details });
+  const newContent = Object.assign(
+    { message: description, title, type, status: protocolStatus },
+    extraContent,
+    { stack: details },
+  );
 
   const cleanContent = omitBy(newContent, val => val === undefined);
 

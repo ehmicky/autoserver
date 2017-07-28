@@ -24,7 +24,7 @@ const getObjectFields = function (def, opts, getField) {
         def,
         rootDef,
       }))
-      .reduce((memo, value) => Object.assign(memo, ...value), {});
+      .reduce((memo, value) => Object.assign({}, memo, ...value), {});
     const filteredFields = omitBy(fieldsWithNested, (childDef, childDefName) =>
       filterArgs({ childDef, childDefName, inputObjectType, action, def })
     );

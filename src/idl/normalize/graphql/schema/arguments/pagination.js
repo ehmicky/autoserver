@@ -18,42 +18,46 @@ const getPaginationArgument = function ({
     return;
   }
 
-  const paginationArgs = {
-    page_size: {
-      type: GraphQLInt,
-      description: `Sets pagination size.
-  Using 0 disables pagination.
-  Maximum: ${maxPageSize}`,
-      defaultValue: defaultPageSize,
-    },
-  };
+  const pageSizeArg = getPageSizeArg({ maxPageSize, defaultPageSize });
 
   // Only with safe actions that return an array, i.e. only with findMany
   if (!(fullPaginationActions.includes(action.type) && action.multiple)) {
-    return paginationArgs;
+    return pageSizeArg;
   }
 
-  return Object.assign(paginationArgs, {
-    after: {
-      type: GraphQLString,
-      description: `Retrieves next pagination batch, using the previous response's last model's 'token'.
+  return Object.assign({}, pageSizeArg, paginationArgs);
+};
+
+const getPageSizeArg = ({ maxPageSize, defaultPageSize }) => ({
+  page_size: {
+    type: GraphQLInt,
+    description: `Sets pagination size.
+Using 0 disables pagination.
+Maximum: ${maxPageSize}`,
+    defaultValue: defaultPageSize,
+  },
+});
+
+const paginationArgs = {
+  after: {
+    type: GraphQLString,
+    description: `Retrieves next pagination batch, using the previous response's last model's 'token'.
 Using '' means 'from the beginning'`,
-      defaultValue: '',
-    },
+    defaultValue: '',
+  },
 
-    before: {
-      type: GraphQLString,
-      description: `Retrieves previous pagination batch, using the previous response's first model's 'token'.
+  before: {
+    type: GraphQLString,
+    description: `Retrieves previous pagination batch, using the previous response's first model's 'token'.
 Using '' means 'from the end'`,
-    },
+  },
 
-    page: {
-      type: GraphQLInt,
-      description: `Page number, for pagination.
+  page: {
+    type: GraphQLInt,
+    description: `Page number, for pagination.
 Starts at 1.
 Cannot be used with 'before' or 'after'`,
-    },
-  });
+  },
 };
 
 module.exports = {

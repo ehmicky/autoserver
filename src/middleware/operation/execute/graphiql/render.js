@@ -33,7 +33,7 @@ const renderGraphiQL = async function (input) {
   };
   // Those must be valid HTML
   const dataNotToEscape = {};
-  const data = Object.assign(escapeData(dataToEscape), dataNotToEscape);
+  const data = Object.assign({}, escapeData(dataToEscape), dataNotToEscape);
 
   try {
     const htmlString = await renderTemplate({ template, data });

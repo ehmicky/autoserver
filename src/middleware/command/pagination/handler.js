@@ -100,12 +100,12 @@ const processInput = function ({
     maxPageSize,
   });
 
-  if (mustPaginateOutput({ args, command })) {
-    const paginationInput = getPaginationInput({ args });
-    Object.assign(args, paginationInput);
-  }
+  if (!mustPaginateOutput({ args, command })) { return input; }
 
-  return input;
+  const paginationInput = getPaginationInput({ args });
+  const newArgs = Object.assign({}, args, paginationInput);
+
+  return Object.assign({}, input, { args: newArgs });
 };
 
 // Add response metadata related to pagination:
@@ -121,17 +121,17 @@ const processOutput = function ({
   reverseOutput({ args, response });
 
   const paginationOutput = getPaginationOutput({ args, response });
-  Object.assign(response, paginationOutput);
+  const newResponse = Object.assign({}, response, paginationOutput);
 
   validatePaginationOutput({
     args,
     action,
     modelName,
     maxPageSize,
-    response,
+    response: newResponse,
   });
 
-  return response;
+  return newResponse;
 };
 
 // When using args.before, pagination is performed backward.

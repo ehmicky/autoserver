@@ -14,10 +14,7 @@ const normalizeAliases = function (model) {
   const newProps = Object.entries(model.properties)
     .reduce((props, [attrName, attr]) => {
       const aliases = createAliases({ model, props, attr, attrName });
-      Object.assign(props, aliases);
-
-      props[attrName] = attr;
-      return props;
+      return Object.assign({}, props, aliases, { [attrName]: attr });
     }, {});
 
   const properties = mapValues(newProps, attr => {

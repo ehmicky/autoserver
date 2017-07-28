@@ -1,6 +1,6 @@
 'use strict';
 
-const { makeImmutable, assignObject } = require('../utilities');
+const { assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
 const { reportLog } = require('../logging');
@@ -14,7 +14,7 @@ const startServers = async function ({
   startupLog,
   processLog,
   serverOpts,
-  options,
+  oServerOpts,
 }) {
   const [jsl, jslMeasure] = await monitoredCreateJsl({ idl });
 
@@ -34,8 +34,8 @@ const startServers = async function ({
     requestHandler,
   });
 
-  Object.assign(apiServer, { options, servers });
-  makeImmutable(apiServer);
+  // eslint-disable-next-line fp/no-mutating-assign
+  Object.assign(apiServer, { options: oServerOpts, servers });
 
   const measures = [jslMeasure, ...serverMeasures];
 
@@ -45,20 +45,20 @@ const startServers = async function ({
 const monitoredCreateJsl = monitor(createJsl, 'createJsl', 'server');
 
 const startEachServer = async function (options) {
-  const serversPromises = protocols
+  const serverInfosPromises = protocols
     // Can use serverOpts.PROTOCOL.enabled {boolean}
     .filter(protocol => options.serverOpts[protocol.toLowerCase()].enabled)
     .map(protocol => monitoredStartServer(protocol, options));
 
   // Make sure all servers are starting concurrently, not serially
-  const responseArray = await Promise.all(serversPromises);
+  const responseArray = await Promise.all(serverInfosPromises);
 
-  const serversArray = responseArray.map(([server]) => server);
+  const serverInfosArray = responseArray.map(([serverInfo]) => serverInfo);
   const measures = responseArray.map(([, perf]) => perf);
 
-  // From [server, ...] to { protocol: server }
-  const servers = serversArray
-    .map((server, index) => ({ [protocols[index]]: server }))
+  // From [serverInfo, ...] to { protocol: serverInfo }
+  const servers = serverInfosArray
+    .map((serverInfo, index) => ({ [protocols[index]]: serverInfo }))
     .reduce(assignObject, {});
 
   return [servers, measures];
@@ -73,19 +73,22 @@ const startServer = async function (protocol, {
   const protocolHandler = protocolHandlers[protocol];
   const opts = serverOpts[protocol.toLowerCase()];
   const handleRequest = specific => requestHandler({ protocol, specific });
-  const handleListening = getHandleListening.bind(null, {
-    startupLog,
-    protocol,
-  });
 
-  const server = await protocolHandler.startServer({
+  const serverInfo = await protocolHandler.startServer({
     opts,
     processLog,
     handleRequest,
-    handleListening,
   });
 
-  return server;
+  await logStart({ serverInfo, startupLog, protocol });
+
+  return Object.assign({}, serverInfo, { protocol });
+};
+
+const logStart = async function ({ serverInfo, startupLog, protocol }) {
+  const { host, port } = serverInfo;
+  const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
+  await reportLog({ log: startupLog, level: 'log', message });
 };
 
 const monitoredStartServer = monitor(
@@ -93,17 +96,6 @@ const monitoredStartServer = monitor(
   protocol => protocol,
   'server',
 );
-
-// Create log message when each protocol-specific server starts
-// Also add `apiServer.servers.PROTOCOL.protocol|host|port`
-const getHandleListening = async function (
-  { startupLog, protocol },
-  { server, host, port },
-) {
-  Object.assign(server, { protocol, host, port });
-  const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  await reportLog({ log: startupLog, level: 'log', message });
-};
 
 module.exports = {
   startServers,
