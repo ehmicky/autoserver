@@ -49,7 +49,7 @@ const gracefulExit = onlyOnce(async ({
 
 const setupExit = async function ({ servers, log }) {
   const statusesPromises = Object.values(servers)
-    .map(server => closeServer({ server, log }));
+    .map(({ server, protocol }) => closeServer({ server, protocol, log }));
   const oStatuses = await Promise.all(statusesPromises);
   const statuses = oStatuses
     .map(([{ protocol, status }]) => [protocol, status]);

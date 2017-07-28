@@ -6,7 +6,7 @@ const { wrapCloseFunc } = require('./wrapper');
 
 // Attempts to close server
 // No new connections will be accepted, but we will wait for ongoing ones to end
-const closeServer = async function ({ server, server: { protocol }, log }) {
+const closeServer = async function ({ server, protocol, log }) {
   const [, logMeasure] = await monitoredLogClose({ server, protocol, log });
   const [status, stopMeasure] = await monitoredStop({ server, protocol, log });
   const measures = [logMeasure, stopMeasure];
