@@ -5,30 +5,59 @@ const { validate } = require('../../../validation');
 
 const { getDataValidationSchema } = require('./schema');
 
+const type = 'clientInputData';
+
 /**
  * Check that input nFilter|newData passes IDL validation
  * E.g. if a model is marked as `required` or `minimum: 10` in IDL file,
  * this will be validated here
  **/
-const validateInputData = function ({ idl, modelName, command, args, jsl }) {
-  const type = 'clientInputData';
-  const schema = getDataValidationSchema({
-    idl,
-    modelName,
-    command,
-    type,
-  });
+const validateInputData = function ({
+  idl,
+  modelName,
+  command,
+  input,
+  input: { args },
+  jsl,
+}) {
+  const schema = getDataValidationSchema({ idl, modelName, command, type });
   const attributes = getAttributes(args);
 
-  for (const [dataVar, attribute] of Object.entries(attributes)) {
-    const allAttrs = Array.isArray(attribute) ? attribute : [attribute];
+  return Object.entries(attributes).reduce(
+    (inputA, [dataVar, attribute]) =>
+      validateAttribute({ input: inputA, dataVar, attribute, schema, jsl }),
+    input,
+  );
+};
 
-    for (const data of allAttrs) {
-      const valueA = removeAllJsl(data);
-      const reportInfo = { type, dataVar };
-      validate({ schema, data: valueA, reportInfo, extra: jsl });
-    }
-  }
+const validateAttribute = function ({
+  input,
+  dataVar,
+  attribute,
+  schema,
+  jsl,
+}) {
+  const allAttrs = Array.isArray(attribute) ? attribute : [attribute];
+
+  return allAttrs.reduce(
+    (inputA, data) =>
+      validateSingleAttribute({ input: inputA, dataVar, schema, jsl, data }),
+    input,
+  );
+};
+
+const validateSingleAttribute = function ({
+  input,
+  dataVar,
+  schema,
+  jsl,
+  data,
+}) {
+  const value = removeAllJsl(data);
+  const reportInfo = { type, dataVar };
+  validate({ schema, data: value, reportInfo, extra: jsl });
+
+  return input;
 };
 
 /**

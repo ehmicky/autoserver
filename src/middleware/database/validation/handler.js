@@ -10,13 +10,26 @@ const { validateOutputData } = require('./output');
 const dataValidation = async function (nextFunc, input) {
   const { modelName, args, command, jsl, idl } = input;
 
-  validateInputData({ idl, modelName, command, args, jsl });
+  const inputA = validateInputData({
+    input,
+    idl,
+    modelName,
+    command,
+    args,
+    jsl,
+  });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(inputA);
 
-  validateOutputData({ idl, modelName, response, command, jsl });
+  const responseA = validateOutputData({
+    idl,
+    modelName,
+    response,
+    command,
+    jsl,
+  });
 
-  return response;
+  return responseA;
 };
 
 module.exports = {
