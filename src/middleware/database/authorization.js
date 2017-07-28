@@ -9,30 +9,39 @@ const authorization = async function (nextFunc, input) {
   const { modelName, command, idl: { models }, args } = input;
 
   const model = models[modelName];
-  validateCommands({ model, command, args });
+  const inputA = validateCommands({ input, model, command, args });
 
-  const response = await nextFunc(input);
+  const response = await nextFunc(inputA);
   return response;
 };
 
 const validateCommands = function ({
+  input,
   model: { commands },
   command,
   args: { internal },
 }) {
   // Intermediary commands are not checked for authorization
-  if (internal) { return; }
+  if (internal) { return input; }
 
   const mappedCommands = authorizationMap[command.name] || [command];
 
-  for (const mappedCommand of mappedCommands) {
-    const isAllowed = commands.includes(mappedCommand.name);
+  return mappedCommands.reduce(
+    (inputA, mappedCommand) =>
+      validateCommand({ input: inputA, commands, mappedCommand }),
+    input,
+  );
+};
 
-    if (!isAllowed) {
-      const message = `Command '${mappedCommand.type}' is not allowed`;
-      throwError(message, { reason: 'AUTHORIZATION' });
-    }
+const validateCommand = function ({ input, commands, mappedCommand }) {
+  const isAllowed = commands.includes(mappedCommand.name);
+
+  if (!isAllowed) {
+    const message = `Command '${mappedCommand.type}' is not allowed`;
+    throwError(message, { reason: 'AUTHORIZATION' });
   }
+
+  return input;
 };
 
 const {
