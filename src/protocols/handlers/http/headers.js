@@ -22,10 +22,17 @@ const parsePreferHeader = function ({ headers: { prefer } }) {
 };
 
 // Set HTTP header, ready to be sent with response
-const sendHeaders = function ({ specific: { res }, headers = {} }) {
-  for (const [name, value] of Object.entries(headers)) {
-    res.setHeader(name, value);
-  }
+const sendHeaders = function ({ specific, headers = {} }) {
+  return Object.entries(headers).reduce(
+    (specificA, [name, value]) =>
+      sendHeader({ specific: specificA, name, value }),
+    specific,
+  );
+};
+
+const sendHeader = function ({ specific, specific: { res }, name, value }) {
+  res.setHeader(name, value);
+  return specific;
 };
 
 module.exports = {
