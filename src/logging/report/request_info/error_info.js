@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit } = require('../../utilities');
+const { omit } = require('../../../utilities');
 
 // Remove redundant keys present in both `errorInfo` and `requestInfo`
 const trimErrorInfo = function ({ info: { errorInfo } }) {

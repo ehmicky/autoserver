@@ -28,6 +28,9 @@ const TYPES = [
   'perf',
 ];
 
+// Those log types never prints to console
+const NO_CONSOLE_TYPES = ['perf'];
+
 // Log severity.
 const LEVELS = [
   // Debugging information
@@ -40,8 +43,18 @@ const LEVELS = [
   'error',
 ];
 
+// Map a request status to a log level
+const STATUS_LEVEL_MAP = {
+  INTERNALS: 'debug',
+  SUCCESS: 'log',
+  CLIENT_ERROR: 'warn',
+  SERVER_ERROR: 'error',
+};
+
 module.exports = {
   PHASES,
   TYPES,
+  NO_CONSOLE_TYPES,
   LEVELS,
+  STATUS_LEVEL_MAP,
 };
