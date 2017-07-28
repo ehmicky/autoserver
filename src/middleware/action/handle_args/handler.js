@@ -13,10 +13,10 @@ const { renameArgs } = require('./rename');
 // Process client-supplied args: validates them and add them to JSL variables
 // Also rename them camelcase
 const handleArgs = async function (nextFunc, input) {
-  const { args, jsl } = input;
+  const { args } = input;
 
   const clonedArgs = cloneDeep(args);
-  const newInput = addJsl({ input, jsl, params: { $ARGS: clonedArgs } });
+  const newInput = addJsl({ input, params: { $ARGS: clonedArgs } });
   const nextInput = addLogInfo(newInput, { args: clonedArgs });
 
   validateArgs({ input });

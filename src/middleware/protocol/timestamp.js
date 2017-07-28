@@ -4,10 +4,10 @@ const { addJsl } = require('../../jsl');
 const { addLogInfo } = require('../../logging');
 
 const getTimestamp = async function (nextFunc, input) {
-  const { jsl, now } = input;
+  const { now } = input;
 
   const timestamp = (new Date(now)).toISOString();
-  const newInput = addJsl({ input, jsl, params: { $NOW: timestamp } });
+  const newInput = addJsl({ input, params: { $NOW: timestamp } });
   const loggedInput = addLogInfo(newInput, { timestamp });
   const nextInput = Object.assign({}, loggedInput, { timestamp });
 

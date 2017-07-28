@@ -20,12 +20,10 @@ const { addLogInfo } = require('../../logging');
 // Values are automatically transtyped.
 // Are set to JSL param $PARAMS
 const parseParams = async function (nextFunc, input) {
-  const { jsl } = input;
-
   const params = getParams({ input });
   makeImmutable(params);
 
-  const newInput = addJsl({ input, jsl, params: { $PARAMS: params } });
+  const newInput = addJsl({ input, params: { $PARAMS: params } });
   const loggedInput = addLogInfo(newInput, { params });
   const nextInput = Object.assign({}, loggedInput, { params });
 
