@@ -1,6 +1,5 @@
 'use strict';
 
-module.exports = Object.assign(
-  {},
-  require('./graphql')
-);
+module.exports = {
+  ...require('./graphql'),
+};

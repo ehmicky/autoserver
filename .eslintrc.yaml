@@ -346,7 +346,6 @@ rules:
   - newlines-between: always
   import/newline-after-import: 2
   import/unambiguous: 2
-  global-require: 2
   import/no-dynamic-require: 2
 #  import/no-commonjs: 2
   import/no-amd: 2
@@ -399,6 +398,7 @@ rules:
 #  consistent-return: 2
 #  filenames/no-index: 2
 #  fp/no-rest-parameters: 2
+#  global-require: 2
 #  id-blacklist: 2
 #  import/no-nodejs-modules: 2
 #  import/no-restricted-paths: 2

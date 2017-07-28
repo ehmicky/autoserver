@@ -37,7 +37,7 @@ const getDefaultArgs = function ({
     (typeof value === 'function' ? value({ serverOpts, input }) : value)
   );
 
-  return Object.assign({}, args, defaultArgs);
+  return { ...args, ...defaultArgs };
 };
 
 module.exports = {

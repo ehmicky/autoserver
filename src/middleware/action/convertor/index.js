@@ -1,6 +1,5 @@
 'use strict';
 
-module.exports = Object.assign(
-  {},
-  require('./convertor'),
-);
+module.exports = {
+  ...require('./convertor'),
+};

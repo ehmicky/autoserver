@@ -1,6 +1,5 @@
 'use strict';
 
-module.exports = Object.assign(
-  {},
-  require('./server_info'),
-);
+module.exports = {
+  ...require('./server_info'),
+};
