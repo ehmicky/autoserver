@@ -15,13 +15,13 @@ const getParams = function ({ params, type, idl }) {
 // Pass JSL parameters to helpers
 // I.e. helpers have same parameters as their caller
 const bindHelpers = function ({ params, type, idl }) {
-  // Checking the name also make sure that this won't be called twice
+  // Checking Func.length makes sure that binding won't happen twice
   // in case of recursive calls (helpers calling each other)
   const unboundHelpers = pickBy(params, helper =>
-    typeof helper === 'function' && helper.name === 'unboundJslHelper'
+    typeof helper === 'function' && helper.length === 1
   );
   const boundHelpers = mapValues(unboundHelpers, helper =>
-    helper({ params, type, idl })
+    helper.bind(null, { params, type, idl })
   );
   return Object.assign({}, params, boundHelpers);
 };
