@@ -9,6 +9,7 @@ const update = function ({ collection, newData, opts, opts: { dryRun } }) {
   const newModel = { ...model, ...newData };
 
   if (!dryRun) {
+    // eslint-disable-next-line fp/no-mutating-methods
     collection.splice(index, 1, newModel);
   }
 
