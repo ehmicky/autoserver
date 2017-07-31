@@ -8,13 +8,18 @@ const reduceActions = function (requestInfo, loggerFilter) {
   const { actions } = requestInfo;
   if (!isObject(actions)) { return requestInfo; }
 
-  const actionsA = mapValues(actions, actionInfo =>
-    actionsReducers.reduce(
-      (info, reducer) => reducer(info, loggerFilter),
-      actionInfo,
-    )
+  const actionsA = mapValues(
+    actions,
+    actionInfo => reduceAction(actionInfo, loggerFilter),
   );
   return { ...requestInfo, actions: actionsA };
+};
+
+const reduceAction = function (actionInfo, loggerFilter) {
+  return actionsReducers.reduce(
+    (info, reducer) => reducer(info, loggerFilter),
+    actionInfo,
+  );
 };
 
 const reduceArgData = function (actionInfo, loggerFilter) {

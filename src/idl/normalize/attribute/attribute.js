@@ -10,19 +10,21 @@ const normalizeAttrs = function (type, { idl, idl: { models } }) {
   const transformers = allTransformers[type];
   const mapper = mapperFunc.bind(null, { transformers, idl });
 
-  const modelsA = mapValues(models, model => {
-    if (!model.properties) { return model; }
-
-    const properties = mapValues(model.properties, (attr, attrName) => {
-      const attrA = mapper({ attr, attrName });
-      const itemsA = attr.items
-        ? { items: mapper({ attr: attr.items, attrName: 'items' }) }
-        : {};
-      return { ...attrA, ...itemsA };
-    });
-    return { ...model, properties };
-  });
+  const modelsA = mapValues(models, model => normalizeModel({ model, mapper }));
   return { ...idl, models: modelsA };
+};
+
+const normalizeModel = function ({ model, mapper }) {
+  if (!model.properties) { return model; }
+
+  const properties = mapValues(model.properties, (attr, attrName) => {
+    const attrA = mapper({ attr, attrName });
+    const itemsA = attr.items
+      ? { items: mapper({ attr: attr.items, attrName: 'items' }) }
+      : {};
+    return { ...attrA, ...itemsA };
+  });
+  return { ...model, properties };
 };
 
 // Do not use .bind() because we want a clean function name,

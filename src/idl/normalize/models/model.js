@@ -10,17 +10,21 @@ const { normalizeAliases } = require('./alias');
 
 const normalizeModels = function ({ idl, idl: { models } }) {
   const modelsA = mapValues(models, (model, modelName) =>
-    transformers.reduce(
-      (modelA, transformer) => reduceModels({
-        transformer,
-        model: modelA,
-        modelName,
-        idl,
-      }),
-      model,
-    )
+    normalizeModel({ model, modelName, idl })
   );
   return { ...idl, models: modelsA };
+};
+
+const normalizeModel = function ({ model, modelName, idl }) {
+  return transformers.reduce(
+    (modelA, transformer) => reduceModels({
+      transformer,
+      model: modelA,
+      modelName,
+      idl,
+    }),
+    model,
+  );
 };
 
 const reduceModels = function ({ transformer, model, modelName, idl }) {

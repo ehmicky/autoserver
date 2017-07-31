@@ -34,13 +34,17 @@ const normalizeSyntax = function ({ helpers }) {
 const getExposeMap = function ({ helpers }) {
   return exposeVars
     .map(exposeVar => {
-      const matchingHelpers = pickBy(helpers, ({ exposeTo }) =>
-        exposeTo && exposeTo.includes(exposeVar)
-      );
-      const matchingHelpersKeys = Object.keys(matchingHelpers);
-      return { [exposeVar]: matchingHelpersKeys };
+      const matchingHelpers = getMatchingHelpers({ exposeVar, helpers });
+      return { [exposeVar]: matchingHelpers };
     })
     .reduce(assignObject, {});
+};
+
+const getMatchingHelpers = function ({ exposeVar, helpers }) {
+  const matchingHelpers = pickBy(helpers, ({ exposeTo }) =>
+    exposeTo && exposeTo.includes(exposeVar)
+  );
+  return Object.keys(matchingHelpers);
 };
 
 // Possible values of helpers.HELPER.exposeTo

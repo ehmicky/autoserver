@@ -37,10 +37,12 @@ const addProps = function (idl) {
 // At the moment, main IDL validation does not support `$data`,
 // so we remove them
 const removeData = function (idl) {
-  return fullRecurseMap(idl, obj => {
-    if (!obj || obj.constructor !== Object) { return obj; }
-    return omitBy(obj, ({ $data }) => $data);
-  });
+  return fullRecurseMap(idl, obj => removeDatum(obj));
+};
+
+const removeDatum = function (obj) {
+  if (!obj || obj.constructor !== Object) { return obj; }
+  return omitBy(obj, ({ $data }) => $data);
 };
 
 const modifiers = [

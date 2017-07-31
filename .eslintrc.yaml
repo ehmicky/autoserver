@@ -135,7 +135,7 @@ rules:
   - 1
   max-nested-callbacks:
   - 2
-  - 2
+  - 1
 
   # Referencing
   no-shadow:

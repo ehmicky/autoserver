@@ -38,18 +38,22 @@ const generalMap = function ({ obj, mapperFunc, iterationFunc }) {
 const mapValuesAsync = async function (obj, mapperFunc) {
   checkObject(obj);
 
-  const promises = Object.entries(obj).map(([key, value]) => {
-    const mappedVal = mapperFunc(value, key, obj);
-    const promise = Promise.resolve(mappedVal);
-    // eslint-disable-next-line promise/prefer-await-to-then
-    return promise.then(val => ({ [key]: val }));
-  });
+  const promises = Object.entries(obj).map(([key, value]) =>
+    mapValueAsync({ key, value, obj, mapperFunc })
+  );
 
   // Run in parallel
   const valuesArray = await Promise.all(promises);
   const valuesObj = valuesArray.reduce(assignObject, {});
 
   return valuesObj;
+};
+
+const mapValueAsync = function ({ key, value, obj, mapperFunc }) {
+  const mappedVal = mapperFunc(value, key, obj);
+  const promise = Promise.resolve(mappedVal);
+  // eslint-disable-next-line promise/prefer-await-to-then
+  return promise.then(val => ({ [key]: val }));
 };
 
 // Apply map() recursively
