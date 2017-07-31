@@ -1,5 +1,6 @@
 'use strict';
 
+const { sortArray } = require('../../../../utilities');
 const { findIndexes, findIndexByFilter } = require('../find');
 
 const deleteOne = function ({ collection, nFilter, opts, opts: { dryRun } }) {
@@ -9,8 +10,9 @@ const deleteOne = function ({ collection, nFilter, opts, opts: { dryRun } }) {
 };
 
 const deleteMany = function ({ collection, nFilter, opts, opts: { dryRun } }) {
-  const indexes = findIndexes({ collection, nFilter, opts }).sort();
-  const models = indexes.map((index, count) => {
+  const indexes = findIndexes({ collection, nFilter, opts });
+  const sortedIndexes = sortArray(indexes);
+  const models = sortedIndexes.map((index, count) => {
     const model = dryRun
       ? collection[index]
       : collection.splice(index - count, 1)[0];

@@ -1,11 +1,13 @@
 'use strict';
 
+const { sortArray } = require('../utilities');
+
 const { CATEGORIES } = require('./constants');
 
 // Returns measures but as a single string, for console debugging
 const stringifyMeasures = function ({ phase = '', measuresGroups }) {
-  return measuresGroups
-    .sort(sortMeasures)
+  const sortedMeasures = sortArray(measuresGroups, sortMeasures);
+  return sortedMeasures
     .map(stringifyMeasure.bind(null, phase))
     .join('\n');
 };

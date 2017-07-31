@@ -1,6 +1,6 @@
 'use strict';
 
-const { memoize, assignArray } = require('../../utilities');
+const { memoize, assignArray, sortArray } = require('../../utilities');
 
 // eslint-disable-next-line no-restricted-globals
 const globalVar = global;
@@ -17,13 +17,14 @@ const globalObjects = [
 // Retrieves all global variables, to make sure JSL does not access them
 // This is memoized, i.e. no global variables should be added runtime,
 // as they could be accessed in JSL
-const getGlobalKeys = memoize(({ type }) =>
-  globalObjects
+const getGlobalKeys = memoize(({ type }) => {
+  const filteredGlobals = globalObjects
     .map(globalObj => filterGlobalObj({ globalObj, type }))
-    .reduce(assignArray, [])
-    // Make sure it is sorted, for the memoizer
-    .sort()
-);
+    .reduce(assignArray, []);
+  // Make sure it is sorted, for the memoizer
+  const sortedGlobals = sortArray(filteredGlobals);
+  return sortedGlobals;
+});
 
 // Retrieves all global properties
 const filterGlobalObj = function ({ globalObj, type }) {

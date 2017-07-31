@@ -1,5 +1,7 @@
 'use strict';
 
+const { sortArray } = require('../../../../utilities');
+
 const mapProps = function (type, props, { transformOrder }) {
   const propsA = Object.entries(props)
     .map(([attrName, { [type]: transform }]) => ({ attrName, transform }));
@@ -9,7 +11,7 @@ const mapProps = function (type, props, { transformOrder }) {
 
 // Sort transforms according to `using` property
 const sortProps = function ({ props, transformOrder }) {
-  return props.sort((first, second) => {
+  return sortArray(props, (first, second) => {
     const indexFirst = transformOrder.indexOf(first.attrName);
     const indexSecond = transformOrder.indexOf(second.attrName);
     if (indexFirst > indexSecond) { return 1; }
