@@ -13,6 +13,8 @@ const handleFailure = async function ({ log, error }) {
   };
 
   await reportError({ log, error: errorObj });
+
+  return errorObj;
 };
 
 module.exports = {
