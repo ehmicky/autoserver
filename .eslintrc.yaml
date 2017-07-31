@@ -393,7 +393,6 @@ rules:
   # Those rules should be picked for a fully functional codebase.
   # However, we want to allow throwing exceptions, because monads would
   # be too verbose.
-  # TODO: simple reduce
 #  fp/no-nil: 2
 #  fp/no-unused-expression: 2
 #  consistent-return: 2
