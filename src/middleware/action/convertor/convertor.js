@@ -1,7 +1,5 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
 const { pick } = require('../../../utilities');
 const { addJsl } = require('../../../jsl');
 const { addLogInfo } = require('../../../logging');
@@ -18,14 +16,11 @@ const actionConvertor = async function (nextFunc, input) {
   const inputB = addJsl(inputA, { $MODEL: modelName });
   const inputC = addLogInfo(inputB, { action, fullAction, model: modelName });
 
-  // Request arguments that cannot be specified by clients
-  const argsA = cloneDeep(args);
-
   const response = await nextFunc(inputC);
   const transformedResponse = handleResponse({
     response,
     input: inputC,
-    args: argsA,
+    args,
     operation,
   });
   return transformedResponse;

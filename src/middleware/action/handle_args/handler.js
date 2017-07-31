@@ -1,7 +1,5 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
 const { addJsl } = require('../../../jsl');
 const { addLogInfo } = require('../../../logging');
 
@@ -15,9 +13,8 @@ const { renameArgs } = require('./rename');
 const handleArgs = async function (nextFunc, input) {
   const { args } = input;
 
-  const argsA = cloneDeep(args);
-  const inputA = addJsl(input, { $ARGS: argsA });
-  const inputB = addLogInfo(inputA, { args: argsA });
+  const inputA = addJsl(input, { $ARGS: args });
+  const inputB = addLogInfo(inputA, { args });
 
   validateArgs({ input });
 

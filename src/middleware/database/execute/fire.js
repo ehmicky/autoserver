@@ -64,8 +64,6 @@
  *                                 same as if it did.
  **/
 
-const { cloneDeep } = require('lodash');
-
 const { processResponse } = require('./process_response');
 const { validateResponse } = require('./validate');
 const commands = require('./commands');
@@ -79,11 +77,7 @@ const fireCommand = function (commandInput) {
 
   validateResponse({ command, response: responseB });
 
-  // TODO: Only necessary as long as we do not use real database,
-  // to make sure it is not modified
-  const responseC = cloneDeep(responseB);
-
-  return responseC;
+  return responseB;
 };
 
 module.exports = {

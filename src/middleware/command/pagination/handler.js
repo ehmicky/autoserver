@@ -1,7 +1,5 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
 const { reverseArray } = require('../../../utilities');
 
 const {
@@ -72,18 +70,12 @@ const { getPaginationInfo } = require('./info');
  **/
 const pagination = async function (nextFunc, input) {
   const { args, serverOpts: { maxPageSize } } = input;
-  const argsA = cloneDeep(args);
 
   const paginatedInput = processInput({ input, maxPageSize });
 
   const response = await nextFunc(paginatedInput);
 
-  const paginatedOutput = processOutput({
-    input,
-    response,
-    args: argsA,
-    maxPageSize,
-  });
+  const paginatedOutput = processOutput({ input, response, args, maxPageSize });
 
   return paginatedOutput;
 };

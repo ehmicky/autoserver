@@ -1,6 +1,5 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
 const { toSentence } = require('underscore.string');
 
 const { mapValues, omit, assignObject } = require('../../../utilities');
@@ -30,7 +29,7 @@ const createAliases = function ({ model, props, attr, attrName }) {
     .map(alias => {
       checkAliasDuplicates({ model, props, attrName, alias });
 
-      const aliasAttr = omit(cloneDeep(attr), 'alias');
+      const aliasAttr = omit(attr, 'alias');
       const attrA = { ...aliasAttr, aliasOf: attrName };
 
       return { [alias]: attrA };
