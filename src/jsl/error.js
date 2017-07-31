@@ -3,27 +3,20 @@
 const { throwError } = require('../error');
 
 const throwJslError = function ({ type, message, innererror }) {
-  if (type === 'startup') {
-    throwError(message, {
-      reason: 'IDL_VALIDATION',
-      innererror,
-    });
-  } else if (type === 'system') {
-    throwError(message, {
-      reason: 'UTILITY_ERROR',
-      innererror,
-    });
-  } else if (type === 'filter' || type === 'data') {
-    throwError(message, {
-      reason: 'INPUT_VALIDATION',
-      innererror,
-    });
-  } else {
-    throwError(`Wrong type: ${type}`, {
-      reason: 'UTILITY_ERROR',
-      innererror,
-    });
+  const reason = reasons[type];
+
+  if (!reason) {
+    throwError(`Wrong type: ${type}`, { reason: 'UTILITY_ERROR', innererror });
   }
+
+  throwError(message, { reason, innererror });
+};
+
+const reasons = {
+  startup: 'IDL_VALIDATION',
+  system: 'UTILITY_ERROR',
+  filter: 'INPUT_VALIDATION',
+  data: 'INPUT_VALIDATION',
 };
 
 module.exports = {

@@ -70,9 +70,15 @@ const rethrowError = function (error) {
 const normalizeError = function ({ error, message, reason = 'UNKNOWN' }) {
   if (isError({ error })) { return error; }
 
-  const errorMessage = message || (typeof error === 'string' ? error : '');
+  const errorMessage = getErrorMessage({ error, message });
   const stack = error.stack || getStack({ caller: normalizeError });
   return createError(errorMessage, stack, { reason });
+};
+
+const getErrorMessage = function ({ error, message }) {
+  if (message) { return message; }
+  if (typeof error === 'string') { return error; }
+  return '';
 };
 
 const getStack = function ({ caller } = {}) {

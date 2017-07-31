@@ -25,12 +25,7 @@ const template = resolve(__dirname, './graphiql.mustache');
  */
 const renderGraphiQL = async function (input) {
   // Those must be valid JavaScript, so must JSON-stringified
-  const dataToEscape = {
-    endpointURL: input.endpointURL,
-    query: input.query || '',
-    variables: input.variables || '',
-    operationName: input.operationName || '',
-  };
+  const dataToEscape = getDataToEscape(input);
   // Those must be valid HTML
   const dataNotToEscape = {};
   const data = { ...escapeData(dataToEscape), ...dataNotToEscape };
@@ -45,6 +40,15 @@ const renderGraphiQL = async function (input) {
       innererror: error,
     });
   }
+};
+
+const getDataToEscape = function (input) {
+  return {
+    endpointURL: input.endpointURL,
+    query: input.query || '',
+    variables: input.variables || '',
+    operationName: input.operationName || '',
+  };
 };
 
 const escapeData = function (dataToEscape) {

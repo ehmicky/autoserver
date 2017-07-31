@@ -17,12 +17,24 @@ const sortMeasures = function (
   { category: catA, average: timeA },
   { category: catB, average: timeB },
 ) {
+  const compNum = sortByCategory({ catA, catB });
+  if (compNum !== 0) { return compNum; }
+
+  return sortByTime({ timeA, timeB });
+};
+
+const sortByCategory = function ({ catA, catB }) {
   const indexCatA = CATEGORIES.indexOf(catA);
   const indexCatB = CATEGORIES.indexOf(catB);
   if (indexCatA < indexCatB) { return -1; }
   if (indexCatA > indexCatB) { return 1; }
+  return 0;
+};
+
+const sortByTime = function ({ timeA, timeB }) {
   if (timeA < timeB) { return 1; }
-  return timeA > timeB ? -1 : 0;
+  if (timeA > timeB) { return -1; }
+  return 0;
 };
 
 // Prints as a table

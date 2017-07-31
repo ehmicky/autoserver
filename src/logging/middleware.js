@@ -15,16 +15,18 @@ const getMiddlewareLogging = () => async function middlewareLogging (
 
   try {
     const response = await nextFunc(input, ...args) || {};
-
-    const log = response.log || input.log;
-    // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    input.logRef.log = log;
-    const responseA = { ...response, log };
-
+    const responseA = assignLog({ input, response });
     return responseA;
   } catch (error) {
     handleError({ input, error });
   }
+};
+
+const assignLog = function ({ input, response }) {
+  const log = response.log || input.log;
+  // eslint-disable-next-line no-param-reassign, fp/no-mutation
+  input.logRef.log = log;
+  return { ...response, log };
 };
 
 const handleError = function ({ input, input: { logRef }, error }) {

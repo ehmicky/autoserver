@@ -129,7 +129,7 @@ rules:
   import/max-dependencies: 2
   complexity:
   - 2
-  - 5
+  - 4
   max-depth:
   - 2
   - 1
