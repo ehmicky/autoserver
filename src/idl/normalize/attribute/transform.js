@@ -10,7 +10,6 @@ const normalizeTransforms = function (type, attr) {
 
   // Using `compute` implies `readOnly` true
   const readOnly = type === 'compute' ? true : attr.readOnly;
-  attr.readOnly = readOnly;
 
   return { [type]: value, readOnly };
 };

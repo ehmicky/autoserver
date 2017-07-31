@@ -22,10 +22,10 @@ const propertiesPlugin = function ({
 
     const properties = getProperties(opts);
 
-    idl.models = mapValues(models, (model, modelName) =>
+    const modelsA = mapValues(models, (model, modelName) =>
       getNewModel({ model, modelName, properties, requiredProperties })
     );
-    return idl;
+    return { ...idl, models: modelsA };
   };
 };
 

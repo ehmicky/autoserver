@@ -1,6 +1,7 @@
 'use strict';
 
 const { GraphQLSchema } = require('graphql');
+const { v4: uuidv4 } = require('uuid');
 
 const { memoize, mapValues } = require('../../../../utilities');
 
@@ -16,11 +17,14 @@ const getSchema = memoize(({
     maxPageSize,
   },
 }) => {
+  const schemaId = uuidv4();
+
   // Apply `getType` to each top-level graphqlMethod, i.e. Query and Mutation
   const schemaFields = mapValues(rootDefs, (rootDef, graphqlMethod) => {
     // Builds query|mutation type
     const def = getGraphqlMethodDef({ rootDef, graphqlMethod, models });
-    return getType(def, { defaultPageSize, maxPageSize, rootDef: def });
+    const opts = { defaultPageSize, maxPageSize, rootDef: def, schemaId };
+    return getType(def, opts);
   });
 
   const schema = new GraphQLSchema(schemaFields);
