@@ -6,11 +6,13 @@ const { singular, plural } = require('pluralize');
 
 const { memoize } = require('../utilities');
 
-const getRawValidator = memoize(() => {
+const getRawValidator = function () {
   const ajv = new Ajv(ajvOptions);
   const ajvA = addKeywords(ajv);
   return ajvA;
-});
+};
+
+const mGetRawValidator = memoize(getRawValidator);
 
 const ajvOptions = {
   allErrors: true,
@@ -62,6 +64,6 @@ const customBaseKeywords = {
 };
 
 module.exports = {
-  getRawValidator,
+  getRawValidator: mGetRawValidator,
   addKeyword,
 };

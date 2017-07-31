@@ -6,7 +6,7 @@ const { throwError } = require('../../../../error');
 const { memoize } = require('../../../../utilities');
 
 // Raw GraphQL parsing
-const parseQuery = memoize(({ query, goal, operationName }) => {
+const parseQuery = function ({ query, goal, operationName }) {
   if (!query) {
     const message = 'Missing GraphQL query';
     throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
@@ -21,7 +21,9 @@ const parseQuery = memoize(({ query, goal, operationName }) => {
       innererror: error,
     });
   }
-});
+};
+
+const mParseQuery = memoize(parseQuery);
 
 const getQueryDocument = function ({ query, goal, operationName }) {
   const queryDocument = parse(query);
@@ -92,5 +94,5 @@ const validateQuery = function ({ graphqlMethod, goal }) {
 };
 
 module.exports = {
-  parseQuery,
+  parseQuery: mParseQuery,
 };

@@ -5,10 +5,12 @@ const { memoize, assignArray } = require('../utilities');
 const { reportErrors } = require('./report_error');
 const { getRawValidator } = require('./base');
 
-const getValidator = memoize(({ schema }) => {
+const getValidator = function ({ schema }) {
   const ajv = getRawValidator();
   return ajv.compile(schema);
-});
+};
+
+const mGetValidator = memoize(getValidator);
 
 /**
  * Perform a validation, using a JSON schema, and a `data` as input
@@ -25,7 +27,7 @@ const getValidator = memoize(({ schema }) => {
  **/
 const validate = function ({ schema, data, reportInfo, extra }) {
   // Retrieves validation library
-  const validator = getValidator({ schema });
+  const validator = mGetValidator({ schema });
   const dataWithExtra = getDataWithExtra({ data, extra });
   const isValid = validator(dataWithExtra);
   if (isValid) { return; }
@@ -47,7 +49,7 @@ const getDataWithExtra = function ({ data, extra }) {
 };
 
 module.exports = {
-  getValidator,
+  getValidator: mGetValidator,
   getRawValidator,
   validate,
 };
