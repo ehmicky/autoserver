@@ -22,12 +22,22 @@ plugins:
 - markdown
 - unicorn
 
+# Differences from feross/standard:
+#  - end with semicolons
+#  - use trailing commas
+# There are also some extra restrictions:
+#  - enforcing a functional style:
+#     - avoid complex|big functions|files
+#     - no OOP
+#     - immutability, e.g. can only assign during initialization
+#     - pure functions, e.g. avoid using global state, or shadowing it
+#     - no for|while loops, no complex if|else branches, no switch
+#  - prefer named arguments over positional arguments
+#  - prefer async/await over alternatives
+#  - avoid overriding ESLint with comments
+#  - diverse stylistic rules
 rules:
-  # Differences from feross/standard:
-  #  - end with semicolons
-  #  - use trailing commas
-  # The rest of the rules are just adding extra restrictions, i.e. not
-  # contradicting feross/standard
+  # Differences from feross/standard
   semi:
   - 2
   - always
@@ -201,11 +211,11 @@ rules:
   for-direction: 2
   guard-for-in: 2
   fp/no-loops: 2
+
+  # Switch
   no-restricted-syntax:
   - 2
   - SwitchStatement
-
-  # Switch
   default-case: 2
   no-case-declarations: 2
 
