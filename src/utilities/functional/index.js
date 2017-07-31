@@ -11,4 +11,6 @@ module.exports = {
   ...require('./once'),
   ...require('./identity'),
   ...require('./group'),
+  // eslint-disable-next-line import/max-dependencies
+  ...require('./sort'),
 };
