@@ -3,6 +3,7 @@
 const { pick } = require('../../../utilities');
 const { addJsl } = require('../../../jsl');
 const { addLogInfo } = require('../../../logging');
+const { commonAttributes } = require('../../common_attributes');
 
 const { getLogActions } = require('./log_actions');
 const { getTransformedResponse } = require('./transform');
@@ -28,17 +29,11 @@ const actionConvertor = async function (nextFunc, input) {
 
 // Not kept: goal, queryVars, pathVars, payload, route, operation
 const actionAttributes = [
-  'currentPerf',
+  ...commonAttributes,
   'action',
   'fullAction',
   'args',
   'modelName',
-  'log',
-  'jsl',
-  'perf',
-  'idl',
-  'serverOpts',
-  'apiServer',
   'params',
   'settings',
 ];

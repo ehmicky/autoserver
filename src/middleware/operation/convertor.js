@@ -1,6 +1,7 @@
 'use strict';
 
 const { pick } = require('../../utilities');
+const { commonAttributes } = require('../common_attributes');
 
 // Converts from Protocol format to Operation format
 const operationConvertor = async function (nextFunc, input) {
@@ -12,7 +13,7 @@ const operationConvertor = async function (nextFunc, input) {
 // Not kept: protocol, protocolFullName, timestamp, requestId, ip, url,
 // path, method, headers
 const operationAttributes = [
-  'currentPerf',
+  ...commonAttributes,
   'goal',
   'queryVars',
   'pathVars',
@@ -21,12 +22,6 @@ const operationAttributes = [
   'payload',
   'route',
   'origin',
-  'jsl',
-  'log',
-  'perf',
-  'idl',
-  'serverOpts',
-  'apiServer',
 ];
 
 module.exports = {

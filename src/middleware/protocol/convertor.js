@@ -1,6 +1,7 @@
 'use strict';
 
 const { pick } = require('../../utilities');
+const { commonAttributes } = require('../common_attributes');
 
 // Converts from no format to Protocol format
 const protocolConvertor = async function (nextFunc, input) {
@@ -10,14 +11,8 @@ const protocolConvertor = async function (nextFunc, input) {
 };
 
 const protocolAttributes = [
-  'currentPerf',
+  ...commonAttributes,
   'specific',
-  'idl',
-  'jsl',
-  'serverOpts',
-  'apiServer',
-  'log',
-  'perf',
   'protocol',
   'protocolHandler',
   'now',
