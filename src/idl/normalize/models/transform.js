@@ -114,6 +114,7 @@ const checkTransformCircular = function ({ props, modelName, triedProps }) {
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
+  // eslint-disable-next-line fp/no-mutating-methods
   triedProps.push(strProps);
 };
 
