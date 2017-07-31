@@ -72,7 +72,7 @@
 // Note that any exception thrown in this module might not be logged
 // (since this is the logger itself), so we must be precautious.
 
-const { deepMerge } = require('../utilities');
+const { deepMerge, omit } = require('../utilities');
 
 const createLog = function ({ serverOpts, apiServer, phase }) {
   const logInfo = {};
@@ -88,7 +88,14 @@ const addLogInfo = function (obj, logInfo) {
   return { ...obj, log: { ...log, logInfo: logInfoB } };
 };
 
+const removeLogInfo = function (obj, attributes) {
+  const { log, log: { logInfo: logInfoA } } = obj;
+  const logInfoB = omit(logInfoA, attributes);
+  return { ...obj, log: { ...log, logInfo: logInfoB } };
+};
+
 module.exports = {
   createLog,
   addLogInfo,
+  removeLogInfo,
 };

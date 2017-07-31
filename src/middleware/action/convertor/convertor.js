@@ -2,7 +2,7 @@
 
 const { pick } = require('../../../utilities');
 const { addJsl } = require('../../../jsl');
-const { addLogInfo } = require('../../../logging');
+const { addLogInfo, removeLogInfo } = require('../../../logging');
 const { commonAttributes } = require('../../common_attributes');
 
 const { getLogActions } = require('./log_actions');
@@ -41,15 +41,26 @@ const actionAttributes = [
 const handleResponse = function ({ response, input, args, operation }) {
   const logActions = getLogActions({ input, response, args });
   const responseA = addLogInfo(response, { actions: logActions });
+  const responseB = removeLogInfo(responseA, unusedInfo);
 
-  const responseB = getTransformedResponse({
+  const responseC = getTransformedResponse({
     input,
-    response: responseA,
+    response: responseB,
     args,
     operation,
   });
-  return responseB;
+  return responseC;
 };
+
+// Those log information are only useful if an exception is thrown
+// in the middle of an action
+const unusedInfo = [
+  'action',
+  'fullAction',
+  'model',
+  'command',
+  'args',
+];
 
 module.exports = {
   actionConvertor,
