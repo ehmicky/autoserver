@@ -45,6 +45,7 @@ const addCustomKeyword = function ({
         if (isValid === true) { return true; }
 
         const errorMessage = runJsl({ jsl, value: message, params, idl });
+        // eslint-disable-next-line fp/no-mutation
         validate.errors = [{
           message: errorMessage,
           keyword,
