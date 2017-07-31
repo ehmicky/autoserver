@@ -11,12 +11,24 @@ const { throwError } = require('../../../error');
  *     { attrName: 'id', order: 'asc' },
  *   ]
  **/
-const normalizeOrderBy = function ({ orderBy, attrNames }) {
+const normalizeOrderBy = function ({
+  input,
+  input: { args, args: { orderBy }, modelName, idl: { models } },
+}) {
+  if (!orderBy) { return input; }
+
   if (typeof orderBy !== 'string') {
     const message = 'Argument \'order_by\' must be a string';
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
+  const attrNames = Object.keys(models[modelName].properties);
+  const nOrderBy = getNOrderBy({ orderBy, attrNames });
+
+  return { ...input, args: { ...args, nOrderBy } };
+};
+
+const getNOrderBy = function ({ orderBy, attrNames }) {
   // Remove whitespaces
   const noWhitespaceOrderBy = orderBy.replace(/\s+/g, '');
 
@@ -25,25 +37,7 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
 
   // Transform each part from a string to an object
   // { attrName 'attr', order 'asc|desc' }
-  const nOrderBy = parts.map(part => {
-    if (part === '') {
-      const message = 'Argument \'order_by\' cannot have empty attributes';
-      throwError(message, { reason: 'INPUT_VALIDATION' });
-    }
-
-    // Default order is +
-    const partWithPrefix = partsPostfixRegexp.test(part) ? part : `${part}+`;
-    // Parse the + or - postfix
-    const [, attrName, orderPostfix] = partsPostfixRegexp.exec(partWithPrefix);
-    const order = orderPostfix === '-' ? 'desc' : 'asc';
-
-    if (!attrNames.includes(attrName)) {
-      const message = `Argument 'order_by' attribute '${attrName}' does not exist`;
-      throwError(message, { reason: 'INPUT_VALIDATION' });
-    }
-
-    return { attrName, order };
-  });
+  const nOrderBy = parts.map(part => getPart({ part, attrNames }));
 
   // `orderBy` always include an id sorting. The reasons:
   //   - make output predictable, the same request should always get
@@ -55,6 +49,26 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
   const finalNOrderBy = hasId ? nOrderBy : [...nOrderBy, idOrder];
 
   return finalNOrderBy;
+};
+
+const getPart = function ({ part, attrNames }) {
+  if (part === '') {
+    const message = 'Argument \'order_by\' cannot have empty attributes';
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  // Default order is +
+  const partWithPrefix = partsPostfixRegexp.test(part) ? part : `${part}+`;
+  // Parse the + or - postfix
+  const [, attrName, orderPostfix] = partsPostfixRegexp.exec(partWithPrefix);
+  const order = orderPostfix === '-' ? 'desc' : 'asc';
+
+  if (!attrNames.includes(attrName)) {
+    const message = `Argument 'order_by' attribute '${attrName}' does not exist`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  return { attrName, order };
 };
 
 const idOrder = { attrName: 'id', order: 'asc' };
