@@ -168,7 +168,7 @@ rules:
   fp/no-delete: 2
   import/no-unassigned-import: 2
   fp/no-mutating-assign: 2
-##  fp/no-mutating-methods: 2
+  fp/no-mutating-methods: 2
 
   # Naming
   id-length:
