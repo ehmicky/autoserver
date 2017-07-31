@@ -17,14 +17,16 @@ const globalObjects = [
 // Retrieves all global variables, to make sure JSL does not access them
 // This is memoized, i.e. no global variables should be added runtime,
 // as they could be accessed in JSL
-const getGlobalKeys = memoize(({ type }) => {
+const getGlobalKeys = function ({ type }) {
   const filteredGlobals = globalObjects
     .map(globalObj => filterGlobalObj({ globalObj, type }))
     .reduce(assignArray, []);
   // Make sure it is sorted, for the memoizer
   const sortedGlobals = sortArray(filteredGlobals);
   return sortedGlobals;
-});
+};
+
+const mGetGlobalKeys = memoize(getGlobalKeys);
 
 // Retrieves all global properties
 const filterGlobalObj = function ({ globalObj, type }) {
@@ -72,5 +74,5 @@ const whitelistedGlobalKeys = {
 };
 
 module.exports = {
-  getGlobalKeys,
+  getGlobalKeys: mGetGlobalKeys,
 };

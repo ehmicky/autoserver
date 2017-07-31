@@ -7,6 +7,19 @@ const { getTypeName } = require('../name');
 
 const { getObjectFields } = require('./fields');
 
+// Object field FGetter
+const graphQLObjectFGetter = function (def, opts, getField) {
+  const name = getTypeName({ def, opts });
+  const { description } = def;
+  const Type = opts.inputObjectType === ''
+    ? GraphQLObjectType
+    : GraphQLInputObjectType;
+  const fields = getObjectFields(def, opts, getField);
+
+  const type = new Type({ name, description, fields });
+  return { type };
+};
+
 /**
  * Memoize object type constructor in order to infinite recursion.
  * We use the type name, i.e.:
@@ -21,19 +34,10 @@ const objectTypeSerializer = function ([def, opts]) {
   return `${opts.schemaId}/${typeName}`;
 };
 
-// Object field FGetter
-const graphQLObjectFGetter = memoize((def, opts, getField) => {
-  const name = getTypeName({ def, opts });
-  const { description } = def;
-  const Type = opts.inputObjectType === ''
-    ? GraphQLObjectType
-    : GraphQLInputObjectType;
-  const fields = getObjectFields(def, opts, getField);
-
-  const type = new Type({ name, description, fields });
-  return { type };
-}, { serializer: objectTypeSerializer });
+const mGraphQLObjectFGetter = memoize(graphQLObjectFGetter, {
+  serializer: objectTypeSerializer,
+});
 
 module.exports = {
-  graphQLObjectFGetter,
+  graphQLObjectFGetter: mGraphQLObjectFGetter,
 };

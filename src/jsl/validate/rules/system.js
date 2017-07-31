@@ -24,7 +24,7 @@ const { validateCallExpression } = require('./call_expression');
 //     - function calls must be `func()` or `obj.func()`
 //     - no classes, generators, ArrayBuffer, TypedArray, Map, Set, SIMD, Proxy,
 //       Reflect or debugger
-const getRules = memoize(({ globalKeys }) => ({
+const getRules = ({ globalKeys }) => ({
 
   Program ({ start, body }) {
     if (start !== 0) {
@@ -110,23 +110,25 @@ const getRules = memoize(({ globalKeys }) => ({
   // TODO: remove when https://github.com/ternjs/acorn/pull/558 is fixed
   VariablePattern: true,
   MemberPattern: true,
-}));
+});
+
+const mGetRules = memoize(getRules);
 
 // Those are the only constructors that can be called with `new`
 const allowedConstructors = ['Date', 'Array', 'RegExp'];
 
 module.exports = {
   system: {
-    getRules,
+    getRules: mGetRules,
   },
   startup: {
-    getRules,
+    getRules: mGetRules,
   },
   data: {
-    getRules,
+    getRules: mGetRules,
   },
   // TODO: remove when we parse args.filter into a database object
   filter: {
-    getRules,
+    getRules: mGetRules,
   },
 };
