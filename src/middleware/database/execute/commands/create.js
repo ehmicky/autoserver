@@ -9,6 +9,7 @@ const create = function ({ collection, newData, opts, opts: { dryRun } }) {
   const newModel = { ...newData, id };
 
   if (!dryRun) {
+    // eslint-disable-next-line fp/no-mutating-methods
     collection.push(newModel);
   }
 

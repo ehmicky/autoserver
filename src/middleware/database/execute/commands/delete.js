@@ -5,7 +5,10 @@ const { findIndexes, findIndexByFilter } = require('../find');
 
 const deleteOne = function ({ collection, nFilter, opts, opts: { dryRun } }) {
   const index = findIndexByFilter({ collection, nFilter, opts });
-  const model = dryRun ? collection[index] : collection.splice(index, 1)[0];
+  const model = dryRun
+    ? collection[index]
+    // eslint-disable-next-line fp/no-mutating-methods
+    : collection.splice(index, 1)[0];
   return { data: model };
 };
 
@@ -15,6 +18,7 @@ const deleteMany = function ({ collection, nFilter, opts, opts: { dryRun } }) {
   const models = sortedIndexes.map((index, count) => {
     const model = dryRun
       ? collection[index]
+      // eslint-disable-next-line fp/no-mutating-methods
       : collection.splice(index - count, 1)[0];
     return model;
   });
