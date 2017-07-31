@@ -1,6 +1,9 @@
 'use strict';
 
-const { applyTransformsOnData } = require('./transformer');
+const {
+  applyInputTransforms,
+  applyOutputTransforms,
+} = require('./transformer');
 
 /**
  * Applies schema `transform`
@@ -24,37 +27,13 @@ const { applyTransformsOnData } = require('./transformer');
  *    should be persisted, including `transform`, `default` or input validation
  **/
 const handleTransforms = async function (nextFunc, input) {
-  const {
-    args,
-    modelName,
-    jsl,
-    idl,
-    idl: { shortcuts: { transformsMap, computesMap } },
-  } = input;
-  const { newData } = args;
+  const inputA = applyInputTransforms({ input, type: 'transform' });
 
-  if (newData) {
-    args.newData = applyTransformsOnData({
-      data: newData,
-      transforms: transformsMap[modelName],
-      jsl,
-      idl,
-      type: 'transform',
-    });
-  }
+  const response = await nextFunc(inputA);
 
-  const response = await nextFunc(input);
+  const responseA = applyOutputTransforms({ input, response, type: 'compute' });
 
-  const transforms = computesMap[modelName];
-  response.data = applyTransformsOnData({
-    data: response.data,
-    transforms,
-    jsl,
-    idl,
-    type: 'compute',
-  });
-
-  return response;
+  return responseA;
 };
 
 module.exports = {
