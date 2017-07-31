@@ -13,15 +13,8 @@ const {
 const processErrorHandler = function ({ oServerOpts, apiServer }) {
   checkUniqueCall();
 
-  const processLog = createLog({
-    serverOpts: oServerOpts,
-    apiServer,
-    phase: 'process',
-  });
-  // Shortcut function
-  processLog.process = processHandler.bind(null, processLog);
-
-  setupHandlers({ log: processLog });
+  const processLog = getProcessLog({ oServerOpts, apiServer });
+  setupHandlers({ processLog });
 
   return { processLog };
 };
@@ -44,29 +37,39 @@ const checkUniqueCall = function () {
 
 const uniqueCall = onlyOnce(identity, { error: true });
 
-const setupHandlers = function ({ log }) {
-  setupUnhandledRejection({ log });
-  setupRejectionHandled({ log });
-  setupWarning({ log });
+const getProcessLog = function ({ oServerOpts, apiServer }) {
+  const log = createLog({
+    serverOpts: oServerOpts,
+    apiServer,
+    phase: 'process',
+  });
+  const processLog = processHandler.bind(null, log);
+  return processLog;
 };
 
-const setupUnhandledRejection = function ({ log }) {
+const setupHandlers = function ({ processLog }) {
+  setupUnhandledRejection({ processLog });
+  setupRejectionHandled({ processLog });
+  setupWarning({ processLog });
+};
+
+const setupUnhandledRejection = function ({ processLog }) {
   process.on('unhandledRejection', async error => {
     const message = 'A promise was rejected and not handled right away';
-    await log.process({ error, message });
+    await processLog({ error, message });
   });
 };
 
-const setupRejectionHandled = function ({ log }) {
+const setupRejectionHandled = function ({ processLog }) {
   process.on('rejectionHandled', async () => {
     const message = 'A promise was rejected but handled too late';
-    await log.process({ message });
+    await processLog({ message });
   });
 };
 
-const setupWarning = function ({ log }) {
+const setupWarning = function ({ processLog }) {
   process.on('warning', async error => {
-    await log.process({ error });
+    await processLog({ error });
   });
 };
 

@@ -23,7 +23,7 @@ const startServer = function ({
 
   // Handle server lifecycle events
   handleClientRequest({ server, handleRequest });
-  handleClientError({ server, log: processLog });
+  handleClientError({ server, processLog });
 
   // Start server
   server.listen(port, host);
@@ -49,10 +49,10 @@ const handleClientRequest = function ({ server, handleRequest }) {
 };
 
 // Report TCP client errors
-const handleClientError = function ({ server, log }) {
+const handleClientError = function ({ server, processLog }) {
   server.on('clientError', async (error, socket) => {
     const message = 'Client TCP socket error';
-    await log.process({ error, message });
+    await processLog({ error, message });
 
     socket.end('');
   });
