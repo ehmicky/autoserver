@@ -16,17 +16,18 @@ const getType = function (def, opts = {}) {
 // GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
 const getField = function (def, opts) {
-  opts.inputObjectType = opts.inputObjectType || '';
+  const inputObjectType = opts.inputObjectType || '';
+  const optsA = { ...opts, inputObjectType };
 
-  const fieldGetter = getFieldGetter({ def, opts });
-  const { type, args } = fieldGetter.value(def, opts, getField);
+  const fieldGetter = getFieldGetter({ def, opts: optsA });
+  const { type, args } = fieldGetter.value(def, optsA, getField);
 
   // Fields description|deprecation_reason are taken from IDL definition
   const { description, deprecationReason } = def;
 
-  const argsA = getArgs({ args, def, opts });
+  const argsA = getArgs({ args, def, opts: optsA });
 
-  const defaultValue = getDefaultValue({ def, opts });
+  const defaultValue = getDefaultValue({ def, opts: optsA });
   const field = {
     type,
     description,

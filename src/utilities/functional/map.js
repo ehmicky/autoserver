@@ -9,6 +9,7 @@ const mapValues = function (obj, mapperFunc) {
 };
 
 const mapValuesFunc = function ({ key, obj, newValue }) {
+  // eslint-disable-next-line no-param-reassign
   obj[key] = newValue;
   return obj;
 };
@@ -19,6 +20,7 @@ const mapKeys = function (obj, mapperFunc) {
 };
 
 const mapKeysFunc = function ({ value, obj, newValue }) {
+  // eslint-disable-next-line no-param-reassign
   obj[newValue] = value;
   return obj;
 };

@@ -1,7 +1,6 @@
 'use strict';
 
 const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql');
-const { v4: uuidv4 } = require('uuid');
 
 const { memoize } = require('../../../../../utilities');
 const { getTypeName } = require('../name');
@@ -19,7 +18,6 @@ const { getObjectFields } = require('./fields');
  **/
 const objectTypeSerializer = function ([def, opts]) {
   const typeName = getTypeName({ def, opts });
-  opts.schemaId = opts.schemaId || uuidv4();
   return `${opts.schemaId}/${typeName}`;
 };
 
