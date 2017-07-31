@@ -28,43 +28,50 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
 
   // Iterate through each action
   return actions
-    .map(action => {
-      // Remove model that are not allowed for a given action
-      const allowedModels = pickBy(models, model =>
-        isAllowedModel({ model, action })
-      );
-
-      // E.g. 'my_model' + 'findMany' -> 'findMyModels'
-      // This will be used as the top-level graphqlMethod
-      const renamedModels = mapKeys(allowedModels, (model, modelName) =>
-        getPluralActionName({ modelName, action })
-      );
-
-      // Iterate through each model
-      return mapValues(renamedModels, model =>
-        getModelByAction({ model, action })
-      );
-    })
+    .map(action => getAllModelsByAction({ models, action }))
     .reduce(assignObject, {});
+};
+
+const getAllModelsByAction = function ({ models, action }) {
+  // Remove model that are not allowed for a given action
+  const allowedModels = pickBy(models, model =>
+    isAllowedModel({ model, action })
+  );
+
+  // E.g. 'my_model' + 'findMany' -> 'findMyModels'
+  // This will be used as the top-level graphqlMethod
+  const renamedModels = mapKeys(allowedModels, (model, modelName) =>
+    getPluralActionName({ modelName, action })
+  );
+
+  // Iterate through each model
+  return mapValues(renamedModels, model =>
+    getModelByAction({ model, action })
+  );
 };
 
 const getModelByAction = function ({ model, action }) {
   // Add action information to the nested models
-  const properties = mapValues(model.properties, def => {
-    const subDef = getSubDef(def);
-    if (!isModel(subDef)) { return def; }
-
-    const multiple = isMultiple(def);
-    const subAction = ACTIONS.find(act =>
-      act.type === action.type && act.multiple === multiple
-    );
-    return { ...def, action: subAction };
-  });
+  const properties = mapValues(
+    model.properties,
+    def => getModelProps({ def, action }),
+  );
 
   const modelCopy = getModelCopy({ model, properties, action });
 
   // Add action information to the top-level model
   return { ...modelCopy, action };
+};
+
+const getModelProps = function ({ def, action }) {
+  const subDef = getSubDef(def);
+  if (!isModel(subDef)) { return def; }
+
+  const multiple = isMultiple(def);
+  const subAction = ACTIONS.find(act =>
+    act.type === action.type && act.multiple === multiple
+  );
+  return { ...def, action: subAction };
 };
 
 const getModelCopy = function ({ model, properties, action: { multiple } }) {

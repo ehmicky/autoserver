@@ -64,14 +64,16 @@ const validateActions = function ({ actions }) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  const wrongAction = actions.find(({ name }) =>
-    !ACTIONS.some(({ name: actionName }) => name === actionName)
-  );
+  const wrongAction = actions.find(action => isWrongAction({ action }));
 
   if (wrongAction) {
     const message = `'actions' contains invalid action: '${JSON.stringify(wrongAction)}'`;
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
+};
+
+const isWrongAction = function ({ action }) {
+  return !ACTIONS.some(({ name: actionName }) => action.name === actionName);
 };
 
 module.exports = {

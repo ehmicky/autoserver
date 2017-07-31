@@ -7,7 +7,7 @@ const { throwError } = require('../../../error');
 const setOrder = function (type, model, { modelName }) {
   if (!model.properties) { return; }
 
-  const props = getTransformUsing({ model, modelName });
+  const props = getAllTransformUsing({ model, modelName });
   const order = findTransformOrder({ props, modelName });
 
   return { [`${type}Order`]: order };
@@ -19,26 +19,24 @@ const setComputeOrder = setOrder.bind(null, 'compute');
 
 // Returns array of properties having a transform, together with `using`
 // properties, as [{ attrName, using: [...] }, ...]
-const getTransformUsing = function ({ model: { properties }, modelName }) {
+const getAllTransformUsing = function ({ model: { properties }, modelName }) {
   const attributes = Object.keys(properties);
 
   return Object.entries(properties)
     .filter(([, { transform }]) => transform)
     .map(([attrName, { transform }]) => {
-      // Merge all `using` properties
-      const transformUsing = transform
-        .map(({ using = [] }) => using)
-        .reduce(assignArray, []);
-
-      const transformUsingA = validateUsing({
-        transformUsing,
-        attributes,
-        modelName,
-        attrName,
-      });
-
-      return { attrName, using: transformUsingA };
+      const using = getUsing({ attrName, transform, attributes, modelName });
+      return { attrName, using };
     });
+};
+
+const getUsing = function ({ transform, ...rest }) {
+  // Merge all `using` properties
+  const transformUsing = transform
+    .map(({ using = [] }) => using)
+    .reduce(assignArray, []);
+
+  return validateUsing({ transformUsing, ...rest });
 };
 
 // Make sure `using` properties point to an existing attribute
@@ -91,8 +89,8 @@ const findRecTransformOrder = function ({
   const nextProps = props.slice(index + 1);
   // Means the attribute is currently behind another attribute that should be
   // behind
-  const isWrongOrder = prop.using.some(orderAttr =>
-    nextProps.some(({ attrName }) => attrName === orderAttr)
+  const isWrongOrder = prop.using.some(
+    orderAttr => isSameAttr({ nextProps, orderAttr }),
   );
 
   if (!isWrongOrder) { return; }
@@ -101,6 +99,10 @@ const findRecTransformOrder = function ({
   const previousProps = props.slice(0, index);
   const propsA = [...previousProps, ...nextProps, prop];
   return findTransformOrder({ props: propsA, modelName, triedProps });
+};
+
+const isSameAttr = function ({ nextProps, orderAttr }) {
+  return nextProps.some(({ attrName }) => attrName === orderAttr);
 };
 
 // If two properties point to each other with `using` property, it means

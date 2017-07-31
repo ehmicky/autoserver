@@ -24,11 +24,11 @@ const { throwError, reverseArray } = require('./utilities');
  * @param {function[]} [options.before]: inserted before each middleware
  * @returns {function[]} middlewares
  */
-const chain = function (funcs, { before: beforeOpt = [] } = {}) {
+const chain = function (funcs, opts = {}) {
   const chainedFuncs = funcs
     // Insert recurring functions before each middleware
     .reduce((allFuncs, func) => {
-      const beforeFuncs = beforeOpt.map(beforeFunc => beforeFunc(func));
+      const beforeFuncs = getBeforeFuncs({ func, opts });
       return [...allFuncs, ...beforeFuncs, func];
     }, [])
     // End of iteration
@@ -37,6 +37,10 @@ const chain = function (funcs, { before: beforeOpt = [] } = {}) {
     // where `next` points to next function
     .reduceRight(bindFunctions, []);
   return reverseArray(chainedFuncs);
+};
+
+const getBeforeFuncs = function ({ func, opts: { before: beforeOpt = [] } }) {
+  return beforeOpt.map(beforeFunc => beforeFunc(func));
 };
 
 const lastFunc = function () {

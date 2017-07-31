@@ -86,18 +86,27 @@ const tokenToJsl = function ({ parts, nOrderBy, isBackward }) {
   const mainOrder = isBackward ? 'asc' : 'desc';
   return nOrderBy
     .map(({ attrName, order }, index) =>
-      ({ attrName, order, value: parts[index] })
+      orderToJsl({ parts, attrName, order, index, nOrderBy, mainOrder })
     )
-    .map(({ attrName, order, value }, index) => {
-      const previousParts = parts
-        .slice(0, index)
-        .map((val, valIndex) => `$$.${nOrderBy[valIndex].attrName} === ${JSON.stringify(val)}`);
-      const operator = order === mainOrder ? '<' : '>';
-      const currentPart = `$$.${attrName} ${operator} ${JSON.stringify(value)}`;
-      const partJsl = `(${[...previousParts, currentPart].join(' && ')})`;
-      return partJsl;
-    })
     .join(' || ');
+};
+
+const orderToJsl = function ({
+  parts,
+  attrName,
+  order,
+  index,
+  nOrderBy,
+  mainOrder,
+}) {
+  const part = parts[index];
+  const previousParts = parts
+    .slice(0, index)
+    .map((val, valIndex) => `$$.${nOrderBy[valIndex].attrName} === ${JSON.stringify(val)}`);
+  const operator = order === mainOrder ? '<' : '>';
+  const currentPart = `$$.${attrName} ${operator} ${JSON.stringify(part)}`;
+  const partJsl = `(${[...previousParts, currentPart].join(' && ')})`;
+  return partJsl;
 };
 
 module.exports = {

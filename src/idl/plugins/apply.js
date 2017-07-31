@@ -17,8 +17,9 @@ const applyPlugins = async function ({ idl }) {
     : [];
 
   // Retrieve all builtinPlugins, except the ones that have been overriden
-  const defaultBuiltinPlugins = omitBy(builtinPlugins, (value, name) =>
-    plugins.some(({ plugin }) => plugin === name)
+  const defaultBuiltinPlugins = omitBy(
+    builtinPlugins,
+    (value, pluginName) => isOverridenPlugin({ plugins, pluginName }),
   );
 
   // Apply each idl.plugins as FUNC({ idl }) returning idl
@@ -26,6 +27,10 @@ const applyPlugins = async function ({ idl }) {
 
   const idlWithPlugins = await reduceAsync(allPlugins, pluginReducer, idl);
   return idlWithPlugins;
+};
+
+const isOverridenPlugin = function ({ plugins, pluginName }) {
+  return plugins.some(({ plugin }) => plugin === pluginName);
 };
 
 const pluginReducer = async function (idl, pluginConf, index) {
