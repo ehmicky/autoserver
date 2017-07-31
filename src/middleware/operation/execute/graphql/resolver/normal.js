@@ -3,7 +3,7 @@
 const { ACTIONS } = require('../../../../../constants');
 const { throwError } = require('../../../../../error');
 
-const { nestedModelResolver } = require('./nested_model');
+const { nestedModelResolver } = require('./nested');
 const { topLevelModelResolver } = require('./top_level_model');
 const { hasParentModel } = require('./utilities');
 const { getParentModel, setParentModel } = require('./utilities');
@@ -16,20 +16,21 @@ const normalResolver = async function ({
   cbFunc,
   graphqlMethod,
 }) {
+  const argsA = args || {};
+
   // Top-level and non-top-level attributes are handled differently
   const subResolver = hasParentModel(parent)
     ? nestedModelResolver
     : topLevelModelResolver;
 
-  const argsA = args || {};
-
   // Retrieve main input passed to database layer
-  const { multiple, modelName, actionType, directReturn } = subResolver({
-    name,
-    modelsMap,
-    parent,
-    args: argsA,
-  });
+  const {
+    multiple,
+    modelName,
+    actionType,
+    directReturn,
+    args: argsB,
+  } = subResolver({ name, modelsMap, parent, args: argsA });
   // Shortcuts resolver if we already know the final result
   if (directReturn !== undefined) { return directReturn; }
 
@@ -43,7 +44,7 @@ const normalResolver = async function ({
   const fullAction = getFullAction({ parent, name });
 
   // Fire database layer, retrieving value passed to children
-  const response = await cbFunc({ action, fullAction, modelName, args: argsA });
+  const response = await cbFunc({ action, fullAction, modelName, args: argsB });
 
   // Tags the response as belonging to that modelName
   setParentModel(response.data, { action, modelName, fullAction });
