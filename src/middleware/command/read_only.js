@@ -10,22 +10,30 @@ const { omit } = require('../../utilities');
  * readonly attributes.
  **/
 const handleReadOnly = async function (nextFunc, input) {
-  const { args, modelName, idl: { shortcuts: { readOnlyMap } } } = input;
-  const { newData } = args;
+  const inputA = applyReadOnly({ input });
 
-  // Remove readonly attributes in `args.newData`
-  if (newData) {
-    const readOnlyAttrs = readOnlyMap[modelName];
-    args.newData = Array.isArray(newData)
-      ? newData.map(datum => removeReadOnly({
-        newData: datum,
-        readOnlyAttrs,
-      }))
-      : removeReadOnly({ newData, readOnlyAttrs });
-  }
-
-  const response = await nextFunc(input);
+  const response = await nextFunc(inputA);
   return response;
+};
+
+// Remove readonly attributes in `args.newData`
+const applyReadOnly = function ({
+  input,
+  input: {
+    args,
+    args: { newData },
+    modelName,
+    idl: { shortcuts: { readOnlyMap } },
+  },
+}) {
+  if (!newData) { return input; }
+
+  const readOnlyAttrs = readOnlyMap[modelName];
+  const newDataA = Array.isArray(newData)
+    ? newData.map(datum => removeReadOnly({ newData: datum, readOnlyAttrs }))
+    : removeReadOnly({ newData, readOnlyAttrs });
+
+  return { ...input, args: { ...args, newData: newDataA } };
 };
 
 const removeReadOnly = function ({ newData, readOnlyAttrs }) {
