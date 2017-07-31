@@ -201,6 +201,9 @@ rules:
   for-direction: 2
   guard-for-in: 2
   fp/no-loops: 2
+  no-restricted-syntax:
+  - 2
+  - SwitchStatement
 
   # Switch
   default-case: 2
@@ -449,7 +452,6 @@ rules:
 #  no-restricted-imports: 2
 #  no-restricted-modules: 2
 #  no-restricted-properties: 2
-#  no-restricted-syntax: 2
 #  import/no-restricted-paths: 2
 settings:
   import/core-modules:
