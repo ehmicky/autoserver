@@ -21,7 +21,6 @@ const getObjectFields = function (def, opts, getField) {
         childDefName,
         inputObjectType,
         action,
-        def,
         rootDef,
       }))
       .reduce((memo, value) => Object.assign({}, memo, ...value), {});

@@ -11,7 +11,6 @@ const getNestedModels = function ({
   childDefName,
   inputObjectType,
   action,
-  def,
   rootDef,
 }) {
   const originalAttr = { [childDefName]: childDef };
@@ -23,7 +22,6 @@ const getNestedModels = function ({
     childDefName,
     inputObjectType,
     action,
-    def,
     rootDef,
   });
   return [nestedId, nestedModels];
@@ -41,7 +39,6 @@ const getRecursiveModels = function ({
   childDefName,
   inputObjectType,
   action,
-  def,
   rootDef,
 }) {
   // Not for data|filter arguments
@@ -50,8 +47,6 @@ const getRecursiveModels = function ({
   const recursiveDef = getRecursiveDef({ childDef, action, rootDef });
 
   const name = getActionName({ modelName: childDefName, action });
-
-  addToRequiredProps({ name, childDefName, def });
 
   return { [name]: recursiveDef };
 };
@@ -92,19 +87,6 @@ const removeTopLevel = function ({ def }) {
   }
 
   return items;
-};
-
-// Add transformed name to `required` array,
-// if non-transformed name was present
-const addToRequiredProps = function ({ name, childDefName, def }) {
-  const required = Array.isArray(def.required) &&
-    def.required.includes(childDefName) &&
-    !def.required.includes(name);
-
-  if (required) {
-    // eslint-disable-next-line fp/no-mutating-methods
-    // def.required.push(name);
-  }
 };
 
 module.exports = {
