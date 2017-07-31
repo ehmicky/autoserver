@@ -19,7 +19,9 @@ const normalizeFilter = function ({
   if (!filter) { return input; }
 
   // Already { filter: '($$.attr === 1)' }
-  if (isJsl({ jsl: filter })) { return input; }
+  if (isJsl({ jsl: filter })) {
+    return { ...input, args: { ...args, nFilter: filter } };
+  }
 
   if (filter.constructor !== Object) {
     const message = 'Argument \'filter\' format is invalid';
