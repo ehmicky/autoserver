@@ -9,19 +9,32 @@ const errorHandler = async function (nextFunc, input) {
     const response = await nextFunc(input);
     return response;
   } catch (error) {
-    const { protocolHandler, specific } = input;
-    const { log } = error;
+    const response = await errorHandle({ input, error });
+    return response;
+  }
+};
 
-    try {
-      await handleError({ log, error });
-    // If error handler itself fails
-    } catch (innererror) {
-      await handleFailure({ log, error: innererror });
+const errorHandle = async function ({
+  input: { protocolHandler, specific },
+  error: errorA,
+  error: { log },
+}) {
+  const status = protocolHandler.failureProtocolStatus;
+
+  try {
+    const response = await handleError({ log, error: errorA });
+
     // Make sure a response is sent, or the socket will hang
-    } finally {
-      const status = protocolHandler.failureProtocolStatus;
-      await protocolHandler.send.nothing({ specific, status });
-    }
+    protocolHandler.send.nothing({ specific, status });
+
+    return response;
+  // If error handler itself fails
+  } catch (error) {
+    const response = handleFailure({ log, error });
+
+    protocolHandler.send.nothing({ specific, status });
+
+    return response;
   }
 };
 

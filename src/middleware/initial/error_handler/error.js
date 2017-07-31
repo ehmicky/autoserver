@@ -15,6 +15,8 @@ const handleError = async function ({ log, error, error: { protocolStatus } }) {
     const response = { ...errorResponse, protocolStatus };
     await error.sendError(response);
   }
+
+  return standardError;
 };
 
 module.exports = {
