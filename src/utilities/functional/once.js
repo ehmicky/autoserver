@@ -16,6 +16,7 @@ const onlyOnce = function (func, { error = false } = {}) {
       return;
     }
 
+    // eslint-disable-next-line fp/no-mutation
     called = true;
     return func(...args);
   };

@@ -39,8 +39,7 @@ const applyDataAlias = function ({ newData, currentData, attrName, aliases }) {
 
   validateAliases({ newValue, aliasData, firstAttrName });
 
-  data[attrName] = newValue;
-  return data;
+  return { ...data, [attrName]: newValue };
 };
 
 // Retrieve subset of `args.data` that is either an alias on an aliased

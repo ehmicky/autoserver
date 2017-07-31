@@ -162,9 +162,9 @@ rules:
   no-param-reassign:
   - 2
   - props: true
-##  fp/no-mutation:
-##  - 2
-##  - commonjs: true
+  fp/no-mutation:
+  - 2
+  - commonjs: true
   fp/no-delete: 2
   import/no-unassigned-import: 2
   fp/no-mutating-assign: 2
