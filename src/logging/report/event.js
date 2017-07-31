@@ -14,18 +14,34 @@ const emitLogEvent = async function ({
   try {
     await emitEventAsync({ apiServer, name: eventName, data: reportedLog });
   } catch (error) {
-    if (delay > maxDelay) { return; }
-    await pSetTimeout(delay);
-
-    const reportedLogA = addLoggerError({ reportedLog, error });
-    const delayA = delay * delayExponent;
-    await emitLogEvent({
+    await handleLoggerError({
+      error,
       apiServer,
       eventName,
-      reportedLog: reportedLogA,
-      delay: delayA,
+      reportedLog,
+      delay,
     });
   }
+};
+
+const handleLoggerError = async function ({
+  error,
+  apiServer,
+  eventName,
+  reportedLog,
+  delay,
+}) {
+  if (delay > maxDelay) { return; }
+  await pSetTimeout(delay);
+
+  const reportedLogA = addLoggerError({ reportedLog, error });
+  const delayA = delay * delayExponent;
+  await emitLogEvent({
+    apiServer,
+    eventName,
+    reportedLog: reportedLogA,
+    delay: delayA,
+  });
 };
 
 const defaultDelay = 1000;

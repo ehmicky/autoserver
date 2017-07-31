@@ -44,15 +44,7 @@ const findIndex = function ({
 // '($ === ID)' -> ID
 const filterToId = function ({ nFilter }) {
   try {
-    const parts = idJslRegExp.exec(nFilter);
-
-    if (!parts) {
-      const message = `JSL expression should be '($ === ID)': ${nFilter}`;
-      throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
-    }
-
-    const id = JSON.parse(parts[1]);
-    return id;
+    return getFilterId({ nFilter });
   } catch (error) {
     const message = `JSL expression should be '($ === ID)': ${nFilter}`;
     throwError(message, {
@@ -60,6 +52,18 @@ const filterToId = function ({ nFilter }) {
       innererror: error,
     });
   }
+};
+
+const getFilterId = function ({ nFilter }) {
+  const parts = idJslRegExp.exec(nFilter);
+
+  if (!parts) {
+    const message = `JSL expression should be '($ === ID)': ${nFilter}`;
+    throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
+  }
+
+  const id = JSON.parse(parts[1]);
+  return id;
 };
 
 // Look for '(($ === ID))'

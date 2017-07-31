@@ -11,13 +11,7 @@ const { validateJsl } = require('../validate');
 const compileJsl = memoizeUnlessClient(({ jsl, paramsKeys, type }) => {
   // If this is not JSL, abort
   if (!isJsl({ jsl })) {
-    // Can escape (...) from being interpreted as JSL by escaping
-    // first parenthesis
-    if (isEscapedJsl({ jsl })) {
-      return jsl.replace('\\', '');
-    }
-
-    return jsl;
+    return getNonJsl({ jsl });
   }
 
   // Make sure JSL is valid and safe security-wise
@@ -32,6 +26,16 @@ const compileJsl = memoizeUnlessClient(({ jsl, paramsKeys, type }) => {
 
   return func;
 });
+
+const getNonJsl = function ({ jsl }) {
+  // Can escape (...) from being interpreted as JSL by escaping
+  // first parenthesis
+  if (isEscapedJsl({ jsl })) {
+    return jsl.replace('\\', '');
+  }
+
+  return jsl;
+};
 
 module.exports = {
   compileJsl,
