@@ -3,7 +3,7 @@
 const { GraphQLString } = require('graphql');
 
 const { omitBy, mapValues } = require('../../../../../utilities');
-const { isRequired } = require('../required');
+const { getRequired } = require('../required');
 
 const { getNestedModels } = require('./nested_models');
 const { filterArgs } = require('./filter_args');
@@ -52,13 +52,14 @@ const getChildField = function ({
   const childAction = childDef.action || action;
   const childOpts = { ...opts, action: childAction };
 
-  childOpts.isRequired = isRequired({
+  const isRequired = getRequired({
     parentDef: def,
     name: childDefName,
     ...childOpts,
   });
+  const childOptsA = { ...childOpts, isRequired };
 
-  const field = getField(childDef, childOpts);
+  const field = getField(childDef, childOptsA);
   return field;
 };
 

@@ -8,22 +8,29 @@ const { applyAllDefault } = require('./apply');
  * Not applied on partial write actions like 'update'
  **/
 const userDefaults = async function (nextFunc, input) {
-  const {
+  const inputA = addUserDefault({ input });
+
+  const response = await nextFunc(inputA);
+  return response;
+};
+
+const addUserDefault = function ({
+  input,
+  input: {
     args,
+    args: { newData },
     modelName,
     jsl,
     idl,
     idl: { shortcuts: { userDefaultsMap } },
-  } = input;
-  const { newData } = args;
+  },
+}) {
+  if (!newData) { return input; }
 
-  if (args.newData) {
-    const defAttributes = userDefaultsMap[modelName];
-    args.newData = applyAllDefault({ jsl, defAttributes, value: newData, idl });
-  }
+  const defAttributes = userDefaultsMap[modelName];
+  const newDataA = applyAllDefault({ jsl, defAttributes, value: newData, idl });
 
-  const response = await nextFunc(input);
-  return response;
+  return { ...input, args: { ...args, newData: newDataA } };
 };
 
 module.exports = {

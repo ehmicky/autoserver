@@ -13,7 +13,7 @@ const graphQLRequiredFGetter = function (def, opts, getField) {
 };
 
 // Returns whether a field is required
-const isRequired = function ({
+const getRequired = function ({
   parentDef,
   name,
   action = {},
@@ -46,5 +46,5 @@ const isRequired = function ({
 
 module.exports = {
   graphQLRequiredFGetter,
-  isRequired,
+  getRequired,
 };

@@ -11,7 +11,7 @@ const send = async function ({
   status,
 }) {
   if (status) {
-    // eslint-disable-next-line no-param-reassign
+    // eslint-disable-next-line no-param-reassign, fp/no-mutation
     res.statusCode = status;
   }
 
@@ -67,7 +67,7 @@ const sendNothing = async function ({
   if (res.finished) { return; }
 
   if (status) {
-    // eslint-disable-next-line no-param-reassign
+    // eslint-disable-next-line no-param-reassign, fp/no-mutation
     res.statusCode = status;
   }
 

@@ -8,7 +8,7 @@ const pickBy = function (obj, condition) {
 
   return Object.entries(obj).reduce((memo, [key, value]) => {
     if (condition(value, key)) {
-      // eslint-disable-next-line no-param-reassign
+      // eslint-disable-next-line no-param-reassign, fp/no-mutation
       memo[key] = value;
     }
 

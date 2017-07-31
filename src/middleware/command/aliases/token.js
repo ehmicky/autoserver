@@ -10,17 +10,23 @@ const { applyOrderByAliases } = require('./order_by');
 const applyTokenAliases = function ({ token, attrName, aliases }) {
   try {
     const tokenObj = decode({ token });
-
-    const { nOrderBy } = tokenObj;
-
-    if (nOrderBy) {
-      tokenObj.nOrderBy = applyOrderByAliases({ nOrderBy, attrName, aliases });
-    }
-
-    return encode({ token: tokenObj });
+    const tokenObjA = aliasNOrderBy({ token: tokenObj, attrName, aliases });
+    return encode({ token: tokenObjA });
   // If this fails, this means token has an invalid format, which will be
   // reported by pagination layer
   } catch (error) { return token; }
+};
+
+const aliasNOrderBy = function ({
+  token,
+  token: { nOrderBy },
+  attrName,
+  aliases,
+}) {
+  if (!nOrderBy) { return token; }
+
+  const nOrderByA = applyOrderByAliases({ nOrderBy, attrName, aliases });
+  return { ...token, nOrderBy: nOrderByA };
 };
 
 module.exports = {
