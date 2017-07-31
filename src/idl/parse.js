@@ -7,7 +7,6 @@ const { resolveRefs } = require('./ref_parsing');
 const { applyPlugins } = require('./plugins');
 const { validateIdl } = require('./validation');
 const { normalizeIdl } = require('./normalize');
-const { addCustomKeywords } = require('./custom_validation');
 
 const processors = [
   // Retrieve raw IDL file
@@ -20,8 +19,6 @@ const processors = [
   validateIdl,
   // Transform IDL to normalized form, used by application
   normalizeIdl,
-  // Add custom validation keywords, from idl.validation
-  addCustomKeywords,
 ];
 
 // Retrieves IDL definition, after validation and transformation

@@ -8,9 +8,10 @@ const { memoize } = require('../utilities');
 
 const getRawValidator = memoize(() => {
   const ajv = new Ajv(ajvOptions);
-  addKeywords(ajv);
-  return ajv;
+  const ajvA = addKeywords(ajv);
+  return ajvA;
 });
+
 const ajvOptions = {
   allErrors: true,
   jsonPointers: true,
@@ -25,9 +26,15 @@ const addKeywords = function (ajv) {
   // Add future JSON standard keywords
   ajvKeywords(ajv, ['if', 'formatMinimum', 'formatMaximum', 'typeof']);
 
-  for (const [name, definition] of Object.entries(customBaseKeywords)) {
-    ajv.addKeyword(name, definition);
-  }
+  return Object.entries(customBaseKeywords).reduce(
+    (ajvA, [keyword, def]) => addKeyword({ keyword, def, ajv: ajvA }),
+    ajv,
+  );
+};
+
+const addKeyword = function ({ keyword, def, ajv }) {
+  ajv.addKeyword(keyword, def);
+  return ajv;
 };
 
 const customBaseKeywords = {
@@ -56,4 +63,5 @@ const customBaseKeywords = {
 
 module.exports = {
   getRawValidator,
+  addKeyword,
 };
