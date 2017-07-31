@@ -50,14 +50,14 @@ const normalizeOrderBy = function ({ orderBy, attrNames }) {
   //     the same response
   //   - the pagination layer needs this predictability
   // If an id sorting is already specified, do not need to do anything
-  const hasId = nOrderBy.some(({ attrName }) => attrName === 'id');
+  const hasId = nOrderBy.some(({ attrName }) => attrName === idOrder.attrName);
 
-  if (!hasId) {
-    nOrderBy.push({ attrName: 'id', order: 'asc' });
-  }
+  const finalNOrderBy = hasId ? nOrderBy : [...nOrderBy, idOrder];
 
-  return nOrderBy;
+  return finalNOrderBy;
 };
+
+const idOrder = { attrName: 'id', order: 'asc' };
 
 // Matches attribute+ attribute- or attribute
 const partsPostfixRegexp = /^(.*)(\+|-)$/;
