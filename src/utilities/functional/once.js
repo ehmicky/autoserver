@@ -8,18 +8,18 @@ const onlyOnce = function (func, { error = false } = {}) {
   let called = false;
 
   return (...args) => {
-    if (called) {
-      if (error) {
-        throwError('This function can only be called once');
-      }
-
-      return;
-    }
+    if (called) { return alreadyCalled({ error }); }
 
     // eslint-disable-next-line fp/no-mutation
     called = true;
     return func(...args);
   };
+};
+
+const alreadyCalled = function ({ error }) {
+  if (error) {
+    throwError('This function can only be called once');
+  }
 };
 
 module.exports = {

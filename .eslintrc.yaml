@@ -132,7 +132,7 @@ rules:
   - 5
   max-depth:
   - 2
-  - 2
+  - 1
   max-nested-callbacks:
   - 2
   - 2

@@ -24,15 +24,19 @@ const runJsl = function ({
   validateType({ type });
 
   try {
-    const paramsKeys = Object.keys(paramsB);
-    const jslFunc = compileJsl({ jsl: value, paramsKeys, type });
-
-    if (typeof jslFunc !== 'function') { return jslFunc; }
-
-    return jslFunc(paramsB);
+    return fireJslFunc({ jsl: value, params: paramsB, type });
   } catch (error) {
     handleJslError({ error, value, type });
   }
+};
+
+const fireJslFunc = function ({ jsl, params, type }) {
+  const paramsKeys = Object.keys(params);
+  const jslFunc = compileJsl({ jsl, paramsKeys, type });
+
+  if (typeof jslFunc !== 'function') { return jslFunc; }
+
+  return jslFunc(params);
 };
 
 const handleJslError = function ({ error, value, type }) {
