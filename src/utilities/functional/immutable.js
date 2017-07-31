@@ -5,6 +5,8 @@ const { ENV } = require('../env');
 const { mapValues } = require('./map');
 
 // Deeply Object.freeze() over an object.
+// Since linting enforces immutability, we only need to (and should) perform
+// this on values that are passed to library caller.
 const deepFreeze = function (obj) {
   const isArray = Array.isArray(obj);
   const isObject = !isArray && obj && obj.constructor === Object;

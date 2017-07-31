@@ -3,8 +3,8 @@
 const { createLog, reportPerf } = require('../logging');
 const { monitor, monitoredReduce } = require('../perf');
 const { makeImmutable } = require('../utilities');
+const { createApiServer } = require('../events');
 
-const { createApiServer } = require('./api_server');
 const { handleStartupError } = require('./startup_error');
 const { startSteps } = require('./start_steps');
 
@@ -24,16 +24,17 @@ const startServer = function (oServerOpts = {}) {
   start({ oServerOpts, startupLog, apiServer })
     .catch(error => handleStartupError({ error, startupLog, apiServer }));
 
-  makeImmutable(apiServer);
   return apiServer;
 };
 
 const start = async function (input) {
-  const { startupLog } = input;
+  const { startupLog, apiServer } = input;
   const [[, childrenPerf], perf] = await monitoredStartAll(input);
 
   const measures = [perf, ...childrenPerf];
   await reportPerf({ log: startupLog, measures });
+
+  makeImmutable(apiServer);
 };
 
 const startAll = function (initialInput) {

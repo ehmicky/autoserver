@@ -2,13 +2,7 @@
 
 const { camelize } = require('underscore.string');
 
-const {
-  transtype,
-  mapValues,
-  mapKeys,
-  pickBy,
-  makeImmutable,
-} = require('../../utilities');
+const { transtype, mapValues, mapKeys, pickBy } = require('../../utilities');
 const { addJsl } = require('../../jsl');
 const { addLogInfo } = require('../../logging');
 
@@ -21,7 +15,6 @@ const { addLogInfo } = require('../../logging');
 // Are set to JSL param $PARAMS
 const parseParams = async function (nextFunc, input) {
   const params = getParams({ input });
-  makeImmutable(params);
 
   const inputA = addJsl(input, { $PARAMS: params });
   const inputB = addLogInfo(inputA, { params });

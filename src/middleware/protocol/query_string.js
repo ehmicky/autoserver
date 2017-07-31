@@ -3,7 +3,7 @@
 const qs = require('qs');
 
 const { throwError } = require('../../error');
-const { transtype, mapValues, makeImmutable } = require('../../utilities');
+const { transtype, mapValues } = require('../../utilities');
 const { addLogInfo } = require('../../logging');
 
 const MAX_DEPTH = 10;
@@ -19,7 +19,6 @@ const parseQueryString = async function (nextFunc, input) {
   const { specific, protocolHandler } = input;
 
   const queryVars = getQueryVars({ specific, protocolHandler });
-  makeImmutable(queryVars);
 
   const inputA = addLogInfo(input, { queryVars });
   const inputB = { ...inputA, queryVars };

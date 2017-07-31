@@ -2,7 +2,8 @@
 
 const EventEmitter2 = require('eventemitter2');
 
-const { getServerInfo } = require('../info');
+const { getServerInfo } = require('./info');
+const { makeImmutable } = require('./utilities');
 
 // Object returned by main function `startServer()`
 // Contains general information (options, server name, version, etc.)
@@ -23,6 +24,12 @@ const createApiServer = function ({ oServerOpts }) {
   return apiServer;
 };
 
+const emitEventAsync = function ({ apiServer, name, data }) {
+  const dataA = makeImmutable(data);
+  return apiServer.emitAsync(name, dataA);
+};
+
 module.exports = {
   createApiServer,
+  emitEventAsync,
 };

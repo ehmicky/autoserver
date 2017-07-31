@@ -1,15 +1,15 @@
 'use strict';
 
-const { pickBy, mapValues } = require('../../utilities');
+const { pickBy, mapValues, makeImmutable } = require('../../utilities');
 
 // Retrieve parameters to use for a given JSL execution,
 // after filtering and helpers binding
 const getParams = function ({ params, type, idl }) {
   const paramsA = bindHelpers({ params, type, idl });
-
   const paramsB = filterParams({ params: paramsA, type, idl });
+  const paramsC = makeImmutable(paramsB);
 
-  return paramsB;
+  return paramsC;
 };
 
 // Pass JSL parameters to helpers

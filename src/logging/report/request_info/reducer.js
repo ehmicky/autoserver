@@ -1,6 +1,6 @@
 'use strict';
 
-const { identity } = require('../../../utilities');
+const { identity, makeImmutable } = require('../../../utilities');
 
 const reduceInfo = function ({ info, attrName, filter }) {
   if (!info || info[attrName] === undefined) { return info; }
@@ -26,7 +26,7 @@ const reducerArray = function ({ value, attrName, filter }) {
   const count = value.length;
   const valueA = value
     .filter(isObject)
-    .map(obj => filter(obj));
+    .map(obj => filter(makeImmutable(obj)));
 
   return {
     [`${attrName}Count`]: count,
@@ -35,8 +35,9 @@ const reducerArray = function ({ value, attrName, filter }) {
 };
 
 const reducerObject = function ({ value, attrName, filter }) {
-  const valueA = filter(value);
-  return { [attrName]: valueA };
+  const valueA = makeImmutable(value);
+  const valueB = filter(valueA);
+  return { [attrName]: valueB };
 };
 
 const reducerFalsy = function ({ attrName }) {

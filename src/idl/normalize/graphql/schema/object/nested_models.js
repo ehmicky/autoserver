@@ -103,7 +103,7 @@ const addToRequiredProps = function ({ name, childDefName, def }) {
 
   if (required) {
     // eslint-disable-next-line fp/no-mutating-methods
-    def.required.push(name);
+    // def.required.push(name);
   }
 };
 
