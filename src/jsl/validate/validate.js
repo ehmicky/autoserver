@@ -3,6 +3,7 @@
 // eslint-disable-next-line import/no-internal-modules
 const { fullAncestor } = require('acorn/dist/walk');
 
+const { reverseArray } = require('../../utilities');
 const { parseNode, reverseParseNode } = require('../parse');
 const { throwJslError } = require('../error');
 const { isJsl } = require('../test');
@@ -59,8 +60,9 @@ const validateNode = function (
 };
 
 const checkNodeRule = function ({ rule, node, parents, throwJslErr, print }) {
-  const nodeParents = parents.slice(0, parents.length - 1).reverse();
-  const message = rule(node, nodeParents);
+  const nodeParents = parents.slice(0, parents.length - 1);
+  const reverseParents = reverseArray(nodeParents);
+  const message = rule(node, reverseParents);
 
   if (typeof message === 'string') {
     throwJslErr(message);

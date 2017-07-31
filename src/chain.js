@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('./utilities');
+const { throwError, reverseArray } = require('./utilities');
 
 /**
  * Transforms a series of functions into a middleware stack.
@@ -25,7 +25,7 @@ const { throwError } = require('./utilities');
  * @returns {function[]} middlewares
  */
 const chain = function (funcs, { before: beforeOpt = [] } = {}) {
-  return funcs
+  const chainedFuncs = funcs
     // Insert recurring functions before each middleware
     .reduce((allFuncs, func) => {
       const beforeFuncs = beforeOpt.map(beforeFunc => beforeFunc(func));
@@ -35,8 +35,8 @@ const chain = function (funcs, { before: beforeOpt = [] } = {}) {
     .concat(lastFunc)
     // Bind each function context with { next(){} }
     // where `next` points to next function
-    .reduceRight(bindFunctions, [])
-    .reverse();
+    .reduceRight(bindFunctions, []);
+  return reverseArray(chainedFuncs);
 };
 
 const lastFunc = function () {
