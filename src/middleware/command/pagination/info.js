@@ -14,7 +14,7 @@ const getPaginationInfo = function ({ args, args: { pageSize, page } }) {
   const usedPageSize = pageSize + 1;
   // Whether this is offset pagination (args.page)
   // or cursor pagination (args.after|before)
-  const isOffsetPagination = page !== undefined;
+  const isOffset = page !== undefined;
 
   return {
     token,
@@ -23,7 +23,7 @@ const getPaginationInfo = function ({ args, args: { pageSize, page } }) {
     previous,
     next,
     usedPageSize,
-    isOffsetPagination,
+    isOffset,
   };
 };
 

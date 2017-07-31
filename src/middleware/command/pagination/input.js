@@ -17,10 +17,10 @@ const getPaginationInput = function ({ args }) {
 
 const getPaginationNewInput = function ({
   info,
-  info: { isOffsetPagination },
+  info: { isOffset },
   args,
 }) {
-  if (isOffsetPagination) {
+  if (isOffset) {
     return getOffsetInput({ info, args });
   }
 

@@ -8,11 +8,7 @@ const { decode, encode } = require('./encoding');
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
-const getPaginationOutput = function ({
-  args,
-  args: { nOrderBy, nFilter, page },
-  response,
-}) {
+const getPaginationOutput = function ({ args, args: { page }, response }) {
   const {
     hasToken,
     token,
@@ -20,13 +16,13 @@ const getPaginationOutput = function ({
     next,
     usedPageSize,
     isBackward,
-    isOffsetPagination,
+    isOffset,
   } = getPaginationInfo({ args });
 
   // If a token (except '') has been used, it means there is a previous page
   // We use ${previous} amd ${next} to reverse directions
   // when doing backward pagination
-  const firstHasPreviousPage = isOffsetPagination ? page !== 1 : hasToken;
+  const firstHasPreviousPage = isOffset ? page !== 1 : hasToken;
 
   // We fetch an extra model to guess has_next_page. If it was founds, remove it
   const lastHasNextPage = response.data.length === usedPageSize;
@@ -47,22 +43,31 @@ const getPaginationOutput = function ({
     const hasPreviousPage = info.has_previous_page || index !== 0;
     const hasNextPage = info.has_next_page || index !== data.length - 1;
 
+    const pageOrToken = getPageOrToken({ isOffset, page, model, args, token });
     const pages = {
       has_previous_page: hasPreviousPage,
       has_next_page: hasNextPage,
       page_size: pageSize,
+      ...pageOrToken,
     };
-
-    if (isOffsetPagination) {
-      pages.page = page;
-    } else {
-      pages.token = getPaginationToken({ model, nOrderBy, nFilter, token });
-    }
 
     return { ...metadata[index], pages };
   });
 
   return { data, metadata: metadataA };
+};
+
+const getPageOrToken = function ({
+  isOffset,
+  page,
+  model,
+  args: { nOrderBy, nFilter },
+  token,
+}) {
+  if (isOffset) { return { page }; }
+
+  const tokenA = getPaginationToken({ model, nOrderBy, nFilter, token });
+  return { token: tokenA };
 };
 
 const getData = function ({
@@ -90,8 +95,9 @@ const getData = function ({
 // Calculate token to output
 const getPaginationToken = function ({ model, nOrderBy, nFilter, token }) {
   const tokenObj = getTokenObj({ nOrderBy, nFilter, token });
-  tokenObj.parts = tokenObj.nOrderBy.map(({ attrName }) => model[attrName]);
-  const encodedToken = encode({ token: tokenObj });
+  const parts = tokenObj.nOrderBy.map(({ attrName }) => model[attrName]);
+  const tokenObjA = { ...tokenObj, parts };
+  const encodedToken = encode({ token: tokenObjA });
   return encodedToken;
 };
 
