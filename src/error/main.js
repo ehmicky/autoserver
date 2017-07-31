@@ -42,6 +42,7 @@ const getInnerError = function (opts) {
   const { message, stack = '' } = innererror;
 
   if (message && stack.indexOf(message) === -1) {
+    // eslint-disable-next-line fp/no-mutation
     innererror.stack = `${message}\n${stack}`;
   }
 
