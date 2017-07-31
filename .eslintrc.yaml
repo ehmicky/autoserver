@@ -153,7 +153,6 @@ rules:
   one-var-declaration-per-line: 2
   vars-on-top: 2
   sort-vars: 2
-#  fp/no-nil: 2
 
   # Assignments
   init-declarations: 2
@@ -167,9 +166,6 @@ rules:
 ##  - 2
 ##  - commonjs: true
   fp/no-delete: 2
-#  fp/no-unused-expression:
-#  - 2
-#  - allowUseStrict: true
   import/no-unassigned-import: 2
   fp/no-mutating-assign: 2
 ##  fp/no-mutating-methods: 2
@@ -204,7 +200,6 @@ rules:
   no-else-return: 2
   for-direction: 2
   guard-for-in: 2
-  fp/no-loops: 2
 
   # Switch
   default-case: 2
@@ -221,6 +216,7 @@ rules:
   - name: error
   no-catch-shadow: 2
   fp/no-throw: 2
+  unicorn/prefer-type-error: 2
   unicorn/custom-error-definition: 2
 
   # Functions
@@ -340,6 +336,9 @@ rules:
   import/no-extraneous-dependencies: 2
   node/no-extraneous-require: 2
   node/no-extraneous-import: 2
+  sort-imports:
+  - 2
+  - ignoreMemberSort: true
   no-mixed-requires: 2
   import/order:
   - 2
@@ -364,7 +363,6 @@ rules:
   node/shebang: 2
 
   # Compatibility
-#  compat/compat: 2
   node/no-unsupported-features:
   - 2
   - version: 8
@@ -388,38 +386,69 @@ rules:
   no-script-url: 2
   no-alert: 2
 
+#  no-process-exit: 2
+#  unicorn/no-process-exit: 2
+
+  # Those rules should be picked for a fully functional codebase.
+  # However, we want to allow throwing exceptions, because monads would
+  # be too verbose.
+#  fp/no-loops: 2
+#  fp/no-nil: 2
+#  fp/no-unused-expression: 2
+#  consistent-return: 2
+
+  # Our newlines rules for arrays, objects and ternaries take into
+  # account line width, which is not possible with those ESLint rules
+#  array-bracket-newline: 2
+#  array-element-newline: 2
+#  object-curly-newline: 2
+#  multiline-ternary: 2
+
+  # Those rules go against the codebase convention of using index.js files
+  # that require siblings, and exporting|requiring named objects.
+#  filenames/no-index: 2
+#  global-require: 2
+#  import/prefer-default-export: 2
+
+  # We sort object keys by type, but by name
+#  sort-keys: 2
+
+  # We want rest parameters to allow passing around arguments unchanged
+#  fp/no-rest-parameters: 2
+
+  # We allow ternaries, they can make code look cleaner
+#  no-ternary: 2
+
+  # undefined is a valid value in our codebase, distinct from null
+#  no-undefined: 2
+
+  # We allow TODO comments
+#  no-warning-comments: 2
+
+  # We want to allow Promise.all() and Promise.race()
+#  promise/no-native: 2
+
+  # This rule is too strict
+#  no-magic-numbers: 2
+
+  # This fails when used together with Markdown plugin
+#  unicorn/filename-case: 2
+
+  # Rules for client-side code only
+#  compat/compat: 2
+#  import/no-nodejs-modules: 2
+
   # React
 #  react/*: 2
 #  jsx-quotes: 2
 
-  # Rules purposely not picked, i.e. commented out
-#  array-bracket-newline: 2
-#  array-element-newline: 2
-#  consistent-return: 2
-#  filenames/no-index: 2
-#  fp/no-rest-parameters: 2
-#  global-require: 2
+  # No use for those rules
 #  id-blacklist: 2
-#  import/no-nodejs-modules: 2
-#  import/no-restricted-paths: 2
-#  import/prefer-default-export: 2
-#  multiline-ternary: 2
-#  no-magic-numbers: 2
 #  no-restricted-imports: 2
 #  no-restricted-modules: 2
 #  no-restricted-properties: 2
 #  no-restricted-syntax: 2
-#  no-ternary: 2
-#  no-undefined: 2
-#  no-warning-comments: 2
-#  object-curly-newline: 2
-#  promise/no-native: 2
-#  sort-imports: 2
-#  sort-keys: 2
-#  unicorn/filename-case: 2
-#  unicorn/prefer-type-error: 2
-#  no-process-exit: 2
-#  unicorn/no-process-exit: 2
+#  import/no-restricted-paths: 2
 settings:
   import/core-modules:
   - api-engine
