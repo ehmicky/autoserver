@@ -1,6 +1,7 @@
 'use strict';
 
 const { pick } = require('../../utilities');
+const { commonAttributes } = require('../common_attributes');
 
 // Converts from Command format to Database format
 const databaseConvertor = async function (nextFunc, input) {
@@ -10,16 +11,10 @@ const databaseConvertor = async function (nextFunc, input) {
 };
 
 const databaseAttributes = [
-  'currentPerf',
+  ...commonAttributes,
   'command',
   'args',
   'modelName',
-  'jsl',
-  'log',
-  'perf',
-  'idl',
-  'serverOpts',
-  'apiServer',
   'params',
   'settings',
 ];

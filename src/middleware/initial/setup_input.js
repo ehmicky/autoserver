@@ -23,15 +23,15 @@ const setupInput = async function (
   const protocolHandler = protocolHandlers[protocol];
 
   const input = {
-    protocol,
     idl,
-    jsl,
     serverOpts,
     apiServer,
-    specific,
-    log,
-    protocolHandler,
+    jsl,
     currentPerf,
+    log,
+    protocol,
+    protocolHandler,
+    specific,
   };
 
   const inputA = addJsl(input, { $PROTOCOL: protocol });
