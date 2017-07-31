@@ -1,13 +1,10 @@
 'use strict';
 
-const { cloneDeep } = require('lodash');
-
 const transformMap = require('./transform');
 
 // Creates protocol-independent response error, using an error object
 const getResponse = function ({ error }) {
-  const content = cloneDeep(error);
-  const response = { type: 'error', content };
+  const response = { type: 'error', content: error };
 
   // E.g. operation-specific error format, e.g. GraphQL
   const transformer = transformMap[error.operation];

@@ -1,12 +1,13 @@
 'use strict';
 
-const { cloneDeep, merge, difference } = require('lodash');
+const { difference } = require('lodash');
 
 const {
   assignObject,
   mapValues,
   mapKeys,
   pickBy,
+  deepMerge,
 } = require('../../../../utilities');
 const { ACTIONS } = require('../../../../constants');
 
@@ -67,8 +68,7 @@ const getModelByAction = function ({ model, action }) {
 };
 
 const getModelCopy = function ({ model, properties, action: { multiple } }) {
-  const modelA = cloneDeep(model);
-  merge(modelA, { properties, isTopLevel: true });
+  const modelA = deepMerge(model, { properties, isTopLevel: true });
 
   // Wrap in array if action is multiple
   return multiple ? { type: 'array', items: modelA } : modelA;
