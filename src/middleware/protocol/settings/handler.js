@@ -1,6 +1,5 @@
 'use strict';
 
-const { makeImmutable } = require('../../../utilities');
 const { throwError } = require('../../../error');
 const { addJsl } = require('../../../jsl');
 const { addLogInfo } = require('../../../logging');
@@ -21,7 +20,6 @@ const { validateSettings } = require('./validate');
 const parseSettings = async function (nextFunc, input) {
   const settings = getMergedSettings({ input });
   const settingsA = validateSettings({ settings });
-  makeImmutable(settingsA);
 
   const inputA = addJsl(input, { $SETTINGS: settingsA });
   const inputB = addLogInfo(inputA, { settings: settingsA });

@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { makeImmutable, reduceAsync } = require('../../utilities');
+const { reduceAsync } = require('../../utilities');
 const { addLogInfo } = require('../../logging');
 
 // Fill in `input.payload` using protocol-specific request payload.
@@ -12,7 +12,6 @@ const parsePayload = async function (nextFunc, input) {
   const { specific, protocolHandler } = input;
 
   const payload = await getPayload({ specific, protocolHandler });
-  makeImmutable(payload);
 
   const inputA = addLogInfo(input, { payload });
   const inputB = { ...inputA, payload };

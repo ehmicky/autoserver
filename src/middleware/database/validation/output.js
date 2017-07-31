@@ -9,13 +9,9 @@ const { getDataValidationSchema } = require('./schema');
  * If it does not, this probably indicates database corruption
  **/
 const validateOutputData = function ({
-  idl,
-  modelName,
+  input: { action, modelName, command, jsl, idl },
   response,
   response: { data },
-  action,
-  command,
-  jsl,
 }) {
   const type = 'serverOutputData';
   const schema = getDataValidationSchema({ idl, modelName, command, type });

@@ -1,6 +1,5 @@
 'use strict';
 
-const { makeImmutable } = require('../../utilities');
 const { throwError } = require('../../error');
 const { addLogInfo } = require('../../logging');
 
@@ -13,7 +12,6 @@ const parseHeaders = async function (nextFunc, input) {
   const { specific, protocolHandler } = input;
 
   const headers = getHeaders({ specific, protocolHandler });
-  makeImmutable(headers);
 
   const inputA = addLogInfo(input, { headers });
   const inputB = { ...inputA, headers };

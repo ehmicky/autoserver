@@ -1,6 +1,5 @@
 'use strict';
 
-const { makeImmutable } = require('../../../utilities');
 const { addLogInfo } = require('../../../logging');
 
 const { routes, findRoute, getPathVars } = require('./manager');
@@ -12,7 +11,6 @@ const router = async function (nextFunc, input) {
   const route = findRoute({ routes, path, goal });
 
   const pathVars = getPathVars({ path, route });
-  makeImmutable(pathVars);
 
   const inputA = addLogInfo(input, { route: route.name, pathVars });
   const inputB = { ...inputA, route: route.name, pathVars };

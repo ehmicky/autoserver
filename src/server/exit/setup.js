@@ -3,6 +3,7 @@
 const { createLog, reportLog, reportPerf } = require('../../logging');
 const { monitor } = require('../../perf');
 const { assignObject, onlyOnce } = require('../../utilities');
+const { emitEventAsync } = require('../../events');
 
 const { closeServer } = require('./close');
 
@@ -104,10 +105,10 @@ const monitoredLogEnd = monitor(logEndShutdown, 'log');
 // This means we consider owning the process, which will be problematic if
 // this is used together with other projects
 const exit = async function ({ isSuccess, apiServer }) {
-  const eventName = isSuccess ? 'stop.success' : 'stop.fail';
+  const name = isSuccess ? 'stop.success' : 'stop.fail';
 
   try {
-    await apiServer.emitAsync(eventName);
+    await emitEventAsync({ apiServer, name });
   } catch (error) {}
 
   // Used by Nodemon

@@ -13,12 +13,8 @@ const type = 'clientInputData';
  * this will be validated here
  **/
 const validateInputData = function ({
-  idl,
-  modelName,
-  command,
   input,
-  input: { args },
-  jsl,
+  input: { args, modelName, command, jsl, idl },
 }) {
   const schema = getDataValidationSchema({ idl, modelName, command, type });
   const attributes = getAttributes(args);
