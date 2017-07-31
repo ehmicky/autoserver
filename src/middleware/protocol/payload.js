@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { makeImmutable } = require('../../utilities');
+const { makeImmutable, reduceAsync } = require('../../utilities');
 const { addLogInfo } = require('../../logging');
 
 // Fill in `input.payload` using protocol-specific request payload.
@@ -32,18 +32,24 @@ const getPayload = async function ({ specific, protocolHandler }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
   const parse = protocolHandler.parsePayload;
+  const payload = await reduceAsync(
+    payloadHandlers,
+    (payloadA, payloadHandler) => {
+      if (payloadA !== undefined) { return payloadA; }
+      return payloadHandler({ specific, parse });
+    },
+    undefined,
+  );
 
-  for (const payloadHandler of payloadHandlers) {
-    // eslint-disable-next-line no-await-in-loop
-    const payload = await payloadHandler({ specific, parse });
-    if (payload !== undefined) { return payload; }
-  }
+  const payloadB = validatePayload({ payload, specific, protocolHandler });
 
-  payloadError({ specific, protocolHandler });
+  return payloadB;
 };
 
 // There is a payload, but it could not be read
-const payloadError = function ({ specific, protocolHandler }) {
+const validatePayload = function ({ payload, specific, protocolHandler }) {
+  if (payload !== undefined) { return payload; }
+
   const contentType = protocolHandler.getContentType({ specific });
 
   if (!contentType) {
