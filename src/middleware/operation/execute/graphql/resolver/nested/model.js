@@ -1,10 +1,10 @@
 'use strict';
 
-const { throwError } = require('../../../../../error');
+const { throwError } = require('../../../../../../error');
+const { getParentModel, parseName } = require('../utilities');
+const { attributeResolver } = require('../attribute');
 
-const { getParentModel, parseName } = require('./utilities');
-const { attributeResolver } = require('./attribute');
-const { addNestedId } = require('./nested_id');
+const { addNestedArg } = require('./arg');
 
 // Resolver for nested model actions
 const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
@@ -16,21 +16,22 @@ const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
 
   // If it is a normal attribute which just returns its parent value
   if (!model) {
-    return attributeResolver({ parent, name });
+    return attributeResolver({ parent, name, args });
   }
 
   const { multiple, model: modelName } = model;
   // Add nested if to nested actions
-  const directReturn = addNestedId({
-    parent,
+  // Uses the parent value as a nested filter|data
+  const parentVal = parent[attrName];
+  const { directReturn, args: argsA } = addNestedArg({
+    parentVal,
     name,
-    attrName,
     multiple,
     args,
     actionType,
   });
 
-  return { multiple, modelName, actionType, directReturn };
+  return { multiple, modelName, actionType, directReturn, args: argsA };
 };
 
 // Retrieves nested property, which can be a model or a simple attribute

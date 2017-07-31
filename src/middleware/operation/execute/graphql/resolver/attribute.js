@@ -3,7 +3,7 @@
 const { getParentModel, setParentModel } = require('./utilities');
 
 // Resolver for normal attributes
-const attributeResolver = function ({ parent, name }) {
+const attributeResolver = function ({ parent, name, args }) {
   const directReturn = parent[name] === undefined ? null : parent[name];
 
   // Forward parent model to children
@@ -11,7 +11,7 @@ const attributeResolver = function ({ parent, name }) {
   const parentModelInfo = { ...parentModel, nonNestedModel: true };
   setParentModel(directReturn, parentModelInfo);
 
-  return { directReturn };
+  return { directReturn, args };
 };
 
 module.exports = {

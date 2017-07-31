@@ -5,9 +5,9 @@ const { singular, plural } = require('pluralize');
 const { parseName } = require('./utilities');
 
 // Resolver for top-level models actions
-const topLevelModelResolver = function ({ name, modelsMap }) {
+const topLevelModelResolver = function ({ name, modelsMap, args }) {
   const { attrName, actionType } = parseName({ name });
-  if (!attrName || !actionType) { return {}; }
+  if (!attrName || !actionType) { return { args }; }
 
   const singularName = singular(attrName);
   const pluralName = plural(attrName);
@@ -16,7 +16,7 @@ const topLevelModelResolver = function ({ name, modelsMap }) {
   const multiple = getMultiple({ attrName, singularName, pluralName });
   // Retrieve actual model name from the IDL
   const modelName = getModelName({ modelsMap, singularName, pluralName });
-  return { multiple, modelName, actionType };
+  return { multiple, modelName, actionType, args };
 };
 
 const getMultiple = function ({ attrName, singularName, pluralName }) {
