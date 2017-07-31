@@ -394,7 +394,9 @@ rules:
   # However, we want to allow throwing exceptions, because monads would
   # be too verbose.
 #  fp/no-nil: 2
-#  fp/no-unused-expression: 2
+#  fp/no-unused-expression:
+#  - 2
+#  - allowUseStrict: true
 #  consistent-return: 2
 
   # Our newlines rules for arrays, objects and ternaries take into
