@@ -119,20 +119,20 @@ const processOutput = function ({
 }) {
   if (!mustPaginateOutput({ args, command })) { return response; }
 
-  reverseOutput({ args, response });
+  const responseA = reverseOutput({ args, response });
 
-  const paginationOutput = getPaginationOutput({ args, response });
-  const responseA = { ...response, ...paginationOutput };
+  const paginationOutput = getPaginationOutput({ args, response: responseA });
+  const responseB = { ...responseA, ...paginationOutput };
 
   validatePaginationOutput({
     args,
     action,
     modelName,
     maxPageSize,
-    response: responseA,
+    response: responseB,
   });
 
-  return responseA;
+  return responseB;
 };
 
 // When using args.before, pagination is performed backward.
@@ -140,10 +140,10 @@ const processOutput = function ({
 // afterwards.
 const reverseOutput = function ({ args, response }) {
   const { isBackward } = getPaginationInfo({ args });
+  if (!isBackward) { return response; }
 
-  if (isBackward) {
-    response.data = reverseArray(response.data);
-  }
+  const data = reverseArray(response.data);
+  return { ...response, data };
 };
 
 module.exports = {
