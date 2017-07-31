@@ -200,6 +200,7 @@ rules:
   no-else-return: 2
   for-direction: 2
   guard-for-in: 2
+  fp/no-loops: 2
 
   # Switch
   default-case: 2
@@ -392,7 +393,6 @@ rules:
   # Those rules should be picked for a fully functional codebase.
   # However, we want to allow throwing exceptions, because monads would
   # be too verbose.
-#  fp/no-loops: 2
 #  fp/no-nil: 2
 #  fp/no-unused-expression: 2
 #  consistent-return: 2
