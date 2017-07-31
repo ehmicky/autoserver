@@ -49,7 +49,7 @@ const validateCurrentDatum = function ({ input, newData, currentData }) {
   const differentId = newData.id !== currentData.id;
   if (!differentId) { return input; }
 
-  const message = `'args.currentData' has invalid 'id': ${currentData.id}`;
+  const message = `'args.currentData' has invalid 'id' '${currentData.id}' instead of '${newData.id}'`;
   throwError(message, { reason: 'INPUT_SERVER_VALIDATION' });
 };
 
