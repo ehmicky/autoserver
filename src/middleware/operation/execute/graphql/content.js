@@ -14,9 +14,7 @@ const getContent = async function ({
   nextFunc,
   input,
   input: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
-  actions,
-  measures,
-  logs,
+  responses,
 }) {
   const {
     query,
@@ -42,9 +40,7 @@ const getContent = async function ({
   const callback = fireNext.bind(null, {
     nextFunc,
     input,
-    actions,
-    measures,
-    logs,
+    responses,
   });
 
   // This middleware spurs several children in parallel.
@@ -80,17 +76,13 @@ const getGraphQLInput = function ({
   return { query, variables, operationName, queryDocument, graphqlMethod };
 };
 
-const fireNext = async function (
-  { nextFunc, input, actions, measures, logs },
-  actionInput,
-) {
+const fireNext = async function ({ nextFunc, input, responses }, actionInput) {
   const inputA = { ...input, ...actionInput };
 
   const response = await nextFunc(inputA);
 
-  actions.push(response.action);
-  measures.push(...response.measures);
-  logs.push(response.log);
+  // eslint-disable-next-line fp/no-mutating-methods
+  responses.push(response);
 
   return response;
 };
