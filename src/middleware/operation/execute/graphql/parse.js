@@ -13,13 +13,7 @@ const parseQuery = memoize(({ query, goal, operationName }) => {
   }
 
   try {
-    const queryDocument = parse(query);
-    const { graphqlMethod } = validateQuery({
-      queryDocument,
-      goal,
-      operationName,
-    });
-    return { queryDocument, graphqlMethod };
+    return getQueryDocument({ query, goal, operationName });
   } catch (error) {
     const message = 'Could not parse GraphQL query';
     throwError(message, {
@@ -29,51 +23,74 @@ const parseQuery = memoize(({ query, goal, operationName }) => {
   }
 });
 
-// Make sure GraphQL query is valid
-const validateQuery = function ({ queryDocument, goal, operationName }) {
-  // Get all query|mutation definitions
-  const operationDefinitions = queryDocument.definitions.filter(({ kind }) =>
-    kind === 'OperationDefinition'
-  );
+const getQueryDocument = function ({ query, goal, operationName }) {
+  const queryDocument = parse(query);
+
+  const operationDefinitions = getOperationDefinitions({ queryDocument });
   const definition = getDefinition({ operationDefinitions, operationName });
 
-  // GraphQL-anywhere do not support operationName yet,
-  // so we must patch it until they do
-  // See https://github.com/apollographql/graphql-anywhere/issues/34
-  if (operationDefinitions.length > 1) {
-    queryDocument.definitions = queryDocument.definitions.filter(def =>
-      !operationDefinitions.includes(def) || def === definition
-    );
-  }
+  const queryDocumentA = patchQueryDocument({
+    operationDefinitions,
+    definition,
+    queryDocument,
+  });
 
-  if (goal === 'find' && definition.operation !== 'query') {
-    const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
-    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
-  }
+  const graphqlMethod = definition.operation;
+  validateQuery({ graphqlMethod, goal });
 
-  return { graphqlMethod: definition.operation };
+  return { queryDocument: queryDocumentA, graphqlMethod };
+};
+
+// Get all query|mutation definitions
+const getOperationDefinitions = function ({ queryDocument }) {
+  return queryDocument.definitions.filter(({ kind }) =>
+    kind === 'OperationDefinition'
+  );
 };
 
 const getDefinition = function ({ operationDefinitions, operationName }) {
-  const definitions = operationDefinitions.filter(({
-    name: { value: name } = {},
-  }) => !operationName || name === operationName);
+  const definition = operationDefinitions.find(
+    ({ name: { value: name } = {} }) =>
+      !operationName || name === operationName
+  );
+  if (definition) { return definition; }
 
-  if (definitions.length === 0) {
-    if (operationName) {
-      const message = `Could not find GraphQL operation ${operationName}`;
-      throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
-    } else {
-      const message = 'Missing GraphQL query';
-      throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
-    }
+  if (operationName) {
+    const message = `Could not find GraphQL operation '${operationName}'`;
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 
-  const [definition] = definitions;
-  return definition;
+  if (!operationName) {
+    const message = 'Missing GraphQL query';
+    throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
+  }
+};
+
+// GraphQL-anywhere do not support operationName yet,
+// so we must patch it until they do
+// See https://github.com/apollographql/graphql-anywhere/issues/34
+const patchQueryDocument = function ({
+  operationDefinitions,
+  definition,
+  queryDocument,
+}) {
+  if (operationDefinitions.length <= 1) { return queryDocument; }
+
+  const definitions = queryDocument.definitions.filter(def =>
+    !operationDefinitions.includes(def) || def === definition
+  );
+
+  return { ...queryDocument, definitions };
+};
+
+// Make sure GraphQL query is valid
+const validateQuery = function ({ graphqlMethod, goal }) {
+  if (goal === 'find' && graphqlMethod !== 'query') {
+    const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+  }
 };
 
 module.exports = {
   parseQuery,
-  validateQuery,
 };
