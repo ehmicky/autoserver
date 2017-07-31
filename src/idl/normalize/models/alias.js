@@ -17,10 +17,7 @@ const normalizeAliases = function (model) {
       return { ...props, ...aliases, [attrName]: attr };
     }, {});
 
-  const properties = mapValues(propsA, attr => {
-    addAliasDescription({ attr });
-    return attr;
-  });
+  const properties = mapValues(propsA, attr => addAliasDescription({ attr }));
 
   return { properties };
 };
@@ -56,21 +53,33 @@ const checkAliasDuplicates = function ({ model, props, attrName, alias }) {
 
 // Add information about aliases in `description`
 const addAliasDescription = function ({ attr }) {
-  if (attr.alias) {
-    const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
-    const aliasNames = toSentence(aliases.map(alias => `'${alias}'`));
-    const description = getDescription({ attr });
-    attr.description = `Aliases: ${aliasNames}.${description}`;
-  }
+  if (!attr.description) { return attr; }
 
-  if (attr.aliasOf) {
-    const description = getDescription({ attr });
-    attr.description = `Alias of: '${attr.aliasOf}'.${description}`;
-  }
+  const aliasesDescription = getAliasesDescription({ attr });
+  const aliasOfDescription = getAliasOfDescription({ attr });
+
+  const description = [
+    aliasesDescription,
+    aliasOfDescription,
+    attr.description,
+  ].filter(val => val)
+    .join('\n');
+
+  return { ...attr, description };
 };
 
-const getDescription = function ({ attr: { description } }) {
-  return description ? `\n${description}` : '';
+const getAliasesDescription = function ({ attr }) {
+  if (!attr.alias) { return ''; }
+
+  const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
+  const aliasNames = toSentence(aliases.map(alias => `'${alias}'`));
+  return `Aliases: ${aliasNames}.`;
+};
+
+const getAliasOfDescription = function ({ attr }) {
+  if (!attr.aliasOf) { return ''; }
+
+  return `Alias of: '${attr.aliasOf}'`;
 };
 
 module.exports = {
