@@ -57,16 +57,22 @@ const getPart = function ({ part, attrNames }) {
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  // Default order is +
-  const partWithPrefix = partsPostfixRegexp.test(part) ? part : `${part}+`;
-  // Parse the + or - postfix
-  const [, attrName, orderPostfix] = partsPostfixRegexp.exec(partWithPrefix);
-  const order = orderPostfix === '-' ? 'desc' : 'asc';
+  const { attrName, order } = parsePart({ part });
 
   if (!attrNames.includes(attrName)) {
     const message = `Argument 'order_by' attribute '${attrName}' does not exist`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
+
+  return { attrName, order };
+};
+
+const parsePart = function ({ part }) {
+  // Default order is +
+  const partWithPrefix = partsPostfixRegexp.test(part) ? part : `${part}+`;
+  // Parse the + or - postfix
+  const [, attrName, orderPostfix] = partsPostfixRegexp.exec(partWithPrefix);
+  const order = orderPostfix === '-' ? 'desc' : 'asc';
 
   return { attrName, order };
 };

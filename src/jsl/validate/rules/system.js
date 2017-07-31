@@ -39,11 +39,7 @@ const getRules = ({ globalKeys }) => ({
       return 'Cannot include several statements';
     }
 
-    const [statement] = body;
-
-    if (statement.type !== 'ExpressionStatement') {
-      return 'Top-level must be simple expression';
-    }
+    return validateMainStatement({ body });
   },
 
   Expression: true,
@@ -112,23 +108,23 @@ const getRules = ({ globalKeys }) => ({
   MemberPattern: true,
 });
 
+const validateMainStatement = function ({ body }) {
+  const [statement] = body;
+
+  if (statement.type !== 'ExpressionStatement') {
+    return 'Top-level must be simple expression';
+  }
+};
+
 const mGetRules = memoize(getRules);
 
 // Those are the only constructors that can be called with `new`
 const allowedConstructors = ['Date', 'Array', 'RegExp'];
 
 module.exports = {
-  system: {
-    getRules: mGetRules,
-  },
-  startup: {
-    getRules: mGetRules,
-  },
-  data: {
-    getRules: mGetRules,
-  },
+  system: { getRules: mGetRules },
+  startup: { getRules: mGetRules },
+  data: { getRules: mGetRules },
   // TODO: remove when we parse args.filter into a database object
-  filter: {
-    getRules: mGetRules,
-  },
+  filter: { getRules: mGetRules },
 };

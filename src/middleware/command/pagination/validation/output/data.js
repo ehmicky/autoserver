@@ -13,10 +13,7 @@ const getOutputMetadata = function ({
 }) {
   if (token === undefined || token === '') { return pages; }
 
-  if (typeof token !== 'string') {
-    const message = 'Wrong response: \'token\' must be a string';
-    throwError(message, { reason: 'OUTPUT_VALIDATION' });
-  }
+  validateToken({ token });
 
   try {
     const parsedToken = decode({ token });
@@ -27,6 +24,13 @@ const getOutputMetadata = function ({
       reason: 'OUTPUT_VALIDATION',
       innererror: error,
     });
+  }
+};
+
+const validateToken = function ({ token }) {
+  if (typeof token !== 'string') {
+    const message = 'Wrong response: \'token\' must be a string';
+    throwError(message, { reason: 'OUTPUT_VALIDATION' });
   }
 };
 

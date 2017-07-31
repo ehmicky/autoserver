@@ -4,23 +4,20 @@ const { throwError } = require('../error');
 
 // Deep merge objects and arrays (concatenates for arrays)
 const deepMerge = function (objA, ...objects) {
-  if (!objA) { return; }
-
   if (objects.length === 0) { return objA; }
 
   if (objects.length === 1) {
     return simpleMerge({ objA, objects });
   }
 
-  if (objects.length > 1) {
-    return recursiveMerge({ objA, objects });
-  }
+  return recursiveMerge({ objA, objects });
 };
 
 const simpleMerge = function ({ objA, objects }) {
   const [objB] = objects;
 
-  validateInput({ objA, objB });
+  validateInputType({ objA, objB });
+  validateInputSameTypes({ objA, objB });
 
   if (Array.isArray(objA)) {
     return [...objA, ...objB];
@@ -31,18 +28,24 @@ const simpleMerge = function ({ objA, objects }) {
   }
 };
 
-const validateInput = function ({ objA, objB }) {
+const validateInputType = function ({ objA, objB }) {
   const isInvalidType =
     (objA.constructor !== Object && !Array.isArray(objA)) ||
     (objB.constructor !== Object && !Array.isArray(objB));
+  if (!isInvalidType) { return; }
+
+  const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
+  throwError(message);
+};
+
+const validateInputSameTypes = function ({ objA, objB }) {
   const isDifferentTypes =
     (objA.constructor === Object && objB.constructor !== Object) ||
     (objA.constructor !== Object && objB.constructor === Object);
+  if (!isDifferentTypes) { return; }
 
-  if (isInvalidType || isDifferentTypes) {
-    const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
-    throwError(message);
-  }
+  const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
+  throwError(message);
 };
 
 const mergeObjects = function ({ objA, objB }) {

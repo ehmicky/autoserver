@@ -17,21 +17,19 @@ const authorPlugin = function ({ idl, opts }) {
   return propertiesPlugin({ getProperties })({ idl, opts });
 };
 
-const validateConf = function ({ idl, opts: { user, model } }) {
+const validateConf = function ({ idl, opts: { user, model = 'user' } }) {
   if (user && !isJsl({ jsl: user })) {
     const message = 'In \'author\' plugin, \'user\' must be a JSL string';
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  const usedModel = model || 'user';
-
-  if (typeof usedModel !== 'string') {
-    const message = `In 'author' plugin, 'model' must be a string: ${usedModel}`;
+  if (typeof model !== 'string') {
+    const message = `In 'author' plugin, 'model' must be a string: ${model}`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  if (!idl.models[usedModel]) {
-    const message = `'author' plugin requires 'idl.models.${usedModel}'`;
+  if (!idl.models[model]) {
+    const message = `'author' plugin requires 'idl.models.${model}'`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 };
