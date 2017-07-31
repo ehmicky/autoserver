@@ -2,6 +2,7 @@
 
 const { processOptions } = require('../options');
 const { getIdl } = require('../idl');
+const { addCustomKeywords } = require('../validation');
 
 const { processErrorHandler } = require('./process');
 const { startServers } = require('./servers');
@@ -13,6 +14,7 @@ const startSteps = [
   processErrorHandler,
   processOptions,
   getIdl,
+  addCustomKeywords,
   startServers,
   setupGracefulExit,
   emitStartEvent,
