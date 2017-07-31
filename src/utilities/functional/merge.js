@@ -34,7 +34,7 @@ const validateInputType = function ({ objA, objB }) {
     (objB.constructor !== Object && !Array.isArray(objB));
   if (!isInvalidType) { return; }
 
-  const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
+  const message = `'deepMerge' utility cannot merge together objects with arrays: ${objA} and ${objB}`;
   throwError(message);
 };
 
@@ -44,7 +44,7 @@ const validateInputSameTypes = function ({ objA, objB }) {
     (objA.constructor !== Object && objB.constructor === Object);
   if (!isDifferentTypes) { return; }
 
-  const message = `'deepMerge' utility can only merge together objects or arrays: ${JSON.stringify(objA)} and ${JSON.stringify(objB)}`;
+  const message = `'deepMerge' utility can only merge together objects or arrays: ${objA} and ${objB}`;
   throwError(message);
 };
 
