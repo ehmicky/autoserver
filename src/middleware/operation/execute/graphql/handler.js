@@ -1,30 +1,43 @@
 'use strict';
 
-const { deepMerge, makeImmutable } = require('../../../../utilities');
+const { deepMerge } = require('../../../../utilities');
 
 const { getContent } = require('./content');
 
 // GraphQL query handling
 const executeGraphql = async function (nextFunc, input) {
+  // Unfortunately, the library we use for GraphQL parsing does not allow
+  // to retrieve the input of each resolver, so we need to introduce a
+  // mutable variable `responses` to collect them
+  const responses = [];
+
   // GraphQL execution
-  const actions = [];
-  const measures = [];
-  const logs = [];
   const [content, currentPerf] = await getContent({
     nextFunc,
     input,
-    actions,
-    measures,
-    logs,
+    responses,
   });
+
+  const parsedResult = parseResult({ content, responses });
+
+  const response = { content, currentPerf, ...parsedResult };
+  return response;
+};
+
+const parseResult = function ({ content, responses }) {
   const type = getResponseType({ content });
 
-  makeImmutable(actions);
+  const actions = responses.map(({ action }) => action);
 
+  const logs = responses.map(({ log: logA }) => logA);
   const log = logs.length === 0 ? undefined : deepMerge({}, ...logs);
 
-  const response = { content, type, actions, measures, log, currentPerf };
-  return response;
+  const measures = responses.reduce(
+    (measuresA, { measures: newMeasures }) => [measuresA, ...newMeasures],
+    [],
+  );
+
+  return { type, actions, log, measures };
 };
 
 const getResponseType = function ({ content: { data } }) {
