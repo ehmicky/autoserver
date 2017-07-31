@@ -4,7 +4,7 @@
 // Therefore, we have ESLint rule no-throw enabled.
 // However, utilities cannot use normal throwError() without circular
 // dependencies
-// This utility is used to avoid too many eslint-disable-next-line
+// ESLint rule fp/no-throw helps enforcing this utility is used
 const throwError = function (message) {
   // eslint-disable-next-line fp/no-throw
   if (message instanceof Error) { throw message; }
