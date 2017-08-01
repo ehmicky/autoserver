@@ -27,8 +27,6 @@ models:
   # Cannot start with one digit or two underscores.
   pet:
     description: Cute animal
-    # `ìd` should always be required, and specified
-    required: [id, name, photo_urls, friends]
     # Allowed commands for this model.
     # Defaults to top-level `commands` key (see it for further explanations)
     commands: [create, read, update, delete]
@@ -40,10 +38,12 @@ models:
         # Possible values: string, number, integer, boolean,
         # For the moment, cannot be an array
         description: Unique identifier of a pet
+        # `ìd` should always be required, and specified
+        required: true
       name:
         type: string
         description: How to call a pet
-        default: default does not work if required
+        required: true
         # Custom property
         x-custom: anything
         # Combinators JSON schema validation keywords
@@ -99,6 +99,7 @@ models:
         #    and must be 'object'
         #  - otherwise, defaults to 'string'
         description: Sweet pictures of a pet
+        required: true
         # This is how to specify an array's elements
         items: {}
       skills:
@@ -162,6 +163,7 @@ models:
       # can also be specified
       friends:
         description: This pet's friends
+        required: true
         items:
           model: pet
       owners:

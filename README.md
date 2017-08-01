@@ -71,9 +71,9 @@ startServer({ conf: 'my_schema.yml' });
 $schema: tag:apiengine,2017:v1.0.0
 models:
   user:
-    required: [id]
     properties:
-      id: {}
+      id:
+        required: true
       name: {}
       friends:
         items:

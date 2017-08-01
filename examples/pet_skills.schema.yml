@@ -1,7 +1,6 @@
 type: object
 description: Skills of a pet
 # Object-specific JSON schema validation keywords
-required: [id, intelligence]
 minProperties: 1
 maxProperties: 10
 patternProperties:
@@ -15,7 +14,8 @@ dependencies:
   is_big:
     maxProperties: 100
 properties:
-  id: {}
+  id:
+    required: true
   age:
     type: integer
     description: How old is the pet
@@ -23,6 +23,7 @@ properties:
   intelligence:
     type: integer
     description: How smart is the pet
+    required: true
     minimum:
       # Allows referring to a runtime value, i.e. here `age` must be
       # lesser than `intelligence`

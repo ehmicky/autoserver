@@ -1,14 +1,9 @@
 'use strict';
 
-const {
-  pickBy,
-  omitBy,
-  fullRecurseMap,
-  memoize,
-} = require('../../../utilities');
+const { pickBy, omitBy, fullRecurseMap } = require('../../../utilities');
 const { validate } = require('../../../validation');
 
-const { getRequired } = require('./required');
+const { getDataValidationSchema } = require('./schema');
 
 /**
  * Check that input nFilter|newData passes IDL validation
@@ -19,7 +14,7 @@ const validateInputData = function ({
   input,
   input: { args, modelName, command, jsl, idl },
 }) {
-  const schema = mGetDataValidationSchema({ idl, modelName, command });
+  const schema = getDataValidationSchema({ idl, modelName, command });
   const attrs = getAttrs(args);
 
   return Object.entries(attrs).reduce(
@@ -28,15 +23,6 @@ const validateInputData = function ({
     input,
   );
 };
-
-// Retrieves JSON schema to validate against
-const getDataValidationSchema = function ({ idl, modelName, command }) {
-  const model = idl.models[modelName];
-  const required = getRequired({ model, command });
-  return { ...model, ...required };
-};
-
-const mGetDataValidationSchema = memoize(getDataValidationSchema);
 
 // Keeps the arguments to validate
 const getAttrs = function (args) {
