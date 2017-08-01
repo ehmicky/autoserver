@@ -5,5 +5,5 @@ properties:
       required: true
   name: {}
   pets:
-    items:
-      model: pet
+    multiple: true
+    model: pet

@@ -2,12 +2,10 @@
 
 const { GraphQLList } = require('graphql');
 
-const { getSubDef } = require('./utilities');
-
 // Array field FGetter
 const graphQLArrayFGetter = function (def, opts, getField) {
-  const subDef = getSubDef(def);
-  const { type: subType, args } = getField(subDef, opts);
+  const defA = { ...def, multiple: false };
+  const { type: subType, args } = getField(defA, opts);
   const type = new GraphQLList(subType);
   return { type, args };
 };

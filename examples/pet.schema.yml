@@ -94,24 +94,19 @@ models:
         const: false
         default: false
       photo_urls:
-        # Type defaults:
-        #  - if `items` is present, type defaults to 'array'
-        #  - if `model` is present, type defaults to 'object'
-        #  - for top-level models, type defaults to 'object',
-        #    and must be 'object'
-        #  - otherwise, defaults to 'string'
+        multiple: true
+        # Type defaults to 'string'
+        type: string
         description: Sweet pictures of a pet
         validate:
           required: true
-        # This is how to specify an array's elements
-        items: {}
       skills:
         model: pet_skills
       tags:
+        multiple: true
         description: Tags applying to this pet
         # Array-specific JSON schema validation keywords
         items:
-          type: string
           # String-specific JSON schema validation keywords
           minLength: 2
           maxLength: 200
@@ -167,14 +162,14 @@ models:
       # Array of foreign keys (i.e. n-1, 1-n and n-n relationships)
       # can also be specified
       friends:
+        multiple: true
+        model: pet
         description: This pet's friends
         validate:
           required: true
-        items:
-          model: pet
       owners:
-        items:
-          model: owner
+        multiple: true
+        model: owner
       birth_date:
         # The following JSON schema validation keywords can be applied to
         # any type, although they are usually for strings

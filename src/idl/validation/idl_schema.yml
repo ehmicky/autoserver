@@ -123,12 +123,13 @@ definitions:
       - enum:
         - commands
         - model
-        - type
         - alias
         - readOnly
         - transform
         - compute
         - validate
+        - multiple
+        - type
         - deprecated
         - required
         - dependencies
@@ -182,6 +183,8 @@ definitions:
         - transform
         - compute
         - validate
+        - multiple
+        - type
         - deprecated
         - description
         - examples
@@ -189,9 +192,6 @@ definitions:
       - enum:
           $data: /customValidationNames
     properties:
-      # Recursively applied to array members
-      items:
-        $ref: '#/definitions/attributeSchema'
       alias:
         oneOf:
         - type: string
@@ -223,6 +223,19 @@ definitions:
             anyOf:
             - $ref: '#/definitions/generalSchema'
             - $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
+      # Like JSON schema, but is used for more than validation,
+      # e.g. in GraphQL schema
+      type:
+        anyOf:
+          - $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
+          - type: array
+            items:
+              $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
+            minItems: 1
+            uniqueItems: true
+      # When targetting a collection of models
+      multiple:
+        type: boolean
       # Indicate an attribute is deprecated, and why
       deprecated:
         type: string
@@ -407,7 +420,6 @@ definitions:
       - propertyNames
       - const
       - enum
-      - type
       - format
       - allOf
       - anyOf
@@ -422,9 +434,11 @@ definitions:
       - then
       - else
       # We are using a different syntax for the following attributes
+      - type
       - required
       - dependencies
       # Properties specific to this project
+      - multiple
       - deprecated
       - description
       - examples
@@ -488,6 +502,14 @@ definitions:
       #     anyOf:
       #       - $ref: '#/definitions/generalSchema'
       #       - $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
+      # type:
+      #   anyOf:
+      #     - $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
+      #     - type: array
+      #       items:
+      #         $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
+      #       minItems: 1
+      #       uniqueItems: true
       $id:
         type: string
         format: uri-reference
@@ -561,14 +583,6 @@ definitions:
         type: array
         minItems: 1
         uniqueItems: true
-      type:
-        anyOf:
-          - $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
-          - type: array
-            items:
-              $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
-            minItems: 1
-            uniqueItems: true
       format:
         type: string
       allOf:

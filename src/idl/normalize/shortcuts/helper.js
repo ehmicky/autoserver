@@ -15,17 +15,24 @@ const mapModels = function ({ models }, { filter, mapProps, mapProp }) {
   );
 };
 
-const mapModel = function ({ model, filterFunc, mapProps, mapProp }) {
-  const { properties = {} } = model;
-  const props = pickBy(
+const mapModel = function ({
+  model,
+  model: { properties = {} },
+  filterFunc,
+  mapProps,
+  mapProp,
+}) {
+  const propertiesA = pickBy(
     properties,
     (prop, propName) => filterFunc(prop, propName, model),
   );
-  const mappedProps = mapProps ? mapProps(props, model) : props;
-  const finalProps = mapProp
-    ? mapValues(props, (prop, propName) => mapProp(prop, propName, model))
-    : mappedProps;
-  return finalProps;
+  const propertiesB = mapProps
+    ? mapProps(propertiesA, model)
+    : propertiesA;
+  const propertiesC = mapProp
+    ? mapValues(propertiesB, (prop, propName) => mapProp(prop, propName, model))
+    : propertiesB;
+  return propertiesC;
 };
 
 const getFilter = function ({ filter = () => true }) {
