@@ -128,8 +128,8 @@ definitions:
         - readOnly
         - transform
         - compute
-        - required
         - deprecated
+        - required
         - description
         - examples
       - enum:
@@ -175,8 +175,8 @@ definitions:
         - readOnly
         - transform
         - compute
-        - required
         - deprecated
+        - required
         - description
         - examples
       - enum:
@@ -195,13 +195,13 @@ definitions:
             $ref: '#/definitions/validModelName'
       readOnly:
         type: boolean
+      # Used to indicate an attribute is deprecated, and why
+      deprecated:
+        type: string
       # Instead of being an array on the model, like in standard JSON schema
       # More intuitive
       required:
         type: boolean
-      # Used to indicate an attribute is deprecated, and why
-      deprecated:
-        type: string
       # Used in automatically generated documentation
       description:
         type: string
