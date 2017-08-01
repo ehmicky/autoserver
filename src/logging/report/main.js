@@ -21,12 +21,13 @@ const reportLog = async function ({
   message,
   info,
   info: { type = 'message' } = {},
+  isLogError,
 }) {
   const reportedLog = getReportedLog({ level, log, message, info });
 
   consolePrint({ type, level, message: reportedLog.message, loggerLevel });
 
-  await emitLogEvent({ level, log, info, reportedLog });
+  await emitLogEvent({ level, log, info, reportedLog, isLogError });
 };
 
 // Try emit log event with an increasing delay
@@ -37,13 +38,22 @@ const emitLogEvent = async function ({
   info,
   info: { type = 'message' } = {},
   reportedLog,
+  isLogError,
   delay = defaultDelay,
 }) {
   try {
     const eventName = `log.${phase}.${type}.${level}`;
     await emitEventAsync({ apiServer, name: eventName, data: reportedLog });
   } catch (error) {
-    await handleLoggingError({ error, level, log, info, reportedLog, delay });
+    await handleLoggingError({
+      error,
+      level,
+      log,
+      info,
+      reportedLog,
+      isLogError,
+      delay,
+    });
   }
 };
 
@@ -53,7 +63,7 @@ const handleLoggingError = async function ({
   log,
   info,
   reportedLog,
-  reportedLog: { errorInfo },
+  isLogError,
   delay,
 }) {
   // Tries again ang again, with an increasing delay
@@ -62,7 +72,7 @@ const handleLoggingError = async function ({
   const delayA = delay * delayExponent;
 
   // First, report that logging failed
-  await reportLoggerError({ error, log, errorInfo });
+  await reportLoggerError({ error, log, isLogError });
 
   // Then, try to report original error again
   await emitLogEvent({ level, log, info, reportedLog, delay: delayA });
@@ -72,11 +82,10 @@ const defaultDelay = 1000;
 const delayExponent = 5;
 const maxDelay = 1000 * 60 * 3;
 
-const reportLoggerError = async function ({ error, log, errorInfo = {} }) {
-  const isLoggingError = errorInfo.type === 'LOGGING_ERROR';
+const reportLoggerError = async function ({ error, log, isLogError }) {
   // Do not report logging error created by another logging error
   // I.e. only report the first one, but tries to report it again and again
-  if (isLoggingError) { return; }
+  if (isLogError) { return; }
 
   const errorA = normalizeError({ error, reason: 'LOGGING_ERROR' });
   const errorB = getStandardError({ log, error: errorA });
@@ -86,6 +95,7 @@ const reportLoggerError = async function ({ error, log, errorInfo = {} }) {
     level: 'error',
     message,
     info: { type: 'failure', errorInfo: errorB },
+    isLogError: true,
   });
 };
 
