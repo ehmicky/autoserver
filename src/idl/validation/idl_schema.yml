@@ -124,7 +124,6 @@ definitions:
         - commands
         - model
         - type
-        - description
         - examples
         - alias
         - readOnly
@@ -132,6 +131,7 @@ definitions:
         - compute
         - required
         - deprecated
+        - description
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -177,6 +177,7 @@ definitions:
         - compute
         - required
         - deprecated
+        - description
       - enum:
           $data: /customValidationNames
     properties:
@@ -199,6 +200,8 @@ definitions:
         type: boolean
       # Used to indicate an attribute is deprecated, and why
       deprecated:
+        type: string
+      description:
         type: string
       transform:
         $ref: '#/definitions/transformCompute'
@@ -340,12 +343,14 @@ definitions:
   validPropertyNames:
     anyOf:
     - enum:
+      # The following attributes are not available, because a property on
+      # attributes should be used instead
+      # - description
       # Standard JSON schema properties
       - $id
       - $schema
       - $ref
       - title
-      - description
       - default
       - multipleOf
       - maximum
@@ -390,6 +395,7 @@ definitions:
       # Properties specific to this project
       - required
       - deprecated
+      - description
     # Users can define anything under property named x-*
     - pattern: '^x-*'
   validModelName:
@@ -435,6 +441,10 @@ definitions:
       - object
       - boolean
     properties:
+      # The following attributes are not available, because a property on
+      # attributes should be used instead
+      # description:
+      #   type: string
       $id:
         type: string
         format: uri-reference
@@ -445,8 +455,6 @@ definitions:
         type: string
         format: uri-reference
       title:
-        type: string
-      description:
         type: string
       default: {}
       multipleOf:
