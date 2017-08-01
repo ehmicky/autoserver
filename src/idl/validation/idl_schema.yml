@@ -125,12 +125,13 @@ definitions:
         - model
         - type
         - description
-        - deprecated
         - examples
         - alias
         - readOnly
         - transform
         - compute
+        - required
+        - deprecated
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -143,18 +144,20 @@ definitions:
       - enum: [commands]
       not:
         enum: [default]
-    # Must have a `required` property
-    required: [required, properties]
+    required: [properties]
     properties:
       commands:
         $ref: '#/definitions/commandsProperty'
-      required:
-        # `required` property must at least contain `id`
-        contains:
-          const: id
       # Must have an `id`
       properties:
         required: [id]
+        # `id` must have `required` true
+        properties:
+          id:
+            required: [required]
+            properties:
+              required:
+                const: true
       # When specified, type must be 'object'
       type:
         const:
@@ -172,6 +175,8 @@ definitions:
         - readOnly
         - transform
         - compute
+        - required
+        - deprecated
       - enum:
           $data: /customValidationNames
     properties:
@@ -188,11 +193,27 @@ definitions:
             $ref: '#/definitions/validModelName'
       readOnly:
         type: boolean
+      # Instead of being an array on the model, like in standard JSON schema
+      # More intuitive
+      required:
+        type: boolean
+      # Used to indicate an attribute is deprecated, and why
+      deprecated:
+        type: string
       transform:
         $ref: '#/definitions/transformCompute'
       compute:
         $ref: '#/definitions/transformCompute'
     allOf:
+    # Cannot both be required and have a default value
+    - if:
+        required: [required]
+        properties:
+          required:
+            const: true
+      then:
+        not:
+          required: [default]
     # Only for nested models
     - if:
         required: [model]
@@ -341,7 +362,8 @@ definitions:
       - contains
       - maxProperties
       - minProperties
-      - required
+      # We use a different syntax for `required`
+      # - required
       - additionalProperties
       - definitions
       - properties
@@ -366,6 +388,7 @@ definitions:
       - then
       - else
       # Properties specific to this project
+      - required
       - deprecated
     # Users can define anything under property named x-*
     - pattern: '^x-*'
@@ -464,8 +487,8 @@ definitions:
         $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeInteger'
       minProperties:
         $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeIntegerDefault0'
-      required:
-        $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
+      # required:
+      #   $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
       additionalProperties:
         $ref: '#/definitions/generalSchema'
       definitions:
@@ -545,11 +568,19 @@ definitions:
   # Our additions to JSON schema
   customJsonSchema:
     properties:
-      # Used to indicate an attribute is deprecated, and why
-      deprecated:
-        type: string
       # All spec-defined formats are allowed. We are stricter than the spec,
       # as custom formats are forbidden.
       format:
-        enum: [regex, date-time, date, time, email, hostname, ipv4, ipv6, uri,
-          uri-reference, json-pointer, relative-json-pointer]
+        enum:
+        - regex
+        - date-time
+        - date
+        - time
+        - email
+        - hostname
+        - ipv4
+        - ipv6
+        - uri
+        - uri-reference
+        - json-pointer
+        - relative-json-pointer

@@ -10,9 +10,15 @@ const mergeNestedModel = function (attr, { idl: { models } }) {
     .find(([name, mod]) => mod.model === attr.model || name === attr.model);
   const modelId = model.properties.id;
   // Any specified property has higher priority
-  const referedModelId = omit(modelId, Object.keys(attr));
+  const attrsToOmit = [...Object.keys(attr), ...nonNestedAttrs];
+  const referedModelId = omit(modelId, attrsToOmit);
   return referedModelId;
 };
+
+// Those attributes never get deeply merged
+const nonNestedAttrs = [
+  'required',
+];
 
 module.exports = {
   mergeNestedModel,

@@ -28,7 +28,7 @@ const getObjectFields = function (def, opts, getField) {
       filterArgs({ childDef, childDefName, inputObjectType, action, def })
     );
     const finalFields = mapValues(filteredFields, (childDef, childDefName) =>
-      getChildField({ childDef, childDefName, action, def, opts, getField })
+      getChildField({ childDef, childDefName, action, opts, getField })
     );
     const fieldsWithDefault = Object.keys(finalFields).length === 0
       ? noAttributes
@@ -42,7 +42,6 @@ const getChildField = function ({
   childDef,
   childDefName,
   action,
-  def,
   opts,
   getField,
 }) {
@@ -52,7 +51,7 @@ const getChildField = function ({
   const childOpts = { ...opts, action: childAction };
 
   const isRequired = getRequired({
-    parentDef: def,
+    def: childDef,
     name: childDefName,
     ...childOpts,
   });
