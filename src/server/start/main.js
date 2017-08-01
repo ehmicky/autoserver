@@ -1,12 +1,12 @@
 'use strict';
 
-const { createLog, reportPerf } = require('../logging');
-const { monitor, monitoredReduce } = require('../perf');
-const { makeImmutable } = require('../utilities');
-const { createApiServer } = require('../events');
+const { createLog, reportPerf } = require('../../logging');
+const { monitor, monitoredReduce } = require('../../perf');
+const { makeImmutable } = require('../../utilities');
+const { createApiServer } = require('../../events');
 
-const { handleStartupError } = require('./startup_error');
-const { startSteps } = require('./start_steps');
+const { handleStartupError } = require('./error');
+const { startSteps } = require('./steps');
 
 /**
  * Start server for each protocol

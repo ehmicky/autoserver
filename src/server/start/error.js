@@ -1,8 +1,8 @@
 'use strict';
 
-const { getStandardError, getErrorMessage } = require('../error');
-const { reportLog } = require('../logging');
-const { emitEventAsync } = require('../events');
+const { getStandardError, getErrorMessage } = require('../../error');
+const { reportLog } = require('../../logging');
+const { emitEventAsync } = require('../../events');
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function ({
