@@ -124,7 +124,6 @@ definitions:
         - commands
         - model
         - type
-        - examples
         - alias
         - readOnly
         - transform
@@ -132,6 +131,7 @@ definitions:
         - required
         - deprecated
         - description
+        - examples
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -178,6 +178,7 @@ definitions:
         - required
         - deprecated
         - description
+        - examples
       - enum:
           $data: /customValidationNames
     properties:
@@ -201,8 +202,14 @@ definitions:
       # Used to indicate an attribute is deprecated, and why
       deprecated:
         type: string
+      # Used in automatically generated documentation
       description:
         type: string
+      # Used in automatically generated documentation
+      examples:
+        type: array
+        items:
+          type: string
       transform:
         $ref: '#/definitions/transformCompute'
       compute:
@@ -346,6 +353,7 @@ definitions:
       # The following attributes are not available, because a property on
       # attributes should be used instead
       # - description
+      # - examples
       # Standard JSON schema properties
       - $id
       - $schema
@@ -384,7 +392,6 @@ definitions:
       - oneOf
       - not
       # Future standard JSON schema properties
-      - examples
       - formatMaximum
       - formatMinimum
       - formatExclusiveMinimum
@@ -396,6 +403,7 @@ definitions:
       - required
       - deprecated
       - description
+      - examples
     # Users can define anything under property named x-*
     - pattern: '^x-*'
   validModelName:
@@ -549,10 +557,6 @@ definitions:
   # Future JSON standard
   futureJsonSchema:
     properties:
-      examples:
-        type: array
-        items:
-          type: string
       formatMaximum:
         type: string
       formatMinimum:
