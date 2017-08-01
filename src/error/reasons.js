@@ -92,6 +92,9 @@ const errorReasons = {
   // An exception was fired on the process itself
   PROCESS_ERROR: {},
 
+  // An exception was fired during error logging
+  LOGGING_ERROR: {},
+
   // Some utility got some wrong input
   UTILITY_ERROR: {},
 

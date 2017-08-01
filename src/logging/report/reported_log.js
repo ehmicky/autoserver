@@ -11,12 +11,16 @@ const getReportedLog = function ({
   log: { phase, serverOpts },
   message: rawMessage = '',
   info = {},
-  info: { type = 'message' } = {},
+  info: { type = 'message', errorInfo } = {},
 }) {
   // Adds information common to most logs: `phase`, `type`, `serverInfo`,
   // `requestInfo`, `messages`
   const serverInfo = getServerInfo({ serverOpts });
-  const { requestInfo, errorInfo } = getRequestInfo({ log, info }) || {};
+  const {
+    requestInfo,
+    errorInfo: errorInfoA,
+  } = getRequestInfo({ log, info }) || {};
+  const errorInfoB = errorInfoA || errorInfo;
   const {
     // Used in message prefix
     requestId,
@@ -39,7 +43,7 @@ const getReportedLog = function ({
   return {
     ...info,
     requestInfo,
-    errorInfo,
+    errorInfo: errorInfoB,
     phase,
     type,
     serverInfo,
