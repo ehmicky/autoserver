@@ -23,10 +23,6 @@ const validationTypes = {
     reason: 'INPUT_VALIDATION',
     message: 'Wrong parameters',
   },
-  serverOutputData: {
-    reason: 'OUTPUT_VALIDATION',
-    message: 'Response is corrupted',
-  },
   paginationOutput: {
     reason: 'OUTPUT_VALIDATION',
     message: 'Response is corrupted',

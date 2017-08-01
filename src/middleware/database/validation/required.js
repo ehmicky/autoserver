@@ -1,18 +1,11 @@
 'use strict';
 
 // Fix `required` attribute according to the current command.name
-const getRequired = function ({ model, command, type }) {
+const getRequired = function ({ model, command }) {
   if (!Array.isArray(model.required)) { return {}; }
 
-  const requiredFunc = getRequiredFunc({ type });
-  const required = requiredFunc({ model, command });
+  const required = getClientInputRequired({ model, command });
   return { required };
-};
-
-const getRequiredFunc = function ({ type }) {
-  if (type === 'clientInputData') { return getClientInputRequired; }
-  if (type === 'serverOutputData') { return getServerOutputRequired; }
-  return getOtherRequired;
 };
 
 const getClientInputRequired = function ({ model: { required }, command }) {
@@ -25,27 +18,9 @@ const getClientInputRequired = function ({ model: { required }, command }) {
   return required.filter(requiredProp => requiredProp !== 'id');
 };
 
-const getServerOutputRequired = function ({ model: { required }, command }) {
-  // Some command.name do not require normal attributes as output
-  // (except for `id`)
-  if (optionalOutputCommands.includes(command.name)) {
-    return required.filter(requiredProp => requiredProp === 'id');
-  }
-
-  return required;
-};
-
-const getOtherRequired = function ({ value }) {
-  return value;
-};
-
 const optionalInputCommands = [
   'readOne',
   'readMany',
-  'deleteOne',
-  'deleteMany',
-];
-const optionalOutputCommands = [
   'deleteOne',
   'deleteMany',
 ];
