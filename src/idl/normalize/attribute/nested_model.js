@@ -10,14 +10,19 @@ const mergeNestedModel = function (attr, { idl: { models } }) {
     .find(([name, mod]) => mod.model === attr.model || name === attr.model);
   const modelId = model.properties.id;
 
-  const attrA = omit(attr, 'model');
+  const modelIdA = omit(modelId, metadataProps);
+  const validate = omit(modelIdA.validate, ['required']);
+  const modelIdB = { ...modelIdA, validate };
 
-  const validate = omit(modelId.validate, ['required']);
-  const modelIdA = { ...modelId, validate };
-
-  const modelIdB = deepMerge(modelIdA, attrA);
-  return modelIdB;
+  const modelIdC = deepMerge(modelIdB, attr);
+  return modelIdC;
 };
+
+const metadataProps = [
+  'description',
+  'deprecated',
+  'examples',
+];
 
 module.exports = {
   mergeNestedModel,

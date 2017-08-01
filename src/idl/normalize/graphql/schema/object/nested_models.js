@@ -1,10 +1,7 @@
 'use strict';
 
-const { pick } = require('../../../../../utilities');
+const { pick, omit } = require('../../../../../utilities');
 const { getActionName } = require('../name');
-const { getSubDef, isModel, isMultiple } = require('../utilities');
-
-const { getNestedIdAttr } = require('./nested_id');
 
 const getNestedModels = function ({
   childDef,
@@ -28,8 +25,14 @@ const getNestedModels = function ({
 };
 
 const isNestedModel = function ({ childDef }) {
-  const subDef = getSubDef(childDef);
-  return isModel(subDef) && !subDef.isTopLevel;
+  return childDef.model !== undefined && !childDef.isTopLevel;
+};
+
+// Merge nested models, i.e. attributes with `model` defined,
+// with the model they refer to
+const getNestedIdAttr = function ({ childDef, childDefName }) {
+  const nestedId = omit(childDef, 'model');
+  return { [childDefName]: nestedId };
 };
 
 // Copy nested models with a different name that includes the action,
@@ -45,26 +48,22 @@ const getRecursiveModels = function ({
   if (inputObjectType !== '') { return; }
 
   const recursiveDef = getRecursiveDef({ childDef, action, rootDef });
-
   const name = getActionName({ modelName: childDefName, action });
-
   return { [name]: recursiveDef };
 };
 
 const getRecursiveDef = function ({ childDef, action, rootDef }) {
-  const subDef = getSubDef(childDef);
-  const multiple = isMultiple(childDef);
-
-  const topLevelModel = Object.values(rootDef.properties)
-    .find(prop => getSubDef(prop).model === subDef.model &&
-      prop.action.type === action.type &&
-      prop.action.multiple === multiple
-    );
+  const topLevelModel = Object.values(rootDef.properties).find(prop =>
+    prop.model === childDef.model &&
+    prop.action.type === action.type &&
+    prop.action.multiple === childDef.multiple
+  );
 
   // Keep metadata of nested model, if defined
   const childDefMetadata = pick(childDef, metadataProps);
+  const topLevelModelA = omit(topLevelModel, metadataProps);
 
-  const recursiveDef = { ...topLevelModel, ...childDefMetadata };
+  const recursiveDef = { ...topLevelModelA, ...childDefMetadata };
 
   return removeTopLevel({ def: recursiveDef });
 };
@@ -77,16 +76,7 @@ const metadataProps = [
 
 // Distinguish top-level from nested models with `isTopLevel` true|false
 const removeTopLevel = function ({ def }) {
-  const subDef = getSubDef(def);
-  const multiple = isMultiple(def);
-
-  const items = { ...subDef, isTopLevel: false };
-
-  if (multiple) {
-    return { ...def, items };
-  }
-
-  return items;
+  return { ...def, isTopLevel: false };
 };
 
 module.exports = {

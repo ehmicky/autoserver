@@ -12,7 +12,6 @@ const {
 const { ACTIONS } = require('../../../../constants');
 
 const { getPluralActionName } = require('./name');
-const { getSubDef, isModel, isMultiple } = require('./utilities');
 
 // Mapping from IDL actions to GraphQL methods
 const graphqlMethods = {
@@ -50,37 +49,6 @@ const getAllModelsByAction = function ({ models, action }) {
   );
 };
 
-const getModelByAction = function ({ model, action }) {
-  // Add action information to the nested models
-  const properties = mapValues(
-    model.properties,
-    def => getModelProps({ def, action }),
-  );
-
-  const modelCopy = getModelCopy({ model, properties, action });
-
-  // Add action information to the top-level model
-  return { ...modelCopy, action };
-};
-
-const getModelProps = function ({ def, action }) {
-  const subDef = getSubDef(def);
-  if (!isModel(subDef)) { return def; }
-
-  const multiple = isMultiple(def);
-  const subAction = ACTIONS.find(act =>
-    act.type === action.type && act.multiple === multiple
-  );
-  return { ...def, action: subAction };
-};
-
-const getModelCopy = function ({ model, properties, action: { multiple } }) {
-  const modelA = deepMerge(model, { properties, isTopLevel: true });
-
-  // Wrap in array if action is multiple
-  return multiple ? { type: 'array', items: modelA } : modelA;
-};
-
 // Filter allowed actions on a given model
 const isAllowedModel = function ({ model: { commands }, action }) {
   const actions = ACTIONS
@@ -89,6 +57,34 @@ const isAllowedModel = function ({ model: { commands }, action }) {
     )
     .map(({ name }) => name);
   return actions.includes(action.name);
+};
+
+const getModelByAction = function ({ model, action }) {
+  // Add action information to the nested models
+  const properties = mapValues(
+    model.properties,
+    def => getModelProps({ def, action }),
+  );
+
+  const modelCopy = deepMerge(model, { properties, isTopLevel: true });
+
+  // Add action information to the top-level model
+  return {
+    ...modelCopy,
+    action,
+    type: 'object',
+    validate: {},
+    multiple: action.multiple,
+  };
+};
+
+const getModelProps = function ({ def, action }) {
+  if (def.model === undefined) { return def; }
+
+  const subAction = ACTIONS.find(act =>
+    act.type === action.type && act.multiple === def.multiple
+  );
+  return { ...def, action: subAction };
 };
 
 module.exports = {

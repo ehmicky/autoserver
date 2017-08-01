@@ -2,7 +2,6 @@
 
 const { mapValues } = require('../../../utilities');
 
-const { addModelDefaultType } = require('./type');
 const { addModelName } = require('./name');
 const { normalizeCommands } = require('./commands');
 const { setTransformOrder, setComputeOrder } = require('./transform');
@@ -35,7 +34,6 @@ const reduceModels = function ({ transformer, model, modelName, idl }) {
 };
 
 const transformers = [
-  addModelDefaultType,
   addModelName,
   normalizeCommands,
   setTransformOrder,

@@ -76,8 +76,8 @@ models:
         required: true
       name: {}
       friends:
-        items:
-          model: user
+        model: user
+        multiple: true
 ```
 
 Users can then perform the following GraphQL query:

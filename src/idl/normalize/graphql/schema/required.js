@@ -19,7 +19,7 @@ const getRequired = function ({ def, name, action = {}, inputObjectType }) {
     inputObjectType === 'filter' &&
     !action.multiple;
   const shouldRequire =
-    ((def.validate && def.validate.required === true) || isFilterId) &&
+    (def.validate.required || isFilterId) &&
     // Query inputObjects do not require any attribute,
     // except filter.id for single actions
     !(inputObjectType === 'filter' && !isFilterId) &&

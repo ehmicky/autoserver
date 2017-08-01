@@ -2,7 +2,6 @@
 
 const { isJsl } = require('../../../../jsl');
 
-const { isModel } = require('./utilities');
 const { getArguments } = require('./arguments');
 const { getFieldGetter } = require('./fields');
 
@@ -22,19 +21,13 @@ const getField = function (def, opts) {
   const fieldGetter = getFieldGetter({ def, opts: optsA });
   const { type, args } = fieldGetter.value(def, optsA, getField);
 
-  // Fields description|deprecation_reason are taken from IDL definition
-  const { description, deprecationReason } = def;
+  // Fields description|deprecated are taken from IDL definition
+  const { description, deprecated } = def;
 
   const argsA = getArgs({ args, def, opts: optsA });
 
   const defaultValue = getDefaultValue({ def, opts: optsA });
-  const field = {
-    type,
-    description,
-    deprecationReason,
-    args: argsA,
-    defaultValue,
-  };
+  const field = { type, description, deprecated, args: argsA, defaultValue };
   return field;
 };
 
@@ -42,7 +35,10 @@ const getArgs = function ({ args, def, opts }) {
   // Only for models, and not for argument types
   // Modifiers (Array and NonNull) retrieve their arguments from
   // underlying type (i.e. `args` is already defined)
-  if (!isModel(def) || opts.inputObjectType !== '' || args) { return args; }
+  const noArgs = def.model === undefined ||
+    opts.inputObjectType !== '' ||
+    args;
+  if (noArgs) { return args; }
 
   // Builds types used for `data` and `filter` arguments
   const dataObjectOpts = { ...opts, inputObjectType: 'data' };

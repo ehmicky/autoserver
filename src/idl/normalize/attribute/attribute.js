@@ -5,6 +5,7 @@ const { mapValues } = require('../../../utilities');
 const { mergeNestedModel } = require('./nested_model');
 const { addAttrDefaultType } = require('./type');
 const { addAttrDefaultValidate } = require('./validate');
+const { addAttrDefaultMultiple } = require('./multiple');
 const { normalizeTransform, normalizeCompute } = require('./transform');
 
 const normalizeAttrs = function (type, { idl, idl: { models } }) {
@@ -15,17 +16,14 @@ const normalizeAttrs = function (type, { idl, idl: { models } }) {
   return { ...idl, models: modelsA };
 };
 
-const normalizeModel = function ({ model, mapper }) {
-  if (!model.properties) { return model; }
+const normalizeModel = function ({ model, model: { properties }, mapper }) {
+  if (!properties) { return model; }
 
-  const properties = mapValues(model.properties, (attr, attrName) => {
-    const attrA = mapper({ attr, attrName });
-    const itemsA = attr.items
-      ? { items: mapper({ attr: attr.items, attrName: 'items' }) }
-      : {};
-    return { ...attrA, ...itemsA };
-  });
-  return { ...model, properties };
+  const propertiesA = mapValues(
+    properties,
+    (attr, attrName) => mapper({ attr, attrName }),
+  );
+  return { ...model, properties: propertiesA };
 };
 
 // Do not use .bind() because we want a clean function name,
@@ -54,8 +52,9 @@ const reduceAttrs = function ({ transformer, attr, attrName, idl }) {
 
 const allTransformers = {
   before: [
-    addAttrDefaultType,
     addAttrDefaultValidate,
+    addAttrDefaultType,
+    addAttrDefaultMultiple,
     normalizeTransform,
     normalizeCompute,
   ],
