@@ -131,6 +131,7 @@ definitions:
         - validate
         - deprecated
         - required
+        - dependencies
         - description
         - examples
         - default
@@ -211,11 +212,17 @@ definitions:
         propertyNames:
           enum:
           - required
+          - dependencies
         properties:
           # Instead of being an array on the model, like in standard JSON schema
           # More intuitive
           required:
             type: boolean
+          # Same as JSON schema, but directly on the attribute
+          dependencies:
+            anyOf:
+            - $ref: '#/definitions/generalSchema'
+            - $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
       # Indicate an attribute is deprecated, and why
       deprecated:
         type: string
@@ -397,7 +404,6 @@ definitions:
       - definitions
       - properties
       - patternProperties
-      - dependencies
       - propertyNames
       - const
       - enum
@@ -417,6 +423,7 @@ definitions:
       - else
       # We are using a different syntax for the following attributes
       - required
+      - dependencies
       # Properties specific to this project
       - deprecated
       - description
@@ -475,6 +482,12 @@ definitions:
       # We are using a different syntax for the following attributes
       # required:
       #   $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
+      # dependencies:
+      #   type: object
+      #   additionalProperties:
+      #     anyOf:
+      #       - $ref: '#/definitions/generalSchema'
+      #       - $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
       $id:
         type: string
         format: uri-reference
@@ -541,12 +554,6 @@ definitions:
         additionalProperties:
           $ref: '#/definitions/generalSchema'
         default: {}
-      dependencies:
-        type: object
-        additionalProperties:
-          anyOf:
-            - $ref: '#/definitions/generalSchema'
-            - $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
       propertyNames:
         $ref: '#/definitions/generalSchema'
       const: {}

@@ -5,19 +5,15 @@ const { pickBy, mapValues, omit, memoize } = require('../../../utilities');
 // Retrieves JSON schema to validate against
 const getDataValidationSchema = function ({ idl, modelName, command }) {
   const model = idl.models[modelName];
-  const modelA = fixRequired({ model, command });
-  return modelA;
+  const modelA = addJsonSchemaRequire({ model, command });
+  const modelB = addJsonSchemaDeps({ model: modelA });
+  const modelC = removeAltSyntax({ model: modelB });
+  return modelC;
 };
 
 const mGetDataValidationSchema = memoize(getDataValidationSchema);
 
 // Fix `required` attribute according to the current command.name
-const fixRequired = function ({ model, command }) {
-  const modelA = addJsonSchemaRequire({ model, command });
-  const modelB = removeAttrRequire({ model: modelA });
-  return modelB;
-};
-
 // JSON schema `require` attribute is a model-level array,
 // not an attribute-level boolean
 const addJsonSchemaRequire = function ({
@@ -45,13 +41,29 @@ const optionalInputCommands = [
   'deleteMany',
 ];
 
-const removeAttrRequire = function ({ model, model: { properties } }) {
+// JSON schema `dependencies` attribute is model-level, not attribute-level
+const addJsonSchemaDeps = function ({ model, model: { properties } }) {
+  const dependencies = mapValues(
+    properties,
+    ({ validate }) => validate.dependencies,
+  );
+  const dependenciesA = pickBy(dependencies, dep => dep !== undefined);
+  return { ...model, dependencies: dependenciesA };
+};
+
+// Remove syntax that is not JSON schema
+const removeAltSyntax = function ({ model, model: { properties } }) {
   const propertiesA = mapValues(properties, prop => {
-    const validate = omit(prop.validate, 'required');
+    const validate = omit(prop.validate, nonJsonSchemaAttrs);
     return { ...prop, validate };
   });
   return { ...model, properties: propertiesA };
 };
+
+const nonJsonSchemaAttrs = [
+  'required',
+  'dependencies',
+];
 
 module.exports = {
   getDataValidationSchema: mGetDataValidationSchema,
