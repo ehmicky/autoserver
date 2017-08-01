@@ -39,11 +39,13 @@ models:
         # For the moment, cannot be an array
         description: Unique identifier of a pet
         # `ìd` should always be required, and specified
-        required: true
+        validate:
+          required: true
       name:
         type: string
         description: How to call a pet
-        required: true
+        validate:
+          required: true
         # Custom property
         x-custom: anything
         # Combinators JSON schema validation keywords
@@ -99,7 +101,8 @@ models:
         #    and must be 'object'
         #  - otherwise, defaults to 'string'
         description: Sweet pictures of a pet
-        required: true
+        validate:
+          required: true
         # This is how to specify an array's elements
         items: {}
       skills:
@@ -163,7 +166,8 @@ models:
       # can also be specified
       friends:
         description: This pet's friends
-        required: true
+        validate:
+          required: true
         items:
           model: pet
       owners:

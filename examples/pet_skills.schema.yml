@@ -15,7 +15,8 @@ dependencies:
     maxProperties: 100
 properties:
   id:
-    required: true
+    validate:
+      required: true
   age:
     type: integer
     description: How old is the pet
@@ -23,7 +24,8 @@ properties:
   intelligence:
     type: integer
     description: How smart is the pet
-    required: true
+    validate:
+      required: true
     minimum:
       # Allows referring to a runtime value, i.e. here `age` must be
       # lesser than `intelligence`
