@@ -1,7 +1,7 @@
 'use strict';
 
-const { reportLog } = require('../logging');
-const { emitEventAsync } = require('../events');
+const { reportLog } = require('../../logging');
+const { emitEventAsync } = require('../../events');
 
 const emitStartEvent = async function ({ apiServer, startupLog: log }) {
   await emitEventAsync({ apiServer, name: 'start' });

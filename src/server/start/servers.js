@@ -1,11 +1,11 @@
 'use strict';
 
-const { assignObject } = require('../utilities');
-const { protocols, protocolHandlers } = require('../protocols');
-const { getMiddleware } = require('../middleware');
-const { reportLog } = require('../logging');
-const { monitor } = require('../perf');
-const { createJsl } = require('../jsl');
+const { assignObject } = require('../../utilities');
+const { protocols, protocolHandlers } = require('../../protocols');
+const { getMiddleware } = require('../../middleware');
+const { reportLog } = require('../../logging');
+const { monitor } = require('../../perf');
+const { createJsl } = require('../../jsl');
 
 // Start each server
 const startServers = async function ({
