@@ -15,10 +15,11 @@ const { commonSchema, argsSchema } = require('./schemas');
  *    Does not check for semantics (e.g. IDL validation)
  **/
 const validateSyntax = function ({ args, action }) {
-  const type = 'clientInputSyntax';
   const schema = actionSchemas[action.name];
   validate({ schema, data: args, reportInfo: { type, dataVar: 'args' } });
 };
+
+const type = 'clientInputSyntax';
 
 const getActionSchema = function ({ optional = [], required = [] }) {
   const optionalProps = pick(argsSchema, [...optional, ...required]);

@@ -1,11 +1,14 @@
 'use strict';
 
-const { pickBy, omitBy, fullRecurseMap } = require('../../../utilities');
+const {
+  pickBy,
+  omitBy,
+  fullRecurseMap,
+  memoize,
+} = require('../../../utilities');
 const { validate } = require('../../../validation');
 
-const { getDataValidationSchema } = require('./schema');
-
-const type = 'clientInputData';
+const { getRequired } = require('./required');
 
 /**
  * Check that input nFilter|newData passes IDL validation
@@ -16,39 +19,42 @@ const validateInputData = function ({
   input,
   input: { args, modelName, command, jsl, idl },
 }) {
-  const schema = getDataValidationSchema({ idl, modelName, command, type });
-  const attributes = getAttributes(args);
+  const schema = mGetDataValidationSchema({ idl, modelName, command });
+  const attrs = getAttrs(args);
 
-  return Object.entries(attributes).reduce(
-    (inputA, [dataVar, attribute]) =>
-      validateAttribute({ input: inputA, dataVar, attribute, schema, jsl }),
+  return Object.entries(attrs).reduce(
+    (inputA, [dataVar, attr]) =>
+      validateAttr({ input: inputA, dataVar, attr, schema, jsl }),
     input,
   );
 };
 
-const validateAttribute = function ({
-  input,
-  dataVar,
-  attribute,
-  schema,
-  jsl,
-}) {
-  const allAttrs = Array.isArray(attribute) ? attribute : [attribute];
+// Retrieves JSON schema to validate against
+const getDataValidationSchema = function ({ idl, modelName, command }) {
+  const model = idl.models[modelName];
+  const required = getRequired({ model, command });
+  return { ...model, ...required };
+};
 
-  return allAttrs.reduce(
+const mGetDataValidationSchema = memoize(getDataValidationSchema);
+
+// Keeps the arguments to validate
+const getAttrs = function (args) {
+  // TODO: validate `nFilter`
+  return pickBy(args, (arg, dataVar) => ['newData'].includes(dataVar) && arg);
+};
+
+const validateAttr = function ({ input, dataVar, attr, schema, jsl }) {
+  const attrArray = Array.isArray(attr) ? attr : [attr];
+
+  return attrArray.reduce(
     (inputA, data) =>
-      validateSingleAttribute({ input: inputA, dataVar, schema, jsl, data }),
+      validateSingleAttr({ input: inputA, dataVar, schema, jsl, data }),
     input,
   );
 };
 
-const validateSingleAttribute = function ({
-  input,
-  dataVar,
-  schema,
-  jsl,
-  data,
-}) {
+const validateSingleAttr = function ({ input, dataVar, schema, jsl, data }) {
   const value = removeAllJsl(data);
   const reportInfo = { type, dataVar };
   validate({ schema, data: value, reportInfo, extra: jsl });
@@ -56,13 +62,7 @@ const validateSingleAttribute = function ({
   return input;
 };
 
-/**
- * Keeps the arguments to validate
- **/
-const getAttributes = function (args) {
-  // TODO: validate `nFilter`
-  return pickBy(args, (arg, dataVar) => ['newData'].includes(dataVar) && arg);
-};
+const type = 'clientInputData';
 
 // Do not validate JSL code
 // TODO: remove when using MongoDB query objects

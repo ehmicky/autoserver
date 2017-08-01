@@ -1,7 +1,6 @@
 'use strict';
 
 const { validateInputData } = require('./input');
-const { validateOutputData } = require('./output');
 
 /**
  * Custom data validation middleware
@@ -11,10 +10,7 @@ const dataValidation = async function (nextFunc, input) {
   const inputA = validateInputData({ input });
 
   const response = await nextFunc(inputA);
-
-  const responseA = validateOutputData({ input, response });
-
-  return responseA;
+  return response;
 };
 
 module.exports = {
