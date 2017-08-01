@@ -132,6 +132,7 @@ definitions:
         - required
         - description
         - examples
+        - default
       - enum:
           $data: /customValidationNames
   # Only applies this to top-level models
@@ -179,6 +180,7 @@ definitions:
         - required
         - description
         - examples
+        - default
       - enum:
           $data: /customValidationNames
     properties:
@@ -195,6 +197,10 @@ definitions:
             $ref: '#/definitions/validModelName'
       readOnly:
         type: boolean
+      transform:
+        $ref: '#/definitions/transformCompute'
+      compute:
+        $ref: '#/definitions/transformCompute'
       # Used to indicate an attribute is deprecated, and why
       deprecated:
         type: string
@@ -210,10 +216,8 @@ definitions:
         type: array
         items:
           type: string
-      transform:
-        $ref: '#/definitions/transformCompute'
-      compute:
-        $ref: '#/definitions/transformCompute'
+      # Default value
+      default: {}
     allOf:
     # Cannot both be required and have a default value
     - if:
@@ -354,12 +358,12 @@ definitions:
       # attributes should be used instead
       # - description
       # - examples
+      # - default
       # Standard JSON schema properties
       - $id
       - $schema
       - $ref
       - title
-      - default
       - multipleOf
       - maximum
       - exclusiveMaximum
@@ -404,6 +408,7 @@ definitions:
       - deprecated
       - description
       - examples
+      - default
     # Users can define anything under property named x-*
     - pattern: '^x-*'
   validModelName:
@@ -453,6 +458,7 @@ definitions:
       # attributes should be used instead
       # description:
       #   type: string
+      # default: {}
       $id:
         type: string
         format: uri-reference
@@ -464,7 +470,6 @@ definitions:
         format: uri-reference
       title:
         type: string
-      default: {}
       multipleOf:
         type: number
         exclusiveMinimum: 0
