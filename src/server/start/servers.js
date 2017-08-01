@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignObject } = require('../../utilities');
+const { assignObject, makeImmutable } = require('../../utilities');
 const { protocols, protocolHandlers } = require('../../protocols');
 const { getMiddleware } = require('../../middleware');
 const { reportLog } = require('../../logging');
@@ -34,6 +34,7 @@ const startServers = async function ({
     requestHandler,
   });
 
+  makeImmutable(oServerOpts);
   // eslint-disable-next-line fp/no-mutating-assign
   Object.assign(apiServer, { options: oServerOpts, servers });
 

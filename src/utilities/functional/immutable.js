@@ -4,34 +4,77 @@ const { ENV } = require('../env');
 
 const { mapValues } = require('./map');
 
+// Shallow Object.freeze()
+const makeImmutableShallow = function (val) {
+  if (ENV === 'dev') { return val; }
+
+  if (!val || typeof val !== 'object') { return val; }
+
+  Object.freeze(val);
+
+  return val;
+};
+
 // Deeply Object.freeze() over an object.
 // Since linting enforces immutability, we only need to (and should) perform
 // this on values that are passed to library caller.
-const deepFreeze = function (obj) {
-  const isArray = Array.isArray(obj);
-  const isObject = !isArray && obj && obj.constructor === Object;
-  if (!isArray && !isObject) { return obj; }
+const makeImmutable = function (val) {
+  // Not in production, because Object.freeze() can be slow.
+  if (ENV === 'dev') { return val; }
 
-  // Avoid infinite recursions
-  const isFrozen = Object.isFrozen(obj);
-  if (isFrozen) { return obj; }
+  const type = getType(val);
+  if (type === 'other') { return val; }
 
-  Object.freeze(obj);
-
-  return freezeChildren(obj);
+  return deepFreeze(val, type);
 };
 
-const freezeChildren = function (obj) {
-  if (Array.isArray(obj)) {
-    return obj.map(child => deepFreeze(child));
+const deepFreeze = function (val, type) {
+  // Avoid infinite recursions
+  const isFrozen = Object.isFrozen(val);
+  if (isFrozen) { return val; }
+
+  // Need to freeze to avoid infinite recursions
+  Object.freeze(val);
+
+  const freezeChildren = getFreezeChildren(type);
+  const valA = freezeChildren(val);
+
+  // Need to freeze again because children recursion created a new object
+  return Object.freeze(valA);
+};
+
+const getType = function (val) {
+  if (Array.isArray(val)) { return 'array'; }
+  if (val && val.constructor === Object) { return 'plainObject'; }
+  if (val && typeof val === 'object') { return 'object'; }
+  return 'other';
+};
+
+const getFreezeChildren = function (type) {
+  if (type === 'array') { return deepFreezeArray; }
+  if (type === 'plainObject') { return deepFreezePlainObject; }
+  if (type === 'object') { return deepFreezeObject; }
+};
+
+const deepFreezeArray = function (arr) {
+  return arr.map(child => makeImmutable(child));
+};
+
+const deepFreezePlainObject = function (obj) {
+  return mapValues(obj, child => makeImmutable(child));
+};
+
+// Non-plain objects must be directly mutated
+const deepFreezeObject = function (obj) {
+  // eslint-disable-next-line fp/no-loops
+  for (const [, val] of Object.entries(obj)) {
+    makeImmutable(val);
   }
 
-  return mapValues(obj, child => deepFreeze(child));
+  return obj;
 };
 
-// Not in production, because Object.freeze() can be slow.
-const makeImmutable = ENV === 'dev' ? deepFreeze : val => val;
-
 module.exports = {
+  makeImmutableShallow,
   makeImmutable,
 };

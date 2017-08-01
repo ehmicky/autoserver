@@ -18,6 +18,7 @@ const createApiServer = function ({ oServerOpts }) {
   } = getServerInfo({ serverOpts: oServerOpts });
   const info = { id: serverId, name: serverName, version };
 
+  makeImmutable(info);
   // eslint-disable-next-line fp/no-mutating-assign
   Object.assign(apiServer, { info });
 
