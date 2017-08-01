@@ -32,7 +32,7 @@ const addJsonSchemaRequire = function ({
   const requiredProps = pickBy(properties,
     // `id` requiredness has already been checked by previous validator,
     // so we skip it here
-    (attr, attrName) => attr.required === true && attrName !== 'id',
+    (attr, attrName) => attr.validate.required === true && attrName !== 'id',
   );
   const required = Object.keys(requiredProps);
   return { ...model, required };
@@ -46,7 +46,10 @@ const optionalInputCommands = [
 ];
 
 const removeAttrRequire = function ({ model, model: { properties } }) {
-  const propertiesA = mapValues(properties, prop => omit(prop, 'required'));
+  const propertiesA = mapValues(properties, prop => {
+    const validate = omit(prop.validate, 'required');
+    return { ...prop, validate };
+  });
   return { ...model, properties: propertiesA };
 };
 

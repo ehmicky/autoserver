@@ -128,6 +128,7 @@ definitions:
         - readOnly
         - transform
         - compute
+        - validate
         - deprecated
         - required
         - description
@@ -152,13 +153,16 @@ definitions:
       # Must have an `id`
       properties:
         required: [id]
-        # `id` must have `required` true
+        # `id` must have `validate.required` true
         properties:
           id:
-            required: [required]
+            required: [validate]
             properties:
-              required:
-                const: true
+              validate:
+                required: [required]
+                properties:
+                  required:
+                    const: true
       # When specified, type must be 'object'
       type:
         const:
@@ -176,8 +180,8 @@ definitions:
         - readOnly
         - transform
         - compute
+        - validate
         - deprecated
-        - required
         - description
         - examples
         - default
@@ -201,13 +205,20 @@ definitions:
         $ref: '#/definitions/transformCompute'
       compute:
         $ref: '#/definitions/transformCompute'
-      # Used to indicate an attribute is deprecated, and why
+      # General data validation
+      validate:
+        type: object
+        propertyNames:
+          enum:
+          - required
+        properties:
+          # Instead of being an array on the model, like in standard JSON schema
+          # More intuitive
+          required:
+            type: boolean
+      # Indicate an attribute is deprecated, and why
       deprecated:
         type: string
-      # Instead of being an array on the model, like in standard JSON schema
-      # More intuitive
-      required:
-        type: boolean
       # Used in automatically generated documentation
       description:
         type: string
@@ -221,10 +232,13 @@ definitions:
     allOf:
     # Cannot both be required and have a default value
     - if:
-        required: [required]
+        required: [validate]
         properties:
-          required:
-            const: true
+          validate:
+            required: [required]
+            properties:
+              required:
+                const: true
       then:
         not:
           required: [default]
@@ -379,8 +393,6 @@ definitions:
       - contains
       - maxProperties
       - minProperties
-      # We use a different syntax for `required`
-      # - required
       - additionalProperties
       - definitions
       - properties
@@ -403,8 +415,9 @@ definitions:
       - if
       - then
       - else
-      # Properties specific to this project
+      # We are using a different syntax for the following attributes
       - required
+      # Properties specific to this project
       - deprecated
       - description
       - examples
@@ -459,6 +472,9 @@ definitions:
       # description:
       #   type: string
       # default: {}
+      # We are using a different syntax for the following attributes
+      # required:
+      #   $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
       $id:
         type: string
         format: uri-reference
@@ -508,8 +524,6 @@ definitions:
         $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeInteger'
       minProperties:
         $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeIntegerDefault0'
-      # required:
-      #   $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
       additionalProperties:
         $ref: '#/definitions/generalSchema'
       definitions:
