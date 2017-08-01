@@ -9,10 +9,6 @@ additionalProperties:
   type: integer
 propertyNames:
   pattern: '^[a-z_]+$'
-dependencies:
-  height: [width]
-  is_big:
-    maxProperties: 100
 properties:
   id:
     validate:

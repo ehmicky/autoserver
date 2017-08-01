@@ -162,6 +162,8 @@ models:
         # Those "sub-models" to perform nested actions
         model: pet
         description: This pet's best friend
+        validate:
+          dependencies: [friends]
       # Array of foreign keys (i.e. n-1, 1-n and n-n relationships)
       # can also be specified
       friends:
