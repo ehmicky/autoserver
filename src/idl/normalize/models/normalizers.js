@@ -2,6 +2,7 @@
 
 const { addModelName } = require('./model_name');
 const { normalizeCommands } = require('./commands');
+const { addDefaultId } = require('./default_id');
 const { addAttrDefaultValidate } = require('./default_validate');
 const { addAttrRequiredId } = require('./required_id');
 const { addAttrDefaultType } = require('./default_type');
@@ -17,6 +18,7 @@ const { addTypeValidation } = require('./type_validation');
 const normalizers = [
   { type: 'model', func: addModelName },
   { type: 'model', func: normalizeCommands },
+  { type: 'model', func: addDefaultId },
   { type: 'attr', func: addAttrDefaultValidate },
   { type: 'attr', func: addAttrRequiredId },
   { type: 'attr', func: addAttrDefaultType },
