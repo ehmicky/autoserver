@@ -22,7 +22,7 @@ const normalizeOrderBy = function ({
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  const attrNames = Object.keys(models[modelName].properties);
+  const attrNames = Object.keys(models[modelName].attributes);
   const nOrderBy = getNOrderBy({ orderBy, attrNames });
 
   return { ...input, args: { ...args, nOrderBy } };

@@ -30,14 +30,14 @@ const normalizeAllAttrs = function (func, { idl }) {
 };
 
 const normalizeAttrs = function (func, model, { idl }) {
-  const { properties } = model;
-  if (!properties) { return model; }
+  const { attributes } = model;
+  if (!attributes) { return model; }
 
-  const propertiesA = mapValues(
-    properties,
+  const attributesA = mapValues(
+    attributes,
     (attr, attrName) => func(attr, { attrName, idl }),
   );
-  return { ...model, properties: propertiesA };
+  return { ...model, attributes: attributesA };
 };
 
 const normalizeFuncs = {

@@ -49,12 +49,12 @@ const getGraphqlMethodDef = function ({
   graphqlMethod,
   models,
 }) {
-  const properties = getModelsByGraphqlMethod({ graphqlMethod, models });
+  const attributes = getModelsByGraphqlMethod({ graphqlMethod, models });
   return {
     type: 'object',
     [nameSym]: name,
     description,
-    properties,
+    attributes,
     isTopLevel: true,
   };
 };

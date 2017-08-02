@@ -22,12 +22,12 @@ const validateSyntax = function ({ args, action }) {
 const type = 'clientInputSyntax';
 
 const getActionSchema = function ({ optional = [], required = [] }) {
-  const optionalProps = pick(argsSchema, [...optional, ...required]);
-  const mappedProps = mapKeys(optionalProps, ({ name }, key) => name || key);
-  const requiredProps = required.map(name => argsSchema[name].name || name);
-  const properties = mapValues(mappedProps, value => omit(value, 'name'));
+  const optionalArgs = pick(argsSchema, [...optional, ...required]);
+  const mappedArgs = mapKeys(optionalArgs, ({ name }, key) => name || key);
+  const requiredArgs = required.map(name => argsSchema[name].name || name);
+  const properties = mapValues(mappedArgs, value => omit(value, 'name'));
 
-  return { properties, required: requiredProps, ...commonSchema };
+  return { properties, required: requiredArgs, ...commonSchema };
 };
 
 // JSON schemas validating `args` for each action

@@ -3,7 +3,7 @@
 const { throwError } = require('../../error');
 const { isJsl } = require('../../jsl');
 
-const { propertiesPlugin } = require('./properties');
+const { attributesPlugin } = require('./attributes');
 
 // Plugin that adds who modified last each model:
 //   created_by {User} - set on model creation
@@ -14,7 +14,7 @@ const { propertiesPlugin } = require('./properties');
 //   [model="user"] {string} - user's model name
 const authorPlugin = function ({ idl, opts }) {
   validateConf({ idl, opts });
-  return propertiesPlugin({ getProperties })({ idl, opts });
+  return attributesPlugin({ getAttributes })({ idl, opts });
 };
 
 const validateConf = function ({ idl, opts: { user, model = 'user' } }) {
@@ -34,7 +34,7 @@ const validateConf = function ({ idl, opts: { user, model = 'user' } }) {
   }
 };
 
-const getProperties = ({ user = '(user())', model = 'user' }) => ({
+const getAttributes = ({ user = '(user())', model = 'user' }) => ({
   created_by: {
     description: 'Who created this model',
     type: model,

@@ -71,7 +71,7 @@ const getFieldGetter = function ({ def, opts }) {
   );
 
   if (!fieldGetter) {
-    const message = `Could not parse property into a GraphQL type: ${stringifyJSON(def)}`;
+    const message = `Could not parse attribute into a GraphQL type: ${stringifyJSON(def)}`;
     throwError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 

@@ -15,7 +15,7 @@ const getObjectFields = function (def, opts, getField) {
   // This needs to be function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type
   return () => {
-    const fieldsWithNested = Object.entries(def.properties)
+    const fieldsWithNested = Object.entries(def.attributes)
       .map(([childDefName, childDef]) => getNestedModels({
         childDef,
         childDefName,

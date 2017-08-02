@@ -1,10 +1,10 @@
 'use strict';
 
-const mapProp = prop => prop.default;
+const mapAttr = attr => attr.default;
 
 // Retrieves map of models's attributes for which a default value is defined
 // E.g. { User: { name: 'default_name', ... }, ... }
-const userDefaultsMap = { filter: 'default', mapProp };
+const userDefaultsMap = { filter: 'default', mapAttr };
 
 module.exports = {
   userDefaultsMap,

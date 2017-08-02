@@ -5,10 +5,10 @@ const { throwError } = require('../../../error');
 
 // Get transforms order according to `using` property
 const setOrder = function (type, model, { modelName }) {
-  if (!model.properties) { return model; }
+  if (!model.attributes) { return model; }
 
-  const props = getAllTransformUsing({ model, modelName });
-  const order = findTransformOrder({ props, modelName });
+  const attrs = getAllTransformUsing({ model, modelName });
+  const order = findTransformOrder({ attrs, modelName });
 
   return { ...model, [`${type}Order`]: order };
 };
@@ -17,15 +17,15 @@ const setOrder = function (type, model, { modelName }) {
 const setTransformOrder = setOrder.bind(null, 'transform');
 const setComputeOrder = setOrder.bind(null, 'compute');
 
-// Returns array of properties having a transform, together with `using`
+// Returns array of attributes having a transform, together with `using`
 // properties, as [{ attrName, using: [...] }, ...]
-const getAllTransformUsing = function ({ model: { properties }, modelName }) {
-  const attributes = Object.keys(properties);
+const getAllTransformUsing = function ({ model: { attributes }, modelName }) {
+  const attrNames = Object.keys(attributes);
 
-  return Object.entries(properties)
+  return Object.entries(attributes)
     .filter(([, { transform }]) => transform)
     .map(([attrName, { transform }]) => {
-      const using = getUsing({ attrName, transform, attributes, modelName });
+      const using = getUsing({ attrName, transform, attrNames, modelName });
       return { attrName, using };
     });
 };
@@ -42,17 +42,17 @@ const getUsing = function ({ transform, ...rest }) {
 // Make sure `using` properties point to an existing attribute
 const validateUsing = function ({
   transformUsing,
-  attributes,
+  attrNames,
   modelName,
   attrName,
 }) {
   return transformUsing.map(
-    using => validateOneUsing({ using, attributes, modelName, attrName }),
+    using => validateOneUsing({ using, attrNames, modelName, attrName }),
   );
 };
 
-const validateOneUsing = function ({ using, attributes, modelName, attrName }) {
-  if (!attributes.includes(using)) {
+const validateOneUsing = function ({ using, attrNames, modelName, attrName }) {
+  if (!attrNames.includes(using)) {
     const message = `'using' property is invalid in model '${modelName}': attribute '${using}' does not exist`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
@@ -67,57 +67,57 @@ const validateOneUsing = function ({ using, attributes, modelName, attrName }) {
 
 // Returns order in which transforms should be applied, according to `using`
 // Returned as an array of attribute names
-const findTransformOrder = function ({ props, modelName, triedProps = [] }) {
-  checkTransformCircular({ props, modelName, triedProps });
+const findTransformOrder = function ({ attrs, modelName, triedAttrs = [] }) {
+  checkTransformCircular({ attrs, modelName, triedAttrs });
 
-  const recTransformOrder = props.find((prop, index) =>
-    findRecTransformOrder({ props, modelName, triedProps, index, prop })
+  const recTransformOrder = attrs.find((attr, index) =>
+    findRecTransformOrder({ attrs, modelName, triedAttrs, index, attr })
   );
   if (recTransformOrder) { return recTransformOrder; }
 
-  const transformOrder = props.map(({ attrName }) => attrName);
+  const transformOrder = attrs.map(({ attrName }) => attrName);
   return transformOrder;
 };
 
 const findRecTransformOrder = function ({
-  props,
+  attrs,
   modelName,
-  triedProps,
+  triedAttrs,
   index,
-  prop,
+  attr,
 }) {
-  const nextProps = props.slice(index + 1);
+  const nextAttrs = attrs.slice(index + 1);
   // Means the attribute is currently behind another attribute that should be
   // behind
-  const isWrongOrder = prop.using.some(
-    orderAttr => isSameAttr({ nextProps, orderAttr }),
+  const isWrongOrder = attr.using.some(
+    orderAttr => isSameAttr({ nextAttrs, orderAttr }),
   );
 
   if (!isWrongOrder) { return; }
 
   // Push the current attribute to the end of the array, and try again
-  const previousProps = props.slice(0, index);
-  const propsA = [...previousProps, ...nextProps, prop];
-  return findTransformOrder({ props: propsA, modelName, triedProps });
+  const previousAttrs = attrs.slice(0, index);
+  const attrsA = [...previousAttrs, ...nextAttrs, attr];
+  return findTransformOrder({ attrs: attrsA, modelName, triedAttrs });
 };
 
-const isSameAttr = function ({ nextProps, orderAttr }) {
-  return nextProps.some(({ attrName }) => attrName === orderAttr);
+const isSameAttr = function ({ nextAttrs, orderAttr }) {
+  return nextAttrs.some(({ attrName }) => attrName === orderAttr);
 };
 
-// If two properties point to each other with `using` property, it means
+// If two attributes point to each other with `using` property, it means
 // each must be before the other, which is invalid, and will throw
 // exceptions during `getTransformOrder()`
-const checkTransformCircular = function ({ props, modelName, triedProps }) {
-  const strProps = props.map(({ attrName }) => attrName).join(',');
+const checkTransformCircular = function ({ attrs, modelName, triedAttrs }) {
+  const strAttrs = attrs.map(({ attrName }) => attrName).join(',');
 
-  if (triedProps.includes(strProps)) {
+  if (triedAttrs.includes(strAttrs)) {
     const message = `Circular dependencies in 'using' properties of model '${modelName}'`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
   // eslint-disable-next-line fp/no-mutating-methods
-  triedProps.push(strProps);
+  triedAttrs.push(strAttrs);
 };
 
 module.exports = {
