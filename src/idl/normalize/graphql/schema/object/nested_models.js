@@ -25,13 +25,13 @@ const getNestedModels = function ({
 };
 
 const isNestedModel = function ({ childDef }) {
-  return childDef.model !== undefined && !childDef.isTopLevel;
+  return childDef.target !== undefined && !childDef.isTopLevel;
 };
 
-// Merge nested models, i.e. attributes with `model` defined,
+// Merge nested models, i.e. attributes with `target` defined,
 // with the model they refer to
 const getNestedIdAttr = function ({ childDef, childDefName }) {
-  const nestedId = omit(childDef, 'model');
+  const nestedId = omit(childDef, 'target');
   return { [childDefName]: nestedId };
 };
 
@@ -69,7 +69,7 @@ const getRecursiveDef = function ({ childDef, action, rootDef }) {
 
 const findTopLevelModel = function ({ childDef, action, rootDef }) {
   return Object.values(rootDef.properties).find(prop =>
-    prop.model === childDef.model &&
+    prop.model === childDef.target &&
     prop.action.type === action.type &&
     prop.action.multiple === childDef.multiple
   );

@@ -79,7 +79,7 @@ const getModelByAction = function ({ model, action }) {
 };
 
 const getModelProps = function ({ def, action }) {
-  if (def.model === undefined) { return def; }
+  if (def.target === undefined) { return def; }
 
   const subAction = ACTIONS.find(act =>
     act.type === action.type && act.multiple === def.multiple

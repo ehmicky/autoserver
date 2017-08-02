@@ -10,14 +10,14 @@ const addAttrDefaultType = function (attr) {
 };
 
 // From `type: string[]` or `type: my_model`
-// to `type: string, multiple: true` or `model: my_model, multiple: false`
+// to `type: string, multiple: true` or `target: my_model, multiple: false`
 const normalizeType = function (attr) {
   const [, rawType, brackets] = typeRegExp.exec(attr.type);
   const multiple = brackets !== undefined;
   const isModel = !nonModelTypes.includes(rawType);
 
-  const attrA = { ...attr, type: rawType, model: rawType, multiple };
-  const attrB = isModel ? omit(attrA, 'type') : omit(attrA, 'model');
+  const attrA = { ...attr, type: rawType, target: rawType, multiple };
+  const attrB = isModel ? omit(attrA, 'type') : omit(attrA, 'target');
 
   return attrB;
 };
