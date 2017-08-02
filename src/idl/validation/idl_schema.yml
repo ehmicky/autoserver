@@ -58,6 +58,7 @@ additionalProperties:
 definitions:
   # idl.models.MODEL
   model:
+    type: object
     # Users can only define custom properties prefixed with x-*
     additionalProperties:
       patternProperties:
@@ -70,23 +71,17 @@ definitions:
         $ref: '#/definitions/description'
       commands:
         $ref: '#/definitions/commandsProperty'
-      # Must have an `id`
+      # `model.id` cannot be optional
       properties:
         type: object
-        required: [id]
         properties:
           id:
-            $ref: '#/definitions/idAttribute'
-  # model.id
-  idAttribute:
-    type: object
-    # `id` cannot be optional
-    properties:
-      validate:
-        properties:
-          required:
-            not:
-              const: false
+            properties:
+              validate:
+                properties:
+                  required:
+                    not:
+                      const: false
   # MODEL.properties
   attribute:
     type: object

@@ -1,6 +1,5 @@
 description: A pet's owner
 properties:
-  id: {}
   name: {}
   pets:
     type: pet[]
