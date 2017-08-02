@@ -19,7 +19,7 @@
 #  - routing
 
 # IDL file version, required
-$schema: tag:apiengine,2017:v1.0.0
+version: 1.0.0
 # List of models
 models:
   # Name of the model, used in routes, e.g. REST endpoints or GraphQL actions
