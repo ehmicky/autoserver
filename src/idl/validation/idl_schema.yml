@@ -390,25 +390,31 @@ definitions:
     # JSON schemas can be booleans
     - boolean
     properties:
-      # The following attributes are not available, because a property on
+      # The following properties are not available, because a property on
       # attributes should be used instead:
-      #  - title
+      #  - type
       #  - description
       #  - examples
       #  - default
+      #  - title
+      # The following properties are not available, because attributes cannot
+      # be objects.
+      #  - maxProperties
+      #  - minProperties
+      #  - additionalProperties
+      #  - properties
+      #  - patternProperties
+      #  - propertyNames
       # We are using a different syntax for the following attributes:
       #  - format
       #  - required
       #  - dependencies
-      $id:
-        type: string
-        format: uri-reference
-      $schema:
-        type: string
-        format: uri
-      $ref:
-        type: string
-        format: uri-reference
+      # The following properties are not available, because not directly
+      # validation-related:
+      #  - $id
+      #  - $schema
+      #  - $ref
+      #  - definitions
       multipleOf:
         type: number
         exclusiveMinimum: 0
@@ -427,14 +433,6 @@ definitions:
       pattern:
         type: string
         format: regex
-      type:
-        anyOf:
-          - $ref: '#/definitions/jsonSchema/definitions/simpleTypes'
-          - type: array
-            items:
-              $ref: '#/definitions/jsonSchema/definitions/simpleTypes'
-            minItems: 1
-            uniqueItems: true
       additionalItems:
         $ref: '#/definitions/jsonSchema'
       items:
@@ -450,29 +448,6 @@ definitions:
         type: boolean
         default: false
       contains:
-        $ref: '#/definitions/jsonSchema'
-      maxProperties:
-        $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
-      minProperties:
-        $ref: '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0'
-      additionalProperties:
-        $ref: '#/definitions/jsonSchema'
-      definitions:
-        type: object
-        additionalProperties:
-          $ref: '#/definitions/jsonSchema'
-        default: {}
-      properties:
-        type: object
-        additionalProperties:
-          $ref: '#/definitions/jsonSchema'
-        default: {}
-      patternProperties:
-        type: object
-        additionalProperties:
-          $ref: '#/definitions/jsonSchema'
-        default: {}
-      propertyNames:
         $ref: '#/definitions/jsonSchema'
       const: {}
       enum:
@@ -544,44 +519,38 @@ definitions:
       - enum:
           $data: '/customValidationNames'
       - enum:
-        - $id
-        - $schema
-        - $ref
+        # Numbers validation
         - multipleOf
         - maximum
         - exclusiveMaximum
         - minimum
         - exclusiveMinimum
+        # String validation
         - maxLength
         - minLength
         - pattern
-        - type
+        - format
+        - formatMaximum
+        - formatMinimum
+        - formatExclusiveMaximum
+        - formatExclusiveMinimum
+        # Array validation
         - additionalItems
         - items
         - maxItems
         - minItems
         - uniqueItems
         - contains
-        - maxProperties
-        - minProperties
-        - additionalProperties
-        - definitions
-        - properties
-        - patternProperties
-        - propertyNames
+        # Any type validation
         - const
         - enum
+        - required
+        - dependencies
+        # Combinators
         - allOf
         - anyOf
         - oneOf
         - not
-        - formatMaximum
-        - formatMinimum
-        - formatExclusiveMaximum
-        - formatExclusiveMinimum
         - if
         - then
         - else
-        - format
-        - required
-        - dependencies
