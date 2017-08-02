@@ -11,17 +11,23 @@ const mergeNestedModel = function (attr, { idl: { models } }) {
   const modelId = model.properties.id;
 
   const modelIdA = omit(modelId, metadataProps);
-  const validate = omit(modelIdA.validate, ['required']);
+  const validate = omit(modelIdA.validate, nestedValidateProps);
   const modelIdB = { ...modelIdA, validate };
 
   const modelIdC = deepMerge(modelIdB, attr);
   return modelIdC;
 };
 
+// Never using target model for those properties
 const metadataProps = [
   'description',
   'deprecated',
   'examples',
+];
+
+const nestedValidateProps = [
+  'required',
+  'dependencies',
 ];
 
 module.exports = {
