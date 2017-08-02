@@ -3,9 +3,8 @@
 const { mapValues } = require('../../../utilities');
 
 const { mergeNestedModel } = require('./nested_model');
-const { addAttrDefaultType } = require('./type');
+const { addAttrDefaultType, normalizeType } = require('./type');
 const { addAttrDefaultValidate } = require('./validate');
-const { addAttrDefaultMultiple } = require('./multiple');
 const { normalizeTransform, normalizeCompute } = require('./transform');
 
 const normalizeAttrs = function (type, { idl, idl: { models } }) {
@@ -26,35 +25,23 @@ const normalizeModel = function ({ model, model: { properties }, mapper }) {
   return { ...model, properties: propertiesA };
 };
 
+const mapperFunc = function ({ transformers, idl }, { attr, attrName }) {
+  return transformers.reduce(
+    (attrA, transformer) => transformer(attrA, { attrName, idl }),
+    attr,
+  );
+};
+
 // Do not use .bind() because we want a clean function name,
 // because the performance monitoring uses it
 const normalizeAttrsBefore = (...args) => normalizeAttrs('before', ...args);
 const normalizeAttrsAfter = (...args) => normalizeAttrs('after', ...args);
 
-const mapperFunc = function ({ transformers, idl }, { attr, attrName }) {
-  return transformers.reduce(
-    (attrA, transformer) => reduceAttrs({
-      transformer,
-      attr: attrA,
-      attrName,
-      idl,
-    }),
-    attr,
-  );
-};
-
-const reduceAttrs = function ({ transformer, attr, attrName, idl }) {
-  if (!attr || attr.constructor !== Object) { return attr; }
-
-  const attrA = transformer(attr, { attrName, idl });
-  return { ...attr, ...attrA };
-};
-
 const allTransformers = {
   before: [
     addAttrDefaultValidate,
     addAttrDefaultType,
-    addAttrDefaultMultiple,
+    normalizeType,
     normalizeTransform,
     normalizeCompute,
   ],

@@ -5,12 +5,12 @@ const { throwError } = require('../../../error');
 
 // Get transforms order according to `using` property
 const setOrder = function (type, model, { modelName }) {
-  if (!model.properties) { return; }
+  if (!model.properties) { return model; }
 
   const props = getAllTransformUsing({ model, modelName });
   const order = findTransformOrder({ props, modelName });
 
-  return { [`${type}Order`]: order };
+  return { ...model, [`${type}Order`]: order };
 };
 
 // `compute` reuse the same logic as `transform`

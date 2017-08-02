@@ -76,8 +76,7 @@ models:
         required: true
       name: {}
       friends:
-        model: user
-        multiple: true
+        type: user[]
 ```
 
 Users can then perform the following GraphQL query:

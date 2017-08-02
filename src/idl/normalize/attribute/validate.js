@@ -1,9 +1,9 @@
 'use strict';
 
 const addAttrDefaultValidate = function (attr) {
-  if (attr.validate) { return; }
+  if (attr.validate) { return attr; }
 
-  return { validate: {} };
+  return { ...attr, validate: {} };
 };
 
 module.exports = {

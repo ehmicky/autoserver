@@ -1,6 +1,6 @@
 'use strict';
 
-const { pick, omit } = require('../../../../../utilities');
+const { omit } = require('../../../../../utilities');
 const { getActionName } = require('../name');
 
 const getNestedModels = function ({

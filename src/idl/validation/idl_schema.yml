@@ -84,12 +84,11 @@ properties:
     additionalProperties:
       $ref: '#/definitions/generalSchema'
     default: {}
-  # Automatically generated, and used to validate e.g. `model`
-  modelNames:
+  # Automatically generated, and used to validate `type`
+  modelTypes:
     type: array
     items:
       type: string
-      hasPlural: true
   # Automatically generated, and used to validate custom validation keywords
   customValidationNames:
     type: array
@@ -122,7 +121,6 @@ definitions:
       - $ref: '#/definitions/validPropertyNames'
       - enum:
         - commands
-        - model
         - alias
         - readOnly
         - transform
@@ -177,7 +175,6 @@ definitions:
       anyOf:
       - $ref: '#/definitions/validPropertyNames'
       - enum:
-        - model
         - alias
         - readOnly
         - transform
@@ -226,13 +223,7 @@ definitions:
       # Like JSON schema, but is used for more than validation,
       # e.g. in GraphQL schema
       type:
-        anyOf:
-          - $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
-          - type: array
-            items:
-              $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
-            minItems: 1
-            uniqueItems: true
+        $ref: '#/definitions/typeProperty'
       # When targetting a collection of models
       multiple:
         type: boolean
@@ -262,11 +253,6 @@ definitions:
       then:
         not:
           required: [default]
-    # Only for nested models
-    - if:
-        required: [model]
-      then:
-        $ref: '#/definitions/nestedModel'
     # Those attributes cannot be used together with `compute` because they
     # do not make any sense on an attribute that is not persisted.
     - if:
@@ -278,17 +264,6 @@ definitions:
           readOnly:
             not:
               const: false
-  # Only applies this to nested models
-  # The refered model will be shallow copied, but can override any property
-  nestedModel:
-    # Must have a `model` property
-    required: [model]
-    properties:
-      # Refers to a top-level model name
-      model:
-        type: string
-        enum:
-          $data: '/modelNames'
   # Validation of `commands` property, e.g. `commands: [read, createOne]`
   # This property restricts which commands a specific model can perform
   commandsProperty:
@@ -335,6 +310,50 @@ definitions:
             uniqueItems: true
             items:
               enum: [filter, data]
+  # Type property
+  typeProperty:
+    oneOf:
+    - $ref: '#/definitions/singleType'
+    # Cannot specify models when using an array of types
+    - type: array
+      # Must choose between multiple and non-multiple types, when using an array
+      oneOf:
+      - items:
+          $ref: '#/definitions/nonModelSimpleType'
+      - items:
+          $ref: '#/definitions/nonModelMultipleType'
+      minItems: 1
+      uniqueItems: true
+  singleType:
+    type: string
+    oneOf:
+    - $ref: '#/definitions/modelType'
+    - $ref: '#/definitions/nonModelType'
+  modelType:
+    enum:
+      $data: '/modelTypes'
+  nonModelType:
+    oneOf:
+    - $ref: '#/definitions/nonModelSimpleType'
+    - $ref: '#/definitions/nonModelMultipleType'
+  nonModelSimpleType:
+    enum:
+    - string
+    - number
+    - integer
+    - boolean
+    - 'null'
+    - object
+    - array
+  nonModelMultipleType:
+    enum:
+    - string[]
+    - number[]
+    - integer[]
+    - boolean[]
+    - 'null[]'
+    - object[]
+    - array[]
   # Transform/compute property
   transformCompute:
     oneOf:

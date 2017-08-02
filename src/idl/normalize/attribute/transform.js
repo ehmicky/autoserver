@@ -4,14 +4,14 @@
 // We also define transform order, with `using` property
 const normalizeTransforms = function (type, attr) {
   const transform = attr[type];
-  if (!transform) { return; }
+  if (!transform) { return attr; }
 
   const value = normalizeValues({ transform });
 
   // Using `compute` implies `readOnly` true
   const readOnly = type === 'compute' ? true : attr.readOnly;
 
-  return { [type]: value, readOnly };
+  return { ...attr, [type]: value, readOnly };
 };
 
 // `compute` reuse the same logic as `transform`

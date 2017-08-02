@@ -16,21 +16,9 @@ const normalizeModels = function ({ idl, idl: { models } }) {
 
 const normalizeModel = function ({ model, modelName, idl }) {
   return transformers.reduce(
-    (modelA, transformer) => reduceModels({
-      transformer,
-      model: modelA,
-      modelName,
-      idl,
-    }),
+    (modelA, transformer) => transformer(modelA, { modelName, idl }),
     model,
   );
-};
-
-const reduceModels = function ({ transformer, model, modelName, idl }) {
-  if (!model || model.constructor !== Object) { return model; }
-
-  const modelA = transformer(model, { modelName, idl }) || {};
-  return { ...model, ...modelA };
 };
 
 const transformers = [
