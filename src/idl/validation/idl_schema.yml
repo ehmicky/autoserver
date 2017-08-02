@@ -80,14 +80,13 @@ definitions:
   # model.id
   idAttribute:
     type: object
-    required: [validate]
+    # `id` cannot be optional
     properties:
-      # `id` must have `validate.required` true
       validate:
-        required: [required]
         properties:
           required:
-            const: true
+            not:
+              const: false
   # MODEL.properties
   attribute:
     type: object

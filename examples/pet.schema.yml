@@ -34,13 +34,7 @@ models:
     x-custom: anything
     properties:
       id:
-        # Required for the moment.
-        # Possible values: string, number, integer, boolean,
-        # For the moment, cannot be an array
         description: Unique identifier of a pet
-        # `ìd` should always be required, and specified
-        validate:
-          required: true
       name:
         type: string
         description: How to call a pet

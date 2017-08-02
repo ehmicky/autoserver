@@ -9,9 +9,7 @@ description: Skills of a pet
 # propertyNames:
 #   pattern: '^[a-z_]+$'
 properties:
-  id:
-    validate:
-      required: true
+  id: {}
   age:
     type: integer
     description: How old is the pet

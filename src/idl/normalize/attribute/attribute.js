@@ -2,12 +2,13 @@
 
 const { mapValues } = require('../../../utilities');
 
-const { mergeNestedModel } = require('./nested_model');
+const { addAttrDefaultValidate } = require('./validate');
+const { addAttrRequiredId } = require('./required_id');
 const { addAttrDefaultType } = require('./default_type');
 const { normalizeType } = require('./type');
-const { addTypeValidation } = require('./type_validation');
-const { addAttrDefaultValidate } = require('./validate');
 const { normalizeTransform, normalizeCompute } = require('./transform');
+const { mergeNestedModel } = require('./nested_model');
+const { addTypeValidation } = require('./type_validation');
 
 const normalizeAttrs = function (type, { idl, idl: { models } }) {
   const transformers = allTransformers[type];
@@ -42,6 +43,7 @@ const normalizeAttrsAfter = (...args) => normalizeAttrs('after', ...args);
 const allTransformers = {
   before: [
     addAttrDefaultValidate,
+    addAttrRequiredId,
     addAttrDefaultType,
     normalizeType,
     normalizeTransform,
