@@ -391,10 +391,6 @@ definitions:
     - object
     # JSON schemas can be booleans
     - boolean
-    additionalProperties:
-      propertyNames:
-        enum:
-          $data: '/customValidationNames'
     properties:
       # The following attributes are not available, because a property on
       # attributes should be used instead:
@@ -403,6 +399,7 @@ definitions:
       #  - examples
       #  - default
       # We are using a different syntax for the following attributes:
+      #  - format
       #  - required
       #  - dependencies
       $id:
@@ -484,8 +481,6 @@ definitions:
         type: array
         minItems: 1
         uniqueItems: true
-      format:
-        type: string
       allOf:
         $ref: '#/definitions/jsonSchema/definitions/schemaArray'
       anyOf:
@@ -513,6 +508,7 @@ definitions:
       # All spec-defined formats are allowed. We are stricter than the spec,
       # as custom formats are forbidden.
       format:
+        type: string
         enum:
         - regex
         - date-time
@@ -544,3 +540,50 @@ definitions:
       if: [then]
       then: [if]
       else: [then]
+    # Do not allow custom properties, except the ones from idl.validation
+    propertyNames:
+      oneOf:
+      - enum:
+          $data: '/customValidationNames'
+      - enum:
+        - $id
+        - $schema
+        - $ref
+        - multipleOf
+        - maximum
+        - exclusiveMaximum
+        - minimum
+        - exclusiveMinimum
+        - maxLength
+        - minLength
+        - pattern
+        - type
+        - additionalItems
+        - items
+        - maxItems
+        - minItems
+        - uniqueItems
+        - contains
+        - maxProperties
+        - minProperties
+        - additionalProperties
+        - definitions
+        - properties
+        - patternProperties
+        - propertyNames
+        - const
+        - enum
+        - allOf
+        - anyOf
+        - oneOf
+        - not
+        - formatMaximum
+        - formatMinimum
+        - formatExclusiveMaximum
+        - formatExclusiveMinimum
+        - if
+        - then
+        - else
+        - format
+        - required
+        - dependencies
