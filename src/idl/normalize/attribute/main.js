@@ -12,23 +12,29 @@ const { addTypeValidation } = require('./type_validation');
 
 const normalizeAttrs = function (type, { idl, idl: { models } }) {
   const transformers = allTransformers[type];
-  const mapper = mapperFunc.bind(null, { transformers, idl });
-
-  const modelsA = mapValues(models, model => normalizeModel({ model, mapper }));
+  const modelsA = mapValues(
+    models,
+    model => normalizeModel({ model, transformers, idl }),
+  );
   return { ...idl, models: modelsA };
 };
 
-const normalizeModel = function ({ model, model: { properties }, mapper }) {
+const normalizeModel = function ({
+  model,
+  model: { properties },
+  transformers,
+  idl,
+}) {
   if (!properties) { return model; }
 
   const propertiesA = mapValues(
     properties,
-    (attr, attrName) => mapper({ attr, attrName }),
+    (attr, attrName) => mapper({ transformers, idl, attr, attrName }),
   );
   return { ...model, properties: propertiesA };
 };
 
-const mapperFunc = function ({ transformers, idl }, { attr, attrName }) {
+const mapper = function ({ transformers, idl, attr, attrName }) {
   return transformers.reduce(
     (attrA, transformer) => transformer(attrA, { attrName, idl }),
     attr,
