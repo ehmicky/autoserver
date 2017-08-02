@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit, deepMerge } = require('../../../utilities');
+const { pick, omit, deepMerge } = require('../../../utilities');
 
 // Shallow copy nested models from the `model.id` they refer to
 const mergeNestedModel = function (attr, { idl: { models } }) {
@@ -8,17 +8,29 @@ const mergeNestedModel = function (attr, { idl: { models } }) {
 
   const [, model] = Object.entries(models)
     .find(([name, mod]) => mod.model === attr.model || name === attr.model);
+  const modelId = getTargetModelId({ model });
+
+  // Target model has less priority than nested attribute
+  const modelIdA = deepMerge(modelId, attr);
+
+  return modelIdA;
+};
+
+const getTargetModelId = function ({ model }) {
   const modelId = model.properties.id;
 
+  // For the metadata, use target model, not target model.id
   const modelIdA = omit(modelId, metadataProps);
-  const validate = omit(modelIdA.validate, nestedValidateProps);
-  const modelIdB = { ...modelIdA, validate };
+  const modelMetadata = pick(model, metadataProps);
+  const modelIdB = { ...modelIdA, ...modelMetadata };
 
-  const modelIdC = deepMerge(modelIdB, attr);
+  // Never using target model for those properties
+  const validate = omit(modelIdB.validate, nestedValidateProps);
+  const modelIdC = { ...modelIdB, validate };
+
   return modelIdC;
 };
 
-// Never using target model for those properties
 const metadataProps = [
   'description',
   'deprecated',

@@ -41,14 +41,11 @@ const getArgs = function ({ args, def, opts }) {
   if (noArgs) { return args; }
 
   // Builds types used for `data` and `filter` arguments
-  const dataObjectOpts = { ...opts, inputObjectType: 'data' };
-  const dataObjectType = getType(def, dataObjectOpts);
-  const filterObjectOpts = { ...opts, inputObjectType: 'filter' };
-  const filterObjectType = getType(def, filterObjectOpts);
-  // Retrieves arguments
-  const argsOpts = { ...opts, dataObjectType, filterObjectType };
+  const dataObjectType = getType(def, { ...opts, inputObjectType: 'data' });
+  const filterObjectType = getType(def, { ...opts, inputObjectType: 'filter' });
 
-  return getArguments(def, argsOpts);
+  // Retrieves arguments
+  return getArguments(def, { ...opts, dataObjectType, filterObjectType });
 };
 
 const getDefaultValue = function ({

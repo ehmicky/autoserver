@@ -55,10 +55,14 @@ const getChildField = function ({
     name: childDefName,
     ...childOpts,
   });
-  const childOptsA = { ...childOpts, isRequired };
 
-  const field = getField(childDef, childOptsA);
-  return field;
+  const field = getField(childDef, { ...childOpts, isRequired });
+
+  // Use the nested attribute's metadata, if this is a nested attribute
+  const { metadata = {} } = childDef;
+  const fieldA = { ...field, ...metadata };
+
+  return fieldA;
 };
 
 // GraphQL requires every object field to have attributes,
