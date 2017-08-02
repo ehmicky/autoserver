@@ -72,8 +72,7 @@ $schema: tag:apiengine,2017:v1.0.0
 models:
   user:
     properties:
-      id:
-        required: true
+      id: {}
       name: {}
       friends:
         type: user[]
