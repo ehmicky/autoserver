@@ -25,22 +25,22 @@ properties:
       $ref: '#/definitions/validModelName'
   # Default commands
   commands:
-    $ref: '#/definitions/commandsProperty'
+    $ref: '#/definitions/commands'
   # Custom functions that can be used in JSL
   helpers:
     oneOf:
     - type: array
       items:
-        $ref: '#/definitions/helpersProperty'
+        $ref: '#/definitions/helpers'
     - not:
         type: array
-      $ref: '#/definitions/helpersProperty'
+      $ref: '#/definitions/helpers'
   # Functions that modifies IDL definition
   plugins:
-    $ref: '#/definitions/pluginsProperty'
+    $ref: '#/definitions/plugins'
   # Custom validation keywords
   validation:
-    $ref: '#/definitions/validationProperty'
+    $ref: '#/definitions/validation'
   # Automatically generated, and used to validate `type`
   modelTypes:
     type: array
@@ -70,7 +70,7 @@ definitions:
       description:
         $ref: '#/definitions/description'
       commands:
-        $ref: '#/definitions/commandsProperty'
+        $ref: '#/definitions/commands'
       # `model.id` cannot be optional
       properties:
         type: object
@@ -110,7 +110,7 @@ definitions:
       # Like JSON schema, but is used for more than validation,
       # e.g. in GraphQL schema
       type:
-        $ref: '#/definitions/typeProperty'
+        $ref: '#/definitions/type'
       # For array types
       multiple:
         type: boolean
@@ -154,7 +154,7 @@ definitions:
   # idl.commands or model.commands
   # E.g. `commands: [read, createOne]`
   # This property restricts which commands a specific model can perform
-  commandsProperty:
+  commands:
     type: array
     uniqueItems: true
     items:
@@ -177,7 +177,7 @@ definitions:
       - allOf: [{contains: {const: update}}, {contains: {const: updateOne}}]
       - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
   # idl.helpers
-  helpersProperty:
+  helpers:
     typeof: [object, function]
     # system-defined helpers use $THIS_CASE, so we forbid it for user-defined
     # helpers for forward compatibility
@@ -199,7 +199,7 @@ definitions:
             items:
               enum: [filter, data]
   # idl.plugins
-  pluginsProperty:
+  plugins:
     type: array
     items:
       typeof: object
@@ -213,7 +213,7 @@ definitions:
         opts: {}
       additionalProperties: false
   # idl.validation
-  validationProperty:
+  validation:
     type: object
     additionalProperties:
       type: object
@@ -240,7 +240,7 @@ definitions:
     propertyNames:
       pattern: '^[A-Z][a-zA-Z0-9]*$'
   # attr.type
-  typeProperty:
+  type:
     oneOf:
     - $ref: '#/definitions/singleType'
     # Cannot specify models when using an array of types
