@@ -68,7 +68,7 @@ models:
         description: Corrolated to how much a pet has eaten
         # Deprecation is automatically used in documentation,
         # and gives warning messages
-        deprecated: Let's stop measuring pet's weight
+        deprecation_reason: Let's stop measuring pet's weight
         default: 15
         # Possible aliases for that attribute's name
         alias: old_weight_name

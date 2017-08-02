@@ -60,8 +60,8 @@ const getRecursiveDef = function ({ childDef, action, rootDef }) {
   //  - the nested attribute, if inputObjectType ==== ''
   // We set the definition for the first case, and once they are built,
   // we use def.metadata to build the second case
-  const { description, deprecated } = childDef;
-  const metadata = { description, deprecated };
+  const { description, deprecation_reason: deprecationReason } = childDef;
+  const metadata = { description, deprecationReason };
   const topLevelModelA = { ...topLevelModel, metadata };
 
   return removeTopLevel({ def: topLevelModelA });
