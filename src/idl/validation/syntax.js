@@ -25,13 +25,24 @@ const getIdl = function (idl) {
 
 // Adds some temporary property on IDL, to help validation
 const addProps = function (idl) {
-  const modelNames = Object.keys(idl.models || {});
-  const hasValidation = idl.validation && idl.validation.constructor === Object;
-  const customValidationNames = hasValidation
-    ? Object.keys(idl.validation)
-    : [];
+  const modelTypes = getModelTypes(idl);
+  const customValidationNames = getCustomValidationNames(idl);
 
-  return { ...idl, modelNames, customValidationNames };
+  return { ...idl, modelTypes, customValidationNames };
+};
+
+const getModelTypes = function (idl) {
+  const simpleModelTypes = Object.keys(idl.models || {});
+  const arrayModelTypes = simpleModelTypes.map(name => `${name}[]`);
+
+  return [...simpleModelTypes, ...arrayModelTypes];
+};
+
+const getCustomValidationNames = function (idl) {
+  const hasValidation = idl.validation && idl.validation.constructor === Object;
+  if (!hasValidation) { return []; }
+
+  return Object.keys(idl.validation);
 };
 
 // At the moment, main IDL validation does not support `$data`,

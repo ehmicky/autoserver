@@ -4,6 +4,7 @@ const { monitoredReduce } = require('../../perf');
 
 const { validateIdlCircularRefs } = require('./circular_refs');
 const { validateData } = require('./data');
+const { validateModelNames } = require('./model_names');
 const { validateIdlSyntax } = require('./syntax');
 const { validateJsonSchema } = require('./json_schema');
 const { validateIdlJsl } = require('./jsl');
@@ -12,6 +13,7 @@ const { validateIdlJsl } = require('./jsl');
 const validators = [
   validateIdlCircularRefs,
   validateData,
+  validateModelNames,
   validateIdlSyntax,
   validateJsonSchema,
   validateIdlJsl,

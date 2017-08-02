@@ -6,7 +6,7 @@ const { normalizeCommandNames } = require('../commands');
 const normalizeCommands = function (model, { idl }) {
   const commandNames = model.commands || idl.commands;
   const commands = normalizeCommandNames(commandNames);
-  return { commands };
+  return { ...model, commands };
 };
 
 module.exports = {

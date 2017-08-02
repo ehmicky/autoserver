@@ -78,9 +78,6 @@ const errorMessages = {
     ` property '${propertyName}' name must be valid`,
   dependencies: ({ params: { missingProperty, property } }) =>
     `.${missingProperty} must be defined when property '${property} is defined`,
-  // Custom keywords
-  hasPlural: ({ data }) =>
-    ` '${data}' must be an English word whose plural form differs from its singular form`,
   arity: ({ schema, data: func }) =>
     ` must have ${pluralize('argument', schema, true)} not ${func.length}`,
   // Special keyword for schema that are `false`,

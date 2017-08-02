@@ -94,16 +94,15 @@ models:
         const: false
         default: false
       photo_urls:
-        multiple: true
         # Type defaults to 'string'
-        type: string
+        type: string[]
         description: Sweet pictures of a pet
         validate:
           required: true
       skills:
-        model: pet_skills
+        type: pet_skills
       tags:
-        multiple: true
+        type: string[]
         description: Tags applying to this pet
         # Array-specific JSON schema validation keywords
         items:
@@ -155,21 +154,19 @@ models:
         # Will actually copy the model's `id` property definition
         # (in case of conflict, current definition has priority)
         # Those "sub-models" to perform nested actions
-        model: pet
+        type: pet
         description: This pet's best friend
         validate:
           dependencies: [friends]
       # Array of foreign keys (i.e. n-1, 1-n and n-n relationships)
       # can also be specified
       friends:
-        multiple: true
-        model: pet
+        type: pet[]
         description: This pet's friends
         validate:
           required: true
       owners:
-        multiple: true
-        model: owner
+        type: owner[]
       birth_date:
         # The following JSON schema validation keywords can be applied to
         # any type, although they are usually for strings

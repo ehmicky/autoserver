@@ -4,7 +4,7 @@ const { pick, omit, deepMerge } = require('../../../utilities');
 
 // Shallow copy nested models from the `model.id` they refer to
 const mergeNestedModel = function (attr, { idl: { models } }) {
-  if (!attr.model) { return; }
+  if (attr.model === undefined) { return attr; }
 
   const [, model] = Object.entries(models)
     .find(([name, mod]) => mod.model === attr.model || name === attr.model);

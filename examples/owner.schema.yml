@@ -5,5 +5,4 @@ properties:
       required: true
   name: {}
   pets:
-    multiple: true
-    model: pet
+    type: pet[]

@@ -8,7 +8,7 @@ const { throwError } = require('../../../error');
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
 const normalizeAliases = function (model) {
-  if (!model.properties) { return; }
+  if (!model.properties) { return model; }
 
   const propsA = Object.entries(model.properties)
     .reduce((props, [attrName, attr]) => {
@@ -18,7 +18,7 @@ const normalizeAliases = function (model) {
 
   const properties = mapValues(propsA, attr => addAliasDescription({ attr }));
 
-  return { properties };
+  return { ...model, properties };
 };
 
 const createAliases = function ({ model, props, attr, attrName }) {

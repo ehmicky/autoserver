@@ -2,7 +2,6 @@
 
 const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
-const { singular, plural } = require('pluralize');
 
 const { memoize } = require('../utilities');
 
@@ -40,17 +39,6 @@ const addKeyword = function ({ keyword, def, ajv }) {
 };
 
 const customBaseKeywords = {
-
-  // Checks that a word (e.g. a model) is an English word with a
-  // different singular and plural form
-  hasPlural: {
-    validate (schemaValue, data) {
-      if (!schemaValue) { return true; }
-      return singular(data) !== plural(data);
-    },
-    type: 'string',
-    $data: true,
-  },
 
   // Checks function number of arguments
   arity: {

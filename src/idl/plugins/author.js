@@ -37,7 +37,7 @@ const validateConf = function ({ idl, opts: { user, model = 'user' } }) {
 const getProperties = ({ user = '(user())', model = 'user' }) => ({
   created_by: {
     description: 'Who created this model',
-    model,
+    type: model,
     readOnly: true,
     transform: {
       value: `(${user}.id)`,
@@ -46,7 +46,7 @@ const getProperties = ({ user = '(user())', model = 'user' }) => ({
   },
   updated_by: {
     description: 'Who last updated this model',
-    model,
+    type: model,
     readOnly: true,
     transform: `(${user}.id)`,
   },
