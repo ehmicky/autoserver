@@ -33,7 +33,7 @@ const getTargetModelId = function ({ model }) {
 
 const metadataProps = [
   'description',
-  'deprecated',
+  'deprecation_reason',
   'examples',
 ];
 

@@ -21,13 +21,13 @@ const getField = function (def, opts) {
   const fieldGetter = getFieldGetter({ def, opts: optsA });
   const { type, args } = fieldGetter.value(def, optsA, getField);
 
-  // Fields description|deprecated are taken from IDL definition
-  const { description, deprecated } = def;
+  // Fields description|deprecation_reason are taken from IDL definition
+  const { description, deprecation_reason: deprecationReason } = def;
 
   const argsA = getArgs({ args, def, opts: optsA });
 
   const defaultValue = getDefaultValue({ def, opts: optsA });
-  const field = { type, description, deprecated, args: argsA, defaultValue };
+  const field = { type, description, deprecationReason, args: argsA, defaultValue };
   return field;
 };
 

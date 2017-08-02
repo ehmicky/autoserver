@@ -52,17 +52,17 @@ properties:
     items:
       type: string
 # Users can only define custom properties prefixed with x-*
-additionalProperties:
-  patternProperties:
-    '^x-': true
+additionalProperties: false
+patternProperties:
+  '^x-': true
 definitions:
   # idl.models.MODEL
   model:
     type: object
     # Users can only define custom properties prefixed with x-*
-    additionalProperties:
-      patternProperties:
-        '^x-': true
+    additionalProperties: false
+    patternProperties:
+      '^x-': true
     required: [properties]
     properties:
       model:
@@ -93,9 +93,9 @@ definitions:
   attribute:
     type: object
     # Users can only define custom properties prefixed with x-*
-    additionalProperties:
-      patternProperties:
-        '^x-': true
+    additionalProperties: false
+    patternProperties:
+      '^x-': true
     properties:
       alias:
         oneOf:
@@ -122,7 +122,7 @@ definitions:
       multiple:
         type: boolean
       # Indicate an attribute is deprecated, and why
-      deprecated:
+      deprecation_reason:
         $ref: '#/definitions/description'
       # Used in automatically generated documentation
       description:
