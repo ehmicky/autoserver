@@ -26,11 +26,11 @@ const mapModel = function ({
     properties,
     (prop, propName) => filterFunc(prop, propName, model),
   );
-  const propertiesB = mapProps
-    ? mapProps(propertiesA, model)
+  const propertiesB = mapProp
+    ? mapValues(propertiesA, (prop, propName) => mapProp(prop, propName, model))
     : propertiesA;
-  const propertiesC = mapProp
-    ? mapValues(propertiesB, (prop, propName) => mapProp(prop, propName, model))
+  const propertiesC = mapProps
+    ? mapProps(propertiesB, model)
     : propertiesB;
   return propertiesC;
 };
