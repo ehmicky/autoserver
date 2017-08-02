@@ -71,12 +71,19 @@ definitions:
         $ref: '#/definitions/description'
       commands:
         $ref: '#/definitions/commands'
-      # `model.id` cannot be optional
       properties:
         type: object
         properties:
           id:
             properties:
+              # `model.id` can only be a string, an integer or a float
+              # It cannot be targetting another model.
+              type:
+                enum:
+                - string
+                - integer
+                - number
+              # `model.id` cannot be optional
               validate:
                 properties:
                   required:
