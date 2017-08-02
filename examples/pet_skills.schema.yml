@@ -1,14 +1,13 @@
-type: object
 description: Skills of a pet
 # Object-specific JSON schema validation keywords
-minProperties: 1
-maxProperties: 10
-patternProperties:
-  '^__': false
-additionalProperties:
-  type: integer
-propertyNames:
-  pattern: '^[a-z_]+$'
+# minProperties: 1
+# maxProperties: 10
+# patternProperties:
+#   '^__': false
+# additionalProperties:
+#   type: integer
+# propertyNames:
+#   pattern: '^[a-z_]+$'
 properties:
   id:
     validate:
@@ -22,7 +21,7 @@ properties:
     description: How smart is the pet
     validate:
       required: true
-    minimum:
-      # Allows referring to a runtime value, i.e. here `age` must be
-      # lesser than `intelligence`
-      $data: '1/age'
+      minimum:
+        # Allows referring to a runtime value, i.e. here `age` must be
+        # lesser than `intelligence`
+        $data: '1/age'

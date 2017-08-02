@@ -6,9 +6,9 @@ const { throwError } = require('../../error');
 
 // Validate model are properly named
 const validateModelNames = function (idl) {
-  const models = idl.models || {};
+  if (!idl.models) { return idl; }
 
-  return Object.keys(models).reduce(
+  return Object.keys(idl.models).reduce(
     (idlA, modelName) => checkModelName({ idl: idlA, modelName }),
     idl,
   );

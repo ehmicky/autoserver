@@ -12,6 +12,8 @@ const { authorPlugin } = require('./author');
 // Use cases can be: adding a attribute to each model,
 // extending core functionalities, etc.
 const applyPlugins = async function ({ idl }) {
+  if (!idl.models) { return idl; }
+
   const plugins = idl.plugins && Array.isArray(idl.plugins)
     ? idl.plugins
     : [];

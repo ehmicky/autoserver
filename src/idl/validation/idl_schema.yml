@@ -11,17 +11,15 @@ properties:
     pattern: '^tag:apiengine,[0-9]+:v1\.[0-9]+\.[0-9]+$'
   # Model definitions
   models:
-    # Models are valid JSON schemas
     additionalProperties:
-      $ref: '#/definitions/topLevelModel'
+      $ref: '#/definitions/model'
       properties:
         properties:
           # For models' attributes
           additionalProperties:
-            $ref: '#/definitions/attributeSchema'
-          # Attributes follow same naming convention as models
+            $ref: '#/definitions/attribute'
           propertyNames:
-            $ref: '#/definitions/validModelName'
+            $ref: '#/definitions/validAttributeName'
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
@@ -39,51 +37,10 @@ properties:
       $ref: '#/definitions/helpersProperty'
   # Functions that modifies IDL definition
   plugins:
-    type: array
-    items:
-      typeof: object
-      not:
-        type: array
-      properties:
-        plugin:
-          typeof: [function, string]
-        enabled:
-          typeof: boolean
-        opts: {}
-      additionalProperties: false
+    $ref: '#/definitions/pluginsProperty'
   # Custom validation keywords
   validation:
-    type: object
-    additionalProperties:
-      type: object
-      properties:
-        test:
-          $ref: '#/definitions/jsl'
-        # Error messages can either be a string, or JSL
-        message:
-          type: string
-          # Convention: error message must start with "must"
-          anyOf:
-          - not:
-              $ref: '#/definitions/jsl'
-            pattern: ^must\s
-          - anyOf:
-            - pattern: ^\("must\s.*"\)$
-            - pattern: ^\('must\s.*'\)$
-            - pattern: ^\(`must\s.*`\)$
-        type:
-          $ref: '#/definitions/jsonSchemaType'
-      additionalProperties: false
-    # Must start with uppercase letter to avoid naming conflict with other
-    # attributes, and ensure forward compatibility
-    propertyNames:
-      pattern: '^[A-Z][a-zA-Z0-9]*$'
-  # Standard JSON schema `definitions` can be used at the root
-  definitions:
-    type: object
-    additionalProperties:
-      $ref: '#/definitions/generalSchema'
-    default: {}
+    $ref: '#/definitions/validationProperty'
   # Automatically generated, and used to validate `type`
   modelTypes:
     type: array
@@ -94,109 +51,59 @@ properties:
     type: array
     items:
       type: string
-  # Used internally
-  baseDir:
-    type: string
-# Users can define anything under properties named x-*
-patternProperties:
-  '^x-': true
-# No custom property, except for `x-*`
-additionalProperties: false
+# Users can only define custom properties prefixed with x-*
+additionalProperties:
+  patternProperties:
+    '^x-': true
 definitions:
-  # Main schema
-  generalSchema:
-    anyOf:
-    - $ref: '#/definitions/generalObjectSchema'
-    # JSON schemas can be booleans
-    - type: boolean
-  # General schemas are an augmented version of a normal JSON schema
-  generalObjectSchema:
-    type: object
-    allOf:
-    - $ref: '#/definitions/currentJsonSchema'
-    - $ref: '#/definitions/futureJsonSchema'
-    - $ref: '#/definitions/customJsonSchema'
-    propertyNames:
-      anyOf:
-      - $ref: '#/definitions/validPropertyNames'
-      - enum:
-        - commands
-        - alias
-        - readOnly
-        - transform
-        - compute
-        - validate
-        - multiple
-        - type
-        - deprecated
-        - required
-        - dependencies
-        - description
-        - examples
-        - default
-      - enum:
-          $data: /customValidationNames
-  # Only applies this to top-level models
-  topLevelModel:
-    allOf:
-    - $ref: '#/definitions/generalObjectSchema'
-    propertyNames:
-      anyOf:
-      - $ref: '#/definitions/validPropertyNames'
-      - enum: [commands]
-      not:
-        enum: [default]
+  # idl.models.MODEL
+  model:
+    # Users can only define custom properties prefixed with x-*
+    additionalProperties:
+      patternProperties:
+        '^x-': true
     required: [properties]
     properties:
+      model:
+        $ref: '#/definitions/validModelName'
+      description:
+        $ref: '#/definitions/description'
       commands:
         $ref: '#/definitions/commandsProperty'
       # Must have an `id`
       properties:
+        type: object
         required: [id]
-        # `id` must have `validate.required` true
         properties:
           id:
-            required: [validate]
-            properties:
-              validate:
-                required: [required]
-                properties:
-                  required:
-                    const: true
-      # When specified, type must be 'object'
-      type:
-        const:
-          object
-  # Only applies this to models attributes, including nested models
-  attributeSchema:
-    allOf:
-    - $ref: '#/definitions/generalObjectSchema'
-    propertyNames:
-      anyOf:
-      - $ref: '#/definitions/validPropertyNames'
-      - enum:
-        - alias
-        - readOnly
-        - transform
-        - compute
-        - validate
-        - multiple
-        - type
-        - deprecated
-        - description
-        - examples
-        - default
-      - enum:
-          $data: /customValidationNames
+            $ref: '#/definitions/idAttribute'
+  # model.id
+  idAttribute:
+    type: object
+    required: [validate]
+    properties:
+      # `id` must have `validate.required` true
+      validate:
+        required: [required]
+        properties:
+          required:
+            const: true
+  # MODEL.properties
+  attribute:
+    type: object
+    # Users can only define custom properties prefixed with x-*
+    additionalProperties:
+      patternProperties:
+        '^x-': true
     properties:
       alias:
         oneOf:
         - type: string
-          $ref: '#/definitions/validModelName'
+          $ref: '#/definitions/validAttributeName'
         - type: array
           items:
             type: string
-            $ref: '#/definitions/validModelName'
+            $ref: '#/definitions/validAttributeName'
       readOnly:
         type: boolean
       transform:
@@ -205,34 +112,20 @@ definitions:
         $ref: '#/definitions/transformCompute'
       # General data validation
       validate:
-        type: object
-        propertyNames:
-          enum:
-          - required
-          - dependencies
-        properties:
-          # Instead of being an array on the model, like in standard JSON schema
-          # More intuitive
-          required:
-            type: boolean
-          # Same as JSON schema, but directly on the attribute
-          dependencies:
-            anyOf:
-            - $ref: '#/definitions/generalSchema'
-            - $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
+        $ref: '#/definitions/validate'
       # Like JSON schema, but is used for more than validation,
       # e.g. in GraphQL schema
       type:
         $ref: '#/definitions/typeProperty'
-      # When targetting a collection of models
+      # For array types
       multiple:
         type: boolean
       # Indicate an attribute is deprecated, and why
       deprecated:
-        type: string
+        $ref: '#/definitions/description'
       # Used in automatically generated documentation
       description:
-        type: string
+        $ref: '#/definitions/description'
       # Used in automatically generated documentation
       examples:
         type: array
@@ -264,7 +157,8 @@ definitions:
           readOnly:
             not:
               const: false
-  # Validation of `commands` property, e.g. `commands: [read, createOne]`
+  # idl.commands or model.commands
+  # E.g. `commands: [read, createOne]`
   # This property restricts which commands a specific model can perform
   commandsProperty:
     type: array
@@ -310,7 +204,48 @@ definitions:
             uniqueItems: true
             items:
               enum: [filter, data]
-  # Type property
+  # idl.plugins
+  pluginsProperty:
+    type: array
+    items:
+      typeof: object
+      not:
+        type: array
+      properties:
+        plugin:
+          typeof: [function, string]
+        enabled:
+          typeof: boolean
+        opts: {}
+      additionalProperties: false
+  # idl.validation
+  validationProperty:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        test:
+          $ref: '#/definitions/jsl'
+        # Error messages can either be a string, or JSL
+        message:
+          type: string
+          # Convention: error message must start with "must"
+          anyOf:
+          - not:
+              $ref: '#/definitions/jsl'
+            pattern: ^must\s
+          - anyOf:
+            - pattern: ^\("must\s.*"\)$
+            - pattern: ^\('must\s.*'\)$
+            - pattern: ^\(`must\s.*`\)$
+        type:
+          $ref: '#/definitions/jsonSchemaType'
+      additionalProperties: false
+    # Must start with uppercase letter to avoid naming conflict with other
+    # attributes, and ensure forward compatibility
+    propertyNames:
+      pattern: '^[A-Z][a-zA-Z0-9]*$'
+  # attr.type
   typeProperty:
     oneOf:
     - $ref: '#/definitions/singleType'
@@ -354,7 +289,7 @@ definitions:
     - 'null[]'
     - object[]
     - array[]
-  # Transform/compute property
+  # attr.transform or attr.compute
   transformCompute:
     oneOf:
     - type: array
@@ -380,6 +315,9 @@ definitions:
             items:
               type: string
     - $ref: '#/definitions/jslOrValue'
+  # model.description or attr.description
+  description:
+    type: string
   # TODO: better validation of JSL
   jslOrValue:
     anyOf:
@@ -391,6 +329,23 @@ definitions:
     - typeof: function
     - typeof: string
       pattern: '^\s*\(.*\)\s*$'
+  # Keys of idl.models.*, and model.model
+  validModelName:
+    type: string
+    # Valid GraphQL identifier name, regular expression taken from spec
+    # Additional restriction: lowercase-only
+    pattern: '^[_a-z][_0-9a-z]*$'
+    # Should not start with __ as it is reserved for GraphQL introspection types
+    not:
+      pattern: '^__'
+  # Keys of MODEL.properties.*
+  validAttributeName:
+    # Attributes follow same naming convention as models
+    $ref: '#/definitions/validModelName'
+  # attr.validate
+  validate:
+    type: object
+    $ref: '#/definitions/jsonSchema'
   # Value of schema.type from JSON schema
   jsonSchemaType:
     oneOF:
@@ -399,94 +354,22 @@ definitions:
     - type: array
       items:
         $ref: '#/definitions/jsonSchemaType'
-  # Base list of valid property names
-  # We are more restrictive than the JSON schema and forbid
-  # any unknown property name
-  # The goal is to avoid typos and mistakes.
-  # Custom properties can be added as `x-*`
-  validPropertyNames:
-    anyOf:
-    - enum:
-      # The following attributes are not available, because a property on
-      # attributes should be used instead
-      # - description
-      # - examples
-      # - default
-      # Standard JSON schema properties
-      - $id
-      - $schema
-      - $ref
-      - title
-      - multipleOf
-      - maximum
-      - exclusiveMaximum
-      - minimum
-      - exclusiveMinimum
-      - maxLength
-      - minLength
-      - pattern
-      - items
-      - maxItems
-      - minItems
-      - uniqueItems
-      - contains
-      - maxProperties
-      - minProperties
-      - additionalProperties
-      - definitions
-      - properties
-      - patternProperties
-      - propertyNames
-      - const
-      - enum
-      - format
-      - allOf
-      - anyOf
-      - oneOf
-      - not
-      # Future standard JSON schema properties
-      - formatMaximum
-      - formatMinimum
-      - formatExclusiveMinimum
-      - formatExclusiveMaximum
-      - if
-      - then
-      - else
-      # We are using a different syntax for the following attributes
-      - type
-      - required
-      - dependencies
-      # Properties specific to this project
-      - multiple
-      - deprecated
-      - description
-      - examples
-      - default
-    # Users can define anything under property named x-*
-    - pattern: '^x-*'
-  validModelName:
-    # Valid GraphQL identifier name, regular expression taken from spec
-    # Additional restriction: lowercase-only
-    pattern: '^[_a-z][_0-9a-z]*$'
-    # Should not start with __ as it is reserved for GraphQL introspection types
-    not:
-      pattern: '^__'
   # Reuse standard JSON schema as a base
   # This is JSON schema v6, as YAML
   # The spec is currently in draft (only v4 is currently official)
-  currentJsonSchema:
+  jsonSchema:
     definitions:
       schemaArray:
         type: array
         minItems: 1
         items:
-          $ref: '#/definitions/generalSchema'
+          $ref: '#/definitions/jsonSchema'
       nonNegativeInteger:
         type: integer
         minimum: 0
       nonNegativeIntegerDefault0:
         allOf:
-          - $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeInteger'
+          - $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
           - default: 0
       simpleTypes:
         enum:
@@ -504,31 +387,23 @@ definitions:
         uniqueItems: true
         default: []
     type:
-      - object
-      - boolean
+    - object
+    # JSON schemas can be booleans
+    - boolean
+    additionalProperties:
+      propertyNames:
+        enum:
+          $data: '/customValidationNames'
     properties:
       # The following attributes are not available, because a property on
-      # attributes should be used instead
-      # description:
-      #   type: string
-      # default: {}
-      # We are using a different syntax for the following attributes
-      # required:
-      #   $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
-      # dependencies:
-      #   type: object
-      #   additionalProperties:
-      #     anyOf:
-      #       - $ref: '#/definitions/generalSchema'
-      #       - $ref: '#/definitions/currentJsonSchema/definitions/stringArray'
-      # type:
-      #   anyOf:
-      #     - $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
-      #     - type: array
-      #       items:
-      #         $ref: '#/definitions/currentJsonSchema/definitions/simpleTypes'
-      #       minItems: 1
-      #       uniqueItems: true
+      # attributes should be used instead:
+      #  - title
+      #  - description
+      #  - examples
+      #  - default
+      # We are using a different syntax for the following attributes:
+      #  - required
+      #  - dependencies
       $id:
         type: string
         format: uri-reference
@@ -538,8 +413,6 @@ definitions:
       $ref:
         type: string
         format: uri-reference
-      title:
-        type: string
       multipleOf:
         type: number
         exclusiveMinimum: 0
@@ -552,51 +425,59 @@ definitions:
       exclusiveMinimum:
         type: number
       maxLength:
-        $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeInteger'
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
       minLength:
-        $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeIntegerDefault0'
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0'
       pattern:
         type: string
         format: regex
+      type:
+        anyOf:
+          - $ref: '#/definitions/jsonSchema/definitions/simpleTypes'
+          - type: array
+            items:
+              $ref: '#/definitions/jsonSchema/definitions/simpleTypes'
+            minItems: 1
+            uniqueItems: true
       additionalItems:
-        $ref: '#/definitions/generalSchema'
+        $ref: '#/definitions/jsonSchema'
       items:
         anyOf:
-          - $ref: '#/definitions/generalSchema'
-          - $ref: '#/definitions/currentJsonSchema/definitions/schemaArray'
+          - $ref: '#/definitions/jsonSchema'
+          - $ref: '#/definitions/jsonSchema/definitions/schemaArray'
         default: {}
       maxItems:
-        $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeInteger'
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
       minItems:
-        $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeIntegerDefault0'
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0'
       uniqueItems:
         type: boolean
         default: false
       contains:
-        $ref: '#/definitions/generalSchema'
+        $ref: '#/definitions/jsonSchema'
       maxProperties:
-        $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeInteger'
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
       minProperties:
-        $ref: '#/definitions/currentJsonSchema/definitions/nonNegativeIntegerDefault0'
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0'
       additionalProperties:
-        $ref: '#/definitions/generalSchema'
+        $ref: '#/definitions/jsonSchema'
       definitions:
         type: object
         additionalProperties:
-          $ref: '#/definitions/generalSchema'
+          $ref: '#/definitions/jsonSchema'
         default: {}
       properties:
         type: object
         additionalProperties:
-          $ref: '#/definitions/generalSchema'
+          $ref: '#/definitions/jsonSchema'
         default: {}
       patternProperties:
         type: object
         additionalProperties:
-          $ref: '#/definitions/generalSchema'
+          $ref: '#/definitions/jsonSchema'
         default: {}
       propertyNames:
-        $ref: '#/definitions/generalSchema'
+        $ref: '#/definitions/jsonSchema'
       const: {}
       enum:
         type: array
@@ -605,17 +486,14 @@ definitions:
       format:
         type: string
       allOf:
-        $ref: '#/definitions/currentJsonSchema/definitions/schemaArray'
+        $ref: '#/definitions/jsonSchema/definitions/schemaArray'
       anyOf:
-        $ref: '#/definitions/currentJsonSchema/definitions/schemaArray'
+        $ref: '#/definitions/jsonSchema/definitions/schemaArray'
       oneOf:
-        $ref: '#/definitions/currentJsonSchema/definitions/schemaArray'
+        $ref: '#/definitions/jsonSchema/definitions/schemaArray'
       not:
-        $ref: '#/definitions/generalSchema'
-    default: {}
-  # Future JSON standard
-  futureJsonSchema:
-    properties:
+        $ref: '#/definitions/jsonSchema'
+      # Future JSON standard
       formatMaximum:
         type: string
       formatMinimum:
@@ -625,20 +503,12 @@ definitions:
       formatExclusiveMinimum:
         type: boolean
       if:
-        $ref: '#/definitions/generalSchema'
+        $ref: '#/definitions/jsonSchema'
       then:
-        $ref: '#/definitions/generalSchema'
+        $ref: '#/definitions/jsonSchema'
       else:
-        $ref: '#/definitions/generalSchema'
-    dependencies:
-      formatExclusiveMinimum: [formatMinimum]
-      formatExclusiveMaximum: [formatMaximum]
-      if: [then]
-      then: [if]
-      else: [then]
-  # Our additions to JSON schema
-  customJsonSchema:
-    properties:
+        $ref: '#/definitions/jsonSchema'
+      # Our additions to JSON schema
       # All spec-defined formats are allowed. We are stricter than the spec,
       # as custom formats are forbidden.
       format:
@@ -655,3 +525,21 @@ definitions:
         - uri-reference
         - json-pointer
         - relative-json-pointer
+      # Instead of being an array on the model,
+      # like in standard JSON schema.
+      # More intuitive
+      required:
+        type: boolean
+      # Same as JSON schema, but directly on the attribute
+      dependencies:
+        anyOf:
+        - $ref: '#/definitions/jsonSchema'
+        - $ref: '#/definitions/jsonSchema/definitions/stringArray'
+    default: {}
+    # Future JSON standard
+    dependencies:
+      formatExclusiveMinimum: [formatMinimum]
+      formatExclusiveMaximum: [formatMaximum]
+      if: [then]
+      then: [if]
+      else: [then]
