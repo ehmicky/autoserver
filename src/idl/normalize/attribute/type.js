@@ -2,13 +2,6 @@
 
 const { omit } = require('../../../utilities');
 
-// Defaults `type` for nested attributes, or normal attributes
-const addAttrDefaultType = function (attr) {
-  if (attr.type) { return attr; }
-
-  return { ...attr, type: 'string' };
-};
-
 // From `type: string[]` or `type: my_model`
 // to `type: string, multiple: true` or `target: my_model, multiple: false`
 const normalizeType = function (attr) {
@@ -36,6 +29,5 @@ const nonModelTypes = [
 ];
 
 module.exports = {
-  addAttrDefaultType,
   normalizeType,
 };
