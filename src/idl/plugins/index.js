@@ -2,5 +2,5 @@
 
 module.exports = {
   ...require('./apply'),
-  ...require('./properties'),
+  ...require('./attributes'),
 };

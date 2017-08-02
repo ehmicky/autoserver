@@ -68,10 +68,10 @@ const getRecursiveDef = function ({ childDef, action, rootDef }) {
 };
 
 const findTopLevelModel = function ({ childDef, action, rootDef }) {
-  return Object.values(rootDef.properties).find(prop =>
-    prop.model === childDef.target &&
-    prop.action.type === action.type &&
-    prop.action.multiple === childDef.multiple
+  return Object.values(rootDef.attributes).find(attr =>
+    attr.model === childDef.target &&
+    attr.action.type === action.type &&
+    attr.action.multiple === childDef.multiple
   );
 };
 

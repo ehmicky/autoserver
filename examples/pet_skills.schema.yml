@@ -1,14 +1,5 @@
 description: Skills of a pet
-# Object-specific JSON schema validation keywords
-# minProperties: 1
-# maxProperties: 10
-# patternProperties:
-#   '^__': false
-# additionalProperties:
-#   type: integer
-# propertyNames:
-#   pattern: '^[a-z_]+$'
-properties:
+attributes:
   age:
     type: integer
     description: How old is the pet

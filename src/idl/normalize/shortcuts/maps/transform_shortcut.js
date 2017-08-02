@@ -2,16 +2,16 @@
 
 const { sortArray } = require('../../../../utilities');
 
-const mapProps = function (type, props, { transformOrder }) {
-  const propsA = Object.entries(props)
+const mapAttrs = function (type, attrs, { transformOrder }) {
+  const attrsA = Object.entries(attrs)
     .map(([attrName, { [type]: transform }]) => ({ attrName, transform }));
-  const propsB = sortProps({ props: propsA, transformOrder });
-  return propsB;
+  const attrsB = sortAttrs({ attrs: attrsA, transformOrder });
+  return attrsB;
 };
 
 // Sort transforms according to `using` property
-const sortProps = function ({ props, transformOrder }) {
-  return sortArray(props, (first, second) => {
+const sortAttrs = function ({ attrs, transformOrder }) {
+  return sortArray(attrs, (first, second) => {
     const indexFirst = transformOrder.indexOf(first.attrName);
     const indexSecond = transformOrder.indexOf(second.attrName);
     if (indexFirst > indexSecond) { return 1; }
@@ -24,7 +24,7 @@ const sortProps = function ({ props, transformOrder }) {
 // e.g. { my_model: [{ attrName, transform }, ...], ... }
 const getTransformsMap = type => ({
   filter: type,
-  mapProps: mapProps.bind(null, type),
+  mapAttrs: mapAttrs.bind(null, type),
 });
 const transformsMap = getTransformsMap('transform');
 const computesMap = getTransformsMap('compute');

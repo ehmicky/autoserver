@@ -32,7 +32,7 @@ models:
     commands: [create, read, update, delete]
     # Custom property
     x-custom: anything
-    properties:
+    attributes:
       id:
         description: Unique identifier of a pet
       name:

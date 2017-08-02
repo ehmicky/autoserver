@@ -1,16 +1,16 @@
 'use strict';
 
-const { propertiesPlugin } = require('./properties');
+const { attributesPlugin } = require('./attributes');
 
 // Plugin that adds default timestamps to each model:
 //   created_time {string} - set on model creation
 //   updated_time {string} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
 const timestampPlugin = function ({ idl, opts }) {
-  return propertiesPlugin({ getProperties })({ idl, opts });
+  return attributesPlugin({ getAttributes })({ idl, opts });
 };
 
-const getProperties = () => ({
+const getAttributes = () => ({
   created_time: {
     type: 'string',
     description: 'Timestamp indicating when this model was created',

@@ -85,7 +85,7 @@ const applyTransform = function ({
 };
 
 const getTransformParams = function ({ data, attrName, type, using }) {
-  // Ensure consumers use `using` property by deleting all other properties,
+  // Ensure consumers use `using` property by deleting all other attributes,
   // i.e. $$.ATTRIBUTE will be undefined in transforms unless `using` is
   // specified
   const model = pick(data, using);

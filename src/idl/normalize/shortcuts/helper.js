@@ -2,37 +2,37 @@
 
 const { mapValues, pickBy } = require('../../../utilities');
 
-// Create shortcuts maps by iterating over each model and its properties
-// `filter` allow selecting properties
-// `mapProps` allow modifying properties, as a whole
-// `mapProp` allow modifying each individual property
-const mapModels = function ({ models }, { filter, mapProps, mapProp }) {
+// Create shortcuts maps by iterating over each model and its attributes
+// `filter` allow selecting attributes
+// `mapAttrs` allow modifying attributes, as a whole
+// `mapAttr` allow modifying each individual attribute
+const mapModels = function ({ models }, { filter, mapAttrs, mapAttr }) {
   const filterFunc = getFilter({ filter });
 
   return mapValues(
     models,
-    model => mapModel({ model, filterFunc, mapProps, mapProp }),
+    model => mapModel({ model, filterFunc, mapAttrs, mapAttr }),
   );
 };
 
 const mapModel = function ({
   model,
-  model: { properties = {} },
+  model: { attributes = {} },
   filterFunc,
-  mapProps,
-  mapProp,
+  mapAttrs,
+  mapAttr,
 }) {
-  const propertiesA = pickBy(
-    properties,
-    (prop, propName) => filterFunc(prop, propName, model),
+  const attributesA = pickBy(
+    attributes,
+    (attr, attrName) => filterFunc(attr, attrName, model),
   );
-  const propertiesB = mapProp
-    ? mapValues(propertiesA, (prop, propName) => mapProp(prop, propName, model))
-    : propertiesA;
-  const propertiesC = mapProps
-    ? mapProps(propertiesB, model)
-    : propertiesB;
-  return propertiesC;
+  const attributesB = mapAttr
+    ? mapValues(attributesA, (attr, attrName) => mapAttr(attr, attrName, model))
+    : attributesA;
+  const attributesC = mapAttrs
+    ? mapAttrs(attributesB, model)
+    : attributesB;
+  return attributesC;
 };
 
 const getFilter = function ({ filter = () => true }) {
@@ -44,8 +44,8 @@ const getFilter = function ({ filter = () => true }) {
 };
 
 // Shortcut notation for `filter`
-const attrFilter = function (attrName, prop) {
-  return prop[attrName] !== undefined;
+const attrFilter = function (attrName, model) {
+  return model[attrName] !== undefined;
 };
 
 module.exports = {

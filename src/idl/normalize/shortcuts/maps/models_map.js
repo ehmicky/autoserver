@@ -1,6 +1,6 @@
 'use strict';
 
-const mapProp = function ({ multiple, target }) {
+const mapAttr = function ({ multiple, target }) {
   return { multiple, target };
 };
 
@@ -10,7 +10,7 @@ const mapProp = function ({ multiple, target }) {
 //     my_sub_model: { multiple: true, target: 'another_model' }
 //   }
 // }
-const modelsMap = { mapProp };
+const modelsMap = { mapAttr };
 
 module.exports = {
   modelsMap,

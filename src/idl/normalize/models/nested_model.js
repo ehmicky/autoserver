@@ -17,7 +17,7 @@ const mergeNestedModel = function (attr, { idl: { models } }) {
 };
 
 const getTargetModelId = function ({ model }) {
-  const modelId = model.properties.id;
+  const modelId = model.attributes.id;
 
   // For the metadata, use target model, not target model.id
   const modelIdA = omit(modelId, metadataProps);

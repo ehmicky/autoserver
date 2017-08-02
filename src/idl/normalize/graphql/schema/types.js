@@ -27,7 +27,13 @@ const getField = function (def, opts) {
   const argsA = getArgs({ args, def, opts: optsA });
 
   const defaultValue = getDefaultValue({ def, opts: optsA });
-  const field = { type, description, deprecationReason, args: argsA, defaultValue };
+  const field = {
+    type,
+    description,
+    deprecationReason,
+    args: argsA,
+    defaultValue,
+  };
   return field;
 };
 

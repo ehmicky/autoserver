@@ -56,7 +56,7 @@ definitions:
     additionalProperties: false
     patternProperties:
       '^x-': true
-    required: [properties]
+    required: [attributes]
     properties:
       model:
         $ref: '#/definitions/validModelName'
@@ -64,7 +64,7 @@ definitions:
         $ref: '#/definitions/description'
       commands:
         $ref: '#/definitions/commands'
-      properties:
+      attributes:
         type: object
         # For models' attributes
         additionalProperties:
@@ -87,7 +87,7 @@ definitions:
                   required:
                     not:
                       const: false
-  # MODEL.properties
+  # MODEL.attributes
   attribute:
     type: object
     # Users can only define custom properties prefixed with x-*
@@ -337,7 +337,7 @@ definitions:
     # Should not start with __ as it is reserved for GraphQL introspection types
     not:
       pattern: '^__'
-  # Keys of MODEL.properties.*
+  # Keys of MODEL.attributes.*
   validAttributeName:
     # Attributes follow same naming convention as models
     $ref: '#/definitions/validModelName'

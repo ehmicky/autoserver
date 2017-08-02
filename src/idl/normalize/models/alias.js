@@ -8,26 +8,26 @@ const { throwError } = require('../../../error');
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
 const normalizeAliases = function (model) {
-  if (!model.properties) { return model; }
+  if (!model.attributes) { return model; }
 
-  const propsA = Object.entries(model.properties)
-    .reduce((props, [attrName, attr]) => {
-      const aliases = createAliases({ model, props, attr, attrName });
-      return { ...props, ...aliases, [attrName]: attr };
+  const attrsA = Object.entries(model.attributes)
+    .reduce((attrs, [attrName, attr]) => {
+      const aliases = createAliases({ model, attrs, attr, attrName });
+      return { ...attrs, ...aliases, [attrName]: attr };
     }, {});
 
-  const properties = mapValues(propsA, attr => addAliasDescription({ attr }));
+  const attributes = mapValues(attrsA, attr => addAliasDescription({ attr }));
 
-  return { ...model, properties };
+  return { ...model, attributes };
 };
 
-const createAliases = function ({ model, props, attr, attrName }) {
+const createAliases = function ({ model, attrs, attr, attrName }) {
   if (!attr.alias) { return {}; }
   const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
 
   return aliases
     .map(alias => {
-      checkAliasDuplicates({ model, props, attrName, alias });
+      checkAliasDuplicates({ model, attrs, attrName, alias });
 
       const aliasAttr = omit(attr, 'alias');
       const attrA = { ...aliasAttr, aliasOf: attrName };
@@ -37,14 +37,14 @@ const createAliases = function ({ model, props, attr, attrName }) {
     .reduce(assignObject, {});
 };
 
-const checkAliasDuplicates = function ({ model, props, attrName, alias }) {
-  if (model.properties[alias]) {
+const checkAliasDuplicates = function ({ model, attrs, attrName, alias }) {
+  if (model.attributes[alias]) {
     const message = `Attribute '${attrName}' cannot have an alias '${alias}' because this attribute already exists`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  if (props[alias]) {
-    const otherAttrName = props[alias].aliasOf;
+  if (attrs[alias]) {
+    const otherAttrName = attrs[alias].aliasOf;
     const message = `Attributes '${otherAttrName}' and '${attrName}' cannot have the same alias '${alias}'`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
