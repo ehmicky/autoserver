@@ -4,10 +4,10 @@ const { pick, omit, deepMerge } = require('../../../utilities');
 
 // Shallow copy nested models from the `model.id` they refer to
 const mergeNestedModel = function (attr, { idl: { models } }) {
-  if (attr.model === undefined) { return attr; }
+  if (attr.target === undefined) { return attr; }
 
   const [, model] = Object.entries(models)
-    .find(([name, mod]) => mod.model === attr.model || name === attr.model);
+    .find(([name, mod]) => mod.model === attr.target || name === attr.target);
   const modelId = getTargetModelId({ model });
 
   // Target model has less priority than nested attribute

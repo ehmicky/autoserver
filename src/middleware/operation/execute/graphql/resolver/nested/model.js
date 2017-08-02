@@ -19,7 +19,7 @@ const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
     return attributeResolver({ parent, name, args });
   }
 
-  const { multiple, model: modelName } = model;
+  const { multiple, target: modelName } = model;
   // Add nested if to nested actions
   // Uses the parent value as a nested filter|data
   const parentVal = parent[attrName];
@@ -71,7 +71,10 @@ const validateProp = function ({
     !prop ||
     // This means nested action is not a simple attribute,
     // or that it has different actionType than parent
-    (isModel && (!prop.model || parentAction.type !== actionType));
+    (
+      isModel &&
+      (prop.target === undefined || parentAction.type !== actionType)
+    );
   if (!doesNotExist) { return; }
 
   const message = `In ${parentModel} model, attribute ${name} does not exist`;
