@@ -5,6 +5,7 @@ const { mapValues } = require('../../../utilities');
 const { mergeNestedModel } = require('./nested_model');
 const { addAttrDefaultType } = require('./default_type');
 const { normalizeType } = require('./type');
+const { addTypeValidation } = require('./type_validation');
 const { addAttrDefaultValidate } = require('./validate');
 const { normalizeTransform, normalizeCompute } = require('./transform');
 
@@ -48,6 +49,7 @@ const allTransformers = {
   ],
   after: [
     mergeNestedModel,
+    addTypeValidation,
   ],
 };
 
