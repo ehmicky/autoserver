@@ -13,13 +13,6 @@ properties:
   models:
     additionalProperties:
       $ref: '#/definitions/model'
-      properties:
-        properties:
-          # For models' attributes
-          additionalProperties:
-            $ref: '#/definitions/attribute'
-          propertyNames:
-            $ref: '#/definitions/validAttributeName'
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
@@ -73,6 +66,11 @@ definitions:
         $ref: '#/definitions/commands'
       properties:
         type: object
+        # For models' attributes
+        additionalProperties:
+          $ref: '#/definitions/attribute'
+        propertyNames:
+          $ref: '#/definitions/validAttributeName'
         properties:
           id:
             properties:
