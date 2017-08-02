@@ -272,8 +272,10 @@ definitions:
     - integer
     - boolean
     - 'null'
-    - object
-    - array
+    # Not allowed: should use models instead
+    # - object
+    # Not allowed: should use [] notation instead
+    # - array
   nonModelMultipleType:
     enum:
     - string[]
@@ -281,8 +283,6 @@ definitions:
     - integer[]
     - boolean[]
     - 'null[]'
-    - object[]
-    - array[]
   # attr.transform or attr.compute
   transformCompute:
     oneOf:
