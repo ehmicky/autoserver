@@ -7,7 +7,6 @@ const {
   mapValues,
   mapKeys,
   pickBy,
-  deepMerge,
 } = require('../../../../utilities');
 const { ACTIONS } = require('../../../../constants');
 
@@ -44,9 +43,15 @@ const getAllModelsByAction = function ({ models, action }) {
   );
 
   // Iterate through each model
-  return mapValues(renamedModels, model =>
-    getModelByAction({ model, action })
-  );
+  // Add action information to the top-level model
+  return mapValues(renamedModels, model => ({
+    ...model,
+    isTopLevel: true,
+    action,
+    multiple: action.multiple,
+    type: 'object',
+    validate: {},
+  }));
 };
 
 // Filter allowed actions on a given model
@@ -57,34 +62,6 @@ const isAllowedModel = function ({ model: { commands }, action }) {
     )
     .map(({ name }) => name);
   return actions.includes(action.name);
-};
-
-const getModelByAction = function ({ model, action }) {
-  // Add action information to the nested models
-  const properties = mapValues(
-    model.properties,
-    def => getModelProps({ def, action }),
-  );
-
-  const modelCopy = deepMerge(model, { properties, isTopLevel: true });
-
-  // Add action information to the top-level model
-  return {
-    ...modelCopy,
-    action,
-    type: 'object',
-    validate: {},
-    multiple: action.multiple,
-  };
-};
-
-const getModelProps = function ({ def, action }) {
-  if (def.target === undefined) { return def; }
-
-  const subAction = ACTIONS.find(act =>
-    act.type === action.type && act.multiple === def.multiple
-  );
-  return { ...def, action: subAction };
 };
 
 module.exports = {
