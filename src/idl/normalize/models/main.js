@@ -2,44 +2,49 @@
 
 const { mapValues } = require('../../../utilities');
 
-const { addModelName } = require('./name');
-const { normalizeCommands } = require('./commands');
-const { setTransformOrder, setComputeOrder } = require('./transform');
-const { normalizeAliases } = require('./alias');
+const { normalizers } = require('./normalizers');
 
-const normalizeModels = function (type, { idl, idl: { models } }) {
-  const transformers = allTransformers[type];
-  const modelsA = mapValues(models, (model, modelName) =>
-    normalizeModel({ transformers, model, modelName, idl }),
+// Normalize all models and their attributes
+const normalizeAllModels = function ({ idl }) {
+  return normalizers.reduce(
+    (idlA, { type, func }) => normalizeFuncs[type](func, { idl: idlA }),
+    idl,
+  );
+};
+
+// Apply a mapping function on each model
+const normalizeModels = function (func, { idl, idl: { models } }) {
+  const modelsA = mapValues(
+    models,
+    (model, modelName) => func(model, { modelName, idl }),
   );
   return { ...idl, models: modelsA };
 };
 
-const normalizeModel = function ({ transformers, model, modelName, idl }) {
-  return transformers.reduce(
-    (modelA, transformer) => transformer(modelA, { modelName, idl }),
-    model,
+// Apply a mapping function on each model's attribute
+const normalizeAllAttrs = function (func, { idl }) {
+  return normalizeModels(
+    model => normalizeAttrs(func, model, { idl }),
+    { idl },
   );
 };
 
-// Do not use .bind() because we want a clean function name,
-// because the performance monitoring uses it
-const normalizeModelsBefore = (...args) => normalizeModels('before', ...args);
-const normalizeModelsAfter = (...args) => normalizeModels('after', ...args);
+const normalizeAttrs = function (func, model, { idl }) {
+  const { properties } = model;
+  if (!properties) { return model; }
 
-const allTransformers = {
-  before: [
-    addModelName,
-    normalizeCommands,
-  ],
-  after: [
-    setTransformOrder,
-    setComputeOrder,
-    normalizeAliases,
-  ],
+  const propertiesA = mapValues(
+    properties,
+    (attr, attrName) => func(attr, { attrName, idl }),
+  );
+  return { ...model, properties: propertiesA };
+};
+
+const normalizeFuncs = {
+  model: normalizeModels,
+  attr: normalizeAllAttrs,
 };
 
 module.exports = {
-  normalizeModelsBefore,
-  normalizeModelsAfter,
+  normalizeAllModels,
 };
