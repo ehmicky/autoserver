@@ -53,26 +53,27 @@ const getRecursiveModels = function ({
 };
 
 const getRecursiveDef = function ({ childDef, action, rootDef }) {
-  const topLevelModel = Object.values(rootDef.properties).find(prop =>
+  const topLevelModel = findTopLevelModel({ childDef, action, rootDef });
+
+  // Recursive models use the description of:
+  //  - the target model, if inputObjectType === 'data|filter'
+  //  - the nested attribute, if inputObjectType ==== ''
+  // We set the definition for the first case, and once they are built,
+  // we use def.metadata to build the second case
+  const { description, deprecated } = childDef;
+  const metadata = { description, deprecated };
+  const topLevelModelA = { ...topLevelModel, metadata };
+
+  return removeTopLevel({ def: topLevelModelA });
+};
+
+const findTopLevelModel = function ({ childDef, action, rootDef }) {
+  return Object.values(rootDef.properties).find(prop =>
     prop.model === childDef.model &&
     prop.action.type === action.type &&
     prop.action.multiple === childDef.multiple
   );
-
-  // Keep metadata of nested model, if defined
-  const childDefMetadata = pick(childDef, metadataProps);
-  const topLevelModelA = omit(topLevelModel, metadataProps);
-
-  const recursiveDef = { ...topLevelModelA, ...childDefMetadata };
-
-  return removeTopLevel({ def: recursiveDef });
 };
-
-const metadataProps = [
-  'description',
-  'deprecated',
-  'examples',
-];
 
 // Distinguish top-level from nested models with `isTopLevel` true|false
 const removeTopLevel = function ({ def }) {
