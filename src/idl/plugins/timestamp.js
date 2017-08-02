@@ -15,20 +15,24 @@ const getProperties = () => ({
     type: 'string',
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
-    format: 'date-time',
     readOnly: true,
     transform: {
       value: '($NOW)',
       test: '($COMMAND === "create")',
+    },
+    validate: {
+      format: 'date-time',
     },
   },
   updated_time: {
     type: 'string',
     description: 'Timestamp indicating when this model was last updated',
     examples: ['2017-04-26T11:19:45Z'],
-    format: 'date-time',
     readOnly: true,
     transform: '($NOW)',
+    validate: {
+      format: 'date-time',
+    },
   },
 });
 

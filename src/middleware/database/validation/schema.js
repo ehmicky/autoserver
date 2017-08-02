@@ -1,37 +1,25 @@
 'use strict';
 
-const { pickBy, mapValues, omit, memoize } = require('../../../utilities');
+const { pickBy, mapValues, omit } = require('../../../utilities');
 
 // Retrieves JSON schema to validate against
 const getDataValidationSchema = function ({ idl, modelName, command }) {
   const model = idl.models[modelName];
-  const modelA = addJsonSchemaRequire({ model, command });
-  const modelB = addJsonSchemaDeps({ model: modelA });
-  const modelC = removeAltSyntax({ model: modelB });
-  return modelC;
+  const validate = mapValues(model.properties, prop => prop.validate);
+  const schema = { type: 'object', properties: validate };
+  const schemaA = addJsonSchemaRequire({ schema });
+  const schemaB = addJsonSchemaDeps({ schema: schemaA });
+  const schemaC = removeAltSyntax({ schema: schemaB });
+
+  const schemaD = removeRequire({ schema: schemaC, command });
+  return schemaD;
 };
 
-const mGetDataValidationSchema = memoize(getDataValidationSchema);
+// Nothing is required for read|delete, except maybe `id` (previously validated)
+const removeRequire = function ({ schema, command }) {
+  if (!optionalInputCommands.includes(command.name)) { return schema; }
 
-// Fix `required` attribute according to the current command.name
-// JSON schema `require` attribute is a model-level array,
-// not an attribute-level boolean
-const addJsonSchemaRequire = function ({
-  model,
-  model: { properties },
-  command,
-}) {
-  // Nothing is required for those command.name,
-  // except maybe `id` (previously validated)
-  if (optionalInputCommands.includes(command.name)) { return model; }
-
-  const requiredProps = pickBy(properties,
-    // `id` requiredness has already been checked by previous validator,
-    // so we skip it here
-    (attr, attrName) => attr.validate.required === true && attrName !== 'id',
-  );
-  const required = Object.keys(requiredProps);
-  return { ...model, required };
+  return omit(schema, 'required');
 };
 
 const optionalInputCommands = [
@@ -41,30 +29,35 @@ const optionalInputCommands = [
   'deleteMany',
 ];
 
+// Fix `required` attribute according to the current command.name
+// JSON schema `require` attribute is a model-level array,
+// not an attribute-level boolean
+const addJsonSchemaRequire = function ({ schema, schema: { properties } }) {
+  const requiredProps = pickBy(properties, attr => attr.required);
+  const required = Object.keys(requiredProps);
+  // `id` requiredness is checked by other validators, so we skip it here
+  const requiredA = required.filter(attrName => attrName !== 'id');
+  return { ...schema, required: requiredA };
+};
+
 // JSON schema `dependencies` attribute is model-level, not attribute-level
-const addJsonSchemaDeps = function ({ model, model: { properties } }) {
-  const dependencies = mapValues(
-    properties,
-    ({ validate }) => validate.dependencies,
-  );
+const addJsonSchemaDeps = function ({ schema, schema: { properties } }) {
+  const dependencies = mapValues(properties, prop => prop.dependencies);
   const dependenciesA = pickBy(dependencies, dep => dep !== undefined);
-  return { ...model, dependencies: dependenciesA };
+  return { ...schema, dependencies: dependenciesA };
 };
 
 // Remove syntax that is not JSON schema
-const removeAltSyntax = function ({ model, model: { properties } }) {
-  const propertiesA = mapValues(properties, prop => {
-    const validate = omit(prop.validate, nonJsonSchemaAttrs);
-    return { ...prop, validate };
-  });
-  return { ...model, properties: propertiesA };
+const removeAltSyntax = function ({ schema, schema: { properties } }) {
+  const propertiesA = mapValues(properties, prop => omit(prop, nonJsonSchema));
+  return { ...schema, properties: propertiesA };
 };
 
-const nonJsonSchemaAttrs = [
+const nonJsonSchema = [
   'required',
   'dependencies',
 ];
 
 module.exports = {
-  getDataValidationSchema: mGetDataValidationSchema,
+  getDataValidationSchema,
 };

@@ -46,27 +46,27 @@ models:
         description: How to call a pet
         validate:
           required: true
+          # Combinators JSON schema validation keywords
+          oneOf:
+          - pattern: '^[a-zA-Z]+$'
+          - pattern: '[0-9]+$'
+          allOf:
+          - not:
+              pattern: '^__'
+          - not:
+              pattern: '^[0-9]'
+          anyOf:
+          - pattern: '[a-z]'
+          - pattern: '[A-Z]'
+          - pattern: '[0-9]'
+          if:
+            pattern: '^super'
+          then:
+            pattern: '[a-z]'
+          else:
+            pattern: '[A-Z]'
         # Custom property
         x-custom: anything
-        # Combinators JSON schema validation keywords
-        oneOf:
-        - pattern: '^[a-zA-Z]+$'
-        - pattern: '[0-9]+$'
-        allOf:
-        - not:
-            pattern: '^__'
-        - not:
-            pattern: '^[0-9]'
-        anyOf:
-        - pattern: '[a-z]'
-        - pattern: '[A-Z]'
-        - pattern: '[0-9]'
-        if:
-          pattern: '^super'
-        then:
-          pattern: '[a-z]'
-        else:
-          pattern: '[A-Z]'
       # Attributes follow the same naming restrictions as models
       weight:
         type: number
@@ -76,23 +76,25 @@ models:
         # and gives warning messages
         deprecated: Let's stop measuring pet's weight
         default: 15
-        # Number-specific JSON schema validation keywords
-        minimum: 0.5
-        maximum: 30
-        exclusiveMinimum: 0.5
-        exclusiveMaximum: 30
-        # Can use floats
-        multipleOf: 0.000001
-        # Custom validation
-        IsNotEqual: 10
         # Possible aliases for that attribute's name
         alias: old_weight_name
+        validate:
+          # Number-specific JSON schema validation keywords
+          minimum: 0.5
+          maximum: 30
+          exclusiveMinimum: 0.5
+          exclusiveMaximum: 30
+          # Can use floats
+          multipleOf: 0.000001
+          # Custom validation
+          IsNotEqual: 10
       is_overweight:
         type: boolean
         description: Has the pet being eating too much?
-        # This JSON schema validation keyword can be applied to any type
-        const: false
         default: false
+        validate:
+          # This JSON schema validation keyword can be applied to any type
+          const: false
       photo_urls:
         # Type defaults to 'string'
         type: string[]
@@ -104,18 +106,19 @@ models:
       tags:
         type: string[]
         description: Tags applying to this pet
-        # Array-specific JSON schema validation keywords
-        items:
-          # String-specific JSON schema validation keywords
-          minLength: 2
-          maxLength: 200
-          pattern: '^[a-zA-Z0-9 ]+$'
-          # This JSON schema validation keyword can be applied to any type
-          enum: [suspended, adorable]
-        minItems: 0
-        maxItems: 30
-        uniqueItems: true
         default: []
+        validate:
+          # Array-specific JSON schema validation keywords
+          items:
+            # String-specific JSON schema validation keywords
+            minLength: 2
+            maxLength: 200
+            pattern: '^[a-zA-Z0-9 ]+$'
+            # This JSON schema validation keyword can be applied to any type
+            enum: [suspended, adorable]
+          minItems: 0
+          maxItems: 30
+          uniqueItems: true
       status:
         description: Has this pet been adopted
         # Applies transformations: status will be lowercased on write
@@ -168,14 +171,15 @@ models:
       owners:
         type: owner[]
       birth_date:
-        # The following JSON schema validation keywords can be applied to
-        # any type, although they are usually for strings
-        format: date
-        formatMinimum: 2000-01-01
-        formatExclusiveMinimum: true
-        formatMaximum: 2100-01-01
-        formatExclusiveMinimum: false
         default: (birthDate)
+        validate:
+          # The following JSON schema validation keywords can be applied to
+          # any type, although they are usually for strings
+          format: date
+          formatMinimum: 2000-01-01
+          formatExclusiveMinimum: true
+          formatMaximum: 2100-01-01
+          formatExclusiveMinimum: false
   owner:
     # It is possible to reference/include local files or remote files (HTTP[S])
     # using standard JSON reference syntax
@@ -367,9 +371,5 @@ validation:
     message: (`must not be equal to ${$EXPECTED}`)
     # Can restrict when the validation will be applied, using JSON schema types
     type: [number, integer]
-# No specific semantics, but can be used by $ref
-definitions:
-  dummyDefinition:
-    type: object
 # Custom property
 x-custom: anything
