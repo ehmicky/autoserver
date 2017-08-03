@@ -29,7 +29,7 @@ const graphQLFGetters = [
 
   // "Array" modifier type
   {
-    condition: def => def.multiple,
+    condition: def => def.action && def.action.multiple && !def.arrayWrapped,
     value: graphQLArrayFGetter,
   },
 

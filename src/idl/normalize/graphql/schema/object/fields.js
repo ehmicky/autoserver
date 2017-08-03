@@ -3,6 +3,7 @@
 const { GraphQLString } = require('graphql');
 
 const { omitBy, mapValues } = require('../../../../../utilities');
+const { ACTIONS } = require('../../../../../constants');
 const { getRequired } = require('../required');
 
 const { getNestedModels } = require('./nested_models');
@@ -15,7 +16,9 @@ const getObjectFields = function (parentDef, opts, getField) {
   // This needs to be function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type
   return () => {
-    const fieldsA = Object.entries(parentDef.attributes)
+    const fields = parentDef.attributes;
+    const fieldsA = mapValues(fields, def => addAction({ def, parentDef }));
+    const fieldsB = Object.entries(fieldsA)
       .map(([defName, def]) => getNestedModels({
         parentDef,
         def,
@@ -24,15 +27,26 @@ const getObjectFields = function (parentDef, opts, getField) {
         topDef,
       }))
       .reduce((memo, value) => Object.assign({}, memo, ...value), {});
-    const fieldsB = omitBy(fieldsA, (def, defName) =>
+    const fieldsC = omitBy(fieldsB, (def, defName) =>
       filterArgs({ def, defName, inputObjectType, parentDef })
     );
-    const fieldsC = mapValues(fieldsB, (def, defName) =>
+    const fieldsD = mapValues(fieldsC, (def, defName) =>
       getChildField({ parentDef, def, defName, opts, getField })
     );
-    const fieldsD = Object.keys(fieldsC).length === 0 ? noAttributes : fieldsC;
-    return fieldsD;
+    const fieldsE = Object.keys(fieldsD).length === 0 ? noAttributes : fieldsD;
+    return fieldsE;
   };
+};
+
+// Nested attributes change current action by applying `def.multiple`
+const addAction = function ({ def, parentDef }) {
+  if (def.action) { return def; }
+
+  const action = ACTIONS.find(ACTION =>
+    ACTION.type === parentDef.action.type &&
+    ACTION.multiple === def.multiple
+  );
+  return { ...def, action };
 };
 
 // Recurse over children

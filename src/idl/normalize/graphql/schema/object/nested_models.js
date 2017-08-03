@@ -3,33 +3,25 @@
 const { getAttrFieldName } = require('../name');
 
 const getNestedModels = function ({
-  parentDef,
   def,
   defName,
   inputObjectType,
   topDef,
 }) {
-  const defA = { ...def, action: def.action || parentDef.action };
-
-  const originalAttr = { [defName]: { ...defA, typeName: defName } };
+  const originalAttr = { [defName]: { ...def, typeName: defName } };
 
   // Only for nested models, that are not data|filter arguments
-  const isNormalNested = defA.target !== undefined &&
+  const isNormalNested = def.target !== undefined &&
     inputObjectType === '';
   if (!isNormalNested) { return [originalAttr]; }
 
-  const nestedModels = getRecursiveModels({ def: defA, defName, topDef });
-  return [originalAttr, nestedModels];
+  const nestedModel = getRecursiveModel({ def, defName, topDef });
+  return [originalAttr, nestedModel];
 };
 
 // Copy nested models with a different name that includes the action,
 // e.g. `my_attribute` -> `createMyAttribute`
-const getRecursiveModels = function ({
-  def,
-  def: { action },
-  defName,
-  topDef,
-}) {
+const getRecursiveModel = function ({ def, def: { action }, defName, topDef }) {
   const recursiveDef = getRecursiveDef({ def, topDef });
   const name = getAttrFieldName({ modelName: defName, action });
   return { [name]: recursiveDef };
@@ -49,16 +41,9 @@ const getRecursiveDef = function ({ def, topDef }) {
   return { ...topLevelModel, metadata };
 };
 
-const findTopLevelModel = function ({
-  def: { target, action, multiple },
-  topDef,
-}) {
+const findTopLevelModel = function ({ def: { target, action }, topDef }) {
   const [typeName, topLevelModel] = Object.entries(topDef.attributes)
-    .find(([, attr]) =>
-      attr.model === target &&
-      attr.action.type === action.type &&
-      attr.action.multiple === multiple
-    );
+    .find(([, attr]) => attr.model === target && attr.action === action);
   return { ...topLevelModel, typeName };
 };
 
