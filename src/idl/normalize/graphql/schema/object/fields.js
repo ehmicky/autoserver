@@ -9,57 +9,60 @@ const { getNestedModels } = require('./nested_models');
 const { filterArgs } = require('./filter_args');
 
 // Retrieve the fields of an object, using IDL definition
-const getObjectFields = function (def, opts, getField) {
+const getObjectFields = function (parentDef, opts, getField) {
   const { action = {}, inputObjectType, topDef } = opts;
 
   // This needs to be function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type
   return () => {
-    const fieldsWithNested = Object.entries(def.attributes)
-      .map(([childDefName, childDef]) => getNestedModels({
-        childDef,
-        childDefName,
+    const fieldsA = Object.entries(parentDef.attributes)
+      .map(([defName, def]) => getNestedModels({
+        def,
+        defName,
         inputObjectType,
         action,
         topDef,
       }))
       .reduce((memo, value) => Object.assign({}, memo, ...value), {});
-    const filteredFields = omitBy(fieldsWithNested, (childDef, childDefName) =>
-      filterArgs({ childDef, childDefName, inputObjectType, action, def })
+    const fieldsB = omitBy(fieldsA, (def, defName) =>
+      filterArgs({ def, defName, inputObjectType, action, parentDef })
     );
-    const finalFields = mapValues(filteredFields, (childDef, childDefName) =>
-      getChildField({ childDef, childDefName, action, opts, getField })
+    const fieldsC = mapValues(fieldsB, (def, defName) =>
+      getChildField({ parentDef, def, defName, action, opts, getField })
     );
-    const fieldsWithDefault = Object.keys(finalFields).length === 0
-      ? noAttributes
-      : finalFields;
-    return fieldsWithDefault;
+    const fieldsD = Object.keys(fieldsC).length === 0 ? noAttributes : fieldsC;
+    return fieldsD;
   };
 };
 
 // Recurse over children
 const getChildField = function ({
-  childDef,
-  childDefName,
+  parentDef,
+  def,
+  defName,
   action,
   opts,
   getField,
 }) {
+  const kind = parentDef.kind === 'graphqlMethod' ? 'model' : 'attribute';
+  const defA = { ...def, kind };
+
   // If 'Query' or 'Mutation' objects, pass current action down to
   // sub-fields, and top-level definition
-  const childAction = childDef.action || action;
+  const childAction = defA.action || action;
   const childOpts = { ...opts, action: childAction };
 
   const isRequired = getRequired({
-    def: childDef,
-    name: childDefName,
+    def: defA,
+    defName,
     ...childOpts,
   });
 
-  const field = getField(childDef, { ...childOpts, isRequired });
+  console.log(defA.name, defA.target, defName);
+  const field = getField(defA, { ...childOpts, isRequired });
 
   // Use the nested attribute's metadata, if this is a nested attribute
-  const { metadata = {} } = childDef;
+  const { metadata = {} } = defA;
   const fieldA = { ...field, ...metadata };
 
   return fieldA;

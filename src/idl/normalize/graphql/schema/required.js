@@ -13,9 +13,9 @@ const graphQLRequiredFGetter = function (def, opts, getField) {
 };
 
 // Returns whether a field is required
-const getRequired = function ({ def, name, action = {}, inputObjectType }) {
+const getRequired = function ({ def, defName, action = {}, inputObjectType }) {
   // Filter inputObjects `id` attribute is always required
-  const isFilterId = name === 'id' &&
+  const isFilterId = defName === 'id' &&
     inputObjectType === 'filter' &&
     !action.multiple;
   const { required } = def.validate || {};
@@ -27,7 +27,11 @@ const getRequired = function ({ def, name, action = {}, inputObjectType }) {
     // `updateOne|updateMany` does not require any attribute in input object
     !(inputObjectType === 'data' && action.type === 'update') &&
     // `data.id` is optional in createOne|createMany
-    !(inputObjectType === 'data' && action.type === 'create' && name === 'id');
+    !(
+      inputObjectType === 'data' &&
+      action.type === 'create' &&
+      defName === 'id'
+    );
   return shouldRequire;
 };
 
