@@ -6,13 +6,13 @@ const { plural, singular } = require('pluralize');
 // Returns type name, titleized with action prepended, in singular form,
 // e.g. `FindPet`, for schema type name
 const getTypeName = function ({
-  def: { name, isTopLevel },
+  def: { name, kind },
   opts: { inputObjectType, action: { type: actionType = '', multiple } = {} },
 }) {
   // Top-level graphqlMethods do not have `def.model`,
   // so use def[nameSym] instead
   const nameA = multiple ? plural(name) : singular(name);
-  const nestedPostfix = isTopLevel ? '' : 'nested';
+  const nestedPostfix = kind === 'attribute' ? 'nested' : '';
   const nameB = `${actionType} ${nameA} ${inputObjectType} ${nestedPostfix}`;
   const nameC = capitalize(nameB);
   return camelize(nameC);

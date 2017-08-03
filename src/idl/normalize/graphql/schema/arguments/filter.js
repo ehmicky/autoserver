@@ -8,9 +8,9 @@ const filterActionTypes = ['find', 'delete', 'update'];
 const getFilterArgument = function ({ def, action = {}, filterObjectType }) {
   // Nested queries for findOne|deleteOne|updateOne do not use filters,
   // as it is implied from parent return value
-  const isTopLevelFilter = filterActionTypes.includes(action.type) &&
-    (def.isTopLevel || action.multiple);
-  if (!isTopLevelFilter) { return {}; }
+  const isNested = filterActionTypes.includes(action.type) &&
+    !(def.kind === 'attribute' && !action.multiple);
+  if (!isNested) { return {}; }
 
   const type = action.multiple
     ? filterObjectType

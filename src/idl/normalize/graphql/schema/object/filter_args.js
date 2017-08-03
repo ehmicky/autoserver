@@ -1,30 +1,30 @@
 'use strict';
 
 const filterArgs = function ({
-  childDef,
-  childDefName,
+  def,
+  defName,
   inputObjectType,
   action,
-  def,
+  parentDef,
 }) {
   // Filter arguments for single actions only include `id`
   return (
-    childDefName !== 'id' &&
+    defName !== 'id' &&
     inputObjectType === 'filter' &&
     !action.multiple
   // Nested data arguments do not include `id`
   ) || (
-    childDefName === 'id' &&
+    defName === 'id' &&
     inputObjectType === 'data' &&
-    !def.isTopLevel
+    parentDef.kind === 'attribute'
   // Readonly fields cannot be specified as data argument
   ) || (
     inputObjectType === 'data' &&
-    childDef.readOnly
+    def.readOnly
   // `updateOne|updateMany` do not allow data.id
   ) || (
     action.type === 'update' &&
-    childDefName === 'id' &&
+    defName === 'id' &&
     inputObjectType === 'data'
   );
 };

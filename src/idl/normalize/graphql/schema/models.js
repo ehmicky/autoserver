@@ -6,7 +6,7 @@ const { ACTIONS } = require('../../../../constants');
 const { getPluralActionName } = require('./name');
 
 // Retrieve attributes for a given GraphQL method
-const getTopDefAttrs = function ({ graphqlMethod, idl }) {
+const getModelDefs = function ({ graphqlMethod, idl }) {
   return ACTIONS
     .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type))
     .map(action => getActionModels({ idl, action }))
@@ -43,12 +43,11 @@ const normalizeModelDef = function ({ model, action }) {
     ...model,
     type: 'object',
     name: model.model,
-    isTopLevel: true,
     action,
     multiple: action.multiple,
   };
 };
 
 module.exports = {
-  getTopDefAttrs,
+  getModelDefs,
 };

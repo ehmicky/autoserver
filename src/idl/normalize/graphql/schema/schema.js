@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const { mapValues } = require('../../../../utilities');
 
 const { getType } = require('./types');
-const { getTopDefAttrs } = require('./models');
+const { getModelDefs } = require('./models');
 
 // Returns GraphQL schema
 const getSchema = function ({ idl, serverOpts }) {
@@ -22,26 +22,28 @@ const getTopDefs = function ({ idl }) {
   );
 };
 
+const commonTopDefsInit = {
+  kind: 'graphqlMethod',
+  type: 'object',
+};
+
 const topDefsInit = {
   query: {
+    ...commonTopDefsInit,
     description: 'Fetches information about different entities',
     name: 'Query',
   },
   mutation: {
+    ...commonTopDefsInit,
     description: 'Modifies information about different entities',
     name: 'Mutation',
   },
 };
 
 const getGraphqlMethodDef = function ({ topDef, topDefName, idl }) {
-  const attributes = getTopDefAttrs({ graphqlMethod: topDefName, idl });
+  const attributes = getModelDefs({ graphqlMethod: topDefName, idl });
 
-  return {
-    ...topDef,
-    type: 'object',
-    attributes,
-    isTopLevel: true,
-  };
+  return { ...topDef, attributes };
 };
 
 // Builds query|mutation type
