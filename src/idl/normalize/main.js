@@ -2,14 +2,12 @@
 
 const { monitoredReduce } = require('../../perf');
 
-const { normalizeCommands } = require('./commands');
 const { normalizeHelpers } = require('./helpers');
 const { normalizeAllModels } = require('./models');
 const { normalizeGraphQL } = require('./graphql');
 const { normalizeShortcuts } = require('./shortcuts');
 
 const normalizers = [
-  normalizeCommands,
   normalizeHelpers,
   normalizeAllModels,
   normalizeGraphQL,
