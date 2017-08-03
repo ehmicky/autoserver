@@ -1,14 +1,14 @@
 'use strict';
 
-const { mapValues, assignObject, pickBy } = require('../../utilities');
+const { mapValues, pickBy } = require('../../utilities');
 
 // Normalize idl.helpers
 const normalizeHelpers = function ({ idl, idl: { helpers = {} } }) {
   const flatHelpers = flattenHelpers({ helpers });
   const normalizedHelpers = normalizeSyntax({ helpers: flatHelpers });
-  const exposeMap = getExposeMap({ helpers: normalizedHelpers });
+  const exposedHelpers = getExposedHelpers({ helpers: normalizedHelpers });
 
-  return { ...idl, helpers: normalizedHelpers, exposeMap };
+  return { ...idl, helpers: normalizedHelpers, exposedHelpers };
 };
 
 // Helpers can be an array of objects, to help importing libraries using
@@ -29,26 +29,12 @@ const normalizeSyntax = function ({ helpers }) {
   });
 };
 
-// Extract idl.helpers.HELPER.exposeTo ['filter', ...] to
-// idl.exposeMap { filter: ['HELPER', ...] }
-const getExposeMap = function ({ helpers }) {
-  return exposeVars
-    .map(exposeVar => {
-      const matchingHelpers = getMatchingHelpers({ exposeVar, helpers });
-      return { [exposeVar]: matchingHelpers };
-    })
-    .reduce(assignObject, {});
+// Extract idl.helpers.HELPER.exposed ['filter', ...] to
+// idl.exposedHelpers ['HELPER', ...]
+const getExposedHelpers = function ({ helpers }) {
+  const exposedHelpers = pickBy(helpers, ({ exposed }) => exposed);
+  return Object.keys(exposedHelpers);
 };
-
-const getMatchingHelpers = function ({ exposeVar, helpers }) {
-  const matchingHelpers = pickBy(helpers, ({ exposeTo }) =>
-    exposeTo && exposeTo.includes(exposeVar)
-  );
-  return Object.keys(matchingHelpers);
-};
-
-// Possible values of helpers.HELPER.exposeTo
-const exposeVars = ['filter', 'data'];
 
 module.exports = {
   normalizeHelpers,
