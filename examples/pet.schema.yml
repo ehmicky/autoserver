@@ -367,6 +367,6 @@ validation:
     # Can be a function/JSL
     message: (`must not be equal to ${$EXPECTED}`)
     # Can restrict when the validation will be applied, using JSON schema types
-    type: [number, integer]
+    type: number
 # Custom property
 x-custom: anything
