@@ -111,7 +111,7 @@ models:
             # This JSON schema validation keyword can be applied to any type
             enum: [suspended, adorable]
           if:
-            minItems: 1
+            minItems: 10
           then:
             contains:
               enum: [suspended]
