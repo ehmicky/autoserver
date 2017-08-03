@@ -1,6 +1,8 @@
 'use strict';
 
-const { pick, omit, deepMerge } = require('../../../utilities');
+const { merge } = require('lodash');
+
+const { pick, omit } = require('../../../utilities');
 
 // Shallow copy nested models from the `model.id` they refer to
 const mergeNestedModel = function (attr, { idl: { models } }) {
@@ -11,7 +13,7 @@ const mergeNestedModel = function (attr, { idl: { models } }) {
   const modelId = getTargetModelId({ model });
 
   // Target model has less priority than nested attribute
-  const modelIdA = deepMerge(modelId, attr);
+  const modelIdA = merge({}, modelId, attr);
 
   return modelIdA;
 };
