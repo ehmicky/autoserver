@@ -5,6 +5,7 @@ const { monitoredReduce } = require('../perf');
 const { getIdlConf } = require('./conf');
 const { resolveRefs } = require('./ref_parsing');
 const { applyPlugins } = require('./plugins');
+const { applyModelDefault } = require('./model_default');
 const { validateIdl } = require('./validation');
 const { normalizeIdl } = require('./normalize');
 
@@ -15,6 +16,8 @@ const processors = [
   resolveRefs,
   // Apply idl.plugins
   applyPlugins,
+  // Apply idl.default
+  applyModelDefault,
   // Validate IDL correctness
   validateIdl,
   // Transform IDL to normalized form, used by application
