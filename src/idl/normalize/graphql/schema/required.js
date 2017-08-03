@@ -13,7 +13,12 @@ const graphQLRequiredFGetter = function (def, opts, getField) {
 };
 
 // Returns whether a field is required
-const getRequired = function ({ def, defName, action = {}, inputObjectType }) {
+const getRequired = function ({
+  def,
+  def: { action },
+  defName,
+  inputObjectType,
+}) {
   // Filter inputObjects `id` attribute is always required
   const isFilterId = defName === 'id' &&
     inputObjectType === 'filter' &&

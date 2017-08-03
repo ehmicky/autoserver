@@ -1,17 +1,11 @@
 'use strict';
 
-const filterArgs = function ({
-  def,
-  defName,
-  inputObjectType,
-  action,
-  parentDef,
-}) {
+const filterArgs = function ({ def, defName, inputObjectType, parentDef }) {
   // Filter arguments for single actions only include `id`
   return (
     defName !== 'id' &&
     inputObjectType === 'filter' &&
-    !action.multiple
+    !def.action.multiple
   // Nested data arguments do not include `id`
   ) || (
     defName === 'id' &&
@@ -23,7 +17,7 @@ const filterArgs = function ({
     def.readOnly
   // `updateOne|updateMany` do not allow data.id
   ) || (
-    action.type === 'update' &&
+    def.action.type === 'update' &&
     defName === 'id' &&
     inputObjectType === 'data'
   );

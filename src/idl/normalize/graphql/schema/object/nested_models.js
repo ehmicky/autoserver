@@ -3,33 +3,40 @@
 const { getAttrFieldName } = require('../name');
 
 const getNestedModels = function ({
+  parentDef,
   def,
   defName,
   inputObjectType,
-  action,
   topDef,
 }) {
-  const originalAttr = { [defName]: { ...def, typeName: defName } };
+  const defA = { ...def, action: def.action || parentDef.action };
+
+  const originalAttr = { [defName]: { ...defA, typeName: defName } };
 
   // Only for nested models, that are not data|filter arguments
-  const isNormalNested = def.target !== undefined &&
+  const isNormalNested = defA.target !== undefined &&
     inputObjectType === '';
   if (!isNormalNested) { return [originalAttr]; }
 
-  const nestedModels = getRecursiveModels({ def, defName, action, topDef });
+  const nestedModels = getRecursiveModels({ def: defA, defName, topDef });
   return [originalAttr, nestedModels];
 };
 
 // Copy nested models with a different name that includes the action,
 // e.g. `my_attribute` -> `createMyAttribute`
-const getRecursiveModels = function ({ def, defName, action, topDef }) {
-  const recursiveDef = getRecursiveDef({ def, action, topDef });
+const getRecursiveModels = function ({
+  def,
+  def: { action },
+  defName,
+  topDef,
+}) {
+  const recursiveDef = getRecursiveDef({ def, topDef });
   const name = getAttrFieldName({ modelName: defName, action });
   return { [name]: recursiveDef };
 };
 
-const getRecursiveDef = function ({ def, action, topDef }) {
-  const topLevelModel = findTopLevelModel({ def, action, topDef });
+const getRecursiveDef = function ({ def, topDef }) {
+  const topLevelModel = findTopLevelModel({ def, topDef });
 
   // Recursive models use the description of:
   //  - the target model, if inputObjectType === 'data|filter'
@@ -42,12 +49,15 @@ const getRecursiveDef = function ({ def, action, topDef }) {
   return { ...topLevelModel, metadata };
 };
 
-const findTopLevelModel = function ({ def, action, topDef }) {
+const findTopLevelModel = function ({
+  def: { target, action, multiple },
+  topDef,
+}) {
   const [typeName, topLevelModel] = Object.entries(topDef.attributes)
     .find(([, attr]) =>
-      attr.model === def.target &&
+      attr.model === target &&
       attr.action.type === action.type &&
-      attr.action.multiple === def.multiple
+      attr.action.multiple === multiple
     );
   return { ...topLevelModel, typeName };
 };
