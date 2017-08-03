@@ -27,10 +27,10 @@ const bindHelpers = function ({ params, type, idl }) {
 };
 
 // Restrict which JSL parameters are available for args.filter|data
-const filterParams = function ({ params, type, idl: { exposeMap } }) {
+const filterParams = function ({ params, type, idl: { exposedHelpers } }) {
   if (!restrictedTypes.includes(type)) { return params; }
 
-  const exposedParams = [...alwaysExposed, ...exposeMap[type]];
+  const exposedParams = [...alwaysExposed, ...exposedHelpers];
   const filteredParams = pickBy(params, (param, name) =>
     exposedParams.includes(name));
   return filteredParams;

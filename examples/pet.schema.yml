@@ -295,7 +295,7 @@ models:
 #            - $EXPECTED {any} - value passed to the validation rule
 #      - restrictions:
 #         - arg.filter|data can only use $ and $$ parameters
-#           One can expose some helpers using `exposeTo` though (see below)
+#           One can expose some helpers using `exposed` though (see below)
 #      - not every information is available as a parameter, following the
 #        principles:
 #         - should encourage agnosticism, e.g. prefer exposing $COMMAND over
@@ -323,14 +323,13 @@ helpers:
       value: 2005-01-01
       # By default, helpers are not available to arg.filter|data
       # But they can be exposed with the following property
-      exposeTo: [filter, data]
+      exposed: true
     # One can require JavaScript files (Node.js)
     myOtherMathFunc:
       value:
         $ref: math_func.js
       # Pass JSL parameters as first argument to non-inline function
       useParams: true
-      exposeTo: [data]
     # Dummy constant
     user: '(({ id: "1" }))'
   # One can require entire libraries.

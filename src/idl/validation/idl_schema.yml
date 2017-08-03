@@ -198,11 +198,8 @@ definitions:
         properties:
           useParams:
             type: boolean
-          exposeTo:
-            type: array
-            uniqueItems: true
-            items:
-              enum: [filter, data]
+          exposed:
+            type: boolean
   # idl.plugins
   plugins:
     type: array
