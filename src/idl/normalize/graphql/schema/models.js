@@ -1,13 +1,6 @@
 'use strict';
 
-const { difference } = require('lodash');
-
-const {
-  assignObject,
-  mapValues,
-  mapKeys,
-  pickBy,
-} = require('../../../../utilities');
+const { assignObject, mapValues, mapKeys } = require('../../../../utilities');
 const { ACTIONS } = require('../../../../constants');
 
 const { getPluralActionName } = require('./name');
@@ -31,14 +24,9 @@ const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
 };
 
 const getAllModelsByAction = function ({ models, action }) {
-  // Remove model that are not allowed for a given action
-  const allowedModels = pickBy(models, model =>
-    isAllowedModel({ model, action })
-  );
-
   // E.g. 'my_model' + 'findMany' -> 'findMyModels'
   // This will be used as the top-level graphqlMethod
-  const renamedModels = mapKeys(allowedModels, (model, modelName) =>
+  const renamedModels = mapKeys(models, (model, modelName) =>
     getPluralActionName({ modelName, action })
   );
 
@@ -52,16 +40,6 @@ const getAllModelsByAction = function ({ models, action }) {
     type: 'object',
     validate: {},
   }));
-};
-
-// Filter allowed actions on a given model
-const isAllowedModel = function ({ model: { commands }, action }) {
-  const actions = ACTIONS
-    .filter(({ commandNames }) =>
-      difference(commandNames, commands).length === 0
-    )
-    .map(({ name }) => name);
-  return actions.includes(action.name);
 };
 
 module.exports = {
