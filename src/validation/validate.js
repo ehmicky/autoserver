@@ -1,16 +1,9 @@
 'use strict';
 
-const { memoize, assignArray } = require('../utilities');
+const { assignArray } = require('../utilities');
 
 const { reportErrors } = require('./report_error');
-const { getRawValidator } = require('./base');
-
-const getValidator = function ({ schema }) {
-  const ajv = getRawValidator();
-  return ajv.compile(schema);
-};
-
-const mGetValidator = memoize(getValidator);
+const { compile } = require('./compile');
 
 /**
  * Perform a validation, using a JSON schema, and a `data` as input
@@ -25,14 +18,13 @@ const mGetValidator = memoize(getValidator);
  *   {string} [reportInfo.modelName]
  *   {any} [extra] - custom information passed to custom validation functions
  **/
-const validate = function ({ schema, data, reportInfo, extra }) {
-  // Retrieves validation library
-  const validator = mGetValidator({ schema });
+const validate = function ({ schema, data, reportInfo, extra, idl }) {
+  const compiledSchema = compile({ idl, schema });
   const dataWithExtra = getDataWithExtra({ data, extra });
-  const isValid = validator(dataWithExtra);
+  const isValid = compiledSchema(dataWithExtra);
   if (isValid) { return; }
 
-  const errors = validator.errors
+  const errors = compiledSchema.errors
     .reduce(assignArray, [])
     .filter(val => val);
 
@@ -49,7 +41,5 @@ const getDataWithExtra = function ({ data, extra }) {
 };
 
 module.exports = {
-  getValidator: mGetValidator,
-  getRawValidator,
   validate,
 };

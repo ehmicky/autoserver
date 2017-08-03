@@ -40,10 +40,17 @@ const validateAttr = function ({ input, dataVar, attr, schema, jsl }) {
   );
 };
 
-const validateSingleAttr = function ({ input, dataVar, schema, jsl, data }) {
+const validateSingleAttr = function ({
+  input,
+  input: { idl },
+  dataVar,
+  schema,
+  jsl,
+  data,
+}) {
   const value = removeAllJsl(data);
   const reportInfo = { type, dataVar };
-  validate({ schema, data: value, reportInfo, extra: jsl });
+  validate({ idl, schema, data: value, reportInfo, extra: jsl });
 
   return input;
 };

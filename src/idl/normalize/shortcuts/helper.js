@@ -6,12 +6,12 @@ const { mapValues, pickBy } = require('../../../utilities');
 // `filter` allow selecting attributes
 // `mapAttrs` allow modifying attributes, as a whole
 // `mapAttr` allow modifying each individual attribute
-const mapModels = function ({ models }, { filter, mapAttrs, mapAttr }) {
+const mapModels = function ({ idl }, { filter, mapAttrs, mapAttr }) {
   const filterFunc = getFilter({ filter });
 
   return mapValues(
-    models,
-    model => mapModel({ model, filterFunc, mapAttrs, mapAttr }),
+    idl.models,
+    model => mapModel({ model, filterFunc, mapAttrs, mapAttr, idl }),
   );
 };
 
@@ -21,31 +21,35 @@ const mapModel = function ({
   filterFunc,
   mapAttrs,
   mapAttr,
+  idl,
 }) {
   const attributesA = pickBy(
     attributes,
-    (attr, attrName) => filterFunc(attr, attrName, model),
+    (attr, attrName) => filterFunc(attr, { attrName, model }),
   );
   const attributesB = mapAttr
-    ? mapValues(attributesA, (attr, attrName) => mapAttr(attr, attrName, model))
+    ? mapValues(
+      attributesA,
+      (attr, attrName) => mapAttr(attr, { model, attrName, idl }),
+    )
     : attributesA;
   const attributesC = mapAttrs
-    ? mapAttrs(attributesB, model)
+    ? mapAttrs(attributesB, { model, idl })
     : attributesB;
   return attributesC;
 };
 
 const getFilter = function ({ filter = () => true }) {
   if (typeof filter === 'string') {
-    return attrFilter.bind(null, filter);
+    return propFilter.bind(null, filter);
   }
 
   return filter;
 };
 
 // Shortcut notation for `filter`
-const attrFilter = function (attrName, model) {
-  return model[attrName] !== undefined;
+const propFilter = function (propName, attr) {
+  return attr[propName] !== undefined;
 };
 
 module.exports = {

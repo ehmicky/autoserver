@@ -1,21 +1,27 @@
 'use strict';
 
 const { runJsl } = require('../jsl');
+const { memoize } = require('../utilities');
 
-const { getRawValidator, addKeyword } = require('./base');
+const { getValidator, addKeyword } = require('./validator');
 
 // Add custom validation keywords, from idl.validation
-const addCustomKeywords = function ({ idl, idl: { validation = {} } }) {
-  const ajv = getRawValidator();
+const getCustomValidator = function ({ idl, idl: { validation = {} } }) {
+  const ajv = getValidator();
 
-  const ajvA = Object.entries(validation).reduce(
+  return Object.entries(validation).reduce(
     (ajvB, [keyword, { test: testFunc, message, type }]) =>
       addCustomKeyword({ ajv: ajvB, keyword, testFunc, message, type, idl }),
     ajv,
   );
-
-  return { ajv: ajvA };
 };
+
+// We do want the re-run if idl.validation changes.
+// Serializing the whole IDL as is too slow, so we just take keywords list.
+const mGetCustomValidator = memoize(getCustomValidator, {
+  serializer: ({ idl: { validation = {} } }) =>
+    `${Object.keys(validation).join(',')}`,
+});
 
 const addCustomKeyword = function ({
   ajv,
@@ -60,5 +66,5 @@ const addCustomKeyword = function ({
 };
 
 module.exports = {
-  addCustomKeywords,
+  getCustomValidator: mGetCustomValidator,
 };

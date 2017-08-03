@@ -83,7 +83,7 @@ const pagination = async function (nextFunc, input) {
 // Transform args.pageSize|before|after|page into args.limit|offset|nFilter
 const processInput = function ({
   input,
-  input: { args, command, action, modelName },
+  input: { args, command, action, modelName, idl },
   maxPageSize,
 }) {
   validatePaginationInput({
@@ -92,6 +92,7 @@ const processInput = function ({
     command,
     modelName,
     maxPageSize,
+    idl,
   });
 
   if (!mustPaginateOutput({ args, command })) { return input; }
@@ -104,7 +105,7 @@ const processInput = function ({
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
 const processOutput = function ({
-  input: { command, action, modelName },
+  input: { command, action, modelName, idl },
   response,
   args,
   maxPageSize,
@@ -122,6 +123,7 @@ const processOutput = function ({
     modelName,
     maxPageSize,
     response: responseB,
+    idl,
   });
 
   return responseB;

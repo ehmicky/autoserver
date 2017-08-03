@@ -6,10 +6,10 @@ const maps = require('./maps');
 const { mapModels } = require('./helper');
 
 // Compile-time transformations just meant for runtime performance optimization
-const normalizeShortcuts = function ({ idl, idl: { models } }) {
+const normalizeShortcuts = function ({ idl }) {
   const shortcuts = Object.entries(maps)
     .map(([name, input]) => {
-      const shortcut = mapModels({ models }, input);
+      const shortcut = mapModels({ idl }, input);
       return { [name]: shortcut };
     })
     .reduce(assignObject, {});

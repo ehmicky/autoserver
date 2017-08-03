@@ -26,10 +26,10 @@ const handleArgs = async function (nextFunc, input) {
 };
 
 const validateArgs = function ({
-  input: { args, action, serverOpts: { maxDataLength } },
+  input: { args, action, serverOpts: { maxDataLength }, idl },
 }) {
   validateBasic({ args });
-  validateSyntax({ args, action, maxDataLength });
+  validateSyntax({ args, action, maxDataLength, idl });
   validateLimits({ args, maxDataLength });
 };
 
