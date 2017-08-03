@@ -14,6 +14,7 @@ const validatePaginationOutput = function ({
   modelName,
   maxPageSize,
   response: { data, metadata },
+  idl,
 }) {
   const schema = getOutputSchema({ maxPageSize });
   const pages = getOutputData({ metadata });
@@ -23,7 +24,7 @@ const validatePaginationOutput = function ({
     modelName,
     dataVar: 'response',
   };
-  validate({ schema, data: pages, reportInfo });
+  validate({ idl, schema, data: pages, reportInfo });
 
   const { usedPageSize } = getPaginationInfo({ args });
 

@@ -12,6 +12,7 @@ const validatePaginationInput = function ({
   command,
   modelName,
   maxPageSize,
+  idl,
 }) {
   const schema = getInputSchema({ args, command, maxPageSize });
   const data = getInputData({ args });
@@ -21,7 +22,7 @@ const validatePaginationInput = function ({
     modelName,
     dataVar: 'arguments',
   };
-  validate({ schema, data, reportInfo });
+  validate({ idl, schema, data, reportInfo });
 };
 
 module.exports = {

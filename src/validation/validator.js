@@ -5,13 +5,13 @@ const ajvKeywords = require('ajv-keywords');
 
 const { memoize } = require('../utilities');
 
-const getRawValidator = function () {
+const getValidator = function () {
   const ajv = new Ajv(ajvOptions);
   const ajvA = addKeywords(ajv);
   return ajvA;
 };
 
-const mGetRawValidator = memoize(getRawValidator);
+const mGetValidator = memoize(getValidator);
 
 const ajvOptions = {
   allErrors: true,
@@ -33,7 +33,7 @@ const addKeywords = function (ajv) {
   );
 };
 
-const addKeyword = function ({ keyword, def, ajv }) {
+const addKeyword = function ({ ajv, keyword, def }) {
   ajv.addKeyword(keyword, def);
   return ajv;
 };
@@ -52,6 +52,6 @@ const customBaseKeywords = {
 };
 
 module.exports = {
-  getRawValidator: mGetRawValidator,
+  getValidator: mGetValidator,
   addKeyword,
 };

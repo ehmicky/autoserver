@@ -110,9 +110,9 @@ models:
             pattern: '^[a-zA-Z0-9 ]+$'
             # This JSON schema validation keyword can be applied to any type
             enum: [suspended, adorable]
-          contains:
-            enum: [suspended, adorable]
-          additionalItems: false
+          #contains:
+          #  enum: [suspended, adorable]
+          #additionalItems: false
           minItems: 0
           maxItems: 30
           uniqueItems: true

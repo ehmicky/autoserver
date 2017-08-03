@@ -2,7 +2,7 @@
 
 const { sortArray } = require('../../../../utilities');
 
-const mapAttrs = function (type, attrs, { transformOrder }) {
+const mapAttrs = function (type, attrs, { model: { transformOrder } }) {
   const attrsA = Object.entries(attrs)
     .map(([attrName, { [type]: transform }]) => ({ attrName, transform }));
   const attrsB = sortAttrs({ attrs: attrsA, transformOrder });
