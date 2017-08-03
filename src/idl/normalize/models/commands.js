@@ -15,15 +15,12 @@ const normalizeCommands = function (model) {
   return { ...model, commands: commandsA };
 };
 
-// By default, include all commands but deleteMany
+// By default, include all commands
 const defaultCommands = [
-  'createOne',
-  'createMany',
-  'readOne',
-  'readMany',
-  'updateOne',
-  'updateMany',
-  'deleteOne',
+  'create',
+  'read',
+  'update',
+  'delete',
 ];
 
 module.exports = {
