@@ -52,13 +52,8 @@ const getChildField = function ({
   const childAction = defA.action || action;
   const childOpts = { ...opts, action: childAction };
 
-  const isRequired = getRequired({
-    def: defA,
-    defName,
-    ...childOpts,
-  });
+  const isRequired = getRequired({ def: defA, defName, ...childOpts });
 
-  console.log(defA.name, defA.target, defName);
   const field = getField(defA, { ...childOpts, isRequired });
 
   // Use the nested attribute's metadata, if this is a nested attribute

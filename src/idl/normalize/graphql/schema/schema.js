@@ -31,12 +31,12 @@ const topDefsInit = {
   query: {
     ...commonTopDefsInit,
     description: 'Fetches information about different entities',
-    name: 'Query',
+    typeName: 'Query',
   },
   mutation: {
     ...commonTopDefsInit,
     description: 'Modifies information about different entities',
-    name: 'Mutation',
+    typeName: 'Mutation',
   },
 };
 

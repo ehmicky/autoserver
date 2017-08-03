@@ -6,36 +6,29 @@ const { plural, singular } = require('pluralize');
 // Returns type name, titleized with action prepended, in singular form,
 // e.g. `FindPet`, for schema type name
 const getTypeName = function ({
-  def: { name, kind },
-  opts: { inputObjectType, action: { type: actionType = '', multiple } = {} },
+  def: { kind, typeName },
+  opts: { inputObjectType },
 }) {
-  // Top-level graphqlMethods do not have `def.model`,
-  // so use def[nameSym] instead
-  const nameA = multiple ? plural(name) : singular(name);
   const nestedPostfix = kind === 'attribute' ? 'nested' : '';
-  const nameB = `${actionType} ${nameA} ${inputObjectType} ${nestedPostfix}`;
-  const nameC = capitalize(nameB);
-  return camelize(nameC);
+  const nameA = `${typeName} ${inputObjectType} ${nestedPostfix}`;
+  const nameB = capitalize(nameA);
+  return camelize(nameB);
 };
 
-const getActionName = function ({ modelName, action }) {
-  return camelize(`${action.type} ${modelName}`);
-};
-
-// Returns action name, camelized, in plural form,
+// Returns model field name, camelized, in plural form,
 // e.g. `findPets` or `deletePets`
-const getPluralActionName = function ({ modelName, action }) {
-  const pluralModelName = pluralizeModel({ modelName, action });
-  return getActionName({ modelName: pluralModelName, action });
+const getModelFieldName = function ({ modelName, action }) {
+  const modelNameA = action.multiple ? plural(modelName) : singular(modelName);
+  return camelize(`${action.type} ${modelNameA}`);
 };
 
-const pluralizeModel = function ({ modelName, action: { multiple } }) {
-  if (multiple) { return plural(modelName); }
-  return singular(modelName);
+// Returns recursive attributes field names
+const getAttrFieldName = function ({ modelName, action }) {
+  return camelize(`${action.type} ${modelName}`);
 };
 
 module.exports = {
   getTypeName,
-  getPluralActionName,
-  getActionName,
+  getModelFieldName,
+  getAttrFieldName,
 };

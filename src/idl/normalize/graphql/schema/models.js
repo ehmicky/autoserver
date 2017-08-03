@@ -3,7 +3,7 @@
 const { assignObject, mapValues, mapKeys } = require('../../../../utilities');
 const { ACTIONS } = require('../../../../constants');
 
-const { getPluralActionName } = require('./name');
+const { getModelFieldName } = require('./name');
 
 // Retrieve attributes for a given GraphQL method
 const getModelDefs = function ({ graphqlMethod, idl }) {
@@ -29,7 +29,7 @@ const getActionModels = function ({ idl: { models }, action }) {
 // This will be used as the top-level graphqlMethod
 const nameModelsActions = function ({ models, action }) {
   return mapKeys(models, (model, modelName) =>
-    getPluralActionName({ modelName, action })
+    getModelFieldName({ modelName, action })
   );
 };
 
@@ -42,7 +42,6 @@ const normalizeModelDef = function ({ model, action }) {
   return {
     ...model,
     type: 'object',
-    name: model.model,
     action,
     multiple: action.multiple,
   };
