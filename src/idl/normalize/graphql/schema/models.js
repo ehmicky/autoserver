@@ -43,7 +43,6 @@ const normalizeModelDef = function ({ model, action }) {
     ...model,
     type: 'object',
     action,
-    multiple: action.multiple,
   };
 };
 

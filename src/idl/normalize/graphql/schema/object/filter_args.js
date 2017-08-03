@@ -5,7 +5,7 @@ const filterArgs = function ({ def, defName, inputObjectType, parentDef }) {
   return (
     defName !== 'id' &&
     inputObjectType === 'filter' &&
-    !def.action.multiple
+    !parentDef.action.multiple
   // Nested data arguments do not include `id`
   ) || (
     defName === 'id' &&
@@ -17,9 +17,9 @@ const filterArgs = function ({ def, defName, inputObjectType, parentDef }) {
     def.readOnly
   // `updateOne|updateMany` do not allow data.id
   ) || (
-    def.action.type === 'update' &&
     defName === 'id' &&
-    inputObjectType === 'data'
+    inputObjectType === 'data' &&
+    parentDef.action.type === 'update'
   );
 };
 

@@ -6,15 +6,6 @@ const { getArguments } = require('./arguments');
 const { getFieldGetter } = require('./fields');
 
 // Retrieves the GraphQL type for a given IDL definition
-// args: use getType() def.action.multiple
-// fields filtering: use getType() def.action.multiple
-// array: def.multiple true -> def.multiple false
-// top models: adds model.action.multiple + model.multiple
-// nested model query: look for nestedDef.multiple == model.action.multiple
-// top models names: using constant action.multiple
-
-// def.action: only on models, use that
-// field opts.action if def.action || parentField's opts.action
 const getType = function (def, opts = {}) {
   return getField(def, opts).type;
 };
