@@ -1,6 +1,6 @@
 'use strict';
 
-const { getActionName } = require('../name');
+const { getAttrFieldName } = require('../name');
 
 const getNestedModels = function ({
   def,
@@ -9,7 +9,8 @@ const getNestedModels = function ({
   action,
   topDef,
 }) {
-  const originalAttr = { [defName]: def };
+  const originalAttr = { [defName]: { ...def, typeName: defName } };
+
   // Only for nested models, that are not data|filter arguments
   const isNormalNested = def.target !== undefined &&
     inputObjectType === '';
@@ -23,7 +24,7 @@ const getNestedModels = function ({
 // e.g. `my_attribute` -> `createMyAttribute`
 const getRecursiveModels = function ({ def, defName, action, topDef }) {
   const recursiveDef = getRecursiveDef({ def, action, topDef });
-  const name = getActionName({ modelName: defName, action });
+  const name = getAttrFieldName({ modelName: defName, action });
   return { [name]: recursiveDef };
 };
 
@@ -42,11 +43,13 @@ const getRecursiveDef = function ({ def, action, topDef }) {
 };
 
 const findTopLevelModel = function ({ def, action, topDef }) {
-  return Object.values(topDef.attributes).find(attr =>
-    attr.model === def.target &&
-    attr.action.type === action.type &&
-    attr.action.multiple === def.multiple
-  );
+  const [typeName, topLevelModel] = Object.entries(topDef.attributes)
+    .find(([, attr]) =>
+      attr.model === def.target &&
+      attr.action.type === action.type &&
+      attr.action.multiple === def.multiple
+    );
+  return { ...topLevelModel, typeName };
 };
 
 module.exports = {
