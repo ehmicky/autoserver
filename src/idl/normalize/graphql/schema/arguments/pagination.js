@@ -7,7 +7,7 @@ const paginationActions = ['find', 'update', 'delete'];
 const fullPaginationActions = ['find'];
 
 const getPaginationArgument = function ({
-  action,
+  def: { action },
   serverOpts: { defaultPageSize, maxPageSize },
 }) {
   // Only with actions that return an array and do not provide array of data,

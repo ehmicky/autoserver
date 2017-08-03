@@ -5,7 +5,11 @@ const { GraphQLNonNull } = require('graphql');
 // Filters argument, i.e. only queries entities that match specified attributes
 const filterActionTypes = ['find', 'delete', 'update'];
 
-const getFilterArgument = function ({ def, action = {}, filterObjectType }) {
+const getFilterArgument = function ({
+  def,
+  def: { action },
+  filterObjectType,
+}) {
   // Nested queries for findOne|deleteOne|updateOne do not use filters,
   // as it is implied from parent return value
   const isNested = filterActionTypes.includes(action.type) &&

@@ -3,7 +3,7 @@
 const { GraphQLString } = require('graphql');
 
 // `order_by` argument, i.e. used for sorting results
-const getOrderArgument = function ({ action }) {
+const getOrderArgument = function ({ def: { action } }) {
   // Only with *Many actions
   if (!action.multiple) { return {}; }
 

@@ -6,7 +6,7 @@ const { GraphQLNonNull, GraphQLList } = require('graphql');
 const dataActionTypes = ['create', 'upsert', 'replace', 'update'];
 const multipleDataActionTypes = ['create', 'upsert', 'replace'];
 
-const getDataArgument = function ({ action = {}, dataObjectType }) {
+const getDataArgument = function ({ def: { action }, dataObjectType }) {
   // Only for mutation actions, but not delete
   if (!dataActionTypes.includes(action.type)) { return {}; }
 
