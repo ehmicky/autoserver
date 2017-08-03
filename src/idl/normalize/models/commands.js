@@ -1,13 +1,30 @@
 'use strict';
 
-const { normalizeCommandNames } = require('../commands');
+const { assignArray } = require('../../../utilities');
 
-// Normalize `commands`, and adds defaults
-const normalizeCommands = function (model, { idl }) {
-  const commandNames = model.commands || idl.commands;
-  const commands = normalizeCommandNames(commandNames);
-  return { ...model, commands };
+// Normalize `commands` shortcuts, e.g. 'read' -> 'readOne' + 'readMany'
+// Also add defaults
+const normalizeCommands = function (model) {
+  const { commands = defaultCommands } = model;
+  const commandsA = commands
+    .map(name =>
+      ((/(One)|(Many)$/).test(name) ? name : [`${name}One`, `${name}Many`])
+    )
+    .reduce(assignArray, []);
+
+  return { ...model, commands: commandsA };
 };
+
+// By default, include all commands but deleteMany
+const defaultCommands = [
+  'createOne',
+  'createMany',
+  'readOne',
+  'readMany',
+  'updateOne',
+  'updateMany',
+  'deleteOne',
+];
 
 module.exports = {
   normalizeCommands,
