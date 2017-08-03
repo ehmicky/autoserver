@@ -8,7 +8,7 @@ const getNestedModels = function ({
   childDefName,
   inputObjectType,
   action,
-  rootDef,
+  topDef,
 }) {
   const originalAttr = { [childDefName]: childDef };
   if (!isNestedModel({ childDef })) { return [originalAttr]; }
@@ -19,7 +19,7 @@ const getNestedModels = function ({
     childDefName,
     inputObjectType,
     action,
-    rootDef,
+    topDef,
   });
   return [nestedId, nestedModels];
 };
@@ -42,18 +42,18 @@ const getRecursiveModels = function ({
   childDefName,
   inputObjectType,
   action,
-  rootDef,
+  topDef,
 }) {
   // Not for data|filter arguments
   if (inputObjectType !== '') { return; }
 
-  const recursiveDef = getRecursiveDef({ childDef, action, rootDef });
+  const recursiveDef = getRecursiveDef({ childDef, action, topDef });
   const name = getActionName({ modelName: childDefName, action });
   return { [name]: recursiveDef };
 };
 
-const getRecursiveDef = function ({ childDef, action, rootDef }) {
-  const topLevelModel = findTopLevelModel({ childDef, action, rootDef });
+const getRecursiveDef = function ({ childDef, action, topDef }) {
+  const topLevelModel = findTopLevelModel({ childDef, action, topDef });
 
   // Recursive models use the description of:
   //  - the target model, if inputObjectType === 'data|filter'
@@ -67,8 +67,8 @@ const getRecursiveDef = function ({ childDef, action, rootDef }) {
   return removeTopLevel({ def: topLevelModelA });
 };
 
-const findTopLevelModel = function ({ childDef, action, rootDef }) {
-  return Object.values(rootDef.attributes).find(attr =>
+const findTopLevelModel = function ({ childDef, action, topDef }) {
+  return Object.values(topDef.attributes).find(attr =>
     attr.model === childDef.target &&
     attr.action.type === action.type &&
     attr.action.multiple === childDef.multiple

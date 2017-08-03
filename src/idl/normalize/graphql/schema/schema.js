@@ -3,37 +3,26 @@
 const { GraphQLSchema } = require('graphql');
 const { v4: uuidv4 } = require('uuid');
 
-const { memoize, mapValues } = require('../../../../utilities');
+const { mapValues } = require('../../../../utilities');
 
 const { getType } = require('./types');
-const { getModelsByGraphqlMethod } = require('./models');
-const { nameSym } = require('./name');
+const { getTopDefAttrs } = require('./models');
 
 // Returns GraphQL schema
-const getSchema = function ({
-  idl: { models },
-  serverOpts: {
-    defaultPageSize,
-    maxPageSize,
-  },
-}) {
-  const schemaId = uuidv4();
-
-  // Apply `getType` to each top-level graphqlMethod, i.e. Query and Mutation
-  const schemaFields = mapValues(rootDefs, (rootDef, graphqlMethod) => {
-    // Builds query|mutation type
-    const def = getGraphqlMethodDef({ rootDef, graphqlMethod, models });
-    const opts = { defaultPageSize, maxPageSize, rootDef: def, schemaId };
-    return getType(def, opts);
-  });
-
-  const schema = new GraphQLSchema(schemaFields);
+const getSchema = function ({ idl, serverOpts }) {
+  const topDefs = getTopDefs({ idl });
+  const topTypes = getTopTypes({ topDefs, serverOpts });
+  const schema = new GraphQLSchema(topTypes);
   return schema;
 };
 
-const mGetSchema = memoize(getSchema);
+const getTopDefs = function ({ idl }) {
+  return mapValues(topDefsInit, (topDef, topDefName) =>
+    getGraphqlMethodDef({ topDef, topDefName, idl })
+  );
+};
 
-const rootDefs = {
+const topDefsInit = {
   query: {
     description: 'Fetches information about different entities',
     name: 'Query',
@@ -44,21 +33,26 @@ const rootDefs = {
   },
 };
 
-const getGraphqlMethodDef = function ({
-  rootDef: { description, name },
-  graphqlMethod,
-  models,
-}) {
-  const attributes = getModelsByGraphqlMethod({ graphqlMethod, models });
+const getGraphqlMethodDef = function ({ topDef, topDefName, idl }) {
+  const attributes = getTopDefAttrs({ graphqlMethod: topDefName, idl });
+
   return {
+    ...topDef,
     type: 'object',
-    [nameSym]: name,
-    description,
     attributes,
     isTopLevel: true,
   };
 };
 
+// Builds query|mutation type
+const getTopTypes = function ({ topDefs, serverOpts }) {
+  const schemaId = uuidv4();
+
+  return mapValues(topDefs, topDef =>
+    getType(topDef, { serverOpts, topDef, schemaId })
+  );
+};
+
 module.exports = {
-  getSchema: mGetSchema,
+  getSchema,
 };

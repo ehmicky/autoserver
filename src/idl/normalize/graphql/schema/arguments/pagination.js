@@ -8,8 +8,7 @@ const fullPaginationActions = ['find'];
 
 const getPaginationArgument = function ({
   action,
-  defaultPageSize,
-  maxPageSize,
+  serverOpts: { defaultPageSize, maxPageSize },
 }) {
   // Only with actions that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and

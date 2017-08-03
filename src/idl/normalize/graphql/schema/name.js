@@ -3,21 +3,19 @@
 const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
-const nameSym = Symbol('modelName');
-
 // Returns type name, titleized with action prepended, in singular form,
 // e.g. `FindPet`, for schema type name
 const getTypeName = function ({
-  def: { model, [nameSym]: modelName, isTopLevel },
+  def: { name, isTopLevel },
   opts: { inputObjectType, action: { type: actionType = '', multiple } = {} },
 }) {
   // Top-level graphqlMethods do not have `def.model`,
   // so use def[nameSym] instead
-  const actualModel = model || modelName;
-  const name = multiple ? plural(actualModel) : singular(actualModel);
+  const nameA = multiple ? plural(name) : singular(name);
   const nestedPostfix = isTopLevel ? '' : 'nested';
-  const typeName = `${actionType} ${name} ${inputObjectType} ${nestedPostfix}`;
-  return camelize(capitalize(typeName));
+  const nameB = `${actionType} ${nameA} ${inputObjectType} ${nestedPostfix}`;
+  const nameC = capitalize(nameB);
+  return camelize(nameC);
 };
 
 const getActionName = function ({ modelName, action }) {
@@ -40,5 +38,4 @@ module.exports = {
   getTypeName,
   getPluralActionName,
   getActionName,
-  nameSym,
 };
