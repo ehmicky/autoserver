@@ -19,7 +19,7 @@
 #  - routing
 
 # IDL file version, required
-version: 1.0.0
+engine: api-engine 1.0.0
 # List of models
 models:
   # Name of the model, used in routes, e.g. REST endpoints or GraphQL actions
