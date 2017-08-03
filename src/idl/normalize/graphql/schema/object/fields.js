@@ -10,7 +10,7 @@ const { filterArgs } = require('./filter_args');
 
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (def, opts, getField) {
-  const { action = {}, inputObjectType, rootDef } = opts;
+  const { action = {}, inputObjectType, topDef } = opts;
 
   // This needs to be function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type
@@ -21,7 +21,7 @@ const getObjectFields = function (def, opts, getField) {
         childDefName,
         inputObjectType,
         action,
-        rootDef,
+        topDef,
       }))
       .reduce((memo, value) => Object.assign({}, memo, ...value), {});
     const filteredFields = omitBy(fieldsWithNested, (childDef, childDefName) =>

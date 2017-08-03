@@ -5,43 +5,50 @@ const { ACTIONS } = require('../../../../constants');
 
 const { getPluralActionName } = require('./name');
 
+// Retrieve attributes for a given GraphQL method
+const getTopDefAttrs = function ({ graphqlMethod, idl }) {
+  return ACTIONS
+    .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type))
+    .map(action => getActionModels({ idl, action }))
+    .reduce(assignObject, {});
+};
+
 // Mapping from IDL actions to GraphQL methods
 const graphqlMethods = {
   query: ['find'],
   mutation: ['create', 'replace', 'update', 'upsert', 'delete'],
 };
 
-// Retrieve models for a given GraphQL method
-const getModelsByGraphqlMethod = function ({ graphqlMethod, models }) {
-  // Only include actions for a given GraphQL method
-  const actions = ACTIONS
-    .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type));
-
-  // Iterate through each action
-  return actions
-    .map(action => getAllModelsByAction({ models, action }))
-    .reduce(assignObject, {});
+const getActionModels = function ({ idl: { models }, action }) {
+  const modelsA = nameModelsActions({ models, action });
+  const modelsB = normalizeModelsDef({ models: modelsA, action });
+  return modelsB;
 };
 
-const getAllModelsByAction = function ({ models, action }) {
-  // E.g. 'my_model' + 'findMany' -> 'findMyModels'
-  // This will be used as the top-level graphqlMethod
-  const renamedModels = mapKeys(models, (model, modelName) =>
+// E.g. 'my_model' + 'findMany' -> 'findMyModels'
+// This will be used as the top-level graphqlMethod
+const nameModelsActions = function ({ models, action }) {
+  return mapKeys(models, (model, modelName) =>
     getPluralActionName({ modelName, action })
   );
+};
 
-  // Iterate through each model
-  // Add action information to the top-level model
-  return mapValues(renamedModels, model => ({
+// Add action information to each top-level model
+const normalizeModelsDef = function ({ models, action }) {
+  return mapValues(models, model => normalizeModelDef({ model, action }));
+};
+
+const normalizeModelDef = function ({ model, action }) {
+  return {
     ...model,
+    type: 'object',
+    name: model.model,
     isTopLevel: true,
     action,
     multiple: action.multiple,
-    type: 'object',
-    validate: {},
-  }));
+  };
 };
 
 module.exports = {
-  getModelsByGraphqlMethod,
+  getTopDefAttrs,
 };
