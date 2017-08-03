@@ -2,6 +2,7 @@
 
 const { runJsl } = require('../jsl');
 const { memoize } = require('../utilities');
+const { throwError } = require('../error');
 
 const { getValidator, addKeyword } = require('./validator');
 
@@ -31,8 +32,10 @@ const addCustomKeyword = function ({
   type,
   idl,
 }) {
+  const ajvA = validateCustomKeyword({ ajv, type, keyword });
+
   return addKeyword({
-    ajv,
+    ajv: ajvA,
     keyword,
     def: {
       // eslint-disable-next-line max-params
@@ -63,6 +66,19 @@ const addCustomKeyword = function ({
       $data: true,
     },
   });
+};
+
+const validateCustomKeyword = function ({ ajv, type, keyword }) {
+  const isRedundant = Array.isArray(type) &&
+    type.includes('number') &&
+    type.includes('integer');
+
+  if (isRedundant) {
+    const message = `Custom validation keyword 'idl.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`;
+    throwError(message, { reason: 'IDL_VALIDATION' });
+  }
+
+  return ajv;
 };
 
 module.exports = {
