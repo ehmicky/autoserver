@@ -2,9 +2,7 @@
 
 const { default: graphqlAnywhere } = require('graphql-anywhere');
 
-/**
- * Executes GraphQL request
- */
+// Executes GraphQL request
 const handleQuery = async function ({
   resolver,
   queryDocument,

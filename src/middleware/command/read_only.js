@@ -2,13 +2,11 @@
 
 const { omit } = require('../../utilities');
 
-/**
- * Removes attributes marked in IDL as `readOnly`.
- * This is done silently (i.e. does not raise warnings or errors),
- * because readonly attributes can be part of a normal response, and clients
- * should be able to send responses back as is without having to remove
- * readonly attributes.
- **/
+// Removes attributes marked in IDL as `readOnly`.
+// This is done silently (i.e. does not raise warnings or errors),
+// because readonly attributes can be part of a normal response, and clients
+// should be able to send responses back as is without having to remove
+// readonly attributes.
 const handleReadOnly = async function (nextFunc, input) {
   const inputA = applyReadOnly({ input });
 

@@ -1,11 +1,8 @@
 'use strict';
 
-/**
- * Tries to guess a value's type from its string serialized value
- *
- * @param {string} string
- * @param {string|integer|float|boolean} value
- */
+// Tries to guess a value's type from its string serialized value
+// @param {string} string
+// @param {string|integer|float|boolean} value
 const transtype = function (string) {
   if (typeof string !== 'string') { return string; }
 

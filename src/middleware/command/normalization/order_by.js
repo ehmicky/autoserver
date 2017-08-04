@@ -2,15 +2,13 @@
 
 const { throwError } = require('../../../error');
 
-/**
- * Normalize args.orderBy, e.g. 'a,b+,c-' would become:
- *   [
- *     { attrName: 'a', order: 'asc' },
- *     { attrName: 'b', order: 'asc' },
- *     { attrName: 'c', order: 'desc' },
- *     { attrName: 'id', order: 'asc' },
- *   ]
- **/
+// Normalize args.orderBy, e.g. 'a,b+,c-' would become:
+//   [
+//     { attrName: 'a', order: 'asc' },
+//     { attrName: 'b', order: 'asc' },
+//     { attrName: 'c', order: 'desc' },
+//     { attrName: 'id', order: 'asc' },
+//   ]
 const normalizeOrderBy = function ({
   input,
   input: { args, args: { orderBy }, modelName, idl: { models } },

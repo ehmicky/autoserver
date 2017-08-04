@@ -7,11 +7,8 @@ const { createApiServer } = require('../../events');
 const { handleStartupError } = require('./error');
 const { startSteps } = require('./steps');
 
-/**
- * Start server for each protocol
- *
- * @param {object} serverOpts
- */
+// Start server for each protocol
+// @param {object} serverOpts
 const startServer = function (oServerOpts = {}) {
   const apiServer = createApiServer({ oServerOpts });
   const startupLog = createLog({

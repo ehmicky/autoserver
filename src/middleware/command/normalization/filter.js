@@ -4,14 +4,12 @@ const { isJsl } = require('../../../jsl');
 const { throwError } = require('../../../error');
 const { mapValues } = require('../../../utilities');
 
-/**
- * Normalize args.filter, since it can take three shapes:
- *   1) { filter: { attr: 1 } }
- *   2) { filter: { attr: '($ === 1)' } }
- *   3) { filter: '($$.attr === 1)' }
- * Normalize the shape number 3, i.e. args.filter will always be a string
- * from that point, not an object.
- **/
+// Normalize args.filter, since it can take three shapes:
+//   1) { filter: { attr: 1 } }
+//   2) { filter: { attr: '($ === 1)' } }
+//   3) { filter: '($$.attr === 1)' }
+// Normalize the shape number 3, i.e. args.filter will always be a string
+// from that point, not an object.
 const normalizeFilter = function ({
   input,
   input: { args, args: { filter } },

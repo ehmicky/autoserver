@@ -4,9 +4,7 @@ const deleteCommand = {
   commandType: 'delete',
 };
 
-/**
- * 'delete' action uses a single 'delete' command
- **/
+// 'delete' action uses a single 'delete' command
 const deleteAction = [
   { input: deleteCommand },
 ];

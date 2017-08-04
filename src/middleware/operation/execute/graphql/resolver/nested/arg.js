@@ -4,15 +4,13 @@ const { throwError } = require('../../../../../../error');
 
 const { buildNestedArg } = require('./build');
 
-/**
- * Make nested models filtered by their parent model
- * E.g. if a model findParent() returns { child: 1 },
- * then a nested query findChild() will be filtered by `id: 1`
- * If the parent returns nothing|null, the nested query won't be performed
- * and null will be returned
- *  - this means when performing a nested `create`, the parent must specify
- *    the id of its non-created-yet children
- **/
+// Make nested models filtered by their parent model
+// E.g. if a model findParent() returns { child: 1 },
+// then a nested query findChild() will be filtered by `id: 1`
+// If the parent returns nothing|null, the nested query won't be performed
+// and null will be returned
+//  - this means when performing a nested `create`, the parent must specify
+//    the id of its non-created-yet children
 const addNestedArg = function ({ parentVal, name, isArray, args, actionType }) {
   const directReturn = getEmptyNestedArg({ parentVal, isArray });
   if (directReturn !== undefined) { return { directReturn }; }

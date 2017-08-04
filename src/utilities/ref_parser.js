@@ -6,18 +6,16 @@ const RefParser = require('json-schema-ref-parser');
 
 const { loadYaml } = require('./yaml');
 
-/**
- * Dereference JSON references.
- * RFC: https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html
- * I.e. { $ref: "path|url" } will be replaced by the target, which can be
- * accessed locally (local path) or remotely (HTTP[S])
- * Targets can be JSON or YAML files.
- * Circular references are supported.
- * Siblings attributes to `$ref` will be merged (with higher priority),
- * although this is not standard|spec behavior.
- * This function might throw for several reasons, e.g. YAML|JSON parsing error,
- * cannot access remote|local file, etc.
- */
+// Dereference JSON references.
+// RFC: https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html
+// I.e. { $ref: "path|url" } will be replaced by the target, which can be
+// accessed locally (local path) or remotely (HTTP[S])
+// Targets can be JSON or YAML files.
+// Circular references are supported.
+// Siblings attributes to `$ref` will be merged (with higher priority),
+// although this is not standard|spec behavior.
+// This function might throw for several reasons, e.g. YAML|JSON parsing error,
+// cannot access remote|local file, etc.
 const dereferenceRefs = async function (obj) {
   const dereferencedObj = await RefParser.dereference(obj, {
     resolve: {
