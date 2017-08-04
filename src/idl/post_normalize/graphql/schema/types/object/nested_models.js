@@ -2,11 +2,16 @@
 
 const { getAttrFieldName } = require('../../name');
 
-const getNestedModels = function ({
+const getNestedModels = function ({ fields, opts }) {
+  return Object.entries(fields)
+    .map(([defName, def]) => getNestedModel({ def, defName, opts }))
+    .reduce((memo, value) => Object.assign({}, memo, ...value), {});
+};
+
+const getNestedModel = function ({
   def,
   defName,
-  inputObjectType,
-  topDef,
+  opts: { inputObjectType, topDef },
 }) {
   const originalAttr = { [defName]: { ...def, typeName: defName } };
 

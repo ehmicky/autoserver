@@ -1,6 +1,19 @@
 'use strict';
 
-const filterArgs = function ({ def, defName, inputObjectType, parentDef }) {
+const { omitBy } = require('../../../../../../utilities');
+
+const filterFields = function ({ fields, parentDef, opts }) {
+  return omitBy(fields, (def, defName) =>
+    filterField({ parentDef, def, defName, opts })
+  );
+};
+
+const filterField = function ({
+  parentDef,
+  def,
+  defName,
+  opts: { inputObjectType },
+}) {
   // Filter arguments for single actions only include `id`
   return (
     defName !== 'id' &&
@@ -24,5 +37,5 @@ const filterArgs = function ({ def, defName, inputObjectType, parentDef }) {
 };
 
 module.exports = {
-  filterArgs,
+  filterFields,
 };
