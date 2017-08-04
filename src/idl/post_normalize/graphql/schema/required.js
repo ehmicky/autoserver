@@ -2,14 +2,14 @@
 
 const { GraphQLNonNull } = require('graphql');
 
-// Required field FGetter
-const graphQLRequiredFGetter = function (def, opts, getField) {
+// Required field TGetter
+const graphQLRequiredTGetter = function (def, opts) {
   // Goal is to avoid infinite recursion,
-  // i.e. without modification the same graphQLFGetter would be hit again
+  // i.e. without modification the same graphQLTGetter would be hit again
   const fieldOpts = { ...opts, isRequired: false };
-  const { type: subType, args } = getField(def, fieldOpts);
+  const subType = opts.getType(def, fieldOpts);
   const type = new GraphQLNonNull(subType);
-  return { type, args };
+  return type;
 };
 
 // Returns whether a field is required
@@ -41,6 +41,6 @@ const getRequired = function ({
 };
 
 module.exports = {
-  graphQLRequiredFGetter,
+  graphQLRequiredTGetter,
   getRequired,
 };

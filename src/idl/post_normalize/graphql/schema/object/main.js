@@ -7,17 +7,17 @@ const { getTypeName } = require('../name');
 
 const { getObjectFields } = require('./fields');
 
-// Object field FGetter
-const graphQLObjectFGetter = function (def, opts, getField) {
+// Object field TGetter
+const graphQLObjectTGetter = function (def, opts) {
   const name = getTypeName({ def, opts });
   const { description } = def;
-  const Type = opts.inputObjectType === ''
+  const Type = opts.inputObjectType === undefined
     ? GraphQLObjectType
     : GraphQLInputObjectType;
-  const fields = getObjectFields(def, opts, getField);
+  const fields = getObjectFields(def, opts);
 
   const type = new Type({ name, description, fields });
-  return { type };
+  return type;
 };
 
 /**
@@ -34,10 +34,10 @@ const objectTypeSerializer = function ([def, opts]) {
   return `${opts.schemaId}/${typeName}`;
 };
 
-const mGraphQLObjectFGetter = memoize(graphQLObjectFGetter, {
+const mGraphQLObjectTGetter = memoize(graphQLObjectTGetter, {
   serializer: objectTypeSerializer,
 });
 
 module.exports = {
-  graphQLObjectFGetter: mGraphQLObjectFGetter,
+  graphQLObjectTGetter: mGraphQLObjectTGetter,
 };
