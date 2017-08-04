@@ -5,6 +5,8 @@ const { GraphQLString } = require('graphql');
 const { omitBy, mapValues } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
 const { getRequired } = require('../required');
+const { getArgs } = require('../args');
+const { getDefaultValue } = require('../default');
 
 const { getNestedModels } = require('./nested_models');
 const { filterArgs } = require('./filter_args');
@@ -56,13 +58,37 @@ const getChildField = function ({ parentDef, def, defName, opts }) {
 
   const isRequired = getRequired({ def: defA, defName, ...opts });
 
-  const field = opts.getField(defA, { ...opts, isRequired });
+  const field = getField(defA, { ...opts, isRequired });
 
   // Use the nested attribute's metadata, if this is a nested attribute
   const { metadata = {} } = defA;
   const fieldA = { ...field, ...metadata };
 
   return fieldA;
+};
+
+// Retrieves a GraphQL field info for a given IDL definition,
+// i.e. an object that can be passed to new
+// GraphQLObjectType({ fields })
+// Includes return type, resolve function, arguments, etc.
+const getField = function (def, opts) {
+  const type = opts.getType(def, opts);
+
+  // Fields description|deprecation_reason are taken from IDL definition
+  const { description, deprecation_reason: deprecationReason } = def;
+
+  const argsA = getArgs({ def, opts });
+
+  const defaultValue = getDefaultValue({ def, opts });
+
+  const field = {
+    type,
+    description,
+    deprecationReason,
+    args: argsA,
+    defaultValue,
+  };
+  return field;
 };
 
 // GraphQL requires every object field to have attributes,
