@@ -3,25 +3,19 @@
 const { monitoredReduce } = require('../perf');
 
 const { getIdlConf } = require('./conf');
-const { resolveRefs } = require('./ref_parsing');
-const { applyPlugins } = require('./plugins');
-const { applyModelDefault } = require('./model_default');
+const { preNormalizeIdl } = require('./pre_normalize');
 const { validateIdl } = require('./validation');
-const { normalizeIdl } = require('./normalize');
+const { postNormalizeIdl } = require('./post_normalize');
 
 const processors = [
   // Retrieve raw IDL file
   getIdlConf,
-  // Resolve JSON references
-  resolveRefs,
-  // Apply idl.plugins
-  applyPlugins,
-  // Apply idl.default
-  applyModelDefault,
+  // Transform IDL to normalized form, before validation
+  preNormalizeIdl,
   // Validate IDL correctness
   validateIdl,
   // Transform IDL to normalized form, used by application
-  normalizeIdl,
+  postNormalizeIdl,
 ];
 
 // Retrieves IDL definition, after validation and transformation

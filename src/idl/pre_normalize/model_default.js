@@ -2,7 +2,7 @@
 
 const { merge } = require('lodash');
 
-const { omit, mapValues } = require('../utilities');
+const { omit, mapValues } = require('../../utilities');
 
 // Applies `idl.default` to each model
 const applyModelDefault = function ({ idl }) {

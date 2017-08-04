@@ -1,7 +1,7 @@
 'use strict';
 
-const { dereferenceRefs, omit } = require('../utilities');
-const { throwError } = require('../error');
+const { dereferenceRefs, omit } = require('../../utilities');
+const { throwError } = require('../../error');
 
 const resolveRefs = async function ({ idl, baseDir }) {
   const parsedIdl = await resolveJsonRefs({ idl, baseDir });

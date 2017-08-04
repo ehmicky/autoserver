@@ -1,7 +1,7 @@
 'use strict';
 
-const { omit, omitBy, reduceAsync } = require('../../utilities');
-const { throwError } = require('../../error');
+const { omit, omitBy, reduceAsync } = require('../../../utilities');
+const { throwError } = require('../../../error');
 
 const { timestampPlugin } = require('./timestamp');
 const { authorPlugin } = require('./author');
