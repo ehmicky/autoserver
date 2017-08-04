@@ -25,20 +25,7 @@ const { getPaginationInfo } = require('./info');
 //  - the cursor should be opaque to consumer, i.e. is base64'd
 //    (base64url variant so it is URL-friendly)
 //  - the cursor is minified
-// Parameters:
-//   page_size {integer}         - Default is server option defaultPageSize
-//                                 (default: 100)
-//                                 Maximum is set with server option
-//                                 maxPageSize (default: 100)
-//                                 Using 0 disables pagination.
-//   before|after {string}       - Retrieves previous|next pagination batch,
-//                                 using the previous response's 'token'
-//                                 Use '' for the start or the end.
-//                                 Cannot be used together with `args.filter`
-//                                 nor `args.order_by`.
-//   page {integer}              - Page number, for pagination, starting at 1
-//                                 Cannot be used together with `before|after`
-// Those parameters are removed and transformed for the database layer to:
+// Pagination parameters are removed and transformed for the database layer to:
 //   limit {integer}             - limit response size.
 //                                 This might be higher than args.pageSize,
 //                                 to guess if there is a previous or next page.
@@ -52,12 +39,7 @@ const { getPaginationInfo } = require('./info');
 //                                 args.nFilter { c: 30 } to
 //                                 { c: 30 } && > { a: 10, b: 20 }
 //   nOrderBy                    - same as `nFilter` but for `nOrderBy`
-// Add metadata:
-//   token {string}              - token of a given model, to use with
-//                                 args.before|after
-//   page_size {integer}         - Might be lower than the requested page size
-//   has_previous_page {boolean}
-//   has_next_page {boolean}
+// Add metadata: token, page_size, has_previous_page, has_previous_page
 // Actions:
 //  - output is paginated with any command.name returning an array of response
 //    and do not using an array of args.data, i.e.
