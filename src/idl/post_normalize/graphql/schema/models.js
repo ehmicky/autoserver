@@ -7,10 +7,12 @@ const { getModelFieldName } = require('./name');
 
 // Retrieve attributes for a given GraphQL method
 const getModelDefs = function ({ graphqlMethod, idl }) {
-  return ACTIONS
-    .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type))
+  const actions = ACTIONS
+    .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type));
+  const modelDefs = actions
     .map(action => getActionModels({ idl, action }))
     .reduce(assignObject, {});
+  return modelDefs;
 };
 
 // Mapping from IDL actions to GraphQL methods
@@ -35,15 +37,7 @@ const nameModelsActions = function ({ models, action }) {
 
 // Add action information to each top-level model
 const normalizeModelsDef = function ({ models, action }) {
-  return mapValues(models, model => normalizeModelDef({ model, action }));
-};
-
-const normalizeModelDef = function ({ model, action }) {
-  return {
-    ...model,
-    type: 'object',
-    action,
-  };
+  return mapValues(models, model => ({ ...model, action, type: 'object' }));
 };
 
 module.exports = {

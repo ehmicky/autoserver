@@ -17,9 +17,10 @@ const getSchema = function ({ idl, serverOpts }) {
 };
 
 const getTopDefs = function ({ idl }) {
-  return mapValues(topDefsInit, (topDef, topDefName) =>
-    getGraphqlMethodDef({ topDef, topDefName, idl })
-  );
+  return mapValues(topDefsInit, (topDef, topDefName) => {
+    const attributes = getModelDefs({ graphqlMethod: topDefName, idl });
+    return { ...topDef, attributes };
+  });
 };
 
 const commonTopDefsInit = {
@@ -38,12 +39,6 @@ const topDefsInit = {
     description: 'Modifies information about different entities',
     typeName: 'Mutation',
   },
-};
-
-const getGraphqlMethodDef = function ({ topDef, topDefName, idl }) {
-  const attributes = getModelDefs({ graphqlMethod: topDefName, idl });
-
-  return { ...topDef, attributes };
 };
 
 // Builds query|mutation type
