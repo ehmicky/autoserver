@@ -31,11 +31,12 @@ const getObjectFields = function (parentDef, opts) {
     const fieldsC = omitBy(fieldsB, (def, defName) =>
       filterArgs({ def, defName, inputObjectType, parentDef })
     );
-    const fieldsD = mapValues(fieldsC, (def, defName) =>
-      getChildField({ parentDef, def, defName, opts })
+    const fieldsD = mapValues(fieldsC, def => addKind({ def, parentDef }));
+    const fieldsE = mapValues(fieldsD, (def, defName) =>
+      getField({ def, opts: { ...opts, defName } })
     );
-    const fieldsE = Object.keys(fieldsD).length === 0 ? noAttributes : fieldsD;
-    return fieldsE;
+    const fieldsF = Object.keys(fieldsE).length === 0 ? noAttributes : fieldsE;
+    return fieldsF;
   };
 };
 
@@ -50,29 +51,22 @@ const addAction = function ({ def, parentDef }) {
   return { ...def, action };
 };
 
-// Recurse over children
-const getChildField = function ({ parentDef, def, defName, opts }) {
+const addKind = function ({ def, parentDef }) {
   const kind = parentDef.kind === 'graphqlMethod' ? 'model' : 'attribute';
-  const defA = { ...def, kind };
-
-  const field = getField(defA, { ...opts, defName });
-
-  // Use the nested attribute's metadata, if this is a nested attribute
-  const { metadata = {} } = defA;
-  const fieldA = { ...field, ...metadata };
-
-  return fieldA;
+  return { ...def, kind };
 };
 
 // Retrieves a GraphQL field info for a given IDL definition,
 // i.e. an object that can be passed to new
 // GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
-const getField = function (def, opts) {
+const getField = function ({ def, opts }) {
   const type = opts.getType(def, opts);
 
   // Fields description|deprecation_reason are taken from IDL definition
   const { description, deprecation_reason: deprecationReason } = def;
+  // Use the nested attribute's metadata, if this is a nested attribute
+  const { metadata = {} } = def;
 
   const argsA = getArgs({ def, opts });
 
@@ -82,9 +76,11 @@ const getField = function (def, opts) {
     type,
     description,
     deprecationReason,
+    ...metadata,
     args: argsA,
     defaultValue,
   };
+
   return field;
 };
 
