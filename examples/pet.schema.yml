@@ -187,6 +187,9 @@ models:
     $ref: owner.schema.yml
   pet_skills:
     $ref: pet_skills.schema.yml
+  # Default values for each model
+  default:
+    commands: [create, read, update, delete]
 # Actions can be:
 #   - find: retrieve an element, similar to REST's GET
 #   - create: create an element, similar to REST's POST.
@@ -300,9 +303,6 @@ models:
 #         - should encourage agnosticism, e.g. prefer exposing $COMMAND over
 #           $ACTION
 #         - should hide implementation details
-# Default values for each model
-default:
-  commands: [create, read, update, delete]
 # Helpers are functions that can be used in any JSL.
 # Their argument is passed as parameters $1, $2, etc. in inline
 # functions
