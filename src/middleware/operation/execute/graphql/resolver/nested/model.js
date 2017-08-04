@@ -19,19 +19,19 @@ const nestedModelResolver = function ({ name, modelsMap, parent, args }) {
     return attributeResolver({ parent, name, args });
   }
 
-  const { multiple, target: modelName } = model;
+  const { isArray, target: modelName } = model;
   // Add nested if to nested actions
   // Uses the parent value as a nested filter|data
   const parentVal = parent[attrName];
   const { directReturn, args: argsA } = addNestedArg({
     parentVal,
     name,
-    multiple,
+    isArray,
     args,
     actionType,
   });
 
-  return { multiple, modelName, actionType, directReturn, args: argsA };
+  return { isArray, modelName, actionType, directReturn, args: argsA };
 };
 
 // Retrieves nested attribute, which can be a model or a simple attribute

@@ -38,13 +38,13 @@ const getObjectFields = function (parentDef, opts, getField) {
   };
 };
 
-// Nested attributes change current action by applying `def.multiple`
+// Nested attributes change current action
 const addAction = function ({ def, parentDef }) {
   if (def.action) { return def; }
 
   const action = ACTIONS.find(ACTION =>
     ACTION.type === parentDef.action.type &&
-    ACTION.multiple === def.multiple
+    ACTION.multiple === def.isArray
   );
   return { ...def, action };
 };

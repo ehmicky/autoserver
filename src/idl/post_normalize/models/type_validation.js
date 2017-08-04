@@ -4,7 +4,7 @@
 const addTypeValidation = function (attr) {
   if (!attr.type) { return attr; }
 
-  if (attr.multiple) { return addMultipleValidation(attr); }
+  if (attr.isArray) { return addMultipleValidation(attr); }
 
   return addSingleValidation(attr);
 };

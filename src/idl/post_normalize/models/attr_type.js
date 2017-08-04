@@ -3,13 +3,13 @@
 const { omit } = require('../../../utilities');
 
 // From `type: string[]` or `type: my_model`
-// to `type: string, multiple: true` or `target: my_model, multiple: false`
+// to `type: string, isArray: true` or `target: my_model, isArray: false`
 const normalizeType = function (attr) {
   const [, rawType, brackets] = typeRegExp.exec(attr.type);
-  const multiple = brackets !== undefined;
+  const isArray = brackets !== undefined;
   const isModel = !nonModelTypes.includes(rawType);
 
-  const attrA = { ...attr, type: rawType, target: rawType, multiple };
+  const attrA = { ...attr, type: rawType, target: rawType, isArray };
   const attrB = isModel ? omit(attrA, 'type') : omit(attrA, 'target');
 
   return attrB;

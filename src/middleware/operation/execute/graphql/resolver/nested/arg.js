@@ -13,20 +13,14 @@ const { buildNestedArg } = require('./build');
  *  - this means when performing a nested `create`, the parent must specify
  *    the id of its non-created-yet children
  **/
-const addNestedArg = function ({
-  parentVal,
-  name,
-  multiple,
-  args,
-  actionType,
-}) {
-  const directReturn = getEmptyNestedArg({ parentVal, multiple });
+const addNestedArg = function ({ parentVal, name, isArray, args, actionType }) {
+  const directReturn = getEmptyNestedArg({ parentVal, isArray });
   if (directReturn !== undefined) { return { directReturn }; }
 
   const nestedArg = getNestedArg({
     parentVal,
     name,
-    multiple,
+    isArray,
     args,
     actionType,
   });
@@ -34,23 +28,17 @@ const addNestedArg = function ({
 };
 
 // When parent value is not defined, returns empty value
-const getEmptyNestedArg = function ({ parentVal, multiple }) {
-  if (multiple && !Array.isArray(parentVal)) { return []; }
-  if (!multiple && parentVal == null) { return null; }
+const getEmptyNestedArg = function ({ parentVal, isArray }) {
+  if (isArray && !Array.isArray(parentVal)) { return []; }
+  if (!isArray && parentVal == null) { return null; }
 };
 
-const getNestedArg = function ({
-  parentVal,
-  name,
-  multiple,
-  args,
-  actionType,
-}) {
+const getNestedArg = function ({ parentVal, name, isArray, args, actionType }) {
   const argType = getArgType({ actionType });
   if (!argType) { return {}; }
 
-  const argValue = addDefaultNestedArg({ multiple, args, argType });
-  const argValueA = validateNestedArg({ argValue, parentVal, name, multiple });
+  const argValue = addDefaultNestedArg({ isArray, args, argType });
+  const argValueA = validateNestedArg({ argValue, parentVal, name, isArray });
   const argValueB = buildNestedArg({ argValue: argValueA, parentVal, name });
 
   return { [argType]: argValueB };
@@ -72,16 +60,16 @@ const nestedFilterActionTypes = ['find', 'delete', 'update'];
 const nestedDataActionTypes = ['replace', 'upsert', 'create'];
 
 // If args.filter|data absent, adds default value
-const addDefaultNestedArg = function ({ multiple, args, argType }) {
+const addDefaultNestedArg = function ({ isArray, args, argType }) {
   if (args[argType]) { return args[argType]; }
 
-  const multipleData = argType === 'data' && multiple;
+  const multipleData = argType === 'data' && isArray;
   return multipleData ? [] : {};
 };
 
 // Make sure query is correct, when it comes to nested id
-const validateNestedArg = function ({ parentVal, name, multiple, argValue }) {
-  const hasDifferentLength = multiple &&
+const validateNestedArg = function ({ parentVal, name, isArray, argValue }) {
+  const hasDifferentLength = isArray &&
     Array.isArray(argValue) &&
     argValue.length !== parentVal.length;
 
@@ -90,7 +78,7 @@ const validateNestedArg = function ({ parentVal, name, multiple, argValue }) {
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (!multiple && argValue.id) {
+  if (!isArray && argValue.id) {
     const message = `In '${name}' model, wrong parameters: 'id' must not be defined`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }

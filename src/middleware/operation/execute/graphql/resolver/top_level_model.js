@@ -13,13 +13,13 @@ const topLevelModelResolver = function ({ name, modelsMap, args }) {
   const pluralName = plural(attrName);
   // Guess whether the action is multiple by whether the attribute
   // looks singular or plural
-  const multiple = getMultiple({ attrName, singularName, pluralName });
+  const isArray = getIsArray({ attrName, singularName, pluralName });
   // Retrieve actual model name from the IDL
   const modelName = getModelName({ modelsMap, singularName, pluralName });
-  return { multiple, modelName, actionType, args };
+  return { isArray, modelName, actionType, args };
 };
 
-const getMultiple = function ({ attrName, singularName, pluralName }) {
+const getIsArray = function ({ attrName, singularName, pluralName }) {
   if (attrName === singularName) { return false; }
   if (attrName === pluralName) { return true; }
   return null;
