@@ -4,7 +4,6 @@ const { GraphQLString } = require('graphql');
 
 const { omitBy, mapValues } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
-const { getRequired } = require('../required');
 const { getArgs } = require('../args');
 const { getDefaultValue } = require('../default');
 
@@ -56,9 +55,7 @@ const getChildField = function ({ parentDef, def, defName, opts }) {
   const kind = parentDef.kind === 'graphqlMethod' ? 'model' : 'attribute';
   const defA = { ...def, kind };
 
-  const isRequired = getRequired({ def: defA, defName, ...opts });
-
-  const field = getField(defA, { ...opts, isRequired });
+  const field = getField(defA, { ...opts, defName });
 
   // Use the nested attribute's metadata, if this is a nested attribute
   const { metadata = {} } = defA;
