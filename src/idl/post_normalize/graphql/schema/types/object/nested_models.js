@@ -11,29 +11,30 @@ const getNestedModels = function ({ fields, opts }) {
 const getNestedModel = function ({
   def,
   defName,
-  opts: { inputObjectType, topDef },
+  opts,
+  opts: { inputObjectType },
 }) {
-  const originalAttr = { [defName]: { ...def, typeName: defName } };
+  const originalAttr = { [defName]: def };
 
   // Only for nested models, that are not data|filter arguments
   const isNormalNested = def.target !== undefined &&
     inputObjectType === undefined;
   if (!isNormalNested) { return [originalAttr]; }
 
-  const nestedModel = getRecursiveModel({ def, defName, topDef });
+  const nestedModel = getRecursiveModel({ def, defName, opts });
   return [originalAttr, nestedModel];
 };
 
 // Copy nested models with a different name that includes the action,
 // e.g. `my_attribute` -> `createMyAttribute`
-const getRecursiveModel = function ({ def, def: { action }, defName, topDef }) {
-  const recursiveDef = getRecursiveDef({ def, topDef });
+const getRecursiveModel = function ({ def, def: { action }, defName, opts }) {
+  const recursiveDef = getRecursiveDef({ def, opts });
   const name = getAttrFieldName({ modelName: defName, action });
   return { [name]: recursiveDef };
 };
 
-const getRecursiveDef = function ({ def, topDef }) {
-  const topLevelModel = findTopLevelModel({ def, topDef });
+const getRecursiveDef = function ({ def, opts }) {
+  const topLevelModel = findTopLevelModel({ def, opts });
 
   // Recursive models use the description of:
   //  - the target model, if inputObjectType === 'data|filter'
@@ -46,7 +47,10 @@ const getRecursiveDef = function ({ def, topDef }) {
   return { ...topLevelModel, metadata };
 };
 
-const findTopLevelModel = function ({ def: { target, action }, topDef }) {
+const findTopLevelModel = function ({
+  def: { target, action },
+  opts: { topDef },
+}) {
   const [typeName, topLevelModel] = Object.entries(topDef.attributes)
     .find(([, attr]) => attr.model === target && attr.action === action);
   return { ...topLevelModel, typeName };
