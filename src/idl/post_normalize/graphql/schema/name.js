@@ -7,7 +7,7 @@ const { plural, singular } = require('pluralize');
 // e.g. `FindPet`, for schema type name
 const getTypeName = function ({
   def: { kind, typeName },
-  opts: { inputObjectType },
+  opts: { inputObjectType = '' },
 }) {
   const nestedPostfix = kind === 'attribute' ? 'nested' : '';
   const nameA = `${typeName} ${inputObjectType} ${nestedPostfix}`;

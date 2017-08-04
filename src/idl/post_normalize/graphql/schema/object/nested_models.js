@@ -12,7 +12,7 @@ const getNestedModels = function ({
 
   // Only for nested models, that are not data|filter arguments
   const isNormalNested = def.target !== undefined &&
-    inputObjectType === '';
+    inputObjectType === undefined;
   if (!isNormalNested) { return [originalAttr]; }
 
   const nestedModel = getRecursiveModel({ def, defName, topDef });

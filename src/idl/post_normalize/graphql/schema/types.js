@@ -1,80 +1,83 @@
 'use strict';
 
-const { isJsl } = require('../../../../jsl');
+const {
+  GraphQLInt,
+  GraphQLFloat,
+  GraphQLBoolean,
+  GraphQLString,
+} = require('graphql');
 
-const { getArguments } = require('./arguments');
-const { getFieldGetter } = require('./fields');
+const { throwError } = require('../../../../error');
+const { stringifyJSON } = require('../../../../utilities');
 
-// Retrieves the GraphQL type for a given IDL definition
-const getType = function (def, opts = {}) {
-  return getField(def, opts).type;
-};
+const { graphQLRequiredTGetter } = require('./required');
+const { graphQLArrayTGetter } = require('./array');
+const { graphQLObjectTGetter } = require('./object');
 
-// Retrieves a GraphQL field info for a given IDL definition,
-// i.e. an object that can be passed to new
-// GraphQLObjectType({ fields })
-// Includes return type, resolve function, arguments, etc.
-const getField = function (def, opts) {
-  const inputObjectType = opts.inputObjectType || '';
-  const optsA = { ...opts, inputObjectType };
+/**
+ * Maps an IDL definition into a GraphQL type.
+ * The first matching one will be used, i.e. order matters:
+ * required modifier, then array modifier come first
+ */
+const graphQLTGetters = [
 
-  const fieldGetter = getFieldGetter({ def, opts: optsA });
-  const { type, args } = fieldGetter.value(def, optsA, getField);
+  // "Required" modifier type
+  {
+    condition: (def, opts) => opts.isRequired,
+    value: graphQLRequiredTGetter,
+  },
 
-  // Fields description|deprecation_reason are taken from IDL definition
-  const { description, deprecation_reason: deprecationReason } = def;
+  // "Array" modifier type
+  {
+    condition: def => def.action && def.action.multiple && !def.arrayWrapped,
+    value: graphQLArrayTGetter,
+  },
 
-  const argsA = getArgs({ args, def, opts: optsA });
+  // "Object" type
+  {
+    condition: def => def.type === 'object',
+    value: graphQLObjectTGetter,
+  },
 
-  const defaultValue = getDefaultValue({ def, opts: optsA });
-  const field = {
-    type,
-    description,
-    deprecationReason,
-    args: argsA,
-    defaultValue,
-  };
-  return field;
-};
+  // "Int" type
+  {
+    condition: def => def.type === 'integer',
+    value: () => GraphQLInt,
+  },
 
-const getArgs = function ({ args, def, opts }) {
-  // Only for models, and not for argument types
-  // Modifiers (Array and NonNull) retrieve their arguments from
-  // underlying type (i.e. `args` is already defined)
-  const noArgs = def.model === undefined ||
-    opts.inputObjectType !== '' ||
-    args;
-  if (noArgs) { return args; }
+  // "Float" type
+  {
+    condition: def => def.type === 'number',
+    value: () => GraphQLFloat,
+  },
 
-  // Builds types used for `data` and `filter` arguments
-  const dataObjectType = getType(def, { ...opts, inputObjectType: 'data' });
-  const filterObjectType = getType(def, { ...opts, inputObjectType: 'filter' });
+  // "String" type
+  {
+    condition: def => def.type === 'string' || def.type === 'null',
+    value: () => GraphQLString,
+  },
 
-  // Retrieves arguments
-  return getArguments(def, { ...opts, dataObjectType, filterObjectType });
-};
+  // "Boolean" type
+  {
+    condition: def => def.type === 'boolean',
+    value: () => GraphQLBoolean,
+  },
 
-const getDefaultValue = function ({
-  def,
-  def: { action },
-  opts: { isRequired: isRequiredOpt, inputObjectType },
-}) {
-  // Can only assign default to input data that is optional.
-  // 'update' does not required anything, nor assign defaults
-  const hasDefaultValue = !isRequiredOpt &&
-    inputObjectType === 'data' &&
-    action.type !== 'update' &&
-    def.default;
-  if (!hasDefaultValue) { return; }
+];
 
-  // JSL only shows as 'DYNAMIC_VALUE' in schema
-  const defaults = Array.isArray(def.default) ? def.default : [def.default];
-  const isDynamic = defaults.some(jsl =>
-    isJsl({ jsl }) || typeof jsl === 'function'
+const getTypeGetter = function ({ def, opts }) {
+  const typeGetter = graphQLTGetters.find(possibleType =>
+    possibleType.condition(def, opts)
   );
-  return isDynamic ? 'DYNAMIC_VALUE' : def.default;
+
+  if (!typeGetter) {
+    const message = `Could not parse attribute into a GraphQL type: ${stringifyJSON(def)}`;
+    throwError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+  }
+
+  return typeGetter;
 };
 
 module.exports = {
-  getType,
+  getTypeGetter,
 };

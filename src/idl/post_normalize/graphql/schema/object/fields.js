@@ -10,7 +10,7 @@ const { getNestedModels } = require('./nested_models');
 const { filterArgs } = require('./filter_args');
 
 // Retrieve the fields of an object, using IDL definition
-const getObjectFields = function (parentDef, opts, getField) {
+const getObjectFields = function (parentDef, opts) {
   const { inputObjectType, topDef } = opts;
 
   // This needs to be function, otherwise we run in an infinite recursion,
@@ -31,7 +31,7 @@ const getObjectFields = function (parentDef, opts, getField) {
       filterArgs({ def, defName, inputObjectType, parentDef })
     );
     const fieldsD = mapValues(fieldsC, (def, defName) =>
-      getChildField({ parentDef, def, defName, opts, getField })
+      getChildField({ parentDef, def, defName, opts })
     );
     const fieldsE = Object.keys(fieldsD).length === 0 ? noAttributes : fieldsD;
     return fieldsE;
@@ -50,13 +50,13 @@ const addAction = function ({ def, parentDef }) {
 };
 
 // Recurse over children
-const getChildField = function ({ parentDef, def, defName, opts, getField }) {
+const getChildField = function ({ parentDef, def, defName, opts }) {
   const kind = parentDef.kind === 'graphqlMethod' ? 'model' : 'attribute';
   const defA = { ...def, kind };
 
   const isRequired = getRequired({ def: defA, defName, ...opts });
 
-  const field = getField(defA, { ...opts, isRequired });
+  const field = opts.getField(defA, { ...opts, isRequired });
 
   // Use the nested attribute's metadata, if this is a nested attribute
   const { metadata = {} } = defA;

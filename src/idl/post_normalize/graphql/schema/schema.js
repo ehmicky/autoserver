@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const { mapValues } = require('../../../../utilities');
 
-const { getType } = require('./types');
+const { getType } = require('./type');
 const { getModelDefs } = require('./models');
 
 // Returns GraphQL schema
