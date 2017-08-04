@@ -5,6 +5,7 @@ const { getFilterArgument } = require('./filter');
 const { getOrderArgument } = require('./order');
 const { getPaginationArgument } = require('./pagination');
 
+// Retrieves all resolver arguments, before resolve function is fired
 const getArgs = function ({ def, opts }) {
   // Only for models, and not for argument types
   const noArgs = def.model === undefined || opts.inputObjectType !== undefined;
@@ -13,7 +14,6 @@ const getArgs = function ({ def, opts }) {
   const argTypes = getArgTypes({ def, opts });
   const options = { ...opts, ...argTypes, def };
 
-  // Retrieves all resolver arguments, before resolve function is fired
   return {
     ...getDataArgument(options),
     ...getFilterArgument(options),
@@ -25,6 +25,7 @@ const getArgs = function ({ def, opts }) {
 // Builds types used for `data` and `filter` arguments
 const getArgTypes = function ({ def, opts }) {
   const defA = { ...def, arrayWrapped: true };
+
   const dataObjectType = opts.getType(defA, {
     ...opts,
     inputObjectType: 'data',

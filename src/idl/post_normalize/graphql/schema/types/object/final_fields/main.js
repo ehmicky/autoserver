@@ -4,34 +4,23 @@ const { mapValues } = require('../../../../../../../utilities');
 
 const { getDefaultValue } = require('./default');
 const { getArgs } = require('./args');
-
-const getFinalFields = function ({ fields, opts }) {
-  return mapValues(fields, (def, defName) =>
-    getField({ def, opts: { ...opts, defName } })
-  );
-};
+const { getMetadata } = require('./metadata');
 
 // Retrieves a GraphQL field info for a given IDL definition,
 // i.e. an object that can be passed to new
 // GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
-const getField = function ({ def, opts }) {
-  const type = opts.getType(def, opts);
+const getFinalFields = function ({ fields, opts }) {
+  return mapValues(fields, (def, defName) => getField({ def, defName, opts }));
+};
 
+const getField = function ({ def, defName, opts }) {
+  const type = opts.getType(def, { ...opts, defName });
   const args = getArgs({ def, opts });
-
   const defaultValue = getDefaultValue({ def, opts });
+  const { description, deprecationReason } = getMetadata({ def });
 
-  // Fields description|deprecation_reason are taken from IDL definition
-  // Use the nested attribute's metadata, if this is a nested attribute
-  const { metadata = {} } = def;
-  const {
-    description,
-    deprecation_reason: deprecationReason,
-  } = { ...def, ...metadata };
-
-  const defA = { type, description, deprecationReason, args, defaultValue };
-  return defA;
+  return { type, description, deprecationReason, args, defaultValue };
 };
 
 module.exports = {
