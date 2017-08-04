@@ -4,8 +4,8 @@ const { intersection } = require('lodash');
 const { toSentence } = require('underscore.string');
 const pluralize = require('pluralize');
 
-const { throwError } = require('../../error');
-const { mapValues } = require('../../utilities');
+const { throwError } = require('../../../error');
+const { mapValues } = require('../../../utilities');
 
 // Generic plugin factory
 // It adds attributes to each model, using `getAttributes(pluginOpts)` option

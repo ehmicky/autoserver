@@ -1,7 +1,7 @@
 'use strict';
 
-const { throwError } = require('../../error');
-const { isJsl } = require('../../jsl');
+const { throwError } = require('../../../error');
+const { isJsl } = require('../../../jsl');
 
 const { attributesPlugin } = require('./attributes');
 
