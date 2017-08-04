@@ -4,9 +4,7 @@ const readCommand = {
   commandType: 'read',
 };
 
-/**
- * 'find' action uses a single 'read' command
- **/
+// 'find' action uses a single 'read' command
 const findAction = [
   { input: readCommand },
 ];

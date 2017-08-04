@@ -2,10 +2,8 @@
 
 const { validateInputData } = require('./input');
 
-/**
- * Custom data validation middleware
- * Checks that input and output conforms to API schema
- **/
+// Custom data validation middleware
+// Checks that input and output conforms to API schema
 const dataValidation = async function (nextFunc, input) {
   const inputA = validateInputData({ input });
 

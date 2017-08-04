@@ -5,19 +5,17 @@ const { assignArray } = require('../utilities');
 const { reportErrors } = require('./report_error');
 const { compile } = require('./compile');
 
-/**
- * Perform a validation, using a JSON schema, and a `data` as input
- * Arguments:
- *   {object} schema - JSON schema
- *   {object|object[]} data
- *   {any} data - data to validate
- *   {object} reportInfo - information used by error reporter
- *   {string} reportInfo.type - type of validation
- *   {string} [reportInfo.dataVar] - variable name
- *   {string} [reportInfo.action]
- *   {string} [reportInfo.modelName]
- *   {any} [extra] - custom information passed to custom validation functions
- **/
+// Perform a validation, using a JSON schema, and a `data` as input
+// Arguments:
+//   {object} schema - JSON schema
+//   {object|object[]} data
+//   {any} data - data to validate
+//   {object} reportInfo - information used by error reporter
+//   {string} reportInfo.type - type of validation
+//   {string} [reportInfo.dataVar] - variable name
+//   {string} [reportInfo.action]
+//   {string} [reportInfo.modelName]
+//   {any} [extra] - custom information passed to custom validation functions
 const validate = function ({ schema, data, reportInfo, extra, idl }) {
   const compiledSchema = compile({ idl, schema });
   const dataWithExtra = getDataWithExtra({ data, extra });

@@ -5,11 +5,9 @@ const { validate } = require('../../../validation');
 
 const { getDataValidationSchema } = require('./schema');
 
-/**
- * Check that input nFilter|newData passes IDL validation
- * E.g. if a model is marked as `required` or `minimum: 10` in IDL file,
- * this will be validated here
- **/
+// Check that input nFilter|newData passes IDL validation
+// E.g. if a model is marked as `required` or `minimum: 10` in IDL file,
+// this will be validated here
 const validateInputData = function ({
   input,
   input: { args, modelName, command, jsl, idl },

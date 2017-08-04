@@ -5,11 +5,9 @@ const { dirname } = require('path');
 const { throwError } = require('../error');
 const { getYaml, pRealpath } = require('../utilities');
 
-/**
- * Retrieve the configuration using either:
- *  - a filename pointing to a JSON or YAML file
- *  - directly a JavaScript object
- **/
+// Retrieve the configuration using either:
+//  - a filename pointing to a JSON or YAML file
+//  - directly a JavaScript object
 const getIdlConf = async function ({ idl }) {
   if (typeof idl === 'string') {
     const idlConf = await getIdlFromPath({ path: idl });

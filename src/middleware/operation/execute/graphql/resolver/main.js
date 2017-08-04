@@ -4,9 +4,7 @@ const { typenameResolver } = require('./typename');
 const { metadataResolver } = require('./metadata');
 const { normalResolver } = require('./normal');
 
-/**
- * GraphQL-anywhere uses a single resolver: here it is
- **/
+// GraphQL-anywhere uses a single resolver: here it is
 // eslint-disable-next-line max-params
 const getResolver = async function (
   modelsMap,

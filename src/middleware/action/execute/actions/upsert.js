@@ -31,12 +31,10 @@ const upsertCommand = function (
   };
 };
 
-/**
- * "upsert" action is exactly like "replace", except:
- *  - the first "read" command is multiple, since model might not exist
- *  - the final command is called "upsert", i.e. it is meant to be
- *    either "create" or "update" for each model.
- **/
+// "upsert" action is exactly like "replace", except:
+//  - the first "read" command is multiple, since model might not exist
+//  - the final command is called "upsert", i.e. it is meant to be
+//    either "create" or "update" for each model.
 const upsertAction = [
   { input: readCommand },
   { input: upsertCommand },

@@ -14,11 +14,9 @@ const { graphQLRequiredTest, graphQLRequiredTGetter } = require('./required');
 const { graphQLArrayTest, graphQLArrayTGetter } = require('./array');
 const { graphQLObjectTGetter } = require('./object');
 
-/**
- * Maps an IDL definition into a GraphQL type.
- * The first matching one will be used, i.e. order matters:
- * required modifier, then array modifier come first
- */
+// Maps an IDL definition into a GraphQL type.
+// The first matching one will be used, i.e. order matters:
+// required modifier, then array modifier come first
 const graphQLTGetters = [
 
   // "Required" modifier type

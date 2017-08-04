@@ -20,15 +20,13 @@ const graphQLObjectTGetter = function (def, opts) {
   return type;
 };
 
-/**
- * Memoize object type constructor in order to infinite recursion.
- * We use the type name, i.e.:
- *  - type name must differ everytime type might differ
- *  - in particular, at the moment, type name differ when inputObjectType,
- *    action.type or multiple changes
- * We also namespace with a UUID which is unique for each new call to
- * `getSchema()`, to avoid leaking
- **/
+// Memoize object type constructor in order to infinite recursion.
+// We use the type name, i.e.:
+//  - type name must differ everytime type might differ
+//  - in particular, at the moment, type name differ when inputObjectType,
+//    action.type or multiple changes
+// We also namespace with a UUID which is unique for each new call to
+// `getSchema()`, to avoid leaking
 const objectTypeSerializer = function ([def, opts]) {
   const typeName = getTypeName({ def, opts });
   return `${opts.schemaId}/${typeName}`;

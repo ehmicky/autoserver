@@ -13,9 +13,8 @@ const database = require('./database');
 
 const middleware = [
 
-  /**
-   * Initial layer
-   **/
+  // Initial layer
+
   // Setup basic input
   initial.setupInput,
   // Error handler, which sends final response, if errors
@@ -25,9 +24,8 @@ const middleware = [
   // Make actual logging calls
   initial.loggingReporter,
 
-  /**
-   * Protocol layer
-   **/
+  // Protocol layer
+
   // Sets up Protocol format
   protocol.protocolConvertor,
   // Protocol-related validation middleware
@@ -67,9 +65,8 @@ const middleware = [
   // Retrieves input.route, using input.path
   protocol.router,
 
-  /**
-   * Operation layer
-   **/
+  // Operation layer
+
   // Convert from Protocol format to Operation format
   operation.operationConvertor,
   // Pick the operation
@@ -81,9 +78,8 @@ const middleware = [
   // Translates operation-specific calls into generic instance actions
   operation.operationExecute,
 
-  /**
-   * Action layer
-   **/
+  // Action layer
+
   // Convert from Operation format to Action format
   action.actionConvertor,
   // Action-related validation middleware
@@ -93,9 +89,8 @@ const middleware = [
   // Turn one action into 0, 1 or several commands
   action.actionExecute,
 
-  /**
-   * Command layer, for preparing database action
-   **/
+  // Command layer
+
   // Convert from Action format to Command format
   command.commandConvertor,
   // Command-related validation middleware
@@ -115,9 +110,8 @@ const middleware = [
   // Paginate output
   command.pagination,
 
-  /**
-   * Database layer
-   **/
+  // Database layer
+
   // Convert from Command format to Database format
   database.databaseConvertor,
   // Authorization middleware

@@ -1,13 +1,11 @@
 'use strict';
 
-/**
- * List of errors
- * Keys are the exception.reason of the exception thrown
- * Values are merged to exceptions thrown
- *
- * TODO: add `url` property pointing towards API documentation for that error
- * TODO: add all `title` properties to `generic`
- */
+// List of errors
+// Keys are the exception.reason of the exception thrown
+// Values are merged to exceptions thrown
+//
+// TODO: add `url` property pointing towards API documentation for that error
+// TODO: add all `title` properties to `generic`
 const errorReasons = {
   // Tried to use a protocol method that is not supported, e.g. TRACE
   UNSUPPORTED_METHOD: {},

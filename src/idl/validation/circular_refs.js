@@ -3,11 +3,9 @@
 const { throwError } = require('../../error');
 const { mapValues } = require('../../utilities');
 
-/**
- * There should be no circular references.
- * They may be introduced by e.g. dereferencing JSON references `$ref`
- * or YAML anchors `*var`
- **/
+// There should be no circular references.
+// They may be introduced by e.g. dereferencing JSON references `$ref`
+// or YAML anchors `*var`
 const validateIdlCircularRefs = function (idl) {
   return validateCircularRefs(idl);
 };
