@@ -25,7 +25,7 @@ const normalResolver = async function ({
 
   // Retrieve main input passed to database layer
   const {
-    multiple,
+    isArray,
     modelName,
     actionType,
     directReturn,
@@ -35,7 +35,7 @@ const normalResolver = async function ({
   if (directReturn !== undefined) { return directReturn; }
 
   const action = getAction({
-    multiple,
+    isArray,
     actionType,
     modelName,
     name,
@@ -53,7 +53,7 @@ const normalResolver = async function ({
 };
 
 const getAction = function ({
-  multiple,
+  isArray,
   actionType,
   modelName,
   name,
@@ -61,7 +61,7 @@ const getAction = function ({
 }) {
   // Retrieve action name, passed to database layer
   const action = ACTIONS.find(act =>
-    act.multiple === multiple && act.type === actionType
+    act.multiple === isArray && act.type === actionType
   );
 
   validateAction({ action, modelName, name, graphqlMethod, actionType });
