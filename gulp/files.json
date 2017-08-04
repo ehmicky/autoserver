@@ -2,9 +2,7 @@
   "*.js": { "lint": true },
   "*.md": { "lint": true },
   "src/**/*.js": { "lint": true },
-  "src/**/*.md": { "lint": true },
   "gulp/**/*.js": { "lint": true },
-  "gulp/**/*.md": { "lint": true },
   "examples/**/*.js": { "lint": true },
-  "examples/**/*.md": { "lint": true }
+  "docs/**/*.md": { "lint": true }
 }

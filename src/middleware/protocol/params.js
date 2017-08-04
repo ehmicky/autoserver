@@ -8,9 +8,6 @@ const { addLogInfo } = require('../../logging');
 
 // Fill in `input.params`, which are custom application-specific information,
 // defined by the library user, not by the API engine.
-// They can be defined:
-//  - in headers, namespaced, i.e. 'X-Api-Engine-Param-My-Param'
-//  - in query string, using `params.myParam`
 // Values are automatically transtyped.
 // Are set to JSL param $PARAMS
 const parseParams = async function (nextFunc, input) {
