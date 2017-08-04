@@ -1,6 +1,6 @@
 'use strict';
 
-const { getAttrFieldName } = require('../name');
+const { getAttrFieldName } = require('../../name');
 
 const getNestedModels = function ({
   def,

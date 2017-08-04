@@ -2,13 +2,13 @@
 
 const { GraphQLString } = require('graphql');
 
-const { omitBy, mapValues } = require('../../../../../utilities');
-const { ACTIONS } = require('../../../../../constants');
-const { getArgs } = require('../args');
-const { getDefaultValue } = require('../default');
+const { omitBy, mapValues } = require('../../../../../../utilities');
+const { ACTIONS } = require('../../../../../../constants');
 
 const { getNestedModels } = require('./nested_models');
 const { filterArgs } = require('./filter_args');
+const { getDefaultValue } = require('./default');
+const { getArgs } = require('./args');
 
 // Retrieve the fields of an object, using IDL definition
 const getObjectFields = function (parentDef, opts) {
