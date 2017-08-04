@@ -10,8 +10,8 @@ const {
 const { throwError } = require('../../../../error');
 const { stringifyJSON } = require('../../../../utilities');
 
-const { graphQLRequiredTGetter } = require('./required');
-const { graphQLArrayTGetter } = require('./array');
+const { graphQLRequiredTest, graphQLRequiredTGetter } = require('./required');
+const { graphQLArrayTest, graphQLArrayTGetter } = require('./array');
 const { graphQLObjectTGetter } = require('./object');
 
 /**
@@ -23,13 +23,13 @@ const graphQLTGetters = [
 
   // "Required" modifier type
   {
-    condition: (def, opts) => opts.isRequired,
+    condition: graphQLRequiredTest,
     value: graphQLRequiredTGetter,
   },
 
   // "Array" modifier type
   {
-    condition: def => def.action && def.action.multiple && !def.arrayWrapped,
+    condition: graphQLArrayTest,
     value: graphQLArrayTGetter,
   },
 

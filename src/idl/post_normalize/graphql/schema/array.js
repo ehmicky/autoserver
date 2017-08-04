@@ -2,6 +2,13 @@
 
 const { GraphQLList } = require('graphql');
 
+const graphQLArrayTest = function (def) {
+  // Already wrapped in Array type
+  if (def.arrayWrapped) { return false; }
+
+  return def.action && def.action.multiple;
+};
+
 // Array field TGetter
 const graphQLArrayTGetter = function (def, opts) {
   const defA = { ...def, arrayWrapped: true };
@@ -11,5 +18,6 @@ const graphQLArrayTGetter = function (def, opts) {
 };
 
 module.exports = {
+  graphQLArrayTest,
   graphQLArrayTGetter,
 };

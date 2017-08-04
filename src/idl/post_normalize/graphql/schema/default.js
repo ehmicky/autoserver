@@ -5,12 +5,10 @@ const { isJsl } = require('../../../../jsl');
 const getDefaultValue = function ({
   def,
   def: { action },
-  opts: { isRequired: isRequiredOpt, inputObjectType },
+  opts: { inputObjectType },
 }) {
-  // Can only assign default to input data that is optional.
   // 'update' does not required anything, nor assign defaults
-  const hasDefaultValue = !isRequiredOpt &&
-    inputObjectType === 'data' &&
+  const hasDefaultValue = inputObjectType === 'data' &&
     action.type !== 'update' &&
     def.default;
   if (!hasDefaultValue) { return; }
