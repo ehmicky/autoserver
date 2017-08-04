@@ -1,6 +1,6 @@
 'use strict';
 
-const { isJsl } = require('../../../../jsl');
+const { isJsl } = require('../../../../../../jsl');
 
 const getDefaultValue = function ({
   def,
