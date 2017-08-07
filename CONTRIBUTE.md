@@ -49,5 +49,4 @@ We are using [editorconfig](http://editorconfig.org/), so please install the plu
 
 # Terminology
 
-TODO, about terminology and concepts (layer, middleware, protocol, operation,
-GraphQLMethod, method, goal, command, action, attribute vs property, etc.)
+See [here](docs/terminology.md)
