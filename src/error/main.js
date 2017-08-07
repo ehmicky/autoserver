@@ -22,7 +22,7 @@ const validateError = function (opts) {
   const nonAllowedOpts = difference(optsKeys, allowedOpts);
 
   if (nonAllowedOpts.length > 0) {
-    const message = `Cannot use options ${nonAllowedOpts} when throwing an error`;
+    const message = `Cannot use options '${nonAllowedOpts}' when throwing an error`;
     throwError(message, { reason: 'UTILITY_ERROR' });
   }
 };

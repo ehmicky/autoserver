@@ -58,10 +58,8 @@ const middleware = [
   protocol.parsePayload,
   // Parse headers into protocol-agnostic format
   protocol.parseHeaders,
-  // Parse operation-wide settings
-  protocol.parseSettings,
-  // Parse application-specific headers
-  protocol.parseParams,
+  // Parse operation-wide settings, and application-specific headers
+  protocol.parseSettingsParams,
   // Retrieves input.route, using input.path
   protocol.router,
 
@@ -73,8 +71,8 @@ const middleware = [
   operation.operationNegotiator,
   // Operation-related validation middleware
   operation.operationValidation,
-  // Remove response data if settings noOutput is specified
-  operation.noOutput,
+  // Remove response data if settings nooutput is specified
+  operation.nooutput,
   // Translates operation-specific calls into generic instance actions
   operation.operationExecute,
 

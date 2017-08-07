@@ -16,8 +16,7 @@ module.exports = {
   ...require('./query_string'),
   ...require('./headers'),
   ...require('./payload'),
-  ...require('./settings'),
-  ...require('./params'),
+  ...require('./settings_params'),
   ...require('./routing'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./logger'),
