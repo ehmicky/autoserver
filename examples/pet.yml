@@ -1,0 +1,149 @@
+engine: api-engine 1.0.0
+models:
+  pet:
+    description: Cute animal
+    commands: [create, read, update, delete]
+    x-custom: anything
+    attributes:
+      id:
+        description: Unique identifier of a pet
+      name:
+        type: string
+        description: How to call a pet
+        validate:
+          required: true
+          oneOf:
+          - pattern: '^[a-zA-Z]+$'
+          - pattern: '[0-9]+$'
+          allOf:
+          - not:
+              pattern: '^__'
+          - not:
+              pattern: '^[0-9]'
+          anyOf:
+          - pattern: '[a-z]'
+          - pattern: '[A-Z]'
+          - pattern: '[0-9]'
+          if:
+            pattern: '^super'
+          then:
+            pattern: '[a-z]'
+          else:
+            pattern: '[A-Z]'
+        x-custom: anything
+      weight:
+        type: number
+        description: Corrolated to how much a pet has eaten
+        deprecation_reason: Let's stop measuring pet's weight
+        default: 15
+        alias: old_weight_name
+        validate:
+          minimum: 0.5
+          maximum: 30
+          exclusiveMinimum: 0.5
+          exclusiveMaximum: 30
+          multipleOf: 0.000001
+          IsNotEqual: 10
+      is_overweight:
+        type: boolean
+        description: Has the pet being eating too much?
+        default: false
+        validate:
+          const: false
+      photo_urls:
+        type: string[]
+        description: Sweet pictures of a pet
+        validate:
+          required: true
+      skills:
+        type: pet_skills
+      tags:
+        type: string[]
+        description: Tags applying to this pet
+        default: []
+        validate:
+          items:
+            minLength: 2
+            maxLength: 200
+            pattern: '^[a-zA-Z0-9 ]+$'
+            enum: [suspended, adorable]
+          if:
+            minItems: 10
+          then:
+            contains:
+              enum: [suspended]
+          additionalItems: false
+          minItems: 0
+          maxItems: 30
+          uniqueItems: true
+      status:
+        description: Has this pet been adopted
+        transform:
+        - value: ($.toLowerCase() + " " + $$.weight)
+          test: (typeof $ === 'string')
+          using: weight
+        default:
+          $ref: default_value.js
+      creator_key:
+        description: Key of the user that created this pet
+        readOnly: true
+        compute: (String(moreRecursiveFunc()))
+      best_friend:
+        type: pet
+        description: This pet's best friend
+        validate:
+          dependencies: [friends]
+      friends:
+        type: pet[]
+        description: This pet's friends
+        validate:
+          required: true
+      owners:
+        type: owner[]
+      birth_date:
+        default: (birthDate)
+        validate:
+          format: date
+          formatMinimum: 2000-01-01
+          formatExclusiveMinimum: true
+          formatMaximum: 2100-01-01
+          formatExclusiveMinimum: false
+  owner:
+    $ref: owner.yml
+  pet_skills:
+    $ref: pet_skills.yml
+  default:
+    commands: [create, read, update, delete]
+helpers:
+  - myMathFunc: (($1 * $2) + ($3 * $4))
+    exampleFunction: '(myMathFunc(1, 10, 100, 2) + myOtherMathFunc({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
+    recursive_func: (exampleFunction())
+    moreRecursiveFunc: (recursive_func() + TestConstant + $OPERATION)
+    birthDate:
+      value: 2005-01-01
+      exposed: true
+    myOtherMathFunc:
+      value:
+        $ref: math_func.js
+      useParams: true
+    user: '(({ id: "1" }))'
+  - $ref: underscore.string
+  - $ref: lodash
+  - $ref: constants.json
+plugins:
+  - plugin:
+      $ref: test_plugin.js
+    opts:
+      exampleOption: true
+    enabled: true
+  - plugin: timestamp
+  - plugin: author
+    opts:
+      user: (user())
+      model: owner
+validation:
+  IsNotEqual:
+    test: ($ !== $EXPECTED)
+    message: (`must not be equal to ${$EXPECTED}`)
+    type: number
+x-custom: anything

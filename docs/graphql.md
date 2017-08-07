@@ -5,7 +5,7 @@ Clients can query the GraphQL server by using the endpoint at
 
 Clients can also perform queries using a web application available at
 `http://hostname:port/graphiql`.
-They can see the GraphQL schema by clicking on "docs".
+They can see the GraphQL schema by clicking on `Documentation explorer`.
 
 Finally, clients can see the GraphQL schema as HTML at
 `http://hostname:port/graphql/schema`.
@@ -176,7 +176,7 @@ mutation {
 
 # Nested models
 
-One can retrieve nested models, e.g.:
+One can retrieve or modify nested models, e.g.:
 
 ```graphql
 query {
@@ -217,7 +217,6 @@ because it is already available as `user.manager`. However if there were several
 managers (i.e. an array of `id`), one could specify which `id`s to retrieve.
 
 Nested queries work otherwise exactly like other queries.
-
 
 They can be performed both on models (`findManager`) or on collections
 (`findManagers`).

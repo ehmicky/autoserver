@@ -8,7 +8,7 @@ additional properties:
     - `message` `{string}`
     - `title` `{string}`: short generic description
     - `type` `{string}`: error type
-    - `status` `{string}` - protocol-specific status, e.g. `404`
+    - `status` `{string}`: protocol-specific status, e.g. `404`
     - `instance` `{string}`: URL that was called, if any
     - `stack` `{string}`: stack trace
 

@@ -70,7 +70,7 @@ Events are fired with an object as payload, with properties:
   - `exitStatuses` `{object}` - for events of type `stop`, returns which
     server successfully exited or not, as `{ HTTP: boolean, ... }`
   - `measures` `{object}` and `measuresMessage` `string` - for events of type
-    `perf`, [performance information](performance-monitoring)
+    `perf`, [performance information](#performance-monitoring)
 
 # Server information
 
@@ -132,9 +132,9 @@ with the properties:
   - `status` `{string}` - protocol-agnostic status, among `'INTERNALS'`,
     `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathVars` `{object}` - URL variables, as a hash table
-  - `params` `{object}` - Parameters, as a hash table.
-  - `settings` `{object}` - Settings, as a hash table.
-  - `queryVars` `{object}` - Query variables, as a hash table
+  - `params` `{object}` - [parameters](jsl.md#jsl-parameters), as a hash table.
+  - `settings` `{object}` - [settings](settings.md), as a hash table.
+  - `queryVars` `{object}` - query variables, as a hash table
   - `headers` `{object}` - protocol headers (e.g. HTTP headers), as a hash table
   - `payload` `{any}` - request payload
   - `payloadSize` `{number}` - in bytes
