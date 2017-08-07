@@ -408,3 +408,7 @@ upsertOne({ data })
 ```graphql
 upsertMany({ data[], [order_by], [page_size] })
 ```
+
+# Error responses
+
+See [here](error.md#error-responses) for information about error responses.
