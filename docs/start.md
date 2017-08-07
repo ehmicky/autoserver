@@ -1,8 +1,7 @@
 # Starting a server
 
+<!-- eslint-disable no-unused-vars, no-undef, strict -->
 ```javascript
-'use strict';
-
 const { startServer } = require('api-engine');
 
 const server = startServer({ conf: 'my_schema.yml', ...otherOptions });
@@ -39,6 +38,7 @@ The returned `server` is an event emitter
 (using [EventEmitter2](https://github.com/asyncly/EventEmitter2))
 which can e.g. be listened to as:
 
+<!-- eslint-disable no-undef, strict -->
 ```javascript
 server.on('start', () => {
   serverHasStarted();
