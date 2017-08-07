@@ -62,9 +62,9 @@ For the log events, see [logging](logging.md).
 
 Some information is available on the returned `server`:
   - `server.options` `{object}`: options passed during initialization
-  - `server.servers.HTTP` {Server}: Node.js HTTP server
-  - `server.info.serverId` {string}: UUID unique to each server run
-  - `server.info.serverName` {string}: same as `serverName` option
-  - `server.info.version` {string}: api-engine version
+  - `server.servers.HTTP` `{Server}`: Node.js HTTP server
+  - `server.info.serverId` `{string}`: UUID unique to each server run
+  - `server.info.serverName` `{string}`: same as `serverName` option
+  - `server.info.version` `{string}`: api-engine version
 
 `options` and `servers` will only be available after the `start` event is fired.

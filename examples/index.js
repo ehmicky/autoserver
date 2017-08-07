@@ -3,7 +3,7 @@
 const { startServer } = require('../index');
 
 const apiServer = startServer({
-  conf: './examples/pet.schema.yml',
+  conf: './examples/pet.yml',
   logFilter: {
     payload: ({ id }) => id,
     headers: ['host'],

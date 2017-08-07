@@ -16,9 +16,6 @@ properties:
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
-  # Default commands
-  commands:
-    $ref: '#/definitions/commands'
   # Custom functions that can be used in JSL
   helpers:
     oneOf:
@@ -66,7 +63,6 @@ definitions:
         $ref: '#/definitions/commands'
       attributes:
         type: object
-        # For models' attributes
         additionalProperties:
           $ref: '#/definitions/attribute'
         propertyNames:
@@ -156,7 +152,7 @@ definitions:
           readOnly:
             not:
               const: false
-  # idl.commands or model.commands
+  # model.commands
   # E.g. `commands: [read, createOne]`
   # This property restricts which commands a specific model can perform
   commands:
@@ -273,7 +269,6 @@ definitions:
     - number
     - integer
     - boolean
-    - 'null'
     # Not allowed: should use models instead
     # - object
     # Not allowed: should use [] notation instead
@@ -284,7 +279,6 @@ definitions:
     - number[]
     - integer[]
     - boolean[]
-    - 'null[]'
   # attr.transform or attr.compute
   transformCompute:
     oneOf:
@@ -344,7 +338,7 @@ definitions:
     $ref: '#/definitions/jsonSchema'
   # Value of schema.type from JSON schema
   jsonSchemaType:
-    oneOF:
+    oneOf:
     - type: string
       enum: [string, number, integer, boolean, null, object, array]
     - type: array

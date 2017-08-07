@@ -5,14 +5,14 @@ to add any custom logic.
 
 JSL can be used in many parts of the system, mainly:
   - in clients queries:
-    - on `filter`
-    - on `data` for the action `update`
+    - on [`filter`](graphql.md#filtering)
+    - on [`data`](graphql.md#sorting) for the action `update`
   - in [IDL file](idl.md):
-    - on attributes' transforms
-    - on attributes' default values
-    - on custom validation keywords
+    - on attributes' [transforms](transformation.md#transformations)
+    - on attributes' [default values](transformation.md#default-values)
+    - on [custom validation keywords](validation.md#custom-validation)
 
-JSL can take two forms: inline or external.
+JSL can take two forms: [inline](#inline-jsl) or [external](#external-jsl).
 
 # Inline JSL
 
@@ -32,10 +32,14 @@ wrapped in parenthesis. E.g.:
   - this is inline JSL: `(1 + 1)`
   - this is not inline JSL: `\(1 + 1)`
 
+Constants can be always be used instead of inline JSL.
+
 # External JSL
 
 One can use regular JavaScript files instead of inlining it. Files can be
-required using JSON references, e.g.:
+required using
+[JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),
+e.g.:
 
 ```yml
 default:
@@ -52,10 +56,10 @@ The following variables are available:
   - `$IP` `{string}`: request IP
   - `$REQUEST_ID` `{string}`: UUID identifying the current request
   - `$PARAMS` `{object}`: all [parameters](#jsl-parameters)
-  - `$SETTINGS` `{object}`: all [settings](http.md#settings)
+  - `$SETTINGS` `{object}`: all [settings](settings.md)
   - `$OPERATION` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
-  - `$MODEL` `{string}`: name of the model, e.g. `user`
+  - `$MODEL` `{string}`: name of the [model](models.md), e.g. `user`
   - `$ARGS` `{object}`: arguments passed by client to the specific action
   - `$COMMAND` `{string}`: current command, among `create`, `read`, `update` or
     `delete`
@@ -66,7 +70,8 @@ The following variables are available:
     E.g. `{ filter: { name: '$ === $$.first_name' } }`
     checks whether `model.name === model.first_name`
 
-The following variable is available only to custom validation keyword:
+The following variable is available only to
+[custom validation](validation.md#custom-validation) keyword:
   - `$EXPECTED` `${any}`: value passed as argument to the custom validation
     keyword
 
@@ -76,11 +81,20 @@ Clients queries `filter` and `data` can only use `$` and `$$` JSL variables.
 
 Helpers are functions that can be used in any JSL, as any other JSL variable.
 
-They cannot be used by client queries, unless the IDL option `exposeTo` is used.
+They are specified under the top-level properties
+`helpers`, which can be an array of objects (which are merged) or a single
+object. Each object is a map of JSL helpers, with:
+  - the key being the helper's name
+  - the value being either the helper's value, of an object with properties:
+    - `value` `{jsl}`
+    - `exposed` `{boolean}` (default: `false`): allow clients to use this
+      helper
+    - `useParams` `{boolean}` (default: `false`): pass other JSL variables
+      as first argument to helper function
 
 They can use the same JSL variables as the function that calls them.
-If the helper is external JSL, the IDL option `useParams` must be used to pass
-the JSL variables as first argument.
+If the helper is external JSL, the IDL option `useParams` must be used to
+pass the JSL variables as first argument.
 
 Inline JSL can also use positional arguments, passed as JSL variables
 `$1`, `$2`, etc.
@@ -88,6 +102,23 @@ Inline JSL can also use positional arguments, passed as JSL variables
 JSL helpers can call each other.
 
 They must be pure functions.
+
+Example:
+
+```yml
+helpers:
+  - myMathFunc: (($1 * $2) + ($3 * $4))
+    exampleFunction: '(myMathFunc(1, 10, 100, 2))'
+    birthDate:
+      value: 2005-01-01
+      exposed: true
+    myOtherMathFunc:
+      value:
+        $ref: math_func.js
+      useParams: true
+  - $ref: lodash
+  - $ref: constants.json
+```
 
 # JSL parameters
 
