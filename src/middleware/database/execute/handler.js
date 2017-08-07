@@ -8,10 +8,10 @@ const databaseExecute = function (nextFunc, input) {
   const { command, args = {}, settings, modelName, jsl, idl } = input;
 
   const { nOrderBy, limit, offset, newData, nFilter } = args;
-  const { dryRun } = settings;
+  const { dryrun } = settings;
   const collection = database[modelName];
 
-  const opts = { jsl, idl, nOrderBy, limit, offset, dryRun, modelName };
+  const opts = { jsl, idl, nOrderBy, limit, offset, dryrun, modelName };
   const commandInput = { command, collection, nFilter, newData, opts };
   const response = fireCommand(commandInput);
 

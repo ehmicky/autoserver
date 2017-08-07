@@ -4,11 +4,11 @@ const { v4: uuiv4 } = require('uuid');
 
 const { findIndex } = require('../find');
 
-const create = function ({ collection, newData, opts, opts: { dryRun } }) {
+const create = function ({ collection, newData, opts, opts: { dryrun } }) {
   const id = getCreateId({ collection, newData, opts });
   const newModel = { ...newData, id };
 
-  if (!dryRun) {
+  if (!dryrun) {
     // eslint-disable-next-line fp/no-mutating-methods
     collection.push(newModel);
   }
