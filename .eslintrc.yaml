@@ -6,6 +6,7 @@ root: true
 
 # Most parserOptions are implied by feross/standard
 parserOptions:
+  ecmaVersion: 9
   sourceType: script
 
 # feross/standard implies "node" and "es6"

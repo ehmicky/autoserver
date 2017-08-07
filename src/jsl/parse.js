@@ -8,7 +8,7 @@ const { memoizeUnlessClient } = require('./memoize');
 // Parse JSL into a top-level node
 const parseNode = memoizeUnlessClient(({ jslText, type }) => {
   try {
-    return parse(jslText);
+    return parse(jslText, { ecmaVersion: 9 });
   } catch (error) {
     const message = `JSL syntax error: '${jslText}'`;
     throwJslError({ message, type, innererror: error });
