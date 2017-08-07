@@ -45,7 +45,7 @@ The event level is the importance of the event, among `info`, `log`, `warn`
 or `error`,
 
 The logging verbosity can be adjusted using the
-[server option](start.md#server-options) `loggerLevel`, which defaults to
+[server option](start.md#server-options) `logLevel`, which defaults to
 `info`. It only affects the log console output, not the log events that are
 emitted.
 
@@ -171,9 +171,9 @@ circumstances, e.g. if an error happened.
 
 To avoid the request information to be too big or leak security information,
 one can set filters using the [server option](start.md#server-options)
-`loggerFilter`.
+`logFilter`.
 
-`loggerFilter` is an object, with each property being a function that takes
+`logFilter` is an object, with each property being a function that takes
 parts of the request information and returns it modified. It is also possible
 to use an array of strings instead as a shortcut, in order to only keep some
 properties.

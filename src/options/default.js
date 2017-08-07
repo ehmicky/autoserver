@@ -12,8 +12,8 @@ const defaultOptions = {
   maxDataLength: 1000,
   defaultPageSize: 100,
   maxPageSize: 100,
-  loggerLevel: 'info',
-  loggerFilter: {
+  logLevel: 'info',
+  logFilter: {
     payload: ['id'],
     response: ['id'],
     argData: ['id'],
