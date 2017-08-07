@@ -2,13 +2,13 @@
 
 const operations = require('./operations');
 
-// Apply `nooutput` settings:
+// Apply `silent` settings:
 //   - if true, the action will modify the database, but return an empty
 //     response
 //   - defaults to true for `delete`, false otherwise
 //   - this can also be set for all the actions using:
 //      - Prefer: return=minimal HTTP request header
-const nooutput = async function (nextFunc, input) {
+const silent = async function (nextFunc, input) {
   const response = await nextFunc(input);
 
   const newResponse = getResponse({ input, response });
@@ -16,17 +16,17 @@ const nooutput = async function (nextFunc, input) {
 };
 
 const getResponse = function ({
-  input: { operation, settings: { nooutput: nooutputSettings } },
+  input: { operation, settings: { silent: silentSettings } },
   response,
   response: { actions },
 }) {
   const isDelete = actions && actions.some(({ type }) => type === 'delete');
-  const shouldRemoveOutput = isDelete || nooutputSettings;
+  const shouldRemoveOutput = isDelete || silentSettings;
   if (!shouldRemoveOutput) { return response; }
 
-  return operations[operation].nooutput(response);
+  return operations[operation].silent(response);
 };
 
 module.exports = {
-  nooutput,
+  silent,
 };

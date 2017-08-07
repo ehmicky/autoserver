@@ -4,6 +4,6 @@ module.exports = {
   ...require('./convertor'),
   ...require('./negotiator'),
   ...require('./validation'),
-  ...require('./no_output'),
+  ...require('./silent'),
   ...require('./execute'),
 };

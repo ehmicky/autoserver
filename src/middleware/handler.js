@@ -71,8 +71,8 @@ const middleware = [
   operation.operationNegotiator,
   // Operation-related validation middleware
   operation.operationValidation,
-  // Remove response data if settings nooutput is specified
-  operation.nooutput,
+  // Remove response data if settings silent is specified
+  operation.silent,
   // Translates operation-specific calls into generic instance actions
   operation.operationExecute,
 
