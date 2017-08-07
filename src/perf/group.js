@@ -2,13 +2,7 @@
 
 const { groupBy } = require('../utilities');
 
-// Normalize and group measures, returning an array of:
-//  - [category="default"] {string}
-//  - label {string}
-//  - duration {number} - sum of all measures durations, in milliseconds
-//  - measures {number[]} - each measure duration, in milliseconds
-//  - count {number} - number of measures
-//  - average {number} - average measure duration, in milliseconds
+// Normalize and group measures, returning an array of objects
 const groupMeasures = function ({ measures }) {
   // Only keep finished measures
   const filteredMeasures = measures

@@ -3,7 +3,8 @@
 const { magenta, green, yellow, red, gray, reset, dim } = require('chalk');
 
 // Colorize a standard error message
-// Not performed if `node --no-color` or terminal does not support colors
+// Not performed if `--no-color`, environment variable `FORCE_COLOR=0` or
+// terminal does not support colors
 const colorize = function ({ type, level, message }) {
   const [, first, second, third, , fourth = ''] = messageRegExp.test(message)
     ? messageRegExp.exec(message)

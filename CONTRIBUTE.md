@@ -26,7 +26,7 @@ and also checking code duplication.
 We follow the [standard JavaScript style](https://standardjs.com), except
 for semicolons and trailing commas.
 
-We enforce a pretty strong functional programming style with
+Additionally, we enforce a pretty strong functional programming style with
 [ESLint](http://eslint.org/), which includes: no complex or big functions,
 no OOP, immutability everywhere, pure functions and no complex loops
 or structures.
