@@ -10,8 +10,8 @@ const getSettings = function ({ input }) {
   return omitBy(settings, value => value === undefined);
 };
 
-// Using `Prefer: return=minimal` request header -> settings.nooutput
-const nooutput = function ({ input: { headers } }) {
+// Using `Prefer: return=minimal` request header -> settings.silent
+const silent = function ({ input: { headers } }) {
   const preferHeader = parsePreferHeader({ headers });
   const hasMinimalPreference = preferHeader.return === 'minimal';
 
@@ -21,7 +21,7 @@ const nooutput = function ({ input: { headers } }) {
 };
 
 const parsers = {
-  nooutput,
+  silent,
 };
 
 module.exports = {

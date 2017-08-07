@@ -45,7 +45,7 @@ const validateBooleanSettings = function ({ values, name, value }) {
 };
 
 const validators = {
-  nooutput: validateBooleanSettings,
+  silent: validateBooleanSettings,
   dryrun: validateBooleanSettings,
 };
 
