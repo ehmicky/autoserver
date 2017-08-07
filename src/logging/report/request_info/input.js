@@ -2,19 +2,19 @@
 
 const { makeImmutable } = require('../../../utilities');
 
-const reduceInput = function (requestInfo, loggerFilter) {
+const reduceInput = function (requestInfo, logFilter) {
   return reducers.reduce(
-    (info, reducer) => reducer(info, loggerFilter),
+    (info, reducer) => reducer(info, logFilter),
     requestInfo,
   );
 };
 
-const inputReducer = function (attrName, requestInfo, loggerFilter) {
+const inputReducer = function (attrName, requestInfo, logFilter) {
   const { [attrName]: value } = requestInfo;
   if (!value || value.constructor !== Object) { return requestInfo; }
 
   const valueA = makeImmutable(value);
-  const valueB = loggerFilter[attrName](valueA);
+  const valueB = logFilter[attrName](valueA);
 
   return { ...requestInfo, [attrName]: valueB };
 };

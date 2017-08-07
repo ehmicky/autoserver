@@ -17,7 +17,7 @@ const { consolePrint } = require('./console');
 const reportLog = async function ({
   level,
   log,
-  log: { serverOpts: { loggerLevel } },
+  log: { serverOpts: { logLevel } },
   message,
   info,
   info: { type = 'message' } = {},
@@ -25,7 +25,7 @@ const reportLog = async function ({
 }) {
   const reportedLog = getReportedLog({ level, log, message, info });
 
-  consolePrint({ type, level, message: reportedLog.message, loggerLevel });
+  consolePrint({ type, level, message: reportedLog.message, logLevel });
 
   await emitLogEvent({ level, log, info, reportedLog, isLogError });
 };

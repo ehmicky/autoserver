@@ -4,11 +4,11 @@ const { startServer } = require('../index');
 
 const apiServer = startServer({
   conf: './examples/pet.schema.yml',
-  loggerFilter: {
+  logFilter: {
     payload: ({ id }) => id,
     headers: ['host'],
   },
-  loggerLevel: 'info',
+  logLevel: 'info',
   maxDataLength: 1000,
   defaultPageSize: 100,
   maxPageSize: 100,

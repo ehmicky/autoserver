@@ -4,29 +4,29 @@ const { mapValues } = require('../../../utilities');
 
 const { reduceInfo } = require('./reducer');
 
-const reduceActions = function (requestInfo, loggerFilter) {
+const reduceActions = function (requestInfo, logFilter) {
   const { actions } = requestInfo;
   if (!isObject(actions)) { return requestInfo; }
 
   const actionsA = mapValues(
     actions,
-    actionInfo => reduceAction(actionInfo, loggerFilter),
+    actionInfo => reduceAction(actionInfo, logFilter),
   );
   return { ...requestInfo, actions: actionsA };
 };
 
-const reduceAction = function (actionInfo, loggerFilter) {
+const reduceAction = function (actionInfo, logFilter) {
   return actionsReducers.reduce(
-    (info, reducer) => reducer(info, loggerFilter),
+    (info, reducer) => reducer(info, logFilter),
     actionInfo,
   );
 };
 
-const reduceArgData = function (actionInfo, loggerFilter) {
+const reduceArgData = function (actionInfo, logFilter) {
   const args = reduceInfo({
     info: actionInfo.args,
     attrName: 'data',
-    filter: loggerFilter.argData,
+    filter: logFilter.argData,
   });
   return { ...actionInfo, args };
 };

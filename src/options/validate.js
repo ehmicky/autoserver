@@ -12,7 +12,7 @@ const validateOptions = function (serverOpts) {
 
 const reportInfo = { type: 'options', dataVar: 'options' };
 
-const loggerFilterProps = [
+const logFilterProps = [
   'payload',
   'response',
   'argData',
@@ -22,14 +22,14 @@ const loggerFilterProps = [
   'params',
   'settings',
 ];
-const loggerFilterSchema = {
+const logFilterSchema = {
   oneOf: [
     { type: 'array', items: { type: 'string' } },
     { typeof: 'function' },
   ],
 };
-const loggerFilterProperties = loggerFilterProps
-  .map(attrName => ({ [attrName]: loggerFilterSchema }))
+const logFilterProperties = logFilterProps
+  .map(attrName => ({ [attrName]: logFilterSchema }))
   .reduce(assignObject, {});
 
 const schema = {
@@ -41,14 +41,14 @@ const schema = {
       type: ['string', 'object'],
     },
 
-    loggerLevel: {
+    logLevel: {
       type: 'string',
       enum: ['info', 'log', 'warn', 'error', 'silent'],
     },
 
-    loggerFilter: {
+    logFilter: {
       type: 'object',
-      properties: loggerFilterProperties,
+      properties: logFilterProperties,
       additionalProperties: false,
     },
 

@@ -10,19 +10,19 @@ const { trimErrorInfo } = require('./error_info');
 // Also rename `errorReason` to `error`.
 // Also remove redundant information between `errorInfo` and `requestInfo`
 const getRequestInfo = function ({
-  log: { phase, serverOpts: { loggerFilter }, logInfo },
+  log: { phase, serverOpts: { logFilter }, logInfo },
   info,
 }) {
   if (phase !== 'request') { return; }
 
-  const requestInfo = getRequestObject(logInfo, loggerFilter);
+  const requestInfo = getRequestObject(logInfo, logFilter);
   const errorInfo = trimErrorInfo({ info });
   return { requestInfo, errorInfo };
 };
 
-const getRequestObject = function (log, loggerFilter) {
+const getRequestObject = function (log, logFilter) {
   return processors.reduce(
-    (requestInfo, processor) => processor(requestInfo, loggerFilter),
+    (requestInfo, processor) => processor(requestInfo, logFilter),
     log,
   );
 };

@@ -30,7 +30,7 @@ The following options are HTTP-related:
   - `http.port`: defaults to `80`. Can be `0` for "any available port".
   - `http.enabled`: specify `false` to disable HTTP server (defaults to `true`)
 
-For `serverName`, `loggerFilter` and `loggerLevel`, see [logging](logging.md).
+For `serverName`, `logFilter` and `logLevel`, see [logging](logging.md).
 
 # Server events
 

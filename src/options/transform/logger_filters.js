@@ -3,14 +3,14 @@
 const { pick, mapValues } = require('../../utilities');
 
 const transformLoggerFilters = function (serverOpts) {
-  const { loggerFilter } = serverOpts;
+  const { logFilter } = serverOpts;
 
-  const hasLoggerFilter = loggerFilter && loggerFilter.constructor === Object;
+  const hasLoggerFilter = logFilter && logFilter.constructor === Object;
   if (!hasLoggerFilter) { return serverOpts; }
 
-  const loggerFilterA = mapValues(loggerFilter, filter => normFilter(filter));
+  const logFilterA = mapValues(logFilter, filter => normFilter(filter));
 
-  return { ...serverOpts, loggerFilter: loggerFilterA };
+  return { ...serverOpts, logFilter: logFilterA };
 };
 
 const normFilter = function (filter) {
