@@ -94,8 +94,8 @@ They must be pure functions.
 Clients can specify their own JSL variables on any specific request,
 called "JSL parameters", and available under `$PARAMS`.
 
-There are two ways to specify them, e.g. the parameter `My-Param` could
+There are two ways to specify them, e.g. the parameter `myparam` could
 be specified:
-  - in HTTP headers, e.g. `X-Api-Engine-Param-My-Param: value`
-  - in the URL query string, e.g. `?params.myParam=value`.
-    Note that no dash will be used then, and the case will be different.
+  - in HTTP headers, e.g. `X-Api-Engine-Param-Myparam: value`
+  - in the URL query string, e.g. `?params.myparam=value` or
+    `?params.myparam` (the later uses default value `true`).
