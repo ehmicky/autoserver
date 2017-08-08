@@ -13,7 +13,8 @@ models:
 
 # Format
 
-The file can be written in either YAML or JSON.
+The file can be written in either YAML or JSON. YAML files can only contain
+JSON-compatible types.
 
 External files (local or remote) or Node.js modules can be included by using
 [JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),

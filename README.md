@@ -35,8 +35,8 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [custom JavaScript logic](docs/jsl.md) and [plugins](docs/plugins.md)
   - extensive [error handling](docs/error.md) and
     [logging](docs/logging.md) capabilities
-  - [performance monitoring](docs/logging.md#performance-monitoring)
-  - request timeout
+  - [performance monitoring](docs/performance.md#performance-monitoring)
+  - [request timeout](docs/performance.md#request-timeout)
 
 # Starting the server
 

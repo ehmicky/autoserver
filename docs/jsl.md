@@ -130,3 +130,8 @@ be specified:
   - in HTTP headers, e.g. `X-Api-Engine-Param-Myparam: value`
   - in the URL query string, e.g. `?params.myparam=value` or
     `?params.myparam` (the later uses default value `true`).
+    Query strings values can be:
+      - objects, using `?params.myparam[name]=value` or
+        `?params.myparam.name=value`
+      - arrays, using `?params.myparam[index]=value` or
+        `?params.myparam[]=value`

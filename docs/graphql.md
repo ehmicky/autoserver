@@ -281,6 +281,8 @@ More complex sorting can be achieved with:
 findUsers(order_by: "first_name-,last_name")
 ```
 
+`order_by` defaults to `"id"`.
+
 # Cursor pagination
 
 Plural actions are paginated by default.
