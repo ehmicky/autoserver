@@ -2,8 +2,8 @@
 
 const { toSentence } = require('underscore.string');
 
-const { mapValues, omit, assignObject } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { mapValues, omit, assignObject } = require('../../../../utilities');
+const { throwError } = require('../../../../error');
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
