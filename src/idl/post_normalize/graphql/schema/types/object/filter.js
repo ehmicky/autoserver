@@ -27,7 +27,7 @@ const filterField = function ({
   // Readonly fields cannot be specified as data argument
   ) || (
     inputObjectType === 'data' &&
-    def.readOnly
+    def.readonly
   // `updateOne|updateMany` do not allow data.id
   ) || (
     defName === 'id' &&
