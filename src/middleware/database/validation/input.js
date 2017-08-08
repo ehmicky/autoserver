@@ -47,8 +47,11 @@ const validateSingleAttr = function ({
   data,
 }) {
   const value = removeAllJsl(data);
+  const valueA = removeEmpty(value);
+
   const reportInfo = { type, dataVar };
-  validate({ idl, schema, data: value, reportInfo, extra: jsl });
+
+  validate({ idl, schema, data: valueA, reportInfo, extra: jsl });
 
   return input;
 };
@@ -71,6 +74,13 @@ const removeJsl = function (value) {
   }
 
   return value;
+};
+
+// In theory, the previous middleware should not leave any value null|undefined,
+// so this should be a noop. This is just an extra safety.
+// This converts null|undefined to "no key".
+const removeEmpty = function (value) {
+  return omitBy(value, prop => prop == null);
 };
 
 module.exports = {
