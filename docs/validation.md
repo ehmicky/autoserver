@@ -76,10 +76,10 @@ keyword name and the value an object with the properties:
 
 # Readonly attributes
 
-Attributes can be marked as read-only, e.g. trying to modify them will not do
-anything (but won't report any error), using `attribute.readOnly`, e.g.:
+Attributes can be marked as readonly, e.g. trying to modify them will not do
+anything (but won't report any error), using `attribute.readonly`, e.g.:
 
 ```yml
 weight:
-  readOnly: true
+  readonly: true
 ```

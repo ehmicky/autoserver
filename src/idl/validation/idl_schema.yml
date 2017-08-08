@@ -99,7 +99,7 @@ definitions:
           items:
             type: string
             $ref: '#/definitions/validAttributeName'
-      readOnly:
+      readonly:
         type: boolean
       transform:
         $ref: '#/definitions/transformCompute'
@@ -149,7 +149,7 @@ definitions:
         not:
           required: [transform, default]
         properties:
-          readOnly:
+          readonly:
             not:
               const: false
   # model.commands

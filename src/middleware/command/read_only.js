@@ -2,42 +2,42 @@
 
 const { omit } = require('../../utilities');
 
-// Removes attributes marked in IDL as `readOnly`.
+// Removes attributes marked in IDL as `readonly`.
 // This is done silently (i.e. does not raise warnings or errors),
 // because readonly attributes can be part of a normal response, and clients
 // should be able to send responses back as is without having to remove
 // readonly attributes.
-const handleReadOnly = async function (nextFunc, input) {
-  const inputA = applyReadOnly({ input });
+const handleReadonly = async function (nextFunc, input) {
+  const inputA = applyReadonly({ input });
 
   const response = await nextFunc(inputA);
   return response;
 };
 
 // Remove readonly attributes in `args.newData`
-const applyReadOnly = function ({
+const applyReadonly = function ({
   input,
   input: {
     args,
     args: { newData },
     modelName,
-    idl: { shortcuts: { readOnlyMap } },
+    idl: { shortcuts: { readonlyMap } },
   },
 }) {
   if (!newData) { return input; }
 
-  const readOnlyAttrs = readOnlyMap[modelName];
+  const readonlyAttrs = readonlyMap[modelName];
   const newDataA = Array.isArray(newData)
-    ? newData.map(datum => removeReadOnly({ newData: datum, readOnlyAttrs }))
-    : removeReadOnly({ newData, readOnlyAttrs });
+    ? newData.map(datum => removeReadonly({ newData: datum, readonlyAttrs }))
+    : removeReadonly({ newData, readonlyAttrs });
 
   return { ...input, args: { ...args, newData: newDataA } };
 };
 
-const removeReadOnly = function ({ newData, readOnlyAttrs }) {
-  return omit(newData, readOnlyAttrs);
+const removeReadonly = function ({ newData, readonlyAttrs }) {
+  return omit(newData, readonlyAttrs);
 };
 
 module.exports = {
-  handleReadOnly,
+  handleReadonly,
 };

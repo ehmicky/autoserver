@@ -97,8 +97,8 @@ const middleware = [
   command.normalization,
   // Apply attribute aliases
   command.renameAliases,
-  // Remove readOnly attributes in `args.newData`
-  command.handleReadOnly,
+  // Remove readonly attributes in `args.newData`
+  command.handleReadonly,
   // Process transforms
   command.handleTransforms,
   // Apply user-defined default values
