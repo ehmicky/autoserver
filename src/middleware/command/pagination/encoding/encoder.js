@@ -13,6 +13,7 @@ const {
   addDefaultValues,
 } = require('./minify_default_values');
 const { addNameShortcuts, removeNameShortcuts } = require('./minify_names');
+const { convertUndefined } = require('./convert_undefined');
 
 // Encode token from a useable object to a short opaque base64 token
 // Token is object:
@@ -28,6 +29,7 @@ const encode = function ({ token }) {
 };
 
 const encoders = [
+  convertUndefined,
   removeDefaultValues,
   minifyOrderBy,
   addNameShortcuts,
