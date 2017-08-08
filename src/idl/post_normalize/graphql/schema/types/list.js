@@ -8,7 +8,6 @@ const {
 } = require('graphql');
 
 const { throwError } = require('../../../../../error');
-const { stringifyJSON } = require('../../../../../utilities');
 
 const { graphQLRequiredTest, graphQLRequiredTGetter } = require('./required');
 const { graphQLArrayTest, graphQLArrayTGetter } = require('./array');
@@ -69,7 +68,7 @@ const getTypeGetter = function ({ def, opts }) {
   );
 
   if (!typeGetter) {
-    const message = `Could not parse attribute into a GraphQL type: ${stringifyJSON(def)}`;
+    const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
     throwError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
   }
 
