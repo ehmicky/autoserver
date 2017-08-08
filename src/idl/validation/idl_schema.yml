@@ -281,30 +281,7 @@ definitions:
     - boolean[]
   # attr.transform or attr.compute
   transformCompute:
-    oneOf:
-    - type: array
-      items:
-        $ref: '#/definitions/singleTransformCompute'
-    - not:
-        type: array
-      $ref: '#/definitions/singleTransformCompute'
-  singleTransformCompute:
-    # Can be an options object, or `value` option directly as a shortcut
-    anyOf:
-    - type: object
-      required: [value]
-      properties:
-        value:
-          $ref: '#/definitions/jslOrValue'
-        test:
-          $ref: '#/definitions/jslOrValue'
-        using:
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
-    - $ref: '#/definitions/jslOrValue'
+    $ref: '#/definitions/jslOrValue'
   # model.description or attr.description
   description:
     type: string

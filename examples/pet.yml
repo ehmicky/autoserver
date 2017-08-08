@@ -78,10 +78,7 @@ models:
           uniqueItems: true
       status:
         description: Has this pet been adopted
-        transform:
-        - value: ($.toLowerCase() + " " + $$.weight)
-          test: (typeof $ === 'string')
-          using: weight
+        transform: '($ == null ? $ : $.toLowerCase() + " " + $$.weight)'
         default:
           $ref: default_value.js
       creator_key:

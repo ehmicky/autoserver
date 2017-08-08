@@ -16,10 +16,7 @@ const getAttributes = () => ({
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
     readonly: true,
-    transform: {
-      value: '($NOW)',
-      test: '($COMMAND === "create")',
-    },
+    transform: '($COMMAND === "create" ? $NOW : $)',
     validate: {
       format: 'date-time',
     },
