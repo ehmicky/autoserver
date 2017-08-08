@@ -64,14 +64,17 @@ treated the same way, and are converted to unset attributes.
 
 I.e.:
 
+<!-- eslint-skip -->
 ```js
 { "name": "Bob", "weight": null }
 ```
 
+<!-- eslint-skip -->
 ```js
 { "name": "Bob", "weight": undefined }
 ```
 
+<!-- eslint-skip -->
 ```js
 { "name": "Bob" }
 ```
