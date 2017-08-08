@@ -2,9 +2,7 @@
 
 const fastMemoize = require('fast-memoize');
 
-const { stringifyJSON } = require('../json');
-
-const memoize = (func, { serializer = stringifyJSON } = {}) =>
+const memoize = (func, { serializer } = {}) =>
   fastMemoize(func, { serializer });
 
 module.exports = {
