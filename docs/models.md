@@ -56,3 +56,24 @@ models:
       id:
         type: integer
 ```
+
+# Empty values
+
+Attributes with `undefined` or `null` values are considered empty, and are
+treated the same way, and are converted to unset attributes.
+
+I.e.:
+
+```js
+{ "name": "Bob", "weight": null }
+```
+
+```js
+{ "name": "Bob", "weight": undefined }
+```
+
+```js
+{ "name": "Bob" }
+```
+
+are all treated the same way, and converted to the last form.
