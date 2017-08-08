@@ -11,8 +11,8 @@ const normalizeEmpty = async function (nextFunc, input) {
 };
 
 const unsetEmpty = function ({
-  input,
   input: { args, args: { newData } },
+  input,
 }) {
   if (!newData) { return input; }
 
