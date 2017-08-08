@@ -49,7 +49,7 @@ const getFilter = function ({ filter = () => true }) {
 
 // Shortcut notation for `filter`
 const propFilter = function (propName, attr) {
-  return attr[propName] !== undefined;
+  return Object.keys(attr).includes(propName);
 };
 
 module.exports = {

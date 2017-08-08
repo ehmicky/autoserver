@@ -53,7 +53,7 @@ const removeData = function (idl) {
 
 const removeDatum = function (obj) {
   if (!obj || obj.constructor !== Object) { return obj; }
-  return omitBy(obj, ({ $data }) => $data);
+  return omitBy(obj, prop => prop && prop.$data);
 };
 
 const modifiers = [

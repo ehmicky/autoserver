@@ -1,43 +1,56 @@
 'use strict';
 
-const { mapValues, omitBy } = require('../../../utilities');
+const { mapValues, pickBy } = require('../../../utilities');
 
 const { defaults } = require('./defaults');
 
 // Apply system-defined defaults to input, including input arguments
 const systemDefaults = async function (nextFunc, input) {
-  const { serverOpts } = input;
-
-  const argsA = getDefaultArgs({ serverOpts, input });
-  const inputA = { ...input, args: argsA };
+  const inputA = getDefaultArgs({ input });
 
   const response = await nextFunc(inputA);
   return response;
 };
 
 // Retrieve default arguments
-const getDefaultArgs = function ({
-  serverOpts,
+const getDefaultArgs = function ({ input, input: { args } }) {
+  const filteredDefaults = pickBy(
+    defaults,
+    (defaultConf, attrName) => shouldDefault({ input, defaultConf, attrName }),
+  );
+
+  const defaultArgs = mapValues(
+    filteredDefaults,
+    ({ value }) => applyDefault({ value, input }),
+  );
+
+  return { ...input, args: { ...args, ...defaultArgs } };
+};
+
+const shouldDefault = function ({
   input,
   input: { command, args },
+  defaultConf: { commands, test: testFunc },
+  attrName,
 }) {
-  const filteredDefaults = omitBy(
-    defaults,
-    ({ commands, test: testFunc }, attrName) =>
-      // Whitelist by command.name
-      (commands && !commands.includes(command.name)) ||
-      // Whitelist by tests
-      (testFunc && !testFunc({ serverOpts, input })) ||
-      // Only if user has not specified that argument
-      args[attrName] !== undefined
-  );
+  // Only if user has not specified that argument
+  if (args[attrName] != null) { return false; }
 
-  // Reduce to a single object
-  const defaultArgs = mapValues(filteredDefaults, ({ value }) =>
-    (typeof value === 'function' ? value({ serverOpts, input }) : value)
-  );
+  // Whitelist by command.name
+  if (commands && !commands.includes(command.name)) { return false; }
 
-  return { ...args, ...defaultArgs };
+  // Whitelist by tests
+  if (testFunc && !testFunc({ input })) { return false; }
+
+  return true;
+};
+
+const applyDefault = function ({ value, input }) {
+  if (typeof value === 'function') {
+    return value({ input });
+  }
+
+  return value;
 };
 
 module.exports = {

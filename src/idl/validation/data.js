@@ -12,7 +12,7 @@ const validateDataMapper = function (obj) {
   if (!obj || obj.constructor !== Object) { return obj; }
 
   return mapValues(obj, child => {
-    if (!child.$data) { return child; }
+    if (!child || !child.$data) { return child; }
     return validateDataFormat(child);
   });
 };

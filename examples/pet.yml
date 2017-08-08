@@ -100,9 +100,9 @@ models:
         default: (birthDate)
         validate:
           format: date
-          formatMinimum: 2000-01-01
+          formatMinimum: '2000-01-01'
           formatExclusiveMinimum: true
-          formatMaximum: 2100-01-01
+          formatMaximum: '2100-01-01'
           formatExclusiveMaximum: false
   owner:
     $ref: owner.yml

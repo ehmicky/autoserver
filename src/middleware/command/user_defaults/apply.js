@@ -1,5 +1,6 @@
 'use strict';
 
+const { omit } = require('../../../utilities');
 const { runJsl } = require('../../../jsl');
 
 // Apply default values to args.data's models
@@ -23,12 +24,16 @@ const applyAllDefault = function applyAllDefault (opts) {
 const applyDefault = function ({ parent, defValue, attrName, jsl, idl }) {
   const value = parent[attrName];
 
-  // Only apply default if value is not defined by client
-  if (value !== undefined) { return parent; }
+  // Only apply default if value is not empty
+  if (value != null) { return parent; }
 
   // Process JSL if default value uses JSL
   const params = { $$: parent, $: value };
   const defValueA = runJsl({ jsl, value: defValue, params, idl });
+
+  if (defValueA == null) {
+    return omit(parent, attrName);
+  }
 
   return { ...parent, [attrName]: defValueA };
 };
