@@ -147,7 +147,7 @@ definitions:
         required: [compute]
       then:
         not:
-          required: [transform, default]
+          required: [transform, default, validate]
         properties:
           readonly:
             not:

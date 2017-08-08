@@ -86,7 +86,6 @@ models:
           $ref: default_value.js
       creator_key:
         description: Key of the user that created this pet
-        readonly: true
         compute: (String(moreRecursiveFunc()))
       best_friend:
         type: pet
