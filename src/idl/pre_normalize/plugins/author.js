@@ -39,13 +39,13 @@ const getAttributes = ({ user = '(user())', model = 'user' }) => ({
     description: 'Who created this model',
     type: model,
     readonly: true,
-    transform: `($COMMAND === "create" ? ${user}.id : $)`,
+    value: `($COMMAND === "create" ? ${user}.id : null)`,
   },
   updated_by: {
     description: 'Who last updated this model',
     type: model,
     readonly: true,
-    transform: `(${user}.id)`,
+    value: `(${user}.id)`,
   },
 });
 

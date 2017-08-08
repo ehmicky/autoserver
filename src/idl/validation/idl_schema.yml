@@ -103,6 +103,8 @@ definitions:
         type: boolean
       transform:
         $ref: '#/definitions/transformCompute'
+      value:
+        $ref: '#/definitions/transformCompute'
       compute:
         $ref: '#/definitions/transformCompute'
       # General data validation
