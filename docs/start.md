@@ -8,6 +8,7 @@ const server = startServer({ conf: 'my_schema.yml', ...otherOptions });
 ```
 
 `conf` is the [IDL file](idl.md), where the API endpoints are defined.
+It can be a file path, or directly a plain object.
 
 [`otherOptions`](#server-options) are runtime options, e.g. hostname and ports.
 
@@ -63,8 +64,8 @@ For the log events, see [logging](logging.md).
 Some information is available on the returned `server`:
   - `server.options` `{object}`: options passed during initialization
   - `server.servers.HTTP` `{Server}`: Node.js HTTP server
-  - `server.info.serverId` `{string}`: UUID unique to each server run
-  - `server.info.serverName` `{string}`: same as `serverName` option
+  - [`server.info.serverId`](logging.md#server-identifiers) `{string}`
+  - [`server.info.serverName`](logging.md#server-identifiers) `{string}`
   - `server.info.version` `{string}`: api-engine version
 
 `options` and `servers` will only be available after the `start` event is fired.

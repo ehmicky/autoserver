@@ -14,8 +14,10 @@ Attributes are the equivalent of a database column, attribute or key.
 Attribute keys are the name of the attribute, and follow the same naming rules
 as models.
 
-Attributes called `id` are special as they are used as primary key, and must
-be required.
+Attributes called `id` are special as they:
+  - are used as primary key
+  - must be required
+  - are automatically added (but can be overridden)
 
 One can specify an `attribute.type` among:
   - `string` (default)

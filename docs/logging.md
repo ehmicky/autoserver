@@ -46,8 +46,8 @@ or `error`,
 
 The logging verbosity can be adjusted using the
 [server option](start.md#server-options) `logLevel`, which defaults to
-`info`. It only affects the log console output, not the log events that are
-emitted.
+`'info'` and can also be `'silent'`.
+It only affects the log console output, not the log events that are emitted.
 
 # Event payload
 
@@ -89,10 +89,28 @@ Each event payload comes with a `serverInfo` property, with the properties:
      - `version` `{string}` - Node.js version, e.g. `'v8.0.0'`
   - `apiEngine` `{object}`
      - `version` `{string}` - `api-engine` versio, e.g. `'0.0.1'`
-  - `serverId` `{UUID}` - ID specific to a given process
-  - `serverName` `{string}` - ID specific to a given machine.
-    Uses (if defined) the [server option](start.md#server-options) `serverName`,
-    or otherwise the system hostname, or an empty string if not available.
+  - [`serverId`](#server-identifiers) `{UUID}`
+  - [`serverName`](#server-identifiers) `{string}`
+
+# Server identifiers
+
+A `serverId` UUID, unique to each server run, is automatically created and
+available:
+  - in [`serverInfo.serverId`](#server-information) log property
+  - on the return value as [`server.info.serverId`](start.md#server-information)
+  - as a response header named `X-Server-Id`
+
+A `serverName` UUID, unique to each machine, is available:
+  - in [`serverInfo.serverName`](#server-information) log property
+  - in [console logging](#console-logging) messages
+  - on the return value as
+    [`server.info.serverName`](start.md#server-information)
+  - as a response header named `X-Server-Name`
+
+`serverName` is set using any of:
+  - the [server option](start.md#server-options) `serverName`
+  - the system hostname
+  - an empty string
 
 # Error information
 
@@ -112,7 +130,8 @@ with the properties (following
 
 Events of phase `request` have a `requestInfo` property on the event payload,
 with the properties:
-  - `requestId` `{UUID}` - unique ID assigned to each request
+  - `requestId` `{UUID}` - unique ID assigned to each request.
+    Also available as `X-Request-Id` response header.
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
   - `responseTime` `{number}` - time it took to handle the request,
@@ -195,20 +214,4 @@ By default:
 
 # Performance monitoring
 
-Events of type `perf` are related to how long the server took to perform some
-steps. The `startup`, `shutdown` and `request` phases are all monitored.
-
-Each function monitored might be triggered several times for a specific phase.
-E.g. the `database query` middleware might be called several times for a single
-request. Each call is named a measure.
-
-The event payload contains the following additional properties:
-  - `measures` `{object[]}`:
-    - `category` `{string}`
-    - `label` `{string}`: name
-    - `duration` `{number}` - sum of all measures durations, in milliseconds
-    - `measures` `{number[]}` - each measure duration, in milliseconds
-    - `count` `{number}` - number of measures
-    - `average` `{number}` - average measure duration, in milliseconds
-  - `measuresMessage` `{string}`: console-friendly table with the same
-    information as `measures`
+See [here](performance.md#performance-monitoring).
