@@ -86,6 +86,8 @@ const middleware = [
   action.handleArgs,
   // Turn one action into 0, 1 or several commands
   action.actionExecute,
+  // Normalize empty values (undefined, null) by removing their key
+  action.normalizeEmpty,
 
   // Command layer
 
