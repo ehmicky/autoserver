@@ -1,18 +1,23 @@
 'use strict';
 
-const { addModelName } = require('./model_name');
-const { normalizeCommands } = require('./commands');
-const { addDefaultId } = require('./default_id');
-const { addAttrDefaultValidate } = require('./default_validate');
-const { addAttrRequiredId } = require('./required_id');
-const { addAttrDefaultType } = require('./default_type');
-const { normalizeType } = require('./attr_type');
-const { normalizeTransform, normalizeCompute } = require('./transform_attr');
-const { setTransformOrder, setComputeOrder } = require('./transform_order');
-const { normalizeAliases } = require('./alias');
-const { mergeNestedModel } = require('./nested_model');
-// eslint-disable-next-line import/max-dependencies
-const { addTypeValidation } = require('./type_validation');
+const {
+  addModelName,
+  normalizeCommands,
+  addDefaultId,
+  setTransformOrder,
+  setComputeOrder,
+  normalizeAliases,
+} = require('./model');
+const {
+  addAttrDefaultValidate,
+  addAttrRequiredId,
+  addAttrDefaultType,
+  normalizeType,
+  normalizeTransform,
+  normalizeCompute,
+  mergeNestedModel,
+  addTypeValidation,
+} = require('./attribute');
 
 // All models|attributes normalizers, in order
 const normalizers = [

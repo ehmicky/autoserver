@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../../../utilities');
+const { assignArray } = require('../../../../utilities');
 
 // Normalize `commands` shortcuts, e.g. 'read' -> 'readOne' + 'readMany'
 // Also add defaults

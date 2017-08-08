@@ -1,7 +1,7 @@
 'use strict';
 
-const { assignArray } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { assignArray } = require('../../../../utilities');
+const { throwError } = require('../../../../error');
 
 // Get transforms order according to `using` property
 const setOrder = function (type, model, { modelName }) {

@@ -2,7 +2,7 @@
 
 const { merge } = require('lodash');
 
-const { pick, omit } = require('../../../utilities');
+const { pick, omit } = require('../../../../utilities');
 
 // Shallow copy nested models from the `model.id` they refer to
 const mergeNestedModel = function (attr, { idl: { models } }) {
