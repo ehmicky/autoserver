@@ -2,7 +2,8 @@
 
 const { omit } = require('../../utilities');
 
-// Removes attributes marked in IDL as `readonly`.
+// Sets attributes marked in IDL as `readonly` to their current value
+// (i.e. `currentData`)
 // This is done silently (i.e. does not raise warnings or errors),
 // because readonly attributes can be part of a normal response, and clients
 // should be able to send responses back as is without having to remove
@@ -14,28 +15,51 @@ const handleReadonly = async function (nextFunc, input) {
   return response;
 };
 
-// Remove readonly attributes in `args.newData`
+// `currentData` might be undefined, e.g. for command `create`
 const applyReadonly = function ({
   input,
   input: {
     args,
-    args: { newData },
+    args: { newData, currentData = [] },
     modelName,
     idl: { shortcuts: { readonlyMap } },
   },
 }) {
   if (!newData) { return input; }
 
-  const readonlyAttrs = readonlyMap[modelName];
-  const newDataA = Array.isArray(newData)
-    ? newData.map(datum => removeReadonly({ newData: datum, readonlyAttrs }))
-    : removeReadonly({ newData, readonlyAttrs });
+  const attrs = readonlyMap[modelName];
+  const newDataA = getNewData({ newData, currentData, attrs });
 
   return { ...input, args: { ...args, newData: newDataA } };
 };
 
-const removeReadonly = function ({ newData, readonlyAttrs }) {
-  return omit(newData, readonlyAttrs);
+const getNewData = function ({ newData, currentData, attrs }) {
+  if (Array.isArray(newData)) {
+    return newData.map((newDatum, index) => removeAttrs({
+      newData: newDatum,
+      currentData: currentData[index],
+      attrs,
+    }));
+  }
+
+  return removeAttrs({ newData, currentData, attrs });
+};
+
+const removeAttrs = function ({ newData, currentData = {}, attrs }) {
+  return attrs.reduce(
+    (newDataA, attr) => removeAttr({ newData: newDataA, currentData, attr }),
+    newData,
+  );
+};
+
+const removeAttr = function ({ newData, currentData, attr }) {
+  const currentVal = currentData[attr];
+
+  if (currentVal == null) {
+    return omit(newData, attr);
+  }
+
+  return { ...newData, [attr]: currentVal };
 };
 
 module.exports = {
