@@ -10,7 +10,7 @@ const { bootAll } = require('./boot');
 
 // Start server for each protocol
 // @param {object} serverOpts
-const startServer = function (oServerOpts = {}) {
+const startServer = function (oServerOpts) {
   const apiServer = createApiServer();
 
   start({ apiServer, oServerOpts })

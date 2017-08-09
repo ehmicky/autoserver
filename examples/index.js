@@ -6,12 +6,7 @@ const { startServer } = require('../index');
 // eslint-disable-next-line fp/no-mutation
 Error.stackTraceLimit = 100;
 
-const oServerOpts = {
-  conf: './examples/pet.yml',
-  http: { port: 5001 },
-};
-
-const apiServer = startServer(oServerOpts)
+const apiServer = startServer()
   // This is for Nodemon to properly exit.
   // But if several servers are run at once (with or without Nodemon),
   // this will make the first one that finished exiting abrupt the others,

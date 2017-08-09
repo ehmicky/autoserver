@@ -3,8 +3,8 @@
 const { defaultsDeep } = require('lodash');
 
 // Default value for main options
-const applyDefaultOptions = function (serverOpts) {
-  return defaultsDeep(serverOpts, defaultOptions);
+const applyDefaultOptions = function ({ confOpts, oServerOpts }) {
+  return defaultsDeep({}, oServerOpts, confOpts, defaultOptions);
 };
 
 const defaultOptions = {
