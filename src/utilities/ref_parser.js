@@ -86,14 +86,14 @@ const nodeRefs = {
 const requireFile = function (url) {
   // The new required file's require() calls should be relative to the file
   // itself, so we temporarily change cwd
-  const currenDir = process.cwd();
+  const currentDir = process.cwd();
   process.chdir(dirname(url));
 
   try {
     // eslint-disable-next-line import/no-dynamic-require
     return require(url);
   } finally {
-    process.chdir(currenDir);
+    process.chdir(currentDir);
   }
 };
 
