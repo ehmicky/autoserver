@@ -1,6 +1,6 @@
 'use strict';
 
-const { pick, mapValues } = require('../../utilities');
+const { pick, mapValues } = require('../../../utilities');
 
 const transformLoggerFilters = function (serverOpts) {
   const { logFilter } = serverOpts;

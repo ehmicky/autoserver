@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitoredReduce } = require('../perf');
+const { monitoredReduce } = require('../../perf');
 
 const { applyDefaultOptions } = require('./default');
 const { transformOptions } = require('./transform');
@@ -12,7 +12,7 @@ const processors = [
   validateOptions,
 ];
 
-const processOptions = function ({ oServerOpts }) {
+const handleOptions = function ({ oServerOpts }) {
   return monitoredReduce({
     funcs: processors,
     initialInput: { serverOpts: oServerOpts },
@@ -23,5 +23,5 @@ const processOptions = function ({ oServerOpts }) {
 };
 
 module.exports = {
-  processOptions,
+  handleOptions,
 };
