@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  ...require('./read_only'),
+  ...require('./readonly'),
   ...require('./user_defaults'),
   ...require('./transform_shortcut'),
   ...require('./aliases'),
