@@ -6,19 +6,12 @@ const { startServer } = require('../index');
 // eslint-disable-next-line fp/no-mutation
 Error.stackTraceLimit = 100;
 
-const apiServer = startServer({
+const oServerOpts = {
   conf: './examples/pet.yml',
-  logLevel: 'info',
-  maxDataLength: 1000,
-  defaultPageSize: 100,
-  maxPageSize: 100,
-  serverName: 'my-machine',
-  http: {
-    enabled: true,
-    host: 'localhost',
-    port: 5001,
-  },
-})
+  http: { port: 5001 },
+};
+
+const apiServer = startServer(oServerOpts)
   .on('error', () => hasEmit('error'))
   .on('start', () => hasEmit('start'))
   // This is for Nodemon to properly exit.
