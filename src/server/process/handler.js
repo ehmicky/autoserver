@@ -1,22 +1,15 @@
 'use strict';
 
-const { onlyOnce, identity } = require('../utilities');
-const { createLog, reportLog } = require('../logging');
-const {
-  throwError,
-  getStandardError,
-  getErrorMessage,
-  normalizeError,
-} = require('../error');
+const { onlyOnce, identity } = require('../../utilities');
+const { throwError } = require('../../error');
 
 // Error handling for all failures that are process-related
-const processErrorHandler = function ({ oServerOpts, apiServer }) {
+const processErrorHandler = function ({ processLog }) {
   checkUniqueCall();
 
-  const processLog = getProcessLog({ oServerOpts, apiServer });
-  setupHandlers({ processLog });
-
-  return { processLog };
+  setupUnhandledRejection({ processLog });
+  setupRejectionHandled({ processLog });
+  setupWarning({ processLog });
 };
 
 // Since `startServer()` manipulates process, e.g. by intercepting signals
@@ -37,22 +30,6 @@ const checkUniqueCall = function () {
 
 const uniqueCall = onlyOnce(identity, { error: true });
 
-const getProcessLog = function ({ oServerOpts, apiServer }) {
-  const log = createLog({
-    serverOpts: oServerOpts,
-    apiServer,
-    phase: 'process',
-  });
-  const processLog = processHandler.bind(null, log);
-  return processLog;
-};
-
-const setupHandlers = function ({ processLog }) {
-  setupUnhandledRejection({ processLog });
-  setupRejectionHandled({ processLog });
-  setupWarning({ processLog });
-};
-
 const setupUnhandledRejection = function ({ processLog }) {
   process.on('unhandledRejection', async error => {
     const message = 'A promise was rejected and not handled right away';
@@ -70,20 +47,6 @@ const setupRejectionHandled = function ({ processLog }) {
 const setupWarning = function ({ processLog }) {
   process.on('warning', async error => {
     await processLog({ error });
-  });
-};
-
-// Report process problems as logs with type 'failure'
-const processHandler = async function (log, { error, message }) {
-  const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
-  const errorB = getStandardError({ log, error: errorA });
-  const errorMessage = getErrorMessage({ error: errorB });
-
-  await reportLog({
-    log,
-    level: 'error',
-    message: errorMessage,
-    info: { type: 'failure', errorInfo: errorB },
   });
 };
 
