@@ -1,4 +1,4 @@
 {
-  "exec": "sleep 1 && node --harmony --inspect --no-warnings ./examples",
+  "exec": "node --harmony --inspect --no-warnings ./examples",
   "ext": ".js,.json,.yml,.yaml"
 }

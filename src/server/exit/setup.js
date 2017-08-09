@@ -9,12 +9,8 @@ const { closeServer } = require('./close');
 
 // Make sure the server stops when graceful exits are possible
 // Also send related logging messages
-const setupGracefulExit = function ({
-  servers,
-  serverOpts,
-  apiServer,
-}) {
-  const exitHandler = gracefulExit.bind(null, {
+const setupGracefulExit = function ({ servers, serverOpts, apiServer }) {
+  const exitHandler = onceGracefulExit.bind(null, {
     servers,
     serverOpts,
     apiServer,
@@ -30,11 +26,7 @@ const setupGracefulExit = function ({
 };
 
 // Setup graceful exit
-const gracefulExit = onlyOnce(async ({
-  servers,
-  serverOpts,
-  apiServer,
-}) => {
+const gracefulExit = async ({ servers, serverOpts, apiServer }) => {
   const log = createLog({ serverOpts, apiServer, phase: 'shutdown' });
 
   const [[isSuccess, childMeasures], measure] = await monitoredSetupExit({
@@ -46,7 +38,9 @@ const gracefulExit = onlyOnce(async ({
   await reportPerf({ log, measures });
 
   await exit({ isSuccess, apiServer, log });
-});
+};
+
+const onceGracefulExit = onlyOnce(gracefulExit);
 
 const setupExit = async function ({ servers, log }) {
   const statusesPromises = Object.values(servers)
@@ -91,7 +85,7 @@ const logEndShutdown = async function ({
 }) {
   const message = isSuccess
     ? 'Server exited successfully'
-    : `Server exited with errors while shutting down ${failedProtocols.join(', ')}`;
+    : `Server exited with errors while shutting down ${failedProtocols}`;
   const level = isSuccess ? 'log' : 'error';
   const exitStatuses = statuses.reduce(assignObject, {});
 
@@ -113,9 +107,6 @@ const exit = async function ({ isSuccess, apiServer }) {
 
   // Used by Nodemon
   process.kill(process.pid, 'SIGUSR2');
-
-  const exitCode = isSuccess ? 0 : 1;
-  process.exit(exitCode);
 };
 
 module.exports = {
