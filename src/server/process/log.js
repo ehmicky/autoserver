@@ -7,12 +7,8 @@ const {
   normalizeError,
 } = require('../../error');
 
-const getProcessLog = function ({ oServerOpts, apiServer }) {
-  const log = createLog({
-    serverOpts: oServerOpts,
-    apiServer,
-    phase: 'process',
-  });
+const getProcessLog = function ({ serverOpts, apiServer }) {
+  const log = createLog({ serverOpts, apiServer, phase: 'process' });
   const processLog = processHandler.bind(null, log);
   return { processLog };
 };
