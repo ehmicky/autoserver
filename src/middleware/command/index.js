@@ -5,7 +5,7 @@ module.exports = {
   ...require('./validation'),
   ...require('./normalization'),
   ...require('./aliases'),
-  ...require('./read_only'),
+  ...require('./readonly'),
   ...require('./transform'),
   ...require('./user_defaults'),
   ...require('./system_defaults'),
