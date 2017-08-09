@@ -1,13 +1,9 @@
 'use strict';
 
-const { ENV } = require('../env');
-
 const { mapValues } = require('./map');
 
 // Shallow Object.freeze()
 const makeImmutableShallow = function (val) {
-  if (ENV === 'dev') { return val; }
-
   if (!val || typeof val !== 'object') { return val; }
 
   Object.freeze(val);
@@ -19,9 +15,6 @@ const makeImmutableShallow = function (val) {
 // Since linting enforces immutability, we only need to (and should) perform
 // this on values that are passed to library caller.
 const makeImmutable = function (val) {
-  // Not in production, because Object.freeze() can be slow.
-  if (ENV === 'dev') { return val; }
-
   const type = getType(val);
   if (type === 'other') { return val; }
 

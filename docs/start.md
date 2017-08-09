@@ -16,6 +16,12 @@ and can emit some [events](#server-events)
 
 # Server options
 
+Available options:
+  - `dev`, which can be `'dev'` or `'production'`.
+    This defaults to `'production'`.
+    Running in `'dev'` mode will add some developer-friendly features, e.g.
+    disable request timeouts during breakpoint debugging.
+
 The following options are pagination-related:
   - `defaultPageSize`, which defaults itself to `100`.
     Use `0` to disable pagination.

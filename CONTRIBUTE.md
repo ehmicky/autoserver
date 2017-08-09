@@ -2,14 +2,15 @@
 
 Use `npm run build` instead of `npm install`.
 
-Start the test server with `NODE_ENV=dev npm start`.
-This will start in watch mode
-(using [`nodemon`](https://github.com/remy/nodemon) and `node --inspect`).
+Start the test server with either:
+  - `npm start`: production mode
+  - `npm run watch`: dev mode.
+    Auto-reloads, using [`nodemon`](https://github.com/remy/nodemon).
+    Allows debugging in Chrome developer tools, using `node --inspect`.
+  - `npm run debug`: like `npm start` but using `node --inspect-brk`,
+    i.e. will put a breakpoint on server start.
 
 A local HTTP server will be spawned at `http://localhost:5001`.
-
-`npm run debug` is like `npm start` but using `node --inspect-brk`,
-i.e. will put a breakpoint on server start.
 
 To explore the API, please see this [documentation](docs/graphql.md).
 
@@ -17,7 +18,7 @@ To explore the API, please see this [documentation](docs/graphql.md).
 
 There is no automated testing yet.
 
-`gulp test` will run linting, using [ESLint](http://eslint.org/)
+`npm test` will run linting, using [ESLint](http://eslint.org/)
 for general linting,
 and also checking code duplication.
 

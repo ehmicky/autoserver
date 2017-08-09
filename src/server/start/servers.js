@@ -77,6 +77,7 @@ const startServer = async function (protocol, {
 
   const serverInfo = await protocolHandler.startServer({
     opts,
+    serverOpts,
     processLog,
     handleRequest,
   });
