@@ -1,7 +1,7 @@
 'use strict';
 
-const { validate } = require('../validation');
-const { assignObject } = require('../utilities');
+const { validate } = require('../../validation');
+const { assignObject } = require('../../utilities');
 
 // Validation for main options
 const validateOptions = function (serverOpts) {
