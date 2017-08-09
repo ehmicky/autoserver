@@ -56,11 +56,12 @@ Globbing can be used, e.g. `server.on('log.*.call.*')`.
 Event listeners can be asynchronous by returning a promise.
 
 The following events are available:
-  - `server.on('start', () => {})`: when server is ready to process requests.
-  - `server.on('error', () => {})`: on startup error.
+  - `server.on('start.success', () => {})`: when server is ready to process
+    requests.
+  - `server.on('start.failure', () => {})`: on startup error.
     If no listener is setup, an exception will be thrown instead.
   - `server.on('stop.success', () => {})`: when server stops processing requests
-  - `server.on('stop.fail', () => {})`: when server exit failed
+  - `server.on('stop.failure', () => {})`: when server exit failed
 
 For the log events, see [logging](logging.md).
 
@@ -73,4 +74,4 @@ Some information is available on the returned `server`:
   - [`server.info.serverName`](logging.md#server-identifiers) `{string}`
   - `server.info.version` `{string}`: api-engine version
 
-`options` and `servers` will only be available after the `start` event is fired.
+Those will only be available after the `start` event is fired.

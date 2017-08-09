@@ -17,7 +17,7 @@ const { consolePrint } = require('./console');
 const reportLog = async function ({
   level,
   log,
-  log: { serverOpts: { logLevel } },
+  log: { serverOpts: { logLevel = 'info' } },
   message,
   info,
   info: { type = 'message' } = {},

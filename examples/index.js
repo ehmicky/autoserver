@@ -12,15 +12,15 @@ const oServerOpts = {
 };
 
 const apiServer = startServer(oServerOpts)
-  .on('error', () => hasEmit('error'))
-  .on('start', () => hasEmit('start'))
+  .on('start.success', () => hasEmit('start.success'))
+  .on('start.failure', () => hasEmit('start.failure'))
   // This is for Nodemon to properly exit.
   // But if several servers are run at once (with or without Nodemon),
   // this will make the first one that finished exiting abrupt the others,
   // which is bad.
   .on('stop.*', () => process.kill(process.pid, 'SIGUSR2'))
   .on('stop.success', () => hasEmit('stop.success'))
-  .on('stop.fail', () => hasEmit('stop.fail'))
+  .on('stop.failure', () => hasEmit('stop.failure'))
   .on('log.*.*.*', info => {
     const { phase, type, level } = info;
     hasEmit(`log.${phase}.${type}.${level}`);

@@ -10,16 +10,14 @@ const processors = [
   validateOptions,
 ];
 
-const handleOptions = function ({ oServerOpts }) {
+const getServerOpts = function (oServerOpts) {
   return monitoredReduce({
     funcs: processors,
-    initialInput: { serverOpts: oServerOpts },
+    initialInput: oServerOpts,
     category: 'options',
-    mapInput: ({ serverOpts }) => serverOpts,
-    mapResponse: serverOpts => ({ serverOpts }),
   });
 };
 
 module.exports = {
-  handleOptions,
+  getServerOpts,
 };

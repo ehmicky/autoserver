@@ -7,7 +7,7 @@ const { makeImmutableShallow } = require('../../utilities');
 const emitStartEvent = async function ({ apiServer, startupLog: log }) {
   makeImmutableShallow(apiServer);
 
-  await emitEventAsync({ apiServer, name: 'start' });
+  await emitEventAsync({ apiServer, name: 'start.success' });
 
   // Create log message when all protocol-specific servers have started
   const message = 'Server is ready';
