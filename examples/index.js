@@ -21,6 +21,11 @@ const apiServer = startServer({
 })
   .on('error', () => hasEmit('error'))
   .on('start', () => hasEmit('start'))
+  // This is for Nodemon to properly exit.
+  // But if several servers are run at once (with or without Nodemon),
+  // this will make the first one that finished exiting abrupt the others,
+  // which is bad.
+  .on('stop.*', () => process.kill(process.pid, 'SIGUSR2'))
   .on('stop.success', () => hasEmit('stop.success'))
   .on('stop.fail', () => hasEmit('stop.fail'))
   .on('log.*.*.*', info => {
