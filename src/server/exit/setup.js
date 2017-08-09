@@ -10,19 +10,17 @@ const { closeServer } = require('./close');
 // Make sure the server stops when graceful exits are possible
 // Also send related logging messages
 const setupGracefulExit = function ({ servers, serverOpts, apiServer }) {
-  const exitHandler = onceGracefulExit.bind(null, {
+  const exitHandler = gracefulExit.bind(null, {
     servers,
     serverOpts,
     apiServer,
   });
+  const onceExitHandler = onlyOnce(exitHandler);
 
-  // Note that this will not work with Nodemon, e.g. CTRL-C will exit
-  process.once('SIGINT', exitHandler);
-  process.once('SIGTERM', exitHandler);
-  // Used by Nodemon
-  process.once('SIGUSR2', exitHandler);
+  process.on('SIGINT', onceExitHandler);
+  process.on('SIGTERM', onceExitHandler);
   // Make sure servers exit on startup errors
-  apiServer.once('startupError', exitHandler);
+  apiServer.on('startupError', onceExitHandler);
 };
 
 // Setup graceful exit
@@ -37,10 +35,8 @@ const gracefulExit = async ({ servers, serverOpts, apiServer }) => {
   const measures = [...childMeasures, measure];
   await reportPerf({ log, measures });
 
-  await exit({ isSuccess, apiServer, log });
+  await emitStopEvent({ isSuccess, apiServer });
 };
-
-const onceGracefulExit = onlyOnce(gracefulExit);
 
 const setupExit = async function ({ servers, log }) {
   const statusesPromises = Object.values(servers)
@@ -95,18 +91,11 @@ const logEndShutdown = async function ({
 
 const monitoredLogEnd = monitor(logEndShutdown, 'log');
 
-// Kills main process, with exit code 0 (success) or 1 (failure)
-// This means we consider owning the process, which will be problematic if
-// this is used together with other projects
-const exit = async function ({ isSuccess, apiServer }) {
-  const name = isSuccess ? 'stop.success' : 'stop.fail';
-
+const emitStopEvent = async function ({ isSuccess, apiServer }) {
   try {
+    const name = isSuccess ? 'stop.success' : 'stop.fail';
     await emitEventAsync({ apiServer, name });
   } catch (error) {}
-
-  // Used by Nodemon
-  process.kill(process.pid, 'SIGUSR2');
 };
 
 module.exports = {
