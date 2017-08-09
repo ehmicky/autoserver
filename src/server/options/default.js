@@ -4,11 +4,12 @@ const { defaultsDeep } = require('lodash');
 
 // Default value for main options
 const applyDefaultOptions = function (serverOpts) {
-  const serverOptsA = defaultsDeep(serverOpts, defaultOptions);
-  return serverOptsA;
+  return defaultsDeep(serverOpts, defaultOptions);
 };
 
 const defaultOptions = {
+  // eslint-disable-next-line no-process-env
+  env: process.env.NODE_ENV || 'production',
   maxDataLength: 1000,
   defaultPageSize: 100,
   maxPageSize: 100,

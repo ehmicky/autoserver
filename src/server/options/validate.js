@@ -41,6 +41,11 @@ const schema = {
       type: 'string',
     },
 
+    env: {
+      type: 'string',
+      enum: ['dev', 'production'],
+    },
+
     logLevel: {
       type: 'string',
       enum: ['info', 'log', 'warn', 'error', 'silent'],

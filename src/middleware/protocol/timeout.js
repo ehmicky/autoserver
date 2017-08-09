@@ -1,13 +1,11 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { ENV, pSetTimeout } = require('../../utilities');
+const { pSetTimeout } = require('../../utilities');
 
 // Make request fail after some timeout
 const setRequestTimeout = function (nextFunc, input) {
-  const { now } = input;
-
-  const timeoutPromise = startRequestTimeout({ now });
+  const timeoutPromise = startRequestTimeout({ input });
 
   const responsePromise = nextFunc(input)
     // We must use `setTimeout(0)` to allow the `setTimeout(requestTimeout)`
@@ -25,19 +23,25 @@ const setRequestTimeout = function (nextFunc, input) {
   return response;
 };
 
-const startRequestTimeout = async function ({ now }) {
+const startRequestTimeout = async function ({
+  input: { now, serverOpts: { env } },
+}) {
+  const baseTimeout = getBaseTimeout({ env });
+
   // Take into account the time that has already passed since request started
   const delay = Date.now() - now;
-  const timeout = Math.max(TIMEOUT - delay, 0);
+  const timeout = Math.max(baseTimeout - delay, 0);
 
   await pSetTimeout(timeout);
 
-  const message = `The request took too long (more than ${TIMEOUT / 1000} seconds)`;
+  const message = `The request took too long (more than ${baseTimeout / 1000} seconds)`;
   throwError(message, { reason: 'REQUEST_TIMEOUT' });
 };
 
-// When debugging with breakpoints, we do not want any request timeout
-const TIMEOUT = ENV === 'dev' ? 1e9 : 5000;
+const getBaseTimeout = function ({ env }) {
+  // When debugging with breakpoints, we do not want any request timeout
+  return env === 'dev' ? 1e9 : 5000;
+};
 
 module.exports = {
   setRequestTimeout,

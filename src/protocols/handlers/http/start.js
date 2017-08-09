@@ -2,11 +2,10 @@
 
 const http = require('http');
 
-const { ENV } = require('../../../utilities');
-
 // Start HTTP server
 const startServer = function ({
   opts: { host, port },
+  serverOpts: { env },
   processLog,
   handleRequest,
 }) {
@@ -16,7 +15,8 @@ const startServer = function ({
 
   // In development, Nodemon restarts the server.
   // Pending sockets slow down that restart, so we disable keep-alive.
-  if (ENV === 'dev') {
+  console.log(env);
+  if (env === 'dev') {
     // eslint-disable-next-line fp/no-mutation
     server.keepAliveTimeout = 1;
   }
