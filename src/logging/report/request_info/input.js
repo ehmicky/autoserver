@@ -1,6 +1,6 @@
 'use strict';
 
-const { makeImmutable } = require('../../../utilities');
+const { applyLogFilter } = require('./log_filter');
 
 const reduceInput = function (requestInfo, logFilter) {
   return reducers.reduce(
@@ -13,10 +13,9 @@ const inputReducer = function (attrName, requestInfo, logFilter) {
   const { [attrName]: value } = requestInfo;
   if (!value || value.constructor !== Object) { return requestInfo; }
 
-  const valueA = makeImmutable(value);
-  const valueB = logFilter[attrName](valueA);
+  const valueA = applyLogFilter({ logFilter: logFilter[attrName], obj: value });
 
-  return { ...requestInfo, [attrName]: valueB };
+  return { ...requestInfo, [attrName]: valueA };
 };
 
 const reducers = ['queryVars', 'headers', 'params', 'settings']

@@ -192,10 +192,11 @@ To avoid the request information to be too big or leak security information,
 one can set filters using the [server option](start.md#server-options)
 `logFilter`.
 
-`logFilter` is an object, with each property being a function that takes
-parts of the request information and returns it modified. It is also possible
-to use an array of strings instead as a shortcut, in order to only keep some
-properties.
+`logFilter` is an object, with each property specifying how filter part of
+the request information, among:
+  - `true`: keep it
+  - `false`: remove it
+  - array of strings: only keep those properties
 
 The possible properties are:
   - `queryVars`
@@ -207,10 +208,10 @@ The possible properties are:
   - `argData`: applied to each `actions.ACTION_PATH.responses.args.data`
   - `actionResponses`: applied to each `actions.ACTION_PATH.responses.content`
 
-By default:
-  - `queryVars`, `headers`, `params`, `settings` transform to undefined,
+Default values:
+  - `queryVars`, `headers`, `params`, `settings`: `false`,
     i.e. this information is not included in logs.
-  - `payload`, `argData`, `actionResponses`, `responses` only keep `id`s.
+  - `payload`, `argData`, `actionResponses`, `responses`: only keep `id`.
 
 # Performance monitoring
 
