@@ -19,8 +19,9 @@ const setupGracefulExit = function ({ servers, serverOpts, apiServer }) {
 
   process.on('SIGINT', onceExitHandler);
   process.on('SIGTERM', onceExitHandler);
+
   // Make sure servers exit on startup errors
-  apiServer.on('startupError', onceExitHandler);
+  apiServer.on('start.failure', onceExitHandler);
 };
 
 // Setup graceful exit
@@ -93,7 +94,7 @@ const monitoredLogEnd = monitor(logEndShutdown, 'log');
 
 const emitStopEvent = async function ({ isSuccess, apiServer }) {
   try {
-    const name = isSuccess ? 'stop.success' : 'stop.fail';
+    const name = isSuccess ? 'stop.success' : 'stop.failure';
     await emitEventAsync({ apiServer, name });
   } catch (error) {}
 };

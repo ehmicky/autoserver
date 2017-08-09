@@ -9,7 +9,7 @@ const { deepMerge, omit } = require('../utilities');
 //  - addLog(obj, info) - add requestInfo information.
 //    Returns new `obj`, storing info at `obj.log`,
 //    i.e. does not modify original `obj`
-const createLog = function ({ serverOpts, apiServer, phase }) {
+const createLog = function ({ serverOpts = {}, apiServer, phase }) {
   const logInfo = {};
   const log = { serverOpts, apiServer, phase, logInfo };
   return log;
