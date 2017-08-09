@@ -71,7 +71,7 @@ const normalizeError = function ({ error, message, reason = 'UNKNOWN' }) {
   if (isError({ error })) { return error; }
 
   const errorMessage = getErrorMessage({ error, message });
-  const stack = error.stack || getStack({ caller: normalizeError });
+  const stack = (error && error.stack) || getStack({ caller: normalizeError });
   return createError(errorMessage, stack, { reason });
 };
 
