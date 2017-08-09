@@ -12,8 +12,8 @@ const processErrorHandler = function ({ processLog }) {
   setupWarning({ processLog });
 };
 
-// Since `startServer()` manipulates process, e.g. by intercepting signals
-// or calling process.exit(), we consider it owns it, which implies:
+// Since `startServer()` manipulates process, e.g. by intercepting signals,
+// we consider it owns it, which implies:
 //   - only once instance of this engine per process
 //   - this engine cannot share a process with other significant modules/parts
 const checkUniqueCall = function () {
