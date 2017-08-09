@@ -2,13 +2,10 @@
 
 const { monitoredReduce } = require('../../perf');
 
-const { resolveRefs } = require('./ref_parsing');
 const { applyPlugins } = require('./plugins');
 const { applyModelDefault } = require('./model_default');
 
 const normalizers = [
-  // Resolve JSON references
-  resolveRefs,
   // Apply idl.plugins
   applyPlugins,
   // Apply idl.default

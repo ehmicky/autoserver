@@ -1,36 +1,20 @@
 'use strict';
 
-const { dirname } = require('path');
-
 const { throwError } = require('../error');
-const { getYaml, pRealpath } = require('../utilities');
+const { dereferenceRefs, pRealpath } = require('../utilities');
 
-// Retrieve the configuration using either:
-//  - a filename pointing to a JSON or YAML file
-//  - directly a JavaScript object
-const getIdlConf = async function ({ idl }) {
-  if (typeof idl === 'string') {
-    const idlConf = await getIdlFromPath({ path: idl });
-    return idlConf;
-  }
-
-  if (idl && idl.constructor === Object) { return idl; }
-
-  const message = 'Missing configuration file or \'conf\' option';
-  throwError(message, { reason: 'CONFIGURATION_LOADING' });
+// Retrieve the configuration from a path to a JSON or YAML file
+const getIdlConf = async function ({ serverOpts: { conf } }) {
+  const idlPath = await getIdlPath({ conf });
+  const idl = await resolveJsonRefs({ idlPath });
+  return idl;
 };
 
-const getIdlFromPath = async function ({ path }) {
-  const realPath = await getIdlPath({ path });
-
-  // Remember IDL file directory, so it can be used for $ref path resolution
-  const baseDir = dirname(realPath);
-
+const getIdlPath = async function ({ conf }) {
   try {
-    const idl = await getYaml({ path: realPath });
-    return { ...idl, baseDir };
+    return await pRealpath(conf);
   } catch (error) {
-    const message = 'Could not load configuration file';
+    const message = `Configuration file does not exist: '${conf}'`;
     throwError(message, {
       reason: 'CONFIGURATION_LOADING',
       innererror: error,
@@ -38,13 +22,19 @@ const getIdlFromPath = async function ({ path }) {
   }
 };
 
-const getIdlPath = async function ({ path }) {
+// Resolve JSON references, i.e. $ref
+// json-schema-ref-parser must load the file itself, i.e. a string must be
+// passed to it, not the parsed object, so it knows the base of relative $refs.
+// Because of this, json-schema-ref-parser needs to be responsible for loading
+// and parsing the IDL file.
+const resolveJsonRefs = async function ({ idlPath }) {
   try {
-    return await pRealpath(path);
+    const parsedIdl = await dereferenceRefs({ idlPath });
+    return parsedIdl;
   } catch (error) {
-    const message = `Configuration file does not exist: '${path}'`;
+    const message = 'Could not resolve references \'$ref\'';
     throwError(message, {
-      reason: 'CONFIGURATION_LOADING',
+      reason: 'IDL_SYNTAX_ERROR',
       innererror: error,
     });
   }

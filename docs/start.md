@@ -8,7 +8,6 @@ const server = startServer({ conf: 'my_schema.yml', ...otherOptions });
 ```
 
 `conf` is the [IDL file](idl.md), where the API endpoints are defined.
-It can be a file path, or directly a plain object.
 
 [`otherOptions`](#server-options) are runtime options, e.g. hostname and ports.
 

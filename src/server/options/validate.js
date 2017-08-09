@@ -38,7 +38,7 @@ const schema = {
   properties: {
 
     conf: {
-      type: ['string', 'object'],
+      type: 'string',
     },
 
     logLevel: {
