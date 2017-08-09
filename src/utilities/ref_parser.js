@@ -1,6 +1,6 @@
 'use strict';
 
-const { basename, dirname } = require('path');
+const { basename } = require('path');
 
 const RefParser = require('json-schema-ref-parser');
 
@@ -11,13 +11,16 @@ const { loadYaml } = require('./yaml');
 // I.e. { $ref: "path|url" } will be replaced by the target, which can be
 // accessed locally (local path) or remotely (HTTP[S])
 // Targets can be JSON or YAML files.
-// Circular references are supported.
+// Circular references are not supported.
 // Siblings attributes to `$ref` will be merged (with higher priority),
 // although this is not standard|spec behavior.
 // This function might throw for several reasons, e.g. YAML|JSON parsing error,
 // cannot access remote|local file, etc.
-const dereferenceRefs = async function (obj) {
-  const dereferencedObj = await RefParser.dereference(obj, {
+const dereferenceRefs = async function ({ idlPath }) {
+  const dereferencedObj = await RefParser.dereference(idlPath, {
+    dereference: {
+      circular: false,
+    },
     resolve: {
       nodeModule: nodeModuleRefs.resolve,
       node: nodeRefs.resolve,
@@ -57,7 +60,8 @@ const nodeModuleRefs = {
   resolve: {
     order: 50,
     canRead: true,
-    read: ({ url }) => requireFile(basename(url)),
+    // eslint-disable-next-line import/no-dynamic-require
+    read: ({ url }) => require(basename(url)),
   },
   parse: {
     allowEmpty: false,
@@ -72,7 +76,8 @@ const nodeRefs = {
   resolve: {
     order: 60,
     canRead: '.js',
-    read: ({ url }) => requireFile(url),
+    // eslint-disable-next-line import/no-dynamic-require
+    read: ({ url }) => require(url),
   },
   parse: {
     allowEmpty: false,
@@ -80,21 +85,6 @@ const nodeRefs = {
     canParse: '.js',
     parse: ({ data }) => (isResolved(data) ? data : undefined),
   },
-};
-
-// Enhanced version of `require()`
-const requireFile = function (url) {
-  // The new required file's require() calls should be relative to the file
-  // itself, so we temporarily change cwd
-  const currentDir = process.cwd();
-  process.chdir(dirname(url));
-
-  try {
-    // eslint-disable-next-line import/no-dynamic-require
-    return require(url);
-  } finally {
-    process.chdir(currentDir);
-  }
 };
 
 // Make sure a `resolve` function has previously been called
