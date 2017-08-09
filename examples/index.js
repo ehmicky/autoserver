@@ -12,37 +12,42 @@ const oServerOpts = {
 };
 
 const apiServer = startServer(oServerOpts)
-  .on('start.success', () => hasEmit('start.success'))
-  .on('start.failure', () => hasEmit('start.failure'))
   // This is for Nodemon to properly exit.
   // But if several servers are run at once (with or without Nodemon),
   // this will make the first one that finished exiting abrupt the others,
   // which is bad.
-  .on('stop.*', () => process.kill(process.pid, 'SIGUSR2'))
-  .on('stop.success', () => hasEmit('stop.success'))
-  .on('stop.failure', () => hasEmit('stop.failure'))
-  .on('log.*.*.*', info => {
-    const { phase, type, level } = info;
-    hasEmit(`log.${phase}.${type}.${level}`);
-
-    if (type !== 'perf') {
-      // For debugging
-      // const jsonInfo = JSON.stringify(info, null, 2);
-      // global.console.log('Logging info', jsonInfo);
-    }
-  });
+  .on('stop.*', () => process.kill(process.pid, 'SIGUSR2'));
 
   /*
-  // For debugging
+  .on('start.success', () => hasEmit('start.success'))
+  .on('start.failure', () => hasEmit('start.failure'))
+  .on('stop.success', () => hasEmit('stop.success'))
+  .on('stop.failure', () => hasEmit('stop.failure'))
+  .on('log.*.*.*', ({ phase, type, level }) =>
+    hasEmit(`log.${phase}.${type}.${level}`)
+  )
+  */
+
+  /*
+  .on('log.*.*.*', info => {
+    if (info.type === 'perf') { return; }
+
+    const jsonInfo = JSON.stringify(info, null, 2);
+    global.console.log('Logging info', jsonInfo);
+  });
+  */
+
+  /*
   .on('log.*.perf.*', ({ measuresMessage }) => {
     console.log(`Performance logging info\n${measuresMessage}`);
   });
   */
 
-const hasEmit = function () {
-  // For debugging
-  // global.console.log(`Emitting event '${eventName}'`);
+/*
+const hasEmit = function (eventName) {
+  global.console.log(`Emitting event '${eventName}'`);
 };
+*/
 
 module.exports = {
   apiServer,
