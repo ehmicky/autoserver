@@ -14,7 +14,6 @@ const startServers = async function ({
   startupLog,
   processLog,
   serverOpts,
-  oServerOpts,
 }) {
   const [jsl, jslMeasure] = await monitoredCreateJsl({ idl });
 
@@ -34,9 +33,9 @@ const startServers = async function ({
     requestHandler,
   });
 
-  makeImmutable(oServerOpts);
+  makeImmutable(serverOpts);
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(apiServer, { options: oServerOpts, servers });
+  Object.assign(apiServer, { options: serverOpts, servers });
 
   const measures = [jslMeasure, ...serverMeasures];
 
