@@ -2,6 +2,10 @@
 
 const { startServer } = require('../index');
 
+// As this is a global variable, the calling code must modify it, not the engine
+// eslint-disable-next-line fp/no-mutation
+Error.stackTraceLimit = 100;
+
 const apiServer = startServer({
   conf: './examples/pet.yml',
   logFilter: {

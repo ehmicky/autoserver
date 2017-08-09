@@ -5,5 +5,4 @@ module.exports = {
   ...require('./reasons'),
   ...require('./standard'),
   ...require('./message'),
-  ...require('./conf'),
 };
