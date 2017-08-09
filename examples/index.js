@@ -8,10 +8,6 @@ Error.stackTraceLimit = 100;
 
 const apiServer = startServer({
   conf: './examples/pet.yml',
-  logFilter: {
-    payload: ({ id }) => id,
-    headers: ['host'],
-  },
   logLevel: 'info',
   maxDataLength: 1000,
   defaultPageSize: 100,

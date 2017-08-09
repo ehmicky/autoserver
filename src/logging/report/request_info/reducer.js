@@ -1,13 +1,15 @@
 'use strict';
 
-const { identity, makeImmutable } = require('../../../utilities');
+const { identity } = require('../../../utilities');
 
-const reduceInfo = function ({ info, attrName, filter }) {
+const { applyLogFilter } = require('./log_filter');
+
+const reduceInfo = function ({ info, attrName, logFilter }) {
   if (!info || info[attrName] === undefined) { return info; }
   const value = info[attrName];
 
   const reducer = getInfoReducer({ value });
-  const reducedValue = reducer({ value, attrName, filter });
+  const reducedValue = reducer({ value, attrName, logFilter });
 
   const size = getSize({ value });
 
@@ -22,22 +24,21 @@ const getInfoReducer = function ({ value }) {
   return identity;
 };
 
-const reducerArray = function ({ value, attrName, filter }) {
-  const count = value.length;
-  const valueA = value
+const reducerArray = function ({ value: array, attrName, logFilter }) {
+  const count = array.length;
+  const arrayA = array
     .filter(isObject)
-    .map(obj => filter(makeImmutable(obj)));
+    .map(obj => applyLogFilter({ logFilter, obj }));
 
   return {
     [`${attrName}Count`]: count,
-    [attrName]: valueA,
+    [attrName]: arrayA,
   };
 };
 
-const reducerObject = function ({ value, attrName, filter }) {
-  const valueA = makeImmutable(value);
-  const valueB = filter(valueA);
-  return { [attrName]: valueB };
+const reducerObject = function ({ value: obj, attrName, logFilter }) {
+  const objA = applyLogFilter({ logFilter, obj });
+  return { [attrName]: objA };
 };
 
 const reducerFalsy = function ({ attrName }) {

@@ -22,22 +22,19 @@ const reduceAction = function (actionInfo, logFilter) {
   );
 };
 
-const reduceArgData = function (actionInfo, logFilter) {
-  const args = reduceInfo({
-    info: actionInfo.args,
-    attrName: 'data',
-    filter: logFilter.argData,
-  });
-  return { ...actionInfo, args };
+const reduceArgData = function (actionInfo, { argData: logFilter }) {
+  const { args } = actionInfo;
+  const argsA = reduceInfo({ info: args, attrName: 'data', logFilter });
+  return { ...actionInfo, args: argsA };
 };
 
 const reduceActionResponses = function (
   actionInfo,
-  { actionResponses: filter },
+  { actionResponses: logFilter },
 ) {
   const info = simplifyActionResponses(actionInfo);
 
-  return reduceInfo({ info, attrName: 'responses', filter });
+  return reduceInfo({ info, attrName: 'responses', logFilter });
 };
 
 const simplifyActionResponses = function (actionInfo) {

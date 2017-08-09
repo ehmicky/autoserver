@@ -1,7 +1,6 @@
 'use strict';
 
 const { validate } = require('../../validation');
-const { assignObject } = require('../../utilities');
 
 // Validation for main options
 const validateOptions = function (serverOpts) {
@@ -12,25 +11,12 @@ const validateOptions = function (serverOpts) {
 
 const reportInfo = { type: 'options', dataVar: 'options' };
 
-const logFilterProps = [
-  'payload',
-  'response',
-  'argData',
-  'actionResponses',
-  'headers',
-  'queryVars',
-  'params',
-  'settings',
-];
 const logFilterSchema = {
   oneOf: [
     { type: 'array', items: { type: 'string' } },
-    { typeof: 'function' },
+    { type: 'boolean' },
   ],
 };
-const logFilterProperties = logFilterProps
-  .map(attrName => ({ [attrName]: logFilterSchema }))
-  .reduce(assignObject, {});
 
 const schema = {
   type: 'object',
@@ -53,7 +39,16 @@ const schema = {
 
     logFilter: {
       type: 'object',
-      properties: logFilterProperties,
+      properties: {
+        payload: logFilterSchema,
+        response: logFilterSchema,
+        argData: logFilterSchema,
+        actionResponses: logFilterSchema,
+        headers: logFilterSchema,
+        queryVars: logFilterSchema,
+        params: logFilterSchema,
+        settings: logFilterSchema,
+      },
       additionalProperties: false,
     },
 

@@ -10,16 +10,12 @@ const reduceAllModels = function (requestInfo, logFilter) {
   );
 };
 
-const reducePayload = function (requestInfo, { payload: filter }) {
-  return reduceInfo({ info: requestInfo, attrName: 'payload', filter });
+const reducePayload = function (requestInfo, { payload: logFilter }) {
+  return reduceInfo({ info: requestInfo, attrName: 'payload', logFilter });
 };
 
-const reduceResponse = function (requestInfo, logFilter) {
-  return reduceInfo({
-    info: requestInfo,
-    attrName: 'response',
-    filter: logFilter.response,
-  });
+const reduceResponse = function (requestInfo, { response: logFilter }) {
+  return reduceInfo({ info: requestInfo, attrName: 'response', logFilter });
 };
 
 const modelsReducers = [
