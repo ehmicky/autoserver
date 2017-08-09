@@ -2,10 +2,12 @@
 
 const { monitoredReduce } = require('../../perf');
 
+const { getConfOptions } = require('./conf');
 const { applyDefaultOptions } = require('./default');
 const { validateOptions } = require('./validate');
 
 const processors = [
+  getConfOptions,
   applyDefaultOptions,
   validateOptions,
 ];

@@ -1,5 +1,7 @@
 'use strict';
 
+const { dirname, resolve } = require('path');
+
 const { throwError } = require('../error');
 const { dereferenceRefs, pRealpath } = require('../utilities');
 
@@ -11,10 +13,13 @@ const getIdlConf = async function ({ serverOpts: { conf } }) {
 };
 
 const getIdlPath = async function ({ conf }) {
+  const rootDir = dirname(require.main.filename);
+  const confPath = resolve(rootDir, conf);
+
   try {
-    return await pRealpath(conf);
+    return await pRealpath(confPath);
   } catch (error) {
-    const message = `Configuration file does not exist: '${conf}'`;
+    const message = `Configuration file does not exist: '${confPath}'`;
     throwError(message, {
       reason: 'CONFIGURATION_LOADING',
       innererror: error,
