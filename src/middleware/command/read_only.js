@@ -53,13 +53,11 @@ const removeAttrs = function ({ newData, currentData = {}, attrs }) {
 };
 
 const removeAttr = function ({ newData, currentData, attr }) {
-  const currentVal = currentData[attr];
-
-  if (currentVal == null) {
+  if (!currentData || currentData[attr] == null) {
     return omit(newData, attr);
   }
 
-  return { ...newData, [attr]: currentVal };
+  return { ...newData, [attr]: currentData[attr] };
 };
 
 module.exports = {
