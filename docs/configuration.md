@@ -41,8 +41,9 @@ See [here](server.md#server-options) for a list of available server options.
 The [IDL file](#idl-file) and the [server options file](#server-options) share
 the same format.
 
-The format depends on the file extension, and can be either YAML or JSON.
-YAML files can only contain JSON-compatible types.
+The format depends on the file extension, and can be:
+  - JSON
+  - YAML, but only with JSON-compatible types
 
 If a relative file path is used to target the configuration file, it will be
 relative to the current directory.
@@ -50,7 +51,8 @@ relative to the current directory.
 The [IDL file](#idl-file) (but not the [server options file](#server-options))
 can also be broken down into several files or use libraries. It does so by
 referring to external files (local or remote) or Node.js modules, using
-[JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),
+[JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
+Those are simple objects with a single `$ref` property pointing to the file,
 e.g.:
 
 ```yml
@@ -64,12 +66,18 @@ models:
 Environment variables prefixed with `API_ENGINE__` can be specified to override
 specific server options.
 
+The following environment variables can also be used:
+  - `NODE_ENV`: for `env`
+  - `HOST`: for `http.host`
+  - `PORT`: for `http.port`
+
 E.g. the following environment variables:
-```bash
+```toml
+NODE_ENV="dev"
 API_ENGINE__MAX_PAGE_SIZE=200
-API_ENGINE__HTTP__HOST=myhost
-API_ENGINE__LOG_FILTER__PAYLOAD__0=id
-API_ENGINE__LOG_FILTER__PAYLOAD__1=old_id
+API_ENGINE__HTTP__HOST="myhost"
+API_ENGINE__LOG_FILTER__PAYLOAD__0="id"
+API_ENGINE__LOG_FILTER__PAYLOAD__1="old_id"
 ```
 
 will be converted to the following server options, which will override
@@ -77,17 +85,13 @@ will be converted to the following server options, which will override
 
 ```json
 {
+  "env": "dev",
   "maxPageSize": 200,
   "http": { "host": "myhost" },
   "logFilter": { "payload": ["id", "old_id"] },
 }
 ```
 
-Notice that:
+Note:
   - the names are converted to camelCase
   - `__` is used to nest objects and arrays
-
-Additionally, the following environment variables can be used:
-  - `NODE_ENV`: for the server option `env`
-  - `HOST`: for the server options `http.host`
-  - `PORT`: for the server options `http.port`
