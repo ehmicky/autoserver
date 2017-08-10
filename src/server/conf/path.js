@@ -2,6 +2,7 @@
 
 const { getDirectPath } = require('./direct');
 const { getConf } = require('./find');
+const { validateConfFile } = require('./validate');
 
 // Loads a configuration file which can be:
 //  - environment variable API_ENGINE__NAME 'FILE'
@@ -13,7 +14,10 @@ const getConfFile = async function ({ path, name }) {
   const pathA = getDirectPath({ path, name });
 
   const confFile = await getConf({ path: pathA, name });
-  return confFile;
+
+  const confFileA = validateConfFile({ confFile });
+
+  return confFileA;
 };
 
 module.exports = {
