@@ -1,7 +1,8 @@
 # IDL file
 
 The IDL file contains information about the data model and the business logic.
-It is the main configuration file.
+
+See [here](configuration.md#idl-file) for how to configure it.
 
 # Minimalistic example
 
@@ -9,21 +10,6 @@ It is the main configuration file.
 engine: api-engine 1.0.0
 models:
   user: {}
-```
-
-# Format
-
-The file can be written in either YAML or JSON. YAML files can only contain
-JSON-compatible types.
-
-External files (local or remote) or Node.js modules can be included by using
-[JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),
-e.g.:
-
-```yml
-models:
-  user:
-    $ref: user.yml
 ```
 
 # IDL file validation
