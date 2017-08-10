@@ -2,7 +2,7 @@
 
 const { camelize } = require('underscore.string');
 
-const { parsePositiveInt, transtype } = require('../../../utilities');
+const { parsePositiveInt, transtype } = require('../../utilities');
 
 const { ENV_VARS_PREFIX, basicNamesMap } = require('./constants');
 
