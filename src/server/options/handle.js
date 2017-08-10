@@ -12,7 +12,7 @@ const processors = [
   validateOptions,
 ];
 
-const getServerOpts = function (oServerOpts) {
+const getServerOpts = function ({ oServerOpts }) {
   return monitoredReduce({
     funcs: processors,
     initialInput: oServerOpts,

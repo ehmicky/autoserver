@@ -21,43 +21,44 @@ const startServer = function (oServerOpts) {
 };
 
 const start = async function ({ apiServer, oServerOpts }) {
-  const [serverOpts, optsPerf] = await getOpts({ apiServer, oServerOpts });
+  const earlyLog = createLog({ apiServer, phase: 'startup' });
+  const [serverOpts, optsPerf] = await eGetServerOpts({
+    apiServer,
+    oServerOpts,
+    log: earlyLog,
+  });
 
   const log = createLog({ apiServer, serverOpts, phase: 'startup' });
-
-  const [[, childrenPerf], perf] = await boot({ apiServer, serverOpts, log });
+  const [[, childrenPerf], perf] = await eBootAll({
+    apiServer,
+    serverOpts,
+    log,
+    startupLog: log,
+  });
 
   const measures = [...optsPerf, perf, ...childrenPerf];
-  await perfReport({ apiServer, log, measures });
+  await eReportPerf({ apiServer, log, measures });
+};
+
+const handleError = function (func) {
+  return async function wrappedFunc (input) {
+    try {
+      await func(input);
+    } catch (error) {
+      const { apiServer, log } = input;
+      await handleStartupError({ error, apiServer, log });
+    }
+  };
 };
 
 // Retrieve server options
-const getOpts = async function ({ apiServer, oServerOpts }) {
-  try {
-    return await getServerOpts(oServerOpts);
-  } catch (error) {
-    const log = createLog({ apiServer, phase: 'startup' });
-    await handleStartupError({ error, apiServer, log });
-  }
-};
+const eGetServerOpts = handleError(getServerOpts);
 
 // Main startup function
-const boot = async function ({ apiServer, serverOpts, log }) {
-  try {
-    return await bootAll({ apiServer, serverOpts, startupLog: log });
-  } catch (error) {
-    await handleStartupError({ error, apiServer, log });
-  }
-};
+const eBootAll = handleError(bootAll);
 
 // Report startup performance
-const perfReport = async function ({ apiServer, log, measures }) {
-  try {
-    await reportPerf({ log, measures });
-  } catch (error) {
-    await handleStartupError({ error, apiServer, log });
-  }
-};
+const eReportPerf = handleError(reportPerf);
 
 module.exports = {
   startServer,
