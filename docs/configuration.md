@@ -61,6 +61,15 @@ models:
     $ref: user.yml
 ```
 
+[JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03)
+can also be used to reference a property in the current file:
+
+```yml
+models:
+  user:
+    $ref: '#/models/old_user'
+```
+
 # Environment variables
 
 Environment variables prefixed with `API_ENGINE__` can be specified to override

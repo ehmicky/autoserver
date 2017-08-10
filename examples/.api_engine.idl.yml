@@ -4,6 +4,8 @@ models:
     description: Cute animal
     commands: [create, read, update, delete]
     x-custom: anything
+    x-second-custom:
+      $ref: '#/models/pet/x-custom'
     attributes:
       id:
         description: Unique identifier of a pet
