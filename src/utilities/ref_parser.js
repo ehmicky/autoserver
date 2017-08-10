@@ -19,9 +19,6 @@ const { loadYaml } = require('./yaml');
 // cannot access remote|local file, etc.
 const dereferenceRefs = async function ({ path }) {
   const dereferencedObj = await RefParser.dereference(path, {
-    dereference: {
-      circular: false,
-    },
     resolve: {
       nodeModule: nodeModuleRefs.resolve,
       node: nodeRefs.resolve,
@@ -51,6 +48,9 @@ const dereferenceRefs = async function ({ path }) {
       binary: false,
       nodeModule: nodeModuleRefs.parse,
       node: nodeRefs.parse,
+    },
+    dereference: {
+      circular: true,
     },
   });
   return dereferencedObj;
@@ -89,7 +89,9 @@ const nodeRefs = {
 };
 
 // Make sure a `resolve` function has previously been called
-const isResolved = val => typeof val !== 'string' && !Buffer.isBuffer(val);
+const isResolved = function (val) {
+  return typeof val !== 'string' && !Buffer.isBuffer(val);
+};
 
 module.exports = {
   dereferenceRefs,
