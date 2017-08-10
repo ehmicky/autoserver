@@ -50,7 +50,7 @@ relative to the current directory.
 
 The [IDL file](#idl-file) (but not the [server options file](#server-options))
 can also be broken down into several files or use libraries. It does so by
-referring to external files (local or remote) or Node.js modules, using
+referring to external files (local or HTTP/HTTPS) or Node.js modules, using
 [JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
 Those are simple objects with a single `$ref` property pointing to the file,
 e.g.:
