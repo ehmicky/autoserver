@@ -10,6 +10,7 @@ const { loadYaml } = require('./yaml');
 // RFC: https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html
 // I.e. { $ref: "path|url" } will be replaced by the target, which can be
 // accessed locally (local path) or remotely (HTTP[S])
+// Each $ref is relative to the current file.
 // Targets can be JSON or YAML files.
 // Circular references are not supported.
 // Siblings attributes to `$ref` will be merged (with higher priority),
