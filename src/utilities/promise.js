@@ -1,7 +1,7 @@
 'use strict';
 
 const { promisify } = require('util');
-const { realpath, readFile } = require('fs');
+const { stat, realpath, readFile, readdir } = require('fs');
 
 const { capitalize } = require('underscore.string');
 
@@ -16,6 +16,8 @@ const promise = promisifyAll({
   setTimeout,
   realpath,
   readFile,
+  stat,
+  readdir,
 });
 
 module.exports = promise;
