@@ -22,14 +22,6 @@ const schema = {
   type: 'object',
   properties: {
 
-    idl: {
-      type: 'string',
-    },
-
-    opts: {
-      type: 'string',
-    },
-
     env: {
       type: 'string',
       enum: ['dev', 'production'],
@@ -55,6 +47,10 @@ const schema = {
       additionalProperties: false,
     },
 
+    serverName: {
+      type: 'string',
+    },
+
     maxDataLength: {
       type: 'integer',
       minimum: 0,
@@ -70,10 +66,6 @@ const schema = {
       minimum: {
         $data: '1/defaultPageSize',
       },
-    },
-
-    serverName: {
-      type: 'string',
     },
 
     http: {
