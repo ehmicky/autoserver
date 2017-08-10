@@ -43,7 +43,7 @@ const start = async function ({ apiServer, oServerOpts }) {
 const handleError = function (func) {
   return async function wrappedFunc (input) {
     try {
-      await func(input);
+      return await func(input);
     } catch (error) {
       const { apiServer, log } = input;
       await handleStartupError({ error, apiServer, log });
