@@ -14,7 +14,8 @@ const loadIdlFile = async function ({ idlFile }) {
     throwError(message, { reason: 'CONF_LOADING' });
   }
 
-  return loadIdl({ idlPath });
+  const idl = await loadIdl({ idlPath });
+  return { idl };
 };
 
 const getIdlPath = async function ({ idlFile }) {

@@ -4,7 +4,7 @@ const { recurseMap } = require('../../utilities');
 const { isJsl, validateJsl } = require('../../jsl');
 
 // Validate all IDL JSL expressions
-const validateIdlJsl = function (idl) {
+const validateIdlJsl = function ({ idl }) {
   return recurseMap(idl, validateJslMapper);
 };
 

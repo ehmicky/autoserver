@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitoredReduce } = require('../../perf');
+const { reduceAsync } = require('../../utilities');
 
 const { validateIdlCircularRefs } = require('./circular_refs');
 const { validateData } = require('./data');
@@ -19,11 +19,7 @@ const validators = [
 
 // Validate IDL definition
 const validateIdl = function ({ idl }) {
-  return monitoredReduce({
-    funcs: validators,
-    initialInput: idl,
-    category: 'validate',
-  });
+  return reduceAsync(validators, (idlA, func) => func({ idl: idlA }), idl);
 };
 
 module.exports = {
