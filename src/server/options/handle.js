@@ -2,20 +2,20 @@
 
 const { monitoredReduce } = require('../../perf');
 
-const { getConfOptions } = require('./conf');
+const { loadServerOptsFile } = require('./load');
 const { applyDefaultOptions } = require('./default');
 const { validateOptions } = require('./validate');
 
 const processors = [
-  getConfOptions,
+  loadServerOptsFile,
   applyDefaultOptions,
   validateOptions,
 ];
 
-const getServerOpts = function ({ oServerOpts }) {
+const getServerOpts = function ({ serverOptsFile }) {
   return monitoredReduce({
     funcs: processors,
-    initialInput: oServerOpts,
+    initialInput: { serverOptsFile },
     category: 'options',
   });
 };

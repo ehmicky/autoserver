@@ -27,6 +27,10 @@ const schema = {
       type: 'string',
     },
 
+    opts: {
+      type: 'string',
+    },
+
     env: {
       type: 'string',
       enum: ['dev', 'production'],

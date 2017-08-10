@@ -2,16 +2,16 @@
 
 const { defaultsDeep } = require('lodash');
 
-const { getEnvVars } = require('./env');
+const { getEnvVars } = require('../env');
 
 // Default value for main options
 // Priority order:
 //  - environment variables
 //  - configuration files
 //  - default options
-const applyDefaultOptions = function ({ confOpts, oServerOpts }) {
+const applyDefaultOptions = function ({ serverOpts }) {
   const envVars = getEnvVars();
-  return defaultsDeep({}, envVars, oServerOpts, confOpts, defaultOptions);
+  return defaultsDeep({}, envVars, serverOpts, defaultOptions);
 };
 
 const defaultOptions = {
