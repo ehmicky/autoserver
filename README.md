@@ -40,7 +40,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
 
 # Starting the server
 
-See [here](docs/start.md).
+See [here](docs/server.md).
 
 # Client queries
 
