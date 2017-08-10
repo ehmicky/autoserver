@@ -70,6 +70,9 @@ const errorReasons = {
   // Main options have syntax errors
   OPTIONS_VALIDATION: {},
 
+  // Loading of configuration failed
+  CONF_LOADING: {},
+
   // IDL definition is invalid, for usage with GraphQL
   GRAPHQL_WRONG_DEFINITION: {},
 
