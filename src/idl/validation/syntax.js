@@ -3,7 +3,7 @@
 const { getYaml, omitBy, fullRecurseMap } = require('../../utilities');
 const { validate } = require('../../validation');
 
-const IDL_SCHEMA_PATH = './src/idl/validation/idl_schema.yml';
+const IDL_SCHEMA_PATH = `${__dirname}/idl_schema.yml`;
 
 const validateIdlSyntax = async function (idl) {
   const schema = await getYaml({ path: IDL_SCHEMA_PATH });
