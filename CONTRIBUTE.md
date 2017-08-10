@@ -37,7 +37,7 @@ Additionally, we enforce a pretty strong functional programming style with
 
 Also we prefer:
   - named arguments over positional
-  - async/await over alternatives
+  - async/await over raw promises or callbacks
   - `...object` over `Object.assign()`
 
 # Tooling
