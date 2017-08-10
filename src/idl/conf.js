@@ -20,10 +20,7 @@ const resolveJsonRefs = async function ({ idlPath }) {
     return parsedIdl;
   } catch (error) {
     const message = 'Could not resolve references \'$ref\'';
-    throwError(message, {
-      reason: 'IDL_SYNTAX_ERROR',
-      innererror: error,
-    });
+    throwError(message, { reason: 'IDL_SYNTAX_ERROR', innererror: error });
   }
 };
 
