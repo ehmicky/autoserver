@@ -5,10 +5,11 @@ They are two main configuration files: the [IDL file](#idl-file) and the
 
 # IDL file
 
-The [IDL file](#idl.md) is where you define your data model and business logic.
+The [IDL file](idl.md) is where you define your data model and business logic.
 
-There are several ways to define the IDL file. The first one that is defined
-will be chosen, from the highest priority to the lowest:
+There are several ways to define the [IDL file](idl.md).
+The first one that is defined will be chosen, from the highest priority
+to the lowest:
   - setting an environment variable `API_ENGINE__IDL` containing the path to
     the [configuration file](#configuration-file)
   - using `apiEngine.startServer({ idl: 'path' })` with a `'path'` to
@@ -40,7 +41,7 @@ See [here](server.md#server-options) for a list of available server options.
 The [IDL file](#idl-file) and the [server options file](#server-options) share
 the same format.
 
-The file format depends on the file extension, and can be either YAML or JSON.
+The format depends on the file extension, and can be either YAML or JSON.
 YAML files can only contain JSON-compatible types.
 
 If a relative file path is used to target the configuration file, it will be

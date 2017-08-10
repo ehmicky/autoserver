@@ -45,8 +45,8 @@ The event level is the importance of the event, among `info`, `log`, `warn`
 or `error`,
 
 The logging verbosity can be adjusted using the
-[server option](server.md#server-options) `logLevel`, which defaults to
-`'info'` and can also be `'silent'`.
+[server option](server.md#server-options) `logLevel` (defaults to `'info'`),
+which can also be `'silent'`.
 It only affects the log console output, not the log events that are emitted.
 
 # Event payload
