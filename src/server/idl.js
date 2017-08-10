@@ -5,6 +5,7 @@ const { getIdl } = require('../idl');
 
 const { getConfFile } = require('./conf');
 
+// Load configuration for `idl`
 const loadIdlFile = async function ({ idlFile }) {
   const idlPath = await getIdlPath({ idlFile });
 

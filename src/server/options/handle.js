@@ -12,6 +12,7 @@ const processors = [
   validateOptions,
 ];
 
+// Retrieve and validate `serverOpts`
 const getServerOpts = function ({ serverOptsFile }) {
   return monitoredReduce({
     funcs: processors,
