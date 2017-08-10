@@ -2,41 +2,38 @@
 
 <!-- eslint-disable no-unused-vars, no-undef, strict -->
 ```javascript
-const { startServer } = require('api-engine');
+const apiEngine = require('api-engine');
 
-const server = startServer({ conf: 'my_schema.yml', ...otherOptions });
+const server = apiEngine.startServer();
 ```
 
-`conf` is the [IDL file](idl.md), where the API endpoints are defined.
+See [here](configuration.md#idl-file) for how to configure the
+[IDL file](idl.md)
 
-[`otherOptions`](#server-options) are runtime options, e.g. hostname and ports.
-
-`server` contains some useful [information](#server-information),
-and can emit some [events](#server-events)
+`server` can emit some [events](#server-events), and contains some useful
+[information](#server-information),
 
 # Server options
 
-Available options:
-  - `dev`, which can be `'dev'` or `'production'`.
+See [here](configuration.md#server-options) for how to configure the server
+options.
+
+The available options are:
+  - `env`: can be `'dev'` or `'production'`.
     This defaults to `'production'`.
     Running in `'dev'` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
-
-The following options are pagination-related:
-  - `defaultPageSize`, which defaults itself to `100`.
+  - `defaultPageSize`: defaults itself to `100`.
     Use `0` to disable pagination.
-  - `maxPageSize` which sets an upper limit to client-specified `page_size`.
+  - `maxPageSize`: sets an upper limit to client-specified `page_size`.
     This defaults to `100`.
-  - `maxDataLength` which sets a limit on client-specified `data` length,
+  - `maxDataLength`: sets a limit on client-specified `data` length,
     i.e. how many models can be created, replaced or upserted at once.
     This defaults to `1000`. Use `0` to disable.
-
-The following options are HTTP-related:
   - `http.host`: defaults to `localhost`
   - `http.port`: defaults to `80`. Can be `0` for "any available port".
   - `http.enabled`: specify `false` to disable HTTP server (defaults to `true`)
-
-For `serverName`, `logFilter` and `logLevel`, see [logging](logging.md).
+  - `serverName`, `logFilter` and `logLevel`: see [logging](logging.md).
 
 # Server events
 
