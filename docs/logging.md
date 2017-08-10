@@ -45,7 +45,7 @@ The event level is the importance of the event, among `info`, `log`, `warn`
 or `error`,
 
 The logging verbosity can be adjusted using the
-[server option](start.md#server-options) `logLevel`, which defaults to
+[server option](server.md#server-options) `logLevel`, which defaults to
 `'info'` and can also be `'silent'`.
 It only affects the log console output, not the log events that are emitted.
 
@@ -97,18 +97,19 @@ Each event payload comes with a `serverInfo` property, with the properties:
 A `serverId` UUID, unique to each server run, is automatically created and
 available:
   - in [`serverInfo.serverId`](#server-information) log property
-  - on the return value as [`server.info.serverId`](start.md#server-information)
+  - on the return value as
+    [`server.info.serverId`](server.md#server-information)
   - as a response header named `X-Server-Id`
 
 A `serverName` UUID, unique to each machine, is available:
   - in [`serverInfo.serverName`](#server-information) log property
   - in [console logging](#console-logging) messages
   - on the return value as
-    [`server.info.serverName`](start.md#server-information)
+    [`server.info.serverName`](server.md#server-information)
   - as a response header named `X-Server-Name`
 
 `serverName` is set using any of:
-  - the [server option](start.md#server-options) `serverName`
+  - the [server option](server.md#server-options) `serverName`
   - the system hostname
   - an empty string
 
@@ -189,7 +190,7 @@ circumstances, e.g. if an error happened.
 # Request information filtering
 
 To avoid the request information to be too big or leak security information,
-one can set filters using the [server option](start.md#server-options)
+one can set filters using the [server option](server.md#server-options)
 `logFilter`.
 
 `logFilter` is an object, with each property specifying how filter part of
