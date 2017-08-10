@@ -2,14 +2,20 @@
 
 const { defaultsDeep } = require('lodash');
 
+const { getEnvVars } = require('./env');
+
 // Default value for main options
+// Priority order:
+//  - environment variables
+//  - configuration files
+//  - default options
 const applyDefaultOptions = function ({ confOpts, oServerOpts }) {
-  return defaultsDeep({}, oServerOpts, confOpts, defaultOptions);
+  const envVars = getEnvVars();
+  return defaultsDeep({}, envVars, oServerOpts, confOpts, defaultOptions);
 };
 
 const defaultOptions = {
-  // eslint-disable-next-line no-process-env
-  env: process.env.NODE_ENV || 'production',
+  env: 'production',
   maxDataLength: 1000,
   defaultPageSize: 100,
   maxPageSize: 100,
