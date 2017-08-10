@@ -11,7 +11,8 @@ const apiServer = startServer()
   // But if several servers are run at once (with or without Nodemon),
   // this will make the first one that finished exiting abrupt the others,
   // which is bad.
-  .on('stop.*', () => process.kill(process.pid, 'SIGUSR2'));
+  // eslint-disable-next-line semi
+  .on('stop.*', () => process.kill(process.pid, 'SIGUSR2'))
 
   /*
   .on('start.success', () => hasEmit('start.success'))
