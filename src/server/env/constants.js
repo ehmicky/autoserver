@@ -8,7 +8,7 @@ const ENV_VARS_PREFIX = /^API_ENGINE__/;
 
 // Shortcuts, e.g. environment variable PORT will becomes API_ENGINE__HTTP__PORT
 const basicNamesMap = {
-  ENV: 'ENV',
+  NODE_ENV: 'ENV',
   PORT: 'HTTP__PORT',
   HOST: 'HTTP__HOST',
 };
