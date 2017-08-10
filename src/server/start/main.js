@@ -21,6 +21,7 @@ const startServer = function (oServerOpts) {
 };
 
 const start = async function ({ apiServer, oServerOpts }) {
+  // Retrieve server options
   const earlyLog = createLog({ apiServer, phase: 'startup' });
   const [serverOpts, optsPerf] = await eGetServerOpts({
     apiServer,
@@ -28,6 +29,7 @@ const start = async function ({ apiServer, oServerOpts }) {
     log: earlyLog,
   });
 
+  // Main startup function
   const log = createLog({ apiServer, serverOpts, phase: 'startup' });
   const [[, childrenPerf], perf] = await eBootAll({
     apiServer,
@@ -36,10 +38,12 @@ const start = async function ({ apiServer, oServerOpts }) {
     startupLog: log,
   });
 
+  // Report startup performance
   const measures = [...optsPerf, perf, ...childrenPerf];
   await eReportPerf({ apiServer, log, measures });
 };
 
+// Error handling
 const handleError = function (func) {
   return async function wrappedFunc (input) {
     try {
@@ -51,13 +55,10 @@ const handleError = function (func) {
   };
 };
 
-// Retrieve server options
 const eGetServerOpts = handleError(getServerOpts);
 
-// Main startup function
 const eBootAll = handleError(bootAll);
 
-// Report startup performance
 const eReportPerf = handleError(reportPerf);
 
 module.exports = {
