@@ -15,6 +15,12 @@ const loadServerOptsFile = async function ({ serverOptsFile }) {
 };
 
 const getServerOpts = async function ({ serverOptsFile }) {
+  // When passing `opts` as an object
+  if (serverOptsFile && serverOptsFile.constructor === Object) {
+    return serverOptsFile;
+  }
+
+  // When passing `opts` as a string, or as undefined
   const confFile = await getConfFile({ path: serverOptsFile, name: 'opts' });
   if (!confFile) { return; }
 
