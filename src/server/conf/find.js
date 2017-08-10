@@ -6,7 +6,7 @@ const { throwError } = require('../../error');
 const { pStat, pReaddir } = require('../../utilities');
 
 // Retrieves final configuration path to use
-const getConfFile = function ({ path, name }) {
+const getConf = function ({ path, name }) {
   if (path) {
     return getDirectFile({ path });
   }
@@ -74,5 +74,5 @@ const checkIsDirectory = async function ({ dir, isDir }) {
 };
 
 module.exports = {
-  getConfFile,
+  getConf,
 };

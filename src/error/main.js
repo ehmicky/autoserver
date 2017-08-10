@@ -7,7 +7,7 @@ const { difference } = require('lodash');
 const createError = function (message, stack, opts = {}) {
   validateError(opts);
 
-  const innererror = getInnerError(opts);
+  const innererror = getInnerError({ opts, stack });
   const type = errorType;
 
   return { ...opts, message, stack, innererror, type };
@@ -30,7 +30,7 @@ const validateError = function (opts) {
 const allowedOpts = ['reason', 'innererror', 'extra'];
 
 // Keep track of innererror
-const getInnerError = function (opts) {
+const getInnerError = function ({ opts, stack: upperStack }) {
   // Only keep innermost innererror
   const innererror = opts.innererror && opts.innererror.innererror
     ? opts.innererror.innererror
@@ -38,15 +38,18 @@ const getInnerError = function (opts) {
   if (!innererror) { return; }
 
   // eslint-disable-next-line fp/no-mutation
-  innererror.stack = getInnerErrorStack({ innererror });
+  innererror.stack = getInnerErrorStack({ innererror, upperStack });
 
   return innererror;
 };
 
-const getInnerErrorStack = function ({ innererror: { message, stack = '' } }) {
+const getInnerErrorStack = function ({
+  innererror: { message, stack = '' },
+  upperStack,
+}) {
   // Node core errors include a `stack` property, but it actually does not
   // have any stack, and just repeats the `message`. We don't want this.
-  if (!(/\n/).test(stack)) { return; }
+  if (!(/\n/).test(stack)) { return `${stack}\n${upperStack}`; }
 
   // We only keep innererror's stack, so if it does not include the
   // error message, which might be valuable information, prepends it

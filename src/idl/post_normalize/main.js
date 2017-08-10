@@ -15,12 +15,12 @@ const normalizers = [
 ];
 
 // Normalize IDL definition
-const postNormalizeIdl = function ({ idl, serverOpts }) {
+const postNormalizeIdl = function ({ idl }) {
   return monitoredReduce({
     funcs: normalizers,
     initialInput: idl,
     category: 'post_normalize',
-    mapInput: idlA => ({ serverOpts, idl: idlA }),
+    mapInput: idlA => ({ idl: idlA }),
   });
 };
 

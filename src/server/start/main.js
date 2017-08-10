@@ -10,17 +10,17 @@ const { bootAll } = require('./boot');
 
 // Start server for each protocol
 // @param {object} serverOpts
-const startServer = function ({ opts: serverOptsFile } = {}) {
+const startServer = function ({ opts: serverOptsFile, idl: idlFile } = {}) {
   const apiServer = createApiServer();
 
-  start({ apiServer, serverOptsFile })
+  start({ apiServer, serverOptsFile, idlFile })
     // Must use 'start.success' and 'start.failure' events
     .catch(identity);
 
   return apiServer;
 };
 
-const start = async function ({ apiServer, serverOptsFile }) {
+const start = async function ({ apiServer, serverOptsFile, idlFile }) {
   // Retrieve server options
   const earlyLog = createLog({ apiServer, phase: 'startup' });
   const [serverOpts, optsPerf] = await eGetServerOpts({
@@ -34,6 +34,7 @@ const start = async function ({ apiServer, serverOptsFile }) {
   const [[, childrenPerf], perf] = await eBootAll({
     apiServer,
     serverOpts,
+    idlFile,
     log,
     startupLog: log,
   });

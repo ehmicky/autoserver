@@ -1,8 +1,8 @@
 'use strict';
 
 const { monitor, monitoredReduce } = require('../../perf');
-const { getIdl } = require('../../idl');
 const { getProcessLog, processErrorHandler } = require('../process');
+const { loadIdlFile } = require('../idl');
 const { setupGracefulExit } = require('../exit');
 
 const { startServers } = require('./servers');
@@ -24,7 +24,7 @@ const startSteps = [
   getProcessLog,
   processErrorHandler,
   addServerInfo,
-  getIdl,
+  loadIdlFile,
   startServers,
   setupGracefulExit,
   emitStartEvent,
