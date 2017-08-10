@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitoredReduce } = require('../perf');
+const { reduceAsync } = require('../utilities');
 
 const { getIdlConf } = require('./conf');
 const { preNormalizeIdl } = require('./pre_normalize');
@@ -20,12 +20,7 @@ const processors = [
 
 // Retrieves IDL definition, after validation and transformation
 const getIdl = function ({ idlPath }) {
-  return monitoredReduce({
-    funcs: processors,
-    initialInput: { idlPath },
-    category: 'idl',
-    mapResponse: idl => ({ idl }),
-  });
+  return reduceAsync(processors, (idl, func) => func({ idlPath, idl }), {});
 };
 
 module.exports = {

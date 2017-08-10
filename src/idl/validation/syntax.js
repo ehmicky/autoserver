@@ -5,7 +5,7 @@ const { validate } = require('../../validation');
 
 const IDL_SCHEMA_PATH = `${__dirname}/idl_schema.yml`;
 
-const validateIdlSyntax = async function (idl) {
+const validateIdlSyntax = async function ({ idl }) {
   const schema = await getYaml({ path: IDL_SCHEMA_PATH });
   const data = getIdl(idl);
   validate({

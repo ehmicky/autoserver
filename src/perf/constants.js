@@ -6,11 +6,6 @@ const CATEGORIES = [
   'all',
   'default',
   'options',
-  'idl',
-  'pre_normalize',
-  'validate',
-  'post_normalize',
-  'graphql',
   'middleware',
   'server',
 ];

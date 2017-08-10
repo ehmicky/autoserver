@@ -5,7 +5,7 @@ const { singular, plural } = require('pluralize');
 const { throwError } = require('../../error');
 
 // Validate model are properly named
-const validateModelNames = function (idl) {
+const validateModelNames = function ({ idl }) {
   if (!idl.models) { return idl; }
 
   return Object.keys(idl.models).reduce(

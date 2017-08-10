@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitoredReduce } = require('../../perf');
+const { reduceAsync } = require('../../utilities');
 
 const { applyPlugins } = require('./plugins');
 const { applyModelDefault } = require('./model_default');
@@ -14,12 +14,7 @@ const normalizers = [
 
 // Normalize IDL definition
 const preNormalizeIdl = function ({ idl }) {
-  return monitoredReduce({
-    funcs: normalizers,
-    initialInput: idl,
-    category: 'pre_normalize',
-    mapInput: idlA => ({ idl: idlA }),
-  });
+  return reduceAsync(normalizers, (idlA, func) => func({ idl: idlA }), idl);
 };
 
 module.exports = {

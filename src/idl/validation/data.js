@@ -4,7 +4,7 @@ const { fullRecurseMap, mapValues } = require('../../utilities');
 const { throwError } = require('../../error');
 
 // Validate JSON schema `$data` properties
-const validateData = function (idl) {
+const validateData = function ({ idl }) {
   return fullRecurseMap(idl, validateDataMapper);
 };
 
