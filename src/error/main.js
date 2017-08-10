@@ -37,16 +37,24 @@ const getInnerError = function (opts) {
     : opts.innererror;
   if (!innererror) { return; }
 
-  // We only keep innererror's stack, so if it does not include the
-  // error message, which might be valuable information, prepends it
-  const { message, stack = '' } = innererror;
-
-  if (message && stack.indexOf(message) === -1) {
-    // eslint-disable-next-line fp/no-mutation
-    innererror.stack = `${message}\n${stack}`;
-  }
+  // eslint-disable-next-line fp/no-mutation
+  innererror.stack = getInnerErrorStack({ innererror });
 
   return innererror;
+};
+
+const getInnerErrorStack = function ({ innererror: { message, stack = '' } }) {
+  // Node core errors include a `stack` property, but it actually does not
+  // have any stack, and just repeats the `message`. We don't want this.
+  if (!(/\n/).test(stack)) { return; }
+
+  // We only keep innererror's stack, so if it does not include the
+  // error message, which might be valuable information, prepends it
+  if (message && stack.indexOf(message) === -1) {
+    return `${message}\n${stack}`;
+  }
+
+  return stack;
 };
 
 const isError = function ({ error }) {
