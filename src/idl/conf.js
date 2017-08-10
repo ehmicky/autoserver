@@ -1,30 +1,12 @@
 'use strict';
 
-const { dirname, resolve } = require('path');
-
 const { throwError } = require('../error');
-const { dereferenceRefs, pRealpath } = require('../utilities');
+const { dereferenceRefs } = require('../utilities');
 
 // Retrieve the configuration from a path to a JSON or YAML file
-const getIdlConf = async function ({ serverOpts: { conf } }) {
-  const idlPath = await getIdlPath({ conf });
+const getIdlConf = async function ({ idlPath }) {
   const idl = await resolveJsonRefs({ idlPath });
   return idl;
-};
-
-const getIdlPath = async function ({ conf }) {
-  const rootDir = dirname(require.main.filename);
-  const confPath = resolve(rootDir, conf);
-
-  try {
-    return await pRealpath(confPath);
-  } catch (error) {
-    const message = `Configuration file does not exist: '${confPath}'`;
-    throwError(message, {
-      reason: 'CONFIGURATION_LOADING',
-      innererror: error,
-    });
-  }
 };
 
 // Resolve JSON references, i.e. $ref
@@ -34,7 +16,7 @@ const getIdlPath = async function ({ conf }) {
 // and parsing the IDL file.
 const resolveJsonRefs = async function ({ idlPath }) {
   try {
-    const parsedIdl = await dereferenceRefs({ idlPath });
+    const parsedIdl = await dereferenceRefs({ path: idlPath });
     return parsedIdl;
   } catch (error) {
     const message = 'Could not resolve references \'$ref\'';

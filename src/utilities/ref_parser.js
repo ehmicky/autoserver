@@ -17,8 +17,8 @@ const { loadYaml } = require('./yaml');
 // although this is not standard|spec behavior.
 // This function might throw for several reasons, e.g. YAML|JSON parsing error,
 // cannot access remote|local file, etc.
-const dereferenceRefs = async function ({ idlPath }) {
-  const dereferencedObj = await RefParser.dereference(idlPath, {
+const dereferenceRefs = async function ({ path }) {
+  const dereferencedObj = await RefParser.dereference(path, {
     dereference: {
       circular: false,
     },

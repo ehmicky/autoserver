@@ -2,14 +2,13 @@
 
 const { GraphQLInt, GraphQLString } = require('graphql');
 
+const { pick } = require('../../../../../../../../utilities');
+
 // Pagination arguments
 const paginationActions = ['find', 'update', 'delete'];
 const fullPaginationActions = ['find'];
 
-const getPaginationArgument = function ({
-  def: { action },
-  serverOpts: { defaultPageSize, maxPageSize },
-}) {
+const getPaginationArgument = function ({ def: { action } }) {
   // Only with actions that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and
   // updateMany
@@ -17,25 +16,13 @@ const getPaginationArgument = function ({
     return {};
   }
 
-  const pageSizeArg = getPageSizeArg({ maxPageSize, defaultPageSize });
-
   // Only with safe actions that return an array, i.e. only with findMany
   if (!(fullPaginationActions.includes(action.type) && action.multiple)) {
-    return pageSizeArg;
+    return pick(paginationArgs, 'page_size');
   }
 
-  return { ...pageSizeArg, ...paginationArgs };
+  return paginationArgs;
 };
-
-const getPageSizeArg = ({ maxPageSize, defaultPageSize }) => ({
-  page_size: {
-    type: GraphQLInt,
-    description: `Sets pagination size.
-Using 0 disables pagination.
-Maximum: ${maxPageSize}`,
-    defaultValue: defaultPageSize,
-  },
-});
 
 const paginationArgs = {
   after: {
@@ -49,6 +36,12 @@ Using '' means 'from the beginning'`,
     type: GraphQLString,
     description: `Retrieves previous pagination batch, using the previous response's first model's 'token'.
 Using '' means 'from the end'`,
+  },
+
+  page_size: {
+    type: GraphQLInt,
+    description: `Sets pagination size.
+Using 0 disables pagination.`,
   },
 
   page: {

@@ -19,7 +19,7 @@
   "scripts": {
     "build": "./scripts/unbuild.sh; npm install; ./scripts/build.sh",
     "unbuild": "./scripts/unbuild.sh",
-    "start": "node --harmony --no-warnings ./examples",
+    "start": "cd ./examples && node --harmony --no-warnings .",
     "watch": "./node_modules/.bin/nodemon --config ./nodemon.json",
     "debug": "./node_modules/.bin/nodemon --config ./nodemon_debug.json",
     "test": "gulp test"

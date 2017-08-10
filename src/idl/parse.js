@@ -19,12 +19,11 @@ const processors = [
 ];
 
 // Retrieves IDL definition, after validation and transformation
-const getIdl = function ({ serverOpts, serverOpts: { conf } }) {
+const getIdl = function ({ idlPath }) {
   return monitoredReduce({
     funcs: processors,
-    initialInput: { idl: conf },
+    initialInput: { idlPath },
     category: 'idl',
-    mapInput: ({ idl }) => ({ serverOpts, idl }),
     mapResponse: idl => ({ idl }),
   });
 };

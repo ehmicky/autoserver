@@ -1,4 +1,4 @@
 {
-  "exec": "NODE_ENV=dev node --harmony --inspect --no-warnings ./examples",
+  "exec": "cd ./examples && NODE_ENV=dev node --harmony --inspect --no-warnings",
   "ext": ".js,.json,.yml,.yaml"
 }

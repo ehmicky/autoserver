@@ -1,3 +1,2 @@
-conf: .api_engine.idl.yml
 http:
   port: 5001

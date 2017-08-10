@@ -20,10 +20,9 @@ const logFilterSchema = {
 
 const schema = {
   type: 'object',
-  required: ['conf'],
   properties: {
 
-    conf: {
+    idl: {
       type: 'string',
     },
 

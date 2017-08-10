@@ -9,9 +9,9 @@ const { getType } = require('./type');
 const { getModelDefs } = require('./models');
 
 // Returns GraphQL schema
-const getSchema = function ({ idl, serverOpts }) {
+const getSchema = function ({ idl }) {
   const topDefs = getTopDefs({ idl });
-  const topTypes = getTopTypes({ topDefs, serverOpts });
+  const topTypes = getTopTypes({ topDefs });
   const schema = new GraphQLSchema(topTypes);
   return schema;
 };
@@ -42,11 +42,11 @@ const topDefsInit = {
 };
 
 // Builds query|mutation type
-const getTopTypes = function ({ topDefs, serverOpts }) {
+const getTopTypes = function ({ topDefs }) {
   const schemaId = uuidv4();
 
   return mapValues(topDefs, topDef =>
-    getType(topDef, { serverOpts, topDef, schemaId })
+    getType(topDef, { topDef, schemaId })
   );
 };
 
