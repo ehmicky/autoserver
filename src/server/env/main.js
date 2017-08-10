@@ -1,6 +1,6 @@
 'use strict';
 
-const { memoize, fusionMerge } = require('../../../utilities');
+const { memoize, fusionMerge } = require('../../utilities');
 
 const { processEnv, ENV_VARS_PREFIX, basicNamesMap } = require('./constants');
 const { transformEnvVars } = require('./transform');
@@ -36,7 +36,7 @@ const objectifyEnvVars = function ({ envVars }) {
 const mergeAll = function ({ envVars }) {
   const envVarsA = envVars
     .map(({ name, value }) => ({ [name]: value }));
-  const envVarsB = fusionMerge(...envVarsA);
+  const envVarsB = fusionMerge({}, ...envVarsA);
   return envVarsB;
 };
 
