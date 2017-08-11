@@ -1,6 +1,6 @@
 'use strict';
 
-const { reduceAsync } = require('../../utilities');
+const { idlReducer } = require('../reducer');
 const { validateIdlCircularRefs } = require('../circular_refs');
 
 const { validateData } = require('./data');
@@ -18,9 +18,7 @@ const validators = [
 ];
 
 // Validate IDL definition
-const preValidateIdl = function ({ idl }) {
-  return reduceAsync(validators, (idlA, func) => func({ idl: idlA }), idl);
-};
+const preValidateIdl = idlReducer.bind(null, validators);
 
 module.exports = {
   preValidateIdl,

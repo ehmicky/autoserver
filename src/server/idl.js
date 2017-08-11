@@ -6,33 +6,32 @@ const { getConfFile } = require('../conf');
 
 // Load configuration for `idl`
 const loadIdlFile = async function ({ idlFile }) {
-  const idlPath = await getIdlPath({ idlFile });
+  const { idl } = await loadIdl({ idlFile });
 
-  if (!idlPath) {
+  if (!idl) {
     const message = 'Could not find any IDL file';
     throwError(message, { reason: 'CONF_LOADING' });
   }
 
-  const idl = await loadIdl({ idlPath });
   return { idl };
 };
 
-const getIdlPath = async function ({ idlFile }) {
+const loadIdl = async function ({ idlFile }) {
   try {
-    return await getConfFile({ path: idlFile, name: 'idl' });
+    const { idl } = await getIdlFile({ idlFile });
+    return { idl };
   } catch (error) {
     const message = 'Could not load IDL file';
     throwError(message, { reason: 'CONF_LOADING', innererror: error });
   }
 };
 
-const loadIdl = async function ({ idlPath }) {
-  try {
-    return await getIdl({ idlPath });
-  } catch (error) {
-    const message = 'Could not load IDL file';
-    throwError(message, { reason: 'CONF_LOADING', innererror: error });
-  }
+const getIdlFile = async function ({ idlFile }) {
+  const idlPath = await getConfFile({ path: idlFile, name: 'idl' });
+  if (!idlPath) { return {}; }
+
+  const idl = await getIdl({ idlPath });
+  return { idl };
 };
 
 module.exports = {

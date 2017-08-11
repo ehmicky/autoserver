@@ -1,7 +1,6 @@
 'use strict';
 
-const { reduceAsync } = require('../utilities');
-
+const { idlReducer } = require('./reducer');
 const { getIdlConf } = require('./conf');
 const { preNormalizeIdl } = require('./pre_normalize');
 const { preValidateIdl } = require('./pre_validation');
@@ -22,9 +21,7 @@ const processors = [
 ];
 
 // Retrieves IDL definition, after validation and transformation
-const getIdl = function ({ idlPath }) {
-  return reduceAsync(processors, (idl, func) => func({ idlPath, idl }), {});
-};
+const getIdl = idlReducer.bind(null, processors);
 
 module.exports = {
   getIdl,

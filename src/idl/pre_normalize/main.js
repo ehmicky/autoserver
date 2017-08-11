@@ -1,6 +1,6 @@
 'use strict';
 
-const { reduceAsync } = require('../../utilities');
+const { idlReducer } = require('../reducer');
 
 const { applyPlugins } = require('./plugins');
 const { applyModelDefault } = require('./model_default');
@@ -13,9 +13,7 @@ const normalizers = [
 ];
 
 // Normalize IDL definition
-const preNormalizeIdl = function ({ idl }) {
-  return reduceAsync(normalizers, (idlA, func) => func({ idl: idlA }), idl);
-};
+const preNormalizeIdl = idlReducer.bind(null, normalizers);
 
 module.exports = {
   preNormalizeIdl,
