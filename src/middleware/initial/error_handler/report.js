@@ -1,7 +1,6 @@
 'use strict';
 
 const { STATUS_LEVEL_MAP, reportLog } = require('../../../logging');
-const { getErrorMessage } = require('../../../error');
 
 // Report any exception thrown, for logging/monitoring
 const reportError = async function ({ log, error = {} }) {
@@ -11,13 +10,7 @@ const reportError = async function ({ log, error = {} }) {
   // Only report except with level 'warn' or 'error'
   if (!['warn', 'error'].includes(level)) { return; }
 
-  const message = getErrorMessage({ error });
-  await reportLog({
-    log,
-    level,
-    message,
-    info: { type: 'failure', errorInfo: error },
-  });
+  await reportLog({ log, type: 'failure', level, info: { errorInfo: error } });
 };
 
 module.exports = {

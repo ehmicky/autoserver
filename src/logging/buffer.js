@@ -15,8 +15,8 @@ const bufferLogReport = function (obj, logReport) {
 const unbufferLogReports = async function (obj, log) {
   const { logReports = [] } = obj;
 
-  const promises = logReports.map(({ level, message, info }) =>
-    reportLog({ log, level, message, info })
+  const promises = logReports.map(({ type, level, message, info }) =>
+    reportLog({ log, type, level, message, info })
   );
   await Promise.all(promises);
 

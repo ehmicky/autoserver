@@ -36,7 +36,7 @@ const logger = async function logger (nextFunc, input) {
 const getLogReport = function ({ error, response }) {
   const level = getLevel({ error, response });
 
-  const logReport = { level, message: '', info: { type: 'call' } };
+  const logReport = { type: 'call', level };
 
   return bufferLogReport(response || error, logReport);
 };

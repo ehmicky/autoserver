@@ -1,11 +1,7 @@
 'use strict';
 
 const { createLog, reportLog } = require('../../logging');
-const {
-  getStandardError,
-  getErrorMessage,
-  normalizeError,
-} = require('../../error');
+const { getStandardError, normalizeError } = require('../../error');
 
 const getProcessLog = function ({ runtimeOpts, apiServer }) {
   const log = createLog({ runtimeOpts, apiServer, phase: 'process' });
@@ -17,14 +13,8 @@ const getProcessLog = function ({ runtimeOpts, apiServer }) {
 const processHandler = async function (log, { error, message }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
   const errorB = getStandardError({ log, error: errorA });
-  const errorMessage = getErrorMessage({ error: errorB });
 
-  await reportLog({
-    log,
-    level: 'error',
-    message: errorMessage,
-    info: { type: 'failure', errorInfo: errorB },
-  });
+  await reportLog({ log, type: 'failure', info: { errorInfo: errorB } });
 };
 
 module.exports = {

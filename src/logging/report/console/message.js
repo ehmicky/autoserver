@@ -1,5 +1,6 @@
 'use strict';
 
+const { getErrorMessage } = require('../../../error');
 const { TYPES, NO_CONSOLE_TYPES, LEVELS } = require('../../constants');
 
 const { getRequestMessage } = require('./request_message');
@@ -9,38 +10,37 @@ const { getRequestMessage } = require('./request_message');
 //   STACK_TRACE
 // `PHASE` is requestId if phase is `request`
 const getConsoleMessage = function ({
-  phase,
   type,
+  phase,
   level,
+  message,
+  info,
   timestamp,
   requestId,
   requestInfo,
   serverInfo: { serverName },
-  rawMessage,
 }) {
   const noConsole = NO_CONSOLE_TYPES.includes(type);
   if (noConsole) { return; }
 
   const prefix = getPrefix({
-    phase,
     type,
+    phase,
     level,
     timestamp,
     requestId,
     serverName,
   });
-  const requestMessage = phase === 'request' && type === 'call'
-    ? getRequestMessage(requestInfo)
-    : rawMessage;
+  const messageA = getMessage({ message, type, phase, info, requestInfo });
 
-  const message = `${prefix} ${requestMessage}`;
-  return message;
+  const messageB = `${prefix} ${messageA}`;
+  return messageB;
 };
 
 // Retrieves `[TYPE] [LEVEL] [SERVER_NAME] [TIMESTAMP] [PHASE]`
 const getPrefix = function ({
-  phase,
   type,
+  phase,
   level,
   timestamp,
   requestId,
@@ -85,6 +85,25 @@ const getRequestId = function ({ phase, requestId = phase.toUpperCase() }) {
 };
 
 const requestIdLength = 8;
+
+const getMessage = function ({
+  message = '',
+  type,
+  phase,
+  info: { errorInfo },
+  requestInfo,
+}) {
+  if (type === 'failure') {
+    const errorMessage = getErrorMessage({ error: errorInfo });
+    return message ? `${message}\n${errorMessage}` : errorMessage;
+  }
+
+  if (type === 'call' && phase === 'request') {
+    return getRequestMessage(requestInfo);
+  }
+
+  return message;
+};
 
 module.exports = {
   getConsoleMessage,

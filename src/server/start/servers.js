@@ -89,7 +89,7 @@ const startServer = async function (protocol, {
 const logStart = async function ({ serverInfo, startupLog, protocol }) {
   const { host, port } = serverInfo;
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  await reportLog({ log: startupLog, level: 'log', message });
+  await reportLog({ log: startupLog, type: 'message', message });
 };
 
 const monitoredStartServer = monitor(

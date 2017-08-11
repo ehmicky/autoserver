@@ -1,33 +1,19 @@
 'use strict';
 
-const {
-  getStandardError,
-  getErrorMessage,
-  rethrowError,
-} = require('../../error');
+const { getStandardError, rethrowError } = require('../../error');
 const { reportLog } = require('../../logging');
 const { emitEventAsync } = require('../../events');
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function ({ error, log, apiServer }) {
-  const standardError = getStandardError({ log, error });
-  const message = getErrorMessage({ error: standardError });
+  const errorA = getStandardError({ log, error });
 
-  await reportLog({
-    log,
-    level: 'error',
-    message,
-    info: { type: 'failure', errorInfo: standardError },
-  });
+  await reportLog({ log, type: 'failure', info: { errorInfo: errorA } });
 
   // Also stops servers if some were started
-  await emitEventAsync({
-    apiServer,
-    name: 'start.failure',
-    data: standardError,
-  });
+  await emitEventAsync({ apiServer, name: 'start.failure', data: errorA });
 
-  rethrowError(standardError);
+  rethrowError(errorA);
 };
 
 module.exports = {
