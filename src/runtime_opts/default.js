@@ -2,7 +2,7 @@
 
 const { defaultsDeep } = require('lodash');
 
-const { getEnvVars } = require('../env');
+const { getEnvVars } = require('../conf');
 
 // Default value for runtime options
 // Priority order:
