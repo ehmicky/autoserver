@@ -47,7 +47,6 @@ or `error`,
 The logging verbosity can be adjusted using the
 [runtime option](server.md#runtime-options) `logLevel` (defaults to `'info'`),
 which can also be `'silent'`.
-It only affects the log console output, not the log events that are emitted.
 
 # Event payload
 

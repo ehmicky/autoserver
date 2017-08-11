@@ -1,16 +1,12 @@
 'use strict';
 
-const { NO_CONSOLE_TYPES, LEVELS } = require('../../constants');
+const { NO_CONSOLE_TYPES } = require('../../constants');
 
 const { colorize } = require('./colorize');
 
 // Prints logs messages to console.
-const consolePrint = function ({ type, level, message, logLevel }) {
-  const noConsole = NO_CONSOLE_TYPES.includes(type) ||
-    // Can filter verbosity with runtime option `logLevel`
-    logLevel === 'silent' ||
-    LEVELS.indexOf(level) < LEVELS.indexOf(logLevel);
-  if (noConsole) { return; }
+const consolePrint = function ({ type, level, message }) {
+  if (NO_CONSOLE_TYPES.includes(type)) { return; }
 
   const colorMessage = colorize({ type, level, message });
 

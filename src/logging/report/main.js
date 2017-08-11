@@ -3,6 +3,7 @@
 const { normalizeError, getStandardError } = require('../../error');
 const { pSetTimeout } = require('../../utilities');
 const { emitEventAsync } = require('../../events');
+const { LEVELS } = require('../constants');
 
 const { getReportedLog } = require('./reported_log');
 const { consolePrint } = require('./console');
@@ -12,15 +13,17 @@ const { consolePrint } = require('./console');
 //  - print to console
 const reportLog = async function ({
   log,
-  log: { runtimeOpts: { logLevel = 'info' }, phase: logPhase },
   type,
-  phase = logPhase,
+  phase = log.phase,
   level,
   message,
   info,
   delay,
 }) {
   const levelA = getLevel({ level, type });
+
+  const noLogging = !shouldLog({ log, level: levelA });
+  if (noLogging) { return; }
 
   const reportedLog = getReportedLog({
     log,
@@ -31,9 +34,15 @@ const reportLog = async function ({
     info,
   });
 
-  consolePrint({ type, level: levelA, message: reportedLog.message, logLevel });
+  consolePrint({ type, level: levelA, message: reportedLog.message });
 
   await emitLogEvent({ log, type, phase, level: levelA, reportedLog, delay });
+};
+
+// Can filter verbosity with runtime option `logLevel`
+const shouldLog = function ({ log: { runtimeOpts: { logLevel } }, level }) {
+  return logLevel !== 'silent' &&
+    LEVELS.indexOf(level) >= LEVELS.indexOf(logLevel);
 };
 
 // Level defaults to `error` for type `failure`, and to `log` for other types
