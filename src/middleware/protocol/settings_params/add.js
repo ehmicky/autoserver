@@ -1,7 +1,7 @@
 'use strict';
 
 const { addJsl } = require('../../../jsl');
-const { addLogInfo } = require('../../../logging');
+const { addLogInfo } = require('../../../events');
 
 const addValues = function ({ input, values, type: { jslName, genericName } }) {
   const inputA = addJsl(input, { [jslName]: values });

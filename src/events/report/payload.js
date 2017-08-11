@@ -4,8 +4,8 @@ const { getServerInfo } = require('../../info');
 
 const { getRequestInfo } = require('./request_info');
 
-// Log information sent to events
-const getReportedLog = function ({
+// Event information sent to handlers
+const getEventPayload = function ({
   log,
   runtimeOpts,
   type,
@@ -46,5 +46,5 @@ const getTimestamp = function ({ requestInfo: { timestamp } = {} }) {
 };
 
 module.exports = {
-  getReportedLog,
+  getEventPayload,
 };

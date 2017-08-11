@@ -4,12 +4,12 @@ const { v4: uuidv4 } = require('uuid');
 
 const { getServerInfo } = require('../../info');
 const { addJsl } = require('../../jsl');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 
 // Assigns unique ID (UUIDv4) to each request
 // Available in:
 //  - input, as `requestId`
-//  - logs, as `requestId`
+//  - events, as `requestId`
 //  - JSL parameters, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`

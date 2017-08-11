@@ -4,8 +4,8 @@ const { pSetTimeout } = require('../utilities');
 
 const { startPerf, stopPerf, restartPerf } = require('./measure');
 
-// Generic middleware that performs performance logging before each middleware
-const getMiddlewarePerfLog = func => async function middlewarePerfLog (
+// Generic middleware that performs performance events before each middleware
+const getMiddlewarePerf = func => async function middlewarePerf (
   nextFunc,
   input,
   ...args
@@ -22,7 +22,7 @@ const getMiddlewarePerfLog = func => async function middlewarePerfLog (
     args,
   });
 
-  // When performing await middlewarePerfLog(),
+  // When performing await middlewarePerf(),
   // `await` might yield the current macrotask, i.e. the parentPerf will be
   // restarted, but another macrotask will be run first, although the parent
   // is still waiting.
@@ -61,5 +61,5 @@ const fireMiddleware = async function ({ func, nextFunc, input, args }) {
 };
 
 module.exports = {
-  getMiddlewarePerfLog,
+  getMiddlewarePerf,
 };

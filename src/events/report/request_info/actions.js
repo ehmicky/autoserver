@@ -4,37 +4,37 @@ const { mapValues } = require('../../../utilities');
 
 const { reduceInfo } = require('./reducer');
 
-const reduceActions = function (requestInfo, logFilter) {
+const reduceActions = function (requestInfo, eventFilter) {
   const { actions } = requestInfo;
   if (!isObject(actions)) { return requestInfo; }
 
   const actionsA = mapValues(
     actions,
-    actionInfo => reduceAction(actionInfo, logFilter),
+    actionInfo => reduceAction(actionInfo, eventFilter),
   );
   return { ...requestInfo, actions: actionsA };
 };
 
-const reduceAction = function (actionInfo, logFilter) {
+const reduceAction = function (actionInfo, eventFilter) {
   return actionsReducers.reduce(
-    (info, reducer) => reducer(info, logFilter),
+    (info, reducer) => reducer(info, eventFilter),
     actionInfo,
   );
 };
 
-const reduceArgData = function (actionInfo, { argData: logFilter }) {
+const reduceArgData = function (actionInfo, { argData: eventFilter }) {
   const { args } = actionInfo;
-  const argsA = reduceInfo({ info: args, attrName: 'data', logFilter });
+  const argsA = reduceInfo({ info: args, attrName: 'data', eventFilter });
   return { ...actionInfo, args: argsA };
 };
 
 const reduceActionResponses = function (
   actionInfo,
-  { actionResponses: logFilter },
+  { actionResponses: eventFilter },
 ) {
   const info = simplifyActionResponses(actionInfo);
 
-  return reduceInfo({ info, attrName: 'responses', logFilter });
+  return reduceInfo({ info, attrName: 'responses', eventFilter });
 };
 
 const simplifyActionResponses = function (actionInfo) {

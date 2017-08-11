@@ -3,19 +3,19 @@
 const { getReason, normalizeError, rethrowError } = require('../../error');
 const {
   STATUS_LEVEL_MAP,
-  bufferLogReport,
+  bufferEventReport,
   addLogInfo,
-} = require('../../logging');
+} = require('../../events');
 
-// Main request logging middleware.
-// Each request creates exactly one log, whether successful or not,
+// Main request events middleware.
+// Each request creates exactly one request event, whether successful or not,
 // unless it crashed very early (i.e. before this middleware), in which case
-// it will still be handled by the error logging middleware.
-const logger = async function logger (nextFunc, input) {
+// it will still be handled by the error events middleware.
+const eventsRecorder = async function (nextFunc, input) {
   try {
     const response = await nextFunc(input);
 
-    const responseA = getLogReport({ input, response });
+    const responseA = getEventsReport({ input, response });
 
     return responseA;
   } catch (error) {
@@ -24,21 +24,21 @@ const logger = async function logger (nextFunc, input) {
     const errorReason = getReason({ error: errorA });
     const errorB = addLogInfo(errorA, { errorReason });
 
-    const errorC = getLogReport({ input, error: errorB });
+    const errorC = getEventsReport({ input, error: errorB });
 
     rethrowError(errorC);
   }
 };
 
-// The logger will build the message and the `requestInfo`
+// The events will build the message and the `requestInfo`
 // We do not do it now, because we want the full protocol layer to end first,
 // do `requestInfo` is full.
-const getLogReport = function ({ input: { runtimeOpts }, error, response }) {
+const getEventsReport = function ({ input: { runtimeOpts }, error, response }) {
   const level = getLevel({ error, response });
 
-  const logReport = { type: 'call', phase: 'request', level, runtimeOpts };
+  const eventReport = { type: 'call', phase: 'request', level, runtimeOpts };
 
-  return bufferLogReport(response || error, logReport);
+  return bufferEventReport(response || error, eventReport);
 };
 
 const getLevel = function ({ error, response }) {
@@ -53,5 +53,5 @@ const getStatus = function ({ error, response }) {
 };
 
 module.exports = {
-  logger,
+  eventsRecorder,
 };

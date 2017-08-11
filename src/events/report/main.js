@@ -2,14 +2,14 @@
 
 const { LEVELS } = require('../constants');
 
-const { getReportedLog } = require('./reported_log');
+const { getEventPayload } = require('./payload');
 const { getConsoleMessage, consolePrint } = require('./console');
-const { emitLogEvent } = require('./event');
+const { fireEvent } = require('./event');
 
-// Report some logs, i.e.:
-//  - fire runtime option `logger(info)`
+// Emit some event, i.e.:
+//  - fire runtime option `events.EVENT(info)`
 //  - print to console
-const reportLog = async function ({
+const emitEvent = async function ({
   log = { logInfo: {} },
   type,
   phase,
@@ -21,11 +21,11 @@ const reportLog = async function ({
 }) {
   const levelA = getLevel({ level, type });
 
-  const noLogging = !shouldLog({ runtimeOpts, level: levelA });
-  if (noLogging) { return; }
+  const noEvents = !shouldEmit({ runtimeOpts, level: levelA });
+  if (noEvents) { return; }
 
   // Retrieves information sent to event, and message printed to console
-  const reportedLog = getReportedLog({
+  const eventPayload = getEventPayload({
     log,
     type,
     phase,
@@ -33,20 +33,20 @@ const reportLog = async function ({
     runtimeOpts,
     info,
   });
-  const messageA = getConsoleMessage({ message, ...reportedLog });
-  const reportedLogA = { ...reportedLog, message: messageA };
+  const messageA = getConsoleMessage({ message, ...eventPayload });
+  const eventPayloadA = { ...eventPayload, message: messageA };
 
   consolePrint({ type, level: levelA, message: messageA });
 
-  const reportedLogB = await emitLogEvent({
+  const eventPayloadB = await fireEvent({
     log,
     type,
     runtimeOpts,
-    reportedLog: reportedLogA,
+    eventPayload: eventPayloadA,
     delay,
-    reportLog,
+    emitEvent,
   });
-  return reportedLogB;
+  return eventPayloadB;
 };
 
 // Level defaults to `error` for type `failure`, and to `log` for other types
@@ -59,11 +59,11 @@ const getLevel = function ({ level, type }) {
 };
 
 // Can filter verbosity with runtime option `eventLevel`
-const shouldLog = function ({ runtimeOpts: { eventLevel }, level }) {
+const shouldEmit = function ({ runtimeOpts: { eventLevel }, level }) {
   return eventLevel !== 'silent' &&
     LEVELS.indexOf(level) >= LEVELS.indexOf(eventLevel);
 };
 
 module.exports = {
-  reportLog,
+  emitEvent,
 };

@@ -2,7 +2,7 @@
 
 const { pick } = require('../../../utilities');
 const { addJsl } = require('../../../jsl');
-const { addLogInfo, removeLogInfo } = require('../../../logging');
+const { addLogInfo, removeLogInfo } = require('../../../events');
 const { commonAttributes } = require('../../common_attributes');
 
 const { getLogActions } = require('./log_actions');

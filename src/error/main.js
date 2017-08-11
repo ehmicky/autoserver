@@ -2,8 +2,8 @@
 
 const { difference } = require('lodash');
 
-// Note that any exception thrown in the `error` module might not be logged
-// (since this is the error), so we must be precautious.
+// Note that any exception thrown in the `error` module might not create an
+// event (since this is the error), so we must be precautious.
 const createError = function (message, stack, opts = {}) {
   validateError(opts);
 

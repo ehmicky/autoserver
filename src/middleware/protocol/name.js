@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 
 const getProtocolName = async function (nextFunc, input) {
   const { specific, protocolHandler } = input;

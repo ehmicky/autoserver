@@ -2,7 +2,7 @@
 
 const { pick } = require('../../../utilities');
 const { normalizeError, rethrowError } = require('../../../error');
-const { addLogInfo } = require('../../../logging');
+const { addLogInfo } = require('../../../events');
 
 const { sender } = require('./sender');
 

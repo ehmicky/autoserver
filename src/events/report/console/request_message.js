@@ -1,6 +1,6 @@
 'use strict';
 
-// Build message of logs of type `request` as:
+// Build message of events of type `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD /PATH ACTION...
 const getRequestMessage = function ({
   protocol,

@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 
 // Fill in `input.headers` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same

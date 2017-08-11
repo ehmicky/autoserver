@@ -5,7 +5,7 @@ const { TYPES, NO_CONSOLE_TYPES, LEVELS } = require('../../constants');
 
 const { getRequestMessage } = require('./request_message');
 
-// Build a standardized log message:
+// Build a standardized event message:
 // [TYPE] [LEVEL] [SERVER_NAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestId if phase is `request`

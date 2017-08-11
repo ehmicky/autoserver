@@ -3,7 +3,7 @@
 const { assignObject } = require('../../utilities');
 const { protocols, protocolHandlers } = require('../../protocols');
 const { getMiddleware } = require('../../middleware');
-const { reportLog } = require('../../logging');
+const { emitEvent } = require('../../events');
 const { monitor } = require('../../perf');
 const { createJsl } = require('../../jsl');
 
@@ -58,19 +58,19 @@ const startServer = async function (protocol, { runtimeOpts, requestHandler }) {
     handleRequest,
   });
 
-  await logStart({ serverInfo, protocol, runtimeOpts });
+  await startEvent({ serverInfo, protocol, runtimeOpts });
 
   return { ...serverInfo, protocol };
 };
 
-const logStart = async function ({
+const startEvent = async function ({
   serverInfo,
   protocol,
   runtimeOpts,
 }) {
   const { host, port } = serverInfo;
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  await reportLog({ type: 'message', phase: 'startup', message, runtimeOpts });
+  await emitEvent({ type: 'message', phase: 'startup', message, runtimeOpts });
 };
 
 const monitoredStartServer = monitor(

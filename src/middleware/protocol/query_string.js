@@ -4,7 +4,7 @@ const qs = require('qs');
 
 const { throwError } = require('../../error');
 const { transtype, mapValues } = require('../../utilities');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 
 const MAX_DEPTH = 10;
 const MAX_ARRAY_LENGTH = 100;

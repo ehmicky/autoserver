@@ -7,7 +7,7 @@ const { wrapCloseFunc } = require('./wrapper');
 // Attempts to close server
 // No new connections will be accepted, but we will wait for ongoing ones to end
 const closeServer = async function ({ server, protocol, runtimeOpts }) {
-  const [, logMeasure] = await monitoredLogClose({
+  const [, eventMeasure] = await monitoredEventClose({
     server,
     protocol,
     runtimeOpts,
@@ -17,20 +17,20 @@ const closeServer = async function ({ server, protocol, runtimeOpts }) {
     protocol,
     runtimeOpts,
   });
-  const measures = [logMeasure, stopMeasure];
+  const measures = [eventMeasure, stopMeasure];
 
   return [{ protocol, status: Boolean(status) }, measures];
 };
 
-// Logs that graceful exit is ongoing, for each protocol
-const logClose = async function ({ server, protocol }) {
+// Emit event that graceful exit is ongoing, for each protocol
+const eventClose = async function ({ server, protocol }) {
   const { countPendingRequests } = protocolHandlers[protocol];
   const connectionsCount = await countPendingRequests(server);
   return connectionsCount;
 };
 
-const monitoredLogClose = wrapCloseFunc(logClose, {
-  label: 'log',
+const monitoredEventClose = wrapCloseFunc(eventClose, {
+  label: 'event',
   successMessage: connectionsCount => `Starts shutdown, ${connectionsCount} pending ${connectionsCount === 1 ? 'request' : 'requests'}`,
   errorMessage: 'Failed to count pending pending requests',
 });

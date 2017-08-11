@@ -1,6 +1,6 @@
 'use strict';
 
-const { createLog, addLogInfo } = require('../../logging');
+const { createLog, addLogInfo } = require('../../events');
 const { protocolHandlers } = require('../../protocols');
 const { pSetTimeout } = require('../../utilities');
 const { addJsl } = require('../../jsl');

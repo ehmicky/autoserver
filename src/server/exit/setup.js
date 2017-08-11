@@ -1,13 +1,13 @@
 'use strict';
 
-const { reportLog, reportPerf } = require('../../logging');
+const { emitEvent, reportPerf } = require('../../events');
 const { monitor } = require('../../perf');
 const { assignObject, onlyOnce } = require('../../utilities');
 
 const { closeServer } = require('./close');
 
 // Make sure the server stops when graceful exits are possible
-// Also send related logging messages
+// Also send related events
 const setupGracefulExit = function ({ servers, runtimeOpts }) {
   const exitHandler = gracefulExit.bind(null, { servers, runtimeOpts });
   const onceExitHandler = onlyOnce(exitHandler);
@@ -40,7 +40,7 @@ const setupExit = async function ({ servers, runtimeOpts }) {
 
   const { failedProtocols, isSuccess } = processStatuses({ statuses });
 
-  const [, measure] = await monitoredLogEnd({
+  const [, measure] = await monitoredEndEvent({
     statuses,
     failedProtocols,
     isSuccess,
@@ -62,8 +62,8 @@ const processStatuses = function ({ statuses }) {
   return { failedProtocols, isSuccess };
 };
 
-// Log successful or failed shutdown
-const logEndShutdown = async function ({
+// Emit successful or failed shutdown event
+const endEventShutdown = async function ({
   statuses,
   failedProtocols,
   isSuccess,
@@ -75,7 +75,7 @@ const logEndShutdown = async function ({
   const level = isSuccess ? 'log' : 'error';
   const exitStatuses = statuses.reduce(assignObject, {});
 
-  await reportLog({
+  await emitEvent({
     type: 'stop',
     phase: 'shutdown',
     level,
@@ -85,7 +85,7 @@ const logEndShutdown = async function ({
   });
 };
 
-const monitoredLogEnd = monitor(logEndShutdown, 'log');
+const monitoredEndEvent = monitor(endEventShutdown, 'event');
 
 module.exports = {
   setupGracefulExit,

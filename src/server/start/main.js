@@ -1,6 +1,6 @@
 'use strict';
 
-const { reportPerf } = require('../../logging');
+const { reportPerf } = require('../../events');
 const { getRuntimeOpts } = require('../../runtime_opts');
 
 const { handleStartupError } = require('./error');

@@ -1,8 +1,8 @@
 'use strict';
 
 const { chain } = require('../chain');
-const { getMiddlewareLogging } = require('../logging');
-const { getMiddlewarePerfLog } = require('../perf');
+const { getMiddlewareLogging } = require('../events');
+const { getMiddlewarePerf } = require('../perf');
 
 const initial = require('./initial');
 const protocol = require('./protocol');
@@ -19,10 +19,10 @@ const middleware = [
   initial.setupInput,
   // Error handler, which sends final response, if errors
   initial.errorHandler,
-  // Log how the request handling takes
-  initial.performanceLog,
-  // Make actual logging calls
-  initial.loggingReporter,
+  // Emit event about how the request handling takes
+  initial.performanceEvent,
+  // Emit actual events
+  initial.eventsReporter,
 
   // Protocol layer
 
@@ -30,8 +30,8 @@ const middleware = [
   protocol.protocolConvertor,
   // Protocol-related validation middleware
   protocol.protocolValidation,
-  // General request logger
-  protocol.logger,
+  // General request events
+  protocol.eventsRecorder,
   // Sends final response, if success
   protocol.sendResponse,
   // Sets response status
@@ -40,7 +40,7 @@ const middleware = [
   protocol.setResponseTime,
   // Abort request after a certain delay
   protocol.setRequestTimeout,
-  // Set protocol full name for logging
+  // Set protocol full name
   protocol.getProtocolName,
   // Retrieves timestamp
   protocol.getTimestamp,
@@ -128,7 +128,7 @@ const getMiddleware = function () {
     {
       before: [
         getMiddlewareLogging,
-        getMiddlewarePerfLog,
+        getMiddlewarePerf,
       ],
     },
   )[0];

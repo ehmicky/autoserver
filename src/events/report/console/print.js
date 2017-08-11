@@ -4,7 +4,7 @@ const { NO_CONSOLE_TYPES } = require('../../constants');
 
 const { colorize } = require('./colorize');
 
-// Prints logs messages to console.
+// Prints event messages to console.
 const consolePrint = function ({ type, level, message }) {
   if (NO_CONSOLE_TYPES.includes(type)) { return; }
 

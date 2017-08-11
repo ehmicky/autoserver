@@ -11,7 +11,7 @@ const validateRuntimeOpts = function (runtimeOpts) {
 
 const reportInfo = { type: 'runtimeOpts', dataVar: 'runtimeOpts' };
 
-const logFilterSchema = {
+const eventFilterSchema = {
   oneOf: [
     { type: 'array', items: { type: 'string' } },
     { type: 'boolean' },
@@ -32,17 +32,17 @@ const schema = {
       enum: ['info', 'log', 'warn', 'error', 'silent'],
     },
 
-    logFilter: {
+    eventFilter: {
       type: 'object',
       properties: {
-        payload: logFilterSchema,
-        response: logFilterSchema,
-        argData: logFilterSchema,
-        actionResponses: logFilterSchema,
-        headers: logFilterSchema,
-        queryVars: logFilterSchema,
-        params: logFilterSchema,
-        settings: logFilterSchema,
+        payload: eventFilterSchema,
+        response: eventFilterSchema,
+        argData: eventFilterSchema,
+        actionResponses: eventFilterSchema,
+        headers: eventFilterSchema,
+        queryVars: eventFilterSchema,
+        params: eventFilterSchema,
+        settings: eventFilterSchema,
       },
       additionalProperties: false,
     },
