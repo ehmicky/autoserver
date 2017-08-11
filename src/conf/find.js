@@ -6,24 +6,29 @@ const { throwError } = require('../error');
 const { pStat, pReaddir } = require('../utilities');
 
 // Retrieves final configuration path to use
-const getConf = function ({ path, name }) {
+const getConf = function ({
+  path,
+  name,
+  extNames,
+  baseDir = process.cwd(),
+}) {
   if (path) {
-    return getDirectFile({ path });
+    return getDirectFile({ path, baseDir });
   }
 
-  const fileNames = getConfFileNames({ name });
+  const fileNames = getConfFileNames({ name, extNames });
   return findConfFile({ fileNames });
 };
 
 // The path was directly specified
-const getDirectFile = async function ({ path }) {
+const getDirectFile = async function ({ path, baseDir }) {
   if (typeof path !== 'string') {
     const message = `Configuration must be a string, not '${path}'`;
     throwError(message, { reason: 'CONF_LOADING' });
   }
 
   // Relative paths are relative to current directory
-  const pathA = isAbsolute(path) ? path : resolve(process.cwd(), path);
+  const pathA = isAbsolute(path) ? path : resolve(baseDir, path);
   const directPathB = await checkIsDirectory({ dir: pathA, isDir: false });
   return directPathB;
 };
@@ -50,11 +55,11 @@ const searchConfDir = async function ({ fileNames, confDir }) {
   return resolve(confDir, confFile);
 };
 
-const getConfFileNames = ({ name }) => [
-  `api_engine.${name}.json`,
-  `api_engine.${name}.yml`,
-  `api_engine.${name}.yaml`,
-];
+const getConfFileNames = function ({ name, extNames = EXT_NAMES }) {
+  return extNames.map(extName => `api_engine.${name}.${extName}`);
+};
+
+const EXT_NAMES = ['json', 'yml', 'yaml'];
 
 const checkIsDirectory = async function ({ dir, isDir }) {
   const confStat = await pStat(dir);

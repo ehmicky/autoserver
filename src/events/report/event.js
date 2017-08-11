@@ -28,7 +28,7 @@ const eFireEvent = async function ({
 };
 
 const fireEvent = async function ({
-  runtimeOpts: { events },
+  runtimeOpts: { events = {} },
   type,
   eventPayload,
 }) {

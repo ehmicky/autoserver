@@ -11,7 +11,13 @@ const { getEnvVars } = require('../conf');
 //  - default runtime options
 const applyDefaultRuntimeOpts = function ({ runtimeOpts }) {
   const envVars = getEnvVars();
-  return defaultsDeep({}, envVars, runtimeOpts, defaultRuntimeOpts);
+  const runtimeOptsA = defaultsDeep(
+    {},
+    envVars,
+    runtimeOpts,
+    defaultRuntimeOpts,
+  );
+  return { runtimeOpts: runtimeOptsA };
 };
 
 const defaultRuntimeOpts = {
