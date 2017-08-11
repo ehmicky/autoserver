@@ -7,6 +7,8 @@ const { toSentence } = require('underscore.string');
 const { throwError } = require('../../error');
 
 const validateConfFile = function ({ confFile }) {
+  if (!confFile) { return; }
+
   const confExtName = extname(confFile);
 
   if (!ALLOWED_EXTENSIONS.includes(confExtName)) {

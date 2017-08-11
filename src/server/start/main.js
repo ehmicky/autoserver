@@ -3,44 +3,44 @@
 const { identity } = require('../../utilities');
 const { createLog, reportPerf } = require('../../logging');
 const { createApiServer } = require('../../events');
-const { getServerOpts } = require('../options');
+const { getRuntimeOpts } = require('../runtime_opts');
 
 const { handleStartupError } = require('./error');
 const { bootAll } = require('./boot');
 
 // Start server for each protocol
-// @param {object} serverOpts
-const start = function ({ opts: serverOptsFile, idl: idlFile } = {}) {
+// @param {object} runtimeOpts
+const start = function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
   const apiServer = createApiServer();
 
-  startServer({ apiServer, serverOptsFile, idlFile })
+  startServer({ apiServer, runtimeOptsFile, idlFile })
     // Must use 'start.success' and 'start.failure' events
     .catch(identity);
 
   return apiServer;
 };
 
-const startServer = async function ({ apiServer, serverOptsFile, idlFile }) {
-  // Retrieve server options
+const startServer = async function ({ apiServer, runtimeOptsFile, idlFile }) {
+  // Retrieve runtime options
   const earlyLog = createLog({ apiServer, phase: 'startup' });
-  const [serverOpts, optsPerf] = await eGetServerOpts({
+  const [runtimeOpts, runtimeOptsPerf] = await eGetRuntimeOpts({
     apiServer,
-    serverOptsFile,
+    runtimeOptsFile,
     log: earlyLog,
   });
 
   // Main startup function
-  const log = createLog({ apiServer, serverOpts, phase: 'startup' });
+  const log = createLog({ apiServer, runtimeOpts, phase: 'startup' });
   const [[, childrenPerf], perf] = await eBootAll({
     apiServer,
-    serverOpts,
+    runtimeOpts,
     idlFile,
     log,
     startupLog: log,
   });
 
   // Report startup performance
-  const measures = [...optsPerf, perf, ...childrenPerf];
+  const measures = [...runtimeOptsPerf, perf, ...childrenPerf];
   await eReportPerf({ apiServer, log, measures });
 };
 
@@ -56,7 +56,7 @@ const handleError = function (func) {
   };
 };
 
-const eGetServerOpts = handleError(getServerOpts);
+const eGetRuntimeOpts = handleError(getRuntimeOpts);
 
 const eBootAll = handleError(bootAll);
 

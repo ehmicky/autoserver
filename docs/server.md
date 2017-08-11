@@ -13,12 +13,12 @@ See [here](configuration.md#idl-file) for how to configure the
 `server` can emit some [events](#server-events), and contains some useful
 [information](#server-information),
 
-# Server options
+# Runtime options
 
-See [here](configuration.md#server-options) for how to configure the server
+See [here](configuration.md#runtime-options) for how to configure the server
 options.
 
-The available options are:
+The available runtime options are:
   - `env` (defaults to `'production'`): can be `'dev'` or `'production'`.
     Running in `'dev'` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
@@ -63,7 +63,7 @@ The following events are available:
 # Server information
 
 Some information is available on the returned `server`:
-  - `server.options` `{object}`: options passed during initialization
+  - `server.runtimeOpts` `{object}`: [runtime options](#runtime-options)
   - `server.servers.HTTP` `{Server}`: Node.js HTTP server
   - `server.info.serverId` `{string}`: see [here](logging.md#server-identifiers)
   - `server.info.serverName` `{string}`:

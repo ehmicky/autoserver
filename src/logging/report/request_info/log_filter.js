@@ -2,7 +2,7 @@
 
 const { pick } = require('../../../utilities');
 
-// Apply `serverOpts.logFilter`
+// Apply `runtimeOpts.logFilter`
 const applyLogFilter = function ({ logFilter, obj }) {
   if (logFilter === undefined || logFilter === true) { return obj; }
 

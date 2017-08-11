@@ -3,12 +3,12 @@
 const { makeImmutable } = require('../../utilities');
 const { getServerInfo } = require('../../info');
 
-const addServerInfo = function ({ apiServer, serverOpts }) {
+const addServerInfo = function ({ apiServer, runtimeOpts }) {
   const {
     serverId,
     serverName,
     apiEngine: { version },
-  } = getServerInfo({ serverOpts });
+  } = getServerInfo({ runtimeOpts });
   const info = { id: serverId, name: serverName, version };
 
   makeImmutable(info);

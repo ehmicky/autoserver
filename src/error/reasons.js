@@ -67,8 +67,8 @@ const errorReasons = {
   // IDL definition is semantically invalid
   IDL_VALIDATION: {},
 
-  // Main options have syntax errors
-  OPTIONS_VALIDATION: {},
+  // Runtime options have syntax errors
+  RUNTIME_OPTS_VALIDATION: {},
 
   // Loading of configuration failed
   CONF_LOADING: {},

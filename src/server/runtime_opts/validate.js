@@ -2,14 +2,14 @@
 
 const { validate } = require('../../validation');
 
-// Validation for main options
-const validateOptions = function (serverOpts) {
-  validate({ schema, data: serverOpts, reportInfo });
+// Validation for runtime options
+const validateRuntimeOpts = function (runtimeOpts) {
+  validate({ schema, data: runtimeOpts, reportInfo });
 
-  return serverOpts;
+  return runtimeOpts;
 };
 
-const reportInfo = { type: 'options', dataVar: 'options' };
+const reportInfo = { type: 'runtimeOpts', dataVar: 'runtimeOpts' };
 
 const logFilterSchema = {
   oneOf: [
@@ -91,5 +91,5 @@ const schema = {
 };
 
 module.exports = {
-  validateOptions,
+  validateRuntimeOpts,
 };

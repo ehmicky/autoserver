@@ -5,7 +5,7 @@ const DEFAULT_CATEGORY = 'default';
 const CATEGORIES = [
   'all',
   'default',
-  'options',
+  'runtime_opts',
   'middleware',
   'server',
 ];

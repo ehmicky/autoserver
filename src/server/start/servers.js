@@ -13,7 +13,7 @@ const startServers = async function ({
   apiServer,
   startupLog,
   processLog,
-  serverOpts,
+  runtimeOpts,
 }) {
   const [jsl, jslMeasure] = await monitoredCreateJsl({ idl });
 
@@ -22,20 +22,20 @@ const startServers = async function ({
   const requestHandler = middleware.bind(null, {
     idl,
     apiServer,
-    serverOpts,
+    runtimeOpts,
     jsl,
   });
 
   const [servers, serverMeasures] = await startEachServer({
     startupLog,
     processLog,
-    serverOpts,
+    runtimeOpts,
     requestHandler,
   });
 
-  makeImmutable(serverOpts);
+  makeImmutable(runtimeOpts);
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(apiServer, { options: serverOpts, servers });
+  Object.assign(apiServer, { runtimeOpts, servers });
 
   const measures = [jslMeasure, ...serverMeasures];
 
@@ -46,8 +46,8 @@ const monitoredCreateJsl = monitor(createJsl, 'createJsl', 'server');
 
 const startEachServer = async function (options) {
   const serverInfosPromises = protocols
-    // Can use serverOpts.PROTOCOL.enabled {boolean}
-    .filter(protocol => options.serverOpts[protocol.toLowerCase()].enabled)
+    // Can use runtimeOpts.PROTOCOL.enabled {boolean}
+    .filter(protocol => options.runtimeOpts[protocol.toLowerCase()].enabled)
     .map(protocol => monitoredStartServer(protocol, options));
 
   // Make sure all servers are starting concurrently, not serially
@@ -67,16 +67,16 @@ const startEachServer = async function (options) {
 const startServer = async function (protocol, {
   startupLog,
   processLog,
-  serverOpts,
+  runtimeOpts,
   requestHandler,
 }) {
   const protocolHandler = protocolHandlers[protocol];
-  const opts = serverOpts[protocol.toLowerCase()];
+  const opts = runtimeOpts[protocol.toLowerCase()];
   const handleRequest = specific => requestHandler({ protocol, specific });
 
   const serverInfo = await protocolHandler.startServer({
     opts,
-    serverOpts,
+    runtimeOpts,
     processLog,
     handleRequest,
   });

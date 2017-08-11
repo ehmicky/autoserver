@@ -4,17 +4,17 @@ const { defaultsDeep } = require('lodash');
 
 const { getEnvVars } = require('../env');
 
-// Default value for main options
+// Default value for runtime options
 // Priority order:
 //  - environment variables
 //  - configuration files
-//  - default options
-const applyDefaultOptions = function ({ serverOpts }) {
+//  - default runtime options
+const applyDefaultRuntimeOpts = function ({ runtimeOpts }) {
   const envVars = getEnvVars();
-  return defaultsDeep({}, envVars, serverOpts, defaultOptions);
+  return defaultsDeep({}, envVars, runtimeOpts, defaultRuntimeOpts);
 };
 
-const defaultOptions = {
+const defaultRuntimeOpts = {
   env: 'production',
   maxDataLength: 1000,
   defaultPageSize: 100,
@@ -38,5 +38,5 @@ const defaultOptions = {
 };
 
 module.exports = {
-  applyDefaultOptions,
+  applyDefaultRuntimeOpts,
 };

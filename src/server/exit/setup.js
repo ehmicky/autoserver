@@ -9,10 +9,10 @@ const { closeServer } = require('./close');
 
 // Make sure the server stops when graceful exits are possible
 // Also send related logging messages
-const setupGracefulExit = function ({ servers, serverOpts, apiServer }) {
+const setupGracefulExit = function ({ servers, runtimeOpts, apiServer }) {
   const exitHandler = gracefulExit.bind(null, {
     servers,
-    serverOpts,
+    runtimeOpts,
     apiServer,
   });
   const onceExitHandler = onlyOnce(exitHandler);
@@ -25,8 +25,8 @@ const setupGracefulExit = function ({ servers, serverOpts, apiServer }) {
 };
 
 // Setup graceful exit
-const gracefulExit = async ({ servers, serverOpts, apiServer }) => {
-  const log = createLog({ serverOpts, apiServer, phase: 'shutdown' });
+const gracefulExit = async ({ servers, runtimeOpts, apiServer }) => {
+  const log = createLog({ runtimeOpts, apiServer, phase: 'shutdown' });
 
   const [[isSuccess, childMeasures], measure] = await monitoredSetupExit({
     servers,

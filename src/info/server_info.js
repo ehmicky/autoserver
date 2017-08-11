@@ -16,7 +16,7 @@ const { memoize } = require('../utilities');
 const { version: apiEngineVersion } = require('../../package.json');
 
 // Retrieve process-specific and host-specific information
-const getServerInfo = function ({ serverOpts: { serverName } }) {
+const getServerInfo = function ({ runtimeOpts: { serverName } }) {
   const staticServerInfo = mGetStaticServerInfo({ serverName });
   const dynamicServerInfo = getDynamicServerInfo();
   return {

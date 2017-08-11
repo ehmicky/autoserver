@@ -12,12 +12,12 @@ const { getReportedLog } = require('./reported_log');
 const { consolePrint } = require('./console');
 
 // Report some logs, i.e.:
-//  - fire server option `logger(info)`
+//  - fire runtime option `logger(info)`
 //  - print to console
 const reportLog = async function ({
   level,
   log,
-  log: { serverOpts: { logLevel = 'info' } },
+  log: { runtimeOpts: { logLevel = 'info' } },
   message,
   info,
   info: { type = 'message' } = {},
