@@ -1,35 +1,38 @@
 'use strict';
 
 const { normalizeError, getStandardError } = require('../../error');
-const { pSetTimeout } = require('../../utilities');
+const { pSetTimeout, makeAlmostImmutable } = require('../../utilities');
 
 // Try emit log event with an increasing delay
-const emitLogEvent = async function ({
+const eEmitLogEvent = async function ({
   log,
-  log: { runtimeOpts: { events } },
   type,
   reportedLog,
   delay = defaultDelay,
   reportLog,
 }) {
   try {
-    const eventHandler = events[type];
-    if (!eventHandler) { return; }
-
-    await eventHandler(reportedLog);
+    return await emitLogEvent({ log, type, reportedLog });
   } catch (error) {
-    await handleLoggingError({
-      log,
-      type,
-      reportedLog,
-      error,
-      delay,
-      reportLog,
-    });
+    await handleLogError({ log, type, reportedLog, error, delay, reportLog });
   }
 };
 
-const handleLoggingError = async function ({
+const emitLogEvent = async function ({
+  log: { runtimeOpts: { events } },
+  type,
+  reportedLog,
+}) {
+  const eventHandler = events[type];
+  if (!eventHandler) { return; }
+
+  const reportedLogA = makeAlmostImmutable(reportedLog, ['servers']);
+  await eventHandler(reportedLogA);
+
+  return reportedLogA;
+};
+
+const handleLogError = async function ({
   log,
   type,
   reportedLog,
@@ -46,7 +49,7 @@ const handleLoggingError = async function ({
   await reportLoggerError({ log, error, delay: delayA, reportLog });
 
   // Then, try to report original error again
-  await emitLogEvent({ log, type, reportedLog, delay: delayA, reportLog });
+  await eEmitLogEvent({ log, type, reportedLog, delay: delayA, reportLog });
 };
 
 const defaultDelay = 1000;
@@ -70,5 +73,5 @@ const reportLoggerError = async function ({ log, error, delay, reportLog }) {
 };
 
 module.exports = {
-  emitLogEvent,
+  emitLogEvent: eEmitLogEvent,
 };

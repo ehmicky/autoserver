@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignObject, makeImmutable } = require('../../utilities');
+const { assignObject } = require('../../utilities');
 const { protocols, protocolHandlers } = require('../../protocols');
 const { getMiddleware } = require('../../middleware');
 const { reportLog } = require('../../logging');
@@ -10,7 +10,6 @@ const { createJsl } = require('../../jsl');
 // Start each server
 const startServers = async function ({
   idl,
-  apiServer,
   startupLog,
   processLog,
   runtimeOpts,
@@ -27,10 +26,6 @@ const startServers = async function ({
     runtimeOpts,
     requestHandler,
   });
-
-  makeImmutable(runtimeOpts);
-  // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(apiServer, { runtimeOpts, servers });
 
   const measures = [jslMeasure, ...serverMeasures];
 

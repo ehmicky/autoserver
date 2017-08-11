@@ -30,13 +30,14 @@ const reportLog = async function ({
 
   consolePrint({ type, level: levelA, message: messageA });
 
-  await emitLogEvent({
+  const reportedLogB = await emitLogEvent({
     log,
     type,
     reportedLog: reportedLogA,
     delay,
     reportLog,
   });
+  return reportedLogB;
 };
 
 // Level defaults to `error` for type `failure`, and to `log` for other types
