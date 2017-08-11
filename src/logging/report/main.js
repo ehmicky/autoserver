@@ -17,13 +17,14 @@ const { consolePrint } = require('./console');
 const reportLog = async function ({
   level,
   log,
-  log: { runtimeOpts: { logLevel = 'info' } },
+  log: { runtimeOpts: { logLevel = 'info' }, phase: logPhase },
+  phase = logPhase,
   message,
   info,
   info: { type = 'message' } = {},
   isLogError,
 }) {
-  const reportedLog = getReportedLog({ level, log, message, info });
+  const reportedLog = getReportedLog({ level, log, phase, message, info });
 
   consolePrint({ type, level, message: reportedLog.message, logLevel });
 
@@ -92,6 +93,7 @@ const reportLoggerError = async function ({ error, log, isLogError }) {
   const message = getErrorMessage({ error: errorB });
   await reportLog({
     log,
+    phase: 'process',
     level: 'error',
     message,
     info: { type: 'failure', errorInfo: errorB },

@@ -8,7 +8,8 @@ const { getConsoleMessage } = require('./console');
 const getReportedLog = function ({
   level,
   log,
-  log: { phase, runtimeOpts },
+  phase,
+  log: { runtimeOpts },
   message: rawMessage = '',
   info = {},
   info: { type = 'message', errorInfo } = {},
@@ -19,7 +20,7 @@ const getReportedLog = function ({
   const {
     requestInfo,
     errorInfo: errorInfoA,
-  } = getRequestInfo({ log, info }) || {};
+  } = getRequestInfo({ log, phase, info }) || {};
   const errorInfoB = errorInfoA || errorInfo;
   const {
     // Used in message prefix

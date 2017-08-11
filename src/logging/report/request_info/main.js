@@ -10,7 +10,8 @@ const { trimErrorInfo } = require('./error_info');
 // Also rename `errorReason` to `error`.
 // Also remove redundant information between `errorInfo` and `requestInfo`
 const getRequestInfo = function ({
-  log: { phase, runtimeOpts: { logFilter }, logInfo },
+  log: { runtimeOpts: { logFilter }, logInfo },
+  phase,
   info,
 }) {
   if (phase !== 'request') { return; }
