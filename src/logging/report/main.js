@@ -1,10 +1,6 @@
 'use strict';
 
-const {
-  normalizeError,
-  getStandardError,
-  getErrorMessage,
-} = require('../../error');
+const { normalizeError, getStandardError } = require('../../error');
 const { pSetTimeout } = require('../../utilities');
 const { emitEventAsync } = require('../../events');
 
@@ -15,56 +11,64 @@ const { consolePrint } = require('./console');
 //  - fire runtime option `logger(info)`
 //  - print to console
 const reportLog = async function ({
-  level,
   log,
   log: { runtimeOpts: { logLevel = 'info' }, phase: logPhase },
+  type,
   phase = logPhase,
+  level,
   message,
   info,
-  info: { type = 'message' } = {},
-  isLogError,
+  delay,
 }) {
-  const reportedLog = getReportedLog({ level, log, phase, message, info });
+  const levelA = getLevel({ level, type });
 
-  consolePrint({ type, level, message: reportedLog.message, logLevel });
+  const reportedLog = getReportedLog({
+    log,
+    type,
+    phase,
+    level: levelA,
+    message,
+    info,
+  });
 
-  await emitLogEvent({ level, log, info, reportedLog, isLogError });
+  consolePrint({ type, level: levelA, message: reportedLog.message, logLevel });
+
+  await emitLogEvent({ log, type, phase, level: levelA, reportedLog, delay });
+};
+
+// Level defaults to `error` for type `failure`, and to `log` for other types
+const getLevel = function ({ level, type }) {
+  if (level) { return level; }
+
+  if (type === 'failure') { return 'error'; }
+
+  return 'log';
 };
 
 // Try emit log event with an increasing delay
 const emitLogEvent = async function ({
-  level,
   log,
-  log: { phase, apiServer },
-  info,
-  info: { type = 'message' } = {},
+  log: { apiServer },
+  type,
+  phase,
+  level,
   reportedLog,
-  isLogError,
   delay = defaultDelay,
 }) {
   try {
     const eventName = `log.${phase}.${type}.${level}`;
     await emitEventAsync({ apiServer, name: eventName, data: reportedLog });
   } catch (error) {
-    await handleLoggingError({
-      error,
-      level,
-      log,
-      info,
-      reportedLog,
-      isLogError,
-      delay,
-    });
+    await handleLoggingError({ log, type, level, reportedLog, error, delay });
   }
 };
 
 const handleLoggingError = async function ({
-  error,
-  level,
   log,
-  info,
+  type,
+  level,
   reportedLog,
-  isLogError,
+  error,
   delay,
 }) {
   // Tries again ang again, with an increasing delay
@@ -73,31 +77,29 @@ const handleLoggingError = async function ({
   const delayA = delay * delayExponent;
 
   // First, report that logging failed
-  await reportLoggerError({ error, log, isLogError });
+  await reportLoggerError({ log, error, delay: delayA });
 
   // Then, try to report original error again
-  await emitLogEvent({ level, log, info, reportedLog, delay: delayA });
+  await emitLogEvent({ log, type, level, reportedLog, delay: delayA });
 };
 
 const defaultDelay = 1000;
 const delayExponent = 5;
 const maxDelay = 1000 * 60 * 3;
 
-const reportLoggerError = async function ({ error, log, isLogError }) {
+const reportLoggerError = async function ({ log, error, delay }) {
   // Do not report logging error created by another logging error
   // I.e. only report the first one, but tries to report it again and again
-  if (isLogError) { return; }
+  if (delay > defaultDelay * delayExponent) { return; }
 
   const errorA = normalizeError({ error, reason: 'LOGGING_ERROR' });
   const errorB = getStandardError({ log, error: errorA });
-  const message = getErrorMessage({ error: errorB });
   await reportLog({
     log,
+    type: 'failure',
     phase: 'process',
-    level: 'error',
-    message,
-    info: { type: 'failure', errorInfo: errorB },
-    isLogError: true,
+    info: { errorInfo: errorB },
+    delay,
   });
 };
 

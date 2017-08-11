@@ -1,6 +1,6 @@
 'use strict';
 
-const { getStandardError, getErrorMessage } = require('../../error');
+const { getStandardError } = require('../../error');
 const { monitor } = require('../../perf');
 const { reportLog } = require('../../logging');
 
@@ -22,22 +22,13 @@ const handleLog = function (func, { successMessage, errorMessage }) {
       const message = typeof successMessage === 'function'
         ? successMessage(response)
         : successMessage;
-      await reportLog({
-        log,
-        level: 'log',
-        message: `${protocol} - ${message}`,
-      });
+      const messageA = `${protocol} - ${message}`;
+      await reportLog({ log, type: 'message', message: messageA });
       return response;
     } catch (error) {
       const errorInfo = getStandardError({ log, error });
-      const standardMessage = getErrorMessage({ error: errorInfo });
-      const message = `${protocol} - ${errorMessage}\n${standardMessage}`;
-      await reportLog({
-        log,
-        level: 'error',
-        message,
-        info: { type: 'failure', errorInfo },
-      });
+      const message = `${protocol} - ${errorMessage}`;
+      await reportLog({ log, type: 'failure', message, info: { errorInfo } });
     }
   };
 };

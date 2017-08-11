@@ -11,7 +11,7 @@ const emitStartEvent = async function ({ apiServer, startupLog: log }) {
 
   // Create log message when all protocol-specific servers have started
   const message = 'Server is ready';
-  await reportLog({ log, level: 'log', message, info: { type: 'start' } });
+  await reportLog({ log, type: 'start', message });
 };
 
 module.exports = {

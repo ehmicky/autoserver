@@ -86,8 +86,8 @@ const logEndShutdown = async function ({
   const level = isSuccess ? 'log' : 'error';
   const exitStatuses = statuses.reduce(assignObject, {});
 
-  const type = 'stop';
-  await reportLog({ log, level, message, info: { type, exitStatuses } });
+  const info = { exitStatuses };
+  await reportLog({ log, type: 'stop', level, message, info });
 };
 
 const monitoredLogEnd = monitor(logEndShutdown, 'log');

@@ -6,13 +6,14 @@ const { getRequestInfo } = require('./request_info');
 const { getConsoleMessage } = require('./console');
 
 const getReportedLog = function ({
-  level,
   log,
-  phase,
   log: { runtimeOpts },
-  message: rawMessage = '',
+  type,
+  phase,
+  level,
+  message,
   info = {},
-  info: { type = 'message', errorInfo } = {},
+  info: { errorInfo } = {},
 }) {
   // Adds information common to most logs: `phase`, `type`, `serverInfo`,
   // `requestInfo`, `messages`
@@ -30,27 +31,28 @@ const getReportedLog = function ({
   } = requestInfo || {};
 
   // Build a standardized log message
-  const message = getConsoleMessage({
-    phase,
+  const messageA = getConsoleMessage({
     type,
+    phase,
     level,
+    message,
+    info,
     timestamp,
     requestId,
     requestInfo,
     serverInfo,
-    rawMessage,
   });
 
   return {
     ...info,
-    requestInfo,
-    errorInfo: errorInfoB,
-    phase,
     type,
-    serverInfo,
-    timestamp,
+    phase,
     level,
-    message,
+    message: messageA,
+    errorInfo: errorInfoB,
+    timestamp,
+    requestInfo,
+    serverInfo,
   };
 };
 

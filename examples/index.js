@@ -30,13 +30,13 @@ const apiServer = start()
 
     const jsonInfo = JSON.stringify(info, null, 2);
     global.console.log('Logging info', jsonInfo);
-  });
+  })
   */
 
   /*
   .on('log.*.perf.*', ({ measuresMessage }) => {
     console.log(`Performance logging info\n${measuresMessage}`);
-  });
+  })
   */
 
 /*
