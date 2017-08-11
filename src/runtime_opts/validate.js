@@ -27,7 +27,7 @@ const schema = {
       enum: ['dev', 'production'],
     },
 
-    logLevel: {
+    eventLevel: {
       type: 'string',
       enum: ['info', 'log', 'warn', 'error', 'silent'],
     },

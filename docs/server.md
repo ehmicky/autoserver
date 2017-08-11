@@ -32,7 +32,7 @@ The available runtime options are:
   - `http.host` (defaults to `localhost`)
   - `http.port` (defaults to `80`). Can be `0` for "any available port".
   - `http.enabled` (defaults to `true`): specify `false` to disable HTTP server
-  - `serverName`, `logFilter` and `logLevel`: see [logging](logging.md).
+  - `serverName`, `logFilter` and `eventLevel`: see [logging](logging.md).
 
 # Server events
 

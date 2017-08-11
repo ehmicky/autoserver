@@ -39,10 +39,10 @@ const reportLog = async function ({
   await emitLogEvent({ log, type, phase, level: levelA, reportedLog, delay });
 };
 
-// Can filter verbosity with runtime option `logLevel`
-const shouldLog = function ({ log: { runtimeOpts: { logLevel } }, level }) {
-  return logLevel !== 'silent' &&
-    LEVELS.indexOf(level) >= LEVELS.indexOf(logLevel);
+// Can filter verbosity with runtime option `eventLevel`
+const shouldLog = function ({ log: { runtimeOpts: { eventLevel } }, level }) {
+  return eventLevel !== 'silent' &&
+    LEVELS.indexOf(level) >= LEVELS.indexOf(eventLevel);
 };
 
 // Level defaults to `error` for type `failure`, and to `log` for other types
