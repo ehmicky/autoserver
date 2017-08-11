@@ -5,11 +5,11 @@ const { extname } = require('path');
 const { getJson, getYaml } = require('../utilities');
 
 // Load file content, with several supported formats: JSON, YAML
-const loadConfFile = async function ({ confFile }) {
-  const fileExt = extname(confFile).slice(1);
+const loadConfFile = async function ({ path }) {
+  const fileExt = extname(path).slice(1);
   const loader = loaders[fileExt];
 
-  const content = await loader({ path: confFile });
+  const content = await loader({ path });
   return content;
 };
 

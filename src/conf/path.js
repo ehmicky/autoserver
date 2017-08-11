@@ -13,11 +13,11 @@ const { validateConfFile } = require('./validate');
 const getConfFile = async function ({ path, name }) {
   const pathA = getDirectPath({ path, name });
 
-  const confFile = await getConf({ path: pathA, name });
+  const pathB = await getConf({ path: pathA, name });
 
-  const confFileA = validateConfFile({ confFile });
+  const pathC = validateConfFile({ path: pathB });
 
-  return confFileA;
+  return pathC;
 };
 
 module.exports = {

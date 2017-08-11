@@ -1,9 +1,11 @@
 'use strict';
 
 const { validate } = require('../validation');
+const { TYPES } = require('../events');
+const { assignObject } = require('../utilities');
 
 // Validation for runtime options
-const validateRuntimeOpts = function (runtimeOpts) {
+const validateRuntimeOpts = function ({ runtimeOpts }) {
   validate({ schema, data: runtimeOpts, reportInfo });
 
   return runtimeOpts;
@@ -18,6 +20,12 @@ const eventFilterSchema = {
   ],
 };
 
+const eventProperty = { typeof: 'function' };
+
+const eventsProperties = TYPES
+  .map(type => ({ [type]: eventProperty }))
+  .reduce(assignObject, {});
+
 const schema = {
   type: 'object',
   properties: {
@@ -25,6 +33,12 @@ const schema = {
     env: {
       type: 'string',
       enum: ['dev', 'production'],
+    },
+
+    events: {
+      type: 'object',
+      properties: eventsProperties,
+      additionalProperties: false,
     },
 
     eventLevel: {
