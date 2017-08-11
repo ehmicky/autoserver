@@ -9,22 +9,20 @@ const { trimErrorInfo } = require('./error_info');
 // Builds `requestInfo` object, which contains request-related log information.
 // Also rename `errorReason` to `error`.
 // Also remove redundant information between `errorInfo` and `requestInfo`
-const getRequestInfo = function ({
-  log: { runtimeOpts: { logFilter }, logInfo },
-  phase,
-  info,
-}) {
-  if (phase !== 'request') { return; }
+const getRequestInfo = function ({ log, phase, errorInfo }) {
+  if (phase !== 'request') { return {}; }
 
-  const requestInfo = getRequestObject(logInfo, logFilter);
-  const errorInfo = trimErrorInfo({ info });
-  return { requestInfo, errorInfo };
+  const requestInfo = getRequestObject({ log });
+  const errorInfoA = trimErrorInfo({ errorInfo });
+  return { requestInfo, errorInfo: errorInfoA };
 };
 
-const getRequestObject = function (log, logFilter) {
+const getRequestObject = function ({
+  log: { runtimeOpts: { logFilter }, logInfo },
+}) {
   return processors.reduce(
     (requestInfo, processor) => processor(requestInfo, logFilter),
-    log,
+    logInfo,
   );
 };
 

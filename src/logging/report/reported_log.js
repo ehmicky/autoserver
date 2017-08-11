@@ -3,57 +3,46 @@
 const { getServerInfo } = require('../../info');
 
 const { getRequestInfo } = require('./request_info');
-const { getConsoleMessage } = require('./console');
 
+// Log information sent to events
 const getReportedLog = function ({
   log,
   log: { runtimeOpts },
   type,
   phase,
   level,
-  message,
   info = {},
   info: { errorInfo } = {},
 }) {
-  // Adds information common to most logs: `phase`, `type`, `serverInfo`,
-  // `requestInfo`, `messages`
-  const serverInfo = getServerInfo({ runtimeOpts });
   const {
     requestInfo,
-    errorInfo: errorInfoA,
-  } = getRequestInfo({ log, phase, info }) || {};
-  const errorInfoB = errorInfoA || errorInfo;
-  const {
-    // Used in message prefix
-    requestId,
-    // Reuse the request timestamp if possible
-    timestamp = (new Date()).toISOString(),
-  } = requestInfo || {};
+    // In a request, errorInfo is trimmed. Otherwise, keep it as is
+    errorInfo: errorInfoA = errorInfo,
+  } = getRequestInfo({ log, phase, errorInfo });
 
-  // Build a standardized log message
-  const messageA = getConsoleMessage({
-    type,
-    phase,
-    level,
-    message,
-    info,
-    timestamp,
-    requestId,
-    requestInfo,
-    serverInfo,
-  });
+  const timestamp = getTimestamp({ requestInfo });
+
+  const serverInfo = getServerInfo({ runtimeOpts });
 
   return {
     ...info,
     type,
     phase,
     level,
-    message: messageA,
-    errorInfo: errorInfoB,
-    timestamp,
     requestInfo,
+    errorInfo: errorInfoA,
+    timestamp,
     serverInfo,
   };
+};
+
+// Reuse the request timestamp if possible
+const getTimestamp = function ({ requestInfo: { timestamp } = {} }) {
+  if (!timestamp) {
+    return (new Date()).toISOString();
+  }
+
+  return timestamp;
 };
 
 module.exports = {

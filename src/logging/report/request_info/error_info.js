@@ -3,8 +3,9 @@
 const { omit } = require('../../../utilities');
 
 // Remove redundant keys present in both `errorInfo` and `requestInfo`
-const trimErrorInfo = function ({ info: { errorInfo } }) {
+const trimErrorInfo = function ({ errorInfo }) {
   if (errorInfo === undefined) { return; }
+
   return omit(errorInfo, errorRedundantKeys);
 };
 

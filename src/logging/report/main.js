@@ -7,6 +7,7 @@ const { LEVELS } = require('../constants');
 
 const { getReportedLog } = require('./reported_log');
 const { consolePrint } = require('./console');
+const { getConsoleMessage } = require('./console');
 
 // Report some logs, i.e.:
 //  - fire runtime option `logger(info)`
@@ -25,18 +26,21 @@ const reportLog = async function ({
   const noLogging = !shouldLog({ log, level: levelA });
   if (noLogging) { return; }
 
-  const reportedLog = getReportedLog({
+  // Retrieves information sent to event, and message printed to console
+  const reportedLog = getReportedLog({ log, type, phase, level: levelA, info });
+  const messageA = getConsoleMessage({ message, ...reportedLog });
+  const reportedLogA = { ...reportedLog, message: messageA };
+
+  consolePrint({ type, level: levelA, message: messageA });
+
+  await emitLogEvent({
     log,
     type,
     phase,
     level: levelA,
-    message,
-    info,
+    reportedLog: reportedLogA,
+    delay,
   });
-
-  consolePrint({ type, level: levelA, message: reportedLog.message });
-
-  await emitLogEvent({ log, type, phase, level: levelA, reportedLog, delay });
 };
 
 // Can filter verbosity with runtime option `eventLevel`
