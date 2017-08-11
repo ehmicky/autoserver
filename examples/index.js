@@ -7,7 +7,9 @@ const { start } = require('../index');
 Error.stackTraceLimit = 100;
 
 const startServer = async function () {
-  const apiServer = await start()
+  try {
+    const apiServer = await start()
+  } catch (error) {}
     // This is for Nodemon to properly exit.
     // But if several servers are run at once (with or without Nodemon),
     // this will make the first one that finished exiting abrupt the others,

@@ -10,21 +10,29 @@ const { emitLogEvent } = require('./event');
 //  - fire runtime option `logger(info)`
 //  - print to console
 const reportLog = async function ({
-  log,
+  log = { logInfo: {} },
   type,
-  phase = log.phase,
+  phase,
   level,
   message,
   info,
+  runtimeOpts = {},
   delay,
 }) {
   const levelA = getLevel({ level, type });
 
-  const noLogging = !shouldLog({ log, level: levelA });
+  const noLogging = !shouldLog({ runtimeOpts, level: levelA });
   if (noLogging) { return; }
 
   // Retrieves information sent to event, and message printed to console
-  const reportedLog = getReportedLog({ log, type, phase, level: levelA, info });
+  const reportedLog = getReportedLog({
+    log,
+    type,
+    phase,
+    level: levelA,
+    runtimeOpts,
+    info,
+  });
   const messageA = getConsoleMessage({ message, ...reportedLog });
   const reportedLogA = { ...reportedLog, message: messageA };
 
@@ -33,6 +41,7 @@ const reportLog = async function ({
   const reportedLogB = await emitLogEvent({
     log,
     type,
+    runtimeOpts,
     reportedLog: reportedLogA,
     delay,
     reportLog,
@@ -50,7 +59,7 @@ const getLevel = function ({ level, type }) {
 };
 
 // Can filter verbosity with runtime option `eventLevel`
-const shouldLog = function ({ log: { runtimeOpts: { eventLevel } }, level }) {
+const shouldLog = function ({ runtimeOpts: { eventLevel }, level }) {
   return eventLevel !== 'silent' &&
     LEVELS.indexOf(level) >= LEVELS.indexOf(eventLevel);
 };

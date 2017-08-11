@@ -7,7 +7,7 @@ const { getRequestInfo } = require('./request_info');
 // Log information sent to events
 const getReportedLog = function ({
   log,
-  log: { runtimeOpts },
+  runtimeOpts,
   type,
   phase,
   level,
@@ -18,7 +18,7 @@ const getReportedLog = function ({
     requestInfo,
     // In a request, errorInfo is trimmed. Otherwise, keep it as is
     errorInfo: errorInfoA = errorInfo,
-  } = getRequestInfo({ log, phase, errorInfo });
+  } = getRequestInfo({ log, phase, runtimeOpts, errorInfo });
 
   const timestamp = getTimestamp({ requestInfo });
 

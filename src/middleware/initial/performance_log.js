@@ -18,7 +18,8 @@ const performanceLog = async function (nextFunc, input) {
   // Do not report if exception was thrown
   const { log } = response;
   const measures = [response.respPerf, ...response.measures];
-  await reportPerf({ log, measures });
+  const { runtimeOpts } = input;
+  await reportPerf({ log, phase: 'request', measures, runtimeOpts });
 
   return response;
 };

@@ -24,7 +24,7 @@ const getStandardError = function ({
       command,
       requestId,
     } = {},
-  },
+  } = {},
   error,
 }) {
   const errorA = normalizeError({ error });
