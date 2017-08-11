@@ -1,6 +1,5 @@
 'use strict';
 
-const { identity } = require('../../utilities');
 const { createLog, reportPerf } = require('../../logging');
 const { getRuntimeOpts } = require('../../runtime_opts');
 
@@ -9,17 +8,7 @@ const { bootAll } = require('./boot');
 
 // Start server for each protocol
 // @param {object} runtimeOpts
-const start = function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
-  const apiServer = {};
-
-  startServer({ apiServer, runtimeOptsFile, idlFile })
-    // Must use 'start.success' and 'start.failure' events
-    .catch(identity);
-
-  return apiServer;
-};
-
-const startServer = async function ({ apiServer, runtimeOptsFile, idlFile }) {
+const start = async function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
   // Retrieve runtime options
   const earlyLog = createLog({ phase: 'startup' });
   const [runtimeOpts, runtimeOptsPerf] = await eGetRuntimeOpts({
@@ -29,8 +18,7 @@ const startServer = async function ({ apiServer, runtimeOptsFile, idlFile }) {
 
   // Main startup function
   const log = createLog({ runtimeOpts, phase: 'startup' });
-  const [, perf] = await eBootAll({
-    apiServer,
+  const [{ startPayload }, perf] = await eBootAll({
     runtimeOpts,
     idlFile,
     log,
@@ -40,6 +28,8 @@ const startServer = async function ({ apiServer, runtimeOptsFile, idlFile }) {
   // Report startup performance
   const measures = [...runtimeOptsPerf, ...perf];
   await eReportPerf({ log, measures });
+
+  return startPayload;
 };
 
 // Error handling
@@ -48,8 +38,8 @@ const handleError = function (func) {
     try {
       return await func(input);
     } catch (error) {
-      const { apiServer, log } = input;
-      await handleStartupError({ error, apiServer, log });
+      const { log } = input;
+      await handleStartupError({ error, log });
     }
   };
 };

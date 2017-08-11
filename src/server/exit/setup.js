@@ -8,16 +8,12 @@ const { closeServer } = require('./close');
 
 // Make sure the server stops when graceful exits are possible
 // Also send related logging messages
-const setupGracefulExit = function ({ servers, runtimeOpts, apiServer }) {
+const setupGracefulExit = function ({ servers, runtimeOpts }) {
   const exitHandler = gracefulExit.bind(null, { servers, runtimeOpts });
   const onceExitHandler = onlyOnce(exitHandler);
 
   process.on('SIGINT', onceExitHandler);
   process.on('SIGTERM', onceExitHandler);
-
-  // Make sure servers exit on startup errors
-  // eslint-disable-next-line fp/no-mutation, no-param-reassign
-  apiServer.exit = onceExitHandler;
 };
 
 // Setup graceful exit

@@ -6,7 +6,6 @@ const { loadIdlFile } = require('../idl');
 const { setupGracefulExit } = require('../exit');
 
 const { startServers } = require('./servers');
-const { addServerInfo } = require('./server_info');
 const { emitStartEvent } = require('./event');
 
 const bootAll = function (initialInput) {
@@ -21,7 +20,6 @@ const bootAll = function (initialInput) {
 const startSteps = [
   getProcessLog,
   processErrorHandler,
-  addServerInfo,
   loadIdlFile,
   startServers,
   setupGracefulExit,
