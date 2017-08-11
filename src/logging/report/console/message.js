@@ -10,13 +10,12 @@ const { getRequestMessage } = require('./request_message');
 //   STACK_TRACE
 // `PHASE` is requestId if phase is `request`
 const getConsoleMessage = function ({
+  message,
   type,
   phase,
   level,
-  message,
-  info,
+  errorInfo,
   timestamp,
-  requestId,
   requestInfo,
   serverInfo: { serverName },
 }) {
@@ -28,10 +27,10 @@ const getConsoleMessage = function ({
     phase,
     level,
     timestamp,
-    requestId,
+    requestInfo,
     serverName,
   });
-  const messageA = getMessage({ message, type, phase, info, requestInfo });
+  const messageA = getMessage({ message, type, phase, errorInfo, requestInfo });
 
   const messageB = `${prefix} ${messageA}`;
   return messageB;
@@ -43,7 +42,7 @@ const getPrefix = function ({
   phase,
   level,
   timestamp,
-  requestId,
+  requestInfo: { requestId } = {},
   serverName,
 }) {
   const prefixes = [
@@ -90,7 +89,7 @@ const getMessage = function ({
   message = '',
   type,
   phase,
-  info: { errorInfo },
+  errorInfo,
   requestInfo,
 }) {
   if (type === 'failure') {
