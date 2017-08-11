@@ -3,7 +3,6 @@
 const { createLog, reportLog, reportPerf } = require('../../logging');
 const { monitor } = require('../../perf');
 const { assignObject, onlyOnce } = require('../../utilities');
-const { emitEventAsync } = require('../../events');
 
 const { closeServer } = require('./close');
 
@@ -21,22 +20,18 @@ const setupGracefulExit = function ({ servers, runtimeOpts, apiServer }) {
   process.on('SIGTERM', onceExitHandler);
 
   // Make sure servers exit on startup errors
-  apiServer.on('start.failure', onceExitHandler);
+  // eslint-disable-next-line fp/no-mutation, no-param-reassign
+  apiServer.exit = onceExitHandler;
 };
 
 // Setup graceful exit
 const gracefulExit = async ({ servers, runtimeOpts, apiServer }) => {
   const log = createLog({ runtimeOpts, apiServer, phase: 'shutdown' });
 
-  const [[isSuccess, childMeasures], measure] = await monitoredSetupExit({
-    servers,
-    log,
-  });
+  const [childMeasures, measure] = await monitoredSetupExit({ servers, log });
 
   const measures = [...childMeasures, measure];
   await reportPerf({ log, measures });
-
-  await emitStopEvent({ isSuccess, apiServer });
 };
 
 const setupExit = async function ({ servers, log }) {
@@ -57,8 +52,7 @@ const setupExit = async function ({ servers, log }) {
     isSuccess,
   });
 
-  const measures = [measure, ...childMeasures];
-  return [isSuccess, measures];
+  return [measure, ...childMeasures];
 };
 
 const monitoredSetupExit = monitor(setupExit, 'all', 'all');
@@ -91,13 +85,6 @@ const logEndShutdown = async function ({
 };
 
 const monitoredLogEnd = monitor(logEndShutdown, 'log');
-
-const emitStopEvent = async function ({ isSuccess, apiServer }) {
-  try {
-    const name = isSuccess ? 'stop.success' : 'stop.failure';
-    await emitEventAsync({ apiServer, name });
-  } catch (error) {}
-};
 
 module.exports = {
   setupGracefulExit,
