@@ -2,15 +2,17 @@
 
 const { reportLog } = require('../../logging');
 
-const emitStartEvent = async function ({
-  servers,
-  runtimeOpts,
-  startupLog: log,
-}) {
+const emitStartEvent = async function ({ servers, runtimeOpts }) {
   // Create log message when all protocol-specific servers have started
   const message = 'Server is ready';
   const info = { servers, runtimeOpts };
-  const startPayload = await reportLog({ log, type: 'start', message, info });
+  const startPayload = await reportLog({
+    type: 'start',
+    phase: 'startup',
+    message,
+    info,
+    runtimeOpts,
+  });
   return { startPayload };
 };
 

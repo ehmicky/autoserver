@@ -8,18 +8,27 @@ const eEmitLogEvent = async function ({
   log,
   type,
   reportedLog,
+  runtimeOpts,
   delay = defaultDelay,
   reportLog,
 }) {
   try {
-    return await emitLogEvent({ log, type, reportedLog });
+    return await emitLogEvent({ runtimeOpts, type, reportedLog });
   } catch (error) {
-    await handleLogError({ log, type, reportedLog, error, delay, reportLog });
+    await handleLogError({
+      log,
+      type,
+      reportedLog,
+      runtimeOpts,
+      error,
+      delay,
+      reportLog,
+    });
   }
 };
 
 const emitLogEvent = async function ({
-  log: { runtimeOpts: { events } },
+  runtimeOpts: { events },
   type,
   reportedLog,
 }) {
@@ -36,6 +45,7 @@ const handleLogError = async function ({
   log,
   type,
   reportedLog,
+  runtimeOpts,
   error,
   delay,
   reportLog,
@@ -46,17 +56,36 @@ const handleLogError = async function ({
   const delayA = delay * delayExponent;
 
   // First, report that logging failed
-  await reportLoggerError({ log, error, delay: delayA, reportLog });
+  await reportLoggerError({
+    log,
+    error,
+    runtimeOpts,
+    delay: delayA,
+    reportLog,
+  });
 
   // Then, try to report original error again
-  await eEmitLogEvent({ log, type, reportedLog, delay: delayA, reportLog });
+  await eEmitLogEvent({
+    log,
+    type,
+    reportedLog,
+    runtimeOpts,
+    delay: delayA,
+    reportLog,
+  });
 };
 
 const defaultDelay = 1000;
 const delayExponent = 5;
 const maxDelay = 1000 * 60 * 3;
 
-const reportLoggerError = async function ({ log, error, delay, reportLog }) {
+const reportLoggerError = async function ({
+  log,
+  error,
+  runtimeOpts,
+  delay,
+  reportLog,
+}) {
   // Do not report logging error created by another logging error
   // I.e. only report the first one, but tries to report it again and again
   if (delay > defaultDelay * delayExponent) { return; }
@@ -67,6 +96,7 @@ const reportLoggerError = async function ({ log, error, delay, reportLog }) {
     log,
     type: 'failure',
     phase: 'process',
+    runtimeOpts,
     info: { errorInfo: errorB },
     delay,
   });

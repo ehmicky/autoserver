@@ -1,6 +1,6 @@
 'use strict';
 
-const { createLog, reportPerf } = require('../../logging');
+const { reportPerf } = require('../../logging');
 const { getRuntimeOpts } = require('../../runtime_opts');
 
 const { handleStartupError } = require('./error');
@@ -10,24 +10,16 @@ const { bootAll } = require('./boot');
 // @param {object} runtimeOpts
 const start = async function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
   // Retrieve runtime options
-  const earlyLog = createLog({ phase: 'startup' });
   const [runtimeOpts, runtimeOptsPerf] = await eGetRuntimeOpts({
     runtimeOptsFile,
-    log: earlyLog,
   });
 
   // Main startup function
-  const log = createLog({ runtimeOpts, phase: 'startup' });
-  const [{ startPayload }, perf] = await eBootAll({
-    runtimeOpts,
-    idlFile,
-    log,
-    startupLog: log,
-  });
+  const [{ startPayload }, perf] = await eBootAll({ runtimeOpts, idlFile });
 
   // Report startup performance
   const measures = [...runtimeOptsPerf, ...perf];
-  await eReportPerf({ log, measures });
+  await eReportPerf({ phase: 'startup', measures, runtimeOpts });
 
   return startPayload;
 };
@@ -38,8 +30,8 @@ const handleError = function (func) {
     try {
       return await func(input);
     } catch (error) {
-      const { log } = input;
-      await handleStartupError({ error, log });
+      const { runtimeOpts } = input;
+      await handleStartupError({ error, runtimeOpts });
     }
   };
 };

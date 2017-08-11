@@ -8,12 +8,7 @@ const { monitor } = require('../../perf');
 const { createJsl } = require('../../jsl');
 
 // Start each server
-const startServers = async function ({
-  idl,
-  startupLog,
-  processLog,
-  runtimeOpts,
-}) {
+const startServers = async function ({ idl, runtimeOpts }) {
   const [jsl, jslMeasure] = await monitoredCreateJsl({ idl });
 
   // This callback must be called by each server
@@ -21,8 +16,6 @@ const startServers = async function ({
   const requestHandler = middleware.bind(null, { idl, runtimeOpts, jsl });
 
   const [servers, serverMeasures] = await startEachServer({
-    startupLog,
-    processLog,
     runtimeOpts,
     requestHandler,
   });
@@ -54,12 +47,7 @@ const startEachServer = async function (options) {
   return [servers, measures];
 };
 
-const startServer = async function (protocol, {
-  startupLog,
-  processLog,
-  runtimeOpts,
-  requestHandler,
-}) {
+const startServer = async function (protocol, { runtimeOpts, requestHandler }) {
   const protocolHandler = protocolHandlers[protocol];
   const opts = runtimeOpts[protocol.toLowerCase()];
   const handleRequest = specific => requestHandler({ protocol, specific });
@@ -67,19 +55,22 @@ const startServer = async function (protocol, {
   const serverInfo = await protocolHandler.startServer({
     opts,
     runtimeOpts,
-    processLog,
     handleRequest,
   });
 
-  await logStart({ serverInfo, startupLog, protocol });
+  await logStart({ serverInfo, protocol, runtimeOpts });
 
   return { ...serverInfo, protocol };
 };
 
-const logStart = async function ({ serverInfo, startupLog, protocol }) {
+const logStart = async function ({
+  serverInfo,
+  protocol,
+  runtimeOpts,
+}) {
   const { host, port } = serverInfo;
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  await reportLog({ log: startupLog, type: 'message', message });
+  await reportLog({ type: 'message', phase: 'startup', message, runtimeOpts });
 };
 
 const monitoredStartServer = monitor(

@@ -15,7 +15,7 @@ const logger = async function logger (nextFunc, input) {
   try {
     const response = await nextFunc(input);
 
-    const responseA = getLogReport({ response });
+    const responseA = getLogReport({ input, response });
 
     return responseA;
   } catch (error) {
@@ -24,7 +24,7 @@ const logger = async function logger (nextFunc, input) {
     const errorReason = getReason({ error: errorA });
     const errorB = addLogInfo(errorA, { errorReason });
 
-    const errorC = getLogReport({ error: errorB });
+    const errorC = getLogReport({ input, error: errorB });
 
     rethrowError(errorC);
   }
@@ -33,10 +33,10 @@ const logger = async function logger (nextFunc, input) {
 // The logger will build the message and the `requestInfo`
 // We do not do it now, because we want the full protocol layer to end first,
 // do `requestInfo` is full.
-const getLogReport = function ({ error, response }) {
+const getLogReport = function ({ input: { runtimeOpts }, error, response }) {
   const level = getLevel({ error, response });
 
-  const logReport = { type: 'call', level };
+  const logReport = { type: 'call', phase: 'request', level, runtimeOpts };
 
   return bufferLogReport(response || error, logReport);
 };

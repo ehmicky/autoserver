@@ -4,15 +4,13 @@ const { deepMerge, omit } = require('../utilities');
 
 // Represents a logger
 // Can:
-//  - createLog({ runtimeOpts, phase }) - returns new `log`
-//  - reportLog({ log, level, message, info }) - sends some log
-//  - addLog(obj, info) - add requestInfo information.
+//  - createLog() - returns new `log`
+//  - reportLog(...) - sends some log
+//  - addLogInfo(obj, info) - add requestInfo information.
 //    Returns new `obj`, storing info at `obj.log`,
 //    i.e. does not modify original `obj`
-const createLog = function ({ runtimeOpts = {}, phase }) {
-  const logInfo = {};
-  const log = { runtimeOpts, phase, logInfo };
-  return log;
+const createLog = function () {
+  return { logInfo: {} };
 };
 
 // Add log information to `obj.log`

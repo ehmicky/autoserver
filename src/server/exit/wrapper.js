@@ -15,7 +15,7 @@ const wrapCloseFunc = function (func, { successMessage, errorMessage, label }) {
 // Log shutdown failures
 const handleLog = function (func, { successMessage, errorMessage }) {
   return async function errorHandler (input) {
-    const { log, protocol } = input;
+    const { protocol, runtimeOpts } = input;
 
     try {
       const response = await func(input);
@@ -23,12 +23,23 @@ const handleLog = function (func, { successMessage, errorMessage }) {
         ? successMessage(response)
         : successMessage;
       const messageA = `${protocol} - ${message}`;
-      await reportLog({ log, type: 'message', message: messageA });
+      await reportLog({
+        type: 'message',
+        phase: 'shutdown',
+        message: messageA,
+        runtimeOpts,
+      });
       return response;
     } catch (error) {
-      const errorInfo = getStandardError({ log, error });
+      const errorInfo = getStandardError({ error });
       const message = `${protocol} - ${errorMessage}`;
-      await reportLog({ log, type: 'failure', message, info: { errorInfo } });
+      await reportLog({
+        type: 'failure',
+        phase: 'shutdown',
+        message,
+        info: { errorInfo },
+        runtimeOpts,
+      });
     }
   };
 };

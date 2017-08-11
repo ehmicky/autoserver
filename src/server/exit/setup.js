@@ -1,6 +1,6 @@
 'use strict';
 
-const { createLog, reportLog, reportPerf } = require('../../logging');
+const { reportLog, reportPerf } = require('../../logging');
 const { monitor } = require('../../perf');
 const { assignObject, onlyOnce } = require('../../utilities');
 
@@ -18,17 +18,20 @@ const setupGracefulExit = function ({ servers, runtimeOpts }) {
 
 // Setup graceful exit
 const gracefulExit = async ({ servers, runtimeOpts }) => {
-  const log = createLog({ runtimeOpts, phase: 'shutdown' });
-
-  const [childMeasures, measure] = await monitoredSetupExit({ servers, log });
+  const [childMeasures, measure] = await monitoredSetupExit({
+    servers,
+    runtimeOpts,
+  });
 
   const measures = [...childMeasures, measure];
-  await reportPerf({ log, measures });
+  await reportPerf({ phase: 'shutdown', measures, runtimeOpts });
 };
 
-const setupExit = async function ({ servers, log }) {
+const setupExit = async function ({ servers, runtimeOpts }) {
   const statusesPromises = Object.values(servers)
-    .map(({ server, protocol }) => closeServer({ server, protocol, log }));
+    .map(({ server, protocol }) =>
+      closeServer({ server, protocol, runtimeOpts })
+    );
   const statusesPromise = await Promise.all(statusesPromises);
   const statuses = statusesPromise
     .map(([{ protocol, status }]) => [protocol, status]);
@@ -38,10 +41,10 @@ const setupExit = async function ({ servers, log }) {
   const { failedProtocols, isSuccess } = processStatuses({ statuses });
 
   const [, measure] = await monitoredLogEnd({
-    log,
     statuses,
     failedProtocols,
     isSuccess,
+    runtimeOpts,
   });
 
   return [measure, ...childMeasures];
@@ -61,10 +64,10 @@ const processStatuses = function ({ statuses }) {
 
 // Log successful or failed shutdown
 const logEndShutdown = async function ({
-  log,
   statuses,
   failedProtocols,
   isSuccess,
+  runtimeOpts,
 }) {
   const message = isSuccess
     ? 'Server exited successfully'
@@ -72,8 +75,14 @@ const logEndShutdown = async function ({
   const level = isSuccess ? 'log' : 'error';
   const exitStatuses = statuses.reduce(assignObject, {});
 
-  const info = { exitStatuses };
-  await reportLog({ log, type: 'stop', level, message, info });
+  await reportLog({
+    type: 'stop',
+    phase: 'shutdown',
+    level,
+    message,
+    info: { exitStatuses },
+    runtimeOpts,
+  });
 };
 
 const monitoredLogEnd = monitor(logEndShutdown, 'log');
