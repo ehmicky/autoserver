@@ -1,6 +1,6 @@
 # Event logging
 
-Log events are emitted on the `server` (returned value of `startServer()`).
+Log events are emitted on the `server` (returned value of `apiEngine.start()`).
 You can use those events for logging and monitoring purpose.
 
 # Console logging
