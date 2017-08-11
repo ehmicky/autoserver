@@ -4,7 +4,7 @@
 //  - key is argument attribute name
 //  - command.name is whitelisted
 //  - value is the default value.
-//    Can be a function taking the server options as first argument
+//    Can be a function taking the runtime options as first argument
 const defaults = {
   nFilter: {
     commands: ['readMany', 'deleteMany'],
@@ -25,9 +25,9 @@ const defaults = {
   },
 
   pageSize: {
-    value: ({ input: { serverOpts: { defaultPageSize } } }) => defaultPageSize,
+    value: ({ input: { runtimeOpts: { defaultPageSize } } }) => defaultPageSize,
     // Only if pagination is enabled
-    test: ({ input: { serverOpts: { defaultPageSize } } }) =>
+    test: ({ input: { runtimeOpts: { defaultPageSize } } }) =>
       defaultPageSize !== 0,
   },
 

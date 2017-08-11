@@ -5,7 +5,7 @@ const http = require('http');
 // Start HTTP server
 const startServer = function ({
   opts: { host, port },
-  serverOpts: { env },
+  runtimeOpts: { env },
   processLog,
   handleRequest,
 }) {

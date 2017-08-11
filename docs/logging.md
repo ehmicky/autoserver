@@ -45,7 +45,7 @@ The event level is the importance of the event, among `info`, `log`, `warn`
 or `error`,
 
 The logging verbosity can be adjusted using the
-[server option](server.md#server-options) `logLevel` (defaults to `'info'`),
+[runtime option](server.md#runtime-options) `logLevel` (defaults to `'info'`),
 which can also be `'silent'`.
 It only affects the log console output, not the log events that are emitted.
 
@@ -109,7 +109,7 @@ A `serverName` UUID, unique to each machine, is available:
   - as a response header named `X-Server-Name`
 
 `serverName` is set using any of:
-  - the [server option](server.md#server-options) `serverName`
+  - the [runtime option](server.md#runtime-options) `serverName`
   - the system hostname
   - an empty string
 
@@ -190,7 +190,7 @@ circumstances, e.g. if an error happened.
 # Request information filtering
 
 To avoid the request information to be too big or leak security information,
-one can set filters using the [server option](server.md#server-options)
+one can set filters using the [runtime option](server.md#runtime-options)
 `logFilter`.
 
 `logFilter` is an object, with each property specifying how filter part of

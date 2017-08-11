@@ -8,14 +8,14 @@ const { getConsoleMessage } = require('./console');
 const getReportedLog = function ({
   level,
   log,
-  log: { phase, serverOpts },
+  log: { phase, runtimeOpts },
   message: rawMessage = '',
   info = {},
   info: { type = 'message', errorInfo } = {},
 }) {
   // Adds information common to most logs: `phase`, `type`, `serverInfo`,
   // `requestInfo`, `messages`
-  const serverInfo = getServerInfo({ serverOpts });
+  const serverInfo = getServerInfo({ runtimeOpts });
   const {
     requestInfo,
     errorInfo: errorInfoA,

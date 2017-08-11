@@ -5,7 +5,7 @@ const EventEmitter2 = require('eventemitter2');
 const { makeImmutable } = require('./utilities');
 
 // Object returned by main function `apiEngine.start()`
-// Contains general information (options, server name, version, etc.)
+// Contains general information (runtime options, server name, version, etc.)
 // Emits events related to server lifecycle and logging.
 const createApiServer = function () {
   return new EventEmitter2({ wildcard: true });

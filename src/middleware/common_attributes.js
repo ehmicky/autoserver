@@ -3,7 +3,7 @@
 // Input attributes passed along the whole request, i.e. common to all layers
 const commonAttributes = [
   'idl',
-  'serverOpts',
+  'runtimeOpts',
   'apiServer',
   'jsl',
   'currentPerf',

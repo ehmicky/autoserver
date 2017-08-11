@@ -14,7 +14,7 @@ const { addLogInfo } = require('../../logging');
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
 const setRequestIds = async function (nextFunc, input) {
-  const { specific, protocolHandler, serverOpts } = input;
+  const { specific, protocolHandler, runtimeOpts } = input;
 
   const requestId = uuidv4();
   const inputA = addJsl(input, { $REQUEST_ID: requestId });
@@ -22,7 +22,7 @@ const setRequestIds = async function (nextFunc, input) {
   const inputC = { ...inputB, requestId };
 
   sendRequestIdHeader({ specific, requestId, protocolHandler });
-  sendServerIdsHeaders({ specific, serverOpts, protocolHandler });
+  sendServerIdsHeaders({ specific, runtimeOpts, protocolHandler });
 
   const response = await nextFunc(inputC);
   return response;
@@ -41,10 +41,10 @@ const sendRequestIdHeader = function ({
 // Send e.g. HTTP request header, `X-Server-Name` and `X-Server-Id`
 const sendServerIdsHeaders = function ({
   specific,
-  serverOpts,
+  runtimeOpts,
   protocolHandler,
 }) {
-  const { serverId, serverName } = getServerInfo({ serverOpts });
+  const { serverId, serverName } = getServerInfo({ runtimeOpts });
   const headers = { 'X-Server-Name': serverName, 'X-Server-Id': serverId };
   protocolHandler.sendHeaders({ specific, headers });
 };

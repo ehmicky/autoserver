@@ -1,7 +1,7 @@
 # Configuration
 
 They are two main configuration files: the [IDL file](#idl-file) and the
-[server options](#server-options).
+[runtime options](#runtime-options).
 
 # IDL file
 
@@ -18,27 +18,27 @@ to the lowest:
     `.api_engine.idl.json` file in the current directory, or any parent
     directory. This is the preferred method.
 
-# Server options
+# Runtime options
 
-Server options are runtime parameters, e.g. server ports.
+Runtime options are runtime parameters, e.g. server ports.
 
-There are several ways to define server options. The first one that is defined
+There are several ways to define runtime options. The first one that is defined
 will be chosen, from the highest priority to the lowest:
-  - using `apiEngine.start({ opts: object })` with `object` being the
-    server options
+  - using `apiEngine.start({ runtime: object })` with `object` being the
+    runtime options
   - setting an environment variable `API_ENGINE__OPTS` containing the path to
     the [configuration file](#configuration-file)
-  - using `apiEngine.start({ opts: 'path' })` with a `'path'` to
+  - using `apiEngine.start({ runtime: 'path' })` with a `'path'` to
     the [configuration file](#configuration-file)
-  - creating a `.api_engine.opts.yml`, `.api_engine.opts.yaml` or
-    `.api_engine.opts.json` file in the current directory, or any parent
+  - creating a `.api_engine.runtime.yml`, `.api_engine.runtime.yaml` or
+    `.api_engine.runtime.json` file in the current directory, or any parent
     directory. This is the preferred method.
 
-See [here](server.md#server-options) for a list of available server options.
+See [here](server.md#runtime-options) for a list of available runtime options.
 
 # Configuration file
 
-The [IDL file](#idl-file) and the [server options file](#server-options) share
+The [IDL file](#idl-file) and the [runtime options file](#runtime-options) share
 the same format.
 
 The format depends on the file extension, and can be:
@@ -48,7 +48,7 @@ The format depends on the file extension, and can be:
 If a relative file path is used to target the configuration file, it will be
 relative to the current directory.
 
-The [IDL file](#idl-file) (but not the [server options file](#server-options))
+The [IDL file](#idl-file) (but not the [runtime options file](#runtime-options))
 can also be broken down into several files or use libraries. It does so by
 referring to external files (local or HTTP/HTTPS) or Node.js modules, using
 [JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
@@ -73,7 +73,7 @@ models:
 # Environment variables
 
 Environment variables prefixed with `API_ENGINE__` can be specified to override
-specific server options.
+specific runtime options.
 
 The following environment variables can also be used:
   - `NODE_ENV`: for `env`
@@ -89,8 +89,8 @@ API_ENGINE__LOG_FILTER__PAYLOAD__0="id"
 API_ENGINE__LOG_FILTER__PAYLOAD__1="old_id"
 ```
 
-will be converted to the following server options, which will override
-(but not fully replace) the current server options:
+will be converted to the following runtime options, which will override
+(but not fully replace) the current runtime options:
 
 ```json
 {

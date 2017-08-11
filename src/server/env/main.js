@@ -6,7 +6,7 @@ const { processEnv, ENV_VARS_PREFIX, basicNamesMap } = require('./constants');
 const { transformEnvVars } = require('./transform');
 
 // Retrieve environment variables related to this project,
-// as a normalized object, ready to be used as `serverOpts`.
+// as a normalized object, ready to be used as `runtimeOpts`.
 // Environment variables must be prefixed with API_ENGINE__*
 // They must be uppercased with underscore, e.g. `PAGE_SIZE` instead of pageSize
 // The value will be transtyped, e.g. it can be a number or a boolean

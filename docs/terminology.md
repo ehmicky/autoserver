@@ -99,7 +99,7 @@ Client-specified [JSL variables](jsl.md#jsl-parameters)
 
 Client-specified request-wide [argument](settings.md).
 
-## Server options
+## Runtime options
 
 Options passed to server when starting it
 
