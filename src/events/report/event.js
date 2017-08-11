@@ -3,75 +3,75 @@
 const { normalizeError, getStandardError } = require('../../error');
 const { pSetTimeout, makeAlmostImmutable } = require('../../utilities');
 
-// Try emit log event with an increasing delay
-const eEmitLogEvent = async function ({
+// Try emit events with an increasing delay
+const eFireEvent = async function ({
   log,
   type,
-  reportedLog,
+  eventPayload,
   runtimeOpts,
   delay = defaultDelay,
-  reportLog,
+  emitEvent,
 }) {
   try {
-    return await emitLogEvent({ runtimeOpts, type, reportedLog });
+    return await fireEvent({ runtimeOpts, type, eventPayload });
   } catch (error) {
-    await handleLogError({
+    await handleEventError({
       log,
       type,
-      reportedLog,
+      eventPayload,
       runtimeOpts,
       error,
       delay,
-      reportLog,
+      emitEvent,
     });
   }
 };
 
-const emitLogEvent = async function ({
+const fireEvent = async function ({
   runtimeOpts: { events },
   type,
-  reportedLog,
+  eventPayload,
 }) {
   const eventHandler = events[type];
   if (!eventHandler) { return; }
 
-  const reportedLogA = makeAlmostImmutable(reportedLog, ['servers']);
-  await eventHandler(reportedLogA);
+  const eventPayloadA = makeAlmostImmutable(eventPayload, ['servers']);
+  await eventHandler(eventPayloadA);
 
-  return reportedLogA;
+  return eventPayloadA;
 };
 
-const handleLogError = async function ({
+const handleEventError = async function ({
   log,
   type,
-  reportedLog,
+  eventPayload,
   runtimeOpts,
   error,
   delay,
-  reportLog,
+  emitEvent,
 }) {
   // Tries again ang again, with an increasing delay
   if (delay > maxDelay) { return; }
   await pSetTimeout(delay);
   const delayA = delay * delayExponent;
 
-  // First, report that logging failed
-  await reportLoggerError({
+  // First, report that event handler failed
+  await fireEventError({
     log,
     error,
     runtimeOpts,
     delay: delayA,
-    reportLog,
+    emitEvent,
   });
 
   // Then, try to report original error again
-  await eEmitLogEvent({
+  await eFireEvent({
     log,
     type,
-    reportedLog,
+    eventPayload,
     runtimeOpts,
     delay: delayA,
-    reportLog,
+    emitEvent,
   });
 };
 
@@ -79,20 +79,20 @@ const defaultDelay = 1000;
 const delayExponent = 5;
 const maxDelay = 1000 * 60 * 3;
 
-const reportLoggerError = async function ({
+const fireEventError = async function ({
   log,
   error,
   runtimeOpts,
   delay,
-  reportLog,
+  emitEvent,
 }) {
-  // Do not report logging error created by another logging error
+  // Do not report event error created by another event error
   // I.e. only report the first one, but tries to report it again and again
   if (delay > defaultDelay * delayExponent) { return; }
 
-  const errorA = normalizeError({ error, reason: 'LOGGING_ERROR' });
+  const errorA = normalizeError({ error, reason: 'EVENT_ERROR' });
   const errorB = getStandardError({ log, error: errorA });
-  await reportLog({
+  await emitEvent({
     log,
     type: 'failure',
     phase: 'process',
@@ -103,5 +103,5 @@ const reportLoggerError = async function ({
 };
 
 module.exports = {
-  emitLogEvent: eEmitLogEvent,
+  fireEvent: eFireEvent,
 };

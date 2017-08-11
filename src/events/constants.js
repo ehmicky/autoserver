@@ -1,6 +1,6 @@
 'use strict';
 
-// When the log was performed
+// When the event was performed
 const PHASES = [
   // During server startup
   'startup',
@@ -12,7 +12,7 @@ const PHASES = [
   'process',
 ];
 
-// Why the log was performed
+// Why the event was performed
 const TYPES = [
   // Generic type
   'message',
@@ -28,10 +28,10 @@ const TYPES = [
   'perf',
 ];
 
-// Those log types never prints to console
+// Those event types never prints to console
 const NO_CONSOLE_TYPES = ['perf'];
 
-// Log severity.
+// Event severity.
 const LEVELS = [
   // Debugging information
   'info',
@@ -43,7 +43,7 @@ const LEVELS = [
   'error',
 ];
 
-// Map a request status to a log level
+// Map a request status to a event level
 const STATUS_LEVEL_MAP = {
   INTERNALS: 'debug',
   SUCCESS: 'log',

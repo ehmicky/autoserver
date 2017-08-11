@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../error');
 const { addJsl } = require('../../jsl');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 
 // Retrieve request's IP, assigned to protocol input, and also to JSL $IP
 const getIp = async function (nextFunc, input) {

@@ -19,10 +19,10 @@ const getRequestInfo = function ({ log, phase, runtimeOpts, errorInfo }) {
 
 const getRequestObject = function ({
   log: { logInfo },
-  runtimeOpts: { logFilter },
+  runtimeOpts: { eventFilter },
 }) {
   return processors.reduce(
-    (requestInfo, processor) => processor(requestInfo, logFilter),
+    (requestInfo, processor) => processor(requestInfo, eventFilter),
     logInfo,
   );
 };

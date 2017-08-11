@@ -1,6 +1,6 @@
 'use strict';
 
-const { addLogInfo } = require('../../../logging');
+const { addLogInfo } = require('../../../events');
 
 const { routes, findRoute, getPathVars } = require('./manager');
 

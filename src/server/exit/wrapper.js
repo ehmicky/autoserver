@@ -2,18 +2,18 @@
 
 const { getStandardError } = require('../../error');
 const { monitor } = require('../../perf');
-const { reportLog } = require('../../logging');
+const { emitEvent } = require('../../events');
 
-// Add logging and monitoring capabilities to the function
+// Add events and monitoring capabilities to the function
 const wrapCloseFunc = function (func, { successMessage, errorMessage, label }) {
-  const handledFunc = handleLog(func, { successMessage, errorMessage });
+  const handledFunc = handleEvent(func, { successMessage, errorMessage });
   const getLabel = ({ protocol }) => `${protocol}.${label}`;
   const monitoredFunc = monitor(handledFunc, getLabel);
   return monitoredFunc;
 };
 
-// Log shutdown failures
-const handleLog = function (func, { successMessage, errorMessage }) {
+// Shutdown failures events
+const handleEvent = function (func, { successMessage, errorMessage }) {
   return async function errorHandler (input) {
     const { protocol, runtimeOpts } = input;
 
@@ -23,7 +23,7 @@ const handleLog = function (func, { successMessage, errorMessage }) {
         ? successMessage(response)
         : successMessage;
       const messageA = `${protocol} - ${message}`;
-      await reportLog({
+      await emitEvent({
         type: 'message',
         phase: 'shutdown',
         message: messageA,
@@ -33,7 +33,7 @@ const handleLog = function (func, { successMessage, errorMessage }) {
     } catch (error) {
       const errorInfo = getStandardError({ error });
       const message = `${protocol} - ${errorMessage}`;
-      await reportLog({
+      await emitEvent({
         type: 'failure',
         phase: 'shutdown',
         message,

@@ -2,14 +2,14 @@
 
 const { identity } = require('../../../utilities');
 
-const { applyLogFilter } = require('./log_filter');
+const { applyEventFilter } = require('./event_filter');
 
-const reduceInfo = function ({ info, attrName, logFilter }) {
+const reduceInfo = function ({ info, attrName, eventFilter }) {
   if (!info || info[attrName] === undefined) { return info; }
   const value = info[attrName];
 
   const reducer = getInfoReducer({ value });
-  const reducedValue = reducer({ value, attrName, logFilter });
+  const reducedValue = reducer({ value, attrName, eventFilter });
 
   const size = getSize({ value });
 
@@ -24,11 +24,11 @@ const getInfoReducer = function ({ value }) {
   return identity;
 };
 
-const reducerArray = function ({ value: array, attrName, logFilter }) {
+const reducerArray = function ({ value: array, attrName, eventFilter }) {
   const count = array.length;
   const arrayA = array
     .filter(isObject)
-    .map(obj => applyLogFilter({ logFilter, obj }));
+    .map(obj => applyEventFilter({ eventFilter, obj }));
 
   return {
     [`${attrName}Count`]: count,
@@ -36,8 +36,8 @@ const reducerArray = function ({ value: array, attrName, logFilter }) {
   };
 };
 
-const reducerObject = function ({ value: obj, attrName, logFilter }) {
-  const objA = applyLogFilter({ logFilter, obj });
+const reducerObject = function ({ value: obj, attrName, eventFilter }) {
+  const objA = applyEventFilter({ eventFilter, obj });
   return { [attrName]: objA };
 };
 

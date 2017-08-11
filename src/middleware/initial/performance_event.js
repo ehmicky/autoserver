@@ -1,10 +1,10 @@
 'use strict';
 
 const { startPerf } = require('../../perf');
-const { reportPerf } = require('../../logging');
+const { reportPerf } = require('../../events');
 
-// Log how the request handling takes
-const performanceLog = async function (nextFunc, input) {
+// Record how the request handling takes
+const performanceEvent = async function (nextFunc, input) {
   // Used by other middleware, like timestamp, requestTimeout
   const now = Date.now();
 
@@ -25,5 +25,5 @@ const performanceLog = async function (nextFunc, input) {
 };
 
 module.exports = {
-  performanceLog,
+  performanceEvent,
 };

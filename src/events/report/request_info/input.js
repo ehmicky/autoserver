@@ -1,19 +1,22 @@
 'use strict';
 
-const { applyLogFilter } = require('./log_filter');
+const { applyEventFilter } = require('./event_filter');
 
-const reduceInput = function (requestInfo, logFilter) {
+const reduceInput = function (requestInfo, eventFilter) {
   return reducers.reduce(
-    (info, reducer) => reducer(info, logFilter),
+    (info, reducer) => reducer(info, eventFilter),
     requestInfo,
   );
 };
 
-const inputReducer = function (attrName, requestInfo, logFilter) {
+const inputReducer = function (attrName, requestInfo, eventFilter) {
   const { [attrName]: value } = requestInfo;
   if (!value || value.constructor !== Object) { return requestInfo; }
 
-  const valueA = applyLogFilter({ logFilter: logFilter[attrName], obj: value });
+  const valueA = applyEventFilter({
+    eventFilter: eventFilter[attrName],
+    obj: value,
+  });
 
   return { ...requestInfo, [attrName]: valueA };
 };

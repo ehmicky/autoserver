@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../error');
 const { GOALS } = require('../../constants');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 
 // Fill in:
 //  - `input.method`: protocol-specific method, e.g. 'POST'

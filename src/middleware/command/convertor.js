@@ -2,7 +2,7 @@
 
 const { pick } = require('../../utilities');
 const { addJsl } = require('../../jsl');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 const { commonAttributes } = require('../common_attributes');
 
 // Converts from Action format to Command format

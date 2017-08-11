@@ -2,7 +2,7 @@
 
 const { normalizeError, rethrowError } = require('../error');
 
-// Generic middleware that performs performance logging before each middleware
+// Generic middleware that performs logging before each middleware
 const getMiddlewareLogging = () => async function middlewareLogging (
   nextFunc,
   input,

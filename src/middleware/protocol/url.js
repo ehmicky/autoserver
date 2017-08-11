@@ -1,10 +1,10 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 
 // Fill in:
-//  - `input.url`: full URL, e.g. used for logging
+//  - `input.url`: full URL, e.g. used for events
 //  - `input.path`: URL's path, e.g. used by router
 // Uses protocol-specific URL retrieval, but are set in a
 // protocol-agnostic format, i.e. each protocol sets the same strings.

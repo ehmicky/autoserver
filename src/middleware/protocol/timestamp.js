@@ -1,7 +1,7 @@
 'use strict';
 
 const { addJsl } = require('../../jsl');
-const { addLogInfo } = require('../../logging');
+const { addLogInfo } = require('../../events');
 
 const getTimestamp = async function (nextFunc, input) {
   const { now } = input;

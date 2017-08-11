@@ -1,14 +1,14 @@
 'use strict';
 
 const { getStandardError, rethrowError } = require('../../error');
-const { reportLog } = require('../../logging');
+const { emitEvent } = require('../../events');
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function ({ error, runtimeOpts }) {
   const errorA = getStandardError({ error });
 
   const info = { errorInfo: errorA };
-  await reportLog({ type: 'failure', phase: 'startup', info, runtimeOpts });
+  await emitEvent({ type: 'failure', phase: 'startup', info, runtimeOpts });
 
   rethrowError(errorA);
 };

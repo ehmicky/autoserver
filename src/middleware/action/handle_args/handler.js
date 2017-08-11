@@ -1,7 +1,7 @@
 'use strict';
 
 const { addJsl } = require('../../../jsl');
-const { addLogInfo } = require('../../../logging');
+const { addLogInfo } = require('../../../events');
 
 const { validateBasic } = require('./validate_basic');
 const { validateSyntax } = require('./syntax');
