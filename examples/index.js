@@ -17,31 +17,6 @@ const startServer = async function () {
   // which is bad.
   // TOFIX
   // .on('stop.*', () => process.kill(process.pid, 'SIGUSR2'))
-
-  /*
-  .on('start.success', () => hasEmit('start.success'))
-  .on('start.failure', () => hasEmit('start.failure'))
-  .on('stop.success', () => hasEmit('stop.success'))
-  .on('stop.failure', () => hasEmit('stop.failure'))
-  .on('log.*.*.*', ({ phase, type, level }) =>
-    hasEmit(`log.${phase}.${type}.${level}`)
-  )
-  */
-
-  /*
-  .on('*', info => {
-    if (info.type === 'perf') { return; }
-
-    const jsonInfo = JSON.stringify(info, null, 2);
-    global.console.log('Logging info', jsonInfo);
-  })
-  */
-
-  /*
-  .on('log.*.perf.*', ({ measuresMessage }) => {
-    console.log(`Performance logging info\n${measuresMessage}`);
-  })
-  */
 };
 
 startServer();
