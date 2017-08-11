@@ -19,7 +19,7 @@ const defaultRuntimeOpts = {
   maxDataLength: 1000,
   defaultPageSize: 100,
   maxPageSize: 100,
-  logLevel: 'info',
+  eventLevel: 'info',
   logFilter: {
     payload: ['id'],
     response: ['id'],
