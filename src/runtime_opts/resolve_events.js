@@ -24,7 +24,7 @@ const resolveEventsOptsFile = async function ({
 // Retrieve `runtimeOpts.events`, adding all types as undefined if not defined
 const getEventsPaths = function ({ runtimeOpts: { events } }) {
   const eventsA = events && events.constructor === Object ? events : {};
-  const eventsB = TYPES
+  const eventsB = [...TYPES, 'any']
     .map(type => ({ [type]: eventsA[type] }))
     .reduce(assignObject, {});
   return eventsB;

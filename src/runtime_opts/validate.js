@@ -22,7 +22,7 @@ const eventFilterSchema = {
 
 const eventProperty = { typeof: 'function' };
 
-const eventsProperties = TYPES
+const eventsProperties = [...TYPES, 'any']
   .map(type => ({ [type]: eventProperty }))
   .reduce(assignObject, {});
 
