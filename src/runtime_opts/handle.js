@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitoredReduce } = require('../../perf');
+const { monitoredReduce } = require('../perf');
 
 const { loadRuntimeOptsFile } = require('./load');
 const { applyDefaultRuntimeOpts } = require('./default');

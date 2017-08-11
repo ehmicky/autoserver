@@ -3,7 +3,7 @@
 const { identity } = require('../../utilities');
 const { createLog, reportPerf } = require('../../logging');
 const { createApiServer } = require('../../events');
-const { getRuntimeOpts } = require('../runtime_opts');
+const { getRuntimeOpts } = require('../../runtime_opts');
 
 const { handleStartupError } = require('./error');
 const { bootAll } = require('./boot');

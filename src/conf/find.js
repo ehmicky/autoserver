@@ -2,8 +2,8 @@
 
 const { resolve, isAbsolute } = require('path');
 
-const { throwError } = require('../../error');
-const { pStat, pReaddir } = require('../../utilities');
+const { throwError } = require('../error');
+const { pStat, pReaddir } = require('../utilities');
 
 // Retrieves final configuration path to use
 const getConf = function ({ path, name }) {

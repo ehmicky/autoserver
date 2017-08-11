@@ -1,6 +1,6 @@
 'use strict';
 
-const { validate } = require('../../validation');
+const { validate } = require('../validation');
 
 // Validation for runtime options
 const validateRuntimeOpts = function (runtimeOpts) {

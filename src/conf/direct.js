@@ -1,6 +1,6 @@
 'use strict';
 
-const { getEnvVars } = require('../env');
+const { getEnvVars } = require('./env');
 
 // Try to either: get directly passed path,
 // or find it from environment variables
