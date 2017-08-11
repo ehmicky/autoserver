@@ -28,7 +28,7 @@ const getDirectFile = async function ({ path }) {
   return directPathB;
 };
 
-// Try to find .api_engine.NAME.json|yml|yaml in current directory,
+// Try to find api_engine.NAME.json|yml|yaml in current directory,
 // or any parent
 const findConfFile = async function ({ fileNames, confDir = process.cwd() }) {
   const confDirA = await checkIsDirectory({ dir: confDir, isDir: true });
@@ -51,9 +51,9 @@ const searchConfDir = async function ({ fileNames, confDir }) {
 };
 
 const getConfFileNames = ({ name }) => [
-  `.api_engine.${name}.json`,
-  `.api_engine.${name}.yml`,
-  `.api_engine.${name}.yaml`,
+  `api_engine.${name}.json`,
+  `api_engine.${name}.yml`,
+  `api_engine.${name}.yaml`,
 ];
 
 const checkIsDirectory = async function ({ dir, isDir }) {

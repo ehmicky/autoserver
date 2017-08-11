@@ -14,8 +14,8 @@ to the lowest:
     the [configuration file](#configuration-file)
   - using `apiEngine.start({ idl: 'path' })` with a `'path'` to
     the [configuration file](#configuration-file)
-  - creating a `.api_engine.idl.yml`, `.api_engine.idl.yaml` or
-    `.api_engine.idl.json` file in the current directory, or any parent
+  - creating a `api_engine.idl.yml`, `api_engine.idl.yaml` or
+    `api_engine.idl.json` file in the current directory, or any parent
     directory. This is the preferred method.
 
 # Runtime options
@@ -30,8 +30,8 @@ will be chosen, from the highest priority to the lowest:
     the [configuration file](#configuration-file)
   - using `apiEngine.start({ runtime: 'path' })` with a `'path'` to
     the [configuration file](#configuration-file)
-  - creating a `.api_engine.runtime.yml`, `.api_engine.runtime.yaml` or
-    `.api_engine.runtime.json` file in the current directory, or any parent
+  - creating a `api_engine.runtime.yml`, `api_engine.runtime.yaml` or
+    `api_engine.runtime.json` file in the current directory, or any parent
     directory. This is the preferred method.
 
 See [here](server.md#runtime-options) for a list of available runtime options.
