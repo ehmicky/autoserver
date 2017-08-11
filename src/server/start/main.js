@@ -31,7 +31,7 @@ const startServer = async function ({ apiServer, runtimeOptsFile, idlFile }) {
 
   // Main startup function
   const log = createLog({ apiServer, runtimeOpts, phase: 'startup' });
-  const [[, childrenPerf], perf] = await eBootAll({
+  const [, perf] = await eBootAll({
     apiServer,
     runtimeOpts,
     idlFile,
@@ -40,7 +40,7 @@ const startServer = async function ({ apiServer, runtimeOptsFile, idlFile }) {
   });
 
   // Report startup performance
-  const measures = [...runtimeOptsPerf, perf, ...childrenPerf];
+  const measures = [...runtimeOptsPerf, ...perf];
   await eReportPerf({ apiServer, log, measures });
 };
 
