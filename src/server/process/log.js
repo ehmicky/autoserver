@@ -3,8 +3,8 @@
 const { createLog, reportLog } = require('../../logging');
 const { getStandardError, normalizeError } = require('../../error');
 
-const getProcessLog = function ({ runtimeOpts, apiServer }) {
-  const log = createLog({ runtimeOpts, apiServer, phase: 'process' });
+const getProcessLog = function ({ runtimeOpts }) {
+  const log = createLog({ runtimeOpts, phase: 'process' });
   const processLog = processHandler.bind(null, log);
   return { processLog };
 };

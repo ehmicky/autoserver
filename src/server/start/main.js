@@ -2,7 +2,6 @@
 
 const { identity } = require('../../utilities');
 const { createLog, reportPerf } = require('../../logging');
-const { createApiServer } = require('../../events');
 const { getRuntimeOpts } = require('../../runtime_opts');
 
 const { handleStartupError } = require('./error');
@@ -11,7 +10,7 @@ const { bootAll } = require('./boot');
 // Start server for each protocol
 // @param {object} runtimeOpts
 const start = function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
-  const apiServer = createApiServer();
+  const apiServer = {};
 
   startServer({ apiServer, runtimeOptsFile, idlFile })
     // Must use 'start.success' and 'start.failure' events
@@ -22,15 +21,14 @@ const start = function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
 
 const startServer = async function ({ apiServer, runtimeOptsFile, idlFile }) {
   // Retrieve runtime options
-  const earlyLog = createLog({ apiServer, phase: 'startup' });
+  const earlyLog = createLog({ phase: 'startup' });
   const [runtimeOpts, runtimeOptsPerf] = await eGetRuntimeOpts({
-    apiServer,
     runtimeOptsFile,
     log: earlyLog,
   });
 
   // Main startup function
-  const log = createLog({ apiServer, runtimeOpts, phase: 'startup' });
+  const log = createLog({ runtimeOpts, phase: 'startup' });
   const [, perf] = await eBootAll({
     apiServer,
     runtimeOpts,
@@ -41,7 +39,7 @@ const startServer = async function ({ apiServer, runtimeOptsFile, idlFile }) {
 
   // Report startup performance
   const measures = [...runtimeOptsPerf, ...perf];
-  await eReportPerf({ apiServer, log, measures });
+  await eReportPerf({ log, measures });
 };
 
 // Error handling

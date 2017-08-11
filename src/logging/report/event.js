@@ -2,19 +2,21 @@
 
 const { normalizeError, getStandardError } = require('../../error');
 const { pSetTimeout } = require('../../utilities');
-const { emitEventAsync } = require('../../events');
 
 // Try emit log event with an increasing delay
 const emitLogEvent = async function ({
   log,
-  log: { apiServer },
+  log: { runtimeOpts: { events } },
   type,
   reportedLog,
   delay = defaultDelay,
   reportLog,
 }) {
   try {
-    await emitEventAsync({ apiServer, name: type, data: reportedLog });
+    const eventHandler = events[type];
+    if (!eventHandler) { return; }
+
+    await eventHandler(reportedLog);
   } catch (error) {
     await handleLoggingError({
       log,

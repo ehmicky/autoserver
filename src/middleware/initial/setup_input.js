@@ -8,7 +8,7 @@ const { addJsl } = require('../../jsl');
 // Setup basic input
 const setupInput = async function (
   nextFunc,
-  { idl, apiServer, runtimeOpts, currentPerf, jsl },
+  { idl, runtimeOpts, currentPerf, jsl },
   { protocol, specific },
 ) {
   // When an exception is thrown in the same macrotask as the one that started
@@ -18,14 +18,13 @@ const setupInput = async function (
   // This is unclear why, but doing this solves the problem.
   await pSetTimeout(0);
 
-  const log = createLog({ runtimeOpts, apiServer, phase: 'request' });
+  const log = createLog({ runtimeOpts, phase: 'request' });
 
   const protocolHandler = protocolHandlers[protocol];
 
   const input = {
     idl,
     runtimeOpts,
-    apiServer,
     jsl,
     currentPerf,
     log,

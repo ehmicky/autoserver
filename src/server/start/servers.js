@@ -19,12 +19,7 @@ const startServers = async function ({
 
   // This callback must be called by each server
   const middleware = await getMiddleware();
-  const requestHandler = middleware.bind(null, {
-    idl,
-    apiServer,
-    runtimeOpts,
-    jsl,
-  });
+  const requestHandler = middleware.bind(null, { idl, runtimeOpts, jsl });
 
   const [servers, serverMeasures] = await startEachServer({
     startupLog,

@@ -4,7 +4,6 @@
 const commonAttributes = [
   'idl',
   'runtimeOpts',
-  'apiServer',
   'jsl',
   'currentPerf',
   'perf',
