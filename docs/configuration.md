@@ -12,7 +12,7 @@ The first one that is defined will be chosen, from the highest priority
 to the lowest:
   - setting an environment variable `API_ENGINE__IDL` containing the path to
     the [configuration file](#configuration-file)
-  - using `apiEngine.startServer({ idl: 'path' })` with a `'path'` to
+  - using `apiEngine.start({ idl: 'path' })` with a `'path'` to
     the [configuration file](#configuration-file)
   - creating a `.api_engine.idl.yml`, `.api_engine.idl.yaml` or
     `.api_engine.idl.json` file in the current directory, or any parent
@@ -24,11 +24,11 @@ Server options are runtime parameters, e.g. server ports.
 
 There are several ways to define server options. The first one that is defined
 will be chosen, from the highest priority to the lowest:
-  - using `apiEngine.startServer({ opts: object })` with `object` being the
+  - using `apiEngine.start({ opts: object })` with `object` being the
     server options
   - setting an environment variable `API_ENGINE__OPTS` containing the path to
     the [configuration file](#configuration-file)
-  - using `apiEngine.startServer({ opts: 'path' })` with a `'path'` to
+  - using `apiEngine.start({ opts: 'path' })` with a `'path'` to
     the [configuration file](#configuration-file)
   - creating a `.api_engine.opts.yml`, `.api_engine.opts.yaml` or
     `.api_engine.opts.json` file in the current directory, or any parent

@@ -4,7 +4,7 @@
 ```javascript
 const apiEngine = require('api-engine');
 
-const server = apiEngine.startServer();
+const server = apiEngine.start();
 ```
 
 See [here](configuration.md#idl-file) for how to configure the
