@@ -25,7 +25,7 @@ const apiServer = start()
   */
 
   /*
-  .on('log.*.*.*', info => {
+  .on('*', info => {
     if (info.type === 'perf') { return; }
 
     const jsonInfo = JSON.stringify(info, null, 2);

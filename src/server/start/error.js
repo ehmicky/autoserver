@@ -2,7 +2,6 @@
 
 const { getStandardError, rethrowError } = require('../../error');
 const { reportLog } = require('../../logging');
-const { emitEventAsync } = require('../../events');
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function ({ error, log, apiServer }) {
@@ -11,7 +10,9 @@ const handleStartupError = async function ({ error, log, apiServer }) {
   await reportLog({ log, type: 'failure', info: { errorInfo: errorA } });
 
   // Also stops servers if some were started
-  await emitEventAsync({ apiServer, name: 'start.failure', data: errorA });
+  if (apiServer.exit) {
+    await apiServer.exit();
+  }
 
   rethrowError(errorA);
 };
