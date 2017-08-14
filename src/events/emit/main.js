@@ -11,7 +11,7 @@ const { fireEvent } = require('./event');
 //  - fire runtime option `events.EVENT(info)`
 //  - print to console
 const emitEvent = async function ({
-  log = { logInfo: {} },
+  log = {},
   type,
   phase,
   level,

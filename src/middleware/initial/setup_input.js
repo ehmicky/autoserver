@@ -18,7 +18,7 @@ const setupInput = async function (
   // This is unclear why, but doing this solves the problem.
   await pSetTimeout(0);
 
-  const log = { logInfo: {} };
+  const log = {};
 
   const protocolHandler = protocolHandlers[protocol];
 

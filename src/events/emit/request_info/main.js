@@ -17,13 +17,10 @@ const getRequestInfo = function ({ log, phase, runtimeOpts, errorInfo }) {
   return { requestInfo, errorInfo: errorInfoA };
 };
 
-const getRequestObject = function ({
-  log: { logInfo },
-  runtimeOpts: { eventFilter },
-}) {
+const getRequestObject = function ({ log, runtimeOpts: { eventFilter } }) {
   return processors.reduce(
     (requestInfo, processor) => processor(requestInfo, eventFilter),
-    logInfo,
+    log,
   );
 };
 
