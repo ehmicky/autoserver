@@ -1,12 +1,10 @@
 'use strict';
 
 const { monitoredReduce } = require('../../perf');
-const { setupGracefulExit } = require('../exit');
 
 const { processErrorHandler } = require('./process');
 const { loadIdlFile } = require('./idl');
 const { startServers } = require('./servers');
-const { emitStartEvent } = require('./event');
 
 const bootAll = function (initialInput) {
   return monitoredReduce({
@@ -21,8 +19,6 @@ const startSteps = [
   processErrorHandler,
   loadIdlFile,
   startServers,
-  setupGracefulExit,
-  emitStartEvent,
 ];
 
 module.exports = {
