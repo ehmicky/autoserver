@@ -3,7 +3,6 @@
 const { getRuntimeOpts } = require('../../runtime_opts');
 const { setupGracefulExit } = require('../exit');
 
-const { handleStartupError } = require('./error');
 const { processErrorHandler } = require('./process');
 const { loadIdlFile } = require('./idl');
 const { startServers } = require('./servers');
@@ -22,7 +21,7 @@ const startupSteps = [
   setupGracefulExit,
   // Emit final "start" event
   emitStartEvent,
-].map(step => handleStartupError(step));
+];
 
 module.exports = {
   startupSteps,
