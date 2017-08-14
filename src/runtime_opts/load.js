@@ -27,6 +27,8 @@ const getRuntimeOpts = async function ({ runtimeOptsFile }) {
   const runtimeOptsFileA = await getConfFile({
     path: runtimeOptsFile,
     name: 'runtime',
+    extNames: ['json', 'yml', 'yaml'],
+    useEnvVar: true,
   });
   if (!runtimeOptsFileA) { return {}; }
 

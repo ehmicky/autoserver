@@ -27,7 +27,12 @@ const loadIdl = async function ({ idlFile }) {
 };
 
 const getIdlFile = async function ({ idlFile }) {
-  const idlPath = await getConfFile({ path: idlFile, name: 'idl' });
+  const idlPath = await getConfFile({
+    path: idlFile,
+    name: 'idl',
+    extNames: ['json', 'yml', 'yaml'],
+    useEnvVar: true,
+  });
   if (!idlPath) { return {}; }
 
   const idl = await getIdl({ idlPath });
