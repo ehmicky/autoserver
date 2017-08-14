@@ -28,7 +28,7 @@ const parseResult = function ({ content, responses }) {
   const actions = responses.map(({ action }) => action);
 
   const measures = responses.reduce(
-    (measuresA, { measures: newMeasures }) => [measuresA, ...newMeasures],
+    (measuresA, { measures: newMeasures }) => [...measuresA, ...newMeasures],
     [],
   );
 
