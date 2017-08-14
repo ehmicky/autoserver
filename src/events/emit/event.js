@@ -1,7 +1,7 @@
 'use strict';
 
 const { normalizeError, getStandardError } = require('../../error');
-const { pSetTimeout, makeAlmostImmutable } = require('../../utilities');
+const { pSetTimeout, makeImmutable } = require('../../utilities');
 
 // Try emit events with an increasing delay
 const eFireEvent = async function ({
@@ -40,7 +40,7 @@ const fireEvent = async function ({
   const eventHandler = events[type];
   if (!eventHandler) { return; }
 
-  const eventPayloadA = makeAlmostImmutable(eventPayload, ['servers']);
+  const eventPayloadA = makeImmutable(eventPayload);
   await eventHandler(eventPayloadA);
 
   return eventPayloadA;

@@ -1,7 +1,6 @@
 'use strict';
 
 const { mapValues } = require('./map');
-const { pick, omit } = require('./filter');
 
 // Deeply Object.freeze() over an object.
 // Since linting enforces immutability, we only need to (and should) perform
@@ -59,15 +58,6 @@ const deepFreezeObject = function (obj) {
   return obj;
 };
 
-// Like makeImmutable(), except it does not mutate some keys
-const makeAlmostImmutable = function (obj, keys = []) {
-  const objA = omit(obj, keys);
-  const objB = makeImmutable(objA);
-  const objC = pick(obj, keys);
-  return { ...objB, ...objC };
-};
-
 module.exports = {
   makeImmutable,
-  makeAlmostImmutable,
 };
