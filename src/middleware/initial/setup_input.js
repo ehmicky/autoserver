@@ -1,6 +1,6 @@
 'use strict';
 
-const { createLog, addLogInfo } = require('../../events');
+const { addLogInfo } = require('../../events');
 const { protocolHandlers } = require('../../protocols');
 const { pSetTimeout } = require('../../utilities');
 const { addJsl } = require('../../jsl');
@@ -18,7 +18,7 @@ const setupInput = async function (
   // This is unclear why, but doing this solves the problem.
   await pSetTimeout(0);
 
-  const log = createLog({ runtimeOpts, phase: 'request' });
+  const log = { logInfo: {} };
 
   const protocolHandler = protocolHandlers[protocol];
 

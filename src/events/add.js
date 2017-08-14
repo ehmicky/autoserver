@@ -2,17 +2,6 @@
 
 const { deepMerge, omit } = require('../utilities');
 
-// Represents a logger
-// Can:
-//  - createLog() - returns new `log`
-//  - emitEvent(...) - sends some log
-//  - addLogInfo(obj, info) - add requestInfo information.
-//    Returns new `obj`, storing info at `obj.log`,
-//    i.e. does not modify original `obj`
-const createLog = function () {
-  return { logInfo: {} };
-};
-
 // Add log information to `obj.log`
 // Returns a new copy, i.e. does not modify original `obj`
 const addLogInfo = function (obj, logInfo) {
@@ -28,7 +17,6 @@ const removeLogInfo = function (obj, attributes) {
 };
 
 module.exports = {
-  createLog,
   addLogInfo,
   removeLogInfo,
 };
