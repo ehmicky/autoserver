@@ -1,9 +1,10 @@
 'use strict';
 
+const { pSetTimeout } = require('../../utilities');
 const { LEVELS } = require('../constants');
 
-const { getEventPayload } = require('./payload');
-const { getConsoleMessage, consolePrint } = require('./console');
+const { getPayload } = require('./payload');
+const { consolePrint } = require('./console');
 const { fireEvent } = require('./event');
 
 // Emit some event, i.e.:
@@ -24,17 +25,18 @@ const emitEvent = async function ({
   const noEvents = !shouldEmit({ runtimeOpts, level: levelA });
   if (noEvents) { return; }
 
-  // Retrieves information sent to event, and message printed to console
-  const eventPayload = getEventPayload({
+  // Event emitting has low priority, so run this in a different macrotask
+  await pSetTimeout(0);
+
+  const { eventPayload, message: messageA } = getPayload({
     log,
     type,
     phase,
     level: levelA,
+    message,
     runtimeOpts,
     info,
   });
-  const messageA = getConsoleMessage({ message, ...eventPayload });
-  const eventPayloadA = { ...eventPayload, message: messageA };
 
   consolePrint({ type, level: levelA, message: messageA });
 
@@ -42,7 +44,7 @@ const emitEvent = async function ({
     log,
     type,
     runtimeOpts,
-    eventPayload: eventPayloadA,
+    eventPayload,
     delay,
     emitEvent,
   });
