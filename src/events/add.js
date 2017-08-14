@@ -16,16 +16,20 @@ const addReqInfo = function (obj, newReqInfo) {
 // Some reqInfo should only be added when an exception is thrown
 // E.g. the current `action` or `model`
 const addReqInfoIfError = function (func, props) {
-  return async (nextFunc, input, ...args) => {
-    try {
-      return await func(nextFunc, input, ...args);
-    } catch (error) {
-      const newReqInfo = pick(input, props);
-      addReqInfo(input, newReqInfo);
+  // `func.name` is used to keep the function name,
+  // because the performance monitoring needs it
+  return ({
+    [func.name]: async (nextFunc, input, ...args) => {
+      try {
+        return await func(nextFunc, input, ...args);
+      } catch (error) {
+        const newReqInfo = pick(input, props);
+        addReqInfo(input, newReqInfo);
 
-      rethrowError(error);
-    }
-  };
+        rethrowError(error);
+      }
+    },
+  })[func.name];
 };
 
 module.exports = {
