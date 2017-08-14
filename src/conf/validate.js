@@ -6,21 +6,21 @@ const { toSentence } = require('underscore.string');
 
 const { throwError } = require('../error');
 
-const validateConfFile = function ({ path }) {
+const validateConfFile = function ({ path, extNames }) {
   if (!path) { return; }
 
   const confExtName = extname(path);
 
-  if (!ALLOWED_EXTENSIONS.includes(confExtName)) {
-    const allowedExtensions = toSentence(ALLOWED_EXTENSIONS, ', ', ' or ');
+  const extNamesA = extNames.map(extName => `.${extName}`);
+
+  if (!extNamesA.includes(confExtName)) {
+    const allowedExtensions = toSentence(extNames, ', ', ' or ');
     const message = `'${path}' must have a file extension among: ${allowedExtensions}`;
     throwError(message, { reason: 'CONF_LOADING' });
   }
 
   return path;
 };
-
-const ALLOWED_EXTENSIONS = ['.yaml', '.yml', '.json'];
 
 module.exports = {
   validateConfFile,

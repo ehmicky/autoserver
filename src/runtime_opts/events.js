@@ -3,7 +3,7 @@
 const { dirname } = require('path');
 
 const { throwError } = require('../error');
-const { getConf } = require('../conf');
+const { getConfFile } = require('../conf');
 const { mapValues, mapValuesAsync } = require('../utilities');
 
 // Load configuration for runtimeOpts `events`
@@ -34,7 +34,7 @@ const getBaseDir = function ({ runtimeOptsFile }) {
 
 // Resolve relative event paths, or missing event paths (by walking up the tree)
 const resolveEventPath = async function ({ path, name, baseDir }) {
-  const fullPath = await getConf({
+  const fullPath = await getConfFile({
     path,
     name: `event.${name}`,
     baseDir,

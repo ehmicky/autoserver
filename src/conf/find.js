@@ -55,11 +55,9 @@ const searchConfDir = async function ({ fileNames, confDir }) {
   return resolve(confDir, confFile);
 };
 
-const getConfFileNames = function ({ name, extNames = EXT_NAMES }) {
+const getConfFileNames = function ({ name, extNames }) {
   return extNames.map(extName => `api_engine.${name}.${extName}`);
 };
-
-const EXT_NAMES = ['json', 'yml', 'yaml'];
 
 const checkIsDirectory = async function ({ dir, isDir }) {
   const confStat = await pStat(dir);
