@@ -6,5 +6,4 @@ module.exports = {
   ...require('./constants'),
   ...require('./middleware'),
   ...require('./buffer'),
-  ...require('./perf'),
 };
