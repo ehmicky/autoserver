@@ -41,7 +41,6 @@ const emitEvent = async function ({
   consolePrint({ type, level: levelA, message: messageA });
 
   const eventPayloadB = await fireEvent({
-    log,
     type,
     runtimeOpts,
     eventPayload,
