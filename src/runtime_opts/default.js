@@ -4,7 +4,7 @@ const { defaultsDeep } = require('lodash');
 
 const { getEnvVars } = require('../conf');
 const { ALL_TYPES } = require('../events');
-const { assignObject } = require('../utilities');
+const { assignObject, omit } = require('../utilities');
 
 // Default value for runtime options
 // Priority order:
@@ -13,9 +13,10 @@ const { assignObject } = require('../utilities');
 //  - default runtime options
 const applyDefaultRuntimeOpts = function ({ runtimeOpts }) {
   const envVars = getEnvVars();
+  const envVarsA = omit(envVars, ['idl', 'runtime']);
   const runtimeOptsA = defaultsDeep(
     {},
-    envVars,
+    envVarsA,
     runtimeOpts,
     defaultRuntimeOpts,
   );
