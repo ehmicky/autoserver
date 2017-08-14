@@ -17,7 +17,6 @@ module.exports = {
   ...require('./headers'),
   ...require('./payload'),
   ...require('./settings_params'),
-  ...require('./routing'),
   // eslint-disable-next-line import/max-dependencies
-  ...require('./events'),
+  ...require('./routing'),
 };
