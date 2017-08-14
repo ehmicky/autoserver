@@ -13,10 +13,22 @@ const promisifyAll = function (obj) {
 };
 
 const promise = promisifyAll({
-  setTimeout,
   readFile,
   stat,
   readdir,
 });
 
-module.exports = promise;
+// Like setTimeout(), except uses promises.
+// Also, do not keep server alive because of a hanging timeout,
+// e.g. used in request timeout or in logging errors retries
+const pSetTimeout = function (delay) {
+  // eslint-disable-next-line promise/avoid-new
+  return new Promise(resolve => {
+    setTimeout(resolve, delay).unref();
+  });
+};
+
+module.exports = {
+  ...promise,
+  pSetTimeout,
+};
