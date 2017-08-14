@@ -8,7 +8,7 @@ const { assignObject } = require('../utilities');
 const validateRuntimeOpts = function ({ runtimeOpts }) {
   validate({ schema, data: runtimeOpts, reportInfo });
 
-  return runtimeOpts;
+  return { runtimeOpts };
 };
 
 const reportInfo = { type: 'runtimeOpts', dataVar: 'runtimeOpts' };
