@@ -35,14 +35,15 @@ const handleError = async function ({
 
   const errorA = getStandardError({ error });
 
-  await emitEvent({
+  const errorB = await emitEvent({
     type: 'failure',
     phase: 'startup',
     errorInfo: errorA,
     runtimeOpts,
+    async: false,
   });
 
-  rethrowError(errorA);
+  rethrowError(errorB);
 };
 
 module.exports = {
