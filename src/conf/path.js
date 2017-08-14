@@ -23,11 +23,14 @@ const getConfFile = async function ({
   return pathC;
 };
 
+// Try to load environment variable, which has the highest priority
 const loadEnvVar = function ({ path, name, useEnvVar }) {
-  if (path || !useEnvVar) { return path; }
+  if (!useEnvVar) { return path; }
 
-  const envVars = getEnvVars();
-  return envVars[name];
+  const { [name]: envVar } = getEnvVars();
+  if (!envVar) { return path; }
+
+  return envVar;
 };
 
 module.exports = {
