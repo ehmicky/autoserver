@@ -36,7 +36,9 @@ const handleLateStartupError = function (func) {
         return await func(...args);
       } catch (error) {
         const [{ servers, runtimeOpts }] = args;
-        await gracefulExit({ servers, runtimeOpts });
+        // Using `await` seems to crash Node.js here
+        gracefulExit({ servers, runtimeOpts })
+          .catch(error);
 
         rethrowError(error);
       }
