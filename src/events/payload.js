@@ -1,6 +1,6 @@
 'use strict';
 
-const { getServerInfo } = require('../../info');
+const { getServerInfo } = require('../info');
 
 const { getRequestInfo } = require('./request_info');
 const { getConsoleMessage } = require('./console');

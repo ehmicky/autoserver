@@ -1,11 +1,11 @@
 'use strict';
 
-const { pSetTimeout } = require('../../utilities');
-const { LEVELS } = require('../constants');
+const { pSetTimeout } = require('../utilities');
 
+const { LEVELS } = require('./constants');
 const { getPayload } = require('./payload');
 const { consolePrint } = require('./console');
-const { fireEvent } = require('./event');
+const { fireEvent } = require('./fire');
 
 // Emit some event, i.e.:
 //  - fire runtime option `events.EVENT(info)`

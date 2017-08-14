@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues } = require('../../../utilities');
+const { mapValues } = require('../../utilities');
 
 const { reduceInfo } = require('./reducer');
 

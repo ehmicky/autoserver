@@ -1,6 +1,6 @@
 'use strict';
 
-const { identity } = require('../../../utilities');
+const { identity } = require('../../utilities');
 
 const { applyEventFilter } = require('./event_filter');
 
