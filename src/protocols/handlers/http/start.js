@@ -33,7 +33,7 @@ const getServerPromise = function ({ server }) {
   return new Promise((resolve, reject) => {
     server.on('listening', () => {
       const { address: usedHost, port: usedPort } = server.address();
-      resolve({ server, host: usedHost, port: usedPort });
+      resolve({ host: usedHost, port: usedPort });
     });
     server.on('error', error => reject(error));
   });
