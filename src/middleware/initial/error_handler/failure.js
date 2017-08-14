@@ -3,7 +3,7 @@
 const { reportError } = require('./report');
 
 // If error handler fails, only reports failure then gives up
-const handleFailure = async function ({ reqInfo, error, runtimeOpts }) {
+const handleFailure = async function ({ input, error }) {
   const details = error.stack || error;
   const errorA = {
     type: 'ERROR_HANDLER_FAILURE',
@@ -12,7 +12,7 @@ const handleFailure = async function ({ reqInfo, error, runtimeOpts }) {
     details,
   };
 
-  await reportError({ reqInfo, error: errorA, runtimeOpts });
+  await reportError({ input, error: errorA });
 
   return errorA;
 };
