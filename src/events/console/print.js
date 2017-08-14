@@ -1,6 +1,6 @@
 'use strict';
 
-const { NO_CONSOLE_TYPES } = require('../../constants');
+const { NO_CONSOLE_TYPES } = require('../constants');
 
 const { colorize } = require('./colorize');
 

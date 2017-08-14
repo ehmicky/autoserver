@@ -1,6 +1,6 @@
 'use strict';
 
-const { pick } = require('../../../utilities');
+const { pick } = require('../../utilities');
 
 // Apply `runtimeOpts.eventFilter`
 const applyEventFilter = function ({ eventFilter, obj }) {

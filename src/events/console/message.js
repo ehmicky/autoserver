@@ -1,7 +1,7 @@
 'use strict';
 
-const { getErrorMessage } = require('../../../error');
-const { TYPES, NO_CONSOLE_TYPES, LEVELS } = require('../../constants');
+const { getErrorMessage } = require('../../error');
+const { TYPES, NO_CONSOLE_TYPES, LEVELS } = require('../constants');
 
 const { getRequestMessage } = require('./request_message');
 
