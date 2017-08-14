@@ -19,8 +19,7 @@ const handleStartupError = function (func) {
 const handleError = async function ({ error }) {
   const errorA = getStandardError({ error });
 
-  const info = { errorInfo: errorA };
-  await emitEvent({ type: 'failure', phase: 'startup', info });
+  await emitEvent({ type: 'failure', phase: 'startup', errorInfo: errorA });
 
   rethrowError(errorA);
 };
