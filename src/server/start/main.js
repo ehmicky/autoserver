@@ -1,6 +1,6 @@
 'use strict';
 
-const { reportPerf } = require('../../events');
+const { emitPerfEvent } = require('../../perf');
 const { getRuntimeOpts } = require('../../runtime_opts');
 
 const { handleStartupError } = require('./error');
@@ -19,7 +19,7 @@ const start = async function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
 
   // Report startup performance
   const measures = [...runtimeOptsPerf, ...perf];
-  await eReportPerf({ phase: 'startup', measures, runtimeOpts });
+  await eEmitPerfEvent({ phase: 'startup', measures, runtimeOpts });
 
   return startPayload;
 };
@@ -40,7 +40,7 @@ const eGetRuntimeOpts = handleError(getRuntimeOpts);
 
 const eBootAll = handleError(bootAll);
 
-const eReportPerf = handleError(reportPerf);
+const eEmitPerfEvent = handleError(emitPerfEvent);
 
 module.exports = {
   start,

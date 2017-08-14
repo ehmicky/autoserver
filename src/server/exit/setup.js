@@ -1,7 +1,7 @@
 'use strict';
 
-const { emitEvent, reportPerf } = require('../../events');
-const { monitor } = require('../../perf');
+const { emitEvent } = require('../../events');
+const { monitor, emitPerfEvent } = require('../../perf');
 const { assignObject, onlyOnce } = require('../../utilities');
 
 const { closeServer } = require('./close');
@@ -24,7 +24,7 @@ const gracefulExit = async ({ servers, runtimeOpts }) => {
   });
 
   const measures = [...childMeasures, measure];
-  await reportPerf({ phase: 'shutdown', measures, runtimeOpts });
+  await emitPerfEvent({ phase: 'shutdown', measures, runtimeOpts });
 };
 
 const setupExit = async function ({ servers, runtimeOpts }) {

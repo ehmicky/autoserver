@@ -1,10 +1,11 @@
 'use strict';
 
-const { groupMeasures, stringifyMeasures } = require('../perf');
+const { emitEvent } = require('../events');
 
-const { emitEvent } = require('./report');
+const { groupMeasures } = require('./group');
+const { stringifyMeasures } = require('./stringify');
 
-const reportPerf = async function ({ log, phase, measures, runtimeOpts }) {
+const emitPerfEvent = async function ({ log, phase, measures, runtimeOpts }) {
   const measuresGroups = groupMeasures({ measures });
   const measuresMessage = stringifyMeasures({ phase, measuresGroups });
   const info = { measures: measuresGroups, measuresMessage };
@@ -12,5 +13,5 @@ const reportPerf = async function ({ log, phase, measures, runtimeOpts }) {
 };
 
 module.exports = {
-  reportPerf,
+  emitPerfEvent,
 };
