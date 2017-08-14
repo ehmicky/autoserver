@@ -88,7 +88,7 @@ const fireEventError = async function ({
     type: 'failure',
     phase: 'process',
     runtimeOpts,
-    info: { errorInfo: errorB },
+    errorInfo: errorB,
     delay,
   });
 };

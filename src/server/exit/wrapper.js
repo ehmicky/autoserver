@@ -37,7 +37,7 @@ const handleEvent = function (func, { successMessage, errorMessage }) {
         type: 'failure',
         phase: 'shutdown',
         message,
-        info: { errorInfo },
+        errorInfo,
         runtimeOpts,
       });
     }

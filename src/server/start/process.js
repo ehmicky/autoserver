@@ -48,8 +48,12 @@ const emitProcessEvent = async function ({ error, message, runtimeOpts }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
   const errorB = getStandardError({ error: errorA });
 
-  const info = { errorInfo: errorB };
-  await emitEvent({ type: 'failure', phase: 'process', info, runtimeOpts });
+  await emitEvent({
+    type: 'failure',
+    phase: 'process',
+    errorInfo: errorB,
+    runtimeOpts,
+  });
 };
 
 module.exports = {

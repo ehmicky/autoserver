@@ -15,7 +15,7 @@ const reportError = async function ({ reqInfo, error = {}, runtimeOpts }) {
     type: 'failure',
     phase: 'request',
     level,
-    info: { errorInfo: error },
+    errorInfo: error,
     runtimeOpts,
   });
 };
