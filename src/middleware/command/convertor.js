@@ -2,7 +2,7 @@
 
 const { pick } = require('../../utilities');
 const { addJsl } = require('../../jsl');
-const { addLogInfo } = require('../../events');
+const { addLogIfError } = require('../../events');
 const { commonAttributes } = require('../common_attributes');
 
 // Converts from Action format to Command format
@@ -11,11 +11,12 @@ const commandConvertor = async function (nextFunc, input) {
 
   const inputA = pick(input, commandAttributes);
   const inputB = addJsl(inputA, { $COMMAND: command.type });
-  const inputC = addLogInfo(inputB, { command });
 
-  const response = await nextFunc(inputC);
+  const response = await nextFunc(inputB);
   return response;
 };
+
+const eCommandConvertor = addLogIfError(commandConvertor, ['command']);
 
 // Not kept: action, fullAction
 const commandAttributes = [
@@ -28,5 +29,5 @@ const commandAttributes = [
 ];
 
 module.exports = {
-  commandConvertor,
+  commandConvertor: eCommandConvertor,
 };

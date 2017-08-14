@@ -8,6 +8,7 @@ const renameKeys = function (requestInfo) {
 
 const renames = {
   errorReason: 'error',
+  modelName: 'model',
 };
 
 module.exports = {

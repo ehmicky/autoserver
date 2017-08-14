@@ -1,7 +1,7 @@
 'use strict';
 
 const { addJsl } = require('../../../jsl');
-const { addLogInfo } = require('../../../events');
+const { addLogIfError } = require('../../../events');
 
 const { validateBasic } = require('./validate_basic');
 const { validateSyntax } = require('./syntax');
@@ -14,16 +14,17 @@ const handleArgs = async function (nextFunc, input) {
   const { args } = input;
 
   const inputA = addJsl(input, { $ARGS: args });
-  const inputB = addLogInfo(inputA, { args });
 
-  validateArgs({ input });
+  validateArgs({ input: inputA });
 
   const argsB = renameArgs({ args });
-  const inputC = { ...inputB, args: argsB };
+  const inputB = { ...inputA, args: argsB };
 
-  const response = await nextFunc(inputC);
+  const response = await nextFunc(inputB);
   return response;
 };
+
+const eHandleArgs = addLogIfError(handleArgs, ['args']);
 
 const validateArgs = function ({
   input: { args, action, runtimeOpts: { maxDataLength }, idl },
@@ -34,5 +35,5 @@ const validateArgs = function ({
 };
 
 module.exports = {
-  handleArgs,
+  handleArgs: eHandleArgs,
 };
