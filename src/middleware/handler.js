@@ -21,8 +21,8 @@ const middleware = [
   initial.errorHandler,
   // Emit event about how the request handling takes
   initial.performanceEvent,
-  // Emit actual events
-  initial.eventsReporter,
+  // Emit "call" events
+  initial.callEvents,
 
   // Protocol layer
 
@@ -30,8 +30,6 @@ const middleware = [
   protocol.protocolConvertor,
   // Protocol-related validation middleware
   protocol.protocolValidation,
-  // General request events
-  protocol.eventsRecorder,
   // Sends final response, if success
   protocol.sendResponse,
   // Sets response status

@@ -5,5 +5,4 @@ module.exports = {
   ...require('./emit'),
   ...require('./constants'),
   ...require('./middleware'),
-  ...require('./buffer'),
 };
