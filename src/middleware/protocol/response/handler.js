@@ -2,7 +2,7 @@
 
 const { pick } = require('../../../utilities');
 const { normalizeError, rethrowError } = require('../../../error');
-const { addLogInfo } = require('../../../events');
+const { addReqInfo } = require('../../../events');
 
 const { sender } = require('./sender');
 
@@ -14,7 +14,7 @@ const sendResponse = async function (nextFunc, input) {
     const response = await nextFunc(input);
 
     const responseInfo = pick(response, ['content', 'type']);
-    addLogInfo(input, { response: responseInfo });
+    addReqInfo(input, { response: responseInfo });
 
     await send(response);
 

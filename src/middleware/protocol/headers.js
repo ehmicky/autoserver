@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 // Fill in `input.headers` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -13,7 +13,7 @@ const parseHeaders = async function (nextFunc, input) {
 
   const headers = getHeaders({ specific, protocolHandler });
 
-  const inputA = addLogInfo(input, { headers });
+  const inputA = addReqInfo(input, { headers });
   const inputB = { ...inputA, headers };
 
   const response = await nextFunc(inputB);

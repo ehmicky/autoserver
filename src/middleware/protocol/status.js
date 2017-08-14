@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError, rethrowError, normalizeError } = require('../../error');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 // Retrieve response's status
 const getStatus = async function (nextFunc, input) {
@@ -18,7 +18,7 @@ const getStatus = async function (nextFunc, input) {
 
 const addStatuses = function ({ input, error, response }) {
   const statuses = getStatuses({ input, error });
-  addLogInfo(input, statuses);
+  addReqInfo(input, statuses);
 
   const obj = error || response;
   return { ...obj, ...statuses };

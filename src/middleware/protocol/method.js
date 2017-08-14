@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../error');
 const { GOALS } = require('../../constants');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 // Fill in:
 //  - `input.method`: protocol-specific method, e.g. 'POST'
@@ -14,7 +14,7 @@ const parseMethod = async function (nextFunc, input) {
   const method = getMethod({ specific, protocolHandler });
   const goal = getGoal({ method, protocolHandler });
 
-  const inputA = addLogInfo(input, { method, goal });
+  const inputA = addReqInfo(input, { method, goal });
   const inputB = { ...inputA, method, goal };
 
   const response = await nextFunc(inputB);

@@ -1,7 +1,7 @@
 'use strict';
 
 const { getReason, rethrowError, normalizeError } = require('../../error');
-const { emitEvent, addLogInfo, STATUS_LEVEL_MAP } = require('../../events');
+const { emitEvent, addReqInfo, STATUS_LEVEL_MAP } = require('../../events');
 
 // Main "call" events middleware.
 // Each request creates exactly one "call" event, whether successful or not
@@ -16,7 +16,7 @@ const callEvents = async function (nextFunc, input) {
     const errorA = normalizeError({ error });
 
     const errorReason = getReason({ error: errorA });
-    const inputA = addLogInfo(input, { errorReason });
+    const inputA = addReqInfo(input, { errorReason });
 
     const errorB = await emitReqEvent({ input: inputA, obj: errorA });
 

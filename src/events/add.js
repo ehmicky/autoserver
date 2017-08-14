@@ -7,7 +7,7 @@ const { rethrowError } = require('../error');
 
 // Add log information to `obj.log`
 // Returns a new copy, i.e. does not modify original `obj`
-const addLogInfo = function (obj, newLog) {
+const addReqInfo = function (obj, newLog) {
   // We directly mutate `input.log` because it greatly simplifies the code.
   merge(obj.log, newLog);
   return obj;
@@ -21,7 +21,7 @@ const addLogIfError = function (func, props) {
       return await func(nextFunc, input, ...args);
     } catch (error) {
       const newLog = pick(input, props);
-      addLogInfo(input, newLog);
+      addReqInfo(input, newLog);
 
       rethrowError(error);
     }
@@ -29,6 +29,6 @@ const addLogIfError = function (func, props) {
 };
 
 module.exports = {
-  addLogInfo,
+  addReqInfo,
   addLogIfError,
 };

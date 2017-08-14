@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const { getServerInfo } = require('../../info');
 const { addJsl } = require('../../jsl');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 // Assigns unique ID (UUIDv4) to each request
 // Available in:
@@ -18,7 +18,7 @@ const setRequestIds = async function (nextFunc, input) {
 
   const requestId = uuidv4();
   const inputA = addJsl(input, { $REQUEST_ID: requestId });
-  const inputB = addLogInfo(inputA, { requestId });
+  const inputB = addReqInfo(inputA, { requestId });
   const inputC = { ...inputB, requestId };
 
   sendRequestIdHeader({ specific, requestId, protocolHandler });

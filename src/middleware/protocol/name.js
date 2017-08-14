@@ -1,14 +1,14 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 const getProtocolName = async function (nextFunc, input) {
   const { specific, protocolHandler } = input;
 
   const protocolFullName = getProtocolFullName({ specific, protocolHandler });
 
-  const inputA = addLogInfo(input, { protocolFullName });
+  const inputA = addReqInfo(input, { protocolFullName });
   const inputB = { ...inputA, protocolFullName };
 
   const response = await nextFunc(inputB);
