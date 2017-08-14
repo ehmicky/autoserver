@@ -1,56 +1,39 @@
 'use strict';
 
-const { emitPerfEvent } = require('../../perf');
-const { getRuntimeOpts } = require('../../runtime_opts');
+const { monitoredReduce, monitor, emitPerfEvent } = require('../../perf');
 
+const { getStartupSteps } = require('./steps');
 const { handleStartupError } = require('./error');
-const { bootAll } = require('./boot');
-const { afterStart } = require('./after');
 
 // Start server for each protocol
 // @param {object} runtimeOpts
-const start = async function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
-  // Retrieve runtime options
-  const [runtimeOpts, runtimeOptsPerf] = await eGetRuntimeOpts({
-    runtimeOptsFile,
+const start = function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
+  const steps = getStartupSteps();
+  // Monitor each startup step time
+  return monitoredReduce({
+    funcs: steps,
+    initialInput: { runtimeOptsFile, idlFile },
+    mapResponse: (newInput, input) => ({ ...input, ...newInput }),
+    category: 'main',
   });
+};
 
-  // Main startup function
-  const [{ servers }, bootPerf] = await eBootAll({ runtimeOpts, idlFile });
+// Monitor total startup time
+const mStart = monitor(start, 'startup');
 
-  // Fired after the servers have started
-  const [{ startPayload }, afterPerf] = await eAfterStart({
-    servers,
-    runtimeOpts,
-  });
+// Emit "perf" event with startup performance
+const mmStart = async function (opts) {
+  const [[{ startPayload, runtimeOpts }, mainPerf], perf] = await mStart(opts);
 
-  // Report startup performance
-  const measures = [...runtimeOptsPerf, ...bootPerf, ...afterPerf];
-  await eEmitPerfEvent({ phase: 'startup', measures, runtimeOpts });
+  const measures = [perf, ...mainPerf];
+  await emitPerfEvent({ phase: 'startup', measures, runtimeOpts });
 
   return startPayload;
 };
 
-// Error handling
-const handleError = function (func) {
-  return async function wrappedFunc (input) {
-    try {
-      return await func(input);
-    } catch (error) {
-      const { runtimeOpts } = input;
-      await handleStartupError({ error, runtimeOpts });
-    }
-  };
-};
-
-const eGetRuntimeOpts = handleError(getRuntimeOpts);
-
-const eBootAll = handleError(bootAll);
-
-const eAfterStart = handleError(afterStart);
-
-const eEmitPerfEvent = handleError(emitPerfEvent);
+// Handle exceptions thrown at startup time
+const eStart = handleStartupError(mmStart);
 
 module.exports = {
-  start,
+  start: eStart,
 };
