@@ -1,6 +1,6 @@
 'use strict';
 
-const { emitEvent } = require('./report');
+const { emitEvent } = require('./emit');
 
 // If we want to delay events before logInfo is not fully known yet
 // (e.g. in the middle of a request), we can use this method to buffer those

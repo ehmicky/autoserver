@@ -2,7 +2,7 @@
 
 module.exports = {
   ...require('./add'),
-  ...require('./report'),
+  ...require('./emit'),
   ...require('./constants'),
   ...require('./middleware'),
   ...require('./buffer'),
