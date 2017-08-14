@@ -1,16 +1,25 @@
 'use strict';
 
-const { pSetTimeout } = require('../utilities');
+const { pSetTimeout, identity } = require('../utilities');
 
 const { LEVELS } = require('./constants');
 const { getPayload } = require('./payload');
 const { consolePrint } = require('./console');
 const { fireEvent } = require('./fire');
 
+// `await emitEvent({})` should not block, except when we want the return value
+const emitEvent = function ({ async = true, ...rest }) {
+  if (!async) {
+    return emit({ ...rest });
+  }
+
+  emit({ ...rest }).catch(identity);
+};
+
 // Emit some event, i.e.:
 //  - fire runtime option `events.EVENT(info)`
 //  - print to console
-const emitEvent = async function ({
+const emit = async function ({
   reqInfo,
   errorInfo,
   type,
