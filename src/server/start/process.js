@@ -25,7 +25,7 @@ const setupUnhandledRejection = function ({ runtimeOpts }) {
 const getMessage = function ({ error }) {
   if (typeof error === 'string') { return error; }
 
-  const nameA = ['message', 'description', 'details', 'stack']
+  const nameA = ['details', 'stack', 'message', 'description']
     .find(name => error[name]);
   return error[nameA] || '';
 };
