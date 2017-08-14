@@ -40,14 +40,9 @@ const emitEvent = async function ({
 
   consolePrint({ type, level: levelA, message: messageA });
 
-  const eventPayloadB = await fireEvent({
-    type,
-    runtimeOpts,
-    eventPayload,
-    delay,
-    emitEvent,
-  });
-  return eventPayloadB;
+  await fireEvent({ type, runtimeOpts, eventPayload, delay, emitEvent });
+
+  return eventPayload;
 };
 
 // Level defaults to `error` for type `failure`, and to `log` for other types

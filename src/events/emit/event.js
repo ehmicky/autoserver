@@ -12,12 +12,10 @@ const eFireEvent = async function ({
   emitEvent,
 }) {
   try {
-    const eventReturn = await fireEvent({ runtimeOpts, type, eventPayload });
+    await fireEvent({ runtimeOpts, type, eventPayload });
 
     // Catch-all event type
     await fireEvent({ runtimeOpts, type: 'any', eventPayload });
-
-    return eventReturn;
   } catch (error) {
     await handleEventError({
       type,
