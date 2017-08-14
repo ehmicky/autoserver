@@ -3,19 +3,13 @@
 const { getRuntimeOpts } = require('../../runtime_opts');
 const { setupGracefulExit } = require('../exit');
 
-const { handleLateStartupError } = require('./error');
+const { handleStartupError } = require('./error');
 const { processErrorHandler } = require('./process');
 const { loadIdlFile } = require('./idl');
 const { startServers } = require('./servers');
 const { emitStartEvent } = require('./event');
 
-// List of steps to start all the servers
-const getStartupSteps = () => [
-  ...earlySteps,
-  ...lateSteps,
-];
-
-const earlySteps = [
+const startupSteps = [
   // Retrieve `runtimeOpts`
   getRuntimeOpts,
   // Setup process warnings and errors handler
@@ -24,18 +18,12 @@ const earlySteps = [
   loadIdlFile,
   // Boot each server
   startServers,
-];
-
-const lateSteps = [
   // Make sure servers are closed on exit
   setupGracefulExit,
   // Emit final "start" event
   emitStartEvent,
-// Late steps are performed after server have started,
-// i.e. must add an error handler to close those servers if an exception is
-// thrown
-].map(step => handleLateStartupError(step));
+].map(step => handleStartupError(step));
 
 module.exports = {
-  getStartupSteps,
+  startupSteps,
 };
