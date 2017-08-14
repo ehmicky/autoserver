@@ -2,7 +2,7 @@
 
 const { pick } = require('../../utilities');
 const { addJsl } = require('../../jsl');
-const { addLogIfError } = require('../../events');
+const { addReqInfoIfError } = require('../../events');
 const { commonAttributes } = require('../common_attributes');
 
 // Converts from Action format to Command format
@@ -16,7 +16,7 @@ const commandConvertor = async function (nextFunc, input) {
   return response;
 };
 
-const eCommandConvertor = addLogIfError(commandConvertor, ['command']);
+const eCommandConvertor = addReqInfoIfError(commandConvertor, ['command']);
 
 // Not kept: action, fullAction
 const commandAttributes = [

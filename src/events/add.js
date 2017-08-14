@@ -5,23 +5,23 @@ const { merge } = require('lodash');
 const { pick } = require('../utilities');
 const { rethrowError } = require('../error');
 
-// Add log information to `obj.log`
+// Add request-related events information to `obj.reqInfo`
 // Returns a new copy, i.e. does not modify original `obj`
-const addReqInfo = function (obj, newLog) {
-  // We directly mutate `input.log` because it greatly simplifies the code.
-  merge(obj.log, newLog);
+const addReqInfo = function (obj, newReqInfo) {
+  // We directly mutate `input.reqInfo` because it greatly simplifies the code.
+  merge(obj.reqInfo, newReqInfo);
   return obj;
 };
 
-// Some log should only be added when an exception is thrown
+// Some reqInfo should only be added when an exception is thrown
 // E.g. the current `action` or `model`
-const addLogIfError = function (func, props) {
+const addReqInfoIfError = function (func, props) {
   return async (nextFunc, input, ...args) => {
     try {
       return await func(nextFunc, input, ...args);
     } catch (error) {
-      const newLog = pick(input, props);
-      addReqInfo(input, newLog);
+      const newReqInfo = pick(input, props);
+      addReqInfo(input, newReqInfo);
 
       rethrowError(error);
     }
@@ -30,5 +30,5 @@ const addLogIfError = function (func, props) {
 
 module.exports = {
   addReqInfo,
-  addLogIfError,
+  addReqInfoIfError,
 };

@@ -15,10 +15,10 @@ const performanceEvent = async function (nextFunc, input) {
 
   // Total request time, stopped just before the response is sent
   // Do not report if exception was thrown
-  const { log } = input;
+  const { reqInfo } = input;
   const measures = [response.respPerf, ...response.measures];
   const { runtimeOpts } = input;
-  await emitPerfEvent({ log, phase: 'request', measures, runtimeOpts });
+  await emitPerfEvent({ reqInfo, phase: 'request', measures, runtimeOpts });
 
   return response;
 };

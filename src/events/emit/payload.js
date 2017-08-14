@@ -7,7 +7,7 @@ const { getConsoleMessage } = require('./console');
 
 // Retrieves information sent to event, and message printed to console
 const getPayload = function ({
-  log,
+  reqInfo,
   type,
   phase,
   level,
@@ -16,7 +16,7 @@ const getPayload = function ({
   info,
 }) {
   const eventPayload = getEventPayload({
-    log,
+    reqInfo,
     type,
     phase,
     level,
@@ -31,7 +31,7 @@ const getPayload = function ({
 
 // Event information sent to handlers
 const getEventPayload = function ({
-  log,
+  reqInfo,
   runtimeOpts,
   type,
   phase,
@@ -43,7 +43,7 @@ const getEventPayload = function ({
     requestInfo,
     // In a request, errorInfo is trimmed. Otherwise, keep it as is
     errorInfo: errorInfoA = errorInfo,
-  } = getRequestInfo({ log, phase, runtimeOpts, errorInfo });
+  } = getRequestInfo({ reqInfo, phase, runtimeOpts, errorInfo });
 
   const timestamp = getTimestamp({ requestInfo });
 

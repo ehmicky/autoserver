@@ -2,10 +2,10 @@
 
 const { pick } = require('../../../utilities');
 const { addJsl } = require('../../../jsl');
-const { addReqInfo, addLogIfError } = require('../../../events');
+const { addReqInfo, addReqInfoIfError } = require('../../../events');
 const { commonAttributes } = require('../../common_attributes');
 
-const { getLogActions } = require('./log_actions');
+const { getInfoActions } = require('./info_actions');
 const { getTransformedResponse } = require('./transform');
 
 // Converts from Operation format to Action format
@@ -17,8 +17,8 @@ const actionConvertor = async function (nextFunc, input) {
 
   const response = await nextFunc(inputB);
 
-  const logActions = getLogActions({ input, response, args });
-  addReqInfo(input, { actions: logActions });
+  const infoActions = getInfoActions({ input, response, args });
+  addReqInfo(input, { actions: infoActions });
 
   const transformedResponse = getTransformedResponse({
     response,
@@ -30,7 +30,7 @@ const actionConvertor = async function (nextFunc, input) {
   return transformedResponse;
 };
 
-const eActionConvertor = addLogIfError(
+const eActionConvertor = addReqInfoIfError(
   actionConvertor,
   ['action', 'fullAction', 'modelName'],
 );
