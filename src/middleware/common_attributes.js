@@ -8,7 +8,6 @@ const commonAttributes = [
   'currentPerf',
   'perf',
   'log',
-  'logRef',
 ];
 
 module.exports = {

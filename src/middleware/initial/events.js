@@ -13,27 +13,18 @@ const callEvents = async function (nextFunc, input) {
 
     return responseA;
   } catch (error) {
-    const errorA = getReqError({ error });
-    const errorB = await emitReqEvent({ input, obj: errorA });
+    const errorA = normalizeError({ error });
+
+    const errorReason = getReason({ error: errorA });
+    const inputA = addLogInfo(input, { errorReason });
+
+    const errorB = await emitReqEvent({ input: inputA, obj: errorA });
 
     rethrowError(errorB);
   }
 };
 
-const getReqError = function ({ error }) {
-  const errorA = normalizeError({ error });
-
-  const errorReason = getReason({ error: errorA });
-  const errorB = addLogInfo(errorA, { errorReason });
-
-  return errorB;
-};
-
-const emitReqEvent = async function ({
-  input: { runtimeOpts },
-  obj,
-  obj: { log },
-}) {
+const emitReqEvent = async function ({ input: { runtimeOpts, log }, obj }) {
   const level = getLevel({ obj });
 
   await emitEvent({ log, type: 'call', phase: 'request', level, runtimeOpts });
