@@ -36,7 +36,7 @@ const emit = async function ({
   if (noEvents) { return; }
 
   // Event emitting has low priority, so run this in a different macrotask
-  await pSetTimeout(0);
+  await pSetTimeout(0, { unref: false });
 
   const { eventPayload, message: messageA } = getPayload({
     reqInfo,
