@@ -11,12 +11,6 @@ const startServer = async function () {
     const { runtimeOpts, servers } = await start();
     return { runtimeOpts, servers };
   } catch (error) {}
-  // This is for Nodemon to properly exit.
-  // But if several servers are run at once (with or without Nodemon),
-  // this will make the first one that finished exiting abrupt the others,
-  // which is bad.
-  // TOFIX
-  // .on('stop.*', () => process.kill(process.pid, 'SIGUSR2'))
 };
 
 startServer();
