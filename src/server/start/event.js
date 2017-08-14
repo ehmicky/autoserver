@@ -13,6 +13,7 @@ const emitStartEvent = async function ({ servers, runtimeOpts }) {
     message,
     info,
     runtimeOpts,
+    async: false,
   });
   return { startPayload };
 };

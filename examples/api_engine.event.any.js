@@ -15,6 +15,6 @@ let anyEvent = function (payload) {
 
 // This file is for debugging only. Comment this to enable it.
 // eslint-disable-next-line fp/no-mutation, no-empty-function
-// anyEvent = () => {};
+anyEvent = () => {};
 
 module.exports = anyEvent;
