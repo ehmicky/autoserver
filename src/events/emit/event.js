@@ -5,7 +5,6 @@ const { pSetTimeout, makeImmutable } = require('../../utilities');
 
 // Try emit events with an increasing delay
 const eFireEvent = async function ({
-  log,
   type,
   eventPayload,
   runtimeOpts,
@@ -21,7 +20,6 @@ const eFireEvent = async function ({
     return eventReturn;
   } catch (error) {
     await handleEventError({
-      log,
       type,
       eventPayload,
       runtimeOpts,
@@ -47,7 +45,6 @@ const fireEvent = async function ({
 };
 
 const handleEventError = async function ({
-  log,
   type,
   eventPayload,
   runtimeOpts,
@@ -61,17 +58,10 @@ const handleEventError = async function ({
   const delayA = delay * delayExponent;
 
   // First, report that event handler failed
-  await fireEventError({
-    log,
-    error,
-    runtimeOpts,
-    delay: delayA,
-    emitEvent,
-  });
+  await fireEventError({ error, runtimeOpts, delay: delayA, emitEvent });
 
   // Then, try to report original error again
   await eFireEvent({
-    log,
     type,
     eventPayload,
     runtimeOpts,
@@ -85,7 +75,6 @@ const delayExponent = 5;
 const maxDelay = 1000 * 60 * 3;
 
 const fireEventError = async function ({
-  log,
   error,
   runtimeOpts,
   delay,
@@ -96,9 +85,8 @@ const fireEventError = async function ({
   if (delay > defaultDelay * delayExponent) { return; }
 
   const errorA = normalizeError({ error, reason: 'EVENT_ERROR' });
-  const errorB = getStandardError({ log, error: errorA });
+  const errorB = getStandardError({ error: errorA });
   await emitEvent({
-    log,
     type: 'failure',
     phase: 'process',
     runtimeOpts,
