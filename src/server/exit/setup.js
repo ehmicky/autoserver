@@ -16,8 +16,8 @@ const setupGracefulExit = function ({ servers, runtimeOpts }) {
   process.on('SIGTERM', onceExitHandler);
 };
 
-// Setup graceful exit
-const gracefulExit = async ({ servers, runtimeOpts }) => {
+// Close servers
+const gracefulExit = async function ({ servers, runtimeOpts }) {
   const [childMeasures, measure] = await monitoredSetupExit({
     servers,
     runtimeOpts,
@@ -89,4 +89,5 @@ const monitoredEndEvent = monitor(endEventShutdown, 'event');
 
 module.exports = {
   setupGracefulExit,
+  gracefulExit,
 };

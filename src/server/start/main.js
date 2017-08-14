@@ -5,6 +5,7 @@ const { getRuntimeOpts } = require('../../runtime_opts');
 
 const { handleStartupError } = require('./error');
 const { bootAll } = require('./boot');
+const { afterStart } = require('./after');
 
 // Start server for each protocol
 // @param {object} runtimeOpts
@@ -15,10 +16,16 @@ const start = async function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
   });
 
   // Main startup function
-  const [{ startPayload }, perf] = await eBootAll({ runtimeOpts, idlFile });
+  const [{ servers }, bootPerf] = await eBootAll({ runtimeOpts, idlFile });
+
+  // Fired after the servers have started
+  const [{ startPayload }, afterPerf] = await eAfterStart({
+    servers,
+    runtimeOpts,
+  });
 
   // Report startup performance
-  const measures = [...runtimeOptsPerf, ...perf];
+  const measures = [...runtimeOptsPerf, ...bootPerf, ...afterPerf];
   await eEmitPerfEvent({ phase: 'startup', measures, runtimeOpts });
 
   return startPayload;
@@ -39,6 +46,8 @@ const handleError = function (func) {
 const eGetRuntimeOpts = handleError(getRuntimeOpts);
 
 const eBootAll = handleError(bootAll);
+
+const eAfterStart = handleError(afterStart);
 
 const eEmitPerfEvent = handleError(emitPerfEvent);
 
