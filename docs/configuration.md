@@ -24,10 +24,10 @@ Runtime options are runtime parameters, e.g. server ports.
 
 There are several ways to define runtime options. The first one that is defined
 will be chosen, from the highest priority to the lowest:
-  - using `apiEngine.start({ runtime: object })` with `object` being the
-    runtime options
   - setting an environment variable `API_ENGINE__OPTS` containing the path to
     the [configuration file](#configuration-file)
+  - using `apiEngine.start({ runtime: object })` with `object` being the
+    runtime options
   - using `apiEngine.start({ runtime: 'path' })` with a `'path'` to
     the [configuration file](#configuration-file)
   - creating a `api_engine.runtime.yml`, `api_engine.runtime.yaml` or
