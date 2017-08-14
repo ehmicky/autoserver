@@ -3,6 +3,8 @@
 const { defaultsDeep } = require('lodash');
 
 const { getEnvVars } = require('../conf');
+const { ALL_TYPES } = require('../events');
+const { assignObject } = require('../utilities');
 
 // Default value for runtime options
 // Priority order:
@@ -20,11 +22,16 @@ const applyDefaultRuntimeOpts = function ({ runtimeOpts }) {
   return { runtimeOpts: runtimeOptsA };
 };
 
+const events = ALL_TYPES
+  .map(type => ({ [type]: undefined }))
+  .reduce(assignObject, {});
+
 const defaultRuntimeOpts = {
   env: 'production',
   maxDataLength: 1000,
   defaultPageSize: 100,
   maxPageSize: 100,
+  events,
   eventLevel: 'info',
   eventFilter: {
     payload: ['id'],

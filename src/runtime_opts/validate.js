@@ -1,7 +1,7 @@
 'use strict';
 
 const { validate } = require('../validation');
-const { TYPES } = require('../events');
+const { ALL_TYPES } = require('../events');
 const { assignObject } = require('../utilities');
 
 // Validation for runtime options
@@ -22,7 +22,7 @@ const eventFilterSchema = {
 
 const eventProperty = { typeof: 'function' };
 
-const eventsProperties = [...TYPES, 'any']
+const eventsProperties = ALL_TYPES
   .map(type => ({ [type]: eventProperty }))
   .reduce(assignObject, {});
 
