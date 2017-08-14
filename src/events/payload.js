@@ -43,8 +43,7 @@ const getEventPayload = function ({
 }) {
   const {
     requestInfo,
-    // In a request, errorInfo is trimmed. Otherwise, keep it as is
-    errorInfo: errorInfoA = errorInfo,
+    errorInfo: errorInfoA,
   } = getRequestInfo({ reqInfo, phase, runtimeOpts, errorInfo });
 
   const timestamp = getTimestamp({ requestInfo });

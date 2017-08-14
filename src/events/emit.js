@@ -45,8 +45,8 @@ const emit = async function ({
     phase,
     level: levelA,
     message,
-    runtimeOpts,
     info,
+    runtimeOpts,
   });
 
   consolePrint({ type, level: levelA, message: messageA });
@@ -66,6 +66,8 @@ const getLevel = function ({ level, type }) {
 };
 
 // Can filter verbosity with runtime option `eventLevel`
+// This won't work for very early startup errors since `runtimeOpts` is not
+// parsed yet.
 const shouldEmit = function ({ runtimeOpts: { eventLevel }, level }) {
   return eventLevel !== 'silent' &&
     LEVELS.indexOf(level) >= LEVELS.indexOf(eventLevel);
