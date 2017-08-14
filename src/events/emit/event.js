@@ -55,7 +55,7 @@ const handleEventError = async function ({
   delay,
   emitEvent,
 }) {
-  // Tries again ang again, with an increasing delay
+  // Tries again and again, with an increasing delay
   if (delay > maxDelay) { return; }
   await pSetTimeout(delay);
   const delayA = delay * delayExponent;
