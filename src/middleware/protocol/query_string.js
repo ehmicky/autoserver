@@ -4,7 +4,7 @@ const qs = require('qs');
 
 const { throwError } = require('../../error');
 const { transtype, mapValues } = require('../../utilities');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 const MAX_DEPTH = 10;
 const MAX_ARRAY_LENGTH = 100;
@@ -20,7 +20,7 @@ const parseQueryString = async function (nextFunc, input) {
 
   const queryVars = getQueryVars({ specific, protocolHandler });
 
-  const inputA = addLogInfo(input, { queryVars });
+  const inputA = addReqInfo(input, { queryVars });
   const inputB = { ...inputA, queryVars };
 
   const response = await nextFunc(inputB);

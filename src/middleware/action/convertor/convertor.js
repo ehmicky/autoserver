@@ -2,7 +2,7 @@
 
 const { pick } = require('../../../utilities');
 const { addJsl } = require('../../../jsl');
-const { addLogInfo, addLogIfError } = require('../../../events');
+const { addReqInfo, addLogIfError } = require('../../../events');
 const { commonAttributes } = require('../../common_attributes');
 
 const { getLogActions } = require('./log_actions');
@@ -18,7 +18,7 @@ const actionConvertor = async function (nextFunc, input) {
   const response = await nextFunc(inputB);
 
   const logActions = getLogActions({ input, response, args });
-  addLogInfo(input, { actions: logActions });
+  addReqInfo(input, { actions: logActions });
 
   const transformedResponse = getTransformedResponse({
     response,

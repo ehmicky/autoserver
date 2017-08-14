@@ -1,7 +1,7 @@
 'use strict';
 
 const { addJsl } = require('../../jsl');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 // Decides which operation to use (e.g. GraphQL) according to route
 const operationNegotiator = async function (nextFunc, input) {
@@ -11,7 +11,7 @@ const operationNegotiator = async function (nextFunc, input) {
     .find(([, testFunc]) => testFunc({ route })) || [];
 
   const inputA = addJsl(input, { $OPERATION: operation });
-  const inputB = addLogInfo(inputA, { operation });
+  const inputB = addReqInfo(inputA, { operation });
   const inputC = { ...inputB, operation };
 
   const response = await nextFunc(inputC);

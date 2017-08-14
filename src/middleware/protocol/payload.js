@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../error');
 const { reduceAsync } = require('../../utilities');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 // Fill in `input.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -13,7 +13,7 @@ const parsePayload = async function (nextFunc, input) {
 
   const payload = await getPayload({ specific, protocolHandler });
 
-  const inputA = addLogInfo(input, { payload });
+  const inputA = addReqInfo(input, { payload });
   const inputB = { ...inputA, payload };
 
   const response = await nextFunc(inputB);

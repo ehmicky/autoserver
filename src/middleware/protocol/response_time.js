@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../error');
 const { stopPerf } = require('../../perf');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 // Request response time, from request handling start to response sending
 // Note that other functions might happen after response sending, e.g. events
@@ -14,7 +14,7 @@ const setResponseTime = async function (nextFunc, input) {
 
   const responseTime = getResponseTime({ respPerf });
 
-  addLogInfo(input, { responseTime });
+  addReqInfo(input, { responseTime });
   sendHeaders({ input, responseTime });
 
   return responseB;

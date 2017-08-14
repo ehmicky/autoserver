@@ -1,6 +1,6 @@
 'use strict';
 
-const { addLogInfo } = require('../../../events');
+const { addReqInfo } = require('../../../events');
 
 const { routes, findRoute, getPathVars } = require('./manager');
 
@@ -12,7 +12,7 @@ const router = async function (nextFunc, input) {
 
   const pathVars = getPathVars({ path, route });
 
-  const inputA = addLogInfo(input, { route: route.name, pathVars });
+  const inputA = addReqInfo(input, { route: route.name, pathVars });
   const inputB = { ...inputA, route: route.name, pathVars };
 
   const response = await nextFunc(inputB);

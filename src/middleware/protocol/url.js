@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addLogInfo } = require('../../events');
+const { addReqInfo } = require('../../events');
 
 // Fill in:
 //  - `input.url`: full URL, e.g. used for events
@@ -15,7 +15,7 @@ const parseUrl = async function (nextFunc, input) {
   const path = getPath({ specific, protocolHandler });
   const url = `${origin}${path}`;
 
-  const inputA = addLogInfo(input, { url, path, origin });
+  const inputA = addReqInfo(input, { url, path, origin });
   const inputB = { ...inputA, url, path, origin };
 
   const response = await nextFunc(inputB);
