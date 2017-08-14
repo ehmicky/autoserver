@@ -1,8 +1,14 @@
 // eslint-disable-next-line filenames/match-regex, filenames/match-exported
 'use strict';
 
-const perfEvent = function (payload) {
-  // console.log(`Performance logging info\n${payload.measuresMessage}`);
+// eslint-disable-next-line fp/no-let
+let perfEvent = function (payload) {
+  // eslint-disable-next-line no-console, no-restricted-globals
+  console.log(`Performance logging info\n${payload.measuresMessage}`);
 };
+
+// This file is for debugging only. Comment this to enable it.
+// eslint-disable-next-line fp/no-mutation, no-empty-function
+perfEvent = () => {};
 
 module.exports = perfEvent;
