@@ -12,7 +12,7 @@ const loadRuntimeOptsFile = async function ({ runtimeOptsFile }) {
     } = await getRuntimeOpts({ runtimeOptsFile });
     return { runtimeOpts, runtimeOptsFile: runtimeOptsFileA };
   } catch (error) {
-    const message = `Could not load runtime options file '${runtimeOptsFile}'`;
+    const message = 'Could not load runtime options file';
     throwError(message, { reason: 'CONF_LOADING', innererror: error });
   }
 };
