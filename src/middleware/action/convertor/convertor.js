@@ -18,7 +18,9 @@ const actionConvertor = async function (nextFunc, input) {
   const inputC = addLogInfo(inputB, { action, fullAction, model: modelName });
 
   const response = await nextFunc(inputC);
-  const transformedResponse = handleResponse({
+
+  addInfo({ response, input, args });
+  const transformedResponse = getTransformedResponse({
     response,
     input: inputC,
     args,
@@ -38,18 +40,11 @@ const actionAttributes = [
   'settings',
 ];
 
-const handleResponse = function ({ response, input, args, operation }) {
+const addInfo = function ({ response, input, args }) {
   const logActions = getLogActions({ input, response, args });
-  const responseA = addLogInfo(response, { actions: logActions });
-  const responseB = removeLogInfo(responseA, unusedInfo);
-
-  const responseC = getTransformedResponse({
-    input,
-    response: responseB,
-    args,
-    operation,
-  });
-  return responseC;
+  const inputA = addLogInfo(input, { actions: logActions });
+  const inputB = removeLogInfo(inputA, unusedInfo);
+  return inputB;
 };
 
 // Those log information are only useful if an exception is thrown

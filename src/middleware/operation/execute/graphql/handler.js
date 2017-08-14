@@ -1,7 +1,5 @@
 'use strict';
 
-const { deepMerge } = require('../../../../utilities');
-
 const { getContent } = require('./content');
 
 // GraphQL query handling
@@ -29,15 +27,12 @@ const parseResult = function ({ content, responses }) {
 
   const actions = responses.map(({ action }) => action);
 
-  const logs = responses.map(({ log: logA }) => logA);
-  const log = logs.length === 0 ? undefined : deepMerge({}, ...logs);
-
   const measures = responses.reduce(
     (measuresA, { measures: newMeasures }) => [measuresA, ...newMeasures],
     [],
   );
 
-  return { type, actions, log, measures };
+  return { type, actions, measures };
 };
 
 const getResponseType = function ({ content: { data } }) {

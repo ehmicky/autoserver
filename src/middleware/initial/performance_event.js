@@ -1,7 +1,6 @@
 'use strict';
 
-const { startPerf } = require('../../perf');
-const { emitPerfEvent } = require('../../events');
+const { startPerf, emitPerfEvent } = require('../../perf');
 
 // Record how the request handling takes
 const performanceEvent = async function (nextFunc, input) {
@@ -16,7 +15,7 @@ const performanceEvent = async function (nextFunc, input) {
 
   // Total request time, stopped just before the response is sent
   // Do not report if exception was thrown
-  const { log } = response;
+  const { log } = input;
   const measures = [response.respPerf, ...response.measures];
   const { runtimeOpts } = input;
   await emitPerfEvent({ log, phase: 'request', measures, runtimeOpts });

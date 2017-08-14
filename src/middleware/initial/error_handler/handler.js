@@ -15,9 +15,8 @@ const errorHandler = async function (nextFunc, input) {
 };
 
 const errorHandle = async function ({
-  input: { protocolHandler, specific, runtimeOpts },
+  input: { protocolHandler, specific, runtimeOpts, log },
   error: errorA,
-  error: { log },
 }) {
   const status = protocolHandler.failureProtocolStatus;
 

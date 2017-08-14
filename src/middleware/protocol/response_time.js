@@ -9,18 +9,18 @@ const { addLogInfo } = require('../../events');
 const setResponseTime = async function (nextFunc, input) {
   const response = await nextFunc(input);
 
-  const { responseTime, respPerf } = getResponseTime({ input });
+  const respPerf = stopPerf(input.reqPerf);
+  const responseB = { ...response, respPerf };
 
-  const responseA = addLogInfo(response, { responseTime });
-  const responseB = { ...responseA, respPerf };
+  const responseTime = getResponseTime({ respPerf });
 
+  addLogInfo(input, { responseTime });
   sendHeaders({ input, responseTime });
 
   return responseB;
 };
 
-const getResponseTime = function ({ input: { reqPerf } }) {
-  const respPerf = stopPerf(reqPerf);
+const getResponseTime = function ({ respPerf }) {
   const responseTime = Math.round(respPerf.duration / 10 ** 6);
 
   if (typeof responseTime !== 'number') {
@@ -28,7 +28,7 @@ const getResponseTime = function ({ input: { reqPerf } }) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  return { responseTime, respPerf };
+  return responseTime;
 };
 
 const sendHeaders = function ({

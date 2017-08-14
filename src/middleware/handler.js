@@ -1,7 +1,6 @@
 'use strict';
 
 const { chain } = require('../chain');
-const { getMiddlewareLogging } = require('../events');
 const { getMiddlewarePerf } = require('../perf');
 
 const initial = require('./initial');
@@ -125,7 +124,6 @@ const getMiddleware = function () {
     middleware,
     {
       before: [
-        getMiddlewareLogging,
         getMiddlewarePerf,
       ],
     },

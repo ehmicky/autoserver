@@ -18,9 +18,10 @@ const getStatus = async function (nextFunc, input) {
 
 const addStatuses = function ({ input, error, response }) {
   const statuses = getStatuses({ input, error });
+  addLogInfo(input, statuses);
+
   const obj = error || response;
-  const objA = addLogInfo(obj, statuses);
-  return { ...objA, ...statuses };
+  return { ...obj, ...statuses };
 };
 
 const getStatuses = function ({
