@@ -15,13 +15,13 @@ const errorHandler = async function (nextFunc, input) {
 };
 
 const errorHandle = async function ({
-  input: { protocolHandler, specific, runtimeOpts, log },
+  input: { protocolHandler, specific, runtimeOpts, reqInfo },
   error: errorA,
 }) {
   const status = protocolHandler.failureProtocolStatus;
 
   try {
-    const response = await handleError({ log, error: errorA, runtimeOpts });
+    const response = await handleError({ reqInfo, error: errorA, runtimeOpts });
 
     // Make sure a response is sent, or the socket will hang
     protocolHandler.send.nothing({ specific, status });
@@ -29,7 +29,7 @@ const errorHandle = async function ({
     return response;
   // If error handler itself fails
   } catch (error) {
-    const response = handleFailure({ log, error, runtimeOpts });
+    const response = handleFailure({ reqInfo, error, runtimeOpts });
 
     protocolHandler.send.nothing({ specific, status });
 

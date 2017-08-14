@@ -2,8 +2,8 @@
 
 const { STATUS_LEVEL_MAP, emitEvent } = require('../../../events');
 
-// Report any exception thrown, for logging/monitoring
-const reportError = async function ({ log, error = {}, runtimeOpts }) {
+// Report any exception thrown
+const reportError = async function ({ reqInfo, error = {}, runtimeOpts }) {
   // If we haven't reached the events middleware yet, error.status
   // will be undefined, so it will still be caught and reported.
   const level = STATUS_LEVEL_MAP[error.status] || 'error';
@@ -11,7 +11,7 @@ const reportError = async function ({ log, error = {}, runtimeOpts }) {
   if (!['warn', 'error'].includes(level)) { return; }
 
   await emitEvent({
-    log,
+    reqInfo,
     type: 'failure',
     phase: 'request',
     level,

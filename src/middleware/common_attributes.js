@@ -7,7 +7,7 @@ const commonAttributes = [
   'jsl',
   'currentPerf',
   'perf',
-  'log',
+  'reqInfo',
 ];
 
 module.exports = {

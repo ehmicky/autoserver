@@ -11,7 +11,7 @@ const { fireEvent } = require('./event');
 //  - fire runtime option `events.EVENT(info)`
 //  - print to console
 const emitEvent = async function ({
-  log = {},
+  reqInfo,
   type,
   phase,
   level,
@@ -29,7 +29,7 @@ const emitEvent = async function ({
   await pSetTimeout(0);
 
   const { eventPayload, message: messageA } = getPayload({
-    log,
+    reqInfo,
     type,
     phase,
     level: levelA,

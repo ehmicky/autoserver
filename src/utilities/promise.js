@@ -20,7 +20,7 @@ const promise = promisifyAll({
 
 // Like setTimeout(), except uses promises.
 // Also, do not keep server alive because of a hanging timeout,
-// e.g. used in request timeout or in logging errors retries
+// e.g. used in request timeout or in events errors retries
 const pSetTimeout = function (delay) {
   // eslint-disable-next-line promise/avoid-new
   return new Promise(resolve => {
