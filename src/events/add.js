@@ -2,7 +2,7 @@
 
 const { merge } = require('lodash');
 
-const { pick } = require('../utilities');
+const { pick, keepFuncName } = require('../utilities');
 const { rethrowError } = require('../error');
 
 // Add request-related events information to `obj.reqInfo`
@@ -16,23 +16,21 @@ const addReqInfo = function (obj, newReqInfo) {
 // Some reqInfo should only be added when an exception is thrown
 // E.g. the current `action` or `model`
 const addReqInfoIfError = function (func, props) {
-  // `func.name` is used to keep the function name,
-  // because the performance monitoring needs it
-  return ({
-    [func.name]: async (nextFunc, input, ...args) => {
-      try {
-        return await func(nextFunc, input, ...args);
-      } catch (error) {
-        const newReqInfo = pick(input, props);
-        addReqInfo(input, newReqInfo);
+  return async (nextFunc, input, ...args) => {
+    try {
+      return await func(nextFunc, input, ...args);
+    } catch (error) {
+      const newReqInfo = pick(input, props);
+      addReqInfo(input, newReqInfo);
 
-        rethrowError(error);
-      }
-    },
-  })[func.name];
+      rethrowError(error);
+    }
+  };
 };
+
+const kAddReqInfoIfError = keepFuncName(addReqInfoIfError);
 
 module.exports = {
   addReqInfo,
-  addReqInfoIfError,
+  addReqInfoIfError: kAddReqInfoIfError,
 };
