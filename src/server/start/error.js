@@ -1,24 +1,23 @@
 'use strict';
 
+const { keepFuncName } = require('../../utilities');
 const { getStandardError, rethrowError } = require('../../error');
-const { gracefulExit } = require('../exit');
 const { emitEvent } = require('../../events');
+const { gracefulExit } = require('../exit');
 
 const handleStartupError = function (func) {
-  // `func.name` is used to keep the function name,
-  // because the performance monitoring needs it
-  return ({
-    [func.name]: async (input, ...args) => {
-      try {
-        return await func(input, ...args);
-      } catch (error) {
-        await handleError({ error, input });
+  return async (input, ...args) => {
+    try {
+      return await func(input, ...args);
+    } catch (error) {
+      await handleError({ error, input });
 
-        rethrowError(error);
-      }
-    },
-  })[func.name];
+      rethrowError(error);
+    }
+  };
 };
+
+const kHandleStartupError = keepFuncName(handleStartupError);
 
 // Handle exceptions thrown at server startup
 const handleError = async function ({
@@ -47,5 +46,5 @@ const handleError = async function ({
 };
 
 module.exports = {
-  handleStartupError,
+  handleStartupError: kHandleStartupError,
 };
