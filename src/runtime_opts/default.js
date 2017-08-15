@@ -3,8 +3,9 @@
 const { defaultsDeep } = require('lodash');
 
 const { getEnvVars } = require('../conf');
-const { ALL_TYPES } = require('../events');
-const { assignObject, omit } = require('../utilities');
+const { omit } = require('../utilities');
+
+const availableRuntimeOpts = require('./available');
 
 // Default value for runtime options
 // Priority order:
@@ -12,43 +13,52 @@ const { assignObject, omit } = require('../utilities');
 //  - configuration files
 //  - default runtime options
 const applyDefaultRuntimeOpts = function ({ runtimeOpts }) {
-  const envVars = getEnvVars();
-  const envVarsA = omit(envVars, ['idl', 'runtime']);
-  const runtimeOptsA = defaultsDeep(
-    {},
-    envVarsA,
-    runtimeOpts,
-    defaultRuntimeOpts,
-  );
-  return { runtimeOpts: runtimeOptsA };
+  const runtimeOptsA = applyEnvVars({ runtimeOpts });
+  const runtimeOptsB = applyDefaultOpts({ runtimeOpts: runtimeOptsA });
+  return { runtimeOpts: runtimeOptsB };
 };
 
-const events = ALL_TYPES
-  .map(type => ({ [type]: undefined }))
-  .reduce(assignObject, {});
+// Apply environment variables
+const applyEnvVars = function ({ runtimeOpts }) {
+  const envVars = getEnvVars();
+  // Those are handled elsewhere
+  const envVarsA = omit(envVars, ['idl', 'runtime']);
 
-const defaultRuntimeOpts = {
-  env: 'production',
-  maxDataLength: 1000,
-  defaultPageSize: 100,
-  maxPageSize: 100,
-  events,
-  eventLevel: 'info',
-  eventFilter: {
-    payload: ['id'],
-    response: ['id'],
-    argData: ['id'],
-    actionResponses: ['id'],
-    headers: false,
-    queryVars: false,
-    params: false,
-    settings: false,
-  },
-  http: {
-    enabled: true,
-    host: 'localhost',
-    port: 80,
-  },
+  return defaultsDeep({}, envVarsA, runtimeOpts);
+};
+
+// Apply `availableRuntimeOpts` `default` values
+const applyDefaultOpts = function ({ runtimeOpts }) {
+  return availableRuntimeOpts.reduce(
+    (runtimeOptsA, { name, default: defValue }) =>
+      applyDefaultOpt({ runtimeOpts: runtimeOptsA, name, defValue }),
+    runtimeOpts,
+  );
+};
+
+const applyDefaultOpt = function ({ runtimeOpts, name, defValue }) {
+  if (defValue === undefined) { return runtimeOpts; }
+
+  const recursiveOpt = getRecursiveOpt({ runtimeOpts, name, defValue });
+  if (recursiveOpt) { return recursiveOpt; }
+
+  const runtimeOpt = runtimeOpts[name];
+  if (runtimeOpt !== undefined) { return runtimeOpts; }
+
+  return { ...runtimeOpts, [name]: defValue };
+};
+
+// Recursion over objects, i.e. when name contains dots
+const getRecursiveOpt = function ({ runtimeOpts, name, defValue }) {
+  const [parent, ...children] = name.split('.');
+  if (children.length === 0) { return; }
+
+  const val = applyDefaultOpt({
+    runtimeOpts: runtimeOpts[parent],
+    name: children.join('.'),
+    defValue,
+  });
+  return { ...runtimeOpts, [parent]: val };
 };
 
 module.exports = {

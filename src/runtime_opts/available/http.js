@@ -3,6 +3,7 @@
 // Runtime option `http.enabled`
 const httpEnabled = {
   name: 'http.enabled',
+  default: true,
   validate: {
     type: 'boolean',
   },
@@ -11,6 +12,7 @@ const httpEnabled = {
 // Runtime option `http.host`
 const httpHost = {
   name: 'http.host',
+  default: 'localhost',
   validate: {
     type: 'string',
   },
@@ -19,6 +21,7 @@ const httpHost = {
 // Runtime option `http.port`
 const httpPort = {
   name: 'http.port',
+  default: 80,
   validate: {
     type: 'integer',
     minimum: 0,
@@ -28,6 +31,7 @@ const httpPort = {
 
 const httpObj = {
   name: 'http',
+  default: {},
   validate: { type: 'object' },
 };
 
