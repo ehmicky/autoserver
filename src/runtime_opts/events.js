@@ -12,6 +12,8 @@ const loadEventsOptsFile = async function ({
   runtimeOpts: { events },
   runtimeOptsFile,
 }) {
+  if (!events || events.constructor !== Object) { return { runtimeOpts }; }
+
   const baseDir = getBaseDir({ runtimeOptsFile });
   const eventsA = await mapValuesAsync(
     events,
