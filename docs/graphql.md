@@ -237,16 +237,7 @@ It can be used by the following actions: `create`, `replace`, `upsert` and
 `data.id` is required for `replace` and `upsert`, optional for `create`
 (it defaults to a UUID) and forbidden for `update`.
 
-`update` action `data` is a bit different. First, it is never an array.
-Second, one can modify models on-the-fly using [JSL](jsl.md).
-E.g. to increment a counter by 1:
-
-```graphql
-updateUsers(data: {counter: "($ + 1)"})
-```
-
-Note that, in the previous example, no modification will be applied on models
-where `counter` is not defined.
+`update` action `data` is a bit different, as it is never an array.
 
 # Filtering
 
