@@ -24,6 +24,8 @@ events:
 
 where `start_event.js` contains:
 
+<!-- eslint-disable no-console, no-restricted-globals, no-unused-vars,
+filenames/match-exported, strict -->
 ```js
 const startEvent = function (payload) {
   console.log('Server started');

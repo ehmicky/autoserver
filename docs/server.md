@@ -14,7 +14,9 @@ as the [`failure` event payload](events.md#error-information).
 
 A complete example:
 
-<!-- eslint-disable no-unused-vars, no-undef, strict -->
+<!-- eslint-disable no-unused-vars, no-undef, strict, no-console,
+no-restricted-globals, unicorn/catch-error-name, promise/always-return,
+promise/prefer-await-to-then -->
 ```javascript
 const apiEngine = require('api-engine');
 
