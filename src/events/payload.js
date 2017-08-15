@@ -1,5 +1,6 @@
 'use strict';
 
+const { omitBy } = require('../utilities');
 const { getServerInfo } = require('../info');
 
 const { getRequestInfo } = require('./request_info');
@@ -50,7 +51,7 @@ const getEventPayload = function ({
 
   const serverInfo = getServerInfo({ runtimeOpts });
 
-  return {
+  const eventPayload = {
     ...info,
     type,
     phase,
@@ -60,6 +61,9 @@ const getEventPayload = function ({
     timestamp,
     serverInfo,
   };
+  const eventPayloadA = omitBy(eventPayload, value => value === undefined);
+
+  return eventPayloadA;
 };
 
 // Reuse the request timestamp if possible
