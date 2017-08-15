@@ -1,4 +1,4 @@
-# Starting the test server
+# Dev server
 
 Use `npm run build` instead of `npm install`.
 
@@ -12,7 +12,7 @@ Start the test server with either:
 
 A local HTTP server will be spawned at `http://localhost:5001`.
 
-To explore the API, please see this [documentation](docs/graphql.md).
+To learn how to query the API, please see this [documentation](docs/graphql.md).
 
 # Testing
 
@@ -42,7 +42,8 @@ Also we prefer:
 
 # Tooling
 
-We are using [editorconfig](http://editorconfig.org/), so please install the plugin for your IDE.
+We are using [editorconfig](http://editorconfig.org/),
+so please install the plugin for your IDE.
 
 # Troubleshooting
 

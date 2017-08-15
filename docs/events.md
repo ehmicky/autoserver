@@ -1,25 +1,60 @@
-# Event logging
+# Types
 
-Log events are emitted on the `server` (returned value of `apiEngine.start()`).
-You can use those events for logging and monitoring purpose.
+Events are fired under the following circumstances, called "types":
+  - `start`: the server is ready
+  - `stop`: the server has exited
+  - `failure`: a client-side or server-side error occured
+  - `call`: a request has completed, i.e. a response was sent back to the
+    client (whether successful or not)
+  - `message`: generic message
+  - `perf`: [performance monitoring](performance.md)
+  - `any`: any of the above
 
-# Console logging
+# Event handlers
 
-Besides emitting events, logs summary will also be printed on the console.
+Events are configured using the [runtime option](runtime.md#runtime-options)
+`events`, which is an object, where the key is an [event type](#types)
+and the value the path to a JavaScript file. This file must export a function,
+which will be triggered with the [event payload](#payload), e.g.:
 
-They will be colorized, unless the environment variable `FORCE_COLOR=0`
-or the CLI flag `--no-color` is set, or terminal does not support colors.
+```yml
+events:
+  start: start_event.js
+```
 
-Console logging does not contain all the information event logging does, and
+where `start_event.js` contains:
+
+```js
+const startEvent = function (payload) {
+  console.log('Server started');
+};
+
+module.exports = startEvent;
+```
+
+By default, any file called `api_engine.TYPE.js` (e.g. `api_engine.start.js`)
+in the current directory, or any parent directory, will be used.
+This is the preferred configuration method.
+
+If an event handler throws an exception, or returns a rejected promise,
+it will be retried several times, with an exponential delay.
+
+# Logging
+
+Event payloads can be serialized to JSON, i.e. events can be used for logging
+or monitoring purpose.
+
+# Console
+
+Events are also printed on the console.
+
+They are be colorized, unless the environment variable `FORCE_COLOR=0`
+or the CLI flag `--no-color` is set, or the terminal does not support colors.
+
+The console does not contain all the information the event payload does, and
 is not as structured, so is only meant as a quick debugging tool.
 
-# Event kinds
-
-There are several kinds of events.
-The log event name follow the pattern `log.PHASE.TYPE.LEVEL`.
-You can use globbing pattern, e.g. `server.on('log.*.*.error')`.
-
-# Event phases
+# Phases
 
 The event phase is the moment in the lifetime of the server, among:
   - `startup`
@@ -28,48 +63,40 @@ The event phase is the moment in the lifetime of the server, among:
   - `process`: anything that is process-related, e.g. unhandled rejected
     promises
 
-# Event types
-
-The event type is the type of information logged, among:
-  - `message`: generic message
-  - `start`: the server is ready
-  - `stop`: the server has exited
-  - `failure`: a client-side or server-side error occured
-  - `call`: a request has completed, i.e. a response was sent back to the
-    client (with success or not)
-  - `perf`: performance monitoring
-
-# Event levels
+# Levels
 
 The event level is the importance of the event, among `info`, `log`, `warn`
 or `error`,
 
-The logging verbosity can be adjusted using the
-[runtime option](server.md#runtime-options) `eventLevel` (defaults to `'info'`),
-which can also be `'silent'`.
+The events verbosity can be adjusted using the
+[runtime option](runtime.md#runtime-options) `eventLevel`
+(defaults to `'info'`), which can also be `'silent'`.
 
-# Event payload
+# Payload
 
-Events are fired with an object as payload, with properties:
+[Events handlers](#event-handlers) are fired with an object as payload,
+with properties:
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
-  - `phase` `{string}` - `'startup'`, `'shutdown'`, `'request'` or `'process'`
-  - `type` `{string}` - `'message'`, `'start'`, `'stop'`, `'failure'`, `'call'`
-    or `'perf'`
-  - `level` `{string}` - `'info'`, `'log'`, `'warn'` or `'error'`
-  - `message` `{string}` - what's printed on [console](#console-logging),
-    without the colors
+  - [`phase`](#phases) `{string}` - `'startup'`, `'shutdown'`, `'request'`
+    or `'process'`
+  - [`type`](#types) `{string}` - `'message'`, `'start'`, `'stop'`,
+    `'failure'`, `'call'` or `'perf'`
+  - [`level`](#levels) `{string}` - `'info'`, `'log'`, `'warn'` or `'error'`
+  - `message` `{string}` - what's printed on [console](#console)
   - `serverInfo` `{object}` - server or
     [host-specific information](#server-information)
+  - `runtimeOpts` `{object}` and `servers` `{object}` - for events of type
+    `start`, see [below](#start-information)
+  - `exitStatuses` `{object}` - for events of type `stop`, contains which
+    server successfully exited or not, as `{ HTTP: boolean, ... }`
   - `errorInfo` `{object}` - [error information](#error-information),
     for events of type `failure`
   - `requestInfo` `{object}` -
-    [request-specific information](#request-information), for events of
-    phase `request`
-  - `exitStatuses` `{object}` - for events of type `stop`, returns which
-    server successfully exited or not, as `{ HTTP: boolean, ... }`
+    [request-specific information](#request-information), for events during the
+    `request` phase
   - `measures` `{object}` and `measuresMessage` `string` - for events of type
-    `perf`, [performance information](#performance-monitoring)
+    `perf`, [performance information](performance.md)
 
 # Server information
 
@@ -87,34 +114,40 @@ Each event payload comes with a `serverInfo` property, with the properties:
   - `node` `{object}`
      - `version` `{string}` - Node.js version, e.g. `'v8.0.0'`
   - `apiEngine` `{object}`
-     - `version` `{string}` - `api-engine` versio, e.g. `'0.0.1'`
-  - [`serverId`](#server-identifiers) `{UUID}`
-  - [`serverName`](#server-identifiers) `{string}`
+     - `version` `{string}` - `api-engine` version, e.g. `'0.0.1'`
+  - `serverId` `{UUID}` and `serverName` `{string}`: see
+    [below](#server-identifiers)
 
 # Server identifiers
 
 A `serverId` UUID, unique to each server run, is automatically created and
 available:
-  - in [`serverInfo.serverId`](#server-information) log property
-  - on the return value as
-    [`server.info.serverId`](server.md#server-information)
+  - in [`serverInfo.serverId`](#server-information) payload property
   - as a response header named `X-Server-Id`
 
-A `serverName` UUID, unique to each machine, is available:
-  - in [`serverInfo.serverName`](#server-information) log property
-  - in [console logging](#console-logging) messages
-  - on the return value as
-    [`server.info.serverName`](server.md#server-information)
+`serverName` is the system hostname, but can be overriden using the
+[runtime option](runtime.md#runtime-options) `serverName`. It is available:
+  - in [`serverInfo.serverName`](#server-information) payload property
   - as a response header named `X-Server-Name`
+  - in [console messages](#console)
 
-`serverName` is set using any of:
-  - the [runtime option](server.md#runtime-options) `serverName`
-  - the system hostname
-  - an empty string
+# Start information
+
+Events of type `start` have two additional properties on the event payload:
+  - `runtimeOpts` `{object}`: [runtime options](runtime.md#runtime-options)
+    used by the server, after adding the default values.
+  - `servers` `{object}`: list of running servers
+    - `HTTP` `{object}`: HTTP server information
+      - `protocol` `{string}`: always `'HTTP'`
+      - `host` `{string}`
+      - `port` `{string}`
+
+The full `start` event payload is also available as the resolved value of
+the promise returned by [`apiServer.start()`](server.md#starting-a-server).
 
 # Error information
 
-Events of type `failure` have a `errorInfo` property on the event payload,
+Events of type `failure` have an `errorInfo` property on the event payload,
 with the properties (following
   [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt)):
   - `type` `{string}`: error type
@@ -126,10 +159,13 @@ with the properties (following
     two last ones.
   - `details` `{string}`: stack trace
 
+The full `failure` event payload is also available as the rejected value of
+the promise returned by [`apiServer.start()`](server.md#starting-a-server).
+
 # Request information
 
-Events of phase `request` have a `requestInfo` property on the event payload,
-with the properties:
+Events during the `request` phase have a `requestInfo` property on the
+event payload, with the properties:
   - `requestId` `{UUID}` - unique ID assigned to each request.
     Also available as `X-Request-Id` response header.
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
@@ -189,10 +225,10 @@ circumstances, e.g. if an error happened.
 # Request information filtering
 
 To avoid the request information to be too big or leak security information,
-one can set filters using the [runtime option](server.md#runtime-options)
-`logFilter`.
+one can set filters using the [runtime option](runtime.md#runtime-options)
+`eventFilter`.
 
-`logFilter` is an object, with each property specifying how filter part of
+`eventFilter` is an object, with each property specifying how filter part of
 the request information, among:
   - `true`: keep it
   - `false`: remove it
@@ -210,7 +246,7 @@ The possible properties are:
 
 Default values:
   - `queryVars`, `headers`, `params`, `settings`: `false`,
-    i.e. this information is not included in logs.
+    i.e. this information is not included in event payloads.
   - `payload`, `argData`, `actionResponses`, `responses`: only keep `id`.
 
 # Performance monitoring

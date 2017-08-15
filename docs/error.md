@@ -30,4 +30,4 @@ Additional properties specific to a given error type might also be present.
 
 # Error logging
 
-See [here](logging.md#error-information) for information about error logging.
+See [here](events.md#error-information) for information about error logging.
