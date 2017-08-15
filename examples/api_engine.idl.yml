@@ -126,8 +126,8 @@ helpers:
         $ref: math_func.js
       useParams: true
     user: '(({ id: "1" }))'
-  - $ref: underscore.string
-  - $ref: lodash
+  - $ref: underscore.string.node
+  - $ref: lodash.node
   - $ref: constants.json
 plugins:
   - plugin:

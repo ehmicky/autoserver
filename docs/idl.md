@@ -26,8 +26,8 @@ relative to the current directory.
 
 # JSON references
 
-The file can be broken down into several files or use libraries,
-by referring to external files (local or HTTP/HTTPS) or Node.js modules, using
+The file can be broken down into several files by referring to external files
+(local or HTTP/HTTPS), using
 [JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
 Those are simple objects with a single `$ref` property pointing to the file,
 e.g.:
@@ -38,14 +38,21 @@ models:
     $ref: user.yml
 ```
 
-[JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03)
-can also refer to a property in the current file:
+One can also refer to a property in the current file by prepending a `#`:
 
 ```yml
 models:
   user:
     $ref: '#/models/old_user'
 ```
+
+One can also refer to Node.js modules or libraries by appending `.node`:
+
+```yml
+helpers:
+  - $ref: lodash.node
+```
+
 # Example
 
 ```yml
