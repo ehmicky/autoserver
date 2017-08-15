@@ -6,7 +6,6 @@ to add any custom logic.
 JSL can be used in many parts of the system, mainly:
   - in clients queries:
     - on [`filter`](graphql.md#filtering)
-    - on [`data`](graphql.md#sorting) for the action `update`
   - in [IDL file](idl.md):
     - on attributes' [transforms](transformation.md#transformations)
     - on attributes' [default values](transformation.md#default-values)
