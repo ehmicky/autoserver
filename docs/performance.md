@@ -1,6 +1,6 @@
 # Performance monitoring
 
-[Logging events](logging.md#event-logging) of type `perf` are related to how
+[Events](events.md#types) of type `perf` are related to how
 long the server took to perform some steps.
 The `startup`, `shutdown` and `request` phases are all monitored.
 

@@ -103,6 +103,10 @@ Client-specified request-wide [argument](settings.md).
 
 Options passed to server when starting it
 
+## Events
+
+[Events](events.md) fired through runtime options `events` callbacks.
+
 ## Helpers
 
 Client-specified JSL
