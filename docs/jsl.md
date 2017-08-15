@@ -17,11 +17,10 @@ JSL can take two forms: [inline](#inline-jsl) or [external](#external-jsl).
 # Inline JSL
 
 It basically is inline JavaScript with few differences:
-  - for security and performance reasons, the syntax is restricted:
-    - global state cannot be accessed, e.g. `window` or `global`
-    - cannot create side-effects, which includes variable declarations and
+  - the function should be pure, i.e.:
+    - global state should not be accessed, e.g. `window` or `global`
+    - should not create side-effects, which includes variable declarations and
       assignments
-    - must be synchronous
   - some variables are available for ease of use
 
 To differentiate it from regular strings, inline JSL must be wrapped in
