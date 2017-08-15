@@ -3,6 +3,7 @@
 // Runtime option `defaultPageSize`
 const defaultPageSize = {
   name: 'defaultPageSize',
+  default: 100,
   validate: {
     type: 'integer',
     minimum: 0,
@@ -12,6 +13,7 @@ const defaultPageSize = {
 // Runtime option `maxPageSize`
 const maxPageSize = {
   name: 'maxPageSize',
+  default: 100,
   validate: {
     type: 'integer',
     minimum: 0,
@@ -21,6 +23,7 @@ const maxPageSize = {
 // Runtime option `maxDataLength`
 const maxDataLength = {
   name: 'maxDataLength',
+  default: 1000,
   validate: {
     type: 'integer',
     minimum: 0,
