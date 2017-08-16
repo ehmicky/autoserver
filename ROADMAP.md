@@ -1,0 +1,17 @@
+  - Connect to real database
+  - Authorization
+  - Aggregation queries
+  - Rework pagination
+  - Compatibility layer
+  - Proper error reporting
+  - Data model (nested models, orphans)
+  - ACID/BASE
+  - Tasks
+  - Authentication
+  - Concurrency conflicts
+  - Logging/monitoring dashboard
+  - Security
+  - Performance
+  - Hook to current microservices
+  - Data migrations
+  - Testing
