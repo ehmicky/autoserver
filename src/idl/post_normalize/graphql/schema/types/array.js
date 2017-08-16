@@ -6,7 +6,11 @@ const graphQLArrayTest = function (def) {
   // Already wrapped in Array type
   if (def.arrayWrapped) { return false; }
 
-  return def.action && def.action.multiple;
+  if (def.model) {
+    return def.action && def.action.multiple;
+  }
+
+  return def.isArray;
 };
 
 // Array field TGetter

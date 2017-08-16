@@ -4,7 +4,8 @@ const { GraphQLNonNull } = require('graphql');
 
 // Returns whether a field is required
 const graphQLRequiredTest = function (def, opts) {
-  return !requiredTests.some(testFunc => testFunc(def, opts));
+  const isOptional = optionalTests.some(testFunc => testFunc(def, opts));
+  return !isOptional;
 };
 
 // Already wrapped in Required type
@@ -35,7 +36,7 @@ const isCreateId = function ({ action }, { defName, inputObjectType }) {
     defName === 'id';
 };
 
-const requiredTests = [
+const optionalTests = [
   isWrapped,
   isNotRequiredValidated,
   isFilterArg,
