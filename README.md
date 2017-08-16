@@ -15,10 +15,10 @@ full-featured [GraphQL](http://graphql.org/) server will start.
     Each action can be performed on a single model or on several models.
   - [nested actions](docs/graphql.md#nested-models) and populating between
     models, including for mutations
-  - [filtering](docs/graphql.md#filtering), which can use custom logic
-  - [sorting](docs/graphql.md#sorting)
+  - [filtering](docs/filtering.md), which can use custom logic
+  - [sorting](docs/sorting.md)
   - selecting
-  - [pagination](docs/graphql.md#cursor-pagination)
+  - [pagination](docs/pagination.md)
   - [dry runs](docs/settings.md#dry-runs)
   - [silent outputs](docs/settings.md#silent-output)
   - [input validation](docs/validation.md#data-validation)

@@ -6,10 +6,9 @@
 //  - value is the default value.
 //    Can be a function taking the runtime options as first argument
 const defaults = {
-  nFilter: {
+  filter: {
     commands: ['readMany', 'deleteMany'],
-    value: '(true)',
-    test: ({ input }) => hasNoPaginationTokens({ input }),
+    value: {},
   },
 
   nOrderBy: {

@@ -4,8 +4,8 @@ const { omit } = require('../../../utilities');
 const { runJsl } = require('../../../jsl');
 
 // Apply default values to args.data's models
-const applyAllDefault = function applyAllDefault (opts) {
-  const { defAttributes, value, idl } = opts;
+const applyAllDefault = function (opts) {
+  const { defAttributes, value } = opts;
 
   // When args.data is an array of models, apply this recursively
   if (Array.isArray(value)) {
@@ -15,13 +15,13 @@ const applyAllDefault = function applyAllDefault (opts) {
   // Iterate over default values for that model, to apply them
   return Object.entries(defAttributes).reduce(
     (parent, [attrName, defValue]) =>
-      applyDefault({ ...opts, defValue, attrName, parent, idl }),
+      applyDefault({ ...opts, defValue, attrName, parent }),
     value,
   );
 };
 
 // Apply default value to args.data's attributes
-const applyDefault = function ({ parent, defValue, attrName, jsl, idl }) {
+const applyDefault = function ({ parent, defValue, attrName, jsl }) {
   const value = parent[attrName];
 
   // Only apply default if value is not empty
@@ -29,7 +29,7 @@ const applyDefault = function ({ parent, defValue, attrName, jsl, idl }) {
 
   // Process JSL if default value uses JSL
   const params = { $$: parent, $: value };
-  const defValueA = runJsl({ jsl, value: defValue, params, idl });
+  const defValueA = runJsl({ jsl, value: defValue, params });
 
   if (defValueA == null) {
     return omit(parent, attrName);

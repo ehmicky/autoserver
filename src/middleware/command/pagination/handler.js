@@ -31,14 +31,14 @@ const { getPaginationInfo } = require('./info');
 //                                 to guess if there is a previous or next page.
 //   offset {integer}            - offset response size.
 //                                 Only used with offset-based pagination
-//   nFilter                     - with cursor-based pagination, uses the
-//                                 `args.nFilter` of the previous request,
+//   filter                      - with cursor-based pagination, uses the
+//                                 `args.filter` of the previous request,
 //                                 which is encoded in the cursor.
 //                                 E.g. if last batch ended with model
 //                                 { a: 10, b: 20 }, then we transform
-//                                 args.nFilter { c: 30 } to
-//                                 { c: 30 } && > { a: 10, b: 20 }
-//   nOrderBy                    - same as `nFilter` but for `nOrderBy`
+//                                 args.filter { c: 30 } to
+//                                 { c: 30, a: { gt: 10 }, b: { gt: 20 } }
+//   nOrderBy                    - same as `filter` but for `nOrderBy`
 // Add metadata: token, page_size, has_previous_page, has_previous_page
 // Actions:
 //  - output is paginated with any command.name returning an array of response
@@ -60,7 +60,7 @@ const pagination = async function (nextFunc, input) {
   return paginatedOutput;
 };
 
-// Transform args.pageSize|before|after|page into args.limit|offset|nFilter
+// Transform args.pageSize|before|after|page into args.limit|offset|filter
 const processInput = function ({
   input,
   input: { args, command, action, modelName, idl },

@@ -196,8 +196,6 @@ definitions:
         properties:
           useParams:
             type: boolean
-          exposed:
-            type: boolean
   # idl.plugins
   plugins:
     type: array

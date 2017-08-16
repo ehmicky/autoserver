@@ -1,14 +1,13 @@
 'use strict';
 
-const { mapValues, pickBy } = require('../../utilities');
+const { mapValues } = require('../../utilities');
 
 // Normalize idl.helpers
 const normalizeHelpers = function ({ idl, idl: { helpers = {} } }) {
   const flatHelpers = flattenHelpers({ helpers });
   const normalizedHelpers = normalizeSyntax({ helpers: flatHelpers });
-  const exposedHelpers = getExposedHelpers({ helpers: normalizedHelpers });
 
-  return { ...idl, helpers: normalizedHelpers, exposedHelpers };
+  return { ...idl, helpers: normalizedHelpers };
 };
 
 // Helpers can be an array of objects, to help importing libraries using
@@ -27,13 +26,6 @@ const normalizeSyntax = function ({ helpers }) {
     if (helper.value === undefined) { return { value: helper }; }
     return helper;
   });
-};
-
-// Extract idl.helpers.HELPER.exposed ['filter', ...] to
-// idl.exposedHelpers ['HELPER', ...]
-const getExposedHelpers = function ({ helpers }) {
-  const exposedHelpers = pickBy(helpers, ({ exposed }) => exposed);
-  return Object.keys(exposedHelpers);
 };
 
 module.exports = {

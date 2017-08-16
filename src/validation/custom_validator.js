@@ -7,12 +7,12 @@ const { throwError } = require('../error');
 const { getValidator, addKeyword } = require('./validator');
 
 // Add custom validation keywords, from idl.validation
-const getCustomValidator = function ({ idl, idl: { validation = {} } }) {
+const getCustomValidator = function ({ idl: { validation = {} } }) {
   const ajv = getValidator();
 
   return Object.entries(validation).reduce(
     (ajvB, [keyword, { test: testFunc, message, type }]) =>
-      addCustomKeyword({ ajv: ajvB, keyword, testFunc, message, type, idl }),
+      addCustomKeyword({ ajv: ajvB, keyword, testFunc, message, type }),
     ajv,
   );
 };
@@ -24,14 +24,7 @@ const mGetCustomValidator = memoize(getCustomValidator, {
     `${Object.keys(validation).join(',')}`,
 });
 
-const addCustomKeyword = function ({
-  ajv,
-  keyword,
-  testFunc,
-  message,
-  type,
-  idl,
-}) {
+const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
   const ajvA = validateCustomKeyword({ ajv, type, keyword });
 
   return addKeyword({
@@ -50,10 +43,10 @@ const addCustomKeyword = function ({
       ) {
         const params = { $EXPECTED: expected, $$: parent, $: value };
 
-        const isValid = runJsl({ jsl, value: testFunc, params, idl });
+        const isValid = runJsl({ jsl, value: testFunc, params });
         if (isValid === true) { return true; }
 
-        const errorMessage = runJsl({ jsl, value: message, params, idl });
+        const errorMessage = runJsl({ jsl, value: message, params });
         // eslint-disable-next-line fp/no-mutation
         validate.errors = [{
           message: errorMessage,

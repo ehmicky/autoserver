@@ -1,5 +1,7 @@
 'use strict';
 
+const { isEqual } = require('lodash');
+
 const { throwError } = require('../../../../../error');
 const { decode } = require('../../encoding');
 
@@ -39,28 +41,25 @@ const validateSingleType = function (args) {
   return args;
 };
 
+// Also, cannot specify 'filter' or 'nOrderBy' with a cursor, because the
+// cursor already includes them.
 const validateForbiddenArgs = function (args) {
-  // Also, cannot specify 'nFilter' or 'nOrderBy' with a cursor, because the
-  // cursor already includes them.
-  return forbiddenArgs.reduce(
-    (argsA, forbiddenArg) => validateForbiddenArg(argsA, forbiddenArg),
-    args,
-  );
-};
+  if (!hasCursor({ args })) { return args; }
 
-const forbiddenArgs = ['nFilter', 'nOrderBy'];
-
-const validateForbiddenArg = function (args, forbiddenArg) {
-  const hasForbiddenArg = args[forbiddenArg] !== undefined &&
-    ((args.before !== undefined && args.before !== '') ||
-    (args.after !== undefined && args.after !== ''));
-
-  if (hasForbiddenArg) {
-    const message = `Wrong parameters: cannot use both '${forbiddenArg}' and 'before|after'`;
+  if (args.filter && !isEqual(args.filter, {})) {
+    const message = 'Wrong parameters: cannot use both \'filter\' and \'before|after\'';
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  return args;
+  if (args.nOrderBy !== undefined) {
+    const message = 'Wrong parameters: cannot use both \'order_by\' and \'before|after\'';
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+};
+
+const hasCursor = function ({ args }) {
+  return (args.before !== undefined && args.before !== '') ||
+    (args.after !== undefined && args.after !== '');
 };
 
 const validators = [
@@ -91,10 +90,7 @@ const getDecodedToken = function ({ token, name }) {
     return decode({ token });
   } catch (error) {
     const message = `Wrong parameters: '${name}' is invalid`;
-    throwError(message, {
-      reason: 'INPUT_VALIDATION',
-      innererror: error,
-    });
+    throwError(message, { reason: 'INPUT_VALIDATION', innererror: error });
   }
 };
 

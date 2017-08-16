@@ -1,15 +1,11 @@
 # JSL
 
-JSL is a shortcut notation we use to allow both clients and server maintainers
-to add any custom logic.
+JSL is a shortcut notation we use to add any custom logic.
 
-JSL can be used in many parts of the system, mainly:
-  - in clients queries:
-    - on [`filter`](graphql.md#filtering)
-  - in [IDL file](idl.md):
-    - on attributes' [transforms](transformation.md#transformations)
-    - on attributes' [default values](transformation.md#default-values)
-    - on [custom validation keywords](validation.md#custom-validation)
+JSL can be used in many parts of the [IDL file](idl.md):
+  - on attributes' [transforms](transformation.md#transformations)
+  - on attributes' [default values](transformation.md#default-values)
+  - on [custom validation keywords](validation.md#custom-validation)
 
 JSL can take two forms: [inline](#inline-jsl) or [external](#external-jsl).
 
@@ -62,18 +58,16 @@ The following variables are available:
   - `$COMMAND` `{string}`: current command, among `create`, `read`, `update` or
     `delete`
   - `$` `{any}`: value of current attribute
-    E.g. `{ filter: { name: '$ !== "John"' } }`
+    E.g. `'($ !== "John")'`
     checks whether `model.name !== 'John'`
   - `$$` `{object}`: current model (input or output),
-    E.g. `{ filter: { name: '$ === $$.first_name' } }`
+    E.g. `'($ === $$.first_name)'`
     checks whether `model.name === model.first_name`
 
 The following variable is available only to
 [custom validation](validation.md#custom-validation) keyword:
   - `$EXPECTED` `${any}`: value passed as argument to the custom validation
     keyword
-
-Clients queries `filter` and `data` can only use `$` and `$$` JSL variables.
 
 # JSL helpers
 
@@ -85,8 +79,6 @@ object. Each object is a map of JSL helpers, with:
   - the key being the helper's name
   - the value being either the helper's value, of an object with properties:
     - `value` `{jsl}`
-    - `exposed` `{boolean}` (default: `false`): allow clients to use this
-      helper
     - `useParams` `{boolean}` (default: `false`): pass other JSL variables
       as first argument to helper function
 
@@ -107,9 +99,7 @@ Example:
 helpers:
   - myMathFunc: (($1 * $2) + ($3 * $4))
     exampleFunction: '(myMathFunc(1, 10, 100, 2))'
-    birthDate:
-      value: 2005-01-01
-      exposed: true
+    birthDate: 2005-01-01
     myOtherMathFunc:
       value:
         $ref: math_func.js

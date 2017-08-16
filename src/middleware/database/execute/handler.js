@@ -5,14 +5,14 @@ const database = require('./data.json');
 const { fireCommand } = require('./fire');
 
 const databaseExecute = function (nextFunc, input) {
-  const { command, args = {}, settings, modelName, jsl, idl } = input;
+  const { command, args = {}, settings, modelName } = input;
 
-  const { nOrderBy, limit, offset, newData, nFilter } = args;
+  const { nOrderBy, limit, offset, newData, filter } = args;
   const { dryrun } = settings;
   const collection = database[modelName];
 
-  const opts = { jsl, idl, nOrderBy, limit, offset, dryrun, modelName };
-  const commandInput = { command, collection, nFilter, newData, opts };
+  const opts = { nOrderBy, limit, offset, dryrun, modelName };
+  const commandInput = { command, collection, filter, newData, opts };
   const response = fireCommand(commandInput);
 
   return response;

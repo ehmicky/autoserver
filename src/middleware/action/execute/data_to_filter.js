@@ -6,8 +6,7 @@ const { throwError } = require('../../../error');
 // the first and the second "read" command
 const dataToFilter = function ({ args: { data: dataArg } }) {
   const ids = getDataIds({ dataArg });
-  const idsJsl = idsToJsl({ ids });
-  return idsJsl;
+  return { id: ids };
 };
 
 const getDataIds = function ({ dataArg }) {
@@ -26,16 +25,6 @@ const getDataId = function ({ model, model: { id } }) {
   }
 
   return id;
-};
-
-const idsToJsl = function ({ ids }) {
-  const idsStr = JSON.stringify(ids);
-
-  if (Array.isArray(ids)) {
-    return `(${idsStr}.includes($$.id))`;
-  }
-
-  return `(($$.id === ${idsStr}))`;
 };
 
 module.exports = {
