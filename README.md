@@ -38,6 +38,10 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [performance monitoring](docs/performance.md#performance-monitoring)
   - [request timeout](docs/performance.md#request-timeout)
 
+# Missing features
+
+See the [roadmap](ROADMAP.md).
+
 # Starting the server
 
 See [here](docs/server.md).
