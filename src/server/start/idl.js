@@ -21,7 +21,7 @@ const loadIdl = async function ({ idlFile }) {
     const { idl } = await getIdlFile({ idlFile });
     return { idl };
   } catch (error) {
-    const message = `Could not load IDL file '${idlFile}'`;
+    const message = 'Could not load IDL file';
     throwError(message, { reason: 'CONF_LOADING', innererror: error });
   }
 };

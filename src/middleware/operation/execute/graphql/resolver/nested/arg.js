@@ -2,8 +2,6 @@
 
 const { throwError } = require('../../../../../../error');
 
-const { buildNestedArg } = require('./build');
-
 // Make nested models filtered by their parent model
 // E.g. if a model findParent() returns { child: 1 },
 // then a nested query findChild() will be filtered by `id: 1`
@@ -82,6 +80,39 @@ const validateNestedArg = function ({ parentVal, name, isArray, argValue }) {
   }
 
   return argValue;
+};
+
+// Add `id` argument
+const buildNestedArg = function ({ argValue, parentVal, name }) {
+  const nestedFunc = Array.isArray(argValue)
+    ? buildNestedArgArray
+    : buildNestedArgObject;
+  return nestedFunc({ argValue, parentVal, name });
+};
+
+const buildNestedArgArray = function ({ argValue, parentVal, name }) {
+  return argValue.map((singleArgValue, index) => {
+    if (singleArgValue.id) {
+      const message = `In '${name}' model, wrong parameters: 'id' must not be defined`;
+      throwError(message, { reason: 'INPUT_VALIDATION' });
+    }
+
+    const id = parentVal[index];
+    return { ...singleArgValue, id };
+  });
+};
+
+// If nested `args.id` is present, do an intersection with parent id.
+const buildNestedArgObject = function ({ argValue, parentVal }) {
+  const id = getIntersectedIds({ argValue, parentVal });
+  return { ...argValue, id };
+};
+
+const getIntersectedIds = function ({ argValue, parentVal }) {
+  if (!argValue.id) { return parentVal; }
+
+  const ids = Array.isArray(argValue.id) ? argValue.id : [argValue.id];
+  return parentVal.filter(parentId => ids.includes(parentId));
 };
 
 module.exports = {

@@ -64,7 +64,7 @@ const applyTransform = function ({
   data,
   attrName,
   transform,
-  input: { jsl, idl },
+  input: { jsl },
   type,
 }) {
   const currentVal = data[attrName];
@@ -74,7 +74,7 @@ const applyTransform = function ({
   if (type === 'transform' && currentVal == null) { return currentVal; }
 
   const params = getTransformParams({ data, currentVal, type });
-  const valueA = runJsl({ jsl, value: transform, params, idl });
+  const valueA = runJsl({ jsl, value: transform, params });
 
   // Returning `null` or `undefined` with `compute` or `value` is a way
   // to ignore that return value.

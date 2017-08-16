@@ -1,10 +1,15 @@
 'use strict';
 
 const { sortArray } = require('../../../../utilities');
-const { findIndexes, findIndexByFilter } = require('../find');
+const { findIndexes, findIndex } = require('../find');
 
-const deleteOne = function ({ collection, nFilter, opts, opts: { dryrun } }) {
-  const index = findIndexByFilter({ collection, nFilter, opts });
+const deleteOne = function ({
+  collection,
+  filter: { id },
+  opts,
+  opts: { dryrun },
+}) {
+  const index = findIndex({ collection, id, opts });
   const model = dryrun
     ? collection[index]
     // eslint-disable-next-line fp/no-mutating-methods
@@ -12,8 +17,8 @@ const deleteOne = function ({ collection, nFilter, opts, opts: { dryrun } }) {
   return { data: model };
 };
 
-const deleteMany = function ({ collection, nFilter, opts, opts: { dryrun } }) {
-  const indexes = findIndexes({ collection, nFilter, opts });
+const deleteMany = function ({ collection, filter, opts: { dryrun } }) {
+  const indexes = findIndexes({ collection, filter });
   const sortedIndexes = sortArray(indexes);
   const models = sortedIndexes.map((index, count) => {
     const model = dryrun

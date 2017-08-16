@@ -21,7 +21,12 @@ const argsSchema = {
   },
 
   // Normalization middleware does some extra checks on those attributes
-  filter: { oneOf: [{ type: 'string' }, { type: 'object' }] },
+  filter: {
+    oneOf: [
+      { type: 'object' },
+      { type: 'array', items: { type: 'object' } },
+    ],
+  },
   order_by: { type: 'string' },
 
   // Pagination middleware does some extra checks on those attributes

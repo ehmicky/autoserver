@@ -1,17 +1,14 @@
 'use strict';
 
-const { checkNames } = require('./validation');
 const { getHelpers } = require('./helpers');
 
 const createJsl = function ({ idl }) {
   const helpers = getHelpers({ idl });
-  const params = checkNames({ params: helpers, type: 'USER' });
-  return { params };
+  return { params: helpers };
 };
 
-const addJsl = function (input, params, { type = 'SYSTEM' } = {}) {
-  const paramsA = checkNames({ params, type });
-  const paramsB = { ...input.jsl.params, ...paramsA };
+const addJsl = function (input, params) {
+  const paramsB = { ...input.jsl.params, ...params };
   return { ...input, jsl: { params: paramsB } };
 };
 

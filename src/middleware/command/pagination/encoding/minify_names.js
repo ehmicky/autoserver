@@ -2,7 +2,7 @@
 
 const { invert, mapKeys } = require('../../../../utilities');
 
-// Name shortcuts, e.g. { nFilter: value } -> { f: value }
+// Name shortcuts, e.g. { filter: value } -> { f: value }
 const addNameShortcuts = function (token) {
   return mapKeys(token, (value, attrName) =>
     shortcuts[attrName] || attrName
@@ -16,7 +16,7 @@ const removeNameShortcuts = function (token) {
 };
 
 const shortcuts = {
-  nFilter: 'f',
+  filter: 'f',
   nOrderBy: 'o',
   parts: 'p',
 };

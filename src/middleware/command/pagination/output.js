@@ -57,19 +57,6 @@ const getPaginationOutput = function ({ args, args: { page }, response }) {
   return { data, metadata: metadataA };
 };
 
-const getPageOrToken = function ({
-  isOffset,
-  page,
-  model,
-  args: { nOrderBy, nFilter },
-  token,
-}) {
-  if (isOffset) { return { page }; }
-
-  const tokenA = getPaginationToken({ model, nOrderBy, nFilter, token });
-  return { token: tokenA };
-};
-
 const getData = function ({
   response: { data, metadata },
   lastHasNextPage,
@@ -92,23 +79,36 @@ const getData = function ({
   };
 };
 
+const getPageOrToken = function ({
+  isOffset,
+  page,
+  model,
+  args: { nOrderBy, filter },
+  token,
+}) {
+  if (isOffset) { return { page }; }
+
+  const tokenA = getPaginationToken({ model, nOrderBy, filter, token });
+  return { token: tokenA };
+};
+
 // Calculate token to output
-const getPaginationToken = function ({ model, nOrderBy, nFilter, token }) {
-  const tokenObj = getTokenObj({ nOrderBy, nFilter, token });
+const getPaginationToken = function ({ model, nOrderBy, filter, token }) {
+  const tokenObj = getTokenObj({ nOrderBy, filter, token });
   const parts = tokenObj.nOrderBy.map(({ attrName }) => model[attrName]);
   const tokenObjA = { ...tokenObj, parts };
   const encodedToken = encode({ token: tokenObjA });
   return encodedToken;
 };
 
-const getTokenObj = function ({ nOrderBy, nFilter, token }) {
+const getTokenObj = function ({ nOrderBy, filter, token }) {
   if (token === undefined || token === '') {
-    return { nOrderBy, nFilter };
+    return { nOrderBy, filter };
   }
 
   // Reuse old token
   const oldToken = decode({ token });
-  return pick(oldToken, ['nOrderBy', 'nFilter']);
+  return pick(oldToken, ['nOrderBy', 'filter']);
 };
 
 module.exports = {

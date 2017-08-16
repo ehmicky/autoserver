@@ -3,7 +3,7 @@
 // JSON schema validating a pagination token
 const tokenSchema = {
   type: 'object',
-  required: ['nOrderBy', 'nFilter', 'parts'],
+  required: ['nOrderBy', 'filter', 'parts'],
   properties: {
     parts: {
       type: 'array',
@@ -23,8 +23,8 @@ const tokenSchema = {
         },
       },
     },
-    nFilter: {
-      type: 'string',
+    filter: {
+      type: 'object',
     },
   },
 };

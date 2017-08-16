@@ -1,14 +1,14 @@
 'use strict';
 
-const { findIndexes, findIndexByFilter } = require('../find');
+const { findIndexes, findIndex } = require('../find');
 
-const readOne = function ({ collection, nFilter, opts }) {
-  const index = findIndexByFilter({ collection, nFilter, opts });
+const readOne = function ({ collection, filter: { id }, opts }) {
+  const index = findIndex({ collection, id, opts });
   return { data: collection[index] };
 };
 
-const readMany = function ({ collection, nFilter, opts }) {
-  const indexes = findIndexes({ collection, nFilter, opts });
+const readMany = function ({ collection, filter }) {
+  const indexes = findIndexes({ collection, filter });
   const models = indexes.map(index => collection[index]);
   return { data: models };
 };

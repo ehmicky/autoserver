@@ -118,9 +118,7 @@ helpers:
       myOtherMathFunc({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
     recursive_func: (exampleFunction())
     moreRecursiveFunc: (recursive_func() + TestConstant + $OPERATION)
-    birthDate:
-      value: 2005-01-01
-      exposed: true
+    birthDate: 2005-01-01
     myOtherMathFunc:
       value:
         $ref: math_func.js
