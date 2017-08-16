@@ -11,6 +11,10 @@ const addActions = function ({ fields, parentDef }) {
 const addAction = function ({ def, parentDef }) {
   if (def.action) { return def; }
 
+  if (!def.target) {
+    return { ...def, action: parentDef.action };
+  }
+
   const action = ACTIONS.find(ACTION =>
     ACTION.type === parentDef.action.type &&
     ACTION.multiple === def.isArray
