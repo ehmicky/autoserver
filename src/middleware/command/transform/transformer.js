@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
-const { runJsl } = require('../../../jsl');
+const { addOnlyJsl, runJsl } = require('../../../jsl');
 
 const applyInputTransforms = function ({
   input,
@@ -74,7 +74,8 @@ const applyTransform = function ({
   if (type === 'transform' && currentVal == null) { return currentVal; }
 
   const params = getTransformParams({ data, currentVal, type });
-  const valueA = runJsl({ jsl, value: transform, params });
+  const jslA = addOnlyJsl(jsl, params);
+  const valueA = runJsl({ jsl: jslA, jslFunc: transform });
 
   // Returning `null` or `undefined` with `compute` or `value` is a way
   // to ignore that return value.
