@@ -50,7 +50,7 @@ const validators = {
 };
 
 const settings = {
-  jslName: '$SETTINGS',
+  idlFuncName: '$SETTINGS',
   genericName: 'settings',
   queryVarName: 'settings',
   headersTest,

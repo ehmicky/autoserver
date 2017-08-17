@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../error');
-const { isJsl } = require('../../../jsl');
+const { isInlineFunc } = require('../../../idl_func');
 
 const { attributesPlugin } = require('./attributes');
 
@@ -10,7 +10,7 @@ const { attributesPlugin } = require('./attributes');
 //   updated_by {User} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
 // User is specified by opts:
-//   [user="(user())"] {jsl} - current user
+//   [user="(user())"] {inlineFunc} - current user
 //   [model="user"] {string} - user's model name
 const authorPlugin = function ({ idl, opts }) {
   validateConf({ idl, opts });
@@ -18,8 +18,8 @@ const authorPlugin = function ({ idl, opts }) {
 };
 
 const validateConf = function ({ idl, opts: { user, model = 'user' } }) {
-  if (user && !isJsl({ jsl: user })) {
-    const message = 'In \'author\' plugin, \'user\' must be a JSL string';
+  if (user && !isInlineFunc({ inlineFunc: user })) {
+    const message = 'In \'author\' plugin, \'user\' must be an inline function';
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 

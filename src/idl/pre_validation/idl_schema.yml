@@ -16,7 +16,7 @@ properties:
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
-  # Custom functions that can be used in JSL
+  # Custom functions that can be used in IDL functions
   helpers:
     oneOf:
     - type: array
@@ -217,14 +217,14 @@ definitions:
       type: object
       properties:
         test:
-          $ref: '#/definitions/jsl'
-        # Error messages can either be a string, or JSL
+          $ref: '#/definitions/idlFunc'
+        # Error messages can either be a string, or IDL functions
         message:
           type: string
           # Convention: error message must start with "must"
           anyOf:
           - not:
-              $ref: '#/definitions/jsl'
+              $ref: '#/definitions/idlFunc'
             pattern: ^must\s
           - anyOf:
             - pattern: ^\("must\s.*"\)$
@@ -281,17 +281,17 @@ definitions:
     - boolean[]
   # attr.transform or attr.compute
   transformCompute:
-    $ref: '#/definitions/jslOrValue'
+    $ref: '#/definitions/idlFuncOrValue'
   # model.description or attr.description
   description:
     type: string
-  # TODO: better validation of JSL
-  jslOrValue:
+  # TODO: better validation of IDL functions
+  idlFuncOrValue:
     anyOf:
-    - $ref: '#/definitions/jsl'
+    - $ref: '#/definitions/idlFunc'
     - true
-  # JSL can either be a function or a string '(...)'
-  jsl:
+  # IDL functions can either be a function or a string '(...)'
+  idlFunc:
     anyOf:
     - typeof: function
     - typeof: string

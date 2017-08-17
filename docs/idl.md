@@ -87,7 +87,8 @@ The IDL file can contain the following properties:
       - `attributes` `{object}` - list of the model's
         [attributes](models.md#attributes)
         - `ATTRIBUTE` `{object}` - ATTRIBUTE is the name
-  - `helpers` `{object}` - [JSL helpers](jsl.md#jsl-helpers)
+  - `helpers` `{object}` -
+    [IDL function helpers](functions.md#idl-function-helpers)
   - `plugins` `{object}` - [plugins](plugins.md)
   - `validation` `{object}` -
     [custom validation keywords](validation.md#custom-validation)
@@ -99,7 +100,7 @@ See the following documentation for:
   - [authorization](authorization.md)
   - [transformation](transformation.md)
   - [compatibility](compatibility.md)
-  - [JSL helpers](jsl.md#jsl-helpers)
+  - [IDL function helpers](functions.md#idl-function-helpers)
   - [plugins](plugins.md)
 
 # IDL file validation

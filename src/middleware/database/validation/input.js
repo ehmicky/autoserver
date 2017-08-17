@@ -1,6 +1,6 @@
 'use strict';
 
-const { pickBy, omitBy } = require('../../../utilities');
+const { omitBy } = require('../../../utilities');
 const { validate } = require('../../../validation');
 
 const { getDataValidationSchema } = require('./schema');
@@ -10,14 +10,14 @@ const { getDataValidationSchema } = require('./schema');
 // this will be validated here
 const validateInputData = function ({
   input,
-  input: { args, modelName, command, jsl, idl },
+  input: { args, modelName, command, ifv, idl },
 }) {
   const schema = getDataValidationSchema({ idl, modelName, command });
   const attrs = getAttrs(args);
 
   return Object.entries(attrs).reduce(
     (inputA, [dataVar, attr]) =>
-      validateAttr({ input: inputA, dataVar, attr, schema, jsl }),
+      validateAttr({ input: inputA, dataVar, attr, schema, ifv }),
     input,
   );
 };
@@ -30,12 +30,12 @@ const getAttrs = function (args) {
   return { data: args.newData };
 };
 
-const validateAttr = function ({ input, dataVar, attr, schema, jsl }) {
+const validateAttr = function ({ input, dataVar, attr, schema, ifv }) {
   const attrArray = Array.isArray(attr) ? attr : [attr];
 
   return attrArray.reduce(
     (inputA, data) =>
-      validateSingleAttr({ input: inputA, dataVar, schema, jsl, data }),
+      validateSingleAttr({ input: inputA, dataVar, schema, ifv, data }),
     input,
   );
 };
@@ -45,14 +45,14 @@ const validateSingleAttr = function ({
   input: { idl },
   dataVar,
   schema,
-  jsl,
+  ifv,
   data,
 }) {
   const dataA = removeEmpty(data);
 
   const reportInfo = { type, dataVar };
 
-  validate({ idl, schema, data: dataA, reportInfo, extra: jsl });
+  validate({ idl, schema, data: dataA, reportInfo, extra: ifv });
 
   return input;
 };

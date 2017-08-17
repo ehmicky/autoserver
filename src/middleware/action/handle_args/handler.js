@@ -1,6 +1,6 @@
 'use strict';
 
-const { addJsl } = require('../../../jsl');
+const { addIfv } = require('../../../idl_func');
 const { addReqInfoIfError } = require('../../../events');
 
 const { validateBasic } = require('./validate_basic');
@@ -8,12 +8,13 @@ const { validateSyntax } = require('./syntax');
 const { validateLimits } = require('./validate_limits');
 const { renameArgs } = require('./rename');
 
-// Process client-supplied args: validates them and add them to JSL variables
+// Process client-supplied args: validates them and add them to
+// IDL functions variables
 // Also rename them camelcase
 const handleArgs = async function (nextFunc, input) {
   const { args } = input;
 
-  const inputA = addJsl(input, { $ARGS: args });
+  const inputA = addIfv(input, { $ARGS: args });
 
   validateArgs({ input: inputA });
 

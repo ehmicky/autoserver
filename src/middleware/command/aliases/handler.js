@@ -10,7 +10,7 @@ const { applyOutputAliases } = require('./output');
 //     value
 // The server is unaware of aliases, i.e. only the main attribute name:
 //   - is stored in the database
-//   - should be used in JSL (with `$$`) in IDL file
+//   - should be used in IDL functions (with `$$`)
 const renameAliases = async function (nextFunc, input) {
   const { modelName, idl: { shortcuts: { aliasesMap } } } = input;
 

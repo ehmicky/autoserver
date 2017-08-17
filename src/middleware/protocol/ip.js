@@ -1,14 +1,15 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addJsl } = require('../../jsl');
+const { addIfv } = require('../../idl_func');
 const { addReqInfo } = require('../../events');
 
-// Retrieve request's IP, assigned to protocol input, and also to JSL $IP
+// Retrieve request's IP, assigned to protocol input,
+// and also to IDL function variable $IP
 const getIp = async function (nextFunc, input) {
   const ip = getRequestIp(input);
 
-  const inputA = addJsl(input, { $IP: ip });
+  const inputA = addIfv(input, { $IP: ip });
   const inputB = addReqInfo(inputA, { ip });
   const inputC = { ...inputB, ip };
 

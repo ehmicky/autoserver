@@ -1,7 +1,7 @@
 'use strict';
 
 const { pick } = require('../../utilities');
-const { addJsl } = require('../../jsl');
+const { addIfv } = require('../../idl_func');
 const { addReqInfoIfError } = require('../../events');
 const { commonAttributes } = require('../common_attributes');
 
@@ -10,7 +10,7 @@ const commandConvertor = async function (nextFunc, input) {
   const { command } = input;
 
   const inputA = pick(input, commandAttributes);
-  const inputB = addJsl(inputA, { $COMMAND: command.type });
+  const inputB = addIfv(inputA, { $COMMAND: command.type });
 
   const response = await nextFunc(inputB);
   return response;

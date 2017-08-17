@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../error');
 const { compile } = require('../../validation');
-const { compileIdlJsl } = require('../../jsl');
+const { compileIdlFuncs } = require('../../idl_func');
 
 // Validates that idl.models.MODEL are valid JSON schema
 // by compiling them with AJV
@@ -10,7 +10,7 @@ const validateJsonSchema = function ({
   idl,
   idl: { shortcuts: { validateMap } },
 }) {
-  const idlA = compileIdlJsl({ idl });
+  const idlA = compileIdlFuncs({ idl });
   compile({ schema: validateMap, idl: idlA });
 
   return idl;

@@ -1,15 +1,16 @@
-# JSL
+# IDL functions
 
-JSL is a shortcut notation we use to add any custom logic.
+Custom logic can be added by using functions in the IDL file.
 
-JSL can be used in many parts of the [IDL file](idl.md):
+IDL functions can be used in many parts of the [IDL file](idl.md):
   - on attributes' [transforms](transformation.md#transformations)
   - on attributes' [default values](transformation.md#default-values)
   - on [custom validation keywords](validation.md#custom-validation)
 
-JSL can take two forms: [inline](#inline-jsl) or [external](#external-jsl).
+Functions can take two forms: [inline](#inline-functions)
+or [external](#external-functions).
 
-# Inline JSL
+# Inline functions
 
 It basically is inline JavaScript with few differences:
   - the function should be pure, i.e.:
@@ -18,17 +19,17 @@ It basically is inline JavaScript with few differences:
       assignments
   - some variables are available for ease of use
 
-To differentiate it from regular strings, inline JSL must be wrapped in
+To differentiate it from regular strings, inline functions must be wrapped in
 parenthesis.
 The first parenthesis can be escaped if we actually want a regular string
 wrapped in parenthesis. E.g.:
-  - this is not inline JSL: `1 + 1`
-  - this is inline JSL: `(1 + 1)`
-  - this is not inline JSL: `\(1 + 1)`
+  - this is not an inline function: `1 + 1`
+  - this is an inline function: `(1 + 1)`
+  - this is not an inline function: `\(1 + 1)`
 
-Constants can be always be used instead of inline JSL.
+Constants can be always be used instead of an inline function.
 
-# External JSL
+# External functions
 
 One can use regular JavaScript files instead of inlining it. Files can be
 required using
@@ -37,19 +38,19 @@ e.g.:
 
 ```yml
 default:
-  $ref: src/my_jsl_function.js
+  $ref: src/my_external_function.js
 ```
 
-External JSL can only be used inside the [IDL file](idl.md).
+External functions can only be used inside the [IDL file](idl.md).
 
-# JSL variables
+# IDL function variables
 
 The following variables are available:
   - `$PROTOCOL` `{string}`: possible values are only `http`
   - `$NOW` `{string}`: current date and time
   - `$IP` `{string}`: request IP
   - `$REQUEST_ID` `{string}`: UUID identifying the current request
-  - `$PARAMS` `{object}`: all [parameters](#jsl-parameters)
+  - `$PARAMS` `{object}`: all [parameters](#idl-function-parameters)
   - `$SETTINGS` `{object}`: all [settings](settings.md)
   - `$OPERATION` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
@@ -69,27 +70,28 @@ The following variable is available only to
   - `$EXPECTED` `${any}`: value passed as argument to the custom validation
     keyword
 
-# JSL helpers
+# IDL function helpers
 
-Helpers are functions that can be used in any JSL, as any other JSL variable.
+Helpers are functions that can be used in any IDL functions,
+as any other IDL functions variable.
 
 They are specified under the top-level properties
 `helpers`, which can be an array of objects (which are merged) or a single
-object. Each object is a map of JSL helpers, with:
+object. Each object is a map of IDL function helpers, with:
   - the key being the helper's name
   - the value being either the helper's value, of an object with properties:
-    - `value` `{jsl}`
-    - `useParams` `{boolean}` (default: `false`): pass other JSL variables
-      as first argument to helper function
+    - `value` `{function}`
+    - `useParams` `{boolean}` (default: `false`): pass other IDL function
+      variables as first argument to helper function
 
-They can use the same JSL variables as the function that calls them.
-If the helper is external JSL, the IDL option `useParams` must be used to
-pass the JSL variables as first argument.
+They can use the same IDL function variables as the function that calls them.
+If the helper is external function, the IDL option `useParams` must be used to
+pass the IDL function variables as first argument.
 
-Inline JSL can also use positional arguments, passed as JSL variables
-`$1`, `$2`, etc.
+Inline functions can also use positional arguments, passed as IDL function
+variables `$1`, `$2`, etc.
 
-JSL helpers can call each other.
+IDL function helpers can call each other.
 
 They must be pure functions.
 
@@ -108,10 +110,10 @@ helpers:
   - $ref: constants.json
 ```
 
-# JSL parameters
+# IDL function parameters
 
-Clients can specify their own JSL variables on any specific request,
-called "JSL parameters", and available under `$PARAMS`.
+Clients can specify their own IDL function variables on any specific request,
+called "parameters", and available under `$PARAMS`.
 
 There are two ways to specify them, e.g. the parameter `myparam` could
 be specified:

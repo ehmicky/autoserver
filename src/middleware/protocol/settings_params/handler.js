@@ -13,7 +13,7 @@ const { addValues } = require('./add');
 //     operation. The list is predefined by the API engine.
 //     Redundant protocol-specific headers might exist for some settings.
 // Values are automatically transtyped.
-// Are set to JSL param $PARAMS and $SETTINGS
+// Are set to IDL function variables $PARAMS and $SETTINGS
 const parseSettingsParams = async function (nextFunc, input) {
   const inputA = addAllTypes({ input });
 

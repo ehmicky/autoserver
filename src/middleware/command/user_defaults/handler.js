@@ -3,7 +3,7 @@
 const { applyAllDefault } = require('./apply');
 
 // Applies schema `default`, if input value is undefined
-// This can be a static value or any JSL
+// This can be a static value or any IDL function
 // Not applied on partial write actions like 'update'
 const userDefaults = async function (nextFunc, input) {
   const inputA = addUserDefault({ input });
@@ -18,7 +18,7 @@ const addUserDefault = function ({
     args,
     args: { newData },
     modelName,
-    jsl,
+    ifv,
     idl,
     idl: { shortcuts: { userDefaultsMap } },
   },
@@ -26,7 +26,7 @@ const addUserDefault = function ({
   if (!newData) { return input; }
 
   const defAttributes = userDefaultsMap[modelName];
-  const newDataA = applyAllDefault({ jsl, defAttributes, value: newData, idl });
+  const newDataA = applyAllDefault({ ifv, defAttributes, value: newData, idl });
 
   return { ...input, args: { ...args, newData: newDataA } };
 };

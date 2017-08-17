@@ -22,7 +22,7 @@ const validateValue = function ({ values, name }) {
 const PARAMS_NAME_VALIDATION = /^[a-zA-Z][a-zA-Z0-9]*$/;
 
 const params = {
-  jslName: '$PARAMS',
+  idlFuncName: '$PARAMS',
   genericName: 'params',
   queryVarName: 'params',
   headersTest,

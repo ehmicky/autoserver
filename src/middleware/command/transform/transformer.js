@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
-const { addOnlyJsl, runJsl } = require('../../../jsl');
+const { addOnlyIfv, runIdlFunc } = require('../../../idl_func');
 
 const applyInputTransforms = function ({
   input,
@@ -64,7 +64,7 @@ const applyTransform = function ({
   data,
   attrName,
   transform,
-  input: { jsl },
+  input: { ifv },
   type,
 }) {
   const currentVal = data[attrName];
@@ -74,8 +74,8 @@ const applyTransform = function ({
   if (type === 'transform' && currentVal == null) { return currentVal; }
 
   const params = getTransformParams({ data, currentVal, type });
-  const jslA = addOnlyJsl(jsl, params);
-  const valueA = runJsl({ jsl: jslA, jslFunc: transform });
+  const ifvA = addOnlyIfv(ifv, params);
+  const valueA = runIdlFunc({ ifv: ifvA, idlFunc: transform });
 
   // Returning `null` or `undefined` with `compute` or `value` is a way
   // to ignore that return value.
@@ -86,8 +86,8 @@ const applyTransform = function ({
 };
 
 const getTransformParams = function ({ data, currentVal, type }) {
-  // `compute` cannot use $ in JSL, because the model is not persisted
-  // `value` cannot use $ in JSL, because it does not transform it
+  // `compute` cannot use $ in IDL functions, because the model is not persisted
+  // `value` cannot use $ in IDL functions, because it does not transform it
   // (as opposed to `transform`) but creates a new value independently of
   // the current value.
   if (['compute', 'value'].includes(type)) { return { $$: data }; }

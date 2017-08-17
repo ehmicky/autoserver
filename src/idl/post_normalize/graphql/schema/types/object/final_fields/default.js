@@ -1,7 +1,5 @@
 'use strict';
 
-const { isJsl } = require('../../../../../../../jsl');
-
 const getDefaultValue = function ({
   def,
   def: { action },
@@ -13,10 +11,10 @@ const getDefaultValue = function ({
     def.default;
   if (!hasDefaultValue) { return; }
 
-  // JSL only shows as 'DYNAMIC_VALUE' in schema
   const defaults = Array.isArray(def.default) ? def.default : [def.default];
-  const isDynamic = defaults.some(jsl =>
-    isJsl({ jsl }) || typeof jsl === 'function'
+  // IDL function only shows as 'DYNAMIC_VALUE' in schema
+  const isDynamic = defaults.some(
+    inlineFunc => typeof inlineFunc === 'function'
   );
   return isDynamic ? 'DYNAMIC_VALUE' : def.default;
 };

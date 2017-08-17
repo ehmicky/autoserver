@@ -37,7 +37,7 @@ const getNewData = function ({ dataArg, currentData }) {
 // The reasons why we split "update" action are:
 //   - we need to know the current models
 //   - we need to know all the attributes of the current model so we can:
-//      - use `$$` in the JSL used in the next middlewares, including
+//      - use `$$` in the IDL functions used in the next middlewares, including
 //        defaults and transforms
 //      - perform cross-attributes validation.
 //        E.g. if attribute `a` must be equal to attribute `b`, when we update

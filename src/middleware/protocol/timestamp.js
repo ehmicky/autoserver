@@ -1,13 +1,13 @@
 'use strict';
 
-const { addJsl } = require('../../jsl');
+const { addIfv } = require('../../idl_func');
 const { addReqInfo } = require('../../events');
 
 const getTimestamp = async function (nextFunc, input) {
   const { now } = input;
 
   const timestamp = (new Date(now)).toISOString();
-  const inputA = addJsl(input, { $NOW: timestamp });
+  const inputA = addIfv(input, { $NOW: timestamp });
   const inputB = addReqInfo(inputA, { timestamp });
   const inputC = { ...inputB, timestamp };
 

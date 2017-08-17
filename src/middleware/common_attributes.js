@@ -4,7 +4,7 @@
 const commonAttributes = [
   'idl',
   'runtimeOpts',
-  'jsl',
+  'ifv',
   'currentPerf',
   'perf',
   'reqInfo',
