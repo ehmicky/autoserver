@@ -31,14 +31,21 @@ const allowedOpts = ['reason', 'innererror', 'extra'];
 
 // Keep track of innererror
 const getInnerError = function ({ opts, stack: upperStack }) {
-  // Only keep innermost innererror
-  const innererror = opts.innererror && opts.innererror.innererror
-    ? opts.innererror.innererror
-    : opts.innererror;
+  const shallowInnerError = opts.innererror;
+  const deepInnerError = shallowInnerError && shallowInnerError.innererror;
+
+  // Keep innermost innererror stack
+  const innererror = deepInnerError || shallowInnerError;
   if (!innererror) { return; }
 
+  const innererrorStack = getInnerErrorStack({ innererror, upperStack });
+  // Innermost innererror stack is kept, but outermost innererror message and
+  // reason are kept as well.
+  const shallowInnerErrorMessage = deepInnerError
+    ? `${shallowInnerError.reason} - ${shallowInnerError.message}\n`
+    : '';
   // eslint-disable-next-line fp/no-mutation
-  innererror.stack = getInnerErrorStack({ innererror, upperStack });
+  innererror.stack = `${shallowInnerErrorMessage}${innererrorStack}`;
 
   return innererror;
 };
