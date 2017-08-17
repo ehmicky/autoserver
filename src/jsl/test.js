@@ -10,10 +10,13 @@ const isEscapedJsl = ({ jsl }) => testJsl({ jsl }) === 'Escaped';
 
 const testJsl = ({ jsl }) => {
   if (typeof jsl !== 'string') { return 'NotAString'; }
+
   const parsedJsl = tokenizeJsl({ jsl });
   if (!parsedJsl) { return 'NoParenthesis'; }
+
   const isEscaped = parsedJsl[2] === '\\';
   if (isEscaped) { return 'Escaped'; }
+
   return 'Jsl';
 };
 
