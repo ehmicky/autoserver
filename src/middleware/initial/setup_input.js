@@ -3,12 +3,12 @@
 const { addReqInfo } = require('../../events');
 const { protocolHandlers } = require('../../protocols');
 const { pSetTimeout } = require('../../utilities');
-const { addJsl } = require('../../jsl');
+const { addIfv } = require('../../idl_func');
 
 // Setup basic input
 const setupInput = async function (
   nextFunc,
-  { idl, runtimeOpts, currentPerf, jsl },
+  { idl, runtimeOpts, currentPerf, ifv },
   { protocol, specific },
 ) {
   // When an exception is thrown in the same macrotask as the one that started
@@ -25,7 +25,7 @@ const setupInput = async function (
   const input = {
     idl,
     runtimeOpts,
-    jsl,
+    ifv,
     currentPerf,
     reqInfo,
     protocol,
@@ -33,7 +33,7 @@ const setupInput = async function (
     specific,
   };
 
-  const inputA = addJsl(input, { $PROTOCOL: protocol });
+  const inputA = addIfv(input, { $PROTOCOL: protocol });
   const inputB = addReqInfo(inputA, { protocol });
 
   const response = await nextFunc(inputB);

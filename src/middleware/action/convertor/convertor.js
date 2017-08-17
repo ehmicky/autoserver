@@ -1,7 +1,7 @@
 'use strict';
 
 const { pick } = require('../../../utilities');
-const { addJsl } = require('../../../jsl');
+const { addIfv } = require('../../../idl_func');
 const { addReqInfo, addReqInfoIfError } = require('../../../events');
 const { commonAttributes } = require('../../common_attributes');
 
@@ -13,7 +13,7 @@ const actionConvertor = async function (nextFunc, input) {
   const { args, modelName, operation } = input;
 
   const inputA = pick(input, actionAttributes);
-  const inputB = addJsl(inputA, { $MODEL: modelName });
+  const inputB = addIfv(inputA, { $MODEL: modelName });
 
   const response = await nextFunc(inputB);
 

@@ -4,11 +4,11 @@ const { idlReducer } = require('../reducer');
 const { validateIdlCircularRefs } = require('../circular_refs');
 
 const { validateJsonSchema } = require('./json_schema');
-const { validateJsl } = require('./jsl');
+const { validateInlineFuncs } = require('./inline_func');
 
 const validators = [
   validateIdlCircularRefs,
-  validateJsl,
+  validateInlineFuncs,
   validateJsonSchema,
 ];
 

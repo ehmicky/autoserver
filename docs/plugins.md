@@ -13,7 +13,7 @@ The function can be asynchronous by returning a promise.
 
 Plugins can be configured under the top-level attribute `plugins`, which is
 an array of objects with properties:
-  - `plugin` [`{jsl}`](jsl.md) or `{string}` (for system plugins)
+  - `plugin` [`{function}`](functions.md) or `{string}` (for system plugins)
   - `opts` `{object}`: plugin-specific options
   - `enabled` `{boolean}`: defaults to true
 
@@ -34,5 +34,5 @@ The system plugin `author` automatically adds the attributes:
 
 What must specify what `user` means with the plugin options:
   - `model` `{string}`: user's model name. Defaults to `'user'`
-  - `user` [`{jsl}`](jsl.md): retrieves the current request's user.
+  - `user` [`{function}`](functions.md): retrieves the current request's user.
     Defaults to `'(user())'`

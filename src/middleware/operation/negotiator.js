@@ -1,6 +1,6 @@
 'use strict';
 
-const { addJsl } = require('../../jsl');
+const { addIfv } = require('../../idl_func');
 const { addReqInfo } = require('../../events');
 
 // Decides which operation to use (e.g. GraphQL) according to route
@@ -10,7 +10,7 @@ const operationNegotiator = async function (nextFunc, input) {
   const [operation] = Object.entries(operations)
     .find(([, testFunc]) => testFunc({ route })) || [];
 
-  const inputA = addJsl(input, { $OPERATION: operation });
+  const inputA = addIfv(input, { $OPERATION: operation });
   const inputB = addReqInfo(inputA, { operation });
   const inputC = { ...inputB, operation };
 

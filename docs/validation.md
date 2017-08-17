@@ -64,12 +64,14 @@ custom ones, using the top-level `validation` property.
 
 This property is an object of validation keywords, where the key is the
 keyword name and the value an object with the properties:
-  - `test` [`{jsl}`](jsl.md): function that returns false if the validation
-    failed. The [JSL variable](jsl.md#jsl-variables) `$EXPECTED` represents the
-    value passed to the keyword, and `$` represents the value to validate.
-  - `message` [`{string|jsl}`](jsl.md): error message.
-    Can be [JSL](jsl.md) with the [JSL variable](jsl.md#jsl-variables)
-    `$EXPECTED`
+  - `test` [`{function}`](functions.md): function that returns false
+    if the validation failed.
+    The [IDL function variable](functions.md#idl-function-variables)
+    `$EXPECTED` represents the value passed to the keyword,
+    and `$` represents the value to validate.
+  - `message` [`{string|function}`](functions.md): error message.
+    Can be [functions](functions.md) with the
+    [IDL function variable](functions.md#idl-function-variables) `$EXPECTED`
     Must start with `'must '`
   - `type` `{string[]}`: optionally restrict the attributes types that can
     use that keyword

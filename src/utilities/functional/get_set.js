@@ -26,7 +26,7 @@ const set = function (obj, keys, val) {
 // Apply several set() at once, using an array of `paths`
 const setAll = function (obj, paths, val) {
   return paths.reduce(
-    (objA, jslPath) => set(objA, jslPath, val),
+    (objA, inlineFuncPath) => set(objA, inlineFuncPath, val),
     obj,
   );
 };

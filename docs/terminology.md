@@ -91,9 +91,18 @@ Actual database query, from a server perspective. An action is converted to
 one or several commands. E.g. an `update` action actually performs two
 commands: first a `read` command, then an `update` command.
 
+## IDL functions
+
+[Functions](functions.md) specified in IDL file, that allows injecting
+custom logic.
+
+## Helpers
+
+Client-specified [IDL function variables](functions.md#idl-function-variables)
+
 ## Params
 
-Client-specified [JSL variables](jsl.md#jsl-parameters)
+Client-specified [IDL function variables](functions.md#idl-function-variables)
 
 ## Settings
 
@@ -106,10 +115,6 @@ Options passed to server when starting it
 ## Events
 
 [Events](events.md) fired through runtime options `events` callbacks.
-
-## Helpers
-
-Client-specified JSL
 
 ## Utilities
 
@@ -155,7 +160,3 @@ Any object property
 ## IDL
 
 Main [configuration file](idl.md)
-
-## JSL
-
-[JavaScript notation](jsl.md) that allows injecting custom logic.

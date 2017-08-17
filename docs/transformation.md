@@ -14,7 +14,7 @@ They will be used for `create`, `replace` and `upsert` actions.
 
 Attributes can be applied transformations on input by specifying
 `attr.transform` or `attr.value`.
-Both specify the transformation to apply as [JSL](jsl.md).
+Both specify the transformation to apply as [functions](functions.md).
 
 E.g. to normalize name's case:
 
@@ -35,7 +35,8 @@ The difference between `transform` and `value` is:
     It will not be applied if the current attribute value is
     [empty](models.md#empty-values).
   - `value` is meant to generate a value, regardless of the current one.
-    The [JSL variable](jsl.md#jsl-variables) `$` is not available (but `$$` is).
+    The [IDL function variable](functions.md#idl-function-variables)
+    `$` is not available (but `$$` is).
 
 # Computed attributes
 

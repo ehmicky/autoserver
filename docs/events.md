@@ -189,7 +189,8 @@ event payload, with the properties:
   - `status` `{string}` - protocol-agnostic status, among `'INTERNALS'`,
     `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathVars` `{object}` - URL variables, as a hash table
-  - `params` `{object}` - [parameters](jsl.md#jsl-parameters), as a hash table.
+  - `params` `{object}` - [parameters](functions.md#idl-function-parameters),
+    as a hash table.
   - `settings` `{object}` - [settings](settings.md), as a hash table.
   - `queryVars` `{object}` - query variables, as a hash table
   - `headers` `{object}` - protocol headers (e.g. HTTP headers), as a hash table
