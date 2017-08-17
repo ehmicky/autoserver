@@ -37,7 +37,7 @@ const getQueryString = function ({ specific: { req: { url } } }) {
     return search.replace(/^\?/, '');
   } catch (error) {
     const message = `Could not retrieve query string from: '${url}'`;
-    throwError(message, { reason: 'QUERY_STRING_PARSE' });
+    throwError(message, { reason: 'QUERY_STRING_PARSE', innererror: error });
   }
 };
 

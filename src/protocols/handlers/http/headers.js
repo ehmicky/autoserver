@@ -17,7 +17,7 @@ const parsePreferHeader = function ({ headers: { prefer } }) {
     return parsePreferHeaderLib(prefer);
   } catch (error) {
     const message = `HTTP 'Prefer' header value syntax error: '${prefer}'`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'INPUT_VALIDATION', innererror: error });
   }
 };
 
