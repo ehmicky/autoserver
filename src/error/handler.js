@@ -15,7 +15,7 @@ const errorHandledFunc = function ({ func, message, reason }, ...args) {
   try {
     return func(...args);
   } catch (error) {
-    handleError({ message, reason, error }, ...args);
+    return handleError({ message, reason, error }, ...args);
   }
 };
 
