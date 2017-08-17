@@ -2,7 +2,7 @@
 
 const { isEqual } = require('lodash');
 
-const { throwError } = require('../../../../../error');
+const { throwError, addErrorHandler } = require('../../../../../error');
 const { decode } = require('../../encoding');
 
 // Returns arguments, after decoding tokens
@@ -79,20 +79,16 @@ const getDecodedTokens = function ({ args }) {
         throwError(message, { reason: 'INPUT_VALIDATION' });
       }
 
-      const decodedToken = getDecodedToken({ token, name });
+      const decodedToken = eDecode({ token, name });
       return { [name]: decodedToken };
     });
   return decodedTokens;
 };
 
-const getDecodedToken = function ({ token, name }) {
-  try {
-    return decode({ token });
-  } catch (error) {
-    const message = `Wrong parameters: '${name}' is invalid`;
-    throwError(message, { reason: 'INPUT_VALIDATION', innererror: error });
-  }
-};
+const eDecode = addErrorHandler(decode, {
+  message: ({ name }) => `Wrong parameters: '${name}' is invalid`,
+  reason: 'INPUT_VALIDATION',
+});
 
 module.exports = {
   getInputData,

@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../error');
+const { addErrorHandler } = require('../error');
 
 const { bindHelpers } = require('./helpers');
 
@@ -14,20 +14,11 @@ const runIdlFunc = function ({ ifv, ifv: { params }, idlFunc }) {
   return idlFunc(params);
 };
 
-const addErrorHandler = function (func) {
-  return (obj, ...args) => {
-    try {
-      return func(obj, ...args);
-    } catch (error) {
-      const { idlFunc } = obj;
-      const expression = stringifyIdlFunc({ idlFunc });
-      const message = `IDL function failed: '${expression}'`;
-      throwError(message, { reason: 'UTILITY_ERROR', innererror: error });
-    }
-  };
-};
-
-const eRunIdlFunc = addErrorHandler(runIdlFunc);
+const eRunIdlFunc = addErrorHandler(runIdlFunc, {
+  message: ({ idlFunc }) =>
+    `IDL function failed: '${stringifyIdlFunc({ idlFunc })}'`,
+  reason: 'UTILITY_ERROR',
+});
 
 const stringifyIdlFunc = function ({ idlFunc, idlFunc: { inlineFunc, name } }) {
   if (inlineFunc) { return inlineFunc; }

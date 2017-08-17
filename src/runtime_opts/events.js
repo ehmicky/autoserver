@@ -2,7 +2,7 @@
 
 const { dirname } = require('path');
 
-const { throwError } = require('../error');
+const { addErrorHandler } = require('../error');
 const { getConfFile } = require('../conf');
 const { mapValues, mapValuesAsync } = require('../utilities');
 
@@ -53,19 +53,14 @@ const loadEventFile = function ({ path }) {
   return require(path);
 };
 
-const addErrorHandler = function (func) {
-  return ({ path, name, ...rest }) => {
-    try {
-      return func({ path, name, ...rest });
-    } catch (error) {
-      const message = `Could not load event '${name}' file '${path}'`;
-      throwError(message, { reason: 'CONF_LOADING', innererror: error });
-    }
-  };
+const errorHandlerArg = {
+  message: ({ name, path }) => `Could not load event '${name}' file '${path}'`,
+  reason: 'CONF_LOADING',
 };
 
-const eResolveEventPath = addErrorHandler(resolveEventPath);
-const eLoadEventFile = addErrorHandler(loadEventFile);
+const eResolveEventPath = addErrorHandler(resolveEventPath, errorHandlerArg);
+
+const eLoadEventFile = addErrorHandler(loadEventFile, errorHandlerArg);
 
 module.exports = {
   loadEventsOptsFile,
