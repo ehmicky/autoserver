@@ -2,7 +2,7 @@
 
 const { format: urlFormat, URL } = require('url');
 
-const { throwError } = require('../../../error');
+const { addErrorHandler } = require('../../../error');
 
 // Retrieves origin, i.e. protocol + host + port
 const getOrigin = function ({
@@ -32,17 +32,17 @@ const getPath = function ({ specific: { req: { url } } }) {
 
 // Retrieves query string from a URL, without leading ?
 const getQueryString = function ({ specific: { req: { url } } }) {
-  try {
-    const { search = '' } = new URL(`http://localhost/${url}`);
-    return search.replace(/^\?/, '');
-  } catch (error) {
-    const message = `Could not retrieve query string from: '${url}'`;
-    throwError(message, { reason: 'QUERY_STRING_PARSE', innererror: error });
-  }
+  const { search = '' } = new URL(`http://localhost/${url}`);
+  return search.replace(/^\?/, '');
 };
+
+const eGetQueryString = addErrorHandler(getQueryString, {
+  message: ({ url }) => `Could not retrieve query string from: '${url}'`,
+  reason: 'QUERY_STRING_PARSE',
+});
 
 module.exports = {
   getOrigin,
   getPath,
-  getQueryString,
+  getQueryString: eGetQueryString,
 };

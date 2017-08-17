@@ -2,7 +2,7 @@
 
 const qs = require('qs');
 
-const { throwError } = require('../../error');
+const { throwError, addErrorHandler } = require('../../error');
 const { transtype, mapValues } = require('../../utilities');
 const { addReqInfo } = require('../../events');
 
@@ -30,7 +30,7 @@ const parseQueryString = async function (nextFunc, input) {
 // Retrieves query variables
 const getQueryVars = function ({ specific, protocolHandler }) {
   const queryString = getQueryString({ specific, protocolHandler });
-  const queryVars = parseQueryVars({ queryString });
+  const queryVars = eParseQueryVars({ queryString });
 
   const transtypedQueryVars = mapValues(queryVars, value => transtype(value));
   return transtypedQueryVars;
@@ -58,23 +58,21 @@ const getQueryString = function ({ specific, protocolHandler }) {
 // Performs proper URI decoding, using decodeURIComponent()
 // Differentiates between undefined, null and '' (see serialize() below)
 const parseQueryVars = function ({ queryString }) {
-  try {
-    const queryObject = qs.parse(queryString, {
-      depth: MAX_DEPTH,
-      arrayLimit: MAX_ARRAY_LENGTH,
-      strictNullHandling: true,
-      allowDots: true,
-      decoder: str => decodeURIComponent(str.replace(/\+/g, ' ')),
-    });
-    return queryObject;
-  } catch (error) {
-    const message = `Request query string is invalid: '${queryString}'`;
-    throwError(message, {
-      reason: 'QUERY_STRING_PARSE',
-      innererror: error,
-    });
-  }
+  const queryObject = qs.parse(queryString, {
+    depth: MAX_DEPTH,
+    arrayLimit: MAX_ARRAY_LENGTH,
+    strictNullHandling: true,
+    allowDots: true,
+    decoder: str => decodeURIComponent(str.replace(/\+/g, ' ')),
+  });
+  return queryObject;
 };
+
+const eParseQueryVars = addErrorHandler(parseQueryVars, {
+  message: ({ queryString }) =>
+    `Request query string is invalid: '${queryString}'`,
+  reason: 'QUERY_STRING_PARSE',
+});
 
 module.exports = {
   parseQueryString,

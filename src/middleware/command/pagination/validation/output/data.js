@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../../../error');
+const { throwError, addErrorHandler } = require('../../../../../error');
 const { decode } = require('../../encoding');
 
 // Returns response.metadata related to pagination, after decoding token
@@ -15,17 +15,18 @@ const getOutputMetadata = function ({
 
   validateToken({ token });
 
-  try {
-    const parsedToken = decode({ token });
-    return { ...pages, token: parsedToken };
-  } catch (error) {
-    const message = 'Wrong response: \'token\' is invalid';
-    throwError(message, {
-      reason: 'OUTPUT_VALIDATION',
-      innererror: error,
-    });
-  }
+  return eGetToken({ pages, token });
 };
+
+const getToken = function ({ pages, token }) {
+  const parsedToken = decode({ token });
+  return { ...pages, token: parsedToken };
+};
+
+const eGetToken = addErrorHandler(getToken, {
+  message: 'Wrong response: \'token\' is invalid',
+  reason: 'OUTPUT_VALIDATION',
+});
 
 const validateToken = function ({ token }) {
   if (typeof token !== 'string') {

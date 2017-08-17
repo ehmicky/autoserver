@@ -1,21 +1,21 @@
 'use strict';
 
-const { throwError } = require('../error');
+const { addErrorHandler } = require('../error');
 const { getConfFile, loadConfFile } = require('../conf');
 
 // Load configuration for `runtime`
 const loadRuntimeOptsFile = async function ({ runtimeOptsFile }) {
-  try {
-    const {
-      runtimeOpts,
-      runtimeOptsFile: runtimeOptsFileA,
-    } = await getRuntimeOpts({ runtimeOptsFile });
-    return { runtimeOpts, runtimeOptsFile: runtimeOptsFileA };
-  } catch (error) {
-    const message = 'Could not load runtime options file';
-    throwError(message, { reason: 'CONF_LOADING', innererror: error });
-  }
+  const {
+    runtimeOpts,
+    runtimeOptsFile: runtimeOptsFileA,
+  } = await getRuntimeOpts({ runtimeOptsFile });
+  return { runtimeOpts, runtimeOptsFile: runtimeOptsFileA };
 };
+
+const eLoadRuntimeOptsFile = addErrorHandler(loadRuntimeOptsFile, {
+  message: 'Could not load runtime options file',
+  reason: 'CONF_LOADING',
+});
 
 const getRuntimeOpts = async function ({ runtimeOptsFile }) {
   // When passing `runtime` as an object
@@ -37,5 +37,5 @@ const getRuntimeOpts = async function ({ runtimeOptsFile }) {
 };
 
 module.exports = {
-  loadRuntimeOptsFile,
+  loadRuntimeOptsFile: eLoadRuntimeOptsFile,
 };

@@ -1,12 +1,12 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError, addErrorHandler } = require('../../error');
 const { getIdl } = require('../../idl');
 const { getConfFile } = require('../../conf');
 
 // Load configuration for `idl`
 const loadIdlFile = async function ({ idlFile }) {
-  const { idl } = await loadIdl({ idlFile });
+  const { idl } = await eLoadIdl({ idlFile });
 
   if (!idl) {
     const message = 'Could not find any IDL file';
@@ -17,14 +17,14 @@ const loadIdlFile = async function ({ idlFile }) {
 };
 
 const loadIdl = async function ({ idlFile }) {
-  try {
-    const { idl } = await getIdlFile({ idlFile });
-    return { idl };
-  } catch (error) {
-    const message = 'Could not load IDL file';
-    throwError(message, { reason: 'CONF_LOADING', innererror: error });
-  }
+  const { idl } = await getIdlFile({ idlFile });
+  return { idl };
 };
+
+const eLoadIdl = addErrorHandler(loadIdl, {
+  message: 'Could not load IDL file',
+  reason: 'CONF_LOADING',
+});
 
 const getIdlFile = async function ({ idlFile }) {
   const idlPath = await getConfFile({

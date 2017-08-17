@@ -2,7 +2,7 @@
 
 const { execute } = require('graphql');
 
-const { throwError } = require('../../../../error');
+const { throwError, addErrorHandler } = require('../../../../error');
 
 const handleIntrospection = async function ({
   schema,
@@ -10,7 +10,7 @@ const handleIntrospection = async function ({
   variables,
   operationName,
 }) {
-  const response = await getIntrospectionResponse({
+  const response = await eGetIntrospectionResp({
     schema,
     queryDocument,
     variables,
@@ -28,31 +28,22 @@ const handleIntrospection = async function ({
   return response;
 };
 
-const getIntrospectionResponse = async function ({
+const getIntrospectionResp = function ({
   schema,
   queryDocument,
   variables,
   operationName,
 }) {
-  try {
-    return await execute(
-      schema,
-      queryDocument,
-      {},
-      {},
-      variables,
-      operationName,
-    );
-  // Exception can be fired in several ways by GraphQL.js:
-  //  - throwing an exception
-  //  - returning errors in response
-  } catch (error) {
-    throwError('GraphQL introspection query failed', {
-      reason: 'GRAPHQL_INTROSPECTION',
-      innererror: error,
-    });
-  }
+  return execute(schema, queryDocument, {}, {}, variables, operationName);
 };
+
+// Exception can be fired in several ways by GraphQL.js:
+//  - throwing an exception
+//  - returning errors in response
+const eGetIntrospectionResp = addErrorHandler(getIntrospectionResp, {
+  message: 'GraphQL introspection query failed',
+  reason: 'GRAPHQL_INTROSPECTION',
+});
 
 // At the moment, we do not support mixing introspection query with
 // non-introspection query, except for `__typename`

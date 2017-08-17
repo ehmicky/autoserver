@@ -2,7 +2,7 @@
 
 const { resolve } = require('path');
 
-const { throwError } = require('../../../../error');
+const { addErrorHandler } = require('../../../../error');
 const { mapValues, renderTemplate } = require('../../../../utilities');
 
 const template = resolve(__dirname, './graphiql.mustache');
@@ -28,17 +28,14 @@ const renderGraphiQL = async function (input) {
   const dataNotToEscape = {};
   const data = { ...escapeData(dataToEscape), ...dataNotToEscape };
 
-  try {
-    const htmlString = await renderTemplate({ template, data });
-    return htmlString;
-  } catch (error) {
-    const message = 'Could not render GraphiQL HTML document';
-    throwError(message, {
-      reason: 'GRAPHIQL_PARSING_ERROR',
-      innererror: error,
-    });
-  }
+  const htmlString = await renderTemplate({ template, data });
+  return htmlString;
 };
+
+const eRenderGraphiQL = addErrorHandler(renderGraphiQL, {
+  message: 'Could not render GraphiQL HTML document',
+  reason: 'GRAPHIQL_PARSING_ERROR',
+});
 
 const getDataToEscape = function (input) {
   return {
@@ -58,5 +55,5 @@ const escapeJSON = function (string = null) {
 };
 
 module.exports = {
-  renderGraphiQL,
+  renderGraphiQL: eRenderGraphiQL,
 };

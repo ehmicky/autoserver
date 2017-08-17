@@ -2,7 +2,7 @@
 
 const { parse } = require('graphql');
 
-const { throwError } = require('../../../../error');
+const { throwError, addErrorHandler } = require('../../../../error');
 
 // Raw GraphQL parsing
 const parseQuery = function ({ query, goal, operationName }) {
@@ -11,15 +11,7 @@ const parseQuery = function ({ query, goal, operationName }) {
     throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
   }
 
-  try {
-    return getQueryDocument({ query, goal, operationName });
-  } catch (error) {
-    const message = 'Could not parse GraphQL query';
-    throwError(message, {
-      reason: 'GRAPHQL_SYNTAX_ERROR',
-      innererror: error,
-    });
-  }
+  return eGetQueryDocument({ query, goal, operationName });
 };
 
 const getQueryDocument = function ({ query, goal, operationName }) {
@@ -39,6 +31,11 @@ const getQueryDocument = function ({ query, goal, operationName }) {
 
   return { queryDocument: queryDocumentA, graphqlMethod };
 };
+
+const eGetQueryDocument = addErrorHandler(getQueryDocument, {
+  message: 'Could not parse GraphQL query',
+  reason: 'GRAPHQL_SYNTAX_ERROR',
+});
 
 // Get all query|mutation definitions
 const getOperationDefinitions = function ({ queryDocument }) {
