@@ -1,7 +1,6 @@
 'use strict';
 
 const { pickBy, mapValues, omit } = require('../../../../utilities');
-const { compile } = require('../../../../validation');
 
 const mapAttr = attr => attr.validate;
 
@@ -45,19 +44,11 @@ const nonJsonSchema = [
   'dependencies',
 ];
 
-// Validates that idl.models.MODEL are valid JSON schema
-// by compiling them with AJV
-const validateJsonSchema = function (schema, { idl }) {
-  compile({ schema, idl });
-  return schema;
-};
-
 const mappers = [
   attrsToJsonSchema,
   addJsonSchemaRequire,
   addJsonSchemaDeps,
   removeAltSyntax,
-  validateJsonSchema,
 ];
 
 // Retrieves map of models's JSON schema validations

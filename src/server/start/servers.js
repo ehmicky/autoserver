@@ -5,27 +5,30 @@ const { protocols, protocolHandlers } = require('../../protocols');
 const { getMiddleware } = require('../../middleware');
 const { emitEvent } = require('../../events');
 const { monitor } = require('../../perf');
-const { createJsl } = require('../../jsl');
+const { createJsl, compileIdlJsl } = require('../../jsl');
 
 // Start each server
 const startServers = async function ({ idl, runtimeOpts }) {
-  const [jsl, jslMeasure] = await monitoredCreateJsl({ idl });
+  const [idlA, jslIdlMeasure] = await mCompileIdlJsl({ idl });
+  const [{ jsl }, jslMeasure] = await mCreateJsl({ idl: idlA });
 
   // This callback must be called by each server
   const middleware = await getMiddleware();
-  const requestHandler = middleware.bind(null, { idl, runtimeOpts, jsl });
+  const requestHandler = middleware.bind(null, { idl: idlA, runtimeOpts, jsl });
 
   const [servers, serverMeasures] = await startEachServer({
     runtimeOpts,
     requestHandler,
   });
 
-  const measures = [jslMeasure, ...serverMeasures];
+  const measures = [jslMeasure, jslIdlMeasure, ...serverMeasures];
 
-  return [{ servers }, measures];
+  return [{ servers, idl: idlA }, measures];
 };
 
-const monitoredCreateJsl = monitor(createJsl, 'createJsl', 'server');
+const mCreateJsl = monitor(createJsl, 'createJsl', 'server');
+
+const mCompileIdlJsl = monitor(compileIdlJsl, 'compileIdlJsl', 'server');
 
 const startEachServer = async function (options) {
   const serverInfosPromises = protocols
