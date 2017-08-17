@@ -6,6 +6,7 @@ module.exports = {
   ...require('./filter'),
   ...require('./invert'),
   ...require('./merge'),
+  ...require('./get_set'),
   ...require('./immutable'),
   ...require('./memoize'),
   ...require('./once'),
