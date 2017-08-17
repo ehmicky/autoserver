@@ -5,6 +5,7 @@ const { ALL_TYPES } = require('../../events');
 // Runtime option `events`
 const getEvent = type => ({
   name: `events.${type}`,
+  default: null,
   validate: {
     type: 'function',
   },
