@@ -129,7 +129,8 @@ definitions:
         items:
           type: string
       # Default value
-      default: {}
+      default:
+        $ref: '#/definitions/idlFuncOrValue'
     allOf:
     # Cannot both be required and have a default value
     - if:
@@ -217,16 +218,16 @@ definitions:
       type: object
       properties:
         test:
-          $ref: '#/definitions/idlFunc'
+          $ref: '#/definitions/idlFuncString'
         # Error messages can either be a string, or IDL functions
         message:
-          type: string
+          $ref: '#/definitions/idlFuncString'
           # Convention: error message must start with "must"
-          anyOf:
-          - not:
-              $ref: '#/definitions/idlFunc'
-            pattern: ^must\s
-          - anyOf:
+          if:
+            type: string
+          then:
+            anyOf:
+            - pattern: ^must\s
             - pattern: ^\("must\s.*"\)$
             - pattern: ^\('must\s.*'\)$
             - pattern: ^\(`must\s.*`\)$
@@ -285,16 +286,24 @@ definitions:
   # model.description or attr.description
   description:
     type: string
-  # TODO: better validation of IDL functions
+  # TODO: validate that if this is not IDL function, it should be of same
+  # type as the attribute.type
   idlFuncOrValue:
     anyOf:
     - $ref: '#/definitions/idlFunc'
-    - true
-  # IDL functions can either be a function or a string '(...)'
+    - not:
+        $ref: '#/definitions/idlFunc'
+  idlFuncString:
+    anyOf:
+    - $ref: '#/definitions/idlFunc'
+    - not:
+        $ref: '#/definitions/idlFunc'
+      type: string
+  # IDL functions can either be external (function) or inline (a string '(...)')
   idlFunc:
     anyOf:
     - typeof: function
-    - typeof: string
+    - type: string
       pattern: '^\s*\(.*\)\s*$'
   # Keys of idl.models.*, and model.model
   validModelName:
