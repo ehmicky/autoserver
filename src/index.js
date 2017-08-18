@@ -2,4 +2,5 @@
 
 module.exports = {
   ...require('./server'),
+  ...require('./cli'),
 };
