@@ -16,7 +16,7 @@
   },
   "author": "Autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
-  "bin": "cli",
+  "bin": "apiengine",
   "scripts": {
     "build": "./scripts/unbuild.sh; npm install; ./scripts/build.sh",
     "unbuild": "./scripts/unbuild.sh",
