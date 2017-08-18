@@ -8,8 +8,17 @@ const options = [
   ...require('./http'),
 ];
 
-const runOptions = { options, topLevel: 'runtime' };
+const runOptions = {
+  options,
+  name: 'run',
+  aliases: '*',
+  topLevel: 'runtime',
+  description: 'Start the server',
+  examples: [
+    ['Start the server', 'run --http.port=5001'],
+  ],
+};
 
 module.exports = {
-  run: runOptions,
+  ...runOptions,
 };
