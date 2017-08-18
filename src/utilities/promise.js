@@ -1,7 +1,7 @@
 'use strict';
 
 const { promisify } = require('util');
-const { stat, readFile, readdir } = require('fs');
+const { stat, readFile } = require('fs');
 
 const { capitalize } = require('underscore.string');
 
@@ -15,7 +15,6 @@ const promisifyAll = function (obj) {
 const promise = promisifyAll({
   readFile,
   stat,
-  readdir,
 });
 
 // Like setTimeout(), except uses promises.

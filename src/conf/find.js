@@ -3,7 +3,7 @@
 const { resolve, isAbsolute } = require('path');
 
 const { throwError } = require('../error');
-const { pStat, pReaddir } = require('../utilities');
+const { mStat, findAsync } = require('../utilities');
 
 // Retrieves final configuration path to use
 const getConf = function ({
@@ -38,7 +38,8 @@ const getDirectFile = async function ({ path, baseDir }) {
 const findConfFile = async function ({ fileNames, confDir = process.cwd() }) {
   const confDirA = await checkIsDirectory({ dir: confDir, isDir: true });
 
-  const confFile = await searchConfDir({ fileNames, confDir: confDirA });
+  const paths = fileNames.map(fileName => resolve(confDir, fileName));
+  const confFile = findAsync(paths, mStat);
   if (confFile) { return confFile; }
 
   const parentConfDir = resolve(confDirA, '..');
@@ -47,20 +48,12 @@ const findConfFile = async function ({ fileNames, confDir = process.cwd() }) {
   return findConfFile({ fileNames, confDir: parentConfDir });
 };
 
-const searchConfDir = async function ({ fileNames, confDir }) {
-  const files = await pReaddir(confDir);
-  const confFile = fileNames.find(file => files.includes(file));
-  if (!confFile) { return; }
-
-  return resolve(confDir, confFile);
-};
-
 const getConfFileNames = function ({ name, extNames }) {
   return extNames.map(extName => `api_engine.${name}.${extName}`);
 };
 
 const checkIsDirectory = async function ({ dir, isDir }) {
-  const confStat = await pStat(dir);
+  const confStat = await mStat(dir);
   const confIsDir = confStat.isDirectory();
 
   if (confIsDir && isDir === false) {
