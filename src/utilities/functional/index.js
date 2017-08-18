@@ -4,6 +4,7 @@ module.exports = {
   ...require('./map'),
   ...require('./reduce'),
   ...require('./filter'),
+  ...require('./find'),
   ...require('./invert'),
   ...require('./merge'),
   ...require('./get_set'),
