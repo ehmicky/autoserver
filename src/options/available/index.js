@@ -1,7 +1,5 @@
 'use strict';
 
-module.exports = {
-  availableOptions: {
-    ...require('./run'),
-  },
-};
+module.exports = [
+  require('./run'),
+];
