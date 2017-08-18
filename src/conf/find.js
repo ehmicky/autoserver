@@ -53,7 +53,8 @@ const getConfFileNames = function ({ name, extNames }) {
 };
 
 const checkIsDirectory = async function ({ dir, isDir }) {
-  const confStat = await mStat(dir);
+  const confStat = await getFile(dir);
+
   const confIsDir = confStat.isDirectory();
 
   if (confIsDir && isDir === false) {
@@ -67,6 +68,17 @@ const checkIsDirectory = async function ({ dir, isDir }) {
   }
 
   return dir;
+};
+
+const getFile = async function (file) {
+  const confStat = await mStat(file);
+
+  if (!confStat) {
+    const message = `'${file}' must exist`;
+    throwError(message, { reason: 'CONF_LOADING' });
+  }
+
+  return confStat;
 };
 
 module.exports = {
