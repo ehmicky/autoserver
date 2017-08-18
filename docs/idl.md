@@ -6,15 +6,16 @@ The IDL file specifies information about the data model and the business logic.
 
 There are several ways to define it, similar to the
 [runtime options](runtime.md#configuration).
-The first one that is defined will be chosen, from the highest priority
-to the lowest:
+If several are used, they are merged together, from the highest priority to
+the lowest:
   - setting an environment variable `API_ENGINE__IDL` containing the path to
     the [configuration file](#configuration-file)
-  - using `apiEngine.start({ idl: 'path' })` with a `'path'` to
-    the [configuration file](#configuration-file)
-  - creating a `api_engine.idl.yml`, `api_engine.idl.yaml` or
-    `api_engine.idl.json` file in the current directory, or any parent
-    directory. This is the preferred method.
+  - either:
+     - using `apiEngine.start({ idl: 'path' })` with a `'path'` to the
+       [configuration file](#configuration-file)
+     - creating a `api_engine.idl.yml`, `api_engine.idl.yaml` or
+       `api_engine.idl.json` file in the current directory, or any parent
+       directory. This is the preferred method.
 
 # Configuration file
 

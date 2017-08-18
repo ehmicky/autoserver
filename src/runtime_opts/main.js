@@ -15,10 +15,10 @@ const processors = [
 ];
 
 // Retrieve and validate `runtimeOpts`
-const getRuntimeOpts = function ({ runtimeOptsFile }) {
+const getRuntimeOpts = function ({ runtime }) {
   return monitoredReduce({
     funcs: processors,
-    initialInput: { runtimeOptsFile },
+    initialInput: { runtime },
     category: 'runtime_opts',
   });
 };

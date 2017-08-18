@@ -7,12 +7,12 @@ const { handleStartupError } = require('./error');
 
 // Start server for each protocol
 // @param {object} runtimeOpts
-const start = function ({ runtime: runtimeOptsFile, idl: idlFile } = {}) {
+const start = function ({ runtime, idl: idlFile } = {}) {
   const funcs = startupSteps.map(step => handleStartupError(step));
   // Monitor each startup step time
   return monitoredReduce({
     funcs,
-    initialInput: { runtimeOptsFile, idlFile },
+    initialInput: { runtime, idlFile },
     mapResponse: (newInput, input) => ({ ...input, ...newInput }),
     category: 'main',
   });
