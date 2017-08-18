@@ -4,6 +4,8 @@
 const defaultPageSize = {
   name: 'defaultPageSize',
   default: 100,
+  description: 'Default page size',
+  group: 'Pagination',
   validate: {
     type: 'integer',
     minimum: 0,
@@ -14,6 +16,8 @@ const defaultPageSize = {
 const maxPageSize = {
   name: 'maxPageSize',
   default: 100,
+  description: 'Maximum pagination size',
+  group: 'Pagination',
   validate: {
     type: 'integer',
     minimum: 0,
@@ -24,6 +28,8 @@ const maxPageSize = {
 const maxDataLength = {
   name: 'maxDataLength',
   default: 1000,
+  description: 'Maximum number of models that can be updated at once',
+  group: 'Pagination',
   validate: {
     type: 'integer',
     minimum: 0,
