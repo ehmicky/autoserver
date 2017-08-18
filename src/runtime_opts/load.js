@@ -2,26 +2,11 @@
 
 const { addErrorHandler } = require('../error');
 const { getConfFile, loadConfFile } = require('../conf');
+const { deepMerge } = require('../utilities');
 
 // Load configuration for `runtime`
-const loadRuntimeOptsFile = async function ({ runtimeOptsFile }) {
-  const {
-    runtimeOpts,
-    runtimeOptsFile: runtimeOptsFileA,
-  } = await getRuntimeOpts({ runtimeOptsFile });
-  return { runtimeOpts, runtimeOptsFile: runtimeOptsFileA };
-};
-
-const eLoadRuntimeOptsFile = addErrorHandler(loadRuntimeOptsFile, {
-  message: 'Could not load runtime options file',
-  reason: 'CONF_LOADING',
-});
-
-const getRuntimeOpts = async function ({ runtimeOptsFile }) {
-  // When passing `runtime` as an object
-  if (runtimeOptsFile && runtimeOptsFile.constructor === Object) {
-    return { runtimeOpts: runtimeOptsFile };
-  }
+const loadRuntimeOptsFile = async function ({ runtime }) {
+  const { runtimeOpts = {}, runtimeOptsFile } = parseRuntimeArg({ runtime });
 
   // When passing `runtime` as a string, or as undefined
   const runtimeOptsFileA = await getConfFile({
@@ -30,10 +15,27 @@ const getRuntimeOpts = async function ({ runtimeOptsFile }) {
     extNames: ['json', 'yml', 'yaml'],
     useEnvVar: true,
   });
-  if (!runtimeOptsFileA) { return {}; }
+  if (!runtimeOptsFileA) { return { runtimeOpts }; }
 
-  const runtimeOpts = await loadConfFile({ path: runtimeOptsFileA });
-  return { runtimeOpts, runtimeOptsFile: runtimeOptsFileA };
+  const runtimeOptsA = await loadConfFile({ path: runtimeOptsFileA });
+
+  const runtimeOptsB = deepMerge(runtimeOptsA, runtimeOpts);
+  return { runtimeOpts: runtimeOptsB, runtimeOptsFile: runtimeOptsFileA };
+};
+
+const eLoadRuntimeOptsFile = addErrorHandler(loadRuntimeOptsFile, {
+  message: 'Could not load runtime options file',
+  reason: 'CONF_LOADING',
+});
+
+const parseRuntimeArg = function ({ runtime }) {
+  if (!runtime) { return {}; }
+
+  if (runtime.constructor === Object) {
+    return { runtimeOpts: runtime };
+  }
+
+  return { runtimeOptsFile: runtime };
 };
 
 module.exports = {

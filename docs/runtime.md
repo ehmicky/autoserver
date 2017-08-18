@@ -23,16 +23,18 @@ The available runtime options are:
 
 There are several ways to define runtime options, similar to the
 [IDL file](idl.md#configuration).
-The first one that is defined will be chosen, from the highest priority to
+If several are used, they are merged together, from the highest priority to
 the lowest:
   - setting an environment variable `API_ENGINE__RUNTIME` containing the path to
     the [configuration file](#configuration-file)
-  - using `apiEngine.start({ runtime: object|'path' })` with either an `object`
-    containing the runtime options, or a `'path'` to the
-    [configuration file](#configuration-file)
-  - creating a `api_engine.runtime.yml`, `api_engine.runtime.yaml` or
-    `api_engine.runtime.json` file in the current directory, or any parent
-    directory. This is the preferred method.
+  - using `apiEngine.start({ runtime: object })` with an `object` containing
+    the runtime options
+  - either:
+     - using `apiEngine.start({ runtime: 'path' })` with a `'path'` to the
+       [configuration file](#configuration-file)
+     - creating a `api_engine.runtime.yml`, `api_engine.runtime.yaml` or
+       `api_engine.runtime.json` file in the current directory, or any parent
+       directory. This is the preferred method
 
 # Configuration file
 

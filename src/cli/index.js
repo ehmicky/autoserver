@@ -6,10 +6,6 @@ const startCli = function () {
   // eslint-disable-next-line fp/no-mutation
   Error.stackTraceLimit = 100;
 
-  // `start({ runtime: { OPT } })` should have higher priority
-  // than api_engine.*.yml
-  // less than ENVVAR, and both should still be searched
-  //
   // Pass ENVVAR along
   //
   // Keep process.cwd() for files search
