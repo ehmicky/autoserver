@@ -2,7 +2,7 @@
 
 const { monitoredReduce } = require('../perf');
 
-const { availableOptions } = require('./available');
+const availableOptions = require('./available');
 const { loadOptionsConfig } = require('./load');
 const { applyDefaultOptions } = require('./default');
 const { loadEventsOptsFile } = require('./events');
@@ -17,7 +17,7 @@ const processors = [
 
 // Retrieve and validate main options
 const getOptions = function ({ config, command }) {
-  const availableOpts = availableOptions[command];
+  const availableOpts = availableOptions.find(({ name }) => name === command);
   return monitoredReduce({
     funcs: processors,
     initialInput: { config, command, availableOpts },
