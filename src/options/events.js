@@ -6,15 +6,19 @@ const { addErrorHandler } = require('../error');
 const { getConfFile } = require('../conf');
 const { mapValues, mapValuesAsync } = require('../utilities');
 
-// Load configuration for runtimeOpts `events`
+// Load configuration for options `events`
 const loadEventsOptsFile = async function ({
-  runtimeOpts,
-  runtimeOpts: { events },
-  runtimeOptsFile,
+  options,
+  options: { events },
+  optionsFile,
+  command,
 }) {
-  if (!events || events.constructor !== Object) { return { runtimeOpts }; }
+  const hasEvents = command === 'run' &&
+    events &&
+    events.constructor === Object;
+  if (!hasEvents) { return { options }; }
 
-  const baseDir = getBaseDir({ runtimeOptsFile });
+  const baseDir = getBaseDir({ optionsFile });
   const eventsA = await mapValuesAsync(
     events,
     (path, name) => eResolveEventPath({ path, name, baseDir }),
@@ -24,14 +28,14 @@ const loadEventsOptsFile = async function ({
     (path, name) => eLoadEventFile({ path, name }),
   );
 
-  return { runtimeOpts: { ...runtimeOpts, events: eventsB } };
+  return { options: { ...options, events: eventsB } };
 };
 
-// Event paths, inside a runtime options files, are relative to that file
-const getBaseDir = function ({ runtimeOptsFile }) {
-  if (!runtimeOptsFile) { return; }
+// Event paths, inside an options files, are relative to that file
+const getBaseDir = function ({ optionsFile }) {
+  if (!optionsFile) { return; }
 
-  return dirname(runtimeOptsFile);
+  return dirname(optionsFile);
 };
 
 // Resolve relative event paths, or missing event paths (by walking up the tree)

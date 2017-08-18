@@ -1,8 +1,8 @@
 'use strict';
 
-const { getRuntimeOpts } = require('../../runtime_opts');
 const { setupGracefulExit } = require('../exit');
 
+const { getRuntimeOpts } = require('./runtime_opts');
 const { processErrorHandler } = require('./process');
 const { loadIdlFile } = require('./idl');
 const { startServers } = require('./servers');
