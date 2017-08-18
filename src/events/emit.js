@@ -10,10 +10,10 @@ const { fireEvent } = require('./fire');
 // `await emitEvent({})` should not block, except when we want the return value
 const emitEvent = function ({ async = true, ...rest }) {
   if (!async) {
-    return emit({ ...rest });
+    return emit({ async, ...rest });
   }
 
-  emit({ ...rest }).catch(identity);
+  emit({ async, ...rest }).catch(identity);
 };
 
 // Emit some event, i.e.:
@@ -28,6 +28,7 @@ const emit = async function ({
   message,
   info,
   runtimeOpts = {},
+  async,
   delay,
 }) {
   const levelA = getLevel({ level, type });
@@ -36,7 +37,9 @@ const emit = async function ({
   if (noEvents) { return; }
 
   // Event emitting has low priority, so run this in a different macrotask
-  await pSetTimeout(0, { unref: false });
+  if (async) {
+    await pSetTimeout(0, { unref: false });
+  }
 
   const { eventPayload, message: messageA } = getPayload({
     reqInfo,
