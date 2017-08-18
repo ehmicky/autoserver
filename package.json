@@ -16,11 +16,11 @@
   },
   "author": "Autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
-  "bin": "apiengine",
+  "bin": "./bin/apiengine",
   "scripts": {
     "build": "./scripts/unbuild.sh; npm install; ./scripts/build.sh",
     "unbuild": "./scripts/unbuild.sh",
-    "start": "cd ./examples && ../apiengine",
+    "start": "cd ./examples && ../bin/apiengine",
     "watch": "./node_modules/.bin/nodemon --config ./nodemon.json",
     "debug": "./node_modules/.bin/nodemon --config ./nodemon_debug.json",
     "test": "gulp test"
