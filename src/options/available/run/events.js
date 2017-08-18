@@ -1,6 +1,6 @@
 'use strict';
 
-const { ALL_TYPES } = require('../../events');
+const { ALL_TYPES } = require('../../../events');
 
 // Runtime option `events`
 const getEvent = type => ({

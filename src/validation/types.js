@@ -7,10 +7,6 @@ const validationTypes = {
     reason: 'IDL_VALIDATION',
     message: 'Error in schema file',
   },
-  runtimeOpts: {
-    reason: 'RUNTIME_OPTS_VALIDATION',
-    message: 'Runtime options syntax error',
-  },
   paginationInput: {
     reason: 'INPUT_VALIDATION',
     message: 'Wrong parameters',

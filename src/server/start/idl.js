@@ -17,16 +17,6 @@ const loadIdlFile = async function ({ idlFile }) {
 };
 
 const loadIdl = async function ({ idlFile }) {
-  const { idl } = await getIdlFile({ idlFile });
-  return { idl };
-};
-
-const eLoadIdl = addErrorHandler(loadIdl, {
-  message: 'Could not load IDL file',
-  reason: 'CONF_LOADING',
-});
-
-const getIdlFile = async function ({ idlFile }) {
   const idlPath = await getConfFile({
     path: idlFile,
     name: 'idl',
@@ -38,6 +28,11 @@ const getIdlFile = async function ({ idlFile }) {
   const idl = await getIdl({ idlPath });
   return { idl };
 };
+
+const eLoadIdl = addErrorHandler(loadIdl, {
+  message: 'Could not load IDL file',
+  reason: 'CONF_LOADING',
+});
 
 module.exports = {
   loadIdlFile,

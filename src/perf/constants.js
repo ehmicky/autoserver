@@ -6,7 +6,7 @@ const CATEGORIES = [
   'all',
   'default',
   'main',
-  'runtime_opts',
+  'run_opts',
   'middleware',
   'server',
 ];
