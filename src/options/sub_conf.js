@@ -56,7 +56,7 @@ const loadSubConfOpt = async function ({
 };
 
 const eLoadSubConfOpt = addErrorHandler(loadSubConfOpt, {
-  message: ({ configOpt: { name } }) => `Could not load option '${name}'`,
+  message: ({ subConfOpt: { name } }) => `Could not load option '${name}'`,
   reason: 'CONF_LOADING',
 });
 
@@ -72,7 +72,13 @@ const loadSubConfFile = async function ({
   path,
   subConfFile: { filename, extNames, loader },
 }) {
-  const pathA = await getConfFile({ path, name: filename, baseDir, extNames });
+  const pathA = await getConfFile({
+    path,
+    name: filename,
+    baseDir,
+    extNames,
+    useEnvVar: false,
+  });
   if (!pathA) { return; }
 
   const loadedFile = await loadConfFile({ type: loader, path: pathA });
