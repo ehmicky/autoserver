@@ -1,7 +1,7 @@
 'use strict';
 
-const { emitEvent } = require('../../events');
-const { getStandardError, normalizeError } = require('../../error');
+const { emitEvent } = require('../events');
+const { getStandardError, normalizeError } = require('../error');
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance

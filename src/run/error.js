@@ -1,9 +1,10 @@
 'use strict';
 
-const { keepFuncName } = require('../../utilities');
-const { getStandardError, rethrowError } = require('../../error');
-const { emitEvent } = require('../../events');
-const { gracefulExit } = require('../exit');
+const { keepFuncName } = require('../utilities');
+const { getStandardError, rethrowError } = require('../error');
+const { emitEvent } = require('../events');
+
+const { gracefulExit } = require('./exit');
 
 const handleStartupError = function (func) {
   return async (input, ...args) => {
