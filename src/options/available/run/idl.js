@@ -9,7 +9,10 @@ const idl = {
     extNames: ['json', 'yml', 'yaml'],
     loader: 'jsonRef',
   }],
-  validate: { type: 'object' },
+  validate: {
+    type: 'object',
+    required: true,
+  },
 };
 
 module.exports = [
