@@ -14,8 +14,6 @@ const middleware = [
 
   // Initial layer
 
-  // Setup basic input
-  initial.setupInput,
   // Error handler, which sends final response, if errors
   initial.errorHandler,
   // Emit event about how the request handling takes
