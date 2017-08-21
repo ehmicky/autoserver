@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError, reverseArray } = require('./utilities');
+const { throwError, reverseArray } = require('../utilities');
 
 // Transforms a series of functions into a middleware stack.
 // More precisely:
