@@ -3,17 +3,19 @@
 const { ALL_TYPES } = require('../../../events');
 
 // Runtime option `events`
-const getEvent = type => ({
-  name: `events.${type}`,
-  default: null,
-  description: getDescription({ type }),
-  group: 'Events',
-  validate: {
-    type: 'function',
-  },
-});
+const getEvent = function (type) {
+  const description = getEventDescription({ type });
 
-const getDescription = function ({ type }) {
+  return {
+    name: `events.${type}`,
+    default: null,
+    description,
+    group: 'Events',
+    validate: { type: 'function' },
+  };
+};
+
+const getEventDescription = function ({ type }) {
   if (type === 'any') {
     return `Function fired when any event happens`;
   }
