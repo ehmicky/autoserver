@@ -10,7 +10,7 @@ const { getEnvVars } = require('./get');
 const applyEnvVars = function ({ options }) {
   const envVars = getEnvVars();
 
-  // This was already handled
+  // `config` environment variable was already handled
   const envVarsA = omit(envVars, 'config');
 
   const optionsA = defaultsDeep({}, envVarsA, options);

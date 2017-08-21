@@ -28,6 +28,9 @@ const loadMainConfFile = async function ({ options, command }) {
   return { options: content, mainConfPath: mainConfPathA };
 };
 
+// Main configuration file can be specified with `config` option,
+// or API_ENGINE__CONFIG environment variable, or by looked in the tree
+// under filename `api_engine.COMMAND.config.json|yml|yaml`
 const getMainConfPath = function ({ options }) {
   const envVars = getEnvVars();
   return envVars.config || options.config;

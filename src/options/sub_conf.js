@@ -8,7 +8,7 @@ const { reduceAsync, get, set, findValueAsync } = require('../utilities');
 const { getConfFile } = require('./conf');
 
 // Load options being a path pointing to a config file, inside the main
-// config file, i.e. to a "sub-conf" file
+// config file, i.e. to a 'sub-conf' file
 const loadSubConf = async function ({
   command,
   options,
