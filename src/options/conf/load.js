@@ -2,8 +2,8 @@
 
 const { extname } = require('path');
 
-const { getJson, getYaml } = require('../utilities');
-const { getIdl } = require('../idl');
+const { getJson, getYaml } = require('../../utilities');
+const { getIdl } = require('../../idl');
 
 // Load file content, with several supported formats
 const loadConfFile = async function ({ type, path }) {

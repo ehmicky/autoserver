@@ -2,8 +2,8 @@
 
 const { resolve, isAbsolute } = require('path');
 
-const { throwError } = require('../error');
-const { mStat, findAsync } = require('../utilities');
+const { throwError } = require('../../error');
+const { mStat, findAsync } = require('../../utilities');
 
 // Retrieves final configuration path to use
 const getConf = function ({

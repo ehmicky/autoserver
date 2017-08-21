@@ -1,8 +1,10 @@
 'use strict';
 
 const { addErrorHandler } = require('../error');
-const { getConfFile, loadConfFile } = require('../conf');
 const { deepMerge } = require('../utilities');
+
+const { getEnvVars } = require('./env');
+const { getConfFile, loadConfFile } = require('./conf');
 
 // Load main configuration file `config`, and merges it with inline options
 const loadMainConf = async function ({ options, command }) {
@@ -15,17 +17,22 @@ const loadMainConf = async function ({ options, command }) {
   return { options: optionsB, optionsFile };
 };
 
-const loadMainConfFile = async function ({ options: { config }, command }) {
+const loadMainConfFile = async function ({ options, command }) {
+  const path = getMainConfPath({ options });
   const optionsFile = await getConfFile({
-    path: config,
+    path,
     name: `${command}.config`,
     extNames: ['json', 'yml', 'yaml'],
-    useEnvVar: true,
   });
   if (!optionsFile) { return {}; }
 
-  const options = await loadConfFile({ type: 'generic', path: optionsFile });
-  return { options, optionsFile };
+  const optionsA = await loadConfFile({ type: 'generic', path: optionsFile });
+  return { options: optionsA, optionsFile };
+};
+
+const getMainConfPath = function ({ options }) {
+  const envVars = getEnvVars();
+  return envVars.config || options.config;
 };
 
 const eLoadMainConfFile = addErrorHandler(loadMainConfFile, {

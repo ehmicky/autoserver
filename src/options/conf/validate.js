@@ -4,7 +4,7 @@ const { extname } = require('path');
 
 const { toSentence } = require('underscore.string');
 
-const { throwError } = require('../error');
+const { throwError } = require('../../error');
 
 const validateConfFile = function ({ path, extNames }) {
   if (!path) { return; }
