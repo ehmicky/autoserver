@@ -2,8 +2,9 @@
 
 const { defaultsDeep } = require('lodash');
 
-const { getEnvVars } = require('../conf');
 const { omit } = require('../utilities');
+
+const { getEnvVars } = require('./env');
 
 // Default value for options
 // Priority order:

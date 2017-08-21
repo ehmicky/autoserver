@@ -3,8 +3,9 @@
 const { dirname } = require('path');
 
 const { addErrorHandler } = require('../error');
-const { getConfFile, loadConfFile } = require('../conf');
 const { reduceAsync, get, set, findValueAsync } = require('../utilities');
+
+const { getConfFile, loadConfFile } = require('./conf');
 
 // Load options being a path pointing to a config file, inside the main
 // config file, i.e. to a "sub-conf" file
@@ -85,13 +86,8 @@ const loadSubConfFile = async function ({
   path,
   subConfFile: { filename, extNames, loader },
 }) {
-  const pathA = await getConfFile({
-    path,
-    name: `${command}.${filename}`,
-    baseDir,
-    extNames,
-    useEnvVar: false,
-  });
+  const name = `${command}.${filename}`;
+  const pathA = await getConfFile({ path, name, baseDir, extNames });
   if (!pathA) { return; }
 
   const loadedFile = await loadConfFile({ type: loader, path: pathA });
