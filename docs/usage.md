@@ -16,10 +16,11 @@ Use `apiengine completion` if you want to enable command line auto-completion.
 
 The server can also be used from Node.js:
 
+<!-- eslint-disable strict, no-undef -->
 ```javascript
 const apiEngine = require('api-engine');
 
-apiEngine.run({ option });
+apiEngine.run({ ...options });
 ```
 
 Here we used the `COMMAND` `run`, but any `COMMAND` can be used.
