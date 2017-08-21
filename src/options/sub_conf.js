@@ -5,18 +5,18 @@ const { dirname } = require('path');
 const { addErrorHandler } = require('../error');
 const { reduceAsync, get, set, findValueAsync } = require('../utilities');
 
-const { getConfFile, loadConfFile } = require('./conf');
+const { getConfFile } = require('./conf');
 
 // Load options being a path pointing to a config file, inside the main
 // config file, i.e. to a "sub-conf" file
 const loadSubConf = async function ({
   command,
   options,
-  optionsFile,
+  mainConfPath,
   availableOpts,
 }) {
   const subConfOpts = getSubConfOpts({ availableOpts });
-  const baseDir = getBaseDir({ optionsFile });
+  const baseDir = getBaseDir({ mainConfPath });
   const optionsB = await loadSubConfOpts({
     command,
     baseDir,
@@ -33,10 +33,10 @@ const getSubConfOpts = function ({ availableOpts }) {
 };
 
 // Config paths, inside a main config files, are relative to that file
-const getBaseDir = function ({ optionsFile }) {
-  if (!optionsFile) { return; }
+const getBaseDir = function ({ mainConfPath }) {
+  if (!mainConfPath) { return; }
 
-  return dirname(optionsFile);
+  return dirname(mainConfPath);
 };
 
 const loadSubConfOpts = function ({ command, baseDir, subConfOpts, options }) {
@@ -86,12 +86,14 @@ const loadSubConfFile = async function ({
   path,
   subConfFile: { filename, extNames, loader },
 }) {
-  const name = `${command}.${filename}`;
-  const pathA = await getConfFile({ path, name, baseDir, extNames });
-  if (!pathA) { return; }
-
-  const loadedFile = await loadConfFile({ type: loader, path: pathA });
-  return loadedFile;
+  const { content } = await getConfFile({
+    path,
+    name: `${command}.${filename}`,
+    baseDir,
+    extNames,
+    loader,
+  });
+  return content;
 };
 
 module.exports = {
