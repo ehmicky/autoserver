@@ -2,6 +2,6 @@
 
 module.exports = {
   ...require('./error_handler'),
-  ...require('./events'),
-  ...require('./performance_event'),
+  ...require('./perf_event'),
+  ...require('./call_event'),
 };

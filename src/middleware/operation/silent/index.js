@@ -9,22 +9,27 @@ const operations = require('./operations');
 //   - this can also be set for all the actions using:
 //      - Prefer: return=minimal HTTP request header
 const silent = async function (nextFunc, input) {
-  const response = await nextFunc(input);
+  const inputA = await nextFunc(input);
 
-  const newResponse = getResponse({ input, response });
-  return newResponse;
+  const inputB = applySilent({ input: inputA });
+  return inputB;
 };
 
-const getResponse = function ({
-  input: { operation, settings: { silent: silentSettings } },
-  response,
-  response: { actions },
+const applySilent = function ({
+  input,
+  input: {
+    operation,
+    settings: { silent: silentSettings },
+    response,
+    response: { actions },
+  },
 }) {
   const isDelete = actions && actions.some(({ type }) => type === 'delete');
   const shouldRemoveOutput = isDelete || silentSettings;
-  if (!shouldRemoveOutput) { return response; }
+  if (!shouldRemoveOutput) { return input; }
 
-  return operations[operation].silent(response);
+  const responseA = operations[operation].silent(response);
+  return { ...input, responseA };
 };
 
 module.exports = {

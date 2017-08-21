@@ -3,24 +3,24 @@
 const { getReason, rethrowError, normalizeError } = require('../../error');
 const { emitEvent, addReqInfo, STATUS_LEVEL_MAP } = require('../../events');
 
-// Main "call" events middleware.
+// Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not
-const callEvents = async function (nextFunc, input) {
+const callEvent = async function (nextFunc, input) {
   try {
-    const response = await nextFunc(input);
+    const inputA = await nextFunc(input);
 
-    const responseA = await emitReqEvent({ input, obj: response });
+    await emitReqEvent({ input, obj: inputA.response });
 
-    return responseA;
+    return inputA;
   } catch (error) {
     const errorA = normalizeError({ error });
 
     const errorReason = getReason({ error: errorA });
     const inputA = addReqInfo(input, { errorReason });
 
-    const errorB = await emitReqEvent({ input: inputA, obj: errorA });
+    await emitReqEvent({ input: inputA, obj: errorA });
 
-    rethrowError(errorB);
+    rethrowError(errorA);
   }
 };
 
@@ -43,5 +43,5 @@ const getLevel = function ({ obj: { status = 'SERVER_ERROR' } }) {
 };
 
 module.exports = {
-  callEvents,
+  callEvent,
 };

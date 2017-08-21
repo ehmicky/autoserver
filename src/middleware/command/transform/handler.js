@@ -9,11 +9,11 @@ const {
 const handleTransforms = async function (nextFunc, input) {
   const inputA = applyInputTransforms({ input });
 
-  const response = await nextFunc(inputA);
+  const inputB = await nextFunc(inputA);
 
-  const responseA = applyOutputTransforms({ input, response });
+  const inputC = applyOutputTransforms({ input: inputB });
 
-  return responseA;
+  return inputC;
 };
 
 module.exports = {

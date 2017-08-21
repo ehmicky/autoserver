@@ -79,12 +79,12 @@ const getGraphQLInput = function ({
 const fireNext = async function ({ nextFunc, input, responses }, actionInput) {
   const inputA = { ...input, ...actionInput };
 
-  const response = await nextFunc(inputA);
+  const inputB = await nextFunc(inputA);
 
   // eslint-disable-next-line fp/no-mutating-methods
-  responses.push(response);
+  responses.push(inputB.response);
 
-  return response;
+  return inputB.response;
 };
 
 module.exports = {

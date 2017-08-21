@@ -17,14 +17,14 @@ const applyInputTransforms = function ({
 
 const applyOutputTransforms = function ({
   input,
-  response,
-  response: { data },
+  input: { response, response: { data } },
 }) {
   if (!data) { return response; }
 
   const dataA = transformData({ data, input, type: 'compute' });
 
-  return { ...response, data: dataA };
+  const responseA = { ...response, data: dataA };
+  return { ...input, response: responseA };
 };
 
 // Performs transformation on data array or single data

@@ -8,11 +8,10 @@ const { omit } = require('../../utilities');
 // because readonly attributes can be part of a normal response, and clients
 // should be able to send responses back as is without having to remove
 // readonly attributes.
-const handleReadonly = async function (nextFunc, input) {
+const handleReadonly = function (nextFunc, input) {
   const inputA = applyReadonly({ input });
 
-  const response = await nextFunc(inputA);
-  return response;
+  return nextFunc(inputA);
 };
 
 // `currentData` might be undefined, e.g. for command `create`

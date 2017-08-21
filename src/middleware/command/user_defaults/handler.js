@@ -5,11 +5,10 @@ const { applyAllDefault } = require('./apply');
 // Applies schema `default`, if input value is undefined
 // This can be a static value or any IDL function
 // Not applied on partial write actions like 'update'
-const userDefaults = async function (nextFunc, input) {
+const userDefaults = function (nextFunc, input) {
   const inputA = addUserDefault({ input });
 
-  const response = await nextFunc(inputA);
-  return response;
+  return nextFunc(inputA);
 };
 
 const addUserDefault = function ({

@@ -3,11 +3,10 @@
 const { pickBy, omit } = require('../../utilities');
 
 // Normalize empty values (undefined, null) by removing their key
-const normalizeEmpty = async function (nextFunc, input) {
+const normalizeEmpty = function (nextFunc, input) {
   const inputA = unsetEmpty({ input });
 
-  const response = await nextFunc(inputA);
-  return response;
+  return nextFunc(inputA);
 };
 
 const unsetEmpty = function ({

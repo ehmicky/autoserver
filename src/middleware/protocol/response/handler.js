@@ -11,14 +11,14 @@ const sendResponse = async function (nextFunc, input) {
   const send = sender.bind(null, input);
 
   try {
-    const response = await nextFunc(input);
+    const inputA = await nextFunc(input);
 
-    const responseInfo = pick(response, ['content', 'type']);
+    const responseInfo = pick(inputA.response, ['content', 'type']);
     addReqInfo(input, { response: responseInfo });
 
-    await send(response);
+    await send(inputA.response);
 
-    return response;
+    return inputA;
   } catch (error) {
     const errorA = normalizeError({ error });
 

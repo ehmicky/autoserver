@@ -1,13 +1,13 @@
 'use strict';
 
 const getTransformedResponse = function ({
-  input: { action },
-  response,
+  input,
+  input: { action, response },
   operation,
 }) {
   const responseA = { ...response, action };
   const responseB = actionConvertorOutput[operation](responseA);
-  return responseB;
+  return { ...input, response: responseB };
 };
 
 const actionConvertorOutput = {

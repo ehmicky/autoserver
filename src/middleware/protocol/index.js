@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./convertor'),
   ...require('./validation'),
   ...require('./response'),
   ...require('./status'),

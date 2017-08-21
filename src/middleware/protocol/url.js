@@ -8,7 +8,7 @@ const { addReqInfo } = require('../../events');
 //  - `input.path`: URL's path, e.g. used by router
 // Uses protocol-specific URL retrieval, but are set in a
 // protocol-agnostic format, i.e. each protocol sets the same strings.
-const parseUrl = async function (nextFunc, input) {
+const parseUrl = function (nextFunc, input) {
   const { protocolHandler, specific } = input;
 
   const origin = getOrigin({ specific, protocolHandler });
@@ -18,8 +18,7 @@ const parseUrl = async function (nextFunc, input) {
   const inputA = addReqInfo(input, { url, path, origin });
   const inputB = { ...inputA, url, path, origin };
 
-  const response = await nextFunc(inputB);
-  return response;
+  return nextFunc(inputB);
 };
 
 const getOrigin = function ({ specific, protocolHandler }) {

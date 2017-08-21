@@ -4,10 +4,9 @@ const { fireAction } = require('./execute');
 const actions = require('./actions');
 
 // Translates operation-specific calls into generic instance actions
-const actionExecute = async function (nextFunc, input) {
+const actionExecute = function (nextFunc, input) {
   const action = actions[input.action.type];
-  const response = await fireAction({ input, action, nextFunc });
-  return response;
+  return fireAction({ input, action, nextFunc });
 };
 
 module.exports = {

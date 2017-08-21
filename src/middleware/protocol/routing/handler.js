@@ -5,7 +5,7 @@ const { addReqInfo } = require('../../../events');
 const { routes, findRoute, getPathVars } = require('./manager');
 
 // Add route and URL parameters to input
-const router = async function (nextFunc, input) {
+const router = function (nextFunc, input) {
   const { path, goal } = input;
 
   const route = findRoute({ routes, path, goal });
@@ -15,8 +15,7 @@ const router = async function (nextFunc, input) {
   const inputA = addReqInfo(input, { route: route.name, pathVars });
   const inputB = { ...inputA, route: route.name, pathVars };
 
-  const response = await nextFunc(inputB);
-  return response;
+  return nextFunc(inputB);
 };
 
 module.exports = {

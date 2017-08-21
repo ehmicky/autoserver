@@ -53,9 +53,9 @@ const pagination = async function (nextFunc, input) {
 
   const paginatedInput = processInput({ input, maxPageSize });
 
-  const response = await nextFunc(paginatedInput);
+  const inputA = await nextFunc(paginatedInput);
 
-  const paginatedOutput = processOutput({ input, response, args, maxPageSize });
+  const paginatedOutput = processOutput({ input: inputA, args, maxPageSize });
 
   return paginatedOutput;
 };
@@ -85,12 +85,12 @@ const processInput = function ({
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
 const processOutput = function ({
-  input: { command, action, modelName, idl },
-  response,
+  input,
+  input: { command, action, modelName, idl, response },
   args,
   maxPageSize,
 }) {
-  if (!mustPaginateOutput({ args, command })) { return response; }
+  if (!mustPaginateOutput({ args, command })) { return input; }
 
   const responseA = reverseOutput({ args, response });
 
@@ -106,7 +106,7 @@ const processOutput = function ({
     idl,
   });
 
-  return responseB;
+  return { ...input, response: responseB };
 };
 
 // When using args.before, pagination is performed backward.
