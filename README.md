@@ -44,7 +44,7 @@ See the [roadmap](ROADMAP.md).
 
 # Starting the server
 
-See [here](docs/server.md).
+See [here](docs/usage.md).
 
 # Client queries
 
