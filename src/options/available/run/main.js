@@ -14,6 +14,7 @@ const options = [
 const runOptions = {
   options,
   name: 'run',
+  // This means this is the default command
   aliases: '*',
   description: 'Start the server',
   examples: [
