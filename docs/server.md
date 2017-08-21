@@ -28,7 +28,3 @@ apiEngine.start()
     console.log('Failure');
   });
 ```
-
-# Node.js options
-
-For the moment, `node` must be run with the `--harmony` flag.

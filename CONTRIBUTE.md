@@ -47,8 +47,7 @@ so please install the plugin for your IDE.
 
 # Troubleshooting
 
-  - Please use Node.js v8.2.1
-  - Pass --harmony flag to Node.js
+  - Please use Node.js v8.4.0
   - Orphans are not currently handled (but this will be fixed).
     This means if you are trying to query or mutate a model which contains a
     foreign key to a non-existing model, the action will crash.
