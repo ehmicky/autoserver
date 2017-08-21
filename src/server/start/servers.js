@@ -8,7 +8,7 @@ const { monitor } = require('../../perf');
 const { createIfv, compileIdlFuncs } = require('../../idl_func');
 
 // Start each server
-const startServers = async function ({ idl, runtimeOpts }) {
+const startServers = async function ({ runtimeOpts, runtimeOpts: { idl } }) {
   const [idlA, compileIdlFuncsMeasure] = await mCompileIdlFuncs({ idl });
   const [{ ifv }, createIfvMeasure] = await mCreateIfv({ idl: idlA });
 

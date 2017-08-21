@@ -1,6 +1,7 @@
 'use strict';
 
 const options = [
+  ...require('./idl'),
   ...require('./env'),
   ...require('./events'),
   ...require('./server_name'),
