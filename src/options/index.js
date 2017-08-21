@@ -2,5 +2,5 @@
 
 module.exports = {
   ...require('./main'),
-  availableOptions: require('./available'),
+  ...require('./available'),
 };

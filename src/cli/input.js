@@ -1,20 +1,21 @@
 'use strict';
 
 const yargs = require('yargs');
-const { isEqual } = require('lodash');
 
-const { recursePickBy, omit } = require('../utilities');
+const { availableCommands } = require('../options');
 
 const { addCommands, addCommandsExamples } = require('./commands');
+const { cleanOpts } = require('./clean');
 
 // CLI input parsing
-const getRuntimeOpts = function () {
+const parseInput = function () {
   const opts = parseOpts();
   const optsA = cleanOpts({ opts });
-  return optsA;
+  const { command, opts: optsB } = parseCommand({ opts: optsA });
+  return { command, opts: optsB };
 };
 
-// Main parsing
+// CLI options parsing
 const parseOpts = function () {
   const yargsA = addCommands({ yargs });
   const yargsB = addCommandsExamples({ yargs: yargsA });
@@ -36,29 +37,23 @@ const parseOpts = function () {
     .argv;
 };
 
-const cleanOpts = function ({ opts }) {
-  const optsA = recursePickBy(opts, isCorrectOpt);
-  // Remove parser-specific values
-  const optsB = omit(optsA, ['_', '$0']);
-  return optsB;
-};
-
-const isCorrectOpt = function (val, name) {
-  // Remove empty values
-  if (val === undefined || isEqual(val, {})) { return false; }
-
-  // Remove dasherized options
-  if (dasherizedRegExp.test(name)) { return false; }
-
-  return true;
-};
-
-const dasherizedRegExp = /-/;
-
 const usage = `apiengine COMMAND [OPTIONS]
 
 Engine generating an API from a simple configuration file.`;
 
+// Retrieve CLI command
+const parseCommand = function ({ opts: { _: commands, ...optsA } }) {
+  const commandNames = availableCommands.map(({ name }) => name);
+
+  // If the command is wrong, or missing, defaults to 'run'
+  const missingCommand = !Array.isArray(commands) ||
+    commands.length !== 1 ||
+    !commandNames.includes(commands[0]);
+  const command = missingCommand ? 'run' : commands[0];
+
+  return { command, opts: optsA };
+};
+
 module.exports = {
-  getRuntimeOpts,
+  parseInput,
 };

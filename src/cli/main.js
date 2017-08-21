@@ -1,17 +1,17 @@
 'use strict';
 
-const { start } = require('../server');
+const commands = require('../commands');
 
-const { getRuntimeOpts } = require('./runtime_opts');
+const { parseInput } = require('./input');
 
-// Start the server, from the CLI
+// Run a server command, from the CLI
 const startCli = function () {
   // eslint-disable-next-line fp/no-mutation
   Error.stackTraceLimit = 100;
 
-  const runtimeOpts = getRuntimeOpts();
+  const { command, opts } = parseInput();
 
-  start({ runtime: runtimeOpts })
+  commands[command](opts)
     // eslint-disable-next-line no-process-exit, unicorn/no-process-exit
     .catch(() => process.exit(1));
 };

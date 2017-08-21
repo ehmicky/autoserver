@@ -4,8 +4,8 @@ const { dasherize } = require('underscore.string');
 
 const { assignObject } = require('../utilities');
 
-// Retrieve CLI options from `availableOptions`
-const getCliOptions = function ({ availableOpts: { options } }) {
+// Retrieve CLI options from `command`
+const getCliOptions = function ({ command: { options } }) {
   return options
     .map(getCliOption)
     .reduce(assignObject, {});
@@ -28,7 +28,9 @@ const cliTypes = {
   'object[]': '',
 };
 
-const getType = function ({ validate: { type } = {} }) {
+const getType = function ({ subConfFiles, validate: { type } = {} }) {
+  if (subConfFiles) { return 'string'; }
+
   const typeA = Array.isArray(type) ? type[0] : type;
   return cliTypes[typeA];
 };
@@ -56,7 +58,7 @@ const getChoices = function ({ validate: { enum: choices } = {} }) {
 
 // Option group, for --help message
 const getGroup = function ({ group }) {
-  if (!group) { return { group: 'options:' }; }
+  if (!group) { return { group: 'Options:' }; }
 
   return { group: `${group}:` };
 };
@@ -83,6 +85,8 @@ const getRequiresArg = function (option) {
   return { requiresArg };
 };
 
+// We reset default values, because we want to do this later,
+// not during CLI parsing
 const getDefault = function (option) {
   const type = getType(option);
   if (type !== 'boolean') { return {}; }
