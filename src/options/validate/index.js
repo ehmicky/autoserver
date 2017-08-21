@@ -40,8 +40,7 @@ const validateOpt = function ({ prefix, optName, optVal, availableOpts }) {
 
 // Retrieve from availableOptions
 const getAvailableOpt = function ({ name, availableOpts }) {
-  const availableOpt = availableOpts.options
-    .find(({ name: nameA }) => nameA === name);
+  const availableOpt = availableOpts.find(({ name: nameA }) => nameA === name);
 
   if (!availableOpt) {
     const message = `Option '${name}' is unknown`;

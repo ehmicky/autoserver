@@ -29,7 +29,7 @@ const applyEnvVars = function ({ options }) {
 
 // Apply `availableOptions` `default` values
 const applyDefaultOpts = function ({ options, availableOpts }) {
-  return availableOpts.options.reduce(
+  return availableOpts.reduce(
     (optionsA, { name, default: defValue }) =>
       applyDefaultOpt({ options: optionsA, name, defValue }),
     options,

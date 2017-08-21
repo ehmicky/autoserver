@@ -36,7 +36,7 @@ const getMainConfPath = function ({ options }) {
 };
 
 const eLoadMainConfFile = addErrorHandler(loadMainConfFile, {
-  message: 'Could not load options configuration file \'config\'',
+  message: 'Could not load \'config\' file',
   reason: 'CONF_LOADING',
 });
 

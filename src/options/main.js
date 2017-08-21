@@ -17,7 +17,8 @@ const processors = [
 
 // Retrieve and validate main options
 const getOptions = function ({ command, options }) {
-  const availableOpts = availableCommands.find(({ name }) => name === command);
+  const { options: availableOpts } = availableCommands
+    .find(({ name }) => name === command);
   return monitoredReduce({
     funcs: processors,
     initialInput: { options, command, availableOpts },

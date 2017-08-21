@@ -28,7 +28,7 @@ const loadSubConf = async function ({
 };
 
 const getSubConfOpts = function ({ availableOpts }) {
-  return availableOpts.options
+  return availableOpts
     .filter(({ subConfFiles }) => subConfFiles !== undefined);
 };
 
