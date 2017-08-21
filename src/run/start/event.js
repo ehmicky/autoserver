@@ -18,10 +18,12 @@ const emitStartEvent = async function ({ servers, runtimeOpts }) {
   return { startPayload };
 };
 
+// Remove some properties from event payload as they are not serializable,
+// or should not be made immutable
 const getPayload = function ({ servers, runtimeOpts }) {
-  // Remove `server` from event payload as it is not serializable
   const serversA = mapValues(servers, serverInfo => omit(serverInfo, 'server'));
-  return { servers: serversA, runtimeOpts };
+  const runtimeOptsA = omit(runtimeOpts, 'idl');
+  return { servers: serversA, runtimeOpts: runtimeOptsA };
 };
 
 module.exports = {
