@@ -21,24 +21,24 @@ const validateOpts = function ({ prefix = '', opt, availableOpts }) {
 };
 
 const validateOpt = function ({ prefix, optName, optVal, availableOpts }) {
-  if (optVal === undefined) { return; }
-
   const name = `${prefix}${optName}`;
-  const availableOpt = getAvailableOpt({ name, availableOpts });
+  const {
+    validate = {},
+    subConfFiles,
+  } = getAvailableOpt({ name, availableOpts });
 
-  // Validate option against each `validate` rule
-  const { schema = {} } = availableOpt;
-  Object.entries(schema).forEach(([ruleType, ruleVal]) =>
-    validateRule({ name, optVal, ruleVal, ruleType })
-  );
+  checkOpt({ name, validate, optVal });
 
   // Sub-conf options do not recurse
-  if (availableOpt.subConfFiles !== undefined) { return; }
+  // E.g. IDL file is a sub-conf which resolves to an object, but IDL properties
+  // are not options themselves
+  if (subConfFiles !== undefined) { return; }
 
+  // Recurse otherwise
   validateOpts({ prefix: `${name}.`, opt: optVal, availableOpts });
 };
 
-// Retrieve from availableOptions
+// Retrieve from `availableOptions`
 const getAvailableOpt = function ({ name, availableOpts }) {
   const availableOpt = availableOpts.find(({ name: nameA }) => nameA === name);
 
@@ -48,6 +48,30 @@ const getAvailableOpt = function ({ name, availableOpts }) {
   }
 
   return availableOpt;
+};
+
+const checkOpt = function ({ name, validate, optVal }) {
+  const isEmpty = optVal === undefined;
+  const validateA = checkRequired({ name, isEmpty, validate });
+  if (isEmpty) { return; }
+
+  // Validate option against each `validate` rule
+  Object.entries(validateA).forEach(([ruleType, ruleVal]) =>
+    validateRule({ name, optVal, ruleVal, ruleType })
+  );
+};
+
+const checkRequired = function ({
+  name,
+  isEmpty,
+  validate: { required, ...validateA },
+}) {
+  if (isEmpty && required) {
+    const message = `Option '${name}' is required`;
+    throwError(message, { reason: 'CONF_VALIDATION' });
+  }
+
+  return validateA;
 };
 
 // Validate option against single `validate` rule
