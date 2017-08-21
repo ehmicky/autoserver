@@ -12,9 +12,10 @@ Events are fired under the following circumstances, called "types":
 
 # Event handlers
 
-Events are configured using the [runtime option](runtime.md#runtime-options)
+Events handlers are configured using the [runtime option](run.md#options)
 `events`, which is an object, where the key is an [event type](#types)
-and the value the path to a JavaScript file. This file must export a function,
+and the value the [path](configuration.md#filepaths-options) to a
+JavaScript file. This file must export a function,
 which will be triggered with the [event payload](#payload), e.g.:
 
 ```yml
@@ -34,17 +35,19 @@ const startEvent = function (payload) {
 module.exports = startEvent;
 ```
 
-By default, any file called `api_engine.TYPE.js` (e.g. `api_engine.start.js`)
-in the current directory, or any parent directory, will be used.
-This is the preferred configuration method.
+See [here](configuration.md) to learn how to specify the runtime option.
 
-If an event handler throws an exception, or returns a rejected promise,
-it will be retried several times, with an exponential delay.
+By default, files named `api_engine.run.event.TYPE.js`
+(e.g. `api_engine.run.event.start.js`) will be searched in the current
+directory, or any parent. This is the preferred configuration method.
 
 # Logging
 
 Event payloads can be serialized to JSON, i.e. events can be used for logging
 or monitoring purpose.
+
+If an event handler throws an exception, or returns a rejected promise,
+it will be retried several times, with an exponential delay.
 
 # Console
 
@@ -71,7 +74,7 @@ The event level is the importance of the event, among `info`, `log`, `warn`
 or `error`,
 
 The events verbosity can be adjusted using the
-[runtime option](runtime.md#runtime-options) `eventLevel`
+[runtime option](run.md#options) `eventLevel`
 (defaults to `'info'`), which can also be `'silent'`.
 
 # Payload
@@ -128,7 +131,7 @@ available:
   - as a response header named `X-Server-Id`
 
 `serverName` is the system hostname, but can be overriden using the
-[runtime option](runtime.md#runtime-options) `serverName`. It is available:
+[runtime option](run.md#options) `serverName`. It is available:
   - in [`serverInfo.serverName`](#server-information) payload property
   - as a response header named `X-Server-Name`
   - in [console messages](#console)
@@ -136,7 +139,7 @@ available:
 # Start information
 
 Events of type `start` have two additional properties on the event payload:
-  - `runtimeOpts` `{object}`: [runtime options](runtime.md#runtime-options)
+  - `runtimeOpts` `{object}`: [runtime options](run.md#options)
     used by the server, after adding the default values.
   - `servers` `{object}`: list of running servers
     - `HTTP` `{object}`: HTTP server information
@@ -145,7 +148,7 @@ Events of type `start` have two additional properties on the event payload:
       - `port` `{string}`
 
 The full `start` event payload is also available as the resolved value of
-the promise returned by [`apiServer.start()`](server.md#starting-a-server).
+the promise returned by [`apiServer.start()`](run.md#running-the-server).
 
 # Error information
 
@@ -162,7 +165,7 @@ with the properties (following
   - `details` `{string}`: stack trace
 
 The full `failure` event payload is also available as the rejected value of
-the promise returned by [`apiServer.start()`](server.md#starting-a-server).
+the promise returned by [`apiServer.start()`](run.md#running-the-server).
 
 # Request information
 
@@ -228,7 +231,7 @@ circumstances, e.g. if an error happened.
 # Request information filtering
 
 To avoid the request information to be too big or leak security information,
-one can set filters using the [runtime option](runtime.md#runtime-options)
+one can set filters using the [runtime option](run.md#options)
 `eventFilter`.
 
 `eventFilter` is an object, with each property specifying how filter part of
