@@ -18,7 +18,7 @@ const runOptions = {
   aliases: '*',
   description: 'Start the server',
   examples: [
-    ['Start the server', 'run --http.port=5001'],
+    ['Start the server', '--http.port=5001'],
   ],
 };
 
