@@ -17,11 +17,11 @@ const renameAliases = async function (nextFunc, input) {
   const modelAliases = aliasesMap[modelName];
   const inputA = applyInputAliases({ input, modelAliases });
 
-  const response = await nextFunc(inputA);
+  const inputB = await nextFunc(inputA);
 
-  const responseA = applyOutputAliases({ response, modelAliases });
+  const inputC = applyOutputAliases({ input: inputB, modelAliases });
 
-  return responseA;
+  return inputC;
 };
 
 module.exports = {

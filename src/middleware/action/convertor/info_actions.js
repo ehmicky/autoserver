@@ -2,8 +2,7 @@
 
 // Formatted actions information, for events
 const getInfoActions = function ({
-  input: { fullAction, modelName },
-  response: { data },
+  input: { fullAction, modelName, response: { data } },
   args,
 }) {
   const infoData = Array.isArray(data) ? data : [data];

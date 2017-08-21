@@ -8,7 +8,7 @@ const { addReqInfo } = require('../../events');
 //  - `input.method`: protocol-specific method, e.g. 'POST'
 //  - `input.goal`: protocol-agnostic method, e.g. 'create'
 // Meant to be used by operation layer.
-const parseMethod = async function (nextFunc, input) {
+const parseMethod = function (nextFunc, input) {
   const { specific, protocolHandler } = input;
 
   const method = getMethod({ specific, protocolHandler });
@@ -17,8 +17,7 @@ const parseMethod = async function (nextFunc, input) {
   const inputA = addReqInfo(input, { method, goal });
   const inputB = { ...inputA, method, goal };
 
-  const response = await nextFunc(inputB);
-  return response;
+  return nextFunc(inputB);
 };
 
 const getMethod = function ({ specific, protocolHandler }) {

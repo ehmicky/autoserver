@@ -19,7 +19,7 @@ const executeGraphql = async function (nextFunc, input) {
   const parsedResult = parseResult({ content, responses });
 
   const response = { content, currentPerf, ...parsedResult };
-  return response;
+  return { ...input, response };
 };
 
 const parseResult = function ({ content, responses }) {

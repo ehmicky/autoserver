@@ -15,10 +15,8 @@ const executeGraphiql = async function (nextFunc, input) {
     operationName,
   });
 
-  return {
-    type: 'html',
-    content,
-  };
+  const response = { type: 'html', content };
+  return { ...input, response };
 };
 
 module.exports = {

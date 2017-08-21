@@ -1,32 +1,18 @@
 'use strict';
 
-const { pick } = require('../../utilities');
 const { addIfv } = require('../../idl_func');
 const { addReqInfoIfError } = require('../../events');
-const { commonAttributes } = require('../common_attributes');
 
 // Converts from Action format to Command format
-const commandConvertor = async function (nextFunc, input) {
+const commandConvertor = function (nextFunc, input) {
   const { command } = input;
 
-  const inputA = pick(input, commandAttributes);
-  const inputB = addIfv(inputA, { $COMMAND: command.type });
+  const inputA = addIfv(input, { $COMMAND: command.type });
 
-  const response = await nextFunc(inputB);
-  return response;
+  return nextFunc(inputA);
 };
 
 const eCommandConvertor = addReqInfoIfError(commandConvertor, ['command']);
-
-// Not kept: action, fullAction
-const commandAttributes = [
-  ...commonAttributes,
-  'command',
-  'args',
-  'modelName',
-  'params',
-  'settings',
-];
 
 module.exports = {
   commandConvertor: eCommandConvertor,

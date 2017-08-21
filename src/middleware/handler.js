@@ -17,14 +17,12 @@ const middleware = [
   // Error handler, which sends final response, if errors
   initial.errorHandler,
   // Emit event about how the request handling takes
-  initial.performanceEvent,
+  initial.perfEvent,
   // Emit "call" events
-  initial.callEvents,
+  initial.callEvent,
 
   // Protocol layer
 
-  // Sets up Protocol format
-  protocol.protocolConvertor,
   // Protocol-related validation middleware
   protocol.protocolValidation,
   // Sends final response, if success
@@ -60,8 +58,6 @@ const middleware = [
 
   // Operation layer
 
-  // Convert from Protocol format to Operation format
-  operation.operationConvertor,
   // Pick the operation
   operation.operationNegotiator,
   // Operation-related validation middleware
@@ -107,8 +103,6 @@ const middleware = [
 
   // Database layer
 
-  // Convert from Command format to Database format
-  database.databaseConvertor,
   // Authorization middleware
   database.authorization,
   // Custom data validation middleware

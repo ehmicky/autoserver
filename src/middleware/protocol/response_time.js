@@ -7,17 +7,17 @@ const { addReqInfo } = require('../../events');
 // Request response time, from request handling start to response sending
 // Note that other functions might happen after response sending, e.g. events
 const setResponseTime = async function (nextFunc, input) {
-  const response = await nextFunc(input);
+  const inputA = await nextFunc(input);
 
   const respPerf = stopPerf(input.reqPerf);
-  const responseB = { ...response, respPerf };
+  const responseB = { ...inputA.response, respPerf };
 
   const responseTime = getResponseTime({ respPerf });
 
   addReqInfo(input, { responseTime });
   sendHeaders({ input, responseTime });
 
-  return responseB;
+  return { ...input, response: responseB };
 };
 
 const getResponseTime = function ({ respPerf }) {

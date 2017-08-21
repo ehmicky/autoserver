@@ -3,7 +3,7 @@
 const { throwError } = require('../../error');
 
 // Protocol-related validation middleware
-const protocolValidation = async function (nextFunc, input) {
+const protocolValidation = function (nextFunc, input) {
   const { specific } = input;
 
   if (!specific || specific.constructor !== Object) {
@@ -11,8 +11,7 @@ const protocolValidation = async function (nextFunc, input) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  const response = await nextFunc(input);
-  return response;
+  return nextFunc(input);
 };
 
 module.exports = {

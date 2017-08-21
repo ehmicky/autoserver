@@ -3,22 +3,23 @@
 const { applyResponseAliases } = require('./response');
 
 // Apply `alias` in server output
-const applyOutputAliases = function ({ response, modelAliases }) {
+const applyOutputAliases = function ({ input, modelAliases }) {
   return Object.entries(modelAliases).reduce(
-    (responseA, [attrName, aliases]) =>
-      applyOutputAlias({ response: responseA, attrName, aliases }),
-    response,
+    (inputA, [attrName, aliases]) =>
+      applyOutputAlias({ input: inputA, attrName, aliases }),
+    input,
   );
 };
 
 const applyOutputAlias = function ({
-  response,
-  response: { data },
+  input,
+  input: { response, response: { data } },
   attrName,
   aliases,
 }) {
   const dataA = applyResponseAliases({ data, attrName, aliases });
-  return { ...response, data: dataA };
+  const responseA = { ...response, data: dataA };
+  return { ...input, response: responseA };
 };
 
 module.exports = {

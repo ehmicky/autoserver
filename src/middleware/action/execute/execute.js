@@ -6,21 +6,21 @@ const { getNextInput } = require('./input');
 
 // Fire all commands defined by a specific action
 const fireAction = async function ({ input, action, nextFunc }) {
-  const finalResponse = await reduceAsync(
+  const finalInput = await reduceAsync(
     action,
-    (formerResponse, commands, index) => {
+    (formerInput, commands, index) => {
       const isLastCommand = index === action.length - 1;
       return fireCommands({
         nextFunc,
         input,
-        formerResponse,
+        formerInput,
         commands,
         isLastCommand,
       });
     },
     {},
   );
-  return finalResponse;
+  return finalInput;
 };
 
 // Each command can be an array of commands, in which case they will be run
@@ -29,7 +29,7 @@ const fireAction = async function ({ input, action, nextFunc }) {
 const fireCommands = async function ({
   nextFunc,
   input,
-  formerResponse,
+  formerInput: { response: formerResponse },
   commands,
   isLastCommand,
 }) {
@@ -37,12 +37,12 @@ const fireCommands = async function ({
   const promises = commandsArray.map(commandDef =>
     fireCommand({ nextFunc, input, formerResponse, commandDef, isLastCommand })
   );
-  const [firstResponse] = await Promise.all(promises);
-  return firstResponse;
+  const [firstInput] = await Promise.all(promises);
+  return firstInput;
 };
 
 // Fire a single command
-const fireCommand = async function ({
+const fireCommand = function ({
   nextFunc,
   input,
   formerResponse,
@@ -61,8 +61,7 @@ const fireCommand = async function ({
   const shouldFireCommand = !testFunc || testFunc(input, formerResponse);
   if (!shouldFireCommand) { return formerResponse; }
 
-  const response = await nextFunc(inputA);
-  return response;
+  return nextFunc(inputA);
 };
 
 module.exports = {

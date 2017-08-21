@@ -5,11 +5,10 @@ const { mapValues, pickBy } = require('../../../utilities');
 const { defaults } = require('./defaults');
 
 // Apply system-defined defaults to input, including input arguments
-const systemDefaults = async function (nextFunc, input) {
+const systemDefaults = function (nextFunc, input) {
   const inputA = getDefaultArgs({ input });
 
-  const response = await nextFunc(inputA);
-  return response;
+  return nextFunc(inputA);
 };
 
 // Retrieve default arguments

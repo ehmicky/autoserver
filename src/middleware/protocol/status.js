@@ -6,22 +6,21 @@ const { addReqInfo } = require('../../events');
 // Retrieve response's status
 const getStatus = async function (nextFunc, input) {
   try {
-    const response = await nextFunc(input);
-    const responseA = addStatuses({ input, response });
-    return responseA;
+    const inputA = await nextFunc(input);
+    const statuses = addStatuses({ input: inputA });
+    return { ...inputA, response: { ...inputA.response, ...statuses } };
   } catch (error) {
     const errorA = normalizeError({ error });
-    const errorB = addStatuses({ input, error: errorA });
+    const statuses = addStatuses({ input, error: errorA });
+    const errorB = { ...errorA, ...statuses };
     rethrowError(errorB);
   }
 };
 
-const addStatuses = function ({ input, error, response }) {
+const addStatuses = function ({ input, error }) {
   const statuses = getStatuses({ input, error });
   addReqInfo(input, statuses);
-
-  const obj = error || response;
-  return { ...obj, ...statuses };
+  return statuses;
 };
 
 const getStatuses = function ({

@@ -7,7 +7,7 @@ const { pSetTimeout } = require('../../utilities');
 const setRequestTimeout = function (nextFunc, input) {
   const timeoutPromise = startRequestTimeout({ input });
 
-  const responsePromise = nextFunc(input)
+  const inputPromise = nextFunc(input)
     // We must use `setTimeout(0)` to allow the `setTimeout(requestTimeout)`
     // to properly work, i.e. we need to make current macrotask end.
     // E.g. if the whole request was done in a single macrotask that took
@@ -19,8 +19,8 @@ const setRequestTimeout = function (nextFunc, input) {
     });
 
   // We use Promise.race() to ensure proper error handling
-  const response = Promise.race([timeoutPromise, responsePromise]);
-  return response;
+  const inputA = Promise.race([timeoutPromise, inputPromise]);
+  return inputA;
 };
 
 const startRequestTimeout = async function ({

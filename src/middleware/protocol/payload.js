@@ -16,8 +16,7 @@ const parsePayload = async function (nextFunc, input) {
   const inputA = addReqInfo(input, { payload });
   const inputB = { ...inputA, payload };
 
-  const response = await nextFunc(inputB);
-  return response;
+  return nextFunc(inputB);
 };
 
 // Returns an request payload

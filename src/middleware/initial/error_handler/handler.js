@@ -6,13 +6,11 @@ const { handleError } = require('./error');
 const { handleFailure } = require('./failure');
 
 // Error handler, which sends final response, if errors
-const errorHandler = async function (nextFunc, input) {
+const errorHandler = function (nextFunc, input) {
   try {
-    const response = await nextFunc(input);
-    return response;
+    return nextFunc(input);
   } catch (error) {
-    const response = await errorHandle({ input, error });
-    return response;
+    return errorHandle({ input, error });
   }
 };
 

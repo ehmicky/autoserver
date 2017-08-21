@@ -13,14 +13,14 @@ const operationValidation = async function (nextFunc, input) {
     throwError(message, { reason: 'UNSUPPORTED_OPERATION' });
   }
 
-  const response = await nextFunc(input);
+  const inputA = await nextFunc(input);
 
-  validateResponse({ response });
+  validateResponse({ input: inputA });
 
-  return response;
+  return inputA;
 };
 
-const validateResponse = function ({ response }) {
+const validateResponse = function ({ input: { response } }) {
   if (!response || response.constructor !== Object) {
     const message = `'response' must be an object, not '${response}'`;
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
