@@ -4,11 +4,11 @@ The IDL file specifies information about the data model and the business logic.
 
 # Configuration
 
-The file is configured using the [runtime option](run.md#options)
+The file is configured using the [`run` option](run.md#options)
 `idl`, whose value is the [path](configuration.md#filepaths-options) to a
 JSON or YAML file (but only with JSON-compatible types).
 
-See [here](configuration.md) to learn how to specify the runtime option.
+See [here](configuration.md) to learn how to specify the `run` option.
 
 By default, files named `api_engine.run.idl.json`, `api_engine.run.idl.yml`
 or `api_engine.run.idl.yaml` will be searched in the current directory, or

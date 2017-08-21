@@ -23,13 +23,13 @@ const kHandleStartupError = keepFuncName(handleStartupError);
 // Handle exceptions thrown at server startup
 const handleError = async function ({
   error,
-  input: { servers, runtimeOpts },
+  input: { servers, runOpts },
 }) {
   // Make sure servers are properly closed if an exception is thrown at end
   // of startup, e.g. during start event handler
   if (servers) {
     // Using `await` seems to crash Node.js here
-    gracefulExit({ servers, runtimeOpts })
+    gracefulExit({ servers, runOpts })
       .catch(error);
   }
 
@@ -39,7 +39,7 @@ const handleError = async function ({
     type: 'failure',
     phase: 'startup',
     errorInfo: errorA,
-    runtimeOpts,
+    runOpts,
     async: false,
   });
 

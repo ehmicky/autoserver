@@ -2,14 +2,14 @@
 
 const { getOptions } = require('../options');
 
-const getRuntimeOpts = async function ({ runtimeOpts }) {
+const getRunOpts = async function ({ runOpts }) {
   const [{ options }, perf] = await getOptions({
     command: 'run',
-    options: runtimeOpts,
+    options: runOpts,
   });
-  return [{ runtimeOpts: options }, perf];
+  return [{ runOpts: options }, perf];
 };
 
 module.exports = {
-  getRuntimeOpts,
+  getRunOpts,
 };

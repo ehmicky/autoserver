@@ -1,14 +1,14 @@
 'use strict';
 
-const { getRuntimeOpts } = require('./runtime_opts');
+const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
 const { startServers } = require('./servers');
 const { setupGracefulExit } = require('./exit');
-const { emitStartEvent } = require('./event');
+const { emitStartEvent } = require('./start_event');
 
 const startupSteps = [
-  // Retrieve `runtimeOpts`
-  getRuntimeOpts,
+  // Retrieve `runOpts`
+  getRunOpts,
   // Setup process warnings and errors handler
   processErrorHandler,
   // Boot each server

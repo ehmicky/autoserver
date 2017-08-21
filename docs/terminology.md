@@ -108,13 +108,13 @@ Client-specified [IDL function variables](functions.md#idl-function-variables)
 
 Client-specified request-wide [argument](settings.md).
 
-## Runtime options
+## Options
 
 Options passed to server when starting it
 
 ## Events
 
-[Events](events.md) fired through runtime options `events` callbacks.
+[Events](events.md) fired through [`run`](run.md) option `events` callbacks.
 
 ## Utilities
 

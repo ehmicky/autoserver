@@ -17,7 +17,7 @@ const emitEvent = function ({ async = true, ...rest }) {
 };
 
 // Emit some event, i.e.:
-//  - fire runtime option `events.EVENT(info)`
+//  - fire `run` option `events.EVENT(info)`
 //  - print to console
 const emit = async function ({
   reqInfo,
@@ -27,13 +27,13 @@ const emit = async function ({
   level,
   message,
   info,
-  runtimeOpts = {},
+  runOpts = {},
   async,
   delay,
 }) {
   const levelA = getLevel({ level, type });
 
-  const noEvents = !shouldEmit({ runtimeOpts, level: levelA });
+  const noEvents = !shouldEmit({ runOpts, level: levelA });
   if (noEvents) { return; }
 
   // Event emitting has low priority, so run this in a different macrotask
@@ -49,12 +49,12 @@ const emit = async function ({
     level: levelA,
     message,
     info,
-    runtimeOpts,
+    runOpts,
   });
 
   consolePrint({ type, level: levelA, message: messageA });
 
-  await fireEvent({ type, runtimeOpts, eventPayload, delay, emitEvent });
+  await fireEvent({ type, runOpts, eventPayload, delay, emitEvent });
 
   return eventPayload;
 };
@@ -68,10 +68,10 @@ const getLevel = function ({ level, type }) {
   return 'log';
 };
 
-// Can filter verbosity with runtime option `eventLevel`
-// This won't work for very early startup errors since `runtimeOpts` is not
+// Can filter verbosity with `run` option `eventLevel`
+// This won't work for very early startup errors since `runOpts` is not
 // parsed yet.
-const shouldEmit = function ({ runtimeOpts: { eventLevel }, level }) {
+const shouldEmit = function ({ runOpts: { eventLevel }, level }) {
   return eventLevel !== 'silent' &&
     LEVELS.indexOf(level) >= LEVELS.indexOf(eventLevel);
 };

@@ -7,20 +7,20 @@ const { pSetTimeout, makeImmutable } = require('../utilities');
 const eFireEvent = async function ({
   type,
   eventPayload,
-  runtimeOpts,
+  runOpts,
   delay = defaultDelay,
   emitEvent,
 }) {
   try {
-    await fireEvent({ runtimeOpts, type, eventPayload });
+    await fireEvent({ runOpts, type, eventPayload });
 
     // Catch-all event type
-    await fireEvent({ runtimeOpts, type: 'any', eventPayload });
+    await fireEvent({ runOpts, type: 'any', eventPayload });
   } catch (error) {
     await handleEventError({
       type,
       eventPayload,
-      runtimeOpts,
+      runOpts,
       error,
       delay,
       emitEvent,
@@ -29,7 +29,7 @@ const eFireEvent = async function ({
 };
 
 const fireEvent = async function ({
-  runtimeOpts: { events = {} },
+  runOpts: { events = {} },
   type,
   eventPayload,
 }) {
@@ -45,7 +45,7 @@ const fireEvent = async function ({
 const handleEventError = async function ({
   type,
   eventPayload,
-  runtimeOpts,
+  runOpts,
   error,
   delay,
   emitEvent,
@@ -56,13 +56,13 @@ const handleEventError = async function ({
   const delayA = delay * delayExponent;
 
   // First, report that event handler failed
-  await fireEventError({ error, runtimeOpts, delay: delayA, emitEvent });
+  await fireEventError({ error, runOpts, delay: delayA, emitEvent });
 
   // Then, try to report original error again
   await eFireEvent({
     type,
     eventPayload,
-    runtimeOpts,
+    runOpts,
     delay: delayA,
     emitEvent,
   });
@@ -74,7 +74,7 @@ const maxDelay = 1000 * 60 * 3;
 
 const fireEventError = async function ({
   error,
-  runtimeOpts,
+  runOpts,
   delay,
   emitEvent,
 }) {
@@ -87,7 +87,7 @@ const fireEventError = async function ({
   await emitEvent({
     type: 'failure',
     phase: 'process',
-    runtimeOpts,
+    runOpts,
     errorInfo: errorB,
     delay,
   });

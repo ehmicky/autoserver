@@ -24,7 +24,7 @@ const setRequestTimeout = function (nextFunc, input) {
 };
 
 const startRequestTimeout = async function ({
-  input: { now, runtimeOpts: { env } },
+  input: { now, runOpts: { env } },
 }) {
   const baseTimeout = getBaseTimeout({ env });
 

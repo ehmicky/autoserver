@@ -12,7 +12,7 @@ Events are fired under the following circumstances, called "types":
 
 # Event handlers
 
-Events handlers are configured using the [runtime option](run.md#options)
+Events handlers are configured using the [`run` option](run.md#options)
 `events`, which is an object, where the key is an [event type](#types)
 and the value the [path](configuration.md#filepaths-options) to a
 JavaScript file. This file must export a function,
@@ -35,7 +35,7 @@ const startEvent = function (payload) {
 module.exports = startEvent;
 ```
 
-See [here](configuration.md) to learn how to specify the runtime option.
+See [here](configuration.md) to learn how to specify the `run` option.
 
 By default, files named `api_engine.run.event.TYPE.js`
 (e.g. `api_engine.run.event.start.js`) will be searched in the current
@@ -74,7 +74,7 @@ The event level is the importance of the event, among `info`, `log`, `warn`
 or `error`,
 
 The events verbosity can be adjusted using the
-[runtime option](run.md#options) `eventLevel`
+[`run` option](run.md#options) `eventLevel`
 (defaults to `'info'`), which can also be `'silent'`.
 
 # Payload
@@ -91,7 +91,7 @@ with properties:
   - `message` `{string}` - what's printed on [console](#console)
   - `serverInfo` `{object}` - server or
     [host-specific information](#server-information)
-  - `runtimeOpts` `{object}` and `servers` `{object}` - for events of type
+  - `options` `{object}` and `servers` `{object}` - for events of type
     `start`, see [below](#start-information)
   - `exitStatuses` `{object}` - for events of type `stop`, contains which
     server successfully exited or not, as `{ HTTP: boolean, ... }`
@@ -131,7 +131,7 @@ available:
   - as a response header named `X-Server-Id`
 
 `serverName` is the system hostname, but can be overriden using the
-[runtime option](run.md#options) `serverName`. It is available:
+[`run` option](run.md#options) `serverName`. It is available:
   - in [`serverInfo.serverName`](#server-information) payload property
   - as a response header named `X-Server-Name`
   - in [console messages](#console)
@@ -139,7 +139,7 @@ available:
 # Start information
 
 Events of type `start` have two additional properties on the event payload:
-  - `runtimeOpts` `{object}`: [runtime options](run.md#options)
+  - `options` `{object}`: [`run` options](run.md#options)
     used by the server, after adding the default values.
   - `servers` `{object}`: list of running servers
     - `HTTP` `{object}`: HTTP server information
@@ -231,7 +231,7 @@ circumstances, e.g. if an error happened.
 # Request information filtering
 
 To avoid the request information to be too big or leak security information,
-one can set filters using the [runtime option](run.md#options)
+one can set filters using the [`run` option](run.md#options)
 `eventFilter`.
 
 `eventFilter` is an object, with each property specifying how filter part of

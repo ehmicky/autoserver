@@ -1,6 +1,6 @@
 'use strict';
 
-// Runtime option `idl`
+// `run` option `idl`
 const idl = {
   name: 'idl',
   description: 'File containing the data model and business logic',

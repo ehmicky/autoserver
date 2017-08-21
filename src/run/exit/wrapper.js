@@ -15,7 +15,7 @@ const wrapCloseFunc = function (func, { successMessage, errorMessage, label }) {
 // Shutdown failures events
 const handleEvent = function (func, { successMessage, errorMessage }) {
   return async function errorHandler (input) {
-    const { protocol, runtimeOpts } = input;
+    const { protocol, runOpts } = input;
 
     try {
       const response = await func(input);
@@ -27,7 +27,7 @@ const handleEvent = function (func, { successMessage, errorMessage }) {
         type: 'message',
         phase: 'shutdown',
         message: messageA,
-        runtimeOpts,
+        runOpts,
       });
       return response;
     } catch (error) {
@@ -38,7 +38,7 @@ const handleEvent = function (func, { successMessage, errorMessage }) {
         phase: 'shutdown',
         message,
         errorInfo,
-        runtimeOpts,
+        runOpts,
       });
     }
   };

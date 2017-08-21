@@ -1,6 +1,6 @@
 'use strict';
 
-// Runtime option `env`
+// `run` option `env`
 const env = {
   name: 'env',
   default: 'production',
