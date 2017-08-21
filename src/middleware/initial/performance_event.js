@@ -17,8 +17,8 @@ const performanceEvent = async function (nextFunc, input) {
   // Do not report if exception was thrown
   const { reqInfo } = input;
   const measures = [response.respPerf, ...response.measures];
-  const { runtimeOpts } = input;
-  await emitPerfEvent({ reqInfo, phase: 'request', measures, runtimeOpts });
+  const { runOpts } = input;
+  await emitPerfEvent({ reqInfo, phase: 'request', measures, runOpts });
 
   return response;
 };

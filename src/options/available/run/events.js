@@ -2,7 +2,7 @@
 
 const { ALL_TYPES } = require('../../../events');
 
-// Runtime option `events`
+// `run` option `events`
 const getEvent = function (type) {
   const description = getEventDescription({ type });
 
@@ -38,7 +38,7 @@ const eventObj = {
   validate: { type: 'object' },
 };
 
-// Runtime option `eventFilter`
+// `run` option `eventFilter`
 const eventFilterNames = [
   'payload',
   'response',
@@ -81,7 +81,7 @@ const eventFilterObj = {
   validate: { type: 'object' },
 };
 
-// Runtime option `eventLevel`
+// `run` option `eventLevel`
 const eventLevel = {
   name: 'eventLevel',
   default: 'info',

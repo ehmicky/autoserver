@@ -1,6 +1,6 @@
 'use strict';
 
-// Runtime option `defaultPageSize`
+// `run` option `defaultPageSize`
 const defaultPageSize = {
   name: 'defaultPageSize',
   default: 100,
@@ -12,7 +12,7 @@ const defaultPageSize = {
   },
 };
 
-// Runtime option `maxPageSize`
+// `run` option `maxPageSize`
 const maxPageSize = {
   name: 'maxPageSize',
   default: 100,
@@ -24,7 +24,7 @@ const maxPageSize = {
   },
 };
 
-// Runtime option `maxDataLength`
+// `run` option `maxDataLength`
 const maxDataLength = {
   name: 'maxDataLength',
   default: 1000,

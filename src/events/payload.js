@@ -14,7 +14,7 @@ const getPayload = function ({
   phase,
   level,
   message,
-  runtimeOpts,
+  runOpts,
   info,
 }) {
   const eventPayload = getEventPayload({
@@ -23,7 +23,7 @@ const getPayload = function ({
     type,
     phase,
     level,
-    runtimeOpts,
+    runOpts,
     info,
   });
   const messageA = getConsoleMessage({ message, ...eventPayload });
@@ -36,7 +36,7 @@ const getPayload = function ({
 const getEventPayload = function ({
   reqInfo,
   errorInfo,
-  runtimeOpts,
+  runOpts,
   type,
   phase,
   level,
@@ -45,11 +45,11 @@ const getEventPayload = function ({
   const {
     requestInfo,
     errorInfo: errorInfoA,
-  } = getRequestInfo({ reqInfo, phase, runtimeOpts, errorInfo });
+  } = getRequestInfo({ reqInfo, phase, runOpts, errorInfo });
 
   const timestamp = getTimestamp({ requestInfo });
 
-  const serverInfo = getServerInfo({ runtimeOpts });
+  const serverInfo = getServerInfo({ runOpts });
 
   const eventPayload = {
     ...info,

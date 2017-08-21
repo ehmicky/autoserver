@@ -1,6 +1,6 @@
 'use strict';
 
-// Runtime option `serverName`
+// `run` option `serverName`
 const serverName = {
   name: 'serverName',
   description: 'Unique name of the server',

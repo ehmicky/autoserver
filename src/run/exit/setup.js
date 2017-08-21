@@ -8,8 +8,8 @@ const { closeServer } = require('./close');
 
 // Make sure the server stops when graceful exits are possible
 // Also send related events
-const setupGracefulExit = function ({ servers, runtimeOpts }) {
-  const exitHandler = gracefulExit.bind(null, { servers, runtimeOpts });
+const setupGracefulExit = function ({ servers, runOpts }) {
+  const exitHandler = gracefulExit.bind(null, { servers, runOpts });
   const onceExitHandler = onlyOnce(exitHandler);
 
   process.on('SIGINT', onceExitHandler);
@@ -17,20 +17,20 @@ const setupGracefulExit = function ({ servers, runtimeOpts }) {
 };
 
 // Close servers
-const gracefulExit = async function ({ servers, runtimeOpts }) {
+const gracefulExit = async function ({ servers, runOpts }) {
   const [childMeasures, measure] = await monitoredSetupExit({
     servers,
-    runtimeOpts,
+    runOpts,
   });
 
   const measures = [...childMeasures, measure];
-  await emitPerfEvent({ phase: 'shutdown', measures, runtimeOpts });
+  await emitPerfEvent({ phase: 'shutdown', measures, runOpts });
 };
 
-const setupExit = async function ({ servers, runtimeOpts }) {
+const setupExit = async function ({ servers, runOpts }) {
   const statusesPromises = Object.values(servers)
     .map(({ server, protocol }) =>
-      closeServer({ server, protocol, runtimeOpts })
+      closeServer({ server, protocol, runOpts })
     );
   const statusesPromise = await Promise.all(statusesPromises);
   const statuses = statusesPromise
@@ -44,7 +44,7 @@ const setupExit = async function ({ servers, runtimeOpts }) {
     statuses,
     failedProtocols,
     isSuccess,
-    runtimeOpts,
+    runOpts,
   });
 
   return [measure, ...childMeasures];
@@ -67,7 +67,7 @@ const endEventShutdown = async function ({
   statuses,
   failedProtocols,
   isSuccess,
-  runtimeOpts,
+  runOpts,
 }) {
   const message = isSuccess
     ? 'Server exited successfully'
@@ -81,7 +81,7 @@ const endEventShutdown = async function ({
     level,
     message,
     info: { exitStatuses },
-    runtimeOpts,
+    runOpts,
   });
 };
 

@@ -28,7 +28,7 @@ const handleArgs = async function (nextFunc, input) {
 const eHandleArgs = addReqInfoIfError(handleArgs, ['args']);
 
 const validateArgs = function ({
-  input: { args, action, runtimeOpts: { maxDataLength }, idl },
+  input: { args, action, runOpts: { maxDataLength }, idl },
 }) {
   validateBasic({ args });
   validateSyntax({ args, action, maxDataLength, idl });

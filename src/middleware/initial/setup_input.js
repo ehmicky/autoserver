@@ -8,7 +8,7 @@ const { addIfv } = require('../../idl_func');
 // Setup basic input
 const setupInput = async function (
   nextFunc,
-  { idl, runtimeOpts, currentPerf, ifv },
+  { idl, runOpts, currentPerf, ifv },
   { protocol, specific },
 ) {
   // When an exception is thrown in the same macrotask as the one that started
@@ -24,7 +24,7 @@ const setupInput = async function (
 
   const input = {
     idl,
-    runtimeOpts,
+    runOpts,
     ifv,
     currentPerf,
     reqInfo,

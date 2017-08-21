@@ -8,17 +8,17 @@ const { getStandardError, normalizeError } = require('../error');
 // will collect the warnings of all the instances.
 // Note that process events fired that do not belong to api-engine might be
 // caught as well.
-const processErrorHandler = function ({ runtimeOpts }) {
-  setupUnhandledRejection({ runtimeOpts });
-  setupRejectionHandled({ runtimeOpts });
-  setupWarning({ runtimeOpts });
+const processErrorHandler = function ({ runOpts }) {
+  setupUnhandledRejection({ runOpts });
+  setupRejectionHandled({ runOpts });
+  setupWarning({ runOpts });
 };
 
-const setupUnhandledRejection = function ({ runtimeOpts }) {
+const setupUnhandledRejection = function ({ runOpts }) {
   process.on('unhandledRejection', async error => {
     const message = getMessage({ error });
     const messageA = `A promise was rejected and not handled right away\n${message}`;
-    await emitProcessEvent({ message: messageA, runtimeOpts });
+    await emitProcessEvent({ message: messageA, runOpts });
   });
 };
 
@@ -30,21 +30,21 @@ const getMessage = function ({ error }) {
   return error[nameA] || '';
 };
 
-const setupRejectionHandled = function ({ runtimeOpts }) {
+const setupRejectionHandled = function ({ runOpts }) {
   process.on('rejectionHandled', async () => {
     const message = 'A promise was rejected but handled too late';
-    await emitProcessEvent({ message, runtimeOpts });
+    await emitProcessEvent({ message, runOpts });
   });
 };
 
-const setupWarning = function ({ runtimeOpts }) {
+const setupWarning = function ({ runOpts }) {
   process.on('warning', async error => {
-    await emitProcessEvent({ error, runtimeOpts });
+    await emitProcessEvent({ error, runOpts });
   });
 };
 
 // Report process problems as events with type 'failure'
-const emitProcessEvent = async function ({ error, message, runtimeOpts }) {
+const emitProcessEvent = async function ({ error, message, runOpts }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
   const errorB = getStandardError({ error: errorA });
 
@@ -52,7 +52,7 @@ const emitProcessEvent = async function ({ error, message, runtimeOpts }) {
     type: 'failure',
     phase: 'process',
     errorInfo: errorB,
-    runtimeOpts,
+    runOpts,
   });
 };
 

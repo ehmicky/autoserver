@@ -1,6 +1,6 @@
 'use strict';
 
-// Runtime option `http.enabled`
+// `run` option `http.enabled`
 const httpEnabled = {
   name: 'http.enabled',
   default: true,
@@ -11,7 +11,7 @@ const httpEnabled = {
   },
 };
 
-// Runtime option `http.host`
+// `run` option `http.host`
 const httpHost = {
   name: 'http.host',
   default: 'localhost',
@@ -22,7 +22,7 @@ const httpHost = {
   },
 };
 
-// Runtime option `http.port`
+// `run` option `http.port`
 const httpPort = {
   name: 'http.port',
   default: 80,

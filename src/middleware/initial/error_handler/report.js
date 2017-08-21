@@ -4,7 +4,7 @@ const { STATUS_LEVEL_MAP, emitEvent } = require('../../../events');
 
 // Report any exception thrown
 const reportError = async function ({
-  input: { reqInfo, runtimeOpts },
+  input: { reqInfo, runOpts },
   error = {},
 }) {
   // If we haven't reached the events middleware yet, error.status
@@ -19,7 +19,7 @@ const reportError = async function ({
     phase: 'request',
     level,
     errorInfo: error,
-    runtimeOpts,
+    runOpts,
   });
 };
 

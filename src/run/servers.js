@@ -8,16 +8,16 @@ const { monitor } = require('../perf');
 const { createIfv, compileIdlFuncs } = require('../idl_func');
 
 // Start each server
-const startServers = async function ({ runtimeOpts, runtimeOpts: { idl } }) {
+const startServers = async function ({ runOpts, runOpts: { idl } }) {
   const [idlA, compileIdlFuncsMeasure] = await mCompileIdlFuncs({ idl });
   const [{ ifv }, createIfvMeasure] = await mCreateIfv({ idl: idlA });
 
   // This callback must be called by each server
   const middleware = await getMiddleware();
-  const requestHandler = middleware.bind(null, { idl: idlA, runtimeOpts, ifv });
+  const requestHandler = middleware.bind(null, { idl: idlA, runOpts, ifv });
 
   const [servers, serverMeasures] = await startEachServer({
-    runtimeOpts,
+    runOpts,
     requestHandler,
   });
 
@@ -36,8 +36,8 @@ const mCreateIfv = monitor(createIfv, 'createIfv', 'server');
 
 const startEachServer = async function (options) {
   const serverInfosPromises = protocols
-    // Can use runtimeOpts.PROTOCOL.enabled {boolean}
-    .filter(protocol => options.runtimeOpts[protocol.toLowerCase()].enabled)
+    // Can use runOpts.PROTOCOL.enabled {boolean}
+    .filter(protocol => options.runOpts[protocol.toLowerCase()].enabled)
     .map(protocol => monitoredStartServer(protocol, options));
 
   // Make sure all servers are starting concurrently, not serially
@@ -54,18 +54,18 @@ const startEachServer = async function (options) {
   return [servers, measures];
 };
 
-const startServer = async function (protocol, { runtimeOpts, requestHandler }) {
+const startServer = async function (protocol, { runOpts, requestHandler }) {
   const protocolHandler = protocolHandlers[protocol];
-  const opts = runtimeOpts[protocol.toLowerCase()];
+  const opts = runOpts[protocol.toLowerCase()];
   const handleRequest = specific => requestHandler({ protocol, specific });
 
   const serverInfo = await protocolHandler.startServer({
     opts,
-    runtimeOpts,
+    runOpts,
     handleRequest,
   });
 
-  await startEvent({ serverInfo, protocol, runtimeOpts });
+  await startEvent({ serverInfo, protocol, runOpts });
 
   return { ...serverInfo, protocol };
 };
@@ -73,11 +73,11 @@ const startServer = async function (protocol, { runtimeOpts, requestHandler }) {
 const startEvent = async function ({
   serverInfo,
   protocol,
-  runtimeOpts,
+  runOpts,
 }) {
   const { host, port } = serverInfo;
   const message = `${protocol.toUpperCase()} - Listening on ${host}:${port}`;
-  await emitEvent({ type: 'message', phase: 'startup', message, runtimeOpts });
+  await emitEvent({ type: 'message', phase: 'startup', message, runOpts });
 };
 
 const monitoredStartServer = monitor(

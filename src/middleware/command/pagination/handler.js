@@ -49,7 +49,7 @@ const { getPaginationInfo } = require('./info');
 //  - this means updateMany and deleteMany command.name will paginate output,
 //    but to iterate through the next batches, readMany must be used
 const pagination = async function (nextFunc, input) {
-  const { args, runtimeOpts: { maxPageSize } } = input;
+  const { args, runOpts: { maxPageSize } } = input;
 
   const paginatedInput = processInput({ input, maxPageSize });
 

@@ -8,8 +8,8 @@ Error.stackTraceLimit = 100;
 
 const startServer = async function () {
   try {
-    const { runtimeOpts, servers } = await apiEngine.run();
-    return { runtimeOpts, servers };
+    const { options, servers } = await apiEngine.run();
+    return { options, servers };
   } catch (error) {}
 };
 

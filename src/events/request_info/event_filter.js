@@ -2,7 +2,7 @@
 
 const { pick } = require('../../utilities');
 
-// Apply `runtimeOpts.eventFilter`
+// Apply `runOpts.eventFilter`
 const applyEventFilter = function ({ eventFilter, obj }) {
   if (eventFilter === undefined || eventFilter === true) { return obj; }
 

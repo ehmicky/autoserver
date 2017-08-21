@@ -4,7 +4,7 @@
 //  - key is argument attribute name
 //  - command.name is whitelisted
 //  - value is the default value.
-//    Can be a function taking the runtime options as first argument
+//    Can be a function taking the `run` options as first argument
 const defaults = {
   filter: {
     commands: ['readMany', 'deleteMany'],
@@ -24,9 +24,9 @@ const defaults = {
   },
 
   pageSize: {
-    value: ({ input: { runtimeOpts: { defaultPageSize } } }) => defaultPageSize,
+    value: ({ input: { runOpts: { defaultPageSize } } }) => defaultPageSize,
     // Only if pagination is enabled
-    test: ({ input: { runtimeOpts: { defaultPageSize } } }) =>
+    test: ({ input: { runOpts: { defaultPageSize } } }) =>
       defaultPageSize !== 0,
   },
 

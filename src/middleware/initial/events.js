@@ -24,7 +24,7 @@ const callEvents = async function (nextFunc, input) {
   }
 };
 
-const emitReqEvent = async function ({ input: { runtimeOpts, reqInfo }, obj }) {
+const emitReqEvent = async function ({ input: { runOpts, reqInfo }, obj }) {
   const level = getLevel({ obj });
 
   await emitEvent({
@@ -32,7 +32,7 @@ const emitReqEvent = async function ({ input: { runtimeOpts, reqInfo }, obj }) {
     type: 'call',
     phase: 'request',
     level,
-    runtimeOpts,
+    runOpts,
   });
 
   return obj;
