@@ -3,9 +3,9 @@
 const { assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
-const { emitEvent } = require('../events');
+const { emitEvent, addReqInfo } = require('../events');
 const { monitor } = require('../perf');
-const { createIfv, compileIdlFuncs } = require('../idl_func');
+const { createIfv, addIfv, compileIdlFuncs } = require('../idl_func');
 
 // Start each server
 const startServers = async function ({ runOpts, runOpts: { idl } }) {
@@ -14,11 +14,12 @@ const startServers = async function ({ runOpts, runOpts: { idl } }) {
 
   // This callback must be called by each server
   const middleware = await getMiddleware();
-  const requestHandler = middleware.bind(null, { idl: idlA, runOpts, ifv });
+  const baseInput = { idl: idlA, runOpts, ifv };
 
   const [servers, serverMeasures] = await startEachServer({
     runOpts,
-    requestHandler,
+    middleware,
+    baseInput,
   });
 
   const measures = [
@@ -54,11 +55,18 @@ const startEachServer = async function (options) {
   return [servers, measures];
 };
 
-const startServer = async function (protocol, { runOpts, requestHandler }) {
+const startServer = async function (
+  protocol,
+  { runOpts, middleware, baseInput },
+) {
+  const baseInputA = addProtocol({ protocol, baseInput });
+  const handleRequest = fireHandleRequest.bind(
+    null,
+    { middleware, baseInput: baseInputA },
+  );
+
   const protocolHandler = protocolHandlers[protocol];
   const opts = runOpts[protocol.toLowerCase()];
-  const handleRequest = specific => requestHandler({ protocol, specific });
-
   const serverInfo = await protocolHandler.startServer({
     opts,
     runOpts,
@@ -68,6 +76,19 @@ const startServer = async function (protocol, { runOpts, requestHandler }) {
   await startEvent({ serverInfo, protocol, runOpts });
 
   return { ...serverInfo, protocol };
+};
+
+const addProtocol = function ({ protocol, baseInput }) {
+  const protocolHandler = protocolHandlers[protocol];
+  const baseInputA = { ...baseInput, protocol, protocolHandler };
+
+  const baseInputB = addIfv(baseInputA, { $PROTOCOL: protocol });
+  const baseInputC = addReqInfo(baseInputB, { protocol });
+  return baseInputC;
+};
+
+const fireHandleRequest = function ({ middleware, baseInput }, specific) {
+  middleware({ ...baseInput, reqInfo: {}, specific });
 };
 
 const startEvent = async function ({
