@@ -1,6 +1,6 @@
 'use strict';
 
-// Runtime option `config`, shared by all commands
+// Option `config`, shared by all commands
 const config = {
   name: 'config',
   description: 'Configuration file',

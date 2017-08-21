@@ -1,41 +1,16 @@
 'use strict';
 
-const { defaultsDeep } = require('lodash');
-
-const { omit } = require('../utilities');
-
-const { getEnvVars } = require('./env');
-
 // Default value for options
-// Priority order:
-//  - environment variables
-//  - configuration files
-//  - default options
 const applyDefaultOptions = function ({ options, availableOpts }) {
-  const optionsA = applyEnvVars({ options });
-  const optionsB = applyDefaultOpts({ options: optionsA, availableOpts });
-  return { options: optionsB };
-};
-
-// Apply environment variables
-const applyEnvVars = function ({ options }) {
-  const envVars = getEnvVars();
-
-  // This was already handled
-  const envVarsA = omit(envVars, 'config');
-
-  return defaultsDeep({}, envVarsA, options);
-};
-
-// Apply `availableOptions` `default` values
-const applyDefaultOpts = function ({ options, availableOpts }) {
-  return availableOpts.reduce(
+  const optionsB = availableOpts.reduce(
     (optionsA, { name, default: defValue }) =>
       applyDefaultOpt({ options: optionsA, name, defValue }),
     options,
   );
+  return { options: optionsB };
 };
 
+// Apply `availableOptions` `default` values
 const applyDefaultOpt = function ({ options, name, defValue }) {
   if (defValue === undefined) { return options; }
 
