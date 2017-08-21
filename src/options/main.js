@@ -5,13 +5,13 @@ const { monitoredReduce } = require('../perf');
 const availableOptions = require('./available');
 const { loadOptionsConfig } = require('./load');
 const { applyDefaultOptions } = require('./default');
-const { loadEventsOptsFile } = require('./events');
+const { loadSubConfPaths } = require('./sub_conf');
 const { validateOptions } = require('./validate');
 
 const processors = [
   loadOptionsConfig,
   applyDefaultOptions,
-  loadEventsOptsFile,
+  loadSubConfPaths,
   validateOptions,
 ];
 

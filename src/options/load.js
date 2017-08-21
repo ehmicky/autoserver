@@ -20,7 +20,7 @@ const loadOptionsConfig = async function ({
   });
   if (!optionsFileA) { return { options }; }
 
-  const optionsA = await loadConfFile({ path: optionsFileA });
+  const optionsA = await loadConfFile({ type: 'generic', path: optionsFileA });
 
   const optionsB = deepMerge(optionsA, options);
   return { options: optionsB, optionsFile: optionsFileA };

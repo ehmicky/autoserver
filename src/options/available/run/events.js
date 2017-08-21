@@ -8,6 +8,11 @@ const getEvent = function (type) {
 
   return {
     name: `events.${type}`,
+    subConfFiles: [{
+      filename: `event.${type}`,
+      extNames: ['js'],
+      loader: 'javascript',
+    }],
     default: null,
     description,
     group: 'Events',
