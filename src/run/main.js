@@ -7,7 +7,7 @@ const { handleStartupError } = require('./error');
 
 // Start server for each protocol
 // @param {object} runOpts
-const runServer = function (runOpts = {}) {
+const runServer = function (runOpts) {
   const funcs = startupSteps.map(step => handleStartupError(step));
   // Monitor each startup step time
   return monitoredReduce({
@@ -22,10 +22,10 @@ const runServer = function (runOpts = {}) {
 const mRun = monitor(runServer, 'startup');
 
 // Emit "perf" event with startup performance
-const mmRun = async function (opts) {
+const mmRun = async function ({ cliPerf = [], ...opts } = {}) {
   const [[{ startPayload, runOpts }, mainPerf], perf] = await mRun(opts);
 
-  const measures = [perf, ...mainPerf];
+  const measures = [...cliPerf, perf, ...mainPerf];
   await emitPerfEvent({ phase: 'startup', measures, runOpts });
 
   return startPayload;

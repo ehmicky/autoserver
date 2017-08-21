@@ -3,6 +3,7 @@
 const yargs = require('yargs');
 
 const { availableCommands } = require('../options');
+const { startPerf, stopPerf } = require('../perf');
 
 const { addCommands, addCommandsExamples } = require('./commands');
 const { cleanOpts } = require('./clean');
@@ -13,6 +14,14 @@ const parseInput = function () {
   const optsA = cleanOpts({ opts });
   const { command, opts: optsB } = parseCommand({ opts: optsA });
   return { command, opts: optsB };
+};
+
+// Performance monitoring
+const mParseInput = function () {
+  const startedPerf = startPerf('parseInput', 'main');
+  const response = parseInput();
+  const finishedPerf = stopPerf(startedPerf);
+  return [response, [finishedPerf]];
 };
 
 // CLI options parsing
@@ -55,5 +64,5 @@ const parseCommand = function ({ opts: { _: commands, ...optsA } }) {
 };
 
 module.exports = {
-  parseInput,
+  parseInput: mParseInput,
 };
