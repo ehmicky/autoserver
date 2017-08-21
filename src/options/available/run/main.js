@@ -1,6 +1,8 @@
 'use strict';
 
 const options = [
+  ...require('../config'),
+
   ...require('./idl'),
   ...require('./env'),
   ...require('./events'),
@@ -13,7 +15,6 @@ const runOptions = {
   options,
   name: 'run',
   aliases: '*',
-  topLevel: 'runtime',
   description: 'Start the server',
   examples: [
     ['Start the server', 'run --http.port=5001'],

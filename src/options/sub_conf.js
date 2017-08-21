@@ -8,14 +8,20 @@ const { reduceAsync, get, set, findValueAsync } = require('../utilities');
 
 // Load options being a path pointing to a config file, inside the main
 // config file, i.e. to a "sub-conf" file
-const loadSubConfPaths = async function ({
+const loadSubConf = async function ({
+  command,
   options,
   optionsFile,
   availableOpts,
 }) {
   const subConfOpts = getSubConfOpts({ availableOpts });
   const baseDir = getBaseDir({ optionsFile });
-  const optionsB = await loadSubConfOpts({ subConfOpts, options, baseDir });
+  const optionsB = await loadSubConfOpts({
+    command,
+    baseDir,
+    subConfOpts,
+    options,
+  });
 
   return { options: optionsB };
 };
@@ -32,16 +38,17 @@ const getBaseDir = function ({ optionsFile }) {
   return dirname(optionsFile);
 };
 
-const loadSubConfOpts = function ({ subConfOpts, options, baseDir }) {
+const loadSubConfOpts = function ({ command, baseDir, subConfOpts, options }) {
   return reduceAsync(
     subConfOpts,
     (optionsA, subConfOpt) =>
-      eLoadSubConfOpt({ options: optionsA, baseDir, subConfOpt }),
+      eLoadSubConfOpt({ command, baseDir, options: optionsA, subConfOpt }),
     options,
   );
 };
 
 const loadSubConfOpt = async function ({
+  command,
   baseDir,
   options,
   subConfOpt: { name, subConfFiles },
@@ -49,7 +56,12 @@ const loadSubConfOpt = async function ({
   const keys = name.split('.');
   const path = get(options, keys);
 
-  const content = await loadSubConfFiles({ baseDir, path, subConfFiles });
+  const content = await loadSubConfFiles({
+    command,
+    baseDir,
+    path,
+    subConfFiles,
+  });
 
   const optionsA = set(options, keys, () => content);
   return optionsA;
@@ -60,21 +72,22 @@ const eLoadSubConfOpt = addErrorHandler(loadSubConfOpt, {
   reason: 'CONF_LOADING',
 });
 
-const loadSubConfFiles = function ({ baseDir, path, subConfFiles }) {
+const loadSubConfFiles = function ({ command, baseDir, path, subConfFiles }) {
   return findValueAsync(
     subConfFiles,
-    subConfFile => loadSubConfFile({ baseDir, path, subConfFile }),
+    subConfFile => loadSubConfFile({ command, baseDir, path, subConfFile }),
   );
 };
 
 const loadSubConfFile = async function ({
+  command,
   baseDir,
   path,
   subConfFile: { filename, extNames, loader },
 }) {
   const pathA = await getConfFile({
     path,
-    name: filename,
+    name: `${command}.${filename}`,
     baseDir,
     extNames,
     useEnvVar: false,
@@ -86,5 +99,5 @@ const loadSubConfFile = async function ({
 };
 
 module.exports = {
-  loadSubConfPaths,
+  loadSubConf,
 };

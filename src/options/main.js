@@ -2,25 +2,25 @@
 
 const { monitoredReduce } = require('../perf');
 
-const availableOptions = require('./available');
-const { loadOptionsConfig } = require('./load');
+const { availableCommands } = require('./available');
+const { loadMainConf } = require('./main_conf');
 const { applyDefaultOptions } = require('./default');
-const { loadSubConfPaths } = require('./sub_conf');
+const { loadSubConf } = require('./sub_conf');
 const { validateOptions } = require('./validate');
 
 const processors = [
-  loadOptionsConfig,
+  loadMainConf,
   applyDefaultOptions,
-  loadSubConfPaths,
+  loadSubConf,
   validateOptions,
 ];
 
 // Retrieve and validate main options
-const getOptions = function ({ config, command }) {
-  const availableOpts = availableOptions.find(({ name }) => name === command);
+const getOptions = function ({ command, options }) {
+  const availableOpts = availableCommands.find(({ name }) => name === command);
   return monitoredReduce({
     funcs: processors,
-    initialInput: { config, command, availableOpts },
+    initialInput: { options, command, availableOpts },
     mapResponse: (newInput, input) => ({ ...input, ...newInput }),
     category: `${command}_opts`,
   });

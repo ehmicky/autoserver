@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = [
-  require('./run'),
-];
+module.exports = {
+  ...require('./all'),
+};

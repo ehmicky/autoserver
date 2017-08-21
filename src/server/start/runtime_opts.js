@@ -2,10 +2,10 @@
 
 const { getOptions } = require('../../options');
 
-const getRuntimeOpts = async function ({ runtime }) {
+const getRuntimeOpts = async function ({ runtimeOpts }) {
   const [{ options }, perf] = await getOptions({
     command: 'run',
-    config: runtime,
+    options: runtimeOpts,
   });
   return [{ runtimeOpts: options }, perf];
 };

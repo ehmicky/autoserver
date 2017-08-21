@@ -11,16 +11,17 @@ const { omit } = require('../utilities');
 //  - configuration files
 //  - default options
 const applyDefaultOptions = function ({ options, availableOpts }) {
-  const optionsA = applyEnvVars({ options, availableOpts });
+  const optionsA = applyEnvVars({ options });
   const optionsB = applyDefaultOpts({ options: optionsA, availableOpts });
   return { options: optionsB };
 };
 
 // Apply environment variables
-const applyEnvVars = function ({ options, availableOpts: { topLevel } }) {
+const applyEnvVars = function ({ options }) {
   const envVars = getEnvVars();
-  // Those are handled elsewhere
-  const envVarsA = omit(envVars, ['idl', topLevel]);
+
+  // This was already handled
+  const envVarsA = omit(envVars, 'config');
 
   return defaultsDeep({}, envVarsA, options);
 };
