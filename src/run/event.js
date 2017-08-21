@@ -1,7 +1,7 @@
 'use strict';
 
-const { emitEvent } = require('../../events');
-const { mapValues, omit } = require('../../utilities');
+const { emitEvent } = require('../events');
+const { mapValues, omit } = require('../utilities');
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({ servers, runtimeOpts }) {

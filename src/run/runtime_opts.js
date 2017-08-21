@@ -1,6 +1,6 @@
 'use strict';
 
-const { getOptions } = require('../../options');
+const { getOptions } = require('../options');
 
 const getRuntimeOpts = async function ({ runtimeOpts }) {
   const [{ options }, perf] = await getOptions({

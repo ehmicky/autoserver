@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitoredReduce, monitor, emitPerfEvent } = require('../../perf');
+const { monitoredReduce, monitor, emitPerfEvent } = require('../perf');
 
 const { startupSteps } = require('./steps');
 const { handleStartupError } = require('./error');

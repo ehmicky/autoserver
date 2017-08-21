@@ -1,11 +1,11 @@
 'use strict';
 
-const { assignObject } = require('../../utilities');
-const { protocols, protocolHandlers } = require('../../protocols');
-const { getMiddleware } = require('../../middleware');
-const { emitEvent } = require('../../events');
-const { monitor } = require('../../perf');
-const { createIfv, compileIdlFuncs } = require('../../idl_func');
+const { assignObject } = require('../utilities');
+const { protocols, protocolHandlers } = require('../protocols');
+const { getMiddleware } = require('../middleware');
+const { emitEvent } = require('../events');
+const { monitor } = require('../perf');
+const { createIfv, compileIdlFuncs } = require('../idl_func');
 
 // Start each server
 const startServers = async function ({ runtimeOpts, runtimeOpts: { idl } }) {

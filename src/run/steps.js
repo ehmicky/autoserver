@@ -1,10 +1,9 @@
 'use strict';
 
-const { setupGracefulExit } = require('../exit');
-
 const { getRuntimeOpts } = require('./runtime_opts');
 const { processErrorHandler } = require('./process');
 const { startServers } = require('./servers');
+const { setupGracefulExit } = require('./exit');
 const { emitStartEvent } = require('./event');
 
 const startupSteps = [
