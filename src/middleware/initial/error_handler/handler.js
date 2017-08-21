@@ -1,5 +1,7 @@
 'use strict';
 
+const { pSetTimeout } = require('../../../utilities');
+
 const { handleError } = require('./error');
 const { handleFailure } = require('./failure');
 
@@ -19,6 +21,13 @@ const errorHandle = async function ({
   input: { protocolHandler, specific },
   error: errorA,
 }) {
+  // When an exception is thrown in the same macrotask as the one that started
+  // the request (e.g. in one of the first middleware), the socket won't be
+  // closed even after sending back the error response.
+  // Since the socket won't be closed, closing the server will hang.
+  // This is unclear why, but doing this solves the problem.
+  await pSetTimeout(0);
+
   const status = protocolHandler.failureProtocolStatus;
 
   try {
