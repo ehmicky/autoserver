@@ -4,6 +4,7 @@ const { getMiddlewarePerf } = require('../perf');
 
 const { chain } = require('./chain');
 const initial = require('./initial');
+const final = require('./final');
 const protocol = require('./protocol');
 const operation = require('./operation');
 const action = require('./action');
@@ -22,9 +23,13 @@ const middleware = [
   initial.startMainPerf,
 
   // Emit event about how long the request handling takes
-  initial.perfEvent,
+  final.perfEvent,
   // Emit "call" events
-  initial.callEvent,
+  final.callEvent,
+  // Sends final response, if success
+  final.sendResponse,
+  // Sets response status
+  final.getStatus,
 
   // Protocol layer
 
@@ -55,10 +60,6 @@ const middleware = [
   // Retrieves input.route, using input.path
   protocol.router,
 
-  // Sends final response, if success
-  protocol.sendResponse,
-  // Sets response status
-  protocol.getStatus,
   // Sets how long it took to handle request before responding it
   protocol.setResponseTime,
 

@@ -9,23 +9,21 @@ const callEvent = async function (nextFunc, input) {
   try {
     const inputA = await nextFunc(input);
 
-    await emitReqEvent({ input, obj: inputA.response });
+    await emitReqEvent({ input: inputA });
 
     return inputA;
   } catch (error) {
     const errorA = normalizeError({ error });
 
-    const errorReason = getReason({ error: errorA });
-    const inputA = addReqInfo(input, { errorReason });
-
-    await emitReqEvent({ input: inputA, obj: errorA });
+    await emitReqEvent({ input, error: errorA });
 
     rethrowError(errorA);
   }
 };
 
-const emitReqEvent = async function ({ input: { runOpts, reqInfo }, obj }) {
-  const level = getLevel({ obj });
+const emitReqEvent = async function ({ input, input: { runOpts }, error }) {
+  const level = getLevel({ input, error });
+  const reqInfo = getReqInfo({ input, error });
 
   await emitEvent({
     reqInfo,
@@ -34,12 +32,19 @@ const emitReqEvent = async function ({ input: { runOpts, reqInfo }, obj }) {
     level,
     runOpts,
   });
-
-  return obj;
 };
 
-const getLevel = function ({ obj: { status = 'SERVER_ERROR' } }) {
+const getLevel = function ({ input: { response = {} }, error }) {
+  const status = error.status || response.status || 'SERVER_ERROR';
   return STATUS_LEVEL_MAP[status] || 'error';
+};
+
+const getReqInfo = function ({ input, input: { reqInfo }, error }) {
+  if (!error) { return reqInfo; }
+
+  const errorReason = getReason({ error });
+  const { reqInfo: reqInfoA } = addReqInfo(input, { errorReason });
+  return reqInfoA;
 };
 
 module.exports = {
