@@ -8,7 +8,7 @@ const getStatus = async function (nextFunc, input) {
   try {
     const inputA = await nextFunc(input);
     const statuses = addStatuses({ input: inputA });
-    return { ...inputA, response: { ...inputA.response, ...statuses } };
+    return { ...inputA, ...statuses };
   } catch (error) {
     const errorA = normalizeError({ error });
     const statuses = addStatuses({ input, error: errorA });

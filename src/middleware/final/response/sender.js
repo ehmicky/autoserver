@@ -3,17 +3,14 @@
 const { throwError } = require('../../../error');
 
 // Sends the response at the end of the request
-const sender = async function (
-  {
+const sender = async function ({
+  input: {
     specific,
     protocolHandler,
-  },
-  {
-    type,
-    content,
     protocolStatus: status = protocolHandler.failureProtocolStatus,
-  }
-) {
+    response: { type, content },
+  },
+}) {
   if (!type) {
     throwError('Server sent an response with no content type', {
       reason: 'SERVER_INPUT_VALIDATION',
