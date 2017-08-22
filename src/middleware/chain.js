@@ -1,25 +1,44 @@
 'use strict';
 
 const { reduceAsync } = require('../utilities');
+const { rethrowError } = require('../error');
 
-const { addLayersErrorsHandlers, throwMiddlewareError } = require('./error');
+const {
+  addLayersErrorsHandlers,
+  getErrorInput,
+  throwMiddlewareError,
+} = require('./error');
 
 // Transforms a series of functions into a middleware pipeline.
-const getChain = function ({ main }) {
-  return eFireLayer.bind(null, { main }, 0);
+const fireLayers = async function (middleware, input) {
+  // The first layer `final` is special, as it is always fired,
+  // whether the request is successful or not.
+  const [final, ...main] = middleware;
+
+  try {
+    const inputA = await fireLayer(main, 0, input);
+
+    await fireLayer([final], 0, inputA);
+  } catch (error) {
+    const inputA = getErrorInput(error);
+
+    await fireLayer([final], 0, inputA);
+
+    rethrowError(error);
+  }
 };
 
+const eFireLayers = addLayersErrorsHandlers(fireLayers);
+
 // Fire all the middleware functions of a given layer
-const fireLayer = function ({ main }, lIndex, input) {
+const fireLayer = function (layers, lIndex, input) {
   // Each layer can fire the next layer middleware functions by calling this
-  const nextLayer = fireLayer.bind(null, { main }, lIndex + 1);
+  const nextLayer = fireLayer.bind(null, layers, lIndex + 1);
   const fireMiddlewareA = fireMiddleware.bind(null, nextLayer);
 
   // Iterate over each middleware function
-  return reduceAsync(main[lIndex], fireMiddlewareA, input);
+  return reduceAsync(layers[lIndex], fireMiddlewareA, input);
 };
-
-const eFireLayer = addLayersErrorsHandlers(fireLayer);
 
 // Fire a specific middleware function
 const fireMiddleware = function (nextLayer, input, mFunc) {
@@ -39,5 +58,5 @@ const fireMiddleware = function (nextLayer, input, mFunc) {
 };
 
 module.exports = {
-  getChain,
+  fireLayers: eFireLayers,
 };

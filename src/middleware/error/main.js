@@ -1,6 +1,6 @@
 'use strict';
 
-const { rethrowError } = require('../../error');
+const { rethrowError, normalizeError } = require('../../error');
 
 const { errorHandler } = require('./error_handler');
 const { failureHandler } = require('./failure_handler');
@@ -22,10 +22,10 @@ const errorHandledFunc = async function (func, handler, ...args) {
 
 // Fire request error handlers
 const fireErrorHandler = async function (handler, errorA) {
-  const input = errorA && errorA.input;
+  const input = getErrorInput(errorA);
 
   try {
-    await handler({ ...input, error: errorA });
+    await handler(input);
   // Request error handlers might fail themselves
   } catch (error) {
     // Must directly assign to error, because { ...error } does not work
@@ -34,6 +34,13 @@ const fireErrorHandler = async function (handler, errorA) {
 
     rethrowError(error);
   }
+};
+
+// Extract `input` from `error.input`
+const getErrorInput = function (error) {
+  const input = error && error.input;
+  const errorA = normalizeError({ error });
+  return { ...input, error: errorA };
 };
 
 // Middleware function error handler, which just rethrow the error,
@@ -50,5 +57,6 @@ const throwMiddlewareError = function (input, error) {
 
 module.exports = {
   addLayersErrorsHandlers,
+  getErrorInput,
   throwMiddlewareError,
 };
