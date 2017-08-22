@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  ...require('./main_perf'),
   ...require('./validation'),
   ...require('./timeout'),
   ...require('./name'),

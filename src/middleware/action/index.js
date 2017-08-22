@@ -9,6 +9,4 @@ module.exports = {
 
   ...require('./normalize'),
   ...require('./output_info'),
-
-  ...require('./normalize_empty'),
 };

@@ -1,7 +1,6 @@
 'use strict';
 
 const { fireLayers } = require('./chain');
-const initial = require('./initial');
 const final = require('./final');
 const protocol = require('./protocol');
 const operation = require('./operation');
@@ -25,7 +24,7 @@ const middleware = [
   // Protocol layer
   [
     // Start the main performance counter
-    initial.startMainPerf,
+    protocol.startMainPerf,
     // Protocol-related validation middleware
     protocol.protocolValidation,
     // Abort request after a certain delay
@@ -97,7 +96,7 @@ const middleware = [
   // Command layer
   [
     // Normalize empty values (undefined, null) by removing their key
-    action.normalizeEmpty,
+    command.normalizeEmpty,
     // Add command-related information
     command.addCommandInfoIn,
     // Command-related validation middleware
