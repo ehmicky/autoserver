@@ -5,8 +5,8 @@ const { reduceAsync } = require('../../../utilities');
 const { getNextInput } = require('./input');
 
 // Fire all commands defined by a specific action
-const fireAction = async function ({ input, action, nextFunc }) {
-  const finalInput = await reduceAsync(
+const fireAction = function ({ input, action, nextFunc }) {
+  return reduceAsync(
     action,
     (formerInput, commands, index) => {
       const isLastCommand = index === action.length - 1;
@@ -20,7 +20,6 @@ const fireAction = async function ({ input, action, nextFunc }) {
     },
     {},
   );
-  return finalInput;
 };
 
 // Each command can be an array of commands, in which case they will be run

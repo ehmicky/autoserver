@@ -14,6 +14,8 @@ const middleware = [
 
   // Initial layer
 
+  // Error handler's of error handler itself
+  initial.failureHandler,
   // Error handler, which sends final response, if errors
   initial.errorHandler,
   // Start the main performance counter
