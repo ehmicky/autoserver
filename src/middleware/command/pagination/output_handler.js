@@ -7,11 +7,9 @@ const { mustPaginateOutput } = require('./condition');
 const { getPaginationOutput } = require('./output');
 const { getPaginationInfo } = require('./info');
 
-const handlePaginationOutput = async function (nextFunc, input) {
-  const inputA = await nextFunc(input);
-
-  const paginatedOutput = processOutput({ input: inputA });
-  return paginatedOutput;
+const handlePaginationOutput = function (input) {
+  const inputA = processOutput({ input });
+  return inputA;
 };
 
 // Add response metadata related to pagination:

@@ -4,12 +4,12 @@ const { addIfv } = require('../../idl_func');
 const { addReqInfoIfError } = require('../../events');
 
 // Add action-related input information
-const addActionInputInfo = function (nextFunc, input) {
+const addActionInputInfo = function (input) {
   const { modelName } = input;
 
   const inputA = addIfv(input, { $MODEL: modelName });
 
-  return nextFunc(inputA);
+  return inputA;
 };
 
 const eAddActionInputInfo = addReqInfoIfError(

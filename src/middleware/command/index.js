@@ -10,4 +10,6 @@ module.exports = {
   ...require('./user_defaults'),
   ...require('./system_defaults'),
   ...require('./pagination'),
+
+  ...require('./database'),
 };

@@ -14,10 +14,10 @@ const { addValues } = require('./add');
 //     Redundant protocol-specific headers might exist for some settings.
 // Values are automatically transtyped.
 // Are set to IDL function variables $PARAMS and $SETTINGS
-const parseSettingsParams = function (nextFunc, input) {
+const parseSettingsParams = function (input) {
   const inputA = addAllTypes({ input });
 
-  return nextFunc(inputA);
+  return inputA;
 };
 
 const addAllTypes = function ({ input }) {

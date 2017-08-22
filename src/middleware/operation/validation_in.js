@@ -4,7 +4,7 @@ const { throwError } = require('../../error');
 
 // Operation middleware input validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
-const operationValidationIn = function (nextFunc, input) {
+const operationValidationIn = function (input) {
   const { operation, route } = input;
 
   if (!operation) {
@@ -12,7 +12,7 @@ const operationValidationIn = function (nextFunc, input) {
     throwError(message, { reason: 'UNSUPPORTED_OPERATION' });
   }
 
-  return nextFunc(input);
+  return input;
 };
 
 module.exports = {

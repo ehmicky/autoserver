@@ -11,19 +11,17 @@ const { applyOutputAliases } = require('./output');
 // The server is unaware of aliases, i.e. only the main attribute name:
 //   - is stored in the database
 //   - should be used in IDL functions (with `$$`)
-const renameAliasesInput = function (nextFunc, input) {
+const renameAliasesInput = function (input) {
   const modelAliases = getModelAliases({ input });
   const inputA = applyInputAliases({ input, modelAliases });
 
-  return nextFunc(inputA);
+  return inputA;
 };
 
-const renameAliasesOutput = async function (nextFunc, input) {
-  const inputA = await nextFunc(input);
-
-  const modelAliases = getModelAliases({ input: inputA });
-  const inputB = applyOutputAliases({ input: inputA, modelAliases });
-  return inputB;
+const renameAliasesOutput = function (input) {
+  const modelAliases = getModelAliases({ input });
+  const inputA = applyOutputAliases({ input, modelAliases });
+  return inputA;
 };
 
 const getModelAliases = function ({

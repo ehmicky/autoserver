@@ -3,10 +3,10 @@
 const { throwError } = require('../../error');
 
 // Make request fail after some timeout
-const setRequestTimeout = async function (nextFunc, input) {
+const setRequestTimeout = function (input) {
   const timeoutId = startRequestTimeout({ input });
 
-  const inputA = await nextFunc(input);
+  return input;
 
   clearTimeout(timeoutId);
 

@@ -8,7 +8,7 @@ const { addReqInfo } = require('../../events');
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by operation layer, e.g. to populate `input.args`
-const parsePayload = async function (nextFunc, input) {
+const parsePayload = async function (input) {
   const { specific, protocolHandler } = input;
 
   const payload = await getPayload({ specific, protocolHandler });
@@ -16,7 +16,7 @@ const parsePayload = async function (nextFunc, input) {
   const inputA = addReqInfo(input, { payload });
   const inputB = { ...inputA, payload };
 
-  return nextFunc(inputB);
+  return inputB;
 };
 
 // Returns an request payload

@@ -4,7 +4,7 @@ const { addIfv } = require('../../idl_func');
 const { addReqInfo } = require('../../events');
 
 // Decides which operation to use (e.g. GraphQL) according to route
-const operationNegotiator = function (nextFunc, input) {
+const operationNegotiator = function (input) {
   const { route } = input;
 
   const [operation] = Object.entries(operations)
@@ -14,7 +14,7 @@ const operationNegotiator = function (nextFunc, input) {
   const inputB = addReqInfo(inputA, { operation });
   const inputC = { ...inputB, operation };
 
-  return nextFunc(inputC);
+  return inputC;
 };
 
 const operations = {

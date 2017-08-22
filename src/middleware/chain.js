@@ -1,55 +1,43 @@
 'use strict';
 
-const { throwError, reverseArray } = require('../utilities');
+const { reduceAsync } = require('../utilities');
 
-// Transforms a series of functions into a middleware stack.
-// More precisely:
-//   - take an array of functions as input, and returns it transformed
-//   - calling `nextFunc(...)` in any function will now call the next function
-//     with the same arguments, where `nextFunc` is passed as the first argument
-//   - the last function's `nextFunc(...)` throws an error
-// Characteristics:
-//   - as opposed to Express middleware, but similarly to Koa,
-//     the middleware series is conceptually a stack, not a pipe.
-//   - as opposed to Koa, the `next` function can:
-//      - be done several times per middleware
-//      - take any arguments, and return any value, including promise,
-//        i.e. can use async functions
-// Note:
-//   - since this binds functions arguments, `this` can not be used.
-//
-// @param {function[]} funcs
-// @param {object} [options]
-// @param {function[]} [options.before]: inserted before each middleware
-// @returns {function[]} middlewares
-const chain = function (funcs, opts = {}) {
-  const chainedFuncs = funcs
-    // Insert recurring functions before each middleware
-    .reduce((allFuncs, func) => {
-      const beforeFuncs = getBeforeFuncs({ func, opts });
-      return [...allFuncs, ...beforeFuncs, func];
-    }, [])
-    // End of iteration
-    .concat(lastFunc)
-    // Bind each function context with { next(){} }
-    // where `next` points to next function
-    .reduceRight(bindFunctions, []);
-  return reverseArray(chainedFuncs);
+const { addLayersErrorsHandlers, throwMiddlewareError } = require('./error');
+
+// Transforms a series of functions into a middleware pipeline.
+const getChain = function ({ main }) {
+  return eFireLayer.bind(null, { main }, 0);
 };
 
-const getBeforeFuncs = function ({ func, opts: { before: beforeOpt = [] } }) {
-  return beforeOpt.map(beforeFunc => beforeFunc(func));
+// Fire all the middleware functions of a given layer
+const fireLayer = function ({ main }, lIndex, input) {
+  // Each layer can fire the next layer middleware functions by calling this
+  const nextLayer = fireLayer.bind(null, { main }, lIndex + 1);
+  const fireMiddlewareA = fireMiddleware.bind(null, nextLayer);
+
+  // Iterate over each middleware function
+  return reduceAsync(main[lIndex], fireMiddlewareA, input);
 };
 
-const lastFunc = function () {
-  throwError('No middleware was able to handle the request');
-};
+const eFireLayer = addLayersErrorsHandlers(fireLayer);
 
-const bindFunctions = function (funcs, func) {
-  const next = funcs[funcs.length - 1];
-  return [...funcs, func.bind(null, next)];
+// Fire a specific middleware function
+const fireMiddleware = function (nextLayer, input, mFunc) {
+  try {
+    const maybePromise = mFunc(input, nextLayer);
+
+    // Middleware functions can be sync or async
+    // We want to avoid async|await in order not to create promises
+    // when the middleware is sync, for performance reason
+    // eslint-disable-next-line promise/prefer-await-to-then
+    return typeof maybePromise.then === 'function'
+      ? maybePromise.catch(error => throwMiddlewareError(input, error))
+      : maybePromise;
+  } catch (error) {
+    throwMiddlewareError(input, error);
+  }
 };
 
 module.exports = {
-  chain,
+  getChain,
 };

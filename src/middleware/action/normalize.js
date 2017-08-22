@@ -1,12 +1,10 @@
 'use strict';
 
 // Transform response according to action-specific logic
-const normalizeAction = async function (nextFunc, input) {
-  const inputA = await nextFunc(input);
-
-  const { args, operation } = inputA;
-  const inputB = normalizeResponse({ input: inputA, args, operation });
-  return inputB;
+const normalizeAction = function (input) {
+  const { args, operation } = input;
+  const inputA = normalizeResponse({ input, args, operation });
+  return inputA;
 };
 
 const normalizeResponse = function ({

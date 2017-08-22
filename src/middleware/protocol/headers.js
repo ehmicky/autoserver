@@ -8,7 +8,7 @@ const { addReqInfo } = require('../../events');
 // object.
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
-const parseHeaders = function (nextFunc, input) {
+const parseHeaders = function (input) {
   const { specific, protocolHandler } = input;
 
   const headers = getHeaders({ specific, protocolHandler });
@@ -16,7 +16,7 @@ const parseHeaders = function (nextFunc, input) {
   const inputA = addReqInfo(input, { headers });
   const inputB = { ...inputA, headers };
 
-  return nextFunc(inputB);
+  return inputB;
 };
 
 const getHeaders = function ({ specific, protocolHandler }) {

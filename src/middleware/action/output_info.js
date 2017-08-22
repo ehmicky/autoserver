@@ -3,14 +3,12 @@
 const { addReqInfo } = require('../../events');
 
 // Add action-related output information
-const addActionOutputInfo = async function (nextFunc, input) {
-  const inputA = await nextFunc(input);
+const addActionOutputInfo = function (input) {
+  const { args } = input;
+  const infoActions = getInfoActions({ input, args });
+  addReqInfo(input, { actions: infoActions });
 
-  const { args } = inputA;
-  const infoActions = getInfoActions({ input: inputA, args });
-  addReqInfo(inputA, { actions: infoActions });
-
-  return inputA;
+  return input;
 };
 
 // Formatted actions information, for events

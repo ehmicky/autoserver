@@ -8,11 +8,9 @@ const operations = require('./operations');
 //   - defaults to true for `delete`, false otherwise
 //   - this can also be set for all the actions using:
 //      - Prefer: return=minimal HTTP request header
-const silent = async function (nextFunc, input) {
-  const inputA = await nextFunc(input);
-
-  const inputB = applySilent({ input: inputA });
-  return inputB;
+const silent = function (input) {
+  const inputA = applySilent({ input });
+  return inputA;
 };
 
 const applySilent = function ({

@@ -3,10 +3,10 @@
 const { transformData } = require('./transformer');
 
 // Handles `attr.transform` and `attr.value`
-const handleTransforms = function (nextFunc, input) {
+const handleTransforms = function (input) {
   const inputA = applyInputTransforms({ input });
 
-  return nextFunc(inputA);
+  return inputA;
 };
 
 const applyInputTransforms = function ({

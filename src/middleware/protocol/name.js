@@ -3,7 +3,7 @@
 const { throwError } = require('../../error');
 const { addReqInfo } = require('../../events');
 
-const getProtocolName = function (nextFunc, input) {
+const getProtocolName = function (input) {
   const { specific, protocolHandler } = input;
 
   const protocolFullName = getProtocolFullName({ specific, protocolHandler });
@@ -11,7 +11,7 @@ const getProtocolName = function (nextFunc, input) {
   const inputA = addReqInfo(input, { protocolFullName });
   const inputB = { ...inputA, protocolFullName };
 
-  return nextFunc(inputB);
+  return inputB;
 };
 
 const getProtocolFullName = function ({ specific, protocolHandler }) {

@@ -3,26 +3,17 @@
 const { emitEvent } = require('../../events');
 
 // If error handler fails, only reports failure then gives up
-const failureHandler = async function (nextFunc, input) {
-  try {
-    return await nextFunc(input);
-  } catch (error) {
-    return failureHandle({ input, error });
-  }
-};
-
-const failureHandle = async function ({
-  input,
-  input: {
-    protocolHandler,
-    protocolHandler: { failureProtocolStatus: status },
-    specific,
-  },
+const failureHandler = async function ({
   error,
+  reqInfo,
+  protocolHandler,
+  protocolHandler: { failureProtocolStatus: status },
+  specific,
+  runOpts,
 }) {
   const standardError = getStandardError({ error });
 
-  await reportError({ input, error: standardError });
+  await reportError({ reqInfo, runOpts, error: standardError });
 
   // Make sure a response is sent, or the socket will hang
   protocolHandler.send.nothing({ specific, status });
@@ -40,7 +31,7 @@ const getStandardError = function ({ error }) {
   };
 };
 
-const reportError = function ({ input: { reqInfo, runOpts }, error }) {
+const reportError = function ({ reqInfo, runOpts, error }) {
   return emitEvent({
     reqInfo,
     type: 'failure',

@@ -11,7 +11,7 @@ const { renameArgs } = require('./rename');
 // Process client-supplied args: validates them and add them to
 // IDL functions variables
 // Also rename them camelcase
-const handleArgs = function (nextFunc, input) {
+const handleArgs = function (input) {
   const { args } = input;
 
   const inputA = addIfv(input, { $ARGS: args });
@@ -21,7 +21,7 @@ const handleArgs = function (nextFunc, input) {
   const argsB = renameArgs({ args });
   const inputB = { ...inputA, args: argsB };
 
-  return nextFunc(inputB);
+  return inputB;
 };
 
 const eHandleArgs = addReqInfoIfError(handleArgs, ['args']);
