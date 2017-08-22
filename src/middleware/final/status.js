@@ -1,34 +1,17 @@
 'use strict';
 
-const { throwError, rethrowError, normalizeError } = require('../../error');
+const { throwError } = require('../../error');
 const { addReqInfo } = require('../../events');
 
 // Retrieve response's status
 const getStatus = function (input) {
-  try {
-    const statuses = addStatuses({ input });
-
-    return { ...input, ...statuses };
-  } catch (error) {
-    const errorA = normalizeError({ error });
-
-    const statuses = addStatuses({ input, error: errorA });
-    const errorB = { ...errorA, ...statuses };
-
-    rethrowError(errorB);
-  }
-};
-
-const addStatuses = function ({ input, error }) {
-  const statuses = getStatuses({ input, error });
+  const statuses = getStatuses({ input });
   addReqInfo(input, statuses);
-  return statuses;
+
+  return { ...input, ...statuses };
 };
 
-const getStatuses = function ({
-  input: { protocolHandler },
-  error,
-}) {
+const getStatuses = function ({ input: { protocolHandler, error } }) {
   // Protocol-specific status, e.g. HTTP status code
   const protocolStatus = protocolHandler.getProtocolStatus({ error });
   // Protocol-agnostic status
