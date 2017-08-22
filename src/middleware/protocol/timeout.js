@@ -1,46 +1,39 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { pSetTimeout } = require('../../utilities');
 
 // Make request fail after some timeout
-const setRequestTimeout = function (nextFunc, input) {
-  const timeoutPromise = startRequestTimeout({ input });
+const setRequestTimeout = async function (nextFunc, input) {
+  const timeoutId = startRequestTimeout({ input });
 
-  const inputPromise = nextFunc(input)
-    // We must use `setTimeout(0)` to allow the `setTimeout(requestTimeout)`
-    // to properly work, i.e. we need to make current macrotask end.
-    // E.g. if the whole request was done in a single macrotask that took
-    // 20 minutes, setTimeout(requestTimeout) would still not be called.
-    // eslint-disable-next-line promise/prefer-await-to-then
-    .then(async val => {
-      await pSetTimeout(0);
-      return val;
-    });
+  const inputA = await nextFunc(input);
 
-  // We use Promise.race() to ensure proper error handling
-  const inputA = Promise.race([timeoutPromise, inputPromise]);
+  clearTimeout(timeoutId);
+
   return inputA;
 };
 
-const startRequestTimeout = async function ({
-  input: { now, runOpts: { env } },
-}) {
-  const baseTimeout = getBaseTimeout({ env });
+const startRequestTimeout = function ({ input: { now, runOpts: { env } } }) {
+  // When debugging with breakpoints, we do not want any request timeout
+  const baseTimeout = env === 'dev' ? 1e9 : 1;
 
   // Take into account the time that has already passed since request started
   const delay = Date.now() - now;
   const timeout = Math.max(baseTimeout - delay, 0);
 
-  await pSetTimeout(timeout);
+  // Note that the timeout is a minimum, since it will only be fired at the
+  // beginning of a new macrotask
+  const timeoutId = setTimeout(fireTimeout, timeout);
 
-  const message = `The request took too long (more than ${baseTimeout / 1000} seconds)`;
-  throwError(message, { reason: 'REQUEST_TIMEOUT' });
+  // Do not keep server running if server was to exit now
+  timeoutId.unref();
+
+  return timeoutId;
 };
 
-const getBaseTimeout = function ({ env }) {
-  // When debugging with breakpoints, we do not want any request timeout
-  return env === 'dev' ? 1e9 : 5000;
+const fireTimeout = function () {
+  const message = 'The request took too long';
+  throwError(message, { reason: 'REQUEST_TIMEOUT' });
 };
 
 module.exports = {
