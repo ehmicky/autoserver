@@ -3,11 +3,9 @@
 const { transformData } = require('./transformer');
 
 // Handles `attr.compute`
-const handleComputes = async function (nextFunc, input) {
-  const inputA = await nextFunc(input);
-
-  const inputB = applyOutputTransforms({ input: inputA });
-  return inputB;
+const handleComputes = function (input) {
+  const inputA = applyOutputTransforms({ input });
+  return inputA;
 };
 
 const applyOutputTransforms = function ({

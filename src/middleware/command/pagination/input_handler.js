@@ -41,10 +41,9 @@ const { getPaginationInput } = require('./input');
 //    array of response, i.e. readMany
 //  - this means updateMany and deleteMany command.name will paginate output,
 //    but to iterate through the next batches, readMany must be used
-const handlePaginationInput = function (nextFunc, input) {
-  const paginatedInput = processInput({ input });
-
-  return nextFunc(paginatedInput);
+const handlePaginationInput = function (input) {
+  const inputA = processInput({ input });
+  return inputA;
 };
 
 // Transform args.pageSize|before|after|page into args.limit|offset|filter

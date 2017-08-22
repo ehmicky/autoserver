@@ -3,7 +3,7 @@
 const { startPerf } = require('../../perf');
 
 // Start the main performance counter
-const startMainPerf = function (nextFunc, input) {
+const startMainPerf = function (input) {
   // Used by other middleware, like timestamp, requestTimeout
   const now = Date.now();
 
@@ -11,7 +11,7 @@ const startMainPerf = function (nextFunc, input) {
   const reqPerf = startPerf('all', 'all');
 
   const inputA = { ...input, reqPerf, now };
-  return nextFunc(inputA);
+  return inputA;
 };
 
 module.exports = {

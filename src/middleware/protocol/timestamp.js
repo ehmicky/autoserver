@@ -3,7 +3,7 @@
 const { addIfv } = require('../../idl_func');
 const { addReqInfo } = require('../../events');
 
-const getTimestamp = function (nextFunc, input) {
+const getTimestamp = function (input) {
   const { now } = input;
 
   const timestamp = (new Date(now)).toISOString();
@@ -11,7 +11,7 @@ const getTimestamp = function (nextFunc, input) {
   const inputB = addReqInfo(inputA, { timestamp });
   const inputC = { ...inputB, timestamp };
 
-  return nextFunc(inputC);
+  return inputC;
 };
 
 module.exports = {

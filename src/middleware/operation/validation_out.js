@@ -5,15 +5,9 @@ const { ACTIONS, CONTENT_TYPES } = require('../../constants');
 
 // Operation middleware output validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
-const operationValidationOut = async function (nextFunc, input) {
-  const inputA = await nextFunc(input);
+const operationValidationOut = function (input) {
+  const { response } = input;
 
-  validateResponse({ input: inputA });
-
-  return inputA;
-};
-
-const validateResponse = function ({ input: { response } }) {
   if (!response || response.constructor !== Object) {
     const message = `'response' must be an object, not '${response}'`;
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
@@ -24,6 +18,8 @@ const validateResponse = function ({ input: { response } }) {
   validateType({ type });
   validateContent({ content, type });
   validateActions({ actions });
+
+  return input;
 };
 
 const validateType = function ({ type }) {

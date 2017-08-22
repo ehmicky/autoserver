@@ -1,7 +1,5 @@
 'use strict';
 
-const { stopPerf, restartPerf } = require('../../../../perf');
-
 const { parseQuery } = require('./parse');
 const { handleQuery } = require('./query');
 const { getResolver } = require('./resolver');
@@ -11,7 +9,7 @@ const {
 } = require('./introspection');
 
 const getContent = async function ({
-  nextFunc,
+  nextLayer,
   input,
   input: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
   responses,
@@ -38,7 +36,7 @@ const getContent = async function ({
   // Normal GraphQL query
   const resolver = getResolver.bind(null, modelsMap);
   const callback = fireNext.bind(null, {
-    nextFunc,
+    nextLayer,
     input,
     responses,
   });
@@ -46,7 +44,6 @@ const getContent = async function ({
   // This middleware spurs several children in parallel.
   // We need to manually call the performance monitoring functions to make
   // them work
-  const stoppedMeasure = stopPerf(input.currentPerf);
   const data = await handleQuery({
     resolver,
     queryDocument,
@@ -55,9 +52,8 @@ const getContent = async function ({
     context: { graphqlMethod, callback },
     rootValue: {},
   });
-  const currentPerf = restartPerf(stoppedMeasure);
 
-  return [{ data }, currentPerf];
+  return { data };
 };
 
 const getGraphQLInput = function ({
@@ -76,10 +72,10 @@ const getGraphQLInput = function ({
   return { query, variables, operationName, queryDocument, graphqlMethod };
 };
 
-const fireNext = async function ({ nextFunc, input, responses }, actionInput) {
+const fireNext = async function ({ nextLayer, input, responses }, actionInput) {
   const inputA = { ...input, ...actionInput };
 
-  const inputB = await nextFunc(inputA);
+  const inputB = await nextLayer(inputA);
 
   // eslint-disable-next-line fp/no-mutating-methods
   responses.push(inputB.response);

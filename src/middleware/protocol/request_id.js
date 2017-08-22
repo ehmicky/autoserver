@@ -13,7 +13,7 @@ const { addReqInfo } = require('../../events');
 //  - IDL function variables, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
-const setRequestIds = function (nextFunc, input) {
+const setRequestIds = function (input) {
   const { specific, protocolHandler, runOpts } = input;
 
   const requestId = uuidv4();
@@ -24,7 +24,7 @@ const setRequestIds = function (nextFunc, input) {
   sendRequestIdHeader({ specific, requestId, protocolHandler });
   sendServerIdsHeaders({ specific, runOpts, protocolHandler });
 
-  return nextFunc(inputC);
+  return inputC;
 };
 
 // Send e.g. HTTP request header, `X-Request-Id`

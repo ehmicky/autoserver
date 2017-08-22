@@ -15,7 +15,7 @@ const MAX_ARRAY_LENGTH = 100;
 // Automatic transtyping is performed
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
-const parseQueryString = function (nextFunc, input) {
+const parseQueryString = function (input) {
   const { specific, protocolHandler } = input;
 
   const queryVars = getQueryVars({ specific, protocolHandler });
@@ -23,7 +23,7 @@ const parseQueryString = function (nextFunc, input) {
   const inputA = addReqInfo(input, { queryVars });
   const inputB = { ...inputA, queryVars };
 
-  return nextFunc(inputB);
+  return inputB;
 };
 
 // Retrieves query variables

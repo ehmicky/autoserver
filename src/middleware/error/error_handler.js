@@ -5,23 +5,13 @@ const { getStandardError } = require('../../error');
 const { STATUS_LEVEL_MAP, emitEvent } = require('../../events');
 
 // Error handler, which sends final response, if errors
-const errorHandler = async function (nextFunc, input) {
-  try {
-    return await nextFunc(input);
-  } catch (error) {
-    return errorHandle({ input, error });
-  }
-};
-
-const errorHandle = async function ({
-  input,
-  input: {
-    reqInfo,
-    protocolHandler,
-    protocolHandler: { failureProtocolStatus: status },
-    specific,
-  },
+const errorHandler = async function ({
   error,
+  reqInfo,
+  protocolHandler,
+  protocolHandler: { failureProtocolStatus: status },
+  specific,
+  runOpts,
 }) {
   // When an exception is thrown in the same macrotask as the one that started
   // the request (e.g. in one of the first middleware), the socket won't be
@@ -32,7 +22,7 @@ const errorHandle = async function ({
 
   const standardError = getStandardError({ reqInfo, error });
 
-  await reportError({ input, error: standardError });
+  await reportError({ reqInfo, runOpts, error: standardError });
 
   // Make sure a response is sent, or the socket will hang
   protocolHandler.send.nothing({ specific, status });
@@ -41,10 +31,7 @@ const errorHandle = async function ({
 };
 
 // Report any exception thrown
-const reportError = async function ({
-  input: { reqInfo, runOpts },
-  error = {},
-}) {
+const reportError = async function ({ reqInfo, runOpts, error }) {
   // If we haven't reached the events middleware yet, error.status
   // will be undefined, so it will still be caught and reported.
   const level = STATUS_LEVEL_MAP[error.status] || 'error';

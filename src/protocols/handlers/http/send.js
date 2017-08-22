@@ -1,9 +1,7 @@
 'use strict';
 
-const { promisify } = require('util');
-
 // Sends response
-const send = async function ({
+const send = function ({
   specific,
   specific: { res },
   content,
@@ -18,7 +16,7 @@ const send = async function ({
   res.setHeader('Content-Type', contentType);
   res.setHeader('Content-Length', Buffer.byteLength(content));
 
-  await promisify(res.end.bind(res))(content);
+  res.end(content);
 
   return specific;
 };
@@ -54,7 +52,7 @@ const sendText = function ({
 // This function is special because it might be fired very early during the
 // request, i.e. when responseSend middleware has not been reached yet.
 // This will be fired to make sure socket does not hang.
-const sendNothing = async function ({
+const sendNothing = function ({
   specific,
   specific: { res } = {},
   status,
@@ -71,7 +69,7 @@ const sendNothing = async function ({
     res.statusCode = status;
   }
 
-  await promisify(res.end.bind(res))();
+  res.end();
 
   return specific;
 };

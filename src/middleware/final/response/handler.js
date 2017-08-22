@@ -11,21 +11,19 @@ const { sender } = require('./sender');
 const transformMap = require('./transform');
 
 // Sends the response at the end of the request
-const sendResponse = async function (nextFunc, input) {
+const sendResponse = function (input) {
   try {
-    const inputA = await nextFunc(input);
+    const { response: { content, type } } = input;
+    addReqInfo(input, { response: { content, type } });
 
-    const { response: { content, type } } = inputA;
-    addReqInfo(inputA, { response: { content, type } });
+    sender({ input });
 
-    await sender({ input: inputA });
-
-    return inputA;
+    return input;
   } catch (error) {
     const errorA = normalizeError({ error });
 
     const inputA = getErrorResponse({ input, error: errorA });
-    await sender({ input: inputA });
+    sender({ input: inputA });
 
     rethrowError(errorA);
   }

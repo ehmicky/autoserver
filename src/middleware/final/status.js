@@ -4,15 +4,17 @@ const { throwError, rethrowError, normalizeError } = require('../../error');
 const { addReqInfo } = require('../../events');
 
 // Retrieve response's status
-const getStatus = async function (nextFunc, input) {
+const getStatus = function (input) {
   try {
-    const inputA = await nextFunc(input);
-    const statuses = addStatuses({ input: inputA });
-    return { ...inputA, ...statuses };
+    const statuses = addStatuses({ input });
+
+    return { ...input, ...statuses };
   } catch (error) {
     const errorA = normalizeError({ error });
+
     const statuses = addStatuses({ input, error: errorA });
     const errorB = { ...errorA, ...statuses };
+
     rethrowError(errorB);
   }
 };

@@ -10,7 +10,7 @@ const { throwError } = require('../../error');
 // i.e. server-side (e.g. 500)
 // In short: `action`, `args`, `modelName` should be defined and of the
 // right type
-const actionValidation = function (nextFunc, input) {
+const actionValidation = function (input) {
   const { action, fullAction, modelName, idl: { models } } = input;
 
   validateAction({ action });
@@ -18,7 +18,7 @@ const actionValidation = function (nextFunc, input) {
   const modelNames = Object.keys(models);
   validateModelName({ modelName, modelNames });
 
-  return nextFunc(input);
+  return input;
 };
 
 // Validate that action is among the possible ones

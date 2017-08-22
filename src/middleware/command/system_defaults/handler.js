@@ -5,10 +5,10 @@ const { mapValues, pickBy } = require('../../../utilities');
 const { defaults } = require('./defaults');
 
 // Apply system-defined defaults to input, including input arguments
-const systemDefaults = function (nextFunc, input) {
+const systemDefaults = function (input) {
   const inputA = getDefaultArgs({ input });
 
-  return nextFunc(inputA);
+  return inputA;
 };
 
 // Retrieve default arguments
