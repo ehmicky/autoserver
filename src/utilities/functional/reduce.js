@@ -15,13 +15,27 @@ const assignArray = function (memo, val) {
   return memo.concat(val);
 };
 
-// Like Array.reduce(), but async
-const reduceAsync = async function (arr, mapperFunc, initial) {
-  const finalValue = await arr.reduce(async (memo, value, index) => {
-    const previousValue = await Promise.resolve(memo);
-    return mapperFunc(previousValue, value, index, arr);
-  }, initial);
-  return finalValue;
+// Like Array.reduce(), but supports async
+const reduceAsync = function (array, mapperFunc, prevVal) {
+  return asyncReducer(prevVal, { array, mapperFunc });
+};
+
+const asyncReducer = function (prevVal, input) {
+  const { array, mapperFunc, index = 0 } = input;
+  if (index === array.length) { return prevVal; }
+
+  const nextVal = mapperFunc(prevVal, array[index], index, array);
+  const inputA = { ...input, index: index + 1 };
+
+  // Do not use async|await to avoid creating promises on iterations that
+  // are synchronous, for performance reason.
+  // eslint-disable-next-line promise/prefer-await-to-then
+  if (typeof nextVal.then === 'function') {
+    // eslint-disable-next-line promise/prefer-await-to-then
+    return nextVal.then(nextValA => asyncReducer(nextValA, inputA));
+  }
+
+  return asyncReducer(nextVal, inputA);
 };
 
 module.exports = {
