@@ -3,8 +3,8 @@
 const { addIfv } = require('../../idl_func');
 const { addReqInfoIfError } = require('../../events');
 
-// Converts from Action format to Command format
-const commandConvertor = function (nextFunc, input) {
+// Add command-related information
+const addCommandInfoIn = function (nextFunc, input) {
   const { command } = input;
 
   const inputA = addIfv(input, { $COMMAND: command.type });
@@ -12,8 +12,8 @@ const commandConvertor = function (nextFunc, input) {
   return nextFunc(inputA);
 };
 
-const eCommandConvertor = addReqInfoIfError(commandConvertor, ['command']);
+const eAddCommandInfoIn = addReqInfoIfError(addCommandInfoIn, ['command']);
 
 module.exports = {
-  commandConvertor: eCommandConvertor,
+  addCommandInfoIn: eAddCommandInfoIn,
 };

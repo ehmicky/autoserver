@@ -8,15 +8,13 @@ const { sender } = require('./sender');
 
 // Sends the response at the end of the request
 const sendResponse = async function (nextFunc, input) {
-  const send = sender.bind(null, input);
-
   try {
     const inputA = await nextFunc(input);
 
     const responseInfo = pick(inputA.response, ['content', 'type']);
-    addReqInfo(input, { response: responseInfo });
+    addReqInfo(inputA, { response: responseInfo });
 
-    await send(inputA.response);
+    await sender(inputA, inputA.response);
 
     return inputA;
   } catch (error) {
@@ -26,7 +24,8 @@ const sendResponse = async function (nextFunc, input) {
     // Since we only send response errors if `errorObj.sendError` is defined,
     // and it can only be defined if this middleware throws, we are sure
     // to never send two responses.
-    const errorB = { ...errorA, sendError: send };
+    const sendError = sender.bind(null, input);
+    const errorB = { ...errorA, sendError };
 
     rethrowError(errorB);
   }

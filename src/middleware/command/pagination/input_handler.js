@@ -1,17 +1,10 @@
 'use strict';
 
-const { reverseArray } = require('../../../utilities');
-
-const {
-  validatePaginationInput,
-  validatePaginationOutput,
-} = require('./validation');
+const { validatePaginationInput } = require('./validation');
 const { mustPaginateOutput } = require('./condition');
 const { getPaginationInput } = require('./input');
-const { getPaginationOutput } = require('./output');
-const { getPaginationInfo } = require('./info');
 
-// Pagination layer.
+// Pagination input middleware.
 // Supports several kinds of pagination:
 //  - offset-based, for random access
 //  - cursor-based, for serial access
@@ -48,23 +41,16 @@ const { getPaginationInfo } = require('./info');
 //    array of response, i.e. readMany
 //  - this means updateMany and deleteMany command.name will paginate output,
 //    but to iterate through the next batches, readMany must be used
-const pagination = async function (nextFunc, input) {
-  const { args, runOpts: { maxPageSize } } = input;
+const handlePaginationInput = function (nextFunc, input) {
+  const paginatedInput = processInput({ input });
 
-  const paginatedInput = processInput({ input, maxPageSize });
-
-  const inputA = await nextFunc(paginatedInput);
-
-  const paginatedOutput = processOutput({ input: inputA, args, maxPageSize });
-
-  return paginatedOutput;
+  return nextFunc(paginatedInput);
 };
 
 // Transform args.pageSize|before|after|page into args.limit|offset|filter
 const processInput = function ({
   input,
-  input: { args, command, action, modelName, idl },
-  maxPageSize,
+  input: { args, command, action, modelName, idl, runOpts: { maxPageSize } },
 }) {
   validatePaginationInput({
     args,
@@ -82,44 +68,6 @@ const processInput = function ({
   return { ...input, args: { ...args, ...paginationInput } };
 };
 
-// Add response metadata related to pagination:
-//   token, page_size, has_previous_page, has_next_page
-const processOutput = function ({
-  input,
-  input: { command, action, modelName, idl, response },
-  args,
-  maxPageSize,
-}) {
-  if (!mustPaginateOutput({ args, command })) { return input; }
-
-  const responseA = reverseOutput({ args, response });
-
-  const paginationOutput = getPaginationOutput({ args, response: responseA });
-  const responseB = { ...responseA, ...paginationOutput };
-
-  validatePaginationOutput({
-    args,
-    action,
-    modelName,
-    maxPageSize,
-    response: responseB,
-    idl,
-  });
-
-  return { ...input, response: responseB };
-};
-
-// When using args.before, pagination is performed backward.
-// We do this by inversing args.nOrderBy, which means we need to reverse output
-// afterwards.
-const reverseOutput = function ({ args, response }) {
-  const { isBackward } = getPaginationInfo({ args });
-  if (!isBackward) { return response; }
-
-  const data = reverseArray(response.data);
-  return { ...response, data };
-};
-
 module.exports = {
-  pagination,
+  handlePaginationInput,
 };

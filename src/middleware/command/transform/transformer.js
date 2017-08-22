@@ -3,30 +3,6 @@
 const { mapValues } = require('../../../utilities');
 const { addOnlyIfv, runIdlFunc } = require('../../../idl_func');
 
-const applyInputTransforms = function ({
-  input,
-  input: { args, args: { newData } },
-}) {
-  if (!newData) { return input; }
-
-  const newDataA = transformData({ data: newData, input, type: 'transform' });
-  const newDataB = transformData({ data: newDataA, input, type: 'value' });
-
-  return { ...input, args: { ...args, newData: newDataB } };
-};
-
-const applyOutputTransforms = function ({
-  input,
-  input: { response, response: { data } },
-}) {
-  if (!data) { return response; }
-
-  const dataA = transformData({ data, input, type: 'compute' });
-
-  const responseA = { ...response, data: dataA };
-  return { ...input, response: responseA };
-};
-
 // Performs transformation on data array or single data
 const transformData = function ({
   data,
@@ -96,6 +72,5 @@ const getTransformParams = function ({ data, currentVal, type }) {
 };
 
 module.exports = {
-  applyInputTransforms,
-  applyOutputTransforms,
+  transformData,
 };

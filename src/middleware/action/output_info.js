@@ -1,5 +1,18 @@
 'use strict';
 
+const { addReqInfo } = require('../../events');
+
+// Add action-related output information
+const addActionOutputInfo = async function (nextFunc, input) {
+  const inputA = await nextFunc(input);
+
+  const { args } = inputA;
+  const infoActions = getInfoActions({ input: inputA, args });
+  addReqInfo(inputA, { actions: infoActions });
+
+  return inputA;
+};
+
 // Formatted actions information, for events
 const getInfoActions = function ({
   input: { fullAction, modelName, response: { data } },
@@ -13,5 +26,5 @@ const getInfoActions = function ({
 };
 
 module.exports = {
-  getInfoActions,
+  addActionOutputInfo,
 };

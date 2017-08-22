@@ -1,6 +1,15 @@
 'use strict';
 
-const getTransformedResponse = function ({
+// Transform response according to action-specific logic
+const normalizeAction = async function (nextFunc, input) {
+  const inputA = await nextFunc(input);
+
+  const { args, operation } = inputA;
+  const inputB = normalizeResponse({ input: inputA, args, operation });
+  return inputB;
+};
+
+const normalizeResponse = function ({
   input,
   input: { action, response },
   operation,
@@ -32,5 +41,5 @@ const getGraphQLData = function ({ data, metadata }) {
 };
 
 module.exports = {
-  getTransformedResponse,
+  normalizeAction,
 };

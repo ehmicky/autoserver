@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./handler'),
+  ...require('./input_handler'),
+  ...require('./output_handler'),
 };

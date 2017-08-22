@@ -3,16 +3,9 @@
 const { throwError } = require('../../error');
 const { ACTIONS, CONTENT_TYPES } = require('../../constants');
 
-// Operation middleware validation
+// Operation middleware output validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
-const operationValidation = async function (nextFunc, input) {
-  const { operation, route } = input;
-
-  if (!operation) {
-    const message = `Unsupported operation: ${route}`;
-    throwError(message, { reason: 'UNSUPPORTED_OPERATION' });
-  }
-
+const operationValidationOut = async function (nextFunc, input) {
   const inputA = await nextFunc(input);
 
   validateResponse({ input: inputA });
@@ -77,5 +70,5 @@ const isWrongAction = function ({ action }) {
 };
 
 module.exports = {
-  operationValidation,
+  operationValidationOut,
 };
