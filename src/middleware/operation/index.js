@@ -2,7 +2,8 @@
 
 module.exports = {
   ...require('./negotiator'),
-  ...require('./validation'),
+  ...require('./validation_in'),
+  ...require('./validation_out'),
   ...require('./silent'),
   ...require('./execute'),
 };

@@ -16,8 +16,10 @@ const middleware = [
 
   // Error handler, which sends final response, if errors
   initial.errorHandler,
-  // Emit event about how the request handling takes
+  // Emit event about how long the request handling takes
   initial.perfEvent,
+  // Start the main performance counter
+  initial.startMainPerf,
   // Emit "call" events
   initial.callEvent,
 
@@ -60,8 +62,10 @@ const middleware = [
 
   // Pick the operation
   operation.operationNegotiator,
-  // Operation-related validation middleware
-  operation.operationValidation,
+  // Operation-related input validation middleware
+  operation.operationValidationIn,
+  // Operation-related output validation middleware
+  operation.operationValidationOut,
   // Remove response data if settings silent is specified
   operation.silent,
   // Translates operation-specific calls into generic instance actions
@@ -69,8 +73,12 @@ const middleware = [
 
   // Action layer
 
-  // Convert from Operation format to Action format
-  action.actionConvertor,
+  // Add action-related input information
+  action.addActionInputInfo,
+  // Add action-related output information
+  action.addActionOutputInfo,
+  // Transform response according to action-specific logic
+  action.normalizeAction,
   // Action-related validation middleware
   action.actionValidation,
   // Process client arguments
@@ -82,24 +90,30 @@ const middleware = [
 
   // Command layer
 
-  // Convert from Action format to Command format
-  command.commandConvertor,
+  // Add command-related information
+  command.addCommandInfoIn,
   // Command-related validation middleware
   command.commandValidation,
   // Normalize input
   command.normalization,
-  // Apply attribute aliases
-  command.renameAliases,
+  // Apply attribute aliases, in input
+  command.renameAliasesInput,
+  // Apply attribute aliases, in output
+  command.renameAliasesOutput,
   // Resets readonly attributes in `args.newData`
   command.handleReadonly,
-  // Process transforms
+  // Process `attr.transforms` and `attr.value`
   command.handleTransforms,
+  // Process `attr.compute`
+  command.handleComputes,
   // Apply user-defined default values
   command.userDefaults,
   // Apply system-defined default values, e.g. order_by 'id+'
   command.systemDefaults,
+  // Paginate input
+  command.handlePaginationInput,
   // Paginate output
-  command.pagination,
+  command.handlePaginationOutput,
 
   // Database layer
 

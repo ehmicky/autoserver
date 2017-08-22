@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  ...require('./convertor'),
+  ...require('./info'),
   ...require('./validation'),
   ...require('./normalization'),
   ...require('./aliases'),
