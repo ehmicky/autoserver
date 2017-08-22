@@ -1,14 +1,15 @@
 'use strict';
 
 const { pSetTimeout } = require('../../../utilities');
+const { getStandardError } = require('../../../error');
 
-const { handleError } = require('./error');
-const { handleFailure } = require('./failure');
+const { sendErrorResponse } = require('./response');
+const { reportError } = require('./report');
 
 // Error handler, which sends final response, if errors
-const errorHandler = function (nextFunc, input) {
+const errorHandler = async function (nextFunc, input) {
   try {
-    return nextFunc(input);
+    return await nextFunc(input);
   } catch (error) {
     return errorHandle({ input, error });
   }
@@ -16,8 +17,13 @@ const errorHandler = function (nextFunc, input) {
 
 const errorHandle = async function ({
   input,
-  input: { protocolHandler, specific },
-  error: errorA,
+  input: {
+    reqInfo,
+    protocolHandler,
+    protocolHandler: { failureProtocolStatus: status },
+    specific,
+  },
+  error,
 }) {
   // When an exception is thrown in the same macrotask as the one that started
   // the request (e.g. in one of the first middleware), the socket won't be
@@ -26,23 +32,16 @@ const errorHandle = async function ({
   // This is unclear why, but doing this solves the problem.
   await pSetTimeout(0);
 
-  const status = protocolHandler.failureProtocolStatus;
+  const standardError = getStandardError({ reqInfo, error });
 
-  try {
-    const response = await handleError({ input, error: errorA });
+  await reportError({ input, error: standardError });
 
-    // Make sure a response is sent, or the socket will hang
-    protocolHandler.send.nothing({ specific, status });
+  await sendErrorResponse({ error, standardError });
 
-    return response;
-  // If error handler itself fails
-  } catch (error) {
-    const response = handleFailure({ input, error });
+  // Make sure a response is sent, or the socket will hang
+  protocolHandler.send.nothing({ specific, status });
 
-    protocolHandler.send.nothing({ specific, status });
-
-    return response;
-  }
+  return standardError;
 };
 
 module.exports = {
