@@ -1,20 +1,15 @@
 'use strict';
 
-const { addIfv } = require('../../idl_func');
-const { addReqInfo } = require('../../events');
-
 // Decides which operation to use (e.g. GraphQL) according to route
-const operationNegotiator = function (input) {
-  const { route } = input;
-
+const operationNegotiator = function ({ route }) {
   const [operation] = Object.entries(operations)
     .find(([, testFunc]) => testFunc({ route })) || [];
 
-  const inputA = addIfv(input, { $OPERATION: operation });
-  const inputB = addReqInfo(inputA, { operation });
-  const inputC = { ...inputB, operation };
-
-  return inputC;
+  return {
+    operation,
+    reqInfo: { operation },
+    ifvParams: { $OPERATION: operation },
+  };
 };
 
 const operations = {

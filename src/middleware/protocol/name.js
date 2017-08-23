@@ -1,20 +1,8 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addReqInfo } = require('../../events');
 
-const getProtocolName = function (input) {
-  const { specific, protocolHandler } = input;
-
-  const protocolFullName = getProtocolFullName({ specific, protocolHandler });
-
-  const inputA = addReqInfo(input, { protocolFullName });
-  const inputB = { ...inputA, protocolFullName };
-
-  return inputB;
-};
-
-const getProtocolFullName = function ({ specific, protocolHandler }) {
+const getProtocolName = function ({ specific, protocolHandler }) {
   const protocolFullName = protocolHandler.getFullName({ specific });
 
   if (typeof protocolFullName !== 'string') {
@@ -22,7 +10,7 @@ const getProtocolFullName = function ({ specific, protocolHandler }) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  return protocolFullName;
+  return { protocolFullName, reqInfo: { protocolFullName } };
 };
 
 module.exports = {

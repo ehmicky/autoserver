@@ -5,42 +5,33 @@ const { COMMANDS } = require('../../constants');
 const { assignObject } = require('../../utilities');
 
 // Main authorization layer
-const authorization = function (input) {
-  const { modelName, command, idl: { models }, args } = input;
-
+const authorization = function ({ modelName, command, idl: { models }, args }) {
   const model = models[modelName];
-  const inputA = validateCommands({ input, model, command, args });
-
-  return inputA;
+  validateCommands({ model, command, args });
 };
 
 const validateCommands = function ({
-  input,
   model: { commands },
   command,
   args: { internal },
 }) {
   // Intermediary commands are not checked for authorization
-  if (internal) { return input; }
+  if (internal) { return; }
 
   const mappedCommands = authorizationMap[command.name] || [command];
 
-  return mappedCommands.reduce(
-    (inputA, mappedCommand) =>
-      validateCommand({ input: inputA, commands, mappedCommand }),
-    input,
+  mappedCommands.forEach(
+    mappedCommand => validateCommand({ commands, mappedCommand }),
   );
 };
 
-const validateCommand = function ({ input, commands, mappedCommand }) {
+const validateCommand = function ({ commands, mappedCommand }) {
   const isAllowed = commands.includes(mappedCommand.name);
 
   if (!isAllowed) {
     const message = `Command '${mappedCommand.type}' is not allowed`;
     throwError(message, { reason: 'AUTHORIZATION' });
   }
-
-  return input;
 };
 
 const {

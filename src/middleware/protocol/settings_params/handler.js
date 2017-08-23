@@ -4,7 +4,6 @@ const { settings, params } = require('./types');
 const { getValues } = require('./parse');
 const { transformValues } = require('./transform');
 const { validateValues } = require('./validate');
-const { addValues } = require('./add');
 
 // Fill in:
 //  - `input.params`, which are custom application-specific information,
@@ -14,21 +13,27 @@ const { addValues } = require('./add');
 //     Redundant protocol-specific headers might exist for some settings.
 // Values are automatically transtyped.
 // Are set to IDL function variables $PARAMS and $SETTINGS
-const parseSettingsParams = function (input) {
-  const inputA = addType({ input, type: settings });
-  const inputB = addType({ input: inputA, type: params });
-
-  return inputB;
+const parseSettings = function (input) {
+  return addType({ input, type: settings });
 };
 
-const addType = function ({ input, type }) {
+const parseParams = function (input) {
+  return addType({ input, type: params });
+};
+
+const addType = function ({ input, type, type: { idlFuncName, genericName } }) {
   const values = getValues({ input, type });
   const valuesA = transformValues({ values });
   const valuesB = validateValues({ values: valuesA, type });
-  const inputA = addValues({ input, values: valuesB, type });
-  return inputA;
+
+  return {
+    [genericName]: valuesB,
+    reqInfo: { [genericName]: valuesB },
+    ifvParams: { [idlFuncName]: valuesB },
+  };
 };
 
 module.exports = {
-  parseSettingsParams,
+  parseSettings,
+  parseParams,
 };

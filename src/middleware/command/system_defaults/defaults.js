@@ -20,20 +20,20 @@ const defaults = {
       'createMany',
     ],
     value: [{ attrName: 'id', order: 'asc' }],
-    test: ({ input }) => hasNoPaginationTokens({ input }),
+    test: ({ args }) => hasNoPaginationTokens({ args }),
   },
 
   pageSize: {
-    value: ({ input: { runOpts: { defaultPageSize } } }) => defaultPageSize,
+    value: ({ runOpts: { defaultPageSize } }) => defaultPageSize,
     // Only if pagination is enabled
-    test: ({ input: { runOpts: { defaultPageSize } } }) =>
+    test: ({ runOpts: { defaultPageSize } }) =>
       defaultPageSize !== 0,
   },
 
   after: {
     commands: ['readMany'],
     value: '',
-    test: ({ input: { args } }) =>
+    test: ({ args }) =>
       args.before === undefined && args.page === undefined,
   },
 
@@ -42,7 +42,7 @@ const defaults = {
   },
 };
 
-const hasNoPaginationTokens = function ({ input: { args } }) {
+const hasNoPaginationTokens = function ({ args }) {
   return (args.before === undefined || args.before === '') &&
     (args.after === undefined || args.after === '');
 };

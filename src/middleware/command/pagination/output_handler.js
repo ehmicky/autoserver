@@ -7,26 +7,18 @@ const { mustPaginateOutput } = require('./condition');
 const { getPaginationOutput } = require('./output');
 const { getPaginationInfo } = require('./info');
 
-const handlePaginationOutput = function (input) {
-  const inputA = processOutput({ input });
-  return inputA;
-};
-
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
-const processOutput = function ({
-  input,
-  input: {
-    args,
-    command,
-    action,
-    modelName,
-    idl,
-    response,
-    runOpts: { maxPageSize },
-  },
+const handlePaginationOutput = function ({
+  args,
+  command,
+  action,
+  modelName,
+  idl,
+  response,
+  runOpts: { maxPageSize },
 }) {
-  if (!mustPaginateOutput({ args, command })) { return input; }
+  if (!mustPaginateOutput({ args, command })) { return; }
 
   const responseA = reverseOutput({ args, response });
 
@@ -42,7 +34,7 @@ const processOutput = function ({
     idl,
   });
 
-  return { ...input, response: responseB };
+  return { response: responseB };
 };
 
 // When using args.before, pagination is performed backward.

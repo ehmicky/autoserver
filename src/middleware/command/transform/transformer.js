@@ -6,8 +6,9 @@ const { addOnlyIfv, runIdlFunc } = require('../../../idl_func');
 // Performs transformation on data array or single data
 const transformData = function ({
   data,
-  input,
-  input: { idl: { shortcuts }, modelName },
+  idl: { shortcuts },
+  modelName,
+  ifv,
   type,
 }) {
   const transformMap = shortcuts[mapName[type]];
@@ -15,9 +16,9 @@ const transformData = function ({
 
   return Array.isArray(data)
     ? data.map(
-      datum => applyTransforms({ data: datum, transforms, input, type })
+      datum => applyTransforms({ data: datum, transforms, ifv, type })
     )
-    : applyTransforms({ data, transforms, input, type });
+    : applyTransforms({ data, transforms, ifv, type });
 };
 
 const mapName = {
@@ -27,22 +28,16 @@ const mapName = {
 };
 
 // There can be transform for each attribute
-const applyTransforms = function ({ data, transforms, input, type }) {
+const applyTransforms = function ({ data, transforms, ifv, type }) {
   const transformedData = mapValues(
     transforms,
     (transform, attrName) =>
-      applyTransform({ data, attrName, transform, input, type })
+      applyTransform({ data, attrName, transform, ifv, type })
   );
   return { ...data, ...transformedData };
 };
 
-const applyTransform = function ({
-  data,
-  attrName,
-  transform,
-  input: { ifv },
-  type,
-}) {
+const applyTransform = function ({ data, attrName, transform, ifv, type }) {
   const currentVal = data[attrName];
 
   // `transform` (as opposed to `value`) is skipped when there is

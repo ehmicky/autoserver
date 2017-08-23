@@ -1,20 +1,10 @@
 'use strict';
 
 // Transform response according to action-specific logic
-const normalizeAction = function (input) {
-  const { args, operation } = input;
-  const inputA = normalizeResponse({ input, args, operation });
-  return inputA;
-};
-
-const normalizeResponse = function ({
-  input,
-  input: { action, response },
-  operation,
-}) {
+const normalizeAction = function ({ action, response, operation }) {
   const responseA = { ...response, action };
   const responseB = actionConvertorOutput[operation](responseA);
-  return { ...input, response: responseB };
+  return { response: responseB };
 };
 
 const actionConvertorOutput = {

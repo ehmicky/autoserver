@@ -5,30 +5,25 @@ const { mapValues, pickBy } = require('../../../utilities');
 const { defaults } = require('./defaults');
 
 // Apply system-defined defaults to input, including input arguments
-const systemDefaults = function (input) {
-  const inputA = getDefaultArgs({ input });
-
-  return inputA;
-};
-
-// Retrieve default arguments
-const getDefaultArgs = function ({ input, input: { args } }) {
+const systemDefaults = function ({ args, runOpts, command }) {
   const filteredDefaults = pickBy(
     defaults,
-    (defaultConf, attrName) => shouldDefault({ input, defaultConf, attrName }),
+    (defaultConf, attrName) =>
+      shouldDefault({ args, runOpts, command, defaultConf, attrName }),
   );
 
   const defaultArgs = mapValues(
     filteredDefaults,
-    ({ value }) => applyDefault({ value, input }),
+    ({ value }) => applyDefault({ value, args, runOpts }),
   );
 
-  return { ...input, args: { ...args, ...defaultArgs } };
+  return { args: { ...args, ...defaultArgs } };
 };
 
 const shouldDefault = function ({
-  input,
-  input: { command, args },
+  args,
+  runOpts,
+  command,
   defaultConf: { commands, test: testFunc },
   attrName,
 }) {
@@ -39,14 +34,14 @@ const shouldDefault = function ({
   if (commands && !commands.includes(command.name)) { return false; }
 
   // Whitelist by tests
-  if (testFunc && !testFunc({ input })) { return false; }
+  if (testFunc && !testFunc({ args, runOpts })) { return false; }
 
   return true;
 };
 
-const applyDefault = function ({ value, input }) {
+const applyDefault = function ({ value, args, runOpts }) {
   if (typeof value === 'function') {
-    return value({ input });
+    return value({ args, runOpts });
   }
 
   return value;

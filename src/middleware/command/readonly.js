@@ -8,28 +8,19 @@ const { omit } = require('../../utilities');
 // because readonly attributes can be part of a normal response, and clients
 // should be able to send responses back as is without having to remove
 // readonly attributes.
-const handleReadonly = function (input) {
-  const inputA = applyReadonly({ input });
-
-  return inputA;
-};
-
 // `currentData` might be undefined, e.g. for command `create`
-const applyReadonly = function ({
-  input,
-  input: {
-    args,
-    args: { newData, currentData = [] },
-    modelName,
-    idl: { shortcuts: { readonlyMap } },
-  },
+const handleReadonly = function ({
+  args,
+  args: { newData, currentData = [] },
+  modelName,
+  idl: { shortcuts: { readonlyMap } },
 }) {
-  if (!newData) { return input; }
+  if (!newData) { return; }
 
   const attrs = readonlyMap[modelName];
   const newDataA = getNewData({ newData, currentData, attrs });
 
-  return { ...input, args: { ...args, newData: newDataA } };
+  return { args: { ...args, newData: newDataA } };
 };
 
 const getNewData = function ({ newData, currentData, attrs }) {

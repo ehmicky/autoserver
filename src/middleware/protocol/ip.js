@@ -1,19 +1,17 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addIfv } = require('../../idl_func');
-const { addReqInfo } = require('../../events');
 
 // Retrieve request's IP, assigned to protocol input,
 // and also to IDL function variable $IP
 const getIp = function (input) {
   const ip = getRequestIp(input);
 
-  const inputA = addIfv(input, { $IP: ip });
-  const inputB = addReqInfo(inputA, { ip });
-  const inputC = { ...inputB, ip };
-
-  return inputC;
+  return {
+    ip,
+    reqInfo: { ip },
+    ifvParams: { $IP: ip },
+  };
 };
 
 const getRequestIp = function (input) {

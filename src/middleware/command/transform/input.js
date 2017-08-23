@@ -3,22 +3,31 @@
 const { transformData } = require('./transformer');
 
 // Handles `attr.transform` and `attr.value`
-const handleTransforms = function (input) {
-  const inputA = applyInputTransforms({ input });
-
-  return inputA;
-};
-
-const applyInputTransforms = function ({
-  input,
-  input: { args, args: { newData } },
+const handleTransforms = function ({
+  args,
+  args: { newData },
+  idl,
+  modelName,
+  ifv,
 }) {
-  if (!newData) { return input; }
+  if (!newData) { return; }
 
-  const newDataA = transformData({ data: newData, input, type: 'transform' });
-  const newDataB = transformData({ data: newDataA, input, type: 'value' });
+  const newDataA = transformData({
+    data: newData,
+    idl,
+    modelName,
+    ifv,
+    type: 'transform',
+  });
+  const newDataB = transformData({
+    data: newDataA,
+    idl,
+    modelName,
+    ifv,
+    type: 'value',
+  });
 
-  return { ...input, args: { ...args, newData: newDataB } };
+  return { args: { ...args, newData: newDataB } };
 };
 
 module.exports = {

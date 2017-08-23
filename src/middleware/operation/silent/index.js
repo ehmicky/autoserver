@@ -8,26 +8,18 @@ const operations = require('./operations');
 //   - defaults to true for `delete`, false otherwise
 //   - this can also be set for all the actions using:
 //      - Prefer: return=minimal HTTP request header
-const silent = function (input) {
-  const inputA = applySilent({ input });
-  return inputA;
-};
-
-const applySilent = function ({
-  input,
-  input: {
-    operation,
-    settings: { silent: silentSettings },
-    response,
-    response: { actions },
-  },
+const silent = function ({
+  operation,
+  settings: { silent: silentSettings },
+  response,
+  response: { actions },
 }) {
   const isDelete = actions && actions.some(({ type }) => type === 'delete');
   const shouldRemoveOutput = isDelete || silentSettings;
-  if (!shouldRemoveOutput) { return input; }
+  if (!shouldRemoveOutput) { return; }
 
   const responseA = operations[operation].silent(response);
-  return { ...input, responseA };
+  return { response: responseA };
 };
 
 module.exports = {
