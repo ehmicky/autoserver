@@ -17,10 +17,7 @@ const setResponseTime = function ({
 
   sendHeaders({ protocolHandler, specific, responseTime });
 
-  return {
-    response: { ...response, respPerf },
-    responseTime,
-  };
+  return { response: { ...response, respPerf }, responseTime };
 };
 
 const getResponseTime = function ({ respPerf }) {

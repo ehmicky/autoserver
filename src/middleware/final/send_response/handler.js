@@ -6,16 +6,15 @@ const { sender } = require('./sender');
 const transformMap = require('./transform');
 
 // Sends the response at the end of the request
-const sendResponse = function (input) {
-  const {
-    error,
-    response,
-    operation,
-    specific,
-    protocolHandler,
-    protocolStatus,
-  } = input;
-
+const sendResponse = function ({
+  error,
+  response,
+  operation,
+  specific,
+  protocolHandler,
+  protocolStatus,
+  input,
+}) {
   const responseA = getErrorResponse({ input, error, response, operation });
 
   sender({ specific, protocolHandler, protocolStatus, response: responseA });

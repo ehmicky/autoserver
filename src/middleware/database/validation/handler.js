@@ -9,9 +9,7 @@ const { getDataValidationSchema } = require('./schema');
 // Check that input filter|newData passes IDL validation
 // E.g. if a model is marked as `required` or `minimum: 10` in IDL file,
 // this will be validated here
-const dataValidation = function (input) {
-  const { args, modelName, command, idl } = input;
-
+const dataValidation = function ({ args, modelName, command, idl, input }) {
   const schema = getDataValidationSchema({ idl, modelName, command });
   const attrs = getAttrs({ args });
 

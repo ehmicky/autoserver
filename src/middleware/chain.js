@@ -47,8 +47,10 @@ const fireMiddleware = function (nextLayer, input, mFunc) {
 
 // We merge the return value of each middleware (`input`)
 // with the current input (`inputA`)
-const mergeInput = function (input, inputA = {}) {
-  return { ...input, ...inputA };
+const mergeInput = function (input, inputA) {
+  const inputB = { ...input, ...inputA };
+  // `input.input` is a helper for destructuring arguments
+  return { ...inputB, input: inputB };
 };
 
 const eFireMiddleware = addMiddlewareHandler.bind(null, fireMiddleware);

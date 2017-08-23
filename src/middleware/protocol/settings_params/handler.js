@@ -13,11 +13,11 @@ const { validateValues } = require('./validate');
 //     Redundant protocol-specific headers might exist for some settings.
 // Values are automatically transtyped.
 // Are set to IDL function variables $PARAMS and $SETTINGS
-const parseSettings = function (input) {
+const parseSettings = function ({ input }) {
   return addType({ input, type: settings });
 };
 
-const parseParams = function (input) {
+const parseParams = function ({ input }) {
   return addType({ input, type: params });
 };
 
