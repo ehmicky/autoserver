@@ -45,7 +45,23 @@ const getErrorInput = function (error) {
 
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `input` as information by setting `error.input`
-const throwMiddlewareError = function (input, error) {
+const addMiddlewareHandler = function (func, ...args) {
+  try {
+    const maybePromise = func(...args);
+
+    // Middleware functions can be sync or async
+    // We want to avoid async|await in order not to create promises
+    // when the middleware is sync, for performance reason
+    // eslint-disable-next-line promise/prefer-await-to-then
+    return typeof maybePromise.then === 'function'
+      ? maybePromise.catch(error => throwMiddlewareError(error, ...args))
+      : maybePromise;
+  } catch (error) {
+    throwMiddlewareError(error, ...args);
+  }
+};
+
+const throwMiddlewareError = function (error, nextLayer, input) {
   if (!error.input) {
     // Must directly assign to error, because { ...error } does not work
     // eslint-disable-next-line fp/no-mutating-assign
@@ -58,5 +74,5 @@ const throwMiddlewareError = function (input, error) {
 module.exports = {
   addLayersErrorsHandlers,
   getErrorInput,
-  throwMiddlewareError,
+  addMiddlewareHandler,
 };
