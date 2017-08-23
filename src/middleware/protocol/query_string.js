@@ -4,7 +4,6 @@ const qs = require('qs');
 
 const { throwError, addErrorHandler } = require('../../error');
 const { transtype, mapValues } = require('../../utilities');
-const { addReqInfo } = require('../../events');
 
 const MAX_DEPTH = 10;
 const MAX_ARRAY_LENGTH = 100;
@@ -15,15 +14,10 @@ const MAX_ARRAY_LENGTH = 100;
 // Automatic transtyping is performed
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
-const parseQueryString = function (input) {
-  const { specific, protocolHandler } = input;
-
+const parseQueryString = function ({ specific, protocolHandler }) {
   const queryVars = getQueryVars({ specific, protocolHandler });
 
-  const inputA = addReqInfo(input, { queryVars });
-  const inputB = { ...inputA, queryVars };
-
-  return inputB;
+  return { queryVars, reqInfo: { queryVars } };
 };
 
 // Retrieves query variables

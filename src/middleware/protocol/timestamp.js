@@ -1,17 +1,13 @@
 'use strict';
 
-const { addIfv } = require('../../idl_func');
-const { addReqInfo } = require('../../events');
-
-const getTimestamp = function (input) {
-  const { now } = input;
-
+const getTimestamp = function ({ now }) {
   const timestamp = (new Date(now)).toISOString();
-  const inputA = addIfv(input, { $NOW: timestamp });
-  const inputB = addReqInfo(inputA, { timestamp });
-  const inputC = { ...inputB, timestamp };
 
-  return inputC;
+  return {
+    timestamp,
+    reqInfo: { timestamp },
+    ifvParams: { $NOW: timestamp },
+  };
 };
 
 module.exports = {

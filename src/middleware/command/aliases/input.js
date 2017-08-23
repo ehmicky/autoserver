@@ -5,13 +5,13 @@ const { applyOrderByAliases } = require('./order_by');
 const { applyTokenAliases } = require('./token');
 
 // Apply `alias` in server input
-const applyInputAliases = function ({ input, input: { args }, modelAliases }) {
+const applyInputAliases = function ({ args, modelAliases }) {
   const argsB = Object.entries(modelAliases).reduce(
     (argsA, [attrName, aliases]) =>
       applyInputAlias({ args: argsA, attrName, aliases }),
     args,
   );
-  return { ...input, args: argsB };
+  return { args: argsB };
 };
 
 const applyInputAlias = function ({ args = {}, attrName, aliases }) {

@@ -52,8 +52,10 @@ const middleware = [
     protocol.parsePayload,
     // Parse headers into protocol-agnostic format
     protocol.parseHeaders,
-    // Parse operation-wide settings, and application-specific headers
-    protocol.parseSettingsParams,
+    // Parse operation-wide settings
+    protocol.parseSettings,
+    // Parse application-specific headers
+    protocol.parseParams,
     // Retrieves input.route, using input.path
     protocol.router,
 

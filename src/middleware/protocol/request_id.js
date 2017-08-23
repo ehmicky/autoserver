@@ -3,8 +3,6 @@
 const { v4: uuidv4 } = require('uuid');
 
 const { getServerInfo } = require('../../info');
-const { addIfv } = require('../../idl_func');
-const { addReqInfo } = require('../../events');
 
 // Assigns unique ID (UUIDv4) to each request
 // Available in:
@@ -13,18 +11,17 @@ const { addReqInfo } = require('../../events');
 //  - IDL function variables, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
-const setRequestIds = function (input) {
-  const { specific, protocolHandler, runOpts } = input;
-
+const setRequestIds = function ({ specific, protocolHandler, runOpts }) {
   const requestId = uuidv4();
-  const inputA = addIfv(input, { $REQUEST_ID: requestId });
-  const inputB = addReqInfo(inputA, { requestId });
-  const inputC = { ...inputB, requestId };
 
   sendRequestIdHeader({ specific, requestId, protocolHandler });
   sendServerIdsHeaders({ specific, runOpts, protocolHandler });
 
-  return inputC;
+  return {
+    requestId,
+    reqInfo: { requestId },
+    ifvParams: { $REQUEST_ID: requestId },
+  };
 };
 
 // Send e.g. HTTP request header, `X-Request-Id`

@@ -1,12 +1,11 @@
 'use strict';
 
-const printGraphql = function (input) {
-  const { idl: { GraphQLPrintedSchema } } = input;
+const printGraphql = function ({ idl: { GraphQLPrintedSchema } }) {
   const response = {
     type: 'html',
     content: GraphQLPrintedSchema,
   };
-  return { ...input, response };
+  return { response };
 };
 
 module.exports = {

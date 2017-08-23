@@ -1,7 +1,7 @@
 'use strict';
 
 const { getContent } = require('./content');
-const { addActionOutputInfo } = require('./action_info');
+const { getActionOutputInfo } = require('./action_info');
 
 // GraphQL query handling
 const executeGraphql = async function (input, nextLayer) {
@@ -13,19 +13,19 @@ const executeGraphql = async function (input, nextLayer) {
   // GraphQL execution
   const content = await getContent({ nextLayer, input, responses });
 
-  const inputA = addActionOutputInfo({ input, responses });
+  const { response } = parseResult({ content, responses });
 
-  const inputB = parseResult({ input: inputA, content, responses });
+  const { reqInfo } = getActionOutputInfo({ responses });
 
-  return inputB;
+  return { response, reqInfo };
 };
 
-const parseResult = function ({ input, content, responses }) {
+const parseResult = function ({ content, responses }) {
   const type = getResponseType({ content });
 
   const actions = responses.map(({ response: { action } }) => action);
 
-  return { ...input, response: { content, type, actions } };
+  return { response: { content, type, actions } };
 };
 
 const getResponseType = function ({ content: { data } }) {

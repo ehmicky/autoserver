@@ -2,20 +2,25 @@
 
 const { throwError } = require('../../error');
 const { stopPerf } = require('../../perf');
-const { addReqInfo } = require('../../events');
 
 // Request response time, from request handling start to response sending
 // Note that other functions might happen after response sending, e.g. events
-const setResponseTime = function (input) {
-  const respPerf = stopPerf(input.reqPerf);
-  const responseB = { ...input.response, respPerf };
+const setResponseTime = function ({
+  protocolHandler,
+  specific,
+  reqPerf,
+  response,
+}) {
+  const respPerf = stopPerf(reqPerf);
 
   const responseTime = getResponseTime({ respPerf });
 
-  const inputA = addReqInfo(input, { responseTime });
-  sendHeaders({ input: inputA, responseTime });
+  sendHeaders({ protocolHandler, specific, responseTime });
 
-  return { ...inputA, response: responseB };
+  return {
+    response: { ...response, respPerf },
+    reqInfo: { responseTime },
+  };
 };
 
 const getResponseTime = function ({ respPerf }) {
@@ -29,10 +34,7 @@ const getResponseTime = function ({ respPerf }) {
   return responseTime;
 };
 
-const sendHeaders = function ({
-  input: { protocolHandler, specific },
-  responseTime,
-}) {
+const sendHeaders = function ({ protocolHandler, specific, responseTime }) {
   const headers = { 'X-Response-Time': Math.round(responseTime) };
   protocolHandler.sendHeaders({ specific, headers });
 };

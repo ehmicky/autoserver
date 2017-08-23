@@ -2,22 +2,16 @@
 
 const { throwError } = require('../../error');
 const { GOALS } = require('../../constants');
-const { addReqInfo } = require('../../events');
 
 // Fill in:
 //  - `input.method`: protocol-specific method, e.g. 'POST'
 //  - `input.goal`: protocol-agnostic method, e.g. 'create'
 // Meant to be used by operation layer.
-const parseMethod = function (input) {
-  const { specific, protocolHandler } = input;
-
+const parseMethod = function ({ specific, protocolHandler }) {
   const method = getMethod({ specific, protocolHandler });
   const goal = getGoal({ method, protocolHandler });
 
-  const inputA = addReqInfo(input, { method, goal });
-  const inputB = { ...inputA, method, goal };
-
-  return inputB;
+  return { method, goal, reqInfo: { method, goal } };
 };
 
 const getMethod = function ({ specific, protocolHandler }) {

@@ -9,11 +9,9 @@ const { throwError } = require('../../../error');
 //     { attrName: 'c', order: 'desc' },
 //     { attrName: 'id', order: 'asc' },
 //   ]
-const normalizeOrderBy = function ({
-  input,
-  input: { args, args: { orderBy }, modelName, idl: { models } },
-}) {
-  if (!orderBy) { return input; }
+const normalizeOrderBy = function (args, { modelName, idl: { models } }) {
+  const { orderBy } = args;
+  if (!orderBy) { return args; }
 
   if (typeof orderBy !== 'string') {
     const message = 'Argument \'order_by\' must be a string';
@@ -23,7 +21,7 @@ const normalizeOrderBy = function ({
   const attrNames = Object.keys(models[modelName].attributes);
   const nOrderBy = getNOrderBy({ orderBy, attrNames });
 
-  return { ...input, args: { ...args, nOrderBy } };
+  return { ...args, nOrderBy };
 };
 
 const getNOrderBy = function ({ orderBy, attrNames }) {

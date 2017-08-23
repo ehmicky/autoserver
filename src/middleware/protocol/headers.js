@@ -1,22 +1,16 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addReqInfo } = require('../../events');
 
 // Fill in `input.headers` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
-const parseHeaders = function (input) {
-  const { specific, protocolHandler } = input;
-
+const parseHeaders = function ({ specific, protocolHandler }) {
   const headers = getHeaders({ specific, protocolHandler });
 
-  const inputA = addReqInfo(input, { headers });
-  const inputB = { ...inputA, headers };
-
-  return inputB;
+  return { headers, reqInfo: { headers } };
 };
 
 const getHeaders = function ({ specific, protocolHandler }) {
