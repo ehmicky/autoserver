@@ -1,6 +1,6 @@
 'use strict';
 
-const types = require('./types');
+const { settings, params } = require('./types');
 const { getValues } = require('./parse');
 const { transformValues } = require('./transform');
 const { validateValues } = require('./validate');
@@ -15,16 +15,10 @@ const { addValues } = require('./add');
 // Values are automatically transtyped.
 // Are set to IDL function variables $PARAMS and $SETTINGS
 const parseSettingsParams = function (input) {
-  const inputA = addAllTypes({ input });
+  const inputA = addType({ input, type: settings });
+  const inputB = addType({ input: inputA, type: params });
 
-  return inputA;
-};
-
-const addAllTypes = function ({ input }) {
-  return Object.values(types).reduce(
-    (inputA, type) => addType({ input: inputA, type }),
-    input,
-  );
+  return inputB;
 };
 
 const addType = function ({ input, type }) {
