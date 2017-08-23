@@ -9,10 +9,10 @@ const getRequestMessage = function ({
   protocolStatus,
   error,
   actions = {},
-  fullAction,
+  actionPath,
   responseTime,
 }) {
-  const action = error ? fullAction : Object.keys(actions).join(' ');
+  const action = error ? actionPath : Object.keys(actions).join(' ');
   const responseTimeText = responseTime && `${Math.round(responseTime)}ms`;
 
   const message = [

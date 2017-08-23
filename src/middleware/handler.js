@@ -94,8 +94,6 @@ const middleware = [
 
     // Transform response according to action-specific logic
     action.normalizeAction,
-    // Add action-related output information
-    action.addActionOutputInfo,
   ],
 
   // Command layer

@@ -6,9 +6,9 @@ const { addReqInfo } = require('../../events');
 // Retrieve response's status
 const getStatus = function (input) {
   const statuses = getStatuses({ input });
-  addReqInfo(input, statuses);
+  const inputA = addReqInfo(input, statuses);
 
-  return { ...input, ...statuses };
+  return { ...inputA, ...statuses };
 };
 
 const getStatuses = function ({ input: { protocolHandler, error } }) {

@@ -13,7 +13,7 @@ const sendResponse = function (input) {
 
   sender({ input: inputB });
 
-  return input;
+  return inputB;
 };
 
 const addResponseInfo = function ({
@@ -22,9 +22,9 @@ const addResponseInfo = function ({
 }) {
   if (error) { return input; }
 
-  addReqInfo(input, { response: { content, type } });
+  const inputA = addReqInfo(input, { response: content, responseType: type });
 
-  return input;
+  return inputA;
 };
 
 // Use protocol-specific way to send back the response to the client

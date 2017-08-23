@@ -8,5 +8,4 @@ module.exports = {
   ...require('./execute'),
 
   ...require('./normalize'),
-  ...require('./output_info'),
 };

@@ -1,12 +1,12 @@
 'use strict';
 
 const { reduceAsync } = require('../utilities');
-const { rethrowError } = require('../error');
 
 const {
   addLayersErrorsHandlers,
-  getErrorInput,
   addMiddlewareHandler,
+  getErrorInput,
+  throwMiddlewareError,
 } = require('./error');
 
 // Transforms a series of functions into a middleware pipeline.
@@ -22,9 +22,9 @@ const fireLayers = async function (middleware, input) {
   } catch (error) {
     const inputA = getErrorInput({ error });
 
-    await fireLayer([final], 0, inputA);
+    const inputB = await fireLayer([final], 0, inputA);
 
-    rethrowError(error);
+    throwMiddlewareError(error, inputB, { force: true });
   }
 };
 

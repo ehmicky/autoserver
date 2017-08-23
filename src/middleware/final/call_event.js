@@ -6,22 +6,25 @@ const { emitEvent, addReqInfo, STATUS_LEVEL_MAP } = require('../../events');
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not
 const callEvent = async function (input) {
-  await emitReqEvent({ input });
+  const inputA = addErrorReason({ input });
 
-  return input;
+  await emitReqEvent({ input: inputA });
+
+  return inputA;
 };
 
-const emitReqEvent = async function ({ input, input: { runOpts } }) {
-  const level = getLevel({ input });
-  const reqInfo = getReqInfo({ input });
+const addErrorReason = function ({ input, input: { error } }) {
+  if (!error) { return input; }
 
-  await emitEvent({
-    reqInfo,
-    type: 'call',
-    phase: 'request',
-    level,
-    runOpts,
-  });
+  const errorReason = getReason({ error });
+  const inputA = addReqInfo(input, { errorReason });
+  return inputA;
+};
+
+const emitReqEvent = async function ({ input, input: { reqInfo, runOpts } }) {
+  const level = getLevel({ input });
+
+  await emitEvent({ reqInfo, type: 'call', phase: 'request', level, runOpts });
 };
 
 const getLevel = function ({
@@ -29,14 +32,6 @@ const getLevel = function ({
 }) {
   const status = errorStatus || normalStatus || 'SERVER_ERROR';
   return STATUS_LEVEL_MAP[status] || 'error';
-};
-
-const getReqInfo = function ({ input, input: { reqInfo, error } }) {
-  if (!error) { return reqInfo; }
-
-  const errorReason = getReason({ error });
-  const { reqInfo: reqInfoA } = addReqInfo(input, { errorReason });
-  return reqInfoA;
 };
 
 module.exports = {

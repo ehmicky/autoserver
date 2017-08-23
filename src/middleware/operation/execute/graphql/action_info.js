@@ -1,19 +1,22 @@
 'use strict';
 
-const { addReqInfo } = require('../../events');
+const { addReqInfo } = require('../../../../events');
+const { assignObject } = require('../../../../utilities');
 
 // Add action-related output information
-const addActionOutputInfo = function (input) {
-  const { args } = input;
-  const infoActions = getInfoActions({ input, args });
-  addReqInfo(input, { actions: infoActions });
-
-  return input;
+const addActionOutputInfo = function ({ input, responses }) {
+  const actions = responses
+    .map(getInfoActions)
+    .reduce(assignObject, {});
+  const inputA = addReqInfo(input, { actions });
+  return inputA;
 };
 
 // Formatted actions information, for events
 const getInfoActions = function ({
-  input: { fullAction, modelName, response: { data } },
+  fullAction,
+  modelName,
+  response: { data },
   args,
 }) {
   const infoData = Array.isArray(data) ? data : [data];
