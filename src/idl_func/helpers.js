@@ -7,8 +7,8 @@ const { mapValues } = require('../utilities');
 const getHelpers = function ({ idl: { helpers = {} } }) {
   const varsRef = {};
 
-  const helpersA = mapValues(helpers, ({ value: helper, useParams }) =>
-    getHelper({ helper, useParams, varsRef })
+  const helpersA = mapValues(helpers, ({ value: helper, useVars }) =>
+    getHelper({ helper, useVars, varsRef })
   );
 
   return { varsRef, helpers: helpersA };
@@ -17,16 +17,16 @@ const getHelpers = function ({ idl: { helpers = {} } }) {
 const getHelper = function ({
   helper,
   helper: { inlineFunc },
-  useParams,
+  useVars,
   varsRef,
 }) {
   // Constants are left as is
   const isConstant = typeof helper !== 'function';
   if (isConstant) { return helper; }
 
-  // Non-inline helpers with `useParams` false only get
-  // positional arguments, no parameters
-  if (!inlineFunc && !useParams) { return helper; }
+  // Non-inline helpers with `useVars` false only get
+  // positional arguments, no variables
+  if (!inlineFunc && !useVars) { return helper; }
 
   const helperA = runHelper.bind(null, { helper, varsRef });
 
@@ -37,24 +37,24 @@ const getHelper = function ({
   return helperA;
 };
 
-// Inline function, or non-inline with `useParams` true
+// Inline function, or non-inline with `useVars` true
 // When consumer fires Helper('a', 'b'), inline function translates 'a' and 'b'
-// into $1 and $2 parameters, and runIdlFunc() is performed.
+// into $1 and $2 variables, and runIdlFunc() is performed.
 const runHelper = function ({ helper, varsRef }, ...args) {
   const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-  const posParams = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+  const posVars = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-  return helper({ ...varsRef.params, ...posParams }, ...args);
+  return helper({ ...varsRef.vars, ...posVars }, ...args);
 };
 
-// Pass IDL function parameters to helpers
-// I.e. helpers have same parameters as their caller
+// Pass IDL function variables to helpers
+// I.e. helpers have same variables as their caller
 // We use a `varsRef` object reference so that all helpers share the same
 // information, and can call each other.
 // We directly mutate it as a performance optimization.
 const bindHelpers = function ({ varsRef, vars }) {
   // eslint-disable-next-line fp/no-mutation, no-param-reassign
-  varsRef.params = vars;
+  varsRef.vars = vars;
 };
 
 module.exports = {

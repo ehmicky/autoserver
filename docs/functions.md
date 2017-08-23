@@ -81,11 +81,11 @@ object. Each object is a map of IDL function helpers, with:
   - the key being the helper's name
   - the value being either the helper's value, of an object with properties:
     - `value` `{function}`
-    - `useParams` `{boolean}` (default: `false`): pass other IDL function
+    - `useVars` `{boolean}` (default: `false`): pass other IDL function
       variables as first argument to helper function
 
 They can use the same IDL function variables as the function that calls them.
-If the helper is external function, the IDL option `useParams` must be used to
+If the helper is external function, the IDL option `useVars` must be used to
 pass the IDL function variables as first argument.
 
 Inline functions can also use positional arguments, passed as IDL function
@@ -105,7 +105,7 @@ helpers:
     myOtherMathFunc:
       value:
         $ref: math_func.js
-      useParams: true
+      useVars: true
   - $ref: lodash
   - $ref: constants.json
 ```

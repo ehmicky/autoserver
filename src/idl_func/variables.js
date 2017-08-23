@@ -29,10 +29,10 @@ const getVars = function ({
 
 // Retrieve IDL functions variables names
 const getVarsKeys = function ({ idl: { helpers = {} } }) {
-  return [...PARAMS_KEYS, ...Object.keys(helpers)];
+  return [...VARS_KEYS, ...Object.keys(helpers)];
 };
 
-const PARAMS_KEYS = [
+const VARS_KEYS = [
   '$PROTOCOL',
   '$NOW',
   '$REQUEST_ID',
