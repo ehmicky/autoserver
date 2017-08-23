@@ -20,7 +20,7 @@ const fireLayers = async function (middleware, input) {
 
     await fireLayer([final], 0, inputA);
   } catch (error) {
-    const inputA = getErrorInput(error);
+    const inputA = getErrorInput({ error });
 
     await fireLayer([final], 0, inputA);
 
