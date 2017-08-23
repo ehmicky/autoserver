@@ -6,7 +6,7 @@ const { rethrowError } = require('../error');
 const {
   addLayersErrorsHandlers,
   getErrorInput,
-  throwMiddlewareError,
+  addMiddlewareHandler,
 } = require('./error');
 
 // Transforms a series of functions into a middleware pipeline.
@@ -34,7 +34,7 @@ const eFireLayers = addLayersErrorsHandlers(fireLayers);
 const fireLayer = function (layers, lIndex, input) {
   // Each layer can fire the next layer middleware functions by calling this
   const nextLayer = fireLayer.bind(null, layers, lIndex + 1);
-  const fireMiddlewareA = fireMiddleware.bind(null, nextLayer);
+  const fireMiddlewareA = eFireMiddleware.bind(null, nextLayer);
 
   // Iterate over each middleware function
   return reduceAsync(layers[lIndex], fireMiddlewareA, input);
@@ -42,20 +42,10 @@ const fireLayer = function (layers, lIndex, input) {
 
 // Fire a specific middleware function
 const fireMiddleware = function (nextLayer, input, mFunc) {
-  try {
-    const maybePromise = mFunc(input, nextLayer);
-
-    // Middleware functions can be sync or async
-    // We want to avoid async|await in order not to create promises
-    // when the middleware is sync, for performance reason
-    // eslint-disable-next-line promise/prefer-await-to-then
-    return typeof maybePromise.then === 'function'
-      ? maybePromise.catch(error => throwMiddlewareError(input, error))
-      : maybePromise;
-  } catch (error) {
-    throwMiddlewareError(input, error);
-  }
+  return mFunc(input, nextLayer);
 };
+
+const eFireMiddleware = addMiddlewareHandler.bind(null, fireMiddleware);
 
 module.exports = {
   fireLayers: eFireLayers,
