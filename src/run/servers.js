@@ -3,7 +3,7 @@
 const { assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
-const { emitEvent, addReqInfo } = require('../events');
+const { emitEvent } = require('../events');
 const { monitor } = require('../perf');
 const { createIfv, addOnlyIfv, compileIdlFuncs } = require('../idl_func');
 
@@ -80,12 +80,10 @@ const startServer = async function (
 
 const addProtocol = function ({ protocol, baseInput }) {
   const protocolHandler = protocolHandlers[protocol];
-  const baseInputA = { ...baseInput, protocol, protocolHandler };
+  const reqInfo = { ...baseInput.reqInfo, protocol };
+  const ifv = addOnlyIfv(baseInput.ifv, { $PROTOCOL: protocol });
 
-  const ifv = addOnlyIfv(baseInputA.ifv, { $PROTOCOL: protocol });
-  const baseInputB = { ...baseInputA, ifv };
-  const baseInputC = addReqInfo(baseInputB, { protocol });
-  return baseInputC;
+  return { ...baseInput, protocol, protocolHandler, reqInfo, ifv };
 };
 
 const fireHandleRequest = function ({ middleware, baseInput }, specific) {
