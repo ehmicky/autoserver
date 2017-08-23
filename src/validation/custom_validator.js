@@ -1,6 +1,6 @@
 'use strict';
 
-const { addIfv, runIdlFunc } = require('../idl_func');
+const { runIdlFunc } = require('../idl_func');
 const { memoize } = require('../utilities');
 const { throwError } = require('../error');
 
@@ -39,18 +39,17 @@ const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
         __,
         parent,
         attrName,
-        { [Symbol.for('extra')]: { ifv, input } }
+        { [Symbol.for('extra')]: input }
       ) {
         const params = { $EXPECTED: expected, $$: parent, $: value };
-        const ifvA = addIfv(ifv, params);
 
-        const isValid = runIdlFunc({ ifv: ifvA, idlFunc: testFunc, input });
+        const isValid = runIdlFunc({ idlFunc: testFunc, input, params });
         if (isValid === true) { return true; }
 
-        const errorMessage = runIdlFunc({ ifv: ifvA, idlFunc: message, input });
+        const messageA = runIdlFunc({ idlFunc: message, input, params });
         // eslint-disable-next-line fp/no-mutation
         validate.errors = [{
-          message: errorMessage,
+          message: messageA,
           keyword,
           params: { expected },
         }];

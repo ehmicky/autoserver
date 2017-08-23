@@ -1,14 +1,13 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
-const { addIfv, runIdlFunc } = require('../../../idl_func');
+const { runIdlFunc } = require('../../../idl_func');
 
 // Performs transformation on data array or single data
 const transformData = function ({
   data,
   idl: { shortcuts },
   modelName,
-  ifv,
   input,
   type,
 }) {
@@ -17,9 +16,9 @@ const transformData = function ({
 
   return Array.isArray(data)
     ? data.map(
-      datum => applyTransforms({ data: datum, transforms, ifv, input, type })
+      datum => applyTransforms({ data: datum, transforms, input, type })
     )
-    : applyTransforms({ data, transforms, ifv, input, type });
+    : applyTransforms({ data, transforms, input, type });
 };
 
 const mapName = {
@@ -29,16 +28,16 @@ const mapName = {
 };
 
 // There can be transform for each attribute
-const applyTransforms = function ({ data, transforms, ifv, input, type }) {
+const applyTransforms = function ({ data, transforms, input, type }) {
   const transformedData = mapValues(
     transforms,
     (transform, attrName) =>
-      applyTransform({ data, attrName, transform, ifv, input, type })
+      applyTransform({ data, attrName, transform, input, type })
   );
   return { ...data, ...transformedData };
 };
 
-const applyTransform = function ({ data, attrName, transform, ifv, input, type }) {
+const applyTransform = function ({ data, attrName, transform, input, type }) {
   const currentVal = data[attrName];
 
   // `transform` (as opposed to `value`) is skipped when there is
@@ -46,8 +45,7 @@ const applyTransform = function ({ data, attrName, transform, ifv, input, type }
   if (type === 'transform' && currentVal == null) { return currentVal; }
 
   const params = getTransformParams({ data, currentVal, type });
-  const ifvA = addIfv(ifv, params);
-  const valueA = runIdlFunc({ ifv: ifvA, idlFunc: transform, input });
+  const valueA = runIdlFunc({ idlFunc: transform, input, params });
 
   // Returning `null` or `undefined` with `compute` or `value` is a way
   // to ignore that return value.
