@@ -78,7 +78,7 @@ const fireNext = async function ({ nextLayer, input, responses }, actionInput) {
   const inputB = await nextLayer(inputA);
 
   // eslint-disable-next-line fp/no-mutating-methods
-  responses.push(inputB.response);
+  responses.push(inputB);
 
   return inputB.response;
 };

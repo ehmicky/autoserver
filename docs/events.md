@@ -214,15 +214,26 @@ event payload, with the properties:
              collection)
         - `responsesSize` `{number}` - in bytes
         - `responsesCount` `{number}` - array length, if it is an array
-  - `response` `{object}`:
-     - `content` `{string}` - full response raw content
-     - `type` `{string}` - among `'model'`, `'collection'`, `'error'`,
-       `'object'`, `'html'`, `'text'`
+  - `action_path` `{string}` - [action](terminology.md#action) full path,
+    e.g. `'findModel.findSubmodel'`
+  - `action` `${string}` - current [action](terminology.md#action),
+    among `'find'`, `'update'`, `'delete'`, `'create'`, `'replace'`
+    and `'upsert'`.
+  - `command` `${string}` - current [command](terminology.md#command),
+    among `'create'`, `'read'`, `'update'`, `'upsert'` and `'delete'`.
+  - `model` `${string}` - current [model](terminology.md#model) name
+  - `args` `${object}` - current action's [arguments](terminology.md#args)
+  - `responseType` `{string}` - among `'model'`, `'collection'`, `'error'`,
+    `'object'`, `'html'`, `'text'`
+  - `response` `{string}` - full response raw content
   - `responseSize` `{number}` - in bytes
   - `responseCount` `{number}` - array length, if it is an array
   - `error` `{string}` - error type, if there was an error
 
-The `...Size` attributes are not set if the related value is undefined, and set
+The properties `action_path`, `action`, `command`, `model` and `args` are only
+set if the request failed while performing an action or command.
+
+The `...Size` properties are not set if the related value is undefined, and set
 to `unknown` if the value is not JSON.
 
 Each of those fields is optional, i.e. might not be present under some

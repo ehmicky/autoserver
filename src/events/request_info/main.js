@@ -1,6 +1,5 @@
 'use strict';
 
-const { removeKeys } = require('./exclude');
 const { renameKeys } = require('./rename');
 const { reduceInput } = require('./input');
 const { reduceAllModels } = require('./models');
@@ -28,7 +27,6 @@ const getRequestObject = function ({
 };
 
 const processors = [
-  removeKeys,
   renameKeys,
   reduceInput,
   reduceAllModels,

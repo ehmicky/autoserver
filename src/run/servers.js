@@ -88,7 +88,7 @@ const addProtocol = function ({ protocol, baseInput }) {
 };
 
 const fireHandleRequest = function ({ middleware, baseInput }, specific) {
-  middleware({ ...baseInput, reqInfo: {}, specific });
+  middleware({ ...baseInput, specific });
 };
 
 const startEvent = async function ({

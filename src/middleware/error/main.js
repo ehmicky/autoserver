@@ -38,8 +38,8 @@ const getErrorInput = function ({ error, error: { input = {} } }) {
   return { ...input, error: errorA };
 };
 
-const throwMiddlewareError = function (error, input) {
-  if (!error.input) {
+const throwMiddlewareError = function (error, input, { force = false }) {
+  if (!error.input || force) {
     // Must directly assign to error, because { ...error } does not work
     // eslint-disable-next-line fp/no-mutating-assign
     Object.assign(error, { input });
@@ -68,6 +68,7 @@ const addMiddlewareHandler = function (func, nextLayer, ...args) {
 
 module.exports = {
   addLayersErrorsHandlers,
-  getErrorInput,
   addMiddlewareHandler,
+  getErrorInput,
+  throwMiddlewareError,
 };

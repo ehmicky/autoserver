@@ -12,10 +12,10 @@ const setResponseTime = function (input) {
 
   const responseTime = getResponseTime({ respPerf });
 
-  addReqInfo(input, { responseTime });
-  sendHeaders({ input, responseTime });
+  const inputA = addReqInfo(input, { responseTime });
+  sendHeaders({ input: inputA, responseTime });
 
-  return { ...input, response: responseB };
+  return { ...inputA, response: responseB };
 };
 
 const getResponseTime = function ({ respPerf }) {

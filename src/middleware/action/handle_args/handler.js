@@ -1,7 +1,7 @@
 'use strict';
 
 const { addIfv } = require('../../../idl_func');
-const { addReqInfoIfError } = require('../../../events');
+const { addReqInfo } = require('../../../events');
 
 const { validateBasic } = require('./validate_basic');
 const { validateSyntax } = require('./syntax');
@@ -15,16 +15,15 @@ const handleArgs = function (input) {
   const { args } = input;
 
   const inputA = addIfv(input, { $ARGS: args });
+  const inputB = addReqInfo(inputA, { args });
 
-  validateArgs({ input: inputA });
+  validateArgs({ input: inputB });
 
   const argsB = renameArgs({ args });
-  const inputB = { ...inputA, args: argsB };
+  const inputC = { ...inputB, args: argsB };
 
-  return inputB;
+  return inputC;
 };
-
-const eHandleArgs = addReqInfoIfError(handleArgs, ['args']);
 
 const validateArgs = function ({
   input: { args, action, runOpts: { maxDataLength }, idl },
@@ -35,5 +34,5 @@ const validateArgs = function ({
 };
 
 module.exports = {
-  handleArgs: eHandleArgs,
+  handleArgs,
 };
