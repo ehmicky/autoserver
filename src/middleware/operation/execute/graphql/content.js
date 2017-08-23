@@ -30,7 +30,7 @@ const getContent = async function ({
       variables,
       operationName,
     });
-    return [content];
+    return content;
   }
 
   // Normal GraphQL query
