@@ -36,8 +36,6 @@ const middleware = [
     protocol.protocolValidation,
     // Set protocol full name
     protocol.getProtocolName,
-    // Retrieves timestamp
-    protocol.getTimestamp,
     // Sets requestId, serverId, serverName
     protocol.setRequestIds,
     // Retrieves IP

@@ -4,7 +4,6 @@ module.exports = {
   ...require('./main_perf'),
   ...require('./validation'),
   ...require('./name'),
-  ...require('./timestamp'),
   ...require('./request_id'),
   ...require('./ip'),
   ...require('./url'),

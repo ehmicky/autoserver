@@ -2,9 +2,12 @@
 
 const { emitPerfEvent } = require('../../perf');
 
-const perfEvent = async function (input) {
-  const { error, response: { respPerf, measures }, runOpts } = input;
-
+const perfEvent = async function ({
+  error,
+  response: { respPerf, measures },
+  runOpts,
+  input,
+}) {
    // Do not report if exception was thrown
   if (error) { return; }
 
