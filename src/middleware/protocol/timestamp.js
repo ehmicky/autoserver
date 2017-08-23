@@ -5,7 +5,6 @@ const getTimestamp = function ({ now }) {
 
   return {
     timestamp,
-    reqInfo: { timestamp },
     ifvParams: { $NOW: timestamp },
   };
 };

@@ -7,7 +7,6 @@ const operationNegotiator = function ({ route }) {
 
   return {
     operation,
-    reqInfo: { operation },
     ifvParams: { $OPERATION: operation },
   };
 };

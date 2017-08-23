@@ -8,11 +8,7 @@ const router = function ({ path, goal }) {
 
   const pathVars = getPathVars({ path, route });
 
-  return {
-    route: route.name,
-    pathVars,
-    reqInfo: { route: route.name, pathVars },
-  };
+  return { route: route.name, pathVars };
 };
 
 module.exports = {

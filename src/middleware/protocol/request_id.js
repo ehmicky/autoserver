@@ -19,7 +19,6 @@ const setRequestIds = function ({ specific, protocolHandler, runOpts }) {
 
   return {
     requestId,
-    reqInfo: { requestId },
     ifvParams: { $REQUEST_ID: requestId },
   };
 };

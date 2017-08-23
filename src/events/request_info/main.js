@@ -1,6 +1,6 @@
 'use strict';
 
-const { renameKeys } = require('./rename');
+const { buildRequestInfo } = require('./builder');
 const { reduceInput } = require('./input');
 const { reduceAllModels } = require('./models');
 const { trimErrorInfo } = require('./error_info');
@@ -8,26 +8,26 @@ const { trimErrorInfo } = require('./error_info');
 // Builds `requestInfo` object, which contains request-related information.
 // Also rename `errorReason` to `error`.
 // Also remove redundant information between `errorInfo` and `requestInfo`
-const getRequestInfo = function ({ reqInfo, phase, runOpts, errorInfo }) {
+const getRequestInfo = function ({ input, phase, runOpts, errorInfo }) {
   if (phase !== 'request') { return { errorInfo }; }
 
-  const requestInfo = getRequestObject({ reqInfo, runOpts });
+  const requestInfo = getRequestObject({ input, runOpts });
   const errorInfoA = trimErrorInfo({ errorInfo });
   return { requestInfo, errorInfo: errorInfoA };
 };
 
 const getRequestObject = function ({
-  reqInfo = {},
+  input,
   runOpts: { eventFilter },
 }) {
+  const requestInfo = buildRequestInfo(input);
   return processors.reduce(
-    (requestInfo, processor) => processor(requestInfo, eventFilter),
-    reqInfo,
+    (requestInfoA, processor) => processor(requestInfoA, eventFilter),
+    requestInfo,
   );
 };
 
 const processors = [
-  renameKeys,
   reduceInput,
   reduceAllModels,
 ];

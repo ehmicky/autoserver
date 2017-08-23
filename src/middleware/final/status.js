@@ -3,12 +3,7 @@
 const { throwError } = require('../../error');
 
 // Retrieve response's status
-const getStatus = function (input) {
-  const statuses = getStatuses({ input });
-  return { ...statuses, reqInfo: { ...statuses } };
-};
-
-const getStatuses = function ({ input: { protocolHandler, error } }) {
+const getStatus = function ({ protocolHandler, error }) {
   // Protocol-specific status, e.g. HTTP status code
   const protocolStatus = protocolHandler.getProtocolStatus({ error });
   // Protocol-agnostic status

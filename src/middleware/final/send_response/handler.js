@@ -6,16 +6,17 @@ const { sender } = require('./sender');
 const transformMap = require('./transform');
 
 // Sends the response at the end of the request
-const sendResponse = function ({
-  reqInfo,
-  error,
-  response,
-  operation,
-  specific,
-  protocolHandler,
-  protocolStatus,
-}) {
-  const responseA = getErrorResponse({ reqInfo, error, response, operation });
+const sendResponse = function (input) {
+  const {
+    error,
+    response,
+    operation,
+    specific,
+    protocolHandler,
+    protocolStatus,
+  } = input;
+
+  const responseA = getErrorResponse({ input, error, response, operation });
 
   sender({ specific, protocolHandler, protocolStatus, response: responseA });
 
@@ -23,10 +24,10 @@ const sendResponse = function ({
 };
 
 // Use protocol-specific way to send back the response to the client
-const getErrorResponse = function ({ reqInfo, error, response, operation }) {
+const getErrorResponse = function ({ input, error, response, operation }) {
   if (!error) { return response; }
 
-  const errorA = getStandardError({ error, reqInfo });
+  const errorA = getStandardError({ error, input });
   const responseA = createErrorResponse({ operation, error: errorA });
   return responseA;
 };

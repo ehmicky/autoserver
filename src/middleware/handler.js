@@ -14,10 +14,6 @@ const middleware = [
   [
     // Sets response status
     final.getStatus,
-    // Add `reqInfo` for response
-    final.addResponseInfo,
-    // Add `errorReason` in `reqInfo`
-    final.addErrorReason,
     // Sends final response, if success
     final.sendResponse,
     // Emit "call" events

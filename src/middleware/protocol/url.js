@@ -12,7 +12,7 @@ const parseUrl = function ({ protocolHandler, specific }) {
   const path = getPath({ specific, protocolHandler });
   const url = `${origin}${path}`;
 
-  return { url, path, origin, reqInfo: { url, path, origin } };
+  return { url, path, origin };
 };
 
 const getOrigin = function ({ specific, protocolHandler }) {

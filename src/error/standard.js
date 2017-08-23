@@ -7,7 +7,7 @@ const { normalizeError } = require('./main');
 
 // Gets normalized error information
 const getStandardError = function ({
-  reqInfo: {
+  input: {
     url: instance,
     status = 'SERVER_ERROR',
     protocolStatus,
@@ -16,11 +16,11 @@ const getStandardError = function ({
     headers,
     queryVars,
     operation,
-    action,
-    actionPath,
-    model,
+    action: { name: action } = {},
+    fullAction,
+    modelName: model,
     args,
-    command,
+    command: { name: command } = {},
     requestId,
   } = {},
   error,
@@ -49,7 +49,7 @@ const getStandardError = function ({
     queryVars,
     operation,
     action,
-    action_path: actionPath,
+    action_path: fullAction,
     model,
     args,
     command,

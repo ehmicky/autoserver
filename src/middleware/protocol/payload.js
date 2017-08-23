@@ -7,20 +7,8 @@ const { reduceAsync } = require('../../utilities');
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by operation layer, e.g. to populate `input.args`
-const parsePayload = async function ({ specific, protocolHandler }) {
-  const payload = await getPayload({ specific, protocolHandler });
-
-  return { payload, reqInfo: { payload } };
-};
-
 // Returns an request payload
-//
-// @param {object} options
-// @param {Request} options.req
-// @returns {any} value - type differs according to Content-Type,
-//                        e.g. application/json is object but
-//                        text/plain is string
-const getPayload = async function ({ specific, protocolHandler }) {
+const parsePayload = async function ({ specific, protocolHandler }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
   const parse = protocolHandler.parsePayload;
@@ -35,7 +23,7 @@ const getPayload = async function ({ specific, protocolHandler }) {
 
   const payloadB = validatePayload({ payload, specific, protocolHandler });
 
-  return payloadB;
+  return { payload: payloadB };
 };
 
 // There is a payload, but it could not be read

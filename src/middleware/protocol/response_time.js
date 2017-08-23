@@ -19,7 +19,7 @@ const setResponseTime = function ({
 
   return {
     response: { ...response, respPerf },
-    reqInfo: { responseTime },
+    responseTime,
   };
 };
 

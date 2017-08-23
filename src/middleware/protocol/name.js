@@ -10,7 +10,7 @@ const getProtocolName = function ({ specific, protocolHandler }) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  return { protocolFullName, reqInfo: { protocolFullName } };
+  return { protocolFullName };
 };
 
 module.exports = {

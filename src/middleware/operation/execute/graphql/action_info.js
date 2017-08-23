@@ -4,10 +4,10 @@ const { assignObject } = require('../../../../utilities');
 
 // Add action-related output information
 const getActionOutputInfo = function ({ responses }) {
-  const actions = responses
+  const actionsInfo = responses
     .map(getInfoActions)
     .reduce(assignObject, {});
-  return { reqInfo: { actions } };
+  return { actionsInfo };
 };
 
 // Formatted actions information, for events

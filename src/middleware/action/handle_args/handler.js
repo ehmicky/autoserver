@@ -15,7 +15,6 @@ const handleArgs = function ({ args, action, runOpts, idl }) {
 
   return {
     args: argsB,
-    reqInfo: { args },
     ifvParams: { $ARGS: args },
   };
 };
