@@ -22,32 +22,37 @@ const errorHandledFunc = async function (func, handler, ...args) {
 
 // Fire request error handlers
 const fireErrorHandler = async function (handler, errorA) {
-  const input = getErrorInput(errorA);
+  const input = getErrorInput({ error: errorA });
 
   try {
     await handler(input);
   // Request error handlers might fail themselves
   } catch (error) {
-    // Must directly assign to error, because { ...error } does not work
-    // eslint-disable-next-line fp/no-mutating-assign
-    Object.assign(error, { input });
-
-    rethrowError(error);
+    throwMiddlewareError(error, input);
   }
 };
 
 // Extract `input` from `error.input`
-const getErrorInput = function (error) {
-  const input = error && error.input;
+const getErrorInput = function ({ error, error: { input = {} } }) {
   const errorA = normalizeError({ error });
   return { ...input, error: errorA };
 };
 
+const throwMiddlewareError = function (error, input) {
+  if (!error.input) {
+    // Must directly assign to error, because { ...error } does not work
+    // eslint-disable-next-line fp/no-mutating-assign
+    Object.assign(error, { input });
+  }
+
+  rethrowError(error);
+};
+
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `input` as information by setting `error.input`
-const addMiddlewareHandler = function (func, ...args) {
+const addMiddlewareHandler = function (func, nextLayer, ...args) {
   try {
-    const maybePromise = func(...args);
+    const maybePromise = func(nextLayer, ...args);
 
     // Middleware functions can be sync or async
     // We want to avoid async|await in order not to create promises
@@ -59,16 +64,6 @@ const addMiddlewareHandler = function (func, ...args) {
   } catch (error) {
     throwMiddlewareError(error, ...args);
   }
-};
-
-const throwMiddlewareError = function (error, nextLayer, input) {
-  if (!error.input) {
-    // Must directly assign to error, because { ...error } does not work
-    // eslint-disable-next-line fp/no-mutating-assign
-    Object.assign(error, { input });
-  }
-
-  rethrowError(error);
 };
 
 module.exports = {
