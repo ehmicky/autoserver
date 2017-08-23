@@ -5,16 +5,16 @@ const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
 const { emitEvent } = require('../events');
 const { monitor } = require('../perf');
-const { createIfv, addIfv, compileIdlFuncs } = require('../idl_func');
+const { getHelpers, compileIdlFuncs } = require('../idl_func');
 
 // Start each server
 const startServers = async function ({ runOpts, runOpts: { idl } }) {
   const [idlA, compileIdlFuncsMeasure] = await mCompileIdlFuncs({ idl });
-  const [ifv, createIfvMeasure] = await mCreateIfv({ idl: idlA });
+  const [helpers, getHelpersMeasure] = await mGetHelpers({ idl: idlA });
 
   // This callback must be called by each server
   const middleware = await getMiddleware();
-  const baseInput = { idl: idlA, runOpts, ...ifv };
+  const baseInput = { idl: idlA, runOpts, ...helpers };
 
   const [servers, serverMeasures] = await startEachServer({
     runOpts,
@@ -24,7 +24,7 @@ const startServers = async function ({ runOpts, runOpts: { idl } }) {
 
   const measures = [
     compileIdlFuncsMeasure,
-    createIfvMeasure,
+    getHelpersMeasure,
     ...serverMeasures,
   ];
 
@@ -33,7 +33,7 @@ const startServers = async function ({ runOpts, runOpts: { idl } }) {
 
 const mCompileIdlFuncs = monitor(compileIdlFuncs, 'compileIdlFuncs', 'server');
 
-const mCreateIfv = monitor(createIfv, 'createIfv', 'server');
+const mGetHelpers = monitor(getHelpers, 'getHelpers', 'server');
 
 const startEachServer = async function (options) {
   const serverInfosPromises = protocols
@@ -59,13 +59,13 @@ const startServer = async function (
   protocol,
   { runOpts, middleware, baseInput },
 ) {
-  const baseInputA = addProtocol({ protocol, baseInput });
+  const protocolHandler = protocolHandlers[protocol];
+  const baseInputA = { ...baseInput, protocol, protocolHandler };
   const handleRequest = fireHandleRequest.bind(
     null,
     { middleware, baseInput: baseInputA },
   );
 
-  const protocolHandler = protocolHandlers[protocol];
   const opts = runOpts[protocol.toLowerCase()];
   const serverInfo = await protocolHandler.startServer({
     opts,
@@ -76,13 +76,6 @@ const startServer = async function (
   await startEvent({ serverInfo, protocol, runOpts });
 
   return { ...serverInfo, protocol };
-};
-
-const addProtocol = function ({ protocol, baseInput }) {
-  const protocolHandler = protocolHandlers[protocol];
-  const ifv = addIfv(baseInput.ifv, { $PROTOCOL: protocol });
-
-  return { ...baseInput, protocol, protocolHandler, ifv };
 };
 
 const fireHandleRequest = function ({ middleware, baseInput }, specific) {

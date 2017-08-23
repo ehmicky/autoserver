@@ -3,13 +3,13 @@
 const { addErrorHandler } = require('../error');
 const { setAll } = require('../utilities');
 
-const { getParamsKeys } = require('./params');
+const { getVarsKeys } = require('./variables');
 const { isInlineFunc, isEscapedInlineFunc } = require('./test');
 const { getInlineFunc } = require('./tokenize');
 
 // Compile all IDL functions, i.e. apply `new Function()`
 const compileIdlFuncs = function ({ idl, idl: { inlineFuncPaths } }) {
-  const paramsKeys = getParamsKeys({ idl });
+  const paramsKeys = getVarsKeys({ idl });
 
   return setAll(
     idl,

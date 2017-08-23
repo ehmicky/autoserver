@@ -84,8 +84,6 @@ const middleware = [
 
   // Action layer
   [
-    // Add action-related input information
-    action.addActionInputInfo,
     // Action-related validation middleware
     action.actionValidation,
     // Process client arguments
@@ -102,8 +100,6 @@ const middleware = [
   [
     // Normalize empty values (undefined, null) by removing their key
     command.normalizeEmpty,
-    // Add command-related information
-    command.addCommandInfoIn,
     // Command-related validation middleware
     command.commandValidation,
     // Normalize input

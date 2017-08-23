@@ -28,8 +28,8 @@ const applyDefault = function ({ parent, defValue, attrName, input }) {
   if (value != null) { return parent; }
 
   // Process inline functions if default value contains any
-  const params = { $$: parent, $: value };
-  const defValueA = runIdlFunc({ idlFunc: defValue, input, params });
+  const vars = { $$: parent, $: value };
+  const defValueA = runIdlFunc({ idlFunc: defValue, input, vars });
 
   if (defValueA == null) {
     return omit(parent, attrName);

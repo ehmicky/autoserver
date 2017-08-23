@@ -21,15 +21,12 @@ const parseParams = function (input) {
   return addType({ input, type: params });
 };
 
-const addType = function ({ input, type, type: { idlFuncName, genericName } }) {
+const addType = function ({ input, type, type: { genericName } }) {
   const values = getValues({ input, type });
   const valuesA = transformValues({ values });
   const valuesB = validateValues({ values: valuesA, type });
 
-  return {
-    [genericName]: valuesB,
-    ifvParams: { [idlFuncName]: valuesB },
-  };
+  return { [genericName]: valuesB };
 };
 
 module.exports = {

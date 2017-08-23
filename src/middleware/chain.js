@@ -1,7 +1,6 @@
 'use strict';
 
 const { reduceAsync } = require('../utilities');
-const { addIfv } = require('../idl_func');
 
 const {
   addLayersErrorsHandlers,
@@ -49,14 +48,7 @@ const fireMiddleware = function (nextLayer, input, mFunc) {
 // We merge the return value of each middleware (`input`)
 // with the current input (`inputA`)
 const mergeInput = function (input, inputA = {}) {
-  const ifv = getIfv(input, inputA);
-  return { ...input, ...inputA, ifv };
-};
-
-const getIfv = function ({ ifv }, { ifvParams: ifvA, ifv: ifvB }) {
-  if (ifvB) { return ifvB; }
-  if (!ifvA) { return ifv; }
-  return addIfv(ifv, ifvA);
+  return { ...input, ...inputA };
 };
 
 const eFireMiddleware = addMiddlewareHandler.bind(null, fireMiddleware);
