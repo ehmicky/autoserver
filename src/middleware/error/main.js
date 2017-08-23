@@ -58,7 +58,7 @@ const addMiddlewareHandler = function (func, nextLayer, ...args) {
     // We want to avoid async|await in order not to create promises
     // when the middleware is sync, for performance reason
     // eslint-disable-next-line promise/prefer-await-to-then
-    return typeof maybePromise.then === 'function'
+    return maybePromise && typeof maybePromise.then === 'function'
       ? maybePromise.catch(error => throwMiddlewareError(error, ...args))
       : maybePromise;
   } catch (error) {
