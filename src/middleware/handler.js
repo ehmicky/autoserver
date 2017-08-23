@@ -2,6 +2,7 @@
 
 const { fireLayers } = require('./chain');
 const final = require('./final');
+const { setRequestTimeout } = require('./timeout');
 const protocol = require('./protocol');
 const operation = require('./operation');
 const action = require('./action');
@@ -21,14 +22,18 @@ const middleware = [
     final.perfEvent,
   ],
 
+  // Timeout layer
+  [
+    // Abort request after a certain delay
+    setRequestTimeout,
+  ],
+
   // Protocol layer
   [
     // Start the main performance counter
     protocol.startMainPerf,
     // Protocol-related validation middleware
     protocol.protocolValidation,
-    // Abort request after a certain delay
-    protocol.setRequestTimeout,
     // Set protocol full name
     protocol.getProtocolName,
     // Retrieves timestamp

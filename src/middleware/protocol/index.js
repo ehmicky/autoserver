@@ -3,7 +3,6 @@
 module.exports = {
   ...require('./main_perf'),
   ...require('./validation'),
-  ...require('./timeout'),
   ...require('./name'),
   ...require('./timestamp'),
   ...require('./request_id'),
