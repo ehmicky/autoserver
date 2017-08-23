@@ -19,15 +19,7 @@ const addOnlyIfv = function (ifv, params) {
   return { ...ifv, params: { ...paramsA, ...paramsB } };
 };
 
-// Helper function aroung addOnlyIfv()
-const addIfv = function (obj, params) {
-  const { ifv } = obj;
-  const ifvA = addOnlyIfv(ifv, params);
-  return { ...obj, ifv: ifvA };
-};
-
 module.exports = {
   createIfv,
   addOnlyIfv,
-  addIfv,
 };
