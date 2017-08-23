@@ -3,16 +3,12 @@
 const { transformData } = require('./transformer');
 
 // Handles `attr.compute`
-const handleComputes = function ({
-  response,
-  response: { data },
-  idl,
-  modelName,
-  ifv,
-}) {
+const handleComputes = function (input) {
+  const { response, response: { data }, idl, modelName, ifv } = input;
+
   if (!data) { return; }
 
-  const dataA = transformData({ data, idl, modelName, ifv, type: 'compute' });
+  const dataA = transformData({ data, idl, modelName, ifv, input, type: 'compute' });
 
   const responseA = { ...response, data: dataA };
   return { response: responseA };

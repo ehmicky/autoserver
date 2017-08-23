@@ -21,7 +21,7 @@ const applyAllDefault = function (opts) {
 };
 
 // Apply default value to args.data's attributes
-const applyDefault = function ({ parent, defValue, attrName, ifv }) {
+const applyDefault = function ({ parent, defValue, attrName, ifv, input }) {
   const value = parent[attrName];
 
   // Only apply default if value is not empty
@@ -30,7 +30,7 @@ const applyDefault = function ({ parent, defValue, attrName, ifv }) {
   // Process inline functions if default value contains any
   const params = { $$: parent, $: value };
   const ifvA = addIfv(ifv, params);
-  const defValueA = runIdlFunc({ ifv: ifvA, idlFunc: defValue });
+  const defValueA = runIdlFunc({ ifv: ifvA, idlFunc: defValue, input });
 
   if (defValueA == null) {
     return omit(parent, attrName);

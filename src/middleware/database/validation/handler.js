@@ -9,12 +9,14 @@ const { getDataValidationSchema } = require('./schema');
 // Check that input filter|newData passes IDL validation
 // E.g. if a model is marked as `required` or `minimum: 10` in IDL file,
 // this will be validated here
-const dataValidation = function ({ args, modelName, command, ifv, idl }) {
+const dataValidation = function (input) {
+  const { args, modelName, command, ifv, idl } = input;
+
   const schema = getDataValidationSchema({ idl, modelName, command });
   const attrs = getAttrs({ args });
 
   Object.entries(attrs).forEach(
-    ([dataVar, attr]) => validateAttr({ idl, dataVar, attr, schema, ifv }),
+    ([dataVar, attr]) => validateAttr({ idl, dataVar, attr, schema, ifv, input }),
   );
 };
 
@@ -26,20 +28,20 @@ const getAttrs = function ({ args }) {
   return { data: args.newData };
 };
 
-const validateAttr = function ({ idl, dataVar, attr, schema, ifv }) {
+const validateAttr = function ({ idl, dataVar, attr, schema, ifv, input }) {
   const attrArray = Array.isArray(attr) ? attr : [attr];
 
   return attrArray.forEach(
-    data => validateSingleAttr({ idl, dataVar, schema, ifv, data }),
+    data => validateSingleAttr({ idl, dataVar, schema, ifv, input, data }),
   );
 };
 
-const validateSingleAttr = function ({ idl, dataVar, schema, ifv, data }) {
+const validateSingleAttr = function ({ idl, dataVar, schema, ifv, input, data }) {
   const dataA = removeEmpty(data);
 
   const reportInfo = { type, dataVar };
 
-  validate({ idl, schema, data: dataA, reportInfo, extra: ifv });
+  validate({ idl, schema, data: dataA, reportInfo, extra: { ifv, input } });
 };
 
 const type = 'clientInputData';

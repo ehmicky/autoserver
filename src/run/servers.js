@@ -10,11 +10,11 @@ const { createIfv, addIfv, compileIdlFuncs } = require('../idl_func');
 // Start each server
 const startServers = async function ({ runOpts, runOpts: { idl } }) {
   const [idlA, compileIdlFuncsMeasure] = await mCompileIdlFuncs({ idl });
-  const [{ ifv }, createIfvMeasure] = await mCreateIfv({ idl: idlA });
+  const [ifv, createIfvMeasure] = await mCreateIfv({ idl: idlA });
 
   // This callback must be called by each server
   const middleware = await getMiddleware();
-  const baseInput = { idl: idlA, runOpts, ifv };
+  const baseInput = { idl: idlA, runOpts, ...ifv };
 
   const [servers, serverMeasures] = await startEachServer({
     runOpts,
