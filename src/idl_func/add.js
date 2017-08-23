@@ -13,7 +13,7 @@ const createIfv = function ({ idl: { helpers = {} } }) {
 };
 
 // Add IDL functions variables
-const addOnlyIfv = function (ifv, params) {
+const addIfv = function (ifv, params) {
   const { params: paramsA } = ifv;
   const paramsB = makeImmutable(params);
   return { ...ifv, params: { ...paramsA, ...paramsB } };
@@ -21,5 +21,5 @@ const addOnlyIfv = function (ifv, params) {
 
 module.exports = {
   createIfv,
-  addOnlyIfv,
+  addIfv,
 };

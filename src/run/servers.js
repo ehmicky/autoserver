@@ -5,7 +5,7 @@ const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
 const { emitEvent } = require('../events');
 const { monitor } = require('../perf');
-const { createIfv, addOnlyIfv, compileIdlFuncs } = require('../idl_func');
+const { createIfv, addIfv, compileIdlFuncs } = require('../idl_func');
 
 // Start each server
 const startServers = async function ({ runOpts, runOpts: { idl } }) {
@@ -81,7 +81,7 @@ const startServer = async function (
 const addProtocol = function ({ protocol, baseInput }) {
   const protocolHandler = protocolHandlers[protocol];
   const reqInfo = { ...baseInput.reqInfo, protocol };
-  const ifv = addOnlyIfv(baseInput.ifv, { $PROTOCOL: protocol });
+  const ifv = addIfv(baseInput.ifv, { $PROTOCOL: protocol });
 
   return { ...baseInput, protocol, protocolHandler, reqInfo, ifv };
 };

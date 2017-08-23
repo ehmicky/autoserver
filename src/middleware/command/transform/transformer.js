@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
-const { addOnlyIfv, runIdlFunc } = require('../../../idl_func');
+const { addIfv, runIdlFunc } = require('../../../idl_func');
 
 // Performs transformation on data array or single data
 const transformData = function ({
@@ -45,7 +45,7 @@ const applyTransform = function ({ data, attrName, transform, ifv, type }) {
   if (type === 'transform' && currentVal == null) { return currentVal; }
 
   const params = getTransformParams({ data, currentVal, type });
-  const ifvA = addOnlyIfv(ifv, params);
+  const ifvA = addIfv(ifv, params);
   const valueA = runIdlFunc({ ifv: ifvA, idlFunc: transform });
 
   // Returning `null` or `undefined` with `compute` or `value` is a way
