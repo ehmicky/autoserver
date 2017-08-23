@@ -2,23 +2,24 @@
 
 const { emitPerfEvent } = require('../../perf');
 
-const perfEvent = async function (input) {
+const perfEvent = async function ({
+  error,
+  reqInfo,
+  response: { respPerf, measures },
+  runOpts,
+}) {
   // Do not report if exception was thrown
-  if (input.error) { return input; }
+  if (error) { return; }
 
-  return input;
+  return;
 
   // Total request time, stopped just before the response is sent
-  const { reqInfo, response: { respPerf, measures }, runOpts } = input;
-  const measuresA = [respPerf, ...measures];
   await emitPerfEvent({
     reqInfo,
     phase: 'request',
-    measures: measuresA,
+    measures: [respPerf, ...measures],
     runOpts,
   });
-
-  return input;
 };
 
 module.exports = {

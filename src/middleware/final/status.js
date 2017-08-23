@@ -1,14 +1,11 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { addReqInfo } = require('../../events');
 
 // Retrieve response's status
 const getStatus = function (input) {
   const statuses = getStatuses({ input });
-  const inputA = addReqInfo(input, statuses);
-
-  return { ...inputA, ...statuses };
+  return { ...statuses, reqInfo: { ...statuses } };
 };
 
 const getStatuses = function ({ input: { protocolHandler, error } }) {

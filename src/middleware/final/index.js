@@ -1,8 +1,10 @@
 'use strict';
 
 module.exports = {
-  ...require('./perf_event'),
-  ...require('./call_event'),
-  ...require('./response'),
   ...require('./status'),
+  ...require('./response_info'),
+  ...require('./error_reason'),
+  ...require('./send_response'),
+  ...require('./call_event'),
+  ...require('./perf_event'),
 };

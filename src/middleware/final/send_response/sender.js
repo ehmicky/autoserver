@@ -3,13 +3,11 @@
 const { throwError } = require('../../../error');
 
 // Sends the response at the end of the request
-const sender = async function ({
-  input: {
-    specific,
-    protocolHandler,
-    protocolStatus: status = protocolHandler.failureProtocolStatus,
-    response: { type, content },
-  },
+const sender = function ({
+  specific,
+  protocolHandler,
+  protocolStatus: status = protocolHandler.failureProtocolStatus,
+  response: { type, content },
 }) {
   if (!type) {
     throwError('Server sent an response with no content type', {
@@ -31,47 +29,47 @@ const sender = async function ({
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  await handler({ protocolHandler, specific, content, status });
+  handler({ protocolHandler, specific, content, status });
 };
 
 // Each content type is sent differently
 // TODO: validate content typeof?
 const handlers = {
 
-  async model ({ protocolHandler: { send }, specific, content, status }) {
+  model ({ protocolHandler: { send }, specific, content, status }) {
     const contentType = 'application/x-resource+json';
-    await send.json({ specific, content, contentType, status });
+    send.json({ specific, content, contentType, status });
   },
 
-  async collection ({ protocolHandler: { send }, specific, content, status }) {
+  collection ({ protocolHandler: { send }, specific, content, status }) {
     const contentType = 'application/x-collection+json';
-    await send.json({ specific, content, contentType, status });
+    send.json({ specific, content, contentType, status });
   },
 
-  async error ({ protocolHandler: { send }, specific, content, status }) {
+  error ({ protocolHandler: { send }, specific, content, status }) {
     // See RFC 7807
     // Exception: `status` is only present with HTTP protocol
     const contentType = 'application/problem+json';
-    await send.json({ specific, content, contentType, status });
+    send.json({ specific, content, contentType, status });
   },
 
-  async object ({ protocolHandler: { send }, specific, content, status }) {
-    await send.json({ specific, content, status });
+  object ({ protocolHandler: { send }, specific, content, status }) {
+    send.json({ specific, content, status });
   },
 
-  async html ({ protocolHandler: { send }, specific, content, status }) {
-    await send.html({ specific, content, status });
+  html ({ protocolHandler: { send }, specific, content, status }) {
+    send.html({ specific, content, status });
   },
 
-  async text ({ protocolHandler: { send }, specific, content, status }) {
-    await send.text({ specific, content, status });
+  text ({ protocolHandler: { send }, specific, content, status }) {
+    send.text({ specific, content, status });
   },
 
-  async failure ({
+  failure ({
     protocolHandler: { send, failureProtocolStatus: status },
     specific,
   }) {
-    await send.nothing({ specific, status });
+    send.nothing({ specific, status });
   },
 
 };
