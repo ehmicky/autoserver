@@ -5,10 +5,7 @@ const operationNegotiator = function ({ route }) {
   const [operation] = Object.entries(operations)
     .find(([, testFunc]) => testFunc({ route })) || [];
 
-  return {
-    operation,
-    ifvParams: { $OPERATION: operation },
-  };
+  return { operation };
 };
 
 const operations = {

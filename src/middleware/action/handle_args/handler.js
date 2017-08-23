@@ -11,12 +11,9 @@ const { renameArgs } = require('./rename');
 const handleArgs = function ({ args, action, runOpts, idl }) {
   validateArgs({ args, action, runOpts, idl });
 
-  const argsB = renameArgs({ args });
+  const argsA = renameArgs({ args });
 
-  return {
-    args: argsB,
-    ifvParams: { $ARGS: args },
-  };
+  return { args: argsA };
 };
 
 const validateArgs = function ({

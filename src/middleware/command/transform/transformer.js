@@ -44,8 +44,8 @@ const applyTransform = function ({ data, attrName, transform, input, type }) {
   // no value to transform
   if (type === 'transform' && currentVal == null) { return currentVal; }
 
-  const params = getTransformParams({ data, currentVal, type });
-  const valueA = runIdlFunc({ idlFunc: transform, input, params });
+  const vars = getTransformVars({ data, currentVal, type });
+  const valueA = runIdlFunc({ idlFunc: transform, input, vars });
 
   // Returning `null` or `undefined` with `compute` or `value` is a way
   // to ignore that return value.
@@ -55,7 +55,7 @@ const applyTransform = function ({ data, attrName, transform, input, type }) {
   return valueA;
 };
 
-const getTransformParams = function ({ data, currentVal, type }) {
+const getTransformVars = function ({ data, currentVal, type }) {
   // `compute` cannot use $ in IDL functions, because the model is not persisted
   // `value` cannot use $ in IDL functions, because it does not transform it
   // (as opposed to `transform`) but creates a new value independently of

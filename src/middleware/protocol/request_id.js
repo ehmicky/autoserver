@@ -17,10 +17,7 @@ const setRequestIds = function ({ specific, protocolHandler, runOpts }) {
   sendRequestIdHeader({ specific, requestId, protocolHandler });
   sendServerIdsHeaders({ specific, runOpts, protocolHandler });
 
-  return {
-    requestId,
-    ifvParams: { $REQUEST_ID: requestId },
-  };
+  return { requestId };
 };
 
 // Send e.g. HTTP request header, `X-Request-Id`

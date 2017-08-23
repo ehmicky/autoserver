@@ -3,10 +3,7 @@
 const getTimestamp = function ({ now }) {
   const timestamp = (new Date(now)).toISOString();
 
-  return {
-    timestamp,
-    ifvParams: { $NOW: timestamp },
-  };
+  return { timestamp };
 };
 
 module.exports = {

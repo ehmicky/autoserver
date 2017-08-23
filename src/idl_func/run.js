@@ -2,49 +2,24 @@
 
 const { addErrorHandler } = require('../error');
 
+const { getVars } = require('./variables');
 const { bindHelpers } = require('./helpers');
 
 // Process (already compiled) IDL function, i.e. fires it and returns its value
 const runIdlFunc = function ({
   idlFunc,
   input,
-  input: { paramsRef, helpers },
-  params,
+  input: { varsRef, helpers },
+  vars,
 }) {
   // If this is not IDL function, returns as is
   if (typeof idlFunc !== 'function') { return idlFunc; }
 
-  const ifv = getIfv(input);
-  const paramsA = { ...helpers, ...ifv, ...params };
-  bindHelpers({ paramsRef, params: paramsA });
+  const varsA = getVars(input);
+  const varsB = { ...helpers, ...varsA, ...vars };
+  bindHelpers({ varsRef, vars: varsB });
 
-  return idlFunc(paramsA);
-};
-
-const getIfv = function ({
-  protocol: $PROTOCOL,
-  args: $ARGS,
-  modelName: $MODEL,
-  command: { type: $COMMAND } = {},
-  operation: $OPERATION,
-  ip: $IP,
-  requestId: $REQUEST_ID,
-  settings: $SETTINGS,
-  params: $PARAMS,
-  timestamp: $NOW,
-}) {
-  return {
-    $PROTOCOL,
-    $ARGS,
-    $MODEL,
-    $COMMAND,
-    $OPERATION,
-    $IP,
-    $REQUEST_ID,
-    $SETTINGS,
-    $PARAMS,
-    $NOW,
-  };
+  return idlFunc(varsB);
 };
 
 const eRunIdlFunc = addErrorHandler(runIdlFunc, {
