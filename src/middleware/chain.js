@@ -37,12 +37,19 @@ const fireLayer = function (layers, lIndex, input) {
   const fireMiddlewareA = eFireMiddleware.bind(null, nextLayer);
 
   // Iterate over each middleware function
-  return reduceAsync(layers[lIndex], fireMiddlewareA, input);
+  return reduceAsync(layers[lIndex], fireMiddlewareA, input, mergeInput);
 };
 
 // Fire a specific middleware function
 const fireMiddleware = function (nextLayer, input, mFunc) {
   return mFunc(input, nextLayer);
+};
+
+// We merge the return value of each middleware (`input`)
+// with the current input (`inputA`)
+const mergeInput = function (input, inputA = {}) {
+  const reqInfo = { ...input.reqInfo, ...inputA.reqInfo };
+  return { ...input, ...inputA, reqInfo };
 };
 
 const eFireMiddleware = addMiddlewareHandler.bind(null, fireMiddleware);

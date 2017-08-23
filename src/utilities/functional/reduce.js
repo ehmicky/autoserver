@@ -16,26 +16,36 @@ const assignArray = function (memo, val) {
 };
 
 // Like Array.reduce(), but supports async
-const reduceAsync = function (array, mapperFunc, prevVal) {
-  return asyncReducer(prevVal, { array, mapperFunc });
+// eslint-disable-next-line max-params
+const reduceAsync = function (array, mapFunc, prevVal, secondMapFunc) {
+  return asyncReducer(prevVal, { array, mapFunc, secondMapFunc });
 };
 
 const asyncReducer = function (prevVal, input) {
-  const { array, mapperFunc, index = 0 } = input;
+  const { array, mapFunc, index = 0 } = input;
   if (index === array.length) { return prevVal; }
 
-  const nextVal = mapperFunc(prevVal, array[index], index, array);
+  const nextVal = mapFunc(prevVal, array[index], index, array);
   const inputA = { ...input, index: index + 1 };
 
   // Do not use async|await to avoid creating promises on iterations that
   // are synchronous, for performance reason.
   // eslint-disable-next-line promise/prefer-await-to-then
-  if (typeof nextVal.then === 'function') {
+  if (nextVal && typeof nextVal.then === 'function') {
     // eslint-disable-next-line promise/prefer-await-to-then
-    return nextVal.then(nextValA => asyncReducer(nextValA, inputA));
+    return nextVal.then(nextValA => applySecondMap(prevVal, nextValA, inputA));
   }
 
-  return asyncReducer(nextVal, inputA);
+  return applySecondMap(prevVal, nextVal, inputA);
+};
+
+const applySecondMap = function (prevVal, nextVal, input) {
+  if (!input.secondMapFunc) {
+    return asyncReducer(nextVal, input);
+  }
+
+  const nextValA = input.secondMapFunc(prevVal, nextVal);
+  return asyncReducer(nextValA, input);
 };
 
 module.exports = {
