@@ -195,7 +195,7 @@ definitions:
         required: [value]
       then:
         properties:
-          useParams:
+          useVars:
             type: boolean
   # idl.plugins
   plugins:

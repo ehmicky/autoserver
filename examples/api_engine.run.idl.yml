@@ -122,7 +122,7 @@ helpers:
     myOtherMathFunc:
       value:
         $ref: math_func.js
-      useParams: true
+      useVars: true
     user: '(({ id: "1" }))'
   - $ref: underscore.string.node
   - $ref: lodash.node

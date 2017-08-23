@@ -9,19 +9,19 @@ const { getInlineFunc } = require('./tokenize');
 
 // Compile all IDL functions, i.e. apply `new Function()`
 const compileIdlFuncs = function ({ idl, idl: { inlineFuncPaths } }) {
-  const paramsKeys = getVarsKeys({ idl });
+  const varsKeys = getVarsKeys({ idl });
 
   return setAll(
     idl,
     inlineFuncPaths,
-    inlineFunc => compileIdlFunc({ inlineFunc, paramsKeys }),
+    inlineFunc => compileIdlFunc({ inlineFunc, varsKeys }),
   );
 };
 
 // Transform inline functions into a function with the inline function as body
 // Returns if it is not inline function
 // This can throw if inline function's JavaScript is wrong
-const compileIdlFunc = function ({ inlineFunc, paramsKeys }) {
+const compileIdlFunc = function ({ inlineFunc, varsKeys }) {
   // If this is not inline function, abort
   if (!isInlineFunc({ inlineFunc })) {
     return getNonInlineFunc({ inlineFunc });
@@ -29,7 +29,7 @@ const compileIdlFunc = function ({ inlineFunc, paramsKeys }) {
 
   const inlineFuncA = getInlineFunc({ inlineFunc });
 
-  return eCreateFunction({ inlineFunc: inlineFuncA, paramsKeys });
+  return eCreateFunction({ inlineFunc: inlineFuncA, varsKeys });
 };
 
 const getNonInlineFunc = function ({ inlineFunc }) {
@@ -42,10 +42,10 @@ const getNonInlineFunc = function ({ inlineFunc }) {
   return inlineFunc;
 };
 
-const createFunction = function ({ inlineFunc, paramsKeys }) {
+const createFunction = function ({ inlineFunc, varsKeys }) {
   // Create a function with the inline function as body
   // eslint-disable-next-line no-new-func
-  const func = new Function(`{ ${paramsKeys} }`, `return ${inlineFunc};`);
+  const func = new Function(`{ ${varsKeys} }`, `return ${inlineFunc};`);
   // eslint-disable-next-line fp/no-mutating-assign
   Object.assign(func, { inlineFunc });
 
