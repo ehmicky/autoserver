@@ -1,7 +1,7 @@
 'use strict';
 
 const { reduceAsync } = require('../utilities');
-const { addOnlyIfv } = require('../idl_func');
+const { addIfv } = require('../idl_func');
 
 const {
   addLayersErrorsHandlers,
@@ -62,7 +62,7 @@ const getReqInfo = function ({ reqInfo }, { reqInfo: reqInfoA }) {
 const getIfv = function ({ ifv }, { ifvParams: ifvA, ifv: ifvB }) {
   if (ifvB) { return ifvB; }
   if (!ifvA) { return ifv; }
-  return addOnlyIfv(ifv, ifvA);
+  return addIfv(ifv, ifvA);
 };
 
 const eFireMiddleware = addMiddlewareHandler.bind(null, fireMiddleware);

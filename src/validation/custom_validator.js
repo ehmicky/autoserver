@@ -1,6 +1,6 @@
 'use strict';
 
-const { addOnlyIfv, runIdlFunc } = require('../idl_func');
+const { addIfv, runIdlFunc } = require('../idl_func');
 const { memoize } = require('../utilities');
 const { throwError } = require('../error');
 
@@ -42,7 +42,7 @@ const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
         { [Symbol.for('extra')]: ifv }
       ) {
         const params = { $EXPECTED: expected, $$: parent, $: value };
-        const ifvA = addOnlyIfv(ifv, params);
+        const ifvA = addIfv(ifv, params);
 
         const isValid = runIdlFunc({ ifv: ifvA, idlFunc: testFunc });
         if (isValid === true) { return true; }
