@@ -48,7 +48,7 @@ const runHelper = function ({ helper, paramsRef }, ...args) {
 // We use a `paramsRef` object reference so that all helpers share the same
 // information, and can call each other.
 // We directly mutate it as a performance optimization.
-const bindHelpers = function ({ ifv: { params, paramsRef } }) {
+const bindHelpers = function ({ paramsRef, params }) {
   // eslint-disable-next-line fp/no-mutation, no-param-reassign
   paramsRef.params = params;
 };
