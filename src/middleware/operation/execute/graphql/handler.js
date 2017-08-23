@@ -15,9 +15,9 @@ const executeGraphql = async function (input, nextLayer) {
 
   const { response } = parseResult({ content, responses });
 
-  const { reqInfo } = getActionOutputInfo({ responses });
+  const { actionsInfo } = getActionOutputInfo({ responses });
 
-  return { response, reqInfo };
+  return { response, actionsInfo };
 };
 
 const parseResult = function ({ content, responses }) {

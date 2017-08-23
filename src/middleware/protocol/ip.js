@@ -4,19 +4,17 @@ const { throwError } = require('../../error');
 
 // Retrieve request's IP, assigned to protocol input,
 // and also to IDL function variable $IP
-const getIp = function (input) {
-  const ip = getRequestIp(input);
+const getIp = function ({ protocolHandler, specific }) {
+  const ip = getRequestIp({ protocolHandler, specific });
 
   return {
     ip,
-    reqInfo: { ip },
     ifvParams: { $IP: ip },
   };
 };
 
-const getRequestIp = function (input) {
-  const { protocolHandler } = input;
-  const ip = protocolHandler.getIp(input) || '';
+const getRequestIp = function ({ protocolHandler, specific }) {
+  const ip = protocolHandler.getIp({ specific }) || '';
 
   if (typeof ip !== 'string') {
     const message = `'ip' must be a string, not '${ip}'`;

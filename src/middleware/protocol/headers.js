@@ -8,12 +8,6 @@ const { throwError } = require('../../error');
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
 const parseHeaders = function ({ specific, protocolHandler }) {
-  const headers = getHeaders({ specific, protocolHandler });
-
-  return { headers, reqInfo: { headers } };
-};
-
-const getHeaders = function ({ specific, protocolHandler }) {
   const headers = protocolHandler.parseHeaders({ specific });
 
   if (!headers || headers.constructor !== Object) {
@@ -21,7 +15,7 @@ const getHeaders = function ({ specific, protocolHandler }) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  return headers;
+  return { headers };
 };
 
 module.exports = {

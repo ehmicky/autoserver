@@ -11,7 +11,7 @@ const parseMethod = function ({ specific, protocolHandler }) {
   const method = getMethod({ specific, protocolHandler });
   const goal = getGoal({ method, protocolHandler });
 
-  return { method, goal, reqInfo: { method, goal } };
+  return { method, goal };
 };
 
 const getMethod = function ({ specific, protocolHandler }) {

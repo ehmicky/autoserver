@@ -1,9 +1,8 @@
 'use strict';
 
 // Add action-related input information
-const addActionInputInfo = function ({ modelName, action, fullAction }) {
+const addActionInputInfo = function ({ modelName }) {
   return {
-    reqInfo: { model: modelName, action: action.name, actionPath: fullAction },
     ifvParams: { $MODEL: modelName },
   };
 };

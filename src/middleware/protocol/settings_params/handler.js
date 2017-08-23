@@ -28,7 +28,6 @@ const addType = function ({ input, type, type: { idlFuncName, genericName } }) {
 
   return {
     [genericName]: valuesB,
-    reqInfo: { [genericName]: valuesB },
     ifvParams: { [idlFuncName]: valuesB },
   };
 };

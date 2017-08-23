@@ -49,14 +49,8 @@ const fireMiddleware = function (nextLayer, input, mFunc) {
 // We merge the return value of each middleware (`input`)
 // with the current input (`inputA`)
 const mergeInput = function (input, inputA = {}) {
-  const reqInfo = getReqInfo(input, inputA);
   const ifv = getIfv(input, inputA);
-  return { ...input, ...inputA, reqInfo, ifv };
-};
-
-const getReqInfo = function ({ reqInfo }, { reqInfo: reqInfoA }) {
-  if (!reqInfoA) { return reqInfo; }
-  return { ...reqInfo, ...reqInfoA };
+  return { ...input, ...inputA, ifv };
 };
 
 const getIfv = function ({ ifv }, { ifvParams: ifvA, ifv: ifvB }) {

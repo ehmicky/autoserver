@@ -15,18 +15,11 @@ const MAX_ARRAY_LENGTH = 100;
 // Meant to be used to create (in coming middleware) `input.settings` and
 // `input.params`, but can also be used by operation layer as is.
 const parseQueryString = function ({ specific, protocolHandler }) {
-  const queryVars = getQueryVars({ specific, protocolHandler });
-
-  return { queryVars, reqInfo: { queryVars } };
-};
-
-// Retrieves query variables
-const getQueryVars = function ({ specific, protocolHandler }) {
   const queryString = getQueryString({ specific, protocolHandler });
   const queryVars = eParseQueryVars({ queryString });
 
-  const transtypedQueryVars = mapValues(queryVars, value => transtype(value));
-  return transtypedQueryVars;
+  const queryVarsA = mapValues(queryVars, value => transtype(value));
+  return { queryVars: queryVarsA };
 };
 
 const getQueryString = function ({ specific, protocolHandler }) {

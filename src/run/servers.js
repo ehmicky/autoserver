@@ -80,10 +80,9 @@ const startServer = async function (
 
 const addProtocol = function ({ protocol, baseInput }) {
   const protocolHandler = protocolHandlers[protocol];
-  const reqInfo = { ...baseInput.reqInfo, protocol };
   const ifv = addIfv(baseInput.ifv, { $PROTOCOL: protocol });
 
-  return { ...baseInput, protocol, protocolHandler, reqInfo, ifv };
+  return { ...baseInput, protocol, protocolHandler, ifv };
 };
 
 const fireHandleRequest = function ({ middleware, baseInput }, specific) {
