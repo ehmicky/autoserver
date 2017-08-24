@@ -44,6 +44,7 @@ const {
 } = COMMANDS
   .map(command => ({ [command.name]: command }))
   .reduce(assignObject, {});
+
 const authorizationMap = {
   // `upsert` action requires both `update` + `create` commands
   upsertOne: [updateOne, createOne],
