@@ -7,6 +7,7 @@ const CATEGORIES = [
   'default',
   'main',
   'run_opts',
+  'middleware',
   'middleware.final',
   'middleware.timeout',
   'middleware.protocol',
