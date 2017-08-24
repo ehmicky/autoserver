@@ -4,14 +4,14 @@ const { throwError } = require('../error');
 const { pSetTimeout } = require('../utilities');
 
 // Make request fail after some timeout
-const setRequestTimeout = function (input, nextLayer) {
-  const timeoutPromise = startRequestTimeout({ input });
-  const nextLayerPromise = nextLayer(input);
+const setRequestTimeout = function (mInput, nextLayer) {
+  const timeoutPromise = startRequestTimeout(mInput);
+  const nextLayerPromise = nextLayer(mInput);
 
   return Promise.race([timeoutPromise, nextLayerPromise]);
 };
 
-const startRequestTimeout = async function ({ input: { runOpts: { env } } }) {
+const startRequestTimeout = async function ({ runOpts: { env } }) {
   // When debugging with breakpoints, we do not want any request timeout
   const timeout = env === 'dev' ? 1e9 : REQUEST_TIMEOUT;
 

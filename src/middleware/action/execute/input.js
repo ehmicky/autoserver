@@ -3,36 +3,36 @@
 const { omitBy } = require('../../../utilities');
 const { COMMANDS } = require('../../../constants');
 
-// Each command must specify its input
-// `input` can be a function or the new input directly
-// The response from the previous command is passed to `input` function,
-// together with the general input
-const getNextInput = function ({
-  input,
+// Each command must specify its mInput
+// `mInput` can be a function or the new mInput directly
+// The response from the previous command is passed to `mInput` function,
+// together with the general mInput
+const getNextMInput = function ({
+  mInput,
   formerResponse,
   commandDef,
   isLastCommand,
 }) {
-  const newInput = getNewInput({ input, formerResponse, commandDef });
-  const args = getArgs({ input, newInput, isLastCommand });
-  const command = getCommand({ input, newInput });
+  const newInput = getNewInput({ mInput, formerResponse, commandDef });
+  const args = getArgs({ mInput, newInput, isLastCommand });
+  const command = getCommand({ mInput, newInput });
 
-  return { ...input, ...newInput, args, command };
+  return { ...mInput, ...newInput, args, command };
 };
 
 const getNewInput = function ({
-  input,
+  mInput,
   formerResponse,
-  commandDef: { input: getInputFunc },
+  commandDef: { mInput: getMInputFunc },
 }) {
   return typeof getInputFunc === 'function'
-    ? getInputFunc(input, formerResponse)
-    : getInputFunc;
+    ? getMInputFunc(mInput, formerResponse)
+    : getMInputFunc;
 };
 
-const getArgs = function ({ input, newInput, isLastCommand }) {
+const getArgs = function ({ mInput, newInput, isLastCommand }) {
   const newInputArgs = {
-    ...input.args,
+    ...mInput.args,
     ...(newInput.args || {}),
     // All commands but last are considered 'internal'
     // E.g. authorization is not checked
@@ -51,7 +51,7 @@ const getArgs = function ({ input, newInput, isLastCommand }) {
 // Actions only need to specify the command type
 // The full command is retrieved by using `action.multiple`
 const getCommand = function ({
-  input: { action: { multiple: isMultiple } },
+  mInput: { action: { multiple: isMultiple } },
   newInput: { commandType = 'read', commandMultiple = isMultiple },
 }) {
   const command = COMMANDS.find(({ type, multiple }) =>
@@ -61,5 +61,5 @@ const getCommand = function ({
 };
 
 module.exports = {
-  getNextInput,
+  getNextMInput,
 };

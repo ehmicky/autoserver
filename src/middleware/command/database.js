@@ -1,8 +1,8 @@
 'use strict';
 
 // Fires database layer
-const fireDatabase = function (input, nextLayer) {
-  return nextLayer(input);
+const fireDatabase = function (mInput, nextLayer) {
+  return nextLayer(mInput);
 };
 
 module.exports = {

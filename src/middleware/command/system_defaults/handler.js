@@ -4,7 +4,7 @@ const { mapValues, pickBy } = require('../../../utilities');
 
 const { defaults } = require('./defaults');
 
-// Apply system-defined defaults to input, including input arguments
+// Apply system-defined defaults to mInput, including arguments
 const systemDefaults = function ({ args, runOpts, command }) {
   const filteredDefaults = pickBy(
     defaults,

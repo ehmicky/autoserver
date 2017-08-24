@@ -29,8 +29,8 @@ const updateCommand = function ({ args: { data: dataArg } }, { data: models }) {
 // The reasons why we split "replace" action are:
 //   - we need to know the current models so we can set args.currentData
 const replaceAction = [
-  { input: readCommand },
-  { input: updateCommand },
+  { mInput: readCommand },
+  { mInput: updateCommand },
 ];
 
 module.exports = {

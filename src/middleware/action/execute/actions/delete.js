@@ -6,7 +6,7 @@ const deleteCommand = {
 
 // 'delete' action uses a single 'delete' command
 const deleteAction = [
-  { input: deleteCommand },
+  { mInput: deleteCommand },
 ];
 
 module.exports = {

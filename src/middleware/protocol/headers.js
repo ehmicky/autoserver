@@ -2,11 +2,11 @@
 
 const { throwError } = require('../../error');
 
-// Fill in `input.headers` using protocol-specific headers.
+// Fill in `mInput.headers` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
-// Meant to be used to create (in coming middleware) `input.settings` and
-// `input.params`, but can also be used by operation layer as is.
+// Meant to be used to create (in coming middleware) `mInput.settings` and
+// `mInput.params`, but can also be used by operation layer as is.
 const parseHeaders = function ({ specific, protocolHandler }) {
   const headers = protocolHandler.parseHeaders({ specific });
 

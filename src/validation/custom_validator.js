@@ -39,14 +39,14 @@ const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
         __,
         parent,
         attrName,
-        { [Symbol.for('extra')]: input }
+        { [Symbol.for('extra')]: mInput }
       ) {
         const vars = { $EXPECTED: expected, $$: parent, $: value };
 
-        const isValid = runIdlFunc({ idlFunc: testFunc, input, vars });
+        const isValid = runIdlFunc({ idlFunc: testFunc, mInput, vars });
         if (isValid === true) { return true; }
 
-        const messageA = runIdlFunc({ idlFunc: message, input, vars });
+        const messageA = runIdlFunc({ idlFunc: message, mInput, vars });
         // eslint-disable-next-line fp/no-mutation
         validate.errors = [{
           message: messageA,

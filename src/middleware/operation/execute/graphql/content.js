@@ -10,8 +10,8 @@ const {
 
 const getContent = async function ({
   nextLayer,
-  input,
-  input: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
+  mInput,
+  mInput: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
   responses,
 }) {
   const {
@@ -20,7 +20,7 @@ const getContent = async function ({
     operationName,
     queryDocument,
     graphqlMethod,
-  } = getGraphQLInput({ input });
+  } = getGraphQLInput(mInput);
 
   // Introspection GraphQL query
   if (isIntrospectionQuery({ query })) {
@@ -37,7 +37,7 @@ const getContent = async function ({
   const resolver = getResolver.bind(null, modelsMap);
   const callback = fireNext.bind(null, {
     nextLayer,
-    input,
+    mInput,
     responses,
   });
 
@@ -56,9 +56,7 @@ const getContent = async function ({
   return { data };
 };
 
-const getGraphQLInput = function ({
-  input: { queryVars, payload = {}, goal },
-}) {
+const getGraphQLInput = function ({ queryVars, payload = {}, goal }) {
   // Parameters can be in either query variables or payload
   // (including by using application/graphql)
   const { query, variables, operationName } = { ...queryVars, ...payload };
@@ -72,15 +70,18 @@ const getGraphQLInput = function ({
   return { query, variables, operationName, queryDocument, graphqlMethod };
 };
 
-const fireNext = async function ({ nextLayer, input, responses }, actionInput) {
-  const inputA = { ...input, ...actionInput };
+const fireNext = async function (
+  { nextLayer, mInput, responses },
+  actionInput,
+) {
+  const mInputA = { ...mInput, ...actionInput };
 
-  const inputB = await nextLayer(inputA);
+  const mInputB = await nextLayer(mInputA);
 
   // eslint-disable-next-line fp/no-mutating-methods
-  responses.push(inputB);
+  responses.push(mInputB);
 
-  return inputB.response;
+  return mInputB.response;
 };
 
 module.exports = {

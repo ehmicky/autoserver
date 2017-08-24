@@ -12,8 +12,8 @@ const headersTest = function ({ name }) {
 const headersPrefix = /^x-api-engine-/i;
 
 // Protocol-specific settings parser
-const getSpecificValues = function ({ input, input: { protocolHandler } }) {
-  const specificSettings = protocolHandler.getSettings({ input });
+const getSpecificValues = function ({ mInput, mInput: { protocolHandler } }) {
+  const specificSettings = protocolHandler.getSettings(mInput);
 
   if (!specificSettings || specificSettings.constructor !== Object) {
     const message = `'specificSettings' must be an object, not '${specificSettings}'`;

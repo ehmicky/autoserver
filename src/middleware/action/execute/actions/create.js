@@ -9,7 +9,7 @@ const createCommand = ({ args: { data: dataArg } }) => ({
 
 // 'create' action uses a single 'create' command
 const createAction = [
-  { input: createCommand },
+  { mInput: createCommand },
 ];
 
 module.exports = {

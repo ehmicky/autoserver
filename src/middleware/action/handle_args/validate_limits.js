@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../../error');
 
-// Check input is not too big
+// Check request arguments are not too big
 const validateLimits = function ({ args: { data }, maxDataLength }) {
   const isDataTooBig = Array.isArray(data) &&
     data.length > maxDataLength &&

@@ -8,11 +8,17 @@ const handleComputes = function ({
   response: { data },
   idl,
   modelName,
-  input,
+  mInput,
 }) {
   if (!data) { return; }
 
-  const dataA = transformData({ data, idl, modelName, input, type: 'compute' });
+  const dataA = transformData({
+    data,
+    idl,
+    modelName,
+    mInput,
+    type: 'compute',
+  });
 
   const responseA = { ...response, data: dataA };
   return { response: responseA };

@@ -22,34 +22,34 @@ const errorHandledFunc = async function (func, handler, ...args) {
 
 // Fire request error handlers
 const fireErrorHandler = async function (handler, errorA) {
-  const input = getErrorInput({ error: errorA });
+  const mInput = getErrorMInput({ error: errorA });
 
   try {
-    await handler(input);
+    await handler(mInput);
   // Request error handlers might fail themselves
   } catch (error) {
-    throwMiddlewareError(error, input);
+    throwMiddlewareError(error, mInput);
   }
 };
 
-// Extract `input` from `error.input`
-const getErrorInput = function ({ error, error: { input = {} } }) {
+// Extract `mInput` from `error.mInput`
+const getErrorMInput = function ({ error, error: { mInput = {} } }) {
   const errorA = normalizeError({ error });
-  return { ...input, error: errorA };
+  return { ...mInput, error: errorA };
 };
 
-const throwMiddlewareError = function (error, input, { force = false } = {}) {
-  if (!error.input || force) {
+const throwMiddlewareError = function (error, mInput, { force = false } = {}) {
+  if (!error.mInput || force) {
     // Must directly assign to error, because { ...error } does not work
     // eslint-disable-next-line fp/no-mutating-assign
-    Object.assign(error, { input });
+    Object.assign(error, { mInput });
   }
 
   rethrowError(error);
 };
 
 // Middleware function error handler, which just rethrow the error,
-// and adds the current `input` as information by setting `error.input`
+// and adds the current `mInput` as information by setting `error.mInput`
 const addMiddlewareHandler = function (func, nextLayer, ...args) {
   try {
     const maybePromise = func(nextLayer, ...args);
@@ -69,6 +69,6 @@ const addMiddlewareHandler = function (func, nextLayer, ...args) {
 module.exports = {
   addLayersErrorsHandlers,
   addMiddlewareHandler,
-  getErrorInput,
+  getErrorMInput,
   throwMiddlewareError,
 };

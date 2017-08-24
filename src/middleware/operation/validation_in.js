@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../error');
 
-// Operation middleware input validation
+// Operation middleware mInput validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
 const operationValidationIn = function ({ operation, route }) {
   if (!operation) {

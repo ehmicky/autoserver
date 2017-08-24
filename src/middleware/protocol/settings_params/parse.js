@@ -3,21 +3,21 @@
 const { mapKeys, pickBy } = require('../../../utilities');
 
 // Retrieves settings|params
-const getValues = function ({ input, type, type: { getSpecificValues } }) {
-  const genericValues = getGenericValues({ input, type });
-  const specificValues = getSpecificValues ? getSpecificValues({ input }) : {};
+const getValues = function ({ mInput, type, type: { getSpecificValues } }) {
+  const genericValues = getGenericValues({ mInput, type });
+  const specificValues = getSpecificValues ? getSpecificValues({ mInput }) : {};
   return { ...genericValues, ...specificValues };
 };
 
-const getGenericValues = function ({ input, type }) {
-  const queryValues = getQueryValues({ input, type });
-  const headersValues = getHeadersValues({ input, type });
+const getGenericValues = function ({ mInput, type }) {
+  const queryValues = getQueryValues({ mInput, type });
+  const headersValues = getHeadersValues({ mInput, type });
   return { ...queryValues, ...headersValues };
 };
 
 // Retrieves ?settings.mysettings or params.myparams query variables
 const getQueryValues = function ({
-  input: { queryVars },
+  mInput: { queryVars },
   type: { queryVarName },
 }) {
   return queryVars[queryVarName];
@@ -26,7 +26,7 @@ const getQueryValues = function ({
 // Filters headers with only the headers whose name starts
 // with X-Api-Engine-Param-Myparam or X-Api-Engine-My-Settings
 const getHeadersValues = function ({
-  input: { headers },
+  mInput: { headers },
   type: { headersTest, headersPrefix },
 }) {
   const headersValues = pickBy(headers, (value, name) => headersTest({ name }));

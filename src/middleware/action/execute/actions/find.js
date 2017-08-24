@@ -6,7 +6,7 @@ const readCommand = {
 
 // 'find' action uses a single 'read' command
 const findAction = [
-  { input: readCommand },
+  { mInput: readCommand },
 ];
 
 module.exports = {
