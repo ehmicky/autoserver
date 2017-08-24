@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./commands'),
+  ...require('./instructions'),
   ...require('./cli'),
 };

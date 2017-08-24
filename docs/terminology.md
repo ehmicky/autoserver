@@ -160,3 +160,7 @@ Any object property
 ## IDL
 
 Main [configuration file](idl.md)
+
+## Instruction
+
+Top-level instruction, e.g. `run`.

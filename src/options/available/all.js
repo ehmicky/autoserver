@@ -1,9 +1,9 @@
 'use strict';
 
-const availableCommands = [
+const availableInstructions = [
   require('./run'),
 ];
 
 module.exports = {
-  availableCommands,
+  availableInstructions,
 };

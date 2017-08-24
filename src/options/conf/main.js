@@ -5,7 +5,7 @@ const { validateConfFile } = require('./validate');
 const { loadConfFile } = require('./load');
 
 // Loads a configuration file which can be:
-//  - COMMAND({ NAME: 'FILE' })
+//  - INSTRUCTION({ NAME: 'FILE' })
 //  - api_engine.NAME.json in current directory, or any parent directory
 //  - same thing for: api_engine.NAME.yml or api_engine.NAME.yaml
 // Relative paths are based on current directory.

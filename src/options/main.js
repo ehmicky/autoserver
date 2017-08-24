@@ -2,7 +2,7 @@
 
 const { monitoredReduce } = require('../perf');
 
-const { availableCommands } = require('./available');
+const { availableInstructions } = require('./available');
 const { loadMainConf } = require('./main_conf');
 const { applyEnvVars } = require('./env');
 const { loadSubConf } = require('./sub_conf');
@@ -18,14 +18,14 @@ const processors = [
 ];
 
 // Retrieve and validate main options
-const getOptions = function ({ command, options }) {
-  const { options: availableOpts } = availableCommands
-    .find(({ name }) => name === command);
+const getOptions = function ({ instruction, options }) {
+  const { options: availableOpts } = availableInstructions
+    .find(({ name }) => name === instruction);
   return monitoredReduce({
     funcs: processors,
-    initialInput: { options, command, availableOpts },
+    initialInput: { options, instruction, availableOpts },
     mapResponse: (newInput, input) => ({ ...input, ...newInput }),
-    category: `${command}_opts`,
+    category: `${instruction}_opts`,
   });
 };
 

@@ -3,10 +3,10 @@
 The server can be used from the command line:
 
 ```bash
-apiengine [COMMAND] [--options]
+apiengine [INSTRUCTION] [--options]
 ```
 
-The default `COMMAND` is `run`.
+The default `INSTRUCTION` is `run`.
 
 Use `apiengine --help` for usage instructions.
 
@@ -23,11 +23,11 @@ const apiEngine = require('api-engine');
 apiEngine.run({ ...options });
 ```
 
-Here we used the `COMMAND` `run`, but any `COMMAND` can be used.
+Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.
 
-# Commands
+# Instructions
 
-The following commands are available:
+The following instructions are available:
   - [run](run.md): start the server
 
 # Options
