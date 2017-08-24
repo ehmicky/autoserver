@@ -4,7 +4,7 @@
 const database = require('./data.json');
 const { fireCommand } = require('./fire');
 
-const databaseExecute = async function ({
+const databaseExecute = function ({
   command,
   args: { nOrderBy, limit, offset, newData, filter } = {},
   settings: { dryrun },
@@ -14,9 +14,7 @@ const databaseExecute = async function ({
 
   const opts = { nOrderBy, limit, offset, dryrun, modelName };
   const commandInput = { command, collection, filter, newData, opts };
-  const response = await fireCommand(commandInput);
-
-  return { response };
+  return fireCommand(commandInput);
 };
 
 module.exports = {
