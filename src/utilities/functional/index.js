@@ -15,6 +15,7 @@ module.exports = {
   ...require('./group'),
   ...require('./sort'),
   ...require('./reverse'),
+  ...require('./promise'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./func_name'),
 };

@@ -1,6 +1,7 @@
 'use strict';
 
 const { rethrowError, normalizeError } = require('../../error');
+const { promiseCatch } = require('../../utilities');
 
 const { errorHandler } = require('./error_handler');
 const { failureHandler } = require('./failure_handler');
@@ -51,19 +52,8 @@ const throwMiddlewareError = function (error, mInput, { force = false } = {}) {
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`
 const addMiddlewareHandler = function (func, nextLayer, ...args) {
-  try {
-    const maybePromise = func(nextLayer, ...args);
-
-    // Middleware functions can be sync or async
-    // We want to avoid async|await in order not to create promises
-    // when the middleware is sync, for performance reason
-    // eslint-disable-next-line promise/prefer-await-to-then
-    return maybePromise && typeof maybePromise.then === 'function'
-      ? maybePromise.catch(error => throwMiddlewareError(error, ...args))
-      : maybePromise;
-  } catch (error) {
-    throwMiddlewareError(error, ...args);
-  }
+  const funcA = promiseCatch(func.bind(null, nextLayer), throwMiddlewareError);
+  return funcA(...args);
 };
 
 module.exports = {
