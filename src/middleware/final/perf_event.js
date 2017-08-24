@@ -6,7 +6,7 @@ const perfEvent = async function ({
   error,
   response: { respPerf, measures },
   runOpts,
-  input,
+  mInput,
 }) {
    // Do not report if exception was thrown
   if (error) { return; }
@@ -15,7 +15,7 @@ const perfEvent = async function ({
 
   // Total request time, stopped just before the response is sent
   await emitPerfEvent({
-    input,
+    mInput,
     phase: 'request',
     measures: [respPerf, ...measures],
     runOpts,

@@ -8,7 +8,7 @@ const transformData = function ({
   data,
   idl: { shortcuts },
   modelName,
-  input,
+  mInput,
   type,
 }) {
   const transformMap = shortcuts[mapName[type]];
@@ -16,9 +16,9 @@ const transformData = function ({
 
   return Array.isArray(data)
     ? data.map(
-      datum => applyTransforms({ data: datum, transforms, input, type })
+      datum => applyTransforms({ data: datum, transforms, mInput, type })
     )
-    : applyTransforms({ data, transforms, input, type });
+    : applyTransforms({ data, transforms, mInput, type });
 };
 
 const mapName = {
@@ -28,16 +28,16 @@ const mapName = {
 };
 
 // There can be transform for each attribute
-const applyTransforms = function ({ data, transforms, input, type }) {
+const applyTransforms = function ({ data, transforms, mInput, type }) {
   const transformedData = mapValues(
     transforms,
     (transform, attrName) =>
-      applyTransform({ data, attrName, transform, input, type })
+      applyTransform({ data, attrName, transform, mInput, type })
   );
   return { ...data, ...transformedData };
 };
 
-const applyTransform = function ({ data, attrName, transform, input, type }) {
+const applyTransform = function ({ data, attrName, transform, mInput, type }) {
   const currentVal = data[attrName];
 
   // `transform` (as opposed to `value`) is skipped when there is
@@ -45,7 +45,7 @@ const applyTransform = function ({ data, attrName, transform, input, type }) {
   if (type === 'transform' && currentVal == null) { return currentVal; }
 
   const vars = getTransformVars({ data, currentVal, type });
-  const valueA = runIdlFunc({ idlFunc: transform, input, vars });
+  const valueA = runIdlFunc({ idlFunc: transform, mInput, vars });
 
   // Returning `null` or `undefined` with `compute` or `value` is a way
   // to ignore that return value.

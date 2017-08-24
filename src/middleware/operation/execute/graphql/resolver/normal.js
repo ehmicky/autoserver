@@ -23,7 +23,7 @@ const normalResolver = async function ({
     ? nestedModelResolver
     : topLevelModelResolver;
 
-  // Retrieve main input passed to database layer
+  // Retrieve main mInput passed to database layer
   const {
     isArray,
     modelName,

@@ -7,7 +7,7 @@ const { normalizeError } = require('./main');
 
 // Gets normalized error information
 const getStandardError = function ({
-  input: {
+  mInput: {
     url: instance,
     status = 'SERVER_ERROR',
     protocolStatus,

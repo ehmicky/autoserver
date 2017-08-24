@@ -13,9 +13,9 @@ const sendResponse = function ({
   specific,
   protocolHandler,
   protocolStatus,
-  input,
+  mInput,
 }) {
-  const responseA = getErrorResponse({ input, error, response, operation });
+  const responseA = getErrorResponse({ mInput, error, response, operation });
 
   sender({ specific, protocolHandler, protocolStatus, response: responseA });
 
@@ -23,10 +23,10 @@ const sendResponse = function ({
 };
 
 // Use protocol-specific way to send back the response to the client
-const getErrorResponse = function ({ input, error, response, operation }) {
+const getErrorResponse = function ({ mInput, error, response, operation }) {
   if (!error) { return response; }
 
-  const errorA = getStandardError({ error, input });
+  const errorA = getStandardError({ error, mInput });
   const responseA = createErrorResponse({ operation, error: errorA });
   return responseA;
 };

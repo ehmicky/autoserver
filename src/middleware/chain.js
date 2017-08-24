@@ -5,52 +5,52 @@ const { reduceAsync } = require('../utilities');
 const {
   addLayersErrorsHandlers,
   addMiddlewareHandler,
-  getErrorInput,
+  getErrorMInput,
   throwMiddlewareError,
 } = require('./error');
 
 // Transforms a series of functions into a middleware pipeline.
-const fireLayers = async function (middleware, input) {
+const fireLayers = async function (middleware, mInput) {
   // The first layer `final` is special, as it is always fired,
   // whether the request is successful or not.
   const [final, ...main] = middleware;
 
   try {
-    const inputA = await fireLayer(main, 0, input);
+    const mInputA = await fireLayer(main, 0, mInput);
 
-    await fireLayer([final], 0, inputA);
+    await fireLayer([final], 0, mInputA);
   } catch (error) {
-    const inputA = getErrorInput({ error });
+    const mInputA = getErrorMInput({ error });
 
-    const inputB = await fireLayer([final], 0, inputA);
+    const mInputB = await fireLayer([final], 0, mInputA);
 
-    throwMiddlewareError(error, inputB, { force: true });
+    throwMiddlewareError(error, mInputB, { force: true });
   }
 };
 
 const eFireLayers = addLayersErrorsHandlers(fireLayers);
 
 // Fire all the middleware functions of a given layer
-const fireLayer = function (layers, lIndex, input) {
+const fireLayer = function (layers, lIndex, mInput) {
   // Each layer can fire the next layer middleware functions by calling this
   const nextLayer = fireLayer.bind(null, layers, lIndex + 1);
   const fireMiddlewareA = eFireMiddleware.bind(null, nextLayer);
 
   // Iterate over each middleware function
-  return reduceAsync(layers[lIndex], fireMiddlewareA, input, mergeInput);
+  return reduceAsync(layers[lIndex], fireMiddlewareA, mInput, mergeInput);
 };
 
 // Fire a specific middleware function
-const fireMiddleware = function (nextLayer, input, mFunc) {
-  return mFunc(input, nextLayer);
+const fireMiddleware = function (nextLayer, mInput, mFunc) {
+  return mFunc(mInput, nextLayer);
 };
 
-// We merge the return value of each middleware (`input`)
-// with the current input (`inputA`)
-const mergeInput = function (input, inputA) {
-  const inputB = { ...input, ...inputA };
-  // `input.input` is a helper for destructuring arguments
-  return { ...inputB, input: inputB };
+// We merge the return value of each middleware (`mInput`)
+// with the current mInput (`mInputA`)
+const mergeInput = function (mInput, mInputA) {
+  const mInputB = { ...mInput, ...mInputA };
+  // `mInput.mInput` is a helper for destructuring arguments
+  return { ...mInputB, mInput: mInputB };
 };
 
 const eFireMiddleware = addMiddlewareHandler.bind(null, fireMiddleware);

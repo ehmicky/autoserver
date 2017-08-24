@@ -20,7 +20,7 @@ const emitEvent = function ({ async = true, ...rest }) {
 //  - fire `run` option `events.EVENT(info)`
 //  - print to console
 const emit = async function ({
-  input,
+  mInput,
   errorInfo,
   type,
   phase,
@@ -42,7 +42,7 @@ const emit = async function ({
   }
 
   const { eventPayload, message: messageA } = getPayload({
-    input,
+    mInput,
     errorInfo,
     type,
     phase,

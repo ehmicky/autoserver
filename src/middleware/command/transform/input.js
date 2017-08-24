@@ -8,7 +8,7 @@ const handleTransforms = function ({
   args: { newData },
   idl,
   modelName,
-  input,
+  mInput,
 }) {
   if (!newData) { return; }
 
@@ -16,14 +16,14 @@ const handleTransforms = function ({
     data: newData,
     idl,
     modelName,
-    input,
+    mInput,
     type: 'transform',
   });
   const newDataB = transformData({
     data: newDataA,
     idl,
     modelName,
-    input,
+    mInput,
     type: 'value',
   });
 

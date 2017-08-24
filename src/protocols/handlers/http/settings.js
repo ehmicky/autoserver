@@ -5,13 +5,13 @@ const { mapValues, omitBy } = require('../../../utilities');
 const { parsePreferHeader } = require('./headers');
 
 // HTTP-specific ways to set settings
-const getSettings = function ({ input }) {
-  const settings = mapValues(parsers, parser => parser({ input }));
+const getSettings = function (mInput) {
+  const settings = mapValues(parsers, parser => parser(mInput));
   return omitBy(settings, value => value === undefined);
 };
 
 // Using `Prefer: return=minimal` request header -> settings.silent
-const silent = function ({ input: { headers } }) {
+const silent = function ({ headers }) {
   const preferHeader = parsePreferHeader({ headers });
   const hasMinimalPreference = preferHeader.return === 'minimal';
 

@@ -4,8 +4,8 @@ const { throwError } = require('../../error');
 const { GOALS } = require('../../constants');
 
 // Fill in:
-//  - `input.method`: protocol-specific method, e.g. 'POST'
-//  - `input.goal`: protocol-agnostic method, e.g. 'create'
+//  - `mInput.method`: protocol-specific method, e.g. 'POST'
+//  - `mInput.goal`: protocol-agnostic method, e.g. 'create'
 // Meant to be used by operation layer.
 const parseMethod = function ({ specific, protocolHandler }) {
   const method = getMethod({ specific, protocolHandler });

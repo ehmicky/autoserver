@@ -3,8 +3,8 @@
 const { throwError } = require('../../error');
 
 // Fill in:
-//  - `input.url`: full URL, e.g. used for events
-//  - `input.path`: URL's path, e.g. used by router
+//  - `mInput.url`: full URL, e.g. used for events
+//  - `mInput.path`: URL's path, e.g. used by router
 // Uses protocol-specific URL retrieval, but are set in a
 // protocol-agnostic format, i.e. each protocol sets the same strings.
 const parseUrl = function ({ protocolHandler, specific }) {

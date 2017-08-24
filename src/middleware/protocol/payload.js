@@ -3,10 +3,10 @@
 const { throwError } = require('../../error');
 const { reduceAsync } = require('../../utilities');
 
-// Fill in `input.payload` using protocol-specific request payload.
+// Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
-// Meant to be used by operation layer, e.g. to populate `input.args`
+// Meant to be used by operation layer, e.g. to populate `mInput.args`
 // Returns an request payload
 const parsePayload = async function ({ specific, protocolHandler }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
@@ -41,7 +41,7 @@ const validatePayload = function ({ payload, specific, protocolHandler }) {
   throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
 };
 
-// Request payload middleware, for several types of input
+// Request payload middleware, for several types of mInput
 const payloadHandlers = [
 
   // `application/graphql` request payload

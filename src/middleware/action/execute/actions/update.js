@@ -43,8 +43,8 @@ const getNewData = function ({ dataArg, currentData }) {
 //        E.g. if attribute `a` must be equal to attribute `b`, when we update
 //        `a`, we need to fetch `b` to check that validation rule.
 const updateAction = [
-  { input: readCommand },
-  { input: updateCommand },
+  { mInput: readCommand },
+  { mInput: updateCommand },
 ];
 
 module.exports = {

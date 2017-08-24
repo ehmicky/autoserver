@@ -54,7 +54,7 @@ const middleware = [
     protocol.parseSettings,
     // Parse application-specific headers
     protocol.parseParams,
-    // Retrieves input.route, using input.path
+    // Retrieves mInput.route, using mInput.path
     protocol.router,
 
     // Fires operation layer
@@ -68,7 +68,7 @@ const middleware = [
   [
     // Pick the operation
     operation.operationNegotiator,
-    // Operation-related input validation middleware
+    // Operation-related mInput validation middleware
     operation.operationValidationIn,
 
     // Translates operation-specific calls into generic instance actions
@@ -100,9 +100,9 @@ const middleware = [
     command.normalizeEmpty,
     // Command-related validation middleware
     command.commandValidation,
-    // Normalize input
+    // Normalize mInput
     command.normalization,
-    // Apply attribute aliases, in input
+    // Apply attribute aliases, in mInput
     command.renameAliasesInput,
     // Resets readonly attributes in `args.newData`
     command.handleReadonly,
@@ -112,7 +112,7 @@ const middleware = [
     command.userDefaults,
     // Apply system-defined default values, e.g. order_by 'id+'
     command.systemDefaults,
-    // Paginate input
+    // Paginate mInput
     command.handlePaginationInput,
 
     // Fires database layer

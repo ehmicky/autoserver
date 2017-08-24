@@ -6,7 +6,7 @@ const { getServerInfo } = require('../../info');
 
 // Assigns unique ID (UUIDv4) to each request
 // Available in:
-//  - input, as `requestId`
+//  - mInput, as `requestId`
 //  - events, as `requestId`
 //  - IDL function variables, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`

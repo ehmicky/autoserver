@@ -2,7 +2,7 @@
 
 const { routes, findRoute, getPathVars } = require('./manager');
 
-// Add route and URL parameters to input
+// Add route and URL parameters to mInput
 const router = function ({ path, goal }) {
   const route = findRoute({ routes, path, goal });
 

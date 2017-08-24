@@ -8,12 +8,12 @@ const { transtype, mapValues } = require('../../utilities');
 const MAX_DEPTH = 10;
 const MAX_ARRAY_LENGTH = 100;
 
-// Fill in `input.queryVars` using protocol-specific URL query variables
+// Fill in `mInput.queryVars` using protocol-specific URL query variables
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Automatic transtyping is performed
-// Meant to be used to create (in coming middleware) `input.settings` and
-// `input.params`, but can also be used by operation layer as is.
+// Meant to be used to create (in coming middleware) `mInput.settings` and
+// `mInput.params`, but can also be used by operation layer as is.
 const parseQueryString = function ({ specific, protocolHandler }) {
   const queryString = getQueryString({ specific, protocolHandler });
   const queryVars = eParseQueryVars({ queryString });

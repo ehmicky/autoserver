@@ -36,8 +36,8 @@ const upsertCommand = function (
 //  - the final command is called "upsert", i.e. it is meant to be
 //    either "create" or "update" for each model.
 const upsertAction = [
-  { input: readCommand },
-  { input: upsertCommand },
+  { mInput: readCommand },
+  { mInput: upsertCommand },
 ];
 
 module.exports = {

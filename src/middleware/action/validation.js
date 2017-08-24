@@ -6,7 +6,7 @@ const { ACTIONS } = require('../../constants');
 const { throwError } = require('../../error');
 
 // Action-related validation middleware
-// Check Action input, for the errors that should not happen,
+// Check Action mInput, for the errors that should not happen,
 // i.e. server-side (e.g. 500)
 // In short: `action`, `args`, `modelName` should be defined and of the
 // right type
