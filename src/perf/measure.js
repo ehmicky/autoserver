@@ -46,7 +46,7 @@ const validateOptions = function ({ label, category }) {
   }
 };
 
-const stopPerf = function ({ pending, duration: oDur = 0, label, category }) {
+const stopPerf = function ({ pending, label, category }) {
   if (pending === undefined) {
     const message = 'Must call \'restartPerf()\' before calling \'stopPerf()\'';
     throwError(message, { reason: 'UTILITY_ERROR' });
@@ -55,8 +55,7 @@ const stopPerf = function ({ pending, duration: oDur = 0, label, category }) {
   // Substracts the current time with the previous time
   const [secs, nanoSecs] = hrtime();
   const [lastSecs, lastNanoSecs] = pending;
-  const newDuration = (secs - lastSecs) * 10 ** 9 + (nanoSecs - lastNanoSecs);
-  const duration = oDur + newDuration;
+  const duration = (secs - lastSecs) * 10 ** 9 + (nanoSecs - lastNanoSecs);
   return { duration, label, category };
 };
 
