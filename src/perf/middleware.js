@@ -1,60 +1,44 @@
 'use strict';
 
-const { startPerf, stopPerf, restartPerf } = require('./measure');
+const { promiseThen } = require('../utilities');
 
-// Generic middleware that performs performance events before each middleware
-const getMiddlewarePerf = func => async function middlewarePerf (
-  nextFunc,
-  input,
-  ...args
-) {
-  // Freeze parent `currentPerf`
-  const parentPerf = input.currentPerf;
-  // `parentPerf` is undefined in the first middleware
-  const stoppedParentPerf = parentPerf && stopPerf(parentPerf);
+const { startPerf, stopPerf } = require('./measure');
 
-  const { input: inputA, measures } = await fireMiddleware({
-    func,
-    nextFunc,
-    input,
-    args,
-  });
-
-  // Unfreeze parent `currentPerf`
-  const restartedParentPerf = parentPerf && restartPerf(stoppedParentPerf);
-
-  const responseA = {
-    ...inputA.response,
-    measures,
-    currentPerf: restartedParentPerf,
-  };
-  return { ...inputA, response: responseA };
+// Add performance monitoring to every request.
+// Calculate how much time each middleware takes,
+// and push measurement to `reqState.measures` array.
+const monitorAllLayers = function (allLayers) {
+  return allLayers.map(monitorLayers);
 };
 
-// Execute next middleware, while calculating performance measures
-const fireMiddleware = async function ({ func, nextFunc, input, args }) {
-  // Start middleware performance
-  const currentPerf = startPerf(func.name, 'middleware');
+const monitorLayers = function ({ layers, name, ...rest }) {
+  const monitorLayerA = monitorLayer.bind(null, name);
+  const layersA = layers.map(mFunc => monitorLayerA.bind(null, mFunc));
+  return { layers: layersA, name, ...rest };
+};
 
-  // Pass `currentPerf` as argument so it can be frozen by its children
-  const inputA = { ...input, currentPerf };
-  const inputB = await nextFunc(inputA, ...args) || {};
+// eslint-disable-next-line max-params
+const monitorLayer = function (layerName, mFunc, mInput, nextLayer, reqState) {
+  const perf = startMiddlewarePerf(mFunc, layerName);
+  const mInputA = mFunc(mInput, nextLayer, reqState);
+  return promiseThen(mInputA, stopMiddlewarePerf.bind(null, perf, reqState));
+};
 
-  // Add `currentPerf` to `response.measures` array
-  const {
-    response: {
-      measures: currentMeasures = [],
-      currentPerf: currentMeasure = currentPerf,
-    } = {},
-  } = inputB;
+const startMiddlewarePerf = function (mFunc, layerName) {
+  return startPerf(mFunc.name, `middleware.${layerName}`);
+};
 
-  // Stops middleware performance
-  const finishedMeasure = stopPerf(currentMeasure);
+const stopMiddlewarePerf = function (perf, reqState, mInput) {
+  const perfA = stopPerf(perf);
+  // We directly mutate `reqState` because it greatly simplify the code
+  // eslint-disable-next-line fp/no-mutation, no-param-reassign
+  reqState.measures = reqState.measures || [];
+  // eslint-disable-next-line fp/no-mutating-methods
+  reqState.measures.push(perfA);
 
-  const measures = [...currentMeasures, finishedMeasure];
-  return { input: inputB, measures };
+  return mInput;
 };
 
 module.exports = {
-  getMiddlewarePerf,
+  monitorAllLayers,
 };
