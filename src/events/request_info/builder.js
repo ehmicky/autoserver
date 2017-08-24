@@ -2,7 +2,7 @@
 
 const { getReason } = require('../../error');
 
-// Builds requestInfo from request input
+// Builds requestInfo from request mInput
 const buildRequestInfo = function ({
   requestId,
   timestamp,
