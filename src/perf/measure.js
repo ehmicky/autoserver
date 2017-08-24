@@ -6,8 +6,7 @@
 //   - a `category` is the namespace of a label. Default is "default"
 //   - a label can have several `measures`
 //     Each call to startPerf() will create a new measure, which is assigned
-//   - each measure can be stopped and restarted by calling `stopPerf()`
-//     and `restartPerf()`
+//   - each measure can be stopped by calling `stopPerf()`
 // API:
 //   - `const measure = startPerf('label', 'category');` starts a measure
 //   - `const newMeasure = stopPerf(measure);` stops a measure
@@ -47,11 +46,6 @@ const validateOptions = function ({ label, category }) {
 };
 
 const stopPerf = function ({ pending, label, category }) {
-  if (pending === undefined) {
-    const message = 'Must call \'restartPerf()\' before calling \'stopPerf()\'';
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
-
   // Substracts the current time with the previous time
   const [secs, nanoSecs] = hrtime();
   const [lastSecs, lastNanoSecs] = pending;
