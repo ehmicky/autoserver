@@ -1,6 +1,6 @@
 'use strict';
 
-// Retrieve IDL functions variables, using the request input
+// Retrieve IDL functions variables, using the request mInput
 const getVars = function ({
   protocol: $PROTOCOL,
   timestamp: $NOW,
