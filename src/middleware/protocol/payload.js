@@ -14,10 +14,7 @@ const parsePayload = async function ({ specific, protocolHandler }) {
   const parse = protocolHandler.parsePayload;
   const payload = await reduceAsync(
     payloadHandlers,
-    (payloadA, payloadHandler) => {
-      if (payloadA !== undefined) { return payloadA; }
-      return payloadHandler({ specific, parse });
-    },
+    tryPayloadHandler.bind(null, { specific, parse }),
     undefined,
   );
 
@@ -26,19 +23,13 @@ const parsePayload = async function ({ specific, protocolHandler }) {
   return { payload: payloadB };
 };
 
-// There is a payload, but it could not be read
-const validatePayload = function ({ payload, specific, protocolHandler }) {
+const tryPayloadHandler = function (
+  { specific, parse },
+  payload,
+  payloadHandler,
+) {
   if (payload !== undefined) { return payload; }
-
-  const contentType = protocolHandler.getContentType({ specific });
-
-  if (!contentType) {
-    const msg = 'Must specify Content-Type when sending a request payload';
-    throwError(msg, { reason: 'NO_CONTENT_TYPE' });
-  }
-
-  const message = `Unsupported Content-Type: '${contentType}'`;
-  throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
+  return payloadHandler({ specific, parse });
 };
 
 // Request payload middleware, for several types of mInput
@@ -51,15 +42,13 @@ const payloadHandlers = [
   },
 
   // JSON request payload
-  async function jsonHandler ({ specific, parse }) {
-    const payload = await parse.json({ specific });
-    return payload;
+  function jsonHandler ({ specific, parse }) {
+    return parse.json({ specific });
   },
 
   // `x-www-form-urlencoded` request payload
-  async function urlencodedHandler ({ specific, parse }) {
-    const payload = await parse.urlencoded({ specific });
-    return payload;
+  function urlencodedHandler ({ specific, parse }) {
+    return parse.urlencoded({ specific });
   },
 
   // String request payload
@@ -75,6 +64,21 @@ const payloadHandlers = [
   },
 
 ];
+
+// There is a payload, but it could not be read
+const validatePayload = function ({ payload, specific, protocolHandler }) {
+  if (payload !== undefined) { return payload; }
+
+  const contentType = protocolHandler.getContentType({ specific });
+
+  if (!contentType) {
+    const msg = 'Must specify Content-Type when sending a request payload';
+    throwError(msg, { reason: 'NO_CONTENT_TYPE' });
+  }
+
+  const message = `Unsupported Content-Type: '${contentType}'`;
+  throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
+};
 
 module.exports = {
   parsePayload,

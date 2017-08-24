@@ -19,7 +19,7 @@ const fireCommand = async function (commandInput) {
 
   validateResponse({ command, response: responseB });
 
-  return responseB;
+  return { response: responseB };
 };
 
 module.exports = {
