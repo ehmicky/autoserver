@@ -15,8 +15,6 @@ const middlewareLayers = [
     layers: [
       // Sets response status
       final.getStatus,
-      // Sets how long processing the request took
-      final.setResponseTime,
       // Sends final response, if success
       final.sendResponse,
       // Emit "call" events
@@ -66,6 +64,9 @@ const middlewareLayers = [
 
       // Fires operation layer
       protocol.fireOperation,
+
+      // Sets how long processing the request took
+      protocol.setResponseTime,
     ],
   },
 
