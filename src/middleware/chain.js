@@ -42,15 +42,15 @@ const fireLayer = function (layers, lIndex, mInput) {
 
 // Fire a specific middleware function
 const fireMiddleware = function (nextLayer, mInput, mFunc) {
-  return mFunc(mInput, nextLayer);
+  // `mInput.mInput` is a helper for destructuring arguments
+  const mInputA = { ...mInput, mInput };
+  return mFunc(mInputA, nextLayer);
 };
 
 // We merge the return value of each middleware (`mInput`)
 // with the current mInput (`mInputA`)
 const mergeInput = function (mInput, mInputA) {
-  const mInputB = { ...mInput, ...mInputA };
-  // `mInput.mInput` is a helper for destructuring arguments
-  return { ...mInputB, mInput: mInputB };
+  return { ...mInput, ...mInputA };
 };
 
 const eFireMiddleware = addMiddlewareHandler.bind(null, fireMiddleware);

@@ -4,8 +4,8 @@ const { throwError } = require('../error');
 const { pSetTimeout } = require('../utilities');
 
 // Make request fail after some timeout
-const setRequestTimeout = function (mInput, nextLayer) {
-  const timeoutPromise = startRequestTimeout(mInput);
+const setRequestTimeout = function ({ mInput, runOpts }, nextLayer) {
+  const timeoutPromise = startRequestTimeout({ runOpts });
   const nextLayerPromise = nextLayer(mInput);
 
   return Promise.race([timeoutPromise, nextLayerPromise]);
