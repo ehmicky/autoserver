@@ -25,7 +25,7 @@ const monitorLayer = function (layerName, mFunc, mInput, nextLayer, reqState) {
 };
 
 const startMiddlewarePerf = function (mFunc, layerName) {
-  return startPerf(mFunc.name, `middleware.${layerName}`);
+  return startPerf(mFunc.name, layerName);
 };
 
 const stopMiddlewarePerf = function (perf, reqState, mInput) {

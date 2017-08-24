@@ -50,7 +50,7 @@ const setupExit = async function ({ servers, runOpts }) {
   return [measure, ...childMeasures];
 };
 
-const monitoredSetupExit = monitor(setupExit, 'all', 'all');
+const monitoredSetupExit = monitor(setupExit, 'all');
 
 // Retrieves which servers exits have failed, if any
 const processStatuses = function ({ statuses }) {
@@ -85,7 +85,7 @@ const endEventShutdown = async function ({
   });
 };
 
-const monitoredEndEvent = monitor(endEventShutdown, 'event');
+const monitoredEndEvent = monitor(endEventShutdown, 'event', 'main');
 
 module.exports = {
   setupGracefulExit,

@@ -8,7 +8,7 @@ const { emitEvent } = require('../../events');
 const wrapCloseFunc = function (func, { successMessage, errorMessage, label }) {
   const handledFunc = handleEvent(func, { successMessage, errorMessage });
   const getLabel = ({ protocol }) => `${protocol}.${label}`;
-  const monitoredFunc = monitor(handledFunc, getLabel);
+  const monitoredFunc = monitor(handledFunc, getLabel, 'main');
   return monitoredFunc;
 };
 

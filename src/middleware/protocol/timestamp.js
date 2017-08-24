@@ -8,7 +8,7 @@ const addTimestamp = function () {
   const timestamp = (new Date()).toISOString();
 
   // Calculate how long the whole request takes
-  const reqPerf = startPerf('request', 'middleware');
+  const reqPerf = startPerf('request');
 
   return { timestamp, reqPerf };
 };
