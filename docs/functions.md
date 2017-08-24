@@ -47,7 +47,7 @@ External functions can only be used inside the [IDL file](idl.md).
 
 The following variables are available:
   - `$PROTOCOL` `{string}`: possible values are only `http`
-  - `$NOW` `{string}`: current date and time
+  - `$TIMESTAMP` `{string}`: current date and time
   - `$IP` `{string}`: request IP
   - `$REQUEST_ID` `{string}`: UUID identifying the current request
   - `$PARAMS` `{object}`: all [parameters](#idl-function-parameters)

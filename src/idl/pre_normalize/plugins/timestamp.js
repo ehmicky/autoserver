@@ -16,7 +16,7 @@ const getAttributes = () => ({
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
     readonly: true,
-    value: '($COMMAND === "create" ? $NOW : null)',
+    value: '($COMMAND === "create" ? $TIMESTAMP : null)',
     validate: {
       format: 'date-time',
     },
@@ -26,7 +26,7 @@ const getAttributes = () => ({
     description: 'Timestamp indicating when this model was last updated',
     examples: ['2017-04-26T11:19:45Z'],
     readonly: true,
-    value: '($NOW)',
+    value: '($TIMESTAMP)',
     validate: {
       format: 'date-time',
     },
