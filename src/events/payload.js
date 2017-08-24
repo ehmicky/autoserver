@@ -1,7 +1,7 @@
 'use strict';
 
 const { omitBy } = require('../utilities');
-const { getServerInfo } = require('../info');
+const { getServerInfo } = require('../server_info');
 
 const { getRequestInfo } = require('./request_info');
 const { getConsoleMessage } = require('./console');

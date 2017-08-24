@@ -2,8 +2,6 @@
 
 const { v4: uuidv4 } = require('uuid');
 
-const { getServerInfo } = require('../../info');
-
 // Assigns unique ID (UUIDv4) to each request
 // Available in:
 //  - mInput, as `requestId`
@@ -11,11 +9,11 @@ const { getServerInfo } = require('../../info');
 //  - IDL function variables, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
-const setRequestIds = function ({ specific, protocolHandler, runOpts }) {
+const setRequestIds = function ({ specific, protocolHandler, serverInfo }) {
   const requestId = uuidv4();
 
   sendRequestIdHeader({ specific, requestId, protocolHandler });
-  sendServerIdsHeaders({ specific, runOpts, protocolHandler });
+  sendServerIdsHeaders({ specific, serverInfo, protocolHandler });
 
   return { requestId };
 };
@@ -33,10 +31,9 @@ const sendRequestIdHeader = function ({
 // Send e.g. HTTP request header, `X-Server-Name` and `X-Server-Id`
 const sendServerIdsHeaders = function ({
   specific,
-  runOpts,
+  serverInfo: { serverId, serverName },
   protocolHandler,
 }) {
-  const { serverId, serverName } = getServerInfo({ runOpts });
   const headers = { 'X-Server-Name': serverName, 'X-Server-Id': serverId };
   protocolHandler.sendHeaders({ specific, headers });
 };

@@ -12,8 +12,9 @@ const {
 
 const { v4: uuidv4 } = require('uuid');
 
-const { memoize } = require('../utilities');
-const { version: apiEngineVersion } = require('../../package.json');
+const { version: apiEngineVersion } = require('../package.json');
+
+const { memoize } = require('./utilities');
 
 // Retrieve process-specific and host-specific information
 const getServerInfo = function ({ runOpts: { serverName } }) {
