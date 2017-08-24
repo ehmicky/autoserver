@@ -10,8 +10,7 @@
 //     and `restartPerf()`
 // API:
 //   - `const measure = startPerf('label', 'category');` starts a measure
-//   - `const newMeasure = stopPerf(measure);` freeze a measure
-//   - `const anotherMeasure = restartPerf(newMeasure);` unfreeze a measure
+//   - `const newMeasure = stopPerf(measure);` stops a measure
 // Notice that a new measure is returned after each call, the passed measure
 // is not modified.
 
@@ -61,18 +60,7 @@ const stopPerf = function ({ pending, duration: oDur = 0, label, category }) {
   return { duration, label, category };
 };
 
-const restartPerf = function ({ pending, duration, label, category }) {
-  if (pending !== undefined) {
-    const message = 'Must call \'stopPerf()\' before calling \'restartPerf()\'';
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
-
-  const pendingA = hrtime();
-  return { pending: pendingA, duration, label, category };
-};
-
 module.exports = {
   startPerf,
   stopPerf,
-  restartPerf,
 };
