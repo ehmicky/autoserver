@@ -6,15 +6,17 @@ const { getMiddleware } = require('../middleware');
 const { emitEvent } = require('../events');
 const { monitor } = require('../perf');
 const { getHelpers, compileIdlFuncs } = require('../idl_func');
+const { getServerInfo } = require('../server_info');
 
 // Start each server
 const startServers = async function ({ runOpts, runOpts: { idl } }) {
   const [idlA, compileIdlFuncsMeasure] = await mCompileIdlFuncs({ idl });
   const [helpers, getHelpersMeasure] = await mGetHelpers({ idl: idlA });
+  const [serverInfo, serverInfoMeasure] = await mGetServerInfo({ runOpts });
 
   // This callback must be called by each server
   const middleware = await getMiddleware();
-  const baseInput = { idl: idlA, runOpts, ...helpers };
+  const baseInput = { idl: idlA, runOpts, ...helpers, serverInfo };
 
   const [servers, serverMeasures] = await startEachServer({
     runOpts,
@@ -25,6 +27,7 @@ const startServers = async function ({ runOpts, runOpts: { idl } }) {
   const measures = [
     compileIdlFuncsMeasure,
     getHelpersMeasure,
+    serverInfoMeasure,
     ...serverMeasures,
   ];
 
@@ -32,8 +35,8 @@ const startServers = async function ({ runOpts, runOpts: { idl } }) {
 };
 
 const mCompileIdlFuncs = monitor(compileIdlFuncs, 'compileIdlFuncs', 'server');
-
 const mGetHelpers = monitor(getHelpers, 'getHelpers', 'server');
+const mGetServerInfo = monitor(getServerInfo, 'getServerInfo', 'server');
 
 const startEachServer = async function (options) {
   const serverInfosPromises = protocols
