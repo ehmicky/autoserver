@@ -26,7 +26,7 @@ const middlewareLayers = [
   },
 
   {
-    name: 'timeout',
+    name: 'time',
     layers: [
       // Abort request after a certain delay
       setRequestTimeout,

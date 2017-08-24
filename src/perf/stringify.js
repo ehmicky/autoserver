@@ -43,7 +43,7 @@ const stringifyMeasure = function (
   { category, label, average, count, duration },
 ) {
   const phaseS = phase.padEnd(8);
-  const categoryS = category.padEnd(22);
+  const categoryS = category.padEnd(10);
   const labelS = label.padEnd(26);
   const durationS = `${Math.round(duration)}ms`.padEnd(8);
   const averageS = `${Math.round(average)}ms`.padEnd(7);
