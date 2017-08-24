@@ -1,7 +1,7 @@
 'use strict';
 
-const { throwError } = require('../error');
-const { pSetTimeout } = require('../utilities');
+const { throwError } = require('../../error');
+const { pSetTimeout } = require('../../utilities');
 
 // Make request fail after some timeout
 const setRequestTimeout = function ({ mInput, runOpts }, nextLayer) {

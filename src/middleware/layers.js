@@ -2,7 +2,7 @@
 'use strict';
 
 const final = require('./final');
-const { setRequestTimeout } = require('./timeout');
+const time = require('./time');
 const protocol = require('./protocol');
 const operation = require('./operation');
 const action = require('./action');
@@ -28,8 +28,12 @@ const middlewareLayers = [
   {
     name: 'time',
     layers: [
+      // Add request timestamp
+      time.addTimestamp,
       // Abort request after a certain delay
-      setRequestTimeout,
+      time.setRequestTimeout,
+      // Sets how long processing the request took
+      time.setResponseTime,
     ],
   },
 
@@ -38,8 +42,6 @@ const middlewareLayers = [
     layers: [
       // Protocol-related validation middleware
       protocol.protocolValidation,
-      // Add request timestamp
-      protocol.addTimestamp,
       // Set protocol full name
       protocol.getProtocolName,
       // Sets requestId, serverId, serverName
@@ -65,9 +67,6 @@ const middlewareLayers = [
 
       // Fires operation layer
       protocol.fireOperation,
-
-      // Sets how long processing the request took
-      protocol.setResponseTime,
     ],
   },
 
