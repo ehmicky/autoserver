@@ -39,14 +39,7 @@ const getErrorMInput = function ({ error, error: { mInput = {} } }) {
   return { ...mInput, mInput, error: errorA };
 };
 
-// eslint-disable-next-line max-params
-const throwMiddlewareError = function (
-  error,
-  nextLayer,
-  reqState,
-  mInput,
-  { force = false } = {},
-) {
+const throwMiddlewareError = function (error, mInput, { force = false } = {}) {
   if (!error.mInput || force) {
     // Must directly assign to error, because { ...error } does not work
     // eslint-disable-next-line fp/no-mutating-assign
@@ -59,7 +52,10 @@ const throwMiddlewareError = function (
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`
 const addMiddlewareHandler = function (func) {
-  return promiseCatch(func, throwMiddlewareError);
+  return promiseCatch(func, (error, ...args) =>
+    // Skip `nextLayer` and `reqState` arguments
+    throwMiddlewareError(error, ...args.slice(2))
+  );
 };
 
 module.exports = {
