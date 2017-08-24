@@ -14,6 +14,8 @@ module.exports = {
   ...require('./settings_params'),
   ...require('./routing'),
 
-  // eslint-disable-next-line import/max-dependencies
   ...require('./operation'),
+
+  // eslint-disable-next-line import/max-dependencies
+  ...require('./response_time'),
 };

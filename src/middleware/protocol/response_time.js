@@ -10,7 +10,7 @@ const setResponseTime = function ({ reqPerf, protocolHandler, specific }) {
 
   sendHeaders({ protocolHandler, specific, responseTime });
 
-  return { respPerf };
+  return { respPerf, responseTime };
 };
 
 const getResponseTime = function ({ reqPerf }) {
