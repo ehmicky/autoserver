@@ -36,7 +36,7 @@ const fireErrorHandler = async function (handler, errorA) {
 // Extract `mInput` from `error.mInput`
 const getErrorMInput = function ({ error, error: { mInput = {} } }) {
   const errorA = normalizeError({ error });
-  return { ...mInput, error: errorA };
+  return { ...mInput, mInput, error: errorA };
 };
 
 const throwMiddlewareError = function (error, mInput, { force = false } = {}) {
