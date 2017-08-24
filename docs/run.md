@@ -1,6 +1,6 @@
 # Running the server
 
-Execute the [`run` command](usage.md), e.g. `apiEngine.run()`.
+Execute the [`run` instruction](usage.md), e.g. `apiEngine.run()`.
 
 This function returns a promise, which resolves with the same value as the
 [`start` event payload](events.md#start-information).

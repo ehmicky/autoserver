@@ -4,8 +4,8 @@ const { dasherize } = require('underscore.string');
 
 const { assignObject } = require('../utilities');
 
-// Retrieve CLI options from `command`
-const getCliOptions = function ({ command: { options } }) {
+// Retrieve CLI options from `instruction`
+const getCliOptions = function ({ instruction: { options } }) {
   return options
     .map(getCliOption)
     .reduce(assignObject, {});

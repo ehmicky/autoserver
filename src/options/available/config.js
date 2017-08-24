@@ -1,6 +1,6 @@
 'use strict';
 
-// Option `config`, shared by all commands
+// Option `config`, shared by all instructions
 const config = {
   name: 'config',
   description: 'Configuration file (YAML or JSON)',

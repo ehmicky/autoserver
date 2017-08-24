@@ -10,7 +10,7 @@ const { getConfFile } = require('./conf');
 // Load options being a path pointing to a config file, inside the main
 // config file, i.e. to a 'sub-conf' file
 const loadSubConf = async function ({
-  command,
+  instruction,
   options,
   mainConfPath,
   availableOpts,
@@ -18,7 +18,7 @@ const loadSubConf = async function ({
   const subConfOpts = getSubConfOpts({ availableOpts });
   const baseDir = getBaseDir({ mainConfPath });
   const optionsB = await loadSubConfOpts({
-    command,
+    instruction,
     baseDir,
     subConfOpts,
     options,
@@ -39,17 +39,22 @@ const getBaseDir = function ({ mainConfPath }) {
   return dirname(mainConfPath);
 };
 
-const loadSubConfOpts = function ({ command, baseDir, subConfOpts, options }) {
+const loadSubConfOpts = function ({
+  instruction,
+  baseDir,
+  subConfOpts,
+  options,
+}) {
   return reduceAsync(
     subConfOpts,
     (optionsA, subConfOpt) =>
-      eLoadSubConfOpt({ command, baseDir, options: optionsA, subConfOpt }),
+      eLoadSubConfOpt({ instruction, baseDir, options: optionsA, subConfOpt }),
     options,
   );
 };
 
 const loadSubConfOpt = async function ({
-  command,
+  instruction,
   baseDir,
   options,
   subConfOpt: { name, subConfFiles },
@@ -58,7 +63,7 @@ const loadSubConfOpt = async function ({
   const path = get(options, keys);
 
   const content = await loadSubConfFiles({
-    command,
+    instruction,
     baseDir,
     path,
     subConfFiles,
@@ -73,22 +78,27 @@ const eLoadSubConfOpt = addErrorHandler(loadSubConfOpt, {
   reason: 'CONF_LOADING',
 });
 
-const loadSubConfFiles = function ({ command, baseDir, path, subConfFiles }) {
+const loadSubConfFiles = function ({
+  instruction,
+  baseDir,
+  path,
+  subConfFiles,
+}) {
   return findValueAsync(
     subConfFiles,
-    subConfFile => loadSubConfFile({ command, baseDir, path, subConfFile }),
+    subConfFile => loadSubConfFile({ instruction, baseDir, path, subConfFile }),
   );
 };
 
 const loadSubConfFile = async function ({
-  command,
+  instruction,
   baseDir,
   path,
   subConfFile: { filename, extNames, loader },
 }) {
   const { content } = await getConfFile({
     path,
-    name: `${command}.${filename}`,
+    name: `${instruction}.${filename}`,
     baseDir,
     extNames,
     loader,

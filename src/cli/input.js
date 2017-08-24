@@ -2,18 +2,18 @@
 
 const yargs = require('yargs');
 
-const { availableCommands } = require('../options');
+const { availableInstructions } = require('../options');
 const { startPerf, stopPerf } = require('../perf');
 
-const { addCommands, addCommandsExamples } = require('./commands');
+const { addInstructions, addInstructionsExamples } = require('./instructions');
 const { cleanOpts } = require('./clean');
 
 // CLI input parsing
 const parseInput = function () {
   const opts = parseOpts();
   const optsA = cleanOpts({ opts });
-  const { command, opts: optsB } = parseCommand({ opts: optsA });
-  return { command, opts: optsB };
+  const { instruction, opts: optsB } = parseInstruction({ opts: optsA });
+  return { instruction, opts: optsB };
 };
 
 // Performance monitoring
@@ -26,12 +26,12 @@ const mParseInput = function () {
 
 // CLI options parsing
 const parseOpts = function () {
-  const yargsA = addCommands({ yargs });
-  const yargsB = addCommandsExamples({ yargs: yargsA });
+  const yargsA = addInstructions({ yargs });
+  const yargsB = addInstructionsExamples({ yargs: yargsA });
   return yargsB
-    // There should be a single command, or none (default one)
+    // There should be a single instruction, or none (default one)
     .demandCommand(1, 1)
-    // No unknown commands nor options
+    // No unknown instruction nor options
     .strict()
     // --help option
     .usage(usage)
@@ -39,28 +39,28 @@ const parseOpts = function () {
     // --version option
     .version()
     .default(['help', 'version'], undefined)
-    // `completion` command, which outputs Bash completion script
+    // `completion` instruction, which outputs Bash completion script
     .completion()
     // Auto-suggests correction on typos
     .recommendCommands()
     .argv;
 };
 
-const usage = `apiengine COMMAND [OPTIONS]
+const usage = `apiengine INSTRUCTION [OPTIONS]
 
 Engine generating an API from a simple configuration file.`;
 
-// Retrieve CLI command
-const parseCommand = function ({ opts: { _: commands, ...optsA } }) {
-  const commandNames = availableCommands.map(({ name }) => name);
+// Retrieve CLI instruction
+const parseInstruction = function ({ opts: { _: instructions, ...optsA } }) {
+  const instructionNames = availableInstructions.map(({ name }) => name);
 
-  // If the command is wrong, or missing, defaults to 'run'
-  const missingCommand = !Array.isArray(commands) ||
-    commands.length !== 1 ||
-    !commandNames.includes(commands[0]);
-  const command = missingCommand ? 'run' : commands[0];
+  // If the instruction is wrong, or missing, defaults to 'run'
+  const missingInstruction = !Array.isArray(instructions) ||
+    instructions.length !== 1 ||
+    !instructionNames.includes(instructions[0]);
+  const instruction = missingInstruction ? 'run' : instructions[0];
 
-  return { command, opts: optsA };
+  return { instruction, opts: optsA };
 };
 
 module.exports = {
