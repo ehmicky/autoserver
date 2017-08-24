@@ -1,5 +1,7 @@
 'use strict';
 
+const { promiseThen } = require('./promise');
+
 // Uses to reduce:
 //  - an array of objects -> object, e.g. [{...},{...}].reduce(assign, {})
 //  - an array of [key, value] -> object,
@@ -28,18 +30,10 @@ const asyncReducer = function (prevVal, input) {
   const nextVal = mapFunc(prevVal, array[index], index, array);
   const inputA = { ...input, index: index + 1 };
 
-  // Do not use async|await to avoid creating promises on iterations that
-  // are synchronous, for performance reason.
-  // eslint-disable-next-line promise/prefer-await-to-then
-  if (nextVal && typeof nextVal.then === 'function') {
-    // eslint-disable-next-line promise/prefer-await-to-then
-    return nextVal.then(nextValA => applySecondMap(prevVal, nextValA, inputA));
-  }
-
-  return applySecondMap(prevVal, nextVal, inputA);
+  return promiseThen(nextVal, applySecondMap.bind(null, prevVal, inputA));
 };
 
-const applySecondMap = function (prevVal, nextVal, input) {
+const applySecondMap = function (prevVal, input, nextVal) {
   if (!input.secondMapFunc) {
     return asyncReducer(nextVal, input);
   }
