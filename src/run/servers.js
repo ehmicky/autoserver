@@ -4,7 +4,7 @@ const { assignObject } = require('../utilities');
 const { protocols, protocolHandlers } = require('../protocols');
 const { getMiddleware } = require('../middleware');
 const { emitEvent } = require('../events');
-const { monitor } = require('../perf');
+const { oldMonitor } = require('../perf');
 const { getHelpers, compileIdlFuncs } = require('../idl_func');
 const { getServerInfo } = require('../server_info');
 
@@ -34,9 +34,9 @@ const startServers = async function ({ runOpts, runOpts: { idl } }) {
   return [{ servers, idl: idlA }, measures];
 };
 
-const mCompileIdlFuncs = monitor(compileIdlFuncs, 'compileIdlFuncs', 'server');
-const mGetHelpers = monitor(getHelpers, 'getHelpers', 'server');
-const mGetServerInfo = monitor(getServerInfo, 'getServerInfo', 'server');
+const mCompileIdlFuncs = oldMonitor(compileIdlFuncs, 'compileIdlFuncs', 'server');
+const mGetHelpers = oldMonitor(getHelpers, 'getHelpers', 'server');
+const mGetServerInfo = oldMonitor(getServerInfo, 'getServerInfo', 'server');
 
 const startEachServer = async function (options) {
   const serverInfosPromises = protocols
@@ -95,7 +95,7 @@ const startEvent = async function ({
   await emitEvent({ type: 'message', phase: 'startup', message, runOpts });
 };
 
-const monitoredStartServer = monitor(
+const monitoredStartServer = oldMonitor(
   startServer,
   protocol => protocol,
   'server',
