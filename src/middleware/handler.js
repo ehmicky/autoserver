@@ -72,7 +72,7 @@ const mergeInput = function (mInput, mInputA) {
   return { ...mInput, ...mInputA };
 };
 
-const eFireMiddleware = addMiddlewareHandler.bind(null, fireMiddleware);
+const eFireMiddleware = addMiddlewareHandler(fireMiddleware);
 
 module.exports = {
   getMiddleware,
