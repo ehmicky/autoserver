@@ -6,10 +6,15 @@ const { emitEvent } = require('../../events');
 
 // Add events and monitoring capabilities to the function
 const wrapCloseFunc = function (func, { successMessage, errorMessage, label }) {
-  const handledFunc = handleEvent(func, { successMessage, errorMessage });
-  const getLabel = ({ protocol }) => `${protocol}.${label}`;
-  const monitoredFunc = monitor(handledFunc, getLabel, 'main');
-  return monitoredFunc;
+  const eFunc = handleEvent(func, { successMessage, errorMessage });
+
+  const getLabel = getEventLabel.bind(null, label);
+  const mFunc = monitor(eFunc, getLabel, 'main');
+  return mFunc;
+};
+
+const getEventLabel = function (label, { protocol }) {
+  return `${protocol}.${label}`;
 };
 
 // Shutdown failures events

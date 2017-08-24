@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitoredReduce, monitor, emitPerfEvent } = require('../perf');
+const { monitoredReduce, oldMonitor, emitPerfEvent } = require('../perf');
 
 const { startupSteps } = require('./steps');
 const { handleStartupError } = require('./error');
@@ -19,7 +19,7 @@ const runServer = function (runOpts) {
 };
 
 // Monitor total startup time
-const mRun = monitor(runServer, 'startup');
+const mRun = oldMonitor(runServer, 'startup');
 
 // Emit "perf" event with startup performance
 const mmRun = async function ({ cliPerf = [], ...opts } = {}) {

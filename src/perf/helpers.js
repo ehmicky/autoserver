@@ -1,14 +1,16 @@
 'use strict';
 
-const { reduceAsync, identity } = require('../utilities');
+const {
+  reduceAsync,
+  identity,
+  promiseThen,
+  keepFuncName,
+} = require('../utilities');
 
 const { startPerf, stopPerf } = require('./measure');
 
-// Wraps a function, so it calculate how long the function takes.
-// Returns the information by wrapping the return value as an array,
-// with the first element being the normal return value, and the second being
-// the measure
-const monitor = function (func, getLabel = func.name, category) {
+// TODO: remove, in favor of monitor()
+const oldMonitor = function (func, getLabel = func.name, category) {
   return async function funcAsync (...args) {
     const label = typeof getLabel === 'function' ? getLabel(...args) : getLabel;
     const startedPerf = startPerf(label, category);
@@ -18,7 +20,30 @@ const monitor = function (func, getLabel = func.name, category) {
   };
 };
 
-// Combine monitor() and reduceAsync()
+// Wraps a function, so it calculate how long the function takes.
+const monitor = function (func, label = func.name, category) {
+  return function monitoredFunc (...args) {
+    const labelA = typeof label === 'function' ? label(...args) : label;
+    const perf = startPerf(labelA, category);
+    const response = func(...args);
+    const [{ measures }] = args;
+    return promiseThen(response, recordPerf.bind(null, measures, perf));
+  };
+};
+
+const kMonitor = keepFuncName(monitor);
+
+const recordPerf = function (measures, perf, response) {
+  const perfA = stopPerf(perf);
+  // We directly mutate the passed argument, because it greatly simplifies
+  // the code
+  // eslint-disable-next-line fp/no-mutating-methods
+  measures.push(perfA);
+  return response;
+};
+
+// Combine oldMonitor() and reduceAsync()
+// TODO: do we need this?
 const monitoredReduce = function ({
   funcs,
   initialInput,
@@ -28,7 +53,7 @@ const monitoredReduce = function ({
   category,
 }) {
   return reduceAsync(funcs, async ([input, currentMeasures], func) => {
-    const monitoredFunc = monitor(func, label, category);
+    const monitoredFunc = oldMonitor(func, label, category);
     // Optional modification of function input
     const funcInput = mapInput(input);
     const [returnValue, measureA] = await monitoredFunc(funcInput);
@@ -49,6 +74,7 @@ const monitoredReduce = function ({
 };
 
 module.exports = {
-  monitor,
+  oldMonitor,
+  monitor: kMonitor,
   monitoredReduce,
 };
