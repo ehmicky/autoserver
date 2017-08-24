@@ -27,7 +27,7 @@ Or to set an attribute to the current time:
 
 ```yml
 current_date:
-  value: ($NOW)
+  value: ($TIMESTAMP)
 ```
 
 The difference between `transform` and `value` is:

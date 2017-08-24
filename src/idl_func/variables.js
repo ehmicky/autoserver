@@ -3,7 +3,7 @@
 // Retrieve IDL functions variables, using the request mInput
 const getVars = function ({
   protocol: $PROTOCOL,
-  timestamp: $NOW,
+  timestamp: $TIMESTAMP,
   ip: $IP,
   requestId: $REQUEST_ID,
   params: $PARAMS,
@@ -15,7 +15,7 @@ const getVars = function ({
 }) {
   return {
     $PROTOCOL,
-    $NOW,
+    $TIMESTAMP,
     $IP,
     $REQUEST_ID,
     $PARAMS,
@@ -34,7 +34,7 @@ const getVarsKeys = function ({ idl: { helpers = {} } }) {
 
 const VARS_KEYS = [
   '$PROTOCOL',
-  '$NOW',
+  '$TIMESTAMP',
   '$REQUEST_ID',
   '$IP',
   '$SETTINGS',
