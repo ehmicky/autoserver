@@ -28,8 +28,7 @@ const loadSubConf = async function ({
 };
 
 const getSubConfOpts = function ({ availableOpts }) {
-  return availableOpts
-    .filter(({ subConfFiles }) => subConfFiles !== undefined);
+  return availableOpts.filter(({ subConfFiles }) => subConfFiles !== undefined);
 };
 
 // Config paths, inside a main config files, are relative to that file
@@ -39,11 +38,7 @@ const getBaseDir = function ({ mainConfPath }) {
   return dirname(mainConfPath);
 };
 
-const loadSubConfOpts = function ({
-  instruction,
-  baseDir,
-  subConfOpts,
-  options,
+const loadSubConfOpts = function ({ instruction, baseDir, subConfOpts, options,
 }) {
   return reduceAsync(
     subConfOpts,
@@ -57,17 +52,12 @@ const loadSubConfOpt = async function ({
   instruction,
   baseDir,
   options,
-  subConfOpt: { name, subConfFiles },
+  subConfOpt: { name, subConfFiles: files },
 }) {
   const keys = name.split('.');
   const path = get(options, keys);
 
-  const content = await loadSubConfFiles({
-    instruction,
-    baseDir,
-    path,
-    subConfFiles,
-  });
+  const content = await loadSubConfFiles({ instruction, baseDir, path, files });
 
   const optionsA = set(options, keys, () => content);
   return optionsA;
@@ -78,15 +68,10 @@ const eLoadSubConfOpt = addErrorHandler(loadSubConfOpt, {
   reason: 'CONF_LOADING',
 });
 
-const loadSubConfFiles = function ({
-  instruction,
-  baseDir,
-  path,
-  subConfFiles,
-}) {
+const loadSubConfFiles = function ({ instruction, baseDir, path, files }) {
   return findValueAsync(
-    subConfFiles,
-    subConfFile => loadSubConfFile({ instruction, baseDir, path, subConfFile }),
+    files,
+    file => loadSubConfFile({ instruction, baseDir, path, file }),
   );
 };
 
@@ -94,7 +79,7 @@ const loadSubConfFile = async function ({
   instruction,
   baseDir,
   path,
-  subConfFile: { filename, extNames, loader },
+  file: { filename, extNames, loader },
 }) {
   const { content } = await getConfFile({
     path,
