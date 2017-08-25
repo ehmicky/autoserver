@@ -36,20 +36,35 @@ const fireLayers = async function (allLayers, mInput) {
   // Used only by performance monitoring
   const reqState = { measures: [] };
 
-  try {
-    // Fires allLayers[1], i.e. skip `final`
-    const mInputA = await fireLayer(allLayers.slice(1), reqState, mInput);
+  const mInputA = await fireMainLayers({ allLayers, mInput, reqState });
+  await fireFinalLayer({ allLayers, mInput: mInputA, reqState });
+};
 
-    // Fires allLayers[0], i.e. `final`, a special layer that it is always
-    // fired, whether the request is successful or not.
-    // It does not call `nextLayer()`, so allLayers[1] won't be called
-    await fireLayer(allLayers, reqState, mInputA);
+// Fires allLayers[1], i.e. skip `final`
+const fireMainLayers = async function ({ allLayers, mInput, reqState }) {
+  try {
+    return await fireLayer(allLayers.slice(1), reqState, mInput);
   } catch (error) {
     const mInputA = getErrorMInput({ error });
 
+    // Final layer are called before error handlers, except if the error
+    // was raised by the final layer itself
     const mInputB = await fireLayer(allLayers, reqState, mInputA);
 
     throwMiddlewareError(error, mInputB, { force: true });
+  }
+};
+
+// Fires allLayers[0], i.e. `final`, a special layer that it is always
+// fired, whether the request is successful or not.
+// It does not call `nextLayer()`, so allLayers[1] won't be called
+const fireFinalLayer = async function ({ allLayers, mInput, reqState }) {
+  try {
+    return await fireLayer(allLayers, reqState, mInput);
+  } catch (error) {
+    const mInputA = getErrorMInput({ error });
+
+    throwMiddlewareError(error, mInputA, { force: true });
   }
 };
 
