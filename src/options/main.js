@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitoredReduce } = require('../perf');
+const { newMonitoredReduce } = require('../perf');
 
 const { availableInstructions } = require('./available');
 const { loadMainConf } = require('./main_conf');
@@ -18,15 +18,20 @@ const processors = [
 ];
 
 // Retrieve and validate main options
-const getOptions = function ({ instruction, options }) {
-  const { options: availableOpts } = availableInstructions
-    .find(({ name }) => name === instruction);
-  return monitoredReduce({
+const getOptions = function ({ instruction, options, measures }) {
+  const availableOpts = getAvailableOpts({ instruction });
+  return newMonitoredReduce({
     funcs: processors,
-    initialInput: { options, instruction, availableOpts },
-    mapResponse: (newInput, input) => ({ ...input, ...newInput }),
+    initialInput: { options, instruction, availableOpts, measures },
+    mapResponse: (input, newInput) => ({ ...input, ...newInput }),
     category: `${instruction}_opts`,
   });
+};
+
+const getAvailableOpts = function ({ instruction }) {
+  const { options: availableOpts } = availableInstructions
+    .find(({ name }) => name === instruction);
+  return availableOpts;
 };
 
 module.exports = {

@@ -2,12 +2,13 @@
 
 const { getOptions } = require('../options');
 
-const getRunOpts = async function ({ runOpts }) {
-  const [{ options }, perf] = await getOptions({
+const getRunOpts = async function ({ runOpts, measures }) {
+  const { options } = await getOptions({
     instruction: 'run',
     options: runOpts,
+    measures,
   });
-  return [{ runOpts: options }, perf];
+  return { runOpts: options };
 };
 
 module.exports = {

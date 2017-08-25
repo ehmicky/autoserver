@@ -9,10 +9,10 @@ const startCli = function () {
   // eslint-disable-next-line fp/no-mutation
   Error.stackTraceLimit = 100;
 
-  const [{ instruction, opts }, cliPerf] = parseInput();
-  const optsA = { ...opts, cliPerf };
+  const measures = [];
+  const { instruction, opts } = parseInput({ measures });
 
-  instructions[instruction](optsA)
+  instructions[instruction]({ ...opts, measures })
     // eslint-disable-next-line no-process-exit, unicorn/no-process-exit
     .catch(() => process.exit(1));
 };

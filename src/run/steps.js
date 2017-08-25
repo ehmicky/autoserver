@@ -2,7 +2,7 @@
 
 const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
-const { startServers } = require('./servers');
+const { bootServers } = require('./boot');
 const { setupGracefulExit } = require('./exit');
 const { emitStartEvent } = require('./start_event');
 
@@ -12,7 +12,7 @@ const startupSteps = [
   // Setup process warnings and errors handler
   processErrorHandler,
   // Boot each server
-  startServers,
+  bootServers,
   // Make sure servers are closed on exit
   setupGracefulExit,
   // Emit final "start" event

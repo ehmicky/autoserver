@@ -20,11 +20,12 @@ const { memoize } = require('./utilities');
 const getServerInfo = function ({ runOpts: { serverName } }) {
   const staticServerInfo = mGetStaticServerInfo({ serverName });
   const dynamicServerInfo = getDynamicServerInfo();
-  return {
+  const serverInfo = {
     ...staticServerInfo,
     ...dynamicServerInfo,
     stats: { ...staticServerInfo.stats, ...dynamicServerInfo.stats },
   };
+  return { serverInfo };
 };
 
 // Information that do not change across a specific process.

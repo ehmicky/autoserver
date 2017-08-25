@@ -12,10 +12,11 @@ const {
 } = require('./error');
 
 // Called once per server startup
-const getMiddleware = function () {
+const getRequestHandler = function () {
   // Add performance monitoring
   const allLayersA = monitorAllLayers(middlewareLayers);
-  return eFireLayers.bind(null, allLayersA);
+  const requestHandler = eFireLayers.bind(null, allLayersA);
+  return { requestHandler };
 };
 
 // Main request handler, i.e. called once per request
@@ -75,5 +76,5 @@ const mergeInput = function (mInput, mInputA) {
 const eFireMiddleware = addMiddlewareHandler(fireMiddleware);
 
 module.exports = {
-  getMiddleware,
+  getRequestHandler,
 };

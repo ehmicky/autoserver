@@ -42,8 +42,6 @@ const recordPerf = function (measures, perf, response) {
   return response;
 };
 
-// Combine oldMonitor() and reduceAsync()
-// TODO: do we need this?
 const monitoredReduce = function ({
   funcs,
   initialInput,
@@ -73,8 +71,28 @@ const monitoredReduce = function ({
   }, [initialInput, []]);
 };
 
+// Combine monitor() and reduceAsync()
+const newMonitoredReduce = function ({
+  funcs,
+  initialInput,
+  mapInput = identity,
+  mapResponse = identity,
+  label,
+  category,
+}) {
+  const funcsA = funcs.map(func => kMonitor(func, label, category));
+  const reduceFunc = monitoredReduceFunc.bind(null, mapInput);
+  return reduceAsync(funcsA, reduceFunc, initialInput, mapResponse);
+};
+
+const monitoredReduceFunc = function (mapInput, input, func) {
+  const inputA = mapInput(input);
+  return func(inputA);
+};
+
 module.exports = {
   oldMonitor,
   monitor: kMonitor,
   monitoredReduce,
+  newMonitoredReduce,
 };
