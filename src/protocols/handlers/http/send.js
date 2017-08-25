@@ -6,15 +6,20 @@ const send = function ({
   specific: { res },
   content,
   contentType,
-  status,
+  protocolStatus,
 }) {
-  if (status) {
+  if (protocolStatus) {
     // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    res.statusCode = status;
+    res.statusCode = protocolStatus;
   }
 
-  res.setHeader('Content-Type', contentType);
-  res.setHeader('Content-Length', Buffer.byteLength(content));
+  if (contentType) {
+    res.setHeader('Content-Type', contentType);
+  }
+
+  if (content) {
+    res.setHeader('Content-Length', Buffer.byteLength(content));
+  }
 
   res.end(content);
 
@@ -25,28 +30,28 @@ const sendJson = function ({
   specific,
   content = {},
   contentType = 'application/json',
-  status,
+  protocolStatus,
 }) {
-  const contentString = JSON.stringify(content, null, 2);
-  return send({ specific, content: contentString, contentType, status });
+  const contentA = JSON.stringify(content, null, 2);
+  return send({ specific, content: contentA, contentType, protocolStatus });
 };
 
 const sendHtml = function ({
   specific,
   content = '',
   contentType = 'text/html',
-  status,
+  protocolStatus,
 }) {
-  return send({ specific, content, contentType, status });
+  return send({ specific, content, contentType, protocolStatus });
 };
 
 const sendText = function ({
   specific,
   content = '',
   contentType = 'text/plain',
-  status,
+  protocolStatus,
 }) {
-  return send({ specific, content, contentType, status });
+  return send({ specific, content, contentType, protocolStatus });
 };
 
 // This function is special because it might be fired very early during the
@@ -55,7 +60,7 @@ const sendText = function ({
 const sendNothing = function ({
   specific,
   specific: { res } = {},
-  status,
+  protocolStatus,
 }) {
   // `specific` might be undefined, if initial input was wrong.
   if (!res) { return; }
@@ -64,14 +69,7 @@ const sendNothing = function ({
   // so we must check to avoid double responses
   if (res.finished) { return; }
 
-  if (status) {
-    // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    res.statusCode = status;
-  }
-
-  res.end();
-
-  return specific;
+  return send({ specific, protocolStatus });
 };
 
 module.exports = {

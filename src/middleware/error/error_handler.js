@@ -2,14 +2,14 @@
 
 const { pSetTimeout } = require('../../utilities');
 const { getStandardError } = require('../../error');
-const { STATUS_LEVEL_MAP, emitEvent } = require('../../events');
+const { emitEvent } = require('../../events');
 
 // Error handler, which sends final response, if errors
 const errorHandler = async function ({
   error,
+  level,
   protocolHandler,
-  protocolHandler: { failureProtocolStatus },
-  status = failureProtocolStatus,
+  protocolStatus,
   specific,
   runOpts,
   mInput,
@@ -23,19 +23,18 @@ const errorHandler = async function ({
 
   const standardError = getStandardError({ error, mInput });
 
-  await reportError({ runOpts, status, error: standardError, mInput });
+  await reportError({ runOpts, level, error: standardError, mInput });
 
   // Make sure a response is sent, or the socket will hang
-  protocolHandler.send.nothing({ specific, status });
+  protocolHandler.send.nothing({ specific, protocolStatus });
 
   return standardError;
 };
 
 // Report any exception thrown
-const reportError = async function ({ runOpts, error, status, mInput }) {
+const reportError = async function ({ runOpts, level, error, mInput }) {
   // If we haven't reached the events middleware yet, error.status
   // will be undefined, so it will still be caught and reported.
-  const level = STATUS_LEVEL_MAP[status];
   const levelA = ['warn', 'error'].includes(level) ? level : 'error';
 
   await emitEvent({

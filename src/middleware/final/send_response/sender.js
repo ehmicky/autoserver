@@ -6,7 +6,7 @@ const { throwError } = require('../../../error');
 const sender = function ({
   specific,
   protocolHandler,
-  protocolStatus: status = protocolHandler.failureProtocolStatus,
+  protocolStatus,
   response: { type, content },
 }) {
   if (!type) {
@@ -15,7 +15,7 @@ const sender = function ({
     });
   }
 
-  if (content === undefined && type !== 'failure') {
+  if (content === undefined) {
     throwError('Server sent an empty response', {
       reason: 'SERVER_INPUT_VALIDATION',
     });
@@ -29,47 +29,45 @@ const sender = function ({
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  handler({ protocolHandler, specific, content, status });
+  handler({ protocolHandler, specific, content, protocolStatus });
 };
 
 // Each content type is sent differently
 // TODO: validate content typeof?
 const handlers = {
 
-  model ({ protocolHandler: { send }, specific, content, status }) {
+  model ({ protocolHandler: { send }, specific, content, protocolStatus }) {
     const contentType = 'application/x-resource+json';
-    send.json({ specific, content, contentType, status });
+    send.json({ specific, content, contentType, protocolStatus });
   },
 
-  collection ({ protocolHandler: { send }, specific, content, status }) {
-    const contentType = 'application/x-collection+json';
-    send.json({ specific, content, contentType, status });
-  },
-
-  error ({ protocolHandler: { send }, specific, content, status }) {
-    // See RFC 7807
-    // Exception: `status` is only present with HTTP protocol
-    const contentType = 'application/problem+json';
-    send.json({ specific, content, contentType, status });
-  },
-
-  object ({ protocolHandler: { send }, specific, content, status }) {
-    send.json({ specific, content, status });
-  },
-
-  html ({ protocolHandler: { send }, specific, content, status }) {
-    send.html({ specific, content, status });
-  },
-
-  text ({ protocolHandler: { send }, specific, content, status }) {
-    send.text({ specific, content, status });
-  },
-
-  failure ({
-    protocolHandler: { send, failureProtocolStatus: status },
+  collection ({
+    protocolHandler: { send },
     specific,
+    content,
+    protocolStatus,
   }) {
-    send.nothing({ specific, status });
+    const contentType = 'application/x-collection+json';
+    send.json({ specific, content, contentType, protocolStatus });
+  },
+
+  error ({ protocolHandler: { send }, specific, content, protocolStatus }) {
+    // See RFC 7807
+    // Exception: `protocolStatus` is only present with HTTP protocol
+    const contentType = 'application/problem+json';
+    send.json({ specific, content, contentType, protocolStatus });
+  },
+
+  object ({ protocolHandler: { send }, specific, content, protocolStatus }) {
+    send.json({ specific, content, protocolStatus });
+  },
+
+  html ({ protocolHandler: { send }, specific, content, protocolStatus }) {
+    send.html({ specific, content, protocolStatus });
+  },
+
+  text ({ protocolHandler: { send }, specific, content, protocolStatus }) {
+    send.text({ specific, content, protocolStatus });
   },
 
 };
