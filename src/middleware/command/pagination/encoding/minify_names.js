@@ -17,7 +17,7 @@ const removeNameShortcuts = function (token) {
 
 const shortcuts = {
   filter: 'f',
-  nOrderBy: 'o',
+  orderBy: 'o',
   parts: 'p',
 };
 

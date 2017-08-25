@@ -9,8 +9,12 @@ const { throwError } = require('../../../error');
 //     { attrName: 'c', order: 'desc' },
 //     { attrName: 'id', order: 'asc' },
 //   ]
-const normalizeOrderBy = function (args, { modelName, idl: { models } }) {
-  const { orderBy } = args;
+const normalizeOrderBy = function ({
+  args,
+  args: { orderBy },
+  modelName,
+  idl: { models },
+}) {
   if (!orderBy) { return args; }
 
   if (typeof orderBy !== 'string') {
@@ -19,12 +23,12 @@ const normalizeOrderBy = function (args, { modelName, idl: { models } }) {
   }
 
   const attrNames = Object.keys(models[modelName].attributes);
-  const nOrderBy = getNOrderBy({ orderBy, attrNames });
+  const orderByA = getOrderBy({ orderBy, attrNames });
 
-  return { ...args, nOrderBy };
+  return { ...args, orderBy: orderByA };
 };
 
-const getNOrderBy = function ({ orderBy, attrNames }) {
+const getOrderBy = function ({ orderBy, attrNames }) {
   // Remove whitespaces
   const noWhitespaceOrderBy = orderBy.replace(/\s+/g, '');
 
@@ -33,18 +37,18 @@ const getNOrderBy = function ({ orderBy, attrNames }) {
 
   // Transform each part from a string to an object
   // { attrName 'attr', order 'asc|desc' }
-  const nOrderBy = parts.map(part => getPart({ part, attrNames }));
+  const orderByA = parts.map(part => getPart({ part, attrNames }));
 
   // `orderBy` always include an id sorting. The reasons:
   //   - make output predictable, the same request should always get
   //     the same response
   //   - the pagination layer needs this predictability
   // If an id sorting is already specified, do not need to do anything
-  const hasId = nOrderBy.some(({ attrName }) => attrName === idOrder.attrName);
+  const hasId = orderByA.some(({ attrName }) => attrName === idOrder.attrName);
 
-  const finalNOrderBy = hasId ? nOrderBy : [...nOrderBy, idOrder];
+  const orderByB = hasId ? orderByA : [...orderByA, idOrder];
 
-  return finalNOrderBy;
+  return orderByB;
 };
 
 const getPart = function ({ part, attrNames }) {

@@ -3,13 +3,13 @@
 // JSON schema validating a pagination token
 const tokenSchema = {
   type: 'object',
-  required: ['nOrderBy', 'filter', 'parts'],
+  required: ['orderBy', 'filter', 'parts'],
   properties: {
     parts: {
       type: 'array',
       minLength: 1,
     },
-    nOrderBy: {
+    orderBy: {
       type: 'array',
       items: {
         type: 'object',

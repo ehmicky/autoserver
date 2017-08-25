@@ -38,7 +38,7 @@ const handlePaginationOutput = function ({
 };
 
 // When using args.before, pagination is performed backward.
-// We do this by inversing args.nOrderBy, which means we need to reverse output
+// We do this by inversing args.orderBy, which means we need to reverse output
 // afterwards.
 const reverseOutput = function ({ args, response }) {
   const { isBackward } = getPaginationInfo({ args });
