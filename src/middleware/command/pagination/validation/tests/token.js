@@ -2,9 +2,9 @@
 
 const { assignArray } = require('../../../../../utilities');
 
-const getTokenTests = function ({ args }) {
+const getTokenTests = function (obj) {
   return ['after', 'before']
-    .filter(name => args[name] !== undefined && args[name] !== '')
+    .filter(name => obj[name] !== undefined && obj[name] !== '')
     .map(getTokenTest)
     .reduce(assignArray, []);
 };
@@ -12,19 +12,19 @@ const getTokenTests = function ({ args }) {
 const getTokenTest = name => [
   {
     test: [
-      ({ args: { [name]: token } }) => token.constructor !== Object,
-      ({ args: { [name]: token } }) => ['orderBy', 'filter', 'parts']
+      ({ [name]: token }) => token.constructor !== Object,
+      ({ [name]: token }) => ['orderBy', 'filter', 'parts']
         .some(key => !token[key] || typeof token[key] !== 'object'),
-      ({ args: { [name]: { parts } } }) =>
+      ({ [name]: { parts } }) =>
         !Array.isArray(parts) || parts.length === 0,
-      ({ args: { [name]: { orderBy } } }) =>
+      ({ [name]: { orderBy } }) =>
         !Array.isArray(orderBy) || orderBy.length === 0,
     ],
     message: `'${name}' argument contains an invalid token`,
   },
 
   {
-    input: ({ args: { [name]: { orderBy } } }) => orderBy,
+    input: ({ [name]: { orderBy } }) => orderBy,
     test: [
       sOrderBy => !sOrderBy || sOrderBy.constructor !== Object,
       sOrderBy => typeof sOrderBy.attrName !== 'string',
@@ -36,4 +36,5 @@ const getTokenTest = name => [
 
 module.exports = {
   getTokenTests,
+  getTokenTest,
 };

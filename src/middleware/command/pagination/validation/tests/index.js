@@ -6,4 +6,5 @@ module.exports = {
   ...require('./page_size'),
   ...require('./cursor_conflict'),
   ...require('./token'),
+  ...require('./next_page'),
 };

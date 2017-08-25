@@ -2,7 +2,7 @@
 
 const noPageTests = [
   {
-    test ({ args: { page } }) {
+    test ({ page }) {
       return page !== undefined;
     },
     message: '\'page\' must not be defined',
