@@ -30,7 +30,7 @@ const buildRequestInfo = function ({
   action: { name: action } = {},
   command: { name: command } = {},
   modelName: model,
-  args,
+  oArgs: args,
   response: {
     content: response,
     type: responseType,

@@ -10,7 +10,7 @@ const getVars = function ({
   settings: $SETTINGS,
   operation: $OPERATION,
   modelName: $MODEL,
-  args: $ARGS,
+  oArgs: $ARGS,
   command: { type: $COMMAND } = {},
 }) {
   return {
