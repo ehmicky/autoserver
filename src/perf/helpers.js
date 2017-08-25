@@ -10,12 +10,18 @@ const {
 const { startPerf, stopPerf } = require('./measure');
 
 // Wraps a function, so it calculate how long the function takes.
-const monitor = function (func, label = func.name, category) {
+// eslint-disable-next-line max-params
+const monitor = function (
+  func,
+  label = func.name,
+  category,
+  measuresIndex = 0,
+) {
   return function monitoredFunc (...args) {
     const labelA = typeof label === 'function' ? label(...args) : label;
     const perf = startPerf(labelA, category);
     const response = func(...args);
-    const [{ measures }] = args;
+    const { measures } = args[measuresIndex];
     return promiseThen(response, recordPerf.bind(null, measures, perf));
   };
 };
