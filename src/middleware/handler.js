@@ -40,6 +40,8 @@ const fireLayers = async function (allLayers, mInput) {
   await fireFinalLayer({ allLayers, mInput: mInputA, reqState });
 };
 
+const eFireLayers = addLayersErrorsHandlers(fireLayers);
+
 // Fires allLayers[1], i.e. skip `final`
 const fireMainLayers = async function ({ allLayers, mInput, reqState }) {
   try {
@@ -68,14 +70,11 @@ const fireFinalLayer = async function ({ allLayers, mInput, reqState }) {
   }
 };
 
-const eFireLayers = addLayersErrorsHandlers(fireLayers);
-
 // Fire all the middleware functions of a given layer
 const fireLayer = function (allLayers, reqState, mInput) {
-  const [{ layers }] = allLayers;
+  const [{ layers }, ...nextLayers] = allLayers;
   // Each layer can fire the next layer middleware functions by calling this
-  const nextLayer = fireLayer.bind(null, allLayers.slice(1), reqState);
-
+  const nextLayer = fireLayer.bind(null, nextLayers, reqState);
   const fireMiddlewareA = eFireMiddleware.bind(null, nextLayer, reqState);
 
   // Iterate over each middleware function
