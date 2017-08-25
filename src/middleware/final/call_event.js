@@ -1,18 +1,15 @@
 'use strict';
 
-const { emitEvent, STATUS_LEVEL_MAP } = require('../../events');
+const { emitEvent } = require('../../events');
 
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not
 const callEvent = async function ({
   runOpts,
-  status,
-  error,
+  level,
   mInput,
   respPerf: { duration } = {},
 }) {
-  const level = getLevel({ status, error });
-
   await emitEvent({
     mInput,
     type: 'call',
@@ -21,14 +18,6 @@ const callEvent = async function ({
     runOpts,
     duration,
   });
-};
-
-const getLevel = function ({
-  status: normalStatus,
-  error: { status: errorStatus } = {},
-}) {
-  const status = errorStatus || normalStatus || 'SERVER_ERROR';
-  return STATUS_LEVEL_MAP[status] || 'error';
 };
 
 module.exports = {

@@ -57,7 +57,7 @@ const failureProtocolStatus = 500;
 // Retrieves generic status, using HTTP status code
 const getStatus = function ({ protocolStatus = '' }) {
   const [statusCategory] = String(protocolStatus);
-  return statusesMap[statusCategory] || 'SERVER_ERROR';
+  return statusesMap[statusCategory];
 };
 
 const statusesMap = {
