@@ -4,9 +4,10 @@ const { emitEvent } = require('../events');
 const { mapValues, omit } = require('../utilities');
 
 // Create event when all protocol-specific servers have started
-const emitStartEvent = async function ({ servers, runOpts }) {
+const emitStartEvent = async function ({ servers, runOpts, measures }) {
   const message = 'Server is ready';
   const info = getPayload({ servers, runOpts });
+  const { duration } = measures.find(({ category }) => category === 'default');
   const startPayload = await emitEvent({
     type: 'start',
     phase: 'startup',
@@ -14,6 +15,7 @@ const emitStartEvent = async function ({ servers, runOpts }) {
     info,
     runOpts,
     async: false,
+    duration,
   });
   return { startPayload };
 };

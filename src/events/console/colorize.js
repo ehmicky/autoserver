@@ -6,7 +6,7 @@ const { magenta, green, yellow, red, gray, reset, dim } = require('chalk');
 // Not performed if `--no-color`, environment variable `FORCE_COLOR=0` or
 // terminal does not support colors
 const colorize = function ({ type, level, message }) {
-  const [, first, second, third, , fourth = ''] = messageRegExp.test(message)
+  const [, first, second, , third, , fourth = ''] = messageRegExp.test(message)
     ? messageRegExp.exec(message)
     : shortMessageRexExp.exec(message);
 
@@ -24,10 +24,10 @@ const colorize = function ({ type, level, message }) {
   return colorMessage;
 };
 
-// Look for [...] [...] [...] [...] ... - ...
-const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\]) ((.|\n)*) (- (.|\n)*)/;
-// Look for [...] [...] [...] [...] ...
-const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\]) ((.|\n)*)/;
+// Look for [...] [...] [...] [...] [...] ([...]) ... - ...
+const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*) (- (.|\n)*)/;
+// Look for [...] [...] [...] [...] [...] ([...]) ...
+const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*)/;
 
 // Make it easy to read stack trace with color hints
 const colorStack = function ({ stack }) {
