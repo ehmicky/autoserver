@@ -2,21 +2,21 @@
 
 const pageSizeTests = [
   {
-    test ({ args: { pageSize } }) {
+    test ({ pageSize }) {
       return pageSize !== undefined && !Number.isInteger(pageSize);
     },
     message: '\'page_size\' must be an integer',
   },
 
   {
-    test ({ args: { pageSize } }) {
+    test ({ pageSize }) {
       return pageSize !== undefined && pageSize < 1;
     },
     message: '\'page_size\' argument must be greater than 0',
   },
 
   {
-    test ({ args: { pageSize }, maxPageSize }) {
+    test ({ pageSize, maxPageSize }) {
       return pageSize !== undefined && pageSize > maxPageSize;
     },
     message: ({ maxPageSize }) => `'page_size' argument must be less than ${maxPageSize}`,

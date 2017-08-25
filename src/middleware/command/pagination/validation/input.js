@@ -1,6 +1,6 @@
 'use strict';
 
-const { fastValidate } = require('../../../../utilities');
+const { fastValidate } = require('../../../../validation');
 const { allowFullPagination, mustPaginateOutput } = require('../condition');
 
 const { getDecodedTokens } = require('./decode');
@@ -15,15 +15,15 @@ const {
 // Validate pagination input arguments
 const validatePaginationInput = function ({ args, command, maxPageSize }) {
   const decodedTokens = getDecodedTokens({ args });
-  const argsA = { ...args, ...decodedTokens };
 
-  const tests = getTests({ args: argsA, command });
+  const tests = getTests({ args, command });
   fastValidate({
     prefix: 'Wrong pagination arguments: ',
     reason: 'INPUT_VALIDATION',
     tests,
   }, {
-    args: argsA,
+    ...args,
+    ...decodedTokens,
     maxPageSize,
   });
 };

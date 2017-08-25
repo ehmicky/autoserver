@@ -9,5 +9,4 @@ module.exports = {
   ...require('./template'),
   ...require('./ref_parser'),
   ...require('./transtype'),
-  ...require('./fast_validate'),
 };

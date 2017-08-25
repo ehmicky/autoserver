@@ -4,23 +4,22 @@ const { isEqual } = require('lodash');
 
 const cursorConflictTests = [
   {
-    test ({ args }) {
-      return args.before !== undefined && args.after !== undefined;
+    test ({ before: bef, after: aft }) {
+      return bef !== undefined && aft !== undefined;
     },
     message: 'cannot specify both \'before\' and \'after\'',
   },
 
   {
-    test ({ args }) {
-      return args.page !== undefined &&
-        (args.before !== undefined || args.after !== undefined);
+    test ({ page, before: bef, after: aft }) {
+      return page !== undefined && (bef !== undefined || aft !== undefined);
     },
     message: 'cannot use both \'page\' and \'before\' or \'after\'',
   },
 
   {
-    test ({ args, args: { filter } }) {
-      return hasCursor({ args }) &&
+    test ({ filter, before: bef, after: aft }) {
+      return hasCursor({ bef, aft }) &&
         filter !== undefined &&
         !isEqual(filter, {});
     },
@@ -28,16 +27,15 @@ const cursorConflictTests = [
   },
 
   {
-    test ({ args, args: { orderBy } }) {
-      return hasCursor({ args }) && orderBy !== undefined;
+    test ({ orderBy, before: bef, after: aft }) {
+      return hasCursor({ bef, aft }) && orderBy !== undefined;
     },
     message: 'cannot use both \'order_by\' and \'before\' or \'after\'',
   },
 ];
 
-const hasCursor = function ({ args }) {
-  return (args.before !== undefined && args.before !== '') ||
-    (args.after !== undefined && args.after !== '');
+const hasCursor = function ({ bef, aft }) {
+  return (bef !== undefined && bef !== '') || (aft !== undefined && aft !== '');
 };
 
 module.exports = {

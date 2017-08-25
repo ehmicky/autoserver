@@ -15,10 +15,6 @@ const validationTypes = {
     reason: 'INPUT_VALIDATION',
     message: 'Wrong parameters',
   },
-  paginationOutput: {
-    reason: 'OUTPUT_VALIDATION',
-    message: 'Response is corrupted',
-  },
 };
 
 module.exports = {
