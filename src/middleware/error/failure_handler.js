@@ -9,11 +9,10 @@ const failureHandler = async function ({
   protocolHandler: { failureProtocolStatus: status },
   specific,
   runOpts,
-  mInput,
 }) {
   const standardError = getStandardError({ error });
 
-  await reportError({ runOpts, error: standardError, mInput });
+  await reportError({ runOpts, error: standardError });
 
   // Make sure a response is sent, or the socket will hang
   protocolHandler.send.nothing({ specific, status });
@@ -31,9 +30,9 @@ const getStandardError = function ({ error }) {
   };
 };
 
-const reportError = function ({ runOpts, error, mInput }) {
+const reportError = function ({ runOpts, error }) {
   return emitEvent({
-    mInput,
+    mInput: {},
     type: 'failure',
     phase: 'request',
     level: 'error',
