@@ -1,7 +1,7 @@
 'use strict';
 
 const { reduceAsync } = require('../utilities');
-const { monitorAllLayers } = require('../perf');
+const { monitor } = require('../perf');
 
 const { middlewareLayers } = require('./layers');
 const {
@@ -14,9 +14,17 @@ const {
 // Called once per server startup
 const getRequestHandler = function () {
   // Add performance monitoring
-  const allLayersA = monitorAllLayers(middlewareLayers);
+  const allLayersA = middlewareLayers.map(monitorLayers);
   const requestHandler = eFireLayers.bind(null, allLayersA);
   return { requestHandler };
+};
+
+// Add performance monitoring to every request.
+// Calculate how much time each middleware takes,
+// and push measurement to `reqState.measures` array.
+const monitorLayers = function ({ layers, name, ...rest }) {
+  const layersA = layers.map(mFunc => monitor(mFunc, mFunc.name, name, 2));
+  return { layers: layersA, name, ...rest };
 };
 
 // Main request handler, i.e. called once per request
@@ -26,7 +34,7 @@ const fireLayers = async function (allLayers, mInput) {
   // Since we try to avoid mutations, this is only used where purely functional
   // code would be verbose.
   // Used only by performance monitoring
-  const reqState = {};
+  const reqState = { measures: [] };
 
   try {
     // Fires allLayers[1], i.e. skip `final`
