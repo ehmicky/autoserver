@@ -13,7 +13,7 @@ const handleArgs = function ({ args, action, runOpts, idl }) {
 
   const argsA = renameArgs({ args });
 
-  return { args: argsA };
+  return { args: argsA, oArgs: args };
 };
 
 const validateArgs = function ({

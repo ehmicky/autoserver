@@ -15,7 +15,7 @@ const getInfoActions = function ({
   fullAction,
   modelName,
   response: { data },
-  args,
+  oArgs: args,
 }) {
   const infoData = Array.isArray(data) ? data : [data];
   const responses = infoData.map(content => ({ content }));

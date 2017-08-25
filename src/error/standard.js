@@ -19,7 +19,7 @@ const getStandardError = function ({
     action: { name: action } = {},
     fullAction,
     modelName: model,
-    args,
+    oArgs: args,
     command: { name: command } = {},
     requestId,
   } = {},
