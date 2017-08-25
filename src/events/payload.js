@@ -49,7 +49,7 @@ const getEventPayload = function ({
 
   const timestamp = getTimestamp({ requestInfo });
 
-  const serverInfo = getServerInfo({ runOpts });
+  const { serverInfo } = getServerInfo({ runOpts });
 
   const eventPayload = {
     ...info,

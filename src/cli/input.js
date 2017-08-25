@@ -3,7 +3,7 @@
 const yargs = require('yargs');
 
 const { availableInstructions } = require('../options');
-const { startPerf, stopPerf } = require('../perf');
+const { monitor } = require('../perf');
 
 const { addInstructions, addInstructionsExamples } = require('./instructions');
 const { cleanOpts } = require('./clean');
@@ -17,12 +17,7 @@ const parseInput = function () {
 };
 
 // Performance monitoring
-const mParseInput = function () {
-  const startedPerf = startPerf('parseInput', 'main');
-  const response = parseInput();
-  const finishedPerf = stopPerf(startedPerf);
-  return [response, [finishedPerf]];
-};
+const mParseInput = monitor(parseInput, 'cli');
 
 // CLI options parsing
 const parseOpts = function () {

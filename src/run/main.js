@@ -1,32 +1,33 @@
 'use strict';
 
-const { monitoredReduce, oldMonitor, emitPerfEvent } = require('../perf');
+const { monitor, newMonitoredReduce, emitPerfEvent } = require('../perf');
 
 const { startupSteps } = require('./steps');
 const { handleStartupError } = require('./error');
 
 // Start server for each protocol
 // @param {object} runOpts
-const runServer = function (runOpts) {
-  const funcs = startupSteps.map(step => handleStartupError(step));
-  // Monitor each startup step time
-  return monitoredReduce({
+const runServer = function ({ runOpts, measures }) {
+  // Add startup error handler
+  const funcs = startupSteps.map(handleStartupError);
+
+  // Run each startup step
+  return newMonitoredReduce({
     funcs,
-    initialInput: { runOpts },
-    mapResponse: (newInput, input) => ({ ...input, ...newInput }),
+    initialInput: { runOpts, measures },
+    mapResponse: (input, newInput) => ({ ...input, ...newInput }),
     category: 'main',
   });
 };
 
 // Monitor total startup time
-const mRun = oldMonitor(runServer, 'startup');
+const mRun = monitor(runServer, 'startup');
 
 // Emit "perf" event with startup performance
-const mmRun = async function ({ cliPerf = [], ...opts } = {}) {
-  const [[{ startPayload, runOpts }, mainPerf], perf] = await mRun(opts);
+const mmRun = async function ({ measures = [], ...runOpts } = {}) {
+  const { startPayload, runOpts: runOptsA } = await mRun({ runOpts, measures });
 
-  const measures = [...cliPerf, perf, ...mainPerf];
-  await emitPerfEvent({ phase: 'startup', measures, runOpts });
+  await emitPerfEvent({ phase: 'startup', measures, runOpts: runOptsA });
 
   return startPayload;
 };

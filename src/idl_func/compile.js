@@ -11,11 +11,12 @@ const { getInlineFunc } = require('./tokenize');
 const compileIdlFuncs = function ({ idl, idl: { inlineFuncPaths } }) {
   const varsKeys = getVarsKeys({ idl });
 
-  return setAll(
+  const idlA = setAll(
     idl,
     inlineFuncPaths,
     inlineFunc => compileIdlFunc({ inlineFunc, varsKeys }),
   );
+  return { idl: idlA };
 };
 
 // Transform inline functions into a function with the inline function as body
