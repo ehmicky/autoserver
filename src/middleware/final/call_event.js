@@ -9,7 +9,7 @@ const callEvent = async function ({
   status,
   error,
   mInput,
-  respPerf: { duration },
+  respPerf: { duration } = {},
 }) {
   const level = getLevel({ status, error });
 
