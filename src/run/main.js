@@ -4,6 +4,7 @@ const { monitor, monitoredReduce, emitPerfEvent } = require('../perf');
 
 const { startupSteps } = require('./steps');
 const { handleStartupError } = require('./error');
+const { emitStartEvent } = require('./start_event');
 
 // Start server for each protocol
 // @param {object} runOpts
@@ -25,7 +26,13 @@ const mRun = monitor(runServer, 'startup');
 
 // Emit "perf" event with startup performance
 const mmRun = async function ({ measures = [], ...runOpts } = {}) {
-  const { startPayload, runOpts: runOptsA } = await mRun({ runOpts, measures });
+  const { servers, runOpts: runOptsA } = await mRun({ runOpts, measures });
+
+  const { startPayload } = await emitStartEvent({
+    servers,
+    runOpts: runOptsA,
+    measures,
+  });
 
   await emitPerfEvent({ phase: 'startup', measures, runOpts: runOptsA });
 

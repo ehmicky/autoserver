@@ -4,7 +4,6 @@ const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
 const { bootServers } = require('./boot');
 const { setupGracefulExit } = require('./exit');
-const { emitStartEvent } = require('./start_event');
 
 const startupSteps = [
   // Retrieve `runOpts`
@@ -15,8 +14,6 @@ const startupSteps = [
   bootServers,
   // Make sure servers are closed on exit
   setupGracefulExit,
-  // Emit final "start" event
-  emitStartEvent,
 ];
 
 module.exports = {

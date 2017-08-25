@@ -28,6 +28,7 @@ const emit = async function ({
   message,
   info,
   runOpts = {},
+  duration,
   async,
   delay,
 }) {
@@ -50,6 +51,7 @@ const emit = async function ({
     message,
     info,
     runOpts,
+    duration,
   });
 
   consolePrint({ type, level: levelA, message: messageA });

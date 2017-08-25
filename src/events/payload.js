@@ -15,6 +15,7 @@ const getPayload = function ({
   level,
   message,
   runOpts,
+  duration,
   info,
 }) {
   const eventPayload = getEventPayload({
@@ -26,7 +27,7 @@ const getPayload = function ({
     runOpts,
     info,
   });
-  const messageA = getConsoleMessage({ message, ...eventPayload });
+  const messageA = getConsoleMessage({ message, duration, ...eventPayload });
   const eventPayloadA = { ...eventPayload, message: messageA };
 
   return { eventPayload: eventPayloadA, message: messageA };
