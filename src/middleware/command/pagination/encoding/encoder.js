@@ -20,9 +20,9 @@ const { convertUndefined } = require('./convert_undefined');
 //   - parts {any[]} (model values)
 //   - filter {string}: used by current query,
 //     so it can be used on next pagination requests
-//   - nOrderBy {object[]} - same as filter
-//      - nOrderBy.attrName {string} - also used to guess `parts` attributes
-//      - nOrderBy.order {string} - 'desc' or 'asc'
+//   - orderBy {object[]} - same as filter
+//      - orderBy.attrName {string} - also used to guess `parts` attributes
+//      - orderBy.order {string} - 'desc' or 'asc'
 // Make sure token is small by minifying it
 const encode = function ({ token }) {
   return encoders.reduce((tokenA, encoder) => encoder(tokenA), token);

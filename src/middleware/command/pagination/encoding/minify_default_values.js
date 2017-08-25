@@ -16,7 +16,7 @@ const addDefaultValues = function (token) {
 
 const defaultValues = {
   filter: {},
-  nOrderBy: [{ attrName: 'id', order: 'asc' }],
+  orderBy: [{ attrName: 'id', order: 'asc' }],
 };
 
 module.exports = {

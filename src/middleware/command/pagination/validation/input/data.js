@@ -41,7 +41,7 @@ const validateSingleType = function (args) {
   return args;
 };
 
-// Also, cannot specify 'filter' or 'nOrderBy' with a cursor, because the
+// Also, cannot specify 'filter' or 'orderBy' with a cursor, because the
 // cursor already includes them.
 const validateForbiddenArgs = function (args) {
   if (!hasCursor({ args })) { return args; }
@@ -51,7 +51,7 @@ const validateForbiddenArgs = function (args) {
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (args.nOrderBy !== undefined) {
+  if (args.orderBy !== undefined) {
     const message = 'Wrong parameters: cannot use both \'order_by\' and \'before|after\'';
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }

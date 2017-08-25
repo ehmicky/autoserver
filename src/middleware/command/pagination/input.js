@@ -37,14 +37,14 @@ const getTokensInput = function ({ info, info: { usedPageSize } }) {
 
 const getBackwardInput = function ({
   info: { isBackward },
-  tokenInput: { nOrderBy },
+  tokenInput: { orderBy },
 }) {
   if (!isBackward) { return {}; }
 
-  const nOrderByA = nOrderBy.map(({ attrName, order }) =>
+  const orderByA = orderBy.map(({ attrName, order }) =>
     ({ attrName, order: order === 'asc' ? 'desc' : 'asc' })
   );
-  return { nOrderBy: nOrderByA };
+  return { orderBy: orderByA };
 };
 
 const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
@@ -52,16 +52,16 @@ const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
 
   const tokenObj = decode({ token });
   const filter = getPaginatedFilter({ tokenObj, isBackward });
-  const { nOrderBy } = tokenObj;
+  const { orderBy } = tokenObj;
 
-  return { filter, nOrderBy };
+  return { filter, orderBy };
 };
 
 // Patches args.filter to allow for cursor pagination
 // E.g. if:
 //  - last paginated model was { b: 2, c: 3, d: 4 }
 //  - args.filter is { a: 1 }
-//  - args.nOrderBy 'b,c-,d'
+//  - args.orderBy 'b,c-,d'
 // Transform args.filter to
 //   [
 //      { a: 1, b: { gt: 2 } },
@@ -71,14 +71,14 @@ const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
 // Using backward pagination would replace gt to lt and vice-versa.
 const getPaginatedFilter = function ({
   tokenObj,
-  tokenObj: { parts, nOrderBy },
+  tokenObj: { parts, orderBy },
   isBackward,
 }) {
   const partsObj = parts
-    .map((part, index) => ({ [nOrderBy[index].attrName]: part }))
+    .map((part, index) => ({ [orderBy[index].attrName]: part }))
     .reduce(assignObject, {});
 
-  const filter = nOrderBy.map(({ attrName, order }, index) =>
+  const filter = orderBy.map(({ attrName, order }, index) =>
     getFilterPart({ tokenObj, isBackward, partsObj, attrName, order, index })
   );
   const filterA = filter.length === 1 ? filter[0] : filter;
@@ -87,14 +87,14 @@ const getPaginatedFilter = function ({
 };
 
 const getFilterPart = function ({
-  tokenObj: { filter, nOrderBy },
+  tokenObj: { filter, orderBy },
   isBackward,
   partsObj,
   attrName,
   order,
   index,
 }) {
-  const eqOrders = nOrderBy
+  const eqOrders = orderBy
     .slice(0, index)
     .map(({ attrName: eqAttrName }) => eqAttrName);
   const eqOrderVals = pick(partsObj, eqOrders);

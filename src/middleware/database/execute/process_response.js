@@ -1,14 +1,14 @@
 'use strict';
 
-const { orderBy, map } = require('lodash');
+const { orderBy: orderByFunc, map } = require('lodash');
 
 // Apply sorting, paginating, etc. on response
 const processResponse = function ({
   response,
   command,
-  opts: { nOrderBy, limit, offset },
+  opts: { orderBy, limit, offset },
 }) {
-  const sortedData = sortResponse({ data: response.data, nOrderBy });
+  const sortedData = sortResponse({ data: response.data, orderBy });
   const offsetData = offsetResponse({ data: sortedData, offset });
   const data = limitResponse({ data: offsetData, limit });
 
@@ -18,13 +18,13 @@ const processResponse = function ({
 };
 
 // `order_by` sorting
-const sortResponse = function ({ data, nOrderBy }) {
+const sortResponse = function ({ data, orderBy }) {
   if (!data || !Array.isArray(data)) { return data; }
 
-  const sortedData = orderBy(
+  const sortedData = orderByFunc(
     data,
-    map(nOrderBy, 'attrName'),
-    map(nOrderBy, 'order')
+    map(orderBy, 'attrName'),
+    map(orderBy, 'order')
   );
   return sortedData;
 };

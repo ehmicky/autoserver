@@ -38,11 +38,11 @@ const getNewData = function ({
   return { ...args, newData: newDataA };
 };
 
-const getNOrderBy = function ({ args, args: { nOrderBy }, attrName, aliases }) {
-  if (!nOrderBy) { return args; }
+const getOrderBy = function ({ args, args: { orderBy }, attrName, aliases }) {
+  if (!orderBy) { return args; }
 
-  const nOrderByA = applyOrderByAliases({ nOrderBy, attrName, aliases });
-  return { ...args, nOrderBy: nOrderByA };
+  const orderByA = applyOrderByAliases({ orderBy, attrName, aliases });
+  return { ...args, orderBy: orderByA };
 };
 
 const getTokens = function ({ args, attrName, aliases }) {
@@ -65,7 +65,7 @@ const getToken = function ({ args, direction, attrName, aliases }) {
 
 const modifiers = [
   getNewData,
-  getNOrderBy,
+  getOrderBy,
   getTokens,
 ];
 

@@ -6,7 +6,7 @@ const { normalizeOrderBy } = require('./order_by');
 // reduce it to a single shape
 const normalization = function ({ args, modelName, idl }) {
   const argsB = normalizers.reduce(
-    (argsA, normalizer) => normalizer(argsA, { modelName, idl }),
+    (argsA, normalizer) => normalizer({ args: argsA, modelName, idl }),
     args,
   );
 

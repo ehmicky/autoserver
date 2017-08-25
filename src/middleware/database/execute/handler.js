@@ -6,13 +6,13 @@ const { fireCommand } = require('./fire');
 
 const databaseExecute = function ({
   command,
-  args: { nOrderBy, limit, offset, newData, filter } = {},
+  args: { orderBy, limit, offset, newData, filter } = {},
   settings: { dryrun },
   modelName,
 }) {
   const collection = database[modelName];
 
-  const opts = { nOrderBy, limit, offset, dryrun, modelName };
+  const opts = { orderBy, limit, offset, dryrun, modelName };
   const commandInput = { command, collection, filter, newData, opts };
   return fireCommand(commandInput);
 };

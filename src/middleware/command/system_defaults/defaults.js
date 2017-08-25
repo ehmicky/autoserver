@@ -11,7 +11,7 @@ const defaults = {
     value: {},
   },
 
-  nOrderBy: {
+  orderBy: {
     commands: [
       'readMany',
       'deleteMany',
