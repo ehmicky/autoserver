@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitor, newMonitoredReduce, emitPerfEvent } = require('../perf');
+const { monitor, monitoredReduce, emitPerfEvent } = require('../perf');
 
 const { startupSteps } = require('./steps');
 const { handleStartupError } = require('./error');
@@ -12,7 +12,7 @@ const runServer = function ({ runOpts, measures }) {
   const funcs = startupSteps.map(handleStartupError);
 
   // Run each startup step
-  return newMonitoredReduce({
+  return monitoredReduce({
     funcs,
     initialInput: { runOpts, measures },
     mapResponse: (input, newInput) => ({ ...input, ...newInput }),

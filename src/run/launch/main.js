@@ -1,7 +1,7 @@
 'use strict';
 
 const { assignObject } = require('../../utilities');
-const { newMonitoredReduce } = require('../../perf');
+const { monitoredReduce } = require('../../perf');
 
 const { getProtocols } = require('./protocols');
 const { getRequestHandler } = require('./request_handler');
@@ -29,7 +29,7 @@ const launchEachServer = async function ({
   options,
   options: { runOpts, measures },
 }) {
-  const { serverInfo } = await newMonitoredReduce({
+  const { serverInfo } = await monitoredReduce({
     funcs: launchers,
     initialInput: { protocol, runOpts, options, measures },
     mapResponse: (input, newInput) => ({ ...input, ...newInput }),
