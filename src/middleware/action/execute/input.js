@@ -1,6 +1,6 @@
 'use strict';
 
-const { omitBy } = require('../../../utilities');
+const { omitBy, omit } = require('../../../utilities');
 const { COMMANDS } = require('../../../constants');
 
 // Each command must specify its mInput
@@ -25,27 +25,29 @@ const getNewInput = function ({
   formerResponse,
   commandDef: { mInput: getMInputFunc },
 }) {
-  return typeof getInputFunc === 'function'
+  return typeof getMInputFunc === 'function'
     ? getMInputFunc(mInput, formerResponse)
     : getMInputFunc;
 };
 
 const getArgs = function ({ mInput, newInput, isLastCommand }) {
-  const newInputArgs = {
+  const args = {
     ...mInput.args,
     ...(newInput.args || {}),
     // All commands but last are considered 'internal'
     // E.g. authorization is not checked
     internal: !isLastCommand,
-    // `args.data` should be transformed into `newData` and/or `currentData`
-    data: undefined,
-    // Those are only used temporarily
-    commandType: undefined,
-    commandMultiple: undefined,
   };
+  const argsA = omit(args, [
+    // `args.data` should be transformed into `newData` and/or `currentData`
+    'data',
+    // Those are only used temporarily
+    'commandType',
+    'commandMultiple',
+  ]);
   // Specifying `undefined` allows removing specific arguments
-  const newArgs = omitBy(newInputArgs, argValue => argValue === undefined);
-  return newArgs;
+  const argsB = omitBy(argsA, argValue => argValue === undefined);
+  return argsB;
 };
 
 // Actions only need to specify the command type
