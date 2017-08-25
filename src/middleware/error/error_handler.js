@@ -35,15 +35,14 @@ const errorHandler = async function ({
 const reportError = async function ({ runOpts, error, status, mInput }) {
   // If we haven't reached the events middleware yet, error.status
   // will be undefined, so it will still be caught and reported.
-  const level = STATUS_LEVEL_MAP[status] || 'error';
-  // Only report except with level 'warn' or 'error'
-  if (!['warn', 'error'].includes(level)) { return; }
+  const level = STATUS_LEVEL_MAP[status];
+  const levelA = ['warn', 'error'].includes(level) ? level : 'error';
 
   await emitEvent({
     mInput,
     type: 'failure',
     phase: 'request',
-    level,
+    level: levelA,
     errorInfo: error,
     runOpts,
   });
