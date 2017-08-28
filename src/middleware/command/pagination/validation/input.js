@@ -1,6 +1,6 @@
 'use strict';
 
-const { fastValidate } = require('../../../../validation');
+const { fastValidate } = require('../../../../fast_validation');
 const { allowFullPagination, mustPaginateOutput } = require('../condition');
 
 const { getDecodedTokens } = require('./decode');
