@@ -1,12 +1,9 @@
 'use strict';
 
+const { forbiddenTest } = require('../../../../../fast_validation');
+
 const noPageTests = [
-  {
-    test ({ page }) {
-      return page == null;
-    },
-    message: '\'page\' must not be defined',
-  },
+  forbiddenTest('page'),
 ];
 
 module.exports = {
