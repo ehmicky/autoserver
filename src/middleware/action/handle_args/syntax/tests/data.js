@@ -13,7 +13,9 @@ const singleDataTests = [
 const rSingleDataIdTests = [{
   argName: 'data',
   test ({ data }) {
-    return data != null && data.id == null;
+    if (data == null) { return true; }
+
+    return data.id != null;
   },
   message: 'must have an \'id\' attribute',
 }];
@@ -32,7 +34,9 @@ const multipleDataTests = [
 const rMultipleDataIdTests = [{
   argName: 'data',
   test ({ data }) {
-    return data != null && data.some(datum => !datum || datum.id == null);
+    if (data == null) { return true; }
+
+    return data.every(datum => datum && datum.id != null);
   },
   message: 'must have an \'id\' attribute',
 }];

@@ -32,7 +32,7 @@ const validateTest = function (
     );
   }
 
-  if (!testFunc(...args)) { return; }
+  if (testFunc(...args)) { return; }
 
   validationFail({ prefix, message, reason }, ...args);
 };

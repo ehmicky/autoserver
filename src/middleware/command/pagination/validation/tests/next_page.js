@@ -3,16 +3,18 @@
 const nextPageTests = [
   {
     test ({ hasPreviousPage }) {
-      return typeof hasPreviousPage !== 'boolean' &&
-        hasPreviousPage !== undefined;
+      if (hasPreviousPage == null) { return true; }
+
+      return typeof hasPreviousPage === 'boolean';
     },
     message: '\'has_previous_page\' must be a boolean',
   },
 
   {
     test ({ hasNextPage }) {
-      return typeof hasNextPage !== 'boolean' &&
-        hasNextPage !== undefined;
+      if (hasNextPage == null) { return true; }
+
+      return typeof hasNextPage === 'boolean';
     },
     message: '\'has_next_page\' must be a boolean',
   },

@@ -4,7 +4,7 @@
 const getRequiredTests = requiredArgs => [{
   test (args) {
     const requiredArg = findMissingRequiredArg({ requiredArgs, args });
-    return requiredArg !== undefined;
+    return requiredArg == null;
   },
   message (args) {
     const requiredArg = findMissingRequiredArg({ requiredArgs, args });
