@@ -86,7 +86,8 @@ object. Each object is a map of IDL function helpers, with:
 
 They can use the same IDL function variables as the function that calls them.
 If the helper is external function, the IDL option `useVars` must be used to
-pass the IDL function variables as first argument.
+pass the IDL function variables as first argument, and the helpers as second
+argument.
 
 Inline functions can also use positional arguments, passed as IDL function
 variables `$1`, `$2`, etc.

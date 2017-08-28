@@ -45,8 +45,9 @@ const getNonInlineFunc = function ({ inlineFunc }) {
 
 const createFunction = function ({ inlineFunc, varsKeys }) {
   // Create a function with the inline function as body
+  const params = `{ ${varsKeys.vars} }, { ${varsKeys.helpers} }`;
   // eslint-disable-next-line no-new-func
-  const func = new Function(`{ ${varsKeys} }`, `return ${inlineFunc};`);
+  const func = new Function(params, `return ${inlineFunc};`);
   // eslint-disable-next-line fp/no-mutating-assign
   Object.assign(func, { inlineFunc });
 

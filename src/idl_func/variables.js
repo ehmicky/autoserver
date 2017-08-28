@@ -1,18 +1,21 @@
 'use strict';
 
 // Retrieve IDL functions variables, using the request mInput
-const getVars = function ({
-  protocol: $PROTOCOL,
-  timestamp: $TIMESTAMP,
-  ip: $IP,
-  requestId: $REQUEST_ID,
-  params: $PARAMS,
-  settings: $SETTINGS,
-  operation: $OPERATION,
-  modelName: $MODEL,
-  oArgs: $ARGS,
-  command: { type: $COMMAND } = {},
-}) {
+const getVars = function (
+  {
+    protocol: $PROTOCOL,
+    timestamp: $TIMESTAMP,
+    ip: $IP,
+    requestId: $REQUEST_ID,
+    params: $PARAMS,
+    settings: $SETTINGS,
+    operation: $OPERATION,
+    modelName: $MODEL,
+    oArgs: $ARGS,
+    command: { type: $COMMAND } = {},
+  },
+  vars,
+) {
   return {
     $PROTOCOL,
     $TIMESTAMP,
@@ -24,12 +27,16 @@ const getVars = function ({
     $MODEL,
     $ARGS,
     $COMMAND,
+    ...vars,
   };
 };
 
 // Retrieve IDL functions variables names
 const getVarsKeys = function ({ idl: { helpers = {} } }) {
-  return [...VARS_KEYS, ...Object.keys(helpers)];
+  return {
+    vars: VARS_KEYS,
+    helpers: Object.keys(helpers),
+  };
 };
 
 const VARS_KEYS = [
