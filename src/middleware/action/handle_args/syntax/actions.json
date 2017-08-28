@@ -1,0 +1,50 @@
+{
+  "findOne": {
+    "optional": [],
+    "required": ["filter"]
+  },
+  "findMany": {
+    "optional": ["filter", "order_by", "page_size", "page", "before", "after"],
+    "required": []
+  },
+  "deleteOne": {
+    "optional": [],
+    "required": ["filter"]
+  },
+  "deleteMany": {
+    "optional": ["filter", "order_by", "page_size"],
+    "required": []
+  },
+  "updateOne": {
+    "optional": [],
+    "required": ["filter", "single_data"]
+  },
+  "updateMany": {
+    "optional": ["filter", "order_by", "page_size"],
+    "required": ["single_data"]
+  },
+  "createOne": {
+    "optional": [],
+    "required": ["single_data"]
+  },
+  "createMany": {
+    "optional": ["order_by", "page_size"],
+    "required": ["multiple_data"]
+  },
+  "replaceOne": {
+    "optional": [],
+    "required": ["single_data_with_id"]
+  },
+  "replaceMany": {
+    "optional": ["order_by", "page_size"],
+    "required": ["multiple_data_with_id"]
+  },
+  "upsertOne": {
+    "optional": [],
+    "required": ["single_data_with_id"]
+  },
+  "upsertMany": {
+    "optional": ["order_by", "page_size"],
+    "required": ["multiple_data_with_id"]
+  }
+}

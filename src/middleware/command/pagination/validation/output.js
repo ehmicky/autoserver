@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError, addErrorHandler } = require('../../../../error');
-const { fastValidate } = require('../../../../validation');
+const { fastValidate } = require('../../../../fast_validation');
 const { getPaginationInfo } = require('../info');
 const { decode } = require('../encoding');
 

@@ -2,5 +2,5 @@
 
 module.exports = {
   ...require('./validate'),
-  ...require('./compile'),
+  ...require('./helpers'),
 };

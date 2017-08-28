@@ -7,10 +7,6 @@ const validationTypes = {
     reason: 'IDL_VALIDATION',
     message: 'Error in schema file',
   },
-  clientInputSyntax: {
-    reason: 'INPUT_VALIDATION',
-    message: 'Wrong parameters',
-  },
   clientInputData: {
     reason: 'INPUT_VALIDATION',
     message: 'Wrong parameters',
