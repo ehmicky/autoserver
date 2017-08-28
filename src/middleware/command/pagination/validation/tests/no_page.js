@@ -3,7 +3,7 @@
 const noPageTests = [
   {
     test ({ page }) {
-      return page !== undefined;
+      return page == null;
     },
     message: '\'page\' must not be defined',
   },

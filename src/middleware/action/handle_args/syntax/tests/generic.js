@@ -4,7 +4,7 @@
 const genericTests = [
   {
     test (args) {
-      return !args || args.constructor !== Object;
+      return args && args.constructor === Object;
     },
     message: '\'arguments\' must be an object',
   },

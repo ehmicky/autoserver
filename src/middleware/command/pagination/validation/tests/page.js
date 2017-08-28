@@ -3,14 +3,18 @@
 const pageTests = [
   {
     test ({ page }) {
-      return page !== undefined && !Number.isInteger(page);
+      if (page == null) { return true; }
+
+      return Number.isInteger(page);
     },
     message: '\'page\' must be an integer',
   },
 
   {
     test ({ page }) {
-      return page !== undefined && page < 1;
+      if (page == null) { return true; }
+
+      return page > 0;
     },
     message: '\'page\' must be greater than 0',
   },

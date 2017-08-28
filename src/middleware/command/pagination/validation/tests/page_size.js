@@ -3,23 +3,29 @@
 const pageSizeTests = [
   {
     test ({ pageSize }) {
-      return pageSize !== undefined && !Number.isInteger(pageSize);
+      if (pageSize == null) { return true; }
+
+      return Number.isInteger(pageSize);
     },
     message: '\'page_size\' must be an integer',
   },
 
   {
     test ({ pageSize }) {
-      return pageSize !== undefined && pageSize < 1;
+      if (pageSize == null) { return true; }
+
+      return pageSize > 0;
     },
     message: '\'page_size\' argument must be greater than 0',
   },
 
   {
     test ({ pageSize, maxPageSize }) {
-      return pageSize !== undefined && pageSize > maxPageSize;
+      if (pageSize == null) { return true; }
+
+      return pageSize <= maxPageSize;
     },
-    message: ({ maxPageSize }) => `'page_size' argument must be less than ${maxPageSize}`,
+    message: ({ maxPageSize }) => `'page_size' argument must be less than or equal to ${maxPageSize}`,
   },
 ];
 

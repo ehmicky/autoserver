@@ -4,43 +4,53 @@
 
 const stringTest = name => ({
   test ({ [name]: value }) {
-    return value != null && typeof value !== 'string';
+    if (value == null) { return true; }
+
+    return typeof value === 'string';
   },
   message: 'must be a string',
 });
 
 const integerTest = name => ({
   test ({ [name]: value }) {
-    return value != null && !Number.isInteger(value);
+    if (value == null) { return true; }
+
+    return Number.isInteger(value);
   },
   message: 'must be an integer',
 });
 
 const objectTest = name => ({
   test ({ [name]: value }) {
-    return !isObject(value);
+    return isObject(value);
   },
   message: 'must be an object',
 });
 
 const objectArrayTest = name => ({
   test ({ [name]: value }) {
-    return value != null && (!Array.isArray(value) || !value.every(isObject));
+    if (value == null) { return true; }
+
+    return isObjectArray(value);
   },
   message: 'must be an array of objects',
 });
 
 const objectOrArrayTest = name => ({
   test ({ [name]: value }) {
-    return value != null &&
-      !isObject(value) &&
-      (!Array.isArray(value) || !value.every(isObject));
+    if (value == null) { return true; }
+
+    return isObject(value) || isObjectArray(value);
   },
   message: 'must be an object or an array of objects',
 });
 
 const isObject = function (value) {
   return value == null || value.constructor === Object;
+};
+
+const isObjectArray = function (value) {
+  return Array.isArray(value) && value.every(isObject);
 };
 
 module.exports = {

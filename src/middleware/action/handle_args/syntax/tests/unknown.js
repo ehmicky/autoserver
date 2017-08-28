@@ -4,7 +4,7 @@
 const getUnknownTests = allowedArgs => [{
   test (args) {
     const unknownArg = findUnknownArg({ allowedArgs, args });
-    return unknownArg !== undefined;
+    return unknownArg == null;
   },
   message (args) {
     const unknownArg = findUnknownArg({ allowedArgs, args });
