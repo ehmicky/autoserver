@@ -1,6 +1,7 @@
 {
   "*.js": { "lint": true },
   "*.md": { "lint": true },
+  "bin/*": { "lint": true },
   "src/**/*.js": { "lint": true },
   "gulp/**/*.js": { "lint": true },
   "examples/**/*.js": { "lint": true },
