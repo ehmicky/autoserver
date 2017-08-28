@@ -8,6 +8,7 @@ module.exports = {
   ...require('./invert'),
   ...require('./merge'),
   ...require('./get_set'),
+  ...require('./result'),
   ...require('./immutable'),
   ...require('./memoize'),
   ...require('./once'),
