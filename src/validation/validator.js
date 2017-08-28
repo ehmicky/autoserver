@@ -3,15 +3,14 @@
 const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
 
-const { memoize } = require('../utilities');
-
 const getValidator = function () {
   const ajv = new Ajv(ajvOptions);
-  const ajvA = addKeywords(ajv);
-  return ajvA;
-};
 
-const mGetValidator = memoize(getValidator);
+  // Add future JSON standard keywords
+  ajvKeywords(ajv, ['if', 'formatMinimum', 'formatMaximum', 'typeof']);
+
+  return ajv;
+};
 
 const ajvOptions = {
   allErrors: true,
@@ -23,35 +22,8 @@ const ajvOptions = {
   extendRefs: true,
 };
 
-const addKeywords = function (ajv) {
-  // Add future JSON standard keywords
-  ajvKeywords(ajv, ['if', 'formatMinimum', 'formatMaximum', 'typeof']);
-
-  return Object.entries(customBaseKeywords).reduce(
-    (ajvA, [keyword, def]) => addKeyword({ keyword, def, ajv: ajvA }),
-    ajv,
-  );
-};
-
-const addKeyword = function ({ ajv, keyword, def }) {
-  ajv.addKeyword(keyword, def);
-  return ajv;
-};
-
-const customBaseKeywords = {
-
-  // Checks function number of arguments
-  arity: {
-    validate (schemaValue, data) {
-      if (typeof data !== 'function') { return true; }
-      return data.length === schemaValue;
-    },
-    $data: true,
-  },
-
-};
+const validator = getValidator();
 
 module.exports = {
-  getValidator: mGetValidator,
-  addKeyword,
+  validator,
 };

@@ -4,16 +4,14 @@ const { runIdlFunc } = require('../idl_func');
 const { memoize } = require('../utilities');
 const { throwError } = require('../error');
 
-const { getValidator, addKeyword } = require('./validator');
+const { validator } = require('./validator');
 
 // Add custom validation keywords, from idl.validation
 const getCustomValidator = function ({ idl: { validation = {} } }) {
-  const ajv = getValidator();
-
   return Object.entries(validation).reduce(
-    (ajvB, [keyword, { test: testFunc, message, type }]) =>
-      addCustomKeyword({ ajv: ajvB, keyword, testFunc, message, type }),
-    ajv,
+    (ajv, [keyword, { test: testFunc, message, type }]) =>
+      addCustomKeyword({ ajv, keyword, testFunc, message, type }),
+    validator,
   );
 };
 
@@ -25,40 +23,38 @@ const mGetCustomValidator = memoize(getCustomValidator, {
 });
 
 const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
-  const ajvA = validateCustomKeyword({ ajv, type, keyword });
+  validateCustomKeyword({ ajv, type, keyword });
 
-  return addKeyword({
-    ajv: ajvA,
+  const validate = keywordFunc({ keyword, testFunc, message });
+  ajv.addKeyword(keyword, { validate, type, $data: true });
+
+  return ajv;
+};
+
+// eslint-disable-next-line max-params
+const keywordFunc = ({ keyword, testFunc, message }) => function validate (
+  expected,
+  value,
+  _,
+  __,
+  parent,
+  attrName,
+  { [Symbol.for('mInput')]: mInput }
+) {
+  const vars = { $EXPECTED: expected, $$: parent, $: value };
+
+  const isValid = runIdlFunc({ idlFunc: testFunc, mInput, vars });
+  if (isValid === true) { return true; }
+
+  const messageA = runIdlFunc({ idlFunc: message, mInput, vars });
+  // eslint-disable-next-line fp/no-mutation
+  validate.errors = [{
+    message: messageA,
     keyword,
-    def: {
-      // eslint-disable-next-line max-params
-      validate: function validate (
-        expected,
-        value,
-        _,
-        __,
-        parent,
-        attrName,
-        { [Symbol.for('extra')]: mInput }
-      ) {
-        const vars = { $EXPECTED: expected, $$: parent, $: value };
+    params: { expected },
+  }];
 
-        const isValid = runIdlFunc({ idlFunc: testFunc, mInput, vars });
-        if (isValid === true) { return true; }
-
-        const messageA = runIdlFunc({ idlFunc: message, mInput, vars });
-        // eslint-disable-next-line fp/no-mutation
-        validate.errors = [{
-          message: messageA,
-          keyword,
-          params: { expected },
-        }];
-        return false;
-      },
-      type,
-      $data: true,
-    },
-  });
+  return false;
 };
 
 const validateCustomKeyword = function ({ ajv, type, keyword }) {

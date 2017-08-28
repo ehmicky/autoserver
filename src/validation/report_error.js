@@ -2,11 +2,10 @@
 
 const { throwError } = require('../error');
 
-const { validationTypes } = require('./types');
 const { getErrorMessage } = require('./message');
 
 // Report validation errors by throwing an exception, e.g. firing a HTTP 400
-const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
+const reportErrors = function ({ errors, dataVar, reason, message }) {
   // Retrieve error message as string, from error objects
   const extraNewline = errors.length > 1 ? '\n' : '';
   const errorsText = extraNewline + errors
@@ -29,8 +28,6 @@ const reportErrors = function ({ errors, reportInfo: { type, dataVar } }) {
       return `${inputPath}${msg}`;
     })
     .join('\n');
-
-  const { reason, message } = validationTypes[type];
 
   const errorsMessage = message ? `${message}: ${errorsText}` : errorsText;
 
