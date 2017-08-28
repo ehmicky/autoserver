@@ -2,7 +2,7 @@
 
 const { COMMANDS } = require('../constants');
 const { omit, mapValues, assignObject } = require('../utilities');
-const { compile } = require('../validation');
+const { compile } = require('../json_validation');
 
 // Compile JSON schema defined in IDL file
 const compileJsonSchema = function ({

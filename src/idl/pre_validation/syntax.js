@@ -1,7 +1,7 @@
 'use strict';
 
 const { getYaml, omitBy, fullRecurseMap } = require('../../utilities');
-const { compile, validate } = require('../../validation');
+const { compile, validate } = require('../../json_validation');
 
 const IDL_SCHEMA_PATH = `${__dirname}/idl_schema.yml`;
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const { omitBy } = require('../../utilities');
-const { validate } = require('../../validation');
+const { validate } = require('../../json_validation');
 
 // Custom data validation middleware
 // Check that filter|newData passes IDL validation

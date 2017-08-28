@@ -1,7 +1,7 @@
 'use strict';
 
 const { addErrorHandler } = require('../../error');
-const { compile } = require('../../validation');
+const { compile } = require('../../json_validation');
 const { compileIdlFuncs } = require('../../idl_func');
 
 // Validates that idl.models.MODEL are valid JSON schema
