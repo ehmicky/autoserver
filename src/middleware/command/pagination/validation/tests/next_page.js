@@ -1,23 +1,11 @@
 'use strict';
 
+const { booleanTest } = require('../../../../../fast_validation');
+
 const nextPageTests = [
-  {
-    test ({ hasPreviousPage }) {
-      if (hasPreviousPage == null) { return true; }
+  booleanTest('has_previous_page'),
 
-      return typeof hasPreviousPage === 'boolean';
-    },
-    message: '\'has_previous_page\' must be a boolean',
-  },
-
-  {
-    test ({ hasNextPage }) {
-      if (hasNextPage == null) { return true; }
-
-      return typeof hasNextPage === 'boolean';
-    },
-    message: '\'has_next_page\' must be a boolean',
-  },
+  booleanTest('has_next_page'),
 ];
 
 module.exports = {

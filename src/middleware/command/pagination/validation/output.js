@@ -39,26 +39,15 @@ const eDecode = addErrorHandler(decode, {
 
 const validateMetadatum = function ({ maxPageSize }, metadatum) {
   const tests = getTests();
-  const metadatumA = fixCase(metadatum);
 
   fastValidate({
     prefix: 'Wrong pagination response: ',
     reason: 'OUTPUT_VALIDATION',
     tests,
   }, {
-    ...metadatumA,
+    ...metadatum,
     maxPageSize,
   });
-};
-
-const fixCase = function ({
-  page,
-  page_size: pageSize,
-  has_previous_page: hasPreviousPage,
-  has_next_page: hasNextPage,
-  token,
-}) {
-  return { page, pageSize, hasPreviousPage, hasNextPage, token };
 };
 
 const getTests = function () {
