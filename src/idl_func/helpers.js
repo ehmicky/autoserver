@@ -40,11 +40,17 @@ const getHelper = function ({
 // Inline function, or non-inline with `useVars` true
 // When consumer fires Helper('a', 'b'), inline function translates 'a' and 'b'
 // into $1 and $2 variables, and runIdlFunc() is performed.
-const runHelper = function ({ helper, varsRef }, ...args) {
+const runHelper = function (
+  {
+    helper,
+    varsRef: { ref: { vars, helpers } },
+  },
+  ...args
+) {
   const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-  const posVars = { $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+  const varsA = { ...vars, $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-  return helper({ ...varsRef.vars, ...posVars }, ...args);
+  return helper(varsA, helpers, ...args);
 };
 
 // Pass IDL function variables to helpers
@@ -52,12 +58,12 @@ const runHelper = function ({ helper, varsRef }, ...args) {
 // We use a `varsRef` object reference so that all helpers share the same
 // information, and can call each other.
 // We directly mutate it as a performance optimization.
-const bindHelpers = function ({ varsRef, vars }) {
+const bindVariables = function ({ varsRef, vars, helpers }) {
   // eslint-disable-next-line fp/no-mutation, no-param-reassign
-  varsRef.vars = vars;
+  varsRef.ref = { vars, helpers };
 };
 
 module.exports = {
   getHelpers,
-  bindHelpers,
+  bindVariables,
 };

@@ -3,7 +3,7 @@
 const { addErrorHandler } = require('../error');
 
 const { getVars } = require('./variables');
-const { bindHelpers } = require('./helpers');
+const { bindVariables } = require('./helpers');
 
 // Process (already compiled) IDL function, i.e. fires it and returns its value
 const runIdlFunc = function ({
@@ -15,11 +15,13 @@ const runIdlFunc = function ({
   // If this is not IDL function, returns as is
   if (typeof idlFunc !== 'function') { return idlFunc; }
 
-  const varsA = getVars(mInput);
-  const varsB = { ...helpers, ...varsA, ...vars };
-  bindHelpers({ varsRef, vars: varsB });
+  const varsA = getVars(mInput, vars);
+  bindVariables({ varsRef, vars: varsA, helpers });
 
-  return idlFunc(varsB);
+  // We pass helpers as a second argument instead of merging it with the first
+  // argument, because if helpers is big (e.g. it includes a library
+  // like Lodash), merging it is relatively slow.
+  return idlFunc(varsA, helpers);
 };
 
 const eRunIdlFunc = addErrorHandler(runIdlFunc, {
