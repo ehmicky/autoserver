@@ -1,17 +1,20 @@
 'use strict';
 
 const { getYaml, omitBy, fullRecurseMap } = require('../../utilities');
-const { validate } = require('../../validation');
+const { compile, validate } = require('../../validation');
 
 const IDL_SCHEMA_PATH = `${__dirname}/idl_schema.yml`;
 
 const validateIdlSyntax = async function ({ idl }) {
   const schema = await getYaml({ path: IDL_SCHEMA_PATH });
+  const compiledSchema = compile({ schema });
   const data = getIdl(idl);
   validate({
-    schema,
+    compiledSchema,
     data,
-    reportInfo: { type: 'idl', dataVar: 'config' },
+    dataVar: 'idl',
+    reason: 'IDL_VALIDATION',
+    message: 'Error in IDL file',
   });
 
   return idl;
