@@ -11,8 +11,7 @@ const isObjectArray = function (value) {
 };
 
 const typeTest = ({ test: testFunc, message }) => name => ({
-  test (arg) {
-    const { [name]: value } = arg;
+  test ({ [name]: value }) {
     if (value == null) { return true; }
 
     return testFunc(value);
