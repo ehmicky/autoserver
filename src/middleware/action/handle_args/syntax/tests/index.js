@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./generic'),
   ...require('./filter'),
   ...require('./order_by'),
   ...require('./pagination'),

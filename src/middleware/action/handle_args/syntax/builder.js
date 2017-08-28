@@ -6,7 +6,6 @@ const { mapValues, assignArray, pick } = require('../../../../utilities');
 
 const actionsArgs = require('./actions');
 const {
-  genericTests,
   getRequiredTests,
   getUnknownTests,
   ...normalTests
@@ -36,7 +35,6 @@ const getActionTests = function ({ optional, required }) {
   });
 
   return [
-    ...genericTests,
     ...requiredTests,
     ...unknownTests,
     ...argsTests,

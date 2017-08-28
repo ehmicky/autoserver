@@ -5,12 +5,7 @@ const { fastValidate } = require('../../../../fast_validation');
 const { getPaginationInfo } = require('../info');
 const { decode } = require('../encoding');
 
-const {
-  pageTests,
-  pageSizeTests,
-  nextPageTests,
-  getTokenTest,
-} = require('./tests');
+const { nextPageTests, getTokenTest } = require('./tests');
 
 // Validate response.metadata related to pagination
 const validatePaginationOutput = function ({
@@ -70,8 +65,6 @@ const getTests = function () {
   const tokenTest = getTokenTest('token');
 
   return [
-    ...pageTests,
-    ...pageSizeTests,
     ...nextPageTests,
     ...tokenTest,
   ];
