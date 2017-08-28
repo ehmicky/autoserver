@@ -16,15 +16,10 @@ const handleArgs = function ({ args, action, runOpts, idl }) {
   return { args: argsA, oArgs: args };
 };
 
-const validateArgs = function ({
-  args,
-  action,
-  runOpts: { maxDataLength },
-  idl,
-}) {
+const validateArgs = function ({ args, action, runOpts, idl }) {
   validateBasic({ args });
-  validateSyntax({ args, action, maxDataLength, idl });
-  validateLimits({ args, maxDataLength });
+  validateSyntax({ args, action, runOpts, idl });
+  validateLimits({ args, runOpts });
 };
 
 module.exports = {

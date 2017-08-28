@@ -3,7 +3,10 @@
 const { throwError } = require('../../../error');
 
 // Check request arguments are not too big
-const validateLimits = function ({ args: { data }, maxDataLength }) {
+const validateLimits = function ({
+  args: { data },
+  runOpts: { maxDataLength },
+}) {
   const isDataTooBig = Array.isArray(data) &&
     data.length > maxDataLength &&
     maxDataLength > 0;
