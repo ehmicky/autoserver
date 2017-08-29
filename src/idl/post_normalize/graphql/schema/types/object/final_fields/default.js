@@ -16,7 +16,7 @@ const getDefaultValue = function ({
   const isDynamic = defaults.some(
     inlineFunc => typeof inlineFunc === 'function'
   );
-  return isDynamic ? 'DYNAMIC_VALUE' : def.default;
+  return isDynamic ? undefined : def.default;
 };
 
 module.exports = {
