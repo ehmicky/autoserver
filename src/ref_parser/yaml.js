@@ -1,6 +1,6 @@
 'use strict';
 
-const { loadYaml } = require('../yaml');
+const { loadYaml } = require('../utilities');
 const { throwError } = require('../error');
 
 // We need to override YAML parsing, as we use stricter YAML parsing

@@ -1,12 +1,11 @@
 'use strict';
 
 const { addErrorHandler } = require('../error');
-const { dereferenceRefs } = require('../utilities');
+const { dereferenceRefs } = require('../ref_parser');
 
 // Retrieve the configuration from a path to a JSON or YAML file
-const getIdlConf = async function ({ idlPath }) {
-  const idl = await eResolveJsonRefs({ idlPath });
-  return idl;
+const getIdlConf = function ({ idlPath }) {
+  return eResolveJsonRefs({ idlPath });
 };
 
 // Resolve JSON references, i.e. $ref
@@ -14,9 +13,8 @@ const getIdlConf = async function ({ idlPath }) {
 // passed to it, not the parsed object, so it knows the base of relative $refs.
 // Because of this, json-schema-ref-parser needs to be responsible for loading
 // and parsing the IDL file.
-const resolveJsonRefs = async function ({ idlPath }) {
-  const parsedIdl = await dereferenceRefs({ path: idlPath });
-  return parsedIdl;
+const resolveJsonRefs = function ({ idlPath }) {
+  return dereferenceRefs({ path: idlPath });
 };
 
 const eResolveJsonRefs = addErrorHandler(resolveJsonRefs, {

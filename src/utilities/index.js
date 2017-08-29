@@ -7,6 +7,5 @@ module.exports = {
   ...require('./json'),
   ...require('./yaml'),
   ...require('./template'),
-  ...require('./ref_parser'),
   ...require('./transtype'),
 };
