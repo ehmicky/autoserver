@@ -15,34 +15,13 @@
 
 const { hrtime } = process;
 
-const { throwError } = require('../error');
-
-const { CATEGORIES, DEFAULT_CATEGORY } = require('./constants');
+const { DEFAULT_CATEGORY } = require('./constants');
 
 // Start a new measure
 const startPerf = function (label, category = DEFAULT_CATEGORY) {
-  validateOptions({ label, category });
-
   // `hrtime()` is more precise that `Date.now()`
   const pending = hrtime();
   return { pending, label, category };
-};
-
-const validateOptions = function ({ label, category }) {
-  if (typeof label !== 'string') {
-    const message = 'Performance label must be a string';
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
-
-  if (typeof category !== 'string') {
-    const message = 'Performance category must be a string';
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
-
-  if (!CATEGORIES.includes(category)) {
-    const message = `Unknown performance category: '${category}'`;
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
 };
 
 const stopPerf = function ({ pending, label, category }) {
