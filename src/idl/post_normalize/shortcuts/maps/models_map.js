@@ -1,6 +1,8 @@
 'use strict';
 
 const mapAttr = function ({ isArray, target }) {
+  if (!target) { return { isArray }; }
+
   return { isArray, target };
 };
 
