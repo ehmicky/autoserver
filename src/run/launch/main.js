@@ -13,12 +13,12 @@ const launchServers = async function (options) {
   const protocols = getProtocols(options);
 
   // Make sure all servers are starting concurrently, not serially
-  const serverInfosPromises = protocols
+  const serverFactsPromises = protocols
     .map(protocol => launchEachServer({ protocol, options }));
-  const serverInfosArray = await Promise.all(serverInfosPromises);
+  const serverFactsArray = await Promise.all(serverFactsPromises);
 
-  // From [{ protocol: serverInfo }, ...] to { protocol: serverInfo, ... }
-  const servers = serverInfosArray.reduce(assignObject, {});
+  // From [{ protocol: serverFacts }, ...] to { protocol: serverFacts, ... }
+  const servers = serverFactsArray.reduce(assignObject, {});
 
   return { servers };
 };
@@ -29,13 +29,13 @@ const launchEachServer = async function ({
   options,
   options: { runOpts, measures },
 }) {
-  const { serverInfo } = await monitoredReduce({
+  const { serverFacts } = await monitoredReduce({
     funcs: launchers,
     initialInput: { protocol, runOpts, options, measures },
     mapResponse: (input, newInput) => ({ ...input, ...newInput }),
     category: protocol,
   });
-  return { [protocol]: serverInfo };
+  return { [protocol]: serverFacts };
 };
 
 const launchers = [
