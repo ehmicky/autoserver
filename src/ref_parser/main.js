@@ -1,5 +1,7 @@
 'use strict';
 
+const { dirname } = require('path');
+
 const RefParser = require('json-schema-ref-parser');
 
 const { jsonRefs } = require('./json');
@@ -17,13 +19,15 @@ const { errorRefs } = require('./error');
 // This function might throw for several reasons, e.g. YAML|JSON parsing error,
 // cannot access remote|local file, etc.
 const dereferenceRefs = function ({ path }) {
+  const rootDir = dirname(path);
+  const refParserOpts = getRefParserOpts(rootDir);
   return RefParser.dereference(path, refParserOpts);
 };
 
-const refParserOpts = {
+const getRefParserOpts = rootDir => ({
   resolve: {
-    nodeModule: nodeModuleRefs.resolve,
-    node: nodeRefs.resolve,
+    nodeModule: nodeModuleRefs.resolve(rootDir),
+    node: nodeRefs.resolve(rootDir),
     error: errorRefs.resolve,
   },
   // Targets can be JSON, YAML or JavaScript (include Node.js modules)
@@ -41,7 +45,7 @@ const refParserOpts = {
   dereference: {
     circular: false,
   },
-};
+});
 
 module.exports = {
   dereferenceRefs,
