@@ -7,7 +7,8 @@ const { mapValues } = require('../utilities');
 // They may be introduced by e.g. dereferencing JSON references `$ref`
 // or YAML anchors `*var`
 const validateIdlCircularRefs = function ({ idl }) {
-  return validateCircularRefs(idl);
+  validateCircularRefs(idl);
+  return idl;
 };
 
 const validateCircularRefs = function (value, {
@@ -19,10 +20,10 @@ const validateCircularRefs = function (value, {
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  if (!value) { return value; }
-  if (!Array.isArray(value) && value.constructor !== Object) { return value; }
+  if (!value) { return; }
+  if (!Array.isArray(value) && value.constructor !== Object) { return; }
 
-  return walkCircularRefs(value, { path, pathSet });
+  walkCircularRefs(value, { path, pathSet });
 };
 
 const walkCircularRefs = function (value, { path, pathSet }) {
@@ -31,16 +32,14 @@ const walkCircularRefs = function (value, { path, pathSet }) {
   const iterator = Array.isArray(value)
     ? value.map.bind(value)
     : mapValues.bind(null, value);
-  const valueA = iterator((child, childKey) => {
+  iterator((child, childKey) => {
     const childPath = Array.isArray(value)
       ? `${path}[${childKey}]`
       : `${path}.${childKey}`;
-    return validateCircularRefs(child, { path: childPath, pathSet });
+    validateCircularRefs(child, { path: childPath, pathSet });
   });
 
   pathSet.delete(value);
-
-  return valueA;
 };
 
 module.exports = {
