@@ -3,10 +3,12 @@
 const { extname } = require('path');
 
 const { getJson, getYaml } = require('../../utilities');
-const { getIdl } = require('../../idl');
 
 // Load file content, with several supported formats
 const loadConfFile = async function ({ type, path }) {
+  // This means the file is not loaded, i.e. file path left as is
+  if (!type) { return path; }
+
   const loader = loaders[type];
   const content = await loader({ path });
   return content;
@@ -25,11 +27,6 @@ const genericLoaders = {
   '.yaml': getYaml,
 };
 
-// Like `genericLoader`, but also resolves JSON references
-const jsonRefLoader = function ({ path }) {
-  return getIdl({ idlPath: path });
-};
-
 // Loads JavaScript
 const jsLoader = function ({ path }) {
   // eslint-disable-next-line import/no-dynamic-require
@@ -38,7 +35,6 @@ const jsLoader = function ({ path }) {
 
 const loaders = {
   generic: genericLoader,
-  jsonRef: jsonRefLoader,
   javascript: jsLoader,
 };
 

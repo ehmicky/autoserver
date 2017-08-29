@@ -7,10 +7,9 @@ const idl = {
   subConfFiles: [{
     filename: 'idl',
     extNames: ['json', 'yml', 'yaml'],
-    loader: 'jsonRef',
   }],
   validate: {
-    type: 'object',
+    type: 'string',
     required: true,
   },
 };
