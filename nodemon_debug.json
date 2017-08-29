@@ -1,4 +1,5 @@
 {
   "exec": "cd ./examples && NODE_ENV=dev node --inspect-brk --no-warnings",
-  "ext": ".js,.json,.yml,.yaml"
+  "ext": ".js,.json,.yml,.yaml",
+  "ignore": "*.compiled.json"
 }

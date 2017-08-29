@@ -4,22 +4,35 @@ const { mapValues } = require('../utilities');
 
 // Take IDL function, inline or not, and turns into `function (...args)`
 // firing the first one, with $1, $2, etc. provided as extra arguments
-const getHelpers = function ({ idl: { helpers = {} } }) {
+const getHelpers = function ({ idl: { helpers } }) {
   const varsRef = {};
 
-  const helpersA = mapValues(helpers, ({ value: helper, useVars }) =>
-    getHelper({ helper, useVars, varsRef })
-  );
+  const helpersA = flattenHelpers(helpers);
+  const helpersB = mapValues(helpersA, normalizeHelper);
+  const helpersC = mapValues(helpersB, getHelper.bind(null, varsRef));
 
-  return { varsRef, helpers: helpersA };
+  return { varsRef, helpers: helpersC };
 };
 
-const getHelper = function ({
-  helper,
-  helper: { inlineFunc },
-  useVars,
+// Helpers can be an array of objects, to help importing libraries using
+// JSON references
+const flattenHelpers = function (helpers) {
+  if (!Array.isArray(helpers)) { return helpers; }
+
+  return Object.assign({}, ...helpers);
+};
+
+// Helpers can either be an options object, or options.value directly
+const normalizeHelper = function (helper) {
+  if (helper.value !== undefined) { return helper; }
+
+  return { value: helper };
+};
+
+const getHelper = function (
   varsRef,
-}) {
+  { value: helper, value: { inlineFunc }, useVars },
+) {
   // Constants are left as is
   const isConstant = typeof helper !== 'function';
   if (isConstant) { return helper; }

@@ -33,9 +33,13 @@ const getVars = function (
 
 // Retrieve IDL functions variables names
 const getVarsKeys = function ({ idl: { helpers = {} } }) {
+  const helpersA = Array.isArray(helpers)
+    ? Object.assign({}, ...helpers)
+    : helpers;
+
   return {
     vars: VARS_KEYS,
-    helpers: Object.keys(helpers),
+    helpers: Object.keys(helpersA),
   };
 };
 

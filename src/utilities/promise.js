@@ -1,7 +1,7 @@
 'use strict';
 
 const { promisify } = require('util');
-const { stat, readFile } = require('fs');
+const { stat, readFile, writeFile } = require('fs');
 
 const { capitalize } = require('underscore.string');
 
@@ -14,6 +14,7 @@ const promisifyAll = function (obj) {
 
 const promise = promisifyAll({
   readFile,
+  writeFile,
   stat,
 });
 
