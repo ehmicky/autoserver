@@ -1,5 +1,9 @@
 'use strict';
 
+const { runServer } = require('./run');
+const { compileIdl } = require('./idl');
+
 module.exports = {
-  ...require('./run'),
+  run: runServer,
+  compile: compileIdl,
 };

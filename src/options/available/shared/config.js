@@ -7,6 +7,6 @@ const config = {
   validate: { type: 'string' },
 };
 
-module.exports = [
+module.exports = {
   config,
-];
+};

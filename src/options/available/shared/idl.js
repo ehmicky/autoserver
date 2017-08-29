@@ -1,6 +1,6 @@
 'use strict';
 
-// `run` option `idl`
+// `run` and `compile` option `idl`
 const idl = {
   name: 'idl',
   description: 'File containing the data model and business logic',
@@ -14,6 +14,6 @@ const idl = {
   },
 };
 
-module.exports = [
+module.exports = {
   idl,
-];
+};

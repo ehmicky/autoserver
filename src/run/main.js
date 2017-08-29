@@ -32,5 +32,5 @@ const addRequirePerf = function ({ measures }) {
 const eStartupSteps = startupSteps.map(handleStartupError);
 
 module.exports = {
-  run: runServer,
+  runServer,
 };
