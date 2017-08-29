@@ -2,18 +2,19 @@
 
 const { basename } = require('path');
 
+const { addJsonRefSym } = require('./stringify');
+
 // Allow referencing Node.js modules, e.g. { "$ref": "lodash.node" }
 const nodeModuleRefs = {
-  resolve: {
+  resolve: rootDir => ({
     order: 50,
     canRead: '.node',
     read ({ url }) {
-      const name = basename(url);
-      const moduleName = name.replace(/\.node$/, '');
-      // eslint-disable-next-line import/no-dynamic-require
-      return require(moduleName);
+      const baseName = basename(url);
+      const name = baseName.replace(/\.node$/, '');
+      return load({ name, url, rootDir });
     },
-  },
+  }),
   parse: {
     allowEmpty: false,
     order: 500,
@@ -26,19 +27,26 @@ const nodeModuleRefs = {
 
 // Allow referencing JavaScript files, e.g. { "$ref": "./my_file.js" }
 const nodeRefs = {
-  resolve: {
+  resolve: rootDir => ({
     order: 60,
     canRead: '.js',
-    // eslint-disable-next-line import/no-dynamic-require
-    read: ({ url }) => require(url),
-  },
+    read: ({ url }) => load({ name: url, url, rootDir }),
+  }),
   parse: {
     allowEmpty: false,
     order: 600,
     // `resolve` function has already parsed it
-    canParse: ({ data, extension }) => extension === '.js' && isResolved(data),
+    canParse: ({ data, extension }) =>
+      extension === '.js' && isResolved(data),
     parse: ({ data }) => Promise.resolve(data),
   },
+};
+
+const load = function ({ name, url, rootDir }) {
+  // eslint-disable-next-line import/no-dynamic-require
+  const obj = require(name);
+  const objA = addJsonRefSym({ obj, url, rootDir });
+  return objA;
 };
 
 // Make sure a `resolve` function has previously been called
