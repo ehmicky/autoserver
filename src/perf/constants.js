@@ -8,7 +8,7 @@ const CATEGORIES = [
   'default',
   'main',
   'run_opts',
-  'boot',
+  'idl',
   'HTTP',
   'middleware',
   'time',

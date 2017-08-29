@@ -4,7 +4,7 @@ const { emitEvent } = require('../../events');
 
 // Protocol-specific start event
 const startEvent = async function ({
-  serverInfo: { host, port },
+  serverFacts: { host, port },
   protocol,
   runOpts,
 }) {

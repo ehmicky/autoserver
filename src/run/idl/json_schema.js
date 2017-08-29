@@ -1,8 +1,8 @@
 'use strict';
 
-const { COMMANDS } = require('../constants');
-const { omit, mapValues, assignObject } = require('../utilities');
-const { compile } = require('../json_validation');
+const { COMMANDS } = require('../../constants');
+const { omit, mapValues, assignObject } = require('../../utilities');
+const { compile } = require('../../json_validation');
 
 // Compile JSON schema defined in IDL file
 const compileJsonSchema = function ({

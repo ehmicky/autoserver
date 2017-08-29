@@ -1,5 +1,8 @@
 'use strict';
 
+const { getServerInfo } = require('../server_info');
+const { getRequestHandler } = require('../middleware');
+
 const {
   startStartupPerf,
   stopStartupPerf,
@@ -7,7 +10,8 @@ const {
 } = require('./perf');
 const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
-const { bootServers } = require('./boot');
+const { parseIdl } = require('./idl');
+const { launchServers } = require('./launch');
 const { setupGracefulExit } = require('./exit');
 const { emitStartEvent } = require('./start_event');
 
@@ -18,8 +22,14 @@ const startupSteps = [
   getRunOpts,
   // Setup process warnings and errors handler
   processErrorHandler,
+  // Parse IDL file
+  parseIdl,
+  // Retrieve server information
+  getServerInfo,
+  // Get main request handler
+  getRequestHandler,
   // Boot each server
-  bootServers,
+  launchServers,
   // Make sure servers are closed on exit
   setupGracefulExit,
   // Stop monitoring main startup time

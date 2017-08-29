@@ -6,12 +6,12 @@ const { protocolHandlers } = require('../../protocols');
 const launchServer = async function ({ protocol, runOpts, handleRequest }) {
   const opts = runOpts[protocol.toLowerCase()];
   const protocolHandler = protocolHandlers[protocol];
-  const serverInfo = await protocolHandler.startServer({
+  const serverFacts = await protocolHandler.startServer({
     opts,
     runOpts,
     handleRequest,
   });
-  return { serverInfo: { ...serverInfo, protocol } };
+  return { serverFacts: { ...serverFacts, protocol } };
 };
 
 module.exports = {
