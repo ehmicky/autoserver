@@ -1,5 +1,7 @@
 'use strict';
 
 module.exports = {
-  ...require('./parse'),
+  ...require('./load'),
+  ...require('./compile'),
+  ...require('./runtime_normalize'),
 };

@@ -6,7 +6,7 @@ const idl = {
   description: 'File containing the data model and business logic',
   subConfFiles: [{
     filename: 'idl',
-    extNames: ['json', 'yml', 'yaml'],
+    extNames: ['compiled.json', 'json', 'yml', 'yaml'],
   }],
   validate: {
     type: 'string',
