@@ -1,9 +1,11 @@
 'use strict';
 
-const options = [
-  ...require('../config'),
+const { config, idl } = require('../shared');
 
-  ...require('./idl'),
+const options = [
+  config,
+
+  idl,
   ...require('./env'),
   ...require('./events'),
   ...require('./server_name'),

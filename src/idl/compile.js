@@ -2,6 +2,12 @@
 
 const { isEqual } = require('lodash');
 
+const {
+  normalizeError,
+  getStandardError,
+  rethrowError,
+  throwError,
+} = require('../error');
 const { pWriteFile } = require('../utilities');
 const { dereferenceIdl, stringifyWithJsonRefs } = require('../ref_parser');
 
@@ -12,12 +18,15 @@ const { normalizeIdl } = require('./normalize');
 // The compiled file will be saved in the same directory as the non-compiled IDL
 // with the extension `.compiled.json`
 // It will be automatically found when the server starts
-const compileIdl = async function ({ path }) {
-  const rawIdl = await normalizeIdl({ path });
+const compileIdl = async function ({ idl: path } = {}) {
+  const idl = await dereferenceIdl({ path });
+  const rawIdl = await normalizeIdl({ idl });
 
   const compiledPath = await persistFile({ rawIdl, path });
 
-  validateCompiledIdl({ compiledPath, rawIdl });
+  await validateCompiledIdl({ compiledPath, rawIdl });
+
+  return { path: compiledPath };
 };
 
 // Saves the file
@@ -33,9 +42,31 @@ const persistFile = async function ({ rawIdl, path }) {
 const validateCompiledIdl = async function ({ compiledPath, rawIdl }) {
   const compiledIdl = await dereferenceIdl({ path: compiledPath });
 
-  console.log('Verif', isEqual(rawIdl, compiledIdl));
+  const hasMismatch = !isEqual(rawIdl, compiledIdl);
+
+  if (hasMismatch) {
+    const message = 'Compiled IDL do not match the non-compiled version';
+    throwError(message, { reason: 'UTILITY_ERROR' });
+  }
 };
 
+// Compile error handler
+const handleCompileError = function (func) {
+  return async (input, ...args) => {
+    try {
+      return await func(input, ...args);
+    } catch (error) {
+      const errorA = await normalizeError({ error });
+      const errorB = await getStandardError({ error: errorA });
+      console.log(errorB);
+
+      rethrowError(errorB);
+    }
+  };
+};
+
+const eCompileIdl = handleCompileError(compileIdl);
+
 module.exports = {
-  compileIdl,
+  compileIdl: eCompileIdl,
 };
