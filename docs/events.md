@@ -146,6 +146,7 @@ Events of type `start` have two additional properties on the event payload:
       - `protocol` `{string}`: always `'HTTP'`
       - `host` `{string}`
       - `port` `{string}`
+  - `exit` `{function}`: performs a clean server shutdown
 
 The full `start` event payload is also available as the resolved value of
 the promise returned by [`apiServer.start()`](run.md#running-the-server).

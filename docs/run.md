@@ -7,6 +7,9 @@ This function returns a promise, which resolves with the same value as the
 If the server fails to start, it will instead be rejected with the same value
 as the [`failure` event payload](events.md#error-information).
 
+The [`start` event payload](events.md#start-information) contains an `exit`
+function which performs a clean server shutdown.
+
 A complete example:
 
 <!-- eslint-disable no-unused-vars, no-undef, strict, no-console,
@@ -16,7 +19,7 @@ promise/prefer-await-to-then -->
 const apiEngine = require('api-engine');
 
 apiEngine.run()
-  .then(({ options, servers }) => {
+  .then(({ options, servers, exit }) => {
     console.log('Success');
   })
   .catch(({ errorInfo }) => {
