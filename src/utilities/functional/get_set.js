@@ -20,6 +20,15 @@ const set = function (obj, keys, val) {
   const [childKey, ...keysA] = keys;
   const child = obj[childKey];
   const childA = set(child, keysA, val);
+
+  if (Array.isArray(obj)) {
+    return [
+      ...obj.slice(0, childKey),
+      childA,
+      ...obj.slice(childKey + 1),
+    ];
+  }
+
   return { ...obj, [childKey]: childA };
 };
 
