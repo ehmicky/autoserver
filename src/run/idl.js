@@ -1,11 +1,8 @@
 'use strict';
 
-const { monitoredReduce } = require('../../perf');
-const { compileIdlFuncs, getHelpers } = require('../../idl_func');
-
-const { loadIdl } = require('./load');
-const { compileJsonSchema } = require('./json_schema');
-const { buildGraphQLSchema } = require('./graphql');
+const { monitoredReduce } = require('../perf');
+const { compileIdlFuncs, getHelpers } = require('../idl_func');
+const { loadIdl, compileJsonSchema, buildGraphQLSchema } = require('../idl');
 
 // Parse IDL file
 const parseIdl = function ({ runOpts, measures }) {
