@@ -28,7 +28,7 @@ const applyPlugins = async function ({ idl }) {
   const allPlugins = [...plugins, ...Object.values(defaultBuiltinPlugins)];
 
   const idlWithPlugins = await reduceAsync(allPlugins, pluginReducer, idl);
-  return idlWithPlugins;
+  return omit(idlWithPlugins, 'plugins');
 };
 
 const isOverridenPlugin = function ({ plugins, pluginName }) {
