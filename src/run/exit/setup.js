@@ -12,6 +12,8 @@ const setupGracefulExit = function ({ servers, runOpts }) {
 
   process.on('SIGINT', gracefulExitB);
   process.on('SIGTERM', gracefulExitB);
+
+  return { gracefulExit: gracefulExitB };
 };
 
 module.exports = {
