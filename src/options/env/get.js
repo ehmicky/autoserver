@@ -15,10 +15,7 @@ const { transformEnvVars } = require('./transform');
 // Array variables can be indicated the same way, but with indexes,
 // e.g. `ARRAY__0`, `ARRAY__1`, etc.
 const getEnvVars = function () {
-  return mappers.reduce(
-    (envVars, mapper) => mapper({ envVars }),
-    {},
-  );
+  return mappers.reduce((envVars, mapper) => mapper({ envVars }), {});
 };
 
 // Exclude environment variables not meant for the api-engine
