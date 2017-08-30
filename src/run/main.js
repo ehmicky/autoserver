@@ -2,6 +2,7 @@
 
 const { getRequirePerf } = require('../require_perf');
 const { monitoredReduce, stopPerf } = require('../perf');
+const { addErrorHandler } = require('../error');
 
 const { startupSteps } = require('./steps');
 const { handleStartupError } = require('./error');
@@ -29,7 +30,9 @@ const addRequirePerf = function ({ measures }) {
 };
 
 // Add startup error handler
-const eStartupSteps = startupSteps.map(handleStartupError);
+const eStartupSteps = startupSteps.map(
+  startupStep => addErrorHandler(startupStep, handleStartupError),
+);
 
 module.exports = {
   runServer,
