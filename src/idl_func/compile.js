@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../error');
 const { setAll } = require('../utilities');
 
 const { getVarsKeys } = require('./variables');
@@ -54,7 +54,7 @@ const createFunction = function ({ inlineFunc, varsKeys }) {
   return func;
 };
 
-const eCreateFunction = addErrorHandler(createFunction, {
+const eCreateFunction = addGenErrorHandler(createFunction, {
   message: ({ inlineFunc }) => `Invalid IDL function: '${inlineFunc}'`,
   reason: 'IDL_VALIDATION',
 });

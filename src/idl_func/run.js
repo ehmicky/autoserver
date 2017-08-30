@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../error');
 
 const { getVars } = require('./variables');
 const { bindVariables } = require('./helpers');
@@ -24,7 +24,7 @@ const runIdlFunc = function ({
   return idlFunc(varsA, helpers);
 };
 
-const eRunIdlFunc = addErrorHandler(runIdlFunc, {
+const eRunIdlFunc = addGenErrorHandler(runIdlFunc, {
   message: ({ idlFunc }) =>
     `IDL function failed: '${stringifyIdlFunc({ idlFunc })}'`,
   reason: 'UTILITY_ERROR',

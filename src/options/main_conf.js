@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../error');
 const { deepMerge } = require('../utilities');
 
 const { getEnvVars } = require('./env');
@@ -36,7 +36,7 @@ const getMainConfPath = function ({ options }) {
   return envVars.config || options.config;
 };
 
-const eLoadMainConfFile = addErrorHandler(loadMainConfFile, {
+const eLoadMainConfFile = addGenErrorHandler(loadMainConfFile, {
   message: 'Could not load \'config\' file',
   reason: 'CONF_LOADING',
 });

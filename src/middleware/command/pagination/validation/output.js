@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError, addErrorHandler } = require('../../../../error');
+const { throwError, addGenErrorHandler } = require('../../../../error');
 const { fastValidate } = require('../../../../fast_validation');
 const { getPaginationInfo } = require('../info');
 const { decode } = require('../encoding');
@@ -32,7 +32,7 @@ const getOutputMetadatum = function ({ pages, pages: { token } }) {
   return { ...pages, token: tokenA };
 };
 
-const eDecode = addErrorHandler(decode, {
+const eDecode = addGenErrorHandler(decode, {
   message: 'Wrong response: \'token\' is invalid',
   reason: 'OUTPUT_VALIDATION',
 });

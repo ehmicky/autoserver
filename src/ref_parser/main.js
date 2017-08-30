@@ -4,7 +4,7 @@ const { dirname } = require('path');
 
 const RefParser = require('json-schema-ref-parser');
 
-const { addErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../error');
 
 const { jsonRefs } = require('./json');
 const { yamlRefs } = require('./yaml');
@@ -54,7 +54,7 @@ const getRefParserOpts = rootDir => ({
 // passed to it, not the parsed object, so it knows the base of relative $refs.
 // Because of this, json-schema-ref-parser needs to be responsible for loading
 // and parsing the IDL file.
-const dereferenceIdl = addErrorHandler(dereferenceRefs, {
+const dereferenceIdl = addGenErrorHandler(dereferenceRefs, {
   message: 'Could not resolve references \'$ref\'',
   reason: 'IDL_SYNTAX_ERROR',
 });

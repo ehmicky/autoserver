@@ -2,7 +2,7 @@
 
 const { parse } = require('graphql');
 
-const { throwError, addErrorHandler } = require('../../../../error');
+const { throwError, addGenErrorHandler } = require('../../../../error');
 
 // Raw GraphQL parsing
 const parseQuery = function ({ query, goal, operationName }) {
@@ -32,7 +32,7 @@ const getQueryDocument = function ({ query, goal, operationName }) {
   return { queryDocument: queryDocumentA, graphqlMethod };
 };
 
-const eGetQueryDocument = addErrorHandler(getQueryDocument, {
+const eGetQueryDocument = addGenErrorHandler(getQueryDocument, {
   message: 'Could not parse GraphQL query',
   reason: 'GRAPHQL_SYNTAX_ERROR',
 });

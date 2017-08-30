@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler } = require('../../error');
+const { addGenErrorHandler } = require('../../error');
 const { compile } = require('../../json_validation');
 const { compileIdlFuncs } = require('../../idl_func');
 
@@ -16,7 +16,7 @@ const validateJsonSchema = function ({
   return idl;
 };
 
-const eValidateJsonSchema = addErrorHandler(validateJsonSchema, {
+const eValidateJsonSchema = addGenErrorHandler(validateJsonSchema, {
   message: 'Invalid JSON schema in \'validate\' property',
   reason: 'IDL_VALIDATION',
 });

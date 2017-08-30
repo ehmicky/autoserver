@@ -1,7 +1,7 @@
 'use strict';
 
 const { assignObject } = require('../../../../utilities');
-const { addErrorHandler } = require('../../../../error');
+const { addGenErrorHandler } = require('../../../../error');
 const { decode } = require('../encoding');
 
 const getDecodedTokens = function ({ args }) {
@@ -23,7 +23,7 @@ const getDecodedToken = function ({ args }, name) {
   return { [name]: decodedToken };
 };
 
-const eDecode = addErrorHandler(decode, {
+const eDecode = addGenErrorHandler(decode, {
   message: ({ name }) => `Wrong parameters: '${name}' is invalid`,
   reason: 'INPUT_VALIDATION',
 });

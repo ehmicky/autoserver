@@ -2,7 +2,7 @@
 
 const { execute } = require('graphql');
 
-const { throwError, addErrorHandler } = require('../../../../error');
+const { throwError, addGenErrorHandler } = require('../../../../error');
 
 const handleIntrospection = async function ({
   schema,
@@ -40,7 +40,7 @@ const getIntrospectionResp = function ({
 // Exception can be fired in several ways by GraphQL.js:
 //  - throwing an exception
 //  - returning errors in response
-const eGetIntrospectionResp = addErrorHandler(getIntrospectionResp, {
+const eGetIntrospectionResp = addGenErrorHandler(getIntrospectionResp, {
   message: 'GraphQL introspection query failed',
   reason: 'GRAPHQL_INTROSPECTION',
 });

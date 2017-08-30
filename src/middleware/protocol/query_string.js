@@ -2,7 +2,7 @@
 
 const qs = require('qs');
 
-const { throwError, addErrorHandler } = require('../../error');
+const { throwError, addGenErrorHandler } = require('../../error');
 const { transtype, mapValues } = require('../../utilities');
 
 const MAX_DEPTH = 10;
@@ -54,7 +54,7 @@ const parseQueryVars = function ({ queryString }) {
   return queryObject;
 };
 
-const eParseQueryVars = addErrorHandler(parseQueryVars, {
+const eParseQueryVars = addGenErrorHandler(parseQueryVars, {
   message: ({ queryString }) =>
     `Request query string is invalid: '${queryString}'`,
   reason: 'QUERY_STRING_PARSE',
