@@ -20,7 +20,7 @@ const processors = [
 ];
 
 // Retrieve and validate main options
-const getOptions = function ({ instruction, options, measures }) {
+const getOptions = function ({ instruction, options, measures = [] }) {
   const availableOpts = getAvailableOpts({ instruction });
   return monitoredReduce({
     funcs: processors,
