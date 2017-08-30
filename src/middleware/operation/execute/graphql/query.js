@@ -1,6 +1,6 @@
 'use strict';
 
-const { default: graphqlAnywhere } = require('graphql-anywhere');
+const { graphql: graphqlAnywhere } = require('./graphql-anywhere');
 
 // Executes GraphQL request
 const handleQuery = async function ({
