@@ -1,8 +1,8 @@
 # Dev server
 
-Use `npm run build` instead of `npm install`.
+First `npm install`.
 
-Start the test server with either:
+Then start the test server with either:
   - `npm start`: production mode
   - `npm run watch`: dev mode.
     Auto-reloads, using [Nodemon](https://github.com/remy/nodemon).
