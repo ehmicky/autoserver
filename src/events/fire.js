@@ -1,34 +1,21 @@
 'use strict';
 
-const { normalizeError, getStandardError } = require('../error');
+const {
+  addErrorHandler,
+  normalizeError,
+  getStandardError,
+} = require('../error');
 const { pSetTimeout, makeImmutable } = require('../utilities');
 
 // Try emit events with an increasing delay
-const eFireEvent = async function ({
-  type,
-  eventPayload,
-  runOpts,
-  delay = defaultDelay,
-  emitEvent,
-}) {
-  try {
-    await fireEvent({ runOpts, type, eventPayload });
+const fireEvent = async function ({ type, eventPayload, runOpts }) {
+  await fireSingleEvent({ runOpts, type, eventPayload });
 
-    // Catch-all event type
-    await fireEvent({ runOpts, type: 'any', eventPayload });
-  } catch (error) {
-    await handleEventError({
-      type,
-      eventPayload,
-      runOpts,
-      error,
-      delay,
-      emitEvent,
-    });
-  }
+  // Catch-all event type
+  await fireSingleEvent({ runOpts, type: 'any', eventPayload });
 };
 
-const fireEvent = async function ({
+const fireSingleEvent = async function ({
   runOpts: { events = {} },
   type,
   eventPayload,
@@ -42,12 +29,11 @@ const fireEvent = async function ({
   return eventPayloadA;
 };
 
-const handleEventError = async function ({
+const handleEventError = async function (error, {
   type,
   eventPayload,
   runOpts,
-  error,
-  delay,
+  delay = defaultDelay,
   emitEvent,
 }) {
   // Tries again and again, with an increasing delay
@@ -67,6 +53,8 @@ const handleEventError = async function ({
     emitEvent,
   });
 };
+
+const eFireEvent = addErrorHandler(fireEvent, handleEventError);
 
 const defaultDelay = 1000;
 const delayExponent = 5;
