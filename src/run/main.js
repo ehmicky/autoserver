@@ -1,7 +1,7 @@
 'use strict';
 
 const { getRequirePerf } = require('../require_perf');
-const { monitoredReduce, stopPerf } = require('../perf');
+const { monitoredReduce } = require('../perf');
 const { addErrorHandler } = require('../error');
 
 const { startupSteps } = require('./steps');
@@ -10,7 +10,8 @@ const { handleStartupError } = require('./error');
 // Start server for each protocol
 // @param {object} runOpts
 const runServer = async function ({ measures = [], ...runOpts } = {}) {
-  const measuresA = addRequirePerf({ measures });
+  const requirePerf = getRequirePerf();
+  const measuresA = [requirePerf, ...measures];
 
   // Run each startup step
   const { startPayload } = await monitoredReduce({
@@ -21,12 +22,6 @@ const runServer = async function ({ measures = [], ...runOpts } = {}) {
   });
 
   return startPayload;
-};
-
-const addRequirePerf = function ({ measures }) {
-  const requirePerf = getRequirePerf();
-  const requirePerfA = stopPerf(requirePerf);
-  return [requirePerfA, ...measures];
 };
 
 // Add startup error handler
