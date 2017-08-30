@@ -96,6 +96,7 @@ const normalizeError = function ({ error, message, reason = 'UNKNOWN' }) {
 const getErrorMessage = function ({ error, message }) {
   if (message) { return message; }
   if (typeof error === 'string') { return error; }
+  if (error.message) { return error.message; }
   return '';
 };
 
