@@ -1,6 +1,6 @@
 'use strict';
 
-const { keepFuncName } = require('../utilities');
+const { keepFuncName, identity } = require('../utilities');
 const { getStandardError, rethrowError } = require('../error');
 const { emitEvent } = require('../events');
 
@@ -30,7 +30,7 @@ const handleError = async function ({
   if (servers) {
     // Using `await` seems to crash Node.js here
     gracefulExit({ servers, runOpts })
-      .catch(error);
+      .catch(identity);
   }
 
   const errorA = getStandardError({ error });
