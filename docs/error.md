@@ -1,3 +1,18 @@
+# Exceptions
+
+Every [instruction](usage.md#instructions) will throw the same type of
+exception if it fails.
+
+Exceptions somewhat follow [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt):
+  - `description` `{string}`
+  - `title` `{string}`: short generic description
+  - `type` `{string}`: error type
+  - `status` `{string}`: protocol-agnostic status, among `'INTERNALS'`,
+    `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`, usually one of the
+    two last ones.
+  - `instance` `{string}`: URL that was called, if any
+  - `details` `{string}`: stack trace
+
 # Error responses
 
 Error responses try to follow both the
@@ -5,31 +20,23 @@ Error responses try to follow both the
 [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt) with some
 additional properties:
   - `errors` `{object[]}`:
-    - `message` `{string}`
-    - `title` `{string}`: short generic description
-    - `type` `{string}`: error type
-    - `status` `{string}`: protocol-specific status, e.g. `404`
-    - `instance` `{string}`: URL that was called, if any
-    - `stack` `{string}`: stack trace
-
-The following properties may appear or not, depending on when the error
-happened:
-  - `request_id` `{string}`
-  - `protocol` `{string}`
-  - `method` `{string}`
-  - `headers` `{object}`
-  - `queryVars` `{object}`
-  - `operation` `{string}`
-  - `action` `{string}`
-  - `action_path` `{string}`
-  - `model` `{string}`
-  - `args` `{object}`
-  - `command` `{string}`
-
-Additional properties specific to a given error type might also be present.
-
-Every [instruction](usage.md#instructions) will throw this type of error
-if it fails.
+    - contains the same properties as the [exceptions](#exceptions)
+      except `description` is called `message`, and `details` is called `stack`.
+    - the following properties may also appear, depending on when
+      the error happened:
+      - `request_id` `{string}`
+      - `protocol` `{string}`
+      - `method` `{string}`
+      - `headers` `{object}`
+      - `queryVars` `{object}`
+      - `operation` `{string}`
+      - `action` `{string}`
+      - `action_path` `{string}`
+      - `model` `{string}`
+      - `args` `{object}`
+      - `command` `{string}`
+    - additional properties specific to a given error type might also be
+      present.
 
 # Error logging
 
