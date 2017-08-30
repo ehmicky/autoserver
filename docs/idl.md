@@ -8,7 +8,7 @@ The file is configured using the [`run` option](run.md#options)
 `idl`, whose value is the [path](configuration.md#filepaths-options) to a
 JSON or YAML file (but only with JSON-compatible types).
 
-See [here](configuration.md) to learn how to specify the `run` option.
+See [here](configuration.md) to learn how to specify `run` options.
 
 By default, files named `api_engine.run.idl.json`, `api_engine.run.idl.yml`
 or `api_engine.run.idl.yaml` will be searched in the current directory, or
@@ -105,3 +105,27 @@ models:
   user:
     x-my-custom-prop: 3
 ```
+
+# Compilation
+
+It is possible to use the `compile` [instruction](usage.md) in order to
+compile the IDL file. E.g. the following command:
+
+```bash
+apiengine compile --idl my_idl_file.yml
+```
+
+will create a compiled version of the IDL file in the same directory, named
+`my_idl_file.compiled.json`. This file will automatically be loaded instead of
+`my_idl_file.yml` by the `run` command.
+
+The main reason to compile the IDL file are:
+  - speeding the server startup time
+  - validating the IDL file without running the server
+
+The `--idl` option behaves like the [`run` instruction](#configuration).
+In particular, files named `api_engine.run.idl.json`, `api_engine.run.idl.yml`
+or `api_engine.run.idl.yaml` will be searched in the current directory, or
+any parent.
+
+See [here](configuration.md) to learn how to specify `compile` options.
