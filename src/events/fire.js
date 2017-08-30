@@ -1,10 +1,6 @@
 'use strict';
 
-const {
-  addErrorHandler,
-  normalizeError,
-  getStandardError,
-} = require('../error');
+const { addErrorHandler, normalizeError } = require('../error');
 const { pSetTimeout, makeImmutable } = require('../utilities');
 
 // Try emit events with an increasing delay
@@ -71,12 +67,11 @@ const fireEventError = async function ({
   if (delay > defaultDelay * delayExponent) { return; }
 
   const errorA = normalizeError({ error, reason: 'EVENT_ERROR' });
-  const errorB = getStandardError({ error: errorA });
   await emitEvent({
     type: 'failure',
     phase: 'process',
     runOpts,
-    errorInfo: errorB,
+    errorInfo: errorA,
     delay,
   });
 };

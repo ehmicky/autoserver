@@ -26,7 +26,11 @@ const sendResponse = function ({
 const getErrorResponse = function ({ mInput, error, response, operation }) {
   if (!error) { return response; }
 
-  const errorA = getStandardError({ error, mInput });
+  const errorA = getStandardError({
+    error,
+    limitedInput: mInput,
+    fullInput: mInput,
+  });
   const responseA = createErrorResponse({ operation, error: errorA });
   return responseA;
 };

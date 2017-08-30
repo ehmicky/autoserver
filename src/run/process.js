@@ -1,7 +1,7 @@
 'use strict';
 
 const { emitEvent } = require('../events');
-const { getStandardError, normalizeError } = require('../error');
+const { normalizeError } = require('../error');
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance
@@ -46,12 +46,11 @@ const setupWarning = function ({ runOpts }) {
 // Report process problems as events with type 'failure'
 const emitProcessEvent = async function ({ error, message, runOpts }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
-  const errorB = getStandardError({ error: errorA });
 
   await emitEvent({
     type: 'failure',
     phase: 'process',
-    errorInfo: errorB,
+    errorInfo: errorA,
     runOpts,
   });
 };

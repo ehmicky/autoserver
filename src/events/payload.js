@@ -1,6 +1,7 @@
 'use strict';
 
 const { omitBy } = require('../utilities');
+const { getStandardError } = require('../error');
 const { getServerInfo } = require('../server_info');
 
 const { getRequestInfo } = require('./request_info');
@@ -43,10 +44,11 @@ const getEventPayload = function ({
   level,
   info = {},
 }) {
-  const {
-    requestInfo,
-    errorInfo: errorInfoA,
-  } = getRequestInfo({ mInput, phase, runOpts, errorInfo });
+  const errorInfoA = getStandardError({
+    error: errorInfo,
+    limitedInput: mInput,
+  });
+  const requestInfo = getRequestInfo({ mInput, phase, runOpts });
 
   const timestamp = getTimestamp({ requestInfo });
 

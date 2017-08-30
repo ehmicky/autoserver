@@ -7,9 +7,12 @@ const { normalizeError } = require('./main');
 
 // Gets normalized error information
 const getStandardError = function ({
-  mInput: {
+  error,
+  limitedInput: {
     url: instance,
     status = 'SERVER_ERROR',
+  } = {},
+  fullInput: {
     protocolStatus,
     protocol,
     method,
@@ -23,8 +26,9 @@ const getStandardError = function ({
     command: { name: command } = {},
     requestId,
   } = {},
-  error,
 }) {
+  if (!error) { return; }
+
   const errorA = normalizeError({ error });
   const type = getReason({ error: errorA });
   const { title } = getGenericProps({ error: errorA });
