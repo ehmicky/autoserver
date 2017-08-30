@@ -2,7 +2,7 @@
 
 const parsePreferHeaderLib = require('parse-prefer-header');
 
-const { addErrorHandler } = require('../../../error');
+const { addGenErrorHandler } = require('../../../error');
 
 // Returns a request's HTTP headers, normalized lowercase
 const parseHeaders = function ({ specific: { req: { headers = {} } } }) {
@@ -16,7 +16,7 @@ const parsePreferHeader = function ({ headers: { prefer } }) {
   return parsePreferHeaderLib(prefer);
 };
 
-const eParsePreferHeader = addErrorHandler(parsePreferHeader, {
+const eParsePreferHeader = addGenErrorHandler(parsePreferHeader, {
   message: ({ prefer }) =>
     `HTTP 'Prefer' header value syntax error: '${prefer}'`,
   reason: 'INPUT_VALIDATION',

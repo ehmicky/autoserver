@@ -2,7 +2,7 @@
 
 const { dirname } = require('path');
 
-const { addErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../error');
 const { reduceAsync, get, set, findValueAsync } = require('../utilities');
 
 const { getConfFile } = require('./conf');
@@ -63,7 +63,7 @@ const loadSubConfOpt = async function ({
   return optionsA;
 };
 
-const eLoadSubConfOpt = addErrorHandler(loadSubConfOpt, {
+const eLoadSubConfOpt = addGenErrorHandler(loadSubConfOpt, {
   message: ({ subConfOpt: { name } }) => `Could not load option '${name}'`,
   reason: 'CONF_LOADING',
 });

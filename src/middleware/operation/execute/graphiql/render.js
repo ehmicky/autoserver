@@ -2,7 +2,7 @@
 
 const { resolve } = require('path');
 
-const { addErrorHandler } = require('../../../../error');
+const { addGenErrorHandler } = require('../../../../error');
 const { mapValues, renderTemplate } = require('../../../../utilities');
 
 const template = resolve(__dirname, './graphiql.mustache');
@@ -31,7 +31,7 @@ const renderGraphiQL = function (input) {
   return renderTemplate({ template, data });
 };
 
-const eRenderGraphiQL = addErrorHandler(renderGraphiQL, {
+const eRenderGraphiQL = addGenErrorHandler(renderGraphiQL, {
   message: 'Could not render GraphiQL HTML document',
   reason: 'GRAPHIQL_PARSING_ERROR',
 });
