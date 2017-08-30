@@ -7,6 +7,7 @@ Error.stackTraceLimit = 100;
 
 const startServer = async function () {
   try {
+    await apiEngine.compile();
     const { options, servers, exit } = await apiEngine.run();
     return { options, servers, exit };
   } catch (error) {
