@@ -1,6 +1,6 @@
 'use strict';
 
-const { graphql: graphqlAnywhere } = require('./graphql-anywhere');
+const { graphql: anywhere } = require('./anywhere');
 
 // Executes GraphQL request
 const handleQuery = async function ({
@@ -11,7 +11,7 @@ const handleQuery = async function ({
   rootValue,
 }) {
   // GraphQL execution
-  const response = await graphqlAnywhere(
+  const response = await anywhere(
     resolver,
     queryDocument,
     rootValue,
