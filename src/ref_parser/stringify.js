@@ -2,6 +2,8 @@
 
 const { isAbsolute, relative } = require('path');
 
+const { addGenErrorHandler } = require('../error');
+
 const refSym = Symbol('ref');
 
 // When resolving a JSON reference to a JavaScript file, keep the reference
@@ -26,6 +28,11 @@ const stringifyWithJsonRefs = function (obj) {
   return JSON.stringify(obj, stringify);
 };
 
+const eStringifyWithJsonRefs = addGenErrorHandler(stringifyWithJsonRefs, {
+  message: 'Could not serialize the IDL file',
+  reason: 'UTILITY_ERROR',
+});
+
 const stringify = function (key, val) {
   const jsonRef = val && val[refSym];
   if (!jsonRef) { return val; }
@@ -35,5 +42,5 @@ const stringify = function (key, val) {
 
 module.exports = {
   addJsonRefSym,
-  stringifyWithJsonRefs,
+  stringifyWithJsonRefs: eStringifyWithJsonRefs,
 };

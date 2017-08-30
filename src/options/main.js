@@ -1,5 +1,6 @@
 'use strict';
 
+const { omit } = require('../utilities');
 const { monitoredReduce } = require('../perf');
 
 const { availableInstructions } = require('./available');
@@ -21,10 +22,11 @@ const processors = [
 
 // Retrieve and validate main options
 const getOptions = function ({ instruction, options, measures = [] }) {
+  const optionsA = omit(options, 'measures');
   const availableOpts = getAvailableOpts({ instruction });
   return monitoredReduce({
     funcs: processors,
-    initialInput: { options, instruction, availableOpts, measures },
+    initialInput: { options: optionsA, instruction, availableOpts, measures },
     mapResponse: (input, newInput) => ({ ...input, ...newInput }),
     category: `${instruction}_opts`,
   });
