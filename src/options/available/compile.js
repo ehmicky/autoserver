@@ -13,7 +13,7 @@ const compileOptions = {
   name: 'compile',
   description: 'Compile the IDL file',
   examples: [
-    ['Compile the IDL file', '--idl=path_to_idl_file'],
+    ['Compile the IDL file', '--idl path_to_idl_file'],
   ],
 };
 
