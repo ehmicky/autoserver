@@ -2,6 +2,7 @@
 
 const { getOptions } = require('../options');
 
+// Retrieve instruction options
 const getRunOpts = async function ({ runOpts, measures }) {
   const { options } = await getOptions({
     instruction: 'run',
