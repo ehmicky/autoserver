@@ -35,7 +35,7 @@ const parseOpts = function () {
     .version()
     .default(['help', 'version'], undefined)
     // `completion` instruction, which outputs Bash completion script
-    .completion()
+    .completion('completion', 'Generate a Bash completion script')
     // Auto-suggests correction on typos
     .recommendCommands()
     .argv;
