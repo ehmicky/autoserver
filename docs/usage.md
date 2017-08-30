@@ -6,7 +6,7 @@ The server can be used from the command line:
 apiengine [INSTRUCTION] [--options]
 ```
 
-The default `INSTRUCTION` is `run`.
+The default `INSTRUCTION` is [`run`](run.md).
 
 Use `apiengine --help` for usage instructions.
 
@@ -25,10 +25,14 @@ apiEngine.run({ ...options });
 
 Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.
 
+Every instruction throws a [standard error](error.md#error-responses) if it
+fails.
+
 # Instructions
 
 The following instructions are available:
   - [run](run.md): start the server
+  - [compile](idl.md#compilation): compile the [IDL file](idl.md)
 
 # Options
 

@@ -28,6 +28,9 @@ happened:
 
 Additional properties specific to a given error type might also be present.
 
+Every [instruction](usage.md#instructions) will throw this type of error
+if it fails.
+
 # Error logging
 
 See [here](events.md#error-information) for information about error logging.

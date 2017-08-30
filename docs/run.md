@@ -4,8 +4,6 @@ Execute the [`run` instruction](usage.md), e.g. `apiEngine.run()`.
 
 This function returns a promise, which resolves with the same value as the
 [`start` event payload](events.md#start-information).
-If the server fails to start, it will instead be rejected with the same value
-as the [`failure` event payload](events.md#error-information).
 
 The [`start` event payload](events.md#start-information) contains an `exit`
 function which performs a clean server shutdown.
