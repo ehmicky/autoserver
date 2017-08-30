@@ -1,11 +1,11 @@
 'use strict';
 
-const { config, idl } = require('./shared');
+const { config, uncompiledIdl } = require('../shared');
 
 const options = [
   config,
 
-  idl,
+  uncompiledIdl,
 ];
 
 const compileOptions = {

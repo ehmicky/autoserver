@@ -9,6 +9,7 @@ const {
   throwError,
 } = require('../error');
 const { pWriteFile } = require('../utilities');
+const { getOptions } = require('../options');
 const { dereferenceIdl, stringifyWithJsonRefs } = require('../ref_parser');
 
 const { normalizeIdl } = require('./normalize');
@@ -18,7 +19,12 @@ const { normalizeIdl } = require('./normalize');
 // The compiled file will be saved in the same directory as the non-compiled IDL
 // with the extension `.compiled.json`
 // It will be automatically found when the server starts
-const compileIdl = async function ({ idl: path } = {}) {
+const compileIdl = async function (compileOpts = {}) {
+  const { options: compileOptsA } = await getOptions({
+    instruction: 'compile',
+    options: compileOpts,
+  });
+  const { idl: path } = compileOptsA;
   const idl = await dereferenceIdl({ path });
   const rawIdl = await normalizeIdl({ idl });
 
