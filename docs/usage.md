@@ -25,7 +25,7 @@ apiEngine.run({ ...options });
 
 Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.
 
-Every instruction throws a [standard error](error.md#error-responses) if it
+Every instruction throws a [standard exception](error.md#exceptions) if it
 fails.
 
 # Instructions
