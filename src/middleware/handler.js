@@ -2,20 +2,21 @@
 
 const { reduceAsync } = require('../utilities');
 const { monitor } = require('../perf');
+const { addErrorHandler } = require('../error');
 
 const { middlewareLayers } = require('./layers');
 const {
-  addLayersErrorsHandlers,
-  addMiddlewareHandler,
-  getErrorMInput,
-  throwMiddlewareError,
+  fireMiddlewareHandler,
+  fireMainLayersHandler,
+  fireErrorHandler,
+  fireFailureHandler,
 } = require('./error');
 
 // Called once per server startup
 const getRequestHandler = function () {
   // Add performance monitoring
   const allLayersA = middlewareLayers.map(monitorLayers);
-  const requestHandler = eFireLayers.bind(null, allLayersA);
+  const requestHandler = eeFireLayers.bind(null, allLayersA);
   return { requestHandler };
 };
 
@@ -36,38 +37,20 @@ const fireLayers = async function (allLayers, mInput) {
   // Used only by performance monitoring
   const reqState = { measures: [] };
 
-  const mInputA = await fireMainLayers({ allLayers, mInput, reqState });
+  const mInputA = await eFireMainLayers({ allLayers, mInput, reqState });
   await fireFinalLayer({ allLayers, mInput: mInputA, reqState });
 };
 
-const eFireLayers = addLayersErrorsHandlers(fireLayers);
-
 // Fires allLayers[1], i.e. skip `final`
-const fireMainLayers = async function ({ allLayers, mInput, reqState }) {
-  try {
-    return await fireLayer(allLayers.slice(1), reqState, mInput);
-  } catch (error) {
-    const mInputA = getErrorMInput({ error });
-
-    // Final layer are called before error handlers, except if the error
-    // was raised by the final layer itself
-    const mInputB = await fireLayer(allLayers, reqState, mInputA);
-
-    throwMiddlewareError(error, mInputB, { force: true });
-  }
+const fireMainLayers = function ({ allLayers, mInput, reqState }) {
+  return fireLayer(allLayers.slice(1), reqState, mInput);
 };
 
 // Fires allLayers[0], i.e. `final`, a special layer that it is always
 // fired, whether the request is successful or not.
 // It does not call `nextLayer()`, so allLayers[1] won't be called
-const fireFinalLayer = async function ({ allLayers, mInput, reqState }) {
-  try {
-    return await fireLayer(allLayers, reqState, mInput);
-  } catch (error) {
-    const mInputA = getErrorMInput({ error });
-
-    throwMiddlewareError(error, mInputA, { force: true });
-  }
+const fireFinalLayer = function ({ allLayers, mInput, reqState }) {
+  return fireLayer(allLayers, reqState, mInput);
 };
 
 // Fire all the middleware functions of a given layer
@@ -95,7 +78,18 @@ const mergeInput = function (mInput, mInputA) {
   return { ...mInput, ...mInputA };
 };
 
-const eFireMiddleware = addMiddlewareHandler(fireMiddleware);
+// Middleware error handler
+const eFireMiddleware = addErrorHandler(fireMiddleware, fireMiddlewareHandler);
+
+// Main layers error handler
+const eFireMainLayers = addErrorHandler(
+  fireMainLayers,
+  fireMainLayersHandler.bind(null, fireLayer),
+);
+
+// Top-level request error handlers
+const eFireLayers = addErrorHandler(fireLayers, fireErrorHandler);
+const eeFireLayers = addErrorHandler(eFireLayers, fireFailureHandler);
 
 module.exports = {
   getRequestHandler,

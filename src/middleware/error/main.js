@@ -1,66 +1,83 @@
 'use strict';
 
-const { rethrowError, normalizeError } = require('../../error');
-const { promiseCatch } = require('../../utilities');
+const {
+  rethrowError,
+  normalizeError,
+  addErrorHandler,
+} = require('../../error');
+const { omit } = require('../../utilities');
 
 const { errorHandler } = require('./error_handler');
 const { failureHandler } = require('./failure_handler');
 
-// Add request error handlers
-const addLayersErrorsHandlers = function (func) {
-  const funcA = errorHandledFunc.bind(null, func, errorHandler);
-  const funcB = errorHandledFunc.bind(null, funcA, failureHandler);
-  return funcB;
+// Middleware function error handler, which just rethrow the error,
+// and adds the current `mInput` as information by setting `error.mInput`
+const fireMiddlewareHandler = function (error, ...args) {
+  // Skip `nextLayer` and `reqState` arguments
+  const errorA = error.mInput ? error : addMInput(error, args[2]);
+  rethrowError(errorA);
 };
 
-const errorHandledFunc = async function (func, handler, ...args) {
-  try {
-    return await func(...args);
-  } catch (error) {
-    await fireErrorHandler(handler, error);
-  }
-};
+// Main layers error handler
+const fireMainLayersHandler = async function (
+  fireLayer,
+  error,
+  { allLayers, reqState },
+) {
+  const mInputA = getErrorMInput({ error });
 
-// Fire request error handlers
-const fireErrorHandler = async function (handler, errorA) {
-  const mInput = getErrorMInput({ error: errorA });
+  // Final layer are called before error handlers, except if the error
+  // was raised by the final layer itself
+  const mInputB = await fireLayer(allLayers, reqState, mInputA);
 
-  try {
-    await handler(mInput);
-  // Request error handlers might fail themselves
-  } catch (error) {
-    throwMiddlewareError(error, mInput);
-  }
-};
-
-// Extract `mInput` from `error.mInput`
-const getErrorMInput = function ({ error, error: { mInput = {} } }) {
-  const errorA = normalizeError({ error });
-  return { ...mInput, mInput, error: errorA };
-};
-
-const throwMiddlewareError = function (error, mInput, { force = false } = {}) {
-  if (!error.mInput || force) {
-    // Must directly assign to error, because { ...error } does not work
-    // eslint-disable-next-line fp/no-mutating-assign
-    Object.assign(error, { mInput });
-  }
+  addMInput(error, mInputB);
 
   rethrowError(error);
 };
 
-// Middleware function error handler, which just rethrow the error,
-// and adds the current `mInput` as information by setting `error.mInput`
-const addMiddlewareHandler = function (func) {
-  return promiseCatch(func, (error, ...args) =>
-    // Skip `nextLayer` and `reqState` arguments
-    throwMiddlewareError(error, ...args.slice(2))
-  );
+// Fire request error handlers
+const fireErrorHandler = function (errorA) {
+  const mInputA = getErrorMInput({ error: errorA });
+  return errorHandler(mInputA);
+};
+
+const fireFailureHandler = function (errorA) {
+  const mInputA = getErrorMInput({ error: errorA });
+  return failureHandler(mInputA);
+};
+
+// Request error handlers might fail themselves
+const handlerHandler = function (error, errorA) {
+  addMInput(error, errorA.mInput);
+
+  rethrowError(error);
+};
+
+const eFireErrorHandler = addErrorHandler(fireErrorHandler, handlerHandler);
+const eFireFailureHandler = addErrorHandler(fireFailureHandler, handlerHandler);
+
+// Add `error.mInput`, to keep track of current `mInput` during exception flow
+const addMInput = function (error, mInput) {
+  const mInputA = omit(mInput, 'error');
+  // We need to directly mutate to keep Error constructor
+  // eslint-disable-next-line fp/no-mutating-assign
+  Object.assign(error, { mInput: mInputA });
+
+  return error;
+};
+
+// Builds `mInput` with a `mInput.error` property
+const getErrorMInput = function ({ error, error: { mInput = {} } }) {
+  const errorA = normalizeError({ error });
+  const errorB = omit(errorA, 'mInput');
+  return { ...mInput, mInput, error: errorB };
 };
 
 module.exports = {
-  addLayersErrorsHandlers,
-  addMiddlewareHandler,
+  fireMiddlewareHandler,
+  fireMainLayersHandler,
+  fireErrorHandler: eFireErrorHandler,
+  fireFailureHandler: eFireFailureHandler,
   getErrorMInput,
-  throwMiddlewareError,
+  addMInput,
 };
