@@ -58,7 +58,6 @@ const handleCompileError = function (func) {
     } catch (error) {
       const errorA = await normalizeError({ error });
       const errorB = await getStandardError({ error: errorA });
-      console.log(errorB);
 
       rethrowError(errorB);
     }
