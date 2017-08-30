@@ -2,12 +2,7 @@
 
 const { isEqual } = require('lodash');
 
-const {
-  normalizeError,
-  getStandardError,
-  rethrowError,
-  throwError,
-} = require('../error');
+const { throwError } = require('../error');
 const { pWriteFile } = require('../utilities');
 const { getOptions } = require('../options');
 const { dereferenceIdl, stringifyWithJsonRefs } = require('../ref_parser');
@@ -56,22 +51,6 @@ const validateCompiledIdl = async function ({ compiledPath, rawIdl }) {
   }
 };
 
-// Compile error handler
-const handleCompileError = function (func) {
-  return async (input, ...args) => {
-    try {
-      return await func(input, ...args);
-    } catch (error) {
-      const errorA = await normalizeError({ error });
-      const errorB = await getStandardError({ error: errorA });
-
-      rethrowError(errorB);
-    }
-  };
-};
-
-const eCompileIdl = handleCompileError(compileIdl);
-
 module.exports = {
-  compileIdl: eCompileIdl,
+  compileIdl,
 };
