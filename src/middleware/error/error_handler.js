@@ -1,7 +1,6 @@
 'use strict';
 
 const { pSetTimeout } = require('../../utilities');
-const { getStandardError } = require('../../error');
 const { emitEvent } = require('../../events');
 
 // Error handler, which sends final response, if errors
@@ -21,14 +20,10 @@ const errorHandler = async function ({
   // This is unclear why, but doing this solves the problem.
   await pSetTimeout(0);
 
-  const standardError = getStandardError({ error, mInput });
-
-  await reportError({ runOpts, level, error: standardError, mInput });
+  await reportError({ runOpts, level, error, mInput });
 
   // Make sure a response is sent, or the socket will hang
   protocolHandler.send.nothing({ specific, protocolStatus });
-
-  return standardError;
 };
 
 // Report any exception thrown

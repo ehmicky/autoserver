@@ -1,6 +1,6 @@
 'use strict';
 
-const { getStandardError, addErrorHandler } = require('../../error');
+const { addErrorHandler } = require('../../error');
 const { monitor } = require('../../perf');
 const { emitEvent } = require('../../events');
 
@@ -43,13 +43,12 @@ const handleEventHandler = async function (
   { errorMessage },
   { protocol, runOpts },
 ) {
-  const errorInfo = getStandardError({ error });
   const message = `${protocol} - ${errorMessage}`;
   await emitEvent({
     type: 'failure',
     phase: 'shutdown',
     message,
-    errorInfo,
+    errorInfo: error,
     runOpts,
   });
 };

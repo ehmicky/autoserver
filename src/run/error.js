@@ -1,6 +1,6 @@
 'use strict';
 
-const { getStandardError, rethrowError } = require('../error');
+const { rethrowError } = require('../error');
 const { emitEvent } = require('../events');
 
 const { gracefulExit } = require('./exit');
@@ -13,17 +13,14 @@ const handleStartupError = async function (error, { servers, runOpts }) {
     await gracefulExit({ servers, runOpts });
   }
 
-  const errorA = getStandardError({ error });
-
-  const errorB = await emitEvent({
+  await emitEvent({
     type: 'failure',
     phase: 'startup',
-    errorInfo: errorA,
+    errorInfo: error,
     runOpts,
-    async: false,
   });
 
-  rethrowError(errorB);
+  rethrowError(error);
 };
 
 module.exports = {
