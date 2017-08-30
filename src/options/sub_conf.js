@@ -76,10 +76,10 @@ const loadSubConfFiles = function ({ instruction, baseDir, path, files }) {
 };
 
 const loadSubConfFile = async function ({
-  instruction,
+  instruction: currentInstruction,
   baseDir,
   path,
-  file: { filename, extNames, loader },
+  file: { filename, extNames, loader, instruction = currentInstruction },
 }) {
   const { content } = await getConfFile({
     path,
