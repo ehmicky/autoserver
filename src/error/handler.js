@@ -6,24 +6,19 @@ const { throwError } = require('./main');
 
 // Wrap a function with a error handler
 const addErrorHandler = function (func, errorHandler) {
-  const isAsync = func[Symbol.toStringTag] === 'AsyncFunction';
-  const wrapperFunc = isAsync ? errorAsyncHandledFunc : errorHandledFunc;
-  return wrapperFunc.bind(null, func, errorHandler);
+  return errorHandledFunc.bind(null, func, errorHandler);
 };
 
 const kAddErrorHandler = keepFuncName(addErrorHandler);
 
 const errorHandledFunc = function (func, errorHandler, ...args) {
   try {
-    return func(...args);
-  } catch (error) {
-    return errorHandler(error, ...args);
-  }
-};
+    const retVal = func(...args);
 
-const errorAsyncHandledFunc = async function (func, errorHandler, ...args) {
-  try {
-    return await func(...args);
+    // eslint-disable-next-line promise/prefer-await-to-then
+    return retVal && typeof retVal.then === 'function'
+      ? retVal.catch(error => errorHandler(error, ...args))
+      : retVal;
   } catch (error) {
     return errorHandler(error, ...args);
   }
