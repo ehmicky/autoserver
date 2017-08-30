@@ -10,13 +10,22 @@ const startRequirePerf = function () {
   requirePerf.pending = hrtime();
 };
 
+const stopRequirePerf = function () {
+  const { stopPerf } = require('./perf');
+  // eslint-disable-next-line fp/no-mutation
+  stoppedRequirePerf = stopPerf(requirePerf);
+};
+
 const getRequirePerf = function () {
-  return requirePerf;
+  return stoppedRequirePerf;
 };
 
 const requirePerf = { label: 'parsing', category: 'default' };
+// eslint-disable-next-line fp/no-let, init-declarations
+let stoppedRequirePerf;
 
 module.exports = {
   startRequirePerf,
+  stopRequirePerf,
   getRequirePerf,
 };

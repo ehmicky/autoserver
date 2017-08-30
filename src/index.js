@@ -1,10 +1,14 @@
 'use strict';
 
-const { startRequirePerf } = require('./require_perf');
+const { startRequirePerf, stopRequirePerf } = require('./require_perf');
 
 startRequirePerf();
 
-module.exports = {
+const index = {
   ...require('./instructions'),
   ...require('./cli'),
 };
+
+stopRequirePerf();
+
+module.exports = index;
