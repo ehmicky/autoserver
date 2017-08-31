@@ -24,9 +24,9 @@ const parseParams = function ({ mInput }) {
 const addType = function ({ mInput, type, type: { genericName } }) {
   const values = getValues({ mInput, type });
   const valuesA = transformValues({ values });
-  const valuesB = validateValues({ values: valuesA, type });
+  validateValues({ values: valuesA, type });
 
-  return { [genericName]: valuesB };
+  return { [genericName]: valuesA };
 };
 
 module.exports = {

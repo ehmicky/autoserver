@@ -1,6 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../../error');
+const { fastValidate, booleanTest } = require('../../../../fast_validation');
 
 const { headersPrefix: paramsHeadersPrefix } = require('./params');
 
@@ -24,29 +25,28 @@ const getSpecificValues = function ({ mInput, mInput: { protocolHandler } }) {
 };
 
 // Validate settings
-const validateValue = function ({ values, name, value }) {
-  const validator = validators[name];
+const validateValue = function ({ name, value }) {
+  const tests = validators[name];
 
-  if (!validator) {
+  if (!tests) {
     const message = `Unknown settings: '${name}'`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  return validator({ values, name, value });
-};
-
-const validateBooleanSettings = function ({ values, name, value }) {
-  if (typeof value !== 'boolean') {
-    const message = `'${name}' settings must be 'true' or 'false', not '${value}'`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  return values;
+  fastValidate(
+    { prefix: 'Wrong settings: ', reason: 'INPUT_VALIDATION', tests },
+    { [name]: value },
+  );
 };
 
 const validators = {
-  silent: validateBooleanSettings,
-  dryrun: validateBooleanSettings,
+  silent: [
+    booleanTest('silent'),
+  ],
+
+  dryrun: [
+    booleanTest('dryrun'),
+  ],
 };
 
 const settings = {
