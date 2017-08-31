@@ -1,6 +1,6 @@
 'use strict';
 
-const { pStat } = require('./promise');
+const { pStat } = require('./promisify');
 const { memoize } = require('./functional');
 
 // `mStat() is like `fs.stat()` but: using promises, returning false if there

@@ -2,7 +2,7 @@
 
 const yaml = require('js-yaml');
 
-const { pReadFile } = require('./promise');
+const { pReadFile } = require('./promisify');
 const { throwError } = require('./error');
 
 // Retrieve and parses a YAML file
