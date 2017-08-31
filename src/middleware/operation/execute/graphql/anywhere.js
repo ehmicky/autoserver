@@ -307,7 +307,7 @@ function isPromise(obj) {
 
 const getDirectiveInfoFromField = function (field, variables) {
   if (field.directives && field.directives.length) {
-    let directiveObj;
+    let directiveObj = {};
     field.directives.forEach((directive) => {
       directiveObj[directive.name.value] = argumentsObjectFromField(directive, variables);
     });
