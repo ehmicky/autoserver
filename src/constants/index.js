@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  ...require('./actions'),
-  ...require('./commands'),
-  ...require('./goals'),
+  ACTIONS: require('./actions'),
+  COMMANDS: require('./commands'),
+  GOALS: require('./goals'),
   ...require('./content_types'),
 };
