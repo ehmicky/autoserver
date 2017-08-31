@@ -11,15 +11,10 @@ const validatePaginationInput = function ({ args, command, maxPageSize }) {
   const decodedTokens = getDecodedTokens({ args });
 
   const tests = getTests({ args, command });
-  fastValidate({
-    prefix: 'Wrong pagination arguments: ',
-    reason: 'INPUT_VALIDATION',
-    tests,
-  }, {
-    ...args,
-    ...decodedTokens,
-    maxPageSize,
-  });
+  fastValidate(
+    { prefix: 'Wrong arguments: ', reason: 'INPUT_VALIDATION', tests },
+    { ...args, ...decodedTokens, maxPageSize },
+  );
 };
 
 const getTests = function ({ args, command }) {

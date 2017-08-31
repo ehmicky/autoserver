@@ -40,14 +40,10 @@ const eDecode = addGenErrorHandler(decode, {
 const validateMetadatum = function ({ maxPageSize }, metadatum) {
   const tests = getTests();
 
-  fastValidate({
-    prefix: 'Wrong pagination response: ',
-    reason: 'OUTPUT_VALIDATION',
-    tests,
-  }, {
-    ...metadatum,
-    maxPageSize,
-  });
+  fastValidate(
+    { prefix: 'Wrong response: ', reason: 'OUTPUT_VALIDATION', tests },
+    { ...metadatum, maxPageSize },
+  );
 };
 
 const getTests = function () {
