@@ -1,12 +1,19 @@
 'use strict';
 
 const { throwError } = require('../../error');
+const { getFlatOpts } = require('../flat_opts');
 
 const rules = require('./rules');
 
 // Validation for options
-const validateOptions = function ({ flatOpts }) {
-  flatOpts.forEach(checkOpt);
+const validateOptions = function ({ options, availableOpts }) {
+  const flatOpts = getFlatOpts({ options, availableOpts });
+  flatOpts
+    // Unknown options coming from environment variables are ignored
+    // Other unknown options cannot be present at this stage, as they have
+    // been previously validated.
+    .filter(({ unknown }) => !unknown)
+    .forEach(checkOpt);
 };
 
 const checkOpt = function ({ name, validate, optVal }) {
