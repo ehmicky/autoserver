@@ -48,7 +48,6 @@ const getContent = async function ({
     resolver,
     queryDocument,
     variables,
-    operationName,
     context: { graphqlMethod, callback },
     rootValue: {},
   });
