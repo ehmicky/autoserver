@@ -2,8 +2,8 @@
 
 const { transformData } = require('./transformer');
 
-// Handles `attr.compute`
-const handleComputes = function ({
+// Handles `attr.compute` in output
+const handleComputesOut = function ({
   response,
   response: { data },
   idl,
@@ -25,5 +25,5 @@ const handleComputes = function ({
 };
 
 module.exports = {
-  handleComputes,
+  handleComputesOut,
 };

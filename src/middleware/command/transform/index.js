@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
-  ...require('./input'),
-  ...require('./output'),
+  ...require('./transform'),
+  ...require('./compute_in'),
+  ...require('./compute_out'),
 };

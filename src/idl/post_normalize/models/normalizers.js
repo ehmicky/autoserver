@@ -11,7 +11,6 @@ const {
   addAttrRequiredId,
   addAttrDefaultType,
   normalizeType,
-  addAttrDefaultReadonly,
   mergeNestedModel,
   addTypeValidation,
 } = require('./attribute');
@@ -25,7 +24,6 @@ const normalizers = [
   { type: 'attr', func: addAttrRequiredId },
   { type: 'attr', func: addAttrDefaultType },
   { type: 'attr', func: normalizeType },
-  { type: 'attr', func: addAttrDefaultReadonly },
   { type: 'model', func: normalizeAliases },
   { type: 'attr', func: mergeNestedModel },
   { type: 'attr', func: addTypeValidation },
