@@ -7,9 +7,6 @@ const { parseInput } = require('./input');
 
 // Run a server instruction, from the CLI
 const startCli = async function () {
-  // eslint-disable-next-line fp/no-mutation
-  Error.stackTraceLimit = 100;
-
   const measures = [];
   const { instruction, opts } = parseInput({ measures });
 

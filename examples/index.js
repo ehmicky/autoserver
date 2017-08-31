@@ -2,9 +2,6 @@
 
 const apiEngine = require('../index');
 
-// eslint-disable-next-line fp/no-mutation
-Error.stackTraceLimit = 100;
-
 const startServer = async function () {
   try {
     await apiEngine.compile();
