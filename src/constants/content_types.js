@@ -12,8 +12,6 @@ const CONTENT_TYPES = {
   html: ({ content }) => typeof content === 'string',
 
   text: ({ content }) => typeof content === 'string',
-
-  failure: ({ content }) => content === undefined,
 };
 
 const isObject = function (value) {
