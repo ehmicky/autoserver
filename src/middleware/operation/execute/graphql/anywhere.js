@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+const { assignObject } = require('../../../../utilities');
+
 const {
   DocumentNode,
   SelectionSetNode,
@@ -22,183 +24,111 @@ const {
   NameNode,
 } = require('graphql');
 
-// Based on graphql function from graphql-js:
-// graphql(
-//   schema: GraphQLSchema,
-//   requestString: string,
-//   rootValue?: ?any,
-//   contextValue?: ?any,
-//   variableValues?: ?{[key: string]: any},
-//   operationName?: ?string
-// ): Promise<GraphQLResult>
 const graphql = function (
   resolver,
   document,
   rootValue,
+  mainDefinition,
   contextValue,
-  variableValues,
+  variables = {},
 ) {
-  const mainDefinition = getMainDefinition(document);
-
-  const fragments = getFragmentDefinitions(document);
-  const fragmentMap = createFragmentMap(fragments);
-
-  const execContext = {
-    fragmentMap,
-    contextValue,
-    variableValues,
-    resolver,
-  };
+  const fragmentMap = createFragmentMap(document);
 
   return executeSelectionSet(
     mainDefinition.selectionSet,
     rootValue,
-    execContext,
-  );
-}
-
-const getMainDefinition = function (queryDoc) {
-  checkDocument(queryDoc);
-
-  let fragmentDefinition;
-
-  for (let definition of queryDoc.definitions) {
-    if (definition.kind === 'OperationDefinition') {
-      const operation = definition.operation;
-      if (operation === 'query' || operation === 'mutation' || operation === 'subscription') {
-        return definition;
-      }
-    }
-    if (definition.kind === 'FragmentDefinition' && !fragmentDefinition) {
-      // we do this because we want to allow multiple fragment definitions
-      // to precede an operation definition.
-      fragmentDefinition = definition;
-    }
-  }
-
-  if (fragmentDefinition) {
-    return fragmentDefinition;
-  }
-
-  throw new Error('Expected a parsed GraphQL query with a query, mutation, subscription, or a fragment.');
-}
-
-// Checks the document for errors and throws an exception if there is an error.
-function checkDocument(doc) {
-  if (doc.kind !== 'Document') {
-    throw new Error(`Expecting a parsed GraphQL document. Perhaps you need to wrap the query \
-string in a "gql" tag? http://docs.apollostack.com/apollo-client/core.html#gql`);
-  }
-
-  const numOpDefinitions = doc.definitions.filter((definition) => {
-    return definition.kind === 'OperationDefinition';
-  }).length;
-
-  // can't have more than one operation definition per query
-  if (numOpDefinitions > 1) {
-    throw new Error('Queries must have exactly one operation definition.');
-  }
-}
-
-// Returns the FragmentDefinitions from a particular document as an array
-const getFragmentDefinitions = function (doc) {
-  return doc.definitions.filter((definition) => {
-    if (definition.kind === 'FragmentDefinition') {
-      return true;
-    } else {
-      return false;
-    }
-  });
-}
-
-// Utility function that takes a list of fragment definitions and makes a hash out of them
-// that maps the name of the fragment to the fragment definition.
-const createFragmentMap = function (fragments) {
-  let symTable = {};
-  fragments.forEach((fragment) => {
-    symTable[fragment.name.value] = fragment;
-  });
-
-  return symTable;
-}
-
-function executeSelectionSet(
-  selectionSet,
-  rootValue,
-  execContext,
-) {
-  const {
     fragmentMap,
     contextValue,
     variables,
-  } = execContext;
+    resolver,
+  );
+}
 
+const createFragmentMap = function (doc) {
+  return doc.definitions
+    .filter(definition => definition.kind === 'FragmentDefinition')
+    .map(fragment => ({ [fragment.name.value]: fragment }))
+    .reduce(assignObject, {});
+}
+
+const executeSelectionSet = function (
+  selectionSet,
+  rootValue,
+  fragmentMap,
+  contextValue,
+  variables,
+  resolver,
+) {
   const result = {};
 
-  return promiseOrImmediate(arrayOrPromise(selectionSet.selections.map((selection) => {
-    if (!shouldInclude(selection, variables)) {
-      // Skip this entirely
-      return;
-    }
+  const resultPromise = selectionSet.selections.map(selection => {
+    if (!applyDirectives({ selection, variables })) { return; }
 
     if (selection.kind === 'Field') {
       const fieldResultOrDeferrable = executeField(
         selection,
         rootValue,
-        execContext,
+        fragmentMap,
+        contextValue,
+        variables,
+        resolver,
       );
 
-      return promiseOrImmediate(fieldResultOrDeferrable, (fieldResult) => {
-        const resultFieldKey = resultKeyNameFromField(selection);
+      return promiseOrImmediate(
+        fieldResultOrDeferrable,
+        (fieldResult) => {
+          const resultFieldKey = resultKeyNameFromField(selection);
 
-        if (fieldResult !== undefined) {
-          if (result[resultFieldKey] === undefined) {
-            result[resultFieldKey] = fieldResult;
-          } else {
-            merge(result[resultFieldKey], fieldResult);
+          if (fieldResult !== undefined) {
+            if (result[resultFieldKey] === undefined) {
+              result[resultFieldKey] = fieldResult;
+            } else {
+              merge(result[resultFieldKey], fieldResult);
+            }
           }
         }
-      });
-    } else {
-      let fragment;
-
-      if (selection.kind === 'InlineFragment') {
-        fragment = selection;
-      } else {
-        // This is a named fragment
-        fragment = fragmentMap[selection.name.value];
-
-        if (!fragment) {
-          throw new Error(`No fragment named ${selection.name.value}`);
-        }
-      }
-
-      const typeCondition = fragment.typeCondition.name.value;
-
-      const fragmentResultOrDeferrable = executeSelectionSet(
-        fragment.selectionSet,
-        rootValue,
-        execContext,
       );
-
-      return promiseOrImmediate(fragmentResultOrDeferrable, (fragmentResult) => {
-        merge(result, fragmentResult);
-      });
     }
-  })), () => result);
+
+    let fragment;
+
+    if (selection.kind === 'InlineFragment') {
+      fragment = selection;
+    } else {
+      // This is a named fragment
+      fragment = fragmentMap[selection.name.value];
+
+      if (!fragment) {
+        throw new Error(`No fragment named ${selection.name.value}`);
+      }
+    }
+
+    const fragmentResultOrDeferrable = executeSelectionSet(
+      fragment.selectionSet,
+      rootValue,
+      fragmentMap,
+      contextValue,
+      variables,
+      resolver,
+    );
+
+    return promiseOrImmediate(
+      fragmentResultOrDeferrable,
+      fragmentResult => { merge(result, fragmentResult); }
+    );
+  });
+
+  return promiseOrImmediate(arrayOrPromise(resultPromise), () => result);
 }
 
 function executeField(
   field,
   rootValue,
-  execContext,
+  fragmentMap,
+  contextValue,
+  variables,
+  resolver,
 ) {
-  const {
-    variableValues: variables,
-    contextValue,
-    resolver,
-  } = execContext;
-
   const fieldName = field.name.value;
   const args = argumentsObjectFromField(field, variables);
 
@@ -224,14 +154,24 @@ function executeField(
     }
 
     if (Array.isArray(result)) {
-      return executeSubSelectedArray(field, result, execContext);
+      return executeSubSelectedArray(
+        field,
+        result,
+        fragmentMap,
+        contextValue,
+        variables,
+        resolver,
+      );
     }
 
     // Returned value is an object, and the query has a sub-selection. Recurse.
     return executeSelectionSet(
       field.selectionSet,
       result,
-      execContext,
+      fragmentMap,
+      contextValue,
+      variables,
+      resolver,
     );
   });
 }
@@ -239,7 +179,10 @@ function executeField(
 function executeSubSelectedArray(
   field,
   result,
-  execContext,
+  fragmentMap,
+  contextValue,
+  variables,
+  resolver,
 ) {
   return arrayOrPromise(result.map((item) => {
     // null value in array
@@ -249,14 +192,24 @@ function executeSubSelectedArray(
 
     // This is a nested array, recurse
     if (Array.isArray(item)) {
-      return executeSubSelectedArray(field, item, execContext);
+      return executeSubSelectedArray(
+        field,
+        item,
+        fragmentMap,
+        contextValue,
+        variables,
+        resolver,
+      );
     }
 
     // This is an object, run the selection set on it
     return executeSelectionSet(
       field.selectionSet,
       item,
-      execContext,
+      fragmentMap,
+      contextValue,
+      variables,
+      resolver,
     );
   }));
 }
@@ -316,63 +269,81 @@ const getDirectiveInfoFromField = function (field, variables) {
   return null;
 }
 
-const shouldInclude = function (selection, variables = {}) {
-  if (!selection.directives) {
-    return true;
+const applyDirectives = function ({
+  selection: { directives = [] },
+  variables,
+}) {
+  return directives.every(applyDirective.bind(null, variables));
+};
+
+const applyDirective = function (
+  variables,
+  {
+    arguments,
+    name: { value: directiveName },
+  },
+) {
+  if (directiveName === 'include') {
+    return checkDirective({ variables, arguments, directiveName });
   }
 
-  let res = true;
-  selection.directives.some((directive) => {
-    // TODO should move this validation to GraphQL validation once that's implemented.
-    if (directive.name.value !== 'skip' && directive.name.value !== 'include') {
-      // Just don't worry about directives we don't understand
-      return;
-    }
+  if (directiveName === 'skip') {
+    return !checkDirective({ variables, arguments, directiveName });
+  }
 
-    //evaluate the "if" argument and skip (i.e. return undefined) if it evaluates to true.
-    const directiveArguments = directive.arguments;
-    const directiveName = directive.name.value;
-    if (directiveArguments.length !== 1) {
-      throw new Error(`Incorrect number of arguments for the @${directiveName} directive.`);
-    }
+  return true;
+};
 
+const checkDirective = function ({ variables, arguments, directiveName }) {
+  if (arguments.length !== 1) {
+    throw new Error(`Incorrect number of arguments for the @${directiveName} directive.`);
+  }
 
-    const ifArgument = directive.arguments[0];
-    if (!ifArgument.name || ifArgument.name.value !== 'if') {
-      throw new Error(`Invalid argument for the @${directiveName} directive.`);
-    }
+  const [{
+    name: { value: ifArgName } = {},
+    value: { kind: ifKind, value: ifValue, name: { value: ifValueName } = {} },
+  }] = arguments;
 
-    const ifValue = directive.arguments[0].value;
-    let evaledValue = false;
-    if (!ifValue || ifValue.kind !== 'BooleanValue') {
-      // means it has to be a variable value if this is a valid @skip or @include directive
-      if (ifValue.kind !== 'Variable') {
-        throw new Error(`Argument for the @${directiveName} directive must be a variable or a bool ean value.`);
-      } else {
-        evaledValue = variables[ifValue.name.value];
-        if (evaledValue === undefined) {
-          throw new Error(`Invalid variable referenced in @${directiveName} directive.`);
-        }
-      }
-    } else {
-      evaledValue = ifValue.value;
-    }
+  if (ifArgName !== 'if') {
+    throw new Error(`Invalid argument for the @${directiveName} directive.`);
+  }
 
-    if (directiveName === 'skip') {
-      evaledValue = !evaledValue;
-    }
+  const checkSpecificDirective = directivesCheckers[ifKind];
 
-    if (!evaledValue) {
-      res = false;
-      // Exit this function:
-      return true;
-    }
+  if (!checkSpecificDirective) {
+    throw new Error(`Argument for the @${directiveName} directive must be a variable or a boolean value.`);
+  }
 
-    return false;
+  return checkSpecificDirective({
+    ifValue,
+    variables,
+    ifValueName,
+    directiveName,
   });
+};
 
-  return res;
-}
+const checkBooleanDirective = function ({ ifValue }) {
+  return ifValue;
+};
+
+const checkVariableDirective = function ({
+  variables,
+  ifValueName,
+  directiveName,
+}) {
+  const evaledValue = variables[ifValueName];
+
+  if (typeof evaledValue !== 'boolean') {
+    throw new Error(`Invalid variable referenced in @${directiveName} directive.`);
+  }
+
+  return evaledValue;
+};
+
+const directivesCheckers = {
+  BooleanValue: checkBooleanDirective,
+  Variable: checkVariableDirective,
+};
 
 /**
  * Returns the first operation definition found in this document.
@@ -390,7 +361,7 @@ const argumentsObjectFromField = function (field, variables) {
   return null;
 }
 
-function valueToObjectRepresentation(argObj, name, value, variables = {}) {
+function valueToObjectRepresentation(argObj, name, value, variables) {
   if (value.kind === 'IntValue' || value.kind === 'FloatValue') {
     argObj[name.value] = Number(value.value);
   } else if (value.kind === 'StringValue' || value.kind === 'BooleanValue' || value.kind === 'EnumValue') {
@@ -400,8 +371,8 @@ function valueToObjectRepresentation(argObj, name, value, variables = {}) {
     value.fields.map((obj) => valueToObjectRepresentation(nestedArgObj, obj.name, obj.value, variables));
     argObj[name.value] = nestedArgObj;
   } else if (value.kind === 'Variable') {
-    const variableValue = variables[value.name.value];
-    argObj[name.value] = variableValue;
+    const variable = variables[value.name.value];
+    argObj[name.value] = variable;
   } else if (value.kind === 'ListValue') {
     argObj[name.value] = value.values.map((listValue) => {
       const nestedArgArrayObj = {};

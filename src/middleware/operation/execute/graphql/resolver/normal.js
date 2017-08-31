@@ -14,7 +14,7 @@ const normalResolver = async function ({
   parent,
   args,
   cbFunc,
-  graphqlMethod,
+  graphqlDef,
 }) {
   const argsA = args || {};
 
@@ -39,7 +39,7 @@ const normalResolver = async function ({
     actionType,
     modelName,
     name,
-    graphqlMethod,
+    graphqlDef,
   });
   const fullAction = getFullAction({ parent, name });
 
@@ -57,14 +57,14 @@ const getAction = function ({
   actionType,
   modelName,
   name,
-  graphqlMethod,
+  graphqlDef,
 }) {
   // Retrieve action name, passed to database layer
   const action = ACTIONS.find(act =>
     act.multiple === isArray && act.type === actionType
   );
 
-  validateAction({ action, modelName, name, graphqlMethod, actionType });
+  validateAction({ action, modelName, name, graphqlDef, actionType });
 
   return action;
 };
@@ -73,7 +73,7 @@ const validateAction = function ({
   action,
   modelName,
   name,
-  graphqlMethod,
+  graphqlDef,
   actionType,
 }) {
   // This means the query specified an attribute that is not present
@@ -83,8 +83,8 @@ const validateAction = function ({
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (graphqlMethods[actionType] !== graphqlMethod) {
-    const message = `Cannot perform action '${name}' with a GraphQL '${graphqlMethod}'`;
+  if (graphqlMethods[actionType] !== graphqlDef.operation) {
+    const message = `Cannot perform action '${name}' with a GraphQL '${graphqlDef.operation}'`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 };

@@ -11,7 +11,7 @@ const getResolver = async function (
   name,
   parent = {},
   args,
-  { callback: cbFunc, graphqlMethod }
+  { callback: cbFunc, graphqlDef }
 ) {
   // Introspection type name
   if (name === '__typename') {
@@ -29,7 +29,7 @@ const getResolver = async function (
     parent,
     args,
     cbFunc,
-    graphqlMethod,
+    graphqlDef,
   });
   return response;
 };
