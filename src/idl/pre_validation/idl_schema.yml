@@ -149,12 +149,15 @@ definitions:
     - if:
         required: [compute]
       then:
-        not:
-          required: [transform, default, validate]
-        properties:
-          readonly:
-            not:
-              const: false
+        allOf:
+        - not:
+            required: [transform]
+        - not:
+            required: [default]
+        - not:
+            required: [validate]
+        - not:
+            required: [readonly]
   # model.commands
   # E.g. `commands: [read, createOne]`
   # This property restricts which commands a specific model can perform
