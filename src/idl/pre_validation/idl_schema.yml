@@ -69,20 +69,31 @@ definitions:
           $ref: '#/definitions/validAttributeName'
         properties:
           id:
-            properties:
-              # `model.id` can only be a string, an integer or a float
-              # It cannot be targetting another model.
-              type:
-                enum:
-                - string
-                - integer
-                - number
-              # `model.id` cannot be optional
-              validate:
-                properties:
-                  required:
-                    not:
-                      const: false
+            $ref: '#/definitions/idAttribute'
+  # MODEL.id
+  idAttribute:
+    properties:
+      # `model.id` can only be a string, an integer or a float
+      # It cannot be targetting another model.
+      type:
+        enum:
+        - string
+        - integer
+        - number
+      # `MODEL.id` cannot be optional
+      validate:
+        properties:
+          required:
+            not:
+              const: false
+    # `MODEL.id` cannot use transform|value|compute
+    allOf:
+    - not:
+        required: [transform]
+    - not:
+        required: [value]
+    - not:
+        required: [compute]
   # MODEL.attributes
   attribute:
     type: object
@@ -152,6 +163,8 @@ definitions:
         allOf:
         - not:
             required: [transform]
+        - not:
+            required: [value]
         - not:
             required: [default]
         - not:
