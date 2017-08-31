@@ -149,6 +149,9 @@ const middlewareLayers = [
       database.dataValidation,
       // Do the database action, protocol and operation-agnostic
       database.databaseExecute,
+
+      // Validate database response
+      database.responseValidation,
     ],
   },
 ];

@@ -2,6 +2,8 @@
 
 module.exports = {
   ...require('./authorization'),
-  ...require('./validation'),
+  ...require('./data_validation'),
   ...require('./execute'),
+
+  ...require('./response_validation'),
 };

@@ -1,12 +1,12 @@
 'use strict';
 
-const { COMMANDS } = require('../../../constants');
-const { throwError } = require('../../../error');
+const { COMMANDS } = require('../../constants');
+const { throwError } = require('../../error');
 
 // Check output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)
 // In short: response should be an array of objects
-const validateResponse = function ({ command, response }) {
+const responseValidation = function ({ command, response }) {
   const { multiple } = COMMANDS.find(({ name }) => name === command.name);
 
   if (!response) {
@@ -54,5 +54,5 @@ const validateMetadata = function ({ metadata, multiple }) {
 };
 
 module.exports = {
-  validateResponse,
+  responseValidation,
 };

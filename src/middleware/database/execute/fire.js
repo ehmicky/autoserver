@@ -3,7 +3,6 @@
 const { pSetTimeout } = require('../../../utilities');
 
 const { processResponse } = require('./process_response');
-const { validateResponse } = require('./validate');
 const commands = require('./commands');
 
 const fireCommand = async function (commandInput) {
@@ -16,8 +15,6 @@ const fireCommand = async function (commandInput) {
 
   const responseA = processResponse({ response, command, opts });
   const responseB = { ...response, ...responseA };
-
-  validateResponse({ command, response: responseB });
 
   return { response: responseB };
 };
