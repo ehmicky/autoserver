@@ -26,6 +26,7 @@ const transformErrorResponse = function ({
   return {
     type: contentType,
     content: {
+      data: null,
       errors: [cleanContent],
     },
   };
