@@ -24,7 +24,7 @@ const {
   NameNode,
 } = require('graphql');
 
-const graphql = function (
+const graphql = async function (
   resolver,
   document,
   rootValue,
@@ -34,7 +34,7 @@ const graphql = function (
 ) {
   const fragmentMap = createFragmentMap(document);
 
-  return executeSelectionSet(
+  return await executeSelectionSet(
     mainDefinition.selectionSet,
     rootValue,
     fragmentMap,
@@ -51,7 +51,7 @@ const createFragmentMap = function (doc) {
     .reduce(assignObject, {});
 }
 
-const executeSelectionSet = function (
+const executeSelectionSet = async function (
   selectionSet,
   rootValue,
   fragmentMap,
@@ -61,11 +61,11 @@ const executeSelectionSet = function (
 ) {
   const result = {};
 
-  const resultPromise = selectionSet.selections.map(selection => {
+  const resultPromises = selectionSet.selections.map(async selection => {
     if (!applyDirectives({ selection, variables })) { return; }
 
     if (selection.kind === 'Field') {
-      const fieldResultOrDeferrable = executeField(
+      const fieldResult = await executeField(
         selection,
         rootValue,
         fragmentMap,
@@ -74,20 +74,17 @@ const executeSelectionSet = function (
         resolver,
       );
 
-      return promiseOrImmediate(
-        fieldResultOrDeferrable,
-        (fieldResult) => {
-          const resultFieldKey = resultKeyNameFromField(selection);
+      const resultFieldKey = resultKeyNameFromField(selection);
 
-          if (fieldResult !== undefined) {
-            if (result[resultFieldKey] === undefined) {
-              result[resultFieldKey] = fieldResult;
-            } else {
-              merge(result[resultFieldKey], fieldResult);
-            }
-          }
+      if (fieldResult !== undefined) {
+        if (result[resultFieldKey] === undefined) {
+          result[resultFieldKey] = fieldResult;
+        } else {
+          merge(result[resultFieldKey], fieldResult);
         }
-      );
+      }
+
+      return result;
     }
 
     let fragment;
@@ -103,7 +100,7 @@ const executeSelectionSet = function (
       }
     }
 
-    const fragmentResultOrDeferrable = executeSelectionSet(
+    const fragmentResult = await executeSelectionSet(
       fragment.selectionSet,
       rootValue,
       fragmentMap,
@@ -112,16 +109,14 @@ const executeSelectionSet = function (
       resolver,
     );
 
-    return promiseOrImmediate(
-      fragmentResultOrDeferrable,
-      fragmentResult => { merge(result, fragmentResult); }
-    );
+    merge(result, fragmentResult);
   });
 
-  return promiseOrImmediate(arrayOrPromise(resultPromise), () => result);
+  await Promise.all(resultPromises);
+  return result;
 }
 
-function executeField(
+const executeField = async function (
   field,
   rootValue,
   fragmentMap,
@@ -140,43 +135,42 @@ function executeField(
 
   const resultOrDeferrable = resolver(fieldName, rootValue, args, contextValue, info);
 
-  return promiseOrImmediate(resultOrDeferrable, (result) => {
-    // Handle all scalar types here
-    if (!field.selectionSet) {
-      return result;
-    }
+  const result = await resultOrDeferrable;
+  // Handle all scalar types here
+  if (!field.selectionSet) {
+    return result;
+  }
 
-    // From here down, the field has a selection set, which means it's trying to
-    // query a GraphQLObjectType
-    if (result == null) {
-      // Basically any field in a GraphQL response can be null, or missing
-      return result;
-    }
+  // From here down, the field has a selection set, which means it's trying to
+  // query a GraphQLObjectType
+  if (result == null) {
+    // Basically any field in a GraphQL response can be null, or missing
+    return result;
+  }
 
-    if (Array.isArray(result)) {
-      return executeSubSelectedArray(
-        field,
-        result,
-        fragmentMap,
-        contextValue,
-        variables,
-        resolver,
-      );
-    }
-
-    // Returned value is an object, and the query has a sub-selection. Recurse.
-    return executeSelectionSet(
-      field.selectionSet,
+  if (Array.isArray(result)) {
+    return await executeSubSelectedArray(
+      field,
       result,
       fragmentMap,
       contextValue,
       variables,
       resolver,
     );
-  });
+  }
+
+  // Returned value is an object, and the query has a sub-selection. Recurse.
+  return await executeSelectionSet(
+    field.selectionSet,
+    result,
+    fragmentMap,
+    contextValue,
+    variables,
+    resolver,
+  );
 }
 
-function executeSubSelectedArray(
+const executeSubSelectedArray = async function (
   field,
   result,
   fragmentMap,
@@ -184,7 +178,7 @@ function executeSubSelectedArray(
   variables,
   resolver,
 ) {
-  return arrayOrPromise(result.map((item) => {
+  const promises = result.map(async item => {
     // null value in array
     if (item === null) {
       return null;
@@ -192,7 +186,7 @@ function executeSubSelectedArray(
 
     // This is a nested array, recurse
     if (Array.isArray(item)) {
-      return executeSubSelectedArray(
+      return await executeSubSelectedArray(
         field,
         item,
         fragmentMap,
@@ -203,7 +197,7 @@ function executeSubSelectedArray(
     }
 
     // This is an object, run the selection set on it
-    return executeSelectionSet(
+    return await executeSelectionSet(
       field.selectionSet,
       item,
       fragmentMap,
@@ -211,7 +205,8 @@ function executeSubSelectedArray(
       variables,
       resolver,
     );
-  }));
+  });
+  return Promise.all(promises);
 }
 
 function merge(dest, src) {
@@ -236,26 +231,6 @@ function merge(dest, src) {
       dest[srcKey] = src[srcKey];
     }
   });
-}
-
-function promiseOrImmediate(obj, fn) {
-  if (isPromise(obj)) {
-    return obj.then(fn);
-  } else {
-    return fn(obj);
-  }
-}
-
-function arrayOrPromise(arr) {
-  if (arr.some(isPromise)) {
-    return Promise.all(arr);
-  } else {
-    return arr;
-  }
-}
-
-function isPromise(obj) {
-  return obj && typeof obj === 'object' && typeof obj.then === 'function';
 }
 
 const getDirectiveInfoFromField = function (field, variables) {
