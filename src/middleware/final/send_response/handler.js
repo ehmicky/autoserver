@@ -43,7 +43,7 @@ const createErrorResponse = function ({ operation, error }) {
   const transformer = transformMap[operation];
 
   if (transformer) {
-    return transformer.transformResponse({ response });
+    return transformer.transformErrorResponse({ response });
   }
 
   return response;
