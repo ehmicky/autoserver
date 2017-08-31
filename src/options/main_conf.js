@@ -28,6 +28,11 @@ const loadMainConfFile = async function ({ options, instruction }) {
   return { options: content, mainConfPath: mainConfPathA };
 };
 
+const eLoadMainConfFile = addGenErrorHandler(loadMainConfFile, {
+  message: 'Could not load \'config\' file',
+  reason: 'CONF_LOADING',
+});
+
 // Main configuration file can be specified with `config` option,
 // or API_ENGINE__CONFIG environment variable, or by looked in the tree
 // under filename `api_engine.INSTRUCTION.config.json|yml|yaml`
@@ -35,11 +40,6 @@ const getMainConfPath = function ({ options }) {
   const envVars = getEnvVars();
   return envVars.config || options.config;
 };
-
-const eLoadMainConfFile = addGenErrorHandler(loadMainConfFile, {
-  message: 'Could not load \'config\' file',
-  reason: 'CONF_LOADING',
-});
 
 module.exports = {
   loadMainConf,
