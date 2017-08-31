@@ -2,6 +2,8 @@
 
 const { config, idl } = require('../shared');
 
+const instruction = require('./instruction');
+
 const options = [
   config,
 
@@ -13,17 +15,7 @@ const options = [
   ...require('./http'),
 ];
 
-const runOptions = {
-  options,
-  name: 'run',
-  // This means this is the default instruction
-  aliases: '*',
-  description: 'Start the server',
-  examples: [
-    ['Start the server', '--http.port 5001'],
-  ],
-};
-
 module.exports = {
-  ...runOptions,
+  ...instruction,
+  options,
 };

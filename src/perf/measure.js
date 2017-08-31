@@ -15,10 +15,8 @@
 
 const { hrtime } = process;
 
-const { DEFAULT_CATEGORY } = require('./constants');
-
 // Start a new measure
-const startPerf = function (label, category = DEFAULT_CATEGORY) {
+const startPerf = function (label, category = 'default') {
   // `hrtime()` is more precise that `Date.now()`
   const pending = hrtime();
   return { pending, label, category };

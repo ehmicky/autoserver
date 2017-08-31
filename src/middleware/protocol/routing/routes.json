@@ -1,0 +1,5 @@
+[
+  { "goal": "find", "path": "/graphiql", "name": "GraphiQL" },
+  { "goal": ["find", "create"], "path": "/graphql", "name": "GraphQL" },
+  { "goal": "find", "path": "/graphql/schema", "name": "GraphQLPrint" }
+]

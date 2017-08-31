@@ -2,7 +2,8 @@
 
 const { sortArray } = require('../utilities');
 
-const { CATEGORIES } = require('./constants');
+// Order matters, as console printing uses it for sorting
+const CATEGORIES = require('./categories');
 
 // Returns measures but as a single string, for console debugging
 const stringifyMeasures = function ({ phase = '', measuresGroups }) {

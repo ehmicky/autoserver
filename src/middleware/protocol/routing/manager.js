@@ -5,7 +5,7 @@ const pathToRegExp = require('path-to-regexp');
 const { transtype, assignObject } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
-const { routes: allRoutes } = require('./routes');
+const allRoutes = require('./routes');
 
 const getRoutes = function ({ rawRoutes }) {
   return rawRoutes.map(rawRoute => getRoute(rawRoute));

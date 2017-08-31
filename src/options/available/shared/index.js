@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./config'),
+  config: require('./config'),
   ...require('./idl'),
 };
