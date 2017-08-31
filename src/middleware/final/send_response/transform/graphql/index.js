@@ -3,51 +3,36 @@
 const { omit, omitBy } = require('../../../../../utilities');
 
 // Apply GraphQL-specific error transformation
-const transformResponse = function ({ response: { content } }) {
-  const {
-    type,
-    title,
-    description,
-    details,
-    protocol_status: protocolStatus,
-  } = content;
+const transformErrorResponse = function ({
+  response: {
+    content: {
+      type,
+      title,
+      description: message,
+      details: stack,
+      protocol_status: status,
+      ...extraContent
+    },
+    type: contentType,
+  },
+}) {
   // Content following GraphQL spec
   // Custom information not following GraphQL spec is always rendered
-  const extraContent = omit(content, [
-    'type',
-    'title',
-    'description',
-    'details',
-    'status',
-    'protocol_status',
-  ]);
-  const newContent = {
-    message: description,
-    title,
-    type,
-    status: protocolStatus,
-    ...extraContent,
-    stack: details,
-  };
+  const extraContentA = omit(extraContent, 'status');
+  const newContent = { message, title, type, status, ...extraContentA, stack };
 
   const cleanContent = omitBy(newContent, val => val === undefined);
 
-  // Use Content-Type 'application/json' not 'application/problem+json'
-  // in order to follow GraphQL spec
-  const responseType = 'object';
-
-  const transformedResponse = {
-    type: responseType,
+  return {
+    type: contentType,
     content: {
       errors: [cleanContent],
     },
   };
-
-  return transformedResponse;
 };
 
 module.exports = {
   GraphQL: {
-    transformResponse,
+    transformErrorResponse,
   },
 };
