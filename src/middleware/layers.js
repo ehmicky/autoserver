@@ -147,6 +147,9 @@ const middlewareLayers = [
       database.authorization,
       // Custom data validation middleware
       database.dataValidation,
+      // Transform command to `read` if `dryrun` settings is used
+      database.applyDryRun,
+
       // Do the database action, protocol and operation-agnostic
       database.databaseExecute,
 
