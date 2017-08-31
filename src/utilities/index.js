@@ -2,7 +2,7 @@
 
 module.exports = {
   ...require('./functional'),
-  ...require('./promise'),
+  ...require('./promisify'),
   ...require('./fs'),
   ...require('./json'),
   ...require('./yaml'),
