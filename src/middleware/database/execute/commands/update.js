@@ -2,16 +2,14 @@
 
 const { findIndex } = require('../find');
 
-const update = function ({ collection, newData, opts, opts: { dryrun } }) {
+const update = function ({ collection, newData, opts }) {
   const index = findIndex({ collection, id: newData.id, opts });
 
   const model = collection[index];
   const newModel = { ...model, ...newData };
 
-  if (!dryrun) {
-    // eslint-disable-next-line fp/no-mutating-methods
-    collection.splice(index, 1, newModel);
-  }
+  // eslint-disable-next-line fp/no-mutating-methods
+  collection.splice(index, 1, newModel);
 
   return newModel;
 };
