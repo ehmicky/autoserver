@@ -150,6 +150,8 @@ const middlewareLayers = [
       // Do the database action, protocol and operation-agnostic
       database.databaseExecute,
 
+      // Add default empty response.metadata
+      database.addMetadataDefault,
       // Validate database response
       database.responseValidation,
     ],

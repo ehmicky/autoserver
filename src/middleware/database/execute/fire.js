@@ -7,16 +7,15 @@ const commands = require('./commands');
 
 const fireCommand = async function (commandInput) {
   const { command, opts } = commandInput;
-  const response = commands[command.name](commandInput);
+  const { data, metadata } = commands[command.name](commandInput);
 
   // Simulate asynchronousity
   // TODO: remove when there is a real ORM
   await pSetTimeout(0);
 
-  const responseA = processResponse({ response, command, opts });
-  const responseB = { ...response, ...responseA };
+  const dataA = processResponse({ data, opts });
 
-  return { response: responseB };
+  return { response: { data: dataA, metadata } };
 };
 
 module.exports = {
