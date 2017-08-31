@@ -17,19 +17,11 @@ const parseQuery = function ({ query, goal, operationName }) {
 const getQueryDocument = function ({ query, goal, operationName }) {
   const queryDocument = parse(query);
 
-  const operationDefinitions = getOperationDefinitions({ queryDocument });
-  const definition = getDefinition({ operationDefinitions, operationName });
+  const graphqlDef = getGraphqlDef({ queryDocument, operationName });
 
-  const queryDocumentA = patchQueryDocument({
-    operationDefinitions,
-    definition,
-    queryDocument,
-  });
+  validateQuery({ graphqlDef, goal });
 
-  const graphqlMethod = definition.operation;
-  validateQuery({ graphqlMethod, goal });
-
-  return { queryDocument: queryDocumentA, graphqlMethod };
+  return { queryDocument, graphqlDef };
 };
 
 const eGetQueryDocument = addGenErrorHandler(getQueryDocument, {
@@ -37,18 +29,12 @@ const eGetQueryDocument = addGenErrorHandler(getQueryDocument, {
   reason: 'GRAPHQL_SYNTAX_ERROR',
 });
 
-// Get all query|mutation definitions
-const getOperationDefinitions = function ({ queryDocument }) {
-  return queryDocument.definitions.filter(({ kind }) =>
-    kind === 'OperationDefinition'
-  );
-};
-
-const getDefinition = function ({ operationDefinitions, operationName }) {
-  const definition = operationDefinitions.find(
-    ({ name: { value: name } = {} }) =>
+const getGraphqlDef = function ({ queryDocument, operationName }) {
+  const definition = queryDocument.definitions
+    .filter(({ kind }) => kind === 'OperationDefinition')
+    .find(({ name: { value: name } = {} }) =>
       !operationName || name === operationName
-  );
+    );
   if (definition) { return definition; }
 
   if (operationName) {
@@ -56,32 +42,13 @@ const getDefinition = function ({ operationDefinitions, operationName }) {
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 
-  if (!operationName) {
-    const message = 'Missing GraphQL query';
-    throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
-  }
-};
-
-// GraphQL-anywhere do not support operationName yet,
-// so we must patch it until they do
-// See https://github.com/apollographql/graphql-anywhere/issues/34
-const patchQueryDocument = function ({
-  operationDefinitions,
-  definition,
-  queryDocument,
-}) {
-  if (operationDefinitions.length <= 1) { return queryDocument; }
-
-  const definitions = queryDocument.definitions.filter(def =>
-    !operationDefinitions.includes(def) || def === definition
-  );
-
-  return { ...queryDocument, definitions };
+  const msg = 'Missing GraphQL query';
+  throwError(msg, { reason: 'GRAPHQL_NO_QUERY' });
 };
 
 // Make sure GraphQL query is valid
-const validateQuery = function ({ graphqlMethod, goal }) {
-  if (goal === 'find' && graphqlMethod !== 'query') {
+const validateQuery = function ({ graphqlDef, goal }) {
+  if (goal === 'find' && graphqlDef.operation !== 'query') {
     const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
