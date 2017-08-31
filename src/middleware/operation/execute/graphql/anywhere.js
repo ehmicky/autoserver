@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const {
   DocumentNode,
   SelectionSetNode,
@@ -29,37 +31,23 @@ const {
 //   variableValues?: ?{[key: string]: any},
 //   operationName?: ?string
 // ): Promise<GraphQLResult>
-module.exports.graphql = function (
+const graphql = function (
   resolver,
   document,
   rootValue,
   contextValue,
   variableValues,
-  execOptions = {},
 ) {
   const mainDefinition = getMainDefinition(document);
 
   const fragments = getFragmentDefinitions(document);
   const fragmentMap = createFragmentMap(fragments);
 
-  const resultMapper = execOptions.resultMapper;
-
-  // Default matcher always matches all fragments
-  const fragmentMatcher = execOptions.fragmentMatcher || (() => true);
-
-  // Default deferrable is a promise
-  const deferrableOrImmediate = execOptions.deferrableOrImmediate || promiseOrImmediate;
-  const arrayOrDeferrable = execOptions.arrayOrDeferrable || arrayOrPromise;
-
   const execContext = {
     fragmentMap,
     contextValue,
     variableValues,
-    resultMapper,
     resolver,
-    fragmentMatcher,
-    deferrableOrImmediate,
-    arrayOrDeferrable,
   };
 
   return executeSelectionSet(
@@ -69,6 +57,70 @@ module.exports.graphql = function (
   );
 }
 
+const getMainDefinition = function (queryDoc) {
+  checkDocument(queryDoc);
+
+  let fragmentDefinition;
+
+  for (let definition of queryDoc.definitions) {
+    if (definition.kind === 'OperationDefinition') {
+      const operation = definition.operation;
+      if (operation === 'query' || operation === 'mutation' || operation === 'subscription') {
+        return definition;
+      }
+    }
+    if (definition.kind === 'FragmentDefinition' && !fragmentDefinition) {
+      // we do this because we want to allow multiple fragment definitions
+      // to precede an operation definition.
+      fragmentDefinition = definition;
+    }
+  }
+
+  if (fragmentDefinition) {
+    return fragmentDefinition;
+  }
+
+  throw new Error('Expected a parsed GraphQL query with a query, mutation, subscription, or a fragment.');
+}
+
+// Checks the document for errors and throws an exception if there is an error.
+function checkDocument(doc) {
+  if (doc.kind !== 'Document') {
+    throw new Error(`Expecting a parsed GraphQL document. Perhaps you need to wrap the query \
+string in a "gql" tag? http://docs.apollostack.com/apollo-client/core.html#gql`);
+  }
+
+  const numOpDefinitions = doc.definitions.filter((definition) => {
+    return definition.kind === 'OperationDefinition';
+  }).length;
+
+  // can't have more than one operation definition per query
+  if (numOpDefinitions > 1) {
+    throw new Error('Queries must have exactly one operation definition.');
+  }
+}
+
+// Returns the FragmentDefinitions from a particular document as an array
+const getFragmentDefinitions = function (doc) {
+  return doc.definitions.filter((definition) => {
+    if (definition.kind === 'FragmentDefinition') {
+      return true;
+    } else {
+      return false;
+    }
+  });
+}
+
+// Utility function that takes a list of fragment definitions and makes a hash out of them
+// that maps the name of the fragment to the fragment definition.
+const createFragmentMap = function (fragments) {
+  let symTable = {};
+  fragments.forEach((fragment) => {
+    symTable[fragment.name.value] = fragment;
+  });
+
+  return symTable;
+}
 
 function executeSelectionSet(
   selectionSet,
@@ -79,26 +131,24 @@ function executeSelectionSet(
     fragmentMap,
     contextValue,
     variables,
-    deferrableOrImmediate,
-    arrayOrDeferrable,
   } = execContext;
 
   const result = {};
 
-  return deferrableOrImmediate(arrayOrDeferrable(selectionSet.selections.map((selection) => {
+  return promiseOrImmediate(arrayOrPromise(selectionSet.selections.map((selection) => {
     if (!shouldInclude(selection, variables)) {
       // Skip this entirely
       return;
     }
 
-    if (isField(selection)) {
+    if (selection.kind === 'Field') {
       const fieldResultOrDeferrable = executeField(
         selection,
         rootValue,
         execContext,
       );
 
-      return deferrableOrImmediate(fieldResultOrDeferrable, (fieldResult) => {
+      return promiseOrImmediate(fieldResultOrDeferrable, (fieldResult) => {
         const resultFieldKey = resultKeyNameFromField(selection);
 
         if (fieldResult !== undefined) {
@@ -112,7 +162,7 @@ function executeSelectionSet(
     } else {
       let fragment;
 
-      if (isInlineFragment(selection)) {
+      if (selection.kind === 'InlineFragment') {
         fragment = selection;
       } else {
         // This is a named fragment
@@ -125,30 +175,17 @@ function executeSelectionSet(
 
       const typeCondition = fragment.typeCondition.name.value;
 
-      return deferrableOrImmediate(execContext.fragmentMatcher(rootValue, typeCondition, contextValue), (fragmentMatcherResult) => {
+      const fragmentResultOrDeferrable = executeSelectionSet(
+        fragment.selectionSet,
+        rootValue,
+        execContext,
+      );
 
-        if (fragmentMatcherResult) {
-          const fragmentResultOrDeferrable = executeSelectionSet(
-            fragment.selectionSet,
-            rootValue,
-            execContext,
-          );
-
-          return deferrableOrImmediate(fragmentResultOrDeferrable, (fragmentResult) => {
-            merge(result, fragmentResult);
-          });
-
-        }
-
+      return promiseOrImmediate(fragmentResultOrDeferrable, (fragmentResult) => {
+        merge(result, fragmentResult);
       });
     }
-  })), () => {
-    if (execContext.resultMapper) {
-      return execContext.resultMapper(result, rootValue);
-    }
-
-    return result;
-  });
+  })), () => result);
 }
 
 function executeField(
@@ -160,7 +197,6 @@ function executeField(
     variableValues: variables,
     contextValue,
     resolver,
-    deferrableOrImmediate,
   } = execContext;
 
   const fieldName = field.name.value;
@@ -174,7 +210,7 @@ function executeField(
 
   const resultOrDeferrable = resolver(fieldName, rootValue, args, contextValue, info);
 
-  return deferrableOrImmediate(resultOrDeferrable, (result) => {
+  return promiseOrImmediate(resultOrDeferrable, (result) => {
     // Handle all scalar types here
     if (!field.selectionSet) {
       return result;
@@ -205,7 +241,7 @@ function executeSubSelectedArray(
   result,
   execContext,
 ) {
-  return execContext.arrayOrDeferrable(result.map((item) => {
+  return arrayOrPromise(result.map((item) => {
     // null value in array
     if (item === null) {
       return null;
@@ -249,10 +285,6 @@ function merge(dest, src) {
   });
 }
 
-function isPromise(obj) {
-  return obj && typeof obj === 'object' && typeof obj.then === 'function';
-}
-
 function promiseOrImmediate(obj, fn) {
   if (isPromise(obj)) {
     return obj.then(fn);
@@ -267,6 +299,10 @@ function arrayOrPromise(arr) {
   } else {
     return arr;
   }
+}
+
+function isPromise(obj) {
+  return obj && typeof obj === 'object' && typeof obj.then === 'function';
 }
 
 const getDirectiveInfoFromField = function (field, variables) {
@@ -338,122 +374,35 @@ const shouldInclude = function (selection, variables = {}) {
   return res;
 }
 
-// Checks the document for errors and throws an exception if there is an error.
-function checkDocument(doc) {
-  if (doc.kind !== 'Document') {
-    throw new Error(`Expecting a parsed GraphQL document. Perhaps you need to wrap the query \
-string in a "gql" tag? http://docs.apollostack.com/apollo-client/core.html#gql`);
-  }
-
-  const numOpDefinitions = doc.definitions.filter((definition) => {
-    return definition.kind === 'OperationDefinition';
-  }).length;
-
-  // can't have more than one operation definition per query
-  if (numOpDefinitions > 1) {
-    throw new Error('Queries must have exactly one operation definition.');
-  }
-}
-
-// Returns the FragmentDefinitions from a particular document as an array
-const getFragmentDefinitions = function (doc) {
-  let fragmentDefinitions = doc.definitions.filter((definition) => {
-    if (definition.kind === 'FragmentDefinition') {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  return fragmentDefinitions;
-}
-
-// Utility function that takes a list of fragment definitions and makes a hash out of them
-// that maps the name of the fragment to the fragment definition.
-const createFragmentMap = function (fragments) {
-  let symTable;
-  fragments.forEach((fragment) => {
-    symTable[fragment.name.value] = fragment;
-  });
-
-  return symTable;
-}
-
 /**
  * Returns the first operation definition found in this document.
  * If no operation definition is found, the first fragment definition will be returned.
  * If no definitions are found, an error will be thrown.
  */
-const getMainDefinition = function (queryDoc) {
-  checkDocument(queryDoc);
-
-  let fragmentDefinition;
-
-  for (let definition of queryDoc.definitions) {
-    if (definition.kind === 'OperationDefinition') {
-      const operation = definition.operation;
-      if (operation === 'query' || operation === 'mutation' || operation === 'subscription') {
-        return definition;
-      }
-    }
-    if (definition.kind === 'FragmentDefinition' && !fragmentDefinition) {
-      // we do this because we want to allow multiple fragment definitions
-      // to precede an operation definition.
-      fragmentDefinition = definition;
-    }
+const argumentsObjectFromField = function (field, variables) {
+  if (field.arguments && field.arguments.length) {
+    const argObj = {};
+    field.arguments.forEach(({name, value}) => valueToObjectRepresentation(
+      argObj, name, value, variables));
+    return argObj;
   }
 
-  if (fragmentDefinition) {
-    return fragmentDefinition;
-  }
-
-  throw new Error('Expected a parsed GraphQL query with a query, mutation, subscription, or a fragment.');
-}
-
-const SCALAR_TYPES = {
-  StringValue: true,
-  BooleanValue: true,
-  EnumValue: true,
-};
-
-function isScalarValue(value) {
-  return !!SCALAR_TYPES[value.kind];
-}
-
-const NUMBER_TYPES = {
-  IntValue: true,
-  FloatValue: true,
-};
-
-function isNumberValue(value) {
-  return NUMBER_TYPES[value.kind];
-}
-
-function isVariable(value) {
-  return value.kind === 'Variable';
-}
-
-function isObject(value) {
-  return value.kind === 'ObjectValue';
-}
-
-function isList(value) {
-  return value.kind === 'ListValue';
+  return null;
 }
 
 function valueToObjectRepresentation(argObj, name, value, variables = {}) {
-  if (isNumberValue(value)) {
+  if (value.kind === 'IntValue' || value.kind === 'FloatValue') {
     argObj[name.value] = Number(value.value);
-  } else if (isScalarValue(value)) {
+  } else if (value.kind === 'StringValue' || value.kind === 'BooleanValue' || value.kind === 'EnumValue') {
     argObj[name.value] = value.value;
-  } else if (isObject(value)) {
+  } else if (value.kind === 'ObjectValue') {
     const nestedArgObj = {};
     value.fields.map((obj) => valueToObjectRepresentation(nestedArgObj, obj.name, obj.value, variables));
     argObj[name.value] = nestedArgObj;
-  } else if (isVariable(value)) {
+  } else if (value.kind === 'Variable') {
     const variableValue = variables[value.name.value];
     argObj[name.value] = variableValue;
-  } else if (isList(value)) {
+  } else if (value.kind === 'ListValue') {
     argObj[name.value] = value.values.map((listValue) => {
       const nestedArgArrayObj = {};
       valueToObjectRepresentation(nestedArgArrayObj, name, listValue, variables);
@@ -467,29 +416,10 @@ supported. Use variables instead of inline arguments to overcome this limitation
   }
 }
 
-const argumentsObjectFromField = function (field, variables) {
-  if (field.arguments && field.arguments.length) {
-    const argObj = {};
-    field.arguments.forEach(({name, value}) => valueToObjectRepresentation(
-      argObj, name, value, variables));
-    return argObj;
-  }
-
-  return null;
-}
-
 const resultKeyNameFromField = function (field) {
   return field.alias ? field.alias.value : field.name.value;
 }
 
-const isField = function (selection) {
-  return selection.kind === 'Field';
-}
-
-const isInlineFragment = function (selection) {
-  return selection.kind === 'InlineFragment';
-}
-
-const graphQLResultHasError = function (result) {
-  return result.errors && result.errors.length;
-}
+module.exports = {
+  graphql,
+};
