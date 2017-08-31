@@ -2,10 +2,8 @@
 
 // Generic settings|params validation
 const validateValues = function ({ values, type: { validateValue } }) {
-  return Object.entries(values).reduce(
-    (valuesA, [name, value]) => validateValue({ values: valuesA, name, value }),
-    values,
-  );
+  return Object.entries(values)
+    .forEach(([name, value]) => validateValue({ name, value }));
 };
 
 module.exports = {
