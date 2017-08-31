@@ -78,8 +78,9 @@ keyword name and the value an object with the properties:
 
 # Readonly attributes
 
-Attributes can be marked as readonly, e.g. trying to modify them will not do
-anything (but won't report any error), using `attribute.readonly`, e.g.:
+Readonly attributes can only be modified when the model is created.
+Trying to modify them will not do anything, but won't report any error.
+They can be specified using `attribute.readonly`, e.g.:
 
 ```yml
 weight:

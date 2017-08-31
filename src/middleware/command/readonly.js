@@ -8,14 +8,16 @@ const { omit } = require('../../utilities');
 // because readonly attributes can be part of a normal response, and clients
 // should be able to send responses back as is without having to remove
 // readonly attributes.
-// `currentData` might be undefined, e.g. for command `create`
 const handleReadonly = function ({
   args,
-  args: { newData, currentData = [] },
+  args: { newData, currentData },
   modelName,
   idl: { shortcuts: { readonlyMap } },
 }) {
-  if (!newData) { return; }
+  // If no `currentData`, this means the model does not exist yet,
+  // i.e. this is a create command, or an upsert resulting in creation.
+  // Readonly does not apply then.
+  if (!newData || !currentData) { return; }
 
   const attrs = readonlyMap[modelName];
   const newDataA = getNewData({ newData, currentData, attrs });
@@ -35,7 +37,7 @@ const getNewData = function ({ newData, currentData, attrs }) {
   return removeAttrs({ newData, currentData, attrs });
 };
 
-const removeAttrs = function ({ newData, currentData = {}, attrs }) {
+const removeAttrs = function ({ newData, currentData, attrs }) {
   return attrs.reduce(
     (newDataA, attr) => removeAttr({ newData: newDataA, currentData, attr }),
     newData,
@@ -43,7 +45,7 @@ const removeAttrs = function ({ newData, currentData = {}, attrs }) {
 };
 
 const removeAttr = function ({ newData, currentData, attr }) {
-  if (!currentData || currentData[attr] == null) {
+  if (currentData[attr] == null) {
     return omit(newData, attr);
   }
 
