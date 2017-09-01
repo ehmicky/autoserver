@@ -34,14 +34,14 @@ const graphql = async function (
 ) {
   const fragmentMap = createFragmentMap(document);
 
-  return await executeSelectionSet(
-    mainDefinition.selectionSet,
+  return await executeSelectionSet({
+    selectionSet: mainDefinition.selectionSet,
     rootValue,
     fragmentMap,
     contextValue,
     variables,
     resolver,
-  );
+  });
 }
 
 const createFragmentMap = function (doc) {
@@ -51,26 +51,26 @@ const createFragmentMap = function (doc) {
     .reduce(assignObject, {});
 }
 
-const executeSelectionSet = async function (
+const executeSelectionSet = async function ({
   selectionSet,
   rootValue,
   fragmentMap,
   contextValue,
   variables,
   resolver,
-) {
+}) {
   const resultPromises = selectionSet.selections.map(async selection => {
     if (!applyDirectives({ selection, variables })) { return; }
 
     if (selection.kind === 'Field') {
-      const fieldResult = await executeField(
-        selection,
+      const fieldResult = await executeField({
+        field: selection,
         rootValue,
         fragmentMap,
         contextValue,
         variables,
         resolver,
-      );
+      });
 
       const { value: resultFieldKey } = selection.alias || selection.name;
 
@@ -79,14 +79,14 @@ const executeSelectionSet = async function (
 
     const fragment = getFragment({ fragmentMap, selection });
 
-    return await executeSelectionSet(
-      fragment.selectionSet,
+    return await executeSelectionSet({
+      selectionSet: fragment.selectionSet,
       rootValue,
       fragmentMap,
       contextValue,
       variables,
       resolver,
-    );
+    });
   });
   const results = await Promise.all(resultPromises);
   return deepMerge(...results);
@@ -110,61 +110,53 @@ const getFragment = function ({
   return fragment;
 };
 
-const executeField = async function (
+const executeField = async function ({
   field,
+  field: { name: { value: fieldName } },
   rootValue,
   fragmentMap,
   contextValue,
   variables,
   resolver,
-) {
-  const fieldName = field.name.value;
+}) {
   const args = argumentsObjectFromField(field, variables);
 
   const result = await resolver(fieldName, rootValue, args, contextValue);
 
-  // Handle all scalar types here
-  if (!field.selectionSet) {
-    return result;
-  }
-
-  // From here down, the field has a selection set, which means it's trying to
-  // query a GraphQLObjectType
-  if (result == null) {
-    // Basically any field in a GraphQL response can be null, or missing
+  if (!field.selectionSet || result == null) {
     return result;
   }
 
   if (Array.isArray(result)) {
-    return await executeSubSelectedArray(
+    return await executeSubSelectedArray({
       field,
       result,
       fragmentMap,
       contextValue,
       variables,
       resolver,
-    );
+    });
   }
 
   // Returned value is an object, and the query has a sub-selection. Recurse.
-  return await executeSelectionSet(
-    field.selectionSet,
-    result,
+  return await executeSelectionSet({
+    selectionSet: field.selectionSet,
+    rootValue: result,
     fragmentMap,
     contextValue,
     variables,
     resolver,
-  );
+  });
 }
 
-const executeSubSelectedArray = async function (
+const executeSubSelectedArray = async function ({
   field,
   result,
   fragmentMap,
   contextValue,
   variables,
   resolver,
-) {
+}) {
   const promises = result.map(async item => {
     // null value in array
     if (item === null) {
@@ -173,25 +165,25 @@ const executeSubSelectedArray = async function (
 
     // This is a nested array, recurse
     if (Array.isArray(item)) {
-      return await executeSubSelectedArray(
+      return await executeSubSelectedArray({
         field,
-        item,
+        result: item,
         fragmentMap,
         contextValue,
         variables,
         resolver,
-      );
+      });
     }
 
     // This is an object, run the selection set on it
-    return await executeSelectionSet(
-      field.selectionSet,
-      item,
+    return await executeSelectionSet({
+      selectionSet: field.selectionSet,
+      rootValue: item,
       fragmentMap,
       contextValue,
       variables,
       resolver,
-    );
+    });
   });
   return Promise.all(promises);
 }
