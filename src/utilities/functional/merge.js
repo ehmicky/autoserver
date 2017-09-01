@@ -7,6 +7,8 @@ const deepMerge = function (objA, objB, ...objects) {
     return deepMerge(newObjA, ...objects);
   }
 
+  if (objB === undefined) { return objA; }
+
   if (!isObjectTypes(objA, objB)) { return objB; }
 
   const rObjB = Object.entries(objB).map(([objBKey, objBVal]) => {
