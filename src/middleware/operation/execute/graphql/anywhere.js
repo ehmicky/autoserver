@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-const { assignObject, deepMerge } = require('../../../../utilities');
+const { assignObject, deepMerge, mapValues } = require('../../../../utilities');
 
 const {
   DocumentNode,
@@ -74,7 +74,7 @@ const executeSelectionSet = async function ({
       if (!applyDirectives({ directives, variables })) { return; }
 
       if (kind === 'Field') {
-        const args = argumentsObjectFromField(arguments, variables);
+        const args = objectArgParser({ fields: arguments, variables });
 
         const result = await resolver(fieldName, rootValue, args, contextValue);
 
@@ -219,46 +219,44 @@ const directivesCheckers = {
   Variable: checkVariableDirective,
 };
 
-/**
- * Returns the first operation definition found in this document.
- * If no operation definition is found, the first fragment definition will be returned.
- * If no definitions are found, an error will be thrown.
- */
-const argumentsObjectFromField = function (arguments, variables) {
-  if (arguments && arguments.length) {
-    const argObj = {};
-    arguments.forEach(({name, value}) => valueToObjectRepresentation(
-      argObj, name, value, variables));
-    return argObj;
-  }
+const objectArgParser = function ({ fields, variables }) {
+  if (!fields) { return null; }
 
-  return null;
-}
+  const fieldsA = fields
+    .map(field => ({ [field.name.value]: field }))
+    .reduce(assignObject, {});
+  const fieldsB = mapValues(
+    fieldsA,
+    ({ value: arg }) => argParsers[arg.kind]({ ...arg, variables })
+  );
+  return fieldsB;
+};
 
-function valueToObjectRepresentation(argObj, name, value, variables) {
-  if (value.kind === 'IntValue' || value.kind === 'FloatValue') {
-    argObj[name.value] = Number(value.value);
-  } else if (value.kind === 'StringValue' || value.kind === 'BooleanValue' || value.kind === 'EnumValue') {
-    argObj[name.value] = value.value;
-  } else if (value.kind === 'ObjectValue') {
-    const nestedArgObj = {};
-    value.fields.map((obj) => valueToObjectRepresentation(nestedArgObj, obj.name, obj.value, variables));
-    argObj[name.value] = nestedArgObj;
-  } else if (value.kind === 'Variable') {
-    const variable = variables[value.name.value];
-    argObj[name.value] = variable;
-  } else if (value.kind === 'ListValue') {
-    argObj[name.value] = value.values.map((listValue) => {
-      const nestedArgArrayObj = {};
-      valueToObjectRepresentation(nestedArgArrayObj, name, listValue, variables);
-      return nestedArgArrayObj[name.value];
-    });
-  } else {
-    // There are no other types of values we know of, but some might be added later and we want
-    // to have a nice error for that case.
-    throw new Error(`The inline argument "${name.value}" of kind "${value.kind}" is not \
-supported. Use variables instead of inline arguments to overcome this limitation.`);
-  }
+const arrayArgParser = function ({ values, variables }) {
+  return values.map(arg => argParsers[arg.kind]({ ...arg, variables }));
+};
+
+const numberArgParser = function ({ value }) {
+  return Number(value);
+};
+
+const identityArgParser = function ({ value }) {
+  return value;
+};
+
+const variableArgParser = function ({ name, variables }) {
+  return variables[name.value];
+};
+
+const argParsers = {
+  ObjectValue: objectArgParser,
+  ListValue: arrayArgParser,
+  IntValue: numberArgParser,
+  FloatValue: numberArgParser,
+  StringValue: identityArgParser,
+  BooleanValue: identityArgParser,
+  EnumValue: identityArgParser,
+  Variable: variableArgParser,
 }
 
 module.exports = {
