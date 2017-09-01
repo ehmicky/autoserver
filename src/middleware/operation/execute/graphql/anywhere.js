@@ -27,10 +27,10 @@ const {
 const graphql = async function (
   resolver,
   document,
-  rootValue,
   mainDefinition,
   contextValue,
   variables = {},
+  rootValue = {},
 ) {
   const fragmentMap = createFragmentMap(document);
 
@@ -59,139 +59,94 @@ const executeSelectionSet = async function ({
   variables,
   resolver,
 }) {
-  const resultPromises = selectionSet.selections.map(async selection => {
-    if (!applyDirectives({ selection, variables })) { return; }
+  if (!selectionSet || rootValue == null) { return rootValue; }
 
-    if (selection.kind === 'Field') {
-      const fieldResult = await executeField({
-        field: selection,
+  const resultPromises = selectionSet.selections
+    .map(async field => {
+      const {
+        name: { value: fieldName } = {},
+        selectionSet,
+        arguments,
+        kind,
+        directives,
+      } = field;
+
+      if (!applyDirectives({ directives, variables })) { return; }
+
+      if (kind === 'Field') {
+        const args = argumentsObjectFromField(arguments, variables);
+
+        const result = await resolver(fieldName, rootValue, args, contextValue);
+
+        const { value: resultFieldKey } = field.alias || field.name;
+
+        let fieldResult;
+        if (Array.isArray(result)) {
+          const promises = result.map(async item => {
+            return await executeSelectionSet({
+              selectionSet,
+              rootValue: item,
+              fragmentMap,
+              contextValue,
+              variables,
+              resolver,
+            });
+          });
+          fieldResult = await Promise.all(promises);
+        } else {
+          fieldResult = await executeSelectionSet({
+            selectionSet,
+            rootValue: result,
+            fragmentMap,
+            contextValue,
+            variables,
+            resolver,
+          });
+        }
+
+        return { [resultFieldKey]: fieldResult };
+      }
+
+      const fragmentSet = getFragmentSet({
+        fragmentMap,
+        kind,
+        selectionSet,
+        fieldName,
+      });
+
+      return await executeSelectionSet({
+        selectionSet: fragmentSet,
         rootValue,
         fragmentMap,
         contextValue,
         variables,
         resolver,
       });
-
-      const { value: resultFieldKey } = selection.alias || selection.name;
-
-      return { [resultFieldKey]: fieldResult };
-    }
-
-    const fragment = getFragment({ fragmentMap, selection });
-
-    return await executeSelectionSet({
-      selectionSet: fragment.selectionSet,
-      rootValue,
-      fragmentMap,
-      contextValue,
-      variables,
-      resolver,
     });
-  });
   const results = await Promise.all(resultPromises);
   return deepMerge(...results);
 }
 
-const getFragment = function ({
+const getFragmentSet = function ({
   fragmentMap,
-  selection,
-  selection: { kind, name: { value: selectionName } = {} },
+  kind,
+  selectionSet,
+  fieldName,
 }) {
   if (kind === 'InlineFragment') {
-    return selection;
+    return selectionSet;
   }
 
-  const fragment = fragmentMap[selectionName];
+  const fragment = fragmentMap[fieldName];
 
   if (!fragment) {
-    throw new Error(`No fragment named ${selectionName}`);
+    throw new Error(`No fragment named ${fieldName}`);
   }
 
-  return fragment;
+  return fragment.selectionSet;
 };
 
-const executeField = async function ({
-  field,
-  field: { name: { value: fieldName } },
-  rootValue,
-  fragmentMap,
-  contextValue,
-  variables,
-  resolver,
-}) {
-  const args = argumentsObjectFromField(field, variables);
-
-  const result = await resolver(fieldName, rootValue, args, contextValue);
-
-  if (!field.selectionSet || result == null) {
-    return result;
-  }
-
-  if (Array.isArray(result)) {
-    return await executeSubSelectedArray({
-      field,
-      result,
-      fragmentMap,
-      contextValue,
-      variables,
-      resolver,
-    });
-  }
-
-  // Returned value is an object, and the query has a sub-selection. Recurse.
-  return await executeSelectionSet({
-    selectionSet: field.selectionSet,
-    rootValue: result,
-    fragmentMap,
-    contextValue,
-    variables,
-    resolver,
-  });
-}
-
-const executeSubSelectedArray = async function ({
-  field,
-  result,
-  fragmentMap,
-  contextValue,
-  variables,
-  resolver,
-}) {
-  const promises = result.map(async item => {
-    // null value in array
-    if (item === null) {
-      return null;
-    }
-
-    // This is a nested array, recurse
-    if (Array.isArray(item)) {
-      return await executeSubSelectedArray({
-        field,
-        result: item,
-        fragmentMap,
-        contextValue,
-        variables,
-        resolver,
-      });
-    }
-
-    // This is an object, run the selection set on it
-    return await executeSelectionSet({
-      selectionSet: field.selectionSet,
-      rootValue: item,
-      fragmentMap,
-      contextValue,
-      variables,
-      resolver,
-    });
-  });
-  return Promise.all(promises);
-}
-
-const applyDirectives = function ({
-  selection: { directives = [] },
-  variables,
-}) {
+const applyDirectives = function ({ directives = [], variables }) {
   return directives.every(applyDirective.bind(null, variables));
 };
 
@@ -269,10 +224,10 @@ const directivesCheckers = {
  * If no operation definition is found, the first fragment definition will be returned.
  * If no definitions are found, an error will be thrown.
  */
-const argumentsObjectFromField = function (field, variables) {
-  if (field.arguments && field.arguments.length) {
+const argumentsObjectFromField = function (arguments, variables) {
+  if (arguments && arguments.length) {
     const argObj = {};
-    field.arguments.forEach(({name, value}) => valueToObjectRepresentation(
+    arguments.forEach(({name, value}) => valueToObjectRepresentation(
       argObj, name, value, variables));
     return argObj;
   }
