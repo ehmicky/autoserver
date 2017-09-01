@@ -50,7 +50,6 @@ const getContent = async function ({
     variables,
     graphqlDef,
     callback,
-    rootValue: {},
   });
 
   return { data };

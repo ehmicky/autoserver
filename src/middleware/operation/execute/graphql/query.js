@@ -9,13 +9,11 @@ const handleQuery = async function ({
   variables,
   graphqlDef,
   callback,
-  rootValue,
 }) {
   // GraphQL execution
   const response = await anywhere(
     resolver,
     queryDocument,
-    rootValue,
     graphqlDef,
     { graphqlDef, callback },
     variables
