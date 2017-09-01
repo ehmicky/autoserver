@@ -1,8 +1,6 @@
 'use strict';
 
-const { defaultsDeep } = require('lodash');
-
-const { omit } = require('../../utilities');
+const { omit, deepMerge } = require('../../utilities');
 
 const { getEnvVars } = require('./get');
 
@@ -13,7 +11,7 @@ const applyEnvVars = function ({ options }) {
   // `config` environment variable was already handled
   const envVarsA = omit(envVars, 'config');
 
-  const optionsA = defaultsDeep({}, envVarsA, options);
+  const optionsA = deepMerge(options, envVarsA);
 
   return { options: optionsA };
 };
