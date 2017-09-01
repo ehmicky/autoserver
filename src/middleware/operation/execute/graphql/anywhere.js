@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-const { assignObject } = require('../../../../utilities');
+const { assignObject, deepMerge } = require('../../../../utilities');
 
 const {
   DocumentNode,
@@ -59,7 +59,7 @@ const executeSelectionSet = async function (
   variables,
   resolver,
 ) {
-  const result = {};
+  let result = {};
 
   const resultPromises = selectionSet.selections.map(async selection => {
     if (!applyDirectives({ selection, variables })) { return; }
@@ -74,13 +74,13 @@ const executeSelectionSet = async function (
         resolver,
       );
 
-      const resultFieldKey = resultKeyNameFromField(selection);
+      const { value: resultFieldKey } = selection.alias || selection.name;
 
       if (fieldResult !== undefined) {
         if (result[resultFieldKey] === undefined) {
           result[resultFieldKey] = fieldResult;
         } else {
-          merge(result[resultFieldKey], fieldResult);
+          result[resultFieldKey] = deepMerge(fieldResult, result[resultFieldKey]);
         }
       }
 
@@ -109,7 +109,7 @@ const executeSelectionSet = async function (
       resolver,
     );
 
-    merge(result, fragmentResult);
+    result = deepMerge(fragmentResult, result);
   });
 
   await Promise.all(resultPromises);
@@ -127,15 +127,8 @@ const executeField = async function (
   const fieldName = field.name.value;
   const args = argumentsObjectFromField(field, variables);
 
-  const info = {
-    isLeaf: !field.selectionSet,
-    resultKey: resultKeyNameFromField(field),
-    directives: getDirectiveInfoFromField(field, variables),
-  };
+  const result = await resolver(fieldName, rootValue, args, contextValue);
 
-  const resultOrDeferrable = resolver(fieldName, rootValue, args, contextValue, info);
-
-  const result = await resultOrDeferrable;
   // Handle all scalar types here
   if (!field.selectionSet) {
     return result;
@@ -207,41 +200,6 @@ const executeSubSelectedArray = async function (
     );
   });
   return Promise.all(promises);
-}
-
-function merge(dest, src) {
-  if (
-    src === null ||
-    typeof src !== 'object'
-  ) {
-    // These types just override whatever was in dest
-    return src;
-  }
-
-  // Merge sub-objects
-  Object.keys(dest).forEach((destKey) => {
-    if (src.hasOwnProperty(destKey)) {
-      merge(dest[destKey], src[destKey]);
-    }
-  });
-
-  // Add props only on src
-  Object.keys(src).forEach((srcKey) => {
-    if (!dest.hasOwnProperty(srcKey)) {
-      dest[srcKey] = src[srcKey];
-    }
-  });
-}
-
-const getDirectiveInfoFromField = function (field, variables) {
-  if (field.directives && field.directives.length) {
-    let directiveObj = {};
-    field.directives.forEach((directive) => {
-      directiveObj[directive.name.value] = argumentsObjectFromField(directive, variables);
-    });
-    return directiveObj;
-  }
-  return null;
 }
 
 const applyDirectives = function ({
@@ -360,10 +318,6 @@ function valueToObjectRepresentation(argObj, name, value, variables) {
     throw new Error(`The inline argument "${name.value}" of kind "${value.kind}" is not \
 supported. Use variables instead of inline arguments to overcome this limitation.`);
   }
-}
-
-const resultKeyNameFromField = function (field) {
-  return field.alias ? field.alias.value : field.name.value;
 }
 
 module.exports = {
