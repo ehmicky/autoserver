@@ -12,7 +12,7 @@ const get = function (obj, keys) {
 };
 
 // Similar to Lodash set(), but do not mutate, and faster
-const set = function (obj, keys, val) {
+const set = function (obj = {}, keys, val) {
   if (keys.length === 0) {
     return typeof val === 'function' ? val(obj, keys) : val;
   }
