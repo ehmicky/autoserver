@@ -59,8 +59,6 @@ const executeSelectionSet = async function (
   variables,
   resolver,
 ) {
-  let result = {};
-
   const resultPromises = selectionSet.selections.map(async selection => {
     if (!applyDirectives({ selection, variables })) { return; }
 
@@ -76,31 +74,12 @@ const executeSelectionSet = async function (
 
       const { value: resultFieldKey } = selection.alias || selection.name;
 
-      if (fieldResult !== undefined) {
-        if (result[resultFieldKey] === undefined) {
-          result[resultFieldKey] = fieldResult;
-        } else {
-          result[resultFieldKey] = deepMerge(fieldResult, result[resultFieldKey]);
-        }
-      }
-
-      return result;
+      return { [resultFieldKey]: fieldResult };
     }
 
-    let fragment;
+    const fragment = getFragment({ fragmentMap, selection });
 
-    if (selection.kind === 'InlineFragment') {
-      fragment = selection;
-    } else {
-      // This is a named fragment
-      fragment = fragmentMap[selection.name.value];
-
-      if (!fragment) {
-        throw new Error(`No fragment named ${selection.name.value}`);
-      }
-    }
-
-    const fragmentResult = await executeSelectionSet(
+    return await executeSelectionSet(
       fragment.selectionSet,
       rootValue,
       fragmentMap,
@@ -108,13 +87,28 @@ const executeSelectionSet = async function (
       variables,
       resolver,
     );
-
-    result = deepMerge(fragmentResult, result);
   });
-
-  await Promise.all(resultPromises);
-  return result;
+  const results = await Promise.all(resultPromises);
+  return deepMerge(...results);
 }
+
+const getFragment = function ({
+  fragmentMap,
+  selection,
+  selection: { kind, name: { value: selectionName } = {} },
+}) {
+  if (kind === 'InlineFragment') {
+    return selection;
+  }
+
+  const fragment = fragmentMap[selectionName];
+
+  if (!fragment) {
+    throw new Error(`No fragment named ${selectionName}`);
+  }
+
+  return fragment;
+};
 
 const executeField = async function (
   field,
