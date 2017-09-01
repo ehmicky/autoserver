@@ -111,8 +111,7 @@ const executeSelectionSet = async function ({
     }
 
     if (kind === 'FragmentSpread') {
-      const fragment = fragments
-        .filter(({ name }) => name.value === fieldName);
+      const fragment = fragments.find(({ name }) => name.value === fieldName);
 
       if (!fragment) {
         throw new Error(`No fragment named ${fieldName}`);
