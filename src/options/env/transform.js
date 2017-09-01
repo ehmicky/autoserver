@@ -2,7 +2,7 @@
 
 const { camelize } = require('underscore.string');
 
-const { parsePositiveInt, transtype } = require('../../utilities');
+const { transtype } = require('../../utilities');
 
 const { ENV_VARS_PREFIX, basicNamesMap } = require('./constants');
 
@@ -44,34 +44,51 @@ const camelizeName = function ({ name }) {
   return { name: nameA };
 };
 
+// Parse array values from a string to an actual array
+const parseArrays = function ({ value }) {
+  const isArray = typeof value === 'string' &&
+    value.startsWith('[') &&
+    value.endsWith(']');
+  if (!isArray) { return; }
+
+  const parts = value
+    .slice(1, -1)
+    .split(arrayRegExp);
+  return { value: parts };
+};
+
+// Splits elements in '[value  , value2, value3]' string
+const arrayRegExp = /\s*,\s*/g;
+
 // Transtype number and boolean values from string
 const transtypeValues = function ({ value }) {
-  const valueA = transtype(value);
+  const valueA = getTranstypedValue({ value });
   return { value: valueA };
 };
 
-// Transtype object and array values using `__VAR` or `__NUM` in variable name
+const getTranstypedValue = function ({ value }) {
+  if (Array.isArray(value)) {
+    return value.map(transtype);
+  }
+
+  return transtype(value);
+};
+
+// Transtype object and array values using `__VAR` in variable name
 const applyNesting = function ({ name, value }) {
   const keys = name.split('__');
   if (keys.length === 1) { return; }
 
   const valueB = keys
     .slice(1)
-    .reduceRight(getObjectOrArray, value);
+    .reduceRight(
+      (valueA, key) => ({ [key]: valueA }),
+      value,
+    );
   return { value: valueB };
 };
 
-const getObjectOrArray = function (value, key) {
-  const index = parsePositiveInt(key);
-
-  if (index !== undefined) {
-    return [...Array(index), value];
-  }
-
-  return { [key]: value };
-};
-
-// Remove `__VAR` or `__NUM` in variable name
+// Remove `__VAR` in variable name
 const removeNestedName = function ({ name }) {
   const nameA = name.replace(/__.*/, '');
   return { name: nameA };
@@ -81,6 +98,7 @@ const transformers = [
   removePrefix,
   applyBasicName,
   camelizeName,
+  parseArrays,
   transtypeValues,
   applyNesting,
   removeNestedName,

@@ -71,12 +71,6 @@ const concatArrays = function ({ arrayA, arrayB }) {
   return [...arrayA, ...arrayB];
 };
 
-const mergeArrays = function ({ arrayA, arrayB }) {
-  const bigArray = arrayA.length >= arrayB.length ? arrayA : arrayB;
-  return bigArray.map((value, index) =>
-    (arrayA[index] === undefined ? arrayB[index] : arrayA[index]),
-  );
-};
 
 const recursiveMerge = function ({ objA, objects, type }) {
   const newObjA = mergeMap[type].top(objA, objects[0]);
@@ -88,20 +82,15 @@ const recursiveMerge = function ({ objA, objects, type }) {
 const deepMerge = merge.bind(null, 'deep');
 
 // Deep merge objects and arrays (merge for arrays)
-const fusionMerge = merge.bind(null, 'fusion');
 
 const mergeMap = {
   deep: {
     top: deepMerge,
     array: concatArrays,
   },
-  fusion: {
-    top: fusionMerge,
-    array: mergeArrays,
   },
 };
 
 module.exports = {
   deepMerge,
-  fusionMerge,
 };

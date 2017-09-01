@@ -24,20 +24,6 @@ const parseNumber = function (string) {
   return number;
 };
 
-const parseInteger = function (string) {
-  const number = parseNumber(string);
-  if (number === undefined || Math.trunc(number) !== number) { return; }
-
-  return number;
-};
-
-const parsePositiveInt = function (string) {
-  const integer = parseInteger(string);
-  if (integer === undefined || integer < 0) { return; }
-
-  return integer;
-};
-
 const parseBoolean = function (string) {
   if (string === 'true') { return true; }
   if (string === 'false') { return false; }
@@ -45,5 +31,4 @@ const parseBoolean = function (string) {
 
 module.exports = {
   transtype,
-  parsePositiveInt,
 };

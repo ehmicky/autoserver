@@ -1,6 +1,6 @@
 'use strict';
 
-const { memoize, fusionMerge } = require('../../utilities');
+const { memoize, deepMerge } = require('../../utilities');
 
 const { processEnv, ENV_VARS_PREFIX, basicNamesMap } = require('./constants');
 const { transformEnvVars } = require('./transform');
@@ -12,8 +12,7 @@ const { transformEnvVars } = require('./transform');
 // The value will be transtyped, e.g. it can be a number or a boolean
 // Nested variables can be indicated with double-underscores,
 // e.g. `HTTP__HOST` becomes `{ http: { host } }`
-// Array variables can be indicated the same way, but with indexes,
-// e.g. `ARRAY__0`, `ARRAY__1`, etc.
+// Array variables can be indicated using `[value,value2,...]` notation.
 const getEnvVars = function () {
   return mappers.reduce((envVars, mapper) => mapper({ envVars }), {});
 };
@@ -33,7 +32,7 @@ const objectifyEnvVars = function ({ envVars }) {
 const mergeAll = function ({ envVars }) {
   const envVarsA = envVars
     .map(({ name, value }) => ({ [name]: value }));
-  const envVarsB = fusionMerge({}, ...envVarsA);
+  const envVarsB = deepMerge({}, ...envVarsA);
   return envVarsB;
 };
 

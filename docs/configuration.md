@@ -47,8 +47,7 @@ E.g. the following environment variables:
 API_ENGINE__ENV="dev"
 API_ENGINE__MAX_PAGE_SIZE=200
 API_ENGINE__HTTP__HOST="myhost"
-API_ENGINE__EVENT_FILTER__PAYLOAD__0="id"
-API_ENGINE__EVENT_FILTER__PAYLOAD__1="old_id"
+API_ENGINE__EVENT_FILTER__PAYLOAD="[id,old_id]"
 ```
 
 will be converted to the following options:
@@ -64,7 +63,8 @@ will be converted to the following options:
 
 Note:
   - the names are converted to camelCase
-  - `__` is used to nest objects and arrays
+  - `__` is used to nest objects
+  - `[..., ...]` is used for arrays
 
 Some well-known environment variables can also be used as aliases, namely:
   - for the `run` instruction:
