@@ -32,119 +32,109 @@ const graphql = async function (
   variables = {},
   rootValue = {},
 ) {
-  const fragmentMap = createFragmentMap(document);
+  const fragments = document.definitions
+    .filter(({ kind }) => kind === 'FragmentDefinition');
 
   return await executeSelectionSet({
     selectionSet: mainDefinition.selectionSet,
     rootValue,
-    fragmentMap,
+    fragments,
     contextValue,
     variables,
     resolver,
   });
 }
 
-const createFragmentMap = function (doc) {
-  return doc.definitions
-    .filter(definition => definition.kind === 'FragmentDefinition')
-    .map(fragment => ({ [fragment.name.value]: fragment }))
-    .reduce(assignObject, {});
-}
-
 const executeSelectionSet = async function ({
   selectionSet,
   rootValue,
-  fragmentMap,
+  fragments,
   contextValue,
   variables,
   resolver,
 }) {
   if (!selectionSet || rootValue == null) { return rootValue; }
 
-  const resultPromises = selectionSet.selections
-    .map(async field => {
-      const {
-        name: { value: fieldName } = {},
-        selectionSet,
-        arguments,
-        kind,
-        directives,
-      } = field;
+  const resultPromises = selectionSet.selections.map(async ({
+    name: { value: fieldName } = {},
+    alias,
+    selectionSet,
+    arguments,
+    kind,
+    directives,
+  }) => {
+    if (!applyDirectives({ directives, variables })) { return; }
 
-      if (!applyDirectives({ directives, variables })) { return; }
+    if (kind === 'Field') {
+      const resultFieldKey = (alias && alias.value) || fieldName;
 
-      if (kind === 'Field') {
-        const args = objectArgParser({ fields: arguments, variables });
+      const args = objectArgParser({ fields: arguments, variables });
 
-        const result = await resolver(fieldName, rootValue, args, contextValue);
+      const result = await resolver({
+        name: fieldName,
+        parent: rootValue,
+        args,
+        context: contextValue,
+      });
 
-        const { value: resultFieldKey } = field.alias || field.name;
-
-        let fieldResult;
-        if (Array.isArray(result)) {
-          const promises = result.map(async item => {
-            return await executeSelectionSet({
-              selectionSet,
-              rootValue: item,
-              fragmentMap,
-              contextValue,
-              variables,
-              resolver,
-            });
-          });
-          fieldResult = await Promise.all(promises);
-        } else {
-          fieldResult = await executeSelectionSet({
+      if (Array.isArray(result)) {
+        const promises = result.map(async item => {
+          return await executeSelectionSet({
             selectionSet,
-            rootValue: result,
-            fragmentMap,
+            rootValue: item,
+            fragments,
             contextValue,
             variables,
             resolver,
           });
-        }
-
+        });
+        const fieldResult = await Promise.all(promises);
         return { [resultFieldKey]: fieldResult };
       }
 
-      const fragmentSet = getFragmentSet({
-        fragmentMap,
-        kind,
+      const fieldResult = await executeSelectionSet({
         selectionSet,
-        fieldName,
-      });
-
-      return await executeSelectionSet({
-        selectionSet: fragmentSet,
-        rootValue,
-        fragmentMap,
+        rootValue: result,
+        fragments,
         contextValue,
         variables,
         resolver,
       });
-    });
+      return { [resultFieldKey]: fieldResult };
+    }
+
+    if (kind === 'FragmentSpread') {
+      const fragment = fragments
+        .filter(({ name }) => name.value === fieldName);
+
+      if (!fragment) {
+        throw new Error(`No fragment named ${fieldName}`);
+      }
+
+      return await executeSelectionSet({
+        selectionSet: fragment.selectionSet,
+        rootValue,
+        fragments,
+        contextValue,
+        variables,
+        resolver,
+      });
+    }
+
+    if (kind === 'InlineFragment') {
+      return await executeSelectionSet({
+        selectionSet,
+        rootValue,
+        fragments,
+        contextValue,
+        variables,
+        resolver,
+      });
+    }
+  });
   const results = await Promise.all(resultPromises);
   return deepMerge(...results);
 }
-
-const getFragmentSet = function ({
-  fragmentMap,
-  kind,
-  selectionSet,
-  fieldName,
-}) {
-  if (kind === 'InlineFragment') {
-    return selectionSet;
-  }
-
-  const fragment = fragmentMap[fieldName];
-
-  if (!fragment) {
-    throw new Error(`No fragment named ${fieldName}`);
-  }
-
-  return fragment.selectionSet;
-};
 
 const applyDirectives = function ({ directives = [], variables }) {
   return directives.every(applyDirective.bind(null, variables));

@@ -5,13 +5,14 @@ const { metadataResolver } = require('./metadata');
 const { normalResolver } = require('./normal');
 
 // GraphQL-anywhere uses a single resolver: here it is
-// eslint-disable-next-line max-params
 const getResolver = async function (
   modelsMap,
-  name,
-  parent = {},
-  args,
-  { callback: cbFunc, graphqlDef }
+  {
+    name,
+    parent = {},
+    args,
+    context: { callback: cbFunc, graphqlDef },
+  },
 ) {
   // Introspection type name
   if (name === '__typename') {
