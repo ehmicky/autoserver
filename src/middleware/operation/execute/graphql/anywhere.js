@@ -35,12 +35,18 @@ const graphql = async function (
   const fragments = document.definitions
     .filter(({ kind }) => kind === 'FragmentDefinition');
 
-  const actions = require('./new_parser').parse({
+  const [{ actions }] = require('./new_parser').parse({
     selectionSet: mainDefinition.selectionSet,
     fragments,
     variables,
   });
-  console.log(actions);
+
+  const actionsA = await require('./fire_resolver').fireResolvers({ actions, contextValue, resolver });
+
+  const actionsB = await require('./select').selectFields({ actions: actionsA });
+
+  const actionsC = await require('./assemble').assemble({ actions: actionsB });
+  // console.log(JSON.stringify(actionsC, null, 2));
 
   return await executeSelectionSet({
     selectionSet: mainDefinition.selectionSet,

@@ -35,8 +35,6 @@ const parse = function ({
   fragments,
   variables,
 }) {
-  if (!selectionSet) { return []; }
-
   return selectionSet.selections
     .filter(applyDirectives)
     .map(({
@@ -48,19 +46,38 @@ const parse = function ({
     }) => {
       if (kind === 'Field') {
         const childPath = (alias && alias.value) || fieldName;
+
+        if (!selectionSet) {
+          return {
+            actions: [],
+            select: [{ outputKey: childPath, dbKey: fieldName }],
+          };
+        }
+
         const actionPath = `${parentPath}${childPath}`;
 
         const argsA = objectArgParser({ fields: args, variables });
 
-        const action = { actionName: fieldName, actionPath, args: argsA };
-
-        const childActions = parse({
+        const children = parse({
           selectionSet,
           parentPath: `${actionPath}.`,
           fragments,
           variables,
         });
-        return [action, ...childActions];
+        const {
+          actions: childActions,
+          select: childSelect,
+        } = mergeChildren({ children });
+
+        const action = {
+          actionName: fieldName,
+          actionPath,
+          args: argsA,
+          select: childSelect,
+        };
+
+        const actions = [action, ...childActions];
+        return { actions, select: [] };
       }
 
       if (kind === 'FragmentSpread') {
@@ -71,15 +88,26 @@ const parse = function ({
         }
 
         const { selectionSet } = fragment;
-        return parse({ selectionSet, parentPath, fragments, variables });
+        const children = parse({ selectionSet, parentPath, fragments, variables });
+        return mergeChildren({ children });
       }
 
       if (kind === 'InlineFragment') {
-        return parse({ selectionSet, parentPath, fragments, variables });
+        const children = parse({ selectionSet, parentPath, fragments, variables });
+        return mergeChildren({ children });
       }
-    })
-    .reduce(assignArray, []);
-}
+    });
+};
+
+const mergeChildren = function ({ children }) {
+  return children.reduce(
+    (childrenA, child) => mapValues(
+      child,
+      (arr, key) => (childrenA[key] || []).concat(arr),
+    ),
+    {},
+  );
+};
 
 const applyDirectives = function ({ directives = [], variables }) {
   return directives.every(applyDirective.bind(null, variables));
