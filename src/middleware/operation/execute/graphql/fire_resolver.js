@@ -18,8 +18,8 @@ const fireResolvers = function ({ actions, contextValue, resolver }) {
         args,
         contextValue,
       });
-      const result = { data, actionPath, select };
-      return [...results, result];
+      const result = getResult({ data, actionPath, select });
+      return [...results, ...result];
     },
     [],
   );
@@ -41,6 +41,18 @@ const fireResolver = async function ({
 
   const result = await resolver({ name, parent, args, context: contextValue });
   return result;
+};
+
+const getResult = function ({ data, actionPath, select }) {
+  if (!Array.isArray(data)) {
+    return [{ data, actionPath, select }];
+  }
+
+  return data.map((datum, index) => ({
+    data: datum,
+    actionPath: [...actionPath, index],
+    select,
+  }));
 };
 
 module.exports = {
