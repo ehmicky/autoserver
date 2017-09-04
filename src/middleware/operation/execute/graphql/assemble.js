@@ -1,20 +1,13 @@
 'use strict';
 
-const assemble = function ({ actions }) {
-  return actions.map(({ data, actionPath }) => {
-    let obj = {};
-    let memo = obj;
-    actionPath.forEach((path, index) => {
-      if (index === actionPath.length - 1) {
-        memo[path] = data;
-        return;
-      }
+const { set } = require('../../../../utilities');
 
-      memo[path] = {};
-      memo = memo[path];
-    });
-    return { data: obj, actionPath };
-  });
+const assemble = function ({ actions }) {
+  return actions
+    .reduce(
+      (response, { data, actionPath }) => set(response, actionPath, data),
+      {},
+    );
 };
 
 module.exports = {
