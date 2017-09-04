@@ -3,26 +3,19 @@
 const { assignObject, mapValues } = require('../../../../utilities');
 
 const selectFields = function ({ actions }) {
-  return actions.map(({ data, actionPath, select }) => {
-    const dataA = selectFieldsByAction({ data, select });
-    return { data: dataA, actionPath };
-  });
+  return actions.map(selectFieldsByAction);
 };
 
-const selectFieldsByAction = function ({ data, select }) {
-  if (Array.isArray(data)) {
-    return data.map(datum => selectFieldsByAction({ data: datum, select }));
-  }
-
+const selectFieldsByAction = function ({ data, actionPath, select }) {
   // Make sure return value is sorted in the same order as `args.select`
-  const fields = select
+  const dataA = select
     .map(({ outputKey, dbKey }) => ({ [outputKey]: data[dbKey] }))
     .reduce(assignObject, {});
-  const fieldsA = mapValues(
-    fields,
+  const dataB = mapValues(
+    dataA,
     value => value === undefined ? null : value,
   );
-  return fieldsA;
+  return { data: dataB, actionPath };
 };
 
 module.exports = {
