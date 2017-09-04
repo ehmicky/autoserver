@@ -58,16 +58,12 @@ const parse = function ({
 
         const argsA = objectArgParser({ fields: args, variables });
 
-        const children = parse({
+        const { actions: childActions, select: childSelect } = parse({
           selectionSet,
           parentPath: actionPath,
           fragments,
           variables,
         });
-        const {
-          actions: childActions,
-          select: childSelect,
-        } = mergeChildren({ children });
 
         const action = {
           actionName: fieldName,
@@ -88,25 +84,20 @@ const parse = function ({
         }
 
         const { selectionSet } = fragment;
-        const children = parse({ selectionSet, parentPath, fragments, variables });
-        return mergeChildren({ children });
+        return parse({ selectionSet, parentPath, fragments, variables });
       }
 
       if (kind === 'InlineFragment') {
-        const children = parse({ selectionSet, parentPath, fragments, variables });
-        return mergeChildren({ children });
+        return parse({ selectionSet, parentPath, fragments, variables });
       }
-    });
-};
-
-const mergeChildren = function ({ children }) {
-  return children.reduce(
-    (childrenA, child) => mapValues(
-      child,
-      (arr, key) => (childrenA[key] || []).concat(arr),
-    ),
-    {},
-  );
+    })
+    .reduce(
+      (children, child) => mapValues(
+        child,
+        (arr, key) => (children[key] || []).concat(arr),
+      ),
+      {},
+    );
 };
 
 const applyDirectives = function ({ directives = [], variables }) {
