@@ -1,17 +1,16 @@
 'use strict';
 
+const { isEqual } = require('lodash');
+
 const { reduceAsync } = require('../../../../utilities');
 
 const fireResolvers = function ({ actions, contextValue, resolver }) {
   return reduceAsync(
     actions,
     async (results, { actionPath, actionName, args, select }) => {
-      const parentPath = actionPath
-        .split('.')
-        .slice(0, -1)
-        .join('.');
+      const parentPath = actionPath.slice(0, -1);
       const { data: parent } = results
-        .find(({ actionPath: path }) => path === parentPath) || {};
+        .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
       const data = await fireResolver({
         resolver,
         name: actionName,

@@ -31,7 +31,7 @@ const {
 
 const parse = function ({
   selectionSet,
-  parentPath = '',
+  parentPath = [],
   fragments,
   variables,
 }) {
@@ -54,13 +54,13 @@ const parse = function ({
           };
         }
 
-        const actionPath = `${parentPath}${childPath}`;
+        const actionPath = [...parentPath, childPath];
 
         const argsA = objectArgParser({ fields: args, variables });
 
         const children = parse({
           selectionSet,
-          parentPath: `${actionPath}.`,
+          parentPath: actionPath,
           fragments,
           variables,
         });
