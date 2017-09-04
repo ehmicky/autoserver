@@ -35,7 +35,7 @@ const graphql = async function (
   const fragments = document.definitions
     .filter(({ kind }) => kind === 'FragmentDefinition');
 
-  const [{ actions }] = require('./new_parser').parse({
+  const { actions } = require('./new_parser').parse({
     selectionSet: mainDefinition.selectionSet,
     fragments,
     variables,
