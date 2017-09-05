@@ -53,8 +53,7 @@ it will be retried several times, with an exponential delay.
 
 Events are also printed on the console.
 
-They are be colorized, unless the environment variable `FORCE_COLOR=0`
-or the terminal does not support colors.
+They are be colorized, if the terminal supports it.
 
 The console does not contain all the information the event payload does, and
 is not as structured, so is only meant as a quick debugging tool.
