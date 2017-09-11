@@ -4,10 +4,14 @@ const { isEqual } = require('lodash');
 
 const { assignArray } = require('../../../../utilities');
 
+const { resolver } = require('./resolver');
+
 const fireResolvers = async function ({
   actions,
-  cbFunc,
-  resolver,
+  nextLayer,
+  responses,
+  mInput,
+  mInput: { idl: { shortcuts: { modelsMap } } },
   results = [],
 }) {
   if (actions.length === 0) { return results; }
@@ -18,42 +22,58 @@ const fireResolvers = async function ({
   const { data: parent } = results
     .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
   const data = await fireResolver({
-    resolver,
+    modelsMap,
     name: actionName,
     parent,
     args,
-    cbFunc,
+    nextLayer,
+    mInput,
+    responses,
   });
   const result = getResult({ data, actionPath, select });
   const actionsB = getActions({ actions: actionsA, data, actionPath });
   const resultsA = [...results, ...result];
   return fireResolvers({
-    results: resultsA,
     actions: actionsB,
-    cbFunc,
-    resolver,
+    nextLayer,
+    responses,
+    mInput,
+    results: resultsA,
   });
 };
 
 const fireResolver = async function ({
-  resolver,
+  modelsMap,
   name,
   parent,
   args,
-  cbFunc,
+  nextLayer,
+  mInput,
+  responses,
 }) {
   if (Array.isArray(parent)) {
     const promises = parent.map(item => fireResolver({
-      resolver,
+      modelsMap,
       name,
       parent: item,
       args,
-      cbFunc,
+      nextLayer,
+      mInput,
+      responses,
     }));
     return Promise.all(promises);
   }
 
-  const result = await resolver({ name, parent, args, cbFunc });
+  const result = await resolver({
+    modelsMap,
+    name,
+    parent,
+    args,
+    nextLayer,
+    mInput,
+    responses,
+    fireNext,
+  });
   return result;
 };
 
@@ -92,6 +112,25 @@ const getAction = function ({
     const actionPathA = [...startPath, index, ...endPath];
     return { ...action, actionPath: actionPathA };
   });
+};
+
+const fireNext = async function ({
+  nextLayer,
+  mInput,
+  responses,
+  action,
+  fullAction,
+  modelName,
+  args,
+}) {
+  const mInputA = { ...mInput, action, fullAction, modelName, args };
+
+  const mInputB = await nextLayer(mInputA);
+
+  // eslint-disable-next-line fp/no-mutating-methods
+  responses.push(mInputB);
+
+  return mInputB.response;
 };
 
 module.exports = {

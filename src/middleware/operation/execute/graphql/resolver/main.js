@@ -5,10 +5,16 @@ const { metadataResolver } = require('./metadata');
 const { normalResolver } = require('./normal');
 
 // GraphQL-anywhere uses a single resolver: here it is
-const getResolver = async function (
+const resolver = async function ({
   modelsMap,
-  { name, parent = {}, args, cbFunc },
-) {
+  name,
+  parent = {},
+  args,
+  nextLayer,
+  mInput,
+  responses,
+  fireNext,
+}) {
   // Introspection type name
   if (name === '__typename') {
     return typenameResolver({ parent });
@@ -24,11 +30,14 @@ const getResolver = async function (
     name,
     parent,
     args,
-    cbFunc,
+    nextLayer,
+    mInput,
+    responses,
+    fireNext,
   });
   return response;
 };
 
 module.exports = {
-  getResolver,
+  resolver,
 };
