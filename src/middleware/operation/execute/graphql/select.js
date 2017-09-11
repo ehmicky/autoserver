@@ -7,6 +7,10 @@ const selectFields = function ({ actions }) {
 };
 
 const selectFieldsByAction = function ({ data, actionPath, select }) {
+  if (data == null) {
+    return { data, actionPath };
+  }
+
   // Make sure return value is sorted in the same order as `args.select`
   const dataA = select
     .map(({ outputKey, dbKey }) => ({ [outputKey]: data[dbKey] }))

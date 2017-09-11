@@ -7,12 +7,7 @@ const { normalResolver } = require('./normal');
 // GraphQL-anywhere uses a single resolver: here it is
 const getResolver = async function (
   modelsMap,
-  {
-    name,
-    parent = {},
-    args,
-    context: { callback: cbFunc, graphqlDef },
-  },
+  { name, parent = {}, args, cbFunc },
 ) {
   // Introspection type name
   if (name === '__typename') {
@@ -30,7 +25,6 @@ const getResolver = async function (
     parent,
     args,
     cbFunc,
-    graphqlDef,
   });
   return response;
 };
