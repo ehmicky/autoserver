@@ -6,7 +6,7 @@ const { assignArray } = require('../../../../utilities');
 
 const fireResolvers = async function ({
   actions,
-  contextValue,
+  cbFunc,
   resolver,
   results = [],
 }) {
@@ -22,7 +22,7 @@ const fireResolvers = async function ({
     name: actionName,
     parent,
     args,
-    contextValue,
+    cbFunc,
   });
   const result = getResult({ data, actionPath, select });
   const actionsB = getActions({ actions: actionsA, data, actionPath });
@@ -30,7 +30,7 @@ const fireResolvers = async function ({
   return fireResolvers({
     results: resultsA,
     actions: actionsB,
-    contextValue,
+    cbFunc,
     resolver,
   });
 };
@@ -40,16 +40,20 @@ const fireResolver = async function ({
   name,
   parent,
   args,
-  contextValue,
+  cbFunc,
 }) {
   if (Array.isArray(parent)) {
-    const promises = parent.map(
-      item => fireResolver({ resolver, name, parent: item, args, contextValue })
-    );
+    const promises = parent.map(item => fireResolver({
+      resolver,
+      name,
+      parent: item,
+      args,
+      cbFunc,
+    }));
     return Promise.all(promises);
   }
 
-  const result = await resolver({ name, parent, args, context: contextValue });
+  const result = await resolver({ name, parent, args, cbFunc });
   return result;
 };
 

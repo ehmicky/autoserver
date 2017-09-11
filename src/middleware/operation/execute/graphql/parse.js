@@ -17,11 +17,11 @@ const parseQuery = function ({ query, goal, operationName }) {
 const getQueryDocument = function ({ query, goal, operationName }) {
   const queryDocument = parse(query);
 
-  const graphqlDef = getGraphqlDef({ queryDocument, operationName });
+  const mainDef = getMainDef({ queryDocument, operationName });
 
-  validateQuery({ graphqlDef, goal });
+  validateQuery({ mainDef, goal });
 
-  return { queryDocument, graphqlDef };
+  return { queryDocument, mainDef };
 };
 
 const eGetQueryDocument = addGenErrorHandler(getQueryDocument, {
@@ -29,13 +29,13 @@ const eGetQueryDocument = addGenErrorHandler(getQueryDocument, {
   reason: 'GRAPHQL_SYNTAX_ERROR',
 });
 
-const getGraphqlDef = function ({ queryDocument, operationName }) {
-  const definition = queryDocument.definitions
+const getMainDef = function ({ queryDocument, operationName }) {
+  const mainDef = queryDocument.definitions
     .filter(({ kind }) => kind === 'OperationDefinition')
     .find(({ name: { value: name } = {} }) =>
       !operationName || name === operationName
     );
-  if (definition) { return definition; }
+  if (mainDef) { return mainDef; }
 
   if (operationName) {
     const message = `Could not find GraphQL operation '${operationName}'`;
@@ -47,8 +47,8 @@ const getGraphqlDef = function ({ queryDocument, operationName }) {
 };
 
 // Make sure GraphQL query is valid
-const validateQuery = function ({ graphqlDef, goal }) {
-  if (goal === 'find' && graphqlDef.operation !== 'query') {
+const validateQuery = function ({ mainDef, goal }) {
+  if (goal === 'find' && mainDef.operation !== 'query') {
     const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }

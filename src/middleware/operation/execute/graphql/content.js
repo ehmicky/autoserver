@@ -19,7 +19,7 @@ const getContent = async function ({
     variables,
     operationName,
     queryDocument,
-    graphqlDef,
+    mainDef,
   } = getGraphQLInput(mInput);
 
   // Introspection GraphQL query
@@ -35,7 +35,7 @@ const getContent = async function ({
 
   // Normal GraphQL query
   const resolver = getResolver.bind(null, modelsMap);
-  const callback = fireNext.bind(null, {
+  const cbFunc = fireNext.bind(null, {
     nextLayer,
     mInput,
     responses,
@@ -48,8 +48,8 @@ const getContent = async function ({
     resolver,
     queryDocument,
     variables,
-    graphqlDef,
-    callback,
+    mainDef,
+    cbFunc,
   });
 
   return { data };
@@ -63,10 +63,10 @@ const getGraphQLInput = function ({ queryVars, payload = {}, goal }) {
   // GraphQL parsing
   const {
     queryDocument,
-    graphqlDef,
+    mainDef,
   } = parseQuery({ query, goal, operationName });
 
-  return { query, variables, operationName, queryDocument, graphqlDef };
+  return { query, variables, operationName, queryDocument, mainDef };
 };
 
 const fireNext = async function (
