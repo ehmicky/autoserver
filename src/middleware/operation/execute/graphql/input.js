@@ -10,7 +10,7 @@ const getGraphQLInput = function ({ queryVars, payload }) {
   const payloadA = typeof payload === 'object' ? payload : {};
   const { query, variables, operationName } = { ...queryVars, ...payloadA };
 
-  const queryDocument = parseQuery({ query });
+  const queryDocument = eParseQuery({ query });
 
   return { query, variables, operationName, queryDocument };
 };
@@ -18,14 +18,13 @@ const getGraphQLInput = function ({ queryVars, payload }) {
 // GraphQL parsing
 const parseQuery = function ({ query }) {
   if (!query) {
-    const message = 'Missing GraphQL query';
-    throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
+    throwError('Missing GraphQL query');
   }
 
-  return eParse(query);
+  return parse(query);
 };
 
-const eParse = addGenErrorHandler(parse, {
+const eParseQuery = addGenErrorHandler(parseQuery, {
   message: 'Could not parse GraphQL query',
   reason: 'GRAPHQL_SYNTAX_ERROR',
 });

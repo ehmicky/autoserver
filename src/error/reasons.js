@@ -19,10 +19,6 @@ const errorReasons = {
   // Tried to query an operation that is not supported, e.g. SOAP
   UNSUPPORTED_OPERATION: {},
 
-  // Request is trying to perform a GraphQL query,
-  // but does not specify the query
-  GRAPHQL_NO_QUERY: {},
-
   // GraphQL query syntax error, i.e. GraphQL crashed trying to parse
   // the raw query
   GRAPHQL_SYNTAX_ERROR: {},

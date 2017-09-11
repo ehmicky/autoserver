@@ -1,12 +1,15 @@
 'use strict';
 
 const { getGraphQLInput } = require('./input');
-const { handleQuery } = require('./query');
 const { getResolver } = require('./resolver');
 const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
+const { parse } = require('./parse');
+const { fireResolvers } = require('./fire_resolver');
+const { selectFields } = require('./select');
+const { assemble } = require('./assemble');
 
 const getContent = async function ({
   nextLayer,
@@ -45,9 +48,6 @@ const getContent = async function ({
     responses,
   });
 
-  // This middleware spurs several children in parallel.
-  // We need to manually call the performance monitoring functions to make
-  // them work
   const data = await handleQuery({
     resolver,
     queryDocument,
@@ -58,6 +58,25 @@ const getContent = async function ({
   });
 
   return { data };
+};
+
+// Executes GraphQL request
+const handleQuery = async function ({
+  resolver,
+  queryDocument,
+  operationName,
+  goal,
+  cbFunc,
+  variables,
+}) {
+  const actions = parse({ queryDocument, operationName, goal, variables });
+
+  const actionsA = await fireResolvers({ actions, cbFunc, resolver });
+
+  const actionsB = selectFields({ actions: actionsA });
+
+  const actionsC = assemble({ actions: actionsB });
+  return actionsC;
 };
 
 const fireNext = async function (
