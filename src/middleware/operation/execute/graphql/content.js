@@ -1,7 +1,6 @@
 'use strict';
 
 const { getGraphQLInput } = require('./input');
-const { getResolver } = require('./resolver');
 const {
   isIntrospectionQuery,
   handleIntrospection,
@@ -14,12 +13,7 @@ const { assemble } = require('./assemble');
 const getContent = async function ({
   nextLayer,
   mInput,
-  mInput: {
-    idl: { shortcuts: { modelsMap }, GraphQLSchema: schema },
-    queryVars,
-    payload,
-    goal,
-  },
+  mInput: { idl: { GraphQLSchema: schema }, queryVars, payload, goal },
   responses,
 }) {
   const {
@@ -40,21 +34,14 @@ const getContent = async function ({
     return content;
   }
 
-  // Normal GraphQL query
-  const resolver = getResolver.bind(null, modelsMap);
-  const cbFunc = fireNext.bind(null, {
-    nextLayer,
-    mInput,
-    responses,
-  });
-
   const data = await handleQuery({
-    resolver,
     queryDocument,
     operationName,
     goal,
     variables,
-    cbFunc,
+    nextLayer,
+    responses,
+    mInput,
   });
 
   return { data };
@@ -62,35 +49,27 @@ const getContent = async function ({
 
 // Executes GraphQL request
 const handleQuery = async function ({
-  resolver,
   queryDocument,
   operationName,
   goal,
-  cbFunc,
   variables,
+  nextLayer,
+  responses,
+  mInput,
 }) {
   const actions = parse({ queryDocument, operationName, goal, variables });
 
-  const actionsA = await fireResolvers({ actions, cbFunc, resolver });
+  const actionsA = await fireResolvers({
+    actions,
+    nextLayer,
+    responses,
+    mInput,
+  });
 
   const actionsB = selectFields({ actions: actionsA });
 
   const actionsC = assemble({ actions: actionsB });
   return actionsC;
-};
-
-const fireNext = async function (
-  { nextLayer, mInput, responses },
-  actionInput,
-) {
-  const mInputA = { ...mInput, ...actionInput };
-
-  const mInputB = await nextLayer(mInputA);
-
-  // eslint-disable-next-line fp/no-mutating-methods
-  responses.push(mInputB);
-
-  return mInputB.response;
 };
 
 module.exports = {

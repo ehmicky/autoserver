@@ -13,7 +13,10 @@ const normalResolver = async function ({
   name,
   parent,
   args,
-  cbFunc,
+  nextLayer,
+  mInput,
+  responses,
+  fireNext,
 }) {
   const argsA = args || {};
 
@@ -37,7 +40,15 @@ const normalResolver = async function ({
   const fullAction = getFullAction({ parent, name });
 
   // Fire database layer, retrieving value passed to children
-  const response = await cbFunc({ action, fullAction, modelName, args: argsB });
+  const response = await fireNext({
+    nextLayer,
+    mInput,
+    responses,
+    action,
+    fullAction,
+    modelName,
+    args: argsB,
+  });
 
   // Tags the response as belonging to that modelName
   setParentModel(response.data, { action, modelName, fullAction });
