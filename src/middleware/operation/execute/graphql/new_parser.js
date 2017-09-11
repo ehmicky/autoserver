@@ -173,17 +173,17 @@ const directivesCheckers = {
   Variable: checkVariableDirective,
 };
 
-const objectArgParser = function ({ fields, variables }) {
-  if (!fields || fields.length === 0) { return {}; }
+const objectArgParser = function ({ fields: args, variables }) {
+  if (!args || args.length === 0) { return {}; }
 
-  const fieldsA = fields
-    .map(field => ({ [field.name.value]: field }))
+  const argsA = args
+    .map(arg => ({ [arg.name.value]: arg }))
     .reduce(assignObject, {});
-  const fieldsB = mapValues(
-    fieldsA,
+  const argsB = mapValues(
+    argsA,
     ({ value: arg }) => argParsers[arg.kind]({ ...arg, variables })
   );
-  return fieldsB;
+  return argsB;
 };
 
 const arrayArgParser = function ({ values, variables }) {

@@ -46,7 +46,7 @@ const graphql = async function (
   const actionsB = await require('./select').selectFields({ actions: actionsA });
 
   const actionsC = await require('./assemble').assemble({ actions: actionsB });
-  // console.log(JSON.stringify(actionsC, null, 2));
+  console.log(JSON.stringify(actionsC, null, 2));
 
   return await executeSelectionSet({
     selectionSet: mainDefinition.selectionSet,
