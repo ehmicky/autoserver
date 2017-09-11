@@ -1,6 +1,6 @@
 'use strict';
 
-const { parseQuery } = require('./parse');
+const { getGraphQLInput } = require('./input');
 const { handleQuery } = require('./query');
 const { getResolver } = require('./resolver');
 const {
@@ -11,7 +11,12 @@ const {
 const getContent = async function ({
   nextLayer,
   mInput,
-  mInput: { idl: { shortcuts: { modelsMap }, GraphQLSchema: schema } },
+  mInput: {
+    idl: { shortcuts: { modelsMap }, GraphQLSchema: schema },
+    queryVars,
+    payload,
+    goal,
+  },
   responses,
 }) {
   const {
@@ -19,8 +24,7 @@ const getContent = async function ({
     variables,
     operationName,
     queryDocument,
-    mainDef,
-  } = getGraphQLInput(mInput);
+  } = getGraphQLInput({ queryVars, payload });
 
   // Introspection GraphQL query
   if (isIntrospectionQuery({ query })) {
@@ -47,26 +51,13 @@ const getContent = async function ({
   const data = await handleQuery({
     resolver,
     queryDocument,
+    operationName,
+    goal,
     variables,
-    mainDef,
     cbFunc,
   });
 
   return { data };
-};
-
-const getGraphQLInput = function ({ queryVars, payload = {}, goal }) {
-  // Parameters can be in either query variables or payload
-  // (including by using application/graphql)
-  const { query, variables, operationName } = { ...queryVars, ...payload };
-
-  // GraphQL parsing
-  const {
-    queryDocument,
-    mainDef,
-  } = parseQuery({ query, goal, operationName });
-
-  return { query, variables, operationName, queryDocument, mainDef };
 };
 
 const fireNext = async function (

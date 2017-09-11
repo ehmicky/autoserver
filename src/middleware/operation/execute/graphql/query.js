@@ -1,6 +1,6 @@
 'use strict';
 
-const { parse } = require('./new_parser');
+const { parseActions } = require('./parse_actions');
 const { fireResolvers } = require('./fire_resolver');
 const { selectFields } = require('./select');
 const { assemble } = require('./assemble');
@@ -8,21 +8,24 @@ const { assemble } = require('./assemble');
 // Executes GraphQL request
 const handleQuery = async function ({
   resolver,
-  queryDocument: { definitions },
-  mainDef: { selectionSet },
+  queryDocument,
+  operationName,
+  goal,
   cbFunc,
-  variables = {},
+  variables,
 }) {
-  const fragments = definitions
-    .filter(({ kind }) => kind === 'FragmentDefinition');
-
-  const { actions } = parse({ selectionSet, fragments, variables });
+  const actions = parseActions({
+    queryDocument,
+    operationName,
+    goal,
+    variables,
+  });
 
   const actionsA = await fireResolvers({ actions, cbFunc, resolver });
 
-  const actionsB = await selectFields({ actions: actionsA });
+  const actionsB = selectFields({ actions: actionsA });
 
-  const actionsC = await assemble({ actions: actionsB });
+  const actionsC = assemble({ actions: actionsB });
   return actionsC;
 };
 

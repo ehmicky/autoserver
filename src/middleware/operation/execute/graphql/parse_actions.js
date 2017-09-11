@@ -29,12 +29,59 @@ const {
   NameNode,
 } = require('graphql');
 
-const parse = function ({
-  selectionSet,
-  parentPath = [],
-  fragments,
-  variables,
+const parseActions = function ({
+  queryDocument,
+  operationName,
+  goal,
+  variables = {},
 }) {
+  const { selectionSet } = getMainDef({ queryDocument, operationName, goal });
+
+  const fragments = getFragments({ queryDocument });
+
+  const { actions } = parse({
+    selectionSet,
+    parentPath: [],
+    fragments,
+    variables,
+  });
+  return actions;
+};
+
+const getMainDef = function ({ queryDocument, operationName, goal }) {
+  const mainDef = queryDocument.definitions
+    .filter(({ kind }) => kind === 'OperationDefinition')
+    .find(({ name: { value: name } = {} }) =>
+      !operationName || name === operationName
+    );
+
+  validateMainDef({ mainDef, operationName, goal });
+
+  return mainDef;
+};
+
+const validateMainDef = function ({ mainDef, operationName, goal }) {
+  if (!mainDef && operationName) {
+    const message = `Could not find GraphQL operation '${operationName}'`;
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+  }
+
+  if (!mainDef) {
+    const message = 'Missing GraphQL query';
+    throwError(message, { reason: 'GRAPHQL_NO_QUERY' });
+  }
+
+  if (goal === 'find' && mainDef.operation !== 'query') {
+    const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+  }
+};
+
+const getFragments = function ({ queryDocument: { definitions } }) {
+  return definitions.filter(({ kind }) => kind === 'FragmentDefinition');
+};
+
+const parse = function ({ selectionSet, parentPath, fragments, variables }) {
   return selectionSet.selections
     .filter(applyDirectives)
     .map(({
@@ -214,5 +261,5 @@ const argParsers = {
 }
 
 module.exports = {
-  parse,
+  parseActions,
 };
