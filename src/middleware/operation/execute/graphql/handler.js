@@ -1,36 +1,71 @@
 'use strict';
 
-const { getContent } = require('./content');
+const { getGraphQLInput } = require('./input');
+const {
+  isIntrospectionQuery,
+  handleIntrospection,
+} = require('./introspection');
+const { getMainDef, getFragments } = require('./top_level');
+const { parseActions } = require('./actions');
+const { parseModels } = require('./models');
+const { fireResolvers } = require('./resolver');
+const { selectFields } = require('./select');
+const { assemble } = require('./assemble');
+const { parseResult } = require('./result');
 const { getActionOutputInfo } = require('./action_info');
 
 // GraphQL query handling
-const executeGraphql = async function (mInput, nextLayer) {
-  // Unfortunately, the library we use for GraphQL parsing does not allow
-  // to retrieve the input of each resolver, so we need to introduce a
-  // mutable variable `responses` to collect them
+const executeGraphql = async function (
+  {
+    idl: { GraphQLSchema: schema, shortcuts: { modelsMap } },
+    queryVars,
+    payload,
+    goal,
+    mInput,
+  },
+  nextLayer,
+) {
+  const {
+    query,
+    variables,
+    operationName,
+    queryDocument,
+  } = getGraphQLInput({ queryVars, payload });
+
+  // Introspection GraphQL query
+  if (isIntrospectionQuery({ query })) {
+    return handleIntrospection({
+      schema,
+      queryDocument,
+      variables,
+      operationName,
+    });
+  }
+
+  const { selectionSet } = getMainDef({ queryDocument, operationName, goal });
+
+  const fragments = getFragments({ queryDocument });
+
+  const { actions } = parseActions({ selectionSet, fragments, variables });
+  const actionsA = parseModels({ actions, modelsMap });
+
   const responses = [];
+  const actionsB = await fireResolvers({
+    actions: actionsA,
+    nextLayer,
+    responses,
+    mInput,
+  });
 
-  // GraphQL execution
-  const content = await getContent({ nextLayer, mInput, responses });
+  const actionsC = selectFields({ actions: actionsB });
 
-  const { response } = parseResult({ content, responses });
+  const data = assemble({ actions: actionsC });
+
+  const { response } = parseResult({ data, responses });
 
   const { actionsInfo } = getActionOutputInfo({ responses });
 
   return { response, actionsInfo };
-};
-
-const parseResult = function ({ content, responses }) {
-  const type = getResponseType({ content });
-
-  const actions = responses.map(({ response: { action } }) => action);
-
-  return { response: { content, type, actions } };
-};
-
-const getResponseType = function ({ content: { data } }) {
-  const mainData = data[Object.keys(data)[0]];
-  return Array.isArray(mainData) ? 'collection' : 'model';
 };
 
 module.exports = {

@@ -7,12 +7,12 @@ const { parseObject } = require('./args');
 const { applyDirectives } = require('./directive');
 
 const parseActions = function ({
-  selectionSet,
+  selectionSet: { selections },
   parentPath = [],
-  variables = {},
+  variables,
   fragments,
 }) {
-  return selectionSet.selections
+  return selections
     .filter(applyDirectives)
     .map(parseSelection.bind(null, { parentPath, variables, fragments }))
     .reduce(mergeChildrenReducer, {});
@@ -62,6 +62,8 @@ const parseField = function ({
   }
 
   const actionPath = [...parentPath, childPath];
+  const fullAction = actionPath.join('.');
+  const isTopLevel = actionPath.length === 1;
 
   const argsA = parseObject({ fields: args, variables });
 
@@ -75,6 +77,8 @@ const parseField = function ({
   const action = {
     actionName: fieldName,
     actionPath,
+    fullAction,
+    isTopLevel,
     args: argsA,
     select: childSelect,
   };
