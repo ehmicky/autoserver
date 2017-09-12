@@ -1,7 +1,6 @@
 'use strict';
 
-const { underscored, camelize, capitalize } = require('underscore.string');
-const { singular } = require('pluralize');
+const { underscored } = require('underscore.string');
 
 // Matches e.g. 'findMyModels' -> ['find', 'MyModels'];
 const nameRegExp = /^([a-z0-9]+)([A-Z][a-zA-Z0-9]*)/;
@@ -27,12 +26,6 @@ const parseNameParts = function ({ name }) {
   return [actionType, rawAttrName];
 };
 
-// Similar to introspection utility `getTypeName`
-const getTypeName = function (name) {
-  return capitalize(camelize(singular(name)));
-};
-
 module.exports = {
   parseName,
-  getTypeName,
 };
