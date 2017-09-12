@@ -1,11 +1,16 @@
 'use strict';
 
-const parseResult = function ({ data, responses }) {
+const parseResult = function ({ data, actions }) {
   const type = getResponseType({ data });
+  const actionConstants = actions.map(({ actionConstant }) => actionConstant);
 
-  const actions = responses.map(({ response: { action } }) => action);
-
-  return { response: { content: { data }, type, actions } };
+  return {
+    response: {
+      content: { data },
+      type,
+      actions: actionConstants,
+    },
+  };
 };
 
 const getResponseType = function ({ data }) {

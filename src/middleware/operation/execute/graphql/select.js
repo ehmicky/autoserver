@@ -6,9 +6,9 @@ const selectFields = function ({ actions }) {
   return actions.map(selectFieldsByAction);
 };
 
-const selectFieldsByAction = function ({ data, actionPath, select }) {
+const selectFieldsByAction = function ({ data, select, ...rest }) {
   if (data == null) {
-    return { data, actionPath };
+    return { data, ...rest };
   }
 
   // Make sure return value is sorted in the same order as `args.select`
@@ -19,7 +19,7 @@ const selectFieldsByAction = function ({ data, actionPath, select }) {
     dataA,
     value => value === undefined ? null : value,
   );
-  return { data: dataB, actionPath };
+  return { data: dataB, ...rest };
 };
 
 module.exports = {

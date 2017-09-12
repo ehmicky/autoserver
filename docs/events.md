@@ -202,19 +202,13 @@ event payload, with the properties:
   - `payloadCount` `{number}` - array length, if it is an array
   - `operation` `{string}` - operation, among `'GraphQL'`, `'GraphiQL'` and
     `'GraphQLPrint'`
-  - `actions` `{object}` - represents all the actions that were fired
-     - `ACTION_PATH` `{key}` - action full path, e.g. `'findModel.findSubmodel'`
-        - `model` `{string}` - model name
-        - `args` `{object}` - action arguments, e.g. filter or sort argument
-          - `dataSize` `{number}` - size of `data` argument, in bytes
-          - `dataCount` `{number}` - array length of `data` argument,
-            if it is an array
-        - `responses` `{object[]}`:
-           - `content` `{object|object[]}` - action response (model or
-             collection)
-        - `responsesSize` `{number}` - in bytes
-        - `responsesCount` `{number}` - array length, if it is an array
-  - `action_path` `{string}` - [action](terminology.md#action) full path,
+  - `operationSummary` `${string}` - summary of the operation, e.g.
+    'findModel{findChildModel}'
+  - `args` `${object}` - [arguments](terminology.md#args)
+  - `args.dataSize` `{number}` - size of `data` argument, in bytes
+  - `args.dataCount` `{number}` - array length of `data` argument,
+    if it is an array
+  - `actionPath` `{string}` - [action](terminology.md#action) full path,
     e.g. `'findModel.findSubmodel'`
   - `action` `${string}` - current [action](terminology.md#action),
     among `'find'`, `'update'`, `'delete'`, `'create'`, `'replace'`
@@ -222,7 +216,6 @@ event payload, with the properties:
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'read'`, `'update'`, `'upsert'` and `'delete'`.
   - `model` `${string}` - current [model](terminology.md#model) name
-  - `args` `${object}` - current action's [arguments](terminology.md#args)
   - `responseType` `{string}` - among `'model'`, `'collection'`, `'error'`,
     `'object'`, `'html'`, `'text'`
   - `response` `{string}` - full response raw content
@@ -230,7 +223,7 @@ event payload, with the properties:
   - `responseCount` `{number}` - array length, if it is an array
   - `error` `{string}` - error type, if there was an error
 
-The properties `action_path`, `action`, `command`, `model` and `args` are only
+The properties `actionPath`, `action`, `command` and `model` are only
 set if the request failed while performing an action or command.
 
 The `...Size` properties are not set if the related value is undefined, and set
@@ -258,8 +251,7 @@ The possible properties are:
   - `settings`
   - `payload`
   - `response`: applied to `response.content`
-  - `argData`: applied to each `actions.ACTION_PATH.responses.args.data`
-  - `actionResponses`: applied to each `actions.ACTION_PATH.responses.content`
+  - `argsData`: applied to each `args.data`
 
 Default values:
   - `queryVars`, `headers`, `params`, `settings`: `false`,

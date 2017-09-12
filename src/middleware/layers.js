@@ -91,8 +91,6 @@ const middlewareLayers = [
   {
     name: 'action',
     layers: [
-      // Action-related validation middleware
-      action.actionValidation,
       // Process client arguments
       action.handleArgs,
 

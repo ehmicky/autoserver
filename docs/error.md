@@ -30,6 +30,7 @@ additional properties:
       - `headers` `{object}`
       - `queryVars` `{object}`
       - `operation` `{string}`
+      - `operation_summary` `{string}`
       - `action` `{string}`
       - `action_path` `{string}`
       - `model` `{string}`
