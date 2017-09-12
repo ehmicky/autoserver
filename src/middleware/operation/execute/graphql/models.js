@@ -19,10 +19,9 @@ const parseModelsReducer = function ({ modelsMap }, actions, action) {
 const parseAction = function ({
   actions,
   action,
-  action: { actionPath, isTopLevel },
+  action: { actionName, actionPath, isTopLevel },
   modelsMap,
 }) {
-  const actionName = actionPath[actionPath.length - 1];
   const parser = isTopLevel ? parseTopLevelAction : parseNestedAction;
   const { actionType, modelName, isArray } = parser({
     actionPath,
