@@ -7,12 +7,12 @@ const {
 } = require('./introspection');
 const { getMainDef, getFragments } = require('./top_level');
 const { parseActions } = require('./actions');
+const { augmentActions } = require('./augment');
 const { getSummary } = require('./summary');
 const { parseModels } = require('./models');
 const { fireResolvers } = require('./resolver');
 const { selectFields } = require('./select');
-const { assemble } = require('./assemble');
-const { parseResult } = require('./result');
+const { parseResponse } = require('./response');
 
 // GraphQL query handling
 const executeGraphql = async function (
@@ -43,24 +43,24 @@ const executeGraphql = async function (
   }
 
   const { selectionSet } = getMainDef({ queryDocument, operationName, goal });
-
   const fragments = getFragments({ queryDocument });
-
   const { actions } = parseActions({ selectionSet, fragments, variables });
-  const { topArgs, operationSummary } = getSummary({ actions });
-  const actionsA = parseModels({ actions, modelsMap });
 
-  const actionsB = await fireResolvers({
-    actions: actionsA,
+  const actionsA = augmentActions({ actions });
+
+  const { topArgs, operationSummary } = getSummary({ actions: actionsA });
+
+  const actionsB = parseModels({ actions: actionsA, modelsMap });
+
+  const actionsC = await fireResolvers({
+    actions: actionsB,
     nextLayer,
     mInput,
   });
 
-  const actionsC = selectFields({ actions: actionsB });
+  const actionsD = selectFields({ actions: actionsC });
 
-  const data = assemble({ actions: actionsC });
-
-  const { response } = parseResult({ data, actions: actionsC });
+  const response = parseResponse({ actions: actionsD });
 
   return { response, topArgs, operationSummary };
 };
