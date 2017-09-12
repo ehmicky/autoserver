@@ -1,9 +1,13 @@
 'use strict';
 
-const { throwError } = require('../../../../../error');
+const { throwError } = require('../../../../error');
 
-const getMainDef = function ({ queryDocument, operationName, goal }) {
-  const mainDef = queryDocument.definitions
+const getMainDef = function ({
+  queryDocument: { definitions },
+  operationName,
+  goal,
+}) {
+  const mainDef = definitions
     .filter(({ kind }) => kind === 'OperationDefinition')
     .find(({ name: { value: name } = {} }) =>
       !operationName || name === operationName

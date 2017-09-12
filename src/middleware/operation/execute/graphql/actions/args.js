@@ -28,7 +28,7 @@ const parseAsIs = function ({ value }) {
 };
 
 const parseVariable = function ({ name, variables }) {
-  return variables[name.value];
+  return variables && variables[name.value];
 };
 
 const argParsers = {
