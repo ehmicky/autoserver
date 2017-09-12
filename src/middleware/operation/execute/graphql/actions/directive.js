@@ -2,6 +2,7 @@
 
 const { throwError, addGenErrorHandler } = require('../../../../../error');
 
+// Apply GraphQL directives @include and @skip
 const applyDirectives = function ({ directives = [], variables }) {
   return directives.every(applyDirective.bind(null, variables));
 };
