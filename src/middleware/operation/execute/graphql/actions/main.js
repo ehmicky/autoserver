@@ -62,7 +62,6 @@ const parseField = function ({
   }
 
   const actionPath = [...parentPath, childPath];
-  const fullAction = actionPath.join('.');
   const isTopLevel = actionPath.length === 1;
 
   const argsA = parseObject({ fields: args, variables });
@@ -77,7 +76,6 @@ const parseField = function ({
   const action = {
     actionName: fieldName,
     actionPath,
-    fullAction,
     isTopLevel,
     args: argsA,
     select: childSelect,

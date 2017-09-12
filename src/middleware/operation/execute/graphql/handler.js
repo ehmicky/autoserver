@@ -7,12 +7,12 @@ const {
 } = require('./introspection');
 const { getMainDef, getFragments } = require('./top_level');
 const { parseActions } = require('./actions');
+const { getSummary } = require('./summary');
 const { parseModels } = require('./models');
 const { fireResolvers } = require('./resolver');
 const { selectFields } = require('./select');
 const { assemble } = require('./assemble');
 const { parseResult } = require('./result');
-const { getActionOutputInfo } = require('./action_info');
 
 // GraphQL query handling
 const executeGraphql = async function (
@@ -47,13 +47,12 @@ const executeGraphql = async function (
   const fragments = getFragments({ queryDocument });
 
   const { actions } = parseActions({ selectionSet, fragments, variables });
+  const { topArgs, operationSummary } = getSummary({ actions });
   const actionsA = parseModels({ actions, modelsMap });
 
-  const responses = [];
   const actionsB = await fireResolvers({
     actions: actionsA,
     nextLayer,
-    responses,
     mInput,
   });
 
@@ -61,11 +60,9 @@ const executeGraphql = async function (
 
   const data = assemble({ actions: actionsC });
 
-  const { response } = parseResult({ data, responses });
+  const { response } = parseResult({ data, actions: actionsC });
 
-  const { actionsInfo } = getActionOutputInfo({ responses });
-
-  return { response, actionsInfo };
+  return { response, topArgs, operationSummary };
 };
 
 module.exports = {

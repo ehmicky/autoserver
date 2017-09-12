@@ -7,7 +7,6 @@ const { assignArray } = require('../../../../utilities');
 const fireResolvers = async function ({
   actions,
   nextLayer,
-  responses,
   mInput,
   results = [],
 }) {
@@ -15,7 +14,6 @@ const fireResolvers = async function ({
     modelName,
     actionConstant,
     actionPath,
-    fullAction,
     isTopLevel,
     actionName,
     args,
@@ -29,15 +27,21 @@ const fireResolvers = async function ({
     actionName,
     modelName,
     actionConstant,
-    fullAction,
+    actionPath,
     isTopLevel,
     parent,
     args,
     nextLayer,
     mInput,
-    responses,
   });
-  const result = getResult({ data, actionPath, select });
+  const result = getResult({
+    data,
+    actionPath,
+    modelName,
+    args,
+    select,
+    actionConstant,
+  });
   const resultsA = [...results, ...result];
 
   const actionsB = getActions({ actions: actionsA, data, actionPath });
@@ -46,7 +50,6 @@ const fireResolvers = async function ({
   return fireResolvers({
     actions: actionsB,
     nextLayer,
-    responses,
     mInput,
     results: resultsA,
   });
@@ -56,26 +59,24 @@ const fireResolver = async function ({
   actionName,
   modelName,
   actionConstant,
-  fullAction,
+  actionPath,
   isTopLevel,
   parent,
   args,
   nextLayer,
   mInput,
-  responses,
 }) {
   if (Array.isArray(parent)) {
     const promises = parent.map(item => fireResolver({
       actionName,
       modelName,
       actionConstant,
-      fullAction,
+      actionPath,
       isTopLevel,
       parent: item,
       args,
       nextLayer,
       mInput,
-      responses,
     }));
     return Promise.all(promises);
   }
@@ -84,13 +85,12 @@ const fireResolver = async function ({
     actionName,
     modelName,
     actionConstant,
-    fullAction,
+    actionPath,
     isTopLevel,
     parent,
     args,
     nextLayer,
     mInput,
-    responses,
   });
   return result;
 };
@@ -99,13 +99,12 @@ const resolver = async function ({
   actionName,
   modelName,
   actionConstant: action,
-  fullAction,
+  actionPath,
   isTopLevel,
   parent,
   args,
   nextLayer,
   mInput,
-  responses,
 }) {
   // Top-level and non-top-level attributes are handled differently
   const subResolver = isTopLevel ? topLevelModelResolver : nestedModelResolver;
@@ -119,12 +118,10 @@ const resolver = async function ({
   if (directReturn !== undefined) { return directReturn; }
 
   // Fire database layer, retrieving value passed to children
-  const mInputA = { ...mInput, action, fullAction, modelName, args: argsA };
+  const actionPathStr = actionPath.join('.');
+  const mInputA = { ...mInput, action, actionPathStr, modelName, args: argsA };
 
   const mInputB = await nextLayer(mInputA);
-
-  // eslint-disable-next-line fp/no-mutating-methods
-  responses.push(mInputB);
 
   return mInputB.response.data;
 };
@@ -167,15 +164,15 @@ const getNestedArg = function ({ parentVal, action }) {
 
 const nestedActionTypes = ['find', 'delete', 'update'];
 
-const getResult = function ({ data, actionPath, select }) {
+const getResult = function ({ data, actionPath, ...rest }) {
   if (!Array.isArray(data)) {
-    return [{ data, actionPath, select }];
+    return [{ data, actionPath, ...rest }];
   }
 
   return data.map((datum, index) => ({
     data: datum,
     actionPath: [...actionPath, index],
-    select,
+    ...rest,
   }));
 };
 

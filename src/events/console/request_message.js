@@ -8,10 +8,10 @@ const getRequestMessage = function ({
   path,
   protocolStatus,
   error,
-  actions = {},
   actionPath,
+  operationSummary,
 }) {
-  const action = error ? actionPath : Object.keys(actions).join(' ');
+  const summary = error ? actionPath : operationSummary;
 
   const message = [
     protocolStatus,
@@ -20,7 +20,7 @@ const getRequestMessage = function ({
     protocol,
     method,
     path,
-    action,
+    summary,
   ].filter(val => val)
     .join(' ');
   return message;
