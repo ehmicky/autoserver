@@ -2,6 +2,7 @@
 
 const { assignObject, mapValues } = require('../../../../../utilities');
 
+// Parse GraphQL arguments, for each possible argument type
 const parseObject = function ({ fields: args, variables }) {
   if (!args || args.length === 0) { return {}; }
 

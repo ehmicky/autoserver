@@ -2,6 +2,7 @@
 
 const { isEqual } = require('lodash');
 
+// Retrieves `operationSummary` and `topArgs`
 const getSummary = function ({ actions }) {
   const topLevelAction = actions.find(({ isTopLevel }) => isTopLevel);
   const operationSummary = getOperationSummary({
