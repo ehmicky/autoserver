@@ -49,9 +49,8 @@ const executeGraphql = async function (
 
   const actionsA = augmentActions({ actions });
 
-  const { topArgs, operationSummary } = getSummary({ actions: actionsA });
-
   const actionsB = parseModels({ actions: actionsA, modelsMap });
+  const { topArgs, operationSummary } = getSummary({ actions: actionsB });
 
   const actionsC = await fireResolvers({
     actions: actionsB,
