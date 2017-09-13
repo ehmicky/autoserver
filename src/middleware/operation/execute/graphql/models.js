@@ -4,7 +4,8 @@ const { underscored } = require('underscore.string');
 const { singular, plural } = require('pluralize');
 
 const { throwError } = require('../../../../error');
-const { ACTIONS } = require('../../../../constants');
+
+const { getModel, getActionConstant } = require('./models_utility');
 
 // Add `action.actionConstant` and `action.modelName`
 const parseModels = function ({ actions, modelsMap }) {
@@ -14,8 +15,7 @@ const parseModels = function ({ actions, modelsMap }) {
     modelsMap,
     topLevelAction,
   });
-  return [topLevelAction, ...nestedActions]
-    .map(addActionConstant);
+  return [topLevelAction, ...nestedActions];
 };
 
 // Parse a GraphQL query top-level action name into tokens.
@@ -34,9 +34,11 @@ const parseTopLevelAction = function ({ actions, modelsMap }) {
 
   const modelNameB = modelsMap[pluralName] ? pluralName : singularName;
 
-  validateTopLevel({ actionType, modelName: modelNameB, actionName });
+  const actionConstant = getActionConstant({ actionType, isArray });
 
-  return { ...action, actionType, isArray, modelName: modelNameB };
+  validateTopLevel({ modelName: modelNameB, actionName });
+
+  return { ...action, actionConstant, modelName: modelNameB };
 };
 
 const parseName = function ({ actionName }) {
@@ -47,8 +49,8 @@ const parseName = function ({ actionName }) {
 // Matches e.g. 'findMyModels' -> ['find', 'MyModels'];
 const nameRegExp = /^([a-z0-9]+)([A-Z][a-zA-Z0-9]*)/;
 
-const validateTopLevel = function ({ actionType, modelName, actionName }) {
-  if (actionType && modelName) { return; }
+const validateTopLevel = function ({ modelName, actionName }) {
+  if (modelName) { return; }
 
   const message = `Action '${actionName}' does not exist`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
@@ -63,67 +65,26 @@ const parseNestedActions = function ({ actions, modelsMap, topLevelAction }) {
 
 const parseNestedAction = function ({
   action,
-  action: { actionPath, usesTopAction },
+  action: { actionPath },
   topLevelAction,
-  topLevelAction: { modelName: topModel },
   modelsMap,
 }) {
-  const { modelName, isArray } = getModel({
+  const model = getModel({
     modelsMap,
-    modelName: topModel,
+    topLevelAction,
     actionPath: actionPath.slice(1),
   });
 
-  const actionType = getNestedActionType({ usesTopAction, topLevelAction });
-  return { ...action, actionType, isArray, modelName };
-};
-
-// Nested actions due to nested `args.data` reuses top-level action
-// Others are simply for selection, i.e. are find actions
-const getNestedActionType = function ({
-  usesTopAction,
-  topLevelAction: { actionType },
-}) {
-  if (!usesTopAction) { return 'find'; }
-
-  return actionType;
-};
-
-const getModel = function ({ modelsMap, modelName, actionPath }) {
-  const [actionName, ...childActionPath] = actionPath;
-
-  if (!modelsMap[modelName][actionName]) {
-    const message = `Attribute '${actionName}' is unknown`;
+  if (!model) {
+    const message = `Attribute '${actionPath.join('.')}' is unknown`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  const {
-    target: childModelName,
-    isArray,
-  } = modelsMap[modelName][actionName];
+  const { modelName, isArray } = model;
 
-  if (childActionPath.length > 0) {
-    return getModel({
-      modelsMap,
-      modelName: childModelName,
-      actionPath: childActionPath,
-    });
-  }
+  const actionConstant = getActionConstant({ actionType: 'find', isArray });
 
-  return { modelName: childModelName, isArray };
-};
-
-const addActionConstant = function ({ actionType, isArray, ...rest }) {
-  const actionConstant = ACTIONS.find(
-    ({ multiple, type }) => multiple === isArray && type === actionType
-  );
-
-  if (!actionConstant) {
-    const message = `Action '${actionType}' does not exist`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  return { actionConstant, ...rest };
+  return { ...action, actionConstant, modelName };
 };
 
 module.exports = {
