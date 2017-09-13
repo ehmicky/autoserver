@@ -67,11 +67,10 @@ const resolver = async function ({
   if (directReturn !== undefined) { return directReturn; }
 
   // Fire database layer, retrieving value passed to children
-  const actionPathStr = actionPath.join('.');
   const mInputA = {
     ...mInput,
     action,
-    actionPathStr,
+    actionPath,
     modelName,
     args: argsA,
   };
