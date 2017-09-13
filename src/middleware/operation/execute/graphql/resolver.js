@@ -10,42 +10,18 @@ const fireResolvers = async function ({
   mInput,
   results = [],
 }) {
-  const [{
-    modelName,
-    actionConstant,
-    actionPath,
-    isTopLevel,
-    actionName,
-    args,
-    select,
-  }, ...actionsA] = actions;
+  const [action, ...actionsA] = actions;
+  const { actionPath } = action;
 
   const parentPath = actionPath.slice(0, -1);
   const { data: parent } = results
     .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
-  const data = await fireResolver({
-    actionName,
-    modelName,
-    actionConstant,
-    actionPath,
-    isTopLevel,
-    parent,
-    args,
-    nextLayer,
-    mInput,
-  });
-  const result = getResult({
-    data,
-    actionPath,
-    modelName,
-    args,
-    select,
-    actionConstant,
-  });
+  const data = await fireResolver({ parent, nextLayer, mInput, ...action });
+  const result = getResult({ data, ...action });
   const resultsA = [...results, ...result];
 
   const actionsB = getActions({ actions: actionsA, data, actionPath });
-  if (actionsB.length === 0) { return results; }
+  if (actionsB.length === 0) { return resultsA; }
 
   return fireResolvers({
     actions: actionsB,
@@ -56,42 +32,15 @@ const fireResolvers = async function ({
 };
 
 const fireResolver = async function ({
-  actionName,
-  modelName,
-  actionConstant,
-  actionPath,
-  isTopLevel,
   parent,
-  args,
-  nextLayer,
-  mInput,
+  ...action
 }) {
   if (Array.isArray(parent)) {
-    const promises = parent.map(item => fireResolver({
-      actionName,
-      modelName,
-      actionConstant,
-      actionPath,
-      isTopLevel,
-      parent: item,
-      args,
-      nextLayer,
-      mInput,
-    }));
+    const promises = parent.map(item => resolver({ parent: item, ...action }));
     return Promise.all(promises);
   }
 
-  const result = await resolver({
-    actionName,
-    modelName,
-    actionConstant,
-    actionPath,
-    isTopLevel,
-    parent,
-    args,
-    nextLayer,
-    mInput,
-  });
+  const result = await resolver({ parent, ...action });
   return result;
 };
 
@@ -119,7 +68,13 @@ const resolver = async function ({
 
   // Fire database layer, retrieving value passed to children
   const actionPathStr = actionPath.join('.');
-  const mInputA = { ...mInput, action, actionPathStr, modelName, args: argsA };
+  const mInputA = {
+    ...mInput,
+    action,
+    actionPathStr,
+    modelName,
+    args: argsA,
+  };
 
   const mInputB = await nextLayer(mInputA);
 
