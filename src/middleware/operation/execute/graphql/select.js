@@ -6,6 +6,7 @@ const { mapValues, assignObject, get, set } = require('../../../../utilities');
 // Also rename fields if the output key is different from the database one,
 // e.g. using GraphQL "aliases"
 const selectFields = function ({ responseData, actions }) {
+  // We need to iterate through children before their parents
   return actions.reduceRight(selectFieldsByAction, responseData);
 };
 
