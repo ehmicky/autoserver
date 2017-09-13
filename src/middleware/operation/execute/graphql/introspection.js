@@ -10,22 +10,23 @@ const handleIntrospection = async function ({
   variables,
   operationName,
 }) {
-  const response = await eGetIntrospectionResp({
+  const content = await eGetIntrospectionResp({
     schema,
     queryDocument,
     variables,
     operationName,
   });
 
-  if (response.errors && response.errors[0]) {
-    const [innererror] = response.errors;
+  const { errors: [innererror] = [] } = content;
+
+  if (innererror) {
     throwError('GraphQL introspection query failed', {
       reason: 'GRAPHQL_INTROSPECTION',
       innererror,
     });
   }
 
-  return response;
+  return { response: { content, type: 'model' } };
 };
 
 const getIntrospectionResp = function ({
