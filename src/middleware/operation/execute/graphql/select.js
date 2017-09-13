@@ -1,25 +1,34 @@
 'use strict';
 
-const { assignObject, mapValues } = require('../../../../utilities');
+const { mapValues, assignObject, get, set } = require('../../../../utilities');
 
-const selectFields = function ({ actions }) {
-  return actions.map(selectFieldsByAction);
+// Only output the fields that were picked by the client
+// Also rename fields if the output key is different from the database one,
+// e.g. using GraphQL "aliases"
+const selectFields = function ({ responseData, actions }) {
+  return actions.reduceRight(selectFieldsByAction, responseData);
 };
 
-const selectFieldsByAction = function ({ data, select, ...rest }) {
-  if (data == null) {
-    return { data, ...rest };
-  }
+const selectFieldsByAction = function (responseData, { actionPath, select }) {
+  const data = get(responseData, actionPath);
 
-  // Make sure return value is sorted in the same order as `args.select`
+  if (data == null) { return responseData; }
+
+  // Make sure return value is sorted in the same order as `select`
   const dataA = select
-    .map(({ outputKey, dbKey }) => ({ [outputKey]: data[dbKey] }))
+    .map(({ dbKey, outputKey }) => ({ [outputKey]: data[dbKey] }))
     .reduce(assignObject, {});
-  const dataB = mapValues(
-    dataA,
-    value => value === undefined ? null : value,
-  );
-  return { data: dataB, ...rest };
+  const dataB = mapValues(dataA, normalizeNull);
+
+  const responseDataA = set(responseData, actionPath, dataB);
+  return responseDataA;
+};
+
+// Transform `undefined` to `null`
+const normalizeNull = function (value) {
+  if (value !== undefined) { return value; }
+
+  return null;
 };
 
 module.exports = {

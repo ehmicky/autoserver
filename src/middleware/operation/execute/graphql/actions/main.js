@@ -1,7 +1,6 @@
 'use strict';
 
 const { throwError } = require('../../../../../error');
-const { mapValues } = require('../../../../../utilities');
 
 const { parseObject } = require('./args');
 const { applyDirectives } = require('./directive');
@@ -15,7 +14,7 @@ const parseActions = function ({
   return selections
     .filter(applyDirectives)
     .map(parseSelection.bind(null, { parentPath, variables, fragments }))
-    .reduce(mergeChildrenReducer, {});
+    .reduce(mergeChildrenReducer, { actions: [], select: [] });
 };
 
 const parseSelection = function (
@@ -52,13 +51,11 @@ const parseField = function ({
   variables,
   fragments,
 }) {
-  const childPath = (alias && alias.value) || fieldName;
+  const outputName = (alias && alias.value) || fieldName;
+  const select = [{ dbKey: fieldName, outputKey: outputName }];
 
   if (!selectionSet) {
-    return {
-      actions: [],
-      select: [{ outputKey: childPath, dbKey: fieldName }],
-    };
+    return { actions: [], select };
   }
 
   const actionPath = [...parentPath, fieldName];
@@ -73,9 +70,8 @@ const parseField = function ({
   });
 
   const action = { actionPath, args: argsA, select: childSelect };
-
   const actions = [action, ...childActions];
-  return { actions, select: [] };
+  return { actions, select };
 };
 
 const parseFragmentSpread = function ({
@@ -112,10 +108,10 @@ const parsers = {
 };
 
 const mergeChildrenReducer = function (children, child) {
-  return mapValues(
-    child,
-    (arr, key) => (children[key] || []).concat(arr),
-  );
+  return {
+    actions: [...children.actions, ...child.actions],
+    select: [...children.select, ...child.select],
+  };
 };
 
 module.exports = {

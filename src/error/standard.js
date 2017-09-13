@@ -55,7 +55,7 @@ const getStandardError = function ({
     operation,
     operation_summary: operationSummary,
     action,
-    action_path: actionPath.join('.'),
+    action_path: actionPath && actionPath.join('.'),
     model,
     args,
     command,

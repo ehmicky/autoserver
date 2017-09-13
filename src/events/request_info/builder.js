@@ -63,7 +63,7 @@ const buildRequestInfo = function ({
     operation,
     operationSummary,
     args,
-    actionPath: actionPath.join('.'),
+    actionPath: actionPath && actionPath.join('.'),
     action,
     command,
     model,
