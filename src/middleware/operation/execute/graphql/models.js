@@ -22,7 +22,7 @@ const parseModels = function ({ actions, modelsMap }) {
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
 const parseTopLevelAction = function ({ actions, modelsMap }) {
   const [action] = actions;
-  const { actionName } = action;
+  const { actionPath: [actionName] } = action;
 
   const { actionType, modelName } = parseName({ actionName });
 

@@ -9,7 +9,6 @@ const { getMainDef, getFragments } = require('./top_level');
 const { parseActions } = require('./actions');
 const { getTopArgs } = require('./top_args');
 const { addNestedWrite } = require('./add_nested_write');
-const { augmentActions } = require('./augment');
 const { getOperationSummary } = require('./operation_summary');
 const { parseModels } = require('./models');
 const { fireResolvers } = require('./resolver');
@@ -54,27 +53,25 @@ const executeGraphql = async function (
 
   const actionsA = addNestedWrite({ actions });
 
-  const actionsB = augmentActions({ actions: actionsA });
+  const actionsB = parseModels({ actions: actionsA, modelsMap });
 
   const operationSummary = getOperationSummary({ actions: actionsB });
 
-  const actionsC = parseModels({ actions: actionsB, modelsMap });
-
-  const actionsD = await fireResolvers({
-    actions: actionsC,
+  const actionsC = await fireResolvers({
+    actions: actionsB,
     nextLayer,
     mInput,
   });
 
-  const actionsE = removeNestedWrite({ actions: actionsD });
+  const actionsD = removeNestedWrite({ actions: actionsC });
 
-  const responseData = assembleActions({ actions: actionsE });
+  const responseData = assembleActions({ actions: actionsD });
 
-  const responseDataA = selectFields({ responseData, actions: actionsE });
+  const responseDataA = selectFields({ responseData, actions: actionsD });
 
   const response = parseResponse({
     responseData: responseDataA,
-    actions: actionsE,
+    actions: actionsD,
   });
 
   return { response, topArgs, operationSummary };

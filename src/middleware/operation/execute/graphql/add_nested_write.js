@@ -5,25 +5,37 @@ const { isEqual } = require('lodash');
 const { pick, pickBy, omitBy, assignArray } = require('../../../../utilities');
 
 const addNestedWrite = function ({ actions }) {
-  const { actionPath: topActionPath, args: topArgs } = actions
+  const { actionPath: topActionPath, args: topArgs, args: { data } } = actions
     .find(({ actionPath }) => actionPath.length === 1);
 
-  if (!isObject(topArgs.data)) { return actions; }
+  if (!isValidData(data)) { return actions; }
 
-  const newActions = parseArgs({ args: topArgs, actionPath: topActionPath });
+  const newActions = parseArgs({
+    args: topArgs,
+    data,
+    actionPath: topActionPath,
+  });
   const newActionsA = mergeActions({ oldActions: actions, newActions });
   return newActionsA;
 };
 
-const parseArgs = function ({ args, args: { data }, actionPath }) {
-  const dataA = omitBy(data, isObject);
-  const nestedData = pickBy(data, isObject);
+const parseArgs = function ({ args, data, actionPath }) {
+  if (Array.isArray(data)) {
+    return data
+      .map((datum, index) => {
+        const nestedActionPath = [...actionPath, index];
+        return parseArgs({ args, data: datum, actionPath: nestedActionPath });
+      })
+      .reduce(assignArray, []);
+  }
+
+  const dataA = omitBy(data, isValidData);
+  const nestedData = pickBy(data, isValidData);
 
   const nestedActions = Object.entries(nestedData)
     .map(([attrName, nestedDatum]) => {
       const nestedActionPath = [...actionPath, attrName];
-      const nestedArgs = { data: nestedDatum };
-      return parseArgs({ args: nestedArgs, actionPath: nestedActionPath });
+      return parseArgs({ data: nestedDatum, actionPath: nestedActionPath });
     })
     .reduce(assignArray, []);
 
@@ -35,8 +47,12 @@ const parseArgs = function ({ args, args: { data }, actionPath }) {
   return [action, ...nestedActions];
 };
 
-const isObject = function (value) {
-  return value && value.constructor === Object;
+const isValidData = function (data) {
+  return isObject(data) || (Array.isArray(data) && data.every(isObject));
+};
+
+const isObject = function (obj) {
+  return obj && obj.constructor === Object;
 };
 
 const mergeActions = function ({ oldActions, newActions }) {

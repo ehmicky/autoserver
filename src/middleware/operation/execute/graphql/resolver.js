@@ -45,7 +45,6 @@ const fireResolver = async function ({
 };
 
 const resolver = async function ({
-  actionName,
   modelName,
   actionConstant: action,
   actionConstant: { multiple },
@@ -55,6 +54,7 @@ const resolver = async function ({
   nextLayer,
   mInput,
 }) {
+  const actionName = actionPath[actionPath.length - 1];
   const parentVal = parent[actionName];
   const isTopLevel = actionPath.length === 1;
 
