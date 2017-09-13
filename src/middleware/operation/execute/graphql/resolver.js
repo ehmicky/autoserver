@@ -65,13 +65,7 @@ const resolver = async function ({
   const argsA = getNestedArg({ args, action, parentVal, isTopLevel });
 
   // Fire database layer, retrieving value passed to children
-  const mInputA = {
-    ...mInput,
-    action,
-    actionPath,
-    modelName,
-    args: argsA,
-  };
+  const mInputA = { ...mInput, action, actionPath, modelName, args: argsA };
   const mInputB = await nextLayer(mInputA);
 
   return mInputB.response.data;
