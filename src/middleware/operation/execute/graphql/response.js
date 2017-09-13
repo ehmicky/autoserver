@@ -1,28 +1,18 @@
 'use strict';
 
-const { set } = require('../../../../utilities');
-
-const parseResponse = function ({ actions }) {
-  const data = assembleActions({ actions });
-  const type = getResponseType({ data });
+const parseResponse = function ({ responseData, actions }) {
+  const type = getResponseType({ responseData });
   const actionConstants = actions.map(({ actionConstant }) => actionConstant);
 
   return {
-    content: { data },
+    content: { data: responseData },
     type,
     actions: actionConstants,
   };
 };
 
-const assembleActions = function ({ actions }) {
-  return actions.reduce(
-    (response, { data, actionPath }) => set(response, actionPath, data),
-    {},
-  );
-};
-
-const getResponseType = function ({ data }) {
-  const mainData = data[Object.keys(data)[0]];
+const getResponseType = function ({ responseData }) {
+  const mainData = responseData[Object.keys(responseData)[0]];
   return Array.isArray(mainData) ? 'collection' : 'model';
 };
 

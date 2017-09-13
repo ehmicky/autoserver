@@ -11,6 +11,7 @@ const { augmentActions } = require('./augment');
 const { getSummary } = require('./summary');
 const { parseModels } = require('./models');
 const { fireResolvers } = require('./resolver');
+const { assembleActions } = require('./assemble');
 const { selectFields } = require('./select');
 const { parseResponse } = require('./response');
 
@@ -58,9 +59,14 @@ const executeGraphql = async function (
     mInput,
   });
 
-  const actionsD = selectFields({ actions: actionsC });
+  const responseData = assembleActions({ actions: actionsC });
 
-  const response = parseResponse({ actions: actionsD });
+  const responseDataA = selectFields({ responseData, actions: actionsC });
+
+  const response = parseResponse({
+    responseData: responseDataA,
+    actions: actionsC,
+  });
 
   return { response, topArgs, operationSummary };
 };
