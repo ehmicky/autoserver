@@ -63,8 +63,9 @@ const parseNestedActions = function ({ actions, modelsMap, topLevelAction }) {
 
 const parseNestedAction = function ({
   action,
-  action: { actionPath },
-  topLevelAction: { actionType, modelName: topModel },
+  action: { actionPath, usesTopAction },
+  topLevelAction,
+  topLevelAction: { modelName: topModel },
   modelsMap,
 }) {
   const { modelName, isArray } = getModel({
@@ -73,7 +74,19 @@ const parseNestedAction = function ({
     actionPath: actionPath.slice(1),
   });
 
+  const actionType = getNestedActionType({ usesTopAction, topLevelAction });
   return { ...action, actionType, isArray, modelName };
+};
+
+// Nested actions due to nested `args.data` reuses top-level action
+// Others are simply for selection, i.e. are find actions
+const getNestedActionType = function ({
+  usesTopAction,
+  topLevelAction: { actionType },
+}) {
+  if (!usesTopAction) { return 'find'; }
+
+  return actionType;
 };
 
 const getModel = function ({ modelsMap, modelName, actionPath }) {
