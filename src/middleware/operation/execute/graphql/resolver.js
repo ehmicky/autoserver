@@ -48,23 +48,21 @@ const resolver = async function ({
   actionName,
   modelName,
   actionConstant: action,
+  actionConstant: { multiple },
   actionPath,
   isTopLevel,
-  parent,
+  parent = {},
   args,
   nextLayer,
   mInput,
 }) {
-  // Top-level and non-top-level attributes are handled differently
-  const subResolver = isTopLevel ? topLevelModelResolver : nestedModelResolver;
+  const parentVal = parent[actionName];
 
-  // Retrieve main mInput passed to database layer
-  const {
-    directReturn,
-    args: argsA,
-  } = subResolver({ action, actionName, parent, args });
-  // Shortcuts resolver if we already know the final result
-  if (directReturn !== undefined) { return directReturn; }
+  if (isEmptyAction({ parentVal, isTopLevel })) {
+    return multiple ? [] : null;
+  }
+
+  const argsA = getNestedArg({ args, action, parentVal, isTopLevel });
 
   // Fire database layer, retrieving value passed to children
   const mInputA = {
@@ -74,15 +72,18 @@ const resolver = async function ({
     modelName,
     args: argsA,
   };
-
   const mInputB = await nextLayer(mInputA);
 
   return mInputB.response.data;
 };
 
-// Resolver for top-level models actions
-const topLevelModelResolver = function ({ args }) {
-  return { args };
+// When parent value is not defined, returns empty value
+const isEmptyAction = function ({ parentVal, isTopLevel }) {
+  return !isTopLevel &&
+    (
+      (Array.isArray(parentVal) && parentVal.length === 0) ||
+      parentVal == null
+    );
 };
 
 // Make nested models filtered by their parent model
@@ -90,30 +91,12 @@ const topLevelModelResolver = function ({ args }) {
 // then a nested query findChild() will be filtered by `id: 1`
 // If the parent returns nothing|null, the nested query won't be performed
 // and null will be returned
-const nestedModelResolver = function ({
-  parent = {},
-  actionName,
-  args,
-  action,
-}) {
-  const parentVal = parent[actionName];
-  const directReturn = getEmptyNestedArg({ parentVal, action });
-  if (directReturn !== undefined) { return { directReturn }; }
+const getNestedArg = function ({ args, action, parentVal, isTopLevel }) {
+  const shouldNestArg = !isTopLevel &&
+    nestedActionTypes.includes(action.type);
+  if (!shouldNestArg) { return args; }
 
-  const nestedArg = getNestedArg({ parentVal, action });
-  return { args: { ...args, ...nestedArg } };
-};
-
-// When parent value is not defined, returns empty value
-const getEmptyNestedArg = function ({ parentVal, action: { multiple } }) {
-  if (multiple && !Array.isArray(parentVal)) { return []; }
-  if (!multiple && parentVal == null) { return null; }
-};
-
-const getNestedArg = function ({ parentVal, action }) {
-  if (!nestedActionTypes.includes(action.type)) { return {}; }
-
-  return { filter: { id: parentVal } };
+  return { ...args, filter: { id: parentVal } };
 };
 
 const nestedActionTypes = ['find', 'delete', 'update'];
