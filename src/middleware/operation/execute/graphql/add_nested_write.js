@@ -5,25 +5,14 @@ const { isEqual } = require('lodash');
 const { pick, pickBy, omitBy, assignArray } = require('../../../../utilities');
 
 const addNestedWrite = function ({ actions }) {
-  const [topLevelAction, oldActions] = splitTopLevelAction({ actions });
-  const { actionPath: topActionPath, args: topArgs } = topLevelAction;
+  const { actionPath: topActionPath, args: topArgs } = actions
+    .find(({ actionPath }) => actionPath.length === 1);
 
   if (!isObject(topArgs.data)) { return actions; }
 
-  const [{ args: topArgsA }, ...newActions] = parseArgs({
-    args: topArgs,
-    actionPath: topActionPath,
-  });
-  const topLevelActionA = { ...topLevelAction, args: topArgsA };
-  const nestedActionsB = mergeNestedActions({ oldActions, newActions });
-  return [topLevelActionA, ...nestedActionsB];
-};
-
-const splitTopLevelAction = function ({ actions }) {
-  const topLevelAction = actions
-    .find(({ actionPath }) => actionPath.length === 1);
-  const nestedActions = actions.filter(action => action !== topLevelAction);
-  return [topLevelAction, nestedActions];
+  const newActions = parseArgs({ args: topArgs, actionPath: topActionPath });
+  const newActionsA = mergeActions({ oldActions: actions, newActions });
+  return newActionsA;
 };
 
 const parseArgs = function ({ args, args: { data }, actionPath }) {
@@ -50,23 +39,25 @@ const isObject = function (value) {
   return value && value.constructor === Object;
 };
 
-const mergeNestedActions = function ({ oldActions, newActions }) {
+const mergeActions = function ({ oldActions, newActions }) {
   const oldActionsA = oldActions.map(oldAction => {
-    const newActionA = newActions.find(
-      newAction => isEqual(newAction.actionPath, oldAction.actionPath)
-    );
-    if (!newActionA) { return oldAction; }
+    const newActionA = findAction({ actions: newActions, action: oldAction });
+    if (newActionA === undefined) { return oldAction; }
 
     const newActionB = pick(newActionA, ['args', 'usesTopAction']);
     return { ...oldAction, ...newActionB };
   });
   const newActionsA = newActions.filter(newAction => {
-    const oldActionA = oldActionsA.find(
-      oldAction => isEqual(newAction.actionPath, oldAction.actionPath)
-    );
+    const oldActionA = findAction({ actions: oldActions, action: newAction });
     return oldActionA === undefined;
   });
   return [...oldActionsA, ...newActionsA];
+};
+
+const findAction = function ({ actions, action }) {
+  return actions.find(
+    actionA => isEqual(actionA.actionPath, action.actionPath)
+  );
 };
 
 module.exports = {
