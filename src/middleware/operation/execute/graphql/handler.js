@@ -7,10 +7,13 @@ const {
 } = require('./introspection');
 const { getMainDef, getFragments } = require('./top_level');
 const { parseActions } = require('./actions');
+const { getTopArgs } = require('./top_args');
+const { addNestedWrite } = require('./add_nested_write');
 const { augmentActions } = require('./augment');
-const { getSummary } = require('./summary');
+const { getOperationSummary } = require('./operation_summary');
 const { parseModels } = require('./models');
 const { fireResolvers } = require('./resolver');
+const { removeNestedWrite } = require('./remove_nested_write');
 const { assembleActions } = require('./assemble');
 const { selectFields } = require('./select');
 const { parseResponse } = require('./response');
@@ -47,24 +50,31 @@ const executeGraphql = async function (
   const fragments = getFragments({ queryDocument });
   const { actions } = parseActions({ selectionSet, fragments, variables });
 
-  const actionsA = augmentActions({ actions });
+  const topArgs = getTopArgs({ actions });
 
-  const actionsB = parseModels({ actions: actionsA, modelsMap });
-  const { topArgs, operationSummary } = getSummary({ actions: actionsB });
+  const actionsA = addNestedWrite({ actions });
 
-  const actionsC = await fireResolvers({
-    actions: actionsB,
+  const actionsB = augmentActions({ actions: actionsA });
+
+  const operationSummary = getOperationSummary({ actions: actionsB });
+
+  const actionsC = parseModels({ actions: actionsB, modelsMap });
+
+  const actionsD = await fireResolvers({
+    actions: actionsC,
     nextLayer,
     mInput,
   });
 
-  const responseData = assembleActions({ actions: actionsC });
+  const actionsE = removeNestedWrite({ actions: actionsD });
 
-  const responseDataA = selectFields({ responseData, actions: actionsC });
+  const responseData = assembleActions({ actions: actionsE });
+
+  const responseDataA = selectFields({ responseData, actions: actionsE });
 
   const response = parseResponse({
     responseData: responseDataA,
-    actions: actionsC,
+    actions: actionsE,
   });
 
   return { response, topArgs, operationSummary };

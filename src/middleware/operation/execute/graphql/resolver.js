@@ -50,13 +50,13 @@ const resolver = async function ({
   actionConstant: action,
   actionConstant: { multiple },
   actionPath,
-  isTopLevel,
   parent = {},
   args,
   nextLayer,
   mInput,
 }) {
   const parentVal = parent[actionName];
+  const isTopLevel = actionPath.length === 1;
 
   if (isEmptyAction({ parentVal, isTopLevel })) {
     return multiple ? [] : null;
