@@ -3,7 +3,7 @@
 const { isEqual } = require('lodash');
 
 const { throwError } = require('../../../../error');
-const { pick, omit } = require('../../../../utilities');
+const { omit, assignArray } = require('../../../../utilities');
 
 const { getModel, getActionConstant } = require('./models_utility');
 
@@ -17,37 +17,30 @@ const addNestedWrite = function ({ actions, modelsMap }) {
     actionPath: topActionPath,
     modelsMap,
     topLevelAction,
-    actions,
+    oldActions: actions,
   });
-  return actionsA;
+  const actionsB = mergeActions({ oldActions: actions, actions: actionsA });
+  return actionsB;
 };
-
-  /*
-  if (Array.isArray(data)) {
-    return data
-      .map((datum, index) => {
-        const nestedActionPath = [...actionPath, index];
-        return parseArgsData({
-          args,
-          data: datum,
-          actionPath: nestedActionPath,
-          actions,
-          modelsMap,
-          topLevelAction,
-        });
-      })
-      .reduce(assignArray, []);
-  }
-  */
 
 const parseArgsData = function ({
   data,
   actionPath,
   modelsMap,
   topLevelAction,
-  actions,
+  oldActions,
 }) {
   validateData({ data, actionPath });
+
+  if (Array.isArray(data)) {
+    return parseMultipleArgsData({
+      data,
+      actionPath,
+      modelsMap,
+      topLevelAction,
+      oldActions,
+    });
+  }
 
   const nestedKeys = getNestedKeys({
     data,
@@ -55,12 +48,12 @@ const parseArgsData = function ({
     modelsMap,
     topLevelAction,
   });
-  const actionsA = parseArgsDataNested({
+  const nestedActions = getNestedActions({
     data,
     actionPath,
     modelsMap,
     topLevelAction,
-    actions,
+    oldActions,
     nestedKeys,
   });
   const action = getAction({
@@ -68,13 +61,10 @@ const parseArgsData = function ({
     actionPath,
     modelsMap,
     topLevelAction,
+    oldActions,
     nestedKeys,
   });
-  const actionsB = addAction({
-    action,
-    actions: actionsA,
-  });
-  return actionsB;
+  return [action, ...nestedActions];
 };
 
 const validateData = function ({ data, actionPath }) {
@@ -88,6 +78,25 @@ const validateData = function ({ data, actionPath }) {
 
 const isObject = function (obj) {
   return obj && obj.constructor === Object;
+};
+
+const parseMultipleArgsData = function ({
+  data,
+  actionPath,
+  modelsMap,
+  topLevelAction,
+}) {
+  return data.reduce(
+    (actionsB, datum, index) => {
+      return parseArgsData({
+        data: datum,
+        actionPath: [...actionPath, index],
+        modelsMap,
+        topLevelAction,
+        actions: actionsB,
+      });
+    },
+  );
 };
 
 const getNestedKeys = function ({
@@ -106,25 +115,24 @@ const getNestedKeys = function ({
   });
 };
 
-const parseArgsDataNested = function ({
+const getNestedActions = function ({
   data,
   actionPath,
   modelsMap,
   topLevelAction,
-  actions,
+  oldActions,
   nestedKeys,
 }) {
-  const nestedData = pick(data, nestedKeys);
-  return Object.entries(nestedData).reduce(
-    (actionsA, [attrName, datum]) => parseArgsData({
+  return Object.entries(data)
+    .filter(([attrName]) => nestedKeys.includes(attrName))
+    .map(([attrName, datum]) => parseArgsData({
       data: datum,
       actionPath: [...actionPath, attrName],
       modelsMap,
       topLevelAction,
-      actions: actionsA,
-    }),
-    actions
-  );
+      oldActions,
+    }))
+    .reduce(assignArray, []);
 };
 
 const getAction = function ({
@@ -133,6 +141,7 @@ const getAction = function ({
   modelsMap,
   topLevelAction,
   topLevelAction: { actionConstant: { type: topType } },
+  oldActions,
   nestedKeys,
 }) {
   const { modelName, isArray } = getModel({
@@ -148,26 +157,33 @@ const getAction = function ({
   const dataA = omit(data, nestedKeys);
   const args = { data: dataA };
 
-  return { actionPath, args, actionConstant, modelName };
-};
+  const action = { actionPath, args, actionConstant, modelName };
 
-const addAction = function ({ action, actions }) {
-  const oldAction = actions
-    .find(oldActionA => isEqual(oldActionA.actionPath, action.actionPath));
+  const oldAction = findAction({ actions: oldActions, action });
 
-  if (!oldAction) {
-    return [...actions, action];
-  }
+  if (!oldAction) { return action; }
 
-  const actionA = {
+  return {
     ...oldAction,
     ...action,
     args: { ...oldAction.args, ...action.args },
   };
-
-  return actions
-    .map(oldActionA => (oldActionA === oldAction ? actionA : oldActionA));
 };
+
+const mergeActions = function ({ oldActions, actions }) {
+  const oldActionsA = oldActions.filter(
+    oldAction => findAction({ actions, action: oldAction }) === undefined
+  );
+  return [...oldActionsA, ...actions];
+};
+
+const findAction = function ({ actions, action }) {
+  return actions.find(
+    actionA => isEqual(actionA.actionPath, action.actionPath)
+  );
+};
+
+// TODO: check when actions need to be sorted, and sort them before that
 
 module.exports = {
   addNestedWrite,
