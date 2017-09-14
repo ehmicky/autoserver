@@ -2,23 +2,30 @@
 
 const { isEqual } = require('lodash');
 
-const { assignArray } = require('../../../../utilities');
+const { reduceAsync, assignArray } = require('../../../../utilities');
 
 const { isTopLevelAction } = require('./utilities');
 
-const fireResolvers = async function ({
+const fireResolvers = function ({
   actions,
   nextLayer,
   mInput,
-  results = [],
 }) {
-  const [action, ...actionsA] = actions;
+  return reduceAsync(
+    actions,
+    (resultsA, action) =>
+      fireAction({ action, nextLayer, mInput, results: resultsA }),
+    [],
+  );
+};
+
+const fireAction = async function ({ action, nextLayer, mInput, results }) {
   const { actionPath } = action;
 
   const parentPath = actionPath.slice(0, -1);
   const { data: parent } = results
     .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
-  const data = await fireResolver({ parent, nextLayer, mInput, ...action });
+  const data = await resolver({ parent, nextLayer, mInput, ...action });
   const result = getResult({ data, ...action });
   const resultsA = [...results, ...result];
 
@@ -33,28 +40,15 @@ const fireResolvers = async function ({
   });
 };
 
-const fireResolver = async function ({
-  parent,
-  ...action
-}) {
-  if (Array.isArray(parent)) {
-    const promises = parent.map(item => resolver({ parent: item, ...action }));
-    return Promise.all(promises);
-  }
-
-  const result = await resolver({ parent, ...action });
-  return result;
-};
-
 const resolver = async function ({
+  parent = {},
+  nextLayer,
+  mInput,
   modelName,
   actionConstant: action,
   actionConstant: { multiple },
   actionPath,
-  parent = {},
   args,
-  nextLayer,
-  mInput,
 }) {
   const actionName = actionPath[actionPath.length - 1];
   const parentVal = parent[actionName];
