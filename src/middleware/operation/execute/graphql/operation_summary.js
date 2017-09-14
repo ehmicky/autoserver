@@ -2,10 +2,11 @@
 
 const { isEqual } = require('lodash');
 
+const { getTopLevelAction } = require('./utilities');
+
 // Retrieves `operationSummary`
 const getOperationSummary = function ({ actions }) {
-  const topLevelAction = actions
-    .find(({ actionPath }) => actionPath.length === 1);
+  const topLevelAction = getTopLevelAction({ actions });
   const { actionConstant: { type: topType } } = topLevelAction;
   return getSummary({ action: topLevelAction, actions, topType });
 };

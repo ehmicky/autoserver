@@ -3,6 +3,14 @@
 const { ACTIONS } = require('../../../../constants');
 const { throwError } = require('../../../../error');
 
+const getTopLevelAction = function ({ actions }) {
+  return actions.find(isTopLevelAction);
+};
+
+const isTopLevelAction = function ({ actionPath }) {
+  return actionPath.length === 1;
+};
+
 const getModel = function ({
   modelsMap,
   topLevelAction: { modelName, actionConstant: { multiple } },
@@ -51,6 +59,8 @@ const getActionConstant = function ({ actionType, isArray }) {
 };
 
 module.exports = {
+  getTopLevelAction,
+  isTopLevelAction,
   getModel,
   getActionConstant,
 };

@@ -5,16 +5,19 @@ const { isEqual } = require('lodash');
 const { throwError } = require('../../../../error');
 const { omit, assignArray } = require('../../../../utilities');
 
-const { getModel, getActionConstant } = require('./models_utility');
+const {
+  getTopLevelAction,
+  getModel,
+  getActionConstant,
+} = require('./utilities');
 
 const addNestedWrite = function ({ actions, modelsMap }) {
-  const topLevelAction = actions
-    .find(({ actionPath }) => actionPath.length === 1);
-  const { actionPath: topActionPath, args: { data } } = topLevelAction;
+  const topLevelAction = getTopLevelAction({ actions });
+  const { actionPath, args: { data } } = topLevelAction;
 
   const actionsA = parseArgsData({
     data,
-    actionPath: topActionPath,
+    actionPath,
     modelsMap,
     topLevelAction,
     oldActions: actions,
@@ -182,8 +185,6 @@ const findAction = function ({ actions, action }) {
     actionA => isEqual(actionA.actionPath, action.actionPath)
   );
 };
-
-// TODO: check when actions need to be sorted, and sort them before that
 
 module.exports = {
   addNestedWrite,
