@@ -8,11 +8,14 @@ const getModel = function ({
   topLevelAction: { modelName, actionConstant: { multiple } },
   actionPath,
 }) {
-  if (actionPath.length === 1) {
+  const actionPathA = actionPath
+    .slice(1)
+    .filter(key => typeof key !== 'number');
+
+  if (actionPathA.length === 0) {
     return { modelName, isArray: multiple };
   }
 
-  const actionPathA = actionPath.slice(1);
   return findModel({ modelsMap, modelName, actionPath: actionPathA });
 };
 
