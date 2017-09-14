@@ -5,7 +5,12 @@ const { singular, plural } = require('pluralize');
 
 const { throwError } = require('../../../../error');
 
-const { getModel, getActionConstant } = require('./models_utility');
+const {
+  getTopLevelAction,
+  isTopLevelAction,
+  getModel,
+  getActionConstant,
+} = require('./utilities');
 
 // Add `action.actionConstant` and `action.modelName`
 const parseModels = function ({ actions, modelsMap }) {
@@ -21,8 +26,8 @@ const parseModels = function ({ actions, modelsMap }) {
 // Parse a GraphQL query top-level action name into tokens.
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
 const parseTopLevelAction = function ({ actions, modelsMap }) {
-  const [action] = actions;
-  const { actionPath: [actionName] } = action;
+  const topLevelAction = getTopLevelAction({ actions });
+  const { actionPath: [actionName] } = topLevelAction;
 
   const { actionType, modelName } = parseName({ actionName });
 
@@ -38,7 +43,7 @@ const parseTopLevelAction = function ({ actions, modelsMap }) {
 
   validateTopLevel({ modelName: modelNameB, actionName });
 
-  return { ...action, actionConstant, modelName: modelNameB };
+  return { ...topLevelAction, actionConstant, modelName: modelNameB };
 };
 
 const parseName = function ({ actionName }) {
@@ -57,10 +62,9 @@ const validateTopLevel = function ({ modelName, actionName }) {
 };
 
 const parseNestedActions = function ({ actions, modelsMap, topLevelAction }) {
-  const nestedActions = actions.slice(1);
-  return nestedActions.map(
-    action => parseNestedAction({ action, topLevelAction, modelsMap })
-  );
+  return actions
+    .filter(action => !isTopLevelAction(action))
+    .map(action => parseNestedAction({ action, topLevelAction, modelsMap }));
 };
 
 const parseNestedAction = function ({

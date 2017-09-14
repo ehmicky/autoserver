@@ -10,6 +10,7 @@ const { parseActions } = require('./actions');
 const { getTopArgs } = require('./top_args');
 const { addNestedWrite } = require('./add_nested_write');
 const { getOperationSummary } = require('./operation_summary');
+const { sortActions } = require('./sort');
 const { parseModels } = require('./models');
 const { fireResolvers } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
@@ -54,25 +55,26 @@ const executeGraphql = async function (
   const actionsA = parseModels({ actions, modelsMap });
 
   const actionsB = addNestedWrite({ actions: actionsA, modelsMap });
-  console.log(JSON.stringify(actionsB, null, 2));
 
   const operationSummary = getOperationSummary({ actions: actionsB });
 
-  const actionsC = await fireResolvers({
-    actions: actionsB,
+  const actionsC = sortActions({ actions: actionsB });
+
+  const actionsD = await fireResolvers({
+    actions: actionsC,
     nextLayer,
     mInput,
   });
 
-  const actionsD = removeNestedWrite({ actions: actionsC });
+  const actionsE = removeNestedWrite({ actions: actionsD });
 
-  const responseData = assembleActions({ actions: actionsD });
+  const responseData = assembleActions({ actions: actionsE });
 
-  const responseDataA = selectFields({ responseData, actions: actionsD });
+  const responseDataA = selectFields({ responseData, actions: actionsE });
 
   const response = parseResponse({
     responseData: responseDataA,
-    actions: actionsD,
+    actions: actionsE,
   });
 
   return { response, topArgs, operationSummary };

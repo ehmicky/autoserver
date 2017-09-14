@@ -4,6 +4,8 @@ const { isEqual } = require('lodash');
 
 const { assignArray } = require('../../../../utilities');
 
+const { isTopLevelAction } = require('./utilities');
+
 const fireResolvers = async function ({
   actions,
   nextLayer,
@@ -56,7 +58,7 @@ const resolver = async function ({
 }) {
   const actionName = actionPath[actionPath.length - 1];
   const parentVal = parent[actionName];
-  const isTopLevel = actionPath.length === 1;
+  const isTopLevel = isTopLevelAction({ actionPath });
 
   if (isEmptyAction({ parentVal, isTopLevel })) {
     return multiple ? [] : null;
