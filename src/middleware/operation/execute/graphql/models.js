@@ -69,11 +69,7 @@ const parseNestedAction = function ({
   topLevelAction,
   modelsMap,
 }) {
-  const model = getModel({
-    modelsMap,
-    topLevelAction,
-    actionPath: actionPath.slice(1),
-  });
+  const model = getModel({ modelsMap, topLevelAction, actionPath });
 
   if (!model) {
     const message = `Attribute '${actionPath.join('.')}' is unknown`;

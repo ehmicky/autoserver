@@ -5,10 +5,15 @@ const { throwError } = require('../../../../error');
 
 const getModel = function ({
   modelsMap,
-  topLevelAction: { modelName },
+  topLevelAction: { modelName, actionConstant: { multiple } },
   actionPath,
 }) {
-  return findModel({ modelsMap, modelName, actionPath });
+  if (actionPath.length === 1) {
+    return { modelName, isArray: multiple };
+  }
+
+  const actionPathA = actionPath.slice(1);
+  return findModel({ modelsMap, modelName, actionPath: actionPathA });
 };
 
 const findModel = function ({ modelsMap, modelName, actionPath }) {
