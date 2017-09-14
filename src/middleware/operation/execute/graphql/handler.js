@@ -59,6 +59,7 @@ const executeGraphql = async function (
   const operationSummary = getOperationSummary({ actions: actionsB });
 
   const actionsC = sortActions({ actions: actionsB });
+  console.log(JSON.stringify(actionsC, null, 2));
 
   const actionsD = await fireResolvers({
     actions: actionsC,

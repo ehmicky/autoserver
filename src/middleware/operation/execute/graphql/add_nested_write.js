@@ -1,6 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
+const { uniq } = require('lodash');
 
 const { throwError } = require('../../../../error');
 const { omit, assignArray } = require('../../../../utilities');
@@ -35,16 +35,6 @@ const parseArgsData = function ({
 }) {
   validateData({ data, actionPath });
 
-  if (Array.isArray(data)) {
-    return parseMultipleArgsData({
-      data,
-      actionPath,
-      modelsMap,
-      topLevelAction,
-      oldActions,
-    });
-  }
-
   const nestedKeys = getNestedKeys({
     data,
     actionPath,
@@ -72,7 +62,7 @@ const parseArgsData = function ({
 
 const validateData = function ({ data, actionPath }) {
   const isValidData = isObject(data) ||
-    (Array.isArray(data) && data.every(isObject));
+    (Array.isArray(data) && flatten(data).every(isObject));
   if (isValidData) { return; }
 
   const message = `'data' argument at ${actionPath.join('.')} should be an object or an array of objects, instead of: ${JSON.stringify(data)}`;
@@ -83,32 +73,18 @@ const isObject = function (obj) {
   return obj && obj.constructor === Object;
 };
 
-const parseMultipleArgsData = function ({
-  data,
-  actionPath,
-  modelsMap,
-  topLevelAction,
-}) {
-  return data.reduce(
-    (actionsB, datum, index) => {
-      return parseArgsData({
-        data: datum,
-        actionPath: [...actionPath, index],
-        modelsMap,
-        topLevelAction,
-        actions: actionsB,
-      });
-    },
-  );
-};
-
 const getNestedKeys = function ({
   data,
   actionPath,
   modelsMap,
   topLevelAction,
 }) {
-  return Object.keys(data).filter(attrName => {
+  const nestedKeys = normalizeData(data)
+    .map(Object.keys)
+    .reduce(assignArray, []);
+  const nestedKeysA = uniq(nestedKeys);
+
+  return nestedKeysA.filter(attrName => {
     const model = getModel({
       modelsMap,
       topLevelAction,
@@ -126,15 +102,17 @@ const getNestedActions = function ({
   oldActions,
   nestedKeys,
 }) {
-  return Object.entries(data)
-    .filter(([attrName]) => nestedKeys.includes(attrName))
-    .map(([attrName, datum]) => parseArgsData({
-      data: datum,
-      actionPath: [...actionPath, attrName],
-      modelsMap,
-      topLevelAction,
-      oldActions,
-    }))
+  return nestedKeys
+    .map(nestedKey => {
+      const nestedData = data.map(pickData.bind(null, nestedKey));
+      return parseArgsData({
+        data: nestedData,
+        actionPath: [...actionPath, nestedKey],
+        modelsMap,
+        topLevelAction,
+        oldActions,
+      });
+    })
     .reduce(assignArray, []);
 };
 
@@ -157,7 +135,7 @@ const getAction = function ({
   // Others are simply for selection, i.e. are find actions
   const actionConstant = getActionConstant({ actionType: topType, isArray });
 
-  const dataA = omit(data, nestedKeys);
+  const dataA = omitData(nestedKeys, data);
   const args = { data: dataA };
 
   const action = { actionPath, args, actionConstant, modelName };
@@ -182,8 +160,38 @@ const mergeActions = function ({ oldActions, actions }) {
 
 const findAction = function ({ actions, action }) {
   return actions.find(
-    actionA => isEqual(actionA.actionPath, action.actionPath)
+    actionA => actionA.actionPath.join('.') === action.actionPath.join('.')
   );
+};
+
+const pickData = function (key, data) {
+  if (Array.isArray(data)) {
+    return data.map(datum => pickData(key, datum));
+  }
+
+  return data[key];
+};
+
+const omitData = function (keys, data) {
+  if (Array.isArray(data)) {
+    return data.map(datum => omitData(keys, datum));
+  }
+
+  return omit(data, keys);
+};
+
+const normalizeData = function (data) {
+  if (!Array.isArray(data)) { return [data]; }
+
+  return flatten(data);
+};
+
+const flatten = function (array) {
+  if (!Array.isArray(array)) { return [array]; }
+
+  return array
+    .map(flatten)
+    .reduce(assignArray, []);
 };
 
 module.exports = {
