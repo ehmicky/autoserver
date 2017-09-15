@@ -6,11 +6,31 @@ const { reduceAsync, assignArray } = require('../../../../utilities');
 
 const { isTopLevelAction } = require('./utilities');
 
-const fireResolvers = function ({
-  actions,
+const fireDataResolvers = function ({ actions, nextLayer, mInput }) {
+  const actionsPromises = actions
+    .map(action => fireDataAction({ action, nextLayer, mInput }));
+  return Promise.all(actionsPromises);
+};
+
+const fireDataAction = async function ({
+  action,
+  action: { actionConstant, actionPath, modelName, args },
   nextLayer,
   mInput,
 }) {
+  const mInputA = {
+    ...mInput,
+    action: actionConstant,
+    actionPath,
+    modelName,
+    args,
+  };
+  const { response: { data: response } } = await nextLayer(mInputA);
+
+  return { ...action, response };
+};
+
+const fireResolvers = function ({ actions, nextLayer, mInput }) {
   return reduceAsync(
     actions,
     (resultsA, action) =>
@@ -50,6 +70,13 @@ const resolver = async function ({
   actionPath,
   args,
 }) {
+  const mInputA = { ...mInput, action, actionPath, modelName, args };
+  const mInputB = await nextLayer(mInputA);
+
+  return mInputB.response.data;
+};
+
+  /*
   const actionName = actionPath[actionPath.length - 1];
   const parentVal = parent[actionName];
   const isTopLevel = isTopLevelAction({ actionPath });
@@ -59,13 +86,7 @@ const resolver = async function ({
   }
 
   const argsA = getNestedArg({ args, action, parentVal, isTopLevel });
-
-  // Fire database layer, retrieving value passed to children
-  const mInputA = { ...mInput, action, actionPath, modelName, args: argsA };
-  const mInputB = await nextLayer(mInputA);
-
-  return mInputB.response.data;
-};
+  */
 
 // When parent value is not defined, returns empty value
 const isEmptyAction = function ({ parentVal, isTopLevel }) {
@@ -129,5 +150,5 @@ const getAction = function ({
 };
 
 module.exports = {
-  fireResolvers,
+  fireResolvers: fireDataResolvers,
 };

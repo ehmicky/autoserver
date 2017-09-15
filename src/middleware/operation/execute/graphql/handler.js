@@ -59,7 +59,6 @@ const executeGraphql = async function (
   const operationSummary = getOperationSummary({ actions: actionsB });
 
   const actionsC = sortActions({ actions: actionsB });
-  console.log(JSON.stringify(actionsC, null, 2));
 
   const actionsD = await fireResolvers({
     actions: actionsC,
@@ -70,6 +69,7 @@ const executeGraphql = async function (
   const actionsE = removeNestedWrite({ actions: actionsD });
 
   const responseData = assembleActions({ actions: actionsE });
+  console.log(JSON.stringify(responseData, null, 2));
 
   const responseDataA = selectFields({ responseData, actions: actionsE });
 
