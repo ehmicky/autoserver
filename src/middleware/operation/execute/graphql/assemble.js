@@ -5,7 +5,14 @@ const { set } = require('../../../../utilities');
 // Merge all actions into a single nested object
 const assembleActions = function ({ actions }) {
   return actions.reduce(
-    (response, { data, actionPath }) => set(response, actionPath, data),
+    (responseA, { response, respPaths }) => {
+      return respPaths.reduce(
+        (responseB, respPath, index) => {
+          return set(responseB, respPath, response[index]);
+        },
+        responseA,
+      );
+    },
     {},
   );
 };
