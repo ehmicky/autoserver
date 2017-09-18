@@ -8,7 +8,7 @@ const resolveWrite = function ({ actions, nextLayer, mInput }) {
 
 const resolveWriteAction = async function ({
   action,
-  action: { actionConstant, actionPath, modelName, args },
+  action: { actionConstant, actionPath, modelName, args, responses },
   nextLayer,
   mInput,
 }) {
@@ -19,9 +19,16 @@ const resolveWriteAction = async function ({
     modelName,
     args,
   };
-  const { response: { data: response } } = await nextLayer(mInputA);
+  const { response: { data } } = await nextLayer(mInputA);
 
-  return { ...action, response };
+  const responsesA = responses
+    .map(response => addResponsesModel({ response, data }));
+  return { ...action, responses: responsesA };
+};
+
+const addResponsesModel = function ({ response: { id, ...rest }, data }) {
+  const model = data.find(datum => datum.id === id);
+  return { model, ...rest };
 };
 
 module.exports = {

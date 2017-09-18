@@ -15,11 +15,9 @@ const addNestedWrite = function ({ actions, modelsMap }) {
   const topLevelAction = getTopLevelAction({ actions });
   const { actionPath, args: { data } } = topLevelAction;
 
-  if (!data) { return actions; }
+  if (data === undefined) { return actions; }
 
-  const responses = Array.isArray(data)
-    ? getKeys(data).map(index => ([...actionPath, index]))
-    : [actionPath];
+  const responses = getResponses({ data, key: actionPath[0] });
   const actionsA = parseArgsData({
     data,
     actionPath,
@@ -95,7 +93,7 @@ const getNestedKeys = function ({
   topLevelAction,
 }) {
   const nestedKeys = data
-    .map(getKeys)
+    .map(Object.keys)
     .reduce(assignArray, []);
   const nestedKeysA = uniq(nestedKeys);
 
@@ -125,18 +123,11 @@ const getNestedActions = function ({
         .map(datum => (datum[nestedKey] === undefined ? [] : datum[nestedKey]))
         .reduce(assignArray, []);
       const nestedResponses = responses
-        .map((response, index) => {
-          const nestedDatum = data[index][nestedKey];
-
-          if (nestedDatum === undefined) { return []; }
-
-          if (!Array.isArray(nestedDatum)) {
-            return [[...response, nestedKey]];
-          }
-
-          return getKeys(nestedDatum)
-            .map(datumIndex => ([...response, nestedKey, datumIndex]));
-        })
+        .map((response, index) => getResponses({
+          data: data[index][nestedKey],
+          key: nestedKey,
+          response,
+        }))
         .reduce(assignArray, []);
 
       return parseArgsData({
@@ -151,12 +142,32 @@ const getNestedActions = function ({
     .reduce(assignArray, []);
 };
 
-const getKeys = function (value) {
-  const keys = Object.keys(value);
+const getResponses = function ({
+  data = [],
+  key,
+  response: { path: parentPath = [] } = {},
+}) {
+  if (!Array.isArray(data)) {
+    return getResponse({ parentPath, key, data });
+  }
 
-  if (!Array.isArray(value)) { return keys; }
+  return data.map(
+    (datum, index) => getResponse({ parentPath, key, data: datum, index }),
+  );
+};
 
-  return keys.map(key => Number(key));
+const getResponse = function ({ parentPath, key, data: { id }, index }) {
+  const path = index === undefined
+    ? [...parentPath, key]
+    : [...parentPath, key, Number(index)];
+
+  if (typeof id !== 'string') {
+    const errorPath = path.slice(1).join('.');
+    const message = `The model at 'data.${errorPath} is missing an 'id' attribute.`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  return { id, path };
 };
 
 const getAction = function ({
