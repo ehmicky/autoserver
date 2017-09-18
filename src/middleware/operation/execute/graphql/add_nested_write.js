@@ -15,6 +15,8 @@ const addNestedWrite = function ({ actions, modelsMap }) {
   const topLevelAction = getTopLevelAction({ actions });
   const { actionPath, args: { data } } = topLevelAction;
 
+  if (!data) { return actions; }
+
   const respPaths = Array.isArray(data)
     ? getKeys(data).map(index => ([...actionPath, index]))
     : [actionPath];
