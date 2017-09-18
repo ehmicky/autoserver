@@ -55,7 +55,6 @@ const executeGraphql = async function (
   const actionsA = parseModels({ actions, modelsMap });
 
   const actionsB = addNestedWrite({ actions: actionsA, modelsMap });
-  console.log(JSON.stringify(actionsB, null, 2));
 
   const operationSummary = getOperationSummary({ actions: actionsB });
 
@@ -66,6 +65,7 @@ const executeGraphql = async function (
     nextLayer,
     mInput,
   });
+  console.log(JSON.stringify(actionsD, null, 2));
 
   const actionsE = removeNestedWrite({ actions: actionsD });
 
