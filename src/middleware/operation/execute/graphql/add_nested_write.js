@@ -16,7 +16,7 @@ const addNestedWrite = function ({ actions, modelsMap }) {
   const { actionPath, args: { data } } = topLevelAction;
 
   const respPaths = Array.isArray(data)
-    ? Object.keys(data).map(index => ([...actionPath, index]))
+    ? getKeys(data).map(index => ([...actionPath, index]))
     : [actionPath];
   const actionsA = parseArgsData({
     data,
@@ -93,7 +93,7 @@ const getNestedKeys = function ({
   topLevelAction,
 }) {
   const nestedKeys = data
-    .map(Object.keys)
+    .map(getKeys)
     .reduce(assignArray, []);
   const nestedKeysA = uniq(nestedKeys);
 
@@ -132,7 +132,7 @@ const getNestedActions = function ({
             return [[...respPath, nestedKey]];
           }
 
-          return Object.keys(nestedDatum)
+          return getKeys(nestedDatum)
             .map(datumIndex => ([...respPath, nestedKey, datumIndex]));
         })
         .reduce(assignArray, []);
@@ -147,6 +147,14 @@ const getNestedActions = function ({
       });
     })
     .reduce(assignArray, []);
+};
+
+const getKeys = function (value) {
+  const keys = Object.keys(value);
+
+  if (!Array.isArray(value)) { return keys; }
+
+  return keys.map(key => Number(key));
 };
 
 const getAction = function ({
