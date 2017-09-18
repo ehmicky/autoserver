@@ -5,7 +5,12 @@
 // Those actions will be present in the `actions` array, but select will
 // be `undefined`
 const removeNestedWrite = function ({ actions }) {
-  return actions.filter(({ select }) => select);
+  return actions.map(removeNestedWriteAction);
+};
+
+const removeNestedWriteAction = function ({ responses, ...action }) {
+  const responsesA = responses.filter(({ select }) => select);
+  return { responses: responsesA, ...action };
 };
 
 module.exports = {

@@ -10,9 +10,9 @@ const selectFields = function ({ responseData, actions }) {
   return actions.reduceRight(selectFieldsByAction, responseData);
 };
 
-const selectFieldsByAction = function (responseData, { responses, select }) {
+const selectFieldsByAction = function (responseData, { responses }) {
   return responses.reduce(
-    (responseDataA, { path }) =>
+    (responseDataA, { path, select }) =>
       selectFieldsByResponse({ responseData: responseDataA, path, select }),
     responseData,
   );
