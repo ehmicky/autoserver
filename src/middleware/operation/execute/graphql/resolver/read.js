@@ -18,7 +18,7 @@ const resolveReadAction = async function ({
   action,
   action: {
     actionPath,
-    actionConstant: { type: actionType, multiple },
+    actionConstant: { multiple },
     modelName,
     args,
   },
@@ -26,32 +26,25 @@ const resolveReadAction = async function ({
   mInput,
   results,
 }) {
-  const actionConstant = getActionConstant({ actionType, isArray: true });
-
-  const parentPath = actionPath.slice(0, -1);
-  const parentAction = results
-    .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
-
-  const actionName = actionPath[actionPath.length - 1];
-  const parent = parentAction.response || [];
-  const nonFlatParent = parent.map(model => model[actionName]);
-  const flatParent = nonFlatParent.reduce(assignArray, []);
-  const isTopLevel = isTopLevelAction({ actionPath });
-
-  // When parent value is not defined, returns empty value
-  const isEmptyAction = !isTopLevel && flatParent.length === 0;
-  if (isEmptyAction) { return []; }
+  const {
+    isTopLevel,
+    actionConstant,
+    parentAction,
+    actionName,
+    nonFlatParent,
+    flatParent,
+  } = getActionInput({ action, results });
 
   const argsA = getNestedArg({ args, actionConstant, flatParent, isTopLevel });
 
-  const mInputA = {
-    ...mInput,
-    action: actionConstant,
+  const { response: { data: response } } = await fireReadAction({
+    mInput,
+    nextLayer,
+    actionConstant,
     actionPath,
     modelName,
     args: argsA,
-  };
-  const { response: { data: response } } = await nextLayer(mInputA);
+  });
 
   const result = addRespPaths({
     action,
@@ -63,6 +56,60 @@ const resolveReadAction = async function ({
     response,
   });
   return [...results, result];
+};
+
+const getActionInput = function ({
+  action: {
+    actionPath,
+    actionConstant: { type: actionType },
+  },
+  results,
+}) {
+  const isTopLevel = isTopLevelAction({ actionPath });
+  const actionConstant = getActionConstant({ actionType, isArray: true });
+
+  const parentPath = actionPath.slice(0, -1);
+  const parentAction = results
+    .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
+
+  const actionName = actionPath[actionPath.length - 1];
+  const parent = parentAction.response || [];
+  const nonFlatParent = parent.map(model => model[actionName]);
+  const flatParent = nonFlatParent.reduce(assignArray, []);
+
+  return {
+    isTopLevel,
+    actionConstant,
+    parentAction,
+    actionName,
+    nonFlatParent,
+    flatParent,
+  };
+};
+
+const fireReadAction = function ({
+  mInput,
+  nextLayer,
+  actionConstant,
+  actionPath,
+  modelName,
+  args,
+  args: { filter: { id } },
+}) {
+  // When parent value is not defined, directly returns empty value
+  if (Array.isArray(id) && id.length === 0) {
+    return [];
+  }
+
+  const mInputA = {
+    ...mInput,
+    action: actionConstant,
+    actionPath,
+    modelName,
+    args,
+  };
+
+  return nextLayer(mInputA);
 };
 
 // Make nested models filtered by their parent model
