@@ -12,7 +12,7 @@ const { addNestedWrite } = require('./add_nested_write');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort');
 const { parseModels } = require('./models');
-const { addRespPathsIds } = require('./resp_paths_id');
+const { addResponsesIds } = require('./resp_paths_id');
 const { resolveActions } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
 const { assembleActions } = require('./assemble');
@@ -61,7 +61,7 @@ const executeGraphql = async function (
 
   const actionsC = sortActions({ actions: actionsB });
 
-  const actionsD = addRespPathsIds({ actions: actionsC });
+  const actionsD = addResponsesIds({ actions: actionsC });
 
   const actionsE = await resolveActions({
     actions: actionsD,

@@ -17,13 +17,13 @@ const addNestedWrite = function ({ actions, modelsMap }) {
 
   if (!data) { return actions; }
 
-  const respPaths = Array.isArray(data)
+  const responses = Array.isArray(data)
     ? getKeys(data).map(index => ([...actionPath, index]))
     : [actionPath];
   const actionsA = parseArgsData({
     data,
     actionPath,
-    respPaths,
+    responses,
     modelsMap,
     topLevelAction,
     oldActions: actions,
@@ -35,7 +35,7 @@ const addNestedWrite = function ({ actions, modelsMap }) {
 const parseArgsData = function ({
   data,
   actionPath,
-  respPaths,
+  responses,
   modelsMap,
   topLevelAction,
   oldActions,
@@ -53,7 +53,7 @@ const parseArgsData = function ({
   const nestedActions = getNestedActions({
     data: dataA,
     actionPath,
-    respPaths,
+    responses,
     modelsMap,
     topLevelAction,
     oldActions,
@@ -62,7 +62,7 @@ const parseArgsData = function ({
   const action = getAction({
     data: dataA,
     actionPath,
-    respPaths,
+    responses,
     modelsMap,
     topLevelAction,
     oldActions,
@@ -112,7 +112,7 @@ const getNestedKeys = function ({
 const getNestedActions = function ({
   data,
   actionPath,
-  respPaths,
+  responses,
   modelsMap,
   topLevelAction,
   oldActions,
@@ -124,25 +124,25 @@ const getNestedActions = function ({
       const nestedData = data
         .map(datum => (datum[nestedKey] === undefined ? [] : datum[nestedKey]))
         .reduce(assignArray, []);
-      const nestedRespPaths = respPaths
-        .map((respPath, index) => {
+      const nestedResponses = responses
+        .map((response, index) => {
           const nestedDatum = data[index][nestedKey];
 
           if (nestedDatum === undefined) { return []; }
 
           if (!Array.isArray(nestedDatum)) {
-            return [[...respPath, nestedKey]];
+            return [[...response, nestedKey]];
           }
 
           return getKeys(nestedDatum)
-            .map(datumIndex => ([...respPath, nestedKey, datumIndex]));
+            .map(datumIndex => ([...response, nestedKey, datumIndex]));
         })
         .reduce(assignArray, []);
 
       return parseArgsData({
         data: nestedData,
         actionPath: nestedActionPath,
-        respPaths: nestedRespPaths,
+        responses: nestedResponses,
         modelsMap,
         topLevelAction,
         oldActions,
@@ -162,7 +162,7 @@ const getKeys = function (value) {
 const getAction = function ({
   data,
   actionPath,
-  respPaths,
+  responses,
   modelsMap,
   topLevelAction,
   topLevelAction: { actionConstant: { type: topType } },
@@ -190,7 +190,7 @@ const getAction = function ({
   );
   const args = { data: dataA };
 
-  const action = { actionPath, respPaths, args, actionConstant, modelName };
+  const action = { actionPath, responses, args, actionConstant, modelName };
 
   const oldAction = findAction({ actions: oldActions, action });
 

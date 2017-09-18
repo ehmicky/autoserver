@@ -7,20 +7,15 @@ const assembleActions = function ({ actions }) {
   return actions.reduce(assembleAction, {});
 };
 
-const assembleAction = function (responseData, { response, respPaths }) {
-  return respPaths.reduce(
-    (responseDataA, respPath) =>
-      assembleModel({ responseData: responseDataA, response, respPath }),
+const assembleAction = function (responseData, { responses }) {
+  return responses.reduce(
+    (responseDataA, response) =>
+      assembleModel({ responseData: responseDataA, response }),
     responseData,
   );
 };
 
-const assembleModel = function ({
-  responseData,
-  response,
-  respPath: { id, path },
-}) {
-  const model = response.find(modelA => modelA.id === id);
+const assembleModel = function ({ responseData, response: { model, path } }) {
   return set(responseData, path, model);
 };
 

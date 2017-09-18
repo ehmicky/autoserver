@@ -1,6 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
+const { isEqual, uniq } = require('lodash');
 
 const { reduceAsync, assignArray } = require('../../../../../utilities');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
@@ -31,13 +31,13 @@ const resolveReadAction = async function ({
     actionConstant,
     parentAction,
     actionName,
-    nonFlatParent,
-    flatParent,
+    nestedParentIds,
+    parentIds,
   } = getActionInput({ action, results });
 
-  const argsA = getNestedArg({ args, actionConstant, flatParent, isTopLevel });
+  const argsA = getNestedArg({ args, actionConstant, parentIds, isTopLevel });
 
-  const { response: { data: response } } = await fireReadAction({
+  const response = await fireReadAction({
     mInput,
     nextLayer,
     actionConstant,
@@ -46,15 +46,16 @@ const resolveReadAction = async function ({
     args: argsA,
   });
 
-  const result = addRespPaths({
-    action,
+  const responses = getResponses({
     actionName,
     multiple,
     isTopLevel,
     parentAction,
-    nonFlatParent,
+    nestedParentIds,
     response,
   });
+  const result = { ...action, responses };
+
   return [...results, result];
 };
 
@@ -73,43 +74,19 @@ const getActionInput = function ({
     .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
 
   const actionName = actionPath[actionPath.length - 1];
-  const parent = parentAction.response || [];
-  const nonFlatParent = parent.map(model => model[actionName]);
-  const flatParent = nonFlatParent.reduce(assignArray, []);
+  const { responses: parentResponses = [] } = parentAction;
+  const nestedParentIds = parentResponses.map(({ model }) => model[actionName]);
+  const parentIds = nestedParentIds.reduce(assignArray, []);
+  const parentIdsA = uniq(parentIds);
 
   return {
     isTopLevel,
     actionConstant,
     parentAction,
     actionName,
-    nonFlatParent,
-    flatParent,
+    nestedParentIds,
+    parentIds: parentIdsA,
   };
-};
-
-const fireReadAction = function ({
-  mInput,
-  nextLayer,
-  actionConstant,
-  actionPath,
-  modelName,
-  args,
-  args: { filter: { id } },
-}) {
-  // When parent value is not defined, directly returns empty value
-  if (Array.isArray(id) && id.length === 0) {
-    return [];
-  }
-
-  const mInputA = {
-    ...mInput,
-    action: actionConstant,
-    actionPath,
-    modelName,
-    args,
-  };
-
-  return nextLayer(mInputA);
 };
 
 // Make nested models filtered by their parent model
@@ -120,82 +97,91 @@ const fireReadAction = function ({
 const getNestedArg = function ({
   args,
   actionConstant,
-  flatParent,
+  parentIds,
   isTopLevel,
 }) {
   const shouldNestArg = !isTopLevel &&
     nestedActionTypes.includes(actionConstant.type);
   if (!shouldNestArg) { return args; }
 
-  return { ...args, filter: { id: flatParent } };
+  return { ...args, filter: { id: parentIds } };
 };
 
 const nestedActionTypes = ['find', 'delete', 'update'];
 
-const addRespPaths = function ({
-  action,
-  actionName,
-  multiple,
-  isTopLevel,
-  parentAction,
-  nonFlatParent,
-  response,
+const fireReadAction = async function ({
+  mInput,
+  nextLayer,
+  actionConstant,
+  actionPath,
+  modelName,
+  args,
+  args: { filter: { id } },
 }) {
-  const respPaths = getRespPaths({
-    actionName,
-    multiple,
-    isTopLevel,
-    parentAction,
-    nonFlatParent,
-    response,
-  });
-  return { ...action, respPaths, response };
+  // When parent value is not defined, directly returns empty value
+  if (Array.isArray(id) && id.length === 0) { return []; }
+
+  const mInputA = {
+    ...mInput,
+    action: actionConstant,
+    actionPath,
+    modelName,
+    args,
+  };
+
+  const { response: { data: response } } = await nextLayer(mInputA);
+
+  return response;
 };
 
-const getRespPaths = function ({
+const getResponses = function ({
   actionName,
   multiple,
   isTopLevel,
-  parentAction: { respPaths: parentRespPaths },
-  nonFlatParent,
+  parentAction: { responses: parentResponses },
+  nestedParentIds,
   response,
 }) {
   if (isTopLevel) {
-    return response.map(({ id }, index) =>
-      getRespPath({ id, index, actionName, multiple })
+    return response.map((model, index) =>
+      getResponse({ model, index, actionName, multiple })
     );
   }
 
-  return nonFlatParent
+  return nestedParentIds
     .map((ids, index) => {
-      const { path } = parentRespPaths[index];
-      return getEachRespPaths({ ids, actionName, multiple, path, response });
+      const { path } = parentResponses[index];
+      return getEachResponses({ ids, actionName, multiple, path, response });
     })
     .reduce(assignArray, []);
 };
 
-const getEachRespPaths = function ({
+const getEachResponses = function ({
   ids,
   actionName,
   multiple,
   path,
   response,
 }) {
-  const idsA = Array.isArray(ids) ? ids : [ids];
-
   return response
     // Make sure response's sorting is kept
-    .filter(({ id }) => idsA.includes(id))
-    .map(({ id }, ind) =>
-      getRespPath({ id, index: ind, path, actionName, multiple })
+    .filter(({ id }) => (Array.isArray(ids) ? ids.includes(id) : ids === id))
+    .map((model, ind) =>
+      getResponse({ model, index: ind, path, actionName, multiple })
     );
 };
 
-const getRespPath = function ({ id, index, path = [], actionName, multiple }) {
+const getResponse = function ({
+  model,
+  index,
+  path = [],
+  actionName,
+  multiple,
+}) {
   const pathA = multiple
     ? [...path, actionName, index]
     : [...path, actionName];
-  return { path: pathA, id };
+  return { path: pathA, model };
 };
 
 module.exports = {

@@ -2,34 +2,34 @@
 
 const { throwError } = require('../../../../error');
 
-const addRespPathsIds = function ({ actions }) {
-  return actions.map(addActionRespPathsIds);
+const addResponsesIds = function ({ actions }) {
+  return actions.map(addActionResponsesIds);
 };
 
-const addActionRespPathsIds = function (action) {
-  const { respPaths, args: { data } } = action;
+const addActionResponsesIds = function (action) {
+  const { responses, args: { data } } = action;
 
   if (data === undefined) { return action; }
 
-  if (!Array.isArray(data) || data.length !== respPaths.length) {
-    const message = `'args.data' should have same length as 'respPaths'`;
+  if (!Array.isArray(data) || data.length !== responses.length) {
+    const message = `'args.data' should have same length as 'responses'`;
     throwError(message, { reason: 'UTILITY_ERROR' });
   }
 
-  const respPathsA = respPaths
-    .map((respPath, index) => addRespPathIds({ respPath, data: data[index] }));
-  return { ...action, respPaths: respPathsA };
+  const responsesA = responses
+    .map((response, index) => addResponseIds({ response, data: data[index] }));
+  return { ...action, responses: responsesA };
 };
 
-const addRespPathIds = function ({ respPath, data: { id } }) {
-  if (!Array.isArray(respPath) || typeof id !== 'string') {
-    const message = 'Cannot calculate \'respPath\' id';
+const addResponseIds = function ({ response, data: { id } }) {
+  if (!Array.isArray(response) || typeof id !== 'string') {
+    const message = 'Cannot calculate \'response\' id';
     throwError(message, { reason: 'UTILITY_ERROR' });
   }
 
-  return { id, path: respPath };
+  return { id, path: response };
 };
 
 module.exports = {
-  addRespPathsIds,
+  addResponsesIds,
 };

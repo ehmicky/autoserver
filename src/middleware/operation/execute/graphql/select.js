@@ -10,15 +10,15 @@ const selectFields = function ({ responseData, actions }) {
   return actions.reduceRight(selectFieldsByAction, responseData);
 };
 
-const selectFieldsByAction = function (responseData, { respPaths, select }) {
-  return respPaths.reduce(
+const selectFieldsByAction = function (responseData, { responses, select }) {
+  return responses.reduce(
     (responseDataA, { path }) =>
-      selectFieldsByRespPath({ responseData: responseDataA, path, select }),
+      selectFieldsByResponse({ responseData: responseDataA, path, select }),
     responseData,
   );
 };
 
-const selectFieldsByRespPath = function ({ responseData, path, select }) {
+const selectFieldsByResponse = function ({ responseData, path, select }) {
   const model = get(responseData, path);
   const modelA = selectFieldsByModel({ model, select });
   return set(responseData, path, modelA);
