@@ -207,7 +207,7 @@ const getAction = function ({
 
   if (!oldAction) { return action; }
 
-  return {
+  const actionA = {
     // We want to keep `action` ordering, but `oldAction` should still have
     // lowest priority, so we repeat `...action`
     ...action,
@@ -215,12 +215,18 @@ const getAction = function ({
     ...action,
     args: { ...oldAction.args, ...action.args },
   };
+  return moveSelect(actionA);
 };
 
 const findAction = function ({ actions, action }) {
   return actions.find(
     actionA => actionA.actionPath.join('.') === action.actionPath.join('.')
   );
+};
+
+const moveSelect = function ({ select, responses, ...action }) {
+  const responsesA = responses.map(response => ({ ...response, select }));
+  return { responses: responsesA, ...action };
 };
 
 const filterAction = function ({ action, action: { args: { data } } }) {
