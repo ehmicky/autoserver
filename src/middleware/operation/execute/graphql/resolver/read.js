@@ -2,43 +2,19 @@
 
 const { isEqual } = require('lodash');
 
-const { reduceAsync, assignArray } = require('../../../../utilities');
+const { reduceAsync, assignArray } = require('../../../../../utilities');
+const { isTopLevelAction, getActionConstant } = require('../utilities');
 
-const { isTopLevelAction, getActionConstant } = require('./utilities');
-
-const fireDataResolvers = function ({ actions, nextLayer, mInput }) {
-  const actionsPromises = actions
-    .map(action => fireDataAction({ action, nextLayer, mInput }));
-  return Promise.all(actionsPromises);
-};
-
-const fireDataAction = async function ({
-  action,
-  action: { actionConstant, actionPath, modelName, args },
-  nextLayer,
-  mInput,
-}) {
-  const mInputA = {
-    ...mInput,
-    action: actionConstant,
-    actionPath,
-    modelName,
-    args,
-  };
-  const { response: { data: response } } = await nextLayer(mInputA);
-
-  return { ...action, response };
-};
-
-const fireFindResolvers = function ({ actions, nextLayer, mInput }) {
+const resolveRead = function ({ actions, nextLayer, mInput }) {
   return reduceAsync(
     actions,
-    (results, action) => fireFindAction({ action, nextLayer, mInput, results }),
+    (results, action) =>
+      resolveReadAction({ action, nextLayer, mInput, results }),
     [],
   );
 };
 
-const fireFindAction = async function ({
+const resolveReadAction = async function ({
   action,
   action: {
     actionPath,
@@ -176,5 +152,5 @@ const getRespPath = function ({ id, index, path = [], actionName, multiple }) {
 };
 
 module.exports = {
-  fireResolvers: fireFindResolvers,
+  resolveRead,
 };
