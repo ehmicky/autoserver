@@ -4,7 +4,7 @@ const { isEqual } = require('lodash');
 
 const { reduceAsync, assignArray } = require('../../../../utilities');
 
-const { isTopLevelAction } = require('./utilities');
+const { isTopLevelAction, getActionConstant } = require('./utilities');
 
 const fireDataResolvers = function ({ actions, nextLayer, mInput }) {
   const actionsPromises = actions
@@ -30,71 +30,63 @@ const fireDataAction = async function ({
   return { ...action, response };
 };
 
-const fireResolvers = function ({ actions, nextLayer, mInput }) {
+const fireFindResolvers = function ({ actions, nextLayer, mInput }) {
   return reduceAsync(
     actions,
-    (resultsA, action) =>
-      fireAction({ action, nextLayer, mInput, results: resultsA }),
+    (results, action) => fireFindAction({ action, nextLayer, mInput, results }),
     [],
   );
 };
 
-const fireAction = async function ({ action, nextLayer, mInput, results }) {
-  const { actionPath } = action;
-
-  const parentPath = actionPath.slice(0, -1);
-  const { data: parent } = results
-    .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
-  const data = await resolver({ parent, nextLayer, mInput, ...action });
-  const result = getResult({ data, ...action });
-  const resultsA = [...results, ...result];
-
-  const actionsB = getActions({ actions: actionsA, data, actionPath });
-  if (actionsB.length === 0) { return resultsA; }
-
-  return fireResolvers({
-    actions: actionsB,
-    nextLayer,
-    mInput,
-    results: resultsA,
-  });
-};
-
-const resolver = async function ({
-  parent = {},
+const fireFindAction = async function ({
+  action,
+  action: {
+    actionPath,
+    actionConstant: { type: actionType, multiple },
+    modelName,
+    args,
+  },
   nextLayer,
   mInput,
-  modelName,
-  actionConstant: action,
-  actionConstant: { multiple },
-  actionPath,
-  args,
+  results,
 }) {
-  const mInputA = { ...mInput, action, actionPath, modelName, args };
-  const mInputB = await nextLayer(mInputA);
+  const actionConstant = getActionConstant({ actionType, isArray: true });
 
-  return mInputB.response.data;
-};
+  const parentPath = actionPath.slice(0, -1);
+  const parentAction = results
+    .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
 
-  /*
   const actionName = actionPath[actionPath.length - 1];
-  const parentVal = parent[actionName];
+  const parent = parentAction.response || [];
+  const nonFlatParent = parent.map(model => model[actionName]);
+  const flatParent = nonFlatParent.reduce(assignArray, []);
   const isTopLevel = isTopLevelAction({ actionPath });
 
-  if (isEmptyAction({ parentVal, isTopLevel })) {
-    return multiple ? [] : null;
-  }
+  // When parent value is not defined, returns empty value
+  const isEmptyAction = !isTopLevel && flatParent.length === 0;
+  if (isEmptyAction) { return []; }
 
-  const argsA = getNestedArg({ args, action, parentVal, isTopLevel });
-  */
+  const argsA = getNestedArg({ args, actionConstant, flatParent, isTopLevel });
 
-// When parent value is not defined, returns empty value
-const isEmptyAction = function ({ parentVal, isTopLevel }) {
-  return !isTopLevel &&
-    (
-      (Array.isArray(parentVal) && parentVal.length === 0) ||
-      parentVal == null
-    );
+  const mInputA = {
+    ...mInput,
+    action: actionConstant,
+    actionPath,
+    modelName,
+    args: argsA,
+  };
+  const { response: { data: response } } = await nextLayer(mInputA);
+
+  const result = addRespPaths({
+    action,
+    actionName,
+    multiple,
+    isTopLevel,
+    parentAction,
+    nonFlatParent,
+    response,
+  });
+  return [...results, result];
 };
 
 // Make nested models filtered by their parent model
@@ -102,53 +94,87 @@ const isEmptyAction = function ({ parentVal, isTopLevel }) {
 // then a nested query findChild() will be filtered by `id: 1`
 // If the parent returns nothing|null, the nested query won't be performed
 // and null will be returned
-const getNestedArg = function ({ args, action, parentVal, isTopLevel }) {
+const getNestedArg = function ({
+  args,
+  actionConstant,
+  flatParent,
+  isTopLevel,
+}) {
   const shouldNestArg = !isTopLevel &&
-    nestedActionTypes.includes(action.type);
+    nestedActionTypes.includes(actionConstant.type);
   if (!shouldNestArg) { return args; }
 
-  return { ...args, filter: { id: parentVal } };
+  return { ...args, filter: { id: flatParent } };
 };
 
 const nestedActionTypes = ['find', 'delete', 'update'];
 
-const getResult = function ({ data, actionPath, ...rest }) {
-  if (!Array.isArray(data)) {
-    return [{ data, actionPath, ...rest }];
-  }
-
-  return data.map((datum, index) => ({
-    data: datum,
-    actionPath: [...actionPath, index],
-    ...rest,
-  }));
+const addRespPaths = function ({
+  action,
+  actionName,
+  multiple,
+  isTopLevel,
+  parentAction,
+  nonFlatParent,
+  response,
+}) {
+  const respPaths = getRespPaths({
+    actionName,
+    multiple,
+    isTopLevel,
+    parentAction,
+    nonFlatParent,
+    response,
+  });
+  return { ...action, respPaths, response };
 };
 
-const getActions = function ({ actions, data, actionPath }) {
-  if (!Array.isArray(data)) { return actions; }
+const getRespPaths = function ({
+  actionName,
+  multiple,
+  isTopLevel,
+  parentAction: { respPaths: parentRespPaths },
+  nonFlatParent,
+  response,
+}) {
+  if (isTopLevel) {
+    return response.map(({ id }, index) =>
+      getRespPath({ id, index, actionName, multiple })
+    );
+  }
 
-  return actions
-    .map(action => getAction({ action, data, actionPath }))
+  return nonFlatParent
+    .map((ids, index) => {
+      const { path } = parentRespPaths[index];
+      return getEachRespPaths({ ids, actionName, multiple, path, response });
+    })
     .reduce(assignArray, []);
 };
 
-const getAction = function ({
-  action,
-  action: { actionPath: childActionPath },
-  data,
-  actionPath,
+const getEachRespPaths = function ({
+  ids,
+  actionName,
+  multiple,
+  path,
+  response,
 }) {
-  const startPath = childActionPath.slice(0, actionPath.length);
-  if (!isEqual(startPath, actionPath)) { return [action]; }
+  const idsA = Array.isArray(ids) ? ids : [ids];
 
-  const endPath = childActionPath.slice(actionPath.length);
+  return response
+    // Make sure response's sorting is kept
+    .filter(({ id }) => idsA.includes(id))
+    .map(({ id }, ind) =>
+      getRespPath({ id, index: ind, path, actionName, multiple })
+    );
+};
 
-  return data.map((datum, index) => {
-    const actionPathA = [...startPath, index, ...endPath];
-    return { ...action, actionPath: actionPathA };
-  });
+const getRespPath = function ({ id, index, path = [], actionName, multiple }) {
+  const pathA = multiple
+    ? [...path, actionName, index]
+    : [...path, actionName];
+  return { path: pathA, id };
 };
 
 module.exports = {
-  fireResolvers: fireDataResolvers,
+  fireResolvers: fireFindResolvers,
 };
