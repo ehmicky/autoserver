@@ -17,11 +17,11 @@ const parseNestedWrite = function ({ actions, modelsMap }) {
 
   if (data === undefined) { return actions; }
 
-  const responses = getResponses({ data, key: actionPath[0] });
+  const dataPaths = getDataPath({ data, path: actionPath });
   const actionsA = parseArgsData({
     data,
     actionPath,
-    responses,
+    dataPaths,
     modelsMap,
     topLevelAction,
     oldActions: actions,
@@ -33,7 +33,7 @@ const parseNestedWrite = function ({ actions, modelsMap }) {
 const parseArgsData = function ({
   data,
   actionPath,
-  responses,
+  dataPaths,
   modelsMap,
   topLevelAction,
   oldActions,
@@ -51,7 +51,7 @@ const parseArgsData = function ({
   const nestedActions = getNestedActions({
     data: dataA,
     actionPath,
-    responses,
+    dataPaths,
     modelsMap,
     topLevelAction,
     oldActions,
@@ -60,7 +60,7 @@ const parseArgsData = function ({
   const action = getAction({
     data: dataA,
     actionPath,
-    responses,
+    dataPaths,
     modelsMap,
     topLevelAction,
     oldActions,
@@ -96,8 +96,7 @@ const getNestedKeys = function ({
     .map(Object.keys)
     .reduce(assignArray, []);
   const nestedKeysA = uniq(nestedKeys);
-
-  return nestedKeysA.filter(attrName => {
+  const nestedKeysB = nestedKeysA.filter(attrName => {
     const model = getModel({
       modelsMap,
       topLevelAction,
@@ -105,12 +104,13 @@ const getNestedKeys = function ({
     });
     return model !== undefined && model.modelName !== undefined;
   });
+  return nestedKeysB;
 };
 
 const getNestedActions = function ({
   data,
+  dataPaths,
   actionPath,
-  responses,
   modelsMap,
   topLevelAction,
   oldActions,
@@ -120,20 +120,19 @@ const getNestedActions = function ({
     .map(nestedKey => {
       const nestedActionPath = [...actionPath, nestedKey];
       const nestedData = data
-        .map(datum => (datum[nestedKey] === undefined ? [] : datum[nestedKey]))
+        .map(datum => datum[nestedKey])
         .reduce(assignArray, []);
-      const nestedResponses = responses
-        .map((response, index) => getResponses({
+      const nestedDataPaths = dataPaths
+        .map((dataPath, index) => getDataPath({
           data: data[index][nestedKey],
-          key: nestedKey,
-          response,
+          path: [...dataPath, nestedKey],
         }))
-        .reduce(assignArray, []);
+        .reduce(assignArray, [])
 
       return parseArgsData({
         data: nestedData,
         actionPath: nestedActionPath,
-        responses: nestedResponses,
+        dataPaths: nestedDataPaths,
         modelsMap,
         topLevelAction,
         oldActions,
@@ -142,38 +141,16 @@ const getNestedActions = function ({
     .reduce(assignArray, []);
 };
 
-const getResponses = function ({
-  data = [],
-  key,
-  response: { path: parentPath = [] } = {},
-}) {
-  if (!Array.isArray(data)) {
-    return getResponse({ parentPath, key, data });
-  }
+const getDataPath = function ({ data, path }) {
+  if (!Array.isArray(data)) { return [path]; }
 
-  return data.map(
-    (datum, index) => getResponse({ parentPath, key, data: datum, index }),
-  );
-};
-
-const getResponse = function ({ parentPath, key, data: { id }, index }) {
-  const path = index === undefined
-    ? [...parentPath, key]
-    : [...parentPath, key, Number(index)];
-
-  if (typeof id !== 'string') {
-    const errorPath = path.slice(1).join('.');
-    const message = `The model at 'data.${errorPath} is missing an 'id' attribute.`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  return { id, path };
+  return Object.keys(data).map(ind => [...path, Number(ind)]);
 };
 
 const getAction = function ({
   data,
   actionPath,
-  responses,
+  dataPaths,
   modelsMap,
   topLevelAction,
   topLevelAction: { actionConstant: { type: topType } },
@@ -201,7 +178,7 @@ const getAction = function ({
   );
   const args = { data: dataA };
 
-  const action = { actionPath, responses, args, actionConstant, modelName };
+  const action = { actionPath, args, actionConstant, modelName, dataPaths };
 
   const oldAction = findAction({ actions: oldActions, action });
 

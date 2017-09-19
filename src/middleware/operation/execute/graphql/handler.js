@@ -54,10 +54,10 @@ const executeGraphql = async function (
 
   const topArgs = getTopArgs({ actions: actionsA });
   const actionsB = parseNestedWrite({ actions: actionsA, modelsMap });
-  console.log(JSON.stringify(actionsB, null, 2));
   const operationSummary = getOperationSummary({ actions: actionsB });
   const actionsC = sortActions({ actions: actionsB });
 
+  console.log(JSON.stringify(actionsC, null, 2));
   const responses = await resolveActions({
     actions: actionsC,
     nextLayer,
