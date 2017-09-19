@@ -8,7 +8,7 @@ const {
 const { getMainDef, getFragments } = require('./top_level');
 const { parseActions } = require('./actions');
 const { getTopArgs } = require('./top_args');
-const { addNestedWrite } = require('./add_nested_write');
+const { parseNestedWrite } = require('./nested_write');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort');
 const { parseModels } = require('./models');
@@ -55,7 +55,7 @@ const executeGraphql = async function (
 
   const actionsA = parseModels({ actions, modelsMap });
 
-  const actionsB = addNestedWrite({ actions: actionsA, modelsMap });
+  const actionsB = parseNestedWrite({ actions: actionsA, modelsMap });
 
   const operationSummary = getOperationSummary({ actions: actionsB });
 
