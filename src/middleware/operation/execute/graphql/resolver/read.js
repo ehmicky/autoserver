@@ -126,7 +126,7 @@ const fireReadAction = async function ({
   const mInputA = {
     ...mInput,
     action: actionConstant,
-    actionPath,
+    actionPath: actionPath.join('.'),
     modelName,
     args,
   };
