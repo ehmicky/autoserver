@@ -21,7 +21,7 @@ const resolveWriteAction = async function ({
   const mInputA = {
     ...mInput,
     action: actionConstant,
-    actionPath,
+    actionPath: actionPath.join('.'),
     modelName,
     args,
   };
