@@ -14,7 +14,8 @@ const { sortActions } = require('./sort');
 const { parseModels } = require('./models');
 const { resolveActions } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
-const { assembleActions } = require('./assemble');
+const { sortResponses } = require('./sort_responses');
+const { assembleResponses } = require('./assemble');
 const { selectFields } = require('./select');
 const { parseResponse } = require('./response');
 
@@ -60,22 +61,24 @@ const executeGraphql = async function (
 
   const actionsC = sortActions({ actions: actionsB });
 
-  const actionsD = await resolveActions({
+  const responses = await resolveActions({
     actions: actionsC,
     nextLayer,
     mInput,
   });
-  console.log(JSON.stringify(actionsD, null, 2));
 
-  const actionsE = removeNestedWrite({ actions: actionsD });
+  const responsesA = removeNestedWrite({ responses });
 
-  const responseData = assembleActions({ actions: actionsE });
+  const responsesB = sortResponses({ responses: responsesA });
+  console.log(JSON.stringify(responsesB, null, 2));
 
-  const responseDataA = selectFields({ responseData, actions: actionsE });
+  const fullResponse = assembleResponses({ responses: responsesB });
 
-  const response = parseResponse({ responseData: responseDataA });
+  const fullResponseA = selectFields({ fullResponse, responses: responsesB });
 
-  return { response, topArgs, operationSummary };
+  const fullResponseB = parseResponse({ fullResponse: fullResponseA });
+
+  return { response: fullResponseB, topArgs, operationSummary };
 };
 
 module.exports = {

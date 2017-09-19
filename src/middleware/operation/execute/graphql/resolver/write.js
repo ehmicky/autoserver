@@ -1,13 +1,16 @@
 'use strict';
 
-const resolveWrite = function ({ actions, nextLayer, mInput }) {
-  const actionsPromises = actions
+const { assignArray } = require('../../../../../utilities');
+
+const resolveWrite = async function ({ actions, nextLayer, mInput }) {
+  const responsesPromises = actions
     .map(action => resolveWriteAction({ action, nextLayer, mInput }));
-  return Promise.all(actionsPromises);
+  const responses = await Promise.all(responsesPromises);
+  const responsesA = responses.reduce(assignArray, []);
+  return responsesA;
 };
 
 const resolveWriteAction = async function ({
-  action,
   action: { actionConstant, actionPath, modelName, args, responses },
   nextLayer,
   mInput,
@@ -21,9 +24,7 @@ const resolveWriteAction = async function ({
   };
   const { response: { data } } = await nextLayer(mInputA);
 
-  const responsesA = responses
-    .map(response => addResponsesModel({ response, data }));
-  return { ...action, responses: responsesA };
+  return responses.map(response => addResponsesModel({ response, data }));
 };
 
 const addResponsesModel = function ({ response: { id, ...rest }, data }) {
