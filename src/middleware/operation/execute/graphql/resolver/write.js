@@ -1,5 +1,6 @@
 'use strict';
 
+const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
 
 const resolveWrite = async function ({ actions, nextLayer, mInput }) {
@@ -11,10 +12,12 @@ const resolveWrite = async function ({ actions, nextLayer, mInput }) {
 };
 
 const resolveWriteAction = async function ({
-  action: { actionConstant, actionPath, modelName, args, responses, select },
+  action: { actionConstant, actionPath, modelName, args, select, dataPaths },
   nextLayer,
   mInput,
 }) {
+  const responses = getResponses({ dataPaths, args });
+
   const mInputA = {
     ...mInput,
     action: actionConstant,
@@ -24,8 +27,24 @@ const resolveWriteAction = async function ({
   };
   const { response: { data } } = await nextLayer(mInputA);
 
-  return responses
+  const responsesA = responses
     .map(response => addResponsesModel({ response, data, select }));
+  return responsesA;
+};
+
+const getResponses = function ({ dataPaths, args: { data } }) {
+  return dataPaths
+    .map((path, index) => getResponse({ path, data: data[index] }));
+};
+
+const getResponse = function ({ path, data: { id } }) {
+  if (typeof id !== 'string') {
+    const errorPath = path.slice(1).join('.');
+    const message = `The model at 'data.${errorPath} is missing an 'id' attribute.`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  return { id, path };
 };
 
 const addResponsesModel = function ({
