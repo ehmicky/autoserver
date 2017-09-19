@@ -12,11 +12,8 @@ const silent = function ({
   operation,
   settings: { silent: silentSettings },
   response,
-  response: { actions },
 }) {
-  const isDelete = actions && actions.some(({ type }) => type === 'delete');
-  const shouldRemoveOutput = isDelete || silentSettings;
-  if (!shouldRemoveOutput) { return; }
+  if (!silentSettings) { return; }
 
   const responseA = operations[operation].silent(response);
   return { response: responseA };

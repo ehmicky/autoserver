@@ -17,13 +17,9 @@ be specified:
 The settings `silent` will force the server to return an empty response.
 The database will still be modified.
 
-This defaults to `true` for the `delete` action, `false` otherwise.
-
 This can also be set using the standard HTTP header `Prefer: return=minimal`.
 
 # Dry runs
 
 When using the settings `dryrun`, no modification will be applied to the
 database, but the return value will be the same as if it did.
-
-This defaults to `false`.

@@ -73,10 +73,7 @@ const executeGraphql = async function (
 
   const responseDataA = selectFields({ responseData, actions: actionsE });
 
-  const response = parseResponse({
-    responseData: responseDataA,
-    actions: actionsE,
-  });
+  const response = parseResponse({ responseData: responseDataA });
 
   return { response, topArgs, operationSummary };
 };
