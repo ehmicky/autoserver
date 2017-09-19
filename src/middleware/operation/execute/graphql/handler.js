@@ -66,11 +66,11 @@ const executeGraphql = async function (
     nextLayer,
     mInput,
   });
+  console.log(JSON.stringify(responses, null, 2));
 
   const responsesA = removeNestedWrite({ responses });
 
   const responsesB = sortResponses({ responses: responsesA });
-  console.log(JSON.stringify(responsesB, null, 2));
 
   const fullResponse = assembleResponses({ responses: responsesB });
 
