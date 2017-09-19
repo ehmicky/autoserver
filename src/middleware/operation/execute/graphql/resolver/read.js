@@ -2,14 +2,14 @@
 
 const { isEqual, uniq } = require('lodash');
 
-const { reduceAsync, assignArray, omit } = require('../../../../../utilities');
+const { reduceAsync, assignArray } = require('../../../../../utilities');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
 
 const resolveRead = function ({ actions, nextLayer, mInput }) {
   return reduceAsync(
     actions,
-    (results, action) =>
-      resolveReadAction({ action, nextLayer, mInput, results }),
+    (responses, action) =>
+      resolveReadAction({ action, nextLayer, mInput, responses }),
     [],
   );
 };
@@ -25,16 +25,16 @@ const resolveReadAction = async function ({
   },
   nextLayer,
   mInput,
-  results,
+  responses,
 }) {
   const {
     isTopLevel,
     actionConstant,
-    parentAction,
+    parentResponses,
     actionName,
     nestedParentIds,
     parentIds,
-  } = getActionInput({ action, results });
+  } = getActionInput({ action, responses });
 
   const argsA = getNestedArg({ args, actionConstant, parentIds, isTopLevel });
 
@@ -47,19 +47,17 @@ const resolveReadAction = async function ({
     args: argsA,
   });
 
-  const responses = getResponses({
+  const responsesA = getResponses({
     actionName,
     multiple,
     isTopLevel,
-    parentAction,
+    parentResponses,
     nestedParentIds,
     response,
     select,
   });
-  const result = { ...action, responses };
-  const resultA = omit(result, 'select');
 
-  return [...results, resultA];
+  return [...responses, ...responsesA];
 };
 
 const getActionInput = function ({
@@ -67,17 +65,18 @@ const getActionInput = function ({
     actionPath,
     actionConstant: { type: actionType },
   },
-  results,
+  responses,
 }) {
   const isTopLevel = isTopLevelAction({ actionPath });
   const actionConstant = getActionConstant({ actionType, isArray: true });
 
   const parentPath = actionPath.slice(0, -1);
-  const parentAction = results
-    .find(({ actionPath: path }) => isEqual(path, parentPath)) || {};
+  const parentResponses = responses.filter(({ path }) => {
+    const pathA = path.filter(index => typeof index !== 'number');
+    return isEqual(pathA, parentPath);
+  });
 
   const actionName = actionPath[actionPath.length - 1];
-  const { responses: parentResponses = [] } = parentAction;
   const nestedParentIds = parentResponses.map(({ model }) => model[actionName]);
   const parentIds = nestedParentIds.reduce(assignArray, []);
   const parentIdsA = uniq(parentIds);
@@ -85,7 +84,7 @@ const getActionInput = function ({
   return {
     isTopLevel,
     actionConstant,
-    parentAction,
+    parentResponses,
     actionName,
     nestedParentIds,
     parentIds: parentIdsA,
@@ -141,7 +140,7 @@ const getResponses = function ({
   actionName,
   multiple,
   isTopLevel,
-  parentAction: { responses: parentResponses },
+  parentResponses,
   nestedParentIds,
   response,
   select,
