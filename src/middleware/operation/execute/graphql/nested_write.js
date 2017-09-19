@@ -11,7 +11,7 @@ const {
   getActionConstant,
 } = require('./utilities');
 
-const addNestedWrite = function ({ actions, modelsMap }) {
+const parseNestedWrite = function ({ actions, modelsMap }) {
   const topLevelAction = getTopLevelAction({ actions });
   const { actionPath, args: { data } } = topLevelAction;
 
@@ -244,5 +244,5 @@ const mergeActions = function ({ oldActions, actions }) {
 };
 
 module.exports = {
-  addNestedWrite,
+  parseNestedWrite,
 };
