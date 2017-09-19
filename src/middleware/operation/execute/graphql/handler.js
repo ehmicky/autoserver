@@ -50,15 +50,12 @@ const executeGraphql = async function (
   const { selectionSet } = getMainDef({ queryDocument, operationName, goal });
   const fragments = getFragments({ queryDocument });
   const { actions } = parseActions({ selectionSet, fragments, variables });
-
-  const topArgs = getTopArgs({ actions });
-
   const actionsA = parseModels({ actions, modelsMap });
 
+  const topArgs = getTopArgs({ actions: actionsA });
   const actionsB = parseNestedWrite({ actions: actionsA, modelsMap });
-
+  console.log(JSON.stringify(actionsB, null, 2));
   const operationSummary = getOperationSummary({ actions: actionsB });
-
   const actionsC = sortActions({ actions: actionsB });
 
   const responses = await resolveActions({
@@ -66,16 +63,12 @@ const executeGraphql = async function (
     nextLayer,
     mInput,
   });
-  console.log(JSON.stringify(responses, null, 2));
 
   const responsesA = removeNestedWrite({ responses });
-
   const responsesB = sortResponses({ responses: responsesA });
 
   const fullResponse = assembleResponses({ responses: responsesB });
-
   const fullResponseA = selectFields({ fullResponse, responses: responsesB });
-
   const fullResponseB = parseResponse({ fullResponse: fullResponseA });
 
   return { response: fullResponseB, topArgs, operationSummary };
