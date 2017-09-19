@@ -1,16 +1,16 @@
 'use strict';
 
-const parseResponse = function ({ responseData }) {
-  const type = getResponseType({ responseData });
+const parseResponse = function ({ fullResponse }) {
+  const type = getResponseType({ fullResponse });
 
   return {
-    content: { data: responseData },
+    content: { data: fullResponse },
     type,
   };
 };
 
-const getResponseType = function ({ responseData }) {
-  const mainData = responseData[Object.keys(responseData)[0]];
+const getResponseType = function ({ fullResponse }) {
+  const mainData = fullResponse[Object.keys(fullResponse)[0]];
   return Array.isArray(mainData) ? 'collection' : 'model';
 };
 
