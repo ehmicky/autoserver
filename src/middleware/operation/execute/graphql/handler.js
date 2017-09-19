@@ -11,6 +11,7 @@ const { getTopArgs } = require('./top_args');
 const { parseNestedWrite } = require('./nested_write');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
+const { mergeWriteActions } = require('./merge_write');
 const { parseModels } = require('./models');
 const { resolveActions } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
@@ -56,10 +57,11 @@ const executeGraphql = async function (
   const actionsB = parseNestedWrite({ actions: actionsA, modelsMap });
   const operationSummary = getOperationSummary({ actions: actionsB });
   const actionsC = sortActions({ actions: actionsB });
+  const actionsD = mergeWriteActions({ actions: actionsC });
+  console.log(JSON.stringify(actionsD, null, 2));
 
-  console.log(JSON.stringify(actionsC, null, 2));
   const responses = await resolveActions({
-    actions: actionsC,
+    actions: actionsD,
     nextLayer,
     mInput,
   });

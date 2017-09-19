@@ -3,57 +3,81 @@
 const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
 
-const resolveWrite = async function ({ actions, nextLayer, mInput }) {
-  const responsesPromises = actions
-    .map(action => resolveWriteAction({ action, nextLayer, mInput }));
+const resolveWrite = async function ({
+  actions: actionsGroups,
+  nextLayer,
+  mInput,
+}) {
+  const responsesPromises = actionsGroups.map(actionsGroup =>
+    resolveWriteAction({ actionsGroup, nextLayer, mInput })
+  );
   const responses = await Promise.all(responsesPromises);
   const responsesA = responses.reduce(assignArray, []);
   return responsesA;
 };
 
 const resolveWriteAction = async function ({
-  action: { actionConstant, actionPath, modelName, args, select, dataPaths },
+  actionsGroup,
   nextLayer,
   mInput,
 }) {
-  const responses = getResponses({ dataPaths, args });
+  const [{ actionConstant, modelName }] = actionsGroup;
+  const actionPathA = mergeActionPaths({ actionsGroup });
+  const dataPathsA = mergeDataPaths({ actionsGroup });
+  const argsA = mergeArgs({ actionsGroup });
 
   const mInputA = {
     ...mInput,
     action: actionConstant,
-    actionPath: actionPath.join('.'),
+    actionPath: actionPathA,
     modelName,
-    args,
+    args: argsA,
   };
   const { response: { data } } = await nextLayer(mInputA);
 
-  const responsesA = responses
-    .map(response => addResponsesModel({ response, data, select }));
-  return responsesA;
+  const responses = dataPathsA
+    .map(dataPath => addResponsesModel({ data, ...dataPath }));
+  return responses;
 };
 
-const getResponses = function ({ dataPaths, args: { data } }) {
-  return dataPaths
-    .map((path, index) => getResponse({ path, data: data[index] }));
+const mergeActionPaths = function ({ actionsGroup }) {
+  return actionsGroup
+    .reduce(
+      (actionPaths, { actionPath }) => [...actionPaths, actionPath.join('.')],
+      [],
+    )
+    .join(', ');
 };
 
-const getResponse = function ({ path, data: { id } }) {
-  if (typeof id !== 'string') {
-    const errorPath = path.slice(1).join('.');
-    const message = `The model at 'data.${errorPath} is missing an 'id' attribute.`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  return { id, path };
+const mergeDataPaths = function ({ actionsGroup }) {
+  return actionsGroup
+    .map(({ args: { data }, dataPaths, select }) =>
+      dataPaths.map((path, index) => ({ path, id: data[index].id, select }))
+    )
+    .reduce(assignArray, []);
 };
 
-const addResponsesModel = function ({
-  response: { id, ...rest },
-  data,
-  select,
-}) {
+const mergeArgs = function ({ actionsGroup }) {
+  const data = actionsGroup
+    .map(({ args }) => args.data)
+    .reduce(assignArray, [])
+    // Removes duplicates
+    .filter((model, index, allData) => {
+      if (typeof model.id !== 'string') {
+        const message = `A model in 'data' is missing an 'id' attribute: '${JSON.stringify(model)}'`;
+        throwError(message, { reason: 'INPUT_VALIDATION' });
+      }
+
+      return allData
+        .slice(0, index)
+        .every(({ id }) => model.id !== id);
+    });
+  return { data };
+};
+
+const addResponsesModel = function ({ data, path, id, select }) {
   const model = data.find(datum => datum.id === id);
-  return { model, select, ...rest };
+  return { model, path, select };
 };
 
 module.exports = {
