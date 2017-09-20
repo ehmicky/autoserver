@@ -27,6 +27,7 @@ const executeGraphql = async function (
     queryVars,
     payload,
     mInput,
+    method,
   },
   nextLayer,
 ) {
@@ -47,7 +48,10 @@ const executeGraphql = async function (
     });
   }
 
-  const { mainDef, fragments } = getMainDef({ queryDocument, operationName });
+  const {
+    mainDef,
+    fragments,
+  } = getMainDef({ queryDocument, operationName, method });
   const actions = parseActions({ mainDef, fragments, variables });
   const actionsA = parseModels({ actions, modelsMap });
 

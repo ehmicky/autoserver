@@ -6,11 +6,12 @@ const getMainDef = function ({
   queryDocument,
   queryDocument: { definitions },
   operationName,
+  method,
 }) {
   const mainDef = getDef({ definitions, operationName });
 
   validateMainDef({ mainDef, operationName });
-  validateMainSelection({ mainDef });
+  validateMainSelection({ mainDef, method });
 
   const fragments = getFragments({ queryDocument });
 
@@ -38,7 +39,8 @@ const validateMainDef = function ({ mainDef, operationName }) {
 };
 
 const validateMainSelection = function ({
-  mainDef: { selectionSet: { selections } },
+  mainDef: { selectionSet: { selections }, operation },
+  method,
 }) {
   if (selections.length > 1) {
     const names = getOperationNames({ selections });
@@ -48,6 +50,11 @@ const validateMainSelection = function ({
 
   if (selections[0].kind !== 'Field') {
     const message = 'Cannot use a GraphQL fragment as the main operation';
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+  }
+
+  if (method === 'find' && operation !== 'query') {
+    const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 };
