@@ -12,13 +12,7 @@ const defaults = {
   },
 
   orderBy: {
-    commands: [
-      'readMany',
-      'deleteMany',
-      'updateMany',
-      'upsertMany',
-      'createMany',
-    ],
+    commands: ['readMany', 'deleteMany'],
     value: [{ attrName: 'id', order: 'asc' }],
     test: ({ args }) => hasNoPaginationTokens({ args }),
   },

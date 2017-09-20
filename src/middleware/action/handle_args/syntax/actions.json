@@ -28,7 +28,7 @@
     "required": ["single_data"]
   },
   "createMany": {
-    "optional": ["order_by", "page_size"],
+    "optional": ["page_size"],
     "required": ["multiple_data"]
   },
   "replaceOne": {
@@ -36,7 +36,7 @@
     "required": ["single_data_with_id"]
   },
   "replaceMany": {
-    "optional": ["order_by", "page_size"],
+    "optional": ["page_size"],
     "required": ["multiple_data_with_id"]
   },
   "upsertOne": {
@@ -44,7 +44,7 @@
     "required": ["single_data_with_id"]
   },
   "upsertMany": {
-    "optional": ["order_by", "page_size"],
+    "optional": ["page_size"],
     "required": ["multiple_data_with_id"]
   }
 }
