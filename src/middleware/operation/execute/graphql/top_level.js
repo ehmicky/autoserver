@@ -21,8 +21,8 @@ const getMainDef = function ({
 const getDef = function ({ definitions, operationName }) {
   return definitions
     .filter(({ kind }) => kind === 'OperationDefinition')
-    .find(({ name: { value: name } = {} }) =>
-      !operationName || name === operationName
+    .find(({ name }) =>
+      !operationName || (name && name.value) === operationName
     );
 };
 
