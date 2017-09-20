@@ -2,16 +2,16 @@
 
 const { isEqual, uniq } = require('lodash');
 
-const { reduceAsync, assignArray } = require('../../../../../utilities');
+const { assignArray } = require('../../../../../utilities');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
 
-const resolveRead = function ({ actions, nextLayer, mInput }) {
-  return reduceAsync(
-    actions,
-    (responses, action) =>
-      resolveReadAction({ action, nextLayer, mInput, responses }),
-    [],
-  );
+const resolveRead = function ({
+  actionsGroups: [[action]],
+  nextLayer,
+  mInput,
+  responses,
+}) {
+  return resolveReadAction({ action, nextLayer, mInput, responses });
 };
 
 const resolveReadAction = async function ({
