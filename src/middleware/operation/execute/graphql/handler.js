@@ -26,7 +26,6 @@ const executeGraphql = async function (
     idl: { GraphQLSchema: schema, shortcuts: { modelsMap } },
     queryVars,
     payload,
-    goal,
     mInput,
   },
   nextLayer,
@@ -48,10 +47,7 @@ const executeGraphql = async function (
     });
   }
 
-  const {
-    mainDef,
-    fragments,
-  } = getMainDef({ queryDocument, operationName, goal });
+  const { mainDef, fragments } = getMainDef({ queryDocument, operationName });
   const actions = parseActions({ mainDef, fragments, variables });
   const actionsA = parseModels({ actions, modelsMap });
 

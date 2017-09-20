@@ -11,21 +11,21 @@ const getRoutes = function ({ rawRoutes }) {
   return rawRoutes.map(rawRoute => getRoute(rawRoute));
 };
 
-const getRoute = function ({ path, name, goal }) {
+const getRoute = function ({ path, name, method }) {
   const regexp = pathToRegExp(path);
   const variables = regexp.keys.map(key => key.name);
-  const goals = goal && !Array.isArray(goal) ? [goal] : goal;
+  const methods = method && !Array.isArray(method) ? [method] : method;
 
-  return { path, name, regexp, variables, goals };
+  return { path, name, regexp, variables, methods };
 };
 
 const exportedRoutes = getRoutes({ rawRoutes: allRoutes });
 
 // Retrieves correct route, according to path
-const findRoute = function ({ routes, path, goal }) {
-  // Check path and goals
-  const route = routes.find(({ regexp, goals }) =>
-    regexp.test(path) && (!goals || goals.includes(goal))
+const findRoute = function ({ routes, path, method }) {
+  // Check path and methods
+  const route = routes.find(({ regexp, methods }) =>
+    regexp.test(path) && (!methods || methods.includes(method))
   );
 
   if (!route) {
