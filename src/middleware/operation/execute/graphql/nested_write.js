@@ -203,9 +203,16 @@ const filterAction = function ({ action, action: { args: { data } } }) {
 const mergeActions = function ({ oldActions, actions }) {
   const actionsA = actions.map(action => {
     const oldAction = findAction({ actions: oldActions, action });
+    if (!oldAction) { return action; }
+
     // We want `action` to have priority, but also want to keep keys order,
     // hence we repeat `...action`
-    return { ...action, ...oldAction, ...action };
+    return {
+      ...action,
+      ...oldAction,
+      ...action,
+      args: { ...oldAction.args, ...action.args },
+    };
   });
 
   const oldActionsA = oldActions.filter(oldAction => {

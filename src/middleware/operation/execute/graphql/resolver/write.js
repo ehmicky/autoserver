@@ -54,6 +54,7 @@ const mergeDataPaths = function ({ actionsGroup }) {
 };
 
 const mergeArgs = function ({ actionsGroup }) {
+  actionsGroup.forEach(({ args }) => validateWriteArgs({ args }));
   const data = actionsGroup
     .map(({ args }) => args.data)
     .reduce(assignArray, [])
@@ -70,6 +71,18 @@ const mergeArgs = function ({ actionsGroup }) {
     });
   return { data };
 };
+
+const validateWriteArgs = function ({ args }) {
+  const argsKeys = Object.keys(args);
+  const forbiddenArgs = argsKeys
+    .filter(argKey => !allowedArgs.includes(argKey));
+  if (forbiddenArgs.length === 0) { return; }
+
+  const message = `Unknown arguments: ${forbiddenArgs.join(', ')}`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
+};
+
+const allowedArgs = ['data'];
 
 const addResponsesModel = function ({ data, path, id, select }) {
   const model = data.find(datum => datum.id === id);
