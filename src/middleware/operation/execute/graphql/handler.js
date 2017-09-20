@@ -5,7 +5,7 @@ const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
-const { getMainDef, getFragments } = require('./top_level');
+const { getMainDef } = require('./top_level');
 const { parseActions } = require('./actions');
 const { getTopArgs } = require('./top_args');
 const { parseNestedWrite } = require('./nested_write');
@@ -48,9 +48,11 @@ const executeGraphql = async function (
     });
   }
 
-  const { selectionSet } = getMainDef({ queryDocument, operationName, goal });
-  const fragments = getFragments({ queryDocument });
-  const { actions } = parseActions({ selectionSet, fragments, variables });
+  const {
+    mainDef,
+    fragments,
+  } = getMainDef({ queryDocument, operationName, goal });
+  const actions = parseActions({ mainDef, fragments, variables });
   const actionsA = parseModels({ actions, modelsMap });
 
   const topArgs = getTopArgs({ actions: actionsA });
