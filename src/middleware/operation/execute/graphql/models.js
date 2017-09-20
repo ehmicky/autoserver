@@ -51,8 +51,8 @@ const parseName = function ({ actionName }) {
   return { actionType, modelName };
 };
 
-// Matches e.g. 'findMyModels' -> ['find', 'MyModels'];
-const nameRegExp = /^([a-z0-9]+)([A-Z][a-zA-Z0-9]*)/;
+// Matches e.g. 'find_my_models' -> ['find', 'my_models'];
+const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)/;
 
 const validateTopLevel = function ({ modelName, actionName }) {
   if (modelName) { return; }
