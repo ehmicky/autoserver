@@ -43,11 +43,7 @@ Network protocol, e.g. `HTTP`.
 
 ## Method
 
-Protocol-specific method, e.g. `GET` or `POST`.
-
-## Goal
-
-Like method, but protocol-agnostic, e.g. `find` or `create`.
+Protocol-agnostic method, e.g. `find` or `create`.
 
 ## Payload
 

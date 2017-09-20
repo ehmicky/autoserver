@@ -6,11 +6,10 @@ const getMainDef = function ({
   queryDocument,
   queryDocument: { definitions },
   operationName,
-  goal,
 }) {
   const mainDef = getDef({ definitions, operationName });
 
-  validateMainDef({ mainDef, operationName, goal });
+  validateMainDef({ mainDef, operationName });
   validateMainSelection({ mainDef });
 
   const fragments = getFragments({ queryDocument });
@@ -26,7 +25,7 @@ const getDef = function ({ definitions, operationName }) {
     );
 };
 
-const validateMainDef = function ({ mainDef, operationName, goal }) {
+const validateMainDef = function ({ mainDef, operationName }) {
   if (!mainDef && operationName) {
     const message = `Could not find GraphQL operation '${operationName}'`;
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
@@ -34,11 +33,6 @@ const validateMainDef = function ({ mainDef, operationName, goal }) {
 
   if (!mainDef) {
     const message = 'Missing GraphQL query';
-    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
-  }
-
-  if (goal === 'find' && mainDef.operation !== 'query') {
-    const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 };

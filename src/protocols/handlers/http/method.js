@@ -1,16 +1,11 @@
 'use strict';
 
-// Retrieves HTTP method
+// Retrieves HTTP method, but protocol-agnostic
 const getMethod = function ({ specific: { req: { method } } }) {
-  return method;
+  return methodsMap[method];
 };
 
-// Turn a HTTP method into a protocol-agnostic "goal"
-const getGoal = function ({ method }) {
-  return goalMap[method];
-};
-
-const goalMap = {
+const methodsMap = {
   GET: 'find',
   POST: 'create',
   PUT: 'replace',
@@ -20,5 +15,4 @@ const goalMap = {
 
 module.exports = {
   getMethod,
-  getGoal,
 };
