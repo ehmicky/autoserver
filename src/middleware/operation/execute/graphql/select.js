@@ -17,7 +17,9 @@ const selectFieldsByResponse = function (fullResponse, { path, select }) {
 };
 
 const selectFieldsByModel = function ({ model, select }) {
-  if (model == null) { return model; }
+  const isEmpty = model == null ||
+    (Array.isArray(model) && model.length === 0);
+  if (isEmpty) { return model; }
 
   // Make sure return value is sorted in the same order as `select`
   const modelA = select

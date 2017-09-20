@@ -12,8 +12,12 @@ const parseResponse = function ({ fullResponse }) {
 
 // Remove top-level key, e.g. `findModels`
 const removeTopLevel = function ({ fullResponse }) {
-  const [topLevelKey] = Object.keys(fullResponse);
-  return fullResponse[topLevelKey];
+  const topLevelKeys = Object.keys(fullResponse);
+
+  // Empty response
+  if (topLevelKeys.length === 0) { return []; }
+
+  return fullResponse[topLevelKeys[0]];
 };
 
 const getResponseType = function ({ data }) {
