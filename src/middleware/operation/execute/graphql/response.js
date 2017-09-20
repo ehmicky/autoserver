@@ -1,17 +1,23 @@
 'use strict';
 
 const parseResponse = function ({ fullResponse }) {
-  const type = getResponseType({ fullResponse });
+  const data = removeTopLevel({ fullResponse });
+  const type = getResponseType({ data });
 
   return {
-    content: { data: fullResponse },
+    content: { data },
     type,
   };
 };
 
-const getResponseType = function ({ fullResponse }) {
-  const mainData = fullResponse[Object.keys(fullResponse)[0]];
-  return Array.isArray(mainData) ? 'collection' : 'model';
+// Remove top-level key, e.g. `findModels`
+const removeTopLevel = function ({ fullResponse }) {
+  const [topLevelKey] = Object.keys(fullResponse);
+  return fullResponse[topLevelKey];
+};
+
+const getResponseType = function ({ data }) {
+  return Array.isArray(data) ? 'collection' : 'model';
 };
 
 module.exports = {
