@@ -18,7 +18,7 @@ E.g. the following query:
 
 ```graphql
 query {
-  findUsers {
+  find_users {
     id
     name
   }
@@ -29,13 +29,11 @@ Will respond with:
 
 ```json
 {
-  "data": {
-    "findUsers": [
-      { "id": "1", "name": "Anthony" },
-      { "id": "2", "name": "Tom" },
-      { "id": "3", "name": "Anna" }
-    ]
-  }
+  "data": [
+    { "id": "1", "name": "Anthony" },
+    { "id": "2", "name": "Tom" },
+    { "id": "3", "name": "Anna" }
+  ]
 }
 ```
 
@@ -44,7 +42,7 @@ in singular, and specify the model `id`, e.g.:
 
 ```graphql
 query {
-  findUser(filter: {id: "1"}) {
+  find_user(filter: {id: "1"}) {
     id
     name
     manager
@@ -57,11 +55,9 @@ Will respond with:
 ```json
 {
   "data": {
-    "findUsers": {
-      "id": "1",
-      "name": "Anthony",
-      "manager": "3"
-    },
+    "id": "1",
+    "name": "Anthony",
+    "manager": "3"
   }
 }
 ```
@@ -77,7 +73,7 @@ The following actions are also available.
 
 ```graphql
 mutation {
-  deleteUser(filter: {id: "1"}) {
+  delete_user(filter: {id: "1"}) {
     id
     name
   }
@@ -86,7 +82,7 @@ mutation {
 
 ```graphql
 mutation {
-  deleteUsers(filter: {country: "Denmark"}) {
+  delete_users(filter: {country: "Denmark"}) {
     id
     name
   }
@@ -98,7 +94,7 @@ REST's `PATCH` method):
 
 ```graphql
 mutation {
-  updateUser(filter: {id: "1"}, data: {city: "Copenhagen"}) {
+  update_user(filter: {id: "1"}, data: {city: "Copenhagen"}) {
     id
     name
   }
@@ -107,7 +103,7 @@ mutation {
 
 ```graphql
 mutation {
-  updateUsers(filter: {country: "Denmark"}, data: {city: "Copenhagen"}) {
+  update_users(filter: {country: "Denmark"}, data: {city: "Copenhagen"}) {
     id
     name
   }
@@ -118,7 +114,7 @@ mutation {
 
 ```graphql
 mutation {
-  replaceUser(data: {id: "1", name: "David"}) {
+  replace_user(data: {id: "1", name: "David"}) {
     id
     name
   }
@@ -127,7 +123,7 @@ mutation {
 
 ```graphql
 mutation {
-  replaceUsers(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
+  replace_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
     id
     name
   }
@@ -138,7 +134,7 @@ mutation {
 
 ```graphql
 mutation {
-  createUser(data: {id: "4", name: "David"}) {
+  create_user(data: {id: "4", name: "David"}) {
     id
     name
   }
@@ -147,7 +143,7 @@ mutation {
 
 ```graphql
 mutation {
-  createUsers(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
+  create_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
     id
     name
   }
@@ -158,7 +154,7 @@ mutation {
 
 ```graphql
 mutation {
-  upsertUser(data: {id: "1", name: "David"}) {
+  upsert_user(data: {id: "1", name: "David"}) {
     id
     name
   }
@@ -167,7 +163,7 @@ mutation {
 
 ```graphql
 mutation {
-  upsertUsers(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
+  upsert_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
     id
     name
   }
@@ -176,15 +172,14 @@ mutation {
 
 # Nested models
 
-One can retrieve or modify nested models, e.g.:
+One can retrieve nested models, e.g.:
 
 ```graphql
 query {
-  findUser(filter: {id: "1"}) {
+  find_user(filter: {id: "1"}) {
     id
     name
-    manager
-    findManager {
+    manager {
       id
       name
     }
@@ -197,34 +192,19 @@ will respond with:
 ```json
 {
   "data": {
-    "findUsers": {
-      "id": "1",
-      "name": "Anthony",
-      "manager": "3",
-      "findManager": {
-        "id": "3",
-        "name": "Anna"
-      }
-    },
+    "id": "1",
+    "name": "Anthony",
+    "manager": {
+      "id": "3",
+      "name": "Anna"
+    }
   }
 }
 ```
 
-`user.manager` is an `id` pointing another `user`.
+Any action (including `delete`, `create`, etc.) can retrieve nested models.
 
-The nested query does not need to specify the manager's `id`,
-because it is already available as `user.manager`. However if there were several
-managers (i.e. an array of `id`), one could specify which `id`s to retrieve.
-
-Nested queries work otherwise exactly like other queries.
-
-They can be performed both on models (`findManager`) or on collections
-(`findManagers`).
-
-They can use any action (including `delete`, `create`, etc.) providing it the
-same as the parent action.
-
-They can be infinitely nested.
+Models can be infinitely nested.
 
 # Modifying data
 
@@ -254,51 +234,51 @@ See the documentation [here](pagination.md).
 # Summary of actions
 
 ```graphql
-findOne({ filter: { id } })
+find_model({ filter: { id } })
 ```
 
 ```graphql
-findMany({ [filter], [order_by], [page_size], [before|after|page] })
+find_models({ [filter], [order_by], [page_size], [before|after|page] })
 ```
 
 ```graphql
-deleteOne({ filter: { id } })
+delete_model({ filter: { id } })
 ```
 
 ```graphql
-deleteMany({ [filter], [order_by], [page_size] })
+delete_models({ [filter], [order_by], [page_size] })
 ```
 
 ```graphql
-updateOne({ data, filter: { id } })
+update_model({ data, filter: { id } })
 ```
 
 ```graphql
-updateMany({ data, [filter], [order_by], [page_size] })
+update_models({ data, [filter], [order_by], [page_size] })
 ```
 
 ```graphql
-createOne({ data })
+create_model({ data })
 ```
 
 ```graphql
-createMany({ data[], [order_by], [page_size] })
+create_models({ data[], [order_by], [page_size] })
 ```
 
 ```graphql
-replaceOne({ data })
+replace_model({ data })
 ```
 
 ```graphql
-replaceMany({ data[], [order_by], [page_size] })
+replace_models({ data[], [order_by], [page_size] })
 ```
 
 ```graphql
-upsertOne({ data })
+upsert_model({ data })
 ```
 
 ```graphql
-upsertMany({ data[], [order_by], [page_size] })
+upsert_models({ data[], [order_by], [page_size] })
 ```
 
 # Error responses
