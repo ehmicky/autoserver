@@ -1,5 +1,6 @@
 'use strict';
 
+const { throwError } = require('../../../../../error');
 const { assignObject, mapValues } = require('../../../../../utilities');
 
 // Parse GraphQL arguments, for each possible argument type
@@ -24,6 +25,19 @@ const parseNumber = function ({ value }) {
   return Number(value);
 };
 
+const parseEnum = function ({ value }) {
+  if (value !== 'undefined') {
+    const message = `'${value}' is an unknown constant`;
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+  }
+
+  return null;
+};
+
+const parseNull = function () {
+  return null;
+};
+
 const parseAsIs = function ({ value }) {
   return value;
 };
@@ -37,9 +51,10 @@ const argParsers = {
   ListValue: parseArray,
   IntValue: parseNumber,
   FloatValue: parseNumber,
+  EnumValue: parseEnum,
+  NullValue: parseNull,
   StringValue: parseAsIs,
   BooleanValue: parseAsIs,
-  EnumValue: parseAsIs,
   Variable: parseVariable,
 };
 
