@@ -118,7 +118,7 @@ const fireReadAction = async function ({
   actionPath,
   modelName,
   args,
-  args: { filter: { id } },
+  args: { filter: { id } = {} },
 }) {
   // When parent value is not defined, directly returns empty value
   if (Array.isArray(id) && id.length === 0) { return []; }
