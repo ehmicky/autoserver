@@ -8,25 +8,25 @@ One can specify which model to target using a `filter`, for the actions
 Filters look like this:
 
 ```graphql
-deleteUsers(filter: {country: "Denmark"})
+find_users(filter: {country: "Denmark"})
 ```
 
 Arrays can be used for "or" alternatives, e.g.:
 
 ```graphql
-deleteUsers(filter: [{country: "Denmark"}, {country: "Germany"}])
+delete_users(filter: [{country: "Denmark"}, {country: "Germany"}])
 ```
 
 or:
 
 ```graphql
-deleteUsers(filter: {country: ["Denmark", "Germany"]})
+delete_users(filter: {country: ["Denmark", "Germany"]})
 ```
 
 Operators can be used for more complex operations
 
 ```graphql
-deleteUsers(filter: {age: { lt: 30 }})
+delete_users(filter: {age: { lt: 30 }})
 ```
 
 The following operators are available:

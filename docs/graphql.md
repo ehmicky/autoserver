@@ -170,9 +170,43 @@ mutation {
 }
 ```
 
-# Nested models
+# Modifying data
 
-One can retrieve nested models, e.g.:
+One specifies the data to mutate with `data`, which is either an array
+(for plural actions) or an object (for singular actions).
+
+It can be used by the following actions: `create`, `replace`, `upsert` and
+`update`.
+
+`data.id` is required for `replace` and `upsert`, optional for `create`
+(it defaults to a UUID) and forbidden for `update`.
+
+`update` action `data` is a bit different, as it is never an array.
+
+# Modifying nested models
+
+`data` can include nested models, e.g.:
+
+```graphql
+query {
+  create_user(data: {
+    id: "1"
+    name: "Anthony"
+    manager: {
+      id: "3"
+      name: "Anna"
+    }
+  }) {
+    id
+  }
+}
+```
+
+will create both the user and its manager.
+
+# Populating nested models
+
+One can populating nested models in output, e.g.:
 
 ```graphql
 query {
@@ -202,22 +236,12 @@ will respond with:
 }
 ```
 
-Any action (including `delete`, `create`, etc.) can retrieve nested models.
+This is available for any action, including `delete`, `create`, etc.
 
 Models can be infinitely nested.
 
-# Modifying data
-
-One specifies the data to mutate with `data`, which is either an array
-(for plural actions) or an object (for singular actions).
-
-It can be used by the following actions: `create`, `replace`, `upsert` and
-`update`.
-
-`data.id` is required for `replace` and `upsert`, optional for `create`
-(it defaults to a UUID) and forbidden for `update`.
-
-`update` action `data` is a bit different, as it is never an array.
+Populating nested models in output is distinct from
+[modifying nested models in input](#modifying-nested-models).
 
 # Filtering
 
