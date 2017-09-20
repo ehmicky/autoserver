@@ -25,10 +25,10 @@ const isAlreadyHandled = function ({ actions, action }) {
 };
 
 const getGroupActions = function ({ allActions, action: actionA, index }) {
-  const nextActions = allActions.slice(index);
-  const nextActionsA = nextActions
+  const nextActions = allActions
+    .slice(index + 1)
     .filter(actionB => isActionInGroup({ actionA, actionB }));
-  return [actionA, ...nextActionsA];
+  return [actionA, ...nextActions];
 };
 
 const isActionInGroup = function ({ actionA, actionB }) {
