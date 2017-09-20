@@ -13,6 +13,7 @@ const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
 const { addActionsGroups } = require('./actions_groups');
 const { parseModels } = require('./models');
+const { validateUnknownAttrs } = require('./unknown_attrs');
 const { resolveActions } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
 const { sortResponses } = require('./sort_responses');
@@ -54,6 +55,7 @@ const executeGraphql = async function (
   } = getMainDef({ queryDocument, operationName, method });
   const actions = parseActions({ mainDef, fragments, variables });
   const actionsA = parseModels({ actions, modelsMap });
+  validateUnknownAttrs({ actions: actionsA, modelsMap });
 
   const topArgs = getTopArgs({ actions: actionsA });
   const actionsB = parseNestedWrite({ actions: actionsA, modelsMap });
