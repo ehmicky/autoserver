@@ -17,7 +17,7 @@ the model name in plural. It is similar to REST's `GET` method.
 E.g. the following query:
 
 ```graphql
-query {
+{
   find_users {
     id
     name
@@ -41,7 +41,7 @@ To retrieve only one model, use the action `find` followed by the model name
 in singular, and specify the model `id`, e.g.:
 
 ```graphql
-query {
+{
   find_user(filter: {id: "1"}) {
     id
     name
@@ -188,7 +188,7 @@ It can be used by the following actions: `create`, `replace`, `upsert` and
 `data` can include nested models, e.g.:
 
 ```graphql
-query {
+mutation {
   create_user(data: {
     id: "1"
     name: "Anthony"
@@ -209,7 +209,7 @@ will create both the user and its manager.
 One can populating nested models in output, e.g.:
 
 ```graphql
-query {
+{
   find_user(filter: {id: "1"}) {
     id
     name
