@@ -3,11 +3,7 @@
 const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
 
-const resolveWrite = async function ({
-  actions: actionsGroups,
-  nextLayer,
-  mInput,
-}) {
+const resolveWrite = async function ({ actionsGroups, nextLayer, mInput }) {
   const responsesPromises = actionsGroups.map(actionsGroup =>
     resolveWriteAction({ actionsGroup, nextLayer, mInput })
   );
@@ -77,7 +73,7 @@ const mergeArgs = function ({ actionsGroup }) {
 
 const addResponsesModel = function ({ data, path, id, select }) {
   const model = data.find(datum => datum.id === id);
-  return { model, path, select };
+  return { path, model, select };
 };
 
 module.exports = {
