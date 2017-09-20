@@ -1,6 +1,7 @@
 # Sorting
 
-One can sort any plural action, using `order_by`, e.g.:
+One can sort the output of `find`, `update` and `delete` actions,
+using `order_by`, e.g.:
 
 ```graphql
 findUsers(order_by: "name")

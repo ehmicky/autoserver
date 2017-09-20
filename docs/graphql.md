@@ -262,7 +262,7 @@ create_model({ data })
 ```
 
 ```graphql
-create_models({ data[], [order_by], [page_size] })
+create_models({ data[], [page_size] })
 ```
 
 ```graphql
@@ -270,7 +270,7 @@ replace_model({ data })
 ```
 
 ```graphql
-replace_models({ data[], [order_by], [page_size] })
+replace_models({ data[], [page_size] })
 ```
 
 ```graphql
@@ -278,7 +278,7 @@ upsert_model({ data })
 ```
 
 ```graphql
-upsert_models({ data[], [order_by], [page_size] })
+upsert_models({ data[], [page_size] })
 ```
 
 # Error responses
