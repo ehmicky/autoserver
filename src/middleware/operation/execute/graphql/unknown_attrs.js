@@ -16,7 +16,7 @@ const validateAction = function ({
   if (!attr) { return; }
 
   const path = [...actionPath, attr.dbKey].join('.');
-  const message = `Attribute '${path}' does not exist`;
+  const message = `Attribute '${path}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 

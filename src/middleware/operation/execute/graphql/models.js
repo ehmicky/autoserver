@@ -57,7 +57,7 @@ const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)/;
 const validateTopLevel = function ({ modelName, actionName }) {
   if (modelName) { return; }
 
-  const message = `Action '${actionName}' does not exist`;
+  const message = `Action '${actionName}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
