@@ -6,8 +6,23 @@ const { parseObject } = require('./args');
 const { applyDirectives } = require('./directive');
 
 const parseActions = function ({
-  selectionSet: { selections },
+  mainDef: { selectionSet },
   parentPath = [],
+  variables,
+  fragments,
+}) {
+  const { actions } = parseAction({
+    selectionSet,
+    parentPath,
+    variables,
+    fragments,
+  });
+  return actions;
+};
+
+const parseAction = function ({
+  selectionSet: { selections },
+  parentPath,
   variables,
   fragments,
 }) {
@@ -62,7 +77,7 @@ const parseField = function ({
 
   const argsA = parseObject({ fields: args, variables });
 
-  const { actions: childActions, select: childSelect } = parseActions({
+  const { actions: childActions, select: childSelect } = parseAction({
     selectionSet,
     parentPath: actionPath,
     fragments,
@@ -89,7 +104,7 @@ const parseFragmentSpread = function ({
 
   const { selectionSet } = fragment;
 
-  return parseActions({ selectionSet, parentPath, fragments, variables });
+  return parseAction({ selectionSet, parentPath, fragments, variables });
 };
 
 const parseInlineFragment = function ({
@@ -98,7 +113,7 @@ const parseInlineFragment = function ({
   fragments,
   variables,
 }) {
-  return parseActions({ selectionSet, parentPath, fragments, variables });
+  return parseAction({ selectionSet, parentPath, fragments, variables });
 };
 
 const parsers = {
