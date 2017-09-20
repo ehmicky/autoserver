@@ -48,13 +48,29 @@ const validateMainSelection = function ({
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 
-  if (selections[0].kind !== 'Field') {
+  const [{ kind, name }] = selections;
+
+  if (kind !== 'Field') {
     const message = 'Cannot use a GraphQL fragment as the main operation';
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 
+  validateOperationType({ method, operation, name });
+};
+
+const validateOperationType = function ({ method, operation, name }) {
   if (method === 'find' && operation !== 'query') {
     const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+  }
+
+  if (name.value.startsWith('find') && operation === 'mutation') {
+    const message = 'Cannot perform \'find\' actions with a GraphQL \'mutation\'';
+    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+  }
+
+  if (!name.value.startsWith('find') && operation === 'query') {
+    const message = 'Can only perform \'find\' actions with a GraphQL \'query\'';
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 };
