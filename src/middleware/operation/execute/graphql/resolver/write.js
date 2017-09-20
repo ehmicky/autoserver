@@ -17,10 +17,12 @@ const resolveWriteAction = async function ({
   nextLayer,
   mInput,
 }) {
+  const argsA = mergeArgs({ actionsGroup });
+  if (argsA.data.length === 0) { return []; }
+
   const [{ actionConstant, modelName }] = actionsGroup;
   const actionPathA = mergeActionPaths({ actionsGroup });
   const dataPathsA = mergeDataPaths({ actionsGroup });
-  const argsA = mergeArgs({ actionsGroup });
 
   const mInputA = {
     ...mInput,
