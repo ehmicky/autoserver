@@ -26,11 +26,13 @@ const isAlreadyHandled = function ({ actions, action }) {
 
 const getGroupActions = function ({ allActions, action: actionA, index }) {
   const nextActions = allActions.slice(index);
-  return nextActions.filter(actionB => isActionInGroup({ actionA, actionB }));
+  const nextActionsA = nextActions
+    .filter(actionB => isActionInGroup({ actionA, actionB }));
+  return [actionA, ...nextActionsA];
 };
 
 const isActionInGroup = function ({ actionA, actionB }) {
-  if (actionB.actionConstant.type === 'read') { return false; }
+  if (actionB.actionConstant.type === 'find') { return false; }
 
   return actionB.actionConstant === actionA.actionConstant &&
     actionB.modelName === actionA.modelName;
