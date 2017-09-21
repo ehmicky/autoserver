@@ -2,7 +2,7 @@
 
 const { uniq } = require('lodash');
 
-const { mapValues, assignArray, pick } = require('../../../../utilities');
+const { mapValues, assignArray, pick } = require('../../../../../../utilities');
 
 const actionsArgs = require('./actions');
 const {

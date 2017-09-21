@@ -3,7 +3,7 @@
 const {
   objectTest,
   objectArrayTest,
-} = require('../../../../../fast_validation');
+} = require('../../../../../../../fast_validation');
 
 // Validates single args.data, with no required `id`
 const singleDataTests = [

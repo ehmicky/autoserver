@@ -1,6 +1,6 @@
 'use strict';
 
-const { stringTest } = require('../../../../../fast_validation');
+const { stringTest } = require('../../../../../../../fast_validation');
 
 // Validates args.order_by
 const orderByTests = [

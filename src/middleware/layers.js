@@ -91,9 +91,6 @@ const middlewareLayers = [
   {
     name: 'action',
     layers: [
-      // Process client arguments
-      action.handleArgs,
-
       // Turn one action into 0, 1 or several commands
       action.actionExecute,
     ],
