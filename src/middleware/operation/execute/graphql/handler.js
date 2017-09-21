@@ -83,14 +83,14 @@ const executeGraphql = async function (
 
 const otherLayer = async function ({
   actionsGroupType,
-  actionsGroup,
+  actions,
   nextLayer,
   mInput,
   responses,
 }) {
   const responsesA = await resolveActions({
     actionsGroupType,
-    actionsGroup,
+    actions,
     nextLayer,
     mInput,
     responses,
