@@ -1,12 +1,12 @@
 'use strict';
 
 const { getGraphQLInput } = require('./input');
+const { getMainDef } = require('./main_def');
+const { parseActions } = require('./actions');
 const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
-const { getMainDef } = require('./top_level');
-const { parseActions } = require('./actions');
 const { getTopArgs } = require('./top_args');
 const { parseDataArg } = require('./data_arg');
 const { getOperationSummary } = require('./operation_summary');
@@ -34,14 +34,18 @@ const executeGraphql = async function (
   nextLayer,
 ) {
   const {
-    query,
     variables,
     operationName,
     queryDocument,
   } = getGraphQLInput({ queryVars, payload });
+  const {
+    mainDef,
+    fragments,
+  } = getMainDef({ queryDocument, operationName, method });
+  const actions = parseActions({ mainDef, fragments, variables });
 
   // Introspection GraphQL query
-  if (isIntrospectionQuery({ query })) {
+  if (isIntrospectionQuery({ actions })) {
     return handleIntrospection({
       schema,
       queryDocument,
@@ -50,11 +54,6 @@ const executeGraphql = async function (
     });
   }
 
-  const {
-    mainDef,
-    fragments,
-  } = getMainDef({ queryDocument, operationName, method });
-  const actions = parseActions({ mainDef, fragments, variables });
   const actionsA = parseModels({ actions, modelsMap });
   validateUnknownAttrs({ actions: actionsA, modelsMap });
 

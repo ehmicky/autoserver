@@ -4,6 +4,17 @@ const { execute } = require('graphql');
 
 const { throwError, addGenErrorHandler } = require('../../../../error');
 
+const { getTopLevelAction } = require('./utilities');
+
+// At the moment, we do not support mixing introspection query with
+// non-introspection query, except for `__typename`
+// This means that `__schema` must be the only top-level properties
+// when specified
+const isIntrospectionQuery = function ({ actions }) {
+  const { actionPath: [actionName] } = getTopLevelAction({ actions });
+  return actionName === '__schema';
+};
+
 const handleIntrospection = async function ({
   schema,
   queryDocument,
@@ -46,17 +57,7 @@ const eGetIntrospectionResp = addGenErrorHandler(getIntrospectionResp, {
   reason: 'GRAPHQL_INTROSPECTION',
 });
 
-// At the moment, we do not support mixing introspection query with
-// non-introspection query, except for `__typename`
-// This means that `__schema` or `__type` must be the only top-level properties
-// when specified
-const introspectionQueryRegExp = /(\b__schema\b)|(\b__type\s*\()/;
-
-const isIntrospectionQuery = function ({ query }) {
-  return introspectionQueryRegExp.test(query);
-};
-
 module.exports = {
-  handleIntrospection,
   isIntrospectionQuery,
+  handleIntrospection,
 };
