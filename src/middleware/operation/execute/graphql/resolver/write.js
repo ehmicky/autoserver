@@ -2,6 +2,7 @@
 
 const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
+const { getTopLevelAction } = require('../utilities');
 
 const resolveWrite = async function ({
   actions,
@@ -29,11 +30,12 @@ const resolveWrite = async function ({
 };
 
 const mergeArgs = function ({ actions }) {
+  const { args } = getTopLevelAction({ actions });
   const data = actions
-    .map(({ args }) => args.data)
+    .map(({ args: { data: dataA } }) => dataA)
     .reduce(assignArray, [])
     .filter(isDuplicate);
-  return { data };
+  return { ...args, data };
 };
 
 // Removes duplicates
