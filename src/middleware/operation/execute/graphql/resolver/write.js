@@ -2,15 +2,15 @@
 
 const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
-const { getTopLevelAction } = require('../utilities');
 
 const resolveWrite = async function ({
   actions,
   actions: [{ actionConstant, modelName }],
   nextLayer,
   mInput,
+  topArgs,
 }) {
-  const argsA = mergeArgs({ actions });
+  const argsA = mergeArgs({ actions, topArgs });
   if (argsA.data.length === 0) { return []; }
 
   const actionPathA = mergeActionPaths({ actions });
@@ -29,13 +29,12 @@ const resolveWrite = async function ({
   return responses;
 };
 
-const mergeArgs = function ({ actions }) {
-  const { args } = getTopLevelAction({ actions });
+const mergeArgs = function ({ actions, topArgs }) {
   const data = actions
     .map(({ args: { data: dataA } }) => dataA)
     .reduce(assignArray, [])
     .filter(isDuplicate);
-  return { ...args, data };
+  return { ...topArgs, data };
 };
 
 // Removes duplicates
