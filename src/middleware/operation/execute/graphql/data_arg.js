@@ -25,7 +25,10 @@ const parseDataArg = function ({ actions, modelsMap }) {
     modelsMap,
     topLevelAction,
   });
-  const actionsB = mergeActions({ oldActions: actions, actions: actionsA });
+  const actionsB = mergeActions({
+    readActions: actions,
+    writeActions: actionsA,
+  });
   return actionsB;
 };
 
@@ -200,27 +203,30 @@ const filterAction = function ({ action, action: { args: { data } } }) {
   return [action];
 };
 
-const mergeActions = function ({ oldActions, actions }) {
-  const actionsA = actions.map(action => {
-    const oldAction = findAction({ actions: oldActions, action });
-    if (!oldAction) { return action; }
+const mergeActions = function ({ readActions, writeActions }) {
+  const readActionsA = writeActions.map(writeAction => {
+    const readAction = findAction({
+      actions: readActions,
+      action: writeAction,
+    });
+    if (!readAction) { return writeAction; }
 
-    // We want `action` to have priority, but also want to keep keys order,
-    // hence we repeat `...action`
+    // We want `writeAction` to have priority, but also want to keep keys order,
+    // hence we repeat `...writeAction`
     return {
-      ...action,
-      ...oldAction,
-      ...action,
-      args: { ...oldAction.args, ...action.args },
+      ...writeAction,
+      ...readAction,
+      ...writeAction,
+      args: { ...readAction.args, ...writeAction.args },
     };
   });
 
-  const oldActionsA = oldActions.filter(oldAction => {
-    const action = findAction({ actions, action: oldAction });
-    return action === undefined || action.dataPaths.length === 0;
+  const writeActionsA = readActions.filter(oldAction => {
+    const readAction = findAction({ actions: writeActions, action: oldAction });
+    return readAction === undefined || readAction.dataPaths.length === 0;
   });
 
-  return [...oldActionsA, ...actionsA];
+  return [...writeActionsA, ...readActionsA];
 };
 
 const findAction = function ({ actions, action }) {
