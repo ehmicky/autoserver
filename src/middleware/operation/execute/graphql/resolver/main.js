@@ -1,60 +1,64 @@
 'use strict';
 
-const { reduceAsync } = require('../../../../../utilities');
+const { reduceAsync, assignArray } = require('../../../../../utilities');
 
 const { resolveRead } = require('./read');
 const { resolveWrite } = require('./write');
 
-const resolveActions = function ({ actionsGroups, nextLayer, mInput }) {
-  const writeActions = getWriteActions({ actionsGroups });
-  const readActions = getReadActions({ actionsGroups });
-  const actionsSuperGroups = [writeActions, ...readActions];
-  return reduceAsync(
-    actionsSuperGroups,
-    (responses, actionsGroupsA) => fireResolver({
-      responses,
-      actionsGroups: actionsGroupsA,
-      nextLayer,
-      mInput,
-    }),
-    [],
-  );
-};
-
-const getWriteActions = function ({ actionsGroups }) {
-  return actionsGroups.filter(actions => !isReadActions(actions));
-};
-
-const getReadActions = function ({ actionsGroups }) {
-  return actionsGroups
-    .filter(isReadActions)
-    .map(actions => [actions]);
-};
-
-const getActionsGroupsType = function ({ actionsGroups }) {
-  const isRead = actionsGroups.some(isReadActions);
-  return isRead ? 'read' : 'write';
-};
-
-const isReadActions = function (actions) {
-  return actions.some(({ actionConstant: { type } }) => type === 'find');
-};
-
-const fireResolver = function ({
-  responses,
-  actionsGroups,
+const sequencer = async function ({
+  actionsGroups: { writeActions, readActions },
   nextLayer,
   mInput,
 }) {
-  const type = getActionsGroupsType({ actionsGroups });
-  return resolvers[type]({ actionsGroups, nextLayer, mInput, responses });
+  const writeResponses = await getWriteResponses({
+    writeActions,
+    nextLayer,
+    mInput,
+  });
+  const readResponses = await getReadResponses({
+    readActions,
+    writeResponses,
+    nextLayer,
+    mInput,
+  });
+  return [...writeResponses, ...readResponses];
 };
 
-const resolvers = {
-  read: resolveRead,
-  write: resolveWrite,
+const getWriteResponses = async function ({ writeActions, nextLayer, mInput }) {
+  const responsesPromises = writeActions
+    .map(actionsGroup => resolveWrite({ actionsGroup, nextLayer, mInput }));
+  const responses = await Promise.all(responsesPromises);
+  const responsesA = responses.reduce(assignArray, []);
+  return responsesA;
+};
+
+const getReadResponses = function ({
+  readActions,
+  writeResponses,
+  nextLayer,
+  mInput,
+}) {
+  return reduceAsync(
+    readActions,
+    getReadResponse.bind(null, { nextLayer, mInput }),
+    writeResponses,
+  );
+};
+
+const getReadResponse = async function (
+  { nextLayer, mInput },
+  responses,
+  actionsGroup,
+) {
+  const responsesA = await resolveRead({
+    actionsGroup,
+    nextLayer,
+    mInput,
+    responses,
+  });
+  return [...responses, ...responsesA];
 };
 
 module.exports = {
-  resolveActions,
+  sequencer,
 };

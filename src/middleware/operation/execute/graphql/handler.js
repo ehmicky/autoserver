@@ -14,7 +14,7 @@ const { sortActions } = require('./sort_actions');
 const { addActionsGroups } = require('./actions_groups');
 const { parseModels } = require('./models');
 const { validateUnknownAttrs } = require('./unknown_attrs');
-const { resolveActions } = require('./resolver');
+const { sequencer } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
 const { sortResponses } = require('./sort_responses');
 const { assembleResponses } = require('./assemble');
@@ -63,7 +63,7 @@ const executeGraphql = async function (
   const actionsC = sortActions({ actions: actionsB });
   const actionsGroups = addActionsGroups({ actions: actionsC });
 
-  const responses = await resolveActions({ actionsGroups, nextLayer, mInput });
+  const responses = await sequencer({ actionsGroups, nextLayer, mInput });
 
   const responsesA = removeNestedWrite({ responses });
   const responsesB = sortResponses({ responses: responsesA });
