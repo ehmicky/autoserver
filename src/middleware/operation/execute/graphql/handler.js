@@ -7,13 +7,13 @@ const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
+const { parseModels } = require('./models');
+const { validateUnknownAttrs } = require('./unknown_attrs');
 const { getTopArgs } = require('./top_args');
 const { parseDataArg } = require('./data_arg');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
 const { addActionsGroups } = require('./actions_groups');
-const { parseModels } = require('./models');
-const { validateUnknownAttrs } = require('./unknown_attrs');
 const { sequenceActions } = require('./sequencer');
 const { resolveActions } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
