@@ -2,10 +2,18 @@
 
 const { throwError } = require('../../../error');
 
-const findIndexes = function ({ collection, filter }) {
-  return Object.entries(collection)
-    .filter(([, model]) => modelMatchFilters({ model, filters: filter }))
+const { validateMissingIds } = require('./missing_id');
+
+const findIndexes = function ({ collection, filter, idCheck = true }) {
+  const indexes = Object.entries(collection)
+    .filter(
+      ([, model]) => modelMatchFilters({ model, filters: filter })
+    )
     .map(([index]) => index);
+
+  validateMissingIds({ indexes, collection, idCheck, filter });
+
+  return indexes;
 };
 
 // Check if a model matches a query filter
@@ -76,31 +84,6 @@ const matchers = {
   le: leMatcher,
 };
 
-const findIndex = function ({
-  collection,
-  id,
-  opts: { modelName, mustExist = true },
-}) {
-  const [index] = Object.entries(collection)
-    .filter(([, { id: modelId }]) => modelId === id)
-    .map(([modelIndex]) => modelIndex);
-
-  /*
-  if (!index && mustExist === true) {
-    const message = `Could not find the model with id ${id} in: ${modelName} (collection)`;
-    throwError(message, { reason: 'DATABASE_NOT_FOUND' });
-  }
-
-  if (index && mustExist === false) {
-    const message = `Model with id ${id} already exists in: ${modelName} (collection)`;
-    throwError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
-  }
-  */
-
-  return index;
-};
-
 module.exports = {
   findIndexes,
-  findIndex,
 };

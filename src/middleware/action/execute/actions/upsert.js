@@ -7,6 +7,7 @@ const readCommand = ({ args }) => ({
   command: 'read',
 
   args: {
+    idCheck: false,
     filter: dataToFilter({ args }),
   },
 });
