@@ -20,8 +20,7 @@ const resolveWrite = async function ({ actionsGroup, nextLayer, mInput }) {
   };
   const { response: { data } } = await nextLayer(mInputA);
 
-  const responses = dataPathsA
-    .map(dataPath => addResponsesModel({ data, ...dataPath }));
+  const responses = dataPathsA.map(addResponsesModel.bind(null, data));
   return responses;
 };
 
@@ -75,7 +74,7 @@ const mergeDataPaths = function ({ actionsGroup }) {
     .reduce(assignArray, []);
 };
 
-const addResponsesModel = function ({ data, path, id, select }) {
+const addResponsesModel = function (data, { path, id, select }) {
   const model = data.find(datum => datum.id === id);
   return { path, model, select };
 };
