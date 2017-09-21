@@ -6,7 +6,7 @@ const { fireCommand } = require('./fire');
 
 const databaseExecute = function ({
   command,
-  args: { orderBy, limit, offset, newData, filter } = {},
+  args: { orderBy, limit, offset, newData, filter, idCheck } = {},
   modelName,
   response,
 }) {
@@ -15,7 +15,7 @@ const databaseExecute = function ({
 
   const collection = database[modelName];
 
-  const opts = { orderBy, limit, offset, modelName };
+  const opts = { orderBy, limit, offset, idCheck };
   const commandInput = { command, collection, filter, newData, opts };
   return fireCommand(commandInput);
 };

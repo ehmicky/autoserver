@@ -1,15 +1,16 @@
 'use strict';
 
-const { findIndex } = require('../find');
+const { findIndexes } = require('../find');
 
-const update = function ({ collection, newData, opts }) {
+const update = function ({ collection, newData }) {
   const newModels = newData
-    .map(datum => updateOne({ collection, newData: datum, opts }));
+    .map(datum => updateOne({ collection, newData: datum }));
   return { data: newModels };
 };
 
-const updateOne = function ({ collection, newData, opts }) {
-  const index = findIndex({ collection, id: newData.id, opts });
+const updateOne = function ({ collection, newData }) {
+  const { id } = newData;
+  const [index] = findIndexes({ collection, filter: { id } });
 
   const model = collection[index];
   const newModel = { ...model, ...newData };
