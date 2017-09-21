@@ -12,7 +12,7 @@ const attrsToJsonSchema = function (attributes) {
   return { type: 'object', properties: attributes };
 };
 
-// Fix `required` attribute according to the current command.name
+// Fix `required` attribute according to the current command
 // JSON schema `require` attribute is a model-level array,
 // not an attribute-level boolean
 const addJsonSchemaRequire = function (schema) {

@@ -9,19 +9,13 @@ const userDefaults = function ({
   args,
   args: { newData },
   modelName,
-  idl,
   idl: { shortcuts: { userDefaultsMap } },
   mInput,
 }) {
   if (!newData) { return; }
 
   const defAttributes = userDefaultsMap[modelName];
-  const newDataA = applyAllDefault({
-    defAttributes,
-    value: newData,
-    idl,
-    mInput,
-  });
+  const newDataA = applyAllDefault({ data: newData, defAttributes, mInput });
 
   return { args: { ...args, newData: newDataA } };
 };

@@ -21,21 +21,13 @@ const handleReadonly = function ({
   if (!newData || !currentData) { return; }
 
   const attrs = readonlyMap[modelName];
-  const newDataA = getNewData({ newData, currentData, attrs });
+  const newDataA = newData.map((newDatum, index) => removeAttrs({
+    newData: newDatum,
+    currentData: currentData[index],
+    attrs,
+  }));
 
   return { args: { ...args, newData: newDataA } };
-};
-
-const getNewData = function ({ newData, currentData, attrs }) {
-  if (Array.isArray(newData)) {
-    return newData.map((newDatum, index) => removeAttrs({
-      newData: newDatum,
-      currentData: currentData[index],
-      attrs,
-    }));
-  }
-
-  return removeAttrs({ newData, currentData, attrs });
 };
 
 const removeAttrs = function ({ newData, currentData, attrs }) {

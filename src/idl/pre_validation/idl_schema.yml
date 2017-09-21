@@ -172,7 +172,7 @@ definitions:
         - not:
             required: [readonly]
   # model.commands
-  # E.g. `commands: [read, createOne]`
+  # E.g. `commands: [read, create]`
   # This property restricts which commands a specific model can perform
   commands:
     type: array
@@ -181,21 +181,9 @@ definitions:
       type: string
       enum:
       - read
-      - readOne
       - create
-      - createOne
       - update
-      - updateOne
       - delete
-      - deleteOne
-    # One can only choose between read (conceptually "readOne" + "readMany")
-    # and "readOne". Same thing for other commands
-    not:
-      anyOf:
-      - allOf: [{contains: {const: read}}, {contains: {const: readOne}}]
-      - allOf: [{contains: {const: delete}}, {contains: {const: deleteOne}}]
-      - allOf: [{contains: {const: update}}, {contains: {const: updateOne}}]
-      - allOf: [{contains: {const: create}}, {contains: {const: createOne}}]
   # idl.helpers
   helpers:
     typeof: [object, function]

@@ -2,9 +2,8 @@
 
 // Apply `alias` in responses
 const applyResponseAliases = function ({ data, attrName, aliases }) {
-  return Array.isArray(data)
-    ? data.map(datum => applyResponseAlias({ data: datum, attrName, aliases }))
-    : applyResponseAlias({ data, attrName, aliases });
+  return data
+    .map(datum => applyResponseAlias({ data: datum, attrName, aliases }));
 };
 
 // Copy main attribute's value to each alias, providing main attribute is

@@ -14,11 +14,8 @@ const transformData = function ({
   const transformMap = shortcuts[mapName[type]];
   const transforms = transformMap[modelName];
 
-  return Array.isArray(data)
-    ? data.map(
-      datum => applyTransforms({ data: datum, transforms, mInput, type })
-    )
-    : applyTransforms({ data, transforms, mInput, type });
+  return data
+    .map(datum => applyTransforms({ data: datum, transforms, mInput, type }));
 };
 
 const mapName = {

@@ -4,10 +4,7 @@ const { getCurrentData } = require('../current_data');
 const { dataToFilter } = require('../data_to_filter');
 
 const readCommand = ({ args }) => ({
-  commandType: 'read',
-  // We want to avoid 404 (since models might exist or not)
-  // that might arise when using non-multiple command
-  commandMultiple: true,
+  command: 'read',
 
   args: {
     filter: dataToFilter({ args }),
@@ -15,15 +12,13 @@ const readCommand = ({ args }) => ({
 });
 
 const upsertCommand = function (
-  { args: { data: dataArg }, action: { multiple: isMultiple } },
+  { args: { data: dataArg } },
   { data: models },
 ) {
-  const currentDataArray = getCurrentData({ dataArg, models });
-  // Revert the effects of `commandMultiple: true`
-  const currentData = isMultiple ? currentDataArray : currentDataArray[0];
+  const currentData = getCurrentData({ dataArg, models });
 
   return {
-    commandType: 'upsert',
+    command: 'upsert',
     args: {
       currentData,
       newData: dataArg,

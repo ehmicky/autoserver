@@ -4,19 +4,17 @@ const { omit } = require('../../../utilities');
 const { runIdlFunc } = require('../../../idl_func');
 
 // Apply default values to args.data's models
-const applyAllDefault = function (opts) {
-  const { defAttributes, value } = opts;
+const applyAllDefault = function ({ data, defAttributes, mInput }) {
+  return data
+    .map(datum => applyDataDefault({ data: datum, defAttributes, mInput }));
+};
 
-  // When args.data is an array of models, apply this recursively
-  if (Array.isArray(value)) {
-    return value.map(child => applyAllDefault({ ...opts, value: child }));
-  }
-
+const applyDataDefault = function ({ data, defAttributes, mInput }) {
   // Iterate over default values for that model, to apply them
   return Object.entries(defAttributes).reduce(
     (parent, [attrName, defValue]) =>
-      applyDefault({ ...opts, defValue, attrName, parent }),
-    value,
+      applyDefault({ parent, defValue, attrName, mInput }),
+    data,
   );
 };
 

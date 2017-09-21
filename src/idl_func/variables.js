@@ -12,7 +12,7 @@ const getVars = function (
     operation: $OPERATION,
     modelName: $MODEL,
     topArgs: $ARGS,
-    command: { type: $COMMAND } = {},
+    command: $COMMAND,
   },
   vars,
 ) {

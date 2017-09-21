@@ -1,7 +1,7 @@
 'use strict';
 
 const readCommand = {
-  commandType: 'read',
+  command: 'read',
 };
 
 const updateCommand = function (
@@ -11,7 +11,7 @@ const updateCommand = function (
   const newData = getNewData({ dataArg, currentData });
 
   return {
-    commandType: 'update',
+    command: 'update',
     args: {
       currentData,
       newData,
@@ -22,11 +22,7 @@ const updateCommand = function (
 // Merge current models with the data we want to update,
 // to obtain the final models we want to use as replacement
 const getNewData = function ({ dataArg, currentData }) {
-  if (Array.isArray(currentData)) {
-    return currentData.map(currentDatum => ({ ...currentDatum, ...dataArg }));
-  }
-
-  return { ...currentData, ...dataArg };
+  return currentData.map(currentDatum => ({ ...currentDatum, ...dataArg }));
 };
 
 // "update" action is split into two commands:

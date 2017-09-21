@@ -85,6 +85,7 @@ const findIndex = function ({
     .filter(([, { id: modelId }]) => modelId === id)
     .map(([modelIndex]) => modelIndex);
 
+  /*
   if (!index && mustExist === true) {
     const message = `Could not find the model with id ${id} in: ${modelName} (collection)`;
     throwError(message, { reason: 'DATABASE_NOT_FOUND' });
@@ -94,6 +95,7 @@ const findIndex = function ({
     const message = `Model with id ${id} already exists in: ${modelName} (collection)`;
     throwError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
   }
+  */
 
   return index;
 };

@@ -1,7 +1,6 @@
 'use strict';
 
 const { omitBy, omit } = require('../../../utilities');
-const { COMMANDS } = require('../../../constants');
 
 // Each command must specify its mInput
 // `mInput` can be a function or the new mInput directly
@@ -15,9 +14,8 @@ const getNextMInput = function ({
 }) {
   const newInput = getNewInput({ mInput, formerResponse, commandDef });
   const args = getArgs({ mInput, newInput, isLastCommand });
-  const command = getCommand({ mInput, newInput });
 
-  return { ...mInput, ...newInput, args, command };
+  return { ...mInput, ...newInput, args };
 };
 
 const getNewInput = function ({
@@ -38,28 +36,11 @@ const getArgs = function ({ mInput, newInput, isLastCommand }) {
     // E.g. authorization is not checked
     internal: !isLastCommand,
   };
-  const argsA = omit(args, [
-    // `args.data` should be transformed into `newData` and/or `currentData`
-    'data',
-    // Those are only used temporarily
-    'commandType',
-    'commandMultiple',
-  ]);
+  // `args.data` should be transformed into `newData` and/or `currentData`
+  const argsA = omit(args, 'data');
   // Specifying `undefined` allows removing specific arguments
   const argsB = omitBy(argsA, argValue => argValue === undefined);
   return argsB;
-};
-
-// Actions only need to specify the command type
-// The full command is retrieved by using `action.multiple`
-const getCommand = function ({
-  mInput: { action: { multiple: isMultiple } },
-  newInput: { commandType = 'read', commandMultiple = isMultiple },
-}) {
-  const command = COMMANDS.find(({ type, multiple }) =>
-    type === commandType && multiple === commandMultiple
-  );
-  return command;
 };
 
 module.exports = {

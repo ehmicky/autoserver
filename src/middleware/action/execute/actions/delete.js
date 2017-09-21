@@ -1,7 +1,7 @@
 'use strict';
 
 const deleteCommand = {
-  commandType: 'delete',
+  command: 'delete',
 };
 
 // 'delete' action uses a single 'delete' command

@@ -30,8 +30,8 @@ const shouldDefault = function ({
   // Only if user has not specified that argument
   if (args[attrName] != null) { return false; }
 
-  // Whitelist by command.name
-  if (commands && !commands.includes(command.name)) { return false; }
+  // Whitelist by command
+  if (commands && !commands.includes(command)) { return false; }
 
   // Whitelist by tests
   if (testFunc && !testFunc({ args, runOpts })) { return false; }

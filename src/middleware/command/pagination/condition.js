@@ -4,34 +4,29 @@
 // including args.pageSize, args.before|after|page
 // Implies output pagination
 const allowFullPagination = function ({ args, command }) {
-  return fullPaginationCommands.includes(command.name) &&
-    !isPaginationDisabled({ args, command });
+  return fullPaginationCommands.includes(command) &&
+    !isPaginationDisabled({ args });
 };
 
-const fullPaginationCommands = ['readMany'];
+const fullPaginationCommands = ['read'];
 
 // Whether output will be paginated
-const mustPaginateOutput = function ({ args, command }) {
-  return !isPaginationDisabled({ args, command });
+const mustPaginateOutput = function ({ args }) {
+  return !isPaginationDisabled({ args });
 };
 
-const isPaginationDisabled = function ({ args, args: { pageSize }, command }) {
-  return commandDoesNotPaginate({ args, command }) ||
+const isPaginationDisabled = function ({ args, args: { pageSize } }) {
+  return commandDoesNotPaginate({ args }) ||
     // Using args.pageSize 0 or defaultPageSize 0 disables pagination
     pageSize === 0 ||
     pageSize === undefined;
 };
 
-const commandDoesNotPaginate = function ({
-  args: { internal, filter },
-  command: { multiple },
-}) {
+const commandDoesNotPaginate = function ({ args: { internal, filter } }) {
   // Internal commands do not paginate
   return internal ||
     // Pagination requires `args.filter`
-    filter === undefined ||
-    // *One commands do not paginate
-    !multiple;
+    filter === undefined;
 };
 
 module.exports = {

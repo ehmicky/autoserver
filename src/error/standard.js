@@ -24,7 +24,7 @@ const getStandardError = function ({
     action: { name: action } = {},
     actionPath,
     modelName: model,
-    command: { name: command } = {},
+    command,
     requestId,
   } = {},
 }) {

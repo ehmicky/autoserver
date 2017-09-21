@@ -34,12 +34,12 @@ const { getPaginationInput } = require('./input');
 //   orderBy                    - same as `filter` but for `orderBy`
 // Add metadata: token, page_size, has_previous_page, has_previous_page
 // Actions:
-//  - output is paginated with any command.name returning an array of response
+//  - output is paginated with any action returning an array of response
 //    and do not using an array of args.data, i.e.
 //    readMany, deleteMany or updateMany
-//  - consumer can iterate the pagination with safe command.name returning an
+//  - consumer can iterate the pagination with safe command returning an
 //    array of response, i.e. readMany
-//  - this means updateMany and deleteMany command.name will paginate output,
+//  - this means update and delete commands will paginate output,
 //    but to iterate through the next batches, readMany must be used
 const handlePaginationInput = function ({
   args,
@@ -58,7 +58,7 @@ const handlePaginationInput = function ({
     idl,
   });
 
-  if (!mustPaginateOutput({ args, command })) { return; }
+  if (!mustPaginateOutput({ args })) { return; }
 
   const paginationInput = getPaginationInput({ args });
 

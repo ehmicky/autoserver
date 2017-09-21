@@ -14,7 +14,7 @@ const dataValidation = function ({
   idl: { shortcuts: { validateMap } },
   mInput,
 }) {
-  const compiledSchema = validateMap[modelName][command.name];
+  const compiledSchema = validateMap[modelName][command];
   const attrs = getAttrs({ args });
 
   Object.entries(attrs).forEach(([dataVar, attr]) =>
@@ -23,17 +23,14 @@ const dataValidation = function ({
 };
 
 // Keeps the arguments to validate
-// TODO: validate `filter`
-const getAttrs = function ({ args }) {
-  if (!args.newData) { return {}; }
+const getAttrs = function ({ args: { newData } }) {
+  if (!newData) { return {}; }
 
-  return { data: args.newData };
+  return { data: newData };
 };
 
 const validateAttr = function ({ dataVar, attr, compiledSchema, mInput }) {
-  const attrArray = Array.isArray(attr) ? attr : [attr];
-
-  attrArray.forEach(
+  attr.forEach(
     data => validateSingleAttr({ dataVar, compiledSchema, mInput, data }),
   );
 };

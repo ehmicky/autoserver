@@ -5,6 +5,12 @@ const { v4: uuiv4 } = require('uuid');
 const { findIndex } = require('../find');
 
 const create = function ({ collection, newData, opts }) {
+  const newModels = newData
+    .map(datum => createOne({ collection, newData: datum, opts }));
+  return { data: newModels };
+};
+
+const createOne = function ({ collection, newData, opts }) {
   const id = getCreateId({ collection, newData, opts });
   const newModel = { ...newData, id };
 
@@ -29,20 +35,7 @@ const checkCreateId = function ({ collection, id, opts }) {
   findIndex({ collection, id, opts: findIndexOpts });
 };
 
-const createOne = function ({ collection, newData, opts }) {
-  const newModel = create({ collection, newData, opts });
-  return { data: newModel };
-};
-
-const createMany = function ({ collection, newData, opts }) {
-  const newModels = newData.map(datum =>
-    create({ collection, newData: datum, opts })
-  );
-  return { data: newModels };
-};
-
 module.exports = {
   create,
   createOne,
-  createMany,
 };
