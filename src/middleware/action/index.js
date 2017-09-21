@@ -4,6 +4,4 @@ module.exports = {
   ...require('./handle_args'),
 
   ...require('./execute'),
-
-  ...require('./normalize'),
 };

@@ -96,9 +96,6 @@ const middlewareLayers = [
 
       // Turn one action into 0, 1 or several commands
       action.actionExecute,
-
-      // Transform response according to action-specific logic
-      action.normalizeAction,
     ],
   },
 
