@@ -8,7 +8,7 @@ const {
 const { getMainDef } = require('./top_level');
 const { parseActions } = require('./actions');
 const { getTopArgs } = require('./top_args');
-const { parseNestedWrite } = require('./nested_write');
+const { parseDataArg } = require('./data_arg');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
 const { addActionsGroups } = require('./actions_groups');
@@ -58,7 +58,7 @@ const executeGraphql = async function (
   validateUnknownAttrs({ actions: actionsA, modelsMap });
 
   const topArgs = getTopArgs({ actions: actionsA });
-  const actionsB = parseNestedWrite({ actions: actionsA, modelsMap });
+  const actionsB = parseDataArg({ actions: actionsA, modelsMap });
   const operationSummary = getOperationSummary({ actions: actionsB });
   const actionsC = sortActions({ actions: actionsB });
   const actionsGroups = addActionsGroups({ actions: actionsC });

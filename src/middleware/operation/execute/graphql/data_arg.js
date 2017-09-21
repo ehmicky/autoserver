@@ -11,14 +11,14 @@ const {
   getActionConstant,
 } = require('./utilities');
 
-const parseNestedWrite = function ({ actions, modelsMap }) {
+const parseDataArg = function ({ actions, modelsMap }) {
   const topLevelAction = getTopLevelAction({ actions });
   const { actionPath, args: { data } } = topLevelAction;
 
   if (data === undefined) { return actions; }
 
   const dataPaths = getDataPath({ data, path: actionPath });
-  const actionsA = parseArgsData({
+  const actionsA = parseData({
     data,
     actionPath,
     dataPaths,
@@ -29,7 +29,7 @@ const parseNestedWrite = function ({ actions, modelsMap }) {
   return actionsB;
 };
 
-const parseArgsData = function ({
+const parseData = function ({
   data,
   actionPath,
   dataPaths,
@@ -141,7 +141,7 @@ const getNestedActions = function ({
           }))
           .reduce(assignArray, []);
 
-      return parseArgsData({
+      return parseData({
         data: nestedDataA,
         actionPath: nestedActionPath,
         dataPaths: nestedDataPaths,
@@ -230,5 +230,5 @@ const findAction = function ({ actions, action }) {
 };
 
 module.exports = {
-  parseNestedWrite,
+  parseDataArg,
 };
