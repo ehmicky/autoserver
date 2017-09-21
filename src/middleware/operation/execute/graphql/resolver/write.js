@@ -25,7 +25,6 @@ const resolveWrite = async function ({ actionsGroup, nextLayer, mInput }) {
 };
 
 const mergeArgs = function ({ actionsGroup }) {
-  actionsGroup.forEach(({ args }) => validateWriteArgs({ args }));
   const data = actionsGroup
     .map(({ args }) => args.data)
     .reduce(assignArray, [])
@@ -44,18 +43,6 @@ const isDuplicate = function (model, index, allData) {
     .slice(0, index)
     .every(({ id }) => model.id !== id);
 };
-
-const validateWriteArgs = function ({ args }) {
-  const argsKeys = Object.keys(args);
-  const forbiddenArgs = argsKeys
-    .filter(argKey => !allowedArgs.includes(argKey));
-  if (forbiddenArgs.length === 0) { return; }
-
-  const message = `Unknown arguments: ${forbiddenArgs.join(', ')}`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const allowedArgs = ['data'];
 
 const mergeActionPaths = function ({ actionsGroup }) {
   return actionsGroup
