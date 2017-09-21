@@ -30,9 +30,9 @@ const getWriteResponses = async function ({
   otherLayer,
   mInput,
 }) {
-  const responsesPromises = writeActions.map(actionsGroup => otherLayer({
+  const responsesPromises = writeActions.map(actions => otherLayer({
     actionsGroupType: 'write',
-    actionsGroup,
+    actions,
     nextLayer,
     mInput,
   }));
@@ -58,11 +58,11 @@ const getReadResponses = function ({
 const getReadResponse = async function (
   { nextLayer, otherLayer, mInput },
   responses,
-  actionsGroup,
+  actions,
 ) {
   const responsesA = await otherLayer({
     actionsGroupType: 'read',
-    actionsGroup,
+    actions,
     nextLayer,
     mInput,
     responses,

@@ -6,8 +6,8 @@ const { assignArray } = require('../../../../../utilities');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
 
 const resolveRead = async function ({
-  actionsGroup: [action],
-  actionsGroup: [{
+  actions: [action],
+  actions: [{
     actionPath,
     actionConstant: { multiple },
     modelName,

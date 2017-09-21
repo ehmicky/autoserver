@@ -3,13 +3,17 @@
 const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
 
-const resolveWrite = async function ({ actionsGroup, nextLayer, mInput }) {
-  const argsA = mergeArgs({ actionsGroup });
+const resolveWrite = async function ({
+  actions,
+  actions: [{ actionConstant, modelName }],
+  nextLayer,
+  mInput,
+}) {
+  const argsA = mergeArgs({ actions });
   if (argsA.data.length === 0) { return []; }
 
-  const [{ actionConstant, modelName }] = actionsGroup;
-  const actionPathA = mergeActionPaths({ actionsGroup });
-  const dataPathsA = mergeDataPaths({ actionsGroup });
+  const actionPathA = mergeActionPaths({ actions });
+  const dataPathsA = mergeDataPaths({ actions });
 
   const mInputA = {
     ...mInput,
@@ -24,8 +28,8 @@ const resolveWrite = async function ({ actionsGroup, nextLayer, mInput }) {
   return responses;
 };
 
-const mergeArgs = function ({ actionsGroup }) {
-  const data = actionsGroup
+const mergeArgs = function ({ actions }) {
+  const data = actions
     .map(({ args }) => args.data)
     .reduce(assignArray, [])
     .filter(isDuplicate);
@@ -44,8 +48,8 @@ const isDuplicate = function (model, index, allData) {
     .every(({ id }) => model.id !== id);
 };
 
-const mergeActionPaths = function ({ actionsGroup }) {
-  return actionsGroup
+const mergeActionPaths = function ({ actions }) {
+  return actions
     .reduce(
       (actionPaths, { actionPath }) => [...actionPaths, actionPath.join('.')],
       [],
@@ -53,8 +57,8 @@ const mergeActionPaths = function ({ actionsGroup }) {
     .join(', ');
 };
 
-const mergeDataPaths = function ({ actionsGroup }) {
-  return actionsGroup
+const mergeDataPaths = function ({ actions }) {
+  return actions
     .map(({ args: { data }, dataPaths, select }) =>
       dataPaths.map((path, index) => ({ path, id: data[index].id, select }))
     )
