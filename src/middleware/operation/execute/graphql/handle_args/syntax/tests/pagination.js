@@ -5,7 +5,7 @@ const {
   integerTest,
   gtTest,
   leTest,
-} = require('../../../../../fast_validation');
+} = require('../../../../../../../fast_validation');
 
 // Validates args.before
 const beforeTests = [

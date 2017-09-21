@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../../../error');
 
 const validateBasic = function ({ args }) {
   if (!args || args.constructor !== Object) {

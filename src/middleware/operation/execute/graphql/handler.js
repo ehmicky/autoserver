@@ -7,9 +7,10 @@ const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
+const { getTopArgs } = require('./top_args');
+const { handleArgs } = require('./handle_args');
 const { parseModels } = require('./models');
 const { validateUnknownAttrs } = require('./unknown_attrs');
-const { getTopArgs } = require('./top_args');
 const { parseDataArg } = require('./data_arg');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
@@ -25,7 +26,9 @@ const { parseResponse } = require('./response');
 // GraphQL query handling
 const executeGraphql = async function (
   {
+    idl,
     idl: { GraphQLSchema: schema, shortcuts: { modelsMap } },
+    runOpts,
     queryVars,
     payload,
     mInput,
@@ -55,13 +58,13 @@ const executeGraphql = async function (
   }
 
   const actionsA = parseModels({ actions, modelsMap });
-  validateUnknownAttrs({ actions: actionsA, modelsMap });
-
   const topArgs = getTopArgs({ actions: actionsA });
-  const actionsB = parseDataArg({ actions: actionsA, modelsMap });
-  const operationSummary = getOperationSummary({ actions: actionsB });
-  const actionsC = sortActions({ actions: actionsB });
-  const actionsGroups = addActionsGroups({ actions: actionsC });
+  const actionsB = handleArgs({ actions: actionsA, runOpts, idl });
+  validateUnknownAttrs({ actions: actionsB, modelsMap });
+  const actionsC = parseDataArg({ actions: actionsB, modelsMap });
+  const operationSummary = getOperationSummary({ actions: actionsC });
+  const actionsD = sortActions({ actions: actionsC });
+  const actionsGroups = addActionsGroups({ actions: actionsD });
 
   const responses = await sequenceActions({
     actionsGroups,

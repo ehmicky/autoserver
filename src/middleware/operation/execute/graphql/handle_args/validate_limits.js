@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../../../error');
 
 // Check request arguments are not too big
 const validateLimits = function ({
