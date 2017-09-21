@@ -4,7 +4,7 @@ const { dataToFilter } = require('../data_to_filter');
 const { getCurrentData } = require('../current_data');
 
 const readCommand = ({ args }) => ({
-  commandType: 'read',
+  command: 'read',
   args: {
     filter: dataToFilter({ args }),
   },
@@ -14,7 +14,7 @@ const updateCommand = function ({ args: { data: dataArg } }, { data: models }) {
   const currentData = getCurrentData({ dataArg, models });
 
   return {
-    commandType: 'update',
+    command: 'update',
     args: {
       currentData,
       newData: dataArg,

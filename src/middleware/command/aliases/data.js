@@ -12,14 +12,12 @@ const applyDataAliases = function ({
   attrName,
   aliases,
 }) {
-  return Array.isArray(newData)
-    ? newData.map((datum, index) => applyDataAliases({
-      newData: datum,
-      currentData: currentData && currentData[index],
-      attrName,
-      aliases,
-    }))
-    : applyDataAlias({ newData, currentData, attrName, aliases });
+  return newData.map((datum, index) => applyDataAlias({
+    newData: datum,
+    currentData: currentData && currentData[index],
+    attrName,
+    aliases,
+  }));
 };
 
 // Copy first defined alias to main attribute,

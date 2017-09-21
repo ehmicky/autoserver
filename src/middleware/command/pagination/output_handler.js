@@ -11,14 +11,13 @@ const { getPaginationInfo } = require('./info');
 //   token, page_size, has_previous_page, has_next_page
 const handlePaginationOutput = function ({
   args,
-  command,
   action,
   modelName,
   idl,
   response,
   runOpts: { maxPageSize },
 }) {
-  if (!mustPaginateOutput({ args, command })) { return; }
+  if (!mustPaginateOutput({ args })) { return; }
 
   const responseA = reverseOutput({ args, response });
 

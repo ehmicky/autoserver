@@ -28,7 +28,7 @@ const buildRequestInfo = function ({
   topArgs: args,
   actionPath,
   action: { name: action } = {},
-  command: { name: command } = {},
+  command,
   modelName: model,
   response: {
     content: response,

@@ -2,17 +2,17 @@
 
 // List of defaults:
 //  - key is argument attribute name
-//  - command.name is whitelisted
+//  - command is whitelisted
 //  - value is the default value.
 //    Can be a function taking the `run` options as first argument
 const defaults = {
   filter: {
-    commands: ['readMany', 'deleteMany'],
+    commands: ['read', 'delete'],
     value: {},
   },
 
   orderBy: {
-    commands: ['readMany', 'deleteMany'],
+    commands: ['read', 'delete'],
     value: [{ attrName: 'id', order: 'asc' }],
     test: ({ args }) => hasNoPaginationTokens({ args }),
   },
@@ -25,7 +25,7 @@ const defaults = {
   },
 
   after: {
-    commands: ['readMany'],
+    commands: ['read'],
     value: '',
     test: ({ args }) =>
       args.before === undefined && args.page === undefined,

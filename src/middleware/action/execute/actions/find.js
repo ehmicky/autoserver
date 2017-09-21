@@ -1,7 +1,7 @@
 'use strict';
 
 const readCommand = {
-  commandType: 'read',
+  command: 'read',
 };
 
 // 'find' action uses a single 'read' command
