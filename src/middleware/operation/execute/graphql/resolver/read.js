@@ -5,24 +5,15 @@ const { isEqual, uniq } = require('lodash');
 const { assignArray } = require('../../../../../utilities');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
 
-const resolveRead = function ({
-  actionsGroups: [[action]],
-  nextLayer,
-  mInput,
-  responses,
-}) {
-  return resolveReadAction({ action, nextLayer, mInput, responses });
-};
-
-const resolveReadAction = async function ({
-  action,
-  action: {
+const resolveRead = async function ({
+  actionsGroup: [action],
+  actionsGroup: [{
     actionPath,
     actionConstant: { multiple },
     modelName,
     args,
     select,
-  },
+  }],
   nextLayer,
   mInput,
   responses,
@@ -57,7 +48,7 @@ const resolveReadAction = async function ({
     select,
   });
 
-  return [...responses, ...responsesA];
+  return responsesA;
 };
 
 const getActionInput = function ({
