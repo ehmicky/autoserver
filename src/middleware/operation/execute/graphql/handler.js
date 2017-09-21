@@ -68,6 +68,7 @@ const executeGraphql = async function (
     nextLayer,
     otherLayer,
     mInput,
+    topArgs,
   });
 
   const responsesA = removeNestedWrite({ responses });
