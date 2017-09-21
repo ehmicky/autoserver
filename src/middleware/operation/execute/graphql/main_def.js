@@ -64,15 +64,21 @@ const validateOperationType = function ({ method, operation, name }) {
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 
-  if (name.value.startsWith('find') && operation === 'mutation') {
+  const isFind = isFindQuery({ name });
+
+  if (isFind && operation === 'mutation') {
     const message = 'Cannot perform \'find\' actions with a GraphQL \'mutation\'';
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
 
-  if (!name.value.startsWith('find') && operation === 'query') {
+  if (!isFind && operation === 'query') {
     const message = 'Can only perform \'find\' actions with a GraphQL \'query\'';
     throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
   }
+};
+
+const isFindQuery = function ({ name }) {
+  return name.value.startsWith('find') || name.value === '__schema';
 };
 
 const getOperationNames = function ({ selections }) {

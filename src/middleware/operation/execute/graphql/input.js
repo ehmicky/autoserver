@@ -12,7 +12,7 @@ const getGraphQLInput = function ({ queryVars, payload }) {
 
   const queryDocument = eParseQuery({ query });
 
-  return { query, variables, operationName, queryDocument };
+  return { variables, operationName, queryDocument };
 };
 
 // GraphQL parsing
