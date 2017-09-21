@@ -8,17 +8,16 @@ const addActionsGroups = function ({ actions: allActions }) {
 
 const getWriteActions = function ({ allActions }) {
   const writeActionsA = allActions.filter(action => !isReadAction(action));
-  const writeActionsB = writeActionsA.reduce(
-    (writeActions, action) => {
-      const { modelName } = action;
-      const { [modelName]: actionsByModel = [] } = writeActions;
-      const actionsByModelA = [...actionsByModel, action];
-      return { ...writeActions, [action.modelName]: actionsByModelA };
-    },
-    {},
-  );
+  const writeActionsB = writeActionsA.reduce(getWriteAction, {});
   const writeActionsC = Object.values(writeActionsB);
   return writeActionsC;
+};
+
+const getWriteAction = function (writeActions, action) {
+  const { modelName } = action;
+  const { [modelName]: actionsByModel = [] } = writeActions;
+  const actionsByModelA = [...actionsByModel, action];
+  return { ...writeActions, [action.modelName]: actionsByModelA };
 };
 
 const getReadActions = function ({ allActions }) {
