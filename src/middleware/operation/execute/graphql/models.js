@@ -52,7 +52,7 @@ const parseName = function ({ actionName }) {
 };
 
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];
-const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)/;
+const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
 const validateTopLevel = function ({ modelName, actionName }) {
   if (modelName) { return; }
