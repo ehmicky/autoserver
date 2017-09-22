@@ -37,12 +37,19 @@ const getIdFilters = function ({ filter }) {
   return Array.isArray(id) ? id : [id];
 };
 
-const getId = function ({ filter: { id, eq = {} } }) {
-  if (id && typeof id === 'string') {
-    return id;
+const getId = function ({ filter: { id, eq } }) {
+  if (eq) {
+    return getId({ filter: eq });
   }
 
-  return eq.id;
+  if (!isCorrectIdType(id)) { return; }
+
+  return id;
+};
+
+const isCorrectIdType = function (id) {
+  return typeof id === 'string' ||
+    (Array.isArray(id) && id.every(idA => typeof idA === 'string'));
 };
 
 const getIdModels = function ({ indexes, collection }) {

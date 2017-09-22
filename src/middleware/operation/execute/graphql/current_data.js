@@ -91,13 +91,15 @@ const writeToReadAction = function (actions) {
   const idsA = uniq(ids);
   const args = { filter: { id: idsA } };
   const actionPath = mergeActionPaths({ actions });
-  const [{ modelName }] = actions;
+  const [{ modelName, actionConstant }] = actions;
+  const idCheck = actionConstant.type !== 'upsert';
 
   return {
     actionPath: [actionPath],
     actionConstant: readAction,
     args,
     modelName,
+    idCheck,
   };
 };
 

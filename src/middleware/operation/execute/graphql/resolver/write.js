@@ -15,14 +15,14 @@ const resolveWrite = async function ({
   if (argsA.newData.length === 0) { return []; }
 
   const argsB = getCurrentData({ actions, args: argsA });
-  const actionPathA = mergeActionPaths({ actions });
+  const actionPath = mergeActionPaths({ actions });
   const dataPathsA = mergeDataPaths({ actions });
   const { command } = ACTIONS.find(action => actionConstant === action);
 
   const mInputA = {
     ...mInput,
     action: actionConstant,
-    actionPath: actionPathA,
+    actionPath,
     command,
     modelName,
     args: argsB,
