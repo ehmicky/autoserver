@@ -51,7 +51,7 @@ const getActionConstant = function ({ actionType, isArray }) {
   );
 
   if (!actionConstant) {
-    const message = `Action '${actionType}' does not exist`;
+    const message = `Action '${actionType}' is unknown`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 

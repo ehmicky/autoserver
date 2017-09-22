@@ -3,7 +3,7 @@
 const { uniq } = require('lodash');
 
 const { throwError } = require('../../../../error');
-const { mapValues, assignArray } = require('../../../../utilities');
+const { mapValues, assignArray, omitBy } = require('../../../../utilities');
 
 const {
   getTopLevelAction,
@@ -181,19 +181,27 @@ const getAction = function ({
     isArray: true,
   });
 
-  const dataA = data.map(datum =>
-    mapValues(
-      datum,
-      (value, key) => {
-        if (!(nestedKeys.includes(key) && isModelType(value))) { return value; }
-
-        return Array.isArray(value) ? value.map(({ id }) => id) : value.id;
-      },
-    ),
-  );
+  const dataA = data.map(datum => mapData({ datum, nestedKeys }));
   const args = { data: dataA };
 
   return { actionPath, args, actionConstant, modelName, dataPaths };
+};
+
+const mapData = function ({ datum, nestedKeys }) {
+  const datumA = mapValues(
+    datum,
+    (value, key) => mapDataValue({ value, key, nestedKeys }),
+  );
+  // Update actions do not use ids in args.data,
+  // i.e. will create undefined values
+  const datumB = omitBy(datumA, value => value === undefined);
+  return datumB;
+};
+
+const mapDataValue = function ({ value, key, nestedKeys }) {
+  if (!(nestedKeys.includes(key) && isModelType(value))) { return value; }
+
+  return Array.isArray(value) ? value.map(({ id }) => id) : value.id;
 };
 
 const filterAction = function ({ action, action: { args: { data } } }) {

@@ -7,12 +7,13 @@ const resolveReadActions = async function ({
   nextLayer,
   otherLayer,
   mInput,
+  topArgs,
   responses,
 }) {
   const readActions = getReadActions({ allActions });
   const responsesA = await reduceAsync(
     readActions,
-    getReadResponse.bind(null, { nextLayer, otherLayer, mInput }),
+    getReadResponse.bind(null, { nextLayer, otherLayer, mInput, topArgs }),
     responses,
   );
   return [...responses, ...responsesA];
@@ -25,7 +26,7 @@ const getReadActions = function ({ allActions }) {
 };
 
 const getReadResponse = async function (
-  { nextLayer, otherLayer, mInput },
+  { nextLayer, otherLayer, mInput, topArgs },
   responses,
   actions,
 ) {
@@ -34,6 +35,7 @@ const getReadResponse = async function (
     actions,
     nextLayer,
     mInput,
+    topArgs,
     responses,
   });
   return [...responses, ...responsesA];

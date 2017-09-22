@@ -5,7 +5,6 @@ const final = require('./final');
 const time = require('./time');
 const protocol = require('./protocol');
 const operation = require('./operation');
-const action = require('./action');
 const command = require('./command');
 const database = require('./database');
 
@@ -85,14 +84,6 @@ const middlewareLayers = [
       operation.silent,
       // Operation-related output validation middleware
       operation.operationValidationOut,
-    ],
-  },
-
-  {
-    name: 'action',
-    layers: [
-      // Turn one action into 0, 1 or several commands
-      action.actionExecute,
     ],
   },
 

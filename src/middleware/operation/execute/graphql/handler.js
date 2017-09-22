@@ -14,6 +14,7 @@ const { validateUnknownAttrs } = require('./unknown_attrs');
 const { parseDataArg } = require('./data_arg');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
+const { addCurrentData } = require('./current_data');
 const { resolveWriteActions } = require('./write_actions');
 const { resolveReadActions } = require('./read_actions');
 const { resolveActions } = require('./resolver');
@@ -65,18 +66,26 @@ const executeGraphql = async function (
   const operationSummary = getOperationSummary({ actions: actionsC });
   const actionsD = sortActions({ actions: actionsC });
 
-  const responses = await resolveWriteActions({
+  const actionsE = await addCurrentData({
     actions: actionsD,
     nextLayer,
     otherLayer,
     mInput,
     topArgs,
   });
-  const responsesA = await resolveReadActions({
-    actions: actionsD,
+  const responses = await resolveWriteActions({
+    actions: actionsE,
     nextLayer,
     otherLayer,
     mInput,
+    topArgs,
+  });
+  const responsesA = await resolveReadActions({
+    actions: actionsE,
+    nextLayer,
+    otherLayer,
+    mInput,
+    topArgs,
     responses,
   });
 
