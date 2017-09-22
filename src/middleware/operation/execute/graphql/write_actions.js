@@ -10,8 +10,9 @@ const resolveWriteActions = async function ({
   otherLayer,
   mInput,
 }) {
-  const writeActions = getWriteActions({ allActions });
-  const responsesPromises = writeActions.map(actions => otherLayer({
+  const writeActions = allActions.map(multiplyAction);
+  const writeActionsA = getWriteActions({ writeActions });
+  const responsesPromises = writeActionsA.map(actions => otherLayer({
     actionsGroupType: 'write',
     actions,
     nextLayer,
@@ -22,19 +23,23 @@ const resolveWriteActions = async function ({
   return responsesA;
 };
 
-const getWriteActions = function ({ allActions }) {
-  const writeActionsA = allActions
-    .filter(({ actionConstant }) => actionConstant.type !== 'find')
-    .map(({ actionConstant: { type: actionType }, ...rest }) => {
-      const actionConstant = getActionConstant({ actionType, isArray: true });
-      return { ...rest, actionConstant };
-    });
-  const writeActionsB = writeActionsA.reduce(getWriteAction, {});
+const multiplyAction = function ({
+  actionConstant: { type: actionType },
+  ...rest
+}) {
+  const actionConstant = getActionConstant({ actionType, isArray: true });
+  return { ...rest, actionConstant };
+};
+
+const getWriteActions = function ({ writeActions }) {
+  const writeActionsA = writeActions
+    .filter(({ actionConstant }) => actionConstant.type !== 'find');
+  const writeActionsB = writeActionsA.reduce(reduceWriteAction, {});
   const writeActionsC = Object.values(writeActionsB);
   return writeActionsC;
 };
 
-const getWriteAction = function (writeActions, action) {
+const reduceWriteAction = function (writeActions, action) {
   const { modelName } = action;
   const { [modelName]: actionsByModel = [] } = writeActions;
   const actionsByModelA = [...actionsByModel, action];
