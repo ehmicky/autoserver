@@ -9,7 +9,6 @@ const resolveWriteActions = async function ({
   nextLayer,
   otherLayer,
   mInput,
-  topArgs,
 }) {
   const writeActions = getWriteActions({ allActions });
   const responsesPromises = writeActions.map(actions => otherLayer({
@@ -17,7 +16,6 @@ const resolveWriteActions = async function ({
     actions,
     nextLayer,
     mInput,
-    topArgs,
   }));
   const responses = await Promise.all(responsesPromises);
   const responsesA = responses.reduce(assignArray, []);
