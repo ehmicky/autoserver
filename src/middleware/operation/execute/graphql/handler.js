@@ -14,8 +14,8 @@ const { validateUnknownAttrs } = require('./unknown_attrs');
 const { parseDataArg } = require('./data_arg');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
-const { addActionsGroups } = require('./actions_groups');
-const { sequenceActions } = require('./sequencer');
+const { resolveWriteActions } = require('./write_actions');
+const { resolveReadActions } = require('./read_actions');
 const { resolveActions } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
 const { sortResponses } = require('./sort_responses');
@@ -64,21 +64,27 @@ const executeGraphql = async function (
   const actionsC = parseDataArg({ actions: actionsB, modelsMap });
   const operationSummary = getOperationSummary({ actions: actionsC });
   const actionsD = sortActions({ actions: actionsC });
-  const actionsGroups = addActionsGroups({ actions: actionsD });
 
-  const responses = await sequenceActions({
-    actionsGroups,
+  const responses = await resolveWriteActions({
+    actions: actionsD,
     nextLayer,
     otherLayer,
     mInput,
     topArgs,
   });
+  const responsesA = await resolveReadActions({
+    actions: actionsD,
+    nextLayer,
+    otherLayer,
+    mInput,
+    responses,
+  });
 
-  const responsesA = removeNestedWrite({ responses });
-  const responsesB = sortResponses({ responses: responsesA });
+  const responsesB = removeNestedWrite({ responses: responsesA });
+  const responsesC = sortResponses({ responses: responsesB });
 
-  const fullResponse = assembleResponses({ responses: responsesB });
-  const fullResponseA = selectFields({ fullResponse, responses: responsesB });
+  const fullResponse = assembleResponses({ responses: responsesC });
+  const fullResponseA = selectFields({ fullResponse, responses: responsesC });
   const fullResponseB = parseResponse({ fullResponse: fullResponseA });
 
   return { response: fullResponseB, topArgs, operationSummary };
