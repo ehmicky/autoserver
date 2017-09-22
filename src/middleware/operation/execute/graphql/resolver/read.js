@@ -3,6 +3,7 @@
 const { isEqual, uniq } = require('lodash');
 
 const { assignArray } = require('../../../../../utilities');
+const { ACTIONS } = require('../../../../../constants');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
 
 const resolveRead = async function ({
@@ -16,7 +17,7 @@ const resolveRead = async function ({
   }],
   nextLayer,
   mInput,
-  responses,
+  responses = [],
 }) {
   const {
     isTopLevel,
@@ -58,7 +59,9 @@ const getActionInput = function ({
   },
   responses,
 }) {
-  const isTopLevel = isTopLevelAction({ actionPath });
+  const isTopLevel = isTopLevelAction({ actionPath }) ||
+    // When firing read actions in parallel
+    responses.length === 0;
   const actionConstant = getActionConstant({ actionType, isArray: true });
 
   const parentPath = actionPath.slice(0, -1);
@@ -111,6 +114,8 @@ const fireReadAction = async function ({
   args,
   args: { filter: { id } = {} },
 }) {
+  const { command } = ACTIONS.find(action => actionConstant === action);
+
   // When parent value is not defined, directly returns empty value
   if (Array.isArray(id) && id.length === 0) { return []; }
 
@@ -120,6 +125,7 @@ const fireReadAction = async function ({
     actionPath: actionPath.join('.'),
     modelName,
     args,
+    command,
   };
 
   const { response: { data: response } } = await nextLayer(mInputA);

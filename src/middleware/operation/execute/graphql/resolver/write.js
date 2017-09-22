@@ -2,6 +2,7 @@
 
 const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
+const { ACTIONS } = require('../../../../../constants');
 
 const resolveWrite = async function ({
   actions,
@@ -11,17 +12,20 @@ const resolveWrite = async function ({
   topArgs,
 }) {
   const argsA = mergeArgs({ actions, topArgs });
-  if (argsA.data.length === 0) { return []; }
+  if (argsA.newData.length === 0) { return []; }
 
+  const argsB = getCurrentData({ actions, args: argsA });
   const actionPathA = mergeActionPaths({ actions });
   const dataPathsA = mergeDataPaths({ actions });
+  const { command } = ACTIONS.find(action => actionConstant === action);
 
   const mInputA = {
     ...mInput,
     action: actionConstant,
     actionPath: actionPathA,
+    command,
     modelName,
-    args: argsA,
+    args: argsB,
   };
   const { response: { data } } = await nextLayer(mInputA);
 
@@ -29,12 +33,25 @@ const resolveWrite = async function ({
   return responses;
 };
 
+const getCurrentData = function ({ actions, args, args: { newData } }) {
+  const currentData = actions
+    .map(action => action.currentData)
+    .reduce(assignArray, []);
+  const currentDataA = newData
+    .map(datum => findCurrentData({ datum, currentData }));
+  return { ...args, currentData: currentDataA };
+};
+
+const findCurrentData = function ({ datum, currentData }) {
+  return currentData.find(currentDatum => currentDatum.id === datum.id);
+};
+
 const mergeArgs = function ({ actions, topArgs }) {
-  const data = actions
+  const newData = actions
     .map(({ args: { data: dataA } }) => dataA)
     .reduce(assignArray, [])
     .filter(isDuplicate);
-  return { ...topArgs, data };
+  return { ...topArgs, newData };
 };
 
 // Removes duplicates
