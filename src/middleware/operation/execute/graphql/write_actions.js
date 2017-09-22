@@ -2,6 +2,8 @@
 
 const { assignArray } = require('../../../../utilities');
 
+const { getActionConstant } = require('./utilities');
+
 const resolveWriteActions = async function ({
   actions: allActions,
   nextLayer,
@@ -24,7 +26,11 @@ const resolveWriteActions = async function ({
 
 const getWriteActions = function ({ allActions }) {
   const writeActionsA = allActions
-    .filter(({ actionConstant }) => actionConstant.type !== 'find');
+    .filter(({ actionConstant }) => actionConstant.type !== 'find')
+    .map(({ actionConstant: { type: actionType }, ...rest }) => {
+      const actionConstant = getActionConstant({ actionType, isArray: true });
+      return { ...rest, actionConstant };
+    });
   const writeActionsB = writeActionsA.reduce(getWriteAction, {});
   const writeActionsC = Object.values(writeActionsB);
   return writeActionsC;

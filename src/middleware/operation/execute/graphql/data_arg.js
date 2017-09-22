@@ -7,6 +7,7 @@ const { mapValues, assignArray, omitBy } = require('../../../../utilities');
 
 const {
   getTopLevelAction,
+  isTopLevelAction,
   getModel,
   getActionConstant,
 } = require('./utilities');
@@ -187,17 +188,16 @@ const getAction = function ({
   dataPaths,
   modelsMap,
   topLevelAction,
-  topLevelAction: { actionConstant: { type: topType } },
+  topLevelAction: { actionConstant: { type: topType, multiple } },
   nestedKeys,
 }) {
   const { modelName } = getModel({ modelsMap, topLevelAction, actionPath });
 
   // Nested actions due to nested `args.data` reuses top-level action
   // Others are simply for selection, i.e. are find actions
-  const actionConstant = getActionConstant({
-    actionType: topType,
-    isArray: true,
-  });
+  const isTopLevel = isTopLevelAction({ actionPath });
+  const isArray = isTopLevel ? multiple : true;
+  const actionConstant = getActionConstant({ actionType: topType, isArray });
 
   const dataA = data.map(datum => mapData({ datum, nestedKeys }));
   const args = { data: dataA };

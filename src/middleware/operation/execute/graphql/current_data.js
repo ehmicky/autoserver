@@ -165,14 +165,17 @@ const fireSerialRead = async function (
   return [...responses, ...responsesA];
 };
 
-const getSerialReadActions = function ({ action, action: { args } }) {
+const getSerialReadActions = function ({
+  action,
+  action: { args, actionConstant: { multiple } },
+}) {
   const argsA = omit(args, 'data');
+  const actionConstant = getActionConstant({
+    actionType: 'find',
+    isArray: multiple,
+  });
 
-  return [{
-    ...action,
-    actionConstant: readAction,
-    args: argsA,
-  }];
+  return [{ ...action, actionConstant, args: argsA }];
 };
 
 const mergeSerialResponse = function ({

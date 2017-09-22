@@ -151,14 +151,7 @@ const getResponses = function ({
   return nestedParentIds
     .map((ids, index) => {
       const { path } = parentResponses[index];
-      return getEachResponses({
-        ids,
-        actionName,
-        multiple,
-        select,
-        path,
-        response,
-      });
+      return getEachResponses({ ids, actionName, select, path, response });
     })
     .reduce(assignArray, []);
 };
@@ -166,14 +159,14 @@ const getResponses = function ({
 const getEachResponses = function ({
   ids,
   actionName,
-  multiple,
   select,
   path,
   response,
 }) {
+  const multiple = Array.isArray(ids);
   return response
     // Make sure response's sorting is kept
-    .filter(({ id }) => (Array.isArray(ids) ? ids.includes(id) : ids === id))
+    .filter(({ id }) => (multiple ? ids.includes(id) : ids === id))
     .map((model, ind) =>
       getResponse({ model, index: ind, path, actionName, multiple, select })
     );
