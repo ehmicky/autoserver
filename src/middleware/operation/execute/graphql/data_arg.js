@@ -41,7 +41,9 @@ const parseData = function ({
 }) {
   const dataA = normalizeData({ data });
 
-  validateData({ data: dataA, actionPath });
+  dataA.forEach(
+    datum => validateData({ data: datum, actionPath, topLevelAction })
+  );
 
   const nestedKeys = getNestedKeys({
     data: dataA,
@@ -73,13 +75,29 @@ const normalizeData = function ({ data }) {
   return Array.isArray(data) ? data : [data];
 };
 
-const validateData = function ({ data, actionPath }) {
-  const isValidData = data.every(isObject);
-  if (isValidData) { return; }
+const validateData = function ({
+  data,
+  actionPath,
+  topLevelAction: { actionConstant: { type: actionType } },
+}) {
+  if (!isObject(data)) {
+    const message = `'data' argument at ${actionPath.join('.')} should be an object or an array of objects, instead of: ${JSON.stringify(data)}`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
 
-  const message = `'data' argument at ${actionPath.join('.')} should be an object or an array of objects, instead of: ${JSON.stringify(data)}`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  if (requiredIdTypes.includes(actionType) && data.id == null) {
+    const message = `'data' argument at ${actionPath.join('.')} contains some models without an 'id' attribute`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  if (forbiddenIdTypes.includes(actionType) && data.id != null) {
+    const message = `Cannot use 'id' ${data.id}: 'update' actions cannot specify 'id' attributes in 'data' argument, because ids cannot be updated. Use 'filter' argument instead.`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
 };
+
+const requiredIdTypes = ['upsert', 'replace'];
+const forbiddenIdTypes = ['update'];
 
 const isModelType = function (val) {
   if (isObject(val)) { return true; }
