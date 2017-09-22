@@ -22,11 +22,9 @@ const isPaginationDisabled = function ({ args, args: { pageSize } }) {
     pageSize === undefined;
 };
 
-const commandDoesNotPaginate = function ({ args: { internal, filter } }) {
-  // Internal commands do not paginate
-  return internal ||
-    // Pagination requires `args.filter`
-    filter === undefined;
+const commandDoesNotPaginate = function ({ args: { filter } }) {
+  // Pagination requires `args.filter`
+  return filter === undefined;
 };
 
 module.exports = {

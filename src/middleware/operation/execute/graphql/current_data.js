@@ -100,6 +100,7 @@ const writeToReadAction = function (actions) {
     args,
     modelName,
     idCheck,
+    internal: true,
   };
 };
 
@@ -177,7 +178,7 @@ const getSerialReadActions = function ({
     isArray: multiple,
   });
 
-  return [{ ...action, actionConstant, args: argsA }];
+  return [{ ...action, actionConstant, args: argsA, internal: true }];
 };
 
 const mergeSerialResponse = function ({

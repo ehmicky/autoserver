@@ -15,6 +15,7 @@ const resolveRead = async function ({
     args,
     select,
     idCheck,
+    internal,
   }],
   nextLayer,
   mInput,
@@ -30,7 +31,7 @@ const resolveRead = async function ({
   } = getActionInput({ action, responses });
 
   const argsA = getNestedArg({ args, actionConstant, parentIds, isTopLevel });
-  const argsB = { ...argsA, idCheck };
+  const argsB = { ...argsA, idCheck, internal };
 
   const response = await fireReadAction({
     mInput,
@@ -39,7 +40,6 @@ const resolveRead = async function ({
     actionPath,
     modelName,
     args: argsB,
-    idCheck,
   });
 
   const responsesA = getResponses({

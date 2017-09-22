@@ -30,10 +30,6 @@ const defaults = {
     test: ({ args }) =>
       args.before === undefined && args.page === undefined,
   },
-
-  internal: {
-    value: false,
-  },
 };
 
 const hasNoPaginationTokens = function ({ args }) {
