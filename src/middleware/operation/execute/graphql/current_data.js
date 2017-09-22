@@ -2,6 +2,7 @@
 
 const { uniq, isEqual } = require('lodash');
 
+const { throwError } = require('../../../../error');
 const { assignArray, reduceAsync, omit } = require('../../../../utilities');
 
 const { getTopLevelAction, getActionConstant } = require('./utilities');
@@ -203,18 +204,27 @@ const removeIndexes = function ({ path }) {
   return path.filter(index => typeof index !== 'number');
 };
 
-const getSerialAction = function ({ responses, action, args: { data } }) {
+const getSerialAction = function ({ responses, action, args }) {
   const dataPaths = responses.map(({ path }) => path);
   const currentData = responses.map(({ model }) => model);
+  const argsA = mergeData({ args, currentData });
 
-  // Merge current models with the data we want to update,
-  // to obtain the final models we want to use as replacement
+  return { ...action, currentData, dataPaths, args: argsA };
+};
+
+// Merge current models with the data we want to update,
+// to obtain the final models we want to use as replacement
+const mergeData = function ({ args: { data }, currentData }) {
   const [newData] = data;
+
+  if (newData.id !== undefined) {
+    const message = `Cannot use 'id' ${newData.id}: 'update' actions cannot specify 'id' attributes in 'data' argument, because ids cannot be updated. Use 'filter' argument instead.`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
   const newDataA = currentData
     .map(currentDatum => ({ ...currentDatum, ...newData }));
-  const args = { data: newDataA };
-
-  return { ...action, currentData, dataPaths, args };
+  return { data: newDataA };
 };
 
 const resolvers = {
