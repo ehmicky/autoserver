@@ -43,7 +43,8 @@ const getCurrentData = function ({ actions, args, args: { newData } }) {
 };
 
 const findCurrentData = function ({ datum, currentData }) {
-  return currentData.find(currentDatum => currentDatum.id === datum.id);
+  return currentData
+    .find(currentDatum => currentDatum && currentDatum.id === datum.id);
 };
 
 const mergeArgs = function ({ actions, topArgs }) {
