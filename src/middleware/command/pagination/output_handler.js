@@ -11,9 +11,6 @@ const { getPaginationInfo } = require('./info');
 //   token, page_size, has_previous_page, has_next_page
 const handlePaginationOutput = function ({
   args,
-  action,
-  modelName,
-  idl,
   response,
   runOpts: { maxPageSize },
 }) {
@@ -24,14 +21,7 @@ const handlePaginationOutput = function ({
   const paginationOutput = getPaginationOutput({ args, response: responseA });
   const responseB = { ...responseA, ...paginationOutput };
 
-  validatePaginationOutput({
-    args,
-    action,
-    modelName,
-    maxPageSize,
-    response: responseB,
-    idl,
-  });
+  validatePaginationOutput({ args, maxPageSize, response: responseB });
 
   return { response: responseB };
 };

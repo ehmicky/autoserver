@@ -44,19 +44,9 @@ const { getPaginationInput } = require('./input');
 const handlePaginationInput = function ({
   args,
   command,
-  action,
-  modelName,
-  idl,
   runOpts: { maxPageSize },
 }) {
-  validatePaginationInput({
-    args,
-    action,
-    command,
-    modelName,
-    maxPageSize,
-    idl,
-  });
+  validatePaginationInput({ args, command, maxPageSize });
 
   if (!mustPaginateOutput({ args })) { return; }
 
