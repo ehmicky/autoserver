@@ -7,13 +7,7 @@ const { assignArray, reduceAsync, omit } = require('../../../../utilities');
 
 const { getTopLevelAction, getActionConstant } = require('./utilities');
 
-const addCurrentData = function ({
-  actions,
-  nextLayer,
-  otherLayer,
-  mInput,
-  topArgs,
-}) {
+const addCurrentData = function ({ actions, nextLayer, otherLayer, mInput }) {
   const {
     actionConstant: { type: actionType },
   } = getTopLevelAction({ actions });
@@ -21,7 +15,7 @@ const addCurrentData = function ({
 
   if (resolver === undefined) { return actions; }
 
-  return resolver({ actions, nextLayer, otherLayer, mInput, topArgs });
+  return resolver({ actions, nextLayer, otherLayer, mInput });
 };
 
 const parallelResolve = async function ({
@@ -29,12 +23,11 @@ const parallelResolve = async function ({
   nextLayer,
   otherLayer,
   mInput,
-  topArgs,
 }) {
   const actionsGroups = getWriteActions({ allActions });
   const actions = writeToRead(actionsGroups);
   const currentDataPromises = actions.map(
-    fireParallelRead.bind(null, { nextLayer, otherLayer, mInput, topArgs })
+    fireParallelRead.bind(null, { nextLayer, otherLayer, mInput })
   );
   const currentDataMap = await Promise.all(currentDataPromises);
   const currentDataMapA = Object.assign({}, ...currentDataMap);
@@ -116,7 +109,7 @@ const mergeActionPaths = function ({ actions }) {
 const readAction = getActionConstant({ actionType: 'find', isArray: true });
 
 const fireParallelRead = async function (
-  { nextLayer, otherLayer, mInput, topArgs },
+  { nextLayer, otherLayer, mInput },
   action,
 ) {
   const { modelName } = action;
@@ -125,7 +118,6 @@ const fireParallelRead = async function (
     actions: [action],
     nextLayer,
     mInput,
-    topArgs,
   });
   const models = responses.map(({ model }) => model);
   return { [modelName]: models };
@@ -136,13 +128,12 @@ const serialResolve = async function ({
   nextLayer,
   otherLayer,
   mInput,
-  topArgs,
 }) {
   const writeActions = actions
     .filter(({ actionConstant }) => actionConstant.type !== 'find');
   const responses = await reduceAsync(
     writeActions,
-    fireSerialRead.bind(null, { nextLayer, otherLayer, mInput, topArgs }),
+    fireSerialRead.bind(null, { nextLayer, otherLayer, mInput }),
     [],
   );
   const actionsA = actions
@@ -151,7 +142,7 @@ const serialResolve = async function ({
 };
 
 const fireSerialRead = async function (
-  { nextLayer, otherLayer, mInput, topArgs },
+  { nextLayer, otherLayer, mInput },
   responses,
   action,
 ) {
@@ -162,7 +153,6 @@ const fireSerialRead = async function (
     actions,
     nextLayer,
     mInput,
-    topArgs,
     responses,
   });
   return [...responses, ...responsesA];

@@ -14,8 +14,8 @@ const resolveRead = async function ({
     modelName,
     args,
     select,
-    idCheck,
-    internal,
+    idCheck = true,
+    internal = false,
   }],
   nextLayer,
   mInput,
@@ -75,7 +75,9 @@ const getActionInput = function ({
 
   const actionName = actionPath[actionPath.length - 1];
   const nestedParentIds = parentResponses.map(({ model }) => model[actionName]);
-  const parentIds = nestedParentIds.reduce(assignArray, []);
+  const parentIds = nestedParentIds
+    .reduce(assignArray, [])
+    .filter(ids => ids !== undefined);
   const parentIdsA = uniq(parentIds);
 
   return {

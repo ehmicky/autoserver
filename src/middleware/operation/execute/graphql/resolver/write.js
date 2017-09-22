@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../../../error');
-const { assignArray } = require('../../../../../utilities');
+const { assignArray, pick } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
 
 const resolveWrite = async function ({
@@ -9,9 +9,8 @@ const resolveWrite = async function ({
   actions: [{ actionConstant, modelName }],
   nextLayer,
   mInput,
-  topArgs,
 }) {
-  const argsA = mergeArgs({ actions, topArgs });
+  const argsA = mergeArgs({ actions });
   if (argsA.newData.length === 0) { return []; }
 
   const argsB = getCurrentData({ actions, args: argsA });
@@ -33,26 +32,13 @@ const resolveWrite = async function ({
   return responses;
 };
 
-const getCurrentData = function ({ actions, args, args: { newData } }) {
-  const currentData = actions
-    .map(action => action.currentData)
-    .reduce(assignArray, []);
-  const currentDataA = newData
-    .map(datum => findCurrentData({ datum, currentData }));
-  return { ...args, currentData: currentDataA };
-};
-
-const findCurrentData = function ({ datum, currentData }) {
-  return currentData
-    .find(currentDatum => currentDatum && currentDatum.id === datum.id);
-};
-
-const mergeArgs = function ({ actions, topArgs }) {
+const mergeArgs = function ({ actions }) {
   const newData = actions
     .map(({ args: { data: dataA } }) => dataA)
     .reduce(assignArray, [])
     .filter(isDuplicate);
-  return { ...topArgs, newData };
+
+  return { newData };
 };
 
 // Removes duplicates
@@ -65,6 +51,20 @@ const isDuplicate = function (model, index, allData) {
   return allData
     .slice(0, index)
     .every(({ id }) => model.id !== id);
+};
+
+const getCurrentData = function ({ actions, args, args: { newData } }) {
+  const currentData = actions
+    .map(action => action.currentData)
+    .reduce(assignArray, []);
+  const currentDataA = newData
+    .map(datum => findCurrentData({ datum, currentData }));
+  return { ...args, currentData: currentDataA };
+};
+
+const findCurrentData = function ({ datum, currentData }) {
+  return currentData
+    .find(currentDatum => currentDatum && currentDatum.id === datum.id);
 };
 
 const mergeActionPaths = function ({ actions }) {

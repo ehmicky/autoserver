@@ -71,21 +71,18 @@ const executeGraphql = async function (
     nextLayer,
     otherLayer,
     mInput,
-    topArgs,
   });
   const responses = await resolveWriteActions({
     actions: actionsE,
     nextLayer,
     otherLayer,
     mInput,
-    topArgs,
   });
   const responsesA = await resolveReadActions({
     actions: actionsE,
     nextLayer,
     otherLayer,
     mInput,
-    topArgs,
     responses,
   });
 
