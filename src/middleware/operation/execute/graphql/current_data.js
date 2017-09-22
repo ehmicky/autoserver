@@ -216,12 +216,6 @@ const getSerialAction = function ({ responses, action, args }) {
 // to obtain the final models we want to use as replacement
 const mergeData = function ({ args: { data }, currentData }) {
   const [newData] = data;
-
-  if (newData.id !== undefined) {
-    const message = `Cannot use 'id' ${newData.id}: 'update' actions cannot specify 'id' attributes in 'data' argument, because ids cannot be updated. Use 'filter' argument instead.`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
   const newDataA = currentData
     .map(currentDatum => ({ ...currentDatum, ...newData }));
   return { data: newDataA };

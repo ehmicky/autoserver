@@ -33,18 +33,18 @@
   },
   "replaceOne": {
     "optional": [],
-    "required": ["single_data_with_id"]
+    "required": ["single_data"]
   },
   "replaceMany": {
     "optional": ["page_size"],
-    "required": ["multiple_data_with_id"]
+    "required": ["multiple_data"]
   },
   "upsertOne": {
     "optional": [],
-    "required": ["single_data_with_id"]
+    "required": ["single_data"]
   },
   "upsertMany": {
     "optional": ["page_size"],
-    "required": ["multiple_data_with_id"]
+    "required": ["multiple_data"]
   }
 }
