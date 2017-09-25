@@ -30,7 +30,7 @@ const resolveRead = async function ({
 
 const resolveSingleRead = async function ({
   action,
-  action: { args },
+  action: { args, modelName },
   childActions,
   nextLayer,
   mInput,
@@ -51,6 +51,7 @@ const resolveSingleRead = async function ({
   const { concurrentPromises, args: argsC } = getConcurrentCommand({
     args: argsB,
     responses,
+    modelName,
   });
 
   // Parent actions must be run first
@@ -66,7 +67,12 @@ const resolveSingleRead = async function ({
     nestedParentIds,
   });
 
-  const pendingResponses = initCommand({ args: argsC, responses, promise });
+  const pendingResponses = initCommand({
+    args: argsC,
+    modelName,
+    responses,
+    promise,
+  });
 
   const finishedResponses = await Promise.all([promise, ...concurrentPromises]);
 
@@ -153,9 +159,18 @@ const normalizeIds = function ({
   };
 };
 
-const getConcurrentCommand = function ({ args, args: { filter }, responses }) {
+const getConcurrentCommand = function ({
+  args,
+  args: { filter },
+  responses,
+  modelName,
+}) {
   const ids = getIds(args);
-  const concurrentResponses = getConcurrentResponses({ ids, responses });
+  const concurrentResponses = getConcurrentResponses({
+    ids,
+    responses,
+    modelName,
+  });
 
   if (concurrentResponses.length === 0) {
     return { args, concurrentPromises: [] };
@@ -174,13 +189,15 @@ const getConcurrentCommand = function ({ args, args: { filter }, responses }) {
   return { concurrentPromises, args: argsA };
 };
 
-const getIds = function ({ filter: { id: ids } }) {
+const getIds = function ({ filter: { id: ids } = {} }) {
   return Array.isArray(ids) ? ids : [];
 };
 
-const getConcurrentResponses = function ({ ids, responses }) {
+const getConcurrentResponses = function ({ ids, responses, modelName }) {
   return ids
-    .map(id => responses.find(({ model }) => model.id === id))
+    .map(id => responses.find(
+      response => response.model.id === id && response.modelName === modelName
+    ))
     .filter(response => response !== undefined);
 };
 
@@ -195,7 +212,7 @@ const fireReadAction = async function ({
   nextLayer,
   actionConstant,
   args,
-  args: { filter: { id: ids } },
+  args: { filter: { id: ids } = {} },
 }) {
   // When parent value is not defined, directly returns empty value
   if (Array.isArray(ids) && ids.length === 0) { return []; }
@@ -215,9 +232,13 @@ const fireReadAction = async function ({
   return response;
 };
 
-const initCommand = function ({ args, responses, promise }) {
+const initCommand = function ({ args, responses, modelName, promise }) {
   const ids = getIds(args);
-  const pendingResponses = ids.map(id => ({ model: { id }, promise }));
+  const pendingResponses = ids.map(id => ({
+    model: { id },
+    modelName,
+    promise,
+  }));
 
   // `responses` must be shared between parallel command calls,
   // so that each call can reuse the response from other calls when targetting
@@ -250,10 +271,15 @@ const finishCommand = function ({
     responses: finishedResponsesA,
   });
 
-  const index = responses
-    .findIndex(response => pendingResponses.includes(response));
+  if (pendingResponses.length > 0) {
+    const index = responses
+      .findIndex(response => pendingResponses.includes(response));
+    // eslint-disable-next-line fp/no-mutating-methods
+    responses.splice(index, pendingResponses.length);
+  }
+
   // eslint-disable-next-line fp/no-mutating-methods
-  responses.splice(index, pendingResponses.length, ...finishedResponsesB);
+  responses.push(...finishedResponsesB);
 };
 
 const getResponses = function ({

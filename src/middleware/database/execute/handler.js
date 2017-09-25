@@ -17,6 +17,9 @@ const databaseExecute = function ({
 
   const opts = { orderBy, limit, offset, idCheck };
   const commandInput = { command, collection, filter, newData, opts };
+
+  console.log(command, modelName, (filter && filter.id) || (newData && newData.map(({ id }) => id)));
+
   return fireCommand(commandInput);
 };
 

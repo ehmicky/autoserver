@@ -223,17 +223,22 @@ const filterAction = function ({ action, action: { args: { data } } }) {
 const mergeActions = function ({ readActions, writeActions }) {
   const writeActionsA = writeActions
     .map(writeAction => mergeAction({ readActions, writeAction }));
+
+  const topLevelWriteAction = getTopLevelAction({ actions: writeActionsA });
   const topLevelReadAction = getTopLevelAction({ actions: readActions });
 
   const readActionsA = readActions.map(readAction => {
     if (readAction !== topLevelReadAction) { return readAction; }
 
-    const { actionConstant: { multiple } } = topLevelReadAction;
+    const { actionConstant: { multiple }, args } = topLevelReadAction;
+    const { args: { data } } = topLevelWriteAction;
     const actionConstant = getActionConstant({
       actionType: 'find',
       isArray: multiple,
     });
-    return { ...readAction, actionConstant };
+    const ids = data.map(({ id }) => id);
+    const argsA = { ...args, filter: { id: ids } };
+    return { ...readAction, actionConstant, args: argsA };
   });
 
   return [...writeActionsA, ...readActionsA];
