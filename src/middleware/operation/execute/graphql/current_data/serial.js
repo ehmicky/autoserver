@@ -18,7 +18,6 @@ const serialResolve = async function ({
     nextLayer,
     otherLayer,
     mInput,
-    responses: [],
   });
   const actionsA = actions
     .map(action => mergeSerialResponse({ responses, action }));
