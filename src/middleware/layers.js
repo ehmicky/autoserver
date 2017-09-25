@@ -92,8 +92,6 @@ const middlewareLayers = [
     layers: [
       // Normalize empty values (undefined, null) by removing their key
       command.normalizeEmpty,
-      // Command-related validation middleware
-      command.commandValidation,
       // Normalize mInput
       command.normalization,
       // Apply attribute aliases, in mInput

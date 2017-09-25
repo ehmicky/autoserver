@@ -85,14 +85,20 @@ const removeIndexes = function ({ path }) {
 const getSerialAction = function ({ responses, action, args }) {
   const dataPaths = responses.map(({ path }) => path);
   const currentData = responses.map(({ model }) => model);
-  const argsA = mergeData({ args, currentData });
+  const argsA = mergeData({ args, action, currentData });
 
   return { ...action, currentData, dataPaths, args: argsA };
 };
 
 // Merge current models with the data we want to update,
 // to obtain the final models we want to use as replacement
-const mergeData = function ({ args: { data }, currentData }) {
+const mergeData = function ({
+  args: { data },
+  action: { actionConstant: { type: actionType } },
+  currentData,
+}) {
+  if (actionType === 'delete') { return {}; }
+
   const [newData] = data;
   const newDataA = currentData
     .map(currentDatum => ({ ...currentDatum, ...newData }));
