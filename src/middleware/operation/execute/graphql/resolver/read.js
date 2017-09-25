@@ -7,10 +7,10 @@ const { ACTIONS } = require('../../../../../constants');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
 
 const resolveRead = async function ({
-  actions,
+  actions = [],
   nextLayer,
   mInput,
-  responses,
+  responses = [],
 }) {
   // Siblings can be run in parallel
   const responsesPromises = actions.map(({ parentAction, childActions }) =>
@@ -23,25 +23,15 @@ const resolveRead = async function ({
       responses,
     })
   );
-  const responsesA = await Promise.all(responsesPromises);
-  const responsesB = responsesA.reduce(assignArray, []);
+  await Promise.all(responsesPromises);
 
-  const responsesC = responses || [];
-  return [...responsesC, ...responsesB];
+  return responses;
 };
 
 const resolveSingleRead = async function ({
   action,
-  action: {
-    actionPath,
-    actionConstant: { multiple },
-    modelName,
-    args,
-    select,
-    idCheck = true,
-    internal = false,
-  },
-  childActions = [],
+  action: { args },
+  childActions,
   nextLayer,
   mInput,
   responses,
@@ -55,39 +45,44 @@ const resolveSingleRead = async function ({
     parentIds,
   } = getActionInput({ action, responses });
 
-  const argsA = getNestedArg({ args, actionConstant, parentIds, isTopLevel });
-  const argsB = { ...argsA, idCheck, internal };
+  const argsA = getNestedArg({ args, actionConstant, isTopLevel, parentIds });
+  const argsB = normalizeIds({ args: argsA });
+
+  const { concurrentPromises, args: argsC } = getConcurrentCommand({
+    args: argsB,
+    responses,
+  });
 
   // Parent actions must be run first
-  const response = await fireReadAction({
+  const promise = fireReadAction({
+    action,
     mInput,
     nextLayer,
     actionConstant,
-    actionPath,
-    modelName,
-    args: argsB,
+    args: argsC,
+    isTopLevel,
+    parentResponses,
+    actionName,
+    nestedParentIds,
   });
 
-  const responsesA = getResponses({
+  const pendingResponses = initCommand({ args: argsC, responses, promise });
+
+  const finishedResponses = await Promise.all([promise, ...concurrentPromises]);
+
+  finishCommand({
+    responses,
+    finishedResponses,
+    pendingResponses,
+    action,
     actionName,
-    multiple,
     isTopLevel,
     parentResponses,
     nestedParentIds,
-    response,
-    select,
-    modelName,
   });
 
   // Child actions must start after their parent ends
-  const childResponses = await resolveRead({
-    actions: childActions,
-    nextLayer,
-    mInput,
-    responses: responsesA,
-  });
-
-  return childResponses;
+  await resolveRead({ actions: childActions, nextLayer, mInput, responses });
 };
 
 const getActionInput = function ({
@@ -97,14 +92,13 @@ const getActionInput = function ({
   },
   responses,
 }) {
-  const isTopLevel = isTopLevelAction({ actionPath }) ||
-    // When firing read actions in parallel
-    responses === undefined;
+  const isTopLevel = isTopLevelAction({ actionPath });
   const actionConstant = getActionConstant({ actionType, isArray: true });
 
   const parentPath = actionPath.slice(0, -1);
-  const responsesA = responses || [];
-  const parentResponses = responsesA.filter(({ path }) => {
+  const parentResponses = responses.filter(({ path, promise }) => {
+    if (promise !== undefined) { return false; }
+
     const pathA = path.filter(index => typeof index !== 'number');
     return isEqual(pathA, parentPath);
   });
@@ -134,8 +128,8 @@ const getActionInput = function ({
 const getNestedArg = function ({
   args,
   actionConstant,
-  parentIds,
   isTopLevel,
+  parentIds,
 }) {
   const shouldNestArg = !isTopLevel &&
     nestedActionTypes.includes(actionConstant.type);
@@ -147,46 +141,131 @@ const getNestedArg = function ({
 
 const nestedActionTypes = ['find', 'delete', 'update'];
 
+const normalizeIds = function ({
+  args,
+  args: { filter: { id } = {}, ...filter },
+}) {
+  if (typeof id !== 'string') { return args; }
+
+  return {
+    ...args,
+    filter: { ...filter, id: [id] },
+  };
+};
+
+const getConcurrentCommand = function ({ args, args: { filter }, responses }) {
+  const ids = getIds(args);
+  const concurrentResponses = getConcurrentResponses({ ids, responses });
+
+  if (concurrentResponses.length === 0) {
+    return { args, concurrentPromises: [] };
+  }
+
+  const concurrentIds = concurrentResponses.map(({ model: { id } }) => id);
+  const idsA = ids.filter(id => !concurrentIds.includes(id));
+  const argsA = {
+    ...args,
+    filter: { ...filter, id: idsA },
+  };
+
+  const concurrentPromises = concurrentResponses
+    .map(({ promise, model }) => promise || model);
+
+  return { concurrentPromises, args: argsA };
+};
+
+const getIds = function ({ filter: { id: ids } }) {
+  return Array.isArray(ids) ? ids : [];
+};
+
+const getConcurrentResponses = function ({ ids, responses }) {
+  return ids
+    .map(id => responses.find(({ model }) => model.id === id))
+    .filter(response => response !== undefined);
+};
+
 const fireReadAction = async function ({
+  action: {
+    actionPath,
+    modelName,
+    idCheck = true,
+    internal = false,
+  },
   mInput,
   nextLayer,
   actionConstant,
-  actionPath,
-  modelName,
   args,
-  args: { filter: { id } = {} },
+  args: { filter: { id: ids } },
 }) {
-  const { command } = ACTIONS.find(action => actionConstant === action);
-
   // When parent value is not defined, directly returns empty value
-  if (Array.isArray(id) && id.length === 0) { return []; }
+  if (Array.isArray(ids) && ids.length === 0) { return []; }
 
+  const argsA = { ...args, idCheck, internal };
+  const { command } = ACTIONS.find(ACTION => actionConstant === ACTION);
   const mInputA = {
     ...mInput,
     action: actionConstant,
     actionPath: actionPath.join('.'),
     modelName,
-    args,
+    args: argsA,
     command,
   };
 
   const { response: { data: response } } = await nextLayer(mInputA);
-
   return response;
 };
 
-const getResponses = function ({
+const initCommand = function ({ args, responses, promise }) {
+  const ids = getIds(args);
+  const pendingResponses = ids.map(id => ({ model: { id }, promise }));
+
+  // `responses` must be shared between parallel command calls,
+  // so that each call can reuse the response from other calls when targetting
+  // the same model.
+  // Hence, `responses` must be a mutable variable.
+  // eslint-disable-next-line fp/no-mutating-methods
+  responses.push(...pendingResponses);
+
+  return pendingResponses;
+};
+
+const finishCommand = function ({
+  responses,
+  finishedResponses,
+  pendingResponses,
+  action,
   actionName,
-  multiple,
   isTopLevel,
   parentResponses,
   nestedParentIds,
-  response,
-  select,
-  modelName,
+}) {
+  const finishedResponsesA = finishedResponses.reduce(assignArray, []);
+
+  const finishedResponsesB = getResponses({
+    action,
+    actionName,
+    isTopLevel,
+    parentResponses,
+    nestedParentIds,
+    responses: finishedResponsesA,
+  });
+
+  const index = responses
+    .findIndex(response => pendingResponses.includes(response));
+  // eslint-disable-next-line fp/no-mutating-methods
+  responses.splice(index, pendingResponses.length, ...finishedResponsesB);
+};
+
+const getResponses = function ({
+  action: { actionConstant: { multiple }, modelName, select },
+  actionName,
+  isTopLevel,
+  parentResponses,
+  nestedParentIds,
+  responses,
 }) {
   if (isTopLevel) {
-    return response.map((model, index) =>
+    return responses.map((model, index) =>
       getResponse({ model, index, actionName, multiple, select, modelName })
     );
   }
@@ -199,7 +278,7 @@ const getResponses = function ({
         actionName,
         select,
         path,
-        response,
+        responses,
         modelName,
       });
     })
@@ -211,11 +290,11 @@ const getEachResponses = function ({
   actionName,
   select,
   path,
-  response,
+  responses,
   modelName,
 }) {
   const multiple = Array.isArray(ids);
-  return response
+  return responses
     // Make sure response's sorting is kept
     .filter(({ id }) => (multiple ? ids.includes(id) : ids === id))
     .map((model, ind) => getResponse({
