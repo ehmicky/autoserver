@@ -1,5 +1,7 @@
 'use strict';
 
+const { get } = require('../../../../../../../utilities');
+
 // Validate required arguments
 const getRequiredTests = requiredArgs => [{
   test (args) {
@@ -13,7 +15,11 @@ const getRequiredTests = requiredArgs => [{
 }];
 
 const findMissingRequiredArg = function ({ requiredArgs, args }) {
-  return requiredArgs.find(argName => args[argName] == null);
+  return requiredArgs
+    .find(argName => {
+      const path = argName.split('.');
+      return get(args, path) == null;
+    });
 };
 
 module.exports = {
