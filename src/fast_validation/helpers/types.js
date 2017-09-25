@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues } = require('../../utilities');
+const { mapValues, get } = require('../../utilities');
 
 const isObject = function (value) {
   return value.constructor === Object;
@@ -11,10 +11,12 @@ const isObjectArray = function (value) {
 };
 
 const typeTest = ({ test: testFunc, message }) => name => ({
-  test ({ [name]: value }) {
-    if (value == null) { return true; }
+  test (value) {
+    const val = get(value, name.split('.'));
 
-    return testFunc(value);
+    if (val == null) { return true; }
+
+    return testFunc(val);
   },
   message: `'${name}' must be ${message}`,
 });
