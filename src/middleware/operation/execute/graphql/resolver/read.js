@@ -13,15 +13,16 @@ const resolveRead = async function ({
   responses,
 }) {
   // Siblings can be run in parallel
-  const responsesPromises = actions
-    .map(({ parentAction, childActions }) => resolveSingleRead({
+  const responsesPromises = actions.map(({ parentAction, childActions }) =>
+    resolveSingleRead({
       action: parentAction,
       childActions,
       actions,
       nextLayer,
       mInput,
       responses,
-    }));
+    })
+  );
   const responsesA = await Promise.all(responsesPromises);
   const responsesB = responsesA.reduce(assignArray, []);
 
