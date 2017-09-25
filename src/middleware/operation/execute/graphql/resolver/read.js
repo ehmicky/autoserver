@@ -7,8 +7,30 @@ const { ACTIONS } = require('../../../../../constants');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
 
 const resolveRead = async function ({
-  actions: [action],
-  actions: [{
+  actions,
+  nextLayer,
+  mInput,
+  responses,
+}) {
+  // Siblings can be run in parallel
+  const responsesPromises = actions
+    .map(({ parentAction, childActions }) => resolveSingleRead({
+      action: parentAction,
+      childActions,
+      actions,
+      nextLayer,
+      mInput,
+      responses,
+    }));
+  const responsesA = await Promise.all(responsesPromises);
+  const responsesB = responsesA.reduce(assignArray, []);
+
+  return [...responses, ...responsesB];
+};
+
+const resolveSingleRead = async function ({
+  action,
+  action: {
     actionPath,
     actionConstant: { multiple },
     modelName,
@@ -16,7 +38,8 @@ const resolveRead = async function ({
     select,
     idCheck = true,
     internal = false,
-  }],
+  },
+  childActions,
   nextLayer,
   mInput,
   responses,
@@ -33,6 +56,7 @@ const resolveRead = async function ({
   const argsA = getNestedArg({ args, actionConstant, parentIds, isTopLevel });
   const argsB = { ...argsA, idCheck, internal };
 
+  // Parent actions must be run first
   const response = await fireReadAction({
     mInput,
     nextLayer,
@@ -52,7 +76,15 @@ const resolveRead = async function ({
     select,
   });
 
-  return responsesA;
+  // Child actions must start after their parent ends
+  const childResponses = await resolveRead({
+    actions: childActions,
+    nextLayer,
+    mInput,
+    responses: responsesA,
+  });
+
+  return childResponses;
 };
 
 const getActionInput = function ({
