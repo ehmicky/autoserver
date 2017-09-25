@@ -87,7 +87,6 @@ const executeGraphql = async function (
   });
 
   const responsesB = removeNestedWrite({ responses: responsesA });
-  console.log(JSON.stringify(responsesB, null, 2));
   const responsesC = sortResponses({ responses: responsesB });
 
   const fullResponse = assembleResponses({ responses: responsesC });

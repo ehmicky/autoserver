@@ -53,9 +53,8 @@ const getTests = function ({ testNames }) {
 
 // Add `test.argName`, which defaults to test key, and represents argument name
 const addArgName = function (tests, key) {
-  return tests.map(
-    ({ argName = key, ...params }) => ({ ...params, argName })
-  );
+  return tests
+    .map(({ argName = key, ...params }) => ({ ...params, argName }));
 };
 
 // Prefix error message with argument name

@@ -1,26 +1,33 @@
 {
   "findOne": {
     "optional": [],
-    "required": ["filter"]
+    "required": ["single_filter"]
   },
   "findMany": {
-    "optional": ["filter", "order_by", "page_size", "page", "before", "after"],
+    "optional": [
+      "multiple_filter",
+      "order_by",
+      "page_size",
+      "page",
+      "before",
+      "after"
+    ],
     "required": []
   },
   "deleteOne": {
     "optional": [],
-    "required": ["filter"]
+    "required": ["single_filter"]
   },
   "deleteMany": {
-    "optional": ["filter", "order_by", "page_size"],
+    "optional": ["multiple_filter", "order_by", "page_size"],
     "required": []
   },
   "updateOne": {
     "optional": [],
-    "required": ["filter", "single_data"]
+    "required": ["single_filter", "single_data"]
   },
   "updateMany": {
-    "optional": ["filter", "order_by", "page_size"],
+    "optional": ["multiple_filter", "order_by", "page_size"],
     "required": ["single_data"]
   },
   "createOne": {
