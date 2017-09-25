@@ -2,8 +2,9 @@
 
 const { isEqual } = require('lodash');
 
-const { reduceAsync, omit } = require('../../../../../utilities');
+const { omit } = require('../../../../../utilities');
 const { getActionConstant } = require('../utilities');
+const { resolveReadActions } = require('../read_actions');
 
 const serialResolve = async function ({
   actions,
@@ -12,37 +13,24 @@ const serialResolve = async function ({
   mInput,
 }) {
   const writeActions = actions
-    .filter(({ actionConstant }) => actionConstant.type !== 'find');
-  const responses = await reduceAsync(
-    writeActions,
-    fireSerialRead.bind(null, { nextLayer, otherLayer, mInput }),
-    [],
-  );
+    .filter(({ actionConstant }) => actionConstant.type !== 'find')
+    .map(getSerialReadAction);
+  const responses = await resolveReadActions({
+    actions: writeActions,
+    nextLayer,
+    otherLayer,
+    mInput,
+    responses: [],
+  });
   const actionsA = actions
     .map(action => mergeSerialResponse({ responses, action }));
   return actionsA;
 };
 
-const fireSerialRead = async function (
-  { nextLayer, otherLayer, mInput },
-  responses,
-  action,
-) {
-  const actions = getSerialReadActions({ action });
-
-  const responsesA = await otherLayer({
-    actionsGroupType: 'read',
-    actions,
-    nextLayer,
-    mInput,
-    responses,
-  });
-  return [...responses, ...responsesA];
-};
-
-const getSerialReadActions = function ({
-  action,
-  action: { args, actionConstant: { multiple } },
+const getSerialReadAction = function ({
+  args,
+  actionConstant: { multiple },
+  ...action
 }) {
   const argsA = omit(args, 'data');
   const actionConstant = getActionConstant({
@@ -50,7 +38,7 @@ const getSerialReadActions = function ({
     isArray: multiple,
   });
 
-  return [{ ...action, actionConstant, args: argsA, internal: true }];
+  return { ...action, actionConstant, args: argsA, internal: true };
 };
 
 const mergeSerialResponse = function ({
