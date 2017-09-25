@@ -19,7 +19,7 @@ const resolveRead = async function ({
   }],
   nextLayer,
   mInput,
-  responses = [],
+  responses,
 }) {
   const {
     isTopLevel,
@@ -64,11 +64,12 @@ const getActionInput = function ({
 }) {
   const isTopLevel = isTopLevelAction({ actionPath }) ||
     // When firing read actions in parallel
-    responses.length === 0;
+    responses === undefined;
   const actionConstant = getActionConstant({ actionType, isArray: true });
 
   const parentPath = actionPath.slice(0, -1);
-  const parentResponses = responses.filter(({ path }) => {
+  const responsesA = responses || [];
+  const parentResponses = responsesA.filter(({ path }) => {
     const pathA = path.filter(index => typeof index !== 'number');
     return isEqual(pathA, parentPath);
   });
@@ -105,7 +106,8 @@ const getNestedArg = function ({
     nestedActionTypes.includes(actionConstant.type);
   if (!shouldNestArg) { return args; }
 
-  return { ...args, filter: { id: parentIds } };
+  const id = parentIds == null ? [] : parentIds;
+  return { ...args, filter: { id } };
 };
 
 const nestedActionTypes = ['find', 'delete', 'update'];
