@@ -12,9 +12,7 @@ const serialResolve = async function ({
   otherLayer,
   mInput,
 }) {
-  const writeActions = actions
-    .filter(({ actionConstant }) => actionConstant.type !== 'find')
-    .map(getSerialReadAction);
+  const writeActions = getWriteActions({ actions });
   const responses = await resolveReadActions({
     actions: writeActions,
     nextLayer,
@@ -25,6 +23,12 @@ const serialResolve = async function ({
   const actionsA = actions
     .map(action => mergeSerialResponse({ responses, action }));
   return actionsA;
+};
+
+const getWriteActions = function ({ actions }) {
+  return actions
+    .filter(({ actionConstant }) => actionConstant.type !== 'find')
+    .map(getSerialReadAction);
 };
 
 const getSerialReadAction = function ({
