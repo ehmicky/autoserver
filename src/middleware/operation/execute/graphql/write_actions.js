@@ -1,26 +1,22 @@
 'use strict';
 
-const { assignArray } = require('../../../../utilities');
-
 const { getActionConstant } = require('./utilities');
 
-const resolveWriteActions = async function ({
-  actions: allActions,
+const resolveWriteActions = function ({
+  actions,
   nextLayer,
   otherLayer,
   mInput,
 }) {
-  const writeActions = allActions.map(multiplyAction);
-  const writeActionsA = getWriteActions({ writeActions });
-  const responsesPromises = writeActionsA.map(actions => otherLayer({
+  const actionsA = actions.map(multiplyAction);
+  const actionsGroups = getWriteActions({ actions: actionsA });
+
+  return otherLayer({
     actionsGroupType: 'write',
-    actions,
+    actionsGroups,
     nextLayer,
     mInput,
-  }));
-  const responses = await Promise.all(responsesPromises);
-  const responsesA = responses.reduce(assignArray, []);
-  return responsesA;
+  });
 };
 
 const multiplyAction = function ({
@@ -31,19 +27,19 @@ const multiplyAction = function ({
   return { ...rest, actionConstant };
 };
 
-const getWriteActions = function ({ writeActions }) {
-  const writeActionsA = writeActions
+const getWriteActions = function ({ actions }) {
+  const actionsA = actions
     .filter(({ actionConstant }) => actionConstant.type !== 'find');
-  const writeActionsB = writeActionsA.reduce(reduceWriteAction, {});
-  const writeActionsC = Object.values(writeActionsB);
-  return writeActionsC;
+  const actionsB = actionsA.reduce(reduceWriteAction, {});
+  const actionsC = Object.values(actionsB);
+  return actionsC;
 };
 
-const reduceWriteAction = function (writeActions, action) {
+const reduceWriteAction = function (actions, action) {
   const { modelName } = action;
-  const { [modelName]: actionsByModel = [] } = writeActions;
+  const { [modelName]: actionsByModel = [] } = actions;
   const actionsByModelA = [...actionsByModel, action];
-  return { ...writeActions, [action.modelName]: actionsByModelA };
+  return { ...actions, [action.modelName]: actionsByModelA };
 };
 
 module.exports = {

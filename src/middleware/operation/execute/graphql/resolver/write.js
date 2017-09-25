@@ -4,7 +4,19 @@ const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
 
-const resolveWrite = async function ({
+const resolveWrite = async function ({ actionsGroups, nextLayer, mInput }) {
+  // Run write commands in parallel
+  const responsesPromises = actionsGroups.map(actions => singleResolveWrite({
+    actions,
+    nextLayer,
+    mInput,
+  }));
+  const responses = await Promise.all(responsesPromises);
+  const responsesA = responses.reduce(assignArray, []);
+  return responsesA;
+};
+
+const singleResolveWrite = async function ({
   actions,
   actions: [{
     actionConstant,
@@ -34,7 +46,7 @@ const resolveWrite = async function ({
   };
   const { response: { data: responses } } = await nextLayer(mInputA);
 
-  const responsesA = getResponses({ actions, responses, ids });
+  const responsesA = getResponses({ actions, responses, ids, modelName });
   return responsesA;
 };
 
@@ -130,28 +142,32 @@ const findCommand = function ({ actionConstant }) {
   return command;
 };
 
-const getResponses = function ({ actions, responses, ids }) {
+const getResponses = function ({ actions, responses, ids, modelName }) {
   validateResponse({ ids, responses });
 
   return actions
-    .map(getModels.bind(null, responses))
+    .map(getModels.bind(null, { responses, modelName }))
     .reduce(assignArray, []);
 };
 
 const getModels = function (
-  responses,
+  { responses, modelName },
   { args, currentData, dataPaths, select },
 ) {
   const models = args.data || currentData;
   return models
-    .map(findModel.bind(null, { responses, dataPaths, select }))
+    .map(findModel.bind(null, { responses, dataPaths, select, modelName }))
     .filter(({ path }) => path !== undefined);
 };
 
-const findModel = function ({ responses, dataPaths, select }, { id }, index) {
+const findModel = function (
+  { responses, dataPaths, select, modelName },
+  { id },
+  index,
+) {
   const model = responses.find(response => response.id === id);
   const path = dataPaths[index];
-  return { path, model, select };
+  return { path, model, modelName, select };
 };
 
 // Safety check to make sure there is no server-side bugs

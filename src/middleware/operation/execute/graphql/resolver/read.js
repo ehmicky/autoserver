@@ -25,7 +25,8 @@ const resolveRead = async function ({
   const responsesA = await Promise.all(responsesPromises);
   const responsesB = responsesA.reduce(assignArray, []);
 
-  return [...responses, ...responsesB];
+  const responsesC = responses || [];
+  return [...responsesC, ...responsesB];
 };
 
 const resolveSingleRead = async function ({
@@ -39,7 +40,7 @@ const resolveSingleRead = async function ({
     idCheck = true,
     internal = false,
   },
-  childActions,
+  childActions = [],
   nextLayer,
   mInput,
   responses,
@@ -74,6 +75,7 @@ const resolveSingleRead = async function ({
     nestedParentIds,
     response,
     select,
+    modelName,
   });
 
   // Child actions must start after their parent ends
@@ -180,17 +182,25 @@ const getResponses = function ({
   nestedParentIds,
   response,
   select,
+  modelName,
 }) {
   if (isTopLevel) {
     return response.map((model, index) =>
-      getResponse({ model, index, actionName, multiple, select })
+      getResponse({ model, index, actionName, multiple, select, modelName })
     );
   }
 
   return nestedParentIds
     .map((ids, index) => {
       const { path } = parentResponses[index];
-      return getEachResponses({ ids, actionName, select, path, response });
+      return getEachResponses({
+        ids,
+        actionName,
+        select,
+        path,
+        response,
+        modelName,
+      });
     })
     .reduce(assignArray, []);
 };
@@ -201,14 +211,21 @@ const getEachResponses = function ({
   select,
   path,
   response,
+  modelName,
 }) {
   const multiple = Array.isArray(ids);
   return response
     // Make sure response's sorting is kept
     .filter(({ id }) => (multiple ? ids.includes(id) : ids === id))
-    .map((model, ind) =>
-      getResponse({ model, index: ind, path, actionName, multiple, select })
-    );
+    .map((model, ind) => getResponse({
+      model,
+      index: ind,
+      path,
+      actionName,
+      multiple,
+      select,
+      modelName,
+    }));
 };
 
 const getResponse = function ({
@@ -218,11 +235,12 @@ const getResponse = function ({
   actionName,
   multiple,
   select,
+  modelName,
 }) {
   const pathA = multiple
     ? [...path, actionName, index]
     : [...path, actionName];
-  return { path: pathA, model, select };
+  return { path: pathA, model, modelName, select };
 };
 
 module.exports = {
