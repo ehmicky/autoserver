@@ -96,21 +96,8 @@ const executeGraphql = async function (
   return { response: fullResponseB, topArgs, operationSummary };
 };
 
-const otherLayer = async function ({
-  actionsGroupType,
-  actions,
-  nextLayer,
-  mInput,
-  responses,
-}) {
-  const responsesA = await resolveActions({
-    actionsGroupType,
-    actions,
-    nextLayer,
-    mInput,
-    responses,
-  });
-  return responsesA;
+const otherLayer = function (obj) {
+  return resolveActions(obj);
 };
 
 module.exports = {

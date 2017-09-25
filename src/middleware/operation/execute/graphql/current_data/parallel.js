@@ -83,27 +83,22 @@ const getCurrentDataMap = async function ({
   otherLayer,
   mInput,
 }) {
-  const currentDataPromises = actions.map(
-    fireParallelRead.bind(null, { nextLayer, otherLayer, mInput })
-  );
-  const currentDataMap = await Promise.all(currentDataPromises);
-  const currentDataMapA = Object.assign({}, ...currentDataMap);
-  return currentDataMapA;
-};
-
-const fireParallelRead = async function (
-  { nextLayer, otherLayer, mInput },
-  action,
-) {
-  const { modelName } = action;
+  const actionsA = actions.map(parentAction => ({ parentAction }));
   const responses = await otherLayer({
     actionsGroupType: 'read',
-    actions: [action],
+    actions: actionsA,
     nextLayer,
     mInput,
   });
-  const models = responses.map(({ model }) => model);
-  return { [modelName]: models };
+
+  const currentDataMap = responses.reduce(reduceCurrentDataMap, {});
+  return currentDataMap;
+};
+
+const reduceCurrentDataMap = function (currentDataMap, { model, modelName }) {
+  const { [modelName]: models = [] } = currentDataMap;
+  const modelsA = [...models, model];
+  return { ...currentDataMap, [modelName]: modelsA };
 };
 
 const addCurrentDataActions = function ({ actions, currentDataMap }) {
@@ -121,7 +116,7 @@ const addCurrentDataAction = function (currentDataMap, action) {
   return { ...action, currentData: currentDataA };
 };
 
-const currentDataMatches = function ({ id, currentData }) {
+const currentDataMatches = function ({ id, currentData = [] }) {
   return currentData.find(model => model.id === id);
 };
 
