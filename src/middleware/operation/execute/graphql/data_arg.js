@@ -147,21 +147,12 @@ const getNestedActions = function ({
         .reduce(assignArray, []);
       const nestedDataA = nestedData.filter(isObject);
 
-      // In the same collection, some keys might be populated, and others not
-      // E.g. [{ child: { id: 'id', ... } }, { child: 'id' }]
-      // Partial actions are marked so that both a write and a read actions
-      // are fired, since the write action's return value alone is partial.
-      // The flag is inherited by children.
-      const isPartial = nestedData.length !== nestedDataA.length;
-
-      const nestedDataPaths = isPartial
-        ? []
-        : dataPaths
-          .map((dataPath, index) => getDataPath({
-            data: data[index][nestedKey],
-            path: [...dataPath, nestedKey],
-          }))
-          .reduce(assignArray, []);
+      const nestedDataPaths = dataPaths
+        .map((dataPath, index) => getDataPath({
+          data: data[index][nestedKey],
+          path: [...dataPath, nestedKey],
+        }))
+        .reduce(assignArray, []);
 
       return parseData({
         data: nestedDataA,
@@ -230,29 +221,39 @@ const filterAction = function ({ action, action: { args: { data } } }) {
 };
 
 const mergeActions = function ({ readActions, writeActions }) {
-  const readActionsA = writeActions.map(writeAction => {
-    const readAction = findAction({
-      actions: readActions,
-      action: writeAction,
+  const writeActionsA = writeActions
+    .map(writeAction => mergeAction({ readActions, writeAction }));
+  const topLevelReadAction = getTopLevelAction({ actions: readActions });
+
+  const readActionsA = readActions.map(readAction => {
+    if (readAction !== topLevelReadAction) { return readAction; }
+
+    const { actionConstant: { multiple } } = topLevelReadAction;
+    const actionConstant = getActionConstant({
+      actionType: 'find',
+      isArray: multiple,
     });
-    if (!readAction) { return writeAction; }
-
-    // We want `writeAction` to have priority, but also want to keep keys order,
-    // hence we repeat `...writeAction`
-    return {
-      ...writeAction,
-      ...readAction,
-      ...writeAction,
-      args: { ...readAction.args, ...writeAction.args },
-    };
-  });
-
-  const writeActionsA = readActions.filter(oldAction => {
-    const readAction = findAction({ actions: writeActions, action: oldAction });
-    return readAction === undefined || readAction.dataPaths.length === 0;
+    return { ...readAction, actionConstant };
   });
 
   return [...writeActionsA, ...readActionsA];
+};
+
+const mergeAction = function ({ readActions, writeAction }) {
+  const readAction = findAction({
+    actions: readActions,
+    action: writeAction,
+  });
+  if (!readAction) { return writeAction; }
+
+  // We want `writeAction` to have priority, but also want to keep keys order,
+  // hence we repeat `...writeAction`
+  return {
+    ...writeAction,
+    ...readAction,
+    ...writeAction,
+    args: { ...readAction.args, ...writeAction.args },
+  };
 };
 
 const findAction = function ({ actions, action }) {
