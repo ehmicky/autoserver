@@ -1,5 +1,7 @@
 'use strict';
 
+const { isEqual } = require('lodash');
+
 const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
@@ -52,6 +54,7 @@ const singleResolveWrite = async function ({
 
 const mergeDataArgs = function ({ actions }) {
   const newData = actions.map(action => action.args.data);
+
   const newDataA = removeDuplicates(newData);
 
   return { newData: newDataA };
@@ -59,27 +62,49 @@ const mergeDataArgs = function ({ actions }) {
 
 const mergeFilterArgs = function ({ actions }) {
   const models = actions.map(({ currentData }) => currentData);
+
   const modelsA = removeDuplicates(models);
   const ids = modelsA.map(({ id }) => id);
+
   return { filter: { id: ids } };
 };
 
 const removeDuplicates = function (models) {
-  return models
-    .reduce(assignArray, [])
-    .filter(isDuplicate);
+  const modelsA = models.reduce(assignArray, []);
+  modelsA.forEach(validateId);
+
+  const modelsB = modelsA.reduce(groupDuplicates, {});
+  return Object.values(modelsB).map(getUniqueModel);
 };
 
-// Removes duplicates
-const isDuplicate = function (model, index, allData) {
-  if (typeof model.id !== 'string') {
-    const message = `A model in 'data' is missing an 'id' attribute: '${JSON.stringify(model)}'`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
+const validateId = function (model) {
+  if (typeof model.id === 'string') { return; }
 
-  return allData
-    .slice(0, index)
-    .every(({ id }) => id !== model.id);
+  const message = `A model in 'data' is missing an 'id' attribute: '${JSON.stringify(model)}'`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
+};
+
+const groupDuplicates = function (modelsA, model) {
+  const { id } = model;
+  const { [id]: modelsB = [] } = modelsA;
+  const modelsC = [...modelsB, model];
+  return { ...modelsA, [id]: modelsC };
+};
+
+const getUniqueModel = function (models) {
+  const [model] = models;
+  validateDuplicates(models, model);
+  return model;
+};
+
+const validateDuplicates = function (models, model) {
+  const differentModel = models
+    .slice(1)
+    .find(modelA => !isEqual(modelA, model));
+  if (differentModel === undefined) { return; }
+
+  const message = `Two models in 'data' have the same 'id' but different attributes: '${JSON.stringify(model)}', '${JSON.stringify(differentModel)}'`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 const getFilterIds = function ({ args: { filter: { id } } }) {
