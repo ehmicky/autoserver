@@ -62,7 +62,11 @@ const executeGraphql = async function (
   }
 
   const topArgs = getTopArgs({ operation });
-  const { topAction, topModel } = parseTopAction({ operation, modelsMap });
+  const {
+    topAction,
+    topModel,
+    topActionPath,
+  } = parseTopAction({ operation, modelsMap });
   const actions = normalizeActions({ operation });
 
   const actionsA = parseModels({ actions, topAction, topModel, modelsMap });
@@ -72,6 +76,8 @@ const executeGraphql = async function (
     actions: actionsB,
     topAction,
     topModel,
+    topArgs,
+    topActionPath,
     modelsMap,
   });
   const operationSummary = getOperationSummary({ actions: actionsC });
