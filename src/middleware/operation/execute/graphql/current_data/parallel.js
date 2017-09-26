@@ -102,13 +102,16 @@ const reduceCurrentDataMap = function (currentDataMap, { model, modelName }) {
 };
 
 const addCurrentDataActions = function ({ actions, currentDataMap }) {
-  return actions.map(addCurrentDataAction.bind(null, currentDataMap));
+  return actions
+    .map(action => addCurrentDataAction({ action, currentDataMap }));
 };
 
-const addCurrentDataAction = function (currentDataMap, action) {
-  const { modelName, args: { data } } = action;
-
-  if (data === undefined) { return; }
+const addCurrentDataAction = function ({
+  action,
+  action: { modelName, args: { data } },
+  currentDataMap,
+}) {
+  if (data === undefined) { return action; }
 
   const currentData = currentDataMap[modelName];
   const currentDataA = data
