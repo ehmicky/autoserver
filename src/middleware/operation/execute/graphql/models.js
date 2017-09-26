@@ -1,79 +1,40 @@
 'use strict';
 
-const { underscored } = require('underscore.string');
-const { singular, plural } = require('pluralize');
-
 const { throwError } = require('../../../../error');
 
 const {
-  getTopLevelAction,
   isTopLevelAction,
   getModel,
   getActionConstant,
 } = require('./utilities');
 
 // Add `action.actionConstant` and `action.modelName`
-const parseModels = function ({ actions, modelsMap }) {
-  const topLevelAction = parseTopLevelAction({ actions, modelsMap });
-  const nestedActions = parseNestedActions({
-    actions,
-    modelsMap,
-    topLevelAction,
-  });
-  return [topLevelAction, ...nestedActions];
+const parseModels = function ({ actions, topAction, topModel, modelsMap }) {
+  return actions
+    .map(action => parseAction({ action, topAction, topModel, modelsMap }));
+};
+
+const parseAction = function ({ action, topAction, topModel, modelsMap }) {
+  const parser = isTopLevelAction(action)
+    ? parseTopLevelAction
+    : parseNestedAction;
+  return parser({ action, topAction, topModel, modelsMap });
 };
 
 // Parse a GraphQL query top-level action name into tokens.
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
-const parseTopLevelAction = function ({ actions, modelsMap }) {
-  const topLevelAction = getTopLevelAction({ actions });
-  const { actionPath: [actionName] } = topLevelAction;
-
-  const { actionType, modelName } = parseName({ actionName });
-
-  const modelNameA = underscored(modelName);
-
-  const singularName = singular(modelNameA);
-  const pluralName = plural(modelNameA);
-  const isArray = modelNameA === pluralName;
-
-  const modelNameB = modelsMap[pluralName] ? pluralName : singularName;
-
-  const actionConstant = getActionConstant({ actionType, isArray });
-
-  validateTopLevel({ modelName: modelNameB, actionName });
-
-  return { ...topLevelAction, actionConstant, modelName: modelNameB };
-};
-
-const parseName = function ({ actionName }) {
-  const [, actionType, modelName = ''] = nameRegExp.exec(actionName) || [];
-  return { actionType, modelName };
-};
-
-// Matches e.g. 'find_my_models' -> ['find', 'my_models'];
-const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)$/;
-
-const validateTopLevel = function ({ modelName, actionName }) {
-  if (modelName) { return; }
-
-  const message = `Action '${actionName}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const parseNestedActions = function ({ actions, modelsMap, topLevelAction }) {
-  return actions
-    .filter(action => !isTopLevelAction(action))
-    .map(action => parseNestedAction({ action, topLevelAction, modelsMap }));
+const parseTopLevelAction = function ({ action, topAction, topModel }) {
+  return { ...action, actionConstant: topAction, modelName: topModel };
 };
 
 const parseNestedAction = function ({
   action,
   action: { actionPath },
-  topLevelAction,
+  topAction,
+  topModel,
   modelsMap,
 }) {
-  const model = getModel({ modelsMap, topLevelAction, actionPath });
+  const model = getModel({ modelsMap, topAction, topModel, actionPath });
 
   if (!model) {
     const message = `Attribute '${actionPath.join('.')}' is unknown`;
