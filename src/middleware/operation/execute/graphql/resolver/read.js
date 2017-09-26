@@ -4,7 +4,7 @@ const { isEqual, uniq } = require('lodash');
 
 const { assignArray, omit } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
-const { isTopLevelAction, getActionConstant } = require('../utilities');
+const { getActionConstant } = require('../utilities');
 
 const resolveRead = async function ({
   actions = [],
@@ -98,7 +98,7 @@ const getActionInput = function ({
   },
   responses,
 }) {
-  const isTopLevel = isTopLevelAction({ actionPath });
+  const isTopLevel = actionPath.length === 1;
   const actionConstant = getActionConstant({ actionType, isArray: true });
 
   const parentPath = actionPath.slice(0, -1);

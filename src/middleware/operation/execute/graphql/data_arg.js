@@ -5,11 +5,7 @@ const { uniq } = require('lodash');
 const { throwError } = require('../../../../error');
 const { mapValues, assignArray, omitBy } = require('../../../../utilities');
 
-const {
-  isTopLevelAction,
-  getModel,
-  getActionConstant,
-} = require('./utilities');
+const { getModel, getActionConstant } = require('./utilities');
 
 const parseDataArg = function ({
   actions,
@@ -24,6 +20,7 @@ const parseDataArg = function ({
   const actionsB = mergeActions({
     readActions: actions,
     writeActions: actionsA,
+    top,
   });
   return actionsB;
 };
@@ -163,7 +160,7 @@ const getAction = function ({
 
   // Nested actions due to nested `args.data` reuses top-level action
   // Others are simply for selection, i.e. are find actions
-  const isTopLevel = isTopLevelAction({ actionPath });
+  const isTopLevel = actionPath.length === 1;
   const isArray = isTopLevel ? multiple : true;
   const actionConstant = getActionConstant({ actionType: topType, isArray });
 
@@ -197,11 +194,11 @@ const filterAction = function ({ action, action: { args: { data } } }) {
   return [action];
 };
 
-const mergeActions = function ({ readActions, writeActions }) {
+const mergeActions = function ({ readActions, writeActions, top }) {
   const writeActionsA = writeActions
     .map(writeAction => mergeAction({ readActions, writeAction }));
   const readActionsA = readActions
-    .filter(readAction => !isTopLevelAction(readAction));
+    .filter(readAction => readAction.actionPath.length !== 1);
   return [...writeActionsA, ...readActionsA];
 };
 

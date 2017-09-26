@@ -1,17 +1,7 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
 const { ACTIONS } = require('../../../../constants');
 const { throwError } = require('../../../../error');
-
-const getTopLevelAction = function ({ actions, top }) {
-  return actions.find(({ actionPath }) => isEqual(actionPath, top.actionPath));
-};
-
-const isTopLevelAction = function ({ actionPath }) {
-  return actionPath.length === 1;
-};
 
 const getModel = function ({
   modelsMap,
@@ -61,8 +51,6 @@ const getActionConstant = function ({ actionType, isArray }) {
 };
 
 module.exports = {
-  getTopLevelAction,
-  isTopLevelAction,
   getModel,
   getActionConstant,
 };
