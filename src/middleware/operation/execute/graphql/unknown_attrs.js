@@ -12,10 +12,10 @@ const validateAction = function ({
   modelsMap,
 }) {
   const attr = select
-    .find(({ dbKey }) => modelsMap[modelName][dbKey] === undefined);
+    .find(({ key }) => modelsMap[modelName][key] === undefined);
   if (!attr) { return; }
 
-  const path = [...actionPath, attr.dbKey].join('.');
+  const path = [...actionPath, attr.key].join('.');
   const message = `Attribute '${path}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };

@@ -3,6 +3,13 @@
 const { throwError } = require('../../../../../error');
 const { assignObject, mapValues } = require('../../../../../utilities');
 
+const parseArgs = function ({
+  mainSelection: { arguments: fields },
+  variables,
+}) {
+  return parseObject({ fields, variables });
+};
+
 // Parse GraphQL arguments, for each possible argument type
 const parseObject = function ({ fields: args, variables }) {
   if (!args || args.length === 0) { return {}; }
@@ -59,5 +66,5 @@ const argParsers = {
 };
 
 module.exports = {
-  parseObject,
+  parseArgs,
 };

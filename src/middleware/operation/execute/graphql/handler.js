@@ -2,14 +2,15 @@
 
 const { getGraphQLInput } = require('./input');
 const { getMainDef } = require('./main_def');
-const { parseActions } = require('./actions');
+const { parseOperation } = require('./operation');
 const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
+const { normalizeActions } = require('./normalize');
+const { parseModels } = require('./models');
 const { getTopArgs } = require('./top_args');
 const { handleArgs } = require('./handle_args');
-const { parseModels } = require('./models');
 const { validateUnknownAttrs } = require('./unknown_attrs');
 const { parseDataArg } = require('./data_arg');
 const { getOperationSummary } = require('./operation_summary');
@@ -47,10 +48,10 @@ const executeGraphql = async function (
     mainDef,
     fragments,
   } = getMainDef({ queryDocument, operationName, method });
-  const actions = parseActions({ mainDef, fragments, variables });
+  const operation = parseOperation({ mainDef, fragments, variables });
 
   // Introspection GraphQL query
-  if (isIntrospectionQuery({ actions })) {
+  if (isIntrospectionQuery({ operation })) {
     return handleIntrospection({
       schema,
       queryDocument,
@@ -58,6 +59,8 @@ const executeGraphql = async function (
       operationName,
     });
   }
+
+  const actions = normalizeActions({ operation });
 
   const actionsA = parseModels({ actions, modelsMap });
   const topArgs = getTopArgs({ actions: actionsA });
