@@ -16,6 +16,7 @@ const { parseDataArg } = require('./data_arg');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
 const { addCurrentData } = require('./current_data');
+const { mergeUpdateData } = require('./update_data');
 const { resolveWriteActions } = require('./write_actions');
 const { resolveReadActions } = require('./read_actions');
 const { resolveActions } = require('./resolver');
@@ -77,14 +78,15 @@ const executeGraphql = async function (
     otherLayer,
     mInput,
   });
+  const actionsF = mergeUpdateData({ actions: actionsE, top });
   const responses = await resolveWriteActions({
-    actions: actionsE,
+    actions: actionsF,
     nextLayer,
     otherLayer,
     mInput,
   });
   const responsesA = await resolveReadActions({
-    actions: actionsE,
+    actions: actionsF,
     top,
     nextLayer,
     otherLayer,
