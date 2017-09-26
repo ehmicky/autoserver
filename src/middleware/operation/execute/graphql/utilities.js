@@ -1,10 +1,12 @@
 'use strict';
 
+const { isEqual } = require('lodash');
+
 const { ACTIONS } = require('../../../../constants');
 const { throwError } = require('../../../../error');
 
-const getTopLevelAction = function ({ actions }) {
-  return actions.find(isTopLevelAction);
+const getTopLevelAction = function ({ actions, top }) {
+  return actions.find(({ actionPath }) => isEqual(actionPath, top.actionPath));
 };
 
 const isTopLevelAction = function ({ actionPath }) {

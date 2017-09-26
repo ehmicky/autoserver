@@ -2,21 +2,14 @@
 
 const { isEqual } = require('lodash');
 
-const { getTopLevelAction } = require('./utilities');
-
 // Retrieves `operationSummary`
-const getOperationSummary = function ({ actions }) {
-  const topLevelAction = getTopLevelAction({ actions });
-  const { actionConstant: { type: topType } } = topLevelAction;
-  return getSummary({ action: topLevelAction, actions, topType });
-};
-
-// Returns all actions, included nested ones as a nice formatted string,
+// This is all actions, included nested ones as a nice formatted string,
 // e.g. 'findModel{attrA,attrB,child{attrC}}'
-const getSummary = function ({
-  action: { actionPath },
+const getOperationSummary = function ({
   actions,
-  topType,
+  top,
+  top: { actionConstant: { type: topType }, actionPath: topActionPath },
+  actionPath = topActionPath,
 }) {
   const actionName = actionPath[actionPath.length - 1];
 
@@ -29,7 +22,9 @@ const getSummary = function ({
   if (childActions.length === 0) { return actionName; }
 
   const childActionsStr = childActions
-    .map(childAction => getSummary({ action: childAction, actions, topType }))
+    .map(({ actionPath: childPath }) =>
+      getOperationSummary({ actionPath: childPath, actions, top })
+    )
     .join(',');
   return `${actionName}{${childActionsStr}}`;
 };
