@@ -19,7 +19,7 @@ const selectFieldsByResponse = function (fullResponse, { path, select }) {
 const selectFieldsByModel = function ({ model, select }) {
   // Make sure return value is sorted in the same order as `select`
   const modelA = select
-    .map(({ dbKey, outputKey }) => ({ [outputKey]: model[dbKey] }))
+    .map(({ key, alias = key }) => ({ [alias]: model[key] }))
     .reduce(assignObject, {});
 
   const modelB = mapValues(modelA, normalizeNull);
