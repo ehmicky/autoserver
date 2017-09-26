@@ -1,5 +1,7 @@
 'use strict';
 
+const { getTopLevelAction, getActionConstant } = require('./utilities');
+
 const resolveReadActions = function ({
   actions,
   nextLayer,
@@ -21,7 +23,35 @@ const resolveReadActions = function ({
 };
 
 const getReadActions = function ({ actions }) {
-  return actions.filter(({ actionConstant }) => actionConstant.type === 'find');
+  const topLevelAction = getTopLevelRead({ actions });
+  const actionsA = actions
+    .filter(({ actionConstant }) => actionConstant.type === 'find');
+  return [...topLevelAction, ...actionsA];
+};
+
+const getTopLevelRead = function ({ actions }) {
+  const topLevelAction = getTopLevelAction({ actions });
+  const {
+    actionConstant: { type: actionType, multiple },
+    currentData,
+    args,
+  } = topLevelAction;
+
+  if (actionType === 'find') { return []; }
+
+  const actionConstant = getActionConstant({
+    actionType: 'find',
+    isArray: multiple,
+  });
+  const data = args.data || currentData;
+  const ids = data.map(({ id }) => id);
+  const argsA = { ...args, filter: { id: ids } };
+
+  return [{
+    ...topLevelAction,
+    actionConstant,
+    args: argsA,
+  }];
 };
 
 const getParentActions = function ({ actions }) {
