@@ -9,32 +9,34 @@ const {
 } = require('./utilities');
 
 // Add `action.actionConstant` and `action.modelName`
-const parseModels = function ({ actions, topAction, topModel, modelsMap }) {
+const parseModels = function ({ actions, top, modelsMap }) {
   return actions
-    .map(action => parseAction({ action, topAction, topModel, modelsMap }));
+    .map(action => parseAction({ action, top, modelsMap }));
 };
 
-const parseAction = function ({ action, topAction, topModel, modelsMap }) {
+const parseAction = function ({ action, top, modelsMap }) {
   const parser = isTopLevelAction(action)
     ? parseTopLevelAction
     : parseNestedAction;
-  return parser({ action, topAction, topModel, modelsMap });
+  return parser({ action, top, modelsMap });
 };
 
 // Parse a GraphQL query top-level action name into tokens.
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
-const parseTopLevelAction = function ({ action, topAction, topModel }) {
-  return { ...action, actionConstant: topAction, modelName: topModel };
+const parseTopLevelAction = function ({
+  action,
+  top: { actionConstant, modelName },
+}) {
+  return { ...action, actionConstant, modelName };
 };
 
 const parseNestedAction = function ({
   action,
   action: { actionPath },
-  topAction,
-  topModel,
+  top,
   modelsMap,
 }) {
-  const model = getModel({ modelsMap, topAction, topModel, actionPath });
+  const model = getModel({ modelsMap, top, actionPath });
 
   if (!model) {
     const message = `Attribute '${actionPath.join('.')}' is unknown`;

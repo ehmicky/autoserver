@@ -7,7 +7,6 @@ const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
-const { getTopArgs } = require('./top_args');
 const { parseTopAction } = require('./top_action');
 const { normalizeActions } = require('./normalize');
 const { parseModels } = require('./models');
@@ -61,25 +60,13 @@ const executeGraphql = async function (
     });
   }
 
-  const topArgs = getTopArgs({ operation });
-  const {
-    topAction,
-    topModel,
-    topActionPath,
-  } = parseTopAction({ operation, modelsMap });
+  const top = parseTopAction({ operation, modelsMap });
   const actions = normalizeActions({ operation });
 
-  const actionsA = parseModels({ actions, topAction, topModel, modelsMap });
+  const actionsA = parseModels({ actions, top, modelsMap });
   const actionsB = handleArgs({ actions: actionsA, runOpts, idl });
   validateUnknownAttrs({ actions: actionsB, modelsMap });
-  const actionsC = parseDataArg({
-    actions: actionsB,
-    topAction,
-    topModel,
-    topArgs,
-    topActionPath,
-    modelsMap,
-  });
+  const actionsC = parseDataArg({ actions: actionsB, top, modelsMap });
   const operationSummary = getOperationSummary({ actions: actionsC });
   const actionsD = sortActions({ actions: actionsC });
 
@@ -111,7 +98,7 @@ const executeGraphql = async function (
   const fullResponseA = selectFields({ fullResponse, responses: responsesD });
   const fullResponseB = parseResponse({ fullResponse: fullResponseA });
 
-  return { response: fullResponseB, topArgs, operationSummary };
+  return { response: fullResponseB, topArgs: top.args, operationSummary };
 };
 
 const otherLayer = function (obj) {
