@@ -2,6 +2,8 @@
 
 const { isEqual } = require('lodash');
 
+const { assignArray } = require('../../../../utilities');
+
 const { getActionConstant } = require('./utilities');
 
 const resolveReadActions = function ({
@@ -26,26 +28,27 @@ const resolveReadActions = function ({
 };
 
 const getReadActions = function ({ actions, top }) {
-  const topLevelAction = getTopLevelRead({ actions, top });
-  const actionsA = actions
-    .filter(({ actionConstant }) => actionConstant.type === 'find');
-  return [...topLevelAction, ...actionsA];
+  return actions
+    .map(action => getReadAction({ action, top }))
+    .reduce(assignArray, []);
 };
 
-const getTopLevelRead = function ({
-  actions,
+const getReadAction = function ({
+  action,
+  action: { actionPath, actionConstant: { type: actionType, multiple } },
   top,
-  top: { actionConstant: { type: actionType, multiple } },
 }) {
-  if (actionType === 'find') { return []; }
+  const isTopLevel = isEqual(top.actionPath, actionPath);
+
+  if (!isTopLevel) {
+    return actionType === 'find' ? [action] : [];
+  }
 
   const actionConstant = getActionConstant({
     actionType: 'find',
     isArray: multiple,
   });
 
-  const action = actions
-    .find(({ actionPath }) => isEqual(actionPath, top.actionPath));
   const filter = getTopLevelFilter({ action });
 
   return [{
