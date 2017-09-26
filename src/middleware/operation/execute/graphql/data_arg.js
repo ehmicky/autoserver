@@ -6,18 +6,24 @@ const { throwError } = require('../../../../error');
 const { mapValues, assignArray, omitBy } = require('../../../../utilities');
 
 const {
-  getTopLevelAction,
   isTopLevelAction,
   getModel,
   getActionConstant,
 } = require('./utilities');
 
-const parseDataArg = function ({ actions, topModel, topAction, modelsMap }) {
-  const topLevelAction = getTopLevelAction({ actions });
-  const { actionPath, args: { data } } = topLevelAction;
+const parseDataArg = function ({
+  actions,
+  topModel,
+  topAction,
+  topArgs,
+  topActionPath,
+  modelsMap,
+}) {
+  const { data } = topArgs;
 
   if (data === undefined) { return actions; }
 
+  const actionPath = topActionPath;
   const dataPaths = getDataPath({ data, path: actionPath });
   const actionsA = parseData({
     data,

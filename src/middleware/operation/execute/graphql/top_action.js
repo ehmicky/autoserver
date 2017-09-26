@@ -24,7 +24,9 @@ const parseTopAction = function ({ operation: { action }, modelsMap }) {
 
   validateTopLevel({ topModel, action });
 
-  return { topAction, topModel };
+  const topActionPath = [action];
+
+  return { topAction, topModel, topActionPath };
 };
 
 const parseName = function ({ action }) {
