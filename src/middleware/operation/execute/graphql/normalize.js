@@ -11,17 +11,17 @@ const normalizeActions = function ({
   return actionsB;
 };
 
-const extractActionPath = function (action, { key, alias }) {
+const extractActionPath = function (action, { key, ...rest }) {
   const [, actionPath, keyA] = actionPathRegExp.exec(`${action}.${key}`);
-  return { actionPath, key: keyA, alias };
+  return { actionPath, key: keyA, ...rest };
 };
 
 // Turns 'aaa.bbb.ccc' into ['aaa.bbb', 'ccc']
 const actionPathRegExp = /^(.*)\.([^.]+)$/;
 
-const reduceActions = function (actions, { actionPath, key, alias }) {
+const reduceActions = function (actions, { actionPath, ...rest }) {
   const { [actionPath]: { select = [] } = {} } = actions;
-  const selectB = [...select, { key, alias }];
+  const selectB = [...select, rest];
   return { ...actions, [actionPath]: { actionPath, select: selectB } };
 };
 

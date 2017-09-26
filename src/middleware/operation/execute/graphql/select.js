@@ -13,18 +13,20 @@ const selectFields = function ({ fullResponse, responses }) {
 const selectFieldsByResponse = function (fullResponse, { path, select }) {
   const model = get(fullResponse, path);
   const modelA = selectFieldsByModel({ model, select });
-  return set(fullResponse, path, modelA);
+  const modelB = mapValues(modelA, normalizeNull);
+  return set(fullResponse, path, modelB);
 };
 
 const selectFieldsByModel = function ({ model, select }) {
+  // Using 'all' means all fields are returned
+  const hasAllAttr = select.some(({ key }) => key === 'all');
+  if (hasAllAttr) { return model; }
+
   // Make sure return value is sorted in the same order as `select`
   const modelA = select
     .map(({ key, alias = key }) => ({ [alias]: model[key] }))
     .reduce(assignObject, {});
-
-  const modelB = mapValues(modelA, normalizeNull);
-
-  return modelB;
+  return modelA;
 };
 
 // Transform `undefined` to `null`

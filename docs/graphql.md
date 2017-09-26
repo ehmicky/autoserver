@@ -243,6 +243,31 @@ Models can be infinitely nested.
 Populating nested models in output is distinct from
 [modifying nested models in input](#modifying-nested-models).
 
+# Selecting
+
+Name an attribute `'all'` in order to select all attributes instead
+of specifying each one, e.g.:
+
+```graphql
+{
+  find_user(filter: {id: "1"}) {
+    all
+  }
+}
+```
+
+instead of:
+
+```graphql
+{
+  find_user(filter: {id: "1"}) {
+    id
+    name
+    manager
+  }
+}
+```
+
 # Filtering
 
 See the documentation [here](filtering.md).

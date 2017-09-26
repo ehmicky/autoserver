@@ -320,8 +320,12 @@ definitions:
       pattern: '^__'
   # Keys of MODEL.attributes.*
   validAttributeName:
+    allOf:
     # Attributes follow same naming convention as models
-    $ref: '#/definitions/validModelName'
+    - $ref: '#/definitions/validModelName'
+    # 'all' is a special attribute name, used to query all attributes
+    - not:
+        const: all
   # attr.validate
   validate:
     type: object
