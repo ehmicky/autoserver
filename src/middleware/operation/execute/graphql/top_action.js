@@ -9,7 +9,7 @@ const { getActionConstant } = require('./utilities');
 
 // Parse a GraphQL query top-level action name into tokens.
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
-const parseTopAction = function ({ operation: { action }, modelsMap }) {
+const parseTopAction = function ({ operation: { action, args }, modelsMap }) {
   const { actionType, modelName } = parseName({ action });
 
   const modelNameA = underscored(modelName);
@@ -18,15 +18,15 @@ const parseTopAction = function ({ operation: { action }, modelsMap }) {
   const pluralName = plural(modelNameA);
   const isArray = modelNameA === pluralName;
 
-  const topModel = modelsMap[pluralName] ? pluralName : singularName;
+  const modelNameB = modelsMap[pluralName] ? pluralName : singularName;
 
-  const topAction = getActionConstant({ actionType, isArray });
+  const actionConstant = getActionConstant({ actionType, isArray });
 
-  validateTopLevel({ topModel, action });
+  validateAction({ modelName: modelNameB, action });
 
-  const topActionPath = [action];
+  const actionPath = [action];
 
-  return { topAction, topModel, topActionPath };
+  return { actionConstant, modelName: modelNameB, actionPath, args };
 };
 
 const parseName = function ({ action }) {
@@ -37,8 +37,8 @@ const parseName = function ({ action }) {
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];
 const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
-const validateTopLevel = function ({ topModel, action }) {
-  if (topModel) { return; }
+const validateAction = function ({ modelName, action }) {
+  if (modelName) { return; }
 
   const message = `Action '${action}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
