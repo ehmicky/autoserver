@@ -2,11 +2,7 @@
 
 const { throwError } = require('../../../../error');
 
-const {
-  isTopLevelAction,
-  getModel,
-  getActionConstant,
-} = require('./utilities');
+const { getModel, getActionConstant } = require('./utilities');
 
 // Add `action.actionConstant` and `action.modelName`
 const parseModels = function ({ actions, top, modelsMap }) {
@@ -15,7 +11,7 @@ const parseModels = function ({ actions, top, modelsMap }) {
 };
 
 const parseAction = function ({ action, top, modelsMap }) {
-  const parser = isTopLevelAction(action)
+  const parser = action.actionPath.length === 1
     ? parseTopLevelAction
     : parseNestedAction;
   return parser({ action, top, modelsMap });
