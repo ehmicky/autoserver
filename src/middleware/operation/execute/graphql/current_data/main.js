@@ -1,19 +1,21 @@
 'use strict';
 
-const { getTopLevelAction } = require('../utilities');
-
 const { parallelResolve } = require('./parallel');
 const { serialResolve } = require('./serial');
 
-const addCurrentData = function ({ actions, nextLayer, otherLayer, mInput }) {
-  const {
-    actionConstant: { type: actionType },
-  } = getTopLevelAction({ actions });
+const addCurrentData = function ({
+  actions,
+  top,
+  top: { actionConstant: { type: actionType } },
+  nextLayer,
+  otherLayer,
+  mInput,
+}) {
   const resolver = resolvers[actionType];
 
   if (resolver === undefined) { return actions; }
 
-  return resolver({ actions, nextLayer, otherLayer, mInput });
+  return resolver({ actions, top, nextLayer, otherLayer, mInput });
 };
 
 const resolvers = {

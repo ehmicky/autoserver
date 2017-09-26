@@ -64,14 +64,15 @@ const executeGraphql = async function (
   const actions = normalizeActions({ operation });
 
   const actionsA = parseModels({ actions, top, modelsMap });
-  const actionsB = handleArgs({ actions: actionsA, runOpts, idl });
+  const actionsB = handleArgs({ actions: actionsA, top, runOpts, idl });
   validateUnknownAttrs({ actions: actionsB, modelsMap });
   const actionsC = parseDataArg({ actions: actionsB, top, modelsMap });
-  const operationSummary = getOperationSummary({ actions: actionsC });
+  const operationSummary = getOperationSummary({ actions: actionsC, top });
   const actionsD = sortActions({ actions: actionsC });
 
   const actionsE = await addCurrentData({
     actions: actionsD,
+    top,
     nextLayer,
     otherLayer,
     mInput,
@@ -84,6 +85,7 @@ const executeGraphql = async function (
   });
   const responsesA = await resolveReadActions({
     actions: actionsE,
+    top,
     nextLayer,
     otherLayer,
     mInput,

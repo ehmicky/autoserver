@@ -2,12 +2,12 @@
 
 const { isEqual } = require('lodash');
 
-const { omit } = require('../../../../../utilities');
 const { getActionConstant } = require('../utilities');
 const { resolveReadActions } = require('../read_actions');
 
 const serialResolve = async function ({
   actions,
+  top,
   nextLayer,
   otherLayer,
   mInput,
@@ -15,6 +15,7 @@ const serialResolve = async function ({
   const writeActions = getWriteActions({ actions });
   const responses = await resolveReadActions({
     actions: writeActions,
+    top,
     nextLayer,
     otherLayer,
     mInput,
@@ -31,17 +32,15 @@ const getWriteActions = function ({ actions }) {
 };
 
 const getSerialReadAction = function ({
-  args,
   actionConstant: { multiple },
   ...action
 }) {
-  const argsA = omit(args, 'data');
   const actionConstant = getActionConstant({
     actionType: 'find',
     isArray: multiple,
   });
 
-  return { ...action, actionConstant, args: argsA, internal: true };
+  return { ...action, actionConstant, internal: true };
 };
 
 const mergeSerialResponse = function ({

@@ -2,7 +2,7 @@
 
 const { isEqual, uniq } = require('lodash');
 
-const { assignArray } = require('../../../../../utilities');
+const { assignArray, omit } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
 const { isTopLevelAction, getActionConstant } = require('../utilities');
 
@@ -149,7 +149,7 @@ const nestedActionTypes = ['find', 'delete', 'update'];
 
 const normalizeIds = function ({
   args,
-  args: { filter: { id } = {}, ...filter },
+  args: { filter: { id, ...filter } = {} },
 }) {
   if (typeof id !== 'string') { return args; }
 
@@ -218,13 +218,14 @@ const fireReadAction = async function ({
   if (Array.isArray(ids) && ids.length === 0) { return []; }
 
   const argsA = { ...args, idCheck, internal };
+  const argsB = omit(argsA, 'data');
   const { command } = ACTIONS.find(ACTION => actionConstant === ACTION);
   const mInputA = {
     ...mInput,
     action: actionConstant,
     actionPath: actionPath.join('.'),
     modelName,
-    args: argsA,
+    args: argsB,
     command,
   };
 

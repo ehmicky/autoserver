@@ -1,15 +1,18 @@
 'use strict';
 
-const { getTopLevelAction, getActionConstant } = require('./utilities');
+const { isEqual } = require('lodash');
+
+const { getActionConstant } = require('./utilities');
 
 const resolveReadActions = function ({
   actions,
+  top,
   nextLayer,
   otherLayer,
   mInput,
   responses,
 }) {
-  const actionsA = getReadActions({ actions });
+  const actionsA = getReadActions({ actions, top });
 
   const actionsB = getParentActions({ actions: actionsA });
 
@@ -22,36 +25,44 @@ const resolveReadActions = function ({
   });
 };
 
-const getReadActions = function ({ actions }) {
-  const topLevelAction = getTopLevelRead({ actions });
+const getReadActions = function ({ actions, top }) {
+  const topLevelAction = getTopLevelRead({ actions, top });
   const actionsA = actions
     .filter(({ actionConstant }) => actionConstant.type === 'find');
   return [...topLevelAction, ...actionsA];
 };
 
-const getTopLevelRead = function ({ actions }) {
-  const topLevelAction = getTopLevelAction({ actions });
-  const {
-    actionConstant: { type: actionType, multiple },
-    currentData,
-    args,
-  } = topLevelAction;
-
+const getTopLevelRead = function ({
+  actions,
+  top,
+  top: { actionConstant: { type: actionType, multiple } },
+}) {
   if (actionType === 'find') { return []; }
 
   const actionConstant = getActionConstant({
     actionType: 'find',
     isArray: multiple,
   });
-  const data = args.data || currentData;
-  const ids = data.map(({ id }) => id);
-  const argsA = { ...args, filter: { id: ids } };
+
+  const action = actions
+    .find(({ actionPath }) => isEqual(actionPath, top.actionPath));
+  const filter = getTopLevelFilter({ action });
 
   return [{
-    ...topLevelAction,
+    ...action,
     actionConstant,
-    args: argsA,
+    args: { ...action.args, filter },
   }];
+};
+
+const getTopLevelFilter = function ({
+  action: { currentData, args: { data, filter } },
+}) {
+  if (filter !== undefined) { return filter; }
+
+  const models = data || currentData;
+  const ids = models.map(({ id }) => id);
+  return { id: ids };
 };
 
 const getParentActions = function ({ actions }) {
