@@ -13,7 +13,8 @@ const isTopLevelAction = function ({ actionPath }) {
 
 const getModel = function ({
   modelsMap,
-  topLevelAction: { modelName, actionConstant: { multiple } },
+  topModel: modelName,
+  topAction: { multiple },
   actionPath,
 }) {
   const actionPathA = actionPath

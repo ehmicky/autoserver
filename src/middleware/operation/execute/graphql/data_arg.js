@@ -12,7 +12,7 @@ const {
   getActionConstant,
 } = require('./utilities');
 
-const parseDataArg = function ({ actions, modelsMap }) {
+const parseDataArg = function ({ actions, topModel, topAction, modelsMap }) {
   const topLevelAction = getTopLevelAction({ actions });
   const { actionPath, args: { data } } = topLevelAction;
 
@@ -23,8 +23,9 @@ const parseDataArg = function ({ actions, modelsMap }) {
     data,
     actionPath,
     dataPaths,
+    topModel,
+    topAction,
     modelsMap,
-    topLevelAction,
   });
   const actionsB = mergeActions({
     readActions: actions,
@@ -37,35 +38,37 @@ const parseData = function ({
   data,
   actionPath,
   dataPaths,
+  topModel,
+  topAction,
   modelsMap,
-  topLevelAction,
 }) {
   const dataA = normalizeData({ data });
 
-  dataA.forEach(
-    datum => validateData({ data: datum, actionPath, topLevelAction })
-  );
+  dataA.forEach(datum => validateData({ data: datum, actionPath, topAction }));
 
   const nestedKeys = getNestedKeys({
     data: dataA,
     actionPath,
+    topModel,
+    topAction,
     modelsMap,
-    topLevelAction,
   });
   const nestedActions = getNestedActions({
     data: dataA,
     actionPath,
     dataPaths,
+    topModel,
+    topAction,
     modelsMap,
-    topLevelAction,
     nestedKeys,
   });
   const action = getAction({
     data: dataA,
     actionPath,
     dataPaths,
+    topModel,
+    topAction,
     modelsMap,
-    topLevelAction,
     nestedKeys,
   });
   const actionA = filterAction({ action });
@@ -79,7 +82,7 @@ const normalizeData = function ({ data }) {
 const validateData = function ({
   data,
   actionPath,
-  topLevelAction: { actionConstant: { type: actionType } },
+  topAction: { type: actionType },
 }) {
   if (!isObject(data)) {
     const message = `'data' argument at ${actionPath.join('.')} should be an object or an array of objects, instead of: ${JSON.stringify(data)}`;
@@ -113,8 +116,9 @@ const isObject = function (obj) {
 const getNestedKeys = function ({
   data,
   actionPath,
+  topModel,
+  topAction,
   modelsMap,
-  topLevelAction,
 }) {
   const nestedKeys = data
     .map(Object.keys)
@@ -122,8 +126,9 @@ const getNestedKeys = function ({
   const nestedKeysA = uniq(nestedKeys);
   const nestedKeysB = nestedKeysA.filter(attrName => {
     const model = getModel({
+      topModel,
+      topAction,
       modelsMap,
-      topLevelAction,
       actionPath: [...actionPath, attrName],
     });
     return model !== undefined && model.modelName !== undefined;
@@ -135,8 +140,9 @@ const getNestedActions = function ({
   data,
   dataPaths,
   actionPath,
+  topModel,
+  topAction,
   modelsMap,
-  topLevelAction,
   nestedKeys,
 }) {
   return nestedKeys
@@ -158,8 +164,9 @@ const getNestedActions = function ({
         data: nestedDataA,
         actionPath: nestedActionPath,
         dataPaths: nestedDataPaths,
+        topModel,
+        topAction,
         modelsMap,
-        topLevelAction,
       });
     })
     .reduce(assignArray, []);
@@ -177,12 +184,18 @@ const getAction = function ({
   data,
   actionPath,
   dataPaths,
+  topModel,
+  topAction,
+  topAction: { type: topType, multiple },
   modelsMap,
-  topLevelAction,
-  topLevelAction: { actionConstant: { type: topType, multiple } },
   nestedKeys,
 }) {
-  const { modelName } = getModel({ modelsMap, topLevelAction, actionPath });
+  const { modelName } = getModel({
+    topModel,
+    topAction,
+    modelsMap,
+    actionPath,
+  });
 
   // Nested actions due to nested `args.data` reuses top-level action
   // Others are simply for selection, i.e. are find actions

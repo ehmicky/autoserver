@@ -7,9 +7,10 @@ const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
+const { getTopArgs } = require('./top_args');
+const { parseTopAction } = require('./top_action');
 const { normalizeActions } = require('./normalize');
 const { parseModels } = require('./models');
-const { getTopArgs } = require('./top_args');
 const { handleArgs } = require('./handle_args');
 const { validateUnknownAttrs } = require('./unknown_attrs');
 const { parseDataArg } = require('./data_arg');
@@ -60,13 +61,19 @@ const executeGraphql = async function (
     });
   }
 
+  const topArgs = getTopArgs({ operation });
+  const { topAction, topModel } = parseTopAction({ operation, modelsMap });
   const actions = normalizeActions({ operation });
 
-  const actionsA = parseModels({ actions, modelsMap });
-  const topArgs = getTopArgs({ actions: actionsA });
+  const actionsA = parseModels({ actions, topAction, topModel, modelsMap });
   const actionsB = handleArgs({ actions: actionsA, runOpts, idl });
   validateUnknownAttrs({ actions: actionsB, modelsMap });
-  const actionsC = parseDataArg({ actions: actionsB, modelsMap });
+  const actionsC = parseDataArg({
+    actions: actionsB,
+    topAction,
+    topModel,
+    modelsMap,
+  });
   const operationSummary = getOperationSummary({ actions: actionsC });
   const actionsD = sortActions({ actions: actionsC });
 
