@@ -11,8 +11,9 @@ const { parseTopAction } = require('./top_action');
 const { normalizeActions } = require('./normalize');
 const { parseModels } = require('./models');
 const { handleArgs } = require('./handle_args');
-const { validateUnknownAttrs } = require('./unknown_attrs');
 const { parseDataArg } = require('./data_arg');
+const { parseCascade } = require('./cascade');
+const { validateUnknownAttrs } = require('./unknown_attrs');
 const { getOperationSummary } = require('./operation_summary');
 const { sortActions } = require('./sort_actions');
 const { addCurrentData } = require('./current_data');
@@ -67,27 +68,30 @@ const executeGraphql = async function (
   const actionsA = parseModels({ actions, top, modelsMap });
   const actionsB = handleArgs({ actions: actionsA, top, runOpts, idl });
   const actionsC = parseDataArg({ actions: actionsB, top, modelsMap });
-  validateUnknownAttrs({ actions: actionsC, modelsMap });
-  const operationSummary = getOperationSummary({ actions: actionsC, top });
-  const actionsD = sortActions({ actions: actionsC });
+  const actionsD = parseCascade({ actions: actionsC, top, modelsMap });
+  validateUnknownAttrs({ actions: actionsD, modelsMap });
+  const operationSummary = getOperationSummary({ actions: actionsD, top });
+  const actionsE = sortActions({ actions: actionsD });
 
-  const actionsE = await addCurrentData({
-    actions: actionsD,
+  const actionsF = await addCurrentData({
+    actions: actionsE,
     top,
+    modelsMap,
     nextLayer,
     otherLayer,
     mInput,
   });
-  const actionsF = mergeUpdateData({ actions: actionsE, top });
+  const actionsG = mergeUpdateData({ actions: actionsF, top });
   const responses = await resolveWriteActions({
-    actions: actionsF,
+    actions: actionsG,
     nextLayer,
     otherLayer,
     mInput,
   });
   const responsesA = await resolveReadActions({
-    actions: actionsF,
+    actions: actionsG,
     top,
+    modelsMap,
     nextLayer,
     otherLayer,
     mInput,

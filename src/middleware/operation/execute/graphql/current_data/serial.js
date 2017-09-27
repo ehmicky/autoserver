@@ -8,6 +8,7 @@ const { resolveReadActions } = require('../read_actions');
 const serialResolve = async function ({
   actions,
   top,
+  modelsMap,
   nextLayer,
   otherLayer,
   mInput,
@@ -16,6 +17,7 @@ const serialResolve = async function ({
   const responses = await resolveReadActions({
     actions: writeActions,
     top,
+    modelsMap,
     nextLayer,
     otherLayer,
     mInput,
