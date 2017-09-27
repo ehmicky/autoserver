@@ -206,7 +206,7 @@ update_model({ data, filter: { id } })
 ```
 
 ```graphql
-update_models({ data, [filter], [order_by], [page_size] })
+update_models({ data, [filter], [page_size] })
 ```
 
 ```graphql

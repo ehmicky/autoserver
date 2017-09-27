@@ -20,7 +20,6 @@ const parseDataArg = function ({
   const actionsB = mergeActions({
     readActions: actions,
     writeActions: actionsA,
-    top,
   });
   return actionsB;
 };
@@ -194,7 +193,7 @@ const filterAction = function ({ action, action: { args: { data } } }) {
   return [action];
 };
 
-const mergeActions = function ({ readActions, writeActions, top }) {
+const mergeActions = function ({ readActions, writeActions }) {
   const writeActionsA = writeActions
     .map(writeAction => mergeAction({ readActions, writeAction }));
   const readActionsA = readActions
@@ -209,10 +208,7 @@ const mergeAction = function ({ readActions, writeAction }) {
   });
   if (!readAction) { return writeAction; }
 
-  // We want `writeAction` to have priority, but also want to keep keys order,
-  // hence we repeat `...writeAction`
   return {
-    ...writeAction,
     ...readAction,
     ...writeAction,
     args: { ...readAction.args, ...writeAction.args },
