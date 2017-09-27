@@ -17,7 +17,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
     and populating between models, including for mutations
   - [filtering](docs/filtering.md), which can use custom logic
   - [sorting](docs/sorting.md)
-  - selecting
+  - [selecting](docs/selecting.md)
   - [pagination](docs/pagination.md)
   - [dry runs](docs/settings.md#dry-runs)
   - [silent outputs](docs/settings.md#silent-output)
