@@ -1,28 +1,29 @@
 'use strict';
 
 const normalizeActions = function ({
-  operation: { action, args, select: selectA },
+  operation: { action, args: { select, ...args } },
 }) {
-  const actionsA = selectA
-    .map(extractActionPath.bind(null, action))
-    .reduce(reduceActions, {});
+  const actionsA = select
+    .split(',')
+    .map(parseSelect.bind(null, action))
+    .reduce(groupBySelect, {});
   const actionsB = Object.values(actionsA)
     .map(normalizeAction.bind(null, args));
   return actionsB;
 };
 
-const extractActionPath = function (action, { key, ...rest }) {
-  const [, actionPath, keyA] = actionPathRegExp.exec(`${action}.${key}`);
-  return { actionPath, key: keyA, ...rest };
+const parseSelect = function (action, select) {
+  const [, actionPath, key, alias] = selectRegExp.exec(`${action}.${select}`);
+  return { actionPath, key, alias };
 };
 
-// Turns 'aaa.bbb.ccc' into ['aaa.bbb', 'ccc']
-const actionPathRegExp = /^(.*)\.([^.]+)$/;
+// Turns 'aaa.bbb.ccc=alias' into ['aaa.bbb', 'ccc', 'alias']
+const selectRegExp = /^([^=]*)\.([^.=]+)=?(.*)?$/;
 
-const reduceActions = function (actions, { actionPath, ...rest }) {
+const groupBySelect = function (actions, { actionPath, ...rest }) {
   const { [actionPath]: { select = [] } = {} } = actions;
-  const selectB = [...select, rest];
-  return { ...actions, [actionPath]: { actionPath, select: selectB } };
+  const selectA = [...select, rest];
+  return { ...actions, [actionPath]: { actionPath, select: selectA } };
 };
 
 const normalizeAction = function (args, { actionPath, select }) {
