@@ -189,28 +189,7 @@ See the documentation [here](relations.md).
 
 # Selecting
 
-Name an attribute `'all'` in order to select all attributes instead
-of specifying each one, e.g.:
-
-```graphql
-{
-  find_user(filter: {id: "1"}) {
-    all
-  }
-}
-```
-
-instead of:
-
-```graphql
-{
-  find_user(filter: {id: "1"}) {
-    id
-    name
-    manager
-  }
-}
-```
+See the documentation [here](selecting.md).
 
 # Filtering
 
