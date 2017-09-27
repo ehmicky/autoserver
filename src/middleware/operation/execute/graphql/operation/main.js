@@ -1,5 +1,7 @@
 'use strict';
 
+const { throwError } = require('../../../../../error');
+
 const { parseArgs } = require('./args');
 const { applyDirectives } = require('./directive');
 const { parseSelects } = require('./select');
@@ -7,11 +9,10 @@ const { parseSelects } = require('./select');
 const parseOperation = function ({ mainDef, variables, fragments }) {
   const mainSelection = getMainSelection({ mainDef });
 
-  const { name: { value: action }, selectionSet } = mainSelection;
-  const select = parseSelects({ selectionSet, fragments });
-  const args = parseArgs({ mainSelection, variables });
+  const { name: { value: action } } = mainSelection;
+  const argsA = getArgs({ mainSelection, variables, fragments });
 
-  return { action, args, select };
+  return { action, args: argsA };
 };
 
 const getMainSelection = function ({
@@ -19,6 +20,23 @@ const getMainSelection = function ({
 }) {
   const [mainSelection] = selections.filter(applyDirectives);
   return mainSelection;
+};
+
+const getArgs = function ({
+  mainSelection,
+  mainSelection: { selectionSet },
+  variables,
+  fragments,
+}) {
+  const select = parseSelects({ selectionSet, fragments });
+  const args = parseArgs({ mainSelection, variables });
+
+  if (args.select !== undefined) {
+    const message = 'Cannot specify \'select\' argument with GraphQL';
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  return { ...args, select };
 };
 
 module.exports = {

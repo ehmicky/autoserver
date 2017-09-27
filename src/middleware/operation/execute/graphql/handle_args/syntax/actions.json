@@ -1,10 +1,11 @@
 {
   "findOne": {
-    "optional": [],
+    "optional": ["select"],
     "required": ["single_filter"]
   },
   "findMany": {
     "optional": [
+      "select",
       "multiple_filter",
       "order_by",
       "page_size",
@@ -15,43 +16,43 @@
     "required": []
   },
   "deleteOne": {
-    "optional": [],
+    "optional": ["select"],
     "required": ["single_filter"]
   },
   "deleteMany": {
-    "optional": ["multiple_filter", "order_by", "page_size"],
+    "optional": ["select", "multiple_filter", "order_by", "page_size"],
     "required": []
   },
   "updateOne": {
-    "optional": [],
+    "optional": ["select"],
     "required": ["single_filter", "single_data"]
   },
   "updateMany": {
-    "optional": ["multiple_filter", "order_by", "page_size"],
+    "optional": ["select", "multiple_filter", "order_by", "page_size"],
     "required": ["single_data"]
   },
   "createOne": {
-    "optional": [],
+    "optional": ["select"],
     "required": ["single_data"]
   },
   "createMany": {
-    "optional": ["page_size"],
+    "optional": ["select", "page_size"],
     "required": ["multiple_data"]
   },
   "replaceOne": {
-    "optional": [],
+    "optional": ["select"],
     "required": ["single_data"]
   },
   "replaceMany": {
-    "optional": ["page_size"],
+    "optional": ["select", "page_size"],
     "required": ["multiple_data"]
   },
   "upsertOne": {
-    "optional": [],
+    "optional": ["select"],
     "required": ["single_data"]
   },
   "upsertMany": {
-    "optional": ["page_size"],
+    "optional": ["select", "page_size"],
     "required": ["multiple_data"]
   }
 }

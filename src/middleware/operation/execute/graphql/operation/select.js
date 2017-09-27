@@ -6,6 +6,11 @@ const { assignArray } = require('../../../../../utilities');
 const { applyDirectives } = require('./directive');
 
 const parseSelects = function ({ selectionSet, parentPath = [], fragments }) {
+  const select = parseSelectionSet({ selectionSet, parentPath, fragments });
+  return select.join(',');
+};
+
+const parseSelectionSet = function ({ selectionSet, parentPath, fragments }) {
   if (selectionSet == null) { return []; }
 
   return selectionSet.selections
@@ -44,7 +49,7 @@ const parseField = function ({
 }) {
   const select = getSelect({ parentPath, alias, fieldName });
 
-  const childSelect = parseSelects({
+  const childSelect = parseSelectionSet({
     selectionSet,
     parentPath: [...parentPath, fieldName],
     fragments,
@@ -57,9 +62,7 @@ const getSelect = function ({ parentPath, alias, fieldName }) {
   const key = [...parentPath, fieldName].join('.');
   const aliasName = alias && alias.value;
 
-  return aliasName == null
-    ? { key }
-    : { key, alias: aliasName };
+  return aliasName == null ? key : `${key}=${aliasName}`;
 };
 
 const parseFragmentSpread = function ({ parentPath, fragments, fieldName }) {
@@ -72,11 +75,11 @@ const parseFragmentSpread = function ({ parentPath, fragments, fieldName }) {
 
   const { selectionSet } = fragment;
 
-  return parseSelects({ selectionSet, parentPath, fragments });
+  return parseSelectionSet({ selectionSet, parentPath, fragments });
 };
 
 const parseInlineFragment = function ({ selectionSet, parentPath, fragments }) {
-  return parseSelects({ selectionSet, parentPath, fragments });
+  return parseSelectionSet({ selectionSet, parentPath, fragments });
 };
 
 const parsers = {
