@@ -16,7 +16,7 @@ const validateAction = function ({ action, modelsMap }) {
 };
 
 const validateAllAttr = function ({
-  action: { select, actionPath, modelName },
+  action: { select = [], actionPath, modelName },
   modelsMap,
 }) {
   const hasAllAttr = select.some(({ key }) => key === 'all');
@@ -40,15 +40,13 @@ const validateUnknown = function ({ action, modelsMap }) {
   validateSingleUnknown({ keys: dataKeys, action, modelsMap });
 };
 
-const getSelectKeys = function ({ action: { select } }) {
+const getSelectKeys = function ({ action: { select = [] } }) {
   return select
     .filter(({ key }) => key !== 'all')
     .map(({ key }) => key);
 };
 
-const getDataKeys = function ({ action: { args: { data } } }) {
-  if (data === undefined) { return []; }
-
+const getDataKeys = function ({ action: { args: { data = [] } } }) {
   const keys = data
     .map(Object.keys)
     .reduce(assignArray, []);

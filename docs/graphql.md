@@ -204,6 +204,21 @@ mutation {
 
 will create both the user and its manager.
 
+# Deleting nested models
+
+To delete nested models, specify them using the `cascade` argument,
+as a comma-separated list of nested models, e.g.:
+
+```graphql
+mutation {
+  delete_user(filter: {id: "1"}, cascade: "manager.friend,colleague") {
+    id
+  }
+}
+```
+
+will delete `user`, `user.manager.friend` and `user.colleague`.
+
 # Populating nested models
 
 One can populating nested models in output, e.g.:
@@ -241,7 +256,8 @@ This is available for any action, including `delete`, `create`, etc.
 Models can be infinitely nested.
 
 Populating nested models in output is distinct from
-[modifying nested models in input](#modifying-nested-models).
+[modifying](#modifying-nested-models) or [deleting](#deleting-nested-models)
+nested models in input.
 
 # Selecting
 

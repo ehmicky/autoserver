@@ -6,6 +6,7 @@ module.exports = {
   ...require('./order_by'),
   ...require('./pagination'),
   ...require('./data'),
+  ...require('./cascade'),
   ...require('./required'),
   ...require('./unknown'),
 };

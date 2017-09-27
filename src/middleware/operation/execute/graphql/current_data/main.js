@@ -7,15 +7,13 @@ const addCurrentData = function ({
   actions,
   top,
   top: { actionConstant: { type: actionType } },
-  nextLayer,
-  otherLayer,
-  mInput,
+  ...rest
 }) {
   const resolver = resolvers[actionType];
 
   if (resolver === undefined) { return actions; }
 
-  return resolver({ actions, top, nextLayer, otherLayer, mInput });
+  return resolver({ actions, top, ...rest });
 };
 
 const resolvers = {
