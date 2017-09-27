@@ -6,10 +6,16 @@ const { throwError } = require('../../../../../error');
 const { assignArray } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
 
-const resolveWrite = async function ({ actionsGroups, nextLayer, mInput }) {
+const resolveWrite = async function ({
+  actionsGroups,
+  top,
+  nextLayer,
+  mInput,
+}) {
   // Run write commands in parallel
   const responsesPromises = actionsGroups.map(actions => singleResolveWrite({
     actions,
+    top,
     nextLayer,
     mInput,
   }));
@@ -20,16 +26,18 @@ const resolveWrite = async function ({ actionsGroups, nextLayer, mInput }) {
 
 const singleResolveWrite = async function ({
   actions,
-  actions: [{
+  top: {
     actionConstant,
     actionConstant: { type: actionType },
     modelName,
-  }],
+    args: topArgs,
+  },
   nextLayer,
   mInput,
 }) {
   const { [actionType]: handler } = handlers;
-  const argsA = handler.mergeArgs({ actions });
+  const args = handler.mergeArgs({ actions });
+  const argsA = applyTopArgs({ args, topArgs });
 
   const ids = handler.getIds({ args: argsA });
   if (ids.length === 0) { return []; }
@@ -105,6 +113,10 @@ const validateDuplicates = function (models, model) {
 
   const message = `Two models in 'data' have the same 'id' but different attributes: '${JSON.stringify(model)}', '${JSON.stringify(differentModel)}'`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
+};
+
+const applyTopArgs = function ({ args, topArgs: { dryrun } }) {
+  return { ...args, dryrun };
 };
 
 const getFilterIds = function ({ args: { filter: { id } } }) {

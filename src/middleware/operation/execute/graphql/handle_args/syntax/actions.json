@@ -1,6 +1,6 @@
 {
   "findOne": {
-    "optional": ["select"],
+    "optional": ["select", "silent"],
     "required": ["single_filter"]
   },
   "findMany": {
@@ -11,48 +11,56 @@
       "page_size",
       "page",
       "before",
-      "after"
+      "after",
+      "silent"
     ],
     "required": []
   },
   "deleteOne": {
-    "optional": ["select", "cascade"],
+    "optional": ["select", "cascade", "silent", "dryrun"],
     "required": ["single_filter"]
   },
   "deleteMany": {
-    "optional": ["select", "cascade", "multiple_filter", "page_size"],
+    "optional": [
+      "select",
+      "cascade",
+      "multiple_filter",
+      "page_size",
+      "silent",
+      "dryrun"
+    ],
     "required": []
   },
   "updateOne": {
-    "optional": ["select"],
+    "optional": ["select", "silent", "dryrun"],
     "required": ["single_filter", "single_data"]
   },
   "updateMany": {
-    "optional": ["select", "multiple_filter", "page_size"],
+    "optional": ["select", "multiple_filter", "page_size", "silent", "dryrun"],
     "required": ["single_data"]
   },
   "createOne": {
-    "optional": ["select"],
+    "optional": ["select", "silent", "dryrun"],
     "required": ["single_data"]
   },
   "createMany": {
-    "optional": ["select", "page_size"],
+    "optional": ["select", "page_size", "silent", "dryrun"],
     "required": ["multiple_data"]
   },
   "replaceOne": {
-    "optional": ["select"],
+    "optional": ["select", "silent", "dryrun"],
     "required": ["single_data"]
   },
   "replaceMany": {
-    "optional": ["select", "page_size"],
+    "optional": ["select", "page_size", "silent", "dryrun"],
     "required": ["multiple_data"]
   },
   "upsertOne": {
-    "optional": ["select"],
+    "optional": ["select", "silent", "dryrun"],
     "required": ["single_data"]
   },
   "upsertMany": {
-    "optional": ["select", "page_size"],
+    "optional": ["select", "page_size", "silent", "dryrun"],
     "required": ["multiple_data"]
   }
 }

@@ -4,6 +4,7 @@ const { getActionConstant } = require('./utilities');
 
 const resolveWriteActions = function ({
   actions,
+  top,
   nextLayer,
   otherLayer,
   mInput,
@@ -14,6 +15,7 @@ const resolveWriteActions = function ({
   return otherLayer({
     actionsGroupType: 'write',
     actionsGroups,
+    top,
     nextLayer,
     mInput,
   });

@@ -57,10 +57,8 @@ const middlewareLayers = [
       protocol.parsePayload,
       // Parse headers into protocol-agnostic format
       protocol.parseHeaders,
-      // Parse operation-wide settings
-      protocol.parseSettings,
-      // Parse application-specific headers
-      protocol.parseParams,
+      // Parse protocol-specified arguments
+      protocol.parseProtocolArgs,
       // Retrieves mInput.route, using mInput.path
       protocol.router,
 
@@ -80,8 +78,6 @@ const middlewareLayers = [
       // Translates operation-specific calls into generic instance actions
       operation.operationExecute,
 
-      // Remove response data if settings silent is specified
-      operation.silent,
       // Operation-related output validation middleware
       operation.operationValidationOut,
     ],

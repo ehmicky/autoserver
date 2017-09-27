@@ -45,8 +45,6 @@ const eventFilterNames = [
   'argsData',
   'headers',
   'queryVars',
-  'params',
-  'settings',
 ];
 
 const eventFilterDefault = {
@@ -55,8 +53,6 @@ const eventFilterDefault = {
   argsData: ['id'],
   headers: false,
   queryVars: false,
-  params: false,
-  settings: false,
 };
 
 const getEventFilter = filterName => ({

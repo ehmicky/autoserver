@@ -7,6 +7,8 @@ module.exports = {
   ...require('./pagination'),
   ...require('./data'),
   ...require('./cascade'),
+  ...require('./dryrun'),
+  ...require('./silent'),
   ...require('./required'),
   ...require('./unknown'),
 };
