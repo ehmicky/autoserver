@@ -183,81 +183,9 @@ It can be used by the following actions: `create`, `replace`, `upsert` and
 
 `update` action `data` is a bit different, as it is never an array.
 
-# Modifying nested models
+# Nested models
 
-`data` can include nested models, e.g.:
-
-```graphql
-mutation {
-  create_user(data: {
-    id: "1"
-    name: "Anthony"
-    manager: {
-      id: "3"
-      name: "Anna"
-    }
-  }) {
-    id
-  }
-}
-```
-
-will create both the user and its manager.
-
-# Deleting nested models
-
-To delete nested models, specify them using the `cascade` argument,
-as a comma-separated list of nested models, e.g.:
-
-```graphql
-mutation {
-  delete_user(filter: {id: "1"}, cascade: "manager.friend,colleague") {
-    id
-  }
-}
-```
-
-will delete `user`, `user.manager.friend` and `user.colleague`.
-
-# Populating nested models
-
-One can populating nested models in output, e.g.:
-
-```graphql
-{
-  find_user(filter: {id: "1"}) {
-    id
-    name
-    manager {
-      id
-      name
-    }
-  }
-}
-```
-
-will respond with:
-
-```json
-{
-  "data": {
-    "id": "1",
-    "name": "Anthony",
-    "manager": {
-      "id": "3",
-      "name": "Anna"
-    }
-  }
-}
-```
-
-This is available for any action, including `delete`, `create`, etc.
-
-Models can be infinitely nested.
-
-Populating nested models in output is distinct from
-[modifying](#modifying-nested-models) or [deleting](#deleting-nested-models)
-nested models in input.
+See the documentation [here](relations.md).
 
 # Selecting
 

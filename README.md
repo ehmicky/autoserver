@@ -13,8 +13,8 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [CRUD actions](docs/graphql.md#read-queries):
     find, create, update, replace, upsert, delete.
     Each action can be performed on a single model or on several models.
-  - [nested actions](docs/graphql.md#nested-models) and populating between
-    models, including for mutations
+  - [relations, nested actions](docs/relations.md)
+    and populating between models, including for mutations
   - [filtering](docs/filtering.md), which can use custom logic
   - [sorting](docs/sorting.md)
   - selecting
