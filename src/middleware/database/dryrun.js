@@ -1,7 +1,5 @@
 'use strict';
 
-const { orderBy: orderByFunc, map } = require('lodash');
-
 // Make write commands not change data, if settings `dryrun` is used
 const applyDryRun = function ({ settings: { dryrun }, args, command }) {
   if (!dryrun || command === 'read') { return; }
@@ -15,14 +13,8 @@ const getReadCommand = function () {
 };
 
 // `replace`, `create` and `upsert` commands reuse `args.newData` as is
-const useNewData = function ({ args: { newData: data, orderBy } }) {
-  const dataA = sortData({ data, orderBy });
-  return { response: { data: dataA } };
-};
-
-// This is usually done by the database
-const sortData = function ({ data, orderBy }) {
-  return orderByFunc(data, map(orderBy, 'attrName'), map(orderBy, 'order'));
+const useNewData = function ({ args: { newData: data } }) {
+  return { response: { data } };
 };
 
 const dryRunByCommand = {

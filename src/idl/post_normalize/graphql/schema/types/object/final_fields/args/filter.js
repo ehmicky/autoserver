@@ -2,9 +2,6 @@
 
 const { GraphQLNonNull } = require('graphql');
 
-// Filters argument, i.e. only queries entities that match specified attributes
-const filterActionTypes = ['find', 'delete', 'update'];
-
 const getFilterArgument = function ({
   def,
   def: { action },
@@ -21,6 +18,9 @@ const getFilterArgument = function ({
     : new GraphQLNonNull(filterObjectType);
   return getFilterArgs({ type });
 };
+
+// Filters argument, i.e. only queries entities that match specified attributes
+const filterActionTypes = ['find', 'delete', 'update'];
 
 const getFilterArgs = ({ type }) => ({
   filter: {

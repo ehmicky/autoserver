@@ -1,16 +1,21 @@
 # Sorting
 
-One can sort the output of `find`, `update` and `delete` actions,
-using `order_by`, e.g.:
+One can sort the output of `find` and `delete` actions, using `order_by`, e.g.:
 
 ```graphql
 find_users(order_by: "name")
 ```
 
-More complex sorting can be achieved with:
+`order_by` defaults to `"id"`.
+
+To sort in the opposite order, use `-`, e.g.:
 
 ```graphql
-find_users(order_by: "first_name-,last_name")
+find_users(order_by: "name-")
 ```
 
-`order_by` defaults to `"id"`.
+To sort according to several attributes, separate them with a comma, e.g.:
+
+```graphql
+find_users(order_by: "first_name,last_name")
+```

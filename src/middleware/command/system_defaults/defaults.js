@@ -7,12 +7,14 @@
 //    Can be a function taking the `run` options as first argument
 const defaults = {
   filter: {
-    commands: ['read', 'delete'],
+    commands: ['read', 'delete', 'update'],
     value: {},
   },
 
+  // 'update' is always sorted by 'id', i.e. user cannot specify it
+  // The reason: paginated updates might otherwise iterate over the same models
   orderBy: {
-    commands: ['read', 'delete'],
+    commands: ['read', 'delete', 'update'],
     value: [{ attrName: 'id', order: 'asc' }],
     test: ({ args }) => hasNoPaginationTokens({ args }),
   },

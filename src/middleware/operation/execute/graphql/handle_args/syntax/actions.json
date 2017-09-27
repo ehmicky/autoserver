@@ -34,7 +34,7 @@
     "required": ["single_filter", "single_data"]
   },
   "updateMany": {
-    "optional": ["select", "multiple_filter", "order_by", "page_size"],
+    "optional": ["select", "multiple_filter", "page_size"],
     "required": ["single_data"]
   },
   "createOne": {
