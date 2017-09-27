@@ -31,16 +31,7 @@ One can specify an `attribute.type` among:
 
 # Nested models
 
-Models can refer to each other by using the other model's name as
-`attribute.type`, either as a scalar value or an array, for one-to-one or
-one-to-many relationship.
-
-Models can nest themselves, i.e. be recursive.
-
-Such attributes should be `id`s to the target model, and will use the same
-constraints as the target model's `id` attribute.
-
-Clients can nest actions by using nested models.
+See the documentation [here](relations.md).
 
 # Default model
 

@@ -138,11 +138,11 @@ Like a [database table](models.md) or collection
 
 ## Nested model
 
-[Attribute](models.md#nested-models) inside a model targeting another model
+[Attribute](relations.md) inside a model targeting another model
 
 ## Target model
 
-[Model](models.md#nested-models) targeted by a nested model
+[Model](relations.md) targeted by a nested model
 
 ## Attribute
 
