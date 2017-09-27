@@ -6,6 +6,5 @@ module.exports = {
 
   ...require('./execute'),
 
-  ...require('./silent'),
   ...require('./validation_out'),
 };

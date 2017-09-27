@@ -9,7 +9,21 @@ const { getActionConstant } = require('./utilities');
 
 // Parse a GraphQL query top-level action name into tokens.
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
-const parseTopAction = function ({ operation: { action, args }, modelsMap }) {
+const parseTopAction = function ({
+  operation: { action, args },
+  modelsMap,
+  protocolArgs,
+}) {
+  const { actionConstant, modelName } = getModelInfo({ action, modelsMap });
+
+  const actionPath = [action];
+
+  const argsA = { ...protocolArgs, ...args };
+
+  return { actionConstant, modelName, actionPath, args: argsA };
+};
+
+const getModelInfo = function ({ action, modelsMap }) {
   const { actionType, modelName } = parseName({ action });
 
   const modelNameA = underscored(modelName);
@@ -24,9 +38,7 @@ const parseTopAction = function ({ operation: { action, args }, modelsMap }) {
 
   validateAction({ modelName: modelNameB, action });
 
-  const actionPath = [action];
-
-  return { actionConstant, modelName: modelNameB, actionPath, args };
+  return { actionConstant, modelName: modelNameB };
 };
 
 const parseName = function ({ action }) {

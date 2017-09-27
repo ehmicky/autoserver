@@ -10,7 +10,7 @@ module.exports = {
   ...require('./send'),
   ...require('./name'),
   ...require('./ip'),
-  ...require('./settings'),
+  ...require('./args'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./status'),
 };

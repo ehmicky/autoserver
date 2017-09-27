@@ -12,8 +12,8 @@ const MAX_ARRAY_LENGTH = 100;
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Automatic transtyping is performed
-// Meant to be used to create (in coming middleware) `mInput.settings` and
-// `mInput.params`, but can also be used by operation layer as is.
+// Meant to be used to create (in coming middleware) `mInput.args`
+// but can also be used by operation layer as is.
 const parseQueryString = function ({ specific, protocolHandler }) {
   const queryString = getQueryString({ specific, protocolHandler });
   const queryVars = eParseQueryVars({ queryString });

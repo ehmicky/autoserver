@@ -1,7 +1,7 @@
 'use strict';
 
-// Make write commands not change data, if settings `dryrun` is used
-const applyDryRun = function ({ settings: { dryrun }, args, command }) {
+// Make write commands not change data, if argument `dryrun` is used
+const applyDryRun = function ({ args: { dryrun }, args, command }) {
   if (!dryrun || command === 'read') { return; }
 
   return dryRunByCommand[command]({ args });

@@ -26,6 +26,7 @@ const { removeDuplicateResponses } = require('./duplicate_responses');
 const { sortResponses } = require('./sort_responses');
 const { assembleResponses } = require('./assemble');
 const { selectFields } = require('./select');
+const { applySilent } = require('./silent');
 const { parseResponse } = require('./response');
 
 // GraphQL query handling
@@ -38,6 +39,7 @@ const executeGraphql = async function (
     payload,
     mInput,
     method,
+    protocolArgs,
   },
   nextLayer,
 ) {
@@ -62,7 +64,7 @@ const executeGraphql = async function (
     });
   }
 
-  const top = parseTopAction({ operation, modelsMap });
+  const top = parseTopAction({ operation, modelsMap, protocolArgs });
   const actions = normalizeActions({ operation });
 
   const actionsA = parseModels({ actions, top, modelsMap });
@@ -84,6 +86,7 @@ const executeGraphql = async function (
   const actionsG = mergeUpdateData({ actions: actionsF, top });
   const responses = await resolveWriteActions({
     actions: actionsG,
+    top,
     nextLayer,
     otherLayer,
     mInput,
@@ -105,8 +108,9 @@ const executeGraphql = async function (
   const fullResponse = assembleResponses({ responses: responsesD });
   const fullResponseA = selectFields({ fullResponse, responses: responsesD });
   const fullResponseB = parseResponse({ fullResponse: fullResponseA });
+  const fullResponseC = applySilent({ fullResponse: fullResponseB, top });
 
-  return { response: fullResponseB, topArgs: top.args, operationSummary };
+  return { response: fullResponseC, topArgs: top.args, operationSummary };
 };
 
 const otherLayer = function (obj) {

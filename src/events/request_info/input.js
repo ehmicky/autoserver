@@ -21,7 +21,7 @@ const inputReducer = function (attrName, requestInfo, eventFilter) {
   return { ...requestInfo, [attrName]: valueA };
 };
 
-const reducers = ['queryVars', 'headers', 'params', 'settings']
+const reducers = ['queryVars', 'headers']
   .map(attrName => inputReducer.bind(null, attrName));
 
 module.exports = {
