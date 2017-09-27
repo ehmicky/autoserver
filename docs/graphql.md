@@ -198,7 +198,7 @@ delete_model({ filter: { id }, [cascade] })
 ```
 
 ```graphql
-delete_models({ [filter], [cascade], [order_by], [page_size] })
+delete_models({ [filter], [cascade], [page_size] })
 ```
 
 ```graphql

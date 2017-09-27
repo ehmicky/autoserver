@@ -20,13 +20,7 @@
     "required": ["single_filter"]
   },
   "deleteMany": {
-    "optional": [
-      "select",
-      "cascade",
-      "multiple_filter",
-      "order_by",
-      "page_size"
-    ],
+    "optional": ["select", "cascade", "multiple_filter", "page_size"],
     "required": []
   },
   "updateOne": {
