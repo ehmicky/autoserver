@@ -66,8 +66,8 @@ const executeGraphql = async function (
 
   const actionsA = parseModels({ actions, top, modelsMap });
   const actionsB = handleArgs({ actions: actionsA, top, runOpts, idl });
-  validateUnknownAttrs({ actions: actionsB, modelsMap });
   const actionsC = parseDataArg({ actions: actionsB, top, modelsMap });
+  validateUnknownAttrs({ actions: actionsC, modelsMap });
   const operationSummary = getOperationSummary({ actions: actionsC, top });
   const actionsD = sortActions({ actions: actionsC });
 
