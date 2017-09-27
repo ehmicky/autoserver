@@ -59,14 +59,25 @@ const getReadAction = function ({
   }];
 };
 
-const getTopLevelFilter = function ({
-  action: { currentData, args: { data, filter } },
-}) {
-  if (filter !== undefined) { return filter; }
+// `currentData` query will reuse the ids from replace|upsert|create `data`,
+// and the `filter` from find|delete|update.
+// Selection query will reuse `currentData` from replace|upsert|delete|update,
+// `data` from create, and `filter` from find.
+const getTopLevelFilter = function ({ action, action: { args: { filter } } }) {
+  const models = getModels({ action });
 
-  const models = data || currentData;
+  if (models === undefined) { return filter; }
+
   const ids = models.map(({ id }) => id);
   return { id: ids };
+};
+
+const getModels = function ({ action: { currentData, args: { data } } }) {
+  if (currentData) { return currentData; }
+
+  // Use replace|upsert|create `data`, but not update `data`
+  const hasDataIds = data && data.every(datum => datum.id !== undefined);
+  if (hasDataIds) { return data; }
 };
 
 const getParentActions = function ({ actions, top, modelsMap }) {

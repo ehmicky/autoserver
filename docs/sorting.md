@@ -1,6 +1,6 @@
 # Sorting
 
-One can sort the output of `find` and `delete` actions, using `order_by`, e.g.:
+One can sort the output of `find` actions, using `order_by`, e.g.:
 
 ```graphql
 find_users(order_by: "name")
