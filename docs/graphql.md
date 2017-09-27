@@ -183,26 +183,6 @@ It can be used by the following actions: `create`, `replace`, `upsert` and
 
 `update` action `data` is a bit different, as it is never an array.
 
-# Nested models
-
-See the documentation [here](relations.md).
-
-# Selecting
-
-See the documentation [here](selecting.md).
-
-# Filtering
-
-See the documentation [here](filtering.md).
-
-# Sorting
-
-See the documentation [here](sorting.md).
-
-# Pagination
-
-See the documentation [here](pagination.md).
-
 # Summary of actions
 
 ```graphql
@@ -256,3 +236,12 @@ upsert_models({ data[], [page_size] })
 # Error responses
 
 See [here](error.md#error-responses) for information about error responses.
+
+# More information
+
+See the following documentation to learn more about:
+  - [nested models](relations.md)
+  - [selecting](selecting.md)
+  - [filtering](filtering.md)
+  - [sorting](sorting.md)
+  - [pagination](pagination.md)
