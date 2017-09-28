@@ -5,6 +5,7 @@ const final = require('./final');
 const time = require('./time');
 const protocol = require('./protocol');
 const operation = require('./operation');
+const action = require('./action');
 const command = require('./command');
 const database = require('./database');
 
@@ -72,10 +73,18 @@ const middlewareLayers = [
     layers: [
       // Fire operation-specific logic
       operation.operationExecute,
-      operation.operationHandling,
+      // Fire action layer
+      operation.fireActions,
 
       // Operation-related output validation middleware
       operation.operationValidationOut,
+    ],
+  },
+
+  {
+    name: 'action',
+    layers: [
+      action.actionHandling,
     ],
   },
 
