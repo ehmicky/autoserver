@@ -4,20 +4,17 @@ const parseResponse = function ({ fullResponse }) {
   const data = removeTopLevel({ fullResponse });
   const type = getResponseType({ data });
 
-  return {
-    content: { data },
-    type,
-  };
+  return { content: { data }, type };
 };
 
 // Remove top-level key, e.g. `findModels`
 const removeTopLevel = function ({ fullResponse }) {
-  const topLevelKeys = Object.keys(fullResponse);
+  const [topLevelKey] = Object.keys(fullResponse);
 
   // Empty response
-  if (topLevelKeys.length === 0) { return []; }
+  if (topLevelKey === undefined) { return []; }
 
-  return fullResponse[topLevelKeys[0]];
+  return fullResponse[topLevelKey];
 };
 
 const getResponseType = function ({ data }) {

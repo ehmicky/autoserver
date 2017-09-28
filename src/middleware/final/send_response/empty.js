@@ -1,16 +1,16 @@
 'use strict';
 
-// Set a type-specific empty response when the content is not set,
-// or when `args.silent` is used (unless this is an error response).
+// Set a type-specific empty response when `args.silent` is used
+// (unless this is an error response).
 const setEmptyResponse = function ({
   content,
   topArgs: { silent } = {},
   error,
   emptyResponse,
 }) {
-  return content === undefined || (silent && !error)
-    ? emptyResponse
-    : content;
+  if (silent && !error) { return emptyResponse; }
+
+  return content;
 };
 
 module.exports = {
