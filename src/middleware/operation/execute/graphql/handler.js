@@ -28,7 +28,6 @@ const { sortResponses } = require('./sort_responses');
 const { getModelsCount } = require('./models_count');
 const { assembleResponses } = require('./assemble');
 const { selectFields } = require('./select');
-const { applySilent } = require('./silent');
 const { parseResponse } = require('./response');
 
 // GraphQL query handling
@@ -114,10 +113,9 @@ const executeGraphql = async function (
   const fullResponse = assembleResponses({ responses: responsesD });
   const fullResponseA = selectFields({ fullResponse, responses: responsesD });
   const fullResponseB = parseResponse({ fullResponse: fullResponseA });
-  const fullResponseC = applySilent({ fullResponse: fullResponseB, top });
 
   return {
-    response: fullResponseC,
+    response: fullResponseB,
     topArgs: top.args,
     operationSummary,
     modelsCount,

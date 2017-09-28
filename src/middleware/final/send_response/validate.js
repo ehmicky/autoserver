@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../../error');
 
-const { handlers } = require('./handlers');
+const { types } = require('./sender');
 
 const validateResponse = function ({ response: { type, content } }) {
   if (!type) {
@@ -17,7 +17,7 @@ const validateResponse = function ({ response: { type, content } }) {
     });
   }
 
-  if (!handlers[type]) {
+  if (!types[type]) {
     const message = 'Server tried to respond with an unsupported content type';
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
