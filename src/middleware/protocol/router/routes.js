@@ -4,21 +4,17 @@ const pathToRegExp = require('path-to-regexp');
 
 const { mapValues, assignArray } = require('../../../utilities');
 const { throwError } = require('../../../error');
-
-const GraphiQL = require('./graphiql');
-const GraphQLPrint = require('./graphql_print');
-const GraphQL = require('./graphql');
-
-const allRoutes = { GraphiQL, GraphQLPrint, GraphQL };
+const { operationHandlers } = require('../../../operations');
 
 const getRoutes = function () {
-  const allRoutesA = mapValues(
-    allRoutes,
-    (path, operation) => ({ path, operation }),
-  );
-  return Object.values(allRoutesA)
+  const paths = mapValues(operationHandlers, normalizeRoute);
+  return Object.values(paths)
     .reduce(assignArray, [])
     .map(getRoute);
+};
+
+const normalizeRoute = function ({ paths }, operation) {
+  return paths.map(path => ({ path, operation }));
 };
 
 const getRoute = function ({ path, operation }) {
