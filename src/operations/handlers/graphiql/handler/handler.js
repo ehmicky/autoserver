@@ -2,7 +2,7 @@
 
 const { renderGraphiQL } = require('./render');
 
-const executeGraphiql = async function ({ queryVars, payload = {}, origin }) {
+const handler = async function ({ queryVars, payload = {}, origin }) {
   const endpointURL = `${origin}/graphql`;
   const { query, variables, operationName } = { ...queryVars, ...payload };
 
@@ -18,5 +18,5 @@ const executeGraphiql = async function ({ queryVars, payload = {}, origin }) {
 };
 
 module.exports = {
-  executeGraphiql,
+  handler,
 };

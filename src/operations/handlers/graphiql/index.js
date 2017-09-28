@@ -6,4 +6,5 @@ const paths = require('./paths');
 module.exports = {
   name,
   paths,
+  ...require('./handler'),
 };

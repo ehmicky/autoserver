@@ -8,7 +8,7 @@ const {
   handleIntrospection,
 } = require('./introspection');
 
-const executeGraphql = function ({
+const handler = function ({
   idl: { GraphQLSchema: schema },
   queryVars,
   payload,
@@ -41,5 +41,5 @@ const executeGraphql = function ({
 };
 
 module.exports = {
-  executeGraphql,
+  handler,
 };
