@@ -3,7 +3,7 @@
 const { getStandardError } = require('../../../error');
 
 const { validateResponse } = require('./validate');
-const { handlers } = require('./handlers');
+const { sender } = require('./sender');
 const transformMap = require('./transform');
 
 // Sends the response at the end of the request
@@ -14,15 +14,21 @@ const sendResponse = function ({
   specific,
   protocolHandler,
   protocolStatus,
+  topArgs,
   mInput,
 }) {
   const responseA = getErrorResponse({ mInput, error, response, operation });
 
   validateResponse({ response: responseA });
 
-  // Use different logic according to the content type
-  const { type, content } = responseA;
-  handlers[type]({ protocolHandler, specific, content, protocolStatus });
+  sender({
+    response: responseA,
+    protocolHandler,
+    specific,
+    protocolStatus,
+    topArgs,
+    error,
+  });
 
   return { response: responseA };
 };
