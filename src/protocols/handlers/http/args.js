@@ -10,12 +10,15 @@ const getArgs = function (mInput) {
   return omitBy(args, value => value === undefined);
 };
 
-// Using `Prefer: return=minimal` request header -> `args.silent`
-const silent = function ({ headers }) {
+// Using `Prefer: return=minimal` request header results in `args.silent` true.
+// Same thing for using HTTP method HEAD
+const silent = function ({ headers, specific: { req: { method } } }) {
   const preferHeader = parsePreferHeader({ headers });
   const hasMinimalPreference = preferHeader.return === 'minimal';
 
-  if (hasMinimalPreference) { return true; }
+  const isHead = method === 'HEAD';
+
+  if (hasMinimalPreference || isHead) { return true; }
 };
 
 const parsers = {

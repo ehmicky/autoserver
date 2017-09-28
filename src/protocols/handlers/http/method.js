@@ -7,6 +7,7 @@ const getMethod = function ({ specific: { req: { method } } }) {
 
 const methodsMap = {
   GET: 'find',
+  HEAD: 'find',
   POST: 'create',
   PUT: 'replace',
   PATCH: 'update',
