@@ -217,6 +217,8 @@ event payload, with the properties:
   - `response` `{string}` - full response raw content
   - `responseSize` `{number}` - in bytes
   - `responseCount` `{number}` - array length, if it is an array
+  - `modelsCount` `{number}` - number of models returned, including nested ones
+  - `uniqueModelsCount` `{number}` - same as `modelsCount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error
 
 The properties `actionPath`, `action`, `command` and `model` are only
