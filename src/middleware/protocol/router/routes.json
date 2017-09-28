@@ -1,5 +1,0 @@
-[
-  { "method": "find", "path": "/graphiql", "name": "GraphiQL" },
-  { "method": ["find", "create"], "path": "/graphql", "name": "GraphQL" },
-  { "method": "find", "path": "/graphql/schema", "name": "GraphQLPrint" }
-]

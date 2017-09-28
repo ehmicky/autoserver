@@ -32,10 +32,10 @@ const validateType = function ({ type }) {
 };
 
 const validateContent = function ({ content, type }) {
-  const isWrongContent = !CONTENT_TYPES[type]({ content });
+  const isRightContent = CONTENT_TYPES[type](content);
 
-  if (isWrongContent) {
-    const message = `Invalid 'content': '${content}'`;
+  if (!isRightContent) {
+    const message = `Invalid 'content' of type '${type}': '${content}'`;
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };

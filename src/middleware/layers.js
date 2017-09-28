@@ -59,7 +59,7 @@ const middlewareLayers = [
       protocol.parseHeaders,
       // Parse protocol-specified arguments
       protocol.parseProtocolArgs,
-      // Retrieves mInput.route, using mInput.path
+      // Retrieves mInput.operation, using mInput.path
       protocol.router,
 
       // Fires operation layer
@@ -70,11 +70,6 @@ const middlewareLayers = [
   {
     name: 'operation',
     layers: [
-      // Pick the operation
-      operation.operationNegotiator,
-      // Operation-related mInput validation middleware
-      operation.operationValidationIn,
-
       // Translates operation-specific calls into generic instance actions
       operation.operationExecute,
 

@@ -1,21 +1,23 @@
 'use strict';
 
 const CONTENT_TYPES = {
-  model: ({ content }) => isObject(content),
+  model: ({ data } = {}) => isObject(data),
 
-  collection: ({ content }) => isObject(content) || isArray(content),
+  collection: ({ data } = {}) => isArray(data) && data.every(isObject),
 
-  error: ({ content }) => isObject(content),
+  error: content => isObject(content),
 
-  object: ({ content }) => isObject(content),
+  object: content => isObject(content),
 
-  html: ({ content }) => typeof content === 'string',
+  html: content => typeof content === 'string',
 
-  text: ({ content }) => typeof content === 'string',
+  text: content => typeof content === 'string',
 };
 
 const isObject = function (value) {
-  return value && value.constructor === Object && isJSON(value);
+  return value &&
+    [Object, undefined].includes(value.constructor) &&
+    isJSON(value);
 };
 
 const isArray = function (value) {
