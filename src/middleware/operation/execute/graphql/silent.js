@@ -5,15 +5,10 @@
 //     response
 //   - this can also be set for all the actions using:
 //      - Prefer: return=minimal HTTP request header
-const applySilent = function ({
-  fullResponse,
-  fullResponse: { type, ...rest },
-  top: { args: { silent } },
-}) {
+const applySilent = function ({ fullResponse, top: { args: { silent } } }) {
   if (!silent) { return fullResponse; }
 
-  const data = type === 'collection' ? [] : {};
-  return { ...rest, content: { data }, type };
+  return { ...fullResponse, content: { data: undefined } };
 };
 
 module.exports = {
