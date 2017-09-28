@@ -46,7 +46,16 @@ const getSelectKeys = function ({ action: { select = [] } }) {
 };
 
 const getDataKeys = function ({ action: { args: { data = [] } } }) {
-  const keys = data
+  return getUniqueKeys(data);
+};
+
+const getFilterKeys = function ({ action: { args: { filter = [] } } }) {
+  const filterA = Array.isArray(filter) ? filter : [filter];
+  return getUniqueKeys(filterA);
+};
+
+const getUniqueKeys = function (array) {
+  const keys = array
     .map(Object.keys)
     .reduce(assignArray, []);
   const keysA = uniq(keys);
@@ -60,6 +69,7 @@ const getOrderByKeys = function ({ action: { args: { orderBy = [] } } }) {
 const argsToValidate = [
   { name: 'select', getKeys: getSelectKeys },
   { name: 'data', getKeys: getDataKeys },
+  { name: 'filter', getKeys: getFilterKeys },
   { name: 'order_by', getKeys: getOrderByKeys },
 ];
 
