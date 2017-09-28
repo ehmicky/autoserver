@@ -23,7 +23,7 @@ const { assembleResponses } = require('./assemble');
 const { selectFields } = require('./select');
 const { parseResponse } = require('./response');
 
-const operationHandling = async function (
+const actionHandling = async function (
   {
     idl,
     idl: { shortcuts: { modelsMap } },
@@ -31,12 +31,9 @@ const operationHandling = async function (
     mInput,
     protocolArgs,
     operation,
-    response,
   },
   nextLayer,
 ) {
-  if (response) { return; }
-
   const top = parseTopAction({ operation, modelsMap, protocolArgs });
   const actions = normalizeActions({ operation });
 
@@ -100,5 +97,5 @@ const otherLayer = function (obj) {
 };
 
 module.exports = {
-  operationHandling,
+  actionHandling,
 };
