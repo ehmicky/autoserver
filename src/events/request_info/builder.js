@@ -32,6 +32,8 @@ const buildRequestInfo = function ({
     content: response,
     type: responseType,
   } = {},
+  modelsCount,
+  uniqueModelsCount,
   error,
 }) {
   const errorReason = error && getReason({ error });
@@ -63,6 +65,8 @@ const buildRequestInfo = function ({
     model,
     response,
     responseType,
+    modelsCount,
+    uniqueModelsCount,
     error: errorReason,
   };
 };

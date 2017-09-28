@@ -25,6 +25,7 @@ const { resolveActions } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
 const { removeDuplicateResponses } = require('./duplicate_responses');
 const { sortResponses } = require('./sort_responses');
+const { getModelsCount } = require('./models_count');
 const { assembleResponses } = require('./assemble');
 const { selectFields } = require('./select');
 const { applySilent } = require('./silent');
@@ -106,13 +107,23 @@ const executeGraphql = async function (
   const responsesB = removeNestedWrite({ responses: responsesA });
   const responsesC = removeDuplicateResponses({ responses: responsesB });
   const responsesD = sortResponses({ responses: responsesC });
+  const { modelsCount, uniqueModelsCount } = getModelsCount({
+    responses: responsesD,
+  });
+  console.log(modelsCount, uniqueModelsCount);
 
   const fullResponse = assembleResponses({ responses: responsesD });
   const fullResponseA = selectFields({ fullResponse, responses: responsesD });
   const fullResponseB = parseResponse({ fullResponse: fullResponseA });
   const fullResponseC = applySilent({ fullResponse: fullResponseB, top });
 
-  return { response: fullResponseC, topArgs: top.args, operationSummary };
+  return {
+    response: fullResponseC,
+    topArgs: top.args,
+    operationSummary,
+    modelsCount,
+    uniqueModelsCount,
+  };
 };
 
 const otherLayer = function (obj) {
