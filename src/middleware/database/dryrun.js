@@ -8,18 +8,25 @@ const applyDryRun = function ({ args: { dryrun }, args, command }) {
 };
 
 // `delete` commands becomes read commands
-const getReadCommand = function () {
+const getDeleteReadCommand = function () {
   return { command: 'read' };
 };
 
-// `replace`, `create` and `upsert` commands reuse `args.newData` as is
-const useNewData = function ({ args: { newData: data } }) {
-  return { response: { data } };
+// `create` commands becomes read commands, that succeeds if an exception
+// is thrown.
+// TODO
+const getCreateReadCommand = function ({ args: { newData } }) {
+  return { response: { data: newData } };
+};
+
+// `replace` and `upsert` commands reuse `args.newData` as is
+const useNewData = function ({ args: { newData } }) {
+  return { response: { data: newData } };
 };
 
 const dryRunByCommand = {
-  delete: getReadCommand,
-  create: useNewData,
+  delete: getDeleteReadCommand,
+  create: getCreateReadCommand,
   update: useNewData,
   upsert: useNewData,
 };
