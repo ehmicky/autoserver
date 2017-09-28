@@ -1,9 +1,9 @@
 'use strict';
 
-const { v4: uuiv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
-const { throwError } = require('../../../../error');
-const { findIndexes } = require('../find');
+const { throwError } = require('../../../../../error');
+const { findIndexes } = require('../indexes');
 
 const create = function ({ collection, newData }) {
   const newModels = newData
@@ -12,7 +12,9 @@ const create = function ({ collection, newData }) {
 };
 
 const createOne = function ({ collection, newData }) {
-  const id = getCreateId({ collection, newData });
+  const id = getCreateId({ newData });
+  checkCreateId({ collection, id });
+
   const newModel = { ...newData, id };
 
   // eslint-disable-next-line fp/no-mutating-methods
@@ -21,23 +23,16 @@ const createOne = function ({ collection, newData }) {
   return newModel;
 };
 
-const getCreateId = function ({ collection, newData: { id } }) {
-  if (!id) {
-    return uuiv4();
-  }
-
-  checkCreateId({ collection, id });
-
-  return id;
+const getCreateId = function ({ newData: { id } }) {
+  return id === undefined ? uuidv4() : id;
 };
 
 const checkCreateId = function ({ collection, id }) {
   const models = findIndexes({ collection, filter: { id }, idCheck: false });
+  if (models.length === 0) { return; }
 
-  if (models.length > 0) {
-    const message = `Model with id ${id} already exists`;
-    throwError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
-  }
+  const message = `Model with id '${id}' already exists`;
+  throwError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
 };
 
 module.exports = {

@@ -2,7 +2,7 @@
 
 const { difference } = require('lodash');
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../../error');
 
 const validateMissingIds = function ({
   indexes,
@@ -20,7 +20,7 @@ const validateMissingIds = function ({
 
   if (missingIds.length === 0) { return; }
 
-  const message = `Could not find the model with id ${missingIds[0]}`;
+  const message = `Could not find the model with id '${missingIds[0]}'`;
   throwError(message, { reason: 'DATABASE_NOT_FOUND' });
 };
 
