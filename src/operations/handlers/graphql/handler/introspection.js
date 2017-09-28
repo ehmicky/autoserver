@@ -8,7 +8,7 @@ const { throwError, addGenErrorHandler } = require('../../../../error');
 // non-introspection query, except for `__typename`
 // This means that `__schema` must be the only top-level properties
 // when specified
-const isIntrospectionQuery = function ({ operation: { action } }) {
+const isIntrospectionQuery = function ({ operationDef: { action } }) {
   return action === '__schema';
 };
 

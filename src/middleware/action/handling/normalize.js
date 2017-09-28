@@ -1,7 +1,7 @@
 'use strict';
 
 const normalizeActions = function ({
-  operation: { action, args: { select, ...args } },
+  operationDef: { action, args: { select, ...args } },
 }) {
   const actionsA = select
     .split(',')

@@ -6,7 +6,7 @@ const { parseArgs } = require('./args');
 const { applyDirectives } = require('./directive');
 const { parseSelects } = require('./select');
 
-const parseOperation = function ({ mainDef, variables, fragments }) {
+const parseOperationDef = function ({ mainDef, variables, fragments }) {
   const mainSelection = getMainSelection({ mainDef });
 
   const { name: { value: action } } = mainSelection;
@@ -40,5 +40,5 @@ const getArgs = function ({
 };
 
 module.exports = {
-  parseOperation,
+  parseOperationDef,
 };

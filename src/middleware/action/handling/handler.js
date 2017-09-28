@@ -30,40 +30,40 @@ const actionHandling = async function (
     runOpts,
     mInput,
     protocolArgs,
-    operation,
+    operationDef,
   },
   nextLayer,
 ) {
-  const top = parseTopAction({ operation, modelsMap, protocolArgs });
-  const actions = normalizeActions({ operation });
+  const top = parseTopAction({ operationDef, modelsMap, protocolArgs });
+  const actionsA = normalizeActions({ operationDef });
 
-  const actionsA = parseModels({ actions, top, modelsMap });
-  const actionsB = handleArgs({ actions: actionsA, top, runOpts, idl });
-  const actionsC = parseDataArg({ actions: actionsB, top, modelsMap });
-  const actionsD = parseCascade({ actions: actionsC, top, modelsMap });
-  const actionsE = parseOrderBy({ actions: actionsD });
-  validateUnknownAttrs({ actions: actionsE, modelsMap });
-  const operationSummary = getOperationSummary({ actions: actionsE, top });
-  const actionsF = sortActions({ actions: actionsE });
+  const actionsB = parseModels({ actions: actionsA, top, modelsMap });
+  const actionsC = handleArgs({ actions: actionsB, top, runOpts, idl });
+  const actionsD = parseDataArg({ actions: actionsC, top, modelsMap });
+  const actionsE = parseCascade({ actions: actionsD, top, modelsMap });
+  const actionsF = parseOrderBy({ actions: actionsE });
+  validateUnknownAttrs({ actions: actionsF, modelsMap });
+  const operationSummary = getOperationSummary({ actions: actionsF, top });
+  const actionsG = sortActions({ actions: actionsF });
 
-  const actionsG = await addCurrentData({
-    actions: actionsF,
+  const actionsH = await addCurrentData({
+    actions: actionsG,
     top,
     modelsMap,
     nextLayer,
     otherLayer,
     mInput,
   });
-  const actionsH = mergeUpdateData({ actions: actionsG, top });
+  const actionsI = mergeUpdateData({ actions: actionsH, top });
   const responses = await resolveWriteActions({
-    actions: actionsH,
+    actions: actionsI,
     top,
     nextLayer,
     otherLayer,
     mInput,
   });
   const responsesA = await resolveReadActions({
-    actions: actionsH,
+    actions: actionsI,
     top,
     modelsMap,
     nextLayer,
