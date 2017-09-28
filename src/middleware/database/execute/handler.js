@@ -1,10 +1,13 @@
 'use strict';
 
+const { pSetTimeout } = require('../../../utilities');
+
 // Fake database for the moment
 const database = require('./data.json');
-const { fireCommand } = require('./fire');
+const { processResponse } = require('./process_response');
+const commands = require('./commands');
 
-const databaseExecute = function ({
+const databaseExecute = async function ({
   command,
   args: { orderBy, limit, offset, newData, filter, idCheck } = {},
   modelName,
@@ -14,11 +17,18 @@ const databaseExecute = function ({
   if (response !== undefined) { return; }
 
   const collection = database[modelName];
-
   const opts = { orderBy, limit, offset, idCheck };
   const commandInput = { command, collection, filter, newData, opts };
 
-  return fireCommand(commandInput);
+  // Simulate asynchronousity
+  // TODO: remove when there is a real ORM
+  await pSetTimeout(0);
+
+  const { data, metadata } = commands[command](commandInput);
+
+  const dataA = processResponse({ data, opts });
+
+  return { response: { data: dataA, metadata } };
 };
 
 module.exports = {
