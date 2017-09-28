@@ -25,7 +25,7 @@ E.g. the following query:
 }
 ```
 
-Will respond with:
+will respond with:
 
 ```json
 {
@@ -50,7 +50,7 @@ in singular, and specify the model `id`, e.g.:
 }
 ```
 
-Will respond with:
+will respond with:
 
 ```json
 {
@@ -186,51 +186,52 @@ It can be used by the following actions: `create`, `replace`, `upsert` and
 # Summary of actions
 
 ```graphql
-find_model({ filter: { id } })
+find_model({ filter: { id }, [silent] })
 ```
 
 ```graphql
-find_models({ [filter], [order_by], [page_size], [before|after|page] })
+find_models({ [filter], [order_by], [page_size], [before|after|page],
+[silent] })
 ```
 
 ```graphql
-delete_model({ filter: { id }, [cascade] })
+delete_model({ filter: { id }, [cascade], [silent], [dryrun] })
 ```
 
 ```graphql
-delete_models({ [filter], [cascade], [page_size] })
+delete_models({ [filter], [cascade], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql
-update_model({ data, filter: { id } })
+update_model({ data, filter: { id }, [silent], [dryrun] })
 ```
 
 ```graphql
-update_models({ data, [filter], [page_size] })
+update_models({ data, [filter], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql
-create_model({ data })
+create_model({ data, [silent], [dryrun] })
 ```
 
 ```graphql
-create_models({ data[], [page_size] })
+create_models({ data[], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql
-replace_model({ data })
+replace_model({ data, [silent], [dryrun] })
 ```
 
 ```graphql
-replace_models({ data[], [page_size] })
+replace_models({ data[], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql
-upsert_model({ data })
+upsert_model({ data, [silent], [dryrun] })
 ```
 
 ```graphql
-upsert_models({ data[], [page_size] })
+upsert_models({ data[], [page_size], [silent], [dryrun] })
 ```
 
 # Error responses
@@ -245,3 +246,5 @@ See the following documentation to learn more about:
   - [filtering](filtering.md)
   - [sorting](sorting.md)
   - [pagination](pagination.md)
+  - [dry runs](dryrun.md)
+  - [silent outputs](silent.md)

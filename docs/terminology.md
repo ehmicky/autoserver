@@ -94,15 +94,11 @@ custom logic.
 
 ## Helpers
 
-Client-specified [IDL function variables](functions.md#idl-function-variables)
+Client-specified [IDL function variables](functions.md#idl-function-helpers)
 
 ## Params
 
-Client-specified [IDL function variables](functions.md#idl-function-variables)
-
-## Settings
-
-Client-specified request-wide [argument](settings.md).
+Client-specified [IDL function variables](functions.md#idl-function-parameters)
 
 ## Options
 
