@@ -110,7 +110,6 @@ const executeGraphql = async function (
   const { modelsCount, uniqueModelsCount } = getModelsCount({
     responses: responsesD,
   });
-  console.log(modelsCount, uniqueModelsCount);
 
   const fullResponse = assembleResponses({ responses: responsesD });
   const fullResponseA = selectFields({ fullResponse, responses: responsesD });
