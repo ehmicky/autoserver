@@ -88,8 +88,6 @@ const middlewareLayers = [
     layers: [
       // Normalize empty values (undefined, null) by removing their key
       command.normalizeEmpty,
-      // Normalize mInput
-      command.normalization,
       // Apply attribute aliases, in mInput
       command.renameAliasesInput,
       // Resets readonly attributes in `args.newData`

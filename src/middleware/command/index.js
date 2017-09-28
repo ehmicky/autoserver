@@ -2,7 +2,6 @@
 
 module.exports = {
   ...require('./normalize_empty'),
-  ...require('./normalization'),
   ...require('./aliases'),
   ...require('./readonly'),
   ...require('./transform'),

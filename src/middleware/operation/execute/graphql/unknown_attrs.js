@@ -33,11 +33,10 @@ const validateAllAttr = function ({
 };
 
 const validateUnknown = function ({ action, modelsMap }) {
-  const selectKeys = getSelectKeys({ action });
-  validateSingleUnknown({ keys: selectKeys, action, modelsMap });
-
-  const dataKeys = getDataKeys({ action });
-  validateSingleUnknown({ keys: dataKeys, action, modelsMap });
+  argsToValidate.forEach(({ name, getKeys }) => {
+    const keys = getKeys({ action });
+    validateUnknownArg({ keys, action, modelsMap, name });
+  });
 };
 
 const getSelectKeys = function ({ action: { select = [] } }) {
@@ -54,16 +53,29 @@ const getDataKeys = function ({ action: { args: { data = [] } } }) {
   return keysA;
 };
 
-const validateSingleUnknown = function ({
+const getOrderByKeys = function ({ action: { args: { orderBy = [] } } }) {
+  return orderBy.map(({ attrName }) => attrName);
+};
+
+const argsToValidate = [
+  { name: 'select', getKeys: getSelectKeys },
+  { name: 'data', getKeys: getDataKeys },
+  { name: 'order_by', getKeys: getOrderByKeys },
+];
+
+const validateUnknownArg = function ({
   keys,
   action: { actionPath, modelName },
   modelsMap,
+  name,
 }) {
   const keyA = keys.find(key => modelsMap[modelName][key] === undefined);
   if (keyA === undefined) { return; }
 
-  const path = [...actionPath, keyA].join('.');
-  const message = `Attribute '${path}' is unknown`;
+  const path = [...actionPath, keyA]
+    .slice(1)
+    .join('.');
+  const message = `In argument '${name}', attribute '${path}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
