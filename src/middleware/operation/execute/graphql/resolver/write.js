@@ -3,7 +3,7 @@
 const { isEqual } = require('lodash');
 
 const { throwError } = require('../../../../../error');
-const { assignArray } = require('../../../../../utilities');
+const { assignArray, pick } = require('../../../../../utilities');
 const { ACTIONS } = require('../../../../../constants');
 
 const resolveWrite = async function ({
@@ -26,10 +26,10 @@ const resolveWrite = async function ({
 
 const singleResolveWrite = async function ({
   actions,
+  actions: [{ modelName }],
   top: {
     actionConstant,
     actionConstant: { type: actionType },
-    modelName,
     args: topArgs,
   },
   nextLayer,
@@ -115,8 +115,9 @@ const validateDuplicates = function (models, model) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const applyTopArgs = function ({ args, topArgs: { dryrun } }) {
-  return { ...args, dryrun };
+const applyTopArgs = function ({ args, topArgs }) {
+  const topArgsA = pick(topArgs, ['dryrun']);
+  return { ...args, ...topArgsA };
 };
 
 const getFilterIds = function ({ args: { filter: { id } } }) {
