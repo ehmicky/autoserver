@@ -22,8 +22,8 @@ const errorHandler = async function ({
 
   await reportError({ runOpts, level, error, mInput });
 
-  // Make sure a response is sent, or the socket will hang
-  protocolHandler.send.nothing({ specific, protocolStatus });
+  // Make sure a response is sent, even empty, or the socket will hang
+  protocolHandler.send({ specific, protocolStatus, contentLength: 0 });
 };
 
 // Report any exception thrown

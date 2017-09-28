@@ -1,0 +1,83 @@
+'use strict';
+
+// Each content type is sent differently
+// TODO: validate content typeof?
+const handlers = {
+
+  model (opts) {
+    const contentType = 'application/x-resource+json';
+    sendJson({ ...opts, contentType });
+  },
+
+  collection (opts) {
+    const contentType = 'application/x-collection+json';
+    sendJson({ ...opts, contentType });
+  },
+
+  error (opts) {
+    // See RFC 7807
+    // Exception: `protocolStatus` is only present with HTTP protocol
+    const contentType = 'application/problem+json';
+    sendJson({ ...opts, contentType });
+  },
+
+  object (opts) {
+    sendJson(opts);
+  },
+
+  html (opts) {
+    sendHtml(opts);
+  },
+
+  text (opts) {
+    sendText(opts);
+  },
+
+};
+
+const sendJson = function ({
+  content = {},
+  contentType = 'application/json',
+  ...opts
+}) {
+  const contentA = JSON.stringify(content, null, 2);
+  return send({ content: contentA, contentType, ...opts });
+};
+
+const sendHtml = function ({
+  content = '',
+  contentType = 'text/html',
+  ...opts
+}) {
+  return send({ content, contentType, ...opts });
+};
+
+const sendText = function ({
+  content = '',
+  contentType = 'text/plain',
+  ...opts
+}) {
+  return send({ content, contentType, ...opts });
+};
+
+const send = function ({
+  protocolHandler,
+  specific,
+  content,
+  contentType,
+  protocolStatus,
+}) {
+  const contentLength = Buffer.byteLength(content);
+
+  return protocolHandler.send({
+    specific,
+    content,
+    contentType,
+    contentLength,
+    protocolStatus,
+  });
+};
+
+module.exports = {
+  handlers,
+};
