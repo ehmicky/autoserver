@@ -6,9 +6,9 @@ const { throwError } = require('../../../../../error');
 const { findIndexes } = require('../indexes');
 
 const create = function ({ collection, newData }) {
-  const newModels = newData
+  const data = newData
     .map(datum => createOne({ collection, newData: datum }));
-  return { data: newModels };
+  return { data };
 };
 
 const createOne = function ({ collection, newData }) {
