@@ -1,20 +1,5 @@
 'use strict';
 
-const { setEmptyResponse } = require('./empty');
-
-const sender = function ({
-  response: { type, content },
-  topArgs,
-  error,
-  ...opts
-}) {
-  const { handler, emptyResponse } = types[type];
-
-  const contentA = setEmptyResponse({ content, topArgs, error, emptyResponse });
-
-  return handler({ ...opts, content: contentA });
-};
-
 // Each content type is sent differently
 // TODO: validate content typeof?
 const types = {
@@ -103,6 +88,5 @@ const send = function ({
 };
 
 module.exports = {
-  sender,
   types,
 };
