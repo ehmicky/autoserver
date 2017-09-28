@@ -6,13 +6,25 @@ const { getReason, getGenericProps } = require('./reasons');
 const { normalizeError } = require('./main');
 
 // Gets normalized error information
-const getStandardError = function ({
+const getStandardError = function ({ error, mInput, isLimited }) {
+  if (!error) { return; }
+
+  const errorA = normalizeError({ error });
+
+  const errorB = fillError({ error: errorA, mInput, isLimited });
+
+  // Do not expose undefined values
+  const errorC = omitBy(errorB, val => val === undefined);
+
+  return errorC;
+};
+
+// Order matters, as this will be kept in final output
+const fillError = function ({
   error,
-  limitedInput: {
+  mInput: {
     url: instance,
     status = 'SERVER_ERROR',
-  } = {},
-  fullInput: {
     protocolStatus,
     protocol,
     method,
@@ -27,26 +39,26 @@ const getStandardError = function ({
     command,
     requestId,
   } = {},
+  isLimited = true,
 }) {
-  if (!error) { return; }
+  const type = getReason({ error });
+  const { title } = getGenericProps({ error });
 
-  const errorA = normalizeError({ error });
-  const type = getReason({ error: errorA });
-  const { title } = getGenericProps({ error: errorA });
   const {
     message: description,
     stack: outerStack,
     innererror: { stack: details = outerStack } = {},
     extra = {},
-  } = errorA;
+  } = error;
 
-  // Order matters, as this will be kept in final output
-  const errorB = {
-    type,
-    title,
-    description,
-    instance,
-    status,
+  const errorA = { type, title, description, instance, status };
+
+  if (isLimited) {
+    return { ...errorA, ...extra, details };
+  }
+
+  return {
+    ...errorA,
     protocol_status: protocolStatus,
     protocol,
     method,
@@ -54,20 +66,15 @@ const getStandardError = function ({
     queryVars,
     operation,
     operation_summary: operationSummary,
+    args,
     action,
     action_path: actionPath,
     model,
-    args,
     command,
-    ...extra,
     request_id: requestId,
+    ...extra,
     details,
   };
-
-  // Do not expose undefined values
-  const errorC = omitBy(errorB, val => val === undefined);
-
-  return errorC;
 };
 
 module.exports = {

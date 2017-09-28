@@ -44,10 +44,7 @@ const getEventPayload = function ({
   level,
   info = {},
 }) {
-  const errorInfoA = getStandardError({
-    error: errorInfo,
-    limitedInput: mInput,
-  });
+  const errorInfoA = getStandardError({ error: errorInfo, mInput });
   const requestInfo = getRequestInfo({ mInput, phase, runOpts });
 
   const timestamp = getTimestamp({ requestInfo });
