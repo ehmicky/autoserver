@@ -4,7 +4,8 @@ const { parse } = require('graphql');
 
 const { throwError, addGenErrorHandler } = require('../../../../error');
 
-const getGraphQLInput = function ({ queryVars, payload }) {
+// Generic GraphQL parsing
+const getGraphQLDocument = function ({ queryVars, payload }) {
   // Parameters can be in either query variables or payload
   // (including by using application/graphql)
   const payloadA = typeof payload === 'object' ? payload : {};
@@ -15,7 +16,6 @@ const getGraphQLInput = function ({ queryVars, payload }) {
   return { variables, operationName, queryDocument };
 };
 
-// GraphQL parsing
 const parseQuery = function ({ query }) {
   if (!query) {
     throwError('Missing GraphQL query');
@@ -30,5 +30,5 @@ const eParseQuery = addGenErrorHandler(parseQuery, {
 });
 
 module.exports = {
-  getGraphQLInput,
+  getGraphQLDocument,
 };

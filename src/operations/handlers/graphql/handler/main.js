@@ -1,8 +1,8 @@
 'use strict';
 
-const { getGraphQLInput } = require('./input');
+const { getGraphQLDocument } = require('./document');
 const { getMainDef } = require('./main_def');
-const { parseOperation } = require('./operation');
+const { parseOperationDef } = require('./definition');
 const {
   isIntrospectionQuery,
   handleIntrospection,
@@ -18,17 +18,17 @@ const handler = function ({
     variables,
     operationName,
     queryDocument,
-  } = getGraphQLInput({ queryVars, payload });
+  } = getGraphQLDocument({ queryVars, payload });
 
   const {
     mainDef,
     fragments,
   } = getMainDef({ queryDocument, operationName, method });
 
-  const operation = parseOperation({ mainDef, fragments, variables });
+  const operationDef = parseOperationDef({ mainDef, fragments, variables });
 
   // Introspection GraphQL query
-  if (isIntrospectionQuery({ operation })) {
+  if (isIntrospectionQuery({ operationDef })) {
     return handleIntrospection({
       schema,
       queryDocument,
@@ -37,7 +37,7 @@ const handler = function ({
     });
   }
 
-  return { operation };
+  return { operationDef };
 };
 
 module.exports = {

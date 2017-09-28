@@ -2,6 +2,7 @@
 
 const { throwError } = require('../../../../error');
 
+// Retrieve GraphQL main definition
 const getMainDef = function ({
   queryDocument,
   queryDocument: { definitions },
@@ -18,6 +19,8 @@ const getMainDef = function ({
   return { mainDef, fragments };
 };
 
+// Retrieve the first `OperationDefinition`
+// Takes into account GraphQL's `operationName`
 const getDef = function ({ definitions, operationName }) {
   return definitions
     .filter(({ kind }) => kind === 'OperationDefinition')
