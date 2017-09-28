@@ -22,5 +22,6 @@ will respond (if successful) with:
 {}
 ```
 
-Silent outputs can also be requested using the standard HTTP header
-`Prefer: return=minimal`.
+Silent outputs can also be requested using:
+  - the standard HTTP header `Prefer: return=minimal`
+  - the HTTP method `HEAD` instead of `GET`

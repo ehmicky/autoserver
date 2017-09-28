@@ -4,7 +4,7 @@
 // or when `args.silent` is used (unless this is an error response).
 const setEmptyResponse = function ({
   content,
-  topArgs: { silent = true } = {},
+  topArgs: { silent } = {},
   error,
   emptyResponse,
 }) {
