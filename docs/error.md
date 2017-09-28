@@ -39,6 +39,8 @@ additional properties:
     - additional properties specific to a given error type might also be
       present.
 
+Also the stack trace `details` is never included.
+
 # Error logging
 
 See [here](events.md#error-information) for information about error logging.

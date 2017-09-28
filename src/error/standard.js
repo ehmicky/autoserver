@@ -73,7 +73,12 @@ const fillError = function ({
     command,
     request_id: requestId,
     ...extra,
-    details,
+    // Stack trace is not included in error responses, whether in production
+    // or in development because:
+    //  - it might leak user-supplied code structure (e.g. event payload
+    //    handlers)
+    //  - it is already present in exception thrown, console event messages and
+    //    failure event payload
   };
 };
 
