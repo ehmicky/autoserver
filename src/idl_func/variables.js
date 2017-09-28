@@ -11,6 +11,7 @@ const getVars = function (
     modelName: $MODEL,
     topArgs: $ARGS,
     command: $COMMAND,
+    params: $PARAMS,
   },
   vars,
 ) {
@@ -23,6 +24,7 @@ const getVars = function (
     $MODEL,
     $ARGS,
     $COMMAND,
+    $PARAMS,
     ...vars,
   };
 };
@@ -48,6 +50,7 @@ const VARS_KEYS = [
   '$MODEL',
   '$ARGS',
   '$COMMAND',
+  '$PARAMS',
   '$EXPECTED',
   '$1',
   '$2',
