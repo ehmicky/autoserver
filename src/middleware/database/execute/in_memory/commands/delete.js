@@ -6,10 +6,10 @@ const { findIndexes } = require('../indexes');
 const deleteMany = function ({ collection, filter }) {
   const indexes = findIndexes({ collection, filter });
   const sortedIndexes = sortArray(indexes);
-  const models = sortedIndexes
+  const data = sortedIndexes
     // eslint-disable-next-line fp/no-mutating-methods
     .map((index, count) => collection.splice(index - count, 1)[0]);
-  return { data: models };
+  return { data };
 };
 
 module.exports = {

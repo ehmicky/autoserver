@@ -6,9 +6,9 @@ const { createOne } = require('./create');
 const { updateOne } = require('./update');
 
 const upsert = function ({ collection, newData }) {
-  const newModels = newData
+  const data = newData
     .map(datum => upsertOne({ collection, newData: datum }));
-  return { data: newModels };
+  return { data };
 };
 
 const upsertOne = function ({ collection, newData }) {

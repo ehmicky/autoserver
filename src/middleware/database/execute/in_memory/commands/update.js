@@ -3,22 +3,18 @@
 const { findIndexes } = require('../indexes');
 
 const update = function ({ collection, newData }) {
-  const newModels = newData
+  const data = newData
     .map(datum => updateOne({ collection, newData: datum }));
-  return { data: newModels };
+  return { data };
 };
 
-const updateOne = function ({ collection, newData }) {
-  const { id } = newData;
+const updateOne = function ({ collection, newData, newData: { id } }) {
   const [index] = findIndexes({ collection, filter: { id } });
 
-  const model = collection[index];
-  const newModel = { ...model, ...newData };
-
   // eslint-disable-next-line fp/no-mutating-methods
-  collection.splice(index, 1, newModel);
+  collection.splice(index, 1, newData);
 
-  return newModel;
+  return newData;
 };
 
 module.exports = {
