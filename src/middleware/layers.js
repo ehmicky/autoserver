@@ -49,6 +49,8 @@ const middlewareLayers = [
       protocol.getIp,
       // Parse URL and path into protocol-agnostic format
       protocol.parseUrl,
+      // Retrieves mInput.operation, using mInput.path
+      protocol.router,
       // Parse protocol method into protocol-agnostic format
       protocol.parseMethod,
       // Parse URL query string into protocol-agnostic format
@@ -59,8 +61,6 @@ const middlewareLayers = [
       protocol.parseHeaders,
       // Parse protocol-specified arguments
       protocol.parseProtocolArgs,
-      // Retrieves mInput.operation, using mInput.path
-      protocol.router,
 
       // Fires operation layer
       protocol.fireOperation,
