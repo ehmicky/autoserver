@@ -54,11 +54,15 @@ const getErrorResponse = function ({ error, mInput, response }) {
   return { type: 'error', content: { error: errorA } };
 };
 
-const transformContent = function ({ content, operation }) {
-  if (operation === undefined) { return content; }
+const transformContent = function ({ content, content: { type }, operation }) {
+  const shouldTransform = operation !== undefined &&
+    transformTypes.includes(type);
+  if (!shouldTransform) { return content; }
 
   return transforms[operation].transformContent(content);
 };
+
+const transformTypes = ['model', 'collection', 'error'];
 
 module.exports = {
   sendResponse,

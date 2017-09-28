@@ -183,8 +183,6 @@ event payload, with the properties:
   - `url` `{string}` - full URL
   - `origin` `{string}` - protocol + host + port
   - `path` `{string}` - only the URL path, with no query string nor hash
-  - `route` `{string}` - internal route picked according to the URL,
-    among `'GraphQL'`, `'GraphiQL'` and `'GraphQLPrint'`
   - `method` `{string}` - protocol-agnostic method, e.g. `'find'`
   - `protocolStatus` `{string}` - protocol-specific status, e.g. HTTP
     status code

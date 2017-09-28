@@ -1,7 +1,6 @@
 'use strict';
 
 // Each content type is sent differently
-// TODO: validate content typeof?
 const types = {
 
   model: {

@@ -16,9 +16,6 @@ const errorReasons = {
   // Query string is wrong
   QUERY_STRING_PARSE: {},
 
-  // Tried to query an operation that is not supported, e.g. SOAP
-  UNSUPPORTED_OPERATION: {},
-
   // GraphQL query syntax error, i.e. GraphQL crashed trying to parse
   // the raw query
   GRAPHQL_SYNTAX_ERROR: {},

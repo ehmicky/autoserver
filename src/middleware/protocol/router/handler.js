@@ -1,14 +1,16 @@
 'use strict';
 
-const { routes, findRoute, getPathVars } = require('./manager');
+const { findRoute } = require('./routes');
+const { getPathVars } = require('./path_vars');
 
 // Add route and URL parameters to mInput
-const router = function ({ path, method }) {
-  const route = findRoute({ routes, path, method });
+const router = function ({ path }) {
+  const route = findRoute({ path });
+  const { operation } = route;
 
   const pathVars = getPathVars({ path, route });
 
-  return { route: route.name, pathVars };
+  return { operation, pathVars };
 };
 
 module.exports = {
