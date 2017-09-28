@@ -1,5 +1,7 @@
 'use strict';
 
+const { operationHandlers } = require('../../../operations');
+
 const { findRoute } = require('./routes');
 const { getPathVars } = require('./path_vars');
 
@@ -7,10 +9,11 @@ const { getPathVars } = require('./path_vars');
 const router = function ({ path }) {
   const route = findRoute({ path });
   const { operation } = route;
+  const operationHandler = operationHandlers[operation];
 
   const pathVars = getPathVars({ path, route });
 
-  return { operation, pathVars };
+  return { operation, operationHandler, pathVars };
 };
 
 module.exports = {
