@@ -1,6 +1,6 @@
 'use strict';
 
-const { findIndexes } = require('../find');
+const { findIndexes } = require('../indexes');
 
 const { createOne } = require('./create');
 const { updateOne } = require('./update');

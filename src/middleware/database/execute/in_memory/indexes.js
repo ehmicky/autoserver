@@ -1,14 +1,12 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../../error');
 
 const { validateMissingIds } = require('./missing_id');
 
 const findIndexes = function ({ collection, filter, idCheck = true }) {
   const indexes = Object.entries(collection)
-    .filter(
-      ([, model]) => modelMatchFilters({ model, filters: filter })
-    )
+    .filter(([, model]) => modelMatchFilters({ model, filters: filter }))
     .map(([index]) => index);
 
   validateMissingIds({ indexes, collection, idCheck, filter });

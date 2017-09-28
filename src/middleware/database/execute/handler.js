@@ -1,11 +1,6 @@
 'use strict';
 
-const { pSetTimeout } = require('../../../utilities');
-
-// Fake database for the moment
-const database = require('./data.json');
-const { processResponse } = require('./process_response');
-const commands = require('./commands');
+const { inMemoryAdapter } = require('./in_memory');
 
 const databaseExecute = async function ({
   command,
@@ -16,19 +11,19 @@ const databaseExecute = async function ({
   // A response was already set, e.g. by the dryrun middleware
   if (response !== undefined) { return; }
 
-  const collection = database[modelName];
-  const opts = { orderBy, limit, offset, idCheck };
-  const commandInput = { command, collection, filter, newData, opts };
+  const commandInput = {
+    modelName,
+    command,
+    filter,
+    newData,
+    idCheck,
+    orderBy,
+    limit,
+    offset,
+  };
+  const responseA = await inMemoryAdapter(commandInput);
 
-  // Simulate asynchronousity
-  // TODO: remove when there is a real ORM
-  await pSetTimeout(0);
-
-  const { data, metadata } = commands[command](commandInput);
-
-  const dataA = processResponse({ data, opts });
-
-  return { response: { data: dataA, metadata } };
+  return { response: responseA };
 };
 
 module.exports = {

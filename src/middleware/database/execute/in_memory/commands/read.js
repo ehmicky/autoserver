@@ -1,8 +1,8 @@
 'use strict';
 
-const { findIndexes } = require('../find');
+const { findIndexes } = require('../indexes');
 
-const read = function ({ collection, filter, opts: { idCheck } }) {
+const read = function ({ collection, filter, idCheck }) {
   const indexes = findIndexes({ collection, filter, idCheck });
   const models = indexes.map(index => collection[index]);
   return { data: models };

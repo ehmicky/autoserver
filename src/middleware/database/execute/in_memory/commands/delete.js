@@ -1,7 +1,7 @@
 'use strict';
 
-const { sortArray } = require('../../../../utilities');
-const { findIndexes } = require('../find');
+const { sortArray } = require('../../../../../utilities');
+const { findIndexes } = require('../indexes');
 
 const deleteMany = function ({ collection, filter }) {
   const indexes = findIndexes({ collection, filter });
