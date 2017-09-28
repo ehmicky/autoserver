@@ -51,7 +51,6 @@ The following variables are available:
   - `$IP` `{string}`: request IP
   - `$REQUEST_ID` `{string}`: UUID identifying the current request
   - `$PARAMS` `{object}`: all [parameters](#idl-function-parameters)
-  - `$SETTINGS` `{object}`: all [settings](settings.md)
   - `$OPERATION` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
   - `$MODEL` `{string}`: name of the [model](models.md), e.g. `user`
@@ -114,15 +113,15 @@ helpers:
 # IDL function parameters
 
 Clients can specify their own IDL function variables on any specific request,
-called "parameters", and available under `$PARAMS`.
+using the argument `params` with an object value, e.g.:
 
-There are two ways to specify them, e.g. the parameter `myparam` could
-be specified:
-  - in HTTP headers, e.g. `X-Api-Engine-Param-Myparam: value`
-  - in the URL query string, e.g. `?params.myparam=value` or
-    `?params.myparam` (the later uses default value `true`).
-    Query strings values can be:
-      - objects, using `?params.myparam[name]=value` or
-        `?params.myparam.name=value`
-      - arrays, using `?params.myparam[index]=value` or
-        `?params.myparam[]=value`
+```graphql
+mutation {
+  find_user(filter: {id: "1"}, params: { password: "admin" }) {
+    id
+  }
+}
+```
+
+Those will be available using the IDL function variable `$PARAMS`.
+E.g. the previous example would set `$PARAMS.password` to `"admin"`.

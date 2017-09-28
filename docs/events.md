@@ -191,9 +191,6 @@ event payload, with the properties:
   - `status` `{string}` - protocol-agnostic status, among `'INTERNALS'`,
     `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathVars` `{object}` - URL variables, as a hash table
-  - `params` `{object}` - [parameters](functions.md#idl-function-parameters),
-    as a hash table.
-  - `settings` `{object}` - [settings](settings.md), as a hash table.
   - `queryVars` `{object}` - query variables, as a hash table
   - `headers` `{object}` - protocol headers (e.g. HTTP headers), as a hash table
   - `payload` `{any}` - request payload
@@ -246,14 +243,12 @@ the request information, among:
 The possible properties are:
   - `queryVars`
   - `headers`
-  - `params`
-  - `settings`
   - `payload`
   - `response`: applied to `response.content`
   - `argsData`: applied to each `args.data`
 
 Default values:
-  - `queryVars`, `headers`, `params`, `settings`: `false`,
+  - `queryVars`, `headers`: `false`,
     i.e. this information is not included in event payloads.
   - `payload`, `argData`, `actionResponses`, `responses`: only keep `id`.
 
