@@ -1,4 +1,4 @@
-# Exceptions
+# Exceptions, thrown in the server
 
 Every [instruction](usage.md#instructions) will throw the same type of
 exception if it fails.
@@ -13,7 +13,7 @@ Exceptions somewhat follow [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt):
   - `instance` `{string}`: URL that was called, if any
   - `details` `{string}`: stack trace
 
-# Error responses
+# Error responses, sent to clients
 
 Error responses try to follow both the
 [GraphQL spec](https://facebook.github.io/graphql/#sec-Errors) and
