@@ -70,8 +70,9 @@ const middlewareLayers = [
   {
     name: 'operation',
     layers: [
-      // Translates operation-specific calls into generic instance actions
+      // Fire operation-specific logic
       operation.operationExecute,
+      operation.operationHandling,
 
       // Operation-related output validation middleware
       operation.operationValidationOut,
