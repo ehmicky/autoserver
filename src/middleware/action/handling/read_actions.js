@@ -3,29 +3,25 @@
 const { isEqual } = require('lodash');
 
 const { assignArray } = require('../../../utilities');
+const { getActionConstant } = require('../../../constants');
 
-const { getActionConstant, getModel } = require('./utilities');
+const { getModel } = require('./utilities');
 
-const resolveReadActions = function ({
-  actions,
-  top,
-  modelsMap,
+const resolveReadActions = async function (
+  { actions, top, modelsMap, mInput, responses },
   nextLayer,
-  otherLayer,
-  mInput,
-  responses,
-}) {
+) {
   const actionsA = getReadActions({ actions, top });
 
   const actionsB = getParentActions({ actions: actionsA, top, modelsMap });
 
-  return otherLayer({
+  const { responses: responsesA } = await nextLayer({
+    ...mInput,
     actionsGroupType: 'read',
     actions: actionsB,
-    nextLayer,
-    mInput,
     responses,
   });
+  return responsesA;
 };
 
 const getReadActions = function ({ actions, top }) {

@@ -2,26 +2,18 @@
 
 const { isEqual } = require('lodash');
 
-const { getActionConstant } = require('../utilities');
+const { getActionConstant } = require('../../../../constants');
 const { resolveReadActions } = require('../read_actions');
 
-const serialResolve = async function ({
-  actions,
-  top,
-  modelsMap,
+const serialResolve = async function (
+  { actions, top, modelsMap, mInput },
   nextLayer,
-  otherLayer,
-  mInput,
-}) {
+) {
   const writeActions = getWriteActions({ actions });
-  const responses = await resolveReadActions({
-    actions: writeActions,
-    top,
-    modelsMap,
+  const responses = await resolveReadActions(
+    { actions: writeActions, top, modelsMap, mInput },
     nextLayer,
-    otherLayer,
-    mInput,
-  });
+  );
   const actionsA = actions
     .map(action => mergeSerialResponse({ responses, action }));
   return actionsA;

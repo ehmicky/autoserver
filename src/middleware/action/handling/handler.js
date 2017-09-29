@@ -14,7 +14,6 @@ const { addCurrentData } = require('./current_data');
 const { mergeUpdateData } = require('./update_data');
 const { resolveWriteActions } = require('./write_actions');
 const { resolveReadActions } = require('./read_actions');
-const { resolveActions } = require('./resolver');
 const { removeNestedWrite } = require('./remove_nested_write');
 const { removeDuplicateResponses } = require('./duplicate_responses');
 const { sortResponses } = require('./sort_responses');
@@ -46,31 +45,19 @@ const actionHandling = async function (
   const operationSummary = getOperationSummary({ actions: actionsF, top });
   const actionsG = sortActions({ actions: actionsF });
 
-  const actionsH = await addCurrentData({
-    actions: actionsG,
-    top,
-    modelsMap,
+  const actionsH = await addCurrentData(
+    { actions: actionsG, top, modelsMap, mInput },
     nextLayer,
-    otherLayer,
-    mInput,
-  });
+  );
   const actionsI = mergeUpdateData({ actions: actionsH, top });
-  const responses = await resolveWriteActions({
-    actions: actionsI,
-    top,
+  const responses = await resolveWriteActions(
+    { actions: actionsI, top, mInput },
     nextLayer,
-    otherLayer,
-    mInput,
-  });
-  const responsesA = await resolveReadActions({
-    actions: actionsI,
-    top,
-    modelsMap,
+  );
+  const responsesA = await resolveReadActions(
+    { actions: actionsI, top, modelsMap, mInput, responses },
     nextLayer,
-    otherLayer,
-    mInput,
-    responses,
-  });
+  );
 
   const responsesB = removeNestedWrite({ responses: responsesA });
   const responsesC = removeDuplicateResponses({ responses: responsesB });
@@ -90,10 +77,6 @@ const actionHandling = async function (
     modelsCount,
     uniqueModelsCount,
   };
-};
-
-const otherLayer = function (obj) {
-  return resolveActions(obj);
 };
 
 module.exports = {

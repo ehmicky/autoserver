@@ -2,22 +2,16 @@
 
 const { isEqual } = require('lodash');
 
-const { throwError } = require('../../../../error');
-const {
-  assignArray,
-  pick,
-  mergeArrayReducer,
-} = require('../../../../utilities');
-const { ACTIONS } = require('../../../../constants');
+const { throwError } = require('../../../error');
+const { assignArray, pick, mergeArrayReducer } = require('../../../utilities');
+const { ACTIONS } = require('../../../constants');
 
-const resolveWrite = async function ({
-  actionsGroups,
-  top,
+const sequenceWrite = async function (
+  { actionsGroups, top, mInput },
   nextLayer,
-  mInput,
-}) {
+) {
   // Run write commands in parallel
-  const responsesPromises = actionsGroups.map(actions => singleResolveWrite({
+  const responsesPromises = actionsGroups.map(actions => singleSequenceWrite({
     actions,
     top,
     nextLayer,
@@ -25,10 +19,10 @@ const resolveWrite = async function ({
   }));
   const responses = await Promise.all(responsesPromises);
   const responsesA = responses.reduce(assignArray, []);
-  return responsesA;
+  return { responses: responsesA };
 };
 
-const singleResolveWrite = async function ({
+const singleSequenceWrite = async function ({
   actions,
   actions: [{ modelName }],
   top: {
@@ -216,5 +210,5 @@ const validateResponse = function ({ ids, responses }) {
 };
 
 module.exports = {
-  resolveWrite,
+  sequenceWrite,
 };

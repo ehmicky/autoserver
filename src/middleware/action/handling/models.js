@@ -1,8 +1,9 @@
 'use strict';
 
 const { throwError } = require('../../../error');
+const { getActionConstant } = require('../../../constants');
 
-const { getModel, getActionConstant } = require('./utilities');
+const { getModel } = require('./utilities');
 
 // Add `action.actionConstant` and `action.modelName`
 const parseModels = function ({ actions, top, modelsMap }) {
