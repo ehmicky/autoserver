@@ -5,6 +5,4 @@ module.exports = {
   ...require('./parse'),
 
   ...require('./actions'),
-
-  ...require('./validation_out'),
 };

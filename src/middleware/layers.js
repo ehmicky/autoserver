@@ -80,9 +80,6 @@ const middlewareLayers = [
 
       // Fire action layer
       operation.fireActions,
-
-      // Operation-related output validation middleware
-      operation.operationValidationOut,
     ],
   },
 
@@ -113,6 +110,8 @@ const middlewareLayers = [
       action.assembleResults,
       action.selectFields,
       action.parseResponse,
+      // Operation-related output validation middleware
+      action.actionValidationOut,
     ],
   },
 
