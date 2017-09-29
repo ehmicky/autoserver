@@ -4,7 +4,7 @@ const { uniq } = require('lodash');
 
 const { throwError } = require('../../error');
 
-const { getModel } = require('./utilities');
+const { getModel } = require('./get_model');
 
 const parseCascade = function ({
   actions,

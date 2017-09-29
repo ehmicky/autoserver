@@ -6,7 +6,7 @@ const { mapValues, assignArray, omitBy } = require('../../utilities');
 const { throwError } = require('../../error');
 const { getActionConstant } = require('../../constants');
 
-const { getModel } = require('./utilities');
+const { getModel } = require('./get_model');
 
 const parseDataArg = function ({
   actions,
