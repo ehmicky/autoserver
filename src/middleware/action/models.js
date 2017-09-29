@@ -3,7 +3,7 @@
 const { throwError } = require('../../error');
 const { getActionConstant } = require('../../constants');
 
-const { getModel } = require('./utilities');
+const { getModel } = require('./get_model');
 
 // Add `action.actionConstant` and `action.modelName`
 const parseModels = function ({

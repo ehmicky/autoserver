@@ -5,7 +5,7 @@ const { isEqual } = require('lodash');
 const { assignArray } = require('../../utilities');
 const { getActionConstant } = require('../../constants');
 
-const { getModel } = require('./utilities');
+const { getModel } = require('./get_model');
 
 const resolveReadActions = function (
   { actions, top, idl: { shortcuts: { modelsMap } }, mInput, results },
