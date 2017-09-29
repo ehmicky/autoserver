@@ -8,7 +8,7 @@ weight:
   default: 200
 ```
 
-They will be used for `create`, `replace` and `upsert` actions.
+They will be used for `create` and `replace` actions.
 
 # Transformations
 

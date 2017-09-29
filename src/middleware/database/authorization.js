@@ -29,7 +29,6 @@ const validateCommand = function ({ commands, mappedCommand }) {
 };
 
 const authorizationMap = {
-  upsert: ['update', 'create'],
   update: ['update', 'read'],
 };
 

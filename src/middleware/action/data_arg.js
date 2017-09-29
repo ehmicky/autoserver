@@ -76,7 +76,7 @@ const validateData = function ({
   }
 };
 
-const requiredIdTypes = ['upsert', 'replace'];
+const requiredIdTypes = ['replace'];
 const forbiddenIdTypes = ['update'];
 
 const isModelType = function (val) {

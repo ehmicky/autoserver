@@ -15,8 +15,7 @@ const handleReadonly = function ({
   idl: { shortcuts: { readonlyMap } },
 }) {
   // If no `currentData`, this means the model does not exist yet,
-  // i.e. this is a create command, or an upsert resulting in creation,
-  // or a future 404.
+  // i.e. this is a create command.
   // Readonly does not apply then.
   if (!newData || !currentData) { return; }
 
