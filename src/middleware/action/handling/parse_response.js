@@ -4,7 +4,8 @@ const parseResponse = function ({ response }) {
   const data = removeTopLevel({ response });
   const type = getResponseType({ data });
 
-  return { content: { data }, type };
+  const responseA = { content: { data }, type };
+  return { response: responseA };
 };
 
 // Remove top-level key, e.g. `findModels`

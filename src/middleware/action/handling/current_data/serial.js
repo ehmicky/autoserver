@@ -10,7 +10,7 @@ const serialResolve = async function (
   nextLayer,
 ) {
   const writeActions = getWriteActions({ actions });
-  const results = await resolveReadActions(
+  const { results } = await resolveReadActions(
     { actions: writeActions, top, modelsMap, mInput },
     nextLayer,
   );

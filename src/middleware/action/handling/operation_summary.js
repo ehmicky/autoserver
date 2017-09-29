@@ -19,14 +19,19 @@ const getOperationSummary = function ({
       // In write actions, do not use child actions only used for selections
       actionConstant.type === topType
   );
-  if (childActions.length === 0) { return actionName; }
+
+  if (childActions.length === 0) {
+    return { operationSummary: actionName };
+  }
 
   const childActionsStr = childActions
     .map(({ actionPath: childPath }) =>
       getOperationSummary({ actionPath: childPath, actions, top })
     )
     .join(',');
-  return `${actionName}{${childActionsStr}}`;
+  const operationSummary = `${actionName}{${childActionsStr}}`;
+
+  return { operationSummary };
 };
 
 module.exports = {

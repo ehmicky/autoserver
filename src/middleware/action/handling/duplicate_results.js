@@ -3,7 +3,8 @@
 const { isEqual } = require('lodash');
 
 const removeDuplicateResults = function ({ results }) {
-  return results.filter(isUniqueResult);
+  const resultsA = results.filter(isUniqueResult);
+  return { results: resultsA };
 };
 
 const isUniqueResult = function (result, index, results) {

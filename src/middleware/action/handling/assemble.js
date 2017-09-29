@@ -4,7 +4,8 @@ const { set } = require('../../../utilities');
 
 // Merge all results into a single nested response
 const assembleResults = function ({ results }) {
-  return results.reduce(assembleResult, {});
+  const response = results.reduce(assembleResult, {});
+  return { response };
 };
 
 const assembleResult = function (response, { model, path }) {

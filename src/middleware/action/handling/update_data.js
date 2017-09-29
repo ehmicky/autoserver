@@ -8,7 +8,7 @@ const mergeUpdateData = function ({
   actions,
   top: { actionConstant: { type: actionType } },
 }) {
-  if (actionType !== 'update') { return actions; }
+  if (actionType !== 'update') { return { actions }; }
 
   const updateActions = actions
     .filter(({ actionConstant }) => actionConstant.type === 'update');
@@ -16,7 +16,7 @@ const mergeUpdateData = function ({
   const actionsA = updateActions
     .map(action => mergeData({ action, partialData }));
 
-  return actionsA;
+  return { actions: actionsA };
 };
 
 // Several actions might target the same model, but with different args.data

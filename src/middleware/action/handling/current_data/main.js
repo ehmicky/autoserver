@@ -3,7 +3,7 @@
 const { parallelResolve } = require('./parallel');
 const { serialResolve } = require('./serial');
 
-const addCurrentData = function (
+const addCurrentData = async function (
   {
     actions,
     top,
@@ -14,9 +14,10 @@ const addCurrentData = function (
 ) {
   const resolver = resolvers[actionType];
 
-  if (resolver === undefined) { return actions; }
+  if (resolver === undefined) { return { actions }; }
 
-  return resolver({ actions, top, ...rest }, nextLayer);
+  const actionsA = await resolver({ actions, top, ...rest }, nextLayer);
+  return { actions: actionsA };
 };
 
 const resolvers = {

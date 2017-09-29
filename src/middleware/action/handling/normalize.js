@@ -11,7 +11,7 @@ const normalizeActions = function ({
     .reduce(mergeArrayReducer('actionPath'), {});
   const actionsB = mapValues(actionsA, actions => normalize({ args, actions }));
   const actionsC = Object.values(actionsB);
-  return actionsC;
+  return { actions: actionsC };
 };
 
 const parseSelect = function (action, select) {

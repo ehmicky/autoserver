@@ -12,11 +12,12 @@ const parseCascade = function ({
   top: { args: { cascade } },
   modelsMap,
 }) {
-  if (cascade === undefined) { return actions; }
+  if (cascade === undefined) { return { actions }; }
 
   const actionsA = getCascadeActions({ cascade, top, modelsMap });
 
-  return [...actions, ...actionsA];
+  const actionsB = [...actions, ...actionsA];
+  return { actions: actionsB };
 };
 
 const getCascadeActions = function ({ cascade, top, modelsMap }) {
