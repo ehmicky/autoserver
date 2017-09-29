@@ -2,7 +2,7 @@
 
 module.exports = {
   ...require('./method_check'),
-  ...require('./execute'),
+  ...require('./parse'),
 
   ...require('./actions'),
 
