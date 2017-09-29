@@ -5,7 +5,10 @@ const { uniq } = require('lodash');
 const { assignArray } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
-const validateUnknownAttrs = function ({ actions, modelsMap }) {
+const validateUnknownAttrs = function ({
+  actions,
+  idl: { shortcuts: { modelsMap } },
+}) {
   actions.forEach(action => validateAction({ action, modelsMap }));
   return actions;
 };
