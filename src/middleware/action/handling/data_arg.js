@@ -4,8 +4,9 @@ const { uniq } = require('lodash');
 
 const { throwError } = require('../../../error');
 const { mapValues, assignArray, omitBy } = require('../../../utilities');
+const { getActionConstant } = require('../../../constants');
 
-const { getModel, getActionConstant } = require('./utilities');
+const { getModel } = require('./utilities');
 
 const parseDataArg = function ({
   actions,

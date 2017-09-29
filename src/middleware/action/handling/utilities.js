@@ -1,8 +1,5 @@
 'use strict';
 
-const { ACTIONS } = require('../../../constants');
-const { throwError } = require('../../../error');
-
 const getModel = function ({
   modelsMap,
   top: { modelName, actionConstant: { multiple } },
@@ -37,20 +34,6 @@ const findModel = function ({ modelsMap, modelName, actionPath }) {
   return { modelName: childModelName, isArray };
 };
 
-const getActionConstant = function ({ actionType, isArray }) {
-  const actionConstant = ACTIONS.find(
-    ({ multiple, type }) => multiple === isArray && type === actionType
-  );
-
-  if (!actionConstant) {
-    const message = `Action '${actionType}' is unknown`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  return actionConstant;
-};
-
 module.exports = {
   getModel,
-  getActionConstant,
 };

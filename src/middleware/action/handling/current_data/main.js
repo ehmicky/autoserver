@@ -3,17 +3,20 @@
 const { parallelResolve } = require('./parallel');
 const { serialResolve } = require('./serial');
 
-const addCurrentData = function ({
-  actions,
-  top,
-  top: { actionConstant: { type: actionType } },
-  ...rest
-}) {
+const addCurrentData = function (
+  {
+    actions,
+    top,
+    top: { actionConstant: { type: actionType } },
+    ...rest
+  },
+  nextLayer,
+) {
   const resolver = resolvers[actionType];
 
   if (resolver === undefined) { return actions; }
 
-  return resolver({ actions, top, ...rest });
+  return resolver({ actions, top, ...rest }, nextLayer);
 };
 
 const resolvers = {

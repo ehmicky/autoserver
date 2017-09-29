@@ -4,8 +4,7 @@ const { underscored } = require('underscore.string');
 const { singular, plural } = require('pluralize');
 
 const { throwError } = require('../../../error');
-
-const { getActionConstant } = require('./utilities');
+const { getActionConstant } = require('../../../constants');
 
 // Parse a top-level action name into tokens.
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }

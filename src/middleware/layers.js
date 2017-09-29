@@ -6,6 +6,7 @@ const time = require('./time');
 const protocol = require('./protocol');
 const operation = require('./operation');
 const action = require('./action');
+const sequencer = require('./sequencer');
 const command = require('./command');
 const database = require('./database');
 
@@ -88,6 +89,13 @@ const middlewareLayers = [
     name: 'action',
     layers: [
       action.actionHandling,
+    ],
+  },
+
+  {
+    name: 'sequencer',
+    layers: [
+      sequencer.sequenceActions,
     ],
   },
 

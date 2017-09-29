@@ -1,26 +1,22 @@
 'use strict';
 
 const { mergeArrayReducer } = require('../../../utilities');
+const { getActionConstant } = require('../../../constants');
 
-const { getActionConstant } = require('./utilities');
-
-const resolveWriteActions = function ({
-  actions,
-  top,
+const resolveWriteActions = async function (
+  { actions, top, mInput },
   nextLayer,
-  otherLayer,
-  mInput,
-}) {
+) {
   const actionsA = actions.map(multiplyAction);
   const actionsGroups = getWriteActions({ actions: actionsA });
 
-  return otherLayer({
+  const { responses } = await nextLayer({
+    ...mInput,
     actionsGroupType: 'write',
     actionsGroups,
     top,
-    nextLayer,
-    mInput,
   });
+  return responses;
 };
 
 const multiplyAction = function ({

@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../../../../../../utilities');
-const { ACTIONS } = require('../../../../../../../constants');
+const { getActionConstant } = require('../../../../../../../constants');
 
 // Nested attributes change current action
 const addActions = function ({ fields, parentDef }) {
@@ -15,10 +15,10 @@ const addAction = function ({ def, parentDef }) {
     return { ...def, action: parentDef.action };
   }
 
-  const action = ACTIONS.find(ACTION =>
-    ACTION.type === parentDef.action.type &&
-    ACTION.multiple === def.isArray
-  );
+  const action = getActionConstant({
+    actionType: parentDef.action.type,
+    isArray: def.isArray,
+  });
   return { ...def, action };
 };
 

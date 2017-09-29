@@ -2,19 +2,16 @@
 
 const { isEqual, uniq } = require('lodash');
 
-const { assignArray, omit } = require('../../../../utilities');
-const { ACTIONS } = require('../../../../constants');
-const { getActionConstant } = require('../utilities');
+const { assignArray, omit } = require('../../../utilities');
+const { ACTIONS, getActionConstant } = require('../../../constants');
 
-const resolveRead = async function ({
-  actions = [],
+const sequenceRead = async function (
+  { actions = [], mInput, responses = [] },
   nextLayer,
-  mInput,
-  responses = [],
-}) {
+) {
   // Siblings can be run in parallel
   const responsesPromises = actions.map(({ parentAction, childActions }) =>
-    resolveSingleRead({
+    singleSequenceRead({
       action: parentAction,
       childActions,
       actions,
@@ -25,10 +22,10 @@ const resolveRead = async function ({
   );
   await Promise.all(responsesPromises);
 
-  return responses;
+  return { responses };
 };
 
-const resolveSingleRead = async function ({
+const singleSequenceRead = async function ({
   action,
   action: { args, modelName },
   childActions,
@@ -88,7 +85,7 @@ const resolveSingleRead = async function ({
   });
 
   // Child actions must start after their parent ends
-  await resolveRead({ actions: childActions, nextLayer, mInput, responses });
+  await sequenceRead({ actions: childActions, mInput, responses }, nextLayer);
 };
 
 const getActionInput = function ({
@@ -351,5 +348,5 @@ const getResponse = function ({
 };
 
 module.exports = {
-  resolveRead,
+  sequenceRead,
 };
