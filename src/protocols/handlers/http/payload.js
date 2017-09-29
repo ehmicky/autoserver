@@ -4,41 +4,18 @@ const { IncomingMessage } = require('http');
 const { promisify } = require('util');
 
 const bodyParser = require('body-parser');
+const { hasBody } = require('type-is');
 
-const { assignObject } = require('../../../utilities');
-
-// Retrieves all parsers
-const getParsers = function () {
-  return parsers
-    .map(({ type, exportsType = type, opts }) => {
-      const parser = promisify(bodyParser[type](opts));
-      const boundParseFunc = parseFunc.bind(null, parser);
-      return { [exportsType]: boundParseFunc };
-    })
-    .reduce(assignObject, {});
-};
-
-const parsers = [
-  {
-    type: 'text',
-    exportsType: 'graphql',
-    opts: { type: 'application/graphql' },
-  },
-  { type: 'json' },
-  {
-    type: 'urlencoded',
-    opts: { extended: true },
-  },
-  { type: 'text' },
-  { type: 'raw' },
-];
+const { memoize } = require('../../../utilities');
 
 // Parses and serializes HTTP request payload
 // Handles HTTP compression
 // Max limit 100KB
 // Recognizes: application/json, application/x-www-form-urlencoded,
-// string, binary, application/graphql
-const parseFunc = async function (parser, { specific: { req } }) {
+// string, binary
+const parsePayload = async function ({ specific: { req }, type }) {
+  const parser = mGetParser({ type });
+
   // `body-parser` will fill req.body = {} even if there is no body.
   // We want to know if there is a body or not though,
   // so must keep req.body to undefined if there is none
@@ -57,12 +34,29 @@ const parseFunc = async function (parser, { specific: { req } }) {
   return bodyC;
 };
 
-const parsePayload = getParsers();
+const getParser = function ({ type }) {
+  const opts = parsersOpts[type];
+  const optsA = { ...opts, type: typeChecker };
+  const parser = bodyParser[type](optsA);
+  const parserA = promisify(parser);
+  return parserA;
+};
+
+const mGetParser = memoize(getParser);
+
+// We already cheked the MIME type ourselves
+const typeChecker = () => true;
+
+const parsersOpts = {
+  json: {},
+  urlencoded: { extended: true },
+  text: {},
+  raw: {},
+};
 
 // Check if there is a request payload
-const hasPayload = function ({ specific: { req: { headers } } }) {
-  return Number(headers['content-length']) > 0 ||
-    headers['transfer-encoding'] !== undefined;
+const hasPayload = function ({ specific: { req } }) {
+  return hasBody(req);
 };
 
 // Retrieves payload MIME type

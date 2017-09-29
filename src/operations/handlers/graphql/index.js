@@ -1,10 +1,8 @@
 'use strict';
 
-const name = require('./name');
-const paths = require('./paths');
-
 module.exports = {
-  name,
-  paths,
+  name: require('./name'),
+  paths: require('./paths'),
   ...require('./handler'),
+  payload: require('./payload'),
 };
