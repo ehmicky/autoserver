@@ -76,19 +76,19 @@ const readAction = getActionConstant({ actionType: 'find', isArray: true });
 
 const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
   const actionsA = actions.map(parentAction => ({ parentAction }));
-  const { responses } = await nextLayer({
+  const { results } = await nextLayer({
     ...mInput,
     actionsGroupType: 'read',
     actions: actionsA,
   });
 
-  const currentDataMap = responses.reduce(mergeArrayReducer('modelName'), {});
+  const currentDataMap = results.reduce(mergeArrayReducer('modelName'), {});
   const currentDataMapA = mapValues(currentDataMap, mapCurrentDataModel);
   return currentDataMapA;
 };
 
-const mapCurrentDataModel = function (responses) {
-  return responses.map(({ model }) => model);
+const mapCurrentDataModel = function (results) {
+  return results.map(({ model }) => model);
 };
 
 const addCurrentDataActions = function ({ actions, currentDataMap }) {

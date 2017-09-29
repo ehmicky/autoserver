@@ -8,20 +8,20 @@ const { getActionConstant } = require('../../../constants');
 const { getModel } = require('./utilities');
 
 const resolveReadActions = async function (
-  { actions, top, modelsMap, mInput, responses },
+  { actions, top, modelsMap, mInput, results },
   nextLayer,
 ) {
   const actionsA = getReadActions({ actions, top });
 
   const actionsB = getParentActions({ actions: actionsA, top, modelsMap });
 
-  const { responses: responsesA } = await nextLayer({
+  const { results: resultsA } = await nextLayer({
     ...mInput,
     actionsGroupType: 'read',
     actions: actionsB,
-    responses,
+    results,
   });
-  return responsesA;
+  return resultsA;
 };
 
 const getReadActions = function ({ actions, top }) {

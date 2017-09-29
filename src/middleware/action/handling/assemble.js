@@ -2,15 +2,15 @@
 
 const { set } = require('../../../utilities');
 
-// Merge all responses into a single nested object
-const assembleResponses = function ({ responses }) {
-  return responses.reduce(assembleResponse, {});
+// Merge all results into a single nested response
+const assembleResults = function ({ results }) {
+  return results.reduce(assembleResult, {});
 };
 
-const assembleResponse = function (fullResponse, { model, path }) {
+const assembleResult = function (fullResponse, { model, path }) {
   return set(fullResponse, path, model);
 };
 
 module.exports = {
-  assembleResponses,
+  assembleResults,
 };

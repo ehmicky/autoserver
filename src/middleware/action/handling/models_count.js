@@ -2,15 +2,15 @@
 
 const { uniq } = require('lodash');
 
-const getModelsCount = function ({ responses }) {
-  const modelsCount = responses.length;
-  const uniqueModelsCount = getUniqueModelsCount({ responses });
+const getModelsCount = function ({ results }) {
+  const modelsCount = results.length;
+  const uniqueModelsCount = getUniqueModelsCount({ results });
 
   return { modelsCount, uniqueModelsCount };
 };
 
-const getUniqueModelsCount = function ({ responses }) {
-  const keys = responses
+const getUniqueModelsCount = function ({ results }) {
+  const keys = results
     .map(({ modelName, model: { id } }) => `${modelName} ${id}`);
   const keysA = uniq(keys);
   return keysA.length;
