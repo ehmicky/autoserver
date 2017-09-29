@@ -2,8 +2,8 @@
 
 const { findIndexes } = require('../indexes');
 
-const read = function ({ collection, filter, idCheck }) {
-  const indexes = findIndexes({ collection, filter, idCheck });
+const read = function ({ collection, filter }) {
+  const indexes = findIndexes({ collection, filter });
   const data = indexes.map(index => collection[index]);
   return { data };
 };

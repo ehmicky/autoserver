@@ -1,6 +1,6 @@
 'use strict';
 
-const { findIndexes } = require('../indexes');
+const { searchIndexes } = require('../indexes');
 
 const { createOne } = require('./create');
 const { updateOne } = require('./update');
@@ -13,7 +13,7 @@ const upsert = function ({ collection, newData }) {
 
 const upsertOne = function ({ collection, newData }) {
   const { id } = newData;
-  const indexes = findIndexes({ collection, filter: { id }, idCheck: false });
+  const indexes = searchIndexes({ collection, filter: { id } });
   const databaseFunc = indexes.length === 0 ? createOne : updateOne;
   return databaseFunc({ collection, newData });
 };
