@@ -10,11 +10,11 @@ const { ACTIONS } = require('../../../../../constants');
 const { getModelFieldName } = require('./name');
 
 // Retrieve attributes for a given GraphQL method
-const getModelDefs = function ({ graphqlMethod, idl }) {
+const getModelDefs = function ({ graphqlMethod, models }) {
   const actions = ACTIONS
     .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type));
   const modelDefs = actions
-    .map(action => getActionModels({ idl, action }))
+    .map(action => getActionModels({ models, action }))
     .reduce(assignObject, {});
   return modelDefs;
 };
@@ -25,7 +25,7 @@ const graphqlMethods = {
   mutation: ['create', 'replace', 'update', 'upsert', 'delete'],
 };
 
-const getActionModels = function ({ idl: { models }, action }) {
+const getActionModels = function ({ models, action }) {
   const modelsA = nameModelsActions({ models, action });
   const modelsB = normalizeModelsDef({ models: modelsA, action });
   return modelsB;

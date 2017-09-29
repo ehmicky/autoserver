@@ -2,7 +2,7 @@
 
 const { monitoredReduce } = require('../perf');
 const { compileIdlFuncs, getHelpers } = require('../idl_func');
-const { loadIdl, compileJsonSchema, buildGraphQLSchema } = require('../idl');
+const { loadIdl, compileJsonSchema, operationsStartServer } = require('../idl');
 
 // Parse IDL file
 const parseIdl = function ({ runOpts, measures }) {
@@ -19,7 +19,7 @@ const processors = [
   compileIdlFuncs,
   getHelpers,
   compileJsonSchema,
-  buildGraphQLSchema,
+  operationsStartServer,
 ];
 
 module.exports = {
