@@ -17,7 +17,7 @@ const parseAction = function ({ action, top, modelsMap }) {
   return parser({ action, top, modelsMap });
 };
 
-// Parse a GraphQL query top-level action name into tokens.
+// Parse a top-level action name into tokens.
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
 const parseTopLevelAction = function ({
   action,

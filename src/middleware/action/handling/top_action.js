@@ -7,7 +7,7 @@ const { throwError } = require('../../../error');
 
 const { getActionConstant } = require('./utilities');
 
-// Parse a GraphQL query top-level action name into tokens.
+// Parse a top-level action name into tokens.
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
 const parseTopAction = function ({
   operationDef: { action, args },
