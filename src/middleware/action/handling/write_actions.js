@@ -3,20 +3,19 @@
 const { mergeArrayReducer } = require('../../../utilities');
 const { getActionConstant } = require('../../../constants');
 
-const resolveWriteActions = async function (
+const resolveWriteActions = function (
   { actions, top, mInput },
   nextLayer,
 ) {
   const actionsA = actions.map(multiplyAction);
   const actionsGroups = getWriteActions({ actions: actionsA });
 
-  const { results } = await nextLayer({
+  return nextLayer({
     ...mInput,
     actionsGroupType: 'write',
     actionsGroups,
     top,
   });
-  return results;
 };
 
 const multiplyAction = function ({

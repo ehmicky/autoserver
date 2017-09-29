@@ -3,7 +3,8 @@
 const { sortArray } = require('../../../utilities');
 
 const sortActions = function ({ actions }) {
-  return sortArray(actions, sortTwoActions);
+  const actionsA = sortArray(actions, sortTwoActions);
+  return { actions: actionsA };
 };
 
 const sortTwoActions = function ({ actionPath: pathA }, { actionPath: pathB }) {

@@ -7,8 +7,9 @@ const { getModel } = require('./utilities');
 
 // Add `action.actionConstant` and `action.modelName`
 const parseModels = function ({ actions, top, modelsMap }) {
-  return actions
+  const actionsA = actions
     .map(action => parseAction({ action, top, modelsMap }));
+  return { actions: actionsA };
 };
 
 const parseAction = function ({ action, top, modelsMap }) {

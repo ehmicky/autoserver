@@ -3,7 +3,8 @@
 const { parseTopAction } = require('./top_action');
 const { normalizeActions } = require('./normalize');
 const { parseModels } = require('./models');
-const { handleArgs } = require('./handle_args');
+const { validateArgs } = require('./validate_args');
+const { renameArgs } = require('./rename_args');
 const { parseDataArg } = require('./data_arg');
 const { parseCascade } = require('./cascade');
 const { parseOrderBy } = require('./order_by');
@@ -33,42 +34,55 @@ const actionHandling = async function (
   },
   nextLayer,
 ) {
-  const top = parseTopAction({ operationDef, modelsMap, protocolArgs });
-  const actionsA = normalizeActions({ operationDef });
+  const { top } = parseTopAction({ operationDef, modelsMap, protocolArgs });
+  const { actions: actionsA } = normalizeActions({ operationDef });
 
-  const actionsB = parseModels({ actions: actionsA, top, modelsMap });
-  const actionsC = handleArgs({ actions: actionsB, top, runOpts, idl });
-  const actionsD = parseDataArg({ actions: actionsC, top, modelsMap });
-  const actionsE = parseCascade({ actions: actionsD, top, modelsMap });
-  const actionsF = parseOrderBy({ actions: actionsE });
+  const { actions: actionsB } = parseModels({
+    actions: actionsA,
+    top,
+    modelsMap,
+  });
+  validateArgs({ actions: actionsB, top, runOpts, idl });
+  const { actions: actionsC } = renameArgs({ actions: actionsB });
+  const { actions: actionsD } = parseDataArg({
+    actions: actionsC,
+    top,
+    modelsMap,
+  });
+  const { actions: actionsE } = parseCascade({
+    actions: actionsD,
+    top,
+    modelsMap,
+  });
+  const { actions: actionsF } = parseOrderBy({ actions: actionsE });
   validateUnknownAttrs({ actions: actionsF, modelsMap });
-  const operationSummary = getOperationSummary({ actions: actionsF, top });
-  const actionsG = sortActions({ actions: actionsF });
+  const { operationSummary } = getOperationSummary({ actions: actionsF, top });
+  const { actions: actionsG } = sortActions({ actions: actionsF });
 
-  const actionsH = await addCurrentData(
+  const { actions: actionsH } = await addCurrentData(
     { actions: actionsG, top, modelsMap, mInput },
     nextLayer,
   );
-  const actionsI = mergeUpdateData({ actions: actionsH, top });
-  const results = await resolveWriteActions(
+  const { actions: actionsI } = mergeUpdateData({ actions: actionsH, top });
+  const { results } = await resolveWriteActions(
     { actions: actionsI, top, mInput },
     nextLayer,
   );
-  const resultsA = await resolveReadActions(
+  const { results: resultsA } = await resolveReadActions(
     { actions: actionsI, top, modelsMap, mInput, results },
     nextLayer,
   );
 
-  const resultsB = removeNestedWrite({ results: resultsA });
-  const resultsC = removeDuplicateResults({ results: resultsB });
-  const resultsD = sortResults({ results: resultsC });
+  const { results: resultsB } = removeNestedWrite({ results: resultsA });
+  const { results: resultsC } = removeDuplicateResults({ results: resultsB });
+  const { results: resultsD } = sortResults({ results: resultsC });
   const { modelsCount, uniqueModelsCount } = getModelsCount({
     results: resultsD,
   });
 
-  const response = assembleResults({ results: resultsD });
-  const responseA = selectFields({ response, results: resultsD });
-  const responseB = parseResponse({ response: responseA });
+  const { response } = assembleResults({ results: resultsD });
+  const { response: responseA } = selectFields({ response, results: resultsD });
+  const { response: responseB } = parseResponse({ response: responseA });
 
   return {
     response: responseB,

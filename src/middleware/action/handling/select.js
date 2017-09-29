@@ -7,7 +7,8 @@ const { get, set, assignObject, mapValues } = require('../../../utilities');
 // e.g. using GraphQL "aliases"
 const selectFields = function ({ response, results }) {
   // Need to recurse through children first
-  return results.reduceRight(selectFieldsByResult, response);
+  const responseA = results.reduceRight(selectFieldsByResult, response);
+  return { response: responseA };
 };
 
 const selectFieldsByResult = function (response, { path, select }) {

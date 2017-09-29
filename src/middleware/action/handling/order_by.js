@@ -10,7 +10,8 @@ const { throwError } = require('../../../error');
 //     { attrName: 'id', order: 'asc' },
 //   ]
 const parseOrderBy = function ({ actions }) {
-  return actions.map(action => parseAction({ action }));
+  const actionsA = actions.map(action => parseAction({ action }));
+  return { actions: actionsA };
 };
 
 const parseAction = function ({

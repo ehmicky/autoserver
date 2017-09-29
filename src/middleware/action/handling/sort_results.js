@@ -3,7 +3,8 @@
 const { sortArray } = require('../../../utilities');
 
 const sortResults = function ({ results }) {
-  return sortArray(results, sortTwoResults);
+  const resultsA = sortArray(results, sortTwoResults);
+  return { results: resultsA };
 };
 
 const sortTwoResults = function ({ path: pathA }, { path: pathB }) {

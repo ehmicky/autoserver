@@ -5,7 +5,8 @@
 // Those actions will be present in the `actions` array, but select will
 // be `undefined`
 const removeNestedWrite = function ({ results }) {
-  return results.filter(({ select }) => select);
+  const resultsA = results.filter(({ select }) => select);
+  return { results: resultsA };
 };
 
 module.exports = {

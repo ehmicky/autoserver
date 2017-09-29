@@ -14,7 +14,7 @@ const parseDataArg = function ({
   top: { args: { data }, actionPath },
   modelsMap,
 }) {
-  if (data === undefined) { return actions; }
+  if (data === undefined) { return { actions }; }
 
   const dataPaths = getDataPath({ data, path: actionPath });
   const actionsA = parseData({ data, actionPath, dataPaths, top, modelsMap });
@@ -22,7 +22,7 @@ const parseDataArg = function ({
     readActions: actions,
     writeActions: actionsA,
   });
-  return actionsB;
+  return { actions: actionsB };
 };
 
 const parseData = function ({ data, actionPath, dataPaths, top, modelsMap }) {
