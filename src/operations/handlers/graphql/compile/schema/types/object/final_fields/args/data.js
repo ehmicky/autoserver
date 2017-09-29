@@ -3,7 +3,7 @@
 const { GraphQLNonNull, GraphQLList } = require('graphql');
 
 // Data argument, i.e. payload used by mutation actions
-const dataActionTypes = ['create', 'replace', 'update'];
+const dataActionTypes = ['create', 'replace', 'patch'];
 const multipleDataActionTypes = ['create', 'replace'];
 
 const getDataArgument = function ({ def: { action }, dataObjectType }) {

@@ -24,9 +24,9 @@ const isFilterArg = function ({ action }, { defName, inputObjectType }) {
   return inputObjectType === 'filter' && !isSimpleId;
 };
 
-// `updateOne|updateMany` does not require any attribute in `args.data`
-const isUpdateArg = function ({ action }, { inputObjectType }) {
-  return inputObjectType === 'data' && action.type === 'update';
+// `patchOne|patchMany` does not require any attribute in `args.data`
+const isPatchArg = function ({ action }, { inputObjectType }) {
+  return inputObjectType === 'data' && action.type === 'patch';
 };
 
 // `data.id` is optional in createOne|createMany
@@ -40,7 +40,7 @@ const optionalTests = [
   isWrapped,
   isNotRequiredValidated,
   isFilterArg,
-  isUpdateArg,
+  isPatchArg,
   isCreateId,
 ];
 

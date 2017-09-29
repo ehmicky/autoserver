@@ -44,11 +44,11 @@ const readonlyData = function ({ def, inputObjectType, action }) {
     action.type !== 'create';
 };
 
-// `updateOne|updateMany` do not allow data.id
-const updateIdData = function ({ defName, inputObjectType, action }) {
+// `patchOne|patchMany` do not allow data.id
+const patchIdData = function ({ defName, inputObjectType, action }) {
   return defName === 'id' &&
     inputObjectType === 'data' &&
-    action.type === 'update';
+    action.type === 'patch';
 };
 
 const filters = [
@@ -56,7 +56,7 @@ const filters = [
   nestedIdData,
   computeData,
   readonlyData,
-  updateIdData,
+  patchIdData,
 ];
 
 module.exports = {

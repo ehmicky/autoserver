@@ -89,12 +89,12 @@ mutation {
 }
 ```
 
-`update` action performs a partial modification (i.e. a patch) (similar to
+`patch` action performs a partial modification (i.e. a patch) (similar to
 REST's `PATCH` method):
 
 ```graphql
 mutation {
-  update_user(filter: {id: "1"}, data: {city: "Copenhagen"}) {
+  patch_user(filter: {id: "1"}, data: {city: "Copenhagen"}) {
     id
     name
   }
@@ -103,7 +103,7 @@ mutation {
 
 ```graphql
 mutation {
-  update_users(filter: {country: "Denmark"}, data: {city: "Copenhagen"}) {
+  patch_users(filter: {country: "Denmark"}, data: {city: "Copenhagen"}) {
     id
     name
   }
@@ -155,12 +155,12 @@ mutation {
 One specifies the data to mutate with `data`, which is either an array
 (for plural actions) or an object (for singular actions).
 
-It can be used by the following actions: `create`, `replace` and `update`.
+It can be used by the following actions: `create`, `replace` and `patch`.
 
 `data.id` is required for `replace`, optional for `create`
-(it defaults to a UUID) and forbidden for `update`.
+(it defaults to a UUID) and forbidden for `patch`.
 
-`update` action `data` is a bit different, as it is never an array.
+`patch` action `data` is a bit different, as it is never an array.
 
 # Summary of actions
 
@@ -182,11 +182,11 @@ delete_models({ [filter], [cascade], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql
-update_model({ data, filter: { id }, [silent], [dryrun] })
+patch_model({ data, filter: { id }, [silent], [dryrun] })
 ```
 
 ```graphql
-update_models({ data, [filter], [page_size], [silent], [dryrun] })
+patch_models({ data, [filter], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql

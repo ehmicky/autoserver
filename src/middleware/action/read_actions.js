@@ -55,8 +55,8 @@ const getReadAction = function ({
 };
 
 // `currentData` query will reuse the ids from replace|create `data`,
-// and the `filter` from find|delete|update.
-// Selection query will reuse `currentData` from replace|delete|update,
+// and the `filter` from find|delete|patch.
+// Selection query will reuse `currentData` from replace|delete|patch,
 // `data` from create, and `filter` from find.
 const getTopLevelFilter = function ({ action, action: { args: { filter } } }) {
   const models = getModels({ action });
@@ -70,7 +70,7 @@ const getTopLevelFilter = function ({ action, action: { args: { filter } } }) {
 const getModels = function ({ action: { currentData, args: { data } } }) {
   if (currentData) { return currentData; }
 
-  // Use replace|create `data`, but not update `data`
+  // Use replace|create `data`, but not patch `data`
   const hasDataIds = data && data.every(datum => datum.id !== undefined);
   if (hasDataIds) { return data; }
 };

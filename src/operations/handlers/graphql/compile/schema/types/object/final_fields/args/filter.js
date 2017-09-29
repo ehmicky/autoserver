@@ -7,7 +7,7 @@ const getFilterArgument = function ({
   def: { action },
   filterObjectType,
 }) {
-  // Nested queries for findOne|deleteOne|updateOne do not use filters,
+  // Nested queries for findOne|deleteOne|patchOne do not use filters,
   // as it is implied from parent return value
   const isNested = filterActionTypes.includes(action.type) &&
     !(def.kind === 'attribute' && !action.multiple);
@@ -20,7 +20,7 @@ const getFilterArgument = function ({
 };
 
 // Filters argument, i.e. only queries entities that match specified attributes
-const filterActionTypes = ['find', 'delete', 'update'];
+const filterActionTypes = ['find', 'delete', 'patch'];
 
 const getFilterArgs = ({ type }) => ({
   filter: {

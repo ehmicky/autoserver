@@ -11,7 +11,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [GraphQL endpoint](docs/graphql.md#client-queries),
     including introspection, interactive debugger and schema printing
   - [CRUD actions](docs/graphql.md#read-queries):
-    find, create, update, replace, delete.
+    find, create, patch, replace, delete.
     Each action can be performed on a single model or on several models.
   - [relations, nested actions](docs/relations.md)
     and populating between models, including for mutations

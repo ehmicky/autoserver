@@ -2,18 +2,18 @@
 
 const { assignArray } = require('../../utilities');
 
-// Merge current models with the data we want to update,
+// Merge current models with the data we want to patch,
 // to obtain the final models we want to use as replacement
-const mergeUpdateData = function ({
+const patchData = function ({
   actions,
   top: { actionConstant: { type: actionType } },
 }) {
-  if (actionType !== 'update') { return { actions }; }
+  if (actionType !== 'patch') { return { actions }; }
 
-  const updateActions = actions
-    .filter(({ actionConstant }) => actionConstant.type === 'update');
-  const partialData = mergePartialData({ actions: updateActions });
-  const actionsA = updateActions
+  const patchActions = actions
+    .filter(({ actionConstant }) => actionConstant.type === 'patch');
+  const partialData = mergePartialData({ actions: patchActions });
+  const actionsA = patchActions
     .map(action => mergeData({ action, partialData }));
 
   return { actions: actionsA };
@@ -63,5 +63,5 @@ const mergeData = function ({
 };
 
 module.exports = {
-  mergeUpdateData,
+  patchData,
 };

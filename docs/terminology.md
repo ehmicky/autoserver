@@ -84,8 +84,8 @@ Options passed to an action
 ## Command
 
 Actual database query, from a server perspective. An action is converted to
-one or several commands. E.g. an `update` action actually performs two
-commands: first a `read` command, then an `update` command.
+one or several commands. E.g. an `patch` action actually performs two
+commands: first a `read` command, then an `patch` command.
 
 ## IDL functions
 

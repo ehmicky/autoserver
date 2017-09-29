@@ -10,7 +10,7 @@ const methodsMap = {
   HEAD: 'find',
   POST: 'create',
   PUT: 'replace',
-  PATCH: 'update',
+  PATCH: 'patch',
   DELETE: 'delete',
 };
 

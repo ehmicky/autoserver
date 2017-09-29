@@ -142,7 +142,7 @@ const getNestedArg = function ({
   return { ...args, filter: { id } };
 };
 
-const nestedActionTypes = ['find', 'delete', 'update'];
+const nestedActionTypes = ['find', 'delete', 'patch'];
 
 const normalizeIds = function ({
   args,

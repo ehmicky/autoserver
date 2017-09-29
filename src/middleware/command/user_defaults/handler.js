@@ -4,7 +4,7 @@ const { applyAllDefault } = require('./apply');
 
 // Applies schema `default`, if value is undefined
 // This can be a static value or any IDL function
-// Not applied on partial write actions like 'update'
+// Not applied on partial write actions like 'patch'
 const userDefaults = function ({
   args,
   args: { newData },

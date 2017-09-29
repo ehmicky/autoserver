@@ -12,9 +12,9 @@ const defaults = {
   },
 
   // 'update', 'delete' is always sorted by 'id', i.e. user cannot specify it
-  // The reason: paginated 'update' might otherwise iterate over the same models
+  // The reason: paginated 'patch' might otherwise iterate over the same models
   // For 'delete', sorting is an unnecessary feature, so we keep it similar to
-  // 'update' action.
+  // 'patch' action.
   orderBy: {
     commands: ['read', 'delete', 'update'],
     value: [{ attrName: 'id', order: 'asc' }],

@@ -33,11 +33,11 @@
     ],
     "required": []
   },
-  "updateOne": {
+  "patchOne": {
     "optional": ["select", "silent", "dryrun", "params"],
     "required": ["single_filter", "single_data"]
   },
-  "updateMany": {
+  "patchMany": {
     "optional": [
       "select",
       "multiple_filter",

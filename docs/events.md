@@ -205,7 +205,7 @@ event payload, with the properties:
   - `actionPath` `{string}` - [action](terminology.md#action) full path,
     e.g. `'findModel.findSubmodel'`
   - `action` `${string}` - current [action](terminology.md#action),
-    among `'find'`, `'update'`, `'delete'`, `'create'` and `'replace'`.
+    among `'find'`, `'patch'`, `'delete'`, `'create'` and `'replace'`.
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'read'`, `'update'` and `'delete'`.
   - `model` `${string}` - current [model](terminology.md#model) name
