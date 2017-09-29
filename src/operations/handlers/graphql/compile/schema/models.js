@@ -1,7 +1,11 @@
 'use strict';
 
-const { assignObject, mapValues, mapKeys } = require('../../../../utilities');
-const { ACTIONS } = require('../../../../constants');
+const {
+  assignObject,
+  mapValues,
+  mapKeys,
+} = require('../../../../../utilities');
+const { ACTIONS } = require('../../../../../constants');
 
 const { getModelFieldName } = require('./name');
 

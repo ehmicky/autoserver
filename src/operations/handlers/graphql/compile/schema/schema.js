@@ -3,7 +3,7 @@
 const { GraphQLSchema } = require('graphql');
 const { v4: uuidv4 } = require('uuid');
 
-const { mapValues } = require('../../../../utilities');
+const { mapValues } = require('../../../../../utilities');
 
 const { getType } = require('./type');
 const { getModelDefs } = require('./models');

@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues } = require('../../../../../../utilities');
+const { mapValues } = require('../../../../../../../utilities');
 
 const addKinds = function ({ fields, parentDef }) {
   return mapValues(fields, def => addKind({ def, parentDef }));

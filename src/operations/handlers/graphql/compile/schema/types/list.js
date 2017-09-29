@@ -7,7 +7,7 @@ const {
   GraphQLString,
 } = require('graphql');
 
-const { throwError } = require('../../../../../error');
+const { throwError } = require('../../../../../../error');
 
 const { graphQLRequiredTest, graphQLRequiredTGetter } = require('./required');
 const { graphQLArrayTest, graphQLArrayTGetter } = require('./array');
