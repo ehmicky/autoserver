@@ -5,9 +5,9 @@ const getDefaultValue = function ({
   def: { action },
   opts: { inputObjectType },
 }) {
-  // 'update' does not required anything, nor assign defaults
+  // 'patch' does not required anything, nor assign defaults
   const hasDefaultValue = inputObjectType === 'data' &&
-    action.type !== 'update' &&
+    action.type !== 'patch' &&
     def.default;
   if (!hasDefaultValue) { return; }
 

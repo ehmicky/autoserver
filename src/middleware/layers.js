@@ -99,7 +99,7 @@ const middlewareLayers = [
       action.sortActions,
 
       action.addCurrentData,
-      action.mergeUpdateData,
+      action.patchData,
       action.resolveWriteActions,
       action.resolveReadActions,
 

@@ -71,13 +71,13 @@ const validateData = function ({
   }
 
   if (forbiddenIdTypes.includes(actionType) && data.id != null) {
-    const message = `Cannot use 'id' ${data.id}: 'update' actions cannot specify 'id' attributes in 'data' argument, because ids cannot be updated. Use 'filter' argument instead.`;
+    const message = `Cannot use 'id' ${data.id}: 'patch' actions cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use 'filter' argument instead.`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 };
 
 const requiredIdTypes = ['replace'];
-const forbiddenIdTypes = ['update'];
+const forbiddenIdTypes = ['patch'];
 
 const isModelType = function (val) {
   if (isObject(val)) { return true; }
@@ -175,7 +175,7 @@ const mapData = function ({ datum, nestedKeys }) {
     datum,
     (value, key) => mapDataValue({ value, key, nestedKeys }),
   );
-  // Update actions do not use ids in args.data,
+  // Patch actions do not use ids in args.data,
   // i.e. will create undefined values
   const datumB = omitBy(datumA, value => value === undefined);
   return datumB;

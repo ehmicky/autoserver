@@ -22,7 +22,7 @@ const getModelDefs = function ({ graphqlMethod, models }) {
 // Mapping from IDL actions to GraphQL methods
 const graphqlMethods = {
   query: ['find'],
-  mutation: ['create', 'replace', 'update', 'delete'],
+  mutation: ['create', 'replace', 'patch', 'delete'],
 };
 
 const getActionModels = function ({ models, action }) {

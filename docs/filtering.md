@@ -1,7 +1,7 @@
 # Filtering
 
 One can specify which model to target using a `filter`, for the actions
-`find`, `delete` and `update`.
+`find`, `delete` and `patch`.
 
 `filter.id` is required for singular actions that can use a filter.
 

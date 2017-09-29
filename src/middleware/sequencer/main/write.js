@@ -151,7 +151,7 @@ const filterHandler = {
 
 const handlers = {
   create: createHandler,
-  update: dataHandler,
+  patch: dataHandler,
   replace: dataHandler,
   delete: filterHandler,
 };
