@@ -5,6 +5,7 @@ const { preNormalizeIdl } = require('./pre_normalize');
 const { preValidateIdl } = require('./pre_validation');
 const { postNormalizeIdl } = require('./post_normalize');
 const { postValidateIdl } = require('./post_validation');
+const { operationsIdl } = require('./operations');
 
 const processors = [
   // Transform IDL to normalized form, before validation
@@ -15,6 +16,8 @@ const processors = [
   postNormalizeIdl,
   // Validate IDL correctness, after final normalization
   postValidateIdl,
+  // Apply operation-specific compile-time logic
+  operationsIdl,
 ];
 
 // Normalize IDL definition, after validation and transformation

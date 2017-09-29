@@ -1,6 +1,6 @@
 'use strict';
 
-const { omitBy } = require('../../../../../../utilities');
+const { omitBy } = require('../../../../../../../utilities');
 
 const filterFields = function ({
   fields,

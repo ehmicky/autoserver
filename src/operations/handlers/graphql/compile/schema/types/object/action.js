@@ -1,7 +1,7 @@
 'use strict';
 
-const { mapValues } = require('../../../../../../utilities');
-const { ACTIONS } = require('../../../../../../constants');
+const { mapValues } = require('../../../../../../../utilities');
+const { ACTIONS } = require('../../../../../../../constants');
 
 // Nested attributes change current action
 const addActions = function ({ fields, parentDef }) {

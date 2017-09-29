@@ -5,5 +5,6 @@ module.exports = {
   paths: require('./paths'),
   ...require('./handler'),
   ...require('./response'),
+  ...require('./compile'),
   payload: require('./payload'),
 };

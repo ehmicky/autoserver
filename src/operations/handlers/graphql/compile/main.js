@@ -3,8 +3,8 @@
 const { getSchema } = require('./schema');
 const { printSchema } = require('./print');
 
-// Add GraphQL schema, both as AST and as HTML output
-const normalizeGraphQL = async function ({ idl }) {
+// Add GraphQL schema, so it can be used by introspection, and by GraphQLPrint
+const compileIdl = async function ({ idl }) {
   const GraphQLSchema = await getSchema({ idl });
   const GraphQLPrintedSchema = await printSchema({ GraphQLSchema });
 
@@ -12,5 +12,5 @@ const normalizeGraphQL = async function ({ idl }) {
 };
 
 module.exports = {
-  normalizeGraphQL,
+  compileIdl,
 };
