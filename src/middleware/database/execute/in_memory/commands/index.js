@@ -3,6 +3,6 @@
 module.exports = {
   ...require('./create'),
   ...require('./read'),
-  ...require('./update'),
+  ...require('./replace'),
   ...require('./delete'),
 };

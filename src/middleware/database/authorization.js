@@ -29,7 +29,7 @@ const validateCommand = function ({ commands, mappedCommand }) {
 };
 
 const authorizationMap = {
-  update: ['update', 'read'],
+  replace: ['replace', 'read'],
 };
 
 module.exports = {

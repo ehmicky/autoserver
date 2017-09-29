@@ -2,7 +2,7 @@ engine: api-engine 1.0.0
 models:
   pet:
     description: Cute animal
-    commands: [create, read, update, delete]
+    commands: [create, read, replace, delete]
     x-custom: anything
     x-second-custom:
       $ref: '#/models/pet/x-custom'
@@ -111,7 +111,7 @@ models:
   pet_skills:
     $ref: pet_skills.yml
   default:
-    commands: [create, read, update, delete]
+    commands: [create, read, replace, delete]
 helpers:
   - myMathFunc: (($1 * $2) + ($3 * $4))
     exampleFunction: '(myMathFunc(1, 10, 100, 2) +

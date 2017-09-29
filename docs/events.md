@@ -207,7 +207,7 @@ event payload, with the properties:
   - `action` `${string}` - current [action](terminology.md#action),
     among `'find'`, `'patch'`, `'delete'`, `'create'` and `'replace'`.
   - `command` `${string}` - current [command](terminology.md#command),
-    among `'create'`, `'read'`, `'update'` and `'delete'`.
+    among `'create'`, `'read'`, `'replace'` and `'delete'`.
   - `model` `${string}` - current [model](terminology.md#model) name
   - `responseType` `{string}` - among `'model'`, `'collection'`, `'error'`,
     `'object'`, `'html'`, `'text'`

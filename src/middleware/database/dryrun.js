@@ -27,7 +27,7 @@ const useNewData = function ({ args: { newData } }) {
 const dryRunByCommand = {
   delete: getDeleteReadCommand,
   create: getCreateReadCommand,
-  update: useNewData,
+  replace: useNewData,
 };
 
 module.exports = {

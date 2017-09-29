@@ -182,7 +182,7 @@ definitions:
       enum:
       - read
       - create
-      - update
+      - replace
       - delete
   # idl.helpers
   helpers:
