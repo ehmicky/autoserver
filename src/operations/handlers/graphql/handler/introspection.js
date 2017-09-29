@@ -29,7 +29,7 @@ const handleIntrospection = async function ({
 
   if (innererror) {
     throwError('GraphQL introspection query failed', {
-      reason: 'GRAPHQL_INTROSPECTION',
+      reason: 'INPUT_SERVER_VALIDATION',
       innererror,
     });
   }
@@ -51,7 +51,7 @@ const getIntrospectionResp = function ({
 //  - returning errors in response
 const eGetIntrospectionResp = addGenErrorHandler(getIntrospectionResp, {
   message: 'GraphQL introspection query failed',
-  reason: 'GRAPHQL_INTROSPECTION',
+  reason: 'INPUT_SERVER_VALIDATION',
 });
 
 module.exports = {

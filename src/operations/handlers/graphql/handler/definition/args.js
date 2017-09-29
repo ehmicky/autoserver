@@ -35,7 +35,7 @@ const parseNumber = function ({ value }) {
 const parseEnum = function ({ value }) {
   if (value !== 'undefined') {
     const message = `'${value}' is an unknown constant`;
-    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
   return null;

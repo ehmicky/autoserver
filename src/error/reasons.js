@@ -16,9 +16,8 @@ const errorReasons = {
   // Query string is wrong
   QUERY_STRING_PARSE: {},
 
-  // GraphQL query syntax error, i.e. GraphQL crashed trying to parse
-  // the raw query
-  GRAPHQL_SYNTAX_ERROR: {},
+  // Input syntax error, e.g. GraphQL crashed trying to parse the raw query
+  SYNTAX_VALIDATION: {},
 
   // General validation input errors, e.g. input data|filter does not
   // match IDL schema
@@ -65,15 +64,6 @@ const errorReasons = {
 
   // Loading of configuration failed
   CONF_LOADING: {},
-
-  // IDL definition is invalid, for usage with GraphQL
-  GRAPHQL_WRONG_DEFINITION: {},
-
-  // Introspection failed because of wrong schema
-  GRAPHQL_INTROSPECTION: {},
-
-  // GraphiQL HTML templating failed
-  GRAPHIQL_PARSING_ERROR: {},
 
   // Request did not pass IDL validation, e.g. `args` was not provided,
   // indicating a server bug

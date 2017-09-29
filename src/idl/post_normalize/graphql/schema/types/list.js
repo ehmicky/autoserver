@@ -69,7 +69,7 @@ const getTypeGetter = function ({ def, opts }) {
 
   if (!typeGetter) {
     const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
-    throwError(message, { reason: 'GRAPHQL_WRONG_DEFINITION' });
+    throwError(message, { reason: 'IDL_SYNTAX_ERROR' });
   }
 
   return typeGetter;
