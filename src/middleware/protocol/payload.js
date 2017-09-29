@@ -1,74 +1,55 @@
 'use strict';
 
+const { is: isType } = require('type-is');
+
+const { promiseThen } = require('../../utilities');
 const { throwError } = require('../../error');
-const { reduceAsync } = require('../../utilities');
+const { PAYLOAD_TYPES } = require('../../constants');
 
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by operation layer, e.g. to populate `mInput.args`
-// Returns an request payload
-const parsePayload = async function ({ specific, protocolHandler }) {
+const parsePayload = function ({
+  specific,
+  protocolHandler,
+  operationHandler,
+}) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
-  const parse = protocolHandler.parsePayload;
-  const payload = await reduceAsync(
-    payloadHandlers,
-    tryPayloadHandler.bind(null, { specific, parse }),
-    undefined,
-  );
+  const type = getPayloadType({ specific, protocolHandler, operationHandler });
 
-  const payloadB = validatePayload({ payload, specific, protocolHandler });
+  // Use protocol-specific way to parse payload, using a known type
+  const payloadPromise = protocolHandler.parsePayload({ type, specific });
 
-  return { payload: payloadB };
+  return promiseThen(payloadPromise, processPayload.bind(null, type));
 };
 
-const tryPayloadHandler = function (
-  { specific, parse },
-  payload,
-  payloadHandler,
-) {
-  if (payload !== undefined) { return payload; }
-  return payloadHandler({ specific, parse });
+// Find the payload type, among the possible ones available in `PAYLOAD_TYPES`
+const getPayloadType = function ({
+  specific,
+  protocolHandler,
+  operationHandler: { payload: operationPayload = {} },
+}) {
+  const contentType = getContentType({ specific, protocolHandler });
+
+  // Check the content-type header against hard-coded MIME types
+  const payloadTypeA = PAYLOAD_TYPES.find(payloadType => payloadTypeMatches({
+    payloadType,
+    operationPayload,
+    contentType,
+  }));
+
+  if (!payloadTypeA) {
+    const message = `Unsupported Content-Type: '${contentType}'`;
+    throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
+  }
+
+  return payloadTypeA.type;
 };
 
-// Request payload middleware, for several types of mInput
-const payloadHandlers = [
-
-  // `application/graphql` request payload
-  async function graphqlHandler ({ specific, parse }) {
-    const payload = await parse.graphql({ specific });
-    return payload ? { query: payload } : undefined;
-  },
-
-  // JSON request payload
-  function jsonHandler ({ specific, parse }) {
-    return parse.json({ specific });
-  },
-
-  // `x-www-form-urlencoded` request payload
-  function urlencodedHandler ({ specific, parse }) {
-    return parse.urlencoded({ specific });
-  },
-
-  // String request payload
-  async function textHandler ({ specific, parse }) {
-    const payload = await parse.text({ specific });
-    return typeof payload === 'string' ? undefined : payload;
-  },
-
-  // Binary request payload
-  async function rawHandler ({ specific, parse }) {
-    const payload = await parse.raw({ specific });
-    return payload instanceof Buffer ? payload.toString() : undefined;
-  },
-
-];
-
-// There is a payload, but it could not be read
-const validatePayload = function ({ payload, specific, protocolHandler }) {
-  if (payload !== undefined) { return payload; }
-
+// Use protocol-specific way to retrieve the content type header
+const getContentType = function ({ specific, protocolHandler }) {
   const contentType = protocolHandler.getContentType({ specific });
 
   if (!contentType) {
@@ -76,8 +57,29 @@ const validatePayload = function ({ payload, specific, protocolHandler }) {
     throwError(msg, { reason: 'NO_CONTENT_TYPE' });
   }
 
-  const message = `Unsupported Content-Type: '${contentType}'`;
-  throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
+  return contentType;
+};
+
+const payloadTypeMatches = function ({
+  payloadType: { type, mime },
+  operationPayload,
+  contentType,
+}) {
+  // Check also for operation-specific MIME types
+  const operationTypes = operationPayload[type] || [];
+  const mimeA = [...mime, ...operationTypes];
+
+  return isType(contentType, mimeA);
+};
+
+const processPayload = function (type, payload) {
+  // Buffer payloads are converted to string
+  if (type === 'raw' && payload instanceof Buffer) {
+    const payloadA = payload.toString();
+    return { payload: payloadA };
+  }
+
+  return { payload };
 };
 
 module.exports = {
