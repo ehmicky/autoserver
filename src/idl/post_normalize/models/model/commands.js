@@ -11,7 +11,7 @@ const normalizeCommands = function (model) {
 const defaultCommands = [
   'create',
   'read',
-  'update',
+  'replace',
   'delete',
 ];
 

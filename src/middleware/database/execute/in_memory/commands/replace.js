@@ -2,13 +2,13 @@
 
 const { findIndexes } = require('../indexes');
 
-const update = function ({ collection, newData }) {
+const replace = function ({ collection, newData }) {
   const data = newData
-    .map(datum => updateOne({ collection, newData: datum }));
+    .map(datum => replaceOne({ collection, newData: datum }));
   return { data };
 };
 
-const updateOne = function ({ collection, newData, newData: { id } }) {
+const replaceOne = function ({ collection, newData, newData: { id } }) {
   const [index] = findIndexes({ collection, filter: { id } });
 
   // eslint-disable-next-line fp/no-mutating-methods
@@ -18,6 +18,6 @@ const updateOne = function ({ collection, newData, newData: { id } }) {
 };
 
 module.exports = {
-  update,
-  updateOne,
+  replace,
+  replaceOne,
 };
