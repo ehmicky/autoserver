@@ -4,14 +4,18 @@ const { throwError } = require('../../../../error');
 
 const { validateMissingIds } = require('./missing_id');
 
-const findIndexes = function ({ collection, filter, idCheck = true }) {
-  const indexes = Object.entries(collection)
-    .filter(([, model]) => modelMatchFilters({ model, filters: filter }))
-    .map(([index]) => index);
+const findIndexes = function ({ collection, filter }) {
+  const indexes = searchIndexes({ collection, filter });
 
-  validateMissingIds({ indexes, collection, idCheck, filter });
+  validateMissingIds({ indexes, collection, filter });
 
   return indexes;
+};
+
+const searchIndexes = function ({ collection, filter }) {
+  return Object.entries(collection)
+    .filter(([, model]) => modelMatchFilters({ model, filters: filter }))
+    .map(([index]) => index);
 };
 
 // Check if a model matches a query filter
@@ -84,4 +88,5 @@ const matchers = {
 
 module.exports = {
   findIndexes,
+  searchIndexes,
 };

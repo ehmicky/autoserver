@@ -4,14 +4,7 @@ const { difference } = require('lodash');
 
 const { throwError } = require('../../../../error');
 
-const validateMissingIds = function ({
-  indexes,
-  collection,
-  idCheck,
-  filter,
-}) {
-  if (!idCheck) { return; }
-
+const validateMissingIds = function ({ indexes, collection, filter }) {
   const idFilters = getIdFilters({ filter });
 
   if (idFilters.length === 0) { return; }

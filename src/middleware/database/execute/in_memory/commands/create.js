@@ -3,7 +3,7 @@
 const { v4: uuidv4 } = require('uuid');
 
 const { throwError } = require('../../../../../error');
-const { findIndexes } = require('../indexes');
+const { searchIndexes } = require('../indexes');
 
 const create = function ({ collection, newData }) {
   const data = newData
@@ -28,7 +28,7 @@ const getCreateId = function ({ newData: { id } }) {
 };
 
 const checkCreateId = function ({ collection, id }) {
-  const models = findIndexes({ collection, filter: { id }, idCheck: false });
+  const models = searchIndexes({ collection, filter: { id } });
   if (models.length === 0) { return; }
 
   const message = `Model with id '${id}' already exists`;

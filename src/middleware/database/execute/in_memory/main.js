@@ -14,7 +14,6 @@ const inMemoryAdapter = async function ({
   command,
   filter,
   newData,
-  idCheck,
   orderBy,
   limit,
   offset,
@@ -24,12 +23,7 @@ const inMemoryAdapter = async function ({
 
   const collection = database[modelName];
 
-  const { data, metadata } = commands[command]({
-    collection,
-    filter,
-    newData,
-    idCheck,
-  });
+  const { data, metadata } = commands[command]({ collection, filter, newData });
 
   const dataA = sortResponse({ data, orderBy });
   const dataB = offsetResponse({ data: dataA, offset });

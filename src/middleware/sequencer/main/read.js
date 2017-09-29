@@ -199,12 +199,7 @@ const getConcurrentResults = function ({ ids, results, modelName }) {
 };
 
 const fireReadAction = async function ({
-  action: {
-    actionPath,
-    modelName,
-    idCheck = true,
-    internal = false,
-  },
+  action: { actionPath, modelName, internal = false },
   mInput,
   nextLayer,
   actionConstant,
@@ -214,7 +209,7 @@ const fireReadAction = async function ({
   // When parent value is not defined, directly returns empty value
   if (Array.isArray(ids) && ids.length === 0) { return []; }
 
-  const argsA = { ...args, idCheck, internal };
+  const argsA = { ...args, internal };
   const argsB = omit(argsA, 'data');
   const { command } = ACTIONS.find(ACTION => actionConstant === ACTION);
   const mInputA = {
