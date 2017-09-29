@@ -10,7 +10,7 @@ const { getActionConstant } = require('../../../constants');
 // E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
 const parseTopAction = function ({
   operationDef: { action, args },
-  modelsMap,
+  idl: { shortcuts: { modelsMap } },
   protocolArgs,
 }) {
   const { actionConstant, modelName } = getModelInfo({ action, modelsMap });

@@ -24,43 +24,24 @@ const { selectFields } = require('./select');
 const { parseResponse } = require('./parse_response');
 
 const actionHandling = async function (
-  {
-    idl,
-    idl: { shortcuts: { modelsMap } },
-    runOpts,
-    mInput,
-    protocolArgs,
-    operationDef,
-  },
+  { idl, runOpts, mInput, protocolArgs, operationDef },
   nextLayer,
 ) {
-  const { top } = parseTopAction({ operationDef, modelsMap, protocolArgs });
+  const { top } = parseTopAction({ operationDef, idl, protocolArgs });
   const { actions: actionsA } = normalizeActions({ operationDef });
 
-  const { actions: actionsB } = parseModels({
-    actions: actionsA,
-    top,
-    modelsMap,
-  });
+  const { actions: actionsB } = parseModels({ actions: actionsA, top, idl });
   validateArgs({ actions: actionsB, top, runOpts, idl });
   const { actions: actionsC } = renameArgs({ actions: actionsB });
-  const { actions: actionsD } = parseDataArg({
-    actions: actionsC,
-    top,
-    modelsMap,
-  });
-  const { actions: actionsE } = parseCascade({
-    actions: actionsD,
-    top,
-    modelsMap,
-  });
+  const { actions: actionsD } = parseDataArg({ actions: actionsC, top, idl });
+  const { actions: actionsE } = parseCascade({ actions: actionsD, top, idl });
   const { actions: actionsF } = parseOrderBy({ actions: actionsE });
-  validateUnknownAttrs({ actions: actionsF, modelsMap });
+  validateUnknownAttrs({ actions: actionsF, idl });
   const { operationSummary } = getOperationSummary({ actions: actionsF, top });
   const { actions: actionsG } = sortActions({ actions: actionsF });
 
   const { actions: actionsH } = await addCurrentData(
-    { actions: actionsG, top, modelsMap, mInput },
+    { actions: actionsG, top, idl, mInput },
     nextLayer,
   );
   const { actions: actionsI } = mergeUpdateData({ actions: actionsH, top });
@@ -69,7 +50,7 @@ const actionHandling = async function (
     nextLayer,
   );
   const { results: resultsA } = await resolveReadActions(
-    { actions: actionsI, top, modelsMap, mInput, results },
+    { actions: actionsI, top, idl, mInput, results },
     nextLayer,
   );
 

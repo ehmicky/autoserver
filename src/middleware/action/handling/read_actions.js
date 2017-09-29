@@ -8,7 +8,7 @@ const { getActionConstant } = require('../../../constants');
 const { getModel } = require('./utilities');
 
 const resolveReadActions = function (
-  { actions, top, modelsMap, mInput, results },
+  { actions, top, idl: { shortcuts: { modelsMap } }, mInput, results },
   nextLayer,
 ) {
   const actionsA = getReadActions({ actions, top });

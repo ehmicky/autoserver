@@ -6,7 +6,11 @@ const { getActionConstant } = require('../../../constants');
 const { getModel } = require('./utilities');
 
 // Add `action.actionConstant` and `action.modelName`
-const parseModels = function ({ actions, top, modelsMap }) {
+const parseModels = function ({
+  actions,
+  top,
+  idl: { shortcuts: { modelsMap } },
+}) {
   const actionsA = actions
     .map(action => parseAction({ action, top, modelsMap }));
   return { actions: actionsA };

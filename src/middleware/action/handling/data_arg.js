@@ -12,7 +12,7 @@ const parseDataArg = function ({
   actions,
   top,
   top: { args: { data }, actionPath },
-  modelsMap,
+  idl: { shortcuts: { modelsMap } },
 }) {
   if (data === undefined) { return { actions }; }
 

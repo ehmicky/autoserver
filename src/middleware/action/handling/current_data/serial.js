@@ -6,12 +6,12 @@ const { getActionConstant } = require('../../../../constants');
 const { resolveReadActions } = require('../read_actions');
 
 const serialResolve = async function (
-  { actions, top, modelsMap, mInput },
+  { actions, top, idl, mInput },
   nextLayer,
 ) {
   const writeActions = getWriteActions({ actions });
   const { results } = await resolveReadActions(
-    { actions: writeActions, top, modelsMap, mInput },
+    { actions: writeActions, top, idl, mInput },
     nextLayer,
   );
   const actionsA = actions
