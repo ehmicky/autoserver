@@ -10,12 +10,12 @@ const serialResolve = async function (
   nextLayer,
 ) {
   const writeActions = getWriteActions({ actions });
-  const responses = await resolveReadActions(
+  const results = await resolveReadActions(
     { actions: writeActions, top, modelsMap, mInput },
     nextLayer,
   );
   const actionsA = actions
-    .map(action => mergeSerialResponse({ responses, action }));
+    .map(action => mergeSerialResult({ results, action }));
   return actionsA;
 };
 
@@ -37,25 +37,25 @@ const getSerialReadAction = function ({
   return { ...action, actionConstant, internal: true };
 };
 
-const mergeSerialResponse = function ({
-  responses,
+const mergeSerialResult = function ({
+  results,
   action,
   action: { actionConstant, args },
 }) {
   if (actionConstant.type === 'find') { return action; }
 
-  const responsesA = findSerialResponses({ responses, action });
-  const actionA = getSerialAction({ responses: responsesA, action, args });
+  const resultsA = findSerialResults({ results, action });
+  const actionA = getSerialAction({ results: resultsA, action, args });
   return actionA;
 };
 
-const findSerialResponses = function ({ responses, action }) {
-  return responses
-    .filter(response => serialResponseMatches({ response, action }));
+const findSerialResults = function ({ results, action }) {
+  return results
+    .filter(result => serialResultMatches({ result, action }));
 };
 
-const serialResponseMatches = function ({
-  response: { path },
+const serialResultMatches = function ({
+  result: { path },
   action: { actionPath },
 }) {
   const pathA = removeIndexes({ path });
@@ -66,9 +66,9 @@ const removeIndexes = function ({ path }) {
   return path.filter(index => typeof index !== 'number');
 };
 
-const getSerialAction = function ({ responses, action }) {
-  const dataPaths = responses.map(({ path }) => path);
-  const currentData = responses.map(({ model }) => model);
+const getSerialAction = function ({ results, action }) {
+  const dataPaths = results.map(({ path }) => path);
+  const currentData = results.map(({ model }) => model);
 
   return { ...action, currentData, dataPaths };
 };

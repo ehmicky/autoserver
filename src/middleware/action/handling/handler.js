@@ -15,10 +15,10 @@ const { mergeUpdateData } = require('./update_data');
 const { resolveWriteActions } = require('./write_actions');
 const { resolveReadActions } = require('./read_actions');
 const { removeNestedWrite } = require('./remove_nested_write');
-const { removeDuplicateResponses } = require('./duplicate_responses');
-const { sortResponses } = require('./sort_responses');
+const { removeDuplicateResults } = require('./duplicate_results');
+const { sortResults } = require('./sort_results');
 const { getModelsCount } = require('./models_count');
-const { assembleResponses } = require('./assemble');
+const { assembleResults } = require('./assemble');
 const { selectFields } = require('./select');
 const { parseResponse } = require('./response');
 
@@ -50,24 +50,24 @@ const actionHandling = async function (
     nextLayer,
   );
   const actionsI = mergeUpdateData({ actions: actionsH, top });
-  const responses = await resolveWriteActions(
+  const results = await resolveWriteActions(
     { actions: actionsI, top, mInput },
     nextLayer,
   );
-  const responsesA = await resolveReadActions(
-    { actions: actionsI, top, modelsMap, mInput, responses },
+  const resultsA = await resolveReadActions(
+    { actions: actionsI, top, modelsMap, mInput, results },
     nextLayer,
   );
 
-  const responsesB = removeNestedWrite({ responses: responsesA });
-  const responsesC = removeDuplicateResponses({ responses: responsesB });
-  const responsesD = sortResponses({ responses: responsesC });
+  const resultsB = removeNestedWrite({ results: resultsA });
+  const resultsC = removeDuplicateResults({ results: resultsB });
+  const resultsD = sortResults({ results: resultsC });
   const { modelsCount, uniqueModelsCount } = getModelsCount({
-    responses: responsesD,
+    results: resultsD,
   });
 
-  const fullResponse = assembleResponses({ responses: responsesD });
-  const fullResponseA = selectFields({ fullResponse, responses: responsesD });
+  const fullResponse = assembleResults({ results: resultsD });
+  const fullResponseA = selectFields({ fullResponse, results: resultsD });
   const fullResponseB = parseResponse({ fullResponse: fullResponseA });
 
   return {

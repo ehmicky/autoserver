@@ -112,6 +112,15 @@ Options passed to server when starting it
 
 Set of generic code under src/utilities/
 
+## Response
+
+Response of the main request, i.e. what the client receives
+
+## Result
+
+Database query result. Each request usually assemble several results into
+a single response.
+
 ## Response type
 
 Abstracted content type, e.g. `collection`.

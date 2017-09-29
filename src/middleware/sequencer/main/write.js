@@ -11,15 +11,15 @@ const sequenceWrite = async function (
   nextLayer,
 ) {
   // Run write commands in parallel
-  const responsesPromises = actionsGroups.map(actions => singleSequenceWrite({
+  const resultsPromises = actionsGroups.map(actions => singleSequenceWrite({
     actions,
     top,
     nextLayer,
     mInput,
   }));
-  const responses = await Promise.all(responsesPromises);
-  const responsesA = responses.reduce(assignArray, []);
-  return { responses: responsesA };
+  const results = await Promise.all(resultsPromises);
+  const resultsA = results.reduce(assignArray, []);
+  return { results: resultsA };
 };
 
 const singleSequenceWrite = async function ({
@@ -52,10 +52,10 @@ const singleSequenceWrite = async function ({
     modelName,
     args: argsB,
   };
-  const { response: { data: responses } } = await nextLayer(mInputA);
+  const { response: { data: results } } = await nextLayer(mInputA);
 
-  const responsesA = getResponses({ actions, responses, ids, modelName });
-  return responsesA;
+  const resultsA = getResults({ actions, results, ids, modelName });
+  return resultsA;
 };
 
 const mergeDataArgs = function ({ actions }) {
@@ -171,40 +171,40 @@ const findCommand = function ({ actionConstant }) {
   return command;
 };
 
-const getResponses = function ({ actions, responses, ids, modelName }) {
-  validateResponse({ ids, responses });
+const getResults = function ({ actions, results, ids, modelName }) {
+  validateResult({ ids, results });
 
   return actions
-    .map(getModels.bind(null, { responses, modelName }))
+    .map(getModels.bind(null, { results, modelName }))
     .reduce(assignArray, []);
 };
 
 const getModels = function (
-  { responses, modelName },
+  { results, modelName },
   { args, currentData, dataPaths, select },
 ) {
   const models = args.data || currentData;
   return models
-    .map(findModel.bind(null, { responses, dataPaths, select, modelName }))
+    .map(findModel.bind(null, { results, dataPaths, select, modelName }))
     .filter(({ path }) => path !== undefined);
 };
 
 const findModel = function (
-  { responses, dataPaths, select, modelName },
+  { results, dataPaths, select, modelName },
   { id },
   index,
 ) {
-  const model = responses.find(response => response.id === id);
+  const model = results.find(result => result.id === id);
   const path = dataPaths[index];
   return { path, model, modelName, select };
 };
 
 // Safety check to make sure there is no server-side bugs
-const validateResponse = function ({ ids, responses }) {
-  const sameLength = responses.length === ids.length;
+const validateResult = function ({ ids, results }) {
+  const sameLength = results.length === ids.length;
 
   if (!sameLength) {
-    const message = `'ids' and 'responses' do not have the same length`;
+    const message = `'ids' and 'results' do not have the same length`;
     throwError(message, { reason: 'UTILITY_ERROR' });
   }
 };

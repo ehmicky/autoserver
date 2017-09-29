@@ -10,13 +10,13 @@ const resolveWriteActions = async function (
   const actionsA = actions.map(multiplyAction);
   const actionsGroups = getWriteActions({ actions: actionsA });
 
-  const { responses } = await nextLayer({
+  const { results } = await nextLayer({
     ...mInput,
     actionsGroupType: 'write',
     actionsGroups,
     top,
   });
-  return responses;
+  return results;
 };
 
 const multiplyAction = function ({
