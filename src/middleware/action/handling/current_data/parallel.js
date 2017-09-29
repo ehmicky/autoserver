@@ -2,7 +2,11 @@
 
 const { uniq } = require('lodash');
 
-const { assignArray } = require('../../../../utilities');
+const {
+  assignArray,
+  mergeArrayReducer,
+  mapValues,
+} = require('../../../../utilities');
 const { getActionConstant } = require('../utilities');
 
 const parallelResolve = async function ({
@@ -29,16 +33,12 @@ const parallelResolve = async function ({
 const getWriteActions = function ({ allActions }) {
   const writeActionsA = allActions
     .filter(({ actionConstant }) => actionConstant.type !== 'find');
-  const writeActionsB = writeActionsA.reduce(getWriteAction, {});
+  const writeActionsB = writeActionsA.reduce(
+    mergeArrayReducer('modelName'),
+    {},
+  );
   const writeActionsC = Object.values(writeActionsB);
   return writeActionsC;
-};
-
-const getWriteAction = function (writeActions, action) {
-  const { modelName } = action;
-  const { [modelName]: actionsByModel = [] } = writeActions;
-  const actionsByModelA = [...actionsByModel, action];
-  return { ...writeActions, [action.modelName]: actionsByModelA };
 };
 
 const writeToRead = function (actionsGroups) {
@@ -91,14 +91,13 @@ const getCurrentDataMap = async function ({
     mInput,
   });
 
-  const currentDataMap = responses.reduce(reduceCurrentDataMap, {});
-  return currentDataMap;
+  const currentDataMap = responses.reduce(mergeArrayReducer('modelName'), {});
+  const currentDataMapA = mapValues(currentDataMap, mapCurrentDataModel);
+  return currentDataMapA;
 };
 
-const reduceCurrentDataMap = function (currentDataMap, { model, modelName }) {
-  const { [modelName]: models = [] } = currentDataMap;
-  const modelsA = [...models, model];
-  return { ...currentDataMap, [modelName]: modelsA };
+const mapCurrentDataModel = function (responses) {
+  return responses.map(({ model }) => model);
 };
 
 const addCurrentDataActions = function ({ actions, currentDataMap }) {

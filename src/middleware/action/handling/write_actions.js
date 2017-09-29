@@ -1,5 +1,7 @@
 'use strict';
 
+const { mergeArrayReducer } = require('../../../utilities');
+
 const { getActionConstant } = require('./utilities');
 
 const resolveWriteActions = function ({
@@ -32,16 +34,9 @@ const multiplyAction = function ({
 const getWriteActions = function ({ actions }) {
   const actionsA = actions
     .filter(({ actionConstant }) => actionConstant.type !== 'find');
-  const actionsB = actionsA.reduce(reduceWriteAction, {});
+  const actionsB = actionsA.reduce(mergeArrayReducer('modelName'), {});
   const actionsC = Object.values(actionsB);
   return actionsC;
-};
-
-const reduceWriteAction = function (actions, action) {
-  const { modelName } = action;
-  const { [modelName]: actionsByModel = [] } = actions;
-  const actionsByModelA = [...actionsByModel, action];
-  return { ...actions, [action.modelName]: actionsByModelA };
 };
 
 module.exports = {

@@ -3,7 +3,11 @@
 const { isEqual } = require('lodash');
 
 const { throwError } = require('../../../../error');
-const { assignArray, pick } = require('../../../../utilities');
+const {
+  assignArray,
+  pick,
+  mergeArrayReducer,
+} = require('../../../../utilities');
 const { ACTIONS } = require('../../../../constants');
 
 const resolveWrite = async function ({
@@ -81,7 +85,7 @@ const removeDuplicates = function (models) {
   const modelsA = models.reduce(assignArray, []);
   modelsA.forEach(validateId);
 
-  const modelsB = modelsA.reduce(groupDuplicates, {});
+  const modelsB = modelsA.reduce(mergeArrayReducer('id'), {});
   return Object.values(modelsB).map(getUniqueModel);
 };
 
@@ -90,13 +94,6 @@ const validateId = function (model) {
 
   const message = `A model in 'data' is missing an 'id' attribute: '${JSON.stringify(model)}'`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const groupDuplicates = function (modelsA, model) {
-  const { id } = model;
-  const { [id]: modelsB = [] } = modelsA;
-  const modelsC = [...modelsB, model];
-  return { ...modelsA, [id]: modelsC };
 };
 
 const getUniqueModel = function (models) {
