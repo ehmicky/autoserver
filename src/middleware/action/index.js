@@ -24,6 +24,7 @@ module.exports = {
   ...require('./models_count'),
   ...require('./assemble'),
   ...require('./select'),
-  // eslint-disable-next-line import/max-dependencies
   ...require('./parse_response'),
+  // eslint-disable-next-line import/max-dependencies
+  ...require('./validation_out'),
 };

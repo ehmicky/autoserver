@@ -3,9 +3,9 @@
 const { throwError } = require('../../error');
 const { CONTENT_TYPES } = require('../../constants');
 
-// Operation middleware output validation
+// Action layer output validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
-const operationValidationOut = function ({ response }) {
+const actionValidationOut = function ({ response }) {
   if (!response || response.constructor !== Object) {
     const message = `'response' must be an object, not '${response}'`;
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
@@ -41,5 +41,5 @@ const validateContent = function ({ content, type }) {
 };
 
 module.exports = {
-  operationValidationOut,
+  actionValidationOut,
 };
