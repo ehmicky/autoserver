@@ -5,16 +5,15 @@ const { getStandardError } = require('../../../error');
 const { validateResponse } = require('./validate');
 const { types } = require('./types');
 const { setEmptyResponse } = require('./empty');
-const transforms = require('./transform');
 
 // Sends the response at the end of the request
 const sendResponse = function ({
   error,
   response,
-  operation,
   specific,
   protocolHandler,
   protocolStatus,
+  operationHandler,
   topArgs,
   mInput,
 }) {
@@ -24,7 +23,7 @@ const sendResponse = function ({
 
   const { type, content } = responseA;
 
-  const contentA = transformContent({ content, operation });
+  const contentA = transformContent({ content, type, operationHandler });
 
   const { handler, emptyResponse } = types[type];
 
@@ -54,12 +53,16 @@ const getErrorResponse = function ({ error, mInput, response }) {
   return { type: 'error', content: { error: errorA } };
 };
 
-const transformContent = function ({ content, content: { type }, operation }) {
-  const shouldTransform = operation !== undefined &&
+const transformContent = function ({
+  content,
+  type,
+  operationHandler: { transformResponse } = {},
+}) {
+  const shouldTransform = transformResponse !== undefined &&
     transformTypes.includes(type);
   if (!shouldTransform) { return content; }
 
-  return transforms[operation].transformContent(content);
+  return transformResponse(content);
 };
 
 const transformTypes = ['model', 'collection', 'error'];

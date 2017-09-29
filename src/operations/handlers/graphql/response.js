@@ -1,9 +1,9 @@
 'use strict';
 
-const { omit, omitBy } = require('../../../../../utilities');
+const { omit, omitBy } = require('../../../utilities');
 
 // Apply GraphQL-specific response transformation
-const transformContent = function ({ data, error }) {
+const transformResponse = function ({ data, error }) {
   if (error === undefined) {
     return { data };
   }
@@ -34,7 +34,5 @@ const getError = function ({
 };
 
 module.exports = {
-  GraphQL: {
-    transformContent,
-  },
+  transformResponse,
 };
