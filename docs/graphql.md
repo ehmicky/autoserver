@@ -150,35 +150,14 @@ mutation {
 }
 ```
 
-`upsert` action performs a `replace` if the model exists, `create` otherwise.
-
-```graphql
-mutation {
-  upsert_user(data: {id: "1", name: "David"}) {
-    id
-    name
-  }
-}
-```
-
-```graphql
-mutation {
-  upsert_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
-    id
-    name
-  }
-}
-```
-
 # Modifying data
 
 One specifies the data to mutate with `data`, which is either an array
 (for plural actions) or an object (for singular actions).
 
-It can be used by the following actions: `create`, `replace`, `upsert` and
-`update`.
+It can be used by the following actions: `create`, `replace` and `update`.
 
-`data.id` is required for `replace` and `upsert`, optional for `create`
+`data.id` is required for `replace`, optional for `create`
 (it defaults to a UUID) and forbidden for `update`.
 
 `update` action `data` is a bit different, as it is never an array.
@@ -224,14 +203,6 @@ replace_model({ data, [silent], [dryrun] })
 
 ```graphql
 replace_models({ data[], [page_size], [silent], [dryrun] })
-```
-
-```graphql
-upsert_model({ data, [silent], [dryrun] })
-```
-
-```graphql
-upsert_models({ data[], [page_size], [silent], [dryrun] })
 ```
 
 # Error responses

@@ -22,7 +22,6 @@ const addCurrentData = async function (
 
 const resolvers = {
   replace: parallelResolve,
-  upsert: parallelResolve,
   update: serialResolve,
   delete: serialResolve,
 };

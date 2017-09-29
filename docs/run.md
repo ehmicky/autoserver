@@ -39,8 +39,8 @@ The available options are:
   - `maxPageSize` `{integer}` (defaults to `100`): sets an upper limit to
     client-specified `page_size`.
   - `maxDataLength` `{integer}` (defaults to `1000`): sets a limit on
-    client-specified `data` length, i.e. how many models can be created,
-    replaced or upserted at once.
+    client-specified `data` length, i.e. how many models can be created or
+    replaced at once.
     Use `0` to disable.
   - `http.host` `{string}` (defaults to `localhost`)
   - `http.port` `{integer}` (defaults to `80`).

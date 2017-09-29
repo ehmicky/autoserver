@@ -41,7 +41,7 @@ const computeData = function ({ def, inputObjectType }) {
 const readonlyData = function ({ def, inputObjectType, action }) {
   return inputObjectType === 'data' &&
     def.readonly &&
-    !['create', 'upsert'].includes(action.type);
+    action.type !== 'create';
 };
 
 // `updateOne|updateMany` do not allow data.id

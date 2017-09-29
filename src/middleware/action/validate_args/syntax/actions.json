@@ -63,13 +63,5 @@
   "replaceMany": {
     "optional": ["select", "page_size", "silent", "dryrun", "params"],
     "required": ["multiple_data"]
-  },
-  "upsertOne": {
-    "optional": ["select", "silent", "dryrun", "params"],
-    "required": ["single_data"]
-  },
-  "upsertMany": {
-    "optional": ["select", "page_size", "silent", "dryrun", "params"],
-    "required": ["multiple_data"]
   }
 }

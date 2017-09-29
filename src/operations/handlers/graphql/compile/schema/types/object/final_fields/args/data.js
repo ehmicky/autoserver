@@ -3,8 +3,8 @@
 const { GraphQLNonNull, GraphQLList } = require('graphql');
 
 // Data argument, i.e. payload used by mutation actions
-const dataActionTypes = ['create', 'upsert', 'replace', 'update'];
-const multipleDataActionTypes = ['create', 'upsert', 'replace'];
+const dataActionTypes = ['create', 'replace', 'update'];
+const multipleDataActionTypes = ['create', 'replace'];
 
 const getDataArgument = function ({ def: { action }, dataObjectType }) {
   // Only for mutation actions, but not delete
@@ -22,7 +22,7 @@ const getDataObjectType = function ({ action, dataObjectType }) {
   // Add required and array modifiers
   const type = new GraphQLNonNull(dataObjectType);
 
-  // Only multiple with createMany or upsertMany or replaceMany
+  // Only multiple with createMany or replaceMany
   if (action.multiple && multipleDataActionTypes.includes(action.type)) {
     return new GraphQLNonNull(new GraphQLList(type));
   }
