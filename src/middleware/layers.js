@@ -71,8 +71,11 @@ const middlewareLayers = [
   {
     name: 'operation',
     layers: [
+      // Check if protocol method is allowed for current operation
+      operation.methodCheck,
       // Fire operation-specific logic
       operation.operationExecute,
+
       // Fire action layer
       operation.fireActions,
 

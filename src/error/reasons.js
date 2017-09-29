@@ -34,8 +34,8 @@ const errorReasons = {
     title: 'Model not found',
   },
 
-  // Command is not supported, or most likely not allowed for this model
-  WRONG_COMMAND: {},
+  // Method is not supported, or most likely not allowed for this operation
+  WRONG_METHOD: {},
 
   // The request took too long
   REQUEST_TIMEOUT: {},
