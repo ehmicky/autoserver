@@ -20,7 +20,7 @@ const parseTopAction = function ({
   const argsA = { ...protocolArgs, ...args };
 
   const top = { actionConstant, modelName, actionPath, args: argsA };
-  return { top };
+  return { top, topArgs: top.args };
 };
 
 const getModelInfo = function ({ action, modelsMap }) {

@@ -88,7 +88,30 @@ const middlewareLayers = [
   {
     name: 'action',
     layers: [
-      action.actionHandling,
+      action.parseTopAction,
+      action.normalizeActions,
+      action.parseModels,
+      action.validateArgs,
+      action.renameArgs,
+      action.parseDataArg,
+      action.parseCascade,
+      action.parseOrderBy,
+      action.validateUnknownAttrs,
+      action.getOperationSummary,
+      action.sortActions,
+
+      action.addCurrentData,
+      action.mergeUpdateData,
+      action.resolveWriteActions,
+      action.resolveReadActions,
+
+      action.removeNestedWrite,
+      action.removeDuplicateResults,
+      action.sortResults,
+      action.getModelsCount,
+      action.assembleResults,
+      action.selectFields,
+      action.parseResponse,
     ],
   },
 
