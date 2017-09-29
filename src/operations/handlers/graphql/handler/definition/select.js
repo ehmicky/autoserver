@@ -70,7 +70,7 @@ const parseFragmentSpread = function ({ parentPath, fragments, fieldName }) {
 
   if (fragment === undefined) {
     const message = `No fragment named ${fieldName}`;
-    throwError(message, { reason: 'GRAPHQL_SYNTAX_ERROR' });
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
   const { selectionSet } = fragment;

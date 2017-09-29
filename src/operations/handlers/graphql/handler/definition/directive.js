@@ -50,7 +50,7 @@ const checkDirective = function ({ variables, args }) {
 
 const eCheckDirective = addGenErrorHandler(checkDirective, {
   message: ({ directiveName }) => `Error parsing directive '${directiveName}'`,
-  reason: 'GRAPHQL_SYNTAX_ERROR',
+  reason: 'SYNTAX_VALIDATION',
 });
 
 const checkBooleanDirective = function ({ ifValue }) {

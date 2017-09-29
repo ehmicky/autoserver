@@ -38,7 +38,7 @@ const parseQuery = function ({ query }) {
 
 const eParseQuery = addGenErrorHandler(parseQuery, {
   message: 'Could not parse GraphQL query',
-  reason: 'GRAPHQL_SYNTAX_ERROR',
+  reason: 'SYNTAX_VALIDATION',
 });
 
 module.exports = {
