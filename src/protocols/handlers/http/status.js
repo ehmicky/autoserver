@@ -23,7 +23,7 @@ const protocolStatusesMap = {
   NOT_FOUND: 404,
   DATABASE_NOT_FOUND: 404,
 
-  WRONG_COMMAND: 405,
+  WRONG_METHOD: 405,
 
   REQUEST_TIMEOUT: 408,
 
