@@ -9,16 +9,16 @@ const { getType } = require('./type');
 const { getModelDefs } = require('./models');
 
 // Returns GraphQL schema
-const getSchema = function ({ idl }) {
-  const topDefs = getTopDefs({ idl });
+const getSchema = function ({ models }) {
+  const topDefs = getTopDefs({ models });
   const topTypes = getTopTypes({ topDefs });
   const schema = new GraphQLSchema(topTypes);
   return schema;
 };
 
-const getTopDefs = function ({ idl }) {
+const getTopDefs = function ({ models }) {
   return mapValues(topDefsInit, (topDef, topDefName) => {
-    const attributes = getModelDefs({ graphqlMethod: topDefName, idl });
+    const attributes = getModelDefs({ graphqlMethod: topDefName, models });
     return { ...topDef, attributes };
   });
 };
