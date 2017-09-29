@@ -7,8 +7,8 @@ const assembleResults = function ({ results }) {
   return results.reduce(assembleResult, {});
 };
 
-const assembleResult = function (fullResponse, { model, path }) {
-  return set(fullResponse, path, model);
+const assembleResult = function (response, { model, path }) {
+  return set(response, path, model);
 };
 
 module.exports = {

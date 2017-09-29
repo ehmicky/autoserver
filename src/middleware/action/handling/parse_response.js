@@ -1,20 +1,20 @@
 'use strict';
 
-const parseResponse = function ({ fullResponse }) {
-  const data = removeTopLevel({ fullResponse });
+const parseResponse = function ({ response }) {
+  const data = removeTopLevel({ response });
   const type = getResponseType({ data });
 
   return { content: { data }, type };
 };
 
 // Remove top-level key, e.g. `findModels`
-const removeTopLevel = function ({ fullResponse }) {
-  const [topLevelKey] = Object.keys(fullResponse);
+const removeTopLevel = function ({ response }) {
+  const [topLevelKey] = Object.keys(response);
 
   // Empty response
   if (topLevelKey === undefined) { return []; }
 
-  return fullResponse[topLevelKey];
+  return response[topLevelKey];
 };
 
 const getResponseType = function ({ data }) {

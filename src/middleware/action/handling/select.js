@@ -5,16 +5,16 @@ const { get, set, assignObject, mapValues } = require('../../../utilities');
 // Only output the fields that were picked by the client
 // Also rename fields if the output key is different from the database one,
 // e.g. using GraphQL "aliases"
-const selectFields = function ({ fullResponse, results }) {
+const selectFields = function ({ response, results }) {
   // Need to recurse through children first
-  return results.reduceRight(selectFieldsByResult, fullResponse);
+  return results.reduceRight(selectFieldsByResult, response);
 };
 
-const selectFieldsByResult = function (fullResponse, { path, select }) {
-  const model = get(fullResponse, path);
+const selectFieldsByResult = function (response, { path, select }) {
+  const model = get(response, path);
   const modelA = selectFieldsByModel({ model, select });
   const modelB = mapValues(modelA, normalizeNull);
-  return set(fullResponse, path, modelB);
+  return set(response, path, modelB);
 };
 
 const selectFieldsByModel = function ({ model, select }) {

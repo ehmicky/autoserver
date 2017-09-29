@@ -20,7 +20,7 @@ const { sortResults } = require('./sort_results');
 const { getModelsCount } = require('./models_count');
 const { assembleResults } = require('./assemble');
 const { selectFields } = require('./select');
-const { parseResponse } = require('./response');
+const { parseResponse } = require('./parse_response');
 
 const actionHandling = async function (
   {
@@ -66,12 +66,12 @@ const actionHandling = async function (
     results: resultsD,
   });
 
-  const fullResponse = assembleResults({ results: resultsD });
-  const fullResponseA = selectFields({ fullResponse, results: resultsD });
-  const fullResponseB = parseResponse({ fullResponse: fullResponseA });
+  const response = assembleResults({ results: resultsD });
+  const responseA = selectFields({ response, results: resultsD });
+  const responseB = parseResponse({ response: responseA });
 
   return {
-    response: fullResponseB,
+    response: responseB,
     topArgs: top.args,
     operationSummary,
     modelsCount,
