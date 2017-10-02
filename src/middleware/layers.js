@@ -86,6 +86,7 @@ const middlewareLayers = [
   {
     name: 'action',
     layers: [
+      // Parse a `operationDef` into a top-level action
       action.parseTopAction,
       action.normalizeActions,
       action.parseModels,
