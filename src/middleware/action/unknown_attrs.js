@@ -5,6 +5,9 @@ const { uniq } = require('lodash');
 const { assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
 
+// Validate that attributes in `args.select|data|filter|order_by` are in the IDL
+// Also validate special key 'all'
+// `args.cascade` is not validated because already previously checked.
 const validateUnknownAttrs = function ({
   actions,
   idl: { shortcuts: { modelsMap } },
@@ -18,6 +21,7 @@ const validateAction = function ({ action, modelsMap }) {
   validateUnknown({ action, modelsMap });
 };
 
+// Validate correct usage of special key 'all'
 const validateAllAttr = function ({
   action: { select = [], commandPath, modelName },
   modelsMap,
@@ -35,6 +39,7 @@ const validateAllAttr = function ({
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
+// Validate that arguments's attributes are present in IDL
 const validateUnknown = function ({ action, modelsMap }) {
   argsToValidate.forEach(({ name, getKeys }) => {
     const keys = getKeys({ action });
@@ -57,6 +62,7 @@ const getFilterKeys = function ({ action: { args: { filter = [] } } }) {
   return getUniqueKeys(filterA);
 };
 
+// Turn e.g. [{ a, b }, { a }] into ['a', 'b']
 const getUniqueKeys = function (array) {
   const keys = array
     .map(Object.keys)
@@ -69,6 +75,7 @@ const getOrderByKeys = function ({ action: { args: { orderBy = [] } } }) {
   return orderBy.map(({ attrName }) => attrName);
 };
 
+// Each argument type has its own way or specifying attributes
 const argsToValidate = [
   { name: 'select', getKeys: getSelectKeys },
   { name: 'data', getKeys: getDataKeys },

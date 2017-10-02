@@ -102,6 +102,8 @@ const middlewareLayers = [
       action.parseCascade,
       // Parse `args.orderBy` from a string to an array of objects
       action.parseOrderBy,
+      // Validate that attributes in `args.select|data|filter|order_by`
+      // are in the IDL
       action.validateUnknownAttrs,
       action.getOperationSummary,
       action.sortActions,
