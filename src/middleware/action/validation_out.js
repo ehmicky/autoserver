@@ -5,14 +5,7 @@ const { CONTENT_TYPES } = require('../../constants');
 
 // Action layer output validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
-const actionValidationOut = function ({ response }) {
-  if (!response || response.constructor !== Object) {
-    const message = `'response' must be an object, not '${response}'`;
-    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
-  }
-
-  const { content, type } = response;
-
+const actionValidationOut = function ({ response: { content, type } }) {
   validateType({ type });
   validateContent({ content, type });
 };
