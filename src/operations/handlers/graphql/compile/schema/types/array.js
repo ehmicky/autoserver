@@ -7,7 +7,7 @@ const graphQLArrayTest = function (def) {
   if (def.arrayWrapped) { return false; }
 
   if (def.model) {
-    return def.action && def.action.multiple;
+    return def.command && def.command.multiple;
   }
 
   return def.isArray;

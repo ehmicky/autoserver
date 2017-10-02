@@ -2,7 +2,7 @@
 
 const getModel = function ({
   modelsMap,
-  top: { modelName, actionConstant: { multiple } },
+  top: { modelName, command: { multiple } },
   commandPath,
 }) {
   const commandPathA = commandPath

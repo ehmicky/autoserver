@@ -7,12 +7,12 @@ const addCurrentData = async function (
   {
     actions,
     top,
-    top: { actionConstant: { type: actionType } },
+    top: { command: { type: commandType } },
     ...rest
   },
   nextLayer,
 ) {
-  const resolver = resolvers[actionType];
+  const resolver = resolvers[commandType];
 
   if (resolver === undefined) { return { actions }; }
 

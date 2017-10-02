@@ -5,18 +5,18 @@ const { GraphQLInt, GraphQLString } = require('graphql');
 const { pick } = require('../../../../../../../../../utilities');
 
 // Pagination arguments
-const paginationActions = ['find', 'patch', 'delete'];
-const fullPaginationActions = ['find'];
+const paginationCommands = ['find', 'patch', 'delete'];
+const fullPaginationCommands = ['find'];
 
-const getPaginationArgument = function ({ def: { action } }) {
-  // Only with actions that return an array and do not provide array of data,
+const getPaginationArgument = function ({ def: { command } }) {
+  // Only with commands that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and patchMany
-  if (!(paginationActions.includes(action.type) && action.multiple)) {
+  if (!(paginationCommands.includes(command.type) && command.multiple)) {
     return {};
   }
 
-  // Only with safe actions that return an array, i.e. only with findMany
-  if (!(fullPaginationActions.includes(action.type) && action.multiple)) {
+  // Only with safe commands that return an array, i.e. only with findMany
+  if (!(fullPaginationCommands.includes(command.type) && command.multiple)) {
     return pick(paginationArgs, 'page_size');
   }
 

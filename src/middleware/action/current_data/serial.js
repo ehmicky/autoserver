@@ -2,7 +2,7 @@
 
 const { isEqual } = require('lodash');
 
-const { getActionConstant } = require('../../../constants');
+const { getCommand } = require('../../../constants');
 const { resolveReadActions } = require('../read_actions');
 
 const serialResolve = async function (
@@ -21,28 +21,22 @@ const serialResolve = async function (
 
 const getWriteActions = function ({ actions }) {
   return actions
-    .filter(({ actionConstant }) => actionConstant.type !== 'find')
+    .filter(({ command }) => command.type !== 'find')
     .map(getSerialReadAction);
 };
 
-const getSerialReadAction = function ({
-  actionConstant: { multiple },
-  ...action
-}) {
-  const actionConstant = getActionConstant({
-    actionType: 'find',
-    isArray: multiple,
-  });
+const getSerialReadAction = function ({ command: { multiple }, ...action }) {
+  const command = getCommand({ commandType: 'find', multiple });
 
-  return { ...action, actionConstant, internal: true };
+  return { ...action, command, internal: true };
 };
 
 const mergeSerialResult = function ({
   results,
   action,
-  action: { actionConstant, args },
+  action: { command: { type: commandType }, args },
 }) {
-  if (actionConstant.type === 'find') { return action; }
+  if (commandType === 'find') { return action; }
 
   const resultsA = findSerialResults({ results, action });
   const actionA = getSerialAction({ results: resultsA, action, args });

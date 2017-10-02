@@ -25,11 +25,11 @@ const getNestedModel = function ({
   return [originalAttr, nestedModel];
 };
 
-// Copy nested models with a different name that includes the action,
+// Copy nested models with a different name that includes the command,
 // e.g. `my_attribute` -> `createMyAttribute`
-const getRecursiveModel = function ({ def, def: { action }, defName, opts }) {
+const getRecursiveModel = function ({ def, def: { command }, defName, opts }) {
   const recursiveDef = getRecursiveDef({ def, opts });
-  const name = getAttrFieldName({ modelName: defName, action });
+  const name = getAttrFieldName({ modelName: defName, command });
   return { [name]: recursiveDef };
 };
 
@@ -48,11 +48,11 @@ const getRecursiveDef = function ({ def, opts }) {
 };
 
 const findTopLevelModel = function ({
-  def: { target, action },
+  def: { target, command },
   opts: { topDef },
 }) {
   const [typeName, topLevelModel] = Object.entries(topDef.attributes)
-    .find(([, attr]) => attr.model === target && attr.action === action);
+    .find(([, attr]) => attr.model === target && attr.command === command);
   return { ...topLevelModel, typeName };
 };
 

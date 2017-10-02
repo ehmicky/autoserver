@@ -1,7 +1,7 @@
 'use strict';
 
 const { mergeArrayReducer } = require('../../utilities');
-const { getActionConstant } = require('../../constants');
+const { getCommand } = require('../../constants');
 
 const resolveWriteActions = function (
   { actions, top, mInput },
@@ -18,17 +18,13 @@ const resolveWriteActions = function (
   });
 };
 
-const multiplyAction = function ({
-  actionConstant: { type: actionType },
-  ...rest
-}) {
-  const actionConstant = getActionConstant({ actionType, isArray: true });
-  return { ...rest, actionConstant };
+const multiplyAction = function ({ command: { type: commandType }, ...rest }) {
+  const command = getCommand({ commandType, multiple: true });
+  return { ...rest, command };
 };
 
 const getWriteActions = function ({ actions }) {
-  const actionsA = actions
-    .filter(({ actionConstant }) => actionConstant.type !== 'find');
+  const actionsA = actions.filter(({ command }) => command.type !== 'find');
   const actionsB = actionsA.reduce(mergeArrayReducer('modelName'), {});
   const actionsC = Object.values(actionsB);
   return actionsC;

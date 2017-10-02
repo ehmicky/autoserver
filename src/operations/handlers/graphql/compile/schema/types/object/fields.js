@@ -1,6 +1,6 @@
 'use strict';
 
-const { addActions } = require('./action');
+const { addCommands } = require('./command');
 const { addTypeNames } = require('./typename');
 const { getNestedModels } = require('./nested_models');
 const { filterFields } = require('./filter');
@@ -19,7 +19,7 @@ const getObjectFields = function (parentDef, opts) {
 };
 
 const mappers = [
-  addActions,
+  addCommands,
   addTypeNames,
   getNestedModels,
   filterFields,

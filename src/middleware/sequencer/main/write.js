@@ -4,7 +4,7 @@ const { isEqual } = require('lodash');
 
 const { throwError } = require('../../../error');
 const { assignArray, pick, mergeArrayReducer } = require('../../../utilities');
-const { ACTIONS } = require('../../../constants');
+const { COMMANDS } = require('../../../constants');
 
 const sequenceWrite = async function (
   { actionsGroups, top, mInput },
@@ -26,14 +26,14 @@ const singleSequenceWrite = async function ({
   actions,
   actions: [{ modelName }],
   top: {
-    actionConstant,
-    actionConstant: { type: actionType },
+    command,
+    command: { type: commandType },
     args: topArgs,
   },
   nextLayer,
   mInput,
 }) {
-  const { [actionType]: handler } = handlers;
+  const { [commandType]: handler } = handlers;
   const args = handler.mergeArgs({ actions });
   const argsA = applyTopArgs({ args, topArgs });
 
@@ -42,13 +42,13 @@ const singleSequenceWrite = async function ({
 
   const argsB = handler.getCurrentData({ actions, args: argsA, ids });
   const commandPath = mergeCommandPaths({ actions });
-  const command = findCommand({ actionConstant });
+  const commandA = findCommand({ command });
 
   const mInputA = {
     ...mInput,
-    action: actionConstant,
+    action: command,
     commandPath,
-    command,
+    command: commandA,
     modelName,
     args: argsB,
   };
@@ -165,9 +165,9 @@ const mergeCommandPaths = function ({ actions }) {
     .join(', ');
 };
 
-const findCommand = function ({ actionConstant }) {
-  const { command } = ACTIONS.find(action => actionConstant === action);
-  return command;
+const findCommand = function ({ command }) {
+  const { type } = COMMANDS.find(COMMAND => command === COMMAND);
+  return type;
 };
 
 const getResults = function ({ actions, results, ids, modelName }) {

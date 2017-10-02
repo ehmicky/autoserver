@@ -3,15 +3,15 @@
 const { GraphQLString } = require('graphql');
 
 // `order_by` argument, i.e. used for sorting results
-const getOrderArgument = function ({ def: { action } }) {
-  // Only with findMany actions
-  const canOrder = orderActionTypes.includes(action.type) && action.multiple;
+const getOrderArgument = function ({ def: { command } }) {
+  // Only with findMany commands
+  const canOrder = orderCommandTypes.includes(command.type) && command.multiple;
   if (canOrder) { return {}; }
 
   return orderArgs;
 };
 
-const orderActionTypes = ['find'];
+const orderCommandTypes = ['find'];
 
 const orderArgs = {
   order_by: {

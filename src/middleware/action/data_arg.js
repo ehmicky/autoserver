@@ -4,7 +4,7 @@ const { uniq } = require('lodash');
 
 const { mapValues, assignArray, omitBy } = require('../../utilities');
 const { throwError } = require('../../error');
-const { getActionConstant } = require('../../constants');
+const { getCommand } = require('../../constants');
 
 const { getModel } = require('./get_model');
 
@@ -58,19 +58,19 @@ const normalizeData = function ({ data }) {
 const validateData = function ({
   data,
   commandPath,
-  top: { actionConstant: { type: actionType } },
+  top: { command: { type: commandType } },
 }) {
   if (!isObject(data)) {
     const message = `'data' argument at ${commandPath.join('.')} should be an object or an array of objects, instead of: ${JSON.stringify(data)}`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (requiredIdTypes.includes(actionType) && data.id == null) {
+  if (requiredIdTypes.includes(commandType) && data.id == null) {
     const message = `'data' argument at ${commandPath.join('.')} contains some models without an 'id' attribute`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (forbiddenIdTypes.includes(actionType) && data.id != null) {
+  if (forbiddenIdTypes.includes(commandType) && data.id != null) {
     const message = `Cannot use 'id' ${data.id}: 'patch' actions cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use 'filter' argument instead.`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
@@ -152,7 +152,7 @@ const getAction = function ({
   commandPath,
   dataPaths,
   top,
-  top: { actionConstant: { type: topType, multiple } },
+  top: { command: { type: commandType, multiple } },
   modelsMap,
   nestedKeys,
 }) {
@@ -161,13 +161,13 @@ const getAction = function ({
   // Nested actions due to nested `args.data` reuses top-level action
   // Others are simply for selection, i.e. are find actions
   const isTopLevel = commandPath.length === 1;
-  const isArray = isTopLevel ? multiple : true;
-  const actionConstant = getActionConstant({ actionType: topType, isArray });
+  const multipleA = isTopLevel ? multiple : true;
+  const command = getCommand({ commandType, multiple: multipleA });
 
   const dataA = data.map(datum => mapData({ datum, nestedKeys }));
   const args = { data: dataA };
 
-  return { commandPath, args, actionConstant, modelName, dataPaths };
+  return { commandPath, args, command, modelName, dataPaths };
 };
 
 const mapData = function ({ datum, nestedKeys }) {
