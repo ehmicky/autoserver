@@ -142,6 +142,7 @@ const middlewareLayers = [
   {
     name: 'sequencer',
     layers: [
+      // Fire one or several commands for a set of actions
       sequencer.sequenceActions,
     ],
   },

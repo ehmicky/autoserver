@@ -2,9 +2,13 @@
 
 const { isEqual } = require('lodash');
 
-const { throwError } = require('../../../error');
-const { assignArray, pick, mergeArrayReducer } = require('../../../utilities');
-const { COMMANDS } = require('../../../constants');
+const { throwError } = require('../../../../error');
+const {
+  assignArray,
+  pick,
+  mergeArrayReducer,
+} = require('../../../../utilities');
+const { COMMANDS } = require('../../../../constants');
 
 const sequenceWrite = async function (
   { actionsGroups, top, mInput },
