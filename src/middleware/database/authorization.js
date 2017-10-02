@@ -28,9 +28,9 @@ const validateCommand = function ({ commands, mappedCommand }) {
   }
 };
 
-// `patch` requires both `read` and `replace` authorizations
+// `patch` requires both `find` and `replace` authorizations
 const authorizationMap = {
-  patch: ['read', 'replace'],
+  patch: ['find', 'replace'],
 };
 
 module.exports = {

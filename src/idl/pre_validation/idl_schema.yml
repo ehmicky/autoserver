@@ -172,7 +172,7 @@ definitions:
         - not:
             required: [readonly]
   # model.commands
-  # E.g. `commands: [read, create]`
+  # E.g. `commands: [find, create]`
   # This property restricts which commands a specific model can perform
   commands:
     type: array
@@ -180,7 +180,7 @@ definitions:
     items:
       type: string
       enum:
-      - read
+      - find
       - create
       - replace
       - delete

@@ -7,7 +7,7 @@
 //    Can be a function taking the `run` options as first argument
 const defaults = {
   filter: {
-    commands: ['read', 'delete'],
+    commands: ['find', 'delete'],
     value: {},
   },
 
@@ -16,7 +16,7 @@ const defaults = {
   // For 'delete', sorting is an unnecessary feature, so we keep it similar to
   // 'patch' action.
   orderBy: {
-    commands: ['read', 'delete'],
+    commands: ['find', 'delete'],
     value: [{ attrName: 'id', order: 'asc' }],
     test: ({ args }) => hasNoPaginationTokens({ args }),
   },
@@ -29,7 +29,7 @@ const defaults = {
   },
 
   after: {
-    commands: ['read'],
+    commands: ['find'],
     value: '',
     test: ({ args }) =>
       args.before === undefined && args.page === undefined,

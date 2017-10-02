@@ -33,14 +33,14 @@ const compileSchemaByCommand = function ({ idl, schema }, command) {
   return { [command]: compiledSchema };
 };
 
-// Nothing is required for read|delete, except maybe `id` (previously validated)
+// Nothing is required for find|delete, except maybe `id` (previously validated)
 const removeRequire = function ({ schema, command }) {
   if (!optionalInputCommands.includes(command)) { return schema; }
 
   return omit(schema, 'required');
 };
 
-const optionalInputCommands = ['read', 'delete'];
+const optionalInputCommands = ['find', 'delete'];
 
 module.exports = {
   compileJsonSchema,
