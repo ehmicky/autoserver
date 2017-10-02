@@ -132,6 +132,7 @@ const middlewareLayers = [
       action.assembleResults,
       // Applies `args.select`
       action.selectFields,
+      // Add content type, and remove top-level key
       action.parseResponse,
       // Operation-related output validation middleware
       action.actionValidationOut,

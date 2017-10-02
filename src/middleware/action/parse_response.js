@@ -1,5 +1,6 @@
 'use strict';
 
+// Add content type, and remove top-level key
 const parseResponse = function ({ response }) {
   const data = removeTopLevel({ response });
   const type = getResponseType({ data });
