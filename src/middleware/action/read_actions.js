@@ -3,7 +3,7 @@
 const { isEqual } = require('lodash');
 
 const { assignArray } = require('../../utilities');
-const { getActionConstant } = require('../../constants');
+const { getCommand } = require('../../constants');
 
 const { getModel } = require('./get_model');
 
@@ -31,25 +31,22 @@ const getReadActions = function ({ actions, top }) {
 
 const getReadAction = function ({
   action,
-  action: { commandPath, actionConstant: { type: actionType, multiple } },
+  action: { commandPath, command: { type: commandType, multiple } },
   top,
 }) {
   const isTopLevel = isEqual(top.commandPath, commandPath);
 
   if (!isTopLevel) {
-    return actionType === 'find' ? [action] : [];
+    return commandType === 'find' ? [action] : [];
   }
 
-  const actionConstant = getActionConstant({
-    actionType: 'find',
-    isArray: multiple,
-  });
+  const command = getCommand({ commandType: 'find', multiple });
 
   const filter = getTopLevelFilter({ action });
 
   return [{
     ...action,
-    actionConstant,
+    command,
     args: { ...action.args, filter },
   }];
 };

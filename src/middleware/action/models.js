@@ -1,11 +1,11 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { getActionConstant } = require('../../constants');
+const { getCommand } = require('../../constants');
 
 const { getModel } = require('./get_model');
 
-// Add `action.actionConstant` and `action.modelName`
+// Add `action.command` and `action.modelName`
 const parseModels = function ({
   actions,
   top,
@@ -24,12 +24,12 @@ const parseAction = function ({ action, top, modelsMap }) {
 };
 
 // Parse a top-level action name into tokens.
-// E.g. `findMyModels` -> { actionType: 'find', modelName: 'my_models' }
+// E.g. `findMyModels` -> { commandType: 'find', modelName: 'my_models' }
 const parseTopLevelAction = function ({
   action,
-  top: { actionConstant, modelName },
+  top: { command, modelName },
 }) {
-  return { ...action, actionConstant, modelName };
+  return { ...action, command, modelName };
 };
 
 const parseNestedAction = function ({
@@ -47,9 +47,9 @@ const parseNestedAction = function ({
 
   const { modelName, isArray } = model;
 
-  const actionConstant = getActionConstant({ actionType: 'find', isArray });
+  const command = getCommand({ commandType: 'find', multiple: isArray });
 
-  return { ...action, actionConstant, modelName };
+  return { ...action, command, modelName };
 };
 
 module.exports = {

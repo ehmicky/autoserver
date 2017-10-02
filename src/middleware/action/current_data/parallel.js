@@ -7,7 +7,7 @@ const {
   mergeArrayReducer,
   mapValues,
 } = require('../../../utilities');
-const { getActionConstant } = require('../../../constants');
+const { getCommand } = require('../../../constants');
 
 const parallelResolve = async function (
   { actions: allActions, mInput },
@@ -29,7 +29,7 @@ const parallelResolve = async function (
 
 const getWriteActions = function ({ allActions }) {
   const writeActionsA = allActions
-    .filter(({ actionConstant }) => actionConstant.type !== 'find');
+    .filter(({ command }) => command.type !== 'find');
   const writeActionsB = writeActionsA.reduce(
     mergeArrayReducer('modelName'),
     {},
@@ -54,7 +54,7 @@ const writeToReadAction = function (actions) {
 
   return {
     commandPath: [commandPath],
-    actionConstant: readAction,
+    command: readCommand,
     args,
     modelName,
     internal: true,
@@ -70,7 +70,7 @@ const mergeCommandPaths = function ({ actions }) {
     .join(', ');
 };
 
-const readAction = getActionConstant({ actionType: 'find', isArray: true });
+const readCommand = getCommand({ commandType: 'find', multiple: true });
 
 const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
   const actionsA = actions.map(parentAction => ({ parentAction }));

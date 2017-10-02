@@ -6,12 +6,12 @@ const { assignArray } = require('../../utilities');
 // to obtain the final models we want to use as replacement
 const patchData = function ({
   actions,
-  top: { actionConstant: { type: actionType } },
+  top: { command: { type: commandType } },
 }) {
-  if (actionType !== 'patch') { return { actions }; }
+  if (commandType !== 'patch') { return { actions }; }
 
   const patchActions = actions
-    .filter(({ actionConstant }) => actionConstant.type === 'patch');
+    .filter(({ command }) => command.type === 'patch');
   const partialData = mergePartialData({ actions: patchActions });
   const actionsA = patchActions
     .map(action => mergeData({ action, partialData }));

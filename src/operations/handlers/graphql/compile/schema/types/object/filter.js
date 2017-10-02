@@ -4,11 +4,11 @@ const { omitBy } = require('../../../../../../../utilities');
 
 const filterFields = function ({
   fields,
-  parentDef: { kind, action },
+  parentDef: { kind, command },
   opts: { inputObjectType },
 }) {
   return omitBy(fields, (def, defName) =>
-    filterField({ kind, action, def, defName, inputObjectType })
+    filterField({ kind, command, def, defName, inputObjectType })
   );
 };
 
@@ -16,11 +16,11 @@ const filterField = function (opts) {
   return filters.some(filter => filter(opts));
 };
 
-// Filter arguments for single actions only include `id`
-const singleIdFilter = function ({ defName, inputObjectType, action }) {
+// Filter arguments for single commands only include `id`
+const singleIdFilter = function ({ defName, inputObjectType, command }) {
   return defName !== 'id' &&
     inputObjectType === 'filter' &&
-    !action.multiple;
+    !command.multiple;
 };
 
 // Nested data arguments do not include `id`
@@ -38,17 +38,17 @@ const computeData = function ({ def, inputObjectType }) {
 
 // Readonly fields cannot be specified as data argument,
 // except during model creation
-const readonlyData = function ({ def, inputObjectType, action }) {
+const readonlyData = function ({ def, inputObjectType, command }) {
   return inputObjectType === 'data' &&
     def.readonly &&
-    action.type !== 'create';
+    command.type !== 'create';
 };
 
 // `patchOne|patchMany` do not allow data.id
-const patchIdData = function ({ defName, inputObjectType, action }) {
+const patchIdData = function ({ defName, inputObjectType, command }) {
   return defName === 'id' &&
     inputObjectType === 'data' &&
-    action.type === 'patch';
+    command.type === 'patch';
 };
 
 const filters = [

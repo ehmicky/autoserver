@@ -3,7 +3,7 @@
 const { isEqual, uniq } = require('lodash');
 
 const { assignArray, omit } = require('../../../utilities');
-const { ACTIONS, getActionConstant } = require('../../../constants');
+const { COMMANDS, getCommand } = require('../../../constants');
 
 const sequenceRead = async function (
   { actions = [], mInput, results = [] },
@@ -35,14 +35,14 @@ const singleSequenceRead = async function ({
 }) {
   const {
     isTopLevel,
-    actionConstant,
+    command,
     parentResults,
     commandName,
     nestedParentIds,
     parentIds,
   } = getActionInput({ action, results });
 
-  const argsA = getNestedArg({ args, actionConstant, isTopLevel, parentIds });
+  const argsA = getNestedArg({ args, command, isTopLevel, parentIds });
   const argsB = normalizeIds({ args: argsA });
 
   const { concurrentPromises, args: argsC } = getConcurrentCommand({
@@ -56,7 +56,7 @@ const singleSequenceRead = async function ({
     action,
     mInput,
     nextLayer,
-    actionConstant,
+    command,
     args: argsC,
     isTopLevel,
     parentResults,
@@ -91,12 +91,12 @@ const singleSequenceRead = async function ({
 const getActionInput = function ({
   action: {
     commandPath,
-    actionConstant: { type: actionType },
+    command: { type: commandType },
   },
   results,
 }) {
   const isTopLevel = commandPath.length === 1;
-  const actionConstant = getActionConstant({ actionType, isArray: true });
+  const command = getCommand({ commandType, multiple: true });
 
   const parentPath = commandPath.slice(0, -1);
   const parentResults = results.filter(({ path, promise }) => {
@@ -115,7 +115,7 @@ const getActionInput = function ({
 
   return {
     isTopLevel,
-    actionConstant,
+    command,
     parentResults,
     commandName,
     nestedParentIds,
@@ -130,19 +130,19 @@ const getActionInput = function ({
 // and null will be returned
 const getNestedArg = function ({
   args,
-  actionConstant,
+  command,
   isTopLevel,
   parentIds,
 }) {
   const shouldNestArg = !isTopLevel &&
-    nestedActionTypes.includes(actionConstant.type);
+    nestedCommandTypes.includes(command.type);
   if (!shouldNestArg) { return args; }
 
   const id = parentIds == null ? [] : parentIds;
   return { ...args, filter: { id } };
 };
 
-const nestedActionTypes = ['find', 'delete', 'patch'];
+const nestedCommandTypes = ['find', 'delete', 'patch'];
 
 const normalizeIds = function ({
   args,
@@ -202,7 +202,7 @@ const fireReadAction = async function ({
   action: { commandPath, modelName, internal = false },
   mInput,
   nextLayer,
-  actionConstant,
+  command,
   args,
   args: { filter: { id: ids } = {} },
 }) {
@@ -211,14 +211,14 @@ const fireReadAction = async function ({
 
   const argsA = { ...args, internal };
   const argsB = omit(argsA, 'data');
-  const { command } = ACTIONS.find(ACTION => actionConstant === ACTION);
+  const { type } = COMMANDS.find(COMMAND => command === COMMAND);
   const mInputA = {
     ...mInput,
-    action: actionConstant,
+    action: command,
     commandPath: commandPath.join('.'),
     modelName,
     args: argsB,
-    command,
+    command: type,
   };
 
   const { response: { data: result } } = await nextLayer(mInputA);
@@ -276,7 +276,7 @@ const finishCommand = function ({
 };
 
 const getResults = function ({
-  action: { actionConstant: { multiple }, modelName, select },
+  action: { command: { multiple }, modelName, select },
   commandName,
   isTopLevel,
   parentResults,

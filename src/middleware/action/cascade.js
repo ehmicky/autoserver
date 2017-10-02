@@ -29,10 +29,10 @@ const getCascadeActions = function ({ cascade, top, modelsMap }) {
   return actions;
 };
 
-const normalizeCascade = function ({ attrName, top, top: { actionConstant } }) {
+const normalizeCascade = function ({ attrName, top, top: { command } }) {
   const attrs = attrName.split('.');
   const commandPath = [...top.commandPath, ...attrs];
-  return { commandPath, actionConstant, args: {} };
+  return { commandPath, command, args: {} };
 };
 
 const addModelName = function ({

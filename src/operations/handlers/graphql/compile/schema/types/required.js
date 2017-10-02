@@ -18,21 +18,21 @@ const isNotRequiredValidated = function ({ validate = {} }) {
   return !validate.required;
 };
 
-// `args.filter` fields are never required, except `id` for single actions
-const isFilterArg = function ({ action }, { defName, inputObjectType }) {
-  const isSimpleId = defName === 'id' && !action.multiple;
+// `args.filter` fields are never required, except `id` for single commands
+const isFilterArg = function ({ command }, { defName, inputObjectType }) {
+  const isSimpleId = defName === 'id' && !command.multiple;
   return inputObjectType === 'filter' && !isSimpleId;
 };
 
 // `patchOne|patchMany` does not require any attribute in `args.data`
-const isPatchArg = function ({ action }, { inputObjectType }) {
-  return inputObjectType === 'data' && action.type === 'patch';
+const isPatchArg = function ({ command }, { inputObjectType }) {
+  return inputObjectType === 'data' && command.type === 'patch';
 };
 
 // `data.id` is optional in createOne|createMany
-const isCreateId = function ({ action }, { defName, inputObjectType }) {
+const isCreateId = function ({ command }, { defName, inputObjectType }) {
   return inputObjectType === 'data' &&
-    action.type === 'create' &&
+    command.type === 'create' &&
     defName === 'id';
 };
 
