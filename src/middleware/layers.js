@@ -92,6 +92,7 @@ const middlewareLayers = [
       action.parseActions,
       // Add `action.command` and `action.modelName`
       action.parseModels,
+      // Validate client-supplied args
       action.validateArgs,
       action.renameArgs,
       action.parseDataArg,
