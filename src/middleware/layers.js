@@ -94,6 +94,7 @@ const middlewareLayers = [
       action.parseModels,
       // Validate client-supplied args
       action.validateArgs,
+      // Change arguments cases to camelCase
       action.renameArgs,
       action.parseDataArg,
       action.parseCascade,
