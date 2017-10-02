@@ -98,6 +98,7 @@ const middlewareLayers = [
       action.renameArgs,
       // Parse `args.data` into write actions
       action.parseDataArg,
+      // Parse `args.cascade` into a set of delete nested actions
       action.parseCascade,
       action.parseOrderBy,
       action.validateUnknownAttrs,
