@@ -120,6 +120,7 @@ const middlewareLayers = [
       // Fire all read actions
       action.resolveReadActions,
 
+      // Remove nested `args.data` not present in `args.select`
       action.removeNestedWrite,
       action.removeDuplicateResults,
       action.sortResults,
