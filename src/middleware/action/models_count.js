@@ -2,6 +2,9 @@
 
 const { uniq } = require('lodash');
 
+// Add `modelsCount` and `uniqueModelsCount`
+// `modelsCount` is the number of models in the response
+// `uniqueModelsCount` is the same, without the duplicates
 const getModelsCount = function ({ results }) {
   const modelsCount = results.length;
   const uniqueModelsCount = getUniqueModelsCount({ results });
