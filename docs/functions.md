@@ -54,7 +54,7 @@ The following variables are available:
   - `$OPERATION` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
   - `$MODEL` `{string}`: name of the [model](models.md), e.g. `user`
-  - `$ARGS` `{object}`: arguments passed by client to the specific action
+  - `$ARGS` `{object}`: arguments passed by client to the request
   - `$COMMAND` `{string}`: current command, among `create`, `find`, `replace`,
     `patch` or `delete`
   - `$` `{any}`: value of current attribute

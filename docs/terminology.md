@@ -24,16 +24,6 @@ Requests/responses are passed through a series of functions called middleware.
 Group of middleware. Layers follow each other in a stack, i.e. a request go
 from the first layer to the last one, and a response does the opposite.
 
-There are six layers:
-  - initial: setup things like error handling
-  - protocol: handle protocol-related things like query variables, URL, headers,
-    payload, routing. Abstracts away protocol from next layers
-  - operation: parse GraphQL-related information into actions.
-    Abstracts away GraphQL from next layers.
-  - action: convert CRUD action into generic commands
-  - command: apply transformations, default values, pagination, etc.
-  - database: perform the actual database query. Also perform data validation.
-
 Each layer has its own format, which is converted between layers by middleware
 called convertors.
 
@@ -68,24 +58,24 @@ Main semantics of the request, e.g. "GraphQL query", "GraphiQL debugging" or
 
 ## GraphQL method
 
-`query` or `mutation`. The first is for `find` CRUD action, the second for all
+`query` or `mutation`. The first is for `find` CRUD command, the second for all
 others.
-
-## Action
-
-Conceptually a high-level database query, from a client perspective.
-
-E.g. in GraphQL, `findUsers(...) { ... }`
 
 ## Args
 
-Options passed to an action
+Options passed to a request
+
+## Action
+
+A sets a commands, tied to a specific command type.
+
+E.g. in GraphQL, `findUsers(...) { ... }`
 
 ## Command
 
 Actual database query, from a server perspective. An action is converted to
-one or several commands. E.g. an `patch` action actually performs two
-commands: first a `find` command, then an `patch` command.
+one or several commands. E.g. a `patch` command will first trigger a `find`
+command to query the current models to patch.
 
 ## IDL functions
 

@@ -12,7 +12,7 @@ Finally, clients can see the GraphQL schema as HTML at
 
 # Read queries
 
-To retrieve a specific model, e.g. `user` use the action `find` followed by
+To retrieve a specific model, e.g. `user` use the command `find` followed by
 the model name in plural. It is similar to REST's `GET` method.
 E.g. the following query:
 
@@ -37,7 +37,7 @@ will respond with:
 }
 ```
 
-To retrieve only one model, use the action `find` followed by the model name
+To retrieve only one model, use the command `find` followed by the model name
 in singular, and specify the model `id`, e.g.:
 
 ```graphql
@@ -62,14 +62,14 @@ will respond with:
 }
 ```
 
-The difference between singular and plural actions is similar to REST's
+The difference between singular and plural commands is similar to REST's
 `GET /models/id` vs `GET /models`.
 
 # Write queries
 
-The following actions are also available.
+The following commands are also available.
 
-`delete` action (similar to REST's `DELETE` method):
+`delete` command (similar to REST's `DELETE` method):
 
 ```graphql
 mutation {
@@ -89,7 +89,7 @@ mutation {
 }
 ```
 
-`patch` action performs a partial modification (i.e. a patch) (similar to
+`patch` command performs a partial modification (i.e. a patch) (similar to
 REST's `PATCH` method):
 
 ```graphql
@@ -110,7 +110,7 @@ mutation {
 }
 ```
 
-`replace` action performs a full modification (similar to REST's `PUT` method):
+`replace` command performs a full modification (similar to REST's `PUT` method):
 
 ```graphql
 mutation {
@@ -130,7 +130,7 @@ mutation {
 }
 ```
 
-`create` action (similar to REST's `POST` method):
+`create` command (similar to REST's `POST` method):
 
 ```graphql
 mutation {
@@ -153,16 +153,16 @@ mutation {
 # Modifying data
 
 One specifies the data to mutate with `data`, which is either an array
-(for plural actions) or an object (for singular actions).
+(for plural commands) or an object (for singular commands).
 
-It can be used by the following actions: `create`, `replace` and `patch`.
+It can be used by the following commands: `create`, `replace` and `patch`.
 
 `data.id` is required for `replace`, optional for `create`
 (it defaults to a UUID) and forbidden for `patch`.
 
-`patch` action `data` is a bit different, as it is never an array.
+`patch` command `data` is a bit different, as it is never an array.
 
-# Summary of actions
+# Summary of commands
 
 ```graphql
 find_model({ filter: { id }, [silent] })
