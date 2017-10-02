@@ -56,10 +56,10 @@ const findSerialResults = function ({ results, action }) {
 
 const serialResultMatches = function ({
   result: { path },
-  action: { actionPath },
+  action: { commandPath },
 }) {
   const pathA = removeIndexes({ path });
-  return isEqual(actionPath, pathA);
+  return isEqual(commandPath, pathA);
 };
 
 const removeIndexes = function ({ path }) {

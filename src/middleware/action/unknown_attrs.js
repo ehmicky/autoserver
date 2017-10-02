@@ -19,7 +19,7 @@ const validateAction = function ({ action, modelsMap }) {
 };
 
 const validateAllAttr = function ({
-  action: { select = [], actionPath, modelName },
+  action: { select = [], commandPath, modelName },
   modelsMap,
 }) {
   const hasAllAttr = select.some(({ key }) => key === 'all');
@@ -30,7 +30,7 @@ const validateAllAttr = function ({
     .find(({ key }) => modelsMap[modelName][key].target === undefined);
   if (attr === undefined) { return; }
 
-  const path = actionPath.join('.');
+  const path = commandPath.join('.');
   const message = `At '${path}': cannot specify both 'all' and '${attr.key}' attributes`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
@@ -78,14 +78,14 @@ const argsToValidate = [
 
 const validateUnknownArg = function ({
   keys,
-  action: { actionPath, modelName },
+  action: { commandPath, modelName },
   modelsMap,
   name,
 }) {
   const keyA = keys.find(key => modelsMap[modelName][key] === undefined);
   if (keyA === undefined) { return; }
 
-  const path = [...actionPath, keyA]
+  const path = [...commandPath, keyA]
     .slice(1)
     .join('.');
   const message = `In argument '${name}', attribute '${path}' is unknown`;

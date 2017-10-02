@@ -15,11 +15,11 @@ const parseTopAction = function ({
 }) {
   const { actionConstant, modelName } = getModelInfo({ action, modelsMap });
 
-  const actionPath = [action];
+  const commandPath = [action];
 
   const argsA = { ...protocolArgs, ...args };
 
-  const top = { actionConstant, modelName, actionPath, args: argsA };
+  const top = { actionConstant, modelName, commandPath, args: argsA };
   return { top, topArgs: top.args };
 };
 

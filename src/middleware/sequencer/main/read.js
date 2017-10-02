@@ -90,15 +90,15 @@ const singleSequenceRead = async function ({
 
 const getActionInput = function ({
   action: {
-    actionPath,
+    commandPath,
     actionConstant: { type: actionType },
   },
   results,
 }) {
-  const isTopLevel = actionPath.length === 1;
+  const isTopLevel = commandPath.length === 1;
   const actionConstant = getActionConstant({ actionType, isArray: true });
 
-  const parentPath = actionPath.slice(0, -1);
+  const parentPath = commandPath.slice(0, -1);
   const parentResults = results.filter(({ path, promise }) => {
     if (promise !== undefined) { return false; }
 
@@ -106,7 +106,7 @@ const getActionInput = function ({
     return isEqual(pathA, parentPath);
   });
 
-  const actionName = actionPath[actionPath.length - 1];
+  const actionName = commandPath[commandPath.length - 1];
   const nestedParentIds = parentResults.map(({ model }) => model[actionName]);
   const parentIds = nestedParentIds
     .reduce(assignArray, [])
@@ -199,7 +199,7 @@ const getConcurrentResults = function ({ ids, results, modelName }) {
 };
 
 const fireReadAction = async function ({
-  action: { actionPath, modelName, internal = false },
+  action: { commandPath, modelName, internal = false },
   mInput,
   nextLayer,
   actionConstant,
@@ -215,7 +215,7 @@ const fireReadAction = async function ({
   const mInputA = {
     ...mInput,
     action: actionConstant,
-    actionPath: actionPath.join('.'),
+    commandPath: commandPath.join('.'),
     modelName,
     args: argsB,
     command,

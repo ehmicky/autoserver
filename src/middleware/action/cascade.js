@@ -31,27 +31,27 @@ const getCascadeActions = function ({ cascade, top, modelsMap }) {
 
 const normalizeCascade = function ({ attrName, top, top: { actionConstant } }) {
   const attrs = attrName.split('.');
-  const actionPath = [...top.actionPath, ...attrs];
-  return { actionPath, actionConstant, args: {} };
+  const commandPath = [...top.commandPath, ...attrs];
+  return { commandPath, actionConstant, args: {} };
 };
 
 const addModelName = function ({
-  cascade: { actionPath, ...rest },
+  cascade: { commandPath, ...rest },
   top,
   modelsMap,
 }) {
-  const model = getModel({ modelsMap, top, actionPath });
+  const model = getModel({ modelsMap, top, commandPath });
 
-  validateCascade({ model, actionPath });
+  validateCascade({ model, commandPath });
 
   const { modelName } = model;
-  return { ...rest, actionPath, modelName };
+  return { ...rest, commandPath, modelName };
 };
 
-const validateCascade = function ({ model, actionPath }) {
+const validateCascade = function ({ model, commandPath }) {
   if (model !== undefined) { return; }
 
-  const attrName = actionPath.slice(1).join('.');
+  const attrName = commandPath.slice(1).join('.');
   const message = attrName === ''
     ? '\'cascade\' argument cannot contain empty attributes'
     : `In 'cascade' argument, attribute '${attrName}' is unknown`;

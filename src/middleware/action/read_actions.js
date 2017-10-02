@@ -31,10 +31,10 @@ const getReadActions = function ({ actions, top }) {
 
 const getReadAction = function ({
   action,
-  action: { actionPath, actionConstant: { type: actionType, multiple } },
+  action: { commandPath, actionConstant: { type: actionType, multiple } },
   top,
 }) {
-  const isTopLevel = isEqual(top.actionPath, actionPath);
+  const isTopLevel = isEqual(top.commandPath, commandPath);
 
   if (!isTopLevel) {
     return actionType === 'find' ? [action] : [];
@@ -107,9 +107,9 @@ const getChildActions = function ({ parentAction, actions }) {
 
 const isChildAction = function ({
   parentAction,
-  parentAction: { actionPath: parentPath },
+  parentAction: { commandPath: parentPath },
   childAction,
-  childAction: { actionPath: childPath },
+  childAction: { commandPath: childPath },
 }) {
   return childAction !== parentAction &&
     childPath.length > parentPath.length &&
@@ -140,26 +140,26 @@ const createMidChildren = function ({
 };
 
 const createMidChild = function ({
-  parentAction: { actionPath: parentPath },
+  parentAction: { commandPath: parentPath },
   childAction,
-  childAction: { actionPath: childPath },
+  childAction: { commandPath: childPath },
   childActions,
   top,
   modelsMap,
 }) {
-  const actionPath = childPath.slice(0, parentPath.length + 1);
+  const commandPath = childPath.slice(0, parentPath.length + 1);
   const isDirectChild = childPath.length === parentPath.length + 1;
   // Means the intermediate actions is missing
   const alreadyPresent = childActions
-    .some(action => isEqual(action.actionPath, actionPath));
+    .some(action => isEqual(action.commandPath, commandPath));
 
   if (isDirectChild || alreadyPresent) {
     return [childAction];
   }
 
   // Create intermediate action
-  const { modelName } = getModel({ modelsMap, top, actionPath });
-  const midChild = { ...childAction, actionPath, modelName };
+  const { modelName } = getModel({ modelsMap, top, commandPath });
+  const midChild = { ...childAction, commandPath, modelName };
   return [midChild, childAction];
 };
 
