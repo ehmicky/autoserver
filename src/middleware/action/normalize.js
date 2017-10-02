@@ -3,19 +3,24 @@
 const { mergeArrayReducer, mapValues, omit } = require('../../utilities');
 
 const normalizeActions = function ({
-  operationDef: { action, args: { select, ...args } },
+  operationDef: { commandName, args: { select, ...args } },
 }) {
   const actionsA = select
     .split(',')
-    .map(parseSelect.bind(null, action))
+    .map(parseSelect.bind(null, commandName))
     .reduce(mergeArrayReducer('commandPath'), {});
   const actionsB = mapValues(actionsA, actions => normalize({ args, actions }));
   const actionsC = Object.values(actionsB);
   return { actions: actionsC };
 };
 
-const parseSelect = function (action, select) {
-  const [, commandPath, key, alias] = selectRegExp.exec(`${action}.${select}`);
+const parseSelect = function (commandName, select) {
+  const [
+    ,
+    commandPath,
+    key,
+    alias,
+  ] = selectRegExp.exec(`${commandName}.${select}`);
   return { commandPath, key, alias };
 };
 
