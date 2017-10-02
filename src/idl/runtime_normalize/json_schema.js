@@ -1,6 +1,6 @@
 'use strict';
 
-const { COMMANDS } = require('../../constants');
+const { COMMAND_TYPES } = require('../../constants');
 const { omit, mapValues, assignObject } = require('../../utilities');
 const { compile } = require('../../json_validation');
 
@@ -22,7 +22,7 @@ const compileJsonSchema = function ({
 };
 
 const compileSchemaByModel = function ({ idl }, schema) {
-  return COMMANDS
+  return COMMAND_TYPES
     .map(compileSchemaByCommand.bind(null, { schema, idl }))
     .reduce(assignObject, {});
 };
