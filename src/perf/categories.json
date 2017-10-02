@@ -10,6 +10,7 @@
   "protocol",
   "operation",
   "action",
+  "sequencer",
   "command",
   "database",
   "final"
