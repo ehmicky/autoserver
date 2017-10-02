@@ -11,9 +11,12 @@ const databaseExecute = async function ({
   // A response was already set, e.g. by the dryrun middleware
   if (response !== undefined) { return; }
 
+  // `patch` command behaves like `replace`, so we simplify adapters here
+  const commandA = command === 'patch' ? 'replace' : command;
+
   const commandInput = {
     modelName,
-    command,
+    command: commandA,
     filter,
     newData,
     orderBy,

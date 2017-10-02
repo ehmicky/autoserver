@@ -9,8 +9,8 @@ const ACTIONS = [
   { name: 'createMany', type: 'create', multiple: true, command: 'create' },
   { name: 'replaceOne', type: 'replace', multiple: false, command: 'replace' },
   { name: 'replaceMany', type: 'replace', multiple: true, command: 'replace' },
-  { name: 'patchOne', type: 'patch', multiple: false, command: 'replace' },
-  { name: 'patchMany', type: 'patch', multiple: true, command: 'replace' },
+  { name: 'patchOne', type: 'patch', multiple: false, command: 'patch' },
+  { name: 'patchMany', type: 'patch', multiple: true, command: 'patch' },
   { name: 'deleteOne', type: 'delete', multiple: false, command: 'delete' },
   { name: 'deleteMany', type: 'delete', multiple: true, command: 'delete' },
 ];

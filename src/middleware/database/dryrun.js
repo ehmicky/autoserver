@@ -19,7 +19,7 @@ const getCreateReadCommand = function ({ args: { newData } }) {
   return { response: { data: newData } };
 };
 
-// `replace` commands reuse `args.newData` as is
+// `replace` and `patch` commands reuse `args.newData` as is
 const useNewData = function ({ args: { newData } }) {
   return { response: { data: newData } };
 };
@@ -28,6 +28,7 @@ const dryRunByCommand = {
   delete: getDeleteReadCommand,
   create: getCreateReadCommand,
   replace: useNewData,
+  patch: useNewData,
 };
 
 module.exports = {
