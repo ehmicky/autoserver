@@ -2,7 +2,7 @@
 
 module.exports = {
   ...require('./top'),
-  ...require('./normalize'),
+  ...require('./parse_actions'),
   ...require('./models'),
   ...require('./validate_args'),
   ...require('./rename_args'),
