@@ -2,7 +2,8 @@
 
 const { throwError } = require('../../error');
 
-// Normalize args.orderBy, e.g. 'a,b+,c-' would become:
+// Parse `args.orderBy` from a string to an array of objects
+// E.g. 'a,b+,c-' would become:
 //   [
 //     { attrName: 'a', order: 'asc' },
 //     { attrName: 'b', order: 'asc' },
@@ -31,7 +32,7 @@ const parseOrderByArg = function ({ orderBy }) {
     .replace(/\s+/g, '')
     // Multiple attributes sorting
     .split(',')
-    // Transform to objects
+    // Transform each attribute to an object
     .map(getPart);
   const orderByB = addIdSorting({ orderBy: orderByA });
   return orderByB;
@@ -55,10 +56,10 @@ const getPart = function (part) {
 const partsPostfixRegexp = /^([^+-]+)(\+|-)?$/;
 
 // `orderBy` always include an id sorting. The reasons:
-//   - make output predictable, the same request should always get
+//   - it makes output predictable, the same request should always get
 //     the same response
 //   - the pagination layer needs this predictability
-// If an id sorting is already specified, do not need to do anything
+// If an `id` sorting is already specified, it does not add anything
 const addIdSorting = function ({ orderBy }) {
   const hasId = orderBy.some(({ attrName }) => attrName === idOrder.attrName);
   if (hasId) { return orderBy; }
