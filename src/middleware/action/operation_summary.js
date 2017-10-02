@@ -11,7 +11,7 @@ const getOperationSummary = function ({
   top: { actionConstant: { type: topType }, commandPath: topCommandPath },
   commandPath = topCommandPath,
 }) {
-  const actionName = commandPath[commandPath.length - 1];
+  const commandName = commandPath[commandPath.length - 1];
 
   const childActions = actions.filter(
     ({ commandPath: childPath, actionConstant }) =>
@@ -21,7 +21,7 @@ const getOperationSummary = function ({
   );
 
   if (childActions.length === 0) {
-    return { operationSummary: actionName };
+    return { operationSummary: commandName };
   }
 
   const childActionsStr = childActions
@@ -29,7 +29,7 @@ const getOperationSummary = function ({
       getOperationSummary({ commandPath: childPath, actions, top })
     )
     .join(',');
-  const operationSummary = `${actionName}{${childActionsStr}}`;
+  const operationSummary = `${commandName}{${childActionsStr}}`;
 
   return { operationSummary };
 };

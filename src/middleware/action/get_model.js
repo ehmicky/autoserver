@@ -17,11 +17,11 @@ const getModel = function ({
 };
 
 const findModel = function ({ modelsMap, modelName, commandPath }) {
-  const [actionName, ...childCommandPath] = commandPath;
+  const [commandName, ...childCommandPath] = commandPath;
 
-  if (!modelsMap[modelName][actionName]) { return; }
+  if (!modelsMap[modelName][commandName]) { return; }
 
-  const { target: childModelName, isArray } = modelsMap[modelName][actionName];
+  const { target: childModelName, isArray } = modelsMap[modelName][commandName];
 
   if (childCommandPath.length > 0) {
     return findModel({
