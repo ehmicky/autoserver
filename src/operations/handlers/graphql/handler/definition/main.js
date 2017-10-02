@@ -9,10 +9,10 @@ const { parseSelects } = require('./select');
 const parseOperationDef = function ({ mainDef, variables, fragments }) {
   const mainSelection = getMainSelection({ mainDef });
 
-  const { name: { value: action } } = mainSelection;
+  const { name: { value: commandName } } = mainSelection;
   const argsA = getArgs({ mainSelection, variables, fragments });
 
-  return { action, args: argsA };
+  return { commandName, args: argsA };
 };
 
 const getMainSelection = function ({
