@@ -3,8 +3,8 @@
 const { throwError } = require('../error');
 
 const ACTIONS = [
-  { name: 'findOne', type: 'find', multiple: false, command: 'read' },
-  { name: 'findMany', type: 'find', multiple: true, command: 'read' },
+  { name: 'findOne', type: 'find', multiple: false, command: 'find' },
+  { name: 'findMany', type: 'find', multiple: true, command: 'find' },
   { name: 'createOne', type: 'create', multiple: false, command: 'create' },
   { name: 'createMany', type: 'create', multiple: true, command: 'create' },
   { name: 'replaceOne', type: 'replace', multiple: false, command: 'replace' },

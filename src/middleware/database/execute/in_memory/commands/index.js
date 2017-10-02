@@ -2,7 +2,7 @@
 
 module.exports = {
   ...require('./create'),
-  ...require('./read'),
+  ...require('./find'),
   ...require('./replace'),
   ...require('./delete'),
 };

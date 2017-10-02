@@ -2,20 +2,20 @@
 
 // Make write commands not change data, if argument `dryrun` is used
 const applyDryRun = function ({ args: { dryrun }, args, command }) {
-  if (!dryrun || command === 'read') { return; }
+  if (!dryrun || command === 'find') { return; }
 
   return dryRunByCommand[command]({ args });
 };
 
-// `delete` commands becomes read commands
-const getDeleteReadCommand = function () {
-  return { command: 'read' };
+// `delete` commands becomes `find` commands
+const getDeleteFindCommand = function () {
+  return { command: 'find' };
 };
 
-// `create` commands becomes read commands, that succeeds if an exception
+// `create` commands becomes `find` commands, that succeeds if an exception
 // is thrown.
 // TODO
-const getCreateReadCommand = function ({ args: { newData } }) {
+const getCreateFindCommand = function ({ args: { newData } }) {
   return { response: { data: newData } };
 };
 
@@ -25,8 +25,8 @@ const useNewData = function ({ args: { newData } }) {
 };
 
 const dryRunByCommand = {
-  delete: getDeleteReadCommand,
-  create: getCreateReadCommand,
+  delete: getDeleteFindCommand,
+  create: getCreateFindCommand,
   replace: useNewData,
   patch: useNewData,
 };

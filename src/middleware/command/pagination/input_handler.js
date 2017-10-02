@@ -36,11 +36,11 @@ const { getPaginationInput } = require('./input');
 // Actions:
 //  - output is paginated with any action returning an array of response
 //    and do not using an array of args.data, i.e.
-//    readMany, deleteMany or patchMany
+//    findMany, deleteMany or patchMany
 //  - consumer can iterate the pagination with safe command returning an
-//    array of response, i.e. readMany
+//    array of response, i.e. findMany
 //  - this means replace and delete commands will paginate output,
-//    but to iterate through the next batches, readMany must be used
+//    but to iterate through the next batches, findMany must be used
 const handlePaginationInput = function ({
   args,
   command,

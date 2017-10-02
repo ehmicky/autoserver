@@ -8,7 +8,7 @@ const allowFullPagination = function ({ args, command }) {
     !isPaginationDisabled({ args });
 };
 
-const fullPaginationCommands = ['read'];
+const fullPaginationCommands = ['find'];
 
 // Whether output will be paginated
 const mustPaginateOutput = function ({ args }) {

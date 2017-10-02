@@ -10,7 +10,7 @@ const normalizeCommands = function (model) {
 // By default, include all commands
 const defaultCommands = [
   'create',
-  'read',
+  'find',
   'replace',
   'delete',
 ];

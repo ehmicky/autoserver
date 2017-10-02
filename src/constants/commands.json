@@ -1,6 +1,6 @@
 [
   "create",
-  "read",
+  "find",
   "replace",
   "patch",
   "delete"
