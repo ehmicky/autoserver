@@ -14,7 +14,7 @@ const defaults = {
   // 'patch' is always sorted by 'id', i.e. user cannot specify it
   // The reason: it might otherwise iterate over the same models
   // For 'delete', sorting is an unnecessary feature, so we keep it similar to
-  // 'patch' action.
+  // 'patch' command.
   orderBy: {
     commands: ['find', 'delete'],
     value: [{ attrName: 'id', order: 'asc' }],

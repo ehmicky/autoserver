@@ -1,7 +1,7 @@
 'use strict';
 
 // Build message of events of type `request` as:
-//  STATUS [ERROR] - PROTOCOL METHOD /PATH ACTION...
+//  STATUS [ERROR] - PROTOCOL METHOD /PATH COMMAND...
 const getRequestMessage = function ({
   protocol,
   method,

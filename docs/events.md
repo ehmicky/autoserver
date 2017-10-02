@@ -204,8 +204,6 @@ event payload, with the properties:
     if it is an array
   - `commandPath` `{string}` - [action](terminology.md#action) full path,
     e.g. `'findModel.findSubmodel'`
-  - `action` `${string}` - current [action](terminology.md#action),
-    among `'find'`, `'patch'`, `'delete'`, `'create'` and `'replace'`.
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'find'`, `'replace'`, `'patch'` and `'delete'`.
   - `model` `${string}` - current [model](terminology.md#model) name
@@ -218,8 +216,8 @@ event payload, with the properties:
   - `uniqueModelsCount` `{number}` - same as `modelsCount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error
 
-The properties `commandPath`, `action`, `command` and `model` are only
-set if the request failed while performing an action or command.
+The properties `commandPath`, `command` and `model` are only
+set if the request failed while performing a command.
 
 The `...Size` properties are not set if the related value is undefined, and set
 to `unknown` if the value is not JSON.
@@ -249,7 +247,7 @@ The possible properties are:
 Default values:
   - `queryVars`, `headers`: `false`,
     i.e. this information is not included in event payloads.
-  - `payload`, `argData`, `actionResponses`, `responses`: only keep `id`.
+  - `payload`, `argData`, `response`: only keep `id`.
 
 # Performance monitoring
 

@@ -24,7 +24,6 @@ const buildRequestInfo = function ({
   operationSummary,
   topArgs: args,
   commandPath,
-  action: { name: action } = {},
   command,
   modelName: model,
   response: {
@@ -58,7 +57,6 @@ const buildRequestInfo = function ({
     operationSummary,
     args,
     commandPath,
-    action,
     command,
     model,
     response,

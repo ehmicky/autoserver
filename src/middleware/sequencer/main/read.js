@@ -214,7 +214,6 @@ const fireReadAction = async function ({
   const { type } = COMMANDS.find(COMMAND => command === COMMAND);
   const mInputA = {
     ...mInput,
-    action: command,
     commandPath: commandPath.join('.'),
     modelName,
     args: argsB,

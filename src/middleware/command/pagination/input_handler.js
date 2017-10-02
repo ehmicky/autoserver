@@ -33,8 +33,8 @@ const { getPaginationInput } = require('./input');
 //                                 { c: 30, a: { gt: 10 }, b: { gt: 20 } }
 //   orderBy                    - same as `filter` but for `orderBy`
 // Add metadata: token, page_size, has_previous_page, has_previous_page
-// Actions:
-//  - output is paginated with any action returning an array of response
+// Commands:
+//  - output is paginated with any command returning an array of response
 //    and do not using an array of args.data, i.e.
 //    findMany, deleteMany or patchMany
 //  - consumer can iterate the pagination with safe command returning an

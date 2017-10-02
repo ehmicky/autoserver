@@ -31,7 +31,6 @@ additional properties:
       - `queryVars` `{object}`
       - `operation` `{string}`
       - `operation_summary` `{string}`
-      - `action` `{string}`
       - `command_path` `{string}`
       - `model` `{string}`
       - `args` `{object}`
