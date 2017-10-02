@@ -1,27 +1,34 @@
 'use strict';
 
+// Turn a `commandPath` into a `modelName`, using IDL information
 const getModel = function ({
+  commandPath,
   modelsMap,
   top: { modelName, command: { multiple } },
-  commandPath,
 }) {
   const commandPathA = commandPath
+    // The first element is the top-level `commandName`, not useful here
     .slice(1)
+    // Ignore array indices
     .filter(key => typeof key !== 'number');
 
+  // This means this is the top-level action
   if (commandPathA.length === 0) {
-    return { modelName, isArray: multiple };
+    return { modelName, multiple };
   }
 
   return findModel({ modelsMap, modelName, commandPath: commandPathA });
 };
 
+// Recurse over `modelsMap`, using `commandPath`
 const findModel = function ({ modelsMap, modelName, commandPath }) {
   const [commandName, ...childCommandPath] = commandPath;
+  const model = modelsMap[modelName][commandName];
 
-  if (!modelsMap[modelName][commandName]) { return; }
+  // Erronous `commandPath`
+  if (model === undefined) { return; }
 
-  const { target: childModelName, isArray } = modelsMap[modelName][commandName];
+  const { target: childModelName, isArray } = model;
 
   if (childCommandPath.length > 0) {
     return findModel({
@@ -31,7 +38,7 @@ const findModel = function ({ modelsMap, modelName, commandPath }) {
     });
   }
 
-  return { modelName: childModelName, isArray };
+  return { modelName: childModelName, multiple: isArray };
 };
 
 module.exports = {

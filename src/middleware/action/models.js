@@ -5,7 +5,8 @@ const { getCommand } = require('../../constants');
 
 const { getModel } = require('./get_model');
 
-// Add `action.command` and `action.modelName`
+// Add `action.command` and `action.modelName`,
+// using `action.commandPath`, `top.command` and `top.modelName`
 const parseModels = function ({
   actions,
   top,
@@ -23,28 +24,30 @@ const parseAction = function ({ action, top, modelsMap }) {
   return parser({ action, top, modelsMap });
 };
 
-// Parse a top-level commandName into tokens.
-// E.g. `findMyModels` -> { commandType: 'find', modelName: 'my_models' }
+// Top-level action was already parsed by previous middleware
 const parseTopLevelAction = function ({ action, top: { command, modelName } }) {
   return { ...action, command, modelName };
 };
 
+// Nested actions use their `commandPath`, by going through the `modelsMap`
+// shortcut
 const parseNestedAction = function ({
   action,
   action: { commandPath },
   top,
   modelsMap,
 }) {
-  const model = getModel({ modelsMap, top, commandPath });
+  const model = getModel({ commandPath, modelsMap, top });
 
-  if (!model) {
+  if (model === undefined) {
     const message = `Attribute '${commandPath.join('.')}' is unknown`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  const { modelName, isArray } = model;
+  const { modelName, multiple } = model;
 
-  const command = getCommand({ commandType: 'find', multiple: isArray });
+  // Nested actions created through `args.select` use `find` commands
+  const command = getCommand({ commandType: 'find', multiple });
 
   return { ...action, command, modelName };
 };
