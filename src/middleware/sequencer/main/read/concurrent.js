@@ -3,6 +3,11 @@
 // If another `find` command searching for the same models is currently running,
 // use its future results (for efficiency reasons) instead of running it.
 // The concurrent command might be ongoing or have already completed.
+// This also allow us to reuse the results of previous commands, both read and
+// write, which is useful for:
+//  - efficiency
+//  - output consistency, i.e. each model has a single representation for a
+//    given request
 const getConcurrentCommand = function ({ args, results, modelName }) {
   const ids = getIds(args);
   const concurrentResults = getConcurrentResults({ ids, results, modelName });
@@ -56,11 +61,7 @@ const removeConcurrentIds = function ({
 // the same model.
 const getPendingResults = function ({ args, results, modelName, promise }) {
   const ids = getIds(args);
-  const pendingResults = ids.map(id => ({
-    model: { id },
-    modelName,
-    promise,
-  }));
+  const pendingResults = ids.map(id => ({ model: { id }, modelName, promise }));
 
   // Since we are sharing between parallel calls, `results` must be a mutable
   // variable.

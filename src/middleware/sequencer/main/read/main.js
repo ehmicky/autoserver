@@ -6,7 +6,7 @@ const { getConcurrentCommand, getPendingResults } = require('./concurrent');
 const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
 
-// Fire all commands associated with a set read of actions
+// Fire all commands associated with a set of read actions
 const sequenceRead = async function (
   { actions = [], mInput, results = [] },
   nextLayer,
