@@ -49,11 +49,11 @@ const writeToReadAction = function (actions) {
     .map(({ id }) => id);
   const idsA = uniq(ids);
   const args = { filter: { id: idsA } };
-  const actionPath = mergeActionPaths({ actions });
+  const commandPath = mergeCommandPaths({ actions });
   const [{ modelName }] = actions;
 
   return {
-    actionPath: [actionPath],
+    commandPath: [commandPath],
     actionConstant: readAction,
     args,
     modelName,
@@ -61,10 +61,10 @@ const writeToReadAction = function (actions) {
   };
 };
 
-const mergeActionPaths = function ({ actions }) {
+const mergeCommandPaths = function ({ actions }) {
   return actions
     .reduce(
-      (actionPaths, { actionPath }) => [...actionPaths, actionPath.join('.')],
+      (commandPaths, { commandPath }) => [...commandPaths, commandPath.join('.')],
       [],
     )
     .join(', ');

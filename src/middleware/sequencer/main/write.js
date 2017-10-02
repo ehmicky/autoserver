@@ -41,13 +41,13 @@ const singleSequenceWrite = async function ({
   if (ids.length === 0) { return []; }
 
   const argsB = handler.getCurrentData({ actions, args: argsA, ids });
-  const actionPath = mergeActionPaths({ actions });
+  const commandPath = mergeCommandPaths({ actions });
   const command = findCommand({ actionConstant });
 
   const mInputA = {
     ...mInput,
     action: actionConstant,
-    actionPath,
+    commandPath,
     command,
     modelName,
     args: argsB,
@@ -156,10 +156,10 @@ const handlers = {
   delete: filterHandler,
 };
 
-const mergeActionPaths = function ({ actions }) {
+const mergeCommandPaths = function ({ actions }) {
   return actions
     .reduce(
-      (actionPaths, { actionPath }) => [...actionPaths, actionPath.join('.')],
+      (commandPaths, { commandPath }) => [...commandPaths, commandPath.join('.')],
       [],
     )
     .join(', ');

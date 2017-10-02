@@ -32,7 +32,7 @@ additional properties:
       - `operation` `{string}`
       - `operation_summary` `{string}`
       - `action` `{string}`
-      - `action_path` `{string}`
+      - `command_path` `{string}`
       - `model` `{string}`
       - `args` `{object}`
       - `command` `{string}`

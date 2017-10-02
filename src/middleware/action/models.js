@@ -17,7 +17,7 @@ const parseModels = function ({
 };
 
 const parseAction = function ({ action, top, modelsMap }) {
-  const parser = action.actionPath.length === 1
+  const parser = action.commandPath.length === 1
     ? parseTopLevelAction
     : parseNestedAction;
   return parser({ action, top, modelsMap });
@@ -34,14 +34,14 @@ const parseTopLevelAction = function ({
 
 const parseNestedAction = function ({
   action,
-  action: { actionPath },
+  action: { commandPath },
   top,
   modelsMap,
 }) {
-  const model = getModel({ modelsMap, top, actionPath });
+  const model = getModel({ modelsMap, top, commandPath });
 
   if (!model) {
-    const message = `Attribute '${actionPath.join('.')}' is unknown`;
+    const message = `Attribute '${commandPath.join('.')}' is unknown`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 

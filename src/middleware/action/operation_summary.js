@@ -8,14 +8,14 @@ const { isEqual } = require('lodash');
 const getOperationSummary = function ({
   actions,
   top,
-  top: { actionConstant: { type: topType }, actionPath: topActionPath },
-  actionPath = topActionPath,
+  top: { actionConstant: { type: topType }, commandPath: topCommandPath },
+  commandPath = topCommandPath,
 }) {
-  const actionName = actionPath[actionPath.length - 1];
+  const actionName = commandPath[commandPath.length - 1];
 
   const childActions = actions.filter(
-    ({ actionPath: childPath, actionConstant }) =>
-      isEqual(actionPath, childPath.slice(0, -1)) &&
+    ({ commandPath: childPath, actionConstant }) =>
+      isEqual(commandPath, childPath.slice(0, -1)) &&
       // In write actions, do not use child actions only used for selections
       actionConstant.type === topType
   );
@@ -25,8 +25,8 @@ const getOperationSummary = function ({
   }
 
   const childActionsStr = childActions
-    .map(({ actionPath: childPath }) =>
-      getOperationSummary({ actionPath: childPath, actions, top })
+    .map(({ commandPath: childPath }) =>
+      getOperationSummary({ commandPath: childPath, actions, top })
     )
     .join(',');
   const operationSummary = `${actionName}{${childActionsStr}}`;
