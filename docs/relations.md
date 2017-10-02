@@ -88,7 +88,7 @@ will respond with:
 }
 ```
 
-This is available for any action, including `delete`, `create`, etc.
+This is available for any command, including `delete`, `create`, etc.
 
 Populating nested models in output is distinct from
 [modifying](#modifying-nested-models) or [deleting](#deleting-nested-models)

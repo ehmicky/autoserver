@@ -1,8 +1,8 @@
 # Cursor pagination
 
-Plural actions are paginated by default.
+Plural commands are paginated by default.
 
-The default pagination system is cursor-based. A plural action will return
+The default pagination system is cursor-based. A plural command will return
 batches as:
 
 ```json

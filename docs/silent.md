@@ -2,10 +2,10 @@
 
 When requesting a silent output:
   - the response's data and metadata will be undefined
-  - the action will still be performed
+  - the command will still be performed
   - if there is any error, the error will still be present in the response
 
-Silent outputs can be requested using the `silent` argument with any action,
+Silent outputs can be requested using the `silent` argument with any command,
 e.g.:
 
 ```graphql

@@ -202,7 +202,7 @@ event payload, with the properties:
   - `args.dataSize` `{number}` - size of `data` argument, in bytes
   - `args.dataCount` `{number}` - array length of `data` argument,
     if it is an array
-  - `commandPath` `{string}` - [action](terminology.md#action) full path,
+  - `commandPath` `{string}` - [command](terminology.md#command) full path,
     e.g. `'findModel.findSubmodel'`
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'find'`, `'replace'`, `'patch'` and `'delete'`.

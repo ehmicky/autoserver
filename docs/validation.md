@@ -33,7 +33,7 @@ version 6:
     - for any attribute:
       - `const` `{any}`: must equal that value
       - `enum` `{any[]}`: must equal one of those values
-      - `required` `{boolean}`: checked on `replace` and `create` actions.
+      - `required` `{boolean}`: checked on `replace` and `create` commands.
       - `dependencies` `{string[]}`: attributes that are required
         for the current attribute to be defined.
     - used as combinators:

@@ -1,9 +1,9 @@
 # Filtering
 
-One can specify which model to target using a `filter`, for the actions
+One can specify which model to target using a `filter`, for the commands
 `find`, `delete` and `patch`.
 
-`filter.id` is required for singular actions that can use a filter.
+`filter.id` is required for singular commands that can use a filter.
 
 Filters look like this:
 
