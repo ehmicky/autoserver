@@ -2,9 +2,10 @@
 
 const { get, set, assignObject, mapValues } = require('../../utilities');
 
-// Only output the fields that were picked by the client
+// Applies `args.select`.
+// Only output the fields that were picked by the client.
 // Also rename fields if the output key is different from the database one,
-// e.g. using GraphQL "aliases"
+// e.g. using `select` `attr=alias`, including with GraphQL aliases.
 const selectFields = function ({ response, results }) {
   // Need to recurse through children first
   const responseA = results.reduceRight(selectFieldsByResult, response);

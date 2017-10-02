@@ -130,6 +130,7 @@ const middlewareLayers = [
       action.getModelsCount,
       // Merge all `results` into a single nested response, using `result.path`
       action.assembleResults,
+      // Applies `args.select`
       action.selectFields,
       action.parseResponse,
       // Operation-related output validation middleware
