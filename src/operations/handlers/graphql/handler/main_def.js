@@ -70,12 +70,12 @@ const validateOperationType = function ({ method, operation, name }) {
   const isFind = isFindQuery({ name });
 
   if (isFind && operation === 'mutation') {
-    const message = 'Cannot perform \'find\' actions with a GraphQL \'mutation\'';
+    const message = 'Cannot perform \'find\' commands with a GraphQL \'mutation\'';
     throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
   if (!isFind && operation === 'query') {
-    const message = 'Can only perform \'find\' actions with a GraphQL \'query\'';
+    const message = 'Can only perform \'find\' commands with a GraphQL \'query\'';
     throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 };

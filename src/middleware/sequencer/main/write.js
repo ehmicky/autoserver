@@ -46,7 +46,6 @@ const singleSequenceWrite = async function ({
 
   const mInputA = {
     ...mInput,
-    action: command,
     commandPath,
     command: commandA,
     modelName,
