@@ -55,8 +55,8 @@ The following variables are available:
     `graphqlprint`
   - `$MODEL` `{string}`: name of the [model](models.md), e.g. `user`
   - `$ARGS` `{object}`: arguments passed by client to the specific action
-  - `$COMMAND` `{string}`: current command, among `create`, `read`, `replace` or
-    `delete`
+  - `$COMMAND` `{string}`: current command, among `create`, `read`, `replace`,
+    `patch` or `delete`
   - `$` `{any}`: value of current attribute
     E.g. `'($ !== "John")'`
     checks whether `model.name !== 'John'`

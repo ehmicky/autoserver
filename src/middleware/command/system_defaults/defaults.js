@@ -7,16 +7,16 @@
 //    Can be a function taking the `run` options as first argument
 const defaults = {
   filter: {
-    commands: ['read', 'delete', 'replace'],
+    commands: ['read', 'delete'],
     value: {},
   },
 
-  // 'replace', 'delete' is always sorted by 'id', i.e. user cannot specify it
-  // The reason: paginated 'patch' might otherwise iterate over the same models
+  // 'patch' is always sorted by 'id', i.e. user cannot specify it
+  // The reason: it might otherwise iterate over the same models
   // For 'delete', sorting is an unnecessary feature, so we keep it similar to
   // 'patch' action.
   orderBy: {
-    commands: ['read', 'delete', 'replace'],
+    commands: ['read', 'delete'],
     value: [{ attrName: 'id', order: 'asc' }],
     test: ({ args }) => hasNoPaginationTokens({ args }),
   },
