@@ -105,6 +105,7 @@ const middlewareLayers = [
       // Validate that attributes in `args.select|data|filter|order_by`
       // are in the IDL
       action.validateUnknownAttrs,
+      // Retrieves `operationSummary`, i.e. summary of all actions
       action.getOperationSummary,
       action.sortActions,
 

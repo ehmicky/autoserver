@@ -24,8 +24,12 @@ const getOperationSummary = function ({
   }
 
   const childActionsStr = childActions
-    .map(({ commandPath: childPath }) =>
-      getOperationSummary({ commandPath: childPath, actions, top })
+    .map(
+      ({ commandPath: childPath }) => getOperationSummary({
+        commandPath: childPath,
+        actions,
+        top,
+      }).operationSummary
     )
     .join(',');
   const operationSummary = `${commandName}{${childActionsStr}}`;
