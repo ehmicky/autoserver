@@ -6,6 +6,7 @@ const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
 
+// Parse `args.cascade` into a set of delete nested actions
 const parseCascade = function ({
   actions,
   top,
@@ -29,12 +30,17 @@ const getCascadeActions = function ({ cascade, top, modelsMap }) {
   return actions;
 };
 
+// From `attr.child_attr` to:
+//   commandPath: ['commandName', 'attr', 'child_attr']
+//   command
+//   args: {}
 const normalizeCascade = function ({ attrName, top, top: { command } }) {
   const attrs = attrName.split('.');
   const commandPath = [...top.commandPath, ...attrs];
   return { commandPath, command, args: {} };
 };
 
+// Retrieve the `modelName` of each `args.cascade` attribute
 const addModelName = function ({
   cascade: { commandPath, ...rest },
   top,
