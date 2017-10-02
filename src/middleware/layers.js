@@ -88,7 +88,8 @@ const middlewareLayers = [
     layers: [
       // Parse a `operationDef` into a top-level action
       action.parseTopAction,
-      action.normalizeActions,
+      // Turn `args.select` into a set of actions
+      action.parseActions,
       action.parseModels,
       action.validateArgs,
       action.renameArgs,
