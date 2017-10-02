@@ -126,6 +126,7 @@ const middlewareLayers = [
       action.removeDuplicateResults,
       // Sort results so that top-level ones are processed first
       action.sortResults,
+      // Add `modelsCount` and `uniqueModelsCount`
       action.getModelsCount,
       action.assembleResults,
       action.selectFields,
