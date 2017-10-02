@@ -115,7 +115,9 @@ const middlewareLayers = [
       action.addCurrentData,
       // Merge `currentData` with the `args.data` in `patch` commands
       action.patchData,
+      // Fire all write actions
       action.resolveWriteActions,
+      // Fire all read actions
       action.resolveReadActions,
 
       action.removeNestedWrite,

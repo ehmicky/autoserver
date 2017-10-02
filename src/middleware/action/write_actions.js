@@ -3,6 +3,7 @@
 const { mergeArrayReducer } = require('../../utilities');
 const { getCommand } = require('../../constants');
 
+// Fire all write actions
 const resolveWriteActions = function (
   { actions, top, mInput },
   nextLayer,
@@ -18,11 +19,13 @@ const resolveWriteActions = function (
   });
 };
 
+// All write actions are normalized to be multiple
 const multiplyAction = function ({ command: { type: commandType }, ...rest }) {
   const command = getCommand({ commandType, multiple: true });
   return { ...rest, command };
 };
 
+// Group actions by model
 const getWriteActions = function ({ actions }) {
   const actionsA = actions.filter(({ command }) => command.type !== 'find');
   const actionsB = actionsA.reduce(mergeArrayReducer('modelName'), {});
