@@ -9,6 +9,7 @@ const {
 } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
 
+// Add `action.currentData` for `replace` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
   const actionsGroups = getWriteActions({ actions });
   const writeActions = writeToRead(actionsGroups);
@@ -21,9 +22,11 @@ const parallelResolve = async function ({ actions, mInput }, nextLayer) {
   return actionsA;
 };
 
+// Retrieve the `find` commands to perform, by using current `replace` actions
 const getWriteActions = function ({ actions }) {
   const writeActionsA = actions
     .filter(({ command }) => command.type !== 'find');
+  // Group commands by model
   const writeActionsB = writeActionsA.reduce(
     mergeArrayReducer('modelName'),
     {},
@@ -36,6 +39,8 @@ const writeToRead = function (actionsGroups) {
   return actionsGroups.map(writeToReadAction);
 };
 
+// Transform a `replace` command into a `find` command.
+// `args.data` becomes `args.filter`
 const writeToReadAction = function (actions) {
   const ids = actions
     .map(({ args: { data } }) => data)
@@ -55,25 +60,23 @@ const writeToReadAction = function (actions) {
   };
 };
 
+// Concatenate each `commandPath` since a single `find` command might be used
+// for several `args.data` objects.
 const mergeCommandPaths = function ({ actions }) {
   return actions
-    .reduce(
-      (commandPaths, { commandPath }) => [...commandPaths, commandPath.join('.')],
-      [],
-    )
+    .reduce((paths, { commandPath }) => [...paths, commandPath.join('.')], [])
     .join(', ');
 };
 
 const readCommand = getCommand({ commandType: 'find', multiple: true });
 
+// Fire the `find` commands, in parallel, to retrieve `currentData`
 const getCurrentDataMap = async function ({ writeActions, nextLayer, mInput }) {
   const actions = writeActions.map(parentAction => ({ parentAction }));
-  const { results } = await nextLayer({
-    ...mInput,
-    actionsGroupType: 'read',
-    actions,
-  });
+  const actionsGroupType = 'read';
+  const { results } = await nextLayer({ ...mInput, actionsGroupType, actions });
 
+  // Group `currentData` by model
   const currentDataMap = results.reduce(mergeArrayReducer('modelName'), {});
   const currentDataMapA = mapValues(currentDataMap, mapCurrentDataModel);
   return currentDataMapA;
@@ -83,6 +86,7 @@ const mapCurrentDataModel = function (results) {
   return results.map(({ model }) => model);
 };
 
+// Add `action.currentData`
 const addCurrentDataActions = function ({ actions, currentDataMap }) {
   return actions
     .map(action => addCurrentDataAction({ action, currentDataMap }));

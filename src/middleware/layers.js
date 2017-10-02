@@ -110,6 +110,8 @@ const middlewareLayers = [
       // Sort actions so that top-level ones are fired first
       action.sortActions,
 
+      // Add `action.currentData`
+      // and (for `patch|delete`) fix `action.dataPaths`
       action.addCurrentData,
       action.patchData,
       action.resolveWriteActions,
