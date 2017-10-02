@@ -2,6 +2,7 @@
 
 const { sortArray } = require('../../utilities');
 
+// Sort actions so that top-level ones are fired first
 const sortActions = function ({ actions }) {
   const actionsA = sortArray(actions, sortTwoActions);
   return { actions: actionsA };
