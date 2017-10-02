@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  ...require('./top_action'),
+  ...require('./top'),
   ...require('./normalize'),
   ...require('./models'),
   ...require('./validate_args'),

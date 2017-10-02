@@ -23,12 +23,9 @@ const parseAction = function ({ action, top, modelsMap }) {
   return parser({ action, top, modelsMap });
 };
 
-// Parse a top-level action name into tokens.
+// Parse a top-level commandName into tokens.
 // E.g. `findMyModels` -> { commandType: 'find', modelName: 'my_models' }
-const parseTopLevelAction = function ({
-  action,
-  top: { command, modelName },
-}) {
+const parseTopLevelAction = function ({ action, top: { command, modelName } }) {
   return { ...action, command, modelName };
 };
 

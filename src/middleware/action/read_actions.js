@@ -115,7 +115,7 @@ const isChildAction = function ({
 
 // When trying to find ancestors actions without trying to find their parent,
 // this creates the intermediate actions so that their parent is queried.
-// This can happen e.g. with delete actions's `args.cascade`
+// This can happen e.g. with delete commands' `args.cascade`
 // E.g. cascade="child.grand_child" needs to query "child" before querying
 // "child.grand_child" (so that it accesses parent value) during currentData
 // query, but only "child.grand_child" must be deleted.
