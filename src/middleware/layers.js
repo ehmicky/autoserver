@@ -122,6 +122,7 @@ const middlewareLayers = [
 
       // Remove nested `args.data` not present in `args.select`
       action.removeNestedWrite,
+      // Remove duplicate results between read and write actions
       action.removeDuplicateResults,
       action.sortResults,
       action.getModelsCount,
