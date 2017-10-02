@@ -12,11 +12,11 @@ const parseTopAction = function ({
   idl: { shortcuts: { modelsMap } },
   protocolArgs,
 }) {
-  const { commandType, modelName, pluralName } = parseModelName({
+  const { commandType, modelName, multiple } = parseModelName({
     commandName,
     modelsMap,
   });
-  const command = getTopCommand({ commandType, modelName, pluralName });
+  const command = getCommand({ commandType, multiple });
 
   const commandPath = [commandName];
 
@@ -34,6 +34,8 @@ const parseModelName = function ({ commandName, modelsMap }) {
   // Model name can be either in singular or in plural form in IDL
   const singularName = singular(modelName);
   const pluralName = plural(modelName);
+  const multiple = modelName === pluralName;
+
   const modelNameA = modelsMap[pluralName] ? pluralName : singularName;
 
   if (modelNameA === undefined) {
@@ -41,7 +43,7 @@ const parseModelName = function ({ commandName, modelsMap }) {
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  return { commandType, modelName: modelNameA, pluralName };
+  return { commandType, modelName: modelNameA, multiple };
 };
 
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];
@@ -52,8 +54,7 @@ const parseName = function ({ commandName }) {
 
 const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
-const getTopCommand = function ({ commandType, modelName, pluralName }) {
-  const multiple = modelName === pluralName;
+const getTopCommand = function ({ commandType, multiple }) {
   const command = getCommand({ commandType, multiple });
   return command;
 };
