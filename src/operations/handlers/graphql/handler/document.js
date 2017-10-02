@@ -4,30 +4,34 @@ const { parse } = require('graphql');
 
 const { throwError, addGenErrorHandler } = require('../../../../error');
 
-// Generic GraphQL parsing
+// Generic/raw GraphQL parsing
 const getGraphQLDocument = function ({ queryVars, payload }) {
-  // Parameters can be in either query variables or payload
-  // (including by using application/graphql)
   const payloadA = parsePayload({ payload });
+  // Parameters can be in either query variables or payload
   const { query, variables, operationName } = { ...queryVars, ...payloadA };
 
-  const queryDocument = eParseQuery({ query });
+  const queryDocument = parseQuery({ query });
 
   return { variables, operationName, queryDocument };
 };
 
+// GraphQL payload can either be:
+//   - a JSON with `query`, `variables` and `operationName`
+//     with MIME type application/json
+//   - the `query` directly, as a string with MIME type application/graphql
 const parsePayload = function ({ payload }) {
-  // MIME type: application/graphql
+  if (payload == null) { return; }
+
   if (typeof payload === 'string') {
     return { query: payload };
   }
 
-  // MIME type: application/json
-  if (payload && payload.constructor === Object) {
+  if (payload.constructor === Object) {
     return payload;
   }
 };
 
+// Transform GraphQL query string into AST
 const parseQuery = function ({ query }) {
   if (!query) {
     throwError('Missing GraphQL query');
@@ -36,11 +40,11 @@ const parseQuery = function ({ query }) {
   return parse(query);
 };
 
-const eParseQuery = addGenErrorHandler(parseQuery, {
+const eGetGraphQLDocument = addGenErrorHandler(getGraphQLDocument, {
   message: 'Could not parse GraphQL query',
   reason: 'SYNTAX_VALIDATION',
 });
 
 module.exports = {
-  getGraphQLDocument,
+  getGraphQLDocument: eGetGraphQLDocument,
 };

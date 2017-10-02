@@ -33,9 +33,9 @@ const getModelInfo = function ({ commandName, modelsMap }) {
 
   const modelNameB = modelsMap[pluralName] ? pluralName : singularName;
 
-  const command = getCommand({ commandType, multiple });
-
   validateCommand({ modelName: modelNameB, commandName });
+
+  const command = getCommand({ commandType, multiple });
 
   return { command, modelName: modelNameB };
 };

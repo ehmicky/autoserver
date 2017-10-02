@@ -6,8 +6,9 @@ const { parseArgs } = require('./args');
 const { applyDirectives } = require('./directive');
 const { parseSelects } = require('./select');
 
+// Transform GraphQL AST into operation-agnostic `operationDef`
 const parseOperationDef = function ({ mainDef, variables, fragments }) {
-  const mainSelection = getMainSelection({ mainDef });
+  const mainSelection = getMainSelection({ mainDef, variables });
 
   const { name: { value: commandName } } = mainSelection;
   const argsA = getArgs({ mainSelection, variables, fragments });
@@ -17,8 +18,10 @@ const parseOperationDef = function ({ mainDef, variables, fragments }) {
 
 const getMainSelection = function ({
   mainDef: { selectionSet: { selections } },
+  variables,
 }) {
-  const [mainSelection] = selections.filter(applyDirectives);
+  const [mainSelection] = selections
+    .filter(selection => applyDirectives({ selection, variables }));
   return mainSelection;
 };
 
@@ -28,7 +31,7 @@ const getArgs = function ({
   variables,
   fragments,
 }) {
-  const select = parseSelects({ selectionSet, fragments });
+  const select = parseSelects({ selectionSet, variables, fragments });
   const args = parseArgs({ mainSelection, variables });
 
   if (args.select !== undefined) {

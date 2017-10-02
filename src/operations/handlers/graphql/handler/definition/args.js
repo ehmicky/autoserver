@@ -3,6 +3,7 @@
 const { throwError } = require('../../../../../error');
 const { assignObject, mapValues } = require('../../../../../utilities');
 
+// Parse GraphQL arguments, for each possible argument type
 const parseArgs = function ({
   mainSelection: { arguments: fields },
   variables,
@@ -10,7 +11,6 @@ const parseArgs = function ({
   return parseObject({ fields, variables });
 };
 
-// Parse GraphQL arguments, for each possible argument type
 const parseObject = function ({ fields: args, variables }) {
   if (!args || args.length === 0) { return {}; }
 
@@ -32,6 +32,7 @@ const parseNumber = function ({ value }) {
   return Number(value);
 };
 
+// The only enum value we support is undefined, which is the same as null
 const parseEnum = function ({ value }) {
   if (value !== 'undefined') {
     const message = `'${value}' is an unknown constant`;
