@@ -11,7 +11,7 @@ module.exports = {
   ...require('./order_by'),
   ...require('./unknown_attrs'),
   ...require('./operation_summary'),
-  ...require('./sort_actions'),
+  ...require('./sort'),
 
   ...require('./current_data'),
   ...require('./patch_data'),
@@ -20,7 +20,6 @@ module.exports = {
 
   ...require('./remove_nested_write'),
   ...require('./duplicate_results'),
-  ...require('./sort_results'),
   ...require('./models_count'),
   ...require('./assemble'),
   ...require('./select'),
