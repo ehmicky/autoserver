@@ -3,7 +3,7 @@
 const { mergeArrayReducer } = require('../../utilities');
 const { getCommand } = require('../../constants');
 
-// Fire all write actions
+// Fire all write actions, retrieving some `results`
 const resolveWriteActions = function (
   { actions, top, mInput },
   nextLayer,

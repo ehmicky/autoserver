@@ -6,7 +6,7 @@ const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
 
-// Parse `args.cascade` into a set of delete nested actions
+// Parse `args.cascade` into a set of delete nested `actions`
 const parseCascade = function ({
   actions,
   top,

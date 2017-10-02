@@ -4,7 +4,7 @@ const { getDataPath } = require('./data_path');
 const { parseData } = require('./parse');
 const { mergeActions } = require('./merge');
 
-// Parse `args.data` into write actions
+// Parse `args.data` into write `actions`
 const parseDataArg = function ({
   actions,
   top,

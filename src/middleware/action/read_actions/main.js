@@ -3,7 +3,7 @@
 const { getReadActions } = require('./read');
 const { getParentActions } = require('./parent');
 
-// Fire all read actions.
+// Fire all read actions, retrieving some `results`.
 // Also fired by `currentData` middleware.
 const resolveReadActions = function (
   { actions, top, idl: { shortcuts: { modelsMap } }, mInput, results },

@@ -88,7 +88,7 @@ const middlewareLayers = [
     layers: [
       // Parse a `operationDef` into a top-level action
       action.parseTopAction,
-      // Turn `args.select` into a set of actions
+      // Turn `args.select` into a set of `actions`
       action.parseActions,
       // Add `action.command` and `action.modelName`
       action.parseModels,
@@ -96,18 +96,18 @@ const middlewareLayers = [
       action.validateArgs,
       // Change arguments cases to camelCase
       action.renameArgs,
-      // Parse `args.data` into write actions
+      // Parse `args.data` into write `actions`
       action.parseDataArg,
-      // Parse `args.cascade` into a set of delete nested actions
+      // Parse `args.cascade` into a set of delete nested `actions`
       action.parseCascade,
       // Parse `args.orderBy` from a string to an array of objects
       action.parseOrderBy,
       // Validate that attributes in `args.select|data|filter|order_by`
       // are in the IDL
       action.validateUnknownAttrs,
-      // Retrieves `operationSummary`, i.e. summary of all actions
+      // Retrieves `operationSummary`, i.e. summary of all `actions`
       action.getOperationSummary,
-      // Sort actions so that top-level ones are fired first
+      // Sort `actions` so that top-level ones are fired first
       action.sortActions,
 
       // Add `action.currentData`
@@ -115,19 +115,20 @@ const middlewareLayers = [
       action.addCurrentData,
       // Merge `currentData` with the `args.data` in `patch` commands
       action.patchData,
-      // Fire all write actions
+      // Fire all write actions, retrieving some `results`
       action.resolveWriteActions,
-      // Fire all read actions
+      // Fire all read actions, retrieving some `results`
       action.resolveReadActions,
 
       // Remove nested `args.data` not present in `args.select`
       action.removeNestedWrite,
-      // Remove duplicate results between read and write actions
+      // Remove duplicate `results` between read and write actions
       action.removeDuplicateResults,
-      // Sort results so that top-level ones are processed first
+      // Sort `results` so that top-level ones are processed first
       action.sortResults,
       // Add `modelsCount` and `uniqueModelsCount`
       action.getModelsCount,
+      // Merge all `results` into a single nested response, using `result.path`
       action.assembleResults,
       action.selectFields,
       action.parseResponse,

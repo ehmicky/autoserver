@@ -2,7 +2,7 @@
 
 const { mergeArrayReducer, mapValues, omit } = require('../../utilities');
 
-// Turn `args.select` into a set of actions
+// Turn `args.select` into a set of `actions`
 const parseActions = function ({
   operationDef: {
     commandName,

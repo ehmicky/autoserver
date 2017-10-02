@@ -3,7 +3,7 @@
 const { isEqual } = require('lodash');
 
 // Retrieves `operationSummary`
-// This is all actions, included nested ones as a nice formatted string,
+// This is all `actions`, included nested ones as a nice formatted string,
 // e.g. 'findModel{attrA,attrB,child{attrC}}'
 const getOperationSummary = function ({
   actions,
