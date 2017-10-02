@@ -37,7 +37,7 @@ const singleSequenceRead = async function ({
     isTopLevel,
     actionConstant,
     parentResults,
-    actionName,
+    commandName,
     nestedParentIds,
     parentIds,
   } = getActionInput({ action, results });
@@ -60,7 +60,7 @@ const singleSequenceRead = async function ({
     args: argsC,
     isTopLevel,
     parentResults,
-    actionName,
+    commandName,
     nestedParentIds,
   });
 
@@ -78,7 +78,7 @@ const singleSequenceRead = async function ({
     finishedResults,
     pendingResults,
     action,
-    actionName,
+    commandName,
     isTopLevel,
     parentResults,
     nestedParentIds,
@@ -106,8 +106,8 @@ const getActionInput = function ({
     return isEqual(pathA, parentPath);
   });
 
-  const actionName = commandPath[commandPath.length - 1];
-  const nestedParentIds = parentResults.map(({ model }) => model[actionName]);
+  const commandName = commandPath[commandPath.length - 1];
+  const nestedParentIds = parentResults.map(({ model }) => model[commandName]);
   const parentIds = nestedParentIds
     .reduce(assignArray, [])
     .filter(ids => ids !== undefined);
@@ -117,7 +117,7 @@ const getActionInput = function ({
     isTopLevel,
     actionConstant,
     parentResults,
-    actionName,
+    commandName,
     nestedParentIds,
     parentIds: parentIdsA,
   };
@@ -248,7 +248,7 @@ const finishCommand = function ({
   finishedResults,
   pendingResults,
   action,
-  actionName,
+  commandName,
   isTopLevel,
   parentResults,
   nestedParentIds,
@@ -257,7 +257,7 @@ const finishCommand = function ({
 
   const finishedResultsB = getResults({
     action,
-    actionName,
+    commandName,
     isTopLevel,
     parentResults,
     nestedParentIds,
@@ -277,7 +277,7 @@ const finishCommand = function ({
 
 const getResults = function ({
   action: { actionConstant: { multiple }, modelName, select },
-  actionName,
+  commandName,
   isTopLevel,
   parentResults,
   nestedParentIds,
@@ -285,7 +285,7 @@ const getResults = function ({
 }) {
   if (isTopLevel) {
     return results.map((model, index) =>
-      getResult({ model, index, actionName, multiple, select, modelName })
+      getResult({ model, index, commandName, multiple, select, modelName })
     );
   }
 
@@ -294,7 +294,7 @@ const getResults = function ({
       const { path } = parentResults[index];
       return getEachResults({
         ids,
-        actionName,
+        commandName,
         select,
         path,
         results,
@@ -306,7 +306,7 @@ const getResults = function ({
 
 const getEachResults = function ({
   ids,
-  actionName,
+  commandName,
   select,
   path,
   results,
@@ -320,7 +320,7 @@ const getEachResults = function ({
       model,
       index: ind,
       path,
-      actionName,
+      commandName,
       multiple,
       select,
       modelName,
@@ -331,14 +331,14 @@ const getResult = function ({
   model,
   index,
   path = [],
-  actionName,
+  commandName,
   multiple,
   select,
   modelName,
 }) {
   const pathA = multiple
-    ? [...path, actionName, index]
-    : [...path, actionName];
+    ? [...path, commandName, index]
+    : [...path, commandName];
   return { path: pathA, model, modelName, select };
 };
 
