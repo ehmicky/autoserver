@@ -2,13 +2,13 @@
 
 const { assignArray } = require('../../utilities');
 
-// Merge current models with the data we want to patch,
+// Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement
 const patchData = function ({
   actions,
   top: { command: { type: commandType } },
 }) {
-  if (commandType !== 'patch') { return { actions }; }
+  if (commandType !== 'patch') { return; }
 
   const patchActions = actions
     .filter(({ command }) => command.type === 'patch');
@@ -48,6 +48,7 @@ const reducePartialData = function (dataObj, { key, data }) {
   return { ...dataObj, [key]: dataB };
 };
 
+// Merges `args.data` with `currentData`
 const mergeData = function ({
   action,
   action: { args, modelName, currentData },
@@ -55,7 +56,6 @@ const mergeData = function ({
 }) {
   const data = currentData.map(currentDatum => {
     const partialDatum = partialData[`${modelName} ${currentDatum.id}`];
-    // Merges `args.data` with `currentData`
     return { ...currentDatum, ...partialDatum };
   });
 

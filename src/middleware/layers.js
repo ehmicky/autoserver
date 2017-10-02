@@ -113,6 +113,7 @@ const middlewareLayers = [
       // Add `action.currentData`
       // and (for `patch|delete`) fix `action.dataPaths`
       action.addCurrentData,
+      // Merge `currentData` with the `args.data` in `patch` commands
       action.patchData,
       action.resolveWriteActions,
       action.resolveReadActions,
