@@ -1,58 +1,61 @@
 'use strict';
 
-const { underscored } = require('underscore.string');
 const { singular, plural } = require('pluralize');
 
 const { throwError } = require('../../error');
 const { getCommand } = require('../../constants');
 
-// Parse a `operationDef` into: `command`, `modelName`, `commandPath`, `args`
+// Parse a `operationDef` into a top-level action, i.e.:
+// `command`, `modelName`, `commandPath`, `args`
 const parseTopAction = function ({
   operationDef: { commandName, args },
   idl: { shortcuts: { modelsMap } },
   protocolArgs,
 }) {
-  const { command, modelName } = getModelInfo({ commandName, modelsMap });
+  const { commandType, modelName, pluralName } = parseModelName({
+    commandName,
+    modelsMap,
+  });
+  const command = getTopCommand({ commandType, modelName, pluralName });
 
   const commandPath = [commandName];
 
+  // Merge protocol-specific arguments with normal arguments
   const argsA = { ...protocolArgs, ...args };
 
   const top = { command, modelName, commandPath, args: argsA };
   return { top, topArgs: top.args };
 };
 
-const getModelInfo = function ({ commandName, modelsMap }) {
+// Retrieve `command` and `modelName` using the main `commandName`
+const parseModelName = function ({ commandName, modelsMap }) {
   const { commandType, modelName } = parseName({ commandName });
 
-  const modelNameA = underscored(modelName);
+  // Model name can be either in singular or in plural form in IDL
+  const singularName = singular(modelName);
+  const pluralName = plural(modelName);
+  const modelNameA = modelsMap[pluralName] ? pluralName : singularName;
 
-  const singularName = singular(modelNameA);
-  const pluralName = plural(modelNameA);
-  const multiple = modelNameA === pluralName;
+  if (modelNameA === undefined) {
+    const message = `Command '${commandName}' is unknown`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
 
-  const modelNameB = modelsMap[pluralName] ? pluralName : singularName;
-
-  validateCommand({ modelName: modelNameB, commandName });
-
-  const command = getCommand({ commandType, multiple });
-
-  return { command, modelName: modelNameB };
+  return { commandType, modelName: modelNameA, pluralName };
 };
 
+// Matches e.g. 'find_my_models' -> ['find', 'my_models'];
 const parseName = function ({ commandName }) {
   const [, commandType, modelName = ''] = nameRegExp.exec(commandName) || [];
   return { commandType, modelName };
 };
 
-// Matches e.g. 'find_my_models' -> ['find', 'my_models'];
 const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
-const validateCommand = function ({ modelName, commandName }) {
-  if (modelName) { return; }
-
-  const message = `Command '${commandName}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+const getTopCommand = function ({ commandType, modelName, pluralName }) {
+  const multiple = modelName === pluralName;
+  const command = getCommand({ commandType, multiple });
+  return command;
 };
 
 module.exports = {
