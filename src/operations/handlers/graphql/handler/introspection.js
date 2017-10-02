@@ -12,6 +12,7 @@ const isIntrospectionQuery = function ({ operationDef: { commandName } }) {
   return commandName === '__schema';
 };
 
+// Handle GraphQL introspection query by using the GraphQL schema object
 const handleIntrospection = async function ({
   schema,
   queryDocument,

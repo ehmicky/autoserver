@@ -5,16 +5,32 @@ const { assignArray } = require('../../../../../utilities');
 
 const { applyDirectives } = require('./directive');
 
-const parseSelects = function ({ selectionSet, parentPath = [], fragments }) {
-  const select = parseSelectionSet({ selectionSet, parentPath, fragments });
+// Retrieve `operationDef.args.select` using GraphQL selection sets
+const parseSelects = function ({
+  selectionSet,
+  parentPath = [],
+  variables,
+  fragments,
+}) {
+  const select = parseSelectionSet({
+    selectionSet,
+    parentPath,
+    variables,
+    fragments,
+  });
   return select.join(',');
 };
 
-const parseSelectionSet = function ({ selectionSet, parentPath, fragments }) {
+const parseSelectionSet = function ({
+  selectionSet,
+  parentPath,
+  variables,
+  fragments,
+}) {
   if (selectionSet == null) { return []; }
 
   return selectionSet.selections
-    .filter(applyDirectives)
+    .filter(selection => applyDirectives({ selection, variables }))
     .map(parseSelection.bind(null, { parentPath, fragments }))
     .reduce(assignArray, []);
 };

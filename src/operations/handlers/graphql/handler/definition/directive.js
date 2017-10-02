@@ -3,17 +3,21 @@
 const { throwError, addGenErrorHandler } = require('../../../../../error');
 
 // Apply GraphQL directives @include and @skip
-const applyDirectives = function ({ directives = [], variables }) {
-  return directives.every(applyDirective.bind(null, variables));
+const applyDirectives = function ({
+  selection: { directives = [] },
+  variables,
+}) {
+  return directives
+    .every(directive => applyDirective({ directive, variables }));
 };
 
-const applyDirective = function (
-  variables,
-  {
+const applyDirective = function ({
+  directive: {
     arguments: args,
     name: { value: directiveName },
   },
-) {
+  variables,
+}) {
   if (directiveName === 'include') {
     return eCheckDirective({ variables, args, directiveName });
   }
