@@ -2,6 +2,7 @@
 
 const { isEqual } = require('lodash');
 
+// Read and write actions might have duplicate results, which we remove here
 const removeDuplicateResults = function ({ results }) {
   const resultsA = results.filter(isUniqueResult);
   return { results: resultsA };
