@@ -71,7 +71,7 @@ const validateData = function ({
   }
 
   if (forbiddenIdTypes.includes(commandType) && data.id != null) {
-    const message = `Cannot use 'id' ${data.id}: 'patch' actions cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use 'filter' argument instead.`;
+    const message = `Cannot use 'id' ${data.id}: 'patch' commands cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use 'filter' argument instead.`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 };
@@ -175,7 +175,7 @@ const mapData = function ({ datum, nestedKeys }) {
     datum,
     (value, key) => mapDataValue({ value, key, nestedKeys }),
   );
-  // Patch actions do not use ids in args.data,
+  // Patch commands do not use ids in args.data,
   // i.e. will create undefined values
   const datumB = omitBy(datumA, value => value === undefined);
   return datumB;

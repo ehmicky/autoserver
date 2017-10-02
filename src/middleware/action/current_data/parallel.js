@@ -9,26 +9,20 @@ const {
 } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
 
-const parallelResolve = async function (
-  { actions: allActions, mInput },
-  nextLayer,
-) {
-  const actionsGroups = getWriteActions({ allActions });
-  const actions = writeToRead(actionsGroups);
+const parallelResolve = async function ({ actions, mInput }, nextLayer) {
+  const actionsGroups = getWriteActions({ actions });
+  const writeActions = writeToRead(actionsGroups);
   const currentDataMap = await getCurrentDataMap({
-    actions,
+    writeActions,
     nextLayer,
     mInput,
   });
-  const actionsA = addCurrentDataActions({
-    actions: allActions,
-    currentDataMap,
-  });
+  const actionsA = addCurrentDataActions({ actions, currentDataMap });
   return actionsA;
 };
 
-const getWriteActions = function ({ allActions }) {
-  const writeActionsA = allActions
+const getWriteActions = function ({ actions }) {
+  const writeActionsA = actions
     .filter(({ command }) => command.type !== 'find');
   const writeActionsB = writeActionsA.reduce(
     mergeArrayReducer('modelName'),
@@ -72,12 +66,12 @@ const mergeCommandPaths = function ({ actions }) {
 
 const readCommand = getCommand({ commandType: 'find', multiple: true });
 
-const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
-  const actionsA = actions.map(parentAction => ({ parentAction }));
+const getCurrentDataMap = async function ({ writeActions, nextLayer, mInput }) {
+  const actions = writeActions.map(parentAction => ({ parentAction }));
   const { results } = await nextLayer({
     ...mInput,
     actionsGroupType: 'read',
-    actions: actionsA,
+    actions,
   });
 
   const currentDataMap = results.reduce(mergeArrayReducer('modelName'), {});

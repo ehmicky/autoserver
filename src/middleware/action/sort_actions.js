@@ -7,7 +7,10 @@ const sortActions = function ({ actions }) {
   return { actions: actionsA };
 };
 
-const sortTwoActions = function ({ commandPath: pathA }, { commandPath: pathB }) {
+const sortTwoActions = function (
+  { commandPath: pathA },
+  { commandPath: pathB },
+) {
   return pathA.join('.') > pathB.join('.') ? 1 : -1;
 };
 

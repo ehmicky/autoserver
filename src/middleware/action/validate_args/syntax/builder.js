@@ -4,20 +4,20 @@ const { uniq } = require('lodash');
 
 const { mapValues, assignArray, pick } = require('../../../../utilities');
 
-const actionsArgs = require('./actions');
+const commandsArgs = require('./commands');
 const {
   getRequiredTests,
   getUnknownTests,
   ...normalTests
 } = require('./tests');
 
-// Retrieve argument-related tests for all actions
-const getActionsTests = function () {
-  return mapValues(actionsArgs, getActionTests);
+// Retrieve argument-related tests for all commands
+const getCommandsTests = function () {
+  return mapValues(commandsArgs, getCommandTests);
 };
 
-// Retrieve argument-related tests for each action
-const getActionTests = function ({ optional, required }) {
+// Retrieve argument-related tests for each command
+const getCommandTests = function ({ optional, required }) {
   // Retrieve tests related to most arguments
   const requiredArgsTests = getTests({ testNames: required });
   const optionalArgsTests = getTests({ testNames: optional });
@@ -43,7 +43,7 @@ const getActionTests = function ({ optional, required }) {
 
 // Retrieve argument-related tests that do not fire a function
 const getTests = function ({ testNames }) {
-  // Each action has a different set of tests
+  // Each command has a different set of tests
   const testsA = pick(normalTests, testNames);
   const testsB = mapValues(testsA, addArgName);
   const testsC = Object.values(testsB).reduce(assignArray, []);
@@ -74,8 +74,8 @@ const getSpecialTests = function ({ argsTests, getter }) {
 };
 
 // Compile the list of tests parse-time
-const actionsTests = getActionsTests();
+const commandsTests = getCommandsTests();
 
 module.exports = {
-  actionsTests,
+  commandsTests,
 };

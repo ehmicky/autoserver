@@ -2,7 +2,7 @@
 
 const { fastValidate } = require('../../../../fast_validation');
 
-const { actionsTests } = require('./builder');
+const { commandsTests } = require('./builder');
 
 // Check arguments, for client-side errors.
 // In a nutshell, checks that:
@@ -15,7 +15,7 @@ const validateSyntax = function ({
   command: { name: commandName },
   runOpts,
 }) {
-  const tests = actionsTests[commandName];
+  const tests = commandsTests[commandName];
   fastValidate(
     { prefix: 'Wrong arguments: ', reason: 'INPUT_VALIDATION', tests },
     { ...args, runOpts },

@@ -7,14 +7,14 @@ const {
   unknownTest,
 } = require('../../../../../fast_validation');
 
-// Validates args.filter for single actions
+// Validates args.filter for single commands
 const singleFilterTests = [
   { ...objectTest('filter'), argName: 'filter' },
   { ...stringTest('filter.id'), argName: 'filter.id' },
   { ...unknownTest('filter', ['id']), argName: 'filter' },
 ];
 
-// Validates args.filter for multiple actions
+// Validates args.filter for multiple commands
 const multipleFilterTests = [
   { ...objectOrArrayTest('filter'), argName: 'filter' },
 ];

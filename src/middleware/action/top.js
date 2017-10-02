@@ -6,8 +6,7 @@ const { singular, plural } = require('pluralize');
 const { throwError } = require('../../error');
 const { getCommand } = require('../../constants');
 
-// Parse a top-level action name into tokens.
-// E.g. `findMyModels` -> { commandType: 'find', modelName: 'my_models' }
+// Parse a `operationDef` into: `command`, `modelName`, `commandPath`, `args`
 const parseTopAction = function ({
   operationDef: { commandName, args },
   idl: { shortcuts: { modelsMap } },
