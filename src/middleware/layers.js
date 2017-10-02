@@ -107,6 +107,7 @@ const middlewareLayers = [
       action.validateUnknownAttrs,
       // Retrieves `operationSummary`, i.e. summary of all actions
       action.getOperationSummary,
+      // Sort actions so that top-level ones are fired first
       action.sortActions,
 
       action.addCurrentData,
