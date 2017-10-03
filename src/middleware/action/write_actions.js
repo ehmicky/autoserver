@@ -3,6 +3,8 @@
 const { mergeArrayReducer } = require('../../utilities');
 const { getCommand } = require('../../constants');
 
+const { mergeCommandPaths } = require('./command_paths');
+
 // Fire all write actions, retrieving some `results`
 const resolveWriteActions = function (
   { actions, top, mInput },
@@ -28,9 +30,10 @@ const multiplyAction = function ({ command: { type: commandType }, ...rest }) {
 // Group actions by model
 const getWriteActions = function ({ actions }) {
   const actionsA = actions.filter(({ command }) => command.type !== 'find');
-  const actionsB = actionsA.reduce(mergeArrayReducer('modelName'), {});
-  const actionsC = Object.values(actionsB);
-  return actionsC;
+  const actionsGroups = actionsA.reduce(mergeArrayReducer('modelName'), {});
+  const actionsGroupsA = Object.values(actionsGroups);
+  const actionsGroupsB = mergeCommandPaths({ actionsGroups: actionsGroupsA });
+  return actionsGroupsB;
 };
 
 module.exports = {
