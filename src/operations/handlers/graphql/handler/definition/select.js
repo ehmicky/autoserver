@@ -6,24 +6,14 @@ const { assignArray } = require('../../../../../utilities');
 const { applyDirectives } = require('./directive');
 
 // Retrieve `operationDef.args.select` using GraphQL selection sets
-const parseSelects = function ({
-  selectionSet,
-  parentPath = [],
-  variables,
-  fragments,
-}) {
-  const select = parseSelectionSet({
-    selectionSet,
-    parentPath,
-    variables,
-    fragments,
-  });
+const parseSelects = function (input) {
+  const select = parseSelectionSet(input);
   return select.join(',');
 };
 
 const parseSelectionSet = function ({
   selectionSet,
-  parentPath,
+  parentPath = [],
   variables,
   fragments,
 }) {
@@ -31,27 +21,20 @@ const parseSelectionSet = function ({
 
   return selectionSet.selections
     .filter(selection => applyDirectives({ selection, variables }))
-    .map(parseSelection.bind(null, { parentPath, fragments }))
+    .map(parseSelection.bind(null, { parentPath, variables, fragments }))
     .reduce(assignArray, []);
 };
 
 const parseSelection = function (
-  {
-    parentPath,
-    fragments,
-  },
-  {
-    name: { value: fieldName } = {},
-    alias,
-    selectionSet,
-    kind,
-  },
+  { parentPath, variables, fragments },
+  { name: { value: fieldName } = {}, alias, selectionSet, kind },
 ) {
   return parsers[kind]({
     fieldName,
     alias,
     selectionSet,
     parentPath,
+    variables,
     fragments,
   });
 };
@@ -61,6 +44,7 @@ const parseField = function ({
   alias,
   selectionSet,
   parentPath,
+  variables,
   fragments,
 }) {
   const select = getSelect({ parentPath, alias, fieldName });
@@ -68,6 +52,7 @@ const parseField = function ({
   const childSelect = parseSelectionSet({
     selectionSet,
     parentPath: [...parentPath, fieldName],
+    variables,
     fragments,
   });
 
@@ -81,7 +66,12 @@ const getSelect = function ({ parentPath, alias, fieldName }) {
   return aliasName == null ? key : `${key}=${aliasName}`;
 };
 
-const parseFragmentSpread = function ({ parentPath, fragments, fieldName }) {
+const parseFragmentSpread = function ({
+  parentPath,
+  variables,
+  fragments,
+  fieldName,
+}) {
   const fragment = fragments.find(({ name }) => name.value === fieldName);
 
   if (fragment === undefined) {
@@ -91,11 +81,16 @@ const parseFragmentSpread = function ({ parentPath, fragments, fieldName }) {
 
   const { selectionSet } = fragment;
 
-  return parseSelectionSet({ selectionSet, parentPath, fragments });
+  return parseSelectionSet({ selectionSet, parentPath, variables, fragments });
 };
 
-const parseInlineFragment = function ({ selectionSet, parentPath, fragments }) {
-  return parseSelectionSet({ selectionSet, parentPath, fragments });
+const parseInlineFragment = function ({
+  selectionSet,
+  parentPath,
+  variables,
+  fragments,
+}) {
+  return parseSelectionSet({ selectionSet, parentPath, variables, fragments });
 };
 
 const parsers = {
