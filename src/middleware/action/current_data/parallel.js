@@ -8,11 +8,13 @@ const {
   mapValues,
 } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
+const { mergeCommandPaths } = require('../command_paths');
 
 // Add `action.currentData` for `replace` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
   const actionsGroups = getWriteActions({ actions });
-  const writeActions = writeToRead(actionsGroups);
+  const actionsGroupsA = mergeCommandPaths({ actionsGroups });
+  const writeActions = writeToRead(actionsGroupsA);
   const currentDataMap = await getCurrentDataMap({
     writeActions,
     nextLayer,
@@ -42,13 +44,13 @@ const writeToRead = function (actionsGroups) {
 // Transform a `replace` command into a `find` command.
 // `args.data` becomes `args.filter`
 const writeToReadAction = function (actions) {
+  const [{ commandPath }] = actions;
   const ids = actions
     .map(({ args: { data } }) => data)
     .reduce(assignArray, [])
     .map(({ id }) => id);
   const idsA = uniq(ids);
   const args = { filter: { id: idsA } };
-  const commandPath = mergeCommandPaths({ actions });
   const [{ modelName }] = actions;
 
   return {
@@ -58,14 +60,6 @@ const writeToReadAction = function (actions) {
     modelName,
     internal: true,
   };
-};
-
-// Concatenate each `commandPath` since a single `find` command might be used
-// for several `args.data` objects.
-const mergeCommandPaths = function ({ actions }) {
-  return actions
-    .reduce((paths, { commandPath }) => [...paths, commandPath.join('.')], [])
-    .join(', ');
 };
 
 const readCommand = getCommand({ commandType: 'find', multiple: true });

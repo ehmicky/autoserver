@@ -61,15 +61,12 @@ const applyTopArgs = function ({ args, topArgs }) {
 
 // Fire actual write command
 const fireWriteCommand = async function ({
-  actions,
-  actions: [{ modelName }],
+  actions: [{ modelName, commandPath }],
   top: { command },
   args,
   nextLayer,
   mInput,
 }) {
-  const commandPath = mergeCommandPaths({ actions });
-
   const mInputA = {
     ...mInput,
     commandPath,
@@ -79,16 +76,6 @@ const fireWriteCommand = async function ({
   };
   const { response: { data: results } } = await nextLayer(mInputA);
   return results;
-};
-
-// Merge each action `commandPath` into a comma-separated list
-const mergeCommandPaths = function ({ actions }) {
-  return actions
-    .reduce(
-      (paths, { commandPath }) => [...paths, commandPath.join('.')],
-      [],
-    )
-    .join(', ');
 };
 
 module.exports = {
