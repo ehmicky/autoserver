@@ -85,7 +85,7 @@ definitions:
           required:
             not:
               const: false
-    # `MODEL.id` cannot use transform|value|compute
+    # `MODEL.id` cannot use transform|value|compute|readonly
     allOf:
     - not:
         required: [transform]
@@ -93,6 +93,8 @@ definitions:
         required: [value]
     - not:
         required: [compute]
+    - not:
+        required: [readonly]
   # MODEL.attribute targetting another model
   nestedModel: {}
   # TODO: fix
