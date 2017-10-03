@@ -41,19 +41,11 @@ const getConcurrentResult = function ({ id, results, modelName }) {
 
 // Do not try to search for models while waiting for another command to
 // fetch them, i.e. remove them from `args.filter.id`
-const removeConcurrentIds = function ({
-  concurrentResults,
-  ids,
-  args,
-  args: { filter },
-}) {
+const removeConcurrentIds = function ({ concurrentResults, ids, args }) {
   const concurrentIds = concurrentResults.map(({ model: { id } }) => id);
   const idsA = ids.filter(id => !concurrentIds.includes(id));
 
-  return {
-    ...args,
-    filter: { ...filter, id: idsA },
-  };
+  return { ...args, filter: { id: idsA } };
 };
 
 // Communicate to parallel commands which `id`s are currently being searched
@@ -72,9 +64,16 @@ const getPendingResults = function ({ args, results, modelName, promise }) {
 };
 
 // Try to guess the `args.filter` `id`s
-// This won't work on top-level filter of findMany command using a complex one.
-const getIds = function ({ filter: { id: ids } = {} }) {
-  return Array.isArray(ids) ? ids : [];
+// This won't work on top-level filter of findMany command using a complex one,
+// but that's ok because it will not have any concurrent commands.
+const getIds = function ({ filter: { id: ids, ...filter } = {} }) {
+  // Complex filter
+  if (Object.keys(filter).length > 0) { return []; }
+
+  // No filter
+  if (!Array.isArray(ids)) { return []; }
+
+  return ids;
 };
 
 module.exports = {
