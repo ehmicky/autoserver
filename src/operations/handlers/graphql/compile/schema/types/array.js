@@ -2,15 +2,15 @@
 
 const { GraphQLList } = require('graphql');
 
-const graphQLArrayTest = function (def) {
+const graphQLArrayTest = function ({ arrayWrapped, command, isArray }) {
   // Already wrapped in Array type
-  if (def.arrayWrapped) { return false; }
+  if (arrayWrapped) { return false; }
 
-  if (def.model) {
-    return def.command && def.command.multiple;
+  if (command !== undefined) {
+    return command.multiple;
   }
 
-  return def.isArray;
+  return isArray;
 };
 
 // Array field TGetter

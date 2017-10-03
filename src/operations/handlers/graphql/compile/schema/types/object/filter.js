@@ -4,11 +4,12 @@ const { omitBy } = require('../../../../../../../utilities');
 
 const filterFields = function ({
   fields,
-  parentDef: { kind, command },
+  parentDef: { command },
   opts: { inputObjectType },
 }) {
-  return omitBy(fields, (def, defName) =>
-    filterField({ kind, command, def, defName, inputObjectType })
+  return omitBy(
+    fields,
+    (def, defName) => filterField({ command, def, defName, inputObjectType }),
   );
 };
 
@@ -21,13 +22,6 @@ const singleIdFilter = function ({ defName, inputObjectType, command }) {
   return defName !== 'id' &&
     inputObjectType === 'filter' &&
     !command.multiple;
-};
-
-// Nested data arguments do not include `id`
-const nestedIdData = function ({ defName, inputObjectType, kind }) {
-  return defName === 'id' &&
-    inputObjectType === 'data' &&
-    kind === 'attribute';
 };
 
 // Computed fields cannot be specified as data argument
@@ -53,7 +47,6 @@ const patchIdData = function ({ defName, inputObjectType, command }) {
 
 const filters = [
   singleIdFilter,
-  nestedIdData,
   computeData,
   readonlyData,
   patchIdData,

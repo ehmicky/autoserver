@@ -3,32 +3,26 @@
 const { camelize, capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
-// Returns type name, titleized with command prepended, in singular form,
-// e.g. `FindPet`, for schema type name
-const getTypeName = function ({
-  def: { kind, typeName },
-  opts: { inputObjectType = '' },
-}) {
-  const nestedPostfix = kind === 'attribute' ? 'nested' : '';
-  const nameA = `${typeName} ${inputObjectType} ${nestedPostfix}`;
-  const nameB = capitalize(nameA);
-  return camelize(nameB);
-};
-
-// Returns model field name, camelized, in plural form,
-// e.g. `findPets` or `deletePets`
-const getModelFieldName = function ({ modelName, command }) {
+// Returns top-level command name, e.g. `find_models` or `delete_models`
+const getCommandName = function ({ modelName, command }) {
   const modelNameA = command.multiple ? plural(modelName) : singular(modelName);
-  return camelize(`${command.type} ${modelNameA}`);
+  return `${command.type}_${modelNameA}`;
 };
 
-// Returns recursive attributes field names
-const getAttrFieldName = function ({ modelName, command }) {
-  return camelize(`${command.type} ${modelName}`);
+// Returns type name, titleized with command prepended, in singular form,
+// e.g. `FindModel`, for schema type name
+const getTypeName = function ({
+  def: { modelName, model },
+  opts: { inputObjectType },
+}) {
+  const name = inputObjectType === 'type'
+    ? model
+    : `${modelName} ${inputObjectType}`;
+  const nameA = capitalize(name);
+  return camelize(nameA);
 };
 
 module.exports = {
+  getCommandName,
   getTypeName,
-  getModelFieldName,
-  getAttrFieldName,
 };

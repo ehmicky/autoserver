@@ -4,8 +4,7 @@ const { GraphQLNonNull } = require('graphql');
 
 // Returns whether a field is required
 const graphQLRequiredTest = function (def, opts) {
-  const isOptional = optionalTests.some(testFunc => testFunc(def, opts));
-  return !isOptional;
+  return optionalTests.every(testFunc => !testFunc(def, opts));
 };
 
 // Already wrapped in Required type
@@ -19,12 +18,11 @@ const isNotRequiredValidated = function ({ validate = {} }) {
 };
 
 // `args.filter` fields are never required, except `id` for single commands
-const isFilterArg = function ({ command }, { defName, inputObjectType }) {
-  const isSimpleId = defName === 'id' && !command.multiple;
-  return inputObjectType === 'filter' && !isSimpleId;
+const isFilterArg = function ({ command }, { inputObjectType }) {
+  return inputObjectType === 'filter' && command.multiple;
 };
 
-// `patchOne|patchMany` does not require any attribute in `args.data`
+// `patchOne|patchMany` do not require any attribute in `args.data`
 const isPatchArg = function ({ command }, { inputObjectType }) {
   return inputObjectType === 'data' && command.type === 'patch';
 };

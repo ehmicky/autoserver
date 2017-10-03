@@ -6,19 +6,19 @@ const { getOrderArgument } = require('./order');
 const { getPaginationArgument } = require('./pagination');
 
 // Retrieves all resolver arguments, before resolve function is fired
-const getArgs = function ({ def, opts }) {
-  // Only for models, and not for argument types
-  const noArgs = def.model === undefined || opts.inputObjectType !== undefined;
+const getArgs = function ({ parentDef, def, opts }) {
+  // Only for top-level actions
+  const noArgs = !['Query', 'Mutation'].includes(parentDef.model);
   if (noArgs) { return; }
 
   const argTypes = getArgTypes({ def, opts });
-  const options = { ...opts, ...argTypes, def };
+  const optsA = { ...opts, ...argTypes, def };
 
   return {
-    ...getDataArgument(options),
-    ...getFilterArgument(options),
-    ...getOrderArgument(options),
-    ...getPaginationArgument(options),
+    ...getDataArgument(optsA),
+    ...getFilterArgument(optsA),
+    ...getOrderArgument(optsA),
+    ...getPaginationArgument(optsA),
   };
 };
 
@@ -26,6 +26,7 @@ const getArgs = function ({ def, opts }) {
 const getArgTypes = function ({ def, opts }) {
   const defA = { ...def, arrayWrapped: true };
 
+  console.log(opts.defName);
   const dataObjectType = opts.getType(defA, {
     ...opts,
     inputObjectType: 'data',
