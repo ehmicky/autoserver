@@ -18,12 +18,14 @@ const getFinalFields = function ({ parentDef, fields, opts }) {
 };
 
 const getField = function ({ parentDef, def, defName, opts }) {
-  const optsA = { ...opts, inputObjectType: 'type', defName };
+  const command = def.command || parentDef.command;
+  const defA = { ...def, command };
+  const optsA = { ...opts, defName };
 
-  const type = optsA.getType(def, optsA);
-  const args = getArgs({ parentDef, def, opts: optsA });
-  const defaultValue = getDefaultValue({ def, opts: optsA });
-  const { description, deprecationReason } = getMetadata({ def });
+  const type = optsA.getType(defA, optsA);
+  const args = getArgs({ parentDef, def: defA, opts: optsA });
+  const defaultValue = getDefaultValue({ def: defA, opts: optsA });
+  const { description, deprecationReason } = getMetadata({ def: defA });
 
   return { type, description, deprecationReason, args, defaultValue };
 };
