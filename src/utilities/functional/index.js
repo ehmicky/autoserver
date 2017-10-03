@@ -5,6 +5,7 @@ module.exports = {
   ...require('./reduce'),
   ...require('./filter'),
   ...require('./find'),
+  ...require('./key_by'),
   ...require('./invert'),
   ...require('./merge'),
   ...require('./get_set'),

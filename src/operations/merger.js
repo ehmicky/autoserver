@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignObject } = require('../utilities');
+const { keyBy } = require('../utilities');
 
 const handlers = require('./handlers');
 
@@ -8,13 +8,7 @@ const handlers = require('./handlers');
 // Everything that is operation-specific is in this directory.
 // E.g. there should be no GraphQL-related code outside of this directory,
 // to enforce operation-agnosticism and separation of concerns.
-const getOperationsHandlers = function () {
-  return Object.values(handlers)
-    .map(handler => ({ [handler.name]: handler }))
-    .reduce(assignObject, {});
-};
-
-const operationHandlers = getOperationsHandlers();
+const operationHandlers = keyBy(handlers);
 
 module.exports = {
   operationHandlers,
