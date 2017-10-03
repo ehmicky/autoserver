@@ -1,6 +1,5 @@
 'use strict';
 
-const { omit } = require('../../../utilities');
 const { runIdlFunc } = require('../../../idl_func');
 
 // Apply default values to args.data's models
@@ -26,12 +25,10 @@ const applyDefault = function ({ parent, defValue, attrName, mInput }) {
   if (value != null) { return parent; }
 
   // Process inline functions if default value contains any
-  const vars = { $$: parent, $: value };
+  const vars = { $$: parent };
   const defValueA = runIdlFunc({ idlFunc: defValue, mInput, vars });
 
-  if (defValueA == null) {
-    return omit(parent, attrName);
-  }
+  if (defValueA == null) { return parent; }
 
   return { ...parent, [attrName]: defValueA };
 };

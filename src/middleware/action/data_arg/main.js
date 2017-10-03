@@ -10,14 +10,22 @@ const parseDataArg = function ({
   actions,
   top,
   top: { args: { data }, commandPath },
-  idl: { shortcuts: { modelsMap } },
+  idl: { shortcuts: { modelsMap, userDefaultsMap } },
+  mInput,
 }) {
   // Only if `args.data` is defined
   if (data === undefined) { return { actions }; }
 
   // Top-level `dataPaths`
   const dataPaths = getDataPath({ data, path: commandPath });
-  const dataA = parseData({ data, commandPath, top, modelsMap });
+  const dataA = parseData({
+    data,
+    commandPath,
+    top,
+    mInput,
+    modelsMap,
+    userDefaultsMap,
+  });
   const actionsA = parseActions({
     data: dataA,
     commandPath,

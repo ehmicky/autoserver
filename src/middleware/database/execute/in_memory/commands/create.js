@@ -1,7 +1,5 @@
 'use strict';
 
-const { v4: uuidv4 } = require('uuid');
-
 const { throwError } = require('../../../../../error');
 const { searchIndexes } = require('../indexes');
 
@@ -11,8 +9,7 @@ const create = function ({ collection, newData }) {
   return { data };
 };
 
-const createOne = function ({ collection, newData }) {
-  const id = getCreateId({ newData });
+const createOne = function ({ collection, newData, newData: { id } }) {
   checkCreateId({ collection, id });
 
   const newModel = { ...newData, id };
@@ -21,10 +18,6 @@ const createOne = function ({ collection, newData }) {
   collection.push(newModel);
 
   return newModel;
-};
-
-const getCreateId = function ({ newData: { id } }) {
-  return id === undefined ? uuidv4() : id;
 };
 
 const checkCreateId = function ({ collection, id }) {
