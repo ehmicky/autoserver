@@ -11,7 +11,7 @@ const getArgs = function ({ parentDef, def, opts }) {
   const noArgs = !['Query', 'Mutation'].includes(parentDef.model);
   if (noArgs) { return; }
 
-  const argTypes = getArgTypes({ def, opts });
+  const argTypes = getArgTypes({ parentDef, def, opts });
   const optsA = { ...opts, ...argTypes, def };
 
   return {
@@ -26,15 +26,14 @@ const getArgs = function ({ parentDef, def, opts }) {
 const getArgTypes = function ({ def, opts }) {
   const defA = { ...def, arrayWrapped: true };
 
-  console.log(opts.defName);
-  const dataObjectType = opts.getType(defA, {
-    ...opts,
-    inputObjectType: 'data',
-  });
-  const filterObjectType = opts.getType(defA, {
-    ...opts,
-    inputObjectType: 'filter',
-  });
+  const dataObjectType = opts.getType(
+    defA,
+    { ...opts, inputObjectType: 'data' },
+  );
+  const filterObjectType = opts.getType(
+    defA,
+    { ...opts, inputObjectType: 'filter' },
+  );
 
   return { dataObjectType, filterObjectType };
 };

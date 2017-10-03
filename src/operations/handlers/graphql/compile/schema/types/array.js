@@ -6,11 +6,11 @@ const graphQLArrayTest = function ({ arrayWrapped, command, isArray }) {
   // Already wrapped in Array type
   if (arrayWrapped) { return false; }
 
-  if (command !== undefined) {
-    return command.multiple;
+  if (isArray !== undefined) {
+    return isArray;
   }
 
-  return isArray;
+  return command && command.multiple;
 };
 
 // Array field TGetter
