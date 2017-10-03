@@ -13,8 +13,7 @@ const handler = async function ({ idl: { GraphQLPrintedSchema } }) {
     data: { printedSchema: GraphQLPrintedSchema, prismVersion: '1.6.0' },
   });
 
-  const response = { type: 'html', content };
-  return { response };
+  return { response: { type: 'html', content } };
 };
 
 module.exports = {

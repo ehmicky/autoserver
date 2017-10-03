@@ -14,8 +14,7 @@ const handler = async function ({ queryVars, payload = {}, origin }) {
     operationName,
   });
 
-  const response = { type: 'html', content };
-  return { response };
+  return { response: { type: 'html', content } };
 };
 
 module.exports = {
