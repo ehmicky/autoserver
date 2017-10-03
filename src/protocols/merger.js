@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignObject } = require('../utilities');
+const { keyBy } = require('../utilities');
 
 const handlers = require('./handlers');
 
@@ -8,13 +8,7 @@ const handlers = require('./handlers');
 // Everything that is protocol-specific is in this directory.
 // E.g. there should be no HTTP-related code outside of this directory,
 // to enforce protocol-agnosticism and separation of concerns.
-const getProtocolHandlers = function () {
-  return Object.values(handlers)
-    .map(handler => ({ [handler.name]: handler }))
-    .reduce(assignObject, {});
-};
-
-const protocolHandlers = getProtocolHandlers();
+const protocolHandlers = keyBy(handlers);
 const protocols = Object.keys(protocolHandlers);
 
 module.exports = {
