@@ -40,13 +40,13 @@ const getNestedAction = function ({
   top,
   modelsMap,
   nestedKey,
-  parseData,
+  parseActions,
 }) {
   const nestedCommandPath = [...commandPath, nestedKey];
   const nestedData = getData({ data, nestedKey });
   const nestedDataPaths = getDataPaths({ dataPaths, data, nestedKey });
 
-  return parseData({
+  return parseActions({
     commandPath: nestedCommandPath,
     data: nestedData,
     dataPaths: nestedDataPaths,
@@ -75,6 +75,7 @@ const getDataPaths = function ({ dataPaths, data, nestedKey }) {
 };
 
 module.exports = {
+  isModel,
   getNestedKeys,
   getNestedActions,
 };
