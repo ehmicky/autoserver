@@ -12,7 +12,7 @@ const userDefaults = function ({
   idl: { shortcuts: { userDefaultsMap } },
   mInput,
 }) {
-  if (!newData) { return; }
+  if (newData === undefined) { return; }
 
   const defAttributes = userDefaultsMap[modelName];
   const newDataA = applyAllDefault({ data: newData, defAttributes, mInput });

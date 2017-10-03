@@ -25,16 +25,21 @@ const getTargetModelId = function ({ model }) {
   const modelIdB = { ...modelIdA, ...modelMetadata };
 
   // Never using target model for those properties
-  const validate = omit(modelIdB.validate, nestedValidateProps);
-  const modelIdC = { ...modelIdB, validate };
+  const modelIdC = omit(modelIdB, nestedProps);
+  const validate = omit(modelIdC.validate, nestedValidateProps);
+  const modelIdD = { ...modelIdC, validate };
 
-  return modelIdC;
+  return modelIdD;
 };
 
 const metadataProps = [
   'description',
   'deprecation_reason',
   'examples',
+];
+
+const nestedProps = [
+  'default',
 ];
 
 const nestedValidateProps = [
