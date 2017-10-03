@@ -17,7 +17,7 @@ const handleReadonly = function ({
   // If no `currentData`, this means the model does not exist yet,
   // i.e. this is a create command.
   // Readonly does not apply then.
-  if (!newData || !currentData) { return; }
+  if (newData === undefined || currentData === undefined) { return; }
 
   const attrs = readonlyMap[modelName];
   const newDataA = newData.map((newDatum, index) => removeAttrs({
@@ -30,8 +30,6 @@ const handleReadonly = function ({
 };
 
 const removeAttrs = function ({ newData, currentData, attrs }) {
-  if (!currentData) { return newData; }
-
   return attrs.reduce(
     (newDataA, attr) => removeAttr({ newData: newDataA, currentData, attr }),
     newData,
