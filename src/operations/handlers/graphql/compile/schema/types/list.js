@@ -50,7 +50,7 @@ const graphQLTGetters = [
 
   // "String" type
   {
-    condition: def => def.type === 'string' || def.type === 'null',
+    condition: def => def.type === 'string',
     value: () => GraphQLString,
   },
 
@@ -63,11 +63,10 @@ const graphQLTGetters = [
 ];
 
 const getTypeGetter = function ({ def, opts }) {
-  const typeGetter = graphQLTGetters.find(possibleType =>
-    possibleType.condition(def, opts)
-  );
+  const typeGetter = graphQLTGetters
+    .find(({ condition }) => condition(def, opts));
 
-  if (!typeGetter) {
+  if (typeGetter === undefined) {
     const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
     throwError(message, { reason: 'IDL_SYNTAX_ERROR' });
   }

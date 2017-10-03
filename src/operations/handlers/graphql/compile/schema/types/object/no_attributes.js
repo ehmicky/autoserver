@@ -4,6 +4,8 @@ const { GraphQLString } = require('graphql');
 
 // GraphQL requires every object field to have attributes,
 // which does not always makes sense for us.
+// E.g. for `args.data` on 'patch' commands on model whose only attribute
+// is 'id'.
 // So we add this patch this problem by adding this fake attribute
 // when the problem arises.
 const addNoAttributes = function ({ fields }) {

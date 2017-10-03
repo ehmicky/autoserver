@@ -11,7 +11,8 @@ const { getObjectFields } = require('./fields');
 const graphQLObjectTGetter = function (def, opts) {
   const name = getTypeName({ def, opts });
   const { description } = def;
-  const Type = opts.inputObjectType === undefined
+
+  const Type = opts.inputObjectType === 'type'
     ? GraphQLObjectType
     : GraphQLInputObjectType;
   const fields = getObjectFields(def, opts);

@@ -7,16 +7,36 @@ const {
 } = require('../../../../../utilities');
 const { COMMANDS } = require('../../../../../constants');
 
-const { getModelFieldName } = require('./name');
+const { getCommandName } = require('./name');
+
+const getTopDefs = function ({ models }) {
+  return mapValues(topDefsInit, getTopDef.bind(null, models));
+};
+
+const topDefsInit = {
+  query: {
+    type: 'object',
+    description: 'Fetches models',
+    model: 'Query',
+  },
+  mutation: {
+    type: 'object',
+    description: 'Modifies models',
+    model: 'Mutation',
+  },
+};
+
+const getTopDef = function (models, topDef, graphqlMethod) {
+  const attributes = getModelDefs({ graphqlMethod, models });
+  return { ...topDef, attributes };
+};
 
 // Retrieve attributes for a given GraphQL method
 const getModelDefs = function ({ graphqlMethod, models }) {
-  const commands = COMMANDS
-    .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type));
-  const modelDefs = commands
+  return COMMANDS
+    .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type))
     .map(command => getCommandModels({ models, command }))
     .reduce(assignObject, {});
-  return modelDefs;
 };
 
 // Mapping from IDL commands to GraphQL methods
@@ -36,15 +56,18 @@ const getCommandModels = function ({ models, command }) {
 const nameModelsCommands = function ({ models, command }) {
   return mapKeys(
     models,
-    (model, modelName) => getModelFieldName({ modelName, command }),
+    (model, modelName) => getCommandName({ modelName, command }),
   );
 };
 
 // Add command information to each top-level model
 const normalizeModelsDef = function ({ models, command }) {
-  return mapValues(models, model => ({ ...model, command, type: 'object' }));
+  return mapValues(
+    models,
+    (model, modelName) => ({ ...model, command, modelName, type: 'object' }),
+  );
 };
 
 module.exports = {
-  getModelDefs,
+  getTopDefs,
 };
