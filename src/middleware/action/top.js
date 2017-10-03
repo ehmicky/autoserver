@@ -54,11 +54,6 @@ const parseName = function ({ commandName }) {
 
 const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
-const getTopCommand = function ({ commandType, multiple }) {
-  const command = getCommand({ commandType, multiple });
-  return command;
-};
-
 module.exports = {
   parseTopAction,
 };

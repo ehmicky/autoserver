@@ -2,6 +2,7 @@
 
 const { config, idl } = require('../shared');
 
+// eslint-disable-next-line import/order
 const instruction = require('./instruction');
 
 const options = [
