@@ -93,6 +93,16 @@ definitions:
         required: [value]
     - not:
         required: [compute]
+  # MODEL.attribute targetting another model
+  nestedModel: {}
+  # TODO: fix
+    #allOf:
+    #- not:
+    #    required: [transform]
+    #- not:
+    #    required: [value]
+    #- not:
+    #    required: [compute]
   # MODEL.attributes
   attribute:
     type: object
@@ -142,6 +152,14 @@ definitions:
       default:
         $ref: '#/definitions/idlFuncOrValue'
     allOf:
+    # Nested models
+    - if:
+        required: [type]
+        properties:
+          type:
+            $ref: '#/definitions/modelType'
+      then:
+        $ref: '#/definitions/nestedModel'
     # Cannot both be required and have a default value
     - if:
         required: [validate]
