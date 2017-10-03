@@ -73,13 +73,12 @@ definitions:
   # MODEL.id
   idAttribute:
     properties:
-      # `model.id` can only be a string, an integer or a float
-      # It cannot be targetting another model.
+      # `model.id` can only be a string:
+      #  - it should be able to be assigned by the API (as opposed to the
+      #    database), so serial integers cannot be used
+      #  - it cannot be targetting another model.
       type:
-        enum:
-        - string
-        - integer
-        - number
+        const: string
       # `MODEL.id` cannot be optional
       validate:
         properties:
