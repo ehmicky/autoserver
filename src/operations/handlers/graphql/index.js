@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  name: require('./name'),
   paths: require('./paths'),
+  name: require('./name'),
   methods: require('./methods'),
   ...require('./handler'),
   ...require('./response'),
