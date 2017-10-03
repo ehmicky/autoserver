@@ -2,7 +2,7 @@
 
 module.exports = {
   name: require('./name'),
-  paths: require('./paths'),
   methods: require('./methods'),
+  paths: require('./paths'),
   ...require('./handler'),
 };
