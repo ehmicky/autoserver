@@ -1,5 +1,7 @@
 'use strict';
 
+const { omit } = require('../../../../../../../utilities');
+
 // Create nested models definitions
 const getNestedModel = function (def, { inputObjectType, topDef }) {
   const { target } = def;
@@ -10,16 +12,11 @@ const getNestedModel = function (def, { inputObjectType, topDef }) {
 
   const topLevelModel = Object.values(topDef.attributes)
     .find(({ model }) => model === target);
+  // Command description is only used for Query|Mutation children,
+  // not for recursive attributes, which use the normal `attr.description`
+  const topLevelModelA = omit(topLevelModel, 'commandDescription');
 
-  // Recursive models use the description of:
-  //  - the target model, if inputObjectType === 'data|filter'
-  //  - the nested attribute, if inputObjectType ==== 'type'
-  // We set the definition for the first case, and once they are built,
-  // we use def.metadata to build the second case
-  const { description, deprecation_reason: deprecationReason } = def;
-  const metadata = { description, deprecationReason };
-
-  return { ...topLevelModel, metadata };
+  return topLevelModelA;
 };
 
 module.exports = {

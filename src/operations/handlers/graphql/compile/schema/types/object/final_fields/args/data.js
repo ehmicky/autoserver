@@ -2,6 +2,8 @@
 
 const { GraphQLNonNull, GraphQLList } = require('graphql');
 
+const { argTypesDescriptions } = require('../../../../description');
+
 // `data` argument
 const getDataArgument = function (def, opts) {
   // Only for mutation commands, but not delete
@@ -9,9 +11,7 @@ const getDataArgument = function (def, opts) {
   if (!hasData) { return {}; }
 
   const type = getDataObjectType(def, opts);
-
-  // Retrieves description before wrapping in modifers
-  const { description } = type;
+  const description = argTypesDescriptions.data[def.command.name];
 
   return { data: { type, description } };
 };
