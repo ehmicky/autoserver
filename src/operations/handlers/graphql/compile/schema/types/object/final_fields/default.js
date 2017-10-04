@@ -6,7 +6,7 @@ const getDefaultValue = function (
   { command, default: defaultValue },
   { inputObjectType },
 ) {
-  // 'patch' does not required anything, nor assign defaults
+  // 'patch' does not require anything, nor assign defaults
   const hasDefaultValue = inputObjectType === 'data' &&
     command.type !== 'patch' &&
     defaultValue;
