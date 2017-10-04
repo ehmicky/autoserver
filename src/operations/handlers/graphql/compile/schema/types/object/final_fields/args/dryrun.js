@@ -3,16 +3,16 @@
 const { GraphQLBoolean } = require('graphql');
 
 // `dryrun` argument
-const getDryRunArgument = function ({ command }) {
-  const hasDryRun = dryRunCommands.includes(command.type);
-  if (!hasDryRun) { return {}; }
+const getDryrunArgument = function ({ command }) {
+  const hasDryrun = dryrunCommands.includes(command.type);
+  if (!hasDryrun) { return {}; }
 
-  return dryRunArgs;
+  return dryrunArgs;
 };
 
-const dryRunCommands = ['create', 'replace', 'patch', 'delete'];
+const dryrunCommands = ['create', 'replace', 'patch', 'delete'];
 
-const dryRunArgs = {
+const dryrunArgs = {
   dryrun: {
     type: GraphQLBoolean,
     description: 'No modification will be applied to the database, but the response will be the same as if it did.',
@@ -21,5 +21,5 @@ const dryRunArgs = {
 };
 
 module.exports = {
-  getDryRunArgument,
+  getDryrunArgument,
 };

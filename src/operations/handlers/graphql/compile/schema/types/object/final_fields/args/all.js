@@ -5,7 +5,7 @@ const { getFilterArgument } = require('./filter');
 const { getOrderArgument } = require('./order');
 const { getPaginationArgument } = require('./pagination');
 const { getSilentArgument } = require('./silent');
-const { getDryRunArgument } = require('./dryrun');
+const { getDryrunArgument } = require('./dryrun');
 const { getCascadeArgument } = require('./cascade');
 
 // Retrieves all resolver arguments, before resolve function is fired
@@ -22,7 +22,7 @@ const getArgs = function (def, opts) {
     ...getOrderArgument(def, optsA),
     ...getPaginationArgument(def, optsA),
     ...getSilentArgument(def, optsA),
-    ...getDryRunArgument(def, optsA),
+    ...getDryrunArgument(def, optsA),
     ...getCascadeArgument(def, optsA),
   };
 };

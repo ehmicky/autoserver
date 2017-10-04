@@ -3,10 +3,10 @@
 const { booleanTest } = require('../../../../../fast_validation');
 
 // Validates args.dryrun
-const dryRunTests = [
+const dryrunTests = [
   booleanTest('dryrun'),
 ];
 
 module.exports = {
-  dryrun: dryRunTests,
+  dryrun: dryrunTests,
 };
