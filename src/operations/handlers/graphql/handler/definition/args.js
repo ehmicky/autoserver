@@ -8,11 +8,15 @@ const parseArgs = function ({
   mainSelection: { arguments: fields },
   variables,
 }) {
+  validateArgs(fields);
+
   return parseObject({ fields, variables });
 };
 
 const parseObject = function ({ fields: args, variables }) {
   if (!args || args.length === 0) { return {}; }
+
+  validateArgs(args);
 
   const argsA = args
     .map(arg => ({ [arg.name.value]: arg }))
@@ -64,6 +68,19 @@ const argParsers = {
   StringValue: parseAsIs,
   BooleanValue: parseAsIs,
   Variable: parseVariable,
+};
+
+const validateArgs = function (fields) {
+  const names = fields.map(({ name }) => name && name.value);
+  const duplicateName = names
+    .find((name, index) => names.slice(index + 1).includes(name));
+
+  // GraphQL spec 5.3.2 'Argument Uniqueness'
+  // And GraphQL spec 5.5.1 'Input Object Field Uniqueness'
+  if (duplicateName !== undefined) {
+    const message = `Cannot specify argument '${duplicateName}' twice`;
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+  }
 };
 
 module.exports = {
