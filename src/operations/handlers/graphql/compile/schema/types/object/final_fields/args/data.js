@@ -17,18 +17,16 @@ const getDataArgument = function (def, opts) {
 };
 
 const getDataObjectType = function ({ command }, { dataObjectType }) {
-  // Add required and array modifiers
-  const type = new GraphQLNonNull(dataObjectType);
-
   // Only multiple with createMany or replaceMany
   const isMultiple = command.multiple &&
     multipleDataCommandTypes.includes(command.type);
 
+  // Add required and array modifiers
   if (isMultiple) {
-    return new GraphQLNonNull(new GraphQLList(type));
+    return new GraphQLNonNull(new GraphQLList(dataObjectType));
   }
 
-  return type;
+  return new GraphQLNonNull(dataObjectType);
 };
 
 const dataCommandTypes = ['create', 'replace', 'patch'];
