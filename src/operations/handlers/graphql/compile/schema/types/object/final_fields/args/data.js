@@ -2,15 +2,13 @@
 
 const { GraphQLNonNull, GraphQLList } = require('graphql');
 
-// Data argument, i.e. payload used by mutation commands
-const dataCommandTypes = ['create', 'replace', 'patch'];
-const multipleDataCommandTypes = ['create', 'replace'];
-
-const getDataArgument = function ({ command }, { dataObjectType }) {
+// `data` argument
+const getDataArgument = function (def, opts) {
   // Only for mutation commands, but not delete
-  if (!dataCommandTypes.includes(command.type)) { return {}; }
+  const hasData = dataCommandTypes.includes(def.command.type);
+  if (!hasData) { return {}; }
 
-  const type = getDataObjectType({ command, dataObjectType });
+  const type = getDataObjectType(def, opts);
 
   // Retrieves description before wrapping in modifers
   const { description } = type;
@@ -18,17 +16,23 @@ const getDataArgument = function ({ command }, { dataObjectType }) {
   return { data: { type, description } };
 };
 
-const getDataObjectType = function ({ command, dataObjectType }) {
+const getDataObjectType = function ({ command }, { dataObjectType }) {
   // Add required and array modifiers
   const type = new GraphQLNonNull(dataObjectType);
 
   // Only multiple with createMany or replaceMany
-  if (command.multiple && multipleDataCommandTypes.includes(command.type)) {
+  const isMultiple = command.multiple &&
+    multipleDataCommandTypes.includes(command.type);
+
+  if (isMultiple) {
     return new GraphQLNonNull(new GraphQLList(type));
   }
 
   return type;
 };
+
+const dataCommandTypes = ['create', 'replace', 'patch'];
+const multipleDataCommandTypes = ['create', 'replace'];
 
 module.exports = {
   getDataArgument,
