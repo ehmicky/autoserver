@@ -1,10 +1,10 @@
 'use strict';
 
 // Make write commands not change data, if argument `dryrun` is used
-const applyDryRun = function ({ args: { dryrun }, args, command }) {
+const applyDryrun = function ({ args: { dryrun }, args, command }) {
   if (!dryrun || command === 'find') { return; }
 
-  return dryRunByCommand[command]({ args });
+  return dryrunByCommand[command]({ args });
 };
 
 // `delete` commands becomes `find` commands
@@ -24,7 +24,7 @@ const useNewData = function ({ args: { newData } }) {
   return { response: { data: newData } };
 };
 
-const dryRunByCommand = {
+const dryrunByCommand = {
   delete: getDeleteFindCommand,
   create: getCreateFindCommand,
   replace: useNewData,
@@ -32,5 +32,5 @@ const dryRunByCommand = {
 };
 
 module.exports = {
-  applyDryRun,
+  applyDryrun,
 };

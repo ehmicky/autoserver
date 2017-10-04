@@ -187,7 +187,7 @@ const middlewareLayers = [
       // Custom data validation middleware
       database.dataValidation,
       // Transform command to `find` if `dryrun` settings is used
-      database.applyDryRun,
+      database.applyDryrun,
 
       // Do the database action, protocol and operation-agnostic
       database.databaseExecute,
