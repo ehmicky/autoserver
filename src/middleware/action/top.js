@@ -38,7 +38,7 @@ const parseModelName = function ({ commandName, modelsMap }) {
 
   const modelNameA = modelsMap[pluralName] ? pluralName : singularName;
 
-  if (modelNameA === undefined) {
+  if (!commandType || !modelNameA) {
     const message = `Command '${commandName}' is unknown`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
