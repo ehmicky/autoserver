@@ -3,7 +3,7 @@
 const { GraphQLBoolean } = require('graphql');
 
 // `dryrun` argument
-const getDryRunArgument = function ({ def: { command } }) {
+const getDryRunArgument = function ({ command }) {
   const hasDryRun = dryRunCommands.includes(command.type);
   if (!hasDryRun) { return {}; }
 

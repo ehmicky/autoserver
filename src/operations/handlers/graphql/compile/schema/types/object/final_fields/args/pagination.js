@@ -8,7 +8,7 @@ const { pick } = require('../../../../../../../../../utilities');
 const paginationCommands = ['find', 'patch', 'delete'];
 const fullPaginationCommands = ['find'];
 
-const getPaginationArgument = function ({ def: { command } }) {
+const getPaginationArgument = function ({ command }) {
   // Only with commands that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and patchMany
   if (!(paginationCommands.includes(command.type) && command.multiple)) {

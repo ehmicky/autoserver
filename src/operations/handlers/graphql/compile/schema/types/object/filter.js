@@ -6,14 +6,10 @@ const filterField = function (def, opts) {
 };
 
 // Filter arguments for single commands only include `id`
-const singleIdFilter = function (def, {
-  inputObjectType,
-  parentDef: { command },
-  defName,
-}) {
-  return defName !== 'id' &&
-    inputObjectType === 'filter' &&
-    !command.multiple;
+const singleIdFilter = function ({ command }, { inputObjectType, defName }) {
+  return inputObjectType === 'filter' &&
+    !command.multiple &&
+    defName !== 'id';
 };
 
 // Computed fields cannot be specified as data argument
@@ -24,24 +20,17 @@ const computeData = function ({ compute }, { inputObjectType }) {
 
 // Readonly fields cannot be specified as data argument,
 // except during model creation
-const readonlyData = function ({ readonly }, {
-  inputObjectType,
-  parentDef: { command },
-}) {
+const readonlyData = function ({ command, readonly }, { inputObjectType }) {
   return inputObjectType === 'data' &&
-    readonly &&
-    command.type !== 'create';
+    command.type !== 'create' &&
+    readonly;
 };
 
 // `patchOne|patchMany` do not allow data.id
-const patchIdData = function (def, {
-  inputObjectType,
-  parentDef: { command },
-  defName,
-}) {
-  return defName === 'id' &&
-    inputObjectType === 'data' &&
-    command.type === 'patch';
+const patchIdData = function ({ command }, { inputObjectType, defName }) {
+  return inputObjectType === 'data' &&
+    command.type === 'patch' &&
+    defName === 'id';
 };
 
 const filters = [

@@ -62,7 +62,7 @@ const graphQLTGetters = [
 
 ];
 
-const getTypeGetter = function ({ def, opts }) {
+const getTypeGetter = function (def, opts) {
   const typeGetter = graphQLTGetters
     .find(({ condition }) => condition(def, opts));
 
