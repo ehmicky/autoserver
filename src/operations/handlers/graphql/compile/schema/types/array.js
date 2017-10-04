@@ -6,11 +6,18 @@ const graphQLArrayTest = function ({ arrayWrapped, command, isArray }) {
   // Already wrapped in Array type
   if (arrayWrapped) { return false; }
 
+  // Nested models' attributes
   if (isArray !== undefined) {
     return isArray;
   }
 
-  return command && command.multiple;
+  // Non-nested models' attributes, and top-level commands
+  if (command !== undefined) {
+    return command.multiple;
+  }
+
+  // Query|Mutation types
+  return false;
 };
 
 // Array field TGetter
