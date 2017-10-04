@@ -2,6 +2,8 @@
 
 const { throwError } = require('../../../../error');
 
+const { validateDuplicates } = require('./duplicates');
+
 // Retrieve GraphQL main definition
 // Takes into account GraphQL's `operationName`
 const getMainDef = function ({
@@ -10,29 +12,21 @@ const getMainDef = function ({
 }) {
   const defs = definitions.filter(({ kind }) => kind === 'OperationDefinition');
 
-  const operationNames = defs.map(({ name }) => name && name.value);
-  validateOperatioNames({ operationNames });
+  // GraphQL spec 5.1.1.1 'Operation Name Uniqueness'
+  validateDuplicates({ nodes: defs, type: 'operations' });
+
+  validateAnonymousNames(defs);
 
   return defs.find(({ name }) =>
     !operationName || (name && name.value) === operationName
   );
 };
 
-const validateOperatioNames = function ({ operationNames }) {
-  operationNames.forEach(validateOperatioName);
-};
+// GraphQL spec 5.1.2.1 'Lone Anonymous Operation'
+const validateAnonymousNames = function (defs) {
+  const hasAnonymousOperation = defs.some(({ name }) => name === null);
 
-const validateOperatioName = function (operationName, index, operationNames) {
-  const hasDuplicate = operationNames.slice(index + 1).includes(operationName);
-
-  // GraphQL spec 5.1.1.1 'Operation Name Uniqueness'
-  if (hasDuplicate) {
-    const message = `Two operations are named '${operationName}'`;
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
-  }
-
-  // GraphQL spec 5.1.2.1 'Lone Anonymous Operation'
-  if (operationName === null && operationNames.length > 1) {
+  if (hasAnonymousOperation && defs.length > 1) {
     const message = `All operations must have names, if there are several of them`;
     throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }

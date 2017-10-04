@@ -1,12 +1,16 @@
 'use strict';
 
 const { throwError, addGenErrorHandler } = require('../../../../../error');
+const { validateDuplicates } = require('../duplicates');
 
 // Apply GraphQL directives @include and @skip
 const applyDirectives = function ({
   selection: { directives = [] },
   variables,
 }) {
+  // GraphQL spec 5.6.3 'Directives Are Unique Per Location'
+  validateDuplicates({ nodes: directives, type: 'directives' });
+
   return directives
     .every(directive => applyDirective({ directive, variables }));
 };
@@ -26,12 +30,14 @@ const applyDirective = function ({
     return !eCheckDirective({ variables, args, directiveName });
   }
 
-  return true;
+  const message = `Unknown directive: '${directiveName}'`;
+  throwError(message, { reason: 'SYNTAX_VALIDATION' });
 };
 
 const checkDirective = function ({ variables, args }) {
   if (args.length !== 1) {
-    throwError('Incorrect number of arguments');
+    const message = 'Incorrect number of arguments';
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
   const [{
@@ -40,16 +46,27 @@ const checkDirective = function ({ variables, args }) {
   }] = args;
 
   if (ifArgName !== 'if') {
-    throwError('Invalid argument');
+    const message = 'Invalid argument';
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
-  const checkSpecificDirective = directivesCheckers[ifKind];
+  return checkSpecificDirective({ ifKind, ifValue, variables, ifValueName });
+};
 
-  if (!checkSpecificDirective) {
-    throwError('Argument must be a variable or a boolean value.');
+const checkSpecificDirective = function ({
+  ifKind,
+  ifValue,
+  variables,
+  ifValueName,
+}) {
+  const directivesChecker = directivesCheckers[ifKind];
+
+  if (!directivesChecker) {
+    const message = 'Argument must be a variable or a boolean value.';
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
-  return checkSpecificDirective({ ifValue, variables, ifValueName });
+  return directivesChecker({ ifValue, variables, ifValueName });
 };
 
 const eCheckDirective = addGenErrorHandler(checkDirective, {
@@ -65,7 +82,8 @@ const checkVariableDirective = function ({ variables, ifValueName }) {
   const evaledValue = variables[ifValueName];
 
   if (typeof evaledValue !== 'boolean') {
-    throwError('Invalid variable');
+    const message = 'Invalid variable';
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
   return evaledValue;
