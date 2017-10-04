@@ -64,7 +64,12 @@ const nameModelsCommands = function ({ models, command }) {
 const normalizeModelsDef = function ({ models, command }) {
   return mapValues(
     models,
-    (model, modelName) => ({ ...model, command, modelName, type: 'object' }),
+    (model, commandName) => ({
+      ...model,
+      command,
+      commandName,
+      type: 'object',
+    }),
   );
 };
 
