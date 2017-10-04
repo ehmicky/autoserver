@@ -32,9 +32,13 @@ const getArgs = function (def, opts) {
 // Builds types used for `data` and `filter` arguments
 const getArgTypes = function (def, opts) {
   const { getType } = opts;
-  const dataObjectType = getType(def, { ...opts, inputObjectType: 'data' });
+  const defA = { ...def, arrayWrapped: true };
+  const dataObjectType = getType(
+    defA,
+    { ...opts, inputObjectType: 'data' },
+  );
   const filterObjectType = getType(
-    { ...def, arrayWrapped: true },
+    defA,
     { ...opts, inputObjectType: 'filter' },
   );
   return { ...opts, dataObjectType, filterObjectType };
