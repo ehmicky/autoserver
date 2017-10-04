@@ -14,7 +14,7 @@ const getCommandName = function ({ model, command }) {
 //  - 'CommandModelData' and 'CommandModelFilter' for `args.data|filter` types
 const getTypeName = function ({
   def: { model, command },
-  opts: { inputObjectType },
+  opts: { inputObjectType = 'type' } = {},
 }) {
   if (inputObjectType === 'type') {
     return camelize(`_${model}`);
