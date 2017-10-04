@@ -56,7 +56,7 @@ const getCommandModels = function ({ models, command }) {
 const nameModelsCommands = function ({ models, command }) {
   return mapKeys(
     models,
-    (model, modelName) => getCommandName({ modelName, command }),
+    (model, modelName) => getCommandName({ model: modelName, command }),
   );
 };
 
@@ -64,12 +64,7 @@ const nameModelsCommands = function ({ models, command }) {
 const normalizeModelsDef = function ({ models, command }) {
   return mapValues(
     models,
-    (model, commandName) => ({
-      ...model,
-      command,
-      commandName,
-      type: 'object',
-    }),
+    model => ({ ...model, command, type: 'object' }),
   );
 };
 
