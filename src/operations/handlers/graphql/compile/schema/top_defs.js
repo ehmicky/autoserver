@@ -7,7 +7,7 @@ const {
 } = require('../../../../../utilities');
 const { COMMANDS } = require('../../../../../constants');
 
-const { getCommandName } = require('./name');
+const { getCommandName, getTypeName } = require('./name');
 
 const getTopDefs = function ({ models }) {
   return mapValues(topDefsInit, getTopDef.bind(null, models));
@@ -64,8 +64,34 @@ const nameModelsCommands = function ({ models, command }) {
 const normalizeModelsDef = function ({ models, command }) {
   return mapValues(
     models,
-    model => ({ ...model, command, type: 'object' }),
+    model => normalizeModelDef({ model, command }),
   );
+};
+
+const normalizeModelDef = function ({ model, command }) {
+  const typeName = getTypeName({ def: model });
+  const description = descriptions[command.name]({ typeName });
+
+  return {
+    ...model,
+    command,
+    description,
+    type: 'object',
+  };
+};
+
+// Top-level action description
+const descriptions = {
+  findOne: ({ typeName }) => `Search for a '${typeName}' model`,
+  findMany: ({ typeName }) => `Search for '${typeName}' models`,
+  createOne: ({ typeName }) => `Create a '${typeName}' model`,
+  createMany: ({ typeName }) => `Create '${typeName}' models`,
+  replaceOne: ({ typeName }) => `Fully update a '${typeName}' model`,
+  replaceMany: ({ typeName }) => `Fully update '${typeName}' models`,
+  patchOne: ({ typeName }) => `Partially update a '${typeName}' model`,
+  patchMany: ({ typeName }) => `Partially update '${typeName}' models`,
+  deleteOne: ({ typeName }) => `Delete a '${typeName}' model`,
+  deleteMany: ({ typeName }) => `Delete '${typeName}' models`,
 };
 
 module.exports = {
