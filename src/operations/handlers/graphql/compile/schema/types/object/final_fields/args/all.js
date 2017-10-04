@@ -33,7 +33,10 @@ const getArgs = function (def, opts) {
 const getArgTypes = function (def, opts) {
   const { getType } = opts;
   const dataObjectType = getType(def, { ...opts, inputObjectType: 'data' });
-  const filterObjectType = getType(def, { ...opts, inputObjectType: 'filter' });
+  const filterObjectType = getType(
+    { ...def, arrayWrapped: true },
+    { ...opts, inputObjectType: 'filter' },
+  );
   return { ...opts, dataObjectType, filterObjectType };
 };
 
