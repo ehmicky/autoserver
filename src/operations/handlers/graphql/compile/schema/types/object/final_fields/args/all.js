@@ -1,5 +1,7 @@
 'use strict';
 
+const { getArgTypeDescription } = require('../../../../description');
+
 const { getDataArgument } = require('./data');
 const { getFilterArgument } = require('./filter');
 const { getOrderArgument } = require('./order');
@@ -31,17 +33,19 @@ const getArgs = function (def, opts) {
 
 // Builds types used for `data` and `filter` arguments
 const getArgTypes = function (def, opts) {
-  const { getType } = opts;
-  const defA = { ...def, arrayWrapped: true };
-  const dataObjectType = getType(
-    defA,
-    { ...opts, inputObjectType: 'data' },
-  );
-  const filterObjectType = getType(
-    defA,
-    { ...opts, inputObjectType: 'filter' },
-  );
+  const dataObjectType = getArgType(def, opts, 'data');
+  const filterObjectType = getArgType(def, opts, 'filter');
   return { ...opts, dataObjectType, filterObjectType };
+};
+
+const getArgType = function (def, opts, inputObjectType) {
+  const description = getArgTypeDescription(def, opts, inputObjectType);
+  const defA = { ...def, arrayWrapped: true, description };
+
+  const { getType } = opts;
+  const optsA = { ...opts, inputObjectType };
+
+  return getType(defA, optsA);
 };
 
 module.exports = {
