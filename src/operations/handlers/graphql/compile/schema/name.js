@@ -12,12 +12,12 @@ const getCommandName = function ({ modelName, command }) {
 // Returns type name, titleized with command prepended, in singular form,
 // e.g. `FindModel`, for schema type name
 const getTypeName = function ({
-  def: { modelName, model },
+  def: { commandName, model },
   opts: { inputObjectType },
 }) {
   const name = inputObjectType === 'type'
     ? model
-    : `${modelName} ${inputObjectType}`;
+    : `${commandName} ${inputObjectType}`;
   const nameA = capitalize(name);
   return camelize(nameA);
 };
