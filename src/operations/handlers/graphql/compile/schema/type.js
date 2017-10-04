@@ -9,20 +9,19 @@ const { getTypeGetter } = require('./types');
 // Builds query|mutation type
 const getTopTypes = function ({ topDefs }) {
   const schemaId = uuidv4();
+  // `getType`: recursion, while avoiding files circular dependencies
+  const opts = { schemaId, inputObjectType: 'type', getType };
 
   return mapValues(
     topDefs,
-    topDef => getType(topDef, { topDef, schemaId, inputObjectType: 'type' }),
+    topDef => getType(topDef, { ...opts, topDef }),
   );
 };
 
 // Retrieves the GraphQL type for a given IDL definition
 const getType = function (def, opts) {
-  // Recursion, while avoiding files circular dependencies
-  const optsA = { ...opts, getType };
-
-  const typeGetter = getTypeGetter({ def, opts: optsA });
-  const type = typeGetter.value(def, optsA);
+  const typeGetter = getTypeGetter({ def, opts });
+  const type = typeGetter.value(def, opts);
   return type;
 };
 
