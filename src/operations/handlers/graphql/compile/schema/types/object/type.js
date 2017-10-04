@@ -15,7 +15,10 @@ const graphQLObjectTGetter = function (def, opts) {
   const Type = opts.inputObjectType === 'type'
     ? GraphQLObjectType
     : GraphQLInputObjectType;
-  const fields = getObjectFields(def, opts);
+
+  // This needs to be a function, otherwise we run in an infinite recursion,
+  // if the children try to reference a parent type
+  const fields = getObjectFields.bind(null, { ...opts, parentDef: def });
 
   const type = new Type({ name, description, fields });
   return type;

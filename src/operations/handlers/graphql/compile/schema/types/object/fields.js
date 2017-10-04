@@ -1,25 +1,40 @@
 'use strict';
 
-const { getNestedModels } = require('./nested_models');
-const { filterFields } = require('./filter');
-const { getFinalFields } = require('./final_fields');
+const { mapValues, omitBy } = require('../../../../../../../utilities');
+
+const { addCommand } = require('./command');
+const { getNestedModel } = require('./nested_models');
+const { filterField } = require('./filter');
+const { getFinalField } = require('./final_fields');
 const { addNoAttributes } = require('./no_attributes');
 
 // Retrieve the fields of an object, using IDL definition
-const getObjectFields = function (parentDef, opts) {
-  // This needs to be function, otherwise we run in an infinite recursion,
-  // if the children try to reference a parent type
-  return () => mappers.reduce(
-    (fields, mapper) => mapper({ fields, parentDef, opts }),
-    parentDef.attributes,
+const getObjectFields = function (opts) {
+  const fields = mappers.reduce(
+    reduceFields.bind(null, opts),
+    opts.parentDef.attributes,
   );
+  const fieldsA = addNoAttributes({ fields });
+  return fieldsA;
+};
+
+const reduceFields = function (opts, fields, mapper) {
+  const fieldsA = mapValues(
+    fields,
+    mapField.bind(null, { opts, mapper }),
+  );
+  return omitBy(fieldsA, def => def == null);
+};
+
+const mapField = function ({ opts, mapper }, def, defName) {
+  return mapper(def, { ...opts, defName });
 };
 
 const mappers = [
-  getNestedModels,
-  filterFields,
-  getFinalFields,
-  addNoAttributes,
+  addCommand,
+  getNestedModel,
+  filterField,
+  getFinalField,
 ];
 
 module.exports = {

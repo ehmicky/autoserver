@@ -9,12 +9,12 @@ const { getDryRunArgument } = require('./dryrun');
 const { getCascadeArgument } = require('./cascade');
 
 // Retrieves all resolver arguments, before resolve function is fired
-const getArgs = function ({ parentDef, def, opts }) {
+const getArgs = function ({ def, opts, opts: { parentDef } }) {
   // Only for top-level actions
   const noArgs = !['Query', 'Mutation'].includes(parentDef.model);
   if (noArgs) { return; }
 
-  const argTypes = getArgTypes({ parentDef, def, opts });
+  const argTypes = getArgTypes({ def, opts });
   const optsA = { ...opts, ...argTypes, def };
 
   return {

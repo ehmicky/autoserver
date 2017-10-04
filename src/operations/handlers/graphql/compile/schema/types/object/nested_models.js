@@ -1,17 +1,9 @@
 'use strict';
 
-const { mapValues } = require('../../../../../../../utilities');
-
-const getNestedModels = function ({ fields, opts }) {
-  return mapValues(fields, def => getNestedModel({ def, opts }));
-};
-
 // Create nested models definitions
-const getNestedModel = function ({
-  def,
-  def: { target },
-  opts: { inputObjectType, topDef },
-}) {
+const getNestedModel = function (def, { inputObjectType, topDef }) {
+  const { target } = def;
+
   // Only for nested models, that are not data|filter arguments
   const isNested = target !== undefined && inputObjectType === 'type';
   if (!isNested) { return def; }
@@ -31,5 +23,5 @@ const getNestedModel = function ({
 };
 
 module.exports = {
-  getNestedModels,
+  getNestedModel,
 };
