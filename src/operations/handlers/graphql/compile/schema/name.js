@@ -1,25 +1,27 @@
 'use strict';
 
-const { camelize, capitalize } = require('underscore.string');
+const { camelize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
 // Returns top-level command name, e.g. `find_models` or `delete_models`
-const getCommandName = function ({ modelName, command }) {
-  const modelNameA = command.multiple ? plural(modelName) : singular(modelName);
-  return `${command.type}_${modelNameA}`;
+const getCommandName = function ({ model, command }) {
+  const modelA = command.multiple ? plural(model) : singular(model);
+  return `${command.type}_${modelA}`;
 };
 
-// Returns type name, titleized with command prepended, in singular form,
-// e.g. `FindModel`, for schema type name
+// Returns type name:
+//  - 'Model' for normal return types
+//  - 'CommandModelData' and 'CommandModelFilter' for `args.data|filter` types
 const getTypeName = function ({
-  def: { commandName, model },
+  def: { model, command },
   opts: { inputObjectType },
 }) {
-  const name = inputObjectType === 'type'
-    ? model
-    : `${commandName} ${inputObjectType}`;
-  const nameA = capitalize(name);
-  return camelize(nameA);
+  if (inputObjectType === 'type') {
+    return camelize(`_${model}`);
+  }
+
+  const commandName = getCommandName({ model, command });
+  return camelize(`_${commandName}_${inputObjectType}`);
 };
 
 module.exports = {
