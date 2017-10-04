@@ -2,20 +2,24 @@
 
 const { GraphQLNonNull } = require('graphql');
 
-const getFilterArgument = function ({ command }, { filterObjectType }) {
-  // Nested queries for findOne|deleteOne|patchOne do not use filters,
-  // as it is implied from parent return value
-  const hasFilter = filterCommandTypes.includes(command.type);
+// `filter` argument
+const getFilterArgument = function (def, opts) {
+  const hasFilter = filterCommandTypes.includes(def.command.type);
   if (!hasFilter) { return {}; }
 
-  const type = command.multiple
-    ? filterObjectType
-    : new GraphQLNonNull(filterObjectType);
+  const type = getFilterObjectType(def, opts);
   return getFilterArgs({ type });
 };
 
-// Filters argument, i.e. only queries entities that match specified attributes
 const filterCommandTypes = ['find', 'delete', 'patch'];
+
+const getFilterObjectType = function ({ command }, { filterObjectType }) {
+  if (command.multiple) {
+    return filterObjectType;
+  }
+
+  return new GraphQLNonNull(filterObjectType);
+};
 
 const getFilterArgs = ({ type }) => ({
   filter: {
