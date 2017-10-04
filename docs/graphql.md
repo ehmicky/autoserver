@@ -69,11 +69,11 @@ The difference between singular and plural commands is similar to REST's
 
 The following commands are also available.
 
-`delete` command (similar to REST's `DELETE` method):
+`create` command (similar to REST's `POST` method):
 
 ```graphql
 mutation {
-  delete_user(filter: {id: "1"}) {
+  create_user(data: {id: "4", name: "David"}) {
     id
     name
   }
@@ -82,7 +82,27 @@ mutation {
 
 ```graphql
 mutation {
-  delete_users(filter: {country: "Denmark"}) {
+  create_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
+    id
+    name
+  }
+}
+```
+
+`replace` command performs a full modification (similar to REST's `PUT` method):
+
+```graphql
+mutation {
+  replace_user(data: {id: "1", name: "David"}) {
+    id
+    name
+  }
+}
+```
+
+```graphql
+mutation {
+  replace_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
     id
     name
   }
@@ -110,11 +130,11 @@ mutation {
 }
 ```
 
-`replace` command performs a full modification (similar to REST's `PUT` method):
+`delete` command (similar to REST's `DELETE` method):
 
 ```graphql
 mutation {
-  replace_user(data: {id: "1", name: "David"}) {
+  delete_user(filter: {id: "1"}) {
     id
     name
   }
@@ -123,27 +143,7 @@ mutation {
 
 ```graphql
 mutation {
-  replace_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
-    id
-    name
-  }
-}
-```
-
-`create` command (similar to REST's `POST` method):
-
-```graphql
-mutation {
-  create_user(data: {id: "4", name: "David"}) {
-    id
-    name
-  }
-}
-```
-
-```graphql
-mutation {
-  create_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
+  delete_users(filter: {country: "Denmark"}) {
     id
     name
   }
@@ -174,22 +174,6 @@ find_models({ [filter], [order_by], [page_size], [before|after|page],
 ```
 
 ```graphql
-delete_model({ filter: { id }, [cascade], [silent], [dryrun] })
-```
-
-```graphql
-delete_models({ [filter], [cascade], [page_size], [silent], [dryrun] })
-```
-
-```graphql
-patch_model({ data, filter: { id }, [silent], [dryrun] })
-```
-
-```graphql
-patch_models({ data, [filter], [page_size], [silent], [dryrun] })
-```
-
-```graphql
 create_model({ data, [silent], [dryrun] })
 ```
 
@@ -203,6 +187,22 @@ replace_model({ data, [silent], [dryrun] })
 
 ```graphql
 replace_models({ data[], [page_size], [silent], [dryrun] })
+```
+
+```graphql
+patch_model({ data, filter: { id }, [silent], [dryrun] })
+```
+
+```graphql
+patch_models({ data, [filter], [page_size], [silent], [dryrun] })
+```
+
+```graphql
+delete_model({ filter: { id }, [cascade], [silent], [dryrun] })
+```
+
+```graphql
+delete_models({ [filter], [cascade], [page_size], [silent], [dryrun] })
 ```
 
 # Error responses
