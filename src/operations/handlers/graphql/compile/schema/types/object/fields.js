@@ -18,6 +18,13 @@ const getObjectFields = function (opts) {
   return fieldsA;
 };
 
+const mappers = [
+  addCommand,
+  getNestedModel,
+  filterField,
+  getFinalField,
+];
+
 const reduceFields = function (opts, fields, mapper) {
   const fieldsA = mapValues(
     fields,
@@ -29,13 +36,6 @@ const reduceFields = function (opts, fields, mapper) {
 const mapField = function ({ opts, mapper }, def, defName) {
   return mapper(def, { ...opts, defName });
 };
-
-const mappers = [
-  addCommand,
-  getNestedModel,
-  filterField,
-  getFinalField,
-];
 
 module.exports = {
   getObjectFields,

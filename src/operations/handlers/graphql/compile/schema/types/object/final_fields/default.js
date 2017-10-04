@@ -1,22 +1,18 @@
 'use strict';
 
-const getDefaultValue = function ({
-  def,
-  def: { command },
-  opts: { inputObjectType },
-}) {
+const getDefaultValue = function (
+  { command, default: defaultValue },
+  { inputObjectType },
+) {
   // 'patch' does not required anything, nor assign defaults
   const hasDefaultValue = inputObjectType === 'data' &&
     command.type !== 'patch' &&
-    def.default;
+    defaultValue;
   if (!hasDefaultValue) { return; }
 
-  const defaults = Array.isArray(def.default) ? def.default : [def.default];
   // IDL function only shows as 'DYNAMIC_VALUE' in schema
-  const isDynamic = defaults.some(
-    inlineFunc => typeof inlineFunc === 'function'
-  );
-  return isDynamic ? undefined : def.default;
+  const isDynamic = typeof defaultValue === 'function';
+  return isDynamic ? undefined : defaultValue;
 };
 
 module.exports = {

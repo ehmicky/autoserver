@@ -6,7 +6,7 @@ const { GraphQLNonNull, GraphQLList } = require('graphql');
 const dataCommandTypes = ['create', 'replace', 'patch'];
 const multipleDataCommandTypes = ['create', 'replace'];
 
-const getDataArgument = function ({ def: { command }, dataObjectType }) {
+const getDataArgument = function ({ command }, { dataObjectType }) {
   // Only for mutation commands, but not delete
   if (!dataCommandTypes.includes(command.type)) { return {}; }
 

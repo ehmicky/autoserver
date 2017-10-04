@@ -9,12 +9,12 @@ const { getObjectFields } = require('./fields');
 
 // Object field TGetter
 const graphQLObjectTGetter = function (def, opts) {
-  const name = getTypeName({ def, opts });
-  const { description } = def;
-
   const Type = opts.inputObjectType === 'type'
     ? GraphQLObjectType
     : GraphQLInputObjectType;
+
+  const name = getTypeName({ def, opts });
+  const { description } = def;
 
   // This needs to be a function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type

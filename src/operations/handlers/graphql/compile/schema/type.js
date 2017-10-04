@@ -20,7 +20,7 @@ const getTopTypes = function ({ topDefs }) {
 
 // Retrieves the GraphQL type for a given IDL definition
 const getType = function (def, opts) {
-  const typeGetter = getTypeGetter({ def, opts });
+  const typeGetter = getTypeGetter(def, opts);
   const type = typeGetter.value(def, opts);
   return type;
 };

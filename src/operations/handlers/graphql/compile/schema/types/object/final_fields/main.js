@@ -10,9 +10,9 @@ const { getMetadata } = require('./metadata');
 // Includes return type, resolve function, arguments, etc.
 const getFinalField = function (def, opts) {
   const type = opts.getType(def, opts);
-  const args = getArgs({ def, opts });
-  const defaultValue = getDefaultValue({ def, opts });
-  const { description, deprecationReason } = getMetadata({ def });
+  const args = getArgs(def, opts);
+  const defaultValue = getDefaultValue(def, opts);
+  const { description, deprecationReason } = getMetadata(def);
 
   return { type, description, deprecationReason, args, defaultValue };
 };
