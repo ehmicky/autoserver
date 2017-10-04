@@ -1,5 +1,7 @@
 'use strict';
 
+const { isInlineFunc } = require('../../../../../../../../idl_func');
+
 const getDefaultValue = function (
   { command, default: defaultValue },
   { inputObjectType },
@@ -10,8 +12,9 @@ const getDefaultValue = function (
     defaultValue;
   if (!hasDefaultValue) { return; }
 
-  // IDL function only shows as 'DYNAMIC_VALUE' in schema
-  const isDynamic = typeof defaultValue === 'function';
+  // IDL function are skipped
+  const isDynamic = typeof defaultValue === 'function' ||
+    isInlineFunc({ inlineFunc: defaultValue });
   return isDynamic ? undefined : defaultValue;
 };
 
