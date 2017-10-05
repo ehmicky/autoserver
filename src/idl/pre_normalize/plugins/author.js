@@ -44,7 +44,6 @@ const getAttributes = ({ user = '(user())', model = 'user' }) => ({
   updated_by: {
     description: 'Who last updated this model',
     type: model,
-    readonly: true,
     value: `(${user}.id)`,
   },
 });
