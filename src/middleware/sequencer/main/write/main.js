@@ -31,7 +31,7 @@ const singleSequenceWrite = async function ({
   mInput,
 }) {
   const { [command.type]: handler } = handlers;
-  const args = handler.mergeArgs({ actions });
+  const args = handler.mergeArgs({ actions, top });
   const argsA = applyTopArgs({ args, topArgs });
 
   // Retrieve model ids
