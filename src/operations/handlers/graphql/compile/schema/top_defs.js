@@ -8,7 +8,7 @@ const {
 const { COMMANDS } = require('../../../../../constants');
 
 const { getCommandName, getTypeName } = require('./name');
-const { commandDescriptions } = require('./description');
+const { topDescriptions, commandDescriptions } = require('./description');
 
 const getTopDefs = function ({ models }) {
   return mapValues(topDefsInit, getTopDef.bind(null, models));
@@ -17,12 +17,12 @@ const getTopDefs = function ({ models }) {
 const topDefsInit = {
   query: {
     type: 'object',
-    description: 'Fetches models',
+    description: topDescriptions.query,
     model: 'Query',
   },
   mutation: {
     type: 'object',
-    description: 'Modifies models',
+    description: topDescriptions.mutation,
     model: 'Mutation',
   },
 };
