@@ -10,6 +10,7 @@ module.exports = {
   ...require('./cascade'),
   ...require('./order_by'),
   ...require('./unknown_attrs'),
+  ...require('./stable_ids'),
   ...require('./operation_summary'),
   ...require('./sort'),
 
