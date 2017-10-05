@@ -12,14 +12,6 @@ const singleIdFilter = function ({ command }, { inputObjectType, defName }) {
     defName !== 'id';
 };
 
-// Readonly fields cannot be specified as data argument,
-// except during model creation
-const readonlyData = function ({ command, readonly }, { inputObjectType }) {
-  return inputObjectType === 'data' &&
-    command.type !== 'create' &&
-    readonly;
-};
-
 // `patchOne|patchMany` do not allow data.id
 const patchIdData = function ({ command }, { inputObjectType, defName }) {
   return inputObjectType === 'data' &&
@@ -29,7 +21,6 @@ const patchIdData = function ({ command }, { inputObjectType, defName }) {
 
 const filters = [
   singleIdFilter,
-  readonlyData,
   patchIdData,
 ];
 
