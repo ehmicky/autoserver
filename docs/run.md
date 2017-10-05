@@ -34,18 +34,12 @@ The available options are:
   - `env` (defaults to `'production'`): can be `'dev'` or `'production'`.
     Running in `'dev'` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
-  - `defaultPageSize` `{integer}` (defaults to `100`):
-    use `0` to disable pagination.
-  - `maxPageSize` `{integer}` (defaults to `100`): sets an upper limit to
-    client-specified `page_size`.
-  - `maxDataLength` `{integer}` (defaults to `1000`): sets a limit on
-    client-specified `data` length, i.e. how many models can be created or
-    replaced at once.
-    Use `0` to disable.
   - `http.host` `{string}` (defaults to `localhost`)
   - `http.port` `{integer}` (defaults to `80`).
      Can be `0` for "any available port".
   - `http.enabled` `{boolean}` (defaults to `true`):
     specify `false` to disable HTTP server
+  - `maxPayloadSize`, `defaultPageSize`, `maxPageSize`, `maxDataLength`:
+    see [limits](limits.md#options)
   - `events`, `eventFilter`, `eventLevel` and `serverName`:
     see [events](events.md).

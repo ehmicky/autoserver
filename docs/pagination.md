@@ -72,3 +72,7 @@ One can use an offset-based pagination, by using `page` (starting at 1), e.g.:
 ```graphql
 find_users(page_size: 20, page: 5)
 ```
+
+# Pagination limits
+
+See [this page](limits.md).

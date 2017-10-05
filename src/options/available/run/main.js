@@ -10,10 +10,10 @@ const options = [
 
   idl,
   ...require('./env'),
+  ...require('./http'),
   ...require('./events'),
   ...require('./server_name'),
-  ...require('./pagination'),
-  ...require('./http'),
+  ...require('./limits'),
 ];
 
 module.exports = {

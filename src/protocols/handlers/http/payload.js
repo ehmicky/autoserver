@@ -10,11 +10,14 @@ const { memoize } = require('../../../utilities');
 
 // Parses and serializes HTTP request payload
 // Handles HTTP compression
-// Max limit 100KB
 // Recognizes: application/json, application/x-www-form-urlencoded,
 // string, binary
-const parsePayload = async function ({ specific: { req }, type }) {
-  const parser = mGetParser({ type });
+const parsePayload = async function ({
+  specific: { req },
+  type,
+  maxPayloadSize,
+}) {
+  const parser = mGetParser({ type, maxPayloadSize });
 
   // `body-parser` will fill req.body = {} even if there is no body.
   // We want to know if there is a body or not though,
@@ -34,9 +37,9 @@ const parsePayload = async function ({ specific: { req }, type }) {
   return bodyC;
 };
 
-const getParser = function ({ type }) {
+const getParser = function ({ type, maxPayloadSize }) {
   const opts = parsersOpts[type];
-  const optsA = { ...opts, type: typeChecker };
+  const optsA = { ...opts, type: typeChecker, limit: maxPayloadSize };
   const parser = bodyParser[type](optsA);
   const parserA = promisify(parser);
   return parserA;
