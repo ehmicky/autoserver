@@ -12,6 +12,7 @@ const {
   addAttrDefaultType,
   normalizeType,
   mergeNestedModel,
+  addDescriptions,
   addTypeValidation,
 } = require('./attribute');
 
@@ -26,6 +27,7 @@ const normalizers = [
   { type: 'attr', func: normalizeType },
   { type: 'model', func: normalizeAliases },
   { type: 'attr', func: mergeNestedModel },
+  { type: 'attr', func: addDescriptions },
   { type: 'attr', func: addTypeValidation },
 ];
 

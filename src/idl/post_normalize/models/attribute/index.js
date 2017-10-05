@@ -6,5 +6,6 @@ module.exports = {
   ...require('./default_type'),
   ...require('./attr_type'),
   ...require('./nested_model'),
+  ...require('./descriptions'),
   ...require('./type_validation'),
 };
