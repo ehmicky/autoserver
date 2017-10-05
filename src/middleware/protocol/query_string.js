@@ -4,9 +4,7 @@ const qs = require('qs');
 
 const { throwError, addGenErrorHandler } = require('../../error');
 const { transtype, mapValues } = require('../../utilities');
-
-const MAX_DEPTH = 10;
-const MAX_ARRAY_LENGTH = 100;
+const { getLimits } = require('../../limits');
 
 // Fill in `mInput.queryVars` using protocol-specific URL query variables
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -14,9 +12,14 @@ const MAX_ARRAY_LENGTH = 100;
 // Automatic transtyping is performed
 // Meant to be used to create (in coming middleware) `mInput.args`
 // but can also be used by operation layer as is.
-const parseQueryString = function ({ specific, protocolHandler }) {
+const parseQueryString = function ({ specific, protocolHandler, runOpts }) {
   const queryString = getQueryString({ specific, protocolHandler });
-  const queryVars = eParseQueryVars({ queryString });
+  const { maxQueryStringDepth, maxQueryStringLength } = getLimits({ runOpts });
+  const queryVars = eParseQueryVars({
+    queryString,
+    maxQueryStringDepth,
+    maxQueryStringLength,
+  });
 
   const queryVarsA = mapValues(queryVars, value => transtype(value));
   return { queryVars: queryVarsA };
@@ -39,14 +42,16 @@ const getQueryString = function ({ specific, protocolHandler }) {
 //  - ?var.subvar=val -> { var: { subvar: val } }
 //  - ?var[0]=val -> { var: [ val ] }
 //  - ?var[]=val&var[]=secondval -> { var: [ val, secondval ] }
-// Can be nested, with max 10 levels of depth
-// Array max length is 100
 // Performs proper URI decoding, using decodeURIComponent()
 // Differentiates between undefined, null and '' (see serialize() below)
-const parseQueryVars = function ({ queryString }) {
+const parseQueryVars = function ({
+  queryString,
+  maxQueryStringDepth,
+  maxQueryStringLength,
+}) {
   const queryObject = qs.parse(queryString, {
-    depth: MAX_DEPTH,
-    arrayLimit: MAX_ARRAY_LENGTH,
+    depth: maxQueryStringDepth,
+    arrayLimit: maxQueryStringLength,
     strictNullHandling: true,
     allowDots: true,
     decoder: str => decodeURIComponent(str.replace(/\+/g, ' ')),
