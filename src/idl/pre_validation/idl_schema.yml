@@ -139,19 +139,6 @@ definitions:
       # Default value
       default:
         $ref: '#/definitions/idlFuncOrValue'
-    allOf:
-    # Cannot both be required and have a default value
-    - if:
-        required: [validate]
-        properties:
-          validate:
-            required: [required]
-            properties:
-              required:
-                const: true
-      then:
-        not:
-          required: [default]
   # model.commands
   # E.g. `commands: [find, create]`
   # This property restricts which commands a specific model can perform
