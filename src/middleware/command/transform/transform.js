@@ -5,7 +5,7 @@ const { transformData } = require('./transformer');
 // Handles `attr.transform` and `attr.value`
 const handleTransforms = function ({
   args,
-  args: { newData },
+  args: { newData, deepKeys },
   idl,
   modelName,
   mInput,
@@ -14,6 +14,7 @@ const handleTransforms = function ({
 
   const newDataA = transformData({
     data: newData,
+    deepKeys,
     idl,
     modelName,
     mInput,
@@ -21,6 +22,7 @@ const handleTransforms = function ({
   });
   const newDataB = transformData({
     data: newDataA,
+    deepKeys,
     idl,
     modelName,
     mInput,
