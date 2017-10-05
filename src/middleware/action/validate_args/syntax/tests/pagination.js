@@ -6,6 +6,7 @@ const {
   gtTest,
   leTest,
 } = require('../../../../../fast_validation');
+const { getLimits } = require('../../../../../limits');
 
 // Validates args.before
 const beforeTests = [
@@ -30,7 +31,7 @@ const pageSizeTests = [
 
   gtTest('page_size', 0),
 
-  leTest('page_size', ({ runOpts: { maxPageSize } }) => maxPageSize),
+  leTest('page_size', ({ runOpts }) => getLimits({ runOpts }).maxPageSize),
 ];
 
 module.exports = {
