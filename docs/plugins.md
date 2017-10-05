@@ -26,11 +26,15 @@ The system plugin `timestamp` automatically adds the attributes:
   - `created_time` `{datetime}` - set on model's creation
   - `updated_time` `{datetime}` - set on model's modification
 
+It is enabled by default.
+
 # Model authors
 
 The system plugin `author` automatically adds the attributes:
   - `created_by` `{user}` - set on model's creation
   - `updated_by` `{user}` - set on model's modification
+
+It is not enabled by default.
 
 What must specify what `user` means with the plugin options:
   - `model` `{string}`: user's model name. Defaults to `'user'`
