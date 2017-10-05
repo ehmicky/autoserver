@@ -63,17 +63,19 @@ const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  return { ...builtinPlugin, ...omit(pluginConf, 'plugin') };
+  return { ...omit(builtinPlugin, 'enabled'), ...omit(pluginConf, 'plugin') };
 };
 
 const builtinPlugins = [
   {
     name: 'timestamp',
     plugin: timestampPlugin,
+    enabled: true,
   },
   {
     name: 'author',
     plugin: authorPlugin,
+    enabled: false,
   },
 ];
 

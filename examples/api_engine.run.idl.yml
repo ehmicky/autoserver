@@ -133,7 +133,6 @@ plugins:
     opts:
       exampleOption: true
     enabled: true
-  - plugin: timestamp
   - plugin: author
     opts:
       user: (user())
