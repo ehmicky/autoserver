@@ -16,7 +16,7 @@ const getFinalField = function (def, opts) {
 
   // `commandDescription` will only be used with top-level actions
   const description = def.commandDescription || def.description;
-  const { deprecationReason } = def;
+  const { deprecation_reason: deprecationReason } = def;
 
   return { type, args, defaultValue, description, deprecationReason };
 };
