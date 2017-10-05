@@ -2,10 +2,10 @@
 
 const { singular, plural } = require('pluralize');
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../../error');
 
-// Validate model are properly named
-const validateModelNames = function ({ idl }) {
+// Validate models are properly named
+const validateModelNaming = function ({ idl }) {
   if (!idl.models) { return idl; }
 
   return Object.keys(idl.models).reduce(
@@ -26,5 +26,5 @@ const checkModelName = function ({ idl, modelName }) {
 };
 
 module.exports = {
-  validateModelNames,
+  validateModelNaming,
 };

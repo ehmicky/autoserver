@@ -1,7 +1,7 @@
 'use strict';
 
 // Make sure `id` attributes are required
-const addAttrRequiredId = function (attr, { attrName }) {
+const addRequiredId = function (attr, { attrName }) {
   const { validate, validate: { required } } = attr;
   if (attrName !== 'id' || required) { return attr; }
 
@@ -9,5 +9,5 @@ const addAttrRequiredId = function (attr, { attrName }) {
 };
 
 module.exports = {
-  addAttrRequiredId,
+  addRequiredId,
 };

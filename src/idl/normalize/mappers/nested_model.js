@@ -1,6 +1,7 @@
 'use strict';
 
-// Copy some attributes to nested models from the `model.id` they refer to
+// Copy `attr.type|description` to nested models
+// from the `model.id` they refer to
 const mergeNestedModel = function (attr, { idl: { models } }) {
   if (attr.target === undefined) { return attr; }
 

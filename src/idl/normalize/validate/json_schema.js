@@ -1,10 +1,10 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../../error');
-const { compile } = require('../../json_validation');
-const { compileIdlFuncs } = require('../../idl_func');
+const { addGenErrorHandler } = require('../../../error');
+const { compile } = require('../../../json_validation');
+const { compileIdlFuncs } = require('../../../idl_func');
 
-// Validates that idl.models.MODEL are valid JSON schema
+// Validates that `attr.validate` are valid JSON schema
 // by compiling them with AJV
 const validateJsonSchema = function ({
   idl,
