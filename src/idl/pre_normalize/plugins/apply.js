@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit, omitBy, reduceAsync } = require('../../../utilities');
+const { omit, reduceAsync } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
 const { timestampPlugin } = require('./timestamp');
@@ -18,29 +18,25 @@ const applyPlugins = async function ({ idl }) {
     ? idl.plugins
     : [];
 
-  // Retrieve all builtinPlugins, except the ones that have been overriden
-  const defaultBuiltinPlugins = omitBy(
-    builtinPlugins,
-    (value, pluginName) => isOverridenPlugin({ plugins, pluginName }),
-  );
+  const pluginsA = addDefaultBuiltinPlugins({ plugins });
 
-  // Apply each idl.plugins as FUNC({ idl }) returning idl
-  const allPlugins = [...plugins, ...Object.values(defaultBuiltinPlugins)];
+  const idlA = await reduceAsync(pluginsA, applyPlugin, idl);
 
-  const idlWithPlugins = await reduceAsync(allPlugins, pluginReducer, idl);
-  return omit(idlWithPlugins, 'plugins');
+  const idlB = omit(idlA, 'plugins');
+  return idlB;
 };
 
-const isOverridenPlugin = function ({ plugins, pluginName }) {
-  return plugins.some(({ plugin }) => plugin === pluginName);
+// Add builtinPlugins, except the ones that have been overriden
+const addDefaultBuiltinPlugins = function ({ plugins }) {
+  const pluginNames = plugins.map(({ plugin }) => plugin);
+  const defaultBuiltinPlugins = builtinPlugins
+    .filter(({ name }) => !pluginNames.includes(name));
+
+  return [...plugins, ...defaultBuiltinPlugins];
 };
 
-const pluginReducer = async function (idl, pluginConf, index) {
-  const idlA = await applyPlugin({ idl, index, pluginConf });
-  return idlA;
-};
-
-const applyPlugin = async function ({ idl, index, pluginConf }) {
+// Apply each idl.plugins as FUNC({ idl }) returning idl
+const applyPlugin = function (idl, pluginConf, index) {
   const { plugin, enabled = true, opts = {} } = getPluginConf({ pluginConf });
 
   // Plugins are only enabled if specified in `idl.plugins`.
@@ -53,17 +49,16 @@ const applyPlugin = async function ({ idl, index, pluginConf }) {
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  const idlA = await plugin({ idl, opts });
-  return idlA;
+  return plugin({ idl, opts });
 };
 
 const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
   // Plugin is either a function, or a string (for builtin plugins)
   if (typeof plugin !== 'string') { return pluginConf; }
 
-  const builtinPlugin = builtinPlugins[plugin];
+  const builtinPlugin = builtinPlugins.find(({ name }) => name === plugin);
 
-  if (!builtinPlugin) {
+  if (builtinPlugin === undefined) {
     const message = `The plugin '${plugin}' does not exist`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
@@ -71,14 +66,16 @@ const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
   return { ...builtinPlugin, ...omit(pluginConf, 'plugin') };
 };
 
-const builtinPlugins = {
-  timestamp: {
+const builtinPlugins = [
+  {
+    name: 'timestamp',
     plugin: timestampPlugin,
   },
-  author: {
+  {
+    name: 'author',
     plugin: authorPlugin,
   },
-};
+];
 
 module.exports = {
   applyPlugins,
