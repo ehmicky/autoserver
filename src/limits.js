@@ -15,6 +15,9 @@ const getLimits = function ({
     maxQueryStringDepth: 10,
     // Max length of arrays in query string, e.g. ?var[50]=val
     maxQueryStringLength: 100,
+
+    // How long the request can run, in milliseconds
+    requestTimeout: 5000,
   };
 };
 
