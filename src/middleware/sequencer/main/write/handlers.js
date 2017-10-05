@@ -3,17 +3,14 @@
 const { assignArray } = require('../../../../utilities');
 
 const { removeDuplicates } = require('./duplicate');
-const { getDeepKeys } = require('./deep_keys');
 
 // Merge all `args.data` into `newData`, for `replace|patch|create` commands
-const mergeDataArgs = function ({ actions, top }) {
-  const newData = actions.map(({ args }) => args.data);
+const mergeDataArgs = function ({ actions }) {
+  const newData = actions.map(action => action.args.data);
 
   const newDataA = removeDuplicates(newData);
 
-  const deepKeys = getDeepKeys({ actions, top, newData: newDataA });
-
-  return { newData: newDataA, deepKeys };
+  return { newData: newDataA };
 };
 
 // Merge all `currentData` into `filter.id`, for `delete` command
