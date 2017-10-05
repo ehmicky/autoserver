@@ -1,5 +1,7 @@
 'use strict';
 
+const { capitalize } = require('underscore.string');
+
 const {
   assignObject,
   mapValues,
@@ -10,33 +12,13 @@ const { COMMANDS } = require('../../../../../constants');
 const { getCommandName, getTypeName } = require('./name');
 const { topDescriptions, commandDescriptions } = require('./description');
 
+// Retrieve the GraphQL definitions for Query|Mutation,
+// and the top-level commands
 const getTopDefs = function ({ models }) {
-  return mapValues(topDefsInit, getTopDef.bind(null, models));
-};
-
-const topDefsInit = {
-  query: {
-    type: 'object',
-    description: topDescriptions.query,
-    model: 'Query',
-  },
-  mutation: {
-    type: 'object',
-    description: topDescriptions.mutation,
-    model: 'Mutation',
-  },
-};
-
-const getTopDef = function (models, topDef, graphqlMethod) {
-  const attributes = getModelDefs({ graphqlMethod, models });
-  return { ...topDef, attributes };
-};
-
-// Retrieve attributes for a given GraphQL method
-const getModelDefs = function ({ graphqlMethod, models }) {
-  return COMMANDS
-    .filter(({ type }) => graphqlMethods[graphqlMethod].includes(type))
-    .map(command => getCommandModels({ models, command }))
+  return Object.entries(graphqlMethods)
+    .map(([graphqlMethod, commands]) =>
+      getTopDef({ graphqlMethod, commands, models })
+    )
     .reduce(assignObject, {});
 };
 
@@ -46,6 +28,24 @@ const graphqlMethods = {
   mutation: ['create', 'replace', 'patch', 'delete'],
 };
 
+const getTopDef = function ({ models, graphqlMethod, commands }) {
+  const attributes = getModelDefs({ commands, models });
+  const model = capitalize(graphqlMethod);
+  const description = topDescriptions[graphqlMethod];
+
+  const topDef = { type: 'object', attributes, model, description };
+  return { [graphqlMethod]: topDef };
+};
+
+// Retrieve attributes for a given GraphQL method
+const getModelDefs = function ({ models, commands }) {
+  return COMMANDS
+    .filter(({ type }) => commands.includes(type))
+    .map(command => getCommandModels({ models, command }))
+    .reduce(assignObject, {});
+};
+
+// Retrieve top-level commands
 const getCommandModels = function ({ models, command }) {
   const modelsA = nameModelsCommands({ models, command });
   const modelsB = normalizeModelsDef({ models: modelsA, command });
