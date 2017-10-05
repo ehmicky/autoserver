@@ -4,6 +4,7 @@ const { isEqual } = require('lodash');
 
 const { assignArray } = require('../../../utilities');
 const { getModel } = require('../get_model');
+const { isParentAction, getChildActions } = require('../child_actions');
 
 // Create a structure indicating which actions are the parents of which action.
 // This is needed since parent actions must be fired before children.
@@ -18,27 +19,6 @@ const getParentActions = function ({ actions, top, modelsMap }) {
       top,
       modelsMap,
     }));
-};
-
-const isParentAction = function ({ action: childAction, actions }) {
-  return !actions
-    .some(parentAction => isChildAction({ childAction, parentAction }));
-};
-
-const getChildActions = function ({ parentAction, actions }) {
-  return actions
-    .filter(childAction => isChildAction({ childAction, parentAction }));
-};
-
-const isChildAction = function ({
-  parentAction,
-  parentAction: { commandPath: parentPath },
-  childAction,
-  childAction: { commandPath: childPath },
-}) {
-  return childAction !== parentAction &&
-    childPath.length > parentPath.length &&
-    childPath.join('.').startsWith(parentPath.join('.'));
 };
 
 const getParentAction = function ({ parentAction, actions, top, modelsMap }) {
