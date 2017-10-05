@@ -1,5 +1,10 @@
 'use strict';
 
+const topDescriptions = {
+  query: 'Fetch models',
+  mutation: 'Modify models',
+};
+
 // Top-level action descriptions
 const commandDescriptions = {
   findOne: ({ typeName }) => `Search for a ${typeName} model`,
@@ -53,6 +58,7 @@ const argTypesProcessors = {
 };
 
 module.exports = {
+  topDescriptions,
   commandDescriptions,
   getArgTypeDescription,
   argTypesDescriptions,
