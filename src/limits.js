@@ -5,11 +5,17 @@
 const getLimits = function ({
   runOpts: {
     maxPageSize,
+    maxPayloadSize,
   },
 }) {
   return {
     // Max number of top-level models returned in a response
+    // Default: 100
     maxPageSize,
+    // Max size of request payloads, in bytes.
+    // Can use 'KB', 'MB', 'GB' OR 'TB'.
+    // Default: '1MB'
+    maxPayloadSize,
 
     // Max level of nesting in query string, e.g. ?var.subvar.subvar2=val
     maxQueryStringDepth: 10,

@@ -5,6 +5,7 @@ const { is: isType } = require('type-is');
 const { promiseThen } = require('../../utilities');
 const { throwError } = require('../../error');
 const { PAYLOAD_TYPES } = require('../../constants');
+const { getLimits } = require('../../limits');
 
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -14,13 +15,19 @@ const parsePayload = function ({
   specific,
   protocolHandler,
   operationHandler,
+  runOpts,
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
   const type = getPayloadType({ specific, protocolHandler, operationHandler });
 
   // Use protocol-specific way to parse payload, using a known type
-  const payloadPromise = protocolHandler.parsePayload({ type, specific });
+  const { maxPayloadSize } = getLimits({ runOpts });
+  const payloadPromise = protocolHandler.parsePayload({
+    type,
+    specific,
+    maxPayloadSize,
+  });
 
   return promiseThen(payloadPromise, processPayload.bind(null, type));
 };

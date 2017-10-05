@@ -1,9 +1,20 @@
 [
   {
+    "name": "maxPayloadSize",
+    "default": "1MB",
+    "description": "Max size of request payloads, in bytes. Can use 'kb', 'mb', 'gb' or 'tb'",
+    "group": "Limits",
+    "validate": {
+      "type": "bytes",
+      "minimum_bytes": 100
+    }
+  },
+
+  {
     "name": "defaultPageSize",
     "default": 100,
     "description": "Default page size",
-    "group": "Pagination",
+    "group": "Limits",
     "validate": {
       "type": "integer",
       "minimum": 0
@@ -14,7 +25,7 @@
     "name": "maxPageSize",
     "default": 100,
     "description": "Maximum pagination size",
-    "group": "Pagination",
+    "group": "Limits",
     "validate": {
       "type": "integer",
       "minimum": 0
@@ -25,7 +36,7 @@
     "name": "maxDataLength",
     "default": 1000,
     "description": "Maximum number of models that can be modified at once",
-    "group": "Pagination",
+    "group": "Limits",
     "validate": {
       "type": "integer",
       "minimum": 0
