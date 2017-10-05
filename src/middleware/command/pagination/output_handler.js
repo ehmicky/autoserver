@@ -9,11 +9,7 @@ const { getPaginationInfo } = require('./info');
 
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
-const handlePaginationOutput = function ({
-  args,
-  response,
-  runOpts: { maxPageSize },
-}) {
+const handlePaginationOutput = function ({ args, response, runOpts }) {
   if (!mustPaginateOutput({ args })) { return; }
 
   const responseA = reverseOutput({ args, response });
@@ -21,7 +17,7 @@ const handlePaginationOutput = function ({
   const paginationOutput = getPaginationOutput({ args, response: responseA });
   const responseB = { ...responseA, ...paginationOutput };
 
-  validatePaginationOutput({ args, maxPageSize, response: responseB });
+  validatePaginationOutput({ args, runOpts, response: responseB });
 
   return { response: responseB };
 };

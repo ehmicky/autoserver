@@ -7,13 +7,13 @@ const { getDecodedTokens } = require('./decode');
 const { noPageTests, cursorConflictTests, getTokenTests } = require('./tests');
 
 // Validate pagination input arguments
-const validatePaginationInput = function ({ args, command, maxPageSize }) {
+const validatePaginationInput = function ({ args, command, runOpts }) {
   const decodedTokens = getDecodedTokens({ args });
 
   const tests = getTests({ args, command });
   fastValidate(
     { prefix: 'Wrong arguments: ', reason: 'INPUT_VALIDATION', tests },
-    { ...args, ...decodedTokens, maxPageSize },
+    { ...args, ...decodedTokens, runOpts },
   );
 };
 

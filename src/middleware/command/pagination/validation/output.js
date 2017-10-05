@@ -10,12 +10,12 @@ const { nextPageTests, getTokenTest } = require('./tests');
 // Validate response.metadata related to pagination
 const validatePaginationOutput = function ({
   args,
-  maxPageSize,
+  runOpts,
   response,
   response: { metadata },
 }) {
   const metadataA = getOutputMetadata({ metadata });
-  metadataA.forEach(validateMetadatum.bind(null, { maxPageSize }));
+  metadataA.forEach(validateMetadatum.bind(null, { runOpts }));
 
   validateBatchSize({ args, response });
 };
@@ -37,12 +37,12 @@ const eDecode = addGenErrorHandler(decode, {
   reason: 'OUTPUT_VALIDATION',
 });
 
-const validateMetadatum = function ({ maxPageSize }, metadatum) {
+const validateMetadatum = function ({ runOpts }, metadatum) {
   const tests = getTests();
 
   fastValidate(
     { prefix: 'Wrong response: ', reason: 'OUTPUT_VALIDATION', tests },
-    { ...metadatum, maxPageSize },
+    { ...metadatum, runOpts },
   );
 };
 
