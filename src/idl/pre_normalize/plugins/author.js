@@ -10,41 +10,44 @@ const { attributesPlugin } = require('./attributes');
 //   updated_by {User} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
 // User is specified by opts:
-//   [user="(user())"] {inlineFunc} - current user
-//   [model="user"] {string} - user's model name
+//   [currentUser="(user())"] {inlineFunc} - current user
+//   [userModel="user"] {string} - user's model name
 const authorPlugin = function ({ idl, opts }) {
   validateConf({ idl, opts });
   return attributesPlugin({ getAttributes })({ idl, opts });
 };
 
-const validateConf = function ({ idl, opts: { user, model = 'user' } }) {
-  if (user && !isInlineFunc({ inlineFunc: user })) {
-    const message = 'In \'author\' plugin, \'user\' must be an inline function';
+const validateConf = function ({
+  idl,
+  opts: { currentUser, userModel = 'user' },
+}) {
+  if (currentUser && !isInlineFunc({ inlineFunc: currentUser })) {
+    const message = 'In \'author\' plugin, \'currentUser\' must be an inline function';
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  if (typeof model !== 'string') {
-    const message = `In 'author' plugin, 'model' must be a string: ${model}`;
+  if (typeof userModel !== 'string') {
+    const message = `In 'author' plugin, 'userModel' must be a string: ${userModel}`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 
-  if (!idl.models[model]) {
-    const message = `'author' plugin requires 'idl.models.${model}'`;
+  if (!idl.models[userModel]) {
+    const message = `'author' plugin requires 'models.${userModel}'`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 };
 
-const getAttributes = ({ user = '(user())', model = 'user' }) => ({
+const getAttributes = ({ currentUser = '(user())', userModel = 'user' }) => ({
   created_by: {
     description: 'Who created this model',
-    type: model,
+    type: userModel,
     readonly: true,
-    value: `($COMMAND === "create" ? ${user}.id : null)`,
+    value: `($COMMAND === "create" ? ${currentUser}.id : null)`,
   },
   updated_by: {
     description: 'Who last updated this model',
-    type: model,
-    value: `(${user}.id)`,
+    type: userModel,
+    value: `(${currentUser}.id)`,
   },
 });
 
