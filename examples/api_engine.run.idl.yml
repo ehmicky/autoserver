@@ -135,8 +135,8 @@ plugins:
     enabled: true
   - plugin: author
     opts:
-      user: (user())
-      model: owner
+      currentUser: (user())
+      userModel: owner
 validation:
   IsNotEqual:
     test: ($ !== $EXPECTED)
