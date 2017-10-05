@@ -1,15 +1,26 @@
 'use strict';
 
-const { mapValues } = require('../../../utilities');
+const { reduceAsync, mapValues } = require('../../utilities');
 
-const { normalizers } = require('./normalizers');
+const { normalizers } = require('./list');
 
-// Normalize all models and their attributes
-const normalizeAllModels = function ({ idl }) {
-  return normalizers.reduce(
-    (idlA, { type, func }) => normalizeFuncs[type](func, { idl: idlA }),
+// Normalize IDL definition
+const normalizeIdl = function ({ idl, path }) {
+  return reduceAsync(
+    normalizers,
+    applyNormalizer.bind(null, { path }),
     idl,
   );
+};
+
+// Apply each normalizer in order
+const applyNormalizer = function ({ path }, idl, { type, func }) {
+  return normalizeFuncs[type](func, { idl, path });
+};
+
+// Apply a mapping function on the full IDL
+const normalizeFull = function (func, { idl, path }) {
+  return func({ idl, path });
 };
 
 // Apply a mapping function on each model
@@ -24,12 +35,12 @@ const normalizeModels = function (func, { idl, idl: { models } }) {
 // Apply a mapping function on each model's attribute
 const normalizeAllAttrs = function (func, { idl }) {
   return normalizeModels(
-    model => normalizeAttrs(func, model, { idl }),
+    model => normalizeAttrs({ func, model, idl }),
     { idl },
   );
 };
 
-const normalizeAttrs = function (func, model, { idl }) {
+const normalizeAttrs = function ({ func, model, idl }) {
   const { attributes } = model;
   if (!attributes) { return model; }
 
@@ -40,11 +51,13 @@ const normalizeAttrs = function (func, model, { idl }) {
   return { ...model, attributes: attributesA };
 };
 
+// Normalizer can either transform the full IDL, each model or each attribute
 const normalizeFuncs = {
+  idl: normalizeFull,
   model: normalizeModels,
   attr: normalizeAllAttrs,
 };
 
 module.exports = {
-  normalizeAllModels,
+  normalizeIdl,
 };

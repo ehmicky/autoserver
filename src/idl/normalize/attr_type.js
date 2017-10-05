@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit } = require('../../../../utilities');
+const { omit } = require('../../utilities');
 
 // From `type: string[]` or `type: my_model`
 // to `type: string, isArray: true` or `target: my_model, isArray: false`
