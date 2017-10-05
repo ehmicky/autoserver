@@ -43,11 +43,6 @@ const applyTransform = function ({ data, attrName, transform, mInput, type }) {
   const vars = getTransformVars({ data, currentVal, type });
   const valueA = runIdlFunc({ idlFunc: transform, mInput, vars });
 
-  // Returning `null` or `undefined` with `value` is a way
-  // to ignore that return value.
-  const isIgnored = type === 'value' && valueA == null;
-  if (isIgnored) { return currentVal; }
-
   return valueA;
 };
 
