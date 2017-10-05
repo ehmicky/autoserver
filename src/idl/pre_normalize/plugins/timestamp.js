@@ -25,7 +25,6 @@ const getAttributes = () => ({
     type: 'string',
     description: 'Timestamp indicating when this model was last updated',
     examples: ['2017-04-26T11:19:45Z'],
-    readonly: true,
     value: '($TIMESTAMP)',
     validate: {
       format: 'date-time',
