@@ -13,7 +13,6 @@ const validateUnknownAttrs = function ({
   idl: { shortcuts: { modelsMap } },
 }) {
   actions.forEach(action => validateAction({ action, modelsMap }));
-  return actions;
 };
 
 const validateAction = function ({ action, modelsMap }) {
