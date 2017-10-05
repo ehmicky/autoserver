@@ -4,55 +4,81 @@ const { operationsIdl } = require('../operations');
 
 const { applyPlugins } = require('./plugins');
 const { applyModelDefault } = require('./model_default');
-const { validateIdlCircularRefs } = require('./circular_refs');
-const { validateData } = require('./data');
-const { validateModelNames } = require('./model_names');
-const { validateIdlSyntax } = require('./syntax');
-const { addModelName } = require('./model_name');
-const { normalizeCommands } = require('./commands');
-const { addDefaultId } = require('./default_id');
-const { addAttrDefaultValidate } = require('./default_validate');
-const { addAttrRequiredId } = require('./required_id');
-const { addAttrDefaultType } = require('./default_type');
-const { normalizeType } = require('./attr_type');
-const { normalizeAliases } = require('./alias');
-const { mergeNestedModel } = require('./nested_model');
-const { addDescriptions } = require('./description');
-const { addTypeValidation } = require('./type_validation');
+const {
+  validateIdlCircularRefs,
+  validateJsonSchemaData,
+  validateModelNaming,
+  validateIdlSyntax,
+  validateInlineFuncs,
+  validateJsonSchema,
+} = require('./validate');
+const {
+  addDefaultModelName,
+  addDefaultCommands,
+  addDefaultId,
+  addDefaultValidate,
+  addDefaultType,
+} = require('./default');
+const {
+  addRequiredId,
+  normalizeType,
+  addTypeValidation,
+  mergeNestedModel,
+  normalizeAliases,
+  addDescriptions,
+} = require('./mappers');
 const { normalizeShortcuts } = require('./shortcuts');
-const { addInlineFuncPaths } = require('./inline_func_paths');
-const { validateJsonSchema } = require('./json_schema');
-// eslint-disable-next-line import/max-dependencies
-const { validateInlineFuncs } = require('./inline_func');
+const { addInlineFuncPaths } = require('./inline_func');
 
 const normalizers = [
   // Apply idl.plugins
   { type: 'idl', func: applyPlugins },
-  // Apply idl.default
+  // Apply idl.model.default
   { type: 'idl', func: applyModelDefault },
 
+  // Validates that there are no circular references
   { type: 'idl', func: validateIdlCircularRefs },
-  { type: 'idl', func: validateData },
-  { type: 'idl', func: validateModelNames },
+  // Validates JSON schema $data
+  { type: 'idl', func: validateJsonSchemaData },
+  // Validate models are properly named
+  { type: 'idl', func: validateModelNaming },
+  // General IDL syntax validation
   { type: 'idl', func: validateIdlSyntax },
 
-  { type: 'model', func: addModelName },
-  { type: 'model', func: normalizeCommands },
+  // Default `model.model`
+  { type: 'model', func: addDefaultModelName },
+  // Default `model.id` attribute
   { type: 'model', func: addDefaultId },
-  { type: 'attr', func: addAttrDefaultValidate },
-  { type: 'attr', func: addAttrRequiredId },
-  { type: 'attr', func: addAttrDefaultType },
-  { type: 'attr', func: normalizeType },
-  { type: 'model', func: normalizeAliases },
-  { type: 'attr', func: mergeNestedModel },
-  { type: 'attr', func: addDescriptions },
-  { type: 'attr', func: addTypeValidation },
+  // Default `attr.type`
+  { type: 'attr', func: addDefaultType },
+  // Default `attr.validate`
+  { type: 'attr', func: addDefaultValidate },
+  // Default `model.commands`
+  { type: 'model', func: addDefaultCommands },
 
+  // Make sure `id` attributes are required
+  { type: 'attr', func: addRequiredId },
+  // Transform `attr.type` to internal format
+  { type: 'attr', func: normalizeType },
+  // Add `attr.validate.type`, using `attr.type`
+  { type: 'attr', func: addTypeValidation },
+  // Copy `attr.type|description` to nested models from their target
+  { type: 'attr', func: mergeNestedModel },
+  // Set all `attr.alias` and `attr.aliasOf`
+  { type: 'model', func: normalizeAliases },
+  // Add `attr.description` from `attr.readonly|value|examples|alias`
+  { type: 'attr', func: addDescriptions },
+
+  // Compile-time transformations meant for runtime performance optimization
   { type: 'idl', func: normalizeShortcuts },
+  // Add `idl.inlineFuncPaths`
   { type: 'idl', func: addInlineFuncPaths },
 
+  // Validates that there are no circular references
   { type: 'idl', func: validateIdlCircularRefs },
+  // Check inline functions are valid by compiling then
   { type: 'idl', func: validateInlineFuncs },
+  // Validates that `attr.validate` are valid JSON schema
   { type: 'idl', func: validateJsonSchema },
 
   // Apply operation-specific compile-time logic

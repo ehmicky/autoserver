@@ -1,7 +1,7 @@
 'use strict';
 
-// Adds defaults commands
-const normalizeCommands = function (model) {
+// Adds defaults `model.commands`
+const addDefaultCommands = function (model) {
   const { commands = defaultCommands } = model;
 
   return { ...model, commands };
@@ -16,5 +16,5 @@ const defaultCommands = [
 ];
 
 module.exports = {
-  normalizeCommands,
+  addDefaultCommands,
 };

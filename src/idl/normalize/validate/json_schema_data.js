@@ -1,10 +1,10 @@
 'use strict';
 
-const { fullRecurseMap, mapValues } = require('../../utilities');
-const { throwError } = require('../../error');
+const { fullRecurseMap, mapValues } = require('../../../utilities');
+const { throwError } = require('../../../error');
 
 // Validate JSON schema `$data` properties
-const validateData = function ({ idl }) {
+const validateJsonSchemaData = function ({ idl }) {
   return fullRecurseMap(idl, validateDataMapper);
 };
 
@@ -34,5 +34,5 @@ const validateDataFormat = function (obj) {
 };
 
 module.exports = {
-  validateData,
+  validateJsonSchemaData,
 };

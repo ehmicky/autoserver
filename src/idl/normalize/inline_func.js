@@ -1,13 +1,16 @@
 'use strict';
 
-const { compileIdlFuncs } = require('../../idl_func');
+const { getAll } = require('../../utilities');
+const { isInlineFunc } = require('../../idl_func');
 
-// Check inline functions are valid by compiling then
-const validateInlineFuncs = function ({ idl }) {
-  compileIdlFuncs({ idl });
-  return idl;
+// Retrieve paths of every value in IDL that uses inline functions
+const addInlineFuncPaths = function ({ idl }) {
+  const inlineFuncPaths = getAll(idl)
+    .filter(([inlineFunc]) => isInlineFunc({ inlineFunc }))
+    .map(([, key]) => key);
+  return { ...idl, inlineFuncPaths };
 };
 
 module.exports = {
-  validateInlineFuncs,
+  addInlineFuncPaths,
 };

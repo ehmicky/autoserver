@@ -1,6 +1,6 @@
 'use strict';
 
-// Add model.id if it does not exist
+// Add default `model.id` attribute
 const addDefaultId = function (model) {
   const { attributes, attributes: { id } } = model;
   if (id !== undefined) { return model; }

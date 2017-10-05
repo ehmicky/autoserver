@@ -1,10 +1,11 @@
 'use strict';
 
-const { getYaml, omitBy, fullRecurseMap } = require('../../utilities');
-const { compile, validate } = require('../../json_validation');
+const { getYaml, omitBy, fullRecurseMap } = require('../../../utilities');
+const { compile, validate } = require('../../../json_validation');
 
 const IDL_SCHEMA_PATH = `${__dirname}/idl_schema.yml`;
 
+// General IDL syntax validation
 const validateIdlSyntax = async function ({ idl }) {
   const schema = await getYaml({ path: IDL_SCHEMA_PATH });
   const compiledSchema = compile({ schema });

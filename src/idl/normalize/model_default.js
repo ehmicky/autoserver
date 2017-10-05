@@ -2,7 +2,7 @@
 
 const { omit, mapValues, deepMerge } = require('../../utilities');
 
-// Applies `idl.default` to each model
+// Applies `idl.model.default` to each model
 const applyModelDefault = function ({
   idl,
   idl: { models, models: { default: modelsDefault } = {} },
