@@ -85,14 +85,12 @@ definitions:
           required:
             not:
               const: false
-    # `MODEL.id` cannot use transform|value|compute|readonly
+    # `MODEL.id` cannot use transform|value|readonly
     allOf:
     - not:
         required: [transform]
     - not:
         required: [value]
-    - not:
-        required: [compute]
     - not:
         required: [readonly]
   # MODEL.attribute targetting another model
@@ -103,8 +101,6 @@ definitions:
     #    required: [transform]
     #- not:
     #    required: [value]
-    #- not:
-    #    required: [compute]
   # MODEL.attributes
   attribute:
     type: object
@@ -124,11 +120,9 @@ definitions:
       readonly:
         type: boolean
       transform:
-        $ref: '#/definitions/transformCompute'
+        $ref: '#/definitions/transformValue'
       value:
-        $ref: '#/definitions/transformCompute'
-      compute:
-        $ref: '#/definitions/transformCompute'
+        $ref: '#/definitions/transformValue'
       # General data validation
       validate:
         $ref: '#/definitions/validate'
@@ -174,22 +168,6 @@ definitions:
       then:
         not:
           required: [default]
-    # Those attributes cannot be used together with `compute` because they
-    # do not make any sense on an attribute that is not persisted.
-    - if:
-        required: [compute]
-      then:
-        allOf:
-        - not:
-            required: [transform]
-        - not:
-            required: [value]
-        - not:
-            required: [default]
-        - not:
-            required: [validate]
-        - not:
-            required: [readonly]
   # model.commands
   # E.g. `commands: [find, create]`
   # This property restricts which commands a specific model can perform
@@ -303,8 +281,8 @@ definitions:
     - number[]
     - integer[]
     - boolean[]
-  # attr.transform or attr.compute
-  transformCompute:
+  # attr.transform or attr.value
+  transformValue:
     $ref: '#/definitions/idlFuncOrValue'
   # model.description or attr.description
   description:

@@ -12,12 +12,6 @@ const singleIdFilter = function ({ command }, { inputObjectType, defName }) {
     defName !== 'id';
 };
 
-// Computed fields cannot be specified as data argument
-const computeData = function ({ compute }, { inputObjectType }) {
-  return inputObjectType === 'data' &&
-    compute !== undefined;
-};
-
 // Readonly fields cannot be specified as data argument,
 // except during model creation
 const readonlyData = function ({ command, readonly }, { inputObjectType }) {
@@ -35,7 +29,6 @@ const patchIdData = function ({ command }, { inputObjectType, defName }) {
 
 const filters = [
   singleIdFilter,
-  computeData,
   readonlyData,
   patchIdData,
 ];
