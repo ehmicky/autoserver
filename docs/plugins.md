@@ -36,8 +36,7 @@ The system plugin `author` automatically adds the attributes:
 
 It is not enabled by default.
 
-What must specify what `user` means with the plugin options:
-  - `userModel` `{string}`: user's model name. Defaults to `'user'`
+The following plugin options must be specified:
   - `currentUser` [`{function}`](functions.md): retrieves the current
-    request's user.
-    Defaults to `'(user())'`
+    request's user. Cannot return null if the user is anonymous.
+  - `userModel` `{string}`: user's model name.
