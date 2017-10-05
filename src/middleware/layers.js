@@ -154,14 +154,14 @@ const middlewareLayers = [
       command.normalizeEmpty,
       // Apply attribute aliases, in mInput
       command.renameAliasesInput,
-      // Resets readonly attributes in `args.newData`
-      command.handleReadonly,
       // Process `attr.transforms` and `attr.value`
       command.handleTransforms,
       // Apply user-defined default values
       command.userDefaults,
       // Apply system-defined default values, e.g. order_by 'id+'
       command.systemDefaults,
+      // Resets readonly attributes in `args.newData`
+      command.handleReadonly,
       // Paginate mInput
       command.handlePaginationInput,
 
