@@ -156,8 +156,6 @@ const middlewareLayers = [
       command.renameAliasesInput,
       // Resets readonly attributes in `args.newData`
       command.handleReadonly,
-      // Process `attr.compute`, in input
-      command.handleComputesIn,
       // Process `attr.transforms` and `attr.value`
       command.handleTransforms,
       // Apply user-defined default values
@@ -172,8 +170,6 @@ const middlewareLayers = [
 
       // Paginate output
       command.handlePaginationOutput,
-      // Process `attr.compute`, in output
-      command.handleComputesOut,
       // Apply attribute aliases, in output
       command.renameAliasesOutput,
     ],
