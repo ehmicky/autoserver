@@ -55,6 +55,9 @@ models:
       photo_urls:
         type: string[]
         description: Sweet pictures of a pet
+        examples:
+        - http://www.photos.org/1.jpg
+        - http://www.photos.org/3.jpg
         validate:
           required: true
       skills:
