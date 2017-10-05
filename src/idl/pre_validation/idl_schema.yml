@@ -139,6 +139,14 @@ definitions:
       # Default value
       default:
         $ref: '#/definitions/idlFuncOrValue'
+    allOf:
+    # Cannot have both attr.value and attr.transform,
+    # since they would cancel each other out.
+    - if:
+        required: [value]
+      then:
+        not:
+          required: [transform]
   # model.commands
   # E.g. `commands: [find, create]`
   # This property restricts which commands a specific model can perform
