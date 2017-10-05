@@ -1,6 +1,9 @@
 'use strict';
 
-// Add related `attr.description`, when `attr.readonly` or `attr.value` is used
+const { toSentence } = require('underscore.string');
+
+// Add related `attr.description`, for the following features:
+// `attr.readonly`, `attr.value`, `attr.examples`, `attr.alias`
 const addDescriptions = function (attr) {
   const descriptions = allDescriptions.filter(({ test: func }) => func(attr));
   if (descriptions.length === 0) { return attr; }
@@ -21,6 +24,13 @@ const getExamples = function ({ examples }) {
   return `Examples:\n${examplesA}`;
 };
 
+const getAliasesDescription = function ({ alias }) {
+  const aliases = Array.isArray(alias) ? alias : [alias];
+  const aliasesA = aliases.map(aliasA => `'${aliasA}'`);
+  const aliasesB = toSentence(aliasesA);
+  return `Aliases: ${aliasesB}.`;
+};
+
 const allDescriptions = [
   {
     test: ({ readonly }) => readonly,
@@ -33,6 +43,14 @@ const allDescriptions = [
   {
     test: ({ examples }) => examples !== undefined,
     message: getExamples,
+  },
+  {
+    test: ({ alias }) => alias !== undefined,
+    message: getAliasesDescription,
+  },
+  {
+    test: ({ aliasOf }) => aliasOf !== undefined,
+    message: ({ aliasOf }) => `Alias of '${aliasOf}'.`,
   },
 ];
 
