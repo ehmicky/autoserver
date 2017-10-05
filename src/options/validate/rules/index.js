@@ -5,4 +5,5 @@ module.exports = {
   ...require('./enum'),
   ...require('./minimum'),
   ...require('./maximum'),
+  ...require('./minimum_bytes'),
 };
