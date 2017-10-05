@@ -115,6 +115,9 @@ const middlewareLayers = [
       // Add `action.currentData`
       // and (for `patch|delete`) fix `action.dataPaths`
       action.addCurrentData,
+      // Validate that readonly attributes are not modified by using
+      // 'replace' nested actions
+      action.validateNestedReadonly,
       // Merge `currentData` with the `args.data` in `patch` commands
       action.patchData,
       // Fire all write actions, retrieving some `results`
