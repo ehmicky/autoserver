@@ -7,9 +7,6 @@
 // TODO: add `url` property pointing towards API documentation for that error
 // TODO: add all `title` properties to `generic`
 const errorReasons = {
-  // Tried to use a protocol method that is not supported, e.g. TRACE
-  UNSUPPORTED_METHOD: {},
-
   // Request payload has a request payload but no Content-Type
   NO_CONTENT_TYPE: {},
 
@@ -38,6 +35,7 @@ const errorReasons = {
   },
 
   // Method is not supported, or most likely not allowed for this operation
+  // Or tried to use a protocol method that is not supported, e.g. TRACE
   WRONG_METHOD: {},
 
   // The request took too long
