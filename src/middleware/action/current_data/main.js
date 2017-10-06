@@ -6,7 +6,7 @@ const { serialResolve } = require('./serial');
 // Add `action.currentData`, i.e. current models for the write actions about
 // to be fired.
 // Also adds `action.dataPaths` for `patch` and `delete` commands.
-const addCurrentData = async function (
+const addCurrentData = function (
   {
     actions,
     top,
@@ -19,8 +19,7 @@ const addCurrentData = async function (
 
   if (resolver === undefined) { return { actions }; }
 
-  const actionsA = await resolver({ actions, top, ...rest }, nextLayer);
-  return { actions: actionsA };
+  return resolver({ actions, top, ...rest }, nextLayer);
 };
 
 // `find` and `create` commands do not use `currentData`
