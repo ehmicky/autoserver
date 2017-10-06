@@ -3,6 +3,7 @@
 The following limits can be configured with [options](run.md#options):
   - `maxPayloadSize` `{integer|string}` (defaults to `1MB`):
      Max size of request payloads, in bytes.
+     Also used as the max URL length.
      Can use 'KB', 'MB', 'GB' OR 'TB'.
   - `defaultPageSize` `{integer}` (defaults to `100`):
     use `0` to disable pagination.
@@ -12,3 +13,10 @@ The following limits can be configured with [options](run.md#options):
     client-specified `data` length, i.e. how many models can be created or
     replaced at once.
     Use `0` to disable.
+
+# System limits
+
+The following limits cannot be configured:
+  - maximum attributes' value: 2KB
+  - maximum number of attributes per model: 50
+  - request timeout: 5 seconds
