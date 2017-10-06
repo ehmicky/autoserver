@@ -31,8 +31,13 @@ const addGenErrorHandler = function (func, { message, reason }) {
 };
 
 const genErrorHandler = function ({ message, reason }, error, ...args) {
-  const messageA = typeof message === 'function' ? message(...args) : message;
-  throwError(messageA, { reason, innererror: error });
+  const messageA = typeof message === 'function'
+    ? message(...args, error)
+    : message;
+  const reasonA = typeof reason === 'function'
+    ? reason(...args, error)
+    : reason;
+  throwError(messageA, { reason: reasonA, innererror: error });
 };
 
 module.exports = {
