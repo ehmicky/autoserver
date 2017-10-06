@@ -21,7 +21,7 @@ const parallelResolve = async function ({ actions, mInput }, nextLayer) {
     mInput,
   });
   const actionsA = addCurrentDataActions({ actions, currentDataMap });
-  return actionsA;
+  return { actions: actionsA };
 };
 
 // Retrieve the `find` commands to perform, by using current `replace` actions

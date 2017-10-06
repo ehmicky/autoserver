@@ -21,7 +21,7 @@ const serialResolve = async function (
 
   const actionsA = actions
     .map(action => mergeSerialResult({ results, action }));
-  return actionsA;
+  return { actions: actionsA };
 };
 
 // Retrieve the `find` commands to fire
