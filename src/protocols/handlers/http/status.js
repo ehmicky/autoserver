@@ -5,13 +5,15 @@ const getProtocolStatus = function ({
   error,
   error: { reason = 'UNKNOWN' } = {},
 }) {
-  if (!error) { return 200; }
+  if (!error) { return protocolStatusesMap.SUCCESS; }
 
   return protocolStatusesMap[reason] || protocolStatusesMap.UNKNOWN_TYPE;
 };
 
 // All error reasons and their related HTTP status code
 const protocolStatusesMap = {
+  SUCCESS: 200,
+
   UNSUPPORTED_METHOD: 400,
   NO_CONTENT_TYPE: 400,
   QUERY_STRING_PARSE: 400,

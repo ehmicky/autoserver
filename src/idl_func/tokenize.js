@@ -7,11 +7,12 @@ const tokenizeInlineFunc = function ({ inlineFunc }) {
 };
 
 const inlineFuncRegExp = /^(\s*)(\\?)(\()(.*)(\))(\s*)$/;
+const inlineFuncIndex = 4;
 
 // Remove outer parenthesis from inline function
 const getInlineFunc = function ({ inlineFunc }) {
   const parts = tokenizeInlineFunc({ inlineFunc });
-  return (parts && parts[4]) || '';
+  return (parts && parts[inlineFuncIndex]) || '';
 };
 
 module.exports = {
