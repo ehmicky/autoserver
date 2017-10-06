@@ -10,7 +10,7 @@ const errorReasons = {
   // Tried to use a protocol method that is not supported, e.g. TRACE
   UNSUPPORTED_METHOD: {},
 
-  // Request payload has a Content-Length but no request payload
+  // Request payload has a request payload but no Content-Type
   NO_CONTENT_TYPE: {},
 
   // Query string is wrong
