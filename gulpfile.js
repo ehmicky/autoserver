@@ -13,8 +13,7 @@ gulp.task('lint', () =>
       ignorePath: '.gitignore',
     }))
     .pipe(eslint.format('codeframe'))
-    .pipe(eslint.failAfterError())
-);
+    .pipe(eslint.failAfterError()));
 
 gulp.task('dup', () =>
   gulpSrc('lint')
@@ -24,8 +23,7 @@ gulp.task('dup', () =>
       'min-lines': 0,
       'min-tokens': 30,
       'skip-comments': true,
-    }))
-);
+    })));
 
 gulp.task('test', ['lint', 'dup']);
 

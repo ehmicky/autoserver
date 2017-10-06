@@ -18,8 +18,7 @@ const getMainDef = function ({
   validateAnonymousNames(defs);
 
   return defs.find(({ name }) =>
-    !operationName || (name && name.value) === operationName
-  );
+    !operationName || (name && name.value) === operationName);
 };
 
 // GraphQL spec 5.1.2.1 'Lone Anonymous Operation'

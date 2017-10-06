@@ -42,8 +42,7 @@ const getBackwardInput = function ({
   if (!isBackward) { return {}; }
 
   const orderByA = orderBy.map(({ attrName, order }) =>
-    ({ attrName, order: order === 'asc' ? 'desc' : 'asc' })
-  );
+    ({ attrName, order: order === 'asc' ? 'desc' : 'asc' }));
   return { orderBy: orderByA };
 };
 
@@ -79,8 +78,7 @@ const getPaginatedFilter = function ({
     .reduce(assignObject, {});
 
   const filter = orderBy.map(({ attrName, order }, index) =>
-    getFilterPart({ tokenObj, isBackward, partsObj, attrName, order, index })
-  );
+    getFilterPart({ tokenObj, isBackward, partsObj, attrName, order, index }));
   const filterA = filter.length === 1 ? filter[0] : filter;
 
   return filterA;

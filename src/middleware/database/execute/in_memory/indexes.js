@@ -50,8 +50,7 @@ const modelMatchAttr = function ({ model, attrName, attr }) {
 
   return Object.entries(attr)
     .every(([matcherName, attrVal]) =>
-      singleModelMatch({ matcherName, modelVal, attrVal })
-    );
+      singleModelMatch({ matcherName, modelVal, attrVal }));
 };
 
 const singleModelMatch = function ({ matcherName, modelVal, attrVal }) {

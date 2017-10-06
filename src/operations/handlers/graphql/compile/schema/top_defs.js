@@ -17,8 +17,7 @@ const { topDescriptions, commandDescriptions } = require('./description');
 const getTopDefs = function ({ models }) {
   return Object.entries(graphqlMethods)
     .map(([graphqlMethod, commands]) =>
-      getTopDef({ graphqlMethod, commands, models })
-    )
+      getTopDef({ graphqlMethod, commands, models }))
     .reduce(assignObject, {});
 };
 

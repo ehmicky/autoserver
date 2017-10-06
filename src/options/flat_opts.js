@@ -10,8 +10,7 @@ const getFlatOpts = function ({ prefix = '', options, availableOpts }) {
 
   return Object.entries(options)
     .map(([optName, optVal]) =>
-      getFlatOpt({ prefix, optName, optVal, availableOpts })
-    )
+      getFlatOpt({ prefix, optName, optVal, availableOpts }))
     .reduce(assignArray, []);
 };
 
