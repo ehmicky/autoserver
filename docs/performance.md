@@ -20,7 +20,3 @@ The event payload contains the following additional properties:
     information as `measures`
 
 Additionally, a `X-Response-Time: number` header is sent in the response.
-
-# Request timeout
-
-Requests have a timeout of 5 seconds.
