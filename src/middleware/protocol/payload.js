@@ -63,7 +63,7 @@ const getContentType = function ({ specific, protocolHandler }) {
 
   if (!contentType) {
     const msg = 'Must specify Content-Type when sending a request payload';
-    throwError(msg, { reason: 'NO_CONTENT_TYPE' });
+    throwError(msg, { reason: 'WRONG_CONTENT_TYPE' });
   }
 
   return contentType;

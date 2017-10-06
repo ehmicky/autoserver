@@ -7,9 +7,6 @@
 // TODO: add `url` property pointing towards API documentation for that error
 // TODO: add all `title` properties to `generic`
 const errorReasons = {
-  // Request payload has a request payload but no Content-Type
-  NO_CONTENT_TYPE: {},
-
   // Error while parsing the request payload
   PAYLOAD_PARSE: {},
 
@@ -52,6 +49,7 @@ const errorReasons = {
   INPUT_LIMIT: {},
 
   // Request body Content-Type is unsupported
+  // Or request payload has a request payload but no Content-Type
   WRONG_CONTENT_TYPE: {},
 
   // Filesystem error: could not open local file
