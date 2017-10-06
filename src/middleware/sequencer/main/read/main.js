@@ -21,8 +21,7 @@ const sequenceRead = async function (
       nextLayer,
       mInput,
       results,
-    })
-  );
+    }));
   await Promise.all(resultsPromises);
 
   return { results };

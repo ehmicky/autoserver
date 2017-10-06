@@ -5,14 +5,12 @@ const { invert, mapKeys } = require('../../../../utilities');
 // Name shortcuts, e.g. { filter: value } -> { f: value }
 const addNameShortcuts = function (token) {
   return mapKeys(token, (value, attrName) =>
-    shortcuts[attrName] || attrName
-  );
+    shortcuts[attrName] || attrName);
 };
 
 const removeNameShortcuts = function (token) {
   return mapKeys(token, (value, attrName) =>
-    reverseShortcuts[attrName] || attrName
-  );
+    reverseShortcuts[attrName] || attrName);
 };
 
 const shortcuts = {

@@ -16,21 +16,18 @@ const getOperationSummary = function ({
   const childActions = actions.filter(({ commandPath: childPath, command }) =>
     isEqual(commandPath, childPath.slice(0, -1)) &&
     // In write actions, do not use child actions only used for selections
-    command.type === commandType
-  );
+    command.type === commandType);
 
   if (childActions.length === 0) {
     return { operationSummary: commandName };
   }
 
   const childActionsStr = childActions
-    .map(
-      ({ commandPath: childPath }) => getOperationSummary({
-        commandPath: childPath,
-        actions,
-        top,
-      }).operationSummary
-    )
+    .map(({ commandPath: childPath }) => getOperationSummary({
+      commandPath: childPath,
+      actions,
+      top,
+    }).operationSummary)
     .join(',');
   const operationSummary = `${commandName}{${childActionsStr}}`;
 

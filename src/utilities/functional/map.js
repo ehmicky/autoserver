@@ -39,8 +39,7 @@ const mapValuesAsync = async function (obj, mapperFunc) {
   checkObject(obj);
 
   const promises = Object.entries(obj).map(([key, value]) =>
-    mapValueAsync({ key, value, obj, mapperFunc })
-  );
+    mapValueAsync({ key, value, obj, mapperFunc }));
 
   // Run in parallel
   const valuesArray = await Promise.all(promises);

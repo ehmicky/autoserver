@@ -6,8 +6,7 @@ const { result } = require('../utilities');
 // Fast validation utility
 const fastValidate = function ({ tests, prefix, reason }, ...args) {
   tests.forEach(testParams =>
-    validateTest({ prefix, reason, ...testParams }, ...args)
-  );
+    validateTest({ prefix, reason, ...testParams }, ...args));
 };
 
 const validateTest = function (
@@ -23,14 +22,12 @@ const validateTest = function (
   if (input) {
     const argsArray = input(...args);
     return argsArray.forEach(argsA =>
-      validateTest({ prefix, reason, test: testFunc, message }, argsA)
-    );
+      validateTest({ prefix, reason, test: testFunc, message }, argsA));
   }
 
   if (Array.isArray(testFunc)) {
     return testFunc.forEach(testFuncA =>
-      validateTest({ prefix, reason, test: testFuncA, message }, ...args)
-    );
+      validateTest({ prefix, reason, test: testFuncA, message }, ...args));
   }
 
   if (testFunc(...args)) { return; }

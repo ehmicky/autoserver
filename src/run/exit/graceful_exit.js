@@ -19,8 +19,7 @@ const mmGracefulExit = async function ({ servers, runOpts }) {
 const gracefulExit = async function ({ servers, runOpts, measures }) {
   const statusesPromises = Object.values(servers)
     .map(({ server, protocol }) =>
-      closeServer({ server, protocol, runOpts, measures })
-    );
+      closeServer({ server, protocol, runOpts, measures }));
   const statusesArray = await Promise.all(statusesPromises);
   const statuses = statusesArray.reduce(assignObject, {});
 

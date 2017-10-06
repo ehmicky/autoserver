@@ -6,8 +6,7 @@ const { omitBy } = require('../../../../utilities');
 
 const removeDefaultValues = function (token) {
   return omitBy(token, (value, attrName) =>
-    isEqual(value, defaultValues[attrName])
-  );
+    isEqual(value, defaultValues[attrName]));
 };
 
 const addDefaultValues = function (token) {

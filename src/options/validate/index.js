@@ -23,8 +23,7 @@ const checkOpt = function ({ name, validate, optVal }) {
 
   // Validate option against each `validate` rule
   Object.entries(validateA).forEach(([ruleType, ruleVal]) =>
-    validateRule({ name, optVal, ruleVal, ruleType })
-  );
+    validateRule({ name, optVal, ruleVal, ruleType }));
 };
 
 const checkRequired = function ({

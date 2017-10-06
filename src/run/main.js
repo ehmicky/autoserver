@@ -25,9 +25,8 @@ const runServer = async function ({ measures = [], ...runOpts } = {}) {
 };
 
 // Add startup error handler
-const eStartupSteps = startupSteps.map(
-  startupStep => addErrorHandler(startupStep, handleStartupError),
-);
+const eStartupSteps = startupSteps
+  .map(startupStep => addErrorHandler(startupStep, handleStartupError));
 
 module.exports = {
   runServer,

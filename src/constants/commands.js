@@ -22,8 +22,7 @@ const COMMAND_TYPES = uniq(types);
 
 const getCommand = function ({ commandType, multiple }) {
   const commandA = COMMANDS.find(command =>
-    command.multiple === multiple && command.type === commandType
-  );
+    command.multiple === multiple && command.type === commandType);
 
   if (commandA === undefined) {
     const message = `Command '${commandType}' is unknown`;

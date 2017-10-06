@@ -18,8 +18,7 @@ const dataValidation = function ({
   const attrs = getAttrs({ args });
 
   Object.entries(attrs).forEach(([dataVar, attr]) =>
-    validateAttr({ dataVar, attr, compiledSchema, mInput }),
-  );
+    validateAttr({ dataVar, attr, compiledSchema, mInput }));
 };
 
 // Keeps the arguments to validate
@@ -30,9 +29,12 @@ const getAttrs = function ({ args: { newData } }) {
 };
 
 const validateAttr = function ({ dataVar, attr, compiledSchema, mInput }) {
-  attr.forEach(
-    data => validateSingleAttr({ dataVar, compiledSchema, mInput, data }),
-  );
+  attr.forEach(data => validateSingleAttr({
+    dataVar,
+    compiledSchema,
+    mInput,
+    data,
+  }));
 };
 
 const validateSingleAttr = function ({

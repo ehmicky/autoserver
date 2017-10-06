@@ -27,8 +27,7 @@ const mergeAction = function ({ readActions, writeAction }) {
 
 const findAction = function ({ actions, action }) {
   return actions.find(({ commandPath }) =>
-    commandPath.join('.') === action.commandPath.join('.')
-  );
+    commandPath.join('.') === action.commandPath.join('.'));
 };
 
 module.exports = {
