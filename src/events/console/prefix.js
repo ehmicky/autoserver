@@ -35,10 +35,10 @@ const getLevel = function ({ level }) {
 const levelsMaxLength = Math.max(...LEVELS.map(level => level.length));
 
 const getServerName = function ({ serverName }) {
-  return serverName.substr(0, SERVER_NAME_LENGTH).padEnd(SERVER_NAME_LENGTH);
+  return serverName.substr(0, serverNameLength).padEnd(serverNameLength);
 };
 
-const SERVER_NAME_LENGTH = 12;
+const serverNameLength = 12;
 
 const getTimestamp = function ({ timestamp }) {
   return timestamp.replace('T', ' ').replace(/([0-9])Z$/, '$1');
@@ -46,10 +46,10 @@ const getTimestamp = function ({ timestamp }) {
 
 // Either requestId (if phase `request`), or the phase itself
 const getRequestId = function ({ phase, requestId = phase.toUpperCase() }) {
-  return requestId.substr(0, REQUEST_ID_LENGTH).padEnd(REQUEST_ID_LENGTH);
+  return requestId.substr(0, requestIdLength).padEnd(requestIdLength);
 };
 
-const REQUEST_ID_LENGTH = 8;
+const requestIdLength = 8;
 
 module.exports = {
   getPrefix,
