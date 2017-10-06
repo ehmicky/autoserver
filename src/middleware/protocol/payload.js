@@ -21,6 +21,8 @@ const parsePayload = function ({
 
   const type = getPayloadType({ specific, protocolHandler, operationHandler });
 
+  validatePayloadLength({ specific, protocolHandler });
+
   // Use protocol-specific way to parse payload, using a known type
   const { maxPayloadSize } = getLimits({ runOpts });
   const payloadPromise = protocolHandler.parsePayload({
@@ -77,6 +79,15 @@ const payloadTypeMatches = function ({
   const mimeA = [...mime, ...operationTypes];
 
   return isType(contentType, mimeA);
+};
+
+const validatePayloadLength = function ({ specific, protocolHandler }) {
+  const contentLength = protocolHandler.getContentLength({ specific });
+
+  if (contentLength === undefined) {
+    const msg = 'Must specify Content-Length when sending a request payload';
+    throwError(msg, { reason: 'NO_CONTENT_LENGTH' });
+  }
 };
 
 const processPayload = function (type, payload) {
