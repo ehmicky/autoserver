@@ -47,6 +47,9 @@ const errorReasons = {
   // e.g. tries to create already existing model
   DATABASE_MODEL_CONFLICT: {},
 
+  // Request payload has a request payload but no Content-Length
+  NO_CONTENT_LENGTH: {},
+
   // Input is too big, e.g. args.data has too many items
   INPUT_LIMIT: {},
 

@@ -80,8 +80,14 @@ const getContentType = function ({ specific: { req: { headers } } }) {
   return headers['content-type'];
 };
 
+// Retrieves payload length
+const getContentLength = function ({ specific: { req: { headers } } }) {
+  return headers['content-length'];
+};
+
 module.exports = {
   parsePayload: eParsePayload,
   hasPayload,
   getContentType,
+  getContentLength,
 };
