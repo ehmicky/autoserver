@@ -18,6 +18,8 @@ const getLimits = function ({
     // Can use 'KB', 'MB', 'GB' OR 'TB'.
     // Default: '1MB'
     maxPayloadSize,
+    // Max size of an attribute's value, in bytes.
+    maxAttrValueSize: 2e3,
 
     // Max URL length
     // Since URL can contain GraphQL query, it should not be less than
