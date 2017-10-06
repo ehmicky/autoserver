@@ -30,10 +30,10 @@ const getPath = function ({ specific: { req: { url } } }) {
   return url.replace(/[?#].*/, '');
 };
 
-// Retrieves query string from a URL, without leading ?
+// Retrieves query string from a URL
 const getQueryString = function ({ specific: { req: { url } } }) {
   const { search = '' } = new URL(`http://localhost/${url}`);
-  return search.replace(/^\?/, '');
+  return search;
 };
 
 const eGetQueryString = addGenErrorHandler(getQueryString, {
