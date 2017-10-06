@@ -2,6 +2,7 @@
 
 const { addErrorHandler, normalizeError } = require('../error');
 const { pSetTimeout, makeImmutable } = require('../utilities');
+const { getLimits } = require('../limits');
 
 // Try emit events with an increasing delay
 const fireEvent = async function ({ type, eventPayload, runOpts }) {
@@ -33,7 +34,8 @@ const handleEventError = async function (error, {
   emitEvent,
 }) {
   // Tries again and again, with an increasing delay
-  if (delay > maxDelay) { return; }
+  const { maxEventDelay } = getLimits({ runOpts });
+  if (delay > maxEventDelay) { return; }
   await pSetTimeout(delay);
   const delayA = delay * delayExponent;
 
@@ -54,8 +56,6 @@ const eFireEvent = addErrorHandler(fireEvent, handleEventError);
 
 const defaultDelay = 1000;
 const delayExponent = 5;
-// 3 minutes, in milliseconds
-const maxDelay = 18e4;
 
 const fireEventError = async function ({
   error,
