@@ -41,7 +41,7 @@
     "parse-prefer-header": "^1.0.0",
     "path-to-regexp": "^1.7.0",
     "pluralize": "^4.0.0",
-    "qs": "^6.4.0",
+    "qs": "^6.5.1",
     "request-ip": "^2.0.1",
     "type-is": "^1.6.15",
     "underscore.string": "^3.3.4",

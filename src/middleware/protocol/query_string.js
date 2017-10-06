@@ -55,6 +55,7 @@ const parseQueryVars = function ({
     strictNullHandling: true,
     allowDots: true,
     decoder: str => decodeURIComponent(str.replace(/\+/g, ' ')),
+    ignoreQueryPrefix: true,
   });
   return queryObject;
 };
