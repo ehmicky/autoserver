@@ -43,7 +43,6 @@ const eParsePayload = addGenErrorHandler(parsePayload, {
   reason: (input, { status }) => errorReasons[status],
 });
 
-// TODO: typeof function
 const errorReasons = {
   400: 'PAYLOAD_PARSE',
   413: 'INPUT_LIMIT',

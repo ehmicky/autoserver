@@ -1,6 +1,7 @@
 'use strict';
 
 const { throwError } = require('../error');
+const { result } = require('../utilities');
 
 // Fast validation utility
 const fastValidate = function ({ tests, prefix, reason }, ...args) {
@@ -38,7 +39,7 @@ const validateTest = function (
 };
 
 const validationFail = function ({ prefix = '', message, reason }, ...args) {
-  const messageA = typeof message === 'function' ? message(...args) : message;
+  const messageA = result(message, ...args);
   const messageB = `${prefix}${messageA}`;
 
   throwError(messageB, { reason });

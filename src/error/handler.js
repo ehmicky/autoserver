@@ -1,6 +1,6 @@
 'use strict';
 
-const { keepFuncName } = require('../utilities');
+const { keepFuncName, result } = require('../utilities');
 
 const { throwError } = require('./main');
 
@@ -31,12 +31,8 @@ const addGenErrorHandler = function (func, { message, reason }) {
 };
 
 const genErrorHandler = function ({ message, reason }, error, ...args) {
-  const messageA = typeof message === 'function'
-    ? message(...args, error)
-    : message;
-  const reasonA = typeof reason === 'function'
-    ? reason(...args, error)
-    : reason;
+  const messageA = result(message, ...args, error);
+  const reasonA = result(reason, ...args, error);
   throwError(messageA, { reason: reasonA, innererror: error });
 };
 

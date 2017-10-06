@@ -5,6 +5,7 @@ const {
   identity,
   promiseThen,
   keepFuncName,
+  result,
 } = require('../utilities');
 
 const { startPerf, stopPerf } = require('./measure');
@@ -18,7 +19,7 @@ const monitor = function (
   measuresIndex = 0,
 ) {
   return function monitoredFunc (...args) {
-    const labelA = typeof label === 'function' ? label(...args) : label;
+    const labelA = result(label, ...args);
     const perf = startPerf(labelA, category);
     const response = func(...args);
     const { measures } = args[measuresIndex];
