@@ -1,5 +1,7 @@
 'use strict';
 
+const bytes = require('bytes');
+
 // Returns the main numerical limits of the engine.
 // Some of those limits cannot be changed by the user.
 const getLimits = function ({
@@ -17,6 +19,10 @@ const getLimits = function ({
     // Default: '1MB'
     maxPayloadSize,
 
+    // Max URL length
+    // Since URL can contain GraphQL query, it should not be less than
+    // `maxPayloadSize`
+    maxUrlLength: Math.max(maxUrlLength, bytes.parse(maxPayloadSize)),
     // Max level of nesting in query string, e.g. ?var.subvar.subvar2=val
     maxQueryStringDepth: 10,
     // Max length of arrays in query string, e.g. ?var[50]=val
@@ -30,6 +36,8 @@ const getLimits = function ({
     maxEventDelay: 18e4,
   };
 };
+
+const maxUrlLength = 2000;
 
 module.exports = {
   getLimits,

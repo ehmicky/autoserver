@@ -48,6 +48,9 @@ const errorReasons = {
   // Input is too big, e.g. args.data has too many items
   INPUT_LIMIT: {},
 
+  // URL is too large
+  URL_LIMIT: {},
+
   // Request body Content-Type is unsupported
   // Or request payload has a request payload but no Content-Type
   WRONG_CONTENT_TYPE: {},
