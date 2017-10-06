@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const { hasBody } = require('type-is');
 
 const { memoize } = require('../../../utilities');
+const { addGenErrorHandler } = require('../../../error');
 
 // Parses and serializes HTTP request payload
 // Handles HTTP compression
@@ -35,6 +36,18 @@ const parsePayload = async function ({
   const { body: bodyB } = reqB;
   const bodyC = bodyB === body ? undefined : bodyB;
   return bodyC;
+};
+
+const eParsePayload = addGenErrorHandler(parsePayload, {
+  message: (input, { message }) => message,
+  reason: (input, { status }) => errorReasons[status],
+});
+
+// TODO: typeof function
+const errorReasons = {
+  400: 'PAYLOAD_PARSE',
+  413: 'INPUT_LIMIT',
+  415: 'WRONG_CONTENT_TYPE',
 };
 
 const getParser = function ({ type, maxPayloadSize }) {
@@ -68,7 +81,7 @@ const getContentType = function ({ specific: { req: { headers } } }) {
 };
 
 module.exports = {
-  parsePayload,
+  parsePayload: eParsePayload,
   hasPayload,
   getContentType,
 };

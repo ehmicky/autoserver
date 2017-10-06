@@ -13,6 +13,9 @@ const errorReasons = {
   // Request payload has a request payload but no Content-Type
   NO_CONTENT_TYPE: {},
 
+  // Error while parsing the request payload
+  PAYLOAD_PARSE: {},
+
   // Query string is wrong
   QUERY_STRING_PARSE: {},
 
