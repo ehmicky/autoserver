@@ -1,5 +1,15 @@
 [
   {
+    "name": "http",
+    "default": {},
+    "description": "HTTP server's options",
+    "group": "HTTP:",
+    "validate": {
+      "type": "object"
+    }
+  },
+
+  {
     "name": "http.enabled",
     "default": true,
     "description": "Whether HTTP server should start",
@@ -28,16 +38,6 @@
       "type": "integer",
       "minimum": 0,
       "maximum": 65535
-    }
-  },
-
-  {
-    "name": "http",
-    "default": {},
-    "description": "HTTP server's options",
-    "group": "HTTP:",
-    "validate": {
-      "type": "object"
     }
   }
 ]
