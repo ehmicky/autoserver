@@ -312,6 +312,8 @@ definitions:
     # Should not start with __ as it is reserved for GraphQL introspection types
     not:
       pattern: '^__'
+    # This is too avoid big responses
+    maxLength: 200
   # Keys of MODEL.attributes.*
   validAttributeName:
     allOf:
