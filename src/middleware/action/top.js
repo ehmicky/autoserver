@@ -1,6 +1,6 @@
 'use strict';
 
-const { singular, plural } = require('pluralize');
+const { singular, plural, isPlural } = require('pluralize');
 
 const { throwError } = require('../../error');
 const { getCommand } = require('../../constants');
@@ -31,11 +31,11 @@ const parseTopAction = function ({
 const parseModelName = function ({ commandName, modelsMap }) {
   const { commandType, modelName } = parseName({ commandName });
 
+  const multiple = isPlural(modelName);
+
   // Model name can be either in singular or in plural form in IDL
   const singularName = singular(modelName);
   const pluralName = plural(modelName);
-  const multiple = modelName === pluralName;
-
   const modelNameA = modelsMap[pluralName] ? pluralName : singularName;
 
   if (!commandType || !modelNameA) {
