@@ -70,6 +70,9 @@ definitions:
         properties:
           id:
             $ref: '#/definitions/idAttribute'
+        # Models can have a maximum of 50 attributes.
+        # This is too avoid big responses.
+        maxProperties: 50
   # MODEL.id
   idAttribute:
     properties:
