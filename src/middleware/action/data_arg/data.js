@@ -25,12 +25,13 @@ const parseDatum = function ({
   modelsMap,
   userDefaultsMap,
   mInput,
+  maxAttrValueSize,
 }) {
   const commandPathA = index === undefined
     ? commandPath
     : [...commandPath, index];
 
-  validateData({ datum, commandPath: commandPathA, top });
+  validateData({ datum, commandPath: commandPathA, top, maxAttrValueSize });
 
   const datumA = addDefaultIds({ datum, top, model, userDefaultsMap, mInput });
 
@@ -45,6 +46,7 @@ const parseDatum = function ({
       modelsMap,
       userDefaultsMap,
       mInput,
+      maxAttrValueSize,
     }),
   );
 };
@@ -59,6 +61,7 @@ const parseAttr = function ({
   modelsMap,
   userDefaultsMap,
   mInput,
+  maxAttrValueSize,
 }) {
   const isNested = isModelType(obj) &&
     isModel({ attrName, commandPath, top, modelsMap });
@@ -74,6 +77,7 @@ const parseAttr = function ({
     modelsMap,
     userDefaultsMap,
     mInput,
+    maxAttrValueSize,
   });
 };
 
