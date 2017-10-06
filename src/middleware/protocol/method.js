@@ -8,9 +8,9 @@ const { throwError } = require('../../error');
 const parseMethod = function ({ specific, protocolHandler }) {
   const method = protocolHandler.getMethod({ specific });
 
-  if (!method) {
-    const message = 'Unsupported protocol method';
-    throwError(message, { reason: 'UNSUPPORTED_METHOD' });
+  if (method === undefined) {
+    const message = 'Protocol method is not allowed';
+    throwError(message, { reason: 'WRONG_METHOD' });
   }
 
   return { method };
