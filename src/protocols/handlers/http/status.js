@@ -32,6 +32,7 @@ const protocolStatusesMap = {
 
   NO_CONTENT_LENGTH: 411,
   INPUT_LIMIT: 413,
+  URL_LIMIT: 414,
   WRONG_CONTENT_TYPE: 415,
 
   FILE_OPEN_ERROR: 500,
