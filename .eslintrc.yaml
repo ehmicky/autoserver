@@ -69,6 +69,8 @@ rules:
   - 2
   - allow:
     - 'eslint-disable-next-line'
+    - 'eslint-disable'
+    - 'eslint-enable'
   unicorn/no-abusive-eslint-disable: 2
 
   # JSDoc

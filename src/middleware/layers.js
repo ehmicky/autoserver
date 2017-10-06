@@ -1,4 +1,4 @@
-// eslint-disable-next-line max-lines, eslint-comments/no-unused-disable
+/* eslint-disable max-lines */
 'use strict';
 
 const final = require('./final');
@@ -204,3 +204,4 @@ const middlewareLayers = [
 module.exports = {
   middlewareLayers,
 };
+/* eslint-enable max-lines */
