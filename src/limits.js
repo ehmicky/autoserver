@@ -23,7 +23,11 @@ const getLimits = function ({
     maxQueryStringLength: 100,
 
     // How long the request can run, in milliseconds
-    requestTimeout: 5000,
+    requestTimeout: 5e3,
+    // When event listeners fail, they are retried with an ever increasing delay
+    // This is the upper limit
+    // This is 3 minutes, in milliseconds
+    maxEventDelay: 18e4,
   };
 };
 
