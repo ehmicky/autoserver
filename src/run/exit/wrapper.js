@@ -1,5 +1,6 @@
 'use strict';
 
+const { result } = require('../../utilities');
 const { addErrorHandler } = require('../../error');
 const { monitor } = require('../../perf');
 const { emitEvent } = require('../../events');
@@ -23,9 +24,7 @@ const handleEvent = async function ({ func, successMessage }, input) {
 
   const response = await func(input);
 
-  const message = typeof successMessage === 'function'
-    ? successMessage(response)
-    : successMessage;
+  const message = result(successMessage, response);
   const messageA = `${protocol} - ${message}`;
   await emitEvent({
     type: 'message',

@@ -1,6 +1,7 @@
 'use strict';
 
 const { assignArray } = require('./reduce');
+const { result } = require('./result');
 
 // Similar to Lodash get(), but do not mutate, and faster
 const get = function (obj, keys) {
@@ -14,7 +15,7 @@ const get = function (obj, keys) {
 // Similar to Lodash set(), but do not mutate, and faster
 const set = function (objArr, keys, val) {
   if (keys.length === 0) {
-    return typeof val === 'function' ? val(objArr, keys) : val;
+    return result(val, objArr, keys);
   }
 
   if (typeof keys[0] === 'number') {

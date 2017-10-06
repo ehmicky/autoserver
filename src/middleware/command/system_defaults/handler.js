@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues, pickBy } = require('../../../utilities');
+const { mapValues, pickBy, result } = require('../../../utilities');
 
 const { defaults } = require('./defaults');
 
@@ -14,7 +14,7 @@ const systemDefaults = function ({ args, runOpts, command }) {
 
   const defaultArgs = mapValues(
     filteredDefaults,
-    ({ value }) => applyDefault({ value, args, runOpts }),
+    ({ value }) => result(value, { args, runOpts }),
   );
 
   return { args: { ...args, ...defaultArgs } };
@@ -37,14 +37,6 @@ const shouldDefault = function ({
   if (testFunc && !testFunc({ args, runOpts })) { return false; }
 
   return true;
-};
-
-const applyDefault = function ({ value, args, runOpts }) {
-  if (typeof value === 'function') {
-    return value({ args, runOpts });
-  }
-
-  return value;
 };
 
 module.exports = {
