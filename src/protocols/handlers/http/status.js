@@ -14,7 +14,6 @@ const getProtocolStatus = function ({
 const protocolStatusesMap = {
   SUCCESS: 200,
 
-  NO_CONTENT_TYPE: 400,
   PAYLOAD_PARSE: 400,
   QUERY_STRING_PARSE: 400,
   SYNTAX_VALIDATION: 400,
