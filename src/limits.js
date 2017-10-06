@@ -36,6 +36,10 @@ const getLimits = function ({
     // This is the upper limit
     // This is 3 minutes, in milliseconds
     maxEventDelay: 18e4,
+
+    // Enforced during IDL validation:
+    //  - max number of attributes per model: 50
+    //  - max model|attribute name length: 200
   };
 };
 
