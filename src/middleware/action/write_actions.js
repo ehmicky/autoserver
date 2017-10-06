@@ -12,6 +12,7 @@ const resolveWriteActions = function (
 ) {
   const actionsA = actions.map(multiplyAction);
   const actionsGroups = getWriteActions({ actions: actionsA });
+  if (actionsGroups.length === 0) { return; }
 
   return nextLayer({
     ...mInput,
