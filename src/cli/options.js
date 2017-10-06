@@ -53,7 +53,7 @@ const getCliType = function (option) {
 const getChoices = function ({ validate: { enum: choices } = {} }) {
   if (!choices) { return {}; }
 
-  return { choices: [...choices, undefined] };
+  return { choices };
 };
 
 // Option group, for --help message
