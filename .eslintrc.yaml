@@ -164,6 +164,10 @@ rules:
   one-var-declaration-per-line: 2
   vars-on-top: 2
   sort-vars: 2
+  no-magic-numbers:
+  - 2
+  - ignore: [-2, -1, 0, 1, 2]
+    enforceConst: true
 
   # Assignments
   init-declarations: 2
@@ -442,9 +446,6 @@ rules:
 
   # We want to allow Promise.all() and Promise.race()
 #  promise/no-native: 2
-
-  # This rule is too strict
-#  no-magic-numbers: 2
 
   # This fails when used together with Markdown plugin
 #  unicorn/filename-case: 2

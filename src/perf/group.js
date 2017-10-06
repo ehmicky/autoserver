@@ -19,12 +19,14 @@ const getGroupMeasure = function ({ measures }) {
   const count = measures.length;
   // Use milliseconds, but with nanoseconds precision
   const duration = measures
-    .reduce((sum, measure) => sum + measure.duration / 10 ** 6, 0);
+    .reduce((sum, measure) => sum + measure.duration / nanoSecsToMilliSecs, 0);
   const average = duration / count;
-  const items = measures.map(measure => measure.duration / 10 ** 6);
+  const items = measures.map(measure => measure.duration / nanoSecsToMilliSecs);
 
   return { category, label, duration, measures: items, count, average };
 };
+
+const nanoSecsToMilliSecs = 1e6;
 
 module.exports = {
   groupMeasures,

@@ -61,15 +61,16 @@ const getMessage = function ({
 // Adds how long startup, shutdown or request took
 const getDuration = function ({ duration }) {
   if (!duration) {
-    return ' '.repeat(DURATION_LENGTH);
+    return ' '.repeat(durationLength);
   }
 
-  const durationMs = Math.round(duration / 10 ** 6);
-  const durationText = `${durationMs}ms`.padEnd(DURATION_LENGTH - 2);
+  const durationMs = Math.round(duration / nanoSecsToMilliSecs);
+  const durationText = `${durationMs}ms`.padEnd(durationLength - 2);
   return `[${durationText}]`;
 };
 
-const DURATION_LENGTH = 8;
+const nanoSecsToMilliSecs = 1e6;
+const durationLength = 8;
 
 module.exports = {
   getConsoleMessage,

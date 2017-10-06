@@ -54,7 +54,8 @@ const eFireEvent = addErrorHandler(fireEvent, handleEventError);
 
 const defaultDelay = 1000;
 const delayExponent = 5;
-const maxDelay = 1000 * 60 * 3;
+// 3 minutes, in milliseconds
+const maxDelay = 18e4;
 
 const fireEventError = async function ({
   error,

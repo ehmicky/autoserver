@@ -25,10 +25,17 @@ const startPerf = function (label, category = 'default') {
 const stopPerf = function ({ pending, label, category }) {
   // Substracts the current time with the previous time
   const [secs, nanoSecs] = hrtime();
+  const timestampA = (secs * secsToNanoSecs) + nanoSecs;
+
   const [lastSecs, lastNanoSecs] = pending;
-  const duration = (secs - lastSecs) * 10 ** 9 + (nanoSecs - lastNanoSecs);
+  const timestampB = (lastSecs * secsToNanoSecs) + lastNanoSecs;
+
+  const duration = timestampA - timestampB;
+
   return { duration, label, category };
 };
+
+const secsToNanoSecs = 1e9;
 
 module.exports = {
   startPerf,
