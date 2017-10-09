@@ -32,7 +32,7 @@ fails.
 
 The following instructions are available:
   - [run](run.md): start the server
-  - [compile](idl.md#compilation): compile the [IDL file](idl.md)
+  - [compile](schema.md#compilation): compile the [schema](schema.md)
 
 # Options
 

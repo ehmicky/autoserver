@@ -5,12 +5,13 @@ const { uniq } = require('lodash');
 const { assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
 
-// Validate that attributes in `args.select|data|filter|order_by` are in the IDL
+// Validate that attributes in `args.select|data|filter|order_by` are in the
+// schema.
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
 const validateUnknownAttrs = function ({
   actions,
-  idl: { shortcuts: { modelsMap } },
+  schema: { shortcuts: { modelsMap } },
 }) {
   actions.forEach(action => validateAction({ action, modelsMap }));
 };
@@ -38,7 +39,7 @@ const validateAllAttr = function ({
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-// Validate that arguments's attributes are present in IDL
+// Validate that arguments's attributes are present in schema
 const validateUnknown = function ({ action, modelsMap }) {
   argsToValidate.forEach(({ name, getKeys }) => {
     const keys = getKeys({ action });

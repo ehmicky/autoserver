@@ -6,7 +6,7 @@ const { getParentActions } = require('./parent');
 // Fire all read actions, retrieving some `results`.
 // Also fired by `currentData` middleware.
 const resolveReadActions = function (
-  { actions, top, idl: { shortcuts: { modelsMap } }, mInput, results },
+  { actions, top, schema: { shortcuts: { modelsMap } }, mInput, results },
   nextLayer,
 ) {
   const actionsA = getReadActions({ actions, top });

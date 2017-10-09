@@ -10,7 +10,7 @@ const { getModel } = require('./get_model');
 const parseModels = function ({
   actions,
   top,
-  idl: { shortcuts: { modelsMap } },
+  schema: { shortcuts: { modelsMap } },
 }) {
   const actionsA = actions
     .map(action => parseAction({ action, top, modelsMap }));

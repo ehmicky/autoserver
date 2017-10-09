@@ -1,8 +1,8 @@
-# IDL functions
+# Schema functions
 
-Custom logic can be added by using functions in the IDL file.
+Custom logic can be added by using functions in the schema.
 
-IDL functions can be used in many parts of the [IDL file](idl.md):
+Schema functions can be used in many parts of the [schema](schema.md):
   - on attributes' [transforms](transformation.md#transformations)
   - on attributes' [default values](transformation.md#default-values)
   - on [custom validation keywords](validation.md#custom-validation)
@@ -41,16 +41,16 @@ default:
   $ref: src/my_external_function.js
 ```
 
-External functions can only be used inside the [IDL file](idl.md).
+External functions can only be used inside the [schema](schema.md).
 
-# IDL function variables
+# Schema function variables
 
 The following variables are available:
   - `$PROTOCOL` `{string}`: possible values are only `http`
   - `$TIMESTAMP` `{string}`: current date and time
   - `$IP` `{string}`: request IP
   - `$REQUEST_ID` `{string}`: UUID identifying the current request
-  - `$PARAMS` `{object}`: all [parameters](#idl-function-parameters)
+  - `$PARAMS` `{object}`: all [parameters](#schema-function-parameters)
   - `$OPERATION` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
   - `$MODEL` `{string}`: name of the [model](models.md), e.g. `user`
@@ -69,29 +69,29 @@ The following variable is available only to
   - `$EXPECTED` `${any}`: value passed as argument to the custom validation
     keyword
 
-# IDL function helpers
+# Schema function helpers
 
-Helpers are functions that can be used in any IDL functions,
-as any other IDL functions variable.
+Helpers are functions that can be used in any schema functions,
+as any other schema functions variable.
 
 They are specified under the top-level properties
 `helpers`, which can be an array of objects (which are merged) or a single
-object. Each object is a map of IDL function helpers, with:
+object. Each object is a map of schema function helpers, with:
   - the key being the helper's name
   - the value being either the helper's value, of an object with properties:
     - `value` `{function}`
-    - `useVars` `{boolean}` (default: `false`): pass other IDL function
+    - `useVars` `{boolean}` (default: `false`): pass other schema function
       variables as first argument to helper function
 
-They can use the same IDL function variables as the function that calls them.
-If the helper is external function, the IDL option `useVars` must be used to
-pass the IDL function variables as first argument, and the helpers as second
+They can use the same schema function variables as the function that calls them.
+If the helper is external function, the schema option `useVars` must be used to
+pass the schema function variables as first argument, and the helpers as second
 argument.
 
-Inline functions can also use positional arguments, passed as IDL function
+Inline functions can also use positional arguments, passed as schema function
 variables `$1`, `$2`, etc.
 
-IDL function helpers can call each other.
+Schema function helpers can call each other.
 
 They must be pure functions.
 
@@ -110,9 +110,9 @@ helpers:
   - $ref: constants.json
 ```
 
-# IDL function parameters
+# Schema function parameters
 
-Clients can specify their own IDL function variables on any specific request,
+Clients can specify their own schema function variables on any specific request,
 using the argument `params` with an object value, e.g.:
 
 ```graphql
@@ -123,5 +123,5 @@ mutation {
 }
 ```
 
-Those will be available using the IDL function variable `$PARAMS`.
+Those will be available using the schema function variable `$PARAMS`.
 E.g. the previous example would set `$PARAMS.password` to `"admin"`.

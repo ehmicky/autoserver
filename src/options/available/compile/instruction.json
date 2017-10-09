@@ -1,7 +1,7 @@
 {
   "name": "compile",
-  "description": "Compile the IDL file",
+  "description": "Compile the schema",
   "examples": [
-    ["Compile the IDL file", "--idl path_to_idl_file"]
+    ["Compile the schema", "--schema path_to_schema"]
   ]
 }

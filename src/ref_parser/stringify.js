@@ -29,7 +29,7 @@ const stringifyWithJsonRefs = function (obj) {
 };
 
 const eStringifyWithJsonRefs = addGenErrorHandler(stringifyWithJsonRefs, {
-  message: 'Could not serialize the IDL file',
+  message: 'Could not serialize the schema',
   reason: 'UTILITY_ERROR',
 });
 

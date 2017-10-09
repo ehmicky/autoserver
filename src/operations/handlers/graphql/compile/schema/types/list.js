@@ -13,7 +13,7 @@ const { graphQLRequiredTest, graphQLRequiredTGetter } = require('./required');
 const { graphQLArrayTest, graphQLArrayTGetter } = require('./array');
 const { graphQLObjectTGetter } = require('./object');
 
-// Maps an IDL definition into a GraphQL type.
+// Maps an schema definition into a GraphQL type.
 // The first matching one will be used, i.e. order matters:
 // required modifier, then array modifier come first
 const graphQLTGetters = [
@@ -68,7 +68,7 @@ const getTypeGetter = function (def, opts) {
 
   if (typeGetter === undefined) {
     const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
-    throwError(message, { reason: 'IDL_SYNTAX_ERROR' });
+    throwError(message, { reason: 'SCHEMA_SYNTAX_ERROR' });
   }
 
   return typeGetter;

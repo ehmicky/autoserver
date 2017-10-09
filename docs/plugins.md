@@ -1,11 +1,11 @@
 # Plugins
 
-Plugins are functions that modify an [IDL file](idl.md) in a pre-defined way.
+Plugins are functions that modify a [schema](schema.md) in a pre-defined way.
 
 They are simple functions that takes as input:
-  - `idl` `{object}`
+  - `schema` `{object}`
   - `opts` `{object}`: plugin options
-And return the new `idl` object.
+And return the new `schema` object.
 
 The input arguments are immutable.
 

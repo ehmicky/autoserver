@@ -1,12 +1,12 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
-const { runIdlFunc } = require('../../../idl_func');
+const { runSchemaFunc } = require('../../../schema_func');
 
 // Performs transformation on data array or single data
 const transformData = function ({
   data,
-  idl: { shortcuts },
+  schema: { shortcuts },
   modelName,
   mInput,
   type,
@@ -41,13 +41,13 @@ const applyTransform = function ({ data, attrName, transform, mInput, type }) {
   if (type === 'transform' && currentVal == null) { return currentVal; }
 
   const vars = getTransformVars({ data, currentVal, type });
-  const valueA = runIdlFunc({ idlFunc: transform, mInput, vars });
+  const valueA = runSchemaFunc({ schemaFunc: transform, mInput, vars });
 
   return valueA;
 };
 
 const getTransformVars = function ({ data, currentVal, type }) {
-  // `value` cannot use $ in IDL functions, because it does not transform it
+  // `value` cannot use $ in schema functions, because it does not transform it
   // (as opposed to `transform`) but creates a new value independently of
   // the current value.
   if (type === 'value') { return { $$: data }; }

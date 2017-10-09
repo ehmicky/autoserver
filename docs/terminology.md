@@ -77,18 +77,19 @@ Actual database query, from a server perspective. An action is converted to
 one or several commands. E.g. a `patch` command will first trigger a `find`
 command to query the current models to patch.
 
-## IDL functions
+## Schema functions
 
-[Functions](functions.md) specified in IDL file, that allows injecting
+[Functions](functions.md) specified in schema, that allows injecting
 custom logic.
 
 ## Helpers
 
-Client-specified [IDL function variables](functions.md#idl-function-helpers)
+Client-specified [schema function variables](functions.md#schema-function-helpers)
 
 ## Params
 
-Client-specified [IDL function variables](functions.md#idl-function-parameters)
+Client-specified
+[schema function variables](functions.md#schema-function-parameters)
 
 ## Options
 
@@ -148,9 +149,9 @@ i.e. like a database column or key
 
 Any object property
 
-## IDL
+## Schema
 
-Main [configuration file](idl.md)
+Main [configuration file](schema.md)
 
 ## Instruction
 

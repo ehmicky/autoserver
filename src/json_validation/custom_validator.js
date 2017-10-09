@@ -1,13 +1,13 @@
 'use strict';
 
-const { runIdlFunc } = require('../idl_func');
+const { runSchemaFunc } = require('../schema_func');
 const { memoize } = require('../utilities');
 const { throwError } = require('../error');
 
 const { validator } = require('./validator');
 
-// Add custom validation keywords, from idl.validation
-const getCustomValidator = function ({ idl: { validation = {} } }) {
+// Add custom validation keywords, from schema.validation
+const getCustomValidator = function ({ schema: { validation = {} } }) {
   return Object.entries(validation).reduce(
     (ajv, [keyword, { test: testFunc, message, type }]) =>
       addCustomKeyword({ ajv, keyword, testFunc, message, type }),
@@ -15,10 +15,10 @@ const getCustomValidator = function ({ idl: { validation = {} } }) {
   );
 };
 
-// We do want the re-run if idl.validation changes.
-// Serializing the whole IDL as is too slow, so we just take keywords list.
+// We do want the re-run if schema.validation changes.
+// Serializing the whole schema as is too slow, so we just take keywords list.
 const mGetCustomValidator = memoize(getCustomValidator, {
-  serializer: ({ idl: { validation = {} } }) =>
+  serializer: ({ schema: { validation = {} } }) =>
     `${Object.keys(validation).join(',')}`,
 });
 
@@ -43,10 +43,10 @@ const keywordFunc = ({ keyword, testFunc, message }) => function validate (
 ) {
   const vars = { $EXPECTED: expected, $$: parent, $: value };
 
-  const isValid = runIdlFunc({ idlFunc: testFunc, mInput, vars });
+  const isValid = runSchemaFunc({ schemaFunc: testFunc, mInput, vars });
   if (isValid === true) { return true; }
 
-  const messageA = runIdlFunc({ idlFunc: message, mInput, vars });
+  const messageA = runSchemaFunc({ schemaFunc: message, mInput, vars });
   // eslint-disable-next-line fp/no-mutation
   validate.errors = [{
     message: messageA,
@@ -63,8 +63,8 @@ const validateCustomKeyword = function ({ ajv, type, keyword }) {
     type.includes('integer');
 
   if (isRedundant) {
-    const message = `Custom validation keyword 'idl.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`;
-    throwError(message, { reason: 'IDL_VALIDATION' });
+    const message = `Custom validation keyword 'schema.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`;
+    throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 
   return ajv;

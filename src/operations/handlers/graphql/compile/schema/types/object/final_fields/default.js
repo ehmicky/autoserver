@@ -1,6 +1,6 @@
 'use strict';
 
-const { isInlineFunc } = require('../../../../../../../../idl_func');
+const { isInlineFunc } = require('../../../../../../../../schema_func');
 
 const getDefaultValue = function (def, opts) {
   const shouldSetDefault = defaultValueTests.every(func => func(def, opts));
@@ -18,7 +18,7 @@ const isNotPatchData = function ({ command }, { inputObjectType }) {
   return !(inputObjectType === 'data' && command.type === 'patch');
 };
 
-// IDL function are skipped
+// Schema function are skipped
 const isStatic = function (def) {
   return typeof def.default !== 'function' &&
     !isInlineFunc({ inlineFunc: def.default });

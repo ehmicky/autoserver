@@ -1,6 +1,6 @@
 'use strict';
 
-const { config, idl } = require('../shared');
+const { config, schema } = require('../shared');
 
 // eslint-disable-next-line import/order
 const instruction = require('./instruction');
@@ -8,7 +8,7 @@ const instruction = require('./instruction');
 const options = [
   config,
 
-  idl,
+  schema,
   ...require('./env'),
   ...require('./http'),
   ...require('./events'),

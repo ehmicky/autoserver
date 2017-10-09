@@ -28,8 +28,8 @@ apiEngine.run()
 # Options
 
 The available options are:
-  - `idl` [`{filepath}`](configuration.md#filepaths-options) (required):
-    [IDL file](idl.md), i.e. information about the data model and
+  - `schema` [`{filepath}`](configuration.md#filepaths-options) (required):
+    [schema](schema.md), i.e. information about the data model and
     the business logic.
   - `env` (defaults to `'production'`): can be `'dev'` or `'production'`.
     Running in `'dev'` mode will add some developer-friendly features, e.g.

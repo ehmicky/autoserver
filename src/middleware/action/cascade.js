@@ -11,7 +11,7 @@ const parseCascade = function ({
   actions,
   top,
   top: { args: { cascade } },
-  idl: { shortcuts: { modelsMap } },
+  schema: { shortcuts: { modelsMap } },
 }) {
   if (cascade === undefined) { return { actions }; }
 

@@ -9,21 +9,21 @@ const { getModel } = require('./get_model');
 // parent attribute with `attr.value`, the relation returned in the response
 // will show what the client asked for, but the server state will contain
 // something else.
-const validateStableIds = function ({ actions, idl, top, top: { command } }) {
+const validateStableIds = function ({ actions, schema, top, top: { command } }) {
   // Only for commands with `args.data`
   if (!stableIdsCommands.includes(command.type)) { return; }
 
   actions
     // Only for nested actions
     .filter(({ commandPath }) => commandPath.length > 1)
-    .forEach(action => validateAction({ action, idl, top }));
+    .forEach(action => validateAction({ action, schema, top }));
 };
 
 const stableIdsCommands = ['create', 'patch', 'replace'];
 
 const validateAction = function ({
   action: { commandPath },
-  idl: { shortcuts: { modelsMap, valuesMap } },
+  schema: { shortcuts: { modelsMap, valuesMap } },
   top,
 }) {
   const parentPath = commandPath.slice(0, -1);

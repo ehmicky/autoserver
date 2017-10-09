@@ -16,7 +16,7 @@ const getRequestHandler = function ({
   return { handleRequest };
 };
 
-const baseInputKeys = ['idl', 'runOpts', 'varsRef', 'helpers', 'serverInfo'];
+const baseInputKeys = ['schema', 'runOpts', 'varsRef', 'helpers', 'serverInfo'];
 
 const processRequest = function (requestHandler, baseInput, specific) {
   requestHandler({ ...baseInput, specific });

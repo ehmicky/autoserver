@@ -2,7 +2,7 @@
 
 const { omit } = require('../../utilities');
 
-// Sets attributes marked in IDL as `readonly` to their current value
+// Sets attributes marked in schema as `readonly` to their current value
 // (i.e. `currentData`)
 // This is done silently (i.e. does not raise warnings or errors),
 // because readonly attributes can be part of a normal response, and clients
@@ -12,7 +12,7 @@ const handleReadonly = function ({
   args,
   args: { newData, currentData },
   modelName,
-  idl: { shortcuts: { readonlyMap } },
+  schema: { shortcuts: { readonlyMap } },
 }) {
   // If no `currentData`, this means the model does not exist yet,
   // i.e. this is a create command.

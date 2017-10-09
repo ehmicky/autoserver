@@ -2,14 +2,14 @@
 
 const { applyAllDefault } = require('./apply');
 
-// Applies IDL `default`, if value is undefined
-// This can be a static value or any IDL function
+// Applies schema property `default`, if value is undefined
+// This can be a static value or any schema function
 // Not applied on partial write commands like 'patch'
 const userDefaults = function ({
   args,
   args: { newData },
   modelName,
-  idl: { shortcuts: { userDefaultsMap } },
+  schema: { shortcuts: { userDefaultsMap } },
   mInput,
 }) {
   if (newData === undefined) { return; }
