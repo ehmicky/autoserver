@@ -53,17 +53,17 @@ const getRefParserOpts = rootDir => ({
 // json-schema-ref-parser must load the file itself, i.e. a string must be
 // passed to it, not the parsed object, so it knows the base of relative $refs.
 // Because of this, json-schema-ref-parser needs to be responsible for loading
-// and parsing the IDL file.
-const dereferenceIdl = async function ({ idl }) {
-  const rIdl = await dereferenceRefs({ path: idl });
-  return { rIdl };
+// and parsing the schema.
+const dereferenceSchema = async function ({ schema }) {
+  const rSchema = await dereferenceRefs({ path: schema });
+  return { rSchema };
 };
 
-const eDereferenceIdl = addGenErrorHandler(dereferenceIdl, {
+const eDereferenceSchema = addGenErrorHandler(dereferenceSchema, {
   message: 'Could not resolve references \'$ref\'',
-  reason: 'IDL_SYNTAX_ERROR',
+  reason: 'SCHEMA_SYNTAX_ERROR',
 });
 
 module.exports = {
-  dereferenceIdl: eDereferenceIdl,
+  dereferenceSchema: eDereferenceSchema,
 };

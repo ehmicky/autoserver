@@ -12,7 +12,7 @@ const parseDataArg = function ({
   actions,
   top,
   top: { args: { data }, commandPath },
-  idl: { shortcuts: { modelsMap, userDefaultsMap } },
+  schema: { shortcuts: { modelsMap, userDefaultsMap } },
   mInput,
   runOpts,
 }) {

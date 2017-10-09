@@ -8,14 +8,14 @@ const { resolveReadActions } = require('../read_actions');
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands.
 // Also adds `dataPaths` since we'll now know the length of each array of models
 const serialResolve = async function (
-  { actions, top, idl, mInput },
+  { actions, top, schema, mInput },
   nextLayer,
 ) {
   const writeActions = getWriteActions({ actions });
 
   // Reuse main `find` command middleware
   const { results } = await resolveReadActions(
-    { actions: writeActions, top, idl, mInput },
+    { actions: writeActions, top, schema, mInput },
     nextLayer,
   );
 

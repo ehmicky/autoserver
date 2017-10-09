@@ -1,13 +1,13 @@
 'use strict';
 
-const { config, uncompiledIdl } = require('../shared');
+const { config, uncompiledSchema } = require('../shared');
 
 const instruction = require('./instruction');
 
 const options = [
   config,
 
-  uncompiledIdl,
+  uncompiledSchema,
 ];
 
 module.exports = {

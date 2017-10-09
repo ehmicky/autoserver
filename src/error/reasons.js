@@ -17,7 +17,7 @@ const errorReasons = {
   SYNTAX_VALIDATION: {},
 
   // General validation input errors, e.g. input data|filter does not
-  // match IDL
+  // match the schema
   INPUT_VALIDATION: {},
 
   // Not allowed, authorization-wise
@@ -58,11 +58,11 @@ const errorReasons = {
   // Filesystem error: could not open local file
   FILE_OPEN_ERROR: {},
 
-  // IDL definition is syntactically invalid
-  IDL_SYNTAX_ERROR: {},
+  // Schema is syntactically invalid
+  SCHEMA_SYNTAX_ERROR: {},
 
-  // IDL definition is semantically invalid
-  IDL_VALIDATION: {},
+  // Schema is semantically invalid
+  SCHEMA_VALIDATION: {},
 
   // Configuration options have syntax errors
   CONF_VALIDATION: {},
@@ -70,11 +70,11 @@ const errorReasons = {
   // Loading of configuration failed
   CONF_LOADING: {},
 
-  // Request did not pass IDL validation, e.g. `args` was not provided,
+  // Request did not pass schema validation, e.g. `args` was not provided,
   // indicating a server bug
   INPUT_SERVER_VALIDATION: {},
 
-  // Response did not pass IDL validation, e.g. if the database is corrupted
+  // Response did not pass schema validation, e.g. if the database is corrupted
   // or new constraints were applied without being migrated
   OUTPUT_VALIDATION: {},
 

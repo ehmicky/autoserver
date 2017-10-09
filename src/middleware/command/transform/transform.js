@@ -6,7 +6,7 @@ const { transformData } = require('./transformer');
 const handleTransforms = function ({
   args,
   args: { newData },
-  idl,
+  schema,
   modelName,
   mInput,
 }) {
@@ -14,14 +14,14 @@ const handleTransforms = function ({
 
   const newDataA = transformData({
     data: newData,
-    idl,
+    schema,
     modelName,
     mInput,
     type: 'transform',
   });
   const newDataB = transformData({
     data: newDataA,
-    idl,
+    schema,
     modelName,
     mInput,
     type: 'value',

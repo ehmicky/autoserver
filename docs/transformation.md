@@ -1,7 +1,7 @@
 # Default values
 
-Default values can be specified in the [IDL file](idl.md)
-under `attribute.default`, e.g.:
+Default values can be specified with the [schema](schema.md) property
+`attribute.default`, e.g.:
 
 ```yml
 weight:
@@ -38,5 +38,5 @@ current_date:
 ```
 
 Computed attributes ignore any value supplied by the client, e.g. the
-[IDL function variable](functions.md#idl-function-variables) `$` is not
+[schema function variable](functions.md#schema-function-variables) `$` is not
 available (but `$$` is).

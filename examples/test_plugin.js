@@ -2,10 +2,10 @@
 
 const { promisify } = require('util');
 
-const testPlugin = async function ({ idl, opts: { exampleOption } }) {
+const testPlugin = async function ({ schema, opts: { exampleOption } }) {
   await promisify(process.nextTick)();
 
-  return { ...idl, 'x-plugin-attr': exampleOption };
+  return { ...schema, 'x-plugin-attr': exampleOption };
 };
 
 module.exports = testPlugin;

@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 // Available in:
 //  - mInput, as `requestId`
 //  - events, as `requestId`
-//  - IDL function variables, as `$REQUEST_ID`
+//  - schema function variables, as `$REQUEST_ID`
 //  - response headers, as `X-Request-Id`
 // Also send response headers for `X-Server-Name` and `X-Server-Id`
 const setRequestIds = function ({ specific, protocolHandler, serverInfo }) {

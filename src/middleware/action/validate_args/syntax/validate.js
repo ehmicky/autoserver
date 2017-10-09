@@ -9,7 +9,7 @@ const { commandsTests } = require('./builder');
 //  - required arguments are defined
 //  - disabled or unknown arguments are not defined
 //  - arguments that are defined follow correct syntax
-//    Does not check for semantics (e.g. IDL validation)
+//    Does not check for semantics (e.g. schema validation)
 const validateSyntax = function ({ args, command, runOpts }) {
   const tests = commandsTests[command.name];
   fastValidate(

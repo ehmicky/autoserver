@@ -1,6 +1,6 @@
 'use strict';
 
-const { runIdlFunc } = require('../../../idl_func');
+const { runSchemaFunc } = require('../../../schema_func');
 
 // Apply default values to args.data's models
 const applyAllDefault = function ({ data, defAttributes, mInput }) {
@@ -26,7 +26,7 @@ const applyDefault = function ({ parent, defValue, attrName, mInput }) {
 
   // Process inline functions if default value contains any
   const vars = { $$: parent };
-  const defValueA = runIdlFunc({ idlFunc: defValue, mInput, vars });
+  const defValueA = runSchemaFunc({ schemaFunc: defValue, mInput, vars });
 
   if (defValueA == null) { return parent; }
 

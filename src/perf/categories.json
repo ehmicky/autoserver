@@ -3,7 +3,7 @@
   "default",
   "main",
   "run_opts",
-  "idl",
+  "schema",
   "HTTP",
   "middleware",
   "time",

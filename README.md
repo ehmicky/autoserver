@@ -2,7 +2,7 @@
 
 This is a web server engine.
 
-You simply pass a single [declarative file](docs/idl.md) as input, and a
+You simply pass a single [declarative file](docs/schema.md) as input, and a
 full-featured [GraphQL](http://graphql.org/) server will start.
 
 # Features

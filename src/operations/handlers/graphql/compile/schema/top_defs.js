@@ -21,7 +21,7 @@ const getTopDefs = function ({ models }) {
     .reduce(assignObject, {});
 };
 
-// Mapping from IDL commands to GraphQL methods
+// Mapping from schema commands to GraphQL methods
 const graphqlMethods = {
   query: ['find'],
   mutation: ['create', 'replace', 'patch', 'delete'],

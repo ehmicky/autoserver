@@ -1,6 +1,6 @@
 'use strict';
 
-// Turn a `commandPath` into a `modelName`, using IDL information
+// Turn a `commandPath` into a `modelName`, using schema information
 const getModel = function ({
   commandPath,
   modelsMap,

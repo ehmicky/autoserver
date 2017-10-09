@@ -9,7 +9,7 @@ const { getCommand } = require('../../constants');
 // `command`, `modelName`, `commandPath`, `args`
 const parseTopAction = function ({
   operationDef: { commandName, args },
-  idl: { shortcuts: { modelsMap } },
+  schema: { shortcuts: { modelsMap } },
   protocolArgs,
 }) {
   const { commandType, modelName, multiple } = parseModelName({
@@ -33,7 +33,7 @@ const parseModelName = function ({ commandName, modelsMap }) {
 
   const multiple = isPlural(modelName);
 
-  // Model name can be either in singular or in plural form in IDL
+  // Model name can be either in singular or in plural form in schema
   const singularName = singular(modelName);
   const pluralName = plural(modelName);
   const modelNameA = modelsMap[pluralName] ? pluralName : singularName;

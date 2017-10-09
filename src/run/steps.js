@@ -10,7 +10,7 @@ const {
 } = require('./perf');
 const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
-const { parseIdl } = require('./idl');
+const { parseSchema } = require('./schema');
 const { launchServers } = require('./launch');
 const { setupGracefulExit } = require('./exit');
 const { emitStartEvent } = require('./start_event');
@@ -22,8 +22,8 @@ const startupSteps = [
   getRunOpts,
   // Setup process warnings and errors handler
   processErrorHandler,
-  // Parse IDL file
-  parseIdl,
+  // Parse schema
+  parseSchema,
   // Retrieve server information
   getServerInfo,
   // Get main request handler

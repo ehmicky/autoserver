@@ -103,7 +103,7 @@ const middlewareLayers = [
       // Parse `args.orderBy` from a string to an array of objects
       action.parseOrderBy,
       // Validate that attributes in `args.select|data|filter|order_by`
-      // are in the IDL
+      // are in the schema
       action.validateUnknownAttrs,
       // Validate that attributes used in nested actions will not change
       action.validateStableIds,

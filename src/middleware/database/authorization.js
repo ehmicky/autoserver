@@ -6,7 +6,7 @@ const { throwError } = require('../../error');
 const authorization = function ({
   modelName,
   command,
-  idl: { models },
+  schema: { models },
   args: { internal },
 }) {
   // Intermediary commands are not checked for authorization

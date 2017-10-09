@@ -13,7 +13,7 @@ const {
 // Use GraphQL-specific logic to parse the request into an
 // operation-agnostic `operationDef`
 const handler = function ({
-  idl: { graphQLSchema },
+  schema: { graphQLSchema },
   queryVars,
   payload,
   method,

@@ -1,6 +1,6 @@
 # Data validation
 
-Attributes can be validated by specifying in the [IDL file](idl.md)
+Attributes can be validated by specifying the [schema](schema.md) property
 `attribute.validate`.
 
 `attribute.validate` is a standard [JSON schema](http://json-schema.org/),
@@ -65,12 +65,12 @@ This property is an object of validation keywords, where the key is the
 keyword name and the value an object with the properties:
   - `test` [`{function}`](functions.md): function that returns false
     if the validation failed.
-    The [IDL function variable](functions.md#idl-function-variables)
+    The [schema function variable](functions.md#schema-function-variables)
     `$EXPECTED` represents the value passed to the keyword,
     and `$` represents the value to validate.
   - `message` [`{string|function}`](functions.md): error message.
     Can be [functions](functions.md) with the
-    [IDL function variable](functions.md#idl-function-variables) `$EXPECTED`
+    [schema function variable](functions.md#schema-function-variables) `$EXPECTED`
     Must start with `'must '`
   - `type` `{string[]}`: optionally restrict the attributes types that can
     use that keyword

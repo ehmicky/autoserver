@@ -28,8 +28,8 @@ const getFlatOpt = function ({ prefix, optName, optVal, availableOpts }) {
   const flatOpt = [{ name, validate, optVal }];
 
   // Sub-conf options do not recurse
-  // E.g. IDL file is a sub-conf which resolves to an object, but IDL properties
-  // are not options themselves
+  // E.g. schema is a sub-conf which resolves to an object, but schema
+  // properties are not options themselves
   if (subConfFiles !== undefined) { return flatOpt; }
 
   const children = getFlatOpts({

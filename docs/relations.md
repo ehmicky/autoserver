@@ -1,8 +1,8 @@
 # Definition
 
 Models can refer to each other by using the other model's name as
-`attribute.type` in their [IDL definition](idl.md), either as a scalar value
-or an array, for one-to-one or one-to-many relationship.
+`attribute.type` in their [schema definition](schema.md), either as a scalar
+value or an array, for one-to-one or one-to-many relationship.
 
 For example:
 

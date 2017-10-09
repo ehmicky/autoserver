@@ -32,7 +32,7 @@ const getPayload = function ({ servers, runOpts, gracefulExit }) {
     servers,
     serverFacts => omit(serverFacts, 'server'),
   );
-  const runOptsA = omit(runOpts, 'idl');
+  const runOptsA = omit(runOpts, 'schema');
   return { servers: serversA, options: runOptsA, exit: gracefulExit };
 };
 

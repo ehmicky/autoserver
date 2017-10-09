@@ -1,7 +1,7 @@
 # Description
 
-Descriptions can be specified for models under the [IDL file](idl.md) property
-`model.description` or attributes under `attribute.description`.
+Descriptions can be specified for models under the [schema](schema.md)
+property `model.description` or attributes under `attribute.description`.
 
 Additionally attributes can be documented as deprecated by specifying
 `attribute.deprecation_reason`, e.g.:
