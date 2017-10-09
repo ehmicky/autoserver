@@ -96,6 +96,8 @@ const middlewareLayers = [
       action.validateArgs,
       // Change arguments cases to camelCase
       action.renameArgs,
+      // Parse `args.filter` into AST
+      action.parseFilter,
       // Parse `args.data` into write `actions`
       action.parseDataArg,
       // Parse `args.cascade` into a set of delete nested `actions`
