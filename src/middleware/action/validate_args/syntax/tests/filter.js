@@ -3,14 +3,26 @@
 const {
   objectTest,
   objectOrArrayTest,
-  stringTest,
   unknownTest,
 } = require('../../../../../fast_validation');
+
+const filterIdTest = {
+  test ({ filter: { id } }) {
+    if (typeof id === 'string') { return true; }
+
+    return id &&
+      id.constructor === Object &&
+      Object.keys(id).length === 1 &&
+      typeof id.eq === 'string';
+  },
+  message: '\'filter.id\' must be a string or an object containing a single \'eq\' operator',
+  argName: 'filter.id',
+};
 
 // Validates args.filter for single commands
 const singleFilterTests = [
   { ...objectTest('filter'), argName: 'filter' },
-  { ...stringTest('filter.id'), argName: 'filter.id' },
+  filterIdTest,
   { ...unknownTest('filter', ['id']), argName: 'filter' },
 ];
 
