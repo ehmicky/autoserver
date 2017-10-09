@@ -11,7 +11,7 @@ const compileJsonSchema = function ({
 }) {
   const validateMapA = mapValues(
     validateMap,
-    compileSchemaByModel.bind(null, { idl }),
+    compileJsonSchemaByModel.bind(null, { idl }),
   );
   return {
     idl: {
@@ -21,23 +21,23 @@ const compileJsonSchema = function ({
   };
 };
 
-const compileSchemaByModel = function ({ idl }, schema) {
+const compileJsonSchemaByModel = function ({ idl }, jsonSchema) {
   return COMMAND_TYPES
-    .map(compileSchemaByCommand.bind(null, { schema, idl }))
+    .map(compileJsonSchemaCommand.bind(null, { jsonSchema, idl }))
     .reduce(assignObject, {});
 };
 
-const compileSchemaByCommand = function ({ idl, schema }, command) {
-  const schemaA = removeRequire({ schema, command });
-  const compiledSchema = compile({ idl, schema: schemaA });
-  return { [command]: compiledSchema };
+const compileJsonSchemaCommand = function ({ idl, jsonSchema }, command) {
+  const jsonSchemaA = removeRequire({ jsonSchema, command });
+  const compiledJsonSchema = compile({ idl, jsonSchema: jsonSchemaA });
+  return { [command]: compiledJsonSchema };
 };
 
 // Nothing is required for find|delete, except maybe `id` (previously validated)
-const removeRequire = function ({ schema, command }) {
-  if (!optionalInputCommands.includes(command)) { return schema; }
+const removeRequire = function ({ jsonSchema, command }) {
+  if (!optionalInputCommands.includes(command)) { return jsonSchema; }
 
-  return omit(schema, 'required');
+  return omit(jsonSchema, 'required');
 };
 
 const optionalInputCommands = ['find', 'delete'];

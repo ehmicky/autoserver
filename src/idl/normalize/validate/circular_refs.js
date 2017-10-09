@@ -12,11 +12,11 @@ const validateIdlCircularRefs = function ({ idl }) {
 };
 
 const validateCircularRefs = function (value, {
-  path = 'schema',
+  path = 'idl',
   pathSet = new WeakSet(),
 } = {}) {
   if (pathSet.has(value)) {
-    const message = `Schema cannot contain circular references: ${path}`;
+    const message = `IDL cannot contain circular references: '${path}'`;
     throwError(message, { reason: 'IDL_VALIDATION' });
   }
 

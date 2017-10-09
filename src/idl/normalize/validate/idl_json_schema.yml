@@ -1,7 +1,7 @@
 $schema: http://json-schema.org/draft-06/schema#
-$id: idl_schema_v1
-title: API engine IDL schema
-description: Schema validating the API engine's IDL
+$id: idl_json_schema_v1
+title: API engine IDL JSON schema
+description: JSON schema validating the API engine's IDL
 type: object
 required: [engine, models]
 properties:
@@ -326,7 +326,7 @@ definitions:
   validate:
     type: object
     $ref: '#/definitions/jsonSchema'
-  # Value of schema.type from JSON schema
+  # Value of jsonSchema.type
   jsonSchemaType:
     oneOf:
     - type: string
@@ -339,7 +339,7 @@ definitions:
   # The spec is currently in draft (only v4 is currently official)
   jsonSchema:
     definitions:
-      schemaArray:
+      jsonSchemaArray:
         type: array
         minItems: 1
         items:
@@ -419,7 +419,7 @@ definitions:
       items:
         anyOf:
           - $ref: '#/definitions/jsonSchema'
-          - $ref: '#/definitions/jsonSchema/definitions/schemaArray'
+          - $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
         default: {}
       maxItems:
         $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
@@ -436,11 +436,11 @@ definitions:
         minItems: 1
         uniqueItems: true
       allOf:
-        $ref: '#/definitions/jsonSchema/definitions/schemaArray'
+        $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
       anyOf:
-        $ref: '#/definitions/jsonSchema/definitions/schemaArray'
+        $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
       oneOf:
-        $ref: '#/definitions/jsonSchema/definitions/schemaArray'
+        $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
       not:
         $ref: '#/definitions/jsonSchema'
       # Future JSON standard

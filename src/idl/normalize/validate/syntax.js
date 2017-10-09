@@ -3,15 +3,15 @@
 const { getYaml, omitBy, fullRecurseMap } = require('../../../utilities');
 const { compile, validate } = require('../../../json_validation');
 
-const IDL_SCHEMA_PATH = `${__dirname}/idl_schema.yml`;
+const IDL_JSON_SCHEMA_PATH = `${__dirname}/idl_json_schema.yml`;
 
 // General IDL syntax validation
 const validateIdlSyntax = async function ({ idl }) {
-  const schema = await getYaml({ path: IDL_SCHEMA_PATH });
-  const compiledSchema = compile({ schema });
+  const jsonSchema = await getYaml({ path: IDL_JSON_SCHEMA_PATH });
+  const compiledJsonSchema = compile({ jsonSchema });
   const data = getIdl(idl);
   validate({
-    compiledSchema,
+    compiledJsonSchema,
     data,
     dataVar: 'idl',
     reason: 'IDL_VALIDATION',

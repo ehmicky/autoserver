@@ -9,7 +9,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
 
   - standard-compliant HTTP server
   - [GraphQL endpoint](docs/graphql.md#client-queries),
-    including introspection, interactive debugger and schema printing
+    including introspection, interactive debugger and GraphQL schema printing
   - [CRUD commands](docs/graphql.md#read-queries):
     find, create, patch, replace, delete.
     Each command can be performed on a single model or on several models.

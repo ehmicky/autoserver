@@ -17,7 +17,7 @@ const errorReasons = {
   SYNTAX_VALIDATION: {},
 
   // General validation input errors, e.g. input data|filter does not
-  // match IDL schema
+  // match IDL
   INPUT_VALIDATION: {},
 
   // Not allowed, authorization-wise

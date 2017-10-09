@@ -11,7 +11,7 @@ const validateJsonSchema = function ({
   idl: { shortcuts: { validateMap } },
 }) {
   const idlA = compileIdlFuncs({ idl });
-  compile({ schema: validateMap, idl: idlA });
+  compile({ jsonSchema: validateMap, idl: idlA });
 
   return idl;
 };
