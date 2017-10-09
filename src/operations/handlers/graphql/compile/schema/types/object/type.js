@@ -30,10 +30,10 @@ const graphQLObjectTGetter = function (def, opts) {
 //  - in particular, at the moment, type name differ when inputObjectType,
 //    command.type or multiple changes
 // We also namespace with a UUID which is unique for each new call to
-// `getSchema()`, to avoid leaking
+// `getGraphQLSchema()`, to avoid leaking
 const objectTypeSerializer = function ([def, opts]) {
   const typeName = getTypeName({ def, opts });
-  return `${opts.schemaId}/${typeName}`;
+  return `${opts.graphQLSchemaId}/${typeName}`;
 };
 
 const mGraphQLObjectTGetter = memoize(graphQLObjectTGetter, {

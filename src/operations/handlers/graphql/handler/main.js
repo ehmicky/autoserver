@@ -13,7 +13,7 @@ const {
 // Use GraphQL-specific logic to parse the request into an
 // operation-agnostic `operationDef`
 const handler = function ({
-  idl: { GraphQLSchema: schema },
+  idl: { graphQLSchema },
   queryVars,
   payload,
   method,
@@ -33,7 +33,7 @@ const handler = function ({
   // and return right away
   if (isIntrospectionQuery({ operationDef })) {
     return handleIntrospection({
-      schema,
+      graphQLSchema,
       queryDocument,
       variables,
       operationName,

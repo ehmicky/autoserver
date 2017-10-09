@@ -1,11 +1,11 @@
 'use strict';
 
-const { printSchema: graphQLPrintSchema } = require('graphql');
+const { printSchema } = require('graphql');
 
-const printSchema = function ({ GraphQLSchema }) {
-  return graphQLPrintSchema(GraphQLSchema).trim();
+const printGraphQLSchema = function ({ graphQLSchema }) {
+  return printSchema(graphQLSchema).trim();
 };
 
 module.exports = {
-  printSchema,
+  printGraphQLSchema,
 };

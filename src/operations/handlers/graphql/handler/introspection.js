@@ -14,13 +14,13 @@ const isIntrospectionQuery = function ({ operationDef: { commandName } }) {
 
 // Handle GraphQL introspection query by using the GraphQL schema object
 const handleIntrospection = async function ({
-  schema,
+  graphQLSchema,
   queryDocument,
   variables,
   operationName,
 }) {
   const content = await eGetIntrospectionResp({
-    schema,
+    graphQLSchema,
     queryDocument,
     variables,
     operationName,
@@ -39,12 +39,19 @@ const handleIntrospection = async function ({
 };
 
 const getIntrospectionResp = function ({
-  schema,
+  graphQLSchema,
   queryDocument,
   variables,
   operationName,
 }) {
-  return execute(schema, queryDocument, {}, {}, variables, operationName);
+  return execute(
+    graphQLSchema,
+    queryDocument,
+    {},
+    {},
+    variables,
+    operationName,
+  );
 };
 
 // Exception can be fired in several ways by GraphQL.js:
