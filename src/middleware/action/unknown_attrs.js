@@ -5,7 +5,7 @@ const { uniq } = require('lodash');
 const { assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
 
-// Validate that attributes in `args.select|data|filter|order_by` are in the
+// Validate that attributes in `args.select|data|order_by` are in the
 // schema.
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
@@ -57,11 +57,6 @@ const getDataKeys = function ({ action: { args: { data = [] } } }) {
   return getUniqueKeys(data);
 };
 
-const getFilterKeys = function ({ action: { args: { filter = [] } } }) {
-  const filterA = Array.isArray(filter) ? filter : [filter];
-  return getUniqueKeys(filterA);
-};
-
 // Turn e.g. [{ a, b }, { a }] into ['a', 'b']
 const getUniqueKeys = function (array) {
   const keys = array
@@ -79,7 +74,6 @@ const getOrderByKeys = function ({ action: { args: { orderBy = [] } } }) {
 const argsToValidate = [
   { name: 'select', getKeys: getSelectKeys },
   { name: 'data', getKeys: getDataKeys },
-  { name: 'filter', getKeys: getFilterKeys },
   { name: 'order_by', getKeys: getOrderByKeys },
 ];
 
