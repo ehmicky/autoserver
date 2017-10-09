@@ -1,14 +1,14 @@
 'use strict';
 
-const { getSchema } = require('./schema');
-const { printSchema } = require('./print');
+const { getGraphQLSchema } = require('./schema');
+const { printGraphQLSchema } = require('./print');
 
 // Add GraphQL schema, so it can be used by introspection, and by GraphQLPrint
 const compileIdl = async function ({ models }) {
-  const GraphQLSchema = await getSchema({ models });
-  const GraphQLPrintedSchema = await printSchema({ GraphQLSchema });
+  const graphQLSchema = await getGraphQLSchema({ models });
+  const graphQLPrintedSchema = await printGraphQLSchema({ graphQLSchema });
 
-  return { GraphQLPrintedSchema };
+  return { graphQLPrintedSchema };
 };
 
 module.exports = {

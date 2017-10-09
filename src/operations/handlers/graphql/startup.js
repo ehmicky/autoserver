@@ -3,10 +3,10 @@
 const { buildSchema } = require('graphql');
 
 // Build GraphQL schema from textual representation
-const startServer = function ({ GraphQLPrintedSchema }) {
-  const GraphQLSchema = buildSchema(GraphQLPrintedSchema);
+const startServer = function ({ graphQLPrintedSchema }) {
+  const graphQLSchema = buildSchema(graphQLPrintedSchema);
 
-  return { GraphQLSchema };
+  return { graphQLSchema };
 };
 
 module.exports = {
