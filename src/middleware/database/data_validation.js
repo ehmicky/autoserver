@@ -14,11 +14,11 @@ const dataValidation = function ({
   idl: { shortcuts: { validateMap } },
   mInput,
 }) {
-  const compiledSchema = validateMap[modelName][command];
+  const compiledJsonSchema = validateMap[modelName][command];
   const attrs = getAttrs({ args });
 
   Object.entries(attrs).forEach(([dataVar, attr]) =>
-    validateAttr({ dataVar, attr, compiledSchema, mInput }));
+    validateAttr({ dataVar, attr, compiledJsonSchema, mInput }));
 };
 
 // Keeps the arguments to validate
@@ -28,10 +28,10 @@ const getAttrs = function ({ args: { newData } }) {
   return { data: newData };
 };
 
-const validateAttr = function ({ dataVar, attr, compiledSchema, mInput }) {
+const validateAttr = function ({ dataVar, attr, compiledJsonSchema, mInput }) {
   attr.forEach(data => validateSingleAttr({
     dataVar,
-    compiledSchema,
+    compiledJsonSchema,
     mInput,
     data,
   }));
@@ -39,14 +39,14 @@ const validateAttr = function ({ dataVar, attr, compiledSchema, mInput }) {
 
 const validateSingleAttr = function ({
   dataVar,
-  compiledSchema,
+  compiledJsonSchema,
   mInput,
   data,
 }) {
   const dataA = removeEmpty(data);
 
   validate({
-    compiledSchema,
+    compiledJsonSchema,
     data: dataA,
     mInput,
     dataVar,

@@ -6,7 +6,7 @@ const { reportErrors } = require('./report_error');
 
 // Perform a validation, using a JSON schema, and a `data` as input
 const validate = function ({
-  compiledSchema,
+  compiledJsonSchema,
   data,
   dataVar,
   reason,
@@ -14,10 +14,10 @@ const validate = function ({
   mInput,
 }) {
   const dataA = { ...data, [Symbol.for('mInput')]: mInput };
-  const isValid = compiledSchema(dataA);
+  const isValid = compiledJsonSchema(dataA);
   if (isValid) { return; }
 
-  const errors = compiledSchema.errors
+  const errors = compiledJsonSchema.errors
     .reduce(assignArray, [])
     .filter(val => val);
 

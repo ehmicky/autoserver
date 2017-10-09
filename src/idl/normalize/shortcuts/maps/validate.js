@@ -5,7 +5,8 @@ const { pickBy, mapValues, omit } = require('../../../../utilities');
 const mapAttr = attr => attr.validate;
 
 const mapAttrs = function (attrs, { idl }) {
-  return mappers.reduce((schema, mapper) => mapper(schema, { idl }), attrs);
+  return mappers
+    .reduce((jsonSchema, mapper) => mapper(jsonSchema, { idl }), attrs);
 };
 
 const attrsToJsonSchema = function (attributes) {
@@ -15,28 +16,31 @@ const attrsToJsonSchema = function (attributes) {
 // Fix `required` attribute according to the current command
 // JSON schema `require` attribute is a model-level array,
 // not an attribute-level boolean
-const addJsonSchemaRequire = function (schema) {
-  const requiredAttrs = pickBy(schema.properties, attr => attr.required);
+const addJsonSchemaRequire = function (jsonSchema) {
+  const requiredAttrs = pickBy(jsonSchema.properties, attr => attr.required);
   const required = Object.keys(requiredAttrs);
   // `id` requiredness is checked by other validators, so we skip it here
   const requiredA = required.filter(attrName => attrName !== 'id');
-  return { ...schema, required: requiredA };
+  return { ...jsonSchema, required: requiredA };
 };
 
 // JSON schema `dependencies` attribute is model-level, not attribute-level
-const addJsonSchemaDeps = function (schema) {
-  const dependencies = mapValues(schema.properties, attr => attr.dependencies);
+const addJsonSchemaDeps = function (jsonSchema) {
+  const dependencies = mapValues(
+    jsonSchema.properties,
+    attr => attr.dependencies,
+  );
   const dependenciesA = pickBy(dependencies, dep => dep !== undefined);
-  return { ...schema, dependencies: dependenciesA };
+  return { ...jsonSchema, dependencies: dependenciesA };
 };
 
 // Remove syntax that is not JSON schema
-const removeAltSyntax = function (schema) {
+const removeAltSyntax = function (jsonSchema) {
   const properties = mapValues(
-    schema.properties,
+    jsonSchema.properties,
     attr => omit(attr, nonJsonSchema),
   );
-  return { ...schema, properties };
+  return { ...jsonSchema, properties };
 };
 
 const nonJsonSchema = [
