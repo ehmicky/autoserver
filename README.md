@@ -23,6 +23,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [silent outputs](docs/silent.md)
   - [input validation](docs/validation.md#data-validation)
   - [default values](docs/transformation.md#default-values)
+  - [readonly](docs/readonly.md) attributes
   - [aliases](docs/compatibility.md#aliases)
   - [transformation on input](docs/transformation.md#transformations),
     e.g. for normalization
