@@ -15,7 +15,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
     Each command can be performed on a single model or on several models.
   - [relations, nested commands](docs/relations.md)
     and populating between models, including for mutations
-  - [filtering](docs/filtering.md), which can use custom logic
+  - [filtering](docs/filtering.md)
   - [sorting](docs/sorting.md)
   - [selecting](docs/selecting.md)
   - [pagination](docs/pagination.md)
