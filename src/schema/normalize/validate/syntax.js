@@ -44,7 +44,8 @@ const getModelTypes = function (schema) {
 };
 
 const getCustomValidationNames = function (schema) {
-  const hasValidation = schema.validation && schema.validation.constructor === Object;
+  const hasValidation = schema.validation &&
+    schema.validation.constructor === Object;
   if (!hasValidation) { return []; }
 
   return Object.keys(schema.validation);
