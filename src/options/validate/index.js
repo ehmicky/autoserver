@@ -41,13 +41,19 @@ const checkRequired = function ({
 
 // Validate option against single `validate` rule
 const validateRule = function ({ name, optVal, ruleVal, ruleType }) {
+  if (Array.isArray(optVal) && ruleType !== 'type') {
+    return optVal
+      .map(opt => validateRule({ name, optVal: opt, ruleVal, ruleType }));
+  }
+
   const rule = rules[ruleType];
+
   const errorMessage = rule({ optVal, ruleVal });
 
-  if (errorMessage) {
-    const message = `Option '${name}' ${errorMessage}`;
-    throwError(message, { reason: 'CONF_VALIDATION' });
-  }
+  if (errorMessage === undefined) { return; }
+
+  const message = `Option '${name}' ${errorMessage}`;
+  throwError(message, { reason: 'CONF_VALIDATION' });
 };
 
 module.exports = {
