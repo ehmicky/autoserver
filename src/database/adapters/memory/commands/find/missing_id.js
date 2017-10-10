@@ -1,42 +1,20 @@
 'use strict';
 
-const { assignArray } = require('../../../../../utilities');
 const { throwError } = require('../../../../../error');
+const { crawlFilter } = require('../../../../crawl');
 
 // Simulate database 404 errors
 const validateMissingIds = function ({ collection, filter }) {
-  const ids = getIds(filter);
+  const ids = crawlFilter(filter, getId);
   ids.forEach(id => validateId({ collection, id }));
 };
 
 // Retrieve all the `id` specifically targetted in `args.filter`,
 // i.e. the ones with 'eq' and 'in' operators.
-const getIds = function ({ type, attrName, value }) {
-  const crawler = crawlers[type];
-  if (crawler === undefined) { return []; }
-
-  return crawler({ attrName, value });
-};
-
-const getId = function ({ attrName, value }) {
-  if (attrName !== 'id') { return []; }
+const getId = function ({ type, attrName, value }) {
+  if (!['eq', 'in'].includes(type) || attrName !== 'id') { return []; }
 
   return Array.isArray(value) ? value : [value];
-};
-
-const crawlIds = function ({ value }) {
-  return value
-    .map(getIds)
-    .reduce(assignArray, []);
-};
-
-const crawlers = {
-  eq: getId,
-  in: getId,
-  all: crawlIds,
-  some: crawlIds,
-  or: crawlIds,
-  and: crawlIds,
 };
 
 const validateId = function ({ collection, id }) {
