@@ -1,6 +1,6 @@
 'use strict';
 
-const { pSetTimeout } = require('../../../utilities');
+const { pSetTimeout, mapValues } = require('../../../utilities');
 
 const database = require('./data.json');
 const commands = require('./commands');
@@ -10,9 +10,8 @@ const { limitResponse } = require('./limit');
 
 // Memory database adapter, i.e. keeps database in-memory
 // Only used for development purpose
-const fire = async function ({
+const wrapCommand = async function (func, {
   modelName,
-  command,
   filter,
   deletedIds,
   newData,
@@ -25,12 +24,7 @@ const fire = async function ({
 
   const collection = database[modelName];
 
-  const { data, metadata } = commands[command]({
-    collection,
-    filter,
-    deletedIds,
-    newData,
-  });
+  const { data, metadata } = func({ collection, filter, deletedIds, newData });
 
   const dataA = sortResponse({ data, orderBy });
   const dataB = offsetResponse({ data: dataA, offset });
@@ -39,7 +33,9 @@ const fire = async function ({
   return { data: dataC, metadata };
 };
 
+const commandsA = mapValues(commands, func => wrapCommand.bind(null, func));
+
 module.exports = {
   type: 'memory',
-  fire,
+  ...commandsA,
 };

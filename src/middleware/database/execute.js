@@ -11,6 +11,8 @@ const databaseExecute = async function ({
   // A response was already set, e.g. by the dryrun middleware
   if (response !== undefined) { return; }
 
+  const databaseAdapter = getDatabaseAdapter();
+
   // `patch` command behaves like `replace`, so we simplify adapters here
   const commandA = command === 'patch' ? 'replace' : command;
 
@@ -24,9 +26,16 @@ const databaseExecute = async function ({
     limit,
     offset,
   };
-  const responseA = await databaseAdapters.memory.fire(commandInput);
+  const responseA = await databaseAdapter[commandA](commandInput);
 
   return { response: responseA };
+};
+
+// Retrieve model-specific database adapter
+const getDatabaseAdapter = function () {
+  const databaseAdapterType = 'memory';
+  const databaseAdapter = databaseAdapters[databaseAdapterType];
+  return databaseAdapter;
 };
 
 module.exports = {
