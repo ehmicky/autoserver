@@ -6,15 +6,18 @@ const { throwError } = require('../../../error');
 // There should be no circular references.
 // They may be introduced by e.g. dereferencing JSON references `$ref`
 // or YAML anchors `*var`
-const validateSchemaCircularRefs = function ({ schema }) {
-  validateCircularRefs(schema);
+const validateCircularRefs = function ({ schema }) {
+  validateCircRefs(schema);
   return schema;
 };
 
-const validateCircularRefs = function (value, {
-  path = 'schema',
-  pathSet = new WeakSet(),
-} = {}) {
+const validateCircRefs = function (
+  value,
+  {
+    path = 'schema',
+    pathSet = new WeakSet(),
+  } = {},
+) {
   if (pathSet.has(value)) {
     const message = `The schema cannot contain circular references: '${path}'`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
@@ -36,12 +39,12 @@ const walkCircularRefs = function (value, { path, pathSet }) {
     const childPath = Array.isArray(value)
       ? `${path}[${childKey}]`
       : `${path}.${childKey}`;
-    validateCircularRefs(child, { path: childPath, pathSet });
+    validateCircRefs(child, { path: childPath, pathSet });
   });
 
   pathSet.delete(value);
 };
 
 module.exports = {
-  validateSchemaCircularRefs,
+  validateCircularRefs,
 };

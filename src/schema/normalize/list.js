@@ -5,7 +5,7 @@ const { operationsSchema } = require('../operations');
 const { applyPlugins } = require('./plugins');
 const { applyModelDefault } = require('./model_default');
 const {
-  validateSchemaCircularRefs,
+  validateCircularRefs,
   validateJsonSchemaData,
   validateModelNaming,
   validateSchemaSyntax,
@@ -37,7 +37,7 @@ const normalizers = [
   { type: 'schema', func: applyModelDefault },
 
   // Validates that there are no circular references
-  { type: 'schema', func: validateSchemaCircularRefs },
+  { type: 'schema', func: validateCircularRefs },
   // Validates JSON schema $data
   { type: 'schema', func: validateJsonSchemaData },
   // Validate models are properly named
@@ -75,7 +75,7 @@ const normalizers = [
   { type: 'schema', func: addInlineFuncPaths },
 
   // Validates that there are no circular references
-  { type: 'schema', func: validateSchemaCircularRefs },
+  { type: 'schema', func: validateCircularRefs },
   // Check inline functions are valid by compiling then
   { type: 'schema', func: validateInlineFuncs },
   // Validates that `attr.validate` are valid JSON schema
