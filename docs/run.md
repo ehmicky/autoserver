@@ -31,7 +31,7 @@ The available options are:
   - `schema` [`{filepath}`](configuration.md#filepaths-options) (required):
     [schema](schema.md), i.e. information about the data model and
     the business logic.
-  - `env` (defaults to `'production'`): can be `'dev'` or `'production'`.
+  - `env` (defaults to `'dev'`): can be `'dev'` or `'production'`.
     Running in `'dev'` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
   - `http.host` `{string}` (defaults to `localhost`)
