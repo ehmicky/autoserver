@@ -2,8 +2,8 @@
 
 module.exports = {
   ...require('./model_name'),
-  ...require('./commands'),
   ...require('./id'),
-  ...require('./validate'),
   ...require('./type'),
+  ...require('./validate'),
+  ...require('./commands'),
 };
