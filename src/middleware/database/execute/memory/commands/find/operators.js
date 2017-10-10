@@ -2,49 +2,42 @@
 
 const { isEqual } = require('lodash');
 
-const { validateMissingIds } = require('./missing_id');
-
 // Check if a model matches a query filter
 const modelMatchFilter = function ({
   model,
-  collection,
   filter: { type, attrName, value } = {},
 }) {
   // E.g. when there is no `args.filter`
   if (type === undefined) { return true; }
 
-  validateMissingIds({ collection, type, attrName, value });
-
-  return matchers[type]({ model, collection, attrName, value });
+  return matchers[type]({ model, attrName, value });
 };
 
 // Top-level array
-const orMatcher = function ({ model, collection, value }) {
-  return value.some(filter => modelMatchFilter({ model, collection, filter }));
+const orMatcher = function ({ model, value }) {
+  return value.some(filter => modelMatchFilter({ model, filter }));
 };
 
 // Several fields inside a filter object
-const andMatcher = function ({ model, collection, value }) {
-  return value.every(filter => modelMatchFilter({ model, collection, filter }));
+const andMatcher = function ({ model, value }) {
+  return value.every(filter => modelMatchFilter({ model, filter }));
 };
 
 // `{ array_attribute: { some: { ...} } }`
-const someMatcher = function ({ model, attrName, collection, value }) {
+const someMatcher = function ({ model, attrName, value }) {
   const attr = model[attrName];
-  return Object.keys(attr)
-    .some(index => arrayMatcher({ attr, index, collection, value }));
+  return Object.keys(attr).some(index => arrayMatcher({ attr, index, value }));
 };
 
 // `{ array_attribute: { all: { ...} } }`
-const allMatcher = function ({ model, attrName, collection, value }) {
+const allMatcher = function ({ model, attrName, value }) {
   const attr = model[attrName];
-  return Object.keys(attr)
-    .every(index => arrayMatcher({ attr, index, collection, value }));
+  return Object.keys(attr).every(index => arrayMatcher({ attr, index, value }));
 };
 
-const arrayMatcher = function ({ attr, index, collection, value }) {
+const arrayMatcher = function ({ attr, index, value }) {
   const valueA = value.map(val => ({ ...val, attrName: index }));
-  return andMatcher({ model: attr, collection, value: valueA });
+  return andMatcher({ model: attr, value: valueA });
 };
 
 // `{ attribute: { eq: value } }` or `{ attribute: value }`

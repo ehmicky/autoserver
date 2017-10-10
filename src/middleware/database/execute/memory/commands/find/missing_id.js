@@ -1,38 +1,50 @@
 'use strict';
 
-const { toSentence } = require('underscore.string');
-
+const { assignArray } = require('../../../../../../utilities');
 const { throwError } = require('../../../../../../error');
 
 // Simulate database 404 errors
-const validateMissingIds = function ({ collection, type, attrName, value }) {
-  // Only for `id`s
-  if (attrName !== 'id') { return; }
+const validateMissingIds = function ({ collection, filter }) {
+  const ids = getIds(filter);
+  ids.forEach(id => validateId({ collection, id }));
+};
 
-  // Only when ids are specifically targetted with 'eq' or 'in'
-  const findModelFunc = findModel[type];
-  if (findModelFunc === undefined) { return; }
+// Retrieve all the `id` specifically targetted in `args.filter`,
+// i.e. the ones with 'eq' and 'in' operators.
+const getIds = function ({ type, attrName, value }) {
+  const crawler = crawlers[type];
+  if (crawler === undefined) { return []; }
 
-  const hasModel = collection.some(({ id }) => findModelFunc({ value, id }));
+  return crawler({ attrName, value });
+};
+
+const getId = function ({ attrName, value }) {
+  if (attrName !== 'id') { return []; }
+
+  return Array.isArray(value) ? value : [value];
+};
+
+const crawlIds = function ({ value }) {
+  return value
+    .map(getIds)
+    .reduce(assignArray, []);
+};
+
+const crawlers = {
+  eq: getId,
+  in: getId,
+  all: crawlIds,
+  some: crawlIds,
+  or: crawlIds,
+  and: crawlIds,
+};
+
+const validateId = function ({ collection, id }) {
+  const hasModel = collection.some(model => model.id === id);
   if (hasModel) { return; }
 
-  const message = getMissingIdsMessage({ value });
+  const message = `Could not find any model with an 'id' equal to '${id}'`;
   throwError(message, { reason: 'DATABASE_NOT_FOUND' });
-};
-
-const getMissingIdsMessage = function ({ value }) {
-  if (!Array.isArray(value)) {
-    return `Could not find any model with 'id' equals to '${value}'`;
-  }
-
-  const quotedValues = value.map(val => `'${val}'`);
-  const values = toSentence(quotedValues, ', ', ' or ');
-  return `Could not find any model with 'id' among ${values}`;
-};
-
-const findModel = {
-  eq: ({ value, id }) => value === id,
-  in: ({ value, id }) => value.includes(id),
 };
 
 module.exports = {
