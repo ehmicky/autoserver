@@ -8,12 +8,7 @@ const addDefaultCommands = function (model) {
 };
 
 // By default, include all commands
-const defaultCommands = [
-  'create',
-  'find',
-  'replace',
-  'delete',
-];
+const defaultCommands = ['create', 'find', 'replace', 'delete'];
 
 module.exports = {
   addDefaultCommands,
