@@ -1,6 +1,6 @@
 'use strict';
 
-const { pSetTimeout } = require('../../../../utilities');
+const { pSetTimeout } = require('../../../utilities');
 
 const database = require('./data.json');
 const commands = require('./commands');
@@ -10,7 +10,7 @@ const { limitResponse } = require('./limit');
 
 // Memory database adapter, i.e. keeps database in-memory
 // Only used for development purpose
-const memoryAdapter = async function ({
+const fire = async function ({
   modelName,
   command,
   filter,
@@ -40,5 +40,6 @@ const memoryAdapter = async function ({
 };
 
 module.exports = {
-  memoryAdapter,
+  type: 'memory',
+  fire,
 };

@@ -3,9 +3,9 @@
 const { assignObject } = require('./reduce');
 
 // Similar to Lodash __.keyBy() but faster
-const keyBy = function (array) {
+const keyBy = function (array, attr = 'name') {
   return Object.values(array)
-    .map(obj => ({ [obj.name]: obj }))
+    .map(obj => ({ [obj[attr]]: obj }))
     .reduce(assignObject, {});
 };
 
