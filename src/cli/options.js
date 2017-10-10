@@ -36,11 +36,11 @@ const getType = function ({ subConfFiles, validate: { type } = {} }) {
 };
 
 const getCliOption = function (option) {
-  const envOption = cliOptionsParams
+  const cliOption = cliOptionsParams
     .map(func => func(option))
     .reduce(assignObject, {});
   const name = dasherize(option.name);
-  return { [name]: envOption };
+  return { [name]: cliOption };
 };
 
 // Option type, for parsing and --help message
