@@ -14,6 +14,7 @@ const getDeleteFindCommand = function ({ args: { deletedIds, ...args } }) {
   return {
     command: 'find',
     args: { ...args, filter },
+    dryRunRestore: { command: 'delete', args: { deletedIds, ...args } },
   };
 };
 
@@ -36,6 +37,12 @@ const dryrunByCommand = {
   patch: useNewData,
 };
 
+// Remove `dryrun` modifications after the database query has been handled
+const restoreDryrun = function ({ dryRunRestore }) {
+  return dryRunRestore;
+};
+
 module.exports = {
   applyDryrun,
+  restoreDryrun,
 };
