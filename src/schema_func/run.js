@@ -31,7 +31,10 @@ const eRunSchemaFunc = addGenErrorHandler(runSchemaFunc, {
   reason: 'UTILITY_ERROR',
 });
 
-const stringifySchemaFunc = function ({ schemaFunc, schemaFunc: { inlineFunc, name } }) {
+const stringifySchemaFunc = function ({
+  schemaFunc,
+  schemaFunc: { inlineFunc, name },
+}) {
   if (inlineFunc) { return inlineFunc; }
 
   if (!name || name === 'anonymous') { return schemaFunc.toString(); }

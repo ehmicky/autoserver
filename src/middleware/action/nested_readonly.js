@@ -8,7 +8,11 @@ const { throwError } = require('../../error');
 // When using a nested action in a 'replace' command, it is possible to
 // modify the parent attribute by changing the nested model ids in `args.data`.
 // This will cause confusion, so we validate this does not happen.
-const validateNestedReadonly = function ({ actions, schema, top: { command } }) {
+const validateNestedReadonly = function ({
+  actions,
+  schema,
+  top: { command },
+}) {
   if (command.type !== 'replace') { return; }
 
   actions.forEach(action => validateAction({ action, actions, schema }));

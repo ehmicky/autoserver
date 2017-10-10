@@ -9,7 +9,12 @@ const { getModel } = require('./get_model');
 // parent attribute with `attr.value`, the relation returned in the response
 // will show what the client asked for, but the server state will contain
 // something else.
-const validateStableIds = function ({ actions, schema, top, top: { command } }) {
+const validateStableIds = function ({
+  actions,
+  schema,
+  top,
+  top: { command },
+}) {
   // Only for commands with `args.data`
   if (!stableIdsCommands.includes(command.type)) { return; }
 
