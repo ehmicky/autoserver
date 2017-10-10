@@ -6,16 +6,18 @@ const {
   unknownTest,
 } = require('../../../../../fast_validation');
 
-const filterIdTest = {
-  test ({ filter: { id } }) {
-    if (typeof id === 'string') { return true; }
+const filterIdTestFunc = function ({ filter: { id } }) {
+  if (typeof id === 'string') { return true; }
 
-    return id &&
-      id.constructor === Object &&
-      Object.keys(id).length === 1 &&
-      typeof id.eq === 'string';
-  },
-  message: '\'filter.id\' must be a string or an object containing a single \'eq\' operator',
+  return id &&
+    id.constructor === Object &&
+    Object.keys(id).length === 1 &&
+    typeof id.eq === 'string';
+};
+
+const filterIdTest = {
+  test: filterIdTestFunc,
+  message: '\'filter.id\' must be a string, or an object containing a single \'eq\' operator',
   argName: 'filter.id',
 };
 
