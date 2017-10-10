@@ -43,7 +43,11 @@ const validateArray = function ({ optVal, ruleVal }) {
 
   const type = ruleVal.slice(0, -2);
   const typeRule = typeRules[type];
-  return optVal.find(val => typeRule({ optVal: val }));
+  const valA = optVal.find(val => typeRule({ optVal: val }));
+  if (valA === undefined) { return; }
+
+  const message = typeRule({ optVal: valA });
+  return `item ${message}`;
 };
 
 const validateObject = function ({ optVal }) {
