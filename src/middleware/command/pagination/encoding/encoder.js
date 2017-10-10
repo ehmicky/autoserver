@@ -18,7 +18,7 @@ const { convertUndefined } = require('./convert_undefined');
 // Encode token from a useable object to a short opaque base64 token
 // Token is object:
 //   - parts {any[]} (model values)
-//   - filter {string}: used by current query,
+//   - filter {object}: used by current query,
 //     so it can be used on next pagination requests
 //   - orderBy {object[]} - same as filter
 //      - orderBy.attrName {string} - also used to guess `parts` attributes
