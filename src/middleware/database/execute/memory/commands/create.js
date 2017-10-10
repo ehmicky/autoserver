@@ -3,23 +3,15 @@
 const { throwError } = require('../../../../../error');
 
 const create = function ({ collection, newData }) {
-  const data = newData
-    .map(datum => createOne({ collection, newData: datum }));
-  return { data };
-};
-
-const createOne = function ({ collection, newData, newData: { id } }) {
-  checkCreateId({ collection, id });
-
-  const newModel = { ...newData, id };
+  newData.forEach(({ id }) => validateCreateId({ collection, id }));
 
   // eslint-disable-next-line fp/no-mutating-methods
-  collection.push(newModel);
+  collection.push(...newData);
 
-  return newModel;
+  return { data: newData };
 };
 
-const checkCreateId = function ({ collection, id }) {
+const validateCreateId = function ({ collection, id }) {
   const hasModel = collection.some(model => model.id === id);
   if (!hasModel) { return; }
 
@@ -29,5 +21,4 @@ const checkCreateId = function ({ collection, id }) {
 
 module.exports = {
   create,
-  createOne,
 };
