@@ -35,7 +35,10 @@ const wrapCommand = async function (func, {
 
 const commandsA = mapValues(commands, func => wrapCommand.bind(null, func));
 
+const kinds = ['data', 'search'];
+
 module.exports = {
   type: 'memory',
+  kinds,
   ...commandsA,
 };
