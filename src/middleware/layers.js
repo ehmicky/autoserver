@@ -195,6 +195,8 @@ const middlewareLayers = [
       // Do the database action, protocol and operation-agnostic
       database.databaseExecute,
 
+      // Remove `dryrun` modifications after the database query has been handled
+      database.restoreDryrun,
       // Add default empty response.metadata
       database.addMetadataDefault,
       // Validate database response
