@@ -1,7 +1,5 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
 const {
   assignArray,
   mergeArrayReducer,
@@ -9,6 +7,7 @@ const {
 } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
 const { mergeCommandPaths } = require('../command_paths');
+const { getSimpleFilter } = require('../simple_id');
 
 // Add `action.currentData` for `replace` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
@@ -49,8 +48,8 @@ const writeToReadAction = function (actions) {
     .map(({ args: { data } }) => data)
     .reduce(assignArray, [])
     .map(({ id }) => id);
-  const idsA = uniq(ids);
-  const args = { filter: { id: idsA } };
+  const filter = getSimpleFilter({ ids });
+  const args = { filter };
   const [{ modelName }] = actions;
 
   return {

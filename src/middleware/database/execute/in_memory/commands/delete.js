@@ -1,10 +1,11 @@
 'use strict';
 
 const { sortArray } = require('../../../../../utilities');
-const { findIndexes } = require('../indexes');
 
-const deleteMany = function ({ collection, filter }) {
-  const indexes = findIndexes({ collection, filter });
+const deleteMany = function ({ collection, deletedIds }) {
+  const indexes = Object.entries(collection)
+    .filter(([, model]) => deletedIds.includes(model.id))
+    .map(([index]) => index);
   const sortedIndexes = sortArray(indexes);
   const data = sortedIndexes
     // eslint-disable-next-line fp/no-mutating-methods

@@ -10,6 +10,7 @@ const { getPaginationInfo } = require('./info');
 // Add response metadata related to pagination:
 //   token, page_size, has_previous_page, has_next_page
 const handlePaginationOutput = function ({ args, response, runOpts }) {
+  return;
   if (!mustPaginateOutput({ args })) { return; }
 
   const responseA = reverseOutput({ args, response });

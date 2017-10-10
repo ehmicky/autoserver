@@ -8,8 +8,13 @@ const applyDryrun = function ({ args: { dryrun }, args, command }) {
 };
 
 // `delete` commands becomes `find` commands
-const getDeleteFindCommand = function () {
-  return { command: 'find' };
+const getDeleteFindCommand = function ({ args: { deletedIds, ...args } }) {
+  const filter = { attrName: 'id', type: 'in', value: deletedIds };
+
+  return {
+    command: 'find',
+    args: { ...args, filter },
+  };
 };
 
 // `create` commands becomes `find` commands, that succeeds if an exception

@@ -14,17 +14,17 @@ const mergeDataArgs = function ({ actions }) {
 };
 
 // Merge all `currentData` into `filter.id`, for `delete` command
-const mergeFilterArgs = function ({ actions }) {
+const mergeDeleteArgs = function ({ actions }) {
   const models = actions.map(({ currentData }) => currentData);
 
   const modelsA = removeDuplicates(models);
-  const ids = modelsA.map(({ id }) => id);
+  const deletedIds = modelsA.map(({ id }) => id);
 
-  return { filter: { id: ids } };
+  return { deletedIds };
 };
 
-const getFilterIds = function ({ args: { filter: { id } } }) {
-  return id;
+const getDeletedIds = function ({ args: { deletedIds } }) {
+  return deletedIds;
 };
 
 const getDataIds = function ({ args: { newData } }) {
@@ -59,8 +59,8 @@ const dataHandler = {
   getCurrentData,
 };
 const filterHandler = {
-  mergeArgs: mergeFilterArgs,
-  getIds: getFilterIds,
+  mergeArgs: mergeDeleteArgs,
+  getIds: getDeletedIds,
   getCurrentData,
 };
 

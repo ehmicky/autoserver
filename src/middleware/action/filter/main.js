@@ -10,7 +10,8 @@ const parseFilter = function ({
   actions,
   schema: { shortcuts: { modelsMap } },
 }) {
-  return actions.map(action => parseFilterArg({ action, modelsMap }));
+  const actionsA = actions.map(action => parseFilterArg({ action, modelsMap }));
+  return { actions: actionsA };
 };
 
 const parseFilterArg = function ({
@@ -20,27 +21,41 @@ const parseFilterArg = function ({
 }) {
   const model = modelsMap[modelName];
   const filterA = parseTopNode({ topNode: filter, model });
-  return { ...action, args: { ...args, filter } };
+  return { ...action, args: { ...args, filter: filterA } };
 };
 
 const parseTopNode = function ({ topNode, model }) {
   if (topNode == null) { return; }
 
   // Top-level array means 'or' alternatives
-  if (Array.isArray(topNode)) {
-    const value = topNode.map(node => parseNode({ node, model }));
-    return { type: 'or', value };
-  }
-
-  return parseNode({ node: topNode, model });
+  return Array.isArray(topNode)
+    ? parseOrNode({ nodes: topNode, model })
+    : parseAndNode({ node: topNode, model });
 };
 
-const parseNode = function ({ node, model }) {
+const parseOrNode = function ({ nodes, model }) {
+  const value = nodes
+    .map(node => parseAndNode({ node, model }))
+    .filter(val => val !== undefined);
+  return getLogicNode({ value, type: 'or' });
+};
+
+const parseAndNode = function ({ node, model }) {
   const value = Object.entries(node)
     .map(([attrName, attrVal]) => parseOperation({ attrName, attrVal, model }))
     .reduce(assignArray, []);
-  // Using several fields in an object means 'and'
-  return { type: 'and', value };
+  return getLogicNode({ value, type: 'and' });
+};
+
+// 'and' and 'or' nodes
+const getLogicNode = function ({ value, type }) {
+  // E.g. when using an empty object or empty array
+  if (value.length === 0) { return; }
+
+  // No need for 'and|or' if there is only one filter
+  if (value.length === 1) { return value[0]; }
+
+  return { type, value };
 };
 
 const parseOperation = function ({ attrName, attrVal, model }) {

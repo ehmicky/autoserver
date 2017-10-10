@@ -45,10 +45,9 @@ const singleSequenceRead = async function ({
   } = getInput({ action, results });
 
   const argsA = getNestedArg({ args, isTopLevel, parentIds });
-  const argsB = normalizeIds({ args: argsA });
 
-  const { concurrentPromises, args: argsC } = getConcurrentCommand({
-    args: argsB,
+  const { concurrentPromises, args: argsB } = getConcurrentCommand({
+    args: argsA,
     results,
     modelName,
   });
@@ -58,7 +57,7 @@ const singleSequenceRead = async function ({
     mInput,
     nextLayer,
     command,
-    args: argsC,
+    args: argsB,
     isTopLevel,
     parentResults,
     commandName,
@@ -66,7 +65,7 @@ const singleSequenceRead = async function ({
   });
 
   const pendingResults = getPendingResults({
-    args: argsC,
+    args: argsB,
     modelName,
     results,
     promise,
@@ -89,19 +88,6 @@ const singleSequenceRead = async function ({
   // Recursive call
   // Child actions must start after their parent ends
   await sequenceRead({ actions: childActions, mInput, results }, nextLayer);
-};
-
-// Normalize `filter: { id: '...' }` to `filter: { id: ['...'] }`
-const normalizeIds = function ({
-  args,
-  args: { filter: { id, ...filter } = {} },
-}) {
-  if (typeof id !== 'string') { return args; }
-
-  return {
-    ...args,
-    filter: { ...filter, id: [id] },
-  };
 };
 
 module.exports = {

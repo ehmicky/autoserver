@@ -1,5 +1,7 @@
 'use strict';
 
+const { getSimpleFilter, extractSimpleIds } = require('../../../action');
+
 // If another `find` command searching for the same models is currently running,
 // use its future results (for efficiency reasons) instead of running it.
 // The concurrent command might be ongoing or have already completed.
@@ -9,7 +11,7 @@
 //  - output consistency, i.e. each model has a single representation for a
 //    given request
 const getConcurrentCommand = function ({ args, results, modelName }) {
-  const ids = getIds(args);
+  const ids = extractSimpleIds(args) || [];
   const concurrentResults = getConcurrentResults({ ids, results, modelName });
 
   // No concurrent `find` commands can be used
@@ -45,14 +47,15 @@ const removeConcurrentIds = function ({ concurrentResults, ids, args }) {
   const concurrentIds = concurrentResults.map(({ model: { id } }) => id);
   const idsA = ids.filter(id => !concurrentIds.includes(id));
 
-  return { ...args, filter: { id: idsA } };
+  const filter = getSimpleFilter({ ids: idsA });
+  return { ...args, filter };
 };
 
 // Communicate to parallel commands which `id`s are currently being searched
 // so that each call can reuse the result from other calls when targetting
 // the same model.
 const getPendingResults = function ({ args, results, modelName, promise }) {
-  const ids = getIds(args);
+  const ids = extractSimpleIds(args) || [];
   const pendingResults = ids.map(id => ({ model: { id }, modelName, promise }));
 
   // Since we are sharing between parallel calls, `results` must be a mutable
@@ -61,19 +64,6 @@ const getPendingResults = function ({ args, results, modelName, promise }) {
   results.push(...pendingResults);
 
   return pendingResults;
-};
-
-// Try to guess the `args.filter` `id`s
-// This won't work on top-level filter of findMany command using a complex one,
-// but that's ok because it will not have any concurrent commands.
-const getIds = function ({ filter: { id: ids, ...filter } = {} }) {
-  // Complex filter
-  if (Object.keys(filter).length > 0) { return []; }
-
-  // No filter
-  if (!Array.isArray(ids)) { return []; }
-
-  return ids;
 };
 
 module.exports = {

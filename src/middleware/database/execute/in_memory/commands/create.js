@@ -1,7 +1,6 @@
 'use strict';
 
 const { throwError } = require('../../../../../error');
-const { searchIndexes } = require('../indexes');
 
 const create = function ({ collection, newData }) {
   const data = newData
@@ -21,8 +20,8 @@ const createOne = function ({ collection, newData, newData: { id } }) {
 };
 
 const checkCreateId = function ({ collection, id }) {
-  const models = searchIndexes({ collection, filter: { id } });
-  if (models.length === 0) { return; }
+  const hasModel = collection.some(model => model.id === id);
+  if (!hasModel) { return; }
 
   const message = `Model with id '${id}' already exists`;
   throwError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
