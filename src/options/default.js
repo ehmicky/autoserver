@@ -28,11 +28,11 @@ const getRecursiveOpt = function ({ options, name, defValue }) {
   const [parent, ...children] = name.split('.');
   if (children.length === 0) { return; }
 
-  const val = applyDefaultOpt({
-    options: options[parent],
-    name: children.join('.'),
-    defValue,
-  });
+  const child = options[parent];
+  const nameA = children.join('.');
+  const val = Array.isArray(child)
+    ? child.map(opt => applyDefaultOpt({ options: opt, name: nameA, defValue }))
+    : applyDefaultOpt({ options: child, name: nameA, defValue });
   return { ...options, [parent]: val };
 };
 
