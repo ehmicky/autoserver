@@ -1,6 +1,6 @@
 'use strict';
 
-const { inMemoryAdapter } = require('./in_memory');
+const { memoryAdapter } = require('./memory');
 
 const databaseExecute = async function ({
   command,
@@ -24,7 +24,7 @@ const databaseExecute = async function ({
     limit,
     offset,
   };
-  const responseA = await inMemoryAdapter(commandInput);
+  const responseA = await memoryAdapter(commandInput);
 
   return { response: responseA };
 };

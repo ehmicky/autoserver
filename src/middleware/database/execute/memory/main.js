@@ -2,14 +2,15 @@
 
 const { pSetTimeout } = require('../../../../utilities');
 
-// Fake database for the moment
 const database = require('./data.json');
 const commands = require('./commands');
 const { sortResponse } = require('./order_by');
 const { offsetResponse } = require('./offset');
 const { limitResponse } = require('./limit');
 
-const inMemoryAdapter = async function ({
+// Memory database adapter, i.e. keeps database in-memory
+// Only used for development purpose
+const memoryAdapter = async function ({
   modelName,
   command,
   filter,
@@ -39,5 +40,5 @@ const inMemoryAdapter = async function ({
 };
 
 module.exports = {
-  inMemoryAdapter,
+  memoryAdapter,
 };
