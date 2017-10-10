@@ -17,5 +17,4 @@ const replaceOne = function ({ collection, newData, newData: { id } }) {
 
 module.exports = {
   replace,
-  replaceOne,
 };

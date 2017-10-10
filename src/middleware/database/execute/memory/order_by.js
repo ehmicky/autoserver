@@ -4,7 +4,7 @@ const { sortBy } = require('../../../../utilities');
 
 // `order_by` sorting
 const sortResponse = function ({ data, orderBy }) {
-  if (!data || !orderBy) { return data; }
+  if (!orderBy) { return data; }
 
   return sortBy(data, orderBy);
 };
