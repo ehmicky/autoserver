@@ -79,9 +79,9 @@ const getPaginatedFilter = function ({
 
   const filter = orderBy.map(({ attrName, order }, index) =>
     getFilterPart({ tokenObj, isBackward, partsObj, attrName, order, index }));
-  const filterA = filter.length === 1 ? filter[0] : filter;
-
-  return filterA;
+  return filter.length === 1
+    ? filter[0]
+    : { type: 'and', value: filter };
 };
 
 const getFilterPart = function ({

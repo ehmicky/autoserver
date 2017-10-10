@@ -1,7 +1,5 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
 const cursorConflictTests = [
   {
     test ({ before: bef, after: aft }) {
@@ -19,11 +17,7 @@ const cursorConflictTests = [
 
   {
     test ({ filter, before: bef, after: aft }) {
-      return !(
-        hasCursor({ bef, aft }) &&
-        filter != null &&
-        !isEqual(filter, {})
-      );
+      return !(hasCursor({ bef, aft }) && filter != null);
     },
     message: 'cannot use both \'filter\' and \'before\' or \'after\'',
   },
