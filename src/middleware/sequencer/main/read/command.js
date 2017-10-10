@@ -1,6 +1,7 @@
 'use strict';
 
 const { omit } = require('../../../../utilities');
+const { extractSimpleIds } = require('../../../action');
 
 // Fire the actual command
 const fireReadCommand = async function ({
@@ -9,10 +10,9 @@ const fireReadCommand = async function ({
   nextLayer,
   command,
   args,
-  args: { filter: { id: ids } = {} },
 }) {
-  // When parent value is not defined, directly returns empty value
-  if (Array.isArray(ids) && ids.length === 0) { return []; }
+  const emptyCommand = isEmptyCommand({ args });
+  if (emptyCommand) { return []; }
 
   const argsA = { ...args, internal };
   const argsB = omit(argsA, 'data');
@@ -27,6 +27,12 @@ const fireReadCommand = async function ({
 
   const { response: { data: result } } = await nextLayer(mInputA);
   return result;
+};
+
+// When parent value is not defined, directly returns empty value
+const isEmptyCommand = function ({ args }) {
+  const ids = extractSimpleIds(args);
+  return Array.isArray(ids) && ids.length === 0;
 };
 
 module.exports = {

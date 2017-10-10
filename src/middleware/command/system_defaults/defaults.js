@@ -6,17 +6,12 @@
 //  - value is the default value.
 //    Can be a function taking the `run` options as first argument
 const defaults = {
-  filter: {
-    commands: ['find', 'delete'],
-    value: {},
-  },
-
   // 'patch' is always sorted by 'id', i.e. user cannot specify it
   // The reason: it might otherwise iterate over the same models
   // For 'delete', sorting is an unnecessary feature, so we keep it similar to
   // 'patch' command.
   orderBy: {
-    commands: ['find', 'delete'],
+    commands: ['find'],
     value: [{ attrName: 'id', order: 'asc' }],
     test: ({ args }) => hasNoPaginationTokens({ args }),
   },

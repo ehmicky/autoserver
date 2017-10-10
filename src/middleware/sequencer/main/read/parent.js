@@ -3,14 +3,14 @@
 const { isEqual, uniq } = require('lodash');
 
 const { assignArray } = require('../../../../utilities');
+const { getSimpleFilter } = require('../../../action');
 
 // Retrieve the results of all direct parent commands
 // E.g. when firing `find_model { child { id } }`, the nested `child` action
 // needs to know `model.child` first before being fired.
 const getParentResults = function ({ commandPath, results }) {
   const parentPath = commandPath.slice(0, -1);
-  return results
-    .filter(result => isParentResults({ result, parentPath }));
+  return results.filter(result => isParentResults({ result, parentPath }));
 };
 
 const isParentResults = function ({ result: { path, promise }, parentPath }) {
@@ -45,7 +45,8 @@ const getParentIds = function ({ commandName, parentResults }) {
 const getNestedArg = function ({ args, isTopLevel, parentIds }) {
   if (isTopLevel) { return args; }
 
-  return { ...args, filter: { id: parentIds } };
+  const filter = getSimpleFilter({ ids: parentIds });
+  return { ...args, filter };
 };
 
 module.exports = {

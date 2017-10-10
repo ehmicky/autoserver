@@ -4,7 +4,7 @@ const { omitBy } = require('../../utilities');
 const { validate } = require('../../json_validation');
 
 // Custom data validation middleware
-// Check that filter|newData passes schema validation
+// Check that newData passes schema validation
 // E.g. if a model is marked as `required` or `minimum: 10` in the schema,
 // this will be validated here
 const dataValidation = function ({

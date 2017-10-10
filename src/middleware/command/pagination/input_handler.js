@@ -42,6 +42,7 @@ const { getPaginationInput } = require('./input');
 //  - this means replace and delete commands will paginate output,
 //    but to iterate through the next batches, findMany must be used
 const handlePaginationInput = function ({ args, command, runOpts }) {
+  return;
   validatePaginationInput({ args, command, runOpts });
 
   if (!mustPaginateOutput({ args })) { return; }

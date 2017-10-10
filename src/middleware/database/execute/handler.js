@@ -4,7 +4,7 @@ const { inMemoryAdapter } = require('./in_memory');
 
 const databaseExecute = async function ({
   command,
-  args: { orderBy, limit, offset, newData, filter } = {},
+  args: { orderBy, limit, offset, newData, filter, deletedIds } = {},
   modelName,
   response,
 }) {
@@ -18,6 +18,7 @@ const databaseExecute = async function ({
     modelName,
     command: commandA,
     filter,
+    deletedIds,
     newData,
     orderBy,
     limit,

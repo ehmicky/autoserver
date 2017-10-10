@@ -4,6 +4,7 @@ const { isEqual } = require('lodash');
 
 const { assignArray } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
+const { getSimpleFilter } = require('../simple_id');
 
 // `currentData` query only fire top-level write action, transformed to a read
 // action.
@@ -39,8 +40,8 @@ const getReadAction = function ({
 };
 
 // For `currentData` query:
-//   - create `args.filter`. It will use the ids from replace|create `data`,
-//     and the `filter` from find|delete|patch.
+//   - create `args.filter`.
+//     It will use the `filter` from delete|patch.
 // For selection query:
 //   - if write actions were fired, reuse their result in `args.filter`,
 //     for efficiency.
@@ -52,7 +53,8 @@ const getTopLevelFilter = function ({ action, action: { args: { filter } } }) {
   if (models === undefined) { return filter; }
 
   const ids = models.map(({ id }) => id);
-  return { id: ids };
+  const filterA = getSimpleFilter({ ids });
+  return filterA;
 };
 
 const getModels = function ({ action: { currentData, args: { data } } }) {
