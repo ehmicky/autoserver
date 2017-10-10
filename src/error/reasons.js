@@ -20,6 +20,10 @@ const errorReasons = {
   // match the schema
   INPUT_VALIDATION: {},
 
+  // The client try to perform an action not supported by the specific model,
+  // i.e. its `model.kind` is too limited
+  WRONG_KIND: {},
+
   // Not allowed, authorization-wise
   AUTHORIZATION: {},
 

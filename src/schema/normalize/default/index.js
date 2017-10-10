@@ -6,4 +6,5 @@ module.exports = {
   ...require('./type'),
   ...require('./validate'),
   ...require('./commands'),
+  ...require('./kind'),
 };

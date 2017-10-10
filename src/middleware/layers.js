@@ -157,6 +157,8 @@ const middlewareLayers = [
   {
     name: 'command',
     layers: [
+      // Validate command conforms to `model.kind`
+      command.validateKind,
       // Normalize empty values (undefined, null) by removing their key
       command.normalizeEmpty,
       // Apply attribute aliases, in mInput
