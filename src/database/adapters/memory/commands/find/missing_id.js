@@ -1,7 +1,7 @@
 'use strict';
 
-const { assignArray } = require('../../../../../../utilities');
-const { throwError } = require('../../../../../../error');
+const { assignArray } = require('../../../../../utilities');
+const { throwError } = require('../../../../../error');
 
 // Simulate database 404 errors
 const validateMissingIds = function ({ collection, filter }) {

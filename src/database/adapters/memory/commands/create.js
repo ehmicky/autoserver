@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../../../error');
+const { throwError } = require('../../../../error');
 
 const create = function ({ collection, newData }) {
   newData.forEach(({ id }) => validateCreateId({ collection, id }));
