@@ -3,31 +3,26 @@
 const db = [
   {
     name: 'db',
-    description: 'List of databases',
-    default: [{
-      type: 'memory',
-    }],
-    group: 'Databases:',
+    description: 'List of available databases',
+    group: 'Databases',
     validate: {
-      type: 'object[]',
+      type: 'object',
     },
   },
 
   {
-    name: 'db.type',
-    default: 'memory',
-    description: 'Database type',
-    group: 'Databases:',
+    name: 'db.memory',
+    description: 'In-memory database. For development purpose only.',
+    group: 'Databases (In-memory)',
     validate: {
-      type: 'string',
-      enum: ['memory'],
+      type: 'object',
     },
   },
 
   {
-    name: 'db.models',
+    name: 'db.memory.models',
     description: 'Models using this database.\nCan either be the \'model\' name or the models kind as \'kind:...\'',
-    group: 'Databases:',
+    group: 'Databases (In-memory)',
     validate: {
       type: 'string[]',
     },
