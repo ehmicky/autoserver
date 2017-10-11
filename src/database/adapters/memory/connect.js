@@ -2,13 +2,11 @@
 
 const { throwError } = require('../../../error');
 
-const database = require('./data.json');
-
 // Starts connection
-const connect = function ({ runOpts }) {
+const connect = function ({ runOpts, options: { data = {} } }) {
   validateEnv({ runOpts });
 
-  return database;
+  return data;
 };
 
 const validateEnv = function ({ runOpts }) {

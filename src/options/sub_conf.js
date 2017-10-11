@@ -55,12 +55,19 @@ const loadSubConfOpt = async function ({
   subConfOpt: { name, subConfFiles: files },
 }) {
   const keys = name.split('.');
-  const path = get(options, keys);
+  const path = getPath({ options, keys });
 
   const content = await loadSubConfFiles({ instruction, baseDir, path, files });
 
   const optionsA = set(options, keys, () => content);
   return optionsA;
+};
+
+// Option might not exist, and that is ok
+const getPath = function ({ options, keys }) {
+  try {
+    return get(options, keys);
+  } catch (error) {}
 };
 
 const eLoadSubConfOpt = addGenErrorHandler(loadSubConfOpt, {
