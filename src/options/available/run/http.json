@@ -3,7 +3,7 @@
     "name": "http",
     "default": {},
     "description": "HTTP server's options",
-    "group": "HTTP:",
+    "group": "HTTP",
     "validate": {
       "type": "object"
     }
@@ -13,7 +13,7 @@
     "name": "http.enabled",
     "default": true,
     "description": "Whether HTTP server should start",
-    "group": "HTTP:",
+    "group": "HTTP",
     "validate": {
       "type": "boolean"
     }
@@ -23,7 +23,7 @@
     "name": "http.host",
     "default": "localhost",
     "description": "HTTP server's host",
-    "group": "HTTP:",
+    "group": "HTTP",
     "validate": {
       "type": "string"
     }
@@ -33,7 +33,7 @@
     "name": "http.port",
     "default": 80,
     "description": "HTTP server's port",
-    "group": "HTTP:",
+    "group": "HTTP",
     "validate": {
       "type": "integer",
       "minimum": 0,
