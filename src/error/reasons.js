@@ -82,6 +82,9 @@ const errorReasons = {
   // or new constraints were applied without being migrated
   OUTPUT_VALIDATION: {},
 
+  // Error while connecting, disconnecting or communicating with a database
+  DB_ERROR: {},
+
   // An exception was fired on the process itself
   PROCESS_ERROR: {},
 
