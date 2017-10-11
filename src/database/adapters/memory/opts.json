@@ -1,7 +1,12 @@
 [{
-  "name": "port",
-  "description": "The port",
+  "name": "data",
+  "description": "JSON or YAML file containing the data",
+  "subConfFiles": [{
+    "filename": "db.memory",
+    "extNames": ["json", "yml", "yaml"],
+    "loader": "generic"
+  }],
   "validate": {
-    "type": "integer"
+    "type": "object"
   }
 }]
