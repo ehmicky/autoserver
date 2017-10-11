@@ -1,7 +1,5 @@
 'use strict';
 
-const { KINDS } = require('../../../constants');
-
 const db = [
   {
     name: 'db',
@@ -28,20 +26,10 @@ const db = [
 
   {
     name: 'db.models',
-    description: 'Models using this database',
+    description: 'Models using this database.\nCan either be the \'model\' name or the models kind as \'kind:...\'',
     group: 'Databases:',
     validate: {
       type: 'string[]',
-    },
-  },
-
-  {
-    name: 'db.kinds',
-    description: 'Models with this kind will use this database',
-    group: 'Databases:',
-    validate: {
-      type: 'string[]',
-      enum: KINDS,
     },
   },
 ];
