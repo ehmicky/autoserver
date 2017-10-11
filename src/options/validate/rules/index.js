@@ -3,6 +3,7 @@
 module.exports = {
   ...require('./type'),
   ...require('./enum'),
+  ...require('./unique'),
   ...require('./minimum'),
   ...require('./maximum'),
   ...require('./minimum_bytes'),

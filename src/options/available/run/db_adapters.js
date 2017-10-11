@@ -50,6 +50,7 @@ const commonOpts = [
     description: 'Models using this database.\nCan either be the \'model\' name or the models kind as \'kind:...\'',
     validate: {
       type: 'string[]',
+      unique: true,
     },
   },
 ];

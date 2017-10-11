@@ -62,6 +62,7 @@ const getEventFilter = filterName => ({
   group: 'Events',
   validate: {
     type: ['string[]', 'boolean'],
+    unique: true,
   },
 });
 
