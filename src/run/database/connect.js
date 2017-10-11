@@ -22,7 +22,7 @@ const startConnection = function ({ adapter: { connect, options }, runOpts }) {
 };
 
 const eStartConnection = addGenErrorHandler(startConnection, {
-  message: ({ type }) => `Could not connect to database '${type}'`,
+  message: ({ adapter: { type } }) => `Could not connect to database '${type}'`,
   reason: 'DB_ERROR',
 });
 
