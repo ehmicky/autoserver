@@ -2,15 +2,12 @@
 
 const { pSetTimeout, mapValues } = require('../../../utilities');
 
-const database = require('./data.json');
-const opts = require('./opts');
 const commands = require('./commands');
 const { sortResponse } = require('./order_by');
 const { offsetResponse } = require('./offset');
 const { limitResponse } = require('./limit');
 
-// Memory database adapter, i.e. keeps database in-memory
-// Only used for development purpose
+// Add sorting, offsetting, limiting, and async emulation to each method
 const wrapCommand = async function (
   func,
   {
@@ -21,12 +18,13 @@ const wrapCommand = async function (
     orderBy,
     limit,
     offset,
+    connection,
   },
 ) {
   // Simulate asynchronousity
   await pSetTimeout(0);
 
-  const collection = database[modelName];
+  const collection = connection[modelName];
 
   const { data, metadata } = func({ collection, filter, deletedIds, newData });
 
@@ -39,13 +37,6 @@ const wrapCommand = async function (
 
 const commandsA = mapValues(commands, func => wrapCommand.bind(null, func));
 
-const kinds = ['data', 'search'];
-
 module.exports = {
-  type: 'memory',
-  title: 'In-Memory',
-  description: 'In-memory database. For development purpose only.',
-  kinds,
-  ...commandsA,
-  opts,
+  commands: commandsA,
 };

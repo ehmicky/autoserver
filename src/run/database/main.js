@@ -4,9 +4,10 @@ const { databaseAdapters } = require('../../database');
 
 const { getAdaptersMap } = require('./map');
 const { validateDbOpts, validateUnusedAdapters } = require('./validate');
+const { startConnections } = require('./connect');
 
 // Create database connections
-const connectToDatabases = function ({
+const connectToDatabases = async function ({
   runOpts,
   schema: { models: schemaModels },
 }) {
@@ -17,6 +18,9 @@ const connectToDatabases = function ({
   const adaptersMap = getAdaptersMap({ adapters, schemaModels });
 
   validateUnusedAdapters({ adapters, adaptersMap });
+
+  const dbAdapters = await startConnections({ adapters, adaptersMap });
+  return { dbAdapters };
 };
 
 // Transform `runOpts.db` to array of adapters, by merging with them
