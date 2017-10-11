@@ -1,19 +1,19 @@
 'use strict';
 
-const { onlyOnce } = require('../../utilities');
-
 const { gracefulExit } = require('./graceful_exit');
 
 // Make sure the server stops when graceful exits are possible
 // Also send related events
-const setupGracefulExit = function ({ servers, runOpts }) {
-  const gracefulExitA = gracefulExit.bind(null, { servers, runOpts });
-  const gracefulExitB = onlyOnce(gracefulExitA);
+const setupGracefulExit = function ({ servers, dbAdapters, runOpts }) {
+  const gracefulExitA = gracefulExit.bind(
+    null,
+    { servers, dbAdapters, runOpts },
+  );
 
-  process.on('SIGINT', gracefulExitB);
-  process.on('SIGTERM', gracefulExitB);
+  process.on('SIGINT', gracefulExitA);
+  process.on('SIGTERM', gracefulExitA);
 
-  return { gracefulExit: gracefulExitB };
+  return { gracefulExit: gracefulExitA };
 };
 
 module.exports = {
