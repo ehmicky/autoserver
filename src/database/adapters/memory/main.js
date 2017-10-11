@@ -11,15 +11,18 @@ const { limitResponse } = require('./limit');
 
 // Memory database adapter, i.e. keeps database in-memory
 // Only used for development purpose
-const wrapCommand = async function (func, {
-  modelName,
-  filter,
-  deletedIds,
-  newData,
-  orderBy,
-  limit,
-  offset,
-}) {
+const wrapCommand = async function (
+  func,
+  {
+    modelName,
+    filter,
+    deletedIds,
+    newData,
+    orderBy,
+    limit,
+    offset,
+  },
+) {
   // Simulate asynchronousity
   await pSetTimeout(0);
 
