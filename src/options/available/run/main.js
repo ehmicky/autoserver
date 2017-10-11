@@ -10,11 +10,11 @@ const options = [
 
   schema,
   ...require('./env'),
-  ...require('./http'),
-  ...require('./db'),
   ...require('./events'),
   ...require('./server_name'),
   ...require('./limits'),
+  ...require('./http'),
+  ...require('./db'),
 ];
 
 module.exports = {
