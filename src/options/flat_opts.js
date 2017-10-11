@@ -6,13 +6,6 @@ const { assignArray } = require('../utilities');
 // Recursively validate each option, including intermediate objects
 // in object chains
 const getFlatOpts = function ({ prefix = '', options, availableOpts }) {
-  // Options that are arrays
-  if (Array.isArray(options)) {
-    return options
-      .map(opt => getFlatOpts({ prefix, options: opt, availableOpts }))
-      .reduce(assignArray, []);
-  }
-
   if (!options || options.constructor !== Object) { return []; }
 
   return Object.entries(options)

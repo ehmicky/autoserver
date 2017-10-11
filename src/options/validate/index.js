@@ -41,6 +41,7 @@ const checkRequired = function ({
 
 // Validate option against single `validate` rule
 const validateRule = function ({ name, optVal, ruleVal, ruleType }) {
+  // If the option is array, `validate` applies on each element
   if (Array.isArray(optVal) && ruleType !== 'type') {
     return optVal
       .map(opt => validateRule({ name, optVal: opt, ruleVal, ruleType }));
