@@ -28,8 +28,11 @@ const parseOpts = function () {
     .demandCommand(1, 1)
     // No unknown instruction nor options
     .strict()
-    // Used in --help option
+    // --help option
     .usage(usage)
+    .help()
+    // --version option
+    .version()
     .default(['help', 'version'], undefined)
     // `completion` instruction, which outputs Bash completion script
     .completion('completion', 'Generate a Bash completion script')
