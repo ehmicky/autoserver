@@ -1,0 +1,7 @@
+[{
+  "name": "port",
+  "description": "The port",
+  "validate": {
+    "type": "integer"
+  }
+}]

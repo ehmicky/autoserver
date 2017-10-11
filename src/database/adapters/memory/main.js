@@ -3,6 +3,7 @@
 const { pSetTimeout, mapValues } = require('../../../utilities');
 
 const database = require('./data.json');
+const opts = require('./opts');
 const commands = require('./commands');
 const { sortResponse } = require('./order_by');
 const { offsetResponse } = require('./offset');
@@ -39,6 +40,9 @@ const kinds = ['data', 'search'];
 
 module.exports = {
   type: 'memory',
+  title: 'In-Memory',
+  description: 'In-memory database. For development purpose only.',
   kinds,
   ...commandsA,
+  opts,
 };
