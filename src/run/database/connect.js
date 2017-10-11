@@ -22,8 +22,8 @@ const eStartConnection = addGenErrorHandler(startConnection, {
   reason: 'DB_ERROR',
 });
 
-// Add `options` and `connection` to `adapter.find|create|delete|replace()`
-// input
+// Add `options` and `connection` to
+// `adapter.find|create|delete|replace|close()` input
 const bindAdapters = function ({ adapters, connections }) {
   return adapters.map((adapter, index) => bindAdapter({
     adapter,
@@ -40,7 +40,7 @@ const bindAdapter = function ({ adapter, adapter: { options }, connection }) {
   return { ...adapter, ...boundMethods };
 };
 
-const boundMethodNames = ['find', 'create', 'delete', 'replace'];
+const boundMethodNames = ['find', 'create', 'delete', 'replace', 'close'];
 
 const boundMethod = function ({ func, options, connection }, opts, ...args) {
   return func({ ...opts, options, connection }, ...args);

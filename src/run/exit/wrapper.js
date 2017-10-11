@@ -14,18 +14,24 @@ const wrapCloseFunc = function (func, { successMessage, errorMessage, label }) {
   return mFunc;
 };
 
-const getEventLabel = function (label, { protocol }) {
-  return `${protocol}.${label}`;
+const getEventLabel = function (label, input) {
+  const prefix = getPrefix(input);
+  return `${prefix}.${label}`;
+};
+
+const getPrefix = function ({ protocol, dbType }) {
+  return protocol || dbType;
 };
 
 // Shutdown success events
 const handleEvent = async function ({ func, successMessage }, input) {
-  const { protocol, runOpts } = input;
+  const { runOpts } = input;
 
   const response = await func(input);
 
   const message = result(successMessage, response);
-  const messageA = `${protocol} - ${message}`;
+  const prefix = getPrefix(input);
+  const messageA = `${prefix} - ${message}`;
   await emitEvent({
     type: 'message',
     phase: 'shutdown',
@@ -37,12 +43,11 @@ const handleEvent = async function ({ func, successMessage }, input) {
 };
 
 // Shutdown failures events
-const handleEventHandler = async function (
-  error,
-  { errorMessage },
-  { protocol, runOpts },
-) {
-  const message = `${protocol} - ${errorMessage}`;
+const handleEventHandler = async function (error, { errorMessage }, input) {
+  const { runOpts } = input;
+
+  const prefix = getPrefix(input);
+  const message = `${prefix} - ${errorMessage}`;
   await emitEvent({
     type: 'failure',
     phase: 'shutdown',

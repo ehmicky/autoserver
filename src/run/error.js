@@ -3,14 +3,15 @@
 const { rethrowError } = require('../error');
 const { emitEvent } = require('../events');
 
-const { gracefulExit } = require('./exit');
-
 // Handle exceptions thrown at server startup
-const handleStartupError = async function (error, { servers, runOpts }) {
+const handleStartupError = async function (
+  error,
+  { gracefulExit, servers, dbAdapters, runOpts },
+) {
   // Make sure servers are properly closed if an exception is thrown at end
   // of startup, e.g. during start event handler
-  if (servers) {
-    await gracefulExit({ servers, runOpts });
+  if (gracefulExit) {
+    await gracefulExit({ servers, dbAdapters, runOpts });
   }
 
   await emitEvent({
