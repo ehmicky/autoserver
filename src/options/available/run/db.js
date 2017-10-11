@@ -1,5 +1,7 @@
 'use strict';
 
+const { getAdaptersOpts } = require('./db_adapters');
+
 const db = [
   {
     name: 'db',
@@ -10,23 +12,7 @@ const db = [
     },
   },
 
-  {
-    name: 'db.memory',
-    description: 'In-memory database. For development purpose only.',
-    group: 'Databases (In-memory)',
-    validate: {
-      type: 'object',
-    },
-  },
-
-  {
-    name: 'db.memory.models',
-    description: 'Models using this database.\nCan either be the \'model\' name or the models kind as \'kind:...\'',
-    group: 'Databases (In-memory)',
-    validate: {
-      type: 'string[]',
-    },
-  },
+  ...getAdaptersOpts(),
 ];
 
 module.exports = db;
