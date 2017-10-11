@@ -2,7 +2,7 @@
   {
     "name": "maxPayloadSize",
     "default": "1MB",
-    "description": "Max size of request payloads, in bytes. Can use 'kb', 'mb', 'gb' or 'tb'",
+    "description": "Max size of request payloads, in bytes.\nCan use 'kb', 'mb', 'gb' or 'tb'",
     "group": "Limits",
     "validate": {
       "type": "bytes",
