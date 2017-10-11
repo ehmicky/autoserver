@@ -19,7 +19,7 @@ const connectToDatabases = async function ({
 
   validateUnusedAdapters({ adapters, adaptersMap });
 
-  const dbAdapters = await startConnections({ adapters, adaptersMap });
+  const dbAdapters = await startConnections({ adapters, adaptersMap, runOpts });
   return { dbAdapters };
 };
 
