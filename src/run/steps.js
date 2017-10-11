@@ -11,6 +11,7 @@ const {
 const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
 const { parseSchema } = require('./schema');
+const { connectToDatabases } = require('./database');
 const { launchServers } = require('./launch');
 const { setupGracefulExit } = require('./exit');
 const { emitStartEvent } = require('./start_event');
@@ -24,6 +25,8 @@ const startupSteps = [
   processErrorHandler,
   // Parse schema
   parseSchema,
+  // Create database connections
+  connectToDatabases,
   // Retrieve server information
   getServerInfo,
   // Get main request handler
