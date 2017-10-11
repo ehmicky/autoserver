@@ -17,6 +17,7 @@ const cliTypes = {
   integer: 'number',
   number: 'number',
   boolean: 'boolean',
+  bytes: 'string',
   // eslint-disable-next-line quote-props
   'function': 'string',
   object: '',
