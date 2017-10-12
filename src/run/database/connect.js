@@ -17,11 +17,11 @@ const startConnections = async function ({
     .map(adapter => eStartConnection({ adapter, schema, runOpts: runOptsA }));
   const connections = await Promise.all(connectionsPromises);
   const adaptersA = bindAdapters({
-     adapters,
-     connections,
-     schema,
-     runOpts: runOptsA,
-   });
+    adapters,
+    connections,
+    schema,
+    runOpts: runOptsA,
+  });
   const dbAdapters = getDbAdapters({ adapters: adaptersA, adaptersMap });
   return dbAdapters;
 };
