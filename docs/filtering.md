@@ -21,7 +21,7 @@ delete_users(filter: [{country: "Denmark"}, {country: "Germany"}])
 
 The following operators can be used for more complex operations:
   - `eq`: equals to
-  - `ne`: does not equal to
+  - `neq`: does not equal to
   - `lt`: less than
   - `le`: less than, or equals to
   - `gt`: greater than
@@ -39,6 +39,9 @@ They take another filter object as input, which is applied on each element of
 the array:
   - `all`: all elements match the filter
   - `some`: at least some elements match the filter
+
+Models without the `search` [kind](databases.md#model-kinds) cannot use
+advanced filtering, except for the `eq`, `lt`, `le`, `gt` and `ge` operators.
 
 # Examples
 
