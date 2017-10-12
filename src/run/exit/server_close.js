@@ -23,6 +23,7 @@ const mEventClose = wrapCloseFunc(eventClose, {
   label: 'event',
   successMessage: connectionsCount => `Starts shutdown, ${connectionsCount} pending ${connectionsCount === 1 ? 'request' : 'requests'}`,
   errorMessage: 'Failed to count pending pending requests',
+  reason: 'PROTOCOL_ERROR',
 });
 
 // Ask each server to stop
@@ -36,6 +37,7 @@ const mStop = wrapCloseFunc(stop, {
   label: 'shutdown',
   successMessage: 'Successful shutdown',
   errorMessage: 'Failed to stop server',
+  reason: 'PROTOCOL_ERROR',
 });
 
 module.exports = {

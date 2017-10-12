@@ -82,7 +82,7 @@ const errorReasons = {
   // or new constraints were applied without being migrated
   OUTPUT_VALIDATION: {},
 
-  // Error while starting a protocol server
+  // Error while starting or stopping a protocol server
   PROTOCOL_ERROR: {},
 
   // Error while connecting, disconnecting or communicating with a database
