@@ -22,8 +22,8 @@ const stop = async function ({ dbAdapter: { disconnect } }) {
 
 const mStop = wrapCloseFunc(stop, {
   label: 'shutdown',
-  successMessage: 'Successful shutdown',
-  errorMessage: 'Failed to stop database connection',
+  successMessage: 'Successful database disconnection',
+  errorMessage: 'Failed to disconnect to database',
 });
 
 module.exports = {
