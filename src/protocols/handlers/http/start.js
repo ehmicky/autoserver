@@ -1,6 +1,9 @@
 'use strict';
 
 const http = require('http');
+const { promisify } = require('util');
+
+const { throwError } = require('../../../error');
 
 // Start HTTP server
 const startServer = function ({
@@ -10,7 +13,7 @@ const startServer = function ({
 }) {
   // Create server
   const server = http.createServer();
-  const promise = getServerPromise({ server });
+  const promise = waitForConnection({ server });
 
   // In development, Nodemon restarts the server.
   // Pending sockets slow down that restart, so we disable keep-alive.
@@ -28,15 +31,28 @@ const startServer = function ({
   return promise;
 };
 
-const getServerPromise = function ({ server }) {
-  // eslint-disable-next-line promise/avoid-new
-  return new Promise((resolve, reject) => {
-    server.on('listening', () => {
-      const { address: usedHost, port: usedPort } = server.address();
-      resolve({ server, host: usedHost, port: usedPort });
-    });
-    server.on('error', error => reject(error));
-  });
+const waitForConnection = function ({ server }) {
+  const serverOn = promisify(server.on.bind(server));
+
+  const successPromise = successListener({ server, serverOn });
+  const errorPromise = errorListener({ serverOn });
+  return Promise.race([successPromise, errorPromise]);
+};
+
+// Connection success
+const successListener = async function ({ server, serverOn }) {
+  await serverOn('listening');
+
+  const { address, port } = server.address();
+  return { server, host: address, port };
+};
+
+// Connection failure
+const errorListener = async function ({ serverOn }) {
+  const error = await serverOn('error');
+
+  const message = 'Could not start HTTP server';
+  throwError(message, { reason: 'PROTOCOL_ERROR', innererror: error });
 };
 
 const handleClientRequest = function ({ server, handleRequest }) {
