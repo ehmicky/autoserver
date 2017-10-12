@@ -7,6 +7,9 @@ const db = [
     name: 'db',
     description: 'List of available databases',
     group: 'Databases',
+    default: {
+      memory: { enabled: true },
+    },
     validate: {
       type: 'object',
     },

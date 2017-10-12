@@ -27,8 +27,10 @@ const connectToDatabases = async function ({ runOpts, schema }) {
 
 // Transform `runOpts.db` to array of adapters, by merging with them
 const getAdapters = function ({ runOpts: { db = defaultDb } }) {
-  return Object.entries(db).map(([type, { models = [], ...options }]) =>
-    ({ ...databaseAdapters[type], type, models, options }));
+  return Object.entries(db)
+    .filter(([, { enabled }]) => enabled !== false)
+    .map(([type, { models = [], ...options }]) =>
+      ({ ...databaseAdapters[type], type, models, options }));
 };
 
 // Default `runOpts.db` options if none is specified

@@ -3,7 +3,7 @@
 const { dirname } = require('path');
 
 const { addGenErrorHandler } = require('../error');
-const { reduceAsync, get, set, findValueAsync } = require('../utilities');
+const { reduceAsync, get, set, has, findValueAsync } = require('../utilities');
 
 const { getConfFile } = require('./conf');
 
@@ -55,19 +55,15 @@ const loadSubConfOpt = async function ({
   subConfOpt: { name, subConfFiles: files },
 }) {
   const keys = name.split('.');
-  const path = getPath({ options, keys });
+
+  if (!has(options, keys)) { return options; }
+
+  const path = get(options, keys);
 
   const content = await loadSubConfFiles({ instruction, baseDir, path, files });
 
   const optionsA = set(options, keys, () => content);
   return optionsA;
-};
-
-// Option might not exist, and that is ok
-const getPath = function ({ options, keys }) {
-  try {
-    return get(options, keys);
-  } catch (error) {}
 };
 
 const eLoadSubConfOpt = addGenErrorHandler(loadSubConfOpt, {
