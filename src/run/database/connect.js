@@ -27,12 +27,19 @@ const startConnections = async function ({
 };
 
 // Actual connection
-const startConnection = function ({
-  adapter: { connect, options },
+const startConnection = async function ({
+  adapter: { connect, check, options },
   schema,
   runOpts,
 }) {
-  return connect({ options, schema, runOpts });
+  const opts = { options, schema, runOpts };
+
+  const connection = await connect(opts);
+
+  // Check for data model inconsistencies, and potentially fix them
+  check({ ...opts, connection });
+
+  return connection;
 };
 
 const eStartConnection = addGenErrorHandler(startConnection, {
