@@ -10,7 +10,12 @@ const createError = function (message, stack, opts = {}) {
   const innererror = getInnerError({ opts, stack });
   const type = errorType;
 
-  return { ...opts, message, stack, innererror, type };
+  const error = new Error(message);
+  // This is the only way to keep it an instanceof Error
+  // eslint-disable-next-line fp/no-mutating-assign
+  Object.assign(error, { ...opts, stack, innererror, type });
+
+  return error;
 };
 
 const errorType = Symbol('error');
