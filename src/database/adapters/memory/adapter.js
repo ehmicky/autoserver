@@ -1,7 +1,7 @@
 'use strict';
 
 const { connect } = require('./connect');
-const { close } = require('./close');
+const { disconnect } = require('./disconnect');
 const { commands } = require('./wrap');
 const opts = require('./opts');
 
@@ -12,7 +12,7 @@ const adapter = {
   description: 'In-memory database. For development purpose only.',
   kinds: ['data', 'search'],
   connect,
-  close,
+  disconnect,
   ...commands,
   opts,
 };

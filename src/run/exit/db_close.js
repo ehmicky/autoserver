@@ -15,8 +15,8 @@ const closeDbAdapter = async function ({
 };
 
 // Close each database connection
-const stop = async function ({ dbAdapter: { close } }) {
-  await close();
+const stop = async function ({ dbAdapter: { disconnect } }) {
+  await disconnect();
   return true;
 };
 
