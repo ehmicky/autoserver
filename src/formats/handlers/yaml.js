@@ -2,10 +2,10 @@
 
 const yaml = require('js-yaml');
 
-const { throwError } = require('../error');
+const { throwError } = require('../../error');
 
 // Parses a YAML file
-const loadYaml = function ({ path, content }) {
+const parse = function ({ path, content }) {
   return yaml.load(content, {
     // YAML needs to JSON-compatible, since JSON must provide same
     // features as YAML
@@ -20,5 +20,8 @@ const loadYaml = function ({ path, content }) {
 };
 
 module.exports = {
-  loadYaml,
+  name: 'yaml',
+  title: 'YAML',
+  extNames: ['yml', 'yaml'],
+  parse,
 };
