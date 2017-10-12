@@ -2,8 +2,8 @@
 
 const yaml = require('js-yaml');
 
-const { pReadFile } = require('./promisify');
-const { throwError } = require('./error');
+const { pReadFile } = require('../promisify');
+const { throwError } = require('../error');
 
 // Retrieve and parses a YAML file
 // This might throw for many different reasons, e.g. wrong YAML syntax,

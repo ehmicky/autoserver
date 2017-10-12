@@ -1,6 +1,6 @@
 'use strict';
 
-const { pReadFile } = require('./promisify');
+const { pReadFile } = require('../promisify');
 
 // Retrieve and parses a JSON file
 // This might throw for many different reasons, e.g. wrong JSON syntax,
