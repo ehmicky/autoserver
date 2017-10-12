@@ -1,8 +1,6 @@
 'use strict';
 
-const { toSentence } = require('underscore.string');
-
-const { assignArray } = require('../../utilities');
+const { assignArray, getWordsList } = require('../../utilities');
 const { throwError } = require('../../error');
 const { KINDS } = require('../../constants');
 
@@ -54,8 +52,8 @@ const validateKind = function ({ kind, kinds, type }) {
   const isValidKind = KINDS.includes(kind);
 
   if (!isValidKind) {
-    const KINDSA = KINDS.map(KIND => `'kind:${KIND}'`);
-    const KINDSB = toSentence(KINDSA, ', ', ' or ');
+    const KINDSA = KINDS.map(KIND => `kind:${KIND}`);
+    const KINDSB = getWordsList(KINDSA, { quotes: true });
     const message = `Invalid option 'db.${type}.models'. It contains 'kind:${kind}' but this kind does not exist. Possible values: ${KINDSB}`;
     throwError(message, { reason: 'CONF_VALIDATION' });
   }
@@ -78,9 +76,8 @@ const validateModelName = function ({
     .find(([name]) => modelName === name);
 
   if (schemaModel === undefined) {
-    const validModelsA = Object.keys(schemaModels)
-      .map(validModel => `'${validModel}'`);
-    const validModelsB = toSentence(validModelsA, ', ', ' or ');
+    const validModelsA = Object.keys(schemaModels);
+    const validModelsB = getWordsList(validModelsA, { quotes: true });
     const message = `Invalid option 'db.${type}.models'. It contains '${modelName}' but this model does not exist. Possible values: ${validModelsB}`;
     throwError(message, { reason: 'CONF_VALIDATION' });
   }

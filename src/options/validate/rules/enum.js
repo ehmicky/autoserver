@@ -1,11 +1,11 @@
 'use strict';
 
-const { toSentence } = require('underscore.string');
+const { getWordsList } = require('../../../utilities');
 
 // `validate.enum` rule
 const validateEnum = function ({ optVal, ruleVal }) {
   if (!ruleVal.includes(optVal)) {
-    return `must be ${toSentence(ruleVal, ', ', ' or ')}`;
+    return `must be ${getWordsList(ruleVal, { json: true })}`;
   }
 };
 

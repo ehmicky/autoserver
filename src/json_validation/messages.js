@@ -1,7 +1,8 @@
 'use strict';
 
-const { toSentence } = require('underscore.string');
 const pluralize = require('pluralize');
+
+const { getWordsList } = require('../utilities');
 
 // List of custom error messages getters
 const errorMessages = {
@@ -10,9 +11,8 @@ const errorMessages = {
   format: ({ params: { format } }) =>
     ` must match format '${format}'`,
   enum: ({ params: { allowedValues } }) => {
-    const quotedValues = allowedValues.map(val => `'${val}'`);
-    const values = toSentence(quotedValues, ', ', ' or ');
-    return ` must be one of ${values}`;
+    const values = getWordsList(allowedValues, { quotes: true });
+    return ` must be ${values}`;
   },
   const: ({ schema }) =>
     ` must be equal to '${schema}'`,

@@ -2,9 +2,12 @@
 
 const { extname } = require('path');
 
-const { toSentence } = require('underscore.string');
-
-const { pReadFile, pWriteFile, assignArray } = require('../utilities');
+const {
+  pReadFile,
+  pWriteFile,
+  assignArray,
+  getWordsList,
+} = require('../utilities');
 
 const formats = require('./handlers');
 
@@ -51,7 +54,7 @@ const getGeneric = function () {
     .reduce(assignArray, []);
 
   const titles = formats.map(({ title }) => title);
-  const description = toSentence(titles, ', ', ' or ');
+  const description = getWordsList(titles);
 
   return { load, save, extNames, description };
 };

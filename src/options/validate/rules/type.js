@@ -2,6 +2,8 @@
 
 const bytes = require('bytes');
 
+const { getWordsList } = require('../../../utilities');
+
 // `validate.type` rule
 // Can be 'object', 'function', 'string', 'integer', 'number', 'boolean'.
 // Can append '[]' to signify array.
@@ -20,7 +22,7 @@ const validateManyTypes = function ({ optVal, ruleVal }) {
   const noMatch = errors.every(error => error !== undefined);
   if (!noMatch) { return; }
 
-  const message = errors.join(' or ');
+  const message = getWordsList(errors);
   return message;
 };
 

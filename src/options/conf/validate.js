@@ -2,8 +2,7 @@
 
 const { extname } = require('path');
 
-const { toSentence } = require('underscore.string');
-
+const { getWordsList } = require('../../utilities');
 const { throwError } = require('../../error');
 
 const validateConfFile = function ({ path, extNames }) {
@@ -14,7 +13,7 @@ const validateConfFile = function ({ path, extNames }) {
   const extNamesA = extNames.map(extName => `.${extName}`);
 
   if (!extNamesA.includes(confExtName)) {
-    const allowedExtensions = toSentence(extNames, ', ', ' or ');
+    const allowedExtensions = getWordsList(extNames, { quotes: true });
     const message = `'${path}' must have a file extension among: ${allowedExtensions}`;
     throwError(message, { reason: 'CONF_LOADING' });
   }

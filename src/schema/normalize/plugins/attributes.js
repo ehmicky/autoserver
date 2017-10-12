@@ -1,11 +1,10 @@
 'use strict';
 
 const { intersection } = require('lodash');
-const { toSentence } = require('underscore.string');
 const pluralize = require('pluralize');
 
 const { throwError } = require('../../../error');
-const { mapValues } = require('../../../utilities');
+const { mapValues, getWordsList } = require('../../../utilities');
 
 // Generic plugin factory
 // It adds attributes to each model, using `getAttributes(pluginOpts)` option
@@ -44,9 +43,9 @@ const validateAttrs = function ({ attributes, modelName, newAttrs }) {
 
   // Returns human-friendly version of attributes, e.g. 'attribute my_attr' or
   // 'attributes my_attr and my_other_attr'
-  const attrsName = pluralize('attributes', newAttrs.length);
-  const attrsValue = toSentence(newAttrs);
-  const message = `In model ${modelName}, cannot override ${attrsName} ${attrsValue}`;
+  const attrsName = pluralize('attributes', newAttrNames.length);
+  const attrsValue = getWordsList(newAttrNames, { op: 'and', quotes: true });
+  const message = `In model '${modelName}', cannot override ${attrsName} ${attrsValue}`;
   throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 

@@ -2,7 +2,7 @@
 
 const { isEqual } = require('lodash');
 
-const { get } = require('../../utilities');
+const { get, getWordsList } = require('../../utilities');
 
 const requiredTest = name => ({
   test (value) {
@@ -26,9 +26,7 @@ const unknownTest = (name, attributes) => ({
     return isEqual(keys, attributes);
   },
   message () {
-    const attrNames = attributes
-      .map(attr => `'${attr}'`)
-      .join(', ');
+    const attrNames = getWordsList(attributes, { quotes: true });
     return `'${name}' must only contain ${attrNames}`;
   },
 });
