@@ -1,30 +1,14 @@
 'use strict';
 
-const { extname } = require('path');
-
-const { getJson, getYaml } = require('../../utilities');
+const { genericLoad } = require('../../utilities');
 
 // Load file content, with several supported formats
-const loadConfFile = async function ({ type, path }) {
+const loadConfFile = function ({ type, path }) {
   // This means the file is not loaded, i.e. file path left as is
   if (!type) { return path; }
 
   const loader = loaders[type];
-  const content = await loader({ path });
-  return content;
-};
-
-// Loads either JSON or YAML
-const genericLoader = async function ({ path }) {
-  const fileExt = extname(path);
-  const content = await genericLoaders[fileExt]({ path });
-  return content;
-};
-
-const genericLoaders = {
-  '.json': getJson,
-  '.yml': getYaml,
-  '.yaml': getYaml,
+  return loader({ path });
 };
 
 // Loads JavaScript
@@ -34,7 +18,7 @@ const jsLoader = function ({ path }) {
 };
 
 const loaders = {
-  generic: genericLoader,
+  generic: genericLoad,
   javascript: jsLoader,
 };
 

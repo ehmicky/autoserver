@@ -1,7 +1,7 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../error');
-const { deepMerge } = require('../utilities');
+const { deepMerge, genericExtNames } = require('../utilities');
 
 const { getEnvVars } = require('./env');
 const { getConfFile } = require('./conf');
@@ -22,7 +22,7 @@ const loadMainConfFile = async function ({ options, instruction }) {
   const { path: mainConfPathA, content } = await getConfFile({
     path: mainConfPath,
     name: `${instruction}.config`,
-    extNames: ['json', 'yml', 'yaml'],
+    extNames: genericExtNames,
     loader: 'generic',
   });
   return { options: content, mainConfPath: mainConfPathA };
@@ -35,7 +35,7 @@ const eLoadMainConfFile = addGenErrorHandler(loadMainConfFile, {
 
 // Main configuration file can be specified with `config` option,
 // or API_ENGINE__CONFIG environment variable, or by looked in the tree
-// under filename `api_engine.INSTRUCTION.config.json|yml|yaml`
+// under filename `api_engine.INSTRUCTION.config.EXT`
 const getMainConfPath = function ({ options }) {
   const envVars = getEnvVars();
   return envVars.config || options.config;

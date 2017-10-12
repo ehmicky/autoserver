@@ -1,10 +1,12 @@
 'use strict';
 
 const { throwError } = require('../error');
+const { genericExtNames } = require('../utilities');
 
 // Used when JSON reference is wrong
 const invalidRef = function ({ url }) {
-  const message = `JSON reference '${url}' must point to an existing file, and be valid .json, .yaml, .yml, .js or .node`;
+  const extNames = genericExtNames.map(ext => `.${ext}`).join(', ');
+  const message = `JSON reference '${url}' must point to an existing file, and be valid ${extNames}, .js or .node`;
   throwError(message);
 };
 

@@ -1,7 +1,0 @@
-{
-  "name": "config",
-  "description": "Configuration file (YAML or JSON)",
-  "validate": {
-    "type": "string"
-  }
-}
