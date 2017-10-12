@@ -20,6 +20,7 @@ const opts = [
   {
     name: 'save',
     description: 'Saves the data when the server shuts down',
+    default: true,
     validate: {
       type: 'boolean',
     },
