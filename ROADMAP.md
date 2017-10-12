@@ -1,11 +1,10 @@
-  - Connect to real database
   - Authorization
   - Aggregation queries
   - Rework pagination
   - Compatibility layer
   - Proper error reporting
-  - Data model (nested models, orphans)
-  - ACID/BASE
+  - Data model (orphans)
+  - Rollbacks
   - Tasks
   - Authentication
   - Concurrency conflicts
