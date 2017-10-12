@@ -4,21 +4,35 @@ const { pick, omit, mapValues } = require('../../utilities');
 const { addGenErrorHandler } = require('../../error');
 
 // Initialize each database connection
-const startConnections = async function ({ adapters, adaptersMap, runOpts }) {
+const startConnections = async function ({
+  adapters,
+  adaptersMap,
+  schema,
+  runOpts,
+}) {
   // Should use `options`, not `runOpts.db`
   const runOptsA = omit(runOpts, 'db');
 
   const connectionsPromises = adapters
-    .map(adapter => eStartConnection({ adapter, runOpts: runOptsA }));
+    .map(adapter => eStartConnection({ adapter, schema, runOpts: runOptsA }));
   const connections = await Promise.all(connectionsPromises);
-  const adaptersA = bindAdapters({ adapters, connections, runOpts: runOptsA });
+  const adaptersA = bindAdapters({
+     adapters,
+     connections,
+     schema,
+     runOpts: runOptsA,
+   });
   const dbAdapters = getDbAdapters({ adapters: adaptersA, adaptersMap });
   return dbAdapters;
 };
 
 // Actual connection
-const startConnection = function ({ adapter: { connect, options }, runOpts }) {
-  return connect({ options, runOpts });
+const startConnection = function ({
+  adapter: { connect, options },
+  schema,
+  runOpts,
+}) {
+  return connect({ options, schema, runOpts });
 };
 
 const eStartConnection = addGenErrorHandler(startConnection, {
@@ -28,24 +42,21 @@ const eStartConnection = addGenErrorHandler(startConnection, {
 
 // Add `options` and `connection` to
 // `adapter.find|create|delete|replace|disconnect()` input
-const bindAdapters = function ({ adapters, connections, runOpts }) {
+const bindAdapters = function ({ adapters, connections, schema, runOpts }) {
   return adapters.map((adapter, index) => bindAdapter({
     adapter,
+    options: adapter.options,
     connection: connections[index],
+    schema,
     runOpts,
   }));
 };
 
-const bindAdapter = function ({
-  adapter,
-  adapter: { options },
-  connection,
-  runOpts,
-}) {
+const bindAdapter = function ({ adapter, ...rest }) {
   const methods = pick(adapter, boundMethodNames);
   const boundMethods = mapValues(
     methods,
-    func => boundMethod.bind(null, { func, options, connection, runOpts }),
+    func => boundMethod.bind(null, { func, ...rest }),
   );
   return { ...adapter, ...boundMethods };
 };

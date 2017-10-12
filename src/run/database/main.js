@@ -7,19 +7,21 @@ const { validateDbOpts, validateUnusedAdapters } = require('./validate');
 const { startConnections } = require('./connect');
 
 // Create database connections
-const connectToDatabases = async function ({
-  runOpts,
-  schema: { models: schemaModels },
-}) {
+const connectToDatabases = async function ({ runOpts, schema }) {
   const adapters = getAdapters({ runOpts });
 
-  validateDbOpts({ adapters, schemaModels });
+  validateDbOpts({ adapters, schema });
 
-  const adaptersMap = getAdaptersMap({ adapters, schemaModels });
+  const adaptersMap = getAdaptersMap({ adapters, schema });
 
   validateUnusedAdapters({ adapters, adaptersMap });
 
-  const dbAdapters = await startConnections({ adapters, adaptersMap, runOpts });
+  const dbAdapters = await startConnections({
+    adapters,
+    adaptersMap,
+    schema,
+    runOpts,
+  });
   return { dbAdapters };
 };
 
