@@ -4,11 +4,11 @@ const { extname } = require('path');
 
 const { toSentence } = require('underscore.string');
 
-const { pReadFile, assignArray } = require('../utilities');
+const { pReadFile, pWriteFile, assignArray } = require('../utilities');
 
 const formats = require('./handlers');
 
-// Loads either JSON or YAML.
+// Loads either JSON or YAML file.
 // This is abstracted to allow easily adding new formats.
 // This might throw for many different reasons, e.g. wrong syntax,
 // or cannot access file (does not exist or no permissions)
@@ -23,6 +23,15 @@ const getContent = function ({ path, content }) {
   if (content !== undefined) { return content; }
 
   return pReadFile(path, { encoding: 'utf-8' });
+};
+
+// Saves to either JSON or YAML file
+const save = function ({ path, content }) {
+  const { serialize } = getFormat({ path });
+
+  const contentA = serialize({ content });
+
+  return pWriteFile(path, contentA, { encoding: 'utf-8' });
 };
 
 // Retrieve correct format, using file extension
@@ -44,7 +53,7 @@ const getGeneric = function () {
   const titles = formats.map(({ title }) => title);
   const description = toSentence(titles, ', ', ' or ');
 
-  return { load, extNames, description };
+  return { load, save, extNames, description };
 };
 
 const generic = getGeneric();

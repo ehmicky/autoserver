@@ -19,9 +19,18 @@ const parse = function ({ path, content }) {
   });
 };
 
+// Serializes a YAML file
+const serialize = function ({ content }) {
+  return yaml.dump(content, {
+    schema: yaml.CORE_SCHEMA,
+    noRefs: true,
+  });
+};
+
 module.exports = {
   name: 'yaml',
   title: 'YAML',
   extNames: ['yml', 'yaml'],
   parse,
+  serialize,
 };
