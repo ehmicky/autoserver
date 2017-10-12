@@ -62,7 +62,7 @@ const dereferenceSchema = async function ({ schema }) {
 };
 
 const eDereferenceSchema = addGenErrorHandler(dereferenceSchema, {
-  message: 'Could not resolve references \'$ref\'',
+  message: (input, { message }) => `Could not resolve references '$ref'\n${message}`,
   reason: 'SCHEMA_SYNTAX_ERROR',
 });
 
