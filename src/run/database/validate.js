@@ -9,7 +9,7 @@ const { KINDS } = require('../../constants');
 const { kindRegExp } = require('./kind_regexp');
 
 // Validate `runOpts.db` options
-const validateDbOpts = function ({ adapters, schemaModels }) {
+const validateDbOpts = function ({ adapters, schema }) {
   // Merge all `runOpts.db.models`
   const allModels = adapters
     .map(({ models }) => models)
@@ -18,7 +18,7 @@ const validateDbOpts = function ({ adapters, schemaModels }) {
   adapters.forEach(({ models, kinds, type }) => validateModels({
     models,
     allModels,
-    schemaModels,
+    schema,
     kinds,
     type,
   }));
@@ -29,13 +29,7 @@ const validateModels = function ({ models, ...rest }) {
   models.forEach(model => validateModel({ model, ...rest }));
 };
 
-const validateModel = function ({
-  model,
-  allModels,
-  schemaModels,
-  kinds,
-  type,
-}) {
+const validateModel = function ({ model, allModels, schema, kinds, type }) {
   validateDuplicateModel({ model, allModels, type });
 
   const [, kind] = kindRegExp.exec(model) || [];
@@ -44,7 +38,7 @@ const validateModel = function ({
     return validateKind({ kind, kinds, type });
   }
 
-  validateModelName({ modelName: model, schemaModels, kinds, type });
+  validateModelName({ modelName: model, schema, kinds, type });
 };
 
 const validateDuplicateModel = function ({ model, allModels, type }) {
@@ -74,7 +68,12 @@ const validateKind = function ({ kind, kinds, type }) {
   }
 };
 
-const validateModelName = function ({ modelName, schemaModels, kinds, type }) {
+const validateModelName = function ({
+  modelName,
+  schema: { models: schemaModels },
+  kinds,
+  type,
+}) {
   const schemaModel = Object.entries(schemaModels)
     .find(([name]) => modelName === name);
 

@@ -6,7 +6,10 @@ const { throwError } = require('../../error');
 const { kindRegExp } = require('./kind_regexp');
 
 // Retrieve `{ model: 'database', ... }`
-const getAdaptersMap = function ({ adapters, schemaModels }) {
+const getAdaptersMap = function ({
+  adapters,
+  schema: { models: schemaModels },
+}) {
   return mapValues(schemaModels, matchAdapter.bind(null, adapters));
 };
 
