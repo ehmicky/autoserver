@@ -75,9 +75,21 @@ const getAll = function (value, key = []) {
   return [[value, key]];
 };
 
+// Similar to Lodash has(), but faster
+const has = function (obj, keys) {
+  try {
+    get(obj, keys);
+  } catch (error) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   get,
   set,
   getAll,
   setAll,
+  has,
 };
