@@ -86,16 +86,23 @@ const loadSubConfFile = async function ({
   instruction: currentInstruction,
   baseDir,
   path,
-  file: { filename, extNames, loader, instruction = currentInstruction },
+  file: {
+    filename,
+    extNames,
+    loader,
+    instruction = currentInstruction,
+    keepPath,
+  },
 }) {
-  const { content } = await getConfFile({
+  const { path: pathA, content } = await getConfFile({
     path,
     name: `${instruction}.${filename}`,
     baseDir,
     extNames,
     loader,
   });
-  return content;
+
+  return keepPath ? { path: pathA, content } : content;
 };
 
 module.exports = {
