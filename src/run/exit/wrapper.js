@@ -1,13 +1,19 @@
 'use strict';
 
 const { result } = require('../../utilities');
-const { addErrorHandler } = require('../../error');
+const { addErrorHandler, normalizeError } = require('../../error');
 const { monitor } = require('../../perf');
 const { emitEvent } = require('../../events');
 
 // Add events and monitoring capabilities to the function
-const wrapCloseFunc = function (func, { successMessage, errorMessage, label }) {
-  const eFunc = eHandleEvent.bind(null, { func, successMessage, errorMessage });
+const wrapCloseFunc = function (
+  func,
+  { successMessage, errorMessage, label, reason },
+) {
+  const eFunc = eHandleEvent.bind(
+    null,
+    { func, successMessage, errorMessage, reason },
+  );
 
   const getLabel = getEventLabel.bind(null, label);
   const mFunc = monitor(eFunc, getLabel, 'main');
@@ -43,16 +49,21 @@ const handleEvent = async function ({ func, successMessage }, input) {
 };
 
 // Shutdown failures events
-const handleEventHandler = async function (error, { errorMessage }, input) {
+const handleEventHandler = async function (
+  error,
+  { errorMessage, reason },
+  input,
+) {
   const { runOpts } = input;
 
   const prefix = getPrefix(input);
   const message = `${prefix} - ${errorMessage}`;
+  const errorA = normalizeError({ error, reason });
   await emitEvent({
     type: 'failure',
     phase: 'shutdown',
     message,
-    errorInfo: error,
+    errorInfo: errorA,
     runOpts,
   });
 };

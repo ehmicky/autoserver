@@ -24,6 +24,7 @@ const mStop = wrapCloseFunc(stop, {
   label: 'shutdown',
   successMessage: 'Successful database disconnection',
   errorMessage: 'Failed to disconnect to database',
+  reason: 'DB_ERROR',
 });
 
 module.exports = {
