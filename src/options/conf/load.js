@@ -1,6 +1,6 @@
 'use strict';
 
-const { genericLoad } = require('../../utilities');
+const { generic } = require('../../formats');
 
 // Load file content, with several supported formats
 const loadConfFile = function ({ type, path }) {
@@ -18,7 +18,7 @@ const jsLoader = function ({ path }) {
 };
 
 const loaders = {
-  generic: genericLoad,
+  generic: generic.load,
   javascript: jsLoader,
 };
 
