@@ -1,9 +1,9 @@
 'use strict';
 
 // Stops connection
-const close = function () {
+const disconnect = function () {
 };
 
 module.exports = {
-  close,
+  disconnect,
 };
