@@ -4,7 +4,8 @@
   "subConfFiles": [{
     "filename": "db.memory",
     "extNames": ["json", "yml", "yaml"],
-    "loader": "generic"
+    "loader": "generic",
+    "keepPath": true
   }],
   "validate": {
     "type": "object"
