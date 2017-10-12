@@ -38,6 +38,7 @@ const validateAdapterOpt = function ({ opt: { name }, type }) {
 // `databaseAdapter.description` is automatically added.
 const mainOpt = {
   name: '',
+  default: { enabled: false },
   validate: {
     type: 'object',
   },
