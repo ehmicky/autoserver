@@ -11,7 +11,7 @@ const disconnect = async function ({
   },
   connection,
 }) {
-  if (save === false) { return; }
+  if (!save) { return; }
 
   // Reuse the same file that was used during loading
   await generic.save({ path, content: connection });
