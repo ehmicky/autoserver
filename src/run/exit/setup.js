@@ -12,6 +12,8 @@ const setupGracefulExit = function ({ servers, dbAdapters, runOpts }) {
 
   process.on('SIGINT', gracefulExitA);
   process.on('SIGTERM', gracefulExitA);
+  // For Nodemon
+  process.on('SIGUSR2', gracefulExitA);
 
   return { gracefulExit: gracefulExitA };
 };
