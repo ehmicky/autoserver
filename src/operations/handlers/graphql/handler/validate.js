@@ -1,5 +1,6 @@
 'use strict';
 
+const { getWordsList } = require('../../../../utilities');
 const { throwError } = require('../../../../error');
 
 // Validate GraphQL main definition
@@ -39,9 +40,8 @@ const validateMainSelection = function ({
 };
 
 const getOperationNames = function ({ selections }) {
-  return selections
-    .map(({ name: { value } = {} }) => value)
-    .join(', ');
+  const operationNames = selections.map(({ name: { value } = {} }) => value);
+  return getWordsList(operationNames, { op: 'and', quotes: true });
 };
 
 // GraphQL queries must use (e.g. in HTTP) GET, but mutations have no

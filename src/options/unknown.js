@@ -1,8 +1,8 @@
 'use strict';
 
-const { toSentence } = require('underscore.string');
 const pluralize = require('pluralize');
 
+const { getWordsList } = require('../utilities');
 const { throwError } = require('../error');
 
 const { getFlatOpts } = require('./flat_opts');
@@ -18,12 +18,12 @@ const checkUnknownOpts = function ({ options, availableOpts }) {
 const checkUnknown = function ({ flatOpts }) {
   const unknownOpts = flatOpts
     .filter(({ unknown }) => unknown)
-    .map(({ name }) => `'${name}'`);
+    .map(({ name }) => name);
 
   if (unknownOpts.length === 0) { return; }
 
   const optionWord = pluralize('option', unknownOpts.length);
-  const optionList = toSentence(unknownOpts);
+  const optionList = getWordsList(unknownOpts, { op: 'and', quotes: true });
   const message = `Unknown ${optionWord}: ${optionList}`;
   throwError(message, { reason: 'CONF_VALIDATION' });
 };

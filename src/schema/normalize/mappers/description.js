@@ -1,6 +1,6 @@
 'use strict';
 
-const { toSentence } = require('underscore.string');
+const { getWordsList } = require('../../../utilities');
 
 // Add related `attr.description`, for the following features:
 // `attr.readonly`, `attr.value`, `attr.examples`, `attr.alias`
@@ -26,9 +26,8 @@ const getExamples = function ({ examples }) {
 
 const getAliasesDescription = function ({ alias }) {
   const aliases = Array.isArray(alias) ? alias : [alias];
-  const aliasesA = aliases.map(aliasA => `'${aliasA}'`);
-  const aliasesB = toSentence(aliasesA);
-  return `Aliases: ${aliasesB}.`;
+  const aliasesA = getWordsList(aliases, { op: 'and', quotes: true });
+  return `Aliases: ${aliasesA}.`;
 };
 
 const allDescriptions = [

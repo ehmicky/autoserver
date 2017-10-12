@@ -1,8 +1,8 @@
 'use strict';
 
 const { uniq, intersection } = require('lodash');
-const { toSentence } = require('underscore.string');
 
+const { getWordsList } = require('../../../utilities');
 const { throwError } = require('../../../error');
 const { crawlFilter } = require('../../../database');
 
@@ -28,9 +28,8 @@ const getErrorMessage = function ({ types }) {
     return 'use an array of alternatives';
   }
 
-  const typesStr = types.map(val => `'${val}'`);
-  const typesStrA = toSentence(typesStr, ', ', ' nor ');
-  return `use the operators: ${typesStrA}`;
+  const typesA = getWordsList(types, { op: 'nor', quotes: true });
+  return `use the operators: ${typesA}`;
 };
 
 const searchFilterTypes = [
