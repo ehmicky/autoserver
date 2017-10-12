@@ -69,8 +69,11 @@ const addMInput = function (error, mInput) {
 // Builds `mInput` with a `mInput.error` property
 const getErrorMInput = function ({ error, error: { mInput = {} } }) {
   const errorA = normalizeError({ error });
-  const errorB = omit(errorA, 'mInput');
-  return { ...mInput, mInput, error: errorB };
+  // We need to directly mutate to keep Error constructor
+  // eslint-disable-next-line fp/no-delete
+  delete errorA.mInput;
+
+  return { ...mInput, mInput, error: errorA };
 };
 
 module.exports = {
