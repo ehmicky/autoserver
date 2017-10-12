@@ -1,7 +1,7 @@
 'use strict';
 
 const { emitEvent } = require('../events');
-const { mapValues, omit } = require('../utilities');
+const { mapValues, omit, has, set, get } = require('../utilities');
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({
@@ -32,9 +32,22 @@ const getPayload = function ({ servers, runOpts, gracefulExit }) {
     servers,
     serverFacts => omit(serverFacts, 'server'),
   );
-  const runOptsA = omit(runOpts, 'schema');
-  return { servers: serversA, options: runOptsA, exit: gracefulExit };
+  const options = getOptions({ runOpts });
+  return { servers: serversA, options, exit: gracefulExit };
 };
+
+const getOptions = function ({ runOpts }) {
+  const runOptsA = omit(runOpts, 'schema');
+
+  if (!has(runOptsA, dataPath)) { return runOptsA; }
+
+  const runOptsB = set(runOptsA, [...dataPath, 'content'], undefined);
+  const path = get(runOptsB, [...dataPath, 'path']);
+  const runOptsC = set(runOptsB, dataPath, path);
+  return runOptsC;
+};
+
+const dataPath = ['db', 'memory', 'data'];
 
 module.exports = {
   emitStartEvent,
