@@ -24,7 +24,7 @@ The file format can be YAML or JSON.
 
 The `data` option defaults to any `api_engine.run.db.memory.yml`,
 `api_engine.run.db.memory.yaml` or `api_engine.run.db.memory.json` file in the
-current directory, or any parent directory. It none is found, it will start
+current directory, or any parent directory. If none is found, it will start
 the server with an empty database.
 
 If the `save` option is `true` (which is the default), the data will be saved
