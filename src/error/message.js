@@ -18,12 +18,8 @@ const getErrorMessage = function ({
   const stack = getStack(description, details);
 
   // Add request-related info to message
-  const message = [
-    protocol,
-    operation,
-    commandPath,
-    command,
-  ].filter(val => val)
+  const message = [protocol, operation, commandPath, command]
+    .filter(val => val)
     .join(' ');
 
   const messageStack = message && stack
