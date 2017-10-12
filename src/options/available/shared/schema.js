@@ -1,12 +1,14 @@
 'use strict';
 
+const { genericExtNames } = require('../../../utilities');
+
 // `run` option `schema`
 const schema = {
   name: 'schema',
   description: 'File containing the data model and business logic',
   subConfFiles: [{
     filename: 'schema',
-    extNames: ['compiled.json', 'json', 'yml', 'yaml'],
+    extNames: ['compiled.json', ...genericExtNames],
     instruction: 'run',
   }],
   validate: {
@@ -20,7 +22,7 @@ const uncompiledSchema = {
   ...schema,
   subConfFiles: [{
     ...schema.subConfFiles[0],
-    extNames: ['json', 'yml', 'yaml'],
+    extNames: genericExtNames,
   }],
 };
 

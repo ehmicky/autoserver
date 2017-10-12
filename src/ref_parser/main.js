@@ -6,8 +6,7 @@ const RefParser = require('json-schema-ref-parser');
 
 const { addGenErrorHandler } = require('../error');
 
-const { jsonRefs } = require('./json');
-const { yamlRefs } = require('./yaml');
+const { genericRefs } = require('./generic');
 const { nodeModuleRefs, nodeRefs } = require('./javascript');
 const { errorRefs } = require('./error');
 
@@ -18,7 +17,7 @@ const { errorRefs } = require('./error');
 // Each $ref is relative to the current file.
 // Siblings attributes to `$ref` will be merged (with higher priority),
 // although this is not standard|spec behavior.
-// This function might throw for several reasons, e.g. YAML|JSON parsing error,
+// This function might throw for several reasons, e.g. parsing error,
 // cannot access remote|local file, etc.
 const dereferenceRefs = function ({ path }) {
   const rootDir = dirname(path);
@@ -32,13 +31,16 @@ const getRefParserOpts = rootDir => ({
     node: nodeRefs.resolve(rootDir),
     error: errorRefs.resolve,
   },
-  // Targets can be JSON, YAML or JavaScript (include Node.js modules)
+  // Targets can be a generic configuration format,
+  // or JavaScript (include Node.js modules)
   parse: {
-    json: jsonRefs.parse,
-    yaml: yamlRefs.parse,
+    generic: genericRefs,
     nodeModule: nodeModuleRefs.parse,
     node: nodeRefs.parse,
     error: errorRefs.parse,
+    // This is replaced by `generic`
+    yaml: false,
+    json: false,
     // We only want structured information
     text: false,
     binary: false,

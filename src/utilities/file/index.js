@@ -3,6 +3,6 @@
 module.exports = {
   ...require('./fs'),
   ...require('./template'),
-  ...require('./json'),
+  ...require('./generic'),
   ...require('./yaml'),
 };

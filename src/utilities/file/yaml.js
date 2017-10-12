@@ -2,17 +2,9 @@
 
 const yaml = require('js-yaml');
 
-const { pReadFile } = require('../promisify');
 const { throwError } = require('../error');
 
-// Retrieve and parses a YAML file
-// This might throw for many different reasons, e.g. wrong YAML syntax,
-// or cannot access file (does not exist or no permissions)
-const getYaml = async function ({ path }) {
-  const content = await pReadFile(path, { encoding: 'utf-8' });
-  return loadYaml({ path, content });
-};
-
+// Parses a YAML file
 const loadYaml = function ({ path, content }) {
   return yaml.load(content, {
     // YAML needs to JSON-compatible, since JSON must provide same
@@ -28,6 +20,5 @@ const loadYaml = function ({ path, content }) {
 };
 
 module.exports = {
-  getYaml,
   loadYaml,
 };

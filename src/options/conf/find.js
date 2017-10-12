@@ -33,8 +33,7 @@ const getDirectFile = async function ({ path, baseDir }) {
   return directPathB;
 };
 
-// Try to find api_engine.NAME.json|yml|yaml in current directory,
-// or any parent
+// Try to find api_engine.NAME.EXT in current directory, or any parent
 const findConfFile = async function ({ fileNames, confDir = process.cwd() }) {
   const confDirA = await checkIsDirectory({ dir: confDir, isDir: true });
 
