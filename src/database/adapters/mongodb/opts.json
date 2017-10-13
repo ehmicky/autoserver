@@ -1,7 +1,58 @@
-[{
-  "name": "port",
-  "description": "The port",
-  "validate": {
-    "type": "integer"
+[
+  {
+    "name": "hostname",
+    "default": "localhost",
+    "description": "MongoDB server's hostname",
+    "validate": {
+      "type": ["string", "string[]"],
+      "min_items": 1
+    }
+  },
+
+  {
+    "name": "port",
+    "default": 27017,
+    "description": "MongoDB server's port",
+    "validate": {
+      "type": ["integer", "integer[]"],
+      "minimum": 0,
+      "maximum": 65535,
+      "min_items": 1
+    }
+  },
+
+  {
+    "name": "username",
+    "description": "Username to authenticate to MongoDB server",
+    "validate": {
+      "type": "string"
+    }
+  },
+
+  {
+    "name": "password",
+    "description": "Password to authenticate to MongoDB server",
+    "validate": {
+      "type": "string"
+    }
+  },
+
+  {
+    "name": "dbname",
+    "description": "Database name",
+    "default": "apiengine",
+    "validate": {
+      "type": "string"
+    }
+  },
+
+  {
+    "name": "opts",
+    "description": "MongoDB connection options",
+    "default": {},
+    "dynamic": true,
+    "validate": {
+      "type": "object"
+    }
   }
-}]
+]
