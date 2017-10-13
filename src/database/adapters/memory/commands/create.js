@@ -16,7 +16,7 @@ const validateCreateId = function ({ collection, id }) {
   if (!hasModel) { return; }
 
   const message = `Model with id '${id}' already exists`;
-  throwError(message, { reason: 'DATABASE_MODEL_CONFLICT' });
+  throwError(message, { reason: 'DB_MODEL_CONFLICT' });
 };
 
 module.exports = {

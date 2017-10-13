@@ -32,7 +32,7 @@ const findRoute = function ({ path }) {
 
   if (route === undefined) {
     const message = 'The requested URL was not found';
-    throwError(message, { reason: 'NOT_FOUND' });
+    throwError(message, { reason: 'ROUTE_NOT_FOUND' });
   }
 
   return route;

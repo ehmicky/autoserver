@@ -23,7 +23,7 @@ const validateId = function ({ collection, id }) {
   if (hasModel) { return; }
 
   const message = `Could not find any model with an 'id' equal to '${id}'`;
-  throwError(message, { reason: 'DATABASE_NOT_FOUND' });
+  throwError(message, { reason: 'DB_MODEL_NOT_FOUND' });
 };
 
 module.exports = {
