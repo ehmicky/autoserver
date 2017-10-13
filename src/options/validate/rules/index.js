@@ -6,5 +6,7 @@ module.exports = {
   ...require('./unique'),
   ...require('./minimum'),
   ...require('./maximum'),
+  ...require('./min_items'),
+  ...require('./max_items'),
   ...require('./minimum_bytes'),
 };
