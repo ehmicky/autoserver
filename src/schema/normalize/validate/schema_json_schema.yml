@@ -61,8 +61,6 @@ definitions:
         $ref: '#/definitions/description'
       commands:
         $ref: '#/definitions/commands'
-      kind:
-        $ref: '#/definitions/kind'
       attributes:
         type: object
         additionalProperties:
@@ -180,24 +178,6 @@ definitions:
       - create
       - replace
       - delete
-  # model.kind
-  kind:
-    type: array
-    uniqueItems: true
-    items:
-      type: string
-      enum:
-      - data
-      - search
-    # `data` kind is required by `search` kind
-    allOf:
-    - if:
-        anyOf:
-        - contains:
-            const: search
-      then:
-        contains:
-          const: data
   # schema.helpers
   helpers:
     typeof: [object, function]

@@ -48,7 +48,7 @@ const mainOpt = {
 const commonOpts = [
   {
     name: 'models',
-    description: 'Models using this database.\nCan either be the \'model\' name or the models kind as \'kind:...\'',
+    description: 'Names of the models using this database.\nCan be \'...\' to target \'all the other models\'',
     validate: {
       type: 'string[]',
       unique: true,
