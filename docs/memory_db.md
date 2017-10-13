@@ -13,7 +13,7 @@ db:
     save: false
 ```
 
-It supports all the model [`kind`s](databases.md#model-kinds).
+It supports all [API features](databases.md#api-features-support).
 
 # Data
 
