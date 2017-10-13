@@ -18,7 +18,6 @@ const {
   addDefaultId,
   addDefaultValidate,
   addDefaultType,
-  addDefaultKind,
 } = require('./default');
 const {
   addRequiredId,
@@ -56,8 +55,6 @@ const normalizers = [
   { type: 'attr', func: addDefaultValidate },
   // Default `model.commands`
   { type: 'model', func: addDefaultCommands },
-  // Default `model.kind`
-  { type: 'model', func: addDefaultKind },
 
   // Make sure `id` attributes are required
   { type: 'attr', func: addRequiredId },

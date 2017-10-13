@@ -1,7 +1,6 @@
 engine: api-engine 1.0.0
 models:
   pet:
-    kind: [data, search]
     description: Cute animal
     commands: [create, find, replace, delete]
     x-custom: anything
