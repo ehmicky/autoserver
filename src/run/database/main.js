@@ -2,8 +2,9 @@
 
 const { databaseAdapters } = require('../../database');
 
-const { getAdaptersMap } = require('./map');
 const { validateDbOpts } = require('./validate');
+const { getAdaptersMap } = require('./map');
+const { validateFeatures } = require('./features');
 const { startConnections } = require('./connect');
 
 // Create database connections
@@ -13,6 +14,8 @@ const connectToDatabases = async function ({ runOpts, schema }) {
   validateDbOpts({ adapters, schema });
 
   const adaptersMap = getAdaptersMap({ adapters, schema });
+
+  validateFeatures({ adaptersMap, adapters, schema });
 
   const dbAdapters = await startConnections({
     adapters,
