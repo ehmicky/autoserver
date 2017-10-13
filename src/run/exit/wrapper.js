@@ -25,8 +25,8 @@ const getEventLabel = function (label, input) {
   return `${prefix}.${label}`;
 };
 
-const getPrefix = function ({ protocol, dbType }) {
-  return protocol || dbType;
+const getPrefix = function ({ protocol, title }) {
+  return protocol || title;
 };
 
 // Shutdown success events
