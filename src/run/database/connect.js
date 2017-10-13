@@ -37,7 +37,9 @@ const startConnection = async function ({
   const connection = await connect(opts);
 
   // Check for data model inconsistencies, and potentially fix them
-  check({ ...opts, connection });
+  if (check !== undefined) {
+    check({ ...opts, connection });
+  }
 
   return connection;
 };
