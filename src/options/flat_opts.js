@@ -23,14 +23,15 @@ const getFlatOpt = function ({ prefix, optName, optVal, availableOpts }) {
     return [{ name, unknown: true }];
   }
 
-  const { validate = {}, subConfFiles } = availableOpt;
+  const { validate = {}, subConfFiles, dynamic } = availableOpt;
 
   const flatOpt = [{ name, validate, optVal }];
 
   // Sub-conf options do not recurse
   // E.g. schema is a sub-conf which resolves to an object, but schema
   // properties are not options themselves
-  if (subConfFiles !== undefined) { return flatOpt; }
+  // Dynamic options also do not recurse
+  if (subConfFiles !== undefined || dynamic) { return flatOpt; }
 
   const children = getFlatOpts({
     prefix: `${name}.`,
