@@ -40,8 +40,9 @@ the array:
   - `all`: all elements match the filter
   - `some`: at least some elements match the filter
 
-Models without the `search` [kind](databases.md#model-kinds) cannot use
-advanced filtering, except for the `eq`, `lt`, `le`, `gt` and `ge` operators.
+To use advanced filtering, it must be
+[supported by the database](databases.md#api-features-support).
+Otherwise, only the `eq`, `lt`, `le`, `gt` and `ge` operators will be supported.
 
 # Examples
 
