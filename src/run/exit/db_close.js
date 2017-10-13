@@ -6,10 +6,10 @@ const { wrapCloseFunc } = require('./wrapper');
 // No new connections will be accepted, but we will wait for ongoing ones to end
 const closeDbAdapter = async function ({
   dbAdapter,
-  dbAdapter: { type: dbType },
+  dbAdapter: { type: dbType, title },
   measures,
 }) {
-  const status = await mStop({ dbAdapter, dbType, measures });
+  const status = await mStop({ dbAdapter, dbType, title, measures });
 
   return { [dbType]: Boolean(status) };
 };
