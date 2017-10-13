@@ -11,7 +11,7 @@ const adapter = {
   type: 'memory',
   title: 'In-Memory',
   description: 'In-memory database. For development purpose only.',
-  kinds: ['data', 'search'],
+  features: ['filter'],
   connect,
   check,
   disconnect,
