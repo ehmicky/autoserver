@@ -58,7 +58,7 @@ const validateRule = function ({ name, optVal, ruleVal, ruleType }) {
 };
 
 // Rules applied on arrays, as opposed to each of their elements
-const arrayRules = ['type', 'unique'];
+const arrayRules = ['type', 'unique', 'min_items', 'max_items'];
 
 module.exports = {
   validateOptions,
