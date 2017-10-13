@@ -143,7 +143,7 @@ Events of type `start` have two additional properties on the event payload:
   - `servers` `{object}`: list of running servers
     - `HTTP` `{object}`: HTTP server information
       - `protocol` `{string}`: always `'HTTP'`
-      - `host` `{string}`
+      - `hostname` `{string}`
       - `port` `{string}`
   - `exit` `{function}`: performs a clean server shutdown
 
@@ -181,7 +181,7 @@ event payload, with the properties:
   - `protocol` `{string}` - e.g. `'HTTP'`
   - `protocolFullName` `{string}` - e.g. `'HTTP/1.1'`
   - `url` `{string}` - full URL
-  - `origin` `{string}` - protocol + host + port
+  - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
   - `method` `{string}` - protocol-agnostic method, e.g. `'find'`
   - `protocolStatus` `{string}` - protocol-specific status, e.g. HTTP

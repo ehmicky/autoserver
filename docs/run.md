@@ -34,7 +34,7 @@ The available options are:
   - `env` (defaults to `'dev'`): can be `'dev'` or `'production'`.
     Running in `'dev'` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
-  - `http.host` `{string}` (defaults to `localhost`)
+  - `http.hostname` `{string}` (defaults to `localhost`)
   - `http.port` `{integer}` (defaults to `80`).
      Can be `0` for "any available port".
   - `http.enabled` `{boolean}` (defaults to `true`):

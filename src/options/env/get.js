@@ -11,7 +11,7 @@ const { transformEnvVars } = require('./transform');
 // They must be uppercased with underscore, e.g. `PAGE_SIZE` instead of pageSize
 // The value will be transtyped, e.g. it can be a number or a boolean
 // Nested variables can be indicated with double-underscores,
-// e.g. `HTTP__HOST` becomes `{ http: { host } }`
+// e.g. `HTTP__HOSTNAME` becomes `{ http: { hostname } }`
 // Array variables can be indicated using `[value,value2,...]` notation.
 const getEnvVars = function () {
   return mappers.reduce((envVars, mapper) => mapper({ envVars }), {});

@@ -10,7 +10,7 @@ const ENV_VARS_PREFIX = /^API_ENGINE__/;
 const basicNamesMap = {
   NODE_ENV: 'ENV',
   PORT: 'HTTP__PORT',
-  HOST: 'HTTP__HOST',
+  HOST: 'HTTP__HOSTNAME',
 };
 
 module.exports = {
