@@ -28,10 +28,10 @@ const errorReasons = {
   AUTHORIZATION: {},
 
   // Standard 404, e.g. route not found
-  NOT_FOUND: {},
+  ROUTE_NOT_FOUND: {},
 
   // A database model could not be found, e.g. incorrect id
-  DATABASE_NOT_FOUND: {
+  DB_MODEL_NOT_FOUND: {
     title: 'Model not found',
   },
 
@@ -44,7 +44,7 @@ const errorReasons = {
 
   // A command conflicts with another one,
   // e.g. tries to create already existing model
-  DATABASE_MODEL_CONFLICT: {},
+  DB_MODEL_CONFLICT: {},
 
   // Request payload has a request payload but no Content-Length
   NO_CONTENT_LENGTH: {},
