@@ -14,7 +14,7 @@ const filterValidator = function ({ args, modelName }) {
 
   const message = getErrorMessage({ ops: opsA });
   const messageA = `In 'filter' argument, must not ${message} because the model '${modelName}' does not support it`;
-  throwError(messageA, { reason: 'WRONG_KIND' });
+  throwError(messageA, { reason: 'WRONG_FEATURE' });
 };
 
 const getFilterOps = function ({ args: { filter } }) {

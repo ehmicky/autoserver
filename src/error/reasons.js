@@ -21,8 +21,8 @@ const errorReasons = {
   INPUT_VALIDATION: {},
 
   // The client try to perform an action not supported by the specific model,
-  // i.e. its `model.kind` is too limited
-  WRONG_KIND: {},
+  // i.e. its database adapters is too limited
+  WRONG_FEATURE: {},
 
   // Not allowed, authorization-wise
   AUTHORIZATION: {},
