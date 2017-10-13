@@ -28,7 +28,7 @@ The file contains a set of options for a given instruction, e.g.:
 
 ```yml
 http:
-  host: myhost
+  hostname: myhostname
 maxPageSize: 10
 ```
 
@@ -46,7 +46,7 @@ E.g. the following environment variables:
 ```toml
 API_ENGINE__ENV="dev"
 API_ENGINE__MAX_PAGE_SIZE=200
-API_ENGINE__HTTP__HOST="myhost"
+API_ENGINE__HTTP__HOSTNAME="myhostname"
 API_ENGINE__EVENT_FILTER__PAYLOAD="[id,old_id]"
 ```
 
@@ -56,7 +56,7 @@ will be converted to the following options:
 {
   "env": "dev",
   "maxPageSize": 200,
-  "http": { "host": "myhost" },
+  "http": { "hostname": "myhostname" },
   "eventFilter": { "payload": ["id", "old_id"] },
 }
 ```

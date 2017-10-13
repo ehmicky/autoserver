@@ -7,7 +7,7 @@ const { throwError } = require('../../../error');
 
 // Start HTTP server
 const startServer = function ({
-  opts: { host, port },
+  opts: { hostname, port },
   runOpts: { env },
   handleRequest,
 }) {
@@ -26,7 +26,7 @@ const startServer = function ({
   handleClientRequest({ server, handleRequest });
 
   // Start server
-  server.listen(port, host);
+  server.listen(port, hostname);
 
   return promise;
 };
@@ -44,7 +44,7 @@ const successListener = async function ({ server, serverOn }) {
   await serverOn('listening');
 
   const { address, port } = server.address();
-  return { server, host: address, port };
+  return { server, hostname: address, port };
 };
 
 // Connection failure

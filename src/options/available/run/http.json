@@ -20,9 +20,9 @@
   },
 
   {
-    "name": "http.host",
+    "name": "http.hostname",
     "default": "localhost",
-    "description": "HTTP server's host",
+    "description": "HTTP server's hostname",
     "group": "HTTP",
     "validate": {
       "type": "string"
