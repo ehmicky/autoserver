@@ -3,7 +3,7 @@
 const { databaseAdapters } = require('../../database');
 
 const { getAdaptersMap } = require('./map');
-const { validateDbOpts, validateUnusedAdapters } = require('./validate');
+const { validateDbOpts } = require('./validate');
 const { startConnections } = require('./connect');
 
 // Create database connections
@@ -13,8 +13,6 @@ const connectToDatabases = async function ({ runOpts, schema }) {
   validateDbOpts({ adapters, schema });
 
   const adaptersMap = getAdaptersMap({ adapters, schema });
-
-  validateUnusedAdapters({ adapters, adaptersMap });
 
   const dbAdapters = await startConnections({
     adapters,
@@ -29,7 +27,7 @@ const connectToDatabases = async function ({ runOpts, schema }) {
 const getAdapters = function ({ runOpts: { db } }) {
   return Object.entries(db)
     .filter(([, { enabled }]) => enabled !== false)
-    .map(([type, { models = [], ...options }]) =>
+    .map(([type, { models, ...options }]) =>
       ({ ...databaseAdapters[type], type, models, options }));
 };
 
