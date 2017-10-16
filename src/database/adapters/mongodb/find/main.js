@@ -4,17 +4,12 @@ const { getQueryFilter } = require('./operators');
 const { limitResponse } = require('./limit');
 const { offsetResponse } = require('./offset');
 const { sortResponse } = require('./order_by');
-const { validateMissingIds } = require('./missing_id');
 
 // Find models
-const find = async function (input) {
+const find = function (input) {
   const { filterIds } = input;
   const method = filterIds && filterIds.length === 1 ? findOne : findMany;
-  const dbData = await method(input);
-
-  validateMissingIds({ dbData, filterIds });
-
-  return dbData;
+  return method(input);
 };
 
 const findOne = async function ({ collection, filterIds }) {
