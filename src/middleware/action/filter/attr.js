@@ -40,7 +40,13 @@ const asIsParser = function ({ opVal }) {
 };
 
 const regexParser = function ({ opVal }) {
-  return new RegExp(opVal);
+  // Using .* or .*$ at the end of a RegExp is useless
+  // MongoDB documentation also warns against it as a performance optimization
+  const opValA = opVal
+    .replace(/\.\*$/, '')
+    .replace(/\.\*\$$/, '');
+
+  return new RegExp(opValA);
 };
 
 const eRegExpParser = addGenErrorHandler(regexParser, {
