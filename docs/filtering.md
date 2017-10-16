@@ -34,7 +34,7 @@ string attributes:
   - `like`: looks like
   - `nlike`: does not look like
 
-The following operators are only available for array attributes.
+Array attributes can only use the following operators.
 They take another filter object as input, which is applied on each element of
 the array:
   - `all`: all elements match the filter

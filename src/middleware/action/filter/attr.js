@@ -15,13 +15,8 @@ const parseAttributes = function ({ attrVal, attrName, attr }) {
     ? attrVal
     : { eq: attrVal };
 
-  return Object.entries(attrValA)
-    .map(([opName, opVal]) => parseAttribute({
-      opName,
-      opVal,
-      attrName,
-      attr,
-    }));
+  return Object.entries(attrValA).map(([opName, opVal]) =>
+    parseAttribute({ opName, opVal, attrName, attr }));
 };
 
 const parseAttribute = function ({ opName, opVal, attrName, attr }) {

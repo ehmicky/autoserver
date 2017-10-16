@@ -10,6 +10,8 @@ const validateSameType = function ({
   attr,
   attr: { type, isArray },
 }) {
+  validateNotArrayOps({ opName, attrName, attr });
+
   const typeValidator = getTypeValidator({ attr });
   if (opVal === undefined || typeValidator(opVal)) { return; }
 
@@ -41,6 +43,8 @@ const getTypeValidator = function ({ attr: { type, isArray } }) {
 };
 
 const validateArray = function ({ opVal, opName, attrName, attr }) {
+  validateNotArrayOps({ opName, attrName, attr });
+
   if (!Array.isArray(opVal)) {
     throwAttrValError(attrName, opName, 'an array');
   }
@@ -53,8 +57,11 @@ const validateLike = function ({
   opVal,
   attrName,
   opName,
+  attr,
   attr: { type, isArray },
 }) {
+  validateNotArrayOps({ opName, attrName, attr });
+
   if (typeof opVal !== 'string') {
     throwAttrValError(attrName, opName, 'a string');
   }
@@ -69,9 +76,15 @@ const validateLike = function ({
 };
 
 const validateArrayOps = function ({ opName, attrName, attr: { isArray } }) {
-  if (!isArray) {
-    throwAttrTypeError(attrName, opName, 'not an array');
-  }
+  if (isArray) { return; }
+
+  throwAttrTypeError(attrName, opName, 'not an array');
+};
+
+const validateNotArrayOps = function ({ opName, attrName, attr: { isArray } }) {
+  if (!isArray) { return; }
+
+  throwAttrTypeError(attrName, opName, 'an array');
 };
 
 const throwAttrValError = function (attrName, opName, message) {
