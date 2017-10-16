@@ -1,7 +1,5 @@
 'use strict';
 
-const { wrapCommand } = require('./wrap');
-
 // Modify models
 const replace = function ({ collection, newData }) {
   const method = newData.length === 1 ? replaceOne : replaceMany;
@@ -25,8 +23,6 @@ const getBulkCommand = function ({ replacement }) {
   return { replaceOne: { filter: { id }, replacement, upsert: false } };
 };
 
-const wReplace = wrapCommand.bind(null, replace);
-
 module.exports = {
-  replace: wReplace,
+  replace,
 };

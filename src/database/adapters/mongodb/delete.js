@@ -1,7 +1,5 @@
 'use strict';
 
-const { wrapCommand } = require('./wrap');
-
 // Delete models
 const deleteFunc = function ({ collection, deletedIds }) {
   const method = deletedIds.length === 1 ? deleteOne : deleteMany;
@@ -18,8 +16,6 @@ const deleteMany = function ({ collection, deletedIds }) {
   return collection.deleteMany(filter);
 };
 
-const wDelete = wrapCommand.bind(null, deleteFunc);
-
 module.exports = {
-  delete: wDelete,
+  delete: deleteFunc,
 };

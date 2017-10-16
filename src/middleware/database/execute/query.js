@@ -6,8 +6,8 @@ const { renameIdsInput, renameIdsOutput } = require('./rename_ids');
 const queryDatabase = async function ({
   dbAdapters,
   modelName,
-  command,
   commandInput,
+  commandInput: { command },
   dryrun: { noWrites },
 }) {
   // `dryrun` middleware with create|replace|patch
@@ -17,10 +17,10 @@ const queryDatabase = async function ({
 
   const commandInputA = renameIdsInput({ dbAdapter, commandInput });
 
-  const dbData = await dbAdapter[command](commandInputA);
+  const dbData = await dbAdapter.query(commandInputA);
 
+  if (command !== 'find') { return dbData; }
   const dbDataA = renameIdsOutput({ dbAdapter, dbData });
-
   return dbDataA;
 };
 

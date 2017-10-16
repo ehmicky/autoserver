@@ -2,10 +2,7 @@
 
 const { connect } = require('./connect');
 const { disconnect } = require('./disconnect');
-const { find } = require('./find');
-const { create } = require('./create');
-const { replace } = require('./replace');
-const { delete: deleteFunc } = require('./delete');
+const { query } = require('./query');
 const opts = require('./opts');
 
 const adapter = {
@@ -15,10 +12,7 @@ const adapter = {
   features: ['filter'],
   connect,
   disconnect,
-  find,
-  create,
-  replace,
-  delete: deleteFunc,
+  query,
   opts,
   idName: '_id',
 };
