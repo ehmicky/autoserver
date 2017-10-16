@@ -40,7 +40,7 @@
   {
     "name": "dbname",
     "description": "Database name",
-    "default": "apiengine",
+    "default": "data",
     "validate": {
       "type": "string"
     }
