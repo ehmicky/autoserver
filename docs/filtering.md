@@ -23,9 +23,9 @@ The following operators can be used for more complex operations:
   - `eq`: equals to
   - `neq`: does not equal to
   - `lt`: less than
-  - `le`: less than, or equals to
+  - `lte`: less than, or equals to
   - `gt`: greater than
-  - `ge`: greater than, or equals to
+  - `gte`: greater than, or equals to
   - `in`: is among
   - `nin`: is not among
 
@@ -42,7 +42,8 @@ the array:
 
 To use advanced filtering, it must be
 [supported by the database](databases.md#api-features-support).
-Otherwise, only the `eq`, `lt`, `le`, `gt` and `ge` operators will be supported.
+Otherwise, only the `eq`, `lt`, `lte`, `gt` and `gte` operators
+will be supported.
 
 # Examples
 
