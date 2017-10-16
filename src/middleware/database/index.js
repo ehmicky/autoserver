@@ -7,5 +7,6 @@ module.exports = {
 
   ...require('./execute'),
 
+  ...require('./missing_id'),
   ...require('./response_validation'),
 };
