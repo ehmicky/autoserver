@@ -1,8 +1,7 @@
 'use strict';
 
-const { pSetTimeout, mapValues } = require('../../../utilities');
+const { pSetTimeout } = require('../../../../utilities');
 
-const commands = require('./commands');
 const { sortResponse } = require('./order_by');
 const { offsetResponse } = require('./offset');
 const { limitResponse } = require('./limit');
@@ -35,8 +34,6 @@ const wrapCommand = async function (
   return { data: dataC, metadata };
 };
 
-const commandsA = mapValues(commands, func => wrapCommand.bind(null, func));
-
 module.exports = {
-  commands: commandsA,
+  wrapCommand,
 };

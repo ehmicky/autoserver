@@ -1,6 +1,6 @@
 'use strict';
 
-const { sortBy } = require('../../../utilities');
+const { sortBy } = require('../../../../utilities');
 
 // `order_by` sorting
 const sortResponse = function ({ data, orderBy }) {
