@@ -1,6 +1,8 @@
 'use strict';
 
-const { throwError } = require('../../../../error');
+const { throwError } = require('../../../error');
+
+const { wrapCommand } = require('./wrap');
 
 const create = function ({ collection, newData }) {
   newData.forEach(({ id }) => validateCreateId({ collection, id }));
@@ -19,6 +21,8 @@ const validateCreateId = function ({ collection, id }) {
   throwError(message, { reason: 'DB_MODEL_CONFLICT' });
 };
 
+const wCreate = wrapCommand.bind(null, create);
+
 module.exports = {
-  create,
+  create: wCreate,
 };

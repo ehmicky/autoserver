@@ -1,5 +1,7 @@
 'use strict';
 
+const { wrapCommand } = require('../wrap');
+
 const { validateMissingIds } = require('./missing_id');
 const { modelMatchFilter } = require('./operators');
 
@@ -10,6 +12,8 @@ const find = function ({ collection, filter }) {
   return { data };
 };
 
+const wFind = wrapCommand.bind(null, find);
+
 module.exports = {
-  find,
+  find: wFind,
 };

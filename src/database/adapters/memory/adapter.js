@@ -3,7 +3,10 @@
 const { connect } = require('./connect');
 const { check } = require('./check');
 const { disconnect } = require('./disconnect');
-const { commands } = require('./wrap');
+const { find } = require('./find');
+const { create } = require('./create');
+const { delete: deleteMany } = require('./delete');
+const { replace } = require('./replace');
 const { opts } = require('./opts');
 
 // Memory database adapter, i.e. keeps database in-memory
@@ -15,7 +18,10 @@ const adapter = {
   connect,
   check,
   disconnect,
-  ...commands,
+  find,
+  create,
+  delete: deleteMany,
+  replace,
   opts,
 };
 

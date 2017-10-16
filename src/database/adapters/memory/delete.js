@@ -1,5 +1,7 @@
 'use strict';
 
+const { wrapCommand } = require('./wrap');
+
 const deleteMany = function ({ collection, deletedIds }) {
   const data = Object.entries(collection)
     .filter(([, model]) => deletedIds.includes(model.id))
@@ -8,6 +10,8 @@ const deleteMany = function ({ collection, deletedIds }) {
   return { data };
 };
 
+const wDelete = wrapCommand.bind(null, deleteMany);
+
 module.exports = {
-  delete: deleteMany,
+  delete: wDelete,
 };

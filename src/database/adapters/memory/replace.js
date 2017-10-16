@@ -1,5 +1,7 @@
 'use strict';
 
+const { wrapCommand } = require('./wrap');
+
 const replace = function ({ collection, newData }) {
   const data = newData
     .map(datum => replaceOne({ collection, newData: datum }));
@@ -15,6 +17,8 @@ const replaceOne = function ({ collection, newData, newData: { id } }) {
   return newData;
 };
 
+const wReplace = wrapCommand.bind(null, replace);
+
 module.exports = {
-  replace,
+  replace: wReplace,
 };
