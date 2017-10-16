@@ -4,7 +4,7 @@ const { connect } = require('./connect');
 const { disconnect } = require('./disconnect');
 const opts = require('./opts');
 
-module.exports = {
+const adapter = {
   type: 'mongodb',
   title: 'MongoDB',
   description: 'MongoDB database',
@@ -13,3 +13,5 @@ module.exports = {
   disconnect,
   opts,
 };
+
+module.exports = adapter;
