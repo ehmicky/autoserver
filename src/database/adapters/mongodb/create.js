@@ -3,7 +3,6 @@
 const { addErrorHandler } = require('../../../error');
 
 const { checkExistingIds } = require('./existing_ids');
-const { wrapCommand } = require('./wrap');
 
 // Create models
 const create = function ({ collection, newData }) {
@@ -21,8 +20,6 @@ const createMany = function ({ collection, newData }) {
 
 const eCreate = addErrorHandler(create, checkExistingIds);
 
-const wCreate = wrapCommand.bind(null, eCreate);
-
 module.exports = {
-  create: wCreate,
+  create: eCreate,
 };

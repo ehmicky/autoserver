@@ -22,7 +22,6 @@ const databaseExecute = async function ({
   const dbData = await queryDatabase({
     dbAdapters,
     modelName,
-    command: commandA,
     commandInput,
     dryrun,
   });

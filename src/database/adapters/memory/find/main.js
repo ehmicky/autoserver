@@ -1,19 +1,24 @@
 'use strict';
 
-const { wrapCommand } = require('../wrap');
-
 const { validateMissingIds } = require('./missing_id');
 const { modelMatchFilter } = require('./operators');
+const { sortResponse } = require('./order_by');
+const { offsetResponse } = require('./offset');
+const { limitResponse } = require('./limit');
 
-const find = function ({ collection, filter }) {
+// Retrieve models
+const find = function ({ collection, filter, orderBy, offset, limit }) {
   validateMissingIds({ collection, filter });
 
   const data = collection.filter(model => modelMatchFilter({ model, filter }));
-  return data;
+
+  const dataA = sortResponse({ data, orderBy });
+  const dataB = offsetResponse({ data: dataA, offset });
+  const dataC = limitResponse({ data: dataB, limit });
+
+  return dataC;
 };
 
-const wFind = wrapCommand.bind(null, find);
-
 module.exports = {
-  find: wFind,
+  find,
 };

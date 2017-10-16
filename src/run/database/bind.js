@@ -23,7 +23,7 @@ const bindAdapter = function ({ adapter, ...rest }) {
   return { ...adapter, ...boundMethods };
 };
 
-const boundMethodNames = ['find', 'create', 'delete', 'replace', 'disconnect'];
+const boundMethodNames = ['query', 'disconnect'];
 
 const boundMethod = function ({ func, ...rest }, opts, ...args) {
   return func({ ...opts, ...rest }, ...args);

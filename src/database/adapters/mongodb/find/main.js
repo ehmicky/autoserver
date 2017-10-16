@@ -1,7 +1,5 @@
 'use strict';
 
-const { wrapCommand } = require('../wrap');
-
 const { getQueryFilter } = require('./operators');
 const { limitResponse } = require('./limit');
 const { offsetResponse } = require('./offset');
@@ -41,8 +39,6 @@ const findMany = function ({
   return cursorC.toArray();
 };
 
-const wFind = wrapCommand.bind(null, find);
-
 module.exports = {
-  find: wFind,
+  find,
 };

@@ -13,13 +13,13 @@ const addHandlers = function (adapter) {
 };
 
 const addHandler = function (func, funcName, { type }) {
-  if (!Object.keys(errorMessages).includes(funcName)) { return func; }
+  if (!errorMethodNames.includes(funcName)) { return func; }
 
   return addErrorHandler(func, errorHandler.bind(null, { funcName, type }));
 };
 
-const errorHandler = function ({ funcName, type }, error) {
-  const message = errorMessages[funcName];
+const errorHandler = function ({ funcName, type }, error, { command }) {
+  const message = errorMessages[funcName] || errorMessages[command];
   const messageA = `${message} database '${type}'`;
   const errorA = normalizeError({
     error,
@@ -28,6 +28,8 @@ const errorHandler = function ({ funcName, type }, error) {
   });
   rethrowError(errorA);
 };
+
+const errorMethodNames = ['query', 'connect', 'disconnect'];
 
 const errorMessages = {
   connect: 'Could not connect to',

@@ -1,7 +1,6 @@
 'use strict';
 
-const { wrapCommand } = require('./wrap');
-
+// Modifies models
 const replace = function ({ collection, newData }) {
   newData.forEach(datum => replaceOne({ collection, newData: datum }));
 };
@@ -13,8 +12,6 @@ const replaceOne = function ({ collection, newData, newData: { id } }) {
   collection.splice(index, 1, newData);
 };
 
-const wReplace = wrapCommand.bind(null, replace);
-
 module.exports = {
-  replace: wReplace,
+  replace,
 };

@@ -2,21 +2,33 @@
 
 const { throwError } = require('../../../error');
 
-// Wrap each CRUD command
-const wrapCommand = async function (func, commandInput, ...args) {
+const { find } = require('./find');
+const { create } = require('./create');
+const { replace } = require('./replace');
+const { delete: deleteFunc } = require('./delete');
+
+// CRUD commands
+const query = async function (commandInput, ...args) {
   const { command, connection, modelName } = commandInput;
 
   // Add convenience input `collection`
   const collection = connection.collection(modelName);
   const commandInputA = { ...commandInput, collection };
 
-  const returnValue = await func(commandInputA, ...args);
+  const returnValue = await commands[command](commandInputA, ...args);
 
   // MongoDB read commands return models as is, but write commands return
   // a summary
   if (command === 'find') { return returnValue; }
 
   validateWrongResult({ returnValue });
+};
+
+const commands = {
+  find,
+  create,
+  replace,
+  delete: deleteFunc,
 };
 
 // MongoDB returns `result.ok` `0` when an error happened
@@ -31,5 +43,5 @@ const validateWrongResult = function ({
 };
 
 module.exports = {
-  wrapCommand,
+  query,
 };
