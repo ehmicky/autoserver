@@ -1,6 +1,7 @@
 'use strict';
 
 const { omit, mapValues } = require('../../utilities');
+const { emitEvent } = require('../../events');
 
 const { addAllErrorHandlers } = require('./error');
 const { bindAdapters } = require('./bind');
@@ -31,6 +32,7 @@ const startConnections = async function ({
 
 // Actual connection
 const startConnection = async function ({
+  adapter,
   adapter: { connect, check, options },
   schema,
   runOpts,
@@ -44,7 +46,15 @@ const startConnection = async function ({
     check({ ...opts, connection });
   }
 
+  emitStartEvent({ adapter, runOpts });
+
   return connection;
+};
+
+// Database adapter-specific start event
+const emitStartEvent = async function ({ adapter: { title }, runOpts }) {
+  const message = `${title} - Connection initialized`;
+  await emitEvent({ type: 'message', phase: 'startup', message, runOpts });
 };
 
 // Returns `{ model: adapter }` map
