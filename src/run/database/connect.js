@@ -2,6 +2,7 @@
 
 const { omit, mapValues } = require('../../utilities');
 const { emitEvent } = require('../../events');
+const { monitor } = require('../../perf');
 
 const { addAllErrorHandlers } = require('./error');
 const { bindAdapters } = require('./bind');
@@ -12,13 +13,18 @@ const startConnections = async function ({
   adaptersMap,
   schema,
   runOpts,
+  measures,
 }) {
   // Should use `options`, not `runOpts.db`
   const runOptsA = omit(runOpts, 'db');
 
   const adaptersA = addAllErrorHandlers({ adapters });
-  const connectionsPromises = adaptersA
-    .map(adapter => startConnection({ adapter, schema, runOpts: runOptsA }));
+  const connectionsPromises = adaptersA.map(adapter => kStartConnection({
+    adapter,
+    schema,
+    runOpts: runOptsA,
+    measures,
+  }));
   const connections = await Promise.all(connectionsPromises);
   const adaptersB = bindAdapters({
     adapters: adaptersA,
@@ -50,6 +56,12 @@ const startConnection = async function ({
 
   return connection;
 };
+
+const kStartConnection = monitor(
+  startConnection,
+  ({ adapter: { type } }) => type,
+  'databases',
+);
 
 // Database adapter-specific start event
 const emitStartEvent = async function ({ adapter: { title }, runOpts }) {
