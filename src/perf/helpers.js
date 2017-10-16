@@ -20,7 +20,8 @@ const monitor = function (
 ) {
   return function monitoredFunc (...args) {
     const labelA = result(label, ...args);
-    const perf = startPerf(labelA, category);
+    const categoryA = result(category, ...args);
+    const perf = startPerf(labelA, categoryA);
     const response = func(...args);
     const { measures } = args[measuresIndex];
     return promiseThen(response, recordPerf.bind(null, measures, perf));
