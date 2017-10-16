@@ -39,8 +39,8 @@ const launchEachServer = async function (options, protocol) {
 
 const kLaunchEachServer = monitor(
   launchEachServer,
-  'startServer',
   (options, protocol) => protocol,
+  'servers',
 );
 
 const launchers = [

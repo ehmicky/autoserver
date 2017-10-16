@@ -4,7 +4,7 @@
   "main",
   "run_opts",
   "schema",
-  "HTTP",
+  "servers",
   "middleware",
   "time",
   "protocol",
