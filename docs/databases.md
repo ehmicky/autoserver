@@ -14,6 +14,7 @@ uses a `memory` database with the `save` option disabled.
 # Available databases
 
   - [`memory`](memory_db.md): in-memory database, for development purpose
+  - [`mongodb`](mongodb.md): MongoDB
 
 # API features support
 

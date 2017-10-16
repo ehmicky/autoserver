@@ -11,7 +11,8 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [GraphQL endpoint](docs/graphql.md#client-queries),
     including introspection, interactive debugger and GraphQL schema printing
   - [Database agnostic](docs/databases.md), with support for several databases,
-    including an [in-memory database](docs/memory_db.md).
+    including [MongoDB](docs/mongodb.md) and an
+    [in-memory database](docs/memory_db.md).
   - [Multiple databases](docs/databases.md#multiple-databases.md) can be mixed
     on the same API
   - [CRUD commands](docs/graphql.md#read-queries):
