@@ -3,9 +3,7 @@
 const { wrapCommand } = require('./wrap');
 
 const replace = function ({ collection, newData }) {
-  const data = newData
-    .map(datum => replaceOne({ collection, newData: datum }));
-  return { data };
+  newData.forEach(datum => replaceOne({ collection, newData: datum }));
 };
 
 const replaceOne = function ({ collection, newData, newData: { id } }) {
@@ -13,8 +11,6 @@ const replaceOne = function ({ collection, newData, newData: { id } }) {
 
   // eslint-disable-next-line fp/no-mutating-methods
   collection.splice(index, 1, newData);
-
-  return newData;
 };
 
 const wReplace = wrapCommand.bind(null, replace);

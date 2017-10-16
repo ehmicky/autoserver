@@ -7,6 +7,5 @@ module.exports = {
 
   ...require('./execute'),
 
-  ...require('./metadata_default'),
   ...require('./response_validation'),
 };

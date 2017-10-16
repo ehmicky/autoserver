@@ -11,9 +11,8 @@ const responseValidation = function ({ response }) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  const { data, metadata } = response;
+  const { data } = response;
   validateData({ data });
-  validateMetadata({ metadata });
 };
 
 const validateData = function ({ data }) {
@@ -24,18 +23,6 @@ const validateData = function ({ data }) {
 
   if (!Array.isArray(data)) {
     const message = `'response.data' should be an array, not '${data}'`;
-    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
-  }
-};
-
-const validateMetadata = function ({ metadata }) {
-  if (!metadata) {
-    const message = '\'response.metadata\' should be defined';
-    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
-  }
-
-  if (!Array.isArray(metadata)) {
-    const message = `'response.metadata' should be an array, not '${metadata}'`;
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 };
