@@ -1,7 +1,9 @@
 'use strict';
 
+const { renameIdsInput, renameIdsOutput } = require('./rename_ids');
+
 // Delegates to database adapter
-const queryDatabase = function ({
+const queryDatabase = async function ({
   dbAdapters,
   modelName,
   command,
@@ -11,7 +13,15 @@ const queryDatabase = function ({
   // `dryrun` middleware with create|replace|patch
   if (noWrites) { return; }
 
-  return dbAdapters[modelName][command](commandInput);
+  const dbAdapter = dbAdapters[modelName];
+
+  const commandInputA = renameIdsInput({ dbAdapter, commandInput });
+
+  const dbData = await dbAdapter[command](commandInputA);
+
+  const dbDataA = renameIdsOutput({ dbAdapter, dbData });
+
+  return dbDataA;
 };
 
 module.exports = {
