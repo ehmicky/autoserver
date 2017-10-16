@@ -59,7 +59,7 @@ const getPaginationOutput = function ({ args, args: { page }, response }) {
 };
 
 const getData = function ({
-  response: { data, metadata },
+  response: { data, metadata = [] },
   lastHasNextPage,
   isBackward,
 }) {

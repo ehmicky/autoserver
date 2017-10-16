@@ -11,7 +11,7 @@ const getPaginationInput = function ({ args }) {
 
   const { isOffset } = info;
   const getInputFunc = isOffset ? getOffsetInput : getTokensInput;
-  const paginationNewInput = getInputFunc({ info });
+  const paginationNewInput = getInputFunc({ info, args });
 
   const argsA = omit(args, ['page', 'before', 'after', 'pageSize']);
   const argsB = { ...argsA, ...paginationNewInput };
