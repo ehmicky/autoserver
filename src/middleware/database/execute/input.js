@@ -21,6 +21,7 @@ const getCommandInput = function ({
   const filterIds = extractSimpleIds({ filter: filterA });
 
   const commandInput = {
+    command,
     modelName,
     filter: filterA,
     filterIds,
