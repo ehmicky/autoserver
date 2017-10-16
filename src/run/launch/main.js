@@ -1,7 +1,7 @@
 'use strict';
 
-const { assignObject } = require('../../utilities');
-const { monitoredReduce } = require('../../perf');
+const { assignObject, reduceAsync } = require('../../utilities');
+const { monitor } = require('../../perf');
 
 const { getProtocols } = require('./protocols');
 const { getRequestHandler } = require('./request_handler');
@@ -14,7 +14,7 @@ const launchServers = async function (options) {
 
   // Make sure all servers are starting concurrently, not serially
   const serverFactsPromises = protocols
-    .map(protocol => launchEachServer({ protocol, options }));
+    .map(protocol => kLaunchEachServer(options, protocol));
   const serverFactsArray = await Promise.all(serverFactsPromises);
 
   // From [{ protocol: serverFacts }, ...] to { protocol: serverFacts, ... }
@@ -24,19 +24,24 @@ const launchServers = async function (options) {
 };
 
 // Launch the server of a given protocol
-const launchEachServer = async function ({
-  protocol,
-  options,
-  options: { runOpts, measures },
-}) {
-  const { serverFacts } = await monitoredReduce({
-    funcs: launchers,
-    initialInput: { protocol, runOpts, options, measures },
-    mapResponse: (input, newInput) => ({ ...input, ...newInput }),
-    category: protocol,
-  });
+const launchEachServer = async function (options, protocol) {
+  const { runOpts, measures } = options;
+  const initialInput = { protocol, runOpts, options, measures };
+  const { serverFacts } = await reduceAsync(
+    launchers,
+    (input, func) => func(input),
+    initialInput,
+    (input, newInput) => ({ ...input, ...newInput }),
+  );
+
   return { [protocol]: serverFacts };
 };
+
+const kLaunchEachServer = monitor(
+  launchEachServer,
+  'startServer',
+  (options, protocol) => protocol,
+);
 
 const launchers = [
   getRequestHandler,
