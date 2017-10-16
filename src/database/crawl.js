@@ -22,7 +22,7 @@ const crawlFilter = function (node, func) {
 const mapFilter = function (node, func) {
   const nodeA = func(node);
 
-  const children = getChildren(node);
+  const children = getChildren(nodeA);
   if (children === undefined) { return nodeA; }
 
   const value = children
