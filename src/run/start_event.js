@@ -1,7 +1,7 @@
 'use strict';
 
 const { emitEvent } = require('../events');
-const { mapValues, omit, has, set, get } = require('../utilities');
+const { mapValues, omit, has, set, get, pSetTimeout } = require('../utilities');
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({
@@ -13,6 +13,10 @@ const emitStartEvent = async function ({
   const message = 'Server is ready';
   const info = getPayload({ servers, runOpts, gracefulExit });
   const { duration } = measures.find(({ category }) => category === 'default');
+
+  // Let other events finish first
+  await pSetTimeout(0, { unref: false });
+
   const startPayload = await emitEvent({
     type: 'start',
     phase: 'startup',
