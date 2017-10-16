@@ -1,5 +1,7 @@
 'use strict';
 
+const { extractSimpleIds } = require('../../../database');
+
 // Returns database adapter's input
 const getCommandInput = function ({
   command,
@@ -16,10 +18,12 @@ const getCommandInput = function ({
 }) {
   const commandA = getCommand({ command, newInput });
   const filterA = newInput.filter || filter;
+  const filterIds = extractSimpleIds({ filter: filterA });
 
   const commandInput = {
     modelName,
     filter: filterA,
+    filterIds,
     deletedIds,
     newData,
     orderBy,

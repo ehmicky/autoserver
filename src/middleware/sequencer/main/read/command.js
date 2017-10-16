@@ -1,7 +1,7 @@
 'use strict';
 
 const { omit } = require('../../../../utilities');
-const { extractSimpleIds } = require('../../../action');
+const { extractSimpleIds } = require('../../../../database');
 
 // Fire the actual command
 const fireReadCommand = async function ({
