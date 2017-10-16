@@ -35,9 +35,8 @@ const findAdapter = function ({ adapters, modelName }) {
 
 const validateAdapters = function ({ adapters, modelName }) {
   if (adapters.length > 1) {
-    const options = adapters.map(({ type }) => `db.${type}.models`);
-    const optionsA = getWordsList(options, { op: 'and', quotes: true });
-    const message = `Invalid options: ${optionsA}. They all target the model '${modelName}' but each model must be targeted by only a single database`;
+    const options = getModelsOpts({ adapters });
+    const message = `Invalid options: ${options}. They all target the model '${modelName}' but each model must be targeted by only a single database`;
     throwError(message, { reason: 'CONF_VALIDATION' });
   }
 };
@@ -49,11 +48,16 @@ const validateRestAdapters = function ({ adapters, modelName }) {
   }
 
   if (adapters.length > 1) {
-    const options = adapters.map(({ type }) => `db.${type}.models`);
-    const optionsA = getWordsList(options, { op: 'and', quotes: true });
-    const message = `Invalid options: ${optionsA}. They cannot both include the '...' value`;
+    const options = getModelsOpts({ adapters });
+    const message = `Invalid options: ${options}. They cannot both include the '...' value`;
     throwError(message, { reason: 'CONF_VALIDATION' });
   }
+};
+
+const getModelsOpts = function ({ adapters }) {
+  const options = adapters.map(({ type }) => `db.${type}.models`);
+  const optionsA = getWordsList(options, { op: 'and', quotes: true });
+  return optionsA;
 };
 
 module.exports = {
