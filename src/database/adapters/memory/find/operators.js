@@ -65,8 +65,8 @@ const gtMatcher = function ({ model, attrName, value }) {
   return model[attrName] > value;
 };
 
-// `{ attribute: { ge: value } }`
-const geMatcher = function ({ model, attrName, value }) {
+// `{ attribute: { gte: value } }`
+const gteMatcher = function ({ model, attrName, value }) {
   return model[attrName] >= value;
 };
 
@@ -75,8 +75,8 @@ const ltMatcher = function ({ model, attrName, value }) {
   return model[attrName] < value;
 };
 
-// `{ attribute: { le: value } }`
-const leMatcher = function ({ model, attrName, value }) {
+// `{ attribute: { lte: value } }`
+const lteMatcher = function ({ model, attrName, value }) {
   return model[attrName] <= value;
 };
 
@@ -100,9 +100,9 @@ const matchers = {
   in: inMatcher,
   nin: ninMatcher,
   gt: gtMatcher,
-  ge: geMatcher,
+  gte: gteMatcher,
   lt: ltMatcher,
-  le: leMatcher,
+  lte: lteMatcher,
   like: likeMatcher,
   nlike: nlikeMatcher,
 };
