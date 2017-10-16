@@ -4,6 +4,7 @@
   "main",
   "run_opts",
   "schema",
+  "databases",
   "servers",
   "middleware",
   "time",

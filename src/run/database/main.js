@@ -8,7 +8,7 @@ const { validateFeatures } = require('./features');
 const { startConnections } = require('./connect');
 
 // Create database connections
-const connectToDatabases = async function ({ runOpts, schema }) {
+const connectToDatabases = async function ({ runOpts, schema, measures }) {
   const adapters = getAdapters({ runOpts });
 
   validateDbOpts({ adapters, schema });
@@ -22,6 +22,7 @@ const connectToDatabases = async function ({ runOpts, schema }) {
     adaptersMap,
     schema,
     runOpts,
+    measures,
   });
   return { dbAdapters };
 };
