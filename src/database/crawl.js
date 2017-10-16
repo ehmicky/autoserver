@@ -3,20 +3,43 @@
 const { assignArray } = require('../utilities');
 
 // Call `func(node)` recursively over each node of `args.filter`
-const crawlFilter = function ({ type, attrName, value }, func) {
-  const returnValue = func({ type, attrName, value });
+// Returns array of func() return values
+const crawlFilter = function (node, func) {
+  const returnValue = func(node);
 
-  const isParent = parentTypes.includes(type);
-  const nodes = isParent ? value : [];
-  const children = nodes
-    .map(node => crawlFilter(node, func))
+  const children = getChildren(node) || [];
+  const childrenA = children
+    .map(child => crawlFilter(child, func))
     .reduce(assignArray, []);
 
-  return returnValue === undefined ? children : [returnValue, ...children];
+  return returnValue === undefined
+    ? childrenA
+    : [returnValue, ...childrenA];
+};
+
+// Call `func(node)` recursively over each node of `args.filter`
+// Returns node recursively mapped
+const mapFilter = function (node, func) {
+  const nodeA = func(node);
+
+  const children = getChildren(node);
+  if (children === undefined) { return nodeA; }
+
+  const value = children
+    .map(child => mapFilter(child, func))
+    .reduce(assignArray, []);
+  return { ...nodeA, value };
+};
+
+const getChildren = function ({ type, value }) {
+  if (!parentTypes.includes(type)) { return; }
+
+  return value;
 };
 
 const parentTypes = ['all', 'some', 'or', 'and'];
 
 module.exports = {
   crawlFilter,
+  mapFilter,
 };
