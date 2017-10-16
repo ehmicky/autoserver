@@ -9,8 +9,6 @@ const create = function ({ collection, newData }) {
 
   // eslint-disable-next-line fp/no-mutating-methods
   collection.push(...newData);
-
-  return { data: newData };
 };
 
 const validateCreateId = function ({ collection, id }) {

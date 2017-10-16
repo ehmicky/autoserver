@@ -2,6 +2,7 @@
 
 const { connect } = require('./connect');
 const { disconnect } = require('./disconnect');
+const { create } = require('./create');
 const opts = require('./opts');
 
 const adapter = {
@@ -11,6 +12,7 @@ const adapter = {
   features: ['filter'],
   connect,
   disconnect,
+  create,
   opts,
 };
 

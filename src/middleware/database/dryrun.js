@@ -4,45 +4,36 @@
 const applyDryrun = function ({ args: { dryrun }, args, command }) {
   if (!dryrun || command === 'find') { return; }
 
-  return dryrunByCommand[command]({ args });
+  const dryrunArg = dryrunByCommand[command]({ args });
+  return { dryrun: dryrunArg };
 };
 
 // `delete` commands becomes `find` commands
-const getDeleteFindCommand = function ({ args: { deletedIds, ...args } }) {
+const getDeleteFindCommand = function ({ args: { deletedIds } }) {
   const filter = { attrName: 'id', type: 'in', value: deletedIds };
 
-  return {
-    command: 'find',
-    args: { ...args, filter },
-    dryRunRestore: { command: 'delete', args: { deletedIds, ...args } },
-  };
+  return { newInput: { command: 'find', filter } };
 };
 
 // `create` commands becomes `find` commands, that succeeds if an exception
 // is thrown.
 // TODO
-const getCreateFindCommand = function ({ args: { newData } }) {
-  return { response: { data: newData } };
+const getCreateFindCommand = function () {
+  return { noWrites: true };
 };
 
 // `replace` and `patch` commands reuse `args.newData` as is
-const useNewData = function ({ args: { newData } }) {
-  return { response: { data: newData } };
+const noWrites = function () {
+  return { noWrites: true };
 };
 
 const dryrunByCommand = {
   delete: getDeleteFindCommand,
   create: getCreateFindCommand,
-  replace: useNewData,
-  patch: useNewData,
-};
-
-// Remove `dryrun` modifications after the database query has been handled
-const restoreDryrun = function ({ dryRunRestore }) {
-  return dryRunRestore;
+  replace: noWrites,
+  patch: noWrites,
 };
 
 module.exports = {
   applyDryrun,
-  restoreDryrun,
 };

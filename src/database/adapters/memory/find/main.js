@@ -9,7 +9,7 @@ const find = function ({ collection, filter }) {
   validateMissingIds({ collection, filter });
 
   const data = collection.filter(model => modelMatchFilter({ model, filter }));
-  return { data };
+  return data;
 };
 
 const wFind = wrapCommand.bind(null, find);
