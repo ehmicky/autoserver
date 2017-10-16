@@ -14,6 +14,7 @@ const adapter = {
   disconnect,
   create,
   opts,
+  idName: '_id',
 };
 
 module.exports = adapter;
