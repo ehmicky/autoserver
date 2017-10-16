@@ -44,6 +44,15 @@ const applySchemaDefault = function ({
   return runSchemaFunc({ schemaFunc, mInput: mInputA, vars });
 };
 
+// Apply database adapter-specific id default, i.e. adater.getDefaultId()
+// Database adapters should prefer using UUID, to keep it consistent
+const applyDatabaseDefault = function ({ model: { modelName }, dbAdapters }) {
+  const { [modelName]: { getDefaultId } } = dbAdapters;
+  if (getDefaultId === undefined) { return; }
+
+  return getDefaultId();
+};
+
 // UUID default fallback
 const applyUuid = function () {
   return uuidv4();
@@ -51,6 +60,7 @@ const applyUuid = function () {
 
 const handlers = [
   applySchemaDefault,
+  applyDatabaseDefault,
   applyUuid,
 ];
 

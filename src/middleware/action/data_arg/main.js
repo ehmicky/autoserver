@@ -15,6 +15,7 @@ const parseDataArg = function ({
   schema: { shortcuts: { modelsMap, userDefaultsMap } },
   mInput,
   runOpts,
+  dbAdapters,
 }) {
   // Only if `args.data` is defined
   if (data === undefined) { return { actions }; }
@@ -30,6 +31,7 @@ const parseDataArg = function ({
     maxAttrValueSize,
     modelsMap,
     userDefaultsMap,
+    dbAdapters,
   });
 
   const actionsA = parseActions({
