@@ -29,13 +29,10 @@ const routes = getRoutes();
 // Retrieves correct route, according to path
 const findRoute = function ({ path }) {
   const route = routes.find(({ regexp }) => regexp.test(path));
+  if (route !== undefined) { return route; }
 
-  if (route === undefined) {
-    const message = 'The requested URL was not found';
-    throwError(message, { reason: 'ROUTE_NOT_FOUND' });
-  }
-
-  return route;
+  const message = 'The requested URL was not found';
+  throwError(message, { reason: 'ROUTE_NOT_FOUND' });
 };
 
 module.exports = {
