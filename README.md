@@ -57,4 +57,4 @@ You can learn how to perform queries against this server [here](docs/graphql.md)
 
 # Contribute
 
-See [here](CONTRIBUTE.md).
+See [here](CONTRIBUTING.md).
