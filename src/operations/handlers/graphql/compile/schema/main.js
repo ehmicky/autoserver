@@ -6,13 +6,13 @@ const { getTopDefs } = require('./top_defs');
 const { getTopTypes } = require('./type');
 
 // Returns GraphQL schema
-const getGraphQLSchema = function ({ models }) {
+const getGraphqlSchema = function ({ models }) {
   const topDefs = getTopDefs({ models });
   const topTypes = getTopTypes({ topDefs });
-  const graphQLSchema = new GraphQLSchema(topTypes);
-  return graphQLSchema;
+  const graphqlSchema = new GraphQLSchema(topTypes);
+  return graphqlSchema;
 };
 
 module.exports = {
-  getGraphQLSchema,
+  getGraphqlSchema,
 };

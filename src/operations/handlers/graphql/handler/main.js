@@ -1,6 +1,6 @@
 'use strict';
 
-const { getGraphQLDocument } = require('./document');
+const { getGraphqlDocument } = require('./document');
 const { getMainDef } = require('./main_def');
 const { validateMainDef } = require('./validate');
 const { getFragments } = require('./fragments');
@@ -13,12 +13,12 @@ const {
 // Use GraphQL-specific logic to parse the request into an
 // operation-agnostic `operationDef`
 const handler = function ({
-  schema: { graphQLSchema },
+  schema: { graphqlSchema },
   queryVars,
   payload,
   method,
 }) {
-  const { variables, operationName, queryDocument } = getGraphQLDocument({
+  const { variables, operationName, queryDocument } = getGraphqlDocument({
     queryVars,
     payload,
   });
@@ -33,7 +33,7 @@ const handler = function ({
   // and return right away
   if (isIntrospectionQuery({ operationDef })) {
     return handleIntrospection({
-      graphQLSchema,
+      graphqlSchema,
       queryDocument,
       variables,
       operationName,

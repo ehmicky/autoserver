@@ -9,7 +9,8 @@ const { compileSchema } = require('./compile');
 const { startServer } = require('./startup');
 
 const operation = {
-  name: 'GraphQL',
+  name: 'graphql',
+  title: 'GraphQL',
   routes,
   methods,
   payload,

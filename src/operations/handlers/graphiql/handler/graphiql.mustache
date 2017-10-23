@@ -44,7 +44,7 @@
     };
 
     // Defines a GraphQL fetcher using the fetch API.
-    var graphQLFetcher = function (graphQLParams) {
+    var graphqlFetcher = function (graphqlParams) {
       var fetchURL = {{{endpointURL}}};
       var request = fetch(fetchURL, {
         method: 'post',
@@ -52,7 +52,7 @@
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(graphQLParams),
+        body: JSON.stringify(graphqlParams),
         credentials: 'include',
       })
       .then(function (response) {
@@ -88,7 +88,7 @@
     // Render <GraphiQL /> into the body.
     ReactDOM.render(
       React.createElement(GraphiQL, {
-        fetcher: graphQLFetcher,
+        fetcher: graphqlFetcher,
         onEditQuery: onEditQuery,
         onEditVariables: onEditVariables,
         onEditOperationName: onEditOperationName,

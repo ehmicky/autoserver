@@ -21,7 +21,7 @@ const template = resolve(__dirname, './graphiql.mustache');
 // @param {string} [options.result] - the result of the query to pre-fill
 //
 // @returns {string} document - HTML document
-const renderGraphiQL = function (input) {
+const renderGraphiql = function (input) {
   // Those must be valid JavaScript, so must JSON-stringified
   const dataToEscape = getDataToEscape(input);
   // Those must be valid HTML
@@ -31,7 +31,7 @@ const renderGraphiQL = function (input) {
   return renderTemplate({ template, data });
 };
 
-const eRenderGraphiQL = addGenErrorHandler(renderGraphiQL, {
+const eRenderGraphiql = addGenErrorHandler(renderGraphiql, {
   message: 'Could not render GraphiQL HTML document',
   reason: 'UTILITY_ERROR',
 });
@@ -54,5 +54,5 @@ const escapeJSON = function (string = null) {
 };
 
 module.exports = {
-  renderGraphiQL: eRenderGraphiQL,
+  renderGraphiql: eRenderGraphiql,
 };

@@ -8,9 +8,9 @@ const { getTypeGetter } = require('./types');
 
 // Builds query|mutation type
 const getTopTypes = function ({ topDefs }) {
-  const graphQLSchemaId = uuidv4();
+  const graphqlSchemaId = uuidv4();
   // `getType`: recursion, while avoiding files circular dependencies
-  const opts = { graphQLSchemaId, inputObjectType: 'type', getType };
+  const opts = { graphqlSchemaId, inputObjectType: 'type', getType };
 
   return mapValues(
     topDefs,

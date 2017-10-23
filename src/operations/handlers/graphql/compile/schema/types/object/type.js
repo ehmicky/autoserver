@@ -8,7 +8,7 @@ const { getTypeName } = require('../../name');
 const { getObjectFields } = require('./fields');
 
 // Object field TGetter
-const graphQLObjectTGetter = function (def, opts) {
+const graphqlObjectTGetter = function (def, opts) {
   const Type = opts.inputObjectType === 'type'
     ? GraphQLObjectType
     : GraphQLInputObjectType;
@@ -30,16 +30,16 @@ const graphQLObjectTGetter = function (def, opts) {
 //  - in particular, at the moment, type name differ when inputObjectType,
 //    command.type or multiple changes
 // We also namespace with a UUID which is unique for each new call to
-// `getGraphQLSchema()`, to avoid leaking
+// `getGraphqlSchema()`, to avoid leaking
 const objectTypeSerializer = function ([def, opts]) {
   const typeName = getTypeName({ def, opts });
-  return `${opts.graphQLSchemaId}/${typeName}`;
+  return `${opts.graphqlSchemaId}/${typeName}`;
 };
 
-const mGraphQLObjectTGetter = memoize(graphQLObjectTGetter, {
+const mGraphqlObjectTGetter = memoize(graphqlObjectTGetter, {
   serializer: objectTypeSerializer,
 });
 
 module.exports = {
-  graphQLObjectTGetter: mGraphQLObjectTGetter,
+  graphqlObjectTGetter: mGraphqlObjectTGetter,
 };

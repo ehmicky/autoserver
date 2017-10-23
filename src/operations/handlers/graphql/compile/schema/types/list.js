@@ -9,31 +9,31 @@ const {
 
 const { throwError } = require('../../../../../../error');
 
-const { graphQLRequiredTest, graphQLRequiredTGetter } = require('./required');
-const { graphQLArrayTest, graphQLArrayTGetter } = require('./array');
-const { graphQLObjectTGetter } = require('./object');
+const { graphqlRequiredTest, graphqlRequiredTGetter } = require('./required');
+const { graphqlArrayTest, graphqlArrayTGetter } = require('./array');
+const { graphqlObjectTGetter } = require('./object');
 
 // Maps an schema definition into a GraphQL type.
 // The first matching one will be used, i.e. order matters:
 // required modifier, then array modifier come first
-const graphQLTGetters = [
+const graphqlTGetters = [
 
   // "Required" modifier type
   {
-    condition: graphQLRequiredTest,
-    value: graphQLRequiredTGetter,
+    condition: graphqlRequiredTest,
+    value: graphqlRequiredTGetter,
   },
 
   // "Array" modifier type
   {
-    condition: graphQLArrayTest,
-    value: graphQLArrayTGetter,
+    condition: graphqlArrayTest,
+    value: graphqlArrayTGetter,
   },
 
   // "Object" type
   {
     condition: def => def.type === 'object',
-    value: graphQLObjectTGetter,
+    value: graphqlObjectTGetter,
   },
 
   // "Int" type
@@ -63,7 +63,7 @@ const graphQLTGetters = [
 ];
 
 const getTypeGetter = function (def, opts) {
-  const typeGetter = graphQLTGetters
+  const typeGetter = graphqlTGetters
     .find(({ condition }) => condition(def, opts));
 
   if (typeGetter === undefined) {
