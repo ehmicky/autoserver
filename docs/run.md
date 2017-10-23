@@ -36,7 +36,6 @@ The available options are:
     disable request timeouts during breakpoint debugging.
   - `maxPayloadSize`, `defaultPageSize`, `maxPageSize`, `maxDataLength`:
     see [limits](limits.md#options)
-  - `events`, `eventFilter`, `eventLevel` and `serverName`:
-    see [events](events.md).
+  - `events`, `filter`, `eventLevel` and `serverName`: see [events](events.md).
   - `protocols` `{object}`: [protocols options](protocols.md)
   - `db` `{object}`: [databases options](databases.md)

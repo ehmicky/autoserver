@@ -228,10 +228,9 @@ circumstances, e.g. if an error happened.
 # Request information filtering
 
 To avoid the request information to be too big or leak security information,
-one can set filters using the [`run` option](run.md#options)
-`eventFilter`.
+one can set filters using the [`run` option](run.md#options) `filter`.
 
-`eventFilter` is an object, with each property specifying how filter part of
+`filter` is an object, with each property specifying how filter part of
 the request information, among:
   - `true`: keep it
   - `false`: remove it

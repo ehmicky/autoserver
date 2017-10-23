@@ -48,7 +48,7 @@ E.g. the following environment variables:
 API_ENGINE__ENV="dev"
 API_ENGINE__MAX_PAGE_SIZE=200
 API_ENGINE__PROTOCOLS__HTTP__HOSTNAME="myhostname"
-API_ENGINE__EVENT_FILTER__PAYLOAD="[id,old_id]"
+API_ENGINE__FILTER__PAYLOAD="[id,old_id]"
 ```
 
 will be converted to the following options:
@@ -58,7 +58,7 @@ will be converted to the following options:
   "env": "dev",
   "maxPageSize": 200,
   "protocols": { "http": { "hostname": "myhostname" } },
-  "eventFilter": { "payload": ["id", "old_id"] },
+  "filter": { "payload": ["id", "old_id"] },
 }
 ```
 
