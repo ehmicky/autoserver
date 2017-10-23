@@ -7,7 +7,7 @@ const { throwError } = require('../../error');
 const getAdaptersMap = function ({ adapters, schema }) {
   return mapValues(
     schema.models,
-    (model, modelName) => findAdapter({ adapters, modelName }).type,
+    (model, modelName) => findAdapter({ adapters, modelName }).name,
   );
 };
 
@@ -55,7 +55,7 @@ const validateRestAdapters = function ({ adapters, modelName }) {
 };
 
 const getModelsOpts = function ({ adapters }) {
-  const options = adapters.map(({ type }) => `db.${type}.models`);
+  const options = adapters.map(({ name }) => `db.${name}.models`);
   const optionsA = getWordsList(options, { op: 'and', quotes: true });
   return optionsA;
 };

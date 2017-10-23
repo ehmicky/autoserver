@@ -8,8 +8,8 @@ const validateDbOpts = function ({ adapters, schema }) {
   validateRequiredModels({ adapters });
 
   const validModels = [...Object.keys(schema.models), '...'];
-  adapters.forEach(({ models, type }) =>
-    validateModels({ models, type, validModels }));
+  adapters.forEach(({ models, name }) =>
+    validateModels({ models, name, validModels }));
 };
 
 // Validate whether `runOpts.db.DATABASE.models` is undefined
@@ -28,11 +28,11 @@ const validateRequiredModels = function ({ adapters }) {
 
 // `runOpts.db.DATABASE.models` must be undefined if there is only one database
 const validateNoModels = function ({ adapters }) {
-  const [{ models, type }] = adapters;
+  const [{ models, name }] = adapters;
 
   if (models === undefined) { return; }
 
-  const message = `Invalid option 'db.${type}.models': it must not be defined when there is only one database`;
+  const message = `Invalid option 'db.${name}.models': it must not be defined when there is only one database`;
   throwError(message, { reason: 'CONF_VALIDATION' });
 };
 
@@ -42,24 +42,24 @@ const validateHasModels = function ({ adapters }) {
 
   if (adaptersA.length === 0) { return; }
 
-  const types = adaptersA.map(({ type }) => `db.${type}.models`);
-  const typesA = getWordsList(types, { op: 'and', quotes: true });
-  const message = `Invalid options ${typesA}: it must be defined`;
+  const names = adaptersA.map(({ name }) => `db.${name}.models`);
+  const namesA = getWordsList(names, { op: 'and', quotes: true });
+  const message = `Invalid options ${namesA}: it must be defined`;
   throwError(message, { reason: 'CONF_VALIDATION' });
 };
 
 // Validate `runOpts.db.models` option
-const validateModels = function ({ models, type, validModels }) {
+const validateModels = function ({ models, name, validModels }) {
   if (models === undefined) { return; }
 
-  models.forEach(model => validateModelName({ model, type, validModels }));
+  models.forEach(model => validateModelName({ model, name, validModels }));
 };
 
-const validateModelName = function ({ model, validModels, type }) {
+const validateModelName = function ({ model, validModels, name }) {
   if (validModels.includes(model)) { return; }
 
   const validModelsA = getWordsList(validModels, { quotes: true });
-  const message = `Invalid option 'db.${type}.models'. It contains '${model}' but this model does not exist. Possible values: ${validModelsA}`;
+  const message = `Invalid option 'db.${name}.models'. It contains '${model}' but this model does not exist. Possible values: ${validModelsA}`;
   throwError(message, { reason: 'CONF_VALIDATION' });
 };
 

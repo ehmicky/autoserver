@@ -1,0 +1,21 @@
+[
+  {
+    "name": "hostname",
+    "default": "localhost",
+    "description": "HTTP server's hostname",
+    "validate": {
+      "type": "string"
+    }
+  },
+
+  {
+    "name": "port",
+    "default": 80,
+    "description": "HTTP server's port",
+    "validate": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535
+    }
+  }
+]

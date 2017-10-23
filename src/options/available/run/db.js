@@ -1,21 +1,26 @@
 'use strict';
 
-const { getAdaptersOpts } = require('./db_adapters');
+const { databaseAdapters } = require('../../../database');
 
-const db = [
+const { getDynamicOpts } = require('./dynamic');
+
+// Options shared by all database adapters
+const commonOpts = [
   {
-    name: 'db',
-    description: 'List of available databases',
-    group: 'Databases',
-    default: {
-      memory: { enabled: true },
-    },
+    name: 'models',
+    description: 'Names of the models using this database.\nCan be \'...\' to target \'all the other models\'',
     validate: {
-      type: 'object',
+      type: 'string[]',
+      unique: true,
     },
   },
-
-  ...getAdaptersOpts(),
 ];
+
+const db = getDynamicOpts({
+  name: 'db',
+  title: 'Database',
+  handlers: databaseAdapters,
+  commonOpts,
+});
 
 module.exports = db;

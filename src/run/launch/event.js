@@ -4,11 +4,11 @@ const { emitEvent } = require('../../events');
 
 // Protocol-specific start event
 const startEvent = async function ({
-  serverFacts: { hostname, port },
-  protocol,
+  server: { hostname, port },
+  protocolHandler: { title },
   runOpts,
 }) {
-  const message = `${protocol.toUpperCase()} - Listening on ${hostname}:${port}`;
+  const message = `${title} - Listening on ${hostname}:${port}`;
   await emitEvent({ type: 'message', phase: 'startup', message, runOpts });
 };
 

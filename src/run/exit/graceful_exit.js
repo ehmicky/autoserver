@@ -33,12 +33,13 @@ const gracefulExit = async function ({
   measures,
 }) {
   const serverPromises = Object.values(servers)
-    .map(({ server, protocol }) =>
-      closeServer({ server, protocol, runOpts, measures }));
+    .map(server => closeServer({ server, runOpts, measures }));
 
+  // The same `dbAdapter` can be used for several models
   const adapters = uniq(Object.values(dbAdapters));
+
   const dbPromises = adapters
-    .map(dbAdapter => closeDbAdapter({ dbAdapter, measures }));
+    .map(dbAdapter => closeDbAdapter({ dbAdapter, runOpts, measures }));
 
   const statusesArray = await Promise.all([...serverPromises, ...dbPromises]);
   const statuses = statusesArray.reduce(assignObject, {});

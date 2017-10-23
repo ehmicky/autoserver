@@ -1,5 +1,6 @@
-http:
-  port: 5001
+protocols:
+  http:
+    port: 5001
 db:
   memory:
     save: false

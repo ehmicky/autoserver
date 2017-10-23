@@ -13,7 +13,7 @@ const options = [
   ...require('./events'),
   ...require('./server_name'),
   ...require('./limits'),
-  ...require('./http'),
+  ...require('./protocols'),
   ...require('./db'),
 ];
 

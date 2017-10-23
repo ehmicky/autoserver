@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = {
+  opts: require('./opts'),
+  description: require('./description'),
   ...require('./start'),
   ...require('./stop'),
   ...require('./headers'),
