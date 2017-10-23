@@ -288,6 +288,9 @@ rules:
   fp/no-this: 2
 
   # Arrays
+  array-bracket-newline:
+  - 2
+  - consistent
   array-callback-return: 2
 
   # String
@@ -424,7 +427,6 @@ rules:
 
   # Our newlines rules for arrays, objects and ternaries take into
   # account line width, which is not possible with those ESLint rules
-#  array-bracket-newline: 2
 #  array-element-newline: 2
 #  object-curly-newline: 2
 #  multiline-ternary: 2
