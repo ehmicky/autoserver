@@ -13,9 +13,14 @@ const hasDefaultValue = function (def) {
   return def.default != null;
 };
 
+// Only for `args.data`
+const isDataArgument = function (def, { inputObjectType }) {
+  return inputObjectType === 'data';
+};
+
 // 'patch' does not require anything, nor assign defaults
-const isNotPatchData = function ({ command }, { inputObjectType }) {
-  return !(inputObjectType === 'data' && command.type === 'patch');
+const isNotPatchData = function ({ command }) {
+  return command.type !== 'patch';
 };
 
 // Schema function are skipped
@@ -26,6 +31,7 @@ const isStatic = function (def) {
 
 const defaultValueTests = [
   hasDefaultValue,
+  isDataArgument,
   isNotPatchData,
   isStatic,
 ];
