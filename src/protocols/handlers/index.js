@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = {
-  http: require('./http'),
-};
+module.exports = [
+  require('./http'),
+];
