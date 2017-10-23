@@ -6,8 +6,14 @@ const { assignArray } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
 // Retrieve options that are dynamic, e.g. protocols and databases
-const getDynamicOpts = function ({ name, title, handlers, commonOpts = [] }) {
-  const topOpt = getTopOpt({ name, title });
+const getDynamicOpts = function ({
+  name,
+  title,
+  handlers,
+  commonOpts = [],
+  defaultValue,
+}) {
+  const topOpt = getTopOpt({ name, title, defaultValue });
   const optsA = getOpts({ handlers, name, title, commonOpts });
 
   return [
@@ -17,16 +23,14 @@ const getDynamicOpts = function ({ name, title, handlers, commonOpts = [] }) {
 };
 
 // E.g. `runOpts.protocols`
-const getTopOpt = function ({ name, title }) {
+const getTopOpt = function ({ name, title, defaultValue }) {
   const titleA = pluralize(title);
 
   return {
     name,
     description: `${titleA} options`,
     group: titleA,
-    default: {
-      http: {},
-    },
+    default: defaultValue,
     validate: {
       type: 'object',
     },
