@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../../error');
 
 // Create models
 const create = function ({ collection, newData }) {

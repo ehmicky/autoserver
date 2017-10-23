@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignObject } = require('../../../../utilities');
+const { assignObject } = require('../../../../../utilities');
 
 // Transform `args.filter` into MongoDB query object
 // Applied recursively

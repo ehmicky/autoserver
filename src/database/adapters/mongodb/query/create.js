@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler } = require('../../../error');
+const { addErrorHandler } = require('../../../../error');
 
 const { checkExistingIds } = require('./existing_ids');
 

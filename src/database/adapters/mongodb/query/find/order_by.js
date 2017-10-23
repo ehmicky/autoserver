@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignObject } = require('../../../../utilities');
+const { assignObject } = require('../../../../../utilities');
 
 // Apply `args.order_by`
 const sortResponse = function ({ cursor, orderBy }) {

@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../../error');
 
 const { find } = require('./find');
 const { create } = require('./create');
