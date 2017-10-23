@@ -214,7 +214,9 @@ rules:
 
   # Structures
   no-lonely-if: 2
-  no-else-return: 2
+  no-else-return:
+  - 2
+  - allowElseIf: false
   for-direction: 2
   guard-for-in: 2
   fp/no-loops: 2
