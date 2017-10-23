@@ -1,6 +1,6 @@
 'use strict';
 
-const { pSetTimeout } = require('../../../utilities');
+const { pSetTimeout } = require('../../../../utilities');
 
 const { find } = require('./find');
 const { create } = require('./create');

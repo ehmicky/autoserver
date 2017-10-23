@@ -1,7 +1,7 @@
 'use strict';
 
-const { getWordsList } = require('../../../utilities');
-const { rethrowError, throwError } = require('../../../error');
+const { getWordsList } = require('../../../../utilities');
+const { rethrowError, throwError } = require('../../../../error');
 
 // Throw DB_MODEL_CONFLICT errors, i.e. when creating a model that already
 // exists.
