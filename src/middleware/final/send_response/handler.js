@@ -59,13 +59,13 @@ const transformContent = function ({
   operationHandler: { transformResponse } = {},
 }) {
   const shouldTransform = transformResponse !== undefined &&
-    transformTypes.includes(type);
+    TRANSFORM_TYPES.includes(type);
   if (!shouldTransform) { return content; }
 
   return transformResponse(content);
 };
 
-const transformTypes = ['model', 'collection', 'error'];
+const TRANSFORM_TYPES = ['model', 'collection', 'error'];
 
 module.exports = {
   sendResponse,

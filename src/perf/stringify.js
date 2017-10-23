@@ -43,19 +43,19 @@ const stringifyMeasure = function (
   phase,
   { category, label, average, count, duration },
 ) {
-  const phaseS = phase.padEnd(lengths.phase);
-  const categoryS = category.padEnd(lengths.category);
-  const labelS = label.padEnd(lengths.label);
-  const durationS = `${Math.round(duration)}ms`.padEnd(lengths.duration);
-  const averageS = `${Math.round(average)}ms`.padEnd(lengths.average);
+  const phaseS = phase.padEnd(LENGTHS.phase);
+  const categoryS = category.padEnd(LENGTHS.category);
+  const labelS = label.padEnd(LENGTHS.label);
+  const durationS = `${Math.round(duration)}ms`.padEnd(LENGTHS.duration);
+  const averageS = `${Math.round(average)}ms`.padEnd(LENGTHS.average);
   const items = count === 1 ? 'item' : 'items';
-  const countS = `${String(count).padStart(lengths.count)} ${items}`;
+  const countS = `${String(count).padStart(LENGTHS.count)} ${items}`;
 
   return `${phaseS} ${categoryS} ${labelS} ${durationS} = ${averageS} * ${countS}`;
 };
 
 // How wide each column is
-const lengths = {
+const LENGTHS = {
   phase: 8,
   category: 10,
   label: 26,

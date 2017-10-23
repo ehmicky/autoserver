@@ -12,7 +12,7 @@ const getCliOptions = function ({ instruction: { options } }) {
 };
 
 // Map from `availableOptions` types and yargs types
-const cliTypes = {
+const CLI_TYPES = {
   string: 'string',
   integer: 'number',
   number: 'number',
@@ -33,7 +33,7 @@ const getType = function ({ subConfFiles, validate: { type } = {} }) {
   if (subConfFiles) { return 'string'; }
 
   const typeA = Array.isArray(type) ? type[0] : type;
-  return cliTypes[typeA];
+  return CLI_TYPES[typeA];
 };
 
 const getCliOption = function (option) {

@@ -16,7 +16,7 @@ const validateStableIds = function ({
   top: { command },
 }) {
   // Only for commands with `args.data`
-  if (!stableIdsCommands.includes(command.type)) { return; }
+  if (!STABLE_IDS_COMMANDS.includes(command.type)) { return; }
 
   actions
     // Only for nested actions
@@ -24,7 +24,7 @@ const validateStableIds = function ({
     .forEach(action => validateAction({ action, schema, top }));
 };
 
-const stableIdsCommands = ['create', 'patch', 'replace'];
+const STABLE_IDS_COMMANDS = ['create', 'patch', 'replace'];
 
 const validateAction = function ({
   action: { commandPath },

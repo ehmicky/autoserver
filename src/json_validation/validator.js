@@ -4,7 +4,7 @@ const Ajv = require('ajv');
 const ajvKeywords = require('ajv-keywords');
 
 const getValidator = function () {
-  const ajv = new Ajv(ajvOptions);
+  const ajv = new Ajv(AJV_OPTIONS);
 
   // Add future JSON standard keywords
   ajvKeywords(ajv, ['if', 'formatMinimum', 'formatMaximum', 'typeof']);
@@ -12,7 +12,7 @@ const getValidator = function () {
   return ajv;
 };
 
-const ajvOptions = {
+const AJV_OPTIONS = {
   allErrors: true,
   jsonPointers: true,
   full: true,

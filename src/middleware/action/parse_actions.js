@@ -30,11 +30,11 @@ const parseSelect = function ({ commandName, select }) {
     commandPath,
     key,
     alias,
-  ] = selectRegExp.exec(`${commandName}.${select}`);
+  ] = SELECT_REGEXP.exec(`${commandName}.${select}`);
   return { commandPath, key, alias };
 };
 
-const selectRegExp = /^([^=]*)\.([^.=]+)=?(.*)?$/;
+const SELECT_REGEXP = /^([^=]*)\.([^.=]+)=?(.*)?$/;
 
 // From `args` + map of `COMMAND_PATH: [{ commandPath, key, alias }]`
 // to array of `{ commandPath, args, select: [{ key, alias }] }`

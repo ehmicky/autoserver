@@ -4,10 +4,10 @@ const GraphQLJSON = require('graphql-type-json');
 
 // `params` argument
 const getParamsArgument = function () {
-  return paramsArgs;
+  return PARAMS_ARGS;
 };
 
-const paramsArgs = {
+const PARAMS_ARGS = {
   params: {
     type: GraphQLJSON,
     description: 'Custom variables passed to database logic',

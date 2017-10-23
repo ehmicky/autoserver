@@ -39,13 +39,13 @@ const getStack = function (description, details = '') {
     : `${description}\n${details}`;
 
   // Shorten stack trace directory paths
-  const dirPrefixRegExp = new RegExp(apiEngineDirName, 'g');
+  const dirPrefixRegExp = new RegExp(ROOT_DIR, 'g');
   const trimmedStack = stack.replace(dirPrefixRegExp, '');
 
   return trimmedStack;
 };
 
-const apiEngineDirName = resolve(__dirname, '../..');
+const ROOT_DIR = resolve(__dirname, '../..');
 
 module.exports = {
   getErrorMessage,

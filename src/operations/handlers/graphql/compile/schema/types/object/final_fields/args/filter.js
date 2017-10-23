@@ -2,20 +2,20 @@
 
 const { GraphQLNonNull } = require('graphql');
 
-const { argTypesDescriptions } = require('../../../../description');
+const { ARG_TYPES_DESCRIPTIONS } = require('../../../../description');
 
 // `filter` argument
 const getFilterArgument = function (def, opts) {
-  const hasFilter = filterCommandTypes.includes(def.command.type);
+  const hasFilter = FILTER_COMMAND_TYPES.includes(def.command.type);
   if (!hasFilter) { return {}; }
 
   const type = getFilterObjectType(def, opts);
-  const description = argTypesDescriptions.filter[def.command.name];
+  const description = ARG_TYPES_DESCRIPTIONS.filter[def.command.name];
 
   return { filter: { type, description } };
 };
 
-const filterCommandTypes = ['find', 'delete', 'patch'];
+const FILTER_COMMAND_TYPES = ['find', 'delete', 'patch'];
 
 const getFilterObjectType = function ({ command }, { filterObjectType }) {
   if (command.multiple) {

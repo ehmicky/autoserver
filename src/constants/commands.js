@@ -17,8 +17,8 @@ const COMMANDS = [
   { name: 'deleteMany', type: 'delete', multiple: true },
 ];
 
-const types = COMMANDS.map(({ type }) => type);
-const COMMAND_TYPES = uniq(types);
+const TYPES = COMMANDS.map(({ type }) => type);
+const COMMAND_TYPES = uniq(TYPES);
 
 const getCommand = function ({ commandType, multiple }) {
   const commandA = COMMANDS.find(command =>

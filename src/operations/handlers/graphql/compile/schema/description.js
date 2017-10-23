@@ -1,12 +1,12 @@
 'use strict';
 
-const topDescriptions = {
+const TOP_DESCRIPTIONS = {
   query: 'Fetch models',
   mutation: 'Modify models',
 };
 
 // Top-level action descriptions
-const commandDescriptions = {
+const getCommandDescription = {
   findOne: ({ typeName }) => `Search for a ${typeName} model`,
   findMany: ({ typeName }) => `Search for ${typeName} models`,
   createOne: ({ typeName }) => `Create a ${typeName} model`,
@@ -21,13 +21,13 @@ const commandDescriptions = {
 
 // Retrieve the description of a `args.data|filter` type
 const getArgTypeDescription = function (def, opts, inputObjectType) {
-  const description = argTypesDescriptions[inputObjectType][def.command.name];
+  const description = ARG_TYPES_DESCRIPTIONS[inputObjectType][def.command.name];
   if (description === undefined) { return; }
 
   return argTypesProcessors[inputObjectType](description);
 };
 
-const argTypesDescriptions = {
+const ARG_TYPES_DESCRIPTIONS = {
   data: {
     createOne: 'New model to create',
     createMany: 'New models to create',
@@ -58,8 +58,8 @@ const argTypesProcessors = {
 };
 
 module.exports = {
-  topDescriptions,
-  commandDescriptions,
+  TOP_DESCRIPTIONS,
+  getCommandDescription,
   getArgTypeDescription,
-  argTypesDescriptions,
+  ARG_TYPES_DESCRIPTIONS,
 };

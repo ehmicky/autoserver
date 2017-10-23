@@ -42,16 +42,20 @@ const getPayload = function ({ servers, runOpts, gracefulExit }) {
 
 const getOptions = function ({ runOpts }) {
   const runOptsA = omit(runOpts, 'schema');
-
-  if (!has(runOptsA, dataPath)) { return runOptsA; }
-
-  const runOptsB = set(runOptsA, [...dataPath, 'content'], undefined);
-  const path = get(runOptsB, [...dataPath, 'path']);
-  const runOptsC = set(runOptsB, dataPath, path);
-  return runOptsC;
+  const runOptsB = replaceDataPath({ runOpts: runOptsA });
+  return runOptsB;
 };
 
-const dataPath = ['db', 'memory', 'data'];
+const replaceDataPath = function ({ runOpts }) {
+  if (!has(runOpts, DATA_PATH)) { return runOpts; }
+
+  const runOptsA = set(runOpts, [...DATA_PATH, 'content'], undefined);
+  const path = get(runOptsA, [...DATA_PATH, 'path']);
+  const runOptsB = set(runOptsA, DATA_PATH, path);
+  return runOptsB;
+};
+
+const DATA_PATH = ['db', 'memory', 'data'];
 
 module.exports = {
   emitStartEvent,

@@ -10,12 +10,12 @@ const getResponse = function ({
   command,
 }) {
   const dataInput = { dbData, newData, currentData };
-  const data = dataInput[responseMap[command]];
+  const data = dataInput[RESPONSE_MAP[command]];
 
   return { data };
 };
 
-const responseMap = {
+const RESPONSE_MAP = {
   find: 'dbData',
   create: 'newData',
   replace: 'newData',

@@ -8,7 +8,7 @@ const { pick } = require('../../../../../../../../../utilities');
 const getPaginationArgument = function ({ command }) {
   // Only with commands that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and patchMany
-  const hasPaginationArgs = paginationCommands.includes(command.type) &&
+  const hasPaginationArgs = PAGINATION_COMMANDS.includes(command.type) &&
     command.multiple;
 
   if (!hasPaginationArgs) {
@@ -16,20 +16,20 @@ const getPaginationArgument = function ({ command }) {
   }
 
   // Only with safe commands that return an array, i.e. only with findMany
-  const hasFullArgs = fullPaginationCommands.includes(command.type) &&
+  const hasFullArgs = FULL_PAGINATION_COMMANDS.includes(command.type) &&
     command.multiple;
 
   if (!hasFullArgs) {
-    return pick(paginationArgs, 'page_size');
+    return pick(PAGINATION_ARGS, 'page_size');
   }
 
-  return paginationArgs;
+  return PAGINATION_ARGS;
 };
 
-const paginationCommands = ['find', 'patch', 'delete'];
-const fullPaginationCommands = ['find'];
+const PAGINATION_COMMANDS = ['find', 'patch', 'delete'];
+const FULL_PAGINATION_COMMANDS = ['find'];
 
-const paginationArgs = {
+const PAGINATION_ARGS = {
   after: {
     type: GraphQLString,
     description: `Retrieves next pagination batch, using the previous response's last model's 'token'.

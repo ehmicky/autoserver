@@ -7,7 +7,7 @@ const processEnv = process.env;
 const ENV_VARS_PREFIX = /^API_ENGINE__/;
 
 // Shortcuts, e.g. environment variable PORT will becomes API_ENGINE__HTTP__PORT
-const basicNamesMap = {
+const BASIC_NAMES_MAP = {
   NODE_ENV: 'ENV',
   PORT: 'HTTP__PORT',
   HOST: 'HTTP__HOSTNAME',
@@ -16,5 +16,5 @@ const basicNamesMap = {
 module.exports = {
   processEnv,
   ENV_VARS_PREFIX,
-  basicNamesMap,
+  BASIC_NAMES_MAP,
 };

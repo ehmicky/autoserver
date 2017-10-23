@@ -32,12 +32,12 @@ const mapFilter = function (node, func) {
 };
 
 const getChildren = function ({ type, value }) {
-  if (!parentTypes.includes(type)) { return; }
+  if (!PARENT_TYPES.includes(type)) { return; }
 
   return value;
 };
 
-const parentTypes = ['all', 'some', 'or', 'and'];
+const PARENT_TYPES = ['all', 'some', 'or', 'and'];
 
 module.exports = {
   crawlFilter,

@@ -6,22 +6,22 @@ const { invert, mapKeys } = require('../../../../utilities');
 const addNameShortcuts = function (token) {
   return mapKeys(
     token,
-    (value, attrName) => shortcuts[attrName] || attrName,
+    (value, attrName) => SHORTCUTS[attrName] || attrName,
   );
 };
 
 const removeNameShortcuts = function (token) {
   return mapKeys(token, (value, attrName) =>
-    reverseShortcuts[attrName] || attrName);
+    REVERSE_SHORTCUTS[attrName] || attrName);
 };
 
-const shortcuts = {
+const SHORTCUTS = {
   filter: 'f',
   orderBy: 'o',
   parts: 'p',
 };
 
-const reverseShortcuts = invert(shortcuts);
+const REVERSE_SHORTCUTS = invert(SHORTCUTS);
 
 module.exports = {
   addNameShortcuts,

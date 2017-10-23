@@ -39,7 +39,7 @@ const eventObj = {
 };
 
 // `run` option `filter`
-const filterNames = [
+const FILTER_NAMES = [
   'payload',
   'response',
   'data',
@@ -47,7 +47,7 @@ const filterNames = [
   'query',
 ];
 
-const filterDefault = {
+const FILTER_DEFAULT = {
   payload: ['id'],
   response: ['id'],
   data: ['id'],
@@ -57,7 +57,7 @@ const filterDefault = {
 
 const getFilter = filterName => ({
   name: `filter.${filterName}`,
-  default: filterDefault[filterName],
+  default: FILTER_DEFAULT[filterName],
   description: `Filters the event payload '${filterName}'`,
   group: 'Events',
   validate: {
@@ -66,7 +66,7 @@ const getFilter = filterName => ({
   },
 });
 
-const filter = filterNames.map(getFilter);
+const filter = FILTER_NAMES.map(getFilter);
 
 const filterObj = {
   name: 'filter',

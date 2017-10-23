@@ -46,14 +46,14 @@ const getPart = function (part) {
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  const [, attrName, orderPostfix] = partsPostfixRegexp.exec(part);
+  const [, attrName, orderPostfix] = PARTS_POSTFIX_REGEXP.exec(part);
   const order = orderPostfix === '-' ? 'desc' : 'asc';
 
   return { attrName, order };
 };
 
 // Matches attribute+ attribute- or attribute
-const partsPostfixRegexp = /^([^+-]+)(\+|-)?$/;
+const PARTS_POSTFIX_REGEXP = /^([^+-]+)(\+|-)?$/;
 
 // `orderBy` always include an id sorting. The reasons:
 //   - it makes output predictable, the same request should always get
@@ -61,13 +61,13 @@ const partsPostfixRegexp = /^([^+-]+)(\+|-)?$/;
 //   - the pagination layer needs this predictability
 // If an `id` sorting is already specified, it does not add anything
 const addIdSorting = function ({ orderBy }) {
-  const hasId = orderBy.some(({ attrName }) => attrName === idOrder.attrName);
+  const hasId = orderBy.some(({ attrName }) => attrName === ID_ORDER.attrName);
   if (hasId) { return orderBy; }
 
-  return [...orderBy, idOrder];
+  return [...orderBy, ID_ORDER];
 };
 
-const idOrder = { attrName: 'id', order: 'asc' };
+const ID_ORDER = { attrName: 'id', order: 'asc' };
 
 module.exports = {
   parseOrderBy,

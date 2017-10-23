@@ -4,7 +4,7 @@ const { camelize } = require('underscore.string');
 
 const { transtype } = require('../../utilities');
 
-const { ENV_VARS_PREFIX, basicNamesMap } = require('./constants');
+const { ENV_VARS_PREFIX, BASIC_NAMES_MAP } = require('./constants');
 
 // Apply all transformers
 const transformEnvVars = function ({ envVars }) {
@@ -26,7 +26,7 @@ const removePrefix = function ({ name }) {
 
 // Apply shortcuts
 const applyBasicName = function ({ name }) {
-  const nameA = basicNamesMap[name];
+  const nameA = BASIC_NAMES_MAP[name];
   if (!nameA) { return; }
 
   return { name: nameA };
@@ -53,12 +53,12 @@ const parseArrays = function ({ value }) {
 
   const parts = value
     .slice(1, -1)
-    .split(arrayRegExp);
+    .split(ARRAY_REGEXP);
   return { value: parts };
 };
 
 // Splits elements in '[value  , value2, value3]' string
-const arrayRegExp = /\s*,\s*/g;
+const ARRAY_REGEXP = /\s*,\s*/g;
 
 // Transtype number and boolean values from string
 const transtypeValues = function ({ value }) {

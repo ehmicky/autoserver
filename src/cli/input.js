@@ -29,7 +29,7 @@ const parseOpts = function () {
     // No unknown instruction nor options
     .strict()
     // --help option
-    .usage(usage)
+    .usage(USAGE)
     .help()
     // --version option
     .version()
@@ -41,7 +41,7 @@ const parseOpts = function () {
     .argv;
 };
 
-const usage = `apiengine INSTRUCTION [OPTIONS]
+const USAGE = `apiengine INSTRUCTION [OPTIONS]
 
 Engine generating an API from a simple configuration file.`;
 

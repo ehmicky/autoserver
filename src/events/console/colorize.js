@@ -5,9 +5,9 @@ const { magenta, green, yellow, red, gray, reset, dim } = require('chalk');
 // Colorize a standard error message
 // Not performed if terminal does not support colors
 const colorize = function ({ type, level, message }) {
-  const [, first, second, , third, , fourth = ''] = messageRegExp.test(message)
-    ? messageRegExp.exec(message)
-    : shortMessageRexExp.exec(message);
+  const [, first, second, , third, , fourth = ''] = MESSAGE_REGEXP.test(message)
+    ? MESSAGE_REGEXP.exec(message)
+    : SHORTMESSAGE_REXEXP.exec(message);
 
   const coloredFourth = type === 'failure'
     ? colorStack({ stack: fourth })
@@ -24,9 +24,9 @@ const colorize = function ({ type, level, message }) {
 };
 
 // Look for [...] [...] [...] [...] [...] ([...]) ... - ...
-const messageRegExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*) (- (.|\n)*)/;
+const MESSAGE_REGEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*) (- (.|\n)*)/;
 // Look for [...] [...] [...] [...] [...] ([...]) ...
-const shortMessageRexExp = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*)/;
+const SHORTMESSAGE_REXEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*)/;
 
 // Make it easy to read stack trace with color hints
 const colorStack = function ({ stack }) {

@@ -4,15 +4,15 @@ const { GraphQLString } = require('graphql');
 
 // `cascade` argument
 const getCascadeArgument = function ({ command }) {
-  const hasCascade = cascadeCommands.includes(command.type);
+  const hasCascade = CASCADE_COMMANDS.includes(command.type);
   if (!hasCascade) { return {}; }
 
-  return cascadeArgs;
+  return CASCADE_ARGS;
 };
 
-const cascadeCommands = ['delete'];
+const CASCADE_COMMANDS = ['delete'];
 
-const cascadeArgs = {
+const CASCADE_ARGS = {
   cascade: {
     type: GraphQLString,
     description: `Also delete specified nested models.

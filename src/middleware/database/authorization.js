@@ -13,7 +13,7 @@ const authorization = function ({
   if (internal) { return; }
 
   const { commands } = models[modelName];
-  const mappedCommands = authorizationMap[command] || [command];
+  const mappedCommands = AUTHORIZATION_MAP[command] || [command];
 
   mappedCommands
     .forEach(mappedCommand => validateCommand({ commands, mappedCommand }));
@@ -29,7 +29,7 @@ const validateCommand = function ({ commands, mappedCommand }) {
 };
 
 // `patch` requires both `find` and `replace` authorizations
-const authorizationMap = {
+const AUTHORIZATION_MAP = {
   patch: ['find', 'replace'],
 };
 

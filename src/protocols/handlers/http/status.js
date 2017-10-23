@@ -5,13 +5,13 @@ const getProtocolStatus = function ({
   error,
   error: { reason = 'UNKNOWN' } = {},
 }) {
-  if (!error) { return protocolStatusesMap.SUCCESS; }
+  if (!error) { return PROTOCOL_STATUSES_MAP.SUCCESS; }
 
-  return protocolStatusesMap[reason] || protocolStatusesMap.UNKNOWN_TYPE;
+  return PROTOCOL_STATUSES_MAP[reason] || PROTOCOL_STATUSES_MAP.UNKNOWN_TYPE;
 };
 
 // All error reasons and their related HTTP status code
-const protocolStatusesMap = {
+const PROTOCOL_STATUSES_MAP = {
   SUCCESS: 200,
 
   PAYLOAD_PARSE: 400,
@@ -58,10 +58,10 @@ const failureProtocolStatus = 500;
 // Retrieves generic status, using HTTP status code
 const getStatus = function ({ protocolStatus = '' }) {
   const [statusCategory] = String(protocolStatus);
-  return statusesMap[statusCategory];
+  return STATUSES_MAP[statusCategory];
 };
 
-const statusesMap = {
+const STATUSES_MAP = {
   1: 'INTERNALS',
   2: 'SUCCESS',
   3: 'INTERNALS',
