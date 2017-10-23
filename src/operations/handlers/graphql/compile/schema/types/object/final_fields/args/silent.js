@@ -4,10 +4,10 @@ const { GraphQLBoolean } = require('graphql');
 
 // `silent` argument
 const getSilentArgument = function () {
-  return silentArgs;
+  return SILENT_ARGS;
 };
 
-const silentArgs = {
+const SILENT_ARGS = {
   silent: {
     type: GraphQLBoolean,
     description: `Do not output any result.

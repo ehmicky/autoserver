@@ -6,13 +6,13 @@ const { generic } = require('../formats');
 
 // Used when JSON reference is wrong
 const invalidRef = function ({ url }) {
-  const extNamesA = extNames.map(ext => `.${ext}`);
+  const extNamesA = EXT_NAMES.map(ext => `.${ext}`);
   const extNamesB = getWordsList(extNamesA, { quotes: true });
   const message = `JSON reference '${url}' must point to an existing file, and be valid ${extNamesB}`;
   throwError(message);
 };
 
-const extNames = [...generic.extNames, 'js', 'node'];
+const EXT_NAMES = [...generic.extNames, 'js', 'node'];
 
 const errorRefs = {
   resolve: {

@@ -14,12 +14,12 @@ const validateData = function ({
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (requiredIdTypes.includes(commandType) && datum.id == null) {
+  if (REQUIRED_ID_TYPES.includes(commandType) && datum.id == null) {
     const message = `'data' argument at '${commandPath.join('.')}' is missing an 'id' attribute`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (forbiddenIdTypes.includes(commandType) && datum.id != null) {
+  if (FORBIDDEN_ID_TYPES.includes(commandType) && datum.id != null) {
     const message = `'data' argument at '${commandPath.join('.')}' must not have an 'id' attribute '${datum.id}'. 'patch' commands cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use 'filter' argument instead.`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
@@ -32,8 +32,8 @@ const validateData = function ({
   }));
 };
 
-const requiredIdTypes = ['replace'];
-const forbiddenIdTypes = ['patch'];
+const REQUIRED_ID_TYPES = ['replace'];
+const FORBIDDEN_ID_TYPES = ['patch'];
 
 // Validate each attribute's value inside `args.data`
 const validateDataValue = function ({

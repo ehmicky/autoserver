@@ -4,15 +4,16 @@ const { GraphQLString } = require('graphql');
 
 // `order_by` argument
 const getOrderArgument = function ({ command }) {
-  const canOrder = orderCommandTypes.includes(command.type) && command.multiple;
+  const canOrder = ORDER_COMMAND_TYPES.includes(command.type) &&
+    command.multiple;
   if (!canOrder) { return {}; }
 
-  return orderArgs;
+  return ORDER_ARGS;
 };
 
-const orderCommandTypes = ['find'];
+const ORDER_COMMAND_TYPES = ['find'];
 
-const orderArgs = {
+const ORDER_ARGS = {
   order_by: {
     type: GraphQLString,
     description: `Sort results according to this attribute.

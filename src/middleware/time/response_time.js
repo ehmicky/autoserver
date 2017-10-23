@@ -16,7 +16,7 @@ const setResponseTime = function ({ reqPerf, protocolHandler, specific }) {
 const getResponseTime = function ({ reqPerf }) {
   const respPerf = stopPerf(reqPerf);
 
-  const responseTime = Math.round(respPerf.duration / microSecsToSecs);
+  const responseTime = Math.round(respPerf.duration / MICROSECS_TO_SECS);
 
   if (typeof responseTime !== 'number') {
     const message = `'responseTime' must be a number, not '${responseTime}'`;
@@ -26,7 +26,7 @@ const getResponseTime = function ({ reqPerf }) {
   return { respPerf, responseTime };
 };
 
-const microSecsToSecs = 1e6;
+const MICROSECS_TO_SECS = 1e6;
 
 const sendHeaders = function ({ protocolHandler, specific, responseTime }) {
   const headers = { 'X-Response-Time': responseTime };

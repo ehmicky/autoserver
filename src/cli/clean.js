@@ -19,12 +19,12 @@ const isCorrectOpt = function (val, name) {
   if (val === undefined || isEqual(val, {})) { return false; }
 
   // Remove dasherized options
-  if (dasherizedRegExp.test(name)) { return false; }
+  if (DASHERIZED_REGEXP.test(name)) { return false; }
 
   return true;
 };
 
-const dasherizedRegExp = /-/;
+const DASHERIZED_REGEXP = /-/;
 
 module.exports = {
   cleanOpts,

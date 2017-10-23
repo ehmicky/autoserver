@@ -2,7 +2,7 @@
 
 const { memoize, deepMerge } = require('../../utilities');
 
-const { processEnv, ENV_VARS_PREFIX, basicNamesMap } = require('./constants');
+const { processEnv, ENV_VARS_PREFIX, BASIC_NAMES_MAP } = require('./constants');
 const { transformEnvVars } = require('./transform');
 
 // Retrieve environment variables related to this project,
@@ -20,7 +20,7 @@ const getEnvVars = function () {
 // Exclude environment variables not meant for the api-engine
 const filterEnvVars = function () {
   return Object.keys(processEnv)
-    .filter(name => ENV_VARS_PREFIX.test(name) || basicNamesMap[name]);
+    .filter(name => ENV_VARS_PREFIX.test(name) || BASIC_NAMES_MAP[name]);
 };
 
 // Transform to array of `{ name, value }`

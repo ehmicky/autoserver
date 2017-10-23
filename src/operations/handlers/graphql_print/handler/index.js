@@ -4,12 +4,12 @@ const { resolve } = require('path');
 
 const { renderTemplate } = require('../../../../utilities');
 
-const template = resolve(__dirname, './print.mustache');
+const TEMPLATE = resolve(__dirname, './print.mustache');
 
 // Print GraphQL schema as beautified HTML
 const handler = async function ({ schema: { graphqlPrintedSchema } }) {
   const content = await renderTemplate({
-    template,
+    template: TEMPLATE,
     data: { graphqlPrintedSchema, prismVersion: '1.6.0' },
   });
 

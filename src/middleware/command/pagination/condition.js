@@ -4,19 +4,19 @@
 // including args.pageSize, args.before|after|page
 // Implies output pagination
 const allowFullPagination = function ({ args, command }) {
-  return fullPaginationCommands.includes(command) &&
+  return FULL_PAGINATION_COMMANDS.includes(command) &&
     !isPaginationDisabled({ args, command });
 };
 
-const fullPaginationCommands = ['find'];
+const FULL_PAGINATION_COMMANDS = ['find'];
 
 // Whether output will be paginated
 const mustPaginateOutput = function ({ args, command }) {
-  return paginationCommands.includes(command) &&
+  return PAGINATION_COMMANDS.includes(command) &&
     !isPaginationDisabled({ args });
 };
 
-const paginationCommands = ['find'];
+const PAGINATION_COMMANDS = ['find'];
 
 // Using args.pageSize 0 or defaultPageSize 0 disables pagination
 const isPaginationDisabled = function ({ args: { pageSize } }) {

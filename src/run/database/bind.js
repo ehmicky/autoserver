@@ -15,7 +15,7 @@ const bindAdapters = function ({ adapters, connections, schema, runOpts }) {
 };
 
 const bindAdapter = function ({ adapter, ...rest }) {
-  const methods = pick(adapter, boundMethodNames);
+  const methods = pick(adapter, BOUND_METHOD_NAMES);
   const boundMethods = mapValues(
     methods,
     func => boundMethod.bind(null, { func, ...rest }),
@@ -23,7 +23,7 @@ const bindAdapter = function ({ adapter, ...rest }) {
   return { ...adapter, ...boundMethods };
 };
 
-const boundMethodNames = ['query', 'disconnect'];
+const BOUND_METHOD_NAMES = ['query', 'disconnect'];
 
 const boundMethod = function ({ func, ...rest }, opts, ...args) {
   return func({ ...opts, ...rest }, ...args);

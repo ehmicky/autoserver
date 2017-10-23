@@ -6,7 +6,7 @@
 //
 // TODO: add `url` property pointing towards API documentation for that error
 // TODO: add all `title` properties to `generic`
-const errorReasons = {
+const ERROR_REASONS = {
   // Error while parsing the request payload
   PAYLOAD_PARSE: {},
 
@@ -108,12 +108,12 @@ const errorReasons = {
 // Get generic standard error properties, according to error reason
 const getGenericProps = function ({ error }) {
   const reason = getReason({ error });
-  return errorReasons[reason];
+  return ERROR_REASONS[reason];
 };
 
 // Get error reason
 const getReason = function ({ error: { reason = 'UNKNOWN' } }) {
-  if (!errorReasons[reason]) { return 'UNKNOWN_TYPE'; }
+  if (!ERROR_REASONS[reason]) { return 'UNKNOWN_TYPE'; }
   return reason;
 };
 

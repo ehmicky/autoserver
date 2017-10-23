@@ -7,15 +7,15 @@ const { omitBy } = require('../../../../utilities');
 const removeDefaultValues = function (token) {
   return omitBy(
     token,
-    (value, attrName) => isEqual(value, defaultValues[attrName]),
+    (value, attrName) => isEqual(value, DEFAULT_VALUES[attrName]),
   );
 };
 
 const addDefaultValues = function (token) {
-  return { ...defaultValues, ...token };
+  return { ...DEFAULT_VALUES, ...token };
 };
 
-const defaultValues = {
+const DEFAULT_VALUES = {
   orderBy: [{ attrName: 'id', order: 'asc' }],
 };
 

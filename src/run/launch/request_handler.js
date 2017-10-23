@@ -9,13 +9,13 @@ const getRequestHandler = function ({
   options,
   options: { requestHandler },
 }) {
-  const baseInput = pick(options, baseInputKeys);
+  const baseInput = pick(options, BASE_INPUT_KEYS);
   const baseInputA = { ...baseInput, protocol, protocolHandler };
   const handleRequest = processRequest.bind(null, requestHandler, baseInputA);
   return { handleRequest };
 };
 
-const baseInputKeys = [
+const BASE_INPUT_KEYS = [
   'schema',
   'runOpts',
   'varsRef',

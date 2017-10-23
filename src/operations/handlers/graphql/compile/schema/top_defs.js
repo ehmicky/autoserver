@@ -10,19 +10,19 @@ const {
 const { COMMANDS } = require('../../../../../constants');
 
 const { getCommandName, getTypeName } = require('./name');
-const { topDescriptions, commandDescriptions } = require('./description');
+const { TOP_DESCRIPTIONS, getCommandDescription } = require('./description');
 
 // Retrieve the GraphQL definitions for Query|Mutation,
 // and the top-level commands
 const getTopDefs = function ({ models }) {
-  return Object.entries(graphqlMethods)
+  return Object.entries(GRAPHQL_METHODS)
     .map(([graphqlMethod, commands]) =>
       getTopDef({ graphqlMethod, commands, models }))
     .reduce(assignObject, {});
 };
 
 // Mapping from schema commands to GraphQL methods
-const graphqlMethods = {
+const GRAPHQL_METHODS = {
   query: ['find'],
   mutation: ['create', 'replace', 'patch', 'delete'],
 };
@@ -30,7 +30,7 @@ const graphqlMethods = {
 const getTopDef = function ({ models, graphqlMethod, commands }) {
   const attributes = getModelDefs({ commands, models });
   const model = capitalize(graphqlMethod);
-  const description = topDescriptions[graphqlMethod];
+  const description = TOP_DESCRIPTIONS[graphqlMethod];
 
   const topDef = { type: 'object', attributes, model, description };
   return { [graphqlMethod]: topDef };
@@ -70,7 +70,7 @@ const normalizeModelsDef = function ({ models, command }) {
 
 const normalizeModelDef = function ({ model, command }) {
   const typeName = getTypeName({ def: model });
-  const commandDescription = commandDescriptions[command.name]({ typeName });
+  const commandDescription = getCommandDescription[command.name]({ typeName });
 
   return { ...model, command, commandDescription, type: 'object' };
 };

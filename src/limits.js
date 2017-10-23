@@ -24,7 +24,7 @@ const getLimits = function ({
     // Max URL length
     // Since URL can contain GraphQL query, it should not be less than
     // `maxPayloadSize`
-    maxUrlLength: Math.max(maxUrlLength, bytes.parse(maxPayloadSize)),
+    maxUrlLength: Math.max(MAX_URL_LENGTH, bytes.parse(maxPayloadSize)),
     // Max level of nesting in query string, e.g. ?var.subvar.subvar2=val
     maxQueryStringDepth: 10,
     // Max length of arrays in query string, e.g. ?var[50]=val
@@ -43,7 +43,7 @@ const getLimits = function ({
   };
 };
 
-const maxUrlLength = 2000;
+const MAX_URL_LENGTH = 2e3;
 
 module.exports = {
   getLimits,

@@ -42,7 +42,7 @@ const checkRequired = function ({
 // Validate option against single `validate` rule
 const validateRule = function ({ name, optVal, ruleVal, ruleType }) {
   // If the option is array, `validate` applies on each element
-  if (Array.isArray(optVal) && !arrayRules.includes(ruleType)) {
+  if (Array.isArray(optVal) && !ARRAY_RULES.includes(ruleType)) {
     return optVal
       .map(opt => validateRule({ name, optVal: opt, ruleVal, ruleType }));
   }
@@ -58,7 +58,7 @@ const validateRule = function ({ name, optVal, ruleVal, ruleType }) {
 };
 
 // Rules applied on arrays, as opposed to each of their elements
-const arrayRules = ['type', 'unique', 'min_items', 'max_items'];
+const ARRAY_RULES = ['type', 'unique', 'min_items', 'max_items'];
 
 module.exports = {
   validateOptions,

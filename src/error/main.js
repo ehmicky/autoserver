@@ -8,7 +8,7 @@ const createError = function (message, stack, opts = {}) {
   validateError(opts);
 
   const innererror = getInnerError({ opts, stack });
-  const type = errorType;
+  const type = ERROR_TYPE;
 
   const error = new Error(message);
   // This is the only way to keep it an instanceof Error
@@ -18,13 +18,13 @@ const createError = function (message, stack, opts = {}) {
   return error;
 };
 
-const errorType = Symbol('error');
+const ERROR_TYPE = Symbol('error');
 
 // Make sure signature is correct
 const validateError = function (opts) {
   // Check whitelisted options
   const optsKeys = Object.keys(opts);
-  const nonAllowedOpts = difference(optsKeys, allowedOpts);
+  const nonAllowedOpts = difference(optsKeys, ALLOWED_OPTS);
 
   if (nonAllowedOpts.length > 0) {
     const message = `Cannot use options '${nonAllowedOpts}' when throwing an error`;
@@ -32,7 +32,7 @@ const validateError = function (opts) {
   }
 };
 
-const allowedOpts = ['reason', 'innererror', 'extra'];
+const ALLOWED_OPTS = ['reason', 'innererror', 'extra'];
 
 // Keep track of innererror
 const getInnerError = function ({ opts, stack: upperStack }) {
@@ -73,7 +73,7 @@ const getInnerErrorStack = function ({
 };
 
 const isError = function ({ error }) {
-  return error && error.type === errorType;
+  return error && error.type === ERROR_TYPE;
 };
 
 const throwError = function (message, opts) {

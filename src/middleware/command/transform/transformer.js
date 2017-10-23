@@ -11,14 +11,14 @@ const transformData = function ({
   mInput,
   type,
 }) {
-  const transformMap = shortcuts[mapName[type]];
+  const transformMap = shortcuts[MAP_NAME[type]];
   const transforms = transformMap[modelName];
 
   return data
     .map(datum => applyTransforms({ data: datum, transforms, mInput, type }));
 };
 
-const mapName = {
+const MAP_NAME = {
   transform: 'transformsMap',
   value: 'valuesMap',
 };

@@ -40,17 +40,17 @@ const parsePayload = async function ({
 
 const eParsePayload = addGenErrorHandler(parsePayload, {
   message: (input, { message }) => message,
-  reason: (input, { status }) => errorReasons[status],
+  reason: (input, { status }) => ERROR_REASONS[status],
 });
 
-const errorReasons = {
+const ERROR_REASONS = {
   400: 'PAYLOAD_PARSE',
   413: 'INPUT_LIMIT',
   415: 'WRONG_CONTENT_TYPE',
 };
 
 const getParser = function ({ type, maxPayloadSize }) {
-  const opts = parsersOpts[type];
+  const opts = PARSERS_OPTS[type];
   const optsA = { ...opts, type: typeChecker, limit: maxPayloadSize };
   const parser = bodyParser[type](optsA);
   const parserA = promisify(parser);
@@ -62,7 +62,7 @@ const mGetParser = memoize(getParser);
 // We already cheked the MIME type ourselves
 const typeChecker = () => true;
 
-const parsersOpts = {
+const PARSERS_OPTS = {
   json: {},
   urlencoded: { extended: true },
   text: {},

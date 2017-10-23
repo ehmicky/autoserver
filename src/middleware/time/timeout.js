@@ -15,18 +15,18 @@ const setRequestTimeout = function ({ mInput, runOpts }, nextLayer) {
 const startRequestTimeout = async function ({ runOpts, runOpts: { env } }) {
   const { requestTimeout } = getLimits({ runOpts });
   // When debugging with breakpoints, we do not want any request timeout
-  const timeout = env === 'dev' ? hugeTimeout : requestTimeout;
+  const timeout = env === 'dev' ? HUGE_TIMEOUT : requestTimeout;
 
   // Note that the timeout is a minimum, since it will only be fired at the
   // beginning of a new macrotask
   await pSetTimeout(timeout);
 
-  const message = `The request took too long (more than ${timeout / milliSecsToSecs} seconds)`;
+  const message = `The request took too long (more than ${timeout / MILLISECS_TO_SECS} seconds)`;
   throwError(message, { reason: 'REQUEST_TIMEOUT' });
 };
 
-const hugeTimeout = 1e9;
-const milliSecsToSecs = 1e3;
+const HUGE_TIMEOUT = 1e9;
+const MILLISECS_TO_SECS = 1e3;
 
 module.exports = {
   setRequestTimeout,

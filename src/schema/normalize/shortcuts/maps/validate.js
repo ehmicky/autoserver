@@ -38,12 +38,12 @@ const addJsonSchemaDeps = function (jsonSchema) {
 const removeAltSyntax = function (jsonSchema) {
   const properties = mapValues(
     jsonSchema.properties,
-    attr => omit(attr, nonJsonSchema),
+    attr => omit(attr, NON_JSON_SCHEMA),
   );
   return { ...jsonSchema, properties };
 };
 
-const nonJsonSchema = [
+const NON_JSON_SCHEMA = [
   'required',
   'dependencies',
 ];

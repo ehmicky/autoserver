@@ -48,11 +48,11 @@ const parseModelName = function ({ commandName, modelsMap }) {
 
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];
 const parseName = function ({ commandName }) {
-  const [, commandType, modelName = ''] = nameRegExp.exec(commandName) || [];
+  const [, commandType, modelName = ''] = NAME_REGEXP.exec(commandName) || [];
   return { commandType, modelName };
 };
 
-const nameRegExp = /^([a-z0-9]+)_([a-z0-9_]*)$/;
+const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
 module.exports = {
   parseTopAction,

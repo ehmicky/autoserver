@@ -4,7 +4,7 @@ const { isAbsolute, relative } = require('path');
 
 const { addGenErrorHandler } = require('../error');
 
-const refSym = Symbol('ref');
+const REF_SYM = Symbol('ref');
 
 // When resolving a JSON reference to a JavaScript file, keep the reference
 // as `obj[refSym]`, so it can be serialized back to it
@@ -18,7 +18,7 @@ const addJsonRefSym = function ({ obj, url, rootDir }) {
   // in same directory as root file
   const ref = isAbsolute(url) ? relative(rootDir, url) : url;
   // eslint-disable-next-line no-param-reassign, fp/no-mutation
-  obj[refSym] = ref;
+  obj[REF_SYM] = ref;
 
   return obj;
 };
@@ -34,7 +34,7 @@ const eStringifyWithJsonRefs = addGenErrorHandler(stringifyWithJsonRefs, {
 });
 
 const stringify = function (key, val) {
-  const jsonRef = val && val[refSym];
+  const jsonRef = val && val[REF_SYM];
   if (!jsonRef) { return val; }
 
   return { $ref: jsonRef };

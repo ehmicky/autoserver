@@ -30,14 +30,14 @@ const handleEventError = async function (error, {
   type,
   eventPayload,
   runOpts,
-  delay = defaultDelay,
+  delay = DEFAULT_DELAY,
   emitEvent,
 }) {
   // Tries again and again, with an increasing delay
   const { maxEventDelay } = getLimits({ runOpts });
   if (delay > maxEventDelay) { return; }
   await pSetTimeout(delay);
-  const delayA = delay * delayExponent;
+  const delayA = delay * DELAY_EXPONENT;
 
   // First, report that event handler failed
   await fireEventError({ error, runOpts, delay: delayA, emitEvent });
@@ -54,8 +54,8 @@ const handleEventError = async function (error, {
 
 const eFireEvent = addErrorHandler(fireEvent, handleEventError);
 
-const defaultDelay = 1000;
-const delayExponent = 5;
+const DEFAULT_DELAY = 1000;
+const DELAY_EXPONENT = 5;
 
 const fireEventError = async function ({
   error,
@@ -65,7 +65,7 @@ const fireEventError = async function ({
 }) {
   // Do not report event error created by another event error
   // I.e. only report the first one, but tries to report it again and again
-  if (delay > defaultDelay * delayExponent) { return; }
+  if (delay > DEFAULT_DELAY * DELAY_EXPONENT) { return; }
 
   const errorA = normalizeError({ error, reason: 'EVENT_ERROR' });
   await emitEvent({

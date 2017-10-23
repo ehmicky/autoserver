@@ -5,7 +5,7 @@ const { resolve } = require('path');
 const { addGenErrorHandler } = require('../../../../error');
 const { mapValues, renderTemplate } = require('../../../../utilities');
 
-const template = resolve(__dirname, './graphiql.mustache');
+const TEMPLATE = resolve(__dirname, './graphiql.mustache');
 
 // Returns HTML document loading a GraphQL debugger
 // TODO: replace with graphiql-workspace
@@ -28,7 +28,7 @@ const renderGraphiql = function (input) {
   const dataNotToEscape = {};
   const data = { ...escapeData(dataToEscape), ...dataNotToEscape };
 
-  return renderTemplate({ template, data });
+  return renderTemplate({ template: TEMPLATE, data });
 };
 
 const eRenderGraphiql = addGenErrorHandler(renderGraphiql, {

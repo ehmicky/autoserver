@@ -11,10 +11,10 @@ const { GraphQLString } = require('graphql');
 const addNoAttributes = function ({ fields }) {
   if (Object.keys(fields).length > 0) { return fields; }
 
-  return noAttributes;
+  return NO_ATTRIBUTES;
 };
 
-const noAttributes = {
+const NO_ATTRIBUTES = {
   no_attributes: {
     type: GraphQLString,
     description: `This type does not have any attributes.

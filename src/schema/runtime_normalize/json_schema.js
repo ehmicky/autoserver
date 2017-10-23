@@ -35,12 +35,12 @@ const compileJsonSchemaCommand = function ({ schema, jsonSchema }, command) {
 
 // Nothing is required for find|delete, except maybe `id` (previously validated)
 const removeRequire = function ({ jsonSchema, command }) {
-  if (!optionalInputCommands.includes(command)) { return jsonSchema; }
+  if (!OPTIONAL_INPUT_COMMANDS.includes(command)) { return jsonSchema; }
 
   return omit(jsonSchema, 'required');
 };
 
-const optionalInputCommands = ['find', 'delete'];
+const OPTIONAL_INPUT_COMMANDS = ['find', 'delete'];
 
 module.exports = {
   compileJsonSchema,

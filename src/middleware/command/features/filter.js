@@ -9,7 +9,7 @@ const { crawlFilter } = require('../../../database');
 // Adapter feature 'filter' allows for complex `args.filter`
 const filterValidator = function ({ args, modelName }) {
   const ops = getFilterOps({ args });
-  const opsA = intersection(ops, advancedFilterOps);
+  const opsA = intersection(ops, ADVANCED_FILTER_OPS);
   if (opsA.length === 0) { return; }
 
   const message = getErrorMessage({ ops: opsA });
@@ -32,7 +32,7 @@ const getErrorMessage = function ({ ops }) {
   return `use the operators: ${opsA}`;
 };
 
-const advancedFilterOps = [
+const ADVANCED_FILTER_OPS = [
   'neq',
   'in',
   'nin',

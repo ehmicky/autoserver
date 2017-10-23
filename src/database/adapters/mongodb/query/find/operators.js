@@ -30,7 +30,7 @@ const someOperation = function ({ value, attrName }) {
 
 const allOperation = function ({ value, attrName }) {
   const elemMatch = value
-    .map(node => ({ [operationsMap[node.type].inverse]: node.value }))
+    .map(node => ({ [OPERATIONS_MAP[node.type].inverse]: node.value }))
     .reduce(assignObject, {});
   return { [attrName]: { $not: { $elemMatch: elemMatch } } };
 };
@@ -41,11 +41,11 @@ const genericOperation = function ({ type, value, attrName }) {
 };
 
 const getGenericNode = function ({ type, value }) {
-  const { opName } = operationsMap[type];
+  const { opName } = OPERATIONS_MAP[type];
   return { [opName]: value };
 };
 
-const operationsMap = {
+const OPERATIONS_MAP = {
   eq: { opName: '$eq', inverse: '$ne' },
   neq: { opName: '$ne', inverse: '$eq' },
   gt: { opName: '$gt', inverse: '$lte' },

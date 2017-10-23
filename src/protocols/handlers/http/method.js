@@ -2,10 +2,10 @@
 
 // Retrieves HTTP method, but protocol-agnostic
 const getMethod = function ({ specific: { req: { method } } }) {
-  return methodsMap[method];
+  return METHODS_MAP[method];
 };
 
-const methodsMap = {
+const METHODS_MAP = {
   GET: 'find',
   HEAD: 'find',
   POST: 'create',

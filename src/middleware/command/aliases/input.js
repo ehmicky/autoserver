@@ -46,14 +46,14 @@ const getOrderBy = function ({ args, args: { orderBy }, attrName, aliases }) {
 };
 
 const getTokens = function ({ args, attrName, aliases }) {
-  return directions.reduce(
+  return DIRECTIONS.reduce(
     (argsA, direction) =>
       getToken({ args: argsA, direction, attrName, aliases }),
     args,
   );
 };
 
-const directions = ['after', 'before'];
+const DIRECTIONS = ['after', 'before'];
 
 const getToken = function ({ args, direction, attrName, aliases }) {
   const token = args[direction];
