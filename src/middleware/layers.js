@@ -197,6 +197,8 @@ const middlewareLayers = [
       // Do the database action, protocol and operation-agnostic
       database.databaseExecute,
 
+      // Remove duplicate read models
+      database.duplicateReads,
       // Check if any `id` was not found (404)
       database.validateMissingIds,
       // Validate database response
