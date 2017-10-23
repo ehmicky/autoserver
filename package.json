@@ -25,7 +25,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "ajv": "^5.2.3",
+    "ajv": "^5.2.4",
     "ajv-keywords": "^2.1.0",
     "body-parser": "^1.18.2",
     "bytes": "^3.0.0",
