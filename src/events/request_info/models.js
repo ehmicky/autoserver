@@ -15,7 +15,7 @@ const reducePayload = function (requestInfo, { payload: filter }) {
   return reduceInfo({ info: requestInfo, attrName: 'payload', filter });
 };
 
-const reduceArgsData = function (requestInfo, { argsData: filter }) {
+const reduceData = function (requestInfo, { data: filter }) {
   const args = reduceInfo({ info: requestInfo.args, attrName: 'data', filter });
   return { ...requestInfo, args };
 };
@@ -26,7 +26,7 @@ const reduceResponse = function (requestInfo, { response: filter }) {
 
 const modelsReducers = [
   reducePayload,
-  reduceArgsData,
+  reduceData,
   reduceResponse,
 ];
 

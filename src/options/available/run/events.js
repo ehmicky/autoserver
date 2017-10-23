@@ -42,7 +42,7 @@ const eventObj = {
 const filterNames = [
   'payload',
   'response',
-  'argsData',
+  'data',
   'headers',
   'queryVars',
 ];
@@ -50,7 +50,7 @@ const filterNames = [
 const filterDefault = {
   payload: ['id'],
   response: ['id'],
-  argsData: ['id'],
+  data: ['id'],
   headers: false,
   queryVars: false,
 };
