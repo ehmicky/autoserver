@@ -44,7 +44,7 @@ const filterNames = [
   'response',
   'data',
   'headers',
-  'queryVars',
+  'query',
 ];
 
 const filterDefault = {
@@ -52,7 +52,7 @@ const filterDefault = {
   response: ['id'],
   data: ['id'],
   headers: false,
-  queryVars: false,
+  query: false,
 };
 
 const getFilter = filterName => ({

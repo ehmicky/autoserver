@@ -237,16 +237,16 @@ the request information, among:
   - array of strings: only keep those properties
 
 The possible properties are:
-  - `queryVars`
+  - `query`: applied to URL query variables
   - `headers`
   - `payload`
   - `response`: applied to `response.content`
   - `data`: applied to each `args.data`
 
 Default values:
-  - `queryVars`, `headers`: `false`,
+  - `query`, `headers`: `false`,
     i.e. this information is not included in event payloads.
-  - `payload`, `argData`, `response`: only keep `id`.
+  - `payload`, `data`, `response`: only keep `id`.
 
 # Performance monitoring
 
