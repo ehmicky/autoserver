@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  paths: require('./paths'),
+  routes: require('./routes'),
   name: require('./name'),
   methods: require('./methods'),
   ...require('./handler'),

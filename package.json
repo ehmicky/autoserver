@@ -40,7 +40,7 @@
     "mongodb": "^2.2.33",
     "mustache": "^2.3.0",
     "parse-prefer-header": "^1.0.0",
-    "path-to-regexp": "^1.7.0",
+    "path-to-regexp": "^2.1.0",
     "pluralize": "^7.0.0",
     "qs": "^6.5.1",
     "request-ip": "^2.0.2",

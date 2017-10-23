@@ -3,6 +3,6 @@
 module.exports = {
   name: require('./name'),
   methods: require('./methods'),
-  paths: require('./paths'),
+  routes: require('./routes'),
   ...require('./handler'),
 };
