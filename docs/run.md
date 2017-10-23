@@ -34,12 +34,9 @@ The available options are:
   - `env` (defaults to `'dev'`): can be `'dev'` or `'production'`.
     Running in `'dev'` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
-  - `http.hostname` `{string}` (defaults to `localhost`)
-  - `http.port` `{integer}` (defaults to `80`).
-     Can be `0` for "any available port".
-  - `http.enabled` `{boolean}` (defaults to `true`):
-    specify `false` to disable HTTP server
   - `maxPayloadSize`, `defaultPageSize`, `maxPageSize`, `maxDataLength`:
     see [limits](limits.md#options)
   - `events`, `eventFilter`, `eventLevel` and `serverName`:
     see [events](events.md).
+  - `protocols` `{object}`: [protocols options](protocols.md)
+  - `db` `{object}`: [databases options](databases.md)
