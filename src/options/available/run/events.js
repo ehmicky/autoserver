@@ -38,8 +38,8 @@ const eventObj = {
   validate: { type: 'object' },
 };
 
-// `run` option `eventFilter`
-const eventFilterNames = [
+// `run` option `filter`
+const filterNames = [
   'payload',
   'response',
   'argsData',
@@ -47,7 +47,7 @@ const eventFilterNames = [
   'queryVars',
 ];
 
-const eventFilterDefault = {
+const filterDefault = {
   payload: ['id'],
   response: ['id'],
   argsData: ['id'],
@@ -55,9 +55,9 @@ const eventFilterDefault = {
   queryVars: false,
 };
 
-const getEventFilter = filterName => ({
-  name: `eventFilter.${filterName}`,
-  default: eventFilterDefault[filterName],
+const getFilter = filterName => ({
+  name: `filter.${filterName}`,
+  default: filterDefault[filterName],
   description: `Filters the event payload '${filterName}'`,
   group: 'Events',
   validate: {
@@ -66,10 +66,10 @@ const getEventFilter = filterName => ({
   },
 });
 
-const eventFilter = eventFilterNames.map(getEventFilter);
+const filter = filterNames.map(getFilter);
 
-const eventFilterObj = {
-  name: 'eventFilter',
+const filterObj = {
+  name: 'filter',
   default: {},
   description: 'Events payload filtering options',
   group: 'Events',
@@ -91,7 +91,7 @@ const eventLevel = {
 module.exports = [
   eventObj,
   ...events,
-  eventFilterObj,
-  ...eventFilter,
+  filterObj,
+  ...filter,
   eventLevel,
 ];
