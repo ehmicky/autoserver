@@ -21,6 +21,7 @@ const db = getDynamicOpts({
   title: 'Database',
   handlers: databaseAdapters,
   commonOpts,
+  defaultValue: { memory: {} },
 });
 
 module.exports = db;
