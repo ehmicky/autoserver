@@ -7,7 +7,7 @@ use the special attribute `'all'`, e.g.:
 
 ```graphql
 {
-  find_user(filter: {id: "1"}) {
+  find_user(id: "1") {
     all
   }
 }
@@ -17,7 +17,7 @@ instead of:
 
 ```graphql
 {
-  find_user(filter: {id: "1"}) {
+  find_user(id: "1") {
     id
     name
     manager

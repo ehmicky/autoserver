@@ -1,12 +1,12 @@
 {
   "findOne": {
     "optional": ["select", "silent", "params"],
-    "required": ["single_filter"]
+    "required": ["id"]
   },
   "findMany": {
     "optional": [
       "select",
-      "multiple_filter",
+      "filter",
       "order_by",
       "page_size",
       "page",
@@ -19,13 +19,13 @@
   },
   "deleteOne": {
     "optional": ["select", "cascade", "silent", "dryrun", "params"],
-    "required": ["single_filter"]
+    "required": ["id"]
   },
   "deleteMany": {
     "optional": [
       "select",
       "cascade",
-      "multiple_filter",
+      "filter",
       "page_size",
       "silent",
       "dryrun",
@@ -35,12 +35,12 @@
   },
   "patchOne": {
     "optional": ["select", "silent", "dryrun", "params"],
-    "required": ["single_filter", "single_data"]
+    "required": ["id", "single_data"]
   },
   "patchMany": {
     "optional": [
       "select",
-      "multiple_filter",
+      "filter",
       "page_size",
       "silent",
       "dryrun",

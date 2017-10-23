@@ -4,6 +4,7 @@ const { getArgTypeDescription } = require('../../../../description');
 
 const { getDataArgument } = require('./data');
 const { getFilterArgument } = require('./filter');
+const { getIdArgument } = require('./id');
 const { getOrderArgument } = require('./order');
 const { getPaginationArgument } = require('./pagination');
 const { getSilentArgument } = require('./silent');
@@ -22,6 +23,7 @@ const getArgs = function (def, opts) {
   return {
     ...getDataArgument(def, optsA),
     ...getFilterArgument(def, optsA),
+    ...getIdArgument(def, optsA),
     ...getCascadeArgument(def, optsA),
     ...getOrderArgument(def, optsA),
     ...getPaginationArgument(def, optsA),

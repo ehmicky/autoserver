@@ -48,7 +48,7 @@ as a comma-separated list of nested models, e.g.:
 
 ```graphql
 mutation {
-  delete_user(filter: {id: "1"}, cascade: "manager.friend,colleague") {
+  delete_user(id: "1", cascade: "manager.friend,colleague") {
     id
   }
 }
@@ -62,7 +62,7 @@ Clients can populate nested models in output, e.g.:
 
 ```graphql
 {
-  find_user(filter: {id: "1"}) {
+  find_user(id: "1") {
     id
     name
     manager {

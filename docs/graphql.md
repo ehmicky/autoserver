@@ -42,7 +42,7 @@ in singular, and specify the model `id`, e.g.:
 
 ```graphql
 {
-  find_user(filter: {id: "1"}) {
+  find_user(id: "1") {
     id
     name
     manager
@@ -114,7 +114,7 @@ REST's `PATCH` method):
 
 ```graphql
 mutation {
-  patch_user(filter: {id: "1"}, data: {city: "Copenhagen"}) {
+  patch_user(id: "1", data: {city: "Copenhagen"}) {
     id
     name
   }
@@ -134,7 +134,7 @@ mutation {
 
 ```graphql
 mutation {
-  delete_user(filter: {id: "1"}) {
+  delete_user(id: "1") {
     id
     name
   }
@@ -165,7 +165,7 @@ It can be used by the following commands: `create`, `replace` and `patch`.
 # Summary of commands
 
 ```graphql
-find_model({ filter: { id }, [silent] })
+find_model({ id, [silent] })
 ```
 
 ```graphql
@@ -190,7 +190,7 @@ replace_models({ data[], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql
-patch_model({ data, filter: { id }, [silent], [dryrun] })
+patch_model({ data, id, [silent], [dryrun] })
 ```
 
 ```graphql
@@ -198,7 +198,7 @@ patch_models({ data, [filter], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql
-delete_model({ filter: { id }, [cascade], [silent], [dryrun] })
+delete_model({ id, [cascade], [silent], [dryrun] })
 ```
 
 ```graphql

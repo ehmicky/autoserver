@@ -6,23 +6,23 @@ const { throwError } = require('../../../error');
 const validateData = function ({
   datum,
   commandPath,
+  top,
   top: { command: { type: commandType } },
   maxAttrValueSize,
 }) {
+  const commandPathA = commandPath.join('.');
+
   if (!isObject(datum)) {
-    const message = `'data' argument at '${commandPath.join('.')}' should be an object or an array of objects, instead of: ${JSON.stringify(datum)}`;
+    const message = `'data' argument at '${commandPathA}' should be an object or an array of objects, instead of: ${JSON.stringify(datum)}`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
   if (REQUIRED_ID_TYPES.includes(commandType) && datum.id == null) {
-    const message = `'data' argument at '${commandPath.join('.')}' is missing an 'id' attribute`;
+    const message = `'data' argument at '${commandPathA}' is missing an 'id' attribute`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (FORBIDDEN_ID_TYPES.includes(commandType) && datum.id != null) {
-    const message = `'data' argument at '${commandPath.join('.')}' must not have an 'id' attribute '${datum.id}'. 'patch' commands cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use 'filter' argument instead.`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  validateForbiddenId({ top, commandPath: commandPathA, datum });
 
   Object.entries(datum).forEach(([attrName, value]) => validateDataValue({
     value,
@@ -33,6 +33,19 @@ const validateData = function ({
 };
 
 const REQUIRED_ID_TYPES = ['replace'];
+
+const validateForbiddenId = function ({
+  top: { command: { type: commandType, multiple } },
+  commandPath,
+  datum,
+}) {
+  if (!FORBIDDEN_ID_TYPES.includes(commandType) || datum.id == null) { return; }
+
+  const rightArg = multiple ? 'filter' : 'id';
+  const message = `'data' argument at '${commandPath}' must not have an 'id' attribute '${datum.id}'. 'patch' commands cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use '${rightArg}' argument instead.`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
+};
+
 const FORBIDDEN_ID_TYPES = ['patch'];
 
 // Validate each attribute's value inside `args.data`

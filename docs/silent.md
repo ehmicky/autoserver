@@ -10,7 +10,7 @@ e.g.:
 
 ```graphql
 mutation {
-  delete_user(filter: {id: "1"}, silent: true) {
+  delete_user(id: "1", silent: true) {
     id
   }
 }

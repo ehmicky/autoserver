@@ -5,7 +5,7 @@ const { throwError } = require('../../../error');
 
 const { parseAttributes } = require('./attr');
 
-// Parse `args.filter` into AST
+// Parse `args.filter` and `args.id` into AST
 const parseFilter = function ({
   actions,
   schema: { shortcuts: { modelsMap } },
@@ -16,12 +16,25 @@ const parseFilter = function ({
 
 const parseFilterArg = function ({
   action,
-  action: { args, args: { filter }, modelName },
+  action: { args, modelName },
   modelsMap,
 }) {
   const model = modelsMap[modelName];
-  const filterA = parseTopNode({ topNode: filter, model });
-  return { ...action, args: { ...args, filter: filterA } };
+  const filter = parseFilterOrId({ args, model });
+  return { ...action, args: { ...args, filter } };
+};
+
+const parseFilterOrId = function ({ args: { id, filter }, model }) {
+  if (id !== undefined) {
+    return getIdFilter({ id });
+  }
+
+  return parseTopNode({ topNode: filter, model });
+};
+
+// `args.id`
+const getIdFilter = function ({ id }) {
+  return { type: 'eq', attrName: 'id', value: id };
 };
 
 const parseTopNode = function ({ topNode, model }) {
