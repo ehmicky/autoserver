@@ -95,6 +95,7 @@ rules:
   - blankLine: always
     prev: '*'
     next: multiline-block-like
+  lines-between-class-members: 2
 
   # Whitespaces
   linebreak-style: 2
