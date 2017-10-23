@@ -241,7 +241,7 @@ The possible properties are:
   - `headers`
   - `payload`
   - `response`: applied to `response.content`
-  - `argsData`: applied to each `args.data`
+  - `data`: applied to each `args.data`
 
 Default values:
   - `queryVars`, `headers`: `false`,
