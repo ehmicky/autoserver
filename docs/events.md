@@ -93,7 +93,7 @@ with properties:
   - `options` `{object}` and `servers` `{object}` - for events of type
     `start`, see [below](#start-information)
   - `exitStatuses` `{object}` - for events of type `stop`, contains which
-    server successfully exited or not, as `{ HTTP: boolean, ... }`
+    server successfully exited or not, as `{ http: boolean, ... }`
   - `errorInfo` `{object}` - [error information](#error-information),
     for events of type `failure`
   - `requestInfo` `{object}` -
@@ -141,8 +141,8 @@ Events of type `start` have two additional properties on the event payload:
   - `options` `{object}`: [`run` options](run.md#options)
     used by the server, after adding the default values.
   - `servers` `{object}`: list of running servers
-    - `HTTP` `{object}`: HTTP server information
-      - `protocol` `{string}`: always `'HTTP'`
+    - `http` `{object}`: HTTP server information
+      - `protocol` `{string}`: always `'http'`
       - `hostname` `{string}`
       - `port` `{string}`
   - `exit` `{function}`: performs a clean server shutdown
@@ -178,7 +178,7 @@ event payload, with the properties:
   - `responseTime` `{number}` - time it took to handle the request,
     in milliseconds. Only defined if the request was successful.
   - `ip` `{string}`
-  - `protocol` `{string}` - e.g. `'HTTP'`
+  - `protocol` `{string}` - e.g. `'http'`
   - `protocolFullName` `{string}` - e.g. `'HTTP/1.1'`
   - `url` `{string}` - full URL
   - `origin` `{string}` - protocol + hostname + port

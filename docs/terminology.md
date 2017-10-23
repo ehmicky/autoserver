@@ -29,7 +29,7 @@ called convertors.
 
 ## Protocol
 
-Network protocol, e.g. `HTTP`.
+Network protocol, e.g. HTTP.
 
 ## Method
 

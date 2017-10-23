@@ -27,8 +27,9 @@ A configuration file can be specified for each instruction, e.g. for `run`
 The file contains a set of options for a given instruction, e.g.:
 
 ```yml
-http:
-  hostname: myhostname
+protocols:
+  http:
+    hostname: myhostname
 maxPageSize: 10
 ```
 
@@ -46,7 +47,7 @@ E.g. the following environment variables:
 ```toml
 API_ENGINE__ENV="dev"
 API_ENGINE__MAX_PAGE_SIZE=200
-API_ENGINE__HTTP__HOSTNAME="myhostname"
+API_ENGINE__PROTOCOLS__HTTP__HOSTNAME="myhostname"
 API_ENGINE__EVENT_FILTER__PAYLOAD="[id,old_id]"
 ```
 
@@ -56,7 +57,7 @@ will be converted to the following options:
 {
   "env": "dev",
   "maxPageSize": 200,
-  "http": { "hostname": "myhostname" },
+  "protocols": { "http": { "hostname": "myhostname" } },
   "eventFilter": { "payload": ["id", "old_id"] },
 }
 ```
