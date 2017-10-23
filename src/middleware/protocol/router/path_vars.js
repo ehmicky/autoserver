@@ -12,8 +12,8 @@ const getPathVars = function ({ path, route: { regexp, variables } }) {
     // Will be an incrementing index e.g. for /path/* or /path/(maybe)?/
     .map((value, index) => {
       const key = variables[index];
-      const transtypedValue = transtype(value);
-      return { [key]: transtypedValue };
+      const valueA = transtype(value);
+      return { [key]: valueA };
     })
     .reduce(assignObject, {});
 };
