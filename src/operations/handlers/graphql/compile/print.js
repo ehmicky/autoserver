@@ -2,10 +2,10 @@
 
 const { printSchema } = require('graphql');
 
-const printGraphQLSchema = function ({ graphQLSchema }) {
-  return printSchema(graphQLSchema).trim();
+const printGraphqlSchema = function ({ graphqlSchema }) {
+  return printSchema(graphqlSchema).trim();
 };
 
 module.exports = {
-  printGraphQLSchema,
+  printGraphqlSchema,
 };

@@ -14,13 +14,13 @@ const isIntrospectionQuery = function ({ operationDef: { commandName } }) {
 
 // Handle GraphQL introspection query by using the GraphQL schema object
 const handleIntrospection = async function ({
-  graphQLSchema,
+  graphqlSchema,
   queryDocument,
   variables,
   operationName,
 }) {
   const content = await eGetIntrospectionResp({
-    graphQLSchema,
+    graphqlSchema,
     queryDocument,
     variables,
     operationName,
@@ -39,13 +39,13 @@ const handleIntrospection = async function ({
 };
 
 const getIntrospectionResp = function ({
-  graphQLSchema,
+  graphqlSchema,
   queryDocument,
   variables,
   operationName,
 }) {
   return execute(
-    graphQLSchema,
+    graphqlSchema,
     queryDocument,
     {},
     {},

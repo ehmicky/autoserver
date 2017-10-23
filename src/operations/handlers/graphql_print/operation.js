@@ -5,7 +5,8 @@ const methods = require('./methods');
 const { handler } = require('./handler');
 
 const operation = {
-  name: 'GraphQLPrint',
+  name: 'graphqlprint',
+  title: 'GraphQLPrint',
   routes,
   methods,
   handler,

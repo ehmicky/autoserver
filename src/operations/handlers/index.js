@@ -1,11 +1,11 @@
 'use strict';
 
-const GraphQL = require('./graphql');
-const GraphiQL = require('./graphiql');
-const GraphQLPrint = require('./graphql_print');
+const graphql = require('./graphql');
+const graphiql = require('./graphiql');
+const graphqlprint = require('./graphql_print');
 
 module.exports = {
-  GraphQL,
-  GraphiQL,
-  GraphQLPrint,
+  graphql,
+  graphiql,
+  graphqlprint,
 };

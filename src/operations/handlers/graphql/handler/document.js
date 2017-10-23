@@ -5,7 +5,7 @@ const { parse } = require('graphql');
 const { throwError, addGenErrorHandler } = require('../../../../error');
 
 // Generic/raw GraphQL parsing
-const getGraphQLDocument = function ({ queryVars, payload }) {
+const getGraphqlDocument = function ({ queryVars, payload }) {
   const payloadA = parsePayload({ payload });
   // Parameters can be in either query variables or payload
   const { query, variables, operationName } = { ...queryVars, ...payloadA };
@@ -40,11 +40,11 @@ const parseQuery = function ({ query }) {
   return parse(query);
 };
 
-const eGetGraphQLDocument = addGenErrorHandler(getGraphQLDocument, {
+const eGetGraphqlDocument = addGenErrorHandler(getGraphqlDocument, {
   message: 'Could not parse GraphQL query',
   reason: 'SYNTAX_VALIDATION',
 });
 
 module.exports = {
-  getGraphQLDocument: eGetGraphQLDocument,
+  getGraphqlDocument: eGetGraphqlDocument,
 };
