@@ -17,9 +17,9 @@ const isNotRequiredValidated = function ({ validate = {} }) {
   return !validate.required;
 };
 
-// `args.filter` fields are never required, except `id` for single commands
-const isFilterArg = function ({ command }, { inputObjectType }) {
-  return inputObjectType === 'filter' && command.multiple;
+// `args.filter` fields are never required
+const isFilterArg = function (def, { inputObjectType }) {
+  return inputObjectType === 'filter';
 };
 
 // `patchOne|patchMany` do not require any attribute in `args.data`

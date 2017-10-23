@@ -9,7 +9,7 @@ argument, e.g.:
 
 ```graphql
 mutation {
-  delete_user(filter: {id: "1"}, dryrun: true) {
+  delete_user(id: "1", dryrun: true) {
     id
   }
 }

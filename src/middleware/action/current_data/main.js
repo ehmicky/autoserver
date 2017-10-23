@@ -23,7 +23,7 @@ const addCurrentData = function (
 };
 
 // `find` and `create` commands do not use `currentData`
-// `patch` and `delete` use `args.filter` so need to be run serially, waiting
+// `patch` and `delete` use `args.filter|id` so need to be run serially, waiting
 // for their parent.
 // But `replace` can be run in parallel.
 const resolvers = {

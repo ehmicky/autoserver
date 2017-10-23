@@ -5,13 +5,6 @@ const filterField = function (def, opts) {
   return isFiltered ? null : def;
 };
 
-// Filter arguments for single commands only include `id`
-const singleIdFilter = function ({ command }, { inputObjectType, defName }) {
-  return inputObjectType === 'filter' &&
-    !command.multiple &&
-    defName !== 'id';
-};
-
 // `patchOne|patchMany` do not allow data.id
 const patchIdData = function ({ command }, { inputObjectType, defName }) {
   return inputObjectType === 'data' &&
@@ -20,7 +13,6 @@ const patchIdData = function ({ command }, { inputObjectType, defName }) {
 };
 
 const filters = [
-  singleIdFilter,
   patchIdData,
 ];
 

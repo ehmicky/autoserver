@@ -1,11 +1,15 @@
 # Simple filtering
 
-One can specify which models to target using a `filter`, for the commands
-`find`, `delete` and `patch`.
+One can specify which models to target using an `id` or a `filter`,
+for the commands `find`, `delete` and `patch`.
 
-If the command is singular, only `filter.id` can be used, and it is required.
+If the command is singular, the `id` argument should be used, e.g.:
 
-Filters look like this:
+```graphql
+find_user(id: "1")
+```
+
+If the command is plural, the `filter` argument should be used, e.g.:
 
 ```graphql
 find_users(filter: {country: "Denmark"})
