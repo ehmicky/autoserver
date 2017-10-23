@@ -20,8 +20,8 @@ const getTypeName = function ({
     return camelize(`_${model}`);
   }
 
-  const commandName = getCommandName({ model, command });
-  return camelize(`_${commandName}_${inputObjectType}`);
+  const modelA = singular(model);
+  return camelize(`_${command.type}_${modelA}_${inputObjectType}`);
 };
 
 module.exports = {
