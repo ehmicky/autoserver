@@ -1,17 +1,13 @@
 'use strict';
 
-const { protocols } = require('../../protocols');
+const { protocolHandlers } = require('../../protocols');
 
-// Can use runOpts.PROTOCOL.enabled {boolean}
-const getProtocols = function ({ runOpts }) {
-  return protocols.filter(isEnabledProtocol.bind(null, runOpts));
-};
-
-const isEnabledProtocol = function (runOpts, protocol) {
-  const { enabled } = runOpts[protocol.toLowerCase()];
-  return enabled;
+// Can use runOpts.protocols.PROTOCOL.enabled {boolean}
+const getProtocolHandlers = function ({ runOpts }) {
+  return Object.values(protocolHandlers)
+    .filter(({ name }) => runOpts.protocols[name].enabled !== false);
 };
 
 module.exports = {
-  getProtocols,
+  getProtocolHandlers,
 };

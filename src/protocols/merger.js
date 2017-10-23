@@ -9,9 +9,7 @@ const handlers = require('./handlers');
 // E.g. there should be no HTTP-related code outside of this directory,
 // to enforce protocol-agnosticism and separation of concerns.
 const protocolHandlers = keyBy(handlers);
-const protocols = Object.keys(protocolHandlers);
 
 module.exports = {
   protocolHandlers,
-  protocols,
 };

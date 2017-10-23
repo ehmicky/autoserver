@@ -31,8 +31,8 @@ const connectToDatabases = async function ({ runOpts, schema, measures }) {
 const getAdapters = function ({ runOpts: { db } }) {
   return Object.entries(db)
     .filter(([, { enabled }]) => enabled !== false)
-    .map(([type, { models, ...options }]) =>
-      ({ ...databaseAdapters[type], type, models, options }));
+    .map(([name, { models, ...options }]) =>
+      ({ ...databaseAdapters[name], name, models, options }));
 };
 
 module.exports = {

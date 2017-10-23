@@ -1,22 +1,25 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../../error');
-const { protocolHandlers } = require('../../protocols');
 
 // Do the actual server launch
-const launchServer = async function ({ protocol, runOpts, handleRequest }) {
-  const opts = runOpts[protocol.toLowerCase()];
-  const protocolHandler = protocolHandlers[protocol];
-  const serverFacts = await protocolHandler.startServer({
+const launchServer = async function ({
+  protocolHandler,
+  protocolHandler: { name: protocol },
+  runOpts,
+  handleRequest,
+}) {
+  const opts = runOpts.protocols[protocol];
+  const server = await protocolHandler.startServer({
     opts,
     runOpts,
     handleRequest,
   });
-  return { serverFacts: { ...serverFacts, protocol } };
+  return { server: { ...server, protocol, protocolHandler } };
 };
 
 const eLaunchServer = addGenErrorHandler(launchServer, {
-  message: ({ protocol }) => `Could not start ${protocol} server`,
+  message: ({ protocolHandler: { title } }) => `Could not start ${title} server`,
   reason: 'PROTOCOL_ERROR',
 });
 

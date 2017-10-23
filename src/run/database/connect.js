@@ -59,7 +59,7 @@ const startConnection = async function ({
 
 const kStartConnection = monitor(
   startConnection,
-  ({ adapter: { type } }) => type,
+  ({ adapter: { name } }) => name,
   'databases',
 );
 
@@ -78,7 +78,7 @@ const getDbAdapters = function ({ adapters, adaptersMap }) {
 };
 
 const getDbAdapter = function ({ adapters, adapter }) {
-  return adapters.find(({ type }) => type === adapter);
+  return adapters.find(({ name }) => name === adapter);
 };
 
 module.exports = {

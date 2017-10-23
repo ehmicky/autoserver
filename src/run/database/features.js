@@ -18,21 +18,21 @@ const validateAdapter = function ({
   adapterName,
 }) {
   const model = schema.models[modelName];
-  const adapter = adapters.find(({ type }) => type === adapterName);
+  const adapter = adapters.find(({ name }) => name === adapterName);
   validateModel({ model, modelName, adapter });
 };
 
 const validateModel = function ({
   model,
   modelName,
-  adapter: { features, type },
+  adapter: { features, name },
 }) {
   const modelFeatures = getModelFeatures({ model });
   const featuresA = difference(modelFeatures, features);
   if (featuresA.length === 0) { return; }
 
   const featuresB = getWordsList(featuresA, { op: 'and', quotes: true });
-  const message = `Database '${type}' cannot target model '${modelName}' because that model requires the features ${featuresB}, but that database does not support those features`;
+  const message = `Database '${name}' cannot target model '${modelName}' because that model requires the features ${featuresB}, but that database does not support those features`;
   throwError(message, { reason: 'CONF_VALIDATION' });
 };
 

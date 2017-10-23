@@ -8,7 +8,7 @@ const { opts } = require('./opts');
 
 // Memory database adapter, i.e. keeps database in-memory
 const adapter = {
-  type: 'memory',
+  name: 'memory',
   title: 'In-Memory',
   description: 'In-memory database. For development purpose only.',
   features: ['filter'],

@@ -6,7 +6,7 @@ const { query } = require('./query');
 const opts = require('./opts');
 
 const adapter = {
-  type: 'mongodb',
+  name: 'mongodb',
   title: 'MongoDB',
   description: 'MongoDB database',
   features: ['filter'],

@@ -34,7 +34,7 @@ const emitStartEvent = async function ({
 const getPayload = function ({ servers, runOpts, gracefulExit }) {
   const serversA = mapValues(
     servers,
-    serverFacts => omit(serverFacts, 'server'),
+    serverFacts => omit(serverFacts, ['server', 'protocolHandler']),
   );
   const options = getOptions({ runOpts });
   return { servers: serversA, options, exit: gracefulExit };

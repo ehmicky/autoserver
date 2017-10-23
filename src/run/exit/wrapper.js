@@ -20,24 +20,18 @@ const wrapCloseFunc = function (
   return mFunc;
 };
 
-const getEventLabel = function (label, input) {
-  const prefix = getPrefix(input);
-  return `${prefix}.${label}`;
-};
-
-const getPrefix = function ({ protocol, title }) {
-  return protocol || title;
+const getEventLabel = function (label, { name }) {
+  return `${name}.${label}`;
 };
 
 // Shutdown success events
 const handleEvent = async function ({ func, successMessage }, input) {
-  const { runOpts } = input;
+  const { runOpts, title } = input;
 
   const response = await func(input);
 
   const message = result(successMessage, response);
-  const prefix = getPrefix(input);
-  const messageA = `${prefix} - ${message}`;
+  const messageA = `${title} - ${message}`;
   await emitEvent({
     type: 'message',
     phase: 'shutdown',
@@ -54,10 +48,9 @@ const handleEventHandler = async function (
   { errorMessage, reason },
   input,
 ) {
-  const { runOpts } = input;
+  const { runOpts, title } = input;
 
-  const prefix = getPrefix(input);
-  const message = `${prefix} - ${errorMessage}`;
+  const message = `${title} - ${errorMessage}`;
   const errorA = normalizeError({ error, reason });
   await emitEvent({
     type: 'failure',

@@ -12,15 +12,15 @@ const addHandlers = function (adapter) {
   return mapValues(adapter, addHandler);
 };
 
-const addHandler = function (func, funcName, { type }) {
+const addHandler = function (func, funcName, { name }) {
   if (!errorMethodNames.includes(funcName)) { return func; }
 
-  return addErrorHandler(func, errorHandler.bind(null, { funcName, type }));
+  return addErrorHandler(func, errorHandler.bind(null, { funcName, name }));
 };
 
-const errorHandler = function ({ funcName, type }, error, { command }) {
+const errorHandler = function ({ funcName, name }, error, { command }) {
   const message = errorMessages[funcName] || errorMessages[command];
-  const messageA = `${message} database '${type}'`;
+  const messageA = `${message} database '${name}'`;
   const errorA = normalizeError({
     error,
     message: messageA,
