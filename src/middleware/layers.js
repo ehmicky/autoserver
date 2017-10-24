@@ -198,6 +198,8 @@ const middlewareLayers = [
 
       // Validate database response
       database.responseValidation,
+      // Remove models that are null|undefined
+      database.removeEmptyModels,
       // Remove duplicate read models
       database.duplicateReads,
       // Check if any `id` was not found (404) or was unauthorized (403)
