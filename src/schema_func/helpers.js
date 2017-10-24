@@ -17,7 +17,9 @@ const getHelper = function ({ varsRef, helper }) {
 
   const helperA = runHelper.bind(null, { helper, varsRef });
 
-  // Keep static member, including `inlineFunc`
+  // Keep static member
+  // E.g. Underscore/Lodash main exported object is both a function and an
+  // object with function members
   // eslint-disable-next-line fp/no-mutating-assign
   Object.assign(helperA, helper);
 
