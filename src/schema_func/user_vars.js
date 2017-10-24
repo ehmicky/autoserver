@@ -37,6 +37,9 @@ const runUserVar = function (
   { userVar, varsRef: { ref } },
   $1, $2, $3, $4, $5, $6, $7, $8, $9,
 ) {
+  // Even without $1, etc. we would need to make a shallow copy of `ref`,
+  // or make it immutable, to avoid `userVar()` from creating side-effects
+  // influencing another user variable
   const vars = { ...ref, $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
   return userVar(vars, $1, $2, $3, $4, $5, $6, $7, $8, $9);
