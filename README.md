@@ -15,8 +15,8 @@ full-featured [GraphQL](http://graphql.org/) server will start.
     [in-memory database](docs/memory_db.md).
   - [Multiple databases](docs/databases.md#multiple-databases.md) can be mixed
     on the same API
-  - [Protocol agnostic](docs/protocols.md), with support for HTTP/1.1 only at
-    the moment
+  - [Protocol agnostic](docs/protocols.md), with support for
+    [HTTP/1.1](docs/http.md) only at the moment
   - [CRUD commands](docs/graphql.md#read-queries):
     find, create, patch, replace, delete.
     Each command can be performed on a single model or on several models.
