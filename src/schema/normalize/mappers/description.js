@@ -32,8 +32,8 @@ const getAliasesDescription = function ({ alias }) {
 
 const allDescriptions = [
   {
-    test: ({ readonly }) => readonly,
-    message: () => 'This attribute is readonly, i.e. can only be set when the model is created.',
+    test: ({ readonly }) => readonly === true,
+    message: () => 'This attribute is readonly, i.e. cannot be modified.',
   },
   {
     test: ({ value }) => value !== undefined,
