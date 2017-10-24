@@ -124,9 +124,7 @@ helpers:
     _s.titleize($OPERATION))
   birthDate: 2005-01-01
   myOtherMathFunc:
-    value:
-      $ref: math_func.js
-    useVars: true
+    $ref: math_func.js
   user: '(({ id: "1" }))'
   constants:
     $ref: constants.json
