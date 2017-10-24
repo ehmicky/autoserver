@@ -38,14 +38,15 @@ See the documentation [here](relations.md).
 If a model is called `default`, it will not be used as a regular model, but
 instead be deeply merged into each model.
 
-E.g. to specify that each model's `id` should be an integer:
+E.g. to specify that each model's `name` should be required:
 
 ```yml
 models:
   default:
     attributes:
-      id:
-        type: integer
+      name:
+        validate:
+          required: true
 ```
 
 # Empty values

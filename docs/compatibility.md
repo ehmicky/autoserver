@@ -5,6 +5,9 @@ backward compatibility, using the [schema](schema.md) property
 `attribute.alias`, which can be a string or an array of strings, e.g.:
 
 ```yml
-weight:
-  alias: [old_weight_name, older_weight_name]
+models:
+  example_model:
+    attributes:
+      example_attribute:
+        alias: [old_attribute_name, older_attribute_name]
 ```
