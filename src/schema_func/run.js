@@ -4,6 +4,7 @@ const { addGenErrorHandler } = require('../error');
 
 const { getVars } = require('./variables');
 const { bindVariables } = require('./helpers');
+const { stringifySchemaFunc } = require('./tokenize');
 
 // Process (already compiled) schema function,
 // i.e. fires it and returns its value
@@ -29,17 +30,6 @@ const eRunSchemaFunc = addGenErrorHandler(runSchemaFunc, {
     `Schema function failed: '${stringifySchemaFunc({ schemaFunc })}'`,
   reason: 'UTILITY_ERROR',
 });
-
-const stringifySchemaFunc = function ({
-  schemaFunc,
-  schemaFunc: { inlineFunc, name },
-}) {
-  if (inlineFunc) { return inlineFunc; }
-
-  if (!name || name === 'anonymous') { return schemaFunc.toString(); }
-
-  return `${name}()`;
-};
 
 module.exports = {
   runSchemaFunc: eRunSchemaFunc,
