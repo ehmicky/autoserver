@@ -1,18 +1,26 @@
 'use strict';
 
 // Retrieve schema functions variables, using the request mInput
-const getVars = function ({
-  protocol: $PROTOCOL,
-  timestamp: $TIMESTAMP,
-  ip: $IP,
-  requestId: $REQUEST_ID,
-  operation: $OPERATION,
-  modelName: $MODEL,
-  topArgs: $ARGS,
-  topArgs: { params: $PARAMS = {} },
-  command: $COMMAND,
-}) {
+// Also add helpers, and call-specific variables
+const getVars = function (
+  {
+    protocol: $PROTOCOL,
+    timestamp: $TIMESTAMP,
+    ip: $IP,
+    requestId: $REQUEST_ID,
+    operation: $OPERATION,
+    modelName: $MODEL,
+    topArgs: $ARGS,
+    topArgs: { params: $PARAMS = {} },
+    command: $COMMAND,
+  },
+  {
+    vars,
+    helpers,
+  },
+) {
   return {
+    ...helpers,
     $PROTOCOL,
     $TIMESTAMP,
     $IP,
@@ -22,6 +30,7 @@ const getVars = function ({
     $ARGS,
     $COMMAND,
     $PARAMS,
+    ...vars,
   };
 };
 

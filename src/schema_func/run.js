@@ -17,12 +17,11 @@ const runSchemaFunc = function ({
   // If this is not schema function, returns as is
   if (typeof schemaFunc !== 'function') { return schemaFunc; }
 
-  const varsA = getVars(mInput);
-  const varsB = { ...varsA, ...helpers, ...vars };
+  const varsA = getVars(mInput, { helpers, vars });
 
-  bindVariables({ varsRef, vars: varsB });
+  bindVariables({ varsRef, vars: varsA });
 
-  return schemaFunc(varsB);
+  return schemaFunc(varsA);
 };
 
 const eRunSchemaFunc = addGenErrorHandler(runSchemaFunc, {
