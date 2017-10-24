@@ -1,25 +1,26 @@
 'use strict';
 
-const { omit } = require('../../../utilities');
-const { mapFilter } = require('../../../database');
+const { omit } = require('../../utilities');
+const { mapFilter } = require('../../database');
 
 // Some databases require a specific name for `id`, e.g. `_id` for MongoDB.
 // This is a translation layer that modifies `id` name inside and outside of
 // the database adapter.
-const renameIdsInput = function ({ dbAdapter: { idName }, commandInput }) {
+const renameIdsInput = function ({ dbAdapter: { idName }, args }) {
   // Database adapter declare optional `id` name with `idName`
-  if (idName === undefined) { return commandInput; }
+  if (idName === undefined) { return { args }; }
 
-  return Object.entries(idsInput)
-    .reduce(reduceCommandInput.bind(null, idName), commandInput);
+  const argsA = Object.entries(idsInput)
+    .reduce(reduceArgs.bind(null, idName), args);
+  return { args: argsA };
 };
 
-const reduceCommandInput = function (idName, commandInput, [propName, func]) {
-  const { [propName]: prop } = commandInput;
-  if (prop === undefined) { return commandInput; }
+const reduceArgs = function (idName, args, [argName, func]) {
+  const { [argName]: arg } = args;
+  if (arg === undefined) { return args; }
 
-  const propA = func(prop, idName);
-  return { ...commandInput, [propName]: propA };
+  const argA = func(arg, idName);
+  return { ...args, [argName]: argA };
 };
 
 // Modify `args.newData`, or database output
@@ -65,11 +66,15 @@ const idsInput = {
 };
 
 // Modify database output
-const renameIdsOutput = function ({ dbAdapter: { idName }, dbData }) {
-  if (idName === undefined || dbData === undefined) { return dbData; }
+const renameIdsOutput = function ({ dbAdapter: { idName }, dbData, command }) {
+  const shouldRename = command === 'find' &&
+    idName !== undefined &&
+    dbData !== undefined;
+  if (!shouldRename) { return { dbData }; }
 
   // Inverse of `args.newData` transformation
-  return renameData(dbData, 'id', idName);
+  const dbDataA = renameData(dbData, 'id', idName);
+  return { dbData: dbDataA };
 };
 
 module.exports = {

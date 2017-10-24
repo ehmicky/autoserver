@@ -3,9 +3,8 @@
 module.exports = {
   ...require('./authorization'),
   ...require('./data_validation'),
-  ...require('./dryrun'),
 
-  ...require('./execute'),
+  ...require('./adapter'),
 
   ...require('./duplicate_read'),
   ...require('./missing_ids'),

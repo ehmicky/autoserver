@@ -33,7 +33,7 @@ const validateAction = function ({
   const attrName = commandPath[commandPath.length - 1];
 
   // Only for readonly attributes
-  if (!readonlyMap[parentModel].includes(attrName)) { return; }
+  if (!Object.keys(readonlyMap[parentModel]).includes(attrName)) { return; }
 
   const { args: { data: newData }, currentData, dataPaths } = parentAction;
 
