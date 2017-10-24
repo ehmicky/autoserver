@@ -1,6 +1,7 @@
 'use strict';
 
-const { omit } = require('../../utilities');
+const { omit, pick, pickBy } = require('../../utilities');
+const { runSchemaFunc } = require('../../schema_func');
 
 // Sets attributes marked in schema as `readonly` to their current value
 // (i.e. `currentData`)
@@ -13,6 +14,7 @@ const handleReadonly = function ({
   args: { newData, currentData },
   modelName,
   schema: { shortcuts: { readonlyMap } },
+  mInput,
 }) {
   // If no `currentData`, this means the model does not exist yet,
   // i.e. this is a create command.
@@ -20,28 +22,48 @@ const handleReadonly = function ({
   if (newData === undefined || currentData === undefined) { return; }
 
   const attrs = readonlyMap[modelName];
+
   const newDataA = newData.map((newDatum, index) => removeAttrs({
     newData: newDatum,
     currentData: currentData[index],
     attrs,
+    mInput,
   }));
 
   return { args: { ...args, newData: newDataA } };
 };
 
-const removeAttrs = function ({ newData, currentData, attrs }) {
-  return attrs.reduce(
-    (newDataA, attr) => removeAttr({ newData: newDataA, currentData, attr }),
-    newData,
-  );
+const removeAttrs = function ({ newData, currentData, attrs, mInput }) {
+  const attrsA = getReadonlyAttrs({ attrs, newData, mInput });
+  const newDataA = removeReadonlyAttrs({ newData, currentData, attrs: attrsA });
+  return newDataA;
 };
 
-const removeAttr = function ({ newData, currentData, attr }) {
-  if (currentData[attr] == null) {
-    return omit(newData, attr);
-  }
+// Retrieve which attributes are readonly
+const getReadonlyAttrs = function ({ attrs, newData, mInput }) {
+  const attrsA = pickBy(
+    attrs,
+    (readonly, attrName) => isReadonly({ readonly, newData, attrName, mInput }),
+  );
+  const attrsB = Object.keys(attrsA);
+  return attrsB;
+};
 
-  return { ...newData, [attr]: currentData[attr] };
+const isReadonly = function ({ readonly, newData, attrName, mInput }) {
+  const vars = { $model: newData, $val: newData[attrName] };
+  const readonlyA = runSchemaFunc({ schemaFunc: readonly, mInput, vars });
+  return Boolean(readonlyA) === true;
+};
+
+// Silently sets `newData` back to `currentData`
+const removeReadonlyAttrs = function ({ newData, currentData, attrs }) {
+  const previousData = pick(currentData, attrs);
+  const nullData = pickBy(previousData, data => data == null);
+  const nonNullData = pickBy(previousData, data => data != null);
+
+  const newDataA = { ...newData, ...nonNullData };
+  const newDataB = omit(newDataA, Object.keys(nullData));
+  return newDataB;
 };
 
 module.exports = {
