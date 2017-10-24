@@ -8,6 +8,6 @@ module.exports = {
   ...require('./execute'),
 
   ...require('./duplicate_read'),
-  ...require('./missing_id'),
+  ...require('./missing_ids'),
   ...require('./response_validation'),
 };
