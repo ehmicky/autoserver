@@ -1,10 +1,10 @@
 'use strict';
 
-const mapAttrs = attrs => Object.keys(attrs);
+const mapAttr = ({ readonly }) => readonly;
 
 // Gets a map of models' readonly attributes,
-// e.g. { my_model: ['my_readonly_attribute', ...], ... }
-const readonlyMap = { filter: 'readonly', mapAttrs };
+// e.g. { my_model: { attribute: 'readonly_value', ... }, ... }
+const readonlyMap = { filter: 'readonly', mapAttr };
 
 module.exports = {
   readonlyMap,

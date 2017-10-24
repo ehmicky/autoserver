@@ -114,7 +114,7 @@ definitions:
             type: string
             $ref: '#/definitions/validAttributeName'
       readonly:
-        type: boolean
+        $ref: '#/definitions/schemaFuncBoolean'
       transform:
         $ref: '#/definitions/transformValue'
       value:
@@ -282,6 +282,10 @@ definitions:
     - not:
         $ref: '#/definitions/schemaFunc'
       type: string
+  schemaFuncBoolean:
+    anyOf:
+    - $ref: '#/definitions/schemaFunc'
+    - type: boolean
   # Schema functions can either be external (function) or
   # inline (a string '(...)')
   schemaFunc:
