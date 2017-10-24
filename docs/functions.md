@@ -21,10 +21,12 @@ required using a
 [JSON reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),
 e.g.:
 
+<!-- eslint-disable strict, filenames/match-exported -->
 ```js
 const getDefaultValue = function () {
   return Math.random();
 };
+
 module.exports = getDefaultValue;
 ```
 
@@ -72,10 +74,12 @@ first argument, as an object:
 
 E.g.:
 
+<!-- eslint-disable strict, filenames/match-exported -->
 ```js
 const getDefaultValue = function ({ $timestamp }) {
   return $timestamp;
 };
+
 module.exports = getDefaultValue;
 ```
 
@@ -99,10 +103,12 @@ variables:
 
 The user variable `secretPassword` can be used in any schema function:
 
+<!-- eslint-disable strict, filenames/match-exported -->
 ```js
 const getDefaultValue = function ({ secretPassword }) {
   return secretPassword === 'admin' ? 1 : 0;
 };
+
 module.exports = getDefaultValue;
 ```
 
