@@ -1,7 +1,6 @@
 'use strict';
 
-const { extractSimpleIds } = require('../../../../database');
-const { getSimpleFilter } = require('../../../action');
+const { extractSimpleIds, getSimpleFilter } = require('../../../../database');
 
 // If another `find` command searching for the same models is currently running,
 // use its future results (for efficiency reasons) instead of running it.
