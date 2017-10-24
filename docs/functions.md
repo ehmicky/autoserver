@@ -1,127 +1,146 @@
 # Schema functions
 
-Custom logic can be added by using functions in the schema.
+Custom logic can be added by using functions in the [schema](schema.md).
 
-Schema functions can be used in many parts of the [schema](schema.md):
-  - on attributes' [transforms](transformation.md#transformations)
-  - on attributes' [default values](transformation.md#default-values)
-  - on [custom validation keywords](validation.md#custom-validation)
+Not all schema properties can use functions. The following properties can use
+either a function or a constant as value:
+  - attributes' [transforms](transformation.md#transformations)
+  - attributes' [default values](transformation.md#default-values)
+  - [custom validation keywords](validation.md#custom-validation)
 
-Functions can take two forms: [inline](#inline-functions)
-or [external](#external-functions).
+Schema functions should be pure, i.e. no global variable should be used, and
+it should not create side-effects.
 
-# Inline functions
-
-It basically is inline JavaScript with few differences:
-  - the function should be pure, i.e.:
-    - global state should not be accessed, e.g. `window` or `global`
-    - should not create side-effects, which includes variable declarations and
-      assignments
-  - some variables are available for ease of use
-
-To differentiate it from regular strings, inline functions must be wrapped in
-parenthesis.
-The first parenthesis can be escaped if we actually want a regular string
-wrapped in parenthesis. E.g.:
-  - this is not an inline function: `1 + 1`
-  - this is an inline function: `(1 + 1)`
-  - this is not an inline function: `\(1 + 1)`
-
-Constants can be always be used instead of an inline function.
+Functions can take two forms: [external](#external-functions) or
+[inline](#inline-functions).
 
 # External functions
 
-One can use regular JavaScript files instead of inlining it. Files can be
-required using
-[JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),
+External functions are regular JavaScript files exporting a function and
+required using a
+[JSON reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),
 e.g.:
+
+```js
+const getDefaultValue = function () {
+  return Math.random();
+};
+module.exports = getDefaultValue;
+```
+
+and in the schema:
 
 ```yml
 default:
-  $ref: src/my_external_function.js
+  $ref: src/get_default_value.js
 ```
 
-External functions can only be used inside the [schema](schema.md).
+# Inline functions
 
-# Schema function variables
+You can also directly write JavaScript functions inside the schema, e.g.:
 
-The following variables are available:
+```yml
+default: (Math.random())
+```
+
+Only the function body should be specified, and it should be wrapped in
+parenthesis.
+
+# Schema functions variables
+
+The following system variables are always passed to schema functions as their
+first argument, as an object:
   - `$protocol` `{string}`: possible values are only `http`
   - `$timestamp` `{string}`: current date and time
   - `$ip` `{string}`: request IP
   - `$requestId` `{string}`: UUID identifying the current request
-  - `$params` `{object}`: all [parameters](#schema-function-parameters)
+  - `$params` `{object}`: all [client parameters](#client-parameters)
   - `$operation` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
   - `$modelName` `{string}`: name of the [model](models.md), e.g. `user`
-  - `$args` `{object}`: arguments passed by client to the request
+  - `$args` `{object}`: client arguments passed to the request, e.g. `filter`
   - `$command` `{string}`: current command, among `create`, `find`, `replace`,
     `patch` or `delete`
-  - `$val` `{any}`: value of current attribute
-    E.g. `'($val !== "John")'`
-    checks whether `model.name !== 'John'`
-  - `$model` `{object}`: current model (input or output),
-    E.g. `'($val === $model.first_name)'`
-    checks whether `model.name === model.first_name`
-
-The following variable is available only to
-[custom validation](validation.md#custom-validation) keyword:
+  - `$val` `{any}`: value of the current attribute.
+    E.g. `$val === 'John'` checks whether the current value equals `'John'`
+  - `$model` `{object}`: current model.
+    E.g. `$model.first_name === 'John'` checks whether the model's `first_name`
+    equals `'John'`
   - `$expected` `${any}`: value passed as argument to the custom validation
-    keyword
+    keyword. Only available to
+    [custom validation](validation.md#custom-validation) keyword:
 
-# Schema function helpers
+E.g.:
 
-Helpers are functions that can be used in any schema functions,
-as any other schema functions variable.
-
-They are specified under the top-level properties
-`helpers`, which can be an array of objects (which are merged) or a single
-object. Each object is a map of schema function helpers, with:
-  - the key being the helper's name
-  - the value being either the helper's value, of an object with properties:
-    - `value` `{function}`
-    - `useVars` `{boolean}` (default: `false`): pass other schema function
-      variables as first argument to helper function
-
-They can use the same schema function variables as the function that calls them.
-If the helper is external function, the schema option `useVars` must be used to
-pass the schema function variables as first argument, and the helpers as second
-argument.
-
-Inline functions can also use positional arguments, passed as schema function
-variables `$1`, `$2`, etc.
-
-Schema function helpers can call each other.
-
-They must be pure functions.
-
-Example:
-
-```yml
-helpers:
-  - myMathFunc: (($1 * $2) + ($3 * $4))
-    exampleFunction: '(myMathFunc(1, 10, 100, 2))'
-    birthDate: 2005-01-01
-    myOtherMathFunc:
-      value:
-        $ref: math_func.js
-      useVars: true
-  - $ref: lodash
-  - $ref: constants.json
+```js
+const getDefaultValue = function ({ $timestamp }) {
+  return $timestamp;
+};
+module.exports = getDefaultValue;
 ```
 
-# Schema function parameters
+Those can be also be used when the function is inline, e.g.:
 
-Clients can specify their own schema function variables on any specific request,
-using the argument `params` with an object value, e.g.:
+```yml
+default: ($timestamp)
+```
+
+# User variables
+
+User variables behave like system variables, except they are specified using the
+`variables` schema property, which is an object containing all user variables.
+
+E.g. if the schema specifies:
+
+```yml
+variables:
+  secretPassword: admin
+```
+
+The user variable `secretPassword` can be used in any schema function:
+
+```js
+const getDefaultValue = function ({ secretPassword }) {
+  return secretPassword === 'admin' ? 1 : 0;
+};
+module.exports = getDefaultValue;
+```
+
+User variables can be functions themselves:
+  - the other variables will be passed as their first argument, like any
+    other schema function. I.e. user variables can use system variables or
+    each other.
+  - if the function is [inline](#inline-functions), positional arguments will
+    be passed as variables `$1`, `$2`, etc.
+
+For example:
+
+```yml
+variables:
+  exampleFunction: '(myMathFunc(1, 10, 100, 2))'
+  myMathFunc: (($1 * $2) + ($3 * $4))
+  birthDate: 2005-01-01
+  myCustomFunc:
+    $ref: custom_func.js
+  _s:
+    $ref: lodash.node
+  constants:
+    $ref: constants.json
+```
+
+# Client parameters
+
+Clients can specify their own
+[schema function variables](#schema-functions-variables) on any specific
+request, using the argument `params` with an object value, e.g.:
 
 ```graphql
-mutation {
-  find_user(filter: {id: "1"}, params: { password: "admin" }) {
+query {
+  find_user(id: "1", params: { password: "admin" }) {
     id
   }
 }
 ```
 
-Those will be available using the schema function variable `$params`.
-E.g. the previous example would set `$params.password` to `"admin"`.
+Those will be available using the
+[system variable](#schema-functions-variables) `$params` as an object.

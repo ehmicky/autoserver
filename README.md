@@ -40,7 +40,8 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - automatic attributes:
     [`created_time`, `updated_time`](docs/plugins.md#timestamps),
     [`created_by`, `updated_by`](docs/plugins.md#model-authors)
-  - [custom JavaScript logic](docs/functions.md) and [plugins](docs/plugins.md)
+  - [custom JavaScript logic](docs/functions.md)
+  - [plugins](docs/plugins.md)
   - extensive [error handling](docs/error.md) and
     [logging](docs/events.md#logging) capabilities
   - [performance monitoring](docs/performance.md#performance-monitoring)

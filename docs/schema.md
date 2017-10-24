@@ -39,8 +39,9 @@ models:
 One can also refer to Node.js modules or libraries by appending `.node`:
 
 ```yml
-helpers:
-  - $ref: lodash.node
+variables:
+  lodash:
+    $ref: lodash.node
 ```
 
 # Example
@@ -77,8 +78,7 @@ The schema can contain the following properties:
       - `attributes` `{object}` - list of the model's
         [attributes](models.md#attributes)
         - `ATTRIBUTE` `{object}` - ATTRIBUTE is the name
-  - `helpers` `{object}` -
-    [schema function helpers](functions.md#schema-function-helpers)
+  - `variables` `{object}` - [user variables](functions.md#user-variables)
   - `plugins` `{object}` - [plugins](plugins.md)
   - `validation` `{object}` -
     [custom validation keywords](validation.md#custom-validation)
@@ -90,7 +90,7 @@ See the following documentation for:
   - [authorization](authorization.md)
   - [transformation](transformation.md)
   - [compatibility](compatibility.md)
-  - [schema function helpers](functions.md#schema-function-helpers)
+  - [custom logic](functions.md)
   - [plugins](plugins.md)
 
 # Schema validation
