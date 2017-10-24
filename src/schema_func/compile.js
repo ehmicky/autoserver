@@ -3,7 +3,7 @@
 const { addGenErrorHandler } = require('../error');
 const { setAll } = require('../utilities');
 
-const { getVarsKeys } = require('./variables');
+const { getVarsKeys } = require('./vars');
 const { isInlineFunc, isEscapedInlineFunc } = require('./test');
 const { getInlineFunc } = require('./tokenize');
 

@@ -4,44 +4,47 @@ const { mapValues } = require('../utilities');
 
 // Take schema function, inline or not, and turns into `function (...args)`
 // firing the first one, with $1, $2, etc. provided as extra arguments
-const getHelpers = function ({ schema: { helpers } }) {
+const getUserVars = function ({ schema: { variables } }) {
   const varsRef = {};
-  const helpersA = mapValues(helpers, helper => getHelper({ varsRef, helper }));
+  const userVars = mapValues(
+    variables,
+    userVar => getUserVar({ varsRef, userVar }),
+  );
 
-  return { varsRef, helpers: helpersA };
+  return { varsRef, userVars };
 };
 
-const getHelper = function ({ varsRef, helper }) {
+const getUserVar = function ({ varsRef, userVar }) {
   // Constants are left as is, including object containing functions
-  if (typeof helper !== 'function') { return helper; }
+  if (typeof userVar !== 'function') { return userVar; }
 
-  const helperA = runHelper.bind(null, { helper, varsRef });
+  const userVarA = runUserVar.bind(null, { userVar, varsRef });
 
   // Keep static member
   // E.g. Underscore/Lodash main exported object is both a function and an
   // object with function members
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(helperA, helper);
+  Object.assign(userVarA, userVar);
 
-  return helperA;
+  return userVarA;
 };
 
-// When consumer fires Helper('a', 'b'), inline function translates 'a' and 'b'
+// When consumer fires userVar('a', 'b'), inline function translates 'a' and 'b'
 // into $1 and $2 variables, and runSchemaFunc() is performed.
 // We do not use `...args` as a performance optimization
 // eslint-disable-next-line max-params
-const runHelper = function (
-  { helper, varsRef: { ref } },
+const runUserVar = function (
+  { userVar, varsRef: { ref } },
   $1, $2, $3, $4, $5, $6, $7, $8, $9,
 ) {
   const vars = { ...ref, $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-  return helper(vars, $1, $2, $3, $4, $5, $6, $7, $8, $9);
+  return userVar(vars, $1, $2, $3, $4, $5, $6, $7, $8, $9);
 };
 
-// Pass schema function variables to helpers
-// I.e. helpers have same variables as their caller
-// We use a `varsRef` object reference so that all helpers share the same
+// Pass other variables to user variables
+// I.e. user variables have same variables as their caller
+// We use a `varsRef` object reference so that all user variables share the same
 // information, and can call each other.
 // We directly mutate it as a performance optimization.
 const bindVariables = function ({ varsRef, vars }) {
@@ -50,6 +53,6 @@ const bindVariables = function ({ varsRef, vars }) {
 };
 
 module.exports = {
-  getHelpers,
+  getUserVars,
   bindVariables,
 };

@@ -1,7 +1,6 @@
 'use strict';
 
-// Retrieve schema functions variables, using the request mInput
-// Also add helpers, and call-specific variables
+// Retrieve system variables, user variables and call-specific variables
 const getVars = function (
   {
     protocol: $protocol,
@@ -15,12 +14,12 @@ const getVars = function (
     command: $command,
   },
   {
+    userVars,
     vars,
-    helpers,
   },
 ) {
   return {
-    ...helpers,
+    ...userVars,
     $protocol,
     $timestamp,
     $ip,
@@ -35,11 +34,11 @@ const getVars = function (
 };
 
 // Retrieve schema functions variables names
-const getVarsKeys = function ({ schema: { helpers = {} } }) {
-  return [...VARS_KEYS, ...Object.keys(helpers)];
+const getVarsKeys = function ({ schema: { variables = {} } }) {
+  return [...SYSTEM_VARS_KEYS, ...Object.keys(variables)];
 };
 
-const VARS_KEYS = [
+const SYSTEM_VARS_KEYS = [
   '$protocol',
   '$timestamp',
   '$ip',
