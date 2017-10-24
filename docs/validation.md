@@ -51,9 +51,12 @@ version 6:
 E.g.:
 
 ```yml
-weight:
-  validate:
-    minimum: 10
+models:
+  example_model:
+    attributes:
+      example_attribute:
+        validate:
+          minimum: 10
 ```
 
 # Custom validation

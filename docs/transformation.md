@@ -4,8 +4,11 @@ Default values can be specified with the [schema](schema.md) property
 `attribute.default`, e.g.:
 
 ```yml
-weight:
-  default: 200
+models:
+  example_model:
+    attributes:
+      example_attribute:
+        default: 200
 ```
 
 They will be used for `create` and `replace` commands.
@@ -18,8 +21,11 @@ Attributes can be applied transformations on input by specifying
 E.g. to normalize name's case:
 
 ```yml
-name:
-  transform: ($val.toLowerCase())
+models:
+  example_model:
+    attributes:
+      name:
+        transform: ($val.toLowerCase())
 ```
 
 Transformations will not be applied if the current attribute value is
@@ -34,8 +40,11 @@ a constant value.
 E.g. to set an attribute to the current time:
 
 ```yml
-current_date:
-  value: ($timestamp)
+models:
+  example_model:
+    attributes:
+      current_date:
+        value: ($timestamp)
 ```
 
 Computed attributes ignore any value supplied by the client, e.g. the

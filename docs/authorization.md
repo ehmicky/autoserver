@@ -11,7 +11,7 @@ For example, to prevent users from creating users:
 
 ```yml
 models:
-  user:
+  example_model:
     commands: [find, replace, delete]
 ```
 
@@ -23,18 +23,24 @@ Trying to do so won't report any error, but the attribute value will not change.
 They can be specified using `attribute.readonly`, e.g.:
 
 ```yml
-weight:
-  readonly: true
+models:
+  example_model:
+    attributes:
+      example_attribute:
+        readonly: true
 ```
 
 An attribute can be readonly based on a condition, by using a
 [function](function.md) in `attribute.readonly`, e.g.:
 
 ```yml
-name:
-  readonly: ($model.locked === true)
-locked:
-  type: boolean
+models:
+  example_model:
+    attributes:
+      name:
+        readonly: ($model.locked === true)
+      locked:
+        type: boolean
 ```
 
 this model's `name` attribute will be readonly only if its `locked` attribute is

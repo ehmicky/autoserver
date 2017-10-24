@@ -24,16 +24,16 @@ e.g.:
 
 ```yml
 models:
-  user:
-    $ref: user.yml
+  example_model:
+    $ref: example_model.yml
 ```
 
 One can also refer to a property in the current file by prepending a `#`:
 
 ```yml
 models:
-  user:
-    $ref: '#/models/old_user'
+  example_model:
+    $ref: '#/models/old_model'
 ```
 
 One can also refer to Node.js modules or libraries by appending `.node`:
@@ -102,7 +102,7 @@ top-level, on an model or on an attribute, e.g.:
 
 ```yml
 models:
-  user:
+  example_model:
     x-my-custom-prop: 3
 ```
 

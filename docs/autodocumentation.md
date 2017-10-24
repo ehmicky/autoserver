@@ -10,10 +10,13 @@ Also, examples can be documented using `attribute.examples` array of strings,
 e.g.:
 
 ```yml
-name:
-  description: Name of a user
-  deprecation_reason: Please use the attribute new_name instead
-  examples: [John, Mary]
+models:
+  example_model:
+    attributes:
+      name:
+        description: Name of a user
+        deprecation_reason: Please use the attribute new_name instead
+        examples: [John, Mary]
 ```
 
 They will be used e.g. in GraphQL schema.

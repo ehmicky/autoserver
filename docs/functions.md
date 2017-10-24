@@ -34,8 +34,12 @@ module.exports = getDefaultValue;
 and in the schema:
 
 ```yml
-default:
-  $ref: src/get_default_value.js
+models:
+  example_model:
+    attributes:
+      example_attribute:
+        default:
+          $ref: src/get_default_value.js
 ```
 
 # Inline functions
@@ -43,7 +47,11 @@ default:
 You can also directly write JavaScript functions inside the schema, e.g.:
 
 ```yml
-default: (Math.random())
+models:
+  example_model:
+    attributes:
+      example_attribute:
+        default: (Math.random())
 ```
 
 Only the function body should be specified, and it should be wrapped in
@@ -87,7 +95,11 @@ module.exports = getDefaultValue;
 Those can be also be used when the function is inline, e.g.:
 
 ```yml
-default: ($timestamp)
+models:
+  example_model:
+    attributes:
+      example_attribute:
+        default: ($timestamp)
 ```
 
 # User variables
