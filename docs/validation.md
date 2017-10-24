@@ -67,7 +67,7 @@ keyword name and the value an object with the properties:
     if the validation failed.
     The [schema function variable](functions.md#schema-function-variables)
     `$expected` represents the value passed to the keyword,
-    and `$` represents the value to validate.
+    and `$val` represents the value to validate.
   - `message` [`{string|function}`](functions.md): error message.
     Can be [functions](functions.md) with the
     [schema function variable](functions.md#schema-function-variables) `$expected`

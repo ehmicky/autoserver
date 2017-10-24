@@ -83,7 +83,7 @@ models:
           uniqueItems: true
       status:
         description: Has this pet been adopted
-        transform: ($.toLowerCase() + " " + $$.weight)
+        transform: ($val.toLowerCase() + " " + $model.weight)
         default:
           $ref: default_value.js
       creator_key:
@@ -144,7 +144,7 @@ plugins:
       userModel: owner
 validation:
   IsNotEqual:
-    test: ($ !== $expected)
+    test: ($val !== $expected)
     message: (`must not be equal to ${$expected}`)
     type: number
 x-custom: anything

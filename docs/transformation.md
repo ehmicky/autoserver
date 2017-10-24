@@ -19,7 +19,7 @@ E.g. to normalize name's case:
 
 ```yml
 name:
-  transform: ($.toLowerCase())
+  transform: ($val.toLowerCase())
 ```
 
 Transformations will not be applied if the current attribute value is
@@ -38,5 +38,5 @@ current_date:
 ```
 
 Computed attributes ignore any value supplied by the client, e.g. the
-[schema function variable](functions.md#schema-function-variables) `$` is not
-available (but `$$` is).
+[schema function variable](functions.md#schema-function-variables) `$val` is not
+available (but `$model` is).
