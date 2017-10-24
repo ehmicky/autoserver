@@ -53,7 +53,7 @@ The following variables are available:
   - `$params` `{object}`: all [parameters](#schema-function-parameters)
   - `$operation` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
-  - `$model` `{string}`: name of the [model](models.md), e.g. `user`
+  - `$modelName` `{string}`: name of the [model](models.md), e.g. `user`
   - `$args` `{object}`: arguments passed by client to the request
   - `$command` `{string}`: current command, among `create`, `find`, `replace`,
     `patch` or `delete`
