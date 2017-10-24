@@ -133,15 +133,15 @@ variables:
   _:
     $ref: lodash.node
 plugins:
-  - plugin:
-      $ref: test_plugin.js
-    opts:
-      exampleOption: true
-    enabled: true
-  - plugin: author
-    opts:
-      currentUser: (user())
-      userModel: owner
+- plugin:
+    $ref: test_plugin.js
+  opts:
+    exampleOption: true
+  enabled: true
+- plugin: author
+  opts:
+    currentUser: (user())
+    userModel: owner
 validation:
   IsNotEqual:
     test: ($val !== $expected)
