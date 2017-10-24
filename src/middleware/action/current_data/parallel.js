@@ -6,8 +6,8 @@ const {
   mapValues,
 } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
+const { getSimpleFilter } = require('../../../database');
 const { mergeCommandPaths } = require('../command_paths');
-const { getSimpleFilter } = require('../simple_id');
 
 // Add `action.currentData` for `replace` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {

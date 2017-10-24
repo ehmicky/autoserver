@@ -4,7 +4,7 @@ const { isEqual } = require('lodash');
 
 const { assignArray } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
-const { getSimpleFilter } = require('../simple_id');
+const { getSimpleFilter } = require('../../../database');
 
 // `currentData` query only fire top-level write action, transformed to a read
 // action.
