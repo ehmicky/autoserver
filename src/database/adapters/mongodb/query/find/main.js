@@ -14,7 +14,7 @@ const find = function (input) {
 
 const findOne = async function ({ collection, filterIds }) {
   const model = await collection.findOne({ _id: filterIds[0] });
-  return [model];
+  return model == null ? [] : [model];
 };
 
 const findMany = function ({
