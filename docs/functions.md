@@ -57,11 +57,11 @@ The following variables are available:
   - `$args` `{object}`: arguments passed by client to the request
   - `$command` `{string}`: current command, among `create`, `find`, `replace`,
     `patch` or `delete`
-  - `$` `{any}`: value of current attribute
-    E.g. `'($ !== "John")'`
+  - `$val` `{any}`: value of current attribute
+    E.g. `'($val !== "John")'`
     checks whether `model.name !== 'John'`
-  - `$$` `{object}`: current model (input or output),
-    E.g. `'($ === $$.first_name)'`
+  - `$model` `{object}`: current model (input or output),
+    E.g. `'($val === $model.first_name)'`
     checks whether `model.name === model.first_name`
 
 The following variable is available only to

@@ -10,7 +10,7 @@ const { applyOutputAliases } = require('./output');
 //     value
 // The server is unaware of aliases, i.e. only the main attribute name:
 //   - is stored in the database
-//   - should be used in schema functions (with `$$`)
+//   - should be used in schema functions (with `$model`)
 const renameAliasesInput = function ({ modelName, schema, args }) {
   const modelAliases = getModelAliases({ modelName, schema });
   return applyInputAliases({ args, modelAliases });

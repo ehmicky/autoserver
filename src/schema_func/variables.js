@@ -59,8 +59,8 @@ const VARS_KEYS = [
   '$7',
   '$8',
   '$9',
-  '$$',
-  '$',
+  '$model',
+  '$val',
 ];
 
 module.exports = {

@@ -47,12 +47,12 @@ const applyTransform = function ({ data, attrName, transform, mInput, type }) {
 };
 
 const getTransformVars = function ({ data, currentVal, type }) {
-  // `value` cannot use $ in schema functions, because it does not transform it
-  // (as opposed to `transform`) but creates a new value independently of
+  // `value` cannot use $val in schema functions, because it does not transform
+  // it (as opposed to `transform`) but creates a new value independently of
   // the current value.
-  if (type === 'value') { return { $$: data }; }
+  if (type === 'value') { return { $model: data }; }
 
-  return { $$: data, $: currentVal };
+  return { $model: data, $val: currentVal };
 };
 
 module.exports = {

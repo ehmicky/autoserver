@@ -25,7 +25,7 @@ const applyDefault = function ({ parent, defValue, attrName, mInput }) {
   if (value != null) { return parent; }
 
   // Process inline functions if default value contains any
-  const vars = { $$: parent };
+  const vars = { $model: parent };
   const defValueA = runSchemaFunc({ schemaFunc: defValue, mInput, vars });
 
   if (defValueA == null) { return parent; }
