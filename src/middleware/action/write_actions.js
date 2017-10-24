@@ -6,10 +6,7 @@ const { getCommand } = require('../../constants');
 const { mergeCommandPaths } = require('./command_paths');
 
 // Fire all write actions, retrieving some `results`
-const resolveWriteActions = function (
-  { actions, top, mInput },
-  nextLayer,
-) {
+const resolveWriteActions = function ({ actions, top, mInput }, nextLayer) {
   const actionsA = actions.map(multiplyAction);
   const actionsGroups = getWriteActions({ actions: actionsA });
   if (actionsGroups.length === 0) { return; }
