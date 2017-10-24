@@ -120,16 +120,20 @@ helpers:
     exampleFunction: '(myMathFunc(1, 10, 100, 2) +
       myOtherMathFunc({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
     recursive_func: (exampleFunction())
-    moreRecursiveFunc: (recursive_func() + TestConstant + $OPERATION)
+    moreRecursiveFunc: (recursive_func() + constants.TestConstant +
+      _s.titleize($OPERATION))
     birthDate: 2005-01-01
     myOtherMathFunc:
       value:
         $ref: math_func.js
       useVars: true
     user: '(({ id: "1" }))'
-  - $ref: underscore.string.node
-  - $ref: lodash.node
-  - $ref: constants.json
+    constants:
+      $ref: constants.json
+    _s:
+      $ref: underscore.string.node
+    _:
+      $ref: lodash.node
 plugins:
   - plugin:
       $ref: test_plugin.js
