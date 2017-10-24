@@ -16,16 +16,13 @@ const handleReadonly = function ({
   schema: { shortcuts: { readonlyMap } },
   mInput,
 }) {
-  // If no `currentData`, this means the model does not exist yet,
-  // i.e. this is a create command.
-  // Readonly does not apply then.
-  if (newData === undefined || currentData === undefined) { return; }
+  if (newData === undefined) { return; }
 
   const attrs = readonlyMap[modelName];
 
   const newDataA = newData.map((newDatum, index) => removeAttrs({
     newData: newDatum,
-    currentData: currentData[index],
+    currentData: currentData && currentData[index],
     attrs,
     mInput,
   }));
@@ -57,6 +54,11 @@ const isReadonly = function ({ readonly, newData, attrName, mInput }) {
 
 // Silently sets `newData` back to `currentData`
 const removeReadonlyAttrs = function ({ newData, currentData, attrs }) {
+  // E.g. on `create` actions
+  if (currentData === undefined) {
+    return omit(newData, attrs);
+  }
+
   const previousData = pick(currentData, attrs);
   const nullData = pickBy(previousData, data => data == null);
   const nonNullData = pickBy(previousData, data => data != null);
