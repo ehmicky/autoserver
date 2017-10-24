@@ -41,7 +41,7 @@ const keywordFunc = ({ keyword, testFunc, message }) => function validate (
   attrName,
   { [Symbol.for('mInput')]: mInput }
 ) {
-  const vars = { $EXPECTED: expected, $$: parent, $: value };
+  const vars = { $expected: expected, $$: parent, $: value };
 
   const isValid = runSchemaFunc({ schemaFunc: testFunc, mInput, vars });
   if (isValid === true) { return true; }

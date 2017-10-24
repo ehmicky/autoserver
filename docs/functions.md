@@ -46,16 +46,16 @@ External functions can only be used inside the [schema](schema.md).
 # Schema function variables
 
 The following variables are available:
-  - `$PROTOCOL` `{string}`: possible values are only `http`
-  - `$TIMESTAMP` `{string}`: current date and time
-  - `$IP` `{string}`: request IP
-  - `$REQUEST_ID` `{string}`: UUID identifying the current request
-  - `$PARAMS` `{object}`: all [parameters](#schema-function-parameters)
-  - `$OPERATION` `{string}`: possible values are `graphql`, `graphiql`,
+  - `$protocol` `{string}`: possible values are only `http`
+  - `$timestamp` `{string}`: current date and time
+  - `$ip` `{string}`: request IP
+  - `$requestId` `{string}`: UUID identifying the current request
+  - `$params` `{object}`: all [parameters](#schema-function-parameters)
+  - `$operation` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
-  - `$MODEL` `{string}`: name of the [model](models.md), e.g. `user`
-  - `$ARGS` `{object}`: arguments passed by client to the request
-  - `$COMMAND` `{string}`: current command, among `create`, `find`, `replace`,
+  - `$model` `{string}`: name of the [model](models.md), e.g. `user`
+  - `$args` `{object}`: arguments passed by client to the request
+  - `$command` `{string}`: current command, among `create`, `find`, `replace`,
     `patch` or `delete`
   - `$` `{any}`: value of current attribute
     E.g. `'($ !== "John")'`
@@ -66,7 +66,7 @@ The following variables are available:
 
 The following variable is available only to
 [custom validation](validation.md#custom-validation) keyword:
-  - `$EXPECTED` `${any}`: value passed as argument to the custom validation
+  - `$expected` `${any}`: value passed as argument to the custom validation
     keyword
 
 # Schema function helpers
@@ -123,5 +123,5 @@ mutation {
 }
 ```
 
-Those will be available using the schema function variable `$PARAMS`.
-E.g. the previous example would set `$PARAMS.password` to `"admin"`.
+Those will be available using the schema function variable `$params`.
+E.g. the previous example would set `$params.password` to `"admin"`.

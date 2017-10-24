@@ -121,7 +121,7 @@ helpers:
     myOtherMathFunc({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
   recursive_func: (exampleFunction())
   moreRecursiveFunc: (recursive_func() + constants.TestConstant +
-    _s.titleize($OPERATION))
+    _s.titleize($operation))
   birthDate: 2005-01-01
   myOtherMathFunc:
     $ref: math_func.js
@@ -144,7 +144,7 @@ plugins:
       userModel: owner
 validation:
   IsNotEqual:
-    test: ($ !== $EXPECTED)
-    message: (`must not be equal to ${$EXPECTED}`)
+    test: ($ !== $expected)
+    message: (`must not be equal to ${$expected}`)
     type: number
 x-custom: anything

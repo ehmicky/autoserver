@@ -46,7 +46,7 @@ const getAttributes = ({ currentUser, userModel }) => ({
     description: 'Who created this model',
     type: userModel,
     readonly: true,
-    value: `($COMMAND === "create" ? ${currentUser} && ${currentUser}.id : null)`,
+    value: `($command === "create" ? ${currentUser} && ${currentUser}.id : null)`,
   },
   updated_by: {
     description: 'Who last updated this model',
