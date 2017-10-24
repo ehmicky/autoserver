@@ -6,42 +6,24 @@ const { mapValues } = require('../utilities');
 // firing the first one, with $1, $2, etc. provided as extra arguments
 const getHelpers = function ({ schema: { helpers } }) {
   const varsRef = {};
+  const helpersA = mapValues(helpers, helper => getHelper({ varsRef, helper }));
 
-  const helpersA = mapValues(helpers, normalizeHelper);
-  const helpersB = mapValues(helpersA, getHelper.bind(null, varsRef));
-
-  return { varsRef, helpers: helpersB };
+  return { varsRef, helpers: helpersA };
 };
 
-// Helpers can either be an options object, or options.value directly
-const normalizeHelper = function (helper) {
-  if (helper.value !== undefined) { return helper; }
-
-  return { value: helper };
-};
-
-const getHelper = function (
-  varsRef,
-  { value: helper, value: { inlineFunc }, useVars },
-) {
-  // Constants are left as is
-  const isConstant = typeof helper !== 'function';
-  if (isConstant) { return helper; }
-
-  // Non-inline helpers with `useVars` false only get
-  // positional arguments, no variables
-  if (!inlineFunc && !useVars) { return helper; }
+const getHelper = function ({ varsRef, helper }) {
+  // Constants are left as is, including object containing functions
+  if (typeof helper !== 'function') { return helper; }
 
   const helperA = runHelper.bind(null, { helper, varsRef });
 
-  // Keep static member
+  // Keep static member, including `inlineFunc`
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(helperA, { inlineFunc });
+  Object.assign(helperA, helper);
 
   return helperA;
 };
 
-// Inline function, or non-inline with `useVars` true
 // When consumer fires Helper('a', 'b'), inline function translates 'a' and 'b'
 // into $1 and $2 variables, and runSchemaFunc() is performed.
 const runHelper = function (
