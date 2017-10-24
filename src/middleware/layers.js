@@ -9,6 +9,7 @@ const action = require('./action');
 const sequencer = require('./sequencer');
 const command = require('./command');
 const database = require('./database');
+const adapter = require('./adapter');
 
 const middlewareLayers = [
   // Final layer, always fired, whether the request fails or not
@@ -191,18 +192,36 @@ const middlewareLayers = [
       database.authorization,
       // Custom data validation middleware
       database.dataValidation,
-      // Transform command to `find` if `dryrun` settings is used
-      database.applyDryrun,
 
-      // Do the database action, protocol and operation-agnostic
-      database.databaseExecute,
+      // Fires adapter layer
+      database.fireAdapter,
 
-      // Remove duplicate read models
-      database.duplicateReads,
-      // Check if any `id` was not found (404)
-      database.validateMissingIds,
       // Validate database response
       database.responseValidation,
+      // Remove duplicate read models
+      database.duplicateReads,
+      // Check if any `id` was not found (404) or was unauthorized (403)
+      database.validateMissingIds,
+    ],
+  },
+
+  {
+    name: 'adapter',
+    layers: [
+      // Pick database adapter
+      adapter.pickDatabaseAdapter,
+      // Transform command to `find` if `dryrun` settings is used
+      adapter.applyDryrun,
+      // Add database-specific id names
+      adapter.renameIdsInput,
+
+      // Do the database action, protocol and operation-agnostic
+      adapter.databaseExecute,
+
+      // Remove database-specific id names
+      adapter.renameIdsOutput,
+      // Retrieves database return value
+      adapter.getDbResponse,
     ],
   },
 ];

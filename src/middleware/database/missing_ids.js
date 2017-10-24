@@ -4,7 +4,7 @@ const { getWordsList } = require('../../utilities');
 const { throwError } = require('../../error');
 const { extractSimpleIds } = require('../../database');
 
-// Check if any `id` was not found (404)
+// Check if any `id` was not found (404) or was unauthorized (403)
 const validateMissingIds = function ({
   command,
   response: { data },
