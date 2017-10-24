@@ -26,17 +26,11 @@ const getHelper = function ({ varsRef, helper }) {
 
 // When consumer fires Helper('a', 'b'), inline function translates 'a' and 'b'
 // into $1 and $2 variables, and runSchemaFunc() is performed.
-const runHelper = function (
-  {
-    helper,
-    varsRef: { ref: { vars, helpers } },
-  },
-  ...args
-) {
+const runHelper = function ({ helper, varsRef: { ref } }, ...args) {
   const [$1, $2, $3, $4, $5, $6, $7, $8, $9] = args;
-  const varsA = { ...vars, $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+  const varsA = { ...ref, $1, $2, $3, $4, $5, $6, $7, $8, $9 };
 
-  return helper(varsA, helpers, ...args);
+  return helper(varsA, ...args);
 };
 
 // Pass schema function variables to helpers
@@ -44,9 +38,9 @@ const runHelper = function (
 // We use a `varsRef` object reference so that all helpers share the same
 // information, and can call each other.
 // We directly mutate it as a performance optimization.
-const bindVariables = function ({ varsRef, vars, helpers }) {
+const bindVariables = function ({ varsRef, vars }) {
   // eslint-disable-next-line fp/no-mutation, no-param-reassign
-  varsRef.ref = { vars, helpers };
+  varsRef.ref = vars;
 };
 
 module.exports = {
