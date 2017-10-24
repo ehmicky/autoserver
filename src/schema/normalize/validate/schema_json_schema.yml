@@ -175,11 +175,11 @@ definitions:
   # schema.helpers
   helpers:
     typeof: object
-    # system-defined helpers use $THIS_CASE, so we forbid it for user-defined
+    # system-defined start with $, so we forbid it for user-defined
     # helpers for forward compatibility
     propertyNames:
       not:
-        pattern: '^\$[A-Z_]+$'
+        pattern: '^\$'
   # schema.plugins
   plugins:
     type: array
