@@ -19,7 +19,7 @@ const BASE_INPUT_KEYS = [
   'schema',
   'runOpts',
   'varsRef',
-  'helpers',
+  'userVars',
   'serverInfo',
   'dbAdapters',
 ];

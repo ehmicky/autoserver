@@ -2,7 +2,7 @@
 
 module.exports = {
   ...require('./run'),
-  ...require('./helpers'),
+  ...require('./user_vars'),
   ...require('./compile'),
   ...require('./test'),
 };

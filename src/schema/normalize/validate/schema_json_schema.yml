@@ -16,9 +16,9 @@ properties:
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
-  # Custom functions that can be used in schema functions
-  helpers:
-    $ref: '#/definitions/helpers'
+  # Custom variables that can be used in schema functions
+  variables:
+    $ref: '#/definitions/variables'
   # Functions that modifies schema definition
   plugins:
     $ref: '#/definitions/plugins'
@@ -172,11 +172,11 @@ definitions:
       - create
       - replace
       - delete
-  # schema.helpers
-  helpers:
+  # schema.variables
+  variables:
     typeof: object
-    # system-defined start with $, so we forbid it for user-defined
-    # helpers for forward compatibility
+    # system variables start with $, so we forbid it for user variables
+    # for forward compatibility
     propertyNames:
       not:
         pattern: '^\$'
