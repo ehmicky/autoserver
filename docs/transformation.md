@@ -34,7 +34,7 @@ E.g. to set an attribute to the current time:
 
 ```yml
 current_date:
-  value: ($TIMESTAMP)
+  value: ($timestamp)
 ```
 
 Computed attributes ignore any value supplied by the client, e.g. the

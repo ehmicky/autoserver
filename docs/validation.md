@@ -66,11 +66,11 @@ keyword name and the value an object with the properties:
   - `test` [`{function}`](functions.md): function that returns false
     if the validation failed.
     The [schema function variable](functions.md#schema-function-variables)
-    `$EXPECTED` represents the value passed to the keyword,
+    `$expected` represents the value passed to the keyword,
     and `$` represents the value to validate.
   - `message` [`{string|function}`](functions.md): error message.
     Can be [functions](functions.md) with the
-    [schema function variable](functions.md#schema-function-variables) `$EXPECTED`
+    [schema function variable](functions.md#schema-function-variables) `$expected`
     Must start with `'must '`
   - `type` `{string[]}`: optionally restrict the attributes types that can
     use that keyword

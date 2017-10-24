@@ -3,7 +3,7 @@
 const { throwError } = require('../../error');
 
 // Retrieve request's IP, assigned to protocol mInput,
-// and also to schema function variable $IP
+// and also to schema function variable $ip
 const getIp = function ({ protocolHandler, specific }) {
   const ip = protocolHandler.getIp({ specific }) || '';
 

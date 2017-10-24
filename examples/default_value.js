@@ -1,7 +1,7 @@
 'use strict';
 
-const defaultValue = function ({ $COMMAND }) {
-  return `happy ${$COMMAND}`;
+const defaultValue = function ({ $command }) {
+  return `happy ${$command}`;
 };
 
 module.exports = defaultValue;
