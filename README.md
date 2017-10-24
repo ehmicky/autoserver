@@ -7,15 +7,14 @@ full-featured [GraphQL](http://graphql.org/) server will start.
 
 # Features
 
-  - standard-compliant HTTP server
   - [GraphQL endpoint](docs/graphql.md#client-queries),
     including introspection, interactive debugger and GraphQL schema printing
   - [Database agnostic](docs/databases.md), with support for several databases,
     including [MongoDB](docs/mongodb.md) and an
     [in-memory database](docs/memory_db.md).
-  - [Multiple databases](docs/databases.md#multiple-databases.md) can be mixed
-    on the same API
-  - [Protocol agnostic](docs/protocols.md), with support for
+    [Multiple databases](docs/databases.md#multiple-databases.md) can even be
+    mixed on the same API
+  - [Multiple protocols](docs/protocols.md) handling, with support for
     [HTTP/1.1](docs/http.md) only at the moment
   - [CRUD commands](docs/graphql.md#read-queries):
     find, create, patch, replace, delete.
@@ -26,20 +25,20 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [sorting](docs/sorting.md)
   - [selecting](docs/selecting.md)
   - [pagination](docs/pagination.md)
-  - [dry runs](docs/dryrun.md)
-  - [silent outputs](docs/silent.md)
   - [input validation](docs/validation.md#data-validation)
+  - [authorization](docs/authorization.md), including
+    [readonly](docs/authorization.md#readonly-attributes) attributes
   - [default values](docs/transformation.md#default-values)
-  - [readonly](docs/readonly.md) attributes
   - [aliases](docs/compatibility.md#aliases)
   - [transformation on input](docs/transformation.md#transformations),
     e.g. for normalization
   - [computed values](docs/transformation.md#computed-attributes),
     e.g. `name = first_name + last_name`
-  - [authorization](docs/authorization.md)
   - automatic attributes:
     [`created_time`, `updated_time`](docs/plugins.md#timestamps),
     [`created_by`, `updated_by`](docs/plugins.md#model-authors)
+  - [dry runs](docs/dryrun.md)
+  - [silent outputs](docs/silent.md)
   - [custom JavaScript logic](docs/functions.md)
   - [plugins](docs/plugins.md)
   - extensive [error handling](docs/error.md) and
