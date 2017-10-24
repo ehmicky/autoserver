@@ -15,8 +15,8 @@ const getAttributes = () => ({
     type: 'string',
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
-    readonly: true,
-    value: '($command === "create" ? $timestamp : null)',
+    readonly: '($command !== "create")',
+    value: '($timestamp)',
     validate: {
       format: 'date-time',
     },
