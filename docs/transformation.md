@@ -28,7 +28,8 @@ Transformations will not be applied if the current attribute value is
 # Computed attributes
 
 Attributes can be calculated server-side, e.g. combining other attributes,
-by specifying `attr.value`, which should be a [function](functions.md).
+by specifying `attr.value`, which should be a [function](functions.md) or
+a constant value.
 
 E.g. to set an attribute to the current time:
 
@@ -38,5 +39,5 @@ current_date:
 ```
 
 Computed attributes ignore any value supplied by the client, e.g. the
-[schema function variable](functions.md#schema-function-variables) `$val` is not
+[system variable](functions.md#schema-functions-variables) `$val` is not
 available (but `$model` is).
