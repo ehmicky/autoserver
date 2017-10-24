@@ -13,7 +13,7 @@ They will be used for `create` and `replace` commands.
 # Transformations
 
 Attributes can be applied transformations on input by specifying
-`attr.transform`, which should be a [function](functions.md).
+`attribute.transform`, which should be a [function](functions.md).
 
 E.g. to normalize name's case:
 
@@ -28,7 +28,7 @@ Transformations will not be applied if the current attribute value is
 # Computed attributes
 
 Attributes can be calculated server-side, e.g. combining other attributes,
-by specifying `attr.value`, which should be a [function](functions.md) or
+by specifying `attribute.value`, which should be a [function](functions.md) or
 a constant value.
 
 E.g. to set an attribute to the current time:
