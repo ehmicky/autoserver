@@ -16,13 +16,12 @@ const runSchemaFunc = function ({
   // If this is not schema function, returns as is
   if (typeof schemaFunc !== 'function') { return schemaFunc; }
 
-  const varsA = getVars(mInput, vars);
-  bindVariables({ varsRef, vars: varsA, helpers });
+  const varsA = getVars(mInput);
+  const varsB = { ...varsA, ...helpers, ...vars };
 
-  // We pass helpers as a second argument instead of merging it with the first
-  // argument, because if helpers is big (e.g. it includes a library
-  // like Lodash), merging it is relatively slow.
-  return schemaFunc(varsA, helpers);
+  bindVariables({ varsRef, vars: varsB });
+
+  return schemaFunc(varsB);
 };
 
 const eRunSchemaFunc = addGenErrorHandler(runSchemaFunc, {
