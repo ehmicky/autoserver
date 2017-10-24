@@ -18,13 +18,7 @@ properties:
       $ref: '#/definitions/validModelName'
   # Custom functions that can be used in schema functions
   helpers:
-    oneOf:
-    - type: array
-      items:
-        $ref: '#/definitions/helpers'
-    - not:
-        type: array
-      $ref: '#/definitions/helpers'
+    $ref: '#/definitions/helpers'
   # Functions that modifies schema definition
   plugins:
     $ref: '#/definitions/plugins'
@@ -180,21 +174,12 @@ definitions:
       - delete
   # schema.helpers
   helpers:
-    typeof: [object, function]
+    typeof: object
     # system-defined helpers use $THIS_CASE, so we forbid it for user-defined
     # helpers for forward compatibility
     propertyNames:
       not:
         pattern: '^\$[A-Z_]+$'
-    # Helpers can either be an options object, or the options.value directly
-    additionalProperties:
-      if:
-        type: object
-        required: [value]
-      then:
-        properties:
-          useVars:
-            type: boolean
   # schema.plugins
   plugins:
     type: array

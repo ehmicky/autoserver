@@ -7,19 +7,10 @@ const { mapValues } = require('../utilities');
 const getHelpers = function ({ schema: { helpers } }) {
   const varsRef = {};
 
-  const helpersA = flattenHelpers(helpers);
-  const helpersB = mapValues(helpersA, normalizeHelper);
-  const helpersC = mapValues(helpersB, getHelper.bind(null, varsRef));
+  const helpersA = mapValues(helpers, normalizeHelper);
+  const helpersB = mapValues(helpersA, getHelper.bind(null, varsRef));
 
-  return { varsRef, helpers: helpersC };
-};
-
-// Helpers can be an array of objects, to help importing libraries using
-// JSON references
-const flattenHelpers = function (helpers) {
-  if (!Array.isArray(helpers)) { return helpers; }
-
-  return Object.assign({}, ...helpers);
+  return { varsRef, helpers: helpersB };
 };
 
 // Helpers can either be an options object, or options.value directly

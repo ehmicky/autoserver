@@ -31,13 +31,9 @@ const getVars = function (
 
 // Retrieve schema functions variables names
 const getVarsKeys = function ({ schema: { helpers = {} } }) {
-  const helpersA = Array.isArray(helpers)
-    ? Object.assign({}, ...helpers)
-    : helpers;
-
   return {
     vars: VARS_KEYS,
-    helpers: Object.keys(helpersA),
+    helpers: Object.keys(helpers),
   };
 };
 
