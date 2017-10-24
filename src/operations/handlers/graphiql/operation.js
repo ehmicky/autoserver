@@ -1,14 +1,14 @@
 'use strict';
 
-const routes = require('./routes');
 const methods = require('./methods');
+const routes = require('./routes');
 const { handler } = require('./handler');
 
 const operation = {
   name: 'graphiql',
   title: 'GraphiQL',
-  routes,
   methods,
+  routes,
   handler,
 };
 
