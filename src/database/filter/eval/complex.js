@@ -17,10 +17,17 @@ const andOrMatcher = function (
   const hasPartialNodes = valueB.length > 0;
 
   if (hasPartialNodes) {
-    return { type: operator, value: valueB };
+    return simplifyNode({ type: operator, value: valueB });
   }
 
   return operatorMap.every;
+};
+
+// Try to simplify a node when possible
+const simplifyNode = function (node) {
+  if (node.value.length === 1) { return node.value[0]; }
+
+  return node;
 };
 
 const andOrMap = {
