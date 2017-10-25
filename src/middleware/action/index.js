@@ -12,6 +12,7 @@ module.exports = {
   ...require('./order_by'),
   ...require('./unknown_attrs'),
   ...require('./stable_ids'),
+  ...require('./authorization'),
   ...require('./operation_summary'),
   ...require('./sort'),
 
