@@ -1,6 +1,7 @@
 'use strict';
 
 const { addErrorHandler } = require('../../error');
+const { isInlineFunc } = require('../../schema_func');
 
 const {
   validateSameType,
@@ -32,10 +33,25 @@ const parseAttribute = function ({ opName, opVal, attrName, attr, throwErr }) {
   // Normalize `null|undefined` to only `undefined`
   const opValA = opVal === null ? undefined : opVal;
 
-  operation.validate({ opVal: opValA, opName, attrName, attr, throwErr });
+  validateAttr({ operation, opVal: opValA, opName, attrName, attr, throwErr });
 
   const value = operation.parse({ opVal: opValA, attrName, attr, throwErr });
   return { type: opName, value };
+};
+
+const validateAttr = function ({
+  operation,
+  opVal,
+  opName,
+  attrName,
+  attr,
+  attr: { allowInlineFuncs },
+  throwErr,
+}) {
+  // E.g. `model.authorize` allows schema functions
+  if (allowInlineFuncs && isInlineFunc({ inlineFunc: opVal })) { return; }
+
+  operation.validate({ opVal, opName, attrName, attr, throwErr });
 };
 
 const asIsParser = function ({ opVal }) {

@@ -24,6 +24,7 @@ const oneTypeValidators = {
   number: opVal => Number.isFinite(opVal),
   integer: opVal => Number.isInteger(opVal),
   boolean: opVal => typeof opVal === 'boolean',
+  dynamic: () => true,
 };
 
 const getManyTypeValidators = function () {

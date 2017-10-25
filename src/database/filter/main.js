@@ -62,21 +62,39 @@ const getLogicNode = function ({ value, type }) {
 };
 
 const parseOperation = function ({ attrName, attrVal, attrs, throwErr }) {
-  const attr = attrs[attrName];
-
-  validateAttrName({ attr, attrName, throwErr });
+  const attr = getAttr({ attrs, attrName, throwErr });
 
   const value = parseAttributes({ attrVal, attrName, attr, throwErr })
     .map(node => ({ ...node, attrName }));
   return value;
 };
 
-const validateAttrName = function ({ attr, attrName, throwErr }) {
-  if (attr !== undefined) { return; }
+const getAttr = function ({ attrs, attrName, throwErr }) {
+  const attr = attrs[attrName];
+  if (attr !== undefined) { return attr; }
 
-  const message = `Must not use unknown attribute '${attrName}'`;
+  const dynamicAttr = getDynamicAttr({ attrs, attrName });
+  if (dynamicAttr !== undefined) { return dynamicAttr; }
+
+  const message = `Must not use unknown '${attrName}'`;
   throwErr(message);
 };
+
+// E.g. $params and $args do not validate deep members
+const getDynamicAttr = function ({ attrs, attrName }) {
+  const [, deepAttr] = DEEP_ATTR_REGEXP.exec(attrName) || [];
+  if (deepAttr === undefined) { return; }
+
+  const attr = attrs[deepAttr];
+  const isDynamic = attr !== undefined && attr.type === 'dynamic';
+
+  if (!isDynamic) { return; }
+
+  return attr;
+};
+
+// Transform e.g. $params.var to ['$params']
+const DEEP_ATTR_REGEXP = /^(\$[a-zA-Z]+)\./;
 
 module.exports = {
   parseFilter,
