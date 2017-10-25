@@ -16,7 +16,7 @@ const getVars = function (
   {
     userVars,
     vars,
-  },
+  } = {},
 ) {
   return {
     ...userVars,
