@@ -48,11 +48,11 @@ const FILTER_NAMES = [
 ];
 
 const FILTER_DEFAULT = {
-  payload: ['id'],
+  payload: ['id', 'operationName'],
   response: ['id'],
   data: ['id'],
   headers: false,
-  query: false,
+  query: ['operationName'],
 };
 
 const getFilter = filterName => ({
