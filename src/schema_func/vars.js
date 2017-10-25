@@ -18,6 +18,9 @@ const getVars = function (
     vars,
   } = {},
 ) {
+  // Order matters:
+  //  - we want to be 100% sure userVars do not overwrite system variables
+  //  - it is possible to overwrite system vars with call-specific `vars`
   return {
     ...userVars,
     $protocol,
