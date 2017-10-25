@@ -69,24 +69,24 @@ const validateLike = function ({
   }
 
   if (type !== 'string') {
-    throwAttrTypeError({ attrName, opName, throwErr }, 'not a string');
+    throwAttrTypeError({ attrName, attr, opName, throwErr }, 'not a string');
   }
 
   if (isArray) {
-    throwAttrTypeError({ attrName, opName, throwErr }, 'an array');
+    throwAttrTypeError({ attrName, attr, opName, throwErr }, 'an array');
   }
 };
 
 const validateArrayOps = function ({ opName, attrName, attr, throwErr }) {
   if (attr.isArray) { return; }
 
-  throwAttrTypeError({ attrName, opName, throwErr }, 'not an array');
+  throwAttrTypeError({ attrName, attr, opName, throwErr }, 'not an array');
 };
 
 const validateNotArrayOps = function ({ opName, attrName, attr, throwErr }) {
   if (!attr.isArray) { return; }
 
-  throwAttrTypeError({ attrName, opName, throwErr }, 'an array');
+  throwAttrTypeError({ attrName, attr, opName, throwErr }, 'an array');
 };
 
 const throwAttrValError = function ({ opName, throwErr }, message) {
@@ -94,7 +94,12 @@ const throwAttrValError = function ({ opName, throwErr }, message) {
   throwErr(msg);
 };
 
-const throwAttrTypeError = function ({ attrName, opName, throwErr }, message) {
+const throwAttrTypeError = function (
+  { attrName, attr: { type }, opName, throwErr },
+  message,
+) {
+  if (type === 'dynamic') { return; }
+
   const msg = `The operator '${opName}' must not be used because '${attrName}' is ${message}`;
   throwErr(msg);
 };

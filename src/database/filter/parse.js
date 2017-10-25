@@ -1,6 +1,6 @@
 'use strict';
 
-const { decapitalize } = require('underscore.string');
+const { decapitalize, capitalize } = require('underscore.string');
 
 const { assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
@@ -28,7 +28,8 @@ const parseFilter = function ({
 
 const getThrowErr = function ({ reason, prefix }, extraPrefix, message = '') {
   const messageA = `${prefix}${decapitalize(extraPrefix)}${decapitalize(message)}`;
-  throwError(messageA, { reason });
+  const messageB = capitalize(messageA);
+  throwError(messageB, { reason });
 };
 
 const parseOrNode = function ({ nodes, attrs, throwErr }) {
