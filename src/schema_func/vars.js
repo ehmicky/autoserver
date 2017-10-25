@@ -35,20 +35,25 @@ const getVars = function (
 
 // Retrieve schema functions variables names
 const getVarsKeys = function ({ schema: { variables = {} } }) {
-  return [...SYSTEM_VARS_KEYS, ...Object.keys(variables)];
+  return [...ALL_SYSTEM_VARS, ...Object.keys(variables)];
 };
 
-const SYSTEM_VARS_KEYS = [
-  '$protocol',
-  '$timestamp',
-  '$ip',
-  '$requestId',
-  '$operation',
-  '$modelName',
-  '$args',
-  '$command',
-  '$params',
-  '$expected',
+// System variables that are always present
+const SYSTEM_VARS = {
+  $protocol: { type: 'string' },
+  $timestamp: { type: 'string' },
+  $ip: { type: 'string' },
+  $requestId: { type: 'string' },
+  $operation: { type: 'string' },
+  $modelName: { type: 'string' },
+  $command: { type: 'string' },
+  $args: { type: 'dynamic' },
+  $params: { type: 'dynamic' },
+};
+
+// Includes the system variables that are not always present
+const ALL_SYSTEM_VARS = [
+  ...Object.keys(SYSTEM_VARS),
   '$1',
   '$2',
   '$3',
@@ -58,6 +63,7 @@ const SYSTEM_VARS_KEYS = [
   '$7',
   '$8',
   '$9',
+  '$expected',
   '$model',
   '$val',
 ];
@@ -65,4 +71,5 @@ const SYSTEM_VARS_KEYS = [
 module.exports = {
   getVars,
   getVarsKeys,
+  SYSTEM_VARS,
 };

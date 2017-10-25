@@ -7,4 +7,5 @@ module.exports = {
   ...require('./nested_model'),
   ...require('./alias'),
   ...require('./description'),
+  ...require('./authorize'),
 };
