@@ -174,7 +174,7 @@ definitions:
       - delete
   # schema.variables
   variables:
-    typeof: object
+    type: object
     # system variables start with $, so we forbid it for user variables
     # for forward compatibility
     propertyNames:
@@ -184,9 +184,7 @@ definitions:
   plugins:
     type: array
     items:
-      typeof: object
-      not:
-        type: array
+      type: object
       properties:
         plugin:
           typeof: [function, string]
