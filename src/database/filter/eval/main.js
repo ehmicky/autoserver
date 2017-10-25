@@ -7,9 +7,9 @@ const { operators } = require('./operators');
 // Check if a set of `attrs` matches a filter such as `args.filter` or
 // `model.authorize`
 const evalFilter = function ({
-  attrs,
   filter,
   filter: { type, attrName, value } = {},
+  attrs,
   partialNames,
 }) {
   // E.g. when there is no `args.filter`
