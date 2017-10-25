@@ -1,5 +1,7 @@
 'use strict';
 
+const { promisify } = require('util');
+
 // Sends response
 const send = function ({
   specific: { res } = {},
@@ -17,7 +19,9 @@ const send = function ({
 
   setHeaders({ res, contentType, contentLength, protocolStatus });
 
-  res.end(content);
+  const sendResponse = promisify(res.end.bind(res));
+
+  return sendResponse(content);
 };
 
 const setHeaders = function ({

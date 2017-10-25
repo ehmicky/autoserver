@@ -7,7 +7,7 @@ const { types } = require('./types');
 const { setEmptyResponse } = require('./empty');
 
 // Sends the response at the end of the request
-const sendResponse = function ({
+const sendResponse = async function ({
   error,
   response,
   specific,
@@ -34,14 +34,14 @@ const sendResponse = function ({
     emptyResponse,
   });
 
-  const responseB = handler({
+  await handler({
     content: contentB,
     protocolHandler,
     specific,
     protocolStatus,
   });
 
-  return { response: responseB };
+  return { response: responseA };
 };
 
 // Use protocol-specific way to send back the response to the client
