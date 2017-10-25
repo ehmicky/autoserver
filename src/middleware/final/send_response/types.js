@@ -6,7 +6,7 @@ const types = {
   model: {
     handler (opts) {
       const contentType = 'application/x-resource+json';
-      sendJson({ ...opts, contentType });
+      return sendJson({ ...opts, contentType });
     },
     emptyResponse: {},
   },
@@ -14,7 +14,7 @@ const types = {
   collection: {
     handler (opts) {
       const contentType = 'application/x-collection+json';
-      sendJson({ ...opts, contentType });
+      return sendJson({ ...opts, contentType });
     },
     emptyResponse: {},
   },
@@ -24,28 +24,28 @@ const types = {
       // See RFC 7807
       // Exception: `protocolStatus` is only present with HTTP protocol
       const contentType = 'application/problem+json';
-      sendJson({ ...opts, contentType });
+      return sendJson({ ...opts, contentType });
     },
     emptyResponse: {},
   },
 
   object: {
     handler (opts) {
-      sendJson(opts);
+      return sendJson(opts);
     },
     emptyResponse: {},
   },
 
   html: {
     handler (opts) {
-      sendHtml(opts);
+      return sendHtml(opts);
     },
     emptyResponse: '',
   },
 
   text: {
     handler (opts) {
-      sendText(opts);
+      return sendText(opts);
     },
     emptyResponse: '',
   },
