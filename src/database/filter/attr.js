@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError, addGenErrorHandler } = require('../../../error');
+const { addErrorHandler } = require('../../error');
 
 const {
   validateSameType,
@@ -9,29 +9,32 @@ const {
   validateArrayOps,
 } = require('./validate');
 
-const parseAttributes = function ({ attrVal, attrName, attr }) {
+const parseAttributes = function ({ attrVal, attrName, attr, throwErr }) {
+  const throwErrA = throwErr.bind(null, `For '${attrName}', `);
+
   // `{ attribute: value }` is a shortcut for `{ attribute: { eq: value } }`
   const attrValA = attrVal && attrVal.constructor === Object
     ? attrVal
     : { eq: attrVal };
 
   return Object.entries(attrValA).map(([opName, opVal]) =>
-    parseAttribute({ opName, opVal, attrName, attr }));
+    parseAttribute({ opName, opVal, attrName, attr, throwErr: throwErrA }));
 };
 
-const parseAttribute = function ({ opName, opVal, attrName, attr }) {
+const parseAttribute = function ({ opName, opVal, attrName, attr, throwErr }) {
   const operation = operations[opName];
 
   if (operation === undefined) {
-    const message = `In 'filter' argument, must not use unknown operator '${opName}'`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    const message = `Must not use unknown operator '${opName}'`;
+    throwErr(message);
   }
 
   // Normalize `null|undefined` to only `undefined`
   const opValA = opVal === null ? undefined : opVal;
 
-  operation.validate({ opVal: opValA, opName, attrName, attr });
-  const value = operation.parse({ opVal: opValA, attrName, attr });
+  operation.validate({ opVal: opValA, opName, attrName, attr, throwErr });
+
+  const value = operation.parse({ opVal: opValA, attrName, attr, throwErr });
   return { type: opName, value };
 };
 
@@ -49,16 +52,24 @@ const regexParser = function ({ opVal }) {
   return new RegExp(opValA);
 };
 
-const eRegExpParser = addGenErrorHandler(regexParser, {
-  message: ({ opVal }) => `'filter' argument contains an invalid regular expression: '${opVal}'`,
-  reason: 'INPUT_VALIDATION',
-});
+const regExpParserHandler = function (_, { opVal, throwErr }) {
+  const message = `Invalid regular expression: '${opVal}'`;
+  throwErr(message);
+};
 
-const arrayOpsParser = function ({ opVal, attrName, attr: { type } }) {
+const eRegExpParser = addErrorHandler(regexParser, regExpParserHandler);
+
+const arrayOpsParser = function ({
+  opVal,
+  attrName,
+  attr: { type },
+  throwErr,
+}) {
   return parseAttributes({
     attrVal: opVal,
     attrName,
     attr: { type, isArray: false },
+    throwErr,
   });
 };
 
