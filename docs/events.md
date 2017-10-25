@@ -247,6 +247,8 @@ Default values:
   - `query`, `headers`: `false`,
     i.e. this information is not included in event payloads.
   - `payload`, `data`, `response`: only keep `id`.
+  - when using GraphQL and specifying an `operationName`, this will also
+    be included in either `query` or `payload`
 
 # Performance monitoring
 
