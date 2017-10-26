@@ -10,10 +10,10 @@ const {
 } = require('../../../utilities');
 const { runSchemaFunc } = require('../../../schema_func');
 
-// Retrieve all user variables used inside any `model.authorize` used in
-// the current operation, and resolve their schema functions.
-const getUserVars = function ({ authorizeMap, userVars, mInput }) {
-  const userVarsNames = getUserVarsNames({ authorizeMap, userVars });
+// Retrieve all user variables used in `model.authorize`, and resolve their
+// schema functions.
+const getUserVars = function ({ authorize, userVars, mInput }) {
+  const userVarsNames = getUserVarsNames({ authorize, userVars });
   const userVarsA = pick(userVars, userVarsNames);
   const userVarsB = mapValues(
     userVarsA,
@@ -22,16 +22,14 @@ const getUserVars = function ({ authorizeMap, userVars, mInput }) {
   return userVarsB;
 };
 
-// Retrieve the names of all user variables used inside any `model.authorize`
-// used in the current operation
-const getUserVarsNames = function ({ authorizeMap, userVars }) {
+// Retrieve the names of all user variables used in `model.authorize`
+const getUserVarsNames = function ({ authorize, userVars }) {
   const { attrNames: userVarsNames } = fullRecurseMap(
-    authorizeMap,
+    authorize,
     recurseUserVarsNames,
   );
   const userVarsNamesA = getPossibleUserVars({ userVarsNames, userVars });
-  const userVarsNamesB = uniq(userVarsNamesA);
-  return userVarsNamesB;
+  return userVarsNamesA;
 };
 
 // Retrieve all `attrName` recursively inside filter AST
@@ -56,7 +54,9 @@ const getAttrNames = function (obj) {
 // Only keep the `attrName` that targets a user variable
 const getPossibleUserVars = function ({ userVarsNames, userVars }) {
   const possibleUserVars = Object.keys(userVars);
-  return intersection(userVarsNames, possibleUserVars);
+  const userVarsNamesA = intersection(userVarsNames, possibleUserVars);
+  const userVarsNamesB = uniq(userVarsNamesA);
+  return userVarsNamesB;
 };
 
 module.exports = {
