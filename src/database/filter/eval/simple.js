@@ -44,12 +44,14 @@ const lteMatcher = function ({ attr, value }) {
 
 // `{ string_attribute: { like: 'REGEXP' } }`
 const likeMatcher = function ({ attr, value }) {
-  return value.test(attr);
+  const regExp = new RegExp(value);
+  return regExp.test(attr);
 };
 
 // `{ string_attribute: { nlike: 'REGEXP' } }`
 const nlikeMatcher = function ({ attr, value }) {
-  return !value.test(attr);
+  const regExp = new RegExp(value);
+  return !regExp.test(attr);
 };
 
 module.exports = {

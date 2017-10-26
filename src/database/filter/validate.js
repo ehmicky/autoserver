@@ -1,6 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../utilities');
+const { addErrorHandler } = require('../../error');
 
 const validateSameType = function ({
   opVal,
@@ -75,7 +76,22 @@ const validateLike = function ({
   if (isArray) {
     throwAttrTypeError({ attrName, attr, opName, throwErr }, 'an array');
   }
+
+  eValidateRegExp({ opVal, throwErr });
 };
+
+// Validate it is correct regexp
+const validateRegExp = function ({ opVal }) {
+  // eslint-disable-next-line no-new
+  new RegExp(opVal);
+};
+
+const regExpParserHandler = function (_, { opVal, throwErr }) {
+  const message = `Invalid regular expression: '${opVal}'`;
+  throwErr(message);
+};
+
+const eValidateRegExp = addErrorHandler(validateRegExp, regExpParserHandler);
 
 const validateArrayOps = function ({ opName, attrName, attr, throwErr }) {
   if (attr.isArray) { return; }
