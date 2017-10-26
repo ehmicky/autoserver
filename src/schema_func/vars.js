@@ -9,9 +9,9 @@ const getVars = function (
     requestId: $requestId,
     operation: $operation,
     modelName: $modelName,
+    top: { command: { type: $command } = {} } = {},
     topArgs: $args,
-    topArgs: { params: $params = {} },
-    command: $command,
+    topArgs: { params: $params = {} } = {},
   },
   {
     userVars,
