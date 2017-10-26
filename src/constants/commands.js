@@ -5,16 +5,66 @@ const { uniq } = require('lodash');
 const { throwError } = require('../error');
 
 const COMMANDS = [
-  { name: 'findOne', type: 'find', multiple: false },
-  { name: 'findMany', type: 'find', multiple: true },
-  { name: 'createOne', type: 'create', multiple: false },
-  { name: 'createMany', type: 'create', multiple: true },
-  { name: 'replaceOne', type: 'replace', multiple: false },
-  { name: 'replaceMany', type: 'replace', multiple: true },
-  { name: 'patchOne', type: 'patch', multiple: false },
-  { name: 'patchMany', type: 'patch', multiple: true },
-  { name: 'deleteOne', type: 'delete', multiple: false },
-  { name: 'deleteMany', type: 'delete', multiple: true },
+  {
+    name: 'findOne',
+    type: 'find',
+    multiple: false,
+    title: 'search for',
+  },
+  {
+    name: 'findMany',
+    type: 'find',
+    multiple: true,
+    title: 'search for',
+  },
+  {
+    name: 'createOne',
+    type: 'create',
+    multiple: false,
+    title: 'create',
+  },
+  {
+    name: 'createMany',
+    type: 'create',
+    multiple: true,
+    title: 'create',
+  },
+  {
+    name: 'replaceOne',
+    type: 'replace',
+    multiple: false,
+    title: 'fully update',
+  },
+  {
+    name: 'replaceMany',
+    type: 'replace',
+    multiple: true,
+    title: 'fully update',
+  },
+  {
+    name: 'patchOne',
+    type: 'patch',
+    multiple: false,
+    title: 'partially update',
+  },
+  {
+    name: 'patchMany',
+    type: 'patch',
+    multiple: true,
+    title: 'partially update',
+  },
+  {
+    name: 'deleteOne',
+    type: 'delete',
+    multiple: false,
+    title: 'delete',
+  },
+  {
+    name: 'deleteMany',
+    type: 'delete',
+    multiple: true,
+    title: 'delete',
+  },
 ];
 
 const TYPES = COMMANDS.map(({ type }) => type);

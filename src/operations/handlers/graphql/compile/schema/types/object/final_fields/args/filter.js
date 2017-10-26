@@ -1,6 +1,6 @@
 'use strict';
 
-const { ARG_TYPES_DESCRIPTIONS } = require('../../../../description');
+const { getArgTypeDescription } = require('../../../../description');
 
 // `filter` argument
 const getFilterArgument = function (def, { filterObjectType }) {
@@ -8,7 +8,7 @@ const getFilterArgument = function (def, { filterObjectType }) {
     FILTER_COMMAND_TYPES.includes(def.command.type);
   if (!hasFilter) { return {}; }
 
-  const description = ARG_TYPES_DESCRIPTIONS.filter[def.command.name];
+  const description = getArgTypeDescription(def, 'argFilter');
 
   return { filter: { type: filterObjectType, description } };
 };

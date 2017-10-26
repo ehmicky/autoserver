@@ -41,7 +41,7 @@ const getArgTypes = function (def, opts) {
 };
 
 const getArgType = function (def, opts, inputObjectType) {
-  const description = getArgTypeDescription(def, opts, inputObjectType);
+  const description = getArgTypeDescription(def, inputObjectType);
   const defA = { ...def, arrayWrapped: true, description };
 
   const { getType } = opts;

@@ -70,7 +70,7 @@ const normalizeModelsDef = function ({ models, command }) {
 
 const normalizeModelDef = function ({ model, command }) {
   const typeName = getTypeName({ def: model });
-  const commandDescription = getCommandDescription[command.name]({ typeName });
+  const commandDescription = getCommandDescription({ command, typeName });
 
   return { ...model, command, commandDescription, type: 'object' };
 };
