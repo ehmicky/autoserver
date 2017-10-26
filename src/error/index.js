@@ -6,4 +6,5 @@ module.exports = {
   ...require('./standard'),
   ...require('./message'),
   ...require('./handler'),
+  ...require('./common'),
 };
