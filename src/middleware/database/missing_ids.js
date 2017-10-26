@@ -14,6 +14,7 @@ const validateMissingIds = async function (
     modelName,
     response,
     args: { preAuthorizeFilter, filter },
+    top,
     mInput,
   },
   nextLayer,
@@ -31,6 +32,7 @@ const validateMissingIds = async function (
     filter,
     ids,
     modelName,
+    top,
     nextLayer,
     mInput,
   });
@@ -66,6 +68,7 @@ const checkAuthorization = async function ({
   filter,
   ids,
   modelName,
+  top,
   nextLayer,
   mInput,
   mInput: { args },
@@ -82,7 +85,7 @@ const checkAuthorization = async function ({
 
   if (missingIds.length > 0) { return missingIds; }
 
-  throwAuthorizationError({ ids, modelName });
+  throwAuthorizationError({ ids, modelName, top });
 };
 
 const throwMissingIds = function ({ ids, modelName }) {
@@ -91,9 +94,13 @@ const throwMissingIds = function ({ ids, modelName }) {
   throwError(message, { reason: 'DB_MODEL_NOT_FOUND' });
 };
 
-const throwAuthorizationError = function ({ ids, modelName }) {
+const throwAuthorizationError = function ({
+  ids,
+  modelName,
+  top: { command: { title } },
+}) {
   const idsA = getWordsList(ids, { op: 'and', quotes: true });
-  const message = `Accessing the '${modelName}' ${pluralize('model', ids.length)} with 'id' ${idsA} is not allowed`;
+  const message = `It is not allowed to ${title} the '${modelName}' ${pluralize('model', ids.length)} with 'id' ${idsA}`;
   throwError(message, { reason: 'AUTHORIZATION' });
 };
 

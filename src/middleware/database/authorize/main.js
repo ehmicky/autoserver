@@ -13,6 +13,7 @@ const validateAuthorization = function ({
   userVars,
   mInput,
   command,
+  top,
 }) {
   const { authorize } = models[modelName];
   if (authorize === undefined) { return; }
@@ -28,7 +29,7 @@ const validateAuthorization = function ({
 
   const argsA = addAuthorizeFilter({ command, authorize: authorizeB, args });
 
-  checkNewData({ authorize: authorizeB, args, modelName });
+  checkNewData({ authorize: authorizeB, args, modelName, top });
 
   return { args: argsA };
 };
