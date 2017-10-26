@@ -1,16 +1,17 @@
 'use strict';
 
 const { handleSchemaFuncs } = require('./schema_func');
+const { evalAuthorize } = require('./eval');
 const { addAuthorizeFilter } = require('./filter');
 
 // Handles `model.authorize`
 const validateAuthorization = function ({
   args,
-  args: { filter },
   modelName,
   schema: { models },
   userVars,
   mInput,
+  command,
 }) {
   const { authorize } = models[modelName];
   if (authorize === undefined) { return; }
@@ -21,14 +22,10 @@ const validateAuthorization = function ({
     mInput,
   });
 
-  const filterA = addAuthorizeFilter({
-    modelName,
-    authorize: authorizeA,
-    vars,
-    filter,
-  });
-  // Keep current `args.filter` as `args.preAuthorizeFilter`
-  const argsA = { ...args, filter: filterA, preAuthorizeFilter: filter };
+  const authorizeB = evalAuthorize({ modelName, authorize: authorizeA, vars });
+  if (authorizeB === true) { return; }
+
+  const argsA = addAuthorizeFilter({ command, authorize: authorizeB, args });
 
   return { args: argsA };
 };
