@@ -53,8 +53,7 @@ definitions:
         $ref: '#/definitions/validModelName'
       description:
         $ref: '#/definitions/description'
-      commands:
-        $ref: '#/definitions/commands'
+      commands: {}
       authorize:
         $ref: '#/definitions/authorize'
       attributes:
@@ -161,27 +160,74 @@ definitions:
       then:
         not:
           required: [transform]
-  # model.commands
-  # E.g. `commands: [find, create]`
-  # This property restricts which commands a specific model can perform
-  commands:
-    type: array
-    uniqueItems: true
-    items:
-      type: string
-      enum:
-      - find
-      - create
-      - replace
-      - delete
   # model.authorize
   # It is validated in more details when parsed
   authorize:
     oneOf:
     - type: array
       items:
-        type: object
+        $ref: '#/definitions/singleAuthorize'
+    - $ref: '#/definitions/singleAuthorize'
+  singleAuthorize:
+    type: object
+    properties:
+      $command:
+        $ref: '#/definitions/commandAuthorize'
+  # model.authorize.$command
+  commandAuthorize:
+    anyOf:
+    - $ref: '#/definitions/commandEq'
     - type: object
+      properties:
+        eq:
+          $ref: '#/definitions/commandEq'
+        in:
+          $ref: '#/definitions/commandIn'
+      maxProperties: 1
+      additionalProperties: false
+  # Possible commands
+  command:
+    type: string
+    enum:
+    - find
+    - create
+    - replace
+    - delete
+    - patch
+  # patch command theorically is equivalent to read + replace commands, so
+  # should have the same permissions:
+  #  - [patch] requires [find, replace]
+  #     - i.e. {eq: "patch"} is forbidden
+  #  - [find, replace] requires [patch]
+  commandEq:
+    allOf:
+    - $ref: '#/definitions/command'
+    - not:
+        const: patch
+  commandIn:
+    type: array
+    uniqueItems: true
+    items:
+      $ref: '#/definitions/command'
+    allOf:
+    - if:
+        contains:
+          const: patch
+      then:
+        allOf:
+        - contains:
+            const: find
+        - contains:
+            const: replace
+    - if:
+        allOf:
+        - contains:
+            const: find
+        - contains:
+            const: replace
+      then:
+        contains:
+          const: patch
   # schema.variables
   variables:
     type: object
