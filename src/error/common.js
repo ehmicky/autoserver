@@ -29,8 +29,15 @@ const getAuthorizationModels = function ({ ids, modelName }) {
   return `the '${modelName}' ${pluralize('model', ids.length)} with 'id' ${idsA}`;
 };
 
+const throwModelNotFoundError = function ({ ids, modelName }) {
+  const idsA = getWordsList(ids, { op: 'nor', quotes: true });
+  const message = `Could not find any '${modelName}' with 'id' ${idsA}`;
+  throwError(message, { reason: 'DB_MODEL_NOT_FOUND' });
+};
+
 const commonErrors = {
   AUTHORIZATION: throwAuthorizationError,
+  DB_MODEL_NOT_FOUND: throwModelNotFoundError,
 };
 
 module.exports = {

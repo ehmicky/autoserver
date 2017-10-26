@@ -2,8 +2,7 @@
 
 const { difference, isEqual } = require('lodash');
 
-const { getWordsList } = require('../../utilities');
-const { throwError, throwCommonError } = require('../../error');
+const { throwCommonError } = require('../../error');
 const { extractSimpleIds, getSimpleFilter } = require('../../database');
 
 // Check if any `id` was not found (404) or was unauthorized (403)
@@ -26,7 +25,7 @@ const validateMissingIds = async function (
 
   // Check whether this is because the model does not exist, or because it is
   // not authorized
-  const missingIds = await checkAuthorization({
+  const idsA = await checkAuthorization({
     preAuthorizeFilter,
     filter,
     ids,
@@ -36,7 +35,7 @@ const validateMissingIds = async function (
     mInput,
   });
 
-  throwMissingIds({ ids: missingIds, modelName });
+  throwCommonError({ reason: 'DB_MODEL_NOT_FOUND', ids: idsA, modelName });
 };
 
 // Retrieve missing models ids
@@ -85,12 +84,6 @@ const checkAuthorization = async function ({
   if (missingIds.length > 0) { return missingIds; }
 
   throwCommonError({ reason: 'AUTHORIZATION', ids, modelName, top });
-};
-
-const throwMissingIds = function ({ ids, modelName }) {
-  const idsA = getWordsList(ids, { op: 'nor', quotes: true });
-  const message = `Could not find any '${modelName}' with an 'id' equal to ${idsA}`;
-  throwError(message, { reason: 'DB_MODEL_NOT_FOUND' });
 };
 
 module.exports = {
