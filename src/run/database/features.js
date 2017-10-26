@@ -2,7 +2,7 @@
 
 const { difference } = require('lodash');
 
-const { getWordsList } = require('../../utilities');
+const { pickBy, getWordsList } = require('../../utilities');
 const { throwError } = require('../../error');
 
 // Startup-time adapter features validation
@@ -40,8 +40,19 @@ const validateModel = function ({
 // just the model schema, i.e. startup time.
 // Some database features might only possible to be guessed query-time,
 // e.g. the 'filter' feature.
-const getModelFeatures = function () {
-  return [];
+const getModelFeatures = function ({ model }) {
+  const featuresA = pickBy(featuresCheckers, checker => checker({ model }));
+  const featuresB = Object.keys(featuresA);
+  return featuresB;
+};
+
+// `model.authorize` adds authorization filter, i.e. requires 'filter'
+const requiresFilter = function ({ model: { authorize } }) {
+  return authorize !== undefined;
+};
+
+const featuresCheckers = {
+  filter: requiresFilter,
 };
 
 module.exports = {
