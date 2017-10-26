@@ -1,8 +1,6 @@
 'use strict';
 
 // Merge `model.authorize` `$model.*` to `args.filter`
-// If it can be already guessed that the model is not authorized, throw
-// directly
 const addAuthorizeFilter = function ({
   command,
   authorize,

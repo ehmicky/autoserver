@@ -3,6 +3,7 @@
 const { handleSchemaFuncs } = require('./schema_func');
 const { evalAuthorize } = require('./eval');
 const { addAuthorizeFilter } = require('./filter');
+const { checkNewData } = require('./data');
 
 // Handles `model.authorize`
 const validateAuthorization = function ({
@@ -26,6 +27,8 @@ const validateAuthorization = function ({
   if (authorizeB === true) { return; }
 
   const argsA = addAuthorizeFilter({ command, authorize: authorizeB, args });
+
+  checkNewData({ authorize: authorizeB, args, modelName });
 
   return { args: argsA };
 };
