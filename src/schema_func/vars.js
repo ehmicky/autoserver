@@ -42,6 +42,8 @@ const getVarsKeys = function ({ schema: { variables = {} } }) {
 };
 
 // System variables that are always present
+// We need to specify their `type` and `isArray` for `model.authorize`
+// validation
 const SYSTEM_VARS = {
   $protocol: { type: 'string' },
   $timestamp: { type: 'string' },

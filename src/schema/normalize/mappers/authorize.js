@@ -19,7 +19,8 @@ const parseAuthorize = function ({
 }) {
   const attrs = getAttrs({ attributes, schema });
   const prefix = `In 'model.${modelName}.authorize', `;
-  return parseFilter({ filter: authorize, attrs, prefix });
+  const authorizeA = parseFilter({ filter: authorize, attrs, prefix });
+  return authorizeA;
 };
 
 // Retrieve type and names of all possible `model.authorize.*`
@@ -27,10 +28,13 @@ const getAttrs = function ({ attributes, schema }) {
   const userVars = getUserVars({ schema });
   const modelAttrs = getModelAttrs({ attributes });
   const attrs = { ...userVars, ...modelAttrs, ...SYSTEM_VARS };
+
+  // Can use schema functions inside `model.authorize`
   const attrsA = mapValues(
     attrs,
     attr => ({ ...attr, allowInlineFuncs: true }),
   );
+
   return attrsA;
 };
 
@@ -39,7 +43,7 @@ const getUserVars = function ({ schema: { variables = {} } }) {
   return mapValues(variables, () => ({ type: 'dynamic' }));
 };
 
-// `model.authorize.$model.ATTR`
+// `model.authorize['$model.ATTR']`
 const getModelAttrs = function ({ attributes = {} }) {
   const modelAttrs = mapValues(
     attributes,
