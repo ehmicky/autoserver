@@ -21,10 +21,7 @@ const extractSimpleIds = function ({ filter: { type, attrName, value } = {} }) {
 
 // Parses 'and' top-level node
 const parseAndNode = function ({ value }) {
-  const idsA = value
-    // Filter added by authorization is ignored
-    .filter(({ isAuthorization }) => !isAuthorization)
-    .map(node => extractSimpleIds({ filter: node }));
+  const idsA = value.map(node => extractSimpleIds({ filter: node }));
 
   const isSimple = idsA.every(ids => Array.isArray(ids));
   // E.g. `{ id: '5', name: '...' }`

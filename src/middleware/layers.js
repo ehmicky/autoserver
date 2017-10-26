@@ -110,8 +110,6 @@ const middlewareLayers = [
       action.validateUnknownAttrs,
       // Validate that attributes used in nested actions will not change
       action.validateStableIds,
-      // Handles `model.authorize`
-      action.validateAuthorization,
       // Retrieves `operationSummary`, i.e. summary of all `actions`
       action.getOperationSummary,
       // Sort `actions` so that top-level ones are fired first
@@ -192,6 +190,8 @@ const middlewareLayers = [
     layers: [
       // Authorization middleware
       database.authorization,
+      // Handles `model.authorize`
+      database.validateAuthorization,
       // Custom data validation middleware
       database.dataValidation,
 

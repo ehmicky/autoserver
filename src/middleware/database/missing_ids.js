@@ -1,30 +1,46 @@
 'use strict';
 
+const { difference, isEqual } = require('lodash');
+const pluralize = require('pluralize');
+
 const { getWordsList } = require('../../utilities');
 const { throwError } = require('../../error');
 const { extractSimpleIds, getSimpleFilter } = require('../../database');
 
 // Check if any `id` was not found (404) or was unauthorized (403)
 const validateMissingIds = async function (
-  { command, response, args: { filter }, mInput },
+  {
+    command,
+    modelName,
+    response,
+    args: { preAuthorizeFilter, filter },
+    mInput,
+  },
   nextLayer,
 ) {
   // Other commands trigger this middleware during their `currentData` actions
   if (command !== 'find') { return; }
 
-  const ids = getMissingIds({ filter, response });
+  const ids = getMissingIds({ preAuthorizeFilter, response });
   if (ids.length === 0) { return; }
 
   // Check whether this is because the model does not exist, or because it is
   // not authorized
-  await checkAuthorization({ filter, ids, nextLayer, mInput });
+  const missingIds = await checkAuthorization({
+    preAuthorizeFilter,
+    filter,
+    ids,
+    modelName,
+    nextLayer,
+    mInput,
+  });
 
-  throwMissingIds({ ids });
+  throwMissingIds({ ids: missingIds, modelName });
 };
 
 // Retrieve missing models ids
-const getMissingIds = function ({ filter, response: { data } }) {
-  const filterIds = extractSimpleIds({ filter });
+const getMissingIds = function ({ preAuthorizeFilter, response: { data } }) {
+  const filterIds = extractSimpleIds({ filter: preAuthorizeFilter });
 
   // This middleware can be checked only when filtering only by `id`.
   // Checking complex `args.filter` is tricky. It is hard to know whether a
@@ -46,39 +62,38 @@ const getMissingIds = function ({ filter, response: { data } }) {
 // and only on the missing models.
 // If no missing model is missing anymore, flag it as an authorization error.
 const checkAuthorization = async function ({
+  preAuthorizeFilter,
   filter,
   ids,
+  modelName,
   nextLayer,
-  mInput: { mInput, args },
+  mInput,
+  mInput: { args },
 }) {
-  if (!hasAuthorizationFilter({ filter })) { return; }
+  if (isEqual(preAuthorizeFilter, filter)) { return ids; }
 
   const filterA = getSimpleFilter({ ids });
   const mInputA = { ...mInput, args: { ...args, filter: filterA } };
 
-  const { response } = await nextLayer(mInputA);
+  const { response: { data } } = await nextLayer(mInputA);
 
-  const isAuthorizationError = response.length === ids.length;
-  if (!isAuthorizationError) { return; }
+  const responseIds = data.map(({ id }) => id);
+  const missingIds = difference(ids, responseIds);
 
-  throwAuthorizationError({ ids });
+  if (missingIds.length > 0) { return missingIds; }
+
+  throwAuthorizationError({ ids, modelName });
 };
 
-// When an authorization filter was used, it adds an 'and' top-level node
-// with some node children with the `isAuthorization` `true` flag
-const hasAuthorizationFilter = function ({ filter: { type, value } = {} }) {
-  return type === 'and' && value.some(({ isAuthorization }) => isAuthorization);
-};
-
-const throwMissingIds = function ({ ids }) {
+const throwMissingIds = function ({ ids, modelName }) {
   const idsA = getWordsList(ids, { op: 'nor', quotes: true });
-  const message = `Could not find any model with an 'id' equal to ${idsA}`;
+  const message = `Could not find any '${modelName}' with an 'id' equal to ${idsA}`;
   throwError(message, { reason: 'DB_MODEL_NOT_FOUND' });
 };
 
-const throwAuthorizationError = function ({ ids }) {
+const throwAuthorizationError = function ({ ids, modelName }) {
   const idsA = getWordsList(ids, { op: 'and', quotes: true });
-  const message = `The models with the following 'id's are not allowed: ${idsA}`;
+  const message = `Accessing the '${modelName}' ${pluralize('model', ids.length)} with 'id' ${idsA} is not allowed`;
   throwError(message, { reason: 'AUTHORIZATION' });
 };
 

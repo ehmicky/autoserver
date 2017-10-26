@@ -58,10 +58,6 @@ const singleSequenceRead = async function ({
     nextLayer,
     command,
     args: argsB,
-    isTopLevel,
-    parentResults,
-    commandName,
-    nestedParentIds,
   });
 
   const pendingResults = getPendingResults({

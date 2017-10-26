@@ -2,6 +2,7 @@
 
 module.exports = {
   ...require('./authorization'),
+  ...require('./authorize'),
   ...require('./data_validation'),
 
   ...require('./adapter'),
