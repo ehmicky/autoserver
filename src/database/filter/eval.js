@@ -1,6 +1,6 @@
 'use strict';
 
-const { has, get } = require('../../../utilities');
+const { has, get } = require('../../utilities');
 
 const { operators } = require('./operators');
 
@@ -19,7 +19,7 @@ const evalFilter = function ({
 
   const attr = getAttr({ attrs, attrName });
   // `evalFilter` is passed for recursion
-  return operators[type]({ attr, attrs, value, partialNames, evalFilter });
+  return operators[type].eval({ attr, attrs, value, partialNames, evalFilter });
 };
 
 // Nodes marked as partial, i.e. whose name matches the `partialNames` regexp,
