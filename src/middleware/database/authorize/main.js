@@ -24,7 +24,12 @@ const validateAuthorization = function ({
     mInput,
   });
 
-  const authorizeB = evalAuthorize({ modelName, authorize: authorizeA, vars });
+  const authorizeB = evalAuthorize({
+    modelName,
+    authorize: authorizeA,
+    top,
+    vars,
+  });
   if (authorizeB === true) { return; }
 
   const argsA = addAuthorizeFilter({ command, authorize: authorizeB, args });

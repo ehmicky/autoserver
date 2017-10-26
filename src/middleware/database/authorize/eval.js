@@ -1,20 +1,20 @@
 'use strict';
 
 const { recurseMap } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { throwCommonError } = require('../../../error');
 const { evalFilter } = require('../../../database');
 
 // Evaluate `model.authorize` filter to a boolean
 // Do a partial evaluation, because we do not know the value of `$model.*` yet
 // Returns partial filter if any.
-const evalAuthorize = function ({ modelName, authorize, vars }) {
+const evalAuthorize = function ({ modelName, authorize, top, vars }) {
   const authorizeA = evalFilter({
     filter: authorize,
     attrs: vars,
     partialNames: PARTIAL_NAMES_REGEXP,
   });
 
-  checkAuthorize({ modelName, authorize: authorizeA });
+  checkAuthorize({ modelName, authorize: authorizeA, top });
 
   if (authorizeA === true) { return authorizeA; }
 
@@ -23,11 +23,10 @@ const evalAuthorize = function ({ modelName, authorize, vars }) {
 };
 
 // Throw error if authorization filter evaluated to false.
-const checkAuthorize = function ({ modelName, authorize }) {
+const checkAuthorize = function ({ modelName, authorize, top }) {
   if (authorize !== false) { return; }
 
-  const message = `Accessing those '${modelName}' models is not allowed`;
-  throwError(message, { reason: 'AUTHORIZATION' });
+  throwCommonError({ reason: 'AUTHORIZATION', modelName, top });
 };
 
 // Remove `$model.` prefix in AST's `attrName`

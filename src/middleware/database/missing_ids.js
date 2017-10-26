@@ -1,10 +1,9 @@
 'use strict';
 
 const { difference, isEqual } = require('lodash');
-const pluralize = require('pluralize');
 
 const { getWordsList } = require('../../utilities');
-const { throwError } = require('../../error');
+const { throwError, throwCommonError } = require('../../error');
 const { extractSimpleIds, getSimpleFilter } = require('../../database');
 
 // Check if any `id` was not found (404) or was unauthorized (403)
@@ -85,23 +84,13 @@ const checkAuthorization = async function ({
 
   if (missingIds.length > 0) { return missingIds; }
 
-  throwAuthorizationError({ ids, modelName, top });
+  throwCommonError({ reason: 'AUTHORIZATION', ids, modelName, top });
 };
 
 const throwMissingIds = function ({ ids, modelName }) {
   const idsA = getWordsList(ids, { op: 'nor', quotes: true });
   const message = `Could not find any '${modelName}' with an 'id' equal to ${idsA}`;
   throwError(message, { reason: 'DB_MODEL_NOT_FOUND' });
-};
-
-const throwAuthorizationError = function ({
-  ids,
-  modelName,
-  top: { command: { title } },
-}) {
-  const idsA = getWordsList(ids, { op: 'and', quotes: true });
-  const message = `It is not allowed to ${title} the '${modelName}' ${pluralize('model', ids.length)} with 'id' ${idsA}`;
-  throwError(message, { reason: 'AUTHORIZATION' });
 };
 
 module.exports = {
