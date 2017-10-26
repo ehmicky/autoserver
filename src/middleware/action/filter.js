@@ -18,6 +18,9 @@ const parseFilterArg = function ({
 }) {
   const model = modelsMap[modelName];
   const filter = parseFilterOrId({ args, model });
+
+  if (filter === undefined) { return action; }
+
   return { ...action, args: { ...args, filter } };
 };
 
