@@ -1,6 +1,5 @@
 'use strict';
 
-const { addErrorHandler } = require('../../error');
 const { isInlineFunc } = require('../../schema_func');
 
 const {
@@ -61,19 +60,10 @@ const asIsParser = function ({ opVal }) {
 const regexParser = function ({ opVal }) {
   // Using .* or .*$ at the end of a RegExp is useless
   // MongoDB documentation also warns against it as a performance optimization
-  const opValA = opVal
+  return opVal
     .replace(/\.\*$/, '')
     .replace(/\.\*\$$/, '');
-
-  return new RegExp(opValA);
 };
-
-const regExpParserHandler = function (_, { opVal, throwErr }) {
-  const message = `Invalid regular expression: '${opVal}'`;
-  throwErr(message);
-};
-
-const eRegExpParser = addErrorHandler(regexParser, regExpParserHandler);
 
 const arrayOpsParser = function ({
   opVal,
@@ -98,8 +88,8 @@ const operations = {
   lt: { parse: asIsParser, validate: validateSameType },
   gte: { parse: asIsParser, validate: validateSameType },
   gt: { parse: asIsParser, validate: validateSameType },
-  like: { parse: eRegExpParser, validate: validateLike },
-  nlike: { parse: eRegExpParser, validate: validateLike },
+  like: { parse: regexParser, validate: validateLike },
+  nlike: { parse: regexParser, validate: validateLike },
   some: { parse: arrayOpsParser, validate: validateArrayOps },
   all: { parse: arrayOpsParser, validate: validateArrayOps },
 };

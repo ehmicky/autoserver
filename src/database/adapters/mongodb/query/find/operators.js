@@ -23,26 +23,27 @@ const andOperation = function ({ value }) {
 
 const someOperation = function ({ value, attrName }) {
   const elemMatch = value
-    .map(getGenericNode)
+    .map(node => getGenericNode({ ...node, key: 'opName' }))
     .reduce(assignObject, {});
   return { [attrName]: { $elemMatch: elemMatch } };
 };
 
 const allOperation = function ({ value, attrName }) {
   const elemMatch = value
-    .map(node => ({ [OPERATIONS_MAP[node.type].inverse]: node.value }))
+    .map(node => getGenericNode({ ...node, key: 'inverse' }))
     .reduce(assignObject, {});
   return { [attrName]: { $not: { $elemMatch: elemMatch } } };
 };
 
 const genericOperation = function ({ type, value, attrName }) {
-  const node = getGenericNode({ type, value });
-  return { [attrName]: node };
+  const valueA = getGenericNode({ type, value, key: 'opName' });
+  return { [attrName]: valueA };
 };
 
-const getGenericNode = function ({ type, value }) {
-  const { opName } = OPERATIONS_MAP[type];
-  return { [opName]: value };
+const getGenericNode = function ({ type, value, key }) {
+  const { [key]: name, kind } = OPERATIONS_MAP[type];
+  const valueA = kind === 'regexp' ? new RegExp(value) : value;
+  return { [name]: valueA };
 };
 
 const OPERATIONS_MAP = {
@@ -54,8 +55,8 @@ const OPERATIONS_MAP = {
   lte: { opName: '$lte', inverse: '$gt' },
   in: { opName: '$in', inverse: '$nin' },
   nin: { opName: '$nin', inverse: '$in' },
-  like: { opName: '$regex', inverse: '$not' },
-  nlike: { opName: '$not', inverse: '$regex' },
+  like: { opName: '$regex', inverse: '$not', kind: 'regexp' },
+  nlike: { opName: '$not', inverse: '$regex', kind: 'regexp' },
 };
 
 const operations = {
