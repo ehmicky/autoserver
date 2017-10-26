@@ -5,7 +5,7 @@ const { extractSimpleIds } = require('../../../../database');
 
 // Fire the actual command
 const fireReadCommand = async function ({
-  action: { commandPath, modelName, internal = false },
+  action: { commandPath, modelName },
   mInput,
   nextLayer,
   command,
@@ -14,14 +14,13 @@ const fireReadCommand = async function ({
   const emptyCommand = isEmptyCommand({ args });
   if (emptyCommand) { return []; }
 
-  const argsA = { ...args, internal };
-  const argsB = omit(argsA, 'data');
+  const argsA = omit(args, 'data');
 
   const mInputA = {
     ...mInput,
     commandPath: commandPath.join('.'),
     modelName,
-    args: argsB,
+    args: argsA,
     command: command.type,
   };
 
