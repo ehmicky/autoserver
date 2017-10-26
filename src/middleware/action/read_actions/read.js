@@ -61,7 +61,7 @@ const getModels = function ({ action: { currentData, args: { data } } }) {
   if (currentData) { return currentData; }
 
   // Use replace|create `data`, but not patch `data`
-  const hasDataIds = data && data.every(datum => datum.id !== undefined);
+  const hasDataIds = data && data.every(({ id }) => id !== undefined);
   if (hasDataIds) { return data; }
 };
 
