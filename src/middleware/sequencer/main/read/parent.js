@@ -42,7 +42,7 @@ const getParentIds = function ({ commandName, parentResults }) {
 // then a nested query find_child() will be filtered by `id: 1`
 // If the parent returns nothing|null, the nested query won't be performed
 // and null will be returned
-const getNestedArg = function ({ args, isTopLevel, parentIds }) {
+const addNestedFilter = function ({ args, isTopLevel, parentIds }) {
   if (isTopLevel) { return args; }
 
   const filter = getSimpleFilter({ ids: parentIds });
@@ -52,5 +52,5 @@ const getNestedArg = function ({ args, isTopLevel, parentIds }) {
 module.exports = {
   getParentResults,
   getParentIds,
-  getNestedArg,
+  addNestedFilter,
 };
