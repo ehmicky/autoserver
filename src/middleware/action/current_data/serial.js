@@ -34,10 +34,7 @@ const getWriteActions = function ({ actions }) {
 // Reuse `delete` and `patch` arguments for the `find` commands
 const getSerialReadAction = function ({ command: { multiple }, ...action }) {
   const command = getCommand({ commandType: 'find', multiple });
-
-  // The command is `internal`, e.g. it bypasses authorization.
-  // Actual authorization will be performed with the main commands.
-  return { ...action, command, internal: true };
+  return { ...action, command };
 };
 
 // Add `action.currentData`

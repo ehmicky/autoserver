@@ -3,15 +3,7 @@
 const { throwError } = require('../../error');
 
 // Main authorization layer
-const authorization = function ({
-  modelName,
-  command,
-  schema: { models },
-  args: { internal },
-}) {
-  // Intermediary commands are not checked for authorization
-  if (internal) { return; }
-
+const authorization = function ({ modelName, command, schema: { models } }) {
   const { commands } = models[modelName];
   const mappedCommands = AUTHORIZATION_MAP[command] || [command];
 

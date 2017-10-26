@@ -57,7 +57,6 @@ const writeToReadAction = function (actions) {
     command: readCommand,
     args,
     modelName,
-    internal: true,
   };
 };
 
