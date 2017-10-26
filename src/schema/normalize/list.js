@@ -14,7 +14,6 @@ const {
 } = require('./validate');
 const {
   addDefaultModelName,
-  addDefaultCommands,
   addDefaultId,
   addDefaultValidate,
   addDefaultType,
@@ -54,8 +53,6 @@ const normalizers = [
   { type: 'attr', func: addDefaultType },
   // Default `attr.validate`
   { type: 'attr', func: addDefaultValidate },
-  // Default `model.commands`
-  { type: 'model', func: addDefaultCommands },
 
   // Make sure `id` attributes are required
   { type: 'attr', func: addRequiredId },

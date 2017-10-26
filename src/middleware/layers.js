@@ -189,8 +189,6 @@ const middlewareLayers = [
     name: 'database',
     layers: [
       // Authorization middleware
-      database.authorization,
-      // Handles `model.authorize`
       database.validateAuthorization,
       // Custom data validation middleware
       database.dataValidation,

@@ -1,20 +1,3 @@
-# Authorization
-
-The possible CRUD commands can be restricted for a given model by specifying
-in the [schema](schema.md) property `model.commands` among
-`create`, `find`, `replace` and `delete`.
-
-`patch` is a combination of both `find` and `replace` permissions, so it does
-not need to be specified.
-
-For example, to prevent users from creating users:
-
-```yml
-models:
-  example_model:
-    commands: [find, replace, delete]
-```
-
 # Readonly attributes
 
 Readonly attributes cannot be modified.

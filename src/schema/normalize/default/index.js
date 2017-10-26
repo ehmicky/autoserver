@@ -5,5 +5,4 @@ module.exports = {
   ...require('./id'),
   ...require('./type'),
   ...require('./validate'),
-  ...require('./commands'),
 };
