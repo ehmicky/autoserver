@@ -1,7 +1,7 @@
 'use strict';
 
 const { getInput } = require('./input');
-const { getNestedArg } = require('./parent');
+const { addNestedFilter } = require('./parent');
 const { getConcurrentCommand, getPendingResults } = require('./concurrent');
 const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
@@ -44,7 +44,7 @@ const singleSequenceRead = async function ({
     parentIds,
   } = getInput({ action, results });
 
-  const argsA = getNestedArg({ args, isTopLevel, parentIds });
+  const argsA = addNestedFilter({ args, isTopLevel, parentIds });
 
   const { concurrentPromises, args: argsB } = getConcurrentCommand({
     args: argsA,
