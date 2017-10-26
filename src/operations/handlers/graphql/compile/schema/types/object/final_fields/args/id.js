@@ -2,7 +2,7 @@
 
 const { GraphQLNonNull, GraphQLString } = require('graphql');
 
-const { ARG_TYPES_DESCRIPTIONS } = require('../../../../description');
+const { getArgTypeDescription } = require('../../../../description');
 
 // `id` argument
 const getIdArgument = function (def) {
@@ -10,7 +10,7 @@ const getIdArgument = function (def) {
     ID_COMMAND_TYPES.includes(def.command.type);
   if (!hasId) { return {}; }
 
-  const description = ARG_TYPES_DESCRIPTIONS.filter[def.command.name];
+  const description = getArgTypeDescription(def, 'argId');
 
   const args = getIdArgs({ description });
   return args;

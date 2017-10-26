@@ -1,65 +1,46 @@
 'use strict';
 
+const { capitalize } = require('underscore.string');
+
 const TOP_DESCRIPTIONS = {
   query: 'Fetch models',
   mutation: 'Modify models',
 };
 
 // Top-level action descriptions
-const getCommandDescription = {
-  findOne: ({ typeName }) => `Search for a ${typeName} model`,
-  findMany: ({ typeName }) => `Search for ${typeName} models`,
-  createOne: ({ typeName }) => `Create a ${typeName} model`,
-  createMany: ({ typeName }) => `Create ${typeName} models`,
-  replaceOne: ({ typeName }) => `Fully update a ${typeName} model`,
-  replaceMany: ({ typeName }) => `Fully update ${typeName} models`,
-  patchOne: ({ typeName }) => `Partially update a ${typeName} model`,
-  patchMany: ({ typeName }) => `Partially update ${typeName} models`,
-  deleteOne: ({ typeName }) => `Delete a ${typeName} model`,
-  deleteMany: ({ typeName }) => `Delete ${typeName} models`,
+const getCommandDescription = function ({
+  command: { multiple, title },
+  typeName,
+}) {
+  const description = multiple
+    ? `${title} ${typeName} models`
+    : `${title} a ${typeName} model`;
+  const descriptionA = capitalize(description);
+  return descriptionA;
 };
 
-// Retrieve the description of a `args.data|filter` type
-const getArgTypeDescription = function (def, opts, inputObjectType) {
-  const description = ARG_TYPES_DESCRIPTIONS[inputObjectType][def.command.name];
-  if (description === undefined) { return; }
-
-  return argTypesProcessors[inputObjectType](description);
+// Retrieve the description of a `args.data|filter` type, and of
+// `args.data|filter|id` arguments
+const getArgTypeDescription = function (
+  { command: { multiple, title } },
+  type,
+) {
+  const argTypeDescription = ARG_TYPES_DESCRIPTIONS[type];
+  const modelStr = multiple ? 'models' : 'model';
+  const description = `${argTypeDescription} ${modelStr} to ${title}`;
+  return description;
 };
 
 const ARG_TYPES_DESCRIPTIONS = {
-  data: {
-    createOne: 'New model to create',
-    createMany: 'New models to create',
-    patchOne: 'Model attributes to update',
-    patchMany: 'Models attributes to update',
-    replaceOne: 'New model attributes',
-    replaceMany: 'New models attributes',
-  },
-  filter: {
-    findOne: 'Specifies which model to search for',
-    findMany: 'Specifies which models to search for',
-    patchOne: 'Specifies which model to update',
-    patchMany: 'Specifies which models to update',
-    deleteOne: 'Specifies which model to delete',
-    deleteMany: 'Specifies which models to delete',
-  },
-};
-
-const argTypesProcessors = {
-  data (description) {
-    const descriptionA = description.toLowerCase();
-    return `'data' argument with the ${descriptionA}`;
-  },
-  filter (description) {
-    const descriptionA = description.replace('Specifies ', '');
-    return `'filter' argument specifying ${descriptionA}`;
-  },
+  data: '\'data\' argument with the new',
+  filter: '\'filter\' argument specifying which',
+  argId: 'Specifies which',
+  argFilter: 'Specifies which',
+  argData: 'New',
 };
 
 module.exports = {
   TOP_DESCRIPTIONS,
   getCommandDescription,
   getArgTypeDescription,
-  ARG_TYPES_DESCRIPTIONS,
 };

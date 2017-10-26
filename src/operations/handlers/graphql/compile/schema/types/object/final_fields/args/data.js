@@ -2,7 +2,7 @@
 
 const { GraphQLNonNull, GraphQLList } = require('graphql');
 
-const { ARG_TYPES_DESCRIPTIONS } = require('../../../../description');
+const { getArgTypeDescription } = require('../../../../description');
 
 // `data` argument
 const getDataArgument = function (def, opts) {
@@ -11,7 +11,7 @@ const getDataArgument = function (def, opts) {
   if (!hasData) { return {}; }
 
   const type = getDataObjectType(def, opts);
-  const description = ARG_TYPES_DESCRIPTIONS.data[def.command.name];
+  const description = getArgTypeDescription(def, 'argData');
 
   return { data: { type, description } };
 };
