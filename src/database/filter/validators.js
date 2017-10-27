@@ -2,12 +2,19 @@
 
 const { getWordsList } = require('../../utilities');
 
-const validateEnum = function ({ value, ruleVal, throwErr }) {
-  if (ruleVal.includes(value)) { return; }
+const validateEnum = function ({ type, value, ruleVal, throwErr }) {
+  if (!ALLOWED_OPERATORS.includes(type)) {
+    const message = `must use operator ${getWordsList(ALLOWED_OPERATORS, { quotes: true })}`;
+    throwErr(message);
+  }
 
-  const message = `must be ${getWordsList(ruleVal, { json: true })}`;
-  throwErr(message);
+  if (!ruleVal.includes(value)) {
+    const message = `must be ${getWordsList(ruleVal, { json: true })}`;
+    throwErr(message);
+  }
 };
+
+const ALLOWED_OPERATORS = ['eq', 'neq', 'in', 'nin'];
 
 const validators = {
   enum: validateEnum,
