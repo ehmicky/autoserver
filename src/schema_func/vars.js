@@ -58,7 +58,16 @@ const SYSTEM_VARS = {
   $requestId: { type: 'string' },
   $operation: { type: 'string', validation: { enum: operations } },
   $modelName: { type: 'string' },
-  $command: { type: 'string', validation: { enum: COMMAND_TYPES } },
+  $command: {
+    type: 'string',
+    validation: {
+      enum: COMMAND_TYPES,
+      // With patch authorization, one can simulate find and replace
+      // authorization and vice-versa. So to avoid mistakes, we force
+      // specifying them together.
+      equivalent: [['patch'], ['find', 'replace']],
+    },
+  },
   $weights: { type: 'integer', isArray: true },
   $args: { type: 'dynamic' },
   $params: { type: 'dynamic' },
