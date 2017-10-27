@@ -117,7 +117,7 @@ const validateValue = function ({
 
   if (validation) {
     Object.entries(validation).forEach(([keyword, ruleVal]) =>
-      validators[keyword]({ value, ruleVal, throwErr }));
+      validators[keyword]({ type, value, ruleVal, throwErr }));
   }
 };
 
