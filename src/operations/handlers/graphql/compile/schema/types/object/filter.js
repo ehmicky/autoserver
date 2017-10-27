@@ -12,8 +12,18 @@ const patchIdData = function ({ command }, { inputObjectType, defName }) {
     defName === 'id';
 };
 
+// `model.authorize` never authorize this `$command` for that model
+const isForbiddenCommand = function (
+  { command, model },
+  { parentDef, allowedCommandsMap },
+) {
+  return ['Query', 'Mutation'].includes(parentDef.model) &&
+    !allowedCommandsMap[model].includes(command.type);
+};
+
 const filters = [
   patchIdData,
+  isForbiddenCommand,
 ];
 
 module.exports = {

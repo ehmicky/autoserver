@@ -7,10 +7,15 @@ const { mapValues } = require('../../../../../utilities');
 const { getTypeGetter } = require('./types');
 
 // Builds query|mutation type
-const getTopTypes = function ({ topDefs }) {
+const getTopTypes = function ({ topDefs, allowedCommandsMap }) {
   const graphqlSchemaId = uuidv4();
   // `getType`: recursion, while avoiding files circular dependencies
-  const opts = { graphqlSchemaId, inputObjectType: 'type', getType };
+  const opts = {
+    inputObjectType: 'type',
+    getType,
+    graphqlSchemaId,
+    allowedCommandsMap,
+  };
 
   return mapValues(
     topDefs,
