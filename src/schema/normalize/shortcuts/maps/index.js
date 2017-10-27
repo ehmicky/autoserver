@@ -7,4 +7,5 @@ module.exports = {
   ...require('./aliases'),
   ...require('./models_map'),
   ...require('./validate'),
+  ...require('./allowed_commands'),
 };
