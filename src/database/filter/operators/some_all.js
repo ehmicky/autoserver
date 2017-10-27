@@ -1,27 +1,24 @@
 'use strict';
 
-const { throwAttrTypeError } = require('./error');
-const { evalAnd } = require('./or_and');
+const { throwAttrTypeError } = require('../error');
 
-const parseSomeAll = function ({
-  opVal,
-  attrName,
-  attr: { type },
-  throwErr,
-  parseAttrs,
-}) {
-  return parseAttrs({
-    attrVal: opVal,
-    attrName,
-    attr: { type, isArray: false },
-    throwErr,
-  });
+const { and } = require('./or_and');
+
+const parseSomeAll = function ({ value, parseOperations }) {
+  return parseOperations({ operations: value });
 };
 
-const validateSomeAll = function ({ opName, attrName, attr, throwErr }) {
+const optimizeSomeAll = function (node) {
+  // When using an empty array
+  if (node.value.length === 0) { return; }
+
+  return node;
+};
+
+const validateSomeAll = function ({ type, attrName, attr, throwErr }) {
   if (attr.isArray) { return; }
 
-  throwAttrTypeError({ attrName, attr, opName, throwErr }, 'not an array');
+  throwAttrTypeError({ attrName, attr, type, throwErr }, 'not an array');
 };
 
 // `{ array_attribute: { some: { ...} } }`
@@ -44,12 +41,20 @@ const arrayMatcher = function ({
   evalFilter,
 }) {
   const valueA = value.map(val => ({ ...val, attrName: index }));
-  return evalAnd({ attrs: attr, value: valueA, partialNames, evalFilter });
+  return and.eval({ attrs: attr, value: valueA, partialNames, evalFilter });
 };
 
 module.exports = {
-  parseSomeAll,
-  validateSomeAll,
-  evalAll,
-  evalSome,
+  some: {
+    parse: parseSomeAll,
+    optimize: optimizeSomeAll,
+    validate: validateSomeAll,
+    eval: evalSome,
+  },
+  all: {
+    parse: parseSomeAll,
+    optimize: optimizeSomeAll,
+    validate: validateSomeAll,
+    eval: evalAll,
+  },
 };

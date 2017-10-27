@@ -52,6 +52,7 @@ const SYSTEM_VARS = {
   $operation: { type: 'string' },
   $modelName: { type: 'string' },
   $command: { type: 'string' },
+  $weights: { type: 'integer', isArray: true },
   $args: { type: 'dynamic' },
   $params: { type: 'dynamic' },
 };

@@ -1,36 +1,105 @@
 'use strict';
 
-const { decapitalize, capitalize } = require('underscore.string');
+const { assignArray } = require('../../utilities');
 
-const { throwError } = require('../../error');
-
-const { operators } = require('./operators');
-const { parseAttrs } = require('./attr');
+const { getThrowErr } = require('./error');
+const { getOperator, DEEP_OPERATIONS } = require('./operators');
+const { optimizeFilter } = require('./optimize');
 
 // Parse `args.filter` and `model.authorize` format
-// `attrs` must be `{ model: { attrName:
-// { type: 'string|number|integer|boolean', isArray: true|false } } }`
+// Syntax:
+//  [                       // Filter. Top-level is either 'or' or 'and'
+//    {                     // Attrs
+//      attribute_name: 5   // Can use shortcut
+//      attribute_name: {   // Name+value: Attr. Value only: Operations
+//        eq: 5,            // Operation
+//        neq: 4
+//        some: {
+//          eq: 3           // Recursive operation
+//        }
+//      }
+//    }
+//  ]
 const parseFilter = function ({
   filter,
-  attrs,
   reason = 'INPUT_VALIDATION',
   prefix = '',
 }) {
   if (filter == null) { return; }
 
+  // Top-level array means 'or' alternatives
+  const type = Array.isArray(filter) ? 'or' : 'and';
+
   const throwErr = getThrowErr.bind(null, { reason, prefix });
 
-  // Top-level array means 'or' alternatives
-  const node = Array.isArray(filter)
-    ? operators.or.parse({ nodes: filter, attrs, throwErr, parseAttrs })
-    : operators.and.parse({ node: filter, attrs, throwErr, parseAttrs });
-  return node;
+  const filterA = parseOperation({ type, value: filter, throwErr });
+
+  const filterB = optimizeFilter({ filter: filterA });
+
+  return filterB;
 };
 
-const getThrowErr = function ({ reason, prefix }, extraPrefix, message = '') {
-  const messageA = `${prefix}${decapitalize(extraPrefix)}${decapitalize(message)}`;
-  const messageB = capitalize(messageA);
-  throwError(messageB, { reason });
+const parseAttrs = function ({ attrs, throwErr }) {
+  if (!attrs || attrs.constructor !== Object) {
+    const message = 'There should be an object containing the filter attributes';
+    throwErr(message);
+  }
+
+  return Object.entries(attrs)
+    .map(([attrName, attrVal]) => parseAttr({ attrName, attrVal, throwErr }))
+    .reduce(assignArray, []);
+};
+
+const parseAttr = function ({ attrName, attrVal, throwErr }) {
+  return parseOperations({ operations: attrVal, throwErr })
+    .map(node => addAttrName({ node, attrName }));
+};
+
+const addAttrName = function ({ node: { type, value }, attrName }) {
+  const valueA = addDeepAttrName({ type, value, attrName });
+  return { type, value: valueA, attrName };
+};
+
+const addDeepAttrName = function ({ type, value, attrName }) {
+  if (!DEEP_OPERATIONS.includes(type)) { return value; }
+
+  return value.map(node => ({ ...node, attrName: `${attrName} ${type}` }));
+};
+
+const parseOperations = function ({ operations, throwErr }) {
+  const operationsA = getShortcut({ operations });
+
+  return Object.entries(operationsA)
+    .map(([type, value]) => parseOperation({ type, value, throwErr }));
+};
+
+// `{ attribute: value }` is a shortcut for `{ attribute: { eq: value } }`
+const getShortcut = function ({ operations }) {
+  if (operations && operations.constructor === Object) { return operations; }
+
+  return { eq: operations };
+};
+
+const parseOperation = function ({ type, value, throwErr }) {
+  const node = { type, value };
+  const operator = getOperator({ node });
+
+  if (operator === undefined) {
+    const message = `Must not use unknown operator '${type}'`;
+    throwErr(message);
+  }
+
+  // Normalize `null|undefined` to only `undefined`
+  const valueA = value === null ? undefined : value;
+
+  // Pass `parseAttrs` and `parseOperations` for recursion
+  const valueB = operator.parse({
+    value: valueA,
+    parseAttrs,
+    parseOperations,
+    throwErr,
+  });
+  return { ...node, value: valueB };
 };
 
 module.exports = {

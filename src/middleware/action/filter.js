@@ -1,6 +1,6 @@
 'use strict';
 
-const { parseFilter } = require('../../database');
+const { parseFilter, validateFilter } = require('../../database');
 
 // Parse `args.filter` and `args.id` into AST
 const parseFilterActions = function ({
@@ -30,7 +30,11 @@ const parseFilterOrId = function ({ args: { id, filter }, model }) {
   }
 
   const prefix = 'In \'filter\' argument, ';
-  return parseFilter({ filter, attrs: model, prefix });
+  const filterA = parseFilter({ filter, prefix });
+
+  validateFilter({ filter: filterA, attrs: model, prefix });
+
+  return filterA;
 };
 
 // `args.id`

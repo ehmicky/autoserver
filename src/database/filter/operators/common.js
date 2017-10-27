@@ -1,38 +1,42 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
+const { throwAttrValError, throwAttrTypeError } = require('../error');
 
-const { throwAttrValError, throwAttrTypeError } = require('./error');
+const parseAsIs = function ({ value }) {
+  return value;
+};
 
 const validateSameType = function ({
-  opVal,
-  opName,
-  attrName,
+  type,
+  value,
   attr,
-  attr: { type, isArray },
+  attr: { type: attrType, isArray },
   throwErr,
 }) {
-  validateNotArrayOps({ opName, attrName, attr, throwErr });
+  validateNotArrayOps({ type, attr, throwErr });
 
   const typeValidator = getTypeValidator({ attr });
-  if (opVal === undefined || typeValidator(opVal)) { return; }
+  if (value === undefined || typeValidator(value)) { return; }
 
-  const message = isArray ? `an array of type '${type}'` : `of type ${type}`;
-  throwAttrValError({ attrName, opName, throwErr }, message);
+  const message = isArray
+    ? `an array of type '${attrType}'`
+    : `of type ${attrType}`;
+  throwAttrValError({ type, throwErr }, message);
 };
 
 const oneTypeValidators = {
-  string: opVal => typeof opVal === 'string',
-  number: opVal => Number.isFinite(opVal),
-  integer: opVal => Number.isInteger(opVal),
-  boolean: opVal => typeof opVal === 'boolean',
+  string: value => typeof value === 'string',
+  number: value => Number.isFinite(value),
+  integer: value => Number.isInteger(value),
+  boolean: value => typeof value === 'boolean',
   dynamic: () => true,
 };
 
 const getManyTypeValidators = function () {
   return mapValues(
     oneTypeValidators,
-    validator => opVal => Array.isArray(opVal) && opVal.every(validator),
+    validator => value => Array.isArray(value) && value.every(validator),
   );
 };
 
@@ -41,22 +45,18 @@ const typeValidators = {
   many: getManyTypeValidators(),
 };
 
-const getTypeValidator = function ({ attr: { type, isArray } }) {
-  return typeValidators[isArray ? 'many' : 'one'][type];
+const getTypeValidator = function ({ attr: { type: attrType, isArray } }) {
+  return typeValidators[isArray ? 'many' : 'one'][attrType];
 };
 
-const validateNotArrayOps = function ({ opName, attrName, attr, throwErr }) {
+const validateNotArrayOps = function ({ type, attr, throwErr }) {
   if (!attr.isArray) { return; }
 
-  throwAttrTypeError({ attrName, attr, opName, throwErr }, 'an array');
-};
-
-const parseAsIs = function ({ opVal }) {
-  return opVal;
+  throwAttrTypeError({ attr, type, throwErr }, 'an array');
 };
 
 module.exports = {
+  parseAsIs,
   validateSameType,
   validateNotArrayOps,
-  parseAsIs,
 };
