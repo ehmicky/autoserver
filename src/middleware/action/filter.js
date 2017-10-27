@@ -1,5 +1,6 @@
 'use strict';
 
+const { pick } = require('../../utilities');
 const { parseFilter, validateFilter } = require('../../database');
 
 // Parse `args.filter` and `args.id` into AST
@@ -16,7 +17,7 @@ const parseFilterArg = function ({
   action: { args, modelName },
   modelsMap,
 }) {
-  const model = modelsMap[modelName];
+  const model = pick(modelsMap[modelName], ['type', 'isArray']);
   const filter = parseFilterOrId({ args, model });
 
   if (filter === undefined) { return action; }
