@@ -1,17 +1,22 @@
 'use strict';
 
-const { throwAttrValError } = require('./error');
-const { validateNotArrayOps, validateSameType } = require('./common');
+const { throwAttrValError } = require('../error');
 
-const validateInNin = function ({ opVal, opName, attrName, attr, throwErr }) {
-  validateNotArrayOps({ opName, attrName, attr, throwErr });
+const {
+  parseAsIs,
+  validateNotArrayOps,
+  validateSameType,
+} = require('./common');
 
-  if (!Array.isArray(opVal)) {
-    throwAttrValError({ attrName, opName, throwErr }, 'an array');
+const validateInNin = function ({ value, type, attr, throwErr }) {
+  validateNotArrayOps({ type, attr, throwErr });
+
+  if (!Array.isArray(value)) {
+    throwAttrValError({ type, throwErr }, 'an array');
   }
 
-  opVal.forEach(val =>
-    validateSameType({ opVal: val, opName, attrName, attr, throwErr }));
+  value.forEach(val =>
+    validateSameType({ value: val, type, attr, throwErr }));
 };
 
 // `{ attribute: { in: [...] } }`
@@ -25,7 +30,14 @@ const evalNin = function ({ attr, value }) {
 };
 
 module.exports = {
-  validateInNin,
-  evalIn,
-  evalNin,
+  in: {
+    parse: parseAsIs,
+    validate: validateInNin,
+    eval: evalIn,
+  },
+  nin: {
+    parse: parseAsIs,
+    validate: validateInNin,
+    eval: evalNin,
+  },
 };

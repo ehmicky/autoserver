@@ -1,51 +1,50 @@
 'use strict';
 
 const { addErrorHandler } = require('../../../error');
+const { throwAttrValError, throwAttrTypeError } = require('../error');
 
-const { throwAttrValError, throwAttrTypeError } = require('./error');
 const { validateNotArrayOps } = require('./common');
 
-const parseLikeNlike = function ({ opVal }) {
+const parseLikeNlike = function ({ value }) {
   // Using .* or .*$ at the end of a RegExp is useless
   // MongoDB documentation also warns against it as a performance optimization
-  return opVal
+  return value
     .replace(/\.\*$/, '')
     .replace(/\.\*\$$/, '');
 };
 
 const validateLikeNlike = function ({
-  opVal,
-  attrName,
-  opName,
+  value,
+  type,
   attr,
-  attr: { type, isArray },
+  attr: { type: attrType, isArray },
   throwErr,
 }) {
-  validateNotArrayOps({ opName, attrName, attr, throwErr });
+  validateNotArrayOps({ type, attr, throwErr });
 
-  if (typeof opVal !== 'string') {
-    throwAttrValError({ attrName, opName, throwErr }, 'a string');
+  if (typeof value !== 'string') {
+    throwAttrValError({ type, throwErr }, 'a string');
   }
 
-  if (type !== 'string') {
-    throwAttrTypeError({ attrName, attr, opName, throwErr }, 'not a string');
+  if (attrType !== 'string') {
+    throwAttrTypeError({ attr, type, throwErr }, 'not a string');
   }
 
   if (isArray) {
-    throwAttrTypeError({ attrName, attr, opName, throwErr }, 'an array');
+    throwAttrTypeError({ attr, type, throwErr }, 'an array');
   }
 
-  eValidateRegExp({ opVal, throwErr });
+  eValidateRegExp({ value, throwErr });
 };
 
 // Validate it is correct regexp
-const validateRegExp = function ({ opVal }) {
+const validateRegExp = function ({ value }) {
   // eslint-disable-next-line no-new
-  new RegExp(opVal);
+  new RegExp(value);
 };
 
-const regExpParserHandler = function (_, { opVal, throwErr }) {
-  const message = `Invalid regular expression: '${opVal}'`;
+const regExpParserHandler = function (_, { value, throwErr }) {
+  const message = `Invalid regular expression: '${value}'`;
   throwErr(message);
 };
 
@@ -64,8 +63,14 @@ const evalNlike = function ({ attr, value }) {
 };
 
 module.exports = {
-  parseLikeNlike,
-  validateLikeNlike,
-  evalLike,
-  evalNlike,
+  like: {
+    parse: parseLikeNlike,
+    validate: validateLikeNlike,
+    eval: evalLike,
+  },
+  nlike: {
+    parse: parseLikeNlike,
+    validate: validateLikeNlike,
+    eval: evalNlike,
+  },
 };

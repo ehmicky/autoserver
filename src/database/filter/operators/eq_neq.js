@@ -2,6 +2,8 @@
 
 const { isEqual } = require('lodash');
 
+const { validateSameType, parseAsIs } = require('./common');
+
 // `{ attribute: { eq: value } }` or `{ attribute: value }`
 const evalEq = function ({ attr, value }) {
   return isEqual(attr, value);
@@ -13,6 +15,14 @@ const evalNeq = function ({ attr, value }) {
 };
 
 module.exports = {
-  evalEq,
-  evalNeq,
+  eq: {
+    parse: parseAsIs,
+    validate: validateSameType,
+    eval: evalEq,
+  },
+  neq: {
+    parse: parseAsIs,
+    validate: validateSameType,
+    eval: evalNeq,
+  },
 };

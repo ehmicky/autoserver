@@ -9,6 +9,7 @@ const { checkNewData } = require('./data');
 const validateAuthorization = function ({
   args,
   modelName,
+  schema,
   schema: { models },
   userVars,
   mInput,
@@ -19,8 +20,10 @@ const validateAuthorization = function ({
   if (authorize === undefined) { return; }
 
   const { authorize: authorizeA, vars } = handleSchemaFuncs({
+    modelName,
     authorize,
     userVars,
+    schema,
     mInput,
   });
 
