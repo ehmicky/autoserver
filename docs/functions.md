@@ -4,6 +4,7 @@ Custom logic can be added by using functions in the [schema](schema.md).
 
 Not all schema properties can use functions. The following properties can use
 either a function or a constant as value:
+  - [`attribute.authorize`](authorization.md)
   - [`attribute.readonly`](authorization.md#readonly-attributes)
   - [`attribute.default`](transformation.md#default-values)
   - [`attribute.transform` and `attribute.value`](transformation.md#transformations)
