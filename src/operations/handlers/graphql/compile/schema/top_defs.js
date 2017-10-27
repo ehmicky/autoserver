@@ -15,10 +15,11 @@ const { TOP_DESCRIPTIONS, getCommandDescription } = require('./description');
 // Retrieve the GraphQL definitions for Query|Mutation,
 // and the top-level commands
 const getTopDefs = function ({ models }) {
-  return Object.entries(GRAPHQL_METHODS)
-    .map(([graphqlMethod, commands]) =>
-      getTopDef({ graphqlMethod, commands, models }))
-    .reduce(assignObject, {});
+  return mapValues(
+    GRAPHQL_METHODS,
+    (commands, graphqlMethod) =>
+      getTopDef({ graphqlMethod, commands, models })
+  );
 };
 
 // Mapping from schema commands to GraphQL methods
@@ -28,46 +29,38 @@ const GRAPHQL_METHODS = {
 };
 
 const getTopDef = function ({ models, graphqlMethod, commands }) {
-  const attributes = getModelDefs({ commands, models });
+  const attributes = getCommandsDefs({ commands, models });
   const model = capitalize(graphqlMethod);
   const description = TOP_DESCRIPTIONS[graphqlMethod];
 
   const topDef = { type: 'object', attributes, model, description };
-  return { [graphqlMethod]: topDef };
+  return topDef;
 };
 
 // Retrieve attributes for a given GraphQL method
-const getModelDefs = function ({ models, commands }) {
+const getCommandsDefs = function ({ models, commands }) {
   return COMMANDS
     .filter(({ type }) => commands.includes(type))
-    .map(command => getCommandModels({ models, command }))
+    .map(command => getCommandDef({ models, command }))
     .reduce(assignObject, {});
 };
 
-// Retrieve top-level commands
-const getCommandModels = function ({ models, command }) {
-  const modelsA = nameModelsCommands({ models, command });
-  const modelsB = normalizeModelsDef({ models: modelsA, command });
-  return modelsB;
-};
-
-// E.g. 'my_model' + 'findMany' -> 'findMyModels'
-// This will be used as the top-level graphqlMethod
-const nameModelsCommands = function ({ models, command }) {
-  return mapKeys(
+// Retrieve attributes for a given command
+const getCommandDef = function ({ models, command }) {
+  // E.g. 'my_model' + 'findMany' -> 'findMyModels'
+  // This will be used as the top-level graphqlMethod
+  const modelsA = mapKeys(
     models,
     (model, modelName) => getCommandName({ model: modelName, command }),
   );
+  const modelsB = mapValues(
+    modelsA,
+    model => normalizeModelDef({ model, command }),
+  );
+  return modelsB;
 };
 
 // Add command information to each top-level model
-const normalizeModelsDef = function ({ models, command }) {
-  return mapValues(
-    models,
-    model => normalizeModelDef({ model, command }),
-  );
-};
-
 const normalizeModelDef = function ({ model, command }) {
   const typeName = getTypeName({ def: model });
   const commandDescription = getCommandDescription({ command, typeName });
