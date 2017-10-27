@@ -8,8 +8,11 @@ const startServer = async function () {
     const { options, servers, exit } = await apiEngine.run();
     return { options, servers, exit };
   } catch (error) {
+    const { details, ...rest } = error;
     // eslint-disable-next-line no-console, no-restricted-globals
-    console.log(error);
+    console.log(rest);
+    // eslint-disable-next-line no-console, no-restricted-globals
+    console.log(details);
   }
 };
 
