@@ -1,5 +1,9 @@
 'use strict';
 
+const { protocolHandlers } = require('../protocols');
+const { operationHandlers } = require('../operations');
+const { COMMAND_TYPES } = require('../constants');
+
 // Retrieve system variables, user variables and call-specific variables
 const getVars = function (
   {
@@ -41,17 +45,20 @@ const getVarsKeys = function ({ schema: { variables = {} } }) {
   return [...ALL_SYSTEM_VARS, ...Object.keys(variables)];
 };
 
+const protocols = Object.keys(protocolHandlers);
+const operations = Object.keys(operationHandlers);
+
 // System variables that are always present
 // We need to specify their `type` and `isArray` for `model.authorize`
 // validation
 const SYSTEM_VARS = {
-  $protocol: { type: 'string' },
+  $protocol: { type: 'string', validation: { enum: protocols } },
   $timestamp: { type: 'string' },
   $ip: { type: 'string' },
   $requestId: { type: 'string' },
-  $operation: { type: 'string' },
+  $operation: { type: 'string', validation: { enum: operations } },
   $modelName: { type: 'string' },
-  $command: { type: 'string' },
+  $command: { type: 'string', validation: { enum: COMMAND_TYPES } },
   $weights: { type: 'integer', isArray: true },
   $args: { type: 'dynamic' },
   $params: { type: 'dynamic' },

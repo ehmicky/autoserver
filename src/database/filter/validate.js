@@ -5,6 +5,7 @@ const { isInlineFunc } = require('../../schema_func');
 
 const { getThrowErr } = require('./error');
 const { getOperator, DEEP_OPERATIONS } = require('./operators');
+const { validators } = require('./validators');
 
 // `attrs` must be `{ model: { attrName:
 // { type: 'string|number|integer|boolean', isArray: true|false } } }`
@@ -107,9 +108,17 @@ const validateValue = function ({
   if (skipInlineFuncs && isInlineFunc({ inlineFunc: value })) { return; }
 
   const { validate } = operator;
-  if (validate === undefined) { return; }
 
-  validate({ type, value, attr, throwErr });
+  if (validate !== undefined) {
+    validate({ type, value, attr, throwErr });
+  }
+
+  const { validation } = attr;
+
+  if (validation) {
+    Object.entries(validation).forEach(([keyword, ruleVal]) =>
+      validators[keyword]({ value, ruleVal, throwErr }));
+  }
 };
 
 module.exports = {
