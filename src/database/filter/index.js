@@ -5,4 +5,5 @@ module.exports = {
   ...require('./validate'),
   ...require('./eval'),
   ...require('./authorize'),
+  ...require('./enum'),
 };
