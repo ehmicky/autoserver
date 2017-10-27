@@ -4,22 +4,39 @@ const { recurseMap } = require('../../../utilities');
 const { throwCommonError } = require('../../../error');
 const { evalFilter } = require('../../../database');
 
+const { handleSchemaFuncs } = require('./schema_func');
+
 // Evaluate `model.authorize` filter to a boolean
 // Do a partial evaluation, because we do not know the value of `$model.*` yet
 // Returns partial filter if any.
-const evalAuthorize = function ({ modelName, authorize, top, vars }) {
-  const authorizeA = evalFilter({
-    filter: authorize,
+const evalAuthorize = function ({
+  modelName,
+  authorize,
+  top,
+  userVars,
+  schema,
+  mInput,
+}) {
+  const { authorize: authorizeA, vars } = handleSchemaFuncs({
+    modelName,
+    authorize,
+    userVars,
+    schema,
+    mInput,
+  });
+
+  const authorizeB = evalFilter({
+    filter: authorizeA,
     attrs: vars,
     partialNames: PARTIAL_NAMES_REGEXP,
   });
 
-  checkAuthorize({ modelName, authorize: authorizeA, top });
+  checkAuthorize({ modelName, authorize: authorizeB, top });
 
-  if (authorizeA === true) { return authorizeA; }
+  if (authorizeB === true) { return authorizeB; }
 
-  const authorizeB = recurseMap(authorizeA, removePrefix);
-  return authorizeB;
+  const authorizeC = recurseMap(authorizeB, removePrefix);
+  return authorizeC;
 };
 
 // Throw error if authorization filter evaluated to false.
