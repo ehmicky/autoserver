@@ -5,7 +5,7 @@ const { omit, mapValues, deepMerge } = require('../../utilities');
 // Applies `schema.models.default` to each model
 const applyModelsDefault = function ({
   schema,
-  schema: { models = {}, models: { modelsDefault } = {} },
+  schema: { models = {}, models: { default: modelsDefault } = {} },
 }) {
   const modelsA = omit(models, ['default']);
   const modelsB = mapValues(
