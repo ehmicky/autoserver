@@ -4,7 +4,7 @@ const { evalAuthorize } = require('./eval');
 const { addAuthorizeFilter } = require('./filter');
 const { checkNewData } = require('./data');
 
-// Handles `model.authorize`
+// Handles `schema.authorize` and `model.authorize`
 const validateAuthorization = function ({
   args,
   modelName,
@@ -15,8 +15,48 @@ const validateAuthorization = function ({
   command,
   top,
 }) {
-  const { authorize } = models[modelName];
+  validateSchemaAuth({ schema, userVars, mInput, top });
+
+  const model = models[modelName];
+  const argsA = validateModelAuth({
+    args,
+    model,
+    modelName,
+    schema,
+    userVars,
+    mInput,
+    command,
+    top,
+  });
+
+  return { args: argsA };
+};
+
+// Handles `schema.authorize`
+const validateSchemaAuth = function ({
+  schema,
+  schema: { authorize },
+  userVars,
+  mInput,
+  top,
+}) {
   if (authorize === undefined) { return; }
+
+  evalAuthorize({ authorize, top, userVars, schema, mInput });
+};
+
+// Handles `model.authorize`
+const validateModelAuth = function ({
+  args,
+  model: { authorize },
+  modelName,
+  schema,
+  userVars,
+  mInput,
+  command,
+  top,
+}) {
+  if (authorize === undefined) { return args; }
 
   const authorizeA = evalAuthorize({
     modelName,
@@ -26,13 +66,13 @@ const validateAuthorization = function ({
     schema,
     mInput,
   });
-  if (authorizeA === true) { return; }
+  if (authorizeA === true) { return args; }
 
   const argsA = addAuthorizeFilter({ command, authorize: authorizeA, args });
 
   checkNewData({ authorize: authorizeA, args, modelName, top });
 
-  return { args: argsA };
+  return argsA;
 };
 
 module.exports = {

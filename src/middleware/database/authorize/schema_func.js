@@ -36,7 +36,9 @@ const resolveSchemaFuncs = function ({ authorize, mInput }) {
 // But schema functions are evaluated runtime. Their validation is skipped
 // compile-time, and they are validated here once evaluated.
 const validateAuthorize = function ({ modelName, authorize, schema }) {
-  const prefix = `In 'model.${modelName}.authorize', `;
+  const prefix = modelName === undefined
+    ? 'In \'schema.authorize\', '
+    : `In 'model.${modelName}.authorize', `;
   const reason = 'SCHEMA_VALIDATION';
 
   const attrs = getAuthorizeAttrs({ schema, modelName });

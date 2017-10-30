@@ -21,6 +21,10 @@ const throwAuthorizationError = function ({
 };
 
 const getAuthorizationModels = function ({ ids, modelName }) {
+  if (modelName === undefined) {
+    return 'those models';
+  }
+
   if (ids === undefined) {
     return `those '${modelName}' models`;
   }

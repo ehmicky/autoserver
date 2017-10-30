@@ -6,20 +6,28 @@ const {
   getAuthorizeAttrs,
 } = require('../../../filter');
 
+// Parse `schema.authorize` into AST
+const normalizeSchemaAuthorize = function ({ schema, schema: { authorize } }) {
+  if (authorize === undefined) { return schema; }
+
+  const prefix = 'In \'schema.authorize\', ';
+  const authorizeA = parseAuthorize({ authorize, schema, prefix });
+
+  return { ...schema, authorize: authorizeA };
+};
+
 // Parse `model.authorize` into AST
 const normalizeAuthorize = function (model, { modelName, schema }) {
   const { authorize } = model;
   if (authorize === undefined) { return model; }
 
-  const authorizeA = parseAuthorize({ authorize, modelName, schema });
-
-  if (authorizeA === undefined) { return model; }
+  const prefix = `In 'model.${modelName}.authorize', `;
+  const authorizeA = parseAuthorize({ authorize, modelName, schema, prefix });
 
   return { ...model, authorize: authorizeA };
 };
 
-const parseAuthorize = function ({ authorize, modelName, schema }) {
-  const prefix = `In 'model.${modelName}.authorize', `;
+const parseAuthorize = function ({ authorize, modelName, schema, prefix }) {
   const reason = 'SCHEMA_VALIDATION';
   const authorizeA = parseFilter({ filter: authorize, prefix, reason });
 
@@ -36,5 +44,6 @@ const parseAuthorize = function ({ authorize, modelName, schema }) {
 };
 
 module.exports = {
+  normalizeSchemaAuthorize,
   normalizeAuthorize,
 };

@@ -16,6 +16,9 @@ properties:
     # Check models names
     propertyNames:
       $ref: '#/definitions/validModelName'
+  # `schema.authorize`
+  authorize:
+    $ref: '#/definitions/authorize'
   # Custom variables that can be used in schema functions
   variables:
     $ref: '#/definitions/variables'
