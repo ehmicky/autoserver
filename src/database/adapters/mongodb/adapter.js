@@ -1,5 +1,6 @@
 'use strict';
 
+const features = require('./features');
 const { connect } = require('./connect');
 const { disconnect } = require('./disconnect');
 const { query } = require('./query');
@@ -9,7 +10,7 @@ const adapter = {
   name: 'mongodb',
   title: 'MongoDB',
   description: 'MongoDB database',
-  features: ['filter'],
+  features,
   connect,
   disconnect,
   query,

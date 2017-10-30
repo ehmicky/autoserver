@@ -1,5 +1,6 @@
 'use strict';
 
+const features = require('./features');
 const { connect } = require('./connect');
 const { check } = require('./check');
 const { disconnect } = require('./disconnect');
@@ -11,7 +12,7 @@ const adapter = {
   name: 'memory',
   title: 'In-Memory',
   description: 'In-memory database. For development purpose only.',
-  features: ['filter'],
+  features,
   connect,
   check,
   disconnect,

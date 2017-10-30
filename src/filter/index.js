@@ -7,4 +7,5 @@ module.exports = {
   ...require('./authorize'),
   ...require('./crawl'),
   ...require('./simple_id'),
+  ...require('./features'),
 };

@@ -2,8 +2,9 @@
 
 const { difference } = require('lodash');
 
-const { pickBy, getWordsList } = require('../../utilities');
+const { getWordsList, assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
+const { getFeatures } = require('../../filter');
 
 // Startup-time adapter features validation
 const validateFeatures = function ({ adaptersMap, adapters, schema }) {
@@ -13,11 +14,11 @@ const validateFeatures = function ({ adaptersMap, adapters, schema }) {
 
 const validateAdapter = function ({
   adapters,
-  schema,
+  schema: { models },
   modelName,
   adapterName,
 }) {
-  const model = schema.models[modelName];
+  const model = models[modelName];
   const adapter = adapters.find(({ name }) => name === adapterName);
   validateModel({ model, modelName, adapter });
 };
@@ -41,19 +42,21 @@ const validateModel = function ({
 // Some database features might only possible to be guessed query-time,
 // e.g. the 'filter' feature.
 const getModelFeatures = function ({ model }) {
-  const featuresA = pickBy(featuresCheckers, checker => checker({ model }));
-  const featuresB = Object.keys(featuresA);
-  return featuresB;
+  return featuresCheckers
+    .map(checker => checker({ model }))
+    .reduce(assignArray, []);
 };
 
 // `model.authorize` adds authorization filter, i.e. requires 'filter'
-const requiresFilter = function ({ model: { authorize } }) {
-  return authorize !== undefined;
+const filterChecker = function ({ model: { authorize } }) {
+  if (authorize === undefined) { return []; }
+
+  return getFeatures({ filter: authorize });
 };
 
-const featuresCheckers = {
-  filter: requiresFilter,
-};
+const featuresCheckers = [
+  filterChecker,
+];
 
 module.exports = {
   validateFeatures,

@@ -1,26 +1,24 @@
 'use strict';
 
-const { uniq, intersection } = require('lodash');
+const { difference } = require('lodash');
 
 const { getWordsList } = require('../../../utilities');
 const { throwError } = require('../../../error');
-const { crawlNodes } = require('../../../filter');
 
-// Adapter feature 'filter' allows for complex `args.filter`
-const filterValidator = function ({ args, modelName }) {
-  const ops = getFilterOps({ args });
-  const opsA = intersection(ops, ADVANCED_FILTER_OPS);
-  if (opsA.length === 0) { return; }
+// Adapter feature 'filter:OPERATOR' allows for
+// `args.filter: { attrName: { OPERATOR: value } }`
+const filterValidator = function ({ features, filterFeatures, modelName }) {
+  const ops = getOps({ features, filterFeatures });
+  if (ops.length === 0) { return; }
 
-  const message = getErrorMessage({ ops: opsA });
+  const message = getErrorMessage({ ops });
   const messageA = `In 'filter' argument, must not ${message} because the model '${modelName}' does not support it`;
   throwError(messageA, { reason: 'WRONG_FEATURE' });
 };
 
-const getFilterOps = function ({ args: { filter } }) {
-  const ops = crawlNodes(filter, ({ type }) => type);
-  const opsA = uniq(ops);
-  return opsA;
+const getOps = function ({ features, filterFeatures }) {
+  return difference(filterFeatures, features)
+    .map(feature => feature.replace(/.*:/, ''));
 };
 
 const getErrorMessage = function ({ ops }) {
@@ -31,17 +29,6 @@ const getErrorMessage = function ({ ops }) {
   const opsA = getWordsList(ops, { op: 'nor', quotes: true });
   return `use the operators: ${opsA}`;
 };
-
-const ADVANCED_FILTER_OPS = [
-  'neq',
-  'in',
-  'nin',
-  'like',
-  'nlike',
-  'all',
-  'some',
-  'or',
-];
 
 module.exports = {
   filterValidator,
