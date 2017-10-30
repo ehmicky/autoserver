@@ -3,7 +3,7 @@
 const { assignArray } = require('../utilities');
 
 const { getThrowErr } = require('./error');
-const { getOperator, DEEP_OPERATIONS } = require('./operators');
+const { getOperator, DEEP_OPERATORS } = require('./operators');
 const { optimizeFilter } = require('./optimize');
 
 // Parse `args.filter` and `model.authorize` format
@@ -61,7 +61,7 @@ const addAttrName = function ({ node: { type, value }, attrName }) {
 };
 
 const addDeepAttrName = function ({ type, value, attrName }) {
-  if (!DEEP_OPERATIONS.includes(type)) { return value; }
+  if (!DEEP_OPERATORS.includes(type)) { return value; }
 
   return value.map(node => ({ ...node, attrName: `${attrName} ${type}` }));
 };

@@ -8,45 +8,45 @@ const getQueryFilter = function ({ type, value, attrName }) {
   // No filter
   if (type === undefined) { return {}; }
 
-  return operations[type]({ type, value, attrName });
+  return operators[type]({ type, value, attrName });
 };
 
-const orOperation = function ({ value }) {
+const orOperator = function ({ value }) {
   const nodes = value.map(getQueryFilter);
   return { $or: nodes };
 };
 
-const andOperation = function ({ value }) {
+const andOperator = function ({ value }) {
   const nodes = value.map(getQueryFilter);
   return { $and: nodes };
 };
 
-const someOperation = function ({ value, attrName }) {
+const someOperator = function ({ value, attrName }) {
   const elemMatch = value
     .map(node => getGenericNode({ ...node, key: 'opName' }))
     .reduce(assignObject, {});
   return { [attrName]: { $elemMatch: elemMatch } };
 };
 
-const allOperation = function ({ value, attrName }) {
+const allOperator = function ({ value, attrName }) {
   const elemMatch = value
     .map(node => getGenericNode({ ...node, key: 'inverse' }))
     .reduce(assignObject, {});
   return { [attrName]: { $not: { $elemMatch: elemMatch } } };
 };
 
-const genericOperation = function ({ type, value, attrName }) {
+const genericOperator = function ({ type, value, attrName }) {
   const valueA = getGenericNode({ type, value, key: 'opName' });
   return { [attrName]: valueA };
 };
 
 const getGenericNode = function ({ type, value, key }) {
-  const { [key]: name, kind } = OPERATIONS_MAP[type];
+  const { [key]: name, kind } = OPERATORS_MAP[type];
   const valueA = kind === 'regexp' ? new RegExp(value, 'i') : value;
   return { [name]: valueA };
 };
 
-const OPERATIONS_MAP = {
+const OPERATORS_MAP = {
   eq: { opName: '$eq', inverse: '$ne' },
   neq: { opName: '$ne', inverse: '$eq' },
   gt: { opName: '$gt', inverse: '$lte' },
@@ -59,21 +59,21 @@ const OPERATIONS_MAP = {
   nlike: { opName: '$not', inverse: '$regex', kind: 'regexp' },
 };
 
-const operations = {
-  or: orOperation,
-  and: andOperation,
-  some: someOperation,
-  all: allOperation,
-  eq: genericOperation,
-  neq: genericOperation,
-  gt: genericOperation,
-  gte: genericOperation,
-  lt: genericOperation,
-  lte: genericOperation,
-  in: genericOperation,
-  nin: genericOperation,
-  like: genericOperation,
-  nlike: genericOperation,
+const operators = {
+  or: orOperator,
+  and: andOperator,
+  some: someOperator,
+  all: allOperator,
+  eq: genericOperator,
+  neq: genericOperator,
+  gt: genericOperator,
+  gte: genericOperator,
+  lt: genericOperator,
+  lte: genericOperator,
+  in: genericOperator,
+  nin: genericOperator,
+  like: genericOperator,
+  nlike: genericOperator,
 };
 
 module.exports = {
