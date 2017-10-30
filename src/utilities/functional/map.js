@@ -56,24 +56,19 @@ const mapValueAsync = function ({ key, value, obj, mapperFunc }) {
 };
 
 // Apply map() recursively
-// TODO: refactor this, `parent` and `grandParent` are not great
 const recurseMap = function (
   value,
   mapperFunc,
-  { key, parent, grandParent, onlyLeaves = true } = {},
+  { key, onlyLeaves = true } = {},
 ) {
   const recurseFunc = getRecurseFunc(value);
   const nextValue = recurseFunc
-    ? recurseFunc((child, childKey) => recurseMap(child, mapperFunc, {
-      key: childKey,
-      parent: value,
-      grandParent: parent,
-      onlyLeaves,
-    }))
+    ? recurseFunc((child, childKey) =>
+      recurseMap(child, mapperFunc, { key: childKey, onlyLeaves }))
     : value;
 
   if (recurseFunc && onlyLeaves) { return nextValue; }
-  return mapperFunc(nextValue, key, { parent, grandParent });
+  return mapperFunc(nextValue, key);
 };
 
 const getRecurseFunc = function (value) {
