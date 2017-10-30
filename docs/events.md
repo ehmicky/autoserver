@@ -192,6 +192,8 @@ event payload, with the properties:
   - `queryVars` `{object}` - query variables, as a hash table
   - `requestHeaders` `{object}` - protocol request headers (e.g. HTTP headers),
      as a hash table
+  - `responseHeaders` `{object}` - protocol request headers (e.g. HTTP
+     headers), as a hash table
   - `payload` `{any}` - request payload
   - `payloadSize` `{number}` - in bytes
   - `payloadCount` `{number}` - array length, if it is an array
@@ -239,7 +241,7 @@ the request information, among:
 
 The possible properties are:
   - `query`: applied to URL query variables
-  - `headers`
+  - `headers`: applied to both `requestHeaders` and `responseHeaders`
   - `payload`
   - `response`: applied to `responseData`
   - `data`: applied to each `args.data`
