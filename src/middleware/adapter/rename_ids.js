@@ -1,7 +1,7 @@
 'use strict';
 
 const { omit } = require('../../utilities');
-const { mapFilter } = require('../../filter');
+const { mapNodes } = require('../../filter');
 
 // Some databases require a specific name for `id`, e.g. `_id` for MongoDB.
 // This is a translation layer that modifies `id` name inside and outside of
@@ -39,7 +39,7 @@ const renameDatum = function ({ datum, idName, oldIdName }) {
 
 // Modify `args.filter`
 const renameFilter = function (filter, idName) {
-  return mapFilter(filter, node => renameFilterId({ node, idName }));
+  return mapNodes(filter, node => renameFilterId({ node, idName }));
 };
 
 const renameFilterId = function ({ node, idName }) {
