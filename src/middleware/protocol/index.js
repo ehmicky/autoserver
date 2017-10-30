@@ -6,12 +6,12 @@ module.exports = {
   ...require('./request_id'),
   ...require('./ip'),
   ...require('./url'),
+  ...require('./router'),
   ...require('./method'),
   ...require('./query_string'),
   ...require('./payload'),
   ...require('./headers'),
   ...require('./protocol_args'),
-  ...require('./router'),
 
   // eslint-disable-next-line import/max-dependencies
   ...require('./operation'),
