@@ -35,8 +35,8 @@ The following operators can be used for more complex operations:
 
 The following operators use regular expressions, and are only available for
 string attributes:
-  - `like`: looks like
-  - `nlike`: does not look like
+  - `like`: matches regular expression (case insensitive)
+  - `nlike`: does not match regular expression (case insensitive)
 
 Array attributes can only use the following operators.
 They take another filter object as input, which is applied on each element of

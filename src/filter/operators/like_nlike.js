@@ -40,7 +40,7 @@ const validateLikeNlike = function ({
 // Validate it is correct regexp
 const validateRegExp = function ({ value }) {
   // eslint-disable-next-line no-new
-  new RegExp(value);
+  new RegExp(value, 'i');
 };
 
 const regExpParserHandler = function (_, { value, throwErr }) {
@@ -52,13 +52,13 @@ const eValidateRegExp = addErrorHandler(validateRegExp, regExpParserHandler);
 
 // `{ string_attribute: { like: 'REGEXP' } }`
 const evalLike = function ({ attr, value }) {
-  const regExp = new RegExp(value);
+  const regExp = new RegExp(value, 'i');
   return regExp.test(attr);
 };
 
 // `{ string_attribute: { nlike: 'REGEXP' } }`
 const evalNlike = function ({ attr, value }) {
-  const regExp = new RegExp(value);
+  const regExp = new RegExp(value, 'i');
   return !regExp.test(attr);
 };
 
