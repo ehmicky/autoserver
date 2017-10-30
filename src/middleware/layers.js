@@ -62,7 +62,7 @@ const middlewareLayers = [
       protocol.parsePayload,
       // Parse headers into protocol-agnostic format
       protocol.parseHeaders,
-      // Parse protocol-specified arguments
+      // Parse protocol-specific arguments
       protocol.parseProtocolArgs,
 
       // Fires operation layer
