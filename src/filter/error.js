@@ -2,7 +2,7 @@
 
 const { decapitalize, capitalize } = require('underscore.string');
 
-const { throwError } = require('../../error');
+const { throwError } = require('../error');
 
 const getThrowErr = function ({ reason, prefix }, attrName, message) {
   const messageA = getMessage(attrName, message);

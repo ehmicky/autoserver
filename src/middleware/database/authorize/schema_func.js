@@ -2,7 +2,7 @@
 
 const { recurseMap } = require('../../../utilities');
 const { runSchemaFunc, getVars } = require('../../../schema_func');
-const { validateFilter, getAuthorizeAttrs } = require('../../../database');
+const { validateFilter, getAuthorizeAttrs } = require('../../../filter');
 
 const { getUserVars } = require('./user_vars');
 

@@ -2,7 +2,7 @@
 
 const { recurseMap } = require('../../../utilities');
 const { throwCommonError } = require('../../../error');
-const { evalFilter } = require('../../../database');
+const { evalFilter } = require('../../../filter');
 
 const { handleSchemaFuncs } = require('./schema_func');
 

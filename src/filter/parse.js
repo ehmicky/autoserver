@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../../utilities');
+const { assignArray } = require('../utilities');
 
 const { getThrowErr } = require('./error');
 const { getOperator, DEEP_OPERATIONS } = require('./operators');

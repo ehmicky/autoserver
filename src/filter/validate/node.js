@@ -1,6 +1,6 @@
 'use strict';
 
-const { isInlineFunc } = require('../../../schema_func');
+const { isInlineFunc } = require('../../schema_func');
 const { getOperator } = require('../operators');
 
 const { getDeepAttr } = require('./attr');

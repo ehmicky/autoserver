@@ -1,6 +1,6 @@
 'use strict';
 
-const { fullRecurseMap } = require('../../utilities');
+const { fullRecurseMap } = require('../utilities');
 
 const { getOperator } = require('./operators');
 

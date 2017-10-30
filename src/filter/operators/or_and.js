@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../../../utilities');
+const { assignArray } = require('../../utilities');
 
 const parseOr = function ({ value, parseOperations, throwErr }) {
   return value

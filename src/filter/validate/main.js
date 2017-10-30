@@ -1,8 +1,7 @@
 'use strict';
 
-const { fullRecurseMap } = require('../../../utilities');
+const { fullRecurseMap } = require('../../utilities');
 const { getThrowErr } = require('../error');
-const { getOperator } = require('../operators');
 
 const { validateNode } = require('./node');
 
@@ -40,5 +39,4 @@ const recurseNode = function ({ node, ...rest }) {
 
 module.exports = {
   validateFilter,
-  getOperator,
 };
