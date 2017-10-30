@@ -6,8 +6,9 @@ module.exports = {
 
   ...require('./adapter'),
 
+  ...require('./response'),
+  ...require('./response_validation'),
   ...require('./empty_models'),
   ...require('./duplicate_read'),
   ...require('./missing_ids'),
-  ...require('./response_validation'),
 };

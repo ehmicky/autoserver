@@ -6,6 +6,4 @@ module.exports = {
   ...require('./rename_ids'),
 
   ...require('./execute'),
-
-  ...require('./response'),
 };
