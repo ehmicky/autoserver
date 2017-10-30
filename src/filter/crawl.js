@@ -16,24 +16,26 @@ const crawlNodes = function (node, func) {
   return [returnValue, ...children];
 };
 
-// Call `func(node)` recursively over each node of `args.filter`
-// Returns node recursively mapped
-const mapNodes = function (node, func) {
-  const nodeA = func(node);
-
-  const children = getNodeChildren(nodeA);
-  if (children === undefined) { return nodeA; }
-
-  const value = children
-    .map(child => mapNodes(child, func))
-    .reduce(assignArray, []);
-  return { ...nodeA, value };
-};
-
 const getNodeChildren = function ({ type, value }) {
   if (!NODE_PARENT_TYPES.includes(type)) { return []; }
 
   return value;
+};
+
+// Call `func(node)` recursively over each node of `args.filter`
+// Returns node recursively mapped
+const mapNodes = function (node, func) {
+  const value = mapChildren(node, func);
+  const nodeA = { ...node, value };
+
+  const nodeB = func(nodeA);
+  return nodeB;
+};
+
+const mapChildren = function ({ type, value }, func) {
+  if (!NODE_PARENT_TYPES.includes(type)) { return value; }
+
+  return value.map(child => mapNodes(child, func));
 };
 
 const NODE_PARENT_TYPES = ['all', 'some', 'or', 'and'];
