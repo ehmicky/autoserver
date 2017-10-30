@@ -4,7 +4,7 @@ models:
     description: Cute animal
     authorize:
       $command:
-        in: [find, delete, create, replace, patch]
+        in: (['find', 'delete', 'create', 'replace', 'patch'])
     x-custom: anything
     x-second-custom:
       $ref: '#/models/pet/x-custom'
