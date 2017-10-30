@@ -12,6 +12,7 @@ module.exports = {
   ...require('./payload'),
   ...require('./headers'),
   ...require('./protocol_args'),
+  ...require('./params_args'),
 
   // eslint-disable-next-line import/max-dependencies
   ...require('./operation'),
