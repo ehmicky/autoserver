@@ -4,7 +4,11 @@ const opts = require('./opts');
 const { getFullName } = require('./fullname');
 const { startServer } = require('./start');
 const { stopServer, countPendingRequests } = require('./stop');
-const { parseHeaders, sendHeaders } = require('./headers');
+const {
+  getRequestHeaders,
+  getResponseHeaders,
+  setResponseHeaders,
+} = require('./headers');
 const {
   parsePayload,
   hasPayload,
@@ -32,8 +36,9 @@ const protocol = {
   startServer,
   stopServer,
   countPendingRequests,
-  parseHeaders,
-  sendHeaders,
+  getRequestHeaders,
+  getResponseHeaders,
+  setResponseHeaders,
   parsePayload,
   hasPayload,
   getContentType,

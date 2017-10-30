@@ -8,7 +8,7 @@ const { stopPerf } = require('../../perf');
 const setResponseTime = function ({ reqPerf, protocolHandler, specific }) {
   const { respPerf, responseTime } = getResponseTime({ reqPerf });
 
-  sendHeaders({ protocolHandler, specific, responseTime });
+  setHeaders({ protocolHandler, specific, responseTime });
 
   return { respPerf, responseTime };
 };
@@ -28,9 +28,9 @@ const getResponseTime = function ({ reqPerf }) {
 
 const MICROSECS_TO_SECS = 1e6;
 
-const sendHeaders = function ({ protocolHandler, specific, responseTime }) {
-  const headers = { 'X-Response-Time': responseTime };
-  protocolHandler.sendHeaders({ specific, headers });
+const setHeaders = function ({ protocolHandler, specific, responseTime }) {
+  const responseHeaders = { 'X-Response-Time': responseTime };
+  protocolHandler.setResponseHeaders({ specific, responseHeaders });
 };
 
 module.exports = {

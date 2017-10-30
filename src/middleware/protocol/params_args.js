@@ -5,18 +5,18 @@ const { underscored } = require('underscore.string');
 const { transtype, pickBy, mapKeys, mapValues } = require('../../utilities');
 
 // Parse `args.params` specified as protocol header
-const parseParamsArg = function ({ headers }) {
-  const paramsArg = parseHeaders({ headers });
+const parseParamsArg = function ({ requestHeaders }) {
+  const paramsArg = parseHeaders({ requestHeaders });
   return { paramsArg };
 };
 
-const parseHeaders = function ({ headers }) {
-  const headersA = pickBy(
-    headers,
+const parseHeaders = function ({ requestHeaders }) {
+  const headers = pickBy(
+    requestHeaders,
     (header, name) => PARAMS_HEADER_REGEXP.test(name),
   );
-  const headersB = mapKeys(headersA, (header, name) => renameHeader({ name }));
-  const paramsArg = mapValues(headersB, transtype);
+  const headersA = mapKeys(headers, (header, name) => renameHeader({ name }));
+  const paramsArg = mapValues(headersA, transtype);
   return paramsArg;
 };
 

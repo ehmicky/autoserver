@@ -12,8 +12,8 @@ const getArgs = function (mInput) {
 
 // Using `Prefer: return=minimal` request header results in `args.silent` true.
 // Same thing for using HTTP method HEAD
-const silent = function ({ headers, specific: { req: { method } } }) {
-  const preferHeader = parsePreferHeader({ headers });
+const silent = function ({ requestHeaders, specific: { req: { method } } }) {
+  const preferHeader = parsePreferHeader({ requestHeaders });
   const hasMinimalPreference = preferHeader.return === 'minimal';
 
   const isHead = method === 'HEAD';

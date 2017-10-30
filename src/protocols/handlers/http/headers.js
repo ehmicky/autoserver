@@ -5,12 +5,19 @@ const parsePreferHeaderLib = require('parse-prefer-header');
 const { addGenErrorHandler } = require('../../../error');
 
 // Returns a request's HTTP headers, normalized lowercase
-const parseHeaders = function ({ specific: { req: { headers = {} } } }) {
+const getRequestHeaders = function ({ specific: { req: { headers = {} } } }) {
   return headers;
 };
 
+// Returns a response's HTTP headers, normalized lowercase
+const getResponseHeaders = function ({ specific: { res } }) {
+  const responseHeaders = res.getHeaders();
+  // Otherwise `responseHeaders.constructor` is not `Object`
+  return { ...responseHeaders };
+};
+
 // Parses Prefer HTTP header
-const parsePreferHeader = function ({ headers: { prefer } }) {
+const parsePreferHeader = function ({ requestHeaders: { prefer } }) {
   if (!prefer) { return {}; }
 
   return parsePreferHeaderLib(prefer);
@@ -23,21 +30,27 @@ const eParsePreferHeader = addGenErrorHandler(parsePreferHeader, {
 });
 
 // Set HTTP header, ready to be sent with response
-const sendHeaders = function ({ specific, headers = {} }) {
-  return Object.entries(headers).reduce(
+const setResponseHeaders = function ({ specific, responseHeaders = {} }) {
+  return Object.entries(responseHeaders).reduce(
     (specificA, [name, value]) =>
-      sendHeader({ specific: specificA, name, value }),
+      setResponseHeader({ specific: specificA, name, value }),
     specific,
   );
 };
 
-const sendHeader = function ({ specific, specific: { res }, name, value }) {
+const setResponseHeader = function ({
+  specific,
+  specific: { res },
+  name,
+  value,
+}) {
   res.setHeader(name, value);
   return specific;
 };
 
 module.exports = {
-  parseHeaders,
+  getRequestHeaders,
+  getResponseHeaders,
   parsePreferHeader: eParsePreferHeader,
-  sendHeaders,
+  setResponseHeaders,
 };

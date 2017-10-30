@@ -42,7 +42,9 @@ const sendResponse = async function ({
     protocolStatus,
   });
 
-  return { response: responseA };
+  const responseHeaders = protocolHandler.getResponseHeaders({ specific });
+
+  return { response: responseA, responseHeaders };
 };
 
 // Use protocol-specific way to send back the response to the client
