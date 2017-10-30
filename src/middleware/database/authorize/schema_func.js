@@ -1,8 +1,11 @@
 'use strict';
 
-const { recurseMap } = require('../../../utilities');
 const { runSchemaFunc, getVars } = require('../../../schema_func');
-const { validateFilter, getAuthorizeAttrs } = require('../../../filter');
+const {
+  validateFilter,
+  getAuthorizeAttrs,
+  mapNodes,
+} = require('../../../filter');
 
 const { getUserVars } = require('./user_vars');
 
@@ -26,10 +29,15 @@ const handleSchemaFuncs = function ({
 // Resolve all schema functions in `model.authorize` so all leaves values
 // are constants
 const resolveSchemaFuncs = function ({ authorize, mInput }) {
-  return recurseMap(
+  return mapNodes(
     authorize,
-    schemaFunc => runSchemaFunc({ schemaFunc, mInput }),
+    node => resolveSchemaFunc({ mInput, node }),
   );
+};
+
+const resolveSchemaFunc = function ({ mInput, node: { value, ...node } }) {
+  const valueA = runSchemaFunc({ schemaFunc: value, mInput });
+  return { ...node, value: valueA };
 };
 
 // Most `model.authorize` validation is done compile-time
