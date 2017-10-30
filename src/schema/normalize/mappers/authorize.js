@@ -4,7 +4,7 @@ const {
   parseFilter,
   validateFilter,
   getAuthorizeAttrs,
-} = require('../../../database');
+} = require('../../../filter');
 
 // Parse `model.authorize` into AST
 const normalizeAuthorize = function (model, { modelName, schema }) {

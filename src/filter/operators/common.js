@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues } = require('../../../utilities');
+const { mapValues } = require('../../utilities');
 const { throwAttrValError, throwAttrTypeError } = require('../error');
 
 const parseAsIs = function ({ value }) {

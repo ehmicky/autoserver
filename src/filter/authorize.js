@@ -1,7 +1,7 @@
 'use strict';
 
-const { pick, mapValues, mapKeys } = require('../../utilities');
-const { SYSTEM_VARS } = require('../../schema_func');
+const { pick, mapValues, mapKeys } = require('../utilities');
+const { SYSTEM_VARS } = require('../schema_func');
 
 // Retrieve type and names of all possible `model.authorize.*`
 const getAuthorizeAttrs = function ({ schema, schema: { models }, modelName }) {
