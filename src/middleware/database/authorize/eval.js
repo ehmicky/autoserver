@@ -1,8 +1,7 @@
 'use strict';
 
-const { recurseMap } = require('../../../utilities');
 const { throwCommonError } = require('../../../error');
-const { evalFilter } = require('../../../filter');
+const { evalFilter, mapNodes } = require('../../../filter');
 
 const { handleSchemaFuncs } = require('./schema_func');
 
@@ -35,7 +34,7 @@ const evalAuthorize = function ({
 
   if (authorizeB === true) { return authorizeB; }
 
-  const authorizeC = recurseMap(authorizeB, removePrefix);
+  const authorizeC = mapNodes(authorizeB, removePrefix);
   return authorizeC;
 };
 
@@ -47,10 +46,11 @@ const checkAuthorize = function ({ modelName, authorize, top }) {
 };
 
 // Remove `$model.` prefix in AST's `attrName`
-const removePrefix = function (value, name) {
-  if (name !== 'attrName') { return value; }
+const removePrefix = function ({ attrName, ...node }) {
+  if (attrName === undefined) { return node; }
 
-  return value.replace(PARTIAL_NAMES_REGEXP, '');
+  const attrNameA = attrName.replace(PARTIAL_NAMES_REGEXP, '');
+  return { ...node, attrName: attrNameA };
 };
 
 // `$model.*` is transformed to `authorize`, which is added to
