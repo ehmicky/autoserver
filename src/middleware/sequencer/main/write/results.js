@@ -38,11 +38,10 @@ const findModel = function (
 // Safety check to make sure there is no server-side bugs
 const validateResult = function ({ ids, results }) {
   const sameLength = results.length === ids.length;
+  if (sameLength) { return; }
 
-  if (!sameLength) {
-    const message = `'ids' and 'results' do not have the same length`;
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
+  const message = `'ids' and 'results' do not have the same length`;
+  throwError(message, { reason: 'UTILITY_ERROR' });
 };
 
 module.exports = {
