@@ -1,5 +1,6 @@
 'use strict';
 
+const { omit } = require('../../utilities');
 const { parseFilter, validateFilter } = require('../../filter');
 
 // Parse `args.filter` and `args.id` into AST
@@ -21,7 +22,8 @@ const parseFilterArg = function ({
 
   if (filter === undefined) { return action; }
 
-  return { ...action, args: { ...args, filter } };
+  const argsA = omit(args, 'id');
+  return { ...action, args: { ...argsA, filter } };
 };
 
 const parseFilterOrId = function ({ args: { id, filter }, model }) {
