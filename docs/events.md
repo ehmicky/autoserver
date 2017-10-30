@@ -127,12 +127,12 @@ Each event payload comes with a `serverInfo` property, with the properties:
 A `serverId` UUID, unique to each server run, is automatically created and
 available:
   - in [`serverInfo.serverId`](#server-information) payload property
-  - as a response header named `X-Server-Id`
+  - as a response header named `X-Api-Engine-Server-Id`
 
 `serverName` is the system hostname, but can be overriden using the
 [`run` option](run.md#options) `serverName`. It is available:
   - in [`serverInfo.serverName`](#server-information) payload property
-  - as a response header named `X-Server-Name`
+  - as a response header named `X-Api-Engine-Server-Name`
   - in [console messages](#console)
 
 # Start information
@@ -172,7 +172,7 @@ the promise returned by [`apiServer.start()`](run.md#running-the-server).
 Events during the `request` phase have a `requestInfo` property on the
 event payload, with the properties:
   - `requestId` `{UUID}` - unique ID assigned to each request.
-    Also available as `X-Request-Id` response header.
+    Also available as `X-Api-Engine-Server-Id` response header.
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
   - `responseTime` `{number}` - time it took to handle the request,
