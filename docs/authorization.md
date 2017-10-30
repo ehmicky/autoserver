@@ -1,10 +1,56 @@
 # Authorization
 
-It is possible to reject requests by specifying a condition on a specific model
-with `model.authorize`.
+It is possible to reject requests by specifying a condition with
+`schema.authorize`.
 
-`model.authorize` uses the same format as the [`filter`](filtering.md) query
-argument, except attribute names are prefixed with `$model.`, e.g.:
+`schema.authorize` uses the same format as the [`filter`](filtering.md) query
+argument, except [schema variables](functions.md#schema-functions-variables),
+including [user variables](functions.md#user-variables), are specified instead
+of models attributes, e.g.:
+
+```yml
+schema:
+  authorize:
+    $command:
+      neq: delete
+```
+
+will forbid delete commands on the API.
+
+With `schema.authorize`, one can define
+[role-based access control](https://en.wikipedia.org/wiki/Role-based_access_control) or other
+authorization design. E.g.:
+
+```yml
+schema:
+  authorize:
+  - $command: find
+    userGroup: reader
+  - $command:
+      in: [find, replace, patch]
+    userGroup: manager
+  - userGroup: admin
+```
+
+gives readonly permissions to the `reader` group, readwrite permissions
+to the `manager` group, and full permissions to the `admin` group.
+
+For `$params` and `$args`, the dot notation must be used, e.g. `$params.key`.
+
+It is also possible to directly use [functions](functions.md), e.g.:
+
+```yml
+schema:
+  authorize:
+    $params.key: (getSecretKey())
+```
+
+# Model authorization
+
+One can specify model-specific authorization with `model.authorize`.
+
+The format is the same as `schema.authorize`, except model's attributes can
+also be specified, prefixed with `$model.`, e.g.:
 
 ```yml
 models:
@@ -31,54 +77,9 @@ will prevent requests from fetching any `example_model` with
 `example_model.locked` `true`. It will also prevent requests from setting
 `example_model.locked` to `true`, or creating such a model.
 
-Using `$model.` allows you to define
+Using this feature allows you to define
 [access control lists](https://en.wikipedia.org/wiki/Access_control_list)
 restricting the permissions of a model based on the value of its attributes.
-
-# Variables
-
-One can also specify
-[schema variables](functions.md#schema-functions-variables), including
-[user variables](functions.md#user-variables), e.g.:
-
-```yml
-models:
-  example_model:
-    authorize:
-      userGroup: admin
-```
-
-will only allow the `admin` group to query `example_model`.
-
-Using variables allows you to define
-[role-based access control](https://en.wikipedia.org/wiki/Role-based_access_control) or other
-authorization design. E.g.:
-
-```yml
-models:
-  example_model:
-    authorize:
-    - $command: find
-      userGroup: reader
-    - $command:
-        in: [find, replace, patch]
-      userGroup: manager
-    - userGroup: admin
-```
-
-gives readonly permissions to the `reader` group, readwrite permissions
-to the `manager` group, and full permissions to the `admin` group.
-
-For `$params` and `$args`, the dot notation must be used, e.g. `$params.key`.
-
-It is also possible to directly use [functions](functions.md), e.g.:
-
-```yml
-models:
-  example_model:
-    authorize:
-      $params.key: (getSecretKey())
-```
 
 # Readonly attributes
 
