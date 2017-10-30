@@ -21,7 +21,7 @@ const parseQueryString = function ({ specific, protocolHandler, runOpts }) {
     maxQueryStringLength,
   });
 
-  const queryVarsA = mapValues(queryVars, value => transtype(value));
+  const queryVarsA = mapValues(queryVars, transtype);
   return { queryVars: queryVarsA };
 };
 
