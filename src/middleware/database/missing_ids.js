@@ -1,6 +1,6 @@
 'use strict';
 
-const { difference, isEqual } = require('lodash');
+const { difference } = require('lodash');
 
 const { throwCommonError } = require('../../error');
 const { extractSimpleIds, getSimpleFilter } = require('../../filter');
@@ -11,7 +11,7 @@ const validateMissingIds = async function (
     command,
     modelName,
     response,
-    args: { preAuthorizeFilter, filter },
+    args: { filter, preAuthorizeFilter },
     top,
     mInput,
   },
@@ -20,14 +20,13 @@ const validateMissingIds = async function (
   // Other commands trigger this middleware during their `currentData` actions
   if (command !== 'find') { return; }
 
-  const ids = getMissingIds({ preAuthorizeFilter, response });
+  const ids = getMissingIds({ filter, preAuthorizeFilter, response });
   if (ids.length === 0) { return; }
 
   // Check whether this is because the model does not exist, or because it is
   // not authorized
   const idsA = await checkAuthorization({
     preAuthorizeFilter,
-    filter,
     ids,
     modelName,
     top,
@@ -39,8 +38,15 @@ const validateMissingIds = async function (
 };
 
 // Retrieve missing models ids
-const getMissingIds = function ({ preAuthorizeFilter, response: { data } }) {
-  const filterIds = extractSimpleIds({ filter: preAuthorizeFilter });
+const getMissingIds = function ({
+  filter,
+  preAuthorizeFilter,
+  response: { data },
+}) {
+  const filterA = preAuthorizeFilter === undefined
+    ? filter
+    : preAuthorizeFilter;
+  const filterIds = extractSimpleIds({ filter: filterA });
 
   // This middleware can be checked only when filtering only by `id`.
   // Checking complex `args.filter` is tricky. It is hard to know whether a
@@ -63,7 +69,6 @@ const getMissingIds = function ({ preAuthorizeFilter, response: { data } }) {
 // If no missing model is missing anymore, flag it as an authorization error.
 const checkAuthorization = async function ({
   preAuthorizeFilter,
-  filter,
   ids,
   modelName,
   top,
@@ -71,14 +76,14 @@ const checkAuthorization = async function ({
   mInput,
   mInput: { args },
 }) {
-  if (isEqual(preAuthorizeFilter, filter)) { return ids; }
+  if (preAuthorizeFilter === undefined) { return ids; }
 
   const filterA = getSimpleFilter({ ids });
   const mInputA = { ...mInput, args: { ...args, filter: filterA } };
 
-  const { response: { data } } = await nextLayer(mInputA);
+  const { dbData } = await nextLayer(mInputA);
 
-  const responseIds = data.map(({ id }) => id);
+  const responseIds = dbData.map(({ id }) => id);
   const missingIds = difference(ids, responseIds);
 
   if (missingIds.length > 0) { return missingIds; }
