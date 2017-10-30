@@ -29,7 +29,7 @@
     "ajv-keywords": "^2.1.0",
     "body-parser": "^1.18.2",
     "bytes": "^3.0.0",
-    "chalk": "^2.2.0",
+    "chalk": "^2.3.0",
     "fast-memoize": "^2.2.8",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.1.4",
