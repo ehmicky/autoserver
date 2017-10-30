@@ -3,7 +3,7 @@
 const { isEqual, uniq } = require('lodash');
 
 const { assignArray } = require('../../../../utilities');
-const { getSimpleFilter } = require('../../../../database');
+const { getSimpleFilter } = require('../../../../filter');
 
 // Retrieve the results of all direct parent commands
 // E.g. when firing `find_model { child { id } }`, the nested `child` action

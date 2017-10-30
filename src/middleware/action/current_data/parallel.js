@@ -6,7 +6,7 @@ const {
   mapValues,
 } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
-const { getSimpleFilter } = require('../../../database');
+const { getSimpleFilter } = require('../../../filter');
 const { mergeCommandPaths } = require('../command_paths');
 
 // Add `action.currentData` for `replace` commands
