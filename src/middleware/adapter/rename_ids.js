@@ -1,7 +1,7 @@
 'use strict';
 
 const { omit } = require('../../utilities');
-const { mapFilter } = require('../../database');
+const { mapFilter } = require('../../filter');
 
 // Some databases require a specific name for `id`, e.g. `_id` for MongoDB.
 // This is a translation layer that modifies `id` name inside and outside of
