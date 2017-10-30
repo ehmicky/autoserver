@@ -190,7 +190,8 @@ event payload, with the properties:
     `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathVars` `{object}` - URL variables, as a hash table
   - `queryVars` `{object}` - query variables, as a hash table
-  - `headers` `{object}` - protocol headers (e.g. HTTP headers), as a hash table
+  - `requestHeaders` `{object}` - protocol request headers (e.g. HTTP headers),
+     as a hash table
   - `payload` `{any}` - request payload
   - `payloadSize` `{number}` - in bytes
   - `payloadCount` `{number}` - array length, if it is an array
