@@ -42,7 +42,7 @@ const genericOperation = function ({ type, value, attrName }) {
 
 const getGenericNode = function ({ type, value, key }) {
   const { [key]: name, kind } = OPERATIONS_MAP[type];
-  const valueA = kind === 'regexp' ? new RegExp(value) : value;
+  const valueA = kind === 'regexp' ? new RegExp(value, 'i') : value;
   return { [name]: valueA };
 };
 
