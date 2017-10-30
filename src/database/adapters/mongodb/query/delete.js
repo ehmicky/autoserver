@@ -7,8 +7,8 @@ const deleteFunc = function ({ collection, deletedIds }) {
 };
 
 const deleteOne = function ({ collection, deletedIds }) {
-  const [id] = deletedIds;
-  return collection.deleteOne({ id });
+  const [_id] = deletedIds;
+  return collection.deleteOne({ _id });
 };
 
 const deleteMany = function ({ collection, deletedIds }) {

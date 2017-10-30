@@ -7,8 +7,8 @@ const replace = function ({ collection, newData }) {
 };
 
 const replaceOne = function ({ collection, newData: [data] }) {
-  const { id } = data;
-  return collection.replaceOne({ id }, data);
+  const { _id } = data;
+  return collection.replaceOne({ _id }, data);
 };
 
 const replaceMany = async function ({ collection, newData }) {
@@ -19,8 +19,8 @@ const replaceMany = async function ({ collection, newData }) {
 };
 
 const getBulkCommand = function ({ replacement }) {
-  const { id } = replacement;
-  return { replaceOne: { filter: { id }, replacement, upsert: false } };
+  const { _id } = replacement;
+  return { replaceOne: { filter: { _id }, replacement, upsert: false } };
 };
 
 module.exports = {
