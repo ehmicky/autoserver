@@ -1,11 +1,11 @@
 'use strict';
 
-const { DEEP_OPERATIONS } = require('../operators');
+const { DEEP_OPERATORS } = require('../operators');
 
 // In `{ attribute: { some: { eq: value } } }`, `eq` is considered deep
 const getDeepAttr = function ({ attrs, attrName, throwErr }) {
   const [, attrNameA, , deepType] = DEEP_TYPE_REGEXP.exec(attrName) || [];
-  const isDeep = DEEP_OPERATIONS.includes(deepType);
+  const isDeep = DEEP_OPERATORS.includes(deepType);
 
   const attr = getAttr({ attrs, attrName: attrNameA, throwErr });
 

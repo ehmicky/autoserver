@@ -33,9 +33,11 @@ const getOperator = function ({ node }) {
   return operators[node.type];
 };
 
-const DEEP_OPERATIONS = ['some', 'all'];
+const OPERATIONS = Object.keys(operators);
+
+const DEEP_OPERATORS = ['some', 'all'];
 
 module.exports = {
   getOperator,
-  DEEP_OPERATIONS,
+  DEEP_OPERATORS,
 };
