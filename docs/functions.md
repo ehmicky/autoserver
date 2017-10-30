@@ -162,5 +162,11 @@ query {
 }
 ```
 
-Those will be available using the
+[Protocol](protocols.md) headers starting with `X-Api-Engine-Param-` can also
+be used, with a JSON string as value. The header name case will be converted to
+lowercase with underscores.
+E.g. using the header `X-Api-Engine-Param-Custom-Count: 5` is the same as
+specifying `params: { custom_count: 5 }`
+
+In either case, client parameters will be available using the
 [system variable](#schema-functions-variables) `$params` as an object.

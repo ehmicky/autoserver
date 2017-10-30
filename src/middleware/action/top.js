@@ -11,6 +11,7 @@ const parseTopAction = function ({
   operationDef: { commandName, args },
   schema: { shortcuts: { modelsMap } },
   protocolArgs,
+  paramsArg,
 }) {
   const { commandType, modelName, multiple } = parseModelName({
     commandName,
@@ -21,7 +22,8 @@ const parseTopAction = function ({
   const commandPath = [commandName];
 
   // Merge protocol-specific arguments with normal arguments
-  const argsA = { ...protocolArgs, ...args };
+  const params = { ...args.params, ...paramsArg };
+  const argsA = { ...protocolArgs, ...args, params };
 
   const top = { command, modelName, commandPath, args: argsA };
   return { top, topArgs: top.args };
