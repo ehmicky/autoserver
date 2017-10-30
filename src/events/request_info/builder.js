@@ -1,6 +1,7 @@
 'use strict';
 
 const { getReason } = require('../../error');
+const { MODEL_TYPES } = require('../../constants');
 
 // Builds requestInfo from request mInput
 const buildRequestInfo = function ({
@@ -34,6 +35,9 @@ const buildRequestInfo = function ({
   uniqueModelsCount,
   error,
 }) {
+  const responseData = MODEL_TYPES.includes(responseType)
+    ? response.data
+    : response;
   const errorReason = error && getReason({ error });
 
   return {
@@ -59,7 +63,7 @@ const buildRequestInfo = function ({
     commandPath,
     command,
     model,
-    response,
+    responseData,
     responseType,
     modelsCount,
     uniqueModelsCount,
