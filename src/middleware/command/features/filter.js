@@ -4,7 +4,7 @@ const { uniq, intersection } = require('lodash');
 
 const { getWordsList } = require('../../../utilities');
 const { throwError } = require('../../../error');
-const { crawlFilter } = require('../../../filter');
+const { crawlNodes } = require('../../../filter');
 
 // Adapter feature 'filter' allows for complex `args.filter`
 const filterValidator = function ({ args, modelName }) {
@@ -18,7 +18,7 @@ const filterValidator = function ({ args, modelName }) {
 };
 
 const getFilterOps = function ({ args: { filter } }) {
-  const ops = crawlFilter(filter, ({ type }) => type);
+  const ops = crawlNodes(filter, ({ type }) => type);
   const opsA = uniq(ops);
   return opsA;
 };
