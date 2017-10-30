@@ -3,7 +3,7 @@
 const { operationsSchema } = require('../operations');
 
 const { applyPlugins } = require('./plugins');
-const { applyModelDefault } = require('./model_default');
+const { applyModelsDefault } = require('./model_default');
 const {
   validateCircularRefs,
   validateJsonSchemaData,
@@ -34,7 +34,7 @@ const normalizers = [
   // Apply schema.plugins
   { type: 'schema', func: applyPlugins },
   // Apply schema.model.default
-  { type: 'schema', func: applyModelDefault },
+  { type: 'schema', func: applyModelsDefault },
 
   // Validates that there are no circular references
   { type: 'schema', func: validateCircularRefs },
