@@ -3,7 +3,7 @@
 const { difference, isEqual } = require('lodash');
 
 const { throwCommonError } = require('../../error');
-const { extractSimpleIds, getSimpleFilter } = require('../../database');
+const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 
 // Check if any `id` was not found (404) or was unauthorized (403)
 const validateMissingIds = async function (

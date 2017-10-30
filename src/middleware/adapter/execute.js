@@ -1,6 +1,6 @@
 'use strict';
 
-const { extractSimpleIds } = require('../../database');
+const { extractSimpleIds } = require('../../filter');
 
 // Delegates to database adapter
 const databaseExecute = async function ({
