@@ -116,6 +116,10 @@ models:
   pet_skills:
     $ref: pet_skills.yml
   default: {}
+authorize:
+- $command: delete
+- $command:
+    in: [find, create, replace, patch]
 variables:
   myMathFunc: (($1 * $2) + ($3 * $4))
   exampleFunction: '(myMathFunc(1, 10, 100, 2) +

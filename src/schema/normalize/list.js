@@ -25,6 +25,7 @@ const {
   mergeNestedModel,
   normalizeAliases,
   addDescriptions,
+  normalizeSchemaAuthorize,
   normalizeAuthorize,
 } = require('./mappers');
 const { normalizeShortcuts } = require('./shortcuts');
@@ -66,6 +67,8 @@ const normalizers = [
   { type: 'model', func: normalizeAliases },
   // Add `attr.description` from `attr.readonly|value|examples|alias`
   { type: 'attr', func: addDescriptions },
+  // Parse `schema.authorize` into AST
+  { type: 'schema', func: normalizeSchemaAuthorize },
   // Parse `model.authorize` into AST
   { type: 'model', func: normalizeAuthorize },
 
