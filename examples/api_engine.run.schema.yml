@@ -2,6 +2,9 @@ engine: api-engine 1.0.0
 models:
   pet:
     description: Cute animal
+    authorize:
+      $command:
+        in: [find, delete, create, replace, patch]
     x-custom: anything
     x-second-custom:
       $ref: '#/models/pet/x-custom'
