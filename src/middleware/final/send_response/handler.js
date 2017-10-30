@@ -1,6 +1,7 @@
 'use strict';
 
 const { getStandardError } = require('../../../error');
+const { MODEL_TYPES } = require('../../../constants');
 
 const { validateResponse } = require('./validate');
 const { types } = require('./types');
@@ -50,7 +51,7 @@ const getErrorResponse = function ({ error, mInput, response }) {
 
   const errorA = getStandardError({ error, mInput, isLimited: false });
 
-  return { type: 'error', content: { error: errorA } };
+  return { type: 'error', content: { data: errorA } };
 };
 
 const transformContent = function ({
@@ -59,13 +60,11 @@ const transformContent = function ({
   operationHandler: { transformResponse } = {},
 }) {
   const shouldTransform = transformResponse !== undefined &&
-    TRANSFORM_TYPES.includes(type);
+    MODEL_TYPES.includes(type);
   if (!shouldTransform) { return content; }
 
-  return transformResponse(content);
+  return transformResponse({ content, type });
 };
-
-const TRANSFORM_TYPES = ['model', 'collection', 'error'];
 
 module.exports = {
   sendResponse,

@@ -32,6 +32,9 @@ const isJSON = function (val) {
   return true;
 };
 
+const MODEL_TYPES = ['model', 'collection', 'error'];
+
 module.exports = {
   CONTENT_TYPES,
+  MODEL_TYPES,
 };
