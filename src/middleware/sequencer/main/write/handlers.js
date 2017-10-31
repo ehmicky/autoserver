@@ -1,7 +1,5 @@
 'use strict';
 
-const { assignArray } = require('../../../../utilities');
-
 const { removeDuplicates } = require('./duplicate');
 
 // Merge all `args.data` into `newData`, for `replace|patch|create` commands
@@ -31,38 +29,9 @@ const getDataIds = function ({ args: { newData } }) {
   return newData.map(({ id }) => id);
 };
 
-// Retrieve `currentData`, so it is passed to command middleware
-// Note that `create` command does not have any `currentData`.
-const getCurrentData = function ({ actions, args, ids }) {
-  const currentData = actions
-    .map(action => action.currentData)
-    .reduce(assignArray, []);
-  // Keep the same order as `newData` or `args.filter.id`
-  const currentDataA = ids.map(id => findCurrentData({ id, currentData }));
-
-  return { ...args, currentData: currentDataA };
-};
-
-const findCurrentData = function ({ id, currentData }) {
-  return currentData
-    .find(currentDatum => currentDatum && currentDatum.id === id);
-};
-
-const createHandler = {
-  mergeArgs: mergeDataArgs,
-  getIds: getDataIds,
-  getCurrentData: ({ args }) => args,
-};
-const dataHandler = {
-  mergeArgs: mergeDataArgs,
-  getIds: getDataIds,
-  getCurrentData,
-};
-const filterHandler = {
-  mergeArgs: mergeDeleteArgs,
-  getIds: getDeletedIds,
-  getCurrentData,
-};
+const createHandler = { mergeArgs: mergeDataArgs, getIds: getDataIds };
+const dataHandler = { mergeArgs: mergeDataArgs, getIds: getDataIds };
+const filterHandler = { mergeArgs: mergeDeleteArgs, getIds: getDeletedIds };
 
 // Each command has specific logic
 const handlers = {

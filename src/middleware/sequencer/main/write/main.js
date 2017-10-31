@@ -3,6 +3,7 @@
 const { assignArray, pick } = require('../../../../utilities');
 
 const { handlers } = require('./handlers');
+const { getCurrentData } = require('./current_data');
 const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
@@ -39,7 +40,8 @@ const singleSequenceWrite = async function ({
   // No model to modify, so can return right away
   if (ids.length === 0) { return []; }
 
-  const argsB = handler.getCurrentData({ actions, args: argsA, ids });
+  const currentData = getCurrentData({ actions, ids });
+  const argsB = { ...argsA, currentData };
 
   const results = await fireWriteCommand({
     actions,
@@ -49,8 +51,7 @@ const singleSequenceWrite = async function ({
     mInput,
   });
 
-  const resultsA = getResults({ actions, results, ids, modelName });
-  return resultsA;
+  return getResults({ actions, results, ids, modelName });
 };
 
 // Reuse some whitelisted top-level arguments

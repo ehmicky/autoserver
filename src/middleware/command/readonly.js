@@ -22,7 +22,7 @@ const handleReadonly = function ({
 
   const newDataA = newData.map((newDatum, index) => removeAttrs({
     newData: newDatum,
-    currentData: currentData && currentData[index],
+    currentData: currentData[index],
     attrs,
     mInput,
   }));
