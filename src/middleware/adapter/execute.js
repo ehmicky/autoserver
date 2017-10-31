@@ -7,11 +7,11 @@ const databaseExecute = async function ({
   dbAdapter,
   modelName,
   args,
+  args: { dryrun },
   command,
-  noQuery,
 }) {
-  // `dryrun` middleware with create|replace|patch
-  if (noQuery) { return; }
+  // Make write commands not change data, if argument `dryrun` is used
+  if (dryrun && command !== 'find') { return; }
 
   const commandInput = getCommandInput({ command, modelName, args });
 
