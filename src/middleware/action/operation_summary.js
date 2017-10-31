@@ -8,15 +8,13 @@ const { isEqual } = require('lodash');
 const getOperationSummary = function ({
   actions,
   top,
-  top: { command: { type: commandType }, commandPath: topCommandPath },
+  top: { commandPath: topCommandPath },
   commandPath = topCommandPath,
 }) {
   const commandName = commandPath[commandPath.length - 1];
 
-  const childActions = actions.filter(({ commandPath: childPath, command }) =>
-    isEqual(commandPath, childPath.slice(0, -1)) &&
-    // In write actions, do not use child actions only used for selections
-    command.type === commandType);
+  const childActions = actions.filter(({ commandPath: childPath }) =>
+    isEqual(commandPath, childPath.slice(0, -1)));
 
   if (childActions.length === 0) {
     return { operationSummary: commandName };

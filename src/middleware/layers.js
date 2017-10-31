@@ -107,6 +107,8 @@ const middlewareLayers = [
       action.parseCascade,
       // Parse `args.orderBy` from a string to an array of objects
       action.parseOrderBy,
+      // Validate `args.select`
+      action.validateSelect,
       // Validate that attributes in `args.select|data|filter|order_by`
       // are in the schema
       action.validateUnknownAttrs,
@@ -129,8 +131,6 @@ const middlewareLayers = [
 
       // Remove nested `args.data` not present in `args.select`
       action.removeNestedWrite,
-      // Remove duplicate `results` between read and write actions
-      action.removeDuplicateResults,
       // Sort `results` so that top-level ones are processed first
       action.sortResults,
       // Add `modelsCount` and `uniqueModelsCount`

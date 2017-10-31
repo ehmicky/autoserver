@@ -10,27 +10,10 @@ const patchData = function ({
 }) {
   if (commandType !== 'patch') { return; }
 
-  const actionsA = getPatchActions({ actions });
-  const actionsB = getNonPatchActions({ actions });
-  const actionsC = [...actionsA, ...actionsB];
+  const partialData = mergePartialData({ actions });
+  const actionsA = actions.map(action => mergeData({ action, partialData }));
 
-  return { actions: actionsC };
-};
-
-const getPatchActions = function ({ actions }) {
-  const actionsA = actions.filter(isPatchAction);
-  const partialData = mergePartialData({ actions: actionsA });
-  const actionsB = actionsA
-    .map(action => mergeData({ action, partialData }));
-  return actionsB;
-};
-
-const getNonPatchActions = function ({ actions }) {
-  return actions.filter(action => !isPatchAction(action));
-};
-
-const isPatchAction = function ({ command }) {
-  return command.type === 'patch';
+  return { actions: actionsA };
 };
 
 // Several actions might target the same model, but with different args.data

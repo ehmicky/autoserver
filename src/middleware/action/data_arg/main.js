@@ -1,11 +1,11 @@
 'use strict';
 
 const { getLimits } = require('../../../limits');
+const { mergeActions } = require('../merge');
 
 const { getDataPath } = require('./data_path');
 const { parseData } = require('./data');
 const { parseActions } = require('./actions');
-const { mergeActions } = require('./merge');
 
 // Parse `args.data` into write `actions`
 const parseDataArg = function ({
@@ -42,10 +42,7 @@ const parseDataArg = function ({
     modelsMap,
   });
 
-  const actionsB = mergeActions({
-    readActions: actions,
-    writeActions: actionsA,
-  });
+  const actionsB = mergeActions({ actions, actionsA });
 
   return { actions: actionsB };
 };

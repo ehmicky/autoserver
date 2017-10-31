@@ -11,7 +11,7 @@ const serialResolve = async function (
   { actions, top, schema, mInput },
   nextLayer,
 ) {
-  const writeActions = getWriteActions({ actions });
+  const writeActions = actions.map(getReadAction);
 
   // Reuse main `find` command middleware
   const { results } = await resolveReadActions(
@@ -20,48 +20,25 @@ const serialResolve = async function (
   );
 
   const actionsA = actions
-    .map(action => mergeSerialResult({ results, action }));
+    .map(action => mergeResult({ results, action }));
   return { actions: actionsA };
 };
 
-// Retrieve the `find` commands to fire
-const getWriteActions = function ({ actions }) {
-  return actions
-    .filter(({ command }) => command.type !== 'find')
-    .map(getSerialReadAction);
-};
-
-// Reuse `delete` and `patch` arguments for the `find` commands
-const getSerialReadAction = function ({ command: { multiple }, ...action }) {
+// Transform to `find` command, while reusing `args.filter`
+const getReadAction = function ({ command: { multiple }, ...action }) {
   const command = getCommand({ commandType: 'find', multiple });
   return { ...action, command };
 };
 
 // Add `action.currentData`
-const mergeSerialResult = function ({
-  results,
-  action,
-  action: { command: { type: commandType }, args },
-}) {
-  // Only `update` and `delete` commands will have had `currentData` commands
-  // fired
-  if (commandType === 'find') { return action; }
-
-  const resultsA = findSerialResults({ results, action });
-  const actionA = getSerialAction({ results: resultsA, action, args });
+const mergeResult = function ({ results, action, action: { args } }) {
+  const resultsA = results.filter(result => resultMatches({ result, action }));
+  const actionA = getAction({ results: resultsA, action, args });
   return actionA;
 };
 
 // Retrieve the relevant `results` for this specific action
-const findSerialResults = function ({ results, action }) {
-  return results
-    .filter(result => serialResultMatches({ result, action }));
-};
-
-const serialResultMatches = function ({
-  result: { path },
-  action: { commandPath },
-}) {
+const resultMatches = function ({ result: { path }, action: { commandPath } }) {
   const pathA = removeIndexes({ path });
   return isEqual(commandPath, pathA);
 };
@@ -71,7 +48,7 @@ const removeIndexes = function ({ path }) {
 };
 
 // Transform `results` into `action.currentData` and `action.dataPaths`
-const getSerialAction = function ({ results, action }) {
+const getAction = function ({ results, action }) {
   const dataPaths = results.map(({ path }) => path);
   const currentData = results.map(({ model }) => model);
 

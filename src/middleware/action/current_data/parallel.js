@@ -25,15 +25,10 @@ const parallelResolve = async function ({ actions, mInput }, nextLayer) {
 
 // Retrieve the `find` commands to perform, by using current `replace` actions
 const getWriteActions = function ({ actions }) {
-  const writeActionsA = actions
-    .filter(({ command }) => command.type !== 'find');
   // Group commands by model
-  const writeActionsB = writeActionsA.reduce(
-    mergeArrayReducer('modelName'),
-    {},
-  );
-  const writeActionsC = Object.values(writeActionsB);
-  return writeActionsC;
+  const writeActionsA = actions.reduce(mergeArrayReducer('modelName'), {});
+  const writeActionsB = Object.values(writeActionsA);
+  return writeActionsB;
 };
 
 const writeToRead = function (actionsGroups) {
