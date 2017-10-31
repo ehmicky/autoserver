@@ -16,7 +16,6 @@ module.exports = {
   ...require('./sort'),
 
   ...require('./current_data'),
-  ...require('./nested_readonly'),
   ...require('./patch_data'),
   ...require('./write_actions'),
   ...require('./read_actions'),
