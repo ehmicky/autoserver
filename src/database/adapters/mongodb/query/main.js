@@ -3,9 +3,8 @@
 const { throwError } = require('../../../../error');
 
 const { find } = require('./find');
-const { create } = require('./create');
-const { replace } = require('./replace');
 const { delete: deleteFunc } = require('./delete');
+const { upsert } = require('./upsert');
 
 // CRUD commands
 const query = async function (commandInput, ...args) {
@@ -26,9 +25,8 @@ const query = async function (commandInput, ...args) {
 
 const commands = {
   find,
-  create,
-  replace,
   delete: deleteFunc,
+  upsert,
 };
 
 // MongoDB returns `result.ok` `0` when an error happened

@@ -3,9 +3,8 @@
 const { pSetTimeout } = require('../../../../utilities');
 
 const { find } = require('./find');
-const { create } = require('./create');
 const { delete: deleteMany } = require('./delete');
-const { replace } = require('./replace');
+const { upsert } = require('./upsert');
 
 // CRUD commands
 const query = async function ({
@@ -37,9 +36,8 @@ const query = async function ({
 
 const commands = {
   find,
-  create,
   delete: deleteMany,
-  replace,
+  upsert,
 };
 
 module.exports = {

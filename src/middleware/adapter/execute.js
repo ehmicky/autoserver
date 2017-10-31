@@ -27,8 +27,7 @@ const getCommandInput = function ({
 }) {
   const filterIds = extractSimpleIds({ filter });
 
-  // `patch` command behaves like `replace`, so we simplify adapters here
-  const commandA = command === 'patch' ? 'replace' : command;
+  const commandA = commandMap[command];
 
   return {
     command: commandA,
@@ -41,6 +40,19 @@ const getCommandInput = function ({
     limit,
     offset,
   };
+};
+
+// From API command to database adapter's command
+// `patch` behaves like a `find` followed by a `replace`.
+// `create` and `replace` do an upsert to minimize concurrency conflicts,
+// i.e. if the model was created or deleted since the `currentData` query was
+// performed
+const commandMap = {
+  find: 'find',
+  delete: 'delete',
+  patch: 'upsert',
+  replace: 'upsert',
+  create: 'upsert',
 };
 
 module.exports = {
