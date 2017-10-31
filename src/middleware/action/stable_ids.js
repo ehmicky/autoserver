@@ -6,9 +6,26 @@ const { getModel } = require('./get_model');
 
 // Validate that attributes used in nested actions will not change
 // If a nested action is performed by the client, but the server changes its
-// parent attribute with `attr.value`, the relation returned in the response
-// will show what the client asked for, but the server state will contain
-// something else.
+// parent attribute with `attr.value|readonly|transform`, the relation returned
+// in the response will show what the client asked for, but the server state
+// will contain something else.
+// Other solutions all have drawbacks, i.e.:
+//  - forbid `attr.value|readonly|transform` in schema:
+//     - too restrictive, e.g. author plugin requires `attr.value|readonly`
+//  - only throw this error if client and server values do not match:
+//     - this is less predictable for the client.
+//     - this makes any change on `attr.value|readonly|transform` a breaking
+//       change, because client queries that used to work might then throw.
+//  - do not perform the nested action:
+//     - requires client to check response
+//     - means response can have different shapes
+//     - request is a success, but actually some of it was not performed
+//  - perform nested action but do not return them in response:
+//     - similar drawbacks as the one just above
+//  - ignore the server-side modification from the response:
+//     - no way for client to know response does not match current data state
+//  - replace nested actions by find actions:
+//     - request might not be authorized to fetch those models
 const validateStableIds = function ({
   actions,
   schema,
@@ -27,23 +44,38 @@ const validateStableIds = function ({
 const STABLE_IDS_COMMANDS = ['create', 'patch', 'replace'];
 
 const validateAction = function ({
+  action,
   action: { commandPath },
-  schema: { shortcuts: { modelsMap, valuesMap } },
+  schema,
+  top,
+}) {
+  const serverSet = isServerSet({ action, schema, top });
+  if (!serverSet) { return; }
+
+  const path = commandPath.slice(1).join('.');
+  const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested model's 'id' cannot be known by the client.`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
+};
+
+const isServerSet = function ({ action, schema, top }) {
+  const attr = getAttr({ action, schema, top });
+  const serverSet = attr.readonly !== undefined ||
+    attr.value !== undefined ||
+    attr.transform !== undefined;
+  return serverSet;
+};
+
+const getAttr = function ({
+  action: { commandPath },
+  schema: { shortcuts: { modelsMap }, models },
   top,
 }) {
   const parentPath = commandPath.slice(0, -1);
-  const { modelName: parentModel } = getModel({
-    commandPath: parentPath,
-    modelsMap,
-    top,
-  });
+  const { modelName } = getModel({ commandPath: parentPath, modelsMap, top });
   const attrName = commandPath[commandPath.length - 1];
-
-  if (valuesMap[parentModel][attrName] === undefined) { return; }
-
-  const path = commandPath.slice(1).join('.');
-  const message = `Cannot nest 'data' argument on the attribute '${path}'. That attribute's value is set by the server, so the nested model's 'id' cannot be known by the client.`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  const { attributes } = models[modelName];
+  const attr = attributes[attrName];
+  return attr;
 };
 
 module.exports = {
