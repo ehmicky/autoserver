@@ -57,7 +57,7 @@ const singleSequenceWrite = async function ({
 // Reuse some whitelisted top-level arguments
 const applyTopArgs = function ({ args, topArgs }) {
   const topArgsA = pick(topArgs, ['dryrun']);
-  return { ...args, ...topArgsA };
+  return { ...topArgsA, ...args };
 };
 
 // Fire actual write command
