@@ -208,6 +208,8 @@ const middlewareLayers = [
       database.duplicateReads,
       // Check if any `id` was not found (404) or was unauthorized (403)
       database.validateMissingIds,
+      // Check if any model already exists, for create actions
+      database.validateCreateIds,
     ],
   },
 

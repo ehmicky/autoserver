@@ -1,9 +1,5 @@
 'use strict';
 
-const { addErrorHandler } = require('../../../../error');
-
-const { checkExistingIds } = require('./existing_ids');
-
 // Create models
 const create = function ({ collection, newData }) {
   const method = newData.length === 1 ? createOne : createMany;
@@ -18,8 +14,6 @@ const createMany = function ({ collection, newData }) {
   return collection.insertMany(newData);
 };
 
-const eCreate = addErrorHandler(create, checkExistingIds);
-
 module.exports = {
-  create: eCreate,
+  create,
 };
