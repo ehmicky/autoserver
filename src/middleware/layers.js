@@ -198,8 +198,6 @@ const middlewareLayers = [
       // Fires adapter layer
       database.fireAdapter,
 
-      // Retrieves database return value
-      database.getDbResponse,
       // Validate database response
       database.responseValidation,
       // Remove models that are null|undefined
@@ -226,6 +224,8 @@ const middlewareLayers = [
 
       // Remove database-specific id names
       adapter.renameIdsOutput,
+      // Retrieves database return value
+      adapter.getDbResponse,
     ],
   },
 ];
