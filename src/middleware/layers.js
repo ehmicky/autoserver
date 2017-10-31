@@ -218,8 +218,6 @@ const middlewareLayers = [
     layers: [
       // Pick database adapter
       adapter.pickDatabaseAdapter,
-      // Transform command to `find` if `dryrun` settings is used
-      adapter.applyDryrun,
       // Add database-specific id names
       adapter.renameIdsInput,
 
