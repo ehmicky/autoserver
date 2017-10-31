@@ -2,7 +2,6 @@
 
 const { isEqual } = require('lodash');
 
-const { assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
@@ -19,27 +18,19 @@ const parseCascade = function ({
 
   const actionsA = getCascadeActions({ cascade, top, modelsMap });
 
-  const actionsB = mergeActions({ actions, actionsA });
+  const newActions = addMiddleActions({ actions: actionsA, top, modelsMap });
+
+  const actionsB = mergeActions({ actions, newActions });
 
   return { actions: actionsB };
 };
 
 const getCascadeActions = function ({ cascade, top, modelsMap }) {
   const actions = cascade.split(',')
-    .map(parseCascadePart)
-    .reduce(assignArray, [])
+    .map(attrName => attrName.split('.'))
     .filter(isUnique)
     .map(attrName => normalizeCascade({ attrName, top, modelsMap }));
   return actions;
-};
-
-// `args.cascade` `parent.child` is same as `parent,parent.child`
-const parseCascadePart = function (attrName) {
-  const attrs = attrName.split('.');
-
-  return Array(attrs.length)
-    .fill(null)
-    .map((val, index) => attrs.slice(0, index + 1));
 };
 
 // Remove duplicates
@@ -77,6 +68,33 @@ const validateCascade = function ({ model, commandPath }) {
     ? '\'cascade\' argument cannot contain empty attributes'
     : `In 'cascade' argument, attribute '${attrName}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
+};
+
+// When specifying `args.cascade` `parent.child` but not `parent`, it is added
+// with `args.dryrun` `true`, so it can be used in response.
+const addMiddleActions = function ({ actions, modelsMap, top }) {
+  const middleActions = actions
+    .map(action => getMiddleAction({ action, actions, modelsMap, top }))
+    .filter(action => action !== undefined);
+  return [...actions, ...middleActions];
+};
+
+const getMiddleAction = function ({
+  action: { commandPath },
+  actions,
+  modelsMap,
+  top,
+  top: { command },
+}) {
+  const parentPath = commandPath.slice(0, -1);
+  const presentActions = actions
+    .filter(actionA => isEqual(actionA.commandPath, parentPath));
+  if (presentActions.length > 0) { return; }
+
+  const { modelName } = getModel({ modelsMap, top, commandPath: parentPath });
+  const args = { dryrun: true };
+
+  return { commandPath: parentPath, command, modelName, args };
 };
 
 module.exports = {

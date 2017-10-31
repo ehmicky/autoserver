@@ -34,7 +34,7 @@ const parseDataArg = function ({
     dbAdapters,
   });
 
-  const actionsA = parseActions({
+  const newActions = parseActions({
     data: dataA,
     commandPath,
     dataPaths,
@@ -42,9 +42,9 @@ const parseDataArg = function ({
     modelsMap,
   });
 
-  const actionsB = mergeActions({ actions, actionsA });
+  const actionsA = mergeActions({ actions, newActions });
 
-  return { actions: actionsB };
+  return { actions: actionsA };
 };
 
 module.exports = {

@@ -3,19 +3,19 @@
 const { isEqual } = require('lodash');
 
 // Merge two sets of actions
-const mergeActions = function ({ actions, actionsA }) {
-  return actions.map(action => mergeAction({ action, actionsA }));
+const mergeActions = function ({ actions, newActions }) {
+  return actions.map(action => mergeAction({ action, newActions }));
 };
 
-const mergeAction = function ({ action, actionsA }) {
-  const actionA = actionsA
+const mergeAction = function ({ action, newActions }) {
+  const newAction = newActions
     .find(({ commandPath }) => isEqual(commandPath, action.commandPath));
-  if (actionA === undefined) { return action; }
+  if (newAction === undefined) { return action; }
 
   return {
     ...action,
-    ...actionA,
-    args: { ...action.args, ...actionA.args },
+    ...newAction,
+    args: { ...action.args, ...newAction.args },
   };
 };
 
