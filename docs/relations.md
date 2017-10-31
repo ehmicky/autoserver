@@ -88,8 +88,5 @@ will respond with:
 }
 ```
 
-This is available for any command, including `delete`, `create`, etc.
-
-Populating nested models in output is distinct from
-[modifying](#modifying-nested-models) or [deleting](#deleting-nested-models)
-nested models in input.
+For write commands, only models already present in either the `data` or
+`cascade` argument can be populated in output.
