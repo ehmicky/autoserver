@@ -8,6 +8,8 @@ const { crawlNodes } = require('./crawl');
 
 // Returns all the database features needed by this filter
 const getFeatures = function ({ filter }) {
+  if (filter === undefined) { return []; }
+
   const features = crawlNodes(filter, getFeature)
     .reduce(assignArray, []);
   const featuresA = uniq(features);
