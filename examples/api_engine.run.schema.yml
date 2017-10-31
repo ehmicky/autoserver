@@ -2,6 +2,7 @@ engine: api-engine 1.0.0
 models:
   pet:
     description: Cute animal
+    database: memory
     authorize:
       $command:
         in: (['find', 'delete', 'create', 'replace', 'patch'])

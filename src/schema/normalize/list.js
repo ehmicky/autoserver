@@ -5,6 +5,7 @@ const { operationsSchema } = require('../operations');
 const { applyPlugins } = require('./plugins');
 const { applyModelsDefault } = require('./model_default');
 const {
+  validateDatabases,
   validateCircularRefs,
   validateJsonSchemaData,
   validateModelNaming,
@@ -15,6 +16,7 @@ const {
 const {
   addDefaultModelName,
   addDefaultId,
+  addDefaultDatabase,
   addDefaultValidate,
   addDefaultType,
 } = require('./default');
@@ -50,6 +52,8 @@ const normalizers = [
   { type: 'model', func: addDefaultModelName },
   // Default `model.id` attribute
   { type: 'model', func: addDefaultId },
+  // Default `model.database`
+  { type: 'model', func: addDefaultDatabase },
   // Default `attr.type`
   { type: 'attr', func: addDefaultType },
   // Default `attr.validate`
@@ -77,6 +81,8 @@ const normalizers = [
   // Add `schema.inlineFuncPaths`
   { type: 'schema', func: addInlineFuncPaths },
 
+  // Validates `model.database`
+  { type: 'model', func: validateDatabases },
   // Validates that there are no circular references
   { type: 'schema', func: validateCircularRefs },
   // Check inline functions are valid by compiling then
