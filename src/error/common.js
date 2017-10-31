@@ -7,36 +7,36 @@ const { getWordsList } = require('../utilities');
 const { throwError } = require('./main');
 
 const throwCommonError = function ({ reason, ...rest }) {
-  commonErrors[reason](rest);
+  const message = commonErrors[reason](rest);
+  throwError(message, { reason });
 };
 
 const throwAuthorizationError = function ({
   ids,
   modelName,
-  top: { command: { title } },
+  top: { command: { participle } },
 }) {
-  const models = getAuthorizationModels({ ids, modelName });
-  const message = `It is not allowed to ${title} ${models}`;
-  throwError(message, { reason: 'AUTHORIZATION' });
-};
-
-const getAuthorizationModels = function ({ ids, modelName }) {
-  if (modelName === undefined) {
-    return 'those models';
-  }
-
-  if (ids === undefined) {
-    return `those '${modelName}' models`;
-  }
-
-  const idsA = getWordsList(ids, { op: 'and', quotes: true });
-  return `the '${modelName}' ${pluralize('model', ids.length)} with 'id' ${idsA}`;
+  const models = getModels({ modelName, ids });
+  return `${models} cannot be ${participle}`;
 };
 
 const throwModelNotFoundError = function ({ ids, modelName }) {
-  const idsA = getWordsList(ids, { op: 'nor', quotes: true });
-  const message = `Could not find any '${modelName}' with 'id' ${idsA}`;
-  throwError(message, { reason: 'DB_MODEL_NOT_FOUND' });
+  const models = getModels({ modelName, ids });
+  return `${models} could not be found`;
+};
+
+// Try to make error messages start the same way when referring to models
+const getModels = function ({ modelName, ids, op = 'and' }) {
+  if (modelName === undefined) {
+    return 'Those models';
+  }
+
+  if (ids === undefined) {
+    return `Those '${modelName}' models`;
+  }
+
+  const idsA = getWordsList(ids, { op, quotes: true });
+  return `The '${modelName}' ${pluralize('model', ids.length)} with 'id' ${idsA}`;
 };
 
 const commonErrors = {
