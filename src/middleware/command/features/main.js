@@ -2,44 +2,41 @@
 
 const { difference } = require('lodash');
 
+const { throwError } = require('../../../error');
 const { FEATURES } = require('../../../constants');
 const { getFeatures } = require('../../../filter');
 
 const { filterValidator } = require('./filter');
 
 // Validate database supports command features
-const validateFeatures = function ({
-  args,
-  args: { filter },
-  modelName,
-  dbAdapters,
-}) {
+const validateFeatures = function ({ args, modelName, dbAdapters }) {
   const { features } = dbAdapters[modelName];
 
-  const filterFeatures = getFeatures({ filter });
+  const message = getErrorMessage({ args, features });
 
-  // Fire the validator of each feature that is not supported
-  // by the database adapters
-  difference(FEATURES, features)
-    .forEach(feature => validateFeature({
-      feature,
-      features,
-      args,
-      filterFeatures,
-      modelName,
-    }));
+  if (message === undefined) { return; }
+
+  const messageA = `${message} because the model '${modelName}' does not support it`;
+  throwError(messageA, { reason: 'WRONG_FEATURE' });
 };
 
-const validateFeature = function ({
-  feature,
-  features,
-  args,
-  filterFeatures,
-  modelName,
-}) {
+// Fire the validator of each feature that is not supported by the
+// database adapters
+const getErrorMessage = function ({ args, args: { filter }, features }) {
+  const filterFeatures = getFeatures({ filter });
+
+  const [messageA] = difference(FEATURES, features)
+    .map(feature => checkFeature({ feature, features, args, filterFeatures }))
+    .filter(message => message !== undefined);
+  return messageA;
+};
+
+const checkFeature = function ({ feature, features, args, filterFeatures }) {
+  // Features can be namespaced, e.g. `filter:*` all fire the same validator
   const validatorName = feature.replace(/:.*/, '');
+
   const validator = validators[validatorName];
-  return validator({ features, args, filterFeatures, modelName });
+  return validator({ features, args, filterFeatures });
 };
 
 const validators = {
