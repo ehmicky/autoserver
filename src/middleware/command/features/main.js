@@ -36,11 +36,11 @@ const checkFeature = function ({ feature, features, args, filterFeatures }) {
   // Features can be namespaced, e.g. `filter:*` all fire the same validator
   const validatorName = feature.replace(/:.*/, '');
 
-  const validator = validators[validatorName];
+  const validator = VALIDATORS[validatorName];
   return validator({ features, args, filterFeatures });
 };
 
-const validators = {
+const VALIDATORS = {
   ...genericValidators,
   filter: filterValidator,
 };
