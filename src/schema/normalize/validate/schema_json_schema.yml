@@ -58,6 +58,8 @@ definitions:
         $ref: '#/definitions/description'
       authorize:
         $ref: '#/definitions/authorize'
+      database:
+        $ref: '#/definitions/database'
       attributes:
         type: object
         additionalProperties:
@@ -170,6 +172,9 @@ definitions:
       items:
         type: object
     - type: object
+  # model.database
+  database:
+    type: string
   # schema.variables
   variables:
     type: object

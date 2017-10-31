@@ -1,7 +1,11 @@
 'use strict';
 
 const { mapValues } = require('../../utilities');
-const { addErrorHandler, normalizeError, rethrowError } = require('../../error');
+const {
+  addErrorHandler,
+  normalizeError,
+  rethrowError,
+} = require('../../error');
 
 // Wrap all database adapters methods so that they throw proper exceptions
 const addAllErrorHandlers = function ({ adapters }) {
