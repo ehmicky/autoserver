@@ -14,5 +14,6 @@
   "filter:some",
   "filter:all",
   "order_by",
-  "offset"
+  "offset",
+  "limit"
 ]

@@ -17,6 +17,7 @@ const genericValidator = function ({ argName, dbName }, { args }) {
 const features = [
   { argName: 'order_by', dbName: 'orderBy', featureName: 'order_by' },
   { argName: 'page', dbName: 'offset', featureName: 'offset' },
+  { argName: 'page_size', dbName: 'limit', featureName: 'limit' },
 ];
 
 const genericValidators = features
