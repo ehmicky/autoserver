@@ -12,5 +12,6 @@
   "filter:or",
   "filter:and",
   "filter:some",
-  "filter:all"
+  "filter:all",
+  "order_by"
 ]
