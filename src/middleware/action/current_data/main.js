@@ -27,6 +27,7 @@ const addCurrentData = function (
 // for their parent.
 // But `replace` can be run in parallel.
 const resolvers = {
+  create: parallelResolve,
   replace: parallelResolve,
   patch: serialResolve,
   delete: serialResolve,

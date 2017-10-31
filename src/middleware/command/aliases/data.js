@@ -14,7 +14,7 @@ const applyDataAliases = function ({
 }) {
   return newData.map((datum, index) => applyDataAlias({
     newData: datum,
-    currentData: currentData && currentData[index],
+    currentData: currentData[index],
     attrName,
     aliases,
   }));

@@ -13,12 +13,16 @@ const validateMissingIds = async function (
     response,
     args: { filter, preAuthorizeFilter },
     top,
+    top: { command: { type: topCommand } },
     mInput,
   },
   nextLayer,
 ) {
   // Other commands trigger this middleware during their `currentData` actions
   if (command !== 'find') { return; }
+
+  // `create`'s currentData query
+  if (topCommand === 'create' && command === 'find') { return; }
 
   const ids = getMissingIds({ filter, preAuthorizeFilter, response });
   if (ids.length === 0) { return; }

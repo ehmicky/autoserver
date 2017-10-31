@@ -18,7 +18,12 @@ const getReadActions = function ({ actions, top }) {
 
 const getReadAction = function ({
   action,
-  action: { commandPath, command: { type: commandType, multiple } },
+  action: {
+    args,
+    commandPath,
+    command: { type: commandType, multiple },
+    currentData,
+  },
   top,
 }) {
   const isTopLevel = isEqual(top.commandPath, commandPath);
@@ -29,14 +34,10 @@ const getReadAction = function ({
 
   // Transform write actions into read actions
   const command = getCommand({ commandType: 'find', multiple });
+  const filter = getTopLevelFilter({ args, currentData, top });
+  const argsA = { ...args, filter };
 
-  const filter = getTopLevelFilter({ action });
-
-  return [{
-    ...action,
-    command,
-    args: { ...action.args, filter },
-  }];
+  return [{ ...action, command, args: argsA }];
 };
 
 // For `currentData` query:
@@ -47,8 +48,13 @@ const getReadAction = function ({
 //     for efficiency.
 //     It will reuse `currentData` from replace|delete|patch,
 //     `data` from create, and `filter` from find.
-const getTopLevelFilter = function ({ action, action: { args: { filter } } }) {
-  const models = getModels({ action });
+const getTopLevelFilter = function ({
+  args,
+  args: { filter },
+  currentData,
+  top,
+}) {
+  const models = getModels({ args, currentData, top });
 
   if (models === undefined) { return filter; }
 
@@ -57,8 +63,8 @@ const getTopLevelFilter = function ({ action, action: { args: { filter } } }) {
   return filterA;
 };
 
-const getModels = function ({ action: { currentData, args: { data } } }) {
-  if (currentData) { return currentData; }
+const getModels = function ({ args: { data }, currentData, top }) {
+  if (currentData && top.command.type !== 'create') { return currentData; }
 
   // Use replace|create `data`, but not patch `data`
   const hasDataIds = data && data.every(({ id }) => id !== undefined);

@@ -14,7 +14,11 @@ const validateAuthorization = function ({
   mInput,
   command,
   top,
+  top: { command: { type: topCommand } },
 }) {
+  // `create`'s currentData query
+  if (topCommand === 'create' && command === 'find') { return; }
+
   validateSchemaAuth({ schema, userVars, mInput, top });
 
   const model = models[modelName];
