@@ -11,4 +11,5 @@ module.exports = {
   ...require('./empty_models'),
   ...require('./duplicate_read'),
   ...require('./missing_ids'),
+  ...require('./create_ids'),
 };

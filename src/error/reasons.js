@@ -44,7 +44,7 @@ const ERROR_REASONS = {
 
   // A command conflicts with another one,
   // e.g. tries to create already existing model
-  DB_MODEL_CONFLICT: {},
+  DB_CONFLICT: {},
 
   // Request payload has a request payload but no Content-Length
   NO_CONTENT_LENGTH: {},

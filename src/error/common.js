@@ -25,6 +25,12 @@ const throwModelNotFoundError = function ({ ids, modelName }) {
   return `${models} could not be found`;
 };
 
+const throwConflictError = function ({ ids, modelName }) {
+  const models = getModels({ modelName, ids });
+  const exist = ids.length === 1 ? 'exists' : 'exist';
+  return `${models} already ${exist}`;
+};
+
 // Try to make error messages start the same way when referring to models
 const getModels = function ({ modelName, ids, op = 'and' }) {
   if (modelName === undefined) {
@@ -42,6 +48,7 @@ const getModels = function ({ modelName, ids, op = 'and' }) {
 const commonErrors = {
   AUTHORIZATION: throwAuthorizationError,
   DB_MODEL_NOT_FOUND: throwModelNotFoundError,
+  DB_CONFLICT: throwConflictError,
 };
 
 module.exports = {
