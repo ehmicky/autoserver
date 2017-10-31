@@ -12,8 +12,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [Database agnostic](docs/databases.md), with support for several databases,
     including [MongoDB](docs/mongodb.md) and an
     [in-memory database](docs/memory_db.md).
-    [Multiple databases](docs/databases.md#multiple-databases.md) can even be
-    mixed on the same API
+    Multiple databases can even be mixed on the same API
   - [Multiple protocols](docs/protocols.md) handling, with support for
     [HTTP/1.1](docs/http.md) only at the moment
   - [CRUD commands](docs/graphql.md#read-queries):

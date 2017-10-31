@@ -44,11 +44,6 @@ the array:
   - `all`: all elements match the filter
   - `some`: at least some elements match the filter
 
-To use advanced filtering, it must be
-[supported by the database](databases.md#api-features-support).
-Otherwise, only the `eq`, `lt`, `lte`, `gt` and `gte` operators
-will be supported.
-
 # Examples
 
 The following two examples are the same:
