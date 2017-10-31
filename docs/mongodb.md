@@ -1,8 +1,4 @@
-# MongoDB
-
-MongoDB supports all [API features](databases.md#api-features-support).
-
-# Options
+# MongoDB options
 
 The following options are available:
 

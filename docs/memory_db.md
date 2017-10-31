@@ -4,6 +4,8 @@ The in-memory database keeps all data in RAM, and optionally persists it on
 the filesystem when the server shuts down. It is meant for development purpose
 only.
 
+# Options
+
 The following options are available:
 
 ```yml
@@ -12,10 +14,6 @@ db:
     data: my_data_file.json
     save: false
 ```
-
-It supports all [API features](databases.md#api-features-support).
-
-# Data
 
 The `data` option is the path to the file used both for loading the data on
 server startup, and saving it on server shutdown.
