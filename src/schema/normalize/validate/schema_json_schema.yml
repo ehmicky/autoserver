@@ -95,13 +95,6 @@ definitions:
         required: [value]
     - not:
         required: [readonly]
-  # MODEL.attribute targetting annther model
-  nestedModel:
-    # Cannot use `attr.transform`, because there is no real use case, and
-    # it creates problems, i.e. nested actions `id`s cannot rely on a parent
-    # attribute if it will be changed by `attr.transform`.
-    not:
-      required: [transform]
   # MODEL.attributes
   attribute:
     type: object
@@ -149,14 +142,6 @@ definitions:
       default:
         $ref: '#/definitions/schemaFuncOrValue'
     allOf:
-    # Nested models
-    - if:
-        required: [type]
-        properties:
-          type:
-            $ref: '#/definitions/modelType'
-      then:
-        $ref: '#/definitions/nestedModel'
     # Cannot have both attr.value and attr.transform,
     # since they would cancel each other out.
     - if:
