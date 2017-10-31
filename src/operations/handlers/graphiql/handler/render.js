@@ -36,13 +36,16 @@ const eRenderGraphiql = addGenErrorHandler(renderGraphiql, {
   reason: 'UTILITY_ERROR',
 });
 
-const getDataToEscape = function (input) {
-  return {
-    endpointURL: input.endpointURL,
-    query: input.query || '',
-    variables: input.variables || '',
-    operationName: input.operationName || '',
-  };
+const getDataToEscape = function ({
+  endpointURL,
+  query = '',
+  variables = '',
+  operationName = '',
+}) {
+  const variablesA = typeof variables === 'object'
+    ? JSON.stringify(variables)
+    : variables;
+  return { endpointURL, query, variables: variablesA, operationName };
 };
 
 const escapeData = function (dataToEscape) {
