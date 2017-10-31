@@ -4,7 +4,7 @@ const { removeDuplicates } = require('./duplicate');
 
 // Merge all `args.data` into `newData`, for `replace|patch|create` commands
 const mergeDataArgs = function ({ actions }) {
-  const newData = actions.map(action => action.args.data);
+  const newData = actions.map(({ args: { data } }) => data);
 
   const newDataA = removeDuplicates(newData);
 

@@ -19,7 +19,7 @@ const resolveWriteActions = function ({ actions, top, mInput }, nextLayer) {
   });
 };
 
-// All write actions are normalized to be multiple
+// All actions are normalized to be multiple
 const multiplyAction = function ({ command: { type: commandType }, ...rest }) {
   const command = getCommand({ commandType, multiple: true });
   return { ...rest, command };

@@ -25,12 +25,8 @@ const parseActions = function ({
 // Turns `args.select` 'aaa.bbb.ccc=ddd' into:
 // `commandPath` 'aaa.bbb', `key` 'ccc', `alias` 'ddd']
 const parseSelect = function ({ commandName, select }) {
-  const [
-    ,
-    commandPath,
-    key,
-    alias,
-  ] = SELECT_REGEXP.exec(`${commandName}.${select}`);
+  const selectA = `${commandName}.${select}`;
+  const [, commandPath, key, alias] = SELECT_REGEXP.exec(selectA);
   return { commandPath, key, alias };
 };
 

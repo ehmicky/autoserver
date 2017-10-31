@@ -10,6 +10,7 @@ module.exports = {
   ...require('./data_arg'),
   ...require('./cascade'),
   ...require('./order_by'),
+  ...require('./validate_select'),
   ...require('./unknown_attrs'),
   ...require('./stable_ids'),
   ...require('./operation_summary'),
@@ -21,7 +22,6 @@ module.exports = {
   ...require('./read_actions'),
 
   ...require('./remove_nested_write'),
-  ...require('./duplicate_results'),
   ...require('./models_count'),
   ...require('./assemble'),
   ...require('./select'),

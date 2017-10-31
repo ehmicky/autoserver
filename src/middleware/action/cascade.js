@@ -1,10 +1,12 @@
 'use strict';
 
-const { uniq } = require('lodash');
+const { isEqual } = require('lodash');
 
+const { assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
+const { mergeActions } = require('./merge');
 
 // Parse `args.cascade` into a set of delete nested `actions`
 const parseCascade = function ({
@@ -17,41 +19,54 @@ const parseCascade = function ({
 
   const actionsA = getCascadeActions({ cascade, top, modelsMap });
 
-  const actionsB = [...actions, ...actionsA];
+  const actionsB = mergeActions({ actions, actionsA });
+
   return { actions: actionsB };
 };
 
 const getCascadeActions = function ({ cascade, top, modelsMap }) {
-  const cascadeA = cascade.split(',');
-  const cascadeB = uniq(cascadeA);
-  const actions = cascadeB
-    .map(attrName => normalizeCascade({ attrName, top }))
-    .map(cascadeArg => addModelName({ cascade: cascadeArg, top, modelsMap }));
+  const actions = cascade.split(',')
+    .map(parseCascadePart)
+    .reduce(assignArray, [])
+    .filter(isUnique)
+    .map(attrName => normalizeCascade({ attrName, top, modelsMap }));
   return actions;
+};
+
+// `args.cascade` `parent.child` is same as `parent,parent.child`
+const parseCascadePart = function (attrName) {
+  const attrs = attrName.split('.');
+
+  return Array(attrs.length)
+    .fill(null)
+    .map((val, index) => attrs.slice(0, index + 1));
+};
+
+// Remove duplicates
+const isUnique = function (attrName, index, attrNames) {
+  return attrNames
+    .slice(index + 1)
+    .every(attrNameA => !isEqual(attrName, attrNameA));
 };
 
 // From `attr.child_attr` to:
 //   commandPath: ['commandName', 'attr', 'child_attr']
 //   command
+//   modelName
 //   args: {}
-const normalizeCascade = function ({ attrName, top, top: { command } }) {
-  const attrs = attrName.split('.');
-  const commandPath = [...top.commandPath, ...attrs];
-  return { commandPath, command, args: {} };
-};
-
-// Retrieve the `modelName` of each `args.cascade` attribute
-const addModelName = function ({
-  cascade: { commandPath, ...rest },
+const normalizeCascade = function ({
+  attrName,
   top,
+  top: { command },
   modelsMap,
 }) {
+  const commandPath = [...top.commandPath, ...attrName];
   const model = getModel({ modelsMap, top, commandPath });
 
   validateCascade({ model, commandPath });
 
   const { modelName } = model;
-  return { ...rest, commandPath, modelName };
+  return { commandPath, command, modelName, args: {} };
 };
 
 const validateCascade = function ({ model, commandPath }) {
