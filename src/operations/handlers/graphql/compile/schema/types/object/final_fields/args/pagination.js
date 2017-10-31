@@ -2,10 +2,10 @@
 
 const { GraphQLInt, GraphQLString } = require('graphql');
 
-const { pick } = require('../../../../../../../../../utilities');
+const { pick, omit } = require('../../../../../../../../../utilities');
 
 // Pagination arguments
-const getPaginationArgument = function ({ command }) {
+const getPaginationArgument = function ({ command, features }) {
   // Only with commands that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and patchMany
   const hasPaginationArgs = PAGINATION_COMMANDS.includes(command.type) &&
@@ -21,6 +21,10 @@ const getPaginationArgument = function ({ command }) {
 
   if (!hasFullArgs) {
     return pick(PAGINATION_ARGS, 'page_size');
+  }
+
+  if (!features.includes('offset')) {
+    return omit(PAGINATION_ARGS, 'page');
   }
 
   return PAGINATION_ARGS;

@@ -3,9 +3,10 @@
 const { GraphQLString } = require('graphql');
 
 // `order_by` argument
-const getOrderArgument = function ({ command }) {
+const getOrderArgument = function ({ command, features }) {
   const canOrder = ORDER_COMMAND_TYPES.includes(command.type) &&
-    command.multiple;
+    command.multiple &&
+    features.includes('order_by');
   if (!canOrder) { return {}; }
 
   return ORDER_ARGS;
