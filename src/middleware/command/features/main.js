@@ -6,8 +6,8 @@ const { throwError } = require('../../../error');
 const { FEATURES } = require('../../../constants');
 const { getFeatures } = require('../../../filter');
 
+const { genericValidators } = require('./generic');
 const { filterValidator } = require('./filter');
-const { orderByValidator } = require('./order_by');
 
 // Validate database supports command features
 const validateFeatures = function ({ args, modelName, dbAdapters }) {
@@ -41,8 +41,8 @@ const checkFeature = function ({ feature, features, args, filterFeatures }) {
 };
 
 const validators = {
+  ...genericValidators,
   filter: filterValidator,
-  order_by: orderByValidator,
 };
 
 module.exports = {
