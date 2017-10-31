@@ -14,13 +14,13 @@ const genericValidator = function ({ argName, dbName }, { args }) {
   return `Must not use argument '${argName}'`;
 };
 
-const features = [
+const FEATURES = [
   { argName: 'order_by', dbName: 'orderBy', featureName: 'order_by' },
   { argName: 'page', dbName: 'offset', featureName: 'offset' },
   { argName: 'page_size', dbName: 'limit', featureName: 'limit' },
 ];
 
-const genericValidators = features
+const genericValidators = FEATURES
   .map(getGenericValidator)
   .reduce(assignObject, {});
 
