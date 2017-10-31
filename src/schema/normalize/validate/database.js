@@ -12,7 +12,8 @@ const validateDatabases = function (model, { modelName }) {
   const adapter = getAdapter({ name: database, modelName });
   validateFeatures({ adapter, model, modelName });
 
-  return model;
+  const { features } = adapter;
+  return { ...model, features };
 };
 
 const getAdapter = function ({ name, modelName }) {
