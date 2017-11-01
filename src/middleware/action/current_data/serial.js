@@ -4,9 +4,7 @@ const { isEqual } = require('../../../utilities');
 
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands.
 // Also adds `dataPaths` since we'll now know the length of each array of models
-const serialResolve = async function (mInput, nextLayer) {
-  const { actions } = mInput;
-
+const serialResolve = async function ({ actions, mInput }, nextLayer) {
   // Reuse main `find` command middleware
   const { results } = await nextLayer(mInput, 'read');
 

@@ -8,9 +8,7 @@ const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
 
 // Fire all commands associated with a set of read actions
-const sequenceRead = function (mInput, nextLayer) {
-  const { actions, top, modelsMap } = mInput;
-
+const sequenceRead = function ({ actions, top, modelsMap, mInput }, nextLayer) {
   const actionsA = getParentActions({ actions, top, modelsMap });
 
   return topRead({ ...mInput, actions: actionsA, results: [] }, nextLayer);
@@ -87,8 +85,8 @@ const singleSequenceRead = async function ({
 
   // Recursive call
   // Child actions must start after their parent ends
-  const input = { ...mInput, actions: childActions, results };
-  await topRead(input, nextLayer);
+  const mInputA = { ...mInput, actions: childActions, results };
+  await topRead(mInputA, nextLayer);
 };
 
 module.exports = {
