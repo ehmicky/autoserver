@@ -11,12 +11,9 @@ const { processResults } = require('./results');
 const sequenceRead = function (mInput, nextLayer) {
   const { actions, top, modelsMap } = mInput;
 
-  const actionsA = actions.filter(({ command }) => command.type === 'find');
-  if (actionsA.length === 0) { return; }
+  const actionsA = getParentActions({ actions, top, modelsMap });
 
-  const actionsB = getParentActions({ actions: actionsA, top, modelsMap });
-
-  return topRead({ ...mInput, actions: actionsB, results: [] }, nextLayer);
+  return topRead({ ...mInput, actions: actionsA, results: [] }, nextLayer);
 };
 
 const topRead = async function ({ actions, results, ...mInput }, nextLayer) {
