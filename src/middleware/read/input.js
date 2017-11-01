@@ -1,6 +1,6 @@
 'use strict';
 
-const { getCommand } = require('../../../constants');
+const { getCommand } = require('../../constants');
 
 const { getParentResults, getParentIds } = require('./parent');
 

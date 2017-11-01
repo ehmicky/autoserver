@@ -8,7 +8,6 @@ const {
 const { getCommand } = require('../../../constants');
 const { getSimpleFilter } = require('../../../filter');
 const { mergeCommandPaths } = require('../command_paths');
-const { resolveReadActions } = require('../read_actions');
 
 // Add `action.currentData` for `replace` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {

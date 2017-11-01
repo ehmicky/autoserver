@@ -1,7 +1,7 @@
 'use strict';
 
-const { assignArray, mergeArrayReducer } = require('../../../utilities');
-const { mergeCommandPaths } = require('../../action/command_paths');
+const { assignArray, mergeArrayReducer } = require('../../utilities');
+const { mergeCommandPaths } = require('../action/command_paths');
 
 const { getArgs } = require('./args');
 const { getResults } = require('./results');

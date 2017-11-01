@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../../../utilities');
+const { assignArray } = require('../../utilities');
 
 // Normalize results to an object with `path`, `model`, `moodelName`, `select`
 // Then push to shared `results` variable

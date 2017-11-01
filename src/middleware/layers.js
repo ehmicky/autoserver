@@ -6,7 +6,8 @@ const time = require('./time');
 const protocol = require('./protocol');
 const operation = require('./operation');
 const action = require('./action');
-const sequencer = require('./sequencer');
+const read = require('./read');
+const write = require('./write');
 const command = require('./command');
 const database = require('./database');
 const adapter = require('./adapter');
@@ -124,10 +125,8 @@ const middlewareLayers = [
       action.addCurrentData,
       // Merge `currentData` with the `args.data` in `patch` commands
       action.patchData,
-      // Fire all write actions, retrieving some `results`
-      action.resolveWriteActions,
-      // Fire all read actions, retrieving some `results`
-      action.resolveReadActions,
+      // Fire all read or write actions, retrieving some `results`
+      action.resolveActions,
 
       // Remove nested `args.data` not present in `args.select`
       action.removeNestedWrite,
@@ -150,7 +149,7 @@ const middlewareLayers = [
     name: 'write',
     layers: [
       // Fire one or several write commands for a set of actions
-      sequencer.sequenceWrite,
+      write.sequenceWrite,
     ],
   },
 
@@ -158,7 +157,7 @@ const middlewareLayers = [
     name: 'read',
     layers: [
       // Fire one or several read commands for a set of actions
-      sequencer.sequenceRead,
+      read.sequenceRead,
     ],
   },
 
