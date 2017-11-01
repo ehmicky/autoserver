@@ -7,7 +7,7 @@ const { getArgs } = require('./args');
 const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
-const sequenceWrite = async function ({ actions, ...mInput }, nextLayer) {
+const sequenceWrite = async function ({ actions, mInput }, nextLayer) {
   const actionsGroups = getWriteActions({ actions });
 
   // Run write commands in parallel
