@@ -8,7 +8,6 @@ const fireReadCommand = async function ({
   action: { commandPath, modelName },
   mInput,
   nextLayer,
-  command,
   args,
 }) {
   const emptyCommand = isEmptyCommand({ args });
@@ -21,7 +20,7 @@ const fireReadCommand = async function ({
     commandPath: commandPath.join('.'),
     modelName,
     args: argsA,
-    command: command.type,
+    command: 'find',
   };
 
   const { response: { data: result } } = await nextLayer(mInputA, 'command');

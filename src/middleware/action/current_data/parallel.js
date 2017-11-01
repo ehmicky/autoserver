@@ -13,7 +13,7 @@ const { mergeCommandPaths } = require('../command_paths');
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
   const actionsGroups = getWriteActions({ actions });
   const actionsGroupsA = mergeCommandPaths({ actionsGroups });
-  const writeActions = writeToRead(actionsGroupsA);
+  const writeActions = actionsGroupsA.map(normalizeActionsGroup);
   const currentDataMap = await getCurrentDataMap({
     writeActions,
     nextLayer,
@@ -31,13 +31,8 @@ const getWriteActions = function ({ actions }) {
   return writeActionsB;
 };
 
-const writeToRead = function (actionsGroups) {
-  return actionsGroups.map(writeToReadAction);
-};
-
-// Transform a `replace` command into a `find` command.
 // `args.data` becomes `args.filter`
-const writeToReadAction = function (actions) {
+const normalizeActionsGroup = function (actions) {
   const [{ commandPath }] = actions;
   const ids = actions
     .map(({ args: { data } }) => data)
@@ -47,12 +42,7 @@ const writeToReadAction = function (actions) {
   const args = { filter };
   const [{ modelName }] = actions;
 
-  return {
-    commandPath: [commandPath],
-    command: readCommand,
-    args,
-    modelName,
-  };
+  return { commandPath: [commandPath], command: readCommand, args, modelName };
 };
 
 const readCommand = getCommand({ commandType: 'find', multiple: true });
