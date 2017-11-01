@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray, pick } = require('../../../../utilities');
+const { assignArray, pick } = require('../../../utilities');
 
 const { getArgs } = require('./args');
 const { getCurrentData } = require('./current_data');
@@ -8,9 +8,11 @@ const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
 const sequenceWrite = async function (
-  { actionsGroups, top, mInput },
+  { actionsGroupType, actionsGroups, top, mInput },
   nextLayer,
 ) {
+  if (actionsGroupType !== 'write') { return; }
+
   // Run write commands in parallel
   const resultsPromises = actionsGroups.map(actions => singleSequenceWrite({
     actions,

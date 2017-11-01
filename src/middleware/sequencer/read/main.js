@@ -8,9 +8,11 @@ const { processResults } = require('./results');
 
 // Fire all commands associated with a set of read actions
 const sequenceRead = async function (
-  { actions = [], mInput, results = [] },
+  { actionsGroupType, actions = [], mInput, results = [] },
   nextLayer,
 ) {
+  if (actionsGroupType !== 'read') { return; }
+
   // Siblings can be run in parallel
   // Children will fire this function recursively, waiting for their parent
   const resultsPromises = actions.map(({ parentAction, childActions }) =>
@@ -83,7 +85,13 @@ const singleSequenceRead = async function ({
 
   // Recursive call
   // Child actions must start after their parent ends
-  await sequenceRead({ actions: childActions, mInput, results }, nextLayer);
+  const input = {
+    actionsGroupType: 'read',
+    actions: childActions,
+    mInput,
+    results,
+  };
+  await sequenceRead(input, nextLayer);
 };
 
 module.exports = {

@@ -1,11 +1,11 @@
 'use strict';
 
-const { throwError } = require('../../../../error');
+const { throwError } = require('../../../error');
 const {
   isEqual,
   assignArray,
   mergeArrayReducer,
-} = require('../../../../utilities');
+} = require('../../../utilities');
 
 // We remove duplicates for several reasons:
 //  - efficiency

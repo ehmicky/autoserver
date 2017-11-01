@@ -1,7 +1,7 @@
 'use strict';
 
-const { assignArray, isEqual, uniq } = require('../../../../utilities');
-const { getSimpleFilter } = require('../../../../filter');
+const { assignArray, isEqual, uniq } = require('../../../utilities');
+const { getSimpleFilter } = require('../../../filter');
 
 // Retrieve the results of all direct parent commands
 // E.g. when firing `find_model { child { id } }`, the nested `child` action
