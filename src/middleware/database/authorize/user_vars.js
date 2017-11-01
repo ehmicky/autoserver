@@ -1,8 +1,6 @@
 'use strict';
 
-const { intersection } = require('lodash');
-
-const { uniq, pick, mapValues } = require('../../../utilities');
+const { uniq, pick, mapValues, intersection } = require('../../../utilities');
 const { runSchemaFunc } = require('../../../schema_func');
 const { crawlNodes } = require('../../../filter');
 
