@@ -9,7 +9,6 @@ const { getResults } = require('./results');
 // Fire all commands associated with a set of write actions
 const sequenceWrite = async function ({ actions, ...mInput }, nextLayer) {
   const actionsGroups = getWriteActions({ actions });
-  if (actionsGroups.length === 0) { return; }
 
   // Run write commands in parallel
   const resultsPromises = actionsGroups
@@ -22,8 +21,7 @@ const sequenceWrite = async function ({ actions, ...mInput }, nextLayer) {
 
 // Group actions by model
 const getWriteActions = function ({ actions }) {
-  const actionsA = actions.filter(({ command }) => command.type !== 'find');
-  const actionsGroups = actionsA.reduce(mergeArrayReducer('modelName'), {});
+  const actionsGroups = actions.reduce(mergeArrayReducer('modelName'), {});
   const actionsGroupsA = Object.values(actionsGroups);
   const actionsGroupsB = mergeCommandPaths({ actionsGroups: actionsGroupsA });
   return actionsGroupsB;
