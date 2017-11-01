@@ -1,42 +1,29 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { getCommand } = require('../../constants');
 
 const { getModel } = require('./get_model');
 
-// Add `action.command` and `action.modelName`,
-// using `action.commandPath`, `top.command` and `top.modelName`
-const parseModels = function ({
-  actions,
-  top,
-  schema: { shortcuts: { modelsMap } },
-}) {
-  const actionsA = actions
-    .map(action => parseAction({ action, top, modelsMap }));
+// Add `action.modelName`
+const parseModels = function ({ actions, top, schema }) {
+  const actionsA = actions.map(action => addModelName({ action, top, schema }));
   return { actions: actionsA };
 };
 
-const parseAction = function ({ action, top, modelsMap }) {
-  const parser = action.commandPath.length === 1
-    ? parseTopLevelAction
-    : parseNestedAction;
-  return parser({ action, top, modelsMap });
+const addModelName = function ({ action, top, schema }) {
+  const modelName = getModelName({ action, top, schema });
+  return { ...action, modelName };
 };
 
-// Top-level action was already parsed by previous middleware
-const parseTopLevelAction = function ({ action, top: { command, modelName } }) {
-  return { ...action, command, modelName };
-};
-
-// Nested actions use their `commandPath`, by going through the `modelsMap`
-// shortcut
-const parseNestedAction = function ({
-  action,
+const getModelName = function ({
   action: { commandPath },
   top,
-  modelsMap,
+  schema: { shortcuts: { modelsMap } },
 }) {
+  if (commandPath.length === 1) {
+    return top.modelName;
+  }
+
   const model = getModel({ commandPath, modelsMap, top });
 
   if (model === undefined) {
@@ -44,12 +31,7 @@ const parseNestedAction = function ({
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  const { modelName, multiple } = model;
-
-  // Nested actions created through `args.select` use `find` commands
-  const command = getCommand({ commandType: 'find', multiple });
-
-  return { ...action, command, modelName };
+  return model.modelName;
 };
 
 module.exports = {

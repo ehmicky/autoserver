@@ -6,7 +6,7 @@ const {
   groupValuesBy,
   mapValues,
 } = require('../../../utilities');
-const { getCommand, mergeCommandPaths } = require('../../../constants');
+const { mergeCommandPaths } = require('../../../constants');
 const { getSimpleFilter } = require('../../../filter');
 
 // Add `action.currentData` for `replace` commands
@@ -47,7 +47,7 @@ const mergeActionsGroups = function (actions) {
   const args = { filter };
   const [{ modelName }] = actions;
 
-  return { commandPath: [commandPath], command: readCommand, args, modelName };
+  return { commandPath: [commandPath], args, modelName };
 };
 
 const getIds = function ({ actions }) {
@@ -56,8 +56,6 @@ const getIds = function ({ actions }) {
     .reduce(assignArray, [])
     .map(({ id }) => id);
 };
-
-const readCommand = getCommand({ commandType: 'find', multiple: true });
 
 const mapCurrentDataModel = function (results) {
   return results.map(({ model }) => model);

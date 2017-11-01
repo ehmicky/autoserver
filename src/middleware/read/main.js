@@ -37,6 +37,7 @@ const singleSequenceRead = async function ({
   childActions,
   nextLayer,
   mInput,
+  mInput: { top },
   results,
 }) {
   const {
@@ -81,6 +82,7 @@ const singleSequenceRead = async function ({
     isTopLevel,
     parentResults,
     nestedParentIds,
+    top,
   });
 
   // Recursive call
