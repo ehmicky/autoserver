@@ -1,5 +1,6 @@
 'use strict';
 
+const { getParentActions } = require('./parent_actions');
 const { getInput } = require('./input');
 const { addNestedFilter } = require('./parent');
 const { getConcurrentCommand, getPendingResults } = require('./concurrent');
@@ -7,12 +8,20 @@ const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
 
 // Fire all commands associated with a set of read actions
-const sequenceRead = async function (
-  { actionsGroupType, actions = [], mInput, results = [] },
-  nextLayer,
-) {
+const sequenceRead = function (mInput, nextLayer) {
+  const { actions, top, modelsMap, actionsGroupType } = mInput;
+
+  const actionsA = actions.filter(({ command }) => command.type === 'find');
+  if (actionsA.length === 0) { return; }
+
+  const actionsB = getParentActions({ actions: actionsA, top, modelsMap });
+
   if (actionsGroupType !== 'read') { return; }
 
+  return topRead({ ...mInput, actions: actionsB, results: [] }, nextLayer);
+};
+
+const topRead = async function ({ actions, results, ...mInput }, nextLayer) {
   // Siblings can be run in parallel
   // Children will fire this function recursively, waiting for their parent
   const resultsPromises = actions.map(({ parentAction, childActions }) =>
@@ -85,13 +94,8 @@ const singleSequenceRead = async function ({
 
   // Recursive call
   // Child actions must start after their parent ends
-  const input = {
-    actionsGroupType: 'read',
-    actions: childActions,
-    mInput,
-    results,
-  };
-  await sequenceRead(input, nextLayer);
+  const input = { ...mInput, actions: childActions, results };
+  await topRead(input, nextLayer);
 };
 
 module.exports = {

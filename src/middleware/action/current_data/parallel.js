@@ -8,6 +8,7 @@ const {
 const { getCommand } = require('../../../constants');
 const { getSimpleFilter } = require('../../../filter');
 const { mergeCommandPaths } = require('../command_paths');
+const { resolveReadActions } = require('../read_actions');
 
 // Add `action.currentData` for `replace` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
@@ -59,9 +60,11 @@ const readCommand = getCommand({ commandType: 'find', multiple: true });
 
 // Fire the `find` commands, in parallel, to retrieve `currentData`
 const getCurrentDataMap = async function ({ writeActions, nextLayer, mInput }) {
-  const actions = writeActions.map(parentAction => ({ parentAction }));
-  const actionsGroupType = 'read';
-  const { results } = await nextLayer({ ...mInput, actionsGroupType, actions });
+  const { results } = await nextLayer({
+    ...mInput,
+    actions: writeActions,
+    actionsGroupType: 'read',
+  });
 
   // Group `currentData` by model
   const currentDataMap = results.reduce(mergeArrayReducer('modelName'), {});

@@ -2,24 +2,20 @@
 
 const { isEqual } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
-const { resolveReadActions } = require('../read_actions');
 
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands.
 // Also adds `dataPaths` since we'll now know the length of each array of models
-const serialResolve = async function (
-  { actions, top, schema, mInput },
-  nextLayer,
-) {
+const serialResolve = async function ({ actions, mInput }, nextLayer) {
   const writeActions = actions.map(getReadAction);
 
   // Reuse main `find` command middleware
-  const { results } = await resolveReadActions(
-    { actions: writeActions, top, schema, mInput },
-    nextLayer,
-  );
+  const { results } = await nextLayer({
+    ...mInput,
+    actions: writeActions,
+    actionsGroupType: 'read',
+  });
 
-  const actionsA = actions
-    .map(action => mergeResult({ results, action }));
+  const actionsA = actions.map(action => mergeResult({ results, action }));
   return { actions: actionsA };
 };
 
