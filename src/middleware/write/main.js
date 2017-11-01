@@ -1,7 +1,7 @@
 'use strict';
 
 const { assignArray, groupValuesBy } = require('../../utilities');
-const { mergeCommandPaths } = require('../action/command_paths');
+const { mergeCommandPaths } = require('../../constants');
 
 const { getArgs } = require('./args');
 const { getResults } = require('./results');

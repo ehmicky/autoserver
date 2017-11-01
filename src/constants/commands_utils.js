@@ -1,6 +1,6 @@
 'use strict';
 
-const { uniq } = require('../utilities');
+const { uniq, assignArray } = require('../utilities');
 const { throwError } = require('../error');
 
 const COMMANDS = require('./commands');
@@ -20,8 +20,17 @@ const getCommand = function ({ commandType, multiple }) {
   return commandA;
 };
 
+// Merge each action `commandPath` into a comma-separated list
+const mergeCommandPaths = function ({ actions }) {
+  return actions
+    .map(({ commandPath }) => commandPath.join('.'))
+    .reduce(assignArray, [])
+    .join(', ');
+};
+
 module.exports = {
   COMMANDS,
   COMMAND_TYPES,
   getCommand,
+  mergeCommandPaths,
 };
