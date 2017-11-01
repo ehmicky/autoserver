@@ -1,82 +1,63 @@
 'use strict';
 
-const { assignArray, pick } = require('../../../utilities');
+const { assignArray, mergeArrayReducer } = require('../../../utilities');
+const { mergeCommandPaths } = require('../../action/command_paths');
 
 const { getArgs } = require('./args');
-const { getCurrentData } = require('./current_data');
 const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
-const sequenceWrite = async function (
-  { actionsGroupType, actionsGroups, top, mInput },
-  nextLayer,
-) {
-  if (actionsGroupType !== 'write') { return; }
+const sequenceWrite = async function ({ actions, ...mInput }, nextLayer) {
+  if (mInput.actionsGroupType === 'read') { return; }
+
+  const actionsGroups = getWriteActions({ actions });
+  if (actionsGroups.length === 0) { return; }
 
   // Run write commands in parallel
-  const resultsPromises = actionsGroups.map(actions => singleSequenceWrite({
-    actions,
-    top,
-    nextLayer,
-    mInput,
-  }));
+  const resultsPromises = actionsGroups
+    .map(actionsA => singleWrite({ actions: actionsA, mInput, nextLayer }));
   const results = await Promise.all(resultsPromises);
+
   const resultsA = results.reduce(assignArray, []);
   return { results: resultsA };
 };
 
-const singleSequenceWrite = async function ({
+// Group actions by model
+const getWriteActions = function ({ actions }) {
+  const actionsA = actions.filter(({ command }) => command.type !== 'find');
+  const actionsGroups = actionsA.reduce(mergeArrayReducer('modelName'), {});
+  const actionsGroupsA = Object.values(actionsGroups);
+  const actionsGroupsB = mergeCommandPaths({ actionsGroups: actionsGroupsA });
+  return actionsGroupsB;
+};
+
+const singleWrite = async function ({
   actions,
   actions: [{ modelName }],
-  top,
-  top: { command, args: topArgs },
-  nextLayer,
   mInput,
+  mInput: { top },
+  nextLayer,
 }) {
-  // Merge arguments and retrieve model ids
-  const { args, ids } = getArgs[command.type]({ actions });
+  const { args, ids } = getArgs({ actions, top });
 
   // No model to modify, so can return right away
   if (ids.length === 0) { return []; }
 
-  const argsA = applyTopArgs({ args, topArgs });
-
-  const currentData = getCurrentData({ actions, ids });
-  const argsB = { ...argsA, currentData };
-
-  const results = await fireWriteCommand({
-    actions,
-    top,
-    args: argsB,
-    nextLayer,
-    mInput,
-  });
+  const results = await fireWriteCommand({ actions, args, nextLayer, mInput });
 
   const resultsA = getResults({ actions, results, ids, modelName });
   return resultsA;
 };
 
-// Reuse some whitelisted top-level arguments
-const applyTopArgs = function ({ args, topArgs }) {
-  const topArgsA = pick(topArgs, ['dryrun']);
-  return { ...topArgsA, ...args };
-};
-
 // Fire actual write command
 const fireWriteCommand = async function ({
   actions: [{ modelName, commandPath }],
-  top: { command },
   args,
   nextLayer,
   mInput,
+  mInput: { top: { command: { type: command } } },
 }) {
-  const mInputA = {
-    ...mInput,
-    commandPath,
-    command: command.type,
-    modelName,
-    args,
-  };
+  const mInputA = { ...mInput, commandPath, command, modelName, args };
   const { response: { data: results } } = await nextLayer(mInputA);
   return results;
 };
