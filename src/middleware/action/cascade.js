@@ -1,7 +1,7 @@
 'use strict';
 
-const { uniq, includes } = require('../../utilities');
 const { throwError } = require('../../error');
+const { uniq, includes } = require('../../utilities');
 
 const { getModel } = require('./get_model');
 const { mergeActions } = require('./merge');
