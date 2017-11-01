@@ -7,7 +7,7 @@ const { getLimits } = require('../../limits');
 // Make request fail after some timeout
 const setRequestTimeout = function ({ mInput, runOpts }, nextLayer) {
   const timeoutPromise = startRequestTimeout({ runOpts });
-  const nextLayerPromise = nextLayer(mInput);
+  const nextLayerPromise = nextLayer(mInput, 'protocol');
 
   return Promise.race([timeoutPromise, nextLayerPromise]);
 };

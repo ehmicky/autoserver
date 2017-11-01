@@ -4,7 +4,7 @@
 const fireActions = function ({ response, mInput }, nextLayer) {
   if (response) { return; }
 
-  return nextLayer(mInput);
+  return nextLayer(mInput, 'action');
 };
 
 module.exports = {

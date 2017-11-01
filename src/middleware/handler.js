@@ -43,34 +43,29 @@ const fireLayers = async function (allLayers, mInput) {
 
 // Fires allLayers[1], i.e. skip `final`
 const fireMainLayers = function ({ allLayers, mInput, reqState }) {
-  return fireLayer({ allLayers, reqState, index: 1 }, mInput);
+  return fireLayer({ allLayers, reqState }, mInput, 'time');
 };
 
 // Fires allLayers[0], i.e. `final`, a special layer that it is always
 // fired, whether the request is successful or not.
 // It does not call `nextLayer()`, so allLayers[1] won't be called
 const fireFinalLayer = function ({ allLayers, mInput, reqState }) {
-  return fireLayer({ allLayers, reqState }, mInput);
+  return fireLayer({ allLayers, reqState }, mInput, 'final');
 };
 
 // Fire all the middleware functions of a given layer
-const fireLayer = function ({ allLayers, reqState, index = 0 }, mInput, name) {
-  const { layers } = getLayer({ allLayers, index, name });
+const fireLayer = function ({ allLayers, reqState }, mInput, name) {
+  const { layers } = getLayer({ allLayers, name });
 
   // Each layer can fire the next layer middleware functions by calling this
-  const nextLayer = fireLayer.bind(
-    null,
-    { allLayers, reqState, index: index + 1 },
-  );
+  const nextLayer = fireLayer.bind(null, { allLayers, reqState });
   const fireMiddlewareA = eFireMiddleware.bind(null, nextLayer, reqState);
 
   // Iterate over each middleware function
   return reduceAsync(layers, fireMiddlewareA, mInput, mergeInput);
 };
 
-const getLayer = function ({ allLayers, index, name }) {
-  if (name === undefined) { return allLayers[index]; }
-
+const getLayer = function ({ allLayers, name }) {
   return allLayers.find(({ name: nameA }) => name === nameA);
 };
 
