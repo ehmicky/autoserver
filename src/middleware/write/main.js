@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray, mergeArrayReducer } = require('../../utilities');
+const { assignArray, groupValuesBy } = require('../../utilities');
 const { mergeCommandPaths } = require('../action/command_paths');
 
 const { getArgs } = require('./args');
@@ -8,7 +8,7 @@ const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
 const sequenceWrite = async function ({ actions, mInput }, nextLayer) {
-  const actionsGroups = getWriteActions({ actions });
+  const actionsGroups = groupActions({ actions });
 
   // Run write commands in parallel
   const resultsPromises = actionsGroups
@@ -20,11 +20,10 @@ const sequenceWrite = async function ({ actions, mInput }, nextLayer) {
 };
 
 // Group actions by model
-const getWriteActions = function ({ actions }) {
-  const actionsGroups = actions.reduce(mergeArrayReducer('modelName'), {});
-  const actionsGroupsA = Object.values(actionsGroups);
-  const actionsGroupsB = mergeCommandPaths({ actionsGroups: actionsGroupsA });
-  return actionsGroupsB;
+const groupActions = function ({ actions }) {
+  const actionsGroups = groupValuesBy(actions, 'modelName');
+  const actionsGroupsA = mergeCommandPaths({ actionsGroups });
+  return actionsGroupsA;
 };
 
 const singleWrite = async function ({

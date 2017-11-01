@@ -42,22 +42,8 @@ const applySecondMap = function (prevVal, input, nextVal) {
   return asyncReducer(nextValA, input);
 };
 
-// Uses to extra `obj[attrName]` and group them in a map using attrName as key
-// E.g. [{ a: 1 }, { a: 2 }, { b: 3 }] -> { a: [1, 2], b: [3] }
-const mergeArrayReducer = function (attrName) {
-  return mergeArray.bind(null, attrName);
-};
-
-const mergeArray = function (attrName, array, obj) {
-  const key = obj[attrName];
-  const { [key]: objs = [] } = array;
-  const objsA = [...objs, obj];
-  return { ...array, [key]: objsA };
-};
-
 module.exports = {
   assignObject,
   assignArray,
   reduceAsync,
-  mergeArrayReducer,
 };
