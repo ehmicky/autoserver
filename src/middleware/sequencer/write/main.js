@@ -8,8 +8,6 @@ const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
 const sequenceWrite = async function ({ actions, ...mInput }, nextLayer) {
-  if (mInput.actionsGroupType === 'read') { return; }
-
   const actionsGroups = getWriteActions({ actions });
   if (actionsGroups.length === 0) { return; }
 
