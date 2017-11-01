@@ -4,11 +4,8 @@ const { assignArray } = require('../../utilities');
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement
-const patchData = function ({
-  actions,
-  top: { command: { type: commandType } },
-}) {
-  if (commandType !== 'patch') { return; }
+const patchData = function ({ actions, top: { command } }) {
+  if (command.type !== 'patch') { return; }
 
   const partialData = mergePartialData({ actions });
   const actionsA = actions.map(action => mergeData({ action, partialData }));

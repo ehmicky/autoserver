@@ -7,7 +7,7 @@ const validateData = function ({
   datum,
   commandPath,
   top,
-  top: { command: { type: commandType } },
+  top: { command },
   maxAttrValueSize,
 }) {
   const commandPathA = commandPath.join('.');
@@ -17,7 +17,7 @@ const validateData = function ({
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  if (REQUIRED_ID_TYPES.includes(commandType) && datum.id == null) {
+  if (REQUIRED_ID_TYPES.includes(command.type) && datum.id == null) {
     const message = `'data' argument at '${commandPathA}' is missing an 'id' attribute`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
@@ -35,13 +35,15 @@ const validateData = function ({
 const REQUIRED_ID_TYPES = ['replace'];
 
 const validateForbiddenId = function ({
-  top: { command: { type: commandType, multiple } },
+  top: { command },
   commandPath,
   datum,
 }) {
-  if (!FORBIDDEN_ID_TYPES.includes(commandType) || datum.id == null) { return; }
+  const forbidsId = FORBIDDEN_ID_TYPES.includes(command.type) &&
+    datum.id != null;
+  if (!forbidsId) { return; }
 
-  const rightArg = multiple ? 'filter' : 'id';
+  const rightArg = command.multiple ? 'filter' : 'id';
   const message = `'data' argument at '${commandPath}' must not have an 'id' attribute '${datum.id}'. 'patch' commands cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use '${rightArg}' argument instead.`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };

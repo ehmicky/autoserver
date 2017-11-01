@@ -12,15 +12,15 @@ const validateSelect = function ({ actions, top }) {
 // Otherwise, this would require performing extra find actions.
 const validateSelectAction = function ({
   action: { isWrite, commandPath },
-  top: { command: { type: topCommand } },
+  top: { command },
 }) {
-  const isWrongSelect = topCommand !== 'find' &&
+  const isWrongSelect = command.type !== 'find' &&
     !isWrite &&
     commandPath.length > 1;
   if (!isWrongSelect) { return; }
 
   const path = commandPath.slice(1).join('.');
-  const argName = topCommand === 'delete' ? 'cascade' : 'data';
+  const argName = command.type === 'delete' ? 'cascade' : 'data';
   const message = `Can only 'select' attribute '${path}' if it is specified in '${argName}' argument`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
