@@ -22,8 +22,7 @@ const sequenceWrite = async function ({ actions, mInput }, nextLayer) {
 // Group actions by model
 const groupActions = function ({ actions }) {
   const actionsGroups = groupValuesBy(actions, 'modelName');
-  const actionsGroupsA = mergeCommandPaths({ actionsGroups });
-  return actionsGroupsA;
+  return actionsGroups;
 };
 
 const singleWrite = async function ({
@@ -46,12 +45,14 @@ const singleWrite = async function ({
 
 // Fire actual write command
 const fireWriteCommand = async function ({
-  actions: [{ modelName, commandPath }],
+  actions,
+  actions: [{ modelName }],
   args,
   nextLayer,
   mInput,
   mInput: { top: { command: { type: command } } },
 }) {
+  const commandPath = mergeCommandPaths({ actions });
   const mInputA = { ...mInput, commandPath, command, modelName, args };
   const { response: { data: results } } = await nextLayer(mInputA, 'command');
   return results;

@@ -12,11 +12,8 @@ const { mergeCommandPaths } = require('../command_paths');
 
 // Add `action.currentData` for `replace` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
-  const actionsGroups = groupValuesBy(actions, 'modelName');
-  const actionsGroupsA = mergeCommandPaths({ actionsGroups });
-  const writeActions = actionsGroupsA.map(normalizeActionsGroup);
   const currentDataMap = await getCurrentDataMap({
-    writeActions,
+    actions,
     nextLayer,
     mInput,
   });
@@ -24,25 +21,10 @@ const parallelResolve = async function ({ actions, mInput }, nextLayer) {
   return { actions: actionsA };
 };
 
-// `args.data` becomes `args.filter`
-const normalizeActionsGroup = function (actions) {
-  const [{ commandPath }] = actions;
-  const ids = actions
-    .map(({ args: { data } }) => data)
-    .reduce(assignArray, [])
-    .map(({ id }) => id);
-  const filter = getSimpleFilter({ ids });
-  const args = { filter };
-  const [{ modelName }] = actions;
-
-  return { commandPath: [commandPath], command: readCommand, args, modelName };
-};
-
-const readCommand = getCommand({ commandType: 'find', multiple: true });
-
 // Fire the `find` commands, in parallel, to retrieve `currentData`
-const getCurrentDataMap = async function ({ writeActions, nextLayer, mInput }) {
-  const mInputA = { ...mInput, actions: writeActions };
+const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
+  const actionsA = mergeActions({ actions });
+  const mInputA = { ...mInput, actions: actionsA };
   const { results } = await nextLayer(mInputA, 'read');
 
   // Group `currentData` by model
@@ -50,6 +32,33 @@ const getCurrentDataMap = async function ({ writeActions, nextLayer, mInput }) {
   const currentDataMapA = mapValues(currentDataMap, mapCurrentDataModel);
   return currentDataMapA;
 };
+
+// Group write actions on the same model into single read action
+const mergeActions = function ({ actions }) {
+  const actionsGroups = groupValuesBy(actions, 'modelName');
+  const actionsA = actionsGroups.map(mergeActionsGroups);
+  return actionsA;
+};
+
+// `args.data` becomes `args.filter`
+const mergeActionsGroups = function (actions) {
+  const commandPath = mergeCommandPaths({ actions });
+  const ids = getIds({ actions });
+  const filter = getSimpleFilter({ ids });
+  const args = { filter };
+  const [{ modelName }] = actions;
+
+  return { commandPath: [commandPath], command: readCommand, args, modelName };
+};
+
+const getIds = function ({ actions }) {
+  return actions
+    .map(({ args: { data } }) => data)
+    .reduce(assignArray, [])
+    .map(({ id }) => id);
+};
+
+const readCommand = getCommand({ commandType: 'find', multiple: true });
 
 const mapCurrentDataModel = function (results) {
   return results.map(({ model }) => model);

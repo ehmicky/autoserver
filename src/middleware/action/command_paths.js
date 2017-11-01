@@ -1,18 +1,12 @@
 'use strict';
 
+const { assignArray } = require('../../utilities');
+
 // Merge each action `commandPath` into a comma-separated list
-const mergeCommandPaths = function ({ actionsGroups }) {
-  return actionsGroups.map(actions => mergeCommandPathsActions({ actions }));
-};
-
-const mergeCommandPathsActions = function ({ actions }) {
-  const commandPath = getCommandPaths({ actions });
-  return actions.map(action => ({ ...action, commandPath }));
-};
-
-const getCommandPaths = function ({ actions }) {
+const mergeCommandPaths = function ({ actions }) {
   return actions
-    .reduce((paths, { commandPath }) => [...paths, commandPath.join('.')], [])
+    .map(({ commandPath }) => commandPath.join('.'))
+    .reduce(assignArray, [])
     .join(', ');
 };
 
