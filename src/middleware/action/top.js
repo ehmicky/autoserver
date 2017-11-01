@@ -3,7 +3,7 @@
 const { singular, plural, isPlural } = require('pluralize');
 
 const { throwError } = require('../../error');
-const { getCommand } = require('../../constants');
+const { COMMANDS } = require('../../constants');
 
 // Parse a `operationDef` into a top-level action, i.e.:
 // `command`, `modelName`, `commandPath`, `args`
@@ -46,6 +46,18 @@ const parseModelName = function ({ commandName, modelsMap }) {
   }
 
   return { commandType, modelName: modelNameA, multiple };
+};
+
+const getCommand = function ({ commandType, multiple }) {
+  const commandA = COMMANDS.find(command =>
+    command.multiple === multiple && command.type === commandType);
+
+  if (commandA === undefined) {
+    const message = `Command '${commandType}' is unknown`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
+  }
+
+  return commandA;
 };
 
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];

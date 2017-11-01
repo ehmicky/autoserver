@@ -16,6 +16,8 @@ const mergeAction = function ({ action, newActions }) {
     ...action,
     ...newAction,
     args: { ...action.args, ...newAction.args },
+    // Flag used by validateSelectAction middleware
+    isWrite: true,
   };
 };
 

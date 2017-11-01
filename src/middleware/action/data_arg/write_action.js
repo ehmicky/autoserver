@@ -1,7 +1,6 @@
 'use strict';
 
 const { mapValues, omitBy } = require('../../../utilities');
-const { getCommand } = require('../../../constants');
 const { getModel } = require('../get_model');
 
 const { isModelType } = require('./validate');
@@ -12,22 +11,15 @@ const getWriteAction = function ({
   commandPath,
   dataPaths,
   top,
-  top: { command: { type: commandType, multiple } },
   modelsMap,
   nestedKeys,
 }) {
   const { modelName } = getModel({ top, modelsMap, commandPath });
 
-  // Nested actions due to nested `args.data` reuses top-level action
-  const isTopLevel = commandPath.length === 1;
-  // Commands are normalized to being multiple, except the top-level one
-  const multipleA = isTopLevel ? multiple : true;
-  const command = getCommand({ commandType, multiple: multipleA });
-
   const dataA = data.map(datum => replaceNestedData({ datum, nestedKeys }));
   const args = { data: dataA };
 
-  return { commandPath, args, command, modelName, dataPaths };
+  return { commandPath, args, modelName, dataPaths };
 };
 
 // Replace nested objects from each `args.data` by only their ids

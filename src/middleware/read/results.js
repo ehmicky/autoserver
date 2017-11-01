@@ -32,10 +32,16 @@ const getResults = function ({
   parentResults,
   nestedParentIds,
   results,
+  top,
 }) {
   if (isTopLevel) {
-    return results
-      .map((model, index) => getResult({ action, model, index, commandName }));
+    return results.map((model, index) => getResult({
+      action,
+      model,
+      index,
+      commandName,
+      top,
+    }));
   }
 
   // Nested results reuse `nestedParentIds` to assign proper `path` index.
@@ -43,7 +49,7 @@ const getResults = function ({
   return nestedParentIds
     .map((ids, index) => {
       const { path } = parentResults[index];
-      return getEachResults({ action, ids, commandName, path, results });
+      return getEachResults({ action, ids, commandName, path, results, top });
     })
     .reduce(assignArray, []);
 };
@@ -56,14 +62,17 @@ const getEachResults = function ({ ids, results, ...rest }) {
 };
 
 const getResult = function ({
-  action: { command, modelName, select },
+  action: { modelName, select },
   model,
   index,
   path = [],
   commandName,
-  multiple = command.multiple,
+  multiple,
+  top: { command },
 }) {
-  const pathA = multiple
+  const multipleA = multiple === undefined ? command.multiple : multiple;
+
+  const pathA = multipleA
     ? [...path, commandName, index]
     : [...path, commandName];
   return { path: pathA, model, modelName, select };

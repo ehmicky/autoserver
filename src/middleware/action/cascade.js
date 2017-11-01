@@ -33,16 +33,9 @@ const getCascadeActions = function ({ cascade, top, modelsMap }) {
 
 // From `attr.child_attr` to:
 //   commandPath: ['commandName', 'attr', 'child_attr']
-//   command
 //   modelName
 //   args: {}
-const normalizeCascade = function ({
-  attrName,
-  attrs,
-  top,
-  top: { command },
-  modelsMap,
-}) {
+const normalizeCascade = function ({ attrName, attrs, top, modelsMap }) {
   validateMiddleAction({ attrName, attrs });
 
   const commandPath = [...top.commandPath, ...attrName];
@@ -51,7 +44,7 @@ const normalizeCascade = function ({
   validateCascade({ model, commandPath });
 
   const { modelName } = model;
-  return { commandPath, command, modelName, args: {} };
+  return { commandPath, modelName, args: {} };
 };
 
 // Cannot specify `args.cascade` `parent.child` but not `parent`.
