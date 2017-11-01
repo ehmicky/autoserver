@@ -1,8 +1,8 @@
 'use strict';
 
-const { assignArray, isEqual } = require('../../../utilities');
-const { getModel } = require('../../action/get_model');
-const { isParentAction, getChildActions } = require('../../action/child_actions');
+const { assignArray, isEqual } = require('../../utilities');
+const { getModel } = require('../action/get_model');
+const { isParentAction, getChildActions } = require('../action/child_actions');
 
 // Create a structure indicating which actions are the parents of which action.
 // This is needed since parent actions must be fired before children.
