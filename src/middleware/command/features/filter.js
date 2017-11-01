@@ -1,8 +1,6 @@
 'use strict';
 
-const { difference } = require('lodash');
-
-const { getWordsList } = require('../../../utilities');
+const { getWordsList, difference } = require('../../../utilities');
 
 // Adapter feature 'filter:OPERATOR' allows for
 // `args.filter: { attrName: { OPERATOR: value } }`

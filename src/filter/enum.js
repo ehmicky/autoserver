@@ -1,6 +1,6 @@
 'use strict';
 
-const { difference, intersection } = require('lodash');
+const { difference, intersection } = require('../utilities');
 
 // For operations allowing only `eq`, `in`, `nin`, `neq`, normalize to `in`
 // values, using the set of possible values.

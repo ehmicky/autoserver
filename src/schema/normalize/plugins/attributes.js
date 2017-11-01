@@ -1,10 +1,9 @@
 'use strict';
 
-const { intersection } = require('lodash');
 const pluralize = require('pluralize');
 
 const { throwError } = require('../../../error');
-const { mapValues, getWordsList } = require('../../../utilities');
+const { mapValues, getWordsList, intersection } = require('../../../utilities');
 
 // Generic plugin factory
 // It adds attributes to each model, using `getAttributes(pluginOpts)` option

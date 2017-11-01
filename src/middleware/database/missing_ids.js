@@ -1,7 +1,6 @@
 'use strict';
 
-const { difference } = require('lodash');
-
+const { difference } = require('../../utilities');
 const { throwCommonError } = require('../../error');
 const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 

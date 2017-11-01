@@ -1,6 +1,6 @@
 'use strict';
 
-const { difference } = require('lodash');
+const { difference } = require('../utilities');
 
 // Note that any exception thrown in the `error` module might not create an
 // event (since this is the error), so we must be precautious.

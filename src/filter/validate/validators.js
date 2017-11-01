@@ -1,8 +1,6 @@
 'use strict';
 
-const { difference } = require('lodash');
-
-const { getWordsList } = require('../../utilities');
+const { getWordsList, difference } = require('../../utilities');
 const { getEnum } = require('../enum');
 
 // Validate value is among set of values

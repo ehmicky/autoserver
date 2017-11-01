@@ -1,8 +1,6 @@
 'use strict';
 
-const { difference } = require('lodash');
-
-const { getWordsList, assignArray } = require('../../../utilities');
+const { getWordsList, assignArray, difference } = require('../../../utilities');
 const { throwError } = require('../../../error');
 const { getFeatures } = require('../../../filter');
 
