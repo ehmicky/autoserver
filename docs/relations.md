@@ -48,13 +48,13 @@ as a comma-separated list of nested models, e.g.:
 
 ```graphql
 mutation {
-  delete_user(id: "1", cascade: "manager.friend,colleague") {
+  delete_user(id: "1", cascade: "manager,manager.friend,colleague") {
     id
   }
 }
 ```
 
-will delete `user`, `user.manager.friend` and `user.colleague`.
+will delete `user`, `user.manager`, `user.manager.friend` and `user.colleague`.
 
 # Populating nested models
 
