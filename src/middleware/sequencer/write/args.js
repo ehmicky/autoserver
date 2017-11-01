@@ -1,9 +1,26 @@
 'use strict';
 
+const { pick } = require('../../../utilities');
+
+const { getCurrentData } = require('./current_data');
 const { removeDuplicates } = require('./duplicate');
 
+// Merge arguments and retrieve model ids
+const getArgs = function ({ actions, top: { command, args: topArgs } }) {
+  const { args, ids } = command.type === 'delete'
+    ? useCurrentData({ actions })
+    : useNewData({ actions });
+
+  const argsA = applyTopArgs({ args, topArgs });
+
+  const currentData = getCurrentData({ actions, ids });
+  const argsB = { ...argsA, currentData };
+
+  return { args: argsB, ids };
+};
+
 // Merge all `args.data` into `newData`, for `replace|patch|create` commands
-const getNewData = function ({ actions }) {
+const useNewData = function ({ actions }) {
   const models = getModels(actions, ({ args: { data } }) => data);
 
   const ids = models.map(({ id }) => id);
@@ -12,7 +29,7 @@ const getNewData = function ({ actions }) {
 };
 
 // Merge all `currentData` into `filter.id`, for `delete` command
-const getCurrentData = function ({ actions }) {
+const useCurrentData = function ({ actions }) {
   const models = getModels(actions, ({ currentData }) => currentData);
 
   const ids = models.map(({ id }) => id);
@@ -26,12 +43,10 @@ const getModels = function (actions, getModel) {
   return modelsA;
 };
 
-// Each command has specific logic
-const getArgs = {
-  create: getNewData,
-  patch: getNewData,
-  replace: getNewData,
-  delete: getCurrentData,
+// Reuse some whitelisted top-level arguments
+const applyTopArgs = function ({ args, topArgs }) {
+  const topArgsA = pick(topArgs, ['dryrun']);
+  return { ...topArgsA, ...args };
 };
 
 module.exports = {
