@@ -43,7 +43,6 @@ const singleSequenceRead = async function ({
 }) {
   const {
     isTopLevel,
-    command,
     parentResults,
     commandName,
     nestedParentIds,
@@ -62,7 +61,6 @@ const singleSequenceRead = async function ({
     action,
     mInput,
     nextLayer,
-    command,
     args: argsB,
   });
 
