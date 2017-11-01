@@ -21,9 +21,7 @@ const parseTopAction = function ({
 
   const commandPath = [commandName];
 
-  // Merge protocol-specific arguments with normal arguments
-  const params = { ...args.params, ...paramsArg };
-  const argsA = { ...protocolArgs, ...args, params };
+  const argsA = getArgs({ args, protocolArgs, paramsArg });
 
   const top = { command, modelName, commandPath, args: argsA };
   return { top, topArgs: top.args };
@@ -48,6 +46,14 @@ const parseModelName = function ({ commandName, modelsMap }) {
   return { commandType, modelName: modelNameA, multiple };
 };
 
+// Matches e.g. 'find_my_models' -> ['find', 'my_models'];
+const parseName = function ({ commandName }) {
+  const [, commandType, modelName = ''] = NAME_REGEXP.exec(commandName) || [];
+  return { commandType, modelName };
+};
+
+const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
+
 const getCommand = function ({ commandType, multiple }) {
   const commandA = COMMANDS.find(command =>
     command.multiple === multiple && command.type === commandType);
@@ -60,13 +66,11 @@ const getCommand = function ({ commandType, multiple }) {
   return commandA;
 };
 
-// Matches e.g. 'find_my_models' -> ['find', 'my_models'];
-const parseName = function ({ commandName }) {
-  const [, commandType, modelName = ''] = NAME_REGEXP.exec(commandName) || [];
-  return { commandType, modelName };
+// Merge protocol-specific arguments with normal arguments
+const getArgs = function ({ args, protocolArgs, paramsArg }) {
+  const params = { ...args.params, ...paramsArg };
+  return { ...protocolArgs, ...args, params };
 };
-
-const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
 module.exports = {
   parseTopAction,
