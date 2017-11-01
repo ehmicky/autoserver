@@ -5,13 +5,7 @@ const { isEqual } = require('../../utilities');
 // Retrieves `operationSummary`
 // This is all `actions`, included nested ones as a nice formatted string,
 // e.g. 'findModel{attrA,attrB,child{attrC}}'
-// TODO: commandPath???
-const getOperationSummary = function ({
-  actions,
-  top,
-  top: { commandPath: topCommandPath },
-  commandPath = topCommandPath,
-}) {
+const getOperationSummary = function ({ actions, top, top: { commandPath } }) {
   const commandName = commandPath[commandPath.length - 1];
 
   const childActions = actions.filter(({ commandPath: childPath }) =>
@@ -22,15 +16,17 @@ const getOperationSummary = function ({
   }
 
   const childActionsStr = childActions
-    .map(({ commandPath: childPath }) => getOperationSummary({
-      commandPath: childPath,
-      actions,
-      top,
-    }).operationSummary)
+    .map(action => getChildSummary({ action, actions, top }))
     .join(',');
   const operationSummary = `${commandName}{${childActionsStr}}`;
 
   return { operationSummary };
+};
+
+const getChildSummary = function ({ action: { commandPath }, actions, top }) {
+  const topA = { ...top, commandPath };
+  const { operationSummary } = getOperationSummary({ actions, top: topA });
+  return operationSummary;
 };
 
 module.exports = {

@@ -6,7 +6,7 @@ const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 
 // Parse a `operationDef` into a top-level action, i.e.:
-// `command`, `modelName`, `commandPath`, `args`
+// `modelName`, `commandPath`, `args`
 const parseTopAction = function ({
   operationDef: { commandName, args },
   schema: { shortcuts: { modelsMap } },
@@ -21,12 +21,13 @@ const parseTopAction = function ({
 
   const commandPath = [commandName];
 
-  const argsA = getArgs({ args, protocolArgs, paramsArg });
+  const topArgs = getArgs({ args, protocolArgs, paramsArg });
 
-  const top = { command, modelName, commandPath, args: argsA };
-  const actions = [{ modelName, commandPath, args: argsA }];
+  const action = { modelName, commandPath, args: topArgs };
+  const actions = [action];
+  const top = { ...action, command };
 
-  return { top, topArgs: top.args, actions };
+  return { top, topArgs, actions };
 };
 
 // Retrieve `command` and `modelName` using the main `commandName`
