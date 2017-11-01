@@ -2,7 +2,7 @@
 
 const { assignArray, pick } = require('../../../../utilities');
 
-const { handlers } = require('./handlers');
+const { getArgs } = require('./args');
 const { getCurrentData } = require('./current_data');
 const { getResults } = require('./results');
 
@@ -31,14 +31,13 @@ const singleSequenceWrite = async function ({
   nextLayer,
   mInput,
 }) {
-  const { [command.type]: handler } = handlers;
-  const args = handler.mergeArgs({ actions });
-  const argsA = applyTopArgs({ args, topArgs });
+  // Merge arguments and retrieve model ids
+  const { args, ids } = getArgs[command.type]({ actions });
 
-  // Retrieve model ids
-  const ids = handler.getIds({ args: argsA });
   // No model to modify, so can return right away
   if (ids.length === 0) { return []; }
+
+  const argsA = applyTopArgs({ args, topArgs });
 
   const currentData = getCurrentData({ actions, ids });
   const argsB = { ...argsA, currentData };
@@ -51,7 +50,8 @@ const singleSequenceWrite = async function ({
     mInput,
   });
 
-  return getResults({ actions, results, ids, modelName });
+  const resultsA = getResults({ actions, results, ids, modelName });
+  return resultsA;
 };
 
 // Reuse some whitelisted top-level arguments
