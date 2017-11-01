@@ -60,12 +60,8 @@ const readCommand = getCommand({ commandType: 'find', multiple: true });
 
 // Fire the `find` commands, in parallel, to retrieve `currentData`
 const getCurrentDataMap = async function ({ writeActions, nextLayer, mInput }) {
-  const mInputA = {
-    ...mInput,
-    actions: writeActions,
-    actionsGroupType: 'read',
-  };
-  const { results } = await nextLayer(mInputA, 'sequencer');
+  const mInputA = { ...mInput, actions: writeActions };
+  const { results } = await nextLayer(mInputA, 'read');
 
   // Group `currentData` by model
   const currentDataMap = results.reduce(mergeArrayReducer('modelName'), {});

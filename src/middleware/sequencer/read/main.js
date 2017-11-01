@@ -9,14 +9,12 @@ const { processResults } = require('./results');
 
 // Fire all commands associated with a set of read actions
 const sequenceRead = function (mInput, nextLayer) {
-  const { actions, top, modelsMap, actionsGroupType } = mInput;
+  const { actions, top, modelsMap } = mInput;
 
   const actionsA = actions.filter(({ command }) => command.type === 'find');
   if (actionsA.length === 0) { return; }
 
   const actionsB = getParentActions({ actions: actionsA, top, modelsMap });
-
-  if (actionsGroupType !== 'read') { return; }
 
   return topRead({ ...mInput, actions: actionsB, results: [] }, nextLayer);
 };
