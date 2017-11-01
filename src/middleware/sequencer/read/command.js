@@ -24,7 +24,7 @@ const fireReadCommand = async function ({
     command: command.type,
   };
 
-  const { response: { data: result } } = await nextLayer(mInputA);
+  const { response: { data: result } } = await nextLayer(mInputA, 'command');
   return result;
 };
 

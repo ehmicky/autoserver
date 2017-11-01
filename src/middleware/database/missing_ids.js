@@ -84,7 +84,7 @@ const checkAuthorization = async function ({
   const filterA = getSimpleFilter({ ids });
   const mInputA = { ...mInput, args: { ...args, filter: filterA } };
 
-  const { dbData } = await nextLayer(mInputA);
+  const { dbData } = await nextLayer(mInputA, 'adapter');
 
   const responseIds = dbData.map(({ id }) => id);
   const missingIds = difference(ids, responseIds);

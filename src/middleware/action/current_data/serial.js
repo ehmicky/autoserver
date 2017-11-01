@@ -9,11 +9,12 @@ const serialResolve = async function ({ actions, mInput }, nextLayer) {
   const writeActions = actions.map(getReadAction);
 
   // Reuse main `find` command middleware
-  const { results } = await nextLayer({
+  const mInputA = {
     ...mInput,
     actions: writeActions,
     actionsGroupType: 'read',
-  });
+  };
+  const { results } = await nextLayer(mInputA, 'sequencer');
 
   const actionsA = actions.map(action => mergeResult({ results, action }));
   return { actions: actionsA };

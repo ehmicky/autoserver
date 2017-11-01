@@ -58,7 +58,7 @@ const fireWriteCommand = async function ({
   mInput: { top: { command: { type: command } } },
 }) {
   const mInputA = { ...mInput, commandPath, command, modelName, args };
-  const { response: { data: results } } = await nextLayer(mInputA);
+  const { response: { data: results } } = await nextLayer(mInputA, 'command');
   return results;
 };
 
