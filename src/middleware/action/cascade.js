@@ -5,7 +5,6 @@ const { isEqual } = require('lodash');
 const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
-const { mergeActions } = require('./merge');
 
 // Parse `args.cascade` into a set of delete nested `actions`
 const parseCascade = function ({
@@ -18,18 +17,15 @@ const parseCascade = function ({
 
   const actionsA = getCascadeActions({ cascade, top, modelsMap });
 
-  const newActions = addMiddleActions({ actions: actionsA, top, modelsMap });
-
-  const actionsB = mergeActions({ actions, newActions });
-
-  return { actions: actionsB };
+  return { actions: actionsA };
 };
 
 const getCascadeActions = function ({ cascade, top, modelsMap }) {
   const actions = cascade.split(',')
     .map(attrName => attrName.split('.'))
     .filter(isUnique)
-    .map(attrName => normalizeCascade({ attrName, top, modelsMap }));
+    .map((attrName, index, attrs) =>
+      normalizeCascade({ attrName, attrs, top, modelsMap }));
   return actions;
 };
 
@@ -47,10 +43,13 @@ const isUnique = function (attrName, index, attrNames) {
 //   args: {}
 const normalizeCascade = function ({
   attrName,
+  attrs,
   top,
   top: { command },
   modelsMap,
 }) {
+  validateMiddleAction({ attrName, attrs });
+
   const commandPath = [...top.commandPath, ...attrName];
   const model = getModel({ modelsMap, top, commandPath });
 
@@ -58,6 +57,19 @@ const normalizeCascade = function ({
 
   const { modelName } = model;
   return { commandPath, command, modelName, args: {} };
+};
+
+// Cannot specify `args.cascade` `parent.child` but not `parent`.
+// Otherwise, this would require create an intermediate `find` action.
+const validateMiddleAction = function ({ attrName, attrs }) {
+  if (attrName.length <= 1) { return; }
+
+  const parentAttr = attrName.slice(0, -1);
+  const parentAttrs = attrs.filter(attr => isEqual(attr, parentAttr));
+  if (parentAttrs.length > 0) { return; }
+
+  const message = `In 'cascade' argument, must not specify '${attrName.join('.')}' unless '${parentAttr.join('.')}' is also specified`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 const validateCascade = function ({ model, commandPath }) {
@@ -68,33 +80,6 @@ const validateCascade = function ({ model, commandPath }) {
     ? '\'cascade\' argument cannot contain empty attributes'
     : `In 'cascade' argument, attribute '${attrName}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-// When specifying `args.cascade` `parent.child` but not `parent`, it is added
-// with `args.dryrun` `true`, so it can be used in response.
-const addMiddleActions = function ({ actions, modelsMap, top }) {
-  const middleActions = actions
-    .map(action => getMiddleAction({ action, actions, modelsMap, top }))
-    .filter(action => action !== undefined);
-  return [...actions, ...middleActions];
-};
-
-const getMiddleAction = function ({
-  action: { commandPath },
-  actions,
-  modelsMap,
-  top,
-  top: { command },
-}) {
-  const parentPath = commandPath.slice(0, -1);
-  const presentActions = actions
-    .filter(actionA => isEqual(actionA.commandPath, parentPath));
-  if (presentActions.length > 0) { return; }
-
-  const { modelName } = getModel({ modelsMap, top, commandPath: parentPath });
-  const args = { dryrun: true };
-
-  return { commandPath: parentPath, command, modelName, args };
 };
 
 module.exports = {
