@@ -4,21 +4,30 @@ const { isEqual } = require('../../utilities');
 
 // Merge two sets of actions
 const mergeActions = function ({ actions, newActions }) {
-  return actions.map(action => mergeAction({ action, newActions }));
+  const actionsA = actions.map(action => mergeAction({ action, newActions }));
+  const newActionsA = newActions
+    .filter(newAction => isNotMerged({ actions, newAction }));
+  return [...actionsA, ...newActionsA];
 };
 
 const mergeAction = function ({ action, newActions }) {
-  const newAction = newActions
-    .find(({ commandPath }) => isEqual(commandPath, action.commandPath));
-  if (newAction === undefined) { return action; }
+  const newActionA = newActions
+    .find(newAction => hasSamePath({ action, newAction }));
+  if (newActionA === undefined) { return action; }
 
   return {
     ...action,
-    ...newAction,
-    args: { ...action.args, ...newAction.args },
-    // Flag used by validateSelectAction middleware
-    isWrite: true,
+    ...newActionA,
+    args: { ...action.args, ...newActionA.args },
   };
+};
+
+const isNotMerged = function ({ actions, newAction }) {
+  return actions.every(action => !hasSamePath({ action, newAction }));
+};
+
+const hasSamePath = function ({ action, newAction }) {
+  return isEqual(action.commandPath, newAction.commandPath);
 };
 
 module.exports = {

@@ -44,7 +44,7 @@ const normalizeCascade = function ({ attrName, attrs, top, modelsMap }) {
   validateCascade({ model, commandPath });
 
   const { modelName } = model;
-  return { commandPath, modelName, args: {} };
+  return { commandPath, modelName, args: {}, isWrite: true };
 };
 
 // Cannot specify `args.cascade` `parent.child` but not `parent`.
