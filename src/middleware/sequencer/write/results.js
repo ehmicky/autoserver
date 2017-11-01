@@ -1,7 +1,7 @@
 'use strict';
 
-const { assignArray } = require('../../../../utilities');
-const { throwError } = require('../../../../error');
+const { assignArray } = require('../../../utilities');
+const { throwError } = require('../../../error');
 
 // Transform results to normalized format
 const getResults = function ({ actions, results, ids, modelName }) {
