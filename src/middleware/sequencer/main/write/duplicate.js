@@ -31,19 +31,19 @@ const validateId = function (model) {
 };
 
 const getUniqueModel = function (models) {
-  const [model] = models;
-  validateDuplicates(models, model);
-  return model;
+  validateDuplicates(models);
+
+  return models[0];
 };
 
 // If user specified two models with same id but different content, throw error
-const validateDuplicates = function (models, model) {
+const validateDuplicates = function (models) {
   const differentModel = models
     .slice(1)
-    .find(modelA => !isEqual(modelA, model));
+    .find(modelA => !isEqual(modelA, models[0]));
   if (differentModel === undefined) { return; }
 
-  const message = `Two models in 'data' have the same 'id' but different attributes: '${JSON.stringify(model)}', '${JSON.stringify(differentModel)}'`;
+  const message = `Two models in 'data' have the same 'id' but different attributes: '${JSON.stringify(models[0])}', '${JSON.stringify(differentModel)}'`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 

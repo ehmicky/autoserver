@@ -1,8 +1,6 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
-const { assignArray } = require('../../../utilities');
+const { assignArray, uniq } = require('../../../utilities');
 const { getModel } = require('../get_model');
 
 const { getDataPath } = require('./data_path');

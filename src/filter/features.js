@@ -1,8 +1,6 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
-const { assignArray } = require('../utilities');
+const { assignArray, uniq } = require('../utilities');
 
 const { crawlNodes } = require('./crawl');
 

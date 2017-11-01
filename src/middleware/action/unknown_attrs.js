@@ -1,8 +1,6 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
-const { assignArray } = require('../../utilities');
+const { assignArray, uniq } = require('../../utilities');
 const { throwError } = require('../../error');
 
 // Validate that attributes in `args.select|data|order_by` are in the

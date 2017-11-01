@@ -1,6 +1,6 @@
 'use strict';
 
-const { isEqual } = require('../../utilities');
+const { uniq, includes } = require('../../utilities');
 const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
@@ -20,19 +20,12 @@ const parseCascade = function ({
 };
 
 const getCascadeActions = function ({ cascade, top, modelsMap }) {
-  const actions = cascade.split(',')
-    .map(attrName => attrName.split('.'))
-    .filter(isUnique)
-    .map((attrName, index, attrs) =>
-      normalizeCascade({ attrName, attrs, top, modelsMap }));
-  return actions;
-};
-
-// Remove duplicates
-const isUnique = function (attrName, index, attrNames) {
-  return attrNames
-    .slice(index + 1)
-    .every(attrNameA => !isEqual(attrName, attrNameA));
+  const actions = cascade.split(',');
+  const actionsA = uniq(actions);
+  const actionsB = actionsA.map(attrName => attrName.split('.'));
+  const actionsC = actionsB.map((attrName, index, attrs) =>
+    normalizeCascade({ attrName, attrs, top, modelsMap }));
+  return actionsC;
 };
 
 // From `attr.child_attr` to:
@@ -64,8 +57,8 @@ const validateMiddleAction = function ({ attrName, attrs }) {
   if (attrName.length <= 1) { return; }
 
   const parentAttr = attrName.slice(0, -1);
-  const parentAttrs = attrs.filter(attr => isEqual(attr, parentAttr));
-  if (parentAttrs.length > 0) { return; }
+  const hasParentAttr = includes(attrs, parentAttr);
+  if (hasParentAttr) { return; }
 
   const message = `In 'cascade' argument, must not specify '${attrName.join('.')}' unless '${parentAttr.join('.')}' is also specified`;
   throwError(message, { reason: 'INPUT_VALIDATION' });

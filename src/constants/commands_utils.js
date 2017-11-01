@@ -1,7 +1,6 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
+const { uniq } = require('../utilities');
 const { throwError } = require('../error');
 
 const COMMANDS = require('./commands');
