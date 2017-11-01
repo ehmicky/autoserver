@@ -7,9 +7,8 @@ const { removeDuplicates } = require('./duplicate');
 
 // Merge arguments and retrieve model ids
 const getArgs = function ({ actions, top: { command, args: topArgs } }) {
-  const { args, ids } = command.type === 'delete'
-    ? useCurrentData({ actions })
-    : useNewData({ actions });
+  const getArgsFunc = command.type === 'delete' ? useCurrentData : useNewData;
+  const { args, ids } = getArgsFunc({ actions });
 
   const argsA = applyTopArgs({ args, topArgs });
 

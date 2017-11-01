@@ -4,6 +4,7 @@ const { uniq, includes } = require('../../utilities');
 const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
+const { mergeActions } = require('./merge');
 
 // Parse `args.cascade` into a set of delete nested `actions`
 const parseCascade = function ({
@@ -14,7 +15,9 @@ const parseCascade = function ({
 }) {
   if (cascade === undefined) { return { actions }; }
 
-  const actionsA = getCascadeActions({ cascade, top, modelsMap });
+  const newActions = getCascadeActions({ cascade, top, modelsMap });
+
+  const actionsA = mergeActions({ actions, newActions });
 
   return { actions: actionsA };
 };

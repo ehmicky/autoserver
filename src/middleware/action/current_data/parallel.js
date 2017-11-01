@@ -22,7 +22,7 @@ const parallelResolve = async function ({ actions, mInput }, nextLayer) {
 
 // Fire the `find` commands, in parallel, to retrieve `currentData`
 const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
-  const actionsA = mergeActions({ actions });
+  const actionsA = groupActions({ actions });
   const mInputA = { ...mInput, actions: actionsA };
   const { results } = await nextLayer(mInputA, 'read');
 
@@ -33,7 +33,7 @@ const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
 };
 
 // Group write actions on the same model into single read action
-const mergeActions = function ({ actions }) {
+const groupActions = function ({ actions }) {
   const actionsGroups = groupValuesBy(actions, 'modelName');
   const actionsA = actionsGroups.map(mergeActionsGroups);
   return actionsA;

@@ -1,6 +1,6 @@
 'use strict';
 
-const { getParentResults, getParentIds } = require('./parent');
+const { getParentResults, getParentIds } = require('./parent_results');
 
 // Retrieve the main information we need to perform the commands
 const getInput = function ({

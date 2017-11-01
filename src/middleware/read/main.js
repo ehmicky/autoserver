@@ -2,7 +2,7 @@
 
 const { getParentActions } = require('./parent_actions');
 const { getInput } = require('./input');
-const { addNestedFilter } = require('./parent');
+const { addNestedFilter } = require('./parent_results');
 const { getConcurrentCommand, getPendingResults } = require('./concurrent');
 const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
