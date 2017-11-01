@@ -1,6 +1,6 @@
 'use strict';
 
-const { isEqual } = require('../../../utilities');
+const { isEqual } = require('../../utilities');
 
 // Merge two sets of actions
 const mergeActions = function ({ actions, newActions }) {

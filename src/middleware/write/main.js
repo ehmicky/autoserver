@@ -8,24 +8,18 @@ const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
 const sequenceWrite = async function ({ actions, mInput }, nextLayer) {
-  const actionsGroups = groupActions({ actions });
+  const actionsGroups = groupValuesBy(actions, 'modelName');
 
   // Run write commands in parallel
   const resultsPromises = actionsGroups
-    .map(actionsA => singleWrite({ actions: actionsA, mInput, nextLayer }));
+    .map(actionsA => fireCommand({ actions: actionsA, mInput, nextLayer }));
   const results = await Promise.all(resultsPromises);
 
   const resultsA = results.reduce(assignArray, []);
   return { results: resultsA };
 };
 
-// Group actions by model
-const groupActions = function ({ actions }) {
-  const actionsGroups = groupValuesBy(actions, 'modelName');
-  return actionsGroups;
-};
-
-const singleWrite = async function ({
+const fireCommand = async function ({
   actions,
   actions: [{ modelName }],
   mInput,
@@ -54,8 +48,8 @@ const fireWriteCommand = async function ({
 }) {
   const commandPath = mergeCommandPaths({ actions });
   const mInputA = { ...mInput, commandPath, command, modelName, args };
-  const { response: { data: results } } = await nextLayer(mInputA, 'command');
-  return results;
+  const { response: { data } } = await nextLayer(mInputA, 'command');
+  return data;
 };
 
 module.exports = {

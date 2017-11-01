@@ -36,7 +36,7 @@ const getUniqueModel = function (models) {
 const validateDuplicates = function (models) {
   const differentModel = models
     .slice(1)
-    .find(modelA => !isEqual(modelA, models[0]));
+    .find(model => !isEqual(model, models[0]));
   if (differentModel === undefined) { return; }
 
   const message = `Two models in 'data' have the same 'id' but different attributes: '${JSON.stringify(models[0])}', '${JSON.stringify(differentModel)}'`;

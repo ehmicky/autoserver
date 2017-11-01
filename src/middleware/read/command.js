@@ -23,8 +23,8 @@ const fireReadCommand = async function ({
     command: 'find',
   };
 
-  const { response: { data: result } } = await nextLayer(mInputA, 'command');
-  return result;
+  const { response: { data } } = await nextLayer(mInputA, 'command');
+  return data;
 };
 
 // When parent value is not defined, directly returns empty value
