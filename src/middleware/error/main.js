@@ -28,7 +28,7 @@ const fireMainLayersHandler = async function (
 
   // Final layer are called before error handlers, except if the error
   // was raised by the final layer itself
-  const mInputB = await fireLayer(allLayers, reqState, mInputA);
+  const mInputB = await fireLayer({ allLayers, reqState }, mInputA);
 
   addMInput(error, mInputB);
 
