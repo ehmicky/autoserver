@@ -1,9 +1,11 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
 const { throwError } = require('../../../../error');
-const { assignArray, mergeArrayReducer } = require('../../../../utilities');
+const {
+  isEqual,
+  assignArray,
+  mergeArrayReducer,
+} = require('../../../../utilities');
 
 // We remove duplicates for several reasons:
 //  - efficiency

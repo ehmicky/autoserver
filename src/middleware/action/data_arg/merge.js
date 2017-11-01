@@ -1,6 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
+const { isEqual } = require('../../../utilities');
 
 // Merge two sets of actions
 const mergeActions = function ({ actions, newActions }) {

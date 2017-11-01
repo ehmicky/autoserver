@@ -1,7 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
+const { isEqual } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
 const { resolveReadActions } = require('../read_actions');
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
+const { isEqual } = require('../../utilities');
 
 const { validateSameType, parseAsIs } = require('./common');
 

@@ -1,8 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
-const { omit, assignObject } = require('../../../utilities');
+const { omit, assignObject, isEqual } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
 // Apply `alias` in `args.data`

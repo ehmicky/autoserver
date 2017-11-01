@@ -1,8 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
-const { recursePickBy, omit } = require('../utilities');
+const { recursePickBy, omit, isEqual } = require('../utilities');
 
 // Post-process CLI options
 const cleanOpts = function ({ opts }) {

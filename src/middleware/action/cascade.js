@@ -1,7 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
+const { isEqual } = require('../../utilities');
 const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
