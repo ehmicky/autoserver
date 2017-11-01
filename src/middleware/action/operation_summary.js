@@ -5,6 +5,7 @@ const { isEqual } = require('../../utilities');
 // Retrieves `operationSummary`
 // This is all `actions`, included nested ones as a nice formatted string,
 // e.g. 'findModel{attrA,attrB,child{attrC}}'
+// TODO: commandPath???
 const getOperationSummary = function ({
   actions,
   top,

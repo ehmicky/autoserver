@@ -70,6 +70,7 @@ const getOrderByKeys = function ({ action: { args: { orderBy = [] } } }) {
 
 // Each argument type has its own way or specifying attributes
 const argsToValidate = [
+  // TODO: select is useful??? What about the others???
   { name: 'select', getKeys: getSelectKeys },
   { name: 'data', getKeys: getDataKeys },
   { name: 'order_by', getKeys: getOrderByKeys },

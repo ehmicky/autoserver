@@ -24,7 +24,9 @@ const parseTopAction = function ({
   const argsA = getArgs({ args, protocolArgs, paramsArg });
 
   const top = { command, modelName, commandPath, args: argsA };
-  return { top, topArgs: top.args };
+  const actions = [{ modelName, commandPath, args: argsA }];
+
+  return { top, topArgs: top.args, actions };
 };
 
 // Retrieve `command` and `modelName` using the main `commandName`

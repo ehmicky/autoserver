@@ -92,10 +92,6 @@ const middlewareLayers = [
     layers: [
       // Parse a `operationDef` into a top-level action
       action.parseTopAction,
-      // Turn `args.select` into a set of `actions`
-      action.parseActions,
-      // Add `action.modelName`
-      action.parseModels,
       // Validate client-supplied args
       action.validateArgs,
       // Change arguments cases to camelCase
@@ -108,8 +104,8 @@ const middlewareLayers = [
       action.parseCascade,
       // Parse `args.orderBy` from a string to an array of objects
       action.parseOrderBy,
-      // Validate `args.select`
-      action.validateSelect,
+      // Parse `args.select` into a set of `actions`
+      action.parseSelect,
       // Validate that attributes in `args.select|data|filter|order_by`
       // are in the schema
       action.validateUnknownAttrs,
@@ -137,7 +133,7 @@ const middlewareLayers = [
       // Merge all `results` into a single nested response, using `result.path`
       action.assembleResults,
       // Applies `args.select`
-      action.selectFields,
+      action.applySelect,
       // Add content type, and remove top-level key
       action.parseResponse,
       // Operation-related output validation middleware
