@@ -1,7 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
+const { isEqual } = require('../../utilities');
 const { throwError } = require('../../error');
 const { dereferenceSchema } = require('../../ref_parser');
 

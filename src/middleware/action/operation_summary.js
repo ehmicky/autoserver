@@ -1,6 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
+const { isEqual } = require('../../utilities');
 
 // Retrieves `operationSummary`
 // This is all `actions`, included nested ones as a nice formatted string,

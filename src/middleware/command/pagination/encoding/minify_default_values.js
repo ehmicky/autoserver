@@ -1,8 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
-const { omitBy } = require('../../../../utilities');
+const { omitBy, isEqual } = require('../../../../utilities');
 
 const removeDefaultValues = function (token) {
   return omitBy(

@@ -1,8 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
-const { assignArray } = require('../../../utilities');
+const { assignArray, isEqual } = require('../../../utilities');
 const { getModel } = require('../get_model');
 const { isParentAction, getChildActions } = require('../child_actions');
 

@@ -1,8 +1,6 @@
 'use strict';
 
-const { isEqual } = require('lodash');
-
-const { get, getWordsList } = require('../../utilities');
+const { isEqual, get, getWordsList } = require('../../utilities');
 
 const requiredTest = name => ({
   test (value) {
