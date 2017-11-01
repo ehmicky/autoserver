@@ -1,8 +1,6 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
-const { mapValues, assignArray, pick } = require('../../../../utilities');
+const { mapValues, assignArray, uniq, pick } = require('../../../../utilities');
 
 const commandsArgs = require('./commands');
 const {

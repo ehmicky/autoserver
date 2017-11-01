@@ -1,8 +1,6 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
-const { assignArray, isEqual } = require('../../../../utilities');
+const { assignArray, isEqual, uniq } = require('../../../../utilities');
 const { getSimpleFilter } = require('../../../../filter');
 
 // Retrieve the results of all direct parent commands

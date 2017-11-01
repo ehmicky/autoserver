@@ -1,6 +1,6 @@
 'use strict';
 
-const { uniq } = require('lodash');
+const { uniq } = require('../../utilities');
 
 // Add `modelsCount` and `uniqueModelsCount`, using `results`.
 // `modelsCount` is the number of models in the response

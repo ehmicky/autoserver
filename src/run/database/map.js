@@ -1,8 +1,6 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
-const { mapValues } = require('../../utilities');
+const { mapValues, uniq } = require('../../utilities');
 const { databaseAdapters } = require('../../database');
 
 // Returns array of all adapters that are defined in schema

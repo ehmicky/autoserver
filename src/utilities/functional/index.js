@@ -2,9 +2,11 @@
 
 module.exports = {
   ...require('./equal'),
+  ...require('./includes'),
   ...require('./map'),
   ...require('./reduce'),
   ...require('./filter'),
+  ...require('./uniq'),
   ...require('./find'),
   ...require('./key_by'),
   ...require('./invert'),

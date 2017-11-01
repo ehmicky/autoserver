@@ -1,9 +1,7 @@
 'use strict';
 
-const { uniq } = require('lodash');
-
 const { monitor, emitPerfEvent } = require('../../perf');
-const { assignObject, onlyOnce } = require('../../utilities');
+const { assignObject, uniq, onlyOnce } = require('../../utilities');
 
 const { closeServer } = require('./server_close');
 const { closeDbAdapter } = require('./db_close');
