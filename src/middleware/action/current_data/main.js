@@ -7,15 +7,10 @@ const { serialResolve } = require('./serial');
 // to be fired.
 // Also adds `action.dataPaths` for `patch` and `delete` commands.
 const addCurrentData = function (
-  {
-    actions,
-    top,
-    top: { command: { type: commandType } },
-    ...rest
-  },
+  { actions, top, top: { command }, ...rest },
   nextLayer,
 ) {
-  const resolver = resolvers[commandType];
+  const resolver = resolvers[command.type];
 
   if (resolver === undefined) { return { actions }; }
 
