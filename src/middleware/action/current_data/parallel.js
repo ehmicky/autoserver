@@ -2,7 +2,8 @@
 
 const {
   assignArray,
-  mergeArrayReducer,
+  groupBy,
+  groupValuesBy,
   mapValues,
 } = require('../../../utilities');
 const { getCommand } = require('../../../constants');
@@ -11,7 +12,7 @@ const { mergeCommandPaths } = require('../command_paths');
 
 // Add `action.currentData` for `replace` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
-  const actionsGroups = getWriteActions({ actions });
+  const actionsGroups = groupValuesBy(actions, 'modelName');
   const actionsGroupsA = mergeCommandPaths({ actionsGroups });
   const writeActions = actionsGroupsA.map(normalizeActionsGroup);
   const currentDataMap = await getCurrentDataMap({
@@ -21,14 +22,6 @@ const parallelResolve = async function ({ actions, mInput }, nextLayer) {
   });
   const actionsA = addCurrentDataActions({ actions, currentDataMap });
   return { actions: actionsA };
-};
-
-// Retrieve the `find` commands to perform, by using current `replace` actions
-const getWriteActions = function ({ actions }) {
-  // Group commands by model
-  const writeActionsA = actions.reduce(mergeArrayReducer('modelName'), {});
-  const writeActionsB = Object.values(writeActionsA);
-  return writeActionsB;
 };
 
 // `args.data` becomes `args.filter`
@@ -53,7 +46,7 @@ const getCurrentDataMap = async function ({ writeActions, nextLayer, mInput }) {
   const { results } = await nextLayer(mInputA, 'read');
 
   // Group `currentData` by model
-  const currentDataMap = results.reduce(mergeArrayReducer('modelName'), {});
+  const currentDataMap = groupBy(results, 'modelName');
   const currentDataMapA = mapValues(currentDataMap, mapCurrentDataModel);
   return currentDataMapA;
 };

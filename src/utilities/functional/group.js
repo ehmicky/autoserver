@@ -4,12 +4,14 @@
 // `key` can a string (the object key), an array (several object keys) or
 // a function returning a string.
 const groupBy = function (array, key) {
-  return array.reduce((groups, obj) => {
-    const groupName = getGroupName(key, obj);
-    const currentGroup = groups[groupName] || [];
-    const newGroup = [...currentGroup, obj];
-    return { ...groups, [groupName]: newGroup };
-  }, []);
+  return array.reduce(groupByReducer.bind(null, key), {});
+};
+
+const groupByReducer = function (key, groups, obj) {
+  const groupName = getGroupName(key, obj);
+  const { [groupName]: currentGroup = [] } = groups;
+  const newGroup = [...currentGroup, obj];
+  return { ...groups, [groupName]: newGroup };
 };
 
 const getGroupName = function (key, obj) {
@@ -24,6 +26,12 @@ const getGroupName = function (key, obj) {
   return obj[key];
 };
 
+const groupValuesBy = function (array, key) {
+  const groups = groupBy(array, key);
+  return Object.values(groups);
+};
+
 module.exports = {
   groupBy,
+  groupValuesBy,
 };

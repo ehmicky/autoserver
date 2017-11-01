@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { isEqual, assignArray, mergeArrayReducer } = require('../../utilities');
+const { isEqual, assignArray, groupValuesBy } = require('../../utilities');
 
 // We remove duplicates for several reasons:
 //  - efficiency
@@ -14,8 +14,8 @@ const removeDuplicates = function (models) {
   modelsA.forEach(validateId);
 
   // Group by model.id
-  const modelsB = modelsA.reduce(mergeArrayReducer('id'), {});
-  return Object.values(modelsB).map(getUniqueModel);
+  const modelsB = groupValuesBy(modelsA, 'id');
+  return modelsB.map(getUniqueModel);
 };
 
 // This should not happen, but just in case

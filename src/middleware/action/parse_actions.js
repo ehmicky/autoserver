@@ -1,6 +1,6 @@
 'use strict';
 
-const { mergeArrayReducer, mapValues, omit } = require('../../utilities');
+const { groupValuesBy, omit } = require('../../utilities');
 
 // Turn `args.select` into a set of `actions`
 const parseActions = function ({
@@ -11,14 +11,9 @@ const parseActions = function ({
 }) {
   const actionsA = select
     .split(',')
-    .map(selectA => parseSelect({ commandName, select: selectA }))
-    // `args.select` with the same `commandPath` are grouped into actions
-    .reduce(mergeArrayReducer('commandPath'), {});
-  const actionsB = mapValues(
-    actionsA,
-    actions => normalizeAction({ args, actions }),
-  );
-  const actionsC = Object.values(actionsB);
+    .map(selectA => parseSelect({ commandName, select: selectA }));
+  const actionsB = groupValuesBy(actionsA, 'commandPath');
+  const actionsC = actionsB.map(actions => normalizeAction({ args, actions }));
   return { actions: actionsC };
 };
 
