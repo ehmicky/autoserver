@@ -1,5 +1,6 @@
 'use strict';
 
+const { assignArray } = require('../../../utilities');
 const { getLimits } = require('../../../limits');
 const { mergeActions } = require('../merge');
 
@@ -9,17 +10,27 @@ const { parseData } = require('./data');
 const { parseActions } = require('./actions');
 
 // Parse `args.data` into write `actions`
-const parseDataArg = function ({
-  actions,
+const parseDataArg = function ({ actions, ...rest }) {
+  const newActions = actions
+    .map(action => parseDataAction({ action, ...rest }))
+    .reduce(assignArray, []);
+  if (newActions.length === 0) { return; }
+
+  const actionsA = mergeActions({ actions, newActions });
+
+  return { actions: actionsA };
+};
+
+const parseDataAction = function ({
   top,
-  top: { args: { data }, commandPath },
+  top: { command },
+  action: { args: { data }, commandPath },
   schema: { shortcuts: { modelsMap, userDefaultsMap } },
   mInput,
   runOpts,
   dbAdapters,
 }) {
-  // Only if `args.data` is defined
-  if (data === undefined) { return; }
+  if (data === undefined) { return []; }
 
   const { maxAttrValueSize } = getLimits({ runOpts });
   validateLimits({ data, runOpts });
@@ -30,6 +41,7 @@ const parseDataArg = function ({
   const dataA = parseData({
     data,
     commandPath,
+    command,
     top,
     mInput,
     maxAttrValueSize,
@@ -46,9 +58,7 @@ const parseDataArg = function ({
     modelsMap,
   });
 
-  const actionsA = mergeActions({ actions, newActions });
-
-  return { actions: actionsA };
+  return newActions;
 };
 
 module.exports = {
