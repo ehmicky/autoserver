@@ -15,11 +15,11 @@ const addAuthorizeFilter = function ({
   if (!FILTER_COMMANDS.includes(command)) { return args; }
 
   const filterA = getFilter({ authorize, filter });
-  // If `filter` is undefined, we need a way to know `preAuthorizeFilter` was
+  // If `filter` is undefined, we need a way to know `preFilter` was
   // set
-  const preAuthorizeFilter = filter || {};
-  // Keep current `args.filter` as `args.preAuthorizeFilter`
-  const argsA = { ...args, filter: filterA, preAuthorizeFilter };
+  const preFilter = filter || {};
+  // Keep current `args.filter` as `args.preFilter`
+  const argsA = { ...args, filter: filterA, preFilter };
 
   return argsA;
 };
