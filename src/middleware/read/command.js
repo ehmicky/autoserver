@@ -23,8 +23,15 @@ const fireReadCommand = async function ({
     command: 'find',
   };
 
-  const { response: { data } } = await nextLayer(mInputA, 'request_response');
-  return data;
+  // Fire `request`, `database` and `response` layers serially
+  const mInputB = nextLayer(mInputA, 'request');
+
+  const { response } = await nextLayer(mInputB, 'database');
+  const mInputC = { ...mInputB, response };
+
+  const { response: { data: results } } = await nextLayer(mInputC, 'response');
+
+  return results;
 };
 
 // When parent value is not defined, directly returns empty value

@@ -14,7 +14,8 @@ const sequenceWrite = async function ({ actions, top, mInput }, nextLayer) {
     .map(actionsA => getCommandArgs({ actions: actionsA, top }))
     .filter(isNotEmpty)
     .map(allInput => getInput({ ...allInput, top, mInput }))
-    .map(allInput => fireCommand({ ...allInput, top, nextLayer }));
+    .map(allInput => fireRequestLayer({ ...allInput, nextLayer }))
+    .map(allInput => fireResponseLayer({ ...allInput, top, nextLayer }));
   const results = await Promise.all(resultsPromises);
 
   const resultsA = results.reduce(assignArray, []);
@@ -46,7 +47,16 @@ const getInput = function ({
   return { input, actions, ...rest };
 };
 
-const fireCommand = async function ({
+// Fire `request` layer, which is not async
+// We make sure all commands went through the `request` layer before firing
+// the `response` layer because we want to avoid unnecessary
+// rollbacks if `request` layer throws
+const fireRequestLayer = function ({ input, nextLayer, ...rest }) {
+  const inputA = nextLayer(input, 'request');
+  return { ...rest, input: inputA };
+};
+
+const fireResponseLayer = async function ({
   actions,
   ids,
   top,
@@ -54,9 +64,14 @@ const fireCommand = async function ({
   input: { modelName },
   nextLayer,
 }) {
-  const { response: { data } } = await nextLayer(input, 'request_response');
+  // Since some commands will wait for others to finish, and I/O is slow,
+  // we fire `response` layer right away, to save CPU time
+  const { response } = await nextLayer(input, 'database');
+  const inputA = { ...input, response };
 
-  const resultsA = getResults({ actions, results: data, ids, modelName, top });
+  const { response: { data: results } } = await nextLayer(inputA, 'response');
+
+  const resultsA = getResults({ actions, results, ids, modelName, top });
   return resultsA;
 };
 
