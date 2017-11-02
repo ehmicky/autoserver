@@ -24,11 +24,11 @@ const parallelResolve = async function ({ actions, mInput }, nextLayer) {
 const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
   const actionsA = groupActions({ actions });
   const mInputA = { ...mInput, actions: actionsA };
+
   const { results } = await nextLayer(mInputA, 'read');
 
-  // Group `currentData` by model
   const currentDataMap = groupBy(results, 'modelName');
-  const currentDataMapA = mapValues(currentDataMap, mapCurrentDataModel);
+  const currentDataMapA = mapValues(currentDataMap, getModels);
   return currentDataMapA;
 };
 
@@ -39,15 +39,19 @@ const groupActions = function ({ actions }) {
   return actionsA;
 };
 
-// `args.data` becomes `args.filter`
 const mergeActionsGroups = function (actions) {
   const commandPath = mergeCommandPaths({ actions });
-  const ids = getIds({ actions });
-  const filter = getSimpleFilter({ ids });
-  const args = { filter };
+  const args = getArgs({ actions });
   const [{ modelName }] = actions;
 
   return { commandPath: [commandPath], args, modelName };
+};
+
+// `args.data` becomes `args.filter`
+const getArgs = function ({ actions }) {
+  const ids = getIds({ actions });
+  const filter = getSimpleFilter({ ids });
+  return { filter };
 };
 
 const getIds = function ({ actions }) {
@@ -57,7 +61,7 @@ const getIds = function ({ actions }) {
     .map(({ id }) => id);
 };
 
-const mapCurrentDataModel = function (results) {
+const getModels = function (results) {
   return results.map(({ model }) => model);
 };
 
@@ -72,8 +76,6 @@ const addCurrentDataAction = function ({
   action: { modelName, args: { data } },
   currentDataMap,
 }) {
-  if (data === undefined) { return action; }
-
   const currentData = currentDataMap[modelName];
   const currentDataA = data
     .map(({ id }) => currentDataMatches({ id, currentData }));
