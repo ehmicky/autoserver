@@ -11,8 +11,10 @@
   "protocol",
   "operation",
   "action",
-  "sequencer",
-  "command",
+  "read",
+  "write",
+  "request",
   "database",
+  "response",
   "final"
 ]
