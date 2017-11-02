@@ -13,11 +13,7 @@ const parseTopAction = function ({
   protocolArgs,
   paramsArg,
 }) {
-  const { commandType, modelName, multiple } = parseModelName({
-    commandName,
-    modelsMap,
-  });
-  const command = getCommand({ commandType, multiple });
+  const { command, modelName } = parseModelName({ commandName, modelsMap });
 
   const commandPath = [commandName];
 
@@ -34,39 +30,51 @@ const parseTopAction = function ({
 const parseModelName = function ({ commandName, modelsMap }) {
   const { commandType, modelName } = parseName({ commandName });
 
-  const multiple = isPlural(modelName);
+  const command = getCommand({ commandType, modelName });
 
-  // Model name can be either in singular or in plural form in schema
-  const singularName = singular(modelName);
-  const pluralName = plural(modelName);
-  const modelNameA = modelsMap[pluralName] ? pluralName : singularName;
+  const modelNameA = getModelName({ modelsMap, modelName });
 
-  if (!commandType || !modelNameA) {
-    const message = `Command '${commandName}' is unknown`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  return { commandType, modelName: modelNameA, multiple };
+  return { command, modelName: modelNameA };
 };
 
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];
 const parseName = function ({ commandName }) {
-  const [, commandType, modelName = ''] = NAME_REGEXP.exec(commandName) || [];
-  return { commandType, modelName };
+  const [, commandType, modelName] = NAME_REGEXP.exec(commandName) || [];
+
+  if (commandType && modelName) {
+    return { commandType, modelName };
+  }
+
+  const message = `Command '${commandName}' is unknown`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
-const getCommand = function ({ commandType, multiple }) {
+// Retrieve top.command
+const getCommand = function ({ commandType, modelName }) {
+  const multiple = isPlural(modelName);
+
   const commandA = COMMANDS.find(command =>
     command.multiple === multiple && command.type === commandType);
+  if (commandA !== undefined) { return commandA; }
 
-  if (commandA === undefined) {
-    const message = `Command '${commandType}' is unknown`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  const message = `Command '${commandType}' is unknown`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
+};
 
-  return commandA;
+// Retrieve top.modelName
+const getModelName = function ({ modelsMap, modelName }) {
+  // Model name can be either in singular or in plural form in schema
+  const singularName = singular(modelName);
+  const pluralName = plural(modelName);
+
+  if (modelsMap[pluralName]) { return pluralName; }
+
+  if (modelsMap[singularName]) { return singularName; }
+
+  const message = `Model '${modelName}' is unknown`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 // Merge protocol-specific arguments with normal arguments
