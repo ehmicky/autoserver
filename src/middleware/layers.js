@@ -157,7 +157,7 @@ const middlewareLayers = [
   },
 
   {
-    name: 'request_response',
+    name: 'request',
     layers: [
       // Normalize empty values (undefined, null) by removing their key
       requestResponse.normalizeEmpty,
@@ -179,24 +179,6 @@ const middlewareLayers = [
       requestResponse.validateFeatures,
       // Custom data validation middleware
       requestResponse.dataValidation,
-
-      // Fires database layer
-      requestResponse.fireDatabase,
-
-      // Validate database response
-      requestResponse.responseValidation,
-      // Remove models that are null|undefined
-      requestResponse.removeEmptyModels,
-      // Remove duplicate read models
-      requestResponse.duplicateReads,
-      // Check if any `id` was not found (404) or was unauthorized (403)
-      requestResponse.validateMissingIds,
-      // Check if any model already exists, for create actions
-      requestResponse.validateCreateIds,
-      // Paginate output
-      requestResponse.handlePaginationOutput,
-      // Apply attribute aliases, in output
-      requestResponse.renameAliasesOutput,
     ],
   },
 
@@ -215,6 +197,26 @@ const middlewareLayers = [
       database.renameIdsOutput,
       // Retrieves database return value
       database.getDbResponse,
+    ],
+  },
+
+  {
+    name: 'response',
+    layers: [
+      // Validate database response
+      requestResponse.responseValidation,
+      // Remove models that are null|undefined
+      requestResponse.removeEmptyModels,
+      // Remove duplicate read models
+      requestResponse.duplicateReads,
+      // Check if any `id` was not found (404) or was unauthorized (403)
+      requestResponse.validateMissingIds,
+      // Check if any model already exists, for create actions
+      requestResponse.validateCreateIds,
+      // Paginate output
+      requestResponse.handlePaginationOutput,
+      // Apply attribute aliases, in output
+      requestResponse.renameAliasesOutput,
     ],
   },
 ];

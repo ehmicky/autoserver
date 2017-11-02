@@ -12,8 +12,6 @@ module.exports = {
   ...require('./features'),
   ...require('./data_validation'),
 
-  ...require('./database'),
-
   ...require('./response_validation'),
   ...require('./empty_models'),
   ...require('./duplicate_read'),
