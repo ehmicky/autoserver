@@ -5,12 +5,12 @@ const { throwCommonError } = require('../../error');
 const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 
 // Check if any `id` was not found (404) or was unauthorized (403)
-const validateMissingIds = async function (
+const validateMissingIds = function (
   {
     command,
     modelName,
     response,
-    args: { filter, preAuthorizeFilter },
+    args: { filter, preFilter },
     top,
     top: { command: { type: topCommand } },
     mInput,
@@ -18,37 +18,18 @@ const validateMissingIds = async function (
   nextLayer,
 ) {
   // Other commands trigger this middleware during their `currentData` actions
-  if (command !== 'find') { return; }
+  // Also, `create`'s currentData query is skipped.
+  if (command !== 'find' || topCommand === 'create') { return; }
 
-  // `create`'s currentData query
-  if (topCommand === 'create' && command === 'find') { return; }
-
-  const ids = getMissingIds({ filter, preAuthorizeFilter, response });
+  const ids = getMissingIds({ filter, preFilter, response });
   if (ids.length === 0) { return; }
 
-  // Check whether this is because the model does not exist, or because it is
-  // not authorized
-  const idsA = await checkAuthorization({
-    preAuthorizeFilter,
-    ids,
-    modelName,
-    top,
-    nextLayer,
-    mInput,
-  });
-
-  throwCommonError({ reason: 'DB_MODEL_NOT_FOUND', ids: idsA, modelName });
+  return reportProblem({ preFilter, ids, modelName, top, nextLayer, mInput });
 };
 
 // Retrieve missing models ids
-const getMissingIds = function ({
-  filter,
-  preAuthorizeFilter,
-  response: { data },
-}) {
-  const filterA = preAuthorizeFilter === undefined
-    ? filter
-    : preAuthorizeFilter;
+const getMissingIds = function ({ filter, preFilter, response: { data } }) {
+  const filterA = preFilter === undefined ? filter : preFilter;
   const filterIds = extractSimpleIds({ filter: filterA });
 
   // This middleware can be checked only when filtering only by `id`.
@@ -67,11 +48,33 @@ const getMissingIds = function ({
   return ids;
 };
 
+// Check whether this is because the model does not exist,
+// or because it is not authorized
+const reportProblem = async function ({
+  preFilter,
+  ids,
+  modelName,
+  top,
+  nextLayer,
+  mInput,
+}) {
+  const idsA = await checkAuthorization({
+    preFilter,
+    ids,
+    modelName,
+    top,
+    nextLayer,
+    mInput,
+  });
+
+  throwCommonError({ reason: 'DB_MODEL_NOT_FOUND', ids: idsA, modelName });
+};
+
 // Try the same database query, but this time without the authorization filter,
 // and only on the missing models.
 // If no missing model is missing anymore, flag it as an authorization error.
 const checkAuthorization = async function ({
-  preAuthorizeFilter,
+  preFilter,
   ids,
   modelName,
   top,
@@ -79,7 +82,7 @@ const checkAuthorization = async function ({
   mInput,
   mInput: { args },
 }) {
-  if (preAuthorizeFilter === undefined) { return ids; }
+  if (preFilter === undefined) { return ids; }
 
   const filterA = getSimpleFilter({ ids });
   const mInputA = { ...mInput, args: { ...args, filter: filterA } };
