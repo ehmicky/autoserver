@@ -3,7 +3,6 @@
 const { assignArray } = require('../../utilities');
 
 // Retrieve `currentData`, so it is passed to command middleware
-// Note that `create` command does not have any `currentData`.
 const getCurrentData = function ({ actions, ids }) {
   const currentData = actions
     .map(action => action.currentData)

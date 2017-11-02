@@ -9,21 +9,12 @@ const { isEqual, assignArray, groupValuesBy } = require('../../utilities');
 //    model in the same request would fail
 //  - output consistency, i.e. each model has a single representation for a
 //    given request
-const removeDuplicates = function (models) {
+const removeDuplicates = function ({ models }) {
   const modelsA = models.reduce(assignArray, []);
-  modelsA.forEach(validateId);
-
-  // Group by model.id
   const modelsB = groupValuesBy(modelsA, 'id');
-  return modelsB.map(getUniqueModel);
-};
 
-// This should not happen, but just in case
-const validateId = function (model) {
-  if (typeof model.id === 'string') { return; }
-
-  const message = `A model in 'data' is missing an 'id' attribute: '${JSON.stringify(model)}'`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  const modelsC = modelsB.map(getUniqueModel);
+  return modelsC;
 };
 
 const getUniqueModel = function (models) {
