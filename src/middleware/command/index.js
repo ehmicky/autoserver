@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./features'),
   ...require('./normalize_empty'),
   ...require('./aliases'),
   ...require('./readonly'),
