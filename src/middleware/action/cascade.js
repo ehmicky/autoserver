@@ -13,7 +13,7 @@ const parseCascade = function ({
   top: { args: { cascade } },
   schema: { shortcuts: { modelsMap } },
 }) {
-  if (cascade === undefined) { return { actions }; }
+  if (cascade === undefined) { return; }
 
   const newActions = getCascadeActions({ cascade, top, modelsMap });
 
@@ -23,19 +23,19 @@ const parseCascade = function ({
 };
 
 const getCascadeActions = function ({ cascade, top, modelsMap }) {
-  const actions = cascade.split(',');
-  const actionsA = uniq(actions);
-  const actionsB = actionsA.map(attrName => attrName.split('.'));
-  const actionsC = actionsB.map((attrName, index, attrs) =>
-    normalizeCascade({ attrName, attrs, top, modelsMap }));
-  return actionsC;
+  const attrs = cascade.split(',');
+  const attrsA = uniq(attrs);
+  const attrsB = attrsA.map(attrName => attrName.split('.'));
+  const actions = attrsB.map(attrName =>
+    getCascadeAction({ attrName, attrs: attrsB, top, modelsMap }));
+  return actions;
 };
 
 // From `attr.child_attr` to:
 //   commandPath: ['commandName', 'attr', 'child_attr']
 //   modelName
 //   args: {}
-const normalizeCascade = function ({ attrName, attrs, top, modelsMap }) {
+const getCascadeAction = function ({ attrName, attrs, top, modelsMap }) {
   validateMiddleAction({ attrName, attrs });
 
   const commandPath = [...top.commandPath, ...attrName];
@@ -50,6 +50,7 @@ const normalizeCascade = function ({ attrName, attrs, top, modelsMap }) {
 // Cannot specify `args.cascade` `parent.child` but not `parent`.
 // Otherwise, this would require create an intermediate `find` action.
 const validateMiddleAction = function ({ attrName, attrs }) {
+  // Not for top-level attributes
   if (attrName.length <= 1) { return; }
 
   const parentAttr = attrName.slice(0, -1);
