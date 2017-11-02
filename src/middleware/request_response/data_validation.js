@@ -8,41 +8,24 @@ const { validate } = require('../../json_validation');
 // E.g. if a model is marked as `required` or `minimum: 10` in the schema,
 // this will be validated here
 const dataValidation = function ({
-  args,
+  args: { newData },
   modelName,
-  command,
   schema: { shortcuts: { validateMap } },
   mInput,
 }) {
-  const compiledJsonSchema = validateMap[modelName][command];
-  const attrs = getAttrs({ args });
+  if (newData === undefined) { return; }
 
-  Object.entries(attrs).forEach(([dataVar, attr]) =>
-    validateAttr({ dataVar, attr, compiledJsonSchema, mInput }));
-};
+  const compiledJsonSchema = validateMap[modelName];
 
-// Keeps the arguments to validate
-const getAttrs = function ({ args: { newData } }) {
-  if (!newData) { return {}; }
-
-  return { data: newData };
-};
-
-const validateAttr = function ({ dataVar, attr, compiledJsonSchema, mInput }) {
-  attr.forEach(data => validateSingleAttr({
-    dataVar,
+  newData.forEach(data => validateAttr({
+    dataVar: 'data',
     compiledJsonSchema,
     mInput,
     data,
   }));
 };
 
-const validateSingleAttr = function ({
-  dataVar,
-  compiledJsonSchema,
-  mInput,
-  data,
-}) {
+const validateAttr = function ({ dataVar, compiledJsonSchema, mInput, data }) {
   const dataA = removeEmpty(data);
 
   validate({
