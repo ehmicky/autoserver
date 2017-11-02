@@ -1,7 +1,12 @@
 'use strict';
 
 const { omit } = require('../../utilities');
-const { isError, rethrowError } = require('../../error');
+const {
+  isError,
+  normalizeError,
+  throwError,
+  addErrorHandler,
+} = require('../../error');
 
 // Rollback write actions if any of them failed
 const rollback = function ({ results, inputs }, nextLayer) {
@@ -14,12 +19,11 @@ const rollback = function ({ results, inputs }, nextLayer) {
 const rollbackActions = async function ({ failedActions, inputs, nextLayer }) {
   const promises = inputs
     .map(getRollbackInput)
-    .map(input => fireResponseLayer({ input, nextLayer }));
+    .map(input => eFireResponseLayer({ input, nextLayer }));
   // Wait for all rollbacks to end
-  await Promise.all(promises);
+  const results = await Promise.all(promises);
 
-  const [originalError] = failedActions;
-  rethrowError(originalError);
+  rethrowFailure({ failedActions, results });
 };
 
 // Retrieve a database input that reverts the write action, if it was
@@ -55,6 +59,32 @@ const handlers = {
 // This also means we are bypassing authorization
 const fireResponseLayer = function ({ input, nextLayer }) {
   return nextLayer(input, 'database');
+};
+
+const responseHandler = function (error) {
+  return normalizeError({ error });
+};
+
+const eFireResponseLayer = addErrorHandler(fireResponseLayer, responseHandler);
+
+// Rethrow original error
+const rethrowFailure = function ({ failedActions, results }) {
+  const [innererror] = failedActions;
+  const { message } = innererror;
+  const extra = getExtra({ results });
+  throwError(message, { innererror, extra });
+};
+
+// If rollback itself fails, give up and add rollback error to error response,
+// as `error.rollback_failures`
+const getExtra = function ({ results }) {
+  const rollbackFailures = results.filter(result => isError({ error: result }));
+  if (rollbackFailures.length === 0) { return; }
+
+  const rollbackFailuresA = rollbackFailures
+    .map(({ message }) => message)
+    .join('\n');
+  return { rollback_failures: rollbackFailuresA };
 };
 
 module.exports = {
