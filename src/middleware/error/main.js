@@ -59,11 +59,12 @@ const eFireFailureHandler = addErrorHandler(fireFailureHandler, handlerHandler);
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
 const addMInput = function (error, mInput) {
   const mInputA = omit(mInput, 'error');
+  const errorA = normalizeError({ error });
   // We need to directly mutate to keep Error constructor
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(error, { mInput: mInputA });
+  Object.assign(errorA, { mInput: mInputA });
 
-  return error;
+  return errorA;
 };
 
 // Builds `mInput` with a `mInput.error` property
