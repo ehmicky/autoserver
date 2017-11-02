@@ -1,8 +1,7 @@
 'use strict';
 
-const { assignArray } = require('../../../utilities');
 const { getLimits } = require('../../../limits');
-const { mergeActions } = require('../merge');
+const { addActions } = require('../add_actions');
 
 const { validateLimits } = require('./limits');
 const { getDataPath } = require('./data_path');
@@ -11,17 +10,16 @@ const { parseActions } = require('./actions');
 
 // Parse `args.data` into write `actions`
 const parseDataArg = function ({ actions, ...rest }) {
-  const newActions = actions
-    .map(action => parseDataAction({ action, ...rest }))
-    .reduce(assignArray, []);
-  if (newActions.length === 0) { return; }
-
-  const actionsA = mergeActions({ actions, newActions });
-
+  const actionsA = addActions({
+    actions,
+    filter: ({ data }) => data !== undefined,
+    mapper: getDataAction,
+    ...rest,
+  });
   return { actions: actionsA };
 };
 
-const parseDataAction = function ({
+const getDataAction = function ({
   top,
   top: { command },
   action: { args: { data }, commandPath },
@@ -30,8 +28,6 @@ const parseDataAction = function ({
   runOpts,
   dbAdapters,
 }) {
-  if (data === undefined) { return []; }
-
   const { maxAttrValueSize } = getLimits({ runOpts });
   validateLimits({ data, runOpts });
 
