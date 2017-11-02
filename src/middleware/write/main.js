@@ -1,6 +1,7 @@
 'use strict';
 
 const { assignArray, groupValuesBy } = require('../../utilities');
+const { addErrorHandler, normalizeError } = require('../../error');
 const { mergeCommandPaths } = require('../../constants');
 
 const { getArgs } = require('./args');
@@ -10,16 +11,21 @@ const { getResults } = require('./results');
 const sequenceWrite = async function ({ actions, top, mInput }, nextLayer) {
   // Run write commands in parallel, for each `modelName`
   const actionsGroups = groupValuesBy(actions, 'modelName');
-  const resultsPromises = actionsGroups
+  const allInputs = actionsGroups
     .map(actionsA => getCommandArgs({ actions: actionsA, top }))
     .filter(isNotEmpty)
     .map(allInput => getInput({ ...allInput, top, mInput }))
-    .map(allInput => fireRequestLayer({ ...allInput, nextLayer }))
-    .map(allInput => fireResponseLayer({ ...allInput, top, nextLayer }));
+    .map(allInput => fireRequestLayer({ ...allInput, nextLayer }));
+
+  // Used by rollback middleware to revert each action
+  const inputs = allInputs.map(({ input }) => input);
+
+  const resultsPromises = allInputs
+    .map(allInput => eFireResponseLayer({ ...allInput, top, nextLayer }));
   const results = await Promise.all(resultsPromises);
 
   const resultsA = results.reduce(assignArray, []);
-  return { results: resultsA };
+  return { results: resultsA, inputs };
 };
 
 // Add next layers's `args` and `ids`
@@ -74,6 +80,15 @@ const fireResponseLayer = async function ({
   const resultsA = getResults({ actions, results, ids, modelName, top });
   return resultsA;
 };
+
+// If write action fails, we wait for the other write actions to end,
+// then perform a rollback later. We return the error with success.
+const responseHandler = function (error) {
+  const errorA = normalizeError({ error });
+  return [errorA];
+};
+
+const eFireResponseLayer = addErrorHandler(fireResponseLayer, responseHandler);
 
 module.exports = {
   sequenceWrite,
