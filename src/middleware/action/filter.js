@@ -4,18 +4,15 @@ const { omit } = require('../../utilities');
 const { parseFilter, validateFilter } = require('../../filter');
 
 // Parse `args.filter` and `args.id` into AST
-const parseFilterActions = function ({
-  actions,
-  schema: { shortcuts: { modelsMap } },
-}) {
-  const actionsA = actions.map(action => parseFilterArg({ action, modelsMap }));
+const parseFilterActions = function ({ actions, schema }) {
+  const actionsA = actions.map(action => parseFilterArg({ action, schema }));
   return { actions: actionsA };
 };
 
 const parseFilterArg = function ({
   action,
   action: { args, modelName },
-  modelsMap,
+  schema: { shortcuts: { modelsMap } },
 }) {
   const model = modelsMap[modelName];
   const filter = parseFilterOrId({ args, model });
