@@ -9,12 +9,12 @@ const { runSchemaFunc } = require('../../../schema_func');
 //  - current model's 'id' attribute's schema 'default'
 //  - database adapter-specific function
 //  - UUIDv4
-const addDefaultIds = function ({ datum, top, top: { command }, ...rest }) {
+const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
   const shouldAddDefaultId = command.type === 'create' && datum.id == null;
   if (!shouldAddDefaultId) { return datum; }
 
   const id = handlers.reduce(
-    getIdDefault.bind(null, { ...rest, top, datum }),
+    getIdDefault.bind(null, { ...rest, datum, command }),
     null,
   );
 
@@ -33,7 +33,7 @@ const getIdDefault = function (input, id, handler) {
 // Apply default current model's 'id' attribute
 const applySchemaDefault = function ({
   model: { modelName },
-  top: { command },
+  command,
   datum,
   userDefaultsMap,
   mInput,

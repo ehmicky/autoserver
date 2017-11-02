@@ -3,14 +3,19 @@
 const { throwError } = require('../../../error');
 
 // Validate that user passed a correct `args.data`
-const validateData = function ({ datum, commandPath, top, maxAttrValueSize }) {
+const validateData = function ({
+  datum,
+  commandPath,
+  top: { command },
+  maxAttrValueSize,
+}) {
   const commandPathA = commandPath.slice(1).join('.');
 
   validateType({ datum, commandPath: commandPathA });
 
-  validateRequiredId({ datum, commandPath: commandPathA, top });
+  validateRequiredId({ datum, commandPath: commandPathA, command });
 
-  validateForbiddenId({ datum, commandPath: commandPathA, top });
+  validateForbiddenId({ datum, commandPath: commandPathA, command });
 
   Object.entries(datum).forEach(([attrName, value]) => validateDataValue({
     value,
@@ -27,7 +32,7 @@ const validateType = function ({ datum, commandPath }) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const validateRequiredId = function ({ datum, commandPath, top: { command } }) {
+const validateRequiredId = function ({ datum, commandPath, command }) {
   if (!REQUIRED_ID_TYPES.includes(command.type) || datum.id != null) { return; }
 
   const message = `'data' argument at '${commandPath}' is missing an 'id' attribute`;
@@ -36,11 +41,7 @@ const validateRequiredId = function ({ datum, commandPath, top: { command } }) {
 
 const REQUIRED_ID_TYPES = ['replace'];
 
-const validateForbiddenId = function ({
-  datum,
-  commandPath,
-  top: { command },
-}) {
+const validateForbiddenId = function ({ datum, commandPath, command }) {
   const forbidsId = FORBIDDEN_ID_TYPES.includes(command.type) &&
     datum.id != null;
   if (!forbidsId) { return; }
