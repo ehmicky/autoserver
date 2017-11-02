@@ -67,7 +67,7 @@ const getDataPaths = function ({ dataPaths, data, nestedKey }) {
   return dataPaths
     .map((dataPath, index) => getDataPath({
       data: data[index][nestedKey],
-      path: [...dataPath, nestedKey],
+      commandPath: [...dataPath, nestedKey],
     }))
     .reduce(assignArray, []);
 };

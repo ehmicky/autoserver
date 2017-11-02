@@ -11,13 +11,17 @@ const { isModel } = require('./nested');
 const parseData = function ({ data, ...rest }) {
   const model = getModel(rest);
 
-  return Array.isArray(data)
-    ? data.map((datum, index) => parseDatum({ datum, index, model, ...rest }))
-    : parseDatum({ datum: data, model, ...rest });
+  if (!Array.isArray(data)) {
+    return parseDatum({ datum: data, model, ...rest });
+  }
+
+  return data
+    .map((datum, index) => parseDatum({ datum, index, model, ...rest }));
 };
 
 const parseDatum = function ({
   datum,
+  attrName,
   index,
   commandPath,
   top,
@@ -28,9 +32,8 @@ const parseDatum = function ({
   dbAdapters,
   ...rest
 }) {
-  const commandPathA = index === undefined
-    ? commandPath
-    : [...commandPath, index];
+  const path = [attrName, index].filter(part => part !== undefined);
+  const commandPathA = [...commandPath, ...path];
 
   validateData({ datum, commandPath: commandPathA, top, maxAttrValueSize });
 
@@ -43,47 +46,25 @@ const parseDatum = function ({
     dbAdapters,
   });
 
-  return mapValues(
-    datumA,
-    (obj, attrName) => parseAttr({
-      obj,
-      index,
-      attrName,
-      commandPath: commandPathA,
-      top,
-      userDefaultsMap,
-      mInput,
-      maxAttrValueSize,
-      dbAdapters,
-      ...rest,
-    }),
-  );
+  return mapValues(datumA, (obj, attrNameA) => parseAttr({
+    obj,
+    attrName: attrNameA,
+    commandPath: commandPathA,
+    top,
+    userDefaultsMap,
+    mInput,
+    maxAttrValueSize,
+    dbAdapters,
+    ...rest,
+  }));
 };
 
 // Recursion over nested models
-const parseAttr = function ({
-  obj,
-  index,
-  attrName,
-  commandPath,
-  top,
-  modelsMap,
-  ...rest
-}) {
-  const isNested = isModelType(obj) &&
-    isModel({ attrName, commandPath, top, modelsMap });
+const parseAttr = function ({ obj, ...rest }) {
+  const isNested = isModelType(obj) && isModel(rest);
   if (!isNested) { return obj; }
 
-  const commandPathA = index === undefined
-    ? [...commandPath, attrName]
-    : [...commandPath, index, attrName];
-  return parseData({
-    data: obj,
-    commandPath: commandPathA,
-    top,
-    modelsMap,
-    ...rest,
-  });
+  return parseData({ data: obj, ...rest });
 };
 
 module.exports = {

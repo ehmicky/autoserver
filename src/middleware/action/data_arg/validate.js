@@ -3,41 +3,43 @@
 const { throwError } = require('../../../error');
 
 // Validate that user passed a correct `args.data`
-const validateData = function ({
-  datum,
-  commandPath,
-  top,
-  top: { command },
-  maxAttrValueSize,
-}) {
-  const commandPathA = commandPath.join('.');
+const validateData = function ({ datum, commandPath, top, maxAttrValueSize }) {
+  const commandPathA = commandPath.slice(1).join('.');
 
-  if (!isObject(datum)) {
-    const message = `'data' argument at '${commandPathA}' should be an object or an array of objects, instead of: ${JSON.stringify(datum)}`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  validateType({ datum, commandPath: commandPathA });
 
-  if (REQUIRED_ID_TYPES.includes(command.type) && datum.id == null) {
-    const message = `'data' argument at '${commandPathA}' is missing an 'id' attribute`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  validateRequiredId({ datum, commandPath: commandPathA, top });
 
-  validateForbiddenId({ top, commandPath: commandPathA, datum });
+  validateForbiddenId({ datum, commandPath: commandPathA, top });
 
   Object.entries(datum).forEach(([attrName, value]) => validateDataValue({
     value,
     attrName,
-    commandPath,
+    commandPath: commandPathA,
     maxAttrValueSize,
   }));
+};
+
+const validateType = function ({ datum, commandPath }) {
+  if (isObject(datum)) { return; }
+
+  const message = `'data' argument at '${commandPath}' should be an object or an array of objects, instead of: ${JSON.stringify(datum)}`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
+};
+
+const validateRequiredId = function ({ datum, commandPath, top: { command } }) {
+  if (!REQUIRED_ID_TYPES.includes(command.type) || datum.id != null) { return; }
+
+  const message = `'data' argument at '${commandPath}' is missing an 'id' attribute`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 const REQUIRED_ID_TYPES = ['replace'];
 
 const validateForbiddenId = function ({
-  top: { command },
-  commandPath,
   datum,
+  commandPath,
+  top: { command },
 }) {
   const forbidsId = FORBIDDEN_ID_TYPES.includes(command.type) &&
     datum.id != null;
@@ -59,12 +61,10 @@ const validateDataValue = function ({
 }) {
   const isValueTooLong = typeof value === 'string' &&
     Buffer.byteLength(value) > maxAttrValueSize;
+  if (!isValueTooLong) { return; }
 
-  if (isValueTooLong) {
-    const path = [...commandPath.slice(1), attrName].join('.');
-    const message = `'data' argument's '${path}' attribute's value must be shorter than ${maxAttrValueSize} bytes`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
+  const message = `'data' argument's '${commandPath}.${attrName}' attribute's value must be shorter than ${maxAttrValueSize} bytes`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 const isModelType = function (val) {

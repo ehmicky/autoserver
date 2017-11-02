@@ -9,6 +9,7 @@ const parseActions = function ({ data, ...rest }) {
   const dataA = normalizeData({ data });
 
   const nestedKeys = getNestedKeys({ data: dataA, ...rest });
+  // Pass `parseActions` for recursion
   const nestedActions = getNestedActions({
     parseActions,
     data: dataA,
