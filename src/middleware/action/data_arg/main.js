@@ -19,7 +19,7 @@ const parseDataArg = function ({
   dbAdapters,
 }) {
   // Only if `args.data` is defined
-  if (data === undefined) { return { actions }; }
+  if (data === undefined) { return; }
 
   // Top-level `dataPaths`
   const dataPaths = getDataPath({ data, path: commandPath });
