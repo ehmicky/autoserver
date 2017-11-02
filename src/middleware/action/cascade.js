@@ -4,25 +4,24 @@ const { throwError } = require('../../error');
 const { uniq, includes } = require('../../utilities');
 
 const { getModel } = require('./get_model');
-const { mergeActions } = require('./merge');
+const { addActions } = require('./add_actions');
 
 // Parse `args.cascade` into a set of delete nested `actions`
-const parseCascade = function ({
-  actions,
-  top,
-  top: { args: { cascade } },
-  schema: { shortcuts: { modelsMap } },
-}) {
-  if (cascade === undefined) { return; }
-
-  const newActions = getCascadeActions({ cascade, top, modelsMap });
-
-  const actionsA = mergeActions({ actions, newActions });
-
+const parseCascade = function ({ actions, ...rest }) {
+  const actionsA = addActions({
+    actions,
+    filter: ({ cascade }) => cascade !== undefined,
+    mapper: getCascadeActions,
+    ...rest,
+  });
   return { actions: actionsA };
 };
 
-const getCascadeActions = function ({ cascade, top, modelsMap }) {
+const getCascadeActions = function ({
+  top,
+  action: { args: { cascade } },
+  schema: { shortcuts: { modelsMap } },
+}) {
   const attrs = cascade.split(',');
   const attrsA = uniq(attrs);
   const attrsB = attrsA.map(attrName => attrName.split('.'));

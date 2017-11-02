@@ -1,29 +1,25 @@
 'use strict';
 
-const { groupValuesBy, omit, assignArray } = require('../../utilities');
+const { groupValuesBy, omit } = require('../../utilities');
 const { throwError } = require('../../error');
 
 const { getModel } = require('./get_model');
-const { mergeActions } = require('./merge');
+const { addActions } = require('./add_actions');
 
 // Turn `args.select` into a set of `actions`
-const parseSelect = function ({ actions, top, schema }) {
-  const newActions = actions
-    .filter(({ args: { select } }) => select !== undefined);
-  if (newActions.length === 0) { return; }
-
-  const newActionsA = newActions
-    .map(action => parseSelectAction({ action, top, schema }))
-    .reduce(assignArray, []);
-
-  const actionsA = mergeActions({ actions, newActions: newActionsA });
-
-  validateSelect({ actions: actionsA, top });
+const parseSelect = function ({ actions, ...rest }) {
+  const actionsA = addActions({
+    actions,
+    filter: ({ select }) => select !== undefined,
+    mapper: getSelectAction,
+    ...rest,
+  });
+  validateSelect({ actions: actionsA, ...rest });
 
   return { actions: actionsA };
 };
 
-const parseSelectAction = function ({
+const getSelectAction = function ({
   action: { args: { select } },
   top,
   schema,
