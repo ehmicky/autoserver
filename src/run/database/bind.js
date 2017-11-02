@@ -3,7 +3,7 @@
 const { pick, mapValues } = require('../../utilities');
 
 // Add `options`, `connection`, `schema` and `runOpts` to
-// `adapter.find|create|delete|replace|disconnect()` input
+// `adapter.query|disconnect()` input
 const bindAdapters = function ({ adapters, connections, schema, runOpts }) {
   return adapters.map((adapter, index) => bindAdapter({
     adapter,

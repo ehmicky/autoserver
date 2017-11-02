@@ -21,7 +21,7 @@ const applyDataDefault = function ({ data, defAttributes, mInput }) {
 const applyDefault = function ({ parent, defValue, attrName, mInput }) {
   const value = parent[attrName];
 
-  // Only apply default if value is not empty
+  // Only apply default if value is empty
   if (value != null) { return parent; }
 
   // Process inline functions if default value contains any

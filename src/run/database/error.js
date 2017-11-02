@@ -38,7 +38,7 @@ const ERROR_METHOD_NAMES = ['query', 'connect', 'disconnect'];
 const ERROR_MESSAGES = {
   connect: 'Could not connect to',
   disconnect: 'Could not disconnect to',
-  find: 'Could not query models in',
+  find: 'Could not search for models in',
   create: 'Could not create models in',
   replace: 'Could not modify models in',
   delete: 'Could not delete models in',
