@@ -141,18 +141,18 @@ const middlewareLayers = [
   },
 
   {
-    name: 'write',
-    layers: [
-      // Fire one or several write commands for a set of actions
-      write.sequenceWrite,
-    ],
-  },
-
-  {
     name: 'read',
     layers: [
       // Fire one or several read commands for a set of actions
       read.sequenceRead,
+    ],
+  },
+
+  {
+    name: 'write',
+    layers: [
+      // Fire one or several write commands for a set of actions
+      write.sequenceWrite,
     ],
   },
 
