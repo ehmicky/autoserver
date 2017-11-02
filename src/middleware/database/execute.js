@@ -10,11 +10,6 @@ const databaseExecute = async function ({
   args: { dryrun },
   command,
 }) {
-  //console.log(modelName, command);
-  if (modelName === 'owner' && command === 'patch') {
-    throw 'oops';
-  }
-
   // Make write commands not change data, if argument `dryrun` is used
   if (dryrun && command !== 'find') { return; }
 
