@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit } = require('../../utilities');
+const { omit, assignArray } = require('../../utilities');
 const {
   isError,
   normalizeError,
@@ -19,6 +19,7 @@ const rollback = function ({ results, inputs }, nextLayer) {
 const rollbackActions = async function ({ failedActions, inputs, nextLayer }) {
   const promises = inputs
     .map(getRollbackInput)
+    .reduce(assignArray, [])
     .map(input => eFireResponseLayer({ input, nextLayer }));
   // Wait for all rollbacks to end
   const results = await Promise.all(promises);
@@ -29,31 +30,62 @@ const rollbackActions = async function ({ failedActions, inputs, nextLayer }) {
 // Retrieve a database input that reverts the write action, if it was
 // successful, or is a noop, if it was not performed.
 const getRollbackInput = function ({ command, args, ...input }) {
-  const { command: commandA, args: argsA } = handlers[command](args);
-  return { ...input, command: commandA, args: argsA };
+  const inputs = handlers[command](args);
+  return inputs.map(inputA => ({ ...input, ...inputA }));
 };
 
 // Rollback `create` with a `delete`
 const deleteRollback = function ({ newData, ...args }) {
+  if (newData.length === 0) { return []; }
+
   const deletedIds = newData.map(({ id }) => id);
   const argsA = { ...args, deletedIds };
   const argsB = omit(argsA, ['newData']);
-  return { command: 'delete', args: argsB };
+  return [{ command: 'delete', args: argsB }];
 };
 
-// Rollback `patch|upsert|delete` by upserting the original models
+// Rollback `patch|delete` by upserting the original models
 const upsertRollback = function ({ currentData, ...args }) {
-  const argsA = { ...args, newData: currentData };
+  if (currentData.length === 0) { return []; }
+
+  const argsA = { ...args, currentData, newData: currentData };
   const argsB = omit(argsA, ['deletedIds']);
-  return { command: 'upsert', args: argsB };
+  return [{ command: 'upsert', args: argsB }];
 };
 
-// TODO: upsert should either create or upsert
+// Rollback `upsert` by either deleting the model (if it did not exist before),
+// or upserting the original model (it it existed before)
+const deleteOrUpsertRollback = function (args) {
+  return [...getDeleteRollback(args), ...getUpsertRollback(args)];
+};
+
+const getDeleteRollback = function ({ currentData, newData, ...args }) {
+  const deletedData = newData
+    .filter((datum, index) => currentData[index] === undefined);
+  const currentDataA = currentData
+    .filter(currentDatum => currentDatum === undefined);
+  const deletedArgs = {
+    ...args,
+    currentData: currentDataA,
+    newData: deletedData,
+  };
+  const deleteInput = deleteRollback(deletedArgs);
+  return deleteInput;
+};
+
+const getUpsertRollback = function ({ currentData, ...args }) {
+  const upsertData = currentData
+    .filter(currentDatum => currentDatum !== undefined);
+  const upsertArgs = { ...args, currentData: upsertData };
+  const upsertInput = upsertRollback(upsertArgs);
+  return upsertInput;
+};
+
 const handlers = {
   create: deleteRollback,
   patch: upsertRollback,
-  upsert: upsertRollback,
   delete: upsertRollback,
+  upsert: deleteOrUpsertRollback,
 };
 
 // Only need to fire `database` layer, not `request` nor `response` layers
