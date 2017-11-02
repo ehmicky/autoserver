@@ -1,9 +1,6 @@
 'use strict';
 
-const {
-  objectTest,
-  objectArrayTest,
-} = require('../../../../../fast_validation');
+const { objectTest, objectArrayTest } = require('../../../../fast_validation');
 
 // Validates single args.data
 const singleDataTests = [

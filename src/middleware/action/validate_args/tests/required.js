@@ -1,6 +1,6 @@
 'use strict';
 
-const { get } = require('../../../../../utilities');
+const { get } = require('../../../../utilities');
 
 // Validate required arguments
 const getRequiredTests = requiredArgs => [{

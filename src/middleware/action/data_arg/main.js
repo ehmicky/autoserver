@@ -4,6 +4,7 @@ const { getLimits } = require('../../../limits');
 const { mergeActions } = require('../merge');
 
 const { getDataPath } = require('./data_path');
+const { validateLimits } = require('./limits');
 const { parseData } = require('./data');
 const { parseActions } = require('./actions');
 
@@ -22,7 +23,10 @@ const parseDataArg = function ({
 
   // Top-level `dataPaths`
   const dataPaths = getDataPath({ data, path: commandPath });
+
   const { maxAttrValueSize } = getLimits({ runOpts });
+  validateLimits({ data, runOpts });
+
   const dataA = parseData({
     data,
     commandPath,

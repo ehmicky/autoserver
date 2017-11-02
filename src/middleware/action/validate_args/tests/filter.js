@@ -3,7 +3,7 @@
 const {
   stringTest,
   objectOrArrayTest,
-} = require('../../../../../fast_validation');
+} = require('../../../../fast_validation');
 
 // Validates args.id
 const idTests = [

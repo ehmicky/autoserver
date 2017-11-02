@@ -5,8 +5,8 @@ const {
   integerTest,
   gtTest,
   leTest,
-} = require('../../../../../fast_validation');
-const { getLimits } = require('../../../../../limits');
+} = require('../../../../fast_validation');
+const { getLimits } = require('../../../../limits');
 
 // Validates args.before
 const beforeTests = [
