@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues, assignArray, uniq, pick } = require('../../../../utilities');
+const { mapValues, assignArray, uniq, pick } = require('../../../utilities');
 
 const commandsArgs = require('./commands');
 const {

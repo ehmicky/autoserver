@@ -1,6 +1,6 @@
 'use strict';
 
-const { booleanTest } = require('../../../../../fast_validation');
+const { booleanTest } = require('../../../../fast_validation');
 
 // Validates args.silent
 const silentTests = [
