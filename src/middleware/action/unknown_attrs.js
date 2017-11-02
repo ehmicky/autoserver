@@ -21,9 +21,11 @@ const validateAction = function ({ action, modelsMap }) {
 
 // Validate correct usage of special key 'all'
 const validateAllAttr = function ({
-  action: { select = [], commandPath, modelName },
+  action: { select, commandPath, modelName },
   modelsMap,
 }) {
+  if (select === undefined) { return; }
+
   const hasAllAttr = select.some(({ key }) => key === 'all');
   if (!hasAllAttr) { return; }
 
@@ -32,8 +34,7 @@ const validateAllAttr = function ({
     .find(({ key }) => modelsMap[modelName][key].target === undefined);
   if (attr === undefined) { return; }
 
-  const path = commandPath.join('.');
-  const message = `At '${path}': cannot specify both 'all' and '${attr.key}' attributes`;
+  const message = `At '${commandPath.join('.')}': cannot specify both 'all' and '${attr.key}' attributes`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
@@ -51,13 +52,9 @@ const getSelectKeys = function ({ action: { select = [] } }) {
     .map(({ key }) => key);
 };
 
-const getDataKeys = function ({ action: { args: { data = [] } } }) {
-  return getUniqueKeys(data);
-};
-
 // Turn e.g. [{ a, b }, { a }] into ['a', 'b']
-const getUniqueKeys = function (array) {
-  const keys = array
+const getDataKeys = function ({ action: { args: { data = [] } } }) {
+  const keys = data
     .map(Object.keys)
     .reduce(assignArray, []);
   const keysA = uniq(keys);
@@ -84,9 +81,7 @@ const validateUnknownArg = function ({
   const keyA = keys.find(key => modelsMap[modelName][key] === undefined);
   if (keyA === undefined) { return; }
 
-  const path = [...commandPath, keyA]
-    .slice(1)
-    .join('.');
+  const path = [...commandPath.slice(1), keyA].join('.');
   const message = `In argument '${name}', attribute '${path}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
