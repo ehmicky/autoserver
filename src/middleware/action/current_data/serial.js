@@ -2,10 +2,10 @@
 
 const { isEqual } = require('../../../utilities');
 
-// Retrieve `currentData` for `delete` and `patch` by running `find` commands.
+// Retrieve `currentData` for `delete` and `patch` by running `find` commands,
+// reusing `arg.filter`.
 // Also adds `dataPaths` since we'll now know the length of each array of models
 const serialResolve = async function ({ actions, mInput }, nextLayer) {
-  // Reuse main `find` command middleware
   const { results } = await nextLayer(mInput, 'read');
 
   const actionsA = actions.map(action => mergeResult({ results, action }));
