@@ -160,8 +160,6 @@ const middlewareLayers = [
   {
     name: 'command',
     layers: [
-      // Validate database supports command features
-      command.validateFeatures,
       // Normalize empty values (undefined, null) by removing their key
       command.normalizeEmpty,
       // Apply attribute aliases, in mInput
@@ -192,6 +190,8 @@ const middlewareLayers = [
     layers: [
       // Authorization middleware
       database.validateAuthorization,
+      // Validate database supports command features
+      database.validateFeatures,
       // Custom data validation middleware
       database.dataValidation,
 
