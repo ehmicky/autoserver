@@ -5,7 +5,7 @@ models:
     database: memory
     authorize:
       $command:
-        in: (['find', 'delete', 'create', 'replace', 'patch'])
+        in: (['find', 'delete', 'create', 'upsert', 'patch'])
     x-custom: anything
     x-second-custom:
       $ref: '#/models/pet/x-custom'
@@ -120,7 +120,7 @@ models:
 authorize:
 - $command: delete
 - $command:
-    in: [find, create, replace, patch]
+    in: [find, create, upsert, patch]
 variables:
   myMathFunc: (($1 * $2) + ($3 * $4))
   exampleFunction: '(myMathFunc(1, 10, 100, 2) +

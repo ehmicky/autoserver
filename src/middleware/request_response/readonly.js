@@ -54,7 +54,7 @@ const isReadonly = function ({ readonly, newData, attrName, mInput }) {
 
 // Silently sets `newData` back to `currentData`
 const removeReadonlyAttrs = function ({ newData, currentData, attrs }) {
-  // E.g. on `create` actions
+  // E.g. on `create` or `upsert` actions
   if (currentData === undefined) {
     return omit(newData, attrs);
   }

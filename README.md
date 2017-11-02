@@ -16,7 +16,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [Multiple protocols](docs/protocols.md) handling, with support for
     [HTTP/1.1](docs/http.md) only at the moment
   - [CRUD commands](docs/graphql.md#read-queries):
-    find, create, patch, replace, delete.
+    find, create, patch, upsert, delete.
     Each command can be performed on a single model or on several models.
   - [relations, nested commands](docs/relations.md)
     and populating between models, including for mutations

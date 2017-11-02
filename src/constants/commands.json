@@ -28,18 +28,18 @@
     "participle": "created"
   },
   {
-    "name": "replaceOne",
-    "type": "replace",
+    "name": "upsertOne",
+    "type": "upsert",
     "multiple": false,
-    "title": "replace",
-    "participle": "replaced"
+    "title": "upsert",
+    "participle": "upserted"
   },
   {
-    "name": "replaceMany",
-    "type": "replace",
+    "name": "upsertMany",
+    "type": "upsert",
     "multiple": true,
-    "title": "replace",
-    "participle": "replaced"
+    "title": "upsert",
+    "participle": "upserted"
   },
   {
     "name": "patchOne",

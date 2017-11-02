@@ -65,7 +65,7 @@ const SYSTEM_VARS = {
       // With patch authorization, one can simulate find and replace
       // authorization and vice-versa. So to avoid mistakes, we force
       // specifying them together.
-      equivalent: [['patch'], ['find', 'replace']],
+      equivalent: [['patch'], ['find', 'upsert']],
     },
   },
   $weights: { type: 'integer', isArray: true },

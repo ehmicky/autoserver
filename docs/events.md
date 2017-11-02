@@ -208,7 +208,7 @@ event payload, with the properties:
   - `commandPath` `{string}` - [command](terminology.md#command) full path,
     e.g. `'findModel.findSubmodel'`
   - `command` `${string}` - current [command](terminology.md#command),
-    among `'create'`, `'find'`, `'replace'`, `'patch'` and `'delete'`.
+    among `'create'`, `'find'`, `'upsert'`, `'patch'` and `'delete'`.
   - `model` `${string}` - current [model](terminology.md#model) name
   - `responseType` `{string}` - among `'model'`, `'collection'`, `'error'`,
     `'object'`, `'html'`, `'text'`

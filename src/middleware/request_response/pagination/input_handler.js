@@ -39,7 +39,7 @@ const { getPaginationInput } = require('./input');
 //    findMany, deleteMany or patchMany
 //  - consumer can iterate the pagination with safe command returning an
 //    array of response, i.e. findMany
-//  - this means replace and delete commands will paginate output,
+//  - this means `upsert` and `delete` commands will paginate output,
 //    but to iterate through the next batches, findMany must be used
 const handlePaginationInput = function ({ args, command, runOpts }) {
   validatePaginationInput({ args, command, runOpts });

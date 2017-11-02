@@ -40,7 +40,7 @@ const ERROR_MESSAGES = {
   disconnect: 'Could not disconnect to',
   find: 'Could not search for models in',
   create: 'Could not create models in',
-  replace: 'Could not modify models in',
+  upsert: 'Could not upsert models in',
   delete: 'Could not delete models in',
 };
 

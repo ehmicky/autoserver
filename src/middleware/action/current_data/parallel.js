@@ -9,7 +9,7 @@ const {
 const { mergeCommandPaths } = require('../../../constants');
 const { getSimpleFilter } = require('../../../filter');
 
-// Add `action.currentData` for `replace` commands
+// Add `action.currentData` for `create` and `upsert` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
   const currentDataMap = await getCurrentDataMap({
     actions,

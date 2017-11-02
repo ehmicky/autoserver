@@ -10,7 +10,7 @@ const getDryrunArgument = function ({ command }) {
   return DRYRUN_ARGS;
 };
 
-const DRYRUN_COMMANDS = ['create', 'replace', 'patch', 'delete'];
+const DRYRUN_COMMANDS = ['create', 'upsert', 'patch', 'delete'];
 
 const DRYRUN_ARGS = {
   dryrun: {

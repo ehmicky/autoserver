@@ -39,7 +39,7 @@ const validateRequiredId = function ({ datum, commandPath, command }) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const REQUIRED_ID_TYPES = ['replace'];
+const REQUIRED_ID_TYPES = ['upsert'];
 
 const validateForbiddenId = function ({ datum, commandPath, command }) {
   const forbidsId = FORBIDDEN_ID_TYPES.includes(command.type) &&

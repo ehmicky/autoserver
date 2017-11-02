@@ -11,7 +11,7 @@ models:
         default: 200
 ```
 
-They will be used for `create` and `replace` commands.
+They will be used for `create` and `upsert` commands.
 
 # Transformations
 

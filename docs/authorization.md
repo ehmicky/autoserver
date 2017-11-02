@@ -27,7 +27,7 @@ schema:
   - $command: find
     userGroup: reader
   - $command:
-      in: [find, replace, patch]
+      in: [find, patch]
     userGroup: manager
   - userGroup: admin
 ```

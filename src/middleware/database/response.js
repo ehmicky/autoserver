@@ -2,8 +2,8 @@
 
 // Retrieves database return value
 // Only `find` command use database return value.
-// `create` and `replace` assumes database does not modify input, i.e. reuse
-// `args.newData`
+// `create`, `patch` and `upsert` assumes database does not modify input,
+// i.e. reuse `args.newData`
 // `delete` reuse data before deletion, i.e. use `args.currentData`
 const getDbResponse = function ({
   dbData,
@@ -20,7 +20,7 @@ const getDbResponse = function ({
 const RESPONSE_MAP = {
   find: 'dbData',
   create: 'newData',
-  replace: 'newData',
+  upsert: 'newData',
   patch: 'newData',
   delete: 'currentData',
 };

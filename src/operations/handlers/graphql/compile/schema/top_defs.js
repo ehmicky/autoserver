@@ -25,7 +25,7 @@ const getTopDefs = function ({ models }) {
 // Mapping from schema commands to GraphQL methods
 const GRAPHQL_METHODS = {
   query: ['find'],
-  mutation: ['create', 'replace', 'patch', 'delete'],
+  mutation: ['create', 'upsert', 'patch', 'delete'],
 };
 
 const getTopDef = function ({ models, graphqlMethod, commands }) {

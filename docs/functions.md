@@ -71,7 +71,7 @@ first argument, as an object:
     `graphqlprint`
   - `$modelName` `{string}`: name of the [model](models.md), e.g. `user`
   - `$args` `{object}`: client arguments passed to the request, e.g. `filter`
-  - `$command` `{string}`: current command, among `create`, `find`, `replace`,
+  - `$command` `{string}`: current command, among `create`, `find`, `upsert`,
     `patch` or `delete`
   - `$val` `{any}`: value of the current attribute.
     E.g. `$val === 'John'` checks whether the current value equals `'John'`

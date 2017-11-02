@@ -43,15 +43,15 @@ const getCommandInput = function ({
 };
 
 // From API command to database adapter's command
-// `patch` behaves like a `find` followed by a `replace`.
-// `create` and `replace` do an upsert to minimize concurrency conflicts,
+// `patch` behaves like a `find` followed by a `upsert`.
+// `create` does an upsert to minimize concurrency conflicts,
 // i.e. if the model was created or deleted since the `currentData` query was
 // performed
 const commandMap = {
   find: 'find',
   delete: 'delete',
   patch: 'upsert',
-  replace: 'upsert',
+  upsert: 'upsert',
   create: 'upsert',
 };
 
