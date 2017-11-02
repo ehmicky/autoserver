@@ -23,7 +23,7 @@ const fireReadCommand = async function ({
     command: 'find',
   };
 
-  const { response: { data } } = await nextLayer(mInputA, 'command');
+  const { response: { data } } = await nextLayer(mInputA, 'request_response');
   return data;
 };
 

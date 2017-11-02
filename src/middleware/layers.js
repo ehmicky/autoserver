@@ -8,9 +8,8 @@ const operation = require('./operation');
 const action = require('./action');
 const read = require('./read');
 const write = require('./write');
-const command = require('./command');
+const requestResponse = require('./request_response');
 const database = require('./database');
-const adapter = require('./adapter');
 
 const middlewareLayers = [
   // Final layer, always fired, whether the request fails or not
@@ -158,74 +157,64 @@ const middlewareLayers = [
   },
 
   {
-    name: 'command',
+    name: 'request_response',
     layers: [
       // Normalize empty values (undefined, null) by removing their key
-      command.normalizeEmpty,
+      requestResponse.normalizeEmpty,
       // Apply attribute aliases, in mInput
-      command.renameAliasesInput,
+      requestResponse.renameAliasesInput,
       // Process `attr.transforms` and `attr.value`
-      command.handleTransforms,
+      requestResponse.handleTransforms,
       // Apply user-defined default values
-      command.userDefaults,
+      requestResponse.userDefaults,
       // Apply system-defined default values, e.g. order_by 'id+'
-      command.systemDefaults,
+      requestResponse.systemDefaults,
       // Resets readonly attributes in `args.newData`
-      command.handleReadonly,
+      requestResponse.handleReadonly,
       // Paginate mInput
-      command.handlePaginationInput,
+      requestResponse.handlePaginationInput,
+      // Authorization middleware
+      requestResponse.validateAuthorization,
+      // Validate database supports command features
+      requestResponse.validateFeatures,
+      // Custom data validation middleware
+      requestResponse.dataValidation,
 
       // Fires database layer
-      command.fireDatabase,
+      requestResponse.fireDatabase,
 
+      // Validate database response
+      requestResponse.responseValidation,
+      // Remove models that are null|undefined
+      requestResponse.removeEmptyModels,
+      // Remove duplicate read models
+      requestResponse.duplicateReads,
+      // Check if any `id` was not found (404) or was unauthorized (403)
+      requestResponse.validateMissingIds,
+      // Check if any model already exists, for create actions
+      requestResponse.validateCreateIds,
       // Paginate output
-      command.handlePaginationOutput,
+      requestResponse.handlePaginationOutput,
       // Apply attribute aliases, in output
-      command.renameAliasesOutput,
+      requestResponse.renameAliasesOutput,
     ],
   },
 
   {
     name: 'database',
     layers: [
-      // Authorization middleware
-      database.validateAuthorization,
-      // Validate database supports command features
-      database.validateFeatures,
-      // Custom data validation middleware
-      database.dataValidation,
-
-      // Fires adapter layer
-      database.fireAdapter,
-
-      // Validate database response
-      database.responseValidation,
-      // Remove models that are null|undefined
-      database.removeEmptyModels,
-      // Remove duplicate read models
-      database.duplicateReads,
-      // Check if any `id` was not found (404) or was unauthorized (403)
-      database.validateMissingIds,
-      // Check if any model already exists, for create actions
-      database.validateCreateIds,
-    ],
-  },
-
-  {
-    name: 'adapter',
-    layers: [
       // Pick database adapter
-      adapter.pickDatabaseAdapter,
+      database.pickDatabaseAdapter,
       // Add database-specific id names
-      adapter.renameIdsInput,
+      database.renameIdsInput,
 
       // Do the database action, protocol and operation-agnostic
-      adapter.databaseExecute,
+      database.databaseExecute,
 
       // Remove database-specific id names
-      adapter.renameIdsOutput,
+      database.renameIdsOutput,
       // Retrieves database return value
-      adapter.getDbResponse,
+      database.getDbResponse,
     ],
   },
 ];

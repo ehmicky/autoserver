@@ -47,7 +47,7 @@ const fireWriteCommand = async function ({
 }) {
   const commandPath = mergeCommandPaths({ actions });
   const mInputA = { ...mInput, commandPath, command, modelName, args };
-  const { response: { data } } = await nextLayer(mInputA, 'command');
+  const { response: { data } } = await nextLayer(mInputA, 'request_response');
   return data;
 };
 
