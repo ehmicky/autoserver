@@ -8,9 +8,8 @@ const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
 const sequenceWrite = async function ({ actions, mInput }, nextLayer) {
+  // Run write commands in parallel, for each `modelName`
   const actionsGroups = groupValuesBy(actions, 'modelName');
-
-  // Run write commands in parallel
   const resultsPromises = actionsGroups
     .map(actionsA => fireCommand({ actions: actionsA, mInput, nextLayer }));
   const results = await Promise.all(resultsPromises);
@@ -33,7 +32,7 @@ const fireCommand = async function ({
 
   const results = await fireWriteCommand({ actions, args, nextLayer, mInput });
 
-  const resultsA = getResults({ actions, results, ids, modelName });
+  const resultsA = getResults({ actions, results, ids, modelName, top });
   return resultsA;
 };
 

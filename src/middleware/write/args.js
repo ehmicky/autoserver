@@ -6,9 +6,8 @@ const { getCurrentData } = require('./current_data');
 const { removeDuplicates } = require('./duplicate');
 
 // Merge arguments and retrieve model ids
-const getArgs = function ({ actions, top: { command, args: topArgs } }) {
-  const getArgsFunc = command.type === 'delete' ? useCurrentData : useNewData;
-  const { args, ids } = getArgsFunc({ actions });
+const getArgs = function ({ actions, top, top: { args: topArgs } }) {
+  const { args, ids } = getCommandArgs({ actions, top });
 
   const argsA = applyTopArgs({ args, topArgs });
 
@@ -19,27 +18,31 @@ const getArgs = function ({ actions, top: { command, args: topArgs } }) {
 };
 
 // Merge all `args.data` into `newData`, for `replace|patch|create` commands
-const useNewData = function ({ actions }) {
-  const models = getModels(actions, ({ args: { data } }) => data);
+// and into `filter.id`, for `delete` command
+const getCommandArgs = function ({ actions, top: { command } }) {
+  const { getModels, getArg } = handlers[command.type];
 
-  const ids = models.map(({ id }) => id);
+  const models = actions.map(getModels);
+  const modelsA = removeDuplicates({ models });
 
-  return { args: { newData: models }, ids };
+  const ids = modelsA.map(({ id }) => id);
+
+  const args = getArg({ models: modelsA, ids });
+
+  return { args, ids };
 };
 
-// Merge all `currentData` into `filter.id`, for `delete` command
-const useCurrentData = function ({ actions }) {
-  const models = getModels(actions, ({ currentData }) => currentData);
+const useArgsData = ({ args: { data } }) => data;
+const useCurrentData = ({ currentData }) => currentData;
+const setNewData = ({ models }) => ({ newData: models });
+const setDeletedIds = ({ ids }) => ({ deletedIds: ids });
 
-  const ids = models.map(({ id }) => id);
-
-  return { args: { deletedIds: ids }, ids };
-};
-
-const getModels = function (actions, getModel) {
-  const models = actions.map(getModel);
-  const modelsA = removeDuplicates(models);
-  return modelsA;
+// `delete` uses a different logic than `create|replace|patch`
+const handlers = {
+  create: { getModels: useArgsData, getArg: setNewData },
+  replace: { getModels: useArgsData, getArg: setNewData },
+  patch: { getModels: useArgsData, getArg: setNewData },
+  delete: { getModels: useCurrentData, getArg: setDeletedIds },
 };
 
 // Reuse some whitelisted top-level arguments
@@ -50,4 +53,5 @@ const applyTopArgs = function ({ args, topArgs }) {
 
 module.exports = {
   getArgs,
+  handlers,
 };

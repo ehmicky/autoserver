@@ -3,23 +3,28 @@
 const { assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
 
+const { handlers } = require('./args');
+
 // Transform results to normalized format
-const getResults = function ({ actions, results, ids, modelName }) {
-  validateResult({ ids, results });
+const getResults = function ({ actions, results, ids, modelName, top }) {
+  validateResults({ ids, results });
 
   return actions
-    .map(action => getModels({ action, results, modelName }))
+    .map(action => setModels({ action, results, modelName, top }))
     .reduce(assignArray, []);
 };
 
-const getModels = function ({
+// `results` should be in same order as `args.data` or
+// (for `delete`) as `currentData`, and reuse their `dataPaths`
+const setModels = function ({
   results,
   modelName,
-  action: { args, currentData, dataPaths, select },
+  action,
+  action: { dataPaths, select },
+  top: { command },
 }) {
-  // `results` should be in same order as `args.data` or
-  // (for `delete`) as `currentData`, and reuse their `dataPaths`
-  const models = args.data || currentData;
+  const { getModels } = handlers[command.type];
+  const models = getModels(action);
   return models
     .map(findModel.bind(null, { results, dataPaths, select, modelName }))
     .filter(({ path }) => path !== undefined);
@@ -36,7 +41,7 @@ const findModel = function (
 };
 
 // Safety check to make sure there is no server-side bugs
-const validateResult = function ({ ids, results }) {
+const validateResults = function ({ ids, results }) {
   const sameLength = results.length === ids.length;
   if (sameLength) { return; }
 
