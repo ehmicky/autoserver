@@ -115,4 +115,5 @@ module.exports = {
   throwError,
   rethrowError,
   normalizeError,
+  isError,
 };

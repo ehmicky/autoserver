@@ -17,6 +17,7 @@ module.exports = {
   ...require('./current_data'),
   ...require('./patch_data'),
   ...require('./resolve'),
+  ...require('./rollback'),
 
   ...require('./remove_nested_write'),
   ...require('./models_count'),

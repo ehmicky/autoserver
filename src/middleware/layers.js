@@ -122,6 +122,8 @@ const middlewareLayers = [
       action.patchData,
       // Fire all read or write actions, retrieving some `results`
       action.resolveActions,
+      // Rollback write actions if any of them failed
+      action.rollback,
 
       // Remove nested `args.data` not present in `args.select`
       action.removeNestedWrite,
