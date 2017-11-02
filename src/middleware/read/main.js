@@ -11,14 +11,14 @@ const { processResults } = require('./results');
 const sequenceRead = function ({ actions, top, modelsMap, mInput }, nextLayer) {
   const actionsA = getParentActions({ actions, top, modelsMap });
 
-  return topRead({ ...mInput, actions: actionsA, results: [] }, nextLayer);
+  return fireReads({ ...mInput, actions: actionsA, results: [] }, nextLayer);
 };
 
-const topRead = async function ({ actions, results, ...mInput }, nextLayer) {
+const fireReads = async function ({ actions, results, ...mInput }, nextLayer) {
   // Siblings can be run in parallel
   // Children will fire this function recursively, waiting for their parent
   const resultsPromises = actions.map(({ parentAction, childActions }) =>
-    singleSequenceRead({
+    fireRead({
       action: parentAction,
       childActions,
       actions,
@@ -31,7 +31,7 @@ const topRead = async function ({ actions, results, ...mInput }, nextLayer) {
   return { results };
 };
 
-const singleSequenceRead = async function ({
+const fireRead = async function ({
   action,
   action: { args, modelName },
   childActions,
@@ -88,7 +88,7 @@ const singleSequenceRead = async function ({
   // Recursive call
   // Child actions must start after their parent ends
   const mInputA = { ...mInput, actions: childActions, results };
-  await topRead(mInputA, nextLayer);
+  await fireReads(mInputA, nextLayer);
 };
 
 module.exports = {

@@ -35,13 +35,8 @@ const getResults = function ({
   top,
 }) {
   if (isTopLevel) {
-    return results.map((model, index) => getResult({
-      action,
-      model,
-      index,
-      commandName,
-      top,
-    }));
+    return results.map((model, index) =>
+      getResult({ action, model, index, commandName, top }));
   }
 
   // Nested results reuse `nestedParentIds` to assign proper `path` index.
