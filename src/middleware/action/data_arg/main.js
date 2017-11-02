@@ -3,8 +3,8 @@
 const { getLimits } = require('../../../limits');
 const { mergeActions } = require('../merge');
 
-const { getDataPath } = require('./data_path');
 const { validateLimits } = require('./limits');
+const { getDataPath } = require('./data_path');
 const { parseData } = require('./data');
 const { parseActions } = require('./actions');
 
@@ -21,11 +21,11 @@ const parseDataArg = function ({
   // Only if `args.data` is defined
   if (data === undefined) { return; }
 
-  // Top-level `dataPaths`
-  const dataPaths = getDataPath({ data, path: commandPath });
-
   const { maxAttrValueSize } = getLimits({ runOpts });
   validateLimits({ data, runOpts });
+
+  // Top-level `dataPaths`
+  const dataPaths = getDataPath({ data, commandPath });
 
   const dataA = parseData({
     data,

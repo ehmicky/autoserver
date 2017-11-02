@@ -24,8 +24,8 @@ const addDefaultIds = function ({ datum, top, top: { command }, ...rest }) {
 };
 
 // Try each way to set default, in order
-const getIdDefault = function (input, idA, handler) {
-  if (idA != null) { return idA; }
+const getIdDefault = function (input, id, handler) {
+  if (id != null) { return id; }
 
   return handler(input);
 };
@@ -47,7 +47,7 @@ const applySchemaDefault = function ({
 // Apply database adapter-specific id default, i.e. adater.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
 const applyDatabaseDefault = function ({ model: { modelName }, dbAdapters }) {
-  const { [modelName]: { getDefaultId } } = dbAdapters;
+  const { getDefaultId } = dbAdapters[modelName];
   if (getDefaultId === undefined) { return; }
 
   return getDefaultId();
