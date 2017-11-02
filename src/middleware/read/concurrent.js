@@ -1,5 +1,6 @@
 'use strict';
 
+const { difference } = require('../../utilities');
 const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 
 // If another `find` command searching for the same models is currently running,
@@ -45,7 +46,7 @@ const getConcurrentResult = function ({ id, results, modelName }) {
 // fetch them, i.e. remove them from `args.filter.id`
 const removeConcurrentIds = function ({ concurrentResults, ids, args }) {
   const concurrentIds = concurrentResults.map(({ model: { id } }) => id);
-  const idsA = ids.filter(id => !concurrentIds.includes(id));
+  const idsA = difference(ids, concurrentIds);
 
   const filter = getSimpleFilter({ ids: idsA });
   return { ...args, filter };
