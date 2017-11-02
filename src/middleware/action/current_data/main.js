@@ -16,10 +16,10 @@ const addCurrentData = function ({ top: { command }, ...rest }, nextLayer) {
 // `find` command does not need `currentData`
 // `patch` and `delete` use `args.filter|id` so need to be run serially,
 // waiting for their parent.
-// But `create` and `replace` can be run in parallel.
+// But `create` and `upsert` can be run in parallel.
 const resolvers = {
   create: parallelResolve,
-  replace: parallelResolve,
+  upsert: parallelResolve,
   patch: serialResolve,
   delete: serialResolve,
 };

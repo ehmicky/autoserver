@@ -55,6 +55,7 @@ const reportProblem = async function ({
   ids,
   modelName,
   top,
+  top: { command: { type: topCommand } },
   nextLayer,
   mInput,
 }) {
@@ -66,6 +67,9 @@ const reportProblem = async function ({
     nextLayer,
     mInput,
   });
+
+  // `upsert` commands might throw authorization errors, but not model not found
+  if (topCommand === 'upsert') { return; }
 
   throwCommonError({ reason: 'DB_MODEL_NOT_FOUND', ids: idsA, modelName });
 };

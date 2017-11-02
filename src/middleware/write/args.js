@@ -17,7 +17,7 @@ const getArgs = function ({ actions, top, top: { args: topArgs } }) {
   return { args: argsB, ids };
 };
 
-// Merge all `args.data` into `newData`, for `replace|patch|create` commands
+// Merge all `args.data` into `newData`, for `upsert|patch|create` commands
 // and into `filter.id`, for `delete` command
 const getCommandArgs = function ({ actions, top: { command } }) {
   const { getModels, getArg } = handlers[command.type];
@@ -37,10 +37,10 @@ const useCurrentData = ({ currentData }) => currentData;
 const setNewData = ({ models }) => ({ newData: models });
 const setDeletedIds = ({ ids }) => ({ deletedIds: ids });
 
-// `delete` uses a different logic than `create|replace|patch`
+// `delete` uses a different logic than `create|upsert|patch`
 const handlers = {
   create: { getModels: useArgsData, getArg: setNewData },
-  replace: { getModels: useArgsData, getArg: setNewData },
+  upsert: { getModels: useArgsData, getArg: setNewData },
   patch: { getModels: useArgsData, getArg: setNewData },
   delete: { getModels: useCurrentData, getArg: setDeletedIds },
 };

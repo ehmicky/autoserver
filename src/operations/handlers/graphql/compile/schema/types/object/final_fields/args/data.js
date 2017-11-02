@@ -17,7 +17,7 @@ const getDataArgument = function (def, opts) {
 };
 
 const getDataObjectType = function ({ command }, { dataObjectType }) {
-  // Only multiple with createMany or replaceMany
+  // Only multiple with createMany or upsertMany
   const isMultiple = command.multiple &&
     MANY_DATA_COMMAND_TYPES.includes(command.type);
 
@@ -29,8 +29,8 @@ const getDataObjectType = function ({ command }, { dataObjectType }) {
   return new GraphQLNonNull(dataObjectType);
 };
 
-const DATA_COMMAND_TYPES = ['create', 'replace', 'patch'];
-const MANY_DATA_COMMAND_TYPES = ['create', 'replace'];
+const DATA_COMMAND_TYPES = ['create', 'upsert', 'patch'];
+const MANY_DATA_COMMAND_TYPES = ['create', 'upsert'];
 
 module.exports = {
   getDataArgument,

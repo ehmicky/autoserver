@@ -9,7 +9,7 @@ const METHODS_MAP = {
   GET: 'find',
   HEAD: 'find',
   POST: 'create',
-  PUT: 'replace',
+  PUT: 'upsert',
   PATCH: 'patch',
   DELETE: 'delete',
 };

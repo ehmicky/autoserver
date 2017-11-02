@@ -89,11 +89,11 @@ mutation {
 }
 ```
 
-`replace` command performs a full modification (similar to REST's `PUT` method):
+`upsert` command performs a full modification (similar to REST's `PUT` method):
 
 ```graphql
 mutation {
-  replace_user(data: {id: "1", name: "David"}) {
+  upsert_user(data: {id: "1", name: "David"}) {
     id
     name
   }
@@ -102,7 +102,7 @@ mutation {
 
 ```graphql
 mutation {
-  replace_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
+  upsert_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
     id
     name
   }
@@ -155,9 +155,9 @@ mutation {
 One specifies the data to mutate with `data`, which is either an array
 (for plural commands) or an object (for singular commands).
 
-It can be used by the following commands: `create`, `replace` and `patch`.
+It can be used by the following commands: `create`, `upsert` and `patch`.
 
-`data.id` is required for `replace`, optional for `create`
+`data.id` is required for `upsert`, optional for `create`
 (it defaults to a UUID) and forbidden for `patch`.
 
 `patch` command `data` is a bit different, as it is never an array.
@@ -182,11 +182,11 @@ create_models({ data[], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql
-replace_model({ data, [silent], [dryrun] })
+upsert_model({ data, [silent], [dryrun] })
 ```
 
 ```graphql
-replace_models({ data[], [page_size], [silent], [dryrun] })
+upsert_models({ data[], [page_size], [silent], [dryrun] })
 ```
 
 ```graphql

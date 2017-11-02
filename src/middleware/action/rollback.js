@@ -41,17 +41,18 @@ const deleteRollback = function ({ newData, ...args }) {
   return { command: 'delete', args: argsB };
 };
 
-// Rollback `patch|replace|delete` by upserting the original models
+// Rollback `patch|upsert|delete` by upserting the original models
 const upsertRollback = function ({ currentData, ...args }) {
   const argsA = { ...args, newData: currentData };
   const argsB = omit(argsA, ['deletedIds']);
-  return { command: 'replace', args: argsB };
+  return { command: 'upsert', args: argsB };
 };
 
+// TODO: upsert should either create or upsert
 const handlers = {
   create: deleteRollback,
   patch: upsertRollback,
-  replace: upsertRollback,
+  upsert: upsertRollback,
   delete: upsertRollback,
 };
 

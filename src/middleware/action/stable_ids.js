@@ -41,7 +41,7 @@ const validateStableIds = function ({
     .forEach(action => validateAction({ action, schema, top }));
 };
 
-const STABLE_IDS_COMMANDS = ['create', 'patch', 'replace'];
+const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert'];
 
 const validateAction = function ({
   action,
