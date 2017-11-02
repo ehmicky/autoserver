@@ -14,6 +14,7 @@ const parseSelect = function ({ actions, ...rest }) {
     mapper: getSelectAction,
     ...rest,
   });
+
   validateSelect({ actions: actionsA, ...rest });
 
   return { actions: actionsA };
@@ -64,19 +65,16 @@ const getModelName = function ({
   schema: { shortcuts: { modelsMap } },
 }) {
   const model = getModel({ commandPath, modelsMap, top });
+  if (model !== undefined) { return model.modelName; }
 
-  if (model === undefined) {
-    const message = `In argument 'select', attribute '${commandPath.join('.')}' is unknown`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
-  }
-
-  return model.modelName;
+  const message = `In argument 'select', attribute '${commandPath.join('.')}' is unknown`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
 const validateSelect = function ({ actions, top: { command } }) {
   if (command.type === 'find') { return; }
 
-  return actions.map(action => validateAction({ action, command }));
+  actions.forEach(action => validateAction({ action, command }));
 };
 
 // Write actions can only select attributes that are part of the write action
