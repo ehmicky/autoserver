@@ -22,7 +22,7 @@ const getAttr = function ({ attrs, attrName, throwErr }) {
   const dynamicAttr = getDynamicAttr({ attrs, attrName });
   if (dynamicAttr !== undefined) { return dynamicAttr; }
 
-  const message = `Must not use unknown '${attrName}'`;
+  const message = `Attribute '${attrName}' is unknown`;
   throwErr(message);
 };
 
