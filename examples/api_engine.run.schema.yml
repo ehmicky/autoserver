@@ -118,7 +118,8 @@ models:
     $ref: pet_skills.yml
   default: {}
 authorize:
-- $command: delete
+- $command:
+    in: [find, delete]
 - $command:
     in: [find, create, upsert, patch]
 variables:
