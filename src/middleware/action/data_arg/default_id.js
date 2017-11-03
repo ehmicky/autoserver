@@ -42,8 +42,8 @@ const applySchemaDefault = function ({
   if (schemaFunc == null) { return; }
 
   const vars = getModelVars({
-    newDatum: datum,
-    currentDatum: undefined,
+    model: datum,
+    oldModel: undefined,
     attrName: 'id',
   });
   const mInputA = { ...mInput, modelName, command: command.type };
