@@ -37,7 +37,7 @@ const allDescriptions = [
   },
   {
     test: ({ value }) => value !== undefined,
-    message: () => 'This attribute is set by the server, not the client.',
+    message: () => 'This attribute is transformed or set by the server',
   },
   {
     test: ({ examples }) => examples !== undefined,
