@@ -166,7 +166,7 @@ const middlewareLayers = [
       // Apply attribute aliases, in mInput
       requestResponse.renameAliasesInput,
       // Process `attr.value`
-      requestResponse.handleTransforms,
+      requestResponse.handleValue,
       // Apply user-defined default values
       requestResponse.userDefaults,
       // Apply system-defined default values, e.g. order_by 'id+'

@@ -6,7 +6,6 @@ module.exports = {
   ...require('./transform'),
   ...require('./user_defaults'),
   ...require('./system_defaults'),
-  ...require('./readonly'),
   ...require('./pagination'),
   ...require('./authorize'),
   ...require('./features'),
