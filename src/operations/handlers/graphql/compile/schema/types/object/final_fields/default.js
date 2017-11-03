@@ -16,10 +16,12 @@ const isDataArgument = function (def, { inputObjectType }) {
   return inputObjectType === 'data';
 };
 
-// 'patch' does not require anything, nor assign defaults
+// Only applied when model is created, e.g. on `create` or `upsert`
 const isNotPatchData = function ({ command }) {
-  return command.type !== 'patch';
+  return DEFAULT_COMMANDS.includes(command.type);
 };
+
+const DEFAULT_COMMANDS = ['create', 'upsert'];
 
 // Schema function are skipped
 const isStatic = function (def) {
