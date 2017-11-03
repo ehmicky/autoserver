@@ -88,6 +88,7 @@ See the following documentation for:
   - [data validation](validation.md)
   - [auto-documentation](autodocumentation.md)
   - [authorization](authorization.md)
+  - [default values](default.md)
   - [transformation](transformation.md)
   - [compatibility](compatibility.md)
   - [custom logic](functions.md)

@@ -27,12 +27,9 @@ full-featured [GraphQL](http://graphql.org/) server will start.
   - [input validation](docs/validation.md#data-validation)
   - [authorization](docs/authorization.md), including
     [readonly](docs/authorization.md#readonly-attributes) attributes
-  - [default values](docs/transformation.md#default-values)
+  - [default values](docs/default.md)
+  - [computed attributes and normalization](docs/transformation.md)
   - [aliases](docs/compatibility.md#aliases)
-  - [transformation on input](docs/transformation.md#transformations),
-    e.g. for normalization
-  - [computed values](docs/transformation.md#computed-attributes),
-    e.g. `name = first_name + last_name`
   - automatic attributes:
     [`created_time`, `updated_time`](docs/plugins.md#timestamps),
     [`created_by`, `updated_by`](docs/plugins.md#model-authors)
