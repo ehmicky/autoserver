@@ -61,22 +61,22 @@ const filterTransforms = function ({
 const filterTransform = function ({
   condition,
   newDatum: model,
-  currentDatum: oldModel,
+  currentDatum: previousModel,
   attrName,
 }) {
-  const vars = getModelVars({ model, oldModel, attrName });
+  const vars = getModelVars({ model, previousModel, attrName });
   return condition(vars);
 };
 
 const transformAttr = function ({
   handler: { setAttr },
   newDatum: model,
-  currentDatum: oldModel,
+  currentDatum: previousModel,
   attrName,
   transform,
   mInput,
 }) {
-  const vars = getModelVars({ model, oldModel, attrName });
+  const vars = getModelVars({ model, previousModel, attrName });
 
   const transformA = runSchemaFunc({ schemaFunc: transform, mInput, vars });
 

@@ -78,12 +78,12 @@ first argument, as an object:
   - `$model` `{object}`: current model.
     E.g. `$model.first_name === 'John'` checks whether the model's `first_name`
     equals `'John'`
-  - `$oldVal` `{any}`: value of the current attribute.
-    If the current request is modified the current attribute, `$oldVal` is the
-    value before that modification, and `$val` after that modification.
-  - `$oldModel` `{object|undefined}`: current model.
-    If the current request is modified the current model, `$oldModel` is the
-    value before that modification, and `$model` after that modification.
+  - `$previousVal` `{any}`: value of the attribute.
+    If the current request is modified the current attribute, `$previousVal`
+    is the value before that modification, and `$val` after that modification.
+  - `$previousModel` `{object|undefined}`: model.
+    If the current request is modified the current model, `$previousModel` is
+    the value before that modification, and `$model` after that modification.
     If the current request is creating the model (with a `create` or `upsert`
     action), this will be `undefined`.
   - `$expected` `${any}`: value passed as argument to the custom validation

@@ -43,7 +43,7 @@ const applySchemaDefault = function ({
 
   const vars = getModelVars({
     model: datum,
-    oldModel: undefined,
+    previousModel: undefined,
     attrName: 'id',
   });
   const mInputA = { ...mInput, modelName, command: command.type };

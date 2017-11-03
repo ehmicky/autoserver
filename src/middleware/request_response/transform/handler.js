@@ -12,10 +12,10 @@ const setTransform = function ({ transform }) {
   return transform;
 };
 
-const setCurrentValIfTrue = function ({ transform, $oldVal, $val }) {
+const setCurrentValIfTrue = function ({ transform, $previousVal, $val }) {
   if (!transform) { return $val; }
 
-  return $oldVal;
+  return $previousVal;
 };
 
 // `attr.value`
