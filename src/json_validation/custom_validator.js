@@ -1,6 +1,6 @@
 'use strict';
 
-const { runSchemaFunc } = require('../schema_func');
+const { runSchemaFunc, getModelVars } = require('../schema_func');
 const { memoize } = require('../utilities');
 const { throwError } = require('../error');
 
@@ -34,14 +34,15 @@ const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
 // eslint-disable-next-line max-params
 const keywordFunc = ({ keyword, testFunc, message }) => function validate (
   expected,
-  value,
   _,
   __,
-  parent,
+  ___,
+  model,
   attrName,
-  { [Symbol.for('mInput')]: mInput }
+  { [Symbol.for('extra')]: { mInput, currentDatum } }
 ) {
-  const vars = { $expected: expected, $model: parent, $val: value };
+  const modelVars = getModelVars({ model, attrName, oldModel: currentDatum });
+  const vars = { $expected: expected, ...modelVars };
 
   const isValid = runSchemaFunc({ schemaFunc: testFunc, mInput, vars });
   if (isValid === true) { return true; }
