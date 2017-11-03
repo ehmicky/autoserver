@@ -11,9 +11,11 @@ const validate = function ({
   dataVar,
   reason,
   message,
-  mInput,
+  extra = {},
 }) {
-  const dataA = { ...data, [Symbol.for('mInput')]: mInput };
+  // Hack to be able to pass information to custom validation keywords
+  const dataA = { ...data, [Symbol.for('extra')]: extra };
+
   const isValid = compiledJsonSchema(dataA);
   if (isValid) { return; }
 
