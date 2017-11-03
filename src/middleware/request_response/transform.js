@@ -1,9 +1,9 @@
 'use strict';
 
-const { mapValues, omitBy } = require('../../utilities');
+const { mapValues, pickBy } = require('../../utilities');
 const { runSchemaFunc } = require('../../schema_func');
 
-// Handles `attr.value` and `attr.readonly`
+// Handles `attr.value`, `attr.default` and `attr.readonly`
 const handleTransforms = function (type, {
   args,
   args: { newData, currentData },
@@ -34,8 +34,14 @@ const transformDatum = function ({
   transformVals,
   mInput,
 }) {
-  const newDatumA = mapValues(
+  const transformValsA = filterTransformVals({
+    type,
     transformVals,
+    currentDatum,
+    newDatum,
+  });
+  const newDatumA = mapValues(
+    transformValsA,
     (transformVal, attrName) => transformAttr({
       type,
       newDatum,
@@ -46,11 +52,46 @@ const transformDatum = function ({
     }),
   );
 
-  // Make sure we keep null as undefined
-  const newDatumB = omitBy(newDatumA, newVal => newVal == null);
+  const newDatumB = { ...newDatum, ...newDatumA };
 
-  const newDatumC = { ...newDatum, ...newDatumB };
-  return newDatumC;
+  return newDatumB;
+};
+
+const filterTransformVals = function ({
+  type,
+  transformVals,
+  currentDatum,
+  newDatum,
+}) {
+  const { condition } = handlers[type];
+  if (condition === undefined) { return transformVals; }
+
+  const transformValsA = pickBy(
+    transformVals,
+    (transformVal, attrName) => filterTransformVal({
+      condition,
+      newDatum,
+      currentDatum,
+      attrName,
+    }),
+  );
+  return transformValsA;
+};
+
+const filterTransformVal = function ({
+  condition,
+  newDatum,
+  currentDatum,
+  attrName,
+}) {
+  const vars = getModelVars({ newDatum, currentDatum, attrName });
+  return condition(vars);
+};
+
+// Apply `attr.default` only on model creation, and if the attribute value
+// is undefined
+const shouldSetDefault = function ({ currentDatum, newVal }) {
+  return currentDatum === undefined && newVal == null;
 };
 
 const transformAttr = function ({
@@ -61,14 +102,8 @@ const transformAttr = function ({
   transformVal,
   mInput,
 }) {
-  const newVal = newDatum[attrName];
-  const oldVal = currentDatum == null ? undefined : currentDatum[attrName];
-  const vars = {
-    $model: newDatum,
-    $val: newVal,
-    $oldModel: currentDatum,
-    $oldVal: oldVal,
-  };
+  const vars = getModelVars({ newDatum, currentDatum, attrName });
+
   const transformValA = runSchemaFunc({
     schemaFunc: transformVal,
     mInput,
@@ -76,27 +111,56 @@ const transformAttr = function ({
   });
 
   const { setAttr } = handlers[type];
-  const newValA = setAttr({ transformVal: transformValA, oldVal, newVal });
+  const newValA = setAttr({ transformVal: transformValA, ...vars });
 
-  return newValA;
+  const newValB = newValA === null ? undefined : newValA;
+
+  return newValB;
 };
 
-const valueSetAttr = function ({ transformVal }) {
+const getModelVars = function ({ newDatum, currentDatum, attrName }) {
+  const newVal = newDatum[attrName];
+  const currentVal = currentDatum == null ? undefined : currentDatum[attrName];
+
+  return {
+    $model: newDatum,
+    $val: newVal,
+    $oldModel: currentDatum,
+    $oldVal: currentVal,
+  };
+};
+
+const setTransformVal = function ({ transformVal }) {
   return transformVal;
 };
 
-const readonlySetAttr = function ({ transformVal, oldVal, newVal }) {
-  if (!transformVal) { return newVal; }
+const setCurrentValIfTrue = function ({ transformVal, $oldVal, $val }) {
+  if (!transformVal) { return $val; }
 
-  return oldVal;
+  return $oldVal;
 };
 
 const handlers = {
-  value: { setAttr: valueSetAttr, mapName: 'valuesMap' },
-  readonly: { setAttr: readonlySetAttr, mapName: 'readonlyMap' },
+  value: {
+    mapName: 'valuesMap',
+    setAttr: setTransformVal,
+  },
+  default: {
+    mapName: 'userDefaultsMap',
+    condition: shouldSetDefault,
+    setAttr: setTransformVal,
+  },
+  readonly: {
+    mapName: 'readonlyMap',
+    setAttr: setCurrentValIfTrue,
+  },
 };
 
+// `attr.value`
 const handleValue = handleTransforms.bind(null, 'value');
+// `attr.default`
+const handleUserDefault = handleTransforms.bind(null, 'default');
+// `attr.readonly`
 // Sets attributes marked in schema as `readonly` to their current value
 // (i.e. `currentData`)
 // This is done silently (i.e. does not raise warnings or errors),
@@ -108,4 +172,5 @@ const handleReadonly = handleTransforms.bind(null, 'readonly');
 module.exports = {
   handleValue,
   handleReadonly,
+  handleUserDefault,
 };

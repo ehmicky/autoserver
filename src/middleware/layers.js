@@ -168,7 +168,7 @@ const middlewareLayers = [
       // Process `attr.value`
       requestResponse.handleValue,
       // Apply user-defined default values
-      requestResponse.userDefaults,
+      requestResponse.handleUserDefault,
       // Apply system-defined default values, e.g. order_by 'id+'
       requestResponse.systemDefaults,
       // Resets readonly attributes in `args.newData`
