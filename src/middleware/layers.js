@@ -165,7 +165,7 @@ const middlewareLayers = [
       requestResponse.normalizeEmpty,
       // Apply attribute aliases, in mInput
       requestResponse.renameAliasesInput,
-      // Process `attr.transforms` and `attr.value`
+      // Process `attr.value`
       requestResponse.handleTransforms,
       // Apply user-defined default values
       requestResponse.userDefaults,

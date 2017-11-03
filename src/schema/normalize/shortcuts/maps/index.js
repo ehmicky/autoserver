@@ -3,7 +3,7 @@
 module.exports = {
   ...require('./readonly'),
   ...require('./user_defaults'),
-  ...require('./transform_shortcut'),
+  ...require('./value'),
   ...require('./aliases'),
   ...require('./models_map'),
   ...require('./validate'),

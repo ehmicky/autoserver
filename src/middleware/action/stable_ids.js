@@ -6,15 +6,15 @@ const { getModel } = require('./get_model');
 
 // Validate that attributes used in nested actions will not change
 // If a nested action is performed by the client, but the server changes its
-// parent attribute with `attr.value|readonly|transform`, the relation returned
+// parent attribute with `attr.value|readonly`, the relation returned
 // in the response will show what the client asked for, but the server state
 // will contain something else.
 // Other solutions all have drawbacks, i.e.:
-//  - forbid `attr.value|readonly|transform` in schema:
+//  - forbid `attr.value|readonly` in schema:
 //     - too restrictive, e.g. author plugin requires `attr.value|readonly`
 //  - only throw this error if client and server values do not match:
 //     - this is less predictable for the client.
-//     - this makes any change on `attr.value|readonly|transform` a breaking
+//     - this makes any change on `attr.value|readonly` a breaking
 //       change, because client queries that used to work might then throw.
 //  - do not perform the nested action:
 //     - requires client to check response
@@ -59,9 +59,7 @@ const validateAction = function ({
 
 const isServerSet = function ({ action, schema, top }) {
   const attr = getAttr({ action, schema, top });
-  const serverSet = attr.readonly !== undefined ||
-    attr.value !== undefined ||
-    attr.transform !== undefined;
+  const serverSet = attr.readonly !== undefined || attr.value !== undefined;
   return serverSet;
 };
 

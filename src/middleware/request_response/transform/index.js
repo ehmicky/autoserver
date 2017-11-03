@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  ...require('./transform'),
+  ...require('./handler'),
 };
