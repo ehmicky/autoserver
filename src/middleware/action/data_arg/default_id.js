@@ -39,7 +39,14 @@ const applySchemaDefault = function ({
   mInput,
 }) {
   const schemaFunc = userDefaultsMap[modelName].id;
-  const vars = { $model: datum, $val: undefined };
+  const vars = {
+    $model: datum,
+    // If current value is not undefined, default would not be applied
+    $val: undefined,
+    // Defaults are only applied on model creation
+    $oldModel: undefined,
+    $oldVal: undefined,
+  };
   const mInputA = { ...mInput, modelName, command: command.type };
   return runSchemaFunc({ schemaFunc, mInput: mInputA, vars });
 };
