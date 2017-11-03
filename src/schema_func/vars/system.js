@@ -41,11 +41,18 @@ const getVars = function (
 };
 
 // Retrieve model-related system variables
-const getModelVars = function ({ model, oldModel, attrName }) {
+const getModelVars = function ({ model, previousModel, attrName }) {
   const val = model[attrName];
-  const oldVal = oldModel == null ? undefined : oldModel[attrName];
+  const previousVal = previousModel == null
+    ? undefined
+    : previousModel[attrName];
 
-  return { $model: model, $val: val, $oldModel: oldModel, $oldVal: oldVal };
+  return {
+    $model: model,
+    $val: val,
+    $previousModel: previousModel,
+    $previousVal: previousVal,
+  };
 };
 
 const protocols = Object.keys(protocolHandlers);

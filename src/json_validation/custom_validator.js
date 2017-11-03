@@ -39,9 +39,9 @@ const keywordFunc = ({ keyword, testFunc, message }) => function validate (
   ___,
   model,
   attrName,
-  { [Symbol.for('extra')]: { mInput, currentDatum } }
+  { [Symbol.for('extra')]: { mInput, currentDatum: previousModel } }
 ) {
-  const modelVars = getModelVars({ model, attrName, oldModel: currentDatum });
+  const modelVars = getModelVars({ model, attrName, previousModel });
   const vars = { $expected: expected, ...modelVars };
 
   const isValid = runSchemaFunc({ schemaFunc: testFunc, mInput, vars });

@@ -45,8 +45,8 @@ schema:
     $params.key: (getSecretKey())
 ```
 
-However those functions cannot use the variables `$model`, `$val`, `$oldModel`
-nor `$oldVal`.
+However those functions cannot use the variables `$model`, `$val`,
+`$previousModel` nor `$previousVal`.
 
 # Model authorization
 
