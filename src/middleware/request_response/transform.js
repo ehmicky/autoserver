@@ -14,13 +14,13 @@ const handleTransforms = function (type, {
   if (newData === undefined) { return; }
 
   const { mapName } = handlers[type];
-  const transformVals = shortcuts[mapName][modelName];
+  const transforms = shortcuts[mapName][modelName];
 
   const newDataA = newData.map((newDatum, index) => transformDatum({
     type,
     newDatum,
     currentDatum: currentData[index],
-    transformVals,
+    transforms,
     mInput,
   }));
 
@@ -31,23 +31,24 @@ const transformDatum = function ({
   type,
   newDatum,
   currentDatum,
-  transformVals,
+  transforms,
   mInput,
 }) {
-  const transformValsA = filterTransformVals({
+  const transformsA = filterTransforms({
     type,
-    transformVals,
+    transforms,
     currentDatum,
     newDatum,
   });
+
   const newDatumA = mapValues(
-    transformValsA,
-    (transformVal, attrName) => transformAttr({
+    transformsA,
+    (transform, attrName) => transformAttr({
       type,
       newDatum,
       currentDatum,
       attrName,
-      transformVal,
+      transform,
       mInput,
     }),
   );
@@ -57,28 +58,28 @@ const transformDatum = function ({
   return newDatumB;
 };
 
-const filterTransformVals = function ({
+const filterTransforms = function ({
   type,
-  transformVals,
+  transforms,
   currentDatum,
   newDatum,
 }) {
   const { condition } = handlers[type];
-  if (condition === undefined) { return transformVals; }
+  if (condition === undefined) { return transforms; }
 
-  const transformValsA = pickBy(
-    transformVals,
-    (transformVal, attrName) => filterTransformVal({
+  const transformsA = pickBy(
+    transforms,
+    (transform, attrName) => filterTransform({
       condition,
       newDatum,
       currentDatum,
       attrName,
     }),
   );
-  return transformValsA;
+  return transformsA;
 };
 
-const filterTransformVal = function ({
+const filterTransform = function ({
   condition,
   newDatum,
   currentDatum,
@@ -88,31 +89,22 @@ const filterTransformVal = function ({
   return condition(vars);
 };
 
-// Apply `attr.default` only on model creation, and if the attribute value
-// is undefined
-const shouldSetDefault = function ({ currentDatum, newVal }) {
-  return currentDatum === undefined && newVal == null;
-};
-
 const transformAttr = function ({
   type,
   newDatum,
   currentDatum,
   attrName,
-  transformVal,
+  transform,
   mInput,
 }) {
   const vars = getModelVars({ newDatum, currentDatum, attrName });
 
-  const transformValA = runSchemaFunc({
-    schemaFunc: transformVal,
-    mInput,
-    vars,
-  });
+  const transformA = runSchemaFunc({ schemaFunc: transform, mInput, vars });
 
   const { setAttr } = handlers[type];
-  const newValA = setAttr({ transformVal: transformValA, ...vars });
+  const newValA = setAttr({ transform: transformA, ...vars });
 
+  // Normalize `null` to `undefined`
   const newValB = newValA === null ? undefined : newValA;
 
   return newValB;
@@ -130,12 +122,18 @@ const getModelVars = function ({ newDatum, currentDatum, attrName }) {
   };
 };
 
-const setTransformVal = function ({ transformVal }) {
-  return transformVal;
+// Apply `attr.default` only on model creation (on `create` or `upsert`),
+// and the attribute is missing
+const shouldSetDefault = function ({ currentDatum, newVal }) {
+  return currentDatum === undefined && newVal == null;
 };
 
-const setCurrentValIfTrue = function ({ transformVal, $oldVal, $val }) {
-  if (!transformVal) { return $val; }
+const setTransform = function ({ transform }) {
+  return transform;
+};
+
+const setCurrentValIfTrue = function ({ transform, $oldVal, $val }) {
+  if (!transform) { return $val; }
 
   return $oldVal;
 };
@@ -143,12 +141,12 @@ const setCurrentValIfTrue = function ({ transformVal, $oldVal, $val }) {
 const handlers = {
   value: {
     mapName: 'valuesMap',
-    setAttr: setTransformVal,
+    setAttr: setTransform,
   },
   default: {
     mapName: 'userDefaultsMap',
     condition: shouldSetDefault,
-    setAttr: setTransformVal,
+    setAttr: setTransform,
   },
   readonly: {
     mapName: 'readonlyMap',
