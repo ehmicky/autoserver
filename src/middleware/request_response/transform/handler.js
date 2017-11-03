@@ -4,8 +4,8 @@ const { handleTransforms } = require('./common');
 
 // Apply `attr.default` only on model creation (on `create` or `upsert`),
 // and the attribute is missing
-const shouldSetDefault = function ({ currentDatum, newVal }) {
-  return currentDatum === undefined && newVal == null;
+const shouldSetDefault = function ({ $previousModel, $val }) {
+  return $previousModel === undefined && $val == null;
 };
 
 const setTransform = function ({ transform }) {
