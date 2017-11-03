@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues } = require('../utilities');
+const { mapValues } = require('../../utilities');
 
 // Take schema function, inline or not, and turns into `function (...args)`
 // firing the first one, with $1, $2, etc. provided as extra arguments

@@ -1,8 +1,8 @@
 'use strict';
 
-const { protocolHandlers } = require('../protocols');
-const { operationHandlers } = require('../operations');
-const { COMMAND_TYPES } = require('../constants');
+const { protocolHandlers } = require('../../protocols');
+const { operationHandlers } = require('../../operations');
+const { COMMAND_TYPES } = require('../../constants');
 
 // Retrieve system variables, user variables and call-specific variables
 const getVars = function (
@@ -40,9 +40,17 @@ const getVars = function (
   };
 };
 
-// Retrieve schema functions variables names
-const getVarsKeys = function ({ schema: { variables = {} } }) {
-  return [...ALL_SYSTEM_VARS, ...Object.keys(variables)];
+// Retrieve model-related system variables
+const getModelVars = function ({ newDatum, currentDatum, attrName }) {
+  const newVal = newDatum[attrName];
+  const currentVal = currentDatum == null ? undefined : currentDatum[attrName];
+
+  return {
+    $model: newDatum,
+    $val: newVal,
+    $oldModel: currentDatum,
+    $oldVal: currentVal,
+  };
 };
 
 const protocols = Object.keys(protocolHandlers);
@@ -73,27 +81,8 @@ const SYSTEM_VARS = {
   $params: { type: 'dynamic' },
 };
 
-// Includes the system variables that are not always present
-const ALL_SYSTEM_VARS = [
-  ...Object.keys(SYSTEM_VARS),
-  '$1',
-  '$2',
-  '$3',
-  '$4',
-  '$5',
-  '$6',
-  '$7',
-  '$8',
-  '$9',
-  '$expected',
-  '$model',
-  '$val',
-  '$oldModel',
-  '$oldVal',
-];
-
 module.exports = {
   getVars,
-  getVarsKeys,
+  getModelVars,
   SYSTEM_VARS,
 };
