@@ -45,6 +45,9 @@ schema:
     $params.key: (getSecretKey())
 ```
 
+However those functions cannot use the variables `$model`, `$val`, `$oldModel`
+nor `$oldVal`.
+
 # Model authorization
 
 One can specify model-specific authorization with `model.authorize`.
