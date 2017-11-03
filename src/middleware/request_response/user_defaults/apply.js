@@ -25,7 +25,14 @@ const applyDefault = function ({ parent, defValue, attrName, mInput }) {
   if (value != null) { return parent; }
 
   // Process inline functions if default value contains any
-  const vars = { $model: parent, $val: undefined };
+  const vars = {
+    $model: parent,
+    // If current value is not undefined, default would not be applied
+    $val: undefined,
+    // Defaults are only applied on model creation
+    $oldModel: undefined,
+    $oldVal: undefined,
+  };
   const defValueA = runSchemaFunc({ schemaFunc: defValue, mInput, vars });
 
   if (defValueA == null) { return parent; }
