@@ -87,10 +87,8 @@ definitions:
           required:
             not:
               const: false
-    # `MODEL.id` cannot use transform|value|readonly
+    # `MODEL.id` cannot use value|readonly
     allOf:
-    - not:
-        required: [transform]
     - not:
         required: [value]
     - not:
@@ -113,8 +111,6 @@ definitions:
             $ref: '#/definitions/validAttributeName'
       readonly:
         $ref: '#/definitions/schemaFuncBoolean'
-      transform:
-        $ref: '#/definitions/transformValue'
       value:
         $ref: '#/definitions/transformValue'
       # General data validation
@@ -141,14 +137,6 @@ definitions:
       # Default value
       default:
         $ref: '#/definitions/schemaFuncOrValue'
-    allOf:
-    # Cannot have both attr.value and attr.transform,
-    # since they would cancel each other out.
-    - if:
-        required: [value]
-      then:
-        not:
-          required: [transform]
   # model.authorize
   # It is validated in more details when parsed
   authorize:
@@ -250,7 +238,7 @@ definitions:
     - number[]
     - integer[]
     - boolean[]
-  # attr.transform or attr.value
+  # attr.value
   transformValue:
     $ref: '#/definitions/schemaFuncOrValue'
   # model.description or attr.description
