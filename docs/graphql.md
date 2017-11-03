@@ -152,15 +152,16 @@ mutation {
 
 # Modifying data
 
-One specifies the data to mutate with `data`, which is either an array
-(for plural commands) or an object (for singular commands).
+One specifies the data to mutate with the `data` argument, which is either an
+array (for plural commands) or an object (for singular commands).
 
 It can be used by the following commands: `create`, `upsert` and `patch`.
 
 `data.id` is required for `upsert`, optional for `create`
 (it defaults to a UUID) and forbidden for `patch`.
 
-`patch` command `data` is a bit different, as it is never an array.
+The `data` argument for the `patch` command is a bit different, as it is never
+an array.
 
 # Summary of commands
 
