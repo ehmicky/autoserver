@@ -16,8 +16,10 @@ const handleTransforms = function (
 ) {
   if (newData === undefined) { return; }
 
-  const { mapName } = handler;
+  const { mapName, preCondition } = handler;
   const transforms = shortcuts[mapName][modelName];
+
+  if (preCondition && !preCondition(mInput)) { return; }
 
   const newDataA = newData.map((newDatum, index) => transformDatum({
     handler,

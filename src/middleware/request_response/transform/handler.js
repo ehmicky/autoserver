@@ -4,8 +4,14 @@ const { handleTransforms } = require('./common');
 
 // Apply `attr.default` only on model creation (on `create` or `upsert`),
 // and the attribute is missing
-const shouldSetDefault = function ({ $previousModel, $val }) {
-  return $previousModel === undefined && $val == null;
+const shouldUseDefault = function ({ command }) {
+  return DEFAULT_COMMANDS.includes(command);
+};
+
+const DEFAULT_COMMANDS = ['create', 'upsert'];
+
+const shouldSetDefault = function ({ $val }) {
+  return $val == null;
 };
 
 const setTransform = function ({ transform }) {
@@ -27,6 +33,7 @@ const handleValue = handleTransforms.bind(null, {
 // `attr.default`
 const handleUserDefault = handleTransforms.bind(null, {
   mapName: 'userDefaultsMap',
+  preCondition: shouldUseDefault,
   condition: shouldSetDefault,
   setAttr: setTransform,
 });
