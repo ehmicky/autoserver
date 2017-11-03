@@ -75,7 +75,7 @@ const parseFragmentSpread = function ({
   const fragment = fragments.find(({ name }) => name.value === fieldName);
 
   if (fragment === undefined) {
-    const message = `No fragment named ${fieldName}`;
+    const message = `No fragment named '${fieldName}'`;
     throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
