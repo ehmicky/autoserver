@@ -2,7 +2,7 @@
 
 const { v4: uuidv4 } = require('uuid');
 
-const { runSchemaFunc } = require('../../../schema_func');
+const { runSchemaFunc, getModelVars } = require('../../../schema_func');
 
 // Add default model.id for create commands, in order of priority:
 //  - nested `args.data` attribute (not handled here)
@@ -39,14 +39,13 @@ const applySchemaDefault = function ({
   mInput,
 }) {
   const schemaFunc = userDefaultsMap[modelName].id;
-  const vars = {
-    $model: datum,
-    // If current value is not undefined, default would not be applied
-    $val: undefined,
-    // Defaults are only applied on model creation
-    $oldModel: undefined,
-    $oldVal: undefined,
-  };
+  if (schemaFunc == null) { return; }
+
+  const vars = getModelVars({
+    newDatum: datum,
+    currentDatum: undefined,
+    attrName: 'id',
+  });
   const mInputA = { ...mInput, modelName, command: command.type };
   return runSchemaFunc({ schemaFunc, mInput: mInputA, vars });
 };
