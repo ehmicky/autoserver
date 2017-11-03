@@ -27,34 +27,38 @@ const validateEnumVal = function ({ ruleVal, value, throwErr }) {
   }
 };
 
-// Validate value if any given set of values is given, others are given as well
-const validateEquivalent = function ({
+// Validates that if one of the allowed values of an array is among a specific
+// set (`ifVals`), it allows all the values from another set (`thenVals`).
+// E.g. it does not make sense to forbid $command `patch` while allowing `find`
+// and `upsert`, so they must be specified together. I.e. we specify the
+// `ruleVal` `[['patch'], ['find', 'upsert']]`
+const validateRequires = function ({
   ruleVal,
   validation: { enum: possVals },
   operations,
   throwErr,
 }) {
   const enumVals = getEnum({ operations, possVals });
-  const equivalents = ruleVal
-    .find(vals => isEquivalent({ vals, enumVals }));
-  if (equivalents === undefined) { return; }
 
-  const missing = ruleVal
-    .find(vals => !isEquivalent({ vals, enumVals }));
-  if (missing === undefined) { return; }
-
-  const equivalentsStr = getWordsList(equivalents, { op: 'and', quotes: true });
-  const missingStr = getWordsList(missing, { op: 'and', quotes: true });
-  throwErr(`When specifying ${equivalentsStr}, ${missingStr} must also be specified, because they are equivalent`);
+  ruleVal.forEach(([ifVal, thenVal]) =>
+    validateRequirePair({ ifVal, thenVal, enumVals, throwErr }));
 };
 
-const isEquivalent = function ({ vals, enumVals }) {
-  return difference(vals, enumVals).length === 0;
+const validateRequirePair = function ({ ifVal, thenVal, enumVals, throwErr }) {
+  const missingIfVals = difference(ifVal, enumVals);
+  if (missingIfVals.length !== 0) { return; }
+
+  const missingThenVals = difference(thenVal, enumVals);
+  if (missingThenVals.length === 0) { return; }
+
+  const ifStr = getWordsList(ifVal, { op: 'and', quotes: true });
+  const missingStr = getWordsList(missingThenVals, { op: 'and', quotes: true });
+  throwErr(`When specifying ${ifStr}, ${missingStr} must also be specified`);
 };
 
 const validators = {
   enum: validateEnum,
-  equivalent: validateEquivalent,
+  requires: validateRequires,
 };
 
 module.exports = {
