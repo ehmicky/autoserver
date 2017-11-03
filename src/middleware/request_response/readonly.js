@@ -21,8 +21,8 @@ const handleReadonly = function ({
   const attrs = readonlyMap[modelName];
 
   const newDataA = newData.map((newDatum, index) => removeAttrs({
-    newData: newDatum,
-    currentData: currentData[index],
+    newDatum,
+    currentDatum: currentData[index],
     attrs,
     mInput,
   }));
@@ -30,42 +30,64 @@ const handleReadonly = function ({
   return { args: { ...args, newData: newDataA } };
 };
 
-const removeAttrs = function ({ newData, currentData, attrs, mInput }) {
-  const attrsA = getReadonlyAttrs({ attrs, newData, mInput });
-  const newDataA = removeReadonlyAttrs({ newData, currentData, attrs: attrsA });
-  return newDataA;
+const removeAttrs = function ({ newDatum, currentDatum, attrs, mInput }) {
+  const attrsA = getReadonlyAttrs({ attrs, newDatum, currentDatum, mInput });
+  const newDatumA = removeReadonlyAttrs({
+    newDatum,
+    currentDatum,
+    attrs: attrsA,
+  });
+  return newDatumA;
 };
 
 // Retrieve which attributes are readonly
-const getReadonlyAttrs = function ({ attrs, newData, mInput }) {
+const getReadonlyAttrs = function ({ attrs, newDatum, currentDatum, mInput }) {
   const attrsA = pickBy(
     attrs,
-    (readonly, attrName) => isReadonly({ readonly, newData, attrName, mInput }),
+    (readonly, attrName) => isReadonly({
+      readonly,
+      newDatum,
+      currentDatum,
+      attrName,
+      mInput,
+    }),
   );
   const attrsB = Object.keys(attrsA);
   return attrsB;
 };
 
-const isReadonly = function ({ readonly, newData, attrName, mInput }) {
-  const vars = { $model: newData, $val: newData[attrName] };
+const isReadonly = function ({
+  readonly,
+  newDatum,
+  currentDatum,
+  attrName,
+  mInput,
+}) {
+  const oldVal = currentDatum == null ? undefined : currentDatum[attrName];
+  const vars = {
+    $model: newDatum,
+    $val: newDatum[attrName],
+    $oldModel: currentDatum,
+    $oldVal: oldVal,
+  };
   const readonlyA = runSchemaFunc({ schemaFunc: readonly, mInput, vars });
   return Boolean(readonlyA) === true;
 };
 
-// Silently sets `newData` back to `currentData`
-const removeReadonlyAttrs = function ({ newData, currentData, attrs }) {
+// Silently sets `newDatum` back to `currentDatum`
+const removeReadonlyAttrs = function ({ newDatum, currentDatum, attrs }) {
   // E.g. on `create` or `upsert` actions
-  if (currentData === undefined) {
-    return omit(newData, attrs);
+  if (currentDatum === undefined) {
+    return omit(newDatum, attrs);
   }
 
-  const previousData = pick(currentData, attrs);
-  const nullData = pickBy(previousData, data => data == null);
-  const nonNullData = pickBy(previousData, data => data != null);
+  const previousDatum = pick(currentDatum, attrs);
+  const nullDatum = pickBy(previousDatum, attr => attr == null);
+  const nonNullDatum = pickBy(previousDatum, attr => attr != null);
 
-  const newDataA = { ...newData, ...nonNullData };
-  const newDataB = omit(newDataA, Object.keys(nullData));
-  return newDataB;
+  const newDatumA = { ...newDatum, ...nonNullDatum };
+  const newDatumB = omit(newDatumA, Object.keys(nullDatum));
+  return newDatumB;
 };
 
 module.exports = {
