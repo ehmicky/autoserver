@@ -39,7 +39,7 @@ const applySchemaDefault = function ({
   mInput,
 }) {
   const schemaFunc = userDefaultsMap[modelName].id;
-  const vars = { $model: datum };
+  const vars = { $model: datum, $val: undefined };
   const mInputA = { ...mInput, modelName, command: command.type };
   return runSchemaFunc({ schemaFunc, mInput: mInputA, vars });
 };
