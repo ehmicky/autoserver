@@ -2,8 +2,7 @@
 
 const { addGenErrorHandler } = require('../error');
 
-const { getVars } = require('./vars');
-const { bindVariables } = require('./user_vars');
+const { getVars, bindVariables } = require('./vars');
 const { stringifySchemaFunc } = require('./tokenize');
 
 // Process (already compiled) schema function,

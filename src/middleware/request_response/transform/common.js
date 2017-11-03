@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues, pickBy } = require('../../../utilities');
-const { runSchemaFunc } = require('../../../schema_func');
+const { runSchemaFunc, getModelVars } = require('../../../schema_func');
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
 const handleTransforms = function (
@@ -86,18 +86,6 @@ const transformAttr = function ({
   const newValB = newValA === null ? undefined : newValA;
 
   return newValB;
-};
-
-const getModelVars = function ({ newDatum, currentDatum, attrName }) {
-  const newVal = newDatum[attrName];
-  const currentVal = currentDatum == null ? undefined : currentDatum[attrName];
-
-  return {
-    $model: newDatum,
-    $val: newVal,
-    $oldModel: currentDatum,
-    $oldVal: currentVal,
-  };
 };
 
 module.exports = {
