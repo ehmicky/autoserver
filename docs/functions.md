@@ -6,8 +6,8 @@ Not all schema properties can use functions. The following properties can use
 either a function or a constant as value:
   - [`attribute.authorize`](authorization.md)
   - [`attribute.readonly`](authorization.md#readonly-attributes)
-  - [`attribute.default`](transformation.md#default-values)
-  - [`attribute.transform` and `attribute.value`](transformation.md#transformations)
+  - [`attribute.default`](default.md)
+  - [`attribute.value`](transformation.md)
   - [custom validation keywords](validation.md#custom-validation)
 
 Schema functions should be pure, i.e. no global variable should be used, and
