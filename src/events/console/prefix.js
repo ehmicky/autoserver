@@ -8,7 +8,7 @@ const getPrefix = function ({
   phase,
   level,
   timestamp,
-  requestInfo: { requestId } = {},
+  requestinfo: { requestId } = {},
   serverName,
 }) {
   const prefixes = [

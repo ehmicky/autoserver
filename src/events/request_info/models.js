@@ -4,24 +4,24 @@ const { identity } = require('../../utilities');
 
 const { applyFilter } = require('./filter');
 
-const reduceAllModels = function (requestInfo, filter) {
+const reduceAllModels = function (requestinfo, filter) {
   return modelsReducers.reduce(
     (info, reducer) => reducer(info, filter),
-    requestInfo,
+    requestinfo,
   );
 };
 
-const reducePayload = function (requestInfo, { payload: filter }) {
-  return reduceInfo({ info: requestInfo, attrName: 'payload', filter });
+const reducePayload = function (requestinfo, { payload: filter }) {
+  return reduceInfo({ info: requestinfo, attrName: 'payload', filter });
 };
 
-const reduceData = function (requestInfo, { data: filter }) {
-  const args = reduceInfo({ info: requestInfo.args, attrName: 'data', filter });
-  return { ...requestInfo, args };
+const reduceData = function (requestinfo, { data: filter }) {
+  const args = reduceInfo({ info: requestinfo.args, attrName: 'data', filter });
+  return { ...requestinfo, args };
 };
 
-const reduceResponse = function (requestInfo, { response: filter }) {
-  return reduceInfo({ info: requestInfo, attrName: 'responseData', filter });
+const reduceResponse = function (requestinfo, { response: filter }) {
+  return reduceInfo({ info: requestinfo, attrName: 'responseData', filter });
 };
 
 const modelsReducers = [

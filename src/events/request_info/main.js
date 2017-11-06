@@ -1,19 +1,19 @@
 'use strict';
 
-const { buildRequestInfo } = require('./builder');
+const { buildRequestinfo } = require('./builder');
 const { reduceInput } = require('./input');
 const { reduceAllModels } = require('./models');
 
-// Builds `requestInfo` object, which contains request-related information.
+// Builds `requestinfo` object, which contains request-related information.
 // Also rename `errorReason` to `error`.
-// Also remove redundant information between `errorinfo` and `requestInfo`
-const getRequestInfo = function ({ mInput, phase, runOpts: { filter } }) {
+// Also remove redundant information between `errorinfo` and `requestinfo`
+const getRequestinfo = function ({ mInput, phase, runOpts: { filter } }) {
   if (phase !== 'request') { return; }
 
-  const requestInfo = buildRequestInfo(mInput);
+  const requestinfo = buildRequestinfo(mInput);
   return processors.reduce(
-    (requestInfoA, processor) => processor(requestInfoA, filter),
-    requestInfo,
+    (requestinfoA, processor) => processor(requestinfoA, filter),
+    requestinfo,
   );
 };
 
@@ -23,5 +23,5 @@ const processors = [
 ];
 
 module.exports = {
-  getRequestInfo,
+  getRequestinfo,
 };

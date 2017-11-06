@@ -96,7 +96,7 @@ with properties:
     server successfully exited or not, as `{ http: boolean, ... }`
   - `errorinfo` `{object}` - [error information](#error-information),
     for events of type `failure`
-  - `requestInfo` `{object}` -
+  - `requestinfo` `{object}` -
     [request-specific information](#request-information), for events during the
     `request` phase
   - `measures` `{object}` and `measuresMessage` `string` - for events of type
@@ -169,7 +169,7 @@ the promise returned by [`apiServer.start()`](run.md#running-the-server).
 
 # Request information
 
-Events during the `request` phase have a `requestInfo` property on the
+Events during the `request` phase have a `requestinfo` property on the
 event payload, with the properties:
   - `requestId` `{UUID}` - unique ID assigned to each request.
     Also available as `X-Apiengine-Request-Id` response header.
