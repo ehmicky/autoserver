@@ -1,14 +1,14 @@
 $schema: http://json-schema.org/draft-06/schema#
 $id: schema_json_schema_v1
-title: API engine schema's JSON schema
-description: JSON schema validating the API engine's schema
+title: apiengine schema's JSON schema
+description: JSON schema validating the apiengine's schema
 type: object
 required: [engine, models]
 properties:
   # Versioning
   engine:
     type: string
-    pattern: '^api-engine [0-9]+\.[0-9]+\.[0-9]+$'
+    pattern: '^apiengine [0-9]+\.[0-9]+\.[0-9]+$'
   # Model definitions
   models:
     additionalProperties:

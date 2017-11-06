@@ -170,10 +170,10 @@ query {
 }
 ```
 
-[Protocol](protocols.md) headers starting with `X-Api-Engine-Param-` can also
+[Protocol](protocols.md) headers starting with `X-Apiengine-Param-` can also
 be used, with a JSON string as value. The header name case will be converted to
 lowercase with underscores.
-E.g. using the header `X-Api-Engine-Param-Custom-Count: 5` is the same as
+E.g. using the header `X-Apiengine-Param-Custom-Count: 5` is the same as
 specifying `params: { custom_count: 5 }`
 
 In either case, client parameters will be available using the

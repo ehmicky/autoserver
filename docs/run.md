@@ -1,6 +1,6 @@
 # Running the server
 
-Execute the [`run` instruction](usage.md), e.g. `apiEngine.run()`.
+Execute the [`run` instruction](usage.md), e.g. `apiengine.run()`.
 
 This function returns a promise, which resolves with the same value as the
 [`start` event payload](events.md#start-information).
@@ -14,9 +14,9 @@ A complete example:
 no-restricted-globals, unicorn/catch-error-name, promise/always-return,
 promise/prefer-await-to-then -->
 ```javascript
-const apiEngine = require('api-engine');
+const apiengine = require('apiengine');
 
-apiEngine.run()
+apiengine.run()
   .then(({ options, servers, exit }) => {
     console.log('Success');
   })

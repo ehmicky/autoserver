@@ -33,7 +33,7 @@ const getDirectFile = async function ({ path, baseDir }) {
   return directPathB;
 };
 
-// Try to find api_engine.NAME.EXT in current directory, or any parent
+// Try to find apiengine.NAME.EXT in current directory, or any parent
 const findConfFile = async function ({ fileNames, confDir = process.cwd() }) {
   const confDirA = await checkIsDirectory({ dir: confDir, isDir: true });
 
@@ -48,7 +48,7 @@ const findConfFile = async function ({ fileNames, confDir = process.cwd() }) {
 };
 
 const getConfFileNames = function ({ name, extNames }) {
-  return extNames.map(extName => `api_engine.${name}.${extName}`);
+  return extNames.map(extName => `apiengine.${name}.${extName}`);
 };
 
 const checkIsDirectory = async function ({ dir, isDir }) {

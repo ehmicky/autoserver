@@ -20,8 +20,8 @@ server startup, and saving it on server shutdown.
 
 The file format can be YAML or JSON.
 
-The `data` option defaults to any `api_engine.run.db.memory.yml`,
-`api_engine.run.db.memory.yaml` or `api_engine.run.db.memory.json` file in the
+The `data` option defaults to any `apiengine.run.db.memory.yml`,
+`apiengine.run.db.memory.yaml` or `apiengine.run.db.memory.json` file in the
 current directory, or any parent directory. If none is found, it will start
 the server with an empty database.
 

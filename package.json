@@ -1,5 +1,5 @@
 {
-  "name": "api-engine",
+  "name": "apiengine",
   "version": "0.0.1",
   "description": "Create a full-featured REST/GraphQL API from a configuration file",
   "keywords": [

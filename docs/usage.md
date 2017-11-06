@@ -18,9 +18,9 @@ The server can also be used from Node.js:
 
 <!-- eslint-disable strict, no-undef -->
 ```javascript
-const apiEngine = require('api-engine');
+const apiengine = require('apiengine');
 
-apiEngine.run({ ...options });
+apiengine.run({ ...options });
 ```
 
 Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.

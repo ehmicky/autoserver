@@ -1,11 +1,11 @@
 'use strict';
 
-const apiEngine = require('../index');
+const apiengine = require('../index');
 
 const startServer = async function () {
   try {
-    await apiEngine.compile();
-    const { options, servers, exit } = await apiEngine.run();
+    await apiengine.compile();
+    const { options, servers, exit } = await apiengine.run();
     return { options, servers, exit };
   } catch (error) {
     const { details, ...rest } = error;

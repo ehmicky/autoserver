@@ -10,8 +10,8 @@ JSON or YAML file (but only with JSON-compatible types).
 
 See [here](configuration.md) to learn how to specify `run` options.
 
-By default, files named `api_engine.run.schema.json`, `api_engine.run.schema.yml`
-or `api_engine.run.schema.yaml` will be searched in the current directory, or
+By default, files named `apiengine.run.schema.json`, `apiengine.run.schema.yml`
+or `apiengine.run.schema.yaml` will be searched in the current directory, or
 any parent. This is the preferred configuration method.
 
 # JSON references
@@ -47,7 +47,7 @@ variables:
 # Example
 
 ```yml
-engine: api-engine 1.0.0
+engine: apiengine 1.0.0
 models:
   company:
     description: This is a company
@@ -72,7 +72,7 @@ This file describes two models:
 
 The schema can contain the following properties:
   - `engine` `{string}` (required) - file format version.
-    Must equal `api-engine 1.0.0`
+    Must equal `apiengine 1.0.0`
   - `models` `{object}` (required) - list of [models](models.md#models)
     - `MODEL` `{object}` - MODEL is the name
       - `attributes` `{object}` - list of the model's
@@ -126,8 +126,8 @@ The main reason to compile the schema are:
 
 The `--schema` option behaves like the same option of the
 [`run` instruction](#configuration).
-In particular, files named `api_engine.run.schema.json`, `api_engine.run.schema.yml`
-or `api_engine.run.schema.yaml` will be searched in the current directory, or
+In particular, files named `apiengine.run.schema.json`, `apiengine.run.schema.yml`
+or `apiengine.run.schema.yaml` will be searched in the current directory, or
 any parent.
 
 See [here](configuration.md) to learn how to specify `compile` options.
