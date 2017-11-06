@@ -85,7 +85,6 @@ const SYSTEM_VARS = {
       ],
     },
   },
-  $weights: { type: 'integer', isArray: true },
   $args: { type: 'dynamic' },
   $params: { type: 'dynamic' },
 };
