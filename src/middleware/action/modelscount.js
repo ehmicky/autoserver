@@ -13,12 +13,12 @@ const getModelscount = function ({ results }) {
 };
 
 const getUniquecount = function ({ results }) {
-  const keys = uniq(results, getModelNameId);
+  const keys = uniq(results, getModelnameId);
   return keys.length;
 };
 
-const getModelNameId = function ({ modelName, model: { id } }) {
-  return `${modelName} ${id}`;
+const getModelnameId = function ({ modelname, model: { id } }) {
+  return `${modelname} ${id}`;
 };
 
 module.exports = {

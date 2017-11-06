@@ -45,7 +45,7 @@ const parseSelectPart = function ({ top, select }) {
 const SELECT_REGEXP = /^([^=]*)\.([^.=]+)=?(.*)?$/;
 
 // From `args` + map of `COMMANDPATH: [{ commandpath, key, alias }]`
-// to array of `{ commandpath, args, select: [{ key, alias }], modelName }`
+// to array of `{ commandpath, args, select: [{ key, alias }], modelname }`
 const getAction = function ({
   select,
   select: [{ commandpath }],
@@ -54,18 +54,18 @@ const getAction = function ({
 }) {
   const commandpathA = commandpath.split('.');
   const selectA = select.map(action => omit(action, 'commandpath'));
-  const modelName = getModelName({ commandpath: commandpathA, top, schema });
-  return { commandpath: commandpathA, args: {}, select: selectA, modelName };
+  const modelname = getModelname({ commandpath: commandpathA, top, schema });
+  return { commandpath: commandpathA, args: {}, select: selectA, modelname };
 };
 
-// Add `action.modelName`
-const getModelName = function ({
+// Add `action.modelname`
+const getModelname = function ({
   commandpath,
   top,
   schema: { shortcuts: { modelsMap } },
 }) {
   const model = getModel({ commandpath, modelsMap, top });
-  if (model !== undefined) { return model.modelName; }
+  if (model !== undefined) { return model.modelname; }
 
   const message = `In argument 'select', attribute '${commandpath.join('.')}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });

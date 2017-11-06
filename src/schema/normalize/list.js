@@ -14,7 +14,7 @@ const {
   validateJsonSchema,
 } = require('./validate');
 const {
-  addDefaultModelName,
+  addDefaultModelname,
   addDefaultId,
   addDefaultDatabase,
   addDefaultValidate,
@@ -49,7 +49,7 @@ const normalizers = [
   { type: 'schema', func: validateSchemaSyntax },
 
   // Default `model.model`
-  { type: 'model', func: addDefaultModelName },
+  { type: 'model', func: addDefaultModelname },
   // Default `model.id` attribute
   { type: 'model', func: addDefaultId },
   // Default `model.database`

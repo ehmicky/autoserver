@@ -11,7 +11,7 @@ const { getUserVars } = require('./user_vars');
 
 // Handle all schema function related logic in `model.authorize`
 const handleSchemaFuncs = function ({
-  modelName,
+  modelname,
   authorize,
   userVars,
   schema,
@@ -19,7 +19,7 @@ const handleSchemaFuncs = function ({
 }) {
   const authorizeA = resolveSchemaFuncs({ authorize, mInput });
 
-  validateAuthorize({ modelName, authorize: authorizeA, schema });
+  validateAuthorize({ modelname, authorize: authorizeA, schema });
 
   const vars = getAllVars({ authorize: authorizeA, userVars, mInput });
 
@@ -43,13 +43,13 @@ const resolveSchemaFunc = function ({ mInput, node: { value, ...node } }) {
 // Most `model.authorize` validation is done compile-time
 // But schema functions are evaluated runtime. Their validation is skipped
 // compile-time, and they are validated here once evaluated.
-const validateAuthorize = function ({ modelName, authorize, schema }) {
-  const prefix = modelName === undefined
+const validateAuthorize = function ({ modelname, authorize, schema }) {
+  const prefix = modelname === undefined
     ? 'In \'schema.authorize\', '
-    : `In 'model.${modelName}.authorize', `;
+    : `In 'model.${modelname}.authorize', `;
   const reason = 'SCHEMA_VALIDATION';
 
-  const attrs = getAuthorizeAttrs({ schema, modelName });
+  const attrs = getAuthorizeAttrs({ schema, modelname });
   validateFilter({ filter: authorize, prefix, reason, attrs });
 };
 

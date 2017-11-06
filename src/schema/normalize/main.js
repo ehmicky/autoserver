@@ -27,7 +27,7 @@ const normalizeFull = function (func, { schema, path }) {
 const normalizeModels = function (func, { schema, schema: { models } }) {
   const modelsA = mapValues(
     models,
-    (model, modelName) => func(model, { modelName, schema }),
+    (model, modelname) => func(model, { modelname, schema }),
   );
   return { ...schema, models: modelsA };
 };

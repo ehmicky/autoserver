@@ -7,7 +7,7 @@ const { evalFilter } = require('../../../filter');
 const checkNewData = function ({
   authorize,
   args: { newData },
-  modelName,
+  modelname,
   top,
 }) {
   if (newData === undefined) { return; }
@@ -17,7 +17,7 @@ const checkNewData = function ({
     .map(({ id }) => id);
   if (ids.length === 0) { return; }
 
-  throwCommonError({ reason: 'AUTHORIZATION', ids, modelName, top });
+  throwCommonError({ reason: 'AUTHORIZATION', ids, modelname, top });
 };
 
 module.exports = {

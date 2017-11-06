@@ -9,14 +9,14 @@ const { genericValidators } = require('./generic');
 const { filterValidator } = require('./filter');
 
 // Validate database supports command features
-const validateFeatures = function ({ args, modelName, dbAdapters }) {
-  const { features } = dbAdapters[modelName];
+const validateFeatures = function ({ args, modelname, dbAdapters }) {
+  const { features } = dbAdapters[modelname];
 
   const message = getErrorMessage({ args, features });
 
   if (message === undefined) { return; }
 
-  const messageA = `${message} because the model '${modelName}' does not support it`;
+  const messageA = `${message} because the model '${modelname}' does not support it`;
   throwError(messageA, { reason: 'WRONG_FEATURE' });
 };
 

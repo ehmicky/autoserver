@@ -8,10 +8,10 @@ const { upsert } = require('./upsert');
 
 // CRUD commands
 const query = async function (commandInput, ...args) {
-  const { command, connection, modelName } = commandInput;
+  const { command, connection, modelname } = commandInput;
 
   // Add convenience input `collection`
-  const collection = connection.collection(modelName);
+  const collection = connection.collection(modelname);
   const commandInputA = { ...commandInput, collection };
 
   const returnValue = await commands[command](commandInputA, ...args);

@@ -12,7 +12,7 @@ const getVars = function (
     ip: $ip,
     requestid: $requestid,
     operation: $operation,
-    modelName: $modelName,
+    modelname: $modelname,
     top: { command: { type: $command } = {} } = {},
     topArgs: $args,
     topArgs: { params: $params = {} } = {},
@@ -32,7 +32,7 @@ const getVars = function (
     $ip,
     $requestid,
     $operation,
-    $modelName,
+    $modelname,
     $args,
     $command,
     $params,
@@ -67,7 +67,7 @@ const SYSTEM_VARS = {
   $ip: { type: 'string' },
   $requestid: { type: 'string' },
   $operation: { type: 'string', validation: { enum: operations } },
-  $modelName: { type: 'string' },
+  $modelname: { type: 'string' },
   $command: {
     type: 'string',
     validation: {

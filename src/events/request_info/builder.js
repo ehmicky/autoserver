@@ -26,7 +26,7 @@ const buildRequestinfo = function ({
   topArgs: args,
   commandpath,
   command,
-  modelName: model,
+  modelname: model,
   response: {
     content: response,
     type: responsetype,

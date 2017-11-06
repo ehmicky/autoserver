@@ -69,9 +69,9 @@ const getAttr = function ({
   top,
 }) {
   const parentPath = commandpath.slice(0, -1);
-  const { modelName } = getModel({ commandpath: parentPath, modelsMap, top });
+  const { modelname } = getModel({ commandpath: parentPath, modelsMap, top });
   const attrName = commandpath[commandpath.length - 1];
-  const { attributes } = models[modelName];
+  const { attributes } = models[modelname];
   const attr = attributes[attrName];
   return attr;
 };
