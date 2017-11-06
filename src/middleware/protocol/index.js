@@ -3,7 +3,7 @@
 module.exports = {
   ...require('./validation'),
   ...require('./name'),
-  ...require('./request_id'),
+  ...require('./requestid'),
   ...require('./ip'),
   ...require('./url'),
   ...require('./router'),

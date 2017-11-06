@@ -9,7 +9,7 @@ const { getRequestMessage } = require('./request_message');
 // Build a standardized event message:
 // [TYPE] [LEVEL] [SERVERNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
-// `PHASE` is requestId if phase is `request`
+// `PHASE` is requestid if phase is `request`
 const getConsoleMessage = function ({
   message,
   duration,

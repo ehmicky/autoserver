@@ -36,7 +36,7 @@ const fillError = function ({
     commandPath,
     modelName: model,
     command,
-    requestId,
+    requestid,
   } = {},
   isLimited = true,
 }) {
@@ -69,7 +69,7 @@ const fillError = function ({
     command_path: commandPath,
     model,
     command,
-    request_id: requestId,
+    requestid: requestid,
     ...extra,
     // Stack trace is not included in error responses, whether in production
     // or in development because:

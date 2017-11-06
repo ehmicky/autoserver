@@ -8,7 +8,7 @@ const getPrefix = function ({
   phase,
   level,
   timestamp,
-  requestinfo: { requestId } = {},
+  requestinfo: { requestid } = {},
   servername,
 }) {
   const prefixes = [
@@ -16,7 +16,7 @@ const getPrefix = function ({
     getLevel({ level }),
     getServername({ servername }),
     getTimestamp({ timestamp }),
-    getRequestId({ phase, requestId }),
+    getRequestid({ phase, requestid }),
   ];
   const prefix = prefixes.map(val => `[${val}]`).join(' ');
   return prefix;
@@ -50,14 +50,14 @@ const getTimestamp = function ({ timestamp }) {
   return timestamp.replace('T', ' ').replace(/([0-9])Z$/, '$1');
 };
 
-// Either requestId (if phase `request`), or the phase itself
-const getRequestId = function ({ phase, requestId = phase.toUpperCase() }) {
-  return requestId
-    .substr(0, REQUEST_ID_LENGTH)
-    .padEnd(REQUEST_ID_LENGTH);
+// Either requestid (if phase `request`), or the phase itself
+const getRequestid = function ({ phase, requestid = phase.toUpperCase() }) {
+  return requestid
+    .substr(0, REQUESTID_LENGTH)
+    .padEnd(REQUESTID_LENGTH);
 };
 
-const REQUEST_ID_LENGTH = 8;
+const REQUESTID_LENGTH = 8;
 
 module.exports = {
   getPrefix,
