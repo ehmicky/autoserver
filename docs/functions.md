@@ -125,7 +125,7 @@ variables:
 
 The user variable `secret_password` can be used in any schema function:
 
-<!-- eslint-disable strict, filenames/match-exported -->
+<!-- eslint-disable strict, filenames/match-exported, camelcase -->
 ```js
 const getDefaultValue = function ({ secret_password }) {
   return secret_password === 'admin' ? 1 : 0;

@@ -47,7 +47,7 @@ const getPaginationOutput = function ({ args, args: { page }, response }) {
     const pages = {
       has_previous_page: hasPreviousPage,
       has_next_page: hasNextPage,
-      pagesize: pagesize,
+      pagesize,
       ...pageOrToken,
     };
 

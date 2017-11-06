@@ -9,7 +9,7 @@ const getErrorMessage = function ({
     description,
     protocol,
     operation,
-    commandpath: commandpath,
+    commandpath,
     command,
     details,
   },
