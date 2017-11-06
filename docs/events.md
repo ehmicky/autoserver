@@ -179,7 +179,6 @@ event payload, with the properties:
     in milliseconds. Only defined if the request was successful.
   - `ip` `{string}`
   - `protocol` `{string}` - e.g. `'http'`
-  - `protocolFullName` `{string}` - e.g. `'HTTP/1.1'`
   - `url` `{string}` - full URL
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
