@@ -2,20 +2,20 @@
 
 const { throwError } = require('../../error');
 
-// Fill in `mInput.requestHeaders` using protocol-specific headers.
+// Fill in `mInput.requestheaders` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used to create (in coming middleware) `mInput.args`,
 // but can also be used by operation layer as is.
 const parseHeaders = function ({ specific, protocolHandler }) {
-  const requestHeaders = protocolHandler.getRequestHeaders({ specific });
+  const requestheaders = protocolHandler.getRequestheaders({ specific });
 
-  if (!requestHeaders || requestHeaders.constructor !== Object) {
-    const message = `'requestHeaders' must be an object, not '${requestHeaders}'`;
+  if (!requestheaders || requestheaders.constructor !== Object) {
+    const message = `'requestheaders' must be an object, not '${requestheaders}'`;
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  return { requestHeaders };
+  return { requestheaders };
 };
 
 module.exports = {

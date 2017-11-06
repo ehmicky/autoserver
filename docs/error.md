@@ -27,7 +27,7 @@ additional properties:
       - `requestid` `{string}`
       - `protocol` `{string}`
       - `method` `{string}`
-      - `request_headers` `{object}`
+      - `requestheaders` `{object}`
       - `queryvars` `{object}`
       - `operation` `{string}`
       - `operation_summary` `{string}`

@@ -4,7 +4,7 @@ const opts = require('./opts');
 const { startServer } = require('./start');
 const { stopServer, countPendingRequests } = require('./stop');
 const {
-  getRequestHeaders,
+  getRequestheaders,
   getResponseHeaders,
   setResponseHeaders,
 } = require('./headers');
@@ -34,7 +34,7 @@ const protocol = {
   startServer,
   stopServer,
   countPendingRequests,
-  getRequestHeaders,
+  getRequestheaders,
   getResponseHeaders,
   setResponseHeaders,
   parsePayload,
