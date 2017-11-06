@@ -35,12 +35,12 @@ const applyBasicName = function ({ name }) {
 // Normalize variable name case
 const camelizeName = function ({ name }) {
   const nameA = name
-    .split('__')
+    .split('_')
     .map(namePart => {
       const namePartA = namePart.toLowerCase();
       return camelize(namePartA, true);
     })
-    .join('__');
+    .join('_');
   return { name: nameA };
 };
 
@@ -74,9 +74,9 @@ const getTranstypedValue = function ({ value }) {
   return transtype(value);
 };
 
-// Transtype object and array values using `__VAR` in variable name
+// Transtype object and array values using `_VAR` in variable name
 const applyNesting = function ({ name, value }) {
-  const keys = name.split('__');
+  const keys = name.split('_');
   if (keys.length === 1) { return; }
 
   const valueB = keys
@@ -88,9 +88,9 @@ const applyNesting = function ({ name, value }) {
   return { value: valueB };
 };
 
-// Remove `__VAR` in variable name
+// Remove `_VAR` in variable name
 const removeNestedName = function ({ name }) {
-  const nameA = name.replace(/__.*/, '');
+  const nameA = name.replace(/_.*/, '');
   return { name: nameA };
 };
 

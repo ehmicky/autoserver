@@ -4,13 +4,13 @@
 const processEnv = process.env;
 
 // Common prefix to all environment variables
-const ENV_VARS_PREFIX = /^APIENGINE__/;
+const ENV_VARS_PREFIX = /^APIENGINE_/;
 
-// Shortcuts, e.g. environment variable PORT will becomes APIENGINE__HTTP__PORT
+// Shortcuts, e.g. environment variable PORT will becomes APIENGINE_HTTP_PORT
 const BASIC_NAMES_MAP = {
   NODE_ENV: 'ENV',
-  PORT: 'HTTP__PORT',
-  HOST: 'HTTP__HOSTNAME',
+  PORT: 'HTTP_PORT',
+  HOST: 'HTTP_HOSTNAME',
 };
 
 module.exports = {

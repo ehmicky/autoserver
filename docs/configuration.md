@@ -7,7 +7,7 @@ There are several ways to define options.
 If several are used, they are merged together (from the highest priority to
 the lowest):
   - setting an [environment variable](#environment-variables):
-    `APIENGINE__MAXPAGESIZE=10`
+    `APIENGINE_MAXPAGESIZE=10`
   - using a command line option: `apiengine run --maxpagesize=10`.
     Note that the option name uses dashes on the command line.
   - passing the option via Node.js: `apiengine.run({ maxpagesize: 10 })`
@@ -17,7 +17,7 @@ the lowest):
 
 A configuration file can be specified for each instruction, e.g. for `run`
 (from the highest priority to the lowest):
-  - setting an environment variable `APIENGINE__CONFIG="path_to_config"`
+  - setting an environment variable `APIENGINE_CONFIG="path_to_config"`
   - using the command line: `apiengine run --config="path_to_config"`.
   - passing it via Node.js: `apiengine.run({ config: 'path_to_config' })`
   - creating a `apiengine.run.config.yml`, `apiengine.run.config.yaml` or
@@ -41,14 +41,14 @@ relative to the current directory.
 
 # Environment variables
 
-Environment variables are all prefixed with `APIENGINE__`.
+Environment variables are all prefixed with `APIENGINE_`.
 E.g. the following environment variables:
 
 ```toml
-APIENGINE__ENV="dev"
-APIENGINE__MAXPAGESIZE=200
-APIENGINE__PROTOCOLS__HTTP__HOSTNAME="myhostname"
-APIENGINE__FILTER__PAYLOAD="[id,old_id]"
+APIENGINE_ENV="dev"
+APIENGINE_MAXPAGESIZE=200
+APIENGINE_PROTOCOLS_HTTP_HOSTNAME="myhostname"
+APIENGINE_FILTER_PAYLOAD="[id,old_id]"
 ```
 
 will be converted to the following options:
@@ -64,14 +64,14 @@ will be converted to the following options:
 
 Note:
   - the names are converted to camelCase
-  - `__` is used to nest objects
+  - `_` is used to nest objects
   - `[..., ...]` is used for arrays
 
 Some well-known environment variables can also be used as aliases, namely:
   - for the `run` instruction:
-     - `NODE_ENV`: same as `APIENGINE__ENV`
-     - `HOST`: same as `APIENGINE__HTTP__HOST`
-     - `PORT`: same as `APIENGINE__HTTP__PORT`
+     - `NODE_ENV`: same as `APIENGINE_ENV`
+     - `HOST`: same as `APIENGINE_HTTP_HOST`
+     - `PORT`: same as `APIENGINE_HTTP_PORT`
 
 # Filepaths options
 
