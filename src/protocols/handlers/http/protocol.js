@@ -5,8 +5,8 @@ const { startServer } = require('./start');
 const { stopServer, countPendingRequests } = require('./stop');
 const {
   getRequestheaders,
-  getResponseHeaders,
-  setResponseHeaders,
+  getResponseheaders,
+  setResponseheaders,
 } = require('./headers');
 const {
   parsePayload,
@@ -35,8 +35,8 @@ const protocol = {
   stopServer,
   countPendingRequests,
   getRequestheaders,
-  getResponseHeaders,
-  setResponseHeaders,
+  getResponseheaders,
+  setResponseheaders,
   parsePayload,
   hasPayload,
   getContentType,

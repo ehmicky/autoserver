@@ -25,8 +25,8 @@ const sendRequestidHeader = function ({
   requestid,
   protocolHandler,
 }) {
-  const responseHeaders = { 'X-Apiengine-Requestid': requestid };
-  protocolHandler.setResponseHeaders({ specific, responseHeaders });
+  const responseheaders = { 'X-Apiengine-Requestid': requestid };
+  protocolHandler.setResponseheaders({ specific, responseheaders });
 };
 
 // Send e.g. HTTP request header, `X-Apiengine-Servername` and
@@ -36,11 +36,11 @@ const sendServeridsHeaders = function ({
   serverinfo: { serverid, servername },
   protocolHandler,
 }) {
-  const responseHeaders = {
+  const responseheaders = {
     'X-Apiengine-Servername': servername,
     'X-Apiengine-Serverid': serverid,
   };
-  protocolHandler.setResponseHeaders({ specific, responseHeaders });
+  protocolHandler.setResponseheaders({ specific, responseheaders });
 };
 
 module.exports = {

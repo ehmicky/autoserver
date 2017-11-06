@@ -10,10 +10,10 @@ const getRequestheaders = function ({ specific: { req: { headers = {} } } }) {
 };
 
 // Returns a response's HTTP headers, normalized lowercase
-const getResponseHeaders = function ({ specific: { res } }) {
-  const responseHeaders = res.getHeaders();
-  // Otherwise `responseHeaders.constructor` is not `Object`
-  return { ...responseHeaders };
+const getResponseheaders = function ({ specific: { res } }) {
+  const responseheaders = res.getHeaders();
+  // Otherwise `responseheaders.constructor` is not `Object`
+  return { ...responseheaders };
 };
 
 // Parses Prefer HTTP header
@@ -30,15 +30,15 @@ const eParsePreferHeader = addGenErrorHandler(parsePreferHeader, {
 });
 
 // Set HTTP header, ready to be sent with response
-const setResponseHeaders = function ({ specific, responseHeaders = {} }) {
-  return Object.entries(responseHeaders).reduce(
+const setResponseheaders = function ({ specific, responseheaders = {} }) {
+  return Object.entries(responseheaders).reduce(
     (specificA, [name, value]) =>
-      setResponseHeader({ specific: specificA, name, value }),
+      setResponseheader({ specific: specificA, name, value }),
     specific,
   );
 };
 
-const setResponseHeader = function ({
+const setResponseheader = function ({
   specific,
   specific: { res },
   name,
@@ -50,7 +50,7 @@ const setResponseHeader = function ({
 
 module.exports = {
   getRequestheaders,
-  getResponseHeaders,
+  getResponseheaders,
   parsePreferHeader: eParsePreferHeader,
-  setResponseHeaders,
+  setResponseheaders,
 };
