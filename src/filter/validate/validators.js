@@ -6,7 +6,8 @@ const { getEnum } = require('../enum');
 // Validate value is among set of values
 const validateEnum = function ({ type, value, ruleVal, throwErr }) {
   if (!ENUM_OPERATORS.includes(type)) {
-    const message = `must use operator ${getWordsList(ENUM_OPERATORS, { quotes: true })}`;
+    const operators = getWordsList(ENUM_OPERATORS, { quotes: true });
+    const message = `must use operator ${operators}`;
     throwErr(message);
   }
 
@@ -18,7 +19,7 @@ const validateEnum = function ({ type, value, ruleVal, throwErr }) {
   validateEnumVal({ ruleVal, value, throwErr });
 };
 
-const ENUM_OPERATORS = ['eq', 'neq', 'in', 'nin'];
+const ENUM_OPERATORS = ['_eq', '_neq', '_in', '_nin'];
 
 const validateEnumVal = function ({ ruleVal, value, throwErr }) {
   if (!ruleVal.includes(value)) {

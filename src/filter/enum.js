@@ -2,7 +2,7 @@
 
 const { difference, intersection } = require('../utilities');
 
-// For operations allowing only `eq`, `in`, `nin`, `neq`, normalize to `in`
+// For operations allowing only `_eq`, `_in`, `_nin`, `_neq`, normalize to `_in`
 // values, using the set of possible values.
 const getEnum = function ({ operations, possVals }) {
   const values = operations
@@ -12,10 +12,10 @@ const getEnum = function ({ operations, possVals }) {
 };
 
 const enumOperations = {
-  in: ({ value }) => value,
-  eq: ({ value }) => [value],
-  nin: ({ value, possVals }) => difference(possVals, value),
-  neq: ({ value, possVals }) => difference(possVals, [value]),
+  _in: ({ value }) => value,
+  _eq: ({ value }) => [value],
+  _nin: ({ value, possVals }) => difference(possVals, value),
+  _neq: ({ value, possVals }) => difference(possVals, [value]),
 };
 
 module.exports = {

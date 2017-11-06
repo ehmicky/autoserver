@@ -1,27 +1,27 @@
 'use strict';
 
-const { or, and } = require('./or_and');
-const { some, all } = require('./some_all');
-const { eq, neq } = require('./eq_neq');
-const { lt, gt, lte, gte } = require('./lt_gt_lte_gte');
-const { in: inOp, nin } = require('./in_nin');
-const { like, nlike } = require('./like_nlike');
+const { _or, _and } = require('./or_and');
+const { _some, _all } = require('./some_all');
+const { _eq, _neq } = require('./eq_neq');
+const { _lt, _gt, _lte, _gte } = require('./lt_gt_lte_gte');
+const { _in, _nin } = require('./in_nin');
+const { _like, _nlike } = require('./like_nlike');
 
 const operators = {
-  or,
-  and,
-  some,
-  all,
-  eq,
-  neq,
-  lt,
-  gt,
-  lte,
-  gte,
-  in: inOp,
-  nin,
-  like,
-  nlike,
+  _or,
+  _and,
+  _some,
+  _all,
+  _eq,
+  _neq,
+  _lt,
+  _gt,
+  _lte,
+  _gte,
+  _in,
+  _nin,
+  _like,
+  _nlike,
 };
 
 const getOperator = function ({ node }) {
@@ -33,7 +33,7 @@ const getOperator = function ({ node }) {
   return operators[node.type];
 };
 
-const DEEP_OPERATORS = ['some', 'all'];
+const DEEP_OPERATORS = ['_some', '_all'];
 
 module.exports = {
   getOperator,

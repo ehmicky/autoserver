@@ -39,7 +39,7 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
   // `args.filter`.
   // This means that in general, findMany|deleteMany|updateMany top-level
   // actions won't use this middleware, unless they are using very simple
-  // `args.filter` like `{ id: { in: ['4', '5'] } }`
+  // `args.filter` like `{ id: { _in: ['4', '5'] } }`
   if (filterIds === undefined) { return []; }
 
   const responseIds = data.map(({ id }) => id);

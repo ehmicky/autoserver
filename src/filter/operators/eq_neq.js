@@ -4,23 +4,23 @@ const { isEqual } = require('../../utilities');
 
 const { validateSameType, parseAsIs } = require('./common');
 
-// `{ attribute: { eq: value } }` or `{ attribute: value }`
+// `{ attribute: { _eq: value } }` or `{ attribute: value }`
 const evalEq = function ({ attr, value }) {
   return isEqual(attr, value);
 };
 
-// `{ attribute: { neq: value } }`
+// `{ attribute: { _neq: value } }`
 const evalNeq = function ({ attr, value }) {
   return !isEqual(attr, value);
 };
 
 module.exports = {
-  eq: {
+  _eq: {
     parse: parseAsIs,
     validate: validateSameType,
     eval: evalEq,
   },
-  neq: {
+  _neq: {
     parse: parseAsIs,
     validate: validateSameType,
     eval: evalNeq,

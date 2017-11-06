@@ -38,7 +38,7 @@ const parseFilterOrId = function ({ args: { id, filter }, model }) {
 
 // `args.id`
 const getIdFilter = function ({ id }) {
-  return { type: 'eq', attrName: 'id', value: id };
+  return { type: '_eq', attrName: 'id', value: id };
 };
 
 module.exports = {

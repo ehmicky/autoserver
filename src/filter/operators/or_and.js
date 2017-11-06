@@ -4,7 +4,7 @@ const { assignArray } = require('../../utilities');
 
 const parseOr = function ({ value, parseOperations, throwErr }) {
   return value
-    .map(and => parseOperations({ operations: { and }, throwErr }))
+    .map(_and => parseOperations({ operations: { _and }, throwErr }))
     .reduce(assignArray, []);
 };
 
@@ -73,23 +73,23 @@ const simplifyNode = function (node) {
 };
 
 const andOrMap = {
-  and: { some: false, every: true },
-  or: { some: true, every: false },
+  _and: { some: false, every: true },
+  _or: { some: true, every: false },
 };
 
 // Top-level array
-const evalOr = evalOrAnd.bind(null, 'or');
+const evalOr = evalOrAnd.bind(null, '_or');
 
 // Several fields inside a filter object
-const evalAnd = evalOrAnd.bind(null, 'and');
+const evalAnd = evalOrAnd.bind(null, '_and');
 
 module.exports = {
-  or: {
+  _or: {
     parse: parseOr,
     optimize: optimizeOr,
     eval: evalOr,
   },
-  and: {
+  _and: {
     parse: parseAnd,
     optimize: optimizeAnd,
     eval: evalAnd,

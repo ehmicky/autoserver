@@ -19,23 +19,23 @@ const validateInNin = function ({ value, type, attr, throwErr }) {
     validateSameType({ value: val, type, attr, throwErr }));
 };
 
-// `{ attribute: { in: [...] } }`
+// `{ attribute: { _in: [...] } }`
 const evalIn = function ({ attr, value }) {
   return value.includes(attr);
 };
 
-// `{ attribute: { nin: [...] } }`
+// `{ attribute: { _nin: [...] } }`
 const evalNin = function ({ attr, value }) {
   return !value.includes(attr);
 };
 
 module.exports = {
-  in: {
+  _in: {
     parse: parseAsIs,
     validate: validateInNin,
     eval: evalIn,
   },
-  nin: {
+  _nin: {
     parse: parseAsIs,
     validate: validateInNin,
     eval: evalNin,

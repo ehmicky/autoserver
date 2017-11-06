@@ -31,7 +31,7 @@ const getFilter = function ({ authorize, filter }) {
   // If no `args.filter`, no need to merge
   if (filter === undefined) { return authorize; }
 
-  return { type: 'and', value: [authorize, filter] };
+  return { type: '_and', value: [authorize, filter] };
 };
 
 module.exports = {

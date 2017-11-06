@@ -2,7 +2,7 @@
 
 const { DEEP_OPERATORS } = require('../operators');
 
-// In `{ attribute: { some: { eq: value } } }`, `eq` is considered deep
+// In `{ attribute: { _some: { _eq: value } } }`, `_eq` is considered deep
 const getDeepAttr = function ({ attrs, attrName, throwErr }) {
   const [, attrNameA, , deepType] = DEEP_TYPE_REGEXP.exec(attrName) || [];
   const isDeep = DEEP_OPERATORS.includes(deepType);
@@ -12,7 +12,7 @@ const getDeepAttr = function ({ attrs, attrName, throwErr }) {
   return isDeep ? { ...attr, isArray: false } : attr;
 };
 
-// Matches '$attrName some|all' -> ['$attrName', 'some|all']
+// Matches '$attrName _some|_all' -> ['$attrName', '_some|_all']
 const DEEP_TYPE_REGEXP = /^([^ ]*)( (.*))?$/;
 
 const getAttr = function ({ attrs, attrName, throwErr }) {
