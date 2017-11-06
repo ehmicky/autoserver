@@ -143,12 +143,12 @@ plugins:
 - plugin:
     $ref: test_plugin.js
   opts:
-    exampleOption: true
+    example_option: true
   enabled: true
 - plugin: author
   opts:
-    currentUser: (user())
-    userModel: owner
+    current_user: (user())
+    user_model: owner
 validation:
   __is_not_equal:
     test: ($val !== $expected)

@@ -21,9 +21,7 @@ const applyPlugins = async function ({ schema }) {
   const pluginsA = addDefaultBuiltinPlugins({ plugins });
 
   const schemaA = await reduceAsync(pluginsA, applyPlugin, schema);
-
-  const schemaB = omit(schemaA, 'plugins');
-  return schemaB;
+  return schemaA;
 };
 
 // Add builtinPlugins, except the ones that have been overriden

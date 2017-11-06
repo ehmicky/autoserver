@@ -163,7 +163,10 @@ definitions:
           typeof: [function, string]
         enabled:
           typeof: boolean
-        opts: {}
+        opts:
+          type: object
+          propertyNames:
+            $ref: '#/definitions/validName'
       additionalProperties: false
   # schema.validation
   validation:
