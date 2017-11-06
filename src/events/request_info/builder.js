@@ -35,7 +35,7 @@ const buildRequestinfo = function ({
   uniquecount,
   error,
 }) {
-  const responseData = MODEL_TYPES.includes(responsetype)
+  const responsedata = MODEL_TYPES.includes(responsetype)
     ? response.data
     : response;
   const errorReason = error && getReason({ error });
@@ -63,7 +63,7 @@ const buildRequestinfo = function ({
     commandpath,
     command,
     model,
-    responseData,
+    responsedata,
     responsetype,
     modelscount,
     uniquecount,

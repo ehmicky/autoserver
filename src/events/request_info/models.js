@@ -21,7 +21,7 @@ const reduceData = function (requestinfo, { data: filter }) {
 };
 
 const reduceResponse = function (requestinfo, { response: filter }) {
-  return reduceInfo({ info: requestinfo, attrName: 'responseData', filter });
+  return reduceInfo({ info: requestinfo, attrName: 'responsedata', filter });
 };
 
 const modelsReducers = [

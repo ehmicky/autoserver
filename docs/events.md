@@ -211,9 +211,9 @@ event payload, with the properties:
   - `model` `${string}` - current [model](terminology.md#model) name
   - `responsetype` `{string}` - among `'model'`, `'collection'`, `'error'`,
     `'object'`, `'html'`, `'text'`
-  - `responseData` `{any}` - response data
-  - `responseDatasize` `{number}` - in bytes
-  - `responseDatacount` `{number}` - array length, if it is an array
+  - `responsedata` `{any}` - response data
+  - `responsedatasize` `{number}` - in bytes
+  - `responsedatacount` `{number}` - array length, if it is an array
   - `modelscount` `{number}` - number of models returned, including nested ones
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error
@@ -242,7 +242,7 @@ The possible properties are:
   - `query`: applied to URL query variables
   - `headers`: applied to both `requestheaders` and `responseheaders`
   - `payload`
-  - `response`: applied to `responseData`
+  - `response`: applied to `responsedata`
   - `data`: applied to each `args.data`
 
 Default values:
