@@ -8,18 +8,18 @@ const { isModelType } = require('./validate');
 // Transform each `args.data` object into a separate write action
 const getWriteAction = function ({
   data,
-  commandPath,
+  commandpath,
   dataPaths,
   top,
   modelsMap,
   nestedKeys,
 }) {
-  const { modelName } = getModel({ top, modelsMap, commandPath });
+  const { modelName } = getModel({ top, modelsMap, commandpath });
 
   const dataA = data.map(datum => replaceNestedData({ datum, nestedKeys }));
   const args = { data: dataA };
 
-  return { commandPath, args, modelName, dataPaths, isWrite: true };
+  return { commandpath, args, modelName, dataPaths, isWrite: true };
 };
 
 // Replace nested objects from each `args.data` by only their ids

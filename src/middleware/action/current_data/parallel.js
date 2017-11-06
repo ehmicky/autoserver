@@ -6,7 +6,7 @@ const {
   groupValuesBy,
   mapValues,
 } = require('../../../utilities');
-const { mergeCommandPaths } = require('../../../constants');
+const { mergeCommandpaths } = require('../../../constants');
 const { getSimpleFilter } = require('../../../filter');
 
 // Add `action.currentData` for `create` and `upsert` commands
@@ -40,11 +40,11 @@ const groupActions = function ({ actions }) {
 };
 
 const mergeActionsGroups = function (actions) {
-  const commandPath = mergeCommandPaths({ actions });
+  const commandpath = mergeCommandpaths({ actions });
   const args = getArgs({ actions });
   const [{ modelName }] = actions;
 
-  return { commandPath: [commandPath], args, modelName };
+  return { commandpath: [commandpath], args, modelName };
 };
 
 // `args.data` becomes `args.filter`

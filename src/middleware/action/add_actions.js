@@ -43,7 +43,7 @@ const isNotMerged = function ({ actions, newAction }) {
 };
 
 const hasSamePath = function ({ action, newAction }) {
-  return isEqual(action.commandPath, newAction.commandPath);
+  return isEqual(action.commandpath, newAction.commandpath);
 };
 
 module.exports = {

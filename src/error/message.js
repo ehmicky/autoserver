@@ -9,7 +9,7 @@ const getErrorMessage = function ({
     description,
     protocol,
     operation,
-    command_path: commandPath,
+    commandpath: commandpath,
     command,
     details,
   },
@@ -18,7 +18,7 @@ const getErrorMessage = function ({
   const stack = getStack(description, details);
 
   // Add request-related info to message
-  const message = [protocol, operation, commandPath, command]
+  const message = [protocol, operation, commandpath, command]
     .filter(val => val)
     .join(' ');
 

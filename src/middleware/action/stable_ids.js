@@ -37,7 +37,7 @@ const validateStableIds = function ({
 
   actions
     // Only for nested actions
-    .filter(({ commandPath }) => commandPath.length > 1)
+    .filter(({ commandpath }) => commandpath.length > 1)
     .forEach(action => validateAction({ action, schema, top }));
 };
 
@@ -45,14 +45,14 @@ const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert'];
 
 const validateAction = function ({
   action,
-  action: { commandPath },
+  action: { commandpath },
   schema,
   top,
 }) {
   const serverSet = isServerSet({ action, schema, top });
   if (!serverSet) { return; }
 
-  const path = commandPath.slice(1).join('.');
+  const path = commandpath.slice(1).join('.');
   const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested model's 'id' cannot be known by the client.`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
@@ -64,13 +64,13 @@ const isServerSet = function ({ action, schema, top }) {
 };
 
 const getAttr = function ({
-  action: { commandPath },
+  action: { commandpath },
   schema: { shortcuts: { modelsMap }, models },
   top,
 }) {
-  const parentPath = commandPath.slice(0, -1);
-  const { modelName } = getModel({ commandPath: parentPath, modelsMap, top });
-  const attrName = commandPath[commandPath.length - 1];
+  const parentPath = commandpath.slice(0, -1);
+  const { modelName } = getModel({ commandpath: parentPath, modelsMap, top });
+  const attrName = commandpath[commandpath.length - 1];
   const { attributes } = models[modelName];
   const attr = attributes[attrName];
   return attr;

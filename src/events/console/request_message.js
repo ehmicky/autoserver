@@ -8,10 +8,10 @@ const getRequestMessage = function ({
   path,
   protocolstatus,
   error,
-  commandPath,
+  commandpath,
   summary,
 }) {
-  const summaryA = error ? commandPath : summary;
+  const summaryA = error ? commandpath : summary;
 
   const message = [
     protocolstatus,

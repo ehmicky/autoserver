@@ -204,7 +204,7 @@ event payload, with the properties:
   - `args.dataSize` `{number}` - size of `data` argument, in bytes
   - `args.dataCount` `{number}` - array length of `data` argument,
     if it is an array
-  - `commandPath` `{string}` - [command](terminology.md#command) full path,
+  - `commandpath` `{string}` - [command](terminology.md#command) full path,
     e.g. `'findModel.findSubmodel'`
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'find'`, `'upsert'`, `'patch'` and `'delete'`.
@@ -218,7 +218,7 @@ event payload, with the properties:
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error
 
-The properties `commandPath`, `command` and `model` are only
+The properties `commandpath`, `command` and `model` are only
 set if the request failed while performing a command.
 
 The `...Size` properties are not set if the related value is undefined, and set
