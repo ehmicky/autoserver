@@ -46,7 +46,7 @@ const middlewareLayers = [
       protocol.protocolValidation,
       // Set protocol full name
       protocol.getProtocolName,
-      // Sets requestId, serverid, serverName
+      // Sets requestId, serverid, servername
       protocol.setRequestIds,
       // Retrieves IP
       protocol.getIp,

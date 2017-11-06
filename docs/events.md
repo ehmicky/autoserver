@@ -119,7 +119,7 @@ Each event payload comes with a `serverinfo` property, with the properties:
      - `version` `{string}` - Node.js version, e.g. `'v8.0.0'`
   - `apiengine` `{object}`
      - `version` `{string}` - `apiengine` version, e.g. `'0.0.1'`
-  - `serverid` `{UUID}` and `serverName` `{string}`: see
+  - `serverid` `{UUID}` and `servername` `{string}`: see
     [below](#server-identifiers)
 
 # Server identifiers
@@ -129,10 +129,10 @@ available:
   - in [`serverinfo.serverid`](#server-information) payload property
   - as a response header named `X-Apiengine-Serverid`
 
-`serverName` is the system hostname, but can be overriden using the
-[`run` option](run.md#options) `serverName`. It is available:
-  - in [`serverinfo.serverName`](#server-information) payload property
-  - as a response header named `X-Apiengine-Server-Name`
+`servername` is the system hostname, but can be overriden using the
+[`run` option](run.md#options) `servername`. It is available:
+  - in [`serverinfo.servername`](#server-information) payload property
+  - as a response header named `X-Apiengine-Servername`
   - in [console messages](#console)
 
 # Start information

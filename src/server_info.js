@@ -17,8 +17,8 @@ const { version: apiengineVersion } = require('../package.json');
 const { memoize } = require('./utilities');
 
 // Retrieve process-specific and host-specific information
-const getServerinfo = function ({ runOpts: { serverName } }) {
-  const staticServerinfo = mGetStaticServerinfo({ serverName });
+const getServerinfo = function ({ runOpts: { servername } }) {
+  const staticServerinfo = mGetStaticServerinfo({ servername });
   const dynamicServerinfo = getDynamicServerinfo();
   const serverinfo = {
     ...staticServerinfo,
@@ -31,13 +31,13 @@ const getServerinfo = function ({ runOpts: { serverName } }) {
 // Information that do not change across a specific process.
 // We need to memoize both for performnace and predictability,
 // e.g. to assign a single `serverid` per process.
-const getStaticServerinfo = function ({ serverName }) {
+const getStaticServerinfo = function ({ servername }) {
   const system = getSystemInfo();
   const stats = getStatsInfo();
   const node = getNodeInfo();
   const apiengine = { version: apiengineVersion };
   const serverid = uuidv4();
-  const name = serverName || system.hostname || '';
+  const name = servername || system.hostname || '';
 
   return {
     system,
@@ -45,7 +45,7 @@ const getStaticServerinfo = function ({ serverName }) {
     node,
     apiengine,
     serverid,
-    serverName: name,
+    servername: name,
   };
 };
 
