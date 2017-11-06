@@ -147,8 +147,8 @@ plugins:
   enabled: true
 - plugin: author
   opts:
-    current_user: (user())
-    user_model: owner
+    currentuser: (user())
+    usermodel: owner
 validation:
   __is_not_equal:
     test: ($val !== $expected)

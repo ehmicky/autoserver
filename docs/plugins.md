@@ -37,6 +37,6 @@ The system plugin `author` automatically adds the attributes:
 It is not enabled by default.
 
 The following plugin options must be specified:
-  - `currentUser` [`{function}`](functions.md): retrieves the current
+  - `currentuser` [`{function}`](functions.md): retrieves the current
     request's user. Cannot return null if the user is anonymous.
-  - `userModel` `{string}`: user's model name.
+  - `usermodel` `{string}`: user's model name.
