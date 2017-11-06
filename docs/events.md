@@ -194,8 +194,8 @@ event payload, with the properties:
   - `responseheaders` `{object}` - protocol request headers (e.g. HTTP
      headers), as a hash table
   - `payload` `{any}` - request payload
-  - `payloadSize` `{number}` - in bytes
-  - `payloadCount` `{number}` - array length, if it is an array
+  - `payloadsize` `{number}` - in bytes
+  - `payloadcount` `{number}` - array length, if it is an array
   - `operation` `{string}` - operation, among `'graphql'`, `'graphiql'` and
     `'graphqlprint'`
   - `summary` `${string}` - summary of the operation, e.g.
