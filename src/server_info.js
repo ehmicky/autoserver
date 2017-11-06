@@ -2,7 +2,7 @@
 
 const {
   hostname: getHostname,
-  type: getOsType,
+  type: getOs,
   platform: getPlatform,
   release: getRelease,
   arch: getArch,
@@ -53,11 +53,11 @@ const mGetStaticServerinfo = memoize(getStaticServerinfo);
 
 const getSystemInfo = function () {
   const hostname = getHostname();
-  const osType = getOsType();
+  const os = getOs();
   const platform = getPlatform();
   const release = getRelease();
   const arch = getArch();
-  return { hostname, osType, platform, release, arch };
+  return { hostname, os, platform, release, arch };
 };
 
 const getStatsInfo = function () {
