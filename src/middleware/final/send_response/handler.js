@@ -13,7 +13,7 @@ const sendResponse = async function ({
   response,
   specific,
   protocolHandler,
-  protocolStatus,
+  protocolstatus,
   operationHandler,
   topArgs,
   mInput,
@@ -39,7 +39,7 @@ const sendResponse = async function ({
     content: contentB,
     protocolHandler,
     specific,
-    protocolStatus,
+    protocolstatus,
   });
 
   const responseHeaders = protocolHandler.getResponseHeaders({ specific });

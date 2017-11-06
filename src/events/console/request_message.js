@@ -6,7 +6,7 @@ const getRequestMessage = function ({
   protocol,
   method,
   path,
-  protocolStatus,
+  protocolstatus,
   error,
   commandPath,
   operationSummary,
@@ -14,7 +14,7 @@ const getRequestMessage = function ({
   const summary = error ? commandPath : operationSummary;
 
   const message = [
-    protocolStatus,
+    protocolstatus,
     error,
     '-',
     protocol,

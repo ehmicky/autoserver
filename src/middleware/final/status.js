@@ -5,28 +5,28 @@ const { STATUS_LEVEL_MAP } = require('../../events');
 
 // Retrieve response's status
 const getStatus = function ({ error, protocolHandler }) {
-  const protocolStatus = getProtocolStatus({ error, protocolHandler });
-  const status = getGenericStatus({ protocolStatus, protocolHandler });
+  const protocolstatus = getProtocolstatus({ error, protocolHandler });
+  const status = getGenericStatus({ protocolstatus, protocolHandler });
   const level = getLevel({ status });
 
-  validateStatuses({ protocolStatus, status });
+  validateStatuses({ protocolstatus, status });
 
-  return { protocolStatus, status, level };
+  return { protocolstatus, status, level };
 };
 
 // Protocol-specific status, e.g. HTTP status code
-const getProtocolStatus = function ({
+const getProtocolstatus = function ({
   error,
   protocolHandler,
-  protocolHandler: { failureProtocolStatus },
+  protocolHandler: { failureProtocolstatus },
 }) {
-  const protocolStatus = protocolHandler.getProtocolStatus({ error });
-  return protocolStatus || failureProtocolStatus;
+  const protocolstatus = protocolHandler.getProtocolstatus({ error });
+  return protocolstatus || failureProtocolstatus;
 };
 
 // Protocol-agnostic status
-const getGenericStatus = function ({ protocolStatus, protocolHandler }) {
-  const status = protocolHandler.getStatus({ protocolStatus });
+const getGenericStatus = function ({ protocolstatus, protocolHandler }) {
+  const status = protocolHandler.getStatus({ protocolstatus });
   return status || DEFAULT_STATUS;
 };
 
@@ -39,9 +39,9 @@ const getLevel = function ({ status }) {
 
 const DEFAULT_LEVEL = 'error';
 
-const validateStatuses = function ({ protocolStatus, status }) {
-  if (protocolStatus === undefined) {
-    const message = '\'protocolStatus\' must be defined';
+const validateStatuses = function ({ protocolstatus, status }) {
+  if (protocolstatus === undefined) {
+    const message = '\'protocolstatus\' must be defined';
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 

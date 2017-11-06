@@ -8,7 +8,7 @@ const send = function ({
   content,
   contentType,
   contentLength,
-  protocolStatus,
+  protocolstatus,
 }) {
   // `specific` might be undefined, if initial input was wrong.
   if (!res) { return; }
@@ -17,7 +17,7 @@ const send = function ({
   // so we must check to avoid double responses
   if (res.finished) { return; }
 
-  setHeaders({ res, contentType, contentLength, protocolStatus });
+  setHeaders({ res, contentType, contentLength, protocolstatus });
 
   const sendResponse = promisify(res.end.bind(res));
 
@@ -28,11 +28,11 @@ const setHeaders = function ({
   res,
   contentType,
   contentLength,
-  protocolStatus,
+  protocolstatus,
 }) {
-  if (protocolStatus) {
+  if (protocolstatus) {
     // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    res.statusCode = protocolStatus;
+    res.statusCode = protocolstatus;
   }
 
   if (contentType) {
