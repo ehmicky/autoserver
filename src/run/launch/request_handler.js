@@ -20,7 +20,7 @@ const BASE_INPUT_KEYS = [
   'runOpts',
   'varsRef',
   'userVars',
-  'serverInfo',
+  'serverinfo',
   'dbAdapters',
 ];
 

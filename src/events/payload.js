@@ -2,7 +2,7 @@
 
 const { omitBy } = require('../utilities');
 const { getStandardError } = require('../error');
-const { getServerInfo } = require('../server_info');
+const { getServerinfo } = require('../server_info');
 
 const { getRequestInfo } = require('./request_info');
 const { getConsoleMessage } = require('./console');
@@ -49,7 +49,7 @@ const getEventPayload = function ({
 
   const timestamp = getTimestamp({ requestInfo });
 
-  const { serverInfo } = getServerInfo({ runOpts });
+  const { serverinfo } = getServerinfo({ runOpts });
 
   const eventPayload = {
     ...info,
@@ -59,7 +59,7 @@ const getEventPayload = function ({
     requestInfo,
     errorInfo: errorInfoA,
     timestamp,
-    serverInfo,
+    serverinfo,
   };
   const eventPayloadA = omitBy(eventPayload, value => value === undefined);
 
