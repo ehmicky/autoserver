@@ -33,7 +33,7 @@
   },
 
   {
-    "name": "maxDataLength",
+    "name": "maxdatalength",
     "default": 1000,
     "description": "Maximum number of models that can be modified at once",
     "group": "Limits",

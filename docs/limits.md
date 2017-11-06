@@ -9,7 +9,7 @@ The following limits can be configured with [options](run.md#options):
     use `0` to disable pagination.
   - `maxpagesize` `{integer}` (defaults to `100`): sets an upper limit to
     client-specified `pagesize`.
-  - `maxDataLength` `{integer}` (defaults to `1000`): sets a limit on
+  - `maxdatalength` `{integer}` (defaults to `1000`): sets a limit on
     client-specified `data` length, i.e. how many models can be created or
     replaced at once.
     Use `0` to disable.
