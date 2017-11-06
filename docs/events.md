@@ -188,7 +188,7 @@ event payload, with the properties:
   - `status` `{string}` - protocol-agnostic status, among `'INTERNALS'`,
     `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathvars` `{object}` - URL variables, as a hash table
-  - `queryVars` `{object}` - query variables, as a hash table
+  - `queryvars` `{object}` - query variables, as a hash table
   - `requestHeaders` `{object}` - protocol request headers (e.g. HTTP headers),
      as a hash table
   - `responseHeaders` `{object}` - protocol request headers (e.g. HTTP

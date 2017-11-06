@@ -3,9 +3,9 @@
 const { renderGraphiql } = require('./render');
 
 // Render GraphiQL HTML file, i.e. GraphQL debugger
-const handler = async function ({ queryVars, payload = {}, origin }) {
+const handler = async function ({ queryvars, payload = {}, origin }) {
   const endpointURL = `${origin}/graphql`;
-  const { query, variables, operationName } = { ...queryVars, ...payload };
+  const { query, variables, operationName } = { ...queryvars, ...payload };
 
   const content = await renderGraphiql({
     endpointURL,

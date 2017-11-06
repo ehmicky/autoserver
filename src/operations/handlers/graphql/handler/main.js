@@ -14,12 +14,12 @@ const {
 // operation-agnostic `operationDef`
 const handler = function ({
   schema: { graphqlSchema },
-  queryVars,
+  queryvars,
   payload,
   method,
 }) {
   const { variables, operationName, queryDocument } = getGraphqlDocument({
-    queryVars,
+    queryvars,
     payload,
   });
 

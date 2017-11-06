@@ -5,10 +5,10 @@ const { parse } = require('graphql');
 const { throwError, addGenErrorHandler } = require('../../../../error');
 
 // Generic/raw GraphQL parsing
-const getGraphqlDocument = function ({ queryVars, payload }) {
+const getGraphqlDocument = function ({ queryvars, payload }) {
   const payloadA = parsePayload({ payload });
   // Parameters can be in either query variables or payload
-  const { query, variables, operationName } = { ...queryVars, ...payloadA };
+  const { query, variables, operationName } = { ...queryvars, ...payloadA };
 
   const queryDocument = parseQuery({ query });
 
