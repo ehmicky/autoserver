@@ -5,7 +5,7 @@ const { MODEL_TYPES } = require('../../constants');
 
 // Builds requestinfo from request mInput
 const buildRequestinfo = function ({
-  requestId,
+  requestid,
   timestamp,
   responseTime,
   ip,
@@ -42,7 +42,7 @@ const buildRequestinfo = function ({
   const errorReason = error && getReason({ error });
 
   return {
-    requestId,
+    requestid,
     timestamp,
     responseTime,
     ip,

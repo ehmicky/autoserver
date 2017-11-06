@@ -24,7 +24,7 @@ additional properties:
       except `description` is called `message`, and `details` is called `stack`.
     - the following properties may also appear, depending on when
       the error happened:
-      - `request_id` `{string}`
+      - `requestid` `{string}`
       - `protocol` `{string}`
       - `method` `{string}`
       - `request_headers` `{object}`

@@ -171,8 +171,8 @@ the promise returned by [`apiServer.start()`](run.md#running-the-server).
 
 Events during the `request` phase have a `requestinfo` property on the
 event payload, with the properties:
-  - `requestId` `{UUID}` - unique ID assigned to each request.
-    Also available as `X-Apiengine-Request-Id` response header.
+  - `requestid` `{UUID}` - unique ID assigned to each request.
+    Also available as `X-Apiengine-Requestid` response header.
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
   - `responseTime` `{number}` - time it took to handle the request,

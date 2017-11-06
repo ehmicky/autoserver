@@ -65,7 +65,7 @@ first argument, as an object:
   - `$protocol` `{string}`: possible values are only `http`
   - `$timestamp` `{string}`: current date and time
   - `$ip` `{string}`: request IP
-  - `$requestId` `{string}`: UUID identifying the current request
+  - `$requestid` `{string}`: UUID identifying the current request
   - `$params` `{object}`: all [client parameters](#client-parameters)
   - `$operation` `{string}`: possible values are `graphql`, `graphiql`,
     `graphqlprint`
