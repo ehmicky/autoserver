@@ -38,18 +38,18 @@ properties:
     type: array
     items:
       type: string
-# Users can only define custom properties prefixed with x-*
+# Users can only define custom properties prefixed with __
 additionalProperties: false
 patternProperties:
-  '^x-': true
+  '^__': true
 definitions:
   # schema.models.MODEL
   model:
     type: object
-    # Users can only define custom properties prefixed with x-*
+    # Users can only define custom properties prefixed with __
     additionalProperties: false
     patternProperties:
-      '^x-': true
+      '^__': true
     required: [attributes]
     properties:
       model:
@@ -96,10 +96,10 @@ definitions:
   # MODEL.attributes
   attribute:
     type: object
-    # Users can only define custom properties prefixed with x-*
+    # Users can only define custom properties prefixed with __
     additionalProperties: false
     patternProperties:
-      '^x-': true
+      '^__': true
     properties:
       alias:
         oneOf:
