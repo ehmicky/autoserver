@@ -37,8 +37,8 @@ module.exports = startEvent;
 
 See [here](configuration.md) to learn how to specify the `run` option.
 
-By default, files named `api_engine.run.event.TYPE.js`
-(e.g. `api_engine.run.event.start.js`) will be searched in the current
+By default, files named `apiengine.run.event.TYPE.js`
+(e.g. `apiengine.run.event.start.js`) will be searched in the current
 directory, or any parent. This is the preferred configuration method.
 
 # Logging
@@ -117,8 +117,8 @@ Each event payload comes with a `serverInfo` property, with the properties:
      - `uptime` `{number}` - how long the server has been running, in secs
   - `node` `{object}`
      - `version` `{string}` - Node.js version, e.g. `'v8.0.0'`
-  - `apiEngine` `{object}`
-     - `version` `{string}` - `api-engine` version, e.g. `'0.0.1'`
+  - `apiengine` `{object}`
+     - `version` `{string}` - `apiengine` version, e.g. `'0.0.1'`
   - `serverId` `{UUID}` and `serverName` `{string}`: see
     [below](#server-identifiers)
 
@@ -127,12 +127,12 @@ Each event payload comes with a `serverInfo` property, with the properties:
 A `serverId` UUID, unique to each server run, is automatically created and
 available:
   - in [`serverInfo.serverId`](#server-information) payload property
-  - as a response header named `X-Api-Engine-Server-Id`
+  - as a response header named `X-Apiengine-Server-Id`
 
 `serverName` is the system hostname, but can be overriden using the
 [`run` option](run.md#options) `serverName`. It is available:
   - in [`serverInfo.serverName`](#server-information) payload property
-  - as a response header named `X-Api-Engine-Server-Name`
+  - as a response header named `X-Apiengine-Server-Name`
   - in [console messages](#console)
 
 # Start information
@@ -172,7 +172,7 @@ the promise returned by [`apiServer.start()`](run.md#running-the-server).
 Events during the `request` phase have a `requestInfo` property on the
 event payload, with the properties:
   - `requestId` `{UUID}` - unique ID assigned to each request.
-    Also available as `X-Api-Engine-Request-Id` response header.
+    Also available as `X-Apiengine-Request-Id` response header.
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
   - `responseTime` `{number}` - time it took to handle the request,

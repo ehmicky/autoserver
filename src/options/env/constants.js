@@ -4,9 +4,9 @@
 const processEnv = process.env;
 
 // Common prefix to all environment variables
-const ENV_VARS_PREFIX = /^API_ENGINE__/;
+const ENV_VARS_PREFIX = /^APIENGINE__/;
 
-// Shortcuts, e.g. environment variable PORT will becomes API_ENGINE__HTTP__PORT
+// Shortcuts, e.g. environment variable PORT will becomes APIENGINE__HTTP__PORT
 const BASIC_NAMES_MAP = {
   NODE_ENV: 'ENV',
   PORT: 'HTTP__PORT',

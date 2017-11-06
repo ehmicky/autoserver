@@ -20,7 +20,7 @@ const parseHeaders = function ({ requestHeaders }) {
   return paramsArg;
 };
 
-const PARAMS_HEADER_REGEXP = /^(X-Api-Engine-Param-)([a-zA-Z0-9-]+)$/;
+const PARAMS_HEADER_REGEXP = /^(X-Apiengine-Param-)([a-zA-Z0-9-]+)$/;
 
 const renameHeader = function ({ name }) {
   const nameA = name.replace(PARAMS_HEADER_REGEXP, '$2');

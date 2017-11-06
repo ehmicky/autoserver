@@ -35,8 +35,8 @@ const eLoadMainConfFile = addGenErrorHandler(loadMainConfFile, {
 });
 
 // Main configuration file can be specified with `config` option,
-// or API_ENGINE__CONFIG environment variable, or by looked in the tree
-// under filename `api_engine.INSTRUCTION.config.EXT`
+// or APIENGINE__CONFIG environment variable, or by looked in the tree
+// under filename `apiengine.INSTRUCTION.config.EXT`
 const getMainConfPath = function ({ options }) {
   const envVars = getEnvVars();
   return envVars.config || options.config;

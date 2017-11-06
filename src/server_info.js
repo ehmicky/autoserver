@@ -12,7 +12,7 @@ const {
 
 const { v4: uuidv4 } = require('uuid');
 
-const { version: apiEngineVersion } = require('../package.json');
+const { version: apiengineVersion } = require('../package.json');
 
 const { memoize } = require('./utilities');
 
@@ -35,7 +35,7 @@ const getStaticServerInfo = function ({ serverName }) {
   const system = getSystemInfo();
   const stats = getStatsInfo();
   const node = getNodeInfo();
-  const apiEngine = { version: apiEngineVersion };
+  const apiengine = { version: apiengineVersion };
   const serverId = uuidv4();
   const name = serverName || system.hostname || '';
 
@@ -43,7 +43,7 @@ const getStaticServerInfo = function ({ serverName }) {
     system,
     stats,
     node,
-    apiEngine,
+    apiengine,
     serverId,
     serverName: name,
   };
