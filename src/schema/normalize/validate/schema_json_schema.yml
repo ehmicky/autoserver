@@ -268,8 +268,8 @@ definitions:
     - typeof: function
     - type: string
       pattern: '^\s*\(.*\)\s*$'
-  # Keys of schema.models.*, and model.model
-  validModelName:
+  # Any user-defined identifier should match this
+  validName:
     type: string
     # Valid GraphQL identifier name, regular expression taken from spec
     # Additional restriction: lowercase-only
@@ -278,13 +278,23 @@ definitions:
     #    types
     #  - should not start with _ as it is used by filter|data operators
     pattern: '^[a-z][_0-9a-z]*$'
+  # Any user-defined identifier that could conflict with system names
+  # I.e. be prefixed with __
+  validUserName:
+    type: string
+    pattern: '^__[a-z][_0-9a-z]*$'
+  # Keys of schema.models.*, and model.model
+  validModelName:
+    allOf:
+    - $ref: '#/definitions/validName'
     # This is too avoid big responses, or hitting database limits
-    maxLength: 100
+    - maxLength: 100
   # Keys of MODEL.attributes.*
   validAttributeName:
     allOf:
-    # Attributes follow same naming convention as models
-    - $ref: '#/definitions/validModelName'
+    - $ref: '#/definitions/validName'
+    # This is too avoid big responses, or hitting database limits
+    - maxLength: 100
     # 'all' is a special attribute name, used to query all attributes
     - not:
         const: all
