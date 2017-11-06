@@ -81,8 +81,8 @@ first argument, as an object:
   - `$previousVal` `{any}`: value of the attribute.
     If the current request is modified the current attribute, `$previousVal`
     is the value before that modification, and `$val` after that modification.
-  - `$previousModel` `{object|undefined}`: model.
-    If the current request is modified the current model, `$previousModel` is
+  - `$previousmodel` `{object|undefined}`: model.
+    If the current request is modified the current model, `$previousmodel` is
     the value before that modification, and `$model` after that modification.
     If the current request is creating the model (with a `create` or `upsert`
     action), this will be `undefined`.
