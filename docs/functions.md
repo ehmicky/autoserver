@@ -78,8 +78,8 @@ first argument, as an object:
   - `$model` `{object}`: current model.
     E.g. `$model.first_name === 'John'` checks whether the model's `first_name`
     equals `'John'`
-  - `$previousVal` `{any}`: value of the attribute.
-    If the current request is modified the current attribute, `$previousVal`
+  - `$previousval` `{any}`: value of the attribute.
+    If the current request is modified the current attribute, `$previousval`
     is the value before that modification, and `$val` after that modification.
   - `$previousmodel` `{object|undefined}`: model.
     If the current request is modified the current model, `$previousmodel` is

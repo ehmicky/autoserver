@@ -43,7 +43,7 @@ const getVars = function (
 // Retrieve model-related system variables
 const getModelVars = function ({ model, previousmodel, attrName }) {
   const val = model[attrName];
-  const previousVal = previousmodel == null
+  const previousval = previousmodel == null
     ? undefined
     : previousmodel[attrName];
 
@@ -51,7 +51,7 @@ const getModelVars = function ({ model, previousmodel, attrName }) {
     $model: model,
     $val: val,
     $previousmodel: previousmodel,
-    $previousVal: previousVal,
+    $previousval: previousval,
   };
 };
 

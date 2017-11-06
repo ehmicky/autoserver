@@ -15,7 +15,7 @@ const getAttributes = () => ({
     type: 'string',
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
-    value: '($previousmodel === undefined ? $timestamp : $previousVal)',
+    value: '($previousmodel === undefined ? $timestamp : $previousval)',
     validate: {
       format: 'date-time',
     },
