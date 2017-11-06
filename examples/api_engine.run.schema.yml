@@ -91,7 +91,7 @@ models:
           $ref: default_value.js
       creator_key:
         description: Key of the user that created this pet
-        value: (String(moreRecursiveFunc()))
+        value: (String(more_recursive_func()))
       best_friend:
         type: pet
         description: This pet's best friend
@@ -105,7 +105,7 @@ models:
       owners:
         type: owner[]
       birth_date:
-        default: (birthDate)
+        default: (birth_date)
         validate:
           format: date
           formatMinimum: '2000-01-01'
@@ -123,21 +123,21 @@ authorize:
 - $command:
     _in: [find, create, upsert, patch]
 variables:
-  myMathFunc: (($1 * $2) + ($3 * $4))
-  exampleFunction: '(myMathFunc(1, 10, 100, 2) +
-    myOtherMathFunc({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
-  recursive_func: (exampleFunction())
-  moreRecursiveFunc: (recursive_func() + constants.TestConstant +
-    _s.titleize($operation))
-  birthDate: 2005-01-01
-  myOtherMathFunc:
+  my_math_func: (($1 * $2) + ($3 * $4))
+  example_function: '(my_math_func(1, 10, 100, 2) +
+    my_other_math_func({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
+  recursive_func: (example_function())
+  more_recursive_func: (recursive_func() + constants.TestConstant +
+    string.titleize($operation))
+  my_other_math_func:
     $ref: math_func.js
+  birth_date: 2005-01-01
   user: '(({ id: "1" }))'
   constants:
     $ref: constants.json
-  _s:
+  string:
     $ref: underscore.string.node
-  _:
+  lodash:
     $ref: lodash.node
 plugins:
 - plugin:
