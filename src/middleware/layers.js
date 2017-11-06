@@ -35,7 +35,7 @@ const middlewareLayers = [
       // Abort request after a certain delay
       time.setRequestTimeout,
       // Sets how long processing the request took
-      time.setResponseTime,
+      time.setResponsetime,
     ],
   },
 

@@ -7,7 +7,7 @@ const { MODEL_TYPES } = require('../../constants');
 const buildRequestinfo = function ({
   requestid,
   timestamp,
-  responseTime,
+  responsetime,
   ip,
   protocol,
   protocolFullName,
@@ -44,7 +44,7 @@ const buildRequestinfo = function ({
   return {
     requestid,
     timestamp,
-    responseTime,
+    responsetime,
     ip,
     protocol,
     protocolFullName,
