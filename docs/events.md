@@ -94,7 +94,7 @@ with properties:
     `start`, see [below](#start-information)
   - `exitcodes` `{object}` - for events of type `stop`, contains which
     server successfully exited or not, as `{ http: boolean, ... }`
-  - `errorInfo` `{object}` - [error information](#error-information),
+  - `errorinfo` `{object}` - [error information](#error-information),
     for events of type `failure`
   - `requestInfo` `{object}` -
     [request-specific information](#request-information), for events during the
@@ -152,7 +152,7 @@ the promise returned by [`apiServer.start()`](run.md#running-the-server).
 
 # Error information
 
-Events of type `failure` have an `errorInfo` property on the event payload,
+Events of type `failure` have an `errorinfo` property on the event payload,
 with the properties (following
   [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt)):
   - `type` `{string}`: error type
