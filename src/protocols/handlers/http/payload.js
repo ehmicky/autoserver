@@ -16,9 +16,9 @@ const { addGenErrorHandler } = require('../../../error');
 const parsePayload = async function ({
   specific: { req },
   type,
-  maxPayloadSize,
+  maxpayloadsize,
 }) {
-  const parser = mGetParser({ type, maxPayloadSize });
+  const parser = mGetParser({ type, maxpayloadsize });
 
   // `body-parser` will fill req.body = {} even if there is no body.
   // We want to know if there is a body or not though,
@@ -49,9 +49,9 @@ const ERROR_REASONS = {
   415: 'WRONG_CONTENT_TYPE',
 };
 
-const getParser = function ({ type, maxPayloadSize }) {
+const getParser = function ({ type, maxpayloadsize }) {
   const opts = PARSERS_OPTS[type];
-  const optsA = { ...opts, type: typeChecker, limit: maxPayloadSize };
+  const optsA = { ...opts, type: typeChecker, limit: maxpayloadsize };
   const parser = bodyParser[type](optsA);
   const parserA = promisify(parser);
   return parserA;

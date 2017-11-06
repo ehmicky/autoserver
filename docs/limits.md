@@ -1,7 +1,7 @@
 # Options
 
 The following limits can be configured with [options](run.md#options):
-  - `maxPayloadSize` `{integer|string}` (defaults to `1MB`):
+  - `maxpayloadsize` `{integer|string}` (defaults to `1MB`):
      Max size of request payloads, in bytes.
      Also used as the max URL length.
      Can use 'KB', 'MB', 'GB' OR 'TB'.
