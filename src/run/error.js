@@ -17,7 +17,7 @@ const handleStartupError = async function (
   await emitEvent({
     type: 'failure',
     phase: 'startup',
-    errorInfo: error,
+    errorinfo: error,
     runOpts,
   });
 

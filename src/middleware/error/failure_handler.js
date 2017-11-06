@@ -24,7 +24,7 @@ const reportError = function ({ runOpts, error }) {
     type: 'failure',
     phase: 'request',
     level: 'error',
-    errorInfo: error,
+    errorinfo: error,
     runOpts,
   });
 };

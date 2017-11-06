@@ -6,7 +6,7 @@ const { reduceAllModels } = require('./models');
 
 // Builds `requestInfo` object, which contains request-related information.
 // Also rename `errorReason` to `error`.
-// Also remove redundant information between `errorInfo` and `requestInfo`
+// Also remove redundant information between `errorinfo` and `requestInfo`
 const getRequestInfo = function ({ mInput, phase, runOpts: { filter } }) {
   if (phase !== 'request') { return; }
 

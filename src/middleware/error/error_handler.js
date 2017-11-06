@@ -37,7 +37,7 @@ const reportError = async function ({ runOpts, level, error, mInput }) {
     type: 'failure',
     phase: 'request',
     level: levelA,
-    errorInfo: error,
+    errorinfo: error,
     runOpts,
   });
 };

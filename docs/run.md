@@ -20,7 +20,7 @@ apiengine.run()
   .then(({ options, servers, exit }) => {
     console.log('Success');
   })
-  .catch(({ errorInfo }) => {
+  .catch(({ errorinfo }) => {
     console.log('Failure');
   });
 ```

@@ -50,7 +50,7 @@ const emitProcessEvent = async function ({ error, message, runOpts }) {
   await emitEvent({
     type: 'failure',
     phase: 'process',
-    errorInfo: errorA,
+    errorinfo: errorA,
     runOpts,
   });
 };
