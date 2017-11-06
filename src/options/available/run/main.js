@@ -11,7 +11,7 @@ const options = [
   schema,
   ...require('./env'),
   ...require('./events'),
-  ...require('./server_name'),
+  ...require('./servername'),
   ...require('./limits'),
   ...require('./protocols'),
   ...require('./db'),

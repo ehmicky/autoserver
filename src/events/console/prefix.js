@@ -2,19 +2,19 @@
 
 const { TYPES, LEVELS } = require('../constants');
 
-// Retrieves `[TYPE] [LEVEL] [SERVER_NAME] [TIMESTAMP] [PHASE]`
+// Retrieves `[TYPE] [LEVEL] [SERVERNAME] [TIMESTAMP] [PHASE]`
 const getPrefix = function ({
   type,
   phase,
   level,
   timestamp,
   requestinfo: { requestId } = {},
-  serverName,
+  servername,
 }) {
   const prefixes = [
     getType({ type }),
     getLevel({ level }),
-    getServerName({ serverName }),
+    getServername({ servername }),
     getTimestamp({ timestamp }),
     getRequestId({ phase, requestId }),
   ];
@@ -38,13 +38,13 @@ const getLevel = function ({ level }) {
 
 const LEVELS_MAX_LENGTH = Math.max(...LEVELS.map(level => level.length));
 
-const getServerName = function ({ serverName }) {
-  return serverName
-    .substr(0, SERVER_NAME_LENGTH)
-    .padEnd(SERVER_NAME_LENGTH);
+const getServername = function ({ servername }) {
+  return servername
+    .substr(0, SERVERNAME_LENGTH)
+    .padEnd(SERVERNAME_LENGTH);
 };
 
-const SERVER_NAME_LENGTH = 12;
+const SERVERNAME_LENGTH = 12;
 
 const getTimestamp = function ({ timestamp }) {
   return timestamp.replace('T', ' ').replace(/([0-9])Z$/, '$1');
