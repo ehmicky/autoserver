@@ -23,7 +23,7 @@ const buildRequestinfo = function ({
   payload,
   operation,
   summary,
-  topArgs: args,
+  topargs: args,
   commandpath,
   command,
   modelname: model,

@@ -15,7 +15,7 @@ const sendResponse = async function ({
   protocolHandler,
   protocolstatus,
   operationHandler,
-  topArgs,
+  topargs,
   mInput,
 }) {
   const responseA = getErrorResponse({ error, mInput, response });
@@ -30,7 +30,7 @@ const sendResponse = async function ({
 
   const contentB = setEmptyResponse({
     content: contentA,
-    topArgs,
+    topargs,
     error,
     emptyResponse,
   });

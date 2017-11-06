@@ -14,8 +14,8 @@ const getVars = function (
     operation: $operation,
     modelname: $modelname,
     top: { command: { type: $command } = {} } = {},
-    topArgs: $args,
-    topArgs: { params: $params = {} } = {},
+    topargs: $args,
+    topargs: { params: $params = {} } = {},
   },
   {
     userVars,
