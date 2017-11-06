@@ -6,7 +6,7 @@ const { throwError, addGenErrorHandler } = require('../../error');
 const { transtype, mapValues } = require('../../utilities');
 const { getLimits } = require('../../limits');
 
-// Fill in `mInput.queryVars` using protocol-specific URL query variables
+// Fill in `mInput.queryvars` using protocol-specific URL query variables
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Automatic transtyping is performed
@@ -15,14 +15,14 @@ const { getLimits } = require('../../limits');
 const parseQueryString = function ({ specific, protocolHandler, runOpts }) {
   const queryString = getQueryString({ specific, protocolHandler });
   const { maxQueryStringDepth, maxQueryStringLength } = getLimits({ runOpts });
-  const queryVars = eParseQueryVars({
+  const queryvars = eParseQueryvars({
     queryString,
     maxQueryStringDepth,
     maxQueryStringLength,
   });
 
-  const queryVarsA = mapValues(queryVars, transtype);
-  return { queryVars: queryVarsA };
+  const queryvarsA = mapValues(queryvars, transtype);
+  return { queryvars: queryvarsA };
 };
 
 const getQueryString = function ({ specific, protocolHandler }) {
@@ -44,7 +44,7 @@ const getQueryString = function ({ specific, protocolHandler }) {
 //  - ?var[]=val&var[]=secondval -> { var: [ val, secondval ] }
 // Performs proper URI decoding, using decodeURIComponent()
 // Differentiates between undefined, null and '' (see serialize() below)
-const parseQueryVars = function ({
+const parseQueryvars = function ({
   queryString,
   maxQueryStringDepth,
   maxQueryStringLength,
@@ -60,7 +60,7 @@ const parseQueryVars = function ({
   return queryObject;
 };
 
-const eParseQueryVars = addGenErrorHandler(parseQueryVars, {
+const eParseQueryvars = addGenErrorHandler(parseQueryvars, {
   message: ({ queryString }) =>
     `Request query string is invalid: '${queryString}'`,
   reason: 'QUERY_STRING_PARSE',
