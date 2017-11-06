@@ -76,9 +76,9 @@ const filterObj = {
   validate: { type: 'object' },
 };
 
-// `run` option `eventLevel`
-const eventLevel = {
-  name: 'eventLevel',
+// `run` option `eventlevel`
+const eventlevel = {
+  name: 'eventlevel',
   default: 'info',
   description: 'Filters events according to their importance',
   group: 'Events',
@@ -93,5 +93,5 @@ module.exports = [
   ...events,
   filterObj,
   ...filter,
-  eventLevel,
+  eventlevel,
 ];

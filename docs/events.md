@@ -73,7 +73,7 @@ The event level is the importance of the event, among `info`, `log`, `warn`
 or `error`,
 
 The events verbosity can be adjusted using the
-[`run` option](run.md#options) `eventLevel`
+[`run` option](run.md#options) `eventlevel`
 (defaults to `'info'`), which can also be `'silent'`.
 
 # Payload
