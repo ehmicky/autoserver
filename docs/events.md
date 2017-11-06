@@ -209,7 +209,7 @@ event payload, with the properties:
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'find'`, `'upsert'`, `'patch'` and `'delete'`.
   - `model` `${string}` - current [model](terminology.md#model) name
-  - `responseType` `{string}` - among `'model'`, `'collection'`, `'error'`,
+  - `responsetype` `{string}` - among `'model'`, `'collection'`, `'error'`,
     `'object'`, `'html'`, `'text'`
   - `responseData` `{any}` - response data
   - `responseDatasize` `{number}` - in bytes
