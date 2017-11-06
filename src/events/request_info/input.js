@@ -2,22 +2,22 @@
 
 const { applyFilter } = require('./filter');
 
-const reduceInput = function (requestInfo, filter) {
+const reduceInput = function (requestinfo, filter) {
   return REQ_NAMES
     .map(opts => inputReducer.bind(null, opts))
     .reduce(
       (info, reducer) => reducer(info, filter),
-      requestInfo,
+      requestinfo,
     );
 };
 
 const inputReducer = function (
   { attrName, reqName, lowercase },
-  requestInfo,
+  requestinfo,
   filter,
 ) {
-  const { [reqName]: value } = requestInfo;
-  if (!value || value.constructor !== Object) { return requestInfo; }
+  const { [reqName]: value } = requestinfo;
+  if (!value || value.constructor !== Object) { return requestinfo; }
 
   const valueA = applyFilter({
     filter: filter[attrName],
@@ -25,7 +25,7 @@ const inputReducer = function (
     lowercase,
   });
 
-  return { ...requestInfo, [reqName]: valueA };
+  return { ...requestinfo, [reqName]: valueA };
 };
 
 const REQ_NAMES = [

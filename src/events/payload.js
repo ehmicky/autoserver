@@ -4,7 +4,7 @@ const { omitBy } = require('../utilities');
 const { getStandardError } = require('../error');
 const { getServerinfo } = require('../server_info');
 
-const { getRequestInfo } = require('./request_info');
+const { getRequestinfo } = require('./request_info');
 const { getConsoleMessage } = require('./console');
 
 // Retrieves information sent to event, and message printed to console
@@ -45,9 +45,9 @@ const getEventPayload = function ({
   info = {},
 }) {
   const errorinfoA = getStandardError({ error: errorinfo, mInput });
-  const requestInfo = getRequestInfo({ mInput, phase, runOpts });
+  const requestinfo = getRequestinfo({ mInput, phase, runOpts });
 
-  const timestamp = getTimestamp({ requestInfo });
+  const timestamp = getTimestamp({ requestinfo });
 
   const { serverinfo } = getServerinfo({ runOpts });
 
@@ -56,7 +56,7 @@ const getEventPayload = function ({
     type,
     phase,
     level,
-    requestInfo,
+    requestinfo,
     errorinfo: errorinfoA,
     timestamp,
     serverinfo,
@@ -67,7 +67,7 @@ const getEventPayload = function ({
 };
 
 // Reuse the request timestamp if possible
-const getTimestamp = function ({ requestInfo: { timestamp } = {} }) {
+const getTimestamp = function ({ requestinfo: { timestamp } = {} }) {
   if (!timestamp) {
     return (new Date()).toISOString();
   }

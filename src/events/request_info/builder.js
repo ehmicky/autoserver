@@ -3,8 +3,8 @@
 const { getReason } = require('../../error');
 const { MODEL_TYPES } = require('../../constants');
 
-// Builds requestInfo from request mInput
-const buildRequestInfo = function ({
+// Builds requestinfo from request mInput
+const buildRequestinfo = function ({
   requestId,
   timestamp,
   responseTime,
@@ -74,5 +74,5 @@ const buildRequestInfo = function ({
 };
 
 module.exports = {
-  buildRequestInfo,
+  buildRequestinfo,
 };

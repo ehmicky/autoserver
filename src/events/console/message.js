@@ -18,7 +18,7 @@ const getConsoleMessage = function ({
   level,
   errorinfo,
   timestamp,
-  requestInfo,
+  requestinfo,
   serverinfo: { serverName },
 }) {
   const noConsole = NO_CONSOLE_TYPES.includes(type);
@@ -29,10 +29,10 @@ const getConsoleMessage = function ({
     phase,
     level,
     timestamp,
-    requestInfo,
+    requestinfo,
     serverName,
   });
-  const messageA = getMessage({ message, type, phase, errorinfo, requestInfo });
+  const messageA = getMessage({ message, type, phase, errorinfo, requestinfo });
   const durationA = getDuration({ duration });
 
   const messageC = `${prefix} ${durationA} ${messageA}`;
@@ -44,7 +44,7 @@ const getMessage = function ({
   type,
   phase,
   errorinfo,
-  requestInfo,
+  requestinfo,
 }) {
   if (type === 'failure') {
     const errorMessage = getErrorMessage({ error: errorinfo });
@@ -52,7 +52,7 @@ const getMessage = function ({
   }
 
   if (type === 'call' && phase === 'request') {
-    return getRequestMessage(requestInfo);
+    return getRequestMessage(requestinfo);
   }
 
   return message;
