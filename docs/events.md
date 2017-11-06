@@ -189,7 +189,7 @@ event payload, with the properties:
     `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathvars` `{object}` - URL variables, as a hash table
   - `queryvars` `{object}` - query variables, as a hash table
-  - `requestHeaders` `{object}` - protocol request headers (e.g. HTTP headers),
+  - `requestheaders` `{object}` - protocol request headers (e.g. HTTP headers),
      as a hash table
   - `responseHeaders` `{object}` - protocol request headers (e.g. HTTP
      headers), as a hash table
@@ -240,7 +240,7 @@ the request information, among:
 
 The possible properties are:
   - `query`: applied to URL query variables
-  - `headers`: applied to both `requestHeaders` and `responseHeaders`
+  - `headers`: applied to both `requestheaders` and `responseHeaders`
   - `payload`
   - `response`: applied to `responseData`
   - `data`: applied to each `args.data`

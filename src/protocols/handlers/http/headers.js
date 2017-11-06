@@ -5,7 +5,7 @@ const parsePreferHeaderLib = require('parse-prefer-header');
 const { addGenErrorHandler } = require('../../../error');
 
 // Returns a request's HTTP headers, normalized lowercase
-const getRequestHeaders = function ({ specific: { req: { headers = {} } } }) {
+const getRequestheaders = function ({ specific: { req: { headers = {} } } }) {
   return headers;
 };
 
@@ -17,7 +17,7 @@ const getResponseHeaders = function ({ specific: { res } }) {
 };
 
 // Parses Prefer HTTP header
-const parsePreferHeader = function ({ requestHeaders: { prefer } }) {
+const parsePreferHeader = function ({ requestheaders: { prefer } }) {
   if (!prefer) { return {}; }
 
   return parsePreferHeaderLib(prefer);
@@ -49,7 +49,7 @@ const setResponseHeader = function ({
 };
 
 module.exports = {
-  getRequestHeaders,
+  getRequestheaders,
   getResponseHeaders,
   parsePreferHeader: eParsePreferHeader,
   setResponseHeaders,
