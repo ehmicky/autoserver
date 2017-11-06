@@ -92,7 +92,7 @@ with properties:
     [host-specific information](#server-information)
   - `options` `{object}` and `servers` `{object}` - for events of type
     `start`, see [below](#start-information)
-  - `exitStatuses` `{object}` - for events of type `stop`, contains which
+  - `exitcodes` `{object}` - for events of type `stop`, contains which
     server successfully exited or not, as `{ http: boolean, ... }`
   - `errorInfo` `{object}` - [error information](#error-information),
     for events of type `failure`
