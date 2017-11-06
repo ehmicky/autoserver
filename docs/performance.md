@@ -16,7 +16,7 @@ The event payload contains the following additional properties:
     - `measures` `{number[]}` - each measure duration, in milliseconds
     - `count` `{number}` - number of measures
     - `average` `{number}` - average measure duration, in milliseconds
-  - `measuresMessage` `{string}`: console-friendly table with the same
+  - `measuresmessage` `{string}`: console-friendly table with the same
     information as `measures`
 
 Additionally, a `X-Response-Time: number` header is sent in the response.

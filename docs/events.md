@@ -99,7 +99,7 @@ with properties:
   - `requestinfo` `{object}` -
     [request-specific information](#request-information), for events during the
     `request` phase
-  - `measures` `{object}` and `measuresMessage` `string` - for events of type
+  - `measures` `{object}` and `measuresmessage` `string` - for events of type
     `perf`, [performance information](performance.md)
 
 # Server information
