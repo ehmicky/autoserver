@@ -273,10 +273,11 @@ definitions:
     type: string
     # Valid GraphQL identifier name, regular expression taken from spec
     # Additional restriction: lowercase-only
-    pattern: '^[_a-z][_0-9a-z]*$'
-    # Should not start with __ as it is reserved for GraphQL introspection types
-    not:
-      pattern: '^__'
+    # Difference:
+    #  - should not start with __ as it is reserved for GraphQL introspection
+    #    types
+    #  - should not start with _ as it is used by filter|data operators
+    pattern: '^[a-z][_0-9a-z]*$'
     # This is too avoid big responses, or hitting database limits
     maxLength: 100
   # Keys of MODEL.attributes.*
