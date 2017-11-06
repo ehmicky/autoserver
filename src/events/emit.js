@@ -70,12 +70,12 @@ const getLevel = function ({ level, type }) {
   return 'log';
 };
 
-// Can filter verbosity with `run` option `eventlevel`
+// Can filter verbosity with `run` option `level`
 // This won't work for very early startup errors since `runOpts` is not
 // parsed yet.
-const shouldEmit = function ({ runOpts: { eventlevel }, level }) {
-  return eventlevel !== 'silent' &&
-    LEVELS.indexOf(level) >= LEVELS.indexOf(eventlevel);
+const shouldEmit = function ({ runOpts, level }) {
+  return runOpts.level !== 'silent' &&
+    LEVELS.indexOf(level) >= LEVELS.indexOf(runOpts.level);
 };
 
 module.exports = {
