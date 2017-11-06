@@ -192,10 +192,8 @@ definitions:
         type:
           $ref: '#/definitions/jsonSchemaType'
       additionalProperties: false
-    # Must start with uppercase letter to avoid naming conflict with other
-    # attributes, and ensure forward compatibility
     propertyNames:
-      pattern: '^[A-Z][a-zA-Z0-9]*$'
+      $ref: '#/definitions/validUserName'
   # attr.type
   type:
     oneOf:

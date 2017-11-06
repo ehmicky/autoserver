@@ -48,7 +48,7 @@ models:
           exclusiveMinimum: 0.5
           exclusiveMaximum: 30
           multipleOf: 0.000001
-          IsNotEqual: 10
+          __is_not_equal: 10
       is_overweight:
         type: boolean
         description: Has the pet being eating too much?
@@ -150,7 +150,7 @@ plugins:
     currentUser: (user())
     userModel: owner
 validation:
-  IsNotEqual:
+  __is_not_equal:
     test: ($val !== $expected)
     message: (`must not be equal to ${$expected}`)
     type: number
