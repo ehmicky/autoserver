@@ -88,7 +88,7 @@ with properties:
     `'failure'`, `'call'` or `'perf'`
   - [`level`](#levels) `{string}` - `'info'`, `'log'`, `'warn'` or `'error'`
   - `message` `{string}` - what's printed on [console](#console)
-  - `serverInfo` `{object}` - server or
+  - `serverinfo` `{object}` - server or
     [host-specific information](#server-information)
   - `options` `{object}` and `servers` `{object}` - for events of type
     `start`, see [below](#start-information)
@@ -104,7 +104,7 @@ with properties:
 
 # Server information
 
-Each event payload comes with a `serverInfo` property, with the properties:
+Each event payload comes with a `serverinfo` property, with the properties:
   - `system` `{object}`:
      - `hostname` `{string}`
      - `osType` `{string}` - e.g. `'Linux'`
@@ -126,12 +126,12 @@ Each event payload comes with a `serverInfo` property, with the properties:
 
 A `serverId` UUID, unique to each server run, is automatically created and
 available:
-  - in [`serverInfo.serverId`](#server-information) payload property
+  - in [`serverinfo.serverId`](#server-information) payload property
   - as a response header named `X-Apiengine-Server-Id`
 
 `serverName` is the system hostname, but can be overriden using the
 [`run` option](run.md#options) `serverName`. It is available:
-  - in [`serverInfo.serverName`](#server-information) payload property
+  - in [`serverinfo.serverName`](#server-information) payload property
   - as a response header named `X-Apiengine-Server-Name`
   - in [console messages](#console)
 

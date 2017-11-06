@@ -17,21 +17,21 @@ const { version: apiengineVersion } = require('../package.json');
 const { memoize } = require('./utilities');
 
 // Retrieve process-specific and host-specific information
-const getServerInfo = function ({ runOpts: { serverName } }) {
-  const staticServerInfo = mGetStaticServerInfo({ serverName });
-  const dynamicServerInfo = getDynamicServerInfo();
-  const serverInfo = {
-    ...staticServerInfo,
-    ...dynamicServerInfo,
-    stats: { ...staticServerInfo.stats, ...dynamicServerInfo.stats },
+const getServerinfo = function ({ runOpts: { serverName } }) {
+  const staticServerinfo = mGetStaticServerinfo({ serverName });
+  const dynamicServerinfo = getDynamicServerinfo();
+  const serverinfo = {
+    ...staticServerinfo,
+    ...dynamicServerinfo,
+    stats: { ...staticServerinfo.stats, ...dynamicServerinfo.stats },
   };
-  return { serverInfo };
+  return { serverinfo };
 };
 
 // Information that do not change across a specific process.
 // We need to memoize both for performnace and predictability,
 // e.g. to assign a single `serverId` per process.
-const getStaticServerInfo = function ({ serverName }) {
+const getStaticServerinfo = function ({ serverName }) {
   const system = getSystemInfo();
   const stats = getStatsInfo();
   const node = getNodeInfo();
@@ -49,7 +49,7 @@ const getStaticServerInfo = function ({ serverName }) {
   };
 };
 
-const mGetStaticServerInfo = memoize(getStaticServerInfo);
+const mGetStaticServerinfo = memoize(getStaticServerinfo);
 
 const getSystemInfo = function () {
   const hostname = getHostname();
@@ -72,13 +72,13 @@ const getNodeInfo = function () {
 };
 
 // Information that change across a specific process.
-const getDynamicServerInfo = function () {
+const getDynamicServerinfo = function () {
   const uptime = process.uptime();
 
-  const dynamicServerInfo = { stats: { uptime } };
-  return dynamicServerInfo;
+  const dynamicServerinfo = { stats: { uptime } };
+  return dynamicServerinfo;
 };
 
 module.exports = {
-  getServerInfo,
+  getServerinfo,
 };

@@ -19,7 +19,7 @@ const getConsoleMessage = function ({
   errorInfo,
   timestamp,
   requestInfo,
-  serverInfo: { serverName },
+  serverinfo: { serverName },
 }) {
   const noConsole = NO_CONSOLE_TYPES.includes(type);
   if (noConsole) { return; }

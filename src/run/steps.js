@@ -1,6 +1,6 @@
 'use strict';
 
-const { getServerInfo } = require('../server_info');
+const { getServerinfo } = require('../server_info');
 const { getRequestHandler } = require('../middleware');
 
 const {
@@ -28,7 +28,7 @@ const startupSteps = [
   // Create database connections
   connectToDatabases,
   // Retrieve server information
-  getServerInfo,
+  getServerinfo,
   // Get main request handler
   getRequestHandler,
   // Boot each server
