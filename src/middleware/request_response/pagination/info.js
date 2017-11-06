@@ -11,7 +11,7 @@ const getPaginationInfo = function ({ args, args: { pagesize, page } }) {
   // We try to fetch the models before and after the current batch in order to
   // guess has_previous_page and has_next_page
   // If hasToken is false, it means we know we are at the beginning or end.
-  const usedPageSize = pagesize + 1;
+  const usedPagesize = pagesize + 1;
   // Whether this is offset pagination (args.page)
   // or cursor pagination (args.after|before)
   const isOffset = page !== undefined;
@@ -22,7 +22,7 @@ const getPaginationInfo = function ({ args, args: { pagesize, page } }) {
     isBackward,
     previous,
     next,
-    usedPageSize,
+    usedPagesize,
     isOffset,
   };
 };

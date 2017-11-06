@@ -14,7 +14,7 @@ const getPaginationOutput = function ({ args, args: { page }, response }) {
     token,
     previous,
     next,
-    usedPageSize,
+    usedPagesize,
     isBackward,
     isOffset,
   } = getPaginationInfo({ args });
@@ -25,7 +25,7 @@ const getPaginationOutput = function ({ args, args: { page }, response }) {
   const firstHasPreviousPage = isOffset ? page !== 1 : hasToken;
 
   // We fetch an extra model to guess has_next_page. If it was founds, remove it
-  const lastHasNextPage = response.data.length === usedPageSize;
+  const lastHasNextPage = response.data.length === usedPagesize;
 
   const info = {
     [`has_${previous}_page`]: firstHasPreviousPage,

@@ -1,16 +1,16 @@
 # Configuration
 
 Each instruction has its own set of options.
-Let's take the option `maxPageSize` from the instruction `run` as an example.
+Let's take the option `maxpagesize` from the instruction `run` as an example.
 
 There are several ways to define options.
 If several are used, they are merged together (from the highest priority to
 the lowest):
   - setting an [environment variable](#environment-variables):
-    `APIENGINE__MAX_PAGESIZE=10`
-  - using a command line option: `apiengine run --max-pagesize=10`.
+    `APIENGINE__MAXPAGESIZE=10`
+  - using a command line option: `apiengine run --maxpagesize=10`.
     Note that the option name uses dashes on the command line.
-  - passing the option via Node.js: `apiengine.run({ maxPageSize: 10 })`
+  - passing the option via Node.js: `apiengine.run({ maxpagesize: 10 })`
   - using a [configuration file](#configuration-file)
 
 # Configuration file
@@ -30,7 +30,7 @@ The file contains a set of options for a given instruction, e.g.:
 protocols:
   http:
     hostname: myhostname
-maxPageSize: 10
+maxpagesize: 10
 ```
 
 The format depends on the file extension, and can be either JSON or YAML
@@ -46,7 +46,7 @@ E.g. the following environment variables:
 
 ```toml
 APIENGINE__ENV="dev"
-APIENGINE__MAX_PAGESIZE=200
+APIENGINE__MAXPAGESIZE=200
 APIENGINE__PROTOCOLS__HTTP__HOSTNAME="myhostname"
 APIENGINE__FILTER__PAYLOAD="[id,old_id]"
 ```
@@ -56,7 +56,7 @@ will be converted to the following options:
 ```json
 {
   "env": "dev",
-  "maxPageSize": 200,
+  "maxpagesize": 200,
   "protocols": { "http": { "hostname": "myhostname" } },
   "filter": { "payload": ["id", "old_id"] },
 }

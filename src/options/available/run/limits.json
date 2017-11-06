@@ -11,7 +11,7 @@
   },
 
   {
-    "name": "defaultPageSize",
+    "name": "defaultPagesize",
     "default": 100,
     "description": "Default page size",
     "group": "Limits",
@@ -22,7 +22,7 @@
   },
 
   {
-    "name": "maxPageSize",
+    "name": "maxpagesize",
     "default": 100,
     "description": "Maximum pagination size",
     "group": "Limits",
