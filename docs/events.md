@@ -107,7 +107,7 @@ with properties:
 Each event payload comes with a `serverinfo` property, with the properties:
   - `system` `{object}`:
      - `hostname` `{string}`
-     - `osType` `{string}` - e.g. `'Linux'`
+     - `os` `{string}` - e.g. `'Linux'`
      - `platform` `{string}` - e.g. `'linux'`
      - `release` `{string}` - e.g. `'4.8.0-52-generic'`
      - `arch` `{string}` - e.g. `'x64'`
