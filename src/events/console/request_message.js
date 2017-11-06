@@ -9,9 +9,9 @@ const getRequestMessage = function ({
   protocolstatus,
   error,
   commandPath,
-  operationSummary,
+  summary,
 }) {
-  const summary = error ? commandPath : operationSummary;
+  const summaryA = error ? commandPath : summary;
 
   const message = [
     protocolstatus,
@@ -20,7 +20,7 @@ const getRequestMessage = function ({
     protocol,
     method,
     path,
-    summary,
+    summaryA,
   ].filter(val => val)
     .join(' ');
   return message;

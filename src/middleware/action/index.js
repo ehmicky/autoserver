@@ -11,7 +11,7 @@ module.exports = {
   ...require('./parse_select'),
   ...require('./unknown_attrs'),
   ...require('./stable_ids'),
-  ...require('./operation_summary'),
+  ...require('./summary'),
   ...require('./sort'),
 
   ...require('./current_data'),
