@@ -46,7 +46,7 @@ schema:
 ```
 
 However those functions cannot use the variables `$model`, `$val`,
-`$previousmodel` nor `$previousVal`.
+`$previousmodel` nor `$previousval`.
 
 # Model authorization
 

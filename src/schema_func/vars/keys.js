@@ -23,7 +23,7 @@ const ALL_SYSTEM_VARS = [
   '$model',
   '$val',
   '$previousmodel',
-  '$previousVal',
+  '$previousval',
 ];
 
 module.exports = {

@@ -18,10 +18,10 @@ const setTransform = function ({ transform }) {
   return transform;
 };
 
-const setCurrentValIfTrue = function ({ transform, $previousVal, $val }) {
+const setCurrentValIfTrue = function ({ transform, $previousval, $val }) {
   if (!transform) { return $val; }
 
-  return $previousVal;
+  return $previousval;
 };
 
 // `attr.value`
