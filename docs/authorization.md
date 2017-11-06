@@ -35,14 +35,13 @@ schema:
 gives readonly permissions to the `reader` group, readwrite permissions
 to the `manager` group, and full permissions to the `admin` group.
 
-For `$params` and `$args`, the dot notation must be used, e.g. `$params.key`.
-
 It is also possible to directly use [functions](functions.md), e.g.:
 
 ```yml
 schema:
   authorize:
-    $params.key: (getSecretKey())
+    $params:
+      key: (getSecretKey())
 ```
 
 However those functions cannot use the variables `$model`, `$val`,
@@ -52,16 +51,18 @@ However those functions cannot use the variables `$model`, `$val`,
 
 One can specify model-specific authorization with `model.authorize`.
 
-The format is the same as `schema.authorize`, except model's attributes can
-also be specified, prefixed with `$model.`, e.g.:
+The format is the same as `schema.authorize`, except `$model` can also be used,
+e.g.:
 
 ```yml
 models:
   example_model:
     authorize:
-    - $model.age:
-        _gte: 30
-    - $model.public: true
+    - $model:
+        age:
+          _gte: 30
+    - $model:
+        public: true
 ```
 
 will reject requests on `example_model` unless `example_model.age` is over `30`,
@@ -75,7 +76,8 @@ modification. In other words, it is checked on both `$previousmodel` and
 models:
   example_model:
     authorize:
-      $model.locked: false
+      $model:
+        locked: false
 ```
 
 will prevent requests from fetching any `example_model` with

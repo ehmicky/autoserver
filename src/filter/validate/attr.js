@@ -1,5 +1,6 @@
 'use strict';
 
+const { get } = require('../../utilities');
 const { DEEP_OPERATORS } = require('../operators');
 
 // In `{ attribute: { _some: { _eq: value } } }`, `_eq` is considered deep
@@ -16,31 +17,19 @@ const getDeepAttr = function ({ attrs, attrName, throwErr }) {
 const DEEP_TYPE_REGEXP = /^([^ ]*)( (.*))?$/;
 
 const getAttr = function ({ attrs, attrName, throwErr }) {
-  const attr = attrs[attrName];
+  const [topAttr, ...otherAttrs] = attrName.split('.');
+
+  // Use `get()` for nested attributes
+  const attr = get(attrs, [topAttr, ...otherAttrs]);
   if (attr !== undefined) { return attr; }
 
-  const dynamicAttr = getDynamicAttr({ attrs, attrName });
-  if (dynamicAttr !== undefined) { return dynamicAttr; }
+  // Dynamic attributes, where attrName can be anything
+  const attrA = attrs[topAttr];
+  if (attrA !== undefined && attrA.type === 'dynamic') { return attrA; }
 
   const message = `Attribute '${attrName}' is unknown`;
   throwErr(message);
 };
-
-// E.g. $params and $args do not validate deep members
-const getDynamicAttr = function ({ attrs, attrName }) {
-  const [, deepAttr] = DYNAMIC_ATTR_REGEXP.exec(attrName) || [];
-  if (deepAttr === undefined) { return; }
-
-  const attr = attrs[deepAttr];
-
-  const isDynamic = attr !== undefined && attr.type === 'dynamic';
-  if (!isDynamic) { return; }
-
-  return attr;
-};
-
-// Transform e.g. $params.var to ['$params']
-const DYNAMIC_ATTR_REGEXP = /^(\$[a-zA-Z]+)\./;
 
 module.exports = {
   getDeepAttr,
