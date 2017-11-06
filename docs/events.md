@@ -201,8 +201,8 @@ event payload, with the properties:
   - `summary` `${string}` - summary of the operation, e.g.
     'findModel{findChildModel}'
   - `args` `${object}` - [arguments](terminology.md#args)
-  - `args.dataSize` `{number}` - size of `data` argument, in bytes
-  - `args.dataCount` `{number}` - array length of `data` argument,
+  - `args.datasize` `{number}` - size of `data` argument, in bytes
+  - `args.datacount` `{number}` - array length of `data` argument,
     if it is an array
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
     e.g. `'findModel.findSubmodel'`
@@ -212,8 +212,8 @@ event payload, with the properties:
   - `responseType` `{string}` - among `'model'`, `'collection'`, `'error'`,
     `'object'`, `'html'`, `'text'`
   - `responseData` `{any}` - response data
-  - `responseDataSize` `{number}` - in bytes
-  - `responseDataCount` `{number}` - array length, if it is an array
+  - `responseDatasize` `{number}` - in bytes
+  - `responseDatacount` `{number}` - array length, if it is an array
   - `modelscount` `{number}` - number of models returned, including nested ones
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error

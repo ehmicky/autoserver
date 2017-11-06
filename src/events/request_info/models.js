@@ -39,7 +39,7 @@ const reduceInfo = function ({ info, attrName, filter }) {
 
   const size = getSize({ value });
 
-  return { ...info, ...reducedValue, [`${attrName}Size`]: size };
+  return { ...info, ...reducedValue, [`${attrName}size`]: size };
 };
 
 const getInfoReducer = function ({ value }) {
@@ -57,7 +57,7 @@ const reducerArray = function ({ value: array, attrName, filter }) {
     .map(obj => applyFilter({ filter, obj }));
 
   return {
-    [`${attrName}Count`]: count,
+    [`${attrName}count`]: count,
     [attrName]: arrayA,
   };
 };
