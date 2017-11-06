@@ -25,11 +25,11 @@ authorization design. E.g.:
 schema:
   authorize:
   - $command: find
-    userGroup: reader
+    user_group: reader
   - $command:
       _in: [find, patch]
-    userGroup: manager
-  - userGroup: admin
+    user_group: manager
+  - user_group: admin
 ```
 
 gives readonly permissions to the `reader` group, readwrite permissions
