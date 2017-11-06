@@ -13,7 +13,7 @@ const query = async function ({
   filter,
   deletedIds,
   newData,
-  orderBy,
+  orderby,
   limit,
   offset,
   connection,
@@ -28,7 +28,7 @@ const query = async function ({
     filter,
     deletedIds,
     newData,
-    orderBy,
+    orderby,
     limit,
     offset,
   });

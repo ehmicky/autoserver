@@ -170,7 +170,7 @@ find_model({ id, [silent] })
 ```
 
 ```graphql
-find_models({ [filter], [order_by], [page_size], [before|after|page],
+find_models({ [filter], [orderby], [page_size], [before|after|page],
 [silent] })
 ```
 

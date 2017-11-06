@@ -60,7 +60,7 @@ Using an empty token `""` with `after` or `before` allows iterating from the
 beginning or the end.
 
 The first query (without `before` nor `after`) can specify `filter` or
-`order_by`, but the next paginated queries cannot.
+`orderby`, but the next paginated queries cannot.
 
 One can use `has_previous_page` and `has_next_page` in the response to know
 when to stop iterating.

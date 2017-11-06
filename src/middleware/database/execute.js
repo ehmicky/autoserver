@@ -23,7 +23,7 @@ const databaseExecute = async function ({
 const getCommandInput = function ({
   command,
   modelName,
-  args: { filter = {}, orderBy, limit, offset, newData, deletedIds },
+  args: { filter = {}, orderby, limit, offset, newData, deletedIds },
 }) {
   const filterIds = extractSimpleIds({ filter });
 
@@ -36,7 +36,7 @@ const getCommandInput = function ({
     modelName,
     deletedIds,
     newData,
-    orderBy,
+    orderby,
     limit,
     offset,
   };

@@ -37,13 +37,13 @@ const getTokensInput = function ({ info, info: { usedPageSize } }) {
 
 const getBackwardInput = function ({
   info: { isBackward },
-  tokenInput: { orderBy },
+  tokenInput: { orderby },
 }) {
   if (!isBackward) { return {}; }
 
-  const orderByA = orderBy.map(({ attrName, order }) =>
+  const orderbyA = orderby.map(({ attrName, order }) =>
     ({ attrName, order: order === 'asc' ? 'desc' : 'asc' }));
-  return { orderBy: orderByA };
+  return { orderby: orderbyA };
 };
 
 const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
@@ -51,16 +51,16 @@ const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
 
   const tokenObj = decode({ token });
   const filter = getPaginatedFilter({ tokenObj, isBackward });
-  const { orderBy } = tokenObj;
+  const { orderby } = tokenObj;
 
-  return { filter, orderBy };
+  return { filter, orderby };
 };
 
 // Patches args.filter to allow for cursor pagination
 // E.g. if:
 //  - last paginated model was { b: 2, c: 3, d: 4 }
 //  - args.filter is { a: 1 }
-//  - args.orderBy 'b,c-,d'
+//  - args.orderby 'b,c-,d'
 // Transform args.filter to
 //   [
 //      { a: 1, b: { _gt: 2 } },
@@ -70,14 +70,14 @@ const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
 // Using backward pagination would replace _gt to _lt and vice-versa.
 const getPaginatedFilter = function ({
   tokenObj,
-  tokenObj: { parts, orderBy },
+  tokenObj: { parts, orderby },
   isBackward,
 }) {
   const partsObj = parts
-    .map((part, index) => ({ [orderBy[index].attrName]: part }))
+    .map((part, index) => ({ [orderby[index].attrName]: part }))
     .reduce(assignObject, {});
 
-  const filter = orderBy.map(({ attrName, order }, index) =>
+  const filter = orderby.map(({ attrName, order }, index) =>
     getFilterPart({ tokenObj, isBackward, partsObj, attrName, order, index }));
   return filter.length === 1
     ? filter[0]
@@ -85,14 +85,14 @@ const getPaginatedFilter = function ({
 };
 
 const getFilterPart = function ({
-  tokenObj: { filter, orderBy },
+  tokenObj: { filter, orderby },
   isBackward,
   partsObj,
   attrName,
   order,
   index,
 }) {
-  const eqOrders = orderBy
+  const eqOrders = orderby
     .slice(0, index)
     .map(({ attrName: eqAttrName }) => eqAttrName);
   const eqOrderVals = pick(partsObj, eqOrders);

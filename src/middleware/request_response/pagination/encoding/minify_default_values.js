@@ -14,7 +14,7 @@ const addDefaultValues = function (token) {
 };
 
 const DEFAULT_VALUES = {
-  orderBy: [{ attrName: 'id', order: 'asc' }],
+  orderby: [{ attrName: 'id', order: 'asc' }],
 };
 
 module.exports = {

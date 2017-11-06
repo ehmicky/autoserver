@@ -48,12 +48,12 @@ const renameFilterId = function ({ node, idName }) {
   return { ...node, attrName: idName };
 };
 
-// Modify `args.order_by`
-const renameOrderBy = function (orderBy, idName) {
-  return orderBy.map(part => renameOrderByPart({ part, idName }));
+// Modify `args.orderby`
+const renameOrderby = function (orderby, idName) {
+  return orderby.map(part => renameOrderbyPart({ part, idName }));
 };
 
-const renameOrderByPart = function ({ part, part: { attrName }, idName }) {
+const renameOrderbyPart = function ({ part, part: { attrName }, idName }) {
   if (attrName !== 'id') { return part; }
 
   return { ...part, attrName: idName };
@@ -62,7 +62,7 @@ const renameOrderByPart = function ({ part, part: { attrName }, idName }) {
 const idsInput = {
   newData: renameData,
   filter: renameFilter,
-  orderBy: renameOrderBy,
+  orderby: renameOrderby,
 };
 
 // Modify database output

@@ -2,15 +2,15 @@
 
 const { assignObject } = require('../../../../../utilities');
 
-// Apply `args.order_by`
-const sortResponse = function ({ cursor, orderBy }) {
-  if (orderBy === undefined) { return cursor; }
+// Apply `args.orderby`
+const sortResponse = function ({ cursor, orderby }) {
+  if (orderby === undefined) { return cursor; }
 
-  const orderByA = orderBy
+  const orderbyA = orderby
     .map(({ attrName, order }) => ({ [attrName]: order === 'asc' ? 1 : -1 }))
     .reduce(assignObject, {});
   // eslint-disable-next-line fp/no-mutating-methods
-  return cursor.sort(orderByA);
+  return cursor.sort(orderbyA);
 };
 
 module.exports = {

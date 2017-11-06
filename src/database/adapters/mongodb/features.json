@@ -13,6 +13,6 @@
   "filter:_and",
   "filter:_some",
   "filter:_all",
-  "order_by",
+  "orderby",
   "offset"
 ]

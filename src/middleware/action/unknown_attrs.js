@@ -3,7 +3,7 @@
 const { assignArray, uniq } = require('../../utilities');
 const { throwError } = require('../../error');
 
-// Validate that attributes in `args.select|data|order_by` are in the
+// Validate that attributes in `args.select|data|orderby` are in the
 // schema.
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
@@ -61,15 +61,15 @@ const getDataKeys = function ({ action: { args: { data = [] } } }) {
   return keysA;
 };
 
-const getOrderByKeys = function ({ action: { args: { orderBy = [] } } }) {
-  return orderBy.map(({ attrName }) => attrName);
+const getOrderbyKeys = function ({ action: { args: { orderby = [] } } }) {
+  return orderby.map(({ attrName }) => attrName);
 };
 
 // Each argument type has its own way or specifying attributes
 const argsToValidate = [
   { name: 'select', getKeys: getSelectKeys },
   { name: 'data', getKeys: getDataKeys },
-  { name: 'order_by', getKeys: getOrderByKeys },
+  { name: 'orderby', getKeys: getOrderbyKeys },
 ];
 
 const validateUnknownArg = function ({
