@@ -120,15 +120,15 @@ E.g. if the schema specifies:
 
 ```yml
 variables:
-  secretPassword: admin
+  secret_password: admin
 ```
 
-The user variable `secretPassword` can be used in any schema function:
+The user variable `secret_password` can be used in any schema function:
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
-const getDefaultValue = function ({ secretPassword }) {
-  return secretPassword === 'admin' ? 1 : 0;
+const getDefaultValue = function ({ secret_password }) {
+  return secret_password === 'admin' ? 1 : 0;
 };
 
 module.exports = getDefaultValue;
@@ -145,12 +145,12 @@ For example:
 
 ```yml
 variables:
-  exampleFunction: '(myMathFunc(1, 10, 100, 2))'
-  myMathFunc: (($1 * $2) + ($3 * $4))
-  birthDate: 2005-01-01
-  myCustomFunc:
+  example_function: '(my_math_func(1, 10, 100, 2))'
+  my_math_func: (($1 * $2) + ($3 * $4))
+  birth_date: 2005-01-01
+  my_custom_func:
     $ref: custom_func.js
-  _s:
+  lodash:
     $ref: lodash.node
   constants:
     $ref: constants.json
