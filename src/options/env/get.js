@@ -7,11 +7,11 @@ const { transformEnvVars } = require('./transform');
 
 // Retrieve environment variables related to this project,
 // as a normalized object, ready to be used as options
-// Environment variables must be prefixed with APIENGINE__*
+// Environment variables must be prefixed with APIENGINE_*
 // They must be uppercased with underscore, e.g. `PAGESIZE` instead of pagesize
 // The value will be transtyped, e.g. it can be a number or a boolean
 // Nested variables can be indicated with double-underscores,
-// e.g. `HTTP__HOSTNAME` becomes `{ http: { hostname } }`
+// e.g. `HTTP_HOSTNAME` becomes `{ http: { hostname } }`
 // Array variables can be indicated using `[value,value2,...]` notation.
 const getEnvVars = function () {
   return mappers.reduce((envVars, mapper) => mapper({ envVars }), {});
