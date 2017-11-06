@@ -170,7 +170,7 @@ find_model({ id, [silent] })
 ```
 
 ```graphql
-find_models({ [filter], [orderby], [page_size], [before|after|page],
+find_models({ [filter], [orderby], [pagesize], [before|after|page],
 [silent] })
 ```
 
@@ -179,7 +179,7 @@ create_model({ data, [silent], [dryrun] })
 ```
 
 ```graphql
-create_models({ data[], [page_size], [silent], [dryrun] })
+create_models({ data[], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
@@ -187,7 +187,7 @@ upsert_model({ data, [silent], [dryrun] })
 ```
 
 ```graphql
-upsert_models({ data[], [page_size], [silent], [dryrun] })
+upsert_models({ data[], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
@@ -195,7 +195,7 @@ patch_model({ data, id, [silent], [dryrun] })
 ```
 
 ```graphql
-patch_models({ data, [filter], [page_size], [silent], [dryrun] })
+patch_models({ data, [filter], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
@@ -203,7 +203,7 @@ delete_model({ id, [cascade], [silent], [dryrun] })
 ```
 
 ```graphql
-delete_models({ [filter], [cascade], [page_size], [silent], [dryrun] })
+delete_models({ [filter], [cascade], [pagesize], [silent], [dryrun] })
 ```
 
 # Error responses

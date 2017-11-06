@@ -1,7 +1,7 @@
 'use strict';
 
 // Whether consumers can specify all pagination arguments,
-// including args.pageSize, args.before|after|page
+// including args.pagesize, args.before|after|page
 // Implies output pagination
 const allowFullPagination = function ({ args, command }) {
   return FULL_PAGINATION_COMMANDS.includes(command) &&
@@ -18,9 +18,9 @@ const mustPaginateOutput = function ({ args, command }) {
 
 const PAGINATION_COMMANDS = ['find'];
 
-// Using args.pageSize 0 or defaultPageSize 0 disables pagination
-const isPaginationDisabled = function ({ args: { pageSize } }) {
-  return pageSize === 0 || pageSize === undefined;
+// Using args.pagesize 0 or defaultPageSize 0 disables pagination
+const isPaginationDisabled = function ({ args: { pagesize } }) {
+  return pagesize === 0 || pagesize === undefined;
 };
 
 module.exports = {

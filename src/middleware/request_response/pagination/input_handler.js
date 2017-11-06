@@ -20,7 +20,7 @@ const { getPaginationInput } = require('./input');
 //  - the cursor is minified
 // Pagination parameters are removed and transformed for the database layer to:
 //   limit {integer}             - limit response size.
-//                                 This might be higher than args.pageSize,
+//                                 This might be higher than args.pagesize,
 //                                 to guess if there is a previous or next page.
 //   offset {integer}            - offset response size.
 //                                 Only used with offset-based pagination
@@ -32,7 +32,7 @@ const { getPaginationInput } = require('./input');
 //                                 args.filter { c: 30 } to
 //                                 { c: 30, a: { _gt: 10 }, b: { _gt: 20 } }
 //   orderby                    - same as `filter` but for `orderby`
-// Add metadata: token, page_size, has_previous_page, has_previous_page
+// Add metadata: token, pagesize, has_previous_page, has_previous_page
 // Commands:
 //  - output is paginated with any command returning an array of response
 //    and do not using an array of args.data, i.e.

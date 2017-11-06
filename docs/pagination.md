@@ -15,7 +15,7 @@ batches as:
         "pages": {
           "has_previous_page": false,
           "has_next_page": true,
-          "page_size": 10,
+          "pagesize": 10,
           "token": "eyJvIjoid2VpZ2h0LSxpZCIsImYiOiIoKCQkLmlkICE9PSAnMicpICYmICgkJC5mcmllbmRzLmluY2x1ZGVzKCcxJykpKSIsInAiOlszLjUsIjMiXX0"
         }
       }
@@ -30,7 +30,7 @@ batches as:
         "pages": {
           "has_previous_page": true,
           "has_next_page": true,
-          "page_size": 10,
+          "pagesize": 10,
           "token": "eyJvIjoid2VpZ2h0LSxpZCIsImYiOiIoKCQkLmlkICE9PSAnMicpICYmICgkJC5mcmllbmRzLmluY2x1ZGVzKCcxJykpKSIsInAiOlsxLjUsIjEiXX0"
         }
       }
@@ -43,7 +43,7 @@ The page size is determined by the server, but clients can increase it
 (although servers can set a maximum), using:
 
 ```graphql
-find_users(page_size: 20)
+find_users(pagesize: 20)
 ```
 
 To iterate through batches, take the last model's `token` and repeat the query,
@@ -70,7 +70,7 @@ when to stop iterating.
 One can use an offset-based pagination, by using `page` (starting at 1), e.g.:
 
 ```graphql
-find_users(page_size: 20, page: 5)
+find_users(pagesize: 20, page: 5)
 ```
 
 # Pagination limits

@@ -25,18 +25,18 @@ const pageTests = [
   gtTest('page', 0),
 ];
 
-// Validates args.page_size
-const pageSizeTests = [
-  integerTest('page_size'),
+// Validates args.pagesize
+const pagesizeTests = [
+  integerTest('pagesize'),
 
-  gtTest('page_size', 0),
+  gtTest('pagesize', 0),
 
-  leTest('page_size', ({ runOpts }) => getLimits({ runOpts }).maxPageSize),
+  leTest('pagesize', ({ runOpts }) => getLimits({ runOpts }).maxPageSize),
 ];
 
 module.exports = {
   before: beforeTests,
   after: afterTests,
   page: pageTests,
-  page_size: pageSizeTests,
+  pagesize: pagesizeTests,
 };

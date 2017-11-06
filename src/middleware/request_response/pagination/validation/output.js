@@ -57,13 +57,13 @@ const getTests = function () {
 
 const validateBatchSize = function ({
   args,
-  args: { pageSize },
+  args: { pagesize },
   response: { data },
 }) {
   const { usedPageSize } = getPaginationInfo({ args });
 
   if (data.length > usedPageSize) {
-    const message = `Database returned pagination batch larger than specified page size ${pageSize}`;
+    const message = `Database returned pagination batch larger than specified page size ${pagesize}`;
     throwError(message, { reason: 'OUTPUT_VALIDATION' });
   }
 };
