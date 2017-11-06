@@ -30,13 +30,13 @@ const getServerinfo = function ({ runOpts: { serverName } }) {
 
 // Information that do not change across a specific process.
 // We need to memoize both for performnace and predictability,
-// e.g. to assign a single `serverId` per process.
+// e.g. to assign a single `serverid` per process.
 const getStaticServerinfo = function ({ serverName }) {
   const system = getSystemInfo();
   const stats = getStatsInfo();
   const node = getNodeInfo();
   const apiengine = { version: apiengineVersion };
-  const serverId = uuidv4();
+  const serverid = uuidv4();
   const name = serverName || system.hostname || '';
 
   return {
@@ -44,7 +44,7 @@ const getStaticServerinfo = function ({ serverName }) {
     stats,
     node,
     apiengine,
-    serverId,
+    serverid,
     serverName: name,
   };
 };
