@@ -11,7 +11,7 @@
   },
 
   {
-    "name": "defaultPagesize",
+    "name": "defaultpagesize",
     "default": 100,
     "description": "Default page size",
     "group": "Limits",

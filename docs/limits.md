@@ -5,7 +5,7 @@ The following limits can be configured with [options](run.md#options):
      Max size of request payloads, in bytes.
      Also used as the max URL length.
      Can use 'KB', 'MB', 'GB' OR 'TB'.
-  - `defaultPagesize` `{integer}` (defaults to `100`):
+  - `defaultpagesize` `{integer}` (defaults to `100`):
     use `0` to disable pagination.
   - `maxpagesize` `{integer}` (defaults to `100`): sets an upper limit to
     client-specified `pagesize`.

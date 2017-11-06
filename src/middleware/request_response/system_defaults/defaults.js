@@ -17,10 +17,10 @@ const defaults = {
   },
 
   pagesize: {
-    value: ({ runOpts: { defaultPagesize } }) => defaultPagesize,
+    value: ({ runOpts: { defaultpagesize } }) => defaultpagesize,
     // Only if pagination is enabled
-    test: ({ runOpts: { defaultPagesize } }) =>
-      defaultPagesize !== 0,
+    test: ({ runOpts: { defaultpagesize } }) =>
+      defaultpagesize !== 0,
   },
 
   after: {
