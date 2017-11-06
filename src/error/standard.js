@@ -58,18 +58,18 @@ const fillError = function ({
 
   return {
     ...errorA,
-    protocolstatus: protocolstatus,
+    protocolstatus,
     protocol,
     method,
-    requestheaders: requestheaders,
+    requestheaders,
     queryvars,
     operation,
     summary,
     args,
-    commandpath: commandpath,
+    commandpath,
     model,
     command,
-    requestid: requestid,
+    requestid,
     ...extra,
     // Stack trace is not included in error responses, whether in production
     // or in development because:
