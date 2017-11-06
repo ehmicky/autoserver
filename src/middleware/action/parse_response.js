@@ -3,7 +3,7 @@
 // Add content type, and remove top-level key
 const parseResponse = function ({ response }) {
   const data = removeTopLevel({ response });
-  const type = getResponseType({ data });
+  const type = getResponsetype({ data });
 
   const responseA = { content: { data }, type };
   return { response: responseA };
@@ -19,7 +19,7 @@ const removeTopLevel = function ({ response }) {
   return response[topLevelKey];
 };
 
-const getResponseType = function ({ data }) {
+const getResponsetype = function ({ data }) {
   return Array.isArray(data) ? 'collection' : 'model';
 };
 

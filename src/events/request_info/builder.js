@@ -29,13 +29,13 @@ const buildRequestinfo = function ({
   modelName: model,
   response: {
     content: response,
-    type: responseType,
+    type: responsetype,
   } = {},
   modelscount,
   uniquecount,
   error,
 }) {
-  const responseData = MODEL_TYPES.includes(responseType)
+  const responseData = MODEL_TYPES.includes(responsetype)
     ? response.data
     : response;
   const errorReason = error && getReason({ error });
@@ -64,7 +64,7 @@ const buildRequestinfo = function ({
     command,
     model,
     responseData,
-    responseType,
+    responsetype,
     modelscount,
     uniquecount,
     error: errorReason,
