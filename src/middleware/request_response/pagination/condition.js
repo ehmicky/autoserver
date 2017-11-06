@@ -18,7 +18,7 @@ const mustPaginateOutput = function ({ args, command }) {
 
 const PAGINATION_COMMANDS = ['find'];
 
-// Using args.pagesize 0 or defaultPagesize 0 disables pagination
+// Using args.pagesize 0 or defaultpagesize 0 disables pagination
 const isPaginationDisabled = function ({ args: { pagesize } }) {
   return pagesize === 0 || pagesize === undefined;
 };
