@@ -38,7 +38,7 @@ const mapChildren = function ({ type, value }, func) {
   return value.map(child => mapNodes(child, func));
 };
 
-const NODE_PARENT_TYPES = ['all', 'some', 'or', 'and'];
+const NODE_PARENT_TYPES = ['_all', '_some', '_or', '_and'];
 
 // Call `func(node)` recursively over each attribute of `args.filter`
 // Returns array of func() return values
@@ -75,8 +75,8 @@ const getAttrChildren = function ({ type, value }) {
   return value;
 };
 
-const ATTR_RECURSIVE_TYPES = ['or'];
-const ATTR_PARENT_TYPES = ['and'];
+const ATTR_RECURSIVE_TYPES = ['_or'];
+const ATTR_PARENT_TYPES = ['_and'];
 
 module.exports = {
   crawlNodes,

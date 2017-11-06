@@ -63,11 +63,11 @@ const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
 //  - args.orderBy 'b,c-,d'
 // Transform args.filter to
 //   [
-//      { a: 1, b: { gt: 2 } },
-//      { a: 1, b: 2, c: { lt: 3 } },
-//      { a: 1, b: 2, c: 3, d: { gt: 4 } },
+//      { a: 1, b: { _gt: 2 } },
+//      { a: 1, b: 2, c: { _lt: 3 } },
+//      { a: 1, b: 2, c: 3, d: { _gt: 4 } },
 //   ]
-// Using backward pagination would replace gt to lt and vice-versa.
+// Using backward pagination would replace _gt to _lt and vice-versa.
 const getPaginatedFilter = function ({
   tokenObj,
   tokenObj: { parts, orderBy },
@@ -81,7 +81,7 @@ const getPaginatedFilter = function ({
     getFilterPart({ tokenObj, isBackward, partsObj, attrName, order, index }));
   return filter.length === 1
     ? filter[0]
-    : { type: 'and', value: filter };
+    : { type: '_and', value: filter };
 };
 
 const getFilterPart = function ({
@@ -98,7 +98,7 @@ const getFilterPart = function ({
   const eqOrderVals = pick(partsObj, eqOrders);
 
   const ascOrder = isBackward ? 'desc' : 'asc';
-  const matcher = order === ascOrder ? 'gt' : 'lt';
+  const matcher = order === ascOrder ? '_gt' : '_lt';
   const orderVal = { [attrName]: { [matcher]: partsObj[attrName] } };
 
   return { ...filter, ...eqOrderVals, ...orderVal };

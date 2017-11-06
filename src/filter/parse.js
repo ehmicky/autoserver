@@ -8,14 +8,14 @@ const { optimizeFilter } = require('./optimize');
 
 // Parse `args.filter` and `model.authorize` format
 // Syntax:
-//  [                       // Filter. Top-level is either 'or' or 'and'
+//  [                       // Filter. Top-level is either `_or` or `_and`
 //    {                     // Attrs
 //      attribute_name: 5   // Can use shortcut
 //      attribute_name: {   // Name+value: Attr. Value only: Operations
-//        eq: 5,            // Operation
-//        neq: 4
-//        some: {
-//          eq: 3           // Recursive operation
+//        _eq: 5,           // Operation
+//        _neq: 4
+//        _some: {
+//          _eq: 3          // Recursive operation
 //        }
 //      }
 //    }
@@ -27,8 +27,8 @@ const parseFilter = function ({
 }) {
   if (filter == null) { return; }
 
-  // Top-level array means 'or' alternatives
-  const type = Array.isArray(filter) ? 'or' : 'and';
+  // Top-level array means `_or` alternatives
+  const type = Array.isArray(filter) ? '_or' : '_and';
 
   const throwErr = getThrowErr.bind(null, { reason, prefix });
 
@@ -73,11 +73,11 @@ const parseOperations = function ({ operations, throwErr }) {
     .map(([type, value]) => parseOperation({ type, value, throwErr }));
 };
 
-// `{ attribute: value }` is a shortcut for `{ attribute: { eq: value } }`
+// `{ attribute: value }` is a shortcut for `{ attribute: { _eq: value } }`
 const getShortcut = function ({ operations }) {
   if (operations && operations.constructor === Object) { return operations; }
 
-  return { eq: operations };
+  return { _eq: operations };
 };
 
 const parseOperation = function ({ type, value, throwErr }) {

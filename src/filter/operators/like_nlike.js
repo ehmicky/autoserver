@@ -50,25 +50,25 @@ const regExpParserHandler = function (_, { value, throwErr }) {
 
 const eValidateRegExp = addErrorHandler(validateRegExp, regExpParserHandler);
 
-// `{ string_attribute: { like: 'REGEXP' } }`
+// `{ string_attribute: { _like: 'REGEXP' } }`
 const evalLike = function ({ attr, value }) {
   const regExp = new RegExp(value, 'i');
   return regExp.test(attr);
 };
 
-// `{ string_attribute: { nlike: 'REGEXP' } }`
+// `{ string_attribute: { _nlike: 'REGEXP' } }`
 const evalNlike = function ({ attr, value }) {
   const regExp = new RegExp(value, 'i');
   return !regExp.test(attr);
 };
 
 module.exports = {
-  like: {
+  _like: {
     parse: parseLikeNlike,
     validate: validateLikeNlike,
     eval: evalLike,
   },
-  nlike: {
+  _nlike: {
     parse: parseLikeNlike,
     validate: validateLikeNlike,
     eval: evalNlike,

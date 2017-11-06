@@ -2,13 +2,13 @@
 
 const { getWordsList, difference } = require('../../../utilities');
 
-// Adapter feature 'filter:OPERATOR' allows for
-// `args.filter: { attrName: { OPERATOR: value } }`
+// Adapter feature 'filter:_OPERATOR' allows for
+// `args.filter: { attrName: { _OPERATOR: value } }`
 const filterValidator = function ({ features, filterFeatures }) {
   const ops = getOps({ features, filterFeatures });
   if (ops.length === 0) { return; }
 
-  if (ops.includes('or')) {
+  if (ops.includes('_or')) {
     return 'In \'filter\' argument, must not use an array of alternatives';
   }
 

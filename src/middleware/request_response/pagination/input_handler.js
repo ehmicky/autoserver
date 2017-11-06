@@ -30,7 +30,7 @@ const { getPaginationInput } = require('./input');
 //                                 E.g. if last batch ended with model
 //                                 { a: 10, b: 20 }, then we transform
 //                                 args.filter { c: 30 } to
-//                                 { c: 30, a: { gt: 10 }, b: { gt: 20 } }
+//                                 { c: 30, a: { _gt: 10 }, b: { _gt: 20 } }
 //   orderBy                    - same as `filter` but for `orderBy`
 // Add metadata: token, page_size, has_previous_page, has_previous_page
 // Commands:

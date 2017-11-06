@@ -12,7 +12,7 @@ of models attributes, e.g.:
 schema:
   authorize:
     $command:
-      neq: delete
+      _neq: delete
 ```
 
 will forbid delete commands on the API.
@@ -27,7 +27,7 @@ schema:
   - $command: find
     userGroup: reader
   - $command:
-      in: [find, patch]
+      _in: [find, patch]
     userGroup: manager
   - userGroup: admin
 ```
@@ -60,7 +60,7 @@ models:
   example_model:
     authorize:
     - $model.age:
-        ge: 30
+        _gte: 30
     - $model.public: true
 ```
 
