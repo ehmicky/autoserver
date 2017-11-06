@@ -22,7 +22,7 @@ const ALL_SYSTEM_VARS = [
   '$expected',
   '$model',
   '$val',
-  '$previousModel',
+  '$previousmodel',
   '$previousVal',
 ];
 

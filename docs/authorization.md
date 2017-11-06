@@ -46,7 +46,7 @@ schema:
 ```
 
 However those functions cannot use the variables `$model`, `$val`,
-`$previousModel` nor `$previousVal`.
+`$previousmodel` nor `$previousVal`.
 
 # Model authorization
 
@@ -68,7 +68,7 @@ will reject requests on `example_model` unless `example_model.age` is over `30`,
 or `example_model.public` is `true`.
 
 If the model is being modified, attributes are checked both before and after
-modification. In other words, it is checked on both `$previous_model` and
+modification. In other words, it is checked on both `$previousmodel` and
 `$model` [variables](functions.md#schema-functions-variables)). E.g.:
 
 ```yml
