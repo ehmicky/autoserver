@@ -199,13 +199,13 @@ event payload, with the properties:
   - `operation` `{string}` - operation, among `'graphql'`, `'graphiql'` and
     `'graphqlprint'`
   - `summary` `${string}` - summary of the operation, e.g.
-    'findModel{findChildModel}'
+    'find_model{find_child}'
   - `args` `${object}` - [arguments](terminology.md#args)
   - `args.datasize` `{number}` - size of `data` argument, in bytes
   - `args.datacount` `{number}` - array length of `data` argument,
     if it is an array
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
-    e.g. `'findModel.findSubmodel'`
+    e.g. `'find_model.find_child'`
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'find'`, `'upsert'`, `'patch'` and `'delete'`.
   - `model` `${string}` - current [model](terminology.md#model) name
