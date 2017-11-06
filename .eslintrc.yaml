@@ -14,7 +14,6 @@ env:
 
 # feross/standard implies "import", "node", "promise" and "standard"
 plugins:
-#- compat
 - eslint-comments
 - filenames
 - fp
@@ -462,7 +461,6 @@ rules:
 #  unicorn/filename-case: 2
 
   # Rules for client-side code only
-#  compat/compat: 2
 #  import/no-nodejs-modules: 2
 
   # React
