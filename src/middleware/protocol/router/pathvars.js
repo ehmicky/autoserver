@@ -3,7 +3,7 @@
 const { transtype, assignObject } = require('../../../utilities');
 
 // Retrieves path variables, e.g. /path/:id
-const getPathVars = function ({ path, route: { regexp, variables } }) {
+const getPathvars = function ({ path, route: { regexp, variables } }) {
   return regexp
     .exec(path)
     // Removes first value, which is the full path
@@ -19,5 +19,5 @@ const getPathVars = function ({ path, route: { regexp, variables } }) {
 };
 
 module.exports = {
-  getPathVars,
+  getPathvars,
 };
