@@ -29,8 +29,8 @@ const getResponsetime = function ({ reqPerf }) {
 const MICROSECS_TO_SECS = 1e6;
 
 const setHeaders = function ({ protocolHandler, specific, responsetime }) {
-  const responseHeaders = { 'X-Response-Time': responsetime };
-  protocolHandler.setResponseHeaders({ specific, responseHeaders });
+  const responseheaders = { 'X-Response-Time': responsetime };
+  protocolHandler.setResponseheaders({ specific, responseheaders });
 };
 
 module.exports = {
