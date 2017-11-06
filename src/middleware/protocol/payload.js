@@ -24,11 +24,11 @@ const parsePayload = function ({
   validatePayloadLength({ specific, protocolHandler });
 
   // Use protocol-specific way to parse payload, using a known type
-  const { maxPayloadSize } = getLimits({ runOpts });
+  const { maxpayloadsize } = getLimits({ runOpts });
   const payloadPromise = protocolHandler.parsePayload({
     type,
     specific,
-    maxPayloadSize,
+    maxpayloadsize,
   });
 
   return promiseThen(payloadPromise, processPayload.bind(null, type));

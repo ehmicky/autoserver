@@ -7,7 +7,7 @@ const bytes = require('bytes');
 const getLimits = function ({
   runOpts: {
     maxpagesize,
-    maxPayloadSize,
+    maxpayloadsize,
   },
 }) {
   return {
@@ -17,14 +17,14 @@ const getLimits = function ({
     // Max size of request payloads, in bytes.
     // Can use 'KB', 'MB', 'GB' OR 'TB'.
     // Default: '1MB'
-    maxPayloadSize,
+    maxpayloadsize,
     // Max size of an attribute's value, in bytes.
     maxAttrValueSize: 2e3,
 
     // Max URL length
     // Since URL can contain GraphQL query, it should not be less than
-    // `maxPayloadSize`
-    maxUrlLength: Math.max(MAX_URL_LENGTH, bytes.parse(maxPayloadSize)),
+    // `maxpayloadsize`
+    maxUrlLength: Math.max(MAX_URL_LENGTH, bytes.parse(maxpayloadsize)),
     // Max level of nesting in query string, e.g. ?var.subvar.subvar2=val
     maxQueryStringDepth: 10,
     // Max length of arrays in query string, e.g. ?var[50]=val
