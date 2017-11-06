@@ -1,6 +1,6 @@
 'use strict';
 
-const { camelize } = require('underscore.string');
+const { capitalize } = require('underscore.string');
 const { plural, singular } = require('pluralize');
 
 // Returns top-level command name, e.g. `find_models` or `delete_models`
@@ -17,11 +17,11 @@ const getTypeName = function ({
   opts: { inputObjectType = 'type' } = {},
 }) {
   if (inputObjectType === 'type') {
-    return camelize(`_${model}`);
+    return capitalize(model);
   }
 
   const modelA = singular(model);
-  return camelize(`_${command.type}_${modelA}_${inputObjectType}`);
+  return capitalize(`${command.type}_${modelA}_${inputObjectType}`);
 };
 
 module.exports = {
