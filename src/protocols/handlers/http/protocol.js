@@ -1,7 +1,6 @@
 'use strict';
 
 const opts = require('./opts');
-const { getFullName } = require('./fullname');
 const { startServer } = require('./start');
 const { stopServer, countPendingRequests } = require('./stop');
 const {
@@ -32,7 +31,6 @@ const protocol = {
   name: 'http',
   title: 'HTTP',
   description: 'HTTP server\'s options',
-  getFullName,
   startServer,
   stopServer,
   countPendingRequests,
