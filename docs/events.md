@@ -221,7 +221,7 @@ event payload, with the properties:
 The properties `commandpath`, `command` and `model` are only
 set if the request failed while performing a command.
 
-The `...Size` properties are not set if the related value is undefined, and set
+The `...size` properties are not set if the related value is undefined, and set
 to `unknown` if the value is not JSON.
 
 Each of those fields is optional, i.e. might not be present under some
