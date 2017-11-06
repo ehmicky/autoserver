@@ -214,8 +214,8 @@ event payload, with the properties:
   - `responseData` `{any}` - response data
   - `responseDataSize` `{number}` - in bytes
   - `responseDataCount` `{number}` - array length, if it is an array
-  - `modelsCount` `{number}` - number of models returned, including nested ones
-  - `uniqueModelsCount` `{number}` - same as `modelsCount`, excluding duplicates
+  - `modelscount` `{number}` - number of models returned, including nested ones
+  - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error
 
 The properties `commandPath`, `command` and `model` are only

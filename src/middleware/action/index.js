@@ -20,7 +20,7 @@ module.exports = {
   ...require('./rollback'),
 
   ...require('./remove_nested_write'),
-  ...require('./models_count'),
+  ...require('./modelscount'),
   ...require('./assemble'),
   ...require('./apply_select'),
   ...require('./parse_response'),

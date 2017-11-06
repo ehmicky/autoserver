@@ -31,8 +31,8 @@ const buildRequestinfo = function ({
     content: response,
     type: responseType,
   } = {},
-  modelsCount,
-  uniqueModelsCount,
+  modelscount,
+  uniquecount,
   error,
 }) {
   const responseData = MODEL_TYPES.includes(responseType)
@@ -65,8 +65,8 @@ const buildRequestinfo = function ({
     model,
     responseData,
     responseType,
-    modelsCount,
-    uniqueModelsCount,
+    modelscount,
+    uniquecount,
     error: errorReason,
   };
 };
