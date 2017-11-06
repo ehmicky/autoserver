@@ -16,7 +16,7 @@ const defaults = {
     test: ({ args }) => hasNoPaginationTokens({ args }),
   },
 
-  pageSize: {
+  pagesize: {
     value: ({ runOpts: { defaultPageSize } }) => defaultPageSize,
     // Only if pagination is enabled
     test: ({ runOpts: { defaultPageSize } }) =>

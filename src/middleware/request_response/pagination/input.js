@@ -5,7 +5,7 @@ const { pick, omit, assignObject } = require('../../../utilities');
 const { getPaginationInfo } = require('./info');
 const { decode } = require('./encoding');
 
-// Transform args.pageSize|before|after|page into args.limit|offset|filter
+// Transform args.pagesize|before|after|page into args.limit|offset|filter
 const getPaginationInput = function ({ args }) {
   const info = getPaginationInfo({ args });
 
@@ -13,16 +13,16 @@ const getPaginationInput = function ({ args }) {
   const getInputFunc = isOffset ? getOffsetInput : getTokensInput;
   const paginationNewInput = getInputFunc({ info, args });
 
-  const argsA = omit(args, ['page', 'before', 'after', 'pageSize']);
+  const argsA = omit(args, ['page', 'before', 'after', 'pagesize']);
   const argsB = { ...argsA, ...paginationNewInput };
   return argsB;
 };
 
 const getOffsetInput = function ({
   info: { usedPageSize },
-  args: { page, pageSize },
+  args: { page, pagesize },
 }) {
-  const offset = (page - 1) * pageSize;
+  const offset = (page - 1) * pagesize;
   const limit = usedPageSize;
 
   return { offset, limit };

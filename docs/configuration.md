@@ -7,8 +7,8 @@ There are several ways to define options.
 If several are used, they are merged together (from the highest priority to
 the lowest):
   - setting an [environment variable](#environment-variables):
-    `APIENGINE__MAX_PAGE_SIZE=10`
-  - using a command line option: `apiengine run --max-page-size=10`.
+    `APIENGINE__MAX_PAGESIZE=10`
+  - using a command line option: `apiengine run --max-pagesize=10`.
     Note that the option name uses dashes on the command line.
   - passing the option via Node.js: `apiengine.run({ maxPageSize: 10 })`
   - using a [configuration file](#configuration-file)
@@ -46,7 +46,7 @@ E.g. the following environment variables:
 
 ```toml
 APIENGINE__ENV="dev"
-APIENGINE__MAX_PAGE_SIZE=200
+APIENGINE__MAX_PAGESIZE=200
 APIENGINE__PROTOCOLS__HTTP__HOSTNAME="myhostname"
 APIENGINE__FILTER__PAYLOAD="[id,old_id]"
 ```

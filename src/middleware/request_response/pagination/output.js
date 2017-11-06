@@ -6,7 +6,7 @@ const { getPaginationInfo } = require('./info');
 const { decode, encode } = require('./encoding');
 
 // Add response metadata related to pagination:
-//   token, page_size, has_previous_page, has_next_page
+//   token, pagesize, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
 const getPaginationOutput = function ({ args, args: { page }, response }) {
   const {
@@ -34,7 +34,7 @@ const getPaginationOutput = function ({ args, args: { page }, response }) {
 
   const { data, metadata } = getData({ response, lastHasNextPage, isBackward });
 
-  const pageSize = data.length;
+  const pagesize = data.length;
 
   // Add response.metadata
   const metadataA = data.map((model, index) => {
@@ -47,7 +47,7 @@ const getPaginationOutput = function ({ args, args: { page }, response }) {
     const pages = {
       has_previous_page: hasPreviousPage,
       has_next_page: hasNextPage,
-      page_size: pageSize,
+      pagesize: pagesize,
       ...pageOrToken,
     };
 

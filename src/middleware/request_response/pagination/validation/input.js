@@ -18,7 +18,7 @@ const validatePaginationInput = function ({ args, command, runOpts }) {
 };
 
 const getTests = function ({ args, command }) {
-  // When consumers can specify args.before|after|pageSize|page
+  // When consumers can specify args.before|after|pagesize|page
   if (allowFullPagination({ args, command })) {
     const tokenTests = getTokenTests({ args });
     return [
@@ -27,7 +27,7 @@ const getTests = function ({ args, command }) {
     ];
   }
 
-  // When consumers can only specify args.pageSize,
+  // When consumers can only specify args.pagesize,
   // or when consumers cannot specify any pagination-related argument
   return noPageTests;
 };

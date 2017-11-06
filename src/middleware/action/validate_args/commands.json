@@ -8,7 +8,7 @@
       "select",
       "filter",
       "orderby",
-      "page_size",
+      "pagesize",
       "page",
       "before",
       "after",
@@ -26,7 +26,7 @@
       "select",
       "cascade",
       "filter",
-      "page_size",
+      "pagesize",
       "silent",
       "dryrun",
       "params"
@@ -41,7 +41,7 @@
     "optional": [
       "select",
       "filter",
-      "page_size",
+      "pagesize",
       "silent",
       "dryrun",
       "params"
@@ -53,7 +53,7 @@
     "required": ["single_data"]
   },
   "createMany": {
-    "optional": ["select", "page_size", "silent", "dryrun", "params"],
+    "optional": ["select", "pagesize", "silent", "dryrun", "params"],
     "required": ["multiple_data"]
   },
   "upsertOne": {
@@ -61,7 +61,7 @@
     "required": ["single_data"]
   },
   "upsertMany": {
-    "optional": ["select", "page_size", "silent", "dryrun", "params"],
+    "optional": ["select", "pagesize", "silent", "dryrun", "params"],
     "required": ["multiple_data"]
   }
 }

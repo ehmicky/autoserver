@@ -20,7 +20,7 @@ const getPaginationArgument = function ({ command, features }) {
     command.multiple;
 
   if (!hasFullArgs) {
-    return pick(PAGINATION_ARGS, 'page_size');
+    return pick(PAGINATION_ARGS, 'pagesize');
   }
 
   if (!features.includes('offset')) {
@@ -47,7 +47,7 @@ Using '' means 'from the beginning'`,
 Using '' means 'from the end'`,
   },
 
-  page_size: {
+  pagesize: {
     type: GraphQLInt,
     description: `Sets pagination size.
 Using 0 disables pagination.`,
