@@ -4,6 +4,9 @@ models:
     description: Cute animal
     database: memory
     authorize:
+      $model:
+        id:
+          _neq: '90'
       $command:
         _in: (['find', 'delete', 'create', 'upsert', 'patch'])
     __custom: anything

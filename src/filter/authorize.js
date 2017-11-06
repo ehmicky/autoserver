@@ -1,6 +1,6 @@
 'use strict';
 
-const { pick, mapValues, mapKeys } = require('../utilities');
+const { pick, mapValues } = require('../utilities');
 const { SYSTEM_VARS } = require('../schema_func');
 
 // Retrieve type and names of all possible `model.authorize.*`
@@ -24,11 +24,7 @@ const getModelAttrs = function ({ schema: { models }, modelname }) {
     attributes,
     attr => pick(attr, ['type', 'isArray']),
   );
-  const modelAttrsA = mapKeys(
-    modelAttrs,
-    (attr, attrName) => `$model.${attrName}`,
-  );
-  return modelAttrsA;
+  return { $model: modelAttrs };
 };
 
 module.exports = {

@@ -1,43 +1,7 @@
 'use strict';
 
-const { assignArray } = require('../utilities');
-
-const { getThrowErr } = require('./error');
-const { getOperator, DEEP_OPERATORS } = require('./operators');
-const { optimizeFilter } = require('./optimize');
-
-// Parse `args.filter` and `model.authorize` format
-// Syntax:
-//  [                       // Filter. Top-level is either `_or` or `_and`
-//    {                     // Attrs
-//      attribute_name: 5   // Can use shortcut
-//      attribute_name: {   // Name+value: Attr. Value only: Operations
-//        _eq: 5,           // Operation
-//        _neq: 4
-//        _some: {
-//          _eq: 3          // Recursive operation
-//        }
-//      }
-//    }
-//  ]
-const parseFilter = function ({
-  filter,
-  reason = 'INPUT_VALIDATION',
-  prefix = '',
-}) {
-  if (filter == null) { return; }
-
-  // Top-level array means `_or` alternatives
-  const type = Array.isArray(filter) ? '_or' : '_and';
-
-  const throwErr = getThrowErr.bind(null, { reason, prefix });
-
-  const filterA = parseOperation({ type, value: filter, throwErr });
-
-  const filterB = optimizeFilter({ filter: filterA });
-
-  return filterB;
-};
+const { assignArray } = require('../../utilities');
+const { getOperator, DEEP_OPERATORS } = require('../operators');
 
 const parseAttrs = function ({ attrs, throwErr }) {
   if (!attrs || attrs.constructor !== Object) {
@@ -46,8 +10,49 @@ const parseAttrs = function ({ attrs, throwErr }) {
   }
 
   return Object.entries(attrs)
-    .map(([attrName, attrVal]) => parseAttr({ attrName, attrVal, throwErr }))
+    .map(([attrName, attrVal]) =>
+      parseNestedAttr({ attrName, attrVal, throwErr }))
     .reduce(assignArray, []);
+};
+
+// Prepend `attrName.`, then recurse
+const parseNestedAttrs = function ({ attrName, attrVal, throwErr }) {
+  return Object.entries(attrVal)
+    .map(([nestedNameA, nestedAttrVal]) => parseNestedAttr({
+      attrName: `${attrName}.${nestedNameA}`,
+      attrVal: nestedAttrVal,
+      throwErr,
+    }))
+    .reduce(assignArray, []);
+};
+
+// `{ attribute: { child: value } }` is parsed as `{ attribute.child: value }`
+const parseNestedAttr = function ({ attrName, attrVal, throwErr }) {
+  const nestedName = findNestedAttr({ attrVal });
+
+  // No nested attributes
+  if (nestedName === undefined) {
+    return parseAttr({ attrName, attrVal, throwErr });
+  }
+
+  // Cannot mix with operators,
+  // e.g. `{ attribute: { child: value, _eq: value } }`
+  const mixedOp = Object.keys(attrVal)
+    .find(nestedAttrName => nestedAttrName.startsWith('_'));
+
+  if (mixedOp !== undefined) {
+    const message = `Cannot use operator '${mixedOp}' alongside attribute '${nestedName}'`;
+    throwErr(message);
+  }
+
+  return parseNestedAttrs({ attrName, attrVal, throwErr });
+};
+
+const findNestedAttr = function ({ attrVal }) {
+  if (typeof attrVal !== 'object') { return; }
+
+  return Object.keys(attrVal)
+    .find(nestedAttrName => !nestedAttrName.startsWith('_'));
 };
 
 const parseAttr = function ({ attrName, attrVal, throwErr }) {
@@ -103,5 +108,5 @@ const parseOperation = function ({ type, value, throwErr }) {
 };
 
 module.exports = {
-  parseFilter,
+  parseOperation,
 };
