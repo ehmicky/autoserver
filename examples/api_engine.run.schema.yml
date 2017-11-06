@@ -6,9 +6,9 @@ models:
     authorize:
       $command:
         _in: (['find', 'delete', 'create', 'upsert', 'patch'])
-    x-custom: anything
-    x-second-custom:
-      $ref: '#/models/pet/x-custom'
+    __custom: anything
+    __second_custom:
+      $ref: '#/models/pet/__custom'
     attributes:
       id:
         description: Unique identifier of a pet
@@ -35,7 +35,7 @@ models:
             pattern: '[a-z]'
           else:
             pattern: '[A-Z]'
-        x-custom: anything
+        __custom: anything
       weight:
         type: number
         description: Corrolated to how much a pet has eaten
@@ -154,4 +154,4 @@ validation:
     test: ($val !== $expected)
     message: (`must not be equal to ${$expected}`)
     type: number
-x-custom: anything
+__custom: anything

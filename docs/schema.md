@@ -98,13 +98,13 @@ See the following documentation for:
 
 The schema is validated for syntax errors.
 
-One can add custom properties though by prefixing them with `x-`, at the
+One can add custom properties though by prefixing them with `__`, at the
 top-level, on an model or on an attribute, e.g.:
 
 ```yml
 models:
   example_model:
-    x-my-custom-prop: 3
+    __my_custom_prop: 3
 ```
 
 # Compilation
