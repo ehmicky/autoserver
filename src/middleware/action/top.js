@@ -6,43 +6,43 @@ const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 
 // Parse a `operationDef` into a top-level action, i.e.:
-// `modelName`, `commandpath`, `args`
+// `modelname`, `commandpath`, `args`
 const parseTopAction = function ({
   operationDef: { commandName, args },
   schema: { shortcuts: { modelsMap } },
   protocolArgs,
   paramsArg,
 }) {
-  const { command, modelName } = parseModelName({ commandName, modelsMap });
+  const { command, modelname } = parseModelname({ commandName, modelsMap });
 
   const commandpath = [commandName];
 
   const topArgs = getArgs({ args, protocolArgs, paramsArg });
 
-  const action = { modelName, commandpath, args: topArgs };
+  const action = { modelname, commandpath, args: topArgs };
   const actions = [action];
   const top = { ...action, command };
 
   return { top, topArgs, actions };
 };
 
-// Retrieve `command` and `modelName` using the main `commandName`
-const parseModelName = function ({ commandName, modelsMap }) {
-  const { commandType, modelName } = parseName({ commandName });
+// Retrieve `command` and `modelname` using the main `commandName`
+const parseModelname = function ({ commandName, modelsMap }) {
+  const { commandType, modelname } = parseName({ commandName });
 
-  const command = getCommand({ commandType, modelName });
+  const command = getCommand({ commandType, modelname });
 
-  const modelNameA = getModelName({ modelsMap, modelName });
+  const modelnameA = getModelname({ modelsMap, modelname });
 
-  return { command, modelName: modelNameA };
+  return { command, modelname: modelnameA };
 };
 
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];
 const parseName = function ({ commandName }) {
-  const [, commandType, modelName] = NAME_REGEXP.exec(commandName) || [];
+  const [, commandType, modelname] = NAME_REGEXP.exec(commandName) || [];
 
-  if (commandType && modelName) {
-    return { commandType, modelName };
+  if (commandType && modelname) {
+    return { commandType, modelname };
   }
 
   const message = `Command '${commandName}' is unknown`;
@@ -52,8 +52,8 @@ const parseName = function ({ commandName }) {
 const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
 // Retrieve top.command
-const getCommand = function ({ commandType, modelName }) {
-  const multiple = isPlural(modelName);
+const getCommand = function ({ commandType, modelname }) {
+  const multiple = isPlural(modelname);
 
   const commandA = COMMANDS.find(command =>
     command.multiple === multiple && command.type === commandType);
@@ -63,17 +63,17 @@ const getCommand = function ({ commandType, modelName }) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-// Retrieve top.modelName
-const getModelName = function ({ modelsMap, modelName }) {
+// Retrieve top.modelname
+const getModelname = function ({ modelsMap, modelname }) {
   // Model name can be either in singular or in plural form in schema
-  const singularName = singular(modelName);
-  const pluralName = plural(modelName);
+  const singularName = singular(modelname);
+  const pluralName = plural(modelname);
 
   if (modelsMap[pluralName]) { return pluralName; }
 
   if (modelsMap[singularName]) { return singularName; }
 
-  const message = `Model '${modelName}' is unknown`;
+  const message = `Model '${modelname}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 

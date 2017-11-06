@@ -9,16 +9,16 @@ const validateModelNaming = function ({ schema }) {
   if (!schema.models) { return schema; }
 
   return Object.keys(schema.models).reduce(
-    (schemaA, modelName) => checkModelName({ schema: schemaA, modelName }),
+    (schemaA, modelname) => checkModelname({ schema: schemaA, modelname }),
     schema,
   );
 };
 
-const checkModelName = function ({ schema, modelName }) {
+const checkModelname = function ({ schema, modelname }) {
   // Checks that a word (e.g. a model) is an English word with a
   // different singular and plural form
-  if (singular(modelName) === plural(modelName)) {
-    const message = `Model name '${modelName}' must be an English word whose plural form differs from its singular form`;
+  if (singular(modelname) === plural(modelname)) {
+    const message = `Model name '${modelname}' must be an English word whose plural form differs from its singular form`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 

@@ -1,8 +1,8 @@
 'use strict';
 
 // Pick database adapter
-const pickDatabaseAdapter = function ({ dbAdapters, modelName }) {
-  const dbAdapter = dbAdapters[modelName];
+const pickDatabaseAdapter = function ({ dbAdapters, modelname }) {
+  const dbAdapter = dbAdapters[modelname];
   return { dbAdapter };
 };
 

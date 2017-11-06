@@ -2,7 +2,7 @@
 
 const { assignArray } = require('../../utilities');
 
-// Normalize results to an object with `path`, `model`, `moodelName`, `select`
+// Normalize results to an object with `path`, `model`, `moodelname`, `select`
 // Then push to shared `results` variable
 const processResults = function ({
   results,
@@ -57,7 +57,7 @@ const getEachResults = function ({ ids, results, ...rest }) {
 };
 
 const getResult = function ({
-  action: { modelName, select },
+  action: { modelname, select },
   model,
   index,
   path = [],
@@ -70,7 +70,7 @@ const getResult = function ({
   const pathA = multipleA
     ? [...path, commandName, index]
     : [...path, commandName];
-  return { path: pathA, model, modelName, select };
+  return { path: pathA, model, modelname, select };
 };
 
 module.exports = {

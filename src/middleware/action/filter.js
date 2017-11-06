@@ -11,10 +11,10 @@ const parseFilterActions = function ({ actions, schema }) {
 
 const parseFilterArg = function ({
   action,
-  action: { args, modelName },
+  action: { args, modelname },
   schema: { shortcuts: { modelsMap } },
 }) {
-  const model = modelsMap[modelName];
+  const model = modelsMap[modelname];
   const filter = parseFilterOrId({ args, model });
 
   if (filter === undefined) { return action; }

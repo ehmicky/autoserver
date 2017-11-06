@@ -34,7 +34,7 @@ const fillError = function ({
     summary,
     topArgs: args,
     commandpath,
-    modelName: model,
+    modelname: model,
     command,
     requestid,
   } = {},

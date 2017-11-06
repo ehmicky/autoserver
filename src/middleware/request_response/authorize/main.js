@@ -7,7 +7,7 @@ const { checkNewData } = require('./data');
 // Handles `schema.authorize` and `model.authorize`
 const validateAuthorization = function ({
   args,
-  modelName,
+  modelname,
   schema,
   schema: { models },
   userVars,
@@ -21,11 +21,11 @@ const validateAuthorization = function ({
 
   validateSchemaAuth({ schema, userVars, mInput, top });
 
-  const model = models[modelName];
+  const model = models[modelname];
   const argsA = validateModelAuth({
     args,
     model,
-    modelName,
+    modelname,
     schema,
     userVars,
     mInput,
@@ -53,7 +53,7 @@ const validateSchemaAuth = function ({
 const validateModelAuth = function ({
   args,
   model: { authorize },
-  modelName,
+  modelname,
   schema,
   userVars,
   mInput,
@@ -63,7 +63,7 @@ const validateModelAuth = function ({
   if (authorize === undefined) { return args; }
 
   const authorizeA = evalAuthorize({
-    modelName,
+    modelname,
     authorize,
     top,
     userVars,
@@ -74,7 +74,7 @@ const validateModelAuth = function ({
 
   const argsA = addAuthorizeFilter({ command, authorize: authorizeA, args });
 
-  checkNewData({ authorize: authorizeA, args, modelName, top });
+  checkNewData({ authorize: authorizeA, args, modelname, top });
 
   return argsA;
 };

@@ -8,7 +8,7 @@ const { getFeatures } = require('../../../filter');
 const validateFeatures = function ({
   adapter: { features, name },
   model,
-  modelName,
+  modelname,
 }) {
   const requiredFeatures = getModelFeatures({ model });
   const missingFeatures = difference(requiredFeatures, features);
@@ -18,7 +18,7 @@ const validateFeatures = function ({
     missingFeatures,
     { op: 'and', quotes: true },
   );
-  const message = `'models.${modelName}.database' '${name}' cannot be used because that model requires the features ${missingFeaturesA}, but that database does not support those features`;
+  const message = `'models.${modelname}.database' '${name}' cannot be used because that model requires the features ${missingFeaturesA}, but that database does not support those features`;
   throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 

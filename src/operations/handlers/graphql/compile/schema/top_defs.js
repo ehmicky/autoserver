@@ -51,7 +51,7 @@ const getCommandDef = function ({ models, command }) {
   // This will be used as the top-level graphqlMethod
   const modelsA = mapKeys(
     models,
-    (model, modelName) => getCommandName({ model: modelName, command }),
+    (model, modelname) => getCommandName({ model: modelname, command }),
   );
   const modelsB = mapValues(
     modelsA,

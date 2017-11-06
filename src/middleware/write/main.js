@@ -9,8 +9,8 @@ const { getResults } = require('./results');
 
 // Fire all commands associated with a set of write actions
 const sequenceWrite = async function ({ actions, top, mInput }, nextLayer) {
-  // Run write commands in parallel, for each `modelName`
-  const actionsGroups = groupValuesBy(actions, 'modelName');
+  // Run write commands in parallel, for each `modelname`
+  const actionsGroups = groupValuesBy(actions, 'modelname');
   const allInputs = actionsGroups
     .map(actionsA => getCommandArgs({ actions: actionsA, top }))
     .filter(isNotEmpty)
@@ -42,14 +42,14 @@ const isNotEmpty = function ({ ids }) {
 // Add next layers's whole input
 const getInput = function ({
   actions,
-  actions: [{ modelName }],
+  actions: [{ modelname }],
   args,
   top: { command: { type: command } },
   mInput,
   ...rest
 }) {
   const commandpath = mergeCommandpaths({ actions });
-  const input = { ...mInput, commandpath, command, modelName, args };
+  const input = { ...mInput, commandpath, command, modelname, args };
   return { input, actions, ...rest };
 };
 
@@ -67,7 +67,7 @@ const fireResponseLayer = async function ({
   ids,
   top,
   input,
-  input: { modelName },
+  input: { modelname },
   nextLayer,
 }) {
   // Since some commands will wait for others to finish, and I/O is slow,
@@ -77,7 +77,7 @@ const fireResponseLayer = async function ({
 
   const { response: { data: results } } = await nextLayer(inputA, 'response');
 
-  const resultsA = getResults({ actions, results, ids, modelName, top });
+  const resultsA = getResults({ actions, results, ids, modelname, top });
   return resultsA;
 };
 

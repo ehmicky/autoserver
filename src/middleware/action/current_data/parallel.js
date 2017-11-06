@@ -27,14 +27,14 @@ const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
 
   const { results } = await nextLayer(mInputA, 'read');
 
-  const currentDataMap = groupBy(results, 'modelName');
+  const currentDataMap = groupBy(results, 'modelname');
   const currentDataMapA = mapValues(currentDataMap, getModels);
   return currentDataMapA;
 };
 
 // Group write actions on the same model into single read action
 const groupActions = function ({ actions }) {
-  const actionsGroups = groupValuesBy(actions, 'modelName');
+  const actionsGroups = groupValuesBy(actions, 'modelname');
   const actionsA = actionsGroups.map(mergeActionsGroups);
   return actionsA;
 };
@@ -42,9 +42,9 @@ const groupActions = function ({ actions }) {
 const mergeActionsGroups = function (actions) {
   const commandpath = mergeCommandpaths({ actions });
   const args = getArgs({ actions });
-  const [{ modelName }] = actions;
+  const [{ modelname }] = actions;
 
-  return { commandpath: [commandpath], args, modelName };
+  return { commandpath: [commandpath], args, modelname };
 };
 
 // `args.data` becomes `args.filter`
@@ -73,10 +73,10 @@ const addCurrentDataActions = function ({ actions, currentDataMap }) {
 
 const addCurrentDataAction = function ({
   action,
-  action: { modelName, args: { data } },
+  action: { modelname, args: { data } },
   currentDataMap,
 }) {
-  const currentData = currentDataMap[modelName];
+  const currentData = currentDataMap[modelname];
   const currentDataA = data
     .map(({ id }) => currentDataMatches({ id, currentData }));
   return { ...action, currentData: currentDataA };
