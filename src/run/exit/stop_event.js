@@ -4,8 +4,8 @@ const { emitEvent } = require('../../events');
 const { pickBy } = require('../../utilities');
 
 // Emit successful or failed shutdown event
-const emitStopEvent = async function ({ statuses, runOpts, measures }) {
-  const failedProtocols = getFailedProtocols({ statuses });
+const emitStopEvent = async function ({ exitcodes, runOpts, measures }) {
+  const failedProtocols = getFailedProtocols({ exitcodes });
 
   const isSuccess = failedProtocols.length === 0;
   const message = isSuccess
@@ -20,16 +20,16 @@ const emitStopEvent = async function ({ statuses, runOpts, measures }) {
     phase: 'shutdown',
     level,
     message,
-    info: { exitStatuses: statuses },
+    info: { exitcodes },
     runOpts,
     duration,
   });
 };
 
 // Retrieves which servers exits have failed, if any
-const getFailedProtocols = function ({ statuses }) {
-  const failedStatuses = pickBy(statuses, status => !status);
-  const failedProtocols = Object.keys(failedStatuses);
+const getFailedProtocols = function ({ exitcodes }) {
+  const failedExitcodes = pickBy(exitcodes, exitcode => !exitcode);
+  const failedProtocols = Object.keys(failedExitcodes);
   return failedProtocols;
 };
 
