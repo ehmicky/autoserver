@@ -198,7 +198,7 @@ event payload, with the properties:
   - `payloadCount` `{number}` - array length, if it is an array
   - `operation` `{string}` - operation, among `'graphql'`, `'graphiql'` and
     `'graphqlprint'`
-  - `operationSummary` `${string}` - summary of the operation, e.g.
+  - `summary` `${string}` - summary of the operation, e.g.
     'findModel{findChildModel}'
   - `args` `${object}` - [arguments](terminology.md#args)
   - `args.dataSize` `{number}` - size of `data` argument, in bytes
