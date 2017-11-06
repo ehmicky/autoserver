@@ -19,19 +19,19 @@ const getPaginationInput = function ({ args }) {
 };
 
 const getOffsetInput = function ({
-  info: { usedPageSize },
+  info: { usedPagesize },
   args: { page, pagesize },
 }) {
   const offset = (page - 1) * pagesize;
-  const limit = usedPageSize;
+  const limit = usedPagesize;
 
   return { offset, limit };
 };
 
-const getTokensInput = function ({ info, info: { usedPageSize } }) {
+const getTokensInput = function ({ info, info: { usedPagesize } }) {
   const tokenInput = getTokenInput({ info });
   const backwardInput = getBackwardInput({ info, tokenInput });
-  const limit = usedPageSize;
+  const limit = usedPagesize;
   return { ...tokenInput, ...backwardInput, limit };
 };
 
