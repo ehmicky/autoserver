@@ -3,7 +3,7 @@
 module.exports = {
   ...require('./select'),
   ...require('./filter'),
-  ...require('./order_by'),
+  ...require('./orderby'),
   ...require('./pagination'),
   ...require('./data'),
   ...require('./cascade'),

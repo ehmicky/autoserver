@@ -99,11 +99,11 @@ const middlewareLayers = [
       action.parseDataArg,
       // Parse `args.cascade` into a set of delete nested `actions`
       action.parseCascade,
-      // Parse `args.orderBy` from a string to an array of objects
-      action.parseOrderBy,
+      // Parse `args.orderby` from a string to an array of objects
+      action.parseOrderby,
       // Parse `args.select` into a set of `actions`
       action.parseSelect,
-      // Validate that attributes in `args.select|data|filter|order_by`
+      // Validate that attributes in `args.select|data|filter|orderby`
       // are in the schema
       action.validateUnknownAttrs,
       // Validate that attributes used in nested actions will not change
@@ -167,7 +167,7 @@ const middlewareLayers = [
       requestResponse.handleValue,
       // Apply user-defined default values
       requestResponse.handleUserDefault,
-      // Apply system-defined default values, e.g. order_by 'id+'
+      // Apply system-defined default values, e.g. orderby 'id+'
       requestResponse.systemDefaults,
       // Resets readonly attributes in `args.newData`
       requestResponse.handleReadonly,

@@ -7,7 +7,7 @@ const {
   },
 } = require('js-base64');
 
-const { minifyOrderBy, unminifyOrderBy } = require('./minify_order_by');
+const { minifyOrderby, unminifyOrderby } = require('./minify_orderby');
 const {
   removeDefaultValues,
   addDefaultValues,
@@ -20,9 +20,9 @@ const { convertUndefined } = require('./convert_undefined');
 //   - parts {any[]} (model values)
 //   - filter {object}: used by current query,
 //     so it can be used on next pagination requests
-//   - orderBy {object[]} - same as filter
-//      - orderBy.attrName {string} - also used to guess `parts` attributes
-//      - orderBy.order {string} - 'desc' or 'asc'
+//   - orderby {object[]} - same as filter
+//      - orderby.attrName {string} - also used to guess `parts` attributes
+//      - orderby.order {string} - 'desc' or 'asc'
 // Make sure token is small by minifying it
 const encode = function ({ token }) {
   return encoders.reduce((tokenA, encoder) => encoder(tokenA), token);
@@ -31,7 +31,7 @@ const encode = function ({ token }) {
 const encoders = [
   convertUndefined,
   removeDefaultValues,
-  minifyOrderBy,
+  minifyOrderby,
   addNameShortcuts,
   JSON.stringify,
   base64UrlEncode,
@@ -46,7 +46,7 @@ const decoders = [
   base64UrlDecode,
   JSON.parse,
   removeNameShortcuts,
-  unminifyOrderBy,
+  unminifyOrderby,
   addDefaultValues,
 ];
 

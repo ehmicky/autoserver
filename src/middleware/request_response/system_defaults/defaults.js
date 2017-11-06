@@ -10,7 +10,7 @@ const defaults = {
   // The reason: it might otherwise iterate over the same models
   // For 'delete', sorting is an unnecessary feature, so we keep it similar to
   // 'patch' command.
-  orderBy: {
+  orderby: {
     commands: ['find'],
     value: [{ attrName: 'id', order: 'asc' }],
     test: ({ args }) => hasNoPaginationTokens({ args }),

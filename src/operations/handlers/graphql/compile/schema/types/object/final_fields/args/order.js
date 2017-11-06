@@ -2,11 +2,11 @@
 
 const { GraphQLString } = require('graphql');
 
-// `order_by` argument
+// `orderby` argument
 const getOrderArgument = function ({ command, features }) {
   const canOrder = ORDER_COMMAND_TYPES.includes(command.type) &&
     command.multiple &&
-    features.includes('order_by');
+    features.includes('orderby');
   if (!canOrder) { return {}; }
 
   return ORDER_ARGS;
@@ -15,7 +15,7 @@ const getOrderArgument = function ({ command, features }) {
 const ORDER_COMMAND_TYPES = ['find'];
 
 const ORDER_ARGS = {
-  order_by: {
+  orderby: {
     type: GraphQLString,
     description: `Sort results according to this attribute.
 Specify ascending or descending order by appending + or - (default is ascending)

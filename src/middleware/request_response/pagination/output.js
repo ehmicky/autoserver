@@ -84,32 +84,32 @@ const getPageOrToken = function ({
   isOffset,
   page,
   model,
-  args: { orderBy, filter },
+  args: { orderby, filter },
   token,
 }) {
   if (isOffset) { return { page }; }
 
-  const tokenA = getPaginationToken({ model, orderBy, filter, token });
+  const tokenA = getPaginationToken({ model, orderby, filter, token });
   return { token: tokenA };
 };
 
 // Calculate token to output
-const getPaginationToken = function ({ model, orderBy, filter, token }) {
-  const tokenObj = getTokenObj({ orderBy, filter, token });
-  const parts = tokenObj.orderBy.map(({ attrName }) => model[attrName]);
+const getPaginationToken = function ({ model, orderby, filter, token }) {
+  const tokenObj = getTokenObj({ orderby, filter, token });
+  const parts = tokenObj.orderby.map(({ attrName }) => model[attrName]);
   const tokenObjA = { ...tokenObj, parts };
   const encodedToken = encode({ token: tokenObjA });
   return encodedToken;
 };
 
-const getTokenObj = function ({ orderBy, filter, token }) {
+const getTokenObj = function ({ orderby, filter, token }) {
   if (token === undefined || token === '') {
-    return { orderBy, filter };
+    return { orderby, filter };
   }
 
   // Reuse old token
   const oldToken = decode({ token });
-  return pick(oldToken, ['orderBy', 'filter']);
+  return pick(oldToken, ['orderby', 'filter']);
 };
 
 module.exports = {

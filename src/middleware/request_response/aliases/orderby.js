@@ -1,10 +1,10 @@
 'use strict';
 
 // Copy first defined alias to main attribute, providing it is not defined.
-const applyOrderByAliases = function ({ orderBy, attrName, aliases }) {
-  if (!Array.isArray(orderBy)) { return orderBy; }
+const applyOrderbyAliases = function ({ orderby, attrName, aliases }) {
+  if (!Array.isArray(orderby)) { return orderby; }
 
-  return orderBy.map(orderPart => {
+  return orderby.map(orderPart => {
     if (!orderPart || orderPart.constructor !== Object) { return orderPart; }
     if (!aliases.includes(orderPart.attrName)) { return orderPart; }
     return { ...orderPart, attrName };
@@ -12,5 +12,5 @@ const applyOrderByAliases = function ({ orderBy, attrName, aliases }) {
 };
 
 module.exports = {
-  applyOrderByAliases,
+  applyOrderbyAliases,
 };

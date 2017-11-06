@@ -7,7 +7,7 @@ module.exports = {
   ...require('./filter'),
   ...require('./data_arg'),
   ...require('./cascade'),
-  ...require('./order_by'),
+  ...require('./orderby'),
   ...require('./parse_select'),
   ...require('./unknown_attrs'),
   ...require('./stable_ids'),

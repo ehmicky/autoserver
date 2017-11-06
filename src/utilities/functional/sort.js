@@ -6,21 +6,21 @@ const sortArray = function (array, func) {
   return [...array].sort(func);
 };
 
-// Like __.orderBy() but faster, and using the same format we use in `orderBy`
-const sortBy = function (array, orderBy) {
+// Like __.orderby() but faster, and using the same format we use in `orderby`
+const sortBy = function (array, orderby) {
   return sortArray(
     array,
-    (objA, objB) => sortByFunc({ objA, objB, orderBy }),
+    (objA, objB) => sortByFunc({ objA, objB, orderby }),
   );
 };
 
-const sortByFunc = function ({ objA, objB, orderBy }) {
-  const orderByPart = orderBy
+const sortByFunc = function ({ objA, objB, orderby }) {
+  const orderbyPart = orderby
     .find(({ attrName: attrNameA }) => objA[attrNameA] !== objB[attrNameA]);
 
-  if (orderByPart === undefined) { return 0; }
+  if (orderbyPart === undefined) { return 0; }
 
-  const { attrName, order } = orderByPart;
+  const { attrName, order } = orderbyPart;
   const compResult = objA[attrName] < objB[attrName] ? -1 : 1;
   const compResultA = order === 'desc' ? compResult * -1 : compResult;
   return compResultA;

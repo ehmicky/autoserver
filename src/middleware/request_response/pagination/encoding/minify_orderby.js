@@ -1,19 +1,19 @@
 'use strict';
 
-// Shortcut notation of order_by,
+// Shortcut notation of orderby,
 // e.g. [{ attrName: 'attr', order: 'asc'}, {attrName: 'attrb', order: 'desc' }]
 // -> 'attr,attrb-'
-const minifyOrderBy = function (token) {
-  if (!token.orderBy) { return token; }
-  const orderBy = token.orderBy
+const minifyOrderby = function (token) {
+  if (!token.orderby) { return token; }
+  const orderby = token.orderby
     .map(({ attrName, order }) => `${attrName}${order === 'asc' ? '' : '-'}`)
     .join(',');
-  return { ...token, orderBy };
+  return { ...token, orderby };
 };
 
-const unminifyOrderBy = function (token) {
-  if (!token.orderBy) { return token; }
-  const orderBy = token.orderBy
+const unminifyOrderby = function (token) {
+  if (!token.orderby) { return token; }
+  const orderby = token.orderby
     .split(',')
     .map(orderStr => {
       const isDesc = orderStr[orderStr.length - 1] === '-';
@@ -21,10 +21,10 @@ const unminifyOrderBy = function (token) {
       const order = isDesc ? 'desc' : 'asc';
       return { attrName, order };
     });
-  return { ...token, orderBy };
+  return { ...token, orderby };
 };
 
 module.exports = {
-  minifyOrderBy,
-  unminifyOrderBy,
+  minifyOrderby,
+  unminifyOrderby,
 };
