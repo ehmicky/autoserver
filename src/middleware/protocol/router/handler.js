@@ -3,7 +3,7 @@
 const { operationHandlers } = require('../../../operations');
 
 const { findRoute } = require('./routes');
-const { getPathVars } = require('./path_vars');
+const { getPathvars } = require('./pathvars');
 
 // Add route and URL parameters to mInput
 const router = function ({ path }) {
@@ -11,9 +11,9 @@ const router = function ({ path }) {
   const { operation } = route;
   const operationHandler = operationHandlers[operation];
 
-  const pathVars = getPathVars({ path, route });
+  const pathvars = getPathvars({ path, route });
 
-  return { operation, operationHandler, pathVars };
+  return { operation, operationHandler, pathvars };
 };
 
 module.exports = {
