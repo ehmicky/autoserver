@@ -127,8 +127,8 @@ const middlewareLayers = [
       action.removeNestedWrite,
       // Sort `results` so that top-level ones are processed first
       action.sortResults,
-      // Add `modelsCount` and `uniqueModelsCount`
-      action.getModelsCount,
+      // Add `modelscount` and `uniquecount`
+      action.getModelscount,
       // Merge all `results` into a single nested response, using `result.path`
       action.assembleResults,
       // Applies `args.select`
