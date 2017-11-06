@@ -175,7 +175,7 @@ event payload, with the properties:
     Also available as `X-Apiengine-Requestid` response header.
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
-  - `responseTime` `{number}` - time it took to handle the request,
+  - `responsetime` `{number}` - time it took to handle the request,
     in milliseconds. Only defined if the request was successful.
   - `ip` `{string}`
   - `protocol` `{string}` - e.g. `'http'`
