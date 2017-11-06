@@ -6,8 +6,8 @@ const { getSimpleFilter } = require('../../filter');
 // Retrieve the results of all direct parent commands
 // E.g. when firing `find_model { child { id } }`, the nested `child` action
 // needs to know `model.child` first before being fired.
-const getParentResults = function ({ commandPath, results }) {
-  const parentPath = commandPath.slice(0, -1);
+const getParentResults = function ({ commandpath, results }) {
+  const parentPath = commandpath.slice(0, -1);
   return results.filter(result => isParentResults({ result, parentPath }));
 };
 

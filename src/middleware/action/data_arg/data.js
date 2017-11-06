@@ -23,7 +23,7 @@ const parseDatum = function ({
   datum,
   attrName,
   index,
-  commandPath,
+  commandpath,
   top,
   model,
   userDefaultsMap,
@@ -33,9 +33,9 @@ const parseDatum = function ({
   ...rest
 }) {
   const path = [attrName, index].filter(part => part !== undefined);
-  const commandPathA = [...commandPath, ...path];
+  const commandpathA = [...commandpath, ...path];
 
-  validateData({ datum, commandPath: commandPathA, top, maxAttrValueSize });
+  validateData({ datum, commandpath: commandpathA, top, maxAttrValueSize });
 
   const datumA = addDefaultIds({
     datum,
@@ -49,7 +49,7 @@ const parseDatum = function ({
   return mapValues(datumA, (obj, attrNameA) => parseAttr({
     obj,
     attrName: attrNameA,
-    commandPath: commandPathA,
+    commandpath: commandpathA,
     top,
     userDefaultsMap,
     mInput,

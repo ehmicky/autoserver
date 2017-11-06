@@ -31,19 +31,19 @@ const getCascadeActions = function ({
 };
 
 // From `attr.child_attr` to:
-//   commandPath: ['commandName', 'attr', 'child_attr']
+//   commandpath: ['commandName', 'attr', 'child_attr']
 //   modelName
 //   args: {}
 const getCascadeAction = function ({ attrName, attrs, top, modelsMap }) {
   validateMiddleAction({ attrName, attrs });
 
-  const commandPath = [...top.commandPath, ...attrName];
-  const model = getModel({ modelsMap, top, commandPath });
+  const commandpath = [...top.commandpath, ...attrName];
+  const model = getModel({ modelsMap, top, commandpath });
 
-  validateCascade({ model, commandPath });
+  validateCascade({ model, commandpath });
 
   const { modelName } = model;
-  return { commandPath, modelName, args: {}, isWrite: true };
+  return { commandpath, modelName, args: {}, isWrite: true };
 };
 
 // Cannot specify `args.cascade` `parent.child` but not `parent`.
@@ -60,10 +60,10 @@ const validateMiddleAction = function ({ attrName, attrs }) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const validateCascade = function ({ model, commandPath }) {
+const validateCascade = function ({ model, commandpath }) {
   if (model !== undefined) { return; }
 
-  const attrName = commandPath.slice(1).join('.');
+  const attrName = commandpath.slice(1).join('.');
   const message = attrName === ''
     ? '\'cascade\' argument cannot contain empty attributes'
     : `In 'cascade' argument, attribute '${attrName}' is unknown`;

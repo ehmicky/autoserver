@@ -2,7 +2,7 @@
 
 const { assignArray, groupValuesBy } = require('../../utilities');
 const { addErrorHandler, normalizeError } = require('../../error');
-const { mergeCommandPaths } = require('../../constants');
+const { mergeCommandpaths } = require('../../constants');
 
 const { getArgs } = require('./args');
 const { getResults } = require('./results');
@@ -48,8 +48,8 @@ const getInput = function ({
   mInput,
   ...rest
 }) {
-  const commandPath = mergeCommandPaths({ actions });
-  const input = { ...mInput, commandPath, command, modelName, args };
+  const commandpath = mergeCommandpaths({ actions });
+  const input = { ...mInput, commandpath, command, modelName, args };
   return { input, actions, ...rest };
 };
 

@@ -20,9 +20,9 @@ const mergeResult = function ({ results, action, action: { args } }) {
 };
 
 // Retrieve the relevant `results` for this specific action
-const resultMatches = function ({ result: { path }, action: { commandPath } }) {
+const resultMatches = function ({ result: { path }, action: { commandpath } }) {
   const pathA = removeIndexes({ path });
-  return isEqual(commandPath, pathA);
+  return isEqual(commandpath, pathA);
 };
 
 const removeIndexes = function ({ path }) {

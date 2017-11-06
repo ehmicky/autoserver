@@ -7,20 +7,20 @@ const { getDataPath } = require('./data_path');
 const { isObject } = require('./validate');
 
 // Retrieve the keys of an `args.data` object which are nested models
-const getNestedKeys = function ({ data, commandPath, top, modelsMap }) {
+const getNestedKeys = function ({ data, commandpath, top, modelsMap }) {
   const nestedKeys = data
     .map(Object.keys)
     .reduce(assignArray, []);
   const nestedKeysA = uniq(nestedKeys);
   // Keep only the keys which are nested models
   const nestedKeysB = nestedKeysA
-    .filter(attrName => isModel({ attrName, commandPath, top, modelsMap }));
+    .filter(attrName => isModel({ attrName, commandpath, top, modelsMap }));
   return nestedKeysB;
 };
 
-const isModel = function ({ attrName, commandPath, top, modelsMap }) {
-  const commandPathA = [...commandPath, attrName];
-  const model = getModel({ top, modelsMap, commandPath: commandPathA });
+const isModel = function ({ attrName, commandpath, top, modelsMap }) {
+  const commandpathA = [...commandpath, attrName];
+  const model = getModel({ top, modelsMap, commandpath: commandpathA });
   return model !== undefined && model.modelName !== undefined;
 };
 
@@ -34,18 +34,18 @@ const getNestedActions = function ({ nestedKeys, ...rest }) {
 const getNestedAction = function ({
   data,
   dataPaths,
-  commandPath,
+  commandpath,
   top,
   modelsMap,
   nestedKey,
   parseActions,
 }) {
-  const nestedCommandPath = [...commandPath, nestedKey];
+  const nestedCommandpath = [...commandpath, nestedKey];
   const nestedData = getData({ data, nestedKey });
   const nestedDataPaths = getDataPaths({ dataPaths, data, nestedKey });
 
   return parseActions({
-    commandPath: nestedCommandPath,
+    commandpath: nestedCommandpath,
     data: nestedData,
     dataPaths: nestedDataPaths,
     top,
@@ -67,7 +67,7 @@ const getDataPaths = function ({ dataPaths, data, nestedKey }) {
   return dataPaths
     .map((dataPath, index) => getDataPath({
       data: data[index][nestedKey],
-      commandPath: [...dataPath, nestedKey],
+      commandpath: [...dataPath, nestedKey],
     }))
     .reduce(assignArray, []);
 };

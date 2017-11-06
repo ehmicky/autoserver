@@ -28,46 +28,46 @@ const getSelectAction = function ({
   const selects = select
     .split(',')
     .map(selectA => parseSelectPart({ top, select: selectA }));
-  const selectsA = groupValuesBy(selects, 'commandPath');
+  const selectsA = groupValuesBy(selects, 'commandpath');
   const actions = selectsA
     .map(selectA => getAction({ select: selectA, top, schema }));
   return actions;
 };
 
 // Turns `args.select` 'aaa.bbb.ccc=ddd' into:
-// `commandPath` 'aaa.bbb', `key` 'ccc', `alias` 'ddd']
+// `commandpath` 'aaa.bbb', `key` 'ccc', `alias` 'ddd']
 const parseSelectPart = function ({ top, select }) {
-  const selectA = [...top.commandPath, select].join('.');
-  const [, commandPath, key, alias] = SELECT_REGEXP.exec(selectA);
-  return { commandPath, key, alias };
+  const selectA = [...top.commandpath, select].join('.');
+  const [, commandpath, key, alias] = SELECT_REGEXP.exec(selectA);
+  return { commandpath, key, alias };
 };
 
 const SELECT_REGEXP = /^([^=]*)\.([^.=]+)=?(.*)?$/;
 
-// From `args` + map of `COMMAND_PATH: [{ commandPath, key, alias }]`
-// to array of `{ commandPath, args, select: [{ key, alias }], modelName }`
+// From `args` + map of `COMMANDPATH: [{ commandpath, key, alias }]`
+// to array of `{ commandpath, args, select: [{ key, alias }], modelName }`
 const getAction = function ({
   select,
-  select: [{ commandPath }],
+  select: [{ commandpath }],
   top,
   schema,
 }) {
-  const commandPathA = commandPath.split('.');
-  const selectA = select.map(action => omit(action, 'commandPath'));
-  const modelName = getModelName({ commandPath: commandPathA, top, schema });
-  return { commandPath: commandPathA, args: {}, select: selectA, modelName };
+  const commandpathA = commandpath.split('.');
+  const selectA = select.map(action => omit(action, 'commandpath'));
+  const modelName = getModelName({ commandpath: commandpathA, top, schema });
+  return { commandpath: commandpathA, args: {}, select: selectA, modelName };
 };
 
 // Add `action.modelName`
 const getModelName = function ({
-  commandPath,
+  commandpath,
   top,
   schema: { shortcuts: { modelsMap } },
 }) {
-  const model = getModel({ commandPath, modelsMap, top });
+  const model = getModel({ commandpath, modelsMap, top });
   if (model !== undefined) { return model.modelName; }
 
-  const message = `In argument 'select', attribute '${commandPath.join('.')}' is unknown`;
+  const message = `In argument 'select', attribute '${commandpath.join('.')}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
@@ -81,12 +81,12 @@ const validateSelect = function ({ actions, top: { command } }) {
 // itself, i.e. in `args.data|cascade`.
 // Otherwise, this would require performing extra find actions.
 const validateAction = function ({
-  action: { isWrite, commandPath },
+  action: { isWrite, commandpath },
   command,
 }) {
-  if (isWrite || commandPath.length <= 1) { return; }
+  if (isWrite || commandpath.length <= 1) { return; }
 
-  const path = commandPath.slice(1).join('.');
+  const path = commandpath.slice(1).join('.');
   const argName = command.type === 'delete' ? 'cascade' : 'data';
   const message = `Can only 'select' attribute '${path}' if it is specified in '${argName}' argument`;
   throwError(message, { reason: 'INPUT_VALIDATION' });

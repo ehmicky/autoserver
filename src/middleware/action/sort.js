@@ -12,7 +12,7 @@ const sortTwo = function (pathKey, objA, objB) {
 };
 
 // Sort `actions` so that top-level ones are fired first
-const sortActions = obj => sorter(obj, 'actions', 'commandPath');
+const sortActions = obj => sorter(obj, 'actions', 'commandpath');
 
 // Sort `results` so that top-level ones are processed first
 const sortResults = obj => sorter(obj, 'results', 'path');

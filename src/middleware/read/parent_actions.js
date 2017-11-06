@@ -2,7 +2,7 @@
 
 // Create a structure indicating which actions are the parents of which action.
 // This is needed since parent actions must be fired before children.
-// Uses `commandPath` to determine this, and output a recursive structure
+// Uses `commandpath` to determine this, and output a recursive structure
 // { parentAction, childActions: [{...}, ...] }
 const getParentActions = function ({ actions, top, modelsMap }) {
   return actions
@@ -37,9 +37,9 @@ const getChildActions = function ({ parentAction, actions }) {
 
 const isChildAction = function ({
   parentAction,
-  parentAction: { commandPath: parentPath },
+  parentAction: { commandpath: parentPath },
   childAction,
-  childAction: { commandPath: childPath },
+  childAction: { commandpath: childPath },
 }) {
   return childAction !== parentAction &&
     childPath.length > parentPath.length &&

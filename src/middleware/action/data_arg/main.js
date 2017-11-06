@@ -22,7 +22,7 @@ const parseDataArg = function ({ actions, ...rest }) {
 const getDataAction = function ({
   top,
   top: { command },
-  action: { args: { data }, commandPath },
+  action: { args: { data }, commandpath },
   schema: { shortcuts: { modelsMap, userDefaultsMap } },
   mInput,
   runOpts,
@@ -32,11 +32,11 @@ const getDataAction = function ({
   validateLimits({ data, runOpts });
 
   // Top-level `dataPaths`
-  const dataPaths = getDataPath({ data, commandPath });
+  const dataPaths = getDataPath({ data, commandpath });
 
   const dataA = parseData({
     data,
-    commandPath,
+    commandpath,
     command,
     top,
     mInput,
@@ -48,7 +48,7 @@ const getDataAction = function ({
 
   const newActions = parseActions({
     data: dataA,
-    commandPath,
+    commandpath,
     dataPaths,
     top,
     modelsMap,
