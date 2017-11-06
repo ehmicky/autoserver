@@ -9,12 +9,12 @@ const { v4: uuidv4 } = require('uuid');
 //  - schema system variable `$requestId`
 //  - response headers, as `X-Apiengine-Request-Id`
 // Also send response headers for `X-Apiengine-Server-Name` and
-// `X-Apiengine-Server-Id`
+// `X-Apiengine-Serverid`
 const setRequestIds = function ({ specific, protocolHandler, serverinfo }) {
   const requestId = uuidv4();
 
   sendRequestIdHeader({ specific, requestId, protocolHandler });
-  sendServerIdsHeaders({ specific, serverinfo, protocolHandler });
+  sendServeridsHeaders({ specific, serverinfo, protocolHandler });
 
   return { requestId };
 };
@@ -30,15 +30,15 @@ const sendRequestIdHeader = function ({
 };
 
 // Send e.g. HTTP request header, `X-Apiengine-Server-Name` and
-// `X-Apiengine-Server-Id`
-const sendServerIdsHeaders = function ({
+// `X-Apiengine-Serverid`
+const sendServeridsHeaders = function ({
   specific,
-  serverinfo: { serverId, serverName },
+  serverinfo: { serverid, serverName },
   protocolHandler,
 }) {
   const responseHeaders = {
     'X-Apiengine-Server-Name': serverName,
-    'X-Apiengine-Server-Id': serverId,
+    'X-Apiengine-Serverid': serverid,
   };
   protocolHandler.setResponseHeaders({ specific, responseHeaders });
 };
