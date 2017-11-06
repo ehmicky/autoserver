@@ -34,7 +34,7 @@ The available options are:
   - `env` (defaults to `'dev'`): can be `'dev'` or `'production'`.
     Running in `'dev'` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
-  - `maxPayloadSize`, `defaultPagesize`, `maxpagesize`, `maxDataLength`:
+  - `maxPayloadSize`, `defaultPagesize`, `maxpagesize`, `maxdatalength`:
     see [limits](limits.md#options)
   - `events`, `filter`, `eventLevel` and `servername`: see [events](events.md).
   - `protocols` `{object}`: [protocols options](protocols.md)
