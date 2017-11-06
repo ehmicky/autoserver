@@ -25,7 +25,7 @@ const fillError = function ({
   mInput: {
     url: instance,
     status = 'SERVER_ERROR',
-    protocolStatus,
+    protocolstatus,
     protocol,
     method,
     requestHeaders,
@@ -58,7 +58,7 @@ const fillError = function ({
 
   return {
     ...errorA,
-    protocol_status: protocolStatus,
+    protocolstatus: protocolstatus,
     protocol,
     method,
     request_headers: requestHeaders,

@@ -7,7 +7,7 @@ const { emitEvent } = require('../../events');
 const failureHandler = async function ({
   error,
   protocolHandler,
-  protocolStatus,
+  protocolstatus,
   specific,
   runOpts,
 }) {
@@ -16,7 +16,7 @@ const failureHandler = async function ({
   await reportError({ runOpts, error: errorA });
 
   // Make sure a response is sent, even empty, or the socket will hang
-  await protocolHandler.send({ specific, protocolStatus, contentLength: 0 });
+  await protocolHandler.send({ specific, protocolstatus, contentLength: 0 });
 };
 
 const reportError = function ({ runOpts, error }) {

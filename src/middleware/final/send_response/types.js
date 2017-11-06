@@ -22,7 +22,7 @@ const types = {
   error: {
     handler (opts) {
       // See RFC 7807
-      // Exception: `protocolStatus` is only present with HTTP protocol
+      // Exception: `protocolstatus` is only present with HTTP protocol
       const contentType = 'application/problem+json';
       return sendJson({ ...opts, contentType });
     },
@@ -73,7 +73,7 @@ const send = function ({
   specific,
   content,
   contentType,
-  protocolStatus,
+  protocolstatus,
 }) {
   const contentLength = Buffer.byteLength(content);
 
@@ -82,7 +82,7 @@ const send = function ({
     content,
     contentType,
     contentLength,
-    protocolStatus,
+    protocolstatus,
   });
 };
 

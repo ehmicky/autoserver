@@ -183,7 +183,7 @@ event payload, with the properties:
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
   - `method` `{string}` - protocol-agnostic method, e.g. `'find'`
-  - `protocolStatus` `{string}` - protocol-specific status, e.g. HTTP
+  - `protocolstatus` `{string}` - protocol-specific status, e.g. HTTP
     status code
   - `status` `{string}` - protocol-agnostic status, among `'INTERNALS'`,
     `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`

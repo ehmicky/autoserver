@@ -20,7 +20,7 @@ const getError = function ({
   title,
   description: message,
   details: stack,
-  protocol_status: status,
+  protocolstatus: status,
   ...extraContent
 }) {
   // Content following GraphQL spec

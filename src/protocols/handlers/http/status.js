@@ -1,17 +1,17 @@
 'use strict';
 
 // Retrieves HTTP status code
-const getProtocolStatus = function ({
+const getProtocolstatus = function ({
   error,
   error: { reason = 'UNKNOWN' } = {},
 }) {
-  if (!error) { return PROTOCOL_STATUSES_MAP.SUCCESS; }
+  if (!error) { return PROTOCOLSTATUSES_MAP.SUCCESS; }
 
-  return PROTOCOL_STATUSES_MAP[reason] || PROTOCOL_STATUSES_MAP.UNKNOWN_TYPE;
+  return PROTOCOLSTATUSES_MAP[reason] || PROTOCOLSTATUSES_MAP.UNKNOWN_TYPE;
 };
 
 // All error reasons and their related HTTP status code
-const PROTOCOL_STATUSES_MAP = {
+const PROTOCOLSTATUSES_MAP = {
   SUCCESS: 200,
 
   PAYLOAD_PARSE: 400,
@@ -53,11 +53,11 @@ const PROTOCOL_STATUSES_MAP = {
 };
 
 // Generic error status when none can be found
-const failureProtocolStatus = 500;
+const failureProtocolstatus = 500;
 
 // Retrieves generic status, using HTTP status code
-const getStatus = function ({ protocolStatus = '' }) {
-  const [statusCategory] = String(protocolStatus);
+const getStatus = function ({ protocolstatus = '' }) {
+  const [statusCategory] = String(protocolstatus);
   return STATUSES_MAP[statusCategory];
 };
 
@@ -70,7 +70,7 @@ const STATUSES_MAP = {
 };
 
 module.exports = {
-  getProtocolStatus,
+  getProtocolstatus,
   getStatus,
-  failureProtocolStatus,
+  failureProtocolstatus,
 };
