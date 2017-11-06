@@ -32,7 +32,7 @@ const fillError = function ({
     queryvars,
     operation,
     summary,
-    topArgs: args,
+    topargs: args,
     commandpath,
     modelname: model,
     command,

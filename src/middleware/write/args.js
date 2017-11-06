@@ -6,10 +6,10 @@ const { getCurrentData } = require('./current_data');
 const { removeDuplicates } = require('./duplicate');
 
 // Merge arguments and retrieve model ids
-const getArgs = function ({ actions, top, top: { args: topArgs } }) {
+const getArgs = function ({ actions, top, top: { args: topargs } }) {
   const { args, ids } = getCommandArgs({ actions, top });
 
-  const argsA = applyTopArgs({ args, topArgs });
+  const argsA = applyTopargs({ args, topargs });
 
   const currentData = getCurrentData({ actions, ids });
   const argsB = { ...argsA, currentData };
@@ -46,9 +46,9 @@ const handlers = {
 };
 
 // Reuse some whitelisted top-level arguments
-const applyTopArgs = function ({ args, topArgs }) {
-  const topArgsA = pick(topArgs, ['dryrun']);
-  return { ...topArgsA, ...args };
+const applyTopargs = function ({ args, topargs }) {
+  const topargsA = pick(topargs, ['dryrun']);
+  return { ...topargsA, ...args };
 };
 
 module.exports = {

@@ -4,7 +4,7 @@
 // (unless this is an error response).
 const setEmptyResponse = function ({
   content,
-  topArgs: { silent } = {},
+  topargs: { silent } = {},
   error,
   emptyResponse,
 }) {
