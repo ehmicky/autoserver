@@ -23,10 +23,10 @@ const cursorConflictTests = [
   },
 
   {
-    test ({ orderby, before: bef, after: aft }) {
-      return !(hasCursor({ bef, aft }) && orderby != null);
+    test ({ order, before: bef, after: aft }) {
+      return !(hasCursor({ bef, aft }) && order != null);
     },
-    message: 'cannot use both \'orderby\' and \'before\' or \'after\'',
+    message: 'cannot use both \'order\' and \'before\' or \'after\'',
   },
 ];
 

@@ -2,11 +2,11 @@
 
 const { stringTest } = require('../../../../fast_validation');
 
-// Validates args.orderby
-const orderbyTests = [
-  stringTest('orderby'),
+// Validates args.order
+const orderTests = [
+  stringTest('order'),
 ];
 
 module.exports = {
-  orderby: orderbyTests,
+  order: orderTests,
 };

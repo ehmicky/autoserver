@@ -3,7 +3,7 @@
 const { getQueryFilter } = require('./operators');
 const { limitResponse } = require('./limit');
 const { offsetResponse } = require('./offset');
-const { sortResponse } = require('./orderby');
+const { sortResponse } = require('./order');
 
 // Find models
 const find = function (input) {
@@ -17,19 +17,13 @@ const findOne = async function ({ collection, filterIds }) {
   return model == null ? [] : [model];
 };
 
-const findMany = function ({
-  collection,
-  filter,
-  offset,
-  limit,
-  orderby,
-}) {
+const findMany = function ({ collection, filter, offset, limit, order }) {
   const queryFilter = getQueryFilter(filter);
   const cursor = collection.find(queryFilter);
 
   const cursorA = limitResponse({ cursor, limit });
   const cursorB = offsetResponse({ cursor: cursorA, offset });
-  const cursorC = sortResponse({ cursor: cursorB, orderby });
+  const cursorC = sortResponse({ cursor: cursorB, order });
 
   return cursorC.toArray();
 };

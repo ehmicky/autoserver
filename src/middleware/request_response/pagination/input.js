@@ -37,13 +37,13 @@ const getTokensInput = function ({ info, info: { usedPagesize } }) {
 
 const getBackwardInput = function ({
   info: { isBackward },
-  tokenInput: { orderby },
+  tokenInput: { order },
 }) {
   if (!isBackward) { return {}; }
 
-  const orderbyA = orderby.map(({ attrName, order }) =>
-    ({ attrName, order: order === 'asc' ? 'desc' : 'asc' }));
-  return { orderby: orderbyA };
+  const orderA = order.map(({ attrName, dir }) =>
+    ({ attrName, dir: dir === 'asc' ? 'desc' : 'asc' }));
+  return { order: orderA };
 };
 
 const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
@@ -51,16 +51,16 @@ const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
 
   const tokenObj = decode({ token });
   const filter = getPaginatedFilter({ tokenObj, isBackward });
-  const { orderby } = tokenObj;
+  const { order } = tokenObj;
 
-  return { filter, orderby };
+  return { filter, order };
 };
 
 // Patches args.filter to allow for cursor pagination
 // E.g. if:
 //  - last paginated model was { b: 2, c: 3, d: 4 }
 //  - args.filter is { a: 1 }
-//  - args.orderby 'b,c-,d'
+//  - args.order 'b,c-,d'
 // Transform args.filter to
 //   [
 //      { a: 1, b: { _gt: 2 } },
@@ -70,35 +70,35 @@ const getTokenInput = function ({ info: { token, hasToken, isBackward } }) {
 // Using backward pagination would replace _gt to _lt and vice-versa.
 const getPaginatedFilter = function ({
   tokenObj,
-  tokenObj: { parts, orderby },
+  tokenObj: { parts, order },
   isBackward,
 }) {
   const partsObj = parts
-    .map((part, index) => ({ [orderby[index].attrName]: part }))
+    .map((part, index) => ({ [order[index].attrName]: part }))
     .reduce(assignObject, {});
 
-  const filter = orderby.map(({ attrName, order }, index) =>
-    getFilterPart({ tokenObj, isBackward, partsObj, attrName, order, index }));
+  const filter = order.map(({ attrName, dir }, index) =>
+    getFilterPart({ tokenObj, isBackward, partsObj, attrName, dir, index }));
   return filter.length === 1
     ? filter[0]
     : { type: '_and', value: filter };
 };
 
 const getFilterPart = function ({
-  tokenObj: { filter, orderby },
+  tokenObj: { filter, order },
   isBackward,
   partsObj,
   attrName,
-  order,
+  dir,
   index,
 }) {
-  const eqOrders = orderby
+  const eqOrders = order
     .slice(0, index)
     .map(({ attrName: eqAttrName }) => eqAttrName);
   const eqOrderVals = pick(partsObj, eqOrders);
 
-  const ascOrder = isBackward ? 'desc' : 'asc';
-  const matcher = order === ascOrder ? '_gt' : '_lt';
+  const ascDir = isBackward ? 'desc' : 'asc';
+  const matcher = dir === ascDir ? '_gt' : '_lt';
   const orderVal = { [attrName]: { [matcher]: partsObj[attrName] } };
 
   return { ...filter, ...eqOrderVals, ...orderVal };

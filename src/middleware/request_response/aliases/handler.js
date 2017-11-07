@@ -5,7 +5,7 @@ const { applyOutputAliases } = require('./output');
 
 // Rename attributes using schema property `alias`.
 // Aliases allow clients to use different possible names for the same attribute:
-//   - in input, i.e. `args.data`, `args.filter|id`, `args.orderby`
+//   - in input, i.e. `args.data`, `args.filter|id`, `args.order`
 //   - in output, i.e. response will include all aliases, each with identical
 //     value
 // The server is unaware of aliases, i.e. only the main attribute name:

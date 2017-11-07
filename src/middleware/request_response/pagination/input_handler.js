@@ -31,7 +31,7 @@ const { getPaginationInput } = require('./input');
 //                                 { a: 10, b: 20 }, then we transform
 //                                 args.filter { c: 30 } to
 //                                 { c: 30, a: { _gt: 10 }, b: { _gt: 20 } }
-//   orderby                    - same as `filter` but for `orderby`
+//   order                    - same as `filter` but for `order`
 // Add metadata: token, pagesize, has_previous_page, has_previous_page
 // Commands:
 //  - output is paginated with any command returning an array of response

@@ -7,7 +7,7 @@
     "optional": [
       "select",
       "filter",
-      "orderby",
+      "order",
       "pagesize",
       "page",
       "before",
