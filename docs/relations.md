@@ -22,7 +22,7 @@ Nested attributes are using the `id` attribute of the model they refer to.
 
 # Modifying nested models
 
-Clients can modify nested models by using a nested `data` argument, e.g.:
+Clients can modify nested models by using a nested [`data` argument](crud.md), e.g.:
 
 ```graphql
 mutation {
@@ -43,8 +43,9 @@ will create both the user and its manager.
 
 # Deleting nested models
 
-To delete nested models, specify them using the `cascade` argument,
-as a comma-separated list of nested models, e.g.:
+To delete nested models, specify them using the `cascade`
+[argument](operations.md#command-and-arguments), as a comma-separated list of
+nested models, e.g.:
 
 ```graphql
 mutation {
@@ -89,4 +90,5 @@ will respond with:
 ```
 
 For write commands, only models already present in either the `data` or
-`cascade` argument can be populated in output.
+`cascade` [argument](operations.md#command-and-arguments) can be populated in
+output.

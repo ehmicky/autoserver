@@ -7,7 +7,9 @@ full-featured [GraphQL](http://graphql.org/) server will start.
 
 # Features
 
-  - [GraphQL endpoint](docs/graphql.md#client-queries),
+  - [Multiple operations](docs/operations.md), including
+    [GraphQL](docs/graphql.md)
+  - [GraphQL debugging](docs/graphql.md),
     including introspection, interactive debugger and GraphQL schema printing
   - [Database agnostic](docs/databases.md), with support for several databases,
     including [MongoDB](docs/mongodb.md) and an
@@ -15,11 +17,11 @@ full-featured [GraphQL](http://graphql.org/) server will start.
     Multiple databases can even be mixed on the same API
   - [Multiple protocols](docs/protocols.md) handling, with support for
     [HTTP/1.1](docs/http.md) only at the moment
-  - [CRUD commands](docs/graphql.md#read-queries):
-    find, create, patch, upsert, delete.
+  - [CRUD commands](docs/crud.md): find, create, patch, upsert, delete.
     Each command can be performed on a single model or on several models.
   - [relations, nested commands](docs/relations.md)
-    and populating between models, including for mutations
+    and [populating](docs/selecting.md#populating) between models,
+    including for mutations
   - [filtering](docs/filtering.md)
   - [sorting](docs/sorting.md)
   - [selecting](docs/selecting.md)

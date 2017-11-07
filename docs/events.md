@@ -202,12 +202,13 @@ event payload, with the properties:
   - `payload` `{any}` - request payload
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array
-  - `operation` `{string}` - operation, among `'graphql'`, `'graphiql'` and
-    `'graphqlprint'`
+  - `operation` `{string}` - [operation](operations.md),
+    among `'graphql'`, `'graphiql'` and `'graphqlprint'`
   - `summary` `${string}` - summary of the operation, e.g.
     'find_model{find_child}'
-  - `args` `${object}` - [arguments](terminology.md#args)
-  - `args.datasize` `{number}` - size of `data` argument, in bytes
+  - `args` `${object}` - [arguments](operations.md#command-and-arguments)
+  - `args.datasize` `{number}` - size of `data`
+    [argument](operations.md#command-and-arguments), in bytes
   - `args.datacount` `{number}` - array length of `data` argument,
     if it is an array
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
@@ -255,8 +256,6 @@ Default values:
   - `query`, `headers`: `false`,
     i.e. this information is not included in event payloads.
   - `payload`, `data`, `response`: only keep `id`.
-  - when using GraphQL and specifying an `operationName`, this will also
-    be included in either `query` or `payload`
 
 # Performance monitoring
 

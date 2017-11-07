@@ -3,7 +3,7 @@
 Models are the equivalent of a database table or collection.
 
 Models keys are the name of the model.
-The name is used in routes, e.g. in GraphQL commands.
+The name is used in [commands](crud.md).
 It must only be lowercase ASCII letters, digits or underscore.
 It cannot start with one digit or two underscores.
 

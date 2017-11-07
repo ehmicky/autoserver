@@ -18,5 +18,3 @@ models:
         deprecation_reason: Please use the attribute new_name instead
         examples: [John, Mary]
 ```
-
-They will be used e.g. in GraphQL schema.
