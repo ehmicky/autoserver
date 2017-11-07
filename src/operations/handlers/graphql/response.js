@@ -3,12 +3,10 @@
 const { omit, omitBy } = require('../../../utilities');
 
 // Apply GraphQL-specific response transformation
-const transformResponse = function ({ type, content: { data } }) {
-  if (type !== 'error') {
-    return { data };
-  }
+const transformResponse = function ({ type, content, content: { error } }) {
+  if (type !== 'error') { return content; }
 
-  const errors = getError(data);
+  const errors = getError(error);
 
   // According to GraphQL spec, `data` should be `null` if `errors` is set
   return { data: null, errors };

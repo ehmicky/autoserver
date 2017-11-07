@@ -53,7 +53,7 @@ const getErrorResponse = function ({ error, mInput, response }) {
 
   const errorA = getStandardError({ error, mInput, isLimited: false });
 
-  return { type: 'error', content: { data: errorA } };
+  return { type: 'error', content: { error: errorA } };
 };
 
 const transformContent = function ({
