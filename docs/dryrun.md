@@ -5,7 +5,7 @@ database, but the response (including error responses)
 will be the same as if it did.
 
 Every command (except `find`) can perform a dry run by using the `dryrun`
-argument, e.g.:
+[argument](operations.md#command-and-arguments), e.g.:
 
 ```graphql
 mutation {

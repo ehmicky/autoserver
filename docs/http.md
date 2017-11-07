@@ -14,8 +14,9 @@ protocols:
 
 # Arguments
 
-In addition to the usual way of setting them, the following arguments can also
-be set using HTTP semantics:
+In addition to the
+[usual way of setting them](operations.md#command-and-arguments), the following
+arguments can also be set using HTTP semantics:
   - the [`silent` argument](silent.md) will be `true` if either:
     - the standard HTTP header `Prefer: return=minimal` is set
     - the HTTP method `HEAD` is used instead of `GET`
