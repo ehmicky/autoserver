@@ -33,8 +33,10 @@ const isJSON = function (val) {
 };
 
 const MODEL_TYPES = ['model', 'collection', 'error'];
+const ERROR_TYPES = ['error'];
 
 module.exports = {
   CONTENT_TYPES,
   MODEL_TYPES,
+  ERROR_TYPES,
 };

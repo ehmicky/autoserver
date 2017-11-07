@@ -1,7 +1,7 @@
 'use strict';
 
 const { getStandardError } = require('../../../error');
-const { MODEL_TYPES } = require('../../../constants');
+const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
 
 const { validateResponse } = require('./validate');
 const { types } = require('./types');
@@ -22,18 +22,12 @@ const sendResponse = async function ({
 
   validateResponse({ response: responseA });
 
-  const { type, content } = responseA;
+  const content = transformContent({ response: responseA, mInput, rpcHandler });
 
-  const contentA = transformContent({ content, type, rpcHandler });
-
+  const { type } = responseA;
   const { handler, emptyResponse } = types[type];
 
-  const contentB = setEmptyResponse({
-    content: contentA,
-    topargs,
-    error,
-    emptyResponse,
-  });
+  const contentB = setEmptyResponse({ content, topargs, error, emptyResponse });
 
   await handler({
     content: contentB,
@@ -57,15 +51,20 @@ const getErrorResponse = function ({ error, mInput, response }) {
 };
 
 const transformContent = function ({
-  content,
-  type,
-  rpcHandler: { transformResponse } = {},
+  response,
+  response: { type, content },
+  mInput,
+  rpcHandler: { transformError, transformSuccess } = {},
 }) {
-  const shouldTransform = transformResponse !== undefined &&
-    MODEL_TYPES.includes(type);
-  if (!shouldTransform) { return content; }
+  if (ERROR_TYPES.includes(type) && transformError) {
+    return transformError({ ...mInput, response });
+  }
 
-  return transformResponse({ content, type });
+  if (MODEL_TYPES.includes(type) && transformSuccess) {
+    return transformSuccess({ ...mInput, response });
+  }
+
+  return content;
 };
 
 module.exports = {
