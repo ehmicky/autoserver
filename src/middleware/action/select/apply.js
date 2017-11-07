@@ -1,6 +1,6 @@
 'use strict';
 
-const { get, set, assignObject, mapValues } = require('../../utilities');
+const { get, set, assignObject, mapValues } = require('../../../utilities');
 
 // Applies `args.select`.
 // Only output the fields that were picked by the client.
