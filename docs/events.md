@@ -127,12 +127,14 @@ Each event payload comes with a `serverinfo` property, with the properties:
 A `serverid` UUID, unique to each server run, is automatically created and
 available:
   - in [`serverinfo.serverid`](#server-information) payload property
-  - as a response header named `X-Apiengine-Serverid`
+  - as a response [header](protocols.md#headers-and-method)
+    named `X-Apiengine-Serverid`
 
 `servername` is the system hostname, but can be overriden using the
 [`run` option](run.md#options) `servername`. It is available:
   - in [`serverinfo.servername`](#server-information) payload property
-  - as a response header named `X-Apiengine-Servername`
+  - as a response [header](protocols.md#headers-and-method)
+    named `X-Apiengine-Servername`
   - in [console messages](#console)
 
 # Start information
@@ -142,7 +144,7 @@ Events of type `start` have two additional properties on the event payload:
     used by the server, after adding the default values.
   - `servers` `{object}`: list of running servers
     - `http` `{object}`: HTTP server information
-      - `protocol` `{string}`: always `'http'`
+      - [`protocol`](protocols.md) `{string}`: always `'http'`
       - `hostname` `{string}`
       - `port` `{string}`
   - `exit` `{function}`: performs a clean server shutdown
@@ -159,9 +161,9 @@ with the properties (following
   - `title` `{string}`: short generic description
   - `description` `{string}`: error message
   - `instance` `{string}`: URL that was called, if any
-  - `status` `{string}` - protocol-agnostic status, among `'INTERNALS'`,
-    `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`, usually one of the
-    two last ones.
+  - `status` `{string}` - [protocol](protocols.md)-agnostic status,
+    among `'INTERNALS'`, `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`,
+    usually one of the two last ones.
   - `details` `{string}`: stack trace
 
 The full `failure` event payload is also available as the rejected value of
@@ -172,27 +174,31 @@ the promise returned by [`apiServer.start()`](run.md#running-the-server).
 Events during the `request` phase have a `requestinfo` property on the
 event payload, with the properties:
   - `requestid` `{UUID}` - unique ID assigned to each request.
-    Also available as `X-Apiengine-Requestid` response header.
+    Also available as `X-Apiengine-Requestid` response
+    [header](protocols.md#headers-and-method).
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
   - `responsetime` `{number}` - time it took to handle the request,
     in milliseconds. Only defined if the request was successful.
   - `ip` `{string}`
-  - `protocol` `{string}` - e.g. `'http'`
+  - [`protocol`](protocols.md) `{string}` - e.g. `'http'`
   - `url` `{string}` - full URL
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
-  - `method` `{string}` - protocol-agnostic method, e.g. `'find'`
-  - `protocolstatus` `{string}` - protocol-specific status, e.g. HTTP
-    status code
-  - `status` `{string}` - protocol-agnostic status, among `'INTERNALS'`,
-    `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
+  - `method` `{string}` - [protocol](protocols.md)-agnostic method,
+    e.g. `'find'`
+  - `protocolstatus` `{string}` - [protocol](protocols.md)-specific status,
+    e.g. HTTP status code
+  - `status` `{string}` - [protocol](protocols.md)-agnostic status,
+    among `'INTERNALS'`, `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathvars` `{object}` - URL variables, as a hash table
   - `queryvars` `{object}` - query variables, as a hash table
-  - `requestheaders` `{object}` - protocol request headers (e.g. HTTP headers),
-     as a hash table
-  - `responseheaders` `{object}` - protocol request headers (e.g. HTTP
-     headers), as a hash table
+  - `requestheaders` `{object}` - [protocol](protocols.md) request
+    [headers](protocols.md#headers-and-method) (e.g. HTTP headers), as a hash
+    table
+  - `responseheaders` `{object}` - [protocol](protocols.md) request
+    [headers](protocols.md#headers-and-method) (e.g. HTTP headers), as a hash
+    table
   - `payload` `{any}` - request payload
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array

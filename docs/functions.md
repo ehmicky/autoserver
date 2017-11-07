@@ -62,7 +62,7 @@ parenthesis.
 
 The following system variables are always passed to schema functions as their
 first argument, as an object:
-  - `$protocol` `{string}`: possible values are only `http`
+  - [`$protocol`](protocols.md) `{string}`: possible values are only `http`
   - `$timestamp` `{string}`: current date and time
   - `$ip` `{string}`: request IP
   - `$requestid` `{string}`: UUID identifying the current request
