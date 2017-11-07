@@ -1,16 +1,19 @@
 'use strict';
 
-const { groupValuesBy, omit } = require('../../utilities');
-const { throwError } = require('../../error');
+const { groupValuesBy, omit, uniq } = require('../../../utilities');
+const { throwError } = require('../../../error');
+const { getModel } = require('../get_model');
+const { addActions } = require('../add_actions');
 
-const { getModel } = require('./get_model');
-const { addActions } = require('./add_actions');
+const { validateSelectPart, validateSelect } = require('./validate');
+const { addParentSelects } = require('./parent');
 
 // Turn `args.select` into a set of `actions`
 const parseSelect = function ({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
-    filter: ({ select }) => select !== undefined,
+    filter: ({ select, commandpath }) =>
+      select !== undefined || commandpath.length <= 1,
     mapper: getSelectAction,
     ...rest,
   });
@@ -21,15 +24,17 @@ const parseSelect = function ({ actions, ...rest }) {
 };
 
 const getSelectAction = function ({
-  action: { args: { select } },
+  action: { args: { select = '' } },
   top,
   schema,
 }) {
-  const selects = select
-    .split(',')
+  const selects = select.split(',');
+  const selectsA = uniq(selects);
+  const selectsB = selectsA
     .map(selectA => parseSelectPart({ top, select: selectA }));
-  const selectsA = groupValuesBy(selects, 'commandpath');
-  const actions = selectsA
+  const selectsC = addParentSelects({ selects: selectsB });
+  const selectsD = groupValuesBy(selectsC, 'commandpath');
+  const actions = selectsD
     .map(selectA => getAction({ select: selectA, top, schema }));
   return actions;
 };
@@ -37,12 +42,16 @@ const getSelectAction = function ({
 // Turns `args.select` 'aaa.bbb.ccc=ddd' into:
 // `commandpath` 'aaa.bbb', `key` 'ccc', `alias` 'ddd']
 const parseSelectPart = function ({ top, select }) {
-  const selectA = [...top.commandpath, select].join('.');
-  const [, commandpath, key, alias] = SELECT_REGEXP.exec(selectA);
+  const selectA = select.trim() === '' ? 'all' : select;
+  const selectB = [...top.commandpath, selectA].join('.');
+  const [, commandpath, key, , alias] = SELECT_REGEXP.exec(selectB) || [];
+
+  validateSelectPart({ select, commandpath, key });
+
   return { commandpath, key, alias };
 };
 
-const SELECT_REGEXP = /^([^=]*)\.([^.=]+)=?(.*)?$/;
+const SELECT_REGEXP = /^([^=]*)\.([^.=]+)(=(.+))?$/;
 
 // From `args` + map of `COMMANDPATH: [{ commandpath, key, alias }]`
 // to array of `{ commandpath, args, select: [{ key, alias }], modelname }`
@@ -68,27 +77,6 @@ const getModelname = function ({
   if (model !== undefined) { return model.modelname; }
 
   const message = `In argument 'select', attribute '${commandpath.join('.')}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const validateSelect = function ({ actions, top: { command } }) {
-  if (command.type === 'find') { return; }
-
-  actions.forEach(action => validateAction({ action, command }));
-};
-
-// Write actions can only select attributes that are part of the write action
-// itself, i.e. in `args.data|cascade`.
-// Otherwise, this would require performing extra find actions.
-const validateAction = function ({
-  action: { isWrite, commandpath },
-  command,
-}) {
-  if (isWrite || commandpath.length <= 1) { return; }
-
-  const path = commandpath.slice(1).join('.');
-  const argName = command.type === 'delete' ? 'cascade' : 'data';
-  const message = `Can only 'select' attribute '${path}' if it is specified in '${argName}' argument`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 

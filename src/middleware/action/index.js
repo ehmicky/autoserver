@@ -8,7 +8,7 @@ module.exports = {
   ...require('./data_arg'),
   ...require('./cascade'),
   ...require('./order'),
-  ...require('./parse_select'),
+  ...require('./select'),
   ...require('./unknown_attrs'),
   ...require('./stable_ids'),
   ...require('./summary'),
@@ -22,7 +22,6 @@ module.exports = {
   ...require('./remove_nested_write'),
   ...require('./modelscount'),
   ...require('./assemble'),
-  ...require('./apply_select'),
   ...require('./parse_response'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./validation_out'),
