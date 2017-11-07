@@ -1,21 +1,21 @@
 # Sorting
 
-One can sort the output of `find` commands, using `orderby`, e.g.:
+One can sort the output of `find` commands, using `order`, e.g.:
 
 ```graphql
-find_users(orderby: "name")
+find_users(order: "name")
 ```
 
-`orderby` defaults to `"id"`.
+`order` defaults to `"id"`.
 
 To sort in the opposite order, use `-`, e.g.:
 
 ```graphql
-find_users(orderby: "name-")
+find_users(order: "name-")
 ```
 
 To sort according to several attributes, separate them with a comma, e.g.:
 
 ```graphql
-find_users(orderby: "first_name,last_name")
+find_users(order: "first_name,last_name")
 ```

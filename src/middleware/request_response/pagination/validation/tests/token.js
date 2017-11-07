@@ -13,20 +13,20 @@ const getTokenTest = name => [
   {
     test: [
       ({ [name]: token }) => token.constructor === Object,
-      ({ [name]: token }) => ['orderby', 'filter', 'parts']
+      ({ [name]: token }) => ['order', 'filter', 'parts']
         .some(key => token[key] && typeof token[key] === 'object'),
       ({ [name]: { parts } }) => Array.isArray(parts) && parts.length > 0,
-      ({ [name]: { orderby } }) => Array.isArray(orderby) && orderby.length > 0,
+      ({ [name]: { order } }) => Array.isArray(order) && order.length > 0,
     ],
     message: `'${name}' argument contains an invalid token`,
   },
 
   {
-    input: ({ [name]: { orderby } }) => orderby,
+    input: ({ [name]: { order } }) => order,
     test: [
-      sOrderby => sOrderby && sOrderby.constructor === Object,
-      sOrderby => typeof sOrderby.attrName === 'string',
-      sOrderby => ['asc', 'desc'].includes(sOrderby.order),
+      sOrder => sOrder && sOrder.constructor === Object,
+      sOrder => typeof sOrder.attrName === 'string',
+      sOrder => ['asc', 'desc'].includes(sOrder.dir),
     ],
     message: `'${name}' argument contains an invalid token`,
   },

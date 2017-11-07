@@ -1,7 +1,7 @@
 'use strict';
 
 const { applyDataAliases } = require('./data');
-const { applyOrderbyAliases } = require('./orderby');
+const { applyOrderAliases } = require('./order');
 const { applyTokenAliases } = require('./token');
 
 // Apply `alias` in server input
@@ -38,11 +38,11 @@ const getNewData = function ({
   return { ...args, newData: newDataA };
 };
 
-const getOrderby = function ({ args, args: { orderby }, attrName, aliases }) {
-  if (!orderby) { return args; }
+const getOrder = function ({ args, args: { order }, attrName, aliases }) {
+  if (!order) { return args; }
 
-  const orderbyA = applyOrderbyAliases({ orderby, attrName, aliases });
-  return { ...args, orderby: orderbyA };
+  const orderA = applyOrderAliases({ order, attrName, aliases });
+  return { ...args, order: orderA };
 };
 
 const getTokens = function ({ args, attrName, aliases }) {
@@ -65,7 +65,7 @@ const getToken = function ({ args, direction, attrName, aliases }) {
 
 const modifiers = [
   getNewData,
-  getOrderby,
+  getOrder,
   getTokens,
 ];
 
