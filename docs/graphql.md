@@ -163,6 +163,18 @@ It can be used by the following commands: `create`, `upsert` and `patch`.
 The `data` argument for the `patch` command is a bit different, as it is never
 an array.
 
+# Arguments in protocol headers
+
+In addition to being specified in the GraphQL payload, arguments can also be
+specified in any [protocol](protocols.md) header (e.g. HTTP headers) prefixed
+with `X-Apiengine-`.
+
+For example, instead of specifying the `{ params: { key: "secret_password" } }`
+argument in the GraphQL payload, the following header can be used:
+`X-Apiengine-Params-Key: secret_password`.
+
+The header value can either be an unquoted string or any JSON value.
+
 # Summary of commands
 
 ```graphql
