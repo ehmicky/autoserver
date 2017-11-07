@@ -44,7 +44,7 @@ will create both the user and its manager.
 # Deleting nested models
 
 To delete nested models, specify them using the `cascade`
-[argument](operations.md#command-and-arguments), as a comma-separated list of
+[argument](rpc.md#command-and-arguments), as a comma-separated list of
 nested models, e.g.:
 
 ```graphql
@@ -90,5 +90,5 @@ will respond with:
 ```
 
 For write commands, only models already present in either the `data` or
-`cascade` [argument](operations.md#command-and-arguments) can be populated in
+`cascade` [argument](rpc.md#command-and-arguments) can be populated in
 output.

@@ -35,7 +35,7 @@ const ERROR_REASONS = {
     title: 'Model not found',
   },
 
-  // Method is not supported, or most likely not allowed for this operation
+  // Method is not supported, or most likely not allowed for this rpc
   // Or tried to use a protocol method that is not supported, e.g. TRACE
   WRONG_METHOD: {},
 

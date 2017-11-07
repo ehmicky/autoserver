@@ -6,7 +6,7 @@ When requesting a silent output:
   - if there is any error, the error will still be present in the response
 
 Silent outputs can be requested using the `silent`
-[argument](operations.md#command-and-arguments) with any command,
+[argument](rpc.md#command-and-arguments) with any command,
 e.g.:
 
 ```graphql

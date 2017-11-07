@@ -4,7 +4,7 @@
 const final = require('./final');
 const time = require('./time');
 const protocol = require('./protocol');
-const operation = require('./operation');
+const rpc = require('./rpc');
 const action = require('./action');
 const read = require('./read');
 const write = require('./write');
@@ -50,7 +50,7 @@ const middlewareLayers = [
       protocol.getIp,
       // Parse URL and path into protocol-agnostic format
       protocol.parseUrl,
-      // Retrieves mInput.operation, using mInput.path
+      // Retrieves mInput.rpc, using mInput.path
       protocol.router,
       // Parse protocol method into protocol-agnostic format
       protocol.parseMethod,
@@ -63,29 +63,29 @@ const middlewareLayers = [
       // Parse protocol-specific arguments
       protocol.parseProtocolArgs,
 
-      // Fires operation layer
-      protocol.fireOperation,
+      // Fires rpc layer
+      protocol.fireRpc,
     ],
   },
 
   {
-    name: 'operation',
+    name: 'rpc',
     layers: [
-      // Check if protocol method is allowed for current operation
-      operation.methodCheck,
-      // Use operation-specific logic to parse the request into an
-      // operation-agnostic `operationDef`
-      operation.parseOperation,
+      // Check if protocol method is allowed for current rpc
+      rpc.methodCheck,
+      // Use rpc-specific logic to parse the request into an
+      // rpc-agnostic `rpcDef`
+      rpc.parseRpc,
 
       // Fire action layer
-      operation.fireActions,
+      rpc.fireActions,
     ],
   },
 
   {
     name: 'action',
     layers: [
-      // Parse a `operationDef` into a top-level action
+      // Parse a `rpcDef` into a top-level action
       action.parseTopAction,
       // Validate client-supplied args
       action.validateArgs,
@@ -133,7 +133,7 @@ const middlewareLayers = [
       action.applySelect,
       // Add content type, and remove top-level key
       action.parseResponse,
-      // Operation-related output validation middleware
+      // Middleware for rpc-related output validation
       action.actionValidationOut,
     ],
   },
@@ -188,7 +188,7 @@ const middlewareLayers = [
       // Add database-specific id names
       database.renameIdsInput,
 
-      // Do the database action, protocol and operation-agnostic
+      // Do the database action, protocol and rpc-agnostic
       database.databaseExecute,
 
       // Remove database-specific id names

@@ -131,7 +131,7 @@ variables:
     my_other_math_func({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
   recursive_func: (example_function())
   more_recursive_func: (recursive_func() + constants.TestConstant +
-    string.titleize($operation))
+    string.titleize($rpc))
   my_other_math_func:
     $ref: math_func.js
   birth_date: 2005-01-01

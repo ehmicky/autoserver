@@ -11,7 +11,7 @@ const { getLimits } = require('../../limits');
 // object.
 // Automatic transtyping is performed
 // Meant to be used to create (in coming middleware) `mInput.args`
-// but can also be used by operation layer as is.
+// but can also be used by rpc layer as is.
 const parseQueryString = function ({ specific, protocolHandler, runOpts }) {
   const queryString = getQueryString({ specific, protocolHandler });
   const { maxQueryStringDepth, maxQueryStringLength } = getLimits({ runOpts });

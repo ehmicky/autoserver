@@ -1,7 +1,7 @@
 'use strict';
 
 const { protocolHandlers } = require('../../protocols');
-const { operationHandlers } = require('../../operations');
+const { rpcHandlers } = require('../../rpc');
 const { COMMAND_TYPES } = require('../../constants');
 
 // Retrieve system variables, user variables and call-specific variables
@@ -11,7 +11,7 @@ const getVars = function (
     timestamp: $timestamp,
     ip: $ip,
     requestid: $requestid,
-    operation: $operation,
+    rpc: $rpc,
     modelname: $modelname,
     top: { command: { type: $command } = {} } = {},
     topargs: $args,
@@ -31,7 +31,7 @@ const getVars = function (
     $timestamp,
     $ip,
     $requestid,
-    $operation,
+    $rpc,
     $modelname,
     $args,
     $command,
@@ -56,7 +56,7 @@ const getModelVars = function ({ model, previousmodel, attrName }) {
 };
 
 const protocols = Object.keys(protocolHandlers);
-const operations = Object.keys(operationHandlers);
+const rpcs = Object.keys(rpcHandlers);
 
 // System variables that are always present
 // We need to specify their `type` and `isArray` for `model.authorize`
@@ -66,7 +66,7 @@ const SYSTEM_VARS = {
   $timestamp: { type: 'string' },
   $ip: { type: 'string' },
   $requestid: { type: 'string' },
-  $operation: { type: 'string', validation: { enum: operations } },
+  $rpc: { type: 'string', validation: { enum: rpcs } },
   $modelname: { type: 'string' },
   $command: {
     type: 'string',

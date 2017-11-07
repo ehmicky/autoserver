@@ -1,6 +1,6 @@
 'use strict';
 
-const { operationHandlers } = require('../../../operations');
+const { rpcHandlers } = require('../../../rpc');
 
 const { findRoute } = require('./routes');
 const { getPathvars } = require('./pathvars');
@@ -8,12 +8,12 @@ const { getPathvars } = require('./pathvars');
 // Add route and URL parameters to mInput
 const router = function ({ path }) {
   const route = findRoute({ path });
-  const { operation } = route;
-  const operationHandler = operationHandlers[operation];
+  const { rpc } = route;
+  const rpcHandler = rpcHandlers[rpc];
 
   const pathvars = getPathvars({ path, route });
 
-  return { operation, operationHandler, pathvars };
+  return { rpc, rpcHandler, pathvars };
 };
 
 module.exports = {

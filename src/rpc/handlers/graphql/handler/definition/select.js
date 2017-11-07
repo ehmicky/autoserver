@@ -5,7 +5,7 @@ const { assignArray } = require('../../../../../utilities');
 
 const { applyDirectives } = require('./directive');
 
-// Retrieve `operationDef.args.select` using GraphQL selection sets
+// Retrieve `rpcDef.args.select` using GraphQL selection sets
 const parseSelects = function (input) {
   const select = parseSelectionSet(input);
   return select.join(',');

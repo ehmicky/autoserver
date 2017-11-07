@@ -10,16 +10,16 @@ const { getLimits } = require('../../limits');
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
-// Meant to be used by operation layer, e.g. to populate `mInput.args`
+// Meant to be used by rpc layer, e.g. to populate `mInput.args`
 const parsePayload = function ({
   specific,
   protocolHandler,
-  operationHandler,
+  rpcHandler,
   runOpts,
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
-  const type = getPayloadType({ specific, protocolHandler, operationHandler });
+  const type = getPayloadType({ specific, protocolHandler, rpcHandler });
 
   validatePayloadLength({ specific, protocolHandler });
 
@@ -38,14 +38,14 @@ const parsePayload = function ({
 const getPayloadType = function ({
   specific,
   protocolHandler,
-  operationHandler: { payload: operationPayload = {} },
+  rpcHandler: { payload: rpcPayload = {} },
 }) {
   const contentType = getContentType({ specific, protocolHandler });
 
   // Check the content-type header against hard-coded MIME types
   const payloadTypeA = PAYLOAD_TYPES.find(payloadType => payloadTypeMatches({
     payloadType,
-    operationPayload,
+    rpcPayload,
     contentType,
   }));
 
@@ -71,12 +71,12 @@ const getContentType = function ({ specific, protocolHandler }) {
 
 const payloadTypeMatches = function ({
   payloadType: { type, mime },
-  operationPayload,
+  rpcPayload,
   contentType,
 }) {
-  // Check also for operation-specific MIME types
-  const operationTypes = operationPayload[type] || [];
-  const mimeA = [...mime, ...operationTypes];
+  // Check also for rpc-specific MIME types
+  const rpcTypes = rpcPayload[type] || [];
+  const mimeA = [...mime, ...rpcTypes];
 
   return isType(contentType, mimeA);
 };
