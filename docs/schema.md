@@ -47,7 +47,7 @@ variables:
 # Example
 
 ```yml
-engine: apiengine 1.0.0
+engine: 0
 models:
   company:
     description: This is a company
@@ -71,8 +71,7 @@ This file describes two models:
 # Properties
 
 The schema can contain the following properties:
-  - `engine` `{string}` (required) - file format version.
-    Must equal `apiengine 1.0.0`
+  - `engine` `{string}` (required) - file format version. Must equal `0`
   - `models` `{object}` (required) - list of [models](models.md#models)
     - `MODEL` `{object}` - MODEL is the name
       - `attributes` `{object}` - list of the model's
