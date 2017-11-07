@@ -35,7 +35,7 @@ const handleIntrospection = async function ({
     });
   }
 
-  return { response: { content, type: 'model' } };
+  return { response: { content, type: 'model' }, summary: 'introspection' };
 };
 
 const getIntrospectionResp = function ({
