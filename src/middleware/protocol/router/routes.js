@@ -4,19 +4,19 @@ const { parse, tokensToRegExp } = require('path-to-regexp');
 
 const { assignArray } = require('../../../utilities');
 const { throwError } = require('../../../error');
-const { operationHandlers } = require('../../../operations');
+const { rpcHandlers } = require('../../../rpc');
 
-// Retrieve all routes regexps, operations and variable names
+// Retrieve all routes regexps, rpc and variable names
 const getAllRoutes = function () {
-  return Object.values(operationHandlers)
+  return Object.values(rpcHandlers)
     .map(getRoutes)
     .reduce(assignArray, []);
 };
 
-const getRoutes = function ({ routes, name: operation }) {
+const getRoutes = function ({ routes, name: rpc }) {
   return routes
     .map(parseRoute)
-    .map(route => ({ ...route, operation }));
+    .map(route => ({ ...route, rpc }));
 };
 
 // Parse `/path/:var/path2/:var2` into

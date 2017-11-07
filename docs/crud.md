@@ -1,6 +1,6 @@
-# Operation specifics
+# RPC system specifics
 
-Since each [operation](operations.md#command-and-arguments) has its own way
+Since each [RPC system](rpc.md#command-and-arguments) has its own way
 of setting the command and arguments, we will use GraphQL in the following
 examples.
 
@@ -59,7 +59,7 @@ will respond with:
 
 The `create` command creates new models.
 
-The `data` [argument](operations.md#command-and-arguments) is a single object
+The `data` [argument](rpc.md#command-and-arguments) is a single object
 when modifying a single model, and an array of objects otherwise.
 
 `id` attributes are optional and default to a unique ID.
@@ -111,7 +111,7 @@ will respond with:
 The `upsert` command performs a full modification of existing models.
 If the models do not exist, they are created instead.
 
-The `data` [argument](operations.md#command-and-arguments) is a single object
+The `data` [argument](rpc.md#command-and-arguments) is a single object
 when modifying a single model, and an array of objects otherwise.
 Each model must contain an `id` attribute.
 
@@ -161,7 +161,7 @@ will respond with:
 
 The `patch` command performs a partial modification of existing models.
 
-The `data` [argument](operations.md#command-and-arguments) is always a single
+The `data` [argument](rpc.md#command-and-arguments) is always a single
 object. It specifies the new values to update.
 It cannot contain any `id` attribute.
 

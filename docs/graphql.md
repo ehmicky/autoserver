@@ -1,5 +1,7 @@
 # Endpoint
 
+GraphQL is one of the available [RPC systems](rpc.md).
+
 Clients can query the GraphQL server at `//hostname:port/graphql`.
 
 # Debugging
@@ -13,10 +15,10 @@ Clients can also see the GraphQL schema as HTML at
 
 # Command and arguments
 
-The [command](operations.md#command-and-arguments) is specified using the
+The [command](rpc.md#command-and-arguments) is specified using the
 top-level GraphQL method name, e.g. `find_user` or `create_users`.
 
-The [arguments](operations.md#command-and-arguments) are specified using the
+The [arguments](rpc.md#command-and-arguments) are specified using the
 top-level GraphQL arguments.
 
 For example:
@@ -32,7 +34,7 @@ For example:
 ```
 
 uses the command `find_user` and the
-[argument](operations.md#command-and-arguments) `id`.
+[argument](rpc.md#command-and-arguments) `id`.
 
 # Selection
 
@@ -82,7 +84,7 @@ For example:
         "content-length": "481"
       },
       "queryvars": {},
-      "operation": "graphql",
+      "rpc": "graphql",
       "summary": "find_user",
       "args": {
         "id": "20",

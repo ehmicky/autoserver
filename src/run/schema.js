@@ -5,7 +5,7 @@ const { compileSchemaFuncs, getUserVars } = require('../schema_func');
 const {
   loadSchema,
   compileJsonSchema,
-  operationsStartServer,
+  rpcStartServer,
 } = require('../schema');
 
 // Parse schema
@@ -23,7 +23,7 @@ const processors = [
   compileSchemaFuncs,
   getUserVars,
   compileJsonSchema,
-  operationsStartServer,
+  rpcStartServer,
 ];
 
 module.exports = {

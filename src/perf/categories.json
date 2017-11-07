@@ -9,7 +9,7 @@
   "middleware",
   "time",
   "protocol",
-  "operation",
+  "rpc",
   "action",
   "read",
   "write",

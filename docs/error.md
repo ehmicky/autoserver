@@ -25,7 +25,7 @@ The following properties may also appear, depending on when the error happened:
   - `method` `{string}`
   - [`requestheaders`](protocols.md#headers-and-method) `{object}`
   - `queryvars` `{object}`
-  - [`operation`](operations.md) `{string}`
+  - [`rpc`](rpc.md) `{string}`
   - `summary` `{string}`
   - `args` `{object}`
   - `commandpath` `{string}`
@@ -56,7 +56,7 @@ For example:
       "content-length": "481"
     },
     "queryvars": {},
-    "operation": "rest",
+    "rpc": "rest",
     "summary": "find_user",
     "args": {
       "id": "20",

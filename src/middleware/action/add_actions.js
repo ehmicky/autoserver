@@ -2,7 +2,7 @@
 
 const { isEqual, assignArray } = require('../../utilities');
 
-// Add new actions to the current operation
+// Add new actions to the current request
 const addActions = function ({ actions, filter, mapper, ...rest }) {
   const newActions = getNewActions({ actions, filter, mapper, ...rest });
   const actionsA = mergeActions({ actions, newActions });

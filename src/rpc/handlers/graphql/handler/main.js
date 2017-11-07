@@ -4,14 +4,13 @@ const { getGraphqlDocument } = require('./document');
 const { getMainDef } = require('./main_def');
 const { validateMainDef } = require('./validate');
 const { getFragments } = require('./fragments');
-const { parseOperationDef } = require('./definition');
+const { parseRpcDef } = require('./definition');
 const {
   isIntrospectionQuery,
   handleIntrospection,
 } = require('./introspection');
 
-// Use GraphQL-specific logic to parse the request into an
-// operation-agnostic `operationDef`
+// Use GraphQL-specific logic to parse the request into an rpc-agnostic `rpcDef`
 const handler = function ({
   schema: { graphqlSchema },
   queryvars,
@@ -27,11 +26,11 @@ const handler = function ({
   validateMainDef({ mainDef, operationName, method });
   const fragments = getFragments({ queryDocument });
 
-  const operationDef = parseOperationDef({ mainDef, variables, fragments });
+  const rpcDef = parseRpcDef({ mainDef, variables, fragments });
 
   // Introspection GraphQL query do not need to query the database,
   // and return right away
-  if (isIntrospectionQuery({ operationDef })) {
+  if (isIntrospectionQuery({ rpcDef })) {
     return handleIntrospection({
       graphqlSchema,
       queryDocument,
@@ -40,7 +39,7 @@ const handler = function ({
     });
   }
 
-  return { operationDef };
+  return { rpcDef };
 };
 
 module.exports = {

@@ -6,8 +6,8 @@ const { parseArgs } = require('./args');
 const { applyDirectives } = require('./directive');
 const { parseSelects } = require('./select');
 
-// Transform GraphQL AST into operation-agnostic `operationDef`
-const parseOperationDef = function ({ mainDef, variables, fragments }) {
+// Transform GraphQL AST into rpc-agnostic `rpcDef`
+const parseRpcDef = function ({ mainDef, variables, fragments }) {
   const mainSelection = getMainSelection({ mainDef, variables });
 
   const { name: { value: commandName } } = mainSelection;
@@ -43,5 +43,5 @@ const getArgs = function ({
 };
 
 module.exports = {
-  parseOperationDef,
+  parseRpcDef,
 };

@@ -41,7 +41,7 @@ const NO_CONSOLE_TYPES = ['perf'];
 const LEVELS = [
   // Debugging information
   'info',
-  // Main level, used also for successful operations
+  // Main level, used also for successful requests
   'log',
   // Something wrong happened but might not be a problem
   'warn',

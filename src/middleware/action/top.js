@@ -6,10 +6,10 @@ const { deepMerge } = require('../../utilities');
 const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 
-// Parse a `operationDef` into a top-level action, i.e.:
+// Parse a `rpcDef` into a top-level action, i.e.:
 // `modelname`, `commandpath`, `args`
 const parseTopAction = function ({
-  operationDef: { commandName, args },
+  rpcDef: { commandName, args },
   schema: { shortcuts: { modelsMap } },
   topargs,
 }) {

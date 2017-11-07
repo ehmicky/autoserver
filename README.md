@@ -7,7 +7,7 @@ full-featured [GraphQL](http://graphql.org/) server will start.
 
 # Features
 
-  - [Multiple operations](docs/operations.md), including
+  - [Multiple RPC systems](docs/rpc.md), including
     [GraphQL](docs/graphql.md)
   - [GraphQL debugging](docs/graphql.md),
     including introspection, interactive debugger and GraphQL schema printing

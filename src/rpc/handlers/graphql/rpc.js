@@ -8,7 +8,7 @@ const { transformResponse } = require('./response');
 const { compileSchema } = require('./compile');
 const { startServer } = require('./startup');
 
-const operation = {
+const rpc = {
   name: 'graphql',
   title: 'GraphQL',
   routes,
@@ -20,4 +20,4 @@ const operation = {
   startServer,
 };
 
-module.exports = operation;
+module.exports = rpc;

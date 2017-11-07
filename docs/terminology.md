@@ -51,7 +51,7 @@ Protocol-specific status, e.g. HTTP status code
 
 Protocol-agnostic status, e.g. `SUCCESS` or `SERVER_ERROR`
 
-## Operation
+## RPC system
 
 Main semantics of the request, e.g. "GraphQL query", "GraphiQL debugging" or
 "GraphQL schema printing"

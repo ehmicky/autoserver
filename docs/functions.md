@@ -67,10 +67,10 @@ first argument, as an object:
   - `$ip` `{string}`: request IP
   - `$requestid` `{string}`: UUID identifying the current request
   - `$params` `{object}`: all [client parameters](#client-parameters)
-  - [`$operation`](operations.md) `{string}`: possible values are `graphql`,
+  - [`$rpc`](rpc.md) `{string}`: possible values are `graphql`,
     `graphiql`, `graphqlprint`
   - `$modelname` `{string}`: name of the [model](models.md), e.g. `user`
-  - `$args` `{object}`: client [arguments](operations.md#command-and-arguments)
+  - `$args` `{object}`: client [arguments](rpc.md#command-and-arguments)
     passed to the request, e.g. `filter`
   - `$command` `{string}`: current command, among `create`, `find`, `upsert`,
     `patch` or `delete`
@@ -161,7 +161,7 @@ variables:
 
 Clients can specify their own
 [schema function variables](#schema-functions-variables) on any specific
-request, using the [argument](operations.md#command-and-arguments) `params`
+request, using the [argument](rpc.md#command-and-arguments) `params`
 with an object value, e.g.:
 
 ```graphql

@@ -4,14 +4,14 @@ One can specify which models to target using an `id` or a `filter`,
 for the commands `find`, `delete` and `patch`.
 
 If the command is singular, the `id`
-[argument](operations.md#command-and-arguments) should be used, e.g.:
+[argument](rpc.md#command-and-arguments) should be used, e.g.:
 
 ```graphql
 find_user(id: "1")
 ```
 
 If the command is plural, the `filter`
-[argument](operations.md#command-and-arguments) should be used, e.g.:
+[argument](rpc.md#command-and-arguments) should be used, e.g.:
 
 ```graphql
 find_users(filter: {country: "Denmark"})

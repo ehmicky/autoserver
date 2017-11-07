@@ -14,7 +14,7 @@ const sendResponse = async function ({
   specific,
   protocolHandler,
   protocolstatus,
-  operationHandler,
+  rpcHandler,
   topargs,
   mInput,
 }) {
@@ -24,7 +24,7 @@ const sendResponse = async function ({
 
   const { type, content } = responseA;
 
-  const contentA = transformContent({ content, type, operationHandler });
+  const contentA = transformContent({ content, type, rpcHandler });
 
   const { handler, emptyResponse } = types[type];
 
@@ -59,7 +59,7 @@ const getErrorResponse = function ({ error, mInput, response }) {
 const transformContent = function ({
   content,
   type,
-  operationHandler: { transformResponse } = {},
+  rpcHandler: { transformResponse } = {},
 }) {
   const shouldTransform = transformResponse !== undefined &&
     MODEL_TYPES.includes(type);

@@ -30,9 +30,9 @@ const isStatic = function (def) {
 };
 
 // TODO: if requiring /src/schema_funcs, there is a circular dependencies,
-// because getVars() in schemaFuncs needs to require /src/operations,
-// to validate $operation is a possible operation.
-// This should be fixed once separating operations into different repositories.
+// because getVars() in schemaFuncs needs to require /src/rpc,
+// to validate $rpc is a possible rpc.
+// This should be fixed once separating rpcs into different repositories.
 const isInlineFunc = function ({ inlineFunc }) {
   return typeof inlineFunc === 'string' &&
     inlineFunc.startsWith('(') &&

@@ -13,5 +13,5 @@ module.exports = {
   ...require('./protocol_args'),
 
   // eslint-disable-next-line import/max-dependencies
-  ...require('./operation'),
+  ...require('./rpc'),
 };

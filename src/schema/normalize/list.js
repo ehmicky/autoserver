@@ -1,6 +1,6 @@
 'use strict';
 
-const { operationsSchema } = require('../operations');
+const { rpcSchema } = require('../rpc');
 
 const { applyPlugins } = require('./plugins');
 const { applyModelsDefault } = require('./model_default');
@@ -90,8 +90,8 @@ const normalizers = [
   // Validates that `attr.validate` are valid JSON schema
   { type: 'schema', func: validateJsonSchema },
 
-  // Apply operation-specific compile-time logic
-  { type: 'schema', func: operationsSchema },
+  // Apply rpc-specific compile-time logic
+  { type: 'schema', func: rpcSchema },
 ];
 
 module.exports = {

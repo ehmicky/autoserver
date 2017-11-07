@@ -4,7 +4,7 @@ const routes = require('./routes');
 const methods = require('./methods');
 const { handler } = require('./handler');
 
-const operation = {
+const rpc = {
   name: 'graphqlprint',
   title: 'GraphQLPrint',
   routes,
@@ -12,4 +12,4 @@ const operation = {
   handler,
 };
 
-module.exports = operation;
+module.exports = rpc;
