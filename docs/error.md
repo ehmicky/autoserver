@@ -25,9 +25,9 @@ additional properties:
     - the following properties may also appear, depending on when
       the error happened:
       - `requestid` `{string}`
-      - `protocol` `{string}`
+      - [`protocol`](protocols.md) `{string}`
       - `method` `{string}`
-      - `requestheaders` `{object}`
+      - [`requestheaders`](protocols.md#headers-and-method) `{object}`
       - `queryvars` `{object}`
       - `operation` `{string}`
       - `summary` `{string}`

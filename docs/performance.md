@@ -19,4 +19,5 @@ The event payload contains the following additional properties:
   - `measuresmessage` `{string}`: console-friendly table with the same
     information as `measures`
 
-Additionally, a `X-Response-Time: number` header is sent in the response.
+Additionally, a `X-Response-Time: number`
+[protocol header](protocols.md#headers-and-method) is sent in the response.

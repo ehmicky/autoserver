@@ -166,11 +166,13 @@ an array.
 # Arguments in protocol headers
 
 In addition to being specified in the GraphQL payload, arguments can also be
-specified in any [protocol](protocols.md) header (e.g. HTTP headers) prefixed
+specified in any [protocol](protocols.md)
+[header](protocols.md#headers-and-method) (e.g. HTTP headers) prefixed
 with `X-Apiengine-`.
 
 For example, instead of specifying the `{ params: { key: "secret_password" } }`
-argument in the GraphQL payload, the following header can be used:
+argument in the GraphQL payload, the following
+[header](protocols.md#headers-and-method) can be used:
 `X-Apiengine-Params-Key: secret_password`.
 
 The header value can either be an unquoted string or any JSON value.

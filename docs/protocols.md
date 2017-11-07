@@ -2,7 +2,12 @@
 
 Several network protocols can be handled at the same time, each spawning
 a single server.
-To enable a protocol, simply pass options to it.
+By default, all protocols are spawned.
+
+# Headers and method
+
+Each protocol has its own way of setting the headers and main method.
+For example, HTTP uses HTTP headers and HTTP method (e.g. `GET`).
 
 # Protocols options
 
