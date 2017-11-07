@@ -1,5 +1,6 @@
 'use strict';
 
+const { mapKeys } = require('../../utilities');
 const { throwError } = require('../../error');
 
 // Fill in `mInput.requestheaders` using protocol-specific headers.
@@ -15,7 +16,14 @@ const parseHeaders = function ({ specific, protocolHandler }) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  return { requestheaders };
+  // Protocol handler should already normalize header names case,
+  // but we do it just in case
+  const requestheadersA = mapKeys(
+    requestheaders,
+    (value, name) => name.toLowerCase(),
+  );
+
+  return { requestheaders: requestheadersA };
 };
 
 module.exports = {
