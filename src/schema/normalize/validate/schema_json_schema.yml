@@ -7,8 +7,8 @@ required: [engine, models]
 properties:
   # Versioning
   engine:
-    type: string
-    pattern: '^apiengine [0-9]+\.[0-9]+\.[0-9]+$'
+    type: integer
+    minimum: 0
   # Model definitions
   models:
     additionalProperties:

@@ -1,4 +1,4 @@
-engine: apiengine 1.0.0
+engine: 0
 models:
   pet:
     description: Cute animal
