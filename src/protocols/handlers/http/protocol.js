@@ -18,7 +18,7 @@ const { getOrigin, getPath, getQueryString } = require('./url');
 const { getMethod } = require('./method');
 const { send } = require('./send');
 const { getIp } = require('./ip');
-const { getArgs } = require('./args');
+const { args } = require('./args');
 const {
   getProtocolstatus,
   getStatus,
@@ -47,7 +47,7 @@ const protocol = {
   getMethod,
   send,
   getIp,
-  getArgs,
+  args,
   getProtocolstatus,
   getStatus,
   failureProtocolstatus,

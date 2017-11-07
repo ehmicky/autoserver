@@ -2,6 +2,7 @@
 
 const { singular, plural, isPlural } = require('pluralize');
 
+const { deepMerge } = require('../../utilities');
 const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 
@@ -10,20 +11,20 @@ const { COMMANDS } = require('../../constants');
 const parseTopAction = function ({
   operationDef: { commandName, args },
   schema: { shortcuts: { modelsMap } },
-  protocolArgs,
-  paramsArg,
+  topargs,
 }) {
   const { command, modelname } = parseModelname({ commandName, modelsMap });
 
   const commandpath = [commandName];
 
-  const topargs = getArgs({ args, protocolArgs, paramsArg });
+  // Merge protocol-specific arguments with normal arguments
+  const topargsA = deepMerge(args, topargs);
 
-  const action = { modelname, commandpath, args: topargs };
+  const action = { modelname, commandpath, args: topargsA };
   const actions = [action];
   const top = { ...action, command };
 
-  return { top, topargs, actions };
+  return { top, topargs: topargsA, actions };
 };
 
 // Retrieve `command` and `modelname` using the main `commandName`
@@ -75,12 +76,6 @@ const getModelname = function ({ modelsMap, modelname }) {
 
   const message = `Model '${modelname}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-// Merge protocol-specific arguments with normal arguments
-const getArgs = function ({ args, protocolArgs, paramsArg }) {
-  const params = { ...args.params, ...paramsArg };
-  return { ...protocolArgs, ...args, params };
 };
 
 module.exports = {
