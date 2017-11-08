@@ -47,7 +47,7 @@ const parseName = function ({ commandName }) {
   }
 
   const message = `Command '${commandName}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'WRONG_METHOD' });
 };
 
 const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
@@ -61,7 +61,7 @@ const getCommand = function ({ commandType, modelname }) {
   if (commandA !== undefined) { return commandA; }
 
   const message = `Command '${commandType}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'WRONG_METHOD' });
 };
 
 // Retrieve top.modelname
@@ -75,7 +75,7 @@ const getModelname = function ({ modelsMap, modelname }) {
   if (modelsMap[singularName]) { return singularName; }
 
   const message = `Model '${modelname}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'WRONG_METHOD' });
 };
 
 module.exports = {
