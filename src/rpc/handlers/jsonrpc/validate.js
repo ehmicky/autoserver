@@ -34,6 +34,7 @@ const validators = [
   {
     check: ({ payload }) => payload && payload.constructor === Object,
     message: 'it must be an object',
+    reason: 'PAYLOAD_PARSE',
   },
   {
     check: ({ jsonrpc }) => jsonrpc === undefined ||
