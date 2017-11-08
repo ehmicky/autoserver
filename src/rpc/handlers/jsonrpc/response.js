@@ -2,6 +2,10 @@
 
 const { omit } = require('../../../utilities');
 
+// All error reasons and their related JSON-RPC error codes
+// We use the code `1` for any error related to database/request runtime issues
+const { ERROR_CODES_MAP, DEFAULT_ERROR_CODE } = require('./error_codes');
+
 // Apply JSON-RPC-specific error response transformation
 const transformSuccess = function ({
   response: { content },
@@ -14,13 +18,14 @@ const transformSuccess = function ({
 
 // Apply JSON-RPC-specific error response transformation
 const transformError = function ({
-  response: { content: { error, error: { description } } },
+  response: { content: { error, error: { description, type } } },
   payload,
 }) {
   const { jsonrpc, id, other } = getResponse({ payload });
 
   const data = omit(error, ['description']);
-  const errorA = { message: description, data };
+  const code = ERROR_CODES_MAP[type] || DEFAULT_ERROR_CODE;
+  const errorA = { code, message: description, data };
 
   return { jsonrpc, id, result: other, error: errorA };
 };
