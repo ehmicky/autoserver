@@ -1,5 +1,7 @@
 # HTTP server options
 
+HTTP is one of the available [protocols](protocols.md).
+
 The HTTP server has the following [options](protocols.md#protocols-options.md):
 
 ```yml
