@@ -233,6 +233,8 @@ will respond with the deleted model:
 }
 ```
 
+while:
+
 ```graphql
 mutation {
   delete_users(filter: {country: "Denmark"}) {
