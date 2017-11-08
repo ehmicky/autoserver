@@ -19,7 +19,6 @@ module.exports = {
   ...require('./resolve'),
   ...require('./rollback'),
 
-  ...require('./remove_nested_write'),
   ...require('./modelscount'),
   ...require('./assemble'),
   ...require('./parse_response'),

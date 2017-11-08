@@ -19,7 +19,7 @@ const selectFieldsByResult = function (response, { path, select }) {
   return set(response, path, modelB);
 };
 
-const selectFieldsByModel = function ({ model, select }) {
+const selectFieldsByModel = function ({ model, select = [] }) {
   // Using 'all' means all fields are returned
   const hasAllAttr = select.some(({ key }) => key === 'all');
   if (hasAllAttr) { return model; }
