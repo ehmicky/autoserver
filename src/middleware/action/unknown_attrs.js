@@ -82,7 +82,7 @@ const validateUnknownArg = function ({
   if (keyA === undefined) { return; }
 
   const path = [...commandpath.slice(1), keyA].join('.');
-  const message = `In argument '${name}', attribute '${path}' is unknown`;
+  const message = `In '${name}' argument, attribute '${path}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
