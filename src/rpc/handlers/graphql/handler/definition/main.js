@@ -36,7 +36,7 @@ const getArgs = function ({
 
   if (args.select !== undefined) {
     const message = 'Cannot specify \'select\' argument with GraphQL';
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
   return { ...args, select };
