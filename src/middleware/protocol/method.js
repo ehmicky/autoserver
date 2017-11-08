@@ -1,6 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../error');
+const { METHODS } = require('../../constants');
 
 // Fill in:
 //  - `mInput.method`: protocol-agnostic method, e.g. 'create'
@@ -8,7 +9,7 @@ const { throwError } = require('../../error');
 const parseMethod = function ({ specific, protocolHandler }) {
   const method = protocolHandler.getMethod({ specific });
 
-  if (method === undefined) {
+  if (!METHODS.includes(method)) {
     const message = 'Protocol method is not allowed';
     throwError(message, { reason: 'WRONG_METHOD' });
   }
