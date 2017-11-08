@@ -12,7 +12,7 @@ const { addParentSelects } = require('./parent');
 const parseSelect = function ({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
-    filter: ({ select, commandpath }) =>
+    filter: ({ args: { select }, commandpath }) =>
       select !== undefined || commandpath.length <= 1,
     mapper: getSelectAction,
     ...rest,

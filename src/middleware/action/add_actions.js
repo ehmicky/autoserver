@@ -11,7 +11,7 @@ const addActions = function ({ actions, filter, mapper, ...rest }) {
 
 const getNewActions = function ({ actions, filter, mapper, ...rest }) {
   return actions
-    .filter(({ args }) => filter(args))
+    .filter(action => filter(action))
     .map(action => mapper({ action, ...rest }))
     .reduce(assignArray, []);
 };
