@@ -35,7 +35,7 @@
     "graphql-type-json": "^0.1.4",
     "js-base64": "^2.3.2",
     "js-yaml": "^3.10.0",
-    "json-schema-ref-parser": "^4.0.3",
+    "json-schema-ref-parser": "^4.0.4",
     "mongodb": "^2.2.33",
     "mustache": "^2.3.0",
     "parse-prefer-header": "^1.0.0",
