@@ -121,8 +121,6 @@ const middlewareLayers = [
       // Rollback write actions if any of them failed
       action.rollback,
 
-      // Remove nested `args.data` not present in `args.select`
-      action.removeNestedWrite,
       // Sort `results` so that top-level ones are processed first
       action.sortResults,
       // Add `modelscount` and `uniquecount`
