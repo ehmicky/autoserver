@@ -61,9 +61,9 @@ const parseField = function ({
 
 const getSelect = function ({ parentPath, alias, fieldName }) {
   const key = [...parentPath, fieldName].join('.');
-  const aliasName = alias && alias.value;
+  const outputName = alias && alias.value;
 
-  return aliasName == null ? key : `${key}=${aliasName}`;
+  return outputName == null ? key : `${key}=${outputName}`;
 };
 
 const parseFragmentSpread = function ({

@@ -67,7 +67,8 @@ Note:
   - `_` is used to nest objects
   - `[..., ...]` is used for arrays
 
-Some well-known environment variables can also be used as aliases, namely:
+Some well-known environment variables can also be used as alternative names,
+namely:
   - for the `run` instruction:
      - `NODE_ENV`: same as `APIENGINE_ENV`
      - `HOST`: same as `APIENGINE_HTTP_HOST`

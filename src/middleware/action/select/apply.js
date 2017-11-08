@@ -5,7 +5,7 @@ const { get, set, assignObject, mapValues } = require('../../../utilities');
 // Applies `args.select`.
 // Only output the fields that were picked by the client.
 // Also rename fields if the output key is different from the database one,
-// e.g. using `select` `attr=alias`, including with GraphQL aliases.
+// e.g. using `select` `attr=outputName`, including with GraphQL aliases.
 const applySelect = function ({ response, results }) {
   // Need to recurse through children first
   const responseA = results.reduceRight(selectFieldsByResult, response);
@@ -26,7 +26,7 @@ const selectFieldsByModel = function ({ model, select }) {
 
   // Make sure return value is sorted in the same order as `select`
   const modelA = select
-    .map(({ key, alias = key }) => ({ [alias]: model[key] }))
+    .map(({ key, outputName = key }) => ({ [outputName]: model[key] }))
     .reduce(assignObject, {});
   return modelA;
 };
