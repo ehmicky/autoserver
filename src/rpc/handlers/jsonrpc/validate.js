@@ -12,7 +12,7 @@ const validatePayload = function ({ payload }) {
 };
 
 const applyValidator = function ({
-  validator: { check, message, reason = 'INPUT_VALIDATION' },
+  validator: { check, message, reason = 'SYNTAX_VALIDATION' },
   payload,
   jsonrpc,
   method,
