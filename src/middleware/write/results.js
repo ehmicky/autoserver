@@ -6,11 +6,11 @@ const { throwError } = require('../../error');
 const { handlers } = require('./args');
 
 // Transform results to normalized format
-const getResults = function ({ actions, results, ids, modelname, top }) {
+const getResults = function ({ actions, results, ids, top }) {
   validateResults({ ids, results });
 
   return actions
-    .map(action => setModels({ action, results, modelname, top }))
+    .map(action => setModels({ action, results, top }))
     .reduce(assignArray, []);
 };
 
@@ -18,7 +18,6 @@ const getResults = function ({ actions, results, ids, modelname, top }) {
 // (for `delete`) as `currentData`, and reuse their `dataPaths`
 const setModels = function ({
   results,
-  modelname,
   action,
   action: { dataPaths },
   top: { command },
@@ -26,18 +25,14 @@ const setModels = function ({
   const { getModels } = handlers[command.type];
   const models = getModels(action);
   return models
-    .map(findModel.bind(null, { results, dataPaths, action, modelname }))
+    .map(findModel.bind(null, { results, dataPaths, action }))
     .filter(({ path }) => path !== undefined);
 };
 
-const findModel = function (
-  { results, dataPaths, action, modelname },
-  { id },
-  index,
-) {
+const findModel = function ({ results, dataPaths, action }, { id }, index) {
   const model = results.find(result => result.id === id);
   const path = dataPaths[index];
-  return { path, model, modelname, action };
+  return { path, model, action };
 };
 
 // Safety check to make sure there is no server-side bugs
