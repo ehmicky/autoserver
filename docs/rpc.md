@@ -26,3 +26,4 @@ The header value can either be an unquoted string or any JSON value.
 # Available RPC systems
 
   - [GraphQL](graphql.md)
+  - [JSON-RPC](jsonrpc.md)
