@@ -1,32 +1,33 @@
 {
   "findOne": {
-    "optional": ["select", "silent", "params"],
+    "optional": ["populate", "select", "silent", "params"],
     "required": ["id"]
   },
   "findMany": {
     "optional": [
-      "select",
+      "populate",
       "filter",
       "order",
       "pagesize",
       "page",
       "before",
       "after",
+      "select",
       "silent",
       "params"
     ],
     "required": []
   },
   "deleteOne": {
-    "optional": ["select", "cascade", "silent", "dryrun", "params"],
+    "optional": ["cascade", "select", "silent", "dryrun", "params"],
     "required": ["id"]
   },
   "deleteMany": {
     "optional": [
-      "select",
       "cascade",
       "filter",
       "pagesize",
+      "select",
       "silent",
       "dryrun",
       "params"
@@ -39,9 +40,9 @@
   },
   "patchMany": {
     "optional": [
-      "select",
       "filter",
       "pagesize",
+      "select",
       "silent",
       "dryrun",
       "params"
@@ -53,7 +54,7 @@
     "required": ["single_data"]
   },
   "createMany": {
-    "optional": ["select", "pagesize", "silent", "dryrun", "params"],
+    "optional": ["pagesize", "select", "silent", "dryrun", "params"],
     "required": ["multiple_data"]
   },
   "upsertOne": {
@@ -61,7 +62,7 @@
     "required": ["single_data"]
   },
   "upsertMany": {
-    "optional": ["select", "pagesize", "silent", "dryrun", "params"],
+    "optional": ["pagesize", "select", "silent", "dryrun", "params"],
     "required": ["multiple_data"]
   }
 }

@@ -6,7 +6,7 @@ module.exports = {
   ...require('./rename_args'),
   ...require('./filter'),
   ...require('./data_arg'),
-  ...require('./cascade'),
+  ...require('./populate_cascade'),
   ...require('./order'),
   ...require('./select'),
   ...require('./unknown_attrs'),

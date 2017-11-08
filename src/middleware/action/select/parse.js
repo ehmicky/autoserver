@@ -1,83 +1,67 @@
 'use strict';
 
-const { groupValuesBy, omit, uniq } = require('../../../utilities');
-const { throwError } = require('../../../error');
-const { getModel } = require('../get_model');
-const { addActions } = require('../add_actions');
+const { groupBy, uniq, omit, assignArray } = require('../../../utilities');
 
-const { validateSelectPart, validateSelect } = require('./validate');
-const { addParentSelects } = require('./parent');
+const { validateSelectPart, validateSelects } = require('./validate');
 
-// Turn `args.select` into a set of `actions`
-const parseSelect = function ({ actions, ...rest }) {
-  const actionsA = addActions({
-    actions,
-    filter: ({ args: { select }, commandpath }) =>
-      select !== undefined || commandpath.length <= 1,
-    mapper: getSelectAction,
-    ...rest,
-  });
+// Parse `args.select` for each action
+const parseSelect = function ({ actions, top }) {
+  const selects = actions
+    .filter(({ args: { select } }) => select !== undefined)
+    .map(parseSelectArg)
+    .reduce(assignArray, []);
 
-  validateSelect({ actions: actionsA, ...rest });
+  const actionsA = addSelects({ actions, selects, top });
 
   return { actions: actionsA };
 };
 
-const getSelectAction = function ({
-  action: { args: { select = '' } },
-  top,
-  schema,
-}) {
+const parseSelectArg = function ({ args: { select }, commandpath }) {
   const selects = select.split(',');
   const selectsA = uniq(selects);
   const selectsB = selectsA
-    .map(selectA => parseSelectPart({ top, select: selectA }));
-  const selectsC = addParentSelects({ selects: selectsB });
-  const selectsD = groupValuesBy(selectsC, 'commandpath');
-  const actions = selectsD
-    .map(selectA => getAction({ select: selectA, top, schema }));
-  return actions;
+    .map(selectA => parseSelectPart({ select: selectA, commandpath }));
+  return selectsB;
 };
 
 // Turns `args.select` 'aaa.bbb.ccc=ddd' into:
 // `commandpath` 'aaa.bbb', `key` 'ccc', `outputName` 'ddd']
-const parseSelectPart = function ({ top, select }) {
-  const selectA = select.trim() === '' ? 'all' : select;
-  const selectB = [...top.commandpath, selectA].join('.');
-  const [, commandpath, key, , outputName] = SELECT_REGEXP.exec(selectB) || [];
+const parseSelectPart = function ({ select, commandpath }) {
+  const selectA = [...commandpath, select].join('.');
+  const [, commandpathA, key, , outputName] = SELECT_REGEXP.exec(selectA) || [];
 
-  validateSelectPart({ select, commandpath, key });
+  validateSelectPart({ select, commandpath: commandpathA, key });
 
-  return { commandpath, key, outputName };
+  return { commandpath: commandpathA, key, outputName };
 };
 
 const SELECT_REGEXP = /^([^=]*)\.([^.=]+)(=(.+))?$/;
 
-// From `args` + map of `COMMANDPATH: [{ commandpath, key, outputName }]`
-// to array of `{ commandpath, args, select: [{ key, outputName }], modelname }`
-const getAction = function ({
-  select,
-  select: [{ commandpath }],
-  top,
-  schema,
-}) {
-  const commandpathA = commandpath.split('.');
-  const selectA = select.map(action => omit(action, 'commandpath'));
-  const modelname = getModelname({ commandpath: commandpathA, top, schema });
-  return { commandpath: commandpathA, args: {}, select: selectA, modelname };
+// Add `args.select` to each action
+const addSelects = function ({ actions, selects, top }) {
+  const selectsMap = groupBy(selects, 'commandpath');
+  const actionsA = actions.map(action => addSelect({ action, selectsMap }));
+
+  validateSelects({ actions, selects, top });
+
+  return actionsA;
 };
 
-// Add `action.modelname`
-const getModelname = function ({
-  commandpath,
-  top,
-  schema: { shortcuts: { modelsMap } },
-}) {
-  const model = getModel({ commandpath, modelsMap, top });
-  if (model !== undefined) { return model.modelname; }
+const addSelect = function ({ action, action: { args }, selectsMap }) {
+  const select = getSelect({ selectsMap, action });
+  return { ...action, args: { ...args, select } };
+};
 
-  const message = `In argument 'select', attribute '${commandpath.join('.')}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+const getSelect = function ({ selectsMap, action: { commandpath } }) {
+  const selects = selectsMap[commandpath.join('.')];
+
+  // Unless `args.select` is specified, no selection is performed
+  if (selects === undefined) {
+    return [{ key: 'all' }];
+  }
+
+  const select = selects.map(selectA => omit(selectA, 'commandpath'));
+  return select;
 };
 
 module.exports = {

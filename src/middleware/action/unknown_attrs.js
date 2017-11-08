@@ -46,7 +46,7 @@ const validateUnknown = function ({ action, modelsMap }) {
   });
 };
 
-const getSelectKeys = function ({ action: { select = [] } }) {
+const getSelectKeys = function ({ action: { args: { select = [] } } }) {
   return select
     .filter(({ key }) => key !== 'all')
     .map(({ key }) => key);

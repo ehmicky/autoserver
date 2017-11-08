@@ -95,8 +95,8 @@ const middlewareLayers = [
       action.parseFilter,
       // Parse `args.data` into write `actions`
       action.parseDataArg,
-      // Parse `args.cascade` into a set of delete nested `actions`
-      action.parseCascade,
+      // Parse `args.populate|cascade` into a set of nested `actions`
+      action.parsePopulateCascade,
       // Parse `args.order` from a string to an array of objects
       action.parseOrder,
       // Parse `args.select` into a set of `actions`
