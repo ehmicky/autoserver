@@ -2,74 +2,68 @@
 
 const { throwError } = require('../../../error');
 
+// Validate JSON-RPC payload is correct format
 const validatePayload = function ({ payload }) {
-  validateBatch({ payload });
-  validateJson({ payload });
+  const payloadA = typeof payload === 'object' ? payload : {};
+  const { jsonrpc, method, id, params } = payloadA;
 
-  const { jsonrpc, method, id, params } = payload;
-
-  validateVersion({ jsonrpc });
-  validateMethod({ method });
-  validateId({ id });
-  validateParams({ params });
-  validateArrayParams({ params });
+  validators.forEach(validator =>
+    applyValidator({ validator, payload, jsonrpc, method, id, params }));
 };
 
-const validateBatch = function ({ payload }) {
-  if (!Array.isArray(payload)) { return; }
+const applyValidator = function ({
+  validator: { check, message, reason = 'INPUT_VALIDATION' },
+  payload,
+  jsonrpc,
+  method,
+  id,
+  params,
+}) {
+  const isValid = check({ payload, jsonrpc, method, id, params });
+  if (isValid) { return; }
 
-  const message = 'Invalid JSON-RPC payload: batch requests are not supported, so the payload must not be an array';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  const messageA = `Invalid JSON-RPC payload: ${message}`;
+  throwError(messageA, { reason });
 };
 
-const validateJson = function ({ payload }) {
-  if (payload && payload.constructor === Object) { return; }
-
-  const message = 'Invalid JSON-RPC payload: it must be an object';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const validateVersion = function ({ jsonrpc }) {
-  if (jsonrpc === undefined || typeof jsonrpc === 'string') { return; }
-
-  const message = 'Invalid JSON-RPC payload: \'jsonrpc\' must be a string or undefined';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const validateMethod = function ({ method }) {
-  if (typeof method === 'string') { return; }
-
-  const message = 'Invalid JSON-RPC payload: \'method\' must be a string';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const validateId = function ({ id }) {
-  if (id == null || typeof id === 'string' || Number.isInteger(id)) { return; }
-
-  const message = 'Invalid JSON-RPC payload: \'id\' must be a string, an integer, null or undefined';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const validateParams = function ({ params }) {
-  const isValidType = params === undefined ||
-    params.constructor === Object ||
-    Array.isArray(params);
-  if (isValidType) { return; }
-
-  const message = 'Invalid JSON-RPC payload: \'params\' type is invalid';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
-
-const validateArrayParams = function ({ params }) {
-  if (!Array.isArray(params)) { return; }
-
-  const hasRightFormat = params.length <= 1 &&
-    params.every(param => param && param.constructor === Object);
-  if (hasRightFormat) { return; }
-
-  const message = 'Invalid JSON-RPC payload: \'params\' must only contain one object or none';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
-};
+const validators = [
+  {
+    check: ({ payload }) => !Array.isArray(payload),
+    message: 'batch requests are not supported, so the payload must not be an array',
+  },
+  {
+    check: ({ payload }) => payload && payload.constructor === Object,
+    message: 'it must be an object',
+  },
+  {
+    check: ({ jsonrpc }) => jsonrpc === undefined ||
+      typeof jsonrpc === 'string',
+    message: '\'jsonrpc\' must be a string or undefined',
+  },
+  {
+    check: ({ method }) => typeof method === 'string',
+    message: '\'method\' must be a string',
+  },
+  {
+    check: ({ id }) => id == null ||
+      typeof id === 'string' ||
+      Number.isInteger(id),
+    message: '\'id\' must be a string, an integer, null or undefined',
+  },
+  {
+    check: ({ params }) => params === undefined ||
+      params.constructor === Object ||
+      Array.isArray(params),
+    message: '\'params\' type is invalid',
+  },
+  {
+    check: ({ params }) => !Array.isArray(params) || (
+      params.length <= 1 &&
+      params.every(param => param && param.constructor === Object)
+    ),
+    message: '\'params\' must only contain one object or none',
+  },
+];
 
 module.exports = {
   validatePayload,
