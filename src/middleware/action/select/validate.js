@@ -6,7 +6,7 @@ const { throwError } = require('../../../error');
 const validateSelectPart = function ({ select, commandpath, key }) {
   if (commandpath && key) { return; }
 
-  const message = `In argument 'select', '${select}' is invalid`;
+  const message = `In 'select' argument, '${select}' is invalid`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
@@ -21,7 +21,7 @@ const validateSelects = function ({ actions, selects, top }) {
 
   const wrongPathsA = getWordsList(wrongPaths, { op: 'and', quotes: true });
   const relatedArg = RELATED_ARG[top.command.type];
-  const message = `In argument 'select', ${wrongPathsA} must not be present unless specified in argument '${relatedArg}'`;
+  const message = `In 'select' argument, must not specify ${wrongPathsA} unless it is also specified in argument '${relatedArg}'`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
