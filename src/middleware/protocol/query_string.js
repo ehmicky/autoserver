@@ -3,7 +3,7 @@
 const qs = require('qs');
 
 const { throwError, addGenErrorHandler } = require('../../error');
-const { transtype, mapValues } = require('../../utilities');
+const { transtype, recurseMap } = require('../../utilities');
 const { getLimits } = require('../../limits');
 
 // Fill in `mInput.queryvars` using protocol-specific URL query variables
@@ -21,7 +21,8 @@ const parseQueryString = function ({ specific, protocolHandler, runOpts }) {
     maxQueryStringLength,
   });
 
-  const queryvarsA = mapValues(queryvars, transtype);
+  const queryvarsA = recurseMap(queryvars, transtype);
+
   return { queryvars: queryvarsA };
 };
 
