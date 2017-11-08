@@ -1,5 +1,6 @@
 'use strict';
 
+const { difference, getWordsList } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
 const validateSelectPart = function ({ select, commandpath, key }) {
@@ -9,28 +10,36 @@ const validateSelectPart = function ({ select, commandpath, key }) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const validateSelect = function ({ actions, top: { command } }) {
-  if (command.type === 'find') { return; }
+// Validate we are selecting attributes in actions that are present|populated
+const validateSelects = function ({ actions, selects, top }) {
+  const actionPaths = actions
+    .map(({ commandpath }) => getCommandpath(commandpath));
+  const selectPaths = selects
+    .map(({ commandpath }) => getCommandpath(commandpath.split('.')));
+  const wrongPaths = difference(selectPaths, actionPaths);
+  if (wrongPaths.length === 0) { return; }
 
-  actions.forEach(action => validateAction({ action, command }));
+  const wrongPathsA = getWordsList(wrongPaths, { op: 'and', quotes: true });
+  const relatedArg = RELATED_ARG[top.command.type];
+  const message = `In argument 'select', ${wrongPathsA} must not be present unless specified in argument '${relatedArg}'`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-// Write actions can only select attributes that are part of the write action
-// itself, i.e. in `args.data|cascade`.
-// Otherwise, this would require performing extra find actions.
-const validateAction = function ({
-  action: { isWrite, commandpath },
-  command,
-}) {
-  if (isWrite || commandpath.length <= 1) { return; }
+const getCommandpath = function (commandpath) {
+  return commandpath.slice(1).join('.');
+};
 
-  const path = commandpath.slice(1).join('.');
-  const argName = command.type === 'delete' ? 'cascade' : 'data';
-  const message = `Can only 'select' attribute '${path}' if it is specified in '${argName}' argument`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+// Cannot select an attribute unless it's already populated by one of the
+// following arguments
+const RELATED_ARG = {
+  find: 'populate',
+  delete: 'cascade',
+  patch: 'data',
+  create: 'data',
+  upsert: 'data',
 };
 
 module.exports = {
   validateSelectPart,
-  validateSelect,
+  validateSelects,
 };

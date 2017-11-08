@@ -20,24 +20,24 @@ const setModels = function ({
   results,
   modelname,
   action,
-  action: { dataPaths, select },
+  action: { dataPaths },
   top: { command },
 }) {
   const { getModels } = handlers[command.type];
   const models = getModels(action);
   return models
-    .map(findModel.bind(null, { results, dataPaths, select, modelname }))
+    .map(findModel.bind(null, { results, dataPaths, action, modelname }))
     .filter(({ path }) => path !== undefined);
 };
 
 const findModel = function (
-  { results, dataPaths, select, modelname },
+  { results, dataPaths, action, modelname },
   { id },
   index,
 ) {
   const model = results.find(result => result.id === id);
   const path = dataPaths[index];
-  return { path, model, modelname, select };
+  return { path, model, modelname, action };
 };
 
 // Safety check to make sure there is no server-side bugs

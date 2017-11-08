@@ -12,14 +12,17 @@ const applySelect = function ({ response, results }) {
   return { response: responseA };
 };
 
-const selectFieldsByResult = function (response, { path, select }) {
+const selectFieldsByResult = function (
+  response,
+  { path, action: { args: { select } } },
+) {
   const model = get(response, path);
   const modelA = selectFieldsByModel({ model, select });
   const modelB = mapValues(modelA, normalizeNull);
   return set(response, path, modelB);
 };
 
-const selectFieldsByModel = function ({ model, select = [] }) {
+const selectFieldsByModel = function ({ model, select }) {
   // Using 'all' means all fields are returned
   const hasAllAttr = select.some(({ key }) => key === 'all');
   if (hasAllAttr) { return model; }

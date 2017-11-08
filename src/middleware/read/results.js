@@ -57,7 +57,8 @@ const getEachResults = function ({ ids, results, ...rest }) {
 };
 
 const getResult = function ({
-  action: { modelname, select },
+  action,
+  action: { modelname },
   model,
   index,
   path = [],
@@ -70,7 +71,7 @@ const getResult = function ({
   const pathA = multipleA
     ? [...path, commandName, index]
     : [...path, commandName];
-  return { path: pathA, model, modelname, select };
+  return { path: pathA, model, modelname, action };
 };
 
 module.exports = {

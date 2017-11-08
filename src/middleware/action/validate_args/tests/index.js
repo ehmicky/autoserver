@@ -6,6 +6,7 @@ module.exports = {
   ...require('./order'),
   ...require('./pagination'),
   ...require('./data'),
+  ...require('./populate'),
   ...require('./cascade'),
   ...require('./dryrun'),
   ...require('./silent'),
