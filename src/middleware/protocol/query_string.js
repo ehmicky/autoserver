@@ -44,7 +44,7 @@ const getQueryString = function ({ specific, protocolHandler }) {
 //  - ?var[0]=val -> { var: [ val ] }
 //  - ?var[]=val&var[]=secondval -> { var: [ val, secondval ] }
 // Performs proper URI decoding, using decodeURIComponent()
-// Differentiates between undefined, null and '' (see serialize() below)
+// Differentiates between undefined, null and ''
 const parseQueryvars = function ({
   queryString,
   maxQueryStringDepth,
@@ -53,7 +53,6 @@ const parseQueryvars = function ({
   const queryObject = qs.parse(queryString, {
     depth: maxQueryStringDepth,
     arrayLimit: maxQueryStringLength,
-    strictNullHandling: true,
     allowDots: true,
     decoder: str => decodeURIComponent(str.replace(/\+/g, ' ')),
     ignoreQueryPrefix: true,
