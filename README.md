@@ -3,13 +3,15 @@
 This is a web server engine.
 
 You create a single [declarative file](docs/schema.md) as input, and a
-full-featured [GraphQL](http://graphql.org/) /
-[JSON-RPC](http://www.jsonrpc.org) server will start.
+full-featured
+[REST](https://en.wikipedia.org/wiki/Representational_state_transfer) /
+[GraphQL](http://graphql.org/) / [JSON-RPC](http://www.jsonrpc.org) server will
+start.
 
 # Features
 
-  - [Multiple RPC systems](docs/rpc.md), including [GraphQL](docs/graphql.md)
-    and [JSON-RPC](docs/jsonrpc.md)
+  - [Multiple RPC systems](docs/rpc.md), including [REST](docs/rest.md),
+    [GraphQL](docs/graphql.md) and [JSON-RPC](docs/jsonrpc.md)
   - [GraphQL debugging](docs/graphql.md),
     including introspection, interactive debugger and GraphQL schema printing
   - [Database agnostic](docs/databases.md), with support for several databases,
