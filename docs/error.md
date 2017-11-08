@@ -43,7 +43,7 @@ For example:
     "type": "DB_MODEL_NOT_FOUND",
     "title": "Model not found",
     "description": "The 'user' model with 'id' '20' could not be found",
-    "instance": "http://localhost:5001/user/20",
+    "instance": "http://localhost:5001/rest/user/20",
     "status": "CLIENT_ERROR",
     "protocolstatus": 404,
     "protocol": "http",
@@ -59,8 +59,7 @@ For example:
     "rpc": "rest",
     "summary": "find_user",
     "args": {
-      "id": "20",
-      "select": "id"
+      "id": "20"
     },
     "commandpath": "find_user",
     "model": "user",
