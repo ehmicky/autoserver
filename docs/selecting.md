@@ -8,6 +8,12 @@ It is a comma-separated list of attribute names, e.g. `select: "id,name"`.
 The special attribute `all` can be used to select all attributes
 (which is the default behavior, except with [GraphQL](graphql.md#selection)).
 
+# Renaming attributes in response
+
+It is possible to rename attributes in the response with the `select`
+[argument](rpc.md#command-and-arguments), e.g. `select: "name=different_name"`
+will rename `name` attributes to `different_name` in the response.
+
 # Populating
 
 The `select` [argument](rpc.md#command-and-arguments) can target nested
