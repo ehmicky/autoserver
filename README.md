@@ -21,8 +21,7 @@ full-featured [GraphQL](http://graphql.org/) /
   - [CRUD commands](docs/crud.md): find, create, patch, upsert, delete.
     Each command can be performed on a single model or on several models.
   - [relations, nested commands](docs/relations.md)
-    and [populating](docs/selecting.md#populating) between models,
-    including for mutations
+    and populating between models, including for mutations
   - [filtering](docs/filtering.md)
   - [sorting](docs/sorting.md)
   - [selecting](docs/selecting.md)

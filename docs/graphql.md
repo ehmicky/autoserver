@@ -36,20 +36,13 @@ For example:
 uses the command `find_user` and the
 [argument](rpc.md#command-and-arguments) `id`.
 
-# Selection
+# Selection and population
 
-The [`select` argument](selecting.md) is specified using GraphQL selection
-fields instead.
+GraphQL selection fields must be used instead of both the
+[`select`](selecting.md) and
+[`populate`](relations.md#populating-nested-models) arguments.
 
-The special attribute `'all'` can also be used, e.g.:
-
-```graphql
-{
-  find_user(id: "1") {
-    all
-  }
-}
-```
+The special attribute `all` can be used to select all attributes.
 
 # Error responses
 
