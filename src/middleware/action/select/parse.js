@@ -40,21 +40,21 @@ const getSelectAction = function ({
 };
 
 // Turns `args.select` 'aaa.bbb.ccc=ddd' into:
-// `commandpath` 'aaa.bbb', `key` 'ccc', `alias` 'ddd']
+// `commandpath` 'aaa.bbb', `key` 'ccc', `outputName` 'ddd']
 const parseSelectPart = function ({ top, select }) {
   const selectA = select.trim() === '' ? 'all' : select;
   const selectB = [...top.commandpath, selectA].join('.');
-  const [, commandpath, key, , alias] = SELECT_REGEXP.exec(selectB) || [];
+  const [, commandpath, key, , outputName] = SELECT_REGEXP.exec(selectB) || [];
 
   validateSelectPart({ select, commandpath, key });
 
-  return { commandpath, key, alias };
+  return { commandpath, key, outputName };
 };
 
 const SELECT_REGEXP = /^([^=]*)\.([^.=]+)(=(.+))?$/;
 
-// From `args` + map of `COMMANDPATH: [{ commandpath, key, alias }]`
-// to array of `{ commandpath, args, select: [{ key, alias }], modelname }`
+// From `args` + map of `COMMANDPATH: [{ commandpath, key, outputName }]`
+// to array of `{ commandpath, args, select: [{ key, outputName }], modelname }`
 const getAction = function ({
   select,
   select: [{ commandpath }],
