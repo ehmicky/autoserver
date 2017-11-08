@@ -2,6 +2,7 @@
 
 const { groupBy, uniq, omit, assignArray } = require('../../../utilities');
 
+const { addParentSelects } = require('./parent');
 const { validateSelectPart, validateSelects } = require('./validate');
 
 // Parse `args.select` for each action
@@ -19,9 +20,10 @@ const parseSelect = function ({ actions, top }) {
 const parseSelectArg = function ({ args: { select }, commandpath }) {
   const selects = select.split(',');
   const selectsA = uniq(selects);
-  const selectsB = selectsA
+  const selectsB = addParentSelects({ selects: selectsA });
+  const selectsC = selectsB
     .map(selectA => parseSelectPart({ select: selectA, commandpath }));
-  return selectsB;
+  return selectsC;
 };
 
 // Turns `args.select` 'aaa.bbb.ccc=ddd' into:
