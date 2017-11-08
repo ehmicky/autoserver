@@ -67,7 +67,6 @@ const fireResponseLayer = async function ({
   ids,
   top,
   input,
-  input: { modelname },
   nextLayer,
 }) {
   // Since some commands will wait for others to finish, and I/O is slow,
@@ -77,7 +76,7 @@ const fireResponseLayer = async function ({
 
   const { response: { data: results } } = await nextLayer(inputA, 'response');
 
-  const resultsA = getResults({ actions, results, ids, modelname, top });
+  const resultsA = getResults({ actions, results, ids, top });
   return resultsA;
 };
 

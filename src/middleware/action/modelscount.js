@@ -17,7 +17,7 @@ const getUniquecount = function ({ results }) {
   return keys.length;
 };
 
-const getModelnameId = function ({ modelname, model: { id } }) {
+const getModelnameId = function ({ action: { modelname }, model: { id } }) {
   return `${modelname} ${id}`;
 };
 
