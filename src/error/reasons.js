@@ -20,6 +20,10 @@ const ERROR_REASONS = {
   // match the schema
   INPUT_VALIDATION: {},
 
+  // Method is not supported, or most likely not allowed for this rpc
+  // Or tried to use a protocol method that is not supported, e.g. TRACE
+  WRONG_METHOD: {},
+
   // The client try to perform an action not supported by the specific model,
   // i.e. its database adapters is too limited
   WRONG_FEATURE: {},
@@ -34,10 +38,6 @@ const ERROR_REASONS = {
   DB_MODEL_NOT_FOUND: {
     title: 'Model not found',
   },
-
-  // Method is not supported, or most likely not allowed for this rpc
-  // Or tried to use a protocol method that is not supported, e.g. TRACE
-  WRONG_METHOD: {},
 
   // The request took too long
   REQUEST_TIMEOUT: {},
