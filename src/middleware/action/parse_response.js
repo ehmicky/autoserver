@@ -20,7 +20,7 @@ const removeTopLevel = function ({ response }) {
 };
 
 const getResponsetype = function ({ data }) {
-  return Array.isArray(data) ? 'collection' : 'model';
+  return Array.isArray(data) ? 'models' : 'model';
 };
 
 module.exports = {

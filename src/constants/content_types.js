@@ -3,7 +3,7 @@
 const CONTENT_TYPES = {
   model: ({ data } = {}) => isObject(data),
 
-  collection: ({ data } = {}) => isArray(data) && data.every(isObject),
+  models: ({ data } = {}) => isArray(data) && data.every(isObject),
 
   error: content => isObject(content),
 
@@ -32,7 +32,7 @@ const isJSON = function (val) {
   return true;
 };
 
-const MODEL_TYPES = ['model', 'collection', 'error'];
+const MODEL_TYPES = ['model', 'models', 'error'];
 const ERROR_TYPES = ['error'];
 
 module.exports = {
