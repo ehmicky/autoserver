@@ -3,7 +3,7 @@
 One can specify which models to target using a `filter` for the commands
 `find`, `delete` and `patch`.
 
-The `filter` [argument](rpc.md#command-and-arguments) can target any attribute,
+The `filter` [argument](rpc.md#rpc) can target any attribute,
 e.g.:
 
 ```HTTP
@@ -30,7 +30,7 @@ With GraphQL, this would look like:
 
 # id argument
 
-The `id` [argument](rpc.md#command-and-arguments) is similar to
+The `id` [argument](rpc.md#rpc) is similar to
 `filter: { id: "ID" }`, except the response will be an object instead of an
 array of objects, e.g.:
 

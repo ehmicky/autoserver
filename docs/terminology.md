@@ -21,28 +21,25 @@ Requests/responses are passed through a series of functions called middleware.
 
 ## Layer
 
-Group of middleware. Layers follow each other in a stack, i.e. a request go
-from the first layer to the last one, and a response does the opposite.
-
-Each layer has its own format, which is converted between layers by middleware
-called convertors.
+Group of middleware.
 
 ## Protocol
 
-Network protocol, e.g. HTTP.
+Network [protocol](protocols.md), e.g. HTTP.
 
 ## Method
 
-Protocol-agnostic method, e.g. `GET` or `POST`.
+[Protocol](protocols.md) method, e.g. `GET` or `POST`.
 
 ## GraphQL method
 
-`query` or `mutation`. The first is for `find` CRUD command, the second for all
-others.
+`query` or `mutation`. The first is for [`find`](crud.md#find-command) CRUD
+command, the second for all others.
 
 ## JSON-RPC method
 
-JSON-RPC `method` field, indicating the current command, e.g. `find_users`.
+[JSON-RPC](jsonrpc.md) `method` field, indicating the current
+[command](crud.md#rpc), e.g. `find_users`.
 
 ## Payload
 
@@ -50,22 +47,22 @@ Request payload
 
 ## Headers
 
-Protocol-specific request options
+[Protocol](protocols.md) headers
 
 ## Protocol status
 
-Protocol-specific status, e.g. HTTP status code
+[Protocol](protocols.md)-specific status, e.g. HTTP status code
 
 ## Status
 
-Protocol-agnostic status, e.g. `SUCCESS` or `SERVER_ERROR`
+[Protocol](protocols.md)-agnostic status, e.g. `SUCCESS` or `SERVER_ERROR`
 
 ## RPC system
 
-Main semantics of the request, e.g. "GraphQL query", "GraphiQL debugging" or
-"GraphQL schema printing"
+Main semantics of the request, e.g. [GraphQL](graphql.md), [REST](rest.md) or
+[JSON-RPC](jsonrpc.md).
 
-## Args
+## Arguments
 
 Options passed to a request
 
@@ -73,7 +70,7 @@ Options passed to a request
 
 A sets a commands, tied to a specific command type.
 
-E.g. in GraphQL, `findUsers(...) { ... }`
+E.g. in GraphQL, `find_users(...) { ... }`
 
 ## Command
 
@@ -104,7 +101,7 @@ Options passed to server when starting it
 
 ## Utilities
 
-Set of generic code under src/utilities/
+Set of generic code under `src/utilities/`
 
 ## Response
 
@@ -121,15 +118,15 @@ Abstracted content type, e.g. `collection`.
 
 ## Error
 
-Thrown exception
+Thrown [exception](error.md)
 
 ## Error response
 
-Response containing error information
+Response containing [error information](error.md)
 
 ## Error reason
 
-Generic error type
+Generic [error type](error.md)
 
 ## Model
 
@@ -158,4 +155,4 @@ Main [configuration file](schema.md)
 
 ## Instruction
 
-Top-level instruction, e.g. `run`.
+Top-level [instruction](usage.md#instructions), e.g. `run`.

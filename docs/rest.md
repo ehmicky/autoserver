@@ -9,7 +9,7 @@ Clients can query the GraphQL server at either
 
 # Command
 
-The [command](rpc.md#command-and-arguments) is guessed from the model's name
+The [command](rpc.md#rpc) is guessed from the model's name
 in the URL, and from the HTTP method:
   - `GET` uses the [`find`](crud.md#find-command) command
   - `HEAD` uses the [`find`](crud.md#find-command) command, but with the
@@ -25,7 +25,7 @@ an array of objects. Also the `ID` will be used as the
 
 # Arguments
 
-The [arguments](rpc.md#command-and-arguments) are specified using URL query
+The [arguments](rpc.md#rpc) are specified using URL query
 variables, except for the `data` argument, which corresponds to the full
 request payload.
 

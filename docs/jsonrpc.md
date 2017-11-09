@@ -10,10 +10,10 @@ The `POST` protocol method must be used.
 
 # Command and arguments
 
-The [command](rpc.md#command-and-arguments) is specified using the
+The [command](rpc.md#rpc) is specified using the
 JSON-RPC `method` field.
 
-The [arguments](rpc.md#command-and-arguments) are specified using the
+The [arguments](rpc.md#rpc) are specified using the
 JSON-RPC `params` field.
 
 For example, the following request:

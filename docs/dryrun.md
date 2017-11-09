@@ -5,7 +5,7 @@ database, but the response (including error responses)
 will be the same as if it did.
 
 Every command (except `find`) can perform a dry run by using the `dryrun`
-[argument](rpc.md#command-and-arguments), e.g.:
+[argument](rpc.md#rpc), e.g.:
 
 ```HTTP
 DELETE /rest/users/1?dryrun=true

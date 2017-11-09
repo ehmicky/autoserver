@@ -70,7 +70,7 @@ first argument, as an object:
   - [`$rpc`](rpc.md) `{string}`: possible values are `graphql`,
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
   - `$modelname` `{string}`: name of the [model](models.md), e.g. `users`
-  - `$args` `{object}`: client [arguments](rpc.md#command-and-arguments)
+  - `$args` `{object}`: client [arguments](rpc.md#rpc)
     passed to the request, e.g. `filter`
   - `$command` `{string}`: current command, among `create`, `find`, `upsert`,
     `patch` or `delete`
@@ -161,7 +161,7 @@ variables:
 
 Clients can specify their own
 [schema function variables](#schema-functions-variables) on any specific
-request, using the [argument](rpc.md#command-and-arguments) `params`
+request, using the [argument](rpc.md#rpc) `params`
 with an object value, e.g.:
 
 ```graphql
