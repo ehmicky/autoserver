@@ -59,7 +59,7 @@ const protocols = Object.keys(protocolHandlers);
 const rpcs = Object.keys(rpcHandlers);
 
 // System variables that are always present
-// We need to specify their `type` and `isArray` for `model.authorize`
+// We need to specify their `type` and `isArray` for `coll.authorize`
 // validation
 const SYSTEM_VARS = {
   $protocol: { type: 'string', validation: { enum: protocols } },

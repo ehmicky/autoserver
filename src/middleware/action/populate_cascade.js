@@ -3,7 +3,7 @@
 const { uniq, includes } = require('../../utilities');
 const { throwError } = require('../../error');
 
-const { getModel } = require('./get_model');
+const { getColl } = require('./get_coll');
 const { addActions } = require('./add_actions');
 
 // Parse `args.populate|cascade` into a set of nested `actions`
@@ -49,11 +49,11 @@ const getAction = function ({ attrName, attrs, top, argName, collsMap }) {
   validateMiddleAction({ attrName, attrs, argName });
 
   const commandpath = [...top.commandpath, ...attrName];
-  const model = getModel({ collsMap, top, commandpath });
+  const coll = getColl({ collsMap, top, commandpath });
 
-  validateModel({ model, commandpath, argName });
+  validateModel({ coll, commandpath, argName });
 
-  const { collname } = model;
+  const { collname } = coll;
   const isWrite = top.command.type !== 'find';
   return { commandpath, collname, args: {}, isWrite };
 };
@@ -72,8 +72,8 @@ const validateMiddleAction = function ({ attrName, attrs, argName }) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const validateModel = function ({ model, commandpath, argName }) {
-  if (model !== undefined) { return; }
+const validateModel = function ({ coll, commandpath, argName }) {
+  if (coll !== undefined) { return; }
 
   const attrName = commandpath.slice(1).join('.');
   const message = attrName === ''

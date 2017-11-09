@@ -1,13 +1,13 @@
 'use strict';
 
-// Merge `model.authorize` `$model.*` to `args.filter`
+// Merge `coll.authorize` `$model.*` to `args.filter`
 const addAuthorizeFilter = function ({
   command,
   authorize,
   args,
   args: { filter },
 }) {
-  // `model.authorize` is merged `args.filter` only for `find` commands since
+  // `coll.authorize` is merged `args.filter` only for `find` commands since
   // other commands do not have `args.filter`.
   // However, all write commands first fire `currentData` `find` actions,
   // which means `$model.*` authorization is checked for write actions then

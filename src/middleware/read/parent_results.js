@@ -4,8 +4,9 @@ const { assignArray, isEqual, uniq } = require('../../utilities');
 const { getSimpleFilter } = require('../../filter');
 
 // Retrieve the results of all direct parent commands
-// E.g. when firing `find_model { child { id } }`, the nested `child` action
-// needs to know `model.child` first before being fired.
+// E.g. when firing `find_collection { child { id } }`,
+// the nested `child` action needs to know `model.child` first before being
+// fired.
 const getParentResults = function ({ commandpath, results }) {
   const parentPath = commandpath.slice(0, -1);
   return results.filter(result => isParentResults({ result, parentPath }));
@@ -35,7 +36,7 @@ const getParentIds = function ({ commandName, parentResults }) {
   return { nestedParentIds, parentIds: parentIdsA };
 };
 
-// Make nested models filtered by their parent model
+// Make nested collections filtered by their parent model
 // E.g. if a model find_parent() returns { child: 1 },
 // then a nested query find_child() will be filtered by `id: 1`
 // If the parent returns nothing|null, the nested query won't be performed

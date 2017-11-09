@@ -45,7 +45,7 @@ would respond with:
 
 GraphQL selection fields must be used instead of both the
 [`select`](selecting.md) and
-[`populate`](relations.md#populating-nested-models) arguments.
+[`populate`](relations.md#populating-nested-collections) arguments.
 
 The special attribute `all` can be used to select all attributes.
 
@@ -89,7 +89,7 @@ For example:
         "select": "id"
       },
       "commandpath": "find_users",
-      "model": "users",
+      "collection": "users",
       "command": "find",
       "requestid": "ed9d9f92-9ee5-4363-8d96-9b5e85c457d9"
     }

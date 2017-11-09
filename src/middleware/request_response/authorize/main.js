@@ -4,7 +4,7 @@ const { evalAuthorize } = require('./eval');
 const { addAuthorizeFilter } = require('./filter');
 const { checkNewData } = require('./data');
 
-// Handles `schema.authorize` and `model.authorize`
+// Handles `schema.authorize` and `collection.authorize`
 const validateAuthorization = function ({
   args,
   collname,
@@ -21,10 +21,10 @@ const validateAuthorization = function ({
 
   validateSchemaAuth({ schema, userVars, mInput, top });
 
-  const model = collections[collname];
-  const argsA = validateModelAuth({
+  const coll = collections[collname];
+  const argsA = validateCollAuth({
     args,
-    model,
+    coll,
     collname,
     schema,
     userVars,
@@ -49,10 +49,10 @@ const validateSchemaAuth = function ({
   evalAuthorize({ authorize, top, userVars, schema, mInput });
 };
 
-// Handles `model.authorize`
-const validateModelAuth = function ({
+// Handles `collection.authorize`
+const validateCollAuth = function ({
   args,
-  model: { authorize },
+  coll: { authorize },
   collname,
   schema,
   userVars,

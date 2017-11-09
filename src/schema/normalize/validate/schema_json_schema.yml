@@ -52,7 +52,7 @@ definitions:
       '^__': true
     required: [attributes]
     properties:
-      model:
+      collname:
         $ref: '#/definitions/validCollname'
       description:
         $ref: '#/definitions/description'
@@ -280,7 +280,7 @@ definitions:
   validUserName:
     type: string
     pattern: '^__[a-z][_0-9a-z]*$'
-  # Keys of schema.collections.*, and collection.model
+  # Keys of schema.collections.*, and collection.collname
   validCollname:
     allOf:
     - $ref: '#/definitions/validName'

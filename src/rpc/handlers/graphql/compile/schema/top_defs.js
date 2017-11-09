@@ -30,10 +30,10 @@ const GRAPHQL_METHODS = {
 
 const getTopDef = function ({ collections, graphqlMethod, commands }) {
   const attributes = getCommandsDefs({ collections, commands });
-  const model = capitalize(graphqlMethod);
+  const collname = capitalize(graphqlMethod);
   const description = TOP_DESCRIPTIONS[graphqlMethod];
 
-  const topDef = { type: 'object', attributes, model, description };
+  const topDef = { type: 'object', attributes, collname, description };
   return topDef;
 };
 
@@ -48,7 +48,7 @@ const getCommandsDefs = function ({ collections, commands }) {
 
 // Retrieve attributes for a given command
 const getCommandDef = function ({ collections, command }) {
-  // E.g. 'my_model' + 'findMany' -> 'findMyModels'
+  // E.g. 'my_coll' + 'findMany' -> 'find_my_coll'
   // This will be used as the top-level graphqlMethod
   const collectionsA = mapKeys(
     collections,

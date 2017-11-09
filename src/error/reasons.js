@@ -24,8 +24,8 @@ const ERROR_REASONS = {
   // Or tried to use a protocol method that is not supported, e.g. TRACE
   WRONG_METHOD: {},
 
-  // The client try to perform an action not supported by the specific model,
-  // i.e. its database adapters is too limited
+  // The client try to perform an action not supported by the specific
+  // collection, i.e. its database adapters is too limited
   WRONG_FEATURE: {},
 
   // Not allowed, authorization-wise

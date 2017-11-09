@@ -9,7 +9,7 @@ const {
 
 const { getUserVars } = require('./user_vars');
 
-// Handle all schema function related logic in `model.authorize`
+// Handle all schema function related logic in `coll.authorize`
 const handleSchemaFuncs = function ({
   collname,
   authorize,
@@ -26,7 +26,7 @@ const handleSchemaFuncs = function ({
   return { authorize: authorizeA, vars };
 };
 
-// Resolve all schema functions in `model.authorize` so all leaves values
+// Resolve all schema functions in `coll.authorize` so all leaves values
 // are constants
 const resolveSchemaFuncs = function ({ authorize, mInput }) {
   return mapNodes(
@@ -40,7 +40,7 @@ const resolveSchemaFunc = function ({ mInput, node: { value, ...node } }) {
   return { ...node, value: valueA };
 };
 
-// Most `model.authorize` validation is done compile-time
+// Most `coll.authorize` validation is done compile-time
 // But schema functions are evaluated runtime. Their validation is skipped
 // compile-time, and they are validated here once evaluated.
 const validateAuthorize = function ({ collname, authorize, schema }) {

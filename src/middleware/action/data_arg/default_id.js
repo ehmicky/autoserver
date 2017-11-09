@@ -6,7 +6,7 @@ const { runSchemaFunc, getModelVars } = require('../../../schema_func');
 
 // Add default model.id for create commands, in order of priority:
 //  - nested `args.data` attribute (not handled here)
-//  - current model's 'id' attribute's schema 'default'
+//  - current collection's 'id' attribute's schema 'default'
 //  - database adapter-specific function
 //  - UUIDv4
 const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
@@ -30,9 +30,9 @@ const getIdDefault = function (input, id, handler) {
   return handler(input);
 };
 
-// Apply default current model's 'id' attribute
+// Apply default current collection's 'id' attribute
 const applySchemaDefault = function ({
-  model: { collname },
+  coll: { collname },
   command,
   datum,
   userDefaultsMap,
@@ -52,7 +52,7 @@ const applySchemaDefault = function ({
 
 // Apply database adapter-specific id default, i.e. adater.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
-const applyDatabaseDefault = function ({ model: { collname }, dbAdapters }) {
+const applyDatabaseDefault = function ({ coll: { collname }, dbAdapters }) {
   const { getDefaultId } = dbAdapters[collname];
   if (getDefaultId === undefined) { return; }
 

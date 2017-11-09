@@ -6,7 +6,7 @@ const graphqlArrayTest = function ({ arrayWrapped, command, isArray }) {
   // Already wrapped in Array type
   if (arrayWrapped) { return false; }
 
-  // Nested models' attributes
+  // Nested collections' attributes
   if (isArray !== undefined) {
     return isArray;
   }

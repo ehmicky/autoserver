@@ -1,6 +1,6 @@
 # Definition
 
-Models can refer to each other by using the other model's name as
+Collections can refer to each other by using the other collection's name as
 `attribute.type` in their [schema definition](schema.md), either as a scalar
 value or an array, for one-to-one or one-to-many relationship.
 
@@ -18,11 +18,11 @@ collections:
 
 Models can nest themselves, i.e. be recursive.
 
-Nested attributes are using the `id` attribute of the model they refer to.
+Nested attributes are using the `id` attribute of the collection they refer to.
 
-# Populating nested models
+# Populating nested collections
 
-Clients can populate nested models in output with the `populate` argument.
+Clients can populate nested collections in output with the `populate` argument.
 It is a comma-separated list of attribute names. Nested attributes can be
 specified using a dot notation, e.g.:
 
@@ -56,9 +56,10 @@ Write commands do not use the `populate` argument. Instead, any models present
 in either the `data` or `cascade` [argument](rpc.md#rpc) will be populated in
 output.
 
-# Modifying nested models
+# Modifying nested collections
 
-Clients can modify nested models by using a nested [`data` argument](crud.md), e.g.:
+Clients can modify nested collections by using a nested
+[`data` argument](crud.md), e.g.:
 
 ```HTTP
 PUT /rest/users/1
@@ -75,10 +76,10 @@ PUT /rest/users/1
 
 will create both the user and its manager.
 
-# Deleting nested models
+# Deleting nested collections
 
-To delete nested models, specify them using the `cascade`
-[argument](rpc.md#rpc), as a comma-separated list of nested models, e.g.:
+To delete nested collections, specify them using the `cascade`
+[argument](rpc.md#rpc), as a comma-separated list of nested collections, e.g.:
 
 ```HTTP
 DELETE /rest/users/1?cascade=manager,manager.friends,colleague

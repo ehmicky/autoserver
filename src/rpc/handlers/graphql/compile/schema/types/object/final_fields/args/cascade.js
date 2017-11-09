@@ -15,8 +15,8 @@ const CASCADE_COMMANDS = ['delete'];
 const CASCADE_ARGS = {
   cascade: {
     type: GraphQLString,
-    description: `Also delete specified nested models.
-Each attribute can use dot-delimited notation to specify deeply nested models.
+    description: `Also delete specified nested collections.
+Each attribute can use dot-delimited notation to specify deeply nested collections.
 Several attributes can specified, by using a comma-separated list.`,
   },
 };

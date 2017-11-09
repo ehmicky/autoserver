@@ -84,7 +84,7 @@ to accomodate the JSON-RPC spec:
         "id": "20"
       },
       "commandpath": "find_users",
-      "model": "users",
+      "collection": "users",
       "command": "find",
       "requestid": "812ae714-ecf7-4e41-88a1-5337b034745e"
     }

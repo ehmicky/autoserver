@@ -11,12 +11,12 @@ const getCommandName = function ({ collname, command }) {
 //  - 'Model' for normal return types
 //  - 'CommandCollData' and 'CommandCollFilter' for `args.data|filter` types
 const getTypeName = function ({
-  def: { model, command },
+  def: { collname, command },
   opts: { inputObjectType = 'type' } = {},
 }) {
   const typeName = inputObjectType === 'type'
-    ? model
-    : `${command}_${model}_${inputObjectType}`;
+    ? collname
+    : `${command}_${collname}_${inputObjectType}`;
   const typeNameA = camelize(capitalize(typeName));
   return typeNameA;
 };

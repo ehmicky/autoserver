@@ -3,19 +3,19 @@
 const { pick, mapValues } = require('../utilities');
 const { SYSTEM_VARS } = require('../schema_func');
 
-// Retrieve type and names of all possible `model.authorize.*`
+// Retrieve type and names of all possible `coll.authorize.*`
 const getAuthorizeAttrs = function ({ schema, collname }) {
   const userVars = getUserVars({ schema });
   const modelAttrs = getModelAttrs({ schema, collname });
   return { ...userVars, ...modelAttrs, ...SYSTEM_VARS };
 };
 
-// `model.authorize.USER_VAR`
+// `coll.authorize.USER_VAR`
 const getUserVars = function ({ schema: { variables = {} } }) {
   return mapValues(variables, () => ({ type: 'dynamic' }));
 };
 
-// `model.authorize['$model.ATTR']`
+// `coll.authorize['$model.ATTR']`
 const getModelAttrs = function ({ schema: { collections }, collname }) {
   if (collname === undefined) { return; }
 

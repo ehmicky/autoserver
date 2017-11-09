@@ -8,7 +8,7 @@ const { getOperator } = require('../operators');
 const { getDeepAttr } = require('./attr');
 const { validators } = require('./validators');
 
-// `attrs` must be `{ model: { attrName:
+// `attrs` must be `{ collname: { attrName:
 // { type: 'string|number|integer|boolean', isArray: true|false } } }`
 const validateFilter = function ({
   filter,

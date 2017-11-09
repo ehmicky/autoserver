@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
-const { getModel } = require('../get_model');
+const { getColl } = require('../get_coll');
 
 const { validateData, isModelType } = require('./validate');
 const { addDefaultIds } = require('./default_id');
@@ -9,14 +9,14 @@ const { isModel } = require('./nested');
 
 // Validates `args.data` and adds default ids.
 const parseData = function ({ data, ...rest }) {
-  const model = getModel(rest);
+  const coll = getColl(rest);
 
   if (!Array.isArray(data)) {
-    return parseDatum({ datum: data, model, ...rest });
+    return parseDatum({ datum: data, coll, ...rest });
   }
 
   return data
-    .map((datum, index) => parseDatum({ datum, index, model, ...rest }));
+    .map((datum, index) => parseDatum({ datum, index, coll, ...rest }));
 };
 
 const parseDatum = function ({
@@ -25,7 +25,7 @@ const parseDatum = function ({
   index,
   commandpath,
   top,
-  model,
+  coll,
   userDefaultsMap,
   mInput,
   maxAttrValueSize,
@@ -40,7 +40,7 @@ const parseDatum = function ({
   const datumA = addDefaultIds({
     datum,
     top,
-    model,
+    coll,
     userDefaultsMap,
     mInput,
     dbAdapters,
@@ -59,7 +59,7 @@ const parseDatum = function ({
   }));
 };
 
-// Recursion over nested models
+// Recursion over nested collections
 const parseAttr = function ({ obj, ...rest }) {
   const isNested = isModelType(obj) && isModel(rest);
   if (!isNested) { return obj; }

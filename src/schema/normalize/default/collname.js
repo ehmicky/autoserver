@@ -1,10 +1,10 @@
 'use strict';
 
-// Default `collection.model` to parent key
+// Default `collection.collname` to parent key
 const addDefaultCollname = function (coll, { collname }) {
-  if (coll.model) { return coll; }
+  if (coll.collname) { return coll; }
 
-  return { ...coll, model: collname };
+  return { ...coll, collname };
 };
 
 module.exports = {

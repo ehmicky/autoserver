@@ -4,12 +4,12 @@
 is one of the available [RPC systems](rpc.md).
 
 Clients can query the GraphQL server at either
-`//hostname:port/rest/MODELS/` or `//hostname:port/rest/MODELS/ID`, where
-`MODELS` represents the model's name and `ID` its `id` attribute.
+`//hostname:port/rest/COLLECTION/` or `//hostname:port/rest/COLLECTION/ID`,
+where `COLLECTION` represents the collection's name and `ID` its `id` attribute.
 
 # Command
 
-The [command](rpc.md#rpc) is guessed from the model's name
+The [command](rpc.md#rpc) is guessed from the collection's name
 in the URL, and from the HTTP method:
   - `GET` uses the [`find`](crud.md#find-command) command
   - `HEAD` uses the [`find`](crud.md#find-command) command, but with the
@@ -118,7 +118,7 @@ REST error responses follow the usual error
       "id": "20"
     },
     "commandpath": "find_users",
-    "model": "users",
+    "collection": "users",
     "command": "find",
     "requestid": "509683e7-5957-4712-a9b7-3f54c443936e"
   }

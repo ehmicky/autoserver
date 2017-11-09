@@ -4,7 +4,7 @@ const { isEqual } = require('../../utilities');
 
 // Retrieves `summary`
 // This is all `actions`, included nested ones as a nice formatted string,
-// e.g. 'find_model{attrA,attrB,child{attrC}}'
+// e.g. 'find_collection{attrA,attrB,child{attrC}}'
 const getSummary = function ({ actions, top: { commandpath } }) {
   const summary = getEachSummary({ actions, commandpath });
   return { summary };

@@ -4,7 +4,7 @@ The `select` [argument](rpc.md#rpc) can be used to
 filter which attributes are present in the response.
 
 It is a comma-separated list of attribute names.
-[Nested attributes](relations.md#populating-nested-models) can be
+[Nested attributes](relations.md#populating-nested-collections) can be
 specified using a dot notation, e.g.:
 
 ```HTTP

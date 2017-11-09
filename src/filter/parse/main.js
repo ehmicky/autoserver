@@ -5,7 +5,7 @@ const { getThrowErr } = require('../error');
 const { parseOperation } = require('./attrs');
 const { optimizeFilter } = require('./optimize');
 
-// Parse `args.filter` and `model.authorize` format
+// Parse `args.filter` and `coll.authorize` format
 // Syntax:
 //  [                       // Filter. Top-level is either `_or` or `_and`
 //    {                     // Attrs
