@@ -7,7 +7,7 @@ const {
   rethrowError,
 } = require('../../error');
 
-// Wrap all database adapters methods so that they throw proper exceptions
+// Wrap all database adapters functions so that they throw proper exceptions
 const addAllErrorHandlers = function ({ adapters }) {
   return adapters.map(addHandlers);
 };
@@ -17,7 +17,7 @@ const addHandlers = function (adapter) {
 };
 
 const addHandler = function (func, funcName, { name }) {
-  if (!ERROR_METHOD_NAMES.includes(funcName)) { return func; }
+  if (!ERROR_FUNC_NAMES.includes(funcName)) { return func; }
 
   return addErrorHandler(func, errorHandler.bind(null, { funcName, name }));
 };
@@ -33,7 +33,7 @@ const errorHandler = function ({ funcName, name }, error, { command }) {
   rethrowError(errorA);
 };
 
-const ERROR_METHOD_NAMES = ['query', 'connect', 'disconnect'];
+const ERROR_FUNC_NAMES = ['query', 'connect', 'disconnect'];
 
 const ERROR_MESSAGES = {
   connect: 'Could not connect to',

@@ -186,7 +186,7 @@ event payload, with the properties:
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
   - `method` `{string}` - [protocol](protocols.md)-agnostic method,
-    e.g. `'find'`
+    e.g. `'GET'`
   - `protocolstatus` `{string}` - [protocol](protocols.md)-specific status,
     e.g. HTTP status code
   - `status` `{string}` - [protocol](protocols.md)-agnostic status,

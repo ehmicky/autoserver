@@ -15,11 +15,12 @@ const hasNoId = ({ id }) => id === undefined;
 const hasDataArray = ({ data }) => Array.isArray(data);
 
 const METHODS_MAP = {
-  find: { command: 'find', isPlural: hasNoId },
-  create: { command: 'create', isPlural: hasDataArray },
-  upsert: { command: 'upsert', isPlural: hasDataArray },
-  patch: { command: 'patch', isPlural: hasNoId },
-  delete: { command: 'delete', isPlural: hasNoId },
+  GET: { command: 'find', isPlural: hasNoId },
+  HEAD: { command: 'find', isPlural: hasNoId },
+  POST: { command: 'create', isPlural: hasDataArray },
+  PUT: { command: 'upsert', isPlural: hasDataArray },
+  PATCH: { command: 'patch', isPlural: hasNoId },
+  DELETE: { command: 'delete', isPlural: hasNoId },
 };
 
 module.exports = {

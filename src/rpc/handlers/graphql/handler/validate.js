@@ -53,8 +53,8 @@ const validateOperationType = function ({
   },
   method,
 }) {
-  if (method === 'find' && operation !== 'query') {
-    const message = 'Can only perform GraphQL queries, not mutations, with the current protocol method';
+  if (method === 'GET' && operation !== 'query') {
+    const message = 'Can only perform GraphQL queries, not mutations, with the protocol method \'GET\'';
     throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 

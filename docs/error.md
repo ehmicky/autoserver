@@ -47,7 +47,7 @@ For example:
     "status": "CLIENT_ERROR",
     "protocolstatus": 404,
     "protocol": "http",
-    "method": "find",
+    "method": "GET",
     "requestheaders": {
       "host": "localhost:5001",
       "accept": "*/*",

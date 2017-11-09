@@ -1,7 +1,8 @@
 [
-  "find",
-  "create",
-  "upsert",
-  "patch",
-  "delete"
+  "GET",
+  "HEAD",
+  "POST",
+  "PUT",
+  "PATCH",
+  "DELETE"
 ]

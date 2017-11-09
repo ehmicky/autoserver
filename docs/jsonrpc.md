@@ -69,7 +69,7 @@ to accomodate the JSON-RPC spec:
       "status": "CLIENT_ERROR",
       "protocolstatus": 404,
       "protocol": "http",
-      "method": "create",
+      "method": "POST",
       "requestheaders": {
         "host": "localhost:5001",
         "accept": "*/*",

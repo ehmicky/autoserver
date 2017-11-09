@@ -1,4 +1,4 @@
 [
-  "find",
-  "create"
+  "GET",
+  "POST"
 ]

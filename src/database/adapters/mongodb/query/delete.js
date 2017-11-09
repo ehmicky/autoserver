@@ -2,8 +2,8 @@
 
 // Delete models
 const deleteFunc = function ({ collection, deletedIds }) {
-  const method = deletedIds.length === 1 ? deleteOne : deleteMany;
-  return method({ collection, deletedIds });
+  const func = deletedIds.length === 1 ? deleteOne : deleteMany;
+  return func({ collection, deletedIds });
 };
 
 const deleteOne = function ({ collection, deletedIds }) {
