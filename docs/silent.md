@@ -1,9 +1,7 @@
 # Silent output
 
-When requesting a silent output:
-  - the response's data and metadata will be undefined
-  - the command will still be performed
-  - if there is any error, the error will still be present in the response
+When requesting a silent output, the response will be empty, unless an error
+occurred. The command will still be performed.
 
 Silent outputs can be requested using the `silent`
 [argument](rpc.md#command-and-arguments) with any command,
@@ -15,10 +13,4 @@ mutation {
     id
   }
 }
-```
-
-will respond (if successful) with:
-
-```json
-{}
 ```

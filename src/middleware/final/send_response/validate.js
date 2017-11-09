@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../../error');
 
-const { types } = require('./types');
+const { types } = require('./send');
 
 const validateResponse = function ({ response: { type, content } }) {
   if (!type) {
