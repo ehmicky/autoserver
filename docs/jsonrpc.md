@@ -6,7 +6,7 @@
 Both JSON-RPC 1.0 and 2.0 are supported.
 
 Clients can query the GraphQL server at `//hostname:port/jsonrpc`.
-The `POST` HTTP method must be used.
+The `POST` protocol method must be used.
 
 # Command and arguments
 
@@ -22,7 +22,7 @@ For example, the following request:
 {
   "jsonrpc": "2.0",
   "id": "9b6c5433-4f6a-42f3-9082-32c2eae66a7e",
-  "method": "find_user",
+  "method": "find_users",
   "params": {
     "id": "1"
   }
@@ -61,7 +61,7 @@ to accomodate the JSON-RPC spec:
   "id": "9b6c5433-4f6a-42f3-9082-32c2eae66a7e",
   "error": {
     "code": 1,
-    "message": "The 'user' model with 'id' '20' could not be found",
+    "message": "The 'users' model with 'id' '20' could not be found",
     "data": {
       "type": "DB_MODEL_NOT_FOUND",
       "title": "Model not found",
@@ -79,12 +79,12 @@ to accomodate the JSON-RPC spec:
       },
       "queryvars": {},
       "rpc": "jsonrpc",
-      "summary": "find_user",
+      "summary": "find_users",
       "args": {
         "id": "20"
       },
-      "commandpath": "find_user",
-      "model": "user",
+      "commandpath": "find_users",
+      "model": "users",
       "command": "find",
       "requestid": "812ae714-ecf7-4e41-88a1-5337b034745e"
     }

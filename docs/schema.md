@@ -49,24 +49,24 @@ variables:
 ```yml
 engine: 0
 models:
-  company:
+  companies:
     description: This is a company
     attributes:
       registration_no:
         type: number
-  user:
+  users:
     attributes:
       name:
-        description: This is the name of a user
+        description: This is the name of a users
       employer:
-        type: company
+        type: companies
 ```
 
 This file describes two models:
-  - a `company` model with attributes `id` (defined by default)
+  - a `companies` model with attributes `id` (defined by default)
     and `registration_no`
-  - a `user` model with attributes `id`, `name` and `employer`
-    (pointing to a `company` model)
+  - a `users` model with attributes `id`, `name` and `employer`
+    (pointing to a `companies` model)
 
 # Properties
 

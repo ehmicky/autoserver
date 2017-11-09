@@ -11,21 +11,26 @@ Clients can query the GraphQL server at either
 
 The [command](rpc.md#command-and-arguments) is guessed from the model's name
 in the URL, and from the HTTP method:
-  - `GET` uses the [`find`](crud.md#command-find) command
-  - `HEAD` uses the [`find`](crud.md#command-find) command, but with the
+  - `GET` uses the [`find`](crud.md#find-command) command
+  - `HEAD` uses the [`find`](crud.md#find-command) command, but with the
     [`silent`](silent.md) argument set to `true`
-  - `POST` uses the [`create`](crud.md#command-create) command
-  - `PUT` uses the [`upsert`](crud.md#command-upsert) command
-  - `PATCH` uses the [`patch`](crud.md#command-patch) command
-  - `DELETE` uses the [`delete`](crud.md#command-delete) command
+  - `POST` uses the [`create`](crud.md#create-command) command
+  - `PUT` uses the [`upsert`](crud.md#upsert-command) command
+  - `PATCH` uses the [`patch`](crud.md#patch-command) command
+  - `DELETE` uses the [`delete`](crud.md#delete-command) command
 
-For any of the above commands, if an `ID` is present in the URL, only one
-model will be targeted. Otherwise, several models will be.
+If an `ID` is present in the URL, the response will be an object instead of
+an array of objects. Also the `ID` will be used as the
+[`id`](filtering.md#id-argument) argument.
 
 # Arguments
 
 The [arguments](rpc.md#command-and-arguments) are specified using URL query
-variables.
+variables, except for the `data` argument, which corresponds to the full
+request payload.
+
+Objects and arrays can be specified using a dot notation, e.g.
+`filter.0.name=David` is parsed as `filter: [{ "name": "David" }]`.
 
 Values can be either an unquoted string or any JSON value. To differentiate
 between a number (e.g. `filter.weight=5`) and a string (e.g. `filter.id="5"`),
@@ -42,18 +47,14 @@ any character that needs to be encoded.
 The following request:
 
 ```HTTP
-GET /rest/users/2
+GET /rest/users/1
 ```
 
 would respond with:
 
 ```json
 {
-  "data": {
-    "id": "1",
-    "name": "Anthony",
-    "manager": "3"
-  }
+  "data": { "id": "1", "name": "Anthony", "manager": "3" }
 }
 ```
 
@@ -67,35 +68,25 @@ would respond with:
 
 ```json
 {
-  "data": [{
-    "id": "1",
-    "name": "Anthony",
-    "manager": "3"
-  }]
+  "data": [
+    { "id": "1", "name": "Anthony", "manager": "3" }
+  ]
 }
 ```
 
 The following request:
 
 ```HTTP
-POST /rest/users/
+PUT /rest/users/1
 
-{
-  "id": "1",
-  "name": "Anthony",
-  "manager": "3"
-}
+{ "id": "1", "name": "Anthony", "manager": "3" }
 ```
 
 would respond with:
 
 ```json
 {
-  "data": {
-    "id": "1",
-    "name": "Anthony",
-    "manager": "3"
-  }
+  "data": { "id": "1", "name": "Anthony", "manager": "3" }
 }
 ```
 
@@ -109,7 +100,7 @@ REST error responses follow the usual error
   "error": {
     "type": "DB_MODEL_NOT_FOUND",
     "title": "Model not found",
-    "description": "The 'user' model with 'id' '20' could not be found",
+    "description": "The 'users' model with 'id' '20' could not be found",
     "instance": "http://localhost:5001/rest/users/20",
     "status": "CLIENT_ERROR",
     "protocolstatus": 404,
@@ -122,12 +113,12 @@ REST error responses follow the usual error
     },
     "queryvars": {},
     "rpc": "rest",
-    "summary": "find_user",
+    "summary": "find_users",
     "args": {
       "id": "20"
     },
-    "commandpath": "find_user",
-    "model": "user",
+    "commandpath": "find_users",
+    "model": "users",
     "command": "find",
     "requestid": "509683e7-5957-4712-a9b7-3f54c443936e"
   }

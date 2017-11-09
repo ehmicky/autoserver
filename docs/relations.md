@@ -8,12 +8,12 @@ For example:
 
 ```yml
 models:
-  user:
+  users:
     attributes:
-      friend:
-        type: user
-      managers:
-        type: user[]
+      friends:
+        type: users[]
+      manager:
+        type: users
 ```
 
 Models can nest themselves, i.e. be recursive.
@@ -24,39 +24,25 @@ Nested attributes are using the `id` attribute of the model they refer to.
 
 Clients can populate nested models in output with the `populate` argument.
 It is a comma-separated list of attribute names. Nested attributes can be
-specified using a dot notation.
+specified using a dot notation, e.g.:
 
-For example, with JSON-RPC:
-
-```json
-{
-  "jsonrpc": "2.0",
-  "id": "9b6c5433-4f6a-42f3-9082-32c2eae66a7e",
-  "method": "find_user",
-  "params": {
-    "id": "1",
-    "populate": "manager,manager.colleague"
-  }
-}
+```HTTP
+GET /rest/users/1?populate=manager,manager.colleague
 ```
 
 will respond with:
 
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": "9b6c5433-4f6a-42f3-9082-32c2eae66a7e",
-  "result": {
-    "data": {
-      "id": "1",
-      "name": "Anthony",
-      "manager": {
-        "id": "3",
-        "name": "Anna",
-        "colleague": {
-          "id": "4",
-          "name": "David"
-        }
+  "data": {
+    "id": "1",
+    "name": "Anthony",
+    "manager": {
+      "id": "3",
+      "name": "Anna",
+      "colleague": {
+        "id": "4",
+        "name": "David"
       }
     }
   }
@@ -74,17 +60,15 @@ will be populated in output.
 
 Clients can modify nested models by using a nested [`data` argument](crud.md), e.g.:
 
-```graphql
-mutation {
-  create_user(data: {
-    id: "1"
-    name: "Anthony"
-    manager: {
-      id: "3"
-      name: "Anna"
-    }
-  }) {
-    id
+```HTTP
+PUT /rest/users/1
+
+{
+  "id": "1",
+  "name": "Anthony",
+  "manager": {
+    "id": "3",
+    "name": "Anna"
   }
 }
 ```
@@ -97,12 +81,8 @@ To delete nested models, specify them using the `cascade`
 [argument](rpc.md#command-and-arguments), as a comma-separated list of
 nested models, e.g.:
 
-```graphql
-mutation {
-  delete_user(id: "1", cascade: "manager,manager.friend,colleague") {
-    id
-  }
-}
+```HTTP
+DELETE /rest/users/1?cascade=manager,manager.friends,colleague
 ```
 
-will delete `user`, `user.manager`, `user.manager.friend` and `user.colleague`.
+will delete `user`, `user.manager`, `user.manager.friends` and `user.colleague`.

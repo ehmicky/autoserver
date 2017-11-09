@@ -7,10 +7,6 @@ Silent outputs can be requested using the `silent`
 [argument](rpc.md#command-and-arguments) with any command,
 e.g.:
 
-```graphql
-mutation {
-  delete_user(id: "1", silent: true) {
-    id
-  }
-}
+```HTTP
+DELETE /rest/users/1?silent=true
 ```

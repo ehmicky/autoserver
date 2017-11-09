@@ -42,7 +42,7 @@ others.
 
 ## JSON-RPC method
 
-JSON-RPC `method` field, indicating the current command, e.g. `find_user`.
+JSON-RPC `method` field, indicating the current command, e.g. `find_users`.
 
 ## Payload
 

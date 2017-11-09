@@ -42,8 +42,8 @@ For example:
   "error": {
     "type": "DB_MODEL_NOT_FOUND",
     "title": "Model not found",
-    "description": "The 'user' model with 'id' '20' could not be found",
-    "instance": "http://localhost:5001/rest/user/20",
+    "description": "The 'users' model with 'id' '20' could not be found",
+    "instance": "http://localhost:5001/rest/users/20",
     "status": "CLIENT_ERROR",
     "protocolstatus": 404,
     "protocol": "http",
@@ -55,12 +55,12 @@ For example:
     },
     "queryvars": {},
     "rpc": "rest",
-    "summary": "find_user",
+    "summary": "find_users",
     "args": {
       "id": "20"
     },
-    "commandpath": "find_user",
-    "model": "user",
+    "commandpath": "find_users",
+    "model": "users",
     "command": "find",
     "requestid": "8af50f41-40db-4109-b649-feef43107e56"
   }

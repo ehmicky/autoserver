@@ -42,15 +42,15 @@ batches as:
 The page size is determined by the server, but clients can increase it
 (although servers can set a maximum), using:
 
-```graphql
-find_users(pagesize: 20)
+```HTTP
+GET /rest/users/?pagesize=20
 ```
 
 To iterate through batches, take the last model's `token` and repeat the query,
 using `after`, e.g.:
 
-```graphql
-find_users(after: "eyJvIjoid2VpZ2h0LSxpZCIsImYiOiIoKCQkLmlkICE9PSAnMicpICYmICgkJC5mcmllbmRzLmluY2x1ZGVzKCcxJykpKSIsInAiOlsxLjUsIjEiXX0")
+```HTTP
+GET /rest/users/?after=eyJvIjoid2VpZ2h0LSxpZCIsImYiOiIoKCQkLmlkICE9PSAnMicpICYmICgkJC5mcmllbmRzLmluY2x1ZGVzKCcxJykpKSIsInAiOlsxLjUsIjEiXX0
 ```
 
 To iterate backward, use `before` instead of `after`, with the first model's
@@ -69,8 +69,8 @@ when to stop iterating.
 
 One can use an offset-based pagination, by using `page` (starting at 1), e.g.:
 
-```graphql
-find_users(pagesize: 20, page: 5)
+```HTTP
+GET /rest/users/?pagesize=20&page=5
 ```
 
 # Pagination limits

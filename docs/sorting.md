@@ -2,20 +2,20 @@
 
 One can sort the output of `find` commands, using `order`, e.g.:
 
-```graphql
-find_users(order: "name")
+```HTTP
+GET /rest/users/?order=name
 ```
 
-`order` defaults to `"id"`.
+`order` defaults to `id`.
 
-To sort in the opposite order, use `-`, e.g.:
+To sort in the opposite order, append `-` to the attribute, e.g.:
 
-```graphql
-find_users(order: "name-")
+```HTTP
+GET /rest/users/?order=name-
 ```
 
 To sort according to several attributes, separate them with a comma, e.g.:
 
-```graphql
-find_users(order: "first_name,last_name")
+```HTTP
+GET /rest/users/?order=first_name,last_name
 ```
