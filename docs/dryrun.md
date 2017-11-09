@@ -7,10 +7,6 @@ will be the same as if it did.
 Every command (except `find`) can perform a dry run by using the `dryrun`
 [argument](rpc.md#command-and-arguments), e.g.:
 
-```graphql
-mutation {
-  delete_user(id: "1", dryrun: true) {
-    id
-  }
-}
+```HTTP
+DELETE /rest/users/1?dryrun=true
 ```

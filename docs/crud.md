@@ -1,21 +1,9 @@
-# RPC system specifics
+# Find command
 
-Since each [RPC system](rpc.md#command-and-arguments) has its own way
-of setting the command and arguments, we will use GraphQL in the following
-examples.
+To retrieve a specific model, use the `find` command, e.g.:
 
-# Command "find"
-
-To retrieve a specific model, use the command `find` followed by the model name
-in plural, e.g.:
-
-```graphql
-{
-  find_users {
-    id
-    name
-  }
-}
+```HTTP
+GET /rest/users/
 ```
 
 will respond with the fetched models:
@@ -30,69 +18,66 @@ will respond with the fetched models:
 }
 ```
 
-To retrieve only one model, use the command `find` followed by the model name
-in singular, and specify the model `id`, e.g.:
+To retrieve only one model, specify the model `id`, e.g.:
 
-```graphql
-{
-  find_user(id: "1") {
-    id
-    name
-    manager
-  }
-}
+```HTTP
+GET /rest/users/1
 ```
 
 will respond with:
 
 ```json
 {
-  "data": {
-    "id": "1",
-    "name": "Anthony",
-    "manager": "3"
-  }
+  "data": { "id": "1", "name": "Anthony", "manager": "3" }
 }
 ```
 
-# Command "create"
+# Create command
 
 The `create` command creates new models.
 
-The `data` [argument](rpc.md#command-and-arguments) is a single object
-when modifying a single model, and an array of objects otherwise.
+The `data` [argument](rpc.md#command-and-arguments) is either a single object
+or an array of objects.
 
-`id` attributes are optional and default to a unique ID.
+```HTTP
+POST /rest/users/5
 
-```graphql
-mutation {
-  create_user(data: {name: "David"}) {
-    id
-    name
-  }
-}
+{ "id": "5", "name": "David" }
 ```
 
 will respond with the newly created model:
 
 ```json
 {
-  "data": {
-    "id": "9b6c5433-4f6a-42f3-9082-32c2eae66a7e",
-    "name": "David",
-  }
+  "data": { "id": "5", "name": "David" }
 }
 ```
 
-while:
+If the `id` attributes are omitted, a unique ID will be set, e.g.:
 
-```graphql
-mutation {
-  create_users(data: [{name: "David"}, {id: "5", name: "Alex"}]) {
-    id
-    name
-  }
+```HTTP
+POST /rest/users/
+
+{ "name": "David" }
+```
+
+will respond with:
+
+```json
+{
+  "data": { "id": "9b6c5433-4f6a-42f3-9082-32c2eae66a7e", "name": "David" }
 }
+```
+
+Creating several models:
+
+```HTTP
+POST /rest/users/
+
+[
+  { "name": "David" }
+  { "id": "5", "name": "Alex" }
+]
 ```
 
 will respond with:
@@ -106,44 +91,39 @@ will respond with:
 }
 ```
 
-# Command "upsert"
+# Upsert command
 
 The `upsert` command performs a full modification of existing models.
 If the models do not exist, they are created instead.
 
-The `data` [argument](rpc.md#command-and-arguments) is a single object
-when modifying a single model, and an array of objects otherwise.
+The `data` [argument](rpc.md#command-and-arguments) is either a single object
+or an array of objects.
+
 Each model must contain an `id` attribute.
 
-```graphql
-mutation {
-  upsert_user(data: {id: "4", name: "David"}) {
-    id
-    name
-  }
-}
+```HTTP
+PUT /rest/users/4
+
+{ "id": "4", "name": "David" }
 ```
 
 will respond with the model that was either modified or created:
 
 ```json
 {
-  "data": {
-    "id": "4",
-    "name": "David",
-  }
+  "data": { "id": "4", "name": "David" }
 }
 ```
 
 while:
 
-```graphql
-mutation {
-  upsert_users(data: [{id: "4", name: "David"}, {id: "5", name: "Alex"}]) {
-    id
-    name
-  }
-}
+```HTTP
+PUT /rest/users/
+
+[
+  { "id": "4", "name": "David" }
+  { "id": "5", "name": "Alex" }
+]
 ```
 
 will respond with:
@@ -157,44 +137,35 @@ will respond with:
 }
 ```
 
-# Command "patch"
+# Patch command
 
 The `patch` command performs a partial modification of existing models.
 
-The `data` [argument](rpc.md#command-and-arguments) is always a single
-object. It specifies the new values to update.
+The `data` [argument](rpc.md#command-and-arguments) is a single object
+specifying the new values to update.
+
 It cannot contain any `id` attribute.
 
-```graphql
-mutation {
-  patch_user(id: "1", data: {city: "Copenhagen"}) {
-    id
-    name
-  }
-}
+```HTTP
+PATCH /rest/users/1
+
+{ "city": "Copenhagen" }
 ```
 
 will respond with the newly modified model:
 
 ```json
 {
-  "data": {
-    "id": "1",
-    "name": "Anthony",
-    "city": "Copenhagen",
-  }
+  "data": { "id": "1", "name": "Anthony", "city": "Copenhagen" }
 }
 ```
 
 while:
 
-```graphql
-mutation {
-  patch_users(filter: {country: "Denmark"}, data: {city: "Copenhagen"}) {
-    id
-    name
-  }
-}
+```HTTP
+PATCH /rest/users/
+
+{ "city": "Copenhagen" }
 ```
 
 will respond with:
@@ -208,40 +179,26 @@ will respond with:
 }
 ```
 
-# Command "delete"
+# Delete command
 
 The `delete` command remove existing models.
 
-```graphql
-mutation {
-  delete_user(id: "1") {
-    id
-    name
-  }
-}
+```HTTP
+DELETE /rest/users/1
 ```
 
 will respond with the deleted model:
 
 ```json
 {
-  "data": {
-    "id": "1",
-    "name": "Anthony",
-    "manager": "3"
-  }
+  "data": { "id": "1", "name": "Anthony", "manager": "3" }
 }
 ```
 
 while:
 
-```graphql
-mutation {
-  delete_users(filter: {country: "Denmark"}) {
-    id
-    name
-  }
-}
+```HTTP
+DELETE /rest/users/
 ```
 
 will respond with:
@@ -255,45 +212,32 @@ will respond with:
 }
 ```
 
+# Different RPC systems
+
+The examples above are specific to [REST](rest.md).
+
+REST specifies the `data` argument with the request payload, the
+`id` argument with the URL and the command with the protocol method. However,
+other [RPC systems](rpc.md) have different conventions.
+
 # Summary of commands
 
 ```graphql
-find_model({ id, [silent] })
+find_models({ [id|filter], [order], [pagesize], [before|after|page], [silent] })
 ```
 
 ```graphql
-find_models({ [filter], [order], [pagesize], [before|after|page],
-[silent] })
+create_models({ data|data[], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
-create_model({ data, [silent], [dryrun] })
+upsert_models({ data|data[], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
-create_models({ data[], [pagesize], [silent], [dryrun] })
+patch_models({ data, [id|filter], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
-upsert_model({ data, [silent], [dryrun] })
-```
-
-```graphql
-upsert_models({ data[], [pagesize], [silent], [dryrun] })
-```
-
-```graphql
-patch_model({ data, id, [silent], [dryrun] })
-```
-
-```graphql
-patch_models({ data, [filter], [pagesize], [silent], [dryrun] })
-```
-
-```graphql
-delete_model({ id, [cascade], [silent], [dryrun] })
-```
-
-```graphql
-delete_models({ [filter], [cascade], [pagesize], [silent], [dryrun] })
+delete_models({ [id|filter], [cascade], [pagesize], [silent], [dryrun] })
 ```

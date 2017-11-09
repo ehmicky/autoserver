@@ -202,8 +202,8 @@ event payload, with the properties:
   - `payload` `{any}` - request payload
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array
-  - [`rpc`](rpc.md) `{string}` - among `'graphql'`, `'graphiql'` and
-    `'graphqlprint'`
+  - [`rpc`](rpc.md) `{string}` - among `'graphql'`, `'graphiql'`,
+    `'graphqlprint'`, `'rest'` or `'jsonrpc'`
   - `summary` `${string}` - summary of the request, e.g.
     'find_model{find_child}'
   - `args` `${object}` - [arguments](rpc.md#command-and-arguments)

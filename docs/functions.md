@@ -68,8 +68,8 @@ first argument, as an object:
   - `$requestid` `{string}`: UUID identifying the current request
   - `$params` `{object}`: all [client parameters](#client-parameters)
   - [`$rpc`](rpc.md) `{string}`: possible values are `graphql`,
-    `graphiql`, `graphqlprint`
-  - `$modelname` `{string}`: name of the [model](models.md), e.g. `user`
+    `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
+  - `$modelname` `{string}`: name of the [model](models.md), e.g. `users`
   - `$args` `{object}`: client [arguments](rpc.md#command-and-arguments)
     passed to the request, e.g. `filter`
   - `$command` `{string}`: current command, among `create`, `find`, `upsert`,
@@ -166,7 +166,7 @@ with an object value, e.g.:
 
 ```graphql
 query {
-  find_user(id: "1", params: { password: "admin" }) {
+  find_users(id: "1", params: { password: "admin" }) {
     id
   }
 }

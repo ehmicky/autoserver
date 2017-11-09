@@ -4,6 +4,7 @@ Models are the equivalent of a database table or collection.
 
 Models keys are the name of the model.
 The name is used in [commands](crud.md).
+
 It must only be lowercase ASCII letters, digits or underscore.
 It cannot start with one digit or two underscores.
 
@@ -17,14 +18,14 @@ as models.
 Attributes called `id` are special as they:
   - are used as primary key
   - must be required
-  - are automatically added (but can be overridden)
+  - are automatically added on model creation, unless specified
 
 One can specify an `attribute.type` among:
   - `string` (default)
   - `integer`
   - `number`: i.e. float
   - `boolean`
-  - `MODEL`: where `MODEL` is the model's name, e.g. `user`,
+  - `MODEL`: where `MODEL` is the model's name, e.g. `users`,
     for [nested models](#nested-models)
   - `string[]`, `integer[]`, `number[]`, `boolean[]` or `MODEL[]`: same but
     as an array.
@@ -72,3 +73,6 @@ I.e.:
 ```
 
 are all treated the same way, and converted to the last form.
+
+The exception is for [`patch`](crud.md#patch-command) commands, where `null`
+is used to unset a value.

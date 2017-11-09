@@ -1,26 +1,41 @@
 # Simple filtering
 
-One can specify which models to target using an `id` or a `filter`,
-for the commands `find`, `delete` and `patch`.
+One can specify which models to target using a `filter` for the commands
+`find`, `delete` and `patch`.
 
-If the command is singular, the `id`
-[argument](rpc.md#command-and-arguments) should be used, e.g.:
+The `filter` [argument](rpc.md#command-and-arguments) can target any attribute,
+e.g.:
 
-```graphql
-find_user(id: "1")
-```
-
-If the command is plural, the `filter`
-[argument](rpc.md#command-and-arguments) should be used, e.g.:
-
-```graphql
-find_users(filter: {country: "Denmark"})
+```HTTP
+GET /rest/users/?filter.country=Denmark
 ```
 
 `filter` can be an array if you want to specify alternatives ("or"), e.g.:
 
+```HTTP
+GET /rest/users/?filter.0.country=Denmark&filter.1.country=Germany
+```
+
+With GraphQL, this would look like:
+
 ```graphql
-delete_users(filter: [{country: "Denmark"}, {country: "Germany"}])
+{
+  find_users(filter: [{ country: "Denmark" }, { country: "Germany "}]) {
+    id
+    name
+    manager
+  }
+}
+```
+
+# id argument
+
+The `id` [argument](rpc.md#command-and-arguments) is similar to
+`filter: { id: "ID" }`, except the response will be an object instead of an
+array of objects, e.g.:
+
+```HTTP
+GET /rest/users/1
 ```
 
 # Advanced filtering
@@ -50,40 +65,47 @@ the array:
 
 The following two examples are the same:
 
-```graphql
-find_users(filter: {country: "Denmark"})
+```HTTP
+GET /rest/users/?filter.country=Denmark
 ```
 
-```graphql
-find_users(filter: {country: {_eq: "Denmark"}})
+```HTTP
+GET /rest/users/?filter.country._eq=Denmark
 ```
 
 Searching for users whose age is under 30:
 
-```graphql
-find_users(filter: {age: {_lt: 30}})
+```HTTP
+GET /rest/users/?filter.age._lt=30
 ```
 
 Searching for users from either Denmark or Germany:
 
-```graphql
-find_users(filter: {country: {_in: ["Denmark", "Germany"]}})
+```HTTP
+GET /rest/users/?filter.country._in=["Denmark","Germany"]
 ```
 
-Searching for users whose name starts with `B`:
+which, after URI encoding is:
 
-```graphql
-find_users(filter: {name: {_like: "^B"}})
+```HTTP
+GET /rest/users/?filter.country._in=%5B%22Denmark%22,%22Germany%22%5D
+```
+
+Searching for users whose name starts with `B` (the regular expression must
+also be URI encoded):
+
+```HTTP
+GET /rest/users/?filter.name._like=^B
 ```
 
 Searching for users with at least one grade above 5:
 
-```graphql
-find_users(filter: {grades: {_some: {_gt: 5}}})
+```HTTP
+GET /rest/users/?filter.grades._some._gt=5
 ```
 
 Searching for users with no grade above 5:
 
-```graphql
-find_users(filter: {grades: {_all: {_lte: 5}}})
+```HTTP
+GET /rest/users/?filter.grades._all._lte=5
 ```

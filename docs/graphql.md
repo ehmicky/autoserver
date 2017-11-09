@@ -16,7 +16,7 @@ Clients can also see the GraphQL schema as HTML at
 # Command and arguments
 
 The [command](rpc.md#command-and-arguments) is specified using the
-top-level GraphQL method name, e.g. `find_user` or `create_users`.
+top-level GraphQL method name, e.g. `find_users` or `create_users`.
 
 The [arguments](rpc.md#command-and-arguments) are specified using the
 top-level GraphQL arguments.
@@ -25,7 +25,7 @@ For example:
 
 ```graphql
 {
-  find_user(id: "1") {
+  find_users(id: "1") {
     id
     name
     manager
@@ -33,8 +33,13 @@ For example:
 }
 ```
 
-uses the command `find_user` and the
-[argument](rpc.md#command-and-arguments) `id`.
+would respond with:
+
+```json
+{
+  "data": { "id": "1", "name": "Anthony", "manager": "3" }
+}
+```
 
 # Selection and population
 
@@ -62,7 +67,7 @@ For example:
   "data": null,
   "errors": [
     {
-      "message": "The 'user' model with 'id' '20' could not be found",
+      "message": "The 'users' model with 'id' '20' could not be found",
       "title": "Model not found",
       "type": "DB_MODEL_NOT_FOUND",
       "status": 404,
@@ -78,13 +83,13 @@ For example:
       },
       "queryvars": {},
       "rpc": "graphql",
-      "summary": "find_user",
+      "summary": "find_users",
       "args": {
         "id": "20",
         "select": "id"
       },
-      "commandpath": "find_user",
-      "model": "user",
+      "commandpath": "find_users",
+      "model": "users",
       "command": "find",
       "requestid": "ed9d9f92-9ee5-4363-8d96-9b5e85c457d9"
     }
