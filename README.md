@@ -12,10 +12,9 @@ full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
     [GraphQL](docs/graphql.md) and [JSON-RPC](docs/jsonrpc.md)
   - [GraphQL debugging](docs/graphql.md),
     including introspection, interactive debugger and GraphQL schema printing
-  - [Database agnostic](docs/databases.md), with support for several databases,
-    including [MongoDB](docs/mongodb.md) and an
-    [in-memory database](docs/memory_db.md).
-    Multiple databases can even be mixed on the same API
+  - [Multiple databases](docs/databases.md) support, including
+    [MongoDB](docs/mongodb.md) and an [in-memory database](docs/memory_db.md).
+    Different databases can be used at the same time.
   - [Multiple protocols](docs/protocols.md) handling, with support for
     [HTTP/1.1](docs/http.md) only at the moment
   - [CRUD commands](docs/crud.md): find, create, patch, upsert, delete.
