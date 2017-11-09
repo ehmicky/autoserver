@@ -33,7 +33,16 @@ Network protocol, e.g. HTTP.
 
 ## Method
 
-Protocol-agnostic method, e.g. `find` or `create`.
+Protocol-agnostic method, e.g. `GET` or `POST`.
+
+## GraphQL method
+
+`query` or `mutation`. The first is for `find` CRUD command, the second for all
+others.
+
+## JSON-RPC method
+
+JSON-RPC `method` field, indicating the current command, e.g. `find_user`.
 
 ## Payload
 
@@ -55,11 +64,6 @@ Protocol-agnostic status, e.g. `SUCCESS` or `SERVER_ERROR`
 
 Main semantics of the request, e.g. "GraphQL query", "GraphiQL debugging" or
 "GraphQL schema printing"
-
-## GraphQL method
-
-`query` or `mutation`. The first is for `find` CRUD command, the second for all
-others.
 
 ## Args
 

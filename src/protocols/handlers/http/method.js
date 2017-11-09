@@ -6,12 +6,12 @@ const getMethod = function ({ specific: { req: { method } } }) {
 };
 
 const METHODS_MAP = {
-  GET: 'find',
-  HEAD: 'find',
-  POST: 'create',
-  PUT: 'upsert',
-  PATCH: 'patch',
-  DELETE: 'delete',
+  GET: 'GET',
+  HEAD: 'HEAD',
+  POST: 'POST',
+  PUT: 'PUT',
+  PATCH: 'PATCH',
+  DELETE: 'DELETE',
 };
 
 module.exports = {

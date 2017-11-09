@@ -4,17 +4,21 @@ const { throwError } = require('../../error');
 const { METHODS } = require('../../constants');
 
 // Fill in:
-//  - `mInput.method`: protocol-agnostic method, e.g. 'create'
+//  - `mInput.method`: protocol method, e.g. 'POST'
 // Meant to be used by rpc layer.
 const parseMethod = function ({ specific, protocolHandler }) {
   const method = protocolHandler.getMethod({ specific });
 
-  if (!METHODS.includes(method)) {
-    const message = 'Protocol method is not allowed';
-    throwError(message, { reason: 'WRONG_METHOD' });
-  }
+  validateMethod({ method });
 
   return { method };
+};
+
+const validateMethod = function ({ method }) {
+  if (METHODS.includes(method)) { return; }
+
+  const message = 'Protocol method is not allowed';
+  throwError(message, { reason: 'WRONG_METHOD' });
 };
 
 module.exports = {

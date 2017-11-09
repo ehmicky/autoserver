@@ -2,8 +2,8 @@
 
 // Modify models
 const upsert = function ({ collection, newData }) {
-  const method = newData.length === 1 ? upsertOne : upsertMany;
-  return method({ collection, newData });
+  const func = newData.length === 1 ? upsertOne : upsertMany;
+  return func({ collection, newData });
 };
 
 const upsertOne = function ({ collection, newData: [data] }) {

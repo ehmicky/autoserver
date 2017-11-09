@@ -8,8 +8,8 @@ const { sortResponse } = require('./order');
 // Find models
 const find = function (input) {
   const { filterIds } = input;
-  const method = filterIds && filterIds.length === 1 ? findOne : findMany;
-  return method(input);
+  const func = filterIds && filterIds.length === 1 ? findOne : findMany;
+  return func(input);
 };
 
 const findOne = async function ({ collection, filterIds }) {

@@ -68,7 +68,7 @@ For example:
       "status": 404,
       "instance": "http://localhost:5001/graphql",
       "protocol": "http",
-      "method": "find",
+      "method": "GET",
       "requestheaders": {
         "host": "localhost:5001",
         "accept": "*/*",

@@ -50,7 +50,7 @@ const addId = function ({ method, args, args: { data }, id }) {
   return { ...args, id: idA };
 };
 
-const NO_ID_METHODS = ['create', 'upsert'];
+const NO_ID_METHODS = ['POST', 'PUT'];
 
 const validateId = function ({ data, id }) {
   if (Array.isArray(data)) {
