@@ -2,4 +2,4 @@ description: A pet's owner
 attributes:
   name: {}
   pets:
-    type: pet[]
+    type: pets[]
