@@ -4,23 +4,23 @@
 // This is needed since parent actions must be fired before children.
 // Uses `commandpath` to determine this, and output a recursive structure
 // { parentAction, childActions: [{...}, ...] }
-const getParentActions = function ({ actions, top, modelsMap }) {
+const getParentActions = function ({ actions, top, collsMap }) {
   return actions
     .filter(action => isParentAction({ action, actions }))
     .map(parentAction => getParentAction({
       parentAction,
       actions,
       top,
-      modelsMap,
+      collsMap,
     }));
 };
 
-const getParentAction = function ({ parentAction, actions, top, modelsMap }) {
+const getParentAction = function ({ parentAction, actions, top, collsMap }) {
   const childActions = getChildActions({ parentAction, actions });
   const childActionsA = getParentActions({
     actions: childActions,
     top,
-    modelsMap,
+    collsMap,
   });
   return { parentAction, childActions: childActionsA };
 };

@@ -14,8 +14,8 @@ const mapAttr = function ({ isArray, target, type }) {
 //     my_sub_model: { isArray: true, target: 'another_model', type: 'string' }
 //   }
 // }
-const modelsMap = { mapAttr };
+const collsMap = { mapAttr };
 
 module.exports = {
-  modelsMap,
+  collsMap,
 };

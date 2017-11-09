@@ -8,7 +8,7 @@ const { COMMANDS } = require('../../constants');
 // `collname`, `commandpath`, `args`
 const parseTopAction = function ({
   rpcDef: { commandName, args },
-  schema: { shortcuts: { modelsMap } },
+  schema: { shortcuts: { collsMap } },
   topargs,
 }) {
   // Merge protocol-specific arguments with normal arguments
@@ -16,7 +16,7 @@ const parseTopAction = function ({
 
   const { command, collname } = parseCommandName({
     commandName,
-    modelsMap,
+    collsMap,
     args: argsA,
   });
 
@@ -30,10 +30,10 @@ const parseTopAction = function ({
 };
 
 // Retrieve `command` and `collname` using the main `commandName`
-const parseCommandName = function ({ commandName, modelsMap, args }) {
+const parseCommandName = function ({ commandName, collsMap, args }) {
   const [, commandType, collname] = NAME_REGEXP.exec(commandName) || [];
 
-  validateCollname({ commandName, commandType, collname, modelsMap });
+  validateCollname({ commandName, commandType, collname, collsMap });
 
   const command = getCommand({ commandType, args });
 
@@ -47,14 +47,14 @@ const validateCollname = function ({
   commandName,
   commandType,
   collname,
-  modelsMap,
+  collsMap,
 }) {
   if (!commandType || !collname) {
     const message = `Command '${commandName}' is unknown`;
     throwError(message, { reason: 'WRONG_METHOD' });
   }
 
-  if (!modelsMap[collname]) {
+  if (!collsMap[collname]) {
     const message = `Collection '${collname}' is unknown`;
     throwError(message, { reason: 'WRONG_METHOD' });
   }

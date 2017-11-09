@@ -8,8 +8,8 @@ const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
 
 // Fire all commands associated with a set of read actions
-const sequenceRead = function ({ actions, top, modelsMap, mInput }, nextLayer) {
-  const actionsA = getParentActions({ actions, top, modelsMap });
+const sequenceRead = function ({ actions, top, collsMap, mInput }, nextLayer) {
+  const actionsA = getParentActions({ actions, top, collsMap });
 
   return fireReads({ ...mInput, actions: actionsA, results: [] }, nextLayer);
 };
