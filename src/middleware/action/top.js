@@ -1,7 +1,5 @@
 'use strict';
 
-const { singular, plural, isPlural } = require('pluralize');
-
 const { deepMerge } = require('../../utilities');
 const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
@@ -13,48 +11,58 @@ const parseTopAction = function ({
   schema: { shortcuts: { modelsMap } },
   topargs,
 }) {
-  const { command, modelname } = parseModelname({ commandName, modelsMap });
+  // Merge protocol-specific arguments with normal arguments
+  const argsA = deepMerge(args, topargs);
+
+  const { command, modelname } = parseCommandName({
+    commandName,
+    modelsMap,
+    args: argsA,
+  });
 
   const commandpath = [commandName];
 
-  // Merge protocol-specific arguments with normal arguments
-  const topargsA = deepMerge(args, topargs);
-
-  const action = { modelname, commandpath, args: topargsA };
+  const action = { modelname, commandpath, args: argsA };
   const actions = [action];
   const top = { ...action, command };
 
-  return { top, topargs: topargsA, actions };
+  return { top, topargs: argsA, actions };
 };
 
 // Retrieve `command` and `modelname` using the main `commandName`
-const parseModelname = function ({ commandName, modelsMap }) {
-  const { commandType, modelname } = parseName({ commandName });
+const parseCommandName = function ({ commandName, modelsMap, args }) {
+  const [, commandType, modelname] = NAME_REGEXP.exec(commandName) || [];
 
-  const command = getCommand({ commandType, modelname });
+  validateModelname({ commandName, commandType, modelname, modelsMap });
 
-  const modelnameA = getModelname({ modelsMap, modelname });
+  const command = getCommand({ commandType, args });
 
-  return { command, modelname: modelnameA };
+  return { command, modelname };
 };
 
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];
-const parseName = function ({ commandName }) {
-  const [, commandType, modelname] = NAME_REGEXP.exec(commandName) || [];
-
-  if (commandType && modelname) {
-    return { commandType, modelname };
-  }
-
-  const message = `Command '${commandName}' is unknown`;
-  throwError(message, { reason: 'WRONG_METHOD' });
-};
-
 const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
-// Retrieve top.command
-const getCommand = function ({ commandType, modelname }) {
-  const multiple = isPlural(modelname);
+const validateModelname = function ({
+  commandName,
+  commandType,
+  modelname,
+  modelsMap,
+}) {
+  if (!commandType || !modelname) {
+    const message = `Command '${commandName}' is unknown`;
+    throwError(message, { reason: 'WRONG_METHOD' });
+  }
+
+  if (!modelsMap[modelname]) {
+    const message = `Model '${modelname}' is unknown`;
+    throwError(message, { reason: 'WRONG_METHOD' });
+  }
+};
+
+// Retrieve `top.command`
+const getCommand = function ({ commandType, args }) {
+  const multiple = isMultiple[commandType](args);
 
   const commandA = COMMANDS.find(command =>
     command.multiple === multiple && command.type === commandType);
@@ -64,18 +72,17 @@ const getCommand = function ({ commandType, modelname }) {
   throwError(message, { reason: 'WRONG_METHOD' });
 };
 
-// Retrieve top.modelname
-const getModelname = function ({ modelsMap, modelname }) {
-  // Model name can be either in singular or in plural form in schema
-  const singularName = singular(modelname);
-  const pluralName = plural(modelname);
+const hasNoId = ({ id }) => id === undefined;
+const hasDataArray = ({ data }) => Array.isArray(data);
 
-  if (modelsMap[pluralName]) { return pluralName; }
-
-  if (modelsMap[singularName]) { return singularName; }
-
-  const message = `Model '${modelname}' is unknown`;
-  throwError(message, { reason: 'WRONG_METHOD' });
+// A command is multiple is it has a `args.id` or
+// (for create|upsert) a single `args.data`
+const isMultiple = {
+  find: hasNoId,
+  create: hasDataArray,
+  upsert: hasDataArray,
+  patch: hasNoId,
+  delete: hasNoId,
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 'use strict';
 
-const { GraphQLNonNull, GraphQLString } = require('graphql');
+const { GraphQLString } = require('graphql');
 
 const { getArgTypeDescription } = require('../../../../description');
 
@@ -19,7 +19,7 @@ const ID_COMMAND_TYPES = ['find', 'delete', 'patch'];
 
 const getIdArgs = ({ description }) => ({
   id: {
-    type: new GraphQLNonNull(GraphQLString),
+    type: GraphQLString,
     description,
   },
 });
