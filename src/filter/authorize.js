@@ -4,9 +4,9 @@ const { pick, mapValues } = require('../utilities');
 const { SYSTEM_VARS } = require('../schema_func');
 
 // Retrieve type and names of all possible `model.authorize.*`
-const getAuthorizeAttrs = function ({ schema, modelname }) {
+const getAuthorizeAttrs = function ({ schema, collname }) {
   const userVars = getUserVars({ schema });
-  const modelAttrs = getModelAttrs({ schema, modelname });
+  const modelAttrs = getModelAttrs({ schema, collname });
   return { ...userVars, ...modelAttrs, ...SYSTEM_VARS };
 };
 
@@ -16,10 +16,10 @@ const getUserVars = function ({ schema: { variables = {} } }) {
 };
 
 // `model.authorize['$model.ATTR']`
-const getModelAttrs = function ({ schema: { models }, modelname }) {
-  if (modelname === undefined) { return; }
+const getModelAttrs = function ({ schema: { models }, collname }) {
+  if (collname === undefined) { return; }
 
-  const { attributes = {} } = models[modelname];
+  const { attributes = {} } = models[collname];
   const modelAttrs = mapValues(
     attributes,
     attr => pick(attr, ['type', 'isArray']),

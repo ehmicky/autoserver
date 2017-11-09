@@ -28,14 +28,14 @@ const flattenActions = function ({ actions }) {
     .reduce(assignArray, []);
 };
 
-const flattenAction = function ({ currentData, args: { data }, modelname }) {
+const flattenAction = function ({ currentData, args: { data }, collname }) {
   return currentData
-    .map(currentDatum => ({ data: data[0], currentDatum, modelname }));
+    .map(currentDatum => ({ data: data[0], currentDatum, collname }));
 };
 
-// Group args.data according to currentData `id` and `modelname`
-const getActionKey = function ({ modelname, currentDatum: { id } }) {
-  return `${modelname} ${id}`;
+// Group args.data according to currentData `id` and `collname`
+const getActionKey = function ({ collname, currentDatum: { id } }) {
+  return `${collname} ${id}`;
 };
 
 // Do the actual merging
@@ -50,10 +50,10 @@ const mergeData = function (actions) {
 // Add merged `args.data` to each action
 const addData = function ({
   action,
-  action: { args, modelname, currentData },
+  action: { args, collname, currentData },
   dataMap,
 }) {
-  const data = currentData.map(({ id }) => dataMap[`${modelname} ${id}`]);
+  const data = currentData.map(({ id }) => dataMap[`${collname} ${id}`]);
   return { ...action, args: { ...args, data } };
 };
 

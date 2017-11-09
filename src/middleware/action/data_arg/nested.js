@@ -21,7 +21,7 @@ const getNestedKeys = function ({ data, commandpath, top, modelsMap }) {
 const isModel = function ({ attrName, commandpath, top, modelsMap }) {
   const commandpathA = [...commandpath, attrName];
   const model = getModel({ top, modelsMap, commandpath: commandpathA });
-  return model !== undefined && model.modelname !== undefined;
+  return model !== undefined && model.collname !== undefined;
 };
 
 // Retrieve children actions of an `args.data` object by iterating over them

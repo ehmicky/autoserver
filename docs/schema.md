@@ -1,6 +1,7 @@
 # Schema
 
-The schema specifies information about the data model and the business logic.
+The schema specifies information about the data collections and the business
+logic.
 
 # Configuration
 
@@ -24,16 +25,16 @@ e.g.:
 
 ```yml
 models:
-  example_model:
-    $ref: example_model.yml
+  example_collection:
+    $ref: example_collection.yml
 ```
 
 One can also refer to a property in the current file by prepending a `#`:
 
 ```yml
 models:
-  example_model:
-    $ref: '#/models/old_model'
+  example_collection:
+    $ref: '#/models/old_collection'
 ```
 
 One can also refer to Node.js modules or libraries by appending `.node`:
@@ -62,47 +63,37 @@ models:
         type: companies
 ```
 
-This file describes two models:
-  - a `companies` model with attributes `id` (defined by default)
+This file describes two collections:
+  - a `companies` collection with attributes `id` (defined by default)
     and `registration_no`
-  - a `users` model with attributes `id`, `name` and `employer`
-    (pointing to a `companies` model)
+  - a `users` collection with attributes `id`, `name` and `employer`
+    (pointing to a `companies` collection)
 
 # Properties
 
 The schema can contain the following properties:
   - `engine` `{string}` (required) - file format version. Must equal `0`
-  - `models` `{object}` (required) - list of [models](models.md#models)
+  - `models` `{object}` (required) - list of
+    [collections](collections.md#collections)
     - `MODEL` `{object}` - MODEL is the name
-      - `attributes` `{object}` - list of the model's
-        [attributes](models.md#attributes)
+      - `attributes` `{object}` - list of the collections's
+        [attributes](collections.md#attributes)
         - `ATTRIBUTE` `{object}` - ATTRIBUTE is the name
   - `variables` `{object}` - [user variables](functions.md#user-variables)
   - `plugins` `{object}` - [plugins](plugins.md)
   - `validation` `{object}` -
     [custom validation keywords](validation.md#custom-validation)
 
-See the following documentation for:
-  - [models and attributes](models.md)
-  - [data validation](validation.md)
-  - [auto-documentation](autodocumentation.md)
-  - [authorization](authorization.md)
-  - [default values](default.md)
-  - [transformation](transformation.md)
-  - [compatibility](compatibility.md)
-  - [custom logic](functions.md)
-  - [plugins](plugins.md)
-
 # Schema validation
 
 The schema is validated for syntax errors.
 
 One can add custom properties though by prefixing them with `__`, at the
-top-level, on an model or on an attribute, e.g.:
+top-level, on a collection or on an attribute, e.g.:
 
 ```yml
 models:
-  example_model:
+  example_collection:
     __my_custom_prop: 3
 ```
 

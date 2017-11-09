@@ -11,9 +11,9 @@ const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 //  - efficiency
 //  - output consistency, i.e. each model has a single representation for a
 //    given request
-const getConcurrentCommand = function ({ args, results, modelname }) {
+const getConcurrentCommand = function ({ args, results, collname }) {
   const ids = extractSimpleIds(args) || [];
-  const concurrentResults = getConcurrentResults({ ids, results, modelname });
+  const concurrentResults = getConcurrentResults({ ids, results, collname });
 
   // No concurrent `find` commands can be used
   if (concurrentResults.length === 0) {
@@ -31,15 +31,15 @@ const getConcurrentCommand = function ({ args, results, modelname }) {
 };
 
 // Looks for concurrent `find` commands searching for the same models
-const getConcurrentResults = function ({ ids, results, modelname }) {
+const getConcurrentResults = function ({ ids, results, collname }) {
   return ids
-    .map(id => getConcurrentResult({ id, results, modelname }))
+    .map(id => getConcurrentResult({ id, results, collname }))
     .filter(result => result !== undefined);
 };
 
-const getConcurrentResult = function ({ id, results, modelname }) {
+const getConcurrentResult = function ({ id, results, collname }) {
   return results
-    .find(result => result.model.id === id && result.modelname === modelname);
+    .find(result => result.model.id === id && result.collname === collname);
 };
 
 // Do not try to search for models while waiting for another command to
@@ -55,9 +55,9 @@ const removeConcurrentIds = function ({ concurrentResults, ids, args }) {
 // Communicate to parallel commands which `id`s are currently being searched
 // so that each call can reuse the result from other calls when targetting
 // the same model.
-const getPendingResults = function ({ args, results, modelname, promise }) {
+const getPendingResults = function ({ args, results, collname, promise }) {
   const ids = extractSimpleIds(args) || [];
-  const pendingResults = ids.map(id => ({ model: { id }, modelname, promise }));
+  const pendingResults = ids.map(id => ({ model: { id }, collname, promise }));
 
   // Since we are sharing between parallel calls, `results` must be a mutable
   // variable.

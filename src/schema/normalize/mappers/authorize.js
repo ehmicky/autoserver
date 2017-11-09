@@ -17,21 +17,21 @@ const normalizeSchemaAuthorize = function ({ schema, schema: { authorize } }) {
 };
 
 // Parse `model.authorize` into AST
-const normalizeAuthorize = function (model, { modelname, schema }) {
+const normalizeAuthorize = function (model, { collname, schema }) {
   const { authorize } = model;
   if (authorize === undefined) { return model; }
 
-  const prefix = `In 'model.${modelname}.authorize', `;
-  const authorizeA = parseAuthorize({ authorize, modelname, schema, prefix });
+  const prefix = `In 'collection.${collname}.authorize', `;
+  const authorizeA = parseAuthorize({ authorize, collname, schema, prefix });
 
   return { ...model, authorize: authorizeA };
 };
 
-const parseAuthorize = function ({ authorize, modelname, schema, prefix }) {
+const parseAuthorize = function ({ authorize, collname, schema, prefix }) {
   const reason = 'SCHEMA_VALIDATION';
   const authorizeA = parseFilter({ filter: authorize, prefix, reason });
 
-  const attrs = getAuthorizeAttrs({ schema, modelname });
+  const attrs = getAuthorizeAttrs({ schema, collname });
   validateFilter({
     filter: authorizeA,
     prefix,

@@ -21,7 +21,7 @@ const validateAction = function ({ action, modelsMap }) {
 
 // Validate correct usage of special key 'all'
 const validateAllAttr = function ({
-  action: { select, commandpath, modelname },
+  action: { select, commandpath, collname },
   modelsMap,
 }) {
   if (select === undefined) { return; }
@@ -31,7 +31,7 @@ const validateAllAttr = function ({
 
   const attr = select
     .filter(({ key }) => key !== 'all')
-    .find(({ key }) => modelsMap[modelname][key].target === undefined);
+    .find(({ key }) => modelsMap[collname][key].target === undefined);
   if (attr === undefined) { return; }
 
   const message = `At '${commandpath.join('.')}': cannot specify both 'all' and '${attr.key}' attributes`;
@@ -74,11 +74,11 @@ const argsToValidate = [
 
 const validateUnknownArg = function ({
   keys,
-  action: { commandpath, modelname },
+  action: { commandpath, collname },
   modelsMap,
   name,
 }) {
-  const keyA = keys.find(key => modelsMap[modelname][key] === undefined);
+  const keyA = keys.find(key => modelsMap[collname][key] === undefined);
   if (keyA === undefined) { return; }
 
   const path = [...commandpath.slice(1), keyA].join('.');

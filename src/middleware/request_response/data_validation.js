@@ -9,13 +9,13 @@ const { validate } = require('../../json_validation');
 // this will be validated here
 const dataValidation = function ({
   args: { newData, currentData },
-  modelname,
+  collname,
   schema: { shortcuts: { validateMap } },
   mInput,
 }) {
   if (newData === undefined) { return; }
 
-  const compiledJsonSchema = validateMap[modelname];
+  const compiledJsonSchema = validateMap[collname];
 
   newData.forEach((newDatum, index) => validateAttr({
     dataVar: 'data',

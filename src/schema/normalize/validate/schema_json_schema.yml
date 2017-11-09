@@ -15,7 +15,7 @@ properties:
       $ref: '#/definitions/model'
     # Check models names
     propertyNames:
-      $ref: '#/definitions/validModelname'
+      $ref: '#/definitions/validCollname'
   # `schema.authorize`
   authorize:
     $ref: '#/definitions/authorize'
@@ -53,7 +53,7 @@ definitions:
     required: [attributes]
     properties:
       model:
-        $ref: '#/definitions/validModelname'
+        $ref: '#/definitions/validCollname'
       description:
         $ref: '#/definitions/description'
       authorize:
@@ -281,7 +281,7 @@ definitions:
     type: string
     pattern: '^__[a-z][_0-9a-z]*$'
   # Keys of schema.models.*, and model.model
-  validModelname:
+  validCollname:
     allOf:
     - $ref: '#/definitions/validName'
     # This is too avoid big responses, or hitting database limits

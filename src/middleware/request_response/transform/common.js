@@ -9,7 +9,7 @@ const handleTransforms = function (
   {
     args,
     args: { newData, currentData },
-    modelname,
+    collname,
     schema: { shortcuts },
     mInput,
   },
@@ -17,7 +17,7 @@ const handleTransforms = function (
   if (newData === undefined) { return; }
 
   const { mapName, preCondition } = handler;
-  const transforms = shortcuts[mapName][modelname];
+  const transforms = shortcuts[mapName][collname];
 
   if (preCondition && !preCondition(mInput)) { return; }
 

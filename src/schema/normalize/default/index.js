@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  ...require('./modelname'),
+  ...require('./collname'),
   ...require('./id'),
   ...require('./database'),
   ...require('./type'),

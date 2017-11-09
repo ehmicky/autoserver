@@ -215,7 +215,8 @@ event payload, with the properties:
     e.g. `'find_model.find_child'`
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'find'`, `'upsert'`, `'patch'` and `'delete'`.
-  - `model` `${string}` - current [model](terminology.md#model) name
+  - `collection` `${string}` - current
+    [collection's](terminology.md#collection) name
   - `responsetype` `{string}` - among `'model'`, `'collection'`, `'error'`,
     `'object'`, `'html'`, `'text'`
   - `responsedata` `{any}` - response data

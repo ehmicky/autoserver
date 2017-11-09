@@ -26,7 +26,7 @@ const buildRequestinfo = function ({
   topargs: args,
   commandpath,
   command,
-  modelname: model,
+  collname: collection,
   response: {
     content: response,
     type: responsetype,
@@ -62,7 +62,7 @@ const buildRequestinfo = function ({
     args,
     commandpath,
     command,
-    model,
+    collection,
     responsedata,
     responsetype,
     modelscount,

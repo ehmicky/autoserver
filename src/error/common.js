@@ -13,36 +13,36 @@ const throwCommonError = function ({ reason, ...rest }) {
 
 const throwAuthorizationError = function ({
   ids,
-  modelname,
+  collname,
   top: { command: { participle } },
 }) {
-  const models = getModels({ modelname, ids });
+  const models = getModels({ collname, ids });
   return `${models} cannot be ${participle}`;
 };
 
-const throwModelNotFoundError = function ({ ids, modelname }) {
-  const models = getModels({ modelname, ids });
+const throwModelNotFoundError = function ({ ids, collname }) {
+  const models = getModels({ collname, ids });
   return `${models} could not be found`;
 };
 
-const throwConflictError = function ({ ids, modelname }) {
-  const models = getModels({ modelname, ids });
+const throwConflictError = function ({ ids, collname }) {
+  const models = getModels({ collname, ids });
   const exist = ids.length === 1 ? 'exists' : 'exist';
   return `${models} already ${exist}`;
 };
 
 // Try to make error messages start the same way when referring to models
-const getModels = function ({ modelname, ids, op = 'and' }) {
-  if (modelname === undefined) {
+const getModels = function ({ collname, ids, op = 'and' }) {
+  if (collname === undefined) {
     return 'Those models';
   }
 
   if (ids === undefined) {
-    return `Those '${modelname}' models`;
+    return `Those '${collname}' models`;
   }
 
   const idsA = getWordsList(ids, { op, quotes: true });
-  return `The '${modelname}' ${pluralize('model', ids.length)} with 'id' ${idsA}`;
+  return `The '${collname}' ${pluralize('model', ids.length)} with 'id' ${idsA}`;
 };
 
 const commonErrors = {
