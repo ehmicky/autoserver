@@ -11,15 +11,18 @@ const { attributesPlugin } = require('./attributes');
 // Are handled by the system, and cannot be overriden by users
 // User is specified by opts:
 //   [currentuser] {inlineFunc} - current user
-//   [usermodel] {string} - user's collection name
+//   [collection] {string} - user's collection name
 const authorPlugin = function ({ schema, opts }) {
   validateConf({ schema, opts });
   return attributesPlugin({ getAttributes })({ schema, opts });
 };
 
-const validateConf = function ({ schema, opts: { currentuser, usermodel } }) {
+const validateConf = function ({
+  schema,
+  opts: { currentuser, collection: collname },
+}) {
   validateCurrentUser({ currentuser });
-  validateUserModel({ schema, usermodel });
+  validateUserModel({ schema, collname });
 };
 
 const validateCurrentUser = function ({ currentuser }) {
@@ -29,27 +32,27 @@ const validateCurrentUser = function ({ currentuser }) {
   }
 };
 
-const validateUserModel = function ({ schema, usermodel }) {
-  if (typeof usermodel !== 'string') {
-    const message = 'In \'author\' plugin, \'opts.usermodel\' must be a string';
+const validateUserModel = function ({ schema, collname }) {
+  if (typeof collname !== 'string') {
+    const message = 'In \'author\' plugin, \'opts.collection\' must be a string';
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 
-  if (schema.collections[usermodel] === undefined) {
-    const message = `'author' plugin requires 'collections.${usermodel}'`;
+  if (schema.collections[collname] === undefined) {
+    const message = `'author' plugin requires 'collections.${collname}'`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 };
 
-const getAttributes = ({ currentuser, usermodel }) => ({
+const getAttributes = ({ currentuser, collection: collname }) => ({
   created_by: {
     description: 'Who created this model',
-    type: usermodel,
+    type: collname,
     value: `($previousmodel === undefined ? (${currentuser} && ${currentuser}.id) : $previousval)`,
   },
   updated_by: {
     description: 'Who last updated this model',
-    type: usermodel,
+    type: collname,
     value: `(${currentuser} && ${currentuser}.id)`,
   },
 });
