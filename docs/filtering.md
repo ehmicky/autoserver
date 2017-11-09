@@ -31,8 +31,13 @@ With GraphQL, this would look like:
 # id argument
 
 The `id` [argument](rpc.md#rpc) is similar to
-`filter: { id: "ID" }`, except the response will be an object instead of an
-array of objects, e.g.:
+`filter: { id: "ID" }`, except:
+  - the response will be an object instead of an array of objects
+  - [pagination](pagination.md) and [sorting](sorting.md) cannot be used, i.e.
+    the following arguments are not available: `pagesize`, `page`, `before`,
+    `after`, `order`
+
+For example:
 
 ```HTTP
 GET /rest/users/1
