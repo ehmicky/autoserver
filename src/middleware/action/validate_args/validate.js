@@ -2,6 +2,7 @@
 
 const { fastValidate } = require('../../../fast_validation');
 
+const { validateMultiple } = require('./multiple');
 const { commandsTests } = require('./builder');
 
 // Check arguments for client-side errors.
@@ -11,6 +12,8 @@ const { commandsTests } = require('./builder');
 //  - arguments that are defined follow correct syntax
 //    Does not check for semantics (e.g. schema validation)
 const validateArgs = function ({ top: { args, command }, runOpts }) {
+  validateMultiple({ args, command });
+
   const tests = commandsTests[command.name];
   fastValidate(
     { prefix: 'Wrong arguments: ', reason: 'INPUT_VALIDATION', tests },
