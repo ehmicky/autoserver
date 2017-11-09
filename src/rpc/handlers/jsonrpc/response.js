@@ -7,10 +7,7 @@ const { omit } = require('../../../utilities');
 const { ERROR_CODES_MAP, DEFAULT_ERROR_CODE } = require('./error_codes');
 
 // Apply JSON-RPC-specific error response transformation
-const transformSuccess = function ({
-  response: { content },
-  payload,
-}) {
+const transformSuccess = function ({ response: { content }, payload }) {
   const { jsonrpc, id, other } = getResponse({ payload });
 
   return { jsonrpc, id, result: content, error: other };
