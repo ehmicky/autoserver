@@ -17,7 +17,7 @@ protocols:
 # Arguments
 
 In addition to the
-[usual way of setting them](rpc.md#command-and-arguments), the following
+[usual way of setting them](rpc.md#rpc), the following
 arguments can also be set using HTTP semantics:
   - the [`silent` argument](silent.md) will be `true` if the standard HTTP
     header `Prefer: return=minimal` is set

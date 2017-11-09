@@ -206,9 +206,9 @@ event payload, with the properties:
     `'graphqlprint'`, `'rest'` or `'jsonrpc'`
   - `summary` `${string}` - summary of the request, e.g.
     'find_model{find_child}'
-  - `args` `${object}` - [arguments](rpc.md#command-and-arguments)
+  - `args` `${object}` - [arguments](rpc.md#rpc)
   - `args.datasize` `{number}` - size of `data`
-    [argument](rpc.md#command-and-arguments), in bytes
+    [argument](rpc.md#rpc), in bytes
   - `args.datacount` `{number}` - array length of `data` argument,
     if it is an array
   - `commandpath` `{string}` - [command](terminology.md#command) full path,

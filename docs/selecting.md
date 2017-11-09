@@ -1,6 +1,6 @@
 # Selection
 
-The `select` [argument](rpc.md#command-and-arguments) can be used to
+The `select` [argument](rpc.md#rpc) can be used to
 filter which attributes are present in the response.
 
 It is a comma-separated list of attribute names.
@@ -27,7 +27,7 @@ Note that [GraphQL](graphql.md#selection-and-population) does not need the
 # Renaming attributes in response
 
 It is possible to rename attributes in the response with the `select`
-[argument](rpc.md#command-and-arguments) by using `name=different_name`, e.g.:
+[argument](rpc.md#rpc) by using `name=different_name`, e.g.:
 
 ```HTTP
 GET /rest/users/1?select=name=different_name

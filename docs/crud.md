@@ -36,7 +36,7 @@ will respond with:
 
 The `create` command creates new models.
 
-The `data` [argument](rpc.md#command-and-arguments) is either a single object
+The `data` [argument](rpc.md#rpc) is either a single object
 or an array of objects.
 
 ```HTTP
@@ -96,7 +96,7 @@ will respond with:
 The `upsert` command performs a full modification of existing models.
 If the models do not exist, they are created instead.
 
-The `data` [argument](rpc.md#command-and-arguments) is either a single object
+The `data` [argument](rpc.md#rpc) is either a single object
 or an array of objects.
 
 Each model must contain an `id` attribute.
@@ -141,7 +141,7 @@ will respond with:
 
 The `patch` command performs a partial modification of existing models.
 
-The `data` [argument](rpc.md#command-and-arguments) is a single object
+The `data` [argument](rpc.md#rpc) is a single object
 specifying the new values to update.
 
 It cannot contain any `id` attribute.

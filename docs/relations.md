@@ -53,7 +53,7 @@ Note that [GraphQL](graphql.md#selection-and-population) does not need the
 `populate` argument since it natively uses selection fields.
 
 Write commands do not use the `populate` argument. Instead, any models present
-in either the `data` or `cascade` [argument](rpc.md#command-and-arguments)
+in either the `data` or `cascade` [argument](rpc.md#rpc)
 will be populated in output.
 
 # Modifying nested models
@@ -78,7 +78,7 @@ will create both the user and its manager.
 # Deleting nested models
 
 To delete nested models, specify them using the `cascade`
-[argument](rpc.md#command-and-arguments), as a comma-separated list of
+[argument](rpc.md#rpc), as a comma-separated list of
 nested models, e.g.:
 
 ```HTTP
