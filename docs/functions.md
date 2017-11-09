@@ -69,7 +69,8 @@ first argument, as an object:
   - `$params` `{object}`: all [client parameters](#client-parameters)
   - [`$rpc`](rpc.md) `{string}`: possible values are `graphql`,
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
-  - `$modelname` `{string}`: name of the [model](models.md), e.g. `users`
+  - `$collection` `{string}`: name of the [collection](collections.md),
+    e.g. `users`
   - `$args` `{object}`: client [arguments](rpc.md#rpc)
     passed to the request, e.g. `filter`
   - `$command` `{string}`: current command, among `create`, `find`, `upsert`,

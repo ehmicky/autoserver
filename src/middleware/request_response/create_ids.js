@@ -7,7 +7,7 @@ const validateCreateIds = function ({
   response: { data },
   command,
   top: { command: { type: topCommand } },
-  modelname,
+  collname,
 }) {
   const isCreateCurrentData = topCommand === 'create' && command === 'find';
   if (!isCreateCurrentData) { return; }
@@ -15,7 +15,7 @@ const validateCreateIds = function ({
   if (data.length === 0) { return; }
 
   const ids = data.map(({ id }) => id);
-  throwCommonError({ reason: 'DB_CONFLICT', ids, modelname });
+  throwCommonError({ reason: 'DB_CONFLICT', ids, collname });
 };
 
 module.exports = {

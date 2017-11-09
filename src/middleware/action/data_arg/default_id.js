@@ -32,13 +32,13 @@ const getIdDefault = function (input, id, handler) {
 
 // Apply default current model's 'id' attribute
 const applySchemaDefault = function ({
-  model: { modelname },
+  model: { collname },
   command,
   datum,
   userDefaultsMap,
   mInput,
 }) {
-  const schemaFunc = userDefaultsMap[modelname].id;
+  const schemaFunc = userDefaultsMap[collname].id;
   if (schemaFunc == null) { return; }
 
   const vars = getModelVars({
@@ -46,14 +46,14 @@ const applySchemaDefault = function ({
     previousmodel: undefined,
     attrName: 'id',
   });
-  const mInputA = { ...mInput, modelname, command: command.type };
+  const mInputA = { ...mInput, collname, command: command.type };
   return runSchemaFunc({ schemaFunc, mInput: mInputA, vars });
 };
 
 // Apply database adapter-specific id default, i.e. adater.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
-const applyDatabaseDefault = function ({ model: { modelname }, dbAdapters }) {
-  const { getDefaultId } = dbAdapters[modelname];
+const applyDatabaseDefault = function ({ model: { collname }, dbAdapters }) {
+  const { getDefaultId } = dbAdapters[collname];
   if (getDefaultId === undefined) { return; }
 
   return getDefaultId();

@@ -8,7 +8,7 @@ const { upsert } = require('./upsert');
 
 // CRUD commands
 const query = async function ({
-  modelname,
+  collname,
   command,
   filter,
   deletedIds,
@@ -21,7 +21,7 @@ const query = async function ({
   // Simulate asynchronousity
   await pSetTimeout(0);
 
-  const collection = connection[modelname];
+  const collection = connection[collname];
 
   return commands[command]({
     collection,

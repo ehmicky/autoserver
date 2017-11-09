@@ -14,12 +14,12 @@ const getWriteAction = function ({
   modelsMap,
   nestedKeys,
 }) {
-  const { modelname } = getModel({ top, modelsMap, commandpath });
+  const { collname } = getModel({ top, modelsMap, commandpath });
 
   const dataA = data.map(datum => replaceNestedData({ datum, nestedKeys }));
   const args = { data: dataA };
 
-  return { commandpath, args, modelname, dataPaths, isWrite: true };
+  return { commandpath, args, collname, dataPaths, isWrite: true };
 };
 
 // Replace nested objects from each `args.data` by only their ids

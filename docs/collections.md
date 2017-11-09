@@ -1,10 +1,8 @@
-# Models
+# Collections
 
-Models are the equivalent of a database table or collection.
+Collections are the equivalent of a database table or collection.
 
-Models keys are the name of the model.
-The name is used in [commands](crud.md).
-
+Their name is used in [commands](crud.md).
 It must only be lowercase ASCII letters, digits or underscore.
 It cannot start with one digit or two underscores.
 
@@ -13,7 +11,7 @@ It cannot start with one digit or two underscores.
 Attributes are the equivalent of a database column, attribute or key.
 
 Attribute keys are the name of the attribute, and follow the same naming rules
-as models.
+as collections.
 
 Attributes called `id` are special as they:
   - are used as primary key
@@ -25,19 +23,19 @@ One can specify an `attribute.type` among:
   - `integer`
   - `number`: i.e. float
   - `boolean`
-  - `MODEL`: where `MODEL` is the model's name, e.g. `users`,
-    for [nested models](#nested-models)
+  - `COLLECTION`: where `COLLECTION` is the collection's name, e.g. `users`,
+    for [nested collections](#nested-collections)
   - `string[]`, `integer[]`, `number[]`, `boolean[]` or `MODEL[]`: same but
     as an array.
 
-# Nested models
+# Nested collections
 
 See the documentation [here](relations.md).
 
-# Default model
+# Default collection
 
-If a model is called `default`, it will not be used as a regular model, but
-instead be deeply merged into each model.
+If a collection is called `default`, it will not be used as a regular
+collection, but instead be deeply merged into each collection.
 
 E.g. to specify that each model's `name` should be required:
 

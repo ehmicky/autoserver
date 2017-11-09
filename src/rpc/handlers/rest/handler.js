@@ -8,9 +8,9 @@ const handler = function ({
   payload,
   method,
   queryvars,
-  pathvars: { modelname, id },
+  pathvars: { collname, id },
 }) {
-  const commandName = `${METHODS_MAP[method]}_${modelname}`;
+  const commandName = `${METHODS_MAP[method]}_${collname}`;
   const args = getArgs({ method, payload, queryvars, id });
   return { rpcDef: { commandName, args } };
 };

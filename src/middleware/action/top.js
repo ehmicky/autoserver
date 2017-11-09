@@ -5,7 +5,7 @@ const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 
 // Parse a `rpcDef` into a top-level action, i.e.:
-// `modelname`, `commandpath`, `args`
+// `collname`, `commandpath`, `args`
 const parseTopAction = function ({
   rpcDef: { commandName, args },
   schema: { shortcuts: { modelsMap } },
@@ -14,7 +14,7 @@ const parseTopAction = function ({
   // Merge protocol-specific arguments with normal arguments
   const argsA = deepMerge(args, topargs);
 
-  const { command, modelname } = parseCommandName({
+  const { command, collname } = parseCommandName({
     commandName,
     modelsMap,
     args: argsA,
@@ -22,40 +22,40 @@ const parseTopAction = function ({
 
   const commandpath = [commandName];
 
-  const action = { modelname, commandpath, args: argsA };
+  const action = { collname, commandpath, args: argsA };
   const actions = [action];
   const top = { ...action, command };
 
   return { top, topargs: argsA, actions };
 };
 
-// Retrieve `command` and `modelname` using the main `commandName`
+// Retrieve `command` and `collname` using the main `commandName`
 const parseCommandName = function ({ commandName, modelsMap, args }) {
-  const [, commandType, modelname] = NAME_REGEXP.exec(commandName) || [];
+  const [, commandType, collname] = NAME_REGEXP.exec(commandName) || [];
 
-  validateModelname({ commandName, commandType, modelname, modelsMap });
+  validateCollname({ commandName, commandType, collname, modelsMap });
 
   const command = getCommand({ commandType, args });
 
-  return { command, modelname };
+  return { command, collname };
 };
 
 // Matches e.g. 'find_my_models' -> ['find', 'my_models'];
 const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
-const validateModelname = function ({
+const validateCollname = function ({
   commandName,
   commandType,
-  modelname,
+  collname,
   modelsMap,
 }) {
-  if (!commandType || !modelname) {
+  if (!commandType || !collname) {
     const message = `Command '${commandName}' is unknown`;
     throwError(message, { reason: 'WRONG_METHOD' });
   }
 
-  if (!modelsMap[modelname]) {
-    const message = `Model '${modelname}' is unknown`;
+  if (!modelsMap[collname]) {
+    const message = `Collection '${collname}' is unknown`;
     throwError(message, { reason: 'WRONG_METHOD' });
   }
 };

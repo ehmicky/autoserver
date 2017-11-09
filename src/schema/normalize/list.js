@@ -8,13 +8,13 @@ const {
   validateDatabases,
   validateCircularRefs,
   validateJsonSchemaData,
-  validateModelNaming,
+  validateCollname,
   validateSchemaSyntax,
   validateInlineFuncs,
   validateJsonSchema,
 } = require('./validate');
 const {
-  addDefaultModelname,
+  addDefaultCollname,
   addDefaultId,
   addDefaultDatabase,
   addDefaultValidate,
@@ -43,13 +43,13 @@ const normalizers = [
   { type: 'schema', func: validateCircularRefs },
   // Validates JSON schema $data
   { type: 'schema', func: validateJsonSchemaData },
-  // Validate models are properly named
-  { type: 'schema', func: validateModelNaming },
+  // Validate collections are properly named
+  { type: 'schema', func: validateCollname },
   // General schema syntax validation
   { type: 'schema', func: validateSchemaSyntax },
 
   // Default `model.model`
-  { type: 'model', func: addDefaultModelname },
+  { type: 'model', func: addDefaultCollname },
   // Default `model.id` attribute
   { type: 'model', func: addDefaultId },
   // Default `model.database`

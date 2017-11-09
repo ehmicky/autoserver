@@ -8,7 +8,7 @@ const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 const validateMissingIds = function (
   {
     command,
-    modelname,
+    collname,
     response,
     args: { filter, preFilter },
     commandpath,
@@ -23,7 +23,7 @@ const validateMissingIds = function (
   const ids = getMissingIds({ filter, preFilter, response });
   if (ids.length === 0) { return; }
 
-  return reportProblem({ preFilter, ids, modelname, top, nextLayer, mInput });
+  return reportProblem({ preFilter, ids, collname, top, nextLayer, mInput });
 };
 
 const doesNotValidate = function ({ command, top, commandpath }) {
@@ -68,13 +68,13 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
 
 // Check whether this is because the model does not exist,
 // or because it is not authorized
-const reportProblem = async function ({ top, modelname, ...rest }) {
-  const idsA = await checkAuthorization({ top, modelname, ...rest });
+const reportProblem = async function ({ top, collname, ...rest }) {
+  const idsA = await checkAuthorization({ top, collname, ...rest });
 
   // `upsert` commands might throw authorization errors, but not model not found
   if (top.command.type === 'upsert') { return; }
 
-  throwCommonError({ reason: 'DB_MODEL_NOT_FOUND', ids: idsA, modelname });
+  throwCommonError({ reason: 'DB_MODEL_NOT_FOUND', ids: idsA, collname });
 };
 
 // Try the same database query, but this time without the authorization filter,
@@ -83,7 +83,7 @@ const reportProblem = async function ({ top, modelname, ...rest }) {
 const checkAuthorization = async function ({
   preFilter,
   ids,
-  modelname,
+  collname,
   top,
   nextLayer,
   mInput,
@@ -101,7 +101,7 @@ const checkAuthorization = async function ({
 
   if (missingIds.length > 0) { return missingIds; }
 
-  throwCommonError({ reason: 'AUTHORIZATION', ids, modelname, top });
+  throwCommonError({ reason: 'AUTHORIZATION', ids, collname, top });
 };
 
 module.exports = {

@@ -128,21 +128,25 @@ Response containing [error information](error.md)
 
 Generic [error type](error.md)
 
+## Collection
+
+Like a [database table](collections.md) or collection
+
 ## Model
 
-Like a [database table](models.md) or collection
+Individual object inside a collection
 
-## Nested model
+## Nested collection
 
-[Attribute](relations.md) inside a model targeting another model
+[Attribute](relations.md) inside a collection targeting another collection
 
-## Target model
+## Target collection
 
-[Model](relations.md) targeted by a nested model
+[Collection](relations.md) targeted by a nested collection
 
 ## Attribute
 
-A model's [attribute](models.md#attributes.md),
+A collection's [attribute](collections.md#attributes.md),
 i.e. like a database column or key
 
 ## Property

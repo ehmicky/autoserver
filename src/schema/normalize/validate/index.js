@@ -4,7 +4,7 @@ module.exports = {
   ...require('./database'),
   ...require('./circular_refs'),
   ...require('./json_schema_data'),
-  ...require('./model_naming'),
+  ...require('./collname'),
   ...require('./syntax'),
   ...require('./inline_func'),
   ...require('./json_schema'),

@@ -2,7 +2,7 @@
 
 const { assignArray } = require('../../utilities');
 
-// Normalize results to an object with `path`, `model`, `modelname`, `select`
+// Normalize results to an object with `path`, `model`, `collname`, `select`
 // Then push to shared `results` variable
 const processResults = function ({
   results,

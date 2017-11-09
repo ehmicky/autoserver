@@ -43,7 +43,7 @@ const ARG_NAMES = {
 
 // From `attr.child_attr` to:
 //   commandpath: ['commandName', 'attr', 'child_attr']
-//   modelname
+//   collname
 //   args: {}
 const getAction = function ({ attrName, attrs, top, argName, modelsMap }) {
   validateMiddleAction({ attrName, attrs, argName });
@@ -53,9 +53,9 @@ const getAction = function ({ attrName, attrs, top, argName, modelsMap }) {
 
   validateModel({ model, commandpath, argName });
 
-  const { modelname } = model;
+  const { collname } = model;
   const isWrite = top.command.type !== 'find';
-  return { commandpath, modelname, args: {}, isWrite };
+  return { commandpath, collname, args: {}, isWrite };
 };
 
 // Cannot specify `args.populate|cascade` `parent.child` but not `parent`.

@@ -33,7 +33,7 @@ const fireReads = async function ({ actions, results, ...mInput }, nextLayer) {
 
 const fireRead = async function ({
   action,
-  action: { args, modelname },
+  action: { args, collname },
   childActions,
   nextLayer,
   mInput,
@@ -53,7 +53,7 @@ const fireRead = async function ({
   const { concurrentPromises, args: argsB } = getConcurrentCommand({
     args: argsA,
     results,
-    modelname,
+    collname,
   });
 
   const promise = fireReadCommand({
@@ -65,7 +65,7 @@ const fireRead = async function ({
 
   const pendingResults = getPendingResults({
     args: argsB,
-    modelname,
+    collname,
     results,
     promise,
   });

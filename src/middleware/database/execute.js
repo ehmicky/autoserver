@@ -5,7 +5,7 @@ const { extractSimpleIds } = require('../../filter');
 // Delegates to database adapter
 const databaseExecute = async function ({
   dbAdapter,
-  modelname,
+  collname,
   args,
   args: { dryrun },
   command,
@@ -13,7 +13,7 @@ const databaseExecute = async function ({
   // Make write commands not change data, if argument `dryrun` is used
   if (dryrun && command !== 'find') { return; }
 
-  const commandInput = getCommandInput({ command, modelname, args });
+  const commandInput = getCommandInput({ command, collname, args });
 
   const dbData = await dbAdapter.query(commandInput);
   return { dbData };
@@ -22,7 +22,7 @@ const databaseExecute = async function ({
 // Database adapter input
 const getCommandInput = function ({
   command,
-  modelname,
+  collname,
   args: { filter = {}, order, limit, offset, newData, deletedIds },
 }) {
   const filterIds = extractSimpleIds({ filter });
@@ -33,7 +33,7 @@ const getCommandInput = function ({
     command: commandA,
     filter,
     filterIds,
-    modelname,
+    collname,
     deletedIds,
     newData,
     order,

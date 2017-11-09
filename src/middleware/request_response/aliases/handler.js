@@ -11,21 +11,21 @@ const { applyOutputAliases } = require('./output');
 // The server is unaware of aliases, i.e. only the main attribute name:
 //   - is stored in the database
 //   - should be used in schema functions (with `$model`)
-const renameAliasesInput = function ({ modelname, schema, args }) {
-  const modelAliases = getModelAliases({ modelname, schema });
+const renameAliasesInput = function ({ collname, schema, args }) {
+  const modelAliases = getModelAliases({ collname, schema });
   return applyInputAliases({ args, modelAliases });
 };
 
-const renameAliasesOutput = function ({ modelname, schema, response }) {
-  const modelAliases = getModelAliases({ modelname, schema });
+const renameAliasesOutput = function ({ collname, schema, response }) {
+  const modelAliases = getModelAliases({ collname, schema });
   return applyOutputAliases({ response, modelAliases });
 };
 
 const getModelAliases = function ({
-  modelname,
+  collname,
   schema: { shortcuts: { aliasesMap } },
 }) {
-  return aliasesMap[modelname];
+  return aliasesMap[collname];
 };
 
 module.exports = {

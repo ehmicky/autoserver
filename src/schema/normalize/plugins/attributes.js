@@ -16,7 +16,7 @@ const attributesPlugin = function ({ getAttributes = () => ({}) }) {
 
     const modelsA = mapValues(
       models,
-      (model, modelname) => getNewModel({ model, modelname, newAttrs }),
+      (model, collname) => getNewModel({ model, collname, newAttrs }),
     );
     return { ...schema, models: modelsA };
   };
@@ -25,16 +25,16 @@ const attributesPlugin = function ({ getAttributes = () => ({}) }) {
 const getNewModel = function ({
   model,
   model: { attributes = {} },
-  modelname,
+  collname,
   newAttrs,
 }) {
-  validateAttrs({ attributes, modelname, newAttrs });
+  validateAttrs({ attributes, collname, newAttrs });
 
   return { ...model, attributes: { ...attributes, ...newAttrs } };
 };
 
 // Make sure plugin does not override user-defined attributes
-const validateAttrs = function ({ attributes, modelname, newAttrs }) {
+const validateAttrs = function ({ attributes, collname, newAttrs }) {
   const attrNames = Object.keys(attributes);
   const newAttrNames = Object.keys(newAttrs);
   const alreadyDefinedAttrs = intersection(attrNames, newAttrNames);
@@ -44,7 +44,7 @@ const validateAttrs = function ({ attributes, modelname, newAttrs }) {
   // 'attributes my_attr and my_other_attr'
   const attrsName = pluralize('attributes', newAttrNames.length);
   const attrsValue = getWordsList(newAttrNames, { op: 'and', quotes: true });
-  const message = `In model '${modelname}', cannot override ${attrsName} ${attrsValue}`;
+  const message = `In collection '${collname}', cannot override ${attrsName} ${attrsValue}`;
   throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 

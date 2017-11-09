@@ -12,7 +12,7 @@ const getVars = function (
     ip: $ip,
     requestid: $requestid,
     rpc: $rpc,
-    modelname: $modelname,
+    collname: $collection,
     top: { command: { type: $command } = {} } = {},
     topargs: $args,
     topargs: { params: $params = {} } = {},
@@ -32,7 +32,7 @@ const getVars = function (
     $ip,
     $requestid,
     $rpc,
-    $modelname,
+    $collection,
     $args,
     $command,
     $params,
@@ -67,7 +67,7 @@ const SYSTEM_VARS = {
   $ip: { type: 'string' },
   $requestid: { type: 'string' },
   $rpc: { type: 'string', validation: { enum: rpcs } },
-  $modelname: { type: 'string' },
+  $collection: { type: 'string' },
   $command: {
     type: 'string',
     validation: {

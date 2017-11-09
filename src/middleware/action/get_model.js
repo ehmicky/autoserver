@@ -1,10 +1,10 @@
 'use strict';
 
-// Turn a `commandpath` into a `modelname`, using schema information
+// Turn a `commandpath` into a `collname`, using schema information
 const getModel = function ({
   commandpath,
   modelsMap,
-  top: { modelname, command: { multiple } },
+  top: { collname, command: { multiple } },
 }) {
   const commandpathA = commandpath
     // The first element is the top-level `commandName`, not useful here
@@ -14,31 +14,31 @@ const getModel = function ({
 
   // This means this is the top-level action
   if (commandpathA.length === 0) {
-    return { modelname, multiple };
+    return { collname, multiple };
   }
 
-  return findModel({ modelsMap, modelname, commandpath: commandpathA });
+  return findModel({ modelsMap, collname, commandpath: commandpathA });
 };
 
 // Recurse over `modelsMap`, using `commandpath`
-const findModel = function ({ modelsMap, modelname, commandpath }) {
+const findModel = function ({ modelsMap, collname, commandpath }) {
   const [commandName, ...childCommandpath] = commandpath;
-  const model = modelsMap[modelname][commandName];
+  const model = modelsMap[collname][commandName];
 
   // Erronous `commandpath`
   if (model === undefined) { return; }
 
-  const { target: childModelname, isArray } = model;
+  const { target: childCollname, isArray } = model;
 
   if (childCommandpath.length > 0) {
     return findModel({
       modelsMap,
-      modelname: childModelname,
+      collname: childCollname,
       commandpath: childCommandpath,
     });
   }
 
-  return { modelname: childModelname, multiple: isArray };
+  return { collname: childCollname, multiple: isArray };
 };
 
 module.exports = {

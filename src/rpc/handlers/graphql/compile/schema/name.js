@@ -3,8 +3,8 @@
 const { camelize, capitalize } = require('underscore.string');
 
 // Returns top-level command name, e.g. `find_models` or `delete_models`
-const getCommandName = function ({ model, command }) {
-  return `${command}_${model}`;
+const getCommandName = function ({ collname, command }) {
+  return `${command}_${collname}`;
 };
 
 // Returns type name:
