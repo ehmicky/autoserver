@@ -12,9 +12,9 @@ const parseFilterActions = function ({ actions, schema }) {
 const parseFilterArg = function ({
   action,
   action: { args, collname },
-  schema: { shortcuts: { modelsMap } },
+  schema: { shortcuts: { collsMap } },
 }) {
-  const model = modelsMap[collname];
+  const model = collsMap[collname];
   const filter = parseFilterOrId({ args, model });
 
   if (filter === undefined) { return action; }

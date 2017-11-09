@@ -3,7 +3,7 @@
 // Turn a `commandpath` into a `collname`, using schema information
 const getModel = function ({
   commandpath,
-  modelsMap,
+  collsMap,
   top: { collname, command: { multiple } },
 }) {
   const commandpathA = commandpath
@@ -17,13 +17,13 @@ const getModel = function ({
     return { collname, multiple };
   }
 
-  return findModel({ modelsMap, collname, commandpath: commandpathA });
+  return findModel({ collsMap, collname, commandpath: commandpathA });
 };
 
-// Recurse over `modelsMap`, using `commandpath`
-const findModel = function ({ modelsMap, collname, commandpath }) {
+// Recurse over `collsMap`, using `commandpath`
+const findModel = function ({ collsMap, collname, commandpath }) {
   const [commandName, ...childCommandpath] = commandpath;
-  const model = modelsMap[collname][commandName];
+  const model = collsMap[collname][commandName];
 
   // Erronous `commandpath`
   if (model === undefined) { return; }
@@ -32,7 +32,7 @@ const findModel = function ({ modelsMap, collname, commandpath }) {
 
   if (childCommandpath.length > 0) {
     return findModel({
-      modelsMap,
+      collsMap,
       collname: childCollname,
       commandpath: childCommandpath,
     });
