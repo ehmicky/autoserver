@@ -24,7 +24,7 @@ Those are simple objects with a single `$ref` property pointing to the file,
 e.g.:
 
 ```yml
-models:
+collections:
   example_collection:
     $ref: example_collection.yml
 ```
@@ -32,9 +32,9 @@ models:
 One can also refer to a property in the current file by prepending a `#`:
 
 ```yml
-models:
+collections:
   example_collection:
-    $ref: '#/models/old_collection'
+    $ref: '#/collections/old_collection'
 ```
 
 One can also refer to Node.js modules or libraries by appending `.node`:
@@ -49,7 +49,7 @@ variables:
 
 ```yml
 engine: 0
-models:
+collections:
   companies:
     description: This is a company
     attributes:
@@ -73,7 +73,7 @@ This file describes two collections:
 
 The schema can contain the following properties:
   - `engine` `{string}` (required) - file format version. Must equal `0`
-  - `models` `{object}` (required) - list of
+  - `collections` `{object}` (required) - list of
     [collections](collections.md#collections)
     - `MODEL` `{object}` - MODEL is the name
       - `attributes` `{object}` - list of the collections's
@@ -92,7 +92,7 @@ One can add custom properties though by prefixing them with `__`, at the
 top-level, on a collection or on an attribute, e.g.:
 
 ```yml
-models:
+collections:
   example_collection:
     __my_custom_prop: 3
 ```

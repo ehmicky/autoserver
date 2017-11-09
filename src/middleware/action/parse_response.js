@@ -9,7 +9,7 @@ const parseResponse = function ({ response }) {
   return { response: responseA };
 };
 
-// Remove top-level key, e.g. `find_models`
+// Remove top-level key, e.g. `find_collection`
 const removeTopLevel = function ({ response }) {
   const [topLevelKey] = Object.keys(response);
 

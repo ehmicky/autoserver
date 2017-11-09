@@ -11,7 +11,7 @@ const { attributesPlugin } = require('./attributes');
 // Are handled by the system, and cannot be overriden by users
 // User is specified by opts:
 //   [currentuser] {inlineFunc} - current user
-//   [usermodel] {string} - user's model name
+//   [usermodel] {string} - user's collection name
 const authorPlugin = function ({ schema, opts }) {
   validateConf({ schema, opts });
   return attributesPlugin({ getAttributes })({ schema, opts });
@@ -35,8 +35,8 @@ const validateUserModel = function ({ schema, usermodel }) {
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 
-  if (schema.models[usermodel] === undefined) {
-    const message = `'author' plugin requires 'models.${usermodel}'`;
+  if (schema.collections[usermodel] === undefined) {
+    const message = `'author' plugin requires 'collections.${usermodel}'`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 };

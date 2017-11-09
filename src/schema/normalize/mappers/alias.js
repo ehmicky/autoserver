@@ -5,31 +5,31 @@ const { throwError } = require('../../../error');
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
-const normalizeAliases = function (model) {
-  if (!model.attributes) { return model; }
+const normalizeAliases = function (coll) {
+  if (!coll.attributes) { return coll; }
 
-  const attributes = Object.entries(model.attributes)
-    .reduce(normalizeAlias.bind(null, model), {});
+  const attributes = Object.entries(coll.attributes)
+    .reduce(normalizeAlias.bind(null, coll), {});
 
-  return { ...model, attributes };
+  return { ...coll, attributes };
 };
 
-const normalizeAlias = function (model, attrs, [attrName, attr]) {
-  const aliases = createAliases({ model, attrs, attr, attrName });
+const normalizeAlias = function (coll, attrs, [attrName, attr]) {
+  const aliases = createAliases({ coll, attrs, attr, attrName });
   return { ...attrs, ...aliases, [attrName]: attr };
 };
 
-const createAliases = function ({ model, attrs, attr, attrName }) {
+const createAliases = function ({ coll, attrs, attr, attrName }) {
   if (!attr.alias) { return {}; }
   const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
 
   return aliases
-    .map(alias => createAlias({ model, attrs, attr, attrName, alias }))
+    .map(alias => createAlias({ coll, attrs, attr, attrName, alias }))
     .reduce(assignObject, {});
 };
 
-const createAlias = function ({ model, attrs, attr, attrName, alias }) {
-  checkAliasDuplicates({ model, attrs, attrName, alias });
+const createAlias = function ({ coll, attrs, attr, attrName, alias }) {
+  checkAliasDuplicates({ coll, attrs, attrName, alias });
 
   const aliasAttr = omit(attr, 'alias');
   const attrA = { ...aliasAttr, aliasOf: attrName };
@@ -37,8 +37,8 @@ const createAlias = function ({ model, attrs, attr, attrName, alias }) {
   return { [alias]: attrA };
 };
 
-const checkAliasDuplicates = function ({ model, attrs, attrName, alias }) {
-  if (model.attributes[alias]) {
+const checkAliasDuplicates = function ({ coll, attrs, attrName, alias }) {
+  if (coll.attributes[alias]) {
     const message = `Attribute '${attrName}' cannot have an alias '${alias}' because this attribute already exists`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }

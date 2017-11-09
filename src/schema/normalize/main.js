@@ -23,38 +23,42 @@ const normalizeFull = function (func, { schema, path }) {
   return func({ schema, path });
 };
 
-// Apply a mapping function on each model
-const normalizeModels = function (func, { schema, schema: { models } }) {
-  const modelsA = mapValues(
-    models,
-    (model, collname) => func(model, { collname, schema }),
+// Apply a mapping function on each collection
+const normalizeCollections = function (
+  func,
+  { schema, schema: { collections } },
+) {
+  const collectionsA = mapValues(
+    collections,
+    (coll, collname) => func(coll, { collname, schema }),
   );
-  return { ...schema, models: modelsA };
+  return { ...schema, collections: collectionsA };
 };
 
-// Apply a mapping function on each model's attribute
+// Apply a mapping function on each collection's attribute
 const normalizeAllAttrs = function (func, { schema }) {
-  return normalizeModels(
-    model => normalizeAttrs({ func, model, schema }),
+  return normalizeCollections(
+    coll => normalizeAttrs({ func, coll, schema }),
     { schema },
   );
 };
 
-const normalizeAttrs = function ({ func, model, schema }) {
-  const { attributes } = model;
-  if (!attributes) { return model; }
+const normalizeAttrs = function ({ func, coll, schema }) {
+  const { attributes } = coll;
+  if (!attributes) { return coll; }
 
   const attributesA = mapValues(
     attributes,
     (attr, attrName) => func(attr, { attrName, schema }),
   );
-  return { ...model, attributes: attributesA };
+  return { ...coll, attributes: attributesA };
 };
 
-// Normalizer can either transform the full schema, each model or each attribute
+// Normalizer can either transform the full schema, each collection
+// or each attribute
 const normalizeFuncs = {
   schema: normalizeFull,
-  model: normalizeModels,
+  coll: normalizeCollections,
   attr: normalizeAllAttrs,
 };
 

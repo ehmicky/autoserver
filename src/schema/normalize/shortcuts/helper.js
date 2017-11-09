@@ -2,22 +2,22 @@
 
 const { mapValues, pickBy } = require('../../../utilities');
 
-// Create shortcuts maps by iterating over each model and its attributes
+// Create shortcuts maps by iterating over each collection and its attributes
 // `filter` allow selecting attributes
 // `mapAttrs` allow modifying attributes, as a whole
 // `mapAttr` allow modifying each individual attribute
-const mapModels = function ({ schema }, { filter, mapAttrs, mapAttr }) {
+const mapColls = function ({ schema }, { filter, mapAttrs, mapAttr }) {
   const filterFunc = getFilter({ filter });
 
   return mapValues(
-    schema.models,
-    model => mapModel({ model, filterFunc, mapAttrs, mapAttr, schema }),
+    schema.collections,
+    coll => mapColl({ coll, filterFunc, mapAttrs, mapAttr, schema }),
   );
 };
 
-const mapModel = function ({
-  model,
-  model: { attributes = {} },
+const mapColl = function ({
+  coll,
+  coll: { attributes = {} },
   filterFunc,
   mapAttrs,
   mapAttr,
@@ -25,16 +25,16 @@ const mapModel = function ({
 }) {
   const attributesA = pickBy(
     attributes,
-    (attr, attrName) => filterFunc(attr, { attrName, model }),
+    (attr, attrName) => filterFunc(attr, { attrName, coll }),
   );
   const attributesB = mapAttr
     ? mapValues(
       attributesA,
-      (attr, attrName) => mapAttr(attr, { model, attrName, schema }),
+      (attr, attrName) => mapAttr(attr, { coll, attrName, schema }),
     )
     : attributesA;
   const attributesC = mapAttrs
-    ? mapAttrs(attributesB, { model, schema })
+    ? mapAttrs(attributesB, { coll, schema })
     : attributesB;
   return attributesC;
 };
@@ -53,5 +53,5 @@ const propFilter = function (propName, attr) {
 };
 
 module.exports = {
-  mapModels,
+  mapColls,
 };

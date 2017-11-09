@@ -4,8 +4,8 @@ Default values can be specified with the [schema](schema.md) property
 `attribute.default`, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       example_attribute:
         default: 200

@@ -40,7 +40,7 @@ const parseCommandName = function ({ commandName, collsMap, args }) {
   return { command, collname };
 };
 
-// Matches e.g. 'find_my_models' -> ['find', 'my_models'];
+// Matches e.g. 'find_my_coll' -> ['find', 'my_coll'];
 const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
 
 const validateCollname = function ({

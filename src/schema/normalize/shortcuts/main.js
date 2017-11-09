@@ -3,13 +3,13 @@
 const { assignObject } = require('../../../utilities');
 
 const maps = require('./maps');
-const { mapModels } = require('./helper');
+const { mapColls } = require('./helper');
 
 // Compile-time transformations just meant for runtime performance optimization
 const normalizeShortcuts = function ({ schema }) {
   const shortcuts = Object.entries(maps)
     .map(([name, input]) => {
-      const shortcut = mapModels({ schema }, input);
+      const shortcut = mapColls({ schema }, input);
       return { [name]: shortcut };
     })
     .reduce(assignObject, {});

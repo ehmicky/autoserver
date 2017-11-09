@@ -9,10 +9,10 @@ const { authorPlugin } = require('./author');
 // Plugins are functions that take `schema` as input,
 // and returns a modified schema as output
 // They can also take an `opts` parameter
-// Use cases can be: adding a attribute to each model,
+// Use cases can be: adding a attribute to each collection,
 // extending core functionalities, etc.
 const applyPlugins = async function ({ schema }) {
-  if (!schema.models) { return schema; }
+  if (!schema.collections) { return schema; }
 
   const plugins = schema.plugins && Array.isArray(schema.plugins)
     ? schema.plugins

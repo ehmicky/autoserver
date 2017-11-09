@@ -1,5 +1,5 @@
 engine: 0
-models:
+collections:
   pets:
     description: Cute animal
     database: memory
@@ -11,7 +11,7 @@ models:
         _in: (['find', 'delete', 'create', 'upsert', 'patch'])
     __custom: anything
     __second_custom:
-      $ref: '#/models/pets/__custom'
+      $ref: '#/collections/pets/__custom'
     attributes:
       id:
         description: Unique identifier of a pet

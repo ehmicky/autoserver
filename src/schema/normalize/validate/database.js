@@ -5,22 +5,22 @@ const { databaseAdapters } = require('../../../database');
 
 const { validateFeatures } = require('./features');
 
-// Validates `model.database`
-const validateDatabases = function (model, { collname }) {
-  const { database } = model;
+// Validates `collection.database`
+const validateDatabases = function (coll, { collname }) {
+  const { database } = coll;
 
   const adapter = getAdapter({ name: database, collname });
-  validateFeatures({ adapter, model, collname });
+  validateFeatures({ adapter, coll, collname });
 
   const { features } = adapter;
-  return { ...model, features };
+  return { ...coll, features };
 };
 
 const getAdapter = function ({ name, collname }) {
   const adapter = databaseAdapters[name];
   if (adapter !== undefined) { return adapter; }
 
-  const message = `'models.${collname}.database' '${name}' is unknown`;
+  const message = `'collections.${collname}.database' '${name}' is unknown`;
   throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 

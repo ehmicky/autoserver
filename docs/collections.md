@@ -24,11 +24,11 @@ One can specify an `attribute.type` among:
   - `number`: i.e. float
   - `boolean`
   - `COLLECTION`: where `COLLECTION` is the collection's name, e.g. `users`,
-    for [nested collections](#nested-collections)
+    for [nested models](#nested-models)
   - `string[]`, `integer[]`, `number[]`, `boolean[]` or `MODEL[]`: same but
     as an array.
 
-# Nested collections
+# Nested models
 
 See the documentation [here](relations.md).
 
@@ -40,7 +40,7 @@ collection, but instead be deeply merged into each collection.
 E.g. to specify that each model's `name` should be required:
 
 ```yml
-models:
+collections:
   default:
     attributes:
       name:
