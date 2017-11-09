@@ -1,12 +1,12 @@
 'use strict';
 
-// Add default `model.id` attribute
-const addDefaultId = function (model) {
-  const { attributes, attributes: { id } } = model;
-  if (id !== undefined) { return model; }
+// Add default `coll.id` attribute
+const addDefaultId = function (coll) {
+  const { attributes, attributes: { id } } = coll;
+  if (id !== undefined) { return coll; }
 
   return {
-    ...model,
+    ...coll,
     attributes: {
       ...attributes,
       id: { description: 'Unique identifier' },

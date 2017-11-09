@@ -3,8 +3,8 @@
 const { throwError } = require('../../../error');
 
 // Check for data model inconsistencies, and potentially fix them
-const check = function ({ schema: { models: schemaModels }, connection }) {
-  Object.keys(schemaModels)
+const check = function ({ schema: { collections }, connection }) {
+  Object.keys(collections)
     .forEach(collname => checkCollection({ collname, connection }));
 };
 

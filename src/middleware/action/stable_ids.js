@@ -65,13 +65,13 @@ const isServerSet = function ({ action, schema, top }) {
 
 const getAttr = function ({
   action: { commandpath },
-  schema: { shortcuts: { collsMap }, models },
+  schema: { shortcuts: { collsMap }, collections },
   top,
 }) {
   const parentPath = commandpath.slice(0, -1);
   const { collname } = getModel({ commandpath: parentPath, collsMap, top });
   const attrName = commandpath[commandpath.length - 1];
-  const { attributes } = models[collname];
+  const { attributes } = collections[collname];
   const attr = attributes[attrName];
   return attr;
 };

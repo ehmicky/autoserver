@@ -51,8 +51,8 @@ version 6:
 E.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       example_attribute:
         validate:

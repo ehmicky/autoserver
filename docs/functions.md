@@ -35,8 +35,8 @@ module.exports = getDefaultValue;
 and in the schema:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       example_attribute:
         default:
@@ -48,8 +48,8 @@ models:
 You can also directly write JavaScript functions inside the schema, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       example_attribute:
         default: (Math.random())
@@ -106,8 +106,8 @@ module.exports = getDefaultValue;
 Those can be also be used when the function is inline, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       example_attribute:
         default: ($timestamp)

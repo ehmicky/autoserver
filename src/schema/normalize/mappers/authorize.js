@@ -16,15 +16,15 @@ const normalizeSchemaAuthorize = function ({ schema, schema: { authorize } }) {
   return { ...schema, authorize: authorizeA };
 };
 
-// Parse `model.authorize` into AST
-const normalizeAuthorize = function (model, { collname, schema }) {
-  const { authorize } = model;
-  if (authorize === undefined) { return model; }
+// Parse `coll.authorize` into AST
+const normalizeAuthorize = function (coll, { collname, schema }) {
+  const { authorize } = coll;
+  if (authorize === undefined) { return coll; }
 
   const prefix = `In 'collection.${collname}.authorize', `;
   const authorizeA = parseAuthorize({ authorize, collname, schema, prefix });
 
-  return { ...model, authorize: authorizeA };
+  return { ...coll, authorize: authorizeA };
 };
 
 const parseAuthorize = function ({ authorize, collname, schema, prefix }) {

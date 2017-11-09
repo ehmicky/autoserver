@@ -4,8 +4,8 @@ Attributes can be calculated server-side by setting `attribute.value` to a
 [function](functions.md) or a constant value, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       current_date:
         value: ($timestamp)
@@ -21,8 +21,8 @@ By using the `$model` or `$val`
 combine several attributes, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       first_name:
         type: string
@@ -39,8 +39,8 @@ When doing so, please keep in mind that `$val` might be `undefined`, unless
 `attribute.validate.required` is `true`, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       name:
         value: ($val.toLowerCase())
@@ -49,8 +49,8 @@ models:
 would fail when the client sets `name` to `undefined`. Instead, this should be:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       name:
         value: '(typeof $val === "string" ? $val.toLowerCase() : $val)'

@@ -8,10 +8,10 @@ const mapAttr = function ({ isArray, target, type }) {
   return { isArray, target, type };
 };
 
-// Returns a simplified map of all the models in the schema
+// Returns a simplified map of all the collections in the schema
 // Example: {
-//   my_model: {
-//     my_sub_model: { isArray: true, target: 'another_model', type: 'string' }
+//   my_coll: {
+//     my_sub_coll: { isArray: true, target: 'another_coll', type: 'string' }
 //   }
 // }
 const collsMap = { mapAttr };

@@ -2,8 +2,8 @@
 
 const mapAttr = ({ value }) => value;
 
-// Gets a map of models' `value`
-// e.g. { my_model: { attrName: value, ... }, ... }
+// Gets a map of collections' `value`
+// e.g. { my_coll: { attrName: value, ... }, ... }
 const valuesMap = { filter: 'value', mapAttr };
 
 module.exports = {

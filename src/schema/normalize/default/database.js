@@ -1,10 +1,10 @@
 'use strict';
 
-// Default `model.database`
-const addDefaultDatabase = function (model) {
-  if (model.database) { return model; }
+// Default `coll.database`
+const addDefaultDatabase = function (coll) {
+  if (coll.database) { return coll; }
 
-  return { ...model, database: 'memory' };
+  return { ...coll, database: 'memory' };
 };
 
 module.exports = {

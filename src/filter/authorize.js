@@ -16,10 +16,10 @@ const getUserVars = function ({ schema: { variables = {} } }) {
 };
 
 // `model.authorize['$model.ATTR']`
-const getModelAttrs = function ({ schema: { models }, collname }) {
+const getModelAttrs = function ({ schema: { collections }, collname }) {
   if (collname === undefined) { return; }
 
-  const { attributes = {} } = models[collname];
+  const { attributes = {} } = collections[collname];
   const modelAttrs = mapValues(
     attributes,
     attr => pick(attr, ['type', 'isArray']),

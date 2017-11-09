@@ -14,7 +14,7 @@ const attrsToJsonSchema = function (attributes) {
 };
 
 // Fix `required` attribute according to the current command
-// JSON schema `require` attribute is a model-level array,
+// JSON schema `require` attribute is a collection-level array,
 // not an attribute-level boolean
 const addJsonSchemaRequire = function (jsonSchema) {
   const requiredAttrs = pickBy(jsonSchema.properties, attr => attr.required);
@@ -24,7 +24,7 @@ const addJsonSchemaRequire = function (jsonSchema) {
   return { ...jsonSchema, required: requiredA };
 };
 
-// JSON schema `dependencies` attribute is model-level, not attribute-level
+// JSON schema `dependencies` attribute is collection-level, not attribute-level
 const addJsonSchemaDeps = function (jsonSchema) {
   const dependencies = mapValues(
     jsonSchema.properties,
@@ -55,8 +55,8 @@ const mappers = [
   removeAltSyntax,
 ];
 
-// Retrieves map of models's JSON schema validations
-// E.g. { model: { type: 'object', required: [...], properties: { ... } }
+// Retrieves map of collections's JSON schema validations
+// E.g. { coll: { type: 'object', required: [...], properties: { ... } }
 const validateMap = { mapAttr, mapAttrs };
 
 module.exports = {

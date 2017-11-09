@@ -2,14 +2,14 @@
 
 const { camelize, capitalize } = require('underscore.string');
 
-// Returns top-level command name, e.g. `find_models` or `delete_models`
+// Returns top-level command name, e.g. `find_collection` or `delete_collection`
 const getCommandName = function ({ collname, command }) {
   return `${command}_${collname}`;
 };
 
 // Returns type name:
 //  - 'Model' for normal return types
-//  - 'CommandModelData' and 'CommandModelFilter' for `args.data|filter` types
+//  - 'CommandCollData' and 'CommandCollFilter' for `args.data|filter` types
 const getTypeName = function ({
   def: { model, command },
   opts: { inputObjectType = 'type' } = {},

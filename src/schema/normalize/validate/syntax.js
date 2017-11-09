@@ -35,17 +35,17 @@ const getSchema = function (schema) {
 
 // Adds some temporary property on the schema, to help validation
 const addProps = function (schema) {
-  const modelTypes = getModelTypes(schema);
+  const collTypes = getCollTypes(schema);
   const customValidationNames = getCustomValidationNames(schema);
 
-  return { ...schema, modelTypes, customValidationNames };
+  return { ...schema, collTypes, customValidationNames };
 };
 
-const getModelTypes = function (schema) {
-  const simpleModelTypes = Object.keys(schema.models || {});
-  const arrayModelTypes = simpleModelTypes.map(name => `${name}[]`);
+const getCollTypes = function (schema) {
+  const simpleCollTypes = Object.keys(schema.collections || {});
+  const arrayCollTypes = simpleCollTypes.map(name => `${name}[]`);
 
-  return [...simpleModelTypes, ...arrayModelTypes];
+  return [...simpleCollTypes, ...arrayCollTypes];
 };
 
 const getCustomValidationNames = function (schema) {

@@ -9,7 +9,7 @@ const validateAuthorization = function ({
   args,
   collname,
   schema,
-  schema: { models },
+  schema: { collections },
   userVars,
   mInput,
   command,
@@ -21,7 +21,7 @@ const validateAuthorization = function ({
 
   validateSchemaAuth({ schema, userVars, mInput, top });
 
-  const model = models[collname];
+  const model = collections[collname];
   const argsA = validateModelAuth({
     args,
     model,

@@ -3,17 +3,17 @@ $id: schema_json_schema_v1
 title: apiengine schema's JSON schema
 description: JSON schema validating the apiengine's schema
 type: object
-required: [engine, models]
+required: [engine, collections]
 properties:
   # Versioning
   engine:
     type: integer
     minimum: 0
-  # Model definitions
-  models:
+  # Collections definitions
+  collections:
     additionalProperties:
-      $ref: '#/definitions/model'
-    # Check models names
+      $ref: '#/definitions/collection'
+    # Check collections names
     propertyNames:
       $ref: '#/definitions/validCollname'
   # `schema.authorize`
@@ -29,7 +29,7 @@ properties:
   validation:
     $ref: '#/definitions/validation'
   # Automatically generated, and used to validate `type`
-  modelTypes:
+  collTypes:
     type: array
     items:
       type: string
@@ -43,8 +43,8 @@ additionalProperties: false
 patternProperties:
   '^__': true
 definitions:
-  # schema.models.MODEL
-  model:
+  # schema.collections.COLLECTION
+  collection:
     type: object
     # Users can only define custom properties prefixed with __
     additionalProperties: false
@@ -72,28 +72,28 @@ definitions:
         # Models can have a maximum of 50 attributes.
         # This is too avoid big responses.
         maxProperties: 50
-  # MODEL.id
+  # COLL.id
   idAttribute:
     properties:
-      # `model.id` can only be a string:
+      # `collection.id` can only be a string:
       #  - it should be able to be assigned by the API (as opposed to the
       #    database), so serial integers cannot be used
-      #  - it cannot be targetting another model.
+      #  - it cannot be targetting another collection.
       type:
         const: string
-      # `MODEL.id` cannot be optional
+      # `COLL.id` cannot be optional
       validate:
         properties:
           required:
             not:
               const: false
-    # `MODEL.id` cannot use value|readonly
+    # `COLL.id` cannot use value|readonly
     allOf:
     - not:
         required: [value]
     - not:
         required: [readonly]
-  # MODEL.attributes
+  # COLL.attributes
   attribute:
     type: object
     # Users can only define custom properties prefixed with __
@@ -137,7 +137,7 @@ definitions:
       # Default value
       default:
         $ref: '#/definitions/schemaFuncOrValue'
-  # model.authorize
+  # collection.authorize
   # It is validated in more details when parsed
   authorize:
     oneOf:
@@ -145,7 +145,7 @@ definitions:
       items:
         type: object
     - type: object
-  # model.database
+  # collection.database
   database:
     type: string
   # schema.variables
@@ -197,39 +197,39 @@ definitions:
   type:
     oneOf:
     - $ref: '#/definitions/singleType'
-    # Cannot specify models when using an array of types
+    # Cannot specify collections when using an array of types
     - type: array
       # Must choose between multiple and non-multiple types, when using an array
       oneOf:
       - items:
-          $ref: '#/definitions/nonModelSimpleType'
+          $ref: '#/definitions/nonCollSimpleType'
       - items:
-          $ref: '#/definitions/nonModelMultipleType'
+          $ref: '#/definitions/nonCollMultipleType'
       minItems: 1
       uniqueItems: true
   singleType:
     type: string
     oneOf:
-    - $ref: '#/definitions/modelType'
-    - $ref: '#/definitions/nonModelType'
-  modelType:
+    - $ref: '#/definitions/collType'
+    - $ref: '#/definitions/nonCollType'
+  collType:
     enum:
-      $data: '/modelTypes'
-  nonModelType:
+      $data: '/collTypes'
+  nonCollType:
     oneOf:
-    - $ref: '#/definitions/nonModelSimpleType'
-    - $ref: '#/definitions/nonModelMultipleType'
-  nonModelSimpleType:
+    - $ref: '#/definitions/nonCollSimpleType'
+    - $ref: '#/definitions/nonCollMultipleType'
+  nonCollSimpleType:
     enum:
     - string
     - number
     - integer
     - boolean
-    # Not allowed: should use models instead
+    # Not allowed: should use collections instead
     # - object
     # Not allowed: should use [] notation instead
     # - array
-  nonModelMultipleType:
+  nonCollMultipleType:
     enum:
     - string[]
     - number[]
@@ -238,7 +238,7 @@ definitions:
   # attr.value
   transformValue:
     $ref: '#/definitions/schemaFuncOrValue'
-  # model.description or attr.description
+  # collection.description or attr.description
   description:
     type: string
   # TODO: validate that if this is not schema function, it should be of same
@@ -280,13 +280,13 @@ definitions:
   validUserName:
     type: string
     pattern: '^__[a-z][_0-9a-z]*$'
-  # Keys of schema.models.*, and model.model
+  # Keys of schema.collections.*, and collection.model
   validCollname:
     allOf:
     - $ref: '#/definitions/validName'
     # This is too avoid big responses, or hitting database limits
     - maxLength: 100
-  # Keys of MODEL.attributes.*
+  # Keys of COLL.attributes.*
   validAttributeName:
     allOf:
     - $ref: '#/definitions/validName'
@@ -449,7 +449,7 @@ definitions:
         - uri-reference
         - json-pointer
         - relative-json-pointer
-      # Instead of being an array on the model,
+      # Instead of being an array on the collection,
       # like in standard JSON schema.
       # More intuitive
       required:

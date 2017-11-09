@@ -6,31 +6,31 @@ const { throwError } = require('../../../error');
 const { mapValues, getWordsList, intersection } = require('../../../utilities');
 
 // Generic plugin factory
-// It adds attributes to each model, using `getAttributes(pluginOpts)` option
-// which returns the attributes
+// It adds attributes to each collection, using `getAttributes(pluginOpts)`
+// option which returns the attributes
 const attributesPlugin = function ({ getAttributes = () => ({}) }) {
-  return ({ schema, schema: { models }, opts }) => {
-    if (!models) { return schema; }
+  return ({ schema, schema: { collections }, opts }) => {
+    if (!collections) { return schema; }
 
     const newAttrs = getAttributes(opts);
 
-    const modelsA = mapValues(
-      models,
-      (model, collname) => getNewModel({ model, collname, newAttrs }),
+    const collectionsA = mapValues(
+      collections,
+      (coll, collname) => getNewColl({ coll, collname, newAttrs }),
     );
-    return { ...schema, models: modelsA };
+    return { ...schema, collections: collectionsA };
   };
 };
 
-const getNewModel = function ({
-  model,
-  model: { attributes = {} },
+const getNewColl = function ({
+  coll,
+  coll: { attributes = {} },
   collname,
   newAttrs,
 }) {
   validateAttrs({ attributes, collname, newAttrs });
 
-  return { ...model, attributes: { ...attributes, ...newAttrs } };
+  return { ...coll, attributes: { ...attributes, ...newAttrs } };
 };
 
 // Make sure plugin does not override user-defined attributes

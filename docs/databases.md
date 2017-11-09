@@ -3,12 +3,12 @@
 Databases are specified with `model.database`, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     database: mongodb
 ```
 
-This means multiple databases can be mixed on the same API, and models can
+This means multiple databases can be mixed on the same API, and collections can
 either share the same databases or use different ones.
 
 # Available databases

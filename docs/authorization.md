@@ -7,7 +7,7 @@ It is possible to reject requests by specifying a condition with
 [argument](rpc.md#rpc), except
 [schema variables](functions.md#schema-functions-variables),
 including [user variables](functions.md#user-variables), are specified instead
-of models attributes, e.g.:
+of collection's attributes, e.g.:
 
 ```yml
 schema:
@@ -48,16 +48,16 @@ schema:
 However those functions cannot use the variables `$model`, `$val`,
 `$previousmodel` nor `$previousval`.
 
-# Model authorization
+# Collection authorization
 
-One can specify model-specific authorization with `model.authorize`.
+One can specify collection-specific authorization with `collection.authorize`.
 
 The format is the same as `schema.authorize`, except `$model` can also be used,
 e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     authorize:
     - $model:
         age:
@@ -66,24 +66,24 @@ models:
         public: true
 ```
 
-will reject requests on `example_model` unless `example_model.age` is over `30`,
-or `example_model.public` is `true`.
+will reject requests on `example_collection` unless `example_collection.age`
+is over `30`, or `example_collection.public` is `true`.
 
 If the model is being modified, attributes are checked both before and after
 modification. In other words, it is checked on both `$previousmodel` and
 `$model` [variables](functions.md#schema-functions-variables)). E.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     authorize:
       $model:
         locked: false
 ```
 
-will prevent requests from fetching any `example_model` with
-`example_model.locked` `true`. It will also prevent requests from setting
-`example_model.locked` to `true`, or creating such a model.
+will prevent requests from fetching any `example_collection` with
+`example_collection.locked` `true`. It will also prevent requests from setting
+`example_collection.locked` to `true`, or creating such a model.
 
 Using this feature allows you to define
 [access control lists](https://en.wikipedia.org/wiki/Access_control_list)
@@ -97,8 +97,8 @@ Trying to do so won't report any error, but the attribute value will not change.
 They can be specified using `attribute.readonly`, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       example_attribute:
         readonly: true
@@ -108,8 +108,8 @@ An attribute can be readonly based on a condition, by using a
 [function](function.md) in `attribute.readonly`, e.g.:
 
 ```yml
-models:
-  example_model:
+collections:
+  example_collection:
     attributes:
       name:
         readonly: ($model.locked === true)

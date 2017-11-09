@@ -223,21 +223,22 @@ other [RPC systems](rpc.md) have different conventions.
 # Summary of commands
 
 ```graphql
-find_models({ [id|filter], [order], [pagesize], [before|after|page], [silent] })
+find_collection({ [id|filter], [order], [pagesize], [before|after|page],
+[silent] })
 ```
 
 ```graphql
-create_models({ data|data[], [pagesize], [silent], [dryrun] })
+create_collection({ data|data[], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
-upsert_models({ data|data[], [pagesize], [silent], [dryrun] })
+upsert_collection({ data|data[], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
-patch_models({ data, [id|filter], [pagesize], [silent], [dryrun] })
+patch_collection({ data, [id|filter], [pagesize], [silent], [dryrun] })
 ```
 
 ```graphql
-delete_models({ [id|filter], [cascade], [pagesize], [silent], [dryrun] })
+delete_collection({ [id|filter], [cascade], [pagesize], [silent], [dryrun] })
 ```

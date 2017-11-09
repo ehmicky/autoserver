@@ -14,11 +14,11 @@ const { TOP_DESCRIPTIONS, getCommandDescription } = require('./description');
 
 // Retrieve the GraphQL definitions for Query|Mutation,
 // and the top-level commands
-const getTopDefs = function ({ models }) {
+const getTopDefs = function ({ collections }) {
   return mapValues(
     GRAPHQL_METHODS,
     (commands, graphqlMethod) =>
-      getTopDef({ graphqlMethod, commands, models })
+      getTopDef({ graphqlMethod, commands, collections })
   );
 };
 
@@ -28,8 +28,8 @@ const GRAPHQL_METHODS = {
   mutation: ['create', 'upsert', 'patch', 'delete'],
 };
 
-const getTopDef = function ({ models, graphqlMethod, commands }) {
-  const attributes = getCommandsDefs({ models, commands });
+const getTopDef = function ({ collections, graphqlMethod, commands }) {
+  const attributes = getCommandsDefs({ collections, commands });
   const model = capitalize(graphqlMethod);
   const description = TOP_DESCRIPTIONS[graphqlMethod];
 
@@ -38,35 +38,35 @@ const getTopDef = function ({ models, graphqlMethod, commands }) {
 };
 
 // Retrieve attributes for a given GraphQL method
-const getCommandsDefs = function ({ models, commands }) {
+const getCommandsDefs = function ({ collections, commands }) {
   return COMMANDS
     .map(({ type }) => type)
     .filter(type => commands.includes(type))
-    .map(command => getCommandDef({ models, command }))
+    .map(command => getCommandDef({ collections, command }))
     .reduce(assignObject, {});
 };
 
 // Retrieve attributes for a given command
-const getCommandDef = function ({ models, command }) {
+const getCommandDef = function ({ collections, command }) {
   // E.g. 'my_model' + 'findMany' -> 'findMyModels'
   // This will be used as the top-level graphqlMethod
-  const modelsA = mapKeys(
-    models,
-    (model, collname) => getCommandName({ collname, command }),
+  const collectionsA = mapKeys(
+    collections,
+    (coll, collname) => getCommandName({ collname, command }),
   );
-  const modelsB = mapValues(
-    modelsA,
-    model => normalizeModelDef({ model, command }),
+  const collectionsB = mapValues(
+    collectionsA,
+    coll => normalizeCollDef({ coll, command }),
   );
-  return modelsB;
+  return collectionsB;
 };
 
-// Add command information to each top-level model
-const normalizeModelDef = function ({ model, command }) {
-  const typeName = getTypeName({ def: model });
+// Add command information to each top-level collection
+const normalizeCollDef = function ({ coll, command }) {
+  const typeName = getTypeName({ def: coll });
   const commandDescription = getCommandDescription({ command, typeName });
 
-  return { ...model, command, commandDescription, type: 'object' };
+  return { ...coll, command, commandDescription, type: 'object' };
 };
 
 module.exports = {
