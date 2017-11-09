@@ -24,14 +24,12 @@ const isFilterArg = function (def, { inputObjectType }) {
 
 // `patchOne|patchMany` do not require any attribute in `args.data`
 const isPatchArg = function ({ command }, { inputObjectType }) {
-  return inputObjectType === 'data' && command.type === 'patch';
+  return inputObjectType === 'data' && command === 'patch';
 };
 
 // `data.id` is optional in createOne|createMany
 const isCreateId = function ({ command }, { defName, inputObjectType }) {
-  return inputObjectType === 'data' &&
-    command.type === 'create' &&
-    defName === 'id';
+  return inputObjectType === 'data' && command === 'create' && defName === 'id';
 };
 
 const optionalTests = [

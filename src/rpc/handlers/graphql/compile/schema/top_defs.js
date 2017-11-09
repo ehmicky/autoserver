@@ -29,7 +29,7 @@ const GRAPHQL_METHODS = {
 };
 
 const getTopDef = function ({ models, graphqlMethod, commands }) {
-  const attributes = getCommandsDefs({ commands, models });
+  const attributes = getCommandsDefs({ models, commands });
   const model = capitalize(graphqlMethod);
   const description = TOP_DESCRIPTIONS[graphqlMethod];
 
@@ -40,7 +40,8 @@ const getTopDef = function ({ models, graphqlMethod, commands }) {
 // Retrieve attributes for a given GraphQL method
 const getCommandsDefs = function ({ models, commands }) {
   return COMMANDS
-    .filter(({ type }) => commands.includes(type))
+    .map(({ type }) => type)
+    .filter(type => commands.includes(type))
     .map(command => getCommandDef({ models, command }))
     .reduce(assignObject, {});
 };

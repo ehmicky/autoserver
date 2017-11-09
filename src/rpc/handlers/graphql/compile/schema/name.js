@@ -1,12 +1,10 @@
 'use strict';
 
 const { camelize, capitalize } = require('underscore.string');
-const { plural, singular } = require('pluralize');
 
 // Returns top-level command name, e.g. `find_models` or `delete_models`
 const getCommandName = function ({ model, command }) {
-  const modelA = command.multiple ? plural(model) : singular(model);
-  return `${command.type}_${modelA}`;
+  return `${command}_${model}`;
 };
 
 // Returns type name:
@@ -16,12 +14,11 @@ const getTypeName = function ({
   def: { model, command },
   opts: { inputObjectType = 'type' } = {},
 }) {
-  if (inputObjectType === 'type') {
-    return camelize(capitalize(model));
-  }
-
-  const modelA = singular(model);
-  return camelize(capitalize(`${command.type}_${modelA}_${inputObjectType}`));
+  const typeName = inputObjectType === 'type'
+    ? model
+    : `${command}_${model}_${inputObjectType}`;
+  const typeNameA = camelize(capitalize(typeName));
+  return typeNameA;
 };
 
 module.exports = {

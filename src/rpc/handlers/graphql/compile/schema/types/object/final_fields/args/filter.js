@@ -4,8 +4,7 @@ const { getArgTypeDescription } = require('../../../../description');
 
 // `filter` argument
 const getFilterArgument = function (def, { filterObjectType }) {
-  const hasFilter = def.command.multiple &&
-    FILTER_COMMAND_TYPES.includes(def.command.type);
+  const hasFilter = FILTER_COMMAND_TYPES.includes(def.command);
   if (!hasFilter) { return {}; }
 
   const description = getArgTypeDescription(def, 'argFilter');
