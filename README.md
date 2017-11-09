@@ -3,10 +3,8 @@
 This is a web server engine.
 
 You create a single [declarative file](docs/schema.md) as input, and a
-full-featured
-[REST](https://en.wikipedia.org/wiki/Representational_state_transfer) /
-[GraphQL](http://graphql.org/) / [JSON-RPC](http://www.jsonrpc.org) server will
-start.
+full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
+[JSON-RPC](docs/jsonrpc.md) server will start.
 
 # Features
 

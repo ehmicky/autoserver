@@ -1,6 +1,7 @@
 # Endpoint
 
-JSON-RPC is one of the available [RPC systems](rpc.md).
+[JSON-RPC](http://www.jsonrpc.org) is one of the available
+[RPC systems](rpc.md).
 
 Both JSON-RPC 1.0 and 2.0 are supported.
 
