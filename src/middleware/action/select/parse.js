@@ -26,7 +26,7 @@ const parseSelectArg = function ({ args: { select }, commandpath }) {
   return selectsC;
 };
 
-// Turns `args.select` 'aaa.bbb.ccc=ddd' into:
+// Turns `args.select` 'aaa.bbb.ccc:ddd' into:
 // `commandpath` 'aaa.bbb', `key` 'ccc', `outputName` 'ddd']
 const parseSelectPart = function ({ select, commandpath }) {
   const selectA = [...commandpath, select].join('.');
@@ -37,7 +37,7 @@ const parseSelectPart = function ({ select, commandpath }) {
   return { commandpath: commandpathA, key, outputName };
 };
 
-const SELECT_REGEXP = /^([^=]*)\.([^.=]+)(=(.+))?$/;
+const SELECT_REGEXP = /^([^:]*)\.([^.:]+)(:(.+))?$/;
 
 // Add `args.select` to each action
 const addSelects = function ({ actions, selects, top }) {
