@@ -1,18 +1,18 @@
 'use strict';
 
 const { assignArray, uniq } = require('../../../utilities');
-const { getModel } = require('../get_model');
+const { getColl } = require('../get_coll');
 
 const { getDataPath } = require('./data_path');
 const { isObject } = require('./validate');
 
-// Retrieve the keys of an `args.data` object which are nested models
+// Retrieve the keys of an `args.data` object which are nested collections
 const getNestedKeys = function ({ data, commandpath, top, collsMap }) {
   const nestedKeys = data
     .map(Object.keys)
     .reduce(assignArray, []);
   const nestedKeysA = uniq(nestedKeys);
-  // Keep only the keys which are nested models
+  // Keep only the keys which are nested collections
   const nestedKeysB = nestedKeysA
     .filter(attrName => isModel({ attrName, commandpath, top, collsMap }));
   return nestedKeysB;
@@ -20,8 +20,8 @@ const getNestedKeys = function ({ data, commandpath, top, collsMap }) {
 
 const isModel = function ({ attrName, commandpath, top, collsMap }) {
   const commandpathA = [...commandpath, attrName];
-  const model = getModel({ top, collsMap, commandpath: commandpathA });
-  return model !== undefined && model.collname !== undefined;
+  const coll = getColl({ top, collsMap, commandpath: commandpathA });
+  return coll !== undefined && coll.collname !== undefined;
 };
 
 // Retrieve children actions of an `args.data` object by iterating over them

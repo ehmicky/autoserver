@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../error');
 
-const { getModel } = require('./get_model');
+const { getColl } = require('./get_coll');
 
 // Validate that attributes used in nested actions will not change
 // If a nested action is performed by the client, but the server changes its
@@ -53,7 +53,7 @@ const validateAction = function ({
   if (!serverSet) { return; }
 
   const path = commandpath.slice(1).join('.');
-  const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested model's 'id' cannot be known by the client.`;
+  const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested collection's 'id' cannot be known by the client.`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
@@ -69,7 +69,7 @@ const getAttr = function ({
   top,
 }) {
   const parentPath = commandpath.slice(0, -1);
-  const { collname } = getModel({ commandpath: parentPath, collsMap, top });
+  const { collname } = getColl({ commandpath: parentPath, collsMap, top });
   const attrName = commandpath[commandpath.length - 1];
   const { attributes } = collections[collname];
   const attr = attributes[attrName];

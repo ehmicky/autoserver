@@ -2,11 +2,11 @@
 
 const { omit } = require('../../../../../../../utilities');
 
-// Create nested models definitions
-const getNestedModel = function (def, { inputObjectType, topDef }) {
+// Create nested collections definitions
+const getNestedColl = function (def, { inputObjectType, topDef }) {
   const { target, isArray } = def;
 
-  // Only for nested models, that are not filter arguments
+  // Only for nested collections, that are not filter arguments
   const isNested = target !== undefined && inputObjectType !== 'filter';
   if (!isNested) { return def; }
 
@@ -21,9 +21,9 @@ const getNestedModel = function (def, { inputObjectType, topDef }) {
 };
 
 const topLevelModelMatches = function ({ target, command }, topDef) {
-  return topDef.model === target && topDef.command === command;
+  return topDef.collname === target && topDef.command === command;
 };
 
 module.exports = {
-  getNestedModel,
+  getNestedColl,
 };

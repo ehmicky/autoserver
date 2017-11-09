@@ -24,7 +24,7 @@ const {
   addRequiredId,
   normalizeType,
   addTypeValidation,
-  mergeNestedModel,
+  mergeNestedColl,
   normalizeAliases,
   addDescriptions,
   normalizeSchemaAuthorize,
@@ -48,7 +48,7 @@ const normalizers = [
   // General schema syntax validation
   { type: 'schema', func: validateSchemaSyntax },
 
-  // Default `coll.model`
+  // Default `coll.collname`
   { type: 'coll', func: addDefaultCollname },
   // Default `coll.id` attribute
   { type: 'coll', func: addDefaultId },
@@ -65,8 +65,8 @@ const normalizers = [
   { type: 'attr', func: normalizeType },
   // Add `attr.validate.type`, using `attr.type`
   { type: 'attr', func: addTypeValidation },
-  // Copy `attr.type|description` to nested models from their target
-  { type: 'attr', func: mergeNestedModel },
+  // Copy `attr.type|description` to nested collections from their target
+  { type: 'attr', func: mergeNestedColl },
   // Set all `attr.alias` and `attr.aliasOf`
   { type: 'coll', func: normalizeAliases },
   // Add `attr.description` from `attr.readonly|value|examples|alias`

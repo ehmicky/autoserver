@@ -12,7 +12,7 @@ const getAdapters = function ({ runOpts, schema: { collections } }) {
   return databaseAdaptersA;
 };
 
-// Returns `{ model: adapter }` map
+// Returns `{ collname: adapter }` map
 const getDbAdapters = function ({ adapters, schema: { collections } }) {
   return mapValues(
     collections,

@@ -5,7 +5,7 @@ const { evalFilter, mapNodes } = require('../../../filter');
 
 const { handleSchemaFuncs } = require('./schema_func');
 
-// Evaluate `model.authorize` filter to a boolean
+// Evaluate `coll.authorize` filter to a boolean
 // Do a partial evaluation, because we do not know the value of `$model.*` yet
 // Returns partial filter if any.
 const evalAuthorize = function ({

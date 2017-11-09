@@ -24,11 +24,11 @@ One can specify an `attribute.type` among:
   - `number`: i.e. float
   - `boolean`
   - `COLLECTION`: where `COLLECTION` is the collection's name, e.g. `users`,
-    for [nested models](#nested-models)
-  - `string[]`, `integer[]`, `number[]`, `boolean[]` or `MODEL[]`: same but
+    for [nested collections](#nested-collections)
+  - `string[]`, `integer[]`, `number[]`, `boolean[]` or `COLLECTION[]`: same but
     as an array.
 
-# Nested models
+# Nested collections
 
 See the documentation [here](relations.md).
 

@@ -15,7 +15,7 @@ const { getParamsArgument } = require('./params');
 // Retrieves all resolver arguments, before resolve function is fired
 const getArgs = function (def, opts) {
   // Only for top-level actions
-  const isTopLevel = ['Query', 'Mutation'].includes(opts.parentDef.model);
+  const isTopLevel = ['Query', 'Mutation'].includes(opts.parentDef.collname);
   if (!isTopLevel) { return; }
 
   const optsA = getArgTypes(def, opts);

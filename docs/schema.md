@@ -75,7 +75,7 @@ The schema can contain the following properties:
   - `engine` `{string}` (required) - file format version. Must equal `0`
   - `collections` `{object}` (required) - list of
     [collections](collections.md#collections)
-    - `MODEL` `{object}` - MODEL is the name
+    - `COLLECTION` `{object}` - COLLECTION is the name
       - `attributes` `{object}` - list of the collections's
         [attributes](collections.md#attributes)
         - `ATTRIBUTE` `{object}` - ATTRIBUTE is the name

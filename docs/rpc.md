@@ -4,7 +4,7 @@ Multiple RPC systems can be handled on the same server.
 
 An RPC is a system defining the way clients specify:
   - the command, e.g. `find` or `delete`
-  - the model, e.g. `users`
+  - the collection, e.g. `users`
   - the arguments, e.g. the `data` argument or the model's `id`
 
 RPC systems use the URL, the protocol headers, the request payload, the

@@ -5,7 +5,7 @@ const { has, get } = require('../utilities');
 const { getOperator } = require('./operators');
 
 // Check if a set of `attrs` matches a filter such as `args.filter` or
-// `model.authorize`
+// `coll.authorize`
 const evalFilter = function ({
   filter,
   filter: { type, attrName, value } = {},

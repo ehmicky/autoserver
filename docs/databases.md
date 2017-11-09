@@ -1,6 +1,6 @@
 # Databases
 
-Databases are specified with `model.database`, e.g.:
+Databases are specified with `collection.database`, e.g.:
 
 ```yml
 collections:

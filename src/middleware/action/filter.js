@@ -14,8 +14,8 @@ const parseFilterArg = function ({
   action: { args, collname },
   schema: { shortcuts: { collsMap } },
 }) {
-  const model = collsMap[collname];
-  const filter = parseFilterOrId({ args, model });
+  const coll = collsMap[collname];
+  const filter = parseFilterOrId({ args, coll });
 
   if (filter === undefined) { return action; }
 
@@ -23,7 +23,7 @@ const parseFilterArg = function ({
   return { ...action, args: { ...argsA, filter } };
 };
 
-const parseFilterOrId = function ({ args: { id, filter }, model }) {
+const parseFilterOrId = function ({ args: { id, filter }, coll }) {
   if (id !== undefined) {
     return getIdFilter({ id });
   }
@@ -31,7 +31,7 @@ const parseFilterOrId = function ({ args: { id, filter }, model }) {
   const prefix = 'In \'filter\' argument, ';
   const filterA = parseFilter({ filter, prefix });
 
-  validateFilter({ filter: filterA, attrs: model, prefix });
+  validateFilter({ filter: filterA, attrs: coll, prefix });
 
   return filterA;
 };

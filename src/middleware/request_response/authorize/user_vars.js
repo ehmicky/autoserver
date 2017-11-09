@@ -4,7 +4,7 @@ const { uniq, pick, mapValues, intersection } = require('../../../utilities');
 const { runSchemaFunc } = require('../../../schema_func');
 const { crawlNodes } = require('../../../filter');
 
-// Retrieve all user variables used in `model.authorize`, and resolve their
+// Retrieve all user variables used in `coll.authorize`, and resolve their
 // schema functions.
 const getUserVars = function ({ authorize, userVars, mInput }) {
   // Retrieve all `attrName` recursively inside filter AST

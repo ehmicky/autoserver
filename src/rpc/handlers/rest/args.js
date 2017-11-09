@@ -33,7 +33,7 @@ const validatePayload = function ({ payload }) {
   throwError(message, { reason: 'PAYLOAD_PARSE' });
 };
 
-// Use ID in URL /rest/MODEL/ID for `args.id`
+// Use ID in URL /rest/COLLECTION/ID for `args.id`
 const addId = function ({ method, args, args: { data }, id }) {
   if (id === undefined) { return args; }
 

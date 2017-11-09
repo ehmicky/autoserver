@@ -205,19 +205,19 @@ event payload, with the properties:
   - [`rpc`](rpc.md) `{string}` - among `'graphql'`, `'graphiql'`,
     `'graphqlprint'`, `'rest'` or `'jsonrpc'`
   - `summary` `${string}` - summary of the request, e.g.
-    'find_model{find_child}'
+    'find_collection{find_child}'
   - `args` `${object}` - [arguments](rpc.md#rpc)
   - `args.datasize` `{number}` - size of `data`
     [argument](rpc.md#rpc), in bytes
   - `args.datacount` `{number}` - array length of `data` argument,
     if it is an array
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
-    e.g. `'find_model.find_child'`
+    e.g. `'find_collection.find_child'`
   - `command` `${string}` - current [command](terminology.md#command),
     among `'create'`, `'find'`, `'upsert'`, `'patch'` and `'delete'`.
   - `collection` `${string}` - current
     [collection's](terminology.md#collection) name
-  - `responsetype` `{string}` - among `'model'`, `'collection'`, `'error'`,
+  - `responsetype` `{string}` - among `'model'`, `'models'`, `'error'`,
     `'object'`, `'html'`, `'text'`
   - `responsedata` `{any}` - response data
   - `responsedatasize` `{number}` - in bytes
@@ -226,7 +226,7 @@ event payload, with the properties:
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error
 
-The properties `commandpath`, `command` and `model` are only
+The properties `commandpath`, `command` and `collection` are only
 set if the request failed while performing a command.
 
 The `...size` properties are not set if the related value is undefined, and set

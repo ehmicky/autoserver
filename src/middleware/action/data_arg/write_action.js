@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues, omitBy } = require('../../../utilities');
-const { getModel } = require('../get_model');
+const { getColl } = require('../get_coll');
 
 const { isModelType } = require('./validate');
 
@@ -14,7 +14,7 @@ const getWriteAction = function ({
   collsMap,
   nestedKeys,
 }) {
-  const { collname } = getModel({ top, collsMap, commandpath });
+  const { collname } = getColl({ top, collsMap, commandpath });
 
   const dataA = data.map(datum => replaceNestedData({ datum, nestedKeys }));
   const args = { data: dataA };

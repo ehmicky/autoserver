@@ -29,7 +29,7 @@ The following properties may also appear, depending on when the error happened:
   - `summary` `{string}`
   - `args` `{object}`
   - `commandpath` `{string}`
-  - `model` `{string}`
+  - `collection` `{string}`
   - `command` `{string}`
   - `requestid` `{string}`
 
@@ -60,7 +60,7 @@ For example:
       "id": "20"
     },
     "commandpath": "find_users",
-    "model": "users",
+    "collection": "users",
     "command": "find",
     "requestid": "8af50f41-40db-4109-b649-feef43107e56"
   }

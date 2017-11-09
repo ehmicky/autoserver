@@ -3,7 +3,7 @@
 const { mapValues, omitBy } = require('../../../../../../../utilities');
 
 const { addCommand } = require('./command');
-const { getNestedModel } = require('./nested_models');
+const { getNestedColl } = require('./nested_colls');
 const { filterField } = require('./filter');
 const { getFinalField } = require('./final_fields');
 const { addNoAttributes } = require('./no_attributes');
@@ -20,7 +20,7 @@ const getObjectFields = function (opts) {
 
 const mappers = [
   addCommand,
-  getNestedModel,
+  getNestedColl,
   filterField,
   getFinalField,
 ];
