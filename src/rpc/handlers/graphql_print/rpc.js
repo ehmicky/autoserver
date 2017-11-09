@@ -1,8 +1,8 @@
 'use strict';
 
 const routes = require('./routes');
-const methods = require('./methods');
 const { handler } = require('./handler');
+const methods = require('./methods');
 
 const rpc = {
   name: 'graphqlprint',
