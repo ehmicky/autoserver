@@ -33,6 +33,8 @@ const stringifyContent = function ({
 }) {
   if (silent && error === undefined) { return ''; }
 
+  if (typeof content === 'string') { return content; }
+
   const contentA = JSON.stringify(content, null, 2);
   return contentA;
 };
