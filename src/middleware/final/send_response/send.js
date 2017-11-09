@@ -45,7 +45,7 @@ const types = {
     contentType: 'application/x-resource+json',
   },
 
-  collection: {
+  models: {
     contentType: 'application/x-collection+json',
   },
 
