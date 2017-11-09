@@ -27,10 +27,10 @@ Note that [GraphQL](graphql.md#selection-and-population) does not need the
 # Renaming attributes in response
 
 It is possible to rename attributes in the response with the `select`
-[argument](rpc.md#rpc) by using `name=different_name`, e.g.:
+[argument](rpc.md#rpc) by using `name:different_name`, e.g.:
 
 ```HTTP
-GET /rest/users/1?select=name=different_name
+GET /rest/users/1?select=name:different_name
 ```
 
 will respond with:
