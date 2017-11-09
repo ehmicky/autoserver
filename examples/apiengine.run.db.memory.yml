@@ -1,4 +1,4 @@
-pet:
+pets:
   - id: '1'
     weight: 1.5
     is_overweight: false
@@ -62,7 +62,7 @@ pet:
     updated_time: '2017-04-26T11:19:45Z'
     created_by: '1'
     updated_by: '1'
-owner:
+owners:
   - id: '1'
     name: Mickael
     pets:

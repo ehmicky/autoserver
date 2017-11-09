@@ -1,6 +1,6 @@
 engine: 0
 models:
-  pet:
+  pets:
     description: Cute animal
     database: memory
     authorize:
@@ -11,7 +11,7 @@ models:
         _in: (['find', 'delete', 'create', 'upsert', 'patch'])
     __custom: anything
     __second_custom:
-      $ref: '#/models/pet/__custom'
+      $ref: '#/models/pets/__custom'
     attributes:
       id:
         description: Unique identifier of a pet
@@ -96,17 +96,17 @@ models:
         description: Key of the user that created this pet
         value: (String(more_recursive_func()))
       best_friend:
-        type: pet
+        type: pets
         description: This pet's best friend
         validate:
           dependencies: [friends]
       friends:
-        type: pet[]
+        type: pets[]
         description: This pet's friends
         validate:
           required: true
       owners:
-        type: owner[]
+        type: owners[]
       birth_date:
         default: (birth_date)
         validate:
@@ -115,8 +115,8 @@ models:
           formatExclusiveMinimum: true
           formatMaximum: '2100-01-01'
           formatExclusiveMaximum: false
-  owner:
-    $ref: owner.yml
+  owners:
+    $ref: owners.yml
   pet_skills:
     $ref: pet_skills.yml
   default: {}
@@ -151,7 +151,7 @@ plugins:
 - plugin: author
   opts:
     currentuser: (user())
-    usermodel: owner
+    usermodel: owners
 validation:
   __is_not_equal:
     test: ($val !== $expected)
