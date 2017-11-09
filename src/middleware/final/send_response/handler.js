@@ -4,8 +4,7 @@ const { getStandardError } = require('../../../error');
 const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
 
 const { validateResponse } = require('./validate');
-const { types } = require('./types');
-const { setEmptyResponse } = require('./empty');
+const { send } = require('./send');
 
 // Sends the response at the end of the request
 const sendResponse = async function ({
@@ -22,17 +21,17 @@ const sendResponse = async function ({
 
   validateResponse({ response: responseA });
 
+  const { type } = responseA;
+
   const content = transformContent({ response: responseA, mInput, rpcHandler });
 
-  const { type } = responseA;
-  const { handler, emptyResponse } = types[type];
-
-  const contentB = setEmptyResponse({ content, topargs, error, emptyResponse });
-
-  await handler({
-    content: contentB,
+  await send({
     protocolHandler,
     specific,
+    content,
+    type,
+    topargs,
+    error,
     protocolstatus,
   });
 

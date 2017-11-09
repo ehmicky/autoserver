@@ -12,6 +12,8 @@ Clients can query the GraphQL server at either
 The [command](rpc.md#command-and-arguments) is guessed from the model's name
 in the URL, and from the HTTP method:
   - `GET` uses the [`find`](crud.md#command-find) command
+  - `HEAD` uses the [`find`](crud.md#command-find) command, but with the
+    [`silent`](silent.md) argument set to `true`
   - `POST` uses the [`create`](crud.md#command-create) command
   - `PUT` uses the [`upsert`](crud.md#command-upsert) command
   - `PATCH` uses the [`patch`](crud.md#command-patch) command

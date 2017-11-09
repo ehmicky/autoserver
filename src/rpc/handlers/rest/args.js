@@ -13,7 +13,8 @@ const getArgs = function ({ method, payload, queryvars, id }) {
 
   const argsA = addData({ args, payload });
   const argsB = addId({ method, args: argsA, id });
-  return argsB;
+  const argsC = addSilent({ method, args: argsB });
+  return argsC;
 };
 
 // Use request payload for `args.data`
@@ -62,6 +63,13 @@ const validateId = function ({ data, id }) {
     const message = `The model's 'id' is '${data.id}' in the request payload but is '${id}' in the URL`;
     throwError(message, { reason: 'INPUT_VALIDATION' });
   }
+};
+
+// Using the `HEAD` method sets `args.silent` `true`
+const addSilent = function ({ method, args }) {
+  if (method !== 'HEAD') { return args; }
+
+  return { ...args, silent: true };
 };
 
 module.exports = {
