@@ -1,6 +1,6 @@
 # Endpoint
 
-GraphQL is one of the available [RPC systems](rpc.md).
+[GraphQL](http://graphql.org/) is one of the available [RPC systems](rpc.md).
 
 Clients can query the GraphQL server at `//hostname:port/graphql`.
 

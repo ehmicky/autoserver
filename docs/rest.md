@@ -1,6 +1,7 @@
 # Endpoint
 
-REST is one of the available [RPC systems](rpc.md).
+[REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
+is one of the available [RPC systems](rpc.md).
 
 Clients can query the GraphQL server at either
 `//hostname:port/rest/MODELS/` or `//hostname:port/rest/MODELS/ID`, where
