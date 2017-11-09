@@ -7,7 +7,7 @@ const { getArgTypeDescription } = require('../../../../description');
 // `data` argument
 const getDataArgument = function (def, opts) {
   // Only for mutation commands, but not delete
-  const hasData = DATA_COMMAND_TYPES.includes(def.command.type);
+  const hasData = DATA_COMMAND_TYPES.includes(def.command);
   if (!hasData) { return {}; }
 
   const type = getDataObjectType(def, opts);
@@ -18,8 +18,7 @@ const getDataArgument = function (def, opts) {
 
 const getDataObjectType = function ({ command }, { dataObjectType }) {
   // Only multiple with createMany or upsertMany
-  const isMultiple = command.multiple &&
-    MANY_DATA_COMMAND_TYPES.includes(command.type);
+  const isMultiple = MANY_DATA_COMMAND_TYPES.includes(command);
 
   // Add required and array modifiers
   if (isMultiple) {

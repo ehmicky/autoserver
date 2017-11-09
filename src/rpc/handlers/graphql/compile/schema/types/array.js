@@ -11,9 +11,9 @@ const graphqlArrayTest = function ({ arrayWrapped, command, isArray }) {
     return isArray;
   }
 
-  // Non-nested models' attributes, and top-level commands
+  // Top-level commands
   if (command !== undefined) {
-    return command.multiple;
+    return true;
   }
 
   // Query|Mutation types

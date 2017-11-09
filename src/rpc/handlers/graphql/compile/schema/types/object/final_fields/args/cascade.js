@@ -4,7 +4,7 @@ const { GraphQLString } = require('graphql');
 
 // `cascade` argument
 const getCascadeArgument = function ({ command }) {
-  const hasCascade = CASCADE_COMMANDS.includes(command.type);
+  const hasCascade = CASCADE_COMMANDS.includes(command);
   if (!hasCascade) { return {}; }
 
   return CASCADE_ARGS;

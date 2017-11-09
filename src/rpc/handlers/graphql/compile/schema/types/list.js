@@ -65,13 +65,10 @@ const graphqlTGetters = [
 const getTypeGetter = function (def, opts) {
   const typeGetter = graphqlTGetters
     .find(({ condition }) => condition(def, opts));
+  if (typeGetter !== undefined) { return typeGetter; }
 
-  if (typeGetter === undefined) {
-    const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
-    throwError(message, { reason: 'SCHEMA_SYNTAX_ERROR' });
-  }
-
-  return typeGetter;
+  const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
+  throwError(message, { reason: 'SCHEMA_SYNTAX_ERROR' });
 };
 
 module.exports = {

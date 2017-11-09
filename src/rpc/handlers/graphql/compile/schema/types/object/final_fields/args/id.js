@@ -6,8 +6,7 @@ const { getArgTypeDescription } = require('../../../../description');
 
 // `id` argument
 const getIdArgument = function (def) {
-  const hasId = !def.command.multiple &&
-    ID_COMMAND_TYPES.includes(def.command.type);
+  const hasId = ID_COMMAND_TYPES.includes(def.command);
   if (!hasId) { return {}; }
 
   const description = getArgTypeDescription(def, 'argId');

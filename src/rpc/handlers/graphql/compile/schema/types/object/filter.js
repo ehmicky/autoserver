@@ -5,11 +5,9 @@ const filterField = function (def, opts) {
   return isFiltered ? null : def;
 };
 
-// `patchOne|patchMany` do not allow data.id
+// `patch` does not allow `data.id`
 const patchIdData = function ({ command }, { inputObjectType, defName }) {
-  return inputObjectType === 'data' &&
-    command.type === 'patch' &&
-    defName === 'id';
+  return inputObjectType === 'data' && command === 'patch' && defName === 'id';
 };
 
 const filters = [

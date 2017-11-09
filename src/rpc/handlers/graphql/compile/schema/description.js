@@ -2,33 +2,33 @@
 
 const { capitalize } = require('underscore.string');
 
+const { COMMANDS } = require('../../../../../constants');
+
 const TOP_DESCRIPTIONS = {
   query: 'Fetch models',
   mutation: 'Modify models',
 };
 
 // Top-level action descriptions
-const getCommandDescription = function ({
-  command: { multiple, title },
-  typeName,
-}) {
-  const description = multiple
-    ? `${title} ${typeName} models`
-    : `${title} a ${typeName} model`;
+const getCommandDescription = function ({ command, typeName }) {
+  const title = getTitle({ command });
+  const description = `${title} ${typeName} models`;
   const descriptionA = capitalize(description);
   return descriptionA;
 };
 
 // Retrieve the description of a `args.data|filter` type, and of
 // `args.data|filter|id` arguments
-const getArgTypeDescription = function (
-  { command: { multiple, title } },
-  type,
-) {
-  const argTypeDescription = ARG_TYPES_DESCRIPTIONS[type];
-  const modelStr = multiple ? 'models' : 'model';
-  const description = `${argTypeDescription} ${modelStr} to ${title}`;
+const getArgTypeDescription = function ({ command }, type) {
+  const title = getTitle({ command });
+  const description = `${ARG_TYPES_DESCRIPTIONS[type]} models to ${title}`;
   return description;
+};
+
+const getTitle = function ({ command }) {
+  const { title } = COMMANDS
+    .find(({ type, multiple }) => type === command && multiple);
+  return title;
 };
 
 const ARG_TYPES_DESCRIPTIONS = {

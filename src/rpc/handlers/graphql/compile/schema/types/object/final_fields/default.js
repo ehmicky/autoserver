@@ -18,7 +18,7 @@ const isDataArgument = function (def, { inputObjectType }) {
 
 // Only applied when model is created, e.g. on `create` or `upsert`
 const isNotPatchData = function ({ command }) {
-  return DEFAULT_COMMANDS.includes(command.type);
+  return DEFAULT_COMMANDS.includes(command);
 };
 
 const DEFAULT_COMMANDS = ['create', 'upsert'];
