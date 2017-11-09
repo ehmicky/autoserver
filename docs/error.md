@@ -51,9 +51,7 @@ For example:
     "requestheaders": {
       "host": "localhost:5001",
       "accept": "*/*",
-      "accept-encoding": "deflate, gzip",
-      "content-type": "application/json",
-      "content-length": "481"
+      "accept-encoding": "deflate, gzip"
     },
     "queryvars": {},
     "rpc": "rest",
