@@ -151,7 +151,7 @@ plugins:
 - plugin: author
   opts:
     currentuser: (user())
-    usermodel: owners
+    collection: owners
 validation:
   __is_not_equal:
     test: ($val !== $expected)

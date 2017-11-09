@@ -39,4 +39,4 @@ It is not enabled by default.
 The following plugin options must be specified:
   - `currentuser` [`{function}`](functions.md): retrieves the current
     request's user. Cannot return null if the user is anonymous.
-  - `usermodel` `{string}`: user's model name.
+  - `collection` `{string}`: user's collection name.
