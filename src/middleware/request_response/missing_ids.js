@@ -11,21 +11,39 @@ const validateMissingIds = function (
     modelname,
     response,
     args: { filter, preFilter },
+    commandpath,
     top,
-    top: { command: { type: topCommand } },
     mInput,
   },
   nextLayer,
 ) {
-  // Other commands trigger this middleware during their `currentData` actions
-  // Also, `create`'s currentData query is skipped.
-  if (command !== 'find' || topCommand === 'create') { return; }
+  const noValidate = doesNotValidate({ command, top, commandpath });
+  if (noValidate) { return; }
 
   const ids = getMissingIds({ filter, preFilter, response });
   if (ids.length === 0) { return; }
 
   return reportProblem({ preFilter, ids, modelname, top, nextLayer, mInput });
 };
+
+const doesNotValidate = function ({ command, top, commandpath }) {
+  // Other commands trigger this middleware during their `currentData` actions
+  return command !== 'find' ||
+    // `create`'s currentData query is skipped.
+    top.command.type === 'create' ||
+    // Top-level `findMany|patchMany|deleteMany` are not checked because:
+    //  - it would only be applied if filter is simple, i.e. behavior is less
+    //    predictable for the client
+    //  - it makes less sense from semantic point of view
+    //  - pagination prevents guessing missing ids
+    (
+      FILTER_MANY_COMMANDS.includes(top.command.name) &&
+      commandpath.split('.').length === 1
+    );
+};
+
+// Commands with a `filter` argument
+const FILTER_MANY_COMMANDS = ['findMany', 'patchMany', 'deleteMany'];
 
 // Retrieve missing models ids
 const getMissingIds = function ({ filter, preFilter, response: { data } }) {
@@ -50,26 +68,11 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
 
 // Check whether this is because the model does not exist,
 // or because it is not authorized
-const reportProblem = async function ({
-  preFilter,
-  ids,
-  modelname,
-  top,
-  top: { command: { type: topCommand } },
-  nextLayer,
-  mInput,
-}) {
-  const idsA = await checkAuthorization({
-    preFilter,
-    ids,
-    modelname,
-    top,
-    nextLayer,
-    mInput,
-  });
+const reportProblem = async function ({ top, modelname, ...rest }) {
+  const idsA = await checkAuthorization({ top, modelname, ...rest });
 
   // `upsert` commands might throw authorization errors, but not model not found
-  if (topCommand === 'upsert') { return; }
+  if (top.command.type === 'upsert') { return; }
 
   throwCommonError({ reason: 'DB_MODEL_NOT_FOUND', ids: idsA, modelname });
 };
