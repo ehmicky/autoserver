@@ -45,7 +45,7 @@ const NODE_PARENT_TYPES = ['_all', '_some', '_or', '_and'];
 const crawlAttrs = function (node, func) {
   const children = getAttrChildren(node);
 
-  if (children.length > 0) {
+  if (children.length !== 0) {
     return children
       .map(child => crawlAttrs(child, func))
       .reduce(assignArray, []);
