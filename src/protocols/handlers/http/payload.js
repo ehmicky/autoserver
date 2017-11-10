@@ -33,9 +33,9 @@ const parsePayload = async function ({
 
   await parser(reqB, null);
 
-  const { body: bodyB } = reqB;
-  const bodyC = bodyB === body ? undefined : bodyB;
-  return bodyC;
+  const { body: bodyA } = reqB;
+  const bodyB = bodyA === body ? undefined : bodyA;
+  return bodyB;
 };
 
 const eParsePayload = addGenErrorHandler(parsePayload, {
@@ -59,15 +59,15 @@ const getParser = function ({ type, maxpayloadsize }) {
 
 const mGetParser = memoize(getParser);
 
-// We already cheked the MIME type ourselves
-const typeChecker = () => true;
-
 const PARSERS_OPTS = {
   json: {},
   urlencoded: { extended: true },
   text: {},
   raw: {},
 };
+
+// We already cheked the MIME type ourselves
+const typeChecker = () => true;
 
 // Check if there is a request payload
 const hasPayload = function ({ specific: { req } }) {

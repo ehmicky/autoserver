@@ -25,11 +25,8 @@ const parsePayload = function ({
 
   // Use protocol-specific way to parse payload, using a known type
   const { maxpayloadsize } = getLimits({ runOpts });
-  const payloadPromise = protocolHandler.parsePayload({
-    type,
-    specific,
-    maxpayloadsize,
-  });
+  const payloadPromise = protocolHandler
+    .parsePayload({ type, specific, maxpayloadsize });
 
   return promiseThen(payloadPromise, processPayload.bind(null, type));
 };
@@ -48,25 +45,19 @@ const getPayloadType = function ({
     rpcPayload,
     contentType,
   }));
+  if (payloadTypeA) { return payloadTypeA.type; }
 
-  if (!payloadTypeA) {
-    const message = `Unsupported Content-Type: '${contentType}'`;
-    throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
-  }
-
-  return payloadTypeA.type;
+  const message = `Unsupported Content-Type: '${contentType}'`;
+  throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
 };
 
 // Use protocol-specific way to retrieve the content type header
 const getContentType = function ({ specific, protocolHandler }) {
   const contentType = protocolHandler.getContentType({ specific });
+  if (contentType) { return contentType; }
 
-  if (!contentType) {
-    const msg = 'Must specify Content-Type when sending a request payload';
-    throwError(msg, { reason: 'WRONG_CONTENT_TYPE' });
-  }
-
-  return contentType;
+  const message = 'Must specify Content-Type when sending a request payload';
+  throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
 };
 
 const payloadTypeMatches = function ({
@@ -83,11 +74,10 @@ const payloadTypeMatches = function ({
 
 const validatePayloadLength = function ({ specific, protocolHandler }) {
   const contentLength = protocolHandler.getContentLength({ specific });
+  if (contentLength !== undefined) { return; }
 
-  if (contentLength === undefined) {
-    const msg = 'Must specify Content-Length when sending a request payload';
-    throwError(msg, { reason: 'NO_CONTENT_LENGTH' });
-  }
+  const message = 'Must specify Content-Length when sending a request payload';
+  throwError(message, { reason: 'NO_CONTENT_LENGTH' });
 };
 
 const processPayload = function (type, payload) {
