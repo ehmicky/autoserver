@@ -18,7 +18,7 @@ const reportErrors = function ({ errors, dataVar, reason, message }) {
         // We use `jsonPointers` option because it is cleaner,
         // but we want dots (for properties) and brackets (for indexes)
         // not slashes
-        .replace(/\/([0-9]+)/g, '[$1]')
+        .replace(/\/(\d+)/g, '[$1]')
         .replace(/\//g, '.');
       const hasInputPath = inputPath !== '';
 
