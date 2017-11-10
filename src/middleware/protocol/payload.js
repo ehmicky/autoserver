@@ -1,9 +1,18 @@
 'use strict';
 
 const { is: isType } = require('type-is');
+const { encodingExists, decode: decodeCharset } = require('iconv-lite');
+const { parse: parseQueryString } = require('qs');
+const { format } = require('bytes');
 
 const { promiseThen } = require('../../utilities');
-const { throwError } = require('../../error');
+const {
+  throwError,
+  addErrorHandler,
+  addGenErrorHandler,
+  isError,
+  rethrowError,
+} = require('../../error');
 const { PAYLOAD_TYPES } = require('../../constants');
 const { getLimits } = require('../../limits');
 
@@ -19,16 +28,18 @@ const parsePayload = function ({
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
-  const type = getPayloadType({ specific, protocolHandler, rpcHandler });
+  const payloadType = getPayloadType({ specific, protocolHandler, rpcHandler });
 
-  validatePayloadLength({ specific, protocolHandler });
+  const charset = getCharset({ specific, protocolHandler, payloadType });
 
-  // Use protocol-specific way to parse payload, using a known type
   const { maxpayloadsize } = getLimits({ runOpts });
-  const payloadPromise = protocolHandler
-    .parsePayload({ type, specific, maxpayloadsize });
 
-  return promiseThen(payloadPromise, processPayload.bind(null, type));
+  const promise = eGetRawPayload({ protocolHandler, specific, maxpayloadsize });
+
+  return promiseThen(
+    promise,
+    parseContent.bind(null, { payloadType, charset }),
+  );
 };
 
 // Find the payload type, among the possible ones available in `PAYLOAD_TYPES`
@@ -45,7 +56,7 @@ const getPayloadType = function ({
     rpcPayload,
     contentType,
   }));
-  if (payloadTypeA) { return payloadTypeA.type; }
+  if (payloadTypeA) { return payloadTypeA; }
 
   const message = `Unsupported Content-Type: '${contentType}'`;
   throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
@@ -72,22 +83,134 @@ const payloadTypeMatches = function ({
   return isType(contentType, mimeA);
 };
 
-const validatePayloadLength = function ({ specific, protocolHandler }) {
-  const contentLength = protocolHandler.getContentLength({ specific });
-  if (contentLength !== undefined) { return; }
+// Use protocol-specific way to retrieve the payload charset
+const getCharset = function ({
+  specific,
+  protocolHandler,
+  payloadType,
+  payloadType: { defaultCharset = DEFAULT_CHARSET },
+}) {
+  const charset = protocolHandler.getCharset({ specific }) || defaultCharset;
+  const charsetA = charset.toLowerCase();
 
-  const message = 'Must specify Content-Length when sending a request payload';
-  throwError(message, { reason: 'NO_CONTENT_LENGTH' });
+  validateCharset({ charset: charsetA, payloadType });
+
+  return charsetA;
 };
 
-const processPayload = function (type, payload) {
-  // Buffer payloads are converted to string
-  if (type === 'raw' && payload instanceof Buffer) {
-    const payloadA = payload.toString();
-    return { payload: payloadA };
+const DEFAULT_CHARSET = 'utf-8';
+
+const validateCharset = function ({
+  charset,
+  payloadType: { charsets, title },
+}) {
+  if (!encodingExists(charset)) {
+    const message = `Invalid charset: ${charset.toUpperCase()}`;
+    throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
   }
 
-  return { payload };
+  const typeSupportsCharset = charsets === undefined ||
+    charsets.includes(charset);
+
+  if (!typeSupportsCharset) {
+    const message = `Invalid charset: ${charset.toUpperCase()} cannot be used with a ${title} content type`;
+    throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
+  }
+};
+
+// Use protocol-specific way to parse payload, using a known type
+const getRawPayload = function ({ protocolHandler, specific, maxpayloadsize }) {
+  return protocolHandler.getPayload({ specific, maxpayloadsize });
+};
+
+const getRawPayloadHandler = function (error, { maxpayloadsize }) {
+  if (!isError({ error })) {
+    const message = 'Could not parse request payload';
+    throwError(message, { reason: 'PAYLOAD_PARSE', innererror: error });
+  }
+
+  if (error.reason === 'INPUT_LIMIT') {
+    const message = `The request payload must not be larger than ${format(maxpayloadsize)}`;
+    throwError(message, { reason: 'INPUT_LIMIT', innererror: error });
+  }
+
+  rethrowError(error);
+};
+
+const eGetRawPayload = addErrorHandler(getRawPayload, getRawPayloadHandler);
+
+const parseContent = function ({ payloadType, charset }, payload) {
+  const payloadA = eDecodeCharset(payload, charset);
+
+  const payloadB = eFireParser({ payloadType, payload: payloadA });
+
+  return { payload: payloadB };
+};
+
+// Charset decoding is done in a protocol-agnostic way
+const eDecodeCharset = addGenErrorHandler(decodeCharset, {
+  message: ({ charset }) => `The request payload is invalid: the charset '${charset}' could not be decoded`,
+  reason: 'WRONG_CONTENT_TYPE',
+});
+
+const fireParser = function ({ payloadType: { type }, payload }) {
+  return parsers[type](payload);
+};
+
+const eFireParser = addGenErrorHandler(fireParser, {
+  message: ({ payloadType: { title } }) => `The request payload is not valid ${title}`,
+  reason: 'WRONG_CONTENT_TYPE',
+});
+
+const urlencodedParse = function (body) {
+  // TODO: not sure about this
+  if (body.length === 0) { return {}; }
+
+  // TODO: use same code as src/middleware/protocols/query_string
+  return parseQueryString(body, {
+    allowPrototypes: true,
+    arrayLimit: 100,
+    depth: Infinity,
+  });
+};
+
+const jsonParse = function (body) {
+  if (body.length === 0) {
+    throw new Error('JSON payload cannot be empty');
+  }
+
+  let bodyA;
+  try {
+    bodyA = JSON.parse(body)
+  } catch (e) {
+    throw new Error('Invalid JSON payload');
+  }
+
+  const first = FIRST_CHAR_REGEXP.exec(body)[1];
+  if (first !== '{' && first !== '[') {
+    throw new Error('JSON payload must be an object or an array');
+  }
+
+  return bodyA;
+};
+
+// RegExp to match the first non-space in a string.
+// Allowed whitespace is defined in RFC 7159
+const FIRST_CHAR_REGEXP = /^[\x20\x09\x0a\x0d]*(.)/;
+
+const rawParse = function (buf) {
+  return buf;
+};
+
+const textParse = function (buf) {
+  return buf;
+};
+
+const parsers = {
+  urlencoded: urlencodedParse,
+  json: jsonParse,
+  raw: rawParse,
+  text: textParse,
 };
 
 module.exports = {
