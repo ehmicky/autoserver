@@ -1,6 +1,6 @@
 'use strict';
 
-const apiengine = require('../index');
+const apiengine = require('..');
 
 const startServer = async function () {
   try {
