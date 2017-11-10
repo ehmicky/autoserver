@@ -383,6 +383,7 @@ rules:
 #  import/no-commonjs: 2
   import/no-amd: 2
   import/no-deprecated: 2
+  unicorn/import-index: 2
 
   # Filenames
   filenames/match-regex:
