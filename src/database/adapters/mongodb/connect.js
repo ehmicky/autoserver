@@ -40,7 +40,7 @@ const fixHostLength = function ({ hostname, port }) {
 
   if (hostname.length === 1) {
     return {
-      hostname: Array(port.length).fill(hostname),
+      hostname: new Array(port.length).fill(hostname),
       port,
     };
   }
@@ -48,7 +48,7 @@ const fixHostLength = function ({ hostname, port }) {
   if (port.length === 1) {
     return {
       hostname,
-      port: Array(hostname.length).fill(port),
+      port: new Array(hostname.length).fill(port),
     };
   }
 
