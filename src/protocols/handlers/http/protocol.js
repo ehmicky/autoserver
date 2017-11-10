@@ -9,10 +9,10 @@ const {
   setResponseheaders,
 } = require('./headers');
 const {
-  parsePayload,
+  getPayload,
   hasPayload,
   getContentType,
-  getContentLength,
+  getCharset,
 } = require('./payload');
 const { getOrigin, getPath, getQueryString } = require('./url');
 const { getMethod } = require('./method');
@@ -37,10 +37,10 @@ const protocol = {
   getRequestheaders,
   getResponseheaders,
   setResponseheaders,
-  parsePayload,
+  getPayload,
   hasPayload,
   getContentType,
-  getContentLength,
+  getCharset,
   getOrigin,
   getPath,
   getQueryString,
