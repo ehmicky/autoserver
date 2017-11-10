@@ -47,7 +47,7 @@ const getServername = function ({ servername }) {
 const SERVERNAME_LENGTH = 12;
 
 const getTimestamp = function ({ timestamp }) {
-  return timestamp.replace('T', ' ').replace(/([0-9])Z$/, '$1');
+  return timestamp.replace('T', ' ').replace(/(\d)Z$/, '$1');
 };
 
 // Either requestid (if phase `request`), or the phase itself
