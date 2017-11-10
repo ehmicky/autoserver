@@ -462,6 +462,10 @@ rules:
   # We want to allow Promise.all() and Promise.race()
 #  promise/no-native: 2
 
+  # Good idea, but does not work with our assignObject|assignArray utility
+  # functions
+#  unicorn/no-fn-reference-in-iterator: 2
+
   # Rules for client-side code only
 #  import/no-nodejs-modules: 2
 
