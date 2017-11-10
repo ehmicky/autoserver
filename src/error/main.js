@@ -26,10 +26,10 @@ const validateError = function (opts) {
   const optsKeys = Object.keys(opts);
   const nonAllowedOpts = difference(optsKeys, ALLOWED_OPTS);
 
-  if (nonAllowedOpts.length > 0) {
-    const message = `Cannot use options '${nonAllowedOpts}' when throwing an error`;
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
+  if (nonAllowedOpts.length === 0) { return; }
+
+  const message = `Cannot use options '${nonAllowedOpts}' when throwing an error`;
+  throwError(message, { reason: 'UTILITY_ERROR' });
 };
 
 const ALLOWED_OPTS = ['reason', 'innererror', 'extra'];

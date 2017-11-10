@@ -99,7 +99,7 @@ const checkAuthorization = async function ({
   const responseIds = dbData.map(({ id }) => id);
   const missingIds = difference(ids, responseIds);
 
-  if (missingIds.length > 0) { return missingIds; }
+  if (missingIds.length !== 0) { return missingIds; }
 
   throwCommonError({ reason: 'AUTHORIZATION', ids, collname, top });
 };

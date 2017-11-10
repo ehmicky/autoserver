@@ -207,7 +207,9 @@ rules:
 
   # Typecasting
   no-implicit-coercion: 2
-  unicorn/explicit-length-check: 2
+  unicorn/explicit-length-check:
+  - 2
+  - non-zero: not-equal
   fp/no-valueof-field: 2
 
   # Tests

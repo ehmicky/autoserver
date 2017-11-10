@@ -30,7 +30,7 @@ const findColl = function ({ collsMap, collname, commandpath }) {
 
   const { target: childCollname, isArray } = collnameA;
 
-  if (childCommandpath.length > 0) {
+  if (childCommandpath.length !== 0) {
     return findColl({
       collsMap,
       collname: childCollname,
