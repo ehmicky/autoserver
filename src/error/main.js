@@ -76,12 +76,14 @@ const isError = function ({ error }) {
   return error && error.type === ERROR_TYPE;
 };
 
-const throwError = function (message, opts) {
+const throwError = function (message = MISSING_MESSAGE, opts) {
   const stack = message.stack || getStack({ caller: throwError });
   const error = createError(message, stack, opts);
   // eslint-disable-next-line fp/no-throw
   throw error;
 };
+
+const MISSING_MESSAGE = 'Missing error message';
 
 const rethrowError = function (error) {
   // eslint-disable-next-line fp/no-throw
