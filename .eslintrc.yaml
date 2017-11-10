@@ -389,6 +389,9 @@ rules:
   filenames/match-exported:
   - 2
   - snake
+  unicorn/filename-case:
+  - 2
+  - case: snakeCase
 
   # Binary
   node/no-unpublished-bin: 2
@@ -458,9 +461,6 @@ rules:
 
   # We want to allow Promise.all() and Promise.race()
 #  promise/no-native: 2
-
-  # This fails when used together with Markdown plugin
-#  unicorn/filename-case: 2
 
   # Rules for client-side code only
 #  import/no-nodejs-modules: 2
