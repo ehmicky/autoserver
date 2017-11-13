@@ -1,17 +1,8 @@
 'use strict';
 
-const { encodingExists, decode: decodeCharset } = require('iconv-lite');
+const { encodingExists, decode } = require('iconv-lite');
 
 const { throwError, addGenErrorHandler } = require('../../../error');
-
-// Decode encoding/charset
-const parseCharset = function ({ payload, specific, protocolHandler, format }) {
-  const charset = getCharset({ specific, protocolHandler, format });
-
-  const payloadA = eDecodeCharset(payload, charset);
-
-  return payloadA;
-};
 
 // Use protocol-specific way to retrieve the payload charset
 const getCharset = function ({
@@ -50,11 +41,12 @@ const validateCharset = function ({ charset, format: { charsets, title } }) {
 };
 
 // Charset decoding is done in a protocol-agnostic way
-const eDecodeCharset = addGenErrorHandler(decodeCharset, {
+const eDecodeCharset = addGenErrorHandler(decode, {
   message: ({ charset }) => `The request payload is invalid: the charset '${charset}' could not be decoded`,
   reason: 'WRONG_CONTENT_TYPE',
 });
 
 module.exports = {
-  parseCharset,
+  getCharset,
+  decodeCharset: eDecodeCharset,
 };
