@@ -3,8 +3,8 @@
 const { promisify } = require('util');
 
 // Sends response
-const send = function ({
-  specific: { res } = {},
+const send = async function ({
+  specific: { req, res } = {},
   content,
   contentType,
   contentLength,
@@ -21,7 +21,11 @@ const send = function ({
 
   const sendResponse = promisify(res.end.bind(res));
 
-  return sendResponse(content);
+  await sendResponse(content);
+
+  // Otherwise, socket might not be freed, e.g. if an error was thrown before
+  // the request body was fully read
+  req.socket.destroy();
 };
 
 const setHeaders = function ({
