@@ -15,9 +15,9 @@ const { fireParser } = require('./parse');
 const parsePayload = function ({ specific, protocolHandler, runOpts }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
-  const { maxpayloadsize } = getLimits({ runOpts });
+  const { maxpayload } = getLimits({ runOpts });
 
-  const promise = getRawPayload({ protocolHandler, specific, maxpayloadsize });
+  const promise = getRawPayload({ protocolHandler, specific, maxpayload });
 
   return promiseThen(
     promise,

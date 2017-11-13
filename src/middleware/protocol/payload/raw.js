@@ -10,18 +10,18 @@ const {
 } = require('../../../error');
 
 // Use protocol-specific way to parse payload, using a known type
-const getRawPayload = function ({ protocolHandler, specific, maxpayloadsize }) {
-  return protocolHandler.getPayload({ specific, maxpayloadsize });
+const getRawPayload = function ({ protocolHandler, specific, maxpayload }) {
+  return protocolHandler.getPayload({ specific, maxpayload });
 };
 
-const getRawPayloadHandler = function (error, { maxpayloadsize }) {
+const getRawPayloadHandler = function (error, { maxpayload }) {
   if (!isError({ error })) {
     const message = 'Could not parse request payload';
     throwError(message, { reason: 'PAYLOAD_PARSE', innererror: error });
   }
 
   if (error.reason === 'INPUT_LIMIT') {
-    const message = `The request payload must not be larger than ${formatBytes(maxpayloadsize)}`;
+    const message = `The request payload must not be larger than ${formatBytes(maxpayload)}`;
     throwError(message, { reason: 'INPUT_LIMIT', innererror: error });
   }
 

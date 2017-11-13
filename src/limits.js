@@ -7,10 +7,10 @@ const bytes = require('bytes');
 const getLimits = function ({
   runOpts: {
     maxpagesize,
-    maxpayloadsize = MAX_URL_LENGTH,
+    maxpayload = MAX_URL_LENGTH,
   } = {},
 } = {}) {
-  const maxpayloadsizeA = bytes.parse(maxpayloadsize);
+  const maxpayloadA = bytes.parse(maxpayload);
 
   return {
     // Max number of top-level models returned in a response
@@ -19,14 +19,14 @@ const getLimits = function ({
     // Max size of request payloads, in bytes.
     // Can use 'KB', 'MB', 'GB' OR 'TB'.
     // Default: '1MB'
-    maxpayloadsize: maxpayloadsizeA,
+    maxpayload: maxpayloadA,
     // Max size of an attribute's value, in bytes.
     maxAttrValueSize: 2e3,
 
     // Max URL length
     // Since URL can contain GraphQL query, it should not be less than
-    // `maxpayloadsize`
-    maxUrlLength: Math.max(MAX_URL_LENGTH, maxpayloadsizeA),
+    // `maxpayload`
+    maxUrlLength: Math.max(MAX_URL_LENGTH, maxpayloadA),
     // Max level of nesting in query string, e.g. ?var.subvar.subvar2=val
     maxQueryStringDepth: 10,
     // Max length of arrays in query string, e.g. ?var[50]=val
