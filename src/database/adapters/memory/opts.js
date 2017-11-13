@@ -1,15 +1,15 @@
 'use strict';
 
-const { extNames, description } = require('../../../formats');
+const { getExtNames, getDescription } = require('../../../formats');
 
 const opts = [
   {
     name: 'data',
-    description: `File containing the data (${description})`,
+    description: `File containing the data (${getDescription('db')})`,
     subConfFiles: [{
       filename: 'db.memory',
-      extNames,
-      loader: 'generic',
+      extNames: getExtNames('db'),
+      loader: 'db',
       keepPath: true,
     }],
     validate: {

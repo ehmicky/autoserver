@@ -61,6 +61,7 @@ const setToString = function (val) {
 module.exports = {
   name: 'urlencoded',
   title: 'query string',
+  types: ['payload'],
   mimes: ['application/x-www-form-urlencoded'],
   parse,
   serialize,
