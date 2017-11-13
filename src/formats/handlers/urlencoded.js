@@ -2,7 +2,6 @@
 
 const qs = require('qs');
 
-const { transtype, recurseMap } = require('../../utilities');
 const { getLimits } = require('../../limits');
 
 // Parse x-www-form-urlencoded, e.g. used in query strings
@@ -24,18 +23,13 @@ const { getLimits } = require('../../limits');
 const parse = function ({ content }) {
   const { maxQueryStringDepth, maxQueryStringLength } = getLimits();
 
-  const queryvars = qs.parse(content, {
+  return qs.parse(content, {
     depth: maxQueryStringDepth,
     arrayLimit: maxQueryStringLength,
     allowDots: true,
     decoder,
     ignoreQueryPrefix: true,
   });
-
-  // Automatic transtyping is performed
-  const queryvarsA = recurseMap(queryvars, transtype);
-
-  return queryvarsA;
 };
 
 const decoder = function (str) {
@@ -44,18 +38,7 @@ const decoder = function (str) {
 
 // Inverse of parse()
 const serialize = function ({ content }) {
-  const queryvars = recurseMap(content, setToString);
-
-  const queryvarsA = qs.stringify(queryvars, { allowDots: true });
-
-  return queryvarsA;
-};
-
-const setToString = function (val) {
-  const noJsonNeeded = typeof val === 'string' && transtype(val) === val;
-  if (noJsonNeeded) { return val; }
-
-  return JSON.stringify(val);
+  return qs.stringify(content, { allowDots: true });
 };
 
 module.exports = {
@@ -63,6 +46,7 @@ module.exports = {
   title: 'query string',
   types: ['payload'],
   mimes: ['application/x-www-form-urlencoded'],
+  jsonCompat: ['subset'],
   parse,
   serialize,
 };

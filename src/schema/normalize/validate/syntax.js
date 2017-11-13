@@ -1,7 +1,7 @@
 'use strict';
 
 const { omitBy, fullRecurseMap, pReadFile } = require('../../../utilities');
-const { yaml } = require('../../../formats');
+const { parse } = require('../../../formats');
 const { compile, validate } = require('../../../json_validation');
 
 const SCHEMA_JSON_SCHEMA_PATH = `${__dirname}/schema_json_schema.yml`;
@@ -10,7 +10,11 @@ const SCHEMA_JSON_SCHEMA_PATH = `${__dirname}/schema_json_schema.yml`;
 const validateSchemaSyntax = async function ({ schema }) {
   const path = SCHEMA_JSON_SCHEMA_PATH;
   const jsonSchema = await pReadFile(path, { encoding: 'utf-8' });
-  const jsonSchemaA = await yaml.parse({ path, content: jsonSchema });
+  const jsonSchemaA = await parse({
+    format: 'yaml',
+    path,
+    content: jsonSchema,
+  });
   const compiledJsonSchema = compile({ jsonSchema: jsonSchemaA });
 
   const data = getSchema(schema);

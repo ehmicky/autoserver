@@ -1,12 +1,13 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../../../error');
+const { parse } = require('../../../formats');
 
 // Parse content, e.g. JSON/YAML parsing
-const parseContent = function ({ format: { parse }, payload }) {
-  if (parse === undefined) { return payload; }
+const parseContent = function ({ format: { name }, payload }) {
+  if (name === undefined) { return payload; }
 
-  return parse({ content: payload });
+  return parse({ format: name, content: payload });
 };
 
 const eParseContent = addGenErrorHandler(parseContent, {
