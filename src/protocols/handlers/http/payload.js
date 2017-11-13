@@ -1,6 +1,6 @@
 'use strict';
 
-const { parse: parseContentType } = require('content-type');
+const { parse: parseMime } = require('content-type');
 const { hasBody } = require('type-is');
 const getBody = require('raw-body');
 
@@ -55,20 +55,20 @@ const hasPayload = function ({ specific: { req } }) {
 };
 
 // Retrieves payload MIME type
-const getContentType = function ({ specific: { req: { headers } } }) {
+const getMime = function ({ specific: { req: { headers } } }) {
   return headers['content-type'];
 };
 
 // Retrieves payload charset
 const getCharset = function ({ specific }) {
-  const contentType = getContentType({ specific });
-  const { parameters: { charset } = {} } = parseContentType(contentType);
+  const mime = getMime({ specific });
+  const { parameters: { charset } = {} } = parseMime(mime);
   return charset;
 };
 
 module.exports = {
   getPayload,
   hasPayload,
-  getContentType,
+  getMime,
   getCharset,
 };

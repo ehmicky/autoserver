@@ -10,6 +10,21 @@ const { genericRefs } = require('./generic');
 const { nodeModuleRefs, nodeRefs } = require('./javascript');
 const { errorRefs } = require('./error');
 
+// Resolve JSON references, i.e. $ref
+// json-schema-ref-parser must load the file itself, i.e. a string must be
+// passed to it, not the parsed object, so it knows the base of relative $refs.
+// Because of this, json-schema-ref-parser needs to be responsible for loading
+// and parsing the schema.
+const dereferenceSchema = async function ({ schema }) {
+  const rSchema = await dereferenceRefs({ path: schema });
+  return { rSchema };
+};
+
+const eDereferenceSchema = addGenErrorHandler(dereferenceSchema, {
+  message: (input, { message }) => `Could not resolve references '$ref'\n${message}`,
+  reason: 'SCHEMA_SYNTAX_ERROR',
+});
+
 // Dereference JSON references.
 // RFC: https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html
 // I.e. { $ref: "path|url" } will be replaced by the target, which can be
@@ -49,21 +64,6 @@ const getRefParserOpts = rootDir => ({
   dereference: {
     circular: false,
   },
-});
-
-// Resolve JSON references, i.e. $ref
-// json-schema-ref-parser must load the file itself, i.e. a string must be
-// passed to it, not the parsed object, so it knows the base of relative $refs.
-// Because of this, json-schema-ref-parser needs to be responsible for loading
-// and parsing the schema.
-const dereferenceSchema = async function ({ schema }) {
-  const rSchema = await dereferenceRefs({ path: schema });
-  return { rSchema };
-};
-
-const eDereferenceSchema = addGenErrorHandler(dereferenceSchema, {
-  message: (input, { message }) => `Could not resolve references '$ref'\n${message}`,
-  reason: 'SCHEMA_SYNTAX_ERROR',
 });
 
 module.exports = {

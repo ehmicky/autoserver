@@ -1,7 +1,7 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../error');
-const { generic } = require('../formats');
+const { extNames } = require('../formats');
 const { deepMerge } = require('../utilities');
 
 const { getEnvVars } = require('./env');
@@ -23,7 +23,7 @@ const loadMainConfFile = async function ({ options, instruction }) {
   const { path: mainConfPathA, content } = await getConfFile({
     path: mainConfPath,
     name: `${instruction}.config`,
-    extNames: generic.extNames,
+    extNames,
     loader: 'generic',
   });
   return { options: content, mainConfPath: mainConfPathA };

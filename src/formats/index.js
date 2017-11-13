@@ -2,5 +2,7 @@
 
 module.exports = {
   ...require('./merger'),
-  ...require('./generic'),
+  ...require('./description'),
+  ...require('./find'),
+  ...require('./load_save'),
 };

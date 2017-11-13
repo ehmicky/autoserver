@@ -1,10 +1,10 @@
 'use strict';
 
-const { generic } = require('../../../formats');
+const { description } = require('../../../formats');
 
 const config = {
   name: 'config',
-  description: `Configuration file (${generic.description})`,
+  description: `Configuration file (${description})`,
   validate: {
     type: 'string',
   },
