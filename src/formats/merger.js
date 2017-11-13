@@ -4,6 +4,8 @@ const { keyBy } = require('../utilities');
 
 const formats = require('./handlers');
 
-const merger = keyBy(formats);
+const formatHandlers = keyBy(formats);
 
-module.exports = merger;
+module.exports = {
+  formatHandlers,
+};
