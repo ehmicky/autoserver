@@ -7,9 +7,9 @@ const bytes = require('bytes');
 const getLimits = function ({
   runOpts: {
     maxpagesize,
-    maxpayloadsize,
-  },
-}) {
+    maxpayloadsize = MAX_URL_LENGTH,
+  } = {},
+} = {}) {
   const maxpayloadsizeA = bytes.parse(maxpayloadsize);
 
   return {

@@ -2,7 +2,7 @@
 
 const { getWordsList } = require('../utilities');
 const { throwError } = require('../error');
-const { generic } = require('../formats');
+const { extNames } = require('../formats');
 
 // Used when JSON reference is wrong
 const invalidRef = function ({ url }) {
@@ -12,7 +12,7 @@ const invalidRef = function ({ url }) {
   throwError(message);
 };
 
-const EXT_NAMES = [...generic.extNames, 'js', 'node'];
+const EXT_NAMES = [...extNames, 'js', 'node'];
 
 const errorRefs = {
   resolve: {

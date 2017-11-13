@@ -1,10 +1,7 @@
 'use strict';
 
-const qs = require('qs');
-
 const { throwError, addGenErrorHandler } = require('../../error');
-const { transtype, recurseMap } = require('../../utilities');
-const { getLimits } = require('../../limits');
+const { urlencoded } = require('../../formats');
 
 // Fill in `mInput.queryvars` using protocol-specific URL query variables
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -12,52 +9,23 @@ const { getLimits } = require('../../limits');
 // Automatic transtyping is performed
 // Meant to be used to create (in coming middleware) `mInput.args`
 // but can also be used by rpc layer as is.
-const parseQueryString = function ({ specific, protocolHandler, runOpts }) {
+const parseQueryString = function ({ specific, protocolHandler }) {
   const queryString = getQueryString({ specific, protocolHandler });
-  const { maxQueryStringDepth, maxQueryStringLength } = getLimits({ runOpts });
-  const queryvars = eParseQueryvars({
-    queryString,
-    maxQueryStringDepth,
-    maxQueryStringLength,
-  });
 
-  const queryvarsA = recurseMap(queryvars, transtype);
-
-  return { queryvars: queryvarsA };
+  const queryvars = eParseQueryvars({ queryString });
+  return { queryvars };
 };
 
 const getQueryString = function ({ specific, protocolHandler }) {
   const queryString = protocolHandler.getQueryString({ specific });
+  if (typeof queryString === 'string') { return queryString; }
 
-  if (typeof queryString !== 'string') {
-    const message = `'queryString' must be a string, not '${queryString}'`;
-    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
-  }
-
-  return queryString;
+  const message = `'queryString' must be a string, not '${queryString}'`;
+  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
 };
 
-// Parse query string as query object
-// Can use the following notations:
-//  - ?var[subvar]=val -> { var: { subvar: val } }
-//  - ?var.subvar=val -> { var: { subvar: val } }
-//  - ?var[0]=val -> { var: [ val ] }
-//  - ?var[]=val&var[]=secondval -> { var: [ val, secondval ] }
-// Performs proper URI decoding, using decodeURIComponent()
-// Differentiates between undefined, null and ''
-const parseQueryvars = function ({
-  queryString,
-  maxQueryStringDepth,
-  maxQueryStringLength,
-}) {
-  const queryObject = qs.parse(queryString, {
-    depth: maxQueryStringDepth,
-    arrayLimit: maxQueryStringLength,
-    allowDots: true,
-    decoder: str => decodeURIComponent(str.replace(/\+/g, ' ')),
-    ignoreQueryPrefix: true,
-  });
-  return queryObject;
+const parseQueryvars = function ({ queryString }) {
+  return urlencoded.parse({ content: queryString });
 };
 
 const eParseQueryvars = addGenErrorHandler(parseQueryvars, {

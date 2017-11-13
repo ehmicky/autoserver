@@ -1,6 +1,6 @@
 'use strict';
 
-const { generic } = require('../../../formats');
+const { extNames } = require('../../../formats');
 
 // `run` option `schema`
 const schema = {
@@ -8,7 +8,7 @@ const schema = {
   description: 'File containing the data model and business logic',
   subConfFiles: [{
     filename: 'schema',
-    extNames: ['compiled.json', ...generic.extNames],
+    extNames: ['compiled.json', ...extNames],
     instruction: 'run',
   }],
   validate: {
@@ -22,7 +22,7 @@ const uncompiledSchema = {
   ...schema,
   subConfFiles: [{
     ...schema.subConfFiles[0],
-    extNames: generic.extNames,
+    extNames,
   }],
 };
 

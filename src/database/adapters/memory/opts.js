@@ -1,14 +1,14 @@
 'use strict';
 
-const { generic } = require('../../../formats');
+const { extNames, description } = require('../../../formats');
 
 const opts = [
   {
     name: 'data',
-    description: `File containing the data (${generic.description})`,
+    description: `File containing the data (${description})`,
     subConfFiles: [{
       filename: 'db.memory',
-      extNames: generic.extNames,
+      extNames,
       loader: 'generic',
       keepPath: true,
     }],
