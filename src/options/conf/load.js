@@ -1,6 +1,6 @@
 'use strict';
 
-const { loadByExt } = require('../../formats');
+const { loadFile } = require('../../formats');
 
 // Load file content, with several supported formats
 const loadConfFile = function ({ type, path }) {
@@ -18,7 +18,8 @@ const jsLoader = function ({ path }) {
 };
 
 const loaders = {
-  generic: loadByExt,
+  generic: ({ path }) => loadFile({ type: 'conf', path }),
+  db: ({ path }) => loadFile({ type: 'db', path }),
   javascript: jsLoader,
 };
 

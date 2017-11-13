@@ -1,6 +1,6 @@
 'use strict';
 
-const { extNames, findFormatByExt } = require('../formats');
+const { getExtNames, findFormat } = require('../formats');
 const { throwError } = require('../error');
 
 // Parse a generic configuration file
@@ -9,7 +9,7 @@ const parse = function ({ data, url }) {
   const content = Buffer.isBuffer(data) ? data.toString() : data;
   if (typeof content !== 'string') { return Promise.resolve(content); }
 
-  const format = findFormatByExt({ path: url });
+  const format = findFormat({ type: 'conf', path: url });
   const contentA = format.parse({ path: url, content });
 
   // `content` cannot be `null` because of a bug with `json-schema-ref-parser`
@@ -21,7 +21,7 @@ const parse = function ({ data, url }) {
   return Promise.resolve(contentA);
 };
 
-const canParse = extNames.map(ext => `.${ext}`);
+const canParse = getExtNames('conf').map(ext => `.${ext}`);
 
 const genericRefs = {
   order: 100,

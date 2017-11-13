@@ -13,6 +13,7 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'json',
   title: 'JSON',
+  types: ['conf', 'payload', 'db'],
   extNames: ['json'],
   mimes: ['application/json', '+json'],
   // JSON specification also allows UTF-32, but iconv-lite does not support it
