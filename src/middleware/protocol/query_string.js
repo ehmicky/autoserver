@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError, addGenErrorHandler } = require('../../error');
-const { urlencoded } = require('../../formats');
+const { parse } = require('../../formats');
 
 // Fill in `mInput.queryvars` using protocol-specific URL query variables
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -25,7 +25,7 @@ const getQueryString = function ({ specific, protocolHandler }) {
 };
 
 const parseQueryvars = function ({ queryString }) {
-  return urlencoded.parse({ content: queryString });
+  return parse({ format: 'urlencoded', content: queryString });
 };
 
 const eParseQueryvars = addGenErrorHandler(parseQueryvars, {

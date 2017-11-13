@@ -14,7 +14,7 @@ const findByMime = function ({ formats, mime }) {
   // and unlike JSON or YAML
   // This won't be parsed (i.e. returned as is), and will use 'binary' charset
   if (format === undefined) {
-    return { name: mime, title: mime };
+    return { title: mime };
   }
 
   return format;
