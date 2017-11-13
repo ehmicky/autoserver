@@ -5,8 +5,8 @@ const { getLimits } = require('../../../limits');
 
 const { getRawPayload } = require('./raw');
 const { getFormat } = require('./format');
-const { parseCharset } = require('./charset');
-const { fireParser } = require('./parse');
+const { getCharset, decodeCharset } = require('./charset');
+const { parseContent } = require('./parse');
 
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -15,22 +15,23 @@ const { fireParser } = require('./parse');
 const parsePayload = function ({ specific, protocolHandler, runOpts }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
-  const { maxpayload } = getLimits({ runOpts });
+  const format = getFormat({ specific, protocolHandler });
 
+  const charset = getCharset({ specific, protocolHandler, format });
+
+  const { maxpayload } = getLimits({ runOpts });
   const promise = getRawPayload({ protocolHandler, specific, maxpayload });
 
   return promiseThen(
     promise,
-    parseContent.bind(null, { specific, protocolHandler }),
+    parseRawPayload.bind(null, { format, charset }),
   );
 };
 
-const parseContent = function ({ specific, protocolHandler }, payload) {
-  const format = getFormat({ specific, protocolHandler });
+const parseRawPayload = function ({ format, charset }, payload) {
+  const payloadA = decodeCharset(payload, charset);
 
-  const payloadA = parseCharset({ payload, specific, protocolHandler, format });
-
-  const payloadB = fireParser({ payload: payloadA, format });
+  const payloadB = parseContent({ payload: payloadA, format });
 
   return { payload: payloadB };
 };

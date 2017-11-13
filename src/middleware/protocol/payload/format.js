@@ -26,7 +26,7 @@ const getMime = function ({ specific, protocolHandler }) {
   if (mime) { return mime; }
 
   const message = 'Must specify format when sending a request payload';
-  throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
+  throwError(message, { reason: 'SYNTAX_VALIDATION' });
 };
 
 module.exports = {
