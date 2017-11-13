@@ -32,7 +32,13 @@ module.exports = {
   title: 'YAML',
   types: ['conf', 'payload', 'db'],
   extNames: ['yml', 'yaml'],
-  mimes: ['application/yaml', 'application/x-yaml', 'text/yaml', 'text/x-yaml'],
+  mimes: [
+    'application/yaml',
+    'application/x-yaml',
+    'text/yaml',
+    'text/x-yaml',
+    '+yaml',
+  ],
   // YAML specification also allows UTF-32, but iconv-lite does not support it
   charsets: ['utf-8', 'utf-16', 'utf-16be', 'utf-16le'],
   jsonCompat: [],

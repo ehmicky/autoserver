@@ -1,5 +1,7 @@
 'use strict';
 
+const { formatHandlers, serialize } = require('../../../formats');
+
 // Set basic payload headers, then delegate to protocol handler
 const send = function ({
   protocolHandler,
@@ -10,60 +12,84 @@ const send = function ({
   error,
   protocolstatus,
 }) {
-  const contentA = stringifyContent({ content, topargs, error });
+  const format = 'json';
 
-  const contentLength = Buffer.byteLength(contentA);
-  const { contentType } = types[type];
+  const mime = getMime({ format, type });
+
+  const contentA = stringifyContent({ format, content, topargs, error });
 
   return protocolHandler.send({
     specific,
     content: contentA,
-    contentType,
-    contentLength,
+    mime,
     protocolstatus,
   });
 };
 
-// Set a type-specific empty response when `args.silent` is used
-// (unless this is an error response).
+// Retrieve response MIME type
+const getMime = function ({ format = 'json', type }) {
+  const { mime } = types[type];
+  const { mimes } = formatHandlers[format] || {};
+
+  if (mime === undefined) {
+    return mimes[0];
+  }
+
+  if (mime.endsWith('+')) {
+    return addSuffix({ mime, mimes });
+  }
+
+  return mime;
+};
+
+const addSuffix = function ({ mime, mimes }) {
+  const suffix = mimes.find(mimeA => mimeA.startsWith('+'));
+
+  if (suffix === undefined) {
+    return mimes[0];
+  }
+
+  return `${mime}${suffix.slice(1)}`;
+};
+
 const stringifyContent = function ({
+  format,
   content,
   topargs: { silent } = {},
   error,
 }) {
+  // When `args.silent` is used (unless this is an error response).
   if (silent && error === undefined) { return ''; }
 
   if (typeof content === 'string') { return content; }
 
-  const contentA = JSON.stringify(content, null, 2);
+  const contentA = serialize({ format, content });
   return contentA;
 };
 
 // Each content type is sent differently
 const types = {
   model: {
-    contentType: 'application/x-resource+json',
+    mime: 'application/x-resource+',
   },
 
   models: {
-    contentType: 'application/x-collection+json',
+    mime: 'application/x-collection+',
   },
 
   error: {
     // See RFC 7807
-    contentType: 'application/problem+json',
+    mime: 'application/problem+',
   },
 
-  object: {
-    contentType: 'application/json',
-  },
+  object: {},
 
   html: {
-    contentType: 'text/html',
+    mime: 'text/html',
   },
 
   text: {
-    contentType: 'text/plain',
+    mime: 'text/plain',
   },
 };
 
