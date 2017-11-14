@@ -1,6 +1,8 @@
 'use strict';
 
-const { formatHandlers, serialize } = require('../../../formats');
+const { serialize } = require('../../../formats');
+
+const { getMime, types } = require('./types');
 
 // Set basic payload headers, then delegate to protocol handler
 const send = function ({
@@ -16,81 +18,46 @@ const send = function ({
 
   const mime = getMime({ format, type });
 
-  const contentA = stringifyContent({ format, content, topargs, error });
+  const { content: contentA, contentLength } = serializeContent({
+    format,
+    content,
+    topargs,
+    error,
+  });
 
   return protocolHandler.send({
     specific,
     content: contentA,
+    contentLength,
     mime,
     protocolstatus,
   });
 };
 
-// Retrieve response MIME type
-const getMime = function ({ format = 'json', type }) {
-  const { mime } = types[type];
-  const { mimes } = formatHandlers[format] || {};
+const serializeContent = function ({ format, content, topargs, error }) {
+  const contentA = stringifyContent({ format, content });
 
-  if (mime === undefined) {
-    return mimes[0];
-  }
+  // Calculated before `args.silent` is applied
+  // This is in accordance to how HEAD is supposed to work in HTTP spec
+  const contentLength = Buffer.byteLength(contentA);
 
-  if (mime.endsWith('+')) {
-    return addSuffix({ mime, mimes });
-  }
+  const contentB = applySilent({ content: contentA, topargs, error });
 
-  return mime;
+  return { content: contentB, contentLength };
 };
 
-const addSuffix = function ({ mime, mimes }) {
-  const suffix = mimes.find(mimeA => mimeA.startsWith('+'));
-
-  if (suffix === undefined) {
-    return mimes[0];
-  }
-
-  return `${mime}${suffix.slice(1)}`;
-};
-
-const stringifyContent = function ({
-  format,
-  content,
-  topargs: { silent } = {},
-  error,
-}) {
-  // When `args.silent` is used (unless this is an error response).
-  if (silent && error === undefined) { return ''; }
-
+const stringifyContent = function ({ format, content }) {
   if (typeof content === 'string') { return content; }
 
   const contentA = serialize({ format, content });
   return contentA;
 };
 
-// Each content type is sent differently
-const types = {
-  model: {
-    mime: 'application/x-resource+',
-  },
+// When `args.silent` is used (unless this is an error response).
+const applySilent = function ({ content, topargs: { silent } = {}, error }) {
+  if (silent && error === undefined) { return ''; }
 
-  models: {
-    mime: 'application/x-collection+',
-  },
-
-  error: {
-    // See RFC 7807
-    mime: 'application/problem+',
-  },
-
-  object: {},
-
-  html: {
-    mime: 'text/html',
-  },
-
-  text: {
-    mime: 'text/plain',
-  },
+  return content;
 };
 
 module.exports = {
