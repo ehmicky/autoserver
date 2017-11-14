@@ -1,5 +1,7 @@
 'use strict';
 
+const { format: formatMime } = require('content-type');
+
 const { formatHandlers } = require('../../../formats');
 
 // Each content type is sent differently
@@ -29,10 +31,16 @@ const types = {
 };
 
 // Retrieve response MIME type
-const getMime = function ({ format, type }) {
+const getMime = function ({ format, charset, type }) {
   const { mime } = types[type];
   const { mimes } = formatHandlers[format] || {};
 
+  const contentType = getContentType({ mimes, mime });
+  const mimeA = formatMime({ type: contentType, parameters: { charset } });
+  return mimeA;
+};
+
+const getContentType = function ({ mimes, mime }) {
   if (mime === undefined) {
     return mimes[0];
   }
