@@ -54,21 +54,17 @@ const hasPayload = function ({ specific: { req } }) {
   return hasBody(req);
 };
 
-// Retrieves payload MIME type
-const getMime = function ({ specific: { req: { headers } } }) {
-  return headers['content-type'];
-};
-
 // Retrieves payload charset
-const getCharset = function ({ specific }) {
-  const mime = getMime({ specific });
-  const { parameters: { charset } = {} } = parseMime(mime);
+const getCharset = function ({ specific: { req: { headers } } }) {
+  const mime = headers['content-type'];
+  if (!mime) { return; }
+
+  const { parameters: { charset } } = parseMime(mime);
   return charset;
 };
 
 module.exports = {
   getPayload,
   hasPayload,
-  getMime,
   getCharset,
 };

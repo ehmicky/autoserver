@@ -11,7 +11,6 @@ const {
 const {
   getPayload,
   hasPayload,
-  getMime,
   getCharset,
 } = require('./payload');
 const { getOrigin, getPath, getQueryString } = require('./url');
@@ -39,7 +38,6 @@ const protocol = {
   setResponseheaders,
   getPayload,
   hasPayload,
-  getMime,
   getCharset,
   getOrigin,
   getPath,
