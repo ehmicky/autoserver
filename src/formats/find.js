@@ -8,16 +8,34 @@ const allFormats = require('./handlers');
 
 // Retrieve correct format, using MIME type
 const findByMime = function ({ formats, mime }) {
-  const format = formats.find(({ mimes = [] }) => isType(mime, mimes));
+  // We try the extensions MIME (e.g. `+json`) before the other MIME types
+  // (e.g. `application/jose+json`)
+  const format = getByMime({ formats, mime, filter: isNormalMime });
+  if (format !== undefined) { return format; }
+
+  const formatA = getByMime({ formats, mime, filter: isExtensionMime });
+  if (formatA !== undefined) { return formatA; }
 
   // Means this is not a structured type, like media types,
   // and unlike JSON or YAML
   // This won't be parsed (i.e. returned as is), and will use 'binary' charset
-  if (format === undefined) {
-    return { title: mime };
-  }
+  return { title: mime };
+};
 
-  return format;
+const getByMime = function ({ formats, mime, filter }) {
+  return formats
+    .map(({ mimes = [], ...format }) =>
+      ({ ...format, mimes: mimes.filter(filter) }))
+    .filter(({ mimes }) => mimes.length !== 0)
+    .find(({ mimes }) => isType(mime, mimes));
+};
+
+const isNormalMime = function (mime) {
+  return !mime.startsWith('+');
+};
+
+const isExtensionMime = function (mime) {
+  return mime.startsWith('+');
 };
 
 // Retrieve correct format, using file extension
