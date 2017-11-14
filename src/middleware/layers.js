@@ -56,12 +56,12 @@ const middlewareLayers = [
       protocol.parseMethod,
       // Parse URL query string into protocol-agnostic format
       protocol.parseQueryString,
-      // Parse request payload into protocol-agnostic format
-      protocol.parsePayload,
       // Parse headers into protocol-agnostic format
       protocol.parseHeaders,
       // Parse protocol-specific arguments
       protocol.parseProtocolArgs,
+      // Parse request payload into protocol-agnostic format
+      protocol.parsePayload,
 
       // Fires rpc layer
       protocol.fireRpc,
