@@ -2,9 +2,9 @@
 
 const { promiseThen } = require('../../../utilities');
 const { getLimits } = require('../../../limits');
+const { formatHandlers } = require('../../../formats');
 
 const { getRawPayload } = require('./raw');
-const { getFormat } = require('./format');
 const { getCharset, decodeCharset } = require('./charset');
 const { parseContent } = require('./parse');
 
@@ -12,19 +12,24 @@ const { parseContent } = require('./parse');
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by rpc layer, e.g. to populate `mInput.args`
-const parsePayload = function ({ specific, protocolHandler, runOpts }) {
+const parsePayload = function ({
+  specific,
+  protocolHandler,
+  runOpts,
+  topargs: { format },
+}) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
-  const format = getFormat({ specific, protocolHandler });
+  const formatA = formatHandlers[format] || { title: format };
 
-  const charset = getCharset({ specific, protocolHandler, format });
+  const charset = getCharset({ specific, protocolHandler, format: formatA });
 
   const { maxpayload } = getLimits({ runOpts });
   const promise = getRawPayload({ protocolHandler, specific, maxpayload });
 
   return promiseThen(
     promise,
-    parseRawPayload.bind(null, { format, charset }),
+    parseRawPayload.bind(null, { format: formatA, charset }),
   );
 };
 
