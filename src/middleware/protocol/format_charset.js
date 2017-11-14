@@ -11,7 +11,6 @@ const parseFormatCharset = function ({ topargs, queryvars }) {
   const format = getFormat({ topargs, queryvars });
   const charset = getCharset({ topargs, queryvars, format });
   const topargsA = omit(topargs, ['format', 'charset']);
-  console.log(format.name, charset);
   return { topargs: topargsA, format, charset };
 };
 
