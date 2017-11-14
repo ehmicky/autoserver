@@ -1,12 +1,13 @@
 'use strict';
 
+const { decode } = require('iconv-lite');
+
 const { promiseThen } = require('../../../utilities');
+const { addGenErrorHandler } = require('../../../error');
 const { getLimits } = require('../../../limits');
-const { formatHandlers } = require('../../../formats');
+const { formatHandlers, getCharset, parse } = require('../../../formats');
 
 const { getRawPayload } = require('./raw');
-const { getCharset, decodeCharset } = require('./charset');
-const { parseContent } = require('./parse');
 
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -16,30 +17,53 @@ const parsePayload = function ({
   specific,
   protocolHandler,
   runOpts,
-  topargs: { format },
+  topargs: { charset, format },
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
   const formatA = formatHandlers[format] || { title: format };
-
-  const charset = getCharset({ specific, protocolHandler, format: formatA });
+  const charsetA = getCharset({ format: formatA, charset });
 
   const { maxpayload } = getLimits({ runOpts });
   const promise = getRawPayload({ protocolHandler, specific, maxpayload });
 
   return promiseThen(
     promise,
-    parseRawPayload.bind(null, { format: formatA, charset }),
+    parseRawPayload.bind(null, { format: formatA, charset: charsetA }),
   );
 };
 
 const parseRawPayload = function ({ format, charset }, payload) {
-  const payloadA = decodeCharset(payload, charset);
+  const payloadA = eDecode(payload, charset);
 
-  const payloadB = parseContent({ payload: payloadA, format });
+  const payloadB = eParseContent({ payload: payloadA, format });
+
+  if (typeof payloadB === 'string') {
+    console.log('PAYLOAD', payloadB.slice(0, 22));
+  } else {
+    console.log('PAYLOAD', payloadB);
+  }
 
   return { payload: payloadB };
 };
+
+// Charset decoding is done in a protocol-agnostic way
+const eDecode = addGenErrorHandler(decode, {
+  message: ({ charset }) => `The request payload is invalid: the charset '${charset}' could not be decoded`,
+  reason: 'WRONG_CONTENT_TYPE',
+});
+
+// Parse content, e.g. JSON/YAML parsing
+const parseContent = function ({ format: { name }, payload }) {
+  if (name === undefined) { return payload; }
+
+  return parse({ format: name, content: payload });
+};
+
+const eParseContent = addGenErrorHandler(parseContent, {
+  message: ({ format: { title } }) => `The request payload is invalid ${title}`,
+  reason: 'WRONG_CONTENT_TYPE',
+});
 
 module.exports = {
   parsePayload,
