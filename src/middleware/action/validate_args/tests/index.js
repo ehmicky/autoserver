@@ -10,6 +10,7 @@ module.exports = {
   ...require('./cascade'),
   ...require('./dryrun'),
   ...require('./format'),
+  ...require('./charset'),
   ...require('./silent'),
   ...require('./params'),
   ...require('./required'),
