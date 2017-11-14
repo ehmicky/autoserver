@@ -8,11 +8,7 @@ const {
   getResponseheaders,
   setResponseheaders,
 } = require('./headers');
-const {
-  getPayload,
-  hasPayload,
-  getCharset,
-} = require('./payload');
+const { getPayload, hasPayload } = require('./payload');
 const { getOrigin, getPath, getQueryString } = require('./url');
 const { getMethod } = require('./method');
 const { send } = require('./send');
@@ -38,7 +34,6 @@ const protocol = {
   setResponseheaders,
   getPayload,
   hasPayload,
-  getCharset,
   getOrigin,
   getPath,
   getQueryString,
