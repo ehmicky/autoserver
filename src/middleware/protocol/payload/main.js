@@ -38,12 +38,6 @@ const parseRawPayload = function ({ format, charset }, payload) {
 
   const payloadB = eParseContent({ payload: payloadA, format });
 
-  if (typeof payloadB === 'string') {
-    console.log('PAYLOAD', payloadB.slice(0, 22));
-  } else {
-    console.log('PAYLOAD', payloadB);
-  }
-
   return { payload: payloadB };
 };
 
