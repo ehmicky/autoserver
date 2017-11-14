@@ -1,6 +1,5 @@
 'use strict';
 
-const { parse: parseMime } = require('content-type');
 const { hasBody } = require('type-is');
 const getBody = require('raw-body');
 
@@ -54,17 +53,7 @@ const hasPayload = function ({ specific: { req } }) {
   return hasBody(req);
 };
 
-// Retrieves payload charset
-const getCharset = function ({ specific: { req: { headers } } }) {
-  const mime = headers['content-type'];
-  if (!mime) { return; }
-
-  const { parameters: { charset } } = parseMime(mime);
-  return charset;
-};
-
 module.exports = {
   getPayload,
   hasPayload,
-  getCharset,
 };
