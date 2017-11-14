@@ -1,7 +1,14 @@
 {
   "findOne": {
-    "optional": ["populate", "select", "silent", "params"],
-    "required": ["id"]
+    "optional": [
+      "populate",
+      "select",
+      "silent",
+      "params"
+    ],
+    "required": [
+      "id"
+    ]
   },
   "findMany": {
     "optional": [
@@ -16,11 +23,20 @@
       "silent",
       "params"
     ],
-    "required": []
+    "required": [
+    ]
   },
   "deleteOne": {
-    "optional": ["cascade", "select", "silent", "dryrun", "params"],
-    "required": ["id"]
+    "optional": [
+      "cascade",
+      "select",
+      "silent",
+      "dryrun",
+      "params"
+    ],
+    "required": [
+      "id"
+    ]
   },
   "deleteMany": {
     "optional": [
@@ -32,11 +48,20 @@
       "dryrun",
       "params"
     ],
-    "required": []
+    "required": [
+    ]
   },
   "patchOne": {
-    "optional": ["select", "silent", "dryrun", "params"],
-    "required": ["id", "single_data"]
+    "optional": [
+      "select",
+      "silent",
+      "dryrun",
+      "params"
+    ],
+    "required": [
+      "id",
+      "single_data"
+    ]
   },
   "patchMany": {
     "optional": [
@@ -47,22 +72,54 @@
       "dryrun",
       "params"
     ],
-    "required": ["single_data"]
+    "required": [
+      "single_data"
+    ]
   },
   "createOne": {
-    "optional": ["select", "silent", "dryrun", "params"],
-    "required": ["single_data"]
+    "optional": [
+      "select",
+      "silent",
+      "dryrun",
+      "params"
+    ],
+    "required": [
+      "single_data"
+    ]
   },
   "createMany": {
-    "optional": ["pagesize", "select", "silent", "dryrun", "params"],
-    "required": ["multiple_data"]
+    "optional": [
+      "pagesize",
+      "select",
+      "silent",
+      "dryrun",
+      "params"
+    ],
+    "required": [
+      "multiple_data"
+    ]
   },
   "upsertOne": {
-    "optional": ["select", "silent", "dryrun", "params"],
-    "required": ["single_data"]
+    "optional": [
+      "select",
+      "silent",
+      "dryrun",
+      "params"
+    ],
+    "required": [
+      "single_data"
+    ]
   },
   "upsertMany": {
-    "optional": ["pagesize", "select", "silent", "dryrun", "params"],
-    "required": ["multiple_data"]
+    "optional": [
+      "pagesize",
+      "select",
+      "silent",
+      "dryrun",
+      "params"
+    ],
+    "required": [
+      "multiple_data"
+    ]
   }
 }
