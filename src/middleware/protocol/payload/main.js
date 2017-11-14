@@ -5,7 +5,7 @@ const { decode } = require('iconv-lite');
 const { promiseThen } = require('../../../utilities');
 const { addGenErrorHandler } = require('../../../error');
 const { getLimits } = require('../../../limits');
-const { formatHandlers, getCharset, parse } = require('../../../formats');
+const { defaultFormat, defaultCharset, parse } = require('../../../formats');
 
 const { getRawPayload } = require('./raw');
 
@@ -17,20 +17,15 @@ const parsePayload = function ({
   specific,
   protocolHandler,
   runOpts,
-  topargs: { charset, format },
+  charset = defaultCharset,
+  format = defaultFormat,
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
-
-  const formatA = formatHandlers[format] || { title: format };
-  const charsetA = getCharset({ format: formatA, charset });
 
   const { maxpayload } = getLimits({ runOpts });
   const promise = getRawPayload({ protocolHandler, specific, maxpayload });
 
-  return promiseThen(
-    promise,
-    parseRawPayload.bind(null, { format: formatA, charset: charsetA }),
-  );
+  return promiseThen(promise, parseRawPayload.bind(null, { format, charset }));
 };
 
 const parseRawPayload = function ({ format, charset }, payload) {
@@ -48,10 +43,10 @@ const eDecode = addGenErrorHandler(decode, {
 });
 
 // Parse content, e.g. JSON/YAML parsing
-const parseContent = function ({ format: { name }, payload }) {
-  if (name === undefined) { return payload; }
+const parseContent = function ({ format, payload }) {
+  if (format.parse === undefined) { return payload; }
 
-  return parse({ format: name, content: payload });
+  return parse({ format: format.name, content: payload });
 };
 
 const eParseContent = addGenErrorHandler(parseContent, {

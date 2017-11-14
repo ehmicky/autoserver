@@ -25,6 +25,15 @@ const getPayload = function ({ specific, maxpayload }) {
   return eGetRawBody({ req, length, maxpayload });
 };
 
+// Retrieves payload length
+const getContentLength = function ({ specific: { req: { headers } } }) {
+  const contentLength = headers['content-length'];
+  if (contentLength !== undefined) { return contentLength; }
+
+  const message = 'Must specify HTTP header \'Content-Length\' when sending a request payload';
+  throwError(message, { reason: 'NO_CONTENT_LENGTH' });
+};
+
 const getRawBody = function ({ req, length, maxpayload }) {
   return getBody(req, { length, limit: maxpayload });
 };
@@ -38,15 +47,6 @@ const eGetRawBody = addGenErrorHandler(getRawBody, {
 });
 
 const INPUT_LIMIT_STATUS = 413;
-
-// Retrieves payload length
-const getContentLength = function ({ specific: { req: { headers } } }) {
-  const contentLength = headers['content-length'];
-  if (contentLength !== undefined) { return contentLength; }
-
-  const message = 'Must specify HTTP header \'Content-Length\' when sending a request payload';
-  throwError(message, { reason: 'NO_CONTENT_LENGTH' });
-};
 
 // Check if there is a request payload
 const hasPayload = function ({ specific: { req } }) {
