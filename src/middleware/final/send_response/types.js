@@ -29,7 +29,7 @@ const types = {
 };
 
 // Retrieve response MIME type
-const getMime = function ({ format = 'json', type }) {
+const getMime = function ({ format, type }) {
   const { mime } = types[type];
   const { mimes } = formatHandlers[format] || {};
 

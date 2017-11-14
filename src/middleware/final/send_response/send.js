@@ -11,11 +11,10 @@ const send = function ({
   content,
   type,
   topargs,
+  topargs: { format = 'json' } = {},
   error,
   protocolstatus,
 }) {
-  const format = 'json';
-
   const mime = getMime({ format, type });
 
   const { content: contentA, contentLength } = serializeContent({
