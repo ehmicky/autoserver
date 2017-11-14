@@ -1,8 +1,9 @@
 'use strict';
 
-const { serialize } = require('../../../formats');
+const { getCharset, formatHandlers } = require('../../../formats');
 
 const { getMime, types } = require('./types');
+const { serializeContent } = require('./serialize');
 
 // Set basic payload headers, then delegate to protocol handler
 const send = function ({
@@ -11,16 +12,18 @@ const send = function ({
   content,
   type,
   topargs,
-  topargs: { format = 'json' } = {},
   error,
   protocolstatus,
 }) {
-  const mime = getMime({ format, type });
+  const { format, charset } = getFormats({ topargs });
+
+  const mime = getMime({ format, charset, type });
 
   const { content: contentA, contentLength } = serializeContent({
     format,
     content,
     topargs,
+    charset,
     error,
   });
 
@@ -33,30 +36,11 @@ const send = function ({
   });
 };
 
-const serializeContent = function ({ format, content, topargs, error }) {
-  const contentA = stringifyContent({ format, content });
+const getFormats = function ({ topargs: { format = 'json', charset } = {} }) {
+  const formatObj = formatHandlers[format] || { title: format };
+  const charsetA = getCharset({ format: formatObj, charset });
 
-  // Calculated before `args.silent` is applied
-  // This is in accordance to how HEAD is supposed to work in HTTP spec
-  const contentLength = Buffer.byteLength(contentA);
-
-  const contentB = applySilent({ content: contentA, topargs, error });
-
-  return { content: contentB, contentLength };
-};
-
-const stringifyContent = function ({ format, content }) {
-  if (typeof content === 'string') { return content; }
-
-  const contentA = serialize({ format, content });
-  return contentA;
-};
-
-// When `args.silent` is used (unless this is an error response).
-const applySilent = function ({ content, topargs: { silent } = {}, error }) {
-  if (silent && error === undefined) { return ''; }
-
-  return content;
+  return { format, charset: charsetA };
 };
 
 module.exports = {
