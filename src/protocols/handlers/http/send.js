@@ -2,6 +2,8 @@
 
 const { promisify } = require('util');
 
+const { failureProtocolstatus } = require('./status');
+
 // Sends response
 const send = async function ({
   specific: { req, res } = {},
@@ -27,11 +29,14 @@ const send = async function ({
   req.socket.destroy();
 };
 
-const setHeaders = function ({ res, mime, contentLength, protocolstatus }) {
-  if (protocolstatus) {
-    // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    res.statusCode = protocolstatus;
-  }
+const setHeaders = function ({
+  res,
+  mime,
+  contentLength,
+  protocolstatus = failureProtocolstatus,
+}) {
+  // eslint-disable-next-line no-param-reassign, fp/no-mutation
+  res.statusCode = protocolstatus;
 
   if (mime) {
     res.setHeader('Content-Type', mime);
