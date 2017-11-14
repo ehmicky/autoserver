@@ -4,4 +4,5 @@ module.exports = {
   ...require('./types'),
   ...require('./comparators'),
   ...require('./required'),
+  ...require('./enum'),
 };
