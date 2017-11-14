@@ -18,7 +18,7 @@ const silent = function ({ specific: { req: { headers: requestheaders } } }) {
 // Note that since `args.format` is for both input and output, any of the
 // two headers can be used. `Content-Type` has priority.
 const format = function ({ specific }) {
-  const contentType = getContentType({ specific });
+  const { type: contentType } = getContentType({ specific });
 
   const { name } = findFormat({ type: 'payload', mime: contentType });
   return name;
@@ -28,14 +28,20 @@ const getContentType = function ({ specific: { req: { headers } } }) {
   const contentType = headers['content-type'];
   if (!contentType) { return; }
 
-  const { type } = parseContentType(contentType);
-  return type;
+  return parseContentType(contentType);
+};
+
+// Use similar logic as `args.format`, but for `args.charset`
+const charset = function ({ specific }) {
+  const { parameters: { charset: name } } = getContentType({ specific });
+  return name;
 };
 
 // HTTP-specific ways to set arguments
 const args = {
   silent,
   format,
+  charset,
 };
 
 module.exports = {
