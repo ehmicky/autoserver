@@ -9,6 +9,7 @@ module.exports = {
   ...require('./populate'),
   ...require('./cascade'),
   ...require('./dryrun'),
+  ...require('./format'),
   ...require('./silent'),
   ...require('./params'),
   ...require('./required'),

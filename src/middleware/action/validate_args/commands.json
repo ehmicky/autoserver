@@ -3,6 +3,7 @@
     "optional": [
       "populate",
       "select",
+      "format",
       "silent",
       "params"
     ],
@@ -20,6 +21,7 @@
       "before",
       "after",
       "select",
+      "format",
       "silent",
       "params"
     ],
@@ -30,6 +32,7 @@
     "optional": [
       "cascade",
       "select",
+      "format",
       "silent",
       "dryrun",
       "params"
@@ -44,6 +47,7 @@
       "filter",
       "pagesize",
       "select",
+      "format",
       "silent",
       "dryrun",
       "params"
@@ -54,6 +58,7 @@
   "patchOne": {
     "optional": [
       "select",
+      "format",
       "silent",
       "dryrun",
       "params"
@@ -68,6 +73,7 @@
       "filter",
       "pagesize",
       "select",
+      "format",
       "silent",
       "dryrun",
       "params"
@@ -79,6 +85,7 @@
   "createOne": {
     "optional": [
       "select",
+      "format",
       "silent",
       "dryrun",
       "params"
@@ -91,6 +98,7 @@
     "optional": [
       "pagesize",
       "select",
+      "format",
       "silent",
       "dryrun",
       "params"
@@ -102,6 +110,7 @@
   "upsertOne": {
     "optional": [
       "select",
+      "format",
       "silent",
       "dryrun",
       "params"
@@ -114,6 +123,7 @@
     "optional": [
       "pagesize",
       "select",
+      "format",
       "silent",
       "dryrun",
       "params"
