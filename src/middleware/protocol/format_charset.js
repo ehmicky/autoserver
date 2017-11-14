@@ -4,7 +4,7 @@ const { encodingExists } = require('iconv-lite');
 
 const { omit } = require('../../utilities');
 const { throwError } = require('../../error');
-const { formatHandlers, defaultCharset } = require('../../formats');
+const { formatHandlers } = require('../../formats');
 
 // Retrieve format and charset of both the request and response payloads
 const parseFormatCharset = function ({ topargs, queryvars }) {
@@ -41,9 +41,8 @@ const getCharset = function ({
     // ?charset query variable
     queryvars.charset ||
     // Charset specified by this format
-    charsets[0] ||
-    // Generic default
-    defaultCharset;
+    charsets[0];
+  if (charset === undefined) { return; }
 
   validateCharset({ charset, format });
 

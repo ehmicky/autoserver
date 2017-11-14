@@ -39,6 +39,7 @@
     "json-schema-ref-parser": "^4.0.4",
     "mongodb": "^2.2.33",
     "mustache": "^2.3.0",
+    "negotiator": "^0.6.1",
     "parse-prefer-header": "^1.0.0",
     "path-to-regexp": "^2.1.0",
     "pluralize": "^7.0.0",
