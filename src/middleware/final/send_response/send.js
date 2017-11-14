@@ -1,6 +1,6 @@
 'use strict';
 
-const { getCharset, formatHandlers } = require('../../../formats');
+const { defaultFormat, defaultCharset } = require('../../../formats');
 
 const { getMime, types } = require('./types');
 const { serializeContent } = require('./serialize');
@@ -11,16 +11,18 @@ const send = function ({
   specific,
   content,
   type,
+  format = defaultFormat,
+  charset = defaultCharset,
   topargs,
   error,
   protocolstatus,
 }) {
-  const { format, charset } = getFormats({ topargs });
+  const formatA = format.name === undefined ? defaultFormat : format;
 
-  const mime = getMime({ format, charset, type });
+  const mime = getMime({ format: formatA, charset, type });
 
   const { content: contentA, contentLength } = serializeContent({
-    format,
+    format: formatA,
     content,
     topargs,
     charset,
@@ -34,13 +36,6 @@ const send = function ({
     mime,
     protocolstatus,
   });
-};
-
-const getFormats = function ({ topargs: { format = 'json', charset } = {} }) {
-  const formatObj = formatHandlers[format] || { title: format };
-  const charsetA = getCharset({ format: formatObj, charset });
-
-  return { format, charset: charsetA };
 };
 
 module.exports = {

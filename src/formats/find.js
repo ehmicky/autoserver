@@ -5,6 +5,7 @@ const { extname } = require('path');
 const { is: isType } = require('type-is');
 
 const allFormats = require('./handlers');
+const { defaultFormat } = require('./merger');
 
 // Retrieve correct format, using MIME type
 const findByMime = function ({ formats, mime }) {
@@ -16,10 +17,7 @@ const findByMime = function ({ formats, mime }) {
   const formatA = getByMime({ formats, mime, filter: isExtensionMime });
   if (formatA !== undefined) { return formatA; }
 
-  // Means this is not a structured type, like media types,
-  // and unlike JSON or YAML
-  // This won't be parsed (i.e. returned as is), and will use 'binary' charset
-  return { title: mime };
+  return {};
 };
 
 const getByMime = function ({ formats, mime, filter }) {
@@ -44,8 +42,7 @@ const findByExt = function ({ formats, path }) {
   const format = formats
     .find(({ extNames = [] }) => extNames.includes(fileExt));
 
-  // Defaults to JSON
-  if (format === undefined) { return allFormats[0]; }
+  if (format === undefined) { return defaultFormat; }
 
   return format;
 };

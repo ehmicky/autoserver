@@ -18,9 +18,9 @@ const silent = function ({ specific: { req: { headers: requestheaders } } }) {
 // Note that since `args.format` is for both input and output, any of the
 // two headers can be used. `Content-Type` has priority.
 const format = function ({ specific }) {
-  const { type: contentType } = getContentType({ specific });
+  const { type: mime } = getContentType({ specific });
 
-  const { name } = findFormat({ type: 'payload', mime: contentType });
+  const { name } = findFormat({ type: 'payload', mime });
   return name;
 };
 
