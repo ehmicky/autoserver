@@ -6,6 +6,7 @@ const { promisify } = require('util');
 const send = async function ({
   specific: { req, res } = {},
   content,
+  contentLength,
   mime,
   protocolstatus,
 }) {
@@ -16,7 +17,7 @@ const send = async function ({
   // so we must check to avoid double responses
   if (res.finished) { return; }
 
-  setHeaders({ res, mime, content, protocolstatus });
+  setHeaders({ res, mime, contentLength, protocolstatus });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
@@ -26,7 +27,7 @@ const send = async function ({
   req.socket.destroy();
 };
 
-const setHeaders = function ({ res, mime, content, protocolstatus }) {
+const setHeaders = function ({ res, mime, contentLength, protocolstatus }) {
   if (protocolstatus) {
     // eslint-disable-next-line no-param-reassign, fp/no-mutation
     res.statusCode = protocolstatus;
@@ -36,7 +37,6 @@ const setHeaders = function ({ res, mime, content, protocolstatus }) {
     res.setHeader('Content-Type', mime);
   }
 
-  const contentLength = Buffer.byteLength(content);
   res.setHeader('Content-Length', contentLength);
 };
 
