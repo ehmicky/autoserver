@@ -58,9 +58,8 @@ const ERROR_REASONS = {
   // URL is too large
   URL_LIMIT: {},
 
-  // Request body Content-Type is unsupported
-  // Or request payload has a request payload but no Content-Type
-  WRONG_CONTENT_TYPE: {},
+  // Wrong requested format or charset for the request payload
+  REQUEST_FORMAT: {},
 
   // Filesystem error: could not open local file
   FILE_OPEN_ERROR: {},

@@ -13,7 +13,7 @@ const handleDecompression = function ({ specific, specific: { req } }) {
 
   if (decompressionHandler === undefined) {
     const message = `HTTP Content-Encoding ${encoding} is not supported`;
-    throwError(message, { reason: 'WRONG_CONTENT_TYPE' });
+    throwError(message, { reason: 'REQUEST_FORMAT' });
   }
 
   const reqA = decompressionHandler({ req });

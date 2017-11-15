@@ -27,10 +27,10 @@ const addData = function ({ args, payload }) {
 };
 
 const validatePayload = function ({ payload }) {
-  if (typeof payload === 'object') { return; }
+  if (payload && typeof payload === 'object') { return; }
 
-  const message = 'Payload type is invalid';
-  throwError(message, { reason: 'PAYLOAD_PARSE' });
+  const message = 'Invalid request format: payload must be an object or an array';
+  throwError(message, { reason: 'REQUEST_FORMAT' });
 };
 
 // Use ID in URL /rest/COLLECTION/ID for `args.id`

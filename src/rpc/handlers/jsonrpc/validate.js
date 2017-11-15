@@ -28,13 +28,13 @@ const applyValidator = function ({
 
 const validators = [
   {
-    check: ({ payload }) => !Array.isArray(payload),
-    message: 'batch requests are not supported, so the payload must not be an array',
+    check: ({ payload }) => payload && typeof payload === 'object',
+    message: 'it must be an object',
+    reason: 'REQUEST_FORMAT',
   },
   {
-    check: ({ payload }) => payload && payload.constructor === Object,
-    message: 'it must be an object',
-    reason: 'PAYLOAD_PARSE',
+    check: ({ payload }) => !Array.isArray(payload),
+    message: 'batch requests are not supported, so the payload must not be an array',
   },
   {
     check: ({ jsonrpc }) => jsonrpc === undefined ||
