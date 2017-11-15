@@ -1,7 +1,8 @@
 # Formats
 
 Multiple formats are supported for:
-  - the [configuration files](configuration.md): [JSON](#json) and [YAML](#yaml)
+  - the [configuration files](configuration.md): [JSON](#json), [YAML](#yaml)
+    and [INI](#ini)
   - the client request payloads and the server responses: [JSON](#json),
     [YAML](#yaml), [x-www-form-urlencoded](#x-www-form-urlencoded) and
     [raw](#raw)
@@ -39,6 +40,36 @@ videos, unstructured text files and binary files.
 
 As opposed to the other formats, this is only used for the request payload.
 The server response will be using the default format, i.e. JSON.
+
+# INI
+
+INI files support nested objects and arrays. For example:
+
+```ini
+# Comment
+
+maxpagesize=10
+
+[protocols.http]
+
+hostname=myhostname
+
+[filter]
+
+payload[]=id
+payload[]=old_id
+```
+
+is equivalent to:
+
+```yml
+maxpagesize: 10
+protocols:
+  http:
+    hostname: myhostname
+filter:
+  payload: [id, old_id]
+```
 
 # Charsets
 
