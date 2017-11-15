@@ -4,14 +4,15 @@ const { encodingExists } = require('iconv-lite');
 
 const { omit } = require('../../utilities');
 const { throwError } = require('../../error');
-const { formatHandlers } = require('../../formats');
+const { formatHandlers, defaultFormat } = require('../../formats');
 
 // Retrieve format and charset of both the request and response payloads
 const parseFormatCharset = function ({ topargs, queryvars }) {
   const format = getFormat({ topargs, queryvars });
   const charset = getCharset({ topargs, queryvars, format });
   const topargsA = omit(topargs, ['format', 'charset']);
-  return { topargs: topargsA, format, charset };
+  const queryvarsA = omit(queryvars, ['format', 'charset']);
+  return { topargs: topargsA, queryvars: queryvarsA, format, charset };
 };
 
 const getFormat = function ({ topargs, queryvars }) {
@@ -19,21 +20,20 @@ const getFormat = function ({ topargs, queryvars }) {
   const formatName = topargs.format ||
     // ?format query variable
     queryvars.format;
+  if (formatName === undefined) { return; }
 
   const format = formatHandlers[formatName];
   if (format !== undefined) { return format; }
 
-  // Means this is not a structured type, like media types,
-  // and unlike JSON or YAML
-  // This won't be parsed (i.e. returned as is), and will use 'binary' charset
-  return {};
+  const message = `Unsupported response format: '${formatName}'`;
+  throwError(message, { reason: 'RESPONSE_FORMAT' });
 };
 
 const getCharset = function ({
   topargs,
   queryvars,
-  format,
-  format: { charsets = [] },
+  format = defaultFormat,
+  format: { charsets = [] } = defaultFormat,
 }) {
   // E.g. charset in Content-Type HTTP header
   const charset = topargs.charset ||
@@ -51,16 +51,16 @@ const getCharset = function ({
 
 const validateCharset = function ({ charset, format: { charsets, title } }) {
   if (!encodingExists(charset)) {
-    const message = `Invalid charset: ${charset}`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    const message = `Unsupported response charset: '${charset}'`;
+    throwError(message, { reason: 'RESPONSE_FORMAT' });
   }
 
   const typeSupportsCharset = charsets === undefined ||
     charsets.includes(charset);
 
   if (!typeSupportsCharset) {
-    const message = `Invalid charset: ${charset} cannot be used with a ${title} content type`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    const message = `Unsupported response charset with a ${title} content type: '${charset}'`;
+    throwError(message, { reason: 'RESPONSE_FORMAT' });
   }
 };
 

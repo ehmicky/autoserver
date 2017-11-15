@@ -17,6 +17,7 @@ const send = function ({
   error,
   protocolstatus,
 }) {
+  // If `raw` format was used in input, default format should be used in output
   const formatA = format.name === undefined ? defaultFormat : format;
 
   const mime = getMime({ format: formatA, charset, type });
