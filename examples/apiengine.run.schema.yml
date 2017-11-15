@@ -110,7 +110,7 @@ collections:
       birth_date:
         default: (birth_date)
         validate:
-          format: date
+          format: date-time
           formatMinimum: '2000-01-01'
           formatExclusiveMinimum: true
           formatMaximum: '2100-01-01'
