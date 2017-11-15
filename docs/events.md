@@ -199,6 +199,10 @@ event payload, with the properties:
   - `responseheaders` `{object}` - [protocol](protocols.md) request
     [headers](protocols.md#headers-and-method) (e.g. HTTP headers), as a hash
     table
+  - `format` `{string}` - request payload and server response's
+    [format](formats.md)
+  - `charset` `{string}` - request payload and server response's
+    [charset](formats.md#charsets)
   - `payload` `{any}` - request payload
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array

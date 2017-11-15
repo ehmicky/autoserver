@@ -14,10 +14,10 @@ protocols:
   - `hostname` `{string}` (defaults to `localhost`)
   - `port` `{integer}` (defaults to `80`). Can be `0` for "any available port".
 
-# Arguments
+# HTTP headers
 
-In addition to the
-[usual way of setting them](rpc.md#rpc), the following
-arguments can also be set using HTTP semantics:
-  - the [`silent` argument](silent.md) will be `true` if the standard HTTP
-    header `Prefer: return=minimal` is set
+The following HTTP request headers have specific interpretations:
+  - `Content-Type`, `Accept` and `Accept-Charset` set the [format](formats.md)
+    and the [charset](formats.md#charset) like the `format` and `charset` URL
+    variables do.
+  - `Prefer: return=minimal` sets the [`silent` argument](silent.md) to `true`

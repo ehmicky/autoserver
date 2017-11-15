@@ -11,19 +11,19 @@ The following options are available:
 ```yml
 db:
   memory:
-    data: my_data_file.json
+    data: my_data_file.yml
     save: false
 ```
 
 The `data` option is the path to the file used both for loading the data on
 server startup, and saving it on server shutdown.
 
-The file format can be YAML or JSON.
+The file format can be any of the [supported formats](formats.md).
 
-The `data` option defaults to any `apiengine.run.db.memory.yml`,
-`apiengine.run.db.memory.yaml` or `apiengine.run.db.memory.json` file in the
-current directory, or any parent directory. If none is found, it will start
-the server with an empty database.
+The `data` option defaults to any `apiengine.run.db.memory.EXTENSION` file in
+the current directory, or any parent directory. `EXTENSION` depends on the file
+format, e.g. `yml` for YAML. If none is found, it will start the server with an
+empty database.
 
 If the `save` option is `true` (which is the default), the data will be saved
 back to the file when the server shuts down.

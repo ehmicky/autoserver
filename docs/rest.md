@@ -106,12 +106,14 @@ REST error responses follow the usual error
     "protocolstatus": 404,
     "protocol": "http",
     "method": "GET",
+    "queryvars": {},
     "requestheaders": {
       "host": "localhost:5001",
       "accept": "*/*",
       "accept-encoding": "deflate, gzip"
     },
-    "queryvars": {},
+    "format": "json",
+    "charset": "utf-8",
     "rpc": "rest",
     "summary": "find_users",
     "args": {
