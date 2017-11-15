@@ -22,7 +22,7 @@ const send = function ({
 
   const mime = getMime({ format: formatA, charset, type });
 
-  const { content: contentA, contentLength } = serializeContent({
+  const contentA = serializeContent({
     format: formatA,
     content,
     topargs,
@@ -33,7 +33,6 @@ const send = function ({
   return protocolHandler.send({
     specific,
     content: contentA,
-    contentLength,
     mime,
     protocolstatus,
   });

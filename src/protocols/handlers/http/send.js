@@ -8,7 +8,6 @@ const { failureProtocolstatus } = require('./status');
 const send = async function ({
   specific: { req, res } = {},
   content,
-  contentLength,
   mime,
   protocolstatus,
 }) {
@@ -19,7 +18,7 @@ const send = async function ({
   // so we must check to avoid double responses
   if (res.finished) { return; }
 
-  setHeaders({ res, mime, contentLength, protocolstatus });
+  setHeaders({ res, mime, content, protocolstatus });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
@@ -32,7 +31,7 @@ const send = async function ({
 const setHeaders = function ({
   res,
   mime,
-  contentLength,
+  content,
   protocolstatus = failureProtocolstatus,
 }) {
   // eslint-disable-next-line no-param-reassign, fp/no-mutation
@@ -42,6 +41,11 @@ const setHeaders = function ({
     res.setHeader('Content-Type', mime);
   }
 
+  // Should theoritically be calculated before `args.silent` is applied,
+  // to follow HTTP spec for HEAD method.
+  // However, when used with other methods, this is incorrect and make some
+  // clients crash
+  const contentLength = Buffer.byteLength(content);
   res.setHeader('Content-Length', contentLength);
 };
 
