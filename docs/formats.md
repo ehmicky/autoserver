@@ -2,12 +2,12 @@
 
 Multiple formats are supported for:
   - the [configuration files](configuration.md): [JSON](#json), [YAML](#yaml),
-    [Hjson](#hjson) and [INI](#ini)
+    [Hjson](#hjson), [JSON5](#json5) and [INI](#ini)
   - the client request payloads and the server responses: [JSON](#json),
     [YAML](#yaml), [x-www-form-urlencoded](#x-www-form-urlencoded),
-    [raw](#raw) and [Hjson](#hjson)
+    [raw](#raw), [Hjson](#hjson) and [JSON5](#json5)
   - the [in-memory database](memory_db.md#options): [JSON](#json),
-    [YAML](#yaml) and [Hjson](#hjson)
+    [YAML](#yaml), [Hjson](#hjson) and [JSON5](#json5)
 
 Most of the examples in this documentation use YAML for the configuration files
 and JSON for the the client request payloads and the server responses.
@@ -97,6 +97,26 @@ The server response will be using the default format, i.e. JSON.
   protocols: {
     http: {
       hostname: myhostname
+    }
+  }
+  filter: {
+    payload: ['id', 'old_id']
+  }
+}
+```
+
+# JSON5
+
+[Superset of JSON](http://json5.org/). Example:
+
+```yml
+// Comment
+
+{
+  maxpagesize: 10
+  protocols: {
+    http: {
+      hostname: 'myhostname'
     }
   }
   filter: {
