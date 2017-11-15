@@ -16,13 +16,9 @@ const serializeContent = function ({
 
   const contentB = eEncode(contentA, charset);
 
-  // Calculated before `args.silent` is applied
-  // This is in accordance to how HEAD is supposed to work in HTTP spec
-  const contentLength = Buffer.byteLength(contentB);
-
   const contentC = applySilent({ content: contentB, topargs, error });
 
-  return { content: contentC, contentLength };
+  return contentC;
 };
 
 const stringifyContent = function ({
