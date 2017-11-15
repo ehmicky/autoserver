@@ -11,6 +11,9 @@ const addPopulate = function ({ args, args: { select }, commandName }) {
     .map(selectA => selectA.replace(PARENT_SELECT_REGEXP, ''))
     .filter(selectA => selectA !== '');
   const selectsA = uniq(selects);
+
+  if (selectsA.length === 0) { return args; }
+
   const populate = selectsA.join(',');
 
   const argsA = { ...args, populate };
