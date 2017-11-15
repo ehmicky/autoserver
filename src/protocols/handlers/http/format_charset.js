@@ -24,6 +24,16 @@ const getFormat = function ({ specific }) {
   if (format !== undefined) { return format.name; }
 
   validateMimesCharset({ choices: acceptMimes, name: 'format' });
+
+  if (contentTypeMime !== undefined) { return 'raw'; }
+};
+
+// Parse HTTP header `Accept`
+const getAcceptMimes = function ({ specific: { req } }) {
+  const negotiator = new Negotiator(req);
+  const acceptMimes = negotiator.mediaTypes()
+    .filter(mime => mime !== '*/*');
+  return acceptMimes;
 };
 
 // Use similar logic as `args.format`, but for `args.charset`
@@ -40,6 +50,14 @@ const getCharset = function ({ specific }) {
   validateMimesCharset({ choices: acceptCharsets, name: 'charset' });
 };
 
+// Parse HTTP header `Accept-Charset`
+const getAcceptCharsets = function ({ specific: { req } }) {
+  const negotiator = new Negotiator(req);
+  const acceptCharsets = negotiator.charsets()
+    .filter(charset => charset !== '*');
+  return acceptCharsets;
+};
+
 // Parse HTTP header `Content-Type`
 const getContentType = function ({ specific: { req: { headers } } }) {
   const contentType = headers['content-type'];
@@ -48,28 +66,13 @@ const getContentType = function ({ specific: { req: { headers } } }) {
   return parseContentType(contentType);
 };
 
-// Parse HTTP header `Accept`
-const getAcceptMimes = function ({ specific: { req } }) {
-  const negotiator = new Negotiator(req);
-  const acceptMimes = negotiator.mediaTypes()
-    .filter(mime => mime !== '*/*');
-  return acceptMimes;
-};
-
-// Parse HTTP header `Accept`
-const getAcceptCharsets = function ({ specific: { req } }) {
-  const negotiator = new Negotiator(req);
-  const acceptCharsets = negotiator.charsets();
-  return acceptCharsets;
-};
-
 const validateMimesCharset = function ({ choices, name }) {
   // No format|charset was found, but none was explicitely asked for
   // Since `Content-Type` header can target any format|charset,
   // it is not checked here
   if (choices.length === 0) { return; }
 
-  const invalidChoices = getWordsList(choices, { op: 'and', json: true });
+  const invalidChoices = getWordsList(choices, { op: 'and', quotes: true });
   const message = `Unsupported response ${pluralize(name, choices.length)}: ${invalidChoices}`;
   throwError(message, { reason: 'RESPONSE_FORMAT' });
 };
