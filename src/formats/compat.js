@@ -1,6 +1,6 @@
 'use strict';
 
-const { transtype, recurseMap, identity } = require('../utilities');
+const { transtype, recurseMap } = require('../utilities');
 
 // All formats must be JSON-compatible.
 // Depending on format.jsonCompat:
@@ -13,15 +13,6 @@ const { transtype, recurseMap, identity } = require('../utilities');
 
 const subsetParse = function (value) {
   return recurseMap(value, transtype);
-};
-
-const supersetParse = function (value) {
-  return JSON.parse(JSON.stringify(value));
-};
-
-const jsonCompatParse = {
-  subset: subsetParse,
-  superset: supersetParse,
 };
 
 const subsetSerialize = function (value) {
@@ -37,9 +28,18 @@ const setToString = function (val) {
   return JSON.stringify(val);
 };
 
+const supersetParseStringify = function (value) {
+  return JSON.parse(JSON.stringify(value));
+};
+
+const jsonCompatParse = {
+  subset: subsetParse,
+  superset: supersetParseStringify,
+};
+
 const jsonCompatSerialize = {
   subset: subsetSerialize,
-  superset: identity,
+  superset: supersetParseStringify,
 };
 
 module.exports = {
