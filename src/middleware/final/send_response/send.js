@@ -33,6 +33,7 @@ const send = function ({
   return protocolHandler.send({
     specific,
     content: contentA,
+    type,
     mime,
     protocolstatus,
   });

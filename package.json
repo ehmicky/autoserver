@@ -49,6 +49,7 @@
     "type-is": "^1.6.15",
     "underscore.string": "^3.3.4",
     "uuid": "^3.0.1",
+    "vary": "^1.1.2",
     "yargs": "^10.0.3"
   },
   "devDependencies": {
