@@ -136,12 +136,12 @@ module.exports = configuration;
 // Comment
 
 {
-  maxpagesize: 10
+  maxpagesize: 10,
   protocols: {
     http: {
       hostname: 'myhostname'
-    }
-  }
+    },
+  },
   filter: {
     payload: ['id', 'old_id']
   }
