@@ -2,12 +2,17 @@
 
 const { promisify } = require('util');
 
+const vary = require('vary');
+
+const { OBJECT_TYPES } = require('../../../constants');
+
 const { failureProtocolstatus } = require('./status');
 
 // Sends response
 const send = async function ({
   specific: { req, res } = {},
   content,
+  type,
   mime,
   protocolstatus,
 }) {
@@ -18,7 +23,7 @@ const send = async function ({
   // so we must check to avoid double responses
   if (res.finished) { return; }
 
-  setHeaders({ res, mime, content, protocolstatus });
+  setHeaders({ res, mime, content, type, protocolstatus });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
@@ -32,6 +37,7 @@ const setHeaders = function ({
   res,
   mime,
   content,
+  type,
   protocolstatus = failureProtocolstatus,
 }) {
   // eslint-disable-next-line no-param-reassign, fp/no-mutation
@@ -47,6 +53,19 @@ const setHeaders = function ({
   // clients crash
   const contentLength = Buffer.byteLength(content);
   res.setHeader('Content-Length', contentLength);
+
+  setVary({ res, type });
+};
+
+// `Vary` HTTP header
+const setVary = function ({ res, type }) {
+  const objectVary = OBJECT_TYPES.includes(type) ? ['Accept'] : [];
+  const allVary = [
+    ...objectVary,
+    'Accept-Charset',
+    'Accept-Encoding',
+  ];
+  vary(res, allVary);
 };
 
 module.exports = {
