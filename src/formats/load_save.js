@@ -1,6 +1,7 @@
 'use strict';
 
 const { pReadFile, pWriteFile } = require('../utilities');
+const { throwError } = require('../error');
 
 const { findFormat } = require('./find');
 const { parse, serialize } = require('./parse_serialize');
@@ -10,20 +11,28 @@ const { parse, serialize } = require('./parse_serialize');
 // This might throw for many different reasons, e.g. wrong syntax,
 // or cannot access file (does not exist or no permissions)
 const loadFile = async function ({ type, path }) {
-  const { name } = findFormat({ type, path });
+  const format = getFormat({ type, path });
 
   const contentA = await pReadFile(path, { encoding: 'utf-8' });
 
-  return parse({ format: name, path, content: contentA });
+  return parse({ format: format.name, path, content: contentA });
 };
 
 // Persist file, using any of the supported formats
 const saveFile = function ({ type, path, content }) {
-  const { name } = findFormat({ type, path });
+  const format = getFormat({ type, path });
 
-  const contentA = serialize({ format: name, content });
+  const contentA = serialize({ format: format.name, content });
 
   return pWriteFile(path, contentA, { encoding: 'utf-8' });
+};
+
+const getFormat = function ({ type, path }) {
+  const format = findFormat({ type, path });
+  if (format !== undefined) { return format; }
+
+  const message = `Invalid file format: ${path}`;
+  throwError(message, { reason: 'CONF_VALIDATION' });
 };
 
 module.exports = {

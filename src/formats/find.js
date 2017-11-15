@@ -8,6 +8,7 @@ const allFormats = require('./handlers');
 const { defaultFormat } = require('./merger');
 
 // Retrieve correct format, using MIME type
+// Returns undefined if nothing is found
 const findByMime = function ({ formats, mime }) {
   // We try the extensions MIME (e.g. `+json`) after the other MIME types
   // (e.g. `application/jose+json`)
@@ -16,8 +17,6 @@ const findByMime = function ({ formats, mime }) {
 
   const formatA = getByMime({ formats, mime, filter: isExtensionMime });
   if (formatA !== undefined) { return formatA; }
-
-  return {};
 };
 
 const getByMime = function ({ formats, mime, filter }) {

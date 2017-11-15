@@ -27,7 +27,7 @@ const format = function ({ specific }) {
   const formatB = mimes
     .filter(mime => mime !== undefined && mime !== '*/*')
     .map(mime => findFormat({ type: 'payload', mime }))
-    .find(formatA => formatA.name);
+    .find(({ name: formatName } = {}) => formatName);
   if (formatB === undefined) { return; }
 
   return formatB.name;
