@@ -3,9 +3,7 @@
 const { getWordsList } = require('../../utilities');
 
 const enumTest = (name, values) => ({
-  test (arg) {
-    const { [name]: value } = arg;
-
+  test ({ [name]: value }) {
     if (value == null) { return true; }
 
     return values.includes(value);
