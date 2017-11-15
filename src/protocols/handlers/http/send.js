@@ -33,6 +33,7 @@ const send = async function ({
   req.socket.destroy();
 };
 
+// Set HTTP-specific headers and status code
 const setHeaders = function ({
   res,
   mime,

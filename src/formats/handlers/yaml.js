@@ -5,7 +5,7 @@ const yaml = require('js-yaml');
 const { throwError } = require('../../error');
 
 // Parses a YAML file
-const parse = function ({ path, content }) {
+const parse = function ({ content, path }) {
   return yaml.load(content, {
     // YAML needs to JSON-compatible, since JSON must provide same
     // features as YAML

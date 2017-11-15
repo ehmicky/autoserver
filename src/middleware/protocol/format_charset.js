@@ -10,8 +10,10 @@ const { formatHandlers, defaultFormat } = require('../../formats');
 const parseFormatCharset = function ({ topargs, queryvars }) {
   const format = getFormat({ topargs, queryvars });
   const charset = getCharset({ topargs, queryvars, format });
+
   const topargsA = omit(topargs, ['format', 'charset']);
   const queryvarsA = omit(queryvars, ['format', 'charset']);
+
   return { topargs: topargsA, queryvars: queryvarsA, format, charset };
 };
 

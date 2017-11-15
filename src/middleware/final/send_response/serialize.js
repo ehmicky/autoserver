@@ -3,7 +3,7 @@
 const { encode } = require('iconv-lite');
 
 const { addGenErrorHandler } = require('../../../error');
-const { serialize, defaultFormat } = require('../../../formats');
+const { serialize } = require('../../../formats');
 
 const serializeContent = function ({
   format,
@@ -21,10 +21,7 @@ const serializeContent = function ({
   return contentC;
 };
 
-const stringifyContent = function ({
-  format: { name = defaultFormat.name },
-  content,
-}) {
+const stringifyContent = function ({ format: { name }, content }) {
   if (typeof content === 'string') { return content; }
 
   const contentA = serialize({ format: name, content });

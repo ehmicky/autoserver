@@ -38,7 +38,8 @@ const parseRawPayload = function ({ format, charset }, payload) {
 
 // Charset decoding is done in a protocol-agnostic way
 const eDecode = addGenErrorHandler(decode, {
-  message: ({ charset }) => `Invalid request charset: '${charset}' could not be decoded`,
+  message: ({ charset }) =>
+    `Invalid request charset: '${charset}' could not be decoded`,
   reason: 'REQUEST_FORMAT',
 });
 
