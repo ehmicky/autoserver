@@ -29,34 +29,37 @@ const types = {
 };
 
 // Retrieve response MIME type
-const getMime = function ({ format: { mimes }, charset, type }) {
+const getMime = function ({ format, charset, type }) {
   const { mime } = types[type];
 
-  const contentType = getContentType({ mimes, mime });
+  const contentType = getContentType({ format, mime });
   const mimeA = formatMime({ type: contentType, parameters: { charset } });
   return mimeA;
 };
 
-const getContentType = function ({ mimes, mime }) {
+const getContentType = function ({
+  format: { mimes = [], mimeExtensions = [] },
+  mime,
+}) {
   if (mime === undefined) {
     return mimes[0];
   }
 
   if (mime.endsWith('+')) {
-    return addSuffix({ mime, mimes });
+    return addMimeExtension({ mime, mimes, mimeExtensions });
   }
 
   return mime;
 };
 
-const addSuffix = function ({ mime, mimes }) {
-  const suffix = mimes.find(mimeA => mimeA.startsWith('+'));
+const addMimeExtension = function ({ mime, mimes, mimeExtensions }) {
+  const [mimeExtension] = mimeExtensions;
 
-  if (suffix === undefined) {
+  if (mimeExtension === undefined) {
     return mimes[0];
   }
 
-  return `${mime}${suffix.slice(1)}`;
+  return `${mime}${mimeExtension.slice(1)}`;
 };
 
 module.exports = {

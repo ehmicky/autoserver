@@ -12,35 +12,21 @@ const { defaultFormat } = require('./merger');
 const findByMime = function ({ formats, mime }) {
   // We try the extensions MIME (e.g. `+json`) after the other MIME types
   // (e.g. `application/jose+json`)
-  const format = getByMime({ formats, mime, filter: isNormalMime });
+  const format = formats
+    .find(({ mimes }) => mimeMatches({ mime, mimes }));
   if (format !== undefined) { return format; }
 
-  const formatA = getByMime({ formats, mime, filter: isExtensionMime });
+  const formatA = formats
+    .find(({ mimeExtensions: mimes }) => mimeMatches({ mime, mimes }));
   if (formatA !== undefined) { return formatA; }
-};
-
-const getByMime = function ({ formats, mime, filter }) {
-  return formats
-    .map(({ mimes = [], ...format }) =>
-      ({ ...format, mimes: mimes.filter(filter) }))
-    .filter(({ mimes }) => mimes.length !== 0)
-    .find(({ mimes }) => mimeMatches({ mime, mimes }));
 };
 
 // Only the right side of `isType` allow complex types like
 // `application/*` or `+json`. However, we might use them both in
 // `mime` (e.g. with Content-Type HTTP header `application/*`) or in
 // `formats` (e.g. with JSON format `+json`), so we check both sides
-const mimeMatches = function ({ mime, mimes }) {
+const mimeMatches = function ({ mime, mimes = [] }) {
   return mimes.some(mimeA => isType(mime, mimeA) || isType(mimeA, mime));
-};
-
-const isNormalMime = function (mime) {
-  return !mime.startsWith('+');
-};
-
-const isExtensionMime = function (mime) {
-  return mime.startsWith('+');
 };
 
 // Retrieve correct format, using file extension

@@ -17,10 +17,8 @@ module.exports = {
   title: 'JSON5',
   types: ['conf', 'payload', 'db'],
   extNames: ['json5'],
-  mimes: [
-    'application/json5',
-    '+json5',
-  ],
+  mimes: ['application/json5'],
+  mimeExtensions: ['+json5'],
   charsets: ['utf-8', 'utf-16', 'utf-16be', 'utf-16le'],
   jsonCompat: ['superset'],
   parse,
