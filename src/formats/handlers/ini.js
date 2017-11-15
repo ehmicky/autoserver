@@ -28,7 +28,7 @@ module.exports = {
   title: 'INI',
   types: ['conf'],
   extNames: ['ini', 'in', 'cfg', 'conf'],
-  mimes: ['+ini'],
+  mimeExtensions: ['+ini'],
   // `node-ini` only supports UTF-8
   charsets: ['utf-8'],
   // It is also a superset because it handles `undefined`

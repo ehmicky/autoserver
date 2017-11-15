@@ -18,11 +18,8 @@ module.exports = {
   title: 'Hjson',
   types: ['conf', 'payload', 'db'],
   extNames: ['hjson'],
-  mimes: [
-    'application/hjson',
-    'text/hjson',
-    '+hjson',
-  ],
+  mimes: ['application/hjson', 'text/hjson'],
+  mimeExtensions: ['+hjson'],
   charsets: ['utf-8'],
   jsonCompat: ['superset'],
   parse,
