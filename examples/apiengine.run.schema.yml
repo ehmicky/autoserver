@@ -116,7 +116,7 @@ collections:
           formatMaximum: '2100-01-01'
           formatExclusiveMaximum: false
   owners:
-    $ref: owners.yml
+    $ref: owners.js
   pet_skills:
     $ref: pet_skills.yml
   default: {}
