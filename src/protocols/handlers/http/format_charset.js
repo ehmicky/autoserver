@@ -15,15 +15,13 @@ const { findFormat } = require('../../../formats');
 const getFormat = function ({ specific }) {
   const { type: contentTypeMime } = getContentType({ specific });
   const acceptMimes = getAcceptMimes({ specific });
-  const mimes = [contentTypeMime, ...acceptMimes];
+  const mimes = [contentTypeMime, ...acceptMimes]
+    .filter(mime => mime !== undefined);
 
   const format = mimes
-    .filter(mime => mime !== undefined)
     .map(mime => findFormat({ type: 'payload', mime }))
     .find(({ name: formatName } = {}) => formatName);
   if (format !== undefined) { return format.name; }
-
-  validateMimesCharset({ choices: acceptMimes, name: 'format' });
 
   if (contentTypeMime !== undefined) { return 'raw'; }
 };
@@ -47,7 +45,7 @@ const getCharset = function ({ specific }) {
   const charset = charsets.find(encodingExists);
   if (charset !== undefined) { return charset; }
 
-  validateMimesCharset({ choices: acceptCharsets, name: 'charset' });
+  validateCharset({ acceptCharsets });
 };
 
 // Parse HTTP header `Accept-Charset`
@@ -58,23 +56,25 @@ const getAcceptCharsets = function ({ specific: { req } }) {
   return acceptCharsets;
 };
 
+const validateCharset = function ({ acceptCharsets }) {
+  // No charset was found, but none was explicitely asked for
+  // Since `Content-Type` header can target any charset, it is not checked here
+  if (acceptCharsets.length === 0) { return; }
+
+  const invalidChoices = getWordsList(
+    acceptCharsets,
+    { op: 'and', quotes: true },
+  );
+  const message = `Unsupported response ${pluralize('charset', acceptCharsets.length)}: ${invalidChoices}`;
+  throwError(message, { reason: 'RESPONSE_FORMAT' });
+};
+
 // Parse HTTP header `Content-Type`
 const getContentType = function ({ specific: { req: { headers } } }) {
   const contentType = headers['content-type'];
   if (!contentType) { return {}; }
 
   return parseContentType(contentType);
-};
-
-const validateMimesCharset = function ({ choices, name }) {
-  // No format|charset was found, but none was explicitely asked for
-  // Since `Content-Type` header can target any format|charset,
-  // it is not checked here
-  if (choices.length === 0) { return; }
-
-  const invalidChoices = getWordsList(choices, { op: 'and', quotes: true });
-  const message = `Unsupported response ${pluralize(name, choices.length)}: ${invalidChoices}`;
-  throwError(message, { reason: 'RESPONSE_FORMAT' });
 };
 
 module.exports = {
