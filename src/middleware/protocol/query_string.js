@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError, addGenErrorHandler } = require('../../error');
+const { addGenErrorHandler } = require('../../error');
 const { parse } = require('../../formats');
 
 // Fill in `mInput.queryvars` using protocol-specific URL query variables
@@ -10,19 +10,20 @@ const { parse } = require('../../formats');
 // Meant to be used to create (in coming middleware) `mInput.args`
 // but can also be used by rpc layer as is.
 const parseQueryString = function ({ specific, protocolHandler }) {
-  const queryString = getQueryString({ specific, protocolHandler });
+  const queryString = eGetQueryString({ specific, protocolHandler });
 
   const queryvars = eParseQueryvars({ queryString });
   return { queryvars };
 };
 
 const getQueryString = function ({ specific, protocolHandler }) {
-  const queryString = protocolHandler.getQueryString({ specific });
-  if (typeof queryString === 'string') { return queryString; }
-
-  const message = `'queryString' must be a string, not '${queryString}'`;
-  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  return protocolHandler.getQueryString({ specific });
 };
+
+const eGetQueryString = addGenErrorHandler(getQueryString, {
+  message: 'Could not retrieve query string',
+  reason: 'QUERY_STRING_PARSE',
+});
 
 const parseQueryvars = function ({ queryString }) {
   return parse({ format: 'urlencoded', content: queryString });
