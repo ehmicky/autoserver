@@ -39,6 +39,9 @@ const ERROR_REASONS = {
     title: 'Model not found',
   },
 
+  // Wrong requested format or charset for the response payload
+  RESPONSE_FORMAT: {},
+
   // The request took too long
   REQUEST_TIMEOUT: {},
 
