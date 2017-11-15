@@ -1,5 +1,0 @@
-description: A pet's owner
-attributes:
-  name: {}
-  pets:
-    type: pets[]
