@@ -2,7 +2,7 @@
 
 Multiple formats are supported for:
   - the [configuration files](configuration.md): [JSON](#json), [YAML](#yaml),
-    [Hjson](#hjson), [JSON5](#json5) and [INI](#ini)
+    [JavaScript](#javascript), [Hjson](#hjson), [JSON5](#json5) and [INI](#ini)
   - the client request payloads and the server responses: [JSON](#json),
     [YAML](#yaml), [x-www-form-urlencoded](#x-www-form-urlencoded),
     [raw](#raw), [Hjson](#hjson) and [JSON5](#json5)
@@ -84,6 +84,29 @@ videos, unstructured text files and binary files.
 
 As opposed to the other formats, this is only used for the request payload.
 The server response will be using the default format, i.e. JSON.
+
+# JavaScript
+
+Example:
+
+<!-- eslint-disable strict, filenames/match-exported, comma-dangle -->
+```js
+// Comment
+
+const configuration = {
+  maxpagesize: 10,
+  protocols: {
+    http: {
+      hostname: 'myhostname'
+    }
+  },
+  filter: {
+    payload: ['id', 'old_id']
+  }
+};
+
+module.exports = configuration;
+```
 
 # Hjson
 
