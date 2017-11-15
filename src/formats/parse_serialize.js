@@ -7,10 +7,11 @@ const { jsonCompatParse, jsonCompatSerialize } = require('./compat');
 const genericParse = function ({ format, content, path }) {
   const { parse, jsonCompat } = formatHandlers[format];
   const contentA = parse({ content, path });
-  return jsonCompat.reduce(
+  const contentC = jsonCompat.reduce(
     (contentB, compatType) => jsonCompatParse[compatType](contentB),
     contentA,
   );
+  return contentC;
 };
 
 // Generic serializer, delegating to the format specified in `format`

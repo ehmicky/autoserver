@@ -23,6 +23,7 @@ const getFormat = function ({ specific }) {
     .find(({ name: formatName } = {}) => formatName);
   if (format !== undefined) { return format.name; }
 
+  // Request payload won't be parsed. Response payload will use default format.
   if (contentTypeMime !== undefined) { return 'raw'; }
 };
 
@@ -40,10 +41,11 @@ const getCharset = function ({ specific }) {
     specific,
   });
   const acceptCharsets = getAcceptCharsets({ specific });
-  const charsets = [contentTypeCharset, ...acceptCharsets];
+  const charsets = [contentTypeCharset, ...acceptCharsets]
+    .filter(charset => charset !== undefined);
 
-  const charset = charsets.find(encodingExists);
-  if (charset !== undefined) { return charset; }
+  const charsetA = charsets.find(encodingExists);
+  if (charsetA !== undefined) { return charsetA; }
 
   validateCharset({ acceptCharsets });
 };
