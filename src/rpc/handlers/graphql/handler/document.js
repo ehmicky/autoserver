@@ -20,15 +20,18 @@ const getGraphqlDocument = function ({ queryvars, payload }) {
 //     with MIME type application/json
 //   - the `query` directly, as a string with MIME type application/graphql
 const parsePayload = function ({ payload }) {
-  if (payload == null) { return; }
+  if (payload === undefined) { return; }
 
   if (typeof payload === 'string') {
     return { query: payload };
   }
 
-  if (payload.constructor === Object) {
+  if (payload && payload.constructor === Object) {
     return payload;
   }
+
+  const message = 'Invalid request format: payload must be an object or a GraphQL query string';
+  throwError(message, { reason: 'REQUEST_FORMAT' });
 };
 
 // Transform GraphQL query string into AST

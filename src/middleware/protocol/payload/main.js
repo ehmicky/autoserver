@@ -33,13 +33,19 @@ const parseRawPayload = function ({ format, charset }, payload) {
 
   const payloadB = eParseContent({ payload: payloadA, format });
 
+  if (typeof payloadB === 'string') {
+    console.log('PAYLOAD', payloadB.slice(0, 22));
+  } else {
+    console.log('PAYLOAD', payloadB);
+  }
+
   return { payload: payloadB };
 };
 
 // Charset decoding is done in a protocol-agnostic way
 const eDecode = addGenErrorHandler(decode, {
-  message: ({ charset }) => `The request payload is invalid: the charset '${charset}' could not be decoded`,
-  reason: 'WRONG_CONTENT_TYPE',
+  message: ({ charset }) => `Invalid request charset: '${charset}' could not be decoded`,
+  reason: 'REQUEST_FORMAT',
 });
 
 // Parse content, e.g. JSON/YAML parsing
@@ -51,7 +57,7 @@ const parseContent = function ({ format, payload }) {
 
 const eParseContent = addGenErrorHandler(parseContent, {
   message: ({ format: { title } }) => `The request payload is invalid ${title}`,
-  reason: 'WRONG_CONTENT_TYPE',
+  reason: 'PAYLOAD_PARSE',
 });
 
 module.exports = {
