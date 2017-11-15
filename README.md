@@ -15,8 +15,8 @@ full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
   - [Multiple formats](docs/formats.md) support, for the configuration files,
     the client request payloads and the server responses, including
     [JSON](docs/formats.md#json), [YAML](docs/formats.md#yaml),
-    [x-www-form-urlencoded](docs/formats.md#x-www-form-urlencoded) and
-    [INI](docs/formats.md#ini)
+    [x-www-form-urlencoded](docs/formats.md#x-www-form-urlencoded),
+    [Hjson](docs/formats.md#hjson) and [INI](docs/formats.md#ini)
   - [Multiple databases](docs/databases.md) support, including
     [MongoDB](docs/mongodb.md) and an [in-memory database](docs/memory_db.md).
     Different databases can be used at the same time.
