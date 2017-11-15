@@ -57,6 +57,15 @@ Request payload
 
 [Protocol](protocols.md)-agnostic status, e.g. `SUCCESS` or `SERVER_ERROR`
 
+## Format
+
+[File format](formats.md), e.g. YAML or JSON, used in configuration files,
+client request payloads and server responses.
+
+## Charset
+
+[Character set](formats.md#charsets), e.g. `utf-8` or `ascii`.
+
 ## RPC system
 
 Main semantics of the request, e.g. [GraphQL](graphql.md), [REST](rest.md) or

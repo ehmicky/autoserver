@@ -6,14 +6,16 @@ logic.
 # Configuration
 
 The file is configured using the [`run` option](run.md#options)
-`schema`, whose value is the [path](configuration.md#filepaths-options) to a
-JSON or YAML file (but only with JSON-compatible types).
+`schema`, whose value is the [path](configuration.md#filepaths-options) to the
+file.
+
+The file format can be any of the [supported formats](formats.md).
 
 See [here](configuration.md) to learn how to specify `run` options.
 
-By default, files named `apiengine.run.schema.json`, `apiengine.run.schema.yml`
-or `apiengine.run.schema.yaml` will be searched in the current directory, or
-any parent. This is the preferred configuration method.
+By default, files named `apiengine.run.schema.EXTENSION` will be searched in
+the current directory, or any parent. `EXTENSION` depends on the file format,
+e.g. `yml` for YAML. This is the preferred configuration method.
 
 # JSON references
 
@@ -44,6 +46,9 @@ variables:
   lodash:
     $ref: lodash.node
 ```
+
+JSON references are available for any [supported format](formats.md), not only
+for JSON.
 
 # Example
 
@@ -116,8 +121,7 @@ The main reason to compile the schema are:
 
 The `--schema` option behaves like the same option of the
 [`run` instruction](#configuration).
-In particular, files named `apiengine.run.schema.json`, `apiengine.run.schema.yml`
-or `apiengine.run.schema.yaml` will be searched in the current directory, or
-any parent.
+In particular, files named `apiengine.run.schema.EXTENSION` will be searched in
+the current directory, or any parent.
 
 See [here](configuration.md) to learn how to specify `compile` options.

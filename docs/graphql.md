@@ -74,6 +74,7 @@ For example:
       "instance": "http://localhost:5001/graphql",
       "protocol": "http",
       "method": "GET",
+      "queryvars": {},
       "requestheaders": {
         "host": "localhost:5001",
         "accept": "*/*",
@@ -81,7 +82,8 @@ For example:
         "content-type": "application/json",
         "content-length": "481"
       },
-      "queryvars": {},
+      "format": "json",
+      "charset": "utf-8",
       "rpc": "graphql",
       "summary": "find_users",
       "args": {

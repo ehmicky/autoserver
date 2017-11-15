@@ -70,6 +70,7 @@ to accomodate the JSON-RPC spec:
       "protocolstatus": 404,
       "protocol": "http",
       "method": "POST",
+      "queryvars": {},
       "requestheaders": {
         "host": "localhost:5001",
         "accept": "*/*",
@@ -77,7 +78,8 @@ to accomodate the JSON-RPC spec:
         "content-type": "application/json",
         "content-length": "121"
       },
-      "queryvars": {},
+      "format": "json",
+      "charset": "utf-8",
       "rpc": "jsonrpc",
       "summary": "find_users",
       "args": {

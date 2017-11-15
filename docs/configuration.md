@@ -20,9 +20,11 @@ A configuration file can be specified for each instruction, e.g. for `run`
   - setting an environment variable `APIENGINE_CONFIG="path_to_config"`
   - using the command line: `apiengine run --config="path_to_config"`.
   - passing it via Node.js: `apiengine.run({ config: 'path_to_config' })`
-  - creating a `apiengine.run.config.yml`, `apiengine.run.config.yaml` or
-    `apiengine.run.config.json` file in the current directory, or any parent
-    directory. This is the preferred method.
+  - creating a `apiengine.run.config.EXTENSION` file in the current directory,
+    or any parent directory. `EXTENSION` depends on the file format, e.g. `yml`
+    for YAML. This is the preferred configuration method.
+
+The file format can be any of the [supported formats](formats.md).
 
 The file contains a set of options for a given instruction, e.g.:
 
@@ -32,9 +34,6 @@ protocols:
     hostname: myhostname
 maxpagesize: 10
 ```
-
-The format depends on the file extension, and can be either JSON or YAML
-(but only with JSON-compatible types).
 
 If a relative file path is used to target the configuration file, it will be
 relative to the current directory.
@@ -53,13 +52,14 @@ APIENGINE_FILTER_PAYLOAD="[id,old_id]"
 
 will be converted to the following options:
 
-```json
-{
-  "env": "dev",
-  "maxpagesize": 200,
-  "protocols": { "http": { "hostname": "myhostname" } },
-  "filter": { "payload": ["id", "old_id"] },
-}
+```yml
+env: dev
+maxpagesize: 200
+protocols:
+  http:
+    hostname: myhostname
+filter:
+  payload: [id, old_id]
 ```
 
 Note:
@@ -88,5 +88,4 @@ If there is no configuration file, it will be relative to the current directory.
 The filepaths of those options always default to any file named
 `apiengine.INSTRUCTION.OPTION.EXTENSION`:
   - `INSTRUCTION` and `OPTION` depend on the option
-  - `EXTENSION` is the file format. The available choices depend on the option.
   - the file can be in the current directory, or any parent.
