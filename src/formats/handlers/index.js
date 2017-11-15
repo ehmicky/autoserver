@@ -5,5 +5,6 @@ module.exports = [
   require('./json'),
   require('./yaml'),
   require('./urlencoded'),
+  require('./hjson'),
   require('./ini'),
 ];
