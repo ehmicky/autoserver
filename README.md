@@ -12,17 +12,17 @@ full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
     [GraphQL](docs/graphql.md) and [JSON-RPC](docs/jsonrpc.md)
   - [GraphQL debugging](docs/graphql.md),
     including introspection, interactive debugger and GraphQL schema printing
-  - [Multiple formats](docs/formats.md) support, for the configuration files,
-    the client request payloads and the server responses, including
-    [JSON](docs/formats.md#json), [YAML](docs/formats.md#yaml),
-    [x-www-form-urlencoded](docs/formats.md#x-www-form-urlencoded),
-    [Hjson](docs/formats.md#hjson), [JSON5](docs/formats.md#json5) and
-    [INI](docs/formats.md#ini)
   - [Multiple databases](docs/databases.md) support, including
     [MongoDB](docs/mongodb.md) and an [in-memory database](docs/memory_db.md).
     Different databases can be used at the same time.
   - [Multiple protocols](docs/protocols.md) handling, with support for
     [HTTP/1.1](docs/http.md) only at the moment
+  - [Multiple formats](docs/formats.md) support for the configuration files,
+    the client request payloads and the server responses, including
+    [JSON](docs/formats.md#json), [YAML](docs/formats.md#yaml),
+    [x-www-form-urlencoded](docs/formats.md#x-www-form-urlencoded),
+    [JavaScript](docs/formats.md#javascript), [Hjson](docs/formats.md#hjson),
+    [JSON5](docs/formats.md#json5) and [INI](docs/formats.md#ini)
   - [CRUD commands](docs/crud.md): find, create, patch, upsert, delete.
     Each command can be performed on a single model or on several models.
   - [relations, nested commands](docs/relations.md)
