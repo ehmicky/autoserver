@@ -2,24 +2,20 @@
 
 const { reverseArray } = require('../../../utilities');
 
-const { validatePaginationOutput } = require('./validation');
 const { mustPaginateOutput } = require('./condition');
 const { getPaginationOutput } = require('./output');
 const { getPaginationInfo } = require('./info');
 
 // Add response metadata related to pagination:
 //   token, pagesize, has_previous_page, has_next_page
-const handlePaginationOutput = function ({ args, command, response, runOpts }) {
+const handlePaginationOutput = function ({ args, command, response }) {
   if (!mustPaginateOutput({ args, command })) { return; }
 
   const responseA = reverseOutput({ args, response });
 
-  const paginationOutput = getPaginationOutput({ args, response: responseA });
-  const responseB = { ...responseA, ...paginationOutput };
+  getPaginationOutput({ args, response: responseA });
 
-  validatePaginationOutput({ args, runOpts, response: responseB });
-
-  return { response: responseB };
+  return { response };
 };
 
 // When using args.before, pagination is performed backward.

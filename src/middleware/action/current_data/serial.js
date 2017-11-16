@@ -6,10 +6,10 @@ const { isEqual } = require('../../../utilities');
 // reusing `arg.filter`.
 // Also adds `dataPaths` since we'll now know the length of each array of models
 const serialResolve = async function ({ actions, mInput }, nextLayer) {
-  const { results } = await nextLayer(mInput, 'read');
+  const { results, metadata } = await nextLayer(mInput, 'read');
 
   const actionsA = actions.map(action => mergeResult({ results, action }));
-  return { actions: actionsA };
+  return { actions: actionsA, metadata };
 };
 
 // Add `action.currentData`

@@ -55,7 +55,7 @@ const getPaginationOutput = function ({ args, args: { page }, response }) {
     return { ...metadatum, pages };
   });
 
-  return { data, metadata: metadataA };
+  return { data, metadata: { ...response.metadata, ...metadataA } };
 };
 
 const getData = function ({

@@ -12,7 +12,8 @@ const getDbResponse = function ({
 }) {
   const dataInput = { dbData, newData, currentData };
   const data = dataInput[RESPONSE_MAP[command]];
-  const response = { data };
+  const metadata = {};
+  const response = { data, metadata };
 
   return { response };
 };

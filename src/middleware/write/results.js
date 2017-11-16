@@ -5,19 +5,20 @@ const { throwError } = require('../../error');
 
 const { handlers } = require('./args');
 
-// Transform results to normalized format
-const getResults = function ({ actions, results, ids, top }) {
-  validateResults({ ids, results });
+// Transform `data` to normalized `results`
+const getResults = function ({ actions, data, metadata, ids, top }) {
+  validateData({ ids, data });
 
   return actions
-    .map(action => setModels({ action, results, top }))
+    .map(action => setModels({ action, data, metadata, top }))
     .reduce(assignArray, []);
 };
 
 // `results` should be in same order as `args.data` or
 // (for `delete`) as `currentData`, and reuse their `dataPaths`
 const setModels = function ({
-  results,
+  data,
+  metadata,
   action,
   action: { dataPaths },
   top: { command },
@@ -25,19 +26,23 @@ const setModels = function ({
   const { getModels } = handlers[command.type];
   const models = getModels(action);
   return models
-    .map(findModel.bind(null, { results, dataPaths, action }))
+    .map(findModel.bind(null, { data, metadata, dataPaths, action }))
     .filter(({ path }) => path !== undefined);
 };
 
-const findModel = function ({ results, dataPaths, action }, { id }, index) {
-  const model = results.find(result => result.id === id);
+const findModel = function (
+  { data, metadata, dataPaths, action },
+  { id },
+  index,
+) {
+  const model = data.find(datum => datum.id === id);
   const path = dataPaths[index];
-  return { path, model, action };
+  return { path, model, metadata, action };
 };
 
 // Safety check to make sure there is no server-side bugs
-const validateResults = function ({ ids, results }) {
-  const sameLength = results.length === ids.length;
+const validateData = function ({ ids, data }) {
+  const sameLength = data.length === ids.length;
   if (sameLength) { return; }
 
   const message = `'ids' and 'results' do not have the same length`;

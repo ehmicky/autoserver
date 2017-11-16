@@ -8,6 +8,7 @@ const rpc = require('./rpc');
 const action = require('./action');
 const read = require('./read');
 const write = require('./write');
+const sequencer = require('./sequencer');
 const requestResponse = require('./request_response');
 const database = require('./database');
 
@@ -143,6 +144,8 @@ const middlewareLayers = [
     layers: [
       // Fire one or several read commands for a set of actions
       read.sequenceRead,
+      // Deep merge all results' metadata
+      sequencer.mergeMetadata,
     ],
   },
 
@@ -151,6 +154,8 @@ const middlewareLayers = [
     layers: [
       // Fire one or several write commands for a set of actions
       write.sequenceWrite,
+      // Deep merge all results' metadata
+      sequencer.mergeMetadata,
     ],
   },
 

@@ -25,7 +25,7 @@ const getConcurrentCommand = function ({ args, results, collname }) {
   // Models searched by concurrent command, either ongoing (promises) or
   // already fetched (models as is)
   const concurrentPromises = concurrentResults
-    .map(({ promise, model }) => promise || model);
+    .map(({ promise, model, metadata }) => promise || { model, metadata });
 
   return { concurrentPromises, args: argsA };
 };
