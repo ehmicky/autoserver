@@ -19,14 +19,12 @@ const handleIntrospection = async function ({
   variables,
   operationName,
 }) {
-  const content = await eGetIntrospectionResp({
+  const { data, errors: [innererror] = [] } = await eGetIntrospectionResp({
     graphqlSchema,
     queryDocument,
     variables,
     operationName,
   });
-
-  const { errors: [innererror] = [] } = content;
 
   if (innererror) {
     throwError('GraphQL introspection query failed', {
@@ -35,7 +33,8 @@ const handleIntrospection = async function ({
     });
   }
 
-  return { response: { content, type: 'model' }, summary: 'introspection' };
+  const response = { type: 'model', content: data };
+  return { response, summary: 'introspection' };
 };
 
 const getIntrospectionResp = function ({

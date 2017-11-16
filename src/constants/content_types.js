@@ -1,9 +1,9 @@
 'use strict';
 
 const CONTENT_TYPES = {
-  model: ({ data } = {}) => isObject(data),
+  model: content => isObject(content),
 
-  models: ({ data } = {}) => isArray(data) && data.every(isObject),
+  models: content => isArray(content) && content.every(isObject),
 
   error: content => isObject(content),
 

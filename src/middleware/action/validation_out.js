@@ -26,11 +26,10 @@ const validateType = function ({ type }) {
 
 const validateContent = function ({ content, type }) {
   const isRightContent = CONTENT_TYPES[type](content);
+  if (isRightContent) { return; }
 
-  if (!isRightContent) {
-    const message = `Invalid 'content' of type '${type}': '${content}'`;
-    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
-  }
+  const message = `Invalid 'content' of type '${type}': '${content}'`;
+  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
 };
 
 module.exports = {
