@@ -7,7 +7,7 @@ const { addGenErrorHandler } = require('../../../error');
 const { getFormat, getCharset } = require('./format_charset');
 
 // Using `Prefer: return=minimal` request header results in `args.silent` true.
-const silent = function ({ specific }) {
+const getSilent = function ({ specific }) {
   const preferHeader = eParsePreferHeader({ specific });
   const hasMinimalPreference = preferHeader.return === 'minimal';
 
@@ -29,13 +29,13 @@ const eParsePreferHeader = addGenErrorHandler(parsePreferHeader, {
   reason: 'INPUT_VALIDATION',
 });
 
-// HTTP-specific ways to set arguments
-const args = {
-  silent,
+// HTTP-specific ways to set input
+const input = {
+  'topargs.silent': getSilent,
   format: getFormat,
   charset: getCharset,
 };
 
 module.exports = {
-  args,
+  input,
 };

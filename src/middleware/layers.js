@@ -57,8 +57,8 @@ const middlewareLayers = [
       protocol.parseQueryString,
       // Parse headers into protocol-agnostic format
       protocol.parseHeaders,
-      // Parse protocol-specific arguments
-      protocol.parseProtocolArgs,
+      // Parse protocol-specific input
+      protocol.parseProtocolInput,
       // Parse format|charset arguments
       protocol.parseFormatCharset,
       // Parse request payload into protocol-agnostic format
