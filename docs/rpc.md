@@ -12,20 +12,6 @@ protocol method or a combination of them.
 
 Most examples in this documentation only show [REST](rest.md) for simplicity.
 
-# RPC-agnostic arguments
-
-In addition to being specified using the RPC system, arguments can also be
-specified in any [protocol](protocols.md)
-[header](protocols.md#headers-and-method) (e.g. HTTP headers) prefixed
-with `X-Apiengine-`.
-
-For example, instead of specifying the `{ filter: { name: "David" } }`
-argument in the [GraphQL](graphql.md) payload, the following
-[protocol header](protocols.md#headers-and-method) can be used:
-`X-Apiengine-Filter-Name: David`.
-
-The header value can either be an unquoted string or any JSON value.
-
 # Available RPC systems
 
   - [REST](rest.md)

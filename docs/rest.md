@@ -32,9 +32,9 @@ request payload.
 Objects and arrays can be specified using a dot notation, e.g.
 `filter.0.name=David` is parsed as `filter: [{ "name": "David" }]`.
 
-Values can be either an unquoted string or any JSON value. To differentiate
-between a number (e.g. `filter.weight=5`) and a string (e.g. `filter.id="5"`),
-surround the number with double quotes.
+Values can be either an unquoted string or any JSON value, including objects
+and arrays. To differentiate between a number (e.g. `filter.weight=5`) and a
+string (e.g. `filter.id="5"`), surround the number with double quotes.
 
 Omitted values default to `true`, e.g. `?dryrun` is the same as `?dryrun=true`.
 
@@ -106,11 +106,7 @@ REST error responses follow the usual error
     "protocol": "http",
     "method": "GET",
     "queryvars": {},
-    "requestheaders": {
-      "host": "localhost:5001",
-      "accept": "*/*",
-      "accept-encoding": "deflate, gzip"
-    },
+    "headers": {},
     "format": "json",
     "charset": "utf-8",
     "rpc": "rest",

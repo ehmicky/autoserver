@@ -70,13 +70,7 @@ to accomodate the JSON-RPC spec:
       "protocol": "http",
       "method": "POST",
       "queryvars": {},
-      "requestheaders": {
-        "host": "localhost:5001",
-        "accept": "*/*",
-        "accept-encoding": "deflate, gzip",
-        "content-type": "application/json",
-        "content-length": "121"
-      },
+      "headers": {},
       "format": "json",
       "charset": "utf-8",
       "rpc": "jsonrpc",
