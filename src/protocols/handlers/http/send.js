@@ -6,7 +6,7 @@ const vary = require('vary');
 
 const { OBJECT_TYPES } = require('../../../constants');
 
-const { failureProtocolstatus } = require('./status');
+const { setStatusCode } = require('./status');
 
 // Sends response
 const send = async function ({
@@ -15,7 +15,7 @@ const send = async function ({
   metadata = {},
   type,
   mime,
-  protocolstatus,
+  reason,
 }) {
   // `specific` might be undefined, if initial input was wrong.
   if (!res) { return; }
@@ -24,7 +24,9 @@ const send = async function ({
   // so we must check to avoid double responses
   if (res.finished) { return; }
 
-  setHeaders({ res, mime, content, type, protocolstatus, metadata });
+  setStatusCode({ res, reason });
+
+  setHeaders({ res, mime, content, type, metadata });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
@@ -40,12 +42,8 @@ const setHeaders = function ({
   mime,
   content,
   type,
-  protocolstatus = failureProtocolstatus,
   metadata: { responsetime },
 }) {
-  // eslint-disable-next-line no-param-reassign, fp/no-mutation
-  res.statusCode = protocolstatus;
-
   // Should theoritically be calculated before `args.silent` is applied,
   // to follow HTTP spec for HEAD method.
   // However, when used with other methods, this is incorrect and make some

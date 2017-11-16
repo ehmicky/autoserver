@@ -1,125 +1,189 @@
+/* eslint-disable max-lines */
 'use strict';
 
 // List of errors
 // Keys are the exception.reason of the exception thrown
 // Values are merged to exceptions thrown
-//
+// All error reasons and their related status
 // TODO: add `url` property pointing towards API documentation for that error
 // TODO: add all `title` properties to `generic`
-const ERROR_REASONS = {
+const PROPS = {
+  // No error
+  SUCCESS: {
+    status: 'SUCCESS',
+  },
+
   // Error while parsing the request payload
-  PAYLOAD_PARSE: {},
+  PAYLOAD_PARSE: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Query string is wrong
-  QUERY_STRING_PARSE: {},
+  QUERY_STRING_PARSE: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Input syntax error, e.g. GraphQL crashed trying to parse the raw query
-  SYNTAX_VALIDATION: {},
+  SYNTAX_VALIDATION: {
+    status: 'CLIENT_ERROR',
+  },
 
   // General validation input errors, e.g. input data|filter does not
   // match the schema
-  INPUT_VALIDATION: {},
+  INPUT_VALIDATION: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Method is not supported, or most likely not allowed for this rpc
   // Or tried to use a protocol method that is not supported, e.g. TRACE
-  WRONG_METHOD: {},
+  WRONG_METHOD: {
+    status: 'CLIENT_ERROR',
+  },
 
   // The client try to perform an action not supported by the specific
   // collection, i.e. its database adapters is too limited
-  WRONG_FEATURE: {},
+  WRONG_FEATURE: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Not allowed, authorization-wise
-  AUTHORIZATION: {},
+  AUTHORIZATION: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Standard 404, e.g. route not found
-  ROUTE_NOT_FOUND: {},
+  ROUTE_NOT_FOUND: {
+    status: 'CLIENT_ERROR',
+  },
 
   // A database model could not be found, e.g. incorrect id
   DB_MODEL_NOT_FOUND: {
+    status: 'CLIENT_ERROR',
     title: 'Model not found',
   },
 
   // Wrong requested format or charset for the response payload
-  RESPONSE_FORMAT: {},
+  RESPONSE_FORMAT: {
+    status: 'CLIENT_ERROR',
+  },
 
   // The request took too long
-  REQUEST_TIMEOUT: {},
+  REQUEST_TIMEOUT: {
+    status: 'CLIENT_ERROR',
+  },
 
   // A command conflicts with another one,
   // e.g. tries to create already existing model
-  DB_CONFLICT: {},
+  DB_CONFLICT: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Request payload has a request payload but no Content-Length
-  NO_CONTENT_LENGTH: {},
+  NO_CONTENT_LENGTH: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Input is too big, e.g. args.data has too many items
-  INPUT_LIMIT: {},
+  INPUT_LIMIT: {
+    status: 'CLIENT_ERROR',
+  },
 
   // URL is too large
-  URL_LIMIT: {},
+  URL_LIMIT: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Wrong requested format or charset for the request payload
-  REQUEST_FORMAT: {},
+  REQUEST_FORMAT: {
+    status: 'CLIENT_ERROR',
+  },
 
   // Filesystem error: could not open local file
-  FILE_OPEN_ERROR: {},
+  FILE_OPEN_ERROR: {
+    status: 'SERVER_ERROR',
+  },
 
   // Schema is syntactically invalid
-  SCHEMA_SYNTAX_ERROR: {},
+  SCHEMA_SYNTAX_ERROR: {
+    status: 'SERVER_ERROR',
+  },
 
   // Schema is semantically invalid
-  SCHEMA_VALIDATION: {},
+  SCHEMA_VALIDATION: {
+    status: 'SERVER_ERROR',
+  },
 
   // Configuration options have syntax errors
-  CONF_VALIDATION: {},
+  CONF_VALIDATION: {
+    status: 'SERVER_ERROR',
+  },
 
   // Loading of configuration failed
-  CONF_LOADING: {},
+  CONF_LOADING: {
+    status: 'SERVER_ERROR',
+  },
 
   // Request did not pass schema validation, e.g. `args` was not provided,
   // indicating a server bug
-  INPUT_SERVER_VALIDATION: {},
+  INPUT_SERVER_VALIDATION: {
+    status: 'SERVER_ERROR',
+  },
 
   // Response did not pass schema validation, e.g. if the database is corrupted
   // or new constraints were applied without being migrated
-  OUTPUT_VALIDATION: {},
+  OUTPUT_VALIDATION: {
+    status: 'SERVER_ERROR',
+  },
 
   // Error while starting or stopping a protocol server
-  PROTOCOL_ERROR: {},
+  PROTOCOL_ERROR: {
+    status: 'SERVER_ERROR',
+  },
 
   // Error while connecting, disconnecting or communicating with a database
-  DB_ERROR: {},
+  DB_ERROR: {
+    status: 'SERVER_ERROR',
+  },
 
   // An exception was fired on the process itself
-  PROCESS_ERROR: {},
+  PROCESS_ERROR: {
+    status: 'SERVER_ERROR',
+  },
 
   // An exception was fired during an event handler
-  EVENT_ERROR: {},
+  EVENT_ERROR: {
+    status: 'SERVER_ERROR',
+  },
 
   // Some utility got some wrong input
-  UTILITY_ERROR: {},
-
-  // The reason type is unknown
-  UNKNOWN_TYPE: {},
+  UTILITY_ERROR: {
+    status: 'SERVER_ERROR',
+  },
 
   // General catch-all error
-  UNKNOWN: {},
-
+  UNKNOWN: {
+    status: 'SERVER_ERROR',
+  },
 };
 
 // Get generic standard error properties, according to error reason
-const getGenericProps = function ({ error }) {
+const getProps = function ({ error }) {
   const reason = getReason({ error });
-  return ERROR_REASONS[reason];
+  const props = PROPS[reason];
+  return props;
 };
 
 // Get error reason
-const getReason = function ({ error: { reason = 'UNKNOWN' } }) {
-  if (!ERROR_REASONS[reason]) { return 'UNKNOWN_TYPE'; }
+const getReason = function ({ error, error: { reason } = {} }) {
+  if (error === undefined) { return 'SUCCESS'; }
+
+  if (PROPS[reason] === undefined) { return 'UNKNOWN'; }
+
   return reason;
 };
 
 module.exports = {
-  getGenericProps,
+  getProps,
   getReason,
 };
+/* eslint-enable max-lines */

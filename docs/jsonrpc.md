@@ -67,7 +67,6 @@ to accomodate the JSON-RPC spec:
       "title": "Model not found",
       "instance": "http://localhost:5001/jsonrpc",
       "status": "CLIENT_ERROR",
-      "protocolstatus": 404,
       "protocol": "http",
       "method": "POST",
       "queryvars": {},

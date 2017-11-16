@@ -10,12 +10,6 @@ const { getMethod } = require('./method');
 const { send } = require('./send');
 const { getIp } = require('./ip');
 const { args } = require('./args');
-const {
-  getProtocolstatus,
-  getStatus,
-  failureProtocolstatus,
-// eslint-disable-next-line import/max-dependencies
-} = require('./status');
 
 const protocol = {
   opts,
@@ -35,9 +29,6 @@ const protocol = {
   send,
   getIp,
   args,
-  getProtocolstatus,
-  getStatus,
-  failureProtocolstatus,
 };
 
 module.exports = protocol;

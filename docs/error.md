@@ -19,8 +19,6 @@ Error responses contain a single `error` property, with same properties
 [exceptions](#exceptions), except `details`.
 
 The following properties may also appear, depending on when the error happened:
-  - `protocolstatus` `${any}`: [`protocol`](protocols.md)-specific response
-    status, e.g. HTTP status code
   - [`protocol`](protocols.md) `{string}`
   - `method` `{string}`
   - [`requestheaders`](protocols.md#headers-and-method) `{object}`
@@ -47,7 +45,6 @@ For example:
     "description": "The 'users' model with 'id' '20' could not be found",
     "instance": "http://localhost:5001/rest/users/20",
     "status": "CLIENT_ERROR",
-    "protocolstatus": 404,
     "protocol": "http",
     "method": "GET",
     "queryvars": {},

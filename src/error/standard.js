@@ -3,7 +3,7 @@
 const { omitBy } = require('../utilities');
 const { defaultFormat } = require('../formats');
 
-const { getReason, getGenericProps } = require('./reasons');
+const { getReason, getProps } = require('./reasons');
 const { normalizeError } = require('./main');
 
 // Gets normalized error information
@@ -26,7 +26,6 @@ const fillError = function ({
   mInput: {
     url: instance,
     status = 'SERVER_ERROR',
-    protocolstatus,
     protocol,
     method,
     queryvars,
@@ -43,7 +42,7 @@ const fillError = function ({
   isLimited = true,
 }) {
   const type = getReason({ error });
-  const { title } = getGenericProps({ error });
+  const { title } = getProps({ error });
 
   const {
     message: description,
@@ -60,7 +59,6 @@ const fillError = function ({
 
   return {
     ...errorA,
-    protocolstatus,
     protocol,
     method,
     queryvars,

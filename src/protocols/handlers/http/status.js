@@ -1,17 +1,7 @@
 'use strict';
 
-// Retrieves HTTP status code
-const getProtocolstatus = function ({
-  error,
-  error: { reason = 'UNKNOWN' } = {},
-}) {
-  if (!error) { return PROTOCOLSTATUSES_MAP.SUCCESS; }
-
-  return PROTOCOLSTATUSES_MAP[reason] || PROTOCOLSTATUSES_MAP.UNKNOWN_TYPE;
-};
-
-// All error reasons and their related HTTP status code
-const PROTOCOLSTATUSES_MAP = {
+// All HTTP status codes, according to error reason
+const STATUS_CODE_MAP = {
   SUCCESS: 200,
 
   PAYLOAD_PARSE: 400,
@@ -52,29 +42,19 @@ const PROTOCOLSTATUSES_MAP = {
   PROCESS_ERROR: 500,
   EVENT_ERROR: 500,
   UTILITY_ERROR: 500,
-  UNKNOWN_TYPE: 500,
   UNKNOWN: 500,
 };
 
 // Generic error status when none can be found
-const failureProtocolstatus = 500;
+const FAILURE_STATUS_CODE = 500;
 
-// Retrieves generic status, using HTTP status code
-const getStatus = function ({ protocolstatus = '' }) {
-  const [statusCategory] = String(protocolstatus);
-  return STATUSES_MAP[statusCategory];
-};
-
-const STATUSES_MAP = {
-  1: 'INTERNALS',
-  2: 'SUCCESS',
-  3: 'INTERNALS',
-  4: 'CLIENT_ERROR',
-  5: 'SERVER_ERROR',
+// Set response's HTTP status code
+const setStatusCode = function ({ res, reason }) {
+  const statuscode = STATUS_CODE_MAP[reason] || FAILURE_STATUS_CODE;
+  // eslint-disable-next-line no-param-reassign, fp/no-mutation
+  res.statusCode = statuscode;
 };
 
 module.exports = {
-  getProtocolstatus,
-  getStatus,
-  failureProtocolstatus,
+  setStatusCode,
 };
