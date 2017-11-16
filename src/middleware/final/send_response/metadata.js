@@ -9,15 +9,12 @@ const addMetadata = function ({
   response: { type, content },
   metadata,
 }) {
-  const hasMetadata = MODEL_TYPES.includes(type) &&
-    content &&
-    content.constructor === Object;
-  if (!hasMetadata) { return response; }
+  const shouldAddMetadata = MODEL_TYPES.includes(type);
+  if (!shouldAddMetadata) { return response; }
 
   const metadataA = filterMetadata({ type, metadata });
 
-  const contentA = { ...content, metadata: metadataA };
-  return { ...response, content: contentA };
+  return { ...response, content: { data: content, metadata: metadataA } };
 };
 
 // Some metadata only make sense in success responses, e.g. pagination

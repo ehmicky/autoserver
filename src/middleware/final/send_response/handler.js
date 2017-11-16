@@ -51,9 +51,9 @@ const sendResponse = async function ({
 const getErrorResponse = function ({ error, mInput, response }) {
   if (!error) { return response; }
 
-  const errorA = getStandardError({ error, mInput, isLimited: false });
+  const content = getStandardError({ error, mInput, isLimited: false });
 
-  return { type: 'error', content: { error: errorA } };
+  return { type: 'error', content };
 };
 
 const transformContent = function ({
