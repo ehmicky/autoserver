@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit, omitBy } = require('../../../utilities');
+const { omitBy } = require('../../../utilities');
 
 // Apply GraphQL-specific error response transformation
 const transformSuccess = function ({
@@ -21,16 +21,10 @@ const transformError = function ({
 };
 
 // GraphQL spec error format
-const getError = function ({
-  type,
-  title,
-  description: message,
-  details: stack,
-  ...extraContent
-}) {
+const getError = function ({ type, title, description, ...extraContent }) {
   // Content following GraphQL spec
   // Custom information not following GraphQL spec is always rendered
-  const error = { message, title, type, ...extraContent, stack };
+  const error = { message: description, title, type, ...extraContent };
 
   const errorA = omitBy(error, val => val === undefined);
 
