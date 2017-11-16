@@ -24,7 +24,13 @@ const launchServers = async function (options) {
 // Launch the server of a given protocol
 const launchEachServer = async function (options, protocolHandler) {
   const { runOpts, measures } = options;
-  const initialInput = { protocolHandler, runOpts, options, measures };
+  const initialInput = {
+    protocolHandler,
+    runOpts,
+    options,
+    measures,
+    metadata: {},
+  };
   const { server } = await reduceAsync(
     launchers,
     (input, func) => func(input),

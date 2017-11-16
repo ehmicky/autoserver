@@ -2,11 +2,11 @@
 
 // Add content type, and remove top-level key
 // Also add metadata
-const parseResponse = function ({ response, metadata }) {
+const parseResponse = function ({ response }) {
   const data = removeTopLevel({ response });
   const type = getResponsetype({ data });
 
-  const responseA = { content: { data, metadata }, type };
+  const responseA = { content: { data }, type };
   return { response: responseA };
 };
 

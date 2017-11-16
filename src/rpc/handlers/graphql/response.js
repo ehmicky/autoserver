@@ -11,11 +11,13 @@ const transformSuccess = function ({
 };
 
 // Apply GraphQL-specific error response transformation
-const transformError = function ({ response: { content: { error } } }) {
+const transformError = function ({
+  response: { content: { error, metadata } },
+}) {
   const errors = getError(error);
 
   // According to GraphQL spec, `data` should be `null` if `errors` is set
-  return { data: null, errors };
+  return { data: null, errors, extensions: metadata };
 };
 
 // GraphQL spec error format
