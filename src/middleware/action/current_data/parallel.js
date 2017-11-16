@@ -11,13 +11,13 @@ const { getSimpleFilter } = require('../../../filter');
 
 // Add `action.currentData` for `create` and `upsert` commands
 const parallelResolve = async function ({ actions, mInput }, nextLayer) {
-  const currentDataMap = await getCurrentDataMap({
+  const { currentDataMap, metadata } = await getCurrentDataMap({
     actions,
     nextLayer,
     mInput,
   });
   const actionsA = addCurrentDataActions({ actions, currentDataMap });
-  return { actions: actionsA };
+  return { actions: actionsA, metadata };
 };
 
 // Fire the `find` commands, in parallel, to retrieve `currentData`
@@ -25,11 +25,11 @@ const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
   const actionsA = groupActions({ actions });
   const mInputA = { ...mInput, actions: actionsA };
 
-  const { results } = await nextLayer(mInputA, 'read');
+  const { results, metadata } = await nextLayer(mInputA, 'read');
 
   const currentDataMap = groupBy(results, 'collname');
   const currentDataMapA = mapValues(currentDataMap, getModels);
-  return currentDataMapA;
+  return { currentDataMap: currentDataMapA, metadata };
 };
 
 // Group write actions on the same model into single read action

@@ -8,13 +8,19 @@ const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
 
 // Fire all commands associated with a set of read actions
-const sequenceRead = function ({ actions, top, collsMap, mInput }, nextLayer) {
+const sequenceRead = async function (
+  { actions, top, collsMap, mInput },
+  nextLayer,
+) {
   const actionsA = getParentActions({ actions, top, collsMap });
 
-  return fireReads({ ...mInput, actions: actionsA, results: [] }, nextLayer);
+  const results = [];
+  await fireReads({ ...mInput, actions: actionsA, results }, nextLayer);
+
+  return { results };
 };
 
-const fireReads = async function ({ actions, results, ...mInput }, nextLayer) {
+const fireReads = function ({ actions, results, ...mInput }, nextLayer) {
   // Siblings can be run in parallel
   // Children will fire this function recursively, waiting for their parent
   const resultsPromises = actions.map(({ parentAction, childActions }) =>
@@ -26,9 +32,7 @@ const fireReads = async function ({ actions, results, ...mInput }, nextLayer) {
       mInput,
       results,
     }));
-  await Promise.all(resultsPromises);
-
-  return { results };
+  return Promise.all(resultsPromises);
 };
 
 const fireRead = async function ({

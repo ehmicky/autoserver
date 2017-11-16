@@ -74,10 +74,10 @@ const fireResponseLayer = async function ({
   const { response } = await nextLayer(input, 'database');
   const inputA = { ...input, response };
 
-  const { response: { data: results } } = await nextLayer(inputA, 'response');
+  const { response: { data, metadata } } = await nextLayer(inputA, 'response');
 
-  const resultsA = getResults({ actions, results, ids, top });
-  return resultsA;
+  const results = getResults({ actions, data, metadata, ids, top });
+  return results;
 };
 
 // If write action fails, we wait for the other write actions to end,

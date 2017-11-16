@@ -26,17 +26,15 @@ const processResults = function ({
 };
 
 const getResults = function ({
-  action,
-  commandName,
   isTopLevel,
   parentResults,
   nestedParentIds,
   results,
-  top,
+  ...rest
 }) {
   if (isTopLevel) {
-    return results.map((model, index) =>
-      getResult({ action, model, index, commandName, top }));
+    return results.map(({ model, metadata }, index) =>
+      getResult({ model, metadata, index, ...rest }));
   }
 
   // Nested results reuse `nestedParentIds` to assign proper `path` index.
@@ -44,7 +42,7 @@ const getResults = function ({
   return nestedParentIds
     .map((ids, index) => {
       const { path } = parentResults[index];
-      return getEachResults({ action, ids, commandName, path, results, top });
+      return getEachResults({ ids, path, results, ...rest });
     })
     .reduce(assignArray, []);
 };
@@ -52,13 +50,15 @@ const getResults = function ({
 const getEachResults = function ({ ids, results, ...rest }) {
   const multiple = Array.isArray(ids);
   return results
-    .filter(({ id }) => (multiple ? ids.includes(id) : ids === id))
-    .map((model, index) => getResult({ model, index, multiple, ...rest }));
+    .filter(({ model: { id } }) => (multiple ? ids.includes(id) : ids === id))
+    .map(({ model, metadata }, index) =>
+      getResult({ model, metadata, index, multiple, ...rest }));
 };
 
 const getResult = function ({
   action,
   model,
+  metadata,
   index,
   path = [],
   commandName,
@@ -70,7 +70,7 @@ const getResult = function ({
   const pathA = multipleA
     ? [...path, commandName, index]
     : [...path, commandName];
-  return { path: pathA, model, action };
+  return { path: pathA, action, model, metadata };
 };
 
 module.exports = {

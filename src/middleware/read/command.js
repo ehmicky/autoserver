@@ -29,9 +29,9 @@ const fireReadCommand = async function ({
   const { response } = await nextLayer(mInputB, 'database');
   const mInputC = { ...mInputB, response };
 
-  const { response: { data: results } } = await nextLayer(mInputC, 'response');
+  const { response: { data, metadata } } = await nextLayer(mInputC, 'response');
 
-  return results;
+  return data.map(model => ({ model, metadata }));
 };
 
 // When parent value is not defined, directly returns empty value
