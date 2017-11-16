@@ -12,6 +12,7 @@ const { failureProtocolstatus } = require('./status');
 const send = async function ({
   specific: { req, res } = {},
   content,
+  metadata = {},
   type,
   mime,
   protocolstatus,
@@ -23,7 +24,7 @@ const send = async function ({
   // so we must check to avoid double responses
   if (res.finished) { return; }
 
-  setHeaders({ res, mime, content, type, protocolstatus });
+  setHeaders({ res, mime, content, type, protocolstatus, metadata });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
@@ -40,22 +41,31 @@ const setHeaders = function ({
   content,
   type,
   protocolstatus = failureProtocolstatus,
+  metadata: { responsetime },
 }) {
   // eslint-disable-next-line no-param-reassign, fp/no-mutation
   res.statusCode = protocolstatus;
-
-  if (mime) {
-    res.setHeader('Content-Type', mime);
-  }
 
   // Should theoritically be calculated before `args.silent` is applied,
   // to follow HTTP spec for HEAD method.
   // However, when used with other methods, this is incorrect and make some
   // clients crash
   const contentLength = Buffer.byteLength(content);
-  res.setHeader('Content-Length', contentLength);
+
+  const headers = {
+    'Content-Type': mime,
+    'Content-Length': contentLength,
+    'X-Response-Time': responsetime,
+  };
+  setAllHeaders(res, headers);
 
   setVary({ res, type });
+};
+
+const setAllHeaders = function (res, headers) {
+  Object.entries(headers)
+    .filter(([, value]) => value !== undefined)
+    .forEach(([name, value]) => res.setHeader(name, value));
 };
 
 // `Vary` HTTP header

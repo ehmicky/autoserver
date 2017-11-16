@@ -10,6 +10,7 @@ const send = function ({
   protocolHandler,
   specific,
   content,
+  metadata,
   type,
   format = defaultFormat,
   charset = defaultCharset,
@@ -33,6 +34,7 @@ const send = function ({
   return protocolHandler.send({
     specific,
     content: contentA,
+    metadata,
     type,
     mime,
     protocolstatus,

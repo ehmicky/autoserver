@@ -39,7 +39,6 @@ const fillError = function ({
     commandpath,
     collname: collection,
     command,
-    requestid,
   } = {},
   isLimited = true,
 }) {
@@ -74,7 +73,6 @@ const fillError = function ({
     commandpath,
     collection,
     command,
-    requestid,
     ...extra,
     // Stack trace is not included in error responses, whether in production
     // or in development because:

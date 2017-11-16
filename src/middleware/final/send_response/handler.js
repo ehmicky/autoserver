@@ -35,6 +35,7 @@ const sendResponse = async function ({
     protocolHandler,
     specific,
     content,
+    metadata,
     type,
     format,
     charset,
@@ -43,9 +44,7 @@ const sendResponse = async function ({
     protocolstatus,
   });
 
-  const responseheaders = protocolHandler.getResponseheaders({ specific });
-
-  return { response: responseB, responseheaders };
+  return { response: responseB };
 };
 
 // Use protocol-specific way to send back the response to the client

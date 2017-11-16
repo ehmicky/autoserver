@@ -3,11 +3,7 @@
 const opts = require('./opts');
 const { startServer } = require('./start');
 const { stopServer, countPendingRequests } = require('./stop');
-const {
-  getRequestheaders,
-  getResponseheaders,
-  setResponseheaders,
-} = require('./headers');
+const { getRequestheaders } = require('./headers');
 const { getPayload, hasPayload } = require('./payload');
 const { getOrigin, getPath, getQueryString } = require('./url');
 const { getMethod } = require('./method');
@@ -30,8 +26,6 @@ const protocol = {
   stopServer,
   countPendingRequests,
   getRequestheaders,
-  getResponseheaders,
-  setResponseheaders,
   getPayload,
   hasPayload,
   getOrigin,

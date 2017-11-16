@@ -31,7 +31,6 @@ const inputReducer = function (
 const REQ_NAMES = [
   { attrName: 'query', reqName: 'queryvars' },
   { attrName: 'headers', reqName: 'requestheaders', lowercase: true },
-  { attrName: 'headers', reqName: 'responseheaders', lowercase: true },
 ];
 
 module.exports = {
