@@ -120,8 +120,11 @@ REST error responses follow the usual error
     },
     "commandpath": "find_users",
     "collection": "users",
-    "command": "find",
-    "requestid": "509683e7-5957-4712-a9b7-3f54c443936e"
-  }
+    "command": "find"
+  },
+  "metadata": {
+		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812",
+		"serverid": "0f7d6a6e-2912-4f26-8cc8-3be68d5da257"
+	}
 }
 ```

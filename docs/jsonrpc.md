@@ -86,9 +86,12 @@ to accomodate the JSON-RPC spec:
       },
       "commandpath": "find_users",
       "collection": "users",
-      "command": "find",
-      "requestid": "812ae714-ecf7-4e41-88a1-5337b034745e"
-    }
+      "command": "find"
+    },
+    "metadata": {
+  		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812",
+  		"serverid": "0f7d6a6e-2912-4f26-8cc8-3be68d5da257"
+  	}
   }
 }
 ```

@@ -4,13 +4,11 @@ Every [instruction](usage.md#instructions) will throw the same type of
 exception if it fails.
 
 Exceptions try to follow [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt):
-  - `description` `{string}`
-  - `title` `{string}`: short generic description
   - `type` `{string}`: error type
-  - `status` `{string}`: protocol-agnostic status, among `'INTERNALS'`,
-    `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`, usually one of the
-    two last ones.
+  - `title` `{string}`: short generic description
+  - `description` `{string}`
   - `instance` `{string}`: URL that was called, if any
+  - `status` `{string}`: `'CLIENT_ERROR'` or `'SERVER_ERROR'`
   - `details` `{string}`: stack trace
 
 # Error responses, sent to clients
@@ -21,8 +19,8 @@ Error responses contain a single `error` property, with same properties
 The following properties may also appear, depending on when the error happened:
   - [`protocol`](protocols.md) `{string}`
   - `method` `{string}`
-  - [`requestheaders`](protocols.md#headers-and-method) `{object}`
   - `queryvars` `{object}`
+  - [`requestheaders`](protocols.md#headers-and-method) `{object}`
   - [`format`](formats.md) `{string}`
   - [`charset`](formats.md#charsets) `{string}`
   - [`rpc`](rpc.md) `{string}`
@@ -31,7 +29,6 @@ The following properties may also appear, depending on when the error happened:
   - `commandpath` `{string}`
   - `collection` `{string}`
   - `command` `{string}`
-  - `requestid` `{string}`
 
 Additional properties specific to a given error type might also be present.
 
@@ -62,9 +59,12 @@ For example:
     },
     "commandpath": "find_users",
     "collection": "users",
-    "command": "find",
-    "requestid": "8af50f41-40db-4109-b649-feef43107e56"
-  }
+    "command": "find"
+  },
+  "metadata": {
+		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812",
+		"serverid": "0f7d6a6e-2912-4f26-8cc8-3be68d5da257"
+	}
 }
 ```
 

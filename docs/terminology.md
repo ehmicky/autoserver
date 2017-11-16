@@ -49,13 +49,9 @@ Request payload
 
 [Protocol](protocols.md) headers
 
-## Protocol status
-
-[Protocol](protocols.md)-specific status, e.g. HTTP status code
-
 ## Status
 
-[Protocol](protocols.md)-agnostic status, e.g. `SUCCESS` or `SERVER_ERROR`
+Response's status, e.g. `SUCCESS` or `SERVER_ERROR`
 
 ## Format
 

@@ -21,6 +21,8 @@ top-level GraphQL method name, e.g. `find_users` or `create_users`.
 The [arguments](rpc.md#rpc) are specified using the
 top-level GraphQL arguments.
 
+The response's metadata are available under the `extensions` property.
+
 For example:
 
 ```graphql
@@ -37,7 +39,15 @@ would respond with:
 
 ```json
 {
-  "data": { "id": "1", "name": "Anthony", "manager": "3" }
+  "data": {
+    "id": "1",
+    "name": "Anthony",
+    "manager": "3"
+  },
+  "extensions": {
+		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812",
+		"serverid": "0f7d6a6e-2912-4f26-8cc8-3be68d5da257"
+	}
 }
 ```
 
@@ -57,7 +67,7 @@ to accomodate the
 [GraphQL spec](https://facebook.github.io/graphql/#sec-Errors):
   - `error` is called `errors`, and is an array containing a single object.
   - `description` is named `message`
-  - `details` is named `stack`
+  - `metadata` is named `extensions`
 
 For example:
 
@@ -91,9 +101,12 @@ For example:
       },
       "commandpath": "find_users",
       "collection": "users",
-      "command": "find",
-      "requestid": "ed9d9f92-9ee5-4363-8d96-9b5e85c457d9"
+      "command": "find"
     }
-  ]
+  ],
+  "extensions": {
+		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812",
+		"serverid": "0f7d6a6e-2912-4f26-8cc8-3be68d5da257"
+	}
 }
 ```
