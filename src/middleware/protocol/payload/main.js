@@ -2,9 +2,7 @@
 
 const { decode } = require('iconv-lite');
 
-const { promiseThen } = require('../../../utilities');
 const { addGenErrorHandler } = require('../../../error');
-const { getLimits } = require('../../../limits');
 const { defaultFormat, defaultCharset, parse } = require('../../../formats');
 
 const { getRawPayload } = require('./raw');
@@ -22,13 +20,24 @@ const parsePayload = function ({
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
-  const { maxpayload } = getLimits({ runOpts });
-  const promise = getRawPayload({ protocolHandler, specific, maxpayload });
-
-  return promiseThen(promise, parseRawPayload.bind(null, { format, charset }));
+  return parseRawPayload({
+    specific,
+    protocolHandler,
+    runOpts,
+    format,
+    charset,
+  });
 };
 
-const parseRawPayload = function ({ format, charset }, payload) {
+const parseRawPayload = async function ({
+  specific,
+  protocolHandler,
+  runOpts,
+  format,
+  charset,
+}) {
+  const payload = await getRawPayload({ protocolHandler, specific, runOpts });
+
   const payloadA = eDecode(payload, charset);
 
   const payloadB = eParseContent({ payload: payloadA, format });
