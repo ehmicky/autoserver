@@ -3,6 +3,14 @@
 const { omit, omitBy } = require('../../../utilities');
 
 // Apply GraphQL-specific error response transformation
+const transformSuccess = function ({
+  response: { content: { metadata, ...content } },
+}) {
+  // According to GraphQL spec, extra metadata should be called `extensions`
+  return { ...content, extensions: metadata };
+};
+
+// Apply GraphQL-specific error response transformation
 const transformError = function ({ response: { content: { error } } }) {
   const errors = getError(error);
 
@@ -30,5 +38,6 @@ const getError = function ({
 };
 
 module.exports = {
+  transformSuccess,
   transformError,
 };
