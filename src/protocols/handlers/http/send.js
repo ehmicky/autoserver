@@ -73,6 +73,7 @@ const setVary = function ({ res, type }) {
     ...objectVary,
     'Accept-Charset',
     'Accept-Encoding',
+    'X-Apiengine-Params',
   ];
   vary(res, allVary);
 };
