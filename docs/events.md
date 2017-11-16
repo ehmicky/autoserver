@@ -126,15 +126,12 @@ Each event payload comes with a `serverinfo` property, with the properties:
 
 A `serverid` UUID, unique to each server run, is automatically created and
 available:
-  - in [`serverinfo.serverid`](#server-information) payload property
-  - as a response [header](protocols.md#headers-and-method)
-    named `X-Apiengine-Serverid`
+  - in response's `metadata.serverid` property
+  - in [`serverinfo.serverid`](#server-information) event payload property
 
 `servername` is the system hostname, but can be overriden using the
 [`run` option](run.md#options) `servername`. It is available:
-  - in [`serverinfo.servername`](#server-information) payload property
-  - as a response [header](protocols.md#headers-and-method)
-    named `X-Apiengine-Servername`
+  - in [`serverinfo.servername`](#server-information) event payload property
   - in [console messages](#console)
 
 # Start information
@@ -155,16 +152,7 @@ the promise returned by [`apiServer.start()`](run.md#running-the-server).
 # Error information
 
 Events of type `failure` have an `errorinfo` property on the event payload,
-with the properties (following
-  [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt)):
-  - `type` `{string}`: error type
-  - `title` `{string}`: short generic description
-  - `description` `{string}`: error message
-  - `instance` `{string}`: URL that was called, if any
-  - `status` `{string}` - [protocol](protocols.md)-agnostic status,
-    among `'INTERNALS'`, `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`,
-    usually one of the two last ones.
-  - `details` `{string}`: stack trace
+with an [exception object](error.md#exceptions-thrown-in-the-server).
 
 The full `failure` event payload is also available as the rejected value of
 the promise returned by [`apiServer.start()`](run.md#running-the-server).
@@ -174,8 +162,7 @@ the promise returned by [`apiServer.start()`](run.md#running-the-server).
 Events during the `request` phase have a `requestinfo` property on the
 event payload, with the properties:
   - `requestid` `{UUID}` - unique ID assigned to each request.
-    Also available as `X-Apiengine-Requestid` response
-    [header](protocols.md#headers-and-method).
+    Also available in response's `metadata.requestid` property
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
   - `responsetime` `{number}` - time it took to handle the request,
@@ -187,8 +174,8 @@ event payload, with the properties:
   - `path` `{string}` - only the URL path, with no query string nor hash
   - `method` `{string}` - [protocol](protocols.md)-agnostic method,
     e.g. `'GET'`
-  - `status` `{string}` - [protocol](protocols.md)-agnostic status,
-    among `'INTERNALS'`, `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
+  - `status` `{string}` - response's status, among `'INTERNALS'`, `'SUCCESS'`,
+    `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathvars` `{object}` - URL variables, as a hash table
   - `queryvars` `{object}` - query variables, as a hash table
   - `requestheaders` `{object}` - [protocol](protocols.md) request
@@ -216,11 +203,12 @@ event payload, with the properties:
     among `'create'`, `'find'`, `'upsert'`, `'patch'` and `'delete'`.
   - `collection` `${string}` - current
     [collection's](terminology.md#collection) name
-  - `responsetype` `{string}` - among `'model'`, `'models'`, `'error'`,
-    `'object'`, `'html'`, `'text'`
   - `responsedata` `{any}` - response data
   - `responsedatasize` `{number}` - in bytes
   - `responsedatacount` `{number}` - array length, if it is an array
+  - `responsetype` `{string}` - among `'model'`, `'models'`, `'error'`,
+    `'object'`, `'html'`, `'text'`
+  - `metadata` `{object}` - response's metadata
   - `modelscount` `{number}` - number of models returned, including nested ones
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error
