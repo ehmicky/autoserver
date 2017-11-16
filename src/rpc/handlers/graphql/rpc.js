@@ -3,7 +3,7 @@
 const routes = require('./routes');
 const methods = require('./methods');
 const { handler } = require('./handler');
-const { transformError } = require('./response');
+const { transformSuccess, transformError } = require('./response');
 const { compileSchema } = require('./compile');
 const { startServer } = require('./startup');
 
@@ -13,6 +13,7 @@ const rpc = {
   routes,
   methods,
   handler,
+  transformSuccess,
   transformError,
   compileSchema,
   startServer,
