@@ -43,7 +43,6 @@ const FILTER_NAMES = [
   'payload',
   'response',
   'data',
-  'headers',
   'query',
 ];
 
@@ -51,7 +50,6 @@ const FILTER_DEFAULT = {
   payload: ['id', 'operationName'],
   response: ['id'],
   data: ['id'],
-  headers: false,
   query: ['operationName'],
 };
 
