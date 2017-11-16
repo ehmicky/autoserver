@@ -178,9 +178,7 @@ event payload, with the properties:
     `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathvars` `{object}` - URL variables, as a hash table
   - `queryvars` `{object}` - query variables, as a hash table
-  - `requestheaders` `{object}` - [protocol](protocols.md) request
-    [headers](protocols.md#headers-and-method) (e.g. HTTP headers), as a hash
-    table
+  - `headers` `{object}` - engine-specific headers
   - `format` `{string}` - request payload and server response's
     [format](formats.md)
   - `charset` `{string}` - request payload and server response's
@@ -235,14 +233,12 @@ the request information, among:
 
 The possible properties are:
   - `query`: applied to URL query variables
-  - `headers`: applied to `requestheaders`
   - `payload`
   - `response`: applied to `responsedata`
   - `data`: applied to each `args.data`
 
 Default values:
-  - `query`, `headers`: `false`,
-    i.e. this information is not included in event payloads.
+  - `query`: `false`, i.e. this information is not included in event payloads.
   - `payload`, `data`, `response`: only keep `id`.
 
 # Performance monitoring

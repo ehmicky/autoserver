@@ -6,7 +6,9 @@ By default, all protocols are spawned.
 
 # Headers and method
 
-Each protocol has its own way of setting the headers and main method.
+Each protocol has its own way of handling the headers, the method, the URL and
+the request payload.
+
 For example, HTTP uses HTTP headers and HTTP method (e.g. `GET`).
 
 # Protocols options

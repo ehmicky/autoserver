@@ -84,13 +84,7 @@ For example:
       "protocol": "http",
       "method": "GET",
       "queryvars": {},
-      "requestheaders": {
-        "host": "localhost:5001",
-        "accept": "*/*",
-        "accept-encoding": "deflate, gzip",
-        "content-type": "application/json",
-        "content-length": "481"
-      },
+      "headers": {},
       "format": "json",
       "charset": "utf-8",
       "rpc": "graphql",

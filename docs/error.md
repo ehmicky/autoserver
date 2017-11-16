@@ -20,7 +20,7 @@ The following properties may also appear, depending on when the error happened:
   - [`protocol`](protocols.md) `{string}`
   - `method` `{string}`
   - `queryvars` `{object}`
-  - [`requestheaders`](protocols.md#headers-and-method) `{object}`
+  - `headers` `{object}`
   - [`format`](formats.md) `{string}`
   - [`charset`](formats.md#charsets) `{string}`
   - [`rpc`](rpc.md) `{string}`
@@ -45,11 +45,7 @@ For example:
     "protocol": "http",
     "method": "GET",
     "queryvars": {},
-    "requestheaders": {
-      "host": "localhost:5001",
-      "accept": "*/*",
-      "accept-encoding": "deflate, gzip"
-    },
+    "headers": {},
     "format": "json",
     "charset": "utf-8",
     "rpc": "rest",
