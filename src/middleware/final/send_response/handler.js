@@ -3,6 +3,7 @@
 const { getStandardError } = require('../../../error');
 const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
 
+const { addMetadata } = require('./metadata');
 const { validateResponse } = require('./validate');
 const { send } = require('./send');
 
@@ -10,6 +11,7 @@ const { send } = require('./send');
 const sendResponse = async function ({
   error,
   response,
+  metadata,
   specific,
   protocolHandler,
   protocolstatus,
@@ -21,11 +23,13 @@ const sendResponse = async function ({
 }) {
   const responseA = getErrorResponse({ error, mInput, response });
 
-  validateResponse({ response: responseA });
+  const responseB = addMetadata({ response: responseA, metadata });
 
-  const { type } = responseA;
+  validateResponse({ response: responseB });
 
-  const content = transformContent({ response: responseA, mInput, rpcHandler });
+  const { type } = responseB;
+
+  const content = transformContent({ response: responseB, mInput, rpcHandler });
 
   await send({
     protocolHandler,
@@ -41,7 +45,7 @@ const sendResponse = async function ({
 
   const responseheaders = protocolHandler.getResponseheaders({ specific });
 
-  return { response: responseA, responseheaders };
+  return { response: responseB, responseheaders };
 };
 
 // Use protocol-specific way to send back the response to the client
