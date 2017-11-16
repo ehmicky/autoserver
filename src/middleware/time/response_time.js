@@ -5,12 +5,11 @@ const { stopPerf } = require('../../perf');
 
 // Request response time, from request handling start to response sending
 // Note that other functions might happen after response sending, e.g. events
-const setResponsetime = function ({ reqPerf, protocolHandler, specific }) {
+const setResponsetime = function ({ reqPerf, metadata }) {
   const { respPerf, responsetime } = getResponsetime({ reqPerf });
 
-  setHeaders({ protocolHandler, specific, responsetime });
-
-  return { respPerf, responsetime };
+  const metadataA = { ...metadata, responsetime };
+  return { respPerf, responsetime, metadata: metadataA };
 };
 
 const getResponsetime = function ({ reqPerf }) {
@@ -27,11 +26,6 @@ const getResponsetime = function ({ reqPerf }) {
 };
 
 const MICROSECS_TO_SECS = 1e6;
-
-const setHeaders = function ({ protocolHandler, specific, responsetime }) {
-  const responseheaders = { 'X-Response-Time': responsetime };
-  protocolHandler.setResponseheaders({ specific, responseheaders });
-};
 
 module.exports = {
   setResponsetime,

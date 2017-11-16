@@ -196,9 +196,6 @@ event payload, with the properties:
   - `requestheaders` `{object}` - [protocol](protocols.md) request
     [headers](protocols.md#headers-and-method) (e.g. HTTP headers), as a hash
     table
-  - `responseheaders` `{object}` - [protocol](protocols.md) request
-    [headers](protocols.md#headers-and-method) (e.g. HTTP headers), as a hash
-    table
   - `format` `{string}` - request payload and server response's
     [format](formats.md)
   - `charset` `{string}` - request payload and server response's
@@ -252,7 +249,7 @@ the request information, among:
 
 The possible properties are:
   - `query`: applied to URL query variables
-  - `headers`: applied to both `requestheaders` and `responseheaders`
+  - `headers`: applied to `requestheaders`
   - `payload`
   - `response`: applied to `responsedata`
   - `data`: applied to each `args.data`
