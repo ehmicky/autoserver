@@ -175,3 +175,11 @@ query {
 
 Client parameters will be available using the
 [system variable](#schema-functions-variables) `$params` as an object.
+
+They can also be set using the
+[protocol header](protocols.md#headers-and-method) `params`, with a JSON object
+as value. For example, with HTTP:
+
+```HTTP
+X-Apiengine-Params: {"password": "admin"}
+```

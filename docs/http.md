@@ -16,6 +16,9 @@ protocols:
 
 # HTTP headers
 
+Engine-specific headers, e.g. [`params`](functions.md#client-parameters), must
+be prefixed with `X-Apiengine-`, e.g. `X-Apiengine-Params`.
+
 The following HTTP request headers have specific interpretations:
   - `Content-Type`, `Accept` and `Accept-Charset` set the [format](formats.md)
     and the [charset](formats.md#charset) like the `format` and `charset` URL
