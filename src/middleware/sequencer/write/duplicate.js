@@ -1,7 +1,7 @@
 'use strict';
 
-const { throwError } = require('../../error');
-const { isEqual, assignArray, groupValuesBy } = require('../../utilities');
+const { throwError } = require('../../../error');
+const { isEqual, assignArray, groupValuesBy } = require('../../../utilities');
 
 // We remove duplicates for several reasons:
 //  - efficiency

@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../../utilities');
+const { assignArray } = require('../../../utilities');
 
 // Retrieve `currentData`, so it is passed to command middleware
 const getCurrentData = function ({ actions, ids }) {
