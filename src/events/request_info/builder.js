@@ -30,6 +30,7 @@ const buildRequestinfo = function ({
   commandpath,
   command,
   collname: collection,
+  metadata,
   response: {
     content: response,
     type: responsetype,
@@ -70,6 +71,7 @@ const buildRequestinfo = function ({
     collection,
     responsedata,
     responsetype,
+    metadata,
     modelscount,
     uniquecount,
     error: errorReason,
