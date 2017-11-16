@@ -10,8 +10,7 @@ const getRequestMessage = function ({
   rpc,
   method,
   path,
-  protocolstatus,
-  error,
+  error = 'SUCCESS',
   commandpath,
   summary,
 }) {
@@ -21,7 +20,6 @@ const getRequestMessage = function ({
   const { title: rpcTitle } = rpcHandlers[rpc] || {};
 
   const message = [
-    protocolstatus,
     error,
     '-',
     protocolTitle,

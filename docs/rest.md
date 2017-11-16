@@ -103,7 +103,6 @@ REST error responses follow the usual error
     "description": "The 'users' model with 'id' '20' could not be found",
     "instance": "http://localhost:5001/rest/users/20",
     "status": "CLIENT_ERROR",
-    "protocolstatus": 404,
     "protocol": "http",
     "method": "GET",
     "queryvars": {},

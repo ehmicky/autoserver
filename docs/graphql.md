@@ -56,7 +56,6 @@ GraphQL error responses follow the usual error
 to accomodate the
 [GraphQL spec](https://facebook.github.io/graphql/#sec-Errors):
   - `error` is called `errors`, and is an array containing a single object.
-  - `protocolstatus` is named `status`
   - `description` is named `message`
   - `details` is named `stack`
 

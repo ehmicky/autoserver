@@ -14,7 +14,6 @@ const sendResponse = async function ({
   metadata,
   specific,
   protocolHandler,
-  protocolstatus,
   rpcHandler,
   format,
   charset,
@@ -41,7 +40,6 @@ const sendResponse = async function ({
     charset,
     topargs,
     error,
-    protocolstatus,
   });
 
   return { response: responseB };

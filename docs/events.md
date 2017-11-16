@@ -187,8 +187,6 @@ event payload, with the properties:
   - `path` `{string}` - only the URL path, with no query string nor hash
   - `method` `{string}` - [protocol](protocols.md)-agnostic method,
     e.g. `'GET'`
-  - `protocolstatus` `{string}` - [protocol](protocols.md)-specific status,
-    e.g. HTTP status code
   - `status` `{string}` - [protocol](protocols.md)-agnostic status,
     among `'INTERNALS'`, `'SUCCESS'`, `'CLIENT_ERROR'` and `'SERVER_ERROR'`
   - `pathvars` `{object}` - URL variables, as a hash table

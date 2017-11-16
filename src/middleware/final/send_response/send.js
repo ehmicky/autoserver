@@ -1,5 +1,6 @@
 'use strict';
 
+const { getReason } = require('../../../error');
 const { defaultFormat, defaultCharset } = require('../../../formats');
 
 const { getMime, types } = require('./types');
@@ -16,7 +17,6 @@ const send = function ({
   charset = defaultCharset,
   topargs,
   error,
-  protocolstatus,
 }) {
   // If `raw` format was used in input, default format should be used in output
   const formatA = format.name === undefined ? defaultFormat : format;
@@ -31,13 +31,15 @@ const send = function ({
     error,
   });
 
+  const reason = getReason({ error });
+
   return protocolHandler.send({
     specific,
     content: contentA,
     metadata,
     type,
     mime,
-    protocolstatus,
+    reason,
   });
 };
 

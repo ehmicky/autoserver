@@ -26,13 +26,11 @@ const getError = function ({
   title,
   description: message,
   details: stack,
-  protocolstatus: status,
   ...extraContent
 }) {
   // Content following GraphQL spec
   // Custom information not following GraphQL spec is always rendered
-  const extraContentA = omit(extraContent, 'status');
-  const error = { message, title, type, status, ...extraContentA, stack };
+  const error = { message, title, type, ...extraContent, stack };
 
   const errorA = omitBy(error, val => val === undefined);
 
