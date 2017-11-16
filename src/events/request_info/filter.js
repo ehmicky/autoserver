@@ -3,19 +3,12 @@
 const { pick } = require('../../utilities');
 
 // Apply `runOpts.filter`
-const applyFilter = function ({ filter, obj, lowercase }) {
+const applyFilter = function ({ filter, obj }) {
   if (filter === undefined || filter === true) { return obj; }
 
   if (filter === false) { return; }
 
-  const filterA = setLowercase({ filter, lowercase });
-  return pick(obj, filterA);
-};
-
-const setLowercase = function ({ filter, lowercase }) {
-  if (!lowercase || !Array.isArray(filter)) { return filter; }
-
-  return filter.map(attrName => attrName.toLowerCase());
+  return pick(obj, filter);
 };
 
 module.exports = {
