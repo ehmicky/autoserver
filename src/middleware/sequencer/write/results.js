@@ -1,7 +1,7 @@
 'use strict';
 
-const { assignArray } = require('../../utilities');
-const { throwError } = require('../../error');
+const { assignArray } = require('../../../utilities');
+const { throwError } = require('../../../error');
 
 const { handlers } = require('./args');
 

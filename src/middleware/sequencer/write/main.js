@@ -1,8 +1,8 @@
 'use strict';
 
-const { assignArray, groupValuesBy } = require('../../utilities');
-const { addErrorHandler, normalizeError } = require('../../error');
-const { mergeCommandpaths } = require('../../constants');
+const { assignArray, groupValuesBy } = require('../../../utilities');
+const { addErrorHandler, normalizeError } = require('../../../error');
+const { mergeCommandpaths } = require('../../../constants');
 
 const { getArgs } = require('./args');
 const { getResults } = require('./results');
