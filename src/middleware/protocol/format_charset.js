@@ -7,48 +7,47 @@ const { throwError } = require('../../error');
 const { formatHandlers, defaultFormat } = require('../../formats');
 
 // Retrieve format and charset of both the request and response payloads
-const parseFormatCharset = function ({ topargs, queryvars }) {
-  const format = getFormat({ topargs, queryvars });
-  const charset = getCharset({ topargs, queryvars, format });
+const parseFormatCharset = function ({ queryvars, format, charset }) {
+  const formatA = getFormat({ queryvars, format });
+  const charsetA = getCharset({ queryvars, charset, format: formatA });
 
-  const topargsA = omit(topargs, ['format', 'charset']);
   const queryvarsA = omit(queryvars, ['format', 'charset']);
 
-  return { topargs: topargsA, queryvars: queryvarsA, format, charset };
+  return { queryvars: queryvarsA, format: formatA, charset: charsetA };
 };
 
-const getFormat = function ({ topargs, queryvars }) {
+const getFormat = function ({ queryvars, format }) {
   // E.g. MIME in Content-Type HTTP header
-  const formatName = topargs.format ||
+  const formatName = format ||
     // ?format query variable
     queryvars.format;
   if (formatName === undefined) { return; }
 
-  const format = formatHandlers[formatName];
-  if (format !== undefined) { return format; }
+  const formatA = formatHandlers[formatName];
+  if (formatA !== undefined) { return formatA; }
 
   const message = `Unsupported response format: '${formatName}'`;
   throwError(message, { reason: 'RESPONSE_FORMAT' });
 };
 
 const getCharset = function ({
-  topargs,
   queryvars,
+  charset,
   format = defaultFormat,
   format: { charsets = [] } = defaultFormat,
 }) {
   // E.g. charset in Content-Type HTTP header
-  const charset = topargs.charset ||
+  const charsetA = charset ||
     // ?charset query variable
     queryvars.charset ||
     // Charset specified by this format
     charsets[0];
-  if (charset === undefined) { return; }
+  if (charsetA === undefined) { return; }
 
-  validateCharset({ charset, format });
+  validateCharset({ charset: charsetA, format });
 
-  const charsetA = charset.toLowerCase();
-  return charsetA;
+  const charsetB = charsetA.toLowerCase();
+  return charsetB;
 };
 
 const validateCharset = function ({ charset, format: { charsets, title } }) {

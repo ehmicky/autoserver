@@ -15,7 +15,10 @@ const parseHeaders = function ({ specific, protocolHandler }) {
     throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
   }
 
-  return { headers };
+  // Client parameters can be specified in protocol headers
+  const { params } = headers;
+
+  return { headers, topargs: { params } };
 };
 
 module.exports = {

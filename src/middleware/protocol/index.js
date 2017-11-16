@@ -9,7 +9,7 @@ module.exports = {
   ...require('./method'),
   ...require('./query_string'),
   ...require('./headers'),
-  ...require('./protocol_args'),
+  ...require('./protocol_input'),
   ...require('./format_charset'),
   ...require('./payload'),
 

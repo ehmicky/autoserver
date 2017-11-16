@@ -9,7 +9,7 @@ const { getOrigin, getPath, getQueryString } = require('./url');
 const { getMethod } = require('./method');
 const { send } = require('./send');
 const { getIp } = require('./ip');
-const { args } = require('./args');
+const { input } = require('./input');
 
 const protocol = {
   opts,
@@ -28,7 +28,7 @@ const protocol = {
   getMethod,
   send,
   getIp,
-  args,
+  input,
 };
 
 module.exports = protocol;
