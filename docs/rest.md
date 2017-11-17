@@ -11,9 +11,7 @@ where `COLLECTION` represents the collection's name and `ID` its `id` attribute.
 
 The [command](rpc.md#rpc) is guessed from the collection's name
 in the URL, and from the HTTP method:
-  - `GET` uses the [`find`](crud.md#find-command) command
-  - `HEAD` uses the [`find`](crud.md#find-command) command, but with the
-    [`silent`](silent.md) argument set to `true`
+  - `GET` and `HEAD` uses the [`find`](crud.md#find-command) command
   - `POST` uses the [`create`](crud.md#create-command) command
   - `PUT` uses the [`upsert`](crud.md#upsert-command) command
   - `PATCH` uses the [`patch`](crud.md#patch-command) command

@@ -24,3 +24,4 @@ The following HTTP request headers have specific interpretations:
     and the [charset](formats.md#charset) like the `format` and `charset` URL
     variables do.
   - `Prefer: return=minimal` sets the [`silent` argument](silent.md) to `true`
+    Same thing for the `HEAD` method.
