@@ -2,13 +2,26 @@
 
 const parsePreferHeaderLib = require('parse-prefer-header');
 
-const { addGenErrorHandler } = require('../../../error');
+const { throwError, addGenErrorHandler } = require('../../../error');
 
 const { getFormat, getCharset } = require('./format_charset');
 
+// Using `X-HTTP-Method-Override` changes the method
+const getMethod = function ({ specific: { req: { headers } }, method }) {
+  const methodOverride = headers['x-http-method-override'];
+  if (!methodOverride) { return; }
+
+  if (method === 'POST') {
+    return methodOverride.toUpperCase();
+  }
+
+  const message = `The HTTP header 'X-HTTP-Method-Override' must be used with the HTTP method POST, not ${method}`;
+  throwError(message, { reason: 'INPUT_VALIDATION' });
+};
+
 // Using `Prefer: return=minimal` request header results in `args.silent` true.
 // Same thing for `HEAD` method
-const getSilent = function ({ specific, specific: { req: { method } } }) {
+const getSilent = function ({ specific, method }) {
   if (method === 'HEAD') { return true; }
 
   const preferHeader = eParsePreferHeader({ specific });
@@ -34,6 +47,7 @@ const eParsePreferHeader = addGenErrorHandler(parsePreferHeader, {
 
 // HTTP-specific ways to set input
 const input = {
+  method: getMethod,
   'topargs.silent': getSilent,
   format: getFormat,
   charset: getCharset,
