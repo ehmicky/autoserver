@@ -2,7 +2,7 @@
 
 // Retrieves HTTP method, but protocol-agnostic
 const getMethod = function ({ specific: { req: { method } } }) {
-  return METHODS_MAP[method];
+  return METHODS_MAP[method] || method;
 };
 
 // This looks strange, but this is just to enforce the fact that the HTTP
