@@ -40,6 +40,11 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
+  // Invalid command, e.g. collection does not exist
+  WRONG_COMMAND: {
+    status: 'CLIENT_ERROR',
+  },
+
   // The client try to perform an action not supported by the specific
   // collection, i.e. its database adapters is too limited
   WRONG_FEATURE: {

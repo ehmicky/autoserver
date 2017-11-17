@@ -51,12 +51,12 @@ const validateCollname = function ({
 }) {
   if (!commandType || !collname) {
     const message = `Command '${commandName}' is unknown`;
-    throwError(message, { reason: 'WRONG_METHOD' });
+    throwError(message, { reason: 'WRONG_COMMAND' });
   }
 
   if (!collsMap[collname]) {
     const message = `Collection '${collname}' is unknown`;
-    throwError(message, { reason: 'WRONG_METHOD' });
+    throwError(message, { reason: 'WRONG_COMMAND' });
   }
 };
 
@@ -69,7 +69,7 @@ const getCommand = function ({ commandType, args }) {
   if (commandA !== undefined) { return commandA; }
 
   const message = `Command '${commandType}' is unknown`;
-  throwError(message, { reason: 'WRONG_METHOD' });
+  throwError(message, { reason: 'WRONG_COMMAND' });
 };
 
 const hasNoId = ({ id }) => id === undefined;
