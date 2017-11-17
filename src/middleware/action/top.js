@@ -1,6 +1,6 @@
 'use strict';
 
-const { deepMerge } = require('../../utilities');
+const { deepMerge, uniq, assignArray } = require('../../utilities');
 const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 
@@ -49,15 +49,30 @@ const validateCollname = function ({
   collname,
   collsMap,
 }) {
-  if (!commandType || !collname) {
-    const message = `Command '${commandName}' is unknown`;
-    throwError(message, { reason: 'WRONG_COMMAND' });
-  }
+  const isValid = commandType &&
+    collname &&
+    collsMap[collname] &&
+    isMultiple[commandType];
+  if (isValid) { return; }
 
-  if (!collsMap[collname]) {
-    const message = `Collection '${collname}' is unknown`;
-    throwError(message, { reason: 'WRONG_COMMAND' });
-  }
+  const message = `Command '${commandName}' is unknown`;
+  const allowedCommands = getAllowedCommands({ collsMap });
+  throwError(message, { reason: 'WRONG_COMMAND', extra: { allowedCommands } });
+};
+
+// Returns all possible commands
+const getAllowedCommands = function ({ collsMap }) {
+  const collnames = Object.keys(collsMap);
+  const commands = COMMANDS.map(({ type }) => type);
+  const commandsA = uniq(commands);
+  const allowedCommands = commandsA
+    .map(command => getAllowedCommand({ command, collnames }))
+    .reduce(assignArray, []);
+  return allowedCommands;
+};
+
+const getAllowedCommand = function ({ command, collnames }) {
+  return collnames.map(collname => `${command}_${collname}`);
 };
 
 // Retrieve `top.command`
@@ -66,10 +81,7 @@ const getCommand = function ({ commandType, args }) {
 
   const commandA = COMMANDS.find(command =>
     command.multiple === multiple && command.type === commandType);
-  if (commandA !== undefined) { return commandA; }
-
-  const message = `Command '${commandType}' is unknown`;
-  throwError(message, { reason: 'WRONG_COMMAND' });
+  return commandA;
 };
 
 const hasNoId = ({ id }) => id === undefined;

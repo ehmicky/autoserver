@@ -67,9 +67,9 @@ const setHeaders = function ({
   setVary({ res, type });
 };
 
-// On WRONG_METHOD errors
-const getAllow = function ({ data: { allowedMethods } }) {
-  const allow = allowedMethods;
+// On WRONG_METHOD or WRONG_COMMAND errors
+const getAllow = function ({ data: { allowedMethods, allowedCommands } }) {
+  const allow = allowedMethods || allowedCommands;
   if (allow === undefined) { return; }
 
   return allow.join(', ');
