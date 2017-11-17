@@ -11,7 +11,8 @@ The `POST` protocol method must be used.
 # Command and arguments
 
 The [command](rpc.md#rpc) is specified using the
-JSON-RPC `method` field.
+JSON-RPC `method` field (which is different from the protocol method, e.g.
+`POST`).
 
 The [arguments](rpc.md#rpc) are specified using the
 JSON-RPC `params` field.
