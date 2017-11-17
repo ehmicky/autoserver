@@ -86,6 +86,7 @@ For example:
       "method": "GET",
       "queryvars": {},
       "headers": {},
+      "payloadsize": 483,
       "format": "json",
       "charset": "utf-8",
       "rpc": "graphql",

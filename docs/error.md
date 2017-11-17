@@ -22,6 +22,7 @@ The following properties may also appear, depending on when the error happened:
   - `method` `{string}`
   - `queryvars` `{object}`
   - `headers` `{object}`
+  - `payloadsize` `{integer}` - `undefined` if no payload was sent
   - [`format`](formats.md) `{string}`
   - [`charset`](formats.md#charsets) `{string}`
   - [`rpc`](rpc.md) `{string}`

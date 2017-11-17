@@ -5,6 +5,7 @@ const { defaultFormat } = require('../formats');
 
 const { getReason, getProps } = require('./reasons');
 const { normalizeError } = require('./main');
+const { addErrorHandler } = require('./handler');
 
 // Gets normalized error information
 const getStandardError = function ({ error, mInput, isLimited }) {
@@ -31,6 +32,7 @@ const fillError = function ({
     method,
     queryvars,
     headers,
+    payload,
     format: { name: format = 'raw' } = defaultFormat,
     charset,
     rpc,
@@ -58,6 +60,8 @@ const fillError = function ({
     return { ...errorA, ...extra, details };
   }
 
+  const payloadsize = eGetPayloadsize({ payload });
+
   return {
     ...errorA,
     origin,
@@ -65,6 +69,7 @@ const fillError = function ({
     method,
     queryvars,
     headers,
+    payloadsize,
     format,
     charset,
     rpc,
@@ -82,6 +87,20 @@ const fillError = function ({
     //    failure event payload
   };
 };
+
+// Returns payload's size
+const getPayloadsize = function ({ payload }) {
+  if (payload === undefined) { return; }
+
+  const payloadA = JSON.stringify(payload);
+  const payloadsize = Buffer.byteLength(payloadA);
+  return payloadsize;
+};
+
+// If an error occurs during JSON stringify, just give up
+const getPayloadsizeHandler = () => undefined;
+
+const eGetPayloadsize = addErrorHandler(getPayloadsize, getPayloadsizeHandler);
 
 module.exports = {
   getStandardError,
