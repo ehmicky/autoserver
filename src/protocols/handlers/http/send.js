@@ -34,9 +34,7 @@ const send = async function ({
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
 
-  // Otherwise, socket might not be freed, e.g. if an error was thrown before
-  // the request body was fully read
-  req.socket.destroy();
+  cleanup({ req, res });
 };
 
 // Set HTTP-specific headers and status code
@@ -92,6 +90,16 @@ const setVary = function ({ res, type }) {
     'X-Apiengine-Params',
   ];
   vary(res, allVary);
+};
+
+const cleanup = function ({ req, res }) {
+  // Otherwise, socket might not be freed, e.g. if an error was thrown before
+  // the request body was fully read
+  req.socket.destroy();
+
+  // Not sure if this needed
+  req.destroy();
+  res.destroy();
 };
 
 module.exports = {
