@@ -20,8 +20,8 @@ Engine-specific headers, e.g. [`params`](functions.md#client-parameters), must
 be prefixed with `X-Apiengine-`, e.g. `X-Apiengine-Params`.
 
 The following HTTP request headers have specific interpretations:
-  - `Content-Type`, `Accept` and `Accept-Charset` set the [format](formats.md)
-    and the [charset](formats.md#charset) like the `format` and `charset` URL
-    variables do.
+  - `Content-Type` and `Accept` set the [format](formats.md) and the
+    [charset](formats.md#charset) like the `format` and `charset` URL variables
+    do.
   - `Prefer: return=minimal` sets the [`silent` argument](silent.md) to `true`
     Same thing for the `HEAD` method.

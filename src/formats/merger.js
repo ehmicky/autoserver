@@ -13,10 +13,12 @@ const formatHandlers = keyBy(formats);
 const formatHandlersA = { ...formatHandlers, raw };
 
 const defaultFormat = formatHandlers.json;
-const defaultCharset = 'binary';
+const DEFAULT_INPUT_CHARSET = 'binary';
+const DEFAULT_OUTPUT_CHARSET = 'utf-8';
 
 module.exports = {
   formatHandlers: formatHandlersA,
   defaultFormat,
-  defaultCharset,
+  DEFAULT_INPUT_CHARSET,
+  DEFAULT_OUTPUT_CHARSET,
 };

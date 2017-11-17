@@ -2,6 +2,8 @@
 
 const { format: formatMime } = require('content-type');
 
+const { DEFAULT_OUTPUT_CHARSET } = require('../../../formats');
+
 // Each content type is sent differently
 const types = {
   model: {
@@ -29,11 +31,14 @@ const types = {
 };
 
 // Retrieve response MIME type
-const getMime = function ({ format, charset, type }) {
+const getMime = function ({ format, type }) {
   const { mime } = types[type];
 
   const contentType = getContentType({ format, mime });
-  const mimeA = formatMime({ type: contentType, parameters: { charset } });
+  const mimeA = formatMime({
+    type: contentType,
+    parameters: { charset: DEFAULT_OUTPUT_CHARSET },
+  });
   return mimeA;
 };
 

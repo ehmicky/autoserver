@@ -7,6 +7,7 @@ const { throwError } = require('../../error');
 const { formatHandlers, defaultFormat } = require('../../formats');
 
 // Retrieve format and charset of both the request and response payloads
+// Also retrieve charset of the request payload
 const parseFormatCharset = function ({ queryvars, format, charset }) {
   const formatA = getFormat({ queryvars, format });
   const charsetA = getCharset({ queryvars, charset, format: formatA });
@@ -52,7 +53,7 @@ const getCharset = function ({
 
 const validateCharset = function ({ charset, format: { charsets, title } }) {
   if (!encodingExists(charset)) {
-    const message = `Unsupported response charset: '${charset}'`;
+    const message = `Unsupported charset: '${charset}'`;
     throwError(message, { reason: 'RESPONSE_FORMAT' });
   }
 
@@ -60,7 +61,7 @@ const validateCharset = function ({ charset, format: { charsets, title } }) {
     charsets.includes(charset);
 
   if (!typeSupportsCharset) {
-    const message = `Unsupported response charset with a ${title} content type: '${charset}'`;
+    const message = `Unsupported charset with a ${title} content type: '${charset}'`;
     throwError(message, { reason: 'RESPONSE_FORMAT' });
   }
 };

@@ -20,8 +20,8 @@ where `FORMAT` is `json`, `yaml`, `urlencoded` or `raw`.
 
 # Charsets
 
-Multiple [character sets](terminology.md#charset) are supported in both the
-client request payload (if any is present) and the server response.
+Multiple [character sets](terminology.md#charset) are supported in the
+client request payload (if any is present). The response is always in UTF-8.
 
 To specify which one to use, set the URL query variable `?charset=CHARSET`.
 
@@ -29,7 +29,7 @@ See [here](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings)
 for a full list of supported charsets. Common ones include `utf-8`, `utf-16`,
 `ascii`, `binary`, `base64` and `hex`.
 
-By default, no charset encoding/decoding is performed.
+By default, no charset decoding is performed.
 
 # JSON
 
