@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { validateProtocolObject } = require('./validate_parsing');
 
 // Fill in `mInput.headers` using protocol-specific headers.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -11,18 +11,11 @@ const parseHeaders = function ({
   topargs = {},
 }) {
   const headers = getHeaders({ specific });
-  validateHeaders({ headers });
+  validateProtocolObject({ headers });
 
   const topargsA = getTopargs({ topargs, headers });
 
   return { headers, topargs: topargsA };
-};
-
-const validateHeaders = function ({ headers }) {
-  if (headers && headers.constructor === Object) { return; }
-
-  const message = `'headers' must be an object, not '${headers}'`;
-  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
 };
 
 // Client parameters can be specified in protocol headers

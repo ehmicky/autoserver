@@ -3,25 +3,20 @@
 const { throwError } = require('../../error');
 const { getLimits } = require('../../limits');
 
+const { validateProtocolString } = require('./validate_parsing');
+
 // Fill in `mInput.origin`
 const parseOrigin = function ({
   protocolHandler: { getOrigin, getUrl },
   specific,
 }) {
   const origin = getOrigin({ specific });
-  validateOrigin({ origin });
+  validateProtocolString({ origin });
 
   const url = getUrl({ specific });
   validateUrlLength({ url });
 
   return { origin };
-};
-
-const validateOrigin = function ({ origin }) {
-  if (typeof origin === 'string') { return; }
-
-  const message = `'origin' must be a string, not '${origin}'`;
-  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
 };
 
 const validateUrlLength = function ({ url, runOpts }) {
