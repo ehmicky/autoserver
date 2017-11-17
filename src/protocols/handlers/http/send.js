@@ -10,7 +10,7 @@ const { setStatusCode } = require('./status');
 
 // Sends response
 const send = async function ({
-  specific: { req, res } = {},
+  specific: { req, res },
   content,
   response: {
     data = {},
