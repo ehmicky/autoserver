@@ -24,7 +24,8 @@ const getStandardError = function ({ error, mInput, isLimited }) {
 const fillError = function ({
   error,
   mInput: {
-    url: instance,
+    origin,
+    path: instance,
     status = 'SERVER_ERROR',
     protocol,
     method,
@@ -51,7 +52,7 @@ const fillError = function ({
     extra = {},
   } = error;
 
-  const errorA = { type, title, description, instance, status };
+  const errorA = { type, title, description, status, instance };
 
   if (isLimited) {
     return { ...errorA, ...extra, details };
@@ -59,6 +60,7 @@ const fillError = function ({
 
   return {
     ...errorA,
+    origin,
     protocol,
     method,
     queryvars,

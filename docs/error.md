@@ -7,8 +7,8 @@ Exceptions try to follow [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt):
   - `type` `{string}`: error type
   - `title` `{string}`: short generic description
   - `description` `{string}`
-  - `instance` `{string}`: URL that was called, if any
   - `status` `{string}`: `'CLIENT_ERROR'` or `'SERVER_ERROR'`
+  - `instance` `{string}`: URL path that was called
   - `details` `{string}`: stack trace
 
 # Error responses, sent to clients
@@ -17,6 +17,7 @@ Error responses contain a single `error` property, with same properties
 [exceptions](#exceptions), except `details`.
 
 The following properties may also appear, depending on when the error happened:
+  - `origin` `{string}`
   - [`protocol`](protocols.md) `{string}`
   - `method` `{string}`
   - `queryvars` `{object}`
@@ -40,8 +41,9 @@ For example:
     "type": "DB_MODEL_NOT_FOUND",
     "title": "Model not found",
     "description": "The 'users' model with 'id' '20' could not be found",
-    "instance": "http://localhost:5001/rest/users/20",
     "status": "CLIENT_ERROR",
+    "instance": "/rest/users/20",
+    "origin": "http://localhost:5001",
     "protocol": "http",
     "method": "GET",
     "queryvars": {},

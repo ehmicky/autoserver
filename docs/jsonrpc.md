@@ -65,8 +65,9 @@ to accomodate the JSON-RPC spec:
     "data": {
       "type": "DB_MODEL_NOT_FOUND",
       "title": "Model not found",
-      "instance": "http://localhost:5001/jsonrpc",
       "status": "CLIENT_ERROR",
+      "instance": "/jsonrpc",
+      "origin": "http://localhost:5001",
       "protocol": "http",
       "method": "POST",
       "queryvars": {},

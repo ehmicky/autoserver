@@ -3,12 +3,15 @@
 const opts = require('./opts');
 const { startServer } = require('./start');
 const { stopServer, countPendingRequests } = require('./stop');
+const { getUrl, getOrigin } = require('./origin');
+const { getQueryString } = require('./query_string');
 const { getHeaders } = require('./headers');
-const { getPayload, hasPayload } = require('./payload');
-const { getOrigin, getPath, getQueryString } = require('./url');
 const { getMethod } = require('./method');
+const { getPath } = require('./path');
+const { getPayload, hasPayload } = require('./payload');
 const { send } = require('./send');
 const { getIp } = require('./ip');
+// eslint-disable-next-line import/max-dependencies
 const { input } = require('./input');
 
 const protocol = {
@@ -19,13 +22,14 @@ const protocol = {
   startServer,
   stopServer,
   countPendingRequests,
+  getUrl,
+  getOrigin,
+  getQueryString,
   getHeaders,
+  getMethod,
+  getPath,
   getPayload,
   hasPayload,
-  getOrigin,
-  getPath,
-  getQueryString,
-  getMethod,
   send,
   getIp,
   input,
