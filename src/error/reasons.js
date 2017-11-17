@@ -34,11 +34,6 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
-  // Invalid command, e.g. collection does not exist
-  WRONG_COMMAND: {
-    status: 'CLIENT_ERROR',
-  },
-
   // The client try to perform an action not supported by the specific
   // collection, i.e. its database adapters is too limited
   WRONG_FEATURE: {
@@ -64,6 +59,11 @@ const PROPS = {
   // Method is not supported, or most likely not allowed for this rpc
   // Or tried to use a protocol method that is not supported, e.g. TRACE
   WRONG_METHOD: {
+    status: 'CLIENT_ERROR',
+  },
+
+  // Invalid command, e.g. collection does not exist
+  WRONG_COMMAND: {
     status: 'CLIENT_ERROR',
   },
 
