@@ -73,6 +73,7 @@ to accomodate the JSON-RPC spec:
       "method": "POST",
       "queryvars": {},
       "headers": {},
+      "payloadsize": 483,
       "format": "json",
       "charset": "utf-8",
       "rpc": "jsonrpc",
