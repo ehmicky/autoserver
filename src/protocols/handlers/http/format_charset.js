@@ -3,10 +3,7 @@
 const { parse: parseContentType } = require('content-type');
 const { Negotiator } = require('negotiator');
 const { encodingExists } = require('iconv-lite');
-const pluralize = require('pluralize');
 
-const { getWordsList } = require('../../../utilities');
-const { throwError } = require('../../../error');
 const { findFormat } = require('../../../formats');
 
 // Using `Content-Type` or `Accept-Encoding` results in `args.format`
@@ -37,38 +34,12 @@ const getAcceptMimes = function ({ specific: { req } }) {
 
 // Use similar logic as `args.format`, but for `args.charset`
 const getCharset = function ({ specific }) {
-  const { parameters: { charset: contentTypeCharset } = {} } = getContentType({
-    specific,
-  });
-  const acceptCharsets = getAcceptCharsets({ specific });
-  const charsets = [contentTypeCharset, ...acceptCharsets]
-    .filter(charset => charset !== undefined);
+  const { parameters: { charset } = {} } = getContentType({ specific });
 
-  const charsetA = charsets.find(encodingExists);
-  if (charsetA !== undefined) { return charsetA; }
+  const isValidCharset = charset !== undefined && encodingExists(charset);
+  if (!isValidCharset) { return; }
 
-  validateCharset({ acceptCharsets });
-};
-
-// Parse HTTP header `Accept-Charset`
-const getAcceptCharsets = function ({ specific: { req } }) {
-  const negotiator = new Negotiator(req);
-  const acceptCharsets = negotiator.charsets()
-    .filter(charset => charset !== '*');
-  return acceptCharsets;
-};
-
-const validateCharset = function ({ acceptCharsets }) {
-  // No charset was found, but none was explicitely asked for
-  // Since `Content-Type` header can target any charset, it is not checked here
-  if (acceptCharsets.length === 0) { return; }
-
-  const invalidChoices = getWordsList(
-    acceptCharsets,
-    { op: 'and', quotes: true },
-  );
-  const message = `Unsupported response ${pluralize('charset', acceptCharsets.length)}: ${invalidChoices}`;
-  throwError(message, { reason: 'RESPONSE_FORMAT' });
+  return charset;
 };
 
 // Parse HTTP header `Content-Type`

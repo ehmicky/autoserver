@@ -84,7 +84,7 @@ const setVary = function ({ res, type }) {
   const objectVary = OBJECT_TYPES.includes(type) ? ['Accept'] : [];
   const allVary = [
     ...objectVary,
-    'Accept-Charset',
+    'Content-Type',
     'Accept-Encoding',
     'X-HTTP-Method-Override',
     'X-Apiengine-Params',
