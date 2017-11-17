@@ -4,7 +4,7 @@ const { decode } = require('iconv-lite');
 
 const { addGenErrorHandler } = require('../../../error');
 const {
-  defaultFormat,
+  DEFAULT_FORMAT,
   DEFAULT_INPUT_CHARSET,
   parse,
 } = require('../../../formats');
@@ -20,7 +20,7 @@ const parsePayload = function ({
   protocolHandler,
   runOpts,
   charset = DEFAULT_INPUT_CHARSET,
-  format = defaultFormat,
+  format = DEFAULT_FORMAT,
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 

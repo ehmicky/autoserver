@@ -2,7 +2,7 @@
 
 const { getReason } = require('../../error');
 const { MODEL_TYPES } = require('../../constants');
-const { defaultFormat } = require('../../formats');
+const { DEFAULT_FORMAT } = require('../../formats');
 
 // Builds requestinfo from request mInput
 const buildRequestinfo = function ({
@@ -18,7 +18,7 @@ const buildRequestinfo = function ({
   pathvars,
   queryvars,
   headers,
-  format: { name: format = 'raw' } = defaultFormat,
+  format: { name: format = 'raw' } = DEFAULT_FORMAT,
   charset,
   payload,
   rpc,
