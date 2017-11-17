@@ -3,21 +3,16 @@
 const { throwError } = require('../../error');
 const { METHODS } = require('../../constants');
 
+const { validateProtocolString } = require('./validate_parsing');
+
 // Fill in `mInput.method`, protocol method, e.g. 'POST'
 // Meant to be used by rpc layer.
 const parseMethod = function ({ specific, protocolHandler: { getMethod } }) {
   const method = getMethod({ specific });
-  validateMethod({ method });
+  validateProtocolString({ method });
   validateAllowedMethod({ method });
 
   return { method };
-};
-
-const validateMethod = function ({ method }) {
-  if (typeof method === 'string') { return; }
-
-  const message = `'method' must be a string, not '${method}'`;
-  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
 };
 
 const validateAllowedMethod = function ({ method }) {
