@@ -5,7 +5,7 @@ const { extname } = require('path');
 const { is: isType } = require('type-is');
 
 const allFormats = require('./handlers');
-const { defaultFormat } = require('./merger');
+const { DEFAULT_FORMAT } = require('./merger');
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found
@@ -35,7 +35,7 @@ const findByExt = function ({ formats, path }) {
   const format = formats
     .find(({ extNames = [] }) => extNames.includes(fileExt));
 
-  if (format === undefined) { return defaultFormat; }
+  if (format === undefined) { return DEFAULT_FORMAT; }
 
   return format;
 };

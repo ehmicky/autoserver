@@ -1,7 +1,7 @@
 'use strict';
 
 const { getReason } = require('../../../error');
-const { defaultFormat } = require('../../../formats');
+const { DEFAULT_FORMAT } = require('../../../formats');
 
 const { getMime, types } = require('./types');
 const { serializeContent } = require('./serialize');
@@ -13,12 +13,12 @@ const send = function ({
   content,
   response,
   type,
-  format = defaultFormat,
+  format = DEFAULT_FORMAT,
   topargs,
   error,
 }) {
   // If `raw` format was used in input, default format should be used in output
-  const formatA = format.name === undefined ? defaultFormat : format;
+  const formatA = format.name === undefined ? DEFAULT_FORMAT : format;
 
   const mime = getMime({ format: formatA, type });
 

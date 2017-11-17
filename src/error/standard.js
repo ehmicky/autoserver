@@ -1,7 +1,7 @@
 'use strict';
 
 const { omitBy } = require('../utilities');
-const { defaultFormat } = require('../formats');
+const { DEFAULT_FORMAT } = require('../formats');
 
 const { getReason, getProps } = require('./reasons');
 const { normalizeError } = require('./main');
@@ -33,7 +33,7 @@ const fillError = function ({
     queryvars,
     headers,
     payload,
-    format: { name: format = 'raw' } = defaultFormat,
+    format: { name: format = 'raw' } = DEFAULT_FORMAT,
     charset,
     rpc,
     summary,
