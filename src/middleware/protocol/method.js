@@ -18,9 +18,9 @@ const parseMethod = function ({ specific, protocolHandler: { getMethod } }) {
 };
 
 const validateAllowedMethod = function ({ method }) {
-  if (METHODS.includes(method)) { return; }
+  if (method === undefined || METHODS.includes(method)) { return; }
 
-  const message = 'Protocol method is not allowed';
+  const message = `Protocol method '${method}' is not allowed`;
   throwError(message, { reason: 'WRONG_METHOD' });
 };
 
