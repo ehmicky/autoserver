@@ -34,12 +34,6 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
-  // Method is not supported, or most likely not allowed for this rpc
-  // Or tried to use a protocol method that is not supported, e.g. TRACE
-  WRONG_METHOD: {
-    status: 'CLIENT_ERROR',
-  },
-
   // Invalid command, e.g. collection does not exist
   WRONG_COMMAND: {
     status: 'CLIENT_ERROR',
@@ -65,6 +59,12 @@ const PROPS = {
   DB_MODEL_NOT_FOUND: {
     status: 'CLIENT_ERROR',
     title: 'Model not found',
+  },
+
+  // Method is not supported, or most likely not allowed for this rpc
+  // Or tried to use a protocol method that is not supported, e.g. TRACE
+  WRONG_METHOD: {
+    status: 'CLIENT_ERROR',
   },
 
   // Wrong requested format or charset for the response payload

@@ -12,7 +12,10 @@ const { setStatusCode } = require('./status');
 const send = async function ({
   specific: { req, res } = {},
   content,
-  metadata = {},
+  response: {
+    data = {},
+    metadata = {},
+  } = {},
   type,
   mime,
   reason,
@@ -26,7 +29,7 @@ const send = async function ({
 
   setStatusCode({ res, reason });
 
-  setHeaders({ res, mime, content, type, metadata });
+  setHeaders({ res, mime, content, type, data, metadata });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
@@ -42,6 +45,7 @@ const setHeaders = function ({
   mime,
   content,
   type,
+  data,
   metadata: { responsetime },
 }) {
   // Should theoritically be calculated before `args.silent` is applied,
@@ -50,14 +54,25 @@ const setHeaders = function ({
   // clients crash
   const contentLength = Buffer.byteLength(content);
 
+  const allow = getAllow({ data });
+
   const headers = {
     'Content-Type': mime,
     'Content-Length': contentLength,
+    Allow: allow,
     'X-Response-Time': responsetime,
   };
   setAllHeaders(res, headers);
 
   setVary({ res, type });
+};
+
+// On WRONG_METHOD errors
+const getAllow = function ({ data: { allowedMethods } }) {
+  const allow = allowedMethods;
+  if (allow === undefined) { return; }
+
+  return allow.join(', ');
 };
 
 const setAllHeaders = function (res, headers) {

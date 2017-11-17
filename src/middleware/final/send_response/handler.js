@@ -26,7 +26,7 @@ const sendResponse = async function ({
 
   validateResponse({ response: responseB });
 
-  const { type } = responseB;
+  const { type, content: responseC } = responseB;
 
   const content = transformContent({ response: responseB, mInput, rpcHandler });
 
@@ -34,7 +34,8 @@ const sendResponse = async function ({
     protocolHandler,
     specific,
     content,
-    metadata,
+    // Response before transformation
+    response: responseC,
     type,
     format,
     charset,

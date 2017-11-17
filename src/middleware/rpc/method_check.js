@@ -12,7 +12,8 @@ const methodCheck = function ({ rpcHandler: { methods, title }, method }) {
   if (allowedMethod) { return; }
 
   const message = `Protocol method '${method}' is not allowed with ${title}`;
-  throwError(message, { reason: 'WRONG_METHOD' });
+  const allowedMethods = methods;
+  throwError(message, { reason: 'WRONG_METHOD', extra: { allowedMethods } });
 };
 
 module.exports = {
