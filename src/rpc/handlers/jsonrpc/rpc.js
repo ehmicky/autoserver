@@ -2,8 +2,8 @@
 
 const routes = require('./routes');
 const methods = require('./methods');
-const { handler } = require('./handler');
 const { transformSuccess, transformError } = require('./response');
+const { handler } = require('./handler');
 
 const rpc = {
   name: 'jsonrpc',
