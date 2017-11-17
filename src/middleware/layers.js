@@ -47,22 +47,22 @@ const middlewareLayers = [
       protocol.setRequestids,
       // Retrieves IP
       protocol.getIp,
-      // Parse protocol-specific input
-      protocol.parseProtocolInput,
       // Parse URL into protocol-agnostic format
       protocol.parseOrigin,
       // Parse URL query string into protocol-agnostic format
       protocol.parseQueryString,
-      // Parse format|charset arguments
-      protocol.parseFormatCharset,
-      // Parse request payload into protocol-agnostic format
-      protocol.parsePayload,
       // Parse headers into protocol-agnostic format
       protocol.parseHeaders,
       // Parse protocol method into protocol-agnostic format
       protocol.parseMethod,
       // Parse path into protocol-agnostic format
       protocol.parsePath,
+      // Parse protocol-specific input
+      protocol.parseProtocolInput,
+      // Parse format|charset arguments
+      protocol.parseFormatCharset,
+      // Parse request payload into protocol-agnostic format
+      protocol.parsePayload,
       // Retrieves mInput.rpc, using mInput.path
       protocol.router,
 
