@@ -63,6 +63,8 @@ const middlewareLayers = [
       protocol.parseFormatCharset,
       // Parse request payload into protocol-agnostic format
       protocol.parsePayload,
+      // Normalizes protocol handlers
+      protocol.protocolNormalization,
       // Retrieves mInput.rpc, using mInput.path
       protocol.router,
 
