@@ -39,10 +39,19 @@ const allRoutes = getAllRoutes();
 
 // Retrieves correct route, according to path
 const findRoute = function ({ path }) {
+  validateMissingPath({ path });
+
   const route = allRoutes.find(({ regexp }) => regexp.test(path));
   if (route !== undefined) { return route; }
 
   const message = 'The requested URL was not found';
+  throwError(message, { reason: 'ROUTE_NOT_FOUND' });
+};
+
+const validateMissingPath = function ({ path }) {
+  if (path) { return; }
+
+  const message = 'No path was specified';
   throwError(message, { reason: 'ROUTE_NOT_FOUND' });
 };
 
