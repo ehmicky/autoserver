@@ -8,11 +8,19 @@ const { METHODS } = require('../../constants');
 const parseMethod = function ({ specific, protocolHandler: { getMethod } }) {
   const method = getMethod({ specific });
   validateMethod({ method });
+  validateAllowedMethod({ method });
 
   return { method };
 };
 
 const validateMethod = function ({ method }) {
+  if (typeof method === 'string') { return; }
+
+  const message = `'method' must be a string, not '${method}'`;
+  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+};
+
+const validateAllowedMethod = function ({ method }) {
   if (METHODS.includes(method)) { return; }
 
   const message = 'Protocol method is not allowed';
