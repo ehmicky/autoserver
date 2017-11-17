@@ -125,7 +125,7 @@ const PROPS = {
 
   // Request did not pass schema validation, e.g. `args` was not provided,
   // indicating a server bug
-  INPUT_SERVER_VALIDATION: {
+  SERVER_INPUT_VALIDATION: {
     status: 'SERVER_ERROR',
   },
 

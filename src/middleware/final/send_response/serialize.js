@@ -31,7 +31,7 @@ const stringifyContent = function ({ format: { name }, content }) {
 // Charset encoding is done in a protocol-agnostic way
 const eEncode = addGenErrorHandler(encode, {
   message: ({ charset }) => `The response is invalid: the charset '${charset}' could not be encoded`,
-  reason: 'INPUT_SERVER_VALIDATION',
+  reason: 'SERVER_INPUT_VALIDATION',
 });
 
 // When `args.silent` is used (unless this is an error response).
