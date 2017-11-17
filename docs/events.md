@@ -169,7 +169,6 @@ event payload, with the properties:
     in milliseconds. Only defined if the request was successful.
   - `ip` `{string}`
   - [`protocol`](protocols.md) `{string}` - e.g. `'http'`
-  - `url` `{string}` - full URL
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
   - `method` `{string}` - [protocol](protocols.md)-agnostic method,

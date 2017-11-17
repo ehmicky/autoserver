@@ -3,12 +3,10 @@
 const { throwError } = require('../../error');
 const { METHODS } = require('../../constants');
 
-// Fill in:
-//  - `mInput.method`: protocol method, e.g. 'POST'
+// Fill in `mInput.method`, protocol method, e.g. 'POST'
 // Meant to be used by rpc layer.
-const parseMethod = function ({ specific, protocolHandler }) {
-  const method = protocolHandler.getMethod({ specific });
-
+const parseMethod = function ({ specific, protocolHandler: { getMethod } }) {
+  const method = getMethod({ specific });
   validateMethod({ method });
 
   return { method };

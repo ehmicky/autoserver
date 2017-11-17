@@ -1,6 +1,12 @@
 'use strict';
 
-const { format: urlFormat, URL } = require('url');
+const { format: urlFormat } = require('url');
+
+// Retrieves full URL
+const getUrl = function ({ specific, specific: { req: { url } } }) {
+  const origin = getOrigin({ specific });
+  return `${origin}${url}`;
+};
 
 // Retrieves origin, i.e. protocol + hostname + port
 const getOrigin = function ({
@@ -23,19 +29,7 @@ const getOrigin = function ({
   return origin;
 };
 
-// Retrieves path without query string nor hash
-const getPath = function ({ specific: { req: { url } } }) {
-  return url.replace(/[?#].*/, '');
-};
-
-// Retrieves query string from a URL
-const getQueryString = function ({ specific: { req: { url } } }) {
-  const { search = '' } = new URL(`http://localhost/${url}`);
-  return search;
-};
-
 module.exports = {
+  getUrl,
   getOrigin,
-  getPath,
-  getQueryString,
 };
