@@ -59,8 +59,16 @@ const parseContent = function ({ format, payload }) {
   return parse({ format: format.name, content: payload });
 };
 
+const getMessage = function ({ format: { title }, payload }) {
+  if (!payload) {
+    return 'The request payload is empty';
+  }
+
+  return `The request payload is invalid ${title}`;
+};
+
 const eParseContent = addGenErrorHandler(parseContent, {
-  message: ({ format: { title } }) => `The request payload is invalid ${title}`,
+  message: getMessage,
   reason: 'PAYLOAD_PARSE',
 });
 
