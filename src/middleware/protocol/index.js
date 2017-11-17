@@ -12,6 +12,7 @@ module.exports = {
   ...require('./protocol_input'),
   ...require('./format_charset'),
   ...require('./payload'),
+  ...require('./normalize'),
   ...require('./router'),
 
   // eslint-disable-next-line import/max-dependencies

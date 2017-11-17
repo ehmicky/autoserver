@@ -6,6 +6,8 @@ const { validateProtocolString } = require('./validate_parsing');
 // Uses protocol-specific URL retrieval, but are set in a
 // protocol-agnostic format, i.e. each protocol sets the same strings.
 const parsePath = function ({ protocolHandler: { getPath }, specific }) {
+  if (getPath === undefined) { return; }
+
   const path = getPath({ specific });
   validateProtocolString({ path });
 

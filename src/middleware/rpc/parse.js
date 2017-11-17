@@ -6,20 +6,20 @@ const parseRpc = function ({
   schema,
   origin,
   queryvars,
+  headers,
   method,
   path,
   pathvars,
-  headers,
   payload,
 }) {
   return handler({
     schema,
     origin,
     queryvars,
+    headers,
     method,
     path,
     pathvars,
-    headers,
     payload,
   });
 };

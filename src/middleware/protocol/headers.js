@@ -10,6 +10,8 @@ const parseHeaders = function ({
   protocolHandler: { getHeaders },
   topargs = {},
 }) {
+  if (getHeaders === undefined) { return { topargs }; }
+
   const headers = getHeaders({ specific });
   validateProtocolObject({ headers });
 

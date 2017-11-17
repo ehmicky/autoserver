@@ -8,6 +8,8 @@ const { validateProtocolString } = require('./validate_parsing');
 // Fill in `mInput.method`, protocol method, e.g. 'POST'
 // Meant to be used by rpc layer.
 const parseMethod = function ({ specific, protocolHandler: { getMethod } }) {
+  if (getMethod === undefined) { return; }
+
   const method = getMethod({ specific });
   validateProtocolString({ method });
   validateAllowedMethod({ method });
