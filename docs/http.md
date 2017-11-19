@@ -25,3 +25,8 @@ The following HTTP request headers have specific interpretations:
     do.
   - `Prefer: return=minimal` sets the [`silent` argument](silent.md) to `true`
     Same thing for the `HEAD` method.
+  - `X-HTTP-Method-Override: METHOD` overrides the current HTTP method 
+    (which must be `POST`)
+
+The following HTTP response headers might be set, depending on the response:
+`Content-Type`, `Content-Length`, `Vary`, `Allow`, `X-Response-Time`.
