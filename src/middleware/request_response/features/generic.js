@@ -1,7 +1,5 @@
 'use strict';
 
-const { assignObject } = require('../../../utilities');
-
 // Adapter feature `featureName` allows for `args[argName]`
 const getGenericValidator = function ({ argName, dbName, featureName }) {
   const validator = genericValidator.bind(null, { argName, dbName });
@@ -19,10 +17,9 @@ const FEATURES = [
   { argName: 'page', dbName: 'offset', featureName: 'offset' },
 ];
 
-const genericValidators = FEATURES
-  .map(getGenericValidator)
-  .reduce(assignObject, {});
+const genericValidators = FEATURES.map(getGenericValidator);
+const genericValidatorsA = Object.assign({}, ...genericValidators);
 
 module.exports = {
-  genericValidators,
+  genericValidators: genericValidatorsA,
 };

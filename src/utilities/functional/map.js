@@ -1,7 +1,6 @@
 'use strict';
 
 const { checkObject } = require('./validate');
-const { assignObject } = require('./reduce');
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
 const mapValues = function (obj, mapperFunc) {
@@ -43,7 +42,7 @@ const mapValuesAsync = async function (obj, mapperFunc) {
 
   // Run in parallel
   const valuesArray = await Promise.all(promises);
-  const valuesObj = valuesArray.reduce(assignObject, {});
+  const valuesObj = Object.assign({}, ...valuesArray);
 
   return valuesObj;
 };

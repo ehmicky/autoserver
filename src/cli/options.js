@@ -2,13 +2,11 @@
 
 const { dasherize } = require('underscore.string');
 
-const { assignObject } = require('../utilities');
-
 // Retrieve CLI options from `instruction`
 const getCliOptions = function ({ instruction: { options } }) {
-  return options
-    .map(getCliOption)
-    .reduce(assignObject, {});
+  const cliOptions = options.map(getCliOption);
+  const cliOptionsA = Object.assign({}, ...cliOptions);
+  return cliOptionsA;
 };
 
 // Map from `availableOptions` types and yargs types
@@ -37,11 +35,13 @@ const getType = function ({ subConfFiles, validate: { type } = {} }) {
 };
 
 const getCliOption = function (option) {
-  const cliOption = cliOptionsParams
-    .map(func => func(option))
-    .reduce(assignObject, {});
-  const name = dasherize(option.name);
-  return { [name]: cliOption };
+  const { name } = option;
+  const nameA = dasherize(name);
+
+  const cliOption = cliOptionsParams.map(func => func(option));
+  const cliOptionA = Object.assign({}, ...cliOption);
+
+  return { [nameA]: cliOptionA };
 };
 
 // Option type, for parsing and --help message

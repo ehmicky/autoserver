@@ -1,6 +1,6 @@
 'use strict';
 
-const { pick, omit, assignObject } = require('../../../utilities');
+const { pick, omit } = require('../../../utilities');
 
 const { getPaginationInfo } = require('./info');
 const { decode } = require('./encoding');
@@ -74,11 +74,17 @@ const getPaginatedFilter = function ({
   isBackward,
 }) {
   const partsObj = parts
-    .map((part, index) => ({ [order[index].attrName]: part }))
-    .reduce(assignObject, {});
+    .map((part, index) => ({ [order[index].attrName]: part }));
+  const partsObjA = Object.assign({}, ...partsObj);
 
-  const filter = order.map(({ attrName, dir }, index) =>
-    getFilterPart({ tokenObj, isBackward, partsObj, attrName, dir, index }));
+  const filter = order.map(({ attrName, dir }, index) => getFilterPart({
+    tokenObj,
+    isBackward,
+    partsObj: partsObjA,
+    attrName,
+    dir,
+    index,
+  }));
   return filter.length === 1
     ? filter[0]
     : { type: '_and', value: filter };

@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit, assignObject } = require('../../../utilities');
+const { omit } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
 // Transforms can copy each `alias` as a real attribute,
@@ -23,9 +23,10 @@ const createAliases = function ({ coll, attrs, attr, attrName }) {
   if (!attr.alias) { return {}; }
   const aliases = Array.isArray(attr.alias) ? attr.alias : [attr.alias];
 
-  return aliases
-    .map(alias => createAlias({ coll, attrs, attr, attrName, alias }))
-    .reduce(assignObject, {});
+  const aliasesA = aliases
+    .map(alias => createAlias({ coll, attrs, attr, attrName, alias }));
+  const aliasesB = Object.assign({}, ...aliasesA);
+  return aliasesB;
 };
 
 const createAlias = function ({ coll, attrs, attr, attrName, alias }) {
