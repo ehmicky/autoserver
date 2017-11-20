@@ -165,7 +165,7 @@ event payload, with the properties:
     Also available in response's `metadata.requestid` property
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
-  - `responsetime` `{number}` - time it took to handle the request,
+  - `duration` `{number}` - time it took to handle the request,
     in milliseconds. Only defined if the request was successful.
   - `ip` `{string}`
   - [`protocol`](protocols.md) `{string}` - e.g. `'http'`

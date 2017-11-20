@@ -44,7 +44,7 @@ const setHeaders = function ({
   content,
   type,
   data,
-  metadata: { responsetime },
+  metadata: { duration },
 }) {
   // Should theoritically be calculated before `args.silent` is applied,
   // to follow HTTP spec for HEAD method.
@@ -58,7 +58,7 @@ const setHeaders = function ({
     'Content-Type': mime,
     'Content-Length': contentLength,
     Allow: allow,
-    'X-Response-Time': responsetime,
+    'X-Response-Time': duration,
   };
   setAllHeaders(res, headers);
 
