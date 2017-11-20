@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignObject, reduceAsync } = require('../../utilities');
+const { reduceAsync } = require('../../utilities');
 const { monitor } = require('../../perf');
 const { protocolHandlers } = require('../../protocols');
 
@@ -15,8 +15,7 @@ const launchServers = async function (options) {
     .map(protocolHandler => kLaunchEachServer(options, protocolHandler));
   const serverFactsArray = await Promise.all(serverFactsPromises);
 
-  // From [{ protocol: serverFacts }, ...] to { protocol: serverFacts, ... }
-  const servers = serverFactsArray.reduce(assignObject, {});
+  const servers = Object.assign({}, ...serverFactsArray);
 
   return { servers };
 };

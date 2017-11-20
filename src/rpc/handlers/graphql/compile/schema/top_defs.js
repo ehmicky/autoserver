@@ -2,11 +2,7 @@
 
 const { capitalize } = require('underscore.string');
 
-const {
-  assignObject,
-  mapValues,
-  mapKeys,
-} = require('../../../../../utilities');
+const { mapValues, mapKeys } = require('../../../../../utilities');
 const { COMMANDS } = require('../../../../../constants');
 
 const { getCommandName, getTypeName } = require('./name');
@@ -39,11 +35,12 @@ const getTopDef = function ({ collections, graphqlMethod, commands }) {
 
 // Retrieve attributes for a given GraphQL method
 const getCommandsDefs = function ({ collections, commands }) {
-  return COMMANDS
+  const attributes = COMMANDS
     .map(({ type }) => type)
     .filter(type => commands.includes(type))
-    .map(command => getCommandDef({ collections, command }))
-    .reduce(assignObject, {});
+    .map(command => getCommandDef({ collections, command }));
+  const attributesA = Object.assign({}, ...attributes);
+  return attributesA;
 };
 
 // Retrieve attributes for a given command

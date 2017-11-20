@@ -1,6 +1,6 @@
 'use strict';
 
-const { get, set, assignObject, mapValues } = require('../../../utilities');
+const { get, set, mapValues } = require('../../../utilities');
 
 // Applies `args.select`.
 // Only output the fields that were picked by the client.
@@ -29,9 +29,9 @@ const selectFieldsByModel = function ({ model, select }) {
 
   // Make sure return value is sorted in the same order as `select`
   const modelA = select
-    .map(({ key, outputName = key }) => ({ [outputName]: model[key] }))
-    .reduce(assignObject, {});
-  return modelA;
+    .map(({ key, outputName = key }) => ({ [outputName]: model[key] }));
+  const modelB = Object.assign({}, ...modelA);
+  return modelB;
 };
 
 // Transform `undefined` to `null`

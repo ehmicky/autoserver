@@ -2,15 +2,6 @@
 
 const { promiseThen } = require('./promise');
 
-// Uses to reduce:
-//  - an array of objects -> object, e.g. [{...},{...}].reduce(assign, {})
-//  - an array of [key, value] -> object,
-//    e.g. Object.entries(object).map(...).reduce(assign, {})
-const assignObject = function (memo, val) {
-  const obj = Array.isArray(val) ? { [val[0]]: val[1] } : val;
-  return { ...memo, ...(obj || {}) };
-};
-
 // Like Array.reduce(), but supports async
 // eslint-disable-next-line max-params
 const reduceAsync = function (array, mapFunc, prevVal, secondMapFunc) {
@@ -37,6 +28,5 @@ const applySecondMap = function (prevVal, input, nextVal) {
 };
 
 module.exports = {
-  assignObject,
   reduceAsync,
 };

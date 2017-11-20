@@ -1,7 +1,7 @@
 'use strict';
 
 const { monitor, emitPerfEvent } = require('../../perf');
-const { assignObject, uniq, onlyOnce } = require('../../utilities');
+const { uniq, onlyOnce } = require('../../utilities');
 
 const { closeServer } = require('./server_close');
 const { closeDbAdapter } = require('./db_close');
@@ -40,7 +40,7 @@ const gracefulExit = async function ({
     .map(dbAdapter => closeDbAdapter({ dbAdapter, runOpts, measures }));
 
   const exitcodesArray = await Promise.all([...serverPromises, ...dbPromises]);
-  const exitcodes = exitcodesArray.reduce(assignObject, {});
+  const exitcodes = Object.assign({}, ...exitcodesArray);
 
   return { exitcodes };
 };

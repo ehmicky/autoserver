@@ -1,7 +1,5 @@
 'use strict';
 
-const { assignObject } = require('../../../../../utilities');
-
 // Transform `args.filter` into MongoDB query object
 // Applied recursively
 const getQueryFilter = function ({ type, value, attrName }) {
@@ -23,16 +21,16 @@ const andOperator = function ({ value }) {
 
 const someOperator = function ({ value, attrName }) {
   const elemMatch = value
-    .map(node => getGenericNode({ ...node, key: 'opName' }))
-    .reduce(assignObject, {});
-  return { [attrName]: { $elemMatch: elemMatch } };
+    .map(node => getGenericNode({ ...node, key: 'opName' }));
+  const elemMatchA = Object.assign({}, ...elemMatch);
+  return { [attrName]: { $elemMatch: elemMatchA } };
 };
 
 const allOperator = function ({ value, attrName }) {
   const elemMatch = value
-    .map(node => getGenericNode({ ...node, key: 'inverse' }))
-    .reduce(assignObject, {});
-  return { [attrName]: { $not: { $elemMatch: elemMatch } } };
+    .map(node => getGenericNode({ ...node, key: 'inverse' }));
+  const elemMatchA = Object.assign({}, ...elemMatch);
+  return { [attrName]: { $not: { $elemMatch: elemMatchA } } };
 };
 
 const genericOperator = function ({ type, value, attrName }) {

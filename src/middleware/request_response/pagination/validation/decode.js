@@ -1,15 +1,14 @@
 'use strict';
 
-const { assignObject } = require('../../../../utilities');
 const { addGenErrorHandler } = require('../../../../error');
 const { decode } = require('../encoding');
 
 const getDecodedTokens = function ({ args }) {
   const decodedTokens = ['before', 'after']
     .filter(isNotEmptyToken.bind(null, { args }))
-    .map(getDecodedToken.bind(null, { args }))
-    .reduce(assignObject, {});
-  return decodedTokens;
+    .map(getDecodedToken.bind(null, { args }));
+  const decodedTokensA = Object.assign({}, ...decodedTokens);
+  return decodedTokensA;
 };
 
 const isNotEmptyToken = function ({ args }, name) {

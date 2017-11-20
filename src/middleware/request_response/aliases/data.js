@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit, assignObject, isEqual } = require('../../../utilities');
+const { omit, isEqual } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
 // Apply `alias` in `args.data`
@@ -42,11 +42,12 @@ const applyDataAlias = function ({ newData, currentData, attrName, aliases }) {
 // attribute, unless it is "not defined".
 const getAliasData = function ({ newData, currentData, attrName, aliases }) {
   const newDataKeys = Object.keys(newData);
-  return [attrName, ...aliases]
+  const aliasData = [attrName, ...aliases]
     .filter(name => newDataKeys.includes(name) &&
       (!currentData || !isEqual(newData[name], currentData[name])))
-    .map(name => ({ [name]: newData[name] }))
-    .reduce(assignObject, {});
+    .map(name => ({ [name]: newData[name] }));
+  const aliasDataA = Object.assign({}, ...aliasData);
+  return aliasDataA;
 };
 
 // If the request specifies several aliases, all values must be equal

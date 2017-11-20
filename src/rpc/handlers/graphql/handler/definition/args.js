@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../../../error');
-const { assignObject, mapValues } = require('../../../../../utilities');
+const { mapValues } = require('../../../../../utilities');
 const { validateDuplicates } = require('../duplicates');
 
 // Parse GraphQL arguments, for each possible argument type
@@ -21,14 +21,13 @@ const parseObject = function ({ fields: args, variables }) {
   // And GraphQL spec 5.5.1 'Input Object Field Uniqueness'
   validateDuplicates({ nodes: args, type: 'arguments' });
 
-  const argsA = args
-    .map(arg => ({ [arg.name.value]: arg }))
-    .reduce(assignObject, {});
-  const argsB = mapValues(
-    argsA,
+  const argsA = args.map(arg => ({ [arg.name.value]: arg }));
+  const argsB = Object.assign({}, ...argsA);
+  const argsC = mapValues(
+    argsB,
     ({ value: arg }) => argParsers[arg.kind]({ ...arg, variables })
   );
-  return argsB;
+  return argsC;
 };
 
 const parseArray = function ({ values, variables }) {
