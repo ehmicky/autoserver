@@ -8,7 +8,7 @@ const { DEFAULT_FORMAT } = require('../../formats');
 const buildRequestinfo = function ({
   requestid,
   timestamp,
-  responsetime,
+  duration,
   ip,
   protocol,
   origin,
@@ -44,7 +44,7 @@ const buildRequestinfo = function ({
   return {
     requestid,
     timestamp,
-    responsetime,
+    duration,
     ip,
     protocol,
     origin,

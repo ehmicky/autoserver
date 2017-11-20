@@ -28,7 +28,7 @@ const filterMetadata = function ({ type, metadata }) {
 const ERROR_METADATA = [
   'requestid',
   'serverid',
-  'responsetime',
+  'duration',
 ];
 
 module.exports = {
