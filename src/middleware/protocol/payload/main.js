@@ -3,8 +3,8 @@
 const { decode } = require('iconv-lite');
 
 const { addGenErrorHandler } = require('../../../error');
-const { parse } = require('../../../formats');
-const { DEFAULT_FORMAT, DEFAULT_INPUT_CHARSET } = require('../../../charsets');
+const { parse, DEFAULT_FORMAT } = require('../../../formats');
+const { DEFAULT_INPUT_CHARSET } = require('../../../charsets');
 
 const { getRawPayload } = require('./raw');
 
