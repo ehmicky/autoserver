@@ -56,19 +56,19 @@ const validateCollname = function ({
   if (isValid) { return; }
 
   const message = `Command '${commandName}' is unknown`;
-  const allowedCommands = getAllowedCommands({ collsMap });
-  throwError(message, { reason: 'WRONG_COMMAND', extra: { allowedCommands } });
+  const allowed = getAllowed({ collsMap });
+  throwError(message, { reason: 'WRONG_COMMAND', extra: { allowed } });
 };
 
 // Returns all possible commands
-const getAllowedCommands = function ({ collsMap }) {
+const getAllowed = function ({ collsMap }) {
   const collnames = Object.keys(collsMap);
   const commands = COMMANDS.map(({ type }) => type);
   const commandsA = uniq(commands);
-  const allowedCommands = commandsA
+  const allowed = commandsA
     .map(command => getAllowedCommand({ command, collnames }))
     .reduce(assignArray, []);
-  return allowedCommands;
+  return allowed;
 };
 
 const getAllowedCommand = function ({ command, collnames }) {
