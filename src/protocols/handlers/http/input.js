@@ -5,6 +5,7 @@ const parsePreferHeaderLib = require('parse-prefer-header');
 const { throwError, addGenErrorHandler } = require('../../../error');
 
 const { getFormat, getCharset } = require('./format_charset');
+const { getAgnosticMethod } = require('./method');
 
 // Using `X-HTTP-Method-Override` changes the method
 const getMethod = function ({ specific: { req: { headers } }, method }) {
@@ -12,7 +13,7 @@ const getMethod = function ({ specific: { req: { headers } }, method }) {
   if (!methodOverride) { return; }
 
   if (method === 'POST') {
-    return methodOverride.toUpperCase();
+    return getAgnosticMethod({ method: methodOverride });
   }
 
   const message = `The HTTP header 'X-HTTP-Method-Override' must be used with the HTTP method POST, not ${method}`;
