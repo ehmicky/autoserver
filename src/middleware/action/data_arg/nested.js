@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray, uniq } = require('../../../utilities');
+const { flatten, uniq } = require('../../../utilities');
 const { getColl } = require('../get_coll');
 
 const { getDataPath } = require('./data_path');
@@ -8,14 +8,13 @@ const { isObject } = require('./validate');
 
 // Retrieve the keys of an `args.data` object which are nested collections
 const getNestedKeys = function ({ data, commandpath, top, collsMap }) {
-  const nestedKeys = data
-    .map(Object.keys)
-    .reduce(assignArray, []);
-  const nestedKeysA = uniq(nestedKeys);
+  const nestedKeys = data.map(Object.keys);
+  const nestedKeysA = flatten(nestedKeys);
+  const nestedKeysB = uniq(nestedKeysA);
   // Keep only the keys which are nested collections
-  const nestedKeysB = nestedKeysA
+  const nestedKeysC = nestedKeysB
     .filter(attrName => isModel({ attrName, commandpath, top, collsMap }));
-  return nestedKeysB;
+  return nestedKeysC;
 };
 
 const isModel = function ({ attrName, commandpath, top, collsMap }) {
@@ -26,9 +25,10 @@ const isModel = function ({ attrName, commandpath, top, collsMap }) {
 
 // Retrieve children actions of an `args.data` object by iterating over them
 const getNestedActions = function ({ nestedKeys, ...rest }) {
-  return nestedKeys
-    .map(nestedKey => getNestedAction({ ...rest, nestedKey }))
-    .reduce(assignArray, []);
+  const nestedActions = nestedKeys
+    .map(nestedKey => getNestedAction({ ...rest, nestedKey }));
+  const nestedActionsA = flatten(nestedActions);
+  return nestedActionsA;
 };
 
 const getNestedAction = function ({
@@ -55,21 +55,21 @@ const getNestedAction = function ({
 
 // Retrieve nested data
 const getData = function ({ data, nestedKey }) {
-  return data
-    .map(datum => datum[nestedKey])
-    .reduce(assignArray, [])
-    .filter(isObject);
+  const nestedData = data.map(datum => datum[nestedKey]);
+  const nestedDataA = flatten(nestedData);
+  const nestedDataB = nestedDataA.filter(isObject);
+  return nestedDataB;
 };
 
 // Add the `dataPaths` to the nested data, by adding `nestedKey` to each parent
 // `dataPaths`
 const getDataPaths = function ({ dataPaths, data, nestedKey }) {
-  return dataPaths
-    .map((dataPath, index) => getDataPath({
-      data: data[index][nestedKey],
-      commandpath: [...dataPath, nestedKey],
-    }))
-    .reduce(assignArray, []);
+  const dataPathsA = dataPaths.map((dataPath, index) => getDataPath({
+    data: data[index][nestedKey],
+    commandpath: [...dataPath, nestedKey],
+  }));
+  const dataPathsB = flatten(dataPathsA);
+  return dataPathsB;
 };
 
 module.exports = {

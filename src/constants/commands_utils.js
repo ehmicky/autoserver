@@ -1,6 +1,6 @@
 'use strict';
 
-const { uniq, assignArray } = require('../utilities');
+const { uniq } = require('../utilities');
 
 const COMMANDS = require('./commands');
 
@@ -11,7 +11,6 @@ const COMMAND_TYPES = uniq(TYPES);
 const mergeCommandpaths = function ({ actions }) {
   return actions
     .map(({ commandpath }) => commandpath.join('.'))
-    .reduce(assignArray, [])
     .join(', ');
 };
 

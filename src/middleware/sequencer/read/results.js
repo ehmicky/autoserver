@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../../../utilities');
+const { flatten } = require('../../../utilities');
 
 // Normalize results to an object with `path`, `model`, `collname`, `select`
 // Then push to shared `results` variable
@@ -10,7 +10,7 @@ const processResults = function ({
   pendingResults,
   ...rest
 }) {
-  const finishedResultsA = finishedResults.reduce(assignArray, []);
+  const finishedResultsA = flatten(finishedResults);
 
   const finishedResultsB = getResults({ ...rest, results: finishedResultsA });
 
@@ -39,12 +39,12 @@ const getResults = function ({
 
   // Nested results reuse `nestedParentIds` to assign proper `path` index.
   // Also it reuses its order, so sorting is kept
-  return nestedParentIds
-    .map((ids, index) => {
-      const { path } = parentResults[index];
-      return getEachResults({ ids, path, results, ...rest });
-    })
-    .reduce(assignArray, []);
+  const finishedResults = nestedParentIds.map((ids, index) => {
+    const { path } = parentResults[index];
+    return getEachResults({ ids, path, results, ...rest });
+  });
+  const finishedResultsA = flatten(finishedResults);
+  return finishedResultsA;
 };
 
 const getEachResults = function ({ ids, results, ...rest }) {

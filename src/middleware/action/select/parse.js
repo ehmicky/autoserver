@@ -1,6 +1,6 @@
 'use strict';
 
-const { groupBy, uniq, omit, assignArray } = require('../../../utilities');
+const { groupBy, uniq, omit, flatten } = require('../../../utilities');
 
 const { addParentSelects } = require('./parent');
 const { validateSelectPart, validateSelects } = require('./validate');
@@ -9,10 +9,10 @@ const { validateSelectPart, validateSelects } = require('./validate');
 const parseSelect = function ({ actions, top }) {
   const selects = actions
     .filter(({ args: { select } }) => select !== undefined)
-    .map(parseSelectArg)
-    .reduce(assignArray, []);
+    .map(parseSelectArg);
+  const selectsA = flatten(selects);
 
-  const actionsA = addSelects({ actions, selects, top });
+  const actionsA = addSelects({ actions, selects: selectsA, top });
 
   return { actions: actionsA };
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../utilities');
+const { flatten } = require('../utilities');
 
 const { reportErrors } = require('./report_error');
 
@@ -19,13 +19,13 @@ const validate = function ({
   const isValid = compiledJsonSchema(dataA);
   if (isValid) { return; }
 
-  const errors = compiledJsonSchema.errors
-    .reduce(assignArray, [])
-    .filter(val => val);
+  const { errors } = compiledJsonSchema;
+  const errorsA = flatten(errors);
+  const errorsB = errorsA.filter(val => val);
 
-  if (errors.length === 0) { return; }
+  if (errorsB.length === 0) { return; }
 
-  reportErrors({ errors, dataVar, reason, message });
+  reportErrors({ errors: errorsB, dataVar, reason, message });
 };
 
 module.exports = {

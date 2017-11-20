@@ -1,6 +1,6 @@
 'use strict';
 
-const { deepMerge, uniq, assignArray } = require('../../utilities');
+const { deepMerge, uniq, flatten } = require('../../utilities');
 const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 
@@ -66,9 +66,9 @@ const getAllowed = function ({ collsMap }) {
   const commands = COMMANDS.map(({ type }) => type);
   const commandsA = uniq(commands);
   const allowed = commandsA
-    .map(command => getAllowedCommand({ command, collnames }))
-    .reduce(assignArray, []);
-  return allowed;
+    .map(command => getAllowedCommand({ command, collnames }));
+  const allowedA = flatten(allowed);
+  return allowedA;
 };
 
 const getAllowedCommand = function ({ command, collnames }) {

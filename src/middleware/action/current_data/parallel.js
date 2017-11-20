@@ -1,7 +1,7 @@
 'use strict';
 
 const {
-  assignArray,
+  flatten,
   groupBy,
   groupValuesBy,
   mapValues,
@@ -55,10 +55,10 @@ const getArgs = function ({ actions }) {
 };
 
 const getIds = function ({ actions }) {
-  return actions
-    .map(({ args: { data } }) => data)
-    .reduce(assignArray, [])
-    .map(({ id }) => id);
+  const dataA = actions.map(({ args: { data } }) => data);
+  const dataB = flatten(dataA);
+  const ids = dataB.map(({ id }) => id);
+  return ids;
 };
 
 const getModels = function (results) {

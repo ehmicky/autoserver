@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../../../utilities');
+const { flatten } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
 const { handlers } = require('./args');
@@ -9,9 +9,10 @@ const { handlers } = require('./args');
 const getResults = function ({ actions, data, metadata, ids, top }) {
   validateData({ ids, data });
 
-  return actions
-    .map(action => setModels({ action, data, metadata, top }))
-    .reduce(assignArray, []);
+  const results = actions
+    .map(action => setModels({ action, data, metadata, top }));
+  const resultsA = flatten(results);
+  return resultsA;
 };
 
 // `results` should be in same order as `args.data` or

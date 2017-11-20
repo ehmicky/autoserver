@@ -2,15 +2,15 @@
 
 const { parse, tokensToRegExp } = require('path-to-regexp');
 
-const { assignArray } = require('../../../utilities');
+const { flatten } = require('../../../utilities');
 const { throwError } = require('../../../error');
 const { rpcHandlers } = require('../../../rpc');
 
 // Retrieve all routes regexps, rpc and variable names
 const getAllRoutes = function () {
-  return Object.values(rpcHandlers)
-    .map(getRoutes)
-    .reduce(assignArray, []);
+  const routes = Object.values(rpcHandlers).map(getRoutes);
+  const routesA = flatten(routes);
+  return routesA;
 };
 
 const getRoutes = function ({ routes, name: rpc }) {

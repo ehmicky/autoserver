@@ -1,6 +1,6 @@
 'use strict';
 
-const { isEqual, assignArray } = require('../../utilities');
+const { isEqual, flatten } = require('../../utilities');
 
 // Add new actions to the current request
 const addActions = function ({ actions, filter, mapper, ...rest }) {
@@ -10,10 +10,11 @@ const addActions = function ({ actions, filter, mapper, ...rest }) {
 };
 
 const getNewActions = function ({ actions, filter, mapper, ...rest }) {
-  return actions
+  const newActions = actions
     .filter(action => filter(action))
-    .map(action => mapper({ action, ...rest }))
-    .reduce(assignArray, []);
+    .map(action => mapper({ action, ...rest }));
+  const newActionsA = flatten(newActions);
+  return newActionsA;
 };
 
 // Merge two sets of actions

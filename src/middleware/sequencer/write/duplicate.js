@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../error');
-const { isEqual, assignArray, groupValuesBy } = require('../../../utilities');
+const { isEqual, flatten, groupValuesBy } = require('../../../utilities');
 
 // We remove duplicates for several reasons:
 //  - efficiency
@@ -10,7 +10,7 @@ const { isEqual, assignArray, groupValuesBy } = require('../../../utilities');
 //  - output consistency, i.e. each model has a single representation for a
 //    given request
 const removeDuplicates = function ({ models }) {
-  const modelsA = models.reduce(assignArray, []);
+  const modelsA = flatten(models);
   const modelsB = groupValuesBy(modelsA, 'id');
 
   const modelsC = modelsB.map(getUniqueModel);

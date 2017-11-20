@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('./reduce');
+const { flatten } = require('./flatten');
 const { result } = require('./result');
 
 // Similar to Lodash get(), but do not mutate, and faster
@@ -61,15 +61,17 @@ const setAll = function (obj, paths, val) {
 // as a single array of [value, key] elements
 const getAll = function (value, key = []) {
   if (value && value.constructor === Object) {
-    return Object.entries(value)
-      .map(([childKey, child]) => getAll(child, [...key, childKey]))
-      .reduce(assignArray, []);
+    const values = Object.entries(value)
+      .map(([childKey, child]) => getAll(child, [...key, childKey]));
+    const valuesA = flatten(values);
+    return valuesA;
   }
 
   if (Array.isArray(value)) {
-    return value
-      .map((child, childKey) => getAll(child, [...key, childKey]))
-      .reduce(assignArray, []);
+    const values = value
+      .map((child, childKey) => getAll(child, [...key, childKey]));
+    const valuesA = flatten(values);
+    return valuesA;
   }
 
   return [[value, key]];

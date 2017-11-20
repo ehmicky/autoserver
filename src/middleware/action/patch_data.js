@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray, groupBy, mapValues } = require('../../utilities');
+const { flatten, groupBy, mapValues } = require('../../utilities');
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement
@@ -23,9 +23,9 @@ const mergePartialData = function ({ actions }) {
 
 // Flatten `action.data` and `action.currentData` together
 const flattenActions = function ({ actions }) {
-  return actions
-    .map(flattenAction)
-    .reduce(assignArray, []);
+  const actionsA = actions.map(flattenAction);
+  const actionsB = flatten(actionsA);
+  return actionsB;
 };
 
 const flattenAction = function ({ currentData, args: { data }, collname }) {

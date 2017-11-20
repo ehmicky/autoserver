@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray, groupValuesBy } = require('../../../utilities');
+const { flatten, groupValuesBy } = require('../../../utilities');
 const { addErrorHandler, normalizeError } = require('../../../error');
 const { mergeCommandpaths } = require('../../../constants');
 
@@ -24,7 +24,7 @@ const sequenceWrite = async function ({ actions, top, mInput }, nextLayer) {
     .map(allInput => eFireResponseLayer({ ...allInput, top, nextLayer }));
   const results = await Promise.all(resultsPromises);
 
-  const resultsA = results.reduce(assignArray, []);
+  const resultsA = flatten(results);
   return { results: resultsA, inputs };
 };
 

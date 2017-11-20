@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray, uniq } = require('../../utilities');
+const { flatten, uniq } = require('../../utilities');
 const { throwError } = require('../../error');
 
 // Validate that attributes in `args.select|data|order` are in the
@@ -54,11 +54,10 @@ const getSelectKeys = function ({ action: { args: { select = [] } } }) {
 
 // Turn e.g. [{ a, b }, { a }] into ['a', 'b']
 const getDataKeys = function ({ action: { args: { data = [] } } }) {
-  const keys = data
-    .map(Object.keys)
-    .reduce(assignArray, []);
-  const keysA = uniq(keys);
-  return keysA;
+  const keys = data.map(Object.keys);
+  const keysA = flatten(keys);
+  const keysB = uniq(keysA);
+  return keysB;
 };
 
 const getOrderKeys = function ({ action: { args: { order = [] } } }) {
