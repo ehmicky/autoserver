@@ -4,6 +4,7 @@ const compressible = require('compressible');
 
 const { addGenErrorHandler } = require('../../../error');
 const { OBJECT_TYPES } = require('../../../constants');
+const { DEFAULT_COMPRESS } = require('../../../compress');
 
 // Response body compression
 const compressContent = async function ({ content, type, compress, mime }) {
@@ -29,10 +30,10 @@ const eCompressContent = addGenErrorHandler(compressContent, {
 
 // Do not try to compress binary content types
 const shouldCompress = function ({ compress, mime, type }) {
-  if (compress === undefined) { return false; }
-
-  // The `compressible` module is only used for non-model payloads
-  return OBJECT_TYPES.includes(type) || compressible(mime);
+  return compress !== undefined &&
+    compress.name !== DEFAULT_COMPRESS.name &&
+    // The `compressible` module is only used for non-model payloads
+    (OBJECT_TYPES.includes(type) || compressible(mime));
 };
 
 module.exports = {
