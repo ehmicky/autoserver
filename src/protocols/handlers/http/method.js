@@ -2,7 +2,17 @@
 
 // Retrieves HTTP method, but protocol-agnostic
 const getMethod = function ({ specific: { req: { method } } }) {
-  return METHODS_MAP[method] || method;
+  return getAgnosticMethod({ method });
+};
+
+const getAgnosticMethod = function ({ method }) {
+  if (typeof method !== 'string') { return method; }
+
+  const methodA = METHODS_MAP[method.toUpperCase()];
+
+  if (methodA === undefined) { return method; }
+
+  return methodA;
 };
 
 // This looks strange, but this is just to enforce the fact that the HTTP
@@ -19,4 +29,5 @@ const METHODS_MAP = {
 
 module.exports = {
   getMethod,
+  getAgnosticMethod,
 };
