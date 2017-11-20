@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../../../error');
-const { assignArray } = require('../../../../../utilities');
+const { flatten } = require('../../../../../utilities');
 
 const { applyDirectives } = require('./directive');
 
@@ -20,10 +20,11 @@ const parseSelectionSet = function ({
 }) {
   if (selectionSet == null) { return []; }
 
-  return selectionSet.selections
+  const select = selectionSet.selections
     .filter(selection => applyDirectives({ selection, variables }))
-    .map(parseSelection.bind(null, { parentPath, variables, fragments }))
-    .reduce(assignArray, []);
+    .map(parseSelection.bind(null, { parentPath, variables, fragments }));
+  const selectA = flatten(select);
+  return selectA;
 };
 
 const parseSelection = function (

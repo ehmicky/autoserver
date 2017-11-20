@@ -1,19 +1,18 @@
 'use strict';
 
-const { assignArray, groupBy } = require('../utilities');
+const { groupBy, flatten } = require('../utilities');
 
 // Call `func(node)` recursively over each node of `args.filter`
 // Returns array of func() return values
 const crawlNodes = function (node, func) {
-  const children = getNodeChildren(node)
-    .map(child => crawlNodes(child, func))
-    .reduce(assignArray, []);
+  const children = getNodeChildren(node).map(child => crawlNodes(child, func));
+  const childrenA = flatten(children);
 
   const returnValue = func(node);
 
-  if (returnValue === undefined) { return children; }
+  if (returnValue === undefined) { return childrenA; }
 
-  return [returnValue, ...children];
+  return [returnValue, ...childrenA];
 };
 
 const getNodeChildren = function ({ type, value }) {
@@ -46,9 +45,8 @@ const crawlAttrs = function (node, func) {
   const children = getAttrChildren(node);
 
   if (children.length !== 0) {
-    return children
-      .map(child => crawlAttrs(child, func))
-      .reduce(assignArray, []);
+    const childrenA = children.map(child => crawlAttrs(child, func));
+    return flatten(childrenA);
   }
 
   const returnValue = getAttrs(node, func);

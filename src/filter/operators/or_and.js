@@ -1,11 +1,12 @@
 'use strict';
 
-const { assignArray } = require('../../utilities');
+const { flatten } = require('../../utilities');
 
 const parseOr = function ({ value, parseOperations, throwErr }) {
-  return value
-    .map(_and => parseOperations({ operations: { _and }, throwErr }))
-    .reduce(assignArray, []);
+  const node = value
+    .map(_and => parseOperations({ operations: { _and }, throwErr }));
+  const nodeA = flatten(node);
+  return nodeA;
 };
 
 const parseAnd = function ({ value, parseAttrs, throwErr }) {

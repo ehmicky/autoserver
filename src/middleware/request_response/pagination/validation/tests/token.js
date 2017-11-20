@@ -1,12 +1,13 @@
 'use strict';
 
-const { assignArray } = require('../../../../../utilities');
+const { flatten } = require('../../../../../utilities');
 
 const getTokenTests = function (obj) {
-  return ['after', 'before']
+  const tests = ['after', 'before']
     .filter(name => obj[name] !== undefined && obj[name] !== '')
-    .map(getTokenTest)
-    .reduce(assignArray, []);
+    .map(getTokenTest);
+  const testsA = flatten(tests);
+  return testsA;
 };
 
 const getTokenTest = name => [

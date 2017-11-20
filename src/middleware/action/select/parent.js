@@ -1,15 +1,15 @@
 'use strict';
 
-const { assignArray } = require('../../../utilities');
+const { flatten } = require('../../../utilities');
 
 // When using `select=parent.child`, `select=parent` is implicity added,
 // unless it was already selected, including by `select=all` or by specifying
 // no `select` at that level
 const addParentSelects = function ({ selects }) {
   const parentSelects = selects
-    .map(select => getParentSelect({ select, selects }))
-    .reduce(assignArray, []);
-  return [...selects, ...parentSelects];
+    .map(select => getParentSelect({ select, selects }));
+  const parentSelectsA = flatten(parentSelects);
+  return [...selects, ...parentSelectsA];
 };
 
 const getParentSelect = function ({ select, selects }) {

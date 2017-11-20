@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray, isEqual, uniq } = require('../../../utilities');
+const { flatten, isEqual, uniq } = require('../../../utilities');
 const { getSimpleFilter } = require('../../../filter');
 
 // Retrieve the results of all direct parent commands
@@ -27,13 +27,12 @@ const isParentResults = function ({ result: { path, promise }, parentPath }) {
 // useful to build `args.filter`.
 const getParentIds = function ({ commandName, parentResults }) {
   const nestedParentIds = parentResults.map(({ model }) => model[commandName]);
-  const parentIds = nestedParentIds
-    .reduce(assignArray, [])
-    .filter(ids => ids !== undefined);
+  const parentIds = flatten(nestedParentIds);
+  const parentIdsA = parentIds.filter(ids => ids !== undefined);
   // We remove duplicate `id`, for efficiency reasons
-  const parentIdsA = uniq(parentIds);
+  const parentIdsB = uniq(parentIdsA);
 
-  return { nestedParentIds, parentIds: parentIdsA };
+  return { nestedParentIds, parentIds: parentIdsB };
 };
 
 // Make nested collections filtered by their parent model

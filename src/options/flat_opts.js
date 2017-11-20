@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray } = require('../utilities');
+const { flatten } = require('../utilities');
 
 // Get `flatOpts`, i.e. all options in a flat array
 // Recursively validate each option, including intermediate objects
@@ -8,10 +8,10 @@ const { assignArray } = require('../utilities');
 const getFlatOpts = function ({ prefix = '', options, availableOpts }) {
   if (!options || options.constructor !== Object) { return []; }
 
-  return Object.entries(options)
-    .map(([optName, optVal]) =>
-      getFlatOpt({ prefix, optName, optVal, availableOpts }))
-    .reduce(assignArray, []);
+  const flatOpts = Object.entries(options).map(([optName, optVal]) =>
+    getFlatOpt({ prefix, optName, optVal, availableOpts }));
+  const flatOptsA = flatten(flatOpts);
+  return flatOptsA;
 };
 
 const getFlatOpt = function ({ prefix, optName, optVal, availableOpts }) {

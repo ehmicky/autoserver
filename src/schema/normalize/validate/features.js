@@ -1,6 +1,6 @@
 'use strict';
 
-const { getWordsList, assignArray, difference } = require('../../../utilities');
+const { getWordsList, flatten, difference } = require('../../../utilities');
 const { throwError } = require('../../../error');
 const { getFeatures } = require('../../../filter');
 
@@ -10,7 +10,7 @@ const validateFeatures = function ({
   coll,
   collname,
 }) {
-  const requiredFeatures = getCollFeatures({ coll });
+  const requiredFeatures = getRequiredFeatures({ coll });
   const missingFeatures = difference(requiredFeatures, features);
   if (missingFeatures.length === 0) { return; }
 
@@ -26,10 +26,10 @@ const validateFeatures = function ({
 // just the collection schema, i.e. compile-time.
 // Some database features might only possible to be guessed runtime,
 // e.g. the 'filter' feature.
-const getCollFeatures = function ({ coll }) {
-  return featuresCheckers
-    .map(checker => checker({ coll }))
-    .reduce(assignArray, []);
+const getRequiredFeatures = function ({ coll }) {
+  const requiredFeatures = featuresCheckers.map(checker => checker({ coll }));
+  const requiredFeaturesA = flatten(requiredFeatures);
+  return requiredFeaturesA;
 };
 
 // `collection.authorize` adds authorization filter, i.e. requires 'filter'

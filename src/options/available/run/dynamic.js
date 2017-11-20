@@ -2,7 +2,7 @@
 
 const pluralize = require('pluralize');
 
-const { assignArray } = require('../../../utilities');
+const { flatten } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
 // Retrieve options that are dynamic, e.g. protocols and databases
@@ -30,9 +30,10 @@ const getTopOpt = function ({ name, title }) {
 
 // Retrieve dynamic options, e.g. `runOpts.protocols.*`
 const getOpts = function ({ handlers, name, title, commonOpts }) {
-  return Object.values(handlers)
-    .map(handler => getEachOpts({ handler, name, title, commonOpts }))
-    .reduce(assignArray, []);
+  const opts = Object.values(handlers)
+    .map(handler => getEachOpts({ handler, name, title, commonOpts }));
+  const optsA = flatten(opts);
+  return optsA;
 };
 
 // Reuse `handler.opts`, and automatically adds some properties

@@ -5,6 +5,7 @@ module.exports = {
   ...require('./includes'),
   ...require('./map'),
   ...require('./reduce'),
+  ...require('./flatten'),
   ...require('./filter'),
   ...require('./uniq'),
   ...require('./difference'),

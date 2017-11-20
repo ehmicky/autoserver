@@ -1,6 +1,6 @@
 'use strict';
 
-const { assignArray, uniq } = require('../utilities');
+const { flatten, uniq } = require('../utilities');
 
 const { crawlNodes } = require('./crawl');
 
@@ -8,10 +8,10 @@ const { crawlNodes } = require('./crawl');
 const getFeatures = function ({ filter }) {
   if (filter === undefined) { return []; }
 
-  const features = crawlNodes(filter, getFeature)
-    .reduce(assignArray, []);
-  const featuresA = uniq(features);
-  return featuresA;
+  const features = crawlNodes(filter, getFeature);
+  const featuresA = flatten(features);
+  const featuresB = uniq(featuresA);
+  return featuresB;
 };
 
 const getFeature = function ({ type, attrName }) {

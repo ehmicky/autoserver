@@ -11,12 +11,6 @@ const assignObject = function (memo, val) {
   return { ...memo, ...(obj || {}) };
 };
 
-// Uses to reduce:
-//  - several values -> array, e.g. array.map(...).reduce(assign, [])
-const assignArray = function (memo, val) {
-  return memo.concat(val);
-};
-
 // Like Array.reduce(), but supports async
 // eslint-disable-next-line max-params
 const reduceAsync = function (array, mapFunc, prevVal, secondMapFunc) {
@@ -44,6 +38,5 @@ const applySecondMap = function (prevVal, input, nextVal) {
 
 module.exports = {
   assignObject,
-  assignArray,
   reduceAsync,
 };

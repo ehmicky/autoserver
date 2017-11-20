@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues, assignArray, uniq, pick } = require('../../../utilities');
+const { mapValues, flatten, uniq, pick } = require('../../../utilities');
 
 const commandsArgs = require('./commands');
 const {
@@ -44,9 +44,10 @@ const getTests = function ({ testNames }) {
   // Each command has a different set of tests
   const testsA = pick(normalTests, testNames);
   const testsB = mapValues(testsA, addArgName);
-  const testsC = Object.values(testsB).reduce(assignArray, []);
-  const testsD = testsC.map(addMessagePrefix);
-  return testsD;
+  const testsC = Object.values(testsB);
+  const testsD = flatten(testsC);
+  const testsE = testsD.map(addMessagePrefix);
+  return testsE;
 };
 
 // Add `test.argName`, which defaults to test key, and represents argument name

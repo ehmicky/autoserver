@@ -1,15 +1,16 @@
 'use strict';
 
-const { assignArray, getWordsList } = require('../utilities');
+const { flatten, getWordsList } = require('../utilities');
 
 const formats = require('./handlers');
 
 // Retrieve all possible extensions, for description/documentation
 const getExtNames = function (type) {
-  return formats
+  const extNames = formats
     .filter(({ types }) => types.includes(type))
-    .map(({ extNames: exts = [] }) => exts)
-    .reduce(assignArray, []);
+    .map(({ extNames: exts = [] }) => exts);
+  const extNamesA = flatten(extNames);
+  return extNamesA;
 };
 
 // All possible formats, for documentation
