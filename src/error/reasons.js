@@ -67,7 +67,7 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
-  // Wrong requested format for the response payload
+  // Wrong requested format|compress for the response payload
   RESPONSE_FORMAT: {
     status: 'CLIENT_ERROR',
   },
@@ -98,7 +98,7 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
-  // Wrong requested format or charset for the request payload
+  // Wrong requested format|charset for the request payload
   REQUEST_FORMAT: {
     status: 'CLIENT_ERROR',
   },

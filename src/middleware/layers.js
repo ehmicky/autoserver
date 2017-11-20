@@ -59,8 +59,8 @@ const middlewareLayers = [
       protocol.parsePath,
       // Parse protocol-specific input
       protocol.parseProtocolInput,
-      // Parse format|charset arguments
-      protocol.parseFormatCharset,
+      // Parse format|charset|compress arguments
+      protocol.handleContentNegotiation,
       // Parse request payload into protocol-agnostic format
       protocol.parsePayload,
       // Normalizes protocol handlers
