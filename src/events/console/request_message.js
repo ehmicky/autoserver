@@ -14,7 +14,7 @@ const getRequestMessage = function ({
   commandpath,
   summary,
 }) {
-  const summaryA = error ? commandpath : summary;
+  const summaryA = error === 'SUCCESS' ? summary : commandpath;
 
   const { title: protocolTitle } = protocolHandlers[protocol] || {};
   const { title: rpcTitle } = rpcHandlers[rpc] || {};
