@@ -2,6 +2,7 @@
 
 const { promisify } = require('util');
 const { stat, readFile, writeFile } = require('fs');
+const { gzip, deflate } = require('zlib');
 
 const { capitalize } = require('underscore.string');
 
@@ -16,6 +17,8 @@ const promise = promisifyAll({
   readFile,
   writeFile,
   stat,
+  gzip,
+  deflate,
 });
 
 // Like setTimeout(), except uses promises.

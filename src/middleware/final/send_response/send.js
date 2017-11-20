@@ -5,15 +5,17 @@ const { DEFAULT_FORMAT } = require('../../../formats');
 
 const { getMime, types } = require('./types');
 const { serializeContent } = require('./serialize');
+const { compressContent } = require('./compress');
 
 // Set basic payload headers, then delegate to protocol handler
-const send = function ({
+const send = async function ({
   protocolHandler,
   specific,
   content,
   response,
   type,
   format = DEFAULT_FORMAT,
+  compress,
   topargs,
   error,
 }) {
@@ -25,18 +27,27 @@ const send = function ({
   const contentA = serializeContent({
     format: formatA,
     content,
+    type,
     topargs,
     error,
+  });
+
+  const { content: contentB, compressName } = await compressContent({
+    content: contentA,
+    type,
+    compress,
+    mime,
   });
 
   const reason = getReason({ error });
 
   return protocolHandler.send({
     specific,
-    content: contentA,
+    content: contentB,
     response,
     type,
     mime,
+    compress: compressName,
     reason,
   });
 };

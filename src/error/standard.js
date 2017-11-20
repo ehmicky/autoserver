@@ -2,6 +2,7 @@
 
 const { omitBy } = require('../utilities');
 const { DEFAULT_FORMAT } = require('../formats');
+const { DEFAULT_COMPRESS } = require('../compress');
 
 const { getReason, getProps } = require('./reasons');
 const { normalizeError } = require('./main');
@@ -34,6 +35,7 @@ const fillError = function ({
     headers,
     payload,
     format: { name: format = 'raw' } = DEFAULT_FORMAT,
+    compress: { name: compress } = DEFAULT_COMPRESS,
     charset,
     rpc,
     summary,
@@ -72,6 +74,7 @@ const fillError = function ({
     payloadsize,
     format,
     charset,
+    compress,
     rpc,
     summary,
     args,

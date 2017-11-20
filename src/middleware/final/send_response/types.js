@@ -2,7 +2,7 @@
 
 const { format: formatMime } = require('content-type');
 
-const { DEFAULT_OUTPUT_CHARSET } = require('../../../formats');
+const { DEFAULT_OUTPUT_CHARSET } = require('../../../charsets');
 
 // Each content type is sent differently
 const types = {

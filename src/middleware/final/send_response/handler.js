@@ -16,6 +16,7 @@ const sendResponse = async function ({
   protocolHandler,
   rpcHandler,
   format,
+  compress,
   topargs,
   mInput,
 }) {
@@ -37,6 +38,7 @@ const sendResponse = async function ({
     response: responseC,
     type,
     format,
+    compress,
     topargs,
     error,
   });

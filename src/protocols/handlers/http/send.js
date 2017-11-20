@@ -5,6 +5,7 @@ const { promisify } = require('util');
 const vary = require('vary');
 
 const { OBJECT_TYPES } = require('../../../constants');
+const { compressHandlers } = require('../../../compress');
 
 const { setStatusCode } = require('./status');
 
@@ -18,6 +19,7 @@ const send = async function ({
   } = {},
   type,
   mime,
+  compress,
   reason,
 }) {
   // `specific` might be undefined, if initial input was wrong.
@@ -29,7 +31,7 @@ const send = async function ({
 
   setStatusCode({ res, reason });
 
-  setHeaders({ res, mime, content, type, data, metadata });
+  setHeaders({ res, mime, compress, content, type, data, metadata });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
@@ -41,6 +43,7 @@ const send = async function ({
 const setHeaders = function ({
   res,
   mime,
+  compress,
   content,
   type,
   data,
@@ -52,11 +55,15 @@ const setHeaders = function ({
   // clients crash
   const contentLength = Buffer.byteLength(content);
 
+  const acceptEncoding = getAcceptEncoding();
+
   const allow = getAllow({ data });
 
   const headers = {
     'Content-Type': mime,
     'Content-Length': contentLength,
+    'Accept-Encoding': acceptEncoding,
+    'Content-Encoding': compress,
     Allow: allow,
     'X-Response-Time': duration,
   };
@@ -70,6 +77,11 @@ const getAllow = function ({ data: { allowed } }) {
   if (allowed === undefined) { return; }
 
   return allowed.join(', ');
+};
+
+// Possible compression algorithms
+const getAcceptEncoding = function () {
+  return Object.keys(compressHandlers).join(', ');
 };
 
 const setAllHeaders = function (res, headers) {

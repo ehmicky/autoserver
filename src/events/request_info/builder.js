@@ -3,6 +3,7 @@
 const { getReason } = require('../../error');
 const { MODEL_TYPES } = require('../../constants');
 const { DEFAULT_FORMAT } = require('../../formats');
+const { DEFAULT_COMPRESS } = require('../../compress');
 
 // Builds requestinfo from request mInput
 const buildRequestinfo = function ({
@@ -19,6 +20,7 @@ const buildRequestinfo = function ({
   queryvars,
   headers,
   format: { name: format = 'raw' } = DEFAULT_FORMAT,
+  compress: { name: compress } = DEFAULT_COMPRESS,
   charset,
   payload,
   rpc,
@@ -56,6 +58,7 @@ const buildRequestinfo = function ({
     headers,
     format,
     charset,
+    compress,
     payload,
     rpc,
     summary,

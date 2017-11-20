@@ -5,6 +5,7 @@ const { Negotiator } = require('negotiator');
 const { encodingExists } = require('iconv-lite');
 
 const { findFormat } = require('../../../formats');
+const { compressHandlers, DEFAULT_COMPRESS } = require('../../../compress');
 
 // Using `Content-Type` or `Accept-Encoding` results in `args.format`
 // Note that since `args.format` is for both input and output, any of the
@@ -50,7 +51,18 @@ const getContentType = function ({ specific: { req: { headers } } }) {
   return parseContentType(contentType);
 };
 
+// Use similar logic as `args.format`, but for `args.compress`
+const getCompress = function ({ specific: { req } }) {
+  // Parse HTTP header `Accept-Encoding`
+  const negotiator = new Negotiator(req);
+  const compressA = negotiator.encodings()
+    .filter(compress => compress !== DEFAULT_COMPRESS.name)
+    .find(compress => compressHandlers[compress] !== undefined);
+  return compressA;
+};
+
 module.exports = {
   getFormat,
   getCharset,
+  getCompress,
 };

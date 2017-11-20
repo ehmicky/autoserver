@@ -10,7 +10,7 @@ module.exports = {
   ...require('./method'),
   ...require('./path'),
   ...require('./protocol_input'),
-  ...require('./format_charset'),
+  ...require('./content_negotiation'),
   ...require('./payload'),
   ...require('./normalize'),
   ...require('./router'),
