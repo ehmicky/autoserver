@@ -465,7 +465,7 @@ rules:
   # We want to allow Promise.all() and Promise.race()
 #  promise/no-native: 2
 
-  # Good idea, but does not work with some of our utility functions
+  # This rule encourages creating functions where it is not needed
 #  unicorn/no-fn-reference-in-iterator: 2
 
   # Rules for client-side code only
