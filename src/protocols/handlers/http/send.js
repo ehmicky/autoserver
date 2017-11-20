@@ -66,11 +66,10 @@ const setHeaders = function ({
 };
 
 // On WRONG_METHOD or WRONG_COMMAND errors
-const getAllow = function ({ data: { allowedMethods, allowedCommands } }) {
-  const allow = allowedMethods || allowedCommands;
-  if (allow === undefined) { return; }
+const getAllow = function ({ data: { allowed } }) {
+  if (allowed === undefined) { return; }
 
-  return allow.join(', ');
+  return allowed.join(', ');
 };
 
 const setAllHeaders = function (res, headers) {
