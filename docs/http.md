@@ -21,11 +21,13 @@ be prefixed with `X-Apiengine-`, e.g. `X-Apiengine-Params`.
 
 The following HTTP request headers have specific interpretations:
   - `Content-Type` and `Accept` set the [format](formats.md) and the
-    [charset](formats.md#charset) like the `format` and `charset` URL variables
-    do.
+    [charset](formats.md#charset) like the `format` and `charset` query
+    variables do.
+  - `Accept-Encoding` sets the [compression](compression.md) like the
+    `compress` query variable does.
   - `Prefer: return=minimal` sets the [`silent` argument](silent.md) to `true`
     Same thing for the `HEAD` method.
-  - `X-HTTP-Method-Override: METHOD` overrides the current HTTP method 
+  - `X-HTTP-Method-Override: METHOD` overrides the current HTTP method
     (which must be `POST`)
 
 The following HTTP response headers might be set, depending on the response:
