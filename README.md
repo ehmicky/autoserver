@@ -40,6 +40,7 @@ full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
   - automatic attributes:
     [`created_time`, `updated_time`](docs/plugins.md#timestamps),
     [`created_by`, `updated_by`](docs/plugins.md#model-authors)
+  - [compression](docs/compression.md) of the response, for any protocol
   - [dry runs](docs/dryrun.md)
   - [silent outputs](docs/silent.md)
   - [custom JavaScript logic](docs/functions.md)

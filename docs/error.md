@@ -25,6 +25,7 @@ The following properties may also appear, depending on when the error happened:
   - `payloadsize` `{integer}` - `undefined` if no payload was sent
   - [`format`](formats.md) `{string}`
   - [`charset`](formats.md#charsets) `{string}`
+  - [`compress`](compression.md) `{string}`
   - [`rpc`](rpc.md) `{string}`
   - `summary` `{string}`
   - `args` `{object}`
@@ -51,6 +52,7 @@ For example:
     "headers": {},
     "format": "json",
     "charset": "utf-8",
+    "compress": "gzip",
     "rpc": "rest",
     "summary": "find_users",
     "args": {
