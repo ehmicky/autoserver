@@ -41,7 +41,7 @@ full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
     [`created_time`, `updated_time`](docs/plugins.md#timestamps),
     [`created_by`, `updated_by`](docs/plugins.md#model-authors)
   - [compression](docs/compression.md) of both the response and the request,
-    for any protocol
+    for any protocol. [Brotli](https://en.wikipedia.org/wiki/Brotli) support.
   - [dry runs](docs/dryrun.md)
   - [silent outputs](docs/silent.md)
   - [custom JavaScript logic](docs/functions.md)

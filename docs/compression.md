@@ -7,6 +7,7 @@ response will be compressed.
   - `identity`: no compression is performed
   - `deflate` or `gzip`: common compression algorithms supported by most
     browsers
+  - `brotli`: best compression algorithms supported by modern browsers only
 
 By default, no compression is performed.
 
