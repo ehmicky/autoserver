@@ -2,6 +2,7 @@
 
 const { getReason } = require('../../../error');
 const { DEFAULT_FORMAT } = require('../../../formats');
+const { DEFAULT_COMPRESS } = require('../../../compress');
 
 const { getMime, types } = require('./types');
 const { serializeContent } = require('./serialize');
@@ -19,8 +20,8 @@ const send = async function ({
   topargs,
   error,
 }) {
-  // If `raw` format was used in input, default format should be used in output
-  const formatA = format.name === undefined ? DEFAULT_FORMAT : format;
+  const formatA = normalizeFormat({ format });
+  const compressResponseA = normalizeCompress({ compressResponse });
 
   const mime = getMime({ format: formatA, type });
 
@@ -35,7 +36,7 @@ const send = async function ({
   const { content: contentB, compressName } = await compressContent({
     content: contentA,
     type,
-    compressResponse,
+    compressResponse: compressResponseA,
     mime,
   });
 
@@ -50,6 +51,26 @@ const send = async function ({
     compressResponse: compressName,
     reason,
   });
+};
+
+// If `raw` format was used in input, default format should be used in output
+// Also if a wrong format was parsed during protocolInput and added to mInput,
+// then an error will be thrown later, but wrong `format` will be used here.
+const normalizeFormat = function ({ format }) {
+  if (format && format.name !== undefined) {
+    return format;
+  }
+
+  return DEFAULT_FORMAT;
+};
+
+// Same thing for compressResponse
+const normalizeCompress = function ({ compressResponse }) {
+  if (compressResponse && compressResponse.name !== undefined) {
+    return compressResponse;
+  }
+
+  return DEFAULT_COMPRESS;
 };
 
 module.exports = {

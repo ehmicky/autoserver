@@ -2,44 +2,51 @@
 
 const { parse: parseContentType } = require('content-type');
 const { Negotiator } = require('negotiator');
-const { encodingExists } = require('iconv-lite');
+const pluralize = require('pluralize');
 
+const { getWordsList } = require('../../../utilities');
+const { throwError } = require('../../../error');
 const { findFormat } = require('../../../formats');
-const { compressHandlers, DEFAULT_COMPRESS } = require('../../../compress');
+const { compressHandlers } = require('../../../compress');
 
-// Using `Content-Type` or `Accept-Encoding` results in `args.format`
+// Using `Content-Type` or `Accept` results in `args.format`
 // Note that since `args.format` is for both input and output, any of the
 // two headers can be used. `Content-Type` has priority.
 const getFormat = function ({ specific }) {
-  const { type: contentTypeMime } = getContentType({ specific });
-  const acceptMimes = getAcceptMimes({ specific });
-  const mimes = [contentTypeMime, ...acceptMimes]
-    .filter(mime => mime !== undefined);
+  return getContentTypeFormat({ specific }) || getAcceptFormat({ specific });
+};
+
+// Using `Content-Type` header
+const getContentTypeFormat = function ({ specific }) {
+  const { type: mime } = getContentType({ specific });
+  if (mime === undefined) { return; }
+
+  // Request payload won't be parsed. Response payload will use default format.
+  const format = findFormat({ type: 'payload', mime });
+  if (format === undefined) { return 'raw'; }
+
+  return format.name;
+};
+
+// Using `Accept` header
+const getAcceptFormat = function ({ specific: { req } }) {
+  const negotiator = new Negotiator(req);
+  const mimes = negotiator.mediaTypes();
+  if (mimes.length === 0) { return; }
 
   const format = mimes
     .map(mime => findFormat({ type: 'payload', mime }))
-    .find(({ name: formatName } = {}) => formatName);
+    .find(formatA => formatA !== undefined);
   if (format !== undefined) { return format.name; }
 
-  // Request payload won't be parsed. Response payload will use default format.
-  if (contentTypeMime !== undefined) { return 'raw'; }
-};
-
-// Parse HTTP header `Accept`
-const getAcceptMimes = function ({ specific: { req } }) {
-  const negotiator = new Negotiator(req);
-  const acceptMimes = negotiator.mediaTypes()
-    .filter(mime => mime !== '*/*');
-  return acceptMimes;
+  const formats = getWordsList(mimes, { op: 'and', quotes: true });
+  const message = `Unsupported response ${pluralize('format', mimes.length)}: ${formats}`;
+  throwError(message, { reason: 'RESPONSE_FORMAT' });
 };
 
 // Use similar logic as `args.format`, but for `args.charset`
 const getCharset = function ({ specific }) {
   const { parameters: { charset } = {} } = getContentType({ specific });
-
-  const isValidCharset = charset !== undefined && encodingExists(charset);
-  if (!isValidCharset) { return; }
-
   return charset;
 };
 
@@ -56,7 +63,6 @@ const getContentType = function ({ specific: { req: { headers } } }) {
 const getCompressResponse = function ({ specific: { req } }) {
   const negotiator = new Negotiator(req);
   const compressResponse = negotiator.encodings()
-    .filter(compress => compress !== DEFAULT_COMPRESS.name)
     .find(compress => compressHandlers[compress] !== undefined);
   return compressResponse;
 };

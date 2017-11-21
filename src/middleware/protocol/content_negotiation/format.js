@@ -5,10 +5,10 @@ const { formatHandlers } = require('../../../formats');
 
 // Retrieve format asked by client for the response payload
 const getFormat = function ({ queryvars, format }) {
-  // E.g. MIME in Content-Type HTTP header
-  const formatName = format ||
-    // ?format query variable
-    queryvars.format;
+  // ?format query variable
+  const formatName = queryvars.format ||
+    // E.g. MIME in Content-Type HTTP header
+    format;
   if (formatName === undefined) { return; }
 
   const formatA = formatHandlers[formatName];

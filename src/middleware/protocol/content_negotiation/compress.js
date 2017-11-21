@@ -38,10 +38,10 @@ const parseQueryvars = function ({ queryvars: { compress } }) {
 };
 
 const parseCompress = function ({ queryvars, compress, name, reason }) {
-  // E.g. in Content-Encoding or Accept-Encoding HTTP header
-  const compressA = compress ||
-    // ?compress query variable
-    queryvars[name];
+  // ?compress query variable
+  const compressA = queryvars[name] ||
+    // E.g. in Content-Encoding or Accept-Encoding HTTP header
+    compress;
   if (compressA === undefined) { return; }
 
   const compressB = compressA.trim().toLowerCase();
