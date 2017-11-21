@@ -35,7 +35,8 @@ const fillError = function ({
     headers,
     payload,
     format: { name: format = 'raw' } = DEFAULT_FORMAT,
-    compress: { name: compress } = DEFAULT_COMPRESS,
+    compressResponse: { name: compressResponse } = DEFAULT_COMPRESS,
+    compressRequest: { name: compressRequest } = DEFAULT_COMPRESS,
     charset,
     rpc,
     summary,
@@ -61,6 +62,8 @@ const fillError = function ({
   if (isLimited) {
     return { ...errorA, ...extra, details };
   }
+
+  const compress = `${compressResponse},${compressRequest}`;
 
   const payloadsize = eGetPayloadsize({ payload });
 

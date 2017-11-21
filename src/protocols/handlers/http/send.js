@@ -19,7 +19,7 @@ const send = async function ({
   } = {},
   type,
   mime,
-  compress,
+  compressResponse,
   reason,
 }) {
   // `specific` might be undefined, if initial input was wrong.
@@ -31,7 +31,7 @@ const send = async function ({
 
   setStatusCode({ res, reason });
 
-  setHeaders({ res, mime, compress, content, type, data, metadata });
+  setHeaders({ res, mime, compressResponse, content, type, data, metadata });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
@@ -43,7 +43,7 @@ const send = async function ({
 const setHeaders = function ({
   res,
   mime,
-  compress,
+  compressResponse,
   content,
   type,
   data,
@@ -63,7 +63,7 @@ const setHeaders = function ({
     'Content-Type': mime,
     'Content-Length': contentLength,
     'Accept-Encoding': acceptEncoding,
-    'Content-Encoding': compress,
+    'Content-Encoding': compressResponse,
     Allow: allow,
     'X-Response-Time': duration,
   };

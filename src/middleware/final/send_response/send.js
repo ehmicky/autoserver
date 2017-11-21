@@ -15,7 +15,7 @@ const send = async function ({
   response,
   type,
   format = DEFAULT_FORMAT,
-  compress,
+  compressResponse,
   topargs,
   error,
 }) {
@@ -35,7 +35,7 @@ const send = async function ({
   const { content: contentB, compressName } = await compressContent({
     content: contentA,
     type,
-    compress,
+    compressResponse,
     mime,
   });
 
@@ -47,7 +47,7 @@ const send = async function ({
     response,
     type,
     mime,
-    compress: compressName,
+    compressResponse: compressName,
     reason,
   });
 };

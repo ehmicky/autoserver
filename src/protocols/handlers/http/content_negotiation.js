@@ -51,18 +51,25 @@ const getContentType = function ({ specific: { req: { headers } } }) {
   return parseContentType(contentType);
 };
 
-// Use similar logic as `args.format`, but for `args.compress`
-const getCompress = function ({ specific: { req } }) {
-  // Parse HTTP header `Accept-Encoding`
+// Use similar logic as `args.format`, but for `args.compressResponse`
+// Uses HTTP header `Accept-Encoding`
+const getCompressResponse = function ({ specific: { req } }) {
   const negotiator = new Negotiator(req);
-  const compressA = negotiator.encodings()
+  const compressResponse = negotiator.encodings()
     .filter(compress => compress !== DEFAULT_COMPRESS.name)
     .find(compress => compressHandlers[compress] !== undefined);
-  return compressA;
+  return compressResponse;
+};
+
+// Use similar logic as `args.format`, but for `args.compressRequest`
+// Uses HTTP header `Content-Encoding`
+const getCompressRequest = function ({ specific: { req: { headers } } }) {
+  return headers['content-encoding'];
 };
 
 module.exports = {
   getFormat,
   getCharset,
-  getCompress,
+  getCompressResponse,
+  getCompressRequest,
 };

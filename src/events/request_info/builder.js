@@ -20,7 +20,8 @@ const buildRequestinfo = function ({
   queryvars,
   headers,
   format: { name: format = 'raw' } = DEFAULT_FORMAT,
-  compress: { name: compress } = DEFAULT_COMPRESS,
+  compressResponse: { name: compressResponse } = DEFAULT_COMPRESS,
+  compressRequest: { name: compressRequest } = DEFAULT_COMPRESS,
   charset,
   payload,
   rpc,
@@ -42,6 +43,8 @@ const buildRequestinfo = function ({
     ? response.data
     : response;
   const errorReason = error && getReason({ error });
+
+  const compress = `${compressResponse},${compressRequest}`;
 
   return {
     requestid,

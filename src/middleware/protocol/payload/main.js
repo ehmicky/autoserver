@@ -7,6 +7,7 @@ const { parse, DEFAULT_FORMAT } = require('../../../formats');
 const { DEFAULT_INPUT_CHARSET } = require('../../../charsets');
 
 const { getRawPayload } = require('./raw');
+const { decompressPayload } = require('./decompress');
 
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -18,6 +19,7 @@ const parsePayload = function ({
   runOpts,
   charset = DEFAULT_INPUT_CHARSET,
   format = DEFAULT_FORMAT,
+  compressRequest,
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }
 
@@ -27,6 +29,7 @@ const parsePayload = function ({
     runOpts,
     format,
     charset,
+    compressRequest,
   });
 };
 
@@ -36,14 +39,17 @@ const parseRawPayload = async function ({
   runOpts,
   format,
   charset,
+  compressRequest,
 }) {
   const payload = await getRawPayload({ protocolHandler, specific, runOpts });
 
-  const payloadA = eDecode(payload, charset);
+  const payloadA = await decompressPayload({ compressRequest, payload });
 
-  const payloadB = eParseContent({ payload: payloadA, format });
+  const payloadB = eDecode(payloadA, charset);
 
-  return { payload: payloadB };
+  const payloadC = eParseContent({ payload: payloadB, format });
+
+  return { payload: payloadC };
 };
 
 // Charset decoding is done in a protocol-agnostic way
