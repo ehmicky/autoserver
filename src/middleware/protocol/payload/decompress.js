@@ -11,8 +11,8 @@ const decompressPayload = function ({ compressRequest, payload }) {
 };
 
 const eDecompressPayload = addGenErrorHandler(decompressPayload, {
-  message: ({ compressRequest: { name } }) =>
-    `Could not decompress the request payload using the '${name}' algorithm`,
+  message: ({ compressRequest: { title } }) =>
+    `Could not decompress the request payload using the ${title} algorithm`,
   reason: 'REQUEST_FORMAT',
 });
 

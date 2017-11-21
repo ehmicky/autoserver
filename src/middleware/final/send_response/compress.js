@@ -29,8 +29,8 @@ const compressContent = async function ({
 };
 
 const eCompressContent = addGenErrorHandler(compressContent, {
-  message: ({ compressResponse: { name } }) =>
-    `Could not compress the response using the '${name}' algorithm`,
+  message: ({ compressResponse: { title } }) =>
+    `Could not compress the response using the ${title} algorithm`,
   reason: 'UTILITY_ERROR',
 });
 
