@@ -7,6 +7,7 @@ const { OBJECT_TYPES } = require('../../../constants');
 const { DEFAULT_COMPRESS } = require('../../../compress');
 
 // Response body compression
+// Input is string, output is string
 const compressContent = async function ({
   content,
   type,
