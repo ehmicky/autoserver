@@ -181,7 +181,8 @@ event payload, with the properties:
   - `format` `{string}` - request payload and server response's
     [format](formats.md)
   - `charset` `{string}` - request payload's [charset](formats.md#charsets)
-  - `compress` `{string}` - response's [compression](compression.md)
+  - `compress` `{string}` - response's and request's
+    [compression](compression.md)
   - `payload` `{any}` - request payload
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array

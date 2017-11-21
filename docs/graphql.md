@@ -89,7 +89,7 @@ For example:
       "payloadsize": 483,
       "format": "json",
       "charset": "utf-8",
-      "compress": "gzip",
+      "compress": "gzip,identity",
       "rpc": "graphql",
       "summary": "find_users",
       "args": {
