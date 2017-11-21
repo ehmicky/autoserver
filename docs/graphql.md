@@ -51,11 +51,12 @@ would respond with:
 }
 ```
 
-# Selection and population
+# Selection, population and renaming
 
 GraphQL selection fields must be used instead of both the
-[`select`](selecting.md) and
-[`populate`](relations.md#populating-nested-collections) arguments.
+[`select`](selecting.md),
+[`populate`](relations.md#populating-nested-collections) and
+[`rename`](renaming.md) arguments.
 
 The special attribute `all` can be used to select all attributes.
 
