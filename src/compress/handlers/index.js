@@ -5,4 +5,5 @@ module.exports = [
   require('./identity'),
   require('./deflate'),
   require('./gzip'),
+  require('./brotli'),
 ];
