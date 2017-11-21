@@ -10,6 +10,7 @@ const { handleSchemaFuncs } = require('./schema_func');
 // Returns partial filter if any.
 const evalAuthorize = function ({
   collname,
+  clientCollname,
   authorize,
   top,
   userVars,
@@ -30,7 +31,7 @@ const evalAuthorize = function ({
     partialNames: PARTIAL_NAMES_REGEXP,
   });
 
-  checkAuthorize({ collname, authorize: authorizeB, top });
+  checkAuthorize({ clientCollname, authorize: authorizeB, top });
 
   if (authorizeB === true) { return authorizeB; }
 
@@ -39,10 +40,10 @@ const evalAuthorize = function ({
 };
 
 // Throw error if authorization filter evaluated to false.
-const checkAuthorize = function ({ collname, authorize, top }) {
+const checkAuthorize = function ({ clientCollname, authorize, top }) {
   if (authorize !== false) { return; }
 
-  throwCommonError({ reason: 'AUTHORIZATION', collname, top });
+  throwCommonError({ reason: 'AUTHORIZATION', clientCollname, top });
 };
 
 // Remove `$model.` prefix in AST's `attrName`

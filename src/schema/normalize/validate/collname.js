@@ -5,26 +5,30 @@ const { plural } = require('pluralize');
 const { throwError } = require('../../../error');
 
 // Validate collections are properly named
-const validateCollname = function ({ schema, schema: { collections } }) {
+const validateClientCollnames = function ({ schema, schema: { collections } }) {
   if (!(collections && collections.constructor === Object)) { return schema; }
 
-  Object.keys(collections).forEach(checkCollname);
+  Object.values(collections).forEach(checkCollnames);
 
   return schema;
 };
 
-const checkCollname = function (collname) {
-  const pluralname = plural(collname);
+const checkCollnames = function ({ name }) {
+  name.forEach(nameA => checkCollname({ name: nameA }));
+};
+
+const checkCollname = function ({ name }) {
+  const pluralname = plural(name);
   // Collection name must be plural
   // The reason is to avoid having to handle different cases where the
   // collection name is sometimes singular, sometimes plural.
   // This is also easier for the user to remember.
-  if (collname === pluralname) { return; }
+  if (name === pluralname) { return; }
 
-  const message = `Collection's name '${collname}' must be in plural form, i.e. should be '${pluralname}'`;
+  const message = `Collection's name '${name}' must be in plural form, i.e. should be '${pluralname}'`;
   throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 
 module.exports = {
-  validateCollname,
+  validateClientCollnames,
 };

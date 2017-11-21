@@ -8,19 +8,19 @@ const {
   validateDatabases,
   validateCircularRefs,
   validateJsonSchemaData,
-  validateCollname,
+  validateClientCollnames,
   validateSchemaSyntax,
   validateInlineFuncs,
   validateJsonSchema,
 } = require('./validate');
 const {
-  addDefaultCollname,
   addDefaultId,
   addDefaultDatabase,
   addDefaultValidate,
   addDefaultType,
 } = require('./default');
 const {
+  normalizeClientCollname,
   addRequiredId,
   normalizeType,
   addTypeValidation,
@@ -43,13 +43,9 @@ const normalizers = [
   { type: 'schema', func: validateCircularRefs },
   // Validates JSON schema $data
   { type: 'schema', func: validateJsonSchemaData },
-  // Validate collections are properly named
-  { type: 'schema', func: validateCollname },
   // General schema syntax validation
   { type: 'schema', func: validateSchemaSyntax },
 
-  // Default `coll.collname`
-  { type: 'coll', func: addDefaultCollname },
   // Default `coll.id` attribute
   { type: 'coll', func: addDefaultId },
   // Default `coll.database`
@@ -59,6 +55,8 @@ const normalizers = [
   // Default `attr.validate`
   { type: 'attr', func: addDefaultValidate },
 
+  // Normalize `coll.name`
+  { type: 'coll', func: normalizeClientCollname },
   // Make sure `id` attributes are required
   { type: 'attr', func: addRequiredId },
   // Transform `attr.type` to internal format
@@ -81,6 +79,8 @@ const normalizers = [
   // Add `schema.inlineFuncPaths`
   { type: 'schema', func: addInlineFuncPaths },
 
+  // Validate collections are properly named
+  { type: 'schema', func: validateClientCollnames },
   // Validates `coll.database`
   { type: 'coll', func: validateDatabases },
   // Validates that there are no circular references

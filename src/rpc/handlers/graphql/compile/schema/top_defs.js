@@ -2,7 +2,7 @@
 
 const { capitalize } = require('underscore.string');
 
-const { mapValues, mapKeys } = require('../../../../../utilities');
+const { mapValues, mapKeys, flatten } = require('../../../../../utilities');
 const { COMMANDS } = require('../../../../../constants');
 
 const { getCommandName, getTypeName } = require('./name');
@@ -45,17 +45,31 @@ const getCommandsDefs = function ({ collections, commands }) {
 
 // Retrieve attributes for a given command
 const getCommandDef = function ({ collections, command }) {
+  const collectionsA = getCollectionsNames({ collections });
+
   // E.g. 'my_coll' + 'findMany' -> 'find_my_coll'
   // This will be used as the top-level graphqlMethod
-  const collectionsA = mapKeys(
-    collections,
+  const collectionsB = mapKeys(
+    collectionsA,
     (coll, collname) => getCommandName({ collname, command }),
   );
-  const collectionsB = mapValues(
-    collectionsA,
+  const collectionsC = mapValues(
+    collectionsB,
     coll => normalizeCollDef({ coll, command }),
   );
-  return collectionsB;
+  return collectionsC;
+};
+
+// Create one copy of a collection for each of its `clientCollname`
+const getCollectionsNames = function ({ collections }) {
+  const collectionsA = Object.values(collections).map(getCollectionNames);
+  const collectionsB = flatten(collectionsA);
+  const collectionsC = Object.assign({}, ...collectionsB);
+  return collectionsC;
+};
+
+const getCollectionNames = function (coll) {
+  return coll.name.map(collname => ({ [collname]: { ...coll, collname } }));
 };
 
 // Add command information to each top-level collection

@@ -1,7 +1,7 @@
 'use strict';
 
 const maps = require('./maps');
-const { mapColls } = require('./helper');
+const { mapAllColls } = require('./helper');
 
 // Compile-time transformations just meant for runtime performance optimization
 const normalizeShortcuts = function ({ schema }) {
@@ -12,7 +12,7 @@ const normalizeShortcuts = function ({ schema }) {
 };
 
 const normalizeShortcut = function ({ name, input, schema }) {
-  const shortcut = mapColls({ schema }, input);
+  const shortcut = mapAllColls({ schema }, input);
   return { [name]: shortcut };
 };
 

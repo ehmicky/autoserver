@@ -6,5 +6,6 @@ module.exports = {
   ...require('./value'),
   ...require('./aliases'),
   ...require('./colls_map'),
+  ...require('./colls_names'),
   ...require('./validate'),
 };
