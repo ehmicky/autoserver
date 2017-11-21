@@ -4,7 +4,12 @@ const parsePreferHeaderLib = require('parse-prefer-header');
 
 const { throwError, addGenErrorHandler } = require('../../../error');
 
-const { getFormat, getCharset, getCompress } = require('./content_negotiation');
+const {
+  getFormat,
+  getCharset,
+  getCompressResponse,
+  getCompressRequest,
+} = require('./content_negotiation');
 const { getAgnosticMethod } = require('./method');
 
 // Using `X-HTTP-Method-Override` changes the method
@@ -52,7 +57,8 @@ const input = {
   'topargs.silent': getSilent,
   format: getFormat,
   charset: getCharset,
-  compress: getCompress,
+  compressResponse: getCompressResponse,
+  compressRequest: getCompressRequest,
 };
 
 module.exports = {
