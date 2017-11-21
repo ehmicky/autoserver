@@ -21,12 +21,12 @@ Most examples in this documentation only show [REST](rest.md) for simplicity.
 # Examples
 
 The following examples produce the same request. Notice the differences for the
-`filter`, `data`, `dryrun`, `select` and `populate` arguments.
+`filter`, `data`, `dryrun`, `select`, `rename` and `populate` arguments.
 
 [REST](rest.md):
 
 ```HTTP
-PATCH /rest/users/?filter.0.name=David&filter.0.name=Bob&select=id,manager,manager.name&populate=manager&dryrun
+PATCH /rest/users/?filter.0.name=David&filter.0.name=Bob&select=id,manager,manager.name&rename=manager.name:aliasname&populate=manager&dryrun
 
 { "city": "Copenhagen" }
 ```
@@ -41,7 +41,7 @@ PATCH /rest/users/?filter.0.name=David&filter.0.name=Bob&select=id,manager,manag
     dryrun: true
   ) {
     id
-    manager: { name }
+    manager: { name: aliasname }
   }
 }
 ```
@@ -57,6 +57,7 @@ PATCH /rest/users/?filter.0.name=David&filter.0.name=Bob&select=id,manager,manag
     "filter": [{ "name": "David" }, { "name": "Bob" }],
     "data": { "city": "Copenhagen" },
     "select": "id,manager,manager.name",
+    "rename": "manager.name:aliasname",
     "populate": "manager",
     "dryrun": true,
   }

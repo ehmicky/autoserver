@@ -30,6 +30,7 @@ full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
   - [filtering](docs/filtering.md)
   - [sorting](docs/sorting.md)
   - [selecting](docs/selecting.md)
+  - [renaming attributes](docs/renaming.md)
   - [pagination](docs/pagination.md)
   - [input validation](docs/validation.md#data-validation)
   - [authorization](docs/authorization.md), including
