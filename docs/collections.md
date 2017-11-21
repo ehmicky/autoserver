@@ -2,7 +2,35 @@
 
 Collections are the equivalent of a database table or collection.
 
-Their name is used in [commands](crud.md).
+# Name
+
+Collections name are used in [commands](crud.md).
+
+The name of a collection corresponds to its key, e.g. in:
+
+```yml
+collections:
+  users:
+    attributes: {}
+```
+
+it is `users`.
+
+It is possible to differentiate between the name used server-side (anywhere in
+the schema) and client-side (in URLs, method names, error responses and
+documentation) by specifying `collection.name`, e.g. in:
+
+```yml
+collections:
+  users:
+    name: players
+    attributes: {}
+```
+
+the server-side name is `users` and the client-side name is `players`.
+
+It is also possible to specify several client-side names, which will behave
+as aliases, by using an array of names in `collection.name`.
 
 # Attributes
 
