@@ -8,7 +8,7 @@ const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 const validateMissingIds = function (
   {
     command,
-    collname,
+    clientCollname,
     response,
     args: { filter, preFilter },
     commandpath,
@@ -23,7 +23,14 @@ const validateMissingIds = function (
   const ids = getMissingIds({ filter, preFilter, response });
   if (ids.length === 0) { return; }
 
-  return reportProblem({ preFilter, ids, collname, top, nextLayer, mInput });
+  return reportProblem({
+    top,
+    clientCollname,
+    preFilter,
+    ids,
+    nextLayer,
+    mInput,
+  });
 };
 
 const doesNotValidate = function ({ command, top, commandpath }) {
@@ -68,23 +75,27 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
 
 // Check whether this is because the model does not exist,
 // or because it is not authorized
-const reportProblem = async function ({ top, collname, ...rest }) {
-  const idsA = await checkAuthorization({ top, collname, ...rest });
+const reportProblem = async function ({ top, clientCollname, ...rest }) {
+  const idsA = await checkAuthorization({ top, clientCollname, ...rest });
 
   // `upsert` commands might throw authorization errors, but not model not found
   if (top.command.type === 'upsert') { return; }
 
-  throwCommonError({ reason: 'DB_MODEL_NOT_FOUND', ids: idsA, collname });
+  throwCommonError({
+    reason: 'DB_MODEL_NOT_FOUND',
+    ids: idsA,
+    clientCollname,
+  });
 };
 
 // Try the same database query, but this time without the authorization filter,
 // and only on the missing models.
 // If no missing model is missing anymore, flag it as an authorization error.
 const checkAuthorization = async function ({
+  top,
+  clientCollname,
   preFilter,
   ids,
-  collname,
-  top,
   nextLayer,
   mInput,
   mInput: { args },
@@ -101,7 +112,7 @@ const checkAuthorization = async function ({
 
   if (missingIds.length !== 0) { return missingIds; }
 
-  throwCommonError({ reason: 'AUTHORIZATION', ids, collname, top });
+  throwCommonError({ reason: 'AUTHORIZATION', ids, clientCollname, top });
 };
 
 module.exports = {

@@ -8,21 +8,21 @@ const { COMMANDS } = require('../../constants');
 // `collname`, `commandpath`, `args`
 const parseTopAction = function ({
   rpcDef: { commandName, args },
-  schema: { shortcuts: { collsMap } },
+  schema: { shortcuts: { collsNames } },
   topargs,
 }) {
   // Merge protocol-specific arguments with normal arguments
   const argsA = deepMerge(args, topargs);
 
-  const { command, collname } = parseCommandName({
+  const { command, collname, clientCollname } = parseCommandName({
     commandName,
-    collsMap,
+    collsNames,
     args: argsA,
   });
 
   const commandpath = [commandName];
 
-  const action = { collname, commandpath, args: argsA };
+  const action = { collname, clientCollname, commandpath, args: argsA };
   const actions = [action];
   const top = { ...action, command };
 
@@ -30,14 +30,16 @@ const parseTopAction = function ({
 };
 
 // Retrieve `command` and `collname` using the main `commandName`
-const parseCommandName = function ({ commandName, collsMap, args }) {
-  const [, commandType, collname] = NAME_REGEXP.exec(commandName) || [];
+const parseCommandName = function ({ commandName, collsNames, args }) {
+  const [, commandType, clientCollname] = NAME_REGEXP.exec(commandName) || [];
 
-  validateCollname({ commandName, commandType, collname, collsMap });
+  const collname = collsNames[clientCollname];
+
+  validateCollname({ commandName, commandType, collname, collsNames });
 
   const command = getCommand({ commandType, args });
 
-  return { command, collname };
+  return { command, collname, clientCollname };
 };
 
 // Matches e.g. 'find_my_coll' -> ['find', 'my_coll'];
@@ -47,22 +49,19 @@ const validateCollname = function ({
   commandName,
   commandType,
   collname,
-  collsMap,
+  collsNames,
 }) {
-  const isValid = commandType &&
-    collname &&
-    collsMap[collname] &&
-    isMultiple[commandType];
+  const isValid = commandType && collname && isMultiple[commandType];
   if (isValid) { return; }
 
   const message = `Command '${commandName}' is unknown`;
-  const allowed = getAllowed({ collsMap });
+  const allowed = getAllowed({ collsNames });
   throwError(message, { reason: 'WRONG_COMMAND', extra: { allowed } });
 };
 
 // Returns all possible commands
-const getAllowed = function ({ collsMap }) {
-  const collnames = Object.keys(collsMap);
+const getAllowed = function ({ collsNames }) {
+  const collnames = Object.keys(collsNames);
   const commands = COMMANDS.map(({ type }) => type);
   const commandsA = uniq(commands);
   const allowed = commandsA

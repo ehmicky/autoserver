@@ -42,14 +42,21 @@ const isNotEmpty = function ({ ids }) {
 // Add next layers's whole input
 const getInput = function ({
   actions,
-  actions: [{ collname }],
+  actions: [{ collname, clientCollname = collname }],
   args,
   top: { command: { type: command } },
   mInput,
   ...rest
 }) {
   const commandpath = mergeCommandpaths({ actions });
-  const input = { ...mInput, commandpath, command, collname, args };
+  const input = {
+    ...mInput,
+    commandpath,
+    command,
+    collname,
+    clientCollname,
+    args,
+  };
   return { input, actions, ...rest };
 };
 

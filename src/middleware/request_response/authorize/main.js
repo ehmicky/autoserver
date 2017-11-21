@@ -8,6 +8,7 @@ const { checkNewData } = require('./data');
 const validateAuthorization = function ({
   args,
   collname,
+  clientCollname,
   schema,
   schema: { collections },
   userVars,
@@ -19,13 +20,14 @@ const validateAuthorization = function ({
   // `create`'s currentData query
   if (topCommand === 'create' && command === 'find') { return; }
 
-  validateSchemaAuth({ schema, userVars, mInput, top });
+  validateSchemaAuth({ clientCollname, schema, userVars, mInput, top });
 
   const coll = collections[collname];
   const argsA = validateCollAuth({
     args,
     coll,
     collname,
+    clientCollname,
     schema,
     userVars,
     mInput,
@@ -38,6 +40,7 @@ const validateAuthorization = function ({
 
 // Handles `schema.authorize`
 const validateSchemaAuth = function ({
+  clientCollname,
   schema,
   schema: { authorize },
   userVars,
@@ -46,7 +49,14 @@ const validateSchemaAuth = function ({
 }) {
   if (authorize === undefined) { return; }
 
-  evalAuthorize({ authorize, top, userVars, schema, mInput });
+  evalAuthorize({
+    clientCollname,
+    authorize,
+    top,
+    userVars,
+    schema,
+    mInput,
+  });
 };
 
 // Handles `collection.authorize`
@@ -54,6 +64,7 @@ const validateCollAuth = function ({
   args,
   coll: { authorize },
   collname,
+  clientCollname,
   schema,
   userVars,
   mInput,
@@ -64,6 +75,7 @@ const validateCollAuth = function ({
 
   const authorizeA = evalAuthorize({
     collname,
+    clientCollname,
     authorize,
     top,
     userVars,
@@ -74,7 +86,7 @@ const validateCollAuth = function ({
 
   const argsA = addAuthorizeFilter({ command, authorize: authorizeA, args });
 
-  checkNewData({ authorize: authorizeA, args, collname, top });
+  checkNewData({ authorize: authorizeA, args, clientCollname, top });
 
   return argsA;
 };

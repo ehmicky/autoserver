@@ -15,7 +15,7 @@ properties:
       $ref: '#/definitions/collection'
     # Check collections names
     propertyNames:
-      $ref: '#/definitions/validCollname'
+      $ref: '#/definitions/validClientCollname'
   # `schema.authorize`
   authorize:
     $ref: '#/definitions/authorize'
@@ -52,8 +52,8 @@ definitions:
       '^__': true
     required: [attributes]
     properties:
-      collname:
-        $ref: '#/definitions/validCollname'
+      name:
+        $ref: '#/definitions/validClientCollnames'
       description:
         $ref: '#/definitions/description'
       authorize:
@@ -280,8 +280,14 @@ definitions:
   validUserName:
     type: string
     pattern: '^__[a-z][_0-9a-z]*$'
-  # Keys of schema.collections.*, and collection.collname
-  validCollname:
+  # Keys of schema.collections.*, and collection.name
+  validClientCollnames:
+    oneOf:
+    - type: array
+      items:
+        $ref: '#/definitions/validClientCollname'
+    - $ref: '#/definitions/validClientCollname'
+  validClientCollname:
     allOf:
     - $ref: '#/definitions/validName'
     # This is too avoid big responses, or hitting database limits
