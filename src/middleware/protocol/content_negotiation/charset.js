@@ -12,10 +12,10 @@ const getCharset = function ({
   format = DEFAULT_FORMAT,
   format: { charsets = [] } = DEFAULT_FORMAT,
 }) {
-  // E.g. charset in Content-Type HTTP header
-  const charsetA = charset ||
-    // ?charset query variable
-    queryvars.charset ||
+  // ?charset query variable
+  const charsetA = queryvars.charset ||
+    // E.g. charset in Content-Type HTTP header
+    charset ||
     // Charset specified by this format
     charsets[0];
   if (charsetA === undefined) { return; }
