@@ -52,7 +52,7 @@ For example:
     "headers": {},
     "format": "json",
     "charset": "utf-8",
-    "compress": "gzip",
+    "compress": "gzip,identity",
     "rpc": "rest",
     "summary": "find_users",
     "args": {

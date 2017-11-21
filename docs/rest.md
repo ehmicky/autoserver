@@ -108,7 +108,7 @@ REST error responses follow the usual error
     "headers": {},
     "format": "json",
     "charset": "utf-8",
-    "compress": "gzip",
+    "compress": "gzip,identity",
     "rpc": "rest",
     "summary": "find_users",
     "args": {

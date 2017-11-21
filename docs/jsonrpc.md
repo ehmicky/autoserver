@@ -76,7 +76,7 @@ to accomodate the JSON-RPC spec:
       "payloadsize": 483,
       "format": "json",
       "charset": "utf-8",
-      "compress": "gzip",
+      "compress": "gzip,identity",
       "rpc": "jsonrpc",
       "summary": "find_users",
       "args": {
