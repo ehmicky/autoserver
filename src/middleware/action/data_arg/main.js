@@ -12,7 +12,7 @@ const { parseActions } = require('./actions');
 const parseDataArg = function ({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
-    filter: ({ args: { data } }) => data !== undefined,
+    filter: ['data'],
     mapper: getDataAction,
     ...rest,
   });

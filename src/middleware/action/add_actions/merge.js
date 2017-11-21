@@ -1,20 +1,14 @@
 'use strict';
 
-const { isEqual, flatten } = require('../../utilities');
+const { isEqual } = require('../../../utilities');
+
+const { getValues } = require('./values');
 
 // Add new actions to the current request
 const addActions = function ({ actions, filter, mapper, ...rest }) {
-  const newActions = getNewActions({ actions, filter, mapper, ...rest });
+  const newActions = getValues({ actions, filter, mapper, ...rest });
   const actionsA = mergeActions({ actions, newActions });
   return actionsA;
-};
-
-const getNewActions = function ({ actions, filter, mapper, ...rest }) {
-  const newActions = actions
-    .filter(action => filter(action))
-    .map(action => mapper({ action, ...rest }));
-  const newActionsA = flatten(newActions);
-  return newActionsA;
 };
 
 // Merge two sets of actions

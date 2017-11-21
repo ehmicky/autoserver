@@ -2,6 +2,7 @@
 
 module.exports = {
   ...require('./select'),
+  ...require('./rename'),
   ...require('./filter'),
   ...require('./order'),
   ...require('./pagination'),

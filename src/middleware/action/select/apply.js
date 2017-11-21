@@ -1,11 +1,9 @@
 'use strict';
 
-const { get, set, mapValues } = require('../../../utilities');
+const { get, set } = require('../../../utilities');
 
 // Applies `args.select`.
 // Only output the fields that were picked by the client.
-// Also rename fields if the output key is different from the database one,
-// e.g. using `select` `attr:outputName`, including with GraphQL aliases.
 const applySelect = function ({ response, results }) {
   // Need to recurse through children first
   const responseA = results.reduceRight(selectFieldsByResult, response);
@@ -17,28 +15,30 @@ const selectFieldsByResult = function (
   { path, action: { args: { select } } },
 ) {
   const model = get(response, path);
+
   const modelA = selectFieldsByModel({ model, select });
-  const modelB = mapValues(modelA, normalizeNull);
-  return set(response, path, modelB);
+
+  const responseA = set(response, path, modelA);
+  return responseA;
 };
 
 const selectFieldsByModel = function ({ model, select }) {
+  if (select === undefined) { return model; }
+
   // Using 'all' means all fields are returned
-  const hasAllAttr = select.some(({ key }) => key === 'all');
+  const hasAllAttr = select.some(key => key === 'all');
   if (hasAllAttr) { return model; }
 
-  // Make sure return value is sorted in the same order as `select`
-  const modelA = select
-    .map(({ key, outputName = key }) => ({ [outputName]: model[key] }));
+  const modelA = select.map(key => pickAttr({ model, key }));
   const modelB = Object.assign({}, ...modelA);
+
   return modelB;
 };
 
-// Transform `undefined` to `null`
-const normalizeNull = function (value) {
-  if (value !== undefined) { return value; }
-
-  return null;
+const pickAttr = function ({ model, key }) {
+  // When explicitely selected, transform `undefined` to `null`
+  const value = model[key] === undefined ? null : model[key];
+  return { [key]: value };
 };
 
 module.exports = {

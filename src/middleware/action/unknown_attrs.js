@@ -47,9 +47,11 @@ const validateUnknown = function ({ action, collsMap }) {
 };
 
 const getSelectKeys = function ({ action: { args: { select = [] } } }) {
-  return select
-    .filter(({ key }) => key !== 'all')
-    .map(({ key }) => key);
+  return select.filter(key => key !== 'all');
+};
+
+const getRenameKeys = function ({ action: { args: { rename = [] } } }) {
+  return rename.map(({ key }) => key);
 };
 
 // Turn e.g. [{ a, b }, { a }] into ['a', 'b']
@@ -67,6 +69,7 @@ const getOrderKeys = function ({ action: { args: { order = [] } } }) {
 // Each argument type has its own way or specifying attributes
 const argsToValidate = [
   { name: 'select', getKeys: getSelectKeys },
+  { name: 'rename', getKeys: getRenameKeys },
   { name: 'data', getKeys: getDataKeys },
   { name: 'order', getKeys: getOrderKeys },
 ];
