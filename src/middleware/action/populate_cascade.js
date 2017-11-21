@@ -10,8 +10,7 @@ const { addActions } = require('./add_actions');
 const parsePopulateCascade = function ({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
-    filter: ({ args: { populate, cascade } }) =>
-      populate !== undefined || cascade !== undefined,
+    filter: ['populate', 'cascade'],
     mapper: getActions,
     ...rest,
   });

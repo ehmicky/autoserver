@@ -106,6 +106,8 @@ const middlewareLayers = [
       action.parseOrder,
       // Parse `args.select` into a set of `actions`
       action.parseSelect,
+      // Parse `args.rename`
+      action.parseRename,
       // Validate that attributes in `args.select|data|filter|order`
       // are in the schema
       action.validateUnknownAttrs,
@@ -134,6 +136,8 @@ const middlewareLayers = [
       action.assembleResults,
       // Applies `args.select`
       action.applySelect,
+      // Applies `args.rename`
+      action.applyRename,
       // Add content type, and remove top-level key
       action.parseResponse,
       // Middleware for rpc-related output validation

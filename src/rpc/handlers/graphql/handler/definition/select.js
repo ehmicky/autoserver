@@ -4,12 +4,16 @@ const { throwError } = require('../../../../../error');
 const { flatten } = require('../../../../../utilities');
 
 const { applyDirectives } = require('./directive');
+const { mergeSelectRename } = require('./merge_select');
 
 // Retrieve `rpcDef.args.select` using GraphQL selection sets
 const parseSelects = function ({ args, ...input }) {
-  const select = parseSelectionSet(input);
-  const selectA = select.join(',');
-  return { ...args, select: selectA };
+  const selectRename = parseSelectionSet(input);
+
+  const selectA = mergeSelectRename({ selectRename, name: 'select' });
+  const renameA = mergeSelectRename({ selectRename, name: 'rename' });
+
+  return { ...args, select: selectA, rename: renameA };
 };
 
 const parseSelectionSet = function ({
@@ -49,23 +53,25 @@ const parseField = function ({
   variables,
   fragments,
 }) {
-  const select = getSelect({ parentPath, alias, fieldName });
+  const selectRename = getSelectRename({ parentPath, alias, fieldName });
 
-  const childSelect = parseSelectionSet({
+  const childSelectRename = parseSelectionSet({
     selectionSet,
     parentPath: [...parentPath, fieldName],
     variables,
     fragments,
   });
 
-  return [select, ...childSelect];
+  return [selectRename, ...childSelectRename];
 };
 
-const getSelect = function ({ parentPath, alias, fieldName }) {
-  const key = [...parentPath, fieldName].join('.');
+const getSelectRename = function ({ parentPath, alias, fieldName }) {
+  const select = [...parentPath, fieldName].join('.');
   const outputName = alias && alias.value;
 
-  return outputName == null ? key : `${key}:${outputName}`;
+  const rename = outputName == null ? undefined : `${select}:${outputName}`;
+
+  return { select, rename };
 };
 
 const parseFragmentSpread = function ({

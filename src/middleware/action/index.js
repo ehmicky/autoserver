@@ -9,6 +9,7 @@ module.exports = {
   ...require('./populate_cascade'),
   ...require('./order'),
   ...require('./select'),
+  ...require('./rename'),
   ...require('./unknown_attrs'),
   ...require('./stable_ids'),
   ...require('./summary'),
