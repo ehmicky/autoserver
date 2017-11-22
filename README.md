@@ -1,6 +1,6 @@
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-This project creates a full-featured web API from a single [configuration file](docs/schema.md). 
+This generates a full-featured web API from a [configuration file](docs/schema.md). 
 
 # Features
 
