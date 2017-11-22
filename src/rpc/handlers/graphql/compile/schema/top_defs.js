@@ -29,7 +29,13 @@ const getTopDef = function ({ collections, graphqlMethod, commands }) {
   const collname = capitalize(graphqlMethod);
   const description = TOP_DESCRIPTIONS[graphqlMethod];
 
-  const topDef = { type: 'object', attributes, collname, description };
+  const topDef = {
+    type: 'object',
+    attributes,
+    collname,
+    clientCollname: collname,
+    description,
+  };
   return topDef;
 };
 
@@ -47,29 +53,28 @@ const getCommandsDefs = function ({ collections, commands }) {
 const getCommandDef = function ({ collections, command }) {
   const collectionsA = getCollectionsNames({ collections });
 
-  // E.g. 'my_coll' + 'findMany' -> 'find_my_coll'
-  // This will be used as the top-level graphqlMethod
-  const collectionsB = mapKeys(
+  const collectionsB = mapValues(
     collectionsA,
-    (coll, collname) => getCommandName({ collname, command }),
-  );
-  const collectionsC = mapValues(
-    collectionsB,
     coll => normalizeCollDef({ coll, command }),
   );
+
+  // E.g. 'my_coll' + 'findMany' -> 'find_my_coll'
+  // This will be used as the top-level graphqlMethod
+  const collectionsC = mapKeys(collectionsB, getCommandName);
   return collectionsC;
 };
 
 // Create one copy of a collection for each of its `clientCollname`
 const getCollectionsNames = function ({ collections }) {
-  const collectionsA = Object.values(collections).map(getCollectionNames);
+  const collectionsA = Object.entries(collections).map(getCollectionNames);
   const collectionsB = flatten(collectionsA);
   const collectionsC = Object.assign({}, ...collectionsB);
   return collectionsC;
 };
 
-const getCollectionNames = function (coll) {
-  return coll.name.map(collname => ({ [collname]: { ...coll, collname } }));
+const getCollectionNames = function ([collname, coll]) {
+  return coll.name.map(clientCollname =>
+    ({ [clientCollname]: { ...coll, clientCollname, collname } }));
 };
 
 // Add command information to each top-level collection

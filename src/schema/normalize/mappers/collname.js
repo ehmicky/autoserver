@@ -2,11 +2,10 @@
 
 // Default `collection.name` to parent key
 const normalizeClientCollname = function (coll, { collname }) {
-  const { name = [] } = coll;
+  const { name = [collname] } = coll;
   const nameA = Array.isArray(name) ? name : [name];
-  const nameB = [collname, ...nameA];
 
-  return { ...coll, name: nameB };
+  return { ...coll, name: nameA };
 };
 
 module.exports = {
