@@ -5,12 +5,12 @@ const { decapitalize, capitalize } = require('underscore.string');
 const { throwError } = require('../error');
 
 const getThrowErr = function ({ reason, prefix }, attrName, message) {
-  const messageA = getMessage(attrName, message);
+  const messageA = getMessage({ attrName, message });
   const messageB = capitalize(`${prefix}${messageA}`);
   throwError(messageB, { reason });
 };
 
-const getMessage = function (attrName, message) {
+const getMessage = function ({ attrName, message }) {
   if (message === undefined) {
     return decapitalize(attrName);
   }

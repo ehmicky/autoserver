@@ -1,7 +1,6 @@
 'use strict';
 
-const { throwAttrTypeError } = require('../error');
-
+const { validateArray } = require('./common');
 const { _and } = require('./or_and');
 
 const parseSomeAll = function ({ value, parseOperations }) {
@@ -13,12 +12,6 @@ const optimizeSomeAll = function (node) {
   if (node.value.length === 0) { return; }
 
   return node;
-};
-
-const validateSomeAll = function ({ type, attrName, attr, throwErr }) {
-  if (attr.isArray) { return; }
-
-  throwAttrTypeError({ attrName, attr, type, throwErr }, 'not an array');
 };
 
 // `{ array_attribute: { _some: { ...} } }`
@@ -48,13 +41,13 @@ module.exports = {
   _some: {
     parse: parseSomeAll,
     optimize: optimizeSomeAll,
-    validate: validateSomeAll,
+    validate: validateArray,
     eval: evalSome,
   },
   _all: {
     parse: parseSomeAll,
     optimize: optimizeSomeAll,
-    validate: validateSomeAll,
+    validate: validateArray,
     eval: evalAll,
   },
 };

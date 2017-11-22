@@ -14,15 +14,21 @@ const validateSameType = function ({
   attr: { type: attrType, isArray },
   throwErr,
 }) {
-  validateNotArrayOps({ type, attr, throwErr });
-
-  const typeValidator = getTypeValidator({ attr });
-  if (value === undefined || typeValidator(value)) { return; }
+  const valid = isValid({ value, attr });
+  if (valid) { return; }
 
   const message = isArray
     ? `an array of type '${attrType}'`
     : `of type ${attrType}`;
   throwAttrValError({ type, throwErr }, message);
+};
+
+const isValid = function ({ value, attr: { type: attrType, isArray } }) {
+  if (value === undefined) { return true; }
+
+  const typeValidatorsA = typeValidators[isArray ? 'many' : 'one'];
+  const typeValidator = typeValidatorsA[attrType];
+  return typeValidator(value);
 };
 
 const oneTypeValidators = {
@@ -45,18 +51,21 @@ const typeValidators = {
   many: getManyTypeValidators(),
 };
 
-const getTypeValidator = function ({ attr: { type: attrType, isArray } }) {
-  return typeValidators[isArray ? 'many' : 'one'][attrType];
-};
-
-const validateNotArrayOps = function ({ type, attr, throwErr }) {
+const validateNotArray = function ({ type, attr, throwErr }) {
   if (!attr.isArray) { return; }
 
   throwAttrTypeError({ attr, type, throwErr }, 'an array');
 };
 
+const validateArray = function ({ type, attr, throwErr }) {
+  if (attr.isArray) { return; }
+
+  throwAttrTypeError({ attr, type, throwErr }, 'not an array');
+};
+
 module.exports = {
   parseAsIs,
   validateSameType,
-  validateNotArrayOps,
+  validateNotArray,
+  validateArray,
 };
