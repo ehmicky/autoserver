@@ -2,6 +2,7 @@
 
 const { flatten } = require('../../utilities');
 const { getOperator, DEEP_OPERATORS } = require('../operators');
+const { parseSiblingNode } = require('../siblings');
 
 const parseAttrs = function ({ attrs, throwErr }) {
   if (!attrs || attrs.constructor !== Object) {
@@ -101,14 +102,17 @@ const parseOperation = function ({ type, value, throwErr }) {
   // Normalize `null|undefined` to only `undefined`
   const valueA = value === null ? undefined : value;
 
-  // Pass `parseAttrs` and `parseOperations` for recursion
-  const valueB = operator.parse({
-    value: valueA,
-    parseAttrs,
-    parseOperations,
-    throwErr,
-  });
+  const valueB = parseValue({ operator, value: valueA, throwErr });
+
   return { ...node, value: valueB };
+};
+
+const parseValue = function ({ operator, value, throwErr }) {
+  const valueA = parseSiblingNode({ value, throwErr });
+  if (valueA !== undefined) { return valueA; }
+
+  // Pass `parseAttrs` and `parseOperations` for recursion
+  return operator.parse({ value, parseAttrs, parseOperations, throwErr });
 };
 
 module.exports = {

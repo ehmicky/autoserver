@@ -35,4 +35,5 @@ const getAttr = function ({ attrs, attrName, throwErr }) {
 
 module.exports = {
   getDeepAttr,
+  getAttr,
 };

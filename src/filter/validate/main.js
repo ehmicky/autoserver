@@ -6,6 +6,7 @@ const { getThrowErr } = require('../error');
 const { getOperator } = require('../operators');
 
 const { getDeepAttr } = require('./attr');
+const { getSiblingValue } = require('./siblings');
 const { validators } = require('./validators');
 
 // `attrs` must be `{ collname: { attrName:
@@ -43,11 +44,13 @@ const validateNode = function ({
 
   const attr = getDeepAttr({ attrs, attrName, throwErr });
 
+  const valueA = getSiblingValue({ value, attrs, attrName, throwErr });
+
   const throwErrA = throwErr.bind(null, attrName);
 
   validateValue({
     type,
-    value,
+    value: valueA,
     attr,
     operator,
     operations,
