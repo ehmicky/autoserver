@@ -3,6 +3,7 @@
 const { has, get } = require('../utilities');
 
 const { getOperator } = require('./operators');
+const { getSiblingValue } = require('./siblings');
 
 // Check if a set of `attrs` matches a filter such as `args.filter` or
 // `coll.authorize`
@@ -19,8 +20,16 @@ const evalFilter = function ({
 
   const attr = getAttr({ attrs, attrName });
   const operator = getOperator({ node: filter });
+  const valueA = getSiblingValue({ value, attrName, attrs });
+
   // `evalFilter` is passed for recursion
-  return operator.eval({ attr, attrs, value, partialNames, evalFilter });
+  return operator.eval({
+    attr,
+    attrs,
+    value: valueA,
+    partialNames,
+    evalFilter,
+  });
 };
 
 // Nodes marked as partial, i.e. whose name matches the `partialNames` regexp,
