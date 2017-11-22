@@ -13,6 +13,7 @@
   "filter:_and",
   "filter:_some",
   "filter:_all",
+  "filter:sibling",
   "order",
   "offset"
 ]
