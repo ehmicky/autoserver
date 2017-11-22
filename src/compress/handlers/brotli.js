@@ -3,11 +3,8 @@
 const { pBrotliCompress, pBrotliDecompress } = require('../../utilities');
 
 // Compress to Brotli
-const compress = async function ({ content }) {
-  const contentA = Buffer.from(content);
-  const contentB = await pBrotliCompress(contentA);
-  const contentC = contentB.toString();
-  return contentC;
+const compress = function ({ content }) {
+  return pBrotliCompress(content);
 };
 
 // Decompress from Brotli

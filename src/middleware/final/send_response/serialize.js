@@ -8,7 +8,9 @@ const serializeContent = function ({ format, content, type, topargs, error }) {
 
   const contentB = applySilent({ content: contentA, topargs, error });
 
-  return contentB;
+  const contentC = Buffer.from(contentB);
+
+  return contentC;
 };
 
 const stringifyContent = function ({ format: { name }, content, type }) {
