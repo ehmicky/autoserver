@@ -20,7 +20,7 @@ const evalFilter = function ({
 
   const attr = getAttr({ attrs, attrName });
   const operator = getOperator({ node: filter });
-  const valueA = getSiblingValue({ value, attrName, attrs });
+  const valueA = getSiblingValue({ value, attrs });
 
   // `evalFilter` is passed for recursion
   return operator.eval({
