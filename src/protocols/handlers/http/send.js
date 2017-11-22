@@ -92,16 +92,20 @@ const setAllHeaders = function (res, headers) {
 
 // `Vary` HTTP header
 const setVary = function ({ res, type }) {
-  const objectVary = OBJECT_TYPES.includes(type) ? ['Accept'] : [];
-  const allVary = [
-    ...objectVary,
-    'Content-Type',
-    'Accept-Encoding',
-    'X-HTTP-Method-Override',
-    'X-Apiengine-Params',
-  ];
-  vary(res, allVary);
+  const objectVary = OBJECT_TYPES.includes(type) ? OBJECT_VARY_HEADERS : [];
+  vary(res, [...objectVary, ...VARY_HEADERS]);
 };
+
+const VARY_HEADERS = [
+  'Accept-Encoding',
+  'X-HTTP-Method-Override',
+  'X-Apiengine-Params',
+];
+
+const OBJECT_VARY_HEADERS = [
+  'Content-Type',
+  'Accept',
+];
 
 const cleanup = function ({ req, res }) {
   // Otherwise, socket might not be freed, e.g. if an error was thrown before
