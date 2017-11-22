@@ -1,7 +1,6 @@
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-This project creates a full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
-[JSON-RPC](docs/jsonrpc.md) API from a single [configuration file](docs/schema.md). 
+This project creates a full-featured web API from a single [configuration file](docs/schema.md). 
 
 # Features
 
