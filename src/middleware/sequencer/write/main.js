@@ -42,7 +42,7 @@ const isNotEmpty = function ({ ids }) {
 // Add next layers's whole input
 const getInput = function ({
   actions,
-  actions: [{ collname, clientCollname = collname }],
+  actions: [{ collname, clientCollname }],
   args,
   top: { command: { type: command } },
   mInput,

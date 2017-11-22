@@ -1,7 +1,6 @@
 engine: 0
 collections:
   pets:
-    name: [animals, companions]
     description: Cute animal
     database: memory
     authorize:
