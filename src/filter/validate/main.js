@@ -44,9 +44,14 @@ const validateNode = function ({
 
   const attr = getDeepAttr({ attrs, attrName, throwErr });
 
-  const valueA = getSiblingValue({ value, attrs, attrName, throwErr });
-
   const throwErrA = throwErr.bind(null, attrName);
+
+  const valueA = getSiblingValue({
+    value,
+    attrs,
+    attrName,
+    throwErr: throwErrA,
+  });
 
   validateValue({
     type,

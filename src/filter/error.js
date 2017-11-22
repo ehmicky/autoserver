@@ -15,7 +15,7 @@ const getMessage = function ({ attrName, message }) {
     return decapitalize(attrName);
   }
 
-  return `for '${attrName}', ${decapitalize(message)}`;
+  return `in '${attrName}' attribute, ${decapitalize(message)}`;
 };
 
 const throwAttrValError = function ({ type, throwErr }, message) {
