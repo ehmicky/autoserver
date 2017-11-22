@@ -1,11 +1,16 @@
 'use strict';
 
-const mapAttr = function ({ isArray, target, type }) {
+const mapAttr = function (
+  { isArray, target, type },
+  { schema: { collections } },
+) {
   if (!target) {
     return { isArray, type };
   }
 
-  return { isArray, target, type };
+  const [clientTarget] = collections[target].name;
+
+  return { isArray, target, clientTarget, type };
 };
 
 // Returns a simplified map of all the collections in the schema

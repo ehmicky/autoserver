@@ -4,7 +4,7 @@
 const getColl = function ({
   commandpath,
   collsMap,
-  top: { collname, command: { multiple } },
+  top: { collname, clientCollname, command: { multiple } },
 }) {
   const commandpathA = commandpath
     // The first element is the top-level `commandName`, not useful here
@@ -14,7 +14,7 @@ const getColl = function ({
 
   // This means this is the top-level action
   if (commandpathA.length === 0) {
-    return { collname, multiple };
+    return { collname, clientCollname, multiple };
   }
 
   return findColl({ collsMap, collname, commandpath: commandpathA });
@@ -28,7 +28,7 @@ const findColl = function ({ collsMap, collname, commandpath }) {
   // Erronous `commandpath`
   if (collnameA === undefined) { return; }
 
-  const { target: childCollname, isArray } = collnameA;
+  const { target: childCollname, clientTarget, isArray } = collnameA;
 
   if (childCommandpath.length !== 0) {
     return findColl({
@@ -38,7 +38,11 @@ const findColl = function ({ collsMap, collname, commandpath }) {
     });
   }
 
-  return { collname: childCollname, multiple: isArray };
+  return {
+    collname: childCollname,
+    clientCollname: clientTarget,
+    multiple: isArray,
+  };
 };
 
 module.exports = {

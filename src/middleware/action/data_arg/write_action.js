@@ -14,12 +14,13 @@ const getWriteAction = function ({
   collsMap,
   nestedKeys,
 }) {
-  const { collname } = getColl({ top, collsMap, commandpath });
+  const { collname, clientCollname } = getColl({ top, collsMap, commandpath });
 
   const dataA = data.map(datum => replaceNestedData({ datum, nestedKeys }));
   const args = { data: dataA };
 
-  return { commandpath, args, collname, dataPaths, isWrite: true };
+  const isWrite = true;
+  return { commandpath, args, collname, clientCollname, dataPaths, isWrite };
 };
 
 // Replace nested objects from each `args.data` by only their ids
