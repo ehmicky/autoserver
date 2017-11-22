@@ -53,7 +53,7 @@ const setHeaders = function ({
   // to follow HTTP spec for HEAD method.
   // However, when used with other methods, this is incorrect and make some
   // clients crash
-  const contentLength = Buffer.byteLength(content);
+  const contentLength = content.byteLength;
 
   const acceptEncoding = getAcceptEncoding();
 

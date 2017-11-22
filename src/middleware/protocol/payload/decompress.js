@@ -3,7 +3,7 @@
 const { addGenErrorHandler } = require('../../../error');
 
 // Request body decompression
-// Input is buffer. Output might be either string of buffer.
+// Input and output is buffer.
 const decompressPayload = function ({ compressRequest, payload }) {
   if (compressRequest === undefined) { return payload; }
 
