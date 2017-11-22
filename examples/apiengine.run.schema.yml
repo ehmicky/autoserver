@@ -8,7 +8,7 @@ collections:
         id:
           _neq: '90'
         created_time:
-          _eq: '$model.updated_time'
+          _eq: '$model.created_time'
       $command:
         _in: (['find', 'delete', 'create', 'upsert', 'patch'])
     __custom: anything
