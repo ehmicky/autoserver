@@ -3,12 +3,20 @@
 const { DEFAULT_COMPRESS } = require('./merger');
 
 // Normalize `compress` name
-const normalizeCompress = function ({
-  compressResponse: { name: compressResponse } = DEFAULT_COMPRESS,
-  compressRequest: { name: compressRequest } = DEFAULT_COMPRESS,
-}) {
-  const compress = `${compressResponse},${compressRequest}`;
+const normalizeCompress = function ({ compressResponse, compressRequest }) {
+  const compressResponseName = getName({ compress: compressResponse });
+  const compressRequestName = getName({ compress: compressRequest });
+
+  const compress = `${compressResponseName},${compressRequestName}`;
   return compress;
+};
+
+const getName = function ({ compress }) {
+  if (typeof compress === 'string' || compress == null) {
+    return DEFAULT_COMPRESS.name;
+  }
+
+  return compress.name;
 };
 
 // Using query variable ?compress=REQUEST_COMPRESSION[,RESPONSE_COMPRESSION]
