@@ -175,7 +175,6 @@ event payload, with the properties:
     e.g. `'GET'`
   - `status` `{string}` - response's status, among `'INTERNALS'`, `'SUCCESS'`,
     `'CLIENT_ERROR'` and `'SERVER_ERROR'`
-  - `pathvars` `{object}` - URL variables, as a hash table
   - `queryvars` `{object}` - query variables, as a hash table
   - `headers` `{object}` - engine-specific headers
   - `format` `{string}` - request payload and server response's
