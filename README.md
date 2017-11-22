@@ -1,10 +1,7 @@
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-This is a web server engine.
-
-You create a single [declarative file](docs/schema.md) as input, and a
-full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
-[JSON-RPC](docs/jsonrpc.md) server will start.
+This project creates a full-featured [REST](docs/rest.md) / [GraphQL](docs/graphql.md) /
+[JSON-RPC](docs/jsonrpc.md) API from a single [configuration file](docs/schema.md). 
 
 # Features
 
