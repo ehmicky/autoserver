@@ -45,9 +45,6 @@ schema:
       key: (getSecretKey())
 ```
 
-However those functions cannot use the variables `$model`, `$val`,
-`$previousmodel` nor `$previousval`.
-
 # Collection authorization
 
 One can specify collection-specific authorization with `collection.authorize`.
@@ -88,6 +85,21 @@ will prevent requests from fetching any `example_collection` with
 Using this feature allows you to define
 [access control lists](https://en.wikipedia.org/wiki/Access_control_list)
 restricting the permissions of a model based on the value of its attributes.
+
+Functions cannot use the variables `$model`, `$val`, `$previousmodel` nor
+`$previousval`. However, it is possible to target another attribute by using
+a `$model.ATTRIBUTE` string as value, e.g.:
+
+```yml
+collections:
+  example_collection:
+    authorize:
+      $model:
+        created_time: $model.updated_time
+```
+
+will only reject requests on any `example_collection` unless
+`example_collection.created_time` equals `example_collection.updated_time`.
 
 # Readonly attributes
 

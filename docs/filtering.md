@@ -66,6 +66,15 @@ the array:
   - `_all`: all elements match the filter
   - `_some`: at least some elements match the filter
 
+# Cross-attributes filtering
+
+It is possible to compare two attributes by using the `$model.ATTRIBUTE`
+notation, e.g.:
+
+```HTTP
+GET /rest/users/?filter.created_time=$model.updated_time
+```
+
 # Examples
 
 The following two examples are the same:
