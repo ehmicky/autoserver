@@ -112,7 +112,7 @@ collections:
       birth_date:
         default: (birth_date)
         validate:
-          format: date-time
+          format: date
           formatMinimum: '2000-01-01'
           formatExclusiveMinimum: true
           formatMaximum: '2100-01-01'
@@ -136,7 +136,7 @@ variables:
     string.titleize($rpc))
   my_other_math_func:
     $ref: math_func.js
-  birth_date: 2005-01-01
+  birth_date: '2005-01-01'
   user: '(({ id: "1" }))'
   constants:
     $ref: constants.json
