@@ -36,15 +36,7 @@ const parseNestedAttr = function ({ attrName, attrVal, throwErr }) {
     return parseAttr({ attrName, attrVal, throwErr });
   }
 
-  // Cannot mix with operators,
-  // e.g. `{ attribute: { child: value, _eq: value } }`
-  const mixedOp = Object.keys(attrVal)
-    .find(nestedAttrName => nestedAttrName.startsWith('_'));
-
-  if (mixedOp !== undefined) {
-    const message = `Cannot use operator '${mixedOp}' alongside attribute '${nestedName}'`;
-    throwErr(message);
-  }
+  validateMixedOp({ nestedName, attrVal, throwErr });
 
   return parseNestedAttrs({ attrName, attrVal, throwErr });
 };
@@ -54,6 +46,17 @@ const findNestedAttr = function ({ attrVal }) {
 
   return Object.keys(attrVal)
     .find(nestedAttrName => !nestedAttrName.startsWith('_'));
+};
+
+// Cannot mix with operators,
+// e.g. `{ attribute: { child: value, _eq: value } }`
+const validateMixedOp = function ({ nestedName, attrVal, throwErr }) {
+  const mixedOp = Object.keys(attrVal)
+    .find(nestedAttrName => nestedAttrName.startsWith('_'));
+  if (mixedOp === undefined) { return; }
+
+  const message = `Cannot use operator '${mixedOp}' alongside attribute '${nestedName}'`;
+  throwErr(message);
 };
 
 const parseAttr = function ({ attrName, attrVal, throwErr }) {

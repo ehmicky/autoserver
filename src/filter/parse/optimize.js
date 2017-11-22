@@ -9,9 +9,8 @@ const optimizeFilter = function ({ filter }) {
 };
 
 const optimizeNode = function (node) {
-  const operator = getOperator({ node });
+  const { optimize } = getOperator({ node });
 
-  const { optimize } = operator;
   if (optimize === undefined) { return node; }
 
   const nodeA = optimize(node);

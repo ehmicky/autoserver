@@ -2,21 +2,16 @@
 
 const { throwAttrValError } = require('../error');
 
-const {
-  parseAsIs,
-  validateNotArrayOps,
-  validateSameType,
-} = require('./common');
+const { parseAsIs, validateNotArray, validateSameType } = require('./common');
 
 const validateInNin = function ({ value, type, attr, throwErr }) {
-  validateNotArrayOps({ type, attr, throwErr });
+  validateNotArray({ type, attr, throwErr });
 
   if (!Array.isArray(value)) {
     throwAttrValError({ type, throwErr }, 'an array');
   }
 
-  value.forEach(val =>
-    validateSameType({ value: val, type, attr, throwErr }));
+  value.forEach(val => validateSameType({ value: val, type, attr, throwErr }));
 };
 
 // `{ attribute: { _in: [...] } }`

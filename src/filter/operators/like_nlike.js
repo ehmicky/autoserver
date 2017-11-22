@@ -3,7 +3,7 @@
 const { addErrorHandler } = require('../../error');
 const { throwAttrValError, throwAttrTypeError } = require('../error');
 
-const { validateNotArrayOps } = require('./common');
+const { validateNotArray } = require('./common');
 
 const parseLikeNlike = function ({ value }) {
   // Using .* or .*$ at the end of a RegExp is useless
@@ -20,7 +20,7 @@ const validateLikeNlike = function ({
   attr: { type: attrType, isArray },
   throwErr,
 }) {
-  validateNotArrayOps({ type, attr, throwErr });
+  validateNotArray({ type, attr, throwErr });
 
   if (typeof value !== 'string') {
     throwAttrValError({ type, throwErr }, 'a string');

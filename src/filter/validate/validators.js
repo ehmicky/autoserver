@@ -1,7 +1,7 @@
 'use strict';
 
-const { getWordsList, difference } = require('../../utilities');
-const { getEnum } = require('../enum');
+const { getWordsList, difference, intersection } = require('../../utilities');
+const { ENUM_OPERATORS } = require('../operators');
 
 // Validate value is among set of values
 const validateEnum = function ({ type, value, ruleVal, throwErr }) {
@@ -18,8 +18,6 @@ const validateEnum = function ({ type, value, ruleVal, throwErr }) {
 
   validateEnumVal({ ruleVal, value, throwErr });
 };
-
-const ENUM_OPERATORS = ['_eq', '_neq', '_in', '_nin'];
 
 const validateEnumVal = function ({ ruleVal, value, throwErr }) {
   if (!ruleVal.includes(value)) {
@@ -43,6 +41,22 @@ const validateRequires = function ({
 
   ruleVal.forEach(([ifVal, thenVal]) =>
     validateRequirePair({ ifVal, thenVal, enumVals, throwErr }));
+};
+
+// For operations allowing only `_eq`, `_in`, `_nin`, `_neq`, normalize to `_in`
+// values, using the set of possible values.
+const getEnum = function ({ operations, possVals }) {
+  const values = operations
+    .map(({ type, value }) => enumOperations[type]({ value, possVals }));
+  const valuesA = intersection(possVals, ...values);
+  return valuesA;
+};
+
+const enumOperations = {
+  _in: ({ value }) => value,
+  _eq: ({ value }) => [value],
+  _nin: ({ value, possVals }) => difference(possVals, value),
+  _neq: ({ value, possVals }) => difference(possVals, [value]),
 };
 
 const validateRequirePair = function ({ ifVal, thenVal, enumVals, throwErr }) {

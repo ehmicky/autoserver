@@ -39,7 +39,8 @@ const getAttr = function ({ attrs, attrName }) {
 
   if (!has(attrs, path)) { return; }
 
-  return get(attrs, path);
+  const attr = get(attrs, path);
+  return attr;
 };
 
 module.exports = {

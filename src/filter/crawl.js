@@ -2,23 +2,58 @@
 
 const { groupBy, flatten } = require('../utilities');
 
+const {
+  PARENT_OPERATORS,
+  ATTR_PARENT_OPERATORS,
+  ATTR_ANCESTOR_OPERATORS,
+} = require('./operators');
+
 // Call `func(node)` recursively over each node of `args.filter`
 // Returns array of func() return values
 const crawlNodes = function (node, func) {
-  const children = getNodeChildren(node).map(child => crawlNodes(child, func));
-  const childrenA = flatten(children);
+  const children = getNodeChildren(node);
+  const childrenA = children.map(child => crawlNodes(child, func));
+  const childrenB = flatten(childrenA);
 
   const returnValue = func(node);
 
-  if (returnValue === undefined) { return childrenA; }
+  if (returnValue === undefined) { return childrenB; }
 
-  return [returnValue, ...childrenA];
+  return [returnValue, ...childrenB];
 };
 
 const getNodeChildren = function ({ type, value }) {
-  if (!NODE_PARENT_TYPES.includes(type)) { return []; }
+  if (!PARENT_OPERATORS.includes(type)) { return []; }
 
   return value;
+};
+
+// Call `func(node)` recursively over each attribute of `args.filter`
+// Returns array of func() return values
+const crawlAttrs = function (node, func) {
+  const { type, value } = node;
+
+  if (!ATTR_ANCESTOR_OPERATORS.includes(type)) {
+    const returnValue = getAttrs(node, func);
+    return [...returnValue, value];
+  }
+
+  const children = value.map(child => crawlAttrs(child, func));
+  const childrenA = flatten(children);
+  return childrenA;
+};
+
+const getAttrs = function (node, func) {
+  const { type, value } = node;
+
+  if (!ATTR_PARENT_OPERATORS.includes(type)) {
+    return func([node]) || [];
+  }
+
+  const groups = groupBy(value, 'attrName');
+  const attrs = Object.entries(groups)
+    .map(([attrName, group]) => func(group, attrName));
+  return attrs;
 };
 
 // Call `func(node)` recursively over each node of `args.filter`
@@ -32,49 +67,10 @@ const mapNodes = function (node, func) {
 };
 
 const mapChildren = function ({ type, value }, func) {
-  if (!NODE_PARENT_TYPES.includes(type)) { return value; }
+  if (!PARENT_OPERATORS.includes(type)) { return value; }
 
   return value.map(child => mapNodes(child, func));
 };
-
-const NODE_PARENT_TYPES = ['_all', '_some', '_or', '_and'];
-
-// Call `func(node)` recursively over each attribute of `args.filter`
-// Returns array of func() return values
-const crawlAttrs = function (node, func) {
-  const children = getAttrChildren(node);
-
-  if (children.length !== 0) {
-    const childrenA = children.map(child => crawlAttrs(child, func));
-    return flatten(childrenA);
-  }
-
-  const returnValue = getAttrs(node, func);
-
-  return [...returnValue, ...children];
-};
-
-const getAttrs = function (node, func) {
-  const { type, value } = node;
-
-  if (!ATTR_PARENT_TYPES.includes(type)) {
-    return func([node]) || [];
-  }
-
-  const groups = groupBy(value, 'attrName');
-
-  return Object.entries(groups)
-    .map(([attrName, group]) => func(group, attrName));
-};
-
-const getAttrChildren = function ({ type, value }) {
-  if (!ATTR_RECURSIVE_TYPES.includes(type)) { return []; }
-
-  return value;
-};
-
-const ATTR_RECURSIVE_TYPES = ['_or'];
-const ATTR_PARENT_TYPES = ['_and'];
 
 module.exports = {
   crawlNodes,
