@@ -102,13 +102,13 @@ const parseOperation = function ({ type, value, throwErr }) {
   // Normalize `null|undefined` to only `undefined`
   const valueA = value === null ? undefined : value;
 
-  const valueB = parseValue({ operator, value: valueA, throwErr });
+  const valueB = parseValue({ operator, type, value: valueA, throwErr });
 
   return { ...node, value: valueB };
 };
 
-const parseValue = function ({ operator, value, throwErr }) {
-  const valueA = parseSiblingNode({ value, throwErr });
+const parseValue = function ({ operator, type, value, throwErr }) {
+  const valueA = parseSiblingNode({ type, value, throwErr });
   if (valueA !== undefined) { return valueA; }
 
   // Pass `parseAttrs` and `parseOperations` for recursion

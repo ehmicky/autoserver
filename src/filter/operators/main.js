@@ -49,6 +49,13 @@ const ATTR_ANCESTOR_OPERATORS = ['_or'];
 // Can be used with values that are enums
 const ENUM_OPERATORS = ['_eq', '_neq', '_in', '_nin'];
 
+// Cannot use siblings `$model.ATTR`
+// This is because this would require parsing sibling value as RegExp during
+// query time, which is slow and prone to fail
+// For deep operators, it is sometimes quite complicated to implement in
+// database adapters. E.g. MongoDB does not allow $where inside $elemMatch
+const NO_SIBLINGS_OPERATORS = ['_like', '_nlike', '_some', '_all'];
+
 module.exports = {
   getOperator,
   PARENT_OPERATORS,
@@ -56,4 +63,5 @@ module.exports = {
   ATTR_PARENT_OPERATORS,
   ATTR_ANCESTOR_OPERATORS,
   ENUM_OPERATORS,
+  NO_SIBLINGS_OPERATORS,
 };

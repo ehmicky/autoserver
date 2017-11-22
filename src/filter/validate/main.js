@@ -34,7 +34,7 @@ const validateAttr = function ({ nodes, ...rest }) {
 
 const validateNode = function ({
   node,
-  node: { type, value, attrName },
+  node: { type, attrName },
   operations,
   attrs,
   skipInlineFuncs,
@@ -46,12 +46,7 @@ const validateNode = function ({
 
   const throwErrA = throwErr.bind(null, attrName);
 
-  const valueA = getSiblingValue({
-    value,
-    attrs,
-    attrName,
-    throwErr: throwErrA,
-  });
+  const valueA = getSiblingValue({ node, attrs, throwErr: throwErrA });
 
   validateValue({
     type,
