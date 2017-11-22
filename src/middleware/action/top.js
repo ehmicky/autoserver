@@ -5,7 +5,7 @@ const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
 
 // Parse a `rpcDef` into a top-level action, i.e.:
-// `collname`, `commandpath`, `args`
+// `collname`, `clientCollname`, `commandpath`, `args`
 const parseTopAction = function ({
   rpcDef: { commandName, args },
   schema: { shortcuts: { collsNames } },
@@ -61,17 +61,17 @@ const validateCollname = function ({
 
 // Returns all possible commands
 const getAllowed = function ({ collsNames }) {
-  const collnames = Object.keys(collsNames);
+  const clientCollnames = Object.keys(collsNames);
   const commands = COMMANDS.map(({ type }) => type);
   const commandsA = uniq(commands);
   const allowed = commandsA
-    .map(command => getAllowedCommand({ command, collnames }));
+    .map(command => getAllowedCommand({ command, clientCollnames }));
   const allowedA = flatten(allowed);
   return allowedA;
 };
 
-const getAllowedCommand = function ({ command, collnames }) {
-  return collnames.map(collname => `${command}_${collname}`);
+const getAllowedCommand = function ({ command, clientCollnames }) {
+  return clientCollnames.map(clientCollname => `${command}_${clientCollname}`);
 };
 
 // Retrieve `top.command`
