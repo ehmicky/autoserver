@@ -12,6 +12,10 @@ const filterValidator = function ({ features, filterFeatures }) {
     return 'In \'filter\' argument, must not use an array of alternatives';
   }
 
+  if (ops.includes('sibling')) {
+    return 'In \'filter\' argument, must not use values prefixed with \'$model.\'';
+  }
+
   const opsA = getWordsList(ops, { op: 'nor', quotes: true });
   return `In 'filter' argument, must not use the operators ${opsA}`;
 };
