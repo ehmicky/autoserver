@@ -6,6 +6,7 @@ module.exports = {
   ...require('./eval'),
   ...require('./authorize'),
   ...require('./crawl'),
+  ...require('./siblings'),
   ...require('./simple_id'),
   ...require('./features'),
 };
