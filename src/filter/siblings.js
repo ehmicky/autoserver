@@ -52,5 +52,6 @@ const getSiblingValue = function ({ value, attrName, attrs }) {
 module.exports = {
   parseSiblingNode,
   getSiblingAttrName,
+  isSiblingValue,
   getSiblingValue,
 };

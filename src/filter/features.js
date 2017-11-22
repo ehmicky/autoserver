@@ -3,6 +3,7 @@
 const { flatten, uniq } = require('../utilities');
 
 const { crawlNodes } = require('./crawl');
+const { isSiblingValue } = require('./siblings');
 
 // Returns all the database features needed by this filter
 const getFeatures = function ({ filter }) {
@@ -14,7 +15,10 @@ const getFeatures = function ({ filter }) {
   return featuresB;
 };
 
-const getFeature = function ({ type, attrName }) {
+const getFeature = function ({ type, attrName, value }) {
+  // $model.ATTR targetting a sibling in `args.filter`
+  if (isSiblingValue({ value })) { return ['filter:sibling']; }
+
   // Simple filters, i.e. { id: string } and { id: { _in: array } }
   // do not require any feature, because every database adapter should
   // support them, since many things depend on those basic operations.
