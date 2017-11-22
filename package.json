@@ -59,7 +59,7 @@
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "eslint": "^4.9.0",
+    "eslint": "^4.11.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-import-resolver-node": "^0.3.1",
     "eslint-plugin-eslint-comments": "^2.0.1",
