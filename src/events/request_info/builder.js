@@ -28,7 +28,7 @@ const buildRequestinfo = function ({
   topargs: args,
   commandpath,
   command,
-  clientCollname: collection,
+  collname: collection,
   metadata,
   response: {
     content: response,
