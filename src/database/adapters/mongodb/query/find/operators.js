@@ -1,5 +1,7 @@
 'use strict';
 
+const { getSiblingNode } = require('./siblings');
+
 // Transform `args.filter` into MongoDB query object
 // Applied recursively
 const getQueryFilter = function ({ type, value, attrName }) {
@@ -34,6 +36,14 @@ const allOperator = function ({ value, attrName }) {
 };
 
 const genericOperator = function ({ type, value, attrName }) {
+  const isSibling = value &&
+    value.constructor === Object &&
+    value.type === 'sibling';
+
+  if (isSibling) {
+    return getSiblingNode({ type, value, attrName });
+  }
+
   const valueA = getGenericNode({ type, value, key: 'opName' });
   return { [attrName]: valueA };
 };
