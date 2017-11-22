@@ -1,3 +1,4 @@
+name: [skills]
 description: Skills of a pet
 attributes:
   age:
