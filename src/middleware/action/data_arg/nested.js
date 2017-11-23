@@ -4,7 +4,7 @@ const { flatten, uniq } = require('../../../utilities');
 const { getColl } = require('../get_coll');
 
 const { getDataPath } = require('./data_path');
-const { isObject } = require('./validate');
+const { isModelType } = require('./validate');
 
 // Retrieve the keys of an `args.data` object which are nested collections
 const getNestedKeys = function ({ data, commandpath, top, collsMap }) {
@@ -57,7 +57,7 @@ const getNestedAction = function ({
 const getData = function ({ data, nestedKey }) {
   const nestedData = data.map(datum => datum[nestedKey]);
   const nestedDataA = flatten(nestedData);
-  const nestedDataB = nestedDataA.filter(isObject);
+  const nestedDataB = nestedDataA.filter(isModelType);
   return nestedDataB;
 };
 

@@ -26,7 +26,7 @@ const validateData = function ({
 };
 
 const validateType = function ({ datum, commandpath }) {
-  if (isObject(datum)) { return; }
+  if (isModelType(datum)) { return; }
 
   const message = `'data' argument at '${commandpath}' should be an object or an array of objects, instead of: ${JSON.stringify(datum)}`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
@@ -68,18 +68,18 @@ const validateDataValue = function ({
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const isModelType = function (val) {
-  if (isObject(val)) { return true; }
+const isModelsType = function (val) {
+  if (isModelType(val)) { return true; }
 
-  return Array.isArray(val) && val.every(isObject);
+  return Array.isArray(val) && val.every(isModelType);
 };
 
-const isObject = function (obj) {
+const isModelType = function (obj) {
   return obj && obj.constructor === Object;
 };
 
 module.exports = {
   validateData,
+  isModelsType,
   isModelType,
-  isObject,
 };
