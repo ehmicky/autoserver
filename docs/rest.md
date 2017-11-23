@@ -24,15 +24,17 @@ an array of objects. Also the `ID` will be used as the
 # Arguments
 
 The [arguments](rpc.md#rpc) are specified using URL query
-variables, except for the `data` argument, which corresponds to the full
+variables, except for the `data` argument, which is specified using the full
 request payload.
 
-Objects and arrays can be specified using a dot notation, e.g.
-`filter.0.name=David` is parsed as `filter: [{ "name": "David" }]`.
+Values can be either an unquoted string or any JSON value. To differentiate
+between a number (e.g. `filter.weight=5`) and a string (e.g. `filter.id="5"`),
+surround the number with double quotes.
 
-Values can be either an unquoted string or any JSON value, including objects
-and arrays. To differentiate between a number (e.g. `filter.weight=5`) and a
-string (e.g. `filter.id="5"`), surround the number with double quotes.
+Objects and arrays can be specified using either:
+  - a dot notation, e.g. `filter.0.name=David`
+  - a JSON value, e.g. `filter=[{ "name": "David" }]`, which after URL encoding
+    is `filter=%5B%7B%22name%22%3A%22David%22%7D%5D`
 
 Omitted values default to `true`, e.g. `?dryrun` is the same as `?dryrun=true`.
 

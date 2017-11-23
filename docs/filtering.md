@@ -10,17 +10,26 @@ e.g.:
 GET /rest/users/?filter.country=Denmark
 ```
 
+# Alternatives
+
 `filter` can be an array if you want to specify alternatives ("or"), e.g.:
 
 ```HTTP
 GET /rest/users/?filter.0.country=Denmark&filter.1.country=Germany
 ```
 
+or using a URL encoded JSON value
+`[{ "country": "Denmark" }, { "country": "Germany" }]`:
+
+```HTTP
+GET /rest/users/?filter=%5B%7B%22country%22%3A%22Denmark%22%7D%2C%7B%22country%22%3A%22Germany%22%7D%5D
+```
+
 With GraphQL, this would look like:
 
 ```graphql
 {
-  find_users(filter: [{ country: "Denmark" }, { country: "Germany "}]) {
+  find_users(filter: [{ country: "Denmark" }, { country: "Germany" }]) {
     id
     name
     manager
