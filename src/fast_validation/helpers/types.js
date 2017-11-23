@@ -18,7 +18,7 @@ const typeTest = ({ test: testFunc, message }) => name => ({
 
     return testFunc(val);
   },
-  message: `'${name}' must be ${message}`,
+  message: `the value of '${name}' must be ${message}`,
 });
 
 const typeCheckers = {
