@@ -4,13 +4,14 @@
 const addTypeValidation = function (attr) {
   if (!attr.type) { return attr; }
 
-  if (attr.isArray) { return addMultipleValidation(attr); }
+  if (!attr.isArray) { return addSingleValidation(attr); }
 
-  return addSingleValidation(attr);
+  return addMultipleValidation(attr);
 };
 
 const addSingleValidation = function (attr) {
   const { type, validate } = attr;
+
   return {
     ...attr,
     validate: {
@@ -22,6 +23,7 @@ const addSingleValidation = function (attr) {
 
 const addMultipleValidation = function (attr) {
   const { type, validate, validate: { items = {} } } = attr;
+
   return {
     ...attr,
     validate: {
