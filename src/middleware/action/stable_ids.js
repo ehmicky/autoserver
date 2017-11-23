@@ -43,13 +43,8 @@ const validateStableIds = function ({
 
 const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert'];
 
-const validateAction = function ({
-  action,
-  action: { commandpath },
-  schema,
-  top,
-}) {
-  const serverSet = isServerSet({ action, schema, top });
+const validateAction = function ({ action: { commandpath }, schema, top }) {
+  const serverSet = isServerSet({ commandpath, schema, top });
   if (!serverSet) { return; }
 
   const path = commandpath.slice(1).join('.');
@@ -57,14 +52,14 @@ const validateAction = function ({
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const isServerSet = function ({ action, schema, top }) {
-  const attr = getAttr({ action, schema, top });
+const isServerSet = function ({ commandpath, schema, top }) {
+  const attr = getAttr({ commandpath, schema, top });
   const serverSet = attr.readonly !== undefined || attr.value !== undefined;
   return serverSet;
 };
 
 const getAttr = function ({
-  action: { commandpath },
+  commandpath,
   schema: { shortcuts: { collsMap }, collections },
   top,
 }) {
