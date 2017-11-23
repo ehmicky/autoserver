@@ -3,7 +3,7 @@
 const { mapValues, omitBy } = require('../../../utilities');
 const { getColl } = require('../get_coll');
 
-const { isModelType } = require('./validate');
+const { isModelsType } = require('./validate');
 
 // Transform each `args.data` object into a separate write action
 const getWriteAction = function ({
@@ -36,7 +36,7 @@ const replaceNestedData = function ({ datum, nestedKeys }) {
 };
 
 const replaceNestedDatum = function ({ value, key, nestedKeys }) {
-  if (!(nestedKeys.includes(key) && isModelType(value))) { return value; }
+  if (!(nestedKeys.includes(key) && isModelsType(value))) { return value; }
 
   return Array.isArray(value) ? value.map(({ id }) => id) : value.id;
 };

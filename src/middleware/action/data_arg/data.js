@@ -3,7 +3,7 @@
 const { mapValues } = require('../../../utilities');
 const { getColl } = require('../get_coll');
 
-const { validateData, isModelType } = require('./validate');
+const { validateData, isModelsType } = require('./validate');
 const { addDefaultIds } = require('./default_id');
 const { isModel } = require('./nested');
 
@@ -61,7 +61,7 @@ const parseDatum = function ({
 
 // Recursion over nested collections
 const parseAttr = function ({ obj, ...rest }) {
-  const isNested = isModelType(obj) && isModel(rest);
+  const isNested = isModelsType(obj) && isModel(rest);
   if (!isNested) { return obj; }
 
   return parseData({ data: obj, ...rest });
