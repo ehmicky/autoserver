@@ -61,10 +61,10 @@ const normalizers = [
   { type: 'attr', func: addRequiredId },
   // Transform `attr.type` to internal format
   { type: 'attr', func: normalizeType },
-  // Add `attr.validate.type`, using `attr.type`
-  { type: 'attr', func: addTypeValidation },
   // Copy `attr.type|description` to nested collections from their target
   { type: 'attr', func: mergeNestedColl },
+  // Add `attr.validate.type`, using `attr.type`
+  { type: 'attr', func: addTypeValidation },
   // Set all `attr.alias` and `attr.aliasOf`
   { type: 'coll', func: normalizeAliases },
   // Add `attr.description` from `attr.readonly|value|examples|alias`
