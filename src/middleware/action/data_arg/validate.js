@@ -1,6 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../error');
+const { isPatchOp } = require('../../../patch');
 
 // Validate that user passed a correct `args.data`
 const validateData = function ({
@@ -75,7 +76,9 @@ const isModelsType = function (val) {
 };
 
 const isModelType = function (obj) {
-  return obj && obj.constructor === Object;
+  return obj &&
+    obj.constructor === Object &&
+    !isPatchOp(obj);
 };
 
 module.exports = {
