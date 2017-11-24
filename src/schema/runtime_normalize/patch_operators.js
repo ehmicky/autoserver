@@ -7,7 +7,6 @@ const normalizePatchOperators = function ({ schema, schema: { operators } }) {
   if (operators === undefined) { return; }
 
   const operatorsA = { ...operators, ...OPERATORS };
-  console.log(operatorsA);
 
   return { schema: { ...schema, operators: operatorsA } };
 };
