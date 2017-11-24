@@ -1,7 +1,7 @@
 'use strict';
 
 const { flatten, groupBy, mapValues } = require('../../utilities');
-const { applyPatchOp } = require('../../patch');
+const { applyPatchOps } = require('../../patch');
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement
@@ -31,10 +31,11 @@ const flattenActions = function ({ actions }) {
 
 const flattenAction = function ({
   currentData,
-  args: { data: [patchOp] },
+  args: { data: [patchOps] },
   collname,
 }) {
-  return currentData.map(currentDatum => ({ patchOp, currentDatum, collname }));
+  return currentData
+    .map(currentDatum => ({ patchOps, currentDatum, collname }));
 };
 
 // Group args.data according to currentData `id` and `collname`
@@ -50,7 +51,7 @@ const mergeDatum = function (actions) {
   // We merge all the args.data here, with priority to the children, then to the
   // next siblings.
   const datumA = actions.reduce(
-    (datum, { patchOp }) => applyPatchOp({ datum, patchOp }),
+    (datum, { patchOps }) => applyPatchOps({ datum, patchOps }),
     currentDatum,
   );
   return datumA;
