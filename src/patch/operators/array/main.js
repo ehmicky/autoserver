@@ -1,15 +1,8 @@
 'use strict';
 
-const { difference, sortArray, reverseArray } = require('../../utilities');
+const { difference, sortArray, reverseArray } = require('../../../utilities');
 
-const ANY_ARRAY = [
-  'boolean[]',
-  'integer[]',
-  'number[]',
-  'string[]',
-  'object[]',
-  'null[]',
-];
+const { ANY_ARRAY } = require('./constants');
 
 // `_push` patch operator
 const pushOperator = {
