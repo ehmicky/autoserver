@@ -3,7 +3,7 @@
 const { uniq } = require('../../../utilities');
 const { getOpValRef, cannotCheckType } = require('../../ref');
 
-const { validateTypes } = require('./check');
+const { validateTypes } = require('./validate');
 const { TYPES } = require('./available');
 
 // Uses `patchOp.attribute`
