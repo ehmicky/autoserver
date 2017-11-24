@@ -1,5 +1,7 @@
 'use strict';
 
+const { difference } = require('../../utilities');
+
 const ANY_ARRAY = [
   'boolean[]',
   'integer[]',
@@ -90,6 +92,17 @@ const insertOperator = {
   },
 };
 
+// `_remove` patch operator
+const removeOperator = {
+  attribute: ANY_ARRAY,
+
+  argument: ANY_ARRAY,
+
+  apply (attrVal, opVal) {
+    return difference(attrVal, opVal);
+  },
+};
+
 module.exports = {
   _push: pushOperator,
   _unshift: unshiftOperator,
@@ -97,4 +110,5 @@ module.exports = {
   _shift: shiftOperator,
   _slice: sliceOperator,
   _insert: insertOperator,
+  _remove: removeOperator,
 };
