@@ -8,17 +8,23 @@ const { postValidate } = require('./validate');
 const { parseRef } = require('./ref_parsing');
 
 // Apply patch operation to a single datum
-const applyPatchOps = function ({ datum, patchOps, commandpath }) {
+const applyPatchOps = function ({ datum, patchOps, commandpath, attributes }) {
   const patchOpsA = mapValues(
     patchOps,
     (patchOp, attrName) =>
-      applyPatchOp({ datum, patchOp, attrName, commandpath }),
+      applyPatchOp({ datum, patchOp, attrName, commandpath, attributes }),
   );
 
   return { ...datum, ...patchOpsA };
 };
 
-const applyPatchOp = function ({ datum, patchOp, attrName, commandpath }) {
+const applyPatchOp = function ({
+  datum,
+  patchOp,
+  attrName,
+  commandpath,
+  attributes,
+}) {
   const { type, opVal } = parsePatchOp(patchOp);
 
   // If no patch operator was used, do a simple shallow merge
@@ -28,6 +34,7 @@ const applyPatchOp = function ({ datum, patchOp, attrName, commandpath }) {
   // Patch operators skip attributes whose values are empty
   if (attrVal == null) { return attrVal; }
 
+  const attr = attributes[attrName];
   const attrValA = transformPatchOp({
     type,
     attrVal,
@@ -36,6 +43,7 @@ const applyPatchOp = function ({ datum, patchOp, attrName, commandpath }) {
     patchOp,
     commandpath,
     attrName,
+    attr,
   });
   return attrValA;
 };
