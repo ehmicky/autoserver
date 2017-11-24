@@ -31,6 +31,28 @@ const unshiftOperator = {
   },
 };
 
+// `_pop` patch operator
+const popOperator = {
+  attribute: ANY_ARRAY,
+
+  argument: ['null'],
+
+  apply (attrVal) {
+    return attrVal.slice(0, -1);
+  },
+};
+
+// `_shift` patch operator
+const shiftOperator = {
+  attribute: ANY_ARRAY,
+
+  argument: ['null'],
+
+  apply (attrVal) {
+    return attrVal.slice(1);
+  },
+};
+
 // `_slice` patch operator
 const sliceOperator = {
   attribute: ANY_ARRAY,
@@ -71,6 +93,8 @@ const insertOperator = {
 module.exports = {
   _push: pushOperator,
   _unshift: unshiftOperator,
+  _pop: popOperator,
+  _shift: shiftOperator,
   _slice: sliceOperator,
   _insert: insertOperator,
 };
