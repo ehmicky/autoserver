@@ -159,4 +159,9 @@ validation:
     test: ($val !== $expected)
     message: (`must not be equal to ${$expected}`)
     type: number
+operators:
+  __power:
+    apply: ($val ** ($arg || 1))
+    attribute: [number, integer]
+    argument: [number, integer, 'null']
 __custom: anything
