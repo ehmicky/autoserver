@@ -1,6 +1,6 @@
 'use strict';
 
-const { difference } = require('../../utilities');
+const { difference, sortArray, reverseArray } = require('../../utilities');
 
 const ANY_ARRAY = [
   'boolean[]',
@@ -103,6 +103,24 @@ const removeOperator = {
   },
 };
 
+// `_sort` patch operator
+const sortOperator = {
+  attribute: ANY_ARRAY,
+
+  argument: ['string'],
+
+  check (order) {
+    if (['asc', 'desc'].includes(order)) { return; }
+
+    return 'the argument\'s value must be \'asc\' or \'desc\'';
+  },
+
+  apply (attrVal, order) {
+    const attrValA = sortArray(attrVal);
+    return order === 'asc' ? attrValA : reverseArray(attrValA);
+  },
+};
+
 module.exports = {
   _push: pushOperator,
   _unshift: unshiftOperator,
@@ -111,4 +129,5 @@ module.exports = {
   _slice: sliceOperator,
   _insert: insertOperator,
   _remove: removeOperator,
+  _sort: sortOperator,
 };
