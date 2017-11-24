@@ -3,6 +3,8 @@
 // Since we do not check for `null` against `patchOp.argument` before
 // $model.ATTR resolution, we do it now
 const checkNull = function ({ opVal, operator: { argument }, type }) {
+  if (argument === undefined) { return; }
+
   const hasWrongNull = opVal == null && !argument.includes('null');
 
   if (hasWrongNull) {

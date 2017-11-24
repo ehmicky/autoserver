@@ -12,6 +12,8 @@ const checkAttrType = function ({
   attr: { type: attrType, isArray: attrIsArray },
   operator: { attribute },
 }) {
+  if (attribute === undefined) { return; }
+
   const attrTypes = [attrType];
   const validTypes = validateTypes({
     attrTypes,
@@ -30,13 +32,24 @@ const checkOpValType = function ({
   coll,
   operator: { argument },
 }) {
+  if (argument === undefined) { return; }
+
   const attrOrMessage = getOpValType({ opVal, coll, argument });
 
   if (attrOrMessage === undefined) { return; }
 
   if (typeof attrOrMessage === 'string') { return attrOrMessage; }
 
-  const { attrTypes, attrIsArray } = attrOrMessage;
+  const message = validateOpValType({ type, opVal, argument, attrOrMessage });
+  return message;
+};
+
+const validateOpValType = function ({
+  type,
+  opVal,
+  argument,
+  attrOrMessage: { attrTypes, attrIsArray },
+}) {
   const validTypes = validateTypes({
     attrTypes,
     attrIsArray,
