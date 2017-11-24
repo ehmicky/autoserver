@@ -13,9 +13,8 @@ const addOperator = {
 
   argument: ['integer', 'number', 'null'],
 
-  apply (attrVal, opVal) {
-    const opValA = opVal == null ? 0 : opVal;
-    return attrVal + opValA;
+  apply (attrVal, opVal = 0) {
+    return attrVal + opVal;
   },
 };
 
