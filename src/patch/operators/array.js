@@ -9,6 +9,28 @@ const ANY_ARRAY = [
   'null[]',
 ];
 
+// `_push` patch operator
+const pushOperator = {
+  attribute: ANY_ARRAY,
+
+  argument: ANY_ARRAY,
+
+  apply (attrVal, opVal) {
+    return [...attrVal, ...opVal];
+  },
+};
+
+// `_unshift` patch operator
+const unshiftOperator = {
+  attribute: ANY_ARRAY,
+
+  argument: ANY_ARRAY,
+
+  apply (attrVal, opVal) {
+    return [...opVal, ...attrVal];
+  },
+};
+
 // `_slice` patch operator
 const sliceOperator = {
   attribute: ANY_ARRAY,
@@ -47,6 +69,8 @@ const insertOperator = {
 };
 
 module.exports = {
+  _push: pushOperator,
+  _unshift: unshiftOperator,
   _slice: sliceOperator,
   _insert: insertOperator,
 };
