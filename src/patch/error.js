@@ -3,7 +3,7 @@
 const { pickBy, mapValues } = require('../utilities');
 const { addErrorHandler, throwError, normalizeError } = require('../error');
 
-// Wrap all `patchOp.check|value()` functions with an error handler in case
+// Wrap all `patchOp.check|apply()` functions with an error handler in case
 // they throw an exception, which would indicate a server-side bug
 const addAllErrorHandlers = function ({ operators }) {
   return mapValues(
@@ -26,7 +26,7 @@ const shouldBeHandled = function (func, funcName) {
   return HANDLED_FUNCS.includes(funcName) && func !== undefined;
 };
 
-const HANDLED_FUNCS = ['check', 'value'];
+const HANDLED_FUNCS = ['check', 'apply'];
 
 const addHandler = function ({ type, func, funcName }) {
   const errorHandlerA = errorHandler.bind(null, { type, funcName });
