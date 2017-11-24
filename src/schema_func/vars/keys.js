@@ -24,6 +24,9 @@ const ALL_SYSTEM_VARS = [
   '$val',
   '$previousmodel',
   '$previousval',
+  // Patch operators
+  '$arg',
+  '$type',
 ];
 
 module.exports = {

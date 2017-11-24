@@ -6,13 +6,13 @@ const sliceOperator = {
 
   argument: ['integer[]'],
 
-  check (opVal) {
+  check ({ $arg: opVal }) {
     if (opVal.length <= 2) { return; }
 
     return 'the argument must be an array with one integer (the index) and an optional additional integer (the length)';
   },
 
-  apply (attrVal, [index, length]) {
+  apply ({ $val: attrVal, $arg: [index, length] }) {
     return attrVal.substr(index, length);
   },
 };
@@ -23,7 +23,7 @@ const insertOperator = {
 
   argument: ['integer[]', 'string[]'],
 
-  check (opVal) {
+  check ({ $arg: opVal }) {
     const isValid = opVal.length === 2 &&
       Number.isInteger(opVal[0]) &&
       typeof opVal[1] === 'string';
@@ -32,7 +32,7 @@ const insertOperator = {
     return 'the argument must be an array with one integer (the index) and a string';
   },
 
-  apply (attrVal, [index, str]) {
+  apply ({ $val: attrVal, $arg: [index, str] }) {
     const indexA = index < 0 ? Math.max(attrVal.length + index, 0) : index;
     const beginning = attrVal.substr(0, indexA);
     const end = attrVal.substr(indexA);
@@ -46,7 +46,7 @@ const replaceOperator = {
 
   argument: ['string[]'],
 
-  check (opVal) {
+  check ({ $arg: opVal }) {
     // eslint-disable-next-line no-magic-numbers
     const isValid = opVal.length <= 3 && opVal.length >= 2;
 
@@ -57,7 +57,7 @@ const replaceOperator = {
     return validateRegExp({ opVal });
   },
 
-  apply (attrVal, [regExp, str, flags]) {
+  apply ({ $val: attrVal, $arg: [regExp, str, flags] }) {
     const regExpA = getRegExp({ regExp, flags });
     return attrVal.replace(regExpA, str);
   },

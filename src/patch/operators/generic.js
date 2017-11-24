@@ -2,7 +2,7 @@
 
 // `_set` patch operator
 const setOperator = {
-  apply (attrVal, opVal) {
+  apply ({ $arg: opVal }) {
     return opVal;
   },
 };

@@ -28,6 +28,9 @@ properties:
   # Custom validation keywords
   validation:
     $ref: '#/definitions/validation'
+  # Custom patch operators
+  operators:
+    $ref: '#/definitions/patchOperators'
   # Automatically generated, and used to validate `type`
   collTypes:
     type: array
@@ -190,6 +193,63 @@ definitions:
             - pattern: ^\(`must\s.*`\)$
         type:
           $ref: '#/definitions/jsonSchemaType'
+      additionalProperties: false
+    propertyNames:
+      $ref: '#/definitions/validUserName'
+  # schema.operators
+  patchOperators:
+    type: object
+    additionalProperties:
+      type: object
+      required: [apply]
+      properties:
+        apply:
+          $ref: '#/definitions/schemaFuncOrValue'
+        check:
+          $ref: '#/definitions/schemaFuncOrValue'
+        attribute:
+          type: array
+          minLength: 1
+          uniqueItems: true
+          oneOf:
+          # Cannot mix non-array types and array types
+          # Reason: using non-array types is enough to support both, since
+          # patch operations on arrays are being iterated
+          - items:
+              enum:
+              - boolean
+              - integer
+              - number
+              - string
+              - any
+          - items:
+              enum:
+              - boolean[]
+              - integer[]
+              - number[]
+              - string[]
+              - any[]
+        argument:
+          type: array
+          minLength: 1
+          uniqueItems: true
+          # `patchOp.argument` also support `null` and `object`
+          items:
+            enum:
+            - boolean
+            - integer
+            - number
+            - string
+            - any
+            - object
+            - 'null'
+            - boolean[]
+            - integer[]
+            - number[]
+            - string[]
+            - any[]
+            - object[]
+            - null[]
       additionalProperties: false
     propertyNames:
       $ref: '#/definitions/validUserName'

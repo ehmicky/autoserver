@@ -5,22 +5,22 @@ const { applyPatchOps } = require('../../patch');
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement
-const patchData = function ({ actions, top: { command }, schema }) {
+const patchData = function ({ actions, top: { command }, schema, mInput }) {
   if (command.type !== 'patch') { return; }
 
-  const dataMap = mergePartialData({ actions, schema });
+  const dataMap = mergePartialData({ actions, schema, mInput });
   const actionsA = actions.map(action => addData({ action, dataMap }));
 
   return { actions: actionsA };
 };
 
 // Merge `currentData` with `args.data`
-const mergePartialData = function ({ actions, schema }) {
+const mergePartialData = function ({ actions, schema, mInput }) {
   const actionsA = flattenActions({ actions });
   const dataMap = groupBy(actionsA, getActionKey);
   const dataMapA = mapValues(
     dataMap,
-    actionsB => mergeDatum({ actions: actionsB, schema }),
+    actionsB => mergeDatum({ actions: actionsB, schema, mInput }),
   );
   return dataMapA;
 };
@@ -51,15 +51,15 @@ const getActionKey = function ({ collname, currentDatum: { id } }) {
 const mergeDatum = function ({
   actions,
   actions: [{ currentDatum, commandpath, collname }],
-  schema: { collections },
+  schema,
+  mInput,
 }) {
-  const { attributes } = collections[collname];
   // Several actions might target the same model, but with different args.data
   // We merge all the args.data here, with priority to the children, then to the
   // next siblings.
   const datumA = actions.reduce(
     (datum, { patchOps }) =>
-      applyPatchOps({ datum, patchOps, commandpath, attributes }),
+      applyPatchOps({ datum, patchOps, commandpath, schema, collname, mInput }),
     currentDatum,
   );
   return datumA;
