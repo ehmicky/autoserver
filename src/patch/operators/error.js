@@ -1,7 +1,7 @@
 'use strict';
 
-const { pickBy, mapValues } = require('../utilities');
-const { addErrorHandler, throwError, normalizeError } = require('../error');
+const { pickBy, mapValues } = require('../../utilities');
+const { addErrorHandler, throwError, normalizeError } = require('../../error');
 
 // Wrap all `patchOp.check|apply()` functions with an error handler in case
 // they throw an exception, which would indicate a server-side bug
