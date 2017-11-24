@@ -1,6 +1,7 @@
 'use strict';
 
 const { flatten, groupBy, mapValues } = require('../../utilities');
+const { applyPatchOp } = require('../../patch');
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement
@@ -17,7 +18,7 @@ const patchData = function ({ actions, top: { command } }) {
 const mergePartialData = function ({ actions }) {
   const actionsA = flattenActions({ actions });
   const dataMap = groupBy(actionsA, getActionKey);
-  const dataMapA = mapValues(dataMap, mergeData);
+  const dataMapA = mapValues(dataMap, mergeDatum);
   return dataMapA;
 };
 
@@ -30,10 +31,10 @@ const flattenActions = function ({ actions }) {
 
 const flattenAction = function ({
   currentData,
-  args: { data: [data] },
+  args: { data: [patchOp] },
   collname,
 }) {
-  return currentData.map(currentDatum => ({ data, currentDatum, collname }));
+  return currentData.map(currentDatum => ({ patchOp, currentDatum, collname }));
 };
 
 // Group args.data according to currentData `id` and `collname`
@@ -42,21 +43,17 @@ const getActionKey = function ({ collname, currentDatum: { id } }) {
 };
 
 // Do the actual merging
-const mergeData = function (actions) {
+const mergeDatum = function (actions) {
   const [{ currentDatum }] = actions;
 
   // Several actions might target the same model, but with different args.data
   // We merge all the args.data here, with priority to the children, then to the
   // next siblings.
-  const dataA = actions.reduce(
-    (data, { data: patchOp }) => applyPatchOp({ data, patchOp }),
+  const datumA = actions.reduce(
+    (datum, { patchOp }) => applyPatchOp({ datum, patchOp }),
     currentDatum,
   );
-  return dataA;
-};
-
-const applyPatchOp = function ({ data, patchOp }) {
-  return { ...data, ...patchOp };
+  return datumA;
 };
 
 // Add merged `args.data` to each action
