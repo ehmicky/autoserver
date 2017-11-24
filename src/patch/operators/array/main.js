@@ -48,23 +48,6 @@ const shiftOperator = {
   },
 };
 
-// `_slice` patch operator
-const sliceOperator = {
-  attribute: ANY_ARRAY,
-
-  argument: ['integer[]'],
-
-  check ({ $arg: opVal }) {
-    if (opVal.length <= 2) { return; }
-
-    return 'the argument must be an array with one integer (the index) and an optional additional integer (the length)';
-  },
-
-  apply ({ $val: attrVal, $arg: [index, length] }) {
-    return attrVal.slice(index, length);
-  },
-};
-
 // `_insert` patch operator
 const insertOperator = {
   attribute: ANY_ARRAY,
@@ -119,7 +102,6 @@ module.exports = {
   _unshift: unshiftOperator,
   _pop: popOperator,
   _shift: shiftOperator,
-  _slice: sliceOperator,
   _insert: insertOperator,
   _remove: removeOperator,
   _sort: sortOperator,

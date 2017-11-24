@@ -5,6 +5,7 @@ const numberOperators = require('./number');
 const booleanOperators = require('./boolean');
 const stringOperators = require('./string');
 const arrayOperators = require('./array');
+const sliceOperators = require('./slice');
 
 // All patch operators
 const OPERATORS = {
@@ -13,6 +14,7 @@ const OPERATORS = {
   ...booleanOperators,
   ...stringOperators,
   ...arrayOperators,
+  ...sliceOperators,
 };
 
 module.exports = {
