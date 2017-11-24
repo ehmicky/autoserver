@@ -154,6 +154,9 @@ rules:
   - 1
 
   # Referencing
+  no-undef:
+  - 2
+  - typeof: true
   no-shadow:
   - 2
   - builtinGlobals: true
