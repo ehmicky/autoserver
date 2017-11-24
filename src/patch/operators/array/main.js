@@ -10,7 +10,7 @@ const pushOperator = {
 
   argument: ANY_ARRAY,
 
-  apply ({ $val: attrVal, $arg: opVal }) {
+  apply ({ $val: attrVal, $arg: opVal = [] }) {
     return [...attrVal, ...opVal];
   },
 };
@@ -21,7 +21,7 @@ const unshiftOperator = {
 
   argument: ANY_ARRAY,
 
-  apply ({ $val: attrVal, $arg: opVal }) {
+  apply ({ $val: attrVal, $arg: opVal = [] }) {
     return [...opVal, ...attrVal];
   },
 };
@@ -74,7 +74,7 @@ const removeOperator = {
 
   argument: ANY_ARRAY,
 
-  apply ({ $val: attrVal, $arg: opVal }) {
+  apply ({ $val: attrVal, $arg: opVal = [] }) {
     return difference(attrVal, opVal);
   },
 };
@@ -91,7 +91,7 @@ const sortOperator = {
     return 'the argument\'s value must be \'asc\' or \'desc\'';
   },
 
-  apply ({ $val: attrVal, $arg: order }) {
+  apply ({ $val: attrVal, $arg: order = 'asc' }) {
     const attrValA = sortArray(attrVal);
     return order === 'asc' ? attrValA : reverseArray(attrValA);
   },
