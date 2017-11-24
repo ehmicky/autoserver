@@ -1,0 +1,10 @@
+{
+  "ANY_ARRAY": [
+    "boolean[]",
+    "integer[]",
+    "number[]",
+    "string[]",
+    "object[]",
+    "null[]"
+  ]
+}
