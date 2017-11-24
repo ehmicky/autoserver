@@ -44,10 +44,9 @@ const preValidate = function ({
 
 // Validate patch operation has valid syntax, after $model.ATTR resolution
 const postValidate = function (input) {
-  const { operator: { argument } } = input;
   const validators = POST_VALIDATORS;
 
-  validatePatchOp({ ...input, argument, validators });
+  validatePatchOp({ ...input, validators });
 };
 
 // Try each validator in order, stopping at the first one that returns an error
