@@ -67,6 +67,7 @@ const parseAttr = function ({
   commandpath,
   attrName,
   top,
+  mInput,
   maxAttrValueSize,
   collsMap,
   schema,
@@ -81,6 +82,8 @@ const parseAttr = function ({
     top,
     maxAttrValueSize,
     coll,
+    mInput,
+    schema,
   });
 
   const isNested = isModelsType(obj) &&
@@ -95,6 +98,7 @@ const parseAttr = function ({
     maxAttrValueSize,
     collsMap,
     schema,
+    mInput,
     ...rest,
   });
 };

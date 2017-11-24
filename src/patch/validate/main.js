@@ -2,7 +2,6 @@
 
 const { throwError } = require('../../error');
 const { parsePatchOp } = require('../parse');
-const { OPERATORS } = require('../operators');
 
 const { PRE_VALIDATORS } = require('./pre_validators');
 const { POST_VALIDATORS } = require('./post_validators');
@@ -16,6 +15,8 @@ const preValidate = function ({
   maxAttrValueSize,
   coll,
   coll: { attributes },
+  mInput,
+  schema: { operators },
 }) {
   const attr = attributes[attrName];
 
@@ -24,7 +25,7 @@ const preValidate = function ({
   // E.g. if this is not a patch operation
   if (type === undefined) { return; }
 
-  const operator = OPERATORS[type];
+  const operator = operators[type];
   const validators = PRE_VALIDATORS;
 
   validatePatchOp({
@@ -39,6 +40,7 @@ const preValidate = function ({
     commandpath,
     attrName,
     validators,
+    mInput,
   });
 };
 

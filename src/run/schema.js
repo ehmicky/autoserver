@@ -5,6 +5,7 @@ const { compileSchemaFuncs, getUserVars } = require('../schema_func');
 const {
   loadSchema,
   compileJsonSchema,
+  normalizePatchOperators,
   rpcStartServer,
 } = require('../schema');
 
@@ -23,6 +24,7 @@ const processors = [
   compileSchemaFuncs,
   getUserVars,
   compileJsonSchema,
+  normalizePatchOperators,
   rpcStartServer,
 ];
 

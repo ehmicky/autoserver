@@ -10,7 +10,7 @@ const pushOperator = {
 
   argument: ANY_ARRAY,
 
-  apply (attrVal, opVal) {
+  apply ({ $val: attrVal, $arg: opVal }) {
     return [...attrVal, ...opVal];
   },
 };
@@ -21,7 +21,7 @@ const unshiftOperator = {
 
   argument: ANY_ARRAY,
 
-  apply (attrVal, opVal) {
+  apply ({ $val: attrVal, $arg: opVal }) {
     return [...opVal, ...attrVal];
   },
 };
@@ -32,7 +32,7 @@ const popOperator = {
 
   argument: ['null'],
 
-  apply (attrVal) {
+  apply ({ $val: attrVal }) {
     return attrVal.slice(0, -1);
   },
 };
@@ -43,7 +43,7 @@ const shiftOperator = {
 
   argument: ['null'],
 
-  apply (attrVal) {
+  apply ({ $val: attrVal }) {
     return attrVal.slice(1);
   },
 };
@@ -54,13 +54,13 @@ const sliceOperator = {
 
   argument: ['integer[]'],
 
-  check (opVal) {
+  check ({ $arg: opVal }) {
     if (opVal.length <= 2) { return; }
 
     return 'the argument must be an array with one integer (the index) and an optional additional integer (the length)';
   },
 
-  apply (attrVal, [index, length]) {
+  apply ({ $val: attrVal, $arg: [index, length] }) {
     return attrVal.slice(index, length);
   },
 };
@@ -71,14 +71,14 @@ const insertOperator = {
 
   argument: ANY_ARRAY,
 
-  check ([index]) {
+  check ({ $arg: [index] }) {
     const isValid = Number.isInteger(index);
     if (isValid) { return; }
 
     return 'the argument\'s first value must be an integer (the index)';
   },
 
-  apply (attrVal, [index, ...values]) {
+  apply ({ $val: attrVal, $arg: [index, ...values] }) {
     const beginning = attrVal.slice(0, index);
     const end = attrVal.slice(index);
     return [...beginning, ...values, ...end];
@@ -91,7 +91,7 @@ const removeOperator = {
 
   argument: ANY_ARRAY,
 
-  apply (attrVal, opVal) {
+  apply ({ $val: attrVal, $arg: opVal }) {
     return difference(attrVal, opVal);
   },
 };
@@ -102,13 +102,13 @@ const sortOperator = {
 
   argument: ['string'],
 
-  check (order) {
+  check ({ $arg: order }) {
     if (['asc', 'desc'].includes(order)) { return; }
 
     return 'the argument\'s value must be \'asc\' or \'desc\'';
   },
 
-  apply (attrVal, order) {
+  apply ({ $val: attrVal, $arg: order }) {
     const attrValA = sortArray(attrVal);
     return order === 'asc' ? attrValA : reverseArray(attrValA);
   },

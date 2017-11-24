@@ -9,4 +9,5 @@ module.exports = {
   ...require('./alias'),
   ...require('./description'),
   ...require('./authorize'),
+  ...require('./patch_operators'),
 };

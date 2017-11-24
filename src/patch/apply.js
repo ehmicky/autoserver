@@ -1,19 +1,30 @@
 'use strict';
 
 const { mapValues } = require('../utilities');
+const { runSchemaFunc } = require('../schema_func');
 
 const { parsePatchOp } = require('./parse');
-const { OPERATORS } = require('./operators');
 const { postValidate } = require('./validate');
 const { parseRef } = require('./ref_parsing');
 
 // Apply patch operation to a single datum
-const applyPatchOps = function ({ datum, patchOps, commandpath, attributes }) {
-  const patchOpsA = mapValues(
-    patchOps,
-    (patchOp, attrName) =>
-      applyPatchOp({ datum, patchOp, attrName, commandpath, attributes }),
-  );
+const applyPatchOps = function ({
+  datum,
+  patchOps,
+  schema: { collections, operators },
+  collname,
+  ...rest
+}) {
+  const { attributes } = collections[collname];
+
+  const patchOpsA = mapValues(patchOps, (patchOp, attrName) => applyPatchOp({
+    datum,
+    patchOp,
+    attrName,
+    attributes,
+    operators,
+    ...rest,
+  }));
 
   return { ...datum, ...patchOpsA };
 };
@@ -22,8 +33,8 @@ const applyPatchOp = function ({
   datum,
   patchOp,
   attrName,
-  commandpath,
   attributes,
+  ...rest
 }) {
   const { type, opVal } = parsePatchOp(patchOp);
 
@@ -41,17 +52,17 @@ const applyPatchOp = function ({
     opVal,
     datum,
     patchOp,
-    commandpath,
     attrName,
     attr,
+    ...rest,
   });
   return attrValA;
 };
 
-const transformPatchOp = function ({ type, attrVal, ...rest }) {
+const transformPatchOp = function ({ type, attrVal, operators, ...rest }) {
   // Uses `patchOp.apply()`, i.e. transform patch operations
   // into normal values to merge
-  const operator = OPERATORS[type];
+  const operator = operators[type];
 
   const shouldIterate = shouldIterateOp({ attrVal, operator });
 
@@ -75,14 +86,16 @@ const fireApply = function ({
   operator,
   operator: { apply },
   attrVal,
+  mInput,
   ...rest
 }) {
-  const opValA = replaceRef({ operator, ...rest });
+  const opValA = replaceRef({ operator, mInput, ...rest });
 
   // Normalize `null` to `undefined`
   const opValB = opValA === null ? undefined : opValA;
 
-  const attrValA = apply(attrVal, opValB);
+  const vars = { $val: attrVal, $arg: opValB };
+  const attrValA = runSchemaFunc({ schemaFunc: apply, mInput, vars });
   return attrValA;
 };
 
