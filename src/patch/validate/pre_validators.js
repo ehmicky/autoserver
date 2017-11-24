@@ -1,12 +1,13 @@
 'use strict';
 
 const pluralize = require('pluralize');
-const { decapitalize } = require('underscore.string');
 
 const { getWordsList } = require('../../utilities');
 const { isPatchOpName } = require('../parse');
+const { isRef } = require('../ref_parsing');
 
 const { checkAttrType, checkOpValType } = require('./types');
+const { applyCheck } = require('./check');
 
 const attributeExists = function ({ attr }) {
   if (attr !== undefined) { return; }
@@ -59,22 +60,17 @@ const operatorExists = function ({ operator, type }) {
   return `operator '${type}' is unknown`;
 };
 
-// Uses `patchOp.check()`
-const checkOpVal = function ({ opVal, type, operator: { check } }) {
-  if (check === undefined) { return; }
+const checkOpVal = function ({ opVal, type, operator }) {
+  // `patchOp.check()` is not performed if value is `$model.ATTR` reference
+  // It will be performed later when reference's value is known
+  if (isRef(opVal)) { return; }
 
-  const message = check(opVal);
-  if (message === undefined) { return; }
-
-  if (typeof message === 'string') {
-    return decapitalize(message);
-  }
-
-  const messageA = `patch operator '${type}' check() function must return either a string or undefined, not ${typeof message}`;
-  return { message: messageA, reason: 'UTILITY_ERROR' };
+  const message = applyCheck({ opVal, type, operator });
+  return message;
 };
 
-const validators = [
+// Validation applied during `args.data` parsing
+const PRE_VALIDATORS = [
   attributeExists,
   isPatchCommand,
   isNotMixed,
@@ -87,5 +83,5 @@ const validators = [
 ];
 
 module.exports = {
-  validators,
+  PRE_VALIDATORS,
 };

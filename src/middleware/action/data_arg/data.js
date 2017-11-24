@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
-const { validatePatchOp } = require('../../../patch');
+const { preValidate } = require('../../../patch');
 const { getColl } = require('../get_coll');
 
 const { validateData, isModelsType } = require('./validate');
@@ -10,15 +10,14 @@ const { isModel } = require('./nested');
 
 // Validates `args.data` and adds default ids.
 const parseData = function ({ data, schema, ...rest }) {
-  const coll = getColl(rest);
-  const { attributes } = schema.collections[coll.collname];
+  const { collname } = getColl(rest);
 
   if (!Array.isArray(data)) {
-    return parseDatum({ datum: data, coll, schema, attributes, ...rest });
+    return parseDatum({ datum: data, collname, schema, ...rest });
   }
 
   return data.map((datum, index) =>
-    parseDatum({ datum, index, coll, schema, attributes, ...rest }));
+    parseDatum({ datum, index, collname, schema, ...rest }));
 };
 
 const parseDatum = function ({
@@ -27,7 +26,7 @@ const parseDatum = function ({
   index,
   commandpath,
   top,
-  coll,
+  collname,
   userDefaultsMap,
   mInput,
   maxAttrValueSize,
@@ -42,7 +41,7 @@ const parseDatum = function ({
   const datumA = addDefaultIds({
     datum,
     top,
-    coll,
+    collname,
     userDefaultsMap,
     mInput,
     dbAdapters,
@@ -57,6 +56,7 @@ const parseDatum = function ({
     mInput,
     maxAttrValueSize,
     dbAdapters,
+    collname,
     ...rest,
   }));
 };
@@ -66,19 +66,21 @@ const parseAttr = function ({
   obj,
   commandpath,
   attrName,
-  attributes,
   top,
   maxAttrValueSize,
   collsMap,
+  schema,
+  collname,
   ...rest
 }) {
-  validatePatchOp({
+  const coll = schema.collections[collname];
+  preValidate({
     patchOp: obj,
     commandpath,
     attrName,
-    attributes,
     top,
     maxAttrValueSize,
+    coll,
   });
 
   const isNested = isModelsType(obj) &&
@@ -92,6 +94,7 @@ const parseAttr = function ({
     top,
     maxAttrValueSize,
     collsMap,
+    schema,
     ...rest,
   });
 };

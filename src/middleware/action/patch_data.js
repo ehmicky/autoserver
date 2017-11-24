@@ -33,9 +33,10 @@ const flattenAction = function ({
   currentData,
   args: { data: [patchOps] },
   collname,
+  commandpath,
 }) {
   return currentData
-    .map(currentDatum => ({ patchOps, currentDatum, collname }));
+    .map(currentDatum => ({ patchOps, currentDatum, collname, commandpath }));
 };
 
 // Group args.data according to currentData `id` and `collname`
@@ -45,13 +46,13 @@ const getActionKey = function ({ collname, currentDatum: { id } }) {
 
 // Do the actual merging
 const mergeDatum = function (actions) {
-  const [{ currentDatum }] = actions;
+  const [{ currentDatum, commandpath }] = actions;
 
   // Several actions might target the same model, but with different args.data
   // We merge all the args.data here, with priority to the children, then to the
   // next siblings.
   const datumA = actions.reduce(
-    (datum, { patchOps }) => applyPatchOps({ datum, patchOps }),
+    (datum, { patchOps }) => applyPatchOps({ datum, patchOps, commandpath }),
     currentDatum,
   );
   return datumA;

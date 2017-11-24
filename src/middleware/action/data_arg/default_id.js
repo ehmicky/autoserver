@@ -32,7 +32,7 @@ const getIdDefault = function (input, id, handler) {
 
 // Apply default current collection's 'id' attribute
 const applySchemaDefault = function ({
-  coll: { collname },
+  collname,
   command,
   datum,
   userDefaultsMap,
@@ -52,7 +52,7 @@ const applySchemaDefault = function ({
 
 // Apply database adapter-specific id default, i.e. adater.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
-const applyDatabaseDefault = function ({ coll: { collname }, dbAdapters }) {
+const applyDatabaseDefault = function ({ collname, dbAdapters }) {
   const { getDefaultId } = dbAdapters[collname];
   if (getDefaultId === undefined) { return; }
 
