@@ -1,22 +1,5 @@
 'use strict';
 
-// `_slicestr` patch operator
-const sliceOperator = {
-  attribute: ['string'],
-
-  argument: ['integer[]'],
-
-  check ({ $arg: opVal }) {
-    if (opVal.length <= 2) { return; }
-
-    return 'the argument must be an array with one integer (the index) and an optional additional integer (the length)';
-  },
-
-  apply ({ $val: attrVal, $arg: [index, length] }) {
-    return attrVal.substr(index, length);
-  },
-};
-
 // `_insertstr` patch operator
 const insertOperator = {
   attribute: ['string'],
@@ -86,7 +69,6 @@ const getRegExp = function ({ regExp, flags = 'gi' }) {
 };
 
 module.exports = {
-  _slicestr: sliceOperator,
   _insertstr: insertOperator,
   _replace: replaceOperator,
 };
