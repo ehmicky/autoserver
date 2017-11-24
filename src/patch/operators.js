@@ -9,9 +9,14 @@ const addOperator = {
     return 'value cannot be equal to 2';
   },
 
-  attribute: ['string'],
+  attribute: ['integer', 'number'],
 
-  argument: ['string', 'integer[]', 'boolean[]', 'null[]'],
+  argument: ['integer', 'number', 'null'],
+
+  apply (attrVal, opVal) {
+    const opValA = opVal == null ? 0 : opVal;
+    return attrVal + opValA;
+  },
 };
 
 // All patch operators
