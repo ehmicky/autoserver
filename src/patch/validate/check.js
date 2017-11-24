@@ -3,13 +3,18 @@
 const { decapitalize } = require('underscore.string');
 
 // Uses `patchOp.check()`
-const applyCheck = function ({ opVal, type, operator: { check } }) {
+const applyCheck = function ({
+  opVal,
+  type,
+  operator: { check },
+  attr: { type: attrType },
+}) {
   if (check === undefined) { return; }
 
   // Normalize `null` to `undefined`
   const opValA = opVal === null ? undefined : opVal;
 
-  const message = check(opValA);
+  const message = check(opValA, attrType);
 
   const messageA = getCheckMessage({ type, message });
   return messageA;

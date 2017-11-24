@@ -60,12 +60,12 @@ const operatorExists = function ({ operator, type }) {
   return `operator '${type}' is unknown`;
 };
 
-const checkOpVal = function ({ opVal, type, operator }) {
+const checkOpVal = function ({ opVal, type, operator, attr }) {
   // `patchOp.check()` is not performed if value is `$model.ATTR` reference
   // It will be performed later when reference's value is known
   if (isRef(opVal)) { return; }
 
-  const message = applyCheck({ opVal, type, operator });
+  const message = applyCheck({ opVal, type, operator, attr });
   return message;
 };
 
