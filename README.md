@@ -21,6 +21,8 @@ This generates a full-featured web API from a [configuration file](docs/schema.m
     [JSON5](docs/formats.md#json5) and [INI](docs/formats.md#ini)
   - [CRUD commands](docs/crud.md): find, create, patch, upsert, delete.
     Each command can be performed on a single model or on several models.
+  - [Advanced mutations](docs/patch.md) like incrementing, regular expression
+    replacement, cross-attributes mutations, slicing, etc.
   - [relations, nested commands](docs/relations.md)
     and populating between models, including for mutations
   - [filtering](docs/filtering.md)
