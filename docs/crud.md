@@ -179,6 +179,16 @@ will respond with:
 }
 ```
 
+Advanced patch commands are also available, for example:
+
+```HTTP
+PATCH /rest/users/1
+
+{ "age": { "_add": 1 } }
+```
+
+More information is can be found [here](patch.md).
+
 # Delete command
 
 The `delete` command remove existing models.
