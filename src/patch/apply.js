@@ -42,13 +42,14 @@ const applyPatchOp = function ({
   if (type === undefined) { return patchOp; }
 
   const attrVal = datum[attrName];
-  // Patch operators skip attributes whose values are empty
-  if (attrVal == null) { return attrVal; }
+  // Normalize `null` to `undefined`
+  const attrValA = attrVal === null ? undefined : attrVal;
 
   const attr = attributes[attrName];
-  const attrValA = transformPatchOp({
+
+  const attrValB = transformPatchOp({
     type,
-    attrVal,
+    attrVal: attrValA,
     opVal,
     datum,
     patchOp,
@@ -56,7 +57,7 @@ const applyPatchOp = function ({
     attr,
     ...rest,
   });
-  return attrValA;
+  return attrValB;
 };
 
 const transformPatchOp = function ({ type, attrVal, operators, ...rest }) {
@@ -85,16 +86,18 @@ const shouldIterateOp = function ({ attrVal, operator: { attribute } }) {
 const fireApply = function ({
   operator,
   operator: { apply },
+  attr,
+  attr: { type: attrType },
   attrVal,
   mInput,
   ...rest
 }) {
-  const opValA = replaceRef({ operator, mInput, ...rest });
+  const opValA = replaceRef({ operator, mInput, attr, ...rest });
 
   // Normalize `null` to `undefined`
   const opValB = opValA === null ? undefined : opValA;
 
-  const vars = { $val: attrVal, $arg: opValB };
+  const vars = { $val: attrVal, $arg: opValB, $type: attrType };
   const attrValA = runSchemaFunc({ schemaFunc: apply, mInput, vars });
   return attrValA;
 };
