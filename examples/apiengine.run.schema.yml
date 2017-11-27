@@ -163,5 +163,5 @@ operators:
   __power:
     apply: ($val ** ($arg || 1))
     attribute: [number, integer]
-    argument: [number, integer, 'null']
+    argument: [number, integer, empty]
 __custom: anything

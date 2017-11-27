@@ -9,7 +9,7 @@ const checkSlice = function ({ $arg: opVal }) {
 };
 
 const commonAttrs = {
-  argument: ['integer[]', 'null[]'],
+  argument: ['integer[]', 'empty[]'],
 
   check: checkSlice,
 };
@@ -63,7 +63,7 @@ const insertApply = function ({ index, attrVal }) {
 const insertstrOperator = {
   attribute: ['string'],
 
-  argument: ['integer[]', 'null[]', 'string[]'],
+  argument: ['integer[]', 'empty[]', 'string[]'],
 
   check ({ $arg: opVal }) {
     const isValid = opVal.length === 2 &&

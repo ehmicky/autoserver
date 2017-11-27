@@ -2,7 +2,7 @@
 
 const commonTypes = {
   attribute: ['integer', 'number'],
-  argument: ['integer', 'number', 'null'],
+  argument: ['integer', 'number', 'empty'],
 };
 
 const commonChecks = defaultValue => ({

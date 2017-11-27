@@ -233,7 +233,7 @@ definitions:
           type: array
           minLength: 1
           uniqueItems: true
-          # `patchOp.argument` also support `null` and `object`
+          # `patchOp.argument` also support `empty` and `object`
           items:
             enum:
             - boolean
@@ -242,14 +242,14 @@ definitions:
             - string
             - any
             - object
-            - 'null'
+            - empty
             - boolean[]
             - integer[]
             - number[]
             - string[]
             - any[]
             - object[]
-            - null[]
+            - empty[]
       additionalProperties: false
     propertyNames:
       $ref: '#/definitions/validUserName'
