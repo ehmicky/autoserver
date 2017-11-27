@@ -23,10 +23,13 @@ const mGetCustomValidator = memoize(getCustomValidator, {
 });
 
 const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
-  validateCustomKeyword({ ajv, type, keyword });
+  // We name `null` `empty` in schema, as it is more YAML-friendly
+  const typeA = type === 'empty' ? 'null' : type;
+
+  validateCustomKeyword({ ajv, type: typeA, keyword });
 
   const validate = keywordFunc({ keyword, testFunc, message });
-  ajv.addKeyword(keyword, { validate, type, $data: true });
+  ajv.addKeyword(keyword, { validate, type: typeA, $data: true });
 
   return ajv;
 };
@@ -62,13 +65,10 @@ const validateCustomKeyword = function ({ ajv, type, keyword }) {
   const isRedundant = Array.isArray(type) &&
     type.includes('number') &&
     type.includes('integer');
+  if (!isRedundant) { return ajv; }
 
-  if (isRedundant) {
-    const message = `Custom validation keyword 'schema.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`;
-    throwError(message, { reason: 'SCHEMA_VALIDATION' });
-  }
-
-  return ajv;
+  const message = `Custom validation keyword 'schema.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`;
+  throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 
 module.exports = {
