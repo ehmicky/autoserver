@@ -324,7 +324,7 @@ operators:
   __power:
     apply: ($val ** ($arg || 1))
     attribute: [number, integer]
-    argument: [number, integer, 'null']
+    argument: [number, integer, empty]
 ```
 
 The key (here `__power`) is the operator's name. The value is an object with
@@ -357,11 +357,11 @@ The possible values are: `string`, `number`, `integer`, `boolean`, `any`,
 `argument` is the list of possible types for the argument of this operator.
 
 For example, a `__power` operator must take a single numerical value as
-argument, i.e. `integer` and `number`. We might also allow an empty
-argument `null` if there is a default argument value.
+argument, i.e. `integer` and `number`. We might also allow an `empty`
+argument if there is a default argument value.
 
 The possible values are the same as `attribute` with the following additional
-types: `null`, `null[]`, `object` and `object[]`.
+types: `empty`, `empty[]`, `object` and `object[]`.
 
 If several arguments must be passed, it should be done by specifying an array
 argument. To specify an array argument with mixed types, use several array
@@ -394,5 +394,5 @@ When defining the `apply` and `check` properties, remember that:
   - the `$val` variable might be `undefined`, unless the attribute is a
     required attribute.
   - the operator's argument can only be `null` if the `argument` property is
-    omitted or if it specifies `null`. When the argument is `null`, the
+    omitted or if it specifies `empty`. When the argument is `empty`, the
     `$arg` variable will be `undefined`.

@@ -30,7 +30,7 @@ const unshiftOperator = {
 const popOperator = {
   attribute: ANY_ARRAY,
 
-  argument: ['null'],
+  argument: ['empty'],
 
   apply ({ $val: attrVal = [] }) {
     return attrVal.slice(0, -1);
@@ -41,7 +41,7 @@ const popOperator = {
 const shiftOperator = {
   attribute: ANY_ARRAY,
 
-  argument: ['null'],
+  argument: ['empty'],
 
   apply ({ $val: attrVal = [] }) {
     return attrVal.slice(1);

@@ -4,7 +4,7 @@
 const invertOperator = {
   attribute: ['boolean'],
 
-  argument: ['null'],
+  argument: ['empty'],
 
   apply ({ $val: attrVal = false }) {
     return !attrVal;

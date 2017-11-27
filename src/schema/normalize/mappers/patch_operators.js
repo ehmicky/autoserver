@@ -33,13 +33,13 @@ const TYPES = {
     'any[]': ['boolean[]', 'integer[]', 'number[]', 'string[]'],
   },
   argument: {
-    any: ['boolean', 'integer', 'number', 'string', 'null', 'object'],
+    any: ['boolean', 'integer', 'number', 'string', 'empty', 'object'],
     'any[]': [
       'boolean[]',
       'integer[]',
       'number[]',
       'string[]',
-      'null[]',
+      'empty[]',
       'object[]',
     ],
   },

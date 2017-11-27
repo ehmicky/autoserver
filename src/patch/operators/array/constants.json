@@ -5,6 +5,6 @@
     "number[]",
     "string[]",
     "object[]",
-    "null[]"
+    "empty[]"
   ]
 }

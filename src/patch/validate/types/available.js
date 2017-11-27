@@ -2,7 +2,7 @@
 
 // Available types in `patchOp.attribute|argument`
 const TYPES = {
-  null: {
+  empty: {
     test: val => val == null,
     name: 'null',
     pluralname: 'null',
