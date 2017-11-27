@@ -9,11 +9,10 @@ const validateCompiledSchema = async function ({ pPath, cSchema }) {
   const { rSchema } = await dereferenceSchema({ schema: pPath });
 
   const hasMismatch = !isEqual(rSchema, cSchema);
+  if (!hasMismatch) { return; }
 
-  if (hasMismatch) {
-    const message = 'Compiled schema do not match the non-compiled version';
-    throwError(message, { reason: 'UTILITY_ERROR' });
-  }
+  const message = 'Compiled schema do not match the non-compiled version';
+  throwError(message, { reason: 'UTILITY_ERROR' });
 };
 
 module.exports = {
