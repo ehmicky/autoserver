@@ -48,26 +48,6 @@ const shiftOperator = {
   },
 };
 
-// `_insert` patch operator
-const insertOperator = {
-  attribute: ANY_ARRAY,
-
-  argument: ANY_ARRAY,
-
-  check ({ $arg: [index] }) {
-    const isValid = Number.isInteger(index);
-    if (isValid) { return; }
-
-    return 'the argument\'s first value must be an integer (the index)';
-  },
-
-  apply ({ $val: attrVal = [], $arg: [index, ...values] }) {
-    const beginning = attrVal.slice(0, index);
-    const end = attrVal.slice(index);
-    return [...beginning, ...values, ...end];
-  },
-};
-
 // `_remove` patch operator
 const removeOperator = {
   attribute: ANY_ARRAY,
@@ -102,7 +82,6 @@ module.exports = {
   _unshift: unshiftOperator,
   _pop: popOperator,
   _shift: shiftOperator,
-  _insert: insertOperator,
   _remove: removeOperator,
   _sort: sortOperator,
 };

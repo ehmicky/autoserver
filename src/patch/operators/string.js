@@ -1,28 +1,5 @@
 'use strict';
 
-// `_insertstr` patch operator
-const insertOperator = {
-  attribute: ['string'],
-
-  argument: ['integer[]', 'string[]'],
-
-  check ({ $arg: opVal }) {
-    const isValid = opVal.length === 2 &&
-      Number.isInteger(opVal[0]) &&
-      typeof opVal[1] === 'string';
-    if (isValid) { return; }
-
-    return 'the argument must be an array with one integer (the index) and a string';
-  },
-
-  apply ({ $val: attrVal = '', $arg: [index, str] }) {
-    const indexA = index < 0 ? Math.max(attrVal.length + index, 0) : index;
-    const beginning = attrVal.substr(0, indexA);
-    const end = attrVal.substr(indexA);
-    return `${beginning}${str}${end}`;
-  },
-};
-
 // `_replace` patch operator
 const replaceOperator = {
   attribute: ['string'],
@@ -69,6 +46,5 @@ const getRegExp = function ({ regExp, flags = 'gi' }) {
 };
 
 module.exports = {
-  _insertstr: insertOperator,
   _replace: replaceOperator,
 };
