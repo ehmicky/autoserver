@@ -369,7 +369,7 @@ definitions:
   jsonSchemaType:
     oneOf:
     - type: string
-      enum: [string, number, integer, boolean, null, object, array]
+      enum: [string, number, integer, boolean, empty, object, array]
     - type: array
       items:
         $ref: '#/definitions/jsonSchemaType'
