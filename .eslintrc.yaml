@@ -443,6 +443,7 @@ rules:
 #  array-element-newline: 2
 #  object-curly-newline: 2
 #  multiline-ternary: 2
+#  implicit-arrow-linebreak: 2
 
   # Those rules go against the codebase convention of using index.js files
   # that require siblings, and exporting|requiring named objects.
