@@ -7,7 +7,7 @@ const { throwError } = require('../../error');
 // Parses a YAML file
 const parse = function ({ content, path }) {
   return yaml.load(content, {
-    schema: yaml.DEFAULT_SAFE_SCHEMA,
+    schema: yaml.JSON_SCHEMA,
     json: true,
     // Error handling
     filename: path,
