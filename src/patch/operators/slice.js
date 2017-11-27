@@ -20,7 +20,7 @@ const slicestrOperator = {
 
   attribute: ['string'],
 
-  apply ({ $val: attrVal, $arg: [index, length] }) {
+  apply ({ $val: attrVal = '', $arg: [index, length] }) {
     return attrVal.substr(index, length);
   },
 };
@@ -31,7 +31,7 @@ const sliceOperator = {
 
   attribute: ANY_ARRAY,
 
-  apply ({ $val: attrVal, $arg: [index, length] }) {
+  apply ({ $val: attrVal = [], $arg: [index, length] }) {
     return attrVal.slice(index, length);
   },
 };

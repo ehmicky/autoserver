@@ -15,7 +15,7 @@ const insertOperator = {
     return 'the argument must be an array with one integer (the index) and a string';
   },
 
-  apply ({ $val: attrVal, $arg: [index, str] }) {
+  apply ({ $val: attrVal = '', $arg: [index, str] }) {
     const indexA = index < 0 ? Math.max(attrVal.length + index, 0) : index;
     const beginning = attrVal.substr(0, indexA);
     const end = attrVal.substr(indexA);
@@ -40,7 +40,7 @@ const replaceOperator = {
     return validateRegExp({ opVal });
   },
 
-  apply ({ $val: attrVal, $arg: [regExp, str, flags] }) {
+  apply ({ $val: attrVal = '', $arg: [regExp, str, flags] }) {
     const regExpA = getRegExp({ regExp, flags });
     return attrVal.replace(regExpA, str);
   },

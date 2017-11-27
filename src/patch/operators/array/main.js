@@ -10,7 +10,7 @@ const pushOperator = {
 
   argument: ANY_ARRAY,
 
-  apply ({ $val: attrVal, $arg: opVal = [] }) {
+  apply ({ $val: attrVal = [], $arg: opVal = [] }) {
     return [...attrVal, ...opVal];
   },
 };
@@ -21,7 +21,7 @@ const unshiftOperator = {
 
   argument: ANY_ARRAY,
 
-  apply ({ $val: attrVal, $arg: opVal = [] }) {
+  apply ({ $val: attrVal = [], $arg: opVal = [] }) {
     return [...opVal, ...attrVal];
   },
 };
@@ -32,7 +32,7 @@ const popOperator = {
 
   argument: ['null'],
 
-  apply ({ $val: attrVal }) {
+  apply ({ $val: attrVal = [] }) {
     return attrVal.slice(0, -1);
   },
 };
@@ -43,7 +43,7 @@ const shiftOperator = {
 
   argument: ['null'],
 
-  apply ({ $val: attrVal }) {
+  apply ({ $val: attrVal = [] }) {
     return attrVal.slice(1);
   },
 };
@@ -61,7 +61,7 @@ const insertOperator = {
     return 'the argument\'s first value must be an integer (the index)';
   },
 
-  apply ({ $val: attrVal, $arg: [index, ...values] }) {
+  apply ({ $val: attrVal = [], $arg: [index, ...values] }) {
     const beginning = attrVal.slice(0, index);
     const end = attrVal.slice(index);
     return [...beginning, ...values, ...end];
@@ -74,7 +74,7 @@ const removeOperator = {
 
   argument: ANY_ARRAY,
 
-  apply ({ $val: attrVal, $arg: opVal = [] }) {
+  apply ({ $val: attrVal = [], $arg: opVal = [] }) {
     return difference(attrVal, opVal);
   },
 };
@@ -91,7 +91,7 @@ const sortOperator = {
     return 'the argument\'s value must be \'asc\' or \'desc\'';
   },
 
-  apply ({ $val: attrVal, $arg: order = 'asc' }) {
+  apply ({ $val: attrVal = [], $arg: order = 'asc' }) {
     const attrValA = sortArray(attrVal);
     return order === 'asc' ? attrValA : reverseArray(attrValA);
   },

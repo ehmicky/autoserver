@@ -6,7 +6,7 @@ const invertOperator = {
 
   argument: ['null'],
 
-  apply ({ $val: attrVal }) {
+  apply ({ $val: attrVal = false }) {
     return !attrVal;
   },
 };
