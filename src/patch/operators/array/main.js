@@ -4,11 +4,21 @@ const { difference, sortArray, reverseArray } = require('../../../utilities');
 
 const { ANY_ARRAY } = require('./constants');
 
-// `_push` patch operator
-const pushOperator = {
+const commonAttrs = {
   attribute: ANY_ARRAY,
 
   argument: ANY_ARRAY,
+};
+
+const commonEmptyAttrs = {
+  attribute: ANY_ARRAY,
+
+  argument: ['empty'],
+};
+
+// `_push` patch operator
+const pushOperator = {
+  ...commonAttrs,
 
   apply ({ $val: attrVal = [], $arg: opVal = [] }) {
     return [...attrVal, ...opVal];
@@ -17,9 +27,7 @@ const pushOperator = {
 
 // `_unshift` patch operator
 const unshiftOperator = {
-  attribute: ANY_ARRAY,
-
-  argument: ANY_ARRAY,
+  ...commonAttrs,
 
   apply ({ $val: attrVal = [], $arg: opVal = [] }) {
     return [...opVal, ...attrVal];
@@ -28,9 +36,7 @@ const unshiftOperator = {
 
 // `_pop` patch operator
 const popOperator = {
-  attribute: ANY_ARRAY,
-
-  argument: ['empty'],
+  ...commonEmptyAttrs,
 
   apply ({ $val: attrVal = [] }) {
     return attrVal.slice(0, -1);
@@ -39,9 +45,7 @@ const popOperator = {
 
 // `_shift` patch operator
 const shiftOperator = {
-  attribute: ANY_ARRAY,
-
-  argument: ['empty'],
+  ...commonEmptyAttrs,
 
   apply ({ $val: attrVal = [] }) {
     return attrVal.slice(1);
@@ -50,9 +54,7 @@ const shiftOperator = {
 
 // `_remove` patch operator
 const removeOperator = {
-  attribute: ANY_ARRAY,
-
-  argument: ANY_ARRAY,
+  ...commonAttrs,
 
   apply ({ $val: attrVal = [], $arg: opVal = [] }) {
     return difference(attrVal, opVal);
