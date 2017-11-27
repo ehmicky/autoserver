@@ -11,4 +11,4 @@ attributes:
     validate:
       required: true
       minimum:
-        $data: '1/age'
+        $data: 1/age
