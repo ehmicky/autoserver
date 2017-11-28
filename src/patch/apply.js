@@ -79,6 +79,7 @@ const transformPatchOp = function ({ type, attrVal, operators, ...rest }) {
 // attribute is an array, the patch operator is being iterator
 const shouldIterateOp = function ({ attrVal, operator: { attribute } }) {
   return Array.isArray(attrVal) &&
+    attribute !== undefined &&
     attribute.every(attr => !attr.endsWith('[]'));
 };
 
