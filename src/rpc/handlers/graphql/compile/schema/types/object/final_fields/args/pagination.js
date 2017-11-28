@@ -47,8 +47,7 @@ Using '' means 'from the end'`,
 
   pagesize: {
     type: GraphQLInt,
-    description: `Sets pagination size.
-Using 0 disables pagination.`,
+    description: 'Sets pagination size.',
   },
 
   page: {
