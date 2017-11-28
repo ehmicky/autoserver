@@ -19,14 +19,14 @@ const parseAction = function ({
   action,
   action: { args: { order, ...args } },
 }) {
-  if (order === undefined) { return action; }
-
   const orderA = parseOrderArg({ order });
 
   return { ...action, args: { ...args, order: orderA } };
 };
 
 const parseOrderArg = function ({ order }) {
+  if (order === undefined) { return ID_ORDER; }
+
   const orderA = order
     // Remove whitespaces
     .replace(/\s+/g, '')
@@ -61,13 +61,17 @@ const PARTS_POSTFIX_REGEXP = /^([^+-]+)(\+|-)?$/;
 //   - the pagination layer needs this predictability
 // If an `id` sorting is already specified, it does not add anything
 const addIdSorting = function ({ order }) {
-  const hasId = order.some(({ attrName }) => attrName === ID_ORDER.attrName);
+  const hasId = order.some(({ attrName }) => attrName === ID_ORDER[0].attrName);
   if (hasId) { return order; }
 
-  return [...order, ID_ORDER];
+  return [...order, ...ID_ORDER];
 };
 
-const ID_ORDER = { attrName: 'id', dir: 'asc' };
+// 'patch' is always sorted by 'id', i.e. user cannot specify it
+// The reason: it might otherwise iterate over the same models
+// For 'delete', sorting is an unnecessary feature, so we keep it similar to
+// 'patch' command.
+const ID_ORDER = [{ attrName: 'id', dir: 'asc' }];
 
 module.exports = {
   parseOrder,
