@@ -81,6 +81,14 @@ PATCH /rest/users/1
 { "first_name": { "_set": "$model.name" } }
 ```
 
+or the shorter syntax:
+
+```HTTP
+PATCH /rest/users/1
+
+{ "first_name": "$model.name" }
+```
+
 will set the model's `first_name` to the same value as its `name`, and respond
 with the newly modified model:
 
@@ -102,9 +110,7 @@ PATCH /rest/users/1
 { "first_name": { "_set": "Anthony" } }
 ```
 
-It is the same as [regular patch commands](#regular-patch-command), except
-[cross-attributes patches](#cross-attributes-patch) and
-[array patches](#array-attributes) can be used.
+It is the same as [regular patch commands](#regular-patch-command):
 
 ```HTTP
 PATCH /rest/users/1
