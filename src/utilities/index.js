@@ -6,4 +6,5 @@ module.exports = {
   ...require('./promisify'),
   ...require('./file'),
   ...require('./transtype'),
+  ...require('./base64'),
 };
