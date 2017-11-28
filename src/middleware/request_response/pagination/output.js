@@ -67,7 +67,11 @@ const getPageOrToken = function ({
   hasNextPage,
 }) {
   if (isOffset({ args })) {
-    return { page };
+    return {
+      page,
+      has_previous_page: hasPreviousPage,
+      has_next_page: hasNextPage,
+    };
   }
 
   const previous = getPreviousTokens({ data, args, topargs, hasPreviousPage });
