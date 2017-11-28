@@ -4,7 +4,6 @@ module.exports = {
   ...require('./normalize_empty'),
   ...require('./aliases'),
   ...require('./transform'),
-  ...require('./system_defaults'),
   ...require('./pagination'),
   ...require('./authorize'),
   ...require('./features'),
