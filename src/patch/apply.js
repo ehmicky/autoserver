@@ -4,8 +4,8 @@ const { mapValues } = require('../utilities');
 const { runSchemaFunc } = require('../schema_func');
 
 const { parsePatchOp } = require('./parse');
-const { postValidate } = require('./validate');
 const { parseRef } = require('./ref_parsing');
+const { replaceSimpleRef, replaceRef } = require('./ref');
 
 // Apply patch operation to a single datum
 const applyPatchOps = function ({
@@ -29,18 +29,26 @@ const applyPatchOps = function ({
   return { ...datum, ...patchOpsA };
 };
 
-const applyPatchOp = function ({
-  datum,
-  patchOp,
-  attrName,
-  attributes,
-  ...rest
-}) {
+const applyPatchOp = function ({ patchOp, ...rest }) {
   const { type, opVal } = parsePatchOp(patchOp);
 
-  // If no patch operator was used, do a simple shallow merge
-  if (type === undefined) { return patchOp; }
+  if (type === undefined) {
+    return getSimplePatch({ patchOp, ...rest });
+  }
 
+  return getAdvancedPatch({ patchOp, type, opVal, ...rest });
+};
+
+// If no patch operator was used, do a simple shallow merge
+const getSimplePatch = function ({ patchOp, attributes, datum, commandpath }) {
+  const ref = parseRef(patchOp);
+  if (ref === undefined) { return patchOp; }
+
+  return replaceSimpleRef({ ref, attributes, datum, commandpath });
+};
+
+// When a patch operator was used
+const getAdvancedPatch = function ({ datum, attrName, attributes, ...rest }) {
   const attrVal = datum[attrName];
   // Normalize `null` to `undefined`
   const attrValA = attrVal === null ? undefined : attrVal;
@@ -48,11 +56,8 @@ const applyPatchOp = function ({
   const attr = attributes[attrName];
 
   const attrValB = transformPatchOp({
-    type,
     attrVal: attrValA,
-    opVal,
     datum,
-    patchOp,
     attrName,
     attr,
     ...rest,
@@ -101,18 +106,6 @@ const fireApply = function ({
   const vars = { $val: attrVal, $arg: opValB, $type: attrType };
   const attrValA = runSchemaFunc({ schemaFunc: apply, mInput, vars });
   return attrValA;
-};
-
-// Replaces $model.ATTR when patch operation is applied
-const replaceRef = function ({ opVal, datum, ...rest }) {
-  const ref = parseRef(opVal);
-  if (ref === undefined) { return opVal; }
-
-  const opValA = datum[ref];
-
-  postValidate({ opVal: opValA, ...rest });
-
-  return opValA;
 };
 
 module.exports = {
