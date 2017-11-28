@@ -2,7 +2,6 @@
 
 const { applyDataAliases } = require('./data');
 const { applyOrderAliases } = require('./order');
-const { applyTokenAliases } = require('./token');
 
 // Apply `alias` in server input
 const applyInputAliases = function ({ args, modelAliases }) {
@@ -45,28 +44,9 @@ const getOrder = function ({ args, args: { order }, attrName, aliases }) {
   return { ...args, order: orderA };
 };
 
-const getTokens = function ({ args, attrName, aliases }) {
-  return DIRECTIONS.reduce(
-    (argsA, direction) =>
-      getToken({ args: argsA, direction, attrName, aliases }),
-    args,
-  );
-};
-
-const DIRECTIONS = ['after', 'before'];
-
-const getToken = function ({ args, direction, attrName, aliases }) {
-  const token = args[direction];
-  if (token === undefined || token === '') { return args; }
-
-  const tokenA = applyTokenAliases({ token, attrName, aliases });
-  return { ...args, [direction]: tokenA };
-};
-
 const modifiers = [
   getNewData,
   getOrder,
-  getTokens,
 ];
 
 module.exports = {
