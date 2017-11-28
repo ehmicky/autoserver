@@ -310,7 +310,6 @@ rules:
   unicorn/escape-case: 2
 
   # RegExps
-  no-div-regex: 2
   wrap-regex: 2
   unicorn/regex-shorthand: 2
 
@@ -444,6 +443,9 @@ rules:
 #  object-curly-newline: 2
 #  multiline-ternary: 2
 #  implicit-arrow-linebreak: 2
+
+  # This is in conflict with no-useless-escape rule with RegExps like /=/
+# no-div-regex: 2
 
   # Those rules go against the codebase convention of using index.js files
   # that require siblings, and exporting|requiring named objects.
