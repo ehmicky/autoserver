@@ -3,7 +3,6 @@
 const { getLimits } = require('../../../limits');
 const { addActions } = require('../add_actions');
 
-const { validateLimits } = require('./limits');
 const { getDataPath } = require('./data_path');
 const { parseData } = require('./data');
 const { parseActions } = require('./actions');
@@ -30,7 +29,6 @@ const getDataAction = function ({
   dbAdapters,
 }) {
   const { maxAttrValueSize } = getLimits({ runOpts });
-  validateLimits({ data, runOpts });
 
   // Top-level `dataPaths`
   const dataPaths = getDataPath({ data, commandpath });
