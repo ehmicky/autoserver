@@ -10,12 +10,19 @@ const {
   BOUNDARY_TOKEN,
 } = require('./info');
 const { encode } = require('./encoding');
+const { isOnlyForwardCursor } = require('./condition');
 
 // Add response metadata related to pagination:
 //   token, pagesize, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
-const getPaginationOutput = function ({ args, topargs, runOpts, response }) {
-  const hasPreviousPage = getHasPreviousPage({ args });
+const getPaginationOutput = function ({
+  top,
+  args,
+  topargs,
+  runOpts,
+  response,
+}) {
+  const hasPreviousPage = getHasPreviousPage({ args, top });
   const hasNextPage = getHasNextPage({ args, runOpts, response });
 
   const data = getData({ response, hasNextPage });
@@ -23,6 +30,7 @@ const getPaginationOutput = function ({ args, topargs, runOpts, response }) {
   const pagesize = data.length;
 
   const pageOrToken = getPageOrToken({
+    top,
     args,
     topargs,
     data,
@@ -34,14 +42,14 @@ const getPaginationOutput = function ({ args, topargs, runOpts, response }) {
   return { data, metadata: { ...response.metadata, pages } };
 };
 
-// If a token (except BOUNDARY_TOKEN) has been used,
-// it means there is a previous page
-const getHasPreviousPage = function ({ args, args: { page } }) {
+const getHasPreviousPage = function ({ args, args: { page }, top }) {
   if (isOffset({ args })) {
     return page !== 1;
   }
 
-  return hasToken({ args });
+  // If a token (except BOUNDARY_TOKEN) has been used,
+  // it means there is a previous page
+  return hasToken({ args }) && !isOnlyForwardCursor({ top });
 };
 
 // We fetch an extra model to guess has_next_page. If it was founds, remove it
@@ -60,6 +68,7 @@ const getData = function ({ response: { data }, hasNextPage }) {
 
 const getPageOrToken = function ({
   data,
+  top,
   args,
   args: { page },
   topargs,
@@ -75,7 +84,7 @@ const getPageOrToken = function ({
   }
 
   const previous = getPreviousTokens({ data, args, topargs, hasPreviousPage });
-  const next = getNextTokens({ data, args, topargs, hasNextPage });
+  const next = getNextTokens({ data, top, args, topargs, hasNextPage });
 
   return { ...previous, ...next };
 };
@@ -93,16 +102,18 @@ const getPreviousTokens = function ({ data, args, topargs, hasPreviousPage }) {
   };
 };
 
-const getNextTokens = function ({ data, args, topargs, hasNextPage }) {
+const getNextTokens = function ({ data, top, args, topargs, hasNextPage }) {
   if (!hasNextPage) { return; }
 
   const model = data[data.length - 1];
   const nextToken = getEncodedToken({ model, args, topargs });
+  // `last_token` is not useful with patch commands
+  const lastToken = isOnlyForwardCursor({ top }) ? undefined : BOUNDARY_TOKEN;
 
   return {
     has_next_page: hasNextPage,
     next_token: nextToken,
-    last_token: BOUNDARY_TOKEN,
+    last_token: lastToken,
   };
 };
 

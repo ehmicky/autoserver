@@ -30,6 +30,18 @@ const isPaginationDisabled = function ({ runOpts, args }) {
   return pagesize === 0;
 };
 
+// `patch` commands can only iterate forward, as pagination is here only
+// meant for database load controlling, not as a client feature.
+// This means:
+//  - offset pagination is not available
+//  - backward cursor pagination is not available
+const isOnlyForwardCursor = function ({ top }) {
+  return FORWARD_TOP_COMMANDS.includes(top.command.name);
+};
+
+const FORWARD_TOP_COMMANDS = ['patchMany'];
+
 module.exports = {
   willPaginateOutput,
+  isOnlyForwardCursor,
 };
