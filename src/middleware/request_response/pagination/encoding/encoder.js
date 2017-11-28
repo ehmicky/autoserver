@@ -1,28 +1,11 @@
 'use strict';
 
-const {
-  Base64: {
-    encodeURI: base64UrlEncode,
-    decode: base64UrlDecode,
-  },
-} = require('js-base64');
+const { base64UrlEncode, base64UrlDecode } = require('../../../../utilities');
 
-const { minifyOrder, unminifyOrder } = require('./minify_order');
-const {
-  removeDefaultValues,
-  addDefaultValues,
-} = require('./minify_default_values');
 const { addNameShortcuts, removeNameShortcuts } = require('./minify_names');
 const { convertUndefined } = require('./convert_undefined');
 
-// Encode token from a useable object to a short opaque base64 token
-// Token is object:
-//   - parts {any[]} (model values)
-//   - filter {object}: used by current query,
-//     so it can be used on next pagination requests
-//   - order {object[]} - same as filter
-//      - order.attrName {string} - also used to guess `parts` attributes
-//      - order.dir {string} - 'desc' or 'asc'
+// Encode token from a usable object to a short opaque base64 token
 // Make sure token is small by minifying it
 const encode = function ({ token }) {
   return encoders.reduce((tokenA, encoder) => encoder(tokenA), token);
@@ -30,8 +13,6 @@ const encode = function ({ token }) {
 
 const encoders = [
   convertUndefined,
-  removeDefaultValues,
-  minifyOrder,
   addNameShortcuts,
   JSON.stringify,
   base64UrlEncode,
@@ -46,8 +27,6 @@ const decoders = [
   base64UrlDecode,
   JSON.parse,
   removeNameShortcuts,
-  unminifyOrder,
-  addDefaultValues,
 ];
 
 module.exports = {

@@ -45,7 +45,6 @@
     "optional": [
       "cascade",
       "filter",
-      "pagesize",
       "select",
       "rename",
       "silent",
@@ -72,6 +71,7 @@
     "optional": [
       "filter",
       "pagesize",
+      "after",
       "select",
       "rename",
       "silent",
@@ -96,7 +96,6 @@
   },
   "createMany": {
     "optional": [
-      "pagesize",
       "select",
       "rename",
       "silent",
@@ -121,7 +120,6 @@
   },
   "upsertMany": {
     "optional": [
-      "pagesize",
       "select",
       "rename",
       "silent",

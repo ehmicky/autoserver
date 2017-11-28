@@ -1,7 +1,8 @@
 'use strict';
 
+const { getToken } = require('./token');
 const { validatePaginationInput } = require('./validation');
-const { mustPaginateOutput } = require('./condition');
+const { willPaginateOutput } = require('./condition');
 const { getPaginationInput } = require('./input');
 
 // Pagination input middleware.
@@ -31,22 +32,16 @@ const { getPaginationInput } = require('./input');
 //                                 { a: 10, b: 20 }, then we transform
 //                                 args.filter { c: 30 } to
 //                                 { c: 30, a: { _gt: 10 }, b: { _gt: 20 } }
-//   order                    - same as `filter` but for `order`
-// Add metadata: token, pagesize, has_previous_page, has_previous_page
-// Commands:
-//  - output is paginated with any command returning an array of response
-//    and do not using an array of args.data, i.e.
-//    findMany, deleteMany or patchMany
-//  - consumer can iterate the pagination with safe command returning an
-//    array of response, i.e. findMany
-//  - this means `upsert` and `delete` commands will paginate output,
-//    but to iterate through the next batches, findMany must be used
-const handlePaginationInput = function ({ args, command, runOpts }) {
-  validatePaginationInput({ args, command, runOpts });
+//   order                       - same as `filter` but for `order`
+// Add pagination-related metadata in response at `metadata.pages`
+const handlePaginationInput = function ({ args, topargs, runOpts, ...rest }) {
+  if (!willPaginateOutput({ args, runOpts, ...rest })) { return; }
 
-  if (!mustPaginateOutput({ args, command })) { return; }
+  const token = getToken({ args });
 
-  const paginationInput = getPaginationInput({ args });
+  validatePaginationInput({ args, topargs, token });
+
+  const paginationInput = getPaginationInput({ args, token, runOpts });
 
   return { args: { ...args, ...paginationInput } };
 };
