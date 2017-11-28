@@ -1,6 +1,6 @@
 'use strict';
 
-const { getBackwardFilter } = require('./backward');
+const { getBackwardFilter } = require('../backward');
 
 // Patches args.filter to allow for cursor pagination
 // E.g. if:

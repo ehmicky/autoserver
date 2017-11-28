@@ -1,8 +1,9 @@
 'use strict';
 
-const { willPaginateOutput } = require('./condition');
-const { getPaginationOutput } = require('./output');
-const { getBackwardResponse } = require('./backward');
+const { willPaginate } = require('../condition');
+const { getBackwardResponse } = require('../backward');
+
+const { getPaginationOutput } = require('./response');
 
 // Add response metadata related to pagination:
 //   token, pagesize, has_previous_page, has_next_page
@@ -14,7 +15,7 @@ const handlePaginationOutput = function ({
   response,
   ...rest
 }) {
-  if (!willPaginateOutput({ top, args, runOpts, ...rest })) { return; }
+  if (!willPaginate({ top, args, runOpts, ...rest })) { return; }
 
   const responseA = getPaginationOutput({
     top,

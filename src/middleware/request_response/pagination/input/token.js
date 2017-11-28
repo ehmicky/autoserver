@@ -1,10 +1,9 @@
 'use strict';
 
-const { pick, pickBy, mapValues } = require('../../../utilities');
-const { addGenErrorHandler, throwError } = require('../../../error');
-
-const { decode } = require('./encoding');
-const { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } = require('./info');
+const { pick, pickBy, mapValues } = require('../../../../utilities');
+const { addGenErrorHandler, throwError } = require('../../../../error');
+const { decode } = require('../encoding');
+const { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } = require('../info');
 
 // Parse cursor tokens
 const getToken = function ({ args }) {
