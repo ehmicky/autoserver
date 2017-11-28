@@ -6,7 +6,7 @@ const bytes = require('bytes');
 // Some of those limits cannot be changed by the user.
 const getLimits = function ({
   runOpts: {
-    maxpagesize,
+    pagesize,
     maxpayload = MAX_URL_LENGTH,
   } = {},
 } = {}) {
@@ -15,7 +15,7 @@ const getLimits = function ({
   return {
     // Max number of top-level models returned in a response
     // Default: 100
-    maxpagesize,
+    pagesize,
     // Max size of request payloads, in bytes.
     // Can use 'KB', 'MB', 'GB' OR 'TB'.
     // Default: '1MB'

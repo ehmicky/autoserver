@@ -1,29 +1,31 @@
 'use strict';
 
-// Whether consumers can specify all pagination arguments,
-// including args.pagesize, args.before|after|page
-// Implies output pagination
-const allowFullPagination = function ({ args, command }) {
-  return FULL_PAGINATION_COMMANDS.includes(command) &&
-    !isPaginationDisabled({ args, command });
-};
-
-const FULL_PAGINATION_COMMANDS = ['find'];
+const { getPagesize } = require('./info');
 
 // Whether output will be paginated
-const mustPaginateOutput = function ({ args, command }) {
-  return PAGINATION_COMMANDS.includes(command) &&
-    !isPaginationDisabled({ args });
+const willPaginateOutput = function ({
+  args,
+  command,
+  commandpath,
+  top,
+  runOpts,
+}) {
+  // Only for top-level find|patch commands
+  return commandpath.split('.').length === 1 &&
+    PAGINATION_TOP_COMMANDS.includes(top.command.type) &&
+    PAGINATION_COMMANDS.includes(command) &&
+    !isPaginationDisabled({ runOpts, args });
 };
 
+const PAGINATION_TOP_COMMANDS = ['find', 'patch'];
 const PAGINATION_COMMANDS = ['find'];
 
-// Using args.pagesize 0 or defaultpagesize 0 disables pagination
-const isPaginationDisabled = function ({ args: { pagesize } }) {
-  return pagesize === 0 || pagesize === undefined;
+// Using args.pagesize 0 or pagesize 0 disables pagination
+const isPaginationDisabled = function ({ runOpts, args }) {
+  const pagesize = getPagesize({ args, runOpts });
+  return pagesize === 0;
 };
 
 module.exports = {
-  allowFullPagination,
-  mustPaginateOutput,
+  willPaginateOutput,
 };

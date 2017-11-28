@@ -1,46 +1,52 @@
 'use strict';
 
-// Extra pagination-related information from arguments
-const getPaginationInfo = function ({ args, args: { pagesize, page } }) {
-  const token = args.after || args.before;
-  // Used for cursor pagination. If token is '' (i.e. start|end),
-  // does not actually really cursors.
-  const hasToken = token !== undefined && token !== '';
-  const directionName = args.before === undefined ? 'after' : 'before';
-  const { isBackward, previous, next } = DIRECTION_INFO[directionName];
-  // We try to fetch the models before and after the current batch in order to
-  // guess has_previous_page and has_next_page
-  // If hasToken is false, it means we know we are at the beginning or end.
-  const usedPagesize = pagesize + 1;
-  // Whether this is offset pagination (args.page)
-  // or cursor pagination (args.after|before)
-  const isOffset = page !== undefined;
-
-  return {
-    token,
-    hasToken,
-    isBackward,
-    previous,
-    next,
-    usedPagesize,
-    isOffset,
-  };
+// Whether this is offset pagination (args.page)
+// or cursor pagination (args.after|before)
+const isOffset = function ({ args: { page } }) {
+  return page !== undefined;
 };
 
-const DIRECTION_INFO = {
-  before: {
-    // When using args.before, pagination is performed backward
-    isBackward: true,
-    previous: 'next',
-    next: 'previous',
-  },
-  after: {
-    isBackward: false,
-    previous: 'previous',
-    next: 'next',
-  },
+const getPagesize = function ({
+  runOpts,
+  args: { pagesize = runOpts.pagesize },
+}) {
+  return pagesize;
 };
+
+// We try to fetch the models before and after the current batch in order to
+// guess has_previous_page and has_next_page
+// If hasToken is false, it means we know we are at the beginning or end.
+const getLimit = function ({ runOpts, args }) {
+  const pagesize = getPagesize({ runOpts, args });
+  return pagesize + 1;
+};
+
+const getRightToken = function ({ tokens }) {
+  return tokens.after === undefined ? tokens.before : tokens.after;
+};
+
+// Used for cursor pagination.
+const hasToken = function ({ args }) {
+  const token = getRightToken({ tokens: args });
+  return token !== undefined && token !== BOUNDARY_TOKEN;
+};
+
+// When iterating over cursors, those arguments must remain the same
+const SAME_ARGS = ['order', 'filter'];
+
+// Cursor tokens argument names
+const TOKEN_NAMES = ['before', 'after'];
+
+// Used to signify first|last batch
+const BOUNDARY_TOKEN = '';
 
 module.exports = {
-  getPaginationInfo,
+  isOffset,
+  getPagesize,
+  getLimit,
+  getRightToken,
+  hasToken,
+  SAME_ARGS,
+  TOKEN_NAMES,
+  BOUNDARY_TOKEN,
 };

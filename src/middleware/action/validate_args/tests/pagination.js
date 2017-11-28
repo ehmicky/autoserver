@@ -31,7 +31,7 @@ const pagesizeTests = [
 
   gtTest('pagesize', 0),
 
-  leTest('pagesize', ({ runOpts }) => getLimits({ runOpts }).maxpagesize),
+  leTest('pagesize', ({ runOpts }) => getLimits({ runOpts }).pagesize),
 ];
 
 module.exports = {

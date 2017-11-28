@@ -1,32 +1,25 @@
 'use strict';
 
-const { reverseArray } = require('../../../utilities');
-
-const { mustPaginateOutput } = require('./condition');
+const { willPaginateOutput } = require('./condition');
 const { getPaginationOutput } = require('./output');
-const { getPaginationInfo } = require('./info');
+const { getBackwardResponse } = require('./backward');
 
 // Add response metadata related to pagination:
 //   token, pagesize, has_previous_page, has_next_page
-const handlePaginationOutput = function ({ args, command, response }) {
-  if (!mustPaginateOutput({ args, command })) { return; }
+const handlePaginationOutput = function ({
+  args,
+  topargs,
+  runOpts,
+  response,
+  ...rest
+}) {
+  if (!willPaginateOutput({ args, runOpts, ...rest })) { return; }
 
-  const responseA = reverseOutput({ args, response });
+  const responseA = getPaginationOutput({ args, topargs, runOpts, response });
 
-  getPaginationOutput({ args, response: responseA });
+  const responseB = getBackwardResponse({ args, response: responseA });
 
-  return { response };
-};
-
-// When using args.before, pagination is performed backward.
-// We do this by inversing args.order, which means we need to reverse output
-// afterwards.
-const reverseOutput = function ({ args, response }) {
-  const { isBackward } = getPaginationInfo({ args });
-  if (!isBackward) { return response; }
-
-  const data = reverseArray(response.data);
-  return { ...response, data };
+  return { response: responseB };
 };
 
 module.exports = {

@@ -11,8 +11,10 @@ const addNameShortcuts = function (token) {
 };
 
 const removeNameShortcuts = function (token) {
-  return mapKeys(token, (value, attrName) =>
-    REVERSE_SHORTCUTS[attrName] || attrName);
+  return mapKeys(
+    token,
+    (value, attrName) => REVERSE_SHORTCUTS[attrName] || attrName,
+  );
 };
 
 const SHORTCUTS = {

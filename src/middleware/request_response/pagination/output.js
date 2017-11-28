@@ -2,114 +2,120 @@
 
 const { pick } = require('../../../utilities');
 
-const { getPaginationInfo } = require('./info');
-const { decode, encode } = require('./encoding');
+const {
+  isOffset,
+  getLimit,
+  hasToken,
+  SAME_ARGS,
+  BOUNDARY_TOKEN,
+} = require('./info');
+const { encode } = require('./encoding');
 
 // Add response metadata related to pagination:
 //   token, pagesize, has_previous_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
-const getPaginationOutput = function ({ args, args: { page }, response }) {
-  const {
-    hasToken,
-    token,
-    previous,
-    next,
-    usedPagesize,
-    isBackward,
-    isOffset,
-  } = getPaginationInfo({ args });
+const getPaginationOutput = function ({ args, topargs, runOpts, response }) {
+  const hasPreviousPage = getHasPreviousPage({ args });
+  const hasNextPage = getHasNextPage({ args, runOpts, response });
 
-  // If a token (except '') has been used, it means there is a previous page
-  // We use ${previous} amd ${next} to reverse directions
-  // when doing backward pagination
-  const firstHasPreviousPage = isOffset ? page !== 1 : hasToken;
-
-  // We fetch an extra model to guess has_next_page. If it was founds, remove it
-  const lastHasNextPage = response.data.length === usedPagesize;
-
-  const info = {
-    [`has_${previous}_page`]: firstHasPreviousPage,
-    [`has_${next}_page`]: lastHasNextPage,
-  };
-
-  const { data, metadata } = getData({ response, lastHasNextPage, isBackward });
+  const data = getData({ response, hasNextPage });
 
   const pagesize = data.length;
 
-  // Add response.metadata
-  const metadataA = data.map((model, index) => {
-    // `has_previous_page` and `has_next_page` are only true
-    // when on the batch's edges
-    const hasPreviousPage = info.has_previous_page || index !== 0;
-    const hasNextPage = info.has_next_page || index !== data.length - 1;
-
-    const pageOrToken = getPageOrToken({ isOffset, page, model, args, token });
-    const pages = {
-      has_previous_page: hasPreviousPage,
-      has_next_page: hasNextPage,
-      pagesize,
-      ...pageOrToken,
-    };
-
-    const metadatum = metadata && metadata[index];
-    return { ...metadatum, pages };
+  const pageOrToken = getPageOrToken({
+    args,
+    topargs,
+    data,
+    hasPreviousPage,
+    hasNextPage,
   });
 
-  return { data, metadata: { ...response.metadata, ...metadataA } };
+  const pages = { pagesize, ...pageOrToken };
+  return { data, metadata: { ...response.metadata, pages } };
 };
 
-const getData = function ({
-  response: { data, metadata = [] },
-  lastHasNextPage,
-  isBackward,
-}) {
-  if (!lastHasNextPage) {
-    return { data, metadata };
+// If a token (except BOUNDARY_TOKEN) has been used,
+// it means there is a previous page
+const getHasPreviousPage = function ({ args, args: { page } }) {
+  if (isOffset({ args })) {
+    return page !== 1;
   }
 
-  if (isBackward) {
-    return {
-      data: data.slice(1),
-      metadata: metadata.slice(1),
-    };
+  return hasToken({ args });
+};
+
+// We fetch an extra model to guess has_next_page. If it was founds, remove it
+const getHasNextPage = function ({ args, runOpts, response }) {
+  const limit = getLimit({ args, runOpts });
+  return response.data.length === limit;
+};
+
+const getData = function ({ response: { data }, hasNextPage }) {
+  if (!hasNextPage) {
+    return data;
   }
 
-  return {
-    data: data.slice(0, -1),
-    metadata: metadata.slice(0, -1),
-  };
+  return data.slice(0, -1);
 };
 
 const getPageOrToken = function ({
-  isOffset,
-  page,
-  model,
-  args: { order, filter },
-  token,
+  data,
+  args,
+  args: { page },
+  topargs,
+  hasPreviousPage,
+  hasNextPage,
 }) {
-  if (isOffset) { return { page }; }
+  if (isOffset({ args })) {
+    return { page };
+  }
 
-  const tokenA = getPaginationToken({ model, order, filter, token });
-  return { token: tokenA };
+  const previous = getPreviousTokens({ data, args, topargs, hasPreviousPage });
+  const next = getNextTokens({ data, args, topargs, hasNextPage });
+
+  return { ...previous, ...next };
+};
+
+const getPreviousTokens = function ({ data, args, topargs, hasPreviousPage }) {
+  if (!hasPreviousPage) { return; }
+
+  const [model] = data;
+  const previousToken = getEncodedToken({ model, args, topargs });
+
+  return {
+    has_previous_page: hasPreviousPage,
+    previous_token: previousToken,
+    first_token: BOUNDARY_TOKEN,
+  };
+};
+
+const getNextTokens = function ({ data, args, topargs, hasNextPage }) {
+  if (!hasNextPage) { return; }
+
+  const model = data[data.length - 1];
+  const nextToken = getEncodedToken({ model, args, topargs });
+
+  return {
+    has_next_page: hasNextPage,
+    next_token: nextToken,
+    last_token: BOUNDARY_TOKEN,
+  };
 };
 
 // Calculate token to output
-const getPaginationToken = function ({ model, order, filter, token }) {
-  const tokenObj = getTokenObj({ order, filter, token });
-  const parts = tokenObj.order.map(({ attrName }) => model[attrName]);
-  const tokenObjA = { ...tokenObj, parts };
-  const encodedToken = encode({ token: tokenObjA });
+const getEncodedToken = function ({ model, args: { order }, topargs }) {
+  // If the previous batch declared a next batch was available, but between
+  // the two requests, the next batch's models were removed, `model` will be
+  // `undefined`, so we return the `first_token|last_token` instead
+  if (model === undefined) { return BOUNDARY_TOKEN; }
+
+  const parts = order.map(({ attrName }) => model[attrName]);
+
+  const token = pick(topargs, SAME_ARGS);
+  const tokenA = { ...token, parts };
+
+  const encodedToken = encode({ token: tokenA });
   return encodedToken;
-};
-
-const getTokenObj = function ({ order, filter, token }) {
-  if (token === undefined || token === '') {
-    return { order, filter };
-  }
-
-  // Reuse old token
-  const oldToken = decode({ token });
-  return pick(oldToken, ['order', 'filter']);
 };
 
 module.exports = {
