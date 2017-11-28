@@ -1,10 +1,10 @@
 'use strict';
 
-const { isEqual } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { isEqual } = require('../../../../utilities');
+const { throwError } = require('../../../../error');
+const { SAME_ARGS } = require('../info');
 
 const { validateToken } = require('./token');
-const { SAME_ARGS } = require('./info');
 
 // Validate pagination input arguments
 const validatePaginationInput = function ({ args, topargs, token }) {

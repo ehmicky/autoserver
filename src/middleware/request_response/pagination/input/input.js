@@ -1,8 +1,9 @@
 'use strict';
 
-const { isOffset, getLimit } = require('./info');
+const { isOffset, getLimit } = require('../info');
+const { getBackwardOrder } = require('../backward');
+
 const { getTokenFilter } = require('./filter');
-const { getBackwardOrder } = require('./backward');
 
 // Transform args.pagesize|before|after|page into args.limit|offset|filter
 const getPaginationInput = function ({ args, token, runOpts }) {

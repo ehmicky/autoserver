@@ -1,8 +1,9 @@
 'use strict';
 
-const { isOffset, getLimit, hasToken } = require('./info');
-const { isOnlyForwardCursor } = require('./condition');
-const { getMetadata } = require('./output_metadata');
+const { isOffset, getLimit, hasToken } = require('../info');
+const { isOnlyForwardCursor } = require('../condition');
+
+const { getMetadata } = require('./metadata');
 
 // Add response metadata related to pagination:
 //   token, pagesize, has_previous_page, has_next_page

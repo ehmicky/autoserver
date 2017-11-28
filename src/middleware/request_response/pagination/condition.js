@@ -2,8 +2,8 @@
 
 const { getPagesize } = require('./info');
 
-// Whether output will be paginated
-const willPaginateOutput = function ({
+// Whether request will be paginated
+const willPaginate = function ({
   args,
   command,
   commandpath,
@@ -42,6 +42,6 @@ const isOnlyForwardCursor = function ({ top }) {
 const FORWARD_TOP_COMMANDS = ['patchMany'];
 
 module.exports = {
-  willPaginateOutput,
+  willPaginate,
   isOnlyForwardCursor,
 };
