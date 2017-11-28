@@ -12,10 +12,13 @@ const getLimits = function ({
 } = {}) {
   const maxpayloadA = bytes.parse(maxpayload);
 
+  // `pagesize` `0` disables pagination
+  const pagesizeA = pagesize === 0 ? Infinity : pagesize;
+
   return {
     // Max number of top-level models returned in a response
     // Default: 100
-    pagesize,
+    pagesize: pagesizeA,
     // Max size of request payloads, in bytes.
     // Can use 'KB', 'MB', 'GB' OR 'TB'.
     // Default: '1MB'
