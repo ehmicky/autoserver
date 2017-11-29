@@ -108,6 +108,8 @@ const middlewareLayers = [
       action.parseSelect,
       // Parse `args.rename`
       action.parseRename,
+      // Validate request limits
+      action.validateRequestLimits,
       // Validate that attributes in `args.select|data|filter|order`
       // are in the schema
       action.validateUnknownAttrs,

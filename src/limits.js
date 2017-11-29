@@ -19,6 +19,10 @@ const getLimits = function ({
     // Max number of top-level models returned in a response
     // Default: 100
     pagesize: pagesizeA,
+    // Max depth of nested actions (including top level)
+    // This is enforced to avoid requests with huge small recursive actions
+    // flooding the server
+    maxDepth: MAX_DEPTH,
     // Max size of request payloads, in bytes.
     // Can use 'KB', 'MB', 'GB' OR 'TB'.
     // Default: '1MB'
@@ -47,6 +51,8 @@ const getLimits = function ({
     //  - max model|attribute name length: 200
   };
 };
+
+const MAX_DEPTH = 5;
 
 const MAX_ATTR_VALUE_SIZE = 2e3;
 
