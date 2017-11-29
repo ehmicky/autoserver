@@ -24,23 +24,23 @@ const getLimits = function ({
     // Default: '1MB'
     maxpayload: maxpayloadA,
     // Max size of an attribute's value, in bytes.
-    maxAttrValueSize: 2e3,
+    maxAttrValueSize: MAX_ATTR_VALUE_SIZE,
 
     // Max URL length
     // Since URL can contain GraphQL query, it should not be less than
     // `maxpayload`
     maxUrlLength: Math.max(MAX_URL_LENGTH, maxpayloadA),
     // Max level of nesting in query string, e.g. ?var.subvar.subvar2=val
-    maxQueryStringDepth: 10,
+    maxQueryStringDepth: MAX_QUERY_STRING_DEPTH,
     // Max length of arrays in query string, e.g. ?var[50]=val
-    maxQueryStringLength: 100,
+    maxQueryStringLength: MAX_QUERY_STRING_LENGTH,
 
     // How long the request can run, in milliseconds
-    requestTimeout: 5e3,
+    requestTimeout: REQUEST_TIMEOUT,
     // When event listeners fail, they are retried with an ever increasing delay
     // This is the upper limit
     // This is 3 minutes, in milliseconds
-    maxEventDelay: 18e4,
+    maxEventDelay: MAX_EVENT_DELAY,
 
     // Enforced during schema validation:
     //  - max number of attributes per model: 50
@@ -48,7 +48,17 @@ const getLimits = function ({
   };
 };
 
+const MAX_ATTR_VALUE_SIZE = 2e3;
+
 const MAX_URL_LENGTH = 2e3;
+
+const MAX_QUERY_STRING_DEPTH = 1e1;
+
+const MAX_QUERY_STRING_LENGTH = 1e2;
+
+const REQUEST_TIMEOUT = 5e3;
+
+const MAX_EVENT_DELAY = 18e4;
 
 module.exports = {
   getLimits,
