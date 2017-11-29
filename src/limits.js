@@ -8,6 +8,7 @@ const getLimits = function ({
   runOpts: {
     pagesize,
     maxpayload = MAX_URL_LENGTH,
+    maxmodels,
   } = {},
 } = {}) {
   const maxpayloadA = bytes.parse(maxpayload);
@@ -15,10 +16,15 @@ const getLimits = function ({
   // `pagesize` `0` disables pagination
   const pagesizeA = pagesize === 0 ? Infinity : pagesize;
 
+  const maxmodelsA = getMaxModels({ maxmodels, pagesize: pagesizeA });
+
   return {
     // Max number of top-level models returned in a response
     // Default: 100
     pagesize: pagesizeA,
+    // Max number of models in either requests (`args.data`) or responses
+    // Not used by delete commands
+    maxmodels: maxmodelsA,
     // Max depth of nested actions (including top level)
     // This is enforced to avoid requests with huge small recursive actions
     // flooding the server
@@ -54,7 +60,20 @@ const getLimits = function ({
   };
 };
 
+const getMaxModels = function ({ maxmodels, pagesize }) {
+  if (maxmodels === undefined && pagesize !== undefined) {
+    return pagesize * MAX_MODELS_FACTOR;
+  }
+
+  // `maxmodels` `0` disables it
+  if (maxmodels === 0) { return Infinity; }
+
+  return maxmodels;
+};
+
 const MAX_DEPTH = 5;
+
+const MAX_MODELS_FACTOR = 1e2;
 
 const MAX_FIND_MANY_DEPTH = 2;
 
