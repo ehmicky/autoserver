@@ -23,9 +23,9 @@ const getRawPayloadHandler = function (error, { maxpayload }) {
     throwError(message, { reason: 'PAYLOAD_PARSE', innererror: error });
   }
 
-  if (error.reason === 'INPUT_LIMIT') {
+  if (error.reason === 'PAYLOAD_LIMIT') {
     const message = `The request payload must not be larger than ${formatBytes(maxpayload)}`;
-    throwError(message, { reason: 'INPUT_LIMIT', innererror: error });
+    throwError(message, { reason: 'PAYLOAD_LIMIT', innererror: error });
   }
 
   rethrowError(error);
