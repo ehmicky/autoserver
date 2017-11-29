@@ -1,16 +1,5 @@
 [
   {
-    "name": "maxpayload",
-    "default": "10MB",
-    "description": "Max size of request payloads, in bytes.\nCan use 'kb', 'mb', 'gb' or 'tb'",
-    "group": "Limits",
-    "validate": {
-      "type": "bytes",
-      "minimum_bytes": 100
-    }
-  },
-
-  {
     "name": "pagesize",
     "default": 100,
     "description": "Pagination size",
@@ -18,6 +7,17 @@
     "validate": {
       "type": "integer",
       "minimum": 0
+    }
+  },
+
+  {
+    "name": "maxpayload",
+    "default": "10MB",
+    "description": "Max size of request payloads, in bytes.\nCan use 'kb', 'mb', 'gb' or 'tb'",
+    "group": "Limits",
+    "validate": {
+      "type": "bytes",
+      "minimum_bytes": 100
     }
   }
 ]
