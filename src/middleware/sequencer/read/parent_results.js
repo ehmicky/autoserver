@@ -28,7 +28,8 @@ const isParentResults = function ({ result: { path, promise }, parentPath }) {
 const getParentIds = function ({ commandName, parentResults }) {
   const nestedParentIds = parentResults.map(({ model }) => model[commandName]);
   const parentIds = flatten(nestedParentIds);
-  const parentIdsA = parentIds.filter(ids => ids !== undefined);
+  // `id` can be `null` to signify nested findMany action was paginated
+  const parentIdsA = parentIds.filter(ids => ids != null);
   // We remove duplicate `id`, for efficiency reasons
   const parentIdsB = uniq(parentIdsA);
 
