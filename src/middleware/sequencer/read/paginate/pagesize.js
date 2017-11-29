@@ -62,8 +62,9 @@ const findNestedPagesize = function ({
 
   // `maxmodels` limit has been hit
   if (countA > maxmodels) {
-    // If the limit is hit during first iteration, we set nestedPagesize to 1,
-    // which means response will be over `maxmodels`.
+    // `nestedPagesize` should never be below 1, because we enforce `maxmodels`
+    // to be >= (maxActions - 1) * pagesize
+    // However, we ensure it just in case
     // Either throwing an error or paginating with nestedPagesize 0 would
     // result in poor client experience.
     return Math.max(nestedPagesize, 1);
