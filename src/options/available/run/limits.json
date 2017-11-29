@@ -15,8 +15,7 @@
     "description": "Maximum number of models in requests and responses",
     "group": "Limits",
     "validate": {
-      "type": "integer",
-      "minimum": 100
+      "type": "integer"
     }
   },
 
