@@ -53,9 +53,8 @@ const getAction = function ({ attrName, attrs, top, argName, collsMap }) {
   validateModel({ coll, commandpath, argName });
 
   const { collname, clientCollname } = coll;
-  const isWrite = top.command.type !== 'find';
 
-  return { commandpath, collname, clientCollname, args: {}, isWrite };
+  return { commandpath, collname, clientCollname, args: {} };
 };
 
 // Cannot specify `args.populate|cascade` `parent.child` but not `parent`.
