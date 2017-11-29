@@ -25,10 +25,8 @@ const getLimits = function ({
     // Max number of models in either requests (`args.data`) or responses
     // Not used by delete commands
     maxmodels: maxmodelsA,
-    // Max depth of nested actions (including top level)
-    // This is enforced to avoid requests with huge small recursive actions
-    // flooding the server
-    maxDepth: MAX_DEPTH,
+    // Max number of actions (including top level)
+    maxActions: MAX_ACTIONS,
     // Max depth of findMany nested actions
     maxFindManyDepth: MAX_FIND_MANY_DEPTH,
     // Max size of request payloads, in bytes.
@@ -71,7 +69,7 @@ const getMaxModels = function ({ maxmodels, pagesize }) {
   return maxmodels;
 };
 
-const MAX_DEPTH = 5;
+const MAX_ACTIONS = 51;
 
 const MAX_MODELS_FACTOR = 1e2;
 

@@ -17,8 +17,8 @@ The following limits can be configured with [options](run.md#options):
 # System limits
 
 The following limits cannot be configured:
-  - maximum command nesting depth: 5
-  - maximum attributes' value: 2KB
+  - maximum number of nested commands: 50
+  - maximum length of attributes' value: 2KB
   - maximum number of attributes per model: 50
-  - maximum model's or attribute's name length: 100 characters
+  - maximum length of model's or attribute's name: 100 characters
   - request timeout: 5 seconds
