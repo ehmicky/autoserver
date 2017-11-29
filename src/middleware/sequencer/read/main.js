@@ -1,21 +1,29 @@
 'use strict';
 
+const { getLimits } = require('../../../limits');
+
 const { getParentActions } = require('./parent_actions');
 const { getInput } = require('./input');
 const { addNestedFilter } = require('./parent_results');
 const { getConcurrentCommand, getPendingResults } = require('./concurrent');
 const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
+const { paginateResults } = require('./paginate');
 
 // Fire all commands associated with a set of read actions
 const sequenceRead = async function (
-  { actions, top, collsMap, mInput },
+  { actions, top, collsMap, runOpts, mInput },
   nextLayer,
 ) {
+  const { maxmodels } = getLimits({ runOpts });
+
   const actionsA = getParentActions({ actions, top, collsMap });
 
   const results = [];
-  await fireReads({ ...mInput, actions: actionsA, results }, nextLayer);
+  await fireReads(
+    { ...mInput, maxmodels, actions: actionsA, results },
+    nextLayer,
+  );
 
   return { results };
 };
@@ -27,7 +35,6 @@ const fireReads = function ({ actions, results, ...mInput }, nextLayer) {
     fireRead({
       action: parentAction,
       childActions,
-      actions,
       nextLayer,
       mInput,
       results,
@@ -41,7 +48,7 @@ const fireRead = async function ({
   childActions,
   nextLayer,
   mInput,
-  mInput: { top },
+  mInput: { top, maxmodels },
   results,
 }) {
   const {
@@ -89,6 +96,8 @@ const fireRead = async function ({
     top,
     collname,
   });
+
+  paginateResults({ results, maxmodels, top, isTopLevel, childActions });
 
   // Recursive call
   // Child actions must start after their parent ends
