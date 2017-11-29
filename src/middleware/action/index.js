@@ -10,6 +10,7 @@ module.exports = {
   ...require('./order'),
   ...require('./select'),
   ...require('./rename'),
+  ...require('./limits'),
   ...require('./unknown_attrs'),
   ...require('./stable_ids'),
   ...require('./summary'),
