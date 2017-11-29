@@ -22,7 +22,7 @@
 
     "NO_CONTENT_LENGTH": -32600,
 
-    "INPUT_LIMIT": -32600,
+    "PAYLOAD_LIMIT": -32600,
 
     "URL_LIMIT": -32600,
 

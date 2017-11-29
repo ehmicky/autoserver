@@ -89,7 +89,7 @@ const PROPS = {
   },
 
   // Input is too big, e.g. args.data has too many items
-  INPUT_LIMIT: {
+  PAYLOAD_LIMIT: {
     status: 'CLIENT_ERROR',
   },
 

@@ -7,7 +7,7 @@ const { throwError, addGenErrorHandler } = require('../../../error');
 
 // Loads raw request payload
 // Should handle:
-//  - throwing INPUT_LIMIT error if request length is over maxpayload.
+//  - throwing PAYLOAD_LIMIT error if request length is over maxpayload.
 //    This is not done in a protocol-agnostic way, as we want to take advantage
 //    of streaming, i.e. not waiting for end of stream to throw error.
 //  - if the protocol forces content-length to be specified, handle that
@@ -34,15 +34,15 @@ const getRawBody = function ({ req, length, maxpayload }) {
   return getBody(req, { length, limit: maxpayload });
 };
 
-// `raw-body` throws some errors related to INPUT_LIMIT that we want to
+// `raw-body` throws some errors related to PAYLOAD_LIMIT that we want to
 // convert to the correct error reason
 const eGetRawBody = addGenErrorHandler(getRawBody, {
   message: (input, { message }) => message,
   reason: (input, { status }) =>
-    (status === INPUT_LIMIT_STATUS ? 'INPUT_LIMIT' : 'PAYLOAD_PARSE'),
+    (status === PAYLOAD_LIMIT_STATUS ? 'PAYLOAD_LIMIT' : 'PAYLOAD_PARSE'),
 });
 
-const INPUT_LIMIT_STATUS = 413;
+const PAYLOAD_LIMIT_STATUS = 413;
 
 // Check if there is a request payload
 const hasPayload = function ({ specific: { req } }) {
