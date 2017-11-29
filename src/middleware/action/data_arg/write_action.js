@@ -19,8 +19,7 @@ const getWriteAction = function ({
   const dataA = data.map(datum => replaceNestedData({ datum, nestedKeys }));
   const args = { data: dataA };
 
-  const isWrite = true;
-  return { commandpath, args, collname, clientCollname, dataPaths, isWrite };
+  return { commandpath, args, collname, clientCollname, dataPaths };
 };
 
 // Replace nested objects from each `args.data` by only their ids
