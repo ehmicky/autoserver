@@ -23,6 +23,8 @@ const getLimits = function ({
     // This is enforced to avoid requests with huge small recursive actions
     // flooding the server
     maxDepth: MAX_DEPTH,
+    // Max depth of findMany nested actions
+    maxFindManyDepth: MAX_FIND_MANY_DEPTH,
     // Max size of request payloads, in bytes.
     // Can use 'KB', 'MB', 'GB' OR 'TB'.
     // Default: '1MB'
@@ -53,6 +55,8 @@ const getLimits = function ({
 };
 
 const MAX_DEPTH = 5;
+
+const MAX_FIND_MANY_DEPTH = 2;
 
 const MAX_ATTR_VALUE_SIZE = 2e3;
 
