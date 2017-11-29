@@ -2,7 +2,7 @@
 
 const pluralize = require('pluralize');
 
-const { getWordsList } = require('../../utilities');
+const { getWordsList, flatten } = require('../../utilities');
 const { throwError } = require('../../error');
 const { getLimits } = require('../../limits');
 
@@ -58,9 +58,32 @@ const throwNestingError = function ({ actions, message }) {
   throwError(messageA, { reason: 'REQUEST_LIMIT' });
 };
 
+// Validate `args.data` against `maxmodels` limit
+const validateMaxData = function ({
+  actions,
+  limits: { maxmodels },
+  top: { command },
+}) {
+  // Not applied to:
+  //  - find|patch commands: applied later since response size is not known yet
+  //  - delete commands: they are never limited
+  if (!MAX_DATA_COMMANDS.includes(command.type)) { return; }
+
+  const dataA = actions.map(({ args: { data } }) => data);
+  const dataB = flatten(dataA);
+
+  if (dataB.length <= maxmodels) { return; }
+
+  const message = `The 'data' argument must not contain more than ${maxmodels} models, but it contains ${dataB.length} models`;
+  throwError(message, { reason: 'REQUEST_LIMIT' });
+};
+
+const MAX_DATA_COMMANDS = ['create', 'upsert'];
+
 const validators = [
   validateMaxDepth,
   validateNestedFind,
+  validateMaxData,
 ];
 
 module.exports = {
