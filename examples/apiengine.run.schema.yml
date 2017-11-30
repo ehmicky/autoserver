@@ -1,11 +1,5 @@
 engine: 0
 collections:
-  things:
-    attributes:
-      id: {}
-      name: {}
-      others:
-        type: things[]
   pets:
     description: Cute animal
     database: memory
