@@ -17,6 +17,7 @@ const send = async function ({
   type,
   format = DEFAULT_FORMAT,
   compressResponse,
+  rpc,
   topargs,
   error,
 }) {
@@ -50,6 +51,7 @@ const send = async function ({
     mime,
     compressResponse: compressName,
     reason,
+    rpc,
   });
 };
 

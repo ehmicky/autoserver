@@ -1,11 +1,22 @@
 'use strict';
 
-const { format: urlFormat } = require('url');
+const { format: urlFormat, URL } = require('url');
 
 // Retrieves full URL
 const getUrl = function ({ specific, specific: { req: { url } } }) {
   const origin = getOrigin({ specific });
   return `${origin}${url}`;
+};
+
+// Used by `Link` HTTP header
+const getStandardUrl = function ({ specific }) {
+  const url = getUrl({ specific });
+  const urlA = new URL(url);
+  return urlA;
+};
+
+const stringifyUrl = function ({ url }) {
+  return urlFormat(url, { fragment: false });
 };
 
 // Retrieves origin, i.e. protocol + hostname + port
@@ -31,5 +42,7 @@ const getOrigin = function ({
 
 module.exports = {
   getUrl,
+  getStandardUrl,
+  stringifyUrl,
   getOrigin,
 };

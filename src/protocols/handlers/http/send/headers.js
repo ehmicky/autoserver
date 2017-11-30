@@ -5,16 +5,20 @@ const vary = require('vary');
 const { OBJECT_TYPES } = require('../../../../constants');
 const { compressHandlers } = require('../../../../compress');
 
+const { getLinks } = require('./link');
+
 // Set HTTP-specific headers and status code
 const setHeaders = function ({
-  res,
+  specific,
+  specific: { res },
   mime,
   compressResponse,
   content,
   type,
+  rpc,
   response: {
     data = {},
-    metadata: { duration } = {},
+    metadata: { duration, pages } = {},
   } = {},
 }) {
   // Should theoritically be calculated before `args.silent` is applied,
@@ -27,12 +31,15 @@ const setHeaders = function ({
 
   const allow = getAllow({ data });
 
+  const links = getLinks({ pages, specific, rpc });
+
   const headers = {
     'Content-Type': mime,
     'Content-Length': contentLength,
     'Accept-Encoding': acceptEncoding,
     'Content-Encoding': compressResponse,
     Allow: allow,
+    Link: links,
     'X-Response-Time': duration,
   };
   setAllHeaders(res, headers);

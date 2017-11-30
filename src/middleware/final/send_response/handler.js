@@ -17,6 +17,7 @@ const sendResponse = async function ({
   rpcHandler,
   format,
   compressResponse,
+  rpc,
   topargs,
   mInput,
 }) {
@@ -39,6 +40,7 @@ const sendResponse = async function ({
     type,
     format,
     compressResponse,
+    rpc,
     topargs,
     error,
   });
