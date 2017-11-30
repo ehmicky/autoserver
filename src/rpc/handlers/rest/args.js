@@ -5,16 +5,23 @@ const { throwError } = require('../../../error');
 
 // Use query variables, request payload and URL /ID to retrieve `args`
 const getArgs = function ({ method, payload, queryvars, id }) {
-  // Omitting a query variable's value defaults to `true`
-  const args = mapValues(
-    queryvars,
-    value => (value === '' ? true : value),
-  );
-
+  const args = mapValues(queryvars, addDefaultTrue);
   const argsA = addData({ args, payload });
   const argsB = addId({ method, args: argsA, id });
   return argsB;
 };
+
+// Omitting a query variable's value defaults to `true`
+// Except for arguments which can be an empty strings, like pagination cursors
+const addDefaultTrue = function (value, name) {
+  if (value !== '') { return value; }
+
+  if (NO_DEFAULT_NAMES.includes(name)) { return value; }
+
+  return true;
+};
+
+const NO_DEFAULT_NAMES = ['before', 'after'];
 
 // Use request payload for `args.data`
 const addData = function ({ args, payload }) {
