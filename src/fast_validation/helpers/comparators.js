@@ -5,7 +5,7 @@ const { result, mapValues } = require('../../utilities');
 const compTest = ({ test: testFunc, message }) => (name, number) => ({
   test (arg) {
     const { [name]: value } = arg;
-    if (value == null) { return true; }
+    if (value === undefined) { return true; }
 
     return testFunc(value, result(number, arg));
   },

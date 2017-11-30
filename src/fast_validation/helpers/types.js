@@ -14,7 +14,7 @@ const typeTest = ({ test: testFunc, message }) => name => ({
   test (value) {
     const val = get(value, name.split('.'));
 
-    if (val == null) { return true; }
+    if (val === undefined) { return true; }
 
     return testFunc(val);
   },

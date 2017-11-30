@@ -4,14 +4,14 @@ const { isEqual, get, getWordsList } = require('../../utilities');
 
 const requiredTest = name => ({
   test (value) {
-    return get(value, name.split('.')) != null;
+    return get(value, name.split('.')) !== undefined;
   },
   message: 'must be defined',
 });
 
 const forbiddenTest = name => ({
   test (value) {
-    return get(value, name.split('.')) == null;
+    return get(value, name.split('.')) === undefined;
   },
   message: 'must not be defined',
 });
