@@ -5,7 +5,7 @@ const { getLimits } = require('../../../limits');
 const { getParentActions } = require('./parent_actions');
 const { getInput } = require('./input');
 const { addNestedFilter } = require('./parent_results');
-const { getConcurrentCommand, getPendingResults } = require('./concurrent');
+const { getConcurrentCommand, addPendingResults } = require('./concurrent');
 const { fireReadCommand } = require('./command');
 const { processResults } = require('./results');
 const { paginateResults } = require('./paginate');
@@ -74,7 +74,7 @@ const fireRead = async function ({
     args: argsB,
   });
 
-  const pendingResults = getPendingResults({
+  const pendingResults = addPendingResults({
     args: argsB,
     collname,
     results,
