@@ -13,7 +13,7 @@ batches as:
       "name": "Anthony",
       "__metadata": {
         "pages": {
-          "has_previous_page": false,
+          "has_prev_page": false,
           "has_next_page": true,
           "pagesize": 10,
           "token": "eyJvIjoid2VpZ2h0LSxpZCIsImYiOiIoKCQkLmlkICE9PSAnMicpICYmICgkJC5mcmllbmRzLmluY2x1ZGVzKCcxJykpKSIsInAiOlszLjUsIjMiXX0"
@@ -28,7 +28,7 @@ batches as:
       "name": "Mary",
       "__metadata": {
         "pages": {
-          "has_previous_page": true,
+          "has_prev_page": true,
           "has_next_page": true,
           "pagesize": 10,
           "token": "eyJvIjoid2VpZ2h0LSxpZCIsImYiOiIoKCQkLmlkICE9PSAnMicpICYmICgkJC5mcmllbmRzLmluY2x1ZGVzKCcxJykpKSIsInAiOlsxLjUsIjEiXX0"
@@ -62,7 +62,7 @@ beginning or the end.
 The first query (without `before` nor `after`) can specify `filter` or
 `order`, but the next paginated queries cannot.
 
-One can use `has_previous_page` and `has_next_page` in the response to know
+One can use `has_prev_page` and `has_next_page` in the response to know
 when to stop iterating.
 
 # Offset pagination

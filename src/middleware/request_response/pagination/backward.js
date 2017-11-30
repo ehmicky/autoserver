@@ -31,10 +31,10 @@ const getBackwardResponse = function ({
 
   const pagesA = {
     ...pages,
-    has_previous_page: pages.has_next_page,
-    has_next_page: pages.has_previous_page,
-    previous_token: pages.next_token,
-    next_token: pages.previous_token,
+    has_prev_page: pages.has_next_page,
+    has_next_page: pages.has_prev_page,
+    prev_token: pages.next_token,
+    next_token: pages.prev_token,
     first_token: pages.last_token,
     last_token: pages.first_token,
   };

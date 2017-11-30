@@ -5,8 +5,7 @@ const { getBackwardResponse } = require('../backward');
 
 const { getPaginationOutput } = require('./response');
 
-// Add response metadata related to pagination:
-//   token, pagesize, has_previous_page, has_next_page
+// Add response metadata related to pagination
 const handlePaginationOutput = function ({
   top,
   args,

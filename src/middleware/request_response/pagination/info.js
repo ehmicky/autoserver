@@ -14,7 +14,7 @@ const getPagesize = function ({
 };
 
 // We try to fetch the models before and after the current batch in order to
-// guess has_previous_page and has_next_page
+// guess has_prev_page and has_next_page
 // If hasToken is false, it means we know we are at the beginning or end.
 const getLimit = function ({ runOpts, args }) {
   const pagesize = getPagesize({ runOpts, args });
