@@ -25,14 +25,16 @@ const isParentResults = function ({ result: { path, promise }, parentPath }) {
 // `nestedParentIds` keep that nesting, `parentIds` flattens it.
 // `nestedParentIds` is useful to assemble results back, while `parentIds` is
 // useful to build `args.filter`.
+// `allIds` is like `parentIds`, but with duplicate models. It is used to
+// check against `maxmodels` limit
 const getParentIds = function ({ commandName, parentResults }) {
   const nestedParentIds = parentResults.map(({ model }) => model[commandName]);
-  const parentIds = flatten(nestedParentIds);
-  const parentIdsA = parentIds.filter(ids => ids !== undefined);
+  const allIds = flatten(nestedParentIds);
+  const allIdsA = allIds.filter(ids => ids !== undefined);
   // We remove duplicate `id`, for efficiency reasons
-  const parentIdsB = uniq(parentIdsA);
+  const parentIds = uniq(allIdsA);
 
-  return { nestedParentIds, parentIds: parentIdsB };
+  return { nestedParentIds, parentIds, allIds: allIdsA };
 };
 
 // Make nested collections filtered by their parent model
