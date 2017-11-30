@@ -37,7 +37,7 @@ This is the default format. For example:
 
 ```json
 {
-  "maxpagesize": 10,
+  "pagesize": 10,
   "protocols": {
     "http": {
       "hostname": "myhostname"
@@ -60,7 +60,7 @@ For example:
 ```yml
 # Comment
 
-maxpagesize: 10
+pagesize: 10
 protocols:
   http:
     hostname: myhostname
@@ -74,7 +74,7 @@ This is the format used in JavaScript's `FormData` or by default in HTML's
 `<form>`.
 
 ```HTTP
-maxpagesize=10&protocols.http.hostname=myhostname&filter.payload=%5Bid,old_id%5D
+pagesize=10&protocols.http.hostname=myhostname&filter.payload=%5Bid,old_id%5D
 ```
 
 # Raw
@@ -94,7 +94,7 @@ Example:
 // Comment
 
 const configuration = {
-  maxpagesize: 10,
+  pagesize: 10,
   protocols: {
     http: {
       hostname: 'myhostname'
@@ -116,7 +116,7 @@ module.exports = configuration;
 // Comment
 
 {
-  maxpagesize: 10
+  pagesize: 10
   protocols: {
     http: {
       hostname: myhostname
@@ -136,7 +136,7 @@ module.exports = configuration;
 // Comment
 
 {
-  maxpagesize: 10,
+  pagesize: 10,
   protocols: {
     http: {
       hostname: 'myhostname'
@@ -155,7 +155,7 @@ Example:
 ```ini
 # Comment
 
-maxpagesize=10
+pagesize=10
 
 [protocols.http]
 

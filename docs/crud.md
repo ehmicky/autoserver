@@ -238,17 +238,17 @@ find_collection({ [id|filter], [order], [pagesize], [before|after|page],
 ```
 
 ```graphql
-create_collection({ data|data[], [pagesize], [silent], [dryrun] })
+create_collection({ data|data[], [silent], [dryrun] })
 ```
 
 ```graphql
-upsert_collection({ data|data[], [pagesize], [silent], [dryrun] })
+upsert_collection({ data|data[], [silent], [dryrun] })
 ```
 
 ```graphql
-patch_collection({ data, [id|filter], [pagesize], [silent], [dryrun] })
+patch_collection({ data, [id|filter], [pagesize], [after], [silent], [dryrun] })
 ```
 
 ```graphql
-delete_collection({ [id|filter], [cascade], [pagesize], [silent], [dryrun] })
+delete_collection({ [id|filter], [cascade], [silent], [dryrun] })
 ```

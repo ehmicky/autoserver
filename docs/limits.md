@@ -5,14 +5,9 @@ The following limits can be configured with [options](run.md#options):
      Max size of request payloads, in bytes.
      Also used as the max URL length.
      Can use 'KB', 'MB', 'GB' OR 'TB'.
-  - `defaultpagesize` `{integer}` (defaults to `100`):
-    use `0` to disable pagination.
-  - `maxpagesize` `{integer}` (defaults to `100`): sets an upper limit to
-    client-specified `pagesize`.
-  - `maxdatalength` `{integer}` (defaults to `1000`): sets a limit on
-    client-specified `data` length, i.e. how many models can be created or
-    replaced at once.
-    Use `0` to disable.
+  - `pagesize` `{integer}` (defaults to `100`): see [pagination](pagination.md)
+  - `maxmodels` `{integer}` (defaults to `100 * pagesize`, i.e. `10000`):
+     see [pagination](pagination.md)
 
 # System limits
 
