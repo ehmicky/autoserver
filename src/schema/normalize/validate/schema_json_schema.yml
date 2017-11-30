@@ -41,18 +41,18 @@ properties:
     type: array
     items:
       type: string
-# Users can only define custom properties prefixed with __
+# Users can only define custom properties prefixed with $
 additionalProperties: false
 patternProperties:
-  '^__': true
+  '^\$': true
 definitions:
   # schema.collections.COLLECTION
   collection:
     type: object
-    # Users can only define custom properties prefixed with __
+    # Users can only define custom properties prefixed with $
     additionalProperties: false
     patternProperties:
-      '^__': true
+      '^\$': true
     required: [attributes]
     properties:
       name:
@@ -99,10 +99,10 @@ definitions:
   # COLL.attributes
   attribute:
     type: object
-    # Users can only define custom properties prefixed with __
+    # Users can only define custom properties prefixed with $
     additionalProperties: false
     patternProperties:
-      '^__': true
+      '^\$': true
     properties:
       alias:
         oneOf:
@@ -155,7 +155,7 @@ definitions:
   variables:
     type: object
     propertyNames:
-      $ref: '#/definitions/validName'
+      $ref: '#/definitions/validUserName'
   # schema.plugins
   plugins:
     type: array
@@ -252,7 +252,7 @@ definitions:
             - empty[]
       additionalProperties: false
     propertyNames:
-      $ref: '#/definitions/validUserName'
+      $ref: '#/definitions/validUserOpName'
   # attr.type
   type:
     oneOf:
@@ -336,8 +336,13 @@ definitions:
     #  - should not start with _ as it is used by filter|data operators
     pattern: '^[a-z][_0-9a-z]*$'
   # Any user-defined identifier that could conflict with system names
-  # I.e. be prefixed with __
+  # I.e. be prefixed with $
   validUserName:
+    type: string
+    pattern: '^\$[a-z][_0-9a-z]*$'
+  # Any user-defined identifier that could conflict with operator names
+  # I.e. be prefixed with __
+  validUserOpName:
     type: string
     pattern: '^__[a-z][_0-9a-z]*$'
   # Keys of schema.collections.*, and collection.name
