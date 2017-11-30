@@ -4,7 +4,8 @@ const { throwError } = require('../../../error');
 
 // Only start a command if we know it won't hit the `maxmodels` limit
 const validateMaxmodels = function ({ results, allIds, maxmodels, top }) {
-  if (!MAXMODELS_COMMANDS.includes(top.command.type)) { return; }
+  const shouldValidate = shouldValidateMaxmodels({ top });
+  if (!shouldValidate) { return; }
 
   // Top-level action
   if (results.length === 0) { return; }
@@ -33,8 +34,15 @@ const incrementCount = function ({ results, allIds }) {
 // `maxmodels` is not checked against:
 //  - find: as it is paginated instead
 //  - delete: as it has no limits
+//    However dryrun deletes effectively behave as `find` commands, and we
+//    want to avoid using them as a way to circumvent `maxmodels`, so we
+//    apply it on dryrun deletes
 //  - create|upsert: as it is checked during `args.data` parsing instead
-const MAXMODELS_COMMANDS = ['patch'];
+const shouldValidateMaxmodels = function ({
+  top: { command: { type: command }, args: { dryrun } },
+}) {
+  return command === 'patch' || (command === 'delete' && dryrun);
+};
 
 module.exports = {
   validateMaxmodels,
