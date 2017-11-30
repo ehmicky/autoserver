@@ -57,7 +57,7 @@ const fireRead = async function ({
     commandName,
     nestedParentIds,
     parentIds,
-  } = getInput({ action, results });
+  } = getInput({ action, results, maxmodels, top });
 
   const argsA = addNestedFilter({ args, isTopLevel, parentIds });
 
