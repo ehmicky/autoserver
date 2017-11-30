@@ -3,7 +3,7 @@
 const { mapValues } = require('../../utilities');
 
 // Take schema function, inline or not, and turns into `function (...args)`
-// firing the first one, with $1, $2, etc. provided as extra arguments
+// firing the first one, with arg1, arg2, etc. provided as extra arguments
 const getUserVars = function ({ schema: { variables } }) {
   const varsRef = {};
   const userVars = mapValues(
@@ -30,19 +30,19 @@ const getUserVar = function ({ varsRef, userVar }) {
 };
 
 // When consumer fires userVar('a', 'b'), inline function translates 'a' and 'b'
-// into $1 and $2 variables, and runSchemaFunc() is performed.
+// into arg1 and arg2 variables, and runSchemaFunc() is performed.
 // We do not use `...args` as a performance optimization
 // eslint-disable-next-line max-params
 const runUserVar = function (
   { userVar, varsRef: { ref } },
-  $1, $2, $3, $4, $5, $6, $7, $8, $9,
+  arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9,
 ) {
-  // Even without $1, etc. we would need to make a shallow copy of `ref`,
+  // Even without arg1, etc. we would need to make a shallow copy of `ref`,
   // or make it immutable, to avoid `userVar()` from creating side-effects
   // influencing another user variable
-  const vars = { ...ref, $1, $2, $3, $4, $5, $6, $7, $8, $9 };
+  const vars = { ...ref, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9 };
 
-  return userVar(vars, $1, $2, $3, $4, $5, $6, $7, $8, $9);
+  return userVar(vars, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
 };
 
 // Pass other variables to user variables

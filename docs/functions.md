@@ -141,14 +141,14 @@ User variables can be functions themselves:
     other schema function. I.e. user variables can use system variables or
     each other.
   - if the function is [inline](#inline-functions), positional arguments will
-    be passed as variables `$1`, `$2`, etc.
+    be passed as variables `arg1`, `arg2`, etc.
 
 For example:
 
 ```yml
 variables:
   $example_function: '($my_math_func(1, 10, 100, 2))'
-  $my_math_func: (($1 * $2) + ($3 * $4))
+  $my_math_func: ((arg1 * arg2) + (arg3 * arg4))
   $birth_date: 2005-01-01
   $my_custom_func:
     $ref: custom_func.js
