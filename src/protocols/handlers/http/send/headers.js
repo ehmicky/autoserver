@@ -40,16 +40,16 @@ const setHeaders = function ({
   setVary({ res, type });
 };
 
+// Possible compression algorithms
+const getAcceptEncoding = function () {
+  return Object.keys(compressHandlers).join(', ');
+};
+
 // On WRONG_METHOD or WRONG_COMMAND errors
 const getAllow = function ({ data: { allowed } }) {
   if (allowed === undefined) { return; }
 
   return allowed.join(', ');
-};
-
-// Possible compression algorithms
-const getAcceptEncoding = function () {
-  return Object.keys(compressHandlers).join(', ');
 };
 
 const setAllHeaders = function (res, headers) {
