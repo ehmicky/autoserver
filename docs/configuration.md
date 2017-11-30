@@ -1,16 +1,16 @@
 # Configuration
 
 Each instruction has its own set of options.
-Let's take the option `maxpagesize` from the instruction `run` as an example.
+Let's take the option `pagesize` from the instruction `run` as an example.
 
 There are several ways to define options.
 If several are used, they are merged together (from the highest priority to
 the lowest):
   - setting an [environment variable](#environment-variables):
-    `APIENGINE_MAXPAGESIZE=10`
-  - using a command line option: `apiengine run --maxpagesize=10`.
+    `APIENGINE_PAGESIZE=10`
+  - using a command line option: `apiengine run --pagesize=10`.
     Note that the option name uses dashes on the command line.
-  - passing the option via Node.js: `apiengine.run({ maxpagesize: 10 })`
+  - passing the option via Node.js: `apiengine.run({ pagesize: 10 })`
   - using a [configuration file](#configuration-file)
 
 # Configuration file
@@ -32,7 +32,7 @@ The file contains a set of options for a given instruction, e.g.:
 protocols:
   http:
     hostname: myhostname
-maxpagesize: 10
+pagesize: 10
 ```
 
 If a relative file path is used to target the configuration file, it will be
@@ -45,7 +45,7 @@ E.g. the following environment variables:
 
 ```toml
 APIENGINE_ENV="dev"
-APIENGINE_MAXPAGESIZE=200
+APIENGINE_PAGESIZE=200
 APIENGINE_PROTOCOLS_HTTP_HOSTNAME="myhostname"
 APIENGINE_FILTER_PAYLOAD="[id,old_id]"
 ```
@@ -54,7 +54,7 @@ will be converted to the following options:
 
 ```yml
 env: dev
-maxpagesize: 200
+pagesize: 200
 protocols:
   http:
     hostname: myhostname
