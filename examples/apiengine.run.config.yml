@@ -4,3 +4,4 @@ protocols:
 db:
   memory:
     save: false
+pagesize: 10
