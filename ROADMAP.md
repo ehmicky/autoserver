@@ -1,5 +1,4 @@
   - Aggregation queries
-  - Rework pagination
   - Compatibility layer
   - Proper error reporting
   - Data model (orphans)
