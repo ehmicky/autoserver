@@ -6,7 +6,7 @@ const sortArray = function (array, func) {
   return [...array].sort(func);
 };
 
-// Like __.order() but faster, and using the same format we use in `order`
+// Like Lodash order() but faster, and using the same format we use in `order`
 const sortBy = function (array, order) {
   return sortArray(
     array,

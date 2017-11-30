@@ -11,9 +11,9 @@ collections:
           _eq: model.created_time
       command:
         _in: (['find', 'delete', 'create', 'upsert', 'patch'])
-    __custom: anything
-    __second_custom:
-      $ref: '#/collections/pets/__custom'
+    $custom: anything
+    $second_custom:
+      $ref: '#/collections/pets/$custom'
     attributes:
       id:
         description: Unique identifier of a pet
@@ -40,7 +40,7 @@ collections:
             pattern: '[a-z]'
           else:
             pattern: '[A-Z]'
-        __custom: anything
+        $custom: anything
       weight:
         type: number
         description: Corrolated to how much a pet has eaten
@@ -53,7 +53,7 @@ collections:
           exclusiveMinimum: 0.5
           exclusiveMaximum: 30
           multipleOf: 0.000001
-          __is_not_equal: 10
+          $is_not_equal: 10
       is_overweight:
         type: boolean
         description: Has the pet being eating too much?
@@ -96,7 +96,7 @@ collections:
           $ref: default_value.js
       creator_key:
         description: Key of the user that created this pet
-        value: (String(more_recursive_func()))
+        value: (String($more_recursive_func()))
       best_friend:
         type: pets
         description: This pet's best friend
@@ -110,7 +110,7 @@ collections:
       owners:
         type: owners[]
       birth_date:
-        default: (birth_date)
+        default: ($birth_date)
         validate:
           format: date
           formatMinimum: 2000-01-01
@@ -128,21 +128,21 @@ authorize:
 - command:
     _in: [find, create, upsert, patch]
 variables:
-  my_math_func: (($1 * $2) + ($3 * $4))
-  example_function: '(my_math_func(1, 10, 100, 2) +
-    my_other_math_func({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
-  recursive_func: (example_function())
-  more_recursive_func: (recursive_func() + constants.TestConstant +
-    string.titleize(rpc))
-  my_other_math_func:
+  $my_math_func: (($1 * $2) + ($3 * $4))
+  $example_function: '($my_math_func(1, 10, 100, 2) +
+    $my_other_math_func({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
+  $recursive_func: ($example_function())
+  $more_recursive_func: ($recursive_func() + $constants.TestConstant +
+    $string.titleize(rpc))
+  $my_other_math_func:
     $ref: math_func.js
-  birth_date: '2005-01-01'
-  user: '(({ id: "1" }))'
-  constants:
+  $birth_date: '2005-01-01'
+  $user: '(({ id: "1" }))'
+  $constants:
     $ref: constants.json
-  string:
+  $string:
     $ref: underscore.string.node
-  lodash:
+  $lodash:
     $ref: lodash.node
 plugins:
 - plugin:
@@ -152,10 +152,10 @@ plugins:
   enabled: true
 - plugin: author
   opts:
-    currentuser: (user())
+    currentuser: ($user())
     collection: owners
 validation:
-  __is_not_equal:
+  $is_not_equal:
     test: (val !== expected)
     message: (`must not be equal to ${expected}`)
     type: number
@@ -164,4 +164,4 @@ operators:
     apply: (val ** (arg || 1))
     attribute: [number, integer]
     argument: [number, integer, empty]
-__custom: anything
+$custom: anything

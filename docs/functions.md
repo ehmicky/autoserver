@@ -122,15 +122,15 @@ E.g. if the schema specifies:
 
 ```yml
 variables:
-  secret_password: admin
+  $secret_password: admin
 ```
 
-The user variable `secret_password` can be used in any schema function:
+The user variable `$secret_password` can be used in any schema function:
 
 <!-- eslint-disable strict, filenames/match-exported, camelcase -->
 ```js
-const getDefaultValue = function ({ secret_password }) {
-  return secret_password === 'admin' ? 1 : 0;
+const getDefaultValue = function ({ $secret_password }) {
+  return $secret_password === 'admin' ? 1 : 0;
 };
 
 module.exports = getDefaultValue;
@@ -147,14 +147,14 @@ For example:
 
 ```yml
 variables:
-  example_function: '(my_math_func(1, 10, 100, 2))'
-  my_math_func: (($1 * $2) + ($3 * $4))
-  birth_date: 2005-01-01
-  my_custom_func:
+  $example_function: '($my_math_func(1, 10, 100, 2))'
+  $my_math_func: (($1 * $2) + ($3 * $4))
+  $birth_date: 2005-01-01
+  $my_custom_func:
     $ref: custom_func.js
-  lodash:
+  $lodash:
     $ref: lodash.node
-  constants:
+  $constants:
     $ref: constants.json
 ```
 
@@ -162,8 +162,7 @@ variables:
 
 Clients can specify their own
 [schema function variables](#schema-functions-variables) on any specific
-request, using the [argument](rpc.md#rpc) `params`
-with an object value, e.g.:
+request, using the [argument](rpc.md#rpc) `params` with an object value, e.g.:
 
 ```graphql
 query {

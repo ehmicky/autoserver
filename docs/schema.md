@@ -93,13 +93,13 @@ The schema can contain the following properties:
 
 The schema is validated for syntax errors.
 
-To add properties only meant as schema metadata, prefix them with `__` at the
+To add properties only meant as schema metadata, prefix them with `$` at the
 top-level, on a collection or on an attribute, e.g.:
 
 ```yml
 collections:
   example_collection:
-    __my_custom_prop: 3
+    $my_custom_prop: 3
 ```
 
 # Compilation
