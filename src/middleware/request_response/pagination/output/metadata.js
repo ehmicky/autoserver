@@ -33,7 +33,7 @@ const getPrevTokens = function ({ data, args, topargs, hasPrevPage }) {
   return {
     has_prev_page: hasPrevPage,
     prev_token: prevToken,
-    first_token: BOUNDARY_TOKEN,
+    last_token: BOUNDARY_TOKEN,
   };
 };
 
@@ -48,7 +48,7 @@ const getNextTokens = function ({ data, top, args, topargs, hasNextPage }) {
   return {
     has_next_page: hasNextPage,
     next_token: nextToken,
-    last_token: lastToken,
+    first_token: lastToken,
   };
 };
 
