@@ -17,7 +17,7 @@ const truncateAttr = function ({ results, attrName, nestedPagesize }) {
 
 const truncateModel = function ({
   result,
-  result: { model },
+  result: { model, metadata },
   attrName,
   nestedPagesize,
 }) {
@@ -28,11 +28,13 @@ const truncateModel = function ({
   if (noPagination) { return result; }
 
   const attrValA = attrVal.slice(0, nestedPagesize);
-  // We hint that the attribute was paginated by appending a `null`
-  const attrValB = [...attrValA, null];
-  const modelA = { ...model, [attrName]: attrValB };
+  const modelA = { ...model, [attrName]: attrValA };
 
-  const resultA = { ...result, model: modelA };
+  const metadataA = {
+    ...metadata,
+    pages: { ...metadata.pages, nested_pagesize: nestedPagesize },
+  };
+  const resultA = { ...result, model: modelA, metadata: metadataA };
   return resultA;
 };
 
