@@ -46,6 +46,7 @@ const USAGE = `apiengine INSTRUCTION [OPTIONS]
 Engine generating an API from a simple configuration file.`;
 
 // Retrieve CLI instruction
+// eslint-disable-next-line id-length
 const parseInstruction = function ({ opts: { _: instructions, ...optsA } }) {
   const instructionNames = availableInstructions.map(({ name }) => name);
 

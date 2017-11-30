@@ -43,7 +43,7 @@ const validateRegExp = function ({ value }) {
   new RegExp(value, 'i');
 };
 
-const regExpParserHandler = function (_, { value, throwErr }) {
+const regExpParserHandler = function (exception, { value, throwErr }) {
   const message = `Invalid regular expression: '${value}'`;
   throwErr(message);
 };
