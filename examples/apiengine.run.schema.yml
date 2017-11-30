@@ -128,7 +128,7 @@ authorize:
 - command:
     _in: [find, create, upsert, patch]
 variables:
-  $my_math_func: (($1 * $2) + ($3 * $4))
+  $my_math_func: ((arg1 * arg2) + (arg3 * arg4))
   $example_function: '($my_math_func(1, 10, 100, 2) +
     $my_other_math_func({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
   $recursive_func: ($example_function())
