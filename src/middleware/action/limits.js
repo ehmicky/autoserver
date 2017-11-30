@@ -67,7 +67,7 @@ const validateMaxData = function ({
 
   if (dataB.length <= maxmodels) { return; }
 
-  const message = `The 'data' argument must not contain more than ${maxmodels} models, but it contains ${dataB.length} models`;
+  const message = `The 'data' argument must not contain more than ${maxmodels} models, but it contains ${dataB.length} models, including nested models`;
   throwError(message, { reason: 'REQUEST_LIMIT' });
 };
 
