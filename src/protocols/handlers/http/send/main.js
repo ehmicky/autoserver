@@ -7,6 +7,7 @@ const { setHeaders } = require('./headers');
 
 // Sends response
 const send = async function ({
+  specific,
   specific: { req, res },
   content,
   reason,
@@ -21,7 +22,7 @@ const send = async function ({
 
   setStatusCode({ res, reason });
 
-  setHeaders({ res, content, ...rest });
+  setHeaders({ specific, content, ...rest });
 
   const sendResponse = promisify(res.end.bind(res));
   await sendResponse(content);
