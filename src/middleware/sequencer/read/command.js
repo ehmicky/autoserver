@@ -24,21 +24,27 @@ const fireReadCommand = async function ({
     command: 'find',
   };
 
-  // Fire `request`, `database` and `response` layers serially
-  const mInputB = nextLayer(mInputA, 'request');
+  const { data, metadata } = await getResponse({ nextLayer, mInput: mInputA });
 
-  const { response } = await nextLayer(mInputB, 'database');
-  const mInputC = { ...mInputB, response };
-
-  const { response: { data, metadata } } = await nextLayer(mInputC, 'response');
-
-  return data.map(model => ({ model, metadata }));
+  const resultsA = data.map(model => ({ model, metadata }));
+  return resultsA;
 };
 
 // When parent value is not defined, directly returns empty value
 const isEmptyCommand = function ({ args }) {
   const ids = extractSimpleIds(args);
   return Array.isArray(ids) && ids.length === 0;
+};
+
+// Fire `request`, `database` and `response` layers serially
+const getResponse = async function ({ nextLayer, mInput }) {
+  const mInputA = nextLayer(mInput, 'request');
+
+  const { response } = await nextLayer(mInputA, 'database');
+  const mInputB = { ...mInputA, response };
+
+  const { response: responseA } = await nextLayer(mInputB, 'response');
+  return responseA;
 };
 
 module.exports = {
