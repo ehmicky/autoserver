@@ -48,7 +48,7 @@ const getAttributes = ({ currentuser, collection: collname }) => ({
   created_by: {
     description: 'Who created this model',
     type: collname,
-    value: `($previousmodel === undefined ? (${currentuser} && ${currentuser}.id) : $previousval)`,
+    value: `(previousmodel === undefined ? (${currentuser} && ${currentuser}.id) : previousval)`,
   },
   updated_by: {
     description: 'Who last updated this model',

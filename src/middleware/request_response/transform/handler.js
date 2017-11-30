@@ -10,18 +10,18 @@ const shouldUseDefault = function ({ command }) {
 
 const DEFAULT_COMMANDS = ['create', 'upsert'];
 
-const shouldSetDefault = function ({ $val }) {
-  return $val == null;
+const shouldSetDefault = function ({ val }) {
+  return val == null;
 };
 
 const setTransform = function ({ transform }) {
   return transform;
 };
 
-const setCurrentValIfTrue = function ({ transform, $previousval, $val }) {
-  if (!transform) { return $val; }
+const setCurrentValIfTrue = function ({ transform, previousval, val }) {
+  if (!transform) { return val; }
 
-  return $previousval;
+  return previousval;
 };
 
 // `attr.value`

@@ -1,7 +1,7 @@
 'use strict';
 
 // Since we do not check for `empty` against `patchOp.argument` before
-// $model.ATTR resolution, we do it now
+// model.ATTR resolution, we do it now
 const checkEmpty = function ({ opVal, operator: { argument }, type }) {
   if (argument === undefined) { return; }
 

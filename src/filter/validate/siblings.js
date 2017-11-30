@@ -5,7 +5,7 @@ const { DEEP_OPERATORS } = require('../operators');
 
 const { getAttr } = require('./attr');
 
-// When using `$model.ATTR` to target a sibling attribute
+// When using `model.ATTR` to target a sibling attribute
 // Replace sibling attribute's value by a dummy value, since it is not known
 // yet, but we still want to validate for example that sibling attribute is of
 // the right attribute
@@ -22,11 +22,11 @@ const getSiblingValue = function ({
 
   const { value: attrName } = value;
 
-  // In `model.authorize`, model is under `$model`.
+  // In `model.authorize`, model is under `model`.
   // In `args.filter`, it is top-level
-  const attrNameA = attrs.$model === undefined
+  const attrNameA = attrs.model === undefined
     ? attrName
-    : `$model.${attrName}`;
+    : `model.${attrName}`;
 
   // This also validates that sibling attribute exists
   const attr = getAttr({ attrs, attrName: attrNameA, throwErr });

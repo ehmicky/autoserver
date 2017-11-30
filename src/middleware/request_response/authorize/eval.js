@@ -6,7 +6,7 @@ const { evalFilter, mapNodes } = require('../../../filter');
 const { handleSchemaFuncs } = require('./schema_func');
 
 // Evaluate `coll.authorize` filter to a boolean
-// Do a partial evaluation, because we do not know the value of `$model.*` yet
+// Do a partial evaluation, because we do not know the value of `model.*` yet
 // Returns partial filter if any.
 const evalAuthorize = function ({
   collname,
@@ -46,7 +46,7 @@ const checkAuthorize = function ({ clientCollname, authorize, top }) {
   throwCommonError({ reason: 'AUTHORIZATION', clientCollname, top });
 };
 
-// Remove `$model.` prefix in AST's `attrName`
+// Remove `model.` prefix in AST's `attrName`
 const removePrefix = function ({ attrName, ...node }) {
   if (attrName === undefined) { return node; }
 
@@ -54,9 +54,9 @@ const removePrefix = function ({ attrName, ...node }) {
   return { ...node, attrName: attrNameA };
 };
 
-// `$model.*` is transformed to `authorize`, which is added to
+// `model.*` is transformed to `authorize`, which is added to
 // `args.filter` and checked against `args.data`
-const PARTIAL_NAMES_REGEXP = /\$model\./;
+const PARTIAL_NAMES_REGEXP = /^model\./;
 
 module.exports = {
   evalAuthorize,

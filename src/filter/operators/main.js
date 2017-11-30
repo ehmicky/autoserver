@@ -49,7 +49,7 @@ const ATTR_ANCESTOR_OPERATORS = ['_or'];
 // Can be used with values that are enums
 const ENUM_OPERATORS = ['_eq', '_neq', '_in', '_nin'];
 
-// Cannot use siblings `$model.ATTR`
+// Cannot use siblings `model.ATTR`
 // This is because this would require parsing sibling value as RegExp during
 // query time, which is slow and prone to fail
 // For deep operators, it is sometimes quite complicated to implement in

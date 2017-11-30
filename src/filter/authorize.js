@@ -15,7 +15,7 @@ const getUserVars = function ({ schema: { variables = {} } }) {
   return mapValues(variables, () => ({ type: 'dynamic' }));
 };
 
-// `coll.authorize['$model.ATTR']`
+// `coll.authorize['model.ATTR']`
 const getModelAttrs = function ({ schema: { collections }, collname }) {
   if (collname === undefined) { return; }
 
@@ -24,7 +24,7 @@ const getModelAttrs = function ({ schema: { collections }, collname }) {
     attributes,
     attr => pick(attr, ['type', 'isArray']),
   );
-  return { $model: modelAttrs };
+  return { model: modelAttrs };
 };
 
 module.exports = {

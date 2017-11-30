@@ -6,7 +6,7 @@ const replaceOperator = {
 
   argument: ['string[]'],
 
-  check ({ $arg: opVal }) {
+  check ({ arg: opVal }) {
     // eslint-disable-next-line no-magic-numbers
     const isValid = opVal.length <= 3 && opVal.length >= 2;
 
@@ -17,7 +17,7 @@ const replaceOperator = {
     return validateRegExp({ opVal });
   },
 
-  apply ({ $val: attrVal = '', $arg: [regExp, str, flags] }) {
+  apply ({ val: attrVal = '', arg: [regExp, str, flags] }) {
     const regExpA = getRegExp({ regExp, flags });
     return attrVal.replace(regExpA, str);
   },

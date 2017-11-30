@@ -5,7 +5,7 @@ const { throwError } = require('../error');
 const { parseRef, isRef } = require('./ref_parsing');
 const { postValidate } = require('./validate');
 
-// Get the schema's attribute from a $model.ATTR reference
+// Get the schema's attribute from a model.ATTR reference
 const getOpValRef = function ({ opVal, coll: { attributes } }) {
   const ref = parseRef(opVal);
   if (ref === undefined) { return; }
@@ -20,15 +20,15 @@ const getOpValRef = function ({ opVal, coll: { attributes } }) {
   return { attrTypes: [type], attrIsArray: isArray };
 };
 
-// If operator's argument can only be `empty`, we cannot check $model.ATTR
+// If operator's argument can only be `empty`, we cannot check model.ATTR
 // until it is resolved later.
 // If operator's argument contains `empty` but other types too, we can already
-// check $model.ATTR against them.
+// check model.ATTR against them.
 const cannotCheckType = function ({ opVal, argument }) {
   return isRef(opVal) && argument.length === 1 && argument[0] === 'empty';
 };
 
-// Replaces $model.ATTR in simple patch operations (i.e. with no operators)
+// Replaces model.ATTR in simple patch operations (i.e. with no operators)
 const replaceSimpleRef = function ({ ref, attributes, datum, commandpath }) {
   if (attributes[ref] !== undefined) {
     return datum[ref];
@@ -38,7 +38,7 @@ const replaceSimpleRef = function ({ ref, attributes, datum, commandpath }) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-// Replaces $model.ATTR when patch operation is applied
+// Replaces model.ATTR when patch operation is applied
 const replaceRef = function ({ opVal, datum, ...rest }) {
   const ref = parseRef(opVal);
   if (ref === undefined) { return opVal; }

@@ -3,7 +3,7 @@
 const { throwCommonError } = require('../../../error');
 const { evalFilter } = require('../../../filter');
 
-// Check `model.authorize` `$model.*` against `args.newData`
+// Check `model.authorize` `model.*` against `args.newData`
 const checkNewData = function ({
   authorize,
   args: { newData },

@@ -13,7 +13,7 @@ const filterValidator = function ({ features, filterFeatures }) {
   }
 
   if (ops.includes('sibling')) {
-    return 'In \'filter\' argument, must not use values prefixed with \'$model.\'';
+    return 'In \'filter\' argument, must not use values prefixed with \'model.\'';
   }
 
   const opsA = getWordsList(ops, { op: 'nor', quotes: true });

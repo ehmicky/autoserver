@@ -1,6 +1,6 @@
 'use strict';
 
-// When using $model.ATTR
+// When using model.ATTR
 const getSiblingNode = function ({
   type,
   value: { value: otherAttr },

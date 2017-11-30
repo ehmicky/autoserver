@@ -44,7 +44,7 @@ const preValidate = function ({
   });
 };
 
-// Validate patch operation has valid syntax, after $model.ATTR resolution
+// Validate patch operation has valid syntax, after model.ATTR resolution
 const postValidate = function (input) {
   const validators = POST_VALIDATORS;
 

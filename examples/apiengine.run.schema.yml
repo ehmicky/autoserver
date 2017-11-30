@@ -4,12 +4,12 @@ collections:
     description: Cute animal
     database: memory
     authorize:
-      $model:
+      model:
         id:
           _neq: '90'
         created_time:
-          _eq: $model.created_time
-      $command:
+          _eq: model.created_time
+      command:
         _in: (['find', 'delete', 'create', 'upsert', 'patch'])
     __custom: anything
     __second_custom:
@@ -91,7 +91,7 @@ collections:
           uniqueItems: true
       status:
         description: Has this pet been adopted
-        value: '(typeof $val === "string" ? $val.toLowerCase() + " " + $model.weight : $val)'
+        value: '(typeof val === "string" ? val.toLowerCase() + " " + model.weight : val)'
         default:
           $ref: default_value.js
       creator_key:
@@ -123,9 +123,9 @@ collections:
     $ref: pet_skills.yml
   default: {}
 authorize:
-- $command:
+- command:
     _in: [find, delete]
-- $command:
+- command:
     _in: [find, create, upsert, patch]
 variables:
   my_math_func: (($1 * $2) + ($3 * $4))
@@ -133,7 +133,7 @@ variables:
     my_other_math_func({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
   recursive_func: (example_function())
   more_recursive_func: (recursive_func() + constants.TestConstant +
-    string.titleize($rpc))
+    string.titleize(rpc))
   my_other_math_func:
     $ref: math_func.js
   birth_date: '2005-01-01'
@@ -156,12 +156,12 @@ plugins:
     collection: owners
 validation:
   __is_not_equal:
-    test: ($val !== $expected)
-    message: (`must not be equal to ${$expected}`)
+    test: (val !== expected)
+    message: (`must not be equal to ${expected}`)
     type: number
 operators:
   __power:
-    apply: ($val ** ($arg || 1))
+    apply: (val ** (arg || 1))
     attribute: [number, integer]
     argument: [number, integer, empty]
 __custom: anything
