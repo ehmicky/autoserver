@@ -197,8 +197,6 @@ rules:
   id-length:
   - 2
   - max: 24
-    exceptions:
-    - _
   id-match:
   - 2
   - '^[A-Za-z0-9_]+$'

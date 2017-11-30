@@ -37,9 +37,9 @@ const addCustomKeyword = function ({ ajv, keyword, testFunc, message, type }) {
 // eslint-disable-next-line max-params
 const keywordFunc = ({ keyword, testFunc, message }) => function validate (
   expected,
-  _,
-  __,
-  ___,
+  dataVal,
+  parentSchema,
+  dataPath,
   model,
   attrName,
   { [Symbol.for('extra')]: { mInput, currentDatum: previousmodel } }
