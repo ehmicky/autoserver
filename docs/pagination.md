@@ -17,7 +17,7 @@ will look like:
       "pagesize": 100,
       "has_next_page": true,
       "next_token": "eyJwIjpbIjEiXX0",
-      "last_token": ""
+      "first_token": ""
     }
   }
 }
@@ -30,7 +30,7 @@ as value, e.g.:
 GET /rest/users/?after=eyJwIjpbIjEiXX0
 ```
 
-One can use `has_next_page` in the response to know when to stop iterating.
+One can check `has_next_page` in the response to know when to stop iterating.
 
 The `filter` and `order` arguments must remain the same across all batches.
 
@@ -57,7 +57,7 @@ The response will look like:
       "pagesize": 100,
       "has_prev_page": true,
       "prev_token": "eyJwIjpbIjMiXX0",
-      "first_token": ""
+      "last_token": ""
     }
   }
 }
@@ -95,7 +95,7 @@ will respond with:
   "data": [
     { "id": "1", "name": "Anthony" },
     ...
-    { "id": "100", "name": "Mary" },
+    { "id": "20", "name": "Mary" },
   ],
   "metadata": {
     "pages": {
@@ -138,16 +138,15 @@ It is enforced differently depending on the command.
 
 ## `find`
 
-In `find` commands, if the response contains too many models, the response will
-be truncated to fit within the limit by appling a `nested_pagesize` on the
-nested attributes. For example:
+In `find` commands, if the response contains too many models, the nested
+attributes will be truncated to fit within the limit. For example:
 
 ```json
 {
   "data": [
-    { "id": "1", "friends": [{...}, ..., {...}] },
+    { "id": "1", "friends": [...] },
     ...
-    { "id": "100", "friends": [{...}, ..., {...}] },
+    { "id": "100", "friends": [...] },
   ],
   "metadata": {
     "pages": {
@@ -155,18 +154,21 @@ nested attributes. For example:
       "nested_pagesize": 10,
       "has_next_page": true,
       "next_token": "eyJwIjpbIjEiXX0",
-      "last_token": ""
+      "first_token": ""
     }
   }
 }
 ```
 
-Here the `friends` attributes contains only the first `10` nested models,
+Here the `friends` attributes contain only the first `10` nested models,
 as indicated by `metadata.pages.nested_pagesize`. If no attribute was truncated,
 `nested_pagesize` will not be defined.
 
+The `nested_pagesize` is calculated by the server depending on `maxmodels`.
+
 Also, it is only possible to query collections at the top level or the second
-level of depth.
+level of depth. This means only collections at the second level of depth will
+be truncated.
 
 ## `patch`, `create`, `upsert`
 
