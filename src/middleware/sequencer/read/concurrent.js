@@ -55,7 +55,7 @@ const removeConcurrentIds = function ({ concurrentResults, ids, args }) {
 // Communicate to parallel commands which `id`s are currently being searched
 // so that each call can reuse the result from other calls when targetting
 // the same model.
-const getPendingResults = function ({ args, results, collname, promise }) {
+const addPendingResults = function ({ args, results, collname, promise }) {
   const ids = extractSimpleIds(args) || [];
   const pendingResults = ids.map(id => ({ model: { id }, collname, promise }));
 
@@ -69,5 +69,5 @@ const getPendingResults = function ({ args, results, collname, promise }) {
 
 module.exports = {
   getConcurrentCommand,
-  getPendingResults,
+  addPendingResults,
 };
