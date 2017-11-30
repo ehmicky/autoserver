@@ -11,32 +11,28 @@ const getMetadata = function ({
   args,
   args: { page },
   topargs,
-  hasPreviousPage,
+  hasPrevPage,
   hasNextPage,
 }) {
   if (isOffset({ args })) {
-    return {
-      page,
-      has_previous_page: hasPreviousPage,
-      has_next_page: hasNextPage,
-    };
+    return { page, has_prev_page: hasPrevPage, has_next_page: hasNextPage };
   }
 
-  const previous = getPreviousTokens({ data, args, topargs, hasPreviousPage });
+  const prev = getPrevTokens({ data, args, topargs, hasPrevPage });
   const next = getNextTokens({ data, top, args, topargs, hasNextPage });
 
-  return { ...previous, ...next };
+  return { ...prev, ...next };
 };
 
-const getPreviousTokens = function ({ data, args, topargs, hasPreviousPage }) {
-  if (!hasPreviousPage) { return; }
+const getPrevTokens = function ({ data, args, topargs, hasPrevPage }) {
+  if (!hasPrevPage) { return; }
 
   const [model] = data;
-  const previousToken = getEncodedToken({ model, args, topargs });
+  const prevToken = getEncodedToken({ model, args, topargs });
 
   return {
-    has_previous_page: hasPreviousPage,
-    previous_token: previousToken,
+    has_prev_page: hasPrevPage,
+    prev_token: prevToken,
     first_token: BOUNDARY_TOKEN,
   };
 };

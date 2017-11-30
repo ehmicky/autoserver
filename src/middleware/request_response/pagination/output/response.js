@@ -6,7 +6,7 @@ const { isOnlyForwardCursor } = require('../condition');
 const { getMetadata } = require('./metadata');
 
 // Add response metadata related to pagination:
-//   token, pagesize, has_previous_page, has_next_page
+//   token, pagesize, has_prev_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
 const getPaginationOutput = function ({
   top,
@@ -15,7 +15,7 @@ const getPaginationOutput = function ({
   runOpts,
   response,
 }) {
-  const hasPreviousPage = getHasPreviousPage({ args, top });
+  const hasPrevPage = getHasPrevPage({ args, top });
   const hasNextPage = getHasNextPage({ args, runOpts, response });
 
   const data = getData({ response, hasNextPage });
@@ -27,7 +27,7 @@ const getPaginationOutput = function ({
     args,
     topargs,
     data,
-    hasPreviousPage,
+    hasPrevPage,
     hasNextPage,
   });
 
@@ -35,7 +35,7 @@ const getPaginationOutput = function ({
   return { data, metadata: { ...response.metadata, pages } };
 };
 
-const getHasPreviousPage = function ({ args, args: { page }, top }) {
+const getHasPrevPage = function ({ args, args: { page }, top }) {
   if (isOffset({ args })) {
     return page !== 1;
   }
