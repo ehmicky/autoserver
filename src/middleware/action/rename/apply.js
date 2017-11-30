@@ -1,6 +1,6 @@
 'use strict';
 
-const { get, set, mapKeys } = require('../../../utilities');
+const { get, set } = require('../../../utilities');
 
 // Rename fields if the output key is different from the database one,
 // using `arg.rename`, including with GraphQL aliases.
@@ -24,11 +24,31 @@ const renameFieldsByResult = function (
 };
 
 const renameAttrs = function ({ model, rename }) {
-  const renameA = rename.map(({ key, outputName }) => ({ [key]: outputName }));
-  const renameB = Object.assign({}, ...renameA);
+  const renameMap = rename.reduce(reduceRenameMap, {});
 
-  const modelA = mapKeys(model, (value, name) => renameB[name] || name);
-  return modelA;
+  // Using  `Object.entries.map()` ensures attribute order is kept
+  const modelA = Object.entries(model)
+    .map(([name, value]) => renameAttr({ renameMap, name, value }));
+  const modelB = Object.assign({}, ...modelA);
+  return modelB;
+};
+
+const reduceRenameMap = function (renameMap, { key, outputName }) {
+  const outputNames = renameMap[key] || [];
+  const outputNamesA = [...outputNames, outputName];
+  return { ...renameMap, [key]: outputNamesA };
+};
+
+const renameAttr = function ({ renameMap, name, value }) {
+  const outputNames = renameMap[name];
+
+  if (outputNames === undefined) {
+    return { [name]: value };
+  }
+
+  const modelA = outputNames.map(outputName => ({ [outputName]: value }));
+  const modelB = Object.assign({}, ...modelA);
+  return modelB;
 };
 
 module.exports = {
