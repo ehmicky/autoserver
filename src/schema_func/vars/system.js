@@ -7,15 +7,15 @@ const { COMMAND_TYPES } = require('../../constants');
 // Retrieve system variables, user variables and call-specific variables
 const getVars = function (
   {
-    protocol: $protocol,
-    timestamp: $timestamp,
-    ip: $ip,
-    requestid: $requestid,
-    rpc: $rpc,
-    collname: $collection,
-    top: { command: { type: $command } = {} } = {},
-    topargs: $args,
-    topargs: { params: $params = {} } = {},
+    protocol,
+    timestamp,
+    ip,
+    requestid,
+    rpc,
+    collname: collection,
+    top: { command: { type: command } = {} } = {},
+    topargs: args,
+    topargs: { params: params = {} } = {},
   },
   {
     userVars,
@@ -27,15 +27,15 @@ const getVars = function (
   //  - it is possible to overwrite system vars with call-specific `vars`
   return {
     ...userVars,
-    $protocol,
-    $timestamp,
-    $ip,
-    $requestid,
-    $rpc,
-    $collection,
-    $args,
-    $command,
-    $params,
+    protocol,
+    timestamp,
+    ip,
+    requestid,
+    rpc,
+    collection,
+    args,
+    command,
+    params,
     ...vars,
   };
 };
@@ -47,12 +47,7 @@ const getModelVars = function ({ model, previousmodel, attrName }) {
     ? undefined
     : previousmodel[attrName];
 
-  return {
-    $model: model,
-    $val: val,
-    $previousmodel: previousmodel,
-    $previousval: previousval,
-  };
+  return { model, val, previousmodel, previousval };
 };
 
 const protocols = Object.keys(protocolHandlers);
@@ -62,13 +57,13 @@ const rpcs = Object.keys(rpcHandlers);
 // We need to specify their `type` and `isArray` for `coll.authorize`
 // validation
 const SYSTEM_VARS = {
-  $protocol: { type: 'string', validation: { enum: protocols } },
-  $timestamp: { type: 'string' },
-  $ip: { type: 'string' },
-  $requestid: { type: 'string' },
-  $rpc: { type: 'string', validation: { enum: rpcs } },
-  $collection: { type: 'string' },
-  $command: {
+  protocol: { type: 'string', validation: { enum: protocols } },
+  timestamp: { type: 'string' },
+  ip: { type: 'string' },
+  requestid: { type: 'string' },
+  rpc: { type: 'string', validation: { enum: rpcs } },
+  collection: { type: 'string' },
+  command: {
     type: 'string',
     validation: {
       enum: COMMAND_TYPES,
@@ -85,8 +80,8 @@ const SYSTEM_VARS = {
       ],
     },
   },
-  $args: { type: 'dynamic' },
-  $params: { type: 'dynamic' },
+  args: { type: 'dynamic' },
+  params: { type: 'dynamic' },
 };
 
 module.exports = {

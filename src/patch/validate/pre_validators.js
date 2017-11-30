@@ -61,7 +61,7 @@ const operatorExists = function ({ operator, type }) {
 };
 
 const checkOpVal = function ({ opVal, ...rest }) {
-  // `patchOp.check()` is not performed if value is `$model.ATTR` reference
+  // `patchOp.check()` is not performed if value is `model.ATTR` reference
   // It will be performed later when reference's value is known
   if (isRef(opVal)) { return; }
 

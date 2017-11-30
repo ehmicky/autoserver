@@ -2,7 +2,7 @@
 
 const { ANY_ARRAY } = require('./array');
 
-const checkSlice = function ({ $arg: opVal }) {
+const checkSlice = function ({ arg: opVal }) {
   if (opVal.length <= 2) { return; }
 
   return 'the argument must be an array with one integer (the index) and an optional additional integer (the length)';
@@ -36,7 +36,7 @@ const slicestrOperator = {
 
   attribute: ['string'],
 
-  apply ({ $val: attrVal = '', $arg: [start, end] }) {
+  apply ({ val: attrVal = '', arg: [start, end] }) {
     return sliceApply({ attrVal, start, end });
   },
 };
@@ -47,7 +47,7 @@ const sliceOperator = {
 
   attribute: ANY_ARRAY,
 
-  apply ({ $val: attrVal = [], $arg: [start, end] }) {
+  apply ({ val: attrVal = [], arg: [start, end] }) {
     return sliceApply({ attrVal, start, end });
   },
 };
@@ -65,7 +65,7 @@ const insertstrOperator = {
 
   argument: ['integer[]', 'empty[]', 'string[]'],
 
-  check ({ $arg: opVal }) {
+  check ({ arg: opVal }) {
     const isValid = opVal.length === 2 &&
       (Number.isInteger(opVal[0]) || opVal[0] == null) &&
       typeof opVal[1] === 'string';
@@ -74,7 +74,7 @@ const insertstrOperator = {
     return 'the argument must be an array with one integer (the index) and a string';
   },
 
-  apply ({ $val: attrVal = '', $arg: [index, str] }) {
+  apply ({ val: attrVal = '', arg: [index, str] }) {
     const { start, end } = insertApply({ index, attrVal });
     return `${start}${str}${end}`;
   },
@@ -86,14 +86,14 @@ const insertOperator = {
 
   argument: ANY_ARRAY,
 
-  check ({ $arg: [index] }) {
+  check ({ arg: [index] }) {
     const isValid = Number.isInteger(index) || index == null;
     if (isValid) { return; }
 
     return 'the argument\'s first value must be an integer (the index)';
   },
 
-  apply ({ $val: attrVal = [], $arg: [index, ...values] }) {
+  apply ({ val: attrVal = [], arg: [index, ...values] }) {
     const { start, end } = insertApply({ index, attrVal });
     return [...start, ...values, ...end];
   },

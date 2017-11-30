@@ -8,7 +8,7 @@ const commonTypes = {
 const commonChecks = defaultValue => ({
   ...commonTypes,
 
-  check ({ $arg: opVal = defaultValue, $type: attrType }) {
+  check ({ arg: opVal = defaultValue, type: attrType }) {
     checkInteger({ opVal, attrType });
   },
 });
@@ -23,7 +23,7 @@ const checkInteger = function ({ opVal, attrType }) {
 const addOperator = {
   ...commonChecks(0),
 
-  apply ({ $val: attrVal = 0, $arg: opVal = 0 }) {
+  apply ({ val: attrVal = 0, arg: opVal = 0 }) {
     return attrVal + opVal;
   },
 };
@@ -32,7 +32,7 @@ const addOperator = {
 const subOperator = {
   ...commonChecks(0),
 
-  apply ({ $val: attrVal = 0, $arg: opVal = 0 }) {
+  apply ({ val: attrVal = 0, arg: opVal = 0 }) {
     return attrVal - opVal;
   },
 };
@@ -41,7 +41,7 @@ const subOperator = {
 const mulOperator = {
   ...commonChecks(1),
 
-  apply ({ $val: attrVal = 0, $arg: opVal = 1 }) {
+  apply ({ val: attrVal = 0, arg: opVal = 1 }) {
     return attrVal * opVal;
   },
 };
@@ -50,7 +50,7 @@ const mulOperator = {
 const divOperator = {
   ...commonTypes,
 
-  check ({ $arg: opVal = 1, $type: attrType }) {
+  check ({ arg: opVal = 1, type: attrType }) {
     if (opVal === 0) {
       return 'the argument must not be 0';
     }
@@ -58,7 +58,7 @@ const divOperator = {
     checkInteger({ opVal, attrType });
   },
 
-  apply ({ $val: attrVal = 0, $arg: opVal = 1 }) {
+  apply ({ val: attrVal = 0, arg: opVal = 1 }) {
     return attrVal / opVal;
   },
 };

@@ -16,7 +16,7 @@ const getFeatures = function ({ filter }) {
 };
 
 const getFeature = function ({ type, attrName, value }) {
-  // $model.ATTR targetting a sibling in `args.filter`
+  // `model.ATTR` targetting a sibling in `args.filter`
   if (isSiblingValue({ value })) { return ['filter:sibling']; }
 
   // Simple filters, i.e. { id: string } and { id: { _in: array } }

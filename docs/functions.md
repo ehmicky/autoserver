@@ -62,33 +62,33 @@ parenthesis.
 
 The following system variables are always passed to schema functions as their
 first argument, as an object:
-  - [`$protocol`](protocols.md) `{string}`: possible values are only `http`
-  - `$timestamp` `{string}`: current date and time
-  - `$ip` `{string}`: request IP
-  - `$requestid` `{string}`: UUID identifying the current request
-  - `$params` `{object}`: all [client parameters](#client-parameters)
-  - [`$rpc`](rpc.md) `{string}`: possible values are `graphql`,
+  - [`protocol`](protocols.md) `{string}`: possible values are only `http`
+  - `timestamp` `{string}`: current date and time
+  - `ip` `{string}`: request IP
+  - `requestid` `{string}`: UUID identifying the current request
+  - `params` `{object}`: all [client parameters](#client-parameters)
+  - [`rpc`](rpc.md) `{string}`: possible values are `graphql`,
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
-  - `$collection` `{string}`: name of the [collection](collections.md),
+  - `collection` `{string}`: name of the [collection](collections.md),
     e.g. `users`
-  - `$args` `{object}`: client [arguments](rpc.md#rpc)
+  - `args` `{object}`: client [arguments](rpc.md#rpc)
     passed to the request, e.g. `filter`
-  - `$command` `{string}`: current command, among `create`, `find`, `upsert`,
+  - `command` `{string}`: current command, among `create`, `find`, `upsert`,
     `patch` or `delete`
-  - `$val` `{any}`: value of the current attribute.
-    E.g. `$val === 'John'` checks whether the current value equals `'John'`
-  - `$model` `{object}`: current model.
-    E.g. `$model.first_name === 'John'` checks whether the model's `first_name`
+  - `val` `{any}`: value of the current attribute.
+    E.g. `val === 'John'` checks whether the current value equals `'John'`
+  - `model` `{object}`: current model.
+    E.g. `model.first_name === 'John'` checks whether the model's `first_name`
     equals `'John'`
-  - `$previousval` `{any}`: value of the attribute.
-    If the current request is modified the current attribute, `$previousval`
-    is the value before that modification, and `$val` after that modification.
-  - `$previousmodel` `{object|undefined}`: model.
-    If the current request is modified the current model, `$previousmodel` is
-    the value before that modification, and `$model` after that modification.
+  - `previousval` `{any}`: value of the attribute.
+    If the current request is modified the current attribute, `previousval`
+    is the value before that modification, and `val` after that modification.
+  - `previousmodel` `{object|undefined}`: model.
+    If the current request is modified the current model, `previousmodel` is
+    the value before that modification, and `model` after that modification.
     If the current request is creating the model (with a `create` or `upsert`
     action), this will be `undefined`.
-  - `$expected` `${any}`: value passed as argument to the custom validation
+  - `expected` `${any}`: value passed as argument to the custom validation
     keyword. Only available to
     [custom validation](validation.md#custom-validation) keyword:
 
@@ -96,8 +96,8 @@ E.g.:
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
-const getDefaultValue = function ({ $timestamp }) {
-  return $timestamp;
+const getDefaultValue = function ({ timestamp }) {
+  return timestamp;
 };
 
 module.exports = getDefaultValue;
@@ -110,7 +110,7 @@ collections:
   example_collection:
     attributes:
       example_attribute:
-        default: ($timestamp)
+        default: (timestamp)
 ```
 
 # User variables
@@ -174,7 +174,7 @@ query {
 ```
 
 Client parameters will be available using the
-[system variable](#schema-functions-variables) `$params` as an object.
+[system variable](#schema-functions-variables) `params` as an object.
 
 They can also be set using the
 [protocol header](protocols.md#headers-and-method) `params`, with a JSON object

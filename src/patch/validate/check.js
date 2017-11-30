@@ -17,7 +17,7 @@ const applyCheck = function ({
   // Normalize `null` to `undefined`
   const opValA = opVal === null ? undefined : opVal;
 
-  const vars = { $arg: opValA, $type: attrType };
+  const vars = { arg: opValA, type: attrType };
   const message = runSchemaFunc({ schemaFunc: check, mInput, vars });
 
   const messageA = getCheckMessage({ type, message });

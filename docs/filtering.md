@@ -77,11 +77,11 @@ the array:
 
 # Cross-attributes filtering
 
-It is possible to compare two attributes by using the `$model.ATTRIBUTE`
+It is possible to compare two attributes by using the `model.ATTRIBUTE`
 notation, e.g.:
 
 ```HTTP
-GET /rest/users/?filter.created_time=$model.updated_time
+GET /rest/users/?filter.created_time=model.updated_time
 ```
 
 # Examples

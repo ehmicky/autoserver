@@ -28,7 +28,7 @@ const validateEnumVal = function ({ ruleVal, value, throwErr }) {
 
 // Validates that if one of the allowed values of an array is among a specific
 // set (`ifVals`), it allows all the values from another set (`thenVals`).
-// E.g. it does not make sense to forbid $command `patch` while allowing `find`
+// E.g. it does not make sense to forbid command `patch` while allowing `find`
 // and `upsert`, so they must be specified together. I.e. we specify the
 // `ruleVal` `[['patch'], ['find', 'upsert']]`
 const validateRequires = function ({

@@ -12,7 +12,7 @@ of collection's attributes, e.g.:
 ```yml
 schema:
   authorize:
-    $command:
+    command:
       _neq: delete
 ```
 
@@ -25,9 +25,9 @@ authorization design. E.g.:
 ```yml
 schema:
   authorize:
-  - $command: find
+  - command: find
     user_group: reader
-  - $command:
+  - command:
       _in: [find, patch]
     user_group: manager
   - user_group: admin
@@ -41,7 +41,7 @@ It is also possible to directly use [functions](functions.md), e.g.:
 ```yml
 schema:
   authorize:
-    $params:
+    params:
       key: (getSecretKey())
 ```
 
@@ -49,17 +49,17 @@ schema:
 
 One can specify collection-specific authorization with `collection.authorize`.
 
-The format is the same as `schema.authorize`, except `$model` can also be used,
+The format is the same as `schema.authorize`, except `model` can also be used,
 e.g.:
 
 ```yml
 collections:
   example_collection:
     authorize:
-    - $model:
+    - model:
         age:
           _gte: 30
-    - $model:
+    - model:
         public: true
 ```
 
@@ -67,14 +67,14 @@ will reject requests on `example_collection` unless `example_collection.age`
 is over `30`, or `example_collection.public` is `true`.
 
 If the model is being modified, attributes are checked both before and after
-modification. In other words, it is checked on both `$previousmodel` and
-`$model` [variables](functions.md#schema-functions-variables)). E.g.:
+modification. In other words, it is checked on both `previousmodel` and
+`model` [variables](functions.md#schema-functions-variables)). E.g.:
 
 ```yml
 collections:
   example_collection:
     authorize:
-      $model:
+      model:
         locked: false
 ```
 
@@ -86,16 +86,16 @@ Using this feature allows you to define
 [access control lists](https://en.wikipedia.org/wiki/Access_control_list)
 restricting the permissions of a model based on the value of its attributes.
 
-Functions cannot use the variables `$model`, `$val`, `$previousmodel` nor
-`$previousval`. However, it is possible to target another attribute by using
-a `$model.ATTRIBUTE` string as value, e.g.:
+Functions cannot use the variables `model`, `val`, `previousmodel` nor
+`previousval`. However, it is possible to target another attribute by using
+a `model.ATTRIBUTE` string as value, e.g.:
 
 ```yml
 collections:
   example_collection:
     authorize:
-      $model:
-        created_time: $model.updated_time
+      model:
+        created_time: model.updated_time
 ```
 
 will only reject requests on any `example_collection` unless
@@ -124,7 +124,7 @@ collections:
   example_collection:
     attributes:
       name:
-        readonly: ($model.locked === true)
+        readonly: (model.locked === true)
       locked:
         type: boolean
 ```

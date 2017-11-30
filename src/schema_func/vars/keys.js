@@ -19,14 +19,14 @@ const ALL_SYSTEM_VARS = [
   '$7',
   '$8',
   '$9',
-  '$expected',
-  '$model',
-  '$val',
-  '$previousmodel',
-  '$previousval',
+  'expected',
+  'model',
+  'val',
+  'previousmodel',
+  'previousval',
   // Patch operators
-  '$arg',
-  '$type',
+  'arg',
+  'type',
 ];
 
 module.exports = {
