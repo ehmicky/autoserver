@@ -156,8 +156,8 @@ plugins:
     collection: owners
 validation:
   $is_not_equal:
-    test: (val !== expected)
-    message: (`must not be equal to ${expected}`)
+    test: (val !== arg)
+    message: (`must not be equal to ${arg}`)
     type: number
 operators:
   __power:

@@ -99,8 +99,9 @@ The following variables are available to any schema function except
 The following variables are available for more specific cases:
   - `params`: all [client parameters](#client-parameters)
   - `arg1`, `arg2`, etc.: see [user variables](#user-variables)
-  - `expected`: see [custom validation](validation.md#custom-validation)
-  - `arg`, `type`: see [custom patch operators](patch.md#custom-operators)
+  - `arg`: see [custom validation](validation.md#custom-validation) and
+    [custom patch operators](patch.md#custom-operators)
+  - `type`: see [custom patch operators](patch.md#custom-operators)
 
 For example:
 

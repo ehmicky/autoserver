@@ -49,12 +49,10 @@ const TEMP_SYSTEM_VARS = [
   'arg7',
   'arg8',
   'arg9',
-  'expected',
   'model',
   'val',
   'previousmodel',
   'previousval',
-  // Patch operators
   'arg',
   'type',
 ];
