@@ -14,6 +14,7 @@ module.exports = {
   ...require('./invert'),
   ...require('./merge'),
   ...require('./get_set'),
+  ...require('./path'),
   ...require('./result'),
   ...require('./immutable'),
   ...require('./memoize'),
