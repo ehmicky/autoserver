@@ -47,10 +47,6 @@ const getLimits = function ({
 
     // How long the request can run, in milliseconds
     requestTimeout: REQUEST_TIMEOUT,
-    // When event listeners fail, they are retried with an ever increasing delay
-    // This is the upper limit
-    // This is 3 minutes, in milliseconds
-    maxEventDelay: MAX_EVENT_DELAY,
 
     // Enforced during schema validation:
     //  - max number of attributes per model: 50
@@ -84,8 +80,6 @@ const MAX_QUERY_STRING_DEPTH = 1e1;
 const MAX_QUERY_STRING_LENGTH = 1e2;
 
 const REQUEST_TIMEOUT = 5e3;
-
-const MAX_EVENT_DELAY = 18e4;
 
 module.exports = {
   getLimits,

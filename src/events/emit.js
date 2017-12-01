@@ -31,6 +31,7 @@ const emit = async function ({
   duration,
   async,
   delay,
+  noHandling,
 }) {
   const levelA = getLevel({ level, type });
 
@@ -56,7 +57,14 @@ const emit = async function ({
 
   consolePrint({ type, level: levelA, message: messageA });
 
-  await fireEvent({ type, runOpts, eventPayload, delay, emitEvent });
+  await fireEvent({
+    type,
+    runOpts,
+    eventPayload,
+    delay,
+    emitEvent,
+    noHandling,
+  });
 
   return eventPayload;
 };

@@ -46,9 +46,6 @@ directory, or any parent. This is the preferred configuration method.
 Event payloads can be serialized to JSON, i.e. events can be used for logging
 or monitoring purpose.
 
-If an event handler throws an exception, or returns a rejected promise,
-it will be retried several times, with an exponential delay.
-
 # Console
 
 Events are also printed on the console.
