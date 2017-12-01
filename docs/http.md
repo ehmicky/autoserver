@@ -33,4 +33,8 @@ The following HTTP request headers have specific interpretations:
     (which must be `POST`)
 
 The following HTTP response headers might be set, depending on the response:
-`Content-Type`, `Content-Length`, `Vary`, `Allow`, `X-Response-Time`.
+  - `Content-Type`, `Content-Length`, `Vary`, `Allow`, `X-Response-Time`
+  - when using [REST](rest.md) and the response is paginated, a `Link` header
+    will be set with `rel` `first`, `last`, `prev` and/or `next`. The header
+    contains the full URI to retrieve the first, last, previous or next batch,
+    as opposed to `metadata.pages` which only contain the cursor tokens.
