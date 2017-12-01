@@ -48,9 +48,9 @@ const fireFailureHandler = function (errorA) {
 
 // Request error handlers might fail themselves
 const handlerHandler = function (error, errorA) {
-  addMInput(error, errorA.mInput);
+  const errorB = addMInput(error, errorA.mInput);
 
-  rethrowError(error);
+  rethrowError(errorB);
 };
 
 const eFireErrorHandler = addErrorHandler(fireErrorHandler, handlerHandler);
@@ -70,10 +70,6 @@ const addMInput = function (error, mInput) {
 // Builds `mInput` with a `mInput.error` property
 const getErrorMInput = function ({ error, error: { mInput = {} } }) {
   const errorA = normalizeError({ error });
-  // We need to directly mutate to keep Error constructor
-  // eslint-disable-next-line fp/no-delete
-  delete errorA.mInput;
-
   return { ...mInput, mInput, error: errorA };
 };
 
@@ -82,6 +78,4 @@ module.exports = {
   fireMainLayersHandler,
   fireErrorHandler: eFireErrorHandler,
   fireFailureHandler: eFireFailureHandler,
-  getErrorMInput,
-  addMInput,
 };
