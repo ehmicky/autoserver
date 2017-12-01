@@ -22,10 +22,11 @@ const launchServers = async function (options) {
 
 // Launch the server of a given protocol
 const launchEachServer = async function (options, protocolHandler) {
-  const { runOpts, measures } = options;
+  const { runOpts, schema, measures } = options;
   const initialInput = {
     protocolHandler,
     runOpts,
+    schema,
     options,
     measures,
     metadata: {},

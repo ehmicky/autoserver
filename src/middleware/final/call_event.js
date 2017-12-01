@@ -6,6 +6,7 @@ const { emitEvent } = require('../../events');
 // Each request creates exactly one "call" event, whether successful or not
 const callEvent = async function ({
   runOpts,
+  schema,
   level,
   mInput,
   respPerf: { duration } = {},
@@ -16,6 +17,7 @@ const callEvent = async function ({
     phase: 'request',
     level,
     runOpts,
+    schema,
     duration,
   });
 };

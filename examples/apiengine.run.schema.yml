@@ -1,4 +1,5 @@
 engine: 0
+name: Example API
 collections:
   pets:
     description: Cute animal

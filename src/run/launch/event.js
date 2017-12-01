@@ -7,9 +7,16 @@ const startEvent = async function ({
   server: { hostname, port },
   protocolHandler: { title },
   runOpts,
+  schema,
 }) {
   const message = `${title} - Listening on ${hostname}:${port}`;
-  await emitEvent({ type: 'message', phase: 'startup', message, runOpts });
+  await emitEvent({
+    type: 'message',
+    phase: 'startup',
+    message,
+    runOpts,
+    schema,
+  });
 };
 
 module.exports = {

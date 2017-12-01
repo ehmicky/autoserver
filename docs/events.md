@@ -114,8 +114,10 @@ Each event payload comes with a `serverinfo` property, with the properties:
   - `versions` `{object}`
      - `node` `{string}` - Node.js version, e.g. `'v8.0.0'`
      - `apiengine` `{string}` - `apiengine` version, e.g. `'v0.0.1'`
-  - `serverid` `{UUID}` and `servername` `{string}`: see
-    [below](#server-identifiers)
+  - `process` `{object}`:
+     - `name`: defaults to system hostname, but can be overriden using
+       the schema property `name`
+  - `serverid` `{UUID}`: see [below](#server-identifiers)
 
 # Server identifiers
 
@@ -123,11 +125,6 @@ A `serverid` UUID, unique to each server run, is automatically created and
 available:
   - in response's `metadata.serverid` property
   - in [`serverinfo.serverid`](#server-information) event payload property
-
-`servername` is the system hostname, but can be overriden using the
-[`run` option](run.md#options) `servername`. It is available:
-  - in [`serverinfo.servername`](#server-information) event payload property
-  - in [console messages](#console)
 
 # Start information
 

@@ -19,7 +19,7 @@ const startConnection = async function ({
     check({ ...opts, connection });
   }
 
-  emitStartEvent({ adapter, runOpts });
+  emitStartEvent({ adapter, runOpts, schema });
 
   return connection;
 };
@@ -31,9 +31,19 @@ const kStartConnection = monitor(
 );
 
 // Database adapter-specific start event
-const emitStartEvent = async function ({ adapter: { title }, runOpts }) {
+const emitStartEvent = async function ({
+  adapter: { title },
+  runOpts,
+  schema,
+}) {
   const message = `${title} - Connection initialized`;
-  await emitEvent({ type: 'message', phase: 'startup', message, runOpts });
+  await emitEvent({
+    type: 'message',
+    phase: 'startup',
+    message,
+    runOpts,
+    schema,
+  });
 };
 
 module.exports = {

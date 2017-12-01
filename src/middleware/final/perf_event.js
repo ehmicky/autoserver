@@ -5,7 +5,7 @@ const { emitPerfEvent } = require('../../perf');
 // Event performance events related to the current request,
 // e.g. how long each middleware lasted.
 const perfEvent = async function (
-  { error, runOpts, mInput, respPerf },
+  { error, runOpts, schema, mInput, respPerf },
   nextLayer,
   { measures },
 ) {
@@ -18,6 +18,7 @@ const perfEvent = async function (
     phase: 'request',
     measures: measuresA,
     runOpts,
+    schema,
   });
 };
 

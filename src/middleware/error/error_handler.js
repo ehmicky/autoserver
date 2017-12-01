@@ -10,6 +10,7 @@ const errorHandler = async function ({
   protocolHandler,
   specific,
   runOpts,
+  schema,
   mInput,
 }) {
   // When an exception is thrown in the same macrotask as the one that started
@@ -19,14 +20,20 @@ const errorHandler = async function ({
   // This is unclear why, but doing this solves the problem.
   await pSetTimeout(0);
 
-  await reportError({ runOpts, level, error, mInput });
+  await reportError({ runOpts, schema, level, error, mInput });
 
   // Make sure a response is sent, even empty, or the socket will hang
   await protocolHandler.send({ specific, content: '', contentLength: 0 });
 };
 
 // Report any exception thrown
-const reportError = async function ({ runOpts, level, error, mInput }) {
+const reportError = async function ({
+  runOpts,
+  schema,
+  level,
+  error,
+  mInput,
+}) {
   // If we haven't reached the events middleware yet, error.status
   // will be undefined, so it will still be caught and reported.
   const levelA = ['warn', 'error'].includes(level) ? level : 'error';
@@ -38,6 +45,7 @@ const reportError = async function ({ runOpts, level, error, mInput }) {
     level: levelA,
     errorinfo: error,
     runOpts,
+    schema,
   });
 };
 
