@@ -9,22 +9,24 @@ const failureHandler = async function ({
   protocolHandler,
   specific,
   runOpts,
+  schema,
 }) {
   const errorA = normalizeError({ error, reason: 'ERROR_HANDLER_FAILURE' });
 
-  await reportError({ runOpts, error: errorA });
+  await reportError({ runOpts, schema, error: errorA });
 
   // Make sure a response is sent, even empty, or the socket will hang
   await protocolHandler.send({ specific, content: '', contentLength: 0 });
 };
 
-const reportError = function ({ runOpts, error }) {
+const reportError = function ({ runOpts, schema, error }) {
   return emitEvent({
     type: 'failure',
     phase: 'request',
     level: 'error',
     errorinfo: error,
     runOpts,
+    schema,
   });
 };
 

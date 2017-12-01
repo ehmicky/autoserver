@@ -7,6 +7,7 @@ const { mapValues, omit, pSetTimeout } = require('../utilities');
 const emitStartEvent = async function ({
   servers,
   runOpts,
+  schema,
   gracefulExit,
   measures,
 }) {
@@ -23,6 +24,7 @@ const emitStartEvent = async function ({
     message,
     info,
     runOpts,
+    schema,
     async: false,
     duration,
   });

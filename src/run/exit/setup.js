@@ -4,10 +4,10 @@ const { gracefulExit } = require('./graceful_exit');
 
 // Make sure the server stops when graceful exits are possible
 // Also send related events
-const setupGracefulExit = function ({ servers, dbAdapters, runOpts }) {
+const setupGracefulExit = function ({ servers, dbAdapters, runOpts, schema }) {
   const gracefulExitA = gracefulExit.bind(
     null,
-    { servers, dbAdapters, runOpts },
+    { servers, dbAdapters, runOpts, schema },
   );
 
   process.on('SIGINT', gracefulExitA);

@@ -28,6 +28,7 @@ const emit = async function ({
   message,
   info,
   runOpts = {},
+  schema,
   duration,
   async,
   delay,
@@ -52,6 +53,7 @@ const emit = async function ({
     message,
     info,
     runOpts,
+    schema,
     duration,
   });
 
@@ -60,6 +62,7 @@ const emit = async function ({
   await fireEvent({
     type,
     runOpts,
+    schema,
     eventPayload,
     delay,
     emitEvent,

@@ -25,7 +25,7 @@ const fireSingleEvent = async function ({
 
 const handleEventError = async function (
   error,
-  { runOpts, emitEvent, noHandling },
+  { runOpts, schema, emitEvent, noHandling },
 ) {
   // If error handler of error handler fails itself, give up
   if (noHandling) { return; }
@@ -35,6 +35,7 @@ const handleEventError = async function (
     type: 'failure',
     phase: 'process',
     runOpts,
+    schema,
     errorinfo: errorA,
     noHandling: true,
   });

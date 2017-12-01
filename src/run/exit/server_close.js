@@ -10,9 +10,10 @@ const closeServer = async function ({
     protocolHandler: { name, title },
   },
   runOpts,
+  schema,
   measures,
 }) {
-  const opts = { server, name, title, runOpts, measures };
+  const opts = { server, name, title, runOpts, schema, measures };
   await mEventClose(opts);
   const status = await mStop(opts);
 

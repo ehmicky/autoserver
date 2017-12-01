@@ -1,9 +1,0 @@
-[
-  {
-    "name": "servername",
-    "description": "Unique name of the server",
-    "validate": {
-      "type": "string"
-    }
-  }
-]

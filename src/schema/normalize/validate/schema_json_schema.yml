@@ -9,6 +9,9 @@ properties:
   engine:
     type: integer
     minimum: 0
+  # `schema.name`
+  name:
+    type: string
   # Collections definitions
   collections:
     additionalProperties:

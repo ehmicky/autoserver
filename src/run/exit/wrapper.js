@@ -26,7 +26,7 @@ const getEventLabel = function (label, { name }) {
 
 // Shutdown success events
 const handleEvent = async function ({ func, successMessage }, input) {
-  const { runOpts, title } = input;
+  const { runOpts, schema, title } = input;
 
   const response = await func(input);
 
@@ -37,6 +37,7 @@ const handleEvent = async function ({ func, successMessage }, input) {
     phase: 'shutdown',
     message: messageA,
     runOpts,
+    schema,
   });
 
   return response;
@@ -46,10 +47,8 @@ const handleEvent = async function ({ func, successMessage }, input) {
 const handleEventHandler = async function (
   error,
   { errorMessage, reason },
-  input,
+  { runOpts, schema, title },
 ) {
-  const { runOpts, title } = input;
-
   const message = `${title} - ${errorMessage}`;
   const errorA = normalizeError({ error, reason });
   await emitEvent({
@@ -58,6 +57,7 @@ const handleEventHandler = async function (
     message,
     errorinfo: errorA,
     runOpts,
+    schema,
   });
 };
 

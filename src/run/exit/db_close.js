@@ -8,9 +8,10 @@ const closeDbAdapter = async function ({
   dbAdapter,
   dbAdapter: { name, title },
   runOpts,
+  schema,
   measures,
 }) {
-  const opts = { dbAdapter, name, title, runOpts, measures };
+  const opts = { dbAdapter, name, title, runOpts, schema, measures };
   const status = await mStop(opts);
 
   return { [name]: Boolean(status) };

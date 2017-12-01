@@ -8,17 +8,17 @@ const { normalizeError } = require('../error');
 // will collect the warnings of all the instances.
 // Note that process events fired that do not belong to apiengine might be
 // caught as well.
-const processErrorHandler = function ({ runOpts }) {
-  setupUnhandledRejection({ runOpts });
-  setupRejectionHandled({ runOpts });
-  setupWarning({ runOpts });
+const processErrorHandler = function ({ runOpts, schema }) {
+  setupUnhandledRejection({ runOpts, schema });
+  setupRejectionHandled({ runOpts, schema });
+  setupWarning({ runOpts, schema });
 };
 
-const setupUnhandledRejection = function ({ runOpts }) {
+const setupUnhandledRejection = function ({ runOpts, schema }) {
   process.on('unhandledRejection', async error => {
     const message = getMessage({ error });
     const messageA = `A promise was rejected and not handled right away\n${message}`;
-    await emitProcessEvent({ message: messageA, runOpts });
+    await emitProcessEvent({ message: messageA, runOpts, schema });
   });
 };
 
@@ -30,21 +30,21 @@ const getMessage = function ({ error }) {
   return error[nameA] || '';
 };
 
-const setupRejectionHandled = function ({ runOpts }) {
+const setupRejectionHandled = function ({ runOpts, schema }) {
   process.on('rejectionHandled', async () => {
     const message = 'A promise was rejected but handled too late';
-    await emitProcessEvent({ message, runOpts });
+    await emitProcessEvent({ message, runOpts, schema });
   });
 };
 
-const setupWarning = function ({ runOpts }) {
+const setupWarning = function ({ runOpts, schema }) {
   process.on('warning', async error => {
-    await emitProcessEvent({ error, runOpts });
+    await emitProcessEvent({ error, runOpts, schema });
   });
 };
 
 // Report process problems as events with type 'failure'
-const emitProcessEvent = async function ({ error, message, runOpts }) {
+const emitProcessEvent = async function ({ error, message, runOpts, schema }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
 
   await emitEvent({
@@ -52,6 +52,7 @@ const emitProcessEvent = async function ({ error, message, runOpts }) {
     phase: 'process',
     errorinfo: errorA,
     runOpts,
+    schema,
   });
 };
 

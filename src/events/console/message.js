@@ -7,7 +7,7 @@ const { getPrefix } = require('./prefix');
 const { getRequestMessage } = require('./request_message');
 
 // Build a standardized event message:
-// [TYPE] [LEVEL] [SERVERNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
+// [TYPE] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
 const getConsoleMessage = function ({
@@ -19,7 +19,7 @@ const getConsoleMessage = function ({
   errorinfo,
   timestamp,
   requestinfo,
-  serverinfo: { servername },
+  serverinfo: { process: { name: processName } },
 }) {
   const noConsole = NO_CONSOLE_TYPES.includes(type);
   if (noConsole) { return; }
@@ -30,7 +30,7 @@ const getConsoleMessage = function ({
     level,
     timestamp,
     requestinfo,
-    servername,
+    processName,
   });
   const messageA = getMessage({ message, type, phase, errorinfo, requestinfo });
   const durationA = getDuration({ duration });
