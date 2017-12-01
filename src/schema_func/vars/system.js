@@ -4,52 +4,6 @@ const { protocolHandlers } = require('../../protocols');
 const { rpcHandlers } = require('../../rpc');
 const { COMMAND_TYPES } = require('../../constants');
 
-// Retrieve system variables, user variables and call-specific variables
-const getVars = function (
-  {
-    protocol,
-    timestamp,
-    ip,
-    requestid,
-    rpc,
-    collname: collection,
-    top: { command: { type: command } = {} } = {},
-    topargs: args,
-    topargs: { params: params = {} } = {},
-  },
-  {
-    userVars,
-    vars,
-  } = {},
-) {
-  // Order matters:
-  //  - we want to be 100% sure userVars do not overwrite system variables
-  //  - it is possible to overwrite system vars with call-specific `vars`
-  return {
-    ...userVars,
-    protocol,
-    timestamp,
-    ip,
-    requestid,
-    rpc,
-    collection,
-    args,
-    command,
-    params,
-    ...vars,
-  };
-};
-
-// Retrieve model-related system variables
-const getModelVars = function ({ model, previousmodel, attrName }) {
-  const val = model[attrName];
-  const previousval = previousmodel == null
-    ? undefined
-    : previousmodel[attrName];
-
-  return { model, val, previousmodel, previousval };
-};
-
 const protocols = Object.keys(protocolHandlers);
 const rpcs = Object.keys(rpcHandlers);
 
@@ -84,8 +38,28 @@ const SYSTEM_VARS = {
   params: { type: 'dynamic' },
 };
 
+// System variables that are not always present
+const TEMP_SYSTEM_VARS = [
+  'arg1',
+  'arg2',
+  'arg3',
+  'arg4',
+  'arg5',
+  'arg6',
+  'arg7',
+  'arg8',
+  'arg9',
+  'expected',
+  'model',
+  'val',
+  'previousmodel',
+  'previousval',
+  // Patch operators
+  'arg',
+  'type',
+];
+
 module.exports = {
-  getVars,
-  getModelVars,
   SYSTEM_VARS,
+  TEMP_SYSTEM_VARS,
 };
