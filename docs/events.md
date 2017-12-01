@@ -103,7 +103,7 @@ with properties:
 
 Each event payload comes with a `serverinfo` property, with the properties:
   - `host` `{object}`:
-     - `id` `{UUID}`: unique to each server run
+     - `id` `{UUID}`: unique to each host machine (using the MAC address)
      - `name` `{string}` - hostname
      - `os` `{string}` - e.g. `'Linux'`
      - `platform` `{string}` - e.g. `'linux'`

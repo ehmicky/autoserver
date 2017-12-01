@@ -9,12 +9,13 @@ const getPrefix = function ({
   level,
   timestamp,
   requestinfo: { requestid } = {},
-  processName,
+  serverinfo: { host: { id: hostId }, process: { name: processName } },
 }) {
   const prefixes = [
     getType({ type }),
     getLevel({ level }),
     getProcessName({ processName }),
+    getHostId({ hostId }),
     getTimestamp({ timestamp }),
     getRequestid({ phase, requestid }),
   ];
@@ -45,6 +46,14 @@ const getProcessName = function ({ processName }) {
 };
 
 const PROCESSNAME_LENGTH = 12;
+
+const getHostId = function ({ hostId }) {
+  return hostId
+    .substr(0, HOSTID_LENGTH)
+    .padEnd(HOSTID_LENGTH);
+};
+
+const HOSTID_LENGTH = 8;
 
 const getTimestamp = function ({ timestamp }) {
   return timestamp.replace('T', ' ').replace(/(\d)Z$/, '$1');
