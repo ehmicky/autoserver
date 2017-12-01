@@ -2,16 +2,25 @@
 
 const { NO_CONSOLE_TYPES } = require('../constants');
 
+const { getConsoleMessage } = require('./message');
 const { colorize } = require('./colorize');
 
 // Prints event messages to console.
-const consolePrint = function ({ type, level, message }) {
+const consolePrint = function ({
+  type,
+  level,
+  duration,
+  message,
+  eventPayload,
+}) {
   if (NO_CONSOLE_TYPES.includes(type)) { return; }
 
-  const colorMessage = colorize({ type, level, message });
+  const consoleMessage = getConsoleMessage({ message, duration, eventPayload });
+
+  const consoleMessageA = colorize({ type, level, consoleMessage });
 
   // eslint-disable-next-line no-console, no-restricted-globals
-  console[level](colorMessage);
+  console[level](consoleMessageA);
 };
 
 module.exports = {

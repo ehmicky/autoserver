@@ -13,13 +13,15 @@ const { getRequestMessage } = require('./request_message');
 const getConsoleMessage = function ({
   message,
   duration,
-  type,
-  phase,
-  level,
-  errorinfo,
-  timestamp,
-  requestinfo,
-  serverinfo,
+  eventPayload: {
+    type,
+    phase,
+    level,
+    errorinfo,
+    timestamp,
+    requestinfo,
+    serverinfo,
+  },
 }) {
   const noConsole = NO_CONSOLE_TYPES.includes(type);
   if (noConsole) { return; }

@@ -44,20 +44,19 @@ const emit = async function ({
     await pSetTimeout(0, { unref: false });
   }
 
-  const { eventPayload, message: messageA } = getPayload({
+  const eventPayload = getPayload({
     mInput,
     errorinfo,
+    runOpts,
+    schema,
     type,
     phase,
     level: levelA,
     message,
     info,
-    runOpts,
-    schema,
-    duration,
   });
 
-  consolePrint({ type, level: levelA, message: messageA });
+  consolePrint({ type, level: levelA, duration, message, eventPayload });
 
   await fireEvent({
     type,
