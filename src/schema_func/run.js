@@ -2,7 +2,7 @@
 
 const { addGenErrorHandler } = require('../error');
 
-const { getVars, bindVariables } = require('./vars');
+const { getVars } = require('./vars');
 const { stringifySchemaFunc } = require('./tokenize');
 
 // Process (already compiled) schema function,
@@ -10,15 +10,13 @@ const { stringifySchemaFunc } = require('./tokenize');
 const runSchemaFunc = function ({
   schemaFunc,
   mInput,
-  mInput: { varsRef, userVars },
+  mInput: { userVars },
   vars,
 }) {
   // If this is not schema function, returns as is
   if (typeof schemaFunc !== 'function') { return schemaFunc; }
 
   const varsA = getVars(mInput, { userVars, vars });
-
-  bindVariables({ varsRef, vars: varsA });
 
   return schemaFunc(varsA);
 };
