@@ -7,14 +7,14 @@ const { getVarsKeys } = require('./vars');
 const { isInlineFunc, isEscapedInlineFunc } = require('./test');
 const { getInlineFunc } = require('./tokenize');
 
-// Compile all schema functions, i.e. apply `new Function()`
-const compileSchemaFuncs = function ({ schema, schema: { inlineFuncPaths } }) {
+// Compile all schema inline functions, i.e. apply `new Function()`
+const compileInlineFuncs = function ({ schema, schema: { inlineFuncPaths } }) {
   const varsKeys = getVarsKeys({ schema });
 
   const schemaA = setAll(
     schema,
     inlineFuncPaths,
-    inlineFunc => compileSchemaFunc({ inlineFunc, varsKeys }),
+    inlineFunc => compileInlineFunc({ inlineFunc, varsKeys }),
   );
   return { schema: schemaA };
 };
@@ -22,7 +22,7 @@ const compileSchemaFuncs = function ({ schema, schema: { inlineFuncPaths } }) {
 // Transform inline functions into a function with the inline function as body
 // Returns if it is not inline function
 // This can throw if inline function's JavaScript is wrong
-const compileSchemaFunc = function ({ inlineFunc, varsKeys }) {
+const compileInlineFunc = function ({ inlineFunc, varsKeys }) {
   // If this is not inline function, abort
   if (!isInlineFunc({ inlineFunc })) {
     return getNonInlineFunc({ inlineFunc });
@@ -55,5 +55,5 @@ const eCreateFunction = addGenErrorHandler(createFunction, {
 });
 
 module.exports = {
-  compileSchemaFuncs,
+  compileInlineFuncs,
 };

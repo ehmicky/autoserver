@@ -2,7 +2,7 @@
 
 const { addGenErrorHandler } = require('../../../error');
 const { compile } = require('../../../json_validation');
-const { compileSchemaFuncs } = require('../../../schema_func');
+const { compileInlineFuncs } = require('../../../schema_func');
 
 // Validates that `attr.validate` are valid JSON schema
 // by compiling them with AJV
@@ -10,7 +10,7 @@ const validateJsonSchema = function ({
   schema,
   schema: { shortcuts: { validateMap } },
 }) {
-  const schemaA = compileSchemaFuncs({ schema });
+  const schemaA = compileInlineFuncs({ schema });
   compile({ jsonSchema: validateMap, schema: schemaA });
 
   return schema;
