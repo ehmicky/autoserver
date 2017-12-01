@@ -80,12 +80,10 @@ const getAll = function (value, key = []) {
 // Similar to Lodash has(), but faster
 const has = function (obj, keys) {
   try {
-    get(obj, keys);
+    return get(obj, keys) !== undefined;
   } catch (error) {
     return false;
   }
-
-  return true;
 };
 
 module.exports = {

@@ -56,7 +56,7 @@ const loadSubConfOpt = async function ({
 }) {
   const keys = name.split('.');
 
-  if (!has(options, keys)) { return options; }
+  if (!has(options, keys.slice(0, -1))) { return options; }
 
   const path = get(options, keys);
 
