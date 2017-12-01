@@ -84,7 +84,7 @@ with properties:
   - [`type`](#types) `{string}` - `'message'`, `'start'`, `'stop'`,
     `'failure'`, `'call'` or `'perf'`
   - [`level`](#levels) `{string}` - `'info'`, `'log'`, `'warn'` or `'error'`
-  - `message` `{string}` - what's printed on [console](#console)
+  - `message` `{string}` - generic message information
   - `serverinfo` `{object}` - server or
     [host-specific information](#server-information)
   - `servers` `{object}` - for events of type `start`, see
