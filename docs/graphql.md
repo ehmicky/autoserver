@@ -45,8 +45,7 @@ would respond with:
     "manager": "3"
   },
   "extensions": {
-		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812",
-		"serverid": "0f7d6a6e-2912-4f26-8cc8-3be68d5da257"
+		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812"
 	}
 }
 ```
@@ -103,8 +102,7 @@ For example:
     }
   ],
   "extensions": {
-		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812",
-		"serverid": "0f7d6a6e-2912-4f26-8cc8-3be68d5da257"
+		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812"
 	}
 }
 ```

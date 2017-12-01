@@ -27,7 +27,6 @@ const filterMetadata = function ({ type, metadata }) {
 // Metadata allowed in error responses
 const ERROR_METADATA = [
   'requestid',
-  'serverid',
   'duration',
 ];
 
