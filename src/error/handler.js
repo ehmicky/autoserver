@@ -5,7 +5,8 @@ const { keepFuncName, result } = require('../utilities');
 const { throwError } = require('./main');
 
 // Wrap a function with a error handler
-const addErrorHandler = function (func, errorHandler) {
+// Allow passing an empty error handler, i.e. ignoring any error thrown
+const addErrorHandler = function (func, errorHandler = () => undefined) {
   return errorHandledFunc.bind(null, func, errorHandler);
 };
 
