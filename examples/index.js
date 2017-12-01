@@ -23,8 +23,8 @@ const STACK_TRACE_LIMIT = 20;
 const startServer = async function () {
   try {
     await apiengine.compile();
-    const { options, servers, exit } = await apiengine.run();
-    return { options, servers, exit };
+    const { servers, exit } = await apiengine.run();
+    return { servers, exit };
   } catch (error) {
     const { details, ...rest } = error;
     // eslint-disable-next-line no-console, no-restricted-globals

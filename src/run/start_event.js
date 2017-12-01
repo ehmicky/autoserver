@@ -1,7 +1,7 @@
 'use strict';
 
 const { emitEvent } = require('../events');
-const { mapValues, omit, has, set, get, pSetTimeout } = require('../utilities');
+const { mapValues, omit, pSetTimeout } = require('../utilities');
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({
@@ -31,31 +31,13 @@ const emitStartEvent = async function ({
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getPayload = function ({ servers, runOpts, gracefulExit }) {
+const getPayload = function ({ servers, gracefulExit }) {
   const serversA = mapValues(
     servers,
     serverFacts => omit(serverFacts, ['server', 'protocolHandler']),
   );
-  const options = getOptions({ runOpts });
-  return { servers: serversA, options, exit: gracefulExit };
+  return { servers: serversA, exit: gracefulExit };
 };
-
-const getOptions = function ({ runOpts }) {
-  const runOptsA = omit(runOpts, 'schema');
-  const runOptsB = replaceDataPath({ runOpts: runOptsA });
-  return runOptsB;
-};
-
-const replaceDataPath = function ({ runOpts }) {
-  if (!has(runOpts, DATA_PATH)) { return runOpts; }
-
-  const runOptsA = set(runOpts, [...DATA_PATH, 'content'], undefined);
-  const path = get(runOptsA, [...DATA_PATH, 'path']);
-  const runOptsB = set(runOptsA, DATA_PATH, path);
-  return runOptsB;
-};
-
-const DATA_PATH = ['db', 'memory', 'data'];
 
 module.exports = {
   emitStartEvent,
