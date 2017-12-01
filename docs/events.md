@@ -90,8 +90,8 @@ with properties:
   - `message` `{string}` - what's printed on [console](#console)
   - `serverinfo` `{object}` - server or
     [host-specific information](#server-information)
-  - `options` `{object}` and `servers` `{object}` - for events of type
-    `start`, see [below](#start-information)
+  - `servers` `{object}` - for events of type `start`, see
+    [below](#start-information)
   - `exitcodes` `{object}` - for events of type `stop`, contains which
     server successfully exited or not, as `{ http: boolean, ... }`
   - `errorinfo` `{object}` - [error information](#error-information),
@@ -137,8 +137,6 @@ available:
 # Start information
 
 Events of type `start` have two additional properties on the event payload:
-  - `options` `{object}`: [`run` options](run.md#options)
-    used by the server, after adding the default values.
   - `servers` `{object}`: list of running servers
     - `http` `{object}`: HTTP server information
       - [`protocol`](protocols.md) `{string}`: always `'http'`

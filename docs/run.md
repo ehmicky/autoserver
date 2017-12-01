@@ -17,7 +17,7 @@ promise/prefer-await-to-then -->
 const apiengine = require('apiengine');
 
 apiengine.run()
-  .then(({ options, servers, exit }) => {
+  .then(({ servers, exit }) => {
     console.log('Success');
   })
   .catch(({ errorinfo }) => {
