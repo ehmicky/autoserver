@@ -29,20 +29,19 @@ const getServerinfo = function ({ schema: { name: processName } = {} }) {
 };
 
 // Information that do not change across a specific process.
-// We need to memoize both for performnace and predictability,
-// e.g. to assign a single `serverid` per process.
+// We need to memoize both for performnace and predictability.
 const getStaticServerinfo = function ({ processName }) {
   const host = getHostInfo();
   const versions = getVersionsInfo();
   const processInfo = getProcessInfo({ host, processName });
-  const serverid = uuidv4();
 
-  return { host, versions, process: processInfo, serverid };
+  return { host, versions, process: processInfo };
 };
 
 const mGetStaticServerinfo = memoize(getStaticServerinfo);
 
 const getHostInfo = function () {
+  const id = uuidv4();
   const name = getHostname();
   const os = getOs();
   const platform = getPlatform();
@@ -51,7 +50,7 @@ const getHostInfo = function () {
   const memory = getMemory();
   const cpus = getCpus().length;
 
-  return { name, os, platform, release, arch, memory, cpus };
+  return { id, name, os, platform, release, arch, memory, cpus };
 };
 
 const getVersionsInfo = function () {

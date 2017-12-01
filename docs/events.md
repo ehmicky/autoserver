@@ -103,6 +103,7 @@ with properties:
 
 Each event payload comes with a `serverinfo` property, with the properties:
   - `host` `{object}`:
+     - `id` `{UUID}`: unique to each server run
      - `name` `{string}` - hostname
      - `os` `{string}` - e.g. `'Linux'`
      - `platform` `{string}` - e.g. `'linux'`
@@ -117,14 +118,6 @@ Each event payload comes with a `serverinfo` property, with the properties:
   - `process` `{object}`:
      - `name`: defaults to system hostname, but can be overriden using
        the schema property `name`
-  - `serverid` `{UUID}`: see [below](#server-identifiers)
-
-# Server identifiers
-
-A `serverid` UUID, unique to each server run, is automatically created and
-available:
-  - in response's `metadata.serverid` property
-  - in [`serverinfo.serverid`](#server-information) event payload property
 
 # Start information
 
