@@ -102,20 +102,18 @@ with properties:
 # Server information
 
 Each event payload comes with a `serverinfo` property, with the properties:
-  - `system` `{object}`:
-     - `hostname` `{string}`
+  - `host` `{object}`:
+     - `name` `{string}` - hostname
      - `os` `{string}` - e.g. `'Linux'`
      - `platform` `{string}` - e.g. `'linux'`
      - `release` `{string}` - e.g. `'4.8.0-52-generic'`
      - `arch` `{string}` - e.g. `'x64'`
-  - `stats` `{object}`:
      - `memory` `{number}` - total memory in bytes
      - `cpus` `{number}` - number of CPUs
      - `uptime` `{number}` - how long the server has been running, in secs
-  - `node` `{object}`
-     - `version` `{string}` - Node.js version, e.g. `'v8.0.0'`
-  - `apiengine` `{object}`
-     - `version` `{string}` - `apiengine` version, e.g. `'0.0.1'`
+  - `versions` `{object}`
+     - `node` `{string}` - Node.js version, e.g. `'v8.0.0'`
+     - `apiengine` `{string}` - `apiengine` version, e.g. `'v0.0.1'`
   - `serverid` `{UUID}` and `servername` `{string}`: see
     [below](#server-identifiers)
 

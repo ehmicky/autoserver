@@ -23,7 +23,7 @@ const getServerinfo = function ({ runOpts: { servername } }) {
   const serverinfo = {
     ...staticServerinfo,
     ...dynamicServerinfo,
-    stats: { ...staticServerinfo.stats, ...dynamicServerinfo.stats },
+    host: { ...staticServerinfo.host, ...dynamicServerinfo.host },
   };
   return { serverinfo };
 };
@@ -32,50 +32,40 @@ const getServerinfo = function ({ runOpts: { servername } }) {
 // We need to memoize both for performnace and predictability,
 // e.g. to assign a single `serverid` per process.
 const getStaticServerinfo = function ({ servername }) {
-  const system = getSystemInfo();
-  const stats = getStatsInfo();
-  const node = getNodeInfo();
-  const apiengine = { version: apiengineVersion };
+  const host = getHostInfo();
+  const versions = getVersionsInfo();
   const serverid = uuidv4();
-  const name = servername || system.hostname || '';
+  const name = servername || host.name || '';
 
-  return {
-    system,
-    stats,
-    node,
-    apiengine,
-    serverid,
-    servername: name,
-  };
+  return { host, versions, serverid, servername: name };
 };
 
 const mGetStaticServerinfo = memoize(getStaticServerinfo);
 
-const getSystemInfo = function () {
-  const hostname = getHostname();
+const getHostInfo = function () {
+  const name = getHostname();
   const os = getOs();
   const platform = getPlatform();
   const release = getRelease();
   const arch = getArch();
-  return { hostname, os, platform, release, arch };
-};
-
-const getStatsInfo = function () {
   const memory = getMemory();
   const cpus = getCpus().length;
-  return { memory, cpus };
+
+  return { name, os, platform, release, arch, memory, cpus };
 };
 
-const getNodeInfo = function () {
-  const nodeVersion = process.version;
-  return { version: nodeVersion };
+const getVersionsInfo = function () {
+  const node = process.version;
+  const apiengine = `v${apiengineVersion}`;
+
+  return { node, apiengine };
 };
 
 // Information that change across a specific process.
 const getDynamicServerinfo = function () {
   const uptime = process.uptime();
 
-  const dynamicServerinfo = { stats: { uptime } };
+  const dynamicServerinfo = { host: { uptime } };
   return dynamicServerinfo;
 };
 
