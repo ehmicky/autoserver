@@ -69,11 +69,11 @@ keyword name and the value an object with the properties:
   - `test` [`{function}`](functions.md): function that returns false
     if the validation failed.
     The [system variable](functions.md#schema-functions-variables)
-    `expected` represents the value passed to the keyword,
-    and `val` represents the value to validate.
+    `arg` represents the value passed to the keyword, and `val` represents the
+    value to validate.
   - `message` [`{string|function}`](functions.md): error message.
     Can be [functions](functions.md) with the
-    [system variable](functions.md#schema-functions-variables) `expected`
+    [system variable](functions.md#schema-functions-variables) `arg`
     Must start with `'must '`
   - `type` `{string[]}`: optionally restrict the attributes types that can
     use that keyword
