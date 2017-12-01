@@ -2,24 +2,22 @@
 
 Custom logic can be added by using functions in the [schema](schema.md).
 
-Not all schema properties can use functions. The following properties can use
-either a function or a constant as value:
+The following schema properties can use functions:
   - [`attribute.authorize`](authorization.md)
   - [`attribute.readonly`](authorization.md#readonly-attributes)
   - [`attribute.default`](default.md)
   - [`attribute.value`](transformation.md)
   - [custom validation keywords](validation.md#custom-validation)
+  - [custom patch operators](patch.md#custom-operators)
+
+Everywhere a schema function can be used, a constant value can also be used.
 
 Schema functions should be pure, i.e. no global variable should be used, and
 it should not create side-effects.
 
-Functions can take two forms: [external](#external-functions) or
-[inline](#inline-functions).
+# Defining functions
 
-# External functions
-
-External functions are regular JavaScript files exporting a function and
-required using a
+Functions are regular JavaScript files exporting a function and required using a
 [JSON reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),
 e.g.:
 
@@ -55,26 +53,35 @@ collections:
         default: (Math.random())
 ```
 
-Only the function body should be specified, and it should be wrapped in
-parenthesis.
+Only the function body should be specified (without the leading `return`
+keyword), and it should be wrapped in parenthesis.
 
 # Schema functions variables
 
-The following system variables are always passed to schema functions as their
-first argument, as an object:
+Every schema functions receives as their first argument an object containing
+system variables.
+
+The following variables are available to any schema function:
   - [`protocol`](protocols.md) `{string}`: possible values are only `http`
-  - `timestamp` `{string}`: current date and time
+  - `timestamp` `{string}`: current date and time, e.g.
+    `2017-12-01T10:54:19.500Z`
   - `ip` `{string}`: request IP
   - `requestid` `{string}`: UUID identifying the current request
-  - `params` `{object}`: all [client parameters](#client-parameters)
   - [`rpc`](rpc.md) `{string}`: possible values are `graphql`,
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
-  - `collection` `{string}`: name of the [collection](collections.md),
-    e.g. `users`
-  - `args` `{object}`: client [arguments](rpc.md#rpc)
-    passed to the request, e.g. `filter`
+  - `args` `{object}`: client [arguments](rpc.md#rpc) passed to the request,
+    e.g. `filter`
+
+The following variables are available to any schema function except
+[user variables](#user-variables):
   - `command` `{string}`: current command, among `create`, `find`, `upsert`,
     `patch` or `delete`
+  - `collection` `{string}`: name of the [collection](collections.md),
+    e.g. `users`
+
+The following variables are available to any schema function except
+[user variables](#user-variables) and
+[custom patch operators](patch.md#custom-operators):
   - `val` `{any}`: value of the current attribute.
     E.g. `val === 'John'` checks whether the current value equals `'John'`
   - `model` `{object}`: current model.
@@ -88,11 +95,14 @@ first argument, as an object:
     the value before that modification, and `model` after that modification.
     If the current request is creating the model (with a `create` or `upsert`
     action), this will be `undefined`.
-  - `expected` `${any}`: value passed as argument to the custom validation
-    keyword. Only available to
-    [custom validation](validation.md#custom-validation) keyword:
 
-E.g.:
+The following variables are available for more specific cases:
+  - `params`: all [client parameters](#client-parameters)
+  - `arg1`, `arg2`, etc.: see [user variables](#user-variables)
+  - `expected`: see [custom validation](validation.md#custom-validation)
+  - `arg`, `type`: see [custom patch operators](patch.md#custom-operators)
+
+For example:
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
@@ -137,11 +147,11 @@ module.exports = getDefaultValue;
 ```
 
 User variables can be functions themselves:
-  - the other variables will be passed as their first argument, like any
-    other schema function. I.e. user variables can use system variables or
-    each other.
-  - if the function is [inline](#inline-functions), positional arguments will
-    be passed as variables `arg1`, `arg2`, etc.
+  - schema variables (including other user variables) will be passed as
+    the first argument like any other schema function
+  - positional arguments are passed using the variables `arg1`, `arg2`, etc.
+  - schema variables will be available only for user variables that are
+    functions, as opposed to objects with function members.
 
 For example:
 
