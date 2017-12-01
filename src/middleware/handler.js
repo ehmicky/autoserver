@@ -9,14 +9,13 @@ const {
   fireMiddlewareHandler,
   fireMainLayersHandler,
   fireErrorHandler,
-  fireFailureHandler,
 } = require('./error');
 
 // Called once per server startup
 const getRequestHandler = function () {
   // Add performance monitoring
   const allLayersA = middlewareLayers.map(monitorLayers);
-  const requestHandler = eeFireLayers.bind(null, allLayersA);
+  const requestHandler = eFireLayers.bind(null, allLayersA);
   return { requestHandler };
 };
 
@@ -94,7 +93,6 @@ const eFireMainLayers = addErrorHandler(
 
 // Top-level request error handlers
 const eFireLayers = addErrorHandler(fireLayers, fireErrorHandler);
-const eeFireLayers = addErrorHandler(eFireLayers, fireFailureHandler);
 
 module.exports = {
   getRequestHandler,

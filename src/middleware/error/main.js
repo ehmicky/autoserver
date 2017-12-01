@@ -8,7 +8,6 @@ const {
 const { omit } = require('../../utilities');
 
 const { errorHandler } = require('./error_handler');
-const { failureHandler } = require('./failure_handler');
 
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`
@@ -30,9 +29,9 @@ const fireMainLayersHandler = async function (
   // was raised by the final layer itself
   const mInputB = await fireLayer({ allLayers, reqState }, mInputA, 'final');
 
-  addMInput(error, mInputB);
+  const errorA = addMInput(error, mInputB);
 
-  rethrowError(error);
+  rethrowError(errorA);
 };
 
 // Fire request error handlers
@@ -41,20 +40,8 @@ const fireErrorHandler = function (errorA) {
   return errorHandler(mInputA);
 };
 
-const fireFailureHandler = function (errorA) {
-  const mInputA = getErrorMInput({ error: errorA });
-  return failureHandler(mInputA);
-};
-
-// Request error handlers might fail themselves
-const handlerHandler = function (error, errorA) {
-  const errorB = addMInput(error, errorA.mInput);
-
-  rethrowError(errorB);
-};
-
-const eFireErrorHandler = addErrorHandler(fireErrorHandler, handlerHandler);
-const eFireFailureHandler = addErrorHandler(fireFailureHandler, handlerHandler);
+// If error handler itself fails, gives up
+const eFireErrorHandler = addErrorHandler(fireErrorHandler);
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
 const addMInput = function (error, mInput) {
@@ -77,5 +64,4 @@ module.exports = {
   fireMiddlewareHandler,
   fireMainLayersHandler,
   fireErrorHandler: eFireErrorHandler,
-  fireFailureHandler: eFireFailureHandler,
 };
