@@ -13,12 +13,7 @@ const {
   validateInlineFuncs,
   validateJsonSchema,
 } = require('./validate');
-const {
-  addDefaultId,
-  addDefaultDatabase,
-  addDefaultValidate,
-  addDefaultType,
-} = require('./default');
+const { addDefaults } = require('./defaults');
 const {
   normalizeClientCollname,
   addRequiredId,
@@ -47,14 +42,8 @@ const normalizers = [
   // General schema syntax validation
   { type: 'schema', func: validateSchemaSyntax },
 
-  // Default `coll.id` attribute
-  { type: 'coll', func: addDefaultId },
-  // Default `coll.database`
-  { type: 'coll', func: addDefaultDatabase },
-  // Default `attr.type`
-  { type: 'attr', func: addDefaultType },
-  // Default `attr.validate`
-  { type: 'attr', func: addDefaultValidate },
+  // Add default attributes
+  { type: 'schema', func: addDefaults },
 
   // Normalize `coll.name`
   { type: 'coll', func: normalizeClientCollname },
