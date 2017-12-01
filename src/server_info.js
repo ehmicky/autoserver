@@ -10,6 +10,7 @@ const {
   cpus: getCpus,
   networkInterfaces: getNetworkInterfaces,
 } = require('os');
+const { pid } = require('process');
 
 // eslint-disable-next-line import/no-internal-modules
 const uuidv5 = require('uuid/v5');
@@ -85,8 +86,10 @@ const getVersionsInfo = function () {
 };
 
 const getProcessInfo = function ({ host, processName }) {
+  const id = String(pid);
   const name = processName || host.name;
-  return { name };
+
+  return { id, name };
 };
 
 // Information that change across a specific process.

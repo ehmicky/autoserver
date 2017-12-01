@@ -116,8 +116,9 @@ Each event payload comes with a `serverinfo` property, with the properties:
      - `node` `{string}` - Node.js version, e.g. `'v8.0.0'`
      - `apiengine` `{string}` - `apiengine` version, e.g. `'v0.0.1'`
   - `process` `{object}`:
-     - `name`: defaults to system hostname, but can be overriden using
-       the schema property `name`
+     - `id` `{string}`: PID
+     - `name` `{string}`: defaults to system hostname, but can be overriden
+       using the schema property `name`
 
 # Start information
 
