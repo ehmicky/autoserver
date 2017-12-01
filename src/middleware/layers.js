@@ -96,6 +96,8 @@ const middlewareLayers = [
       action.validateArgs,
       // Change arguments cases to camelCase
       action.renameArgs,
+      // Bind user variables with their schema variables
+      action.bindUserVars,
       // Parse `args.filter` and `args.id` into AST
       action.parseFilter,
       // Parse `args.data` into write `actions`

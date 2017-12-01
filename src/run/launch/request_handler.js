@@ -19,8 +19,6 @@ const getRequestHandler = function ({
 const BASE_INPUT_KEYS = [
   'schema',
   'runOpts',
-  'varsRef',
-  'userVars',
   'serverinfo',
   'dbAdapters',
 ];
