@@ -19,7 +19,7 @@ const getConsoleMessage = function ({
   errorinfo,
   timestamp,
   requestinfo,
-  serverinfo: { process: { name: processName } },
+  serverinfo,
 }) {
   const noConsole = NO_CONSOLE_TYPES.includes(type);
   if (noConsole) { return; }
@@ -30,7 +30,7 @@ const getConsoleMessage = function ({
     level,
     timestamp,
     requestinfo,
-    processName,
+    serverinfo,
   });
   const messageA = getMessage({ message, type, phase, errorinfo, requestinfo });
   const durationA = getDuration({ duration });
