@@ -87,7 +87,7 @@ with properties:
   - `message` `{string}` - generic message information
   - `serverinfo` `{object}` - server or
     [host-specific information](#server-information)
-  - `servers` `{object}` - for events of type `start`, see
+  - `protocols` `{object}` - for events of type `start`, see
     [below](#start-information)
   - `exitcodes` `{object}` - for events of type `stop`, contains which
     server successfully exited or not, as `{ http: boolean, ... }`
@@ -123,9 +123,8 @@ Each event payload comes with a `serverinfo` property, with the properties:
 # Start information
 
 Events of type `start` have two additional properties on the event payload:
-  - `servers` `{object}`: list of running servers
+  - `protocols` `{object}`: list of protocols being served
     - `http` `{object}`: HTTP server information
-      - [`protocol`](protocols.md) `{string}`: always `'http'`
       - `hostname` `{string}`
       - `port` `{string}`
   - `exit` `{function}`: performs a clean server shutdown

@@ -4,16 +4,16 @@ const { wrapCloseFunc } = require('./wrapper');
 
 // Attempts to close server
 // No new connections will be accepted, but we will wait for ongoing ones to end
-const closeServer = async function ({
-  server,
-  server: {
+const closeProtocol = async function ({
+  protocol,
+  protocol: {
     protocolHandler: { name, title },
   },
   runOpts,
   schema,
   measures,
 }) {
-  const opts = { server, name, title, runOpts, schema, measures };
+  const opts = { protocol, name, title, runOpts, schema, measures };
   await mEventClose(opts);
   const status = await mStop(opts);
 
@@ -22,7 +22,7 @@ const closeServer = async function ({
 
 // Emit event that graceful exit is ongoing, for each protocol
 const eventClose = function ({
-  server: {
+  protocol: {
     server,
     protocolHandler: { countPendingRequests },
   },
@@ -39,7 +39,7 @@ const mEventClose = wrapCloseFunc(eventClose, {
 
 // Ask each server to stop
 const stop = async function ({
-  server: {
+  protocol: {
     server,
     protocolHandler: { stopServer },
   },
@@ -56,5 +56,5 @@ const mStop = wrapCloseFunc(stop, {
 });
 
 module.exports = {
-  closeServer,
+  closeProtocol,
 };

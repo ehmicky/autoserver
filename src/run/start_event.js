@@ -5,14 +5,14 @@ const { mapValues, omit, pSetTimeout } = require('../utilities');
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({
-  servers,
+  protocols,
   runOpts,
   schema,
   gracefulExit,
   measures,
 }) {
   const message = 'Server is ready';
-  const info = getPayload({ servers, runOpts, gracefulExit });
+  const info = getPayload({ protocols, runOpts, gracefulExit });
   const { duration } = measures.find(({ category }) => category === 'default');
 
   // Let other events finish first
@@ -33,12 +33,12 @@ const emitStartEvent = async function ({
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getPayload = function ({ servers, gracefulExit }) {
-  const serversA = mapValues(
-    servers,
-    serverFacts => omit(serverFacts, ['server', 'protocolHandler']),
+const getPayload = function ({ protocols, gracefulExit }) {
+  const protocolsA = mapValues(
+    protocols,
+    protocol => omit(protocol, ['server', 'protocolHandler']),
   );
-  return { servers: serversA, exit: gracefulExit };
+  return { protocols: protocolsA, exit: gracefulExit };
 };
 
 module.exports = {

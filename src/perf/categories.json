@@ -5,7 +5,7 @@
   "run_opts",
   "schema",
   "databases",
-  "servers",
+  "protocols",
   "middleware",
   "time",
   "protocol",

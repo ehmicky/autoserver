@@ -15,7 +15,7 @@ const launchServer = async function ({
     runOpts,
     handleRequest,
   });
-  return { server: { ...server, protocol, protocolHandler } };
+  return { protocol: { ...server, protocolHandler } };
 };
 
 const eLaunchServer = addGenErrorHandler(launchServer, {

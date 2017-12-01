@@ -3,20 +3,20 @@
 const { monitor, emitPerfEvent } = require('../../perf');
 const { uniq, onlyOnce } = require('../../utilities');
 
-const { closeServer } = require('./server_close');
+const { closeProtocol } = require('./protocol_close');
 const { closeDbAdapter } = require('./db_close');
 const { emitStopEvent } = require('./stop_event');
 
 // Close servers and database connections
 const mmGracefulExit = async function ({
-  servers,
+  protocols,
   dbAdapters,
   runOpts,
   schema,
 }) {
   const measures = [];
   const { exitcodes } = await mGracefulExit({
-    servers,
+    protocols,
     dbAdapters,
     runOpts,
     schema,
@@ -31,14 +31,14 @@ const mmGracefulExit = async function ({
 const oGracefulExit = onlyOnce(mmGracefulExit);
 
 const gracefulExit = async function ({
-  servers,
+  protocols,
   dbAdapters,
   runOpts,
   schema,
   measures,
 }) {
-  const serverPromises = Object.values(servers)
-    .map(server => closeServer({ server, runOpts, schema, measures }));
+  const protocolPromises = Object.values(protocols)
+    .map(protocol => closeProtocol({ protocol, runOpts, schema, measures }));
 
   // The same `dbAdapter` can be used for several models
   const adapters = uniq(Object.values(dbAdapters));
@@ -46,7 +46,10 @@ const gracefulExit = async function ({
   const dbPromises = adapters
     .map(dbAdapter => closeDbAdapter({ dbAdapter, runOpts, schema, measures }));
 
-  const exitcodesArray = await Promise.all([...serverPromises, ...dbPromises]);
+  const exitcodesArray = await Promise.all([
+    ...protocolPromises,
+    ...dbPromises,
+  ]);
   const exitcodes = Object.assign({}, ...exitcodesArray);
 
   return { exitcodes };
