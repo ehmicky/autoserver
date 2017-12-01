@@ -12,8 +12,8 @@ const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
 const { parseSchema } = require('./schema');
 const { connectToDatabases } = require('./database');
-const { launchServers } = require('./launch');
 const { setupGracefulExit } = require('./exit');
+const { launchProtocols } = require('./protocols');
 const { emitStartEvent } = require('./start_event');
 
 const startupSteps = [
@@ -31,8 +31,8 @@ const startupSteps = [
   getServerinfo,
   // Get main request handler
   getRequestHandler,
-  // Boot each server
-  launchServers,
+  // Boot each protocol-specific server
+  launchProtocols,
   // Make sure servers are closed on exit
   setupGracefulExit,
   // Stop monitoring main startup time

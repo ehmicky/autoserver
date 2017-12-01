@@ -9,19 +9,19 @@ const { launchServer } = require('./launch');
 const { startEvent } = require('./event');
 
 // Launch the servers for each protocol
-const launchServers = async function (options) {
+const launchProtocols = async function (options) {
   // Make sure all servers are starting concurrently, not serially
-  const serverFactsPromises = Object.values(protocolHandlers)
-    .map(protocolHandler => kLaunchEachServer(options, protocolHandler));
-  const serverFactsArray = await Promise.all(serverFactsPromises);
+  const protocolPromises = Object.values(protocolHandlers)
+    .map(protocolHandler => kLaunchEachProtocol(options, protocolHandler));
+  const protocolsArray = await Promise.all(protocolPromises);
 
-  const servers = Object.assign({}, ...serverFactsArray);
+  const protocols = Object.assign({}, ...protocolsArray);
 
-  return { servers };
+  return { protocols };
 };
 
 // Launch the server of a given protocol
-const launchEachServer = async function (options, protocolHandler) {
+const launchEachProtocol = async function (options, protocolHandler) {
   const { runOpts, schema, measures } = options;
   const initialInput = {
     protocolHandler,
@@ -31,20 +31,20 @@ const launchEachServer = async function (options, protocolHandler) {
     measures,
     metadata: {},
   };
-  const { server } = await reduceAsync(
+  const { protocol } = await reduceAsync(
     launchers,
     (input, func) => func(input),
     initialInput,
     (input, newInput) => ({ ...input, ...newInput }),
   );
 
-  return { [protocolHandler.name]: server };
+  return { [protocolHandler.name]: protocol };
 };
 
-const kLaunchEachServer = monitor(
-  launchEachServer,
+const kLaunchEachProtocol = monitor(
+  launchEachProtocol,
   (options, { name }) => name,
-  'servers',
+  'protocols',
 );
 
 const launchers = [
@@ -54,5 +54,5 @@ const launchers = [
 ];
 
 module.exports = {
-  launchServers,
+  launchProtocols,
 };
