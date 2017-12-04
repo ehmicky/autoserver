@@ -44,7 +44,6 @@ const findColl = function ({
   }
 
   const { name: [clientCollname] = [] } = collections[childCollname] || {};
-  console.log(childCollname, clientCollname);
 
   return {
     collname: childCollname,

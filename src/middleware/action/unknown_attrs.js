@@ -7,22 +7,19 @@ const { throwError } = require('../../error');
 // schema.
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
-const validateUnknownAttrs = function ({
-  actions,
-  schema: { shortcuts: { collsMap } },
-}) {
-  actions.forEach(action => validateAction({ action, collsMap }));
+const validateUnknownAttrs = function ({ actions, schema }) {
+  actions.forEach(action => validateAction({ action, schema }));
 };
 
-const validateAction = function ({ action, collsMap }) {
-  validateAllAttr({ action, collsMap });
-  validateUnknown({ action, collsMap });
+const validateAction = function ({ action, schema }) {
+  validateAllAttr({ action, schema });
+  validateUnknown({ action, schema });
 };
 
 // Validate correct usage of special key 'all'
 const validateAllAttr = function ({
   action: { select, commandpath, collname },
-  collsMap,
+  schema: { collections },
 }) {
   if (select === undefined) { return; }
 
@@ -31,7 +28,8 @@ const validateAllAttr = function ({
 
   const attr = select
     .filter(({ key }) => key !== 'all')
-    .find(({ key }) => collsMap[collname][key].target === undefined);
+    .find(({ key }) =>
+      collections[collname].attributes[key].target === undefined);
   if (attr === undefined) { return; }
 
   const message = `At '${commandpath.join('.')}': cannot specify both 'all' and '${attr.key}' attributes`;
@@ -39,10 +37,10 @@ const validateAllAttr = function ({
 };
 
 // Validate that arguments's attributes are present in schema
-const validateUnknown = function ({ action, collsMap }) {
+const validateUnknown = function ({ action, schema }) {
   argsToValidate.forEach(({ name, getKeys }) => {
     const keys = getKeys({ action });
-    validateUnknownArg({ keys, action, collsMap, name });
+    validateUnknownArg({ keys, action, schema, name });
   });
 };
 
@@ -77,10 +75,11 @@ const argsToValidate = [
 const validateUnknownArg = function ({
   keys,
   action: { commandpath, collname },
-  collsMap,
+  schema: { collections },
   name,
 }) {
-  const keyA = keys.find(key => collsMap[collname][key] === undefined);
+  const keyA = keys
+    .find(key => collections[collname].attributes[key] === undefined);
   if (keyA === undefined) { return; }
 
   const path = [...commandpath.slice(1), keyA].join('.');
