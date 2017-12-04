@@ -6,7 +6,7 @@ const invertOperator = {
 
   argument: ['empty'],
 
-  apply ({ val: attrVal = false }) {
+  apply ({ value: attrVal = false }) {
     return !attrVal;
   },
 };

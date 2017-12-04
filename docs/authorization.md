@@ -86,8 +86,8 @@ Using this feature allows you to define
 [access control lists](https://en.wikipedia.org/wiki/Access_control_list)
 restricting the permissions of a model based on the value of its attributes.
 
-Functions cannot use the variables `model`, `val`, `previousmodel` nor
-`previousval`. However, it is possible to target another attribute by using
+Functions cannot use the variables `model`, `value`, `previousmodel` nor
+`previousvalue`. However, it is possible to target another attribute by using
 a `model.ATTRIBUTE` string as value, e.g.:
 
 ```yml

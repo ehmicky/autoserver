@@ -328,7 +328,7 @@ It is possible to specify custom patch operators with the schema property
 ```yml
 operators:
   __power:
-    apply: (val ** (arg || 1))
+    apply: (value ** (arg || 1))
     attribute: [number, integer]
     argument: [number, integer, empty]
 ```
@@ -344,7 +344,7 @@ It must return the new value after the transformation has been applied.
 Besides the regular
 [schema function variables](functions.md#schema-functions-variables), the
 following variables can be used:
-  - `val`: the current value of the attribute, i.e. before transformation
+  - `value`: the current value of the attribute, i.e. before transformation
   - `arg`: the argument passed to the patch operator
   - `type`: the attribute's type, e.g. `string` or `integer`
 
@@ -387,7 +387,7 @@ If the validation succeeds, it should not return anything. Otherwise, it
 should return the error message as a string.
 
 The same [schema function variables](functions.md#schema-functions-variables)
-as `apply` are available, with the exception of `val`.
+as `apply` are available, with the exception of `value`.
 
 ## Throwing errors
 
@@ -397,7 +397,7 @@ Use the `attribute`, `argument` and `check` properties for validation instead.
 ## Empty values
 
 When defining the `apply` and `check` properties, remember that:
-  - the `val` variable might be `undefined`, unless the attribute is a
+  - the `value` variable might be `undefined`, unless the attribute is a
     required attribute.
   - the operator's argument can only be `null` if the `argument` property is
     omitted or if it specifies `empty`. When the argument is `empty`, the
