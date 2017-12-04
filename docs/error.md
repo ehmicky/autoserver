@@ -54,11 +54,11 @@ For example:
     "charset": "utf-8",
     "compress": "gzip,identity",
     "rpc": "rest",
-    "summary": "find_users",
+    "summary": "users",
     "args": {
       "id": "20"
     },
-    "commandpath": "find_users",
+    "commandpath": "users",
     "collection": "users",
     "command": "find"
   },
