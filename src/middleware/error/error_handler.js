@@ -14,9 +14,11 @@ const errorHandler = async function ({
   // Make sure a response is sent, even empty, or the socket will hang
   await protocolHandler.send({ specific, content: '', contentLength: 0 });
 
+  const mInputA = { ...DEFAULT_MINPUT, ...mInput };
+
   // Report any exception thrown
   await emitEvent({
-    mInput,
+    mInput: mInputA,
     type: 'failure',
     phase: 'request',
     level: 'error',
@@ -24,6 +26,10 @@ const errorHandler = async function ({
     runOpts,
     schema,
   });
+};
+
+const DEFAULT_MINPUT = {
+  status: 'SERVER_ERROR',
 };
 
 module.exports = {

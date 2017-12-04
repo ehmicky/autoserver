@@ -3,8 +3,7 @@
 const { decode } = require('iconv-lite');
 
 const { addGenErrorHandler } = require('../../../error');
-const { parse, DEFAULT_FORMAT } = require('../../../formats');
-const { DEFAULT_INPUT_CHARSET } = require('../../../charsets');
+const { parse } = require('../../../formats');
 
 const { getRawPayload } = require('./raw');
 const { decompressPayload } = require('./decompress');
@@ -17,8 +16,8 @@ const parsePayload = function ({
   specific,
   protocolHandler,
   runOpts,
-  charset = DEFAULT_INPUT_CHARSET,
-  format = DEFAULT_FORMAT,
+  charset,
+  format,
   compressRequest,
 }) {
   if (!protocolHandler.hasPayload({ specific })) { return; }

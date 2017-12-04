@@ -1,17 +1,15 @@
 'use strict';
 
-const { buildRequestinfo } = require('./builder');
 const { reduceInput } = require('./input');
 const { reduceAllModels } = require('./models');
 
 // Builds `requestinfo` object, which contains request-related information.
-const getRequestinfo = function ({ mInput, phase }) {
+const getRequestinfo = function ({ eventPayload, phase }) {
   if (phase !== 'request') { return; }
 
-  const requestinfo = buildRequestinfo(mInput);
   return processors.reduce(
     (requestinfoA, processor) => processor(requestinfoA),
-    requestinfo,
+    eventPayload,
   );
 };
 

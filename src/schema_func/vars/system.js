@@ -11,11 +11,26 @@ const rpcs = Object.keys(rpcHandlers);
 // We need to specify their `type` and `isArray` for `coll.authorize`
 // validation
 const SYSTEM_VARS = {
-  protocol: { type: 'string', validation: { enum: protocols } },
-  timestamp: { type: 'string' },
-  ip: { type: 'string' },
   requestid: { type: 'string' },
+  timestamp: { type: 'string' },
+  protocol: { type: 'string', validation: { enum: protocols } },
+  ip: { type: 'string' },
+  origin: { type: 'string' },
+  path: { type: 'string' },
+  method: { type: 'string' },
+  queryvars: { type: 'dynamic' },
+  headers: { type: 'dynamic' },
+  format: { type: 'string' },
+  charset: { type: 'string' },
+  compress: { type: 'string' },
+  payload: { type: 'dynamic' },
   rpc: { type: 'string', validation: { enum: rpcs } },
+  args: { type: 'dynamic' },
+  params: { type: 'dynamic' },
+  summary: { type: 'string' },
+  commandpaths: { type: 'string', isArray: true },
+  commandpath: { type: 'string' },
+  collections: { type: 'string', isArray: true },
   collection: { type: 'string' },
   command: {
     type: 'string',
@@ -34,9 +49,18 @@ const SYSTEM_VARS = {
       ],
     },
   },
-  args: { type: 'dynamic' },
-  params: { type: 'dynamic' },
 };
+
+// Those system variables are set after the database response
+const LATER_SYSTEM_VARS = [
+  'duration',
+  'status',
+  'responsedata',
+  'responsetype',
+  'metadata',
+  'modelscount',
+  'uniquecount',
+];
 
 const POSITIONAL_VARS = [
   'arg1',
@@ -62,6 +86,7 @@ const TEMP_SYSTEM_VARS = [
 
 module.exports = {
   SYSTEM_VARS,
+  LATER_SYSTEM_VARS,
   POSITIONAL_VARS,
   TEMP_SYSTEM_VARS,
 };

@@ -20,6 +20,7 @@ const handleContentNegotiation = function ({
   const {
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
+    compress: compressA,
   } = getCompress({ queryvars, compressResponse, compressRequest });
 
   const queryvarsA = omit(queryvars, ['format', 'charset', 'compress']);
@@ -30,6 +31,7 @@ const handleContentNegotiation = function ({
     charset: charsetA,
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
+    compress: compressA,
   };
 };
 
