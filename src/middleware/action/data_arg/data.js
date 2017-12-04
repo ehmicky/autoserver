@@ -9,15 +9,15 @@ const { addDefaultIds } = require('./default_id');
 const { isModel } = require('./nested');
 
 // Validates `args.data` and adds default ids.
-const parseData = function ({ data, schema, ...rest }) {
+const parseData = function ({ data, ...rest }) {
   const { collname } = getColl(rest);
 
   if (!Array.isArray(data)) {
-    return parseDatum({ datum: data, collname, schema, ...rest });
+    return parseDatum({ datum: data, collname, ...rest });
   }
 
-  return data.map((datum, index) =>
-    parseDatum({ datum, index, collname, schema, ...rest }));
+  return data
+    .map((datum, index) => parseDatum({ datum, index, collname, ...rest }));
 };
 
 const parseDatum = function ({
@@ -54,7 +54,6 @@ const parseAttr = function ({
   top,
   mInput,
   maxAttrValueSize,
-  collsMap,
   schema,
   collname,
   ...rest
@@ -72,7 +71,7 @@ const parseAttr = function ({
   });
 
   const isNested = isModelsType(obj) &&
-    isModel({ attrName, commandpath, top, collsMap });
+    isModel({ attrName, commandpath, top, schema });
   if (!isNested) { return obj; }
 
   return parseData({
@@ -81,7 +80,6 @@ const parseAttr = function ({
     attrName,
     top,
     maxAttrValueSize,
-    collsMap,
     schema,
     mInput,
     ...rest,

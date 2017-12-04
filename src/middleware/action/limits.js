@@ -41,13 +41,13 @@ const validateNestedFind = function ({ limits, actions, top, schema }) {
 
 const isTooNestedFind = function ({
   action: { commandpath },
-  schema: { shortcuts: { collsMap } },
+  schema,
   top,
   limits: { maxFindManyDepth },
 }) {
   if (commandpath.length <= maxFindManyDepth) { return false; }
 
-  const { multiple } = getColl({ commandpath, collsMap, top });
+  const { multiple } = getColl({ commandpath, top, schema });
   return multiple;
 };
 

@@ -3,7 +3,7 @@
 // Turn a `commandpath` into a `collname`, using schema information
 const getColl = function ({
   commandpath,
-  collsMap,
+  schema,
   top: { collname, clientCollname, command: { multiple } },
 }) {
   const commandpathA = commandpath
@@ -17,30 +17,38 @@ const getColl = function ({
     return { collname, clientCollname, multiple };
   }
 
-  return findColl({ collsMap, collname, commandpath: commandpathA });
+  return findColl({ schema, collname, commandpath: commandpathA });
 };
 
-// Recurse over `collsMap`, using `commandpath`
-const findColl = function ({ collsMap, collname, commandpath }) {
+// Recurse over `schema.collections`, using `commandpath`
+const findColl = function ({
+  schema,
+  schema: { collections },
+  collname,
+  commandpath,
+}) {
   const [attrName, ...childCommandpath] = commandpath;
-  const collnameA = collsMap[collname][attrName];
+  const coll = collections[collname].attributes[attrName];
 
   // Erronous `commandpath`
-  if (collnameA === undefined) { return; }
+  if (coll === undefined) { return; }
 
-  const { target: childCollname, clientTarget, isArray } = collnameA;
+  const { target: childCollname, isArray } = coll;
 
   if (childCommandpath.length !== 0) {
     return findColl({
-      collsMap,
+      schema,
       collname: childCollname,
       commandpath: childCommandpath,
     });
   }
 
+  const { name: [clientCollname] = [] } = collections[childCollname] || {};
+  console.log(childCollname, clientCollname);
+
   return {
     collname: childCollname,
-    clientCollname: clientTarget,
+    clientCollname,
     multiple: isArray,
   };
 };
