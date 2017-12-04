@@ -1,25 +1,14 @@
 'use strict';
 
-const { pSetTimeout, identity } = require('../utilities');
-
 const { LEVELS } = require('./constants');
 const { getPayload } = require('./payload');
 const { consolePrint } = require('./console');
 const { fireEvent } = require('./fire');
 
-// `await emitEvent({})` should not block, except when we want the return value
-const emitEvent = function ({ async = true, ...rest }) {
-  if (!async) {
-    return emit({ async, ...rest });
-  }
-
-  emit({ async, ...rest }).catch(identity);
-};
-
 // Emit some event, i.e.:
 //  - fire `run` option `events.EVENT(info)`
 //  - print to console
-const emit = async function ({
+const emitEvent = async function ({
   mInput,
   errorinfo,
   type,
@@ -30,7 +19,6 @@ const emit = async function ({
   runOpts = {},
   schema,
   duration,
-  async,
   delay,
   noHandling,
 }) {
@@ -38,11 +26,6 @@ const emit = async function ({
 
   const noEvents = !shouldEmit({ runOpts, level: levelA });
   if (noEvents) { return; }
-
-  // Event emitting has low priority, so run this in a different macrotask
-  if (async) {
-    await pSetTimeout(0, { unref: false });
-  }
 
   const eventPayload = getPayload({
     mInput,
