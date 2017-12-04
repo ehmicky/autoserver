@@ -20,7 +20,6 @@ const emitEvent = async function ({
   schema,
   duration,
   delay,
-  noHandling,
 }) {
   const levelA = getLevel({ level, type });
 
@@ -48,7 +47,6 @@ const emitEvent = async function ({
     eventPayload,
     delay,
     emitEvent,
-    noHandling,
   });
 
   return eventPayload;
