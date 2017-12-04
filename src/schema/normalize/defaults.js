@@ -1,6 +1,7 @@
 'use strict';
 
 const { expandPath, has, set } = require('../../utilities');
+const { DEFAULT_DATABASE } = require('../../database');
 
 // Add schema default values
 const addDefaults = function ({ schema }) {
@@ -28,7 +29,7 @@ const applyDefaultValue = function ({ schema, key, value }) {
 
 // Order matters, as they are applied serially
 const DEFAULT_VALUES = [
-  { key: 'collections.*.database', value: 'memory' },
+  { key: 'collections.*.database', value: DEFAULT_DATABASE.name },
   {
     key: 'collections.*.attributes.id',
     value: { description: 'Unique identifier' },
