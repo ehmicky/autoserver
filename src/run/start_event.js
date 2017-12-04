@@ -25,7 +25,6 @@ const emitStartEvent = async function ({
     info,
     runOpts,
     schema,
-    async: false,
     duration,
   });
   return { startPayload };
