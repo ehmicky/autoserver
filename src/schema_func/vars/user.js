@@ -12,7 +12,7 @@ const getUserVars = function ({ schema: { variables }, mInput }) {
   // Only pass schema variables to schema.variables.* not schema.variables.*.*
   const userVars = mapValues(
     variables,
-    userVar => getUserVar({ vars, userVar }),
+    userVar => bindUserVar({ userVar, vars }),
   );
 
   // Allow user variables to call each other
@@ -22,11 +22,15 @@ const getUserVars = function ({ schema: { variables }, mInput }) {
   return userVars;
 };
 
-const getUserVar = function ({ vars, userVar }) {
+// Add schema variable to every user variable that is a function, as a first
+// bound parameter
+const bindUserVar = function ({ userVar, vars }) {
   // Constants are left as is, including object containing functions
   if (typeof userVar !== 'function') { return userVar; }
 
-  const userVarA = runUserVar.bind(null, { userVar, vars });
+  // Same as `userVar.bind(null, vars)`, except works when `userVar` is both
+  // a function and an object with a `bind` member, e.g. Lodash main object.
+  const userVarA = Function.prototype.bind.call(userVar, null, vars);
 
   // Keep static member
   // E.g. Underscore/Lodash main exported object is both a function and an
@@ -35,22 +39,6 @@ const getUserVar = function ({ vars, userVar }) {
   Object.assign(userVarA, userVar);
 
   return userVarA;
-};
-
-// When consumer fires userVar('a', 'b'), inline function translates 'a' and 'b'
-// into arg1 and arg2 variables, and runSchemaFunc() is performed.
-// arg1, etc. are passed both as named arguments and positional arguments.
-// We do not use `...args` as a performance optimization
-// eslint-disable-next-line max-params
-const runUserVar = function (
-  { userVar, vars },
-  arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9,
-) {
-  // Make a shallow copy of `vars`, to avoid `userVar()` from creating
-  // side-effects influencing another user variable
-  const varsA = { ...vars };
-
-  return userVar(varsA, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
 };
 
 module.exports = {
