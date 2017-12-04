@@ -34,9 +34,9 @@ const getCommandpaths = function ({ actions }) {
   return actions.map(({ commandpath }) => commandpath.join('.'));
 };
 
-// List of all actions's `clientCollname`
+// List of all actions's `collname`
 const getCollections = function ({ actions }) {
-  return actions.map(({ clientCollname }) => clientCollname);
+  return actions.map(({ collname }) => collname);
 };
 
 module.exports = {
