@@ -67,7 +67,6 @@ to accomodate the
 [GraphQL spec](https://facebook.github.io/graphql/#sec-Errors):
   - `error` is called `errors`, and is an array containing a single object.
   - `description` is named `message`
-  - `metadata` is named `extensions`
 
 For example:
 
@@ -80,27 +79,7 @@ For example:
       "title": "Model not found",
       "type": "DB_MODEL_NOT_FOUND",
       "status": 404,
-      "instance": "/graphql",
-      "origin": "http://localhost:5001",
-      "protocol": "http",
-      "method": "GET",
-      "queryvars": {},
-      "headers": {},
-      "payloadsize": 483,
-      "format": "json",
-      "charset": "utf-8",
-      "compress": "gzip,identity",
-      "rpc": "graphql",
-      "args": {
-        "id": "20",
-        "select": "id"
-      },
-      "summary": "users",
-      "commandpaths": ["users"],
-      "commandpath": "users",
-      "collections": ["users"],
-      "collection": "users",
-      "command": "find"
+      "instance": "/graphql"
     }
   ],
   "extensions": {

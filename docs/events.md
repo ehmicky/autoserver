@@ -3,7 +3,7 @@
 Events are fired under the following circumstances, called "types":
   - `start`: the server is ready
   - `stop`: the server has exited
-  - `failure`: a client-side or server-side error occured
+  - `failure`: a server-side error occured
   - `call`: a request has completed, i.e. a response was sent back to the
     client (whether successful or not)
   - `message`: generic message
@@ -85,14 +85,16 @@ with properties:
     `'failure'`, `'call'` or `'perf'`
   - [`level`](#levels) `{string}` - `'info'`, `'log'`, `'warn'` or `'error'`
   - `message` `{string}` - generic message information
+  - `error` `{object}` -
+    [exception object](error.md#exceptions-thrown-in-the-server). Only for
+    events of type `failure` or `request` if a client-side or server-side error
+    occurred.
   - `serverinfo` `{object}` - server or
     [host-specific information](#server-information)
   - `protocols` `{object}` - for events of type `start`, see
     [below](#start-information)
   - `exitcodes` `{object}` - for events of type `stop`, contains which
     server successfully exited or not, as `{ http: boolean, ... }`
-  - `errorinfo` `{object}` - [error information](#error-information),
-    for events of type `failure`
   - `requestinfo` `{object}` -
     [request-specific information](#request-information), for events during the
     `request` phase
@@ -130,14 +132,6 @@ Events of type `start` have two additional properties on the event payload:
   - `exit` `{function}`: performs a clean server shutdown
 
 The full `start` event payload is also available as the resolved value of
-the promise returned by [`apiServer.start()`](run.md#running-the-server).
-
-# Error information
-
-Events of type `failure` have an `errorinfo` property on the event payload,
-with an [exception object](error.md#exceptions-thrown-in-the-server).
-
-The full `failure` event payload is also available as the rejected value of
 the promise returned by [`apiServer.start()`](run.md#running-the-server).
 
 # Request information
@@ -192,7 +186,6 @@ event payload, with the properties:
   - `metadata` `{object}` - response's metadata
   - `modelscount` `{number}` - number of models returned, including nested ones
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
-  - `error` `{string}` - error type, if there was an error
 
 The properties `commandpath` and `collection` are only set if the request
 failed while performing a command.
