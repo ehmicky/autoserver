@@ -1,7 +1,7 @@
 'use strict';
 
-const { addErrorHandler, normalizeError } = require('../error');
-const { makeImmutable } = require('../utilities');
+const { addErrorHandler, normalizeError, rethrowError } = require('../error');
+const { makeImmutable, identity } = require('../utilities');
 
 // Fire event handler
 const fireEvent = async function ({ type, eventPayload, runOpts }) {
@@ -23,22 +23,25 @@ const fireSingleEvent = async function ({
   await eventHandler(eventPayloadA);
 };
 
-const handleEventError = async function (
-  error,
-  { runOpts, schema, emitEvent, noHandling },
+const handleEventError = function (
+  errorObj,
+  { runOpts, schema, type, emitEvent },
 ) {
-  // If error handler of error handler fails itself, give up
-  if (noHandling) { return; }
+  // Failure events are at the top of code stacks. They should not throw.
+  if (type === 'failure') { return; }
 
-  const errorA = normalizeError({ error, reason: 'EVENT_ERROR' });
-  await emitEvent({
+  const error = normalizeError({ error: errorObj, reason: 'EVENT_ERROR' });
+  // Give up if error handler fails
+  // I.e. we do not need to `await` this
+  emitEvent({
     type: 'failure',
     phase: 'process',
     runOpts,
     schema,
-    errorinfo: errorA,
-    noHandling: true,
-  });
+    errorinfo: error,
+  }).catch(identity);
+
+  rethrowError(errorObj);
 };
 
 const eFireEvent = addErrorHandler(fireEvent, handleEventError);
