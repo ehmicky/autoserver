@@ -91,12 +91,12 @@ For example:
       "charset": "utf-8",
       "compress": "gzip,identity",
       "rpc": "graphql",
-      "summary": "find_users",
+      "summary": "users",
       "args": {
         "id": "20",
         "select": "id"
       },
-      "commandpath": "find_users",
+      "commandpath": "users",
       "collection": "users",
       "command": "find"
     }

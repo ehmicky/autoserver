@@ -22,8 +22,8 @@ const getColl = function ({
 
 // Recurse over `collsMap`, using `commandpath`
 const findColl = function ({ collsMap, collname, commandpath }) {
-  const [commandName, ...childCommandpath] = commandpath;
-  const collnameA = collsMap[collname][commandName];
+  const [attrName, ...childCommandpath] = commandpath;
+  const collnameA = collsMap[collname][attrName];
 
   // Erronous `commandpath`
   if (collnameA === undefined) { return; }

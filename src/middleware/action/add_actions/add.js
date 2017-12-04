@@ -5,6 +5,7 @@ const {
   getWordsList,
   flatten,
   omit,
+  uniq,
 } = require('../../../utilities');
 const { throwError } = require('../../../error');
 
@@ -57,8 +58,9 @@ const getWrongPaths = function ({ actions, values }) {
   const valuePathsA = flatten(valuePaths);
   const valuePathsB = valuePathsA
     .map(valuePath => getCommandpath(valuePath.split('.')));
+  const valuePathsC = uniq(valuePathsB);
 
-  const wrongPaths = difference(valuePathsB, actionPaths);
+  const wrongPaths = difference(valuePathsC, actionPaths);
   return wrongPaths;
 };
 
