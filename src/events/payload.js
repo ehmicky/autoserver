@@ -10,7 +10,6 @@ const { getRequestinfo } = require('./request_info');
 const getPayload = function ({
   mInput,
   errorinfo,
-  runOpts,
   schema,
   type,
   phase,
@@ -19,7 +18,7 @@ const getPayload = function ({
   info = {},
 }) {
   const errorinfoA = getStandardError({ error: errorinfo, mInput });
-  const requestinfo = getRequestinfo({ mInput, phase, runOpts });
+  const requestinfo = getRequestinfo({ mInput, phase });
 
   const timestamp = getTimestamp({ requestinfo });
 
