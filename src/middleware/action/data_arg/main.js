@@ -23,7 +23,7 @@ const getDataAction = function ({
   top: { command },
   action: { args: { data }, commandpath },
   schema,
-  schema: { shortcuts: { collsMap, userDefaultsMap } },
+  schema: { shortcuts: { userDefaultsMap } },
   mInput,
   runOpts,
   dbAdapters,
@@ -41,7 +41,6 @@ const getDataAction = function ({
     mInput,
     maxAttrValueSize,
     schema,
-    collsMap,
     userDefaultsMap,
     dbAdapters,
   });
@@ -51,7 +50,7 @@ const getDataAction = function ({
     commandpath,
     dataPaths,
     top,
-    collsMap,
+    schema,
   });
 
   return newActions;
