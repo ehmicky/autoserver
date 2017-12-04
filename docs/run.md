@@ -5,6 +5,9 @@ Execute the [`run` instruction](usage.md), e.g. `apiengine.run()`.
 This function returns a promise, which resolves with the same value as the
 [`start` event payload](events.md#start-information).
 
+If an error occurred, the promise will be rejected with an
+[exception object](error.md#exceptions-thrown-in-the-server).
+
 The [`start` event payload](events.md#start-information) contains an `exit`
 function which performs a clean server shutdown.
 
@@ -20,7 +23,7 @@ apiengine.run()
   .then(({ protocols, exit }) => {
     console.log('Success');
   })
-  .catch(({ errorinfo }) => {
+  .catch(({ error }) => {
     console.log('Failure');
   });
 ```

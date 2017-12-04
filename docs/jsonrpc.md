@@ -67,26 +67,7 @@ to accomodate the JSON-RPC spec:
       "type": "DB_MODEL_NOT_FOUND",
       "title": "Model not found",
       "status": "CLIENT_ERROR",
-      "instance": "/jsonrpc",
-      "origin": "http://localhost:5001",
-      "protocol": "http",
-      "method": "POST",
-      "queryvars": {},
-      "headers": {},
-      "payloadsize": 483,
-      "format": "json",
-      "charset": "utf-8",
-      "compress": "gzip,identity",
-      "rpc": "jsonrpc",
-      "args": {
-        "id": "20"
-      },
-      "summary": "users",
-      "commandpaths": ["users"],
-      "commandpath": "users",
-      "collections": ["users"],
-      "collection": "users",
-      "command": "find"
+      "instance": "/jsonrpc"
     },
     "metadata": {
   		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812"

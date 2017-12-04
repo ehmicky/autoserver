@@ -102,25 +102,7 @@ REST error responses follow the usual error
     "title": "Model not found",
     "description": "The 'users' model with 'id' '20' could not be found",
     "status": "CLIENT_ERROR",
-    "instance": "/rest/users/20",
-    "origin": "http://localhost:5001",
-    "protocol": "http",
-    "method": "GET",
-    "queryvars": {},
-    "headers": {},
-    "format": "json",
-    "charset": "utf-8",
-    "compress": "gzip,identity",
-    "rpc": "rest",
-    "args": {
-      "id": "20"
-    },
-    "summary": "users",
-    "commandpaths": ["users"],
-    "commandpath": "users",
-    "collections": ["users"],
-    "collection": "users",
-    "command": "find"
+    "instance": "/rest/users/20"
   },
   "metadata": {
 		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812"

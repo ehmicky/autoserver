@@ -10,32 +10,12 @@ Exceptions try to follow [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt):
   - `status` `{string}`: `'CLIENT_ERROR'` or `'SERVER_ERROR'`
   - `instance` `{string}`: URL path that was called
   - `details` `{string}`: stack trace
+  - additional properties might be present, depending on the error type
 
 # Error responses, sent to clients
 
-Error responses contain a single `error` property, with same properties
+Error responses contain an `error` property with the same properties as
 [exceptions](#exceptions), except `details`.
-
-The following properties may also appear, depending on when the error happened:
-  - `origin` `{string}`
-  - [`protocol`](protocols.md) `{string}`
-  - `method` `{string}`
-  - `queryvars` `{object}`
-  - `headers` `{object}`
-  - `payloadsize` `{integer}` - `undefined` if no payload was sent
-  - [`format`](formats.md) `{string}`
-  - [`charset`](formats.md#charsets) `{string}`
-  - [`compress`](compression.md) `{string}`
-  - [`rpc`](rpc.md) `{string}`
-  - `args` `{object}`
-  - `summary` `{string}`
-  - `commandpaths` `{string}`
-  - `commandpath` `{string}`
-  - `collections` `{string}`
-  - `collection` `{string}`
-  - `command` `{string}`
-
-Additional properties specific to a given error type might also be present.
 
 For example:
 
@@ -46,25 +26,7 @@ For example:
     "title": "Model not found",
     "description": "The 'users' model with 'id' '20' could not be found",
     "status": "CLIENT_ERROR",
-    "instance": "/rest/users/20",
-    "origin": "http://localhost:5001",
-    "protocol": "http",
-    "method": "GET",
-    "queryvars": {},
-    "headers": {},
-    "format": "json",
-    "charset": "utf-8",
-    "compress": "gzip,identity",
-    "rpc": "rest",
-    "args": {
-      "id": "20"
-    },
-    "summary": "users",
-    "commandpaths": ["users"],
-    "commandpath": "users",
-    "collections": ["users"],
-    "collection": "users",
-    "command": "find"
+    "instance": "/rest/users/20"
   },
   "metadata": {
 		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812"
