@@ -11,30 +11,17 @@ const { getRequestMessage } = require('./request_message');
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
 const getConsoleMessage = function ({
+  type,
+  phase,
   message,
   duration,
-  eventPayload: {
-    type,
-    phase,
-    level,
-    error,
-    timestamp,
-    requestinfo,
-    serverinfo,
-  },
+  eventPayload,
 }) {
   const noConsole = NO_CONSOLE_TYPES.includes(type);
   if (noConsole) { return; }
 
-  const prefix = getPrefix({
-    type,
-    phase,
-    level,
-    timestamp,
-    requestinfo,
-    serverinfo,
-  });
-  const messageA = getMessage({ message, type, phase, error, requestinfo });
+  const prefix = getPrefix({ eventPayload });
+  const messageA = getMessage({ eventPayload, type, phase, message });
   const durationA = getDuration({ duration });
 
   const messageC = `${prefix} ${durationA} ${messageA}`;
@@ -42,11 +29,11 @@ const getConsoleMessage = function ({
 };
 
 const getMessage = function ({
-  message = '',
+  eventPayload,
+  eventPayload: { error },
   type,
   phase,
-  error,
-  requestinfo,
+  message = '',
 }) {
   if (type === 'failure') {
     const errorMessage = getErrorMessage({ error });
@@ -54,7 +41,7 @@ const getMessage = function ({
   }
 
   if (type === 'call' && phase === 'request') {
-    return getRequestMessage({ requestinfo, error });
+    return getRequestMessage(eventPayload);
   }
 
   return message;

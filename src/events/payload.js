@@ -30,7 +30,7 @@ const getPayload = function ({
     phase,
     level,
     message,
-    requestinfo,
+    ...requestinfo,
     error: errorA,
     timestamp,
     serverinfo,
