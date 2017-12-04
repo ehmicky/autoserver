@@ -15,7 +15,7 @@ const getWordsList = function (
 
   const wordsA = jsonStringify(words, { json });
   const wordsB = quoteWords(wordsA, { quotes });
-  const wordsC = toSentence(wordsB, ', ', `, ${op} `);
+  const wordsC = toSentence(wordsB, ', ', ` ${op} `);
   return wordsC;
 };
 
