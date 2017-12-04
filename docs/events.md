@@ -170,14 +170,15 @@ event payload, with the properties:
   - `payloadcount` `{number}` - array length, if it is an array
   - [`rpc`](rpc.md) `{string}` - among `'graphql'`, `'graphiql'`,
     `'graphqlprint'`, `'rest'` or `'jsonrpc'`
-  - `summary` `${string}` - summary of the request, e.g. 'collection{child}'
   - `args` `${object}` - [arguments](rpc.md#rpc)
   - `args.datasize` `{number}` - size of `data`
     [argument](rpc.md#rpc), in bytes
   - `args.datacount` `{number}` - array length of `data` argument,
     if it is an array
+  - `summary` `{string}` - summary of the request, e.g. 'collection{child}'
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
     e.g. `'collection.child'`
+  - `commandpaths` `{string[]}` - array with all `commandpath`
   - [`command`](terminology.md#command) `${string}` - `'create'`, `'find'`,
     `'upsert'`, `'patch'` and `'delete'`.
   - `collection` `${string}` - current
