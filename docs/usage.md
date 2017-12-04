@@ -20,7 +20,7 @@ The server can also be used from Node.js:
 ```javascript
 const apiengine = require('apiengine');
 
-apiengine.run({ ...options });
+apiengine.run(options);
 ```
 
 Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.
