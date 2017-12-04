@@ -20,10 +20,10 @@ const errorHandler = async function ({
   // This is unclear why, but doing this solves the problem.
   await pSetTimeout(0);
 
-  await reportError({ runOpts, schema, level, error, mInput });
-
   // Make sure a response is sent, even empty, or the socket will hang
   await protocolHandler.send({ specific, content: '', contentLength: 0 });
+
+  await reportError({ runOpts, schema, level, error, mInput });
 };
 
 // Report any exception thrown
