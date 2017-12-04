@@ -7,7 +7,7 @@ const getColl = function ({
   top: { collname, clientCollname, command: { multiple } },
 }) {
   const commandpathA = commandpath
-    // The first element is the top-level `commandName`, not useful here
+    // The first element is the top-level collection, not useful here
     .slice(1)
     // Ignore array indices
     .filter(key => typeof key !== 'number');
