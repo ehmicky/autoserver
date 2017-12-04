@@ -36,7 +36,7 @@ const slicestrOperator = {
 
   attribute: ['string'],
 
-  apply ({ val: attrVal = '', arg: [start, end] }) {
+  apply ({ value: attrVal = '', arg: [start, end] }) {
     return sliceApply({ attrVal, start, end });
   },
 };
@@ -47,7 +47,7 @@ const sliceOperator = {
 
   attribute: ANY_ARRAY,
 
-  apply ({ val: attrVal = [], arg: [start, end] }) {
+  apply ({ value: attrVal = [], arg: [start, end] }) {
     return sliceApply({ attrVal, start, end });
   },
 };
@@ -74,7 +74,7 @@ const insertstrOperator = {
     return 'the argument must be an array with one integer (the index) and a string';
   },
 
-  apply ({ val: attrVal = '', arg: [index, str] }) {
+  apply ({ value: attrVal = '', arg: [index, str] }) {
     const { start, end } = insertApply({ index, attrVal });
     return `${start}${str}${end}`;
   },
@@ -93,7 +93,7 @@ const insertOperator = {
     return 'the argument\'s first value must be an integer (the index)';
   },
 
-  apply ({ val: attrVal = [], arg: [index, ...values] }) {
+  apply ({ value: attrVal = [], arg: [index, ...values] }) {
     const { start, end } = insertApply({ index, attrVal });
     return [...start, ...values, ...end];
   },

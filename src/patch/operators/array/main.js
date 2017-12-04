@@ -20,7 +20,7 @@ const commonEmptyAttrs = {
 const pushOperator = {
   ...commonAttrs,
 
-  apply ({ val: attrVal = [], arg: opVal = [] }) {
+  apply ({ value: attrVal = [], arg: opVal = [] }) {
     return [...attrVal, ...opVal];
   },
 };
@@ -29,7 +29,7 @@ const pushOperator = {
 const unshiftOperator = {
   ...commonAttrs,
 
-  apply ({ val: attrVal = [], arg: opVal = [] }) {
+  apply ({ value: attrVal = [], arg: opVal = [] }) {
     return [...opVal, ...attrVal];
   },
 };
@@ -38,7 +38,7 @@ const unshiftOperator = {
 const popOperator = {
   ...commonEmptyAttrs,
 
-  apply ({ val: attrVal = [] }) {
+  apply ({ value: attrVal = [] }) {
     return attrVal.slice(0, -1);
   },
 };
@@ -47,7 +47,7 @@ const popOperator = {
 const shiftOperator = {
   ...commonEmptyAttrs,
 
-  apply ({ val: attrVal = [] }) {
+  apply ({ value: attrVal = [] }) {
     return attrVal.slice(1);
   },
 };
@@ -56,7 +56,7 @@ const shiftOperator = {
 const removeOperator = {
   ...commonAttrs,
 
-  apply ({ val: attrVal = [], arg: opVal = [] }) {
+  apply ({ value: attrVal = [], arg: opVal = [] }) {
     return difference(attrVal, opVal);
   },
 };
@@ -73,7 +73,7 @@ const sortOperator = {
     return 'the argument\'s value must be \'asc\' or \'desc\'';
   },
 
-  apply ({ val: attrVal = [], arg: order = 'asc' }) {
+  apply ({ value: attrVal = [], arg: order = 'asc' }) {
     const attrValA = sortArray(attrVal);
     return order === 'asc' ? attrValA : reverseArray(attrValA);
   },

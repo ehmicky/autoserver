@@ -17,7 +17,7 @@ const replaceOperator = {
     return validateRegExp({ opVal });
   },
 
-  apply ({ val: attrVal = '', arg: [regExp, str, flags] }) {
+  apply ({ value: attrVal = '', arg: [regExp, str, flags] }) {
     const regExpA = getRegExp({ regExp, flags });
     return attrVal.replace(regExpA, str);
   },

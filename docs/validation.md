@@ -69,7 +69,7 @@ keyword name and the value an object with the properties:
   - `test` [`{function}`](functions.md): function that returns false
     if the validation failed.
     The [system variable](functions.md#schema-functions-variables)
-    `arg` represents the value passed to the keyword, and `val` represents the
+    `arg` represents the value passed to the keyword, and `value` represents the
     value to validate.
   - `message` [`{string|function}`](functions.md): error message.
     Can be [functions](functions.md) with the

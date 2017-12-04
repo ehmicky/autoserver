@@ -38,12 +38,12 @@ const getVars = function (
 
 // Retrieve model-related system variables
 const getModelVars = function ({ model, previousmodel, attrName }) {
-  const val = model[attrName];
-  const previousval = previousmodel == null
+  const value = model[attrName];
+  const previousvalue = previousmodel == null
     ? undefined
     : previousmodel[attrName];
 
-  return { model, val, previousmodel, previousval };
+  return { model, value, previousmodel, previousvalue };
 };
 
 module.exports = {

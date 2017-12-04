@@ -103,7 +103,7 @@ const fireApply = function ({
   // Normalize `null` to `undefined`
   const opValB = opValA === null ? undefined : opValA;
 
-  const vars = { val: attrVal, arg: opValB, type: attrType };
+  const vars = { value: attrVal, arg: opValB, type: attrType };
   const attrValA = runSchemaFunc({ schemaFunc: apply, mInput, vars });
   return attrValA;
 };

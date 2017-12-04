@@ -82,14 +82,14 @@ The following variables are available to any schema function except
 The following variables are available to any schema function except
 [user variables](#user-variables) and
 [custom patch operators](patch.md#custom-operators):
-  - `val` `{any}`: value of the current attribute.
-    E.g. `val === 'John'` checks whether the current value equals `'John'`
+  - `value` `{any}`: value of the current attribute.
+    E.g. `value === 'John'` checks whether the current value equals `'John'`
   - `model` `{object}`: current model.
     E.g. `model.first_name === 'John'` checks whether the model's `first_name`
     equals `'John'`
-  - `previousval` `{any}`: value of the attribute.
-    If the current request is modified the current attribute, `previousval`
-    is the value before that modification, and `val` after that modification.
+  - `previousvalue` `{any}`: value of the attribute.
+    If the current request is modified the current attribute, `previousvalue`
+    is the value before that modification, and `value` after that modification.
   - `previousmodel` `{object|undefined}`: model.
     If the current request is modified the current model, `previousmodel` is
     the value before that modification, and `model` after that modification.

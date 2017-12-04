@@ -16,7 +16,7 @@ client.
 
 # Combining attributes
 
-By using the `model` or `val`
+By using the `model` or `value`
 [variable](functions.md¤schema-functions-variables), this can also be used to
 combine several attributes, e.g.:
 
@@ -35,7 +35,7 @@ collections:
 # Transformations
 
 It can also be used to transform or normalize the value supplied by the client.
-When doing so, please keep in mind that `val` might be `undefined`, unless
+When doing so, please keep in mind that `value` might be `undefined`, unless
 `attribute.validate.required` is `true`, e.g.:
 
 ```yml
@@ -43,7 +43,7 @@ collections:
   example_collection:
     attributes:
       name:
-        value: (val.toLowerCase())
+        value: (value.toLowerCase())
 ```
 
 would fail when the client sets `name` to `undefined`. Instead, this should be:
@@ -53,5 +53,5 @@ collections:
   example_collection:
     attributes:
       name:
-        value: '(typeof val === "string" ? val.toLowerCase() : val)'
+        value: '(typeof value === "string" ? value.toLowerCase() : value)'
 ```

@@ -92,7 +92,7 @@ collections:
           uniqueItems: true
       status:
         description: Has this pet been adopted
-        value: '(typeof val === "string" ? val.toLowerCase() + " " + model.weight : val)'
+        value: '(typeof value === "string" ? value.toLowerCase() + " " + model.weight : value)'
         default:
           $ref: default_value.js
       creator_key:
@@ -157,12 +157,12 @@ plugins:
     collection: owners
 validation:
   $is_not_equal:
-    test: (val !== arg)
+    test: (value !== arg)
     message: (`must not be equal to ${arg}`)
     type: number
 operators:
   __power:
-    apply: (val ** (arg || 1))
+    apply: (value ** (arg || 1))
     attribute: [number, integer]
     argument: [number, integer, empty]
 $custom: anything

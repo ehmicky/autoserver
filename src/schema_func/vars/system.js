@@ -50,9 +50,9 @@ const TEMP_SYSTEM_VARS = [
   'arg8',
   'arg9',
   'model',
-  'val',
+  'value',
   'previousmodel',
-  'previousval',
+  'previousvalue',
   'arg',
   'type',
 ];
