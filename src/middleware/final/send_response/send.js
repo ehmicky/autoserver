@@ -15,7 +15,7 @@ const send = async function ({
   content,
   response,
   type,
-  format = DEFAULT_FORMAT,
+  format,
   compressResponse,
   rpc,
   topargs,

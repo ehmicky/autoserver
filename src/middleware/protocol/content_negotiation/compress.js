@@ -1,7 +1,12 @@
 'use strict';
 
 const { throwError } = require('../../../error');
-const { compressHandlers, denormalizeCompress } = require('../../../compress');
+const {
+  compressHandlers,
+  denormalizeCompress,
+  normalizeCompress,
+  DEFAULT_COMPRESS,
+} = require('../../../compress');
 
 // Retrieve compression asked by client for the response and request payloads
 const getCompress = function ({
@@ -16,17 +21,22 @@ const getCompress = function ({
     compress: compressResponse,
     name: 'compressResponse',
     reason: 'RESPONSE_FORMAT',
-  });
+  }) || DEFAULT_COMPRESS;
   const compressRequestA = parseCompress({
     queryvars: queryvarsA,
     compress: compressRequest,
     name: 'compressRequest',
     reason: 'REQUEST_FORMAT',
   });
+  const compressA = normalizeCompress({
+    compressResponse: compressResponseA,
+    compressRequest: compressRequestA,
+  });
 
   return {
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
+    compress: compressA,
   };
 };
 

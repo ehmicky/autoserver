@@ -46,7 +46,8 @@ const sendResponse = async function ({
     error,
   });
 
-  return { response: responseB };
+  const newInput = getNewInput({ response: responseB });
+  return newInput;
 };
 
 // Use protocol-specific way to send back the response to the client
@@ -76,6 +77,19 @@ const transformContent = function ({
   }
 
   return content;
+};
+
+const getNewInput = function ({
+  response: {
+    content: response,
+    data: responsedata,
+    type: responsetype,
+  },
+}) {
+  const responsedataA = MODEL_TYPES.includes(responsetype)
+    ? responsedata
+    : response;
+  return { response, responsedata: responsedataA, responsetype };
 };
 
 module.exports = {
