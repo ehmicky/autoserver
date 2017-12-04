@@ -29,19 +29,11 @@ const fireMainLayersHandler = async function (
   // was raised by the final layer itself
   const mInputA = await fireFinalLayer({ allLayers, mInput, reqState });
 
+  // Only fire main error handler on server-side errors
+  const { status } = mInputA;
+  if (status && status !== 'SERVER_ERROR') { return; }
+
   const errorA = addMInput(error, mInputA);
-
-  rethrowError(errorA);
-};
-
-// Main layers error handler
-const fireFinalLayerHandler = function (error) {
-  // If an error is thrown after the final layer has set `level` to `warn`,
-  // it must be set to `error` instead
-  const mInput = getErrorMInput({ error });
-  const mInputA = { ...mInput, level: 'error' };
-  const errorA = addMInput(error, mInputA);
-
   rethrowError(errorA);
 };
 
@@ -74,6 +66,5 @@ const getErrorMInput = function ({ error, error: { mInput = {} } }) {
 module.exports = {
   fireMiddlewareHandler,
   fireMainLayersHandler,
-  fireFinalLayerHandler,
   fireErrorHandler: eFireErrorHandler,
 };

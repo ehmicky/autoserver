@@ -8,7 +8,6 @@ const { middlewareLayers } = require('./layers');
 const {
   fireMiddlewareHandler,
   fireMainLayersHandler,
-  fireFinalLayerHandler,
   fireErrorHandler,
 } = require('./error');
 
@@ -38,7 +37,7 @@ const fireLayers = async function (allLayers, mInput) {
   const reqState = { measures: [] };
 
   const mInputA = await eFireMainLayers({ allLayers, mInput, reqState });
-  await eFireFinalLayer({ allLayers, mInput: mInputA, reqState });
+  await fireFinalLayer({ allLayers, mInput: mInputA, reqState });
 };
 
 // Fires allLayers[1], i.e. skip `final`
@@ -86,13 +85,10 @@ const mergeInput = function (mInput, mInputA) {
 // Middleware error handler
 const eFireMiddleware = addErrorHandler(fireMiddleware, fireMiddlewareHandler);
 
-// Final layer error handler
-const eFireFinalLayer = addErrorHandler(fireFinalLayer, fireFinalLayerHandler);
-
 // Main layers error handler
 const eFireMainLayers = addErrorHandler(
   fireMainLayers,
-  fireMainLayersHandler.bind(null, eFireFinalLayer),
+  fireMainLayersHandler.bind(null, fireFinalLayer),
 );
 
 // Top-level request error handlers

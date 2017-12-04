@@ -1,6 +1,5 @@
 'use strict';
 
-const { getReason } = require('../../error');
 const { MODEL_TYPES } = require('../../constants');
 const { DEFAULT_FORMAT } = require('../../formats');
 const { normalizeCompress } = require('../../compress');
@@ -38,12 +37,10 @@ const buildRequestinfo = function ({
   } = {},
   modelscount,
   uniquecount,
-  error,
 }) {
   const responsedata = MODEL_TYPES.includes(responsetype)
     ? response.data
     : response;
-  const errorReason = error && getReason({ error });
 
   const compress = normalizeCompress({ compressResponse, compressRequest });
 
@@ -76,7 +73,6 @@ const buildRequestinfo = function ({
     metadata,
     modelscount,
     uniquecount,
-    error: errorReason,
   };
 };
 
