@@ -44,7 +44,7 @@ const fillError = function ({
     commandpaths,
     commandpath,
     collections,
-    clientCollname: collection,
+    collname: collection,
     command,
   } = {},
   isLimited = true,
