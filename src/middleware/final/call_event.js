@@ -9,10 +9,12 @@ const callEvent = async function ({
   schema,
   level,
   mInput,
+  error,
   respPerf: { duration } = {},
 }) {
   await emitEvent({
     mInput,
+    error,
     type: 'call',
     phase: 'request',
     level,

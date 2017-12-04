@@ -10,7 +10,7 @@ const { fireEvent } = require('./fire');
 //  - print to console
 const emitEvent = async function ({
   mInput,
-  errorinfo,
+  error,
   type,
   phase,
   level,
@@ -28,7 +28,7 @@ const emitEvent = async function ({
 
   const eventPayload = getPayload({
     mInput,
-    errorinfo,
+    error,
     schema,
     type,
     phase,

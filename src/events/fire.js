@@ -33,13 +33,8 @@ const handleEventError = function (
   const error = normalizeError({ error: errorObj, reason: 'EVENT_ERROR' });
   // Give up if error handler fails
   // I.e. we do not need to `await` this
-  emitEvent({
-    type: 'failure',
-    phase: 'process',
-    runOpts,
-    schema,
-    errorinfo: error,
-  }).catch(identity);
+  emitEvent({ type: 'failure', phase: 'process', runOpts, schema, error })
+    .catch(identity);
 
   rethrowError(errorObj);
 };

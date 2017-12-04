@@ -1,20 +1,17 @@
 'use strict';
 
 const { omitBy } = require('../utilities');
-const { DEFAULT_FORMAT } = require('../formats');
-const { normalizeCompress } = require('../compress');
 
 const { getReason, getProps } = require('./reasons');
 const { normalizeError } = require('./main');
-const { addErrorHandler } = require('./handler');
 
 // Gets normalized error information
-const getStandardError = function ({ error, mInput, isLimited }) {
+const getStandardError = function ({ error, mInput }) {
   if (!error) { return; }
 
   const errorA = normalizeError({ error });
 
-  const errorB = fillError({ error: errorA, mInput, isLimited });
+  const errorB = fillError({ error: errorA, mInput });
 
   // Do not expose undefined values
   const errorC = omitBy(errorB, val => val === undefined);
@@ -26,28 +23,9 @@ const getStandardError = function ({ error, mInput, isLimited }) {
 const fillError = function ({
   error,
   mInput: {
-    origin,
     path: instance,
     status = 'SERVER_ERROR',
-    protocol,
-    method,
-    queryvars,
-    headers,
-    payload,
-    format: { name: format = 'raw' } = DEFAULT_FORMAT,
-    compressResponse,
-    compressRequest,
-    charset,
-    rpc,
-    summary,
-    topargs: args,
-    commandpaths,
-    commandpath,
-    collections,
-    collname: collection,
-    command,
   } = {},
-  isLimited = true,
 }) {
   const type = getReason({ error });
   const { title } = getProps({ error });
@@ -61,56 +39,8 @@ const fillError = function ({
 
   const errorA = { type, title, description, status, instance };
 
-  if (isLimited) {
-    return { ...errorA, ...extra, details };
-  }
-
-  const compress = normalizeCompress({ compressResponse, compressRequest });
-
-  const payloadsize = eGetPayloadsize({ payload });
-
-  return {
-    ...errorA,
-    origin,
-    protocol,
-    method,
-    queryvars,
-    headers,
-    payloadsize,
-    format,
-    charset,
-    compress,
-    rpc,
-    args,
-    summary,
-    commandpaths,
-    commandpath,
-    collections,
-    collection,
-    command,
-    ...extra,
-    // Stack trace is not included in error responses, whether in production
-    // or in development because:
-    //  - it might leak user-supplied code structure (e.g. event payload
-    //    handlers)
-    //  - it is already present in exception thrown, console event messages and
-    //    failure event payload
-  };
+  return { ...errorA, ...extra, details };
 };
-
-// Returns payload's size
-const getPayloadsize = function ({ payload }) {
-  if (payload === undefined) { return; }
-
-  const payloadA = JSON.stringify(payload);
-  const payloadsize = Buffer.byteLength(payloadA);
-  return payloadsize;
-};
-
-// If an error occurs during JSON stringify, just give up
-const getPayloadsizeHandler = () => undefined;
-
-const eGetPayloadsize = addErrorHandler(getPayloadsize, getPayloadsizeHandler);
 
 module.exports = {
   getStandardError,

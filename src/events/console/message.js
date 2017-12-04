@@ -17,7 +17,7 @@ const getConsoleMessage = function ({
     type,
     phase,
     level,
-    errorinfo,
+    error,
     timestamp,
     requestinfo,
     serverinfo,
@@ -34,7 +34,7 @@ const getConsoleMessage = function ({
     requestinfo,
     serverinfo,
   });
-  const messageA = getMessage({ message, type, phase, errorinfo, requestinfo });
+  const messageA = getMessage({ message, type, phase, error, requestinfo });
   const durationA = getDuration({ duration });
 
   const messageC = `${prefix} ${durationA} ${messageA}`;
@@ -45,16 +45,16 @@ const getMessage = function ({
   message = '',
   type,
   phase,
-  errorinfo,
+  error,
   requestinfo,
 }) {
   if (type === 'failure') {
-    const errorMessage = getErrorMessage({ error: errorinfo });
+    const errorMessage = getErrorMessage({ error });
     return message ? `${message}\n${errorMessage}` : errorMessage;
   }
 
   if (type === 'call' && phase === 'request') {
-    return getRequestMessage(requestinfo);
+    return getRequestMessage({ requestinfo, error });
   }
 
   return message;

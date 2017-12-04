@@ -38,7 +38,7 @@ const gracefulExitHandler = async function (error, { runOpts, schema }) {
     type: 'failure',
     phase: 'shutdown',
     message,
-    errorinfo: error,
+    error,
     runOpts,
     schema,
   });

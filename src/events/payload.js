@@ -9,7 +9,7 @@ const { getRequestinfo } = require('./request_info');
 // Retrieves information sent to event, and message printed to console
 const getPayload = function ({
   mInput,
-  errorinfo,
+  error,
   schema,
   type,
   phase,
@@ -17,7 +17,7 @@ const getPayload = function ({
   message,
   info = {},
 }) {
-  const errorinfoA = getStandardError({ error: errorinfo, mInput });
+  const errorA = getStandardError({ error, mInput });
   const requestinfo = getRequestinfo({ mInput, phase });
 
   const timestamp = getTimestamp({ requestinfo });
@@ -31,7 +31,7 @@ const getPayload = function ({
     level,
     message,
     requestinfo,
-    errorinfo: errorinfoA,
+    error: errorA,
     timestamp,
     serverinfo,
   };
