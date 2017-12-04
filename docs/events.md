@@ -179,8 +179,8 @@ event payload, with the properties:
     if it is an array
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
     e.g. `'find_collection.find_child'`
-  - `command` `${string}` - current [command](terminology.md#command),
-    among `'create'`, `'find'`, `'upsert'`, `'patch'` and `'delete'`.
+  - [`command`](terminology.md#command) `${string}` - `'create'`, `'find'`,
+    `'upsert'`, `'patch'` and `'delete'`.
   - `collection` `${string}` - current
     [collection's](terminology.md#collection) name
   - `responsedata` `{any}` - response data
@@ -193,8 +193,8 @@ event payload, with the properties:
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
   - `error` `{string}` - error type, if there was an error
 
-The properties `commandpath`, `command` and `collection` are only
-set if the request failed while performing a command.
+The properties `commandpath` and `collection` are only set if the request
+failed while performing a command.
 
 Each of those fields is optional, i.e. might not be present under some
 circumstances, e.g. if an error happened.

@@ -71,11 +71,10 @@ The following variables are available to any schema function:
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
   - `args` `{object}`: client [arguments](rpc.md#rpc) passed to the request,
     e.g. `filter`
+  - `command` `{string}`: among `create`, `find`, `upsert`, `patch` or `delete`
 
 The following variables are available to any schema function except
 [user variables](#user-variables):
-  - `command` `{string}`: current command, among `create`, `find`, `upsert`,
-    `patch` or `delete`
   - `collection` `{string}`: name of the [collection](collections.md),
     e.g. `users`
 
