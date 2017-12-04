@@ -47,7 +47,6 @@ E.g. the following environment variables:
 APIENGINE_ENV="dev"
 APIENGINE_PAGESIZE=200
 APIENGINE_PROTOCOLS_HTTP_HOSTNAME="myhostname"
-APIENGINE_FILTER_PAYLOAD="[id,old_id]"
 ```
 
 will be converted to the following options:
@@ -58,8 +57,6 @@ pagesize: 200
 protocols:
   http:
     hostname: myhostname
-filter:
-  payload: [id, old_id]
 ```
 
 Note:

@@ -38,47 +38,11 @@ const eventObj = {
   validate: { type: 'object' },
 };
 
-// `run` option `filter`
-const FILTER_NAMES = [
-  'payload',
-  'response',
-  'data',
-  'query',
-];
-
-const FILTER_DEFAULT = {
-  payload: ['id', 'operationName'],
-  response: ['id'],
-  data: ['id'],
-  query: ['operationName'],
-};
-
-const getFilter = filterName => ({
-  name: `filter.${filterName}`,
-  default: FILTER_DEFAULT[filterName],
-  description: `Filters the event payload '${filterName}'`,
-  group: 'Events',
-  validate: {
-    type: ['string[]', 'boolean'],
-    unique: true,
-  },
-});
-
-const filter = FILTER_NAMES.map(getFilter);
-
-const filterObj = {
-  name: 'filter',
-  default: {},
-  description: 'Events payload filtering options',
-  group: 'Events',
-  validate: { type: 'object' },
-};
-
 // `run` option `level`
 const level = {
   name: 'level',
-  default: 'info',
   description: 'Filters events according to their importance',
+  default: 'info',
   group: 'Events',
   validate: {
     type: 'string',
@@ -89,7 +53,5 @@ const level = {
 module.exports = [
   eventObj,
   ...events,
-  filterObj,
-  ...filter,
   level,
 ];

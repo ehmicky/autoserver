@@ -29,7 +29,6 @@ const emitEvent = async function ({
   const eventPayload = getPayload({
     mInput,
     errorinfo,
-    runOpts,
     schema,
     type,
     phase,

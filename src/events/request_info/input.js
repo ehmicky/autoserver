@@ -1,6 +1,6 @@
 'use strict';
 
-const { applyFilter } = require('./filter');
+const { pick } = require('../../utilities');
 
 const reduceInput = function (requestinfo, filter) {
   return REQ_NAMES
@@ -8,17 +8,17 @@ const reduceInput = function (requestinfo, filter) {
     .reduce((info, reducer) => reducer(info, filter), requestinfo);
 };
 
-const inputReducer = function ({ attrName, reqName }, requestinfo, filter) {
+const inputReducer = function ({ reqName, filter }, requestinfo) {
   const { [reqName]: value } = requestinfo;
   if (!value || value.constructor !== Object) { return requestinfo; }
 
-  const valueA = applyFilter({ filter: filter[attrName], obj: value });
+  const valueA = pick(value, filter);
 
   return { ...requestinfo, [reqName]: valueA };
 };
 
 const REQ_NAMES = [
-  { attrName: 'query', reqName: 'queryvars' },
+  { reqName: 'queryvars', filter: 'operationName' },
 ];
 
 module.exports = {

@@ -170,7 +170,7 @@ event payload, with the properties:
   - `payloadcount` `{number}` - array length, if it is an array
   - [`rpc`](rpc.md) `{string}` - among `'graphql'`, `'graphiql'`,
     `'graphqlprint'`, `'rest'` or `'jsonrpc'`
-  - `args` `${object}` - [arguments](rpc.md#rpc)
+  - `args` `{object}` - [arguments](rpc.md#rpc)
   - `args.datasize` `{number}` - size of `data`
     [argument](rpc.md#rpc), in bytes
   - `args.datacount` `{number}` - array length of `data` argument,
@@ -203,23 +203,9 @@ circumstances, e.g. if an error happened.
 # Request information filtering
 
 To avoid the request information to be too big or leak security information,
-one can set filters using the [`run` option](run.md#options) `filter`.
-
-`filter` is an object, with each property specifying how filter part of
-the request information, among:
-  - `true`: keep it
-  - `false`: remove it
-  - array of strings: only keep those properties
-
-The possible properties are:
-  - `query`: applied to URL query variables
-  - `payload`
-  - `response`: applied to `responsedata`
-  - `data`: applied to each `args.data`
-
-Default values:
-  - `query`: `false`, i.e. this information is not included in event payloads.
-  - `payload`, `data`, `response`: only keep `id`.
+the following properties of the request information are filtered:
+  - `queryvars`: only `operationName`
+  - `payload`, `data`, `responsedata`: only `id`s are kept
 
 # Performance monitoring
 
