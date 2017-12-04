@@ -19,17 +19,28 @@ const fireMiddlewareHandler = function (error, ...args) {
 
 // Main layers error handler
 const fireMainLayersHandler = async function (
-  fireLayer,
+  fireFinalLayer,
   error,
   { allLayers, reqState },
 ) {
-  const mInputA = getErrorMInput({ error });
+  const mInput = getErrorMInput({ error });
 
   // Final layer are called before error handlers, except if the error
   // was raised by the final layer itself
-  const mInputB = await fireLayer({ allLayers, reqState }, mInputA, 'final');
+  const mInputA = await fireFinalLayer({ allLayers, mInput, reqState });
 
-  const errorA = addMInput(error, mInputB);
+  const errorA = addMInput(error, mInputA);
+
+  rethrowError(errorA);
+};
+
+// Main layers error handler
+const fireFinalLayerHandler = function (error) {
+  // If an error is thrown after the final layer has set `level` to `warn`,
+  // it must be set to `error` instead
+  const mInput = getErrorMInput({ error });
+  const mInputA = { ...mInput, level: 'error' };
+  const errorA = addMInput(error, mInputA);
 
   rethrowError(errorA);
 };
@@ -63,5 +74,6 @@ const getErrorMInput = function ({ error, error: { mInput = {} } }) {
 module.exports = {
   fireMiddlewareHandler,
   fireMainLayersHandler,
+  fireFinalLayerHandler,
   fireErrorHandler: eFireErrorHandler,
 };
