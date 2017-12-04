@@ -19,7 +19,7 @@ const startConnection = async function ({
     check({ ...opts, connection });
   }
 
-  emitStartEvent({ adapter, runOpts, schema });
+  await emitStartEvent({ adapter, runOpts, schema });
 
   return connection;
 };
