@@ -181,8 +181,9 @@ event payload, with the properties:
   - `commandpaths` `{string[]}` - array with all `commandpath`
   - [`command`](terminology.md#command) `${string}` - `'create'`, `'find'`,
     `'upsert'`, `'patch'` and `'delete'`.
-  - `collection` `${string}` - current
+  - `collection` `{string}` - current
     [collection's](terminology.md#collection) name
+  - `collections` `{string[]}` - array with all `collection`
   - `responsedata` `{any}` - response data
   - `responsedatasize` `{number}` - in bytes
   - `responsedatacount` `{number}` - array length, if it is an array

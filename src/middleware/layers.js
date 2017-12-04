@@ -117,7 +117,7 @@ const middlewareLayers = [
       action.validateUnknownAttrs,
       // Validate that attributes used in nested actions will not change
       action.validateStableIds,
-      // Retrieves `summary` and `commandpaths`
+      // Retrieves `summary`, `commandpaths` and `collections`
       action.getSummary,
       // Sort `actions` so that top-level ones are fired first
       action.sortActions,

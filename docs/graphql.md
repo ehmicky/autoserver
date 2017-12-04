@@ -91,13 +91,14 @@ For example:
       "charset": "utf-8",
       "compress": "gzip,identity",
       "rpc": "graphql",
-      "summary": "users",
-      "commandpaths": ["users"],
       "args": {
         "id": "20",
         "select": "id"
       },
+      "summary": "users",
+      "commandpaths": ["users"],
       "commandpath": "users",
+      "collections": ["users"],
       "collection": "users",
       "command": "find"
     }

@@ -112,12 +112,13 @@ REST error responses follow the usual error
     "charset": "utf-8",
     "compress": "gzip,identity",
     "rpc": "rest",
-    "summary": "users",
-    "commandpaths": ["users"],
     "args": {
       "id": "20"
     },
+    "summary": "users",
+    "commandpaths": ["users"],
     "commandpath": "users",
+    "collections": ["users"],
     "collection": "users",
     "command": "find"
   },

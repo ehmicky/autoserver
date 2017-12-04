@@ -27,10 +27,11 @@ The following properties may also appear, depending on when the error happened:
   - [`charset`](formats.md#charsets) `{string}`
   - [`compress`](compression.md) `{string}`
   - [`rpc`](rpc.md) `{string}`
+  - `args` `{object}`
   - `summary` `{string}`
   - `commandpaths` `{string}`
-  - `args` `{object}`
   - `commandpath` `{string}`
+  - `collections` `{string}`
   - `collection` `{string}`
   - `command` `{string}`
 
@@ -55,12 +56,13 @@ For example:
     "charset": "utf-8",
     "compress": "gzip,identity",
     "rpc": "rest",
-    "summary": "users",
-    "commandpaths": ["users"],
     "args": {
       "id": "20"
     },
+    "summary": "users",
+    "commandpaths": ["users"],
     "commandpath": "users",
+    "collections": ["users"],
     "collection": "users",
     "command": "find"
   },
