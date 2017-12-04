@@ -11,13 +11,10 @@ const { processResults } = require('./results');
 const { paginateResults } = require('./paginate');
 
 // Fire all commands associated with a set of read actions
-const sequenceRead = async function (
-  { actions, top, collsMap, runOpts, mInput },
-  nextLayer,
-) {
+const sequenceRead = async function ({ actions, runOpts, mInput }, nextLayer) {
   const { maxmodels } = getLimits({ runOpts });
 
-  const actionsA = getParentActions({ actions, top, collsMap });
+  const actionsA = getParentActions({ actions });
 
   const results = [];
   await fireReads(
