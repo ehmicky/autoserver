@@ -6,14 +6,12 @@ const { rpcHandlers } = require('../../rpc');
 // Build message of events of type `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
 const getRequestMessage = function ({
-  requestinfo: {
-    protocol,
-    rpc,
-    method,
-    path,
-    commandpath,
-    summary,
-  },
+  protocol,
+  rpc,
+  method,
+  path,
+  commandpath,
+  summary,
   error: { status = 'SUCCESS' } = {},
 }) {
   const summaryA = status === 'SUCCESS' ? summary : commandpath;

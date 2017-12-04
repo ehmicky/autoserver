@@ -9,13 +9,20 @@ const { colorize } = require('./colorize');
 const consolePrint = function ({
   type,
   level,
+  phase,
   duration,
   message,
   eventPayload,
 }) {
   if (NO_CONSOLE_TYPES.includes(type)) { return; }
 
-  const consoleMessage = getConsoleMessage({ message, duration, eventPayload });
+  const consoleMessage = getConsoleMessage({
+    duration,
+    type,
+    phase,
+    message,
+    eventPayload,
+  });
 
   const consoleMessageA = colorize({ type, level, consoleMessage });
 

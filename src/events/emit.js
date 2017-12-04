@@ -37,7 +37,7 @@ const emitEvent = async function ({
     info,
   });
 
-  consolePrint({ type, level: levelA, duration, message, eventPayload });
+  consolePrint({ type, level: levelA, phase, message, duration, eventPayload });
 
   await fireEvent({
     type,
