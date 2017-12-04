@@ -1,7 +1,7 @@
 'use strict';
 
 const { emitEvent } = require('../../events');
-const { pickBy } = require('../../utilities');
+const { pickBy, getWordsList } = require('../../utilities');
 
 // Emit successful or failed shutdown event
 const emitStopEvent = async function ({
@@ -13,9 +13,13 @@ const emitStopEvent = async function ({
   const failedProtocols = getFailedProtocols({ exitcodes });
 
   const isSuccess = failedProtocols.length === 0;
+  const failedProtocolsA = getWordsList(
+    failedProtocols,
+    { op: 'and', quotes: true },
+  );
   const message = isSuccess
     ? 'Server exited successfully'
-    : `Server exited with errors while shutting down ${failedProtocols}`;
+    : `Server exited with errors while shutting down ${failedProtocolsA}`;
   const level = isSuccess ? 'log' : 'error';
 
   const { duration } = measures.find(({ category }) => category === 'default');
