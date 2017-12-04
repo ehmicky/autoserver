@@ -28,6 +28,7 @@ The following properties may also appear, depending on when the error happened:
   - [`compress`](compression.md) `{string}`
   - [`rpc`](rpc.md) `{string}`
   - `summary` `{string}`
+  - `commandpaths` `{string}`
   - `args` `{object}`
   - `commandpath` `{string}`
   - `collection` `{string}`
@@ -55,6 +56,7 @@ For example:
     "compress": "gzip,identity",
     "rpc": "rest",
     "summary": "users",
+    "commandpaths": ["users"],
     "args": {
       "id": "20"
     },

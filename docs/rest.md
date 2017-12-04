@@ -113,6 +113,7 @@ REST error responses follow the usual error
     "compress": "gzip,identity",
     "rpc": "rest",
     "summary": "users",
+    "commandpaths": ["users"],
     "args": {
       "id": "20"
     },

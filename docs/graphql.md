@@ -92,6 +92,7 @@ For example:
       "compress": "gzip,identity",
       "rpc": "graphql",
       "summary": "users",
+      "commandpaths": ["users"],
       "args": {
         "id": "20",
         "select": "id"

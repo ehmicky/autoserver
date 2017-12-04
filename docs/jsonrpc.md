@@ -79,6 +79,7 @@ to accomodate the JSON-RPC spec:
       "compress": "gzip,identity",
       "rpc": "jsonrpc",
       "summary": "users",
+      "commandpaths": ["users"],
       "args": {
         "id": "20"
       },
