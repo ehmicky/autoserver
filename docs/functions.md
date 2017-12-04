@@ -150,9 +150,10 @@ module.exports = getDefaultValue;
 User variables can be functions themselves:
   - schema variables (including other user variables) will be passed as
     the first argument like any other schema function
-  - positional arguments are passed using the variables `arg1`, `arg2`, etc.
   - schema variables will be available only for user variables that are
     functions, as opposed to objects with function members.
+  - if the function is [inline](#inline-functions), positional arguments are
+    passed using the variables `arg1`, `arg2`, etc.
 
 For example:
 

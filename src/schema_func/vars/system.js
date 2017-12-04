@@ -38,8 +38,7 @@ const SYSTEM_VARS = {
   params: { type: 'dynamic' },
 };
 
-// System variables that are not always present
-const TEMP_SYSTEM_VARS = [
+const POSITIONAL_VARS = [
   'arg1',
   'arg2',
   'arg3',
@@ -49,6 +48,10 @@ const TEMP_SYSTEM_VARS = [
   'arg7',
   'arg8',
   'arg9',
+];
+
+// System variables that are not always present
+const TEMP_SYSTEM_VARS = [
   'model',
   'value',
   'previousmodel',
@@ -59,5 +62,6 @@ const TEMP_SYSTEM_VARS = [
 
 module.exports = {
   SYSTEM_VARS,
+  POSITIONAL_VARS,
   TEMP_SYSTEM_VARS,
 };

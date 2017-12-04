@@ -43,10 +43,16 @@ const getNonInlineFunc = function ({ inlineFunc }) {
   return inlineFunc;
 };
 
-const createFunction = function ({ inlineFunc, varsKeys }) {
+const createFunction = function ({
+  inlineFunc,
+  varsKeys: { namedKeys, posKeys },
+}) {
   // Create a function with the inline function as body
   // eslint-disable-next-line no-new-func
-  return new Function(`{ ${varsKeys} }`, `return (${inlineFunc});`);
+  return new Function(
+    `{ ${namedKeys} }, ${posKeys}`,
+    `return (${inlineFunc});`,
+  );
 };
 
 const eCreateFunction = addGenErrorHandler(createFunction, {
