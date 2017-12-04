@@ -46,12 +46,11 @@ const runUserVar = function (
   { userVar, vars },
   arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9,
 ) {
-  // Even without arg1, etc. we would need to make a shallow copy of `vars`,
-  // or make it immutable, to avoid `userVar()` from creating side-effects
-  // influencing another user variable
-  const all = { ...vars, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9 };
+  // Make a shallow copy of `vars`, to avoid `userVar()` from creating
+  // side-effects influencing another user variable
+  const varsA = { ...vars };
 
-  return userVar(all, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+  return userVar(varsA, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
 };
 
 module.exports = {

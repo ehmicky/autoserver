@@ -1,14 +1,16 @@
 'use strict';
 
-const { SYSTEM_VARS, TEMP_SYSTEM_VARS } = require('./system');
+const { SYSTEM_VARS, POSITIONAL_VARS, TEMP_SYSTEM_VARS } = require('./system');
 
 // Retrieve schema functions variables names
 const getVarsKeys = function ({ schema: { variables = {} } }) {
-  return [
+  const namedKeys = [
     ...Object.keys(SYSTEM_VARS),
     ...TEMP_SYSTEM_VARS,
     ...Object.keys(variables),
   ];
+  const posKeys = POSITIONAL_VARS;
+  return { namedKeys, posKeys };
 };
 
 module.exports = {
