@@ -78,12 +78,13 @@ to accomodate the JSON-RPC spec:
       "charset": "utf-8",
       "compress": "gzip,identity",
       "rpc": "jsonrpc",
-      "summary": "users",
-      "commandpaths": ["users"],
       "args": {
         "id": "20"
       },
+      "summary": "users",
+      "commandpaths": ["users"],
       "commandpath": "users",
+      "collections": ["users"],
       "collection": "users",
       "command": "find"
     },
