@@ -11,14 +11,23 @@ const addMetadata = function ({
   metadata,
   mInput,
 }) {
-  if (!MODEL_TYPES.includes(type)) { return response; }
+  if (ERROR_TYPES.includes(type)) {
+    return getErrorMetadata({ response, metadata, mInput });
+  }
 
-  const metadataA = getErrorMetadata({ type, metadata, mInput });
+  if (MODEL_TYPES.includes(type)) {
+    return { ...response, content: { data: content, metadata } };
+  }
 
-  return { ...response, content: { data: content, metadata: metadataA } };
+  return response;
 };
 
-const getErrorMetadata = function ({ type, metadata, mInput }) {
+const getErrorMetadata = function ({
+  response,
+  response: { type, content },
+  metadata,
+  mInput,
+}) {
   if (!ERROR_TYPES.includes(type)) { return metadata; }
 
   const metadataA = pick(metadata, ERROR_METADATA);
@@ -27,7 +36,9 @@ const getErrorMetadata = function ({ type, metadata, mInput }) {
   const varsA = omit(vars, HIDDEN_ERROR_INFO);
   const varsB = reduceVars({ vars: varsA });
 
-  return { ...metadataA, info: varsB };
+  const metadataB = { ...metadataA, info: varsB };
+
+  return { ...response, content: { error: content, metadata: metadataB } };
 };
 
 // Some metadata only make sense in success responses, e.g. pagination

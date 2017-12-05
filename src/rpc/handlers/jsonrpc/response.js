@@ -15,16 +15,16 @@ const transformSuccess = function ({ response: { content }, payload }) {
 
 // Apply JSON-RPC-specific error response transformation
 const transformError = function ({
-  response: { content: { data, data: { description, type }, metadata } },
+  response: { content: { error, error: { description, type }, metadata } },
   payload,
 }) {
   const { jsonrpc, id, other } = getResponse({ payload });
 
-  const dataA = omit(data, ['description']);
+  const data = omit(error, ['description']);
   const code = ERROR_CODES_MAP[type] || DEFAULT_ERROR_CODE;
-  const error = { code, message: description, data: dataA, metadata };
+  const errorA = { code, message: description, data, metadata };
 
-  return { jsonrpc, id, result: other, error };
+  return { jsonrpc, id, result: other, error: errorA };
 };
 
 // Response common to both success and error
