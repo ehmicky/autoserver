@@ -4,25 +4,26 @@ const { mapValues, pickBy } = require('../../../utilities');
 const { runSchemaFunc, getModelVars } = require('../../../functions');
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
-const handleTransforms = function (
-  handler,
-  {
-    args,
-    args: { newData, currentData },
-    collname,
-    schema: { shortcuts },
-    mInput,
-  },
-) {
+const handleTransforms = function ({
+  mapName,
+  preCondition,
+  condition,
+  setAttr,
+  args,
+  args: { newData, currentData },
+  collname,
+  schema: { shortcuts },
+  mInput,
+}) {
   if (newData === undefined) { return; }
 
-  const { mapName, preCondition } = handler;
   const transforms = shortcuts[mapName][collname];
 
   if (preCondition && !preCondition(mInput)) { return; }
 
   const newDataA = newData.map((newDatum, index) => transformDatum({
-    handler,
+    condition,
+    setAttr,
     newDatum,
     currentDatum: currentData[index],
     transforms,
@@ -46,11 +47,7 @@ const transformDatum = function ({ newDatum, transforms, ...rest }) {
   return newDatumB;
 };
 
-const filterTransforms = function ({
-  handler: { condition },
-  transforms,
-  ...rest
-}) {
+const filterTransforms = function ({ condition, transforms, ...rest }) {
   if (condition === undefined) { return transforms; }
 
   const transformsA = pickBy(
@@ -71,7 +68,7 @@ const filterTransform = function ({
 };
 
 const transformAttr = function ({
-  handler: { setAttr },
+  setAttr,
   newDatum: model,
   currentDatum: previousmodel,
   attrName,
