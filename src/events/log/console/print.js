@@ -4,7 +4,9 @@ const { getConsoleMessage } = require('./message');
 const { colorize } = require('./colorize');
 
 // Prints event messages to console.
-const consolePrint = function ({ vars, vars: { level }, duration }) {
+const consolePrint = function ({ vars, vars: { level }, duration, isPerf }) {
+  if (isPerf) { return; }
+
   const consoleMessage = getConsoleMessage({ vars, duration });
 
   const consoleMessageA = colorize({ vars, consoleMessage });
