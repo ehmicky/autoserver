@@ -5,7 +5,7 @@ const { promiseThen } = require('../utilities');
 const { runSchemaFunc } = require('../schema_func');
 
 const { addEventVars } = require('./vars');
-const { logEvent } = require('./log');
+const { reportLog } = require('./log');
 
 // Emit some event, i.e.:
 //  - fire schema function `schema.events.EVENT(vars)`
@@ -21,7 +21,7 @@ const emitEvent = function ({
 }) {
   const varsA = addEventVars({ vars, type, ...rest });
 
-  const promise = logEvent({ schema, mInput, vars: varsA, duration });
+  const promise = reportLog({ schema, mInput, vars: varsA, duration });
 
   const promiseA = promiseThen(
     promise,

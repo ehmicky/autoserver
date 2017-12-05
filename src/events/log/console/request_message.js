@@ -1,7 +1,7 @@
 'use strict';
 
-const { protocolHandlers } = require('../../protocols');
-const { rpcHandlers } = require('../../rpc');
+const { protocolHandlers } = require('../../../protocols');
+const { rpcHandlers } = require('../../../rpc');
 
 // Build message of events of type `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
