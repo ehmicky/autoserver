@@ -3,23 +3,9 @@
 const { reduceAsync, identity } = require('../utilities');
 const { rpcHandlers } = require('../rpc');
 
-// Returns a reducer function that takes the schema as input and output,
+// Reducer function that takes the schema as input and output,
 // and iterate over rpc-specific reduce functions
-const getRpcReducer = function (name, postProcess) {
-  const processors = getProcessors({ name });
-  return rpcReducer.bind(null, { processors, postProcess });
-};
-
-const getProcessors = function ({ name }) {
-  return Object.values(rpcHandlers)
-    .map(rpcHandler => rpcHandler[name])
-    .filter(handler => handler);
-};
-
-const rpcReducer = function (
-  { processors, postProcess = identity },
-  { schema },
-) {
+const rpcReducer = function ({ schema, processors, postProcess = identity }) {
   return reduceAsync(
     processors,
     (schemaA, func) => func(schemaA),
@@ -29,10 +15,24 @@ const rpcReducer = function (
 };
 
 // Apply rpc-specific compile-time logic
-const rpcSchema = getRpcReducer('compileSchema');
+const rpcSchema = function ({ schema }) {
+  const processors = getProcessors({ name: 'compileSchema' });
+  return rpcReducer({ schema, processors });
+};
 
 // Apply rpc-specific startup logic
-const rpcStartServer = getRpcReducer('startServer', schema => ({ schema }));
+const rpcStartServer = function ({ schema }) {
+  const processors = getProcessors({ name: 'startServer' });
+  return rpcReducer({ schema, processors, postProcess: rpcStartServerProcess });
+};
+
+const getProcessors = function ({ name }) {
+  return Object.values(rpcHandlers)
+    .map(rpcHandler => rpcHandler[name])
+    .filter(handler => handler);
+};
+
+const rpcStartServerProcess = schema => ({ schema });
 
 module.exports = {
   rpcSchema,
