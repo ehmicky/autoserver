@@ -9,8 +9,8 @@ const { stringifyMeasures } = require('./stringify');
 const emitPerfEvent = async function ({ phase, measures, ...rest }) {
   const measuresGroups = groupMeasures({ measures });
   const measuresmessage = stringifyMeasures({ phase, measuresGroups });
-  const info = { measures: measuresGroups, measuresmessage };
-  await emitEvent({ ...rest, type: 'perf', phase, info });
+  const vars = { measures: measuresGroups, measuresmessage };
+  await emitEvent({ ...rest, type: 'perf', phase, vars });
 };
 
 module.exports = {

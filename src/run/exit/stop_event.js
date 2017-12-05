@@ -29,7 +29,7 @@ const emitStopEvent = async function ({
     phase: 'shutdown',
     level,
     message,
-    info: { exitcodes },
+    vars: { exitcodes },
     runOpts,
     schema,
     duration,

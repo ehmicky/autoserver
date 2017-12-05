@@ -12,7 +12,7 @@ const emitStartEvent = async function ({
   measures,
 }) {
   const message = 'Server is ready';
-  const info = getPayload({ protocols, runOpts, gracefulExit });
+  const vars = getVars({ protocols, runOpts, gracefulExit });
   const { duration } = measures.find(({ category }) => category === 'default');
 
   // Let other events finish first
@@ -22,7 +22,7 @@ const emitStartEvent = async function ({
     type: 'start',
     phase: 'startup',
     message,
-    info,
+    vars,
     runOpts,
     schema,
     duration,
@@ -32,7 +32,7 @@ const emitStartEvent = async function ({
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getPayload = function ({ protocols, gracefulExit }) {
+const getVars = function ({ protocols, gracefulExit }) {
   const protocolsA = mapValues(
     protocols,
     protocol => omit(protocol, ['server', 'protocolHandler']),

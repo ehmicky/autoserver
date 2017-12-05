@@ -14,7 +14,6 @@ const emitEvent = async function ({
   phase,
   level,
   message,
-  info,
   vars,
   runOpts = {},
   schema,
@@ -33,7 +32,6 @@ const emitEvent = async function ({
     phase,
     level: levelA,
     message,
-    info,
     vars,
   });
 
