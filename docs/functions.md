@@ -9,11 +9,12 @@ The following schema properties can use functions:
   - [`attribute.value`](transformation.md)
   - [custom validation keywords](validation.md#custom-validation)
   - [custom patch operators](patch.md#custom-operators)
+  - [custom logger]()
 
 Everywhere a schema function can be used, a constant value can also be used.
 
 Schema functions should be pure, i.e. no global variable should be used, and
-it should not create side-effects.
+it should not create side-effects. Their arguments are read-only.
 
 # Defining functions
 
@@ -62,23 +63,66 @@ Every schema functions receives as their first argument an object containing
 system variables.
 
 The following variables are available to any schema function:
+  - `requestid` `{string}` - UUID identifying the current request
+    Also available in response's `metadata.requestid` property
+  - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
+    i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
   - [`protocol`](protocols.md) `{string}`: possible values are only `http`
-  - `timestamp` `{string}`: current date and time, e.g.
-    `2017-12-01T10:54:19.500Z`
   - `ip` `{string}`: request IP
-  - `requestid` `{string}`: UUID identifying the current request
+  - `origin` `{string}` - protocol + hostname + port
+  - `path` `{string}` - only the URL path, with no query string nor hash
+  - `method` `{string}` - [protocol](protocols.md)-agnostic method,
+    e.g. `'GET'`
+  - `queryvars` `{object}` - query variables, as a hash table
+  - `headers` `{object}` - engine-specific headers
+  - `format` `{string}` - request payload and server response's
+    [format](formats.md)
+  - `charset` `{string}` - request payload's [charset](formats.md#charsets)
+  - `compress` `{string}` - response's and request's
+    [compression](compression.md)
+  - `payload` `{any}` - request payload
+  - `payloadsize` `{number}` - in bytes
+  - `payloadcount` `{number}` - array length, if it is an array
   - [`rpc`](rpc.md) `{string}`: possible values are `graphql`,
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
   - `args` `{object}`: client [arguments](rpc.md#rpc) passed to the request,
     e.g. `filter`
+  - `params`: all [client parameters](#client-parameters)
+  - `datasize` `{number}` - size of `data` [argument](rpc.md#rpc), in bytes
+  - `datacount` `{number}` - array length of `data` argument, if it is an array
+  - `summary` `{string}` - summary of the request, e.g. 'collection{child}'
+  - `commandpaths` `{string[]}` - array with all `commandpath`
+  - [`command`](terminology.md#command) `${string}` - `'create'`, `'find'`,
+    `'upsert'`, `'patch'` and `'delete'`.
+  - `collections` `{string[]}` - array with all `collection`
   - `command` `{string}`: among `create`, `find`, `upsert`, `patch` or `delete`
+  - `serverinfo` `{object}`: with the properties:
+    - `host` `{object}`:
+       - `id` `{UUID}`: unique to each host machine (using the MAC address)
+       - `name` `{string}` - hostname
+       - `os` `{string}` - e.g. `'Linux'`
+       - `platform` `{string}` - e.g. `'linux'`
+       - `release` `{string}` - e.g. `'4.8.0-52-generic'`
+       - `arch` `{string}` - e.g. `'x64'`
+       - `memory` `{number}` - total memory in bytes
+       - `cpus` `{number}` - number of CPUs
+    - `versions` `{object}`
+       - `node` `{string}` - Node.js version, e.g. `'v8.0.0'`
+       - `apiengine` `{string}` - `apiengine` version, e.g. `'v0.0.1'`
+    - `process` `{object}`:
+       - `id` `{string}`: PID
+       - `name` `{string}`: defaults to system hostname, but can be overriden
+         using the schema property `name`
 
 The following variables are available to any schema function except
-[user variables](#user-variables):
+[custom loggers]() and [user variables](#user-variables):
+  - `commandpath` `{string}` - [command](terminology.md#command) full path,
+    e.g. `'collection.child'`
   - `collection` `{string}`: name of the [collection](collections.md),
     e.g. `users`
 
 The following variables are available to any schema function except
+[custom loggers](),
 [user variables](#user-variables) and
 [custom patch operators](patch.md#custom-operators):
   - `value` `{any}`: value of the current attribute.
@@ -95,8 +139,21 @@ The following variables are available to any schema function except
     If the current request is creating the model (with a `create` or `upsert`
     action), this will be `undefined`.
 
+The following variables are available only to [custom loggers]():
+  - `duration` `{number}` - time it took to handle the request,
+    in milliseconds. Only defined if the request was successful.
+  - `status` `{string}` - response's status, among `'INTERNALS'`, `'SUCCESS'`,
+    `'CLIENT_ERROR'` and `'SERVER_ERROR'`
+  - `responsedata` `{any}` - response data
+  - `responsedatasize` `{number}` - in bytes
+  - `responsedatacount` `{number}` - array length, if it is an array
+  - `responsetype` `{string}` - among `'model'`, `'models'`, `'error'`,
+    `'object'`, `'html'`, `'text'`
+  - `metadata` `{object}` - response's metadata
+  - `modelscount` `{number}` - number of models returned, including nested ones
+  - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
+
 The following variables are available for more specific cases:
-  - `params`: all [client parameters](#client-parameters)
   - `arg1`, `arg2`, etc.: see [user variables](#user-variables)
   - `arg`: see [custom validation](validation.md#custom-validation) and
     [custom patch operators](patch.md#custom-operators)

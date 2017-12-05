@@ -56,7 +56,9 @@ collections:
     attributes:
       example_attribute:
         validate:
+          required: true
           minimum: 10
+          multipleOf: 2
 ```
 
 # Custom validation
