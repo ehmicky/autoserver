@@ -1,4 +1,3 @@
-// eslint-disable-next-line filenames/match-regex, filenames/match-exported
 'use strict';
 
 // eslint-disable-next-line fp/no-let

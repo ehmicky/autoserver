@@ -165,4 +165,9 @@ operators:
     apply: (value ** (arg || 1))
     attribute: [number, integer]
     argument: [number, integer, empty]
+events:
+  perf:
+    $ref: perf_event.js
+log:
+  level: info
 $custom: anything

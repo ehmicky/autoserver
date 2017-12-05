@@ -6,13 +6,12 @@ const { mapValues, omit, pSetTimeout } = require('../utilities');
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({
   protocols,
-  runOpts,
   schema,
   gracefulExit,
   measures,
 }) {
   const message = 'Server is ready';
-  const vars = getVars({ protocols, runOpts, gracefulExit });
+  const vars = getVars({ protocols, gracefulExit });
   const { duration } = measures.find(({ category }) => category === 'default');
 
   // Let other events finish first
@@ -23,7 +22,6 @@ const emitStartEvent = async function ({
     phase: 'startup',
     message,
     vars,
-    runOpts,
     schema,
     duration,
   });

@@ -18,7 +18,6 @@ const handleStartupError = async function (
     type: 'failure',
     phase: 'startup',
     vars: { error },
-    runOpts,
     schema,
   });
 

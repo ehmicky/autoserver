@@ -4,12 +4,7 @@ const { emitEvent } = require('../../events');
 const { pickBy, getWordsList } = require('../../utilities');
 
 // Emit successful or failed shutdown event
-const emitStopEvent = async function ({
-  exitcodes,
-  runOpts,
-  schema,
-  measures,
-}) {
+const emitStopEvent = async function ({ exitcodes, schema, measures }) {
   const failedProtocols = getFailedProtocols({ exitcodes });
 
   const isSuccess = failedProtocols.length === 0;
@@ -30,7 +25,6 @@ const emitStopEvent = async function ({
     level,
     message,
     vars: { exitcodes },
-    runOpts,
     schema,
     duration,
   });

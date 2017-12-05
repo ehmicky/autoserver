@@ -8,17 +8,17 @@ const { normalizeError } = require('../error');
 // will collect the warnings of all the instances.
 // Note that process events fired that do not belong to apiengine might be
 // caught as well.
-const processErrorHandler = function ({ runOpts, schema }) {
-  setupUnhandledRejection({ runOpts, schema });
-  setupRejectionHandled({ runOpts, schema });
-  setupWarning({ runOpts, schema });
+const processErrorHandler = function ({ schema }) {
+  setupUnhandledRejection({ schema });
+  setupRejectionHandled({ schema });
+  setupWarning({ schema });
 };
 
-const setupUnhandledRejection = function ({ runOpts, schema }) {
+const setupUnhandledRejection = function ({ schema }) {
   process.on('unhandledRejection', async error => {
     const message = getMessage({ error });
     const messageA = `A promise was rejected and not handled right away\n${message}`;
-    await emitProcessEvent({ message: messageA, runOpts, schema });
+    await emitProcessEvent({ message: messageA, schema });
   });
 };
 
@@ -30,28 +30,27 @@ const getMessage = function ({ error }) {
   return error[nameA] || '';
 };
 
-const setupRejectionHandled = function ({ runOpts, schema }) {
+const setupRejectionHandled = function ({ schema }) {
   process.on('rejectionHandled', async () => {
     const message = 'A promise was rejected but handled too late';
-    await emitProcessEvent({ message, runOpts, schema });
+    await emitProcessEvent({ message, schema });
   });
 };
 
-const setupWarning = function ({ runOpts, schema }) {
+const setupWarning = function ({ schema }) {
   process.on('warning', async error => {
-    await emitProcessEvent({ error, runOpts, schema });
+    await emitProcessEvent({ error, schema });
   });
 };
 
 // Report process problems as events with type 'failure'
-const emitProcessEvent = async function ({ error, message, runOpts, schema }) {
+const emitProcessEvent = async function ({ error, message, schema }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
 
   await emitEvent({
     type: 'failure',
     phase: 'process',
     vars: { error: errorA },
-    runOpts,
     schema,
   });
 };

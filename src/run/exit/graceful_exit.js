@@ -25,21 +25,20 @@ const mmGracefulExit = async function ({
     measures,
   });
 
-  await emitStopEvent({ exitcodes, runOpts, schema, measures });
+  await emitStopEvent({ exitcodes, schema, measures });
 
-  await emitPerfEvent({ phase: 'shutdown', measures, runOpts, schema });
+  await emitPerfEvent({ phase: 'shutdown', measures, schema });
 };
 
 const oGracefulExit = onlyOnce(mmGracefulExit);
 
-const gracefulExitHandler = async function (error, { runOpts, schema }) {
+const gracefulExitHandler = async function (error, { schema }) {
   const message = 'Shutdown failure';
   await emitEvent({
     type: 'failure',
     phase: 'shutdown',
     message,
     vars: { error },
-    runOpts,
     schema,
   });
 };
