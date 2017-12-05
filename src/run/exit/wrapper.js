@@ -3,7 +3,7 @@
 const { result } = require('../../utilities');
 const { addErrorHandler, normalizeError } = require('../../error');
 const { monitor } = require('../../perf');
-const { emitEvent } = require('../../events');
+const { logEvent } = require('../../log');
 
 // Add events and monitoring capabilities to the function
 const wrapCloseFunc = function (
@@ -32,7 +32,7 @@ const handleEvent = async function ({ func, successMessage }, input) {
 
   const message = result(successMessage, response);
   const messageA = `${title} - ${message}`;
-  await emitEvent({
+  await logEvent({
     type: 'message',
     phase: 'shutdown',
     message: messageA,
@@ -50,7 +50,7 @@ const handleEventHandler = async function (
 ) {
   const message = `${title} - ${errorMessage}`;
   const errorA = normalizeError({ error, reason });
-  await emitEvent({
+  await logEvent({
     type: 'failure',
     phase: 'shutdown',
     message,

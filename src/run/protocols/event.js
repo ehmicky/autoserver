@@ -1,6 +1,6 @@
 'use strict';
 
-const { emitEvent } = require('../../events');
+const { logEvent } = require('../../log');
 
 // Protocol-specific start event
 const startEvent = function ({
@@ -9,7 +9,7 @@ const startEvent = function ({
   schema,
 }) {
   const message = `${title} - Listening on ${hostname}:${port}`;
-  return emitEvent({ type: 'message', phase: 'startup', message, schema });
+  return logEvent({ type: 'message', phase: 'startup', message, schema });
 };
 
 module.exports = {

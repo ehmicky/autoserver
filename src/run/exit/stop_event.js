@@ -1,6 +1,6 @@
 'use strict';
 
-const { emitEvent } = require('../../events');
+const { logEvent } = require('../../log');
 const { pickBy, getWordsList } = require('../../utilities');
 
 // Emit successful or failed shutdown event
@@ -19,7 +19,7 @@ const emitStopEvent = async function ({ exitcodes, schema, measures }) {
 
   const { duration } = measures.find(({ category }) => category === 'default');
 
-  await emitEvent({
+  await logEvent({
     type: 'stop',
     phase: 'shutdown',
     level,

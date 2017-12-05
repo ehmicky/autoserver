@@ -1,6 +1,6 @@
 'use strict';
 
-const { emitEvent } = require('../../events');
+const { logEvent } = require('../../log');
 
 // Error handler, which sends final response, if server-side errors
 const errorHandler = async function ({
@@ -16,7 +16,7 @@ const errorHandler = async function ({
   const mInputA = { ...DEFAULT_MINPUT, ...mInput };
 
   // Report any exception thrown
-  await emitEvent({
+  await logEvent({
     mInput: mInputA,
     type: 'failure',
     phase: 'request',

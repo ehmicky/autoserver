@@ -1,6 +1,6 @@
 'use strict';
 
-const { emitEvent } = require('../../events');
+const { logEvent } = require('../../log');
 
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not
@@ -11,7 +11,7 @@ const callEvent = function ({
   error,
   respPerf: { duration } = {},
 }) {
-  return emitEvent({
+  return logEvent({
     mInput,
     type: 'call',
     phase: 'request',

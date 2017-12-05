@@ -1,6 +1,6 @@
 'use strict';
 
-const { emitEvent } = require('../events');
+const { logEvent } = require('../log');
 const { normalizeError } = require('../error');
 
 // Error handling for all failures that are process-related
@@ -47,7 +47,7 @@ const setupWarning = function ({ schema }) {
 const emitProcessEvent = async function ({ error, message, schema }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
 
-  await emitEvent({
+  await logEvent({
     type: 'failure',
     phase: 'process',
     vars: { error: errorA },
