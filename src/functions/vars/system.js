@@ -24,8 +24,12 @@ const SYSTEM_VARS = {
   charset: { type: 'string' },
   compress: { type: 'string' },
   payload: { type: 'dynamic' },
+  payloadsize: { type: 'integer' },
+  payloadcount: { type: 'integer' },
   rpc: { type: 'string', validation: { enum: rpcs } },
   args: { type: 'dynamic' },
+  datasize: { type: 'integer' },
+  datacount: { type: 'integer' },
   params: { type: 'dynamic' },
   summary: { type: 'string' },
   commandpaths: { type: 'string', isArray: true },
@@ -49,6 +53,7 @@ const SYSTEM_VARS = {
       ],
     },
   },
+  serverinfo: { type: 'dynamic' },
 };
 
 // Those system variables are set after the database response
@@ -56,6 +61,8 @@ const LATER_SYSTEM_VARS = [
   'duration',
   'status',
   'responsedata',
+  'responsedatasize',
+  'responsedatacount',
   'responsetype',
   'metadata',
   'modelscount',
