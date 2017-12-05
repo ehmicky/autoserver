@@ -1,10 +1,14 @@
 'use strict';
 
+const { getStandardError } = require('../../error');
 const { getServerinfo } = require('../../server_info');
 
 // Retrieve system variables, user variables and call-specific variables
 const getVars = function (
-  {
+  mInput,
+  { userVars, vars: { error, ...vars } = {} } = {},
+) {
+  const {
     requestid,
     timestamp = (new Date()).toISOString(),
     duration,
@@ -37,12 +41,10 @@ const getVars = function (
     schema,
     // This is memoized
     serverinfo = getServerinfo({ schema }),
-  } = {},
-  {
-    userVars,
-    vars,
-  } = {},
-) {
+  } = mInput;
+
+  const errorA = getError({ error, mInput });
+
   // Order matters:
   //  - we want to be 100% sure userVars do not overwrite system variables
   //  - it is possible to overwrite system vars with call-specific `vars`
@@ -79,7 +81,16 @@ const getVars = function (
     uniquecount,
     serverinfo,
     ...vars,
+    ...errorA,
   };
+};
+
+// Normalize `vars.error` so the caller does not have to
+const getError = function ({ error, mInput }) {
+  if (error === undefined) { return; }
+
+  const errorA = getStandardError({ error, mInput });
+  return { error: errorA };
 };
 
 // Retrieve model-related system variables

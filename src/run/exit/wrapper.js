@@ -55,7 +55,7 @@ const handleEventHandler = async function (
     type: 'failure',
     phase: 'shutdown',
     message,
-    error: errorA,
+    vars: { error: errorA },
     runOpts,
     schema,
   });
