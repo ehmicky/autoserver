@@ -3,14 +3,14 @@
 const { emitEvent } = require('../../events');
 
 // Protocol-specific start event
-const startEvent = async function ({
+const startEvent = function ({
   protocol: { hostname, port },
   protocolHandler: { title },
   runOpts,
   schema,
 }) {
   const message = `${title} - Listening on ${hostname}:${port}`;
-  await emitEvent({
+  return emitEvent({
     type: 'message',
     phase: 'startup',
     message,
