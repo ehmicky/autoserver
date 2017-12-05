@@ -1,11 +1,11 @@
 'use strict';
 
-const { getVars, reduceVars } = require('../schema_func');
+const { getVars, reduceVars } = require('../../schema_func');
+const { LEVELS } = require('../constants');
 
-const { LEVELS } = require('./constants');
 const { consolePrint } = require('./console');
 
-const logEvent = function ({ schema, mInput, vars, duration }) {
+const reportLog = function ({ schema, mInput, vars, duration }) {
   const noLog = !shouldLog({ schema, vars });
   if (noLog) { return; }
 
@@ -25,5 +25,5 @@ const shouldLog = function ({ schema: { log = {} }, vars: { level, type } }) {
 };
 
 module.exports = {
-  logEvent,
+  reportLog,
 };
