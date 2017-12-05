@@ -166,6 +166,5 @@ operators:
     attribute: [number, integer]
     argument: [number, integer, empty]
 log:
-  provider: console
   level: info
 $custom: anything

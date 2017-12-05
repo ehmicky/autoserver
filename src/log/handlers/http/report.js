@@ -9,14 +9,10 @@ const { throwError, addGenErrorHandler } = require('../../../error');
 
 // Report log with a HTTP request
 // TODO: use a proper HTTP request library
-const report = function ({
-  logInfo,
-  measures,
-  opts: { url, method = 'POST' },
-}) {
+const report = function ({ log, measures, opts: { url, method = 'POST' } }) {
   validateOpts({ url, method });
 
-  const body = getBody({ logInfo, measures });
+  const body = getBody({ log, measures });
 
   const req = getRequest({ url, method, body });
 
@@ -41,8 +37,8 @@ const validateOpts = function ({ url, method }) {
   }
 };
 
-const getBody = function ({ logInfo, measures }) {
-  const body = { ...logInfo, measures };
+const getBody = function ({ log, measures }) {
+  const body = { ...log, measures };
   const bodyA = JSON.stringify(body);
   return bodyA;
 };
