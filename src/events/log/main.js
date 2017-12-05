@@ -12,11 +12,11 @@ const reportLog = function ({ schema, mInput, vars, duration }) {
   if (noLog) { return; }
 
   const varsA = getVars(mInput, { vars });
-  const varsB = reduceVars({ vars: varsA });
+  const logInfo = reduceVars({ vars: varsA });
 
-  consolePrint({ vars: varsB, duration });
+  consolePrint({ vars: logInfo, duration });
 
-  return fireLogger({ schema, vars: varsB });
+  return fireLogger({ schema, mInput, vars, logInfo });
 };
 
 // Can filter verbosity with `schema.log.level`
@@ -30,10 +30,12 @@ const shouldLog = function ({ schema: { log = {} }, vars: { level, type } }) {
 
 const fireLogger = function ({
   schema: { log: { provider, opts = {} } = {} },
+  mInput,
   vars,
+  logInfo,
 }) {
   const { report } = getLogger({ provider });
-  return report(vars, opts);
+  return report({ logInfo, mInput, vars, opts });
 };
 
 const getLogger = function ({ provider = DEFAULT_LOGGER.name }) {

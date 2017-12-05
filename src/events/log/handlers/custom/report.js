@@ -1,13 +1,15 @@
 'use strict';
 
 const { throwError } = require('../../../../error');
+const { runSchemaFunc } = require('../../../../schema_func');
 
 // Report log
-const report = function (vars, opts) {
+const report = function ({ logInfo, mInput, vars, opts }) {
   validateOpts({ opts });
 
   const { report: reportFunc } = opts;
-  return reportFunc(vars);
+  const varsA = { vars, log: logInfo };
+  return runSchemaFunc({ schemaFunc: reportFunc, mInput, vars: varsA });
 };
 
 const validateOpts = function ({ opts }) {
