@@ -5,4 +5,5 @@ module.exports = {
   ...require('./values'),
   ...require('./system'),
   ...require('./user'),
+  ...require('./sums'),
 };

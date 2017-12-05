@@ -1,7 +1,6 @@
 'use strict';
 
 const { identity, pick } = require('../../utilities');
-const { addErrorHandler } = require('../../error');
 
 const reduceAllModels = function (requestinfo) {
   return modelsReducers.reduce((info, reducer) => reducer(info), requestinfo);
@@ -43,11 +42,9 @@ const reduceInfo = function ({ info, attrName, filter }) {
   const value = info[attrName];
 
   const reducer = getInfoReducer({ value });
-  const reducedValue = reducer({ value, attrName, filter });
+  const valueA = reducer({ value, attrName, filter });
 
-  const size = eGetSize({ value });
-
-  return { ...info, ...reducedValue, [`${attrName}size`]: size };
+  return { ...info, ...valueA };
 };
 
 const getInfoReducer = function ({ value }) {
@@ -59,15 +56,10 @@ const getInfoReducer = function ({ value }) {
 };
 
 const reducerArray = function ({ value: array, attrName, filter }) {
-  const count = array.length;
   const arrayA = array
     .filter(isObject)
     .map(obj => pick(obj, filter));
-
-  return {
-    [`${attrName}count`]: count,
-    [attrName]: arrayA,
-  };
+  return { [attrName]: arrayA };
 };
 
 const reducerObject = function ({ value: obj, attrName, filter }) {
@@ -80,13 +72,6 @@ const reducerFalsy = function ({ attrName }) {
 };
 
 const isObject = obj => obj && obj.constructor === Object;
-
-const getSize = function ({ value }) {
-  return JSON.stringify(value).length;
-};
-
-// Returns `size` `undefined` if not JSON
-const eGetSize = addErrorHandler(getSize);
 
 module.exports = {
   reduceAllModels,
