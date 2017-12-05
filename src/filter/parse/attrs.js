@@ -43,7 +43,7 @@ const parseNestedAttr = function ({ attrName, attrVal, throwErr }) {
 };
 
 const findNestedAttr = function ({ attrVal }) {
-  if (typeof attrVal !== 'object') { return; }
+  if (typeof attrVal !== 'object' || attrVal === null) { return; }
 
   return Object.keys(attrVal)
     .find(nestedAttrName => !nestedAttrName.startsWith('_'));
@@ -65,7 +65,9 @@ const parseAttr = function ({ attrName, attrVal, throwErr }) {
     .map(node => addAttrName({ node, attrName }));
 };
 
-const addAttrName = function ({ node: { type, value }, attrName }) {
+const addAttrName = function ({ node, node: { type, value }, attrName }) {
+  if (value === undefined) { return { ...node, attrName }; }
+
   const valueA = addDeepAttrName({ type, value, attrName });
   return { type, value: valueA, attrName };
 };
@@ -100,11 +102,13 @@ const parseOperation = function ({ type, value, throwErr }) {
   }
 
   // Normalize `null|undefined` to only `undefined`
-  const valueA = value === null ? undefined : value;
+  if (value == null) {
+    return { type };
+  }
 
-  const valueB = parseValue({ operator, type, value: valueA, throwErr });
+  const valueA = parseValue({ operator, type, value, throwErr });
 
-  return { ...node, value: valueB };
+  return { ...node, value: valueA };
 };
 
 const parseValue = function ({ operator, type, value, throwErr }) {

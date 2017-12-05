@@ -60,7 +60,7 @@ const getAttrs = function (node, func) {
 // Returns node recursively mapped
 const mapNodes = function (node, func) {
   const value = mapChildren(node, func);
-  const nodeA = { ...node, value };
+  const nodeA = value === undefined ? node : { ...node, value };
 
   const nodeB = func(nodeA);
   return nodeB;
