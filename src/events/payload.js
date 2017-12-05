@@ -1,6 +1,5 @@
 'use strict';
 
-const { omitBy } = require('../utilities');
 const { getVars } = require('../schema_func');
 
 // Retrieves information sent to event, and message printed to console
@@ -22,9 +21,7 @@ const getPayload = function ({
     message,
     ...varsA,
   };
-  const eventPayloadA = omitBy(eventPayload, value => value === undefined);
-
-  return eventPayloadA;
+  return eventPayload;
 };
 
 module.exports = {
