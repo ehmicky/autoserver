@@ -2,7 +2,7 @@
 'use strict';
 
 const { getStandardError } = require('../../error');
-const { getServerinfo } = require('../../server_info');
+const { getServerinfo } = require('../../serverinfo');
 
 // Retrieve all schema variables
 const getVars = function (
