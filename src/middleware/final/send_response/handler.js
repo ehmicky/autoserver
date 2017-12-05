@@ -24,7 +24,7 @@ const sendResponse = async function ({
 }) {
   const responseA = getErrorResponse({ error, mInput, response });
 
-  const responseB = addMetadata({ response: responseA, metadata });
+  const responseB = addMetadata({ response: responseA, metadata, mInput });
 
   validateResponse({ response: responseB });
 
