@@ -7,35 +7,48 @@ const { LEVELS } = require('../constants');
 const { consolePrint } = require('./console');
 const { loggers, DEFAULT_LOGGER } = require('./merger');
 
-const reportLog = function ({ schema, mInput, vars, duration }) {
+const reportLog = function ({
+  schema,
+  mInput,
+  vars,
+  vars: { type },
+  duration,
+}) {
   const noLog = !shouldLog({ schema, vars });
   if (noLog) { return; }
 
   const varsA = getVars(mInput, { vars });
   const logInfo = reduceVars({ vars: varsA });
 
-  consolePrint({ vars: logInfo, duration });
+  const isPerf = type === 'perf';
 
-  return fireLogger({ schema, mInput, vars, logInfo });
+  consolePrint({ vars: logInfo, duration, isPerf });
+
+  return fireLogger({ schema, mInput, vars, logInfo, isPerf });
 };
 
 // Can filter verbosity with `schema.log.level`
 // This won't work for very early startup errors since `schema` is not
 // parsed yet.
-const shouldLog = function ({ schema: { log = {} }, vars: { level, type } }) {
+const shouldLog = function ({ schema: { log = {} }, vars: { level } }) {
   return log.level !== 'silent' &&
-    LEVELS.indexOf(level) >= LEVELS.indexOf(log.level) &&
-    type !== 'perf';
+    LEVELS.indexOf(level) >= LEVELS.indexOf(log.level);
 };
 
 const fireLogger = function ({
   schema: { log: { provider, opts = {} } = {} },
   mInput,
   vars,
+  vars: { measures, measuresmessage },
   logInfo,
+  isPerf,
 }) {
-  const { report } = getLogger({ provider });
-  return report({ logInfo, mInput, vars, opts });
+  const logger = getLogger({ provider });
+  const reportFunc = isPerf ? logger.reportPerf : logger.report;
+
+  if (reportFunc === undefined) { return; }
+
+  return reportFunc({ logInfo, measures, measuresmessage, mInput, vars, opts });
 };
 
 const getLogger = function ({ provider = DEFAULT_LOGGER.name }) {
