@@ -13,14 +13,14 @@ const getPayload = function ({
   message,
   vars,
 }) {
-  const requestinfo = getVars(mInput, { vars });
+  const varsA = getVars(mInput, { vars });
 
   const eventPayload = {
     type,
     phase,
     level,
     message,
-    ...requestinfo,
+    ...varsA,
   };
   const eventPayloadA = omitBy(eventPayload, value => value === undefined);
 
