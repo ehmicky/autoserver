@@ -41,7 +41,7 @@ const evalAuthorize = function ({
 
 // Throw error if authorization filter evaluated to false.
 const checkAuthorize = function ({ clientCollname, authorize, top }) {
-  if (authorize !== false) { return; }
+  if (authorize) { return; }
 
   throwCommonError({ reason: 'AUTHORIZATION', clientCollname, top });
 };
