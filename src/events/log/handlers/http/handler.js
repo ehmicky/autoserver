@@ -7,6 +7,7 @@ const handler = {
   title: 'HTTP logger',
   description: 'Logger using a HTTP request',
   report,
+  reportPerf: report,
 };
 
 module.exports = handler;

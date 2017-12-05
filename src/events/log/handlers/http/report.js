@@ -9,10 +9,14 @@ const { throwError, addGenErrorHandler } = require('../../../../error');
 
 // Report log with a HTTP request
 // TODO: use a proper HTTP request library
-const report = function ({ logInfo, opts: { url, method = 'POST' } }) {
+const report = function ({
+  logInfo,
+  measures,
+  opts: { url, method = 'POST' },
+}) {
   validateOpts({ url, method });
 
-  const body = JSON.stringify(logInfo);
+  const body = getBody({ logInfo, measures });
 
   const req = getRequest({ url, method, body });
 
@@ -35,6 +39,12 @@ const validateOpts = function ({ url, method }) {
     const message = `Option 'method' for the log provider 'http' must be a valid HTTP method`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
+};
+
+const getBody = function ({ logInfo, measures }) {
+  const body = { ...logInfo, measures };
+  const bodyA = JSON.stringify(body);
+  return bodyA;
 };
 
 const getRequest = function ({ url, method, body }) {
