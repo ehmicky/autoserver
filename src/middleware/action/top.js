@@ -3,6 +3,7 @@
 const { deepMerge, uniq, flatten } = require('../../utilities');
 const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
+const { getSumVars } = require('../../schema_func');
 
 // Parse a `rpcDef` into a top-level action, i.e.:
 // `collname`, `clientCollname`, `commandpath`, `args`
@@ -11,8 +12,7 @@ const parseTopAction = function ({
   schema: { shortcuts: { collsNames } },
   topargs,
 }) {
-  // Merge protocol-specific arguments with normal arguments
-  const argsA = deepMerge(args, topargs);
+  const { args: argsA, sumVars } = getArgs({ args, topargs });
 
   const { command, collname, clientCollname } = parseCommandName({
     commandName,
@@ -26,7 +26,18 @@ const parseTopAction = function ({
   const actions = [action];
   const top = { ...action, command };
 
-  return { top, topargs: argsA, actions };
+  return { top, topargs: argsA, ...sumVars, actions };
+};
+
+const getArgs = function ({ args, topargs }) {
+  // Merge protocol-specific arguments with normal arguments
+  const argsA = deepMerge(args, topargs);
+
+  // `datasize` and `datacount` schema variables
+  const { data } = argsA;
+  const sumVars = getSumVars({ attrName: 'data', value: data });
+
+  return { args: argsA, sumVars };
 };
 
 // Retrieve `command` and `collname` using the main `commandName`

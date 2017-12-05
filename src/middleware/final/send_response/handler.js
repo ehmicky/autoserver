@@ -3,6 +3,7 @@
 const { omit } = require('../../../utilities');
 const { getStandardError } = require('../../../error');
 const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
+const { getSumVars } = require('../../../schema_func');
 
 const { addMetadata } = require('./metadata');
 const { validateResponse } = require('./validate');
@@ -28,6 +29,7 @@ const sendResponse = async function ({
 
   validateResponse({ response: responseB });
 
+  // Response before transformation
   const { type, content: responseC } = responseB;
 
   const content = transformContent({ response: responseB, mInput, rpcHandler });
@@ -36,7 +38,6 @@ const sendResponse = async function ({
     protocolHandler,
     specific,
     content,
-    // Response before transformation
     response: responseC,
     type,
     format,
@@ -46,7 +47,7 @@ const sendResponse = async function ({
     error,
   });
 
-  const newInput = getNewInput({ response: responseB });
+  const newInput = getNewInput({ type, content: responseC });
   return newInput;
 };
 
@@ -79,17 +80,14 @@ const transformContent = function ({
   return content;
 };
 
-const getNewInput = function ({
-  response: {
-    content: response,
-    data: responsedata,
-    type: responsetype,
-  },
-}) {
-  const responsedataA = MODEL_TYPES.includes(responsetype)
-    ? responsedata
-    : response;
-  return { response, responsedata: responsedataA, responsetype };
+const getNewInput = function ({ type, content }) {
+  const responsedata = MODEL_TYPES.includes(type)
+    ? content.data
+    : content;
+  // `responsedatasize` and `responsedatacount` schema variables
+  const sumVars = getSumVars({ attrName: 'responsedata', value: responsedata });
+
+  return { response: content, responsetype: type, responsedata, ...sumVars };
 };
 
 module.exports = {
