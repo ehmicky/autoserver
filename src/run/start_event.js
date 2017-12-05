@@ -18,7 +18,7 @@ const emitStartEvent = async function ({
   // Let other events finish first
   await pSetTimeout(0, { unref: false });
 
-  const startPayload = await emitEvent({
+  await emitEvent({
     type: 'start',
     phase: 'startup',
     message,
@@ -27,7 +27,7 @@ const emitStartEvent = async function ({
     schema,
     duration,
   });
-  return { startPayload };
+  return { startPayload: vars };
 };
 
 // Remove some properties from event payload as they are not serializable,

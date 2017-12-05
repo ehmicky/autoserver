@@ -28,15 +28,6 @@ const TYPES = [
   'perf',
 ];
 
-const ALL_TYPES = [
-  ...TYPES,
-  // Special type that includes all the other types
-  'any',
-];
-
-// Those event types never prints to console
-const NO_CONSOLE_TYPES = ['perf'];
-
 // Event severity.
 const LEVELS = [
   // Debugging information
@@ -60,8 +51,6 @@ const STATUS_LEVEL_MAP = {
 module.exports = {
   PHASES,
   TYPES,
-  ALL_TYPES,
-  NO_CONSOLE_TYPES,
   LEVELS,
   STATUS_LEVEL_MAP,
 };

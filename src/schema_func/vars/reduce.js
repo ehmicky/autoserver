@@ -3,7 +3,7 @@
 const { get, set, has, pick } = require('../../utilities');
 
 // Reduce the size of schema variables that might be too big
-const reduceVars = function (vars) {
+const reduceVars = function ({ vars }) {
   return attributes.reduce(
     (varsA, { path, filter }) => reduceInfo({ vars: varsA, path, filter }),
     vars,

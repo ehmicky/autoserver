@@ -1,7 +1,6 @@
 'use strict';
 
 const { getErrorMessage } = require('../../error');
-const { NO_CONSOLE_TYPES } = require('../constants');
 
 const { getPrefix } = require('./prefix');
 const { getRequestMessage } = require('./request_message');
@@ -10,30 +9,15 @@ const { getRequestMessage } = require('./request_message');
 // [TYPE] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
-const getConsoleMessage = function ({
-  type,
-  phase,
-  message,
-  duration,
-  eventPayload,
-}) {
-  const noConsole = NO_CONSOLE_TYPES.includes(type);
-  if (noConsole) { return; }
-
-  const prefix = getPrefix({ eventPayload });
-  const messageA = getMessage({ eventPayload, type, phase, message });
-  const durationA = getDuration({ duration });
-
-  const messageC = `${prefix} ${durationA} ${messageA}`;
-  return messageC;
+const getConsoleMessage = function ({ vars, duration }) {
+  return parts
+    .map(getPart => getPart({ vars, duration }))
+    .join(' ');
 };
 
 const getMessage = function ({
-  eventPayload,
-  eventPayload: { error },
-  type,
-  phase,
-  message = '',
+  vars,
+  vars: { type, phase, error, message = '' },
 }) {
   if (type === 'failure') {
     const errorMessage = getErrorMessage({ error });
@@ -41,7 +25,7 @@ const getMessage = function ({
   }
 
   if (type === 'call' && phase === 'request') {
-    return getRequestMessage(eventPayload);
+    return getRequestMessage(vars);
   }
 
   return message;
@@ -60,6 +44,12 @@ const getDuration = function ({ duration }) {
 
 const NANOSECS_TO_MILLISECS = 1e6;
 const DURATION_LENGTH = 8;
+
+const parts = [
+  getPrefix,
+  getDuration,
+  getMessage,
+];
 
 module.exports = {
   getConsoleMessage,
