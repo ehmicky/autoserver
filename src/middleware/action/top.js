@@ -3,7 +3,7 @@
 const { deepMerge, uniq, flatten } = require('../../utilities');
 const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
-const { getSumVars } = require('../../schema_func');
+const { getSumVars } = require('../../functions');
 
 // Parse a `rpcDef` into a top-level action, i.e.:
 // `collname`, `clientCollname`, `commandpath`, `args`

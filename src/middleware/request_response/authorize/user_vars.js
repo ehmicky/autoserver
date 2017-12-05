@@ -1,7 +1,7 @@
 'use strict';
 
 const { uniq, pick, mapValues, intersection } = require('../../../utilities');
-const { runSchemaFunc } = require('../../../schema_func');
+const { runSchemaFunc } = require('../../../functions');
 const { crawlNodes } = require('../../../filter');
 
 // Retrieve all user variables used in `coll.authorize`, and resolve their

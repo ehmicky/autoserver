@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../error');
-const { getVars, reduceVars } = require('../schema_func');
+const { getVars, reduceVars } = require('../functions');
 
 const { LEVELS } = require('./constants');
 const { consolePrint } = require('./console');

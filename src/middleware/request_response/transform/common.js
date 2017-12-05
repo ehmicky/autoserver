@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues, pickBy } = require('../../../utilities');
-const { runSchemaFunc, getModelVars } = require('../../../schema_func');
+const { runSchemaFunc, getModelVars } = require('../../../functions');
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
 const handleTransforms = function (

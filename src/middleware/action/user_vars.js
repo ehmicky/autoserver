@@ -1,6 +1,6 @@
 'use strict';
 
-const { getUserVars } = require('../../schema_func');
+const { getUserVars } = require('../../functions');
 
 // Bind user variables with their schema variables
 // This middleware needs to be:

@@ -1,6 +1,6 @@
 'use strict';
 
-const { compileInlineFuncs } = require('../../../schema_func');
+const { compileInlineFuncs } = require('../../../functions');
 
 // Check inline functions are valid by compiling then
 const validateInlineFuncs = function ({ schema }) {

@@ -1,6 +1,6 @@
 'use strict';
 
-const { runSchemaFunc, getModelVars } = require('../schema_func');
+const { runSchemaFunc, getModelVars } = require('../functions');
 const { memoize } = require('../utilities');
 const { throwError } = require('../error');
 
