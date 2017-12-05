@@ -3,7 +3,7 @@
 const { addErrorHandler, normalizeError, rethrowError } = require('../error');
 const { promiseThen } = require('../utilities');
 
-const { addEventVars } = require('./vars');
+const { addLogVars } = require('./vars');
 const { reportLog } = require('./report');
 
 // Log some event, including printing to console
@@ -15,7 +15,7 @@ const logEvent = function ({
   type,
   ...rest
 }) {
-  const varsA = addEventVars({ vars, type, ...rest });
+  const varsA = addLogVars({ vars, type, ...rest });
 
   const promise = reportLog({ schema, mInput, vars: varsA, duration });
 

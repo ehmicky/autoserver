@@ -1,7 +1,7 @@
 'use strict';
 
-// Add event-specific schema variables
-const addEventVars = function ({ vars, type, phase, level, message }) {
+// Add log-specific schema variables
+const addLogVars = function ({ vars, type, phase, level, message }) {
   const levelA = getLevel({ level, type });
 
   const varsA = { ...vars, type, phase, level: levelA, message };
@@ -18,5 +18,5 @@ const getLevel = function ({ level, type }) {
 };
 
 module.exports = {
-  addEventVars,
+  addLogVars,
 };

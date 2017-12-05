@@ -1,6 +1,6 @@
 'use strict';
 
-const { monitor, emitPerfEvent } = require('../../perf');
+const { monitor, logPerfEvent } = require('../../perf');
 const { uniq, onlyOnce } = require('../../utilities');
 const { addErrorHandler } = require('../../error');
 const { logEvent } = require('../../log');
@@ -27,7 +27,7 @@ const mmGracefulExit = async function ({
 
   await emitStopEvent({ exitcodes, schema, measures });
 
-  await emitPerfEvent({ phase: 'shutdown', measures, schema });
+  await logPerfEvent({ phase: 'shutdown', measures, schema });
 };
 
 const oGracefulExit = onlyOnce(mmGracefulExit);

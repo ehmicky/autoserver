@@ -1,6 +1,6 @@
 'use strict';
 
-const { startPerf, stopPerf, emitPerfEvent } = require('../perf');
+const { startPerf, stopPerf, logPerfEvent } = require('../perf');
 
 // Monitor startup time
 const startStartupPerf = function () {
@@ -16,7 +16,7 @@ const stopStartupPerf = function ({ startupPerf, measures }) {
 
 // Emit "perf" event with startup performance
 const reportStartupPerf = function ({ schema, measures }) {
-  return emitPerfEvent({ phase: 'startup', schema, measures });
+  return logPerfEvent({ phase: 'startup', schema, measures });
 };
 
 module.exports = {

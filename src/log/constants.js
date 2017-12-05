@@ -40,7 +40,7 @@ const LEVELS = [
   'error',
 ];
 
-// Map a request status to a event level
+// Map a request status to a log level
 const STATUS_LEVEL_MAP = {
   INTERNALS: 'debug',
   SUCCESS: 'log',
