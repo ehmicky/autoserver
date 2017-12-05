@@ -1,6 +1,6 @@
 'use strict';
 
-const { emitPerfEvent } = require('../../perf');
+const { logPerfEvent } = require('../../perf');
 
 // Event performance events related to the current request,
 // e.g. how long each middleware lasted.
@@ -13,7 +13,7 @@ const perfEvent = function (
   if (error) { return; }
 
   const measuresA = [...measures, respPerf];
-  return emitPerfEvent({
+  return logPerfEvent({
     mInput,
     phase: 'request',
     measures: measuresA,
