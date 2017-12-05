@@ -1,13 +1,15 @@
 'use strict';
 
-const { get, set, has, pick } = require('../../utilities');
+const { get, set, has, pick, omitBy } = require('../../utilities');
 
 // Reduce the size of schema variables that might be too big
 const reduceVars = function ({ vars }) {
-  return attributes.reduce(
+  const varsB = attributes.reduce(
     (varsA, { path, filter }) => reduceInfo({ vars: varsA, path, filter }),
     vars,
   );
+  const varsC = omitBy(varsB, value => value === undefined);
+  return varsC;
 };
 
 const attributes = [
