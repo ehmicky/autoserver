@@ -113,7 +113,6 @@ Each event payload comes with a `serverinfo` property, with the properties:
      - `arch` `{string}` - e.g. `'x64'`
      - `memory` `{number}` - total memory in bytes
      - `cpus` `{number}` - number of CPUs
-     - `uptime` `{number}` - how long the server has been running, in secs
   - `versions` `{object}`
      - `node` `{string}` - Node.js version, e.g. `'v8.0.0'`
      - `apiengine` `{string}` - `apiengine` version, e.g. `'v0.0.1'`

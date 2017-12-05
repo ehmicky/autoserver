@@ -1,5 +1,7 @@
 'use strict';
 
+const { getServerinfo } = require('../../server_info');
+
 // Retrieve system variables, user variables and call-specific variables
 const getVars = function (
   {
@@ -32,6 +34,9 @@ const getVars = function (
     metadata,
     modelscount,
     uniquecount,
+    schema,
+    // This is memoized
+    serverinfo = getServerinfo({ schema }),
   } = {},
   {
     userVars,
@@ -72,6 +77,7 @@ const getVars = function (
     metadata,
     modelscount,
     uniquecount,
+    serverinfo,
     ...vars,
   };
 };
