@@ -1,8 +1,8 @@
 'use strict';
 
 const { pick, omit } = require('../../../utilities');
-const { MODEL_TYPES } = require('../../../constants');
-const { getVars } = require('../../../schema_func');
+const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
+const { getVars, reduceVars } = require('../../../schema_func');
 
 // Add response's metadata
 const addMetadata = function ({
@@ -11,27 +11,26 @@ const addMetadata = function ({
   metadata,
   mInput,
 }) {
-  const shouldAddMetadata = MODEL_TYPES.includes(type);
-  if (!shouldAddMetadata) { return response; }
+  if (!MODEL_TYPES.includes(type)) { return response; }
 
-  const metadataA = filterMetadata({ type, metadata, mInput });
+  const metadataA = getErrorMetadata({ type, metadata, mInput });
 
   return { ...response, content: { data: content, metadata: metadataA } };
 };
 
-// Some metadata only make sense in success responses, e.g. pagination
-const filterMetadata = function ({ type, metadata, mInput }) {
-  if (type !== 'error') { return metadata; }
+const getErrorMetadata = function ({ type, metadata, mInput }) {
+  if (!ERROR_TYPES.includes(type)) { return metadata; }
 
   const metadataA = pick(metadata, ERROR_METADATA);
 
-  const info = getVars(mInput);
-  const infoA = omit(info, HIDDEN_ERROR_INFO);
+  const vars = getVars(mInput);
+  const varsA = omit(vars, HIDDEN_ERROR_INFO);
+  const varsB = reduceVars(varsA);
 
-  return { ...metadataA, info: infoA };
+  return { ...metadataA, info: varsB };
 };
 
-// Metadata allowed in error responses
+// Some metadata only make sense in success responses, e.g. pagination
 const ERROR_METADATA = [
   'requestid',
   'duration',
@@ -41,8 +40,10 @@ const ERROR_METADATA = [
 const HIDDEN_ERROR_INFO = [
   // Avoid duplicate information
   ...ERROR_METADATA,
-  'serverinfo',
   'metadata',
+
+  // For security reasons
+  'serverinfo',
 ];
 
 module.exports = {

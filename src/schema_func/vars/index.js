@@ -6,4 +6,5 @@ module.exports = {
   ...require('./system'),
   ...require('./user'),
   ...require('./sums'),
+  ...require('./reduce'),
 };
