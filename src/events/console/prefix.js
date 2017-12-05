@@ -1,6 +1,6 @@
 'use strict';
 
-const { TYPES, LEVELS } = require('../../constants');
+const { TYPES, LEVELS } = require('../constants');
 
 // Retrieves `[TYPE] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE]`
 const getPrefix = function ({ vars }) {

@@ -5,7 +5,7 @@ const { URL } = require('url');
 
 const rawBody = require('raw-body');
 
-const { throwError, addGenErrorHandler } = require('../../../../error');
+const { throwError, addGenErrorHandler } = require('../../../error');
 
 // Report log with a HTTP request
 // TODO: use a proper HTTP request library

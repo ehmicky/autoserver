@@ -1,7 +1,7 @@
 'use strict';
 
-const { throwError } = require('../../../../error');
-const { runSchemaFunc } = require('../../../../schema_func');
+const { throwError } = require('../../../error');
+const { runSchemaFunc } = require('../../../schema_func');
 
 // Report log
 const report = function ({

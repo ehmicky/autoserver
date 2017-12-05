@@ -1,9 +1,9 @@
 'use strict';
 
-const { throwError } = require('../../error');
-const { getVars, reduceVars } = require('../../schema_func');
-const { LEVELS } = require('../constants');
+const { throwError } = require('../error');
+const { getVars, reduceVars } = require('../schema_func');
 
+const { LEVELS } = require('./constants');
 const { consolePrint } = require('./console');
 const { loggers, DEFAULT_LOGGER } = require('./merger');
 

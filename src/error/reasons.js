@@ -160,8 +160,8 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // An exception was fired during an event handler
-  EVENT_ERROR: {
+  // An exception was fired during logging
+  LOG_ERROR: {
     status: 'SERVER_ERROR',
   },
 
