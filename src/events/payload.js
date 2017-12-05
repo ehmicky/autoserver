@@ -11,14 +11,11 @@ const getPayload = function ({
   phase,
   level,
   message,
-  info,
   vars,
 }) {
   const requestinfo = getVars(mInput, { vars });
 
   const eventPayload = {
-    ...info,
-    ...vars,
     type,
     phase,
     level,
