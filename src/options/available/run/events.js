@@ -1,6 +1,6 @@
 'use strict';
 
-const { ALL_TYPES } = require('../../../events');
+const { TYPES } = require('../../../events');
 
 // `run` option `events`
 const getEvent = function (type) {
@@ -28,7 +28,7 @@ const getEventDescription = function ({ type }) {
   return `Function fired when '${type}' happens`;
 };
 
-const events = ALL_TYPES.map(getEvent);
+const events = TYPES.map(getEvent);
 
 const eventObj = {
   name: 'events',

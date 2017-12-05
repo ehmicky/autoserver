@@ -3,14 +3,14 @@
 const { TYPES, LEVELS } = require('../constants');
 
 // Retrieves `[TYPE] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE]`
-const getPrefix = function ({ eventPayload }) {
+const getPrefix = function ({ vars }) {
   return PREFIXES
-    .map(({ value, length }) => getEachPrefix({ value, length, eventPayload }))
+    .map(({ value, length }) => getEachPrefix({ value, length, vars }))
     .join(' ');
 };
 
-const getEachPrefix = function ({ value, length, eventPayload }) {
-  const prefix = value(eventPayload);
+const getEachPrefix = function ({ value, length, vars }) {
+  const prefix = value(vars);
   const prefixA = prefix
     .substr(0, length)
     .padEnd(length);

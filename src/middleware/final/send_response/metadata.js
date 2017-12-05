@@ -25,7 +25,7 @@ const getErrorMetadata = function ({ type, metadata, mInput }) {
 
   const vars = getVars(mInput);
   const varsA = omit(vars, HIDDEN_ERROR_INFO);
-  const varsB = reduceVars(varsA);
+  const varsB = reduceVars({ vars: varsA });
 
   return { ...metadataA, info: varsB };
 };

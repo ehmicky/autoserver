@@ -1,30 +1,13 @@
 'use strict';
 
-const { NO_CONSOLE_TYPES } = require('../constants');
-
 const { getConsoleMessage } = require('./message');
 const { colorize } = require('./colorize');
 
 // Prints event messages to console.
-const consolePrint = function ({
-  type,
-  level,
-  phase,
-  duration,
-  message,
-  eventPayload,
-}) {
-  if (NO_CONSOLE_TYPES.includes(type)) { return; }
+const consolePrint = function ({ vars, vars: { level }, duration }) {
+  const consoleMessage = getConsoleMessage({ vars, duration });
 
-  const consoleMessage = getConsoleMessage({
-    duration,
-    type,
-    phase,
-    message,
-    eventPayload,
-  });
-
-  const consoleMessageA = colorize({ type, level, consoleMessage });
+  const consoleMessageA = colorize({ vars, consoleMessage });
 
   // eslint-disable-next-line no-console, no-restricted-globals
   console[level](consoleMessageA);
