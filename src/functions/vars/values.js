@@ -1,9 +1,10 @@
+/* eslint-disable max-lines */
 'use strict';
 
 const { getStandardError } = require('../../error');
 const { getServerinfo } = require('../../server_info');
 
-// Retrieve system variables, user variables and call-specific variables
+// Retrieve all schema variables
 const getVars = function (
   mInput,
   { userVars, vars: { error, ...vars } = {} } = {},
@@ -119,3 +120,5 @@ module.exports = {
   getVars,
   getModelVars,
 };
+
+/* eslint-enable max-lines */
