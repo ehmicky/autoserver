@@ -40,9 +40,7 @@ const reduceValue = function ({ value, filter }) {
     return pick(value, filter);
   }
 
-  if (!value) { return; }
-
-  return value;
+  // Otherwise, removes value altogether
 };
 
 const isObject = obj => obj && obj.constructor === Object;
