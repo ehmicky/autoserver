@@ -25,18 +25,24 @@ const setCurrentValIfTrue = function ({ transform, previousvalue, value }) {
 };
 
 // `attr.value`
-const handleValue = handleTransforms.bind(null, {
-  mapName: 'valuesMap',
-  setAttr: setTransform,
-});
+const handleValue = function (mInput) {
+  return handleTransforms({
+    ...mInput,
+    mapName: 'valuesMap',
+    setAttr: setTransform,
+  });
+};
 
 // `attr.default`
-const handleUserDefault = handleTransforms.bind(null, {
-  mapName: 'userDefaultsMap',
-  preCondition: shouldUseDefault,
-  condition: shouldSetDefault,
-  setAttr: setTransform,
-});
+const handleUserDefault = function (mInput) {
+  return handleTransforms({
+    ...mInput,
+    mapName: 'userDefaultsMap',
+    preCondition: shouldUseDefault,
+    condition: shouldSetDefault,
+    setAttr: setTransform,
+  });
+};
 
 // `attr.readonly`
 // Sets attributes marked in schema as `readonly` to their current value
@@ -45,10 +51,13 @@ const handleUserDefault = handleTransforms.bind(null, {
 // because readonly attributes can be part of a normal response, and clients
 // should be able to send responses back as is without having to remove
 // readonly attributes, even if another user changes that same model.
-const handleReadonly = handleTransforms.bind(null, {
-  mapName: 'readonlyMap',
-  setAttr: setCurrentValIfTrue,
-});
+const handleReadonly = function (mInput) {
+  return handleTransforms({
+    ...mInput,
+    mapName: 'readonlyMap',
+    setAttr: setCurrentValIfTrue,
+  });
+};
 
 module.exports = {
   handleValue,
