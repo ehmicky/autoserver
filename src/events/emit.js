@@ -1,7 +1,8 @@
 'use strict';
 
+const { getVars } = require('../schema_func');
+
 const { LEVELS } = require('./constants');
-const { getPayload } = require('./payload');
 const { consolePrint } = require('./console');
 const { fireEvent } = require('./fire');
 
@@ -64,6 +65,21 @@ const getLevel = function ({ level, type }) {
 const shouldEmit = function ({ runOpts, level }) {
   return runOpts.level !== 'silent' &&
     LEVELS.indexOf(level) >= LEVELS.indexOf(runOpts.level);
+};
+
+// Retrieves information sent to event, and message printed to console
+const getPayload = function ({
+  schema,
+  mInput = { schema },
+  type,
+  phase,
+  level,
+  message,
+  vars,
+}) {
+  const varsA = { ...vars, type, phase, level, message };
+  const varsB = getVars(mInput, { vars: varsA });
+  return varsB;
 };
 
 module.exports = {
