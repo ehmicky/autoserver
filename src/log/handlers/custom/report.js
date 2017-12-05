@@ -5,22 +5,23 @@ const { runSchemaFunc } = require('../../../functions');
 
 // Report log
 const report = function ({
-  logInfo,
+  log,
   measures,
   measuresmessage,
   mInput,
   vars,
-  opts,
+  opts: { report: reportFunc },
 }) {
-  validateOpts({ opts });
+  if (reportFunc === undefined) { return; }
 
-  const { report: reportFunc } = opts;
-  const varsA = { vars, log: logInfo, measures, measuresmessage };
+  validateOpts({ reportFunc });
+
+  const varsA = { vars, log, measures, measuresmessage };
   return runSchemaFunc({ schemaFunc: reportFunc, mInput, vars: varsA });
 };
 
-const validateOpts = function ({ opts }) {
-  if (opts.report !== undefined && typeof opts.report !== 'function') {
+const validateOpts = function ({ reportFunc }) {
+  if (typeof reportFunc !== 'function') {
     const message = `Option 'report' for the log provider 'custom' must be a function`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
