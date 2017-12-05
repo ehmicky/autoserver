@@ -24,10 +24,14 @@ const emitEvent = function ({
 
   const promise = logEvent({ runOpts, mInput, vars: varsA, duration });
 
-  return promiseThen(
+  const promiseA = promiseThen(
     promise,
     () => runSchemaFunc({ schemaFunc: events[type], mInput, vars: varsA }),
   );
+
+  // We want to make sure this function does not return anything
+  const promiseB = promiseThen(promiseA, () => undefined);
+  return promiseB;
 };
 
 const emitEventHandler = function (errorObj, { runOpts, schema, type }) {
