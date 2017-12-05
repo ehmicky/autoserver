@@ -22,7 +22,7 @@ const errorHandler = async function ({
     type: 'failure',
     phase: 'request',
     level: 'error',
-    error,
+    vars: { error },
     runOpts,
     schema,
   });

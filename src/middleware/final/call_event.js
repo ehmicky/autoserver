@@ -14,10 +14,10 @@ const callEvent = async function ({
 }) {
   await emitEvent({
     mInput,
-    error,
     type: 'call',
     phase: 'request',
     level,
+    vars: { error },
     runOpts,
     schema,
     duration,
