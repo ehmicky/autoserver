@@ -21,10 +21,10 @@ const apiengine = require('apiengine');
 
 apiengine.run()
   .then(({ protocols, exit }) => {
-    console.log('Success');
+    console.log('Servers started at:', protocols);
   })
   .catch(({ error }) => {
-    console.log('Failure');
+    console.log('Could not start servers:', error);
   });
 ```
 
