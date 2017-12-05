@@ -1,6 +1,6 @@
 'use strict';
 
-const { runSchemaFunc, getVars } = require('../../../schema_func');
+const { runSchemaFunc, getVars } = require('../../../functions');
 const {
   validateFilter,
   getAuthorizeAttrs,

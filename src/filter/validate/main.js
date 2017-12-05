@@ -1,6 +1,6 @@
 'use strict';
 
-const { isInlineFunc } = require('../../schema_func');
+const { isInlineFunc } = require('../../functions');
 const { crawlAttrs } = require('../crawl');
 const { getThrowErr } = require('../error');
 const { getOperator } = require('../operators');

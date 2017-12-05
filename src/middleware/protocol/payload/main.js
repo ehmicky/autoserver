@@ -4,7 +4,7 @@ const { decode } = require('iconv-lite');
 
 const { addGenErrorHandler } = require('../../../error');
 const { parse } = require('../../../formats');
-const { getSumVars } = require('../../../schema_func');
+const { getSumVars } = require('../../../functions');
 
 const { getRawPayload } = require('./raw');
 const { decompressPayload } = require('./decompress');

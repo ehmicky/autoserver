@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../utilities');
-const { runSchemaFunc } = require('../schema_func');
+const { runSchemaFunc } = require('../functions');
 
 const { parsePatchOp } = require('./parse');
 const { parseRef } = require('./ref_parsing');

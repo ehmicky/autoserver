@@ -2,7 +2,7 @@
 
 const { pick, omit } = require('../../../utilities');
 const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
-const { getVars, reduceVars } = require('../../../schema_func');
+const { getVars, reduceVars } = require('../../../functions');
 
 // Add response's metadata
 const addMetadata = function ({

@@ -1,7 +1,7 @@
 'use strict';
 
 const { monitoredReduce } = require('../perf');
-const { compileInlineFuncs } = require('../schema_func');
+const { compileInlineFuncs } = require('../functions');
 const {
   loadSchema,
   compileJsonSchema,

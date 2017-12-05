@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../error');
-const { isInlineFunc } = require('../../../schema_func');
+const { isInlineFunc } = require('../../../functions');
 
 const { attributesPlugin } = require('./attributes');
 

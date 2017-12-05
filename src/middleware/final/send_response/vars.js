@@ -1,6 +1,6 @@
 'use strict';
 
-const { getSumVars } = require('../../../schema_func');
+const { getSumVars } = require('../../../functions');
 
 // Add `response`-related schema variables
 const getResponseVars = function ({ type, content }) {

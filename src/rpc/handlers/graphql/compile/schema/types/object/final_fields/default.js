@@ -29,7 +29,7 @@ const isStatic = function (def) {
     !isInlineFunc({ inlineFunc: def.default });
 };
 
-// TODO: if requiring /src/schema_funcs, there is a circular dependencies,
+// TODO: if requiring /src/functionss, there is a circular dependencies,
 // because getVars() in schemaFuncs needs to require /src/rpc,
 // to validate rpc is a possible rpc.
 // This should be fixed once separating rpcs into different repositories.

@@ -2,7 +2,7 @@
 
 const { v4: uuidv4 } = require('uuid');
 
-const { runSchemaFunc, getModelVars } = require('../../../schema_func');
+const { runSchemaFunc, getModelVars } = require('../../../functions');
 
 // Add default model.id for create commands, in order of priority:
 //  - nested `args.data` attribute (not handled here)

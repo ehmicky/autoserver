@@ -1,7 +1,7 @@
 'use strict';
 
 const { pick, mapValues } = require('../utilities');
-const { SYSTEM_VARS } = require('../schema_func');
+const { SYSTEM_VARS } = require('../functions');
 
 // Retrieve type and names of all possible `coll.authorize.*`
 const getAuthorizeAttrs = function ({ schema, collname }) {

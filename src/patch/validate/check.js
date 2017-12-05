@@ -2,7 +2,7 @@
 
 const { decapitalize } = require('underscore.string');
 
-const { runSchemaFunc } = require('../../schema_func');
+const { runSchemaFunc } = require('../../functions');
 
 // Uses `patchOp.check()`
 const applyCheck = function ({

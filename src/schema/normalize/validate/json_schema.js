@@ -2,7 +2,7 @@
 
 const { addGenErrorHandler } = require('../../../error');
 const { compile } = require('../../../json_validation');
-const { compileInlineFuncs } = require('../../../schema_func');
+const { compileInlineFuncs } = require('../../../functions');
 
 // Validates that `attr.validate` are valid JSON schema
 // by compiling them with AJV

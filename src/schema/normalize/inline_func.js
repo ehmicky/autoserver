@@ -1,7 +1,7 @@
 'use strict';
 
 const { getAll } = require('../../utilities');
-const { isInlineFunc } = require('../../schema_func');
+const { isInlineFunc } = require('../../functions');
 
 // Retrieve paths of every value in the schema that uses inline functions
 const addInlineFuncPaths = function ({ schema }) {
