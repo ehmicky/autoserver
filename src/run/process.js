@@ -43,12 +43,12 @@ const setupWarning = function ({ schema }) {
   });
 };
 
-// Report process problems as events with type 'failure'
+// Report process problems as events with event 'failure'
 const emitProcessEvent = async function ({ error, message, schema }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
 
   await logEvent({
-    type: 'failure',
+    event: 'failure',
     phase: 'process',
     vars: { error: errorA },
     schema,

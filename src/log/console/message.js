@@ -6,7 +6,7 @@ const { getPrefix } = require('./prefix');
 const { getRequestMessage } = require('./request_message');
 
 // Build a standardized event message:
-// [TYPE] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
+// [EVENT] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
 const getConsoleMessage = function ({ vars, duration }) {
@@ -17,14 +17,14 @@ const getConsoleMessage = function ({ vars, duration }) {
 
 const getMessage = function ({
   vars,
-  vars: { type, phase, error, message = '' },
+  vars: { event, phase, error, message = '' },
 }) {
-  if (type === 'failure') {
+  if (event === 'failure') {
     const errorMessage = getErrorMessage({ error });
     return message ? `${message}\n${errorMessage}` : errorMessage;
   }
 
-  if (type === 'call' && phase === 'request') {
+  if (event === 'call' && phase === 'request') {
     return getRequestMessage(vars);
   }
 

@@ -4,7 +4,7 @@ const { magenta, green, yellow, red, gray, reset, dim } = require('chalk');
 
 // Colorize a standard error message
 // Not performed if terminal does not support colors
-const colorize = function ({ vars: { type, level }, consoleMessage }) {
+const colorize = function ({ vars: { event, level }, consoleMessage }) {
   const [
     ,
     first,
@@ -17,7 +17,7 @@ const colorize = function ({ vars: { type, level }, consoleMessage }) {
     ? MESSAGE_REGEXP.exec(consoleMessage)
     : SHORTMESSAGE_REXEXP.exec(consoleMessage);
 
-  const coloredFourth = type === 'failure'
+  const coloredFourth = event === 'failure'
     ? colorStack({ stack: fourth })
     : dim(fourth);
 

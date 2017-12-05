@@ -33,7 +33,7 @@ const kStartConnection = monitor(
 // Database adapter-specific start event
 const emitStartEvent = async function ({ adapter: { title }, schema }) {
   const message = `${title} - Connection initialized`;
-  await logEvent({ type: 'message', phase: 'startup', message, schema });
+  await logEvent({ event: 'message', phase: 'startup', message, schema });
 };
 
 module.exports = {

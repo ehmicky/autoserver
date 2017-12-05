@@ -13,8 +13,8 @@ const PHASES = [
 ];
 
 // Why the event was performed
-const TYPES = [
-  // Generic type
+const EVENTS = [
+  // Generic event
   'message',
   // The server started and is ready to process requests
   'start',
@@ -50,7 +50,7 @@ const STATUS_LEVEL_MAP = {
 
 module.exports = {
   PHASES,
-  TYPES,
+  EVENTS,
   LEVELS,
   STATUS_LEVEL_MAP,
 };

@@ -20,7 +20,7 @@ const emitStopEvent = async function ({ exitcodes, schema, measures }) {
   const { duration } = measures.find(({ category }) => category === 'default');
 
   await logEvent({
-    type: 'stop',
+    event: 'stop',
     phase: 'shutdown',
     level,
     message,

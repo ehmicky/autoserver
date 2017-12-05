@@ -12,10 +12,10 @@ const logEvent = function ({
   mInput = { schema },
   vars,
   duration,
-  type,
+  event,
   ...rest
 }) {
-  const varsA = addLogVars({ vars, type, ...rest });
+  const varsA = addLogVars({ vars, event, ...rest });
 
   const promise = reportLog({ schema, mInput, vars: varsA, duration });
 
@@ -24,15 +24,15 @@ const logEvent = function ({
   return promiseA;
 };
 
-const logEventHandler = function (errorObj, { schema, type }) {
+const logEventHandler = function (errorObj, { schema, event }) {
   const error = normalizeError({ error: errorObj, reason: 'LOG_ERROR' });
   const vars = { error };
   // Give up if error handler fails
   // I.e. we do not need to `await` this
-  silentLogEvent({ type: 'failure', phase: 'process', schema, vars });
+  silentLogEvent({ event: 'failure', phase: 'process', schema, vars });
 
   // Failure events are at the top of code stacks. They should not throw.
-  if (type === 'failure') { return; }
+  if (event === 'failure') { return; }
 
   rethrowError(errorObj);
 };

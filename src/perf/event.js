@@ -10,7 +10,7 @@ const logPerfEvent = function ({ phase, measures, ...rest }) {
   const measuresGroups = groupMeasures({ measures });
   const measuresmessage = stringifyMeasures({ phase, measuresGroups });
   const vars = { measures: measuresGroups, measuresmessage };
-  return logEvent({ ...rest, type: 'perf', phase, vars });
+  return logEvent({ ...rest, event: 'perf', phase, vars });
 };
 
 module.exports = {

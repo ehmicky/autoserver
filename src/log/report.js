@@ -7,11 +7,12 @@ const { LEVELS } = require('./constants');
 const { consolePrint } = require('./console');
 const { loggers, DEFAULT_LOGGER } = require('./merger');
 
+// Report to console, then use `schema.log` for reporting
 const reportLog = function ({
   schema,
   mInput,
   vars,
-  vars: { type },
+  vars: { event },
   duration,
 }) {
   const noLog = !shouldLog({ schema, vars });
@@ -20,7 +21,8 @@ const reportLog = function ({
   const varsA = getVars(mInput, { vars });
   const logInfo = reduceVars({ vars: varsA });
 
-  const isPerf = type === 'perf';
+  // Performance events are handled differently
+  const isPerf = event === 'perf';
 
   consolePrint({ vars: logInfo, duration, isPerf });
 
