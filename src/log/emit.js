@@ -7,7 +7,7 @@ const { addEventVars } = require('./vars');
 const { reportLog } = require('./report');
 
 // Log some event, including printing to console
-const emitEvent = function ({
+const logEvent = function ({
   schema,
   mInput = { schema },
   vars,
@@ -24,12 +24,12 @@ const emitEvent = function ({
   return promiseA;
 };
 
-const emitEventHandler = function (errorObj, { schema, type }) {
+const logEventHandler = function (errorObj, { schema, type }) {
   const error = normalizeError({ error: errorObj, reason: 'LOG_ERROR' });
   const vars = { error };
   // Give up if error handler fails
   // I.e. we do not need to `await` this
-  silentEmitEvent({ type: 'failure', phase: 'process', schema, vars });
+  silentLogEvent({ type: 'failure', phase: 'process', schema, vars });
 
   // Failure events are at the top of code stacks. They should not throw.
   if (type === 'failure') { return; }
@@ -37,10 +37,10 @@ const emitEventHandler = function (errorObj, { schema, type }) {
   rethrowError(errorObj);
 };
 
-const eEmitEvent = addErrorHandler(emitEvent, emitEventHandler);
+const eLogEvent = addErrorHandler(logEvent, logEventHandler);
 
-const silentEmitEvent = addErrorHandler(emitEvent);
+const silentLogEvent = addErrorHandler(logEvent);
 
 module.exports = {
-  emitEvent: eEmitEvent,
+  logEvent: eLogEvent,
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 const { getProps } = require('../../error');
-const { STATUS_LEVEL_MAP } = require('../../events');
+const { STATUS_LEVEL_MAP } = require('../../log');
 
 // Retrieve response's status
 const getStatus = function ({ error }) {

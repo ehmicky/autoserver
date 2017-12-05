@@ -1,6 +1,6 @@
 'use strict';
 
-const { emitEvent } = require('../../events');
+const { logEvent } = require('../../log');
 const { monitor } = require('../../perf');
 
 // Actual connection
@@ -33,7 +33,7 @@ const kStartConnection = monitor(
 // Database adapter-specific start event
 const emitStartEvent = async function ({ adapter: { title }, schema }) {
   const message = `${title} - Connection initialized`;
-  await emitEvent({ type: 'message', phase: 'startup', message, schema });
+  await logEvent({ type: 'message', phase: 'startup', message, schema });
 };
 
 module.exports = {

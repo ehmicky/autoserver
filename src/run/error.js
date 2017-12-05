@@ -1,7 +1,7 @@
 'use strict';
 
 const { rethrowError } = require('../error');
-const { emitEvent } = require('../events');
+const { logEvent } = require('../log');
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function (
@@ -14,7 +14,7 @@ const handleStartupError = async function (
     await gracefulExit({ protocols, dbAdapters, runOpts });
   }
 
-  await emitEvent({
+  await logEvent({
     type: 'failure',
     phase: 'startup',
     vars: { error },

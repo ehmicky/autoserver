@@ -3,7 +3,7 @@
 const { monitor, emitPerfEvent } = require('../../perf');
 const { uniq, onlyOnce } = require('../../utilities');
 const { addErrorHandler } = require('../../error');
-const { emitEvent } = require('../../events');
+const { logEvent } = require('../../log');
 
 const { closeProtocol } = require('./protocol_close');
 const { closeDbAdapter } = require('./db_close');
@@ -34,7 +34,7 @@ const oGracefulExit = onlyOnce(mmGracefulExit);
 
 const gracefulExitHandler = async function (error, { schema }) {
   const message = 'Shutdown failure';
-  await emitEvent({
+  await logEvent({
     type: 'failure',
     phase: 'shutdown',
     message,
