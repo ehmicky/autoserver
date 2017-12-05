@@ -169,5 +169,8 @@ events:
   perf:
     $ref: perf_event.js
 log:
+  opts:
+    report:
+      $ref: logger.js
   level: info
 $custom: anything
