@@ -165,12 +165,7 @@ operators:
     apply: (value ** (arg || 1))
     attribute: [number, integer]
     argument: [number, integer, empty]
-events:
-  perf:
-    $ref: perf_event.js
 log:
-  opts:
-    report:
-      $ref: logger.js
+  provider: console
   level: info
 $custom: anything

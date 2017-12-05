@@ -1,6 +1,6 @@
 'use strict';
 
-const { getErrorMessage } = require('../../../error');
+const { getErrorMessage } = require('../../error');
 
 const { getPrefix } = require('./prefix');
 const { getRequestMessage } = require('./request_message');

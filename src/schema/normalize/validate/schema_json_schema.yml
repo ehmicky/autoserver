@@ -34,9 +34,6 @@ properties:
   # Custom patch operators
   operators:
     $ref: '#/definitions/patchOperators'
-  # Event handlers
-  events:
-    $ref: '#/definitions/events'
   # Logging
   log:
     $ref: '#/definitions/log'
@@ -262,13 +259,6 @@ definitions:
       additionalProperties: false
     propertyNames:
       $ref: '#/definitions/validUserOpName'
-  # schema.events
-  events:
-    type: object
-    additionalProperties:
-      $ref: '#/definitions/schemaFuncOrValue'
-    propertyNames:
-      enum: [message, start, stop, call, failure, perf]
   # schema.log
   log:
     oneOf:

@@ -2,17 +2,13 @@
 
 const { addErrorHandler, normalizeError, rethrowError } = require('../error');
 const { promiseThen } = require('../utilities');
-const { runSchemaFunc } = require('../schema_func');
 
 const { addEventVars } = require('./vars');
-const { reportLog } = require('./log');
+const { reportLog } = require('./report');
 
-// Emit some event, i.e.:
-//  - fire schema function `schema.events.EVENT(vars)`
-//  - print to console
+// Log some event, including printing to console
 const emitEvent = function ({
   schema,
-  schema: { events = {} },
   mInput = { schema },
   vars,
   duration,
@@ -23,18 +19,13 @@ const emitEvent = function ({
 
   const promise = reportLog({ schema, mInput, vars: varsA, duration });
 
-  const promiseA = promiseThen(
-    promise,
-    () => runSchemaFunc({ schemaFunc: events[type], mInput, vars: varsA }),
-  );
-
   // We want to make sure this function does not return anything
-  const promiseB = promiseThen(promiseA, () => undefined);
-  return promiseB;
+  const promiseA = promiseThen(promise, () => undefined);
+  return promiseA;
 };
 
 const emitEventHandler = function (errorObj, { schema, type }) {
-  const error = normalizeError({ error: errorObj, reason: 'EVENT_ERROR' });
+  const error = normalizeError({ error: errorObj, reason: 'LOG_ERROR' });
   const vars = { error };
   // Give up if error handler fails
   // I.e. we do not need to `await` this

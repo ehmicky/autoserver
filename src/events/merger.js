@@ -1,6 +1,6 @@
 'use strict';
 
-const { keyBy } = require('../../utilities');
+const { keyBy } = require('../utilities');
 
 const handlers = require('./handlers');
 
