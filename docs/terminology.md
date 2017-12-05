@@ -100,10 +100,6 @@ Client-specified [variables](functions.md#client-parameters)
 
 Options passed to server when starting it
 
-## Events
-
-[Events](events.md) fired through [`run`](run.md) option `events` callbacks.
-
 ## Utilities
 
 Set of generic code under `src/utilities/`

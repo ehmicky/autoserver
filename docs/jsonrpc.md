@@ -70,8 +70,10 @@ to accomodate the JSON-RPC spec:
       "instance": "/jsonrpc"
     },
     "metadata": {
-  		"requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812"
-  	}
+      "requestid": "56ca9a87-73cc-48db-95fa-ec62e2dee812",
+      "duration": 15,
+      "info": { ... }
+    }
   }
 }
 ```

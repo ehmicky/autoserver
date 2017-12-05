@@ -76,7 +76,6 @@ namely:
 Some options are filepaths, i.e. they target another file.
 
 The following options use filepaths:
-  - [`events`](events.md) option, in [`run` instruction](run.md)
   - [`schema`](schema.md) option, in [`run` instruction](run.md)
 
 The path will be relative to the [configuration file](#configuration-file).
