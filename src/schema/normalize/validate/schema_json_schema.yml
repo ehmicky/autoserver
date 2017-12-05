@@ -271,10 +271,16 @@ definitions:
       enum: [message, start, stop, call, failure, perf]
   # schema.log
   log:
+    oneOf:
+    - $ref: '#/definitions/logger'
+    - type: array
+      items:
+        $ref: '#/definitions/logger'
+  logger:
     type: object
     properties:
       provider:
-        $ref: '#/definitions/schemaFuncOrValue'
+        type: string
       opts:
         type: object
       level:
