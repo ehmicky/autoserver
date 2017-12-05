@@ -21,19 +21,6 @@ const { memoize, flatten } = require('./utilities');
 
 // Retrieve process-specific and host-specific information
 const getServerinfo = function ({ schema: { name: processName } = {} }) {
-  const staticServerinfo = mGetStaticServerinfo({ processName });
-  const dynamicServerinfo = getDynamicServerinfo();
-  const serverinfo = {
-    ...staticServerinfo,
-    ...dynamicServerinfo,
-    host: { ...staticServerinfo.host, ...dynamicServerinfo.host },
-  };
-  return { serverinfo };
-};
-
-// Information that do not change across a specific process.
-// We need to memoize both for performnace and predictability.
-const getStaticServerinfo = function ({ processName }) {
   const host = getHostInfo();
   const versions = getVersionsInfo();
   const processInfo = getProcessInfo({ host, processName });
@@ -41,7 +28,8 @@ const getStaticServerinfo = function ({ processName }) {
   return { host, versions, process: processInfo };
 };
 
-const mGetStaticServerinfo = memoize(getStaticServerinfo);
+// Speed up memoization because serializing `schema` is slow
+const mGetServerinfo = memoize(getServerinfo, { serializer: () => pid });
 
 const getHostInfo = function () {
   const id = getHostId();
@@ -92,14 +80,6 @@ const getProcessInfo = function ({ host, processName }) {
   return { id, name };
 };
 
-// Information that change across a specific process.
-const getDynamicServerinfo = function () {
-  const uptime = process.uptime();
-
-  const dynamicServerinfo = { host: { uptime } };
-  return dynamicServerinfo;
-};
-
 module.exports = {
-  getServerinfo,
+  getServerinfo: mGetServerinfo,
 };

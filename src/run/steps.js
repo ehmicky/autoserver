@@ -1,6 +1,5 @@
 'use strict';
 
-const { getServerinfo } = require('../server_info');
 const { getRequestHandler } = require('../middleware');
 
 const {
@@ -27,8 +26,6 @@ const startupSteps = [
   parseSchema,
   // Create database connections
   connectToDatabases,
-  // Retrieve server information
-  getServerinfo,
   // Get main request handler
   getRequestHandler,
   // Boot each protocol-specific server

@@ -2,14 +2,13 @@
 
 const { omitBy } = require('../utilities');
 const { getStandardError } = require('../error');
-const { getServerinfo } = require('../server_info');
 const { getVars } = require('../schema_func');
 
 // Retrieves information sent to event, and message printed to console
 const getPayload = function ({
-  mInput,
-  error,
   schema,
+  mInput = { schema },
+  error,
   type,
   phase,
   level,
@@ -19,8 +18,6 @@ const getPayload = function ({
   const errorA = getStandardError({ error, mInput });
   const requestinfo = getVars(mInput);
 
-  const { serverinfo } = getServerinfo({ schema });
-
   const eventPayload = {
     ...info,
     type,
@@ -29,7 +26,6 @@ const getPayload = function ({
     message,
     ...requestinfo,
     error: errorA,
-    serverinfo,
   };
   const eventPayloadA = omitBy(eventPayload, value => value === undefined);
 
