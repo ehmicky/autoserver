@@ -325,6 +325,7 @@ rules:
   promise/catch-or-return: 2
   promise/always-return: 2
   promise/no-return-wrap: 2
+  promise/no-return-in-finally: 2
   promise/no-nesting: 2
   promise/no-promise-in-callback: 2
   promise/no-callback-in-promise: 2
