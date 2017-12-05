@@ -5,8 +5,8 @@ const { getVars, reduceVars } = require('../schema_func');
 const { LEVELS } = require('./constants');
 const { consolePrint } = require('./console');
 
-const logEvent = function ({ runOpts, mInput, vars, duration }) {
-  const noLog = !shouldLog({ runOpts, vars });
+const logEvent = function ({ schema, mInput, vars, duration }) {
+  const noLog = !shouldLog({ schema, vars });
   if (noLog) { return; }
 
   const varsA = getVars(mInput, { vars });
@@ -15,12 +15,12 @@ const logEvent = function ({ runOpts, mInput, vars, duration }) {
   consolePrint({ vars: varsB, duration });
 };
 
-// Can filter verbosity with `run` option `level`
-// This won't work for very early startup errors since `runOpts` is not
+// Can filter verbosity with `schema.log.level`
+// This won't work for very early startup errors since `schema` is not
 // parsed yet.
-const shouldLog = function ({ runOpts, vars: { level, type } }) {
-  return runOpts.level !== 'silent' &&
-    LEVELS.indexOf(level) >= LEVELS.indexOf(runOpts.level) &&
+const shouldLog = function ({ schema: { log = {} }, vars: { level, type } }) {
+  return log.level !== 'silent' &&
+    LEVELS.indexOf(level) >= LEVELS.indexOf(log.level) &&
     type !== 'perf';
 };
 

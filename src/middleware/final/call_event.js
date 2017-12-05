@@ -5,7 +5,6 @@ const { emitEvent } = require('../../events');
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not
 const callEvent = function ({
-  runOpts,
   schema,
   level,
   mInput,
@@ -18,7 +17,6 @@ const callEvent = function ({
     phase: 'request',
     level,
     vars: { error },
-    runOpts,
     schema,
     duration,
   });

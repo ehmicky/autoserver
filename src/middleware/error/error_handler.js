@@ -7,7 +7,6 @@ const errorHandler = async function ({
   error,
   protocolHandler,
   specific,
-  runOpts,
   schema,
   mInput,
 }) {
@@ -23,7 +22,6 @@ const errorHandler = async function ({
     phase: 'request',
     level: 'error',
     vars: { error },
-    runOpts,
     schema,
   });
 };

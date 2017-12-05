@@ -34,6 +34,12 @@ properties:
   # Custom patch operators
   operators:
     $ref: '#/definitions/patchOperators'
+  # Event handlers
+  events:
+    $ref: '#/definitions/events'
+  # Logging
+  log:
+    $ref: '#/definitions/log'
   # Automatically generated, and used to validate `type`
   collTypes:
     type: array
@@ -256,6 +262,25 @@ definitions:
       additionalProperties: false
     propertyNames:
       $ref: '#/definitions/validUserOpName'
+  # schema.events
+  events:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/schemaFuncOrValue'
+    propertyNames:
+      enum: [message, start, stop, call, failure, perf]
+  # schema.log
+  log:
+    type: object
+    properties:
+      provider:
+        $ref: '#/definitions/schemaFuncOrValue'
+      opts:
+        type: object
+      level:
+        type: string
+        enum: [silent, info, log, warn, error]
+    additionalProperties: false
   # attr.type
   type:
     oneOf:

@@ -8,21 +8,20 @@ const { addEventVars } = require('./vars');
 const { logEvent } = require('./log');
 
 // Emit some event, i.e.:
-//  - fire `run` option `events.EVENT(info)`
+//  - fire schema function `schema.events.EVENT(vars)`
 //  - print to console
 const emitEvent = function ({
   schema,
+  schema: { events = {} },
   mInput = { schema },
   vars,
-  runOpts,
-  runOpts: { events = {} } = {},
   duration,
   type,
   ...rest
 }) {
   const varsA = addEventVars({ vars, type, ...rest });
 
-  const promise = logEvent({ runOpts, mInput, vars: varsA, duration });
+  const promise = logEvent({ schema, mInput, vars: varsA, duration });
 
   const promiseA = promiseThen(
     promise,
@@ -34,12 +33,12 @@ const emitEvent = function ({
   return promiseB;
 };
 
-const emitEventHandler = function (errorObj, { runOpts, schema, type }) {
+const emitEventHandler = function (errorObj, { schema, type }) {
   const error = normalizeError({ error: errorObj, reason: 'EVENT_ERROR' });
   const vars = { error };
   // Give up if error handler fails
   // I.e. we do not need to `await` this
-  silentEmitEvent({ type: 'failure', phase: 'process', runOpts, schema, vars });
+  silentEmitEvent({ type: 'failure', phase: 'process', schema, vars });
 
   // Failure events are at the top of code stacks. They should not throw.
   if (type === 'failure') { return; }
