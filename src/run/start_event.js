@@ -18,7 +18,7 @@ const emitStartEvent = async function ({
   await pSetTimeout(0, { unref: false });
 
   await logEvent({
-    type: 'start',
+    event: 'start',
     phase: 'startup',
     message,
     vars,

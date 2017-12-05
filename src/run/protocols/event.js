@@ -9,7 +9,7 @@ const startEvent = function ({
   schema,
 }) {
   const message = `${title} - Listening on ${hostname}:${port}`;
-  return logEvent({ type: 'message', phase: 'startup', message, schema });
+  return logEvent({ event: 'message', phase: 'startup', message, schema });
 };
 
 module.exports = {

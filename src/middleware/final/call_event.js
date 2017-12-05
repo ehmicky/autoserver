@@ -13,7 +13,7 @@ const callEvent = function ({
 }) {
   return logEvent({
     mInput,
-    type: 'call',
+    event: 'call',
     phase: 'request',
     level,
     vars: { error },

@@ -33,7 +33,7 @@ const handleEvent = async function ({ func, successMessage }, input) {
   const message = result(successMessage, response);
   const messageA = `${title} - ${message}`;
   await logEvent({
-    type: 'message',
+    event: 'message',
     phase: 'shutdown',
     message: messageA,
     schema,
@@ -51,7 +51,7 @@ const handleEventHandler = async function (
   const message = `${title} - ${errorMessage}`;
   const errorA = normalizeError({ error, reason });
   await logEvent({
-    type: 'failure',
+    event: 'failure',
     phase: 'shutdown',
     message,
     vars: { error: errorA },

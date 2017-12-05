@@ -18,7 +18,7 @@ const errorHandler = async function ({
   // Report any exception thrown
   await logEvent({
     mInput: mInputA,
-    type: 'failure',
+    event: 'failure',
     phase: 'request',
     level: 'error',
     vars: { error },

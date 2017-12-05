@@ -3,7 +3,7 @@
 const { protocolHandlers } = require('../../protocols');
 const { rpcHandlers } = require('../../rpc');
 
-// Build message of events of type `request` as:
+// Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
 const getRequestMessage = function ({
   protocol,

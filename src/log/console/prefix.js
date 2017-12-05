@@ -1,8 +1,8 @@
 'use strict';
 
-const { TYPES, LEVELS } = require('../constants');
+const { EVENTS, LEVELS } = require('../constants');
 
-// Retrieves `[TYPE] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE]`
+// Retrieves `[EVENT] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE]`
 const getPrefix = function ({ vars }) {
   return PREFIXES
     .map(({ value, length }) => getEachPrefix({ value, length, vars }))
@@ -25,8 +25,8 @@ const getMaxLength = function (enumVal) {
 
 const PREFIXES = [
   {
-    value: ({ type }) => type.toUpperCase(),
-    length: getMaxLength(TYPES),
+    value: ({ event }) => event.toUpperCase(),
+    length: getMaxLength(EVENTS),
   },
 
   {

@@ -35,7 +35,7 @@ const oGracefulExit = onlyOnce(mmGracefulExit);
 const gracefulExitHandler = async function (error, { schema }) {
   const message = 'Shutdown failure';
   await logEvent({
-    type: 'failure',
+    event: 'failure',
     phase: 'shutdown',
     message,
     vars: { error },
