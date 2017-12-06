@@ -74,7 +74,7 @@ const validateMiddleAction = function ({ attrName, attrs, argName }) {
 const validateModel = function ({ coll, commandpath, argName }) {
   if (coll !== undefined) { return; }
 
-  const attrName = commandpath.slice(1).join('.');
+  const attrName = commandpath.join('.');
   const message = attrName === ''
     ? `'${argName}' argument cannot contain empty attributes`
     : `In '${argName}' argument, attribute '${attrName}' is unknown`;

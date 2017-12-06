@@ -37,11 +37,10 @@ const handleIntrospection = async function ({
 
   return {
     response,
-    summary: 'introspection',
-    commandpaths: ['introspection'],
-    collname: '__schema',
-    collections: ['__schema'],
-    clientCollections: ['__schema'],
+    summary: 'find_introspection',
+    commandpaths: [''],
+    collnames: ['__schema'],
+    clientCollnames: ['__schema'],
   };
 };
 

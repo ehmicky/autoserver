@@ -29,17 +29,21 @@ const getRenameArg = function ({ action: { args: { rename }, commandpath } }) {
 // `commandpath` 'aaa.bbb', `key` 'ccc', `outputName` 'ddd']
 const getRenamePart = function ({ rename, commandpath }) {
   const renameA = [...commandpath, rename].join('.');
-  const [, commandpathA, key, , outputName] = RENAME_REGEXP.exec(renameA) || [];
+  const [, commandpathA, outputName] = RENAME_REGEXP.exec(renameA) || [];
 
-  if (commandpathA && key) {
-    return { [commandpathA]: { key, outputName } };
+  if (!commandpathA || !outputName) {
+    const message = `In 'rename' argument, '${rename}' is invalid`;
+    throwError(message, { reason: 'INPUT_VALIDATION' });
   }
 
-  const message = `In 'rename' argument, '${rename}' is invalid`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  const commandpathB = commandpathA.split('.');
+  const commandpathC = commandpathB.slice(0, -1).join('.');
+  const key = commandpathB[commandpathB.length - 1];
+
+  return { [commandpathC]: { key, outputName } };
 };
 
-const RENAME_REGEXP = /^([^:]*)\.([^.:]+)(:(.+))?$/;
+const RENAME_REGEXP = /^(.+):([^:]+)$/;
 
 module.exports = {
   parseRename,

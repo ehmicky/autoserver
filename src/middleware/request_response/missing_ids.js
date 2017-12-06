@@ -43,10 +43,7 @@ const doesNotValidate = function ({ command, top, commandpath }) {
     //    predictable for the client
     //  - it makes less sense from semantic point of view
     //  - pagination prevents guessing missing ids
-    (
-      FILTER_MANY_COMMANDS.includes(top.command.name) &&
-      commandpath.split('.').length === 1
-    );
+    (FILTER_MANY_COMMANDS.includes(top.command.name) && commandpath === '');
 };
 
 // Commands with a `filter` argument

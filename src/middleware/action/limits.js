@@ -33,7 +33,7 @@ const validateNestedFind = function ({ limits, actions, top, schema }) {
   if (tooNestedActions.length === 0) { return; }
 
   const paths = tooNestedActions
-    .map(({ commandpath }) => commandpath.slice(1).join('.'));
+    .map(({ commandpath }) => commandpath.join('.'));
   const pathsA = getWordsList(paths, { op: 'and', quotes: true });
   const message = `The following ${pluralize('command', paths.length)} ${pluralize('is', paths.length)} nested too deeply: ${pathsA}. 'find' commands can only target collections at the top level or the second level.`;
   throwError(message, { reason: 'REQUEST_LIMIT' });
@@ -45,7 +45,7 @@ const isTooNestedFind = function ({
   top,
   limits: { maxFindManyDepth },
 }) {
-  if (commandpath.length <= maxFindManyDepth) { return false; }
+  if (commandpath.length < maxFindManyDepth) { return false; }
 
   const { multiple } = getColl({ commandpath, top, schema });
   return multiple;

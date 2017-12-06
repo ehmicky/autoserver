@@ -81,7 +81,7 @@ const validateUnknownArg = function ({
     .find(key => collections[collname].attributes[key] === undefined);
   if (keyA === undefined) { return; }
 
-  const path = [...commandpath.slice(1), keyA].join('.');
+  const path = [...commandpath, keyA].join('.');
   const message = `In '${name}' argument, attribute '${path}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
