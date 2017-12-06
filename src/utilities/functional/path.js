@@ -9,7 +9,8 @@ const { flatten } = require('./flatten');
 const expandPath = function (obj, key) {
   const keys = key.split('.');
   const keysA = getPaths(obj, keys);
-  return keysA;
+  const keysB = Array.isArray(keysA) ? keysA : [keysA];
+  return keysB;
 };
 
 const getPaths = function (obj, path, parentPath = []) {
