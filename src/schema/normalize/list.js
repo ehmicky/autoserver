@@ -25,6 +25,7 @@ const {
   normalizeSchemaAuthorize,
   normalizeAuthorize,
   normalizePatchOperators,
+  normalizeLog,
 } = require('./mappers');
 const { normalizeShortcuts } = require('./shortcuts');
 const { addInlineFuncPaths } = require('./inline_func');
@@ -65,6 +66,8 @@ const normalizers = [
   { type: 'coll', func: normalizeAuthorize },
   // Parse `operators.attribute|argument` `any`
   { type: 'schema', func: normalizePatchOperators },
+  // Normalize `log`
+  { type: 'schema', func: normalizeLog },
 
   // Compile-time transformations meant for runtime performance optimization
   { type: 'schema', func: normalizeShortcuts },

@@ -10,4 +10,5 @@ module.exports = {
   ...require('./description'),
   ...require('./authorize'),
   ...require('./patch_operators'),
+  ...require('./log'),
 };
