@@ -31,9 +31,10 @@ const getClientCollname = function ({
   collname,
   top,
 }) {
-  // Reuse client-supplied collection name. Otherwise, use first available
+  // Reuse client-supplied collection name.
   if (top.collname === collname) { return top.clientCollname; }
 
+  // Otherwise, use first available
   const [clientCollname] = collections[collname].name;
   return clientCollname;
 };
