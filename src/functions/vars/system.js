@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 'use strict';
 
 const { protocolHandlers } = require('../../protocols');
@@ -83,12 +84,28 @@ const POSITIONAL_VARS = [
 
 // System variables that are not always present
 const TEMP_SYSTEM_VARS = [
+  // Generic model values
   'model',
   'value',
   'previousmodel',
   'previousvalue',
+
+  // Custom validation and patch operators
   'arg',
   'type',
+
+  // Logging variables
+  'log',
+  'event',
+  'phase',
+  'level',
+  'message',
+  'error',
+  'protocols',
+  'exitcodes',
+  'measures',
+  'measuresmessage',
+  'duration',
 ];
 
 module.exports = {
@@ -97,3 +114,5 @@ module.exports = {
   POSITIONAL_VARS,
   TEMP_SYSTEM_VARS,
 };
+
+/* eslint-enable max-lines */
