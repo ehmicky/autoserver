@@ -36,7 +36,7 @@ const normalizeProtocol = function ({ headers, topargs }) {
   return { headers: headersA, topargs: topargsA };
 };
 
-// Client parameters can be specified in protocol headers
+// Client-specific variables can be specified in protocol headers
 const getTopargs = function ({ topargs = {}, headers: { params } }) {
   if (params === undefined) { return topargs; }
 

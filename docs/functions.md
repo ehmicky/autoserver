@@ -110,7 +110,8 @@ The following variables are available to any function:
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
   - `args` `{object}`: client [arguments](rpc.md#rpc) passed to the request,
     e.g. `filter`
-  - `params` `{object}`: all [client parameters](#client-parameters)
+  - `params` `{object}`: all
+    [client-specific variables](#client-specific-variables)
   - `datasize` `{number}` - size of the `data` [argument](rpc.md#rpc), in bytes
   - `datacount` `{number}` - array length of the `data` [argument](rpc.md#rpc),
     if it is an array
@@ -232,7 +233,7 @@ variables:
     $ref: constants.json
 ```
 
-# Client parameters
+# Client-specific variables
 
 Clients can specify their own
 [function variables](#variables) on any specific request,
@@ -246,7 +247,7 @@ query {
 }
 ```
 
-Client parameters will be available using the
+Client-specific variables will be available using the
 [function variable](#variables) `params` as an object.
 
 They can also be set using the
