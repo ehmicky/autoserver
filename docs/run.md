@@ -3,13 +3,10 @@
 Execute the [`run` instruction](usage.md), e.g. `apiengine.run()`.
 
 This function returns a promise, which resolves with the same value as the
-[`start` event payload](events.md#start-information).
+[`protocols` function variable](logging.md#functions-variables).
 
 If an error occurred, the promise will be rejected with an
 [exception object](error.md#exceptions-thrown-in-the-server).
-
-The [`start` event payload](events.md#start-information) contains an `exit`
-function which performs a clean server shutdown.
 
 A complete example:
 
@@ -20,7 +17,7 @@ promise/prefer-await-to-then -->
 const apiengine = require('apiengine');
 
 apiengine.run()
-  .then(({ protocols, exit }) => {
+  .then(({ protocols }) => {
     console.log('Servers started at:', protocols);
   })
   .catch(({ error }) => {

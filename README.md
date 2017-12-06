@@ -19,6 +19,9 @@ This generates a full-featured web API from a [configuration file](docs/schema.m
     [x-www-form-urlencoded](docs/formats.md#x-www-form-urlencoded),
     [JavaScript](docs/formats.md#javascript), [Hjson](docs/formats.md#hjson),
     [JSON5](docs/formats.md#json5) and [INI](docs/formats.md#ini)
+  - automatic [logging](docs/logging.md) and
+    [performance monitoring](docs/logging.md#performance-monitoring)
+  - extensive [error handling and reporting](docs/error.md)
   - [CRUD commands](docs/crud.md): find, create, patch, upsert, delete.
     Each command can be performed on a single model or on several models.
   - [Advanced mutations](docs/patch.md) like incrementing, regular expression
@@ -43,11 +46,8 @@ This generates a full-featured web API from a [configuration file](docs/schema.m
     for any protocol. [Brotli](https://en.wikipedia.org/wiki/Brotli) support.
   - [dry runs](docs/dryrun.md)
   - [silent outputs](docs/silent.md)
-  - [custom JavaScript logic](docs/functions.md)
   - [plugins](docs/plugins.md)
-  - extensive [error handling](docs/error.md) and
-    [logging](docs/events.md#logging) capabilities
-  - [performance monitoring](docs/performance.md#performance-monitoring)
+  - [custom logic](docs/functions.md) can be added in JavaScript
 
 # Missing features
 

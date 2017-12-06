@@ -339,10 +339,9 @@ is required, but `attribute` and `argument` are recommended.
 
 ## `apply` property
 
-`apply` is a [schema function](functions.md) performing the transformation.
+`apply` is a [function](functions.md) performing the transformation.
 It must return the new value after the transformation has been applied.
-Besides the regular
-[schema function variables](functions.md#schema-functions-variables), the
+Besides the regular [function variables](functions.md#variables), the
 following variables can be used:
   - `value`: the current value of the attribute, i.e. before transformation
   - `arg`: the argument passed to the patch operator
@@ -379,15 +378,15 @@ and the `integer` types if you want to allow any floating number.
 
 ## `check` property
 
-`check` is a [schema function](functions.md) applied to validate the argument
+`check` is a [function](functions.md) applied to validate the argument
 of the patch operator. It should be used if the `argument` property is not
 flexible enough, e.g. if the argument is required to be a positive integer.
 
 If the validation succeeds, it should not return anything. Otherwise, it
 should return the error message as a string.
 
-The same [schema function variables](functions.md#schema-functions-variables)
-as `apply` are available, with the exception of `value`.
+The same [function variables](functions.md#variables) as `apply` are available,
+with the exception of `value`.
 
 ## Throwing errors
 

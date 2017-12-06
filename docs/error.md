@@ -1,9 +1,7 @@
-# Exceptions, thrown in the server
+# Exceptions
 
-Every [instruction](usage.md#instructions) will throw the same type of
-exception if it fails.
-
-Exceptions try to follow [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt):
+Exceptions are standard [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt)
+objects with the following properties:
   - `type` `{string}`: error type
   - `title` `{string}`: short generic description
   - `description` `{string}`
@@ -12,14 +10,20 @@ Exceptions try to follow [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt):
   - `details` `{string}`: stack trace
   - additional properties might be present, depending on the error type
 
-# Error responses, sent to clients
+When an [instruction](usage.md#instructions) fails, an exception will be thrown.
+
+When a client-side or server-side error occurs, an exception will be
+[logged](logging.md) using the
+[`error` variable](logging.md#functions-variables).
+
+# Error responses
 
 Error responses contain an `error` property with the same properties as
 [exceptions](#exceptions), except `details`.
 
 `metadata.info` includes the same information as the
-[`log` schema variable](functions.md#schema-functions-variables), providing
-debugging information about the request.
+[`log` variable](functions.md#variables), providing debugging information about
+the request.
 
 For example:
 
@@ -77,7 +81,3 @@ For example:
   }
 }
 ```
-
-# Error logging
-
-See [here](events.md#error-information) for information about error logging.

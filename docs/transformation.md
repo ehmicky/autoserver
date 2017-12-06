@@ -17,7 +17,7 @@ client.
 # Combining attributes
 
 By using the `model` or `value`
-[variable](functions.md¤schema-functions-variables), this can also be used to
+[variable](functions.md¤variables), this can also be used to
 combine several attributes, e.g.:
 
 ```yml
