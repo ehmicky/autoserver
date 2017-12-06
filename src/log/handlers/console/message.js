@@ -1,6 +1,6 @@
 'use strict';
 
-const { getErrorMessage } = require('../../error');
+const { getErrorMessage } = require('../../../error');
 
 const { getPrefix } = require('./prefix');
 const { getRequestMessage } = require('./request_message');
@@ -9,15 +9,15 @@ const { getRequestMessage } = require('./request_message');
 // [EVENT] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
-const getConsoleMessage = function ({ vars }) {
+const getConsoleMessage = function ({ log }) {
   return parts
-    .map(getPart => getPart({ vars }))
+    .map(getPart => getPart({ log }))
     .join(' ');
 };
 
 const getMessage = function ({
-  vars,
-  vars: { event, phase, error, message = '' },
+  log,
+  log: { event, phase, error, message = '' },
 }) {
   if (event === 'failure') {
     const errorMessage = getErrorMessage({ error });
@@ -25,14 +25,14 @@ const getMessage = function ({
   }
 
   if (event === 'call' && phase === 'request') {
-    return getRequestMessage(vars);
+    return getRequestMessage(log);
   }
 
   return message;
 };
 
 // Adds how long startup, shutdown or request took
-const getDuration = function ({ vars: { duration } }) {
+const getDuration = function ({ log: { duration } }) {
   if (duration === undefined) {
     return ' '.repeat(DURATION_LENGTH);
   }

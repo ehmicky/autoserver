@@ -1,16 +1,16 @@
 'use strict';
 
-const { EVENTS, LEVELS } = require('../constants');
+const { EVENTS, LEVELS } = require('../../constants');
 
 // Retrieves `[EVENT] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE]`
-const getPrefix = function ({ vars }) {
+const getPrefix = function ({ log }) {
   return PREFIXES
-    .map(({ value, length }) => getEachPrefix({ value, length, vars }))
+    .map(({ value, length }) => getEachPrefix({ value, length, log }))
     .join(' ');
 };
 
-const getEachPrefix = function ({ value, length, vars }) {
-  const prefix = value(vars);
+const getEachPrefix = function ({ value, length, log }) {
+  const prefix = value(log);
   const prefixA = prefix
     .substr(0, length)
     .padEnd(length);

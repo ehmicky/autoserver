@@ -1,11 +1,27 @@
 'use strict';
 
-// Add log-specific schema variables
-const addLogVars = function ({ vars, event, phase, level, message }) {
+const { getVars, reduceVars } = require('../functions');
+
+// Get log-specific schema variables
+const getLogVars = function ({
+  vars,
+  schema,
+  mInput = { schema },
+  event,
+  phase,
+  level,
+  message,
+}) {
   const levelA = getLevel({ level, event });
 
   const varsA = { ...vars, event, phase, level: levelA, message };
-  return varsA;
+  const varsB = getVars(mInput, { vars: varsA });
+  const log = reduceVars({ vars: varsB });
+
+  // Used with `runSchemaFunc()` by log providers
+  const schemaFuncInput = { vars: { ...varsA, log }, mInput };
+
+  return { log, schemaFuncInput };
 };
 
 // Level defaults to `error` for event `failure`, and to `log` for other events
@@ -18,5 +34,5 @@ const getLevel = function ({ level, event }) {
 };
 
 module.exports = {
-  addLogVars,
+  getLogVars,
 };

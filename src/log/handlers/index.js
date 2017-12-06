@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = [
-  require('./custom'),
+  require('./console'),
   require('./debug'),
   require('./http'),
+  require('./custom'),
 ];
