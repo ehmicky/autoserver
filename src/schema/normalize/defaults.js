@@ -36,6 +36,7 @@ const DEFAULT_VALUES = [
   },
   { key: 'collections.*.attributes.*.type', value: 'string' },
   { key: 'collections.*.attributes.*.validate', value: {} },
+  { key: 'log', value: [] },
 ];
 
 module.exports = {
