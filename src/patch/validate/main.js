@@ -73,7 +73,7 @@ const checkError = function ({ error, commandpath, attrName, patchOp }) {
 
   if (message !== undefined) { return; }
 
-  const commandpathA = [...commandpath.slice(1), attrName].join('.');
+  const commandpathA = [...commandpath, attrName].join('.');
   const messageA = `At '${commandpathA}', wrong operation '${JSON.stringify(patchOp)}': ${message}`;
   throwError(messageA, { reason });
 };

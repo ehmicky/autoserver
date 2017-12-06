@@ -51,21 +51,14 @@ const validateAll = function ({ name, actions, values, top }) {
 };
 
 const getWrongPaths = function ({ actions, values }) {
-  const actionPaths = actions
-    .map(({ commandpath }) => getCommandpath(commandpath));
+  const actionPaths = actions.map(({ commandpath }) => commandpath.join('.'));
 
   const valuePaths = values.map(Object.keys);
   const valuePathsA = flatten(valuePaths);
-  const valuePathsB = valuePathsA
-    .map(valuePath => getCommandpath(valuePath.split('.')));
-  const valuePathsC = uniq(valuePathsB);
+  const valuePathsC = uniq(valuePathsA);
 
   const wrongPaths = difference(valuePathsC, actionPaths);
   return wrongPaths;
-};
-
-const getCommandpath = function (commandpath) {
-  return commandpath.slice(1).join('.');
 };
 
 // Cannot add that attribute unless it's already populated by one of the

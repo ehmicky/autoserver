@@ -68,10 +68,9 @@ const getResult = function ({
 }) {
   const multipleA = multiple === undefined ? command.multiple : multiple;
 
-  const pathA = multipleA
-    ? [...path, commandName, index]
-    : [...path, commandName];
-  return { path: pathA, action, model, metadata, collname };
+  const pathA = commandName === undefined ? path : [...path, commandName];
+  const pathB = multipleA ? [...pathA, index] : pathA;
+  return { path: pathB, action, model, metadata, collname };
 };
 
 module.exports = {

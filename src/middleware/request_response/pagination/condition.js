@@ -10,15 +10,11 @@ const willPaginate = function ({
   top,
   runOpts,
 }) {
-  return isTopLevel({ commandpath }) &&
+  // Only for top-level findMany, and patchMany (its currentData `find` command)
+  return commandpath === '' &&
     PAGINATION_TOP_COMMANDS.includes(top.command.name) &&
     PAGINATION_COMMANDS.includes(command) &&
     !isPaginationDisabled({ runOpts, args });
-};
-
-// Only for top-level findMany, and patchMany (its currentData `find` command)
-const isTopLevel = function ({ commandpath }) {
-  return commandpath.split('.').length === 1;
 };
 
 const PAGINATION_TOP_COMMANDS = ['findMany', 'patchMany'];

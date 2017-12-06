@@ -115,7 +115,7 @@ The following variables are available to any function:
   - `datasize` `{number}` - size of the `data` [argument](rpc.md#rpc), in bytes
   - `datacount` `{number}` - array length of the `data` [argument](rpc.md#rpc),
     if it is an array
-  - `summary` `{string}` - summary of the request, e.g. `collection{child}`
+  - `summary` `{string}` - summary of the request, e.g. `find_collection{child}`
   - `commandpaths` `{string[]}` - array with all `commandpath`
   - `collections` `{string[]}` - array with all `collection`
   - [`command`](terminology.md#command) `{string}` - among `create`, `find`,
@@ -142,7 +142,7 @@ The following variables are available to any function except
 [custom log providers](logging.md#custom-log-provider) and
 [server-specific variables](#server-specific-variables):
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
-    e.g. `'collection.child'`
+    e.g. `` (top-level) or `child.grand_child`
   - `collection` `{string}`: name of the [collection](collections.md),
     e.g. `users`
 

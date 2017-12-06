@@ -6,11 +6,8 @@ const getColl = function ({
   schema,
   top: { collname, command: { multiple } },
 }) {
-  const commandpathA = commandpath
-    // The first element is the top-level collection, not useful here
-    .slice(1)
-    // Ignore array indices
-    .filter(key => typeof key !== 'number');
+  // Ignore array indices
+  const commandpathA = commandpath.filter(key => typeof key !== 'number');
 
   // This means this is the top-level action
   if (commandpathA.length === 0) {

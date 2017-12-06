@@ -4,13 +4,13 @@
 // `weight` is the number of models spawn by each instance of this child action
 const getNestedAttrs = function ({ childActions }) {
   const topChildActions = childActions
-    .filter(({ parentAction: { commandpath } }) => commandpath.length === 2);
+    .filter(({ parentAction: { commandpath } }) => commandpath.length === 1);
   const nestedAttrs = topChildActions.map(getNestedAttr);
   return nestedAttrs;
 };
 
 const getNestedAttr = function ({
-  parentAction: { commandpath: [, attrName] },
+  parentAction: { commandpath: [attrName] },
   childActions,
 }) {
   const weight = getWeight({ childActions });

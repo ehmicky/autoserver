@@ -37,7 +37,7 @@ const validateStableIds = function ({
 
   actions
     // Only for nested actions
-    .filter(({ commandpath }) => commandpath.length > 1)
+    .filter(({ commandpath }) => commandpath.length !== 0)
     .forEach(action => validateAction({ action, schema, top }));
 };
 
@@ -47,7 +47,7 @@ const validateAction = function ({ action: { commandpath }, schema, top }) {
   const serverSet = isServerSet({ commandpath, schema, top });
   if (!serverSet) { return; }
 
-  const path = commandpath.slice(1).join('.');
+  const path = commandpath.join('.');
   const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested collection's 'id' cannot be known by the client.`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };

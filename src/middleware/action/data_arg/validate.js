@@ -10,7 +10,7 @@ const validateData = function ({
   top: { command },
   maxAttrValueSize,
 }) {
-  const commandpathA = commandpath.slice(1).join('.');
+  const commandpathA = commandpath.join('.');
 
   validateType({ datum, commandpath: commandpathA });
 

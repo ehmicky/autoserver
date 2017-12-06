@@ -36,7 +36,7 @@ const getSelectPart = function ({ select, commandpath }) {
   const commandpathA = parts.slice(0, -1);
   const commandpathB = [...commandpath, ...commandpathA].join('.');
 
-  if (commandpathB && key) {
+  if (key) {
     return { [commandpathB]: key };
   }
 
