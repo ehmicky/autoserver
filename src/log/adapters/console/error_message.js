@@ -4,32 +4,19 @@ const { resolve } = require('path');
 
 // Retrieve error message of a standard error
 const getErrorMessage = function ({
-  error: {
-    type,
-    description,
-    protocol,
-    rpc,
-    commandpath,
-    command,
-    details,
-  },
+  error: { type, description, details },
+  message,
 }) {
   // Retrieve both the main message and the stack
   const stack = getStack(description, details);
 
-  // Add request-related info to message
-  const message = [protocol, rpc, commandpath, command]
-    .filter(val => val)
-    .join(' ');
-
-  const messageStack = message && stack
-    ? `${message}\n${stack}`
-    : (message || stack);
-
   // Add error type to message
-  const fullMessage = messageStack ? `${type} - ${messageStack}` : type;
+  const errorMessage = stack ? `${type} - ${stack}` : type;
 
-  return fullMessage;
+  // Add original event's message
+  const errorMessageA = message ? `${message}\n${errorMessage}` : errorMessage;
+
+  return errorMessageA;
 };
 
 const getStack = function (description, details = '') {

@@ -1,8 +1,7 @@
 'use strict';
 
-const { getErrorMessage } = require('../../../error');
-
 const { getPrefix } = require('./prefix');
+const { getErrorMessage } = require('./error_message');
 const { getRequestMessage } = require('./request_message');
 
 // Build a standardized event message:
@@ -20,8 +19,7 @@ const getMessage = function ({
   log: { event, phase, error, message = '' },
 }) {
   if (event === 'failure') {
-    const errorMessage = getErrorMessage({ error });
-    return message ? `${message}\n${errorMessage}` : errorMessage;
+    return getErrorMessage({ error, message });
   }
 
   if (event === 'call' && phase === 'request') {

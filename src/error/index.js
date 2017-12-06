@@ -4,7 +4,6 @@ module.exports = {
   ...require('./main'),
   ...require('./reasons'),
   ...require('./standard'),
-  ...require('./message'),
   ...require('./handler'),
   ...require('./common'),
 };
