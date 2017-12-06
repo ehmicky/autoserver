@@ -3,7 +3,7 @@
 const vary = require('vary');
 
 const { OBJECT_TYPES } = require('../../../../constants');
-const { compressHandlers } = require('../../../../compress');
+const { compressAdapters } = require('../../../../compress');
 
 const { getLinks } = require('./link');
 
@@ -49,7 +49,7 @@ const setHeaders = function ({
 
 // Possible compression algorithms
 const getAcceptEncoding = function () {
-  return Object.keys(compressHandlers).join(', ');
+  return Object.keys(compressAdapters).join(', ');
 };
 
 // On WRONG_METHOD or WRONG_COMMAND errors

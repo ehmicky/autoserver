@@ -5,8 +5,8 @@ const { reportPerf } = require('./report_perf');
 
 const handler = {
   name: 'debug',
-  title: 'Debug logger',
-  description: 'Logger printing on the console, meant for debugging',
+  title: 'Debug log handler',
+  description: 'Log handler printing on the console, meant for debugging',
   report,
   reportPerf,
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../../error');
-const { loggers, DEFAULT_LOGGER } = require('../../../log');
+const { logAdapters, DEFAULT_LOGGER } = require('../../../log');
 
 // Normalize `log`
 const normalizeLog = function ({ schema, schema: { log } }) {
@@ -31,8 +31,8 @@ const addDefaultProvider = function ({ log }) {
 };
 
 const validateProvider = function ({ provider }) {
-  const logger = loggers[provider];
-  if (logger !== undefined) { return; }
+  const logAdapter = logAdapters[provider];
+  if (logAdapter !== undefined) { return; }
 
   const message = `Log provider '${provider}' does not exist`;
   throwError(message, { reason: 'SCHEMA_VALIDATION' });

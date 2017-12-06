@@ -4,14 +4,14 @@ const { pick } = require('../../utilities');
 
 // Request handler fired on each request
 const getRequestHandler = function ({
-  protocolHandler,
-  protocolHandler: { name: protocol },
+  protocolAdapter,
+  protocolAdapter: { name: protocol },
   options,
   options: { requestHandler },
   metadata,
 }) {
   const baseInput = pick(options, BASE_INPUT_KEYS);
-  const baseInputA = { ...baseInput, protocol, protocolHandler, metadata };
+  const baseInputA = { ...baseInput, protocol, protocolAdapter, metadata };
   const handleRequest = processRequest.bind(null, requestHandler, baseInputA);
   return { handleRequest };
 };

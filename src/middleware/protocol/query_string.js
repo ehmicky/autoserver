@@ -9,8 +9,8 @@ const { validateProtocolString } = require('./validate_parsing');
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Automatic transtyping is performed
-const parseQueryString = function ({ specific, protocolHandler }) {
-  const queryString = eFindQueryString({ specific, protocolHandler });
+const parseQueryString = function ({ specific, protocolAdapter }) {
+  const queryString = eFindQueryString({ specific, protocolAdapter });
   validateProtocolString({ queryString });
 
   const queryvars = eParseQueryvars({ queryString });
@@ -19,7 +19,7 @@ const parseQueryString = function ({ specific, protocolHandler }) {
 
 const findQueryString = function ({
   specific,
-  protocolHandler: { getQueryString },
+  protocolAdapter: { getQueryString },
 }) {
   return getQueryString({ specific });
 };

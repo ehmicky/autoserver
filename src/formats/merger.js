@@ -2,19 +2,19 @@
 
 const { keyBy } = require('../utilities');
 
-const formats = require('./handlers');
+const adapters = require('./adapters');
 
-const formatHandlers = keyBy(formats);
+const formatAdapters = keyBy(adapters);
 
 // Means this is not a structured type, like media types,
 // and unlike JSON or YAML
 // This won't be parsed (i.e. returned as is), and will use 'binary' charset
 const raw = {};
-const formatHandlersA = { ...formatHandlers, raw };
+const formatAdaptersA = { ...formatAdapters, raw };
 
-const DEFAULT_FORMAT = formatHandlers.json;
+const DEFAULT_FORMAT = formatAdapters.json;
 
 module.exports = {
-  formatHandlers: formatHandlersA,
+  formatAdapters: formatAdaptersA,
   DEFAULT_FORMAT,
 };

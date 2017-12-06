@@ -3,7 +3,7 @@
 const { set } = require('../../utilities');
 
 // Fill in protocol-specific `mInput`
-const parseProtocolInput = function ({ mInput, protocolHandler: { input } }) {
+const parseProtocolInput = function ({ mInput, protocolAdapter: { input } }) {
   const mInputA = Object.entries(input).reduce(reduceProtocolInput, mInput);
   return mInputA;
 };

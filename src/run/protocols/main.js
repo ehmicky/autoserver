@@ -2,7 +2,7 @@
 
 const { reduceAsync } = require('../../utilities');
 const { monitor } = require('../../perf');
-const { protocolHandlers } = require('../../protocols');
+const { protocolAdapters } = require('../../protocols');
 
 const { getRequestHandler } = require('./request_handler');
 const { launchServer } = require('./launch');
@@ -11,8 +11,8 @@ const { startEvent } = require('./event');
 // Launch the servers for each protocol
 const launchProtocols = async function (options) {
   // Make sure all servers are starting concurrently, not serially
-  const protocolPromises = Object.values(protocolHandlers)
-    .map(protocolHandler => kLaunchEachProtocol(options, protocolHandler));
+  const protocolPromises = Object.values(protocolAdapters)
+    .map(protocolAdapter => kLaunchEachProtocol(options, protocolAdapter));
   const protocolsArray = await Promise.all(protocolPromises);
 
   const protocols = Object.assign({}, ...protocolsArray);
@@ -21,10 +21,10 @@ const launchProtocols = async function (options) {
 };
 
 // Launch the server of a given protocol
-const launchEachProtocol = async function (options, protocolHandler) {
+const launchEachProtocol = async function (options, protocolAdapter) {
   const { runOpts, schema, measures } = options;
   const initialInput = {
-    protocolHandler,
+    protocolAdapter,
     runOpts,
     schema,
     options,
@@ -38,7 +38,7 @@ const launchEachProtocol = async function (options, protocolHandler) {
     (input, newInput) => ({ ...input, ...newInput }),
   );
 
-  return { [protocolHandler.name]: protocol };
+  return { [protocolAdapter.name]: protocol };
 };
 
 const kLaunchEachProtocol = monitor(

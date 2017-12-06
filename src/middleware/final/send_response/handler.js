@@ -13,8 +13,8 @@ const sendResponse = async function ({
   response,
   metadata,
   specific,
-  protocolHandler,
-  rpcHandler,
+  protocolAdapter,
+  rpcAdapter,
   format,
   compressResponse,
   rpc,
@@ -41,11 +41,11 @@ const sendResponse = async function ({
   const content = transformContent({
     response: responseB,
     mInput: mInputA,
-    rpcHandler,
+    rpcAdapter,
   });
 
   await send({
-    protocolHandler,
+    protocolAdapter,
     specific,
     content,
     response: responseC,

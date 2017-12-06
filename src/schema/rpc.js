@@ -1,7 +1,7 @@
 'use strict';
 
 const { reduceAsync, identity } = require('../utilities');
-const { rpcHandlers } = require('../rpc');
+const { rpcAdapters } = require('../rpc');
 
 // Reducer function that takes the schema as input and output,
 // and iterate over rpc-specific reduce functions
@@ -27,8 +27,8 @@ const rpcStartServer = function ({ schema }) {
 };
 
 const getProcessors = function ({ name }) {
-  return Object.values(rpcHandlers)
-    .map(rpcHandler => rpcHandler[name])
+  return Object.values(rpcAdapters)
+    .map(rpcAdapter => rpcAdapter[name])
     .filter(handler => handler);
 };
 

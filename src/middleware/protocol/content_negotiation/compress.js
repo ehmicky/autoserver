@@ -2,7 +2,7 @@
 
 const { throwError } = require('../../../error');
 const {
-  compressHandlers,
+  compressAdapters,
   denormalizeCompress,
   normalizeCompress,
   DEFAULT_COMPRESS,
@@ -49,7 +49,7 @@ const parseCompress = function ({ queryvars, compress, name, reason }) {
 
   const compressB = compressA.trim().toLowerCase();
 
-  const compressC = compressHandlers[compressB];
+  const compressC = compressAdapters[compressB];
   if (compressC !== undefined) { return compressC; }
 
   const message = `Unsupported compression: '${compressA}'`;

@@ -1,12 +1,12 @@
 /* eslint-disable max-lines */
 'use strict';
 
-const { protocolHandlers } = require('../../protocols');
-const { rpcHandlers } = require('../../rpc');
+const { protocolAdapters } = require('../../protocols');
+const { rpcAdapters } = require('../../rpc');
 const { COMMAND_TYPES } = require('../../constants');
 
-const protocols = Object.keys(protocolHandlers);
-const rpcs = Object.keys(rpcHandlers);
+const protocols = Object.keys(protocolAdapters);
+const rpcs = Object.keys(rpcAdapters);
 
 // System variables that are always present
 // We need to specify their `type` and `isArray` for `coll.authorize`

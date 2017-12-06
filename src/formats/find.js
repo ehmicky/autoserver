@@ -4,7 +4,7 @@ const { extname } = require('path');
 
 const { is: isType } = require('type-is');
 
-const allFormats = require('./handlers');
+const allFormats = require('./adapters');
 const { DEFAULT_FORMAT } = require('./merger');
 
 // Retrieve correct format, using MIME type

@@ -4,7 +4,7 @@ const { addErrorHandler, normalizeError, rethrowError } = require('../error');
 
 const { getLogVars } = require('./vars');
 const { LEVELS } = require('./constants');
-const { loggers } = require('./merger');
+const { logAdapters } = require('./merger');
 
 // Log some event, including printing to console
 const logEvent = async function ({
@@ -14,7 +14,7 @@ const logEvent = async function ({
 }) {
   const { log, schemaFuncInput } = getLogVars({ schema, ...rest });
 
-  // Can fire several loggers at the same time
+  // Can fire several logAdapters at the same time
   const promises = logConf
     .map(logConfA => fireLogger({ logConf: logConfA, log, schemaFuncInput }));
   // We make sure this function returns `undefined`
@@ -47,7 +47,7 @@ const shouldLog = function ({ level, log }) {
 const getReportFunc = function ({ event, provider }) {
   // `perf` events are handled differently
   const funcName = event === 'perf' ? 'reportPerf' : 'report';
-  const reportFunc = loggers[provider][funcName];
+  const reportFunc = logAdapters[provider][funcName];
   return reportFunc;
 };
 

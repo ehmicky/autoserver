@@ -15,17 +15,17 @@ const { decompressPayload } = require('./decompress');
 // Meant to be used by rpc layer, e.g. to populate `mInput.args`
 const parsePayload = function ({
   specific,
-  protocolHandler,
+  protocolAdapter,
   runOpts,
   charset,
   format,
   compressRequest,
 }) {
-  if (!protocolHandler.hasPayload({ specific })) { return; }
+  if (!protocolAdapter.hasPayload({ specific })) { return; }
 
   return parseRawPayload({
     specific,
-    protocolHandler,
+    protocolAdapter,
     runOpts,
     format,
     charset,
@@ -35,13 +35,13 @@ const parsePayload = function ({
 
 const parseRawPayload = async function ({
   specific,
-  protocolHandler,
+  protocolAdapter,
   runOpts,
   format,
   charset,
   compressRequest,
 }) {
-  const payload = await getRawPayload({ protocolHandler, specific, runOpts });
+  const payload = await getRawPayload({ protocolAdapter, specific, runOpts });
 
   const payloadA = await decompressPayload({ compressRequest, payload });
 

@@ -1,14 +1,14 @@
 'use strict';
 
 const { throwError } = require('../../../error');
-const { formatHandlers, DEFAULT_FORMAT } = require('../../../formats');
+const { formatAdapters, DEFAULT_FORMAT } = require('../../../formats');
 
 // Retrieve format asked by client for the response payload
 const getFormat = function ({ queryvars, format }) {
   const formatName = getFormatName({ queryvars, format });
   if (formatName === undefined) { return; }
 
-  const formatA = formatHandlers[formatName];
+  const formatA = formatAdapters[formatName];
   if (formatA !== undefined) { return formatA; }
 
   const message = `Unsupported response format: '${formatName}'`;

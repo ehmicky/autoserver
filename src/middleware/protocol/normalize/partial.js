@@ -9,7 +9,7 @@ const { omit } = require('../../../utilities');
 // taken from the payload, the headers or the query variables.
 // All protocol handlers must at least parse `origin`, `queryvars` and `payload`
 const normalizePartialProtocol = function ({
-  protocolHandler: { getHeaders, getMethod, getPath },
+  protocolAdapter: { getHeaders, getMethod, getPath },
   queryvars,
   headers,
   method,

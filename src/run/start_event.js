@@ -32,7 +32,7 @@ const emitStartEvent = async function ({
 const getEventVars = function ({ protocols, gracefulExit, measures }) {
   const protocolsA = mapValues(
     protocols,
-    protocol => omit(protocol, ['server', 'protocolHandler']),
+    protocol => omit(protocol, ['server', 'protocolAdapter']),
   );
 
   const { duration } = measures.find(({ category }) => category === 'default');

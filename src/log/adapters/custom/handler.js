@@ -4,8 +4,8 @@ const { report } = require('./report');
 
 const handler = {
   name: 'custom',
-  title: 'Custom logger',
-  description: 'Logger using a custom function',
+  title: 'Custom log handler',
+  description: 'Log handler using a custom function',
   report,
   reportPerf: report,
 };

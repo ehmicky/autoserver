@@ -2,13 +2,13 @@
 
 const { keyBy } = require('../utilities');
 
-const handlers = require('./handlers');
+const adapters = require('./adapters');
 
-const compressHandlers = keyBy(handlers);
+const compressAdapters = keyBy(adapters);
 
-const DEFAULT_COMPRESS = compressHandlers.identity;
+const DEFAULT_COMPRESS = compressAdapters.identity;
 
 module.exports = {
-  compressHandlers,
+  compressAdapters,
   DEFAULT_COMPRESS,
 };

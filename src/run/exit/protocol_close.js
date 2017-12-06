@@ -7,7 +7,7 @@ const { wrapCloseFunc } = require('./wrapper');
 const closeProtocol = async function ({
   protocol,
   protocol: {
-    protocolHandler: { name, title },
+    protocolAdapter: { name, title },
   },
   runOpts,
   schema,
@@ -24,7 +24,7 @@ const closeProtocol = async function ({
 const eventClose = function ({
   protocol: {
     server,
-    protocolHandler: { countPendingRequests },
+    protocolAdapter: { countPendingRequests },
   },
 }) {
   return countPendingRequests(server);
@@ -41,7 +41,7 @@ const mEventClose = wrapCloseFunc(eventClose, {
 const stop = async function ({
   protocol: {
     server,
-    protocolHandler: { stopServer },
+    protocolAdapter: { stopServer },
   },
 }) {
   await stopServer(server);
