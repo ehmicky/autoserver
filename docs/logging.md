@@ -1,6 +1,6 @@
 # Logging
 
-The logger is configured under the schema property `log`, e.g.:
+Logging is configured under the schema property `log`, e.g.:
 
 ```yml
 log:
@@ -12,7 +12,7 @@ log:
 
 # Verbosity
 
-`level` is the logger's verbosity, controlling which events will be logged
+`level` is the logging verbosity, controlling which events will be logged
 according to their level, i.e. importance.
 
 It can be `silent`, `info`, `log`, `warn` or `error`.
@@ -22,24 +22,22 @@ The default value is `log`.
 
 `provider` specifies the way you wish to send logs.
 
-The following providers are available:
-  - [`http`](#http-log-provider)
-  - [`console`](#console-log-provider)
-  - [`custom`](#custom-log-provider)
+The following providers are available: [`http`](#http-log-provider),
+[`console`](#console-log-provider) and [`custom`](#custom-log-provider).
 
-`opts` are the options passed to the logging provider. It is specific to each
+`opts` are the options passed to the log provider. It is specific to each
 provider.
 
-If you want to use several loggers, the schema property `log` can be an array
-of objects instead of a single object.
+If you want to use several log providers or use several configurations,
+the schema property `log` can be an array of objects instead of a single object.
 
 ## HTTP log provider
+
+The `http` [log provider](#providers) sends logs via HTTP.
 
 Provider options:
   - `url` `{string}` - URL to send the logs to
   - `method` `{string}` (default: `POST`) - HTTP method
-
-The `http` [log provider](#providers) sends logs via HTTP.
 
 ## Console log provider
 
@@ -49,15 +47,17 @@ debugging purpose.
 
 ## Custom log provider
 
+When using the `custom` [log provider](#providers), logs will be passed as
+arguments to a custom [function](functions.md).
+
+`report` is a [function](functions.md):
+  - it receives the [regular functions variables](functions.md#variables)
+    including [`log`, `measures` and `measuresmessage`](#functions-variables).
+  - it can be async or return a promise
+  - it can be used to simply handle [events](#events) instead of logging them
+
 Provider options:
   - `report` `{function}` - function fired with the log information
-
-When using the [provider](#providers) `custom`, logs will be sent by firing
-a [function](functions.md) specified with the provider's option `report`.
-
-`report` is a regular [function](functions.md) and receives the
-[regular functions variables](functions.md#variables) including
-[`log`, `measures` and `measuresmessage`](#functions-variables).
 
 # Events
 
@@ -101,10 +101,6 @@ following additional variables are available during logging:
     `warn` and `error`
   - `message` `{string}`: generic message summarizing the event or providing
     extra information
-  - `error` `{object}`
-    [exception object](error.md#exceptions-thrown-in-the-server). Only for
-    events `failure` or `request` if a client-side or server-side error
-    occurred.
   - `protocols` `{object}` - list of protocols being served. Only for `start`
     events. Also available as the resolved value of the promise returned by
     [`apiServer.start()`](run.md#running-the-server).
@@ -113,6 +109,10 @@ following additional variables are available during logging:
       - `port` `{string}`
   - `exitcodes` `{object}` - list of servers successfully exited or not, as
     `{ http: boolean, ... }`. Only for `stop` events.
+  - `error` `{object}`:
+    [exception object](error.md#exceptions-thrown-in-the-server). Only for
+    events `failure` or `request` when a client-side or server-side error
+    occurs.
   - `measures` `{object[]}` - list of performance measurements. Only for
     [`perf` events](#performance-monitoring):
     - `category` `{string}`
@@ -126,6 +126,7 @@ following additional variables are available during logging:
   - `duration` `{number}` - time it took to handle the request,
     in milliseconds. Only defined if the request was successful.
     Also available in response's `metadata.duration` property.
+    Only for [`perf` events](#performance-monitoring).
 
 # Performance monitoring
 
@@ -137,9 +138,9 @@ The `measures`, `measuresmessage` and `duration`
 
 # Console
 
-Events are also printed on the console.
+Logs are also printed on the console.
 
 They are be colorized, if the terminal supports it.
 
-The console does not contain all the information the event payload does, and
-is not as structured, so is only meant as a quick debugging tool.
+The console does not contain all the information the other log providers do, and
+is not as structured, so is only meant as a development helper.

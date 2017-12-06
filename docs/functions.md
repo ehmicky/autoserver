@@ -211,10 +211,10 @@ module.exports = getDefaultValue;
 ```
 
 Server-specific variables can be functions themselves:
-  - function variables (including other server-specific variables) will be
-    passed as the first argument like any other function
-  - function variables will be available only for server-specific variables
-    that are functions, as opposed to objects with function members.
+  - variables (including other server-specific variables) will be
+    passed as the first argument like any other function. This will only be
+    done if the variable is a function, as as opposed to an object with
+    function members.
   - if the function is [inline](#inline-functions), positional arguments are
     passed using the variables `arg1`, `arg2`, etc.
 
