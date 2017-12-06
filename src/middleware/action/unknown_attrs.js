@@ -18,21 +18,20 @@ const validateAction = function ({ action, schema }) {
 
 // Validate correct usage of special key 'all'
 const validateAllAttr = function ({
-  action: { select, commandpath, collname },
+  action: { args: { select }, collname },
   schema: { collections },
 }) {
   if (select === undefined) { return; }
 
-  const hasAllAttr = select.some(({ key }) => key === 'all');
+  const hasAllAttr = select.some(key => key === 'all');
   if (!hasAllAttr) { return; }
 
-  const attr = select
-    .filter(({ key }) => key !== 'all')
-    .find(({ key }) =>
-      collections[collname].attributes[key].target === undefined);
-  if (attr === undefined) { return; }
+  const keyA = select
+    .filter(key => key !== 'all')
+    .find(key => collections[collname].attributes[key].target === undefined);
+  if (keyA === undefined) { return; }
 
-  const message = `At '${commandpath.join('.')}': cannot specify both 'all' and '${attr.key}' attributes`;
+  const message = `Argument 'select' cannot target both 'all' and '${keyA}' attributes`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
