@@ -119,6 +119,28 @@ const getError = function ({ error, mInput }) {
   return { error: errorA };
 };
 
+// Same as `getVars()` but using client-facing collection names
+const getClientVars = function (mInput, ...args) {
+  const {
+    clientSummary: summary,
+    clientCollname: collname,
+    clientCollections: collections,
+    clientCommandpath: commandpath,
+    clientCommandpaths: commandpaths,
+  } = mInput;
+  const mInputA = {
+    ...mInput,
+    summary,
+    collname,
+    collections,
+    commandpath,
+    commandpaths,
+  };
+
+  const vars = getVars(mInputA, ...args);
+  return vars;
+};
+
 // Retrieve model-related system variables
 const getModelVars = function ({ model, previousmodel, attrName }) {
   const value = model[attrName];
@@ -132,6 +154,7 @@ const getModelVars = function ({ model, previousmodel, attrName }) {
 module.exports = {
   getFuncVars,
   getVars,
+  getClientVars,
   getModelVars,
 };
 

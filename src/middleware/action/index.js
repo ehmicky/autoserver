@@ -15,6 +15,7 @@ module.exports = {
   ...require('./unknown_attrs'),
   ...require('./stable_ids'),
   ...require('./summary'),
+  ...require('./client_names'),
   ...require('./sort'),
 
   ...require('./current_data'),

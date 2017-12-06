@@ -52,9 +52,9 @@ const getAction = function ({ attrName, attrs, top, schema, argName }) {
 
   validateModel({ coll, commandpath, argName });
 
-  const { collname, clientCollname } = coll;
+  const { collname } = coll;
 
-  return { commandpath, collname, clientCollname, args: {} };
+  return { commandpath, collname, args: {} };
 };
 
 // Cannot specify `args.populate|cascade` `parent.child` but not `parent`.

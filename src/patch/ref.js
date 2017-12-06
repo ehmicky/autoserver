@@ -34,7 +34,7 @@ const replaceSimpleRef = function ({ ref, attributes, datum, commandpath }) {
     return datum[ref];
   }
 
-  const message = `At '${commandpath.join('.')}': attribute '${ref}' is unknown`;
+  const message = `At '${commandpath.slice(1).join('.')}': attribute '${ref}' is unknown`;
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 

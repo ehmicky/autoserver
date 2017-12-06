@@ -2,7 +2,7 @@
 
 const { pick, omit } = require('../../../utilities');
 const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
-const { getVars, reduceVars } = require('../../../functions');
+const { getClientVars, reduceVars } = require('../../../functions');
 
 // Add response's metadata
 const addMetadata = function ({
@@ -32,7 +32,7 @@ const getErrorMetadata = function ({
 
   const metadataA = pick(metadata, ERROR_METADATA);
 
-  const vars = getVars(mInput);
+  const vars = getClientVars(mInput);
   const varsA = omit(vars, HIDDEN_ERROR_INFO);
   const varsB = reduceVars({ vars: varsA });
 
