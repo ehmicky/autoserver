@@ -2,14 +2,10 @@
 
 const { keyBy } = require('../utilities');
 
-const handlers = require('./handlers');
+const adapters = require('./adapters');
 
-// Return object of all rpc-specific functions, as { RPC: OBJECT }
-// Everything that is rpc-specific is in this directory.
-// E.g. there should be no GraphQL-related code outside of this directory,
-// to enforce rpc-agnosticism and separation of concerns.
-const rpcHandlers = keyBy(handlers);
+const rpcAdapters = keyBy(adapters);
 
 module.exports = {
-  rpcHandlers,
+  rpcAdapters,
 };

@@ -3,7 +3,7 @@
 const { throwError } = require('../../error');
 
 // Check if protocol method is allowed for current rpc
-const methodCheck = function ({ rpcHandler: { methods, title }, method }) {
+const methodCheck = function ({ rpcAdapter: { methods, title }, method }) {
   const allowedMethod = methods === undefined ||
     methods.includes(method) ||
     // If only method is allowed by the rpc, but the protocol does not have

@@ -1,6 +1,6 @@
 'use strict';
 
-const { rpcHandlers } = require('../../../rpc');
+const { rpcAdapters } = require('../../../rpc');
 
 const { findRoute } = require('./routes');
 const { getPathvars } = require('./pathvars');
@@ -9,11 +9,11 @@ const { getPathvars } = require('./pathvars');
 const router = function ({ path }) {
   const route = findRoute({ path });
   const { rpc } = route;
-  const rpcHandler = rpcHandlers[rpc];
+  const rpcAdapter = rpcAdapters[rpc];
 
   const pathvars = getPathvars({ path, route });
 
-  return { rpc, rpcHandler, pathvars };
+  return { rpc, rpcAdapter, pathvars };
 };
 
 module.exports = {

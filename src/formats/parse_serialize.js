@@ -1,11 +1,11 @@
 'use strict';
 
-const { formatHandlers } = require('./merger');
+const { formatAdapters } = require('./merger');
 const { jsonCompatParse, jsonCompatSerialize } = require('./compat');
 
 // Generic parser, delegating to the format specified in `format`
 const genericParse = function ({ format, content, path }) {
-  const { parse, jsonCompat } = formatHandlers[format];
+  const { parse, jsonCompat } = formatAdapters[format];
   const contentA = parse({ content, path });
   const contentC = jsonCompat.reduce(
     (contentB, compatType) => jsonCompatParse[compatType](contentB),
@@ -16,7 +16,7 @@ const genericParse = function ({ format, content, path }) {
 
 // Generic serializer, delegating to the format specified in `format`
 const genericSerialize = function ({ format, content }) {
-  const { serialize, jsonCompat } = formatHandlers[format];
+  const { serialize, jsonCompat } = formatAdapters[format];
   const contentB = jsonCompat.reduce(
     (contentA, compatType) => jsonCompatSerialize[compatType](contentA),
     content,

@@ -1,7 +1,7 @@
 'use strict';
 
-const { protocolHandlers } = require('../../../protocols');
-const { rpcHandlers } = require('../../../rpc');
+const { protocolAdapters } = require('../../../protocols');
+const { rpcAdapters } = require('../../../rpc');
 
 // Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
@@ -16,8 +16,8 @@ const getRequestMessage = function ({
 }) {
   const summaryA = status === 'SUCCESS' ? summary : commandpath;
 
-  const { title: protocolTitle } = protocolHandlers[protocol] || {};
-  const { title: rpcTitle } = rpcHandlers[rpc] || {};
+  const { title: protocolTitle } = protocolAdapters[protocol] || {};
+  const { title: rpcTitle } = rpcAdapters[rpc] || {};
 
   const message = [
     status,

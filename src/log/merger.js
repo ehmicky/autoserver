@@ -2,15 +2,13 @@
 
 const { keyBy } = require('../utilities');
 
-const handlers = require('./handlers');
+const adapters = require('./adapters');
 
-// Return object of all loggers, as { NAME: LOGGERS }
-// Everything that is database logger-specific is in this directory.
-const loggers = keyBy(handlers);
+const logAdapters = keyBy(adapters);
 
-const DEFAULT_LOGGER = loggers.console;
+const DEFAULT_LOGGER = logAdapters.console;
 
 module.exports = {
-  loggers,
+  logAdapters,
   DEFAULT_LOGGER,
 };

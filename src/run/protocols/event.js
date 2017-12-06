@@ -5,7 +5,7 @@ const { logEvent } = require('../../log');
 // Protocol-specific start event
 const startEvent = function ({
   protocol: { hostname, port },
-  protocolHandler: { title },
+  protocolAdapter: { title },
   schema,
 }) {
   const message = `${title} - Listening on ${hostname}:${port}`;

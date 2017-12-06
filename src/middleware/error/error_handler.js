@@ -5,13 +5,13 @@ const { logEvent } = require('../../log');
 // Error handler, which sends final response, if server-side errors
 const errorHandler = async function ({
   error,
-  protocolHandler,
+  protocolAdapter,
   specific,
   schema,
   mInput,
 }) {
   // Make sure a response is sent, even empty, or the socket will hang
-  await protocolHandler.send({ specific, content: '', contentLength: 0 });
+  await protocolAdapter.send({ specific, content: '', contentLength: 0 });
 
   const mInputA = { ...DEFAULT_MINPUT, ...mInput };
 

@@ -2,7 +2,7 @@
 
 // Use rpc-specific logic to parse the request into an rpc-agnostic `rpcDef`
 const parseRpc = function ({
-  rpcHandler: { handler },
+  rpcAdapter: { handler },
   schema,
   origin,
   queryvars,

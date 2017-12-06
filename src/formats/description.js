@@ -2,7 +2,7 @@
 
 const { flatten, getWordsList } = require('../utilities');
 
-const formats = require('./handlers');
+const formats = require('./adapters');
 
 // Retrieve all possible extensions, for description/documentation
 const getExtNames = function (type) {

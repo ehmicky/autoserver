@@ -262,11 +262,11 @@ definitions:
   # schema.log
   log:
     oneOf:
-    - $ref: '#/definitions/logger'
+    - $ref: '#/definitions/logAdapter'
     - type: array
       items:
-        $ref: '#/definitions/logger'
-  logger:
+        $ref: '#/definitions/logAdapter'
+  logAdapter:
     type: object
     properties:
       provider:

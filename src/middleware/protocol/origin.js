@@ -7,7 +7,7 @@ const { validateProtocolString } = require('./validate_parsing');
 
 // Fill in `mInput.origin`
 const parseOrigin = function ({
-  protocolHandler: { getOrigin, getUrl },
+  protocolAdapter: { getOrigin, getUrl },
   specific,
 }) {
   const origin = getOrigin({ specific });

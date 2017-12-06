@@ -11,10 +11,10 @@ const {
 const { getLimits } = require('../../../limits');
 
 // Use protocol-specific way to parse payload, using a known type
-const getRawPayload = function ({ protocolHandler, specific, runOpts }) {
+const getRawPayload = function ({ protocolAdapter, specific, runOpts }) {
   const { maxpayload } = getLimits({ runOpts });
 
-  return protocolHandler.getPayload({ specific, maxpayload });
+  return protocolAdapter.getPayload({ specific, maxpayload });
 };
 
 const getRawPayloadHandler = function (error, { maxpayload }) {

@@ -6,7 +6,7 @@ const transformContent = function ({
   response,
   response: { type, content },
   mInput,
-  rpcHandler: { transformError, transformSuccess } = {},
+  rpcAdapter: { transformError, transformSuccess } = {},
 }) {
   if (ERROR_TYPES.includes(type) && transformError) {
     return transformError({ ...mInput, response });

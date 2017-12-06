@@ -10,7 +10,7 @@ const { compressContent } = require('./compress');
 
 // Set basic payload headers, then delegate to protocol handler
 const send = async function ({
-  protocolHandler,
+  protocolAdapter,
   specific,
   content,
   response,
@@ -43,7 +43,7 @@ const send = async function ({
 
   const reason = getReason({ error });
 
-  return protocolHandler.send({
+  return protocolAdapter.send({
     specific,
     content: contentB,
     response,
