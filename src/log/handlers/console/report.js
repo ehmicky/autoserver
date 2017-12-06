@@ -4,17 +4,15 @@ const { getConsoleMessage } = require('./message');
 const { colorize } = require('./colorize');
 
 // Prints event messages to console.
-const consolePrint = function ({ vars, vars: { level }, isPerf }) {
-  if (isPerf) { return; }
+const report = function ({ log, log: { level } }) {
+  const consoleMessage = getConsoleMessage({ log });
 
-  const consoleMessage = getConsoleMessage({ vars });
-
-  const consoleMessageA = colorize({ vars, consoleMessage });
+  const consoleMessageA = colorize({ log, consoleMessage });
 
   // eslint-disable-next-line no-console, no-restricted-globals
   console[level](consoleMessageA);
 };
 
 module.exports = {
-  consolePrint,
+  report,
 };

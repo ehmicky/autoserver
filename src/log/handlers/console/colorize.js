@@ -4,7 +4,7 @@ const { magenta, green, yellow, red, gray, reset, dim } = require('chalk');
 
 // Colorize a standard error message
 // Not performed if terminal does not support colors
-const colorize = function ({ vars: { event, level }, consoleMessage }) {
+const colorize = function ({ log: { event, level }, consoleMessage }) {
   const [
     ,
     first,

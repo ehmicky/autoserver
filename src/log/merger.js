@@ -8,7 +8,7 @@ const handlers = require('./handlers');
 // Everything that is database logger-specific is in this directory.
 const loggers = keyBy(handlers);
 
-const DEFAULT_LOGGER = loggers.custom;
+const DEFAULT_LOGGER = loggers.console;
 
 module.exports = {
   loggers,

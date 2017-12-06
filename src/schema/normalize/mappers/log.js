@@ -1,12 +1,15 @@
 'use strict';
 
-const { DEFAULT_LOGGER } = require('../../../log');
+const { throwError } = require('../../../error');
+const { loggers, DEFAULT_LOGGER } = require('../../../log');
 
 // Normalize `log`
 const normalizeLog = function ({ schema, schema: { log } }) {
   const logA = Array.isArray(log) ? log : [log];
   const logC = logA.map(logB => addDefaultProviderName({ log: logB }));
   const logD = addDefaultProvider({ log: logC });
+
+  logD.forEach(validateProvider);
 
   return { ...schema, log: logD };
 };
@@ -25,6 +28,14 @@ const addDefaultProvider = function ({ log }) {
   if (hasConsole) { return log; }
 
   return [...log, { provider: DEFAULT_LOGGER.name }];
+};
+
+const validateProvider = function ({ provider }) {
+  const logger = loggers[provider];
+  if (logger !== undefined) { return; }
+
+  const message = `Log provider '${provider}' does not exist`;
+  throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 
 module.exports = {
