@@ -4,8 +4,7 @@ It is possible to reject requests by specifying a condition with
 `schema.authorize`.
 
 `schema.authorize` uses the same format as the [`filter`](filtering.md) query
-[argument](rpc.md#rpc), except
-[schema variables](functions.md#schema-functions-variables),
+[argument](rpc.md#rpc), except [function variables](functions.md#variables),
 including [user variables](functions.md#user-variables), are specified instead
 of collection's attributes, e.g.:
 
@@ -68,7 +67,7 @@ is over `30`, or `example_collection.public` is `true`.
 
 If the model is being modified, attributes are checked both before and after
 modification. In other words, it is checked on both `previousmodel` and
-`model` [variables](functions.md#schema-functions-variables)). E.g.:
+`model` [variables](functions.md#variables)). E.g.:
 
 ```yml
 collections:

@@ -78,6 +78,8 @@ This file describes two collections:
 
 The schema can contain the following properties:
   - `engine` `{string}` (required) - file format version. Must equal `0`
+  - `name` `{string}` - sets the [function variable](functions.md#variables)
+    `serverinfo.process.name`
   - `collections` `{object}` (required) - list of
     [collections](collections.md#collections)
     - `COLLECTION` `{object}` - COLLECTION is the name
@@ -86,8 +88,12 @@ The schema can contain the following properties:
         - `ATTRIBUTE` `{object}` - ATTRIBUTE is the name
   - `variables` `{object}` - [user variables](functions.md#user-variables)
   - `plugins` `{object}` - [plugins](plugins.md)
+  - `authorize` `{object}` - see [authorization](authorization.md)
   - `validation` `{object}` -
     [custom validation keywords](validation.md#custom-validation)
+  - `operators` `{object}` -
+    [custom patch operators](patch.md#custom-operators)
+  - `log` `{object}` - [logging configuration](logging.md)
 
 # Schema validation
 

@@ -83,18 +83,18 @@ Actual database query, from a server perspective. An action is converted to
 one or several commands. E.g. a `patch` command will first trigger a `find`
 command to query the current models to patch.
 
-## Schema functions
+## Functions
 
 [Functions](functions.md) specified in schema, that allows injecting
 custom logic.
 
 ## User variables
 
-Server-specified [variables](functions.md#user-variables)
+Server-specified [function variables](functions.md#user-variables)
 
 ## Client parameters
 
-Client-specified [variables](functions.md#client-parameters)
+Client-specified [function variables](functions.md#client-parameters)
 
 ## Options
 

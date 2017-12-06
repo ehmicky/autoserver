@@ -1,4 +1,4 @@
-# Schema functions
+# Functions
 
 Custom logic can be added by using functions in the [schema](schema.md).
 
@@ -9,12 +9,12 @@ The following schema properties can use functions:
   - [`attribute.value`](transformation.md)
   - [custom validation keywords](validation.md#custom-validation)
   - [custom patch operators](patch.md#custom-operators)
-  - [custom logger]()
+  - [custom log providers](logging.md#custom-log-provider)
 
-Everywhere a schema function can be used, a constant value can also be used.
+Everywhere a function can be used, a constant value can also be used instead.
 
-Schema functions should be pure, i.e. no global variable should be used, and
-it should not create side-effects. Their arguments are read-only.
+Functions should be pure: no global variable should be used nor side-effects
+created. Their arguments are read-only.
 
 # Defining functions
 
@@ -57,24 +57,26 @@ collections:
 Only the function body should be specified (without the leading `return`
 keyword), and it should be wrapped in parenthesis.
 
-# Schema functions variables
+# Variables
 
-Every schema functions receives as their first argument an object containing
-system variables.
+Every functions receives as their first argument an object containing variables
+with information about the current context.
 
-The following variables are available to any schema function:
-  - `requestid` `{string}` - UUID identifying the current request
+The following variables are available to any function:
+  - `requestid` `{string}` - UUID identifying the current request.
     Also available in response's `metadata.requestid` property
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
-  - [`protocol`](protocols.md) `{string}`: possible values are only `http`
+  - [`protocol`](protocols.md) `{string}`: possible value is only `http`
   - `ip` `{string}`: request IP
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
   - `method` `{string}` - [protocol](protocols.md)-agnostic method,
     e.g. `'GET'`
-  - `queryvars` `{object}` - query variables, as a hash table
-  - `headers` `{object}` - engine-specific headers
+  - `queryvars` `{object}` - query variables, as an object
+  - `headers` `{object}` - [protocol headers](protocols.md#headers-and-method)
+    specific to the engine, for example HTTP headers starting with
+    `X-Apiengine-`
   - `format` `{string}` - request payload and server response's
     [format](formats.md)
   - `charset` `{string}` - request payload's [charset](formats.md#charsets)
@@ -87,15 +89,15 @@ The following variables are available to any schema function:
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
   - `args` `{object}`: client [arguments](rpc.md#rpc) passed to the request,
     e.g. `filter`
-  - `params`: all [client parameters](#client-parameters)
-  - `datasize` `{number}` - size of `data` [argument](rpc.md#rpc), in bytes
-  - `datacount` `{number}` - array length of `data` argument, if it is an array
-  - `summary` `{string}` - summary of the request, e.g. 'collection{child}'
+  - `params` `{object}`: all [client parameters](#client-parameters)
+  - `datasize` `{number}` - size of the `data` [argument](rpc.md#rpc), in bytes
+  - `datacount` `{number}` - array length of the `data` [argument](rpc.md#rpc),
+    if it is an array
+  - `summary` `{string}` - summary of the request, e.g. `collection{child}`
   - `commandpaths` `{string[]}` - array with all `commandpath`
-  - [`command`](terminology.md#command) `${string}` - `'create'`, `'find'`,
-    `'upsert'`, `'patch'` and `'delete'`.
   - `collections` `{string[]}` - array with all `collection`
-  - `command` `{string}`: among `create`, `find`, `upsert`, `patch` or `delete`
+  - [`command`](terminology.md#command) `{string}` - among `create`, `find`,
+    `upsert`, `patch` and `delete`.
   - `serverinfo` `{object}`: with the properties:
     - `host` `{object}`:
        - `id` `{UUID}`: unique to each host machine (using the MAC address)
@@ -114,15 +116,16 @@ The following variables are available to any schema function:
        - `name` `{string}`: defaults to system hostname, but can be overriden
          using the schema property `name`
 
-The following variables are available to any schema function except
-[custom loggers]() and [user variables](#user-variables):
+The following variables are available to any function except
+[custom log providers](logging.md#custom-log-provider) and
+[user variables](#user-variables):
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
     e.g. `'collection.child'`
   - `collection` `{string}`: name of the [collection](collections.md),
     e.g. `users`
 
-The following variables are available to any schema function except
-[custom loggers](),
+The following variables are available to any function except
+[custom log providers](logging.md#custom-log-provider),
 [user variables](#user-variables) and
 [custom patch operators](patch.md#custom-operators):
   - `value` `{any}`: value of the current attribute.
@@ -139,16 +142,18 @@ The following variables are available to any schema function except
     If the current request is creating the model (with a `create` or `upsert`
     action), this will be `undefined`.
 
-The following variables are available only to [custom loggers]():
-  - `duration` `{number}` - time it took to handle the request,
-    in milliseconds. Only defined if the request was successful.
-  - `status` `{string}` - response's status, among `'INTERNALS'`, `'SUCCESS'`,
-    `'CLIENT_ERROR'` and `'SERVER_ERROR'`
+The following variables are available only to
+[custom log providers](logging.md#custom-log-provider):
+  - `log`, `error`, `protocols`, `exitcodes`, `measures`, `measuresmessage`,
+    `duration`, `event`, `phase`, `level` and `message` - see
+    [logging](logging.md#functions-variables)
+  - `status` `{string}` - response's status, among `INTERNALS`, `SUCCESS`,
+    `CLIENT_ERROR` and `SERVER_ERROR`
   - `responsedata` `{any}` - response data
   - `responsedatasize` `{number}` - in bytes
   - `responsedatacount` `{number}` - array length, if it is an array
-  - `responsetype` `{string}` - among `'model'`, `'models'`, `'error'`,
-    `'object'`, `'html'`, `'text'`
+  - `responsetype` `{string}` - among `model`, `models`, `error`, `object`,
+    `html`, `text`
   - `metadata` `{object}` - response's metadata
   - `modelscount` `{number}` - number of models returned, including nested ones
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
@@ -182,7 +187,7 @@ collections:
 
 # User variables
 
-User variables behave like system variables, except they are specified using the
+User variables behave like other variables, except they are specified using the
 `variables` schema property, which is an object containing all user variables.
 
 E.g. if the schema specifies:
@@ -192,7 +197,7 @@ variables:
   $secret_password: admin
 ```
 
-The user variable `$secret_password` can be used in any schema function:
+The user variable `$secret_password` can be used in any function:
 
 <!-- eslint-disable strict, filenames/match-exported, camelcase -->
 ```js
@@ -204,9 +209,9 @@ module.exports = getDefaultValue;
 ```
 
 User variables can be functions themselves:
-  - schema variables (including other user variables) will be passed as
-    the first argument like any other schema function
-  - schema variables will be available only for user variables that are
+  - function variables (including other user variables) will be passed as
+    the first argument like any other function
+  - function variables will be available only for user variables that are
     functions, as opposed to objects with function members.
   - if the function is [inline](#inline-functions), positional arguments are
     passed using the variables `arg1`, `arg2`, etc.
@@ -229,8 +234,8 @@ variables:
 # Client parameters
 
 Clients can specify their own
-[schema function variables](#schema-functions-variables) on any specific
-request, using the [argument](rpc.md#rpc) `params` with an object value, e.g.:
+[function variables](#variables) on any specific request,
+using the [argument](rpc.md#rpc) `params` with an object value, e.g.:
 
 ```graphql
 query {
@@ -241,7 +246,7 @@ query {
 ```
 
 Client parameters will be available using the
-[system variable](#schema-functions-variables) `params` as an object.
+[function variable](#variables) `params` as an object.
 
 They can also be set using the
 [protocol header](protocols.md#headers-and-method) `params`, with a JSON object
