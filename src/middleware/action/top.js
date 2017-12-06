@@ -14,7 +14,7 @@ const parseTopAction = function ({
 }) {
   const { args: argsA, sumVars } = getArgs({ args, topargs });
 
-  const { command, collname } = parseCommandName({
+  const { command, collname, clientCollname } = parseCommandName({
     commandName,
     collsNames,
     args: argsA,
@@ -22,7 +22,7 @@ const parseTopAction = function ({
 
   const commandpath = [collname];
 
-  const action = { collname, commandpath, args: argsA };
+  const action = { collname, clientCollname, commandpath, args: argsA };
   const actions = [action];
   const top = { ...action, command };
 
@@ -50,7 +50,7 @@ const parseCommandName = function ({ commandName, collsNames, args }) {
 
   const command = getCommand({ commandType, args });
 
-  return { command, collname };
+  return { command, collname, clientCollname };
 };
 
 // Matches e.g. 'find_my_coll' -> ['find', 'my_coll'];
