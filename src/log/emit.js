@@ -7,10 +7,10 @@ const { addLogVars } = require('./vars');
 const { reportLog } = require('./report');
 
 // Log some event, including printing to console
-const logEvent = function ({ schema, mInput, vars, duration, event, ...rest }) {
+const logEvent = function ({ schema, mInput, vars, event, ...rest }) {
   const varsA = addLogVars({ vars, event, ...rest });
 
-  const promise = reportLog({ schema, mInput, vars: varsA, duration });
+  const promise = reportLog({ schema, mInput, vars: varsA });
 
   // We want to make sure this function does not return anything
   const promiseA = promiseThen(promise, () => undefined);

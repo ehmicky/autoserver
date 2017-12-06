@@ -24,9 +24,8 @@ const emitStopEvent = async function ({ exitcodes, schema, measures }) {
     phase: 'shutdown',
     level,
     message,
-    vars: { exitcodes },
+    vars: { exitcodes, duration },
     schema,
-    duration,
   });
 };
 

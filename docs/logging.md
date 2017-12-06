@@ -123,15 +123,16 @@ following additional variables are available during logging:
     - `average` `{number}` - average measure duration, in milliseconds
   - `measuresmessage` `{string}`: console-friendly table with the same
     information as `measures`
-  - `duration` `{number}` - time it took to handle the request,
-    in milliseconds. Only defined if the request was successful.
+  - `duration` `{number}` - time it took for the server to startup, shutdown
+    or handle the client request (depending on the event), in milliseconds.
     Also available in response's `metadata.duration` property.
-    Only for [`perf` events](#performance-monitoring).
+    Only for
+    [`perf`, `start`, `stop` and `call` events](#performance-monitoring).
 
 # Performance monitoring
 
-Logs for the `perf` event are triggered with information about how long the
-server took the server `startup`, `shutdown` or a client `request`.
+Logs for the `perf` event are triggered with information about how long it
+took for the server to `startup`, `shutdown` or handle a client `request`.
 
 The `measures`, `measuresmessage` and `duration`
 [function variables](#functions-variables) provide the performance information.
