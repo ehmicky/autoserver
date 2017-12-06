@@ -46,9 +46,11 @@ const getVars = function (mInput, { vars: { error, ...vars } = {} } = {}) {
     topargs: { params: params = {} } = {},
     datasize,
     datacount,
-    summary,
-    commandpaths,
-    commandpath,
+    // `summary`, `commandpaths` and `commandpath` are using client-facing names
+    // but `collnames` and `collname` are not
+    clientSummary: summary,
+    clientCommandpaths: commandpaths,
+    clientCommandpath: commandpath,
     collnames: collections,
     collname: collection,
     top: { command: { type: command } = {} } = {},
@@ -121,21 +123,8 @@ const getError = function ({ error, mInput }) {
 
 // Same as `getVars()` but using client-facing collection names
 const getClientVars = function (mInput, ...args) {
-  const {
-    clientSummary: summary,
-    clientCollname: collname,
-    clientCollnames: collnames,
-    clientCommandpath: commandpath,
-    clientCommandpaths: commandpaths,
-  } = mInput;
-  const mInputA = {
-    ...mInput,
-    summary,
-    collname,
-    collnames,
-    commandpath,
-    commandpaths,
-  };
+  const { clientCollname: collname, clientCollnames: collnames } = mInput;
+  const mInputA = { ...mInput, collname, collnames };
 
   const vars = getVars(mInputA, ...args);
   return vars;
