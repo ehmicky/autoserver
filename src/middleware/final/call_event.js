@@ -16,9 +16,8 @@ const callEvent = function ({
     event: 'call',
     phase: 'request',
     level,
-    vars: { error },
+    vars: { error, duration },
     schema,
-    duration,
   });
 };
 

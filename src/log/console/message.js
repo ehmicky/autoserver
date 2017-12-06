@@ -9,9 +9,9 @@ const { getRequestMessage } = require('./request_message');
 // [EVENT] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
-const getConsoleMessage = function ({ vars, duration }) {
+const getConsoleMessage = function ({ vars }) {
   return parts
-    .map(getPart => getPart({ vars, duration }))
+    .map(getPart => getPart({ vars }))
     .join(' ');
 };
 
@@ -32,8 +32,8 @@ const getMessage = function ({
 };
 
 // Adds how long startup, shutdown or request took
-const getDuration = function ({ duration }) {
-  if (!duration) {
+const getDuration = function ({ vars: { duration } }) {
+  if (duration === undefined) {
     return ' '.repeat(DURATION_LENGTH);
   }
 

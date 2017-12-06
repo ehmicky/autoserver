@@ -13,7 +13,6 @@ const reportLog = function ({
   mInput = { schema },
   vars,
   vars: { event },
-  duration,
 }) {
   const noLog = !shouldLog({ schema, vars });
   if (noLog) { return; }
@@ -24,7 +23,7 @@ const reportLog = function ({
   // Performance events are handled differently
   const isPerf = event === 'perf';
 
-  consolePrint({ vars: log, duration, isPerf });
+  consolePrint({ vars: log, isPerf });
 
   return fireLoggers({ schema, mInput, vars, log, isPerf });
 };
