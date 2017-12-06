@@ -39,9 +39,7 @@ const handleIntrospection = async function ({
     response,
     summary: 'introspection',
     commandpaths: ['introspection'],
-    clientCommandpaths: ['introspection'],
     collname: '__schema',
-    clientCollname: '__schema',
     collections: ['__schema'],
     clientCollections: ['__schema'],
   };

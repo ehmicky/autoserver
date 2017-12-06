@@ -46,11 +46,9 @@ const getVars = function (mInput, { vars: { error, ...vars } = {} } = {}) {
     topargs: { params: params = {} } = {},
     datasize,
     datacount,
-    // `summary`, `commandpaths` and `commandpath` are using client-facing names
-    // but `collnames` and `collname` are not
-    clientSummary: summary,
-    clientCommandpaths: commandpaths,
-    clientCommandpath: commandpath,
+    summary,
+    commandpaths,
+    commandpath,
     collnames: collections,
     collname: collection,
     top: { command: { type: command } = {} } = {},
