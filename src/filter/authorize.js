@@ -5,13 +5,13 @@ const { SYSTEM_VARS } = require('../functions');
 
 // Retrieve type and names of all possible `coll.authorize.*`
 const getAuthorizeAttrs = function ({ schema, collname }) {
-  const userVars = getUserVars({ schema });
+  const serverVars = getServerVars({ schema });
   const modelAttrs = getModelAttrs({ schema, collname });
-  return { ...userVars, ...modelAttrs, ...SYSTEM_VARS };
+  return { ...serverVars, ...modelAttrs, ...SYSTEM_VARS };
 };
 
-// `coll.authorize.USER_VAR`
-const getUserVars = function ({ schema: { variables = {} } }) {
+// `coll.authorize.SERVER_VAR`
+const getServerVars = function ({ schema: { variables = {} } }) {
   return mapValues(variables, () => ({ type: 'dynamic' }));
 };
 

@@ -5,8 +5,8 @@ It is possible to reject requests by specifying a condition with
 
 `schema.authorize` uses the same format as the [`filter`](filtering.md) query
 [argument](rpc.md#rpc), except [function variables](functions.md#variables),
-including [user variables](functions.md#user-variables), are specified instead
-of collection's attributes, e.g.:
+including [server-specific variables](functions.md#server-specific-variables),
+are specified instead of collection's attributes, e.g.:
 
 ```yml
 schema:

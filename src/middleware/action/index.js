@@ -4,7 +4,7 @@ module.exports = {
   ...require('./top'),
   ...require('./validate_args'),
   ...require('./rename_args'),
-  ...require('./user_vars'),
+  ...require('./server_vars'),
   ...require('./filter'),
   ...require('./data_arg'),
   ...require('./populate_cascade'),

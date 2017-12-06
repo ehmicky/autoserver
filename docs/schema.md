@@ -86,7 +86,8 @@ The schema can contain the following properties:
       - `attributes` `{object}` - list of the collections's
         [attributes](collections.md#attributes)
         - `ATTRIBUTE` `{object}` - ATTRIBUTE is the name
-  - `variables` `{object}` - [user variables](functions.md#user-variables)
+  - `variables` `{object}` -
+    [server-specific variables](functions.md#server-specific-variables)
   - `plugins` `{object}` - [plugins](plugins.md)
   - `authorize` `{object}` - see [authorization](authorization.md)
   - `validation` `{object}` -

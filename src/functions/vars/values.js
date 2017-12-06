@@ -7,7 +7,7 @@ const { getServerinfo } = require('../../serverinfo');
 // Retrieve all schema variables
 const getVars = function (
   mInput,
-  { userVars, vars: { error, ...vars } = {} } = {},
+  { serverVars, vars: { error, ...vars } = {} } = {},
 ) {
   const {
     requestid,
@@ -53,10 +53,10 @@ const getVars = function (
   const errorA = getError({ error, mInput });
 
   // Order matters:
-  //  - we want to be 100% sure userVars do not overwrite system variables
+  //  - we want to be 100% sure serverVars do not overwrite system variables
   //  - it is possible to overwrite system vars with call-specific `vars`
   return {
-    ...userVars,
+    ...serverVars,
     requestid,
     timestamp,
     duration,

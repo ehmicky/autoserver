@@ -10,13 +10,13 @@ const { stringifySchemaFunc } = require('./tokenize');
 const runSchemaFunc = function ({
   schemaFunc,
   mInput,
-  mInput: { userVars },
+  mInput: { serverVars },
   vars,
 }) {
   // If this is not schema function, returns as is
   if (typeof schemaFunc !== 'function') { return schemaFunc; }
 
-  const varsA = getVars(mInput, { userVars, vars });
+  const varsA = getVars(mInput, { serverVars, vars });
 
   return schemaFunc(varsA);
 };

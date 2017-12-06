@@ -11,7 +11,7 @@ const validateAuthorization = function ({
   clientCollname,
   schema,
   schema: { collections },
-  userVars,
+  serverVars,
   mInput,
   command,
   top,
@@ -20,7 +20,7 @@ const validateAuthorization = function ({
   // `create`'s currentData query
   if (topCommand === 'create' && command === 'find') { return; }
 
-  validateSchemaAuth({ clientCollname, schema, userVars, mInput, top });
+  validateSchemaAuth({ clientCollname, schema, serverVars, mInput, top });
 
   const coll = collections[collname];
   const argsA = validateCollAuth({
@@ -29,7 +29,7 @@ const validateAuthorization = function ({
     collname,
     clientCollname,
     schema,
-    userVars,
+    serverVars,
     mInput,
     command,
     top,
@@ -43,7 +43,7 @@ const validateSchemaAuth = function ({
   clientCollname,
   schema,
   schema: { authorize },
-  userVars,
+  serverVars,
   mInput,
   top,
 }) {
@@ -53,7 +53,7 @@ const validateSchemaAuth = function ({
     clientCollname,
     authorize,
     top,
-    userVars,
+    serverVars,
     schema,
     mInput,
   });
@@ -66,7 +66,7 @@ const validateCollAuth = function ({
   collname,
   clientCollname,
   schema,
-  userVars,
+  serverVars,
   mInput,
   command,
   top,
@@ -78,7 +78,7 @@ const validateCollAuth = function ({
     clientCollname,
     authorize,
     top,
-    userVars,
+    serverVars,
     schema,
     mInput,
   });

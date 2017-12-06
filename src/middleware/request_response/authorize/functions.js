@@ -7,13 +7,13 @@ const {
   mapNodes,
 } = require('../../../filter');
 
-const { getUserVars } = require('./user_vars');
+const { getServerVars } = require('./server_vars');
 
 // Handle all schema function related logic in `coll.authorize`
 const handleSchemaFuncs = function ({
   collname,
   authorize,
-  userVars,
+  serverVars,
   schema,
   mInput,
 }) {
@@ -21,7 +21,7 @@ const handleSchemaFuncs = function ({
 
   validateAuthorize({ collname, authorize: authorizeA, schema });
 
-  const vars = getAllVars({ authorize: authorizeA, userVars, mInput });
+  const vars = getAllVars({ authorize: authorizeA, serverVars, mInput });
 
   return { authorize: authorizeA, vars };
 };
@@ -53,11 +53,11 @@ const validateAuthorize = function ({ collname, authorize, schema }) {
   validateFilter({ filter: authorize, prefix, reason, attrs });
 };
 
-const getAllVars = function ({ authorize, userVars, mInput }) {
-  const userVarsA = getUserVars({ authorize, userVars, mInput });
+const getAllVars = function ({ authorize, serverVars, mInput }) {
+  const serverVarsA = getServerVars({ authorize, serverVars, mInput });
   const systemVars = getVars(mInput);
 
-  return { ...userVarsA, ...systemVars };
+  return { ...serverVarsA, ...systemVars };
 };
 
 module.exports = {

@@ -13,14 +13,14 @@ const evalAuthorize = function ({
   clientCollname,
   authorize,
   top,
-  userVars,
+  serverVars,
   schema,
   mInput,
 }) {
   const { authorize: authorizeA, vars } = handleSchemaFuncs({
     collname,
     authorize,
-    userVars,
+    serverVars,
     schema,
     mInput,
   });
