@@ -88,9 +88,9 @@ command to query the current models to patch.
 [Functions](functions.md) specified in schema, that allows injecting
 custom logic.
 
-## User variables
+## Server-specific variables
 
-Server-specified [function variables](functions.md#user-variables)
+Server-specific [function variables](functions.md#server-specific-variables)
 
 ## Client parameters
 

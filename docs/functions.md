@@ -139,7 +139,7 @@ The following variables are available to any function:
 
 The following variables are available to any function except
 [custom log providers](logging.md#custom-log-provider) and
-[user variables](#user-variables):
+[server-specific variables](#server-specific-variables):
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
     e.g. `'collection.child'`
   - `collection` `{string}`: name of the [collection](collections.md),
@@ -147,7 +147,7 @@ The following variables are available to any function except
 
 The following variables are available to any function except
 [custom log providers](logging.md#custom-log-provider),
-[user variables](#user-variables) and
+[server-specific variables](#server-specific-variables) and
 [custom patch operators](patch.md#custom-operators):
   - `value` `{any}`: value of the current attribute.
     E.g. `value === 'John'` checks whether the current value equals `'John'`
@@ -180,25 +180,25 @@ The following variables are available only to
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
 
 The following variables are available for more specific cases:
-  - `arg1`, `arg2`, etc.: see [user variables](#user-variables)
+  - `arg1`, `arg2`, etc.: see
+    [server-specific variables](#server-specific-variables)
   - `arg`: see [custom validation](validation.md#custom-validation) and
     [custom patch operators](patch.md#custom-operators)
   - `type`: see [custom patch operators](patch.md#custom-operators)
 
-# User variables
+# Server-specific variables
 
-User variables behave like other variables, except they are server-specific.
-They are specified using the `variables` schema property, which is an object
-containing all user variables.
+Server-specific variables can be added using the `variables` schema property,
+which is an object containing all server-specific variables.
 
-E.g. if the schema specifies:
+For example, if the schema specifies:
 
 ```yml
 variables:
   $secret_password: admin
 ```
 
-The user variable `$secret_password` can be used in any function:
+The server-specific variable `$secret_password` can be used in any function:
 
 <!-- eslint-disable strict, filenames/match-exported, camelcase -->
 ```js
@@ -209,11 +209,11 @@ const getDefaultValue = function ({ $secret_password }) {
 module.exports = getDefaultValue;
 ```
 
-User variables can be functions themselves:
-  - function variables (including other user variables) will be passed as
-    the first argument like any other function
-  - function variables will be available only for user variables that are
-    functions, as opposed to objects with function members.
+Server-specific variables can be functions themselves:
+  - function variables (including other server-specific variables) will be
+    passed as the first argument like any other function
+  - function variables will be available only for server-specific variables
+    that are functions, as opposed to objects with function members.
   - if the function is [inline](#inline-functions), positional arguments are
     passed using the variables `arg1`, `arg2`, etc.
 
