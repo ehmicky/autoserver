@@ -2,13 +2,27 @@
 'use strict';
 
 const { getStandardError } = require('../../error');
+const { makeImmutable } = require('../../utilities');
 const { getServerinfo } = require('../../serverinfo');
 
+// Retrieve schema functions variables
+const getFuncVars = function ({ mInput, mInput: { serverVars }, vars }) {
+  const varsA = getVars(mInput, { vars });
+
+  // This is a bit slow, but necessary to prevent schema functions from
+  // modifying core engine logic
+  makeImmutable(varsA);
+
+  // We do not want to make server-specific variables immutable as it might
+  // be very slow, and we are not sure whether making them immutable would
+  // break anything
+  const varsB = { ...serverVars, ...varsA };
+
+  return varsB;
+};
+
 // Retrieve all schema variables
-const getVars = function (
-  mInput,
-  { serverVars, vars: { error, ...vars } = {} } = {},
-) {
+const getVars = function (mInput, { vars: { error, ...vars } = {} } = {}) {
   const {
     requestid,
     timestamp = (new Date()).toISOString(),
@@ -56,7 +70,6 @@ const getVars = function (
   //  - we want to be 100% sure serverVars do not overwrite system variables
   //  - it is possible to overwrite system vars with call-specific `vars`
   return {
-    ...serverVars,
     requestid,
     timestamp,
     duration,
@@ -117,6 +130,7 @@ const getModelVars = function ({ model, previousmodel, attrName }) {
 };
 
 module.exports = {
+  getFuncVars,
   getVars,
   getModelVars,
 };
