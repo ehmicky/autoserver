@@ -23,7 +23,7 @@ The default value is `log`.
 `provider` specifies the way you wish to send logs.
 
 The following providers are available: [`http`](#http-log-provider),
-[`console`](#console-log-provider) and [`custom`](#custom-log-provider).
+[`debug`](#debug-log-provider) and [`custom`](#custom-log-provider).
 
 `opts` are the options passed to the log provider. It is specific to each
 provider.
@@ -39,9 +39,9 @@ Provider options:
   - `url` `{string}` - URL to send the logs to
   - `method` `{string}` (default: `POST`) - HTTP method
 
-## Console log provider
+## Debug log provider
 
-The `console` [log provider](#providers) prints logs and performance information
+The `debug` [log provider](#providers) prints logs and performance information
 on the console. Since the output is not formatted, this is only meant for
 debugging purpose.
 
