@@ -2,6 +2,6 @@
 
 module.exports = [
   require('./custom'),
-  require('./console'),
+  require('./debug'),
   require('./http'),
 ];
