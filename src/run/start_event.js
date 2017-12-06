@@ -1,7 +1,8 @@
 'use strict';
 
-const { logEvent } = require('../log');
 const { mapValues, omit, pSetTimeout } = require('../utilities');
+const { logEvent } = require('../log');
+const { nanoSecsToMilliSecs } = require('../perf');
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({
@@ -11,8 +12,7 @@ const emitStartEvent = async function ({
   measures,
 }) {
   const message = 'Server is ready';
-  const { duration } = measures.find(({ category }) => category === 'default');
-  const vars = getEventVars({ protocols, gracefulExit, duration });
+  const vars = getEventVars({ protocols, gracefulExit, measures });
 
   // Let other events finish first
   await pSetTimeout(0, { unref: false });
@@ -29,12 +29,16 @@ const emitStartEvent = async function ({
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getEventVars = function ({ protocols, gracefulExit, duration }) {
+const getEventVars = function ({ protocols, gracefulExit, measures }) {
   const protocolsA = mapValues(
     protocols,
     protocol => omit(protocol, ['server', 'protocolHandler']),
   );
-  return { protocols: protocolsA, exit: gracefulExit, duration };
+
+  const { duration } = measures.find(({ category }) => category === 'default');
+  const durationA = nanoSecsToMilliSecs({ duration });
+
+  return { protocols: protocolsA, exit: gracefulExit, duration: durationA };
 };
 
 module.exports = {
