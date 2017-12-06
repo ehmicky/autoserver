@@ -119,6 +119,9 @@ const middlewareLayers = [
       action.validateStableIds,
       // Retrieves `summary`, `commandpaths` and `collections`
       action.getSummary,
+      // Sets `clientSummary`, `clientCommandpath`, `clientCommandpaths`,
+      // `clientCollection` and `clientCollections`
+      action.setClientNames,
       // Sort `actions` so that top-level ones are fired first
       action.sortActions,
 

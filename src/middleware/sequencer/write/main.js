@@ -48,10 +48,11 @@ const getInput = function ({
   mInput,
   ...rest
 }) {
-  const commandpath = mergeCommandpaths({ actions });
+  const { commandpath, clientCommandpath } = mergeCommandpaths({ actions });
   const input = {
     ...mInput,
     commandpath,
+    clientCommandpath,
     command,
     collname,
     clientCollname,

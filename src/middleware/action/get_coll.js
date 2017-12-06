@@ -4,7 +4,7 @@
 const getColl = function ({
   commandpath,
   schema,
-  top: { collname, clientCollname, command: { multiple } },
+  top: { collname, command: { multiple } },
 }) {
   const commandpathA = commandpath
     // The first element is the top-level collection, not useful here
@@ -14,7 +14,7 @@ const getColl = function ({
 
   // This means this is the top-level action
   if (commandpathA.length === 0) {
-    return { collname, clientCollname, multiple };
+    return { collname, multiple };
   }
 
   return findColl({ schema, collname, commandpath: commandpathA });
@@ -43,13 +43,7 @@ const findColl = function ({
     });
   }
 
-  const { name: [clientCollname] = [] } = collections[childCollname] || {};
-
-  return {
-    collname: childCollname,
-    clientCollname,
-    multiple: isArray,
-  };
+  return { collname: childCollname, multiple: isArray };
 };
 
 module.exports = {
