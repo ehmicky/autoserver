@@ -76,7 +76,7 @@
     "gulp-eslint": "^4.0.0",
     "gulp-jscpd": "0.0.8",
     "gulp-plumber": "^1.1.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.12.5"
   },
   "engines": {
     "node": ">=9.2.0"
