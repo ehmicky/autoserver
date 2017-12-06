@@ -62,6 +62,27 @@ keyword), and it should be wrapped in parenthesis.
 Every functions receives as their first argument an object containing variables
 with information about the current context.
 
+For example, the `timestamp` variable can be used:
+
+<!-- eslint-disable strict, filenames/match-exported -->
+```js
+const getDefaultValue = function ({ timestamp }) {
+  return timestamp;
+};
+
+module.exports = getDefaultValue;
+```
+
+Those can be also be used when the function is inline, e.g.:
+
+```yml
+collections:
+  example_collection:
+    attributes:
+      example_attribute:
+        default: (timestamp)
+```
+
 The following variables are available to any function:
   - `requestid` `{string}` - UUID identifying the current request.
     Also available in response's `metadata.requestid` property
@@ -164,31 +185,11 @@ The following variables are available for more specific cases:
     [custom patch operators](patch.md#custom-operators)
   - `type`: see [custom patch operators](patch.md#custom-operators)
 
-For example:
-
-<!-- eslint-disable strict, filenames/match-exported -->
-```js
-const getDefaultValue = function ({ timestamp }) {
-  return timestamp;
-};
-
-module.exports = getDefaultValue;
-```
-
-Those can be also be used when the function is inline, e.g.:
-
-```yml
-collections:
-  example_collection:
-    attributes:
-      example_attribute:
-        default: (timestamp)
-```
-
 # User variables
 
-User variables behave like other variables, except they are specified using the
-`variables` schema property, which is an object containing all user variables.
+User variables behave like other variables, except they are server-specific.
+They are specified using the `variables` schema property, which is an object
+containing all user variables.
 
 E.g. if the schema specifies:
 
