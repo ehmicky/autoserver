@@ -1,7 +1,7 @@
 'use strict';
 
 // Sets `clientSummary`, `clientCommandpath`, `clientCommandpaths`,
-// `clientCollection` and `clientCollections`
+// `clientCollection` and `clientCollnames`
 // Those are the same, but using `clientCollname`, i.e. client-facing collection
 // name, which might be different because of `collection.name`
 // They are used only in client-facing situations, i.e. in error responses,
@@ -10,14 +10,14 @@ const setClientNames = function ({
   schema,
   actions,
   commandpaths,
-  collections,
+  collnames,
   summary,
 }) {
   const actionsA = actions
     .map(action => setClientNamesActions({ schema, action }));
   const clientVariables = getClientVariables({
     schema,
-    collections,
+    collnames,
     commandpaths,
     summary,
   });
@@ -37,17 +37,17 @@ const setClientNamesActions = function ({
 
 const getClientVariables = function ({
   schema,
-  collections,
+  collnames,
   commandpaths,
   summary,
 }) {
-  const clientCollections = collections
+  const clientCollnames = collnames
     .map(collname => getClientCollname({ schema, collname }));
   const clientCommandpaths = commandpaths
     .map(commandpath => getClientCommandpaths({ schema, commandpath }));
   const clientSummary = getClientSummary({ schema, summary });
 
-  return { clientCollections, clientCommandpaths, clientSummary };
+  return { clientCollnames, clientCommandpaths, clientSummary };
 };
 
 const getClientCommandpaths = function ({ schema, commandpath }) {

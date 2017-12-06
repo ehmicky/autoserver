@@ -49,7 +49,7 @@ const getVars = function (mInput, { vars: { error, ...vars } = {} } = {}) {
     summary,
     commandpaths,
     commandpath,
-    collections,
+    collnames: collections,
     collname: collection,
     top: { command: { type: command } = {} } = {},
     responsedata,
@@ -124,7 +124,7 @@ const getClientVars = function (mInput, ...args) {
   const {
     clientSummary: summary,
     clientCollname: collname,
-    clientCollections: collections,
+    clientCollnames: collnames,
     clientCommandpath: commandpath,
     clientCommandpaths: commandpaths,
   } = mInput;
@@ -132,7 +132,7 @@ const getClientVars = function (mInput, ...args) {
     ...mInput,
     summary,
     collname,
-    collections,
+    collnames,
     commandpath,
     commandpaths,
   };
