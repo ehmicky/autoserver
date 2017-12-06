@@ -1,5 +1,5 @@
 {
-  "exec": "cd ./examples && NODE_ENV=dev node --inspect --no-warnings",
+  "exec": "cd ./examples && NODE_ENV=dev node --inspect --no-warnings index.js",
   "ext": ".js,.json,.yml,.yaml",
   "ignore": "*.compiled.json"
 }
