@@ -40,16 +40,11 @@ const groupActions = function ({ actions }) {
 };
 
 const mergeActionsGroups = function (actions) {
-  const { commandpath, clientCommandpath } = mergeCommandpaths({ actions });
+  const commandpath = mergeCommandpaths({ actions });
   const args = getArgs({ actions });
   const [{ collname }] = actions;
 
-  return {
-    commandpath: [commandpath],
-    clientCommandpath: [clientCommandpath],
-    args,
-    collname,
-  };
+  return { commandpath: [commandpath], args, collname };
 };
 
 // `args.data` becomes `args.filter`

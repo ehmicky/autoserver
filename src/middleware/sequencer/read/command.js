@@ -5,7 +5,7 @@ const { extractSimpleIds } = require('../../../filter');
 
 // Fire the actual command
 const fireReadCommand = async function ({
-  action: { commandpath, clientCommandpath, collname, clientCollname },
+  action: { commandpath, collname, clientCollname },
   mInput,
   nextLayer,
   args,
@@ -18,7 +18,6 @@ const fireReadCommand = async function ({
   const mInputA = {
     ...mInput,
     commandpath: commandpath.join('.'),
-    clientCommandpath: clientCommandpath.join('.'),
     collname,
     clientCollname,
     args: argsA,

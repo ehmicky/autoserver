@@ -20,7 +20,7 @@ const parseTopAction = function ({
     args: argsA,
   });
 
-  const commandpath = [collname];
+  const commandpath = [clientCollname];
 
   const action = { collname, clientCollname, commandpath, args: argsA };
   const actions = [action];
