@@ -23,7 +23,8 @@ The default value is `log`.
 `provider` specifies the way you wish to send logs.
 
 The following providers are available: [`http`](#http-log-provider),
-[`debug`](#debug-log-provider) and [`custom`](#custom-log-provider).
+[`debug`](#debug-log-provider), [`console`](#console-log-provider) and
+[`custom`](#custom-log-provider).
 
 `opts` are the options passed to the log provider. It is specific to each
 provider.
@@ -38,6 +39,16 @@ The `http` [log provider](#providers) sends logs via HTTP.
 Provider options:
   - `url` `{string}` - URL to send the logs to
   - `method` `{string}` (default: `POST`) - HTTP method
+
+## Console log provider
+
+The `console` [log provider](#providers) prints logs on the console.
+
+The output is prettified but does not contain performance monitoring nor
+detailed log information, so this is only meant as a development helper.
+
+This log provider is always enabled, but can be silenced by using `level`
+`silent`.
 
 ## Debug log provider
 
@@ -136,12 +147,3 @@ took for the server to `startup`, `shutdown` or handle a client `request`.
 
 The `measures`, `measuresmessage` and `duration`
 [function variables](#functions-variables) provide the performance information.
-
-# Console
-
-Logs are also printed on the console.
-
-They are be colorized, if the terminal supports it.
-
-The console does not contain all the information the other log providers do, and
-is not as structured, so is only meant as a development helper.
