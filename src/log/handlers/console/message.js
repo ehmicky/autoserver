@@ -37,12 +37,10 @@ const getDuration = function ({ log: { duration } }) {
     return ' '.repeat(DURATION_LENGTH);
   }
 
-  const durationMs = Math.round(duration / NANOSECS_TO_MILLISECS);
-  const durationText = `${durationMs}ms`.padEnd(DURATION_LENGTH - 2);
+  const durationText = `${duration}ms`.padEnd(DURATION_LENGTH - 2);
   return `[${durationText}]`;
 };
 
-const NANOSECS_TO_MILLISECS = 1e6;
 const DURATION_LENGTH = 8;
 
 const parts = [

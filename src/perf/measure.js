@@ -35,9 +35,15 @@ const stopPerf = function ({ pending, label, category }) {
   return { duration, label, category };
 };
 
+const nanoSecsToMilliSecs = function ({ duration }) {
+  return Math.round(duration / NANOSECS_TO_MILLISECS);
+};
+
 const SECS_TO_NANOSECS = 1e9;
+const NANOSECS_TO_MILLISECS = 1e6;
 
 module.exports = {
   startPerf,
   stopPerf,
+  nanoSecsToMilliSecs,
 };
