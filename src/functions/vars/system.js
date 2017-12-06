@@ -59,7 +59,6 @@ const SYSTEM_VARS = {
 
 // Those system variables are set after the database response
 const LATER_SYSTEM_VARS = [
-  'duration',
   'status',
   'responsedata',
   'responsedatasize',
