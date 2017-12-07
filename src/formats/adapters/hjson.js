@@ -4,8 +4,7 @@ const hjson = require('hjson');
 
 // Parses a HJSON file
 const parse = function ({ content }) {
-  return hjson.parse(content, {
-  });
+  return hjson.parse(content);
 };
 
 // Serializes a HJSON file
