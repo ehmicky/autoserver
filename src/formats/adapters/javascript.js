@@ -4,7 +4,7 @@ const requireFromString = require('require-from-string');
 
 // Parses a JavaScript file
 const parse = function ({ content, path }) {
-  if (content !== undefined) {
+  if (path === undefined) {
     return requireFromString(content);
   }
 
