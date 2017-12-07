@@ -2,7 +2,7 @@
 
 const { pWriteFile } = require('../../utilities');
 const { addGenErrorHandler } = require('../../error');
-const { stringifyWithRefs } = require('../../ref_parser');
+const { stringifyWithRefs } = require('../../json_refs');
 
 // Saves the file
 const persistFile = async function ({ cSchema, compileOpts: { schema } }) {

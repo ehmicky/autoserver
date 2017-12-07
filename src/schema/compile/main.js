@@ -1,7 +1,7 @@
 'use strict';
 
 const { reduceAsync } = require('../../utilities');
-const { dereferenceSchema } = require('../../ref_parser');
+const { dereferenceSchema } = require('../../json_refs');
 
 const { getCompileOpts } = require('./options');
 const { normalize } = require('./normalize');
