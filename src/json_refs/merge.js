@@ -1,6 +1,6 @@
 'use strict';
 
-const { get, setNoFunc, omit, deepMerge } = require('../utilities');
+const { get, set, omit, deepMerge } = require('../utilities');
 
 // Merge resolved JSON reference value back to original document
 const setRefs = function ({ content, refs }) {
@@ -12,7 +12,7 @@ const setRef = function (content, { keys, hasSiblings, refContent }) {
   const parentA = omit(parent, '$ref');
   const parentB = mergeRef({ parent: parentA, hasSiblings, refContent });
 
-  const contentA = setNoFunc(content, keys, parentB);
+  const contentA = set(content, keys, parentB);
   return contentA;
 };
 
