@@ -1,6 +1,6 @@
 'use strict';
 
-const { dereferenceSchema } = require('../ref_parser');
+const { dereferenceSchema } = require('../json_refs');
 
 const { normalizeSchema } = require('./normalize');
 

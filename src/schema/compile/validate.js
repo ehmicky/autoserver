@@ -2,7 +2,7 @@
 
 const { isEqual } = require('../../utilities');
 const { throwError } = require('../../error');
-const { dereferenceSchema } = require('../../ref_parser');
+const { dereferenceSchema } = require('../../json_refs');
 
 // Make sure the compiled schema perfectly matches the non-compiled schema
 const validateCompiledSchema = async function ({ pPath, cSchema }) {
