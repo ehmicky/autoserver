@@ -2,7 +2,7 @@
 
 const { mapValues, omit, pSetTimeout } = require('../utilities');
 const { logEvent } = require('../log');
-const { nanoSecsToMilliSecs } = require('../perf');
+const { getDefaultDuration } = require('../perf');
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({
@@ -35,10 +35,9 @@ const getEventVars = function ({ protocols, gracefulExit, measures }) {
     protocol => omit(protocol, ['server', 'protocolAdapter']),
   );
 
-  const { duration } = measures.find(({ category }) => category === 'default');
-  const durationA = nanoSecsToMilliSecs({ duration });
+  const duration = getDefaultDuration({ measures });
 
-  return { protocols: protocolsA, exit: gracefulExit, duration: durationA };
+  return { protocols: protocolsA, exit: gracefulExit, duration };
 };
 
 module.exports = {
