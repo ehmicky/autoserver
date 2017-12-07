@@ -1,0 +1,4 @@
+owners:
+  $ref: owners.js
+pet_skills:
+  $ref: pet_skills.yml

@@ -2,5 +2,5 @@
 
 module.exports = {
   ...require('./main'),
-  ...require('./stringify'),
+  ...require('./ref_path'),
 };

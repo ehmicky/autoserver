@@ -35,6 +35,7 @@ const findByExt = function ({ formats, path }) {
   const format = formats
     .find(({ extNames = [] }) => extNames.includes(fileExt));
 
+  // TODO: remove???
   if (format === undefined) { return DEFAULT_FORMAT; }
 
   return format;
