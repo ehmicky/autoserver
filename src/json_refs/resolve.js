@@ -5,6 +5,8 @@ const { resolve, relative } = require('path');
 const { get } = require('../utilities');
 const { addGenErrorHandler } = require('../error');
 
+const { cachedDereference } = require('./cache');
+
 // Resolve all JSON references to the value they point to
 const resolveRef = async function ({
   rootDir,
@@ -13,6 +15,7 @@ const resolveRef = async function ({
   value,
   keys,
   varKeys,
+  cache,
   dereferenceRefs,
 }) {
   // Remove `$ref` from keys
@@ -23,14 +26,16 @@ const resolveRef = async function ({
   // Locates the JSON reference within the root document
   const varKeysA = [...varKeys, ...keysA];
 
-  const refPaths = getRefPaths({ rootDir, dir, value });
+  const { path, refPath } = getRefPaths({ rootDir, dir, value });
 
-  // Recursion
-  const refContent = await dereferenceRefs({
+  const refContent = await cachedDereference({
     rootDir,
-    ...refPaths,
-    varKeys: varKeysA,
+    path,
+    refPath,
     hasSiblings,
+    varKeys: varKeysA,
+    cache,
+    dereferenceRefs,
   });
 
   return { keys: keysA, hasSiblings, refContent };

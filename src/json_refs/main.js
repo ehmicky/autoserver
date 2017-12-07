@@ -2,6 +2,7 @@
 
 const { dirname } = require('path');
 
+const { cachedDereference } = require('./cache');
 const { load } = require('./load');
 const { findRefs } = require('./find');
 const { resolveRef } = require('./resolve');
@@ -16,7 +17,7 @@ const { setRefPath } = require('./ref_path');
 // Siblings attributes to `$ref` will be deeply merged (with higher priority),
 // although this is not standard|spec behavior.
 const dereferenceSchema = async function ({ schema }) {
-  const rSchema = await dereferenceRefs({ path: schema });
+  const rSchema = await cachedDereference({ path: schema, dereferenceRefs });
   return { rSchema };
 };
 
@@ -27,6 +28,7 @@ const dereferenceRefs = async function ({
   refPath,
   hasSiblings,
   varKeys = [],
+  cache,
 }) {
   const { dir, rootDir: rootDirA, isTopLevel } = getDirs({ rootDir, path });
 
@@ -41,6 +43,7 @@ const dereferenceRefs = async function ({
     value,
     keys,
     varKeys,
+    cache,
     dereferenceRefs,
   }));
   const refsB = await Promise.all(refsA);
