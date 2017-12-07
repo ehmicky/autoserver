@@ -2,11 +2,11 @@
 
 const { pWriteFile } = require('../../utilities');
 const { addGenErrorHandler } = require('../../error');
-const { stringifyWithJsonRefs } = require('../../ref_parser');
+const { stringifyWithRefs } = require('../../ref_parser');
 
 // Saves the file
 const persistFile = async function ({ cSchema, compileOpts: { schema } }) {
-  const pSchema = stringifyWithJsonRefs(cSchema);
+  const pSchema = stringifyWithRefs(cSchema);
   const pPath = schema.replace(/\.[^.]+$/, '.compiled.json');
   await eWriteFile({ pPath, pSchema });
 
