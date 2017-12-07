@@ -11,6 +11,24 @@ const { transtype, recurseMap } = require('../utilities');
 //    Those extra types are removed by being JSON serialized.
 // Formats that do not support arrays, objects or strings cannot be specified.
 
+const applyCompatParse = function ({ jsonCompat, content, allow }) {
+  if (allow && allow(content)) { return content; }
+
+  return jsonCompat.reduce(
+    (contentA, compatType) => jsonCompatParse[compatType](contentA),
+    content,
+  );
+};
+
+const applyCompatSerialize = function ({ jsonCompat, content, allow }) {
+  if (allow && allow(content)) { return content; }
+
+  return jsonCompat.reduce(
+    (contentA, compatType) => jsonCompatSerialize[compatType](contentA),
+    content,
+  );
+};
+
 const subsetParse = function (value) {
   return recurseMap(value, transtype);
 };
@@ -43,6 +61,6 @@ const jsonCompatSerialize = {
 };
 
 module.exports = {
-  jsonCompatParse,
-  jsonCompatSerialize,
+  applyCompatParse,
+  applyCompatSerialize,
 };
