@@ -8,7 +8,12 @@ const { getServerinfo } = require('../../serverinfo');
 // Retrieve all schema variables
 const getVars = function (
   mInput,
-  { vars: { error, ...vars } = {}, serverVars, mutable = true } = {},
+  {
+    vars: { error, ...vars } = {},
+    serverVars,
+    mutable = true,
+    client = false,
+  } = {},
 ) {
   const {
     requestid,
@@ -36,8 +41,10 @@ const getVars = function (
     summary,
     commandpaths,
     commandpath,
-    collnames: collections,
-    collname: collection,
+    collnames,
+    collname,
+    clientCollnames,
+    clientCollname,
     top: { command: { type: command } = {} } = {},
     responsedata,
     responsedatasize,
@@ -52,6 +59,12 @@ const getVars = function (
   } = mInput;
 
   const errorA = getError({ error, mInput });
+
+  // When schema variables are sent to clients, we use client-facing
+  // collection names
+  const clientVars = client
+    ? { collections: clientCollnames, collection: clientCollname }
+    : { collections: collnames, collection: collname };
 
   // Order matters:
   //  - we want to be 100% sure serverVars do not overwrite system variables
@@ -82,8 +95,7 @@ const getVars = function (
     summary,
     commandpaths,
     commandpath,
-    collections,
-    collection,
+    ...clientVars,
     command,
     responsedata,
     responsedatasize,
@@ -119,15 +131,6 @@ const getError = function ({ error, mInput }) {
   return { error: errorA };
 };
 
-// Same as `getVars()` but using client-facing collection names
-const getClientVars = function (mInput, ...args) {
-  const { clientCollname: collname, clientCollnames: collnames } = mInput;
-  const mInputA = { ...mInput, collname, collnames };
-
-  const vars = getVars(mInputA, ...args);
-  return vars;
-};
-
 // Retrieve model-related system variables
 const getModelVars = function ({ model, previousmodel, attrName }) {
   const value = model[attrName];
@@ -140,7 +143,6 @@ const getModelVars = function ({ model, previousmodel, attrName }) {
 
 module.exports = {
   getVars,
-  getClientVars,
   getModelVars,
 };
 
