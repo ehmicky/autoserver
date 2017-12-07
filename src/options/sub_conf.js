@@ -62,7 +62,7 @@ const loadSubConfOpt = async function ({
 
   const content = await loadSubConfFiles({ instruction, baseDir, path, files });
 
-  const optionsA = set(options, keys, () => content);
+  const optionsA = set(options, keys, content);
   return optionsA;
 };
 
