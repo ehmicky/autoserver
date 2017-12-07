@@ -49,6 +49,41 @@ const setVal = function ({ objArr, keys, val }) {
   return { child: childA, childKey };
 };
 
+// Same but do not use `result()`
+const setNoFunc = function (objArr, keys, val) {
+  if (keys.length === 0) { return val; }
+
+  if (typeof keys[0] === 'number') {
+    return setArrayNoFunc(objArr, keys, val);
+  }
+
+  return setObjectNoFunc(objArr, keys, val);
+};
+
+const setObjectNoFunc = function (obj = {}, keys, val) {
+  const { child, childKey } = setValNoFunc({ objArr: obj, keys, val });
+
+  return { ...obj, [childKey]: child };
+};
+
+const setArrayNoFunc = function (arr = [], keys, val) {
+  const { child, childKey } = setValNoFunc({ objArr: arr, keys, val });
+
+  return [
+    ...arr.slice(0, childKey),
+    child,
+    ...arr.slice(childKey + 1),
+  ];
+};
+
+const setValNoFunc = function ({ objArr, keys, val }) {
+  const [childKey, ...keysA] = keys;
+  const child = objArr[childKey];
+  const childA = setNoFunc(child, keysA, val);
+
+  return { child: childA, childKey };
+};
+
 // Apply several set() at once, using an array of `paths`
 const setAll = function (obj, paths, val) {
   return paths.reduce(
@@ -89,6 +124,7 @@ const has = function (obj, keys) {
 module.exports = {
   get,
   set,
+  setNoFunc,
   getAll,
   setAll,
   has,
