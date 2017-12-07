@@ -2,16 +2,21 @@
 
 const { addGenErrorHandler } = require('../error');
 
-const { getFuncVars } = require('./vars');
+const { getVars } = require('./vars');
 const { stringifySchemaFunc } = require('./tokenize');
 
 // Process (already compiled) schema function,
 // i.e. fires it and returns its value
-const runSchemaFunc = function ({ schemaFunc, mInput, vars }) {
+const runSchemaFunc = function ({
+  schemaFunc,
+  mInput,
+  mInput: { serverVars },
+  vars,
+}) {
   // If this is not schema function, returns as is
   if (typeof schemaFunc !== 'function') { return schemaFunc; }
 
-  const varsA = getFuncVars({ mInput, vars });
+  const varsA = getVars(mInput, { vars, serverVars, mutable: false });
 
   return schemaFunc(varsA);
 };
