@@ -31,8 +31,7 @@ module.exports = {
   mimeExtensions: ['+ini'],
   // `node-ini` only supports UTF-8
   charsets: ['utf-8'],
-  // It is also a superset because it stringifies `undefined`
-  jsonCompat: ['subset', 'superset'],
+  jsonCompat: ['subset'],
   parse,
   serialize,
 };

@@ -20,7 +20,7 @@ const parse = function ({ content, path }) {
 // Serializes a YAML file
 const serialize = function ({ content }) {
   return yaml.dump(content, {
-    schema: yaml.DEFAULT_SAFE_SCHEMA,
+    schema: yaml.JSON_SCHEMA,
     noRefs: true,
   });
 };
@@ -34,6 +34,7 @@ module.exports = {
   mimeExtensions: ['+yaml'],
   // YAML specification also allows UTF-32, but iconv-lite does not support it
   charsets: ['utf-8', 'utf-16', 'utf-16be', 'utf-16le'],
+  // Infinity is handled even with yaml.JSON_SCHEMA
   jsonCompat: ['superset'],
   parse,
   serialize,
