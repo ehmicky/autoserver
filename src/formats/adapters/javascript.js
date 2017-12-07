@@ -4,12 +4,12 @@ const requireFromString = require('require-from-string');
 
 // Parses a JavaScript file
 const parse = function ({ content, path }) {
-  if (typeof path === 'string') {
-    // eslint-disable-next-line import/no-dynamic-require
-    return require(path);
+  if (content !== undefined) {
+    return requireFromString(content);
   }
 
-  return requireFromString(content);
+  // eslint-disable-next-line import/no-dynamic-require
+  return require(path);
 };
 
 // Serializes a JavaScript file
