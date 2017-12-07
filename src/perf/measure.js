@@ -35,6 +35,12 @@ const stopPerf = function ({ pending, label, category }) {
   return { duration, label, category };
 };
 
+const getDefaultDuration = function ({ measures }) {
+  const { duration } = measures.find(({ category }) => category === 'default');
+  const durationA = nanoSecsToMilliSecs({ duration });
+  return durationA;
+};
+
 const nanoSecsToMilliSecs = function ({ duration }) {
   return Math.round(duration / NANOSECS_TO_MILLISECS);
 };
@@ -45,5 +51,6 @@ const NANOSECS_TO_MILLISECS = 1e6;
 module.exports = {
   startPerf,
   stopPerf,
+  getDefaultDuration,
   nanoSecsToMilliSecs,
 };
