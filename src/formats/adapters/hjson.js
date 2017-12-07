@@ -20,7 +20,7 @@ module.exports = {
   mimes: ['application/hjson', 'text/hjson'],
   mimeExtensions: ['+hjson'],
   charsets: ['utf-8'],
-  jsonCompat: ['superset'],
+  jsonCompat: [],
   parse,
   serialize,
 };
