@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  ...require('./load'),
+  ...require('./main'),
   ...require('./runtime_normalize'),
   ...require('./rpc'),
 };

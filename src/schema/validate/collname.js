@@ -2,7 +2,7 @@
 
 const { plural } = require('pluralize');
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../error');
 
 // Validate collections are properly named
 const validateClientCollnames = function ({ schema, schema: { collections } }) {

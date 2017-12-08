@@ -1,8 +1,8 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../../../error');
-const { compile } = require('../../../json_validation');
-const { compileInlineFuncs } = require('../../../functions');
+const { addGenErrorHandler } = require('../../error');
+const { compile } = require('../../json_validation');
+const { compileInlineFuncs } = require('../../functions');
 
 // Validates that `attr.validate` are valid JSON schema
 // by compiling them with AJV

@@ -2,8 +2,8 @@
 
 const pluralize = require('pluralize');
 
-const { throwError } = require('../../../error');
-const { mapValues, getWordsList, intersection } = require('../../../utilities');
+const { throwError } = require('../../error');
+const { mapValues, getWordsList, intersection } = require('../../utilities');
 
 // Generic plugin factory
 // It adds attributes to each collection, using `getAttributes(pluginOpts)`

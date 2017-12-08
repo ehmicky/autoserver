@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues, flatten, uniq } = require('../../../utilities');
+const { mapValues, flatten, uniq } = require('../../utilities');
 
 // Parse `operators.attribute|argument` `any`
 const normalizePatchOperators = function ({ schema, schema: { operators } }) {

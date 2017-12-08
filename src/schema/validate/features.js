@@ -1,8 +1,8 @@
 'use strict';
 
-const { getWordsList, flatten, difference } = require('../../../utilities');
-const { throwError } = require('../../../error');
-const { getFeatures } = require('../../../filter');
+const { getWordsList, flatten, difference } = require('../../utilities');
+const { throwError } = require('../../error');
+const { getFeatures } = require('../../filter');
 
 // Compile-time adapter features validation
 const validateFeatures = function ({

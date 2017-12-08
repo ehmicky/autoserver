@@ -1,7 +1,7 @@
 'use strict';
 
-const { fullRecurseMap, mapValues } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { fullRecurseMap, mapValues } = require('../../utilities');
+const { throwError } = require('../../error');
 
 // Validate JSON schema `$data` properties
 const validateJsonSchemaData = function ({ schema }) {

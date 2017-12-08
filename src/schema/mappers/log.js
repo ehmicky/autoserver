@@ -1,7 +1,7 @@
 'use strict';
 
-const { throwError } = require('../../../error');
-const { logAdapters, DEFAULT_LOGGER } = require('../../../log');
+const { throwError } = require('../../error');
+const { logAdapters, DEFAULT_LOGGER } = require('../../log');
 
 // Normalize `log`
 const normalizeLog = function ({ schema, schema: { log } }) {
