@@ -8,12 +8,9 @@ const {
   isError,
   rethrowError,
 } = require('../../../error');
-const { getLimits } = require('../../../limits');
 
 // Use protocol-specific way to parse payload, using a known type
-const getRawPayload = function ({ protocolAdapter, specific, runOpts }) {
-  const { maxpayload } = getLimits({ runOpts });
-
+const getRawPayload = function ({ protocolAdapter, specific, maxpayload }) {
   return protocolAdapter.getPayload({ specific, maxpayload });
 };
 

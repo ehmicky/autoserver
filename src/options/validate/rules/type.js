@@ -1,7 +1,5 @@
 'use strict';
 
-const bytes = require('bytes');
-
 const { getWordsList } = require('../../../utilities');
 
 // `validate.type` rule
@@ -88,14 +86,6 @@ const validateNumber = function ({ optVal }) {
   }
 };
 
-const validateBytes = function ({ optVal }) {
-  const size = bytes.parse(optVal);
-
-  if (size === null || Number.isNaN(size)) {
-    return 'must be a size in bytes, which can include "B", "KB", "MB", "GB" or "TB"';
-  }
-};
-
 const typeRules = {
   object: validateObject,
   // Not using quotes messes up with IDE syntax highlighting
@@ -105,7 +95,6 @@ const typeRules = {
   boolean: validateBoolean,
   integer: validateInteger,
   number: validateNumber,
-  bytes: validateBytes,
 };
 
 module.exports = {

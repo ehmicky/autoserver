@@ -1,23 +1,26 @@
 'use strict';
 
+const { getLimits } = require('../../../limits');
+
 // Whether this is offset pagination (args.page)
 // or cursor pagination (args.after|before)
 const isOffset = function ({ args: { page } }) {
   return page !== undefined;
 };
 
-const getPagesize = function ({
-  runOpts,
-  args: { pagesize = runOpts.pagesize },
-}) {
+const getPagesize = function ({ schema, args: { pagesize } }) {
+  if (pagesize === undefined) {
+    return getLimits({ schema }).pagesize;
+  }
+
   return pagesize;
 };
 
 // We try to fetch the models before and after the current batch in order to
 // guess has_prev_page and has_next_page
 // If hasToken is false, it means we know we are at the beginning or end.
-const getLimit = function ({ runOpts, args }) {
-  const pagesize = getPagesize({ runOpts, args });
+const getLimit = function ({ schema, args }) {
+  const pagesize = getPagesize({ schema, args });
   return pagesize + 1;
 };
 

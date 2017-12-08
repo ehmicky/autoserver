@@ -4,9 +4,9 @@
 const getRequestHandler = function ({
   protocolAdapter,
   protocolAdapter: { name: protocol },
-  options: { requestHandler, schema, runOpts, dbAdapters },
+  options: { requestHandler, schema, dbAdapters },
 }) {
-  const baseInput = { schema, runOpts, dbAdapters, protocol, protocolAdapter };
+  const baseInput = { schema, dbAdapters, protocol, protocolAdapter };
   const handleRequest = processRequest.bind(null, requestHandler, baseInput);
   return { handleRequest };
 };

@@ -9,8 +9,8 @@ const { getLimits } = require('../../limits');
 const { getColl } = require('./get_coll');
 
 // Validate request limits
-const validateRequestLimits = function ({ runOpts, mInput }) {
-  const limits = getLimits({ runOpts });
+const validateRequestLimits = function ({ schema, mInput }) {
+  const limits = getLimits({ schema });
 
   validators.forEach(validator => validator({ ...mInput, limits }));
 };

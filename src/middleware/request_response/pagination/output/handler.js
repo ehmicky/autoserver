@@ -10,17 +10,17 @@ const handlePaginationOutput = function ({
   top,
   args,
   topargs,
-  runOpts,
+  schema,
   response,
   ...rest
 }) {
-  if (!willPaginate({ top, args, runOpts, ...rest })) { return; }
+  if (!willPaginate({ top, args, schema, ...rest })) { return; }
 
   const responseA = getPaginationOutput({
     top,
     args,
     topargs,
-    runOpts,
+    schema,
     response,
   });
 

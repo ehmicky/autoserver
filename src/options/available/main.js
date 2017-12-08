@@ -1,7 +1,9 @@
 'use strict';
 
+const runInstruction = require('./run');
+
 const availableInstructions = [
-  require('./run'),
+  runInstruction,
 ];
 
 module.exports = {
