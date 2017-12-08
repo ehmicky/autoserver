@@ -2,7 +2,7 @@
 
 const { dirname } = require('path');
 
-const { cachedDereference } = require('./cache');
+const { validateCircularRefs } = require('./circular_refs');
 const { load } = require('./load');
 const { findRefs } = require('./find');
 const { resolveRef } = require('./resolve');
@@ -16,10 +16,6 @@ const { setRefPath } = require('./ref_path');
 // Each $ref is relative to the current file.
 // Siblings attributes to `$ref` will be deeply merged (with higher priority),
 // although this is not standard|spec behavior.
-const dereferenceSchema = function ({ schema }) {
-  return cachedDereference({ path: schema, dereferenceRefs });
-};
-
 // This function is called recursively, which is why it is passed to children
 const dereferenceRefs = async function ({
   rootDir,
@@ -27,8 +23,10 @@ const dereferenceRefs = async function ({
   refPath,
   hasSiblings,
   varKeys = [],
-  cache,
+  paths,
 }) {
+  validateCircularRefs({ path, refPath, paths });
+
   const { dir, rootDir: rootDirA, isTopLevel } = getDirs({ rootDir, path });
 
   const content = await load({ path, hasSiblings, varKeys });
@@ -42,7 +40,7 @@ const dereferenceRefs = async function ({
     value,
     keys,
     varKeys,
-    cache,
+    paths,
     dereferenceRefs,
   }));
   const refsB = await Promise.all(refsA);
@@ -65,5 +63,5 @@ const getDirs = function ({ rootDir, path }) {
 };
 
 module.exports = {
-  dereferenceSchema,
+  dereferenceRefs,
 };
