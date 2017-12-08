@@ -14,7 +14,7 @@ const disconnect = async function ({
   if (!save) { return; }
 
   // Reuse the same file that was used during loading
-  await saveFile({ type: 'db', path, content: connection });
+  await saveFile({ type: 'conf', path, content: connection });
 };
 
 const DEFAULT_PATH = './apiengine.run.db.memory.json';

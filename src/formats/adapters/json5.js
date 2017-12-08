@@ -15,7 +15,7 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'json5',
   title: 'JSON5',
-  types: ['conf', 'payload', 'db'],
+  types: ['conf', 'payload'],
   extNames: ['json5'],
   mimes: ['application/json5'],
   mimeExtensions: ['+json5'],
