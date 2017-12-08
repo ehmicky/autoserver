@@ -8,9 +8,8 @@ const startConnection = async function ({
   adapter,
   adapter: { connect, check, options },
   schema,
-  runOpts,
 }) {
-  const opts = { options, schema, runOpts };
+  const opts = { options, schema };
 
   const connection = await connect(opts);
 

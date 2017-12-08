@@ -9,7 +9,6 @@ const options = [
   config,
 
   schema,
-  ...require('./env'),
   ...require('./limits'),
   ...require('./protocols'),
   ...require('./db'),
