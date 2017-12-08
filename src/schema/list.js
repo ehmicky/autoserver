@@ -81,8 +81,6 @@ const normalizers = [
   { type: 'schema', func: validateClientCollnames },
   // Validates `coll.database`
   { type: 'coll', func: validateDatabases },
-  // Validates that there are no circular references
-  { type: 'schema', func: validateCircularRefs },
 
   // Compile JSON schema defined in the schema
   { type: 'schema', func: compileJsonSchema },
