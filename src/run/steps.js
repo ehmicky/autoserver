@@ -20,10 +20,10 @@ const startupSteps = [
   startStartupPerf,
   // Retrieve `runOpts`
   getRunOpts,
-  // Setup process warnings and errors handler
-  processErrorHandler,
   // Loads schema
   loadSchema,
+  // Setup process warnings and errors handler
+  processErrorHandler,
   // Create database connections
   connectToDatabases,
   // Get main request handler
