@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit } = require('../../../../../../../utilities');
+const { omit } = require('../../../../../../utilities');
 
 // Create nested collections definitions
 const getNestedColl = function (def, { inputObjectType, topDef }) {

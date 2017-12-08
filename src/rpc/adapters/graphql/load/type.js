@@ -2,7 +2,7 @@
 
 const { v4: uuidv4 } = require('uuid');
 
-const { mapValues } = require('../../../../../utilities');
+const { mapValues } = require('../../../../utilities');
 
 const { getTypeGetter } = require('./types');
 

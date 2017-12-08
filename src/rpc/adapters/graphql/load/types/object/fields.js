@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues, omitBy } = require('../../../../../../../utilities');
+const { mapValues, omitBy } = require('../../../../../../utilities');
 
 const { addCommand } = require('./command');
 const { getNestedColl } = require('./nested_colls');
