@@ -3,7 +3,6 @@
 const { monitoredReduce } = require('../perf');
 const {
   loadSchema,
-  compileJsonSchema,
   normalizePatchOperators,
   rpcStartServer,
 } = require('../schema');
@@ -20,7 +19,6 @@ const parseSchema = function ({ runOpts, measures }) {
 
 const processors = [
   loadSchema,
-  compileJsonSchema,
   normalizePatchOperators,
   rpcStartServer,
 ];
