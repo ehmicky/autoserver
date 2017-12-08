@@ -1,19 +1,22 @@
 'use strict';
 
-const { fullRecurseMap, mapValues } = require('../../utilities');
+const { fullRecurseMap } = require('../../utilities');
 const { throwError } = require('../../error');
 
 // Validate JSON schema `$data` properties
 const validateJsonSchemaData = function ({ schema }) {
-  return fullRecurseMap(schema, validateDataMapper);
+  fullRecurseMap(schema, validateDataMapper);
+
+  return schema;
 };
 
 const validateDataMapper = function (obj) {
-  if (!obj || obj.constructor !== Object) { return obj; }
+  if (!obj || obj.constructor !== Object) { return; }
 
-  return mapValues(obj, child => {
-    if (!child || !child.$data) { return child; }
-    return validateDataFormat(child);
+  Object.values(obj).forEach(child => {
+    if (!child || !child.$data) { return; }
+
+    validateDataFormat(child);
   });
 };
 
@@ -29,8 +32,6 @@ const validateDataFormat = function (obj) {
     const message = `'$data' must be the only property when specified: '${val}'`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
-
-  return obj;
 };
 
 module.exports = {
