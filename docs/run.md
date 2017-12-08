@@ -33,4 +33,3 @@ The available options are:
     the business logic.
   - `maxpayload`, `pagesize`, `maxmodels`: see [limits](limits.md#options)
   - `protocols` `{object}`: [protocols options](protocols.md)
-  - `db` `{object}`: [databases options](databases.md)

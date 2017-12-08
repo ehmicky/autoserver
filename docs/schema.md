@@ -98,6 +98,7 @@ The schema can contain the following properties:
   - `operators` `{object}` -
     [custom patch operators](patch.md#custom-operators)
   - `log` `{object}` - [logging configuration](logging.md)
+  - `db` `{object}`: [databases options](databases.md)
 
 # Schema validation
 
