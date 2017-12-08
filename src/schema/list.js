@@ -27,8 +27,8 @@ const {
   normalizeLog,
 } = require('./mappers');
 const { normalizeShortcuts } = require('./shortcuts');
-const { loadRpc } = require('./rpc');
 const { compileJsonSchema } = require('./json_schema');
+const { loadRpc } = require('./rpc');
 
 const normalizers = [
   // Load file
