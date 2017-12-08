@@ -7,8 +7,6 @@ const REF_SYM = Symbol('ref');
 
 // Set original JSON reference's path so it can be serialized back
 const setRefPath = function ({ content, refPath, isTopLevel }) {
-  // Do not set symbol on top-level because it would make schema compilation
-  // comparison fail
   if (isTopLevel || eIsJson(content)) {
     return content;
   }

@@ -3,6 +3,6 @@
 module.exports = {
   ...require('./run'),
   ...require('./vars'),
-  ...require('./compile'),
+  ...require('./inline'),
   ...require('./test'),
 };

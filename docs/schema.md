@@ -108,27 +108,3 @@ collections:
   example_collection:
     $my_custom_prop: 3
 ```
-
-# Compilation
-
-It is possible to use the `compile` [instruction](usage.md) in order to
-compile the schema. E.g. the following command:
-
-```bash
-apiengine compile --schema my_schema.yml
-```
-
-will create a compiled version of the schema in the same directory, named
-`my_schema.compiled.json`. This file will automatically be loaded instead of
-`my_schema.yml` by the `run` command.
-
-The main reason to compile the schema are:
-  - speeding up the server startup time
-  - validating the schema without having to run the server
-
-The `--schema` option behaves like the same option of the
-[`run` instruction](#configuration).
-In particular, files named `apiengine.run.schema.EXTENSION` will be searched in
-the current directory, or any parent.
-
-See [here](configuration.md) to learn how to specify `compile` options.

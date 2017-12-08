@@ -5,8 +5,7 @@ const { addGenErrorHandler } = require('../error');
 const { getVars } = require('./vars');
 const { stringifySchemaFunc } = require('./tokenize');
 
-// Process (already compiled) schema function,
-// i.e. fires it and returns its value
+// Process schema function, i.e. fires it and returns its value
 const runSchemaFunc = function ({
   schemaFunc,
   mInput,

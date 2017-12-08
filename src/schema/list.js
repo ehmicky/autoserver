@@ -1,7 +1,7 @@
 'use strict';
 
 const { dereferenceRefs } = require('../json_refs');
-const { compileInlineFuncs } = require('../functions');
+const { createInlineFuncs } = require('../functions');
 
 const { applyPlugins } = require('./plugins');
 const { applyCollsDefault } = require('./colls_default');
@@ -33,8 +33,8 @@ const { loadRpc } = require('./rpc');
 const normalizers = [
   // Load file
   { type: 'schema', func: dereferenceRefs },
-  // Compile all schema inline functions, i.e. apply `new Function()`
-  { type: 'schema', func: compileInlineFuncs },
+  // Create all schema inline functions, i.e. apply `new Function()`
+  { type: 'schema', func: createInlineFuncs },
 
   // Apply schema.plugins
   { type: 'schema', func: applyPlugins },
@@ -74,7 +74,7 @@ const normalizers = [
   // Normalize `log`
   { type: 'schema', func: normalizeLog },
 
-  // Compile-time transformations meant for runtime performance optimization
+  // Startup transformations meant for runtime performance optimization
   { type: 'schema', func: normalizeShortcuts },
 
   // Validate collections are properly named

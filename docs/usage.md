@@ -32,7 +32,6 @@ fails.
 
 The following instructions are available:
   - [run](run.md): start the server
-  - [compile](schema.md#compilation): compile the [schema](schema.md)
 
 # Options
 

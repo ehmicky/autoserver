@@ -1,7 +1,0 @@
-{
-  "name": "compile",
-  "description": "Compile the schema",
-  "examples": [
-    ["Compile the schema", "--schema path_to_schema"]
-  ]
-}

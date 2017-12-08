@@ -2,7 +2,6 @@
 
 const availableInstructions = [
   require('./run'),
-  require('./compile'),
 ];
 
 module.exports = {
