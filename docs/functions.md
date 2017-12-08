@@ -19,8 +19,7 @@ created. Their arguments are read-only.
 # Defining functions
 
 Functions are regular JavaScript files exporting a function and required using a
-[JSON reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03),
-e.g.:
+[JSON reference](schema.md#json-references), e.g.:
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js

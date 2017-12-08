@@ -19,8 +19,8 @@ e.g. `yml` for YAML. This is the preferred configuration method.
 
 # JSON references
 
-The file can be broken down into several files by referring to external files
-(local or HTTP/HTTPS), using
+The file can be broken down into several files by referring to local files
+using
 [JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
 Those are simple objects with a single `$ref` property pointing to the file,
 e.g.:
@@ -49,6 +49,14 @@ variables:
 
 JSON references are available for any [supported format](formats.md), not only
 for JSON.
+
+JSON references are deeply merged with their siblings, which allows you to
+extend a schema from another schema:
+```yml
+$ref: base_schema.yml
+collections: ...
+variables: ...
+```
 
 # Example
 

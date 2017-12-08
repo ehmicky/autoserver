@@ -43,7 +43,7 @@ version 6:
       - `oneOf` `{json_schema[]}`
       - `if` `{json_schema}`, `then` `{json_schema}`, `else` `{json_schema}`
   - the following properties are not available: `type`, `description`,
-    `examples`, `default`, `title`, `$id`, `$schema`, `$ref`, `definitions`
+    `examples`, `default`, `title`, `$id`, `$schema`, `definitions`
   - since attributes cannot be objects, the following properties are also
     not available: `maxProperties`, `minProperties`, `additionalProperties`,
     `properties`, `patternProperties`, `propertyNames`
