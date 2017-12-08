@@ -1,7 +1,7 @@
 'use strict';
 
-const { omit } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { omit } = require('../../utilities');
+const { throwError } = require('../../error');
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property

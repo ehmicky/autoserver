@@ -1,16 +1,16 @@
 'use strict';
 
-const { reduceAsync, mapValues } = require('../../utilities');
+const { reduceAsync, mapValues } = require('../utilities');
 
 const { normalizers } = require('./list');
 
-// Normalize schema definition
-const normalizeSchema = function ({ schema, path }) {
-  return reduceAsync(
+// Loads schema
+const loadSchema = async function ({ runOpts: { schema: path } }) {
+  const schemaA = await reduceAsync(
     normalizers,
     applyNormalizer.bind(null, { path }),
-    schema,
   );
+  return { schema: schemaA };
 };
 
 // Apply each normalizer in order
@@ -63,5 +63,5 @@ const normalizeFuncs = {
 };
 
 module.exports = {
-  normalizeSchema,
+  loadSchema,
 };

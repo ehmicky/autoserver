@@ -1,6 +1,6 @@
 'use strict';
 
-const { rpcSchema } = require('../rpc');
+const { dereferenceRefs } = require('../json_refs');
 
 const { applyPlugins } = require('./plugins');
 const { applyCollsDefault } = require('./colls_default');
@@ -29,8 +29,12 @@ const {
 } = require('./mappers');
 const { normalizeShortcuts } = require('./shortcuts');
 const { addInlineFuncPaths } = require('./inline_func');
+const { rpcSchema } = require('./rpc');
 
 const normalizers = [
+  // Load file
+  { type: 'schema', func: dereferenceRefs },
+
   // Apply schema.plugins
   { type: 'schema', func: applyPlugins },
   // Apply schema.collections.default

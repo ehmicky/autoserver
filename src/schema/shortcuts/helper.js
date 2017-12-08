@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues, pickBy } = require('../../../utilities');
+const { mapValues, pickBy } = require('../../utilities');
 
 // Create shortcuts maps by iterating over each collection and its attributes
 // `filter` allow selecting attributes

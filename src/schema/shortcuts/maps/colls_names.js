@@ -1,6 +1,6 @@
 'use strict';
 
-const { flatten } = require('../../../../utilities');
+const { flatten } = require('../../../utilities');
 
 const mapColls = function (collections) {
   const map = Object.entries(collections)

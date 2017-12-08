@@ -1,7 +1,7 @@
 'use strict';
 
-const { expandPath, has, set } = require('../../utilities');
-const { DEFAULT_DATABASE } = require('../../database');
+const { expandPath, has, set } = require('../utilities');
+const { DEFAULT_DATABASE } = require('../database');
 
 // Add schema default values
 const addDefaults = function ({ schema }) {

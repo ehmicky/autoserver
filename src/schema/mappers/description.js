@@ -1,6 +1,6 @@
 'use strict';
 
-const { getWordsList } = require('../../../utilities');
+const { getWordsList } = require('../../utilities');
 
 // Add related `attr.description`, for the following features:
 // `attr.readonly`, `attr.value`, `attr.examples`, `attr.alias`

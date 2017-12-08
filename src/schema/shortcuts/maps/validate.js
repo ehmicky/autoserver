@@ -1,6 +1,6 @@
 'use strict';
 
-const { pickBy, mapValues, omit } = require('../../../../utilities');
+const { pickBy, mapValues, omit } = require('../../../utilities');
 
 const mapAttr = attr => attr.validate;
 

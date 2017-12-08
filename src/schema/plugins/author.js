@@ -1,7 +1,7 @@
 'use strict';
 
-const { throwError } = require('../../../error');
-const { isInlineFunc } = require('../../../functions');
+const { throwError } = require('../../error');
+const { isInlineFunc } = require('../../functions');
 
 const { attributesPlugin } = require('./attributes');
 

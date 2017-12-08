@@ -1,6 +1,6 @@
 'use strict';
 
-const { omit, mapValues, deepMerge } = require('../../utilities');
+const { omit, mapValues, deepMerge } = require('../utilities');
 
 // Applies `schema.collections.default` to each collection
 const applyCollsDefault = function ({

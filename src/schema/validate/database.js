@@ -1,7 +1,7 @@
 'use strict';
 
-const { throwError } = require('../../../error');
-const { databaseAdapters } = require('../../../database');
+const { throwError } = require('../../error');
+const { databaseAdapters } = require('../../database');
 
 const { validateFeatures } = require('./features');
 

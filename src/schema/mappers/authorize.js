@@ -4,7 +4,7 @@ const {
   parseFilter,
   validateFilter,
   getAuthorizeAttrs,
-} = require('../../../filter');
+} = require('../../filter');
 
 // Parse `schema.authorize` into AST
 const normalizeSchemaAuthorize = function ({ schema, schema: { authorize } }) {
