@@ -47,6 +47,9 @@ properties:
   # Databases configuration
   databases:
     type: object
+  # Limits
+  limits:
+    $ref: '#/definitions/limits'
   # Automatically generated, and used to validate `type`
   collTypes:
     type: array
@@ -286,6 +289,20 @@ definitions:
       level:
         type: string
         enum: [silent, info, log, warn, error]
+    additionalProperties: false
+  # schema.limits
+  limits:
+    type: object
+    properties:
+      pagesize:
+        type: integer
+        minimum: 0
+      maxmodels:
+        type: integer
+      maxpayload:
+        oneOf:
+        - type: string
+        - type: integer
     additionalProperties: false
   # attr.type
   type:

@@ -7,11 +7,10 @@ const { wrapCloseFunc } = require('./wrapper');
 const closeDbAdapter = async function ({
   dbAdapter,
   dbAdapter: { name, title },
-  runOpts,
   schema,
   measures,
 }) {
-  const opts = { dbAdapter, name, title, runOpts, schema, measures };
+  const opts = { dbAdapter, name, title, schema, measures };
   const status = await mStop(opts);
 
   return { [name]: Boolean(status) };

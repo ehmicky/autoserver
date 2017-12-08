@@ -27,6 +27,9 @@ const DEFAULT_VALUES = [
   { key: 'collections.*.attributes.*.validate', value: {} },
   { key: 'log', value: [] },
   { key: 'databases', value: {} },
+  { key: 'limits', value: {} },
+  { key: 'limits.maxpayload', value: '10MB' },
+  { key: 'limits.pagesize', value: 100 },
 ];
 
 // Expand `*` in paths

@@ -25,10 +25,9 @@ const getDataAction = function ({
   schema,
   schema: { shortcuts: { userDefaultsMap } },
   mInput,
-  runOpts,
   dbAdapters,
 }) {
-  const { maxAttrValueSize } = getLimits({ runOpts });
+  const { maxAttrValueSize } = getLimits({ schema });
 
   // Top-level `dataPaths`
   const dataPaths = getDataPath({ data, commandpath });

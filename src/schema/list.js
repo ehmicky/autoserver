@@ -11,6 +11,7 @@ const {
   validateJsonSchemaData,
   validateClientCollnames,
   validateSchemaSyntax,
+  validateLimits,
 } = require('./validate');
 const { addDefaults } = require('./defaults');
 const {
@@ -81,6 +82,8 @@ const normalizers = [
   { type: 'schema', func: validateClientCollnames },
   // Validates `coll.database`
   { type: 'coll', func: validateDatabases },
+  // Validates `limits`
+  { type: 'schema', func: validateLimits },
 
   // Compile JSON schema defined in the schema
   { type: 'schema', func: compileJsonSchema },

@@ -6,4 +6,5 @@ module.exports = {
   ...require('./json_schema_data'),
   ...require('./collname'),
   ...require('./syntax'),
+  ...require('./limits'),
 };

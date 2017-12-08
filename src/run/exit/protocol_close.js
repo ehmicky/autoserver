@@ -9,11 +9,10 @@ const closeProtocol = async function ({
   protocol: {
     protocolAdapter: { name, title },
   },
-  runOpts,
   schema,
   measures,
 }) {
-  const opts = { protocol, name, title, runOpts, schema, measures };
+  const opts = { protocol, name, title, schema, measures };
   await mEventClose(opts);
   const status = await mStop(opts);
 

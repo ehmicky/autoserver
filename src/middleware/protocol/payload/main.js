@@ -5,6 +5,7 @@ const { decode } = require('iconv-lite');
 const { addGenErrorHandler } = require('../../../error');
 const { parse } = require('../../../formats');
 const { getSumVars } = require('../../../functions');
+const { getLimits } = require('../../../limits');
 
 const { getRawPayload } = require('./raw');
 const { decompressPayload } = require('./decompress');
@@ -16,7 +17,7 @@ const { decompressPayload } = require('./decompress');
 const parsePayload = function ({
   specific,
   protocolAdapter,
-  runOpts,
+  schema,
   charset,
   format,
   compressRequest,
@@ -26,7 +27,7 @@ const parsePayload = function ({
   return parseRawPayload({
     specific,
     protocolAdapter,
-    runOpts,
+    schema,
     format,
     charset,
     compressRequest,
@@ -36,12 +37,17 @@ const parsePayload = function ({
 const parseRawPayload = async function ({
   specific,
   protocolAdapter,
-  runOpts,
+  schema,
   format,
   charset,
   compressRequest,
 }) {
-  const payload = await getRawPayload({ protocolAdapter, specific, runOpts });
+  const { maxpayload } = getLimits({ schema });
+  const payload = await getRawPayload({
+    protocolAdapter,
+    specific,
+    maxpayload,
+  });
 
   const payloadA = await decompressPayload({ compressRequest, payload });
 

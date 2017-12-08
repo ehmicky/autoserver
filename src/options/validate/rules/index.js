@@ -8,5 +8,4 @@ module.exports = {
   ...require('./maximum'),
   ...require('./min_items'),
   ...require('./max_items'),
-  ...require('./minimum_bytes'),
 };
