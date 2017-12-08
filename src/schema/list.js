@@ -11,7 +11,6 @@ const {
   validateJsonSchemaData,
   validateClientCollnames,
   validateSchemaSyntax,
-  validateJsonSchema,
 } = require('./validate');
 const { addDefaults } = require('./defaults');
 const {
@@ -29,6 +28,7 @@ const {
 } = require('./mappers');
 const { normalizeShortcuts } = require('./shortcuts');
 const { rpcSchema } = require('./rpc');
+const { compileJsonSchema } = require('./json_schema');
 
 const normalizers = [
   // Load file
@@ -83,9 +83,9 @@ const normalizers = [
   { type: 'coll', func: validateDatabases },
   // Validates that there are no circular references
   { type: 'schema', func: validateCircularRefs },
-  // Validates that `attr.validate` are valid JSON schema
-  { type: 'schema', func: validateJsonSchema },
 
+  // Compile JSON schema defined in the schema
+  { type: 'schema', func: compileJsonSchema },
   // Apply rpc-specific compile-time logic
   { type: 'schema', func: rpcSchema },
 ];
