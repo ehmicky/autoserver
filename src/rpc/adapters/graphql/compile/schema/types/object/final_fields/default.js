@@ -25,18 +25,7 @@ const DEFAULT_COMMANDS = ['create', 'upsert'];
 
 // Schema function are skipped
 const isStatic = function (def) {
-  return typeof def.default !== 'function' &&
-    !isInlineFunc({ inlineFunc: def.default });
-};
-
-// TODO: if requiring /src/functionss, there is a circular dependencies,
-// because getVars() in schemaFuncs needs to require /src/rpc,
-// to validate rpc is a possible rpc.
-// This should be fixed once separating rpcs into different repositories.
-const isInlineFunc = function ({ inlineFunc }) {
-  return typeof inlineFunc === 'string' &&
-    inlineFunc.startsWith('(') &&
-    inlineFunc.endsWith(')');
+  return typeof def.default !== 'function';
 };
 
 const defaultValueTests = [

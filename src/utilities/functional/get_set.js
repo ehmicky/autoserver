@@ -46,40 +46,6 @@ const setVal = function ({ objArr, keys, val }) {
   return { child: childA, childKey };
 };
 
-// Apply several set() at once, using an array of `paths`
-const setAll = function (obj, paths, func) {
-  return paths.reduce(
-    (objA, path) => reduceSetAll({ obj: objA, path, func }),
-    obj,
-  );
-};
-
-const reduceSetAll = function ({ obj, path, func }) {
-  const val = get(obj, path);
-  const valA = func(val);
-  return set(obj, path, valA);
-};
-
-// Retrieves all recursive values (i.e. leaves) of an object,
-// as a single array of [value, key] elements
-const getAll = function (value, key = []) {
-  if (value && value.constructor === Object) {
-    const values = Object.entries(value)
-      .map(([childKey, child]) => getAll(child, [...key, childKey]));
-    const valuesA = flatten(values);
-    return valuesA;
-  }
-
-  if (Array.isArray(value)) {
-    const values = value
-      .map((child, childKey) => getAll(child, [...key, childKey]));
-    const valuesA = flatten(values);
-    return valuesA;
-  }
-
-  return [[value, key]];
-};
-
 // Similar to Lodash has(), but faster
 const has = function (obj, keys) {
   try {
@@ -92,7 +58,5 @@ const has = function (obj, keys) {
 module.exports = {
   get,
   set,
-  getAll,
-  setAll,
   has,
 };

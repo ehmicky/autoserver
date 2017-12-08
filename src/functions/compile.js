@@ -1,22 +1,27 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../error');
-const { setAll } = require('../utilities');
+const { set, getValues } = require('../utilities');
 
 const { getVarsKeys } = require('./vars');
 const { isInlineFunc, isEscapedInlineFunc } = require('./test');
 const { getInlineFunc } = require('./tokenize');
 
 // Compile all schema inline functions, i.e. apply `new Function()`
-const compileInlineFuncs = function ({ schema, schema: { inlineFuncPaths } }) {
+const compileInlineFuncs = function ({ schema }) {
   const varsKeys = getVarsKeys({ schema });
 
-  const schemaA = setAll(
+  const schemaB = getValues(schema).reduce(
+    (schemaA, { keys, value }) =>
+      setInlineFunc({ schema: schemaA, keys, value, varsKeys }),
     schema,
-    inlineFuncPaths,
-    inlineFunc => compileInlineFunc({ inlineFunc, varsKeys }),
   );
-  return { schema: schemaA };
+  return schemaB;
+};
+
+const setInlineFunc = function ({ schema, keys, value, varsKeys }) {
+  const inlineFunc = compileInlineFunc({ inlineFunc: value, varsKeys });
+  return set(schema, keys, inlineFunc);
 };
 
 // Transform inline functions into a function with the inline function as body

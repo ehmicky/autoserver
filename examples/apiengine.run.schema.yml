@@ -135,7 +135,6 @@ variables:
   $my_other_math_func:
     $ref: math_func.js
   $birth_date: '2005-01-01'
-  $user: '(({ id: "1" }))'
   $constants:
     $ref: constants.json
   $string:
@@ -150,7 +149,7 @@ plugins:
   enabled: true
 - plugin: author
   opts:
-    currentuser: ($user())
+    currentuser: '(({ id: "10" }))'
     collection: owners
 validation:
   $is_not_equal:

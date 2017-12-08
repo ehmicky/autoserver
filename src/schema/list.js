@@ -1,6 +1,7 @@
 'use strict';
 
 const { dereferenceRefs } = require('../json_refs');
+const { compileInlineFuncs } = require('../functions');
 
 const { applyPlugins } = require('./plugins');
 const { applyCollsDefault } = require('./colls_default');
@@ -10,7 +11,6 @@ const {
   validateJsonSchemaData,
   validateClientCollnames,
   validateSchemaSyntax,
-  validateInlineFuncs,
   validateJsonSchema,
 } = require('./validate');
 const { addDefaults } = require('./defaults');
@@ -28,12 +28,13 @@ const {
   normalizeLog,
 } = require('./mappers');
 const { normalizeShortcuts } = require('./shortcuts');
-const { addInlineFuncPaths } = require('./inline_func');
 const { rpcSchema } = require('./rpc');
 
 const normalizers = [
   // Load file
   { type: 'schema', func: dereferenceRefs },
+  // Compile all schema inline functions, i.e. apply `new Function()`
+  { type: 'schema', func: compileInlineFuncs },
 
   // Apply schema.plugins
   { type: 'schema', func: applyPlugins },
@@ -75,8 +76,6 @@ const normalizers = [
 
   // Compile-time transformations meant for runtime performance optimization
   { type: 'schema', func: normalizeShortcuts },
-  // Add `schema.inlineFuncPaths`
-  { type: 'schema', func: addInlineFuncPaths },
 
   // Validate collections are properly named
   { type: 'schema', func: validateClientCollnames },
@@ -84,8 +83,6 @@ const normalizers = [
   { type: 'coll', func: validateDatabases },
   // Validates that there are no circular references
   { type: 'schema', func: validateCircularRefs },
-  // Check inline functions are valid by compiling then
-  { type: 'schema', func: validateInlineFuncs },
   // Validates that `attr.validate` are valid JSON schema
   { type: 'schema', func: validateJsonSchema },
 

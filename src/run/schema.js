@@ -1,7 +1,6 @@
 'use strict';
 
 const { monitoredReduce } = require('../perf');
-const { compileInlineFuncs } = require('../functions');
 const {
   loadSchema,
   compileJsonSchema,
@@ -21,7 +20,6 @@ const parseSchema = function ({ runOpts, measures }) {
 
 const processors = [
   loadSchema,
-  compileInlineFuncs,
   compileJsonSchema,
   normalizePatchOperators,
   rpcStartServer,
