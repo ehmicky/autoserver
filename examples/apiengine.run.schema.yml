@@ -165,5 +165,6 @@ log:
   level: info
 databases:
   memory:
-    save: false
+    data:
+      $ref: memory_data.yml
 $custom: anything
