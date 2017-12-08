@@ -22,7 +22,6 @@ const STACK_TRACE_LIMIT = 20;
 
 const startServer = async function () {
   try {
-    await apiengine.compile();
     const { protocols, exit } = await apiengine.run();
     return { protocols, exit };
   } catch (error) {
