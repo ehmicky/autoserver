@@ -1,13 +1,11 @@
 # Formats
 
 Multiple formats are supported for:
-  - the [configuration files](configuration.md): [JSON](#json), [YAML](#yaml),
+  - the [configuration file](configuration.md): [JSON](#json), [YAML](#yaml),
     [JavaScript](#javascript), [Hjson](#hjson), [JSON5](#json5) and [INI](#ini)
   - the client request payloads and the server responses: [JSON](#json),
     [YAML](#yaml), [x-www-form-urlencoded](#x-www-form-urlencoded),
     [raw](#raw), [Hjson](#hjson) and [JSON5](#json5)
-  - the [in-memory database](memory_db.md#options): [JSON](#json),
-    [YAML](#yaml), [Hjson](#hjson) and [JSON5](#json5)
 
 Most of the examples in this documentation use YAML for the configuration files
 and JSON for the the client request payloads and the server responses.

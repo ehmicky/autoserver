@@ -1,23 +1,17 @@
 'use strict';
 
 const { saveFile } = require('../../../formats');
+const { getRef } = require('../../../json_refs');
 
 // Stops connection
 // Persist back to file, unless database adapter option `save` is false
-const disconnect = async function ({
-  options: {
-    save,
-    data: { path = DEFAULT_PATH } = {},
-  },
-  connection,
-}) {
+const disconnect = async function ({ options: { save, data }, connection }) {
   if (!save) { return; }
 
   // Reuse the same file that was used during loading
+  const path = getRef(data);
   await saveFile({ type: 'conf', path, content: connection });
 };
-
-const DEFAULT_PATH = './apiengine.run.db.memory.json';
 
 module.exports = {
   disconnect,

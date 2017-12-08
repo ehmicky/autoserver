@@ -3,13 +3,10 @@
 const { throwError } = require('../../../error');
 
 // Starts connection
-const connect = function ({
-  schema,
-  options: { data: { content = {} } = {} },
-}) {
+const connect = function ({ schema, options: { data } }) {
   validateEnv({ schema });
 
-  return content;
+  return data;
 };
 
 const validateEnv = function ({ schema: { env } }) {
