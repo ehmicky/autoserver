@@ -15,7 +15,7 @@ const connect = function ({
 const validateEnv = function ({ schema: { env } }) {
   if (env === 'dev') { return; }
 
-  const message = 'Memory database must not be used in production, i.e. option \'env\' must be equal to \'dev\'';
+  const message = 'Memory database must not be used in production, i.e. \'schema.env\' must be equal to \'dev\'';
   throwError(message, { reason: 'CONF_VALIDATION' });
 };
 
