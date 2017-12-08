@@ -10,8 +10,6 @@ const getInput = function ({
   maxmodels,
   top,
 }) {
-  const isTopLevel = commandpath.length === 0;
-
   const parentResults = getParentResults({ commandpath, results });
   const commandName = commandpath[commandpath.length - 1];
   const { nestedParentIds, parentIds, allIds } = getParentIds({
@@ -21,13 +19,7 @@ const getInput = function ({
 
   validateMaxmodels({ results, allIds, maxmodels, top });
 
-  return {
-    isTopLevel,
-    parentResults,
-    commandName,
-    nestedParentIds,
-    parentIds,
-  };
+  return { parentResults, commandName, nestedParentIds, parentIds };
 };
 
 module.exports = {
