@@ -16,9 +16,8 @@ const { setRefPath } = require('./ref_path');
 // Each $ref is relative to the current file.
 // Siblings attributes to `$ref` will be deeply merged (with higher priority),
 // although this is not standard|spec behavior.
-const dereferenceSchema = async function ({ schema }) {
-  const rSchema = await cachedDereference({ path: schema, dereferenceRefs });
-  return { rSchema };
+const dereferenceSchema = function ({ schema }) {
+  return cachedDereference({ path: schema, dereferenceRefs });
 };
 
 // This function is called recursively, which is why it is passed to children
