@@ -11,7 +11,7 @@ const mergeNestedColl = function (attr, { schema: { collections } }) {
   const { type } = collA.attributes.id;
   const description = attr.description || collA.description;
 
-  return description ? { ...attr, type, description } : { ...attr, type };
+  return { ...attr, type, description };
 };
 
 module.exports = {
