@@ -40,9 +40,9 @@ const resolveSchemaFunc = function ({ mInput, node: { value, ...node } }) {
   return { ...node, value: valueA };
 };
 
-// Most `coll.authorize` validation is done compile-time
+// Most `coll.authorize` validation is done startup time
 // But schema functions are evaluated runtime. Their validation is skipped
-// compile-time, and they are validated here once evaluated.
+// startup time, and they are validated here once evaluated.
 const validateAuthorize = function ({ collname, authorize, schema }) {
   const prefix = collname === undefined
     ? 'In \'schema.authorize\', '

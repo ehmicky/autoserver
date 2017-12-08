@@ -3,7 +3,7 @@
 const maps = require('./maps');
 const { mapAllColls } = require('./helper');
 
-// Compile-time transformations just meant for runtime performance optimization
+// Startup transformations just meant for runtime performance optimization
 const normalizeShortcuts = function ({ schema }) {
   const shortcuts = Object.entries(maps)
     .map(([name, input]) => normalizeShortcut({ name, input, schema }));

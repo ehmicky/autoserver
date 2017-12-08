@@ -4,7 +4,7 @@ const { getWordsList, flatten, difference } = require('../../utilities');
 const { throwError } = require('../../error');
 const { getFeatures } = require('../../filter');
 
-// Compile-time adapter features validation
+// Startup time adapter features validation
 const validateFeatures = function ({
   adapter: { features, name },
   coll,
@@ -23,7 +23,7 @@ const validateFeatures = function ({
 };
 
 // Retrieves features that the collection requires, which can determined by
-// just the collection schema, i.e. compile-time.
+// just the collection schema, i.e. startup time.
 // Some database features might only possible to be guessed runtime,
 // e.g. the 'filter' feature.
 const getRequiredFeatures = function ({ coll }) {

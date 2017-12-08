@@ -15,7 +15,7 @@ const getInlineFunc = function ({ inlineFunc }) {
   return (parts && parts[INLINE_FUNC_INDEX]) || '';
 };
 
-// Retrieves compiled schema function body
+// Retrieves inline schema function body
 const stringifySchemaFunc = function ({ schemaFunc, schemaFunc: { name } }) {
   if (name && name !== 'anonymous') {
     return `${name}()`;
@@ -26,7 +26,7 @@ const stringifySchemaFunc = function ({ schemaFunc, schemaFunc: { name } }) {
   return body || funcStr;
 };
 
-// Extracts inline function. Only works on compiled inline functions.
+// Extracts inline function. Only works on inline functions.
 const BODY_REGEXP = /^function anonymous\({(?:.|\n)+return \((.*)\)/;
 
 module.exports = {

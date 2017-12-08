@@ -8,7 +8,7 @@ const schema = {
   description: 'File containing the data model and business logic',
   subConfFiles: [{
     filename: 'schema',
-    extNames: ['compiled.json', ...getExtNames('conf')],
+    extNames: getExtNames('conf'),
     instruction: 'run',
   }],
   validate: {
@@ -17,16 +17,6 @@ const schema = {
   },
 };
 
-// `compile` option `schema`
-const uncompiledSchema = {
-  ...schema,
-  subConfFiles: [{
-    ...schema.subConfFiles[0],
-    extNames: getExtNames('conf'),
-  }],
-};
-
 module.exports = {
   schema,
-  uncompiledSchema,
 };

@@ -4,4 +4,3 @@ npm-debug.log
 node_modules
 core
 .eslintcache
-*.compiled.json
