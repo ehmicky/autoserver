@@ -21,11 +21,10 @@ The other available databases are:
 
 # Databases options
 
-Databases options are specified with the [`run` option](configuration.md) `db`,
-e.g.:
+Databases options are specified with the schema property `databases`, e.g.:
 
 ```yml
-db:
+databases:
   memory:
     save: false
 ```

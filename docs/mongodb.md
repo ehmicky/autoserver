@@ -3,7 +3,7 @@
 The following options are available:
 
 ```yml
-db:
+databases:
   mongodb:
     hostname: my_host
     port: 28000
