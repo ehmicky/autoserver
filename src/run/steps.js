@@ -1,6 +1,7 @@
 'use strict';
 
 const { getRequestHandler } = require('../middleware');
+const { loadSchema } = require('../schema');
 
 const {
   startStartupPerf,
@@ -9,7 +10,6 @@ const {
 } = require('./perf');
 const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
-const { parseSchema } = require('./schema');
 const { connectToDatabases } = require('./database');
 const { setupGracefulExit } = require('./exit');
 const { launchProtocols } = require('./protocols');
@@ -22,8 +22,8 @@ const startupSteps = [
   getRunOpts,
   // Setup process warnings and errors handler
   processErrorHandler,
-  // Parse schema
-  parseSchema,
+  // Loads schema
+  loadSchema,
   // Create database connections
   connectToDatabases,
   // Get main request handler
