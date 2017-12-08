@@ -27,7 +27,7 @@ const {
   normalizeLog,
 } = require('./mappers');
 const { normalizeShortcuts } = require('./shortcuts');
-const { rpcSchema } = require('./rpc');
+const { loadRpc } = require('./rpc');
 const { compileJsonSchema } = require('./json_schema');
 
 const normalizers = [
@@ -86,8 +86,8 @@ const normalizers = [
 
   // Compile JSON schema defined in the schema
   { type: 'schema', func: compileJsonSchema },
-  // Apply rpc-specific compile-time logic
-  { type: 'schema', func: rpcSchema },
+  // Fire each `rpcAdapter.load({ schema })` function
+  { type: 'schema', func: loadRpc },
 ];
 
 module.exports = {

@@ -4,8 +4,7 @@ const routes = require('./routes');
 const methods = require('./methods');
 const { handler } = require('./handler');
 const { transformSuccess, transformError } = require('./response');
-const { compileSchema } = require('./compile');
-const { startServer } = require('./startup');
+const { load } = require('./load');
 
 const rpc = {
   name: 'graphql',
@@ -15,8 +14,7 @@ const rpc = {
   handler,
   transformSuccess,
   transformError,
-  compileSchema,
-  startServer,
+  load,
 };
 
 module.exports = rpc;

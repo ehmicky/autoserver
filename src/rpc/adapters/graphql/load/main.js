@@ -5,14 +5,14 @@ const { GraphQLSchema } = require('graphql');
 const { getTopDefs } = require('./top_defs');
 const { getTopTypes } = require('./type');
 
-// Returns GraphQL schema
-const getGraphqlSchema = function ({ collections }) {
+// Add GraphQL schema, so it can be used by introspection, and by graphqlPrint
+const load = function ({ schema: { collections } }) {
   const topDefs = getTopDefs({ collections });
   const topTypes = getTopTypes({ topDefs });
   const graphqlSchema = new GraphQLSchema(topTypes);
-  return graphqlSchema;
+  return { graphqlSchema };
 };
 
 module.exports = {
-  getGraphqlSchema,
+  load,
 };

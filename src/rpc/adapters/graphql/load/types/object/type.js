@@ -2,7 +2,7 @@
 
 const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql');
 
-const { memoize } = require('../../../../../../../utilities');
+const { memoize } = require('../../../../../../utilities');
 const { getTypeName } = require('../../name');
 
 const { getObjectFields } = require('./fields');
