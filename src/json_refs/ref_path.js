@@ -6,8 +6,10 @@ const REF_SYM = Symbol('ref');
 // for example to serialize back
 const setRef = function (obj, ref) {
   // We need to directly mutate so functions remain functions
-  // eslint-disable-next-line no-param-reassign, fp/no-mutation
-  obj[REF_SYM] = ref;
+  if (obj != null && typeof obj === 'object') {
+    // eslint-disable-next-line no-param-reassign, fp/no-mutation
+    obj[REF_SYM] = ref;
+  }
 
   return obj;
 };
