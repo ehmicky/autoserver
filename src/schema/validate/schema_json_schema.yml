@@ -41,6 +41,9 @@ properties:
   # Logging
   log:
     $ref: '#/definitions/log'
+  # Database configuration
+  databases:
+    type: object
   # Automatically generated, and used to validate `type`
   collTypes:
     type: array

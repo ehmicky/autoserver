@@ -7,7 +7,7 @@ const { saveFile } = require('../../../formats');
 const disconnect = async function ({
   options: {
     save,
-    data: { path = DEFAULT_PATH },
+    data: { path = DEFAULT_PATH } = {},
   },
   connection,
 }) {

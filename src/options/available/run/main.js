@@ -11,7 +11,6 @@ const options = [
   schema,
   ...require('./limits'),
   ...require('./protocols'),
-  ...require('./db'),
 ];
 
 module.exports = {
