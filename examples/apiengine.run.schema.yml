@@ -163,6 +163,9 @@ operators:
     argument: [number, integer, empty]
 log:
   level: info
+protocols:
+  http:
+    port: 5001
 databases:
   memory:
     data:

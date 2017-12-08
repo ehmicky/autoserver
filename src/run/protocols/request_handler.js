@@ -1,29 +1,18 @@
 'use strict';
 
-const { pick } = require('../../utilities');
-
 // Request handler fired on each request
 const getRequestHandler = function ({
   protocolAdapter,
   protocolAdapter: { name: protocol },
-  options,
-  options: { requestHandler },
-  metadata,
+  options: { requestHandler, schema, runOpts, dbAdapters },
 }) {
-  const baseInput = pick(options, BASE_INPUT_KEYS);
-  const baseInputA = { ...baseInput, protocol, protocolAdapter, metadata };
-  const handleRequest = processRequest.bind(null, requestHandler, baseInputA);
+  const baseInput = { schema, runOpts, dbAdapters, protocol, protocolAdapter };
+  const handleRequest = processRequest.bind(null, requestHandler, baseInput);
   return { handleRequest };
 };
 
-const BASE_INPUT_KEYS = [
-  'schema',
-  'runOpts',
-  'dbAdapters',
-];
-
 const processRequest = function (requestHandler, baseInput, specific) {
-  requestHandler({ ...baseInput, specific });
+  requestHandler({ ...baseInput, metadata: {}, specific });
 };
 
 module.exports = {

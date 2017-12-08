@@ -1,6 +1,5 @@
 'use strict';
 
-const opts = require('./opts');
 const { startServer } = require('./start');
 const { stopServer, countPendingRequests } = require('./stop');
 const { getUrl, getOrigin } = require('./origin');
@@ -11,11 +10,12 @@ const { getPath } = require('./path');
 const { getPayload, hasPayload } = require('./payload');
 const { send } = require('./send');
 const { getIp } = require('./ip');
-// eslint-disable-next-line import/max-dependencies
 const { input } = require('./input');
+const opts = require('./opts');
+// eslint-disable-next-line import/max-dependencies
+const defaults = require('./defaults');
 
 const protocol = {
-  opts,
   name: 'http',
   title: 'HTTP',
   description: 'HTTP server\'s options',
@@ -33,6 +33,8 @@ const protocol = {
   send,
   getIp,
   input,
+  opts,
+  defaults,
 };
 
 module.exports = protocol;

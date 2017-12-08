@@ -41,7 +41,10 @@ properties:
   # Logging
   log:
     $ref: '#/definitions/log'
-  # Database configuration
+  # Protocols configuration
+  protocols:
+    type: object
+  # Databases configuration
   databases:
     type: object
   # Automatically generated, and used to validate `type`
