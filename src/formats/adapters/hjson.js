@@ -15,7 +15,7 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'hjson',
   title: 'Hjson',
-  types: ['conf', 'payload', 'db'],
+  types: ['conf', 'payload'],
   extNames: ['hjson'],
   mimes: ['application/hjson', 'text/hjson'],
   mimeExtensions: ['+hjson'],

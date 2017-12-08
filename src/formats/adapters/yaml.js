@@ -28,7 +28,7 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'yaml',
   title: 'YAML',
-  types: ['conf', 'payload', 'db'],
+  types: ['conf', 'payload'],
   extNames: ['yml', 'yaml'],
   mimes: ['application/yaml', 'application/x-yaml', 'text/yaml', 'text/x-yaml'],
   mimeExtensions: ['+yaml'],

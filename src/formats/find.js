@@ -51,7 +51,6 @@ const findFormat = function ({ type, path, mime }) {
 const finders = {
   payload: findByMime,
   conf: findByExt,
-  db: findByExt,
 };
 
 module.exports = {

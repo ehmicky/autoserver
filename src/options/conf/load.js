@@ -19,7 +19,6 @@ const jsLoader = function ({ path }) {
 
 const loaders = {
   generic: ({ path }) => loadFile({ type: 'conf', path }),
-  db: ({ path }) => loadFile({ type: 'db', path }),
   javascript: jsLoader,
 };
 
