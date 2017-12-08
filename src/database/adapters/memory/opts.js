@@ -10,7 +10,6 @@ const opts = [
 
   {
     name: 'save',
-    default: true,
     validate: {
       type: 'boolean',
     },

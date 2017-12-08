@@ -1,7 +1,6 @@
 [
   {
     "name": "hostname",
-    "default": "localhost",
     "validate": {
       "type": ["string", "string[]"],
       "min_items": 1
@@ -10,7 +9,6 @@
 
   {
     "name": "port",
-    "default": 27017,
     "validate": {
       "type": ["integer", "integer[]"],
       "minimum": 0,
@@ -35,7 +33,6 @@
 
   {
     "name": "dbname",
-    "default": "data",
     "validate": {
       "type": "string"
     }
@@ -43,7 +40,6 @@
 
   {
     "name": "opts",
-    "default": {},
     "dynamic": true,
     "validate": {
       "type": "object"
