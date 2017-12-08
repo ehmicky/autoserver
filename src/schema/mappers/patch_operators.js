@@ -1,6 +1,7 @@
 'use strict';
 
 const { mapValues, flatten, uniq } = require('../../utilities');
+const { OPERATORS } = require('../../patch');
 
 // Parse `operators.attribute|argument` `any`
 const normalizePatchOperators = function ({ schema, schema: { operators } }) {
@@ -8,7 +9,10 @@ const normalizePatchOperators = function ({ schema, schema: { operators } }) {
 
   const operatorsA = mapValues(operators, normalizePatchOperator);
 
-  return { ...schema, operators: operatorsA };
+  // Merge system patch operators and schema-defined ones
+  const operatorsB = { ...operatorsA, ...OPERATORS };
+
+  return { ...schema, operators: operatorsB };
 };
 
 const normalizePatchOperator = function (operator) {
