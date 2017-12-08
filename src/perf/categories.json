@@ -3,7 +3,6 @@
   "default",
   "main",
   "run_opts",
-  "schema",
   "databases",
   "protocols",
   "middleware",
