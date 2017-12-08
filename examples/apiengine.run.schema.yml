@@ -163,4 +163,7 @@ operators:
     argument: [number, integer, empty]
 log:
   level: info
+databases:
+  memory:
+    save: false
 $custom: anything

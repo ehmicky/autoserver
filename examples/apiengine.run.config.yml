@@ -1,6 +1,3 @@
 protocols:
   http:
     port: 5001
-db:
-  memory:
-    save: false

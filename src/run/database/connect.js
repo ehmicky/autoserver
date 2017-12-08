@@ -9,13 +9,11 @@ const startConnection = async function ({
   adapter: { connect, check, options },
   schema,
 }) {
-  const opts = { options, schema };
-
-  const connection = await connect(opts);
+  const connection = await connect({ options, schema });
 
   // Check for data model inconsistencies, and potentially fix them
   if (check !== undefined) {
-    check({ ...opts, connection });
+    check({ options, schema, connection });
   }
 
   await emitStartEvent({ adapter, schema });
