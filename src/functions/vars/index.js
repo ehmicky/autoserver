@@ -4,7 +4,7 @@ module.exports = {
   ...require('./keys'),
   ...require('./values'),
   ...require('./system'),
-  ...require('./user'),
+  ...require('./server'),
   ...require('./sums'),
   ...require('./reduce'),
 };

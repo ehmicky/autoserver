@@ -1,7 +1,6 @@
 'use strict';
 
 const { throwError } = require('../../error');
-const { isInlineFunc } = require('../../functions');
 
 const { attributesPlugin } = require('./attributes');
 
@@ -10,52 +9,55 @@ const { attributesPlugin } = require('./attributes');
 //   updated_by {User} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
 // User is specified by opts:
-//   [currentuser] {inlineFunc} - current user
+//   [currentuser] {function} - current user
 //   [collection] {string} - user's collection name
 const authorPlugin = function ({ schema, opts }) {
   validateConf({ schema, opts });
+
   return attributesPlugin({ getAttributes })({ schema, opts });
 };
 
-const validateConf = function ({
-  schema,
-  opts: { currentuser, collection: collname },
-}) {
-  validateCurrentUser({ currentuser });
-  validateUserModel({ schema, collname });
-};
-
-const validateCurrentUser = function ({ currentuser }) {
-  if (!currentuser || !isInlineFunc({ inlineFunc: currentuser })) {
-    const message = 'In \'author\' plugin, \'opts.currentuser\' must be an inline function';
+const validateConf = function ({ schema, opts: { currentuser, collection } }) {
+  if (typeof currentuser !== 'function') {
+    const message = 'In \'author\' plugin, \'opts.currentuser\' must be a function';
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
-};
 
-const validateUserModel = function ({ schema, collname }) {
-  if (typeof collname !== 'string') {
+  if (typeof collection !== 'string') {
     const message = 'In \'author\' plugin, \'opts.collection\' must be a string';
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 
-  if (schema.collections[collname] === undefined) {
-    const message = `'author' plugin requires 'collections.${collname}'`;
+  if (schema.collections[collection] === undefined) {
+    const message = `'author' plugin requires 'collections.${collection}'`;
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 };
 
-const getAttributes = ({ currentuser, collection: collname }) => ({
+const getAttributes = ({ currentuser, collection }) => ({
   created_by: {
     description: 'Who created this model',
-    type: collname,
-    value: `(previousmodel === undefined ? (${currentuser} && ${currentuser}.id) : previousvalue)`,
+    type: collection,
+    value: getCreatedBy.bind(null, currentuser),
   },
   updated_by: {
     description: 'Who last updated this model',
-    type: collname,
-    value: `(${currentuser} && ${currentuser}.id)`,
+    type: collection,
+    value: getUpdatedBy.bind(null, currentuser),
   },
 });
+
+const getCreatedBy = function (currentuser, vars) {
+  const { previousmodel, previousvalue } = vars;
+
+  if (previousmodel !== undefined) { return previousvalue; }
+
+  return currentuser(vars).id;
+};
+
+const getUpdatedBy = function (currentuser, vars) {
+  return currentuser(vars).id;
+};
 
 module.exports = {
   authorPlugin,

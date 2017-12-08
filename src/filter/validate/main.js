@@ -1,6 +1,5 @@
 'use strict';
 
-const { isInlineFunc } = require('../../functions');
 const { crawlAttrs } = require('../crawl');
 const { getThrowErr } = require('../error');
 const { getOperator } = require('../operators');
@@ -16,7 +15,7 @@ const validateFilter = function ({
   attrs,
   reason = 'INPUT_VALIDATION',
   prefix = '',
-  skipInlineFuncs,
+  skipSchemaFuncs,
 }) {
   if (filter == null) { return; }
 
@@ -24,7 +23,7 @@ const validateFilter = function ({
 
   crawlAttrs(
     filter,
-    nodes => validateAttr({ nodes, attrs, skipInlineFuncs, throwErr }),
+    nodes => validateAttr({ nodes, attrs, skipSchemaFuncs, throwErr }),
   );
 };
 
@@ -37,7 +36,7 @@ const validateNode = function ({
   node: { type, attrName },
   operations,
   attrs,
-  skipInlineFuncs,
+  skipSchemaFuncs,
   throwErr,
 }) {
   const operator = getOperator({ node });
@@ -54,7 +53,7 @@ const validateNode = function ({
     attr,
     operator,
     operations,
-    skipInlineFuncs,
+    skipSchemaFuncs,
     throwErr: throwErrA,
   });
 };
@@ -66,12 +65,12 @@ const validateValue = function ({
   attr: { validation: attrValidate },
   operator: { validate: opValidate },
   operations,
-  skipInlineFuncs,
+  skipSchemaFuncs,
   throwErr,
 }) {
   // Skip schema functions
   // If one wants to validate them, they need to be evaluated first
-  if (skipInlineFuncs && isInlineFunc({ inlineFunc: value })) { return; }
+  if (skipSchemaFuncs && typeof value === 'function') { return; }
 
   if (opValidate !== undefined) {
     opValidate({ type, value, attr, throwErr });

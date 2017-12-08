@@ -15,7 +15,7 @@ const getAttributes = () => ({
     type: 'string',
     description: 'Timestamp indicating when this model was created',
     examples: ['2017-04-26T11:19:45Z'],
-    value: '(previousmodel === undefined ? timestamp : previousvalue)',
+    value: getCreatedTime,
     validate: {
       format: 'date-time',
     },
@@ -24,12 +24,22 @@ const getAttributes = () => ({
     type: 'string',
     description: 'Timestamp indicating when this model was last updated',
     examples: ['2017-04-26T11:19:45Z'],
-    value: '(timestamp)',
+    value: getUpdatedTime,
     validate: {
       format: 'date-time',
     },
   },
 });
+
+const getCreatedTime = function ({ previousmodel, previousvalue, timestamp }) {
+  if (previousmodel !== undefined) { return previousvalue; }
+
+  return timestamp;
+};
+
+const getUpdatedTime = function ({ timestamp }) {
+  return timestamp;
+};
 
 module.exports = {
   timestampPlugin,

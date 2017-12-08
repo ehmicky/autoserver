@@ -37,7 +37,7 @@ const parseAuthorize = function ({ authorize, collname, schema, prefix }) {
     prefix,
     reason,
     attrs,
-    skipInlineFuncs: true,
+    skipSchemaFuncs: true,
   });
 
   return authorizeA;

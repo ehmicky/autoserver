@@ -7,7 +7,7 @@ They are simple functions that takes as input:
   - `opts` `{object}`: plugin options
 And return the new `schema` object.
 
-The input arguments are immutable.
+The input arguments are read-only.
 
 The function can be asynchronous by returning a promise.
 
