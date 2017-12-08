@@ -31,5 +31,3 @@ The available options are:
   - `schema` [`{filepath}`](configuration.md#filepaths-options) (required):
     [schema](schema.md), i.e. information about the data model and
     the business logic.
-  - `maxpayload`, `pagesize`, `maxmodels`: see [limits](limits.md#options)
-  - `protocols` `{object}`: [protocols options](protocols.md)
