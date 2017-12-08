@@ -1,11 +1,7 @@
 'use strict';
 
 const { monitoredReduce } = require('../perf');
-const {
-  loadSchema,
-  normalizePatchOperators,
-  rpcStartServer,
-} = require('../schema');
+const { loadSchema, rpcStartServer } = require('../schema');
 
 // Parse schema
 const parseSchema = function ({ runOpts, measures }) {
@@ -19,7 +15,6 @@ const parseSchema = function ({ runOpts, measures }) {
 
 const processors = [
   loadSchema,
-  normalizePatchOperators,
   rpcStartServer,
 ];
 
