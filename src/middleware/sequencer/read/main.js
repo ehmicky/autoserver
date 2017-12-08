@@ -18,14 +18,17 @@ const sequenceRead = async function ({ actions, runOpts, mInput }, nextLayer) {
 
   const results = [];
   await fireReads(
-    { ...mInput, maxmodels, actions: actionsA, results },
+    { ...mInput, maxmodels, actions: actionsA, results, isTopLevel: true },
     nextLayer,
   );
 
   return { results };
 };
 
-const fireReads = function ({ actions, results, ...mInput }, nextLayer) {
+const fireReads = function (
+  { actions, results, isTopLevel, ...mInput },
+  nextLayer,
+) {
   // Siblings can be run in parallel
   // Children will fire this function recursively, waiting for their parent
   const resultsPromises = actions.map(({ parentAction, childActions }) =>
@@ -35,6 +38,7 @@ const fireReads = function ({ actions, results, ...mInput }, nextLayer) {
       nextLayer,
       mInput,
       results,
+      isTopLevel,
     }));
   return Promise.all(resultsPromises);
 };
@@ -47,9 +51,9 @@ const fireRead = async function ({
   mInput,
   mInput: { top, maxmodels },
   results,
+  isTopLevel,
 }) {
   const {
-    isTopLevel,
     parentResults,
     commandName,
     nestedParentIds,
