@@ -39,6 +39,14 @@ const DEFAULT_VALUES = [
   { key: 'collections.*.attributes.*.validate', value: {} },
   { key: 'log', value: [] },
   { key: 'databases', value: {} },
+  { key: 'databases.memory', value: {} },
+  { key: 'databases.memory.save', value: false },
+  { key: 'databases.memory.data', value: {} },
+  { key: 'databases.mongodb', value: {} },
+  { key: 'databases.mongodb.hostname', value: 'localhost' },
+  { key: 'databases.mongodb.port', value: 27017 },
+  { key: 'databases.mongodb.dbname', value: 'data' },
+  { key: 'databases.mongodb.opts', value: {} },
 ];
 
 module.exports = {
