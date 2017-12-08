@@ -4,6 +4,7 @@ const features = require('./features');
 const { connect } = require('./connect');
 const { disconnect } = require('./disconnect');
 const { query } = require('./query');
+const defaults = require('./defaults');
 const opts = require('./opts');
 
 const adapter = {
@@ -14,6 +15,7 @@ const adapter = {
   connect,
   disconnect,
   query,
+  defaults,
   opts,
   idName: '_id',
 };
