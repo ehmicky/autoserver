@@ -1,14 +1,17 @@
 'use strict';
 
 const { expandPath, has, set, deepMerge } = require('../utilities');
-const { DEFAULT_DATABASE, databaseAdapters } = require('../database');
+const { protocolAdapters } = require('../protocols');
+const { databaseAdapters, DEFAULT_DATABASE } = require('../database');
 
 // Add schema default values
 const addDefaults = function ({ schema }) {
   const schemaA = DEFAULT_VALUES.reduce(expandPaths, schema);
   const schemaB = Object.values(databaseAdapters)
-    .reduce(setDatabaseDefaults, schemaA);
-  return schemaB;
+    .reduce(setDynamicDefaults.bind(null, 'databases'), schemaA);
+  const schemaC = Object.values(protocolAdapters)
+    .reduce(setDynamicDefaults.bind(null, 'protocols'), schemaB);
+  return schemaC;
 };
 
 // Order matters, as they are applied serially
@@ -44,9 +47,10 @@ const applyDefaultValue = function ({ schema, key, value }) {
   return set(schema, keyA, value);
 };
 
-// Set `schema.databases` default values using each `databaseAdapter.defaults`
-const setDatabaseDefaults = function (schema, { name, defaults = {} }) {
-  const defaultsA = { databases: { [name]: defaults } };
+// Set `schema.protocols|databases` default values using each
+// `protocolAdapter|databaseAdapter.defaults`
+const setDynamicDefaults = function (prop, schema, { name, defaults = {} }) {
+  const defaultsA = { [prop]: { [name]: defaults } };
   return deepMerge(defaultsA, schema);
 };
 

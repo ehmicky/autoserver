@@ -6,11 +6,11 @@ const { addGenErrorHandler } = require('../../error');
 const launchServer = async function ({
   protocolAdapter,
   protocolAdapter: { name: protocol },
-  runOpts,
   schema,
+  schema: { protocols },
   handleRequest,
 }) {
-  const opts = runOpts.protocols[protocol];
+  const opts = protocols[protocol];
   const server = await protocolAdapter.startServer({
     opts,
     schema,
@@ -20,7 +20,8 @@ const launchServer = async function ({
 };
 
 const eLaunchServer = addGenErrorHandler(launchServer, {
-  message: ({ protocolAdapter: { title } }) => `Could not start ${title} server`,
+  message: ({ protocolAdapter: { title } }) =>
+    `Could not start ${title} server`,
   reason: 'PROTOCOL_ERROR',
 });
 
