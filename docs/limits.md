@@ -1,12 +1,13 @@
 # Options
 
-The following limits can be configured with [options](run.md#options):
-  - `maxpayload` `{integer|string}` (defaults to `10MB`):
+The following limits can be configured with the `limits` schema property:
+  - `limits.maxpayload` `{integer|string}` (defaults to `10MB`):
      Max size of request payloads, in bytes.
      Also used as the max URL length.
      Can use 'KB', 'MB', 'GB' OR 'TB'.
-  - `pagesize` `{integer}` (defaults to `100`): see [pagination](pagination.md)
-  - `maxmodels` `{integer}` (defaults to `100 * pagesize`, i.e. `10000`):
+  - `limits.pagesize` `{integer}` (defaults to `100`):
+     see [pagination](pagination.md)
+  - `limits.maxmodels` `{integer}` (defaults to `100 * pagesize`, i.e. `10000`):
      see [pagination](pagination.md)
 
 # System limits

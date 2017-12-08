@@ -67,7 +67,7 @@ The `prev_token` should then be used instead of `next_token`.
 
 # Page size
 
-The page size is determined by the `pagesize` [option](run.md#options), which
+The page size is determined by the `limits.pagesize` schema property, which
 defaults to `100`. Setting it to `0` will disable pagination.
 
 Clients can decrease the page size by using the `pagesize` argument,
@@ -128,7 +128,7 @@ iterations are not available.
 # Maximum number of models
 
 The maximum number of models in any request or response is determined by the
-`maxmodels` [option](run.md#options), which defaults to `100` times the
+`limits.maxmodels` schema property, which defaults to `100` times the
 default `pagesize`, i.e. `10000`. It can be disabled by being set to `0`.
 
 This is used to limit the size of nested commands, since pagination is only
