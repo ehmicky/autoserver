@@ -7,12 +7,13 @@ const launchServer = async function ({
   protocolAdapter,
   protocolAdapter: { name: protocol },
   runOpts,
+  schema,
   handleRequest,
 }) {
   const opts = runOpts.protocols[protocol];
   const server = await protocolAdapter.startServer({
     opts,
-    runOpts,
+    schema,
     handleRequest,
   });
   return { protocol: { ...server, protocolAdapter } };

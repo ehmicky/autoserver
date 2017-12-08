@@ -12,6 +12,10 @@ properties:
   # `schema.name`
   name:
     type: string
+  # `schema.env`
+  env:
+    type: string
+    enum: [dev, production]
   # Collections definitions
   collections:
     additionalProperties:

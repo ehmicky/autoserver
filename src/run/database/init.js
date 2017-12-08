@@ -21,7 +21,6 @@ const initAdapters = async function ({
   const connectionsPromises = adaptersA.map(adapter => startConnection({
     adapter,
     schema,
-    runOpts: runOptsA,
     measures,
   }));
   const connections = await Promise.all(connectionsPromises);

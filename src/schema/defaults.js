@@ -29,6 +29,7 @@ const applyDefaultValue = function ({ schema, key, value }) {
 
 // Order matters, as they are applied serially
 const DEFAULT_VALUES = [
+  { key: 'env', value: 'dev' },
   { key: 'collections.*.database', value: DEFAULT_DATABASE.name },
   {
     key: 'collections.*.attributes.id',

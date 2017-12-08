@@ -31,9 +31,6 @@ The available options are:
   - `schema` [`{filepath}`](configuration.md#filepaths-options) (required):
     [schema](schema.md), i.e. information about the data model and
     the business logic.
-  - `env` (defaults to `'dev'`): can be `'dev'` or `'production'`.
-    Running in `'dev'` mode will add some developer-friendly features, e.g.
-    disable request timeouts during breakpoint debugging.
   - `maxpayload`, `pagesize`, `maxmodels`: see [limits](limits.md#options)
   - `protocols` `{object}`: [protocols options](protocols.md)
   - `db` `{object}`: [databases options](databases.md)

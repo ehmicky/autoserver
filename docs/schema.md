@@ -80,6 +80,9 @@ The schema can contain the following properties:
   - `engine` `{string}` (required) - file format version. Must equal `0`
   - `name` `{string}` - sets the [function variable](functions.md#variables)
     `serverinfo.process.name`
+  - `env` (defaults to `'dev'`): can be `'dev'` or `'production'`.
+    Running in `'dev'` mode will add some developer-friendly features, e.g.
+    disable request timeouts during breakpoint debugging.
   - `collections` `{object}` (required) - list of
     [collections](collections.md#collections)
     - `COLLECTION` `{object}` - COLLECTION is the name
