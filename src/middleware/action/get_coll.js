@@ -25,12 +25,12 @@ const findColl = function ({
   commandpath,
 }) {
   const [attrName, ...childCommandpath] = commandpath;
-  const coll = collections[collname].attributes[attrName];
+  const attr = collections[collname].attributes[attrName];
 
   // Erronous `commandpath`
-  if (coll === undefined) { return; }
+  if (attr === undefined) { return; }
 
-  const { target: childCollname, isArray } = coll;
+  const { target: childCollname, isArray } = attr;
 
   if (childCommandpath.length !== 0) {
     return findColl({
