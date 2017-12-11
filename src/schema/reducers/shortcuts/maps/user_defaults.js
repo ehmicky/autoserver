@@ -1,11 +1,15 @@
 'use strict';
 
-const mapAttr = attr => attr.default;
+const { getShortcut } = require('../../../helpers');
 
 // Retrieves map of collections's attributes for which a default value
 // is defined
 // E.g. { User: { name: 'default_name', ... }, ... }
-const userDefaultsMap = { filter: 'default', mapAttr };
+const userDefaultsMap = function ({ schema }) {
+  return getShortcut({ schema, filter: 'default', mapper });
+};
+
+const mapper = attr => attr.default;
 
 module.exports = {
   userDefaultsMap,
