@@ -1,7 +1,13 @@
 'use strict';
 
+const { mapAttrs } = require('../helpers');
+
 // Add JSON schema validation based on `type`
-const addTypeValidation = function (attr) {
+const addTypeValidation = function ({ schema }) {
+  return mapAttrs({ func: mapAttr, schema });
+};
+
+const mapAttr = function ({ attr }) {
   if (!attr.type) { return attr; }
 
   if (!attr.isArray) { return addSingleValidation(attr); }

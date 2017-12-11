@@ -1,10 +1,15 @@
 'use strict';
 
 const { getWordsList } = require('../../utilities');
+const { mapAttrs } = require('../helpers');
 
 // Add related `attr.description`, for the following features:
 // `attr.readonly`, `attr.value`, `attr.examples`, `attr.alias`
-const addDescriptions = function (attr) {
+const addDescriptions = function ({ schema }) {
+  return mapAttrs({ func: mapAttr, schema });
+};
+
+const mapAttr = function ({ attr }) {
   const descriptions = allDescriptions.filter(({ test: func }) => func(attr));
   if (descriptions.length === 0) { return attr; }
 

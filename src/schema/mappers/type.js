@@ -1,10 +1,15 @@
 'use strict';
 
 const { omit } = require('../../utilities');
+const { mapAttrs } = require('../helpers');
 
 // From `type: string[]` or `type: my_coll`
 // to `type: string, isArray: true` or `target: my_coll, isArray: false`
-const normalizeType = function (attr) {
+const normalizeType = function ({ schema }) {
+  return mapAttrs({ func: mapAttr, schema });
+};
+
+const mapAttr = function ({ attr }) {
   const [, rawType, brackets] = TYPE_REGEXP.exec(attr.type);
   const isArray = brackets !== undefined;
   const isColl = !NON_COLL_TYPES.includes(rawType);
