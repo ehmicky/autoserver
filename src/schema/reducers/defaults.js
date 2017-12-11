@@ -1,8 +1,8 @@
 'use strict';
 
-const { expandPath, has, set, deepMerge } = require('../utilities');
-const { protocolAdapters } = require('../protocols');
-const { databaseAdapters, DEFAULT_DATABASE } = require('../database');
+const { expandPath, has, set, deepMerge } = require('../../utilities');
+const { protocolAdapters } = require('../../protocols');
+const { databaseAdapters, DEFAULT_DATABASE } = require('../../database');
 
 // Add schema default values
 const addDefaults = function ({ schema }) {

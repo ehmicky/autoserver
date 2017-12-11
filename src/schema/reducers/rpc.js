@@ -1,6 +1,6 @@
 'use strict';
 
-const { rpcAdapters } = require('../rpc');
+const { rpcAdapters } = require('../../rpc');
 
 // Fire each `rpcAdapter.load({ schema })` function
 const loadRpc = function ({ schema }) {
