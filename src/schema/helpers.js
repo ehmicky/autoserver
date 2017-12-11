@@ -23,9 +23,21 @@ const mapCollAttrs = function (func, { coll, collname, schema }) {
 
   const attributesA = mapValues(
     attributes,
-    (attr, attrName) => func({ attr, attrName, coll, collname, schema }),
+    (attr, attrName) => mapAttr({
+      func,
+      attr,
+      attrName,
+      coll,
+      collname,
+      schema,
+    }),
   );
   return { ...coll, attributes: attributesA };
+};
+
+const mapAttr = function ({ func, attr, attrName, coll, collname, schema }) {
+  const attrA = func({ attr, attrName, coll, collname, schema });
+  return { ...attr, ...attrA };
 };
 
 module.exports = {

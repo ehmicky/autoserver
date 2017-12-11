@@ -1,6 +1,5 @@
 'use strict';
 
-const { omit } = require('../../utilities');
 const { mapAttrs } = require('../helpers');
 
 // From `type: string[]` or `type: my_coll`
@@ -14,10 +13,11 @@ const mapAttr = function ({ attr }) {
   const isArray = brackets !== undefined;
   const isColl = !NON_COLL_TYPES.includes(rawType);
 
-  const attrA = { ...attr, type: rawType, target: rawType, isArray };
-  const attrB = isColl ? omit(attrA, 'type') : omit(attrA, 'target');
+  if (isColl) {
+    return { type: undefined, target: rawType, isArray };
+  }
 
-  return attrB;
+  return { type: rawType, isArray };
 };
 
 // Parse 'type[]' to ['type', '[]'] and 'type' to ['type', '']
