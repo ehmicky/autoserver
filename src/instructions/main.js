@@ -10,4 +10,6 @@ const instructionsA = {
 
 const instructions = addErrorHandlers({ instructions: instructionsA });
 
-module.exports = instructions;
+module.exports = {
+  instructions,
+};

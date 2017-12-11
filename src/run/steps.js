@@ -8,7 +8,6 @@ const {
   stopStartupPerf,
   reportStartupPerf,
 } = require('./perf');
-const { getRunOpts } = require('./options');
 const { processErrorHandler } = require('./process');
 const { connectToDatabases } = require('./database');
 const { setupGracefulExit } = require('./exit');
@@ -18,8 +17,6 @@ const { emitStartEvent } = require('./start_event');
 const startupSteps = [
   // Start monitoring main startup time
   startStartupPerf,
-  // Retrieve `runOpts`
-  getRunOpts,
   // Loads schema
   loadSchema,
   // Setup process warnings and errors handler

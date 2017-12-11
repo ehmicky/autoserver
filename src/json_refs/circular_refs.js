@@ -9,7 +9,7 @@ const validateCircularRefs = function ({ path, paths = [] }) {
   }
 
   const message = `The schema cannot contain circular JSON references: '${path}'`;
-  throwError(message, { reason: 'SCHEMA_SYNTAX_ERROR' });
+  throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 
 module.exports = {

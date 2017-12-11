@@ -9,7 +9,6 @@ module.exports = {
   ...require('./filter'),
   ...require('./uniq'),
   ...require('./difference'),
-  ...require('./find'),
   ...require('./key_by'),
   ...require('./invert'),
   ...require('./merge'),

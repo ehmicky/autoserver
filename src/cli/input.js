@@ -2,7 +2,7 @@
 
 const yargs = require('yargs');
 
-const { availableInstructions } = require('../options');
+const { availableInstructions } = require('../instructions');
 const { monitor } = require('../perf');
 
 const { addInstructions, addInstructionsExamples } = require('./instructions');

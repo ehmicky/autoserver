@@ -30,12 +30,12 @@ const {
 } = require('./reducers');
 
 // Loads schema
-const loadSchema = function ({ runOpts: { schema: path }, measures }) {
+const loadSchema = function ({ measures, schemaPath, schema }) {
   return monitoredReduce({
     funcs: reducers,
-    initialInput: { measures, path },
-    mapResponse: ({ schema, ...rest }, newSchema) =>
-      ({ schema: { ...schema, ...newSchema }, ...rest }),
+    initialInput: { measures, schemaPath, schema },
+    mapResponse: ({ schema: schemaA, ...rest }, newSchema) =>
+      ({ schema: { ...schemaA, ...newSchema }, ...rest }),
     category: 'schema',
   });
 };

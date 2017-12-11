@@ -9,8 +9,8 @@ const load = function ({ path }) {
 };
 
 const eLoad = addGenErrorHandler(load, {
-  message: ({ path }) => `JSON reference '${path}' is invalid: this file does not exist or has syntax errors`,
-  reason: 'SCHEMA_SYNTAX_ERROR',
+  message: ({ path }) => `Configuration file '${path}' is invalid: it does not exist or it has syntax errors`,
+  reason: 'SCHEMA_VALIDATION',
 });
 
 module.exports = {
