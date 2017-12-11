@@ -7,31 +7,24 @@ const addTypeValidation = function ({ schema }) {
   return mapAttrs({ func: mapAttr, schema });
 };
 
-const mapAttr = function ({ attr }) {
-  if (!attr.type) { return attr; }
+const mapAttr = function ({ attr, attr: { type, isArray } }) {
+  if (!type) { return; }
 
-  if (!attr.isArray) { return addSingleValidation(attr); }
+  if (!isArray) { return addSingleValidation(attr); }
 
   return addMultipleValidation(attr);
 };
 
-const addSingleValidation = function (attr) {
-  const { type, validate } = attr;
-
-  return {
-    ...attr,
-    validate: {
-      ...validate,
-      type,
-    },
-  };
+const addSingleValidation = function ({ type, validate }) {
+  return { validate: { ...validate, type } };
 };
 
-const addMultipleValidation = function (attr) {
-  const { type, validate, validate: { items = {} } } = attr;
-
+const addMultipleValidation = function ({
+  type,
+  validate,
+  validate: { items = {} },
+}) {
   return {
-    ...attr,
     validate: {
       ...validate,
       type: 'array',

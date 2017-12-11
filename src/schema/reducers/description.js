@@ -9,17 +9,16 @@ const addDescriptions = function ({ schema }) {
   return mapAttrs({ func: mapAttr, schema });
 };
 
-const mapAttr = function ({ attr }) {
+const mapAttr = function ({ attr, attr: { description } }) {
   const descriptions = allDescriptions.filter(({ test: func }) => func(attr));
-  if (descriptions.length === 0) { return attr; }
+  if (descriptions.length === 0) { return; }
 
-  const { description } = attr;
   const descriptionA = description ? [description] : [];
 
   const descriptionsA = descriptions.map(({ message }) => message(attr));
   const descriptionB = [...descriptionA, ...descriptionsA].join('\n');
 
-  return { ...attr, description: descriptionB };
+  return { description: descriptionB };
 };
 
 const getExamples = function ({ examples }) {

@@ -7,11 +7,13 @@ const addRequiredId = function ({ schema }) {
   return mapAttrs({ func: mapAttr, schema });
 };
 
-const mapAttr = function ({ attr, attrName }) {
-  const { validate, validate: { required } } = attr;
-  if (attrName !== 'id' || required) { return attr; }
+const mapAttr = function ({
+  attr: { validate, validate: { required } },
+  attrName,
+}) {
+  if (attrName !== 'id' || required) { return; }
 
-  return { ...attr, validate: { ...validate, required: true } };
+  return { validate: { ...validate, required: true } };
 };
 
 module.exports = {
