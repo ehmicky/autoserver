@@ -8,8 +8,6 @@ const { throwError } = require('../../error');
 // or YAML anchors `*var`
 const validateCircularRefs = function ({ schema }) {
   validateCircRefs(schema);
-
-  return schema;
 };
 
 const validateCircRefs = function (

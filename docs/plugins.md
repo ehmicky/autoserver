@@ -5,7 +5,7 @@ Plugins are functions that modify a [schema](schema.md) in a pre-defined way.
 They are simple functions that takes as input:
   - `schema` `{object}`
   - `opts` `{object}`: plugin options
-And return the new `schema` object.
+And return `schema` properties to merge.
 
 The input arguments are read-only.
 

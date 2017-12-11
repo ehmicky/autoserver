@@ -8,7 +8,7 @@ const mapColls = function ({ func, schema, schema: { collections } }) {
     collections,
     (coll, collname) => mapColl({ func, coll, collname, schema }),
   );
-  return { ...schema, collections: collectionsA };
+  return { collections: collectionsA };
 };
 
 const mapColl = function ({ func, coll, collname, schema }) {
@@ -37,7 +37,7 @@ const mapCollAttrs = function (func, { coll, collname, schema }) {
       schema,
     }),
   );
-  return { ...coll, attributes: attributesA };
+  return { attributes: attributesA };
 };
 
 const mapAttr = function ({ func, attr, attrName, coll, collname, schema }) {

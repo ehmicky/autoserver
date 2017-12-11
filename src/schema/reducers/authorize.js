@@ -9,7 +9,7 @@ const { mapColls } = require('../helpers');
 
 // Parse `schema.authorize` and `coll.authorize` into AST
 const normalizeAuthorize = function ({ schema, schema: { authorize } }) {
-  if (authorize === undefined) { return schema; }
+  if (authorize === undefined) { return; }
 
   const prefix = 'In \'schema.authorize\', ';
   const authorizeA = parseAuthorize({ authorize, schema, prefix });

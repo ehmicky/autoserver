@@ -16,7 +16,7 @@ const compileJsonSchema = function ({
     ({ attributes }) => compileCollection({ attributes, schema }),
   );
 
-  return { ...schema, shortcuts: { ...shortcuts, validateMap } };
+  return { shortcuts: { ...shortcuts, validateMap } };
 };
 
 const eCompileJsonSchema = addGenErrorHandler(compileJsonSchema, {

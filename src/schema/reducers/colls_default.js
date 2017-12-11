@@ -4,7 +4,6 @@ const { omit, mapValues, deepMerge } = require('../../utilities');
 
 // Applies `schema.collections.default` to each collection
 const applyCollsDefault = function ({
-  schema,
   schema: { collections = {}, collections: { default: collDefault } = {} },
 }) {
   const collectionsA = omit(collections, ['default']);
@@ -13,7 +12,7 @@ const applyCollsDefault = function ({
     coll => applyCollDefault({ coll, collDefault }),
   );
 
-  return { ...schema, collections: collectionsB };
+  return { collections: collectionsB };
 };
 
 const applyCollDefault = function ({ coll, collDefault }) {
