@@ -8,15 +8,18 @@ const { startupSteps } = require('./steps');
 const { handleStartupError } = require('./error');
 
 // Start server for each protocol
-// @param {object} runOpts
-const runServer = async function ({ measures = [], ...runOpts } = {}) {
+const runServer = async function ({
+  measures = [],
+  config: schemaPath,
+  ...schema
+} = {}) {
   const requirePerf = getRequirePerf();
   const measuresA = [requirePerf, ...measures];
 
   // Run each startup step
   const { startPayload } = await monitoredReduce({
     funcs: eStartupSteps,
-    initialInput: { runOpts, measures: measuresA },
+    initialInput: { measures: measuresA, schemaPath, schema },
     mapResponse: (input, newInput) => ({ ...input, ...newInput }),
     category: 'main',
   });

@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./instructions'),
+  ...require('./main'),
+  ...require('./available'),
 };

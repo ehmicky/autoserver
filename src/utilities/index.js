@@ -4,7 +4,7 @@ module.exports = {
   ...require('./functional'),
   ...require('./string'),
   ...require('./promisify'),
-  ...require('./file'),
+  ...require('./template'),
   ...require('./transtype'),
   ...require('./base64'),
 };

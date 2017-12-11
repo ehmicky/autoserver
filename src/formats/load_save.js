@@ -32,7 +32,7 @@ const getFormat = function ({ type, path }) {
   if (format !== undefined) { return format; }
 
   const message = `Invalid file format: ${path}`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 
 module.exports = {

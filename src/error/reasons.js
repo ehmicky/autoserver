@@ -113,23 +113,8 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // Schema is syntactically invalid
-  SCHEMA_SYNTAX_ERROR: {
-    status: 'SERVER_ERROR',
-  },
-
   // Schema is semantically invalid
   SCHEMA_VALIDATION: {
-    status: 'SERVER_ERROR',
-  },
-
-  // Configuration options have syntax errors
-  CONF_VALIDATION: {
-    status: 'SERVER_ERROR',
-  },
-
-  // Loading of configuration failed
-  CONF_LOADING: {
     status: 'SERVER_ERROR',
   },
 

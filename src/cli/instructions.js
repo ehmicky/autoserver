@@ -1,6 +1,6 @@
 'use strict';
 
-const { availableInstructions } = require('../options');
+const { availableInstructions } = require('../instructions');
 
 const { getCliOptions } = require('./options');
 

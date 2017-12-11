@@ -1,7 +1,7 @@
 'use strict';
 
 const { promisify } = require('util');
-const { stat, readFile, writeFile } = require('fs');
+const { stat, readdir, readFile, writeFile } = require('fs');
 const { gzip, deflate, gunzip, inflate } = require('zlib');
 
 const {
@@ -18,9 +18,10 @@ const promisifyAll = function (obj) {
 };
 
 const promise = promisifyAll({
+  stat,
+  readdir,
   readFile,
   writeFile,
-  stat,
   gzip,
   deflate,
   gunzip,
