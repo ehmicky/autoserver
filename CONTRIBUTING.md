@@ -47,7 +47,7 @@ so please install the plugin for your IDE.
 
 # Troubleshooting
 
-  - Please use Node.js v9.2.0
+  - Please use Node.js v9.2.1
 
 # Terminology
 
