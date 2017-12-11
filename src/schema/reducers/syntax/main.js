@@ -1,10 +1,10 @@
 'use strict';
 
-const { omitBy, fullRecurseMap, pReadFile } = require('../../utilities');
-const { parse } = require('../../formats');
-const { compile, validate } = require('../../json_validation');
+const { omitBy, fullRecurseMap, pReadFile } = require('../../../utilities');
+const { parse } = require('../../../formats');
+const { compile, validate } = require('../../../json_validation');
 
-const SCHEMA_JSON_SCHEMA_PATH = `${__dirname}/schema_json_schema.yml`;
+const SCHEMA_JSON_SCHEMA_PATH = `${__dirname}/schema.yml`;
 
 // General schema syntax validation
 const validateSchemaSyntax = async function ({ schema }) {
