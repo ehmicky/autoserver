@@ -1,7 +1,5 @@
 'use strict';
 
-const { flatten } = require('./flatten');
-
 // Similar to Lodash get(), but do not mutate, and faster
 const get = function (obj, keys) {
   if (keys.length === 0) { return obj; }
