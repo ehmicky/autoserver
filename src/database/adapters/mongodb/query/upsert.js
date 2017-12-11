@@ -7,8 +7,8 @@ const upsert = function ({ collection, newData }) {
 };
 
 const upsertOne = function ({ collection, newData: [data] }) {
-  const { _id } = data;
-  return collection.upsertOne({ _id }, data);
+  const { _id: id } = data;
+  return collection.upsertOne({ _id: id }, data);
 };
 
 const upsertMany = async function ({ collection, newData }) {
@@ -19,8 +19,8 @@ const upsertMany = async function ({ collection, newData }) {
 };
 
 const getBulkCommand = function ({ replacement }) {
-  const { _id } = replacement;
-  return { replaceOne: { filter: { _id }, replacement, upsert: true } };
+  const { _id: id } = replacement;
+  return { replaceOne: { filter: { _id: id }, replacement, upsert: true } };
 };
 
 module.exports = {

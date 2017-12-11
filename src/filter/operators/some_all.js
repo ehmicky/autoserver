@@ -1,7 +1,7 @@
 'use strict';
 
 const { validateArray } = require('./common');
-const { _and } = require('./or_and');
+const { _and: and } = require('./or_and');
 
 const parseSomeAll = function ({ value, parseOperations }) {
   return parseOperations({ operations: value });
@@ -34,7 +34,7 @@ const arrayMatcher = function ({
   evalFilter,
 }) {
   const valueA = value.map(val => ({ ...val, attrName: index }));
-  return _and.eval({ attrs: attr, value: valueA, partialNames, evalFilter });
+  return and.eval({ attrs: attr, value: valueA, partialNames, evalFilter });
 };
 
 module.exports = {
