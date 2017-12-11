@@ -14,7 +14,7 @@ const loadFile = async function ({ schemaPath, schema: schemaOpts }) {
 
   const schemaFile = await dereferenceRefs({ path });
 
-  // Priority order: environment variables > Node.js options > schema file
+  // Priority order: environment variables > Node.js/CLI options > schema file
   const schema = deepMerge(schemaFile, schemaOpts, envVars);
 
   return schema;

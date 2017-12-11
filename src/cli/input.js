@@ -2,62 +2,52 @@
 
 const yargs = require('yargs');
 
-const { availableInstructions } = require('../instructions');
 const { monitor } = require('../perf');
+const { DESCRIPTION } = require('../formats');
 
-const { addInstructions, addInstructionsExamples } = require('./instructions');
-const { cleanOpts } = require('./clean');
+const { addInstructions } = require('./instructions');
+const { processOpts } = require('./process');
 
 // CLI input parsing
 const parseInput = function () {
   const opts = parseOpts();
-  const optsA = cleanOpts({ opts });
-  const { instruction, opts: optsB } = parseInstruction({ opts: optsA });
-  return { instruction, opts: optsB };
+
+  const { instruction, opts: optsA } = processOpts({ opts });
+  return { instruction, opts: optsA };
 };
 
-// Performance monitoring
 const mParseInput = monitor(parseInput, 'cli');
 
 // CLI options parsing
 const parseOpts = function () {
   const yargsA = addInstructions({ yargs });
-  const yargsB = addInstructionsExamples({ yargs: yargsA });
-  return yargsB
+  return yargsA
     // There should be a single instruction, or none (default one)
     .demandCommand(1, 1)
-    // No unknown instruction nor options
-    .strict()
     // --help option
     .usage(USAGE)
     .help()
     // --version option
     .version()
     .default(['help', 'version'], undefined)
-    // `completion` instruction, which outputs Bash completion script
-    .completion('completion', 'Generate a Bash completion script')
     // Auto-suggests correction on typos
     .recommendCommands()
     .argv;
 };
 
-const USAGE = `apiengine INSTRUCTION [OPTIONS]
+const USAGE = `apiengine INSTRUCTION [SCHEMA_FILE] [OPTIONS]
 
-Engine generating an API from a simple configuration file.`;
 
-// Retrieve CLI instruction
-// eslint-disable-next-line id-length
-const parseInstruction = function ({ opts: { _: instructions, ...optsA } }) {
-  const instructionNames = availableInstructions.map(({ name }) => name);
+Engine generating an API from a simple configuration file.
 
-  // If the instruction is wrong, or missing, defaults to 'run'
-  const missingInstruction = !Array.isArray(instructions) ||
-    instructions.length !== 1 ||
-    !instructionNames.includes(instructions[0]);
-  const instruction = missingInstruction ? 'run' : instructions[0];
+SCHEMA_FILE is the path to the schema file.
+The following formats are available: ${DESCRIPTION}.
+By default, any file named 'apiengine.config.EXTENSION' will be used.
 
-  return { instruction, opts: optsA };
-};
+OPTIONS can be any schema property, dot-separated.
+For example: --protocols.http.port=5001
+
+`;
 
 module.exports = {
   parseInput: mParseInput,

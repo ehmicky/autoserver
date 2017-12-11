@@ -1,7 +1,6 @@
 'use strict';
 
 const { checkObject } = require('./validate');
-const { fullRecurseMap } = require('./map');
 
 // Similar to lodash pickBy(), but faster.
 const pickBy = function (obj, condition) {
@@ -15,25 +14,6 @@ const pickBy = function (obj, condition) {
 
     return memo;
   }, {});
-};
-
-// Like `pickBy()` but recursive
-const recursePickBy = function (obj, condition) {
-  return fullRecurseMap(obj, child => recursePickByMapper(child, condition));
-};
-
-const recursePickByMapper = function (obj, condition) {
-  if (!obj) { return obj; }
-
-  if (obj.constructor === Object) {
-    return pickBy(obj, condition);
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.filter(condition);
-  }
-
-  return obj;
 };
 
 // Similar to lodash omitBy(), but faster.
@@ -62,5 +42,4 @@ module.exports = {
   pickBy,
   omit,
   omitBy,
-  recursePickBy,
 };
