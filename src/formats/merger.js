@@ -3,6 +3,7 @@
 const { keyBy } = require('../utilities');
 
 const adapters = require('./adapters');
+const { getDescription } = require('./description');
 
 const formatAdapters = keyBy(adapters);
 
@@ -14,7 +15,10 @@ const formatAdaptersA = { ...formatAdapters, raw };
 
 const DEFAULT_FORMAT = formatAdapters.json;
 
+const DESCRIPTION = getDescription();
+
 module.exports = {
   formatAdapters: formatAdaptersA,
   DEFAULT_FORMAT,
+  DESCRIPTION,
 };

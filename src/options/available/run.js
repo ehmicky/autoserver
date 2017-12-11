@@ -1,6 +1,6 @@
 'use strict';
 
-const { getDescription, getExtNames } = require('../../formats');
+const { getExtNames, DESCRIPTION } = require('../../formats');
 
 const instruction = {
   name: 'run',
@@ -13,7 +13,7 @@ const instruction = {
 
 const schema = {
   name: 'schema',
-  description: 'File containing the data model and business logic',
+  description: `File containing the data model and business logic. The following formats are available: ${DESCRIPTION}`,
   subConfFiles: [{
     filename: 'schema',
     extNames: getExtNames('conf'),
@@ -25,16 +25,7 @@ const schema = {
   },
 };
 
-const config = {
-  name: 'config',
-  description: `Configuration file (${getDescription('conf')})`,
-  validate: {
-    type: 'string',
-  },
-};
-
 const options = [
-  config,
   schema,
 ];
 
