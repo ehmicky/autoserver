@@ -15,7 +15,6 @@ module.exports = {
   ...require('./merge'),
   ...require('./get_set'),
   ...require('./values'),
-  ...require('./path'),
   ...require('./result'),
   ...require('./immutable'),
   ...require('./memoize'),
