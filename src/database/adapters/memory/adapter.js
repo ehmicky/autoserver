@@ -1,9 +1,9 @@
 'use strict';
 
 const features = require('./features');
+const { disconnect } = require('./disconnect');
 const { connect } = require('./connect');
 const { check } = require('./check');
-const { disconnect } = require('./disconnect');
 const { query } = require('./query');
 const defaults = require('./defaults');
 const { opts } = require('./opts');
