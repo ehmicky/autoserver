@@ -5,13 +5,13 @@ const { reduceAsync } = require('../utilities');
 const { reducers } = require('./list');
 
 // Loads schema
-const loadSchema = async function ({ runOpts: { schema: path } }) {
-  const schemaA = await reduceAsync(
+const loadSchema = async function ({ runOpts: { schema } }) {
+  const schemaB = await reduceAsync(
     reducers,
-    (schema, func) => func({ schema, path }),
-    {},
+    (schemaA, func) => func({ schema: schemaA }),
+    schema,
   );
-  return { schema: schemaA };
+  return { schema: schemaB };
 };
 
 module.exports = {

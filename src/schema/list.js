@@ -1,8 +1,8 @@
 'use strict';
 
-const { dereferenceRefs } = require('../json_refs');
 const { createInlineFuncs } = require('../functions');
 
+const { loadFile } = require('./load');
 const { applyPlugins } = require('./plugins');
 const { applyCollsDefault } = require('./colls_default');
 const {
@@ -31,8 +31,8 @@ const { compileJsonSchema } = require('./json_schema');
 const { loadRpc } = require('./rpc');
 
 const reducers = [
-  // Load file
-  dereferenceRefs,
+  // Load schema file
+  loadFile,
   // Create all schema inline functions, i.e. apply `new Function()`
   createInlineFuncs,
 
