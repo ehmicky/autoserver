@@ -1,10 +1,14 @@
 'use strict';
 
-const mapAttr = ({ readonly }) => readonly;
+const { getShortcut } = require('../../../helpers');
 
 // Gets a map of collections' readonly attributes,
 // e.g. { my_coll: { attribute: 'readonly_value', ... }, ... }
-const readonlyMap = { filter: 'readonly', mapAttr };
+const readonlyMap = function ({ schema }) {
+  return getShortcut({ schema, filter: 'readonly', mapper });
+};
+
+const mapper = ({ readonly }) => readonly;
 
 module.exports = {
   readonlyMap,

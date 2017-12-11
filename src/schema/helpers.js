@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues } = require('../utilities');
+const { mapValues, pickBy } = require('../utilities');
 
 // Apply a mapping function on each collection
 const mapColls = function ({ func, schema, schema: { collections } }) {
@@ -22,9 +22,11 @@ const mapAttrs = function ({ func, schema }) {
   return mapColls({ func: funcA, schema });
 };
 
-const mapCollAttrs = function (func, { coll, collname, schema }) {
-  const { attributes } = coll;
-  if (attributes === undefined) { return coll; }
+const mapCollAttrs = function (
+  func,
+  { coll, coll: { attributes }, collname, schema },
+) {
+  if (attributes === undefined) { return; }
 
   const attributesA = mapValues(
     attributes,
@@ -45,7 +47,25 @@ const mapAttr = function ({ func, attr, attrName, coll, collname, schema }) {
   return { ...attr, ...attrA };
 };
 
+// Create shortcuts map by iterating over each collection and its attributes
+const getShortcut = function ({ filter, mapper, schema: { collections } }) {
+  return mapValues(
+    collections,
+    ({ attributes = {} }) => getShortcutColl({ attributes, filter, mapper }),
+  );
+};
+
+const getShortcutColl = function ({ attributes, filter, mapper }) {
+  const attributesA = pickBy(
+    attributes,
+    attr => Object.keys(attr).includes(filter),
+  );
+  const attributesB = mapValues(attributesA, mapper);
+  return attributesB;
+};
+
 module.exports = {
   mapColls,
   mapAttrs,
+  getShortcut,
 };
