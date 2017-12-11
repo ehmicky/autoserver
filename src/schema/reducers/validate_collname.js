@@ -5,12 +5,10 @@ const { plural } = require('pluralize');
 const { throwError } = require('../../error');
 
 // Validate collections are properly named
-const validateClientCollnames = function ({ schema, schema: { collections } }) {
-  if (!(collections && collections.constructor === Object)) { return schema; }
+const validateClientCollnames = function ({ schema: { collections } }) {
+  if (!(collections && collections.constructor === Object)) { return; }
 
   Object.values(collections).forEach(checkCollnames);
-
-  return schema;
 };
 
 const checkCollnames = function ({ name }) {

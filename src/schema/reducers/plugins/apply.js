@@ -11,8 +11,8 @@ const { authorPlugin } = require('./author');
 // They can also take an `opts` parameter
 // Use cases can be: adding a attribute to each collection,
 // extending core functionalities, etc.
-const applyPlugins = function ({ schema }) {
-  if (!schema.collections) { return schema; }
+const applyPlugins = async function ({ schema }) {
+  if (!schema.collections) { return; }
 
   const plugins = schema.plugins && Array.isArray(schema.plugins)
     ? schema.plugins
@@ -20,7 +20,13 @@ const applyPlugins = function ({ schema }) {
 
   const pluginsA = addDefaultBuiltinPlugins({ plugins });
 
-  return reduceAsync(pluginsA, applyPlugin, schema);
+  const schemaB = await reduceAsync(
+    pluginsA,
+    applyPlugin,
+    schema,
+    (schemaA, newSchema) => ({ ...schemaA, ...newSchema })
+  );
+  return schemaB;
 };
 
 // Add builtinPlugins, except the ones that have been overriden
@@ -39,7 +45,7 @@ const applyPlugin = function (schema, pluginConf, index) {
   // Plugins are only enabled if specified in `schema.plugins`.
   // But builtin plugins, or plugins added by other plugins,
   // need to be manually disabled if desired.
-  if (!enabled) { return schema; }
+  if (!enabled) { return; }
 
   if (typeof plugin !== 'function') {
     const message = `The plugin at 'plugins[${index}]' is not a function`;

@@ -30,11 +30,12 @@ const {
 } = require('./reducers');
 
 // Loads schema
-const loadSchema = async function ({ runOpts: { schema } }) {
+const loadSchema = async function ({ runOpts: { schema: path } }) {
   const schemaB = await reduceAsync(
     reducers,
-    (schemaA, func) => func({ schema: schemaA }),
-    schema,
+    (schema, func) => func({ schema, path }),
+    {},
+    (schemaA, newSchema) => ({ ...schemaA, ...newSchema }),
   );
   return { schema: schemaB };
 };

@@ -26,8 +26,6 @@ const validateSchemaSyntax = async function ({ schema }) {
     reason: 'SCHEMA_VALIDATION',
     message: 'Error in schema',
   });
-
-  return schema;
 };
 
 // At the moment, the schema needs to be modified for proper JSON schema

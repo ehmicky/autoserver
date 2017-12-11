@@ -18,8 +18,6 @@ const validateLimits = function ({ schema }) {
   validateMaxpayload({ maxpayload, minMaxpayload });
 
   validateMaxmodels({ maxmodels, pagesize, maxActions });
-
-  return schema;
 };
 
 const validateMaxpayload = function ({ maxpayload, minMaxpayload }) {

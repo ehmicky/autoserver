@@ -6,8 +6,6 @@ const { throwError } = require('../../error');
 // Validate JSON schema `$data` properties
 const validateJsonSchemaData = function ({ schema }) {
   fullRecurseMap(schema, validateDataMapper);
-
-  return schema;
 };
 
 const validateDataMapper = function (obj) {

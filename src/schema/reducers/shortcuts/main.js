@@ -8,7 +8,7 @@ const normalizeShortcuts = function ({ schema }) {
   const shortcuts = Object.entries(maps)
     .map(([name, input]) => normalizeShortcut({ name, input, schema }));
   const shortcutsA = Object.assign({}, ...shortcuts);
-  return { ...schema, shortcuts: shortcutsA };
+  return { shortcuts: shortcutsA };
 };
 
 const normalizeShortcut = function ({ name, input, schema }) {

@@ -4,14 +4,14 @@ const { throwError } = require('../../error');
 const { logAdapters, DEFAULT_LOGGER } = require('../../log');
 
 // Normalize `log`
-const normalizeLog = function ({ schema, schema: { log } }) {
+const normalizeLog = function ({ schema: { log } }) {
   const logA = Array.isArray(log) ? log : [log];
   const logC = logA.map(logB => addDefaultProviderName({ log: logB }));
   const logD = addDefaultProvider({ log: logC });
 
   logD.forEach(validateProvider);
 
-  return { ...schema, log: logD };
+  return { log: logD };
 };
 
 const addDefaultProviderName = function ({ log, log: { provider } }) {

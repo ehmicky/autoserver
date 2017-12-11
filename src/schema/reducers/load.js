@@ -3,8 +3,8 @@
 const { dereferenceRefs } = require('../../json_refs');
 
 // Load schema file
-const loadFile = function ({ schema }) {
-  return dereferenceRefs({ path: schema });
+const loadFile = function ({ path }) {
+  return dereferenceRefs({ path });
 };
 
 module.exports = {
