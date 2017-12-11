@@ -2,13 +2,16 @@
 
 const { throwError } = require('../../error');
 const { databaseAdapters } = require('../../database');
+const { mapColls } = require('../helpers');
 
 const { validateFeatures } = require('./features');
 
 // Validates `collection.database`
-const validateDatabases = function (coll, { collname }) {
-  const { database } = coll;
+const validateDatabases = function ({ schema }) {
+  return mapColls({ func: mapColl, schema });
+};
 
+const mapColl = function ({ coll, coll: { database }, collname }) {
   const adapter = getAdapter({ name: database, collname });
   validateFeatures({ adapter, coll, collname });
 

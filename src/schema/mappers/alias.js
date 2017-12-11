@@ -2,10 +2,15 @@
 
 const { omit } = require('../../utilities');
 const { throwError } = require('../../error');
+const { mapColls } = require('../helpers');
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
-const normalizeAliases = function (coll) {
+const normalizeAliases = function ({ schema }) {
+  return mapColls({ func: mapColl, schema });
+};
+
+const mapColl = function ({ coll }) {
   if (!coll.attributes) { return coll; }
 
   const attributes = Object.entries(coll.attributes)

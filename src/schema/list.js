@@ -22,7 +22,6 @@ const {
   mergeNestedColl,
   normalizeAliases,
   addDescriptions,
-  normalizeSchemaAuthorize,
   normalizeAuthorize,
   normalizePatchOperators,
   normalizeLog,
@@ -33,62 +32,60 @@ const { loadRpc } = require('./rpc');
 
 const reducers = [
   // Load file
-  { type: 'schema', func: dereferenceRefs },
+  dereferenceRefs,
   // Create all schema inline functions, i.e. apply `new Function()`
-  { type: 'schema', func: createInlineFuncs },
+  createInlineFuncs,
 
   // Apply schema.plugins
-  { type: 'schema', func: applyPlugins },
+  applyPlugins,
   // Apply schema.collections.default
-  { type: 'schema', func: applyCollsDefault },
+  applyCollsDefault,
 
   // Validates that there are no circular references
-  { type: 'schema', func: validateCircularRefs },
+  validateCircularRefs,
   // Validates JSON schema $data
-  { type: 'schema', func: validateJsonSchemaData },
+  validateJsonSchemaData,
   // General schema syntax validation
-  { type: 'schema', func: validateSchemaSyntax },
+  validateSchemaSyntax,
 
   // Add default attributes
-  { type: 'schema', func: addDefaults },
+  addDefaults,
 
   // Normalize `coll.name`
-  { type: 'coll', func: normalizeClientCollname },
+  normalizeClientCollname,
   // Make sure `id` attributes are required
-  { type: 'attr', func: addRequiredId },
+  addRequiredId,
   // Transform `attr.type` to internal format
-  { type: 'attr', func: normalizeType },
+  normalizeType,
   // Copy `attr.type|description` to nested collections from their target
-  { type: 'attr', func: mergeNestedColl },
+  mergeNestedColl,
   // Add `attr.validate.type`, using `attr.type`
-  { type: 'attr', func: addTypeValidation },
+  addTypeValidation,
   // Set all `attr.alias` and `attr.aliasOf`
-  { type: 'coll', func: normalizeAliases },
+  normalizeAliases,
   // Add `attr.description` from `attr.readonly|value|examples|alias`
-  { type: 'attr', func: addDescriptions },
-  // Parse `schema.authorize` into AST
-  { type: 'schema', func: normalizeSchemaAuthorize },
-  // Parse `coll.authorize` into AST
-  { type: 'coll', func: normalizeAuthorize },
+  addDescriptions,
+  // Parse `schema.authorize` and `coll.authorize` into AST
+  normalizeAuthorize,
   // Parse `operators.attribute|argument` `any`
-  { type: 'schema', func: normalizePatchOperators },
+  normalizePatchOperators,
   // Normalize `log`
-  { type: 'schema', func: normalizeLog },
+  normalizeLog,
 
   // Startup transformations meant for runtime performance optimization
-  { type: 'schema', func: normalizeShortcuts },
+  normalizeShortcuts,
 
   // Validate collections are properly named
-  { type: 'schema', func: validateClientCollnames },
+  validateClientCollnames,
   // Validates `coll.database`
-  { type: 'coll', func: validateDatabases },
+  validateDatabases,
   // Validates `limits`
-  { type: 'schema', func: validateLimits },
+  validateLimits,
 
   // Compile JSON schema defined in the schema
-  { type: 'schema', func: compileJsonSchema },
+  compileJsonSchema,
   // Fire each `rpcAdapter.load({ schema })` function
-  { type: 'schema', func: loadRpc },
+  loadRpc,
 ];
 
 module.exports = {

@@ -5,20 +5,21 @@ const {
   validateFilter,
   getAuthorizeAttrs,
 } = require('../../filter');
+const { mapColls } = require('../helpers');
 
-// Parse `schema.authorize` into AST
-const normalizeSchemaAuthorize = function ({ schema, schema: { authorize } }) {
+// Parse `schema.authorize` and `coll.authorize` into AST
+const normalizeAuthorize = function ({ schema, schema: { authorize } }) {
   if (authorize === undefined) { return schema; }
 
   const prefix = 'In \'schema.authorize\', ';
   const authorizeA = parseAuthorize({ authorize, schema, prefix });
 
-  return { ...schema, authorize: authorizeA };
+  const schemaA = mapColls({ func: mapColl, schema });
+
+  return { ...schemaA, authorize: authorizeA };
 };
 
-// Parse `coll.authorize` into AST
-const normalizeAuthorize = function (coll, { collname, schema }) {
-  const { authorize } = coll;
+const mapColl = function ({ coll, coll: { authorize }, collname, schema }) {
   if (authorize === undefined) { return coll; }
 
   const prefix = `In 'collection.${collname}.authorize', `;
@@ -44,6 +45,5 @@ const parseAuthorize = function ({ authorize, collname, schema, prefix }) {
 };
 
 module.exports = {
-  normalizeSchemaAuthorize,
   normalizeAuthorize,
 };
