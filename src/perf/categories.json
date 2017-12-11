@@ -2,6 +2,7 @@
   "cli",
   "default",
   "main",
+  "schema",
   "run_opts",
   "databases",
   "protocols",
