@@ -5,10 +5,6 @@ const { mapAttrs } = require('../helpers');
 
 // Add related `attr.description`, for the following features:
 // `attr.readonly`, `attr.value`, `attr.examples`, `attr.alias`
-const addDescriptions = function ({ schema }) {
-  return mapAttrs({ func: mapAttr, schema });
-};
-
 const mapAttr = function ({ attr, attr: { description } }) {
   const descriptions = allDescriptions.filter(({ test: func }) => func(attr));
   if (descriptions.length === 0) { return; }
@@ -56,6 +52,8 @@ const allDescriptions = [
     message: ({ aliasOf }) => `Alias of '${aliasOf}'.`,
   },
 ];
+
+const addDescriptions = mapAttrs.bind(null, mapAttr);
 
 module.exports = {
   addDescriptions,

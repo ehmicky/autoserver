@@ -22,7 +22,7 @@ const plugin = function (
   const newAttrs = getAttributes(opts);
 
   const func = mergeNewAttrs.bind(null, newAttrs);
-  const schemaA = mapColls({ func, schema });
+  const schemaA = mapColls(func, { schema });
 
   return schemaA;
 };

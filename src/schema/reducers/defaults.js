@@ -27,7 +27,7 @@ const getDynamicDefaults = function (adapters) {
 
 // Collection-level defaults
 const addCollsDefaults = function ({ schema }) {
-  const schemaA = mapColls({ func: addCollDefaults, schema });
+  const schemaA = mapColls(addCollDefaults, { schema });
   return { ...schema, ...schemaA };
 };
 
@@ -37,7 +37,7 @@ const addCollDefaults = function ({ coll }) {
 
 // Attribute-level defaults
 const addAttrsDefaults = function ({ schema }) {
-  const schemaA = mapAttrs({ func: addAttrDefaults, schema });
+  const schemaA = mapAttrs(addAttrDefaults, { schema });
   return { ...schema, ...schemaA };
 };
 

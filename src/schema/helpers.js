@@ -3,7 +3,7 @@
 const { mapValues, pickBy } = require('../utilities');
 
 // Apply a mapping function on each collection
-const mapColls = function ({ func, schema, schema: { collections } }) {
+const mapColls = function (func, { schema, schema: { collections } }) {
   const collectionsA = mapValues(
     collections,
     (coll, collname) => mapColl({ func, coll, collname, schema }),
@@ -17,9 +17,9 @@ const mapColl = function ({ func, coll, collname, schema }) {
 };
 
 // Apply a mapping function on each collection's attribute
-const mapAttrs = function ({ func, schema }) {
+const mapAttrs = function (func, { schema }) {
   const funcA = mapCollAttrs.bind(null, func);
-  return mapColls({ func: funcA, schema });
+  return mapColls(funcA, { funcA, schema });
 };
 
 const mapCollAttrs = function (

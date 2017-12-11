@@ -6,9 +6,6 @@ const { mapColls } = require('../helpers');
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
-const normalizeAliases = function ({ schema }) {
-  return mapColls({ func: mapColl, schema });
-};
 
 const mapColl = function ({ coll, coll: { attributes } }) {
   if (!attributes) { return; }
@@ -57,6 +54,8 @@ const checkAliasDuplicates = function ({ coll, attrs, attrName, alias }) {
     throwError(message, { reason: 'SCHEMA_VALIDATION' });
   }
 };
+
+const normalizeAliases = mapColls.bind(null, mapColl);
 
 module.exports = {
   normalizeAliases,
