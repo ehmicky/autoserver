@@ -6,9 +6,14 @@ const { mapValues } = require('../utilities');
 const mapColls = function ({ func, schema, schema: { collections } }) {
   const collectionsA = mapValues(
     collections,
-    (coll, collname) => func({ coll, collname, schema }),
+    (coll, collname) => mapColl({ func, coll, collname, schema }),
   );
   return { ...schema, collections: collectionsA };
+};
+
+const mapColl = function ({ func, coll, collname, schema }) {
+  const collA = func({ coll, collname, schema });
+  return { ...coll, ...collA };
 };
 
 // Apply a mapping function on each collection's attribute

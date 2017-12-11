@@ -16,7 +16,7 @@ const mapColl = function ({ coll, coll: { database }, collname }) {
   validateFeatures({ adapter, coll, collname });
 
   const { features } = adapter;
-  return { ...coll, features };
+  return { features };
 };
 
 const getAdapter = function ({ name, collname }) {
