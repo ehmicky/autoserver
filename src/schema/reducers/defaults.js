@@ -1,60 +1,74 @@
 'use strict';
 
-const { expandPath, has, set, deepMerge } = require('../../utilities');
+const { deepMerge, mapValues } = require('../../utilities');
 const { protocolAdapters } = require('../../protocols');
 const { databaseAdapters, DEFAULT_DATABASE } = require('../../database');
+const { mapColls, mapAttrs } = require('../helpers');
 
 // Add schema default values
 const addDefaults = function ({ schema }) {
-  const schemaA = DEFAULT_VALUES.reduce(expandPaths, schema);
-  const schemaB = Object.values(databaseAdapters)
-    .reduce(setDynamicDefaults.bind(null, 'databases'), schemaA);
-  const schemaC = Object.values(protocolAdapters)
-    .reduce(setDynamicDefaults.bind(null, 'protocols'), schemaB);
+  const schemaA = addTopDefaults({ schema });
+  const schemaB = addCollsDefaults({ schema: schemaA });
+  const schemaC = addAttrsDefaults({ schema: schemaB });
   return schemaC;
 };
 
-// Order matters, as they are applied serially
-// This is why we are not using a simple object to deeply merge
-const DEFAULT_VALUES = [
-  { key: 'env', value: 'dev' },
-  { key: 'collections.*.database', value: DEFAULT_DATABASE.name },
-  {
-    key: 'collections.*.attributes.id',
-    value: { description: 'Unique identifier' },
+// Top-level defaults
+const addTopDefaults = function ({ schema }) {
+  const dynamicDefaults = mapValues(DYNAMIC_DEFAULTS, getDynamicDefaults);
+  const schemaA = deepMerge(TOP_DEFAULT_VALUES, dynamicDefaults, schema);
+  return schemaA;
+};
+
+// Defaults related to adapters
+const getDynamicDefaults = function (adapters) {
+  return mapValues(adapters, ({ defaults = {} }) => defaults);
+};
+
+// Collection-level defaults
+const addCollsDefaults = function ({ schema }) {
+  const schemaA = mapColls({ func: addCollDefaults, schema });
+  return { ...schema, ...schemaA };
+};
+
+const addCollDefaults = function ({ coll }) {
+  return deepMerge(COLL_DEFAULTS, coll);
+};
+
+// Attribute-level defaults
+const addAttrsDefaults = function ({ schema }) {
+  const schemaA = mapAttrs({ func: addAttrDefaults, schema });
+  return { ...schema, ...schemaA };
+};
+
+const addAttrDefaults = function ({ attr }) {
+  return deepMerge(ATTR_DEFAULTS, attr);
+};
+
+const TOP_DEFAULT_VALUES = {
+  env: 'dev',
+  log: [],
+  limits: {
+    maxpayload: '10MB',
+    pagesize: 100,
   },
-  { key: 'collections.*.attributes.*.type', value: 'string' },
-  { key: 'collections.*.attributes.*.validate', value: {} },
-  { key: 'log', value: [] },
-  { key: 'databases', value: {} },
-  { key: 'limits', value: {} },
-  { key: 'limits.maxpayload', value: '10MB' },
-  { key: 'limits.pagesize', value: 100 },
-];
-
-// Expand `*` in paths
-const expandPaths = function (schema, { key, value }) {
-  const keys = expandPath(schema, key);
-  const schemaB = keys.reduce(
-    (schemaA, keyA) => applyDefaultValue({ schema: schemaA, key: keyA, value }),
-    schema,
-  );
-  return schemaB;
 };
 
-const applyDefaultValue = function ({ schema, key, value }) {
-  const keyA = key.split('.');
-
-  if (has(schema, keyA)) { return schema; }
-
-  return set(schema, keyA, value);
+const DYNAMIC_DEFAULTS = {
+  databases: databaseAdapters,
+  protocols: protocolAdapters,
 };
 
-// Set `schema.protocols|databases` default values using each
-// `protocolAdapter|databaseAdapter.defaults`
-const setDynamicDefaults = function (prop, schema, { name, defaults = {} }) {
-  const defaultsA = { [prop]: { [name]: defaults } };
-  return deepMerge(defaultsA, schema);
+const COLL_DEFAULTS = {
+  database: DEFAULT_DATABASE.name,
+  attributes: {
+    id: { description: 'Unique identifier' },
+  },
+};
+
+const ATTR_DEFAULTS = {
+  type: 'string',
+  validate: {},
 };
 
 module.exports = {
