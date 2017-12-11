@@ -2,19 +2,19 @@
 
 const { reduceAsync, mapValues } = require('../utilities');
 
-const { normalizers } = require('./list');
+const { reducers } = require('./list');
 
 // Loads schema
 const loadSchema = async function ({ runOpts: { schema: path } }) {
   const schemaA = await reduceAsync(
-    normalizers,
-    applyNormalizer.bind(null, { path }),
+    reducers,
+    applyReducer.bind(null, { path }),
   );
   return { schema: schemaA };
 };
 
-// Apply each normalizer in order
-const applyNormalizer = function ({ path }, schema, { type, func }) {
+// Apply each reducer in order
+const applyReducer = function ({ path }, schema, { type, func }) {
   return normalizeFuncs[type](func, { schema, path });
 };
 

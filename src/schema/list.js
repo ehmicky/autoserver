@@ -31,7 +31,7 @@ const { normalizeShortcuts } = require('./shortcuts');
 const { compileJsonSchema } = require('./json_schema');
 const { loadRpc } = require('./rpc');
 
-const normalizers = [
+const reducers = [
   // Load file
   { type: 'schema', func: dereferenceRefs },
   // Create all schema inline functions, i.e. apply `new Function()`
@@ -92,5 +92,5 @@ const normalizers = [
 ];
 
 module.exports = {
-  normalizers,
+  reducers,
 };
