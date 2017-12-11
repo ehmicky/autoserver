@@ -1,6 +1,6 @@
 'use strict';
 
-const { reduceAsync } = require('../utilities');
+const { monitoredReduce } = require('../perf');
 const { createInlineFuncs } = require('../functions');
 
 const {
@@ -30,14 +30,14 @@ const {
 } = require('./reducers');
 
 // Loads schema
-const loadSchema = async function ({ runOpts: { schema: path } }) {
-  const schemaB = await reduceAsync(
-    reducers,
-    (schema, func) => func({ schema, path }),
-    {},
-    (schemaA, newSchema) => ({ ...schemaA, ...newSchema }),
-  );
-  return { schema: schemaB };
+const loadSchema = function ({ runOpts: { schema: path }, measures }) {
+  return monitoredReduce({
+    funcs: reducers,
+    initialInput: { measures, path },
+    mapResponse: ({ schema, ...rest }, newSchema) =>
+      ({ schema: { ...schema, ...newSchema }, ...rest }),
+    category: 'schema',
+  });
 };
 
 const reducers = [
