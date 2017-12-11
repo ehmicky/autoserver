@@ -7,10 +7,10 @@ const normalizeClientCollname = function ({ schema }) {
   return mapColls({ func: mapColl, schema });
 };
 
-const mapColl = function ({ collname, coll, coll: { name = [collname] } }) {
+const mapColl = function ({ collname, coll: { name = [collname] } }) {
   const nameA = Array.isArray(name) ? name : [name];
 
-  return { ...coll, name: nameA };
+  return { name: nameA };
 };
 
 module.exports = {

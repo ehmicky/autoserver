@@ -10,13 +10,15 @@ const normalizeAliases = function ({ schema }) {
   return mapColls({ func: mapColl, schema });
 };
 
-const mapColl = function ({ coll }) {
-  if (!coll.attributes) { return coll; }
+const mapColl = function ({ coll, coll: { attributes } }) {
+  if (!attributes) { return; }
 
-  const attributes = Object.entries(coll.attributes)
-    .reduce(normalizeAlias.bind(null, coll), {});
+  const attributesA = Object.entries(attributes).reduce(
+    normalizeAlias.bind(null, coll),
+    {},
+  );
 
-  return { ...coll, attributes };
+  return { attributes: attributesA };
 };
 
 const normalizeAlias = function (coll, attrs, [attrName, attr]) {

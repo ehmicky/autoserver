@@ -19,13 +19,13 @@ const normalizeAuthorize = function ({ schema, schema: { authorize } }) {
   return { ...schemaA, authorize: authorizeA };
 };
 
-const mapColl = function ({ coll, coll: { authorize }, collname, schema }) {
-  if (authorize === undefined) { return coll; }
+const mapColl = function ({ coll: { authorize }, collname, schema }) {
+  if (authorize === undefined) { return; }
 
   const prefix = `In 'collection.${collname}.authorize', `;
   const authorizeA = parseAuthorize({ authorize, collname, schema, prefix });
 
-  return { ...coll, authorize: authorizeA };
+  return { authorize: authorizeA };
 };
 
 const parseAuthorize = function ({ authorize, collname, schema, prefix }) {
