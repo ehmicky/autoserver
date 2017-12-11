@@ -4,10 +4,6 @@ const { mapAttrs } = require('../helpers');
 
 // Copy `attr.type|description` to nested collections
 // from the `coll.id` they refer to
-const mergeNestedColl = function ({ schema }) {
-  return mapAttrs({ func: mapAttr, schema });
-};
-
 const mapAttr = function ({ attr, schema: { collections } }) {
   if (attr.target === undefined) { return; }
 
@@ -19,6 +15,8 @@ const mapAttr = function ({ attr, schema: { collections } }) {
 
   return { type, description };
 };
+
+const mergeNestedColl = mapAttrs.bind(null, mapAttr);
 
 module.exports = {
   mergeNestedColl,

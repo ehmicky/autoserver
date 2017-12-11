@@ -3,10 +3,6 @@
 const { mapAttrs } = require('../helpers');
 
 // Add JSON schema validation based on `type`
-const addTypeValidation = function ({ schema }) {
-  return mapAttrs({ func: mapAttr, schema });
-};
-
 const mapAttr = function ({ attr, attr: { type, isArray } }) {
   if (!type) { return; }
 
@@ -32,6 +28,8 @@ const addMultipleValidation = function ({
     },
   };
 };
+
+const addTypeValidation = mapAttrs.bind(null, mapAttr);
 
 module.exports = {
   addTypeValidation,

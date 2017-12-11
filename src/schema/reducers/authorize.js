@@ -14,7 +14,7 @@ const normalizeAuthorize = function ({ schema, schema: { authorize } }) {
   const prefix = 'In \'schema.authorize\', ';
   const authorizeA = parseAuthorize({ authorize, schema, prefix });
 
-  const schemaA = mapColls({ func: mapColl, schema });
+  const schemaA = mapColls(mapColl, { schema });
 
   return { ...schemaA, authorize: authorizeA };
 };

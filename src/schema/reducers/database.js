@@ -7,11 +7,7 @@ const { mapColls } = require('../helpers');
 const { validateFeatures } = require('./features');
 
 // Validates `collection.database`
-const validateDatabases = function ({ schema }) {
-  return mapColls({ func: mapColl, schema });
-};
-
-const mapColl = function ({ coll, coll: { database }, collname }) {
+const mapColl = function ({ coll: { database }, coll, collname }) {
   const adapter = getAdapter({ name: database, collname });
   validateFeatures({ adapter, coll, collname });
 
@@ -26,6 +22,8 @@ const getAdapter = function ({ name, collname }) {
   const message = `'collections.${collname}.database' '${name}' is unknown`;
   throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
+
+const validateDatabases = mapColls.bind(null, mapColl);
 
 module.exports = {
   validateDatabases,

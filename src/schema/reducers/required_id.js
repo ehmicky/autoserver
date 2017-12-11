@@ -3,10 +3,6 @@
 const { mapAttrs } = require('../helpers');
 
 // Make sure `id` attributes are required
-const addRequiredId = function ({ schema }) {
-  return mapAttrs({ func: mapAttr, schema });
-};
-
 const mapAttr = function ({
   attr: { validate, validate: { required } },
   attrName,
@@ -15,6 +11,8 @@ const mapAttr = function ({
 
   return { validate: { ...validate, required: true } };
 };
+
+const addRequiredId = mapAttrs.bind(null, mapAttr);
 
 module.exports = {
   addRequiredId,
