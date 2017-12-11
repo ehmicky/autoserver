@@ -2,33 +2,31 @@
 
 const { createInlineFuncs } = require('../functions');
 
-const { loadFile } = require('./load');
-const { applyPlugins } = require('./plugins');
-const { applyCollsDefault } = require('./colls_default');
 const {
-  validateDatabases,
+  loadFile,
+  applyPlugins,
+  applyCollsDefault,
   validateCircularRefs,
   validateJsonSchemaData,
-  validateClientCollnames,
   validateSchemaSyntax,
-  validateLimits,
-} = require('./validate');
-const { addDefaults } = require('./defaults');
-const {
+  addDefaults,
   normalizeClientCollname,
   addRequiredId,
   normalizeType,
-  addTypeValidation,
   mergeNestedColl,
+  addTypeValidation,
   normalizeAliases,
   addDescriptions,
   normalizeAuthorize,
   normalizePatchOperators,
   normalizeLog,
-} = require('./mappers');
-const { normalizeShortcuts } = require('./shortcuts');
-const { compileJsonSchema } = require('./json_schema');
-const { loadRpc } = require('./rpc');
+  normalizeShortcuts,
+  validateClientCollnames,
+  validateDatabases,
+  validateLimits,
+  compileJsonSchema,
+  loadRpc,
+} = require('./reducers');
 
 const reducers = [
   // Load schema file
