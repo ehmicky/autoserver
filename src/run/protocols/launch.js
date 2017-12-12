@@ -6,14 +6,14 @@ const { addGenErrorHandler } = require('../../error');
 const launchServer = async function ({
   protocolAdapter,
   protocolAdapter: { name: protocol },
-  schema,
-  schema: { protocols },
+  config,
+  config: { protocols },
   handleRequest,
 }) {
   const opts = protocols[protocol];
   const server = await protocolAdapter.startServer({
     opts,
-    schema,
+    config,
     handleRequest,
   });
   return { protocol: { ...server, protocolAdapter } };

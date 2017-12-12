@@ -8,7 +8,7 @@ const { filterField } = require('./filter');
 const { getFinalField } = require('./final_fields');
 const { addNoAttributes } = require('./no_attributes');
 
-// Retrieve the fields of an object, using schema definition
+// Retrieve the fields of an object, using config definition
 const getObjectFields = function (opts) {
   const fields = mappers.reduce(
     reduceFields.bind(null, opts),

@@ -55,7 +55,7 @@ const validatePosArgs = function ({ posArgs }) {
 
   const posArgsA = getWordsList(posArgs, { quote: true });
   const message = `Unknown positional options: '${posArgsA}'`;
-  throwError(message, { reason: 'SCHEMA_VALIDATION' });
+  throwError(message, { reason: 'CONF_VALIDATION' });
 };
 
 // Allow JSON values for options

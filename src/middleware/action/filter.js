@@ -4,15 +4,15 @@ const { omit } = require('../../utilities');
 const { parseFilter, validateFilter } = require('../../filter');
 
 // Parse `args.filter` and `args.id` into AST
-const parseFilterActions = function ({ actions, schema }) {
-  const actionsA = actions.map(action => parseFilterArg({ action, schema }));
+const parseFilterActions = function ({ actions, config }) {
+  const actionsA = actions.map(action => parseFilterArg({ action, config }));
   return { actions: actionsA };
 };
 
 const parseFilterArg = function ({
   action,
   action: { args, collname },
-  schema: { collections },
+  config: { collections },
 }) {
   const { attributes } = collections[collname];
   const filter = parseFilterOrId({ args, attributes });

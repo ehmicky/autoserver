@@ -11,10 +11,10 @@ const getWriteAction = function ({
   commandpath,
   dataPaths,
   top,
-  schema,
+  config,
   nestedKeys,
 }) {
-  const { collname } = getColl({ top, schema, commandpath });
+  const { collname } = getColl({ top, config, commandpath });
 
   const dataA = data.map(datum => replaceNestedData({ datum, nestedKeys }));
   const args = { data: dataA };

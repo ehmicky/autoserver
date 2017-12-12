@@ -1,0 +1,632 @@
+$schema: http://json-schema.org/draft-06/schema#
+$id: config_json_schema_v1
+title: apiengine configuration's JSON schema
+description: JSON schema validating the apiengine's configuration
+type: object
+required: [engine, collections]
+properties:
+  # Versioning
+  engine:
+    type: integer
+    minimum: 0
+  # `config.name`
+  name:
+    type: string
+  # `config.env`
+  env:
+    type: string
+    enum: [dev, production]
+  # Collections definitions
+  collections:
+    additionalProperties:
+      $ref: '#/definitions/collection'
+    # Check collections names
+    propertyNames:
+      $ref: '#/definitions/validClientCollname'
+  # Custom variables that can be used in config functions
+  variables:
+    $ref: '#/definitions/variables'
+  # Functions that modifies config definition
+  plugins:
+    $ref: '#/definitions/plugins'
+  # `config.authorize`
+  authorize:
+    $ref: '#/definitions/authorize'
+  # Custom validation keywords
+  validation:
+    $ref: '#/definitions/validation'
+  # Custom patch operators
+  operators:
+    $ref: '#/definitions/patchOperators'
+  # Logging
+  log:
+    $ref: '#/definitions/log'
+  # Protocols config
+  protocols:
+    type: object
+  # Databases config
+  databases:
+    type: object
+  # Limits
+  limits:
+    $ref: '#/definitions/limits'
+  # Automatically generated, and used to validate `type`
+  collTypes:
+    type: array
+    items:
+      type: string
+  # Automatically generated, and used to validate custom validation keywords
+  customValidationNames:
+    type: array
+    items:
+      type: string
+# Users can only define custom properties prefixed with $
+additionalProperties: false
+patternProperties:
+  '^\$': true
+definitions:
+  # config.collections.COLLECTION
+  collection:
+    type: object
+    # Users can only define custom properties prefixed with $
+    additionalProperties: false
+    patternProperties:
+      '^\$': true
+    required: [attributes]
+    properties:
+      name:
+        $ref: '#/definitions/validClientCollnames'
+      description:
+        $ref: '#/definitions/description'
+      authorize:
+        $ref: '#/definitions/authorize'
+      database:
+        $ref: '#/definitions/database'
+      attributes:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/attribute'
+        propertyNames:
+          $ref: '#/definitions/validAttributeName'
+        properties:
+          id:
+            $ref: '#/definitions/idAttribute'
+        # Models can have a maximum of 50 attributes.
+        # This is too avoid big responses.
+        maxProperties: 50
+  # COLL.id
+  idAttribute:
+    properties:
+      # `collection.id` can only be a string:
+      #  - it should be able to be assigned by the API (as opposed to the
+      #    database), so serial integers cannot be used
+      #  - it cannot be targetting another collection.
+      type:
+        const: string
+      # `COLL.id` cannot be optional
+      validate:
+        properties:
+          required:
+            not:
+              const: false
+    # `COLL.id` cannot use value|readonly
+    allOf:
+    - not:
+        required: [value]
+    - not:
+        required: [readonly]
+  # COLL.attributes
+  attribute:
+    type: object
+    # Users can only define custom properties prefixed with $
+    additionalProperties: false
+    patternProperties:
+      '^\$': true
+    properties:
+      alias:
+        oneOf:
+        - type: string
+          $ref: '#/definitions/validAttributeName'
+        - type: array
+          items:
+            type: string
+            $ref: '#/definitions/validAttributeName'
+      readonly:
+        $ref: '#/definitions/configFuncBoolean'
+      value:
+        $ref: '#/definitions/transformValue'
+      # General data validation
+      validate:
+        $ref: '#/definitions/validate'
+      # Like JSON schema, but is used for more than validation,
+      # e.g. in GraphQL schema
+      type:
+        $ref: '#/definitions/type'
+      # For array types
+      multiple:
+        type: boolean
+      # Indicate an attribute is deprecated, and why
+      deprecation_reason:
+        $ref: '#/definitions/description'
+      # Used in automatically generated documentation
+      description:
+        $ref: '#/definitions/description'
+      # Used in automatically generated documentation
+      examples:
+        type: array
+        items:
+          type: string
+      # Default value
+      default:
+        $ref: '#/definitions/configFuncOrValue'
+  # collection.authorize
+  # It is validated in more details when parsed
+  authorize:
+    oneOf:
+    - type: array
+      items:
+        type: object
+    - type: object
+  # collection.database
+  database:
+    type: string
+  # config.variables
+  variables:
+    type: object
+    propertyNames:
+      $ref: '#/definitions/validUserName'
+  # config.plugins
+  plugins:
+    type: array
+    items:
+      type: object
+      properties:
+        plugin:
+          typeof: [function, string]
+        enabled:
+          typeof: boolean
+        opts:
+          type: object
+          propertyNames:
+            $ref: '#/definitions/validName'
+      additionalProperties: false
+  # config.validation
+  validation:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        test:
+          $ref: '#/definitions/configFuncString'
+        # Error messages can either be a string, or config functions
+        message:
+          $ref: '#/definitions/configFuncString'
+          # Convention: error message must start with "must"
+          if:
+            type: string
+          then:
+            anyOf:
+            - pattern: ^must\s
+            - pattern: ^\("must\s.*"\)$
+            - pattern: ^\('must\s.*'\)$
+            - pattern: ^\(`must\s.*`\)$
+        type:
+          $ref: '#/definitions/jsonSchemaType'
+      additionalProperties: false
+    propertyNames:
+      $ref: '#/definitions/validUserName'
+  # config.operators
+  patchOperators:
+    type: object
+    additionalProperties:
+      type: object
+      required: [apply]
+      properties:
+        apply:
+          $ref: '#/definitions/configFuncOrValue'
+        check:
+          $ref: '#/definitions/configFuncOrValue'
+        attribute:
+          type: array
+          minLength: 1
+          uniqueItems: true
+          oneOf:
+          # Cannot mix non-array types and array types
+          # Reason: using non-array types is enough to support both, since
+          # patch operations on arrays are being iterated
+          - items:
+              enum:
+              - boolean
+              - integer
+              - number
+              - string
+              - any
+          - items:
+              enum:
+              - boolean[]
+              - integer[]
+              - number[]
+              - string[]
+              - any[]
+        argument:
+          type: array
+          minLength: 1
+          uniqueItems: true
+          # `patchOp.argument` also support `empty` and `object`
+          items:
+            enum:
+            - boolean
+            - integer
+            - number
+            - string
+            - any
+            - object
+            - empty
+            - boolean[]
+            - integer[]
+            - number[]
+            - string[]
+            - any[]
+            - object[]
+            - empty[]
+      additionalProperties: false
+    propertyNames:
+      $ref: '#/definitions/validUserOpName'
+  # config.log
+  log:
+    oneOf:
+    - $ref: '#/definitions/logAdapter'
+    - type: array
+      items:
+        $ref: '#/definitions/logAdapter'
+  logAdapter:
+    type: object
+    properties:
+      provider:
+        type: string
+      opts:
+        type: object
+      level:
+        type: string
+        enum: [silent, info, log, warn, error]
+    additionalProperties: false
+  # config.limits
+  limits:
+    type: object
+    properties:
+      pagesize:
+        type: integer
+        minimum: 0
+      maxmodels:
+        type: integer
+      maxpayload:
+        oneOf:
+        - type: string
+        - type: integer
+    additionalProperties: false
+  # attr.type
+  type:
+    oneOf:
+    - $ref: '#/definitions/singleType'
+    # Cannot specify collections when using an array of types
+    - type: array
+      # Must choose between multiple and non-multiple types, when using an array
+      oneOf:
+      - items:
+          $ref: '#/definitions/nonCollSimpleType'
+      - items:
+          $ref: '#/definitions/nonCollMultipleType'
+      minItems: 1
+      uniqueItems: true
+  singleType:
+    type: string
+    oneOf:
+    - $ref: '#/definitions/collType'
+    - $ref: '#/definitions/nonCollType'
+  collType:
+    enum:
+      $data: '/collTypes'
+  nonCollType:
+    oneOf:
+    - $ref: '#/definitions/nonCollSimpleType'
+    - $ref: '#/definitions/nonCollMultipleType'
+  nonCollSimpleType:
+    enum:
+    - string
+    - number
+    - integer
+    - boolean
+    # Not allowed: should use collections instead
+    # - object
+    # Not allowed: should use [] notation instead
+    # - array
+  nonCollMultipleType:
+    enum:
+    - string[]
+    - number[]
+    - integer[]
+    - boolean[]
+  # attr.value
+  transformValue:
+    $ref: '#/definitions/configFuncOrValue'
+  # collection.description or attr.description
+  description:
+    type: string
+  # TODO: validate that if this is not config function, it should be of
+  # same type as the attribute.type
+  configFuncOrValue:
+    anyOf:
+    - $ref: '#/definitions/configFunc'
+    - not:
+        $ref: '#/definitions/configFunc'
+  configFuncString:
+    anyOf:
+    - $ref: '#/definitions/configFunc'
+    - not:
+        $ref: '#/definitions/configFunc'
+      type: string
+  configFuncBoolean:
+    anyOf:
+    - $ref: '#/definitions/configFunc'
+    - type: boolean
+  # Config functions can either be external (function) or
+  # inline (a string '(...)')
+  configFunc:
+    anyOf:
+    - typeof: function
+    - type: string
+      pattern: '^\s*\(.*\)\s*$'
+  # Any user-defined identifier should match this
+  validName:
+    type: string
+    # Valid GraphQL identifier name, regular expression taken from spec
+    # Additional restriction: lowercase-only
+    # Difference:
+    #  - should not start with __ as it is reserved for GraphQL introspection
+    #    types
+    #  - should not start with _ as it is used by filter|data operators
+    pattern: '^[a-z][_0-9a-z]*$'
+  # Any user-defined identifier that could conflict with system names
+  # I.e. be prefixed with $
+  validUserName:
+    type: string
+    pattern: '^\$[a-z][_0-9a-z]*$'
+  # Any user-defined identifier that could conflict with operator names
+  # I.e. be prefixed with __
+  validUserOpName:
+    type: string
+    pattern: '^__[a-z][_0-9a-z]*$'
+  # Keys of config.collections.*, and collection.name
+  validClientCollnames:
+    oneOf:
+    - type: array
+      items:
+        $ref: '#/definitions/validClientCollname'
+    - $ref: '#/definitions/validClientCollname'
+  validClientCollname:
+    allOf:
+    - $ref: '#/definitions/validName'
+    # This is too avoid big responses, or hitting database limits
+    - maxLength: 100
+  # Keys of COLL.attributes.*
+  validAttributeName:
+    allOf:
+    - $ref: '#/definitions/validName'
+    # This is too avoid big responses, or hitting database limits
+    - maxLength: 100
+    # 'all' is a special attribute name, used to query all attributes
+    - not:
+        const: all
+  # attr.validate
+  validate:
+    type: object
+    $ref: '#/definitions/jsonSchema'
+  # Value of jsonSchema.type
+  jsonSchemaType:
+    oneOf:
+    - type: string
+      enum: [string, number, integer, boolean, empty, object, array]
+    - type: array
+      items:
+        $ref: '#/definitions/jsonSchemaType'
+  # Reuse standard JSON schema as a base
+  # This is JSON schema v6, as YAML
+  # The spec is currently in draft (only v4 is currently official)
+  jsonSchema:
+    definitions:
+      jsonSchemaArray:
+        type: array
+        minItems: 1
+        items:
+          $ref: '#/definitions/jsonSchema'
+      nonNegativeInteger:
+        type: integer
+        minimum: 0
+      nonNegativeIntegerDefault0:
+        allOf:
+          - $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
+          - default: 0
+      simpleTypes:
+        enum:
+          - array
+          - boolean
+          - integer
+          - 'null'
+          - number
+          - object
+          - string
+      stringArray:
+        type: array
+        items:
+          type: string
+        uniqueItems: true
+        default: []
+    type:
+    - object
+    # JSON schemas can be booleans
+    - boolean
+    properties:
+      # The following properties are not available, because a property on
+      # attributes should be used instead:
+      #  - type
+      #  - description
+      #  - examples
+      #  - default
+      #  - title
+      # The following properties are not available, because attributes cannot
+      # be objects.
+      #  - maxProperties
+      #  - minProperties
+      #  - additionalProperties
+      #  - properties
+      #  - patternProperties
+      #  - propertyNames
+      # We are using a different syntax for the following attributes:
+      #  - format
+      #  - required
+      #  - dependencies
+      # The following properties are not available, because not directly
+      # validation-related:
+      #  - $id
+      #  - $schema
+      #  - $ref
+      #  - definitions
+      multipleOf:
+        type: number
+        exclusiveMinimum: 0
+      maximum:
+        type: number
+      exclusiveMaximum:
+        type: number
+      minimum:
+        type: number
+      exclusiveMinimum:
+        type: number
+      maxLength:
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
+      minLength:
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0'
+      pattern:
+        type: string
+        format: regex
+      additionalItems:
+        $ref: '#/definitions/jsonSchema'
+      items:
+        anyOf:
+          - $ref: '#/definitions/jsonSchema'
+          - $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
+        default: {}
+      maxItems:
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
+      minItems:
+        $ref: '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0'
+      uniqueItems:
+        type: boolean
+        default: false
+      contains:
+        $ref: '#/definitions/jsonSchema'
+      const: {}
+      enum:
+        type: array
+        minItems: 1
+        uniqueItems: true
+      allOf:
+        $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
+      anyOf:
+        $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
+      oneOf:
+        $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
+      not:
+        $ref: '#/definitions/jsonSchema'
+      # Future JSON standard
+      formatMaximum:
+        type: string
+      formatMinimum:
+        type: string
+      formatExclusiveMaximum:
+        type: boolean
+      formatExclusiveMinimum:
+        type: boolean
+      if:
+        $ref: '#/definitions/jsonSchema'
+      then:
+        $ref: '#/definitions/jsonSchema'
+      else:
+        $ref: '#/definitions/jsonSchema'
+      # Our additions to JSON schema
+      # All spec-defined formats are allowed. We are stricter than the spec,
+      # as custom formats are forbidden.
+      format:
+        type: string
+        enum:
+        - regex
+        - date-time
+        - date
+        - time
+        - email
+        - hostname
+        - ipv4
+        - ipv6
+        - uri
+        - uri-reference
+        - json-pointer
+        - relative-json-pointer
+      # Instead of being an array on the collection,
+      # like in standard JSON schema.
+      # More intuitive
+      required:
+        type: boolean
+      # Same as JSON schema, but directly on the attribute
+      dependencies:
+        anyOf:
+        - $ref: '#/definitions/jsonSchema'
+        - $ref: '#/definitions/jsonSchema/definitions/stringArray'
+    default: {}
+    # Future JSON standard
+    dependencies:
+      formatExclusiveMinimum: [formatMinimum]
+      formatExclusiveMaximum: [formatMaximum]
+      if: [then]
+      then: [if]
+      else: [then]
+    # Do not allow custom properties, except the ones from config.validation
+    propertyNames:
+      oneOf:
+      - enum:
+          $data: '/customValidationNames'
+      - enum:
+        # Numbers validation
+        - multipleOf
+        - maximum
+        - exclusiveMaximum
+        - minimum
+        - exclusiveMinimum
+        # String validation
+        - maxLength
+        - minLength
+        - pattern
+        - format
+        - formatMaximum
+        - formatMinimum
+        - formatExclusiveMaximum
+        - formatExclusiveMinimum
+        # Array validation
+        - additionalItems
+        - items
+        - maxItems
+        - minItems
+        - uniqueItems
+        - contains
+        # Any type validation
+        - const
+        - enum
+        - required
+        - dependencies
+        # Combinators
+        - allOf
+        - anyOf
+        - oneOf
+        - not
+        - if
+        - then
+        - else

@@ -1,7 +1,7 @@
 'use strict';
 
 const { getRequestHandler } = require('../middleware');
-const { loadSchema } = require('../schema');
+const { loadConfig } = require('../config');
 
 const {
   startStartupPerf,
@@ -17,8 +17,8 @@ const { emitStartEvent } = require('./start_event');
 const startupSteps = [
   // Start monitoring main startup time
   startStartupPerf,
-  // Loads schema
-  loadSchema,
+  // Loads config
+  loadConfig,
   // Setup process warnings and errors handler
   processErrorHandler,
   // Create database connections

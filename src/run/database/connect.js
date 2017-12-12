@@ -7,16 +7,16 @@ const { monitor } = require('../../perf');
 const startConnection = async function ({
   adapter,
   adapter: { connect, check, options },
-  schema,
+  config,
 }) {
-  const connection = await connect({ options, schema });
+  const connection = await connect({ options, config });
 
   // Check for data model inconsistencies, and potentially fix them
   if (check !== undefined) {
-    check({ options, schema, connection });
+    check({ options, config, connection });
   }
 
-  await emitStartEvent({ adapter, schema });
+  await emitStartEvent({ adapter, config });
 
   return connection;
 };
@@ -28,9 +28,9 @@ const kStartConnection = monitor(
 );
 
 // Database adapter-specific start event
-const emitStartEvent = async function ({ adapter: { title }, schema }) {
+const emitStartEvent = async function ({ adapter: { title }, config }) {
   const message = `${title} - Connection initialized`;
-  await logEvent({ event: 'message', phase: 'startup', message, schema });
+  await logEvent({ event: 'message', phase: 'startup', message, config });
 };
 
 module.exports = {

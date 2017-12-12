@@ -2,9 +2,9 @@
 
 const { getSumVars } = require('../../../functions');
 
-// Add `response`-related schema variables
+// Add `response`-related config variables
 const getResponseVars = function ({ type, content }) {
-  // `responsedatasize` and `responsedatacount` schema variables
+  // `responsedatasize` and `responsedatacount` config variables
   const sumVars = getSumVars({ attrName: 'responsedata', value: content });
 
   return {

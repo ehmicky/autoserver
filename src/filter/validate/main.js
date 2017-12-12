@@ -15,7 +15,7 @@ const validateFilter = function ({
   attrs,
   reason = 'INPUT_VALIDATION',
   prefix = '',
-  skipSchemaFuncs,
+  skipConfigFuncs,
 }) {
   if (filter == null) { return; }
 
@@ -23,7 +23,7 @@ const validateFilter = function ({
 
   crawlAttrs(
     filter,
-    nodes => validateAttr({ nodes, attrs, skipSchemaFuncs, throwErr }),
+    nodes => validateAttr({ nodes, attrs, skipConfigFuncs, throwErr }),
   );
 };
 
@@ -36,7 +36,7 @@ const validateNode = function ({
   node: { type, attrName },
   operations,
   attrs,
-  skipSchemaFuncs,
+  skipConfigFuncs,
   throwErr,
 }) {
   const operator = getOperator({ node });
@@ -53,7 +53,7 @@ const validateNode = function ({
     attr,
     operator,
     operations,
-    skipSchemaFuncs,
+    skipConfigFuncs,
     throwErr: throwErrA,
   });
 };
@@ -65,12 +65,12 @@ const validateValue = function ({
   attr: { validation: attrValidate },
   operator: { validate: opValidate },
   operations,
-  skipSchemaFuncs,
+  skipConfigFuncs,
   throwErr,
 }) {
-  // Skip schema functions
+  // Skip config functions
   // If one wants to validate them, they need to be evaluated first
-  if (skipSchemaFuncs && typeof value === 'function') { return; }
+  if (skipConfigFuncs && typeof value === 'function') { return; }
 
   if (opValidate !== undefined) {
     opValidate({ type, value, attr, throwErr });

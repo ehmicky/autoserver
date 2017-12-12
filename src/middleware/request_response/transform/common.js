@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues, pickBy } = require('../../../utilities');
-const { runSchemaFunc, getModelVars } = require('../../../functions');
+const { runConfigFunc, getModelVars } = require('../../../functions');
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
 const handleTransforms = function ({
@@ -12,7 +12,7 @@ const handleTransforms = function ({
   args,
   args: { newData, currentData },
   collname,
-  schema: { shortcuts },
+  config: { shortcuts },
   mInput,
 }) {
   if (newData === undefined) { return; }
@@ -77,7 +77,7 @@ const transformAttr = function ({
 }) {
   const vars = getModelVars({ model, previousmodel, attrName });
 
-  const transformA = runSchemaFunc({ schemaFunc: transform, mInput, vars });
+  const transformA = runConfigFunc({ configFunc: transform, mInput, vars });
 
   const newValA = setAttr({ transform: transformA, ...vars });
 

@@ -12,11 +12,11 @@ const getPaginationOutput = function ({
   top,
   args,
   topargs,
-  schema,
+  config,
   response,
 }) {
   const hasPrevPage = getHasPrevPage({ args, top });
-  const hasNextPage = getHasNextPage({ args, schema, response });
+  const hasNextPage = getHasNextPage({ args, config, response });
 
   const data = getData({ response, hasNextPage });
 
@@ -46,8 +46,8 @@ const getHasPrevPage = function ({ args, args: { page }, top }) {
 };
 
 // We fetch an extra model to guess has_next_page. If it was founds, remove it
-const getHasNextPage = function ({ args, schema, response }) {
-  const limit = getLimit({ args, schema });
+const getHasNextPage = function ({ args, config, response }) {
+  const limit = getLimit({ args, config });
   return response.data.length === limit;
 };
 

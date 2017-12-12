@@ -3,7 +3,7 @@
 const { getDefaultValue } = require('./default');
 const { getArgs } = require('./args');
 
-// Retrieves a GraphQL field info for a given schema definition,
+// Retrieves a GraphQL field info for a given config definition,
 // i.e. an object that can be passed to new
 // GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.

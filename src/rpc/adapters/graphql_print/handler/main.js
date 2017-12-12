@@ -9,7 +9,7 @@ const { renderTemplate } = require('../../../../utilities');
 const TEMPLATE = resolve(__dirname, './print.mustache');
 
 // Print GraphQL schema as beautified HTML
-const handler = async function ({ schema: { graphqlSchema } }) {
+const handler = async function ({ config: { graphqlSchema } }) {
   const graphqlPrintedSchema = await printGraphqlSchema({ graphqlSchema });
 
   const content = await renderTemplate({

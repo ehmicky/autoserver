@@ -5,7 +5,7 @@ const { getStandardError } = require('../../error');
 const { makeImmutable } = require('../../utilities');
 const { getServerinfo } = require('../../serverinfo');
 
-// Retrieve all schema variables
+// Retrieve all config variables
 const getVars = function (
   mInput,
   {
@@ -53,14 +53,14 @@ const getVars = function (
     metadata,
     modelscount,
     uniquecount,
-    schema,
+    config,
     // This is memoized
-    serverinfo = getServerinfo({ schema }),
+    serverinfo = getServerinfo({ config }),
   } = mInput;
 
   const errorA = getError({ error, mInput });
 
-  // When schema variables are sent to clients, we use client-facing
+  // When config variables are sent to clients, we use client-facing
   // collection names
   const clientVars = client
     ? { collections: clientCollnames, collection: clientCollname }
@@ -109,7 +109,7 @@ const getVars = function (
     ...errorA,
   };
 
-  // This is a bit slow, but necessary to prevent schema functions from
+  // This is a bit slow, but necessary to prevent config functions from
   // modifying core engine logic
   if (!mutable) {
     makeImmutable(varsA);

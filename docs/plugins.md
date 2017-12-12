@@ -1,19 +1,19 @@
 # Plugins
 
-Plugins are functions that modify a [schema](schema.md#properties) in a
+Plugins are functions that modify a [configuration](configuration.md) in a
 pre-defined way.
 
 They are simple functions that takes as input:
-  - `schema` `{object}`
+  - `config` `{object}`
   - `opts` `{object}`: plugin options
-And return `schema` properties to merge.
+And return [configuration properties](configuration.md#properties) to merge.
 
 The input parameters are read-only.
 
 The function can be asynchronous by returning a promise.
 
 Plugins can be configured with the `plugins`
-[schema property](schema.md#properties), which is an array of objects with
+[configuration property](configuration.md#properties), which is an array of objects with
 properties:
   - `plugin` [`{function}`](functions.md) or `{string}` (for system plugins)
   - `opts` `{object}`: plugin-specific options

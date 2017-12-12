@@ -1,9 +1,9 @@
 'use strict';
 
-// Turn a `commandpath` into a `collname`, using schema information
+// Turn a `commandpath` into a `collname`, using config
 const getColl = function ({
   commandpath,
-  schema,
+  config,
   top: { collname, command: { multiple } },
 }) {
   // Ignore array indices
@@ -14,13 +14,13 @@ const getColl = function ({
     return { collname, multiple };
   }
 
-  return findColl({ schema, collname, commandpath: commandpathA });
+  return findColl({ config, collname, commandpath: commandpathA });
 };
 
-// Recurse over `schema.collections`, using `commandpath`
+// Recurse over `config.collections`, using `commandpath`
 const findColl = function ({
-  schema,
-  schema: { collections },
+  config,
+  config: { collections },
   collname,
   commandpath,
 }) {
@@ -34,7 +34,7 @@ const findColl = function ({
 
   if (childCommandpath.length !== 0) {
     return findColl({
-      schema,
+      config,
       collname: childCollname,
       commandpath: childCommandpath,
     });

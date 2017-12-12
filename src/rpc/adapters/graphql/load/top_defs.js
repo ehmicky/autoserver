@@ -18,7 +18,7 @@ const getTopDefs = function ({ collections }) {
   );
 };
 
-// Mapping from schema commands to GraphQL methods
+// Mapping from GraphQL methods to commands
 const GRAPHQL_METHODS = {
   query: ['find'],
   mutation: ['create', 'upsert', 'patch', 'delete'],

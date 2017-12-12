@@ -47,7 +47,7 @@ const ERROR_METADATA = [
   'duration',
 ];
 
-// Schema variables not allowed in error response
+// Config variables not allowed in error response
 const HIDDEN_ERROR_INFO = [
   // Avoid duplicate information
   ...ERROR_METADATA,

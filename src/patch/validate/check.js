@@ -2,7 +2,7 @@
 
 const { decapitalize } = require('underscore.string');
 
-const { runSchemaFunc } = require('../../functions');
+const { runConfigFunc } = require('../../functions');
 
 // Uses `patchOp.check()`
 const applyCheck = function ({
@@ -18,7 +18,7 @@ const applyCheck = function ({
   const opValA = opVal === null ? undefined : opVal;
 
   const vars = { arg: opValA, type: attrType };
-  const message = runSchemaFunc({ schemaFunc: check, mInput, vars });
+  const message = runConfigFunc({ configFunc: check, mInput, vars });
 
   const messageA = getCheckMessage({ type, message });
   return messageA;

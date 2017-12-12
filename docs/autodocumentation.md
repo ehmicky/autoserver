@@ -1,7 +1,7 @@
 # Description
 
 Descriptions can be specified with the `collection.description` and
-`attribute.description` [schema properties](schema.md#properties).
+`attribute.description` [configuration properties](configuration.md#properties).
 
 Additionally attributes can be documented as deprecated by specifying
 `attribute.deprecation_reason`.

@@ -3,29 +3,29 @@
 const { addGenErrorHandler } = require('../error');
 
 const { getVars } = require('./vars');
-const { stringifySchemaFunc } = require('./tokenize');
+const { stringifyConfigFunc } = require('./tokenize');
 
-// Process schema function, i.e. fires it and returns its value
-const runSchemaFunc = function ({
-  schemaFunc,
+// Process config function, i.e. fires it and returns its value
+const runConfigFunc = function ({
+  configFunc,
   mInput,
   mInput: { serverVars },
   vars,
 }) {
-  // If this is not schema function, returns as is
-  if (typeof schemaFunc !== 'function') { return schemaFunc; }
+  // If this is not config function, returns as is
+  if (typeof configFunc !== 'function') { return configFunc; }
 
   const varsA = getVars(mInput, { vars, serverVars, mutable: false });
 
-  return schemaFunc(varsA);
+  return configFunc(varsA);
 };
 
-const eRunSchemaFunc = addGenErrorHandler(runSchemaFunc, {
-  message: ({ schemaFunc }) =>
-    `Schema function failed: '${stringifySchemaFunc({ schemaFunc })}'`,
+const eRunConfigFunc = addGenErrorHandler(runConfigFunc, {
+  message: ({ configFunc }) =>
+    `Function failed: '${stringifyConfigFunc({ configFunc })}'`,
   reason: 'UTILITY_ERROR',
 });
 
 module.exports = {
-  runSchemaFunc: eRunSchemaFunc,
+  runConfigFunc: eRunConfigFunc,
 };

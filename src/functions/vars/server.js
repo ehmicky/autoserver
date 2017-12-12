@@ -5,11 +5,12 @@ const { mapValues } = require('../../utilities');
 const { getVars } = require('./values');
 
 // Retrieve all server-specific variables.
-// Functions are bound with schema variables.
-const getServerVars = function ({ schema: { variables }, mInput }) {
+// Functions are bound with config variables.
+const getServerVars = function ({ config: { variables }, mInput }) {
   const vars = getVars(mInput);
 
-  // Only pass schema variables to schema.variables.* not schema.variables.*.*
+  // Only pass config variables to
+  // config.variables.* not config.variables.*.*
   const serverVars = mapValues(
     variables,
     serverVar => bindServerVar({ serverVar, vars }),
@@ -22,8 +23,8 @@ const getServerVars = function ({ schema: { variables }, mInput }) {
   return serverVars;
 };
 
-// Add schema variable to every server-specific variable that is a function,
-// as a first bound parameter
+// Add config variables to every server-specific variable that is a
+// function, as a first bound parameter
 const bindServerVar = function ({ serverVar, vars }) {
   // Constants are left as is, including object containing functions
   if (typeof serverVar !== 'function') { return serverVar; }

@@ -23,7 +23,7 @@ const isNotPatchData = function ({ command }) {
 
 const DEFAULT_COMMANDS = ['create', 'upsert'];
 
-// Schema function are skipped
+// Config function are skipped
 const isStatic = function (def) {
   return typeof def.default !== 'function';
 };

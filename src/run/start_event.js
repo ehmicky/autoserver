@@ -7,7 +7,7 @@ const { getDefaultDuration } = require('../perf');
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({
   protocols,
-  schema,
+  config,
   gracefulExit,
   measures,
 }) {
@@ -22,7 +22,7 @@ const emitStartEvent = async function ({
     phase: 'startup',
     message,
     vars,
-    schema,
+    config,
   });
   return { startPayload: vars };
 };

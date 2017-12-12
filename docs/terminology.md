@@ -81,7 +81,7 @@ command to query the current models to patch.
 
 ## Functions
 
-[Functions](functions.md) specified in schema, that allows injecting
+[Functions](functions.md) specified in configuration, that allows injecting
 custom logic.
 
 ## Utilities

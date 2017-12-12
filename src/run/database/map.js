@@ -3,8 +3,8 @@
 const { mapValues, uniq } = require('../../utilities');
 const { databaseAdapters } = require('../../database');
 
-// Returns array of all adapters that are defined in schema
-const getAdapters = function ({ schema: { collections, databases } }) {
+// Returns array of all adapters that are defined in config
+const getAdapters = function ({ config: { collections, databases } }) {
   const names = Object.values(collections).map(({ database }) => database);
   const namesA = uniq(names);
   const databaseAdaptersA = namesA
@@ -13,7 +13,7 @@ const getAdapters = function ({ schema: { collections, databases } }) {
 };
 
 // Returns `{ collname: adapter }` map
-const getDbAdapters = function ({ adapters, schema: { collections } }) {
+const getDbAdapters = function ({ adapters, config: { collections } }) {
   return mapValues(
     collections,
     ({ database: name }) => getDbAdapter({ adapters, name }),

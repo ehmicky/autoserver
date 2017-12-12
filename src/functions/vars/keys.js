@@ -7,8 +7,8 @@ const {
   TEMP_SYSTEM_VARS,
 } = require('./system');
 
-// Retrieve schema functions variables names
-const getVarsKeys = function ({ schema: { variables = {} } }) {
+// Retrieve config functions variables names
+const getVarsKeys = function ({ config: { variables = {} } }) {
   const namedKeys = [
     ...Object.keys(SYSTEM_VARS),
     ...LATER_SYSTEM_VARS,

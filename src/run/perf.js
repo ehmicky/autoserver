@@ -15,8 +15,8 @@ const stopStartupPerf = function ({ startupPerf, measures }) {
 };
 
 // Emit "perf" event with startup performance
-const reportStartupPerf = function ({ schema, measures }) {
-  return logPerfEvent({ phase: 'startup', schema, measures });
+const reportStartupPerf = function ({ config, measures }) {
+  return logPerfEvent({ phase: 'startup', config, measures });
 };
 
 module.exports = {

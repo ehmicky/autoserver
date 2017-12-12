@@ -16,7 +16,7 @@ const preValidate = function ({
   coll,
   coll: { attributes },
   mInput,
-  schema: { operators },
+  config: { operators },
 }) {
   const attr = attributes[attrName];
 

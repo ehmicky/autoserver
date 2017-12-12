@@ -10,14 +10,14 @@ const { commandsTests } = require('./builder');
 //  - required arguments are defined
 //  - disabled or unknown arguments are not defined
 //  - arguments that are defined follow correct syntax
-//    Does not check for semantics (e.g. schema validation)
-const validateArgs = function ({ top: { args, command }, schema }) {
+//    Does not check for semantics (e.g. config validation)
+const validateArgs = function ({ top: { args, command }, config }) {
   validateMultiple({ args, command });
 
   const tests = commandsTests[command.name];
   fastValidate(
     { prefix: 'Wrong arguments: ', reason: 'INPUT_VALIDATION', tests },
-    { ...args, schema },
+    { ...args, config },
   );
 };
 

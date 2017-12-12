@@ -1,7 +1,7 @@
 # Computed attributes
 
 Attributes can be calculated server-side by setting the `attribute.value`
-[schema property](schema.md#properties) to a [function](functions.md).
+[configuration property](configuration.md#properties) to a [function](functions.md).
 
 ```yml
 collections:

@@ -5,7 +5,7 @@ const { throwError } = require('../error');
 const { parseRef, isRef } = require('./ref_parsing');
 const { postValidate } = require('./validate');
 
-// Get the schema's attribute from a model.ATTR reference
+// Get the config's attribute from a model.ATTR reference
 const getOpValRef = function ({ opVal, coll: { attributes } }) {
   const ref = parseRef(opVal);
   if (ref === undefined) { return; }

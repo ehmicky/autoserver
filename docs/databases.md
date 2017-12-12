@@ -1,7 +1,7 @@
 # Databases
 
 Databases are specified with the `collection.database`
-[schema property](schema.md#properties).
+[configuration property](configuration.md#properties).
 
 ```yml
 collections:
@@ -26,7 +26,7 @@ To change the default database, use a
 # Databases options
 
 Databases options are specified with the `databases`
-[schema property](schema.md#properties).
+[configuration property](configuration.md#properties).
 
 ```yml
 databases:

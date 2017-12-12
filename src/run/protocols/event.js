@@ -6,10 +6,10 @@ const { logEvent } = require('../../log');
 const startEvent = function ({
   protocol: { hostname, port },
   protocolAdapter: { title },
-  schema,
+  config,
 }) {
   const message = `${title} - Listening on ${hostname}:${port}`;
-  return logEvent({ event: 'message', phase: 'startup', message, schema });
+  return logEvent({ event: 'message', phase: 'startup', message, config });
 };
 
 module.exports = {

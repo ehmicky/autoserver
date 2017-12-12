@@ -3,7 +3,7 @@
 const { throwCommonError } = require('../../../error');
 const { evalFilter, mapNodes } = require('../../../filter');
 
-const { handleSchemaFuncs } = require('./functions');
+const { handleConfigFuncs } = require('./functions');
 
 // Evaluate `coll.authorize` filter to a boolean
 // Do a partial evaluation, because we do not know the value of `model.*` yet
@@ -14,14 +14,14 @@ const evalAuthorize = function ({
   authorize,
   top,
   serverVars,
-  schema,
+  config,
   mInput,
 }) {
-  const { authorize: authorizeA, vars } = handleSchemaFuncs({
+  const { authorize: authorizeA, vars } = handleConfigFuncs({
     collname,
     authorize,
     serverVars,
-    schema,
+    config,
     mInput,
   });
 

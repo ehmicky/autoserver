@@ -8,9 +8,9 @@ const isOffset = function ({ args: { page } }) {
   return page !== undefined;
 };
 
-const getPagesize = function ({ schema, args: { pagesize } }) {
+const getPagesize = function ({ config, args: { pagesize } }) {
   if (pagesize === undefined) {
-    return getLimits({ schema }).pagesize;
+    return getLimits({ config }).pagesize;
   }
 
   return pagesize;
@@ -19,8 +19,8 @@ const getPagesize = function ({ schema, args: { pagesize } }) {
 // We try to fetch the models before and after the current batch in order to
 // guess has_prev_page and has_next_page
 // If hasToken is false, it means we know we are at the beginning or end.
-const getLimit = function ({ schema, args }) {
-  const pagesize = getPagesize({ schema, args });
+const getLimit = function ({ config, args }) {
+  const pagesize = getPagesize({ config, args });
   return pagesize + 1;
 };
 

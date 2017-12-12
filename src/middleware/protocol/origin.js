@@ -9,19 +9,19 @@ const { validateProtocolString } = require('./validate_parsing');
 const parseOrigin = function ({
   protocolAdapter: { getOrigin, getUrl },
   specific,
-  schema,
+  config,
 }) {
   const origin = getOrigin({ specific });
   validateProtocolString({ origin });
 
   const url = getUrl({ specific });
-  validateUrlLength({ url, schema });
+  validateUrlLength({ url, config });
 
   return { origin };
 };
 
-const validateUrlLength = function ({ url, schema }) {
-  const { maxUrlLength } = getLimits({ schema });
+const validateUrlLength = function ({ url, config }) {
+  const { maxUrlLength } = getLimits({ config });
   if (url.length <= maxUrlLength) { return; }
 
   const message = `URL length must be less than ${maxUrlLength} characters`;

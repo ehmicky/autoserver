@@ -4,7 +4,7 @@ const { throwError } = require('../../../error');
 const { getRef } = require('../../../json_refs');
 
 // Check for data model inconsistencies, and potentially fix them
-const check = function ({ schema: { collections }, connection, options }) {
+const check = function ({ config: { collections }, connection, options }) {
   checkConnection({ connection });
 
   checkSave({ options });
@@ -16,7 +16,7 @@ const check = function ({ schema: { collections }, connection, options }) {
 const checkConnection = function ({ connection }) {
   if (connection != null && connection.constructor === Object) { return; }
 
-  const message = '\'schema.databases.memory.data\' must be an object';
+  const message = '\'config.databases.memory.data\' must be an object';
   throwError(message, { reason: 'DB_ERROR' });
 };
 
@@ -25,7 +25,7 @@ const checkSave = function ({ options: { save, data } }) {
 
   if (!save || path !== undefined) { return; }
 
-  const message = '\'schema.databases.memory.data\' must be a JSON reference to an object when \'schema.databases.memory.save\' is true';
+  const message = '\'config.databases.memory.data\' must be a JSON reference to an object when \'config.databases.memory.save\' is true';
   throwError(message, { reason: 'DB_ERROR' });
 };
 

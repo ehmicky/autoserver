@@ -17,7 +17,7 @@ const { decompressPayload } = require('./decompress');
 const parsePayload = function ({
   specific,
   protocolAdapter,
-  schema,
+  config,
   charset,
   format,
   compressRequest,
@@ -27,7 +27,7 @@ const parsePayload = function ({
   return parseRawPayload({
     specific,
     protocolAdapter,
-    schema,
+    config,
     format,
     charset,
     compressRequest,
@@ -37,12 +37,12 @@ const parsePayload = function ({
 const parseRawPayload = async function ({
   specific,
   protocolAdapter,
-  schema,
+  config,
   format,
   charset,
   compressRequest,
 }) {
-  const { maxpayload } = getLimits({ schema });
+  const { maxpayload } = getLimits({ config });
   const payload = await getRawPayload({
     protocolAdapter,
     specific,
@@ -55,7 +55,7 @@ const parseRawPayload = async function ({
 
   const payloadC = eParseContent({ payload: payloadB, format });
 
-  // `payloadsize` and `payloadcount` schema variables
+  // `payloadsize` and `payloadcount` config variables
   const sumVars = getSumVars({ attrName: 'payload', value: payloadC });
 
   return { payload: payloadC, ...sumVars };

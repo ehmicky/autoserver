@@ -15,13 +15,13 @@ const getInlineFunc = function ({ inlineFunc }) {
   return (parts && parts[INLINE_FUNC_INDEX]) || '';
 };
 
-// Retrieves inline schema function body
-const stringifySchemaFunc = function ({ schemaFunc, schemaFunc: { name } }) {
+// Retrieves inline config function body
+const stringifyConfigFunc = function ({ configFunc, configFunc: { name } }) {
   if (name && name !== 'anonymous') {
     return `${name}()`;
   }
 
-  const funcStr = schemaFunc.toString();
+  const funcStr = configFunc.toString();
   const [, body] = BODY_REGEXP.exec(funcStr) || [];
   return body || funcStr;
 };
@@ -32,5 +32,5 @@ const BODY_REGEXP = /^function anonymous\({(?:.|\n)+return \((.*)\)/;
 module.exports = {
   tokenizeInlineFunc,
   getInlineFunc,
-  stringifySchemaFunc,
+  stringifyConfigFunc,
 };
