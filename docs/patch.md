@@ -3,8 +3,6 @@
 Regular [patch commands](crud.md#patch-command) perform a partial modification
 of existing models by setting the model with specified values.
 
-For example:
-
 ```HTTP
 PATCH /rest/users/1
 
@@ -25,8 +23,6 @@ Advanced [patch commands](crud.md#patch-command) uses operators to perform a
 transformation on the model's attributes. Operators are objects describing
 the transformation to apply as `{ "_OPERATOR": ARGUMENT }`, e.g.
 `{ "_add": 1 }`.
-
-For example:
 
 ```HTTP
 PATCH /rest/users/1
@@ -72,8 +68,6 @@ modified model:
 
 It is possible to refer to another attribute of the same model using the
 `model.ATTRIBUTE` notation.
-
-For example:
 
 ```HTTP
 PATCH /rest/users/1
@@ -322,8 +316,8 @@ PATCH /rest/user/1
 
 # Custom operators
 
-It is possible to specify custom patch operators with the schema property
-`operators.OPERATOR`, for example:
+It is possible to specify custom patch operators with the
+`operators`[schema property](schema), for example:
 
 ```yml
 operators:

@@ -1,54 +1,48 @@
 # Data validation
 
-Attributes can be validated by specifying the [schema](schema.md) property
-`attribute.validate`.
+Attributes can be validated by using the `attribute.validate`
+[schema property](schema.md).
 
 `attribute.validate` is a standard [JSON schema](http://json-schema.org/),
-version 6:
-  - the following keywords are available:
-    - for attributes of type `integer` or `number`:
-      - `multipleOf` `{float}`
-      - `maximum` `{float}`: `<=`
-      - `exclusiveMaximum` `{float}`: `<`
-      - `minimum` `{float}`: `>=`
-      - `exclusiveMinimum` `{float}`: `>`
-    - for attributes of type `string`:
-      - `maxLength` `{integer}`: `<=`
-      - `minLength` `{integer}`: `>=`
-      - `pattern` `{regex}`
-      - `format` `{string}`: among `'regex'`, `'date-time'`, `'date'`,
-        `'time'`, `'email'`, `'hostname'`, `'ipv4'`, `'ipv6'`, `'uri'`,
-        `'uri-reference'`, `'json-pointer'`, `'relative-json-pointer'`
-      - `formatMaximum` `{string}`, `formatMinimum` `{string}`,
-        `formatExclusiveMaximum` `{boolean}`,
-        `formatExclusiveMinimum` `{boolean}`: only if `format` is `date`, `time`
-        or `date-time`.
-    - for attributes of array type:
-      - `maxItems` `{integer}`: `<=`
-      - `minItems` `{integer}`: `>=`
-      - `uniqueItems` `{boolean}`: no duplicate
-      - `contains` `{json_schema}`: at least one item is valid
-      - `items` `{json_schema}`: all items are valid
-      - `additionalItems` `{json_schema}`
-    - for any attribute:
-      - `const` `{any}`: must equal that value
-      - `enum` `{any[]}`: must equal one of those values
-      - `required` `{boolean}`: checked on `upsert` and `create` commands.
-      - `dependencies` `{string[]}`: attributes that are required
-        for the current attribute to be defined.
-    - used as combinators:
-      - `not` `{json_schema}`
-      - `allOf` `{json_schema[]}`
-      - `anyOf` `{json_schema[]}`
-      - `oneOf` `{json_schema[]}`
-      - `if` `{json_schema}`, `then` `{json_schema}`, `else` `{json_schema}`
-  - the following properties are not available: `type`, `description`,
-    `examples`, `default`, `title`, `$id`, `$schema`, `definitions`
-  - since attributes cannot be objects, the following properties are also
-    not available: `maxProperties`, `minProperties`, `additionalProperties`,
-    `properties`, `patternProperties`, `propertyNames`
+version 6.
 
-E.g.:
+The following keywords are available:
+  - for attributes of type `integer` or `number`:
+    - `multipleOf` `{float}`
+    - `maximum` `{float}`: `<=`
+    - `exclusiveMaximum` `{float}`: `<`
+    - `minimum` `{float}`: `>=`
+    - `exclusiveMinimum` `{float}`: `>`
+  - for attributes of type `string`:
+    - `maxLength` `{integer}`: `<=`
+    - `minLength` `{integer}`: `>=`
+    - `pattern` `{regex}`
+    - `format` `{string}`: among `'regex'`, `'date-time'`, `'date'`,
+      `'time'`, `'email'`, `'hostname'`, `'ipv4'`, `'ipv6'`, `'uri'`,
+      `'uri-reference'`, `'json-pointer'`, `'relative-json-pointer'`
+    - `formatMaximum` `{string}`, `formatMinimum` `{string}`,
+      `formatExclusiveMaximum` `{boolean}`,
+      `formatExclusiveMinimum` `{boolean}`: only if `format` is `date`, `time`
+      or `date-time`.
+  - for attributes of array type:
+    - `maxItems` `{integer}`: `<=`
+    - `minItems` `{integer}`: `>=`
+    - `uniqueItems` `{boolean}`: no duplicate
+    - `contains` `{json_schema}`: at least one item is valid
+    - `items` `{json_schema}`: all items are valid
+    - `additionalItems` `{json_schema}`
+  - for any attribute:
+    - `const` `{any}`: must equal that value
+    - `enum` `{any[]}`: must equal one of those values
+    - `required` `{boolean}`: checked on `upsert` and `create` commands.
+    - `dependencies` `{string[]}`: attributes that are required
+      for the current attribute to be defined.
+  - used as combinators:
+    - `not` `{json_schema}`
+    - `allOf` `{json_schema[]}`
+    - `anyOf` `{json_schema[]}`
+    - `oneOf` `{json_schema[]}`
+    - `if` `{json_schema}`, `then` `{json_schema}`, `else` `{json_schema}`
 
 ```yml
 collections:
@@ -61,10 +55,18 @@ collections:
           multipleOf: 2
 ```
 
+The following properties are not available or are available under a different
+[schema property](schema.md): `type`, `description`, `examples`, `default`,
+`title`, `$id`, `$schema`, `definitions`.
+
+Since attributes cannot be objects, the following properties are also
+not available: `maxProperties`, `minProperties`, `additionalProperties`,
+`properties`, `patternProperties`, `propertyNames`
+
 # Custom validation
 
 If the pre-defined validation keywords are not sufficient, one can define
-custom ones, using the top-level `validation` property.
+custom ones, using the `validation` [schema property](schema.md).
 
 This property is an object of validation keywords, where the key is the
 keyword name and the value an object with the properties:
@@ -79,3 +81,11 @@ keyword name and the value an object with the properties:
     Must start with `'must '`
   - `type` `{string[]}`: optionally restrict the attributes types that can
     use that keyword
+
+```yml
+validation:
+  $is_not_equal:
+    test: (value !== arg)
+    message: (`must not be equal to ${arg}`)
+    type: number
+```

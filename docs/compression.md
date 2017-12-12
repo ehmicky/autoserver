@@ -1,7 +1,7 @@
 # Response compression
 
-If the query variable `?compress=RESPONSE_COMPRESSION` is present, the server's
-response will be compressed.
+If the query variable `?compress=RESPONSE_COMPRESSION` is present in the
+request URL, the server's response will be compressed.
 
 `RESPONSE_COMPRESSION` can be:
   - `identity`: no compression is performed

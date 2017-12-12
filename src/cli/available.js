@@ -10,13 +10,12 @@ const runInstruction = {
     ['Start the server', '--protocols.http.port=5001'],
   ],
   args: [
+    // This is actually not a positional argument, but meant only
+    // for --help output
     {
       name: 'options',
       describe: `Any schema property, dot-separated.
 For example: --protocols.http.port=5001`,
-      // This is actually not a positional argument, but meant only
-      // for --help output
-      helpOnly: true,
     },
   ],
   options: {

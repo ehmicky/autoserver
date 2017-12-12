@@ -5,10 +5,10 @@ response.
 
 It is a comma-separated list of `name:different_name`.
 [Nested attributes](relations.md#populating-nested-collections) can be
-specified using a dot notation, e.g.:
+specified using a dot notation.
 
 ```HTTP
-GET /rest/users/1?select=name:different_name
+GET /rest/users/1?rename=name:different_name
 ```
 
 will respond with:
@@ -31,5 +31,5 @@ instead of:
 }
 ```
 
-Note that [GraphQL](graphql.md#selection-and-population) does not need the
-`rename` argument since it natively uses selection fields.
+[GraphQL](graphql.md#selection-and-population) does not need the
+`rename` [argument](rpc.md#rpc) since it natively uses selection fields.

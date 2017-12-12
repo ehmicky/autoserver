@@ -1,6 +1,6 @@
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-This generates a full-featured web API from a [configuration file](docs/schema.md) describing your data model.
+This generates a full-featured web API from a [configuration file](docs/schema.md).
 
 # Features
 

@@ -1,7 +1,7 @@
 # Computed attributes
 
-Attributes can be calculated server-side by setting `attribute.value` to a
-[function](functions.md) or a constant value, e.g.:
+Attributes can be calculated server-side by setting the `attribute.value`
+[schema property](schema.md) to a [function](functions.md).
 
 ```yml
 collections:
@@ -18,7 +18,7 @@ client.
 
 By using the `model` or `value`
 [variable](functions.md¤variables), this can also be used to
-combine several attributes, e.g.:
+combine several attributes.
 
 ```yml
 collections:
@@ -35,8 +35,9 @@ collections:
 # Transformations
 
 It can also be used to transform or normalize the value supplied by the client.
+
 When doing so, please keep in mind that `value` might be `undefined`, unless
-`attribute.validate.required` is `true`, e.g.:
+`attribute.validate.required` is `true`.
 
 ```yml
 collections:

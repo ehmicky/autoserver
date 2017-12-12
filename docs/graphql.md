@@ -18,8 +18,7 @@ Clients can also see the GraphQL schema as HTML at
 The [command](rpc.md#rpc) is specified using the
 top-level GraphQL method name, e.g. `find_users` or `create_users`.
 
-The [arguments](rpc.md#rpc) are specified using the
-top-level GraphQL arguments.
+The [arguments](rpc.md#rpc) are specified using the top-level GraphQL arguments.
 
 The response's metadata are available under the `extensions` property.
 

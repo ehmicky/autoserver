@@ -5,7 +5,7 @@ logic.
 
 # Configuration
 
-The file is configured using the [`run` option](run.md#options)
+The file is configured using the [option](run.md#options)
 `schema`, whose value is the [path](configuration.md#filepaths-options) to the
 file.
 

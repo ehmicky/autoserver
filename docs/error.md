@@ -10,7 +10,7 @@ objects with the following properties:
   - `details` `{string}`: stack trace
   - additional properties might be present, depending on the error type
 
-When an [instruction](usage.md#instructions) fails, an exception will be thrown.
+When an [instruction](usage.md) fails, an exception will be thrown.
 
 When a client-side or server-side error occurs, an exception will be
 [logged](logging.md) using the
@@ -24,8 +24,6 @@ Error responses contain an `error` property with the same properties as
 `metadata.info` includes the same information as the
 [`log` variable](functions.md#variables), providing debugging information about
 the request.
-
-For example:
 
 ```json
 {

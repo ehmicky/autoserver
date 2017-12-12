@@ -19,13 +19,13 @@ in the URL, and from the HTTP method:
 
 If an `ID` is present in the URL, the response will be an object instead of
 an array of objects. Also the `ID` will be used as the
-[`id`](filtering.md#id-argument) argument.
+[`id`](filtering.md#id-argument) [argument](rpc.md#rpc).
 
 # Arguments
 
 The [arguments](rpc.md#rpc) are specified using URL query
-variables, except for the `data` argument, which is specified using the full
-request payload.
+variables, except for the `data` [argument](rpc.md#rpc), which is specified
+using the full request payload.
 
 Values can be either an unquoted string or any JSON value. To differentiate
 between a number (e.g. `filter.weight=5`) and a string (e.g. `filter.id="5"`),
