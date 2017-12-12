@@ -1,6 +1,6 @@
 'use strict';
 
-const availableInstructions = require('./available');
+const { availableInstructions } = require('./available');
 
 // Iterate over `availableOptions` to add all instructions
 const addInstructions = function ({ yargs }) {
@@ -17,12 +17,12 @@ const addInstruction = function ({ yargs, instruction }) {
 
 const getCliInstruction = function ({
   instruction,
-  instruction: { name, aliases, description },
+  instruction: { name, aliases, describe: desc },
 }) {
   return {
     command: name,
     aliases,
-    describe: description,
+    describe: desc,
     builder: yargs => getBuilder({ instruction, yargs }),
   };
 };
@@ -30,12 +30,24 @@ const getCliInstruction = function ({
 // Iterate over instruction options
 const getBuilder = function ({
   instruction,
-  instruction: { description },
+  instruction: { describe: desc, options = {} },
   yargs,
 }) {
   const yargsA = addInstructionExamples({ instruction, yargs });
-  // Instruction --help header
-  return yargsA.usage(description);
+  const yargsB = yargsA
+    // Instruction --help header
+    .usage(desc)
+    // Non-positional arguments
+    .option(options)
+    // Positional arguments
+    .positional('instruction', INSTRUCTION_OPT);
+  const yargsC = addPositionalArgs({ instruction, yargs: yargsB });
+  return yargsC;
+};
+
+const INSTRUCTION_OPT = {
+  type: 'string',
+  default: 'run',
 };
 
 // Add examples in instruction-level --help
@@ -46,6 +58,13 @@ const addInstructionExamples = function ({
   return examples.reduce(
     (yargsA, [desc, usageA]) =>
       yargsA.example(`${desc}:`, `apiengine ${name} ${usageA}`),
+    yargs,
+  );
+};
+
+const addPositionalArgs = function ({ instruction: { args = [] }, yargs }) {
+  return args.reduce(
+    (yargsA, { name, ...arg }) => yargsA.positional(name, arg),
     yargs,
   );
 };

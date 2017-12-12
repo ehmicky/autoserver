@@ -1,43 +1,73 @@
 'use strict';
 
-const { omit, recurseMap, fullRecurseMap, transtype } = require('../utilities');
+const {
+  omit,
+  omitBy,
+  recurseMap,
+  fullRecurseMap,
+  transtype,
+} = require('../utilities');
+const { throwError } = require('../error');
 
-const availableInstructions = require('./available');
+const { availableInstructions } = require('./available');
 
 // Process options after parsing
 const processOpts = function ({ opts }) {
   const {
     // Positional arguments
     // eslint-disable-next-line id-length
-    _: [instruction, config] = [],
+    _: posArgs,
     ...optsA
   // Remove parser-specific values
   } = omit(opts, parserOpts);
 
-  const {
-    instruction: instructionA = 'run',
-    config: configA,
-  } = getInstruction({ instruction, config });
+  const { instruction, posArgs: posArgsA } = getInstruction({ posArgs });
 
-  const optsB = transtypeValues({ opts: optsA });
-  const optsC = parseArrays({ opts: optsB });
-  const optsD = { ...optsC, config: configA };
+  const posOpts = parsePosOpts({ instruction, posArgs: posArgsA });
+  const optsB = { ...optsA, ...posOpts };
 
-  return { opts: optsD, instruction: instructionA };
+  const optsC = transtypeValues({ opts: optsB });
+  const optsD = parseArrays({ opts: optsC });
+  const optsE = omitBy(optsD, value => value === undefined);
+
+  return { instruction, opts: optsE };
 };
 
-const parserOpts = ['$0', 'help', 'version'];
+const parserOpts = ['$0', 'help', 'version', 'instruction'];
 
 // When using default command, `config` will be the first argument
-const getInstruction = function ({ instruction, config }) {
+const getInstruction = function ({
+  posArgs = [],
+  posArgs: [instruction, ...posArgsA] = [],
+}) {
   const validInstruction = availableInstructions
     .some(({ name }) => name === instruction);
 
   if (validInstruction) {
-    return { instruction, config };
+    return { instruction, posArgs: posArgsA };
   }
 
-  return { config: instruction };
+  return { instruction: 'run', posArgs };
+};
+
+// Parse positional arguments into instruction-specific options
+const parsePosOpts = function ({ instruction, posArgs }) {
+  const { args = [] } = availableInstructions
+    .find(({ name }) => name === instruction);
+  const argsA = args.filter(({ helpOnly }) => !helpOnly);
+  const opts = posArgs
+    .map((posArg, index) => parsePosOpt({ posArg, arg: argsA[index] }));
+  const optsA = Object.assign({}, ...opts);
+  return optsA;
+};
+
+const parsePosOpt = function ({ posArg, arg: { name } = {} }) {
+  if (name === undefined) {
+    const message = `Positional option '${posArg}' is unknown`;
+    throwError(message, { reason: 'SCHEMA_VALIDATION' });
+  }
+
+  return { [name]: posArg };
 };
 
 // Allow JSON values for options
