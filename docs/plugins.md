@@ -12,8 +12,9 @@ The input parameters are read-only.
 
 The function can be asynchronous by returning a promise.
 
-Plugins can be configured under the top-level attribute `plugins`, which is
-an array of objects with properties:
+Plugins can be configured with the `plugins`
+[schema property](schema.md#properties), which is an array of objects with
+properties:
   - `plugin` [`{function}`](functions.md) or `{string}` (for system plugins)
   - `opts` `{object}`: plugin-specific options
   - `enabled` `{boolean}`: defaults to true
