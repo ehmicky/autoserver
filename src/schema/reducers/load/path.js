@@ -31,11 +31,11 @@ const getPath = function ({ path }) {
 // Try to find apiengine.config.EXT in current directory, or any parent
 const findConfPath = async function (dir) {
   const paths = await pReaddir(dir);
-  const path = paths.find(isConfPath);
+  const pathA = paths.find(path => CONFIG_REGEXP.test(path));
 
   // Found a file
-  if (path !== undefined) {
-    return resolve(dir, path);
+  if (pathA !== undefined) {
+    return resolve(dir, pathA);
   }
 
   const parentDir = resolve(dir, '..');
@@ -46,11 +46,7 @@ const findConfPath = async function (dir) {
   return findConfPath(parentDir);
 };
 
-const isConfPath = function (path) {
-  return path.startsWith(APIENGINE_CONFIG_PATH);
-};
-
-const APIENGINE_CONFIG_PATH = 'apiengine.config.';
+const CONFIG_REGEXP = /^apiengine.config.[a-z]+$/;
 
 // When `config` option or environment variable is used
 const resolvePath = function ({ path, baseDir }) {
