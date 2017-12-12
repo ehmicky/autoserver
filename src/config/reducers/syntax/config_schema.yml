@@ -23,9 +23,9 @@ properties:
     # Check collections names
     propertyNames:
       $ref: '#/definitions/validClientCollname'
-  # Custom variables that can be used in config functions
-  variables:
-    $ref: '#/definitions/variables'
+  # Server-specific parameters
+  params:
+    $ref: '#/definitions/params'
   # Functions that modifies config definition
   plugins:
     $ref: '#/definitions/plugins'
@@ -170,8 +170,8 @@ definitions:
   # collection.database
   database:
     type: string
-  # config.variables
-  variables:
+  # config.params
+  params:
     type: object
     propertyNames:
       $ref: '#/definitions/validUserName'

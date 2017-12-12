@@ -19,7 +19,7 @@ const callEvent = function ({
     event: 'call',
     phase: 'request',
     level,
-    vars: { error, duration: durationA },
+    params: { error, duration: durationA },
     config,
   });
 };

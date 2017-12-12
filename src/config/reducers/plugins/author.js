@@ -47,16 +47,16 @@ const getAttributes = ({ currentuser, collection }) => ({
   },
 });
 
-const getCreatedBy = function (currentuser, vars) {
-  const { previousmodel, previousvalue } = vars;
+const getCreatedBy = function (currentuser, params) {
+  const { previousmodel, previousvalue } = params;
 
   if (previousmodel !== undefined) { return previousvalue; }
 
-  return currentuser(vars).id;
+  return currentuser(params).id;
 };
 
-const getUpdatedBy = function (currentuser, vars) {
-  return currentuser(vars).id;
+const getUpdatedBy = function (currentuser, params) {
+  return currentuser(params).id;
 };
 
 module.exports = {

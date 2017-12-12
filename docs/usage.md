@@ -28,7 +28,7 @@ apiengine.run({ protocols: { http: { port: 5001 } } });
 
 Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.
 
-Options are directly passed as an object parameter.
+Options are directly passed as an object argument.
 
 Every instruction throws a [standard exception](error.md#exceptions) if it
 fails.

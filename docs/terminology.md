@@ -67,6 +67,19 @@ Main semantics of the request, e.g. [GraphQL](graphql.md), [REST](rest.md) or
 
 Options passed to a [request](rpc.md#rpc)
 
+Also used to designate function arguments.
+
+## Parameters
+
+Arguments passed to [config functions](functions.md#parameters).
+
+## Variables
+
+Variable, from a programming point of view.
+
+Also used for query variables, path variables, GraphQL variables and
+environment variables.
+
 ## Action
 
 A sets a commands, tied to a specific command type.

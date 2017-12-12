@@ -2,14 +2,15 @@
 
 const { get, set, has, pick, omitBy } = require('../../utilities');
 
-// Reduce the size of config variables that might be too big
-const reduceVars = function ({ vars }) {
-  const varsB = attributes.reduce(
-    (varsA, { path, filter }) => reduceInfo({ vars: varsA, path, filter }),
-    vars,
+// Reduce the size of parameters that might be too big
+const reduceParams = function ({ params }) {
+  const paramsB = attributes.reduce(
+    (paramsA, { path, filter }) =>
+      reduceInfo({ params: paramsA, path, filter }),
+    params,
   );
-  const varsC = omitBy(varsB, value => value === undefined);
-  return varsC;
+  const paramsC = omitBy(paramsB, value => value === undefined);
+  return paramsC;
 };
 
 const attributes = [
@@ -19,14 +20,14 @@ const attributes = [
   { path: ['responsedata'], filter: ['id'] },
 ];
 
-const reduceInfo = function ({ vars, path, filter }) {
-  if (!has(vars, path)) { return vars; }
+const reduceInfo = function ({ params, path, filter }) {
+  if (!has(params, path)) { return params; }
 
-  const value = get(vars, path);
+  const value = get(params, path);
   const valueA = reduceValue({ value, filter });
 
-  const varsA = set(vars, path, valueA);
-  return varsA;
+  const paramsA = set(params, path, valueA);
+  return paramsA;
 };
 
 const reduceValue = function ({ value, filter }) {
@@ -46,5 +47,5 @@ const reduceValue = function ({ value, filter }) {
 const isObject = obj => obj && obj.constructor === Object;
 
 module.exports = {
-  reduceVars,
+  reduceParams,
 };

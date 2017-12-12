@@ -58,12 +58,12 @@ collections:
 Only the function body should be specified (without the leading `return`
 keyword), and it should be wrapped in parenthesis.
 
-# Variables
+# Parameters
 
-Every functions receives as their first parameter an object containing variables
-with information about the current context.
+Every functions receives as their first argument an object containing
+parameters with information about the current context.
 
-In the example below, the `timestamp` variable is used.
+In the example below, the `timestamp` parameter is used.
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
@@ -74,7 +74,7 @@ const getDefaultValue = function ({ timestamp }) {
 module.exports = getDefaultValue;
 ```
 
-Variables can be also be used when the function is inline.
+Parameters can be also be used when the function is inline.
 
 ```yml
 collections:
@@ -84,7 +84,7 @@ collections:
         default: (timestamp)
 ```
 
-The following variables are available to any function:
+The following parameters are available to any function:
   - `requestid` `{string}` - UUID identifying the current request.
     Also available in response's `metadata.requestid` property
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
@@ -112,7 +112,7 @@ The following variables are available to any function:
   - `args` `{object}`: client [arguments](rpc.md#rpc) passed to the request,
     e.g. `filter`
   - `params` `{object}`: all
-    [client-specific variables](#client-specific-variables)
+    [client-specific parameters](#client-specific-parameters)
   - `datasize` `{number}` - size of the `data` [argument](rpc.md#rpc), in bytes
   - `datacount` `{number}` - array length of the `data` [argument](rpc.md#rpc),
     if it is an array
@@ -139,17 +139,17 @@ The following variables are available to any function:
        - `name` `{string}`: defaults to system hostname, but can be overriden
          using the configuration property `name`
 
-The following variables are available to any function except
+The following parameters are available to any function except
 [custom log providers](logging.md#custom-log-provider) and
-[server-specific variables](#server-specific-variables):
+[server-specific parameters](#server-specific-parameters):
   - `commandpath` `{string}` - [command](terminology.md#command) full path,
     e.g. `` (top-level) or `child.grand_child`
   - `collection` `{string}`: name of the [collection](collections.md),
     e.g. `users`
 
-The following variables are available to any function except
+The following parameters are available to any function except
 [custom log providers](logging.md#custom-log-provider),
-[server-specific variables](#server-specific-variables) and
+[server-specific parameters](#server-specific-parameters) and
 [custom patch operators](patch.md#custom-operators):
   - `value` `{any}`: value of the current attribute.
     E.g. `value === 'John'` checks whether the current value equals `'John'`
@@ -165,11 +165,11 @@ The following variables are available to any function except
     If the current request is creating the model (with a `create` or `upsert`
     action), this will be `undefined`.
 
-The following variables are available only to
+The following parameters are available only to
 [custom log providers](logging.md#custom-log-provider):
   - `log`, `error`, `protocols`, `exitcodes`, `measures`, `measuresmessage`,
     `duration`, `event`, `phase`, `level` and `message` - see
-    [logging](logging.md#functions-variables)
+    [logging](logging.md#functions-parameters)
   - `status` `{string}` - response's status, among `INTERNALS`, `SUCCESS`,
     `CLIENT_ERROR` and `SERVER_ERROR`
   - `responsedata` `{any}` - response data
@@ -181,24 +181,24 @@ The following variables are available only to
   - `modelscount` `{number}` - number of models returned, including nested ones
   - `uniquecount` `{number}` - same as `modelscount`, excluding duplicates
 
-The following variables are available for more specific cases:
+The following parameters are available for more specific cases:
   - `arg1`, `arg2`, etc.: see
-    [server-specific variables](#server-specific-variables)
+    [server-specific parameters](#server-specific-parameters)
   - `arg`: see [custom validation](validation.md#custom-validation) and
     [custom patch operators](patch.md#custom-operators)
   - `type`: see [custom patch operators](patch.md#custom-operators)
 
-# Server-specific variables
+# Server-specific parameters
 
-Server-specific variables can be added using the `variables`
-[configuration property](configuration.md#properties), which is an object containing all
-server-specific variables.
+Server-specific parameters can be added using the `params`
+[configuration property](configuration.md#properties), which is an object
+containing all server-specific parameters.
 
-In the example below, the `$secret_password` server-specific variable is made
+In the example below, the `$secret_password` server-specific parameters is made
 available to any function.
 
 ```yml
-variables:
+params:
   $secret_password: admin
 ```
 
@@ -211,18 +211,18 @@ const getDefaultValue = function ({ $secret_password }) {
 module.exports = getDefaultValue;
 ```
 
-Server-specific variables can be functions themselves:
-  - variables (including other server-specific variables) will be
-    passed as the first parameter like any other function. This will only be
-    done if the variable is a function, as as opposed to an object with
+Server-specific parameters can be functions themselves:
+  - parameters (including other server-specific parameters) will be
+    passed as the first argument like any other function. This will only be
+    done if the parameter is a function, as as opposed to an object with
     function members.
-  - if the function is [inline](#inline-functions), positional parameters are
-    passed using the variables `arg1`, `arg2`, etc.
+  - if the function is [inline](#inline-functions), positional arguments are
+    passed using the parameters `arg1`, `arg2`, etc.
 
 For example:
 
 ```yml
-variables:
+params:
   $example_function: '($my_math_func(1, 10, 100, 2))'
   $my_math_func: ((arg1 * arg2) + (arg3 * arg4))
   $birth_date: 2005-01-01
@@ -234,10 +234,9 @@ variables:
     $ref: constants.json
 ```
 
-# Client-specific variables
+# Client-specific parameters
 
-Clients can specify their own
-[function variables](#variables) on any specific request,
+Clients can specify their own [parameters](#parameters) on any specific request,
 using the `params` [argument](rpc.md#rpc) with an object value.
 
 ```graphql
@@ -248,8 +247,8 @@ query {
 }
 ```
 
-Client-specific variables will be available using the
-[function variable](#variables) `params` as an object.
+Client-specific parameters will be available using the
+[parameters](#parameters) `params` as an object.
 
 They can also be set using the
 [protocol header](protocols.md#request) `params`, with a JSON object

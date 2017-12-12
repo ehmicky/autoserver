@@ -5,12 +5,12 @@ const { getStandardError } = require('../../error');
 const { makeImmutable } = require('../../utilities');
 const { getServerinfo } = require('../../serverinfo');
 
-// Retrieve all config variables
-const getVars = function (
+// Retrieve all parameters
+const getParams = function (
   mInput,
   {
-    vars: { error, ...vars } = {},
-    serverVars,
+    params: { error, ...params } = {},
+    serverParams,
     mutable = true,
     client = false,
   } = {},
@@ -35,7 +35,7 @@ const getVars = function (
     payloadcount,
     rpc,
     topargs: args,
-    topargs: { params: params = {} } = {},
+    topargs: { params: clientParams = {} } = {},
     datasize,
     datacount,
     summary,
@@ -60,16 +60,16 @@ const getVars = function (
 
   const errorA = getError({ error, mInput });
 
-  // When config variables are sent to clients, we use client-facing
+  // When parameters are sent to clients, we use client-facing
   // collection names
-  const clientVars = client
+  const clientNamedParams = client
     ? { collections: clientCollnames, collection: clientCollname }
     : { collections: collnames, collection: collname };
 
   // Order matters:
-  //  - we want to be 100% sure serverVars do not overwrite system variables
-  //  - it is possible to overwrite system vars with call-specific `vars`
-  const varsA = {
+  //  - we want to be 100% sure serverParams do not overwrite system parameters
+  //  - it is possible to overwrite system params with call-specific `params`
+  const paramsA = {
     requestid,
     timestamp,
     duration,
@@ -89,13 +89,13 @@ const getVars = function (
     payloadcount,
     rpc,
     args,
-    params,
+    params: clientParams,
     datasize,
     datacount,
     summary,
     commandpaths,
     commandpath,
-    ...clientVars,
+    ...clientNamedParams,
     command,
     responsedata,
     responsedatasize,
@@ -105,25 +105,25 @@ const getVars = function (
     modelscount,
     uniquecount,
     serverinfo,
-    ...vars,
+    ...params,
     ...errorA,
   };
 
   // This is a bit slow, but necessary to prevent config functions from
   // modifying core engine logic
   if (!mutable) {
-    makeImmutable(varsA);
+    makeImmutable(paramsA);
   }
 
-  // We do not want to make server-specific variables immutable as it might
+  // We do not want to make server-specific parameters immutable as it might
   // be very slow, and we are not sure whether making them immutable would
   // break anything
-  const varsB = { ...serverVars, ...varsA };
+  const paramsB = { ...serverParams, ...paramsA };
 
-  return varsB;
+  return paramsB;
 };
 
-// Normalize `vars.error` so the caller does not have to
+// Normalize `params.error` so the caller does not have to
 const getError = function ({ error, mInput }) {
   if (error === undefined) { return; }
 
@@ -131,8 +131,8 @@ const getError = function ({ error, mInput }) {
   return { error: errorA };
 };
 
-// Retrieve model-related system variables
-const getModelVars = function ({ model, previousmodel, attrName }) {
+// Retrieve model-related system parameters
+const getModelParams = function ({ model, previousmodel, attrName }) {
   const value = model[attrName];
   const previousvalue = previousmodel == null
     ? undefined
@@ -142,8 +142,8 @@ const getModelVars = function ({ model, previousmodel, attrName }) {
 };
 
 module.exports = {
-  getVars,
-  getModelVars,
+  getParams,
+  getModelParams,
 };
 
 /* eslint-enable max-lines */

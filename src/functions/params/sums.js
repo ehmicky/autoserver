@@ -2,11 +2,11 @@
 
 const { addErrorHandler } = require('../../error');
 
-// Some config variables are filtered out in logs and in error responses
+// Some parameters are filtered out in logs and in error responses
 // because they can get too big, e.g. `args.data`, `response.data` and `payload`
-// `sumVars` summarize them by their size and length, e.g. `payloadsize` and
+// `sumParams` summarize them by their size and length, e.g. `payloadsize` and
 // `payloadcount`
-const getSumVars = function ({ attrName, value }) {
+const getSumParams = function ({ attrName, value }) {
   if (value === undefined) { return; }
 
   const size = eGetSize({ attrName, value });
@@ -32,5 +32,5 @@ const getCount = function ({ attrName, value }) {
 };
 
 module.exports = {
-  getSumVars,
+  getSumParams,
 };

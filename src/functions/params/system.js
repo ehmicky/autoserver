@@ -8,10 +8,10 @@ const { COMMAND_TYPES } = require('../../constants');
 const protocols = Object.keys(protocolAdapters);
 const rpcs = Object.keys(rpcAdapters);
 
-// System variables that are always present
+// System parameters that are always present
 // We need to specify their `type` and `isArray` for `coll.authorize`
 // validation
-const SYSTEM_VARS = {
+const SYSTEM_PARAMS = {
   requestid: { type: 'string' },
   timestamp: { type: 'string' },
   protocol: { type: 'string', validation: { enum: protocols } },
@@ -57,8 +57,8 @@ const SYSTEM_VARS = {
   serverinfo: { type: 'dynamic' },
 };
 
-// Those system variables are set after the database response
-const LATER_SYSTEM_VARS = [
+// Those system parameters are set after the database response
+const LATER_SYSTEM_PARAMS = [
   'status',
   'responsedata',
   'responsedatasize',
@@ -69,7 +69,7 @@ const LATER_SYSTEM_VARS = [
   'uniquecount',
 ];
 
-const POSITIONAL_VARS = [
+const POSITIONAL_PARAMS = [
   'arg1',
   'arg2',
   'arg3',
@@ -81,8 +81,8 @@ const POSITIONAL_VARS = [
   'arg9',
 ];
 
-// System variables that are not always present
-const TEMP_SYSTEM_VARS = [
+// System parameters that are not always present
+const TEMP_SYSTEM_PARAMS = [
   // Generic model values
   'model',
   'value',
@@ -93,7 +93,7 @@ const TEMP_SYSTEM_VARS = [
   'arg',
   'type',
 
-  // Logging variables
+  // Logging parameters
   'log',
   'event',
   'phase',
@@ -108,10 +108,10 @@ const TEMP_SYSTEM_VARS = [
 ];
 
 module.exports = {
-  SYSTEM_VARS,
-  LATER_SYSTEM_VARS,
-  POSITIONAL_VARS,
-  TEMP_SYSTEM_VARS,
+  SYSTEM_PARAMS,
+  LATER_SYSTEM_PARAMS,
+  POSITIONAL_PARAMS,
+  TEMP_SYSTEM_PARAMS,
 };
 
 /* eslint-enable max-lines */

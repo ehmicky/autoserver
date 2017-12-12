@@ -1,10 +1,10 @@
 'use strict';
 
-const { getVars, reduceVars } = require('../functions');
+const { getParams, reduceParams } = require('../functions');
 
-// Get log-specific config variables
-const getLogVars = function ({
-  vars,
+// Get log-specific config parameters
+const getLogParams = function ({
+  params,
   config,
   mInput = { config },
   event,
@@ -14,12 +14,12 @@ const getLogVars = function ({
 }) {
   const levelA = getLevel({ level, event });
 
-  const varsA = { ...vars, event, phase, level: levelA, message };
-  const varsB = getVars(mInput, { vars: varsA });
-  const log = reduceVars({ vars: varsB });
+  const paramsA = { ...params, event, phase, level: levelA, message };
+  const paramsB = getParams(mInput, { params: paramsA });
+  const log = reduceParams({ params: paramsB });
 
   // Used with `runConfigFunc()` by log providers
-  const configFuncInput = { vars: { ...varsA, log }, mInput };
+  const configFuncInput = { params: { ...paramsA, log }, mInput };
 
   return { log, configFuncInput };
 };
@@ -34,5 +34,5 @@ const getLevel = function ({ level, event }) {
 };
 
 module.exports = {
-  getLogVars,
+  getLogParams,
 };

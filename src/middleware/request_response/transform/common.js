@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues, pickBy } = require('../../../utilities');
-const { runConfigFunc, getModelVars } = require('../../../functions');
+const { runConfigFunc, getModelParams } = require('../../../functions');
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
 const handleTransforms = function ({
@@ -63,8 +63,8 @@ const filterTransform = function ({
   currentDatum: previousmodel,
   attrName,
 }) {
-  const vars = getModelVars({ model, previousmodel, attrName });
-  return condition(vars);
+  const params = getModelParams({ model, previousmodel, attrName });
+  return condition(params);
 };
 
 const transformAttr = function ({
@@ -75,11 +75,11 @@ const transformAttr = function ({
   transform,
   mInput,
 }) {
-  const vars = getModelVars({ model, previousmodel, attrName });
+  const params = getModelParams({ model, previousmodel, attrName });
 
-  const transformA = runConfigFunc({ configFunc: transform, mInput, vars });
+  const transformA = runConfigFunc({ configFunc: transform, mInput, params });
 
-  const newValA = setAttr({ transform: transformA, ...vars });
+  const newValA = setAttr({ transform: transformA, ...params });
 
   // Normalize `null` to `undefined`
   const newValB = newValA === null ? undefined : newValA;

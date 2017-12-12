@@ -2,22 +2,22 @@
 
 const { addGenErrorHandler } = require('../error');
 
-const { getVars } = require('./vars');
+const { getParams } = require('./params');
 const { stringifyConfigFunc } = require('./tokenize');
 
 // Process config function, i.e. fires it and returns its value
 const runConfigFunc = function ({
   configFunc,
   mInput,
-  mInput: { serverVars },
-  vars,
+  mInput: { serverParams },
+  params,
 }) {
   // If this is not config function, returns as is
   if (typeof configFunc !== 'function') { return configFunc; }
 
-  const varsA = getVars(mInput, { vars, serverVars, mutable: false });
+  const paramsA = getParams(mInput, { params, serverParams, mutable: false });
 
-  return configFunc(varsA);
+  return configFunc(paramsA);
 };
 
 const eRunConfigFunc = addGenErrorHandler(runConfigFunc, {

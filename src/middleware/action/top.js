@@ -3,7 +3,7 @@
 const { deepMerge, uniq, flatten } = require('../../utilities');
 const { throwError } = require('../../error');
 const { COMMANDS } = require('../../constants');
-const { getSumVars } = require('../../functions');
+const { getSumParams } = require('../../functions');
 
 // Parse a `rpcDef` into a top-level action, i.e.:
 // `collname`, `clientCollname`, `commandpath`, `args`
@@ -12,7 +12,7 @@ const parseTopAction = function ({
   config: { shortcuts: { collsNames } },
   topargs,
 }) {
-  const { args: argsA, sumVars } = getArgs({ args, topargs });
+  const { args: argsA, sumParams } = getArgs({ args, topargs });
 
   const { command, collname, clientCollname } = parseCommandName({
     commandName,
@@ -26,18 +26,18 @@ const parseTopAction = function ({
   const actions = [action];
   const top = { ...action, command };
 
-  return { top, topargs: argsA, ...sumVars, actions };
+  return { top, topargs: argsA, ...sumParams, actions };
 };
 
 const getArgs = function ({ args, topargs }) {
   // Merge protocol-specific arguments with normal arguments
   const argsA = deepMerge(args, topargs);
 
-  // `datasize` and `datacount` config variables
+  // `datasize` and `datacount` parameters
   const { data } = argsA;
-  const sumVars = getSumVars({ attrName: 'data', value: data });
+  const sumParams = getSumParams({ attrName: 'data', value: data });
 
-  return { args: argsA, sumVars };
+  return { args: argsA, sumParams };
 };
 
 // Retrieve `command` and `collname` using the main `commandName`

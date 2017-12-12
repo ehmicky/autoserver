@@ -4,7 +4,7 @@ const { decode } = require('iconv-lite');
 
 const { addGenErrorHandler } = require('../../../error');
 const { parse } = require('../../../formats');
-const { getSumVars } = require('../../../functions');
+const { getSumParams } = require('../../../functions');
 const { getLimits } = require('../../../limits');
 
 const { getRawPayload } = require('./raw');
@@ -55,10 +55,10 @@ const parseRawPayload = async function ({
 
   const payloadC = eParseContent({ payload: payloadB, format });
 
-  // `payloadsize` and `payloadcount` config variables
-  const sumVars = getSumVars({ attrName: 'payload', value: payloadC });
+  // `payloadsize` and `payloadcount` parameters
+  const sumParams = getSumParams({ attrName: 'payload', value: payloadC });
 
-  return { payload: payloadC, ...sumVars };
+  return { payload: payloadC, ...sumParams };
 };
 
 // Charset decoding is done in a protocol-agnostic way

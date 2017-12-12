@@ -32,7 +32,7 @@ const gracefulExitHandler = async function (error, { config }) {
     event: 'failure',
     phase: 'shutdown',
     message,
-    vars: { error },
+    params: { error },
     config,
   });
 };

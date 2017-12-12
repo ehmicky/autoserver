@@ -103,8 +103,8 @@ const fireApply = function ({
   // Normalize `null` to `undefined`
   const opValB = opValA === null ? undefined : opValA;
 
-  const vars = { value: attrVal, arg: opValB, type: attrType };
-  const attrValA = runConfigFunc({ configFunc: apply, mInput, vars });
+  const params = { value: attrVal, arg: opValB, type: attrType };
+  const attrValA = runConfigFunc({ configFunc: apply, mInput, params });
   return attrValA;
 };
 

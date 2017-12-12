@@ -3,7 +3,7 @@
 const { throwError } = require('../../error');
 
 // Retrieve request's IP, assigned to protocol mInput,
-// and also to config function variable ip
+// and also to parameter `ip`
 const getIp = function ({ protocolAdapter, specific }) {
   const ip = protocolAdapter.getIp({ specific }) || '';
 

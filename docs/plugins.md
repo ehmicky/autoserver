@@ -8,7 +8,7 @@ They are simple functions that takes as input:
   - `opts` `{object}`: plugin options
 And return [configuration properties](configuration.md#properties) to merge.
 
-The input parameters are read-only.
+The input arguments are read-only.
 
 The function can be asynchronous by returning a promise.
 

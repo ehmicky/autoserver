@@ -13,21 +13,21 @@ const evalAuthorize = function ({
   clientCollname,
   authorize,
   top,
-  serverVars,
+  serverParams,
   config,
   mInput,
 }) {
-  const { authorize: authorizeA, vars } = handleConfigFuncs({
+  const { authorize: authorizeA, params } = handleConfigFuncs({
     collname,
     authorize,
-    serverVars,
+    serverParams,
     config,
     mInput,
   });
 
   const authorizeB = evalFilter({
     filter: authorizeA,
-    attrs: vars,
+    attrs: params,
     partialNames: PARTIAL_NAMES_REGEXP,
   });
 

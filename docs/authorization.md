@@ -4,8 +4,8 @@ It is possible to reject requests by specifying a condition with
 the `authorize` [configuration property](configuration.md#properties).
 
 `authorize` uses the same format as the [`filter`](filtering.md) query
-[argument](rpc.md#rpc), except [function variables](functions.md#variables),
-including [server-specific variables](functions.md#server-specific-variables),
+[argument](rpc.md#rpc), except [parameters](functions.md#parameters),
+including [server-specific parameters](functions.md#server-specific-parameters),
 are specified instead of collection's attributes.
 
 ```yml
@@ -64,7 +64,7 @@ is over `30`, or `example_collection.public` is `true`.
 
 If the model is being modified, attributes are checked both before and after
 modification. In other words, it is checked on both `previousmodel` and
-`model` [variables](functions.md#variables)).
+`model` [parameters](functions.md#parameters).
 
 ```yml
 collections:
@@ -82,9 +82,9 @@ Using this feature allows you to define
 [access control lists](https://en.wikipedia.org/wiki/Access_control_list)
 restricting the permissions of a model based on the value of its attributes.
 
-Functions cannot use the variables `model`, `value`, `previousmodel` nor
-`previousvalue`. However, it is possible to target another attribute by using
-a `model.ATTRIBUTE` string as value.
+Functions cannot use the [parameters](functions.md#parameters) `model`,
+`value`, `previousmodel` nor `previousvalue`. However, it is possible to target
+another attribute by using a `model.ATTRIBUTE` string as value.
 
 ```yml
 collections:

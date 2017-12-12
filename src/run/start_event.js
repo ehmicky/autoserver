@@ -12,7 +12,7 @@ const emitStartEvent = async function ({
   measures,
 }) {
   const message = 'Server is ready';
-  const vars = getEventVars({ protocols, gracefulExit, measures });
+  const params = getEventParams({ protocols, gracefulExit, measures });
 
   // Let other events finish first
   await pSetTimeout(0, { unref: false });
@@ -21,15 +21,15 @@ const emitStartEvent = async function ({
     event: 'start',
     phase: 'startup',
     message,
-    vars,
+    params,
     config,
   });
-  return { startPayload: vars };
+  return { startPayload: params };
 };
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getEventVars = function ({ protocols, gracefulExit, measures }) {
+const getEventParams = function ({ protocols, gracefulExit, measures }) {
   const protocolsA = mapValues(
     protocols,
     protocol => omit(protocol, ['server', 'protocolAdapter']),

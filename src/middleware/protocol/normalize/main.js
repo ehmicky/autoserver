@@ -2,7 +2,7 @@
 
 const { normalizePartialProtocol } = require('./partial');
 
-// Normalize variables created during protocol layer
+// Normalize parameters created during protocol layer
 const protocolNormalization = function ({ topargs, ...rest }) {
   const {
     headers: headersA,
@@ -36,7 +36,7 @@ const normalizeProtocol = function ({ headers, topargs }) {
   return { headers: headersA, topargs: topargsA };
 };
 
-// Client-specific variables can be specified in protocol headers
+// Client-specific parameters can be specified in protocol headers
 const getTopargs = function ({ topargs = {}, headers: { params } }) {
   if (params === undefined) { return topargs; }
 

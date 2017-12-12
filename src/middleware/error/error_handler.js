@@ -21,7 +21,7 @@ const errorHandler = async function ({
     event: 'failure',
     phase: 'request',
     level: 'error',
-    vars: { error },
+    params: { error },
     config,
   });
 };

@@ -1,18 +1,18 @@
 'use strict';
 
 const { pick, mapValues } = require('../utilities');
-const { SYSTEM_VARS } = require('../functions');
+const { SYSTEM_PARAMS } = require('../functions');
 
 // Retrieve type and names of all possible `coll.authorize.*`
 const getAuthorizeAttrs = function ({ config, collname }) {
-  const serverVars = getServerVars({ config });
+  const serverParams = getServerParams({ config });
   const modelAttrs = getModelAttrs({ config, collname });
-  return { ...serverVars, ...modelAttrs, ...SYSTEM_VARS };
+  return { ...serverParams, ...modelAttrs, ...SYSTEM_PARAMS };
 };
 
-// `coll.authorize.SERVER_VAR`
-const getServerVars = function ({ config: { variables = {} } }) {
-  return mapValues(variables, () => ({ type: 'dynamic' }));
+// `coll.authorize.SERVERPARAM`
+const getServerParams = function ({ config: { params = {} } }) {
+  return mapValues(params, () => ({ type: 'dynamic' }));
 };
 
 // `coll.authorize['model.ATTR']`

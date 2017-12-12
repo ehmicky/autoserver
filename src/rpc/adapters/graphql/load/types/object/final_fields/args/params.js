@@ -10,7 +10,7 @@ const getParamsArgument = function () {
 const PARAMS_ARGS = {
   params: {
     type: GraphQLJSON,
-    description: 'Custom variables passed to database logic',
+    description: 'Custom parameters passed to database logic',
   },
 };
 

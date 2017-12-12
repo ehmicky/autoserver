@@ -2,7 +2,7 @@
 
 module.exports = {
   ...require('./run'),
-  ...require('./vars'),
+  ...require('./params'),
   ...require('./inline'),
   ...require('./test'),
 };
