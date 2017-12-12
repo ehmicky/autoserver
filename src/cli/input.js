@@ -3,7 +3,6 @@
 const yargs = require('yargs');
 
 const { monitor } = require('../perf');
-const { DESCRIPTION } = require('../formats');
 
 const { addInstructions } = require('./instructions');
 const { processOpts } = require('./process');
@@ -32,21 +31,12 @@ const parseOpts = function () {
     .default(['help', 'version'], undefined)
     // Auto-suggests correction on typos
     .recommendCommands()
-    .argv;
+    .parse();
 };
 
-const USAGE = `apiengine INSTRUCTION [SCHEMA_FILE] [OPTIONS]
-
+const USAGE = `apiengine [INSTRUCTION] [OPTIONS]
 
 Engine generating an API from a simple configuration file.
-
-SCHEMA_FILE is the path to the schema file.
-The following formats are available: ${DESCRIPTION}.
-By default, any file named 'apiengine.config.EXTENSION' will be used.
-
-OPTIONS can be any schema property, dot-separated.
-For example: --protocols.http.port=5001
-
 `;
 
 module.exports = {

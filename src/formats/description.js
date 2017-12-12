@@ -1,15 +1,14 @@
 'use strict';
 
-const { getWordsList } = require('../utilities');
-
 const formats = require('./adapters');
 
-// All possible formats, for documentation
-const getDescription = function () {
-  const titles = formats.map(({ title }) => title);
-  return getWordsList(titles);
+// All possible extensions, for documentation
+const getExtNames = function () {
+  return formats
+    .filter(({ extNames }) => Array.isArray(extNames) && extNames.length > 0)
+    .map(({ extNames: [extName] }) => extName);
 };
 
 module.exports = {
-  getDescription,
+  getExtNames,
 };
