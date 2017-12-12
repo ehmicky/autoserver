@@ -1,6 +1,6 @@
 'use strict';
 
-const { runSchemaFunc, getVars } = require('../../../functions');
+const { runConfigFunc, getVars } = require('../../../functions');
 const {
   validateFilter,
   getAuthorizeAttrs,
@@ -9,47 +9,47 @@ const {
 
 const { getServerVars } = require('./server_vars');
 
-// Handle all schema function related logic in `coll.authorize`
-const handleSchemaFuncs = function ({
+// Handle all config function related logic in `coll.authorize`
+const handleConfigFuncs = function ({
   collname,
   authorize,
   serverVars,
-  schema,
+  config,
   mInput,
 }) {
-  const authorizeA = resolveSchemaFuncs({ authorize, mInput });
+  const authorizeA = resolveConfigFuncs({ authorize, mInput });
 
-  validateAuthorize({ collname, authorize: authorizeA, schema });
+  validateAuthorize({ collname, authorize: authorizeA, config });
 
   const vars = getAllVars({ authorize: authorizeA, serverVars, mInput });
 
   return { authorize: authorizeA, vars };
 };
 
-// Resolve all schema functions in `coll.authorize` so all leaves values
+// Resolve all config functions in `coll.authorize` so all leaves values
 // are constants
-const resolveSchemaFuncs = function ({ authorize, mInput }) {
+const resolveConfigFuncs = function ({ authorize, mInput }) {
   return mapNodes(
     authorize,
-    node => resolveSchemaFunc({ mInput, node }),
+    node => resolveConfigFunc({ mInput, node }),
   );
 };
 
-const resolveSchemaFunc = function ({ mInput, node: { value, ...node } }) {
-  const valueA = runSchemaFunc({ schemaFunc: value, mInput });
+const resolveConfigFunc = function ({ mInput, node: { value, ...node } }) {
+  const valueA = runConfigFunc({ configFunc: value, mInput });
   return { ...node, value: valueA };
 };
 
 // Most `coll.authorize` validation is done startup time
-// But schema functions are evaluated runtime. Their validation is skipped
-// startup time, and they are validated here once evaluated.
-const validateAuthorize = function ({ collname, authorize, schema }) {
+// But config functions are evaluated runtime. Their validation is
+// skipped startup time, and they are validated here once evaluated.
+const validateAuthorize = function ({ collname, authorize, config }) {
   const prefix = collname === undefined
-    ? 'In \'schema.authorize\', '
+    ? 'In \'config.authorize\', '
     : `In 'collection.${collname}.authorize', `;
-  const reason = 'SCHEMA_VALIDATION';
+  const reason = 'CONF_VALIDATION';
 
-  const attrs = getAuthorizeAttrs({ schema, collname });
+  const attrs = getAuthorizeAttrs({ config, collname });
   validateFilter({ filter: authorize, prefix, reason, attrs });
 };
 
@@ -61,5 +61,5 @@ const getAllVars = function ({ authorize, serverVars, mInput }) {
 };
 
 module.exports = {
-  handleSchemaFuncs,
+  handleConfigFuncs,
 };

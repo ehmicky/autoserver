@@ -1,11 +1,11 @@
 'use strict';
 
 const { uniq, pick, mapValues, intersection } = require('../../../utilities');
-const { runSchemaFunc } = require('../../../functions');
+const { runConfigFunc } = require('../../../functions');
 const { crawlNodes } = require('../../../filter');
 
 // Retrieve all server-specific variables used in `coll.authorize`, and
-// resolve their schema functions.
+// resolve their config functions.
 const getServerVars = function ({ authorize, serverVars, mInput }) {
   // Retrieve all `attrName` recursively inside filter AST
   const attrNames = crawlNodes(authorize, ({ attrName }) => attrName);
@@ -13,7 +13,7 @@ const getServerVars = function ({ authorize, serverVars, mInput }) {
   const serverVarsA = pick(serverVars, serverVarsNames);
   const serverVarsB = mapValues(
     serverVarsA,
-    schemaFunc => runSchemaFunc({ schemaFunc, mInput }),
+    configFunc => runConfigFunc({ configFunc, mInput }),
   );
   return serverVarsB;
 };

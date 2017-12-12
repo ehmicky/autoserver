@@ -8,7 +8,7 @@ const { throwError } = require('../../../error');
 // Start HTTP server
 const startServer = function ({
   opts: { hostname, port },
-  schema: { env },
+  config: { env },
   handleRequest,
 }) {
   // Create server

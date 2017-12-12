@@ -5,7 +5,7 @@ const { logEvent } = require('../../log');
 const { getDefaultDuration } = require('../../perf');
 
 // Emit successful or failed shutdown event
-const emitStopEvent = async function ({ exitcodes, schema, measures }) {
+const emitStopEvent = async function ({ exitcodes, config, measures }) {
   const failedProtocols = getFailedProtocols({ exitcodes });
 
   const isSuccess = failedProtocols.length === 0;
@@ -26,7 +26,7 @@ const emitStopEvent = async function ({ exitcodes, schema, measures }) {
     level,
     message,
     vars: { exitcodes, duration },
-    schema,
+    config,
   });
 };
 

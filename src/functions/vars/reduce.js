@@ -2,7 +2,7 @@
 
 const { get, set, has, pick, omitBy } = require('../../utilities');
 
-// Reduce the size of schema variables that might be too big
+// Reduce the size of config variables that might be too big
 const reduceVars = function ({ vars }) {
   const varsB = attributes.reduce(
     (varsA, { path, filter }) => reduceInfo({ vars: varsA, path, filter }),

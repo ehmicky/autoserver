@@ -8,15 +8,15 @@ const { logAdapters } = require('./merger');
 
 // Log some event, including printing to console
 const logEvent = async function ({
-  schema,
-  schema: { log: logConf },
+  config,
+  config: { log: logConf },
   ...rest
 }) {
-  const { log, schemaFuncInput } = getLogVars({ schema, ...rest });
+  const { log, configFuncInput } = getLogVars({ config, ...rest });
 
   // Can fire several logAdapters at the same time
   const promises = logConf
-    .map(logConfA => fireLogger({ logConf: logConfA, log, schemaFuncInput }));
+    .map(logConfA => fireLogger({ logConf: logConfA, log, configFuncInput }));
   // We make sure this function returns `undefined`
   await Promise.all(promises);
 };
@@ -25,7 +25,7 @@ const fireLogger = function ({
   logConf: { provider, opts = {}, level },
   log,
   log: { event },
-  schemaFuncInput,
+  configFuncInput,
 }) {
   const noLog = !shouldLog({ level, log });
   if (noLog) { return; }
@@ -33,11 +33,11 @@ const fireLogger = function ({
   const reportFunc = getReportFunc({ event, provider });
   if (reportFunc === undefined) { return; }
 
-  return reportFunc({ log, opts, schemaFuncInput });
+  return reportFunc({ log, opts, configFuncInput });
 };
 
-// Can filter verbosity with `schema.log.level`
-// This won't work for very early startup errors since `schema` is not
+// Can filter verbosity with `config.log.level`
+// This won't work for very early startup errors since config is not
 // parsed yet.
 const shouldLog = function ({ level, log }) {
   return level !== 'silent' &&
@@ -51,12 +51,12 @@ const getReportFunc = function ({ event, provider }) {
   return reportFunc;
 };
 
-const logEventHandler = function (error, { schema, event }) {
+const logEventHandler = function (error, { config, event }) {
   const errorA = normalizeError({ error, reason: 'LOG_ERROR' });
   const vars = { error: errorA };
   // Give up if error handler fails
   // I.e. we do not need to `await` this
-  silentLogEvent({ event: 'failure', phase: 'process', schema, vars });
+  silentLogEvent({ event: 'failure', phase: 'process', config, vars });
 
   // Failure events are at the top of code stacks. They should not throw.
   if (event === 'failure') { return; }

@@ -22,12 +22,12 @@ const getDataAction = function ({
   top,
   top: { command },
   action: { args: { data }, commandpath },
-  schema,
-  schema: { shortcuts: { userDefaultsMap } },
+  config,
+  config: { shortcuts: { userDefaultsMap } },
   mInput,
   dbAdapters,
 }) {
-  const { maxAttrValueSize } = getLimits({ schema });
+  const { maxAttrValueSize } = getLimits({ config });
 
   // Top-level `dataPaths`
   const dataPaths = getDataPath({ data, commandpath });
@@ -39,7 +39,7 @@ const getDataAction = function ({
     top,
     mInput,
     maxAttrValueSize,
-    schema,
+    config,
     userDefaultsMap,
     dbAdapters,
   });
@@ -49,7 +49,7 @@ const getDataAction = function ({
     commandpath,
     dataPaths,
     top,
-    schema,
+    config,
   });
 
   return newActions;

@@ -35,14 +35,14 @@ const { getPaginationInput } = require('./input');
 //                                 { c: 30, a: { _gt: 10 }, b: { _gt: 20 } }
 //   order                       - same as `filter` but for `order`
 // Add pagination-related metadata in response at `metadata.pages`
-const handlePaginationInput = function ({ args, topargs, schema, ...rest }) {
-  if (!willPaginate({ args, schema, ...rest })) { return; }
+const handlePaginationInput = function ({ args, topargs, config, ...rest }) {
+  if (!willPaginate({ args, config, ...rest })) { return; }
 
   const token = getToken({ args });
 
   validatePaginationInput({ args, topargs, token });
 
-  const paginationInput = getPaginationInput({ args, token, schema });
+  const paginationInput = getPaginationInput({ args, token, config });
 
   return { args: { ...args, ...paginationInput } };
 };

@@ -29,7 +29,7 @@ const PROPS = {
   },
 
   // General validation input errors, e.g. input data|filter does not
-  // match the schema
+  // match the config
   INPUT_VALIDATION: {
     status: 'CLIENT_ERROR',
   },
@@ -113,19 +113,19 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // Schema is semantically invalid
-  SCHEMA_VALIDATION: {
+  // Config is invalid
+  CONF_VALIDATION: {
     status: 'SERVER_ERROR',
   },
 
-  // Request did not pass schema validation, e.g. `args` was not provided,
-  // indicating a server bug
+  // Request did not pass config validation, e.g. `args` was not
+  // provided, indicating a server bug
   SERVER_INPUT_VALIDATION: {
     status: 'SERVER_ERROR',
   },
 
-  // Response did not pass schema validation, e.g. if the database is corrupted
-  // or new constraints were applied without being migrated
+  // Response did not pass config validation, e.g. if the database is
+  // corrupted or new constraints were applied without being migrated
   OUTPUT_VALIDATION: {
     status: 'SERVER_ERROR',
   },

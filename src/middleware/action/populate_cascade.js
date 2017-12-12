@@ -21,7 +21,7 @@ const getActions = function ({
   top,
   top: { command },
   action: { args },
-  schema,
+  config,
 }) {
   const argName = ARG_NAMES[command.type];
   const arg = args[argName];
@@ -30,7 +30,7 @@ const getActions = function ({
   const attrsA = uniq(attrs);
   const attrsB = attrsA.map(attrName => attrName.split('.'));
   const actions = attrsB.map(attrName =>
-    getAction({ attrName, attrs: attrsB, top, schema, argName }));
+    getAction({ attrName, attrs: attrsB, top, config, argName }));
   return actions;
 };
 
@@ -44,11 +44,11 @@ const ARG_NAMES = {
 //   commandpath: ['commandName', 'attr', 'child_attr']
 //   collname
 //   args: {}
-const getAction = function ({ attrName, attrs, top, schema, argName }) {
+const getAction = function ({ attrName, attrs, top, config, argName }) {
   validateMiddleAction({ attrName, attrs, argName });
 
   const commandpath = [...top.commandpath, ...attrName];
-  const coll = getColl({ top, schema, commandpath });
+  const coll = getColl({ top, config, commandpath });
 
   validateModel({ coll, commandpath, argName });
 

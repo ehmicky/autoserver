@@ -1,13 +1,14 @@
 # Formats
 
-Multiple formats are supported for the [schema file](schema.md#schema-file),
+Multiple formats are supported for the
+[configuration file](configuration.md#configuration-file),
 the client request payloads and the server responses: [JSON](#json),
 [YAML](#yaml), [x-www-form-urlencoded](#x-www-form-urlencoded), [raw](#raw),
 [JavaScript](#javascript), [Hjson](#hjson), [JSON5](#json5) and [INI](#ini).
 
 Most of the examples in this documentation use [YAML](#yaml) for the
-[schema properties](schema.md#properties) and [JSON](#json) for the the client
-request payloads and the server responses.
+[configuration properties](configuration.md#properties) and [JSON](#json)
+for the the client request payloads and the server responses.
 
 # Request and responses
 

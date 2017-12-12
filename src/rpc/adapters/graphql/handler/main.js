@@ -12,7 +12,7 @@ const {
 
 // Use GraphQL-specific logic to parse the request into an rpc-agnostic `rpcDef`
 const handler = function ({
-  schema: { graphqlSchema },
+  config: { graphqlSchema },
   queryvars,
   payload,
   method,

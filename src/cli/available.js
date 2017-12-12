@@ -14,14 +14,14 @@ const runInstruction = {
     // for --help output
     {
       name: 'options',
-      describe: `Any schema property, dot-separated.
+      describe: `Any config property, dot-separated.
 For example: --protocols.http.port=5001`,
     },
   ],
   options: {
     config: {
       type: 'string',
-      describe: `Path to the schema file.
+      describe: `Path to the config file.
 By default, will use any file named apiengine.config.${EXT_NAMES.join('|')}`,
     },
   },

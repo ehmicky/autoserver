@@ -7,21 +7,21 @@ const { getVarsKeys } = require('./vars');
 const { isInlineFunc, isEscapedInlineFunc } = require('./test');
 const { getInlineFunc } = require('./tokenize');
 
-// Create all schema inline functions, i.e. apply `new Function()`
-const createInlineFuncs = function ({ schema }) {
-  const varsKeys = getVarsKeys({ schema });
+// Create all config inline functions, i.e. apply `new Function()`
+const createInlineFuncs = function ({ config }) {
+  const varsKeys = getVarsKeys({ config });
 
-  const schemaB = getValues(schema).reduce(
-    (schemaA, { keys, value }) =>
-      setInlineFunc({ schema: schemaA, keys, value, varsKeys }),
-    schema,
+  const configB = getValues(config).reduce(
+    (configA, { keys, value }) =>
+      setInlineFunc({ config: configA, keys, value, varsKeys }),
+    config,
   );
-  return schemaB;
+  return configB;
 };
 
-const setInlineFunc = function ({ schema, keys, value, varsKeys }) {
+const setInlineFunc = function ({ config, keys, value, varsKeys }) {
   const inlineFunc = createInlineFunc({ inlineFunc: value, varsKeys });
-  return set(schema, keys, inlineFunc);
+  return set(config, keys, inlineFunc);
 };
 
 // Transform inline functions into a function with the inline function as body
@@ -61,8 +61,8 @@ const createFunction = function ({
 };
 
 const eCreateFunction = addGenErrorHandler(createFunction, {
-  message: ({ inlineFunc }) => `Invalid schema function: '${inlineFunc}'`,
-  reason: 'SCHEMA_VALIDATION',
+  message: ({ inlineFunc }) => `Invalid function: '${inlineFunc}'`,
+  reason: 'CONF_VALIDATION',
 });
 
 module.exports = {

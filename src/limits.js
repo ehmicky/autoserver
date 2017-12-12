@@ -4,20 +4,20 @@ const bytes = require('bytes');
 
 // Returns the main numerical limits of the engine.
 // Some of those limits cannot be changed by the user.
-const getLimits = function ({ schema } = {}) {
-  const schemaLimits = getSchemaLimits({ schema });
+const getLimits = function ({ config } = {}) {
+  const configLimits = getConfigLimits({ config });
 
   return {
     ...SYSTEM_LIMITS,
-    ...schemaLimits,
+    ...configLimits,
   };
 };
 
-// Limits that can be changed in `schema.limits`
-const getSchemaLimits = function ({ schema }) {
-  if (schema === undefined) { return; }
+// Limits that can be changed in `config.limits`
+const getConfigLimits = function ({ config }) {
+  if (config === undefined) { return; }
 
-  const { limits } = schema;
+  const { limits } = config;
 
   const pagesize = getPagesize({ limits });
   const maxpayload = getMaxpayload({ limits });
@@ -81,7 +81,7 @@ const MIN_MAXPAYLOAD = 1e2;
 
 const REQUEST_TIMEOUT = 5e3;
 
-// Limits that cannot be changed in `schema.limits`
+// Limits that cannot be changed in `config.limits`
 const SYSTEM_LIMITS = {
   // Max number of actions (including top level)
   maxActions: MAX_ACTIONS,
@@ -100,7 +100,7 @@ const SYSTEM_LIMITS = {
   // How long the request can run, in milliseconds
   requestTimeout: REQUEST_TIMEOUT,
 
-  // Enforced during schema validation:
+  // Enforced during config validation:
   //  - max number of attributes per model: 50
   //  - max model|attribute name length: 200
 };

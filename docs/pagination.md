@@ -71,7 +71,7 @@ and `has_next_page`.
 # Page size
 
 The page size is determined by the `limits.pagesize`
-[schema property](schema.md#properties), which defaults to `100`.
+[configuration property](configuration.md#properties), which defaults to `100`.
 Setting it to `0` will disable pagination.
 
 Clients can decrease the page size by using the `pagesize`
@@ -133,7 +133,7 @@ iterations are not available.
 # Maximum number of models
 
 The maximum number of models in any request or response is determined by the
-`limits.maxmodels` [schema property](schema.md#properties), which defaults to
+`limits.maxmodels` [configuration property](configuration.md#properties), which defaults to
 `100` times the default [`pagesize`](#page-size), i.e. `10000`. It can be
 disabled by being set to `0`.
 

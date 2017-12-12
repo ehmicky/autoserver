@@ -1,6 +1,6 @@
 # Logging
 
-Logging is configured under the `log` [schema property](schema.md#properties).
+Logging is configured under the `log` [configuration property](configuration.md#properties).
 
 ```yml
 log:
@@ -30,7 +30,7 @@ The following providers are available: [`http`](#http-log-provider),
 provider.
 
 If you want to use several log providers or use several configurations,
-the `log` [schema property](schema.md#properties) can be an array of objects
+the `log` [configuration property](configuration.md#properties) can be an array of objects
 instead of a single object.
 
 ```yml

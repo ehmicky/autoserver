@@ -5,15 +5,15 @@ const { pSetTimeout } = require('../../utilities');
 const { getLimits } = require('../../limits');
 
 // Make request fail after some timeout
-const setRequestTimeout = function ({ mInput, schema }, nextLayer) {
-  const timeoutPromise = startRequestTimeout({ schema });
+const setRequestTimeout = function ({ mInput, config }, nextLayer) {
+  const timeoutPromise = startRequestTimeout({ config });
   const nextLayerPromise = nextLayer(mInput, 'protocol');
 
   return Promise.race([timeoutPromise, nextLayerPromise]);
 };
 
-const startRequestTimeout = async function ({ schema, schema: { env } }) {
-  const { requestTimeout } = getLimits({ schema });
+const startRequestTimeout = async function ({ config, config: { env } }) {
+  const { requestTimeout } = getLimits({ config });
   // When debugging with breakpoints, we do not want any request timeout
   const timeout = env === 'dev' ? HUGE_TIMEOUT : requestTimeout;
 

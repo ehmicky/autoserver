@@ -6,7 +6,7 @@ const { nanoSecsToMilliSecs } = require('../../perf');
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not
 const callEvent = function ({
-  schema,
+  config,
   level,
   mInput,
   error,
@@ -20,7 +20,7 @@ const callEvent = function ({
     phase: 'request',
     level,
     vars: { error, duration: durationA },
-    schema,
+    config,
   });
 };
 

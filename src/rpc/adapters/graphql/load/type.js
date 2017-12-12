@@ -22,7 +22,7 @@ const getTopTypes = function ({ topDefs }) {
   );
 };
 
-// Retrieves the GraphQL type for a given schema definition
+// Retrieves the GraphQL type for a given config definition
 const getType = function (def, opts) {
   const typeGetter = getTypeGetter(def, opts);
   const type = typeGetter.value(def, opts);

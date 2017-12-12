@@ -9,7 +9,7 @@ const { getSumVars } = require('../../functions');
 // `collname`, `clientCollname`, `commandpath`, `args`
 const parseTopAction = function ({
   rpcDef: { commandName, args },
-  schema: { shortcuts: { collsNames } },
+  config: { shortcuts: { collsNames } },
   topargs,
 }) {
   const { args: argsA, sumVars } = getArgs({ args, topargs });
@@ -33,7 +33,7 @@ const getArgs = function ({ args, topargs }) {
   // Merge protocol-specific arguments with normal arguments
   const argsA = deepMerge(args, topargs);
 
-  // `datasize` and `datacount` schema variables
+  // `datasize` and `datacount` config variables
   const { data } = argsA;
   const sumVars = getSumVars({ attrName: 'data', value: data });
 

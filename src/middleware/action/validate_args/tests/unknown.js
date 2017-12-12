@@ -13,7 +13,7 @@ const getUnknownTests = allowedArgs => [{
 }];
 
 const findUnknownArg = function ({ allowedArgs, args }) {
-  const allowedArgsA = ['schema', ...allowedArgs];
+  const allowedArgsA = ['config', ...allowedArgs];
   return Object.keys(args).find(argName => !allowedArgsA.includes(argName));
 };
 

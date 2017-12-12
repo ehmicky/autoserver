@@ -8,17 +8,17 @@ const { normalizeError } = require('../error');
 // will collect the warnings of all the instances.
 // Note that process events fired that do not belong to apiengine might be
 // caught as well.
-const processErrorHandler = function ({ schema }) {
-  setupUnhandledRejection({ schema });
-  setupRejectionHandled({ schema });
-  setupWarning({ schema });
+const processErrorHandler = function ({ config }) {
+  setupUnhandledRejection({ config });
+  setupRejectionHandled({ config });
+  setupWarning({ config });
 };
 
-const setupUnhandledRejection = function ({ schema }) {
+const setupUnhandledRejection = function ({ config }) {
   process.on('unhandledRejection', async error => {
     const message = getMessage({ error });
     const messageA = `A promise was rejected and not handled right away\n${message}`;
-    await emitProcessEvent({ message: messageA, schema });
+    await emitProcessEvent({ message: messageA, config });
   });
 };
 
@@ -30,28 +30,28 @@ const getMessage = function ({ error }) {
   return error[nameA] || '';
 };
 
-const setupRejectionHandled = function ({ schema }) {
+const setupRejectionHandled = function ({ config }) {
   process.on('rejectionHandled', async () => {
     const message = 'A promise was rejected but handled too late';
-    await emitProcessEvent({ message, schema });
+    await emitProcessEvent({ message, config });
   });
 };
 
-const setupWarning = function ({ schema }) {
+const setupWarning = function ({ config }) {
   process.on('warning', async error => {
-    await emitProcessEvent({ error, schema });
+    await emitProcessEvent({ error, config });
   });
 };
 
 // Report process problems as events with event 'failure'
-const emitProcessEvent = async function ({ error, message, schema }) {
+const emitProcessEvent = async function ({ error, message, config }) {
   const errorA = normalizeError({ error, message, reason: 'PROCESS_ERROR' });
 
   await logEvent({
     event: 'failure',
     phase: 'process',
     vars: { error: errorA },
-    schema,
+    config,
   });
 };
 

@@ -20,7 +20,7 @@ const { version: apiengineVersion } = require('../package.json');
 const { memoize, flatten } = require('./utilities');
 
 // Retrieve process-specific and host-specific information
-const getServerinfo = function ({ schema: { name: processName } = {} }) {
+const getServerinfo = function ({ config: { name: processName } = {} }) {
   const host = getHostInfo();
   const versions = getVersionsInfo();
   const processInfo = getProcessInfo({ host, processName });
@@ -28,7 +28,7 @@ const getServerinfo = function ({ schema: { name: processName } = {} }) {
   return { host, versions, process: processInfo };
 };
 
-// Speed up memoization because serializing `schema` is slow
+// Speed up memoization because serializing `config` is slow
 const mGetServerinfo = memoize(getServerinfo, { serializer: () => pid });
 
 const getHostInfo = function () {

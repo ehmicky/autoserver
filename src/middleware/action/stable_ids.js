@@ -10,7 +10,7 @@ const { getColl } = require('./get_coll');
 // in the response will show what the client asked for, but the server state
 // will contain something else.
 // Other solutions all have drawbacks, i.e.:
-//  - forbid `attr.value|readonly` in schema:
+//  - forbid `attr.value|readonly` in config:
 //     - too restrictive, e.g. author plugin requires `attr.value|readonly`
 //  - only throw this error if client and server values do not match:
 //     - this is less predictable for the client.
@@ -28,7 +28,7 @@ const { getColl } = require('./get_coll');
 //     - request might not be authorized to fetch those models
 const validateStableIds = function ({
   actions,
-  schema,
+  config,
   top,
   top: { command },
 }) {
@@ -38,13 +38,13 @@ const validateStableIds = function ({
   actions
     // Only for nested actions
     .filter(({ commandpath }) => commandpath.length !== 0)
-    .forEach(action => validateAction({ action, schema, top }));
+    .forEach(action => validateAction({ action, config, top }));
 };
 
 const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert'];
 
-const validateAction = function ({ action: { commandpath }, schema, top }) {
-  const serverSet = isServerSet({ commandpath, schema, top });
+const validateAction = function ({ action: { commandpath }, config, top }) {
+  const serverSet = isServerSet({ commandpath, config, top });
   if (!serverSet) { return; }
 
   const path = commandpath.join('.');
@@ -52,20 +52,20 @@ const validateAction = function ({ action: { commandpath }, schema, top }) {
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-const isServerSet = function ({ commandpath, schema, top }) {
-  const attr = getAttr({ commandpath, schema, top });
+const isServerSet = function ({ commandpath, config, top }) {
+  const attr = getAttr({ commandpath, config, top });
   const serverSet = attr.readonly !== undefined || attr.value !== undefined;
   return serverSet;
 };
 
 const getAttr = function ({
   commandpath,
-  schema,
-  schema: { collections },
+  config,
+  config: { collections },
   top,
 }) {
   const parentPath = commandpath.slice(0, -1);
-  const { collname } = getColl({ commandpath: parentPath, top, schema });
+  const { collname } = getColl({ commandpath: parentPath, top, config });
   const attrName = commandpath[commandpath.length - 1];
   const { attributes } = collections[collname];
   const attr = attributes[attrName];

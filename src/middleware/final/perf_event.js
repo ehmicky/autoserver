@@ -5,7 +5,7 @@ const { logPerfEvent } = require('../../perf');
 // Event performance events related to the current request,
 // e.g. how long each middleware lasted.
 const perfEvent = function (
-  { schema, mInput, respPerf },
+  { config, mInput, respPerf },
   nextLayer,
   { measures },
 ) {
@@ -14,7 +14,7 @@ const perfEvent = function (
     mInput,
     phase: 'request',
     measures: measuresA,
-    schema,
+    config,
   });
 };
 

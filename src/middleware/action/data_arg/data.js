@@ -54,11 +54,11 @@ const parseAttr = function ({
   top,
   mInput,
   maxAttrValueSize,
-  schema,
+  config,
   collname,
   ...rest
 }) {
-  const coll = schema.collections[collname];
+  const coll = config.collections[collname];
   preValidate({
     patchOp: obj,
     commandpath,
@@ -67,11 +67,11 @@ const parseAttr = function ({
     maxAttrValueSize,
     coll,
     mInput,
-    schema,
+    config,
   });
 
   const isNested = isModelsType(obj) &&
-    isModel({ attrName, commandpath, top, schema });
+    isModel({ attrName, commandpath, top, config });
   if (!isNested) { return obj; }
 
   return parseData({
@@ -80,7 +80,7 @@ const parseAttr = function ({
     attrName,
     top,
     maxAttrValueSize,
-    schema,
+    config,
     mInput,
     ...rest,
   });

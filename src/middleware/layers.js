@@ -96,7 +96,7 @@ const middlewareLayers = [
       action.validateArgs,
       // Change arguments cases to camelCase
       action.renameArgs,
-      // Bind server-specific variables with their schema variables
+      // Bind server-specific variables with their config variables
       action.bindServerVars,
       // Parse `args.filter` and `args.id` into AST
       action.parseFilter,
@@ -113,7 +113,7 @@ const middlewareLayers = [
       // Validate request limits
       action.validateRequestLimits,
       // Validate that attributes in `args.select|data|filter|order`
-      // are in the schema
+      // are in the config
       action.validateUnknownAttrs,
       // Validate that attributes used in nested actions will not change
       action.validateStableIds,

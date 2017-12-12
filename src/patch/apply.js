@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../utilities');
-const { runSchemaFunc } = require('../functions');
+const { runConfigFunc } = require('../functions');
 
 const { parsePatchOp } = require('./parse');
 const { parseRef } = require('./ref_parsing');
@@ -11,7 +11,7 @@ const { replaceSimpleRef, replaceRef } = require('./ref');
 const applyPatchOps = function ({
   datum,
   patchOps,
-  schema: { collections, operators },
+  config: { collections, operators },
   collname,
   ...rest
 }) {
@@ -104,7 +104,7 @@ const fireApply = function ({
   const opValB = opValA === null ? undefined : opValA;
 
   const vars = { value: attrVal, arg: opValB, type: attrType };
-  const attrValA = runSchemaFunc({ schemaFunc: apply, mInput, vars });
+  const attrValA = runConfigFunc({ configFunc: apply, mInput, vars });
   return attrValA;
 };
 

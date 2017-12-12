@@ -13,7 +13,7 @@ const { graphqlRequiredTest, graphqlRequiredTGetter } = require('./required');
 const { graphqlArrayTest, graphqlArrayTGetter } = require('./array');
 const { graphqlObjectTGetter } = require('./object');
 
-// Maps an schema definition into a GraphQL type.
+// Maps an config definition into a GraphQL type.
 // The first matching one will be used, i.e. order matters:
 // required modifier, then array modifier come first
 const graphqlTGetters = [
@@ -68,7 +68,7 @@ const getTypeGetter = function (def, opts) {
   if (typeGetter !== undefined) { return typeGetter; }
 
   const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
-  throwError(message, { reason: 'SCHEMA_VALIDATION' });
+  throwError(message, { reason: 'CONF_VALIDATION' });
 };
 
 module.exports = {

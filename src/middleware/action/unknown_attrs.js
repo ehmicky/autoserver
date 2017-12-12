@@ -4,22 +4,22 @@ const { flatten, uniq } = require('../../utilities');
 const { throwError } = require('../../error');
 
 // Validate that attributes in `args.select|data|order` are in the
-// schema.
+// config.
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
-const validateUnknownAttrs = function ({ actions, schema }) {
-  actions.forEach(action => validateAction({ action, schema }));
+const validateUnknownAttrs = function ({ actions, config }) {
+  actions.forEach(action => validateAction({ action, config }));
 };
 
-const validateAction = function ({ action, schema }) {
-  validateAllAttr({ action, schema });
-  validateUnknown({ action, schema });
+const validateAction = function ({ action, config }) {
+  validateAllAttr({ action, config });
+  validateUnknown({ action, config });
 };
 
 // Validate correct usage of special key 'all'
 const validateAllAttr = function ({
   action: { args: { select }, collname },
-  schema: { collections },
+  config: { collections },
 }) {
   if (select === undefined) { return; }
 
@@ -35,11 +35,11 @@ const validateAllAttr = function ({
   throwError(message, { reason: 'INPUT_VALIDATION' });
 };
 
-// Validate that arguments's attributes are present in schema
-const validateUnknown = function ({ action, schema }) {
+// Validate that arguments's attributes are present in config
+const validateUnknown = function ({ action, config }) {
   argsToValidate.forEach(({ name, getKeys }) => {
     const keys = getKeys({ action });
-    validateUnknownArg({ keys, action, schema, name });
+    validateUnknownArg({ keys, action, config, name });
   });
 };
 
@@ -74,7 +74,7 @@ const argsToValidate = [
 const validateUnknownArg = function ({
   keys,
   action: { commandpath, collname },
-  schema: { collections },
+  config: { collections },
   name,
 }) {
   const keyA = keys

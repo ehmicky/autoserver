@@ -7,7 +7,7 @@ const errorHandler = async function ({
   error,
   protocolAdapter,
   specific,
-  schema,
+  config,
   mInput,
 }) {
   // Make sure a response is sent, even empty, or the socket will hang
@@ -22,7 +22,7 @@ const errorHandler = async function ({
     phase: 'request',
     level: 'error',
     vars: { error },
-    schema,
+    config,
   });
 };
 

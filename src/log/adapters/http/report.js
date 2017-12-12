@@ -28,12 +28,12 @@ const report = function ({ log, opts: { url, method = 'POST' } }) {
 const validateOpts = function ({ url, method }) {
   if (url === undefined) {
     const message = `Option 'url' for the log provider 'http' must be defined`;
-    throwError(message, { reason: 'SCHEMA_VALIDATION' });
+    throwError(message, { reason: 'CONF_VALIDATION' });
   }
 
   if (!METHODS.includes(method)) {
     const message = `Option 'method' for the log provider 'http' must be a valid HTTP method`;
-    throwError(message, { reason: 'SCHEMA_VALIDATION' });
+    throwError(message, { reason: 'CONF_VALIDATION' });
   }
 };
 
@@ -72,7 +72,7 @@ const parseUrl = function ({ url }) {
 
 const eParseUrl = addGenErrorHandler(parseUrl, {
   message: 'Option \'url\' for the log provider \'http\' must be a valid URL',
-  reason: 'SCHEMA_VALIDATION',
+  reason: 'CONF_VALIDATION',
 });
 
 const getHeaders = function ({ body }) {

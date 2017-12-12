@@ -9,8 +9,8 @@ const { getLimits } = require('../../limits');
 const { getColl } = require('./get_coll');
 
 // Validate request limits
-const validateRequestLimits = function ({ schema, mInput }) {
-  const limits = getLimits({ schema });
+const validateRequestLimits = function ({ config, mInput }) {
+  const limits = getLimits({ config });
 
   validators.forEach(validator => validator({ ...mInput, limits }));
 };
@@ -25,11 +25,11 @@ const validateMaxActions = function ({ limits: { maxActions }, actions }) {
 // Nested patch|create|upsert commands use `maxmodels` instead
 // Nested delete commands are not limited, as they are meant not to be performed
 // several times
-const validateNestedFind = function ({ limits, actions, top, schema }) {
+const validateNestedFind = function ({ limits, actions, top, config }) {
   if (top.command.type !== 'find') { return; }
 
   const tooNestedActions = actions
-    .filter(action => isTooNestedFind({ action, schema, top, limits }));
+    .filter(action => isTooNestedFind({ action, config, top, limits }));
   if (tooNestedActions.length === 0) { return; }
 
   const paths = tooNestedActions
@@ -41,13 +41,13 @@ const validateNestedFind = function ({ limits, actions, top, schema }) {
 
 const isTooNestedFind = function ({
   action: { commandpath },
-  schema,
+  config,
   top,
   limits: { maxFindManyDepth },
 }) {
   if (commandpath.length < maxFindManyDepth) { return false; }
 
-  const { multiple } = getColl({ commandpath, top, schema });
+  const { multiple } = getColl({ commandpath, top, config });
   return multiple;
 };
 

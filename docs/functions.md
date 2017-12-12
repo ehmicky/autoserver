@@ -1,8 +1,9 @@
 # Functions
 
-Custom logic can be added by using functions in the [schema](schema.md).
+Custom logic can be added by using functions in the
+[configuration](configuration.md).
 
-The following [schema properties](schema.md#properties) can use functions:
+The following [configuration properties](configuration.md#properties) can use functions:
   - [`attribute.authorize`](authorization.md)
   - [`attribute.readonly`](authorization.md#readonly-attributes)
   - [`attribute.default`](default.md)
@@ -30,7 +31,7 @@ const getDefaultValue = function () {
 module.exports = getDefaultValue;
 ```
 
-and in the schema:
+and in the [configuration](configuration.md):
 
 ```yml
 collections:
@@ -43,7 +44,8 @@ collections:
 
 # Inline functions
 
-You can also directly write JavaScript functions inside the schema.
+You can also directly write JavaScript functions inside the
+[configuration](configuration.md).
 
 ```yml
 collections:
@@ -135,7 +137,7 @@ The following variables are available to any function:
     - `process` `{object}`:
        - `id` `{string}`: PID
        - `name` `{string}`: defaults to system hostname, but can be overriden
-         using the schema property `name`
+         using the configuration property `name`
 
 The following variables are available to any function except
 [custom log providers](logging.md#custom-log-provider) and
@@ -189,7 +191,7 @@ The following variables are available for more specific cases:
 # Server-specific variables
 
 Server-specific variables can be added using the `variables`
-[schema property](schema.md#properties), which is an object containing all
+[configuration property](configuration.md#properties), which is an object containing all
 server-specific variables.
 
 In the example below, the `$secret_password` server-specific variable is made

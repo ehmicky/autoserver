@@ -7,27 +7,27 @@
 // in request method names and in documentation.
 // Note that `commandpath`, `commandpaths` and `summary` are always using
 // the client-facing names.
-const setClientNames = function ({ schema, actions, collnames, top }) {
+const setClientNames = function ({ config, actions, collnames, top }) {
   const actionsA = actions
-    .map(action => setClientNamesActions({ schema, action, top }));
+    .map(action => setClientNamesActions({ config, action, top }));
   const clientCollnames = collnames
-    .map(collname => getClientCollname({ schema, collname, top }));
+    .map(collname => getClientCollname({ config, collname, top }));
 
   return { actions: actionsA, clientCollnames };
 };
 
 const setClientNamesActions = function ({
-  schema,
+  config,
   action,
   action: { collname },
   top,
 }) {
-  const clientCollname = getClientCollname({ schema, collname, top });
+  const clientCollname = getClientCollname({ config, collname, top });
   return { ...action, clientCollname };
 };
 
 const getClientCollname = function ({
-  schema: { collections },
+  config: { collections },
   collname,
   top,
 }) {

@@ -2,11 +2,11 @@
 
 const { v4: uuidv4 } = require('uuid');
 
-const { runSchemaFunc, getModelVars } = require('../../../functions');
+const { runConfigFunc, getModelVars } = require('../../../functions');
 
 // Add default model.id for create commands, in order of priority:
 //  - nested `args.data` attribute (not handled here)
-//  - current collection's 'id' attribute's schema 'default'
+//  - current collection's 'id' attribute's config 'default'
 //  - database adapter-specific function
 //  - UUIDv4
 const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
@@ -31,15 +31,15 @@ const getIdDefault = function (input, id, handler) {
 };
 
 // Apply default current collection's 'id' attribute
-const applySchemaDefault = function ({
+const applyConfigDefault = function ({
   collname,
   command,
   datum,
   userDefaultsMap,
   mInput,
 }) {
-  const schemaFunc = userDefaultsMap[collname].id;
-  if (schemaFunc == null) { return; }
+  const configFunc = userDefaultsMap[collname].id;
+  if (configFunc == null) { return; }
 
   const vars = getModelVars({
     model: datum,
@@ -47,7 +47,7 @@ const applySchemaDefault = function ({
     attrName: 'id',
   });
   const mInputA = { ...mInput, collname, command: command.type };
-  return runSchemaFunc({ schemaFunc, mInput: mInputA, vars });
+  return runConfigFunc({ configFunc, mInput: mInputA, vars });
 };
 
 // Apply database adapter-specific id default, i.e. adater.getDefaultId()
@@ -65,7 +65,7 @@ const applyUuid = function () {
 };
 
 const handlers = [
-  applySchemaDefault,
+  applyConfigDefault,
   applyDatabaseDefault,
   applyUuid,
 ];

@@ -1,7 +1,7 @@
 # JSON references
 
-The [schema file](schema.md#schema-file) can be broken down into several files
-by referring to local files with
+The [configuration file](configuration.md#configuration-file) can be broken
+down into several files by referring to local files with
 [JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
 Those are simple objects with a single `$ref` property pointing to the file.
 
@@ -12,10 +12,10 @@ collections:
 ```
 
 JSON references are deeply merged with their siblings, which allows you to
-extend a schema from another schema.
+extend a configuration from another configuration.
 
 ```yml
-$ref: base_schema.yml
+$ref: base_config.yml
 collections: ...
 variables: ...
 ```

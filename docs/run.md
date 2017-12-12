@@ -2,12 +2,14 @@
 
 The [`run` instruction](usage.md) starts the server.
 
-The [schema file](schema.md#schema-file) is specified using the `schema` option.
+The [configuration file](configuration.md#configuration-file) is specified
+using the `config` option.
 
-Any other option will be merged as a [schema property](schema.md#property).
+Any other option will be merged as a
+[configuration property](configuration.md#property).
 
 ```bash
-apiengine run --schema=apiengine.config.yml --protocols.http.port=5001
+apiengine run --config=apiengine.config.yml --protocols.http.port=5001
 ```
 
 # Node.js

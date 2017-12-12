@@ -45,7 +45,7 @@ const handleUserDefault = function (mInput) {
 };
 
 // `attr.readonly`
-// Sets attributes marked in schema as `readonly` to their current value
+// Sets attributes marked in config as `readonly` to their current value
 // (i.e. `currentData`)
 // This is done silently (i.e. does not raise warnings or errors),
 // because readonly attributes can be part of a normal response, and clients

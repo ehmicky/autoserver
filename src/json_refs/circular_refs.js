@@ -8,8 +8,8 @@ const validateCircularRefs = function ({ path, paths = [] }) {
     return [...paths, path];
   }
 
-  const message = `The schema cannot contain circular JSON references: '${path}'`;
-  throwError(message, { reason: 'SCHEMA_VALIDATION' });
+  const message = `The config cannot contain circular JSON references: '${path}'`;
+  throwError(message, { reason: 'CONF_VALIDATION' });
 };
 
 module.exports = {

@@ -7,19 +7,19 @@ const { getDataPath } = require('./data_path');
 const { isModelType } = require('./validate');
 
 // Retrieve the keys of an `args.data` object which are nested collections
-const getNestedKeys = function ({ data, commandpath, top, schema }) {
+const getNestedKeys = function ({ data, commandpath, top, config }) {
   const nestedKeys = data.map(Object.keys);
   const nestedKeysA = flatten(nestedKeys);
   const nestedKeysB = uniq(nestedKeysA);
   // Keep only the keys which are nested collections
   const nestedKeysC = nestedKeysB
-    .filter(attrName => isModel({ attrName, commandpath, top, schema }));
+    .filter(attrName => isModel({ attrName, commandpath, top, config }));
   return nestedKeysC;
 };
 
-const isModel = function ({ attrName, commandpath, top, schema }) {
+const isModel = function ({ attrName, commandpath, top, config }) {
   const commandpathA = [...commandpath, attrName];
-  const coll = getColl({ top, schema, commandpath: commandpathA });
+  const coll = getColl({ top, config, commandpath: commandpathA });
   return coll !== undefined && coll.collname !== undefined;
 };
 
@@ -36,7 +36,7 @@ const getNestedAction = function ({
   dataPaths,
   commandpath,
   top,
-  schema,
+  config,
   nestedKey,
   parseActions,
 }) {
@@ -49,7 +49,7 @@ const getNestedAction = function ({
     data: nestedData,
     dataPaths: nestedDataPaths,
     top,
-    schema,
+    config,
   });
 };
 

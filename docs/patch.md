@@ -317,7 +317,7 @@ PATCH /rest/user/1
 # Custom operators
 
 It is possible to specify custom patch operators with the
-`operators`[schema property](schema), for example:
+`operators` [configuration property](configuration.md#properties), for example:
 
 ```yml
 operators:

@@ -14,7 +14,7 @@ For example, HTTP uses HTTP headers and HTTP method (e.g. `GET`).
 # Protocols options
 
 Each protocol has its own set of options, which are specified with the
-`protocols`[schema property](schema.md#properties).
+`protocols`[configuration property](configuration.md#properties).
 
 ```yml
 protocols:

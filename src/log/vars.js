@@ -2,11 +2,11 @@
 
 const { getVars, reduceVars } = require('../functions');
 
-// Get log-specific schema variables
+// Get log-specific config variables
 const getLogVars = function ({
   vars,
-  schema,
-  mInput = { schema },
+  config,
+  mInput = { config },
   event,
   phase,
   level,
@@ -18,10 +18,10 @@ const getLogVars = function ({
   const varsB = getVars(mInput, { vars: varsA });
   const log = reduceVars({ vars: varsB });
 
-  // Used with `runSchemaFunc()` by log providers
-  const schemaFuncInput = { vars: { ...varsA, log }, mInput };
+  // Used with `runConfigFunc()` by log providers
+  const configFuncInput = { vars: { ...varsA, log }, mInput };
 
-  return { log, schemaFuncInput };
+  return { log, configFuncInput };
 };
 
 // Level defaults to `error` for event `failure`, and to `log` for other events

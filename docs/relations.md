@@ -1,7 +1,7 @@
 # Definition
 
 Collections can refer to each other by using the other collection's name as
-the `attribute.type` [schema property](schema.md#properties), either as a scalar
+the `attribute.type` [configuration property](configuration.md#properties), either as a scalar
 value or an array, for one-to-one or one-to-many relationship.
 
 ```yml

@@ -36,7 +36,7 @@ const parseOpts = function () {
 
 const USAGE = `apiengine [INSTRUCTION] [OPTIONS]
 
-Engine generating an API from a simple configuration file.
+Engine generating an API from a simple config file.
 `;
 
 module.exports = {
