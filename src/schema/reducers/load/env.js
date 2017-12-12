@@ -32,11 +32,11 @@ const isValidEnvVar = function ({ name }) {
 // Common prefix to all environment variables
 const ENV_VARS_PREFIX = /^APIENGINE__/;
 
-// Shortcuts, e.g. environment variable PORT will becomes APIENGINE_HTTP_PORT
+// Shortcuts
 const BASIC_NAMES_MAP = {
   NODE_ENV: 'APIENGINE__ENV',
-  PORT: 'APIENGINE__HTTP__PORT',
-  HOST: 'APIENGINE__HTTP__HOSTNAME',
+  HOST: 'APIENGINE__PROTOCOLS__HTTP__HOSTNAME',
+  PORT: 'APIENGINE__PROTOCOLS__HTTP__PORT',
 };
 
 const getEnvVarName = function ({ name }) {
