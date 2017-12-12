@@ -51,4 +51,4 @@ so please install the plugin for your IDE.
 
 # Terminology
 
-See [here](docs/terminology.md)
+See [here](docs/dev/terminology.md)
