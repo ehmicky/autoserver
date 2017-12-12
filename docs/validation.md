@@ -1,7 +1,7 @@
 # Data validation
 
 Attributes can be validated by using the `attribute.validate`
-[schema property](schema.md).
+[schema property](schema.md#properties).
 
 `attribute.validate` is a standard [JSON schema](http://json-schema.org/),
 version 6.
@@ -56,8 +56,8 @@ collections:
 ```
 
 The following properties are not available or are available under a different
-[schema property](schema.md): `type`, `description`, `examples`, `default`,
-`title`, `$id`, `$schema`, `definitions`.
+[schema property](schema.md#properties): `type`, `description`, `examples`,
+`default`, `title`, `$id`, `$schema`, `definitions`.
 
 Since attributes cannot be objects, the following properties are also
 not available: `maxProperties`, `minProperties`, `additionalProperties`,
@@ -66,7 +66,7 @@ not available: `maxProperties`, `minProperties`, `additionalProperties`,
 # Custom validation
 
 If the pre-defined validation keywords are not sufficient, one can define
-custom ones, using the `validation` [schema property](schema.md).
+custom ones, using the `validation` [schema property](schema.md#properties).
 
 This property is an object of validation keywords, where the key is the
 keyword name and the value an object with the properties:

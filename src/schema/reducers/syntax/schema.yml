@@ -23,15 +23,15 @@ properties:
     # Check collections names
     propertyNames:
       $ref: '#/definitions/validClientCollname'
-  # `schema.authorize`
-  authorize:
-    $ref: '#/definitions/authorize'
   # Custom variables that can be used in schema functions
   variables:
     $ref: '#/definitions/variables'
   # Functions that modifies schema definition
   plugins:
     $ref: '#/definitions/plugins'
+  # `schema.authorize`
+  authorize:
+    $ref: '#/definitions/authorize'
   # Custom validation keywords
   validation:
     $ref: '#/definitions/validation'

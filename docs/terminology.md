@@ -142,10 +142,6 @@ i.e. like a database column or key
 
 Any object property
 
-## Schema
-
-Main [configuration file](schema.md)
-
 ## Instruction
 
 Top-level [instruction](usage.md), e.g. `run`.

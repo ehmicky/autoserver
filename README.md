@@ -53,13 +53,11 @@ This generates a full-featured web API from a [configuration file](docs/schema.m
 
 See the [roadmap](ROADMAP.md).
 
-# Starting the server
+# Usage
 
-See [here](docs/usage.md).
-
-# Client queries
-
-You can learn how to perform queries against this server [here](docs/graphql.md)
+You can learn:
+  - how to run the server [here](docs/usage.md).
+  - how to perform queries against this server [here](docs/rpc.md)
 
 # Contribute
 

@@ -1,7 +1,7 @@
 # Authorization
 
 It is possible to reject requests by specifying a condition with
-the `authorize` [schema property](schema.md).
+the `authorize` [schema property](schema.md#properties).
 
 `authorize` uses the same format as the [`filter`](filtering.md) query
 [argument](rpc.md#rpc), except [function variables](functions.md#variables),
@@ -44,7 +44,7 @@ authorize:
 # Collection authorization
 
 One can specify collection-specific authorization with the
-`collection.authorize` [schema property](schema.md).
+`collection.authorize` [schema property](schema.md#properties).
 
 The format is the same as `authorize`, except `model` can also be used.
 
