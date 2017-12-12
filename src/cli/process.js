@@ -6,6 +6,7 @@ const {
   recurseMap,
   fullRecurseMap,
   transtype,
+  getWordsList,
 } = require('../utilities');
 const { throwError } = require('../error');
 
@@ -23,14 +24,13 @@ const processOpts = function ({ opts }) {
 
   const { instruction, posArgs: posArgsA } = getInstruction({ posArgs });
 
-  const posOpts = parsePosOpts({ instruction, posArgs: posArgsA });
-  const optsB = { ...optsA, ...posOpts };
+  validatePosArgs({ posArgs: posArgsA });
 
-  const optsC = transtypeValues({ opts: optsB });
-  const optsD = parseArrays({ opts: optsC });
-  const optsE = omitBy(optsD, value => value === undefined);
+  const optsB = transtypeValues({ opts: optsA });
+  const optsC = parseArrays({ opts: optsB });
+  const optsD = omitBy(optsC, value => value === undefined);
 
-  return { instruction, opts: optsE };
+  return { instruction, opts: optsD };
 };
 
 const parserOpts = ['$0', 'help', 'version', 'instruction'];
@@ -50,24 +50,12 @@ const getInstruction = function ({
   return { instruction: 'run', posArgs };
 };
 
-// Parse positional arguments into instruction-specific options
-const parsePosOpts = function ({ instruction, posArgs }) {
-  const { args = [] } = availableInstructions
-    .find(({ name }) => name === instruction);
-  const argsA = args.filter(({ helpOnly }) => !helpOnly);
-  const opts = posArgs
-    .map((posArg, index) => parsePosOpt({ posArg, arg: argsA[index] }));
-  const optsA = Object.assign({}, ...opts);
-  return optsA;
-};
+const validatePosArgs = function ({ posArgs }) {
+  if (posArgs.length === 0) { return; }
 
-const parsePosOpt = function ({ posArg, arg: { name } = {} }) {
-  if (name === undefined) {
-    const message = `Positional option '${posArg}' is unknown`;
-    throwError(message, { reason: 'SCHEMA_VALIDATION' });
-  }
-
-  return { [name]: posArg };
+  const posArgsA = getWordsList(posArgs, { quote: true });
+  const message = `Unknown positional options: '${posArgsA}'`;
+  throwError(message, { reason: 'SCHEMA_VALIDATION' });
 };
 
 // Allow JSON values for options

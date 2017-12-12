@@ -4,9 +4,10 @@ Collections are the equivalent of a database table or collection.
 
 # Name
 
-Collections name are used in [commands](crud.md).
+The name of a collection corresponds to its key in the `collections`
+[schema property](schema.md).
 
-The name of a collection corresponds to its key, e.g. in:
+In the example below, it is `users`:
 
 ```yml
 collections:
@@ -14,11 +15,13 @@ collections:
     attributes: {}
 ```
 
-it is `users`.
-
 It is possible to differentiate between the name used server-side (anywhere in
 the schema) and client-side (in URLs, method names, error responses and
-documentation) by specifying `collection.name`, e.g. in:
+documentation) by specifying the `collection.name`
+[schema property](schema.md).
+
+In the example below, the server-side name is `users` and the client-side name
+is `players`:
 
 ```yml
 collections:
@@ -27,8 +30,6 @@ collections:
     attributes: {}
 ```
 
-the server-side name is `users` and the client-side name is `players`.
-
 It is also possible to specify several client-side names, which will behave
 as aliases, by using an array of names in `collection.name`.
 
@@ -36,18 +37,27 @@ as aliases, by using an array of names in `collection.name`.
 
 Attributes are the equivalent of a database column, attribute or key.
 
-Attribute keys are the name of the attribute, and follow the same naming rules
-as collections.
+The name of an attribute corresponds to its key in the `collection.attributes`
+[schema property](schema.md). It follows the same naming rules as collections.
+
+In the example below, there is an attribute named `age`:
+
+```yml
+collections:
+  users:
+    attributes:
+      age: {}
+```
 
 Attributes called `id` are special as they:
   - are used as primary key
-  - must be required
-  - are automatically added on model creation, unless specified
+  - must be [`required`](validation.md)
+  - are automatically created by the system, but can be overriden
 
 One can specify an `attribute.type` among:
   - `string` (default)
   - `integer`
-  - `number`: i.e. float
+  - `number`: floating number
   - `boolean`
   - `COLLECTION`: where `COLLECTION` is the collection's name, e.g. `users`,
     for [nested collections](#nested-collections)
@@ -63,11 +73,13 @@ See the documentation [here](relations.md).
 If a collection is called `default`, it will not be used as a regular
 collection, but instead be deeply merged into each collection.
 
-E.g. to specify that each model's `name` should be required:
+In the example below, each model's `name` will be required, and the
+[`mongodb` database](mongodb.md) will be used by default:
 
 ```yml
 collections:
   default:
+    database: mongodb
     attributes:
       name:
         validate:

@@ -2,7 +2,7 @@
 
 Custom logic can be added by using functions in the [schema](schema.md).
 
-The following schema properties can use functions:
+The following [schema properties](schema.md) can use functions:
   - [`attribute.authorize`](authorization.md)
   - [`attribute.readonly`](authorization.md#readonly-attributes)
   - [`attribute.default`](default.md)
@@ -14,12 +14,12 @@ The following schema properties can use functions:
 Everywhere a function can be used, a constant value can also be used instead.
 
 Functions should be pure: no global variable should be used nor side-effects
-created. Their arguments are read-only.
+created. Their parameters are read-only.
 
 # Defining functions
 
 Functions are regular JavaScript files exporting a function and required using a
-[JSON reference](schema.md#json-references), e.g.:
+[JSON reference](schema.md#json-references).
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
@@ -43,7 +43,7 @@ collections:
 
 # Inline functions
 
-You can also directly write JavaScript functions inside the schema, e.g.:
+You can also directly write JavaScript functions inside the schema.
 
 ```yml
 collections:
@@ -58,10 +58,10 @@ keyword), and it should be wrapped in parenthesis.
 
 # Variables
 
-Every functions receives as their first argument an object containing variables
+Every functions receives as their first parameter an object containing variables
 with information about the current context.
 
-For example, the `timestamp` variable can be used:
+In the example below, the `timestamp` variable is used.
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
@@ -72,7 +72,7 @@ const getDefaultValue = function ({ timestamp }) {
 module.exports = getDefaultValue;
 ```
 
-Those can be also be used when the function is inline, e.g.:
+Variables can be also be used when the function is inline.
 
 ```yml
 collections:
@@ -91,10 +91,10 @@ The following variables are available to any function:
   - `ip` `{string}`: request IP
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
-  - `method` `{string}` - [protocol](protocols.md)-agnostic method,
+  - `method` `{string}` - [protocol](protocols.md#request)-agnostic method,
     e.g. `'GET'`
   - `queryvars` `{object}` - query variables, as an object
-  - `headers` `{object}` - [protocol headers](protocols.md#headers-and-method)
+  - `headers` `{object}` - [protocol headers](protocols.md#request)
     specific to the engine, for example HTTP headers starting with
     `X-Apiengine-`
   - `format` `{string}` - request payload and server response's
@@ -102,7 +102,7 @@ The following variables are available to any function:
   - `charset` `{string}` - request payload's [charset](formats.md#charsets)
   - `compress` `{string}` - response's and request's
     [compression](compression.md)
-  - `payload` `{any}` - request payload
+  - `payload` `{any}` - request [payload](protocols.md#request)
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array
   - [`rpc`](rpc.md) `{string}`: possible values are `graphql`,
@@ -188,17 +188,17 @@ The following variables are available for more specific cases:
 
 # Server-specific variables
 
-Server-specific variables can be added using the `variables` schema property,
-which is an object containing all server-specific variables.
+Server-specific variables can be added using the `variables`
+[schema property](schema.md), which is an object containing all server-specific
+variables.
 
-For example, if the schema specifies:
+In the example below, the `$secret_password` server-specific variable is made
+available to any function.
 
 ```yml
 variables:
   $secret_password: admin
 ```
-
-The server-specific variable `$secret_password` can be used in any function:
 
 <!-- eslint-disable strict, filenames/match-exported, camelcase -->
 ```js
@@ -211,10 +211,10 @@ module.exports = getDefaultValue;
 
 Server-specific variables can be functions themselves:
   - variables (including other server-specific variables) will be
-    passed as the first argument like any other function. This will only be
+    passed as the first parameter like any other function. This will only be
     done if the variable is a function, as as opposed to an object with
     function members.
-  - if the function is [inline](#inline-functions), positional arguments are
+  - if the function is [inline](#inline-functions), positional parameters are
     passed using the variables `arg1`, `arg2`, etc.
 
 For example:
@@ -236,7 +236,7 @@ variables:
 
 Clients can specify their own
 [function variables](#variables) on any specific request,
-using the [argument](rpc.md#rpc) `params` with an object value, e.g.:
+using the `params` [argument](rpc.md#rpc) with an object value.
 
 ```graphql
 query {
@@ -250,7 +250,7 @@ Client-specific variables will be available using the
 [function variable](#variables) `params` as an object.
 
 They can also be set using the
-[protocol header](protocols.md#headers-and-method) `params`, with a JSON object
+[protocol header](protocols.md#request) `params`, with a JSON object
 as value. For example, with HTTP:
 
 ```HTTP

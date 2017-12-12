@@ -3,17 +3,13 @@
 This project is rather generic and conceptual, so we define specific words
 in order to avoid any confusion
 
-## Server maintainer
+## Users
 
 User of this library, i.e. maintaining the server-side
 
 ## Clients
 
 Users of a server maintainer, i.e. using the client-side
-
-## Request/response
-
-Client request/response, e.g. HTTP request/response
 
 ## Middleware
 
@@ -43,7 +39,7 @@ command, the second for all others.
 
 ## Payload
 
-Request payload
+[Request](protocols.md#request) payload
 
 ## Headers
 
@@ -69,7 +65,7 @@ Main semantics of the request, e.g. [GraphQL](graphql.md), [REST](rest.md) or
 
 ## Arguments
 
-Options passed to a request
+Options passed to a [request](rpc.md#rpc)
 
 ## Action
 
@@ -88,17 +84,17 @@ command to query the current models to patch.
 [Functions](functions.md) specified in schema, that allows injecting
 custom logic.
 
-## Options
-
-Options passed to server when starting it
-
 ## Utilities
 
 Set of generic code under `src/utilities/`
 
+## Request
+
+Client request, e.g. HTTP request
+
 ## Response
 
-Response of the main request, i.e. what the client receives
+Response of the request, i.e. what the client receives
 
 ## Result
 
@@ -152,4 +148,4 @@ Main [configuration file](schema.md)
 
 ## Instruction
 
-Top-level [instruction](usage.md#instructions), e.g. `run`.
+Top-level [instruction](usage.md), e.g. `run`.

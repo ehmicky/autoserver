@@ -4,17 +4,17 @@ Several network protocols can be handled at the same time, each spawning
 a single server.
 By default, all protocols are spawned.
 
-# Headers and method
+# Request
 
-Each protocol has its own way of handling the headers, the method, the URL and
-the request payload.
+Each protocol has its own way of parsing the request, i.e. the headers,
+method, URL and payload.
 
 For example, HTTP uses HTTP headers and HTTP method (e.g. `GET`).
 
 # Protocols options
 
 Each protocol has its own set of options, which are specified with the
-[`run` option](configuration.md) `protocols`, e.g.:
+`protocols`[schema property](schema.md).
 
 ```yml
 protocols:

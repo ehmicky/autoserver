@@ -1,6 +1,6 @@
 # Logging
 
-Logging is configured under the schema property `log`, e.g.:
+Logging is configured under the `log` [schema property](schema.md).
 
 ```yml
 log:
@@ -20,7 +20,7 @@ The default value is `log`.
 
 # Providers
 
-`provider` specifies the way you wish to send logs.
+`provider` specifies how to send logs.
 
 The following providers are available: [`http`](#http-log-provider),
 [`debug`](#debug-log-provider), [`console`](#console-log-provider) and
@@ -30,7 +30,8 @@ The following providers are available: [`http`](#http-log-provider),
 provider.
 
 If you want to use several log providers or use several configurations,
-the schema property `log` can be an array of objects instead of a single object.
+the `log` [schema property](schema.md) can be an array of objects instead of a
+single object.
 
 ## HTTP log provider
 
@@ -59,7 +60,7 @@ debugging purpose.
 ## Custom log provider
 
 When using the `custom` [log provider](#providers), logs will be passed as
-arguments to a custom [function](functions.md).
+parameters to a custom [function](functions.md).
 
 `report` is a [function](functions.md):
   - it receives the [regular functions variables](functions.md#variables)

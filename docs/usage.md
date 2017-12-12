@@ -1,16 +1,19 @@
-# Command line
+# Usage
 
-The server can be used from the command line:
+From the command line:
 
 ```bash
-apiengine [INSTRUCTION] [--options]
+apiengine [INSTRUCTION] [OPTIONS]
 ```
 
-The default `INSTRUCTION` is [`run`](run.md).
+The following instructions are available:
+  - [run](run.md) (default): start the server
 
-Use `apiengine --help` for usage instructions.
+`OPTIONS` are dot-separated flags specific to each instruction.
 
-Use `apiengine completion` if you want to enable command line auto-completion.
+```bash
+apiengine run --protocols.http.port=5001
+```
 
 # Node.js
 
@@ -20,20 +23,12 @@ The server can also be used from Node.js:
 ```javascript
 const apiengine = require('apiengine');
 
-apiengine.run(options);
+apiengine.run({ protocols: { http: { port: 5001 } } });
 ```
 
 Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.
 
+Options are directly passed as an object parameter.
+
 Every instruction throws a [standard exception](error.md#exceptions) if it
 fails.
-
-# Instructions
-
-The following instructions are available:
-  - [run](run.md): start the server
-
-# Options
-
-See this [documentation](configuration.md) to learn about how to specify
-options and configuration.

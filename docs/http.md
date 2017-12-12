@@ -2,7 +2,7 @@
 
 HTTP is one of the available [protocols](protocols.md).
 
-The HTTP server has the following [options](protocols.md#protocols-options.md):
+The HTTP server has the following [options](protocols.md#protocols-options.md).
 
 ```yml
 protocols:
@@ -28,8 +28,8 @@ The following HTTP request headers have specific interpretations:
     `compress` query variable does.
   - `Content-Encoding` sets the request payload's [compression](compression.md)
     like the `compress` query variable does.
-  - `Prefer: return=minimal` sets the [`silent` argument](silent.md) to `true`
-    Same thing for the `HEAD` method.
+  - `Prefer: return=minimal` sets the [`silent`](silent.md)
+    [argument](rpc.md#rpc) to `true`. Same thing for the `HEAD` method.
   - `X-HTTP-Method-Override: METHOD` overrides the current HTTP method
     (which must be `POST`)
 

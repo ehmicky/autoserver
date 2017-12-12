@@ -7,7 +7,7 @@ They are simple functions that takes as input:
   - `opts` `{object}`: plugin options
 And return `schema` properties to merge.
 
-The input arguments are read-only.
+The input parameters are read-only.
 
 The function can be asynchronous by returning a promise.
 

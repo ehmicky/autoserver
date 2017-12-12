@@ -1,55 +1,52 @@
 # Authorization
 
 It is possible to reject requests by specifying a condition with
-`schema.authorize`.
+the `authorize` [schema property](schema.md).
 
-`schema.authorize` uses the same format as the [`filter`](filtering.md) query
+`authorize` uses the same format as the [`filter`](filtering.md) query
 [argument](rpc.md#rpc), except [function variables](functions.md#variables),
 including [server-specific variables](functions.md#server-specific-variables),
-are specified instead of collection's attributes, e.g.:
+are specified instead of collection's attributes.
 
 ```yml
-schema:
-  authorize:
-    command:
-      _neq: delete
+authorize:
+  command:
+    _neq: delete
 ```
 
 will forbid delete commands on the API.
 
-With `schema.authorize`, one can define
+With `authorize`, one can define
 [role-based access control](https://en.wikipedia.org/wiki/Role-based_access_control) or other
-authorization design. E.g.:
+authorization design.
 
 ```yml
-schema:
-  authorize:
-  - command: find
-    user_group: reader
-  - command:
-      _in: [find, patch]
-    user_group: manager
-  - user_group: admin
+authorize:
+- command: find
+  user_group: reader
+- command:
+    _in: [find, patch]
+  user_group: manager
+- user_group: admin
 ```
 
 gives readonly permissions to the `reader` group, readwrite permissions
 to the `manager` group, and full permissions to the `admin` group.
 
-It is also possible to directly use [functions](functions.md), e.g.:
+It is also possible to directly use [functions](functions.md).
 
 ```yml
-schema:
-  authorize:
-    params:
-      key: (getSecretKey())
+authorize:
+  params:
+    key: (getSecretKey())
 ```
 
 # Collection authorization
 
-One can specify collection-specific authorization with `collection.authorize`.
+One can specify collection-specific authorization with the
+`collection.authorize` [schema property](schema.md).
 
-The format is the same as `schema.authorize`, except `model` can also be used,
-e.g.:
+The format is the same as `authorize`, except `model` can also be used.
 
 ```yml
 collections:
@@ -67,7 +64,7 @@ is over `30`, or `example_collection.public` is `true`.
 
 If the model is being modified, attributes are checked both before and after
 modification. In other words, it is checked on both `previousmodel` and
-`model` [variables](functions.md#variables)). E.g.:
+`model` [variables](functions.md#variables)).
 
 ```yml
 collections:
@@ -87,7 +84,7 @@ restricting the permissions of a model based on the value of its attributes.
 
 Functions cannot use the variables `model`, `value`, `previousmodel` nor
 `previousvalue`. However, it is possible to target another attribute by using
-a `model.ATTRIBUTE` string as value, e.g.:
+a `model.ATTRIBUTE` string as value.
 
 ```yml
 collections:
@@ -105,7 +102,7 @@ will only reject requests on any `example_collection` unless
 Readonly attributes cannot be modified.
 Trying to do so won't report any error, but the attribute value will not change.
 
-They can be specified using `attribute.readonly`, e.g.:
+They can be specified using `attribute.readonly`.
 
 ```yml
 collections:
@@ -116,7 +113,10 @@ collections:
 ```
 
 An attribute can be readonly based on a condition, by using a
-[function](function.md) in `attribute.readonly`, e.g.:
+[function](function.md) in `attribute.readonly`.
+
+In the example below, the model's `name` attribute will be readonly only if its
+`locked` attribute is `true`.
 
 ```yml
 collections:
@@ -127,6 +127,3 @@ collections:
       locked:
         type: boolean
 ```
-
-this model's `name` attribute will be readonly only if its `locked` attribute is
-`true`.

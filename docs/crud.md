@@ -1,6 +1,14 @@
+# Different RPC systems
+
+The examples below are specific to [REST](rest.md).
+
+REST specifies the `data` [argument](rpc.md#rpc) with the request payload, the
+`id` [argument](rpc.md#rpc) with the URL and the command with the protocol
+method. However, other [RPC systems](rpc.md) have different conventions.
+
 # Find command
 
-To retrieve a specific model, use the `find` command, e.g.:
+To retrieve a specific model, use the `find` command.
 
 ```HTTP
 GET /rest/users/
@@ -18,7 +26,7 @@ will respond with the fetched models:
 }
 ```
 
-To retrieve only one model, specify the model `id`, e.g.:
+To retrieve only one model, specify the model `id`.
 
 ```HTTP
 GET /rest/users/1
@@ -53,7 +61,7 @@ will respond with the newly created model:
 }
 ```
 
-If the `id` attributes are omitted, a unique ID will be set, e.g.:
+If the `id` attributes are omitted, a unique ID will be set.
 
 ```HTTP
 POST /rest/users/
@@ -187,7 +195,7 @@ PATCH /rest/users/1
 { "age": { "_add": 1 } }
 ```
 
-More information is can be found [here](patch.md).
+More information can be found [here](patch.md).
 
 # Delete command
 
@@ -222,33 +230,46 @@ will respond with:
 }
 ```
 
-# Different RPC systems
-
-The examples above are specific to [REST](rest.md).
-
-REST specifies the `data` argument with the request payload, the
-`id` argument with the URL and the command with the protocol method. However,
-other [RPC systems](rpc.md) have different conventions.
-
 # Summary of commands
 
 ```graphql
-find_collection({ [id|filter], [order], [pagesize], [before|after|page],
-[silent] })
+find_collection({ [id|filter], [order], [populate], [pagesize],
+[before|after|page], [select], [rename], [silent], [params] })
 ```
 
 ```graphql
-create_collection({ data|data[], [silent], [dryrun] })
+create_collection({ data|data[], [select], [rename], [silent], [dryrun],
+[params] })
 ```
 
 ```graphql
-upsert_collection({ data|data[], [silent], [dryrun] })
+upsert_collection({ data|data[], [select], [rename], [silent], [dryrun],
+[params] })
 ```
 
 ```graphql
-patch_collection({ data, [id|filter], [pagesize], [after], [silent], [dryrun] })
+patch_collection({ data, [id|filter], [pagesize], [after], [select], [rename],
+[silent], [dryrun], [params] })
 ```
 
 ```graphql
-delete_collection({ [id|filter], [cascade], [silent], [dryrun] })
+delete_collection({ [id|filter], [cascade], [select], [rename], [silent],
+[dryrun], [params] })
 ```
+
+More information on each [argument](rpc.md#rpc) can be found here:
+[`id`](filtering.md#id-argument),
+[`filter`](filtering.md),
+[`order`](sorting.md),
+[`populate`](relations.md#populating-nested-collections),
+[`cascade`](relations.md#deleting-nested-collections),
+[`pagesize`](pagination.md#page-size),
+[`before`](pagination.md#backward-iteration),
+[`after`](pagination.md#cursor-pagination),
+[`page`](pagination.md#offset-pagination),
+[`select`](selecting.md),
+[`rename`](renaming.md),
+[`silent`](silent.md),
+[`dryrun`](dryrun.md),
+[`params`](functions.md#client-specific-variables),
+[`data`](crud.md)

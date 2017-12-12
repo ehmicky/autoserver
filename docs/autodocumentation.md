@@ -1,17 +1,17 @@
 # Description
 
-Descriptions can be specified for collections under the [schema](schema.md)
-property `collection.description` or attributes under `attribute.description`.
+Descriptions can be specified with the `collection.description` and
+`attribute.description` [schema properties](schema.md).
 
 Additionally attributes can be documented as deprecated by specifying
-`attribute.deprecation_reason`, e.g.:
+`attribute.deprecation_reason`.
 
-Also, examples can be documented using `attribute.examples` array of strings,
-e.g.:
+Also, examples can be documented using `attribute.examples` array of strings.
 
 ```yml
 collections:
   example_collection:
+    description: Description of this collection
     attributes:
       name:
         description: Name of a user

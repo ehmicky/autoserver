@@ -6,7 +6,7 @@ only.
 
 # Options
 
-The following options are available:
+The following options are available.
 
 ```yml
 databases:

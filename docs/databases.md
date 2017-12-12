@@ -1,6 +1,7 @@
 # Databases
 
-Databases are specified with `collection.database`, e.g.:
+Databases are specified with the `collection.database`
+[schema property](schema.md).
 
 ```yml
 collections:
@@ -19,9 +20,13 @@ for development purpose.
 The other available databases are:
   - [`mongodb`](mongodb.md)
 
+To change the default database, use a
+[`default` collection](collections.md#default-collection).
+
 # Databases options
 
-Databases options are specified with the schema property `databases`, e.g.:
+Databases options are specified with the `databases`
+[schema property](schema.md).
 
 ```yml
 databases:

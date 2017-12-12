@@ -2,8 +2,9 @@
 
 `find` commands are paginated by default.
 
-The default pagination system is cursor-based. For example, a paginated response
-will look like:
+The default pagination system is cursor-based.
+
+For example, a paginated response will look like this.
 
 ```json
 {
@@ -23,8 +24,8 @@ will look like:
 }
 ```
 
-To iterate through batches, use the `after` argument with the `next_token`
-as value, e.g.:
+To fetch the next batch, use the `after` [argument](rpc.md#rpc) with the
+`next_token` as value.
 
 ```HTTP
 GET /rest/users/?after=eyJwIjpbIjEiXX0
@@ -32,18 +33,19 @@ GET /rest/users/?after=eyJwIjpbIjEiXX0
 
 One can check `has_next_page` in the response to know when to stop iterating.
 
-The `filter` and `order` arguments must remain the same across all batches.
+The `filter` and `order` [arguments](rpc.md#rpc) must remain the same across
+all batches.
 
 # Backward iteration
 
 To iterate through batches backward, use `before` instead of `after`.
-Start the iteration with the `last_token` which is always an empty string, i.e.:
+Start the iteration with the `last_token` which is always an empty string.
 
 ```HTTP
 GET /rest/users/?before=
 ```
 
-The response will look like:
+The response will look like this.
 
 ```json
 {
@@ -63,15 +65,17 @@ The response will look like:
 }
 ```
 
-The `prev_token` should then be used instead of `next_token`.
+`prev_token` and `has_prev_page` should then be used instead of `next_token`
+and `has_next_page`.
 
 # Page size
 
-The page size is determined by the `limits.pagesize` schema property, which
-defaults to `100`. Setting it to `0` will disable pagination.
+The page size is determined by the `limits.pagesize`
+[schema property](schema.md), which defaults to `100`.
+Setting it to `0` will disable pagination.
 
-Clients can decrease the page size by using the `pagesize` argument,
-for example:
+Clients can decrease the page size by using the `pagesize`
+[argument](rpc.md#rpc), for example:
 
 ```HTTP
 GET /rest/users/?pagesize=20
@@ -82,7 +86,8 @@ be smaller than the request page size.
 
 # Offset pagination
 
-One can use an offset-based pagination, by using `page` (starting at 1), e.g.:
+One can use an offset-based pagination, by using the `page`
+[argument](rpc.md#rpc) (starting at 1).
 
 ```HTTP
 GET /rest/users/?pagesize=20&page=5
@@ -128,8 +133,9 @@ iterations are not available.
 # Maximum number of models
 
 The maximum number of models in any request or response is determined by the
-`limits.maxmodels` schema property, which defaults to `100` times the
-default `pagesize`, i.e. `10000`. It can be disabled by being set to `0`.
+`limits.maxmodels` [schema property](schema.md), which defaults to `100` times
+the default [`pagesize`](#page-size), i.e. `10000`. It can be disabled by being
+set to `0`.
 
 This is used to limit the size of nested commands, since pagination is only
 applied at the top level.
@@ -178,4 +184,4 @@ request or response contains too many models
 ## `delete`
 
 In `delete` commands, no maximum number of models is enforced, unless the
-`dryrun` argument is used.
+[`dryrun`](dryrun.md) [argument](rpc.md#rpc) is used.
