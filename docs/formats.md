@@ -6,8 +6,8 @@ the client request payloads and the server responses: [JSON](#json),
 [JavaScript](#javascript), [Hjson](#hjson), [JSON5](#json5) and [INI](#ini).
 
 Most of the examples in this documentation use [YAML](#yaml) for the
-configuration files and [JSON](#json) for the the client request payloads and
-the server responses.
+[schema properties](schema.md#properties) and [JSON](#json) for the the client
+request payloads and the server responses.
 
 # Request and responses
 
