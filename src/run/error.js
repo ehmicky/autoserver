@@ -17,7 +17,7 @@ const handleStartupError = async function (
   await logEvent({
     event: 'failure',
     phase: 'startup',
-    vars: { error },
+    params: { error },
     config,
   });
 

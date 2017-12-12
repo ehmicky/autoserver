@@ -96,8 +96,8 @@ const middlewareLayers = [
       action.validateArgs,
       // Change arguments cases to camelCase
       action.renameArgs,
-      // Bind server-specific variables with their config variables
-      action.bindServerVars,
+      // Bind server-specific parameters with their parameters
+      action.bindServerParams,
       // Parse `args.filter` and `args.id` into AST
       action.parseFilter,
       // Parse `args.data` into write `actions`

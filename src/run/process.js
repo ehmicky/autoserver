@@ -50,7 +50,7 @@ const emitProcessEvent = async function ({ error, message, config }) {
   await logEvent({
     event: 'failure',
     phase: 'process',
-    vars: { error: errorA },
+    params: { error: errorA },
     config,
   });
 };

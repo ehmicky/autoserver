@@ -1,19 +1,19 @@
 'use strict';
 
-const { runConfigFunc, getVars } = require('../../../functions');
+const { runConfigFunc, getParams } = require('../../../functions');
 const {
   validateFilter,
   getAuthorizeAttrs,
   mapNodes,
 } = require('../../../filter');
 
-const { getServerVars } = require('./server_vars');
+const { getServerParams } = require('./server_params');
 
 // Handle all config function related logic in `coll.authorize`
 const handleConfigFuncs = function ({
   collname,
   authorize,
-  serverVars,
+  serverParams,
   config,
   mInput,
 }) {
@@ -21,9 +21,9 @@ const handleConfigFuncs = function ({
 
   validateAuthorize({ collname, authorize: authorizeA, config });
 
-  const vars = getAllVars({ authorize: authorizeA, serverVars, mInput });
+  const params = getAllParams({ authorize: authorizeA, serverParams, mInput });
 
-  return { authorize: authorizeA, vars };
+  return { authorize: authorizeA, params };
 };
 
 // Resolve all config functions in `coll.authorize` so all leaves values
@@ -53,11 +53,11 @@ const validateAuthorize = function ({ collname, authorize, config }) {
   validateFilter({ filter: authorize, prefix, reason, attrs });
 };
 
-const getAllVars = function ({ authorize, serverVars, mInput }) {
-  const serverVarsA = getServerVars({ authorize, serverVars, mInput });
-  const systemVars = getVars(mInput);
+const getAllParams = function ({ authorize, serverParams, mInput }) {
+  const serverParamsA = getServerParams({ authorize, serverParams, mInput });
+  const systemParams = getParams(mInput);
 
-  return { ...serverVarsA, ...systemVars };
+  return { ...serverParamsA, ...systemParams };
 };
 
 module.exports = {

@@ -2,7 +2,7 @@
 
 const { pick, omit } = require('../../../utilities');
 const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
-const { getVars, reduceVars } = require('../../../functions');
+const { getParams, reduceParams } = require('../../../functions');
 
 // Add response's metadata
 const addMetadata = function ({
@@ -32,11 +32,11 @@ const getErrorMetadata = function ({
 
   const metadataA = pick(metadata, ERROR_METADATA);
 
-  const vars = getVars(mInput, { client: true });
-  const varsA = omit(vars, HIDDEN_ERROR_INFO);
-  const varsB = reduceVars({ vars: varsA });
+  const params = getParams(mInput, { client: true });
+  const paramsA = omit(params, HIDDEN_ERROR_INFO);
+  const paramsB = reduceParams({ params: paramsA });
 
-  const metadataB = { ...metadataA, info: varsB };
+  const metadataB = { ...metadataA, info: paramsB };
 
   return { ...response, content: { error: content, metadata: metadataB } };
 };
@@ -47,7 +47,7 @@ const ERROR_METADATA = [
   'duration',
 ];
 
-// Config variables not allowed in error response
+// Parameters not allowed in error response
 const HIDDEN_ERROR_INFO = [
   // Avoid duplicate information
   ...ERROR_METADATA,

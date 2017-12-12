@@ -14,7 +14,7 @@ When an [instruction](usage.md) fails, an exception will be thrown.
 
 When a client-side or server-side error occurs, an exception will be
 [logged](logging.md) using the
-[`error` variable](logging.md#functions-variables).
+[`error` parameter](logging.md#functions-parameters).
 
 # Error responses
 
@@ -22,8 +22,8 @@ Error responses contain an `error` property with the same properties as
 [exceptions](#exceptions), except `details`.
 
 `metadata.info` includes the same information as the
-[`log` variable](functions.md#variables), providing debugging information about
-the request.
+[`log` parameter](functions.md#parameters), providing debugging information
+about the request.
 
 ```json
 {

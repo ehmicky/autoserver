@@ -9,8 +9,8 @@ const { stringifyMeasures } = require('./stringify');
 const logPerfEvent = function ({ phase, measures, ...rest }) {
   const measuresGroups = groupMeasures({ measures });
   const measuresmessage = stringifyMeasures({ phase, measuresGroups });
-  const vars = { measures: measuresGroups, measuresmessage };
-  return logEvent({ ...rest, event: 'perf', phase, vars });
+  const params = { measures: measuresGroups, measuresmessage };
+  return logEvent({ ...rest, event: 'perf', phase, params });
 };
 
 module.exports = {

@@ -2,7 +2,7 @@
 
 const { addErrorHandler, normalizeError, rethrowError } = require('../error');
 
-const { getLogVars } = require('./vars');
+const { getLogParams } = require('./params');
 const { LEVELS } = require('./constants');
 const { logAdapters } = require('./merger');
 
@@ -12,7 +12,7 @@ const logEvent = async function ({
   config: { log: logConf },
   ...rest
 }) {
-  const { log, configFuncInput } = getLogVars({ config, ...rest });
+  const { log, configFuncInput } = getLogParams({ config, ...rest });
 
   // Can fire several logAdapters at the same time
   const promises = logConf
@@ -53,10 +53,10 @@ const getReportFunc = function ({ event, provider }) {
 
 const logEventHandler = function (error, { config, event }) {
   const errorA = normalizeError({ error, reason: 'LOG_ERROR' });
-  const vars = { error: errorA };
+  const params = { error: errorA };
   // Give up if error handler fails
   // I.e. we do not need to `await` this
-  silentLogEvent({ event: 'failure', phase: 'process', config, vars });
+  silentLogEvent({ event: 'failure', phase: 'process', config, params });
 
   // Failure events are at the top of code stacks. They should not throw.
   if (event === 'failure') { return; }

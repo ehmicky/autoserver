@@ -17,7 +17,7 @@ extend a configuration from another configuration.
 ```yml
 $ref: base_config.yml
 collections: ...
-variables: ...
+params: ...
 ```
 
 JSON references are available for any [supported format](formats.md), not only
@@ -38,7 +38,7 @@ collections:
 Node.js modules can be imported by appending `.node`.
 
 ```yml
-variables:
+params:
   lodash:
     $ref: lodash.node
 ```

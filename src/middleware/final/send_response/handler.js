@@ -1,7 +1,7 @@
 'use strict';
 
 const { getErrorResponse } = require('./error');
-const { getResponseVars } = require('./vars');
+const { getResponseParams } = require('./params');
 const { addMetadata } = require('./metadata');
 const { validateResponse } = require('./validate');
 const { transformContent } = require('./transform');
@@ -23,9 +23,9 @@ const sendResponse = async function ({
 }) {
   const responseA = getErrorResponse({ error, mInput, response });
 
-  const responseVars = getResponseVars(responseA);
-  // `responseVars` is not yet added to `mInput` so we do it now
-  const mInputA = { ...mInput, ...responseVars };
+  const responseParams = getResponseParams(responseA);
+  // `responseParams` is not yet added to `mInput` so we do it now
+  const mInputA = { ...mInput, ...responseParams };
 
   const responseB = addMetadata({
     response: responseA,
@@ -57,7 +57,7 @@ const sendResponse = async function ({
     error,
   });
 
-  return responseVars;
+  return responseParams;
 };
 
 module.exports = {

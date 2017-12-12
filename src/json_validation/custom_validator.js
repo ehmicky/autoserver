@@ -1,6 +1,6 @@
 'use strict';
 
-const { runConfigFunc, getModelVars } = require('../functions');
+const { runConfigFunc, getModelParams } = require('../functions');
 const { memoize } = require('../utilities');
 const { throwError } = require('../error');
 
@@ -45,13 +45,13 @@ const keywordFunc = ({ keyword, testFunc, message }) => function validate (
   attrName,
   { [Symbol.for('extra')]: { mInput, currentDatum: previousmodel } }
 ) {
-  const modelVars = getModelVars({ model, attrName, previousmodel });
-  const vars = { arg, ...modelVars };
+  const modelParams = getModelParams({ model, attrName, previousmodel });
+  const params = { arg, ...modelParams };
 
-  const isValid = runConfigFunc({ configFunc: testFunc, mInput, vars });
+  const isValid = runConfigFunc({ configFunc: testFunc, mInput, params });
   if (isValid === true) { return true; }
 
-  const messageA = runConfigFunc({ configFunc: message, mInput, vars });
+  const messageA = runConfigFunc({ configFunc: message, mInput, params });
   // eslint-disable-next-line fp/no-mutation
   validate.errors = [{
     message: messageA,

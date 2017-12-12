@@ -11,7 +11,7 @@ const validateAuthorization = function ({
   clientCollname,
   config,
   config: { collections },
-  serverVars,
+  serverParams,
   mInput,
   command,
   top,
@@ -20,7 +20,7 @@ const validateAuthorization = function ({
   // `create`'s currentData query
   if (topCommand === 'create' && command === 'find') { return; }
 
-  validateConfigAuth({ clientCollname, config, serverVars, mInput, top });
+  validateConfigAuth({ clientCollname, config, serverParams, mInput, top });
 
   const coll = collections[collname];
   const argsA = validateCollAuth({
@@ -29,7 +29,7 @@ const validateAuthorization = function ({
     collname,
     clientCollname,
     config,
-    serverVars,
+    serverParams,
     mInput,
     command,
     top,
@@ -43,7 +43,7 @@ const validateConfigAuth = function ({
   clientCollname,
   config,
   config: { authorize },
-  serverVars,
+  serverParams,
   mInput,
   top,
 }) {
@@ -53,7 +53,7 @@ const validateConfigAuth = function ({
     clientCollname,
     authorize,
     top,
-    serverVars,
+    serverParams,
     config,
     mInput,
   });
@@ -66,7 +66,7 @@ const validateCollAuth = function ({
   collname,
   clientCollname,
   config,
-  serverVars,
+  serverParams,
   mInput,
   command,
   top,
@@ -78,7 +78,7 @@ const validateCollAuth = function ({
     clientCollname,
     authorize,
     top,
-    serverVars,
+    serverParams,
     config,
     mInput,
   });

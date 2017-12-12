@@ -22,7 +22,7 @@ limits:
 
 The following configuration properties are available:
   - `engine` `{string}` (required) - file format version. Must equal `0`
-  - `name` `{string}` - sets the [function variable](functions.md#variables)
+  - `name` `{string}` - sets the [parameter](functions.md#parameters)
     `serverinfo.process.name`
   - `env` (defaults to `dev`): can be `dev` or `production`.
     Running in `dev` mode will add some developer-friendly features, e.g.
@@ -33,8 +33,8 @@ The following configuration properties are available:
       - `attributes` `{object}` - list of the collections's
         [attributes](collections.md#attributes)
         - `ATTRIBUTE` `{object}` - `ATTRIBUTE` is the name
-  - `variables` `{object}` -
-    [server-specific variables](functions.md#server-specific-variables)
+  - `params` `{object}` -
+    [server-specific parameters](functions.md#server-specific-parameters)
   - `plugins` `{object}` - see [plugins](plugins.md)
   - `authorize` `{object}` - see [authorization](authorization.md)
   - `validation` `{object}` -

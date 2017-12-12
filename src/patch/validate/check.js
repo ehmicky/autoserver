@@ -17,8 +17,8 @@ const applyCheck = function ({
   // Normalize `null` to `undefined`
   const opValA = opVal === null ? undefined : opVal;
 
-  const vars = { arg: opValA, type: attrType };
-  const message = runConfigFunc({ configFunc: check, mInput, vars });
+  const params = { arg: opValA, type: attrType };
+  const message = runConfigFunc({ configFunc: check, mInput, params });
 
   const messageA = getCheckMessage({ type, message });
   return messageA;

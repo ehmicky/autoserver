@@ -71,8 +71,8 @@ When using the `custom` [log provider](#providers), logs will be passed as
 parameters to a custom [function](functions.md).
 
 `report` is a [function](functions.md):
-  - it receives the [regular functions variables](functions.md#variables)
-    including [`log`, `measures` and `measuresmessage`](#functions-variables).
+  - it receives the usual [parameters](functions.md#parameters)
+    including [`log`, `measures` and `measuresmessage`](#functions-parameters).
   - it can be async or return a promise
   - it can be used to simply handle [events](#events) instead of logging them
 
@@ -99,19 +99,18 @@ Those events can be triggered during the following phases of the server:
 # Log information
 
 The payload of logs is a set of all the currently available
-[functions variables](functions.md#variables), which
+[parameters](functions.md#parameters), which
 gives insight about everything in the current context.
 
 Values that might be too big, such as `payload`, `responsedata`, `data` and
 `queryvars`, are trimmed: only their `id` and `operationName` are kept.
 
-# Functions variables
+# Functions parameters
 
-Besides the
-[regular functions variables](functions.md#variables), the
-following additional variables are available during logging:
+Besides the usual [parameters](functions.md#parameters), the
+following additional parameters are available during logging:
   - `log` `{object}`: object containing all the other
-    [functions variables](functions.md#variables).
+    [parameters](functions.md#parameters).
     Values that might be too big are trimmed. It can be safely serialized.
   - [`event`](#events) `{string}`: which event was triggered among `start`,
     `stop`, `failure`, `call`, `message` and `perf`
@@ -155,4 +154,4 @@ Logs for the `perf` event are triggered with information about how long it
 took for the server to `startup`, `shutdown` or handle a client `request`.
 
 The `measures`, `measuresmessage` and `duration`
-[function variables](#functions-variables) provide the performance information.
+[parameters](#functions-parameters) provide the performance information.

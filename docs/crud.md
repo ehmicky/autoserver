@@ -271,5 +271,5 @@ More information on each [argument](rpc.md#rpc) can be found here:
 [`rename`](renaming.md),
 [`silent`](silent.md),
 [`dryrun`](dryrun.md),
-[`params`](functions.md#client-specific-variables),
+[`params`](functions.md#client-specific-parameters),
 [`data`](crud.md)

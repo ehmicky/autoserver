@@ -335,8 +335,8 @@ is required, but `attribute` and `argument` are recommended.
 
 `apply` is a [function](functions.md) performing the transformation.
 It must return the new value after the transformation has been applied.
-Besides the regular [function variables](functions.md#variables), the
-following variables can be used:
+Besides the regular [parameters](functions.md#parameters), the
+following parameters can be used:
   - `value`: the current value of the attribute, i.e. before transformation
   - `arg`: the argument passed to the patch operator
   - `type`: the attribute's type, e.g. `string` or `integer`
@@ -379,7 +379,7 @@ flexible enough, e.g. if the argument is required to be a positive integer.
 If the validation succeeds, it should not return anything. Otherwise, it
 should return the error message as a string.
 
-The same [function variables](functions.md#variables) as `apply` are available,
+The same [parameters](functions.md#parameters) as `apply` are available,
 with the exception of `value`.
 
 ## Throwing errors
@@ -390,8 +390,8 @@ Use the `attribute`, `argument` and `check` properties for validation instead.
 ## Empty values
 
 When defining the `apply` and `check` properties, remember that:
-  - the `value` variable might be `undefined`, unless the attribute is a
-    required attribute.
+  - the `value` [parameter](functions.md#parameters) might be `undefined`,
+    unless the attribute is a required attribute.
   - the operator's argument can only be `null` if the `argument` property is
     omitted or if it specifies `empty`. When the argument is `empty`, the
-    `arg` variable will be `undefined`.
+    `arg` [parameter](functions.md#parameters) will be `undefined`.
