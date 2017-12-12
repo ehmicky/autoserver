@@ -2,7 +2,7 @@
 
 Custom logic can be added by using functions in the [schema](schema.md).
 
-The following [schema properties](schema.md) can use functions:
+The following [schema properties](schema.md#properties) can use functions:
   - [`attribute.authorize`](authorization.md)
   - [`attribute.readonly`](authorization.md#readonly-attributes)
   - [`attribute.default`](default.md)
@@ -19,7 +19,7 @@ created. Their parameters are read-only.
 # Defining functions
 
 Functions are regular JavaScript files exporting a function and required using a
-[JSON reference](schema.md#json-references).
+[JSON reference](json-references.md).
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
@@ -189,8 +189,8 @@ The following variables are available for more specific cases:
 # Server-specific variables
 
 Server-specific variables can be added using the `variables`
-[schema property](schema.md), which is an object containing all server-specific
-variables.
+[schema property](schema.md#properties), which is an object containing all
+server-specific variables.
 
 In the example below, the `$secret_password` server-specific variable is made
 available to any function.

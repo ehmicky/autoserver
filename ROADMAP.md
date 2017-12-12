@@ -1,13 +1,11 @@
-  - Aggregation queries
-  - Compatibility layer
   - Proper error reporting
-  - Data model (orphans)
+  - Aggregation queries
   - Tasks
+  - Compatibility layer
+  - Data model (orphans)
   - Authentication
   - Concurrency conflicts
   - Logging/monitoring dashboard
   - Security
   - Performance
-  - Hook to current microservices
-  - Data migrations
   - Testing

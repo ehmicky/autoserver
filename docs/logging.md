@@ -1,6 +1,6 @@
 # Logging
 
-Logging is configured under the `log` [schema property](schema.md).
+Logging is configured under the `log` [schema property](schema.md#properties).
 
 ```yml
 log:
@@ -30,8 +30,16 @@ The following providers are available: [`http`](#http-log-provider),
 provider.
 
 If you want to use several log providers or use several configurations,
-the `log` [schema property](schema.md) can be an array of objects instead of a
-single object.
+the `log` [schema property](schema.md#properties) can be an array of objects
+instead of a single object.
+
+```yml
+log:
+- provider: http
+  opts:
+    url: http://logging-provider.org/
+- provider: debug
+```
 
 ## HTTP log provider
 
@@ -115,7 +123,7 @@ following additional variables are available during logging:
     extra information
   - `protocols` `{object}` - list of protocols being served. Only for `start`
     events. Also available as the resolved value of the promise returned by
-    [`apiServer.start()`](run.md#running-the-server).
+    [`apiServer.run()`](run.md#running-the-server).
     - `http` `{object}`: HTTP server information
       - `hostname` `{string}`
       - `port` `{string}`

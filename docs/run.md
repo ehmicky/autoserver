@@ -1,8 +1,19 @@
 # Running the server
 
-Execute the [`run` instruction](usage.md), e.g. `apiengine.run()`.
+The [`run` instruction](usage.md) starts the server.
 
-This function returns a promise, which resolves with the same value as the
+The [schema file](schema.md#schema-file) is specified using the `schema` option.
+
+Any other option will be merged as a [schema property](schema.md#property).
+
+```bash
+apiengine run --schema=apiengine.config.yml --protocols.http.port=5001
+```
+
+# Node.js
+
+When fired from Node.js, `apiengine.run()` returns a promise, which resolves
+with the same value as the
 [`protocols` function variable](logging.md#functions-variables).
 
 If an error occurred, the promise will be rejected with an
@@ -22,10 +33,3 @@ apiengine.run()
     console.log('Could not start servers:', error);
   });
 ```
-
-# Options
-
-The available options are:
-  - `schema` [`{filepath}`](configuration.md#filepaths-options) (required):
-    [schema](schema.md), i.e. information about the data model and
-    the business logic.

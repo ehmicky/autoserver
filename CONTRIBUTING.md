@@ -2,7 +2,8 @@
 
 First `npm install`.
 
-Then start the test server with either:
+An example configuration is available at `/examples`. To start a server with
+that configuration, use either:
   - `npm start`: production mode
   - `npm run watch`: dev mode.
     Auto-reloads, using [Nodemon](https://github.com/remy/nodemon).
@@ -11,8 +12,6 @@ Then start the test server with either:
     i.e. will put a breakpoint on server start.
 
 A local HTTP server will be spawned at `http://localhost:5001`.
-
-To learn how to query the API, please see this [documentation](docs/graphql.md).
 
 # Testing
 
@@ -30,7 +29,7 @@ for semicolons and trailing commas.
 Additionally, we enforce a pretty strong functional programming style with
 [ESLint](http://eslint.org/), which includes:
   - no complex or big functions
-  - no OOP
+  - no object-oriented programming
   - immutability everywhere
   - pure functions
   - no complex loops or structures
@@ -38,6 +37,7 @@ Additionally, we enforce a pretty strong functional programming style with
 Also we prefer:
   - named arguments over positional
   - async/await over raw promises or callbacks
+  - destructuring
   - `...object` over `Object.assign()`
 
 # Tooling

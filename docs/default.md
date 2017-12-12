@@ -1,7 +1,7 @@
 # Default values
 
 Default values for attributes can be specified with the `attribute.default`
-[schema property](schema.md).
+[schema property](schema.md#properties).
 
 ```yml
 collections:

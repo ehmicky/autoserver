@@ -1,64 +1,72 @@
 # Schema
 
-The schema specifies information about the data collections and the business
-logic.
+The schema is the main configuration file for the [`run`](run.md) instruction.
 
-# Configuration
+There are several ways to define [schema properties](#properties).
+If several are used, they are merged together (from the highest priority to
+the lowest):
+  - setting an [environment variable](#environment-variables):
+    `APIENGINE__LIMITS__PAGESIZE=10`
+  - using a command line option: `apiengine run --limits.pagesize=10`
+  - passing the option via Node.js:
+    `apiengine.run({ limits: { pagesize: 10 } })`
+  - using a [schema file](#schema-file)
 
-The file is configured using the [option](run.md#options)
-`schema`, whose value is the [path](configuration.md#filepaths-options) to the
-file.
+```yml
+limits:
+  pagesize: 10
+```
+
+# Properties
+
+The following schema properties are available:
+  - `engine` `{string}` (required) - file format version. Must equal `0`
+  - `name` `{string}` - sets the [function variable](functions.md#variables)
+    `serverinfo.process.name`
+  - `env` (defaults to `dev`): can be `dev` or `production`.
+    Running in `dev` mode will add some developer-friendly features, e.g.
+    disable request timeouts during breakpoint debugging.
+  - `collections` `{object}` (required) - list of
+    [collections](collections.md#collections)
+    - `COLLECTION` `{object}` - `COLLECTION` is the name
+      - `attributes` `{object}` - list of the collections's
+        [attributes](collections.md#attributes)
+        - `ATTRIBUTE` `{object}` - `ATTRIBUTE` is the name
+  - `variables` `{object}` -
+    [server-specific variables](functions.md#server-specific-variables)
+  - `plugins` `{object}` - see [plugins](plugins.md)
+  - `authorize` `{object}` - see [authorization](authorization.md)
+  - `validation` `{object}` -
+    [custom validation keywords](validation.md#custom-validation)
+  - `operators` `{object}` -
+    [custom patch operators](patch.md#custom-operators)
+  - `log` `{object}` - [logging configuration](logging.md)
+  - `protocols` `{object}`: [protocols options](protocols.md)
+  - `databases` `{object}`: [databases options](databases.md)
+  - `limits` `{object}`: see [limits](limits.md)
+
+# Schema file
+
+The path of the schema file is specified using the `schema` [option](run.md).
 
 The file format can be any of the [supported formats](formats.md).
 
-See [here](configuration.md) to learn how to specify `run` options.
-
-By default, files named `apiengine.run.schema.EXTENSION` will be searched in
+By default, any file named `apiengine.config.EXTENSION` will be searched in
 the current directory, or any parent. `EXTENSION` depends on the file format,
-e.g. `yml` for YAML. This is the preferred configuration method.
+e.g. `yml` for YAML.
 
-# JSON references
-
-The file can be broken down into several files by referring to local files
-using
-[JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
-Those are simple objects with a single `$ref` property pointing to the file,
-e.g.:
-
-```yml
-collections:
-  example_collection:
-    $ref: example_collection.yml
-```
-
-One can also refer to a property in the current file by prepending a `#`:
-
-```yml
-collections:
-  example_collection:
-    $ref: '#/collections/old_collection'
-```
-
-One can also refer to Node.js modules or libraries by appending `.node`:
-
-```yml
-variables:
-  lodash:
-    $ref: lodash.node
-```
-
-JSON references are available for any [supported format](formats.md), not only
-for JSON.
-
-JSON references are deeply merged with their siblings, which allows you to
-extend a schema from another schema:
-```yml
-$ref: base_schema.yml
-collections: ...
-variables: ...
-```
+The schema can be broken down into several files or import Node.js modules by
+using [JSON references](json_references.md).
 
 # Example
+
+The schema file below:
+  - describes two collections:
+    - a `companies` collection with attributes `id` (defined by default)
+      and `registration_no`
+    - a `users` collection with attributes `id`, `name` and `employer`
+      (pointing to a `companies` collection)
+  - set the [HTTP](http.md) port to `5001`
 
 ```yml
 engine: 0
@@ -74,46 +82,49 @@ collections:
         description: This is the name of a users
       employer:
         type: companies
+protocols:
+  http:
+    port: 5001
 ```
 
-This file describes two collections:
-  - a `companies` collection with attributes `id` (defined by default)
-    and `registration_no`
-  - a `users` collection with attributes `id`, `name` and `employer`
-    (pointing to a `companies` collection)
+# Environment variables
 
-# Properties
+[Schema properties](#properties) can be set using environment variables
+prefixed with `APIENGINE__`.
 
-The schema can contain the following properties:
-  - `engine` `{string}` (required) - file format version. Must equal `0`
-  - `name` `{string}` - sets the [function variable](functions.md#variables)
-    `serverinfo.process.name`
-  - `env` (defaults to `'dev'`): can be `'dev'` or `'production'`.
-    Running in `'dev'` mode will add some developer-friendly features, e.g.
-    disable request timeouts during breakpoint debugging.
-  - `collections` `{object}` (required) - list of
-    [collections](collections.md#collections)
-    - `COLLECTION` `{object}` - COLLECTION is the name
-      - `attributes` `{object}` - list of the collections's
-        [attributes](collections.md#attributes)
-        - `ATTRIBUTE` `{object}` - ATTRIBUTE is the name
-  - `variables` `{object}` -
-    [server-specific variables](functions.md#server-specific-variables)
-  - `plugins` `{object}` - [plugins](plugins.md)
-  - `authorize` `{object}` - see [authorization](authorization.md)
-  - `validation` `{object}` -
-    [custom validation keywords](validation.md#custom-validation)
-  - `operators` `{object}` -
-    [custom patch operators](patch.md#custom-operators)
-  - `log` `{object}` - [logging configuration](logging.md)
-  - `db` `{object}`: [databases options](databases.md)
+```toml
+APIENGINE__ENV="dev"
+APIENGINE__LIMITS__PAGESIZE=200
+APIENGINE__PROTOCOLS__HTTP__HOSTNAME="myhostname"
+```
 
-# Schema validation
+The example above will be converted to the following
+[schema properties](#properties).
 
-The schema is validated for syntax errors.
+```yml
+env: dev
+limits:
+  pagesize: 200
+protocols:
+  http:
+    hostname: myhostname
+```
 
-To add properties only meant as schema metadata, prefix them with `$` at the
-top-level, on a collection or on an attribute, e.g.:
+`__` is used to nest object and arrays.
+
+JSON values can be used, including booleans, numbers, `null`, objects and
+arrays.
+
+Some well-known environment variables can also be used as alternative names,
+namely:
+  - `NODE_ENV`: same as `APIENGINE__ENV`
+  - `HOST`: same as `APIENGINE__PROTOCOLS__HTTP__HOSTNAME`
+  - `PORT`: same as `APIENGINE__PROTOCOLS__HTTP__PORT`
+
+# Metadata
+
+To add properties only meant as metadata, prefix them with `$` at the
+top-level, on a collection or on an attribute.
 
 ```yml
 collections:

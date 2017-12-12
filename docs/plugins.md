@@ -1,6 +1,7 @@
 # Plugins
 
-Plugins are functions that modify a [schema](schema.md) in a pre-defined way.
+Plugins are functions that modify a [schema](schema.md#properties) in a
+pre-defined way.
 
 They are simple functions that takes as input:
   - `schema` `{object}`
