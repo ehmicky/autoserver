@@ -75,6 +75,7 @@
     "gulp-eslint": "^4.0.0",
     "gulp-jscpd": "0.0.8",
     "gulp-plumber": "^1.1.0",
+    "markdown-link-check": "^3.1.5",
     "nodemon": "^1.12.5"
   },
   "engines": {
