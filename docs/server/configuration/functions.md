@@ -5,13 +5,13 @@ Custom logic can be added by using functions in the
 
 The following [configuration properties](configuration.md#properties)
 can use functions:
-  - [`attribute.authorize`](../configuration/authorization.md)
-  - [`attribute.readonly`](../configuration/authorization.md#readonly-attributes)
+  - [`attribute.authorize`](../properties/authorization.md)
+  - [`attribute.readonly`](../properties/authorization.md#readonly-attributes)
   - [`attribute.default`](default.md)
-  - [`attribute.value`](../configuration/transformation.md)
-  - [custom validation keywords](../configuration/validation.md#custom-validation)
-  - [custom patch operators](../configuration/patch.md#custom-operators)
-  - [custom log providers](../configuration/logging.md#custom-log-provider)
+  - [`attribute.value`](../properties/transformation.md)
+  - [custom validation keywords](../properties/validation.md#custom-validation)
+  - [custom patch operators](../properties/patch.md#custom-operators)
+  - [custom log providers](../properties/logging.md#custom-log-provider)
 
 Everywhere a function can be used, a constant value can also be used instead.
 
@@ -144,17 +144,17 @@ The following parameters are available to any function:
          using the configuration property `name`
 
 The following parameters are available to any function except
-[custom log providers](../configuration/logging.md#custom-log-provider) and
+[custom log providers](../properties/logging.md#custom-log-provider) and
 [server-specific parameters](#server-specific-parameters):
   - `commandpath` `{string}` - [command](../../client/query/crud.md) full path,
     e.g. `` (top-level) or `child.grand_child`
   - `collection` `{string}`: name of the
-    [collection](../configuration/collections.md), e.g. `users`
+    [collection](../properties/collections.md), e.g. `users`
 
 The following parameters are available to any function except
-[custom log providers](../configuration/logging.md#custom-log-provider),
+[custom log providers](../properties/logging.md#custom-log-provider),
 [server-specific parameters](#server-specific-parameters) and
-[custom patch operators](../configuration/patch.md#custom-operators):
+[custom patch operators](../properties/patch.md#custom-operators):
   - `value` `{any}`: value of the current attribute.
     E.g. `value === 'John'` checks whether the current value equals `'John'`
   - `model` `{object}`: current model.
@@ -170,10 +170,10 @@ The following parameters are available to any function except
     action), this will be `undefined`.
 
 The following parameters are available only to
-[custom log providers](../configuration/logging.md#custom-log-provider):
+[custom log providers](../properties/logging.md#custom-log-provider):
   - `log`, `error`, `protocols`, `exitcodes`, `measures`, `measuresmessage`,
     `duration`, `event`, `phase`, `level` and `message` - see
-    [logging](../configuration/logging.md#functions-parameters)
+    [logging](../properties/logging.md#functions-parameters)
   - `status` `{string}` - response's status, among `INTERNALS`, `SUCCESS`,
     `CLIENT_ERROR` and `SERVER_ERROR`
   - `responsedata` `{any}` - response data
@@ -189,10 +189,10 @@ The following parameters are available for more specific cases:
   - `arg1`, `arg2`, etc.: see
     [server-specific parameters](#server-specific-parameters)
   - `arg`: see
-    [custom validation](../configuration/validation.md#custom-validation) and
-    [custom patch operators](../configuration/patch.md#custom-operators)
+    [custom validation](../properties/validation.md#custom-validation) and
+    [custom patch operators](../properties/patch.md#custom-operators)
   - `type`: see
-    [custom patch operators](../configuration/patch.md#custom-operators)
+    [custom patch operators](../properties/patch.md#custom-operators)
 
 # Server-specific parameters
 

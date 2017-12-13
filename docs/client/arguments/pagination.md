@@ -71,7 +71,7 @@ and `has_next_page`.
 # Page size
 
 The page size is determined by the `limits.pagesize`
-[configuration property](../../server/usage/configuration.md#properties),
+[configuration property](../../server/configuration/configuration.md#properties),
 which defaults to `100`.
 Setting it to `0` will disable pagination.
 
@@ -135,7 +135,7 @@ iterations are not available.
 
 The maximum number of models in any request or response is determined by the
 `limits.maxmodels`
-[configuration property](../../server/usage/configuration.md#properties), which
+[configuration property](../../server/configuration/configuration.md#properties), which
 defaults to `100` times the default [`pagesize`](#page-size), i.e. `10000`. It
 can be disabled by being set to `0`.
 

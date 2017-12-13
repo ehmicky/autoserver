@@ -13,5 +13,5 @@ objects with the following properties:
 When an [instruction](usage.md) fails, an exception will be thrown.
 
 When a client-side or server-side error occurs, an exception will be
-[logged](../configuration/logging.md) using the
-[`error` parameter](../configuration/logging.md#functions-parameters).
+[logged](../properties/logging.md) using the
+[`error` parameter](../properties/logging.md#functions-parameters).

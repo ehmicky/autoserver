@@ -1,12 +1,12 @@
 # In-memory database
 
-The in-memory database keeps all data in RAM, and optionally persists it on
-the file system when the server shuts down. It is meant for development purpose
-only.
+The in-memory [database](README.md) keeps all data in RAM, and optionally
+persists it on the file system when the server shuts down. It is meant for
+development purpose only.
 
 # Options
 
-The following options are available.
+The following [options](README.md#options) are available.
 
 ```yml
 databases:
@@ -31,4 +31,4 @@ managers:
 
 If the `save` option is `true`, the data will be saved back to the file when
 the server shuts down, providing the `data` option used a
-[JSON reference](../usage/json_references.md).
+[JSON reference](../configuration/json_references.md).

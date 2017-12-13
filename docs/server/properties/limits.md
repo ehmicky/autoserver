@@ -1,7 +1,7 @@
 # Options
 
 The following limits can be configured with the `limits`
-[configuration property](../usage/configuration.md#properties):
+[configuration property](../configuration/configuration.md#properties):
   - `limits.maxpayload` `{integer|string}` (defaults to `10MB`):
      Max size of request payloads, in bytes.
      Also used as the max URL length.

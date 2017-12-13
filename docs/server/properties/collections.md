@@ -5,7 +5,7 @@ Collections are the equivalent of a database table or collection.
 # Name
 
 The name of a collection corresponds to its key in the `collections`
-[configuration property](../usage/configuration.md#properties).
+[configuration property](../configuration/configuration.md#properties).
 
 In the example below, it is `users`:
 
@@ -16,10 +16,10 @@ collections:
 ```
 
 It is possible to differentiate between the name used server-side (anywhere in
-the [configuration](../usage/configuration.md)) and client-side (in URLs,
+the [configuration](../configuration/configuration.md)) and client-side (in URLs,
 method names, error responses and documentation) by specifying the
 `collection.name`
-[configuration property](../usage/configuration.md#properties).
+[configuration property](../configuration/configuration.md#properties).
 
 In the example below, the server-side name is `users` and the client-side name
 is `players`:
@@ -39,7 +39,7 @@ as aliases, by using an array of names in `collection.name`.
 Attributes are the equivalent of a database column, attribute or key.
 
 The name of an attribute corresponds to its key in the `collection.attributes`
-[configuration property](../usage/configuration.md#properties). It follows the
+[configuration property](../configuration/configuration.md#properties). It follows the
 same naming rules as collections.
 
 In the example below, there is an attribute named `age`:

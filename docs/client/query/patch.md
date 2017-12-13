@@ -316,4 +316,4 @@ PATCH /rest/user/1
 
 ## Custom operators
 
-Servers can specify additional [custom operators](../../server/configuration/patch.md).
+Servers can specify additional [custom operators](../../server/properties/patch.md).
