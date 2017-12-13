@@ -23,8 +23,6 @@ databases:
     save: false
 ```
 
-specifies that the `memory` database should disable the `save` option.
-
 # Available databases
 
 The available databases are:

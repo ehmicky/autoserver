@@ -55,6 +55,7 @@ log:
   provider: http
   opts:
     url: http://logging-provider.org/
+    method: PUT
 ```
 
 ## Console log provider
@@ -86,11 +87,9 @@ log:
 ## Custom log provider
 
 When using the `custom` [log provider](#providers), logs will be passed as
-parameters to a custom [function](../configuration/functions.md).
-
-`report` is a [function](../configuration/functions.md):
+parameters to a custom `report` [function](../configuration/functions.md):
   - it receives the usual [parameters](../configuration/functions.md#parameters)
-    including [`log`, `measures` and `measuresmessage`](#functions-parameters).
+    including [`log`, `measures` and `measuresmessage`](#functions-parameters)
   - it can be async or return a promise
   - it can be used to simply handle [events](#events) instead of logging them
 
