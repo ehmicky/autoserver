@@ -74,7 +74,7 @@ Also used to designate function arguments.
 ## Parameters
 
 Arguments passed to
-[configuration functions](../server/usage/functions.md#parameters).
+[configuration functions](../server/configuration/functions.md#parameters).
 
 ## Variables
 
@@ -97,7 +97,7 @@ command to query the current models to patch.
 
 ## Functions
 
-[Functions](../server/usage/functions.md) specified in configuration, that
+[Functions](../server/configuration/functions.md) specified in configuration, that
 allows injecting custom logic.
 
 ## Utilities
@@ -135,7 +135,7 @@ Generic [error type](../server/usage/error.md)
 
 ## Collection
 
-Like a [database table](../server/configuration/collections.md) or collection
+Like a [database table](../server/properties/collections.md) or collection
 
 ## Model
 
@@ -143,17 +143,17 @@ Individual object inside a collection
 
 ## Nested collection
 
-[Attribute](../server/configuration/relations.md) inside a collection targeting
+[Attribute](../server/properties/relations.md) inside a collection targeting
 another collection
 
 ## Target collection
 
-[Collection](../server/configuration/relations.md) targeted by a nested
+[Collection](../server/properties/relations.md) targeted by a nested
 collection
 
 ## Attribute
 
-A collection's [attribute](../server/configuration/collections.md#attributes),
+A collection's [attribute](../server/properties/collections.md#attributes),
 i.e. like a database column or key
 
 ## Property

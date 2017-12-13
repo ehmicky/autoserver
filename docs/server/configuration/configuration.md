@@ -1,7 +1,7 @@
 # Configuration
 
 [Configuration properties](#properties) are used by the
-[`run`](run.md) instruction.
+[`run`](../usage/run.md) instruction.
 
 There are several ways to define [configuration properties](#properties).
 If several are used, they are merged together (from the highest priority to
@@ -28,30 +28,30 @@ The following configuration properties are available:
     Running in `dev` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
   - `collections` `{object}` (required) - list of
-    [collections](../configuration/collections.md#collections)
+    [collections](../properties/collections.md#collections)
     - `COLLECTION` `{object}` - `COLLECTION` is the name
       - `attributes` `{object}` - list of the collections's
-        [attributes](../configuration/collections.md#attributes)
+        [attributes](../properties/collections.md#attributes)
         - `ATTRIBUTE` `{object}` - `ATTRIBUTE` is the name
   - `params` `{object}` -
     [server-specific parameters](functions.md#server-specific-parameters)
   - `plugins` `{object}` - see [plugins](plugins.md)
   - `authorize` `{object}` - see
-    [authorization](../configuration/authorization.md)
+    [authorization](../properties/authorization.md)
   - `validation` `{object}` -
-    [custom validation keywords](../configuration/validation.md#custom-validation)
+    [custom validation keywords](../properties/validation.md#custom-validation)
   - `operators` `{object}` -
-    [custom patch operators](../configuration/patch.md#custom-operators)
-  - `log` `{object}` - [logging configuration](../configuration/logging.md)
+    [custom patch operators](../properties/patch.md#custom-operators)
+  - `log` `{object}` - [logging configuration](../properties/logging.md)
   - `protocols` `{object}`:
-    [protocols options](../protocols/protocols.md#options)
-  - `databases` `{object}`: [databases options](../databases/databases.md)
-  - `limits` `{object}`: see [limits](../configuration/limits.md)
+    [protocols options](../protocols/README.md#options)
+  - `databases` `{object}`: [databases options](../databases/README.md)
+  - `limits` `{object}`: see [limits](../properties/limits.md)
 
 # Configuration file
 
 The path of the configuration file is specified using the
-`config` [option](run.md).
+`config` [option](../usage/run.md).
 
 The file format can be any of the [supported formats](formats.md).
 

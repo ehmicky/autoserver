@@ -2,7 +2,7 @@
 
 Collections can refer to each other by using the other collection's name as
 the `attribute.type`
-[configuration property](../usage/configuration.md#properties), either as a
+[configuration property](../configuration/configuration.md#properties), either as a
 scalar value or an array, for one-to-one or one-to-many relationship.
 
 ```yml

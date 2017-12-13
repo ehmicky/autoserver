@@ -1,7 +1,7 @@
 # Logging
 
 Logging is configured under the `log`
-[configuration property](../usage/configuration.md#properties).
+[configuration property](../configuration/configuration.md#properties).
 
 ```yml
 log:
@@ -31,7 +31,7 @@ The following providers are available: [`http`](#http-log-provider),
 provider.
 
 If you want to use several log providers or use several configurations,
-the `log` [configuration property](../usage/configuration.md#properties) can be
+the `log` [configuration property](../configuration/configuration.md#properties) can be
 an array of objects instead of a single object.
 
 ```yml
@@ -69,10 +69,10 @@ debugging purpose.
 ## Custom log provider
 
 When using the `custom` [log provider](#providers), logs will be passed as
-parameters to a custom [function](../usage/functions.md).
+parameters to a custom [function](../configuration/functions.md).
 
-`report` is a [function](../usage/functions.md):
-  - it receives the usual [parameters](../usage/functions.md#parameters)
+`report` is a [function](../configuration/functions.md):
+  - it receives the usual [parameters](../configuration/functions.md#parameters)
     including [`log`, `measures` and `measuresmessage`](#functions-parameters).
   - it can be async or return a promise
   - it can be used to simply handle [events](#events) instead of logging them
@@ -100,7 +100,7 @@ Those events can be triggered during the following phases of the server:
 # Log information
 
 The payload of logs is a set of all the currently available
-[parameters](../usage/functions.md#parameters), which
+[parameters](../configuration/functions.md#parameters), which
 gives insight about everything in the current context.
 
 Values that might be too big, such as `payload`, `responsedata`, `data` and
@@ -108,10 +108,10 @@ Values that might be too big, such as `payload`, `responsedata`, `data` and
 
 # Functions parameters
 
-Besides the usual [parameters](../usage/functions.md#parameters), the
+Besides the usual [parameters](../configuration/functions.md#parameters), the
 following additional parameters are available during logging:
   - `log` `{object}`: object containing all the other
-    [parameters](../usage/functions.md#parameters).
+    [parameters](../configuration/functions.md#parameters).
     Values that might be too big are trimmed. It can be safely serialized.
   - [`event`](#events) `{string}`: which event was triggered among `start`,
     `stop`, `failure`, `call`, `message` and `perf`

@@ -1,6 +1,6 @@
 # MongoDB options
 
-The following options are available.
+The following [options](README.md#options) are available.
 
 ```yml
 databases:

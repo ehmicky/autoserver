@@ -2,7 +2,7 @@
 
 Attributes can specify alternative names that clients can use, e.g. for
 backward compatibility, using the `attribute.alias`
-[configuration property](../usage/configuration.md#properties), which can be a
+[configuration property](../configuration/configuration.md#properties), which can be a
 string or an array of strings.
 
 ```yml

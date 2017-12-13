@@ -2,11 +2,11 @@
 
 The [`run` instruction](usage.md) starts the server.
 
-The [configuration file](configuration.md#configuration-file) is specified
-using the `config` option.
+The [configuration file](../configuration/configuration.md#configuration-file)
+is specified using the `config` option.
 
 Any other option will be merged as a
-[configuration property](configuration.md#properties).
+[configuration property](../configuration/configuration.md#properties).
 
 ```bash
 apiengine run --config=apiengine.config.yml --protocols.http.port=5001
@@ -16,7 +16,7 @@ apiengine run --config=apiengine.config.yml --protocols.http.port=5001
 
 When fired from Node.js, `apiengine.run()` returns a promise, which resolves
 with the same value as the
-[`protocols` parameter](../configuration/logging.md#functions-parameters).
+[`protocols` parameter](../properties/logging.md#functions-parameters).
 
 If an error occurred, the promise will be rejected with an
 [exception object](error.md#exceptions).
