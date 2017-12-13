@@ -6,7 +6,7 @@ the `authorize`
 
 `authorize` uses the same format as the
 [`filter`](../../client/arguments/filtering.md) query
-[argument](../../client/syntax/rpc.md#rpc), except
+[argument](../../client/rpc/README.md#rpc), except
 [parameters](../configuration/functions.md#parameters), including
 [server-specific parameters](../configuration/functions.md#server-specific-parameters),
 are specified instead of collection's attributes.

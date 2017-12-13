@@ -100,40 +100,40 @@ The following parameters are available to any function:
     Also available in response's `metadata.requestid` property
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
-  - [`protocol`](../../client/syntax/protocols.md) `{string}`: possible value
+  - [`protocol`](../../client/protocols/README.md) `{string}`: possible value
     is only `http`
   - `ip` `{string}`: request IP
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
-  - `method` `{string}` - [protocol](../../client/syntax/protocols.md)-agnostic
+  - `method` `{string}` - [protocol](../../client/protocols/README.md)-agnostic
     method, e.g. `GET`
   - `queryvars` `{object}` - query variables, as an object
-  - `headers` `{object}` - [protocol headers](../../client/syntax/protocols.md)
+  - `headers` `{object}` - [protocol headers](../../client/protocols/README.md)
     specific to the engine, for example HTTP headers starting with
     `X-Apiengine-`
   - `format` `{string}` - request payload and server response's
-    [format](../../client/arguments/formats.md)
+    [format](../../client/protocols/formats.md)
   - `charset` `{string}` - request payload's
-    [charset](../../client/arguments/formats.md#charsets)
+    [charset](../../client/protocols/formats.md#charsets)
   - `compress` `{string}` - response's and request's
     [compression](../../client/arguments/compression.md)
-  - `payload` `{any}` - request [payload](../../client/syntax/protocols.md)
+  - `payload` `{any}` - request [payload](../../client/protocols/README.md)
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array
-  - [`rpc`](../../client/syntax/rpc.md) `{string}`: possible values are
+  - [`rpc`](../../client/rpc/README.md) `{string}`: possible values are
     `graphql`, `graphiql`, `graphqlprint`, `rest` or `jsonrpc`
-  - `args` `{object}`: client [arguments](../../client/syntax/rpc.md#rpc)
+  - `args` `{object}`: client [arguments](../../client/rpc/README.md#rpc)
     passed to the request, e.g. `filter`
   - `params` `{object}`: all
     [client-specific parameters](../../client/arguments/params.md)
   - `datasize` `{number}` - size of the `data`
-    [argument](../../client/syntax/rpc.md#rpc), in bytes
+    [argument](../../client/rpc/README.md#rpc), in bytes
   - `datacount` `{number}` - array length of the `data`
-    [argument](../../client/syntax/rpc.md#rpc), if it is an array
+    [argument](../../client/rpc/README.md#rpc), if it is an array
   - `summary` `{string}` - summary of the request, e.g. `find_collection{child}`
   - `commandpaths` `{string[]}` - array with all `commandpath`
   - `collections` `{string[]}` - array with all `collection`
-  - [`command`](../../client/query/crud.md) `{string}` - among `create`, `find`,
+  - [`command`](../../client/request/crud.md) `{string}` - among `create`, `find`,
     `upsert`, `patch` and `delete`
   - `serverinfo` `{object}`:
     - `host` `{object}`:
@@ -156,7 +156,7 @@ The following parameters are available to any function:
 The following parameters are available to any function except
 [custom log providers](../quality/logging.md#custom-log-provider) and
 [server-specific parameters](#server-specific-parameters):
-  - `commandpath` `{string}` - [command](../../client/query/crud.md) full path,
+  - `commandpath` `{string}` - [command](../../client/request/crud.md) full path,
     e.g. `""` (top-level) or `child.grand_child`
   - `collection` `{string}`: name of the
     [collection](../data_model/collections.md), e.g. `users`

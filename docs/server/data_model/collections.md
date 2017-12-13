@@ -116,5 +116,5 @@ Each example below is treated the same way and converted to the last form.
 { "name": "Bob" }
 ```
 
-The exception is for [`patch`](../../client/query/crud.md#patch-command)
+The exception is for [`patch`](../../client/request/crud.md#patch-command)
 commands, where `null` is used to unset a value.

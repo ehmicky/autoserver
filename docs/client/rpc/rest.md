@@ -1,31 +1,33 @@
 # Endpoint
 
 [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
-is one of the available [RPC systems](rpc.md).
+is one of the available [RPC systems](README.md).
 
-Clients can query the GraphQL server at either
-`//hostname:port/rest/COLLECTION/` or `//hostname:port/rest/COLLECTION/ID`,
-where `COLLECTION` represents the collection's name and `ID` its `id` attribute.
+Clients can make REST requests at either `//HOST/rest/COLLECTION/` or
+`//HOST/rest/COLLECTION/ID`.
+
+The `COLLECTION`'s name is in the URL.
+
+If an `ID` is present in the URL, it will be used as the
+[`id`](../arguments/filtering.md#id-argument) [argument](README.md#rpc).
 
 # Command
 
-The [command](rpc.md#rpc) is guessed from the collection's name
-in the URL, and from the HTTP method:
-  - `GET` and `HEAD` uses the [`find`](../query/crud.md#find-command) command
-  - `POST` uses the [`create`](../query/crud.md#create-command) command
-  - `PUT` uses the [`upsert`](../query/crud.md#upsert-command) command
-  - `PATCH` uses the [`patch`](../query/crud.md#patch-command) command
-  - `DELETE` uses the [`delete`](../query/crud.md#delete-command) command
-
-If an `ID` is present in the URL, the response will be an object instead of
-an array of objects. Also the `ID` will be used as the
-[`id`](../arguments/filtering.md#id-argument) [argument](rpc.md#rpc).
+The [command](../request/crud.md) is specified using the HTTP method:
+  - `GET` and `HEAD` uses the [`find`](../request/crud.md#find-command) command
+  - `POST` uses the [`create`](../request/crud.md#create-command) command
+  - `PUT` uses the [`upsert`](../request/crud.md#upsert-command) command
+  - `PATCH` uses the [`patch`](../request/crud.md#patch-command) command
+  - `DELETE` uses the [`delete`](../request/crud.md#delete-command) command
 
 # Arguments
 
-The [arguments](rpc.md#rpc) are specified using URL query
-variables, except for the `data` [argument](rpc.md#rpc), which is specified
-using the full request payload.
+The `data` [argument](README.md#rpc) is specified using the full request
+payload.
+
+The other [arguments](README.md#rpc) are specified using URL query variables.
+
+Omitted values default to `true`, e.g. `?dryrun` is the same as `?dryrun=true`.
 
 Values can be either an unquoted string or any JSON value. To differentiate
 between a number (e.g. `filter.weight=5`) and a string (e.g. `filter.id="5"`),
@@ -36,21 +38,17 @@ Objects and arrays can be specified using either:
   - a JSON value, e.g. `filter=[{ "name": "David" }]`, which after URL encoding
     is `filter=%5B%7B%22name%22%3A%22David%22%7D%5D`
 
-Omitted values default to `true`, e.g. `?dryrun` is the same as `?dryrun=true`.
-
 Like for any URL, the query variables must be
 [URL encoded](https://en.wikipedia.org/wiki/Percent-encoding) if they contain
 any character that needs to be encoded.
 
 # Examples
 
-The following request:
+Fetching `users` with `id` `1`:
 
 ```HTTP
 GET /rest/users/1
 ```
-
-would respond with:
 
 ```json
 {
@@ -58,13 +56,11 @@ would respond with:
 }
 ```
 
-The following request:
+Fetching `users` with `name` `Anthony`:
 
 ```HTTP
 GET /rest/users/?filter.name=Anthony
 ```
-
-would respond with:
 
 ```json
 {
@@ -74,15 +70,13 @@ would respond with:
 }
 ```
 
-The following request:
+Modifying `users` with `id` `1`:
 
 ```HTTP
 PUT /rest/users/1
 
 { "id": "1", "name": "Anthony", "manager": "3" }
 ```
-
-would respond with:
 
 ```json
 {
@@ -93,7 +87,7 @@ would respond with:
 # Error responses
 
 REST error responses follow the usual error
-[response format](../query/error.md#error-responses):
+[response format](../request/error.md#error-responses):
 
 ```json
 {

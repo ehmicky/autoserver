@@ -1,15 +1,16 @@
 # Regular patch command
 
-Regular [patch commands](crud.md#patch-command) perform a partial
-modification of existing models by setting the model with specified values.
+[Patch commands](crud.md#patch-command) perform a partial modification of
+existing models by setting the model with specified values.
+
+This is in contrast with [upsert commands](crud.md#upsert-command) which fully
+replace (or create) the models.
 
 ```HTTP
 PATCH /rest/users/1
 
 { "city": "Copenhagen" }
 ```
-
-will respond with the newly modified model:
 
 ```json
 {
@@ -19,19 +20,17 @@ will respond with the newly modified model:
 
 # Advanced patch command
 
-Advanced [patch commands](crud.md#patch-command) uses operators to
-perform a transformation on the model's attributes. Operators are objects
-describing the transformation to apply as `{ "_OPERATOR": ARGUMENT }`, e.g.
-`{ "_add": 1 }`.
+Advanced [patch commands](crud.md#patch-command) use operators to perform a
+transformation on the model's attributes. Operators are objects describing the
+transformation to apply as `{ "_OPERATOR": ARGUMENT }`, e.g. `{ "_add": 1 }`.
+
+The example below increments the user's `age` by `1`.
 
 ```HTTP
 PATCH /rest/users/1
 
 { "age": { "_add": 1 } }
 ```
-
-will increment the user's `age` by `1` and respond with the newly modified
-model:
 
 ```json
 {
@@ -47,16 +46,13 @@ are specific to scalar attributes, e.g. `_add`.
 If a scalar patch operator is applied to an array attribute, it will be applied
 to each element of the array.
 
-For example:
+The example below multiplies each `score`'s element by `100`.
 
 ```HTTP
 PATCH /rest/users/1
 
 { "scores": { "_mul": 100 } }
 ```
-
-will multiply each `score`'s element by `100` and respond with the newly
-modified model:
 
 ```json
 {
@@ -68,6 +64,8 @@ modified model:
 
 It is possible to refer to another attribute of the same model using the
 `model.ATTRIBUTE` notation.
+
+The example below sets the model's `first_name` to the same value as its `name`.
 
 ```HTTP
 PATCH /rest/users/1
@@ -82,9 +80,6 @@ PATCH /rest/users/1
 
 { "first_name": "model.name" }
 ```
-
-will set the model's `first_name` to the same value as its `name`, and respond
-with the newly modified model:
 
 ```json
 {
@@ -316,4 +311,5 @@ PATCH /rest/user/1
 
 ## Custom operators
 
-Servers can specify additional [custom operators](../../server/data_model/patch.md).
+Servers can specify additional
+[custom operators](../../server/data_model/patch.md).

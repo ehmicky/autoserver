@@ -1,23 +1,26 @@
 # Endpoint
 
 [JSON-RPC](http://www.jsonrpc.org) is one of the available
-[RPC systems](rpc.md).
+[RPC systems](README.md).
 
 Both JSON-RPC 1.0 and 2.0 are supported.
 
-Clients can query the GraphQL server at `//hostname:port/jsonrpc`.
-The `POST` protocol method must be used.
+Clients can query the GraphQL server at `//HOST/jsonrpc`.
+The `POST` [protocol method](../protocols/README.md) must be used.
 
 # Command and arguments
 
-The [command](rpc.md#rpc) is specified using the
-JSON-RPC `method` field (which is different from the protocol method, e.g.
-`POST`).
+The collection and the [command](README.md#rpc) are specified using the
+JSON-RPC `method` field.
 
-The [arguments](rpc.md#rpc) are specified using the
-JSON-RPC `params` field.
+For example `{ "method": "find_users" }` specifies the `users` collection and
+the `find` command.
 
-For example, the following request:
+The [arguments](README.md#rpc) are specified using the JSON-RPC `params` field.
+
+# Example
+
+Fetching `users` with `id` `1`:
 
 ```json
 {
@@ -29,8 +32,6 @@ For example, the following request:
   }
 }
 ```
-
-would respond with:
 
 ```json
 {
@@ -49,10 +50,10 @@ would respond with:
 # Error responses
 
 JSON-RPC error responses follow the usual error
-[response format](../query/error.md#error-responses), with some changes
+[response format](../request/error.md#error-responses), with some changes
 to accomodate the JSON-RPC spec:
-  - the main response's envelope conforms to JSON-RPC, e.g. it has a
-    JSON-RPC error code
+  - the main response's envelope conforms to JSON-RPC, e.g. it has a JSON-RPC
+    error code
   - the main error information is available under `error.data`
   - `error.data.description` is available under `error.message`
 
