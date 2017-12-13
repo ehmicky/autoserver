@@ -25,3 +25,9 @@ Note that while most web clients (including browsers) automatically decompress
 responses, almost none of them compress the request payload. This means,
 in order to use request compression, the request payload must usually be
 manually compressed by the client application before sending.
+
+# HTTP headers
+
+[HTTP](../protocols/http.md) can also use the standard headers
+`Accept-Encoding` and `Content-Encoding` instead of the `compress` query
+variable

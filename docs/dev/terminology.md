@@ -21,30 +21,30 @@ Group of middleware.
 
 ## Protocol
 
-Network [protocol](../client/syntax/protocols.md), e.g. HTTP.
+Network [protocol](../client/protocols/README.md), e.g. HTTP.
 
 ## Method
 
-[Protocol](../client/syntax/protocols.md) method, e.g. `GET` or `POST`.
+[Protocol](../client/protocols/README.md) method, e.g. `GET` or `POST`.
 
 ## GraphQL method
 
 `query` or `mutation`. The first is for
-[`find`](../client/query/crud.md#find-command) CRUD command, the second for all
+[`find`](../client/request/crud.md#find-command) CRUD command, the second for all
 others.
 
 ## JSON-RPC method
 
-[JSON-RPC](../client/syntax/jsonrpc.md) `method` field, indicating the current
-[command](../client/query/crud.md), e.g. `find_users`.
+[JSON-RPC](../client/rpc/jsonrpc.md) `method` field, indicating the current
+[command](../client/request/crud.md), e.g. `find_users`.
 
 ## Payload
 
-[Request](../client/syntax/protocols.md) payload
+[Request](../client/protocols/README.md) payload
 
 ## Headers
 
-[Protocol](../client/syntax/protocols.md) headers
+[Protocol](../client/protocols/README.md) headers
 
 ## Status
 
@@ -52,22 +52,22 @@ Response's status, e.g. `SUCCESS` or `SERVER_ERROR`
 
 ## Format
 
-[File format](../client/arguments/formats.md), e.g. YAML or JSON, used in
+[File format](../client/protocols/formats.md), e.g. YAML or JSON, used in
 configuration files, client request payloads and server responses.
 
 ## Charset
 
-[Character set](../client/arguments/formats.md#charsets), e.g. `utf-8` or
+[Character set](../client/protocols/formats.md#charsets), e.g. `utf-8` or
 `ascii`.
 
 ## RPC system
 
-Main semantics of the request, e.g. [GraphQL](../client/syntax/graphql.md),
-[REST](../client/syntax/rest.md) or [JSON-RPC](../client/syntax/jsonrpc.md).
+Main semantics of the request, e.g. [GraphQL](../client/rpc/graphql.md),
+[REST](../client/rpc/rest.md) or [JSON-RPC](../client/rpc/jsonrpc.md).
 
 ## Arguments
 
-Options passed to a [request](../client/syntax/rpc.md#rpc)
+Options passed to a [request](../client/rpc/README.md#rpc)
 
 Also used to designate function arguments.
 

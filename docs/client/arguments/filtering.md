@@ -1,12 +1,34 @@
 # Simple filtering
 
-One can specify which models to target using a `filter` for the commands
-`find`, `delete` and `patch`.
+Clients can specify which models to target using a `filter` for the
+[commands](../request/crud.md) `find`, `delete` and `patch`.
 
-The `filter` [argument](../syntax/rpc.md#rpc) can target any attribute.
+The `filter` [argument](../rpc/README.md#rpc) can target any attribute.
 
 ```HTTP
 GET /rest/users/?filter.country=Denmark
+```
+
+# `id` argument
+
+The `id` [argument](../rpc/README.md#rpc) is similar to `filter: { id: "ID" }`,
+except:
+  - the response will be a model instead of an array of models
+  - [pagination](pagination.md) and [sorting](sorting.md) cannot
+    be used, i.e. the following [arguments](../rpc/README.md#rpc) are not
+    available: `pagesize`, `page`, `before`, `after`, `order`
+
+```HTTP
+GET /rest/users/1
+```
+
+# Cross-attributes filtering
+
+It is possible to compare two attributes by using the `model.ATTRIBUTE`
+notation.
+
+```HTTP
+GET /rest/users/?filter.created_time=model.updated_time
 ```
 
 # Alternatives
@@ -29,19 +51,6 @@ which, after URI encoding is:
 GET /rest/users/?filter=%5B%7B%22country%22%3A%22Denmark%22%7D%2C%7B%22country%22%3A%22Germany%22%7D%5D
 ```
 
-# `id` argument
-
-The `id` [argument](../syntax/rpc.md#rpc) is similar to
-`filter: { id: "ID" }`, except:
-  - the response will be a model instead of an array of models
-  - [pagination](pagination.md) and [sorting](sorting.md) cannot
-    be used, i.e. the following [arguments](../syntax/rpc.md#rpc) are not
-    available: `pagesize`, `page`, `before`, `after`, `order`
-
-```HTTP
-GET /rest/users/1
-```
-
 # Advanced filtering
 
 The following operators can be used for advanced filtering:
@@ -58,21 +67,12 @@ The following operators can be used for advanced filtering:
   - `_all`: all elements match the filter
   - `_some`: at least some elements match the filter
 
-`_like` and `_nlike` use regular expressions, and are only available for
+`_like` and `_nlike` use regular expressions and are only available for
 string attributes.
 
-`_all` and `_some` are only available for array attributes, and array attributes
-can only use those operators. They take another filter object as input, which
+`_all` and `_some` are only available for array attributes and array attributes
+can only use those operators. They take another filter object as input which
 is applied on each element of the array.
-
-# Cross-attributes filtering
-
-It is possible to compare two attributes by using the `model.ATTRIBUTE`
-notation.
-
-```HTTP
-GET /rest/users/?filter.created_time=model.updated_time
-```
 
 # Examples
 

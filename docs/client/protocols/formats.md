@@ -10,9 +10,8 @@ present) and the server response, use the query variable `?format=FORMAT` in
 the request URL, where `FORMAT` is `json`, `yaml`, `urlencoded`, `raw`, `hjson`,
 `json5` or `ini`.
 
-Most of the examples in this documentation use
-[JSON](../../client/arguments/formats.md#json) for the the client request
-payloads and the server responses.
+Most of the examples in this documentation use [JSON](#json) for the the client
+request payloads and the server responses.
 
 # Charsets
 
@@ -27,6 +26,11 @@ for a full list of supported charsets. Common ones include `utf-8`, `utf-16`,
 `ascii`, `binary`, `base64` and `hex`.
 
 By default, no charset decoding is performed.
+
+# HTTP headers
+
+[HTTP](../protocols/http.md) can also use the standard headers `Accept` and
+`Content-Type` instead of the `format` and `charset` query variables.
 
 # JSON
 
@@ -76,7 +80,7 @@ Any format that does not require specific parsing, including images,
 videos, unstructured text files and binary files.
 
 As opposed to the other formats, this is only used for the request payload.
-The server response will be using the default format, i.e. JSON.
+The server response will be using the default format, i.e. [JSON](#json).
 
 # Hjson
 
