@@ -18,4 +18,4 @@ will launch a HTTP server on port `80`.
 
 # Available protocols
 
-  - [`http`](../protocols/http.md): HTTP/1.1
+  - [`http`](http.md): HTTP/1.1

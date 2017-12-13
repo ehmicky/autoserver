@@ -1,7 +1,7 @@
 # Endpoint
 
 [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
-is one of the available [RPC systems](../syntax/rpc.md).
+is one of the available [RPC systems](rpc.md).
 
 Clients can query the GraphQL server at either
 `//hostname:port/rest/COLLECTION/` or `//hostname:port/rest/COLLECTION/ID`,
@@ -9,7 +9,7 @@ where `COLLECTION` represents the collection's name and `ID` its `id` attribute.
 
 # Command
 
-The [command](../syntax/rpc.md#rpc) is guessed from the collection's name
+The [command](rpc.md#rpc) is guessed from the collection's name
 in the URL, and from the HTTP method:
   - `GET` and `HEAD` uses the [`find`](../query/crud.md#find-command) command
   - `POST` uses the [`create`](../query/crud.md#create-command) command
@@ -19,12 +19,12 @@ in the URL, and from the HTTP method:
 
 If an `ID` is present in the URL, the response will be an object instead of
 an array of objects. Also the `ID` will be used as the
-[`id`](../arguments/filtering.md#id-argument) [argument](../syntax/rpc.md#rpc).
+[`id`](../arguments/filtering.md#id-argument) [argument](rpc.md#rpc).
 
 # Arguments
 
-The [arguments](../syntax/rpc.md#rpc) are specified using URL query
-variables, except for the `data` [argument](../syntax/rpc.md#rpc), which is specified
+The [arguments](rpc.md#rpc) are specified using URL query
+variables, except for the `data` [argument](rpc.md#rpc), which is specified
 using the full request payload.
 
 Values can be either an unquoted string or any JSON value. To differentiate

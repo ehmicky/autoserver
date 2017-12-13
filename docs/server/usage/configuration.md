@@ -1,7 +1,7 @@
 # Configuration
 
 [Configuration properties](#properties) are used by the
-[`run`](../usage/run.md) instruction.
+[`run`](run.md) instruction.
 
 There are several ways to define [configuration properties](#properties).
 If several are used, they are merged together (from the highest priority to
@@ -22,7 +22,7 @@ limits:
 
 The following configuration properties are available:
   - `engine` `{string}` (required) - file format version. Must equal `0`
-  - `name` `{string}` - sets the [parameter](../usage/functions.md#parameters)
+  - `name` `{string}` - sets the [parameter](functions.md#parameters)
     `serverinfo.process.name`
   - `env` (defaults to `dev`): can be `dev` or `production`.
     Running in `dev` mode will add some developer-friendly features, e.g.
@@ -34,8 +34,8 @@ The following configuration properties are available:
         [attributes](../configuration/collections.md#attributes)
         - `ATTRIBUTE` `{object}` - `ATTRIBUTE` is the name
   - `params` `{object}` -
-    [server-specific parameters](../usage/functions.md#server-specific-parameters)
-  - `plugins` `{object}` - see [plugins](../usage/plugins.md)
+    [server-specific parameters](functions.md#server-specific-parameters)
+  - `plugins` `{object}` - see [plugins](plugins.md)
   - `authorize` `{object}` - see [authorization](../configuration/authorization.md)
   - `validation` `{object}` -
     [custom validation keywords](../configuration/validation.md#custom-validation)
@@ -49,16 +49,16 @@ The following configuration properties are available:
 # Configuration file
 
 The path of the configuration file is specified using the
-`config` [option](../usage/run.md).
+`config` [option](run.md).
 
-The file format can be any of the [supported formats](../usage/formats.md).
+The file format can be any of the [supported formats](formats.md).
 
 By default, any file named `apiengine.config.EXTENSION` will be searched in
 the current directory, or any parent. `EXTENSION` depends on the file format,
 e.g. `yml` for YAML.
 
 The configuration can be broken down into several files or import Node.js
-modules by using [JSON references](../usage/json_references.md).
+modules by using [JSON references](json_references.md).
 
 # Example
 

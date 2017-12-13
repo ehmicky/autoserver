@@ -1,12 +1,12 @@
 # Plugins
 
-Plugins are functions that modify a [configuration](../usage/configuration.md) in
+Plugins are functions that modify a [configuration](configuration.md) in
 a pre-defined way.
 
 They are simple functions that takes as input:
   - `config` `{object}`
   - `opts` `{object}`: plugin options
-And return [configuration properties](../usage/configuration.md#properties) to
+And return [configuration properties](configuration.md#properties) to
 merge.
 
 The input arguments are read-only.
@@ -14,9 +14,9 @@ The input arguments are read-only.
 The function can be asynchronous by returning a promise.
 
 Plugins can be configured with the `plugins`
-[configuration property](../usage/configuration.md#properties), which is an array
+[configuration property](configuration.md#properties), which is an array
 of objects with properties:
-  - `plugin` [`{function}`](../usage/functions.md) or `{string}` (for system
+  - `plugin` [`{function}`](functions.md) or `{string}` (for system
     plugins)
   - `opts` `{object}`: plugin-specific options
   - `enabled` `{boolean}`: defaults to true
@@ -41,6 +41,6 @@ The system plugin `author` automatically adds the attributes:
 It is not enabled by default.
 
 The following plugin options must be specified:
-  - `currentuser` [`{function}`](../usage/functions.md): retrieves the current
+  - `currentuser` [`{function}`](functions.md): retrieves the current
     request's user. Cannot return null if the user is anonymous.
   - `collection` `{string}`: user's collection name.

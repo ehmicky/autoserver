@@ -184,4 +184,4 @@ request or response contains too many models
 ## `delete`
 
 In `delete` commands, no maximum number of models is enforced, unless the
-[`dryrun`](../arguments/dryrun.md) [argument](../syntax/rpc.md#rpc) is used.
+[`dryrun`](dryrun.md) [argument](../syntax/rpc.md#rpc) is used.

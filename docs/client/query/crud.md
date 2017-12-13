@@ -195,7 +195,7 @@ PATCH /rest/users/1
 { "age": { "_add": 1 } }
 ```
 
-More information can be found [here](../query/patch.md).
+More information can be found [here](patch.md).
 
 # Delete command
 
@@ -261,8 +261,8 @@ More information on each [argument](../syntax/rpc.md#rpc) can be found here:
 [`id`](../arguments/filtering.md#id-argument),
 [`filter`](../arguments/filtering.md),
 [`order`](../arguments/sorting.md),
-[`populate`](../query/relations.md#populating-nested-collections),
-[`cascade`](../query/relations.md#deleting-nested-collections),
+[`populate`](relations.md#populating-nested-collections),
+[`cascade`](relations.md#deleting-nested-collections),
 [`pagesize`](../arguments/pagination.md#page-size),
 [`before`](../arguments/pagination.md#backward-iteration),
 [`after`](../arguments/pagination.md#cursor-pagination),
@@ -272,4 +272,4 @@ More information on each [argument](../syntax/rpc.md#rpc) can be found here:
 [`silent`](../arguments/silent.md),
 [`dryrun`](../arguments/dryrun.md),
 [`params`](../arguments/params.md),
-[`data`](../query/crud.md)
+[`data`](#create-command)

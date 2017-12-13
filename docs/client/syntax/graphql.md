@@ -1,6 +1,6 @@
 # Endpoint
 
-[GraphQL](http://graphql.org/) is one of the available [RPC systems](../syntax/rpc.md).
+[GraphQL](http://graphql.org/) is one of the available [RPC systems](rpc.md).
 
 Clients can query the GraphQL server at `//hostname:port/graphql`.
 
@@ -15,10 +15,10 @@ Clients can also see the GraphQL schema as HTML at
 
 # Command and arguments
 
-The [command](../syntax/rpc.md#rpc) is specified using the
+The [command](rpc.md#rpc) is specified using the
 top-level GraphQL method name, e.g. `find_users` or `create_users`.
 
-The [arguments](../syntax/rpc.md#rpc) are specified using the top-level GraphQL arguments.
+The [arguments](rpc.md#rpc) are specified using the top-level GraphQL arguments.
 
 The response's metadata are available under the `extensions` property.
 

@@ -1,7 +1,7 @@
 # Endpoint
 
 [JSON-RPC](http://www.jsonrpc.org) is one of the available
-[RPC systems](../syntax/rpc.md).
+[RPC systems](rpc.md).
 
 Both JSON-RPC 1.0 and 2.0 are supported.
 
@@ -10,11 +10,11 @@ The `POST` protocol method must be used.
 
 # Command and arguments
 
-The [command](../syntax/rpc.md#rpc) is specified using the
+The [command](rpc.md#rpc) is specified using the
 JSON-RPC `method` field (which is different from the protocol method, e.g.
 `POST`).
 
-The [arguments](../syntax/rpc.md#rpc) are specified using the
+The [arguments](rpc.md#rpc) are specified using the
 JSON-RPC `params` field.
 
 For example, the following request:
