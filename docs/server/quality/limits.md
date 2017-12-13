@@ -11,6 +11,13 @@ The following limits can be configured with the `limits`
   - `limits.maxmodels` `{integer}` (defaults to `100 * pagesize`, i.e. `10000`):
      see [pagination](../../client/arguments/pagination.md)
 
+```yml
+limits:
+  maxpayload: 5MB
+  pagesize: 200
+  maxmodels: 10000
+```
+
 # System limits
 
 The following limits cannot be configured:
