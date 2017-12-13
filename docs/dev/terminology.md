@@ -1,7 +1,10 @@
 # Concepts
 
 This project is rather generic and conceptual, so we define specific words
-in order to avoid any confusion
+in order to avoid any confusion between similar concepts.
+
+Also we try to enforce using the same words between the code base, the API and
+the documentation.
 
 ## Users
 
@@ -30,8 +33,8 @@ Network [protocol](../client/protocols/README.md), e.g. HTTP.
 ## GraphQL method
 
 `query` or `mutation`. The first is for
-[`find`](../client/request/crud.md#find-command) CRUD command, the second for all
-others.
+[`find`](../client/request/crud.md#find-command) CRUD command, the second for
+all others.
 
 ## JSON-RPC method
 

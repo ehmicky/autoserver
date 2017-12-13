@@ -1,4 +1,4 @@
-[![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+[![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://standardjs.com/)
 
 This generates a full-featured web API from a
 [configuration file](docs/server/configuration/configuration.md#configuration-file).
@@ -59,17 +59,9 @@ This generates a full-featured web API from a
   - [plugins](docs/server/plugins/README.md)
   - [custom logic](docs/server/configuration/functions.md) can be added in JavaScript
 
-# Missing features
-
-See the [roadmap](ROADMAP.md).
-
 # Usage
 
 You can learn:
   - how to run the server [here](docs/server/usage/README.md).
   - how to perform client requests against this server
     [here](docs/client/rpc/README.md)
-
-# Contribute
-
-See [here](CONTRIBUTING.md).
