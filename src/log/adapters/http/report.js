@@ -10,11 +10,13 @@ const { throwError, addGenErrorHandler } = require('../../../error');
 // Report log with a HTTP request
 // TODO: use a proper HTTP request library
 const report = function ({ log, opts: { url, method = 'POST' } }) {
-  validateOpts({ url, method });
+  const methodA = method.toUpperCase();
+
+  validateOpts({ url, method: methodA });
 
   const body = JSON.stringify(log);
 
-  const req = getRequest({ url, method, body });
+  const req = getRequest({ url, method: methodA, body });
 
   // eslint-disable-next-line promise/avoid-new
   const promise = new Promise((resolve, reject) =>
