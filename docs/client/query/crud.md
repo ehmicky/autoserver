@@ -2,9 +2,10 @@
 
 The examples below are specific to [REST](../syntax/rest.md).
 
-REST specifies the `data` [argument](../syntax/rpc.md#rpc) with the request payload, the
-`id` [argument](../syntax/rpc.md#rpc) with the URL and the command with the protocol
-method. However, other [RPC systems](../syntax/rpc.md) have different conventions.
+REST specifies the `data` [argument](../syntax/rpc.md#rpc) with the request
+payload, the `id` [argument](../syntax/rpc.md#rpc) with the URL and the command
+with the protocol method. However, other [RPC systems](../syntax/rpc.md) have
+different conventions.
 
 # Find command
 

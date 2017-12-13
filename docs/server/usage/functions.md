@@ -90,7 +90,8 @@ The following parameters are available to any function:
     Also available in response's `metadata.requestid` property
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
-  - [`protocol`](../../client/syntax/protocols.md) `{string}`: possible value is only `http`
+  - [`protocol`](../../client/syntax/protocols.md) `{string}`: possible value
+    is only `http`
   - `ip` `{string}`: request IP
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
@@ -109,14 +110,14 @@ The following parameters are available to any function:
   - `payload` `{any}` - request [payload](../../client/syntax/protocols.md)
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array
-  - [`rpc`](../../client/syntax/rpc.md) `{string}`: possible values are `graphql`,
-    `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
-  - `args` `{object}`: client [arguments](../../client/syntax/rpc.md#rpc) passed to the
-    request, e.g. `filter`
+  - [`rpc`](../../client/syntax/rpc.md) `{string}`: possible values are
+    `graphql`, `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
+  - `args` `{object}`: client [arguments](../../client/syntax/rpc.md#rpc)
+    passed to the request, e.g. `filter`
   - `params` `{object}`: all
     [client-specific parameters](../../client/arguments/params.md)
-  - `datasize` `{number}` - size of the `data` [argument](../../client/syntax/rpc.md#rpc),
-    in bytes
+  - `datasize` `{number}` - size of the `data`
+    [argument](../../client/syntax/rpc.md#rpc), in bytes
   - `datacount` `{number}` - array length of the `data`
     [argument](../../client/syntax/rpc.md#rpc), if it is an array
   - `summary` `{string}` - summary of the request, e.g. `find_collection{child}`
@@ -147,8 +148,8 @@ The following parameters are available to any function except
 [server-specific parameters](#server-specific-parameters):
   - `commandpath` `{string}` - [command](../../client/query/crud.md) full path,
     e.g. `` (top-level) or `child.grand_child`
-  - `collection` `{string}`: name of the [collection](../configuration/collections.md),
-    e.g. `users`
+  - `collection` `{string}`: name of the
+    [collection](../configuration/collections.md), e.g. `users`
 
 The following parameters are available to any function except
 [custom log providers](../configuration/logging.md#custom-log-provider),
@@ -187,9 +188,11 @@ The following parameters are available only to
 The following parameters are available for more specific cases:
   - `arg1`, `arg2`, etc.: see
     [server-specific parameters](#server-specific-parameters)
-  - `arg`: see [custom validation](../configuration/validation.md#custom-validation) and
+  - `arg`: see
+    [custom validation](../configuration/validation.md#custom-validation) and
     [custom patch operators](../configuration/patch.md#custom-operators)
-  - `type`: see [custom patch operators](../configuration/patch.md#custom-operators)
+  - `type`: see
+    [custom patch operators](../configuration/patch.md#custom-operators)
 
 # Server-specific parameters
 

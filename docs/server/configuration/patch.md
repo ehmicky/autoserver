@@ -64,8 +64,8 @@ flexible enough, e.g. if the argument is required to be a positive integer.
 If the validation succeeds, it should not return anything. Otherwise, it
 should return the error message as a string.
 
-The same [parameters](../usage/functions.md#parameters) as `apply` are available,
-with the exception of `value`.
+The same [parameters](../usage/functions.md#parameters) as `apply` are
+available, with the exception of `value`.
 
 ## Throwing errors
 

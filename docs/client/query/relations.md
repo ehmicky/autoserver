@@ -28,8 +28,8 @@ will respond with:
 }
 ```
 
-[GraphQL](../syntax/graphql.md#selection-population-and-renaming) does not need the
-`populate` [argument](../syntax/rpc.md#rpc) since it natively uses selection
+[GraphQL](../syntax/graphql.md#selection-population-and-renaming) does not need
+the `populate` [argument](../syntax/rpc.md#rpc) since it natively uses selection
 fields.
 
 Write commands do not use the `populate` [argument](../syntax/rpc.md#rpc).
@@ -59,7 +59,8 @@ PUT /rest/users/1
 # Deleting nested collections
 
 To delete nested collections, specify them using the `cascade`
-[argument](../syntax/rpc.md#rpc), as a comma-separated list of nested collections.
+[argument](../syntax/rpc.md#rpc), as a comma-separated list of nested
+collections.
 
 The example below will delete `user`, `user.manager`, `user.manager.friends`
 and `user.colleague`.

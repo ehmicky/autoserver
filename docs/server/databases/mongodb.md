@@ -19,5 +19,5 @@ databases:
     and/or an array of ports.
   - `username`, `password`: optional authentication information
   - `dbname` (defaults to `data`): MongoDB database name
-  - `opts`: extra options passed to
+  - `opts`: extra options passed to the
     [MongoDB driver](http://mongodb.github.io/node-mongodb-native/2.2/reference/connecting/connection-settings/).

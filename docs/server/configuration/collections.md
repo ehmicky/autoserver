@@ -16,8 +16,9 @@ collections:
 ```
 
 It is possible to differentiate between the name used server-side (anywhere in
-the [configuration](../usage/configuration.md)) and client-side (in URLs, method names,
-error responses and documentation) by specifying the `collection.name`
+the [configuration](../usage/configuration.md)) and client-side (in URLs,
+method names, error responses and documentation) by specifying the
+`collection.name`
 [configuration property](../usage/configuration.md#properties).
 
 In the example below, the server-side name is `users` and the client-side name
@@ -38,8 +39,8 @@ as aliases, by using an array of names in `collection.name`.
 Attributes are the equivalent of a database column, attribute or key.
 
 The name of an attribute corresponds to its key in the `collection.attributes`
-[configuration property](../usage/configuration.md#properties). It follows the same naming rules as
-collections.
+[configuration property](../usage/configuration.md#properties). It follows the
+same naming rules as collections.
 
 In the example below, there is an attribute named `age`:
 
@@ -107,5 +108,5 @@ I.e.:
 
 are all treated the same way, and converted to the last form.
 
-The exception is for [`patch`](../../client/query/crud.md#patch-command) commands, where `null`
-is used to unset a value.
+The exception is for [`patch`](../../client/query/crud.md#patch-command)
+commands, where `null` is used to unset a value.

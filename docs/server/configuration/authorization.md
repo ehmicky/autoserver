@@ -3,7 +3,8 @@
 It is possible to reject requests by specifying a condition with
 the `authorize` [configuration property](../usage/configuration.md#properties).
 
-`authorize` uses the same format as the [`filter`](../../client/arguments/filtering.md) query
+`authorize` uses the same format as the
+[`filter`](../../client/arguments/filtering.md) query
 [argument](../../client/syntax/rpc.md#rpc), except
 [parameters](../usage/functions.md#parameters), including
 [server-specific parameters](../usage/functions.md#server-specific-parameters),
@@ -18,8 +19,8 @@ authorize:
 will forbid delete commands on the API.
 
 With `authorize`, one can define
-[role-based access control](https://en.wikipedia.org/wiki/Role-based_access_control) or other
-authorization design.
+[role-based access control](https://en.wikipedia.org/wiki/Role-based_access_control)
+or other authorization design.
 
 ```yml
 authorize:
@@ -45,7 +46,8 @@ authorize:
 # Collection authorization
 
 One can specify collection-specific authorization with the
-`collection.authorize` [configuration property](../usage/configuration.md#properties).
+`collection.authorize`
+[configuration property](../usage/configuration.md#properties).
 
 The format is the same as `authorize`, except `model` can also be used.
 

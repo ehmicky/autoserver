@@ -2,8 +2,8 @@
 
 Collections can refer to each other by using the other collection's name as
 the `attribute.type`
-[configuration property](../usage/configuration.md#properties), either as a scalar
-value or an array, for one-to-one or one-to-many relationship.
+[configuration property](../usage/configuration.md#properties), either as a
+scalar value or an array, for one-to-one or one-to-many relationship.
 
 ```yml
 collections:
@@ -22,4 +22,5 @@ Nested attributes are using the `id` attribute of the collection they refer to.
 Nested collections can be
 [populated](../../client/query/relations.md#populating-nested-collections),
 [modified](../../client/query/relations.md#modifying-nested-collections) and
-[deleted](../../client/query/relations.md#deleting-nested-collections) by client.
+[deleted](../../client/query/relations.md#deleting-nested-collections) by
+client.

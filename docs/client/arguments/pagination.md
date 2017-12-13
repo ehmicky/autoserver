@@ -24,8 +24,8 @@ For example, a paginated response will look like this.
 }
 ```
 
-To fetch the next batch, use the `after` [argument](../syntax/rpc.md#rpc) with the
-`next_token` as value.
+To fetch the next batch, use the `after` [argument](../syntax/rpc.md#rpc) with
+the `next_token` as value.
 
 ```HTTP
 GET /rest/users/?after=eyJwIjpbIjEiXX0
@@ -33,8 +33,8 @@ GET /rest/users/?after=eyJwIjpbIjEiXX0
 
 One can check `has_next_page` in the response to know when to stop iterating.
 
-The `filter` and `order` [arguments](../syntax/rpc.md#rpc) must remain the same across
-all batches.
+The `filter` and `order` [arguments](../syntax/rpc.md#rpc) must remain the same
+across all batches.
 
 # Backward iteration
 
@@ -71,7 +71,8 @@ and `has_next_page`.
 # Page size
 
 The page size is determined by the `limits.pagesize`
-[configuration property](../../server/usage/configuration.md#properties), which defaults to `100`.
+[configuration property](../../server/usage/configuration.md#properties),
+which defaults to `100`.
 Setting it to `0` will disable pagination.
 
 Clients can decrease the page size by using the `pagesize`
@@ -133,9 +134,10 @@ iterations are not available.
 # Maximum number of models
 
 The maximum number of models in any request or response is determined by the
-`limits.maxmodels` [configuration property](../../server/usage/configuration.md#properties), which defaults to
-`100` times the default [`pagesize`](#page-size), i.e. `10000`. It can be
-disabled by being set to `0`.
+`limits.maxmodels`
+[configuration property](../../server/usage/configuration.md#properties), which
+defaults to `100` times the default [`pagesize`](#page-size), i.e. `10000`. It
+can be disabled by being set to `0`.
 
 This is used to limit the size of nested commands, since pagination is only
 applied at the top level.
