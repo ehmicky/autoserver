@@ -39,7 +39,7 @@ Instead, any models present in either the `data` or `cascade`
 # Modifying nested collections
 
 Clients can modify nested collections by using a nested
-[`data`](../query/crud.md) [argument](../syntax/rpc.md#rpc).
+[`data`](crud.md) [argument](../syntax/rpc.md#rpc).
 
 The example below will create both the user and its manager.
 

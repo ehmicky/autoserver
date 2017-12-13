@@ -1,13 +1,13 @@
 # Functions
 
 Custom logic can be added by using functions in the
-[configuration](../usage/configuration.md).
+[configuration](configuration.md).
 
-The following [configuration properties](../usage/configuration.md#properties)
+The following [configuration properties](configuration.md#properties)
 can use functions:
   - [`attribute.authorize`](../configuration/authorization.md)
   - [`attribute.readonly`](../configuration/authorization.md#readonly-attributes)
-  - [`attribute.default`](../usage/default.md)
+  - [`attribute.default`](default.md)
   - [`attribute.value`](../configuration/transformation.md)
   - [custom validation keywords](../configuration/validation.md#custom-validation)
   - [custom patch operators](../configuration/patch.md#custom-operators)
@@ -32,7 +32,7 @@ const getDefaultValue = function () {
 module.exports = getDefaultValue;
 ```
 
-and in the [configuration](../usage/configuration.md):
+and in the [configuration](configuration.md):
 
 ```yml
 collections:
@@ -46,7 +46,7 @@ collections:
 # Inline functions
 
 You can also directly write JavaScript functions inside the
-[configuration](../usage/configuration.md).
+[configuration](configuration.md).
 
 ```yml
 collections:
@@ -194,7 +194,7 @@ The following parameters are available for more specific cases:
 # Server-specific parameters
 
 Server-specific parameters can be added using the `params`
-[configuration property](../usage/configuration.md#properties), which is an object
+[configuration property](configuration.md#properties), which is an object
 containing all server-specific parameters.
 
 In the example below, the `$secret_password` server-specific parameters is made

@@ -1,6 +1,6 @@
 # Regular patch command
 
-Regular [patch commands](../query/crud.md#patch-command) perform a partial
+Regular [patch commands](crud.md#patch-command) perform a partial
 modification of existing models by setting the model with specified values.
 
 ```HTTP
@@ -19,7 +19,7 @@ will respond with the newly modified model:
 
 # Advanced patch command
 
-Advanced [patch commands](../query/crud.md#patch-command) uses operators to
+Advanced [patch commands](crud.md#patch-command) uses operators to
 perform a transformation on the model's attributes. Operators are objects
 describing the transformation to apply as `{ "_OPERATOR": ARGUMENT }`, e.g.
 `{ "_add": 1 }`.

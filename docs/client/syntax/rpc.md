@@ -7,22 +7,22 @@ An RPC is a system defining the way clients specify:
   - the collection, e.g. `users`
   - the arguments, e.g. the `data` argument or the model's `id`
 
-RPC systems use the request's URL, headers, payload and method as parsed by the [protocol](../syntax/protocols.md).
+RPC systems use the request's URL, headers, payload and method as parsed by the [protocol](protocols.md).
 
-Most examples in this documentation only show [REST](../syntax/rest.md) for simplicity.
+Most examples in this documentation only show [REST](rest.md) for simplicity.
 
 # Available RPC systems
 
-  - [REST](../syntax/rest.md)
-  - [GraphQL](../syntax/graphql.md)
-  - [JSON-RPC](../syntax/jsonrpc.md)
+  - [REST](rest.md)
+  - [GraphQL](graphql.md)
+  - [JSON-RPC](jsonrpc.md)
 
 # Examples
 
 The following examples produce the same request. Notice the differences for the
 `filter`, `data`, `dryrun`, `select`, `rename` and `populate` arguments.
 
-[REST](../syntax/rest.md):
+[REST](rest.md):
 
 ```HTTP
 PATCH /rest/users/?filter.0.name=David&filter.0.name=Bob&select=id,manager,manager.name&rename=manager.name:aliasname&populate=manager&dryrun
@@ -30,7 +30,7 @@ PATCH /rest/users/?filter.0.name=David&filter.0.name=Bob&select=id,manager,manag
 { "city": "Copenhagen" }
 ```
 
-[GraphQL](../syntax/graphql.md):
+[GraphQL](graphql.md):
 
 ```graphql
 {
@@ -45,7 +45,7 @@ PATCH /rest/users/?filter.0.name=David&filter.0.name=Bob&select=id,manager,manag
 }
 ```
 
-[JSON-RPC](../syntax/jsonrpc.md):
+[JSON-RPC](jsonrpc.md):
 
 ```json
 {

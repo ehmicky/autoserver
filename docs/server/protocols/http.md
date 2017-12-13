@@ -1,8 +1,8 @@
 # HTTP server options
 
-HTTP is one of the available [protocols](../protocols/protocols.md).
+HTTP is one of the available [protocols](protocols.md).
 
-The HTTP server has the following [options](../protocols/protocols.md#options).
+The HTTP server has the following [options](protocols.md#options).
 
 ```yml
 protocols:

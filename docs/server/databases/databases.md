@@ -14,11 +14,11 @@ either share the same databases or use different ones.
 
 # Available databases
 
-The default database is [`memory`](../databases/memorydb.md), an in-memory database,
+The default database is [`memory`](memorydb.md), an in-memory database,
 for development purpose.
 
 The other available databases are:
-  - [`mongodb`](../databases/mongodb.md)
+  - [`mongodb`](mongodb.md)
 
 To change the default database, use a
 [`default` collection](../configuration/collections.md#default-collection).

@@ -52,7 +52,7 @@ collections:
 
 Attributes called `id` are special as they:
   - are used as primary key
-  - must be [`required`](../configuration/validation.md)
+  - must be [`required`](validation.md)
   - are automatically created by the system, but can be overriden
 
 One can specify an `attribute.type` among:
@@ -61,7 +61,7 @@ One can specify an `attribute.type` among:
   - `number`: floating number
   - `boolean`
   - `COLLECTION`: where `COLLECTION` is the collection's name, e.g. `users`,
-    for [nested collections](../configuration/relations.md)
+    for [nested collections](relations.md)
   - `string[]`, `integer[]`, `number[]`, `boolean[]` or `COLLECTION[]`: same but
     as an array.
 

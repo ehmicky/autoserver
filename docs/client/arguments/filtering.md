@@ -34,7 +34,7 @@ GET /rest/users/?filter=%5B%7B%22country%22%3A%22Denmark%22%7D%2C%7B%22country%2
 The `id` [argument](../syntax/rpc.md#rpc) is similar to
 `filter: { id: "ID" }`, except:
   - the response will be a model instead of an array of models
-  - [pagination](../arguments/pagination.md) and [sorting](../arguments/sorting.md) cannot
+  - [pagination](pagination.md) and [sorting](sorting.md) cannot
     be used, i.e. the following [arguments](../syntax/rpc.md#rpc) are not
     available: `pagesize`, `page`, `before`, `after`, `order`
 

@@ -7,7 +7,7 @@ apiengine [INSTRUCTION] [OPTIONS]
 ```
 
 The following instructions are available:
-  - [run](../usage/run.md) (default): start the server
+  - [run](run.md) (default): start the server
 
 `OPTIONS` are dot-separated flags specific to each instruction.
 
@@ -30,5 +30,5 @@ Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.
 
 Options are directly passed as an object argument.
 
-Every instruction throws a [standard exception](../usage/error.md#exceptions) if
+Every instruction throws a [standard exception](error.md#exceptions) if
 it fails.
