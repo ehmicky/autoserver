@@ -44,6 +44,16 @@ The following keywords are available:
     - `oneOf` `{json_schema[]}`
     - `if` `{json_schema}`, `then` `{json_schema}`, `else` `{json_schema}`
 
+The following properties are not available or are available under a different
+[configuration property](../configuration/configuration.md#properties): `type`,
+`description`, `examples`, `default`, `title`, `$id`, `$schema`, `definitions`.
+
+Since attributes cannot be objects, the following properties are also
+not available: `maxProperties`, `minProperties`, `additionalProperties`,
+`properties`, `patternProperties`, `propertyNames`
+
+# Example
+
 ```yml
 collections:
   example_collection:
@@ -55,29 +65,23 @@ collections:
           multipleOf: 2
 ```
 
-The following properties are not available or are available under a different
-[configuration property](../configuration/configuration.md#properties): `type`,
-`description`, `examples`, `default`, `title`, `$id`, `$schema`, `definitions`.
-
-Since attributes cannot be objects, the following properties are also
-not available: `maxProperties`, `minProperties`, `additionalProperties`,
-`properties`, `patternProperties`, `propertyNames`
-
 # Custom validation
 
-If the pre-defined validation keywords are not sufficient, one can define
-custom ones, using the `validation`
+If the JSON schema validation keywords are not sufficient, one can define
+custom ones using the `validation`
 [configuration property](../configuration/configuration.md#properties).
 
 This property is an object of validation keywords, where the key is the
 keyword name and the value an object with the properties:
-  - `test` [`{function}`](../configuration/functions.md): function that returns false
-    if the validation failed.
-    The [parameter](../configuration/functions.md#parameters) `arg` represents the value
-    passed to the keyword, and `value` represents the value to validate.
-  - `message` [`{string|function}`](../configuration/functions.md): error message.
+  - `test` [`{function}`](../configuration/functions.md): function that returns
+    `false` if the validation failed.
+    The [parameter](../configuration/functions.md#parameters) `arg` represents
+    the value passed to the keyword, and `value` represents the value to
+    validate.
+  - `message` [`{string|function}`](../configuration/functions.md):
+    error message.
     Can be [functions](../configuration/functions.md) with the
-    [parameter](../configuration/functions.md#parameters) `arg`
+    [parameter](../configuration/functions.md#parameters) `arg`.
     Must start with `'must '`
   - `type` `{string[]}`: optionally restrict the attributes types that can
     use that keyword

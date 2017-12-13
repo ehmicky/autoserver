@@ -18,7 +18,8 @@ is required, but `attribute` and `argument` are recommended.
 
 ## `apply` property
 
-`apply` is a [function](../configuration/functions.md) performing the transformation.
+`apply` is the [function](../configuration/functions.md) performing the
+transformation.
 It must return the new value after the transformation has been applied.
 Besides the regular [parameters](../configuration/functions.md#parameters), the
 following parameters can be used:
@@ -28,7 +29,8 @@ following parameters can be used:
 
 ## `attribute` property
 
-`attribute` is the list of attribute types that can use this operator.
+`attribute` is the list of [attribute types](collections.md#attribute-type)
+that can use this operator.
 
 For example, an `__power` operator can only be used on numerical attributes,
 i.e. `integer` and `number`.
@@ -57,9 +59,9 @@ and the `integer` types if you want to allow any floating number.
 
 ## `check` property
 
-`check` is a [function](../configuration/functions.md) applied to validate the argument
-of the patch operator. It should be used if the `argument` property is not
-flexible enough, e.g. if the argument is required to be a positive integer.
+`check` is a [function](../configuration/functions.md) applied to validate the
+argument of the patch operator. It should be used if the `argument` property is
+not flexible enough, e.g. if the argument is required to be a positive integer.
 
 If the validation succeeds, it should not return anything. Otherwise, it
 should return the error message as a string.
@@ -79,4 +81,5 @@ When defining the `apply` and `check` properties, remember that:
     `undefined`, unless the attribute is a required attribute.
   - the operator's argument can only be `null` if the `argument` property is
     omitted or if it specifies `empty`. When the argument is `empty`, the
-    `arg` [parameter](../configuration/functions.md#parameters) will be `undefined`.
+    `arg` [parameter](../configuration/functions.md#parameters) will be
+    `undefined`.

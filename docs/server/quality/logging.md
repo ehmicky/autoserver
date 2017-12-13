@@ -50,6 +50,13 @@ Provider options:
   - `url` `{string}` - URL to send the logs to
   - `method` `{string}` (default: `POST`) - HTTP method
 
+```yml
+log:
+  provider: http
+  opts:
+    url: http://logging-provider.org/
+```
+
 ## Console log provider
 
 The `console` [log provider](#providers) prints logs on the console.
@@ -60,11 +67,21 @@ detailed log information, so this is only meant as a development helper.
 This log provider is always enabled, but can be silenced by using `level`
 `silent`.
 
+```yml
+log:
+  provider: console
+```
+
 ## Debug log provider
 
 The `debug` [log provider](#providers) prints logs and performance information
 on the console. Since the output is not formatted, this is only meant for
 debugging purpose.
+
+```yml
+log:
+  provider: debug
+```
 
 ## Custom log provider
 
@@ -79,6 +96,13 @@ parameters to a custom [function](../configuration/functions.md).
 
 Provider options:
   - `report` `{function}` - function fired with the log information
+
+```yml
+log:
+  provider: custom
+  report:
+    $ref: report_log.js
+```
 
 # Events
 

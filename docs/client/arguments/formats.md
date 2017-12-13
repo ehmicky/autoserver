@@ -10,6 +10,10 @@ present) and the server response, use the query variable `?format=FORMAT` in
 the request URL, where `FORMAT` is `json`, `yaml`, `urlencoded`, `raw`, `hjson`,
 `json5` or `ini`.
 
+Most of the examples in this documentation use
+[JSON](../../client/arguments/formats.md#json) for the the client request
+payloads and the server responses.
+
 # Charsets
 
 Multiple character sets are supported in the client request payload (if any is

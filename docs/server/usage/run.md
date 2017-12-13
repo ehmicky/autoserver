@@ -1,6 +1,6 @@
 # Running the server
 
-The [`run` instruction](usage.md) starts the server.
+The [`run` instruction](README.md) starts the server.
 
 The [configuration file](../configuration/configuration.md#configuration-file)
 is specified using the `config` option.
@@ -15,8 +15,8 @@ apiengine run --config=apiengine.config.yml --protocols.http.port=5001
 # Node.js
 
 When fired from Node.js, `apiengine.run()` returns a promise, which resolves
-with the same value as the
-[`protocols` parameter](../properties/logging.md#functions-parameters).
+with the
+[`protocols` parameter](../quality/logging.md#functions-parameters).
 
 If an error occurred, the promise will be rejected with an
 [exception object](error.md#exceptions).
@@ -31,7 +31,7 @@ apiengine.run()
   .then(({ protocols }) => {
     console.log('Servers started at:', protocols);
   })
-  .catch(({ error }) => {
+  .catch((error) => {
     console.log('Could not start servers:', error);
   });
 ```

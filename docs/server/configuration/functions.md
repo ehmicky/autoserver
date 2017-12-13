@@ -5,15 +5,13 @@ Custom logic can be added by using functions in the
 
 The following [configuration properties](configuration.md#properties)
 can use functions:
-  - [`attribute.authorize`](../properties/authorization.md)
-  - [`attribute.readonly`](../properties/authorization.md#readonly-attributes)
-  - [`attribute.default`](default.md)
-  - [`attribute.value`](../properties/transformation.md)
-  - [custom validation keywords](../properties/validation.md#custom-validation)
-  - [custom patch operators](../properties/patch.md#custom-operators)
-  - [custom log providers](../properties/logging.md#custom-log-provider)
-
-Everywhere a function can be used, a constant value can also be used instead.
+  - [`attribute.authorize`](../data_model/authorization.md)
+  - [`attribute.readonly`](../data_model/authorization.md#readonly-attributes)
+  - [`attribute.default`](../data_model/default.md)
+  - [`attribute.value`](../data_model/transformation.md)
+  - [custom validation keywords](../data_model/validation.md#custom-validation)
+  - [custom patch operators](../data_model/patch.md#custom-operators)
+  - [custom log providers](../quality/logging.md#custom-log-provider)
 
 Functions should be pure: no global variable should be used nor side-effects
 created. Their parameters are read-only.
@@ -21,7 +19,7 @@ created. Their parameters are read-only.
 # Defining functions
 
 Functions are regular JavaScript files exporting a function and required using a
-[JSON reference](json_references.md).
+[reference](references.md).
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
@@ -40,7 +38,7 @@ collections:
     attributes:
       example_attribute:
         default:
-          $ref: src/get_default_value.js
+          $ref: get_default_value.js
 ```
 
 # Inline functions
@@ -57,12 +55,24 @@ collections:
 ```
 
 Only the function body should be specified (without the leading `return`
-keyword), and it should be wrapped in parenthesis.
+keyword) and it should be wrapped in parenthesis.
+
+# Constants
+
+Everywhere a function can be used, a constant value can also be used instead.
+
+```yml
+collections:
+  example_collection:
+    attributes:
+      example_attribute:
+        default: 10
+```
 
 # Parameters
 
-Every functions receives as their first argument an object containing
-parameters with information about the current context.
+Every function receives as its first argument an object containing parameters
+with information about the current context.
 
 In the example below, the `timestamp` parameter is used.
 
@@ -96,7 +106,7 @@ The following parameters are available to any function:
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
   - `method` `{string}` - [protocol](../../client/syntax/protocols.md)-agnostic
-    method, e.g. `'GET'`
+    method, e.g. `GET`
   - `queryvars` `{object}` - query variables, as an object
   - `headers` `{object}` - [protocol headers](../../client/syntax/protocols.md)
     specific to the engine, for example HTTP headers starting with
@@ -111,7 +121,7 @@ The following parameters are available to any function:
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array
   - [`rpc`](../../client/syntax/rpc.md) `{string}`: possible values are
-    `graphql`, `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
+    `graphql`, `graphiql`, `graphqlprint`, `rest` or `jsonrpc`
   - `args` `{object}`: client [arguments](../../client/syntax/rpc.md#rpc)
     passed to the request, e.g. `filter`
   - `params` `{object}`: all
@@ -124,42 +134,42 @@ The following parameters are available to any function:
   - `commandpaths` `{string[]}` - array with all `commandpath`
   - `collections` `{string[]}` - array with all `collection`
   - [`command`](../../client/query/crud.md) `{string}` - among `create`, `find`,
-    `upsert`, `patch` and `delete`.
-  - `serverinfo` `{object}`: with the properties:
+    `upsert`, `patch` and `delete`
+  - `serverinfo` `{object}`:
     - `host` `{object}`:
        - `id` `{UUID}`: unique to each host machine (using the MAC address)
        - `name` `{string}` - hostname
-       - `os` `{string}` - e.g. `'Linux'`
-       - `platform` `{string}` - e.g. `'linux'`
-       - `release` `{string}` - e.g. `'4.8.0-52-generic'`
-       - `arch` `{string}` - e.g. `'x64'`
+       - `os` `{string}` - e.g. `Linux`
+       - `platform` `{string}` - e.g. `linux`
+       - `release` `{string}` - e.g. `4.8.0-52-generic`
+       - `arch` `{string}` - e.g. `x64`
        - `memory` `{number}` - total memory in bytes
        - `cpus` `{number}` - number of CPUs
     - `versions` `{object}`
-       - `node` `{string}` - Node.js version, e.g. `'v8.0.0'`
-       - `apiengine` `{string}` - `apiengine` version, e.g. `'v0.0.1'`
+       - `node` `{string}` - Node.js version, e.g. `v8.0.0`
+       - `apiengine` `{string}` - `apiengine` version, e.g. `v0.0.1`
     - `process` `{object}`:
        - `id` `{string}`: PID
        - `name` `{string}`: defaults to system hostname, but can be overriden
          using the configuration property `name`
 
 The following parameters are available to any function except
-[custom log providers](../properties/logging.md#custom-log-provider) and
+[custom log providers](../quality/logging.md#custom-log-provider) and
 [server-specific parameters](#server-specific-parameters):
   - `commandpath` `{string}` - [command](../../client/query/crud.md) full path,
-    e.g. `` (top-level) or `child.grand_child`
+    e.g. `""` (top-level) or `child.grand_child`
   - `collection` `{string}`: name of the
-    [collection](../properties/collections.md), e.g. `users`
+    [collection](../data_model/collections.md), e.g. `users`
 
 The following parameters are available to any function except
-[custom log providers](../properties/logging.md#custom-log-provider),
+[custom log providers](../quality/logging.md#custom-log-provider),
 [server-specific parameters](#server-specific-parameters) and
-[custom patch operators](../properties/patch.md#custom-operators):
+[custom patch operators](../data_model/patch.md#custom-operators):
   - `value` `{any}`: value of the current attribute.
-    E.g. `value === 'John'` checks whether the current value equals `'John'`
+    E.g. `value === 'John'` checks whether the current value equals `John`
   - `model` `{object}`: current model.
     E.g. `model.first_name === 'John'` checks whether the model's `first_name`
-    equals `'John'`
+    equals `John`
   - `previousvalue` `{any}`: value of the attribute.
     If the current request is modified the current attribute, `previousvalue`
     is the value before that modification, and `value` after that modification.
@@ -170,10 +180,10 @@ The following parameters are available to any function except
     action), this will be `undefined`.
 
 The following parameters are available only to
-[custom log providers](../properties/logging.md#custom-log-provider):
+[custom log providers](../quality/logging.md#custom-log-provider):
   - `log`, `error`, `protocols`, `exitcodes`, `measures`, `measuresmessage`,
     `duration`, `event`, `phase`, `level` and `message` - see
-    [logging](../properties/logging.md#functions-parameters)
+    [logging](../quality/logging.md#functions-parameters)
   - `status` `{string}` - response's status, among `INTERNALS`, `SUCCESS`,
     `CLIENT_ERROR` and `SERVER_ERROR`
   - `responsedata` `{any}` - response data
@@ -189,10 +199,10 @@ The following parameters are available for more specific cases:
   - `arg1`, `arg2`, etc.: see
     [server-specific parameters](#server-specific-parameters)
   - `arg`: see
-    [custom validation](../properties/validation.md#custom-validation) and
-    [custom patch operators](../properties/patch.md#custom-operators)
+    [custom validation](../data_model/validation.md#custom-validation) and
+    [custom patch operators](../data_model/patch.md#custom-operators)
   - `type`: see
-    [custom patch operators](../properties/patch.md#custom-operators)
+    [custom patch operators](../data_model/patch.md#custom-operators)
 
 # Server-specific parameters
 

@@ -17,8 +17,9 @@ client.
 
 # Combining attributes
 
-By using the `model` or `value` [parameters](../configuration/functions.md#parameters),
-this can also be used to combine several attributes.
+By using the `model` or `value`
+[parameters](../configuration/functions.md#parameters), this can also be used
+to combine several attributes.
 
 ```yml
 collections:

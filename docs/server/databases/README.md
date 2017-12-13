@@ -32,4 +32,4 @@ The available databases are:
   - [`mongodb`](mongodb.md)
 
 The default database is `memory`. To change it, use a
-[`default` collection](../properties/collections.md#default-collection).
+[`default` collection](../data_model/collections.md#default-collection).
