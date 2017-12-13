@@ -9,7 +9,10 @@ const { crawlNodes } = require('../../../filter');
 const getServerParams = function ({ authorize, serverParams, mInput }) {
   // Retrieve all `attrName` recursively inside filter AST
   const attrNames = crawlNodes(authorize, ({ attrName }) => attrName);
-  const serverParamsNames = getPossibleServerParams({ attrNames, serverParams });
+  const serverParamsNames = getPossibleServerParams({
+    attrNames,
+    serverParams,
+  });
   const serverParamsA = pick(serverParams, serverParamsNames);
   const serverParamsB = mapValues(
     serverParamsA,

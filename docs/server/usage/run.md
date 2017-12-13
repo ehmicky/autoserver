@@ -31,7 +31,7 @@ apiengine.run()
   .then(({ protocols }) => {
     console.log('Servers started at:', protocols);
   })
-  .catch((error) => {
+  .catch(error => {
     console.log('Could not start servers:', error);
   });
 ```
