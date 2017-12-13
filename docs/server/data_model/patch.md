@@ -2,7 +2,8 @@
 
 It is possible to specify custom
 [patch operators](../../client/request/patch.md#available-operators) with the
-`operators` [configuration property](../configuration/configuration.md#properties).
+`operators`
+[configuration property](../configuration/configuration.md#properties).
 
 ```yml
 operators:
