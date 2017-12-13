@@ -30,9 +30,9 @@ The following providers are available: [`http`](#http-log-provider),
 `opts` are the options passed to the log provider. It is specific to each
 provider.
 
-If you want to use several log providers or use several configurations,
-the `log` [configuration property](../configuration/configuration.md#properties) can be
-an array of objects instead of a single object.
+If you want to use several log providers or use several configurations, the
+`log` [configuration property](../configuration/configuration.md#properties)
+can be an array of objects instead of a single object.
 
 ```yml
 log:

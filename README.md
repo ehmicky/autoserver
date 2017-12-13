@@ -3,8 +3,8 @@
 # Overview
 
 Create a simple
-[configuration file](docs/server/configuration/configuration.md#configuration-file) describing
-your data model:
+[configuration file](docs/server/configuration/configuration.md#configuration-file)
+describing your data model:
 
 ```yml
 collections:
@@ -144,7 +144,8 @@ GET /rest/users/?filter.score._gt=100&order=score&populate=reports
   - [dry runs](docs/client/arguments/dryrun.md)
   - [silent outputs](docs/client/arguments/silent.md)
   - [plugins](docs/server/plugins/README.md)
-  - [custom logic](docs/server/configuration/functions.md) can be added in JavaScript
+  - [custom logic](docs/server/configuration/functions.md) can be added in
+    JavaScript
 
 # Documentation
 

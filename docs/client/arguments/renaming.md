@@ -4,8 +4,8 @@ The `rename` [argument](../rpc/README.md#rpc) can be used to rename attributes
 in the response.
 
 It is a comma-separated list of `name:different_name`.
-[Nested attributes](../request/relations.md#populating-nested-collections) can be
-specified using a dot notation.
+[Nested attributes](../request/relations.md#populating-nested-collections) can
+be specified using a dot notation.
 
 ```HTTP
 GET /rest/users/1?rename=name:different_name

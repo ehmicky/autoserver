@@ -100,8 +100,8 @@ command to query the current models to patch.
 
 ## Functions
 
-[Functions](../server/configuration/functions.md) specified in configuration, that
-allows injecting custom logic.
+[Functions](../server/configuration/functions.md) specified in configuration,
+that allows injecting custom logic.
 
 ## Utilities
 

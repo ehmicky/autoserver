@@ -133,8 +133,8 @@ The following parameters are available to any function:
   - `summary` `{string}` - summary of the request, e.g. `find_collection{child}`
   - `commandpaths` `{string[]}` - array with all `commandpath`
   - `collections` `{string[]}` - array with all `collection`
-  - [`command`](../../client/request/crud.md) `{string}` - among `create`, `find`,
-    `upsert`, `patch` and `delete`
+  - [`command`](../../client/request/crud.md) `{string}` - among `create`,
+    `find`, `upsert`, `patch` and `delete`
   - `serverinfo` `{object}`:
     - `host` `{object}`:
        - `id` `{UUID}`: unique to each host machine (using the MAC address)
@@ -156,8 +156,8 @@ The following parameters are available to any function:
 The following parameters are available to any function except
 [custom log providers](../quality/logging.md#custom-log-provider) and
 [server-specific parameters](#server-specific-parameters):
-  - `commandpath` `{string}` - [command](../../client/request/crud.md) full path,
-    e.g. `""` (top-level) or `child.grand_child`
+  - `commandpath` `{string}` - [command](../../client/request/crud.md) full
+    path, e.g. `""` (top-level) or `child.grand_child`
   - `collection` `{string}`: name of the
     [collection](../data_model/collections.md), e.g. `users`
 

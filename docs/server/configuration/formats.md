@@ -2,8 +2,8 @@
 
 The same formats are supported for the
 [configuration file](configuration.md#configuration-file) as for the
-[client request payloads and the server responses](../../client/protocols/formats.md), except the following ones are
-also available: [JavaScript](#javascript).
+[client request payloads and the server responses](../../client/protocols/formats.md),
+except the following ones are also available: [JavaScript](#javascript).
 
 Most of the examples in this documentation use
 [YAML](../../client/protocols/formats.md#yaml) for the

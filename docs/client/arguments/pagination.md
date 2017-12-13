@@ -182,8 +182,8 @@ be truncated.
 
 In [`patch`](../request/crud.md#patch-command),
 [`create`](../request/crud.md#create-command) and
-[`upsert`](../request/crud.md#upsert-command) commands, an error response is sent
-when the request or response contains too many models.
+[`upsert`](../request/crud.md#upsert-command) commands, an error response is
+sent when the request or response contains too many models.
 
 ## `delete`
 
