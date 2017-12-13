@@ -19,7 +19,7 @@ module.exports = {
   extNames: ['json5'],
   mimes: ['application/json5'],
   mimeExtensions: ['+json5'],
-  charsets: ['utf-8', 'utf-16', 'utf-16be', 'utf-16le'],
+  charsets: ['utf-8'],
   jsonCompat: ['superset'],
   parse,
   serialize,
