@@ -24,4 +24,4 @@ There is no automated testing yet.
 
 # Troubleshooting
 
-  - Please use Node.js v9.2.1
+  - Please use Node.js v9.3.0
