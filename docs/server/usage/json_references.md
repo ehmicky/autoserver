@@ -1,6 +1,6 @@
 # JSON references
 
-The [configuration file](server/usage/configuration.md#configuration-file) can be broken
+The [configuration file](../usage/configuration.md#configuration-file) can be broken
 down into several files by referring to local files with
 [JSON references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
 Those are simple objects with a single `$ref` property pointing to the file.
@@ -20,7 +20,7 @@ collections: ...
 params: ...
 ```
 
-JSON references are available for any [supported format](server/usage/formats.md),
+JSON references are available for any [supported format](../usage/formats.md),
 not only for JSON.
 
 # Local references

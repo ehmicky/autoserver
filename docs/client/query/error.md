@@ -1,10 +1,10 @@
 # Error responses
 
 Error responses contain an `error` property with the same properties as
-[exceptions](../server/usage/error.md#exceptions), except `details`.
+[exceptions](../../server/usage/error.md#exceptions), except `details`.
 
 `metadata.info` includes the same information as the
-[`log` parameter](../server/usage/functions.md#parameters), providing debugging
+[`log` parameter](../../server/usage/functions.md#parameters), providing debugging
 information about the request.
 
 ```json

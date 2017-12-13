@@ -10,8 +10,8 @@ objects with the following properties:
   - `details` `{string}`: stack trace
   - additional properties might be present, depending on the error type
 
-When an [instruction](server/usage/usage.md) fails, an exception will be thrown.
+When an [instruction](../usage/usage.md) fails, an exception will be thrown.
 
 When a client-side or server-side error occurs, an exception will be
-[logged](server/configuration/logging.md) using the
-[`error` parameter](server/configuration/logging.md#functions-parameters).
+[logged](../configuration/logging.md) using the
+[`error` parameter](../configuration/logging.md#functions-parameters).

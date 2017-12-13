@@ -7,4 +7,4 @@ For example, HTTP uses HTTP headers and HTTP method (e.g. `GET`).
 
 # Available protocols
 
-  - [`http`](client/syntax/http.md): HTTP/1.1
+  - [`http`](../syntax/http.md): HTTP/1.1

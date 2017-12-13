@@ -1,7 +1,7 @@
 # Data validation
 
 Attributes can be validated by using the `attribute.validate`
-[configuration property](server/usage/configuration.md#properties).
+[configuration property](../usage/configuration.md#properties).
 
 `attribute.validate` is a standard [JSON schema](http://json-schema.org/),
 version 6.
@@ -56,7 +56,7 @@ collections:
 ```
 
 The following properties are not available or are available under a different
-[configuration property](server/usage/configuration.md#properties): `type`,
+[configuration property](../usage/configuration.md#properties): `type`,
 `description`, `examples`, `default`, `title`, `$id`, `$schema`, `definitions`.
 
 Since attributes cannot be objects, the following properties are also
@@ -67,17 +67,17 @@ not available: `maxProperties`, `minProperties`, `additionalProperties`,
 
 If the pre-defined validation keywords are not sufficient, one can define
 custom ones, using the `validation`
-[configuration property](server/usage/configuration.md#properties).
+[configuration property](../usage/configuration.md#properties).
 
 This property is an object of validation keywords, where the key is the
 keyword name and the value an object with the properties:
-  - `test` [`{function}`](server/usage/functions.md): function that returns false
+  - `test` [`{function}`](../usage/functions.md): function that returns false
     if the validation failed.
-    The [parameter](server/usage/functions.md#parameters) `arg` represents the value
+    The [parameter](../usage/functions.md#parameters) `arg` represents the value
     passed to the keyword, and `value` represents the value to validate.
-  - `message` [`{string|function}`](server/usage/functions.md): error message.
-    Can be [functions](server/usage/functions.md) with the
-    [parameter](server/usage/functions.md#parameters) `arg`
+  - `message` [`{string|function}`](../usage/functions.md): error message.
+    Can be [functions](../usage/functions.md) with the
+    [parameter](../usage/functions.md#parameters) `arg`
     Must start with `'must '`
   - `type` `{string[]}`: optionally restrict the attributes types that can
     use that keyword

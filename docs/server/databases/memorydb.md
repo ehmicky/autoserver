@@ -31,4 +31,4 @@ managers:
 
 If the `save` option is `true`, the data will be saved back to the file when
 the server shuts down, providing the `data` option used a
-[JSON reference](server/usage/json_references.md).
+[JSON reference](../usage/json_references.md).

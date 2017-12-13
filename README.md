@@ -46,7 +46,7 @@ This generates a full-featured web API from a
     [`created_by`, `updated_by`](docs/server/usage/plugins.md#model-authors)
   - [compression](docs/client/arguments/compression.md) of both the response and the request,
     for any protocol. [Brotli](https://en.wikipedia.org/wiki/Brotli) support.
-  - [dry runs](docs/client/dryserver/usage/run.md)
+  - [dry runs](docs/client/arguments/dryrun.md)
   - [silent outputs](docs/client/arguments/silent.md)
   - [plugins](docs/server/usage/plugins.md)
   - [custom logic](docs/server/usage/functions.md) can be added in JavaScript

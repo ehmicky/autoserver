@@ -3,7 +3,7 @@
 One can specify which models to target using a `filter` for the commands
 `find`, `delete` and `patch`.
 
-The `filter` [argument](client/syntax/rpc.md#rpc) can target any attribute.
+The `filter` [argument](../syntax/rpc.md#rpc) can target any attribute.
 
 ```HTTP
 GET /rest/users/?filter.country=Denmark
@@ -31,11 +31,11 @@ GET /rest/users/?filter=%5B%7B%22country%22%3A%22Denmark%22%7D%2C%7B%22country%2
 
 # `id` argument
 
-The `id` [argument](client/syntax/rpc.md#rpc) is similar to
+The `id` [argument](../syntax/rpc.md#rpc) is similar to
 `filter: { id: "ID" }`, except:
   - the response will be a model instead of an array of models
-  - [pagination](client/arguments/pagination.md) and [sorting](client/arguments/sorting.md) cannot
-    be used, i.e. the following [arguments](client/syntax/rpc.md#rpc) are not
+  - [pagination](../arguments/pagination.md) and [sorting](../arguments/sorting.md) cannot
+    be used, i.e. the following [arguments](../syntax/rpc.md#rpc) are not
     available: `pagesize`, `page`, `before`, `after`, `order`
 
 ```HTTP

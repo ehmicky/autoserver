@@ -1,10 +1,10 @@
 # Different RPC systems
 
-The examples below are specific to [REST](client/syntax/rest.md).
+The examples below are specific to [REST](../syntax/rest.md).
 
-REST specifies the `data` [argument](client/syntax/rpc.md#rpc) with the request payload, the
-`id` [argument](client/syntax/rpc.md#rpc) with the URL and the command with the protocol
-method. However, other [RPC systems](client/syntax/rpc.md) have different conventions.
+REST specifies the `data` [argument](../syntax/rpc.md#rpc) with the request payload, the
+`id` [argument](../syntax/rpc.md#rpc) with the URL and the command with the protocol
+method. However, other [RPC systems](../syntax/rpc.md) have different conventions.
 
 # Find command
 
@@ -44,7 +44,7 @@ will respond with:
 
 The `create` command creates new models.
 
-The `data` [argument](client/syntax/rpc.md#rpc) is either a single object
+The `data` [argument](../syntax/rpc.md#rpc) is either a single object
 or an array of objects.
 
 ```HTTP
@@ -104,7 +104,7 @@ will respond with:
 The `upsert` command performs a full modification of existing models.
 If the models do not exist, they are created instead.
 
-The `data` [argument](client/syntax/rpc.md#rpc) is either a single object
+The `data` [argument](../syntax/rpc.md#rpc) is either a single object
 or an array of objects.
 
 Each model must contain an `id` attribute.
@@ -149,7 +149,7 @@ will respond with:
 
 The `patch` command performs a partial modification of existing models.
 
-The `data` [argument](client/syntax/rpc.md#rpc) is a single object
+The `data` [argument](../syntax/rpc.md#rpc) is a single object
 specifying the new values to update.
 
 It cannot contain any `id` attribute.
@@ -195,7 +195,7 @@ PATCH /rest/users/1
 { "age": { "_add": 1 } }
 ```
 
-More information can be found [here](client/query/patch.md).
+More information can be found [here](../query/patch.md).
 
 # Delete command
 
@@ -257,19 +257,19 @@ delete_collection({ [id|filter], [cascade], [select], [rename], [silent],
 [dryrun], [params] })
 ```
 
-More information on each [argument](client/syntax/rpc.md#rpc) can be found here:
-[`id`](client/arguments/filtering.md#id-argument),
-[`filter`](client/arguments/filtering.md),
-[`order`](client/arguments/sorting.md),
-[`populate`](client/query/relations.md#populating-nested-collections),
-[`cascade`](client/query/relations.md#deleting-nested-collections),
-[`pagesize`](client/arguments/pagination.md#page-size),
-[`before`](client/arguments/pagination.md#backward-iteration),
-[`after`](client/arguments/pagination.md#cursor-pagination),
-[`page`](client/arguments/pagination.md#offset-pagination),
-[`select`](client/arguments/selecting.md),
-[`rename`](client/arguments/renaming.md),
-[`silent`](client/arguments/silent.md),
-[`dryrun`](client/arguments/dryrun.md),
-[`params`](client/arguments/params.md),
-[`data`](client/query/crud.md)
+More information on each [argument](../syntax/rpc.md#rpc) can be found here:
+[`id`](../arguments/filtering.md#id-argument),
+[`filter`](../arguments/filtering.md),
+[`order`](../arguments/sorting.md),
+[`populate`](../query/relations.md#populating-nested-collections),
+[`cascade`](../query/relations.md#deleting-nested-collections),
+[`pagesize`](../arguments/pagination.md#page-size),
+[`before`](../arguments/pagination.md#backward-iteration),
+[`after`](../arguments/pagination.md#cursor-pagination),
+[`page`](../arguments/pagination.md#offset-pagination),
+[`select`](../arguments/selecting.md),
+[`rename`](../arguments/renaming.md),
+[`silent`](../arguments/silent.md),
+[`dryrun`](../arguments/dryrun.md),
+[`params`](../arguments/params.md),
+[`data`](../query/crud.md)

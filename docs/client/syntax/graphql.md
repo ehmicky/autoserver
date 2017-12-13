@@ -1,6 +1,6 @@
 # Endpoint
 
-[GraphQL](http://graphql.org/) is one of the available [RPC systems](client/syntax/rpc.md).
+[GraphQL](http://graphql.org/) is one of the available [RPC systems](../syntax/rpc.md).
 
 Clients can query the GraphQL server at `//hostname:port/graphql`.
 
@@ -15,10 +15,10 @@ Clients can also see the GraphQL schema as HTML at
 
 # Command and arguments
 
-The [command](client/syntax/rpc.md#rpc) is specified using the
+The [command](../syntax/rpc.md#rpc) is specified using the
 top-level GraphQL method name, e.g. `find_users` or `create_users`.
 
-The [arguments](client/syntax/rpc.md#rpc) are specified using the top-level GraphQL arguments.
+The [arguments](../syntax/rpc.md#rpc) are specified using the top-level GraphQL arguments.
 
 The response's metadata are available under the `extensions` property.
 
@@ -52,16 +52,16 @@ would respond with:
 # Selection, population and renaming
 
 GraphQL selection fields must be used instead of both the
-[`select`](client/arguments/selecting.md),
-[`populate`](client/query/relations.md#populating-nested-collections) and
-[`rename`](client/arguments/renaming.md) arguments.
+[`select`](../arguments/selecting.md),
+[`populate`](../query/relations.md#populating-nested-collections) and
+[`rename`](../arguments/renaming.md) arguments.
 
 The special attribute `all` can be used to select all attributes.
 
 # Error responses
 
 GraphQL error responses follow the usual error
-[response format](error.md#error-responses), with some changes
+[response format](../query/error.md#error-responses), with some changes
 to accomodate the
 [GraphQL spec](https://facebook.github.io/graphql/#sec-Errors):
   - `error` is called `errors`, and is an array containing a single object.

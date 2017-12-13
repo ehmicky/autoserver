@@ -21,11 +21,11 @@ Group of middleware.
 
 ## Protocol
 
-Network [protocol](../server/protocols/protocols.md), e.g. HTTP.
+Network [protocol](../client/syntax/protocols.md), e.g. HTTP.
 
 ## Method
 
-[Protocol](../server/protocols/protocols.md) method, e.g. `GET` or `POST`.
+[Protocol](../client/syntax/protocols.md) method, e.g. `GET` or `POST`.
 
 ## GraphQL method
 
@@ -36,15 +36,15 @@ others.
 ## JSON-RPC method
 
 [JSON-RPC](../client/syntax/jsonrpc.md) `method` field, indicating the current
-[command](../client/query/crud.md#rpc), e.g. `find_users`.
+[command](../client/query/crud.md), e.g. `find_users`.
 
 ## Payload
 
-[Request](../server/protocols/protocols.md#request) payload
+[Request](../client/syntax/protocols.md) payload
 
 ## Headers
 
-[Protocol](../server/protocols/protocols.md) headers
+[Protocol](../client/syntax/protocols.md) headers
 
 ## Status
 
@@ -151,7 +151,7 @@ collection
 
 ## Attribute
 
-A collection's [attribute](../server/configuration/collections.md#attributes.md),
+A collection's [attribute](../server/configuration/collections.md#attributes),
 i.e. like a database column or key
 
 ## Property

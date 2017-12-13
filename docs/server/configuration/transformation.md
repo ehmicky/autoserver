@@ -1,8 +1,8 @@
 # Computed attributes
 
 Attributes can be calculated server-side by setting the `attribute.value`
-[configuration property](server/usage/configuration.md#properties) to a
-[function](server/usage/functions.md).
+[configuration property](../usage/configuration.md#properties) to a
+[function](../usage/functions.md).
 
 ```yml
 collections:
@@ -17,7 +17,7 @@ client.
 
 # Combining attributes
 
-By using the `model` or `value` [parameters](server/usage/functions.md#parameters),
+By using the `model` or `value` [parameters](../usage/functions.md#parameters),
 this can also be used to combine several attributes.
 
 ```yml
