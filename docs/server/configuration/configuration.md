@@ -1,15 +1,16 @@
 # Configuration
 
-[Configuration properties](#properties) are used by the
-[`run`](../usage/run.md) instruction.
+The data model and business logic is specified in the configuration used by
+the [`run`](../usage/run.md) instruction.
 
 There are several ways to define [configuration properties](#properties).
 If several are used, they are merged together (from the highest priority to
 the lowest):
   - setting an [environment variable](#environment-variables):
     `APIENGINE__LIMITS__PAGESIZE=10`
-  - using a command line option: `apiengine run --limits.pagesize=10`
-  - passing the option via Node.js:
+  - using a [command line option](../usage/README.md#usage):
+    `apiengine run --limits.pagesize=10`
+  - passing the option via [Node.js](../usage/README.md#node.js):
     `apiengine.run({ limits: { pagesize: 10 } })`
   - using a [configuration file](#configuration-file)
 
@@ -28,25 +29,24 @@ The following configuration properties are available:
     Running in `dev` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
   - `collections` `{object}` (required) - list of
-    [collections](../properties/collections.md#collections)
+    [collections](../data_model/collections.md#collections)
     - `COLLECTION` `{object}` - `COLLECTION` is the name
-      - `attributes` `{object}` - list of the collections's
-        [attributes](../properties/collections.md#attributes)
+      - `attributes` `{object}` - list of the collection's
+        [attributes](../data_model/collections.md#attributes)
         - `ATTRIBUTE` `{object}` - `ATTRIBUTE` is the name
   - `params` `{object}` -
     [server-specific parameters](functions.md#server-specific-parameters)
-  - `plugins` `{object}` - see [plugins](plugins.md)
-  - `authorize` `{object}` - see
-    [authorization](../properties/authorization.md)
+  - `plugins` `{object}` - [plugins](../plugins/README.md)
+  - `authorize` `{object}` - [authorization](../data_model/authorization.md)
   - `validation` `{object}` -
-    [custom validation keywords](../properties/validation.md#custom-validation)
+    [custom validation keywords](../data_model/validation.md#custom-validation)
   - `operators` `{object}` -
-    [custom patch operators](../properties/patch.md#custom-operators)
-  - `log` `{object}` - [logging configuration](../properties/logging.md)
+    [custom patch operators](../data_model/patch.md#custom-operators)
+  - `log` `{object}` - [logging configuration](../quality/logging.md)
   - `protocols` `{object}`:
     [protocols options](../protocols/README.md#options)
   - `databases` `{object}`: [databases options](../databases/README.md)
-  - `limits` `{object}`: see [limits](../properties/limits.md)
+  - `limits` `{object}`: [limits](../quality/limits.md)
 
 # Configuration file
 
@@ -60,7 +60,7 @@ the current directory, or any parent. `EXTENSION` depends on the file format,
 e.g. `yml` for YAML.
 
 The configuration can be broken down into several files or import Node.js
-modules by using [JSON references](json_references.md).
+modules by using [references](references.md).
 
 # Example
 
@@ -70,7 +70,7 @@ The configuration file below:
       and `registration_no`
     - a `users` collection with attributes `id`, `name` and `employer`
       (pointing to a `companies` collection)
-  - set the [HTTP](../protocols/http.md) port to `5001`
+  - sets the [HTTP](../protocols/http.md) port to `5001`
 
 ```yml
 engine: 0
@@ -82,6 +82,8 @@ collections:
         type: number
   users:
     attributes:
+      id:
+        type: string
       name:
         description: This is the name of a users
       employer:

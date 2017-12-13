@@ -135,7 +135,7 @@ Generic [error type](../server/usage/error.md)
 
 ## Collection
 
-Like a [database table](../server/properties/collections.md) or collection
+Like a [database table](../server/data_model/collections.md) or collection
 
 ## Model
 
@@ -143,17 +143,17 @@ Individual object inside a collection
 
 ## Nested collection
 
-[Attribute](../server/properties/relations.md) inside a collection targeting
+[Attribute](../server/data_model/relations.md) inside a collection targeting
 another collection
 
 ## Target collection
 
-[Collection](../server/properties/relations.md) targeted by a nested
+[Collection](../server/data_model/relations.md) targeted by a nested
 collection
 
 ## Attribute
 
-A collection's [attribute](../server/properties/collections.md#attributes),
+A collection's [attribute](../server/data_model/collections.md#attributes),
 i.e. like a database column or key
 
 ## Property
@@ -162,4 +162,4 @@ Any object property
 
 ## Instruction
 
-Top-level [instruction](../server/usage/usage.md), e.g. `run`.
+Top-level [instruction](../server/usage/README.md), e.g. `run`.

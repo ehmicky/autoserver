@@ -26,8 +26,8 @@ This generates a full-featured web API from a
     [Hjson](docs/client/arguments/formats.md#hjson),
     [JSON5](docs/client/arguments/formats.md#json5) and
     [INI](docs/client/arguments/formats.md#ini)
-  - automatic [logging](docs/server/properties/logging.md) and
-    [performance monitoring](docs/server/properties/logging.md#performance-monitoring)
+  - automatic [logging](docs/server/quality/logging.md) and
+    [performance monitoring](docs/server/quality/logging.md#performance-monitoring)
   - extensive [error handling and reporting](docs/server/usage/error.md)
   - [CRUD commands](docs/client/query/crud.md): find, create, patch, upsert,
     delete.
@@ -41,22 +41,22 @@ This generates a full-featured web API from a
   - [selecting](docs/client/arguments/selecting.md)
   - [renaming attributes](docs/client/arguments/renaming.md)
   - [pagination](docs/client/arguments/pagination.md)
-  - [input validation](docs/server/properties/validation.md#data-validation)
-  - [authorization](docs/server/properties/authorization.md), including
-    [readonly](docs/server/properties/authorization.md#readonly-attributes)
+  - [input validation](docs/server/data_model/validation.md#data-validation)
+  - [authorization](docs/server/data_model/authorization.md), including
+    [readonly](docs/server/data_model/authorization.md#readonly-attributes)
     attributes
-  - [default values](docs/server/configuration/default.md)
-  - [computed attributes and normalization](docs/server/properties/transformation.md)
-  - [aliases](docs/server/properties/compatibility.md#aliases)
+  - [default values](docs/server/data_model/default.md)
+  - [computed attributes and normalization](docs/server/data_model/transformation.md)
+  - [aliases](docs/server/data_model/compatibility.md#aliases)
   - automatic attributes:
-    [`created_time`, `updated_time`](docs/server/configuration/plugins.md#timestamps),
-    [`created_by`, `updated_by`](docs/server/configuration/plugins.md#model-authors)
+    [`created_time`, `updated_time`](docs/server/plugins/timestamp.md),
+    [`created_by`, `updated_by`](docs/server/plugins/author.md)
   - [compression](docs/client/arguments/compression.md) of both the response
     and the request, for any protocol.
     [Brotli](https://en.wikipedia.org/wiki/Brotli) support.
   - [dry runs](docs/client/arguments/dryrun.md)
   - [silent outputs](docs/client/arguments/silent.md)
-  - [plugins](docs/server/configuration/plugins.md)
+  - [plugins](docs/server/plugins/README.md)
   - [custom logic](docs/server/configuration/functions.md) can be added in JavaScript
 
 # Missing features
@@ -66,7 +66,7 @@ See the [roadmap](ROADMAP.md).
 # Usage
 
 You can learn:
-  - how to run the server [here](docs/server/usage/usage.md).
+  - how to run the server [here](docs/server/usage/README.md).
   - how to perform queries against this server [here](docs/client/syntax/rpc.md)
 
 # Contribute

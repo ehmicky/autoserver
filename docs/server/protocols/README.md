@@ -6,7 +6,8 @@ a single server. By default, all protocols are spawned.
 # Options
 
 Each protocol has its own set of options, which are specified with the
-`protocols` [configuration property](../configuration/configuration.md#properties).
+`protocols`
+[configuration property](../configuration/configuration.md#properties).
 
 ```yml
 protocols:
