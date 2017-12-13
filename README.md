@@ -1,7 +1,94 @@
 [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://standardjs.com/)
 
-This generates a full-featured web API from a
-[configuration file](docs/server/configuration/configuration.md#configuration-file).
+# Overview
+
+Create a simple
+[configuration file](docs/server/configuration/configuration.md#configuration-file) describing
+your data model:
+
+```yml
+collections:
+  users:
+    description: User of the API
+    attributes:
+      id:
+        type: string
+      age:
+        type: integer
+      score:
+        type: number
+        alias: high_score
+        default: 10
+        validate:
+          minimum: 20
+      reports:
+        type: reports[]
+  reports:
+    attributes:
+      id:
+        type: string
+      content:
+        type: string
+  default:
+    database: mongodb
+databases:
+  mongodb:
+    password: secret_mongodb_password
+```
+
+Then start a full-featured web API by typing:
+
+```bash
+apiengine run
+```
+
+Clients will now be able to perform [GraphQL](docs/client/rpc/graphql.md)
+requests:
+
+```graphql
+{
+  find_users(
+    filter: { score: { _gt: 100 } }
+    order: "score"
+  ) {
+    id
+    age
+    score
+    reports: { content }
+  }
+}
+```
+
+Or [REST](docs/client/rpc/rest.md) requests:
+
+```HTTP
+GET /rest/users/?filter.score._gt=100&order=score&populate=reports
+```
+
+```json
+{
+  "data": [
+    {
+      "id": "15",
+      "age": 32,
+      "score": 150,
+      "reports": { "id": "65", "content": "..." }
+    },
+    {
+      "id": "251",
+      "age": 24,
+      "score": 168,
+      "reports": { "id": "67", "content": "..." }
+    },
+    {
+      "id": "7",
+      "age": 51,
+      "score": 192,
+      "reports": { "id": "10", "content": "..." }
+    }
+  ]
+}
+```
 
 # Features
 
@@ -59,9 +146,6 @@ This generates a full-featured web API from a
   - [plugins](docs/server/plugins/README.md)
   - [custom logic](docs/server/configuration/functions.md) can be added in JavaScript
 
-# Usage
+# Documentation
 
-You can learn:
-  - how to run the server [here](docs/server/usage/README.md).
-  - how to perform client requests against this server
-    [here](docs/client/rpc/README.md)
+The documentation is [here](docs/README.md).
