@@ -1,7 +1,7 @@
 # Endpoint
 
 [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
-is one of the available [RPC systems](client/syntax/rpc.md).
+is one of the available [RPC systems](../syntax/rpc.md).
 
 Clients can query the GraphQL server at either
 `//hostname:port/rest/COLLECTION/` or `//hostname:port/rest/COLLECTION/ID`,
@@ -9,22 +9,22 @@ where `COLLECTION` represents the collection's name and `ID` its `id` attribute.
 
 # Command
 
-The [command](client/syntax/rpc.md#rpc) is guessed from the collection's name
+The [command](../syntax/rpc.md#rpc) is guessed from the collection's name
 in the URL, and from the HTTP method:
-  - `GET` and `HEAD` uses the [`find`](client/query/crud.md#find-command) command
-  - `POST` uses the [`create`](client/query/crud.md#create-command) command
-  - `PUT` uses the [`upsert`](client/query/crud.md#upsert-command) command
-  - `PATCH` uses the [`patch`](client/query/crud.md#patch-command) command
-  - `DELETE` uses the [`delete`](client/query/crud.md#delete-command) command
+  - `GET` and `HEAD` uses the [`find`](../query/crud.md#find-command) command
+  - `POST` uses the [`create`](../query/crud.md#create-command) command
+  - `PUT` uses the [`upsert`](../query/crud.md#upsert-command) command
+  - `PATCH` uses the [`patch`](../query/crud.md#patch-command) command
+  - `DELETE` uses the [`delete`](../query/crud.md#delete-command) command
 
 If an `ID` is present in the URL, the response will be an object instead of
 an array of objects. Also the `ID` will be used as the
-[`id`](client/arguments/filtering.md#id-argument) [argument](client/syntax/rpc.md#rpc).
+[`id`](../arguments/filtering.md#id-argument) [argument](../syntax/rpc.md#rpc).
 
 # Arguments
 
-The [arguments](client/syntax/rpc.md#rpc) are specified using URL query
-variables, except for the `data` [argument](client/syntax/rpc.md#rpc), which is specified
+The [arguments](../syntax/rpc.md#rpc) are specified using URL query
+variables, except for the `data` [argument](../syntax/rpc.md#rpc), which is specified
 using the full request payload.
 
 Values can be either an unquoted string or any JSON value. To differentiate
@@ -93,7 +93,7 @@ would respond with:
 # Error responses
 
 REST error responses follow the usual error
-[response format](error.md#error-responses):
+[response format](../query/error.md#error-responses):
 
 ```json
 {

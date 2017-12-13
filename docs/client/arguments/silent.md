@@ -3,7 +3,7 @@
 When requesting a silent output, the response will be empty, unless an error
 occurred. The command will still be performed.
 
-Silent outputs can be requested using the `silent` [argument](client/syntax/rpc.md#rpc) with
+Silent outputs can be requested using the `silent` [argument](../syntax/rpc.md#rpc) with
 any command.
 
 ```HTTP

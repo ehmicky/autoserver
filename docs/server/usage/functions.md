@@ -1,17 +1,17 @@
 # Functions
 
 Custom logic can be added by using functions in the
-[configuration](server/usage/configuration.md).
+[configuration](../usage/configuration.md).
 
-The following [configuration properties](server/usage/configuration.md#properties)
+The following [configuration properties](../usage/configuration.md#properties)
 can use functions:
-  - [`attribute.authorize`](server/configuration/authorization.md)
-  - [`attribute.readonly`](server/configuration/authorization.md#readonly-attributes)
-  - [`attribute.default`](server/usage/default.md)
-  - [`attribute.value`](server/configuration/transformation.md)
-  - [custom validation keywords](server/configuration/validation.md#custom-validation)
-  - [custom patch operators](server/configuration/patch.md#custom-operators)
-  - [custom log providers](server/configuration/logging.md#custom-log-provider)
+  - [`attribute.authorize`](../configuration/authorization.md)
+  - [`attribute.readonly`](../configuration/authorization.md#readonly-attributes)
+  - [`attribute.default`](../usage/default.md)
+  - [`attribute.value`](../configuration/transformation.md)
+  - [custom validation keywords](../configuration/validation.md#custom-validation)
+  - [custom patch operators](../configuration/patch.md#custom-operators)
+  - [custom log providers](../configuration/logging.md#custom-log-provider)
 
 Everywhere a function can be used, a constant value can also be used instead.
 
@@ -21,7 +21,7 @@ created. Their parameters are read-only.
 # Defining functions
 
 Functions are regular JavaScript files exporting a function and required using a
-[JSON reference](json-references.md).
+[JSON reference](json_references.md).
 
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
@@ -32,7 +32,7 @@ const getDefaultValue = function () {
 module.exports = getDefaultValue;
 ```
 
-and in the [configuration](server/usage/configuration.md):
+and in the [configuration](../usage/configuration.md):
 
 ```yml
 collections:
@@ -46,7 +46,7 @@ collections:
 # Inline functions
 
 You can also directly write JavaScript functions inside the
-[configuration](server/usage/configuration.md).
+[configuration](../usage/configuration.md).
 
 ```yml
 collections:
@@ -90,39 +90,39 @@ The following parameters are available to any function:
     Also available in response's `metadata.requestid` property
   - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
     i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
-  - [`protocol`](server/protocols/protocols.md) `{string}`: possible value is only `http`
+  - [`protocol`](../../client/syntax/protocols.md) `{string}`: possible value is only `http`
   - `ip` `{string}`: request IP
   - `origin` `{string}` - protocol + hostname + port
   - `path` `{string}` - only the URL path, with no query string nor hash
-  - `method` `{string}` - [protocol](server/protocols/protocols.md#request)-agnostic
+  - `method` `{string}` - [protocol](../../client/syntax/protocols.md)-agnostic
     method, e.g. `'GET'`
   - `queryvars` `{object}` - query variables, as an object
-  - `headers` `{object}` - [protocol headers](server/protocols/protocols.md#request)
+  - `headers` `{object}` - [protocol headers](../../client/syntax/protocols.md)
     specific to the engine, for example HTTP headers starting with
     `X-Apiengine-`
   - `format` `{string}` - request payload and server response's
-    [format](../client/arguments/formats.md)
+    [format](../../client/arguments/formats.md)
   - `charset` `{string}` - request payload's
-    [charset](../client/arguments/formats.md#charsets)
+    [charset](../../client/arguments/formats.md#charsets)
   - `compress` `{string}` - response's and request's
-    [compression](client/arguments/compression.md)
-  - `payload` `{any}` - request [payload](server/protocols/protocols.md#request)
+    [compression](../../client/arguments/compression.md)
+  - `payload` `{any}` - request [payload](../../client/syntax/protocols.md)
   - `payloadsize` `{number}` - in bytes
   - `payloadcount` `{number}` - array length, if it is an array
-  - [`rpc`](client/syntax/rpc.md) `{string}`: possible values are `graphql`,
+  - [`rpc`](../../client/syntax/rpc.md) `{string}`: possible values are `graphql`,
     `graphiql`, `graphqlprint`, `rest` or `jsonrpc`.
-  - `args` `{object}`: client [arguments](client/syntax/rpc.md#rpc) passed to the
+  - `args` `{object}`: client [arguments](../../client/syntax/rpc.md#rpc) passed to the
     request, e.g. `filter`
   - `params` `{object}`: all
-    [client-specific parameters](../client/arguments/params.md)
-  - `datasize` `{number}` - size of the `data` [argument](client/syntax/rpc.md#rpc),
+    [client-specific parameters](../../client/arguments/params.md)
+  - `datasize` `{number}` - size of the `data` [argument](../../client/syntax/rpc.md#rpc),
     in bytes
   - `datacount` `{number}` - array length of the `data`
-    [argument](client/syntax/rpc.md#rpc), if it is an array
+    [argument](../../client/syntax/rpc.md#rpc), if it is an array
   - `summary` `{string}` - summary of the request, e.g. `find_collection{child}`
   - `commandpaths` `{string[]}` - array with all `commandpath`
   - `collections` `{string[]}` - array with all `collection`
-  - [`command`](dev/terminology.md#command) `{string}` - among `create`, `find`,
+  - [`command`](../../client/query/crud.md) `{string}` - among `create`, `find`,
     `upsert`, `patch` and `delete`.
   - `serverinfo` `{object}`: with the properties:
     - `host` `{object}`:
@@ -143,17 +143,17 @@ The following parameters are available to any function:
          using the configuration property `name`
 
 The following parameters are available to any function except
-[custom log providers](server/configuration/logging.md#custom-log-provider) and
+[custom log providers](../configuration/logging.md#custom-log-provider) and
 [server-specific parameters](#server-specific-parameters):
-  - `commandpath` `{string}` - [command](dev/terminology.md#command) full path,
+  - `commandpath` `{string}` - [command](../../client/query/crud.md) full path,
     e.g. `` (top-level) or `child.grand_child`
-  - `collection` `{string}`: name of the [collection](server/configuration/collections.md),
+  - `collection` `{string}`: name of the [collection](../configuration/collections.md),
     e.g. `users`
 
 The following parameters are available to any function except
-[custom log providers](server/configuration/logging.md#custom-log-provider),
+[custom log providers](../configuration/logging.md#custom-log-provider),
 [server-specific parameters](#server-specific-parameters) and
-[custom patch operators](server/configuration/patch.md#custom-operators):
+[custom patch operators](../configuration/patch.md#custom-operators):
   - `value` `{any}`: value of the current attribute.
     E.g. `value === 'John'` checks whether the current value equals `'John'`
   - `model` `{object}`: current model.
@@ -169,10 +169,10 @@ The following parameters are available to any function except
     action), this will be `undefined`.
 
 The following parameters are available only to
-[custom log providers](server/configuration/logging.md#custom-log-provider):
+[custom log providers](../configuration/logging.md#custom-log-provider):
   - `log`, `error`, `protocols`, `exitcodes`, `measures`, `measuresmessage`,
     `duration`, `event`, `phase`, `level` and `message` - see
-    [logging](server/configuration/logging.md#functions-parameters)
+    [logging](../configuration/logging.md#functions-parameters)
   - `status` `{string}` - response's status, among `INTERNALS`, `SUCCESS`,
     `CLIENT_ERROR` and `SERVER_ERROR`
   - `responsedata` `{any}` - response data
@@ -187,14 +187,14 @@ The following parameters are available only to
 The following parameters are available for more specific cases:
   - `arg1`, `arg2`, etc.: see
     [server-specific parameters](#server-specific-parameters)
-  - `arg`: see [custom validation](server/configuration/validation.md#custom-validation) and
-    [custom patch operators](server/configuration/patch.md#custom-operators)
-  - `type`: see [custom patch operators](server/configuration/patch.md#custom-operators)
+  - `arg`: see [custom validation](../configuration/validation.md#custom-validation) and
+    [custom patch operators](../configuration/patch.md#custom-operators)
+  - `type`: see [custom patch operators](../configuration/patch.md#custom-operators)
 
 # Server-specific parameters
 
 Server-specific parameters can be added using the `params`
-[configuration property](server/usage/configuration.md#properties), which is an object
+[configuration property](../usage/configuration.md#properties), which is an object
 containing all server-specific parameters.
 
 In the example below, the `$secret_password` server-specific parameters is made

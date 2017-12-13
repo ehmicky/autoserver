@@ -1,7 +1,7 @@
 # Endpoint
 
 [JSON-RPC](http://www.jsonrpc.org) is one of the available
-[RPC systems](client/syntax/rpc.md).
+[RPC systems](../syntax/rpc.md).
 
 Both JSON-RPC 1.0 and 2.0 are supported.
 
@@ -10,11 +10,11 @@ The `POST` protocol method must be used.
 
 # Command and arguments
 
-The [command](client/syntax/rpc.md#rpc) is specified using the
+The [command](../syntax/rpc.md#rpc) is specified using the
 JSON-RPC `method` field (which is different from the protocol method, e.g.
 `POST`).
 
-The [arguments](client/syntax/rpc.md#rpc) are specified using the
+The [arguments](../syntax/rpc.md#rpc) are specified using the
 JSON-RPC `params` field.
 
 For example, the following request:
@@ -49,7 +49,7 @@ would respond with:
 # Error responses
 
 JSON-RPC error responses follow the usual error
-[response format](error.md#error-responses), with some changes
+[response format](../query/error.md#error-responses), with some changes
 to accomodate the JSON-RPC spec:
   - the main response's envelope conforms to JSON-RPC, e.g. it has a
     JSON-RPC error code

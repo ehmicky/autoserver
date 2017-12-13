@@ -12,8 +12,8 @@ the request URL, where `FORMAT` is `json`, `yaml`, `urlencoded`, `raw`, `hjson`,
 
 # Charsets
 
-Multiple [character sets](dev/terminology.md#charset) are supported in the
-client request payload (if any is present). The response is always in UTF-8.
+Multiple character sets are supported in the client request payload (if any is
+present). The response is always in UTF-8.
 
 To specify which one to use, set the query variable `?charset=CHARSET` in the
 request URL.

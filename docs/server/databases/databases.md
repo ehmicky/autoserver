@@ -1,7 +1,7 @@
 # Databases
 
 Databases are specified with the `collection.database`
-[configuration property](server/usage/configuration.md#properties).
+[configuration property](../usage/configuration.md#properties).
 
 ```yml
 collections:
@@ -14,19 +14,19 @@ either share the same databases or use different ones.
 
 # Available databases
 
-The default database is [`memory`](server/databases/memorydb.md), an in-memory database,
+The default database is [`memory`](../databases/memorydb.md), an in-memory database,
 for development purpose.
 
 The other available databases are:
-  - [`mongodb`](server/databases/mongodb.md)
+  - [`mongodb`](../databases/mongodb.md)
 
 To change the default database, use a
-[`default` collection](server/configuration/collections.md#default-collection).
+[`default` collection](../configuration/collections.md#default-collection).
 
 # Databases options
 
 Databases options are specified with the `databases`
-[configuration property](server/usage/configuration.md#properties).
+[configuration property](../usage/configuration.md#properties).
 
 ```yml
 databases:

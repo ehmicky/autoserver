@@ -1,7 +1,7 @@
 # Configuration
 
 [Configuration properties](#properties) are used by the
-[`run`](server/usage/run.md) instruction.
+[`run`](../usage/run.md) instruction.
 
 There are several ways to define [configuration properties](#properties).
 If several are used, they are merged together (from the highest priority to
@@ -22,43 +22,43 @@ limits:
 
 The following configuration properties are available:
   - `engine` `{string}` (required) - file format version. Must equal `0`
-  - `name` `{string}` - sets the [parameter](server/usage/functions.md#parameters)
+  - `name` `{string}` - sets the [parameter](../usage/functions.md#parameters)
     `serverinfo.process.name`
   - `env` (defaults to `dev`): can be `dev` or `production`.
     Running in `dev` mode will add some developer-friendly features, e.g.
     disable request timeouts during breakpoint debugging.
   - `collections` `{object}` (required) - list of
-    [collections](server/configuration/collections.md#collections)
+    [collections](../configuration/collections.md#collections)
     - `COLLECTION` `{object}` - `COLLECTION` is the name
       - `attributes` `{object}` - list of the collections's
-        [attributes](server/configuration/collections.md#attributes)
+        [attributes](../configuration/collections.md#attributes)
         - `ATTRIBUTE` `{object}` - `ATTRIBUTE` is the name
   - `params` `{object}` -
-    [server-specific parameters](server/usage/functions.md#server-specific-parameters)
-  - `plugins` `{object}` - see [plugins](server/usage/plugins.md)
-  - `authorize` `{object}` - see [authorization](server/configuration/authorization.md)
+    [server-specific parameters](../usage/functions.md#server-specific-parameters)
+  - `plugins` `{object}` - see [plugins](../usage/plugins.md)
+  - `authorize` `{object}` - see [authorization](../configuration/authorization.md)
   - `validation` `{object}` -
-    [custom validation keywords](server/configuration/validation.md#custom-validation)
+    [custom validation keywords](../configuration/validation.md#custom-validation)
   - `operators` `{object}` -
-    [custom patch operators](server/configuration/patch.md#custom-operators)
-  - `log` `{object}` - [logging configuration](server/configuration/logging.md)
-  - `protocols` `{object}`: [protocols options](server/protocols/protocols.md)
-  - `databases` `{object}`: [databases options](server/databases/databases.md)
-  - `limits` `{object}`: see [limits](server/configuration/limits.md)
+    [custom patch operators](../configuration/patch.md#custom-operators)
+  - `log` `{object}` - [logging configuration](../configuration/logging.md)
+  - `protocols` `{object}`: [protocols options](../protocols/protocols.md#options)
+  - `databases` `{object}`: [databases options](../databases/databases.md)
+  - `limits` `{object}`: see [limits](../configuration/limits.md)
 
 # Configuration file
 
 The path of the configuration file is specified using the
-`config` [option](server/usage/run.md).
+`config` [option](../usage/run.md).
 
-The file format can be any of the [supported formats](server/usage/formats.md).
+The file format can be any of the [supported formats](../usage/formats.md).
 
 By default, any file named `apiengine.config.EXTENSION` will be searched in
 the current directory, or any parent. `EXTENSION` depends on the file format,
 e.g. `yml` for YAML.
 
 The configuration can be broken down into several files or import Node.js
-modules by using [JSON references](server/usage/json_references.md).
+modules by using [JSON references](../usage/json_references.md).
 
 # Example
 
@@ -68,7 +68,7 @@ The configuration file below:
       and `registration_no`
     - a `users` collection with attributes `id`, `name` and `employer`
       (pointing to a `companies` collection)
-  - set the [HTTP](server/protocols/http.md) port to `5001`
+  - set the [HTTP](../protocols/http.md) port to `5001`
 
 ```yml
 engine: 0
