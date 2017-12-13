@@ -36,13 +36,15 @@ The following configuration properties are available:
   - `params` `{object}` -
     [server-specific parameters](functions.md#server-specific-parameters)
   - `plugins` `{object}` - see [plugins](plugins.md)
-  - `authorize` `{object}` - see [authorization](../configuration/authorization.md)
+  - `authorize` `{object}` - see
+    [authorization](../configuration/authorization.md)
   - `validation` `{object}` -
     [custom validation keywords](../configuration/validation.md#custom-validation)
   - `operators` `{object}` -
     [custom patch operators](../configuration/patch.md#custom-operators)
   - `log` `{object}` - [logging configuration](../configuration/logging.md)
-  - `protocols` `{object}`: [protocols options](../protocols/protocols.md#options)
+  - `protocols` `{object}`:
+    [protocols options](../protocols/protocols.md#options)
   - `databases` `{object}`: [databases options](../databases/databases.md)
   - `limits` `{object}`: see [limits](../configuration/limits.md)
 

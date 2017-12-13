@@ -1,6 +1,7 @@
 # Logging
 
-Logging is configured under the `log` [configuration property](../usage/configuration.md#properties).
+Logging is configured under the `log`
+[configuration property](../usage/configuration.md#properties).
 
 ```yml
 log:
@@ -30,8 +31,8 @@ The following providers are available: [`http`](#http-log-provider),
 provider.
 
 If you want to use several log providers or use several configurations,
-the `log` [configuration property](../usage/configuration.md#properties) can be an array of objects
-instead of a single object.
+the `log` [configuration property](../usage/configuration.md#properties) can be
+an array of objects instead of a single object.
 
 ```yml
 log:

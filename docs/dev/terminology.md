@@ -52,12 +52,13 @@ Response's status, e.g. `SUCCESS` or `SERVER_ERROR`
 
 ## Format
 
-[File format](../client/arguments/formats.md), e.g. YAML or JSON, used in configuration
-files, client request payloads and server responses.
+[File format](../client/arguments/formats.md), e.g. YAML or JSON, used in
+configuration files, client request payloads and server responses.
 
 ## Charset
 
-[Character set](../client/arguments/formats.md#charsets), e.g. `utf-8` or `ascii`.
+[Character set](../client/arguments/formats.md#charsets), e.g. `utf-8` or
+`ascii`.
 
 ## RPC system
 
@@ -96,8 +97,8 @@ command to query the current models to patch.
 
 ## Functions
 
-[Functions](../server/usage/functions.md) specified in configuration, that allows
-injecting custom logic.
+[Functions](../server/usage/functions.md) specified in configuration, that
+allows injecting custom logic.
 
 ## Utilities
 
@@ -142,12 +143,13 @@ Individual object inside a collection
 
 ## Nested collection
 
-[Attribute](../server/configuration/relations.md) inside a collection targeting another
-collection
+[Attribute](../server/configuration/relations.md) inside a collection targeting
+another collection
 
 ## Target collection
 
-[Collection](../server/configuration/relations.md) targeted by a nested collection
+[Collection](../server/configuration/relations.md) targeted by a nested
+collection
 
 ## Attribute
 

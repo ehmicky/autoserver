@@ -7,7 +7,8 @@ An RPC is a system defining the way clients specify:
   - the collection, e.g. `users`
   - the arguments, e.g. the `data` argument or the model's `id`
 
-RPC systems use the request's URL, headers, payload and method as parsed by the [protocol](protocols.md).
+RPC systems use the request's URL, headers, payload and method as parsed by the
+[protocol](protocols.md).
 
 Most examples in this documentation only show [REST](rest.md) for simplicity.
 

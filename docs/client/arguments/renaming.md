@@ -1,7 +1,7 @@
 # Renaming attributes in response
 
-The `rename` [argument](../syntax/rpc.md#rpc) can be used to rename attributes in the
-response.
+The `rename` [argument](../syntax/rpc.md#rpc) can be used to rename attributes
+in the response.
 
 It is a comma-separated list of `name:different_name`.
 [Nested attributes](../query/relations.md#populating-nested-collections) can be
@@ -31,5 +31,6 @@ instead of:
 }
 ```
 
-[GraphQL](../syntax/graphql.md#selection-population-and-renaming) does not need the
-`rename` [argument](../syntax/rpc.md#rpc) since it natively uses selection fields.
+[GraphQL](../syntax/graphql.md#selection-population-and-renaming) does not need
+the `rename` [argument](../syntax/rpc.md#rpc) since it natively uses selection
+fields.
