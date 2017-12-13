@@ -10,7 +10,7 @@ apiengine run
 
 or from [Node.js](usage/README.md#node.js):
 
-<!-- eslint-disable strict, no-undef -->
+<!-- eslint-disable strict, no-undef, unicorn/filename-case -->
 ```javascript
 const apiengine = require('apiengine');
 

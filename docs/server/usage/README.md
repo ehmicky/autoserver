@@ -19,7 +19,7 @@ apiengine run --protocols.http.port=5001
 
 The server can also be used from Node.js:
 
-<!-- eslint-disable strict, no-undef -->
+<!-- eslint-disable strict, no-undef, unicorn/filename-case -->
 ```javascript
 const apiengine = require('apiengine');
 
