@@ -1,6 +1,6 @@
 'use strict';
 
-const { sortArray } = require('../../utilities');
+const { sortArray, compareArrays } = require('../../utilities');
 
 const sorter = function (obj, key, pathKey) {
   const val = sortArray(obj[key], sortTwo.bind(null, pathKey));
@@ -8,7 +8,7 @@ const sorter = function (obj, key, pathKey) {
 };
 
 const sortTwo = function (pathKey, objA, objB) {
-  return objA[pathKey].join('.') > objB[pathKey].join('.') ? 1 : -1;
+  return compareArrays(objA[pathKey], objB[pathKey]);
 };
 
 // Sort `actions` so that top-level ones are fired first
