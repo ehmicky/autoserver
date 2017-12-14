@@ -3,17 +3,10 @@
 const { promisify } = require('util');
 
 // Try a graceful server exit
-const stopServer = async function (server) {
-  await promisify(server.close.bind(server))();
-};
-
-// Count number of pending requests, to event payload on server exits
-const countPendingRequests = async function (server) {
-  const count = await promisify(server.getConnections.bind(server))();
-  return count;
+const stopServer = function (server) {
+  return promisify(server.close.bind(server))();
 };
 
 module.exports = {
   stopServer,
-  countPendingRequests,
 };

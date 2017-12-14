@@ -1,7 +1,7 @@
 'use strict';
 
 const { startServer } = require('./start');
-const { stopServer, countPendingRequests } = require('./stop');
+const { stopServer } = require('./stop');
 const { getUrl, getOrigin } = require('./origin');
 const { getQueryString } = require('./query_string');
 const { getHeaders } = require('./headers');
@@ -21,7 +21,6 @@ const protocol = {
   description: 'HTTP server\'s options',
   startServer,
   stopServer,
-  countPendingRequests,
   getUrl,
   getOrigin,
   getQueryString,

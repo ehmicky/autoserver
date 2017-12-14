@@ -10,7 +10,7 @@ const handleStartupError = async function (
 ) {
   // Make sure servers are properly closed if an exception is thrown at end
   // of startup, e.g. during start event handler
-  if (exitFunc) {
+  if (exitFunc !== undefined) {
     await exitFunc({ protocols, dbAdapters });
   }
 
