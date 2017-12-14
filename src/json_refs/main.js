@@ -17,7 +17,7 @@ const { mergeRefs } = require('./merge');
 // although this is not standard|spec behavior.
 // This function is called recursively, which is why it is passed to children
 const dereferenceRefs = async function ({ path, paths }) {
-  validateCircularRefs({ path, paths });
+  const pathsA = validateCircularRefs({ path, paths });
 
   const content = await load({ path });
 
@@ -25,7 +25,7 @@ const dereferenceRefs = async function ({ path, paths }) {
 
   const dir = dirname(path);
   const refsA = refs
-    .map(({ value, keys }) => resolveRef({ dir, value, keys, paths }));
+    .map(({ value, keys }) => resolveRef({ dir, value, keys, paths: pathsA }));
   const refsB = await Promise.all(refsA);
 
   const contentA = mergeRefs({ content, refs: refsB });
