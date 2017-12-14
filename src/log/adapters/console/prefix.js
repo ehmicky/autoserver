@@ -45,7 +45,8 @@ const PREFIXES = [
   },
 
   {
-    value: ({ serverinfo: { process: { id: processId } } }) => processId,
+    value: ({ serverinfo: { process: { id: processId } } }) =>
+      String(processId),
     length: 5,
   },
 

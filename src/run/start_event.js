@@ -3,11 +3,12 @@
 const { mapValues, omit, pSetTimeout } = require('../utilities');
 const { logEvent } = require('../log');
 const { getDefaultDuration } = require('../perf');
+const { getServerinfo } = require('../serverinfo');
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function ({ protocols, config, measures }) {
   const message = 'Server is ready';
-  const params = getEventParams({ protocols, measures });
+  const params = getEventParams({ protocols, config, measures });
 
   // Let other events finish first
   await pSetTimeout(0, { unref: false });
@@ -19,7 +20,10 @@ const emitStartEvent = async function ({ protocols, config, measures }) {
     params,
     config,
   });
-  return { startPayload: params };
+
+  const startPayload = getStartPayload({ params, config });
+
+  return { startPayload };
 };
 
 // Remove some properties from event payload as they are not serializable,
@@ -33,6 +37,12 @@ const getEventParams = function ({ protocols, measures }) {
   const duration = getDefaultDuration({ measures });
 
   return { protocols: protocolsA, duration };
+};
+
+const getStartPayload = function ({ params: { protocols }, config }) {
+  const serverinfo = getServerinfo({ config });
+
+  return { protocols, serverinfo };
 };
 
 module.exports = {

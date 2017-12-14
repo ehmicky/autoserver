@@ -149,7 +149,7 @@ The following parameters are available to any function:
        - `node` `{string}` - Node.js version, e.g. `v8.0.0`
        - `apiengine` `{string}` - `apiengine` version, e.g. `v0.0.1`
     - `process` `{object}`:
-       - `id` `{string}`: PID
+       - `id` `{integer}`: PID
        - `name` `{string}`: defaults to system hostname, but can be overriden
          using the configuration property `name`
 

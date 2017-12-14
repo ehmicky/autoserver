@@ -74,10 +74,9 @@ const getVersionsInfo = function () {
 };
 
 const getProcessInfo = function ({ host, processName }) {
-  const id = String(pid);
   const name = processName || host.name;
 
-  return { id, name };
+  return { id: pid, name };
 };
 
 module.exports = {
