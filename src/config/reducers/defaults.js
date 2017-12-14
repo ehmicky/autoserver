@@ -49,6 +49,7 @@ const TOP_DEFAULT_VALUES = {
   env: 'dev',
   collections: {},
   params: {},
+  operators: {},
   log: [],
   limits: {
     maxpayload: '10MB',
