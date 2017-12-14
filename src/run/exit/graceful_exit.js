@@ -12,14 +12,14 @@ const { emitStopEvent } = require('./stop_event');
 // Close servers and database connections
 const mmGracefulExit = async function ({ protocols, dbAdapters, config }) {
   const measures = [];
-  const { exitcodes } = await mGracefulExit({
+  const { exit } = await mGracefulExit({
     protocols,
     dbAdapters,
     config,
     measures,
   });
 
-  await emitStopEvent({ exitcodes, config, measures });
+  await emitStopEvent({ exit, config, measures });
 
   await logPerfEvent({ phase: 'shutdown', measures, config });
 };
@@ -48,13 +48,13 @@ const gracefulExit = async function ({
   const protocolPromises = closeProtocols({ protocols, config, measures });
   const dbPromises = closeDbAdapters({ dbAdapters, config, measures });
 
-  const exitcodesArray = await Promise.all([
+  const exitArray = await Promise.all([
     ...protocolPromises,
     ...dbPromises,
   ]);
-  const exitcodes = Object.assign({}, ...exitcodesArray);
+  const exit = Object.assign({}, ...exitArray);
 
-  return { exitcodes };
+  return { exit };
 };
 
 const mGracefulExit = monitor(gracefulExit, 'all');

@@ -150,8 +150,9 @@ following additional parameters are available during logging:
     - `http` `{object}`: HTTP server information
       - `hostname` `{string}`
       - `port` `{string}`
-  - `exitcodes` `{object}` - list of servers successfully exited or not, as
-    `{ http: boolean, ... }`. Only for `stop` events.
+  - `exit` `{object}` - list of servers and databases successfully exited or
+    not. For example, `{ http: true, mongodb: true, ... }`.
+    Only for `stop` events.
   - `error` `{object}`:
     [exception object](../usage/error.md#exceptions). Only for
     events `failure` or `request` when a client-side or server-side error

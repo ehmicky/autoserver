@@ -5,8 +5,8 @@ const { logEvent } = require('../../log');
 const { getDefaultDuration } = require('../../perf');
 
 // Emit successful or failed shutdown event
-const emitStopEvent = async function ({ exitcodes, config, measures }) {
-  const failedProtocols = getFailedProtocols({ exitcodes });
+const emitStopEvent = async function ({ exit, config, measures }) {
+  const failedProtocols = getFailedProtocols({ exit });
 
   const isSuccess = failedProtocols.length === 0;
   const failedProtocolsA = getWordsList(
@@ -25,15 +25,15 @@ const emitStopEvent = async function ({ exitcodes, config, measures }) {
     phase: 'shutdown',
     level,
     message,
-    params: { exitcodes, duration },
+    params: { exit, duration },
     config,
   });
 };
 
 // Retrieves which servers exits have failed, if any
-const getFailedProtocols = function ({ exitcodes }) {
-  const failedExitcodes = pickBy(exitcodes, exitcode => !exitcode);
-  const failedProtocols = Object.keys(failedExitcodes);
+const getFailedProtocols = function ({ exit }) {
+  const failedExits = pickBy(exit, code => !code);
+  const failedProtocols = Object.keys(failedExits);
   return failedProtocols;
 };
 

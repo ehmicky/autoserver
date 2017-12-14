@@ -101,7 +101,7 @@ const TEMP_SYSTEM_PARAMS = [
   'message',
   'error',
   'protocols',
-  'exitcodes',
+  'exit',
   'measures',
   'measuresmessage',
   'duration',

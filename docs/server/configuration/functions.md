@@ -181,7 +181,7 @@ The following parameters are available to any function except
 
 The following parameters are available only to
 [custom log providers](../quality/logging.md#custom-log-provider):
-  - `log`, `error`, `protocols`, `exitcodes`, `measures`, `measuresmessage`,
+  - `log`, `error`, `protocols`, `exit`, `measures`, `measuresmessage`,
     `duration`, `event`, `phase`, `level` and `message` - see
     [logging](../quality/logging.md#functions-parameters)
   - `status` `{string}` - response's status, among `INTERNALS`, `SUCCESS`,
