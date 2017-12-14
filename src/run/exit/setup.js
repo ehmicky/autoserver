@@ -5,15 +5,14 @@ const { gracefulExit } = require('./graceful_exit');
 // Make sure the server stops when graceful exits are possible
 // Also send related events
 const setupGracefulExit = function ({ protocols, dbAdapters, config }) {
-  const gracefulExitA = gracefulExit
-    .bind(null, { protocols, dbAdapters, config });
+  const exitFunc = gracefulExit.bind(null, { protocols, dbAdapters, config });
 
-  process.on('SIGINT', gracefulExitA);
-  process.on('SIGTERM', gracefulExitA);
+  process.on('SIGINT', exitFunc);
+  process.on('SIGTERM', exitFunc);
   // For Nodemon
-  process.on('SIGUSR2', gracefulExitA);
+  process.on('SIGUSR2', exitFunc);
 
-  return { gracefulExit: gracefulExitA };
+  return { exitFunc };
 };
 
 module.exports = {
