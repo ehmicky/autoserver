@@ -2,7 +2,8 @@
 
 const { EVENTS, LEVELS } = require('../../constants');
 
-// Retrieves `[EVENT] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE]`
+// Retrieves `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP]
+// [PHASE]`
 const getPrefix = function ({ log }) {
   return PREFIXES
     .map(({ value, length }) => getEachPrefix({ value, length, log }))
@@ -35,13 +36,13 @@ const PREFIXES = [
   },
 
   {
-    value: ({ serverinfo: { process: { name: processName } } }) => processName,
-    length: 12,
+    value: ({ serverinfo: { host: { id: hostId } } }) => hostId,
+    length: 8,
   },
 
   {
-    value: ({ serverinfo: { host: { id: hostId } } }) => hostId,
-    length: 8,
+    value: ({ serverinfo: { process: { name: processName } } }) => processName,
+    length: 12,
   },
 
   {
