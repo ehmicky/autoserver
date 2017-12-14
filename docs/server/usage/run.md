@@ -17,7 +17,7 @@ apiengine run --config=apiengine.config.yml --protocols.http.port=5001
 When fired from Node.js, `apiengine.run()` returns a promise, which resolves
 with:
   - the [`protocols` parameter](../quality/logging.md#functions-parameters)
-  - the [`serverinfo` parameter](../quality/logging.md#functions-parameters)
+  - the [`serverinfo` parameter](../configuration/functions.md#parameters)
 
 If an error occurred, the promise will be rejected with an
 [exception object](error.md#exceptions).

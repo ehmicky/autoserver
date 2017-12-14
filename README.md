@@ -36,7 +36,7 @@ databases:
     password: secret_mongodb_password
 ```
 
-Then start a full-featured web API by typing:
+Then start a full-featured web API by typing in the console:
 
 ```bash
 apiengine run
