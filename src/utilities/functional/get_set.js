@@ -29,11 +29,22 @@ const setObject = function (obj = {}, keys, val) {
 const setArray = function (arr = [], keys, val) {
   const { child, childKey } = setVal({ objArr: arr, keys, val });
 
+  const arrA = fillLength(arr, childKey);
+
   return [
-    ...arr.slice(0, childKey),
+    ...arrA.slice(0, childKey),
     child,
-    ...arr.slice(childKey + 1),
+    ...arrA.slice(childKey + 1),
   ];
+};
+
+// When setting with indice larger than the array, we need to first fill in
+// the array with extra `undefined` values
+const fillLength = function (arr, childKey) {
+  if (arr.length >= childKey) { return arr; }
+
+  const extraArr = new Array(childKey - arr.length).fill();
+  return [...arr, ...extraArr];
 };
 
 const setVal = function ({ objArr, keys, val }) {
