@@ -5,14 +5,9 @@ const { logEvent } = require('../log');
 const { getDefaultDuration } = require('../perf');
 
 // Create event when all protocol-specific servers have started
-const emitStartEvent = async function ({
-  protocols,
-  config,
-  gracefulExit,
-  measures,
-}) {
+const emitStartEvent = async function ({ protocols, config, measures }) {
   const message = 'Server is ready';
-  const params = getEventParams({ protocols, gracefulExit, measures });
+  const params = getEventParams({ protocols, measures });
 
   // Let other events finish first
   await pSetTimeout(0, { unref: false });
@@ -29,7 +24,7 @@ const emitStartEvent = async function ({
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getEventParams = function ({ protocols, gracefulExit, measures }) {
+const getEventParams = function ({ protocols, measures }) {
   const protocolsA = mapValues(
     protocols,
     protocol => omit(protocol, ['server', 'protocolAdapter']),
@@ -37,7 +32,7 @@ const getEventParams = function ({ protocols, gracefulExit, measures }) {
 
   const duration = getDefaultDuration({ measures });
 
-  return { protocols: protocolsA, exit: gracefulExit, duration };
+  return { protocols: protocolsA, duration };
 };
 
 module.exports = {
