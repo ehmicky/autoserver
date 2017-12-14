@@ -52,6 +52,7 @@ const TOP_DEFAULT_VALUES = {
     maxpayload: '10MB',
     pagesize: 100,
   },
+  params: {},
 };
 
 const DYNAMIC_DEFAULTS = {
