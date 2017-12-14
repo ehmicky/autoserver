@@ -5,7 +5,8 @@ const { getErrorMessage } = require('./error_message');
 const { getRequestMessage } = require('./request_message');
 
 // Build a standardized event message:
-// [EVENT] [LEVEL] [PROCESSNAME] [TIMESTAMP] [PHASE] MESSAGE - SUBMESSAGE
+// `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP] [PHASE]
+// MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
 const getConsoleMessage = function ({ log }) {
