@@ -6,6 +6,7 @@ const { loadFile } = require('../formats');
 
 // Load the file pointing to by the JSON reference
 const load = async function ({ path }) {
+  // Checks that the file exists
   await eStat(path);
 
   return eLoadFile({ type: 'conf', path });

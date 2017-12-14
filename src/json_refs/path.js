@@ -1,24 +1,30 @@
 'use strict';
 
-const { resolve } = require('path');
+const { resolve, dirname } = require('path');
 
 const { addGenErrorHandler } = require('../error');
 
 // Resolve JSON reference path to an absolute local file
-const getPath = function ({ dir, value }) {
-  if (NODE_REGEXP.test(value)) {
-    return eGetModulePath({ value });
+const getPath = function ({ path, parentPath }) {
+  if (NODE_REGEXP.test(path)) {
+    return eGetModulePath({ path });
+  }
+
+  // Same file
+  if (path === '') {
+    return parentPath;
   }
 
   // Local file
-  return resolve(dir, value);
+  const parentDir = dirname(parentPath);
+  return resolve(parentDir, path);
 };
 
 // Node module, e.g. $ref: 'lodash.node'
-const getModulePath = function ({ value }) {
-  const moduleName = value.replace(NODE_REGEXP, '');
-  const path = require.resolve(moduleName);
-  return path;
+const getModulePath = function ({ path }) {
+  const moduleName = path.replace(NODE_REGEXP, '');
+  const pathA = require.resolve(moduleName);
+  return pathA;
 };
 
 const NODE_REGEXP = /\.node$/;
