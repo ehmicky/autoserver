@@ -1,12 +1,12 @@
 'use strict';
 
-const { dirname } = require('path');
+const { cwd } = require('process');
 
-const { validateCircularRefs } = require('./circular_refs');
-const { load } = require('./load');
-const { findRefs } = require('./find');
 const { getPath } = require('./path');
-const { mergeRefs } = require('./merge');
+const { load } = require('./load');
+const { setRef } = require('./ref_path');
+const { findRefs } = require('./find');
+const { mergeRef } = require('./merge');
 
 // Dereference JSON references, i.e. $ref
 // RFC: https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html
@@ -16,34 +16,54 @@ const { mergeRefs } = require('./merge');
 // Siblings attributes to `$ref` will be deeply merged (with higher priority),
 // although this is not standard|spec behavior.
 // This function is called recursively, which is why it is passed to children
-const dereferenceRefs = async function ({ path, paths }) {
-  const pathsA = validateCircularRefs({ path, paths });
+// Recursion is handled.
+const dereferenceRefs = async function ({
+  path = '',
+  parentPath = cwd(),
+  cache = {},
+}) {
+  const pathA = getPath({ path, parentPath });
+
+  const content = await getContent({ path: pathA, cache });
+
+  return content;
+};
+
+const getContent = async function ({ path, cache }) {
+  // A parent or sibling has already resolved that JSON reference
+  // This also helps handling recursive references
+  if (cache[path] !== undefined) { return cache[path]; }
 
   const content = await load({ path });
 
+  setRef(content, path);
+
+  // We must directly mutate to handle recursions, and also for performance
+  // optimizations (so it can be shared between siblings)
+  // eslint-disable-next-line fp/no-mutation, no-param-reassign
+  cache[path] = content;
+
   const refs = findRefs({ content });
 
-  const dir = dirname(path);
-  const refsA = refs
-    .map(({ value, keys }) => resolveRef({ dir, value, keys, paths: pathsA }));
-  const refsB = await Promise.all(refsA);
+  const promises = refs.map(({ value, keys }) => resChild({
+    path: value,
+    keys,
+    parentPath: path,
+    content,
+    cache,
+  }));
+  await Promise.all(promises);
 
-  const contentA = mergeRefs({ content, refs: refsB });
-
-  return contentA;
+  return content;
 };
 
-// Resolve all JSON references to the value they point to
-const resolveRef = async function ({ dir, value, keys, paths }) {
-  // Remove `$ref` from keys
-  const keysA = keys.slice(0, -1);
-
-  const path = getPath({ dir, value });
-
+// Resolve child JSON reference to the value it points to,
+// then merge it to parent
+const resChild = async function ({ path, keys, parentPath, content, cache }) {
   // Recursion
-  const refContent = await dereferenceRefs({ path, paths });
+  const refContent = await dereferenceRefs({ path, parentPath, cache });
 
-  return { keys: keysA, path, refContent };
+  mergeRef({ content, keys, refContent });
 };
 
 module.exports = {

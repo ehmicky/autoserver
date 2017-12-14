@@ -1,33 +1,28 @@
 'use strict';
 
-const { get, set, omit, deepMerge } = require('../utilities');
-
-const { setRef } = require('./ref_path');
+const { get, set, defaultsDeep } = require('lodash');
 
 // Merge resolved JSON reference value back to original document
-const mergeRefs = function ({ content, refs }) {
-  return refs.reduce(mergeRef, content);
-};
+// We must directly mutate to handle recursions
+const mergeRef = function ({ content, keys, refContent }) {
+  // Remove `$ref` from keys
+  const keysA = keys.slice(0, -1);
 
-const mergeRef = function (content, { keys, refContent, path }) {
-  const parent = get(content, keys);
+  // Lodash's get(content, []) does not work
+  const parent = keysA.length === 0 ? content : get(content, keysA);
 
-  const parentA = mergeRefContent({ parent, refContent });
-
-  const parentB = setRef(parentA, path);
-
-  const contentA = set(content, keys, parentB);
-  return contentA;
-};
-
-const mergeRefContent = function ({ parent, refContent }) {
   const hasSiblings = Object.keys(parent).length > 1;
-  if (!hasSiblings) { return refContent; }
 
-  const parentA = omit(parent, '$ref');
-  return deepMerge(parentA, refContent);
+  if (!hasSiblings) {
+    return set(content, keysA, refContent);
+  }
+
+  // eslint-disable-next-line fp/no-delete
+  delete parent.$ref;
+  // Merge should keep symbols because of `REF_SYM`
+  defaultsDeep(parent, refContent);
 };
 
 module.exports = {
-  mergeRefs,
+  mergeRef,
 };
