@@ -49,8 +49,12 @@ const TOP_DEFAULT_VALUES = {
   env: 'dev',
   collections: {},
   params: {},
+  plugins: {},
+  validation: {},
   operators: {},
   log: [],
+  protocols: {},
+  databases: {},
   limits: {
     maxpayload: '10MB',
     pagesize: 100,
