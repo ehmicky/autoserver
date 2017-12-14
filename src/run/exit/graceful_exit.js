@@ -1,12 +1,12 @@
 'use strict';
 
 const { monitor, logPerfEvent } = require('../../perf');
-const { uniq, onlyOnce } = require('../../utilities');
+const { onlyOnce } = require('../../utilities');
 const { addErrorHandler } = require('../../error');
 const { logEvent } = require('../../log');
 
-const { closeProtocol } = require('./protocol_close');
-const { closeDbAdapter } = require('./db_close');
+const { closeProtocols } = require('./protocol_close');
+const { closeDbAdapters } = require('./db_close');
 const { emitStopEvent } = require('./stop_event');
 
 // Close servers and database connections
@@ -45,14 +45,8 @@ const gracefulExit = async function ({
   config,
   measures,
 }) {
-  const protocolPromises = Object.values(protocols)
-    .map(protocol => closeProtocol({ protocol, config, measures }));
-
-  // The same `dbAdapter` can be used for several models
-  const adapters = uniq(Object.values(dbAdapters));
-
-  const dbPromises = adapters
-    .map(dbAdapter => closeDbAdapter({ dbAdapter, config, measures }));
+  const protocolPromises = closeProtocols({ protocols, config, measures });
+  const dbPromises = closeDbAdapters({ dbAdapters, config, measures });
 
   const exitcodesArray = await Promise.all([
     ...protocolPromises,
