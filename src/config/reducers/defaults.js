@@ -47,12 +47,13 @@ const addAttrDefaults = function ({ attr }) {
 
 const TOP_DEFAULT_VALUES = {
   env: 'dev',
+  collections: {},
+  params: {},
   log: [],
   limits: {
     maxpayload: '10MB',
     pagesize: 100,
   },
-  params: {},
 };
 
 const DYNAMIC_DEFAULTS = {
