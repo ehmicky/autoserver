@@ -8,7 +8,7 @@ const upsert = function ({ collection, newData }) {
 
 const upsertOne = function ({ collection, newData: [data] }) {
   const { _id: id } = data;
-  return collection.upsertOne({ _id: id }, data);
+  return collection.replaceOne({ _id: id }, data, { upsert: true });
 };
 
 const upsertMany = async function ({ collection, newData }) {
