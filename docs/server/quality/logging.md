@@ -65,6 +65,18 @@ The `console` [log provider](#providers) prints logs on the console.
 The output is prettified but does not contain performance monitoring nor
 detailed log information, so this is only meant as a development helper.
 
+It uses the following format:
+
+```bash
+[EVENT  ] [LEVEL] [HOST ID ] [PROCESS NAME] [PID  ] [TIMESTAMP              ] [PHASE   ] [TIME  ] MESSAGE
+```
+
+For example:
+
+```bash
+[START  ] [LOG  ] [24cdf75e] [Example API ] [26936] [2017-12-14 12:01:58.846] [STARTUP ] [147ms ] Server is ready
+```
+
 This log provider is always enabled, but can be silenced by using `level`
 `silent`.
 
