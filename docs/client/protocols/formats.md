@@ -2,13 +2,13 @@
 
 Multiple formats are supported for the client request payloads and the server
 responses: [JSON](#json), [YAML](#yaml),
-[x-www-form-urlencoded](#x-www-form-urlencoded), [raw](#raw),
-[Hjson](#hjson), [JSON5](#json5) and [INI](#ini).
+[x-www-form-urlencoded](#x-www-form-urlencoded), [Hjson](#hjson),
+[JSON5](#json5), [INI](#ini) and [raw](#raw).
 
 To specify which format to use in both the client request payload (if any is
 present) and the server response, use the query variable `?format=FORMAT` in
-the request URL, where `FORMAT` is `json`, `yaml`, `urlencoded`, `raw`, `hjson`,
-`json5` or `ini`.
+the request URL, where `FORMAT` is `json`, `yaml`, `urlencoded`, `hjson`,
+`json5`, `ini` or `raw`.
 
 Most of the examples in this documentation use [JSON](#json) for the the client
 request payloads and the server responses.
@@ -74,14 +74,6 @@ This is the format used in JavaScript's `FormData` or by default in HTML's
 limits.pagesize=10&protocols.http.hostname=myhostname
 ```
 
-# Raw
-
-Any format that does not require specific parsing, including images,
-videos, unstructured text files and binary files.
-
-As opposed to the other formats, this is only used for the request payload.
-The server response will be using the default format, i.e. [JSON](#json).
-
 # Hjson
 
 [Superset of JSON](https://hjson.org/).
@@ -115,7 +107,7 @@ The server response will be using the default format, i.e. [JSON](#json).
   protocols: {
     http: {
       hostname: 'myhostname'
-    },
+    }
   }
 }
 ```
@@ -133,3 +125,10 @@ pagesize=10
 
 hostname=myhostname
 ```
+
+# Raw
+
+Any format that does not require specific parsing, including images,
+videos, unstructured text files and binary files.
+
+The server response will be using the default format, i.e. [JSON](#json).
