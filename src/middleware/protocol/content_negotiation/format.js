@@ -9,10 +9,10 @@ const getFormat = function ({ queryvars, format }) {
   if (formatName === undefined) { return; }
 
   const formatA = formatAdapters[formatName];
-  if (formatA !== undefined) { return formatA; }
 
-  const message = `Unsupported response format: '${formatName}'`;
-  throwError(message, { reason: 'RESPONSE_FORMAT' });
+  validateFormat({ format: formatA, formatName });
+
+  return formatA;
 };
 
 const getFormatName = function ({ queryvars, format }) {
@@ -21,6 +21,13 @@ const getFormatName = function ({ queryvars, format }) {
     // E.g. MIME in Content-Type HTTP header
     format ||
     DEFAULT_FORMAT.name;
+};
+
+const validateFormat = function ({ format, formatName }) {
+  if (format !== undefined && !format.unsafe) { return; }
+
+  const message = `Unsupported response format: '${formatName}'`;
+  throwError(message, { reason: 'RESPONSE_FORMAT' });
 };
 
 module.exports = {

@@ -10,8 +10,8 @@ const { parse, serialize } = require('./parse_serialize');
 // This is abstracted to allow easily adding new formats.
 // This might throw for many different reasons, e.g. wrong syntax,
 // or cannot access file (does not exist or no permissions)
-const loadFile = async function ({ path, compat }) {
-  const format = getFormat({ path });
+const loadFile = async function ({ path, safe, compat }) {
+  const format = getFormat({ path, safe });
 
   const contentA = await pReadFile(path, { encoding: 'utf-8' });
 
@@ -19,16 +19,16 @@ const loadFile = async function ({ path, compat }) {
 };
 
 // Persist file, using any of the supported formats
-const saveFile = function ({ path, content }) {
-  const format = getFormat({ path });
+const saveFile = function ({ path, content, safe }) {
+  const format = getFormat({ path, safe });
 
   const contentA = serialize({ format: format.name, content });
 
   return pWriteFile(path, contentA, { encoding: 'utf-8' });
 };
 
-const getFormat = function ({ path }) {
-  const format = findByExt({ path });
+const getFormat = function ({ path, safe }) {
+  const format = findByExt({ path, safe });
   if (format !== undefined) { return format; }
 
   const message = `Invalid file format: ${path}`;
