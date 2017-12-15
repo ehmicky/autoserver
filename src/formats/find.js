@@ -9,14 +9,16 @@ const { DEFAULT_FORMAT } = require('./merger');
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found
-const findByMime = function ({ mime }) {
+const findByMime = function ({ mime, safe }) {
+  const formatsA = getFormats({ safe });
+
   // We try the extensions MIME (e.g. `+json`) after the other MIME types
   // (e.g. `application/jose+json`)
-  const format = formats
+  const format = formatsA
     .find(({ mimes }) => mimeMatches({ mime, mimes }));
   if (format !== undefined) { return format; }
 
-  const formatA = formats
+  const formatA = formatsA
     .find(({ mimeExtensions: mimes }) => mimeMatches({ mime, mimes }));
   if (formatA !== undefined) { return formatA; }
 };
@@ -30,15 +32,26 @@ const mimeMatches = function ({ mime, mimes = [] }) {
 };
 
 // Retrieve correct format, using file extension
-const findByExt = function ({ path }) {
+const findByExt = function ({ path, safe }) {
+  const formatsA = getFormats({ safe });
+
   const fileExt = extname(path).slice(1);
-  const format = formats
+  const format = formatsA
     .find(({ extNames = [] }) => extNames.includes(fileExt));
 
   // TODO: remove???
   if (format === undefined) { return DEFAULT_FORMAT; }
 
   return format;
+};
+
+// Setting `safe` to `true` removes formats that execute code.
+// For example, JavaScript can be allowed in configuration files, but should
+// not be allowed in client payloads.
+const getFormats = function ({ safe = false }) {
+  if (!safe) { return formats; }
+
+  return formats.filter(format => !format.unsafe);
 };
 
 module.exports = {

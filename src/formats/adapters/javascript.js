@@ -21,6 +21,7 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'javascript',
   title: 'JavaScript',
+  unsafe: true,
   extNames: ['js', 'mjs'],
   mimes: [
     'application/javascript',

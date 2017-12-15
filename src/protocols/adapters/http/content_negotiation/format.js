@@ -22,7 +22,7 @@ const getContentTypeFormat = function ({ specific }) {
   if (mime === undefined) { return; }
 
   // Request payload won't be parsed. Response payload will use default format.
-  const format = findByMime({ mime });
+  const format = findByMime({ mime, safe: true });
   if (format === undefined) { return 'raw'; }
 
   return format.name;
@@ -35,7 +35,7 @@ const getAcceptFormat = function ({ specific: { req } }) {
   if (mimes.length === 0) { return; }
 
   const format = mimes
-    .map(mime => findByMime({ mime }))
+    .map(mime => findByMime({ mime, safe: true }))
     .find(formatA => formatA !== undefined);
   if (format !== undefined) { return format.name; }
 
