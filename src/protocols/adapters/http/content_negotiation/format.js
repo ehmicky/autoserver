@@ -5,7 +5,7 @@ const pluralize = require('pluralize');
 
 const { getWordsList } = require('../../../../utilities');
 const { throwError } = require('../../../../error');
-const { findFormat } = require('../../../../formats');
+const { findByMime } = require('../../../../formats');
 
 const { getContentType } = require('./content_type');
 
@@ -22,7 +22,7 @@ const getContentTypeFormat = function ({ specific }) {
   if (mime === undefined) { return; }
 
   // Request payload won't be parsed. Response payload will use default format.
-  const format = findFormat({ type: 'payload', mime });
+  const format = findByMime({ mime });
   if (format === undefined) { return 'raw'; }
 
   return format.name;
@@ -35,7 +35,7 @@ const getAcceptFormat = function ({ specific: { req } }) {
   if (mimes.length === 0) { return; }
 
   const format = mimes
-    .map(mime => findFormat({ type: 'payload', mime }))
+    .map(mime => findByMime({ mime }))
     .find(formatA => formatA !== undefined);
   if (format !== undefined) { return format.name; }
 

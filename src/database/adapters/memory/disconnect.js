@@ -10,7 +10,7 @@ const disconnect = async function ({ options: { save, data }, connection }) {
 
   // Reuse the same file that was used during loading
   const path = getRef(data);
-  await saveFile({ type: 'conf', path, content: connection });
+  await saveFile({ path, content: connection });
 };
 
 module.exports = {

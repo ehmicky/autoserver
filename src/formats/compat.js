@@ -11,16 +11,12 @@ const { transtype, recurseMap } = require('../utilities');
 //    Those extra types are removed by being JSON serialized.
 // Formats that do not support arrays, objects or strings cannot be specified.
 
-const applyCompatParse = function ({ jsonCompat, content, type }) {
-  if (SUPERSET_TYPES.includes(type)) { return content; }
-
+const applyCompatParse = function ({ jsonCompat, content }) {
   return jsonCompat.reduce(
     (contentA, compatType) => jsonCompatParse[compatType](contentA),
     content,
   );
 };
-
-const SUPERSET_TYPES = ['conf'];
 
 const applyCompatSerialize = function ({ jsonCompat, content }) {
   return jsonCompat.reduce(

@@ -3,32 +3,32 @@
 const { pReadFile, pWriteFile } = require('../utilities');
 const { throwError } = require('../error');
 
-const { findFormat } = require('./find');
+const { findByExt } = require('./find');
 const { parse, serialize } = require('./parse_serialize');
 
 // Loads any of the supported formats
 // This is abstracted to allow easily adding new formats.
 // This might throw for many different reasons, e.g. wrong syntax,
 // or cannot access file (does not exist or no permissions)
-const loadFile = async function ({ type, path }) {
-  const format = getFormat({ type, path });
+const loadFile = async function ({ path, compat }) {
+  const format = getFormat({ path });
 
   const contentA = await pReadFile(path, { encoding: 'utf-8' });
 
-  return parse({ format: format.name, path, content: contentA, type });
+  return parse({ format: format.name, path, content: contentA, compat });
 };
 
 // Persist file, using any of the supported formats
-const saveFile = function ({ type, path, content }) {
-  const format = getFormat({ type, path });
+const saveFile = function ({ path, content }) {
+  const format = getFormat({ path });
 
   const contentA = serialize({ format: format.name, content });
 
   return pWriteFile(path, contentA, { encoding: 'utf-8' });
 };
 
-const getFormat = function ({ type, path }) {
-  const format = findFormat({ type, path });
+const getFormat = function ({ path }) {
+  const format = findByExt({ path });
   if (format !== undefined) { return format; }
 
   const message = `Invalid file format: ${path}`;
