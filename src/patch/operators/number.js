@@ -1,8 +1,8 @@
 'use strict';
 
 const commonTypes = {
-  attribute: ['integer', 'number'],
-  argument: ['integer', 'number', 'empty'],
+  attribute: ['number'],
+  argument: ['number', 'empty'],
 };
 
 const commonChecks = defaultValue => ({

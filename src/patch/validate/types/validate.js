@@ -36,8 +36,14 @@ const checkType = function ({ possType, attrType, attrIsArray, strict }) {
   // Empty array
   if (attrType === 'none') { return true; }
 
-  const isSameType = possTypeA === attrType;
+  const isSameType = compareTypes({ possType: possTypeA, attrType });
   return isSameType;
+};
+
+const compareTypes = function ({ possType, attrType }) {
+  return possType === attrType ||
+    // `number` includes `integer`
+    (possType === 'number' && attrType === 'integer');
 };
 
 // Returns human-friendly list of possible types
