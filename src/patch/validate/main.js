@@ -62,16 +62,12 @@ const validatePatchOp = function (input) {
   const error = validatorA(input);
 
   checkError({ error, commandpath, attrName, patchOp });
-
-  return error;
 };
 
 const checkError = function ({ error, commandpath, attrName, patchOp }) {
   const { message, reason } = typeof error === 'string'
     ? { message: error, reason: 'INPUT_VALIDATION' }
     : error;
-
-  if (message !== undefined) { return; }
 
   const commandpathA = [...commandpath, attrName].join('.');
   const messageA = `At '${commandpathA}', wrong operation '${JSON.stringify(patchOp)}': ${message}`;
