@@ -2,11 +2,14 @@
 
 const { cwd } = require('process');
 
+const { isObjectType } = require('../utilities');
+
 const { getPath } = require('./path');
+const { fireCachedFunc } = require('./circular_refs');
 const { load } = require('./load');
-const { setRef } = require('./ref_path');
 const { findRefs } = require('./find');
-const { mergeRef } = require('./merge');
+const { mergeChildren } = require('./merge');
+const { setRef } = require('./ref_path');
 
 // Dereference JSON references, i.e. $ref
 // RFC: https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html
@@ -21,49 +24,47 @@ const dereferenceRefs = async function ({
   path = '',
   parentPath = cwd(),
   cache = {},
+  stack = [],
 }) {
   const pathA = getPath({ path, parentPath });
 
-  const content = await getContent({ path: pathA, cache });
+  const content = await cGetContent({ path: pathA, cache, stack });
 
   return content;
 };
 
-const getContent = async function ({ path, cache }) {
-  // A parent or sibling has already resolved that JSON reference
-  // This also helps handling recursive references
-  if (cache[path] !== undefined) { return cache[path]; }
-
+const getContent = async function ({ path, cache, stack }) {
   const content = await load({ path });
 
-  setRef(content, path);
+  const contentA = await dereferenceChildren({ content, path, cache, stack });
 
-  // We must directly mutate to handle recursions, and also for performance
-  // optimizations (so it can be shared between siblings)
-  // eslint-disable-next-line fp/no-mutation, no-param-reassign
-  cache[path] = content;
+  const contentB = setRef({ content: contentA, path });
+
+  return contentB;
+};
+
+const cGetContent = fireCachedFunc.bind(null, getContent);
+
+// Dereference children JSON references
+const dereferenceChildren = async function ({ content, path, cache, stack }) {
+  // If the `content` is not an object or array, it won't have any children
+  if (!isObjectType(content)) { return content; }
 
   const refs = findRefs({ content });
 
-  const promises = refs.map(({ value, keys }) => resChild({
-    path: value,
-    keys,
-    parentPath: path,
-    content,
-    cache,
-  }));
-  await Promise.all(promises);
+  const promises = refs.map(({ value, keys }) =>
+    dereferenceChild({ path: value, keys, parentPath: path, cache, stack }));
+  const children = await Promise.all(promises);
 
-  return content;
+  const contentA = mergeChildren({ content, children });
+
+  return contentA;
 };
 
-// Resolve child JSON reference to the value it points to,
-// then merge it to parent
-const resChild = async function ({ path, keys, parentPath, content, cache }) {
-  // Recursion
-  const refContent = await dereferenceRefs({ path, parentPath, cache });
-
-  mergeRef({ content, keys, refContent });
+// Resolve child JSON reference to the value it points to
+const dereferenceChild = async function ({ keys, ...rest }) {
+  const refContent = await dereferenceRefs(rest);
+  return { keys, refContent };
 };
 
 module.exports = {
