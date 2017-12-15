@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  ...require('./type'),
   ...require('./equal'),
   ...require('./includes'),
   ...require('./map'),

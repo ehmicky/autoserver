@@ -9,11 +9,14 @@ const load = async function ({ path }) {
   // Checks that the file exists
   await eStat(path);
 
-  return eLoadFile({ type: 'conf', path });
+  const content = await eLoadFile({ type: 'conf', path });
+
+  return content;
 };
 
 const eLoadFile = addGenErrorHandler(loadFile, {
-  message: ({ path }) => `Config file could not be parsed because it has syntax errors: '${path}'`,
+  message: ({ path }) =>
+    `Config file could not be parsed because it has syntax errors: '${path}'`,
   reason: 'CONF_VALIDATION',
 });
 
