@@ -20,16 +20,6 @@ collections: ...
 params: ...
 ```
 
-# Local references
-
-One can refer to a property in the current file by prepending a `#`.
-
-```yml
-collections:
-  example_collection:
-    $ref: '#/collections/old_collection'
-```
-
 # Node.js modules
 
 Node.js modules can be imported by appending `.node`.
