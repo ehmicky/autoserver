@@ -4,23 +4,24 @@ const { extname } = require('path');
 
 const { is: isType } = require('type-is');
 
-const formats = require('./adapters');
-const { DEFAULT_FORMAT } = require('./merger');
+const { formatAdapters, DEFAULT_RAW_FORMAT } = require('./merger');
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found
 const findByMime = function ({ mime, safe }) {
-  const formatsA = getFormats({ safe });
+  const formats = getFormats({ safe });
 
   // We try the extensions MIME (e.g. `+json`) after the other MIME types
   // (e.g. `application/jose+json`)
-  const format = formatsA
+  const format = formats
     .find(({ mimes }) => mimeMatches({ mime, mimes }));
   if (format !== undefined) { return format; }
 
-  const formatA = formatsA
+  const formatA = formats
     .find(({ mimeExtensions: mimes }) => mimeMatches({ mime, mimes }));
   if (formatA !== undefined) { return formatA; }
+
+  return DEFAULT_RAW_FORMAT;
 };
 
 // Only the right side of `isType` allow complex types like
@@ -33,22 +34,22 @@ const mimeMatches = function ({ mime, mimes = [] }) {
 
 // Retrieve correct format, using file extension
 const findByExt = function ({ path, safe }) {
-  const formatsA = getFormats({ safe });
+  const formats = getFormats({ safe });
 
   const fileExt = extname(path).slice(1);
-  const format = formatsA
+  const format = formats
     .find(({ extNames = [] }) => extNames.includes(fileExt));
+  if (format !== undefined) { return format; }
 
-  // TODO: remove???
-  if (format === undefined) { return DEFAULT_FORMAT; }
-
-  return format;
+  return DEFAULT_RAW_FORMAT;
 };
 
 // Setting `safe` to `true` removes formats that execute code.
 // For example, JavaScript can be allowed in configuration files, but should
 // not be allowed in client payloads.
 const getFormats = function ({ safe = false }) {
+  const formats = Object.values(formatAdapters);
+
   if (!safe) { return formats; }
 
   return formats.filter(format => !format.unsafe);

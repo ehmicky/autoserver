@@ -70,8 +70,6 @@ const eDecode = addGenErrorHandler(decode, {
 
 // Parse content, e.g. JSON/YAML parsing
 const parseContent = function ({ format, payload }) {
-  if (format.parse === undefined) { return payload; }
-
   return parse({ format: format.name, content: payload });
 };
 

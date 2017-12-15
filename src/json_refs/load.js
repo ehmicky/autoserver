@@ -14,14 +14,14 @@ const load = async function ({ path }) {
   return content;
 };
 
-const eLoadFile = addGenErrorHandler(loadFile, {
-  message: ({ path }) =>
-    `Config file could not be parsed because it has syntax errors: '${path}'`,
+const eStat = addGenErrorHandler(pStat, {
+  message: path => `Config file does not exist: '${path}'`,
   reason: 'CONF_VALIDATION',
 });
 
-const eStat = addGenErrorHandler(pStat, {
-  message: path => `Config file does not exist: '${path}'`,
+const eLoadFile = addGenErrorHandler(loadFile, {
+  message: ({ path }) =>
+    `Config file could not be parsed because it has syntax errors: '${path}'`,
   reason: 'CONF_VALIDATION',
 });
 

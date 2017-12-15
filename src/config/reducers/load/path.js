@@ -73,7 +73,7 @@ const validatePath = function ({ path }) {
 
   const format = findByExt({ path });
 
-  if (format === undefined) {
+  if (format.isRaw) {
     const message = `The file format of the config file is not supported: '${path}'`;
     throwError(message, { reason: 'CONF_VALIDATION' });
   }

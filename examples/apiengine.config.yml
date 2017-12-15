@@ -2,7 +2,8 @@ engine: 0
 name: Example API
 collections:
   pets:
-    description: Cute animal
+    description:
+      $ref: pets_description.txt
     database: memory
     authorize:
       model:
