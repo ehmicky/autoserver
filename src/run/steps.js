@@ -21,10 +21,10 @@ const startupSteps = [
   loadConfig,
   // Setup process warnings and errors handler
   processErrorHandler,
-  // Create database connections
-  connectToDatabases,
   // Get main request handler
   getRequestHandler,
+  // Create database connections
+  connectToDatabases,
   // Boot each protocol-specific server
   launchProtocols,
   // Make sure servers are closed on exit
