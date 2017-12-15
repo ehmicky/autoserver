@@ -9,7 +9,7 @@ const load = async function ({ path }) {
   // Checks that the file exists
   await eStat(path);
 
-  const content = await eLoadFile({ type: 'conf', path });
+  const content = await eLoadFile({ path, compat: false });
 
   return content;
 };

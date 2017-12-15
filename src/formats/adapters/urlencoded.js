@@ -44,7 +44,6 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'urlencoded',
   title: 'query string',
-  types: ['payload'],
   mimes: ['application/x-www-form-urlencoded'],
   jsonCompat: ['subset'],
   parse,
