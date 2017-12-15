@@ -9,4 +9,5 @@ module.exports = [
   require('./hjson'),
   require('./json5'),
   require('./ini'),
+  require('./raw'),
 ];

@@ -1,5 +1,6 @@
 'use strict';
 
+const { isObject } = require('../../../utilities');
 const { getReason } = require('../../../error');
 const { DEFAULT_FORMAT } = require('../../../formats');
 const { DEFAULT_COMPRESS } = require('../../../compress');
@@ -55,15 +56,17 @@ const send = async function ({
   });
 };
 
-// If `raw` format was used in input, default format should be used in output
+// If `raw` format was used in input, JSON should be used in output
 // Also if a wrong format was parsed during protocolInput and added to mInput,
 // then an error will be thrown later, but wrong `format` will be used here.
 const normalizeFormat = function ({ format }) {
-  if (format && format.name !== undefined) {
-    return format;
+  const hasStructuredFormat = isObject(format) && !format.isRaw;
+
+  if (!hasStructuredFormat) {
+    return DEFAULT_FORMAT;
   }
 
-  return DEFAULT_FORMAT;
+  return format;
 };
 
 // Same thing for compressResponse
