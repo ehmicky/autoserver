@@ -9,8 +9,8 @@ It is possible to specify custom
 operators:
   __power:
     apply: (value ** (arg || 1))
-    attribute: [number, integer]
-    argument: [number, integer, empty]
+    attribute: [number]
+    argument: [number, empty]
 ```
 
 The key (here `__power`) is the operator's name. The value is an object with
@@ -33,8 +33,7 @@ following parameters can be used:
 `attribute` is the list of [attribute types](collections.md#attribute-type)
 that can use this operator.
 
-For example, an `__power` operator can only be used on numerical attributes,
-i.e. `integer` and `number`.
+For example, an `__power` operator can only be used on `number` attributes.
 
 The possible values are: `string`, `number`, `integer`, `boolean`, `any`,
 `string[]`, `number[]`, `integer[]`, `boolean[]` and `any[]`.
@@ -43,9 +42,9 @@ The possible values are: `string`, `number`, `integer`, `boolean`, `any`,
 
 `argument` is the list of possible types for the argument of this operator.
 
-For example, a `__power` operator must take a single numerical value as
-argument, i.e. `integer` and `number`. We might also allow an `empty`
-argument if there is a default argument value.
+For example, a `__power` operator must take a single `number` value as
+argument. We might also allow an `empty` argument if there is a default
+argument value.
 
 The possible values are the same as `attribute` with the following additional
 types: `empty`, `empty[]`, `object` and `object[]`.
@@ -54,9 +53,6 @@ If several arguments must be passed, it should be done by specifying an array
 argument. To specify an array argument with mixed types, use several array
 types. For example `argument: ['number[]', 'string[]']` requires the argument
 to be an array containing either numbers, strings or a mix of them.
-
-Remember that the `number` argument excludes integers. Use both the `number`
-and the `integer` types if you want to allow any floating number.
 
 ## `check` property
 
