@@ -1,6 +1,6 @@
 'use strict';
 
-const { compile, validate } = require('../../../json_validation');
+const { compile, validate } = require('../../../validation');
 const { getLimits } = require('../../../limits');
 
 const SCHEMA = require('./args_schema');

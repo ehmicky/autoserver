@@ -2,7 +2,7 @@
 
 const { pickBy, mapValues, omit } = require('../../utilities');
 const { addGenErrorHandler } = require('../../error');
-const { compile } = require('../../json_validation');
+const { compile } = require('../../validation');
 
 // Compile JSON schema defined in the config
 // Returns compiled JSON schema of:
