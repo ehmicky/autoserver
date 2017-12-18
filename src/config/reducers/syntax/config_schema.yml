@@ -539,14 +539,6 @@ definitions:
       not:
         $ref: '#/definitions/jsonSchema'
       # Future JSON standard
-      formatMaximum:
-        type: string
-      formatMinimum:
-        type: string
-      formatExclusiveMaximum:
-        type: boolean
-      formatExclusiveMinimum:
-        type: boolean
       if:
         $ref: '#/definitions/jsonSchema'
       then:
@@ -584,8 +576,6 @@ definitions:
     default: {}
     # Future JSON standard
     dependencies:
-      formatExclusiveMinimum: [formatMinimum]
-      formatExclusiveMaximum: [formatMaximum]
       if: [then]
       then: [if]
       else: [then]
@@ -606,10 +596,6 @@ definitions:
         - minLength
         - pattern
         - format
-        - formatMaximum
-        - formatMinimum
-        - formatExclusiveMaximum
-        - formatExclusiveMinimum
         # Array validation
         - additionalItems
         - items

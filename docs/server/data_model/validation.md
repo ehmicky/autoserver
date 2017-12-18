@@ -20,10 +20,6 @@ The following keywords are available:
     - `format` `{string}`: among `'regex'`, `'date-time'`, `'date'`,
       `'time'`, `'email'`, `'hostname'`, `'ipv4'`, `'ipv6'`, `'uri'`,
       `'uri-reference'`, `'json-pointer'`, `'relative-json-pointer'`
-    - `formatMaximum` `{string}`, `formatMinimum` `{string}`,
-      `formatExclusiveMaximum` `{boolean}`,
-      `formatExclusiveMinimum` `{boolean}`: only if `format` is `date`, `time`
-      or `date-time`.
   - for attributes of array type:
     - `maxItems` `{integer}`: `<=`
     - `minItems` `{integer}`: `>=`
