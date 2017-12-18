@@ -61,7 +61,7 @@ const PROPS = {
   },
 
   // A database model could not be found, e.g. incorrect id
-  DB_MODEL_NOT_FOUND: {
+  MODEL_NOT_FOUND: {
     status: 'CLIENT_ERROR',
     title: 'Model not found',
   },
@@ -89,7 +89,7 @@ const PROPS = {
 
   // A command conflicts with another one,
   // e.g. tries to create already existing model
-  DB_CONFLICT: {
+  MODEL_CONFLICT: {
     status: 'CLIENT_ERROR',
   },
 

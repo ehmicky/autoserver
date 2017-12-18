@@ -48,8 +48,8 @@ const getModels = function ({ ids, op = 'and', clientCollname }) {
 
 const commonErrors = {
   AUTHORIZATION: throwAuthorizationError,
-  DB_MODEL_NOT_FOUND: throwModelNotFoundError,
-  DB_CONFLICT: throwConflictError,
+  MODEL_NOT_FOUND: throwModelNotFoundError,
+  MODEL_CONFLICT: throwConflictError,
 };
 
 module.exports = {

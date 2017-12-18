@@ -79,7 +79,7 @@ const reportProblem = async function ({ top, clientCollname, ...rest }) {
   if (top.command.type === 'upsert') { return; }
 
   throwCommonError({
-    reason: 'DB_MODEL_NOT_FOUND',
+    reason: 'MODEL_NOT_FOUND',
     ids: idsA,
     clientCollname,
   });

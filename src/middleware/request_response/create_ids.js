@@ -15,7 +15,7 @@ const validateCreateIds = function ({
   if (data.length === 0) { return; }
 
   const ids = data.map(({ id }) => id);
-  throwCommonError({ reason: 'DB_CONFLICT', ids, clientCollname });
+  throwCommonError({ reason: 'MODEL_CONFLICT', ids, clientCollname });
 };
 
 module.exports = {
