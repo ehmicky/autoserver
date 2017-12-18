@@ -31,7 +31,7 @@ const compressContent = async function ({
 const eCompressContent = addGenErrorHandler(compressContent, {
   message: ({ compressResponse: { title } }) =>
     `Could not compress the response using the ${title} algorithm`,
-  reason: 'UTILITY',
+  reason: 'COMPRESS',
 });
 
 // Do not try to compress binary content types

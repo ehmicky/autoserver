@@ -25,6 +25,7 @@
     "DATABASE": -32603,
     "PROCESS": -32603,
     "LOG": -32603,
+    "COMPRESS": -32603,
     "UTILITY": -32603,
     "UNKNOWN": -32603
   },

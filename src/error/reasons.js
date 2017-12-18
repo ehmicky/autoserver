@@ -144,6 +144,11 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
+  // Error during compression or decompression adapter
+  COMPRESS: {
+    status: 'SERVER_ERROR',
+  },
+
   // Some utility got some wrong input
   UTILITY: {
     status: 'SERVER_ERROR',
