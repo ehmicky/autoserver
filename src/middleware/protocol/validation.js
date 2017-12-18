@@ -6,7 +6,7 @@ const { throwError } = require('../../error');
 const protocolValidation = function ({ specific }) {
   if (!specific || specific.constructor !== Object) {
     const message = `'specific' must be an object, not ${specific}`;
-    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'ENGINE' });
   }
 };
 

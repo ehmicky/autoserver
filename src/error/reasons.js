@@ -115,7 +115,7 @@ const PROPS = {
 
   // Request did not pass config validation, e.g. `args` was not
   // provided, indicating a server bug
-  SERVER_INPUT_VALIDATION: {
+  ENGINE: {
     status: 'SERVER_ERROR',
   },
 

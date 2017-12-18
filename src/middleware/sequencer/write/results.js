@@ -47,7 +47,7 @@ const validateData = function ({ ids, data }) {
   if (sameLength) { return; }
 
   const message = `'ids' and 'results' do not have the same length`;
-  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  throwError(message, { reason: 'ENGINE' });
 };
 
 module.exports = {
