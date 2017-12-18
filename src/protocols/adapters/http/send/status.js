@@ -2,6 +2,8 @@
 
 // All HTTP status codes, according to error reason
 const STATUS_CODE_MAP = {
+  CONF_VALIDATION: 0,
+
   SUCCESS: 200,
 
   PAYLOAD_PARSE: 400,
@@ -33,7 +35,6 @@ const STATUS_CODE_MAP = {
 
   REQUEST_FORMAT: 415,
 
-  CONF_VALIDATION: 500,
   SERVER_INPUT_VALIDATION: 500,
   OUTPUT_VALIDATION: 500,
   PROTOCOL_ERROR: 500,
