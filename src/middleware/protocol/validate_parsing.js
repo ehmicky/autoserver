@@ -9,7 +9,7 @@ const validateProtocolString = function (obj) {
   if (typeof value === 'string') { return; }
 
   const message = `'${name}' must be a string, not ${JSON.stringify(value)}`;
-  throwError(message, { reason: 'ENGINE' });
+  throwError(message, { reason: 'PROTOCOL' });
 };
 
 const validateProtocolObject = function (obj) {
@@ -18,7 +18,7 @@ const validateProtocolObject = function (obj) {
   if (value && value.constructor === Object) { return; }
 
   const message = `'${name}' must be an object, not ${JSON.stringify(value)}`;
-  throwError(message, { reason: 'ENGINE' });
+  throwError(message, { reason: 'PROTOCOL' });
 };
 
 // Parse input when it is an object with a single key
