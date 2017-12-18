@@ -7,7 +7,7 @@ const getValidator = function () {
   const ajv = new Ajv(AJV_OPTIONS);
 
   // Add future JSON standard keywords
-  ajvKeywords(ajv, ['if', 'formatMinimum', 'formatMaximum', 'typeof']);
+  ajvKeywords(ajv, ['if', 'typeof']);
 
   return ajv;
 };

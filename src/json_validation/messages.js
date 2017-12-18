@@ -26,32 +26,6 @@ const errorMessages = {
     const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
     return ` must be greater than ${orEqualTo}${limit}`;
   },
-  formatMinimum: ({
-    params: { limit, comparison },
-    parentSchema: { format },
-  }) => {
-    const comparatives = {
-      date: 'more recent',
-      'date-time': 'more recent',
-      time: 'later',
-    };
-    const comparative = comparatives[format] || 'greater';
-    const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
-    return ` must be ${comparative} than ${orEqualTo}${limit}`;
-  },
-  formatMaximum: ({
-    params: { limit, comparison },
-    parentSchema: { format },
-  }) => {
-    const comparatives = {
-      date: 'older',
-      'date-time': 'older',
-      time: 'sooner',
-    };
-    const comparative = comparatives[format] || 'less';
-    const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
-    return ` must be ${comparative} than ${orEqualTo}${limit}`;
-  },
   minLength: ({ params: { limit } }) =>
     ` must be at least ${pluralize('character', limit, true)} long`,
   maxLength: ({ params: { limit } }) =>

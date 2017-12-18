@@ -115,10 +115,6 @@ collections:
         default: ($birth_date)
         validate:
           format: date
-          formatMinimum: 2000-01-01
-          formatExclusiveMinimum: true
-          formatMaximum: 2100-01-01
-          formatExclusiveMaximum: false
   $ref: other_collections.yml
   default: {}
 authorize:
