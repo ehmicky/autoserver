@@ -130,6 +130,11 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
+  // Error during RPC handling
+  RPC: {
+    status: 'SERVER_ERROR',
+  },
+
   // Error while connecting, disconnecting or communicating with a database
   DATABASE: {
     status: 'SERVER_ERROR',
