@@ -2,42 +2,43 @@
   {
     "name": "hostname",
     "validate": {
-      "type": ["string", "string[]"],
+      "type": [
+        "string",
+        "string[]"
+      ],
       "min_items": 1
     }
   },
-
   {
     "name": "port",
     "validate": {
-      "type": ["integer", "integer[]"],
+      "type": [
+        "integer",
+        "integer[]"
+      ],
       "minimum": 0,
       "maximum": 65535,
       "min_items": 1
     }
   },
-
   {
     "name": "username",
     "validate": {
       "type": "string"
     }
   },
-
   {
     "name": "password",
     "validate": {
       "type": "string"
     }
   },
-
   {
     "name": "dbname",
     "validate": {
       "type": "string"
     }
   },
-
   {
     "name": "opts",
     "dynamic": true,

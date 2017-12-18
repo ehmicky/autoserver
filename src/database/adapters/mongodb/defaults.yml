@@ -1,0 +1,4 @@
+hostname: localhost
+port: 27017
+dbname: data
+opts: {}
