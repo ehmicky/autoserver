@@ -76,9 +76,11 @@
     "gulp-eslint": "^4.0.0",
     "gulp-jscpd": "0.0.8",
     "gulp-plumber": "^1.1.0",
+    "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
     "markdown-link-check": "^3.1.5",
-    "nodemon": "^1.13.3"
+    "nodemon": "^1.13.3",
+    "through2": "^2.0.3"
   },
   "engines": {
     "node": ">=9.3.0"
