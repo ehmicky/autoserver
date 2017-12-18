@@ -21,6 +21,7 @@
     "start": "cd ./examples && ../bin/apiengine",
     "watch": "./node_modules/.bin/nodemon --config ./nodemon.json",
     "debug": "./node_modules/.bin/nodemon --config ./nodemon_debug.json",
+    "build": "gulp build",
     "test": "gulp test"
   },
   "license": "Apache-2.0",

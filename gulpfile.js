@@ -4,7 +4,7 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const jscpd = require('gulp-jscpd');
 
-const { gulpSrc, checkLinksTask } = require('./gulp');
+const { gulpSrc, checkLinksTask, jsonifyFiles } = require('./gulp');
 
 gulp.task('lint', () =>
   gulpSrc('lint')
@@ -25,9 +25,12 @@ gulp.task('dup', () =>
       'skip-comments': true,
     })));
 
-// Checks for dead links in Markdown files
 gulp.task('links', checkLinksTask);
+
+gulp.task('json', jsonifyFiles);
 
 gulp.task('test', ['lint', 'dup', 'links']);
 
-gulp.task('default', ['test']);
+gulp.task('build', ['json']);
+
+gulp.task('default', ['build']);

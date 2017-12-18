@@ -13,6 +13,13 @@ that configuration, use either:
 
 A local HTTP server will be spawned at `http://localhost:5001`.
 
+# Building
+
+Building is performed with `npm build`.
+
+At the moment, the only task performed in to transform some files from YAML to
+JSON.
+
 # Testing
 
 There is no automated testing yet.

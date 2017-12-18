@@ -2,6 +2,7 @@
 
 const { exec } = require('child_process');
 
+// Checks for dead links in Markdown files
 // eslint-disable-next-line promise/prefer-await-to-callbacks
 const checkLinksTask = function (cb) {
   exec('./gulp/linkcheck.sh', checkLinks.bind(null, cb));
