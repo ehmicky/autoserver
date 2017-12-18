@@ -3,6 +3,7 @@
   "*.md": { "lint": true },
   "bin/*": { "lint": true },
   "src/**/*.js": { "lint": true },
+  "src/**/*.yml": { "format": true },
   "gulp/**/*.js": { "lint": true },
   "examples/**/*.js": { "lint": true },
   "docs/**/*.md": { "lint": true }

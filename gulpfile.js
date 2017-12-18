@@ -4,7 +4,7 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const jscpd = require('gulp-jscpd');
 
-const { gulpSrc, checkLinksTask, jsonifyFiles } = require('./gulp');
+const { gulpSrc, gulpWatch, checkLinksTask, convertFormat } = require('./gulp');
 
 gulp.task('lint', () =>
   gulpSrc('lint')
@@ -27,10 +27,18 @@ gulp.task('dup', () =>
 
 gulp.task('links', checkLinksTask);
 
-gulp.task('json', jsonifyFiles);
+gulp.task('format', () =>
+  gulpSrc('format')
+    .pipe(convertFormat())
+    .pipe(gulp.dest('./src/')));
+
+gulp.task('watch', () =>
+  gulpWatch('format')
+    .pipe(convertFormat())
+    .pipe(gulp.dest('./src/')));
 
 gulp.task('test', ['lint', 'dup', 'links']);
 
-gulp.task('build', ['json']);
+gulp.task('build', ['format']);
 
 gulp.task('default', ['build']);

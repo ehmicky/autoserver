@@ -3,5 +3,5 @@
 module.exports = {
   ...require('./utils'),
   ...require('./linkcheck'),
-  ...require('./json'),
+  ...require('./format'),
 };
