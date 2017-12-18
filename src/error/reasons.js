@@ -8,6 +8,11 @@
 // TODO: add `url` property pointing towards API documentation for that error
 // TODO: add all `title` properties to `generic`
 const PROPS = {
+  // Config is invalid
+  CONF_VALIDATION: {
+    status: 'SERVER_ERROR',
+  },
+
   // No error
   SUCCESS: {
     status: 'SUCCESS',
@@ -106,11 +111,6 @@ const PROPS = {
   // Wrong requested format|charset|compress for the request payload
   REQUEST_FORMAT: {
     status: 'CLIENT_ERROR',
-  },
-
-  // Config is invalid
-  CONF_VALIDATION: {
-    status: 'SERVER_ERROR',
   },
 
   // Request did not pass config validation, e.g. `args` was not
