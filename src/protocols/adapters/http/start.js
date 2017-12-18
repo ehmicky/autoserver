@@ -52,7 +52,7 @@ const errorListener = async function ({ serverOn }) {
   const error = await serverOn('error');
 
   const message = 'Could not start HTTP server';
-  throwError(message, { reason: 'PROTOCOL_ERROR', innererror: error });
+  throwError(message, { reason: 'PROTOCOL', innererror: error });
 };
 
 const handleClientRequest = function ({ server, handleRequest }) {

@@ -36,8 +36,8 @@ const FAILURE_MESSAGES = {
 };
 
 const REASONS = {
-  protocols: 'PROTOCOL_ERROR',
-  databases: 'DB_ERROR',
+  protocols: 'PROTOCOL',
+  databases: 'DATABASE',
 };
 
 module.exports = {

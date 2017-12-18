@@ -52,7 +52,7 @@ const getReportFunc = function ({ event, provider }) {
 };
 
 const logEventHandler = function (error, { config, event }) {
-  const errorA = normalizeError({ error, reason: 'LOG_ERROR' });
+  const errorA = normalizeError({ error, reason: 'LOG' });
   const params = { error: errorA };
   // Give up if error handler fails
   // I.e. we do not need to `await` this

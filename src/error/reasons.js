@@ -126,27 +126,27 @@ const PROPS = {
   },
 
   // Error while starting or stopping a protocol server
-  PROTOCOL_ERROR: {
+  PROTOCOL: {
     status: 'SERVER_ERROR',
   },
 
   // Error while connecting, disconnecting or communicating with a database
-  DB_ERROR: {
+  DATABASE: {
     status: 'SERVER_ERROR',
   },
 
   // An exception was fired on the process itself
-  PROCESS_ERROR: {
+  PROCESS: {
     status: 'SERVER_ERROR',
   },
 
   // An exception was fired during logging
-  LOG_ERROR: {
+  LOG: {
     status: 'SERVER_ERROR',
   },
 
   // Some utility got some wrong input
-  UTILITY_ERROR: {
+  UTILITY: {
     status: 'SERVER_ERROR',
   },
 

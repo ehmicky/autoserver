@@ -33,7 +33,7 @@ const renderGraphiql = function (input) {
 
 const eRenderGraphiql = addGenErrorHandler(renderGraphiql, {
   message: 'Could not render GraphiQL HTML document',
-  reason: 'UTILITY_ERROR',
+  reason: 'UTILITY',
 });
 
 const getDataToEscape = function ({

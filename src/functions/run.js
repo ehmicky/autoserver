@@ -23,7 +23,7 @@ const runConfigFunc = function ({
 const eRunConfigFunc = addGenErrorHandler(runConfigFunc, {
   message: ({ configFunc }) =>
     `Function failed: '${stringifyConfigFunc({ configFunc })}'`,
-  reason: 'UTILITY_ERROR',
+  reason: 'UTILITY',
 });
 
 module.exports = {
