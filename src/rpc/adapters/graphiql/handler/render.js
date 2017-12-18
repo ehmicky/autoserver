@@ -33,7 +33,7 @@ const renderGraphiql = function (input) {
 
 const eRenderGraphiql = addGenErrorHandler(renderGraphiql, {
   message: 'Could not render GraphiQL HTML document',
-  reason: 'UTILITY',
+  reason: 'RPC',
 });
 
 const getDataToEscape = function ({
