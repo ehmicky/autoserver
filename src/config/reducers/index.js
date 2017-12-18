@@ -20,7 +20,7 @@ module.exports = {
   ...require('./log'),
   ...require('./shortcuts'),
   ...require('./validate_collname'),
-  ...require('./database'),
+  ...require('./databases'),
   ...require('./limits'),
   ...require('./json_schema'),
   // eslint-disable-next-line import/max-dependencies

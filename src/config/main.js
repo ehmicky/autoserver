@@ -87,7 +87,7 @@ const reducers = [
 
   // Validate collections are properly named
   validateClientCollnames,
-  // Validates `coll.database`
+  // Validates `coll.databases`
   validateDatabases,
   // Validates `limits`
   validateLimits,
