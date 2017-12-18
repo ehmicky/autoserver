@@ -76,7 +76,7 @@ const validateValue = function ({
     opValidate({ type, value, attr, throwErr });
   }
 
-  if (attrValidate) {
+  if (attrValidate !== undefined) {
     Object.entries(attrValidate)
       .forEach(([keyword, ruleVal]) => validators[keyword]({
         type,
