@@ -45,7 +45,7 @@ const findByExt = function ({ path, safe }) {
 };
 
 // Setting `safe` to `true` removes formats that execute code.
-// For example, JavaScript can be allowed in configuration files, but should
+// For example, JavaScript can be allowed in config files, but should
 // not be allowed in client payloads.
 const getFormats = function ({ safe = false }) {
   const formats = Object.values(formatAdapters);
