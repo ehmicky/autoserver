@@ -113,9 +113,8 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
-  // Request did not pass config validation, e.g. `args` was not
-  // provided, indicating a server bug
-  ENGINE: {
+  // Configuration error caught runtime
+  CONF_RUNTIME: {
     status: 'SERVER_ERROR',
   },
 
@@ -149,8 +148,8 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // Some utility got some wrong input
-  UTILITY: {
+  // Internal error of the engine
+  ENGINE: {
     status: 'SERVER_ERROR',
   },
 

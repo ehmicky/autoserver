@@ -29,7 +29,7 @@ const validateError = function (opts) {
   if (nonAllowedOpts.length === 0) { return; }
 
   const message = `Cannot use options '${nonAllowedOpts}' when throwing an error`;
-  throwError(message, { reason: 'UTILITY' });
+  throwError(message, { reason: 'ENGINE' });
 };
 
 const ALLOWED_OPTS = ['reason', 'innererror', 'extra'];
