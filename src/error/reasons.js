@@ -108,11 +108,6 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
-  // Filesystem error: could not open local file
-  FILE_OPEN_ERROR: {
-    status: 'SERVER_ERROR',
-  },
-
   // Config is invalid
   CONF_VALIDATION: {
     status: 'SERVER_ERROR',
