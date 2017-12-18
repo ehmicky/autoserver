@@ -13,14 +13,14 @@ const actionValidationOut = function ({ response: { content, type } }) {
 const validateType = function ({ type }) {
   if (typeof type !== 'string') {
     const message = `'type' must be a string, not '${type}'`;
-    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'ENGINE' });
   }
 
   const isWrongType = !CONTENT_TYPES[type];
 
   if (isWrongType) {
     const message = `Invalid 'type': '${type}'`;
-    throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+    throwError(message, { reason: 'ENGINE' });
   }
 };
 
@@ -29,7 +29,7 @@ const validateContent = function ({ content, type }) {
   if (isRightContent) { return; }
 
   const message = `Invalid 'content' of type '${type}': '${content}'`;
-  throwError(message, { reason: 'SERVER_INPUT_VALIDATION' });
+  throwError(message, { reason: 'ENGINE' });
 };
 
 module.exports = {
