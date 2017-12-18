@@ -10,7 +10,7 @@ const validateAdaptersOpts = function ({ opts, adapters, key }) {
 };
 
 const validateAdapterOpts = function ({ name, opts, adapters, key }) {
-  const { opts: jsonSchema } = getOptsAdapter({ name, adapters, key });
+  const { opts: jsonSchema = true } = getOptsAdapter({ name, adapters, key });
   const compiledJsonSchema = compile({ jsonSchema });
 
   validate({

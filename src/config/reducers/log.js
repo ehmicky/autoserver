@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError, addGenErrorHandler } = require('../../error');
 const { logAdapters, DEFAULT_LOGGER } = require('../../log');
 
 // Normalize `log`
@@ -11,7 +11,9 @@ const normalizeLog = function ({ config: { log } }) {
 
   logD.forEach(validateProvider);
 
-  return { log: logD };
+  const logE = logD.map(eNormalizeProvider);
+
+  return { log: logE };
 };
 
 const addDefaultProviderName = function ({ log, log: { provider } }) {
@@ -37,6 +39,20 @@ const validateProvider = function ({ provider }) {
   const message = `Log provider '${provider}' does not exist`;
   throwError(message, { reason: 'CONF_VALIDATION' });
 };
+
+const normalizeProvider = function (log) {
+  const { provider, opts } = log;
+  const { getOpts } = logAdapters[provider];
+  if (getOpts === undefined) { return log; }
+
+  const optsA = getOpts({ opts });
+  return { ...log, opts: { ...opts, ...optsA } };
+};
+
+const eNormalizeProvider = addGenErrorHandler(normalizeProvider, {
+  message: ({ provider }) => `Wrong configuration at 'log.${provider}.opts'`,
+  reason: 'CONF_VALIDATION',
+});
 
 module.exports = {
   normalizeLog,
