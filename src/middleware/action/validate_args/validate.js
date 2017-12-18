@@ -9,7 +9,6 @@ const COMMANDS = require('./commands');
 // Check arguments for client-side syntax errors.
 const validateArgs = function ({ top: { args, command }, config }) {
   const data = getData({ args, command, config });
-  console.log(data);
 
   validate({ compiledJsonSchema, data, ...VALIDATE_OPTS });
 };
