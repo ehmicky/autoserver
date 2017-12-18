@@ -20,6 +20,7 @@ module.exports = {
   ...require('./log'),
   ...require('./shortcuts'),
   ...require('./validate_collname'),
+  ...require('./protocols'),
   ...require('./databases'),
   ...require('./limits'),
   ...require('./json_schema'),
