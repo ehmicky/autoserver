@@ -184,7 +184,7 @@ definitions:
         plugin:
           typeof: [function, string]
         enabled:
-          typeof: boolean
+          type: boolean
         opts:
           type: object
           propertyNames:
