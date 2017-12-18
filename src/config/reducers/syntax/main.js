@@ -1,16 +1,12 @@
 'use strict';
 
 const { omitBy, fullRecurseMap } = require('../../../utilities');
-const { loadFile } = require('../../../formats');
 const { compile, validate } = require('../../../json_validation');
 
-const CONFIG_JSON_SCHEMA_PATH = `${__dirname}/config_schema.yml`;
+const jsonSchema = require('./config_schema');
 
 // General config syntax validation
-const validateConfigSyntax = async function ({ config }) {
-  const jsonSchema = await loadFile({ path: CONFIG_JSON_SCHEMA_PATH });
-  const compiledJsonSchema = compile({ jsonSchema });
-
+const validateConfigSyntax = function ({ config }) {
   const data = getConfig(config);
 
   validate({
@@ -21,6 +17,8 @@ const validateConfigSyntax = async function ({ config }) {
     message: 'Error in configuration',
   });
 };
+
+const compiledJsonSchema = compile({ jsonSchema });
 
 // At the moment, the config needs to be modified for proper JSON schema
 // validation
