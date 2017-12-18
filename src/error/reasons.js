@@ -119,12 +119,6 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // Response did not pass config validation, e.g. if the database is
-  // corrupted or new constraints were applied without being migrated
-  OUTPUT_VALIDATION: {
-    status: 'SERVER_ERROR',
-  },
-
   // Error while starting or stopping a protocol server
   PROTOCOL: {
     status: 'SERVER_ERROR',
