@@ -1,7 +1,5 @@
 'use strict';
 
-const { throwError } = require('../../../../error');
-
 const { find } = require('./find');
 const { delete: deleteFunc } = require('./delete');
 const { upsert } = require('./upsert');
@@ -37,7 +35,8 @@ const validateWrongResult = function ({
 
   const codeA = code === undefined ? '' : ` (code ${code})`;
   const message = `${errmsg}${codeA}`;
-  throwError(message, { reason: 'DB_ERROR' });
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(message);
 };
 
 module.exports = {

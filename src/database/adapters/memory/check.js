@@ -1,6 +1,5 @@
 'use strict';
 
-const { throwError } = require('../../../error');
 const { getRef } = require('../../../json_refs');
 
 // Check for data model inconsistencies, and potentially fix them
@@ -17,7 +16,8 @@ const checkConnection = function ({ connection }) {
   if (connection != null && connection.constructor === Object) { return; }
 
   const message = '\'config.databases.memory.data\' must be an object';
-  throwError(message, { reason: 'DB_ERROR' });
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(message);
 };
 
 const checkSave = function ({ options: { save, data } }) {
@@ -26,7 +26,8 @@ const checkSave = function ({ options: { save, data } }) {
   if (!save || path !== undefined) { return; }
 
   const message = '\'config.databases.memory.data\' must be a JSON reference to an object when \'config.databases.memory.save\' is true';
-  throwError(message, { reason: 'DB_ERROR' });
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(message);
 };
 
 const checkCollection = function ({ collname, connection }) {
@@ -34,7 +35,8 @@ const checkCollection = function ({ collname, connection }) {
 
   if (connection[collname] !== undefined) {
     const message = `Collection '${collname}' must be either an array of undefined, not ${typeof connection[collname]}`;
-    throwError(message, { reason: 'DB_ERROR' });
+    // eslint-disable-next-line fp/no-throw
+    throw new Error(message);
   }
 
   // Add empty collection if missing
