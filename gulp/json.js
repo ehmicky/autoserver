@@ -11,6 +11,8 @@ const jsonifyFiles = async function () {
 
 const PATHS = [
   `${__dirname}/../src/config/reducers/syntax/config_schema.yml`,
+  `${__dirname}/../src/middleware/action/validate_args/args_schema.yml`,
+  `${__dirname}/../src/middleware/action/validate_args/commands.yml`,
 ];
 
 const jsonifyFile = async function (path) {
