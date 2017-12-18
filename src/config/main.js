@@ -23,6 +23,7 @@ const {
   normalizeLog,
   normalizeShortcuts,
   validateClientCollnames,
+  validateProtocols,
   validateDatabases,
   validateLimits,
   compileJsonSchema,
@@ -87,6 +88,8 @@ const reducers = [
 
   // Validate collections are properly named
   validateClientCollnames,
+  // Validates `coll.protocols`
+  validateProtocols,
   // Validates `coll.databases`
   validateDatabases,
   // Validates `limits`

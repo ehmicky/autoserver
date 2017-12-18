@@ -1,16 +1,14 @@
-[
-  {
-    "name": "hostname",
-    "validate": {
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "hostname": {
       "type": "string"
-    }
-  },
-  {
-    "name": "port",
-    "validate": {
+    },
+    "port": {
       "type": "integer",
       "minimum": 0,
       "maximum": 65535
     }
   }
-]
+}
