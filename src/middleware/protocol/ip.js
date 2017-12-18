@@ -9,7 +9,7 @@ const getIp = function ({ protocolAdapter, specific }) {
 
   if (typeof ip !== 'string') {
     const message = `'ip' must be a string, not '${ip}'`;
-    throwError(message, { reason: 'ENGINE' });
+    throwError(message, { reason: 'PROTOCOL' });
   }
 
   return { ip };
