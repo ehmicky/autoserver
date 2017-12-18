@@ -2,8 +2,6 @@
 
 const { MongoClient } = require('mongodb');
 
-const { throwError } = require('../../../error');
-
 // Starts connection
 const connect = async function ({
   options: { hostname, port, username, password, dbname, opts },
@@ -53,7 +51,8 @@ const fixHostLength = function ({ hostname, port }) {
   }
 
   const message = 'Invalid options: \'databases.mongodb.hostname\' and \'databases.mongodb.port\' must have the same number of items';
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(message);
 };
 
 // Retrieve `username:password@`
@@ -68,12 +67,14 @@ const getAuth = function ({ username, password }) {
 const validateAuth = function ({ username, password }) {
   if (!username) {
     const message = 'Invalid option \'databases.mongodb.password\': \'databases.mongodb.username\' must also be defined';
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    // eslint-disable-next-line fp/no-throw
+    throw new Error(message);
   }
 
   if (!password) {
     const message = 'Invalid option \'databases.mongodb.username\': \'databases.mongodb.password\' must also be defined';
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    // eslint-disable-next-line fp/no-throw
+    throw new Error(message);
   }
 };
 
