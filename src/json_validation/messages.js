@@ -52,8 +52,6 @@ const errorMessages = {
     ` property '${propertyName}' name must be valid`,
   dependencies: ({ params: { missingProperty, property } }) =>
     `.${missingProperty} must be defined when property '${property} is defined`,
-  arity: ({ schema, data: func }) =>
-    ` must have ${pluralize('argument', schema, true)} not ${func.length}`,
   // Special keyword for schema that are `false`,
   // e.g. `patternProperties: { pattern: false }`
   'false schema': () =>
