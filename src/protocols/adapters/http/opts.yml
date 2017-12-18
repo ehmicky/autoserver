@@ -1,0 +1,8 @@
+- name: hostname
+  validate:
+    type: string
+- name: port
+  validate:
+    type: integer
+    minimum: 0
+    maximum: 65535

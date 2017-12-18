@@ -5,7 +5,6 @@
       "type": "string"
     }
   },
-
   {
     "name": "port",
     "validate": {
