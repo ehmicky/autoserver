@@ -10,15 +10,15 @@ const COMMANDS = require('./commands');
 const validateArgs = function ({ top: { args, command }, config }) {
   const data = getData({ args, command, config });
 
-  validate({ compiledJsonSchema, data, ...VALIDATE_OPTS });
+  validate({
+    compiledJsonSchema,
+    data,
+    reason: 'INPUT_VALIDATION',
+    message: 'Wrong arguments',
+  });
 };
 
 const compiledJsonSchema = compile({ jsonSchema: SCHEMA });
-
-const VALIDATE_OPTS = {
-  reason: 'INPUT_VALIDATION',
-  message: 'Wrong arguments',
-};
 
 const getData = function ({ args, command, config }) {
   const dynamicVars = getDynamicArgs({ command, config });

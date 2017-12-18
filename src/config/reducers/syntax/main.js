@@ -9,16 +9,16 @@ const SCHEMA = require('./config_schema');
 const validateConfigSyntax = function ({ config }) {
   const data = getConfig(config);
 
-  validate({ compiledJsonSchema, data, ...VALIDATE_OPTS });
+  validate({
+    compiledJsonSchema,
+    data,
+    dataVar: 'config',
+    reason: 'CONF_VALIDATION',
+    message: 'Error in configuration',
+  });
 };
 
 const compiledJsonSchema = compile({ jsonSchema: SCHEMA });
-
-const VALIDATE_OPTS = {
-  dataVar: 'config',
-  reason: 'CONF_VALIDATION',
-  message: 'Error in configuration',
-};
 
 // At the moment, the config needs to be modified for proper JSON schema
 // validation
