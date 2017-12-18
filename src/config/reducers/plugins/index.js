@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./apply'),
+  ...require('./main'),
   ...require('./attributes'),
 };
