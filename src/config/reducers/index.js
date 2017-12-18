@@ -2,7 +2,6 @@
 
 module.exports = {
   ...require('./load'),
-  ...require('./plugins'),
   ...require('./colls_default'),
   ...require('./circular_refs'),
   ...require('./json_schema_data'),
