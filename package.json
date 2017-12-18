@@ -77,7 +77,7 @@
     "gulp-jscpd": "0.0.8",
     "gulp-plumber": "^1.1.0",
     "markdown-link-check": "^3.1.5",
-    "nodemon": "^1.12.7"
+    "nodemon": "^1.13.3"
   },
   "engines": {
     "node": ">=9.3.0"
