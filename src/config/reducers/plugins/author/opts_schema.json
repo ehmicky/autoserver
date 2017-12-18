@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "currentuser": {
+      "typeof": "function"
+    },
+    "collection": {
+      "type": "string",
+      "enum": {
+        "$data": "/dynamicVars/collTypes"
+      }
+    }
+  }
+}
