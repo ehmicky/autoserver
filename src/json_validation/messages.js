@@ -7,8 +7,11 @@ const { getWordsList } = require('../utilities');
 // List of custom error messages getters
 const errorMessages = {
   // JSON schema keywords for any type
-  type: ({ params: { type } }) =>
-    ` must be ${type}`,
+  type: ({ params: { type } }) => {
+    const types = type.split(',');
+    const typesA = getWordsList(types, { op: 'or' });
+    return ` must be ${typesA}`;
+  },
   format: ({ params: { format } }) =>
     ` must match format '${format}'`,
   enum: ({ params: { allowedValues } }) => {
