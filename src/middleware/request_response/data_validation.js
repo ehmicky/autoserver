@@ -1,6 +1,5 @@
 'use strict';
 
-const { omitBy } = require('../../utilities');
 const { validate } = require('../../json_validation');
 
 // Custom data validation middleware
@@ -17,39 +16,18 @@ const dataValidation = function ({
 
   const compiledJsonSchema = validateMap[collname];
 
-  newData.forEach((newDatum, index) => validateAttr({
-    dataVar: 'data',
+  newData.forEach((data, index) => validate({
     compiledJsonSchema,
-    mInput,
-    newDatum,
-    currentDatum: currentData[index],
+    data,
+    extra: { mInput, currentDatum: currentData[index] },
+    ...VALIDATE_OPTS,
   }));
 };
 
-const validateAttr = function ({
-  dataVar,
-  compiledJsonSchema,
-  mInput,
-  newDatum,
-  currentDatum,
-}) {
-  const newDatumA = removeEmpty(newDatum);
-
-  validate({
-    compiledJsonSchema,
-    data: newDatumA,
-    dataVar,
-    reason: 'INPUT_VALIDATION',
-    message: 'Wrong parameters',
-    extra: { mInput, currentDatum },
-  });
-};
-
-// In theory, the previous middleware should not leave any value null|undefined,
-// so this should be a noop. This is just an extra safety.
-// This converts null|undefined to "no key".
-const removeEmpty = function (value) {
-  return omitBy(value, prop => prop == null);
+const VALIDATE_OPTS = {
+  dataVar: 'data',
+  reason: 'INPUT_VALIDATION',
+  message: 'Wrong parameters',
 };
 
 module.exports = {
