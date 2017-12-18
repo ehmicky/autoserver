@@ -1,24 +1,37 @@
 'use strict';
 
-const { fastValidate } = require('../../../fast_validation');
+const { compile, validate } = require('../../../json_validation');
+const { getLimits } = require('../../../limits');
 
-const { validateMultiple } = require('./multiple');
-const { commandsTests } = require('./builder');
+const SCHEMA = require('./args_schema');
+const COMMANDS = require('./commands');
 
-// Check arguments for client-side errors.
-// In a nutshell, checks that:
-//  - required arguments are defined
-//  - disabled or unknown arguments are not defined
-//  - arguments that are defined follow correct syntax
-//    Does not check for semantics (e.g. config validation)
+// Check arguments for client-side syntax errors.
 const validateArgs = function ({ top: { args, command }, config }) {
-  validateMultiple({ args, command });
+  const data = getData({ args, command, config });
+  console.log(data);
 
-  const tests = commandsTests[command.name];
-  fastValidate(
-    { prefix: 'Wrong arguments: ', reason: 'INPUT_VALIDATION', tests },
-    { ...args, config },
-  );
+  validate({ compiledJsonSchema, data, ...VALIDATE_OPTS });
+};
+
+const compiledJsonSchema = compile({ jsonSchema: SCHEMA });
+
+const VALIDATE_OPTS = {
+  reason: 'INPUT_VALIDATION',
+  message: 'Wrong arguments',
+};
+
+const getData = function ({ args, command, config }) {
+  const dynamicVars = getDynamicArgs({ command, config });
+  return { arguments: args, dynamicVars };
+};
+
+const getDynamicArgs = function ({ command, command: { multiple }, config }) {
+  const { required, optional } = COMMANDS[command.name];
+  const validArgs = [...required, ...optional];
+  const { pagesize } = getLimits({ config });
+
+  return { multiple, requiredArgs: required, validArgs, pagesize };
 };
 
 module.exports = {
