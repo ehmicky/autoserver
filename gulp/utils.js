@@ -2,6 +2,7 @@
 
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
+const watch = require('gulp-watch');
 
 const files = require('./files.json');
 
@@ -16,6 +17,12 @@ const gulpSrc = function (type) {
   return gulp.src(allFiles).pipe(plumber());
 };
 
+const gulpWatch = function (type) {
+  const allFiles = getFiles(type);
+  return watch(allFiles).pipe(plumber());
+};
+
 module.exports = {
   gulpSrc,
+  gulpWatch,
 };
