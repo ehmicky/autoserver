@@ -1,6 +1,6 @@
 'use strict';
 
-const { validate } = require('../../json_validation');
+const { validate } = require('../../validation');
 
 // Custom data validation middleware
 // Check that newData passes config validation

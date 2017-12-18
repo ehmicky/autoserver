@@ -1,7 +1,7 @@
 'use strict';
 
 const { omitBy, fullRecurseMap } = require('../../../utilities');
-const { compile, validate } = require('../../../json_validation');
+const { compile, validate } = require('../../../validation');
 
 const SCHEMA = require('./config_schema');
 
