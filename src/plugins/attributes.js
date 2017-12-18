@@ -2,10 +2,9 @@
 
 const pluralize = require('pluralize');
 
-const { getWordsList, intersection } = require('../../../utilities');
-const { throwError } = require('../../../error');
-const { compile, validate } = require('../../../validation');
-const { mapColls } = require('../../helpers');
+const { getWordsList, intersection, mapValues } = require('../utilities');
+const { throwError } = require('../error');
+const { compile, validate } = require('../validation');
 
 // Generic plugin factory
 // It adds attributes to each collection, using `getAttributes(pluginOpts)`
@@ -14,7 +13,6 @@ const attributesPlugin = function ({
   name,
   getAttributes = () => ({}),
   optsSchema,
-  config,
   config: { collections },
   opts,
 }) {
@@ -24,10 +22,9 @@ const attributesPlugin = function ({
 
   const newAttrs = getAttributes(opts);
 
-  const func = mergeNewAttrs.bind(null, newAttrs);
-  const configA = mapColls(func, { config });
+  const collectionsA = applyPlugin({ collections, newAttrs });
 
-  return configA;
+  return { collections: collectionsA };
 };
 
 // Validate plugin options against `optsSchema`
@@ -60,13 +57,23 @@ const getData = function ({ collections, opts }) {
   return data;
 };
 
-const mergeNewAttrs = function (
+const applyPlugin = function ({ collections, newAttrs }) {
+  return mapValues(
+    collections,
+    (coll, collname) => mergeNewAttrs({ coll, collname, newAttrs }),
+  );
+};
+
+const mergeNewAttrs = function ({
+  coll,
+  coll: { attributes = {} },
+  collname,
   newAttrs,
-  { coll: { attributes = {} }, collname },
-) {
+}) {
   validateAttrs({ attributes, collname, newAttrs });
 
-  return { attributes: { ...attributes, ...newAttrs } };
+  const collA = { attributes: { ...attributes, ...newAttrs } };
+  return { ...coll, ...collA };
 };
 
 // Make sure plugin does not override user-defined attributes

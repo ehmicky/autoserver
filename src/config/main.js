@@ -2,10 +2,10 @@
 
 const { monitoredReduce } = require('../perf');
 const { createInlineFuncs } = require('../functions');
+const { applyPlugins } = require('../plugins');
 
 const {
   loadFile,
-  applyPlugins,
   applyCollsDefault,
   validateCircularRefs,
   validateJsonSchemaData,
