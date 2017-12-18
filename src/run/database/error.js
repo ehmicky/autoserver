@@ -28,7 +28,7 @@ const errorHandler = function ({ funcName, name }, error, { command }) {
   const errorA = normalizeError({
     error,
     message: messageA,
-    reason: 'DB_ERROR',
+    reason: 'DATABASE',
   });
   rethrowError(errorA);
 };

@@ -22,7 +22,7 @@ const launchServer = async function ({
 const eLaunchServer = addGenErrorHandler(launchServer, {
   message: ({ protocolAdapter: { title } }) =>
     `Could not start ${title} server`,
-  reason: 'PROTOCOL_ERROR',
+  reason: 'PROTOCOL',
 });
 
 module.exports = {
