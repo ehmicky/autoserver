@@ -1,49 +1,48 @@
-[
-  {
-    "name": "hostname",
-    "validate": {
-      "type": [
-        "string",
-        "string[]"
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "hostname": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       ],
-      "min_items": 1
-    }
-  },
-  {
-    "name": "port",
-    "validate": {
-      "type": [
-        "integer",
-        "integer[]"
+      "minItems": 1
+    },
+    "port": {
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
       ],
       "minimum": 0,
       "maximum": 65535,
-      "min_items": 1
-    }
-  },
-  {
-    "name": "username",
-    "validate": {
+      "minItems": 1
+    },
+    "username": {
       "type": "string"
-    }
-  },
-  {
-    "name": "password",
-    "validate": {
+    },
+    "password": {
       "type": "string"
-    }
-  },
-  {
-    "name": "dbname",
-    "validate": {
+    },
+    "dbname": {
       "type": "string"
-    }
-  },
-  {
-    "name": "opts",
-    "dynamic": true,
-    "validate": {
+    },
+    "opts": {
       "type": "object"
     }
   }
-]
+}
