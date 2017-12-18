@@ -2,22 +2,25 @@
 
 const pluralize = require('pluralize');
 
-const { throwError } = require('../../../error');
 const { getWordsList, intersection } = require('../../../utilities');
+const { throwError } = require('../../../error');
+const { compile, validate } = require('../../../validation');
 const { mapColls } = require('../../helpers');
 
 // Generic plugin factory
 // It adds attributes to each collection, using `getAttributes(pluginOpts)`
 // option which returns the attributes
-const attributesPlugin = function ({ getAttributes = () => ({}) }) {
-  return plugin.bind(null, getAttributes);
-};
-
-const plugin = function (
-  getAttributes,
-  { config, config: { collections }, opts },
-) {
+const attributesPlugin = function ({
+  name,
+  getAttributes = () => ({}),
+  optsSchema,
+  config,
+  config: { collections },
+  opts,
+}) {
   if (!collections) { return; }
+
+  validateOpts({ name, opts, optsSchema, collections });
 
   const newAttrs = getAttributes(opts);
 
@@ -25,6 +28,36 @@ const plugin = function (
   const configA = mapColls(func, { config });
 
   return configA;
+};
+
+// Validate plugin options against `optsSchema`
+const validateOpts = function ({ name, opts = {}, optsSchema, collections }) {
+  if (optsSchema === undefined) { return; }
+
+  const jsonSchema = getJsonSchema({ optsSchema });
+  const data = getData({ collections, opts });
+  const compiledJsonSchema = compile({ jsonSchema });
+
+  validate({
+    compiledJsonSchema,
+    data,
+    dataVar: name,
+    reason: 'CONF_VALIDATION',
+    message: `Wrong '${name}' plugin configuration`,
+  });
+};
+
+const getJsonSchema = function ({ optsSchema }) {
+  return { type: 'object', properties: { plugin: optsSchema } };
+};
+
+const getData = function ({ collections, opts }) {
+  const collTypes = Object.keys(collections);
+  const data = {
+    plugin: opts,
+    dynamicVars: { collTypes },
+  };
+  return data;
 };
 
 const mergeNewAttrs = function (

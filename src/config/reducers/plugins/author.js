@@ -1,7 +1,5 @@
 'use strict';
 
-const { throwError } = require('../../../error');
-
 const { attributesPlugin } = require('./attributes');
 
 // Plugin that adds who modified last each model:
@@ -12,26 +10,29 @@ const { attributesPlugin } = require('./attributes');
 //   [currentuser] {function} - current user
 //   [collection] {string} - user's collection name
 const authorPlugin = function ({ config, opts }) {
-  validateConf({ config, opts });
-
-  return attributesPlugin({ getAttributes })({ config, opts });
+  return attributesPlugin({
+    name: 'author',
+    getAttributes,
+    optsSchema: OPTS_SCHEMA,
+    config,
+    opts,
+  });
 };
 
-const validateConf = function ({ config, opts: { currentuser, collection } }) {
-  if (typeof currentuser !== 'function') {
-    const message = 'In \'author\' plugin, \'opts.currentuser\' must be a function';
-    throwError(message, { reason: 'CONF_VALIDATION' });
-  }
-
-  if (typeof collection !== 'string') {
-    const message = 'In \'author\' plugin, \'opts.collection\' must be a string';
-    throwError(message, { reason: 'CONF_VALIDATION' });
-  }
-
-  if (config.collections[collection] === undefined) {
-    const message = `'author' plugin requires 'collections.${collection}'`;
-    throwError(message, { reason: 'CONF_VALIDATION' });
-  }
+const OPTS_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    currentuser: {
+      typeof: 'function',
+    },
+    collection: {
+      type: 'string',
+      enum: {
+        $data: '/dynamicVars/collTypes',
+      },
+    },
+  },
 };
 
 const getAttributes = ({ currentuser, collection }) => ({
