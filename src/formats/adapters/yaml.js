@@ -2,8 +2,6 @@
 
 const yaml = require('js-yaml');
 
-const { throwError } = require('../../error');
-
 // Parses a YAML file
 const parse = function ({ content, path }) {
   return yaml.load(content, {
@@ -12,7 +10,8 @@ const parse = function ({ content, path }) {
     // Error handling
     filename: path,
     onWarning (error) {
-      throwError(error);
+      // eslint-disable-next-line fp/no-throw
+      throw error;
     },
   });
 };
