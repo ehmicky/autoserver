@@ -10,11 +10,16 @@ const getRequestMessage = function ({
   rpc,
   method,
   path,
-  commandpath,
+  commandpath = '',
   summary,
-  error: { status = 'SUCCESS' } = {},
+  error: { status = 'SUCCESS', description = '' } = {},
 }) {
-  const summaryA = status === 'SUCCESS' ? summary : commandpath;
+  const suffixText = getSuffixText({
+    status,
+    summary,
+    commandpath,
+    description,
+  });
 
   const { title: protocolTitle } = protocolAdapters[protocol] || {};
   const { title: rpcTitle } = rpcAdapters[rpc] || {};
@@ -26,10 +31,18 @@ const getRequestMessage = function ({
     method,
     rpcTitle,
     path,
-    summaryA,
+    suffixText,
   ].filter(val => val)
     .join(' ');
   return message;
+};
+
+const getSuffixText = function ({ status, summary, commandpath, description }) {
+  if (status === 'SUCCESS') { return summary; }
+
+  if (!description) { return commandpath; }
+
+  return `${commandpath} - ${description}`;
 };
 
 module.exports = {
