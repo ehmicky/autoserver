@@ -29,6 +29,7 @@ const compileCollection = function ({ attributes, config }) {
     .reduce((jsonSchema, mapper) => mapper({ config, jsonSchema }), attributes);
 };
 
+// From `attr.validate` to `{ type: 'object', properties }`
 const attrsToJsonSchema = function ({ jsonSchema }) {
   const properties = mapValues(jsonSchema, ({ validate }) => validate);
 
@@ -38,31 +39,37 @@ const attrsToJsonSchema = function ({ jsonSchema }) {
 // Fix `required` attribute according to the current command
 // JSON schema `require` attribute is a collection-level array,
 // not an attribute-level boolean
-const addJsonSchemaRequire = function ({ jsonSchema }) {
-  const requiredAttrs = pickBy(jsonSchema.properties, attr => attr.required);
-  const required = Object.keys(requiredAttrs);
+const addJsonSchemaRequire = function ({
+  jsonSchema,
+  jsonSchema: { properties },
+}) {
+  const requiredAttrs = pickBy(properties, ({ required }) => required);
+  const requiredA = Object.keys(requiredAttrs);
   // `id` requiredness is checked by other validators, so we skip it here
-  const requiredA = required.filter(attrName => attrName !== 'id');
-  return { ...jsonSchema, required: requiredA };
+  const requiredB = requiredA.filter(attrName => attrName !== 'id');
+  return { ...jsonSchema, required: requiredB };
 };
 
 // JSON schema `dependencies` attribute is collection-level, not attribute-level
-const addJsonSchemaDeps = function ({ jsonSchema }) {
-  const dependencies = mapValues(
-    jsonSchema.properties,
-    attr => attr.dependencies,
+const addJsonSchemaDeps = function ({
+  jsonSchema,
+  jsonSchema: { properties },
+}) {
+  const dependenciesA = mapValues(
+    properties,
+    ({ dependencies }) => dependencies,
   );
-  const dependenciesA = pickBy(dependencies, dep => dep !== undefined);
-  return { ...jsonSchema, dependencies: dependenciesA };
+  const dependenciesB = pickBy(dependenciesA, dep => dep !== undefined);
+  return { ...jsonSchema, dependencies: dependenciesB };
 };
 
 // Remove syntax that is not JSON schema
-const removeAltSyntax = function ({ jsonSchema }) {
-  const properties = mapValues(
-    jsonSchema.properties,
+const removeAltSyntax = function ({ jsonSchema, jsonSchema: { properties } }) {
+  const propertiesA = mapValues(
+    properties,
     attr => omit(attr, NON_JSON_SCHEMA),
   );
-  return { ...jsonSchema, properties };
+  return { ...jsonSchema, properties: propertiesA };
 };
 
 const NON_JSON_SCHEMA = [
