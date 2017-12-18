@@ -21,6 +21,7 @@ module.exports = {
   ...require('./validate_collname'),
   ...require('./protocols'),
   ...require('./databases'),
+  ...require('./log_validation'),
   ...require('./limits'),
   ...require('./json_schema'),
   // eslint-disable-next-line import/max-dependencies

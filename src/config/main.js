@@ -25,6 +25,7 @@ const {
   validateClientCollnames,
   validateProtocols,
   validateDatabases,
+  validateLogs,
   validateLimits,
   compileJsonSchema,
   loadRpc,
@@ -92,6 +93,8 @@ const reducers = [
   validateProtocols,
   // Validates `coll.databases`
   validateDatabases,
+  // Validates `coll.log`
+  validateLogs,
   // Validates `limits`
   validateLimits,
 
