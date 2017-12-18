@@ -1,21 +1,15 @@
 'use strict';
 
-const { omitBy, fullRecurseMap, pReadFile } = require('../../../utilities');
-const { parse } = require('../../../formats');
+const { omitBy, fullRecurseMap } = require('../../../utilities');
+const { loadFile } = require('../../../formats');
 const { compile, validate } = require('../../../json_validation');
 
 const CONFIG_JSON_SCHEMA_PATH = `${__dirname}/config_schema.yml`;
 
 // General config syntax validation
 const validateConfigSyntax = async function ({ config }) {
-  const path = CONFIG_JSON_SCHEMA_PATH;
-  const jsonSchema = await pReadFile(path, { encoding: 'utf-8' });
-  const jsonSchemaA = await parse({
-    format: 'yaml',
-    path,
-    content: jsonSchema,
-  });
-  const compiledJsonSchema = compile({ jsonSchema: jsonSchemaA });
+  const jsonSchema = await loadFile({ path: CONFIG_JSON_SCHEMA_PATH });
+  const compiledJsonSchema = compile({ jsonSchema });
 
   const data = getConfig(config);
 
