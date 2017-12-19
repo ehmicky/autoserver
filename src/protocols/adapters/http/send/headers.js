@@ -3,7 +3,7 @@
 const vary = require('vary');
 
 const { OBJECT_TYPES } = require('../../../../constants');
-const { compressAdapters } = require('../../../../compress');
+const { getNames } = require('../../../../compress');
 
 const { getLinks } = require('./link');
 
@@ -27,7 +27,7 @@ const setHeaders = function ({
   // clients crash
   const contentLength = content.byteLength;
 
-  const acceptEncoding = getAcceptEncoding();
+  const acceptEncoding = getNames();
 
   const allow = getAllow({ data });
 
@@ -45,11 +45,6 @@ const setHeaders = function ({
   setAllHeaders(res, headers);
 
   setVary({ res, type });
-};
-
-// Possible compression algorithms
-const getAcceptEncoding = function () {
-  return Object.keys(compressAdapters).join(', ');
 };
 
 // On WRONG_METHOD or WRONG_COMMAND errors
