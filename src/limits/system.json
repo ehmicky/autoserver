@@ -1,0 +1,10 @@
+{
+  "maxActions": 51,
+  "maxFindManyDepth": 2,
+  "maxAttrValueSize": 2000,
+  "maxUrlLength": 2000,
+  "minMaxpayload": 100,
+  "maxQueryStringDepth": 10,
+  "maxQueryStringLength": 100,
+  "requestTimeout": 5000
+}
