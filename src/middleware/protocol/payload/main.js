@@ -1,9 +1,8 @@
 'use strict';
 
-const { decode } = require('iconv-lite');
-
 const { addGenErrorHandler } = require('../../../error');
 const { parse } = require('../../../formats');
+const { decodeCharset } = require('../../../charsets');
 const { getSumParams } = require('../../../functions');
 const { getLimits } = require('../../../limits');
 
@@ -51,7 +50,7 @@ const parseRawPayload = async function ({
 
   const payloadA = await decompressPayload({ compressRequest, payload });
 
-  const payloadB = eDecode(payloadA, charset);
+  const payloadB = eDecodeCharset({ content: payloadA, charset });
 
   const payloadC = eParseContent({ payload: payloadB, format });
 
@@ -61,8 +60,7 @@ const parseRawPayload = async function ({
   return { payload: payloadC, ...sumParams };
 };
 
-// Charset decoding is done in a protocol-agnostic way
-const eDecode = addGenErrorHandler(decode, {
+const eDecodeCharset = addGenErrorHandler(decodeCharset, {
   message: ({ charset }) =>
     `Invalid request charset: '${charset}' could not be decoded`,
   reason: 'REQUEST_FORMAT',
