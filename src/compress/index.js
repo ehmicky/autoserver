@@ -1,7 +1,9 @@
 'use strict';
 
 module.exports = {
-  ...require('./merger'),
+  ...require('./constants'),
   ...require('./normalize'),
+  ...require('./validate'),
   ...require('./find'),
+  ...require('./transform'),
 };

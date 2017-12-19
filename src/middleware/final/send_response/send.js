@@ -3,9 +3,8 @@
 const { isObject } = require('../../../utilities');
 const { getReason } = require('../../../error');
 const { DEFAULT_FORMAT } = require('../../../formats');
-const { DEFAULT_COMPRESS } = require('../../../compress');
 
-const { getMime } = require('./types');
+const { getContentType } = require('./types');
 const { serializeContent } = require('./serialize');
 const { compressContent } = require('./compress');
 
@@ -23,9 +22,8 @@ const send = async function ({
   error,
 }) {
   const formatA = normalizeFormat({ format });
-  const compressResponseA = normalizeCompress({ compressResponse });
 
-  const mime = getMime({ format: formatA, type });
+  const contentType = getContentType({ format: formatA, type });
 
   const contentA = serializeContent({
     format: formatA,
@@ -35,11 +33,13 @@ const send = async function ({
     error,
   });
 
-  const { content: contentB, compressName } = await compressContent({
-    content: contentA,
-    type,
+  const {
+    content: contentB,
     compressResponse: compressResponseA,
-    mime,
+  } = await compressContent({
+    content: contentA,
+    compressResponse,
+    contentType,
   });
 
   const reason = getReason({ error });
@@ -49,8 +49,8 @@ const send = async function ({
     content: contentB,
     response,
     type,
-    mime,
-    compressResponse: compressName,
+    contentType,
+    compressResponse: compressResponseA,
     reason,
     rpc,
   });
@@ -67,15 +67,6 @@ const normalizeFormat = function ({ format }) {
   }
 
   return format;
-};
-
-// Same thing for compressResponse
-const normalizeCompress = function ({ compressResponse }) {
-  if (compressResponse && compressResponse.name !== undefined) {
-    return compressResponse;
-  }
-
-  return DEFAULT_COMPRESS;
 };
 
 module.exports = {
