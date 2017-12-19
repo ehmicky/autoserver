@@ -1,7 +1,7 @@
 'use strict';
 
 const { throwError } = require('../../errors');
-const { databaseAdapters } = require('../../database');
+const { databaseAdapters } = require('../../databases');
 const { mapColls } = require('../helpers');
 
 const { validateAdaptersOpts } = require('./adapter_opts');

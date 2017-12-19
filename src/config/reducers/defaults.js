@@ -2,7 +2,7 @@
 
 const { deepMerge, mapValues } = require('../../utilities');
 const { protocolAdapters } = require('../../protocols');
-const { databaseAdapters, DEFAULT_DATABASE } = require('../../database');
+const { databaseAdapters, DEFAULT_DATABASE } = require('../../databases');
 const { mapColls, mapAttrs } = require('../helpers');
 
 // Add config default values
