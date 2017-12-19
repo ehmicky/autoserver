@@ -7,6 +7,7 @@ Create a simple
 describing your data model:
 
 ```yml
+engine: 0
 collections:
   users:
     description: User of the API
@@ -33,7 +34,12 @@ collections:
     database: mongodb
 databases:
   mongodb:
+    hostname: localhost
     password: secret_mongodb_password
+    dbname: my_database_name
+protocols:
+  http:
+    port: 5001
 ```
 
 Then start a full-featured web API by typing in the console:
