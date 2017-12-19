@@ -1,6 +1,14 @@
 'use strict';
 
-const { pBrotliCompress, pBrotliDecompress } = require('../../utilities');
+const { promisify } = require('util');
+
+const {
+  compress: brotliCompress,
+  decompress: brotliDecompress,
+} = require('iltorb');
+
+const pBrotliCompress = promisify(brotliCompress);
+const pBrotliDecompress = promisify(brotliDecompress);
 
 // Compress to Brotli
 const compress = function ({ content }) {

@@ -1,6 +1,10 @@
 'use strict';
 
-const { pGzip, pGunzip } = require('../../utilities');
+const { promisify } = require('util');
+const { gzip, gunzip } = require('zlib');
+
+const pGzip = promisify(gzip);
+const pGunzip = promisify(gunzip);
 
 // Compress to Gzip
 const compress = function ({ content }) {

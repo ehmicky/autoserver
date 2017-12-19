@@ -1,6 +1,10 @@
 'use strict';
 
-const { pDeflate, pInflate } = require('../../utilities');
+const { promisify } = require('util');
+const { deflate, inflate } = require('zlib');
+
+const pDeflate = promisify(deflate);
+const pInflate = promisify(inflate);
 
 // Compress to Deflate
 const compress = function ({ content }) {
