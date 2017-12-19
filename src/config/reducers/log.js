@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError, addGenErrorHandler } = require('../../error');
+const { throwError, addGenErrorHandler } = require('../../errors');
 const { logAdapters, DEFAULT_LOGGER } = require('../../log');
 
 // Normalize `log`

@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../error');
+const { throwError } = require('../errors');
 
 const checkObject = function (obj) {
   const isObject = obj && obj.constructor === Object;

@@ -1,6 +1,6 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../errors');
 const { set, getValues } = require('../utilities');
 
 const { getParamsKeys } = require('./params');

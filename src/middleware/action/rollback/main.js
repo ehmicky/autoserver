@@ -1,7 +1,7 @@
 'use strict';
 
 const { flatten } = require('../../../utilities');
-const { isError, normalizeError, addErrorHandler } = require('../../../error');
+const { isError, normalizeError, addErrorHandler } = require('../../../errors');
 
 const { getRollbackInput } = require('./input');
 const { rethrowFailure } = require('./failure');

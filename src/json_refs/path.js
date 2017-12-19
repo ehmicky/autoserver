@@ -2,7 +2,7 @@
 
 const { resolve, dirname } = require('path');
 
-const { addGenErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../errors');
 
 // Resolve JSON reference path to an absolute local file
 const getPath = function ({ path, parentPath }) {

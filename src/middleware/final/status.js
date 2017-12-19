@@ -1,6 +1,6 @@
 'use strict';
 
-const { getProps } = require('../../error');
+const { getProps } = require('../../errors');
 const { STATUS_LEVEL_MAP } = require('../../log');
 
 // Retrieve response's status

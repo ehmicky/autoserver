@@ -4,7 +4,7 @@ const {
   rethrowError,
   normalizeError,
   addErrorHandler,
-} = require('../../error');
+} = require('../../errors');
 const { omit } = require('../../utilities');
 
 const { errorHandler } = require('./error_handler');

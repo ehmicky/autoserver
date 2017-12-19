@@ -2,7 +2,7 @@
 
 const bytes = require('bytes');
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 const { getLimits } = require('../../limits');
 
 // Validates `limits`

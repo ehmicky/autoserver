@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 
 // Only start a command if we know it won't hit the `maxmodels` limit
 const validateMaxmodels = function ({ results, allIds, maxmodels, top }) {

@@ -2,7 +2,7 @@
 
 const parsePreferHeaderLib = require('parse-prefer-header');
 
-const { throwError, addGenErrorHandler } = require('../../../error');
+const { throwError, addGenErrorHandler } = require('../../../errors');
 
 const {
   getFormat,

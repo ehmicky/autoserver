@@ -1,6 +1,6 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../../../error');
+const { addGenErrorHandler } = require('../../../errors');
 const { parse } = require('../../../formats');
 const { decodeCharset } = require('../../../charsets');
 const { decompress } = require('../../../compress');

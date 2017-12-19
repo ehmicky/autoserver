@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 // Retrieve request's IP, assigned to protocol mInput,
 // and also to parameter `ip`

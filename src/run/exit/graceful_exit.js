@@ -2,7 +2,7 @@
 
 const { monitor, logPerfEvent } = require('../../perf');
 const { onlyOnce } = require('../../utilities');
-const { addErrorHandler } = require('../../error');
+const { addErrorHandler } = require('../../errors');
 const { logEvent } = require('../../log');
 
 const { closeProtocols } = require('./protocol_close');

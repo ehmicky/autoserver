@@ -7,7 +7,7 @@ const {
   addErrorHandler,
   isError,
   rethrowError,
-} = require('../../../error');
+} = require('../../../errors');
 
 // Use protocol-specific way to parse payload, using a known type
 const getRawPayload = function ({ protocolAdapter, specific, maxpayload }) {

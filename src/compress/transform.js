@@ -1,6 +1,6 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../errors');
 
 const { compressAdapters } = require('./merger');
 const { DEFAULT_ALGO } = require('./constants');

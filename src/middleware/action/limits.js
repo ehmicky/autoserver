@@ -3,7 +3,7 @@
 const pluralize = require('pluralize');
 
 const { getWordsList, flatten } = require('../../utilities');
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 const { getLimits } = require('../../limits');
 
 const { getColl } = require('./get_coll');

@@ -2,7 +2,7 @@
 
 const { exit } = require('process');
 
-const { addErrorHandler } = require('../error');
+const { addErrorHandler } = require('../errors');
 const instructions = require('../instructions');
 
 const { parseInput } = require('./input');

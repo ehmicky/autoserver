@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 const { formatAdapters, DEFAULT_FORMAT } = require('../../../formats');
 
 // Retrieve format asked by client for the response payload

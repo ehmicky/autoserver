@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../utilities');
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 // There should be no circular references.
 // They may be introduced by e.g. dereferencing JSON references `$ref`

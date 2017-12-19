@@ -3,7 +3,7 @@
 const http = require('http');
 const { promisify } = require('util');
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 
 // Start HTTP server
 const startServer = function ({

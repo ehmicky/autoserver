@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 const { databaseAdapters } = require('../../database');
 const { mapColls } = require('../helpers');
 

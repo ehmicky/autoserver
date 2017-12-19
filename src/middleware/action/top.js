@@ -1,7 +1,7 @@
 'use strict';
 
 const { deepMerge, uniq, flatten } = require('../../utilities');
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 const { COMMANDS } = require('../../constants');
 const { getSumParams } = require('../../functions');
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 const { compile, validate } = require('../../validation');
 
 // Validates `database.DATABASE.*` and `protocols.PROTOCOL.*`

@@ -3,7 +3,7 @@
 const pluralize = require('pluralize');
 
 const { getWordsList, intersection, mapValues } = require('../utilities');
-const { throwError } = require('../error');
+const { throwError } = require('../errors');
 const { compile, validate } = require('../validation');
 
 // Generic plugin factory

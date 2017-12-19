@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler, normalizeError, rethrowError } = require('../error');
+const { addErrorHandler, normalizeError, rethrowError } = require('../errors');
 
 const { getLogParams } = require('./params');
 const { LEVELS } = require('./constants');

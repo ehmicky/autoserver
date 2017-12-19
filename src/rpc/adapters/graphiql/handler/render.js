@@ -2,7 +2,7 @@
 
 const { resolve } = require('path');
 
-const { addGenErrorHandler } = require('../../../../error');
+const { addGenErrorHandler } = require('../../../../errors');
 const { mapValues, renderTemplate } = require('../../../../utilities');
 
 const TEMPLATE = resolve(__dirname, './graphiql.mustache');

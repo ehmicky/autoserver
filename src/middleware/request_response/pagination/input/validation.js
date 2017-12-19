@@ -1,7 +1,7 @@
 'use strict';
 
 const { isEqual } = require('../../../../utilities');
-const { throwError } = require('../../../../error');
+const { throwError } = require('../../../../errors');
 const { SAME_ARGS } = require('../info');
 
 const { validateToken } = require('./token');

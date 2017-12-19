@@ -1,7 +1,7 @@
 'use strict';
 
 const { flatten, groupValuesBy } = require('../../../utilities');
-const { addErrorHandler, normalizeError } = require('../../../error');
+const { addErrorHandler, normalizeError } = require('../../../errors');
 const { mergeCommandpaths } = require('../../../constants');
 
 const { getArgs } = require('./args');

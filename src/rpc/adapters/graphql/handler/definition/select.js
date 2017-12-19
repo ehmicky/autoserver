@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../../../error');
+const { throwError } = require('../../../../../errors');
 const { flatten } = require('../../../../../utilities');
 
 const { applyDirectives } = require('./directive');

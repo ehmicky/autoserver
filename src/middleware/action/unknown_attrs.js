@@ -1,7 +1,7 @@
 'use strict';
 
 const { flatten, uniq } = require('../../utilities');
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 // Validate that attributes in `args.select|data|order` are in the
 // config.

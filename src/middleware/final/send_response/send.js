@@ -1,7 +1,7 @@
 'use strict';
 
 const { isObject } = require('../../../utilities');
-const { getReason } = require('../../../error');
+const { getReason } = require('../../../errors');
 const { DEFAULT_FORMAT } = require('../../../formats');
 
 const { getContentType } = require('./types');

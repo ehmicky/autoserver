@@ -4,7 +4,7 @@ const { Negotiator } = require('negotiator');
 const pluralize = require('pluralize');
 
 const { getWordsList } = require('../../../../utilities');
-const { throwError } = require('../../../../error');
+const { throwError } = require('../../../../errors');
 const { findByMime } = require('../../../../formats');
 
 const { getContentType } = require('./content_type');

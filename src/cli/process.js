@@ -8,7 +8,7 @@ const {
   transtype,
   getWordsList,
 } = require('../utilities');
-const { throwError } = require('../error');
+const { throwError } = require('../errors');
 
 const { availableInstructions } = require('./available');
 

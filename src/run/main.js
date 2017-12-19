@@ -2,7 +2,7 @@
 
 const { getRequirePerf } = require('../require_perf');
 const { monitoredReduce } = require('../perf');
-const { addErrorHandler } = require('../error');
+const { addErrorHandler } = require('../errors');
 
 const { startupSteps } = require('./steps');
 const { handleStartupError } = require('./error');

@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../../../error');
+const { throwError } = require('../../../../../errors');
 const { mapValues } = require('../../../../../utilities');
 const { validateDuplicates } = require('../duplicates');
 

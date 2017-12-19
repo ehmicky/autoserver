@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 // Check if protocol method is allowed for current rpc
 const methodCheck = function ({ rpcAdapter: { methods, title }, method }) {

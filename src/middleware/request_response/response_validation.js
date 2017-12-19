@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 // Check output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)
