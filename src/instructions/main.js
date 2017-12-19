@@ -4,12 +4,10 @@ const { runServer } = require('../run');
 
 const { addErrorHandlers } = require('./error');
 
-const instructionsA = {
+const instructions = {
   run: runServer,
 };
 
-const instructions = addErrorHandlers({ instructions: instructionsA });
+const main = addErrorHandlers({ instructions });
 
-module.exports = {
-  instructions,
-};
+module.exports = main;
