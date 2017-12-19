@@ -15,7 +15,8 @@ A local HTTP server will be spawned at `http://localhost:5001`.
 
 # Building
 
-Building is performed with `npm build`.
+Building is performed with `npm run build` (one-time) or
+`npm run build_watch` (watch mode).
 
 At the moment, the only task performed in to transform some files from YAML to
 JSON.
