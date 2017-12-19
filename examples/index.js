@@ -1,6 +1,7 @@
 'use strict';
 
 const { inspect } = require('util');
+const { stdout: { columns } } = require('process');
 
 const apiengine = require('..');
 
@@ -10,7 +11,7 @@ const setDefaultDebug = function () {
   inspect.defaultOptions = {
     colors: true,
     depth: null,
-    breakLength: process.stdout.columns || COLUMNS_WIDTH,
+    breakLength: columns || COLUMNS_WIDTH,
   };
 
   // eslint-disable-next-line fp/no-mutation

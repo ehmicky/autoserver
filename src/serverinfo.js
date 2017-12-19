@@ -10,7 +10,7 @@ const {
   cpus: getCpus,
   networkInterfaces: getNetworkInterfaces,
 } = require('os');
-const { pid } = require('process');
+const { pid, version: nodeVersion } = require('process');
 
 // eslint-disable-next-line import/no-internal-modules
 const uuidv5 = require('uuid/v5');
@@ -67,10 +67,9 @@ const getMacAddress = function () {
 const DEFAULT_MAC_ADDRESS = '00:00:00:00:00:00';
 
 const getVersionsInfo = function () {
-  const node = process.version;
   const apiengine = `v${apiengineVersion}`;
 
-  return { node, apiengine };
+  return { node: nodeVersion, apiengine };
 };
 
 const getProcessInfo = function ({ host, processName }) {
