@@ -6,4 +6,5 @@ module.exports = {
   ...require('./find'),
   ...require('./load_save'),
   ...require('./parse_serialize'),
+  ...require('./content_type'),
 };
