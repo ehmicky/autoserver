@@ -22,6 +22,7 @@
     "watch": "./node_modules/.bin/nodemon --config ./nodemon.json",
     "debug": "./node_modules/.bin/nodemon --config ./nodemon_debug.json",
     "build": "gulp build",
+    "build_watch": "gulp watch",
     "test": "gulp test"
   },
   "license": "Apache-2.0",
