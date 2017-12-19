@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues, uniq } = require('../../utilities');
-const { databaseAdapters } = require('../../database');
+const { databaseAdapters } = require('../../databases');
 
 // Returns array of all adapters that are defined in config
 const getAdapters = function ({ config: { collections, databases } }) {
