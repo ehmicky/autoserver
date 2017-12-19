@@ -22,7 +22,8 @@ limits:
 # Properties
 
 The following configuration properties are available:
-  - `engine` `{string}` (required) - file format version. Must equal `0`
+  - `engine` `{integer}` (required) -
+    [configuration format version](#configuration-format-version)
   - `name` `{string}` - sets the [parameter](functions.md#parameters)
     `serverinfo.process.name`
   - `env` (defaults to `dev`): can be `dev` or `production`.
@@ -66,28 +67,43 @@ modules by using [references](references.md).
 
 The configuration file below:
   - describes two collections:
-    - a `companies` collection with attributes `id` (defined by default)
-      and `registration_no`
-    - a `users` collection with attributes `id`, `name` and `employer`
-      (pointing to a `companies` collection)
+    - a `users` collection with attributes `id`, `age`, `score` and `reports`
+      (pointing to the `reports` collection)
+    - a `reports` collection with attributes `id` and `content`
+  - sets up the [MongoDB](../databases/mongodb.md) connection options
   - sets the [HTTP](../protocols/http.md) port to `5001`
 
 ```yml
 engine: 0
 collections:
-  companies:
-    description: This is a company
-    attributes:
-      registration_no:
-        type: number
   users:
+    description: User of the API
     attributes:
       id:
         type: string
-      name:
-        description: This is the name of a users
-      employer:
-        type: companies
+      age:
+        type: integer
+      score:
+        type: number
+        alias: high_score
+        default: 10
+        validate:
+          minimum: 20
+      reports:
+        type: reports[]
+  reports:
+    attributes:
+      id:
+        type: string
+      content:
+        type: string
+  default:
+    database: mongodb
+databases:
+  mongodb:
+    hostname: localhost
+    password: secret_mongodb_password
+    dbname: my_database_name
 protocols:
   http:
     port: 5001
@@ -126,6 +142,16 @@ namely:
   - `NODE_ENV`: same as `APIENGINE__ENV`
   - `HOST`: same as `APIENGINE__PROTOCOLS__HTTP__HOSTNAME`
   - `PORT`: same as `APIENGINE__PROTOCOLS__HTTP__PORT`
+
+# Configuration format version
+
+The format of the configuration is versioned. The latest version is `0`.
+
+It must be specified under the [configuration property](#properties) `engine`.
+
+```yml
+engine: 0
+```
 
 # Metadata
 

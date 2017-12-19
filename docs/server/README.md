@@ -29,6 +29,42 @@ It can be divided into [several files](configuration/references.md),
 use custom [functions](configuration/functions.md) or import
 [Node.js modules](configuration/references.md#node.js-modules).
 
+```yml
+engine: 0
+collections:
+  users:
+    description: User of the API
+    attributes:
+      id:
+        type: string
+      age:
+        type: integer
+      score:
+        type: number
+        alias: high_score
+        default: 10
+        validate:
+          minimum: 20
+      reports:
+        type: reports[]
+  reports:
+    attributes:
+      id:
+        type: string
+      content:
+        type: string
+  default:
+    database: mongodb
+databases:
+  mongodb:
+    hostname: localhost
+    password: secret_mongodb_password
+    dbname: my_database_name
+protocols:
+  http:
+    port: 5001
+```
+
 ## Data model
 
 The [configuration](configuration/README.md) specifies the
@@ -45,33 +81,6 @@ It also includes any logic related to
 [computing and transforming](data_model/transformation.md) attributes,
 [aliasing](data_model/compatibility.md) and custom
 [patch operators](data_model/patch.md).
-
-```yml
-collections:
-  users:
-    description: User of the API
-    authorize:
-      user_group: admin
-    attributes:
-      id:
-        type: string
-      age:
-        type: integer
-      reports:
-        type: reports[]
-      score:
-        type: number
-        alias: high_score
-        default: 10
-        validate:
-          minimum: 20
-  reports:
-    attributes:
-      id:
-        type: string
-      content:
-        type: string
-```
 
 ## Plugins
 
