@@ -1,0 +1,10 @@
+{
+  "METHODS": [
+    "GET",
+    "HEAD",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE"
+  ]
+}
