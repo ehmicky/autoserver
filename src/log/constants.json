@@ -1,0 +1,28 @@
+{
+  "PHASES": [
+    "startup",
+    "request",
+    "shutdown",
+    "process"
+  ],
+  "EVENTS": [
+    "message",
+    "start",
+    "call",
+    "failure",
+    "stop",
+    "perf"
+  ],
+  "LEVELS": [
+    "info",
+    "log",
+    "warn",
+    "error"
+  ],
+  "STATUS_LEVEL_MAP": {
+    "INTERNALS": "debug",
+    "SUCCESS": "log",
+    "CLIENT_ERROR": "warn",
+    "SERVER_ERROR": "error"
+  }
+}
