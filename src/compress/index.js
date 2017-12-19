@@ -3,5 +3,5 @@
 module.exports = {
   ...require('./merger'),
   ...require('./normalize'),
-  ...require('./names'),
+  ...require('./find'),
 };
