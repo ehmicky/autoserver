@@ -2,6 +2,10 @@
 
 const { hrtime } = require('process');
 
+const requirePerf = { label: 'parsing', category: 'default' };
+// eslint-disable-next-line fp/no-let, init-declarations
+let stoppedRequirePerf;
+
 // Monitors how long it takes to require() the library
 // As such, it should be triggered at the very beginning of the loading process
 // and not require any dependency itself.
@@ -19,10 +23,6 @@ const stopRequirePerf = function () {
 const getRequirePerf = function () {
   return stoppedRequirePerf;
 };
-
-const requirePerf = { label: 'parsing', category: 'default' };
-// eslint-disable-next-line fp/no-let, init-declarations
-let stoppedRequirePerf;
 
 module.exports = {
   startRequirePerf,
