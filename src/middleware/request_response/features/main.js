@@ -2,7 +2,7 @@
 
 const { difference } = require('../../../utilities');
 const { throwError } = require('../../../errors');
-const { FEATURES } = require('../../../constants');
+const { FEATURES } = require('../../../databases');
 const { getFeatures } = require('../../../filter');
 
 const { genericValidators } = require('./generic');
