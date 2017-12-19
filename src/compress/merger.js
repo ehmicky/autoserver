@@ -6,9 +6,6 @@ const adapters = require('./adapters');
 
 const compressAdapters = keyBy(adapters);
 
-const DEFAULT_COMPRESS = compressAdapters.identity;
-
 module.exports = {
   compressAdapters,
-  DEFAULT_COMPRESS,
 };

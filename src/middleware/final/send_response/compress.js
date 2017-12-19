@@ -1,47 +1,26 @@
 'use strict';
 
-const compressible = require('compressible');
-
-const { addGenErrorHandler } = require('../../../error');
-const { OBJECT_TYPES } = require('../../../constants');
-const { DEFAULT_COMPRESS } = require('../../../compress');
+const { compress, shouldCompress, DEFAULT_ALGO } = require('../../../compress');
 
 // Response body compression
-// Input and output is buffer
 const compressContent = async function ({
   content,
-  type,
   compressResponse,
-  mime,
+  contentType,
 }) {
-  const noCompression = !shouldCompress({ compressResponse, mime, type });
+  const algo = getAlgo({ compressResponse, contentType });
 
-  if (noCompression) {
-    // `compressName` is undefined, `content` is unchanged
-    return { content };
-  }
+  const contentA = await compress({ algo, content, contentType });
 
-  const contentA = await compressResponse.compress({ content });
-
-  const { name: compressName } = compressResponse;
-
-  return { content: contentA, compressName };
+  return { content: contentA, compressResponse: algo };
 };
 
-const eCompressContent = addGenErrorHandler(compressContent, {
-  message: ({ compressResponse: { title } }) =>
-    `Could not compress the response using the ${title} algorithm`,
-  reason: 'COMPRESS',
-});
+const getAlgo = function ({ compressResponse, contentType }) {
+  if (!shouldCompress({ contentType })) { return DEFAULT_ALGO; }
 
-// Do not try to compress binary content types
-const shouldCompress = function ({ compressResponse, mime, type }) {
-  return compressResponse !== undefined &&
-    compressResponse.name !== DEFAULT_COMPRESS.name &&
-    // The `compressible` module is only used for non-model payloads
-    (OBJECT_TYPES.includes(type) || compressible(mime));
+  return compressResponse;
 };
 
 module.exports = {
-  compressContent: eCompressContent,
+  compressContent,
 };

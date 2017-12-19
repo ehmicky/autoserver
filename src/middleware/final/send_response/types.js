@@ -29,15 +29,15 @@ const TYPES = {
   },
 };
 
-// Retrieve response MIME type
-const getMime = function ({ format, type }) {
+// Retrieve response content type
+const getContentType = function ({ format, type }) {
   const { mime } = TYPES[type];
   const charset = DEFAULT_OUTPUT_CHARSET;
-  const mimeA = serializeContentType({ mime, charset, format });
-  return mimeA;
+  const contentType = serializeContentType({ mime, charset, format });
+  return contentType;
 };
 
 module.exports = {
-  getMime,
+  getContentType,
   TYPES,
 };

@@ -11,7 +11,7 @@ const decompress = function ({ content }) {
 
 module.exports = {
   name: 'identity',
-  title: 'No compression',
+  title: 'None',
   compress,
   decompress,
 };

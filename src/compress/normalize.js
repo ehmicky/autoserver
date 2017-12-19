@@ -1,33 +1,15 @@
 'use strict';
 
-const { DEFAULT_COMPRESS } = require('./merger');
+const { DEFAULT_ALGO } = require('./constants');
 
-// Normalize `compress` name
-const normalizeCompress = function ({ compressResponse, compressRequest }) {
-  const compressResponseName = getName({ compress: compressResponse });
-  const compressRequestName = getName({ compress: compressRequest });
+// Normalizes compression algo
+const normalizeAlgo = function ({ algo }) {
+  if (algo === undefined) { return DEFAULT_ALGO; }
 
-  const compress = `${compressResponseName},${compressRequestName}`;
-  return compress;
-};
-
-const getName = function ({ compress }) {
-  if (typeof compress === 'string' || compress == null) {
-    return DEFAULT_COMPRESS.name;
-  }
-
-  return compress.name;
-};
-
-// Using query variable ?compress=REQUEST_COMPRESSION[,RESPONSE_COMPRESSION]
-const denormalizeCompress = function ({ compress }) {
-  if (compress === undefined) { return {}; }
-
-  const [compressResponse, compressRequest] = compress.split(',');
-  return { compressResponse, compressRequest };
+  const algoA = algo.trim().toLowerCase();
+  return algoA;
 };
 
 module.exports = {
-  normalizeCompress,
-  denormalizeCompress,
+  normalizeAlgo,
 };

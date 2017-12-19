@@ -1,60 +1,84 @@
 'use strict';
 
-const { throwError } = require('../../../error');
-const {
-  compressAdapters,
-  denormalizeCompress,
-  normalizeCompress,
-  DEFAULT_COMPRESS,
-} = require('../../../compress');
+const { addGenErrorHandler } = require('../../../error');
+const { normalizeAlgo, validateAlgo } = require('../../../compress');
 
 // Retrieve compression asked by client for the response and request payloads
 const getCompress = function ({
-  queryvars: { compress },
+  queryvars,
   compressResponse,
   compressRequest,
 }) {
-  const queryvarsA = denormalizeCompress({ compress });
-
-  const compressResponseA = parseCompress({
-    queryvars: queryvarsA,
-    compress: compressResponse,
-    name: 'compressResponse',
-    reason: 'RESPONSE_FORMAT',
-  }) || DEFAULT_COMPRESS;
-  const compressRequestA = parseCompress({
-    queryvars: queryvarsA,
-    compress: compressRequest,
-    name: 'compressRequest',
-    reason: 'REQUEST_FORMAT',
-  });
-  const compressA = normalizeCompress({
+  const {
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
+  } = parseCompress({ queryvars, compressResponse, compressRequest });
+
+  const compressResponseB = getCompressResponse({ algo: compressResponseA });
+  const compressRequestB = getCompressRequest({ algo: compressRequestA });
+
+  const compressA = joinCompress({
+    compressResponse: compressResponseB,
+    compressRequest: compressRequestB,
   });
 
   return {
-    compressResponse: compressResponseA,
-    compressRequest: compressRequestA,
+    compressResponse: compressResponseB,
+    compressRequest: compressRequestB,
     compress: compressA,
   };
 };
 
-const parseCompress = function ({ queryvars, compress, name, reason }) {
-  // ?compress query variable
-  const compressA = queryvars[name] ||
-    // E.g. in Content-Encoding or Accept-Encoding HTTP header
-    compress;
-  if (compressA === undefined) { return; }
+// ?compress query variable, Content-Encoding or Accept-Encoding HTTP header
+const parseCompress = function ({
+  queryvars: { compress },
+  compressResponse,
+  compressRequest,
+}) {
+  const queryvars = splitCompress({ compress });
 
-  const compressB = compressA.trim().toLowerCase();
+  const compressResponseA = queryvars.compressResponse || compressResponse;
+  const compressRequestA = queryvars.compressRequest || compressRequest;
 
-  const compressC = compressAdapters[compressB];
-  if (compressC !== undefined) { return compressC; }
-
-  const message = `Unsupported compression: '${compressA}'`;
-  throwError(message, { reason });
+  return {
+    compressResponse: compressResponseA,
+    compressRequest: compressRequestA,
+  };
 };
+
+// Using query variable ?compress=REQUEST_COMPRESSION[,RESPONSE_COMPRESSION]
+const splitCompress = function ({ compress }) {
+  if (compress === undefined) { return {}; }
+
+  const [compressResponse, compressRequest] = compress.split(',');
+  return { compressResponse, compressRequest };
+};
+
+// Inverse
+const joinCompress = function ({ compressResponse, compressRequest }) {
+  return [compressResponse, compressRequest].join(',');
+};
+
+// Validates and adds default values
+const getAlgo = function ({ algo }) {
+  const algoA = normalizeAlgo({ algo });
+
+  validateAlgo({ algo: algoA });
+
+  return algoA;
+};
+
+const getCompressResponse = addGenErrorHandler(getAlgo, {
+  message: ({ algo }) =>
+    `Unsupported compression algorithm for the response: '${algo}'`,
+  reason: 'RESPONSE_FORMAT',
+});
+
+const getCompressRequest = addGenErrorHandler(getAlgo, {
+  message: ({ algo }) =>
+    `Unsupported compression algorithm for the request payload: '${algo}'`,
+  reason: 'REQUEST_FORMAT',
+});
 
 module.exports = {
   getCompress,

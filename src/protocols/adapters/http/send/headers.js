@@ -3,7 +3,7 @@
 const vary = require('vary');
 
 const { OBJECT_TYPES } = require('../../../../constants');
-const { getNames } = require('../../../../compress');
+const { getNames, DEFAULT_ALGO } = require('../../../../compress');
 
 const { getLinks } = require('./link');
 
@@ -11,7 +11,7 @@ const { getLinks } = require('./link');
 const setHeaders = function ({
   specific,
   specific: { res },
-  mime,
+  contentType,
   compressResponse,
   content,
   type,
@@ -28,16 +28,17 @@ const setHeaders = function ({
   const contentLength = content.byteLength;
 
   const acceptEncoding = getNames();
+  const contentEncoding = getContentEncoding({ compressResponse });
 
   const allow = getAllow({ data });
 
   const links = getLinks({ pages, specific, rpc });
 
   const headers = {
-    'Content-Type': mime,
+    'Content-Type': contentType,
     'Content-Length': contentLength,
     'Accept-Encoding': acceptEncoding,
-    'Content-Encoding': compressResponse,
+    'Content-Encoding': contentEncoding,
     Allow: allow,
     Link: links,
     'X-Response-Time': duration,
@@ -45,6 +46,13 @@ const setHeaders = function ({
   setAllHeaders(res, headers);
 
   setVary({ res, type });
+};
+
+const getContentEncoding = function ({ compressResponse }) {
+  // Means no compression was applied
+  if (compressResponse === DEFAULT_ALGO) { return; }
+
+  return compressResponse;
 };
 
 // On WRONG_METHOD or WRONG_COMMAND errors

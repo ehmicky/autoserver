@@ -3,11 +3,11 @@
 const { addGenErrorHandler } = require('../../../error');
 const { parse } = require('../../../formats');
 const { decodeCharset } = require('../../../charsets');
+const { decompress } = require('../../../compress');
 const { getSumParams } = require('../../../functions');
 const { getLimits } = require('../../../limits');
 
 const { getRawPayload } = require('./raw');
-const { decompressPayload } = require('./decompress');
 
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -48,7 +48,11 @@ const parseRawPayload = async function ({
     maxpayload,
   });
 
-  const payloadA = await decompressPayload({ compressRequest, payload });
+  // Request body decompression
+  const payloadA = await decompress({
+    algo: compressRequest,
+    content: payload,
+  });
 
   const payloadB = eDecodeCharset({ content: payloadA, charset });
 
