@@ -8,7 +8,7 @@ parserOptions:
   ecmaVersion: 9
   sourceType: script
 
-# feross/standard implies "node" and "es6"
+# standard/standard implies "node" and "es6"
 env:
   mocha: true
 
@@ -412,6 +412,7 @@ rules:
   - GLOBAL
   - console
   - exports
+  - process
 
   # To avoid
   no-void: 2

@@ -1,5 +1,8 @@
 'use strict';
 
+// eslint-disable-next-line no-shadow
+const process = require('process');
+
 const { gracefulExit } = require('./graceful_exit');
 
 // Make sure the server stops when graceful exits are possible

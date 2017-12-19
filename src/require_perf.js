@@ -1,6 +1,6 @@
 'use strict';
 
-const { hrtime } = process;
+const { hrtime } = require('process');
 
 // Monitors how long it takes to require() the library
 // As such, it should be triggered at the very beginning of the loading process

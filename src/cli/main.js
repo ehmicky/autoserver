@@ -1,5 +1,7 @@
 'use strict';
 
+const { exit } = require('process');
+
 const { addErrorHandler } = require('../error');
 const { instructions } = require('../instructions');
 
@@ -19,8 +21,7 @@ const cliErrorHandler = function ({ message, description = message }) {
   // eslint-disable-next-line no-console, no-restricted-globals
   console.error(`Error: ${description}`);
 
-  // eslint-disable-next-line no-process-exit, unicorn/no-process-exit
-  process.exit(1);
+  exit(1);
 };
 
 const eStartCli = addErrorHandler(startCli, cliErrorHandler);

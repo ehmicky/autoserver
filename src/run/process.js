@@ -1,5 +1,8 @@
 'use strict';
 
+// eslint-disable-next-line no-shadow
+const process = require('process');
+
 const { logEvent } = require('../log');
 const { normalizeError } = require('../error');
 
