@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 // Validate protocol handler is correctly working
 const validateProtocolString = function (obj) {

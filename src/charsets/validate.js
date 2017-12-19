@@ -2,7 +2,7 @@
 
 const { encodingExists } = require('iconv-lite');
 
-const { throwError } = require('../error');
+const { throwError } = require('../errors');
 
 // Validate `charset` name is valid
 const validateCharset = function ({ charset, format }) {

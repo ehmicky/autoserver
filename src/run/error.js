@@ -1,6 +1,6 @@
 'use strict';
 
-const { rethrowError } = require('../error');
+const { rethrowError } = require('../errors');
 const { logEvent } = require('../log');
 
 // Handle exceptions thrown at server startup

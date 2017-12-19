@@ -4,7 +4,7 @@
 const process = require('process');
 
 const { logEvent } = require('../log');
-const { normalizeError } = require('../error');
+const { normalizeError } = require('../errors');
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance

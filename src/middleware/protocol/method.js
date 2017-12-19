@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 const { METHODS } = require('../../constants');
 
 const { validateProtocolString } = require('./validate_parsing');

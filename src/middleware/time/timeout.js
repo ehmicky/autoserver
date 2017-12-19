@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 const { pSetTimeout } = require('../../utilities');
 const { getLimits } = require('../../limits');
 

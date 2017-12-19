@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 // Protocol-related validation middleware
 const protocolValidation = function ({ specific }) {

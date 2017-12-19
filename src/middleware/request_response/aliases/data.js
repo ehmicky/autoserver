@@ -1,7 +1,7 @@
 'use strict';
 
 const { omit, isEqual } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 
 // Apply `alias` in `args.data`
 const applyDataAliases = function ({

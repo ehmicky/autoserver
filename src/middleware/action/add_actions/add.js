@@ -7,7 +7,7 @@ const {
   omit,
   uniq,
 } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 
 const { getValues } = require('./values');
 

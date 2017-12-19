@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler, normalizeError } = require('../../error');
+const { addErrorHandler, normalizeError } = require('../../errors');
 const { logEvent } = require('../../log');
 
 // Shutdown failures events

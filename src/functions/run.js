@@ -1,6 +1,6 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../errors');
 
 const { getParams } = require('./params');
 const { stringifyConfigFunc } = require('./tokenize');

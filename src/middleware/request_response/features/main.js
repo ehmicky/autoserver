@@ -1,7 +1,7 @@
 'use strict';
 
 const { difference } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 const { FEATURES } = require('../../../constants');
 const { getFeatures } = require('../../../filter');
 

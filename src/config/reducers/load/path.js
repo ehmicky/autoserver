@@ -3,7 +3,7 @@
 const { cwd } = require('process');
 const { resolve, isAbsolute } = require('path');
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 const { pReaddir } = require('../../../utilities');
 const { findByExt } = require('../../../formats');
 

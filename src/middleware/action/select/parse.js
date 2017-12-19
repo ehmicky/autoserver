@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 const { uniq } = require('../../../utilities');
 const { addToActions } = require('../add_actions');
 

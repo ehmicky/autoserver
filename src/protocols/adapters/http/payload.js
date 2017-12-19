@@ -3,7 +3,7 @@
 const { hasBody } = require('type-is');
 const getBody = require('raw-body');
 
-const { throwError, addGenErrorHandler } = require('../../../error');
+const { throwError, addGenErrorHandler } = require('../../../errors');
 
 // Loads raw request payload
 // Should handle:

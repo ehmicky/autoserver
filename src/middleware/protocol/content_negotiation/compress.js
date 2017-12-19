@@ -1,6 +1,6 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../../../error');
+const { addGenErrorHandler } = require('../../../errors');
 const { normalizeAlgo, validateAlgo } = require('../../../compress');
 
 // Retrieve compression asked by client for the response and request payloads

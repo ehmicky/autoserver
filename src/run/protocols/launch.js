@@ -1,6 +1,6 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../../error');
+const { addGenErrorHandler } = require('../../errors');
 
 // Do the actual server launch
 const launchServer = async function ({

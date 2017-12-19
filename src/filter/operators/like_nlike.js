@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler } = require('../../error');
+const { addErrorHandler } = require('../../errors');
 const { throwAttrValError, throwAttrTypeError } = require('../error');
 
 const { validateNotArray } = require('./common');

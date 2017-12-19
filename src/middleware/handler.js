@@ -2,7 +2,7 @@
 
 const { reduceAsync } = require('../utilities');
 const { monitor } = require('../perf');
-const { addErrorHandler } = require('../error');
+const { addErrorHandler } = require('../errors');
 
 const { middlewareLayers } = require('./layers');
 const {

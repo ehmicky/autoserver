@@ -1,7 +1,7 @@
 'use strict';
 
 const { omit } = require('../../utilities');
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 const { mapColls } = require('../helpers');
 
 // Transforms can copy each `alias` as a real attribute,

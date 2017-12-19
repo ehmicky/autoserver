@@ -1,7 +1,7 @@
 'use strict';
 
 const { flatten } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 
 const { handlers } = require('./args');
 

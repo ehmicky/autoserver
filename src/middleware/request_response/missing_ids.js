@@ -1,7 +1,7 @@
 'use strict';
 
 const { difference } = require('../../utilities');
-const { throwCommonError } = require('../../error');
+const { throwCommonError } = require('../../errors');
 const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 
 // Check if any `id` was not found (404) or was unauthorized (403)

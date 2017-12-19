@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 // Parse `args.order` from a string to an array of objects
 // E.g. 'a,b+,c-' would become:

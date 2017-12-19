@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../error');
+const { throwError } = require('../errors');
 
 const { parseRef, isRef } = require('./ref_parsing');
 const { postValidate } = require('./validate');

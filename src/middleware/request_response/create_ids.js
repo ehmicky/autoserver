@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwCommonError } = require('../../error');
+const { throwCommonError } = require('../../errors');
 
 // Check if any model already exists, for create actions
 const validateCreateIds = function ({

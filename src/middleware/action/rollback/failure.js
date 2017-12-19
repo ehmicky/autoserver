@@ -1,6 +1,6 @@
 'use strict';
 
-const { isError, throwError } = require('../../../error');
+const { isError, throwError } = require('../../../errors');
 
 // Rethrow original error
 const rethrowFailure = function ({ failedActions, results }) {

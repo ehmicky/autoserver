@@ -2,7 +2,7 @@
 
 const { execute } = require('graphql');
 
-const { throwError, addGenErrorHandler } = require('../../../../error');
+const { throwError, addGenErrorHandler } = require('../../../../errors');
 
 // At the moment, we do not support mixing introspection query with
 // non-introspection query, except for `__typename`

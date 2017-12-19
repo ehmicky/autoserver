@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../error');
+const { throwError } = require('../errors');
 
 // Enforces that a function is only called once
 const onlyOnce = function (func, { error = false } = {}) {

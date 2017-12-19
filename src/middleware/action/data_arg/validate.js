@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 const { isPatchOp } = require('../../../patch');
 
 // Validate that user passed a correct `args.data`

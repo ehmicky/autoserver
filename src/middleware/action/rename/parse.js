@@ -1,7 +1,7 @@
 'use strict';
 
 const { uniq } = require('../../../utilities');
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 const { addToActions } = require('../add_actions');
 
 // Parse `args.rename` for each action

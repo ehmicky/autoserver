@@ -5,7 +5,7 @@ const {
   addErrorHandler,
   normalizeError,
   rethrowError,
-} = require('../../error');
+} = require('../../errors');
 
 // Wrap all database adapters functions so that they throw proper exceptions
 const addAllErrorHandlers = function ({ adapters }) {

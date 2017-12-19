@@ -1,7 +1,7 @@
 'use strict';
 
 const { pStat } = require('../utilities');
-const { addGenErrorHandler } = require('../error');
+const { addGenErrorHandler } = require('../errors');
 const { loadFile } = require('../formats');
 
 // Load the file pointing to by the JSON reference

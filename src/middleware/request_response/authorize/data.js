@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwCommonError } = require('../../../error');
+const { throwCommonError } = require('../../../errors');
 const { evalFilter } = require('../../../filter');
 
 // Check `model.authorize` `model.*` against `args.newData`

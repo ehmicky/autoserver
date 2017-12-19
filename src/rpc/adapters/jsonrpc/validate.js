@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 
 // Validate JSON-RPC payload is correct format
 const validatePayload = function ({ payload }) {

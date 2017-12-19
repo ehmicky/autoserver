@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwCommonError } = require('../../../error');
+const { throwCommonError } = require('../../../errors');
 const { evalFilter, mapNodes } = require('../../../filter');
 
 const { handleConfigFuncs } = require('./functions');

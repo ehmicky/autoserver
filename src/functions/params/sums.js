@@ -1,6 +1,6 @@
 'use strict';
 
-const { addErrorHandler } = require('../../error');
+const { addErrorHandler } = require('../../errors');
 
 // Some parameters are filtered out in logs and in error responses
 // because they can get too big, e.g. `args.data`, `response.data` and `payload`

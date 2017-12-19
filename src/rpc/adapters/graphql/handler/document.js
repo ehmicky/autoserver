@@ -2,7 +2,7 @@
 
 const { parse } = require('graphql');
 
-const { throwError, addGenErrorHandler } = require('../../../../error');
+const { throwError, addGenErrorHandler } = require('../../../../errors');
 
 // Generic/raw GraphQL parsing
 const getGraphqlDocument = function ({ queryvars, payload }) {

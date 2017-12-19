@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../error');
+const { throwError } = require('../../../errors');
 const { isEqual, flatten, groupValuesBy } = require('../../../utilities');
 
 // We remove duplicates for several reasons:

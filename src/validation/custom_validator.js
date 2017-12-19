@@ -2,7 +2,7 @@
 
 const { runConfigFunc, getModelParams } = require('../functions');
 const { memoize } = require('../utilities');
-const { throwError } = require('../error');
+const { throwError } = require('../errors');
 
 const { validator } = require('./validator');
 

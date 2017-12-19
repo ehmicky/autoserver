@@ -1,7 +1,7 @@
 'use strict';
 
 const { uniq, includes } = require('../../utilities');
-const { throwError } = require('../../error');
+const { throwError } = require('../../errors');
 
 const { getColl } = require('./get_coll');
 const { addActions } = require('./add_actions');
