@@ -22,9 +22,9 @@ const pSetTimeout = function (delay, { unref = true } = {}) {
   return new Promise(resolve => {
     const id = setTimeout(resolve, delay);
 
-    if (unref) {
-      id.unref();
-    }
+    if (!unref) { return; }
+
+    id.unref();
   });
 };
 
