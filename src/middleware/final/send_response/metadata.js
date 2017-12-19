@@ -1,7 +1,7 @@
 'use strict';
 
 const { pick, omit } = require('../../../utilities');
-const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
+const { isType } = require('../../../content_types');
 const { getParams, reduceParams } = require('../../../functions');
 
 // Add response's metadata
@@ -11,11 +11,11 @@ const addMetadata = function ({
   metadata,
   mInput,
 }) {
-  if (ERROR_TYPES.includes(type)) {
+  if (isType(type, 'error')) {
     return getErrorMetadata({ response, metadata, mInput });
   }
 
-  if (MODEL_TYPES.includes(type)) {
+  if (isType(type, 'model')) {
     return { ...response, content: { data: content, metadata } };
   }
 
@@ -28,7 +28,7 @@ const getErrorMetadata = function ({
   metadata,
   mInput,
 }) {
-  if (!ERROR_TYPES.includes(type)) { return metadata; }
+  if (!isType(type, 'error')) { return metadata; }
 
   const metadataA = pick(metadata, ERROR_METADATA);
 

@@ -2,7 +2,7 @@
 
 const { flatten, groupValuesBy } = require('../../../utilities');
 const { addErrorHandler, normalizeError } = require('../../../errors');
-const { mergeCommandpaths } = require('../../../constants');
+const { mergeCommandpaths } = require('../../../commands');
 
 const { getArgs } = require('./args');
 const { getResults } = require('./results');

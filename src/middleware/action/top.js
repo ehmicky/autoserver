@@ -2,7 +2,7 @@
 
 const { deepMerge, uniq, flatten } = require('../../utilities');
 const { throwError } = require('../../errors');
-const { COMMANDS } = require('../../constants');
+const { COMMANDS } = require('../../commands');
 const { getSumParams } = require('../../functions');
 
 // Parse a `rpcDef` into a top-level action, i.e.:

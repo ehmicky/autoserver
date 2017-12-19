@@ -1,3 +1,4 @@
+COMMANDS:
 - name: findOne
   type: find
   multiple: false
@@ -48,3 +49,9 @@
   multiple: true
   title: delete
   participle: deleted
+COMMAND_TYPES:
+- find
+- create
+- upsert
+- patch
+- delete

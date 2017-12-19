@@ -2,7 +2,7 @@
 
 const vary = require('vary');
 
-const { OBJECT_TYPES } = require('../../../../constants');
+const { isType } = require('../../../../content_types');
 const { getNames, DEFAULT_ALGO } = require('../../../../compress');
 
 const { getLinks } = require('./link');
@@ -70,7 +70,7 @@ const setAllHeaders = function (res, headers) {
 
 // `Vary` HTTP header
 const setVary = function ({ res, type }) {
-  const objectVary = OBJECT_TYPES.includes(type) ? OBJECT_VARY_HEADERS : [];
+  const objectVary = isType(type, 'object') ? OBJECT_VARY_HEADERS : [];
   vary(res, [...objectVary, ...VARY_HEADERS]);
 };
 
