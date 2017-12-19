@@ -3,7 +3,7 @@
 
 const { protocolAdapters } = require('../../protocols');
 const { rpcAdapters } = require('../../rpc');
-const { COMMAND_TYPES } = require('../../constants');
+const { COMMAND_TYPES } = require('../../commands');
 
 const protocols = Object.keys(protocolAdapters);
 const rpcs = Object.keys(rpcAdapters);

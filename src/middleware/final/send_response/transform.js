@@ -1,6 +1,6 @@
 'use strict';
 
-const { MODEL_TYPES, ERROR_TYPES } = require('../../../constants');
+const { isType } = require('../../../content_types');
 
 const transformContent = function ({
   response,
@@ -8,11 +8,11 @@ const transformContent = function ({
   mInput,
   rpcAdapter: { transformError, transformSuccess } = {},
 }) {
-  if (ERROR_TYPES.includes(type) && transformError) {
+  if (isType(type, 'error') && transformError) {
     return transformError({ ...mInput, response });
   }
 
-  if (MODEL_TYPES.includes(type) && transformSuccess) {
+  if (isType(type, 'model') && transformSuccess) {
     return transformSuccess({ ...mInput, response });
   }
 

@@ -6,7 +6,7 @@ const {
   groupValuesBy,
   mapValues,
 } = require('../../../utilities');
-const { mergeCommandpaths } = require('../../../constants');
+const { mergeCommandpaths } = require('../../../commands');
 const { getSimpleFilter } = require('../../../filter');
 
 // Add `action.currentData` for `create` and `upsert` commands
