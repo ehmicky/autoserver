@@ -1,0 +1,24 @@
+# Limits that cannot be changed in `config.limits`
+
+# Max number of actions (including top level)
+maxActions: 51
+# Max depth of findMany nested actions
+maxFindManyDepth: 2
+# Max size of an attribute's value, in bytes.
+maxAttrValueSize: 2e3
+
+# Max URL length
+maxUrlLength: 2e3
+# Minimum value for maxpayload
+minMaxpayload: 1e2
+# Max level of nesting in query string, e.g. ?var.subvar.subvar2=val
+maxQueryStringDepth: 1e1
+# Max length of arrays in query string, e.g. ?var[50]=val
+maxQueryStringLength: 1e2
+
+# How long the request can run, in milliseconds
+requestTimeout: 5e3
+
+# Enforced during config validation:
+#  - max number of attributes per model: 50
+#  - max model|attribute name length: 200
