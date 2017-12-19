@@ -5,7 +5,7 @@ const { getReason } = require('../../../error');
 const { DEFAULT_FORMAT } = require('../../../formats');
 const { DEFAULT_COMPRESS } = require('../../../compress');
 
-const { getMime, types } = require('./types');
+const { getMime } = require('./types');
 const { serializeContent } = require('./serialize');
 const { compressContent } = require('./compress');
 
@@ -80,5 +80,4 @@ const normalizeCompress = function ({ compressResponse }) {
 
 module.exports = {
   send,
-  types,
 };

@@ -2,22 +2,20 @@
 
 const { throwError } = require('../../../error');
 
-const { types } = require('./types');
+const { TYPES } = require('./types');
 
 const validateResponse = function ({ response: { type, content } }) {
   if (!type) {
-    throwError('Server sent an response with no content type', {
-      reason: 'ENGINE',
-    });
+    const message = 'Server sent an response with no content type';
+    throwError(message, { reason: 'ENGINE' });
   }
 
   if (content === undefined) {
-    throwError('Server sent an empty response', {
-      reason: 'ENGINE',
-    });
+    const message = 'Server sent an empty response';
+    throwError(message, { reason: 'ENGINE' });
   }
 
-  if (!types[type]) {
+  if (TYPES[type] === undefined) {
     const message = 'Server tried to respond with an unsupported content type';
     throwError(message, { reason: 'ENGINE' });
   }
