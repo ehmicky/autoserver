@@ -2,12 +2,7 @@
 
 const { promisify } = require('util');
 const { stat, readdir, readFile, writeFile } = require('fs');
-const { gzip, deflate, gunzip, inflate } = require('zlib');
 
-const {
-  compress: brotliCompress,
-  decompress: brotliDecompress,
-} = require('iltorb');
 const { capitalize } = require('underscore.string');
 
 const { mapValues, mapKeys } = require('./functional');
@@ -17,18 +12,7 @@ const promisifyAll = function (obj) {
   return mapKeys(promisedObj, (func, name) => `p${capitalize(name)}`);
 };
 
-const promise = promisifyAll({
-  stat,
-  readdir,
-  readFile,
-  writeFile,
-  gzip,
-  deflate,
-  gunzip,
-  inflate,
-  brotliCompress,
-  brotliDecompress,
-});
+const promise = promisifyAll({ stat, readdir, readFile, writeFile });
 
 // Like setTimeout(), except uses promises.
 // Also, do not keep server alive because of a hanging timeout,
