@@ -161,6 +161,8 @@ rules:
   - 2
   - builtinGlobals: true
     hoist: all
+    allow:
+    - process
 
   # Declarations
   block-scoped-var: 2
