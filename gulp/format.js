@@ -1,5 +1,7 @@
 'use strict';
 
+const { Buffer } = require('buffer');
+
 const through = require('through2');
 const { PluginError, replaceExtension } = require('gulp-util');
 

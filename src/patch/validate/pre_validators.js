@@ -1,5 +1,7 @@
 'use strict';
 
+const { Buffer: { byteLength } } = require('buffer');
+
 const pluralize = require('pluralize');
 
 const { getWordsList } = require('../../utilities');
@@ -50,7 +52,7 @@ const isWithinLimits = function ({ opVal, maxAttrValueSize }) {
 const getSize = function ({ opVal }) {
   const opValA = typeof opVal === 'string' ? opVal : JSON.stringify(opVal);
 
-  const size = Buffer.byteLength(opValA);
+  const size = byteLength(opValA);
   return size;
 };
 

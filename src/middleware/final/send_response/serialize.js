@@ -1,5 +1,7 @@
 'use strict';
 
+const { Buffer } = require('buffer');
+
 const { serialize } = require('../../../formats');
 const { isType } = require('../../../content_types');
 
