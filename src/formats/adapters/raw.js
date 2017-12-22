@@ -1,5 +1,7 @@
 'use strict';
 
+const { Buffer: { isBuffer } } = require('buffer');
+
 // Parses a raw value
 const parse = function ({ content }) {
   return content;
@@ -9,7 +11,7 @@ const parse = function ({ content }) {
 const serialize = function ({ content }) {
   if (typeof content === 'string') { return content; }
 
-  if (Buffer.isBuffer(content)) { return content.toString(); }
+  if (isBuffer(content)) { return content.toString(); }
 
   return JSON.stringify(content, null, 2);
 };

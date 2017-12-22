@@ -163,6 +163,7 @@ rules:
     hoist: all
     allow:
     - process
+    - Buffer
 
   # Declarations
   block-scoped-var: 2
@@ -415,6 +416,7 @@ rules:
   - console
   - exports
   - process
+  - Buffer
 
   # To avoid
   no-void: 2

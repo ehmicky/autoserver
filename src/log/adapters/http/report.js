@@ -1,5 +1,6 @@
 'use strict';
 
+const { Buffer: { byteLength } } = require('buffer');
 const { request } = require('http');
 
 const rawBody = require('raw-body');
@@ -42,7 +43,7 @@ const TIMEOUT = 5e3;
 const getHeaders = function ({ body }) {
   return {
     'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(body),
+    'Content-Length': byteLength(body),
   };
 };
 

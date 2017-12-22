@@ -1,5 +1,7 @@
 'use strict';
 
+const { Buffer: { byteLength } } = require('buffer');
+
 const { throwError } = require('../../../errors');
 const { isPatchOp } = require('../../../patch');
 
@@ -62,7 +64,7 @@ const validateDataValue = function ({
   maxAttrValueSize,
 }) {
   const isValueTooLong = typeof value === 'string' &&
-    Buffer.byteLength(value) > maxAttrValueSize;
+    byteLength(value) > maxAttrValueSize;
   if (!isValueTooLong) { return; }
 
   const message = `'data' argument's '${commandpath}.${attrName}' attribute's value must be shorter than ${maxAttrValueSize} bytes`;
