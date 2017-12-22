@@ -409,12 +409,17 @@ rules:
   - version: 8
 
   # Blacklist
+  # Avoid Node.js-specific global variables
   no-restricted-globals:
   - 2
+  # No global variables
   - global
   - GLOBAL
+  # Use console wrapper instead
   - console
+  # Use module.exports instead
   - exports
+  # Use require('process|buffer') instead
   - process
   - Buffer
 
