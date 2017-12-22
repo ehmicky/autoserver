@@ -18,6 +18,9 @@ const getLinks = function ({ pages = {}, specific, rpc }) {
     ({ name, cursorName }) => getLinkUrl({ pages, name, cursorName, url }),
   );
   const linksA = omitBy(links, link => link === undefined);
+
+  if (Object.keys(linksA).length === 0) { return; }
+
   const linksB = stringifyLinks(linksA);
   return linksB;
 };
