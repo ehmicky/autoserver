@@ -6,17 +6,17 @@ const through = require('through2');
 const { PluginError, replaceExtension } = require('gulp-util');
 
 const {
-  formatAdapters,
+  formatExists,
   findByExt,
+  getExtName,
   parse,
   serialize,
 // eslint-disable-next-line import/no-internal-modules
 } = require('../src/formats');
 
 // Convert several file formats towards JSON (or any other format)
-const convertFormat = function ({ format = 'json' } = {}) {
-  validateFormat({ format });
-  const destFormat = formatAdapters[format];
+const convertFormat = function ({ format: destFormat = 'json' } = {}) {
+  validateFormat({ format: destFormat });
 
   return through.obj(function convert (file, encoding, done) {
     // eslint-disable-next-line no-invalid-this, fp/no-this
@@ -25,7 +25,7 @@ const convertFormat = function ({ format = 'json' } = {}) {
 };
 
 const validateFormat = function ({ format }) {
-  if (formatAdapters[format] !== undefined) { return; }
+  if (formatExists({ format })) { return; }
 
   const error = `Format '${format}' does not exit`;
   // eslint-disable-next-line fp/no-throw
@@ -80,15 +80,9 @@ const convertContent = function ({ file, file: { path }, destFormat }) {
 };
 
 const getPath = function ({ destFormat, path }) {
-  const extName = getExtName({ destFormat });
+  const extName = getExtName({ format: destFormat });
   const pathA = replaceExtension(path, extName);
   return pathA;
-};
-
-const getExtName = function ({ destFormat: { extNames: [extName] } }) {
-  if (extName === undefined) { return ''; }
-
-  return `.${extName}`;
 };
 
 const getContents = function ({
@@ -97,8 +91,8 @@ const getContents = function ({
   file: { contents, path },
 }) {
   const content = contents.toString();
-  const contentA = parse({ content, format: srcFormat.name, path });
-  const contentB = serialize({ content: contentA, format: destFormat.name });
+  const contentA = parse({ content, format: srcFormat, path });
+  const contentB = serialize({ content: contentA, format: destFormat });
   const contentC = Buffer.from(contentB);
   return contentC;
 };

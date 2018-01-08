@@ -22,7 +22,7 @@ For example: --protocols.http.port=5001`,
     config: {
       type: 'string',
       describe: `Path to the config file.
-By default, will use any file named apiengine.config.${EXT_NAMES.join('|')}`,
+By default, will use any file named apiengine.config${EXT_NAMES.join('|')}`,
     },
   },
 };

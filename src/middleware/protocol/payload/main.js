@@ -1,7 +1,7 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../../../errors');
-const { parse } = require('../../../formats');
+const { parse, getTitle } = require('../../../formats');
 const { decodeCharset } = require('../../../charsets');
 const { decompress } = require('../../../compress');
 const { getSumParams } = require('../../../functions');
@@ -72,14 +72,15 @@ const eDecodeCharset = addGenErrorHandler(decodeCharset, {
 
 // Parse content, e.g. JSON/YAML parsing
 const parseContent = function ({ format, payload }) {
-  return parse({ format: format.name, content: payload });
+  return parse({ format, content: payload });
 };
 
-const getMessage = function ({ format: { title }, payload }) {
+const getMessage = function ({ format, payload }) {
   if (!payload) {
     return 'The request payload is empty';
   }
 
+  const title = getTitle({ format });
   return `The request payload is invalid ${title}`;
 };
 

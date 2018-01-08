@@ -5,7 +5,7 @@ const pluralize = require('pluralize');
 
 const { getWordsList } = require('../../../../utilities');
 const { throwError } = require('../../../../errors');
-const { findByMime } = require('../../../../formats');
+const { findByMime, isRawFormat } = require('../../../../formats');
 
 const { getContentType } = require('./content_type');
 
@@ -22,9 +22,8 @@ const getContentTypeFormat = function ({ specific }) {
   if (mime === undefined) { return; }
 
   // Request payload won't be parsed. Response payload will use default format.
-  const { name } = findByMime({ mime, safe: true });
-
-  return name;
+  const format = findByMime({ mime, safe: true });
+  return format;
 };
 
 // Using `Accept` header
@@ -35,8 +34,8 @@ const getAcceptFormat = function ({ specific: { req } }) {
 
   const formatA = mimes
     .map(mime => findByMime({ mime, safe: true }))
-    .find(format => !format.isRaw);
-  if (formatA !== undefined) { return formatA.name; }
+    .find(format => !isRawFormat({ format }));
+  if (formatA !== undefined) { return formatA; }
 
   const formats = getWordsList(mimes, { op: 'and', quotes: true });
   const message = `Unsupported response ${pluralize('format', mimes.length)}: ${formats}`;

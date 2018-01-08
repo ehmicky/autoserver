@@ -5,7 +5,7 @@ const { resolve, isAbsolute } = require('path');
 
 const { throwError } = require('../../../errors');
 const { pReaddir } = require('../../../utilities');
-const { findByExt } = require('../../../formats');
+const { findByExt, isRawFormat } = require('../../../formats');
 
 // Retrieves final config path to use
 const getConfPath = async function ({ envConfigPath, configPath }) {
@@ -73,7 +73,7 @@ const validatePath = function ({ path }) {
 
   const format = findByExt({ path });
 
-  if (format.isRaw) {
+  if (isRawFormat({ format })) {
     const message = `The file format of the config file is not supported: '${path}'`;
     throwError(message, { reason: 'CONFIG_VALIDATION' });
   }

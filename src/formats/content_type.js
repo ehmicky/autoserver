@@ -2,6 +2,8 @@
 
 const { parse, format: formatContentType } = require('content-type');
 
+const { formatAdapters } = require('./merger');
+
 // Parse MIME and charset, such as the one in Content-Type HTTP headers
 const parseContentType = function ({ contentType }) {
   if (!contentType) { return {}; }
@@ -19,10 +21,9 @@ const serializeContentType = function ({ mime, charset, format }) {
 };
 
 // Add default MIME if missing, and fill in MIME extension
-const getMime = function ({
-  mime,
-  format: { mimes = [], mimeExtensions = [] },
-}) {
+const getMime = function ({ mime, format }) {
+  const { mimes = [], mimeExtensions = [] } = formatAdapters[format];
+
   // Default to format's prefered MIME
   if (mime === undefined) {
     return mimes[0];
