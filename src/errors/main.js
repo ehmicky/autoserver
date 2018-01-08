@@ -36,11 +36,9 @@ const ALLOWED_OPTS = ['reason', 'innererror', 'extra'];
 
 // Keep track of innererror
 const getInnerError = function ({ opts, stack: upperStack }) {
-  const shallowInnerError = opts.innererror;
-  const deepInnerError = shallowInnerError && shallowInnerError.innererror;
-
-  // Keep innermost innererror stack
-  const innererror = deepInnerError || shallowInnerError;
+  const { shallowInnerError, deepInnerError, innererror } = getInnerErrors({
+    opts,
+  });
   if (!innererror) { return; }
 
   const innererrorStack = getInnerErrorStack({ innererror, upperStack });
@@ -53,6 +51,16 @@ const getInnerError = function ({ opts, stack: upperStack }) {
   innererror.stack = `${shallowInnerErrorMessage}${innererrorStack}`;
 
   return innererror;
+};
+
+const getInnerErrors = function ({ opts }) {
+  const shallowInnerError = opts.innererror;
+  const deepInnerError = shallowInnerError && shallowInnerError.innererror;
+
+  // Keep innermost innererror stack
+  const innererror = deepInnerError || shallowInnerError;
+
+  return { shallowInnerError, deepInnerError, innererror };
 };
 
 const getInnerErrorStack = function ({
