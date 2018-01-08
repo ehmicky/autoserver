@@ -2,7 +2,7 @@
 
 const { encodingExists } = require('iconv-lite');
 
-const { getCharsets, getTitle } = require('../formats');
+const { supportsCharset, getTitle } = require('../formats');
 
 // Validate `charset` name is valid
 const validateCharset = function ({ charset, format }) {
@@ -19,13 +19,9 @@ const validateExisting = function ({ charset }) {
 };
 
 const validateWithFormat = function ({ charset, format }) {
-  const charsets = getCharsets({ format });
+  if (supportsCharset({ format, charset })) { return; }
+
   const title = getTitle({ format });
-
-  const typeSupportsCharset = charsets === undefined ||
-    charsets.includes(charset);
-  if (typeSupportsCharset) { return; }
-
   const message = `Unsupported charset with a ${title} content type: '${charset}'`;
   // eslint-disable-next-line fp/no-throw
   throw new Error(message);
