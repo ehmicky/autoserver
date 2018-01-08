@@ -2,6 +2,7 @@
 
 const { parse } = require('graphql');
 
+const { isObject } = require('../../../../utilities');
 const { throwError, addGenErrorHandler } = require('../../../../errors');
 
 // Generic/raw GraphQL parsing
@@ -26,7 +27,7 @@ const parsePayload = function ({ payload }) {
     return { query: payload };
   }
 
-  if (payload && payload.constructor === Object) {
+  if (isObject(payload)) {
     return payload;
   }
 
