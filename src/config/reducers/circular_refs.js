@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapValues } = require('../../utilities');
+const { mapValues, isObjectType } = require('../../utilities');
 const { throwError } = require('../../errors');
 
 // There should be no circular references.
@@ -22,8 +22,7 @@ const validateCircRefs = function (
     throwError(message, { reason: 'CONF_VALIDATION' });
   }
 
-  if (!value) { return; }
-  if (!Array.isArray(value) && value.constructor !== Object) { return; }
+  if (!isObjectType(value)) { return; }
 
   walkCircularRefs(value, { path, pathSet });
 };
