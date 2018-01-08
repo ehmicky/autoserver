@@ -2,8 +2,6 @@
 
 const { encodingExists } = require('iconv-lite');
 
-const { throwError } = require('../errors');
-
 // Validate `charset` name is valid
 const validateCharset = function ({ charset, format }) {
   validateExisting({ charset });
@@ -14,7 +12,8 @@ const validateExisting = function ({ charset }) {
   if (encodingExists(charset)) { return; }
 
   const message = `Unsupported charset: '${charset}'`;
-  throwError(message, { reason: 'RESPONSE_FORMAT' });
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(message);
 };
 
 const validateWithFormat = function ({ charset, format: { charsets, title } }) {
@@ -23,7 +22,8 @@ const validateWithFormat = function ({ charset, format: { charsets, title } }) {
   if (typeSupportsCharset) { return; }
 
   const message = `Unsupported charset with a ${title} content type: '${charset}'`;
-  throwError(message, { reason: 'RESPONSE_FORMAT' });
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(message);
 };
 
 module.exports = {
