@@ -1,6 +1,6 @@
 'use strict';
 
-const { getCharsets } = require('../formats');
+const { getCharset } = require('../formats');
 
 const { DEFAULT_INPUT_CHARSET } = require('./constants');
 const { validateCharset } = require('./validate');
@@ -18,9 +18,9 @@ const normalizeCharset = function ({ charset, format }) {
 
 // Add default charsets, including the format's default charset
 const addDefaultCharset = function ({ charset, format }) {
-  const charsets = getCharsets({ format }) || [];
+  const formatCharset = getCharset({ format });
 
-  return charset || charsets[0] || DEFAULT_INPUT_CHARSET;
+  return charset || formatCharset || DEFAULT_INPUT_CHARSET;
 };
 
 module.exports = {

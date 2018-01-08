@@ -31,6 +31,17 @@ const getCharsets = function ({ format }) {
   return charsets;
 };
 
+// Retrieves format's prefered charset
+const getCharset = function ({ format }) {
+  const charsets = getCharsets({ format }) || [];
+  return charsets[0];
+};
+
+const supportsCharset = function ({ format, charset }) {
+  const charsets = getCharsets({ format });
+  return charsets === undefined || charsets.includes(charset);
+};
+
 // All possible extensions, for documentation
 const getExtNames = function () {
   return Object.values(formatAdapters)
@@ -53,7 +64,8 @@ module.exports = {
   isRawFormat,
   isSafeFormat,
   getTitle,
-  getCharsets,
+  supportsCharset,
+  getCharset,
   getExtName,
   EXT_NAMES,
 };
