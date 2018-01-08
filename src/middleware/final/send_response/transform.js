@@ -8,15 +8,23 @@ const transformContent = function ({
   mInput,
   rpcAdapter: { transformError, transformSuccess } = {},
 }) {
-  if (isType(type, 'error') && transformError) {
+  if (shouldTransformError({ type, transformError })) {
     return transformError({ ...mInput, response });
   }
 
-  if (isType(type, 'model') && transformSuccess) {
+  if (shouldTransformSuccess({ type, transformSuccess })) {
     return transformSuccess({ ...mInput, response });
   }
 
   return content;
+};
+
+const shouldTransformError = function ({ type, transformError }) {
+  return isType(type, 'error') && transformError;
+};
+
+const shouldTransformSuccess = function ({ type, transformSuccess }) {
+  return isType(type, 'model') && transformSuccess;
 };
 
 module.exports = {
