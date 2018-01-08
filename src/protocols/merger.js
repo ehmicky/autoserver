@@ -3,8 +3,11 @@
 const { keyBy } = require('../utilities');
 
 const adapters = require('./adapters');
+const { addErrorHandlers } = require('./error');
 
-const protocolAdapters = keyBy(adapters);
+const adaptersA = adapters.map(addErrorHandlers);
+
+const protocolAdapters = keyBy(adaptersA);
 
 module.exports = {
   protocolAdapters,

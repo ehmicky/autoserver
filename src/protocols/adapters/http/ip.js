@@ -19,7 +19,7 @@ const { getClientIp } = require('request-ip');
 // If invalid IPv4|IPv6, throws.
 // If unknown, returns undefined.
 const getIp = function ({ specific: { req } }) {
-  return getClientIp(req);
+  return getClientIp(req) || '';
 };
 
 module.exports = {
