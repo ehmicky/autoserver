@@ -1,7 +1,11 @@
 'use strict';
 
 const { throwError } = require('../../errors');
-const { databaseAdapters } = require('../../databases');
+const {
+  databaseExists,
+  getFeatures,
+  DATABASE_OPTS,
+} = require('../../databases');
 const { mapColls } = require('../helpers');
 
 const { validateAdaptersOpts } = require('./adapter_opts');
@@ -11,7 +15,7 @@ const { validateFeatures } = require('./features');
 const validateDatabases = function ({ config, config: { databases } }) {
   validateAdaptersOpts({
     opts: databases,
-    adapters: databaseAdapters,
+    adaptersOpts: DATABASE_OPTS,
     key: 'databases',
   });
 
@@ -20,18 +24,19 @@ const validateDatabases = function ({ config, config: { databases } }) {
 };
 
 const mapColl = function ({ coll: { database }, coll, collname }) {
-  const adapter = getCollAdapter({ name: database, collname });
-  validateFeatures({ adapter, coll, collname });
+  validateCollAdapter({ database, collname });
 
-  const { features } = adapter;
+  const features = getFeatures({ database });
+
+  validateFeatures({ database, features, coll, collname });
+
   return { features };
 };
 
-const getCollAdapter = function ({ name, collname }) {
-  const adapter = databaseAdapters[name];
-  if (adapter !== undefined) { return adapter; }
+const validateCollAdapter = function ({ database, collname }) {
+  if (databaseExists({ database })) { return; }
 
-  const message = `'collections.${collname}.database' '${name}' is unknown`;
+  const message = `'collections.${collname}.database' '${database}' is unknown`;
   throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 

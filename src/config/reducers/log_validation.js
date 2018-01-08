@@ -1,17 +1,14 @@
 'use strict';
 
-const { logAdapters } = require('../../log');
+const { LOG_OPTS } = require('../../log');
 
 const { validateAdaptersOpts } = require('./adapter_opts');
 
 // Validates `log.LOG.*`
 const validateLogs = function ({ config: { log } }) {
-  log.forEach(validateLog);
-};
-
-const validateLog = function ({ provider, opts }) {
-  const optsA = { [provider]: opts };
-  validateAdaptersOpts({ opts: optsA, adapters: logAdapters, key: 'log' });
+  const optsA = log.map(({ provider, opts = {} }) => ({ [provider]: opts }));
+  const optsB = Object.assign({}, ...optsA);
+  validateAdaptersOpts({ opts: optsB, adaptersOpts: LOG_OPTS, key: 'log' });
 };
 
 module.exports = {

@@ -16,3 +16,4 @@ FEATURES:
 - 'filter:sibling'
 - order
 - offset
+DEFAULT_DATABASE: memory

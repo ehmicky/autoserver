@@ -1,6 +1,6 @@
 'use strict';
 
-const { protocolAdapters } = require('../../protocols');
+const { PROTOCOL_OPTS } = require('../../protocols');
 
 const { validateAdaptersOpts } = require('./adapter_opts');
 
@@ -8,7 +8,7 @@ const { validateAdaptersOpts } = require('./adapter_opts');
 const validateProtocols = function ({ config: { protocols } }) {
   validateAdaptersOpts({
     opts: protocols,
-    adapters: protocolAdapters,
+    adaptersOpts: PROTOCOL_OPTS,
     key: 'protocols',
   });
 };
