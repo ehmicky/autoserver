@@ -15,10 +15,10 @@ const serializeContent = function ({ format, content, type, topargs, error }) {
   return contentC;
 };
 
-const stringifyContent = function ({ format: { name }, content, type }) {
+const stringifyContent = function ({ format, content, type }) {
   if (!isType(type, 'object')) { return content; }
 
-  const contentA = serialize({ format: name, content });
+  const contentA = serialize({ format, content });
   return contentA;
 };
 

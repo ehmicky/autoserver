@@ -2,6 +2,8 @@
 
 const { encodingExists } = require('iconv-lite');
 
+const { getCharsets, getTitle } = require('../formats');
+
 // Validate `charset` name is valid
 const validateCharset = function ({ charset, format }) {
   validateExisting({ charset });
@@ -16,7 +18,10 @@ const validateExisting = function ({ charset }) {
   throw new Error(message);
 };
 
-const validateWithFormat = function ({ charset, format: { charsets, title } }) {
+const validateWithFormat = function ({ charset, format }) {
+  const charsets = getCharsets({ format });
+  const title = getTitle({ format });
+
   const typeSupportsCharset = charsets === undefined ||
     charsets.includes(charset);
   if (typeSupportsCharset) { return; }

@@ -1,32 +1,35 @@
 'use strict';
 
 const { throwError } = require('../../../errors');
-const { formatAdapters, DEFAULT_FORMAT } = require('../../../formats');
+const {
+  DEFAULT_FORMAT,
+  formatExists,
+  isSafeFormat,
+} = require('../../../formats');
 
 // Retrieve format asked by client for the response payload
 const getFormat = function ({ queryvars, format }) {
-  const formatName = getFormatName({ queryvars, format });
-  if (formatName === undefined) { return; }
+  const formatA = pickFormat({ queryvars, format });
+  if (formatA === undefined) { return; }
 
-  const formatA = formatAdapters[formatName];
-
-  validateFormat({ format: formatA, formatName });
+  validateFormat({ format: formatA });
 
   return formatA;
 };
 
-const getFormatName = function ({ queryvars, format }) {
+const pickFormat = function ({ queryvars, format }) {
   // ?format query variable
   return queryvars.format ||
     // E.g. MIME in Content-Type HTTP header
     format ||
-    DEFAULT_FORMAT.name;
+    DEFAULT_FORMAT;
 };
 
-const validateFormat = function ({ format, formatName }) {
-  if (format !== undefined && !format.unsafe) { return; }
+const validateFormat = function ({ format }) {
+  const isValidFormat = formatExists({ format }) && isSafeFormat({ format });
+  if (isValidFormat) { return; }
 
-  const message = `Unsupported response format: '${formatName}'`;
+  const message = `Unsupported response format: '${format}'`;
   throwError(message, { reason: 'RESPONSE_FORMAT' });
 };
 

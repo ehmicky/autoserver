@@ -118,6 +118,11 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
+  // Error while parsing or serializing a format
+  FORMAT: {
+    status: 'SERVER_ERROR',
+  },
+
   // Error while starting or stopping a protocol server
   PROTOCOL: {
     status: 'SERVER_ERROR',

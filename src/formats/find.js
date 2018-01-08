@@ -4,7 +4,8 @@ const { extname } = require('path');
 
 const { is: isType } = require('type-is');
 
-const { formatAdapters, DEFAULT_RAW_FORMAT } = require('./merger');
+const { formatAdapters } = require('./merger');
+const { DEFAULT_RAW_FORMAT } = require('./constants');
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found
@@ -15,11 +16,11 @@ const findByMime = function ({ mime, safe }) {
   // (e.g. `application/jose+json`)
   const format = formats
     .find(({ mimes }) => mimeMatches({ mime, mimes }));
-  if (format !== undefined) { return format; }
+  if (format !== undefined) { return format.name; }
 
   const formatA = formats
     .find(({ mimeExtensions: mimes }) => mimeMatches({ mime, mimes }));
-  if (formatA !== undefined) { return formatA; }
+  if (formatA !== undefined) { return formatA.name; }
 
   return DEFAULT_RAW_FORMAT;
 };
@@ -39,7 +40,7 @@ const findByExt = function ({ path, safe }) {
   const fileExt = extname(path).slice(1);
   const format = formats
     .find(({ extNames = [] }) => extNames.includes(fileExt));
-  if (format !== undefined) { return format; }
+  if (format !== undefined) { return format.name; }
 
   return DEFAULT_RAW_FORMAT;
 };
@@ -52,7 +53,8 @@ const getFormats = function ({ safe = false }) {
 
   if (!safe) { return formats; }
 
-  return formats.filter(format => !format.unsafe);
+  const formatsA = formats.filter(({ unsafe }) => !unsafe);
+  return formatsA;
 };
 
 module.exports = {
