@@ -25,19 +25,30 @@ const checkType = function ({ possType, attrType, attrIsArray, strict }) {
     type: possType,
   });
 
-  // If TYPE[] is required, attribute must be an array
-  // If TYPE is required, attribute can be either scalar or an array
-  // (whose each element will be checked)
-  if (possIsArray && !attrIsArray) { return false; }
-
-  // For argument values, we do a strict check, i.e. `isArray` must match
-  if (!possIsArray && attrIsArray && strict) { return false; }
+  if (isWrongType({ possIsArray, attrIsArray, strict })) { return false; }
 
   // Empty array
   if (attrType === 'none') { return true; }
 
   const isSameType = compareTypes({ possType: possTypeA, attrType });
   return isSameType;
+};
+
+const isWrongType = function ({ possIsArray, attrIsArray, strict }) {
+  return shouldBeArray({ possIsArray, attrIsArray }) ||
+    shouldNotBeArray({ possIsArray, attrIsArray, strict });
+};
+
+// If TYPE[] is required, attribute must be an array
+// If TYPE is required, attribute can be either scalar or an array
+// (whose each element will be checked)
+const shouldBeArray = function ({ possIsArray, attrIsArray }) {
+  return possIsArray && !attrIsArray;
+};
+
+// For argument values, we do a strict check, i.e. `isArray` must match
+const shouldNotBeArray = function ({ possIsArray, attrIsArray, strict }) {
+  return !possIsArray && attrIsArray && strict;
 };
 
 const compareTypes = function ({ possType, attrType }) {
