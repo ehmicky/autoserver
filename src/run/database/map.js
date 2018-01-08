@@ -16,12 +16,12 @@ const getAdapters = function ({ config: { collections, databases } }) {
 const getDbAdapters = function ({ adapters, config: { collections } }) {
   return mapValues(
     collections,
-    ({ database: name }) => getDbAdapter({ adapters, name }),
+    ({ database }) => getDbAdapter({ adapters, database }),
   );
 };
 
-const getDbAdapter = function ({ adapters, name }) {
-  return adapters.find(({ name: nameA }) => nameA === name);
+const getDbAdapter = function ({ adapters, database }) {
+  return adapters.find(({ name }) => name === database);
 };
 
 module.exports = {
