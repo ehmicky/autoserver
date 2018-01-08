@@ -172,6 +172,9 @@ rules:
   import/no-mutable-exports: 2
   prefer-const: 2
   no-implicit-globals: 2
+  one-var:
+  - 2
+  - separateRequires: true
   one-var-declaration-per-line: 2
   vars-on-top: 2
   sort-vars: 2
