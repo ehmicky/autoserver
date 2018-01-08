@@ -9,7 +9,7 @@
 // TODO: add all `title` properties to `generic`
 const PROPS = {
   // Config is invalid
-  CONF_VALIDATION: {
+  CONFIG_VALIDATION: {
     status: 'SERVER_ERROR',
   },
 
@@ -114,7 +114,7 @@ const PROPS = {
   },
 
   // Configuration error caught runtime
-  CONF_RUNTIME: {
+  CONFIG_RUNTIME: {
     status: 'SERVER_ERROR',
   },
 

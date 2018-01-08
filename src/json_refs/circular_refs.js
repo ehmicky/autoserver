@@ -27,7 +27,7 @@ const validateRecursion = function ({ path, stack }) {
   }
 
   const message = `The configuration cannot contain circular references: '${path}'`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 module.exports = {

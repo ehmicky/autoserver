@@ -49,7 +49,7 @@ const applyPlugin = function (config, pluginConf, index) {
 
   if (typeof plugin !== 'function') {
     const message = `The plugin at 'plugins[${index}]' is not a function`;
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 
   return plugin({ config, opts });
@@ -63,7 +63,7 @@ const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
 
   if (builtinPlugin === undefined) {
     const message = `The plugin '${plugin}' does not exist`;
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 
   return { ...omit(builtinPlugin, 'enabled'), ...omit(pluginConf, 'plugin') };

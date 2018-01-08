@@ -21,7 +21,7 @@ const compileJsonSchema = function ({
 
 const eCompileJsonSchema = addGenErrorHandler(compileJsonSchema, {
   message: 'Invalid JSON schema in \'validate\' property',
-  reason: 'CONF_VALIDATION',
+  reason: 'CONFIG_VALIDATION',
 });
 
 const compileCollection = function ({ attributes, config }) {

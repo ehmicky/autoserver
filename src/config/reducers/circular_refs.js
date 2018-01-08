@@ -19,7 +19,7 @@ const validateCircRefs = function (
 ) {
   if (pathSet.has(value)) {
     const message = `The configuration cannot contain circular references: '${path}'`;
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 
   if (!isObjectType(value)) { return; }

@@ -32,7 +32,7 @@ const getCollAdapter = function ({ name, collname }) {
   if (adapter !== undefined) { return adapter; }
 
   const message = `'collections.${collname}.database' '${name}' is unknown`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 module.exports = {

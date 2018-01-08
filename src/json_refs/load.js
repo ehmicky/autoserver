@@ -16,13 +16,13 @@ const load = async function ({ path }) {
 
 const eStat = addGenErrorHandler(pStat, {
   message: path => `Config file does not exist: '${path}'`,
-  reason: 'CONF_VALIDATION',
+  reason: 'CONFIG_VALIDATION',
 });
 
 const eLoadFile = addGenErrorHandler(loadFile, {
   message: ({ path }) =>
     `Config file could not be parsed because it has syntax errors: '${path}'`,
-  reason: 'CONF_VALIDATION',
+  reason: 'CONFIG_VALIDATION',
 });
 
 module.exports = {

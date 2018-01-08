@@ -29,7 +29,7 @@ const mapColl = function ({ coll: { authorize }, collname, config }) {
 };
 
 const parseAuthorize = function ({ authorize, collname, config, prefix }) {
-  const reason = 'CONF_VALIDATION';
+  const reason = 'CONFIG_VALIDATION';
   const authorizeA = parseFilter({ filter: authorize, prefix, reason });
 
   const attrs = getAuthorizeAttrs({ config, collname });

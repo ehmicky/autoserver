@@ -68,7 +68,7 @@ const getTypeGetter = function (def, opts) {
   if (typeGetter !== undefined) { return typeGetter; }
 
   const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 module.exports = {

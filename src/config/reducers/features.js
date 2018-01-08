@@ -19,7 +19,7 @@ const validateFeatures = function ({
     { op: 'and', quotes: true },
   );
   const message = `'collections.${collname}.database' '${name}' cannot be used because that collection requires the features ${missingFeaturesA}, but that database does not support those features`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 // Retrieves features that the collection requires, which can determined by

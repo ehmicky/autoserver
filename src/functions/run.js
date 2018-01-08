@@ -23,7 +23,7 @@ const runConfigFunc = function ({
 const eRunConfigFunc = addGenErrorHandler(runConfigFunc, {
   message: ({ configFunc }) =>
     `Function failed: '${stringifyConfigFunc({ configFunc })}'`,
-  reason: 'CONF_RUNTIME',
+  reason: 'CONFIG_RUNTIME',
 });
 
 module.exports = {

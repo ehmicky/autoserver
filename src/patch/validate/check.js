@@ -32,7 +32,7 @@ const getCheckMessage = function ({ type, message }) {
   }
 
   const messageA = `patch operator '${type}' check() function must return either a string or undefined, not ${typeof message}`;
-  return { message: messageA, reason: 'CONF_RUNTIME' };
+  return { message: messageA, reason: 'CONFIG_RUNTIME' };
 };
 
 module.exports = {

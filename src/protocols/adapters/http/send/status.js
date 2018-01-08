@@ -2,7 +2,7 @@
 
 // All HTTP status codes, according to error reason
 const STATUS_CODE_MAP = {
-  CONF_VALIDATION: 0,
+  CONFIG_VALIDATION: 0,
 
   SUCCESS: 200,
 
@@ -35,7 +35,7 @@ const STATUS_CODE_MAP = {
 
   REQUEST_FORMAT: 415,
 
-  CONF_RUNTIME: 500,
+  CONFIG_RUNTIME: 500,
 
   PROTOCOL: 500,
   RPC: 500,
