@@ -62,20 +62,20 @@ const validateConfig = function ({ path }) {
   if (typeof path === 'string') { return; }
 
   const message = `'config' option must be a string, not '${path}'`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 const validatePath = function ({ path }) {
   if (path === undefined) {
     const message = 'No config file was found';
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 
   const format = findByExt({ path });
 
   if (format.isRaw) {
     const message = `The file format of the config file is not supported: '${path}'`;
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 };
 

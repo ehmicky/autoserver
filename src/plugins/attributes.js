@@ -39,7 +39,7 @@ const validateOpts = function ({ name, opts = {}, optsSchema, collections }) {
     compiledJsonSchema,
     data,
     dataVar: name,
-    reason: 'CONF_VALIDATION',
+    reason: 'CONFIG_VALIDATION',
     message: `Wrong '${name}' plugin configuration`,
   });
 };
@@ -88,7 +88,7 @@ const validateAttrs = function ({ attributes, collname, newAttrs }) {
   const attrsName = pluralize('attributes', newAttrNames.length);
   const attrsValue = getWordsList(newAttrNames, { op: 'and', quotes: true });
   const message = `In collection '${collname}', cannot override ${attrsName} ${attrsValue}`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 module.exports = {

@@ -13,7 +13,7 @@ const validateConfigSyntax = function ({ config }) {
     compiledJsonSchema,
     data,
     dataVar: 'config',
-    reason: 'CONF_VALIDATION',
+    reason: 'CONFIG_VALIDATION',
     message: 'Error in configuration',
   });
 };

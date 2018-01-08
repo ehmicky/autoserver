@@ -17,7 +17,7 @@ const validateAdapterOpts = function ({ name, opts, adapters, key }) {
     compiledJsonSchema,
     data: opts,
     dataVar: `${key}.${name}`,
-    reason: 'CONF_VALIDATION',
+    reason: 'CONFIG_VALIDATION',
     message: 'Wrong configuration',
   });
 };
@@ -27,7 +27,7 @@ const getOptsAdapter = function ({ name, adapters, key }) {
   if (adapter !== undefined) { return adapter; }
 
   const message = `'${key}.${name}' is unknown`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 module.exports = {

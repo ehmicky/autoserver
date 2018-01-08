@@ -45,13 +45,13 @@ const createAlias = function ({ coll, attrs, attr, attrName, alias }) {
 const checkAliasDuplicates = function ({ coll, attrs, attrName, alias }) {
   if (coll.attributes[alias]) {
     const message = `Attribute '${attrName}' cannot have an alias '${alias}' because this attribute already exists`;
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 
   if (attrs[alias]) {
     const otherAttrName = attrs[alias].aliasOf;
     const message = `Attributes '${otherAttrName}' and '${attrName}' cannot have the same alias '${alias}'`;
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 };
 

@@ -47,7 +47,7 @@ const validateAuthorize = function ({ collname, authorize, config }) {
   const prefix = collname === undefined
     ? 'In \'config.authorize\', '
     : `In 'collection.${collname}.authorize', `;
-  const reason = 'CONF_VALIDATION';
+  const reason = 'CONFIG_VALIDATION';
 
   const attrs = getAuthorizeAttrs({ config, collname });
   validateFilter({ filter: authorize, prefix, reason, attrs });

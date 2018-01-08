@@ -37,7 +37,7 @@ const validateProvider = function ({ provider }) {
   if (logAdapter !== undefined) { return; }
 
   const message = `Log provider '${provider}' does not exist`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 const normalizeProvider = function (log) {
@@ -51,7 +51,7 @@ const normalizeProvider = function (log) {
 
 const eNormalizeProvider = addGenErrorHandler(normalizeProvider, {
   message: ({ provider }) => `Wrong configuration at 'log.${provider}.opts'`,
-  reason: 'CONF_VALIDATION',
+  reason: 'CONFIG_VALIDATION',
 });
 
 module.exports = {

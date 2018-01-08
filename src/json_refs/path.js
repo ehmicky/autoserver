@@ -32,7 +32,7 @@ const NODE_REGEXP = /\.node$/;
 const eGetModulePath = addGenErrorHandler(getModulePath, {
   message: ({ value }) =>
     `JSON reference '${value}' is invalid: this Node.js module does not exist`,
-  reason: 'CONF_VALIDATION',
+  reason: 'CONFIG_VALIDATION',
 });
 
 module.exports = {

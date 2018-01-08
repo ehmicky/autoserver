@@ -45,7 +45,7 @@ const validateCustomKeyword = function ({ type, keyword }) {
   if (!isRedundant) { return; }
 
   const message = `Custom validation keyword 'config.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 // eslint-disable-next-line max-params

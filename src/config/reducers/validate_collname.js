@@ -24,7 +24,7 @@ const checkCollname = function ({ name }) {
   if (name === pluralname) { return; }
 
   const message = `Collection's name '${name}' must be in plural form, i.e. should be '${pluralname}'`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 module.exports = {

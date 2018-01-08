@@ -25,12 +25,12 @@ const validateMaxpayload = function ({ maxpayload, minMaxpayload }) {
 
   if (maxpayloadA === null || Number.isNaN(maxpayloadA)) {
     const message = '\'config.limits.maxpayload\' must be a size in bytes, which can include "B", "KB", "MB", "GB" or "TB"';
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 
   if (maxpayloadA < minMaxpayload) {
     const message = '\'config.limits.maxpayload\' must be at least 100 bytes';
-    throwError(message, { reason: 'CONF_VALIDATION' });
+    throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 };
 
@@ -45,7 +45,7 @@ const validateMaxmodels = function ({ maxmodels, pagesize, maxActions }) {
   if (isDisabled || isValid) { return; }
 
   const message = `'config.limits.maxmodels' must be at least ${minMaxmodels}`;
-  throwError(message, { reason: 'CONF_VALIDATION' });
+  throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 
 module.exports = {

@@ -62,7 +62,7 @@ const createFunction = function ({
 
 const eCreateFunction = addGenErrorHandler(createFunction, {
   message: ({ inlineFunc }) => `Invalid function: '${inlineFunc}'`,
-  reason: 'CONF_VALIDATION',
+  reason: 'CONFIG_VALIDATION',
 });
 
 module.exports = {
