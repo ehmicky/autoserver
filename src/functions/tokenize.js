@@ -22,8 +22,13 @@ const stringifyConfigFunc = function ({ configFunc, configFunc: { name } }) {
   }
 
   const funcStr = configFunc.toString();
-  const [, body] = BODY_REGEXP.exec(funcStr) || [];
+  const body = getInlineFuncBody({ funcStr });
   return body || funcStr;
+};
+
+const getInlineFuncBody = function ({ funcStr }) {
+  const [, body] = BODY_REGEXP.exec(funcStr) || [];
+  return body;
 };
 
 // Extracts inline function. Only works on inline functions.
