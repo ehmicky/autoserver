@@ -5,19 +5,23 @@
 const checkEmpty = function ({ opVal, operator: { argument }, type }) {
   if (argument === undefined) { return; }
 
-  const hasWrongNull = opVal == null && !argument.includes('empty');
-
-  if (hasWrongNull) {
+  if (hasWrongNull({ opVal, argument })) {
     return `the argument is invalid. Patch operator '${type}' argument must be not be empty`;
   }
 
-  const hasWrongNulls = Array.isArray(opVal) &&
-    opVal.includes(null) &&
-    !argument.includes('empty[]');
-
-  if (hasWrongNulls) {
+  if (hasWrongNulls({ opVal, argument })) {
     return `the argument is invalid. Patch operator '${type}' argument must be not contain empty items`;
   }
+};
+
+const hasWrongNull = function ({ opVal, argument }) {
+  return opVal == null && !argument.includes('empty');
+};
+
+const hasWrongNulls = function ({ opVal, argument }) {
+  return Array.isArray(opVal) &&
+    opVal.includes(null) &&
+    !argument.includes('empty[]');
 };
 
 module.exports = {
