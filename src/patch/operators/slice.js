@@ -66,10 +66,7 @@ const insertstrOperator = {
   argument: ['integer[]', 'empty[]', 'string[]'],
 
   check ({ arg: opVal }) {
-    const isValid = opVal.length === 2 &&
-      (Number.isInteger(opVal[0]) || opVal[0] == null) &&
-      typeof opVal[1] === 'string';
-    if (isValid) { return; }
+    if (isValidInsertstr({ opVal })) { return; }
 
     return 'the argument must be an array with one integer (the index) and a string';
   },
@@ -78,6 +75,12 @@ const insertstrOperator = {
     const { start, end } = insertApply({ index, attrVal });
     return `${start}${str}${end}`;
   },
+};
+
+const isValidInsertstr = function ({ opVal }) {
+  return opVal.length === 2 &&
+    (Number.isInteger(opVal[0]) || opVal[0] == null) &&
+    typeof opVal[1] === 'string';
 };
 
 // `_insert` patch operator
