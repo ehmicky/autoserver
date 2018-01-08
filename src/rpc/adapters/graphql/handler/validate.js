@@ -7,7 +7,8 @@ const { throwError } = require('../../../../errors');
 const validateMainDef = function ({ mainDef, operationName, method }) {
   validateDef({ mainDef, operationName });
   validateMainSelection({ mainDef });
-  validateOperationType({ mainDef, method });
+  validateQuery({ mainDef });
+  validateMutation({ mainDef, method });
 };
 
 const validateDef = function ({ mainDef, operationName }) {
@@ -46,27 +47,36 @@ const getOperationNames = function ({ selections }) {
 
 // GraphQL queries must use (e.g. in HTTP) GET, but mutations have no
 // restrictions
-const validateOperationType = function ({
+const validateQuery = function ({
+  mainDef: {
+    selectionSet: { selections: [{ name }] },
+    operation,
+  },
+}) {
+  if (operation !== 'query') { return; }
+
+  if (!isFindQuery({ name })) {
+    const message = 'Can only perform \'find\' commands with a GraphQL \'query\'';
+    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+  }
+};
+
+const validateMutation = function ({
   mainDef: {
     selectionSet: { selections: [{ name }] },
     operation,
   },
   method,
 }) {
-  if (method === 'GET' && operation !== 'query') {
+  if (operation !== 'mutation') { return; }
+
+  if (method === 'GET') {
     const message = 'Can only perform GraphQL queries, not mutations, with the protocol method \'GET\'';
     throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 
-  const isFind = isFindQuery({ name });
-
-  if (isFind && operation === 'mutation') {
+  if (isFindQuery({ name })) {
     const message = 'Cannot perform \'find\' commands with a GraphQL \'mutation\'';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
-  }
-
-  if (!isFind && operation === 'query') {
-    const message = 'Can only perform \'find\' commands with a GraphQL \'query\'';
     throwError(message, { reason: 'SYNTAX_VALIDATION' });
   }
 };
