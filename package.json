@@ -80,7 +80,7 @@
     "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
     "markdown-link-check": "^3.1.6",
-    "nodemon": "^1.13.3",
+    "nodemon": "^1.14.8",
     "sloc": "^0.2.0",
     "through2": "^2.0.3"
   },
