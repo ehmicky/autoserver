@@ -1,11 +1,10 @@
 /* eslint-disable max-lines */
 'use strict';
 
-const { protocolAdapters } = require('../../protocols');
+const { PROTOCOLS } = require('../../protocols');
 const { rpcAdapters } = require('../../rpc');
 const { COMMAND_TYPES } = require('../../commands');
 
-const protocols = Object.keys(protocolAdapters);
 const rpcs = Object.keys(rpcAdapters);
 
 // System parameters that are always present
@@ -14,7 +13,7 @@ const rpcs = Object.keys(rpcAdapters);
 const SYSTEM_PARAMS = {
   requestid: { type: 'string' },
   timestamp: { type: 'string' },
-  protocol: { type: 'string', validation: { enum: protocols } },
+  protocol: { type: 'string', validation: { enum: PROTOCOLS } },
   ip: { type: 'string' },
   origin: { type: 'string' },
   path: { type: 'string' },

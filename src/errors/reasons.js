@@ -23,11 +23,6 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
-  // Query string is wrong
-  QUERY_STRING_PARSE: {
-    status: 'CLIENT_ERROR',
-  },
-
   // Input syntax error, e.g. GraphQL crashed trying to parse the raw query
   SYNTAX_VALIDATION: {
     status: 'CLIENT_ERROR',

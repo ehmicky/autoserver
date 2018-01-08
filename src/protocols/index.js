@@ -2,6 +2,5 @@
 
 module.exports = {
   ...require('./merger'),
-  ...require('./constants'),
   ...require('./info'),
 };

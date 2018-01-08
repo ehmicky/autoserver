@@ -1,7 +1,5 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../../errors');
-
 // Do the actual server launch
 const launchServer = async function ({
   protocolAdapter,
@@ -19,12 +17,6 @@ const launchServer = async function ({
   return { protocol: { ...server, protocolAdapter } };
 };
 
-const eLaunchServer = addGenErrorHandler(launchServer, {
-  message: ({ protocolAdapter: { title } }) =>
-    `Could not start ${title} server`,
-  reason: 'PROTOCOL',
-});
-
 module.exports = {
-  launchServer: eLaunchServer,
+  launchServer,
 };

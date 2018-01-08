@@ -2,7 +2,7 @@
 
 const { keepFuncName, result } = require('../utilities');
 
-const { throwError } = require('./main');
+const { throwError, normalizeError } = require('./main');
 
 // Wrap a function with a error handler
 // Allow passing an empty error handler, i.e. ignoring any error thrown
@@ -32,9 +32,10 @@ const addGenErrorHandler = function (func, { message, reason }) {
 };
 
 const genErrorHandler = function ({ message, reason }, error, ...args) {
-  const messageA = result(message, ...args, error);
-  const reasonA = result(reason, ...args, error);
-  throwError(messageA, { reason: reasonA, innererror: error });
+  const innererror = normalizeError({ error });
+  const messageA = result(message, ...args, innererror) || innererror.message;
+  const reasonA = result(reason, ...args, innererror) || innererror.reason;
+  throwError(messageA, { reason: reasonA, innererror });
 };
 
 module.exports = {
