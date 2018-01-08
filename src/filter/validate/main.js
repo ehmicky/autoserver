@@ -68,9 +68,7 @@ const validateValue = function ({
   skipConfigFuncs,
   throwErr,
 }) {
-  // Skip config functions
-  // If one wants to validate them, they need to be evaluated first
-  if (skipConfigFuncs && typeof value === 'function') { return; }
+  if (isConfigFunc({ skipConfigFuncs, value })) { return; }
 
   if (opValidate !== undefined) {
     opValidate({ type, value, attr, throwErr });
@@ -87,6 +85,12 @@ const validateValue = function ({
         throwErr,
       }));
   }
+};
+
+// Skip config functions
+// If one wants to validate them, they need to be evaluated first
+const isConfigFunc = function ({ skipConfigFuncs, value }) {
+  return skipConfigFuncs && typeof value === 'function';
 };
 
 module.exports = {
