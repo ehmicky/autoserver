@@ -42,9 +42,9 @@ const compareLengths = function (arrA, arrB, index) {
   const isEmptyA = arrA.length < index;
   const isEmptyB = arrB.length < index;
 
-  if (isEmptyA && isEmptyB) { return 0; }
-
-  if (isEmptyA) { return -1; }
+  if (isEmptyA) {
+    return isEmptyB ? 0 : -1;
+  }
 
   if (isEmptyB) { return 1; }
 };
