@@ -5,11 +5,7 @@ const { throwError } = require('../../errors');
 const { getFeatures } = require('../../filter');
 
 // Startup time adapter features validation
-const validateFeatures = function ({
-  adapter: { features, name },
-  coll,
-  collname,
-}) {
+const validateFeatures = function ({ features, database, coll, collname }) {
   const requiredFeatures = getRequiredFeatures({ coll });
   const missingFeatures = difference(requiredFeatures, features);
   if (missingFeatures.length === 0) { return; }
@@ -18,7 +14,7 @@ const validateFeatures = function ({
     missingFeatures,
     { op: 'and', quotes: true },
   );
-  const message = `'collections.${collname}.database' '${name}' cannot be used because that collection requires the features ${missingFeaturesA}, but that database does not support those features`;
+  const message = `'collections.${collname}.database' '${database}' cannot be used because that collection requires the features ${missingFeaturesA}, but that database does not support those features`;
   throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
 

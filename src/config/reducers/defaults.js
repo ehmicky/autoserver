@@ -1,8 +1,8 @@
 'use strict';
 
-const { deepMerge, mapValues } = require('../../utilities');
-const { protocolAdapters } = require('../../protocols');
-const { databaseAdapters, DEFAULT_DATABASE } = require('../../databases');
+const { deepMerge } = require('../../utilities');
+const { PROTOCOL_DEFAULTS } = require('../../protocols');
+const { DEFAULT_DATABASE, DATABASE_DEFAULTS } = require('../../databases');
 const { mapColls, mapAttrs } = require('../helpers');
 
 // Add config default values
@@ -15,14 +15,8 @@ const addDefaults = function ({ config }) {
 
 // Top-level defaults
 const addTopDefaults = function ({ config }) {
-  const dynamicDefaults = mapValues(DYNAMIC_DEFAULTS, getDynamicDefaults);
-  const configA = deepMerge(TOP_DEFAULT_VALUES, dynamicDefaults, config);
+  const configA = deepMerge(TOP_DEFAULT_VALUES, DYNAMIC_DEFAULTS, config);
   return configA;
-};
-
-// Defaults related to adapters
-const getDynamicDefaults = function (adapters) {
-  return mapValues(adapters, ({ defaults = {} }) => defaults);
 };
 
 // Collection-level defaults
@@ -53,8 +47,6 @@ const TOP_DEFAULT_VALUES = {
   validation: {},
   operators: {},
   log: [],
-  protocols: {},
-  databases: {},
   limits: {
     maxpayload: '10MB',
     pagesize: 100,
@@ -62,12 +54,12 @@ const TOP_DEFAULT_VALUES = {
 };
 
 const DYNAMIC_DEFAULTS = {
-  databases: databaseAdapters,
-  protocols: protocolAdapters,
+  databases: DATABASE_DEFAULTS,
+  protocols: PROTOCOL_DEFAULTS,
 };
 
 const COLL_DEFAULTS = {
-  database: DEFAULT_DATABASE.name,
+  database: DEFAULT_DATABASE,
   attributes: {
     id: { description: 'Unique identifier' },
   },
