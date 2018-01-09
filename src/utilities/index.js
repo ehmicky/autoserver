@@ -7,5 +7,4 @@ module.exports = {
   ...require('./template'),
   ...require('./transtype'),
   ...require('./base64'),
-  ...require('./adapter'),
 };

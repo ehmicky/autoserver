@@ -1,7 +1,5 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../errors');
-
 const { applyCompatParse, applyCompatSerialize } = require('./compat');
 
 // Generic parser, delegating to the format specified in `format`
@@ -18,10 +16,6 @@ const parseContent = function (
   return contentB;
 };
 
-const eParseContent = addGenErrorHandler(parseContent, {
-  reason: 'FORMAT',
-});
-
 // Generic serializer, delegating to the format specified in `format`
 const serializeContent = function ({ serialize, jsonCompat }, content) {
   const contentA = applyCompatSerialize({ jsonCompat, content });
@@ -29,11 +23,7 @@ const serializeContent = function ({ serialize, jsonCompat }, content) {
   return contentB;
 };
 
-const eSerializeContent = addGenErrorHandler(serializeContent, {
-  reason: 'FORMAT',
-});
-
 module.exports = {
-  parseContent: eParseContent,
-  serializeContent: eSerializeContent,
+  parseContent,
+  serializeContent,
 };

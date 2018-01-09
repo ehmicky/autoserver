@@ -1,6 +1,6 @@
 'use strict';
 
-const { wrapAdapters } = require('../utilities');
+const { wrapAdapters } = require('../adapters');
 
 const adapters = require('./adapters');
 const { compress, decompress } = require('./transform');
@@ -15,7 +15,12 @@ const methods = {
   decompress,
 };
 
-const compressAdapters = wrapAdapters({ adapters, members, methods });
+const compressAdapters = wrapAdapters({
+  adapters,
+  members,
+  methods,
+  reason: 'COMPRESS',
+});
 
 module.exports = {
   compressAdapters,
