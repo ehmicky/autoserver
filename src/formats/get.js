@@ -4,25 +4,24 @@ const { extname } = require('path');
 
 const { is: isType } = require('type-is');
 
-const { formatAdapters } = require('./merger');
-const { DEFAULT_RAW_FORMAT } = require('./constants');
+const { formatAdapters } = require('./wrap');
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found
-const findByMime = function ({ mime, safe }) {
+const getByMime = function ({ mime, safe }) {
   const formats = getFormats({ safe });
 
   // We try the extensions MIME (e.g. `+json`) after the other MIME types
   // (e.g. `application/jose+json`)
   const format = formats
     .find(({ mimes }) => mimeMatches({ mime, mimes }));
-  if (format !== undefined) { return format.name; }
+  if (format !== undefined) { return format.wrapped; }
 
   const formatA = formats
     .find(({ mimeExtensions: mimes }) => mimeMatches({ mime, mimes }));
-  if (formatA !== undefined) { return formatA.name; }
+  if (formatA !== undefined) { return formatA.wrapped; }
 
-  return DEFAULT_RAW_FORMAT;
+  throwUnsupportedFormat({ format });
 };
 
 // Only the right side of `isType` allow complex types like
@@ -34,15 +33,15 @@ const mimeMatches = function ({ mime, mimes = [] }) {
 };
 
 // Retrieve correct format, using file extension
-const findByExt = function ({ path, safe }) {
+const getByExt = function ({ path, safe }) {
   const formats = getFormats({ safe });
 
   const fileExt = extname(path).slice(1);
   const format = formats
     .find(({ extNames = [] }) => extNames.includes(fileExt));
-  if (format !== undefined) { return format.name; }
+  if (format !== undefined) { return format.wrapped; }
 
-  return DEFAULT_RAW_FORMAT;
+  throwUnsupportedFormat({ format });
 };
 
 // Setting `safe` to `true` removes formats that execute code.
@@ -57,7 +56,24 @@ const getFormats = function ({ safe = false }) {
   return formatsA;
 };
 
+// Retrieve format adapter
+const getFormat = function (format, { safe = false } = {}) {
+  const formatA = formatAdapters[format];
+  const isSafe = !safe || !formatA.unsafe;
+  const isValid = formatA !== undefined && isSafe;
+  if (isValid) { return formatA.wrapped; }
+
+  throwUnsupportedFormat({ format });
+};
+
+const throwUnsupportedFormat = function ({ format }) {
+  const message = `Unsupported format: '${format}'`;
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(message);
+};
+
 module.exports = {
-  findByMime,
-  findByExt,
+  getByMime,
+  getByExt,
+  getFormat,
 };

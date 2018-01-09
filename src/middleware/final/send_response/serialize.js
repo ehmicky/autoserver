@@ -2,9 +2,9 @@
 
 const { Buffer } = require('buffer');
 
-const { serialize } = require('../../../formats');
 const { isType } = require('../../../content_types');
 
+// Transform content to a buffer
 const serializeContent = function ({ format, content, type, topargs, error }) {
   const contentA = stringifyContent({ format, content, type });
 
@@ -18,7 +18,7 @@ const serializeContent = function ({ format, content, type, topargs, error }) {
 const stringifyContent = function ({ format, content, type }) {
   if (!isType(type, 'object')) { return content; }
 
-  const contentA = serialize({ format, content });
+  const contentA = format.serializeContent(content);
   return contentA;
 };
 

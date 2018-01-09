@@ -1,3 +1,0 @@
-# Default format for structured types, and unstructure types
-DEFAULT_RAW_FORMAT: raw
-DEFAULT_FORMAT: json
