@@ -1,7 +1,6 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../../../errors');
-const { decompress } = require('../../../compress');
 const { getSumParams } = require('../../../functions');
 const { getLimits } = require('../../../limits');
 
@@ -46,11 +45,7 @@ const parseRawPayload = async function ({
     maxpayload,
   });
 
-  // Request body decompression
-  const payloadA = await decompress({
-    algo: compressRequest,
-    content: payload,
-  });
+  const payloadA = await eDecompressPayload({ compressRequest, payload });
 
   const payloadB = eDecodeCharset({ content: payloadA, charset });
 
@@ -61,6 +56,17 @@ const parseRawPayload = async function ({
 
   return { payload: payloadC, ...sumParams };
 };
+
+// Request body decompression
+const decompressPayload = function ({ compressRequest, payload }) {
+  return compressRequest.decompress(payload);
+};
+
+const eDecompressPayload = addGenErrorHandler(decompressPayload, {
+  message: ({ compressRequest: { name } }) =>
+    `Invalid compression algorithm for the request payload: '${name}'`,
+  reason: 'REQUEST_FORMAT',
+});
 
 const decodeCharset = function ({ content, charset }) {
   return charset.decode(content);
