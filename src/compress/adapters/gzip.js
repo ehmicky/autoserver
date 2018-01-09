@@ -7,12 +7,12 @@ const pGzip = promisify(gzip);
 const pGunzip = promisify(gunzip);
 
 // Compress to Gzip
-const compress = function ({ content }) {
+const compress = function (content) {
   return pGzip(content);
 };
 
 // Decompress from Gzip
-const decompress = function ({ content }) {
+const decompress = function (content) {
   return pGunzip(content);
 };
 

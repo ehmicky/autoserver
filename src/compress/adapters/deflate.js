@@ -7,12 +7,12 @@ const pDeflate = promisify(deflate);
 const pInflate = promisify(inflate);
 
 // Compress to Deflate
-const compress = function ({ content }) {
+const compress = function (content) {
   return pDeflate(content);
 };
 
 // Decompress from Deflate
-const decompress = function ({ content }) {
+const decompress = function (content) {
   return pInflate(content);
 };
 
