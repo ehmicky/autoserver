@@ -21,7 +21,7 @@ const validateDatabases = function ({ config, config: { databases } }) {
 const mapColl = function ({ coll: { database }, coll, collname }) {
   const dbAdapter = eGetDbAdapter({ database, collname });
 
-  const features = eValidateFeatures({ dbAdapter, coll, collname });
+  const features = eValidateStartupFeatures({ dbAdapter, coll, collname });
   return { features };
 };
 
@@ -35,11 +35,11 @@ const eGetDbAdapter = addGenErrorHandler(getDbAdapter, {
   reason: 'CONFIG_VALIDATION',
 });
 
-const validateFeatures = function ({ dbAdapter, coll }) {
-  return dbAdapter.validateFeatures({ coll });
+const validateStartupFeatures = function ({ dbAdapter, coll }) {
+  return dbAdapter.validateStartupFeatures({ coll });
 };
 
-const eValidateFeatures = addGenErrorHandler(validateFeatures, {
+const eValidateStartupFeatures = addGenErrorHandler(validateStartupFeatures, {
   message: ({ collname }, { message }) =>
     `'collections.${collname}.database': ${message}`,
   reason: 'CONFIG_VALIDATION',

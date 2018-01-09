@@ -1,28 +1,23 @@
 'use strict';
 
-const { difference } = require('../../../utilities');
-const { throwError } = require('../../../errors');
-const { FEATURES } = require('../../../databases');
-const { getFeatures } = require('../../../filter');
+const { difference } = require('../../utilities');
+const { getFeatures } = require('../../filter');
+const { FEATURES } = require('../constants');
 
 const { genericValidators } = require('./generic');
 const { filterValidator } = require('./filter');
 
 // Validate database supports command features
-const validateFeatures = function ({
-  args,
-  collname,
-  clientCollname,
-  dbAdapters,
-}) {
-  const { features } = dbAdapters[collname];
-
+const validateRuntimeFeatures = function (
+  { features },
+  { args, clientCollname },
+) {
   const message = getErrorMessage({ args, features });
-
   if (message === undefined) { return; }
 
   const messageA = `${message} because the collection '${clientCollname}' does not support it`;
-  throwError(messageA, { reason: 'WRONG_FEATURE' });
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(messageA);
 };
 
 // Fire the validator of each feature that is not supported by the
@@ -50,5 +45,5 @@ const VALIDATORS = {
 };
 
 module.exports = {
-  validateFeatures,
+  validateRuntimeFeatures,
 };

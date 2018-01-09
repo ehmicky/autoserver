@@ -1,10 +1,10 @@
 'use strict';
 
-const { getWordsList, flatten, difference } = require('../utilities');
-const { getFeatures } = require('../filter');
+const { getWordsList, flatten, difference } = require('../../utilities');
+const { getFeatures } = require('../../filter');
 
 // Startup time adapter features validation
-const validateFeatures = function ({ name, features }, { coll }) {
+const validateStartupFeatures = function ({ name, features }, { coll }) {
   const requiredFeatures = getRequiredFeatures({ coll });
   const missingFeatures = difference(requiredFeatures, features);
   if (missingFeatures.length === 0) { return features; }
@@ -40,5 +40,5 @@ const featuresCheckers = [
 ];
 
 module.exports = {
-  validateFeatures,
+  validateStartupFeatures,
 };
