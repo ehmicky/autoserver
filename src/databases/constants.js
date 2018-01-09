@@ -1,19 +1,21 @@
 'use strict';
 
-const { mapValues } = require('../utilities');
+const { mapValues, keyBy } = require('../utilities');
 
-const { databaseAdapters } = require('./wrap');
+const databaseAdapters = require('./adapters');
+
+const databaseAdaptersA = keyBy(databaseAdapters);
 
 // Retrieves database options
 const getOpts = function () {
-  return mapValues(databaseAdapters, ({ opts = {} }) => opts);
+  return mapValues(databaseAdaptersA, ({ opts = {} }) => opts);
 };
 
 const DATABASE_OPTS = getOpts();
 
 // Retrieves database defaults
 const getDefaults = function () {
-  return mapValues(databaseAdapters, ({ defaults = {} }) => defaults);
+  return mapValues(databaseAdaptersA, ({ defaults = {} }) => defaults);
 };
 
 const DATABASE_DEFAULTS = getDefaults();

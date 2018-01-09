@@ -189,7 +189,7 @@ const middlewareLayers = [
       // Authorization middleware
       requestResponse.validateAuthorization,
       // Validate database supports command features
-      requestResponse.validateFeatures,
+      requestResponse.validateRuntimeFeatures,
       // Custom data validation middleware
       requestResponse.dataValidation,
     ],

@@ -4,7 +4,10 @@ const { wrapAdapters } = require('../adapters');
 
 const adapters = require('./adapters');
 const { connectDatabase } = require('./connect');
-const { validateFeatures } = require('./features');
+const {
+  validateStartupFeatures,
+  validateRuntimeFeatures,
+} = require('./features');
 
 const members = [
   'name',
@@ -16,7 +19,8 @@ const members = [
 
 const methods = {
   connect: connectDatabase,
-  validateFeatures,
+  validateStartupFeatures,
+  validateRuntimeFeatures,
 };
 
 const databaseAdapters = wrapAdapters({
