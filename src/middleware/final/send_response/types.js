@@ -7,25 +7,32 @@ const { serializeContentType } = require('../../../formats');
 const TYPES = {
   model: {
     mime: 'application/x-resource+',
+    isText: true,
   },
 
   models: {
     mime: 'application/x-collection+',
+    isText: true,
   },
 
   error: {
     // See RFC 7807
     mime: 'application/problem+',
+    isText: true,
   },
 
-  object: {},
+  object: {
+    isText: true,
+  },
 
   html: {
     mime: 'text/html',
+    isText: true,
   },
 
   text: {
     mime: 'text/plain',
+    isText: true,
   },
 };
 

@@ -2,30 +2,19 @@
 
 const { addGenErrorHandler } = require('../errors');
 
-const { compressAdapters } = require('./merger');
-const { DEFAULT_ALGO } = require('./constants');
-
 // Generic compression/decompression
 // Input and output is buffer
-const decompress = function ({ algo = DEFAULT_ALGO, content }) {
-  return compressAdapters[algo].decompress({ content });
+const decompress = function (compressAdapter, content) {
+  return compressAdapter.decompress({ content });
 };
 
-const eDecompress = addGenErrorHandler(decompress, {
-  message: ({ algo }) =>
-    `Could not decompress using the ${compressAdapters[algo].title} algorithm`,
-  reason: 'COMPRESS',
-});
+const eDecompress = addGenErrorHandler(decompress, { reason: 'COMPRESS' });
 
-const compress = function ({ algo = DEFAULT_ALGO, content }) {
-  return compressAdapters[algo].compress({ content });
+const compress = function (compressAdapter, content) {
+  return compressAdapter.compress({ content });
 };
 
-const eCompress = addGenErrorHandler(compress, {
-  message: ({ algo }) =>
-    `Could not compress using the ${compressAdapters[algo].title} algorithm`,
-  reason: 'COMPRESS',
-});
+const eCompress = addGenErrorHandler(compress, { reason: 'COMPRESS' });
 
 module.exports = {
   decompress: eDecompress,

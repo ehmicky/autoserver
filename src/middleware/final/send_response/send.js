@@ -38,6 +38,7 @@ const send = async function ({
   } = await compressContent({
     content: contentA,
     compressResponse,
+    type,
     contentType,
   });
 

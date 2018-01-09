@@ -1,7 +1,7 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../../../errors');
-const { normalizeAlgo, validateAlgo } = require('../../../compress');
+const { getAlgo } = require('../../../compress');
 
 // Retrieve compression asked by client for the response and request payloads
 const getCompress = function ({
@@ -14,8 +14,8 @@ const getCompress = function ({
     compressRequest: compressRequestA,
   } = parseCompress({ queryvars, compressResponse, compressRequest });
 
-  const compressResponseB = getCompressResponse({ algo: compressResponseA });
-  const compressRequestB = getCompressRequest({ algo: compressRequestA });
+  const compressResponseB = getCompressResponse(compressResponseA);
+  const compressRequestB = getCompressRequest(compressRequestA);
 
   const compressA = joinCompress({
     compressResponse: compressResponseB,
@@ -56,26 +56,18 @@ const splitCompress = function ({ compress }) {
 
 // Inverse
 const joinCompress = function ({ compressResponse, compressRequest }) {
-  return [compressResponse, compressRequest].join(',');
+  return [compressResponse.name, compressRequest.name].join(',');
 };
 
 // Validates and adds default values
-const getAlgo = function ({ algo }) {
-  const algoA = normalizeAlgo({ algo });
-
-  validateAlgo({ algo: algoA });
-
-  return algoA;
-};
-
 const getCompressResponse = addGenErrorHandler(getAlgo, {
-  message: ({ algo }) =>
+  message: algo =>
     `Unsupported compression algorithm for the response: '${algo}'`,
   reason: 'RESPONSE_FORMAT',
 });
 
 const getCompressRequest = addGenErrorHandler(getAlgo, {
-  message: ({ algo }) =>
+  message: algo =>
     `Unsupported compression algorithm for the request payload: '${algo}'`,
   reason: 'REQUEST_FORMAT',
 });

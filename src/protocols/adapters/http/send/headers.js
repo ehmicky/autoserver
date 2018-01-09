@@ -3,7 +3,7 @@
 const vary = require('vary');
 
 const { isType } = require('../../../../content_types');
-const { getNames, DEFAULT_ALGO } = require('../../../../compress');
+const { ALGOS, DEFAULT_ALGO } = require('../../../../compress');
 
 const { getLinks } = require('./link');
 
@@ -27,7 +27,6 @@ const setHeaders = function ({
   // clients crash
   const contentLength = content.byteLength;
 
-  const acceptEncoding = getNames();
   const contentEncoding = getContentEncoding({ compressResponse });
 
   const allow = getAllow({ data });
@@ -37,7 +36,7 @@ const setHeaders = function ({
   const headers = {
     'Content-Type': contentType,
     'Content-Length': contentLength,
-    'Accept-Encoding': acceptEncoding,
+    'Accept-Encoding': ACCEPT_ENCODING,
     'Content-Encoding': contentEncoding,
     Allow: allow,
     Link: links,
@@ -48,11 +47,13 @@ const setHeaders = function ({
   setVary({ res, type });
 };
 
-const getContentEncoding = function ({ compressResponse }) {
-  // Means no compression was applied
-  if (compressResponse === DEFAULT_ALGO) { return; }
+const ACCEPT_ENCODING = ALGOS.join(', ');
 
-  return compressResponse;
+const getContentEncoding = function ({ compressResponse: { name } = {} }) {
+  // Means no compression was applied
+  if (name === DEFAULT_ALGO.name) { return; }
+
+  return name;
 };
 
 // On WRONG_METHOD or WRONG_COMMAND errors

@@ -1,9 +1,7 @@
 'use strict';
 
 module.exports = {
+  ...require('./get'),
   ...require('./constants'),
-  ...require('./normalize'),
-  ...require('./validate'),
-  ...require('./find'),
-  ...require('./transform'),
+  ...require('./info'),
 };

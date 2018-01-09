@@ -2,13 +2,13 @@
 
 const { Negotiator } = require('negotiator');
 
-const { isSupported } = require('../../../../compress');
+const { hasAlgo } = require('../../../../compress');
 
 // Use similar logic as `args.format`, but for `args.compressResponse`
 // Uses HTTP header `Accept-Encoding`
 const getCompressResponse = function ({ specific: { req } }) {
   const negotiator = new Negotiator(req);
-  const compressResponse = negotiator.encodings().find(isSupported);
+  const compressResponse = negotiator.encodings().find(hasAlgo);
   return compressResponse;
 };
 
