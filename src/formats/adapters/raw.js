@@ -22,7 +22,7 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'raw',
   title: 'raw',
-  extNames: [],
+  extensions: [],
   mimes: [],
   jsonCompat: [],
   parse,

@@ -38,7 +38,7 @@ const getByExt = function ({ path, safe }) {
 
   const fileExt = extname(path).slice(1);
   const format = formats
-    .find(({ extNames = [] }) => extNames.includes(fileExt));
+    .find(({ extensions = [] }) => extensions.includes(fileExt));
   if (format !== undefined) { return format.wrapped; }
 
   throwUnsupportedFormat({ format });
