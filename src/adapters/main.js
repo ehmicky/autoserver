@@ -4,6 +4,7 @@ const { keyBy, mapValues, pick, pickBy } = require('../utilities');
 const { addGenErrorHandler } = require('../errors');
 
 // Wrap adapters to:
+//  - add error handlers to catch adapter bugs
 //  - only expose some `members`
 //  - add `methods` bound with the adapter as first argument
 const wrapAdapters = function ({
