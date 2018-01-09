@@ -3,9 +3,9 @@
 const { cwd } = require('process');
 const { resolve, isAbsolute } = require('path');
 
-const { throwError } = require('../../../errors');
+const { throwError, addGenErrorHandler } = require('../../../errors');
 const { pReaddir } = require('../../../utilities');
-const { findByExt, isRawFormat } = require('../../../formats');
+const { getByExt } = require('../../../formats');
 
 // Retrieves final config path to use
 const getConfPath = async function ({ envConfigPath, configPath }) {
@@ -71,13 +71,14 @@ const validatePath = function ({ path }) {
     throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 
-  const format = findByExt({ path });
-
-  if (isRawFormat({ format })) {
-    const message = `The file format of the config file is not supported: '${path}'`;
-    throwError(message, { reason: 'CONFIG_VALIDATION' });
-  }
+  // Validates config file format
+  eGetByExt({ path });
 };
+
+const eGetByExt = addGenErrorHandler(getByExt, {
+  message: ({ path }) => `Config file format is not supported: '${path}'`,
+  reason: 'CONFIG_VALIDATION',
+});
 
 module.exports = {
   getConfPath,

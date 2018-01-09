@@ -1,7 +1,5 @@
 'use strict';
 
-const { getFormatCharset } = require('../formats');
-
 const { DEFAULT_INPUT_CHARSET } = require('./constants');
 const { validateCharset } = require('./validate');
 const { decodeCharset } = require('./transform');
@@ -21,9 +19,15 @@ const getCharset = function (charset, { format } = {}) {
 
 // Add default charsets, including the format's default charset
 const addDefaultCharset = function ({ charset, format }) {
-  const formatCharset = getFormatCharset({ format });
+  const formatCharset = findFormatCharset({ format });
 
   return charset || formatCharset || DEFAULT_INPUT_CHARSET;
+};
+
+const findFormatCharset = function ({ format }) {
+  if (format === undefined) { return; }
+
+  return format.getCharset();
 };
 
 // Returns a charset adapter object

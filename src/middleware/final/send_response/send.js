@@ -1,11 +1,7 @@
 'use strict';
 
 const { getReason } = require('../../../errors');
-const {
-  DEFAULT_FORMAT,
-  formatExists,
-  isRawFormat,
-} = require('../../../formats');
+const { DEFAULT_FORMAT, DEFAULT_RAW_FORMAT } = require('../../../formats');
 
 const { getContentType } = require('./types');
 const { serializeContent } = require('./serialize');
@@ -63,13 +59,12 @@ const send = async function ({
 // Also if a wrong format was parsed during protocolInput and added to mInput,
 // then an error will be thrown later, but wrong `format` will be used here.
 const normalizeFormat = function ({ format }) {
-  const isValidFormat = formatExists({ format }) && !isRawFormat({ format });
+  const isInvalidFormat = format === undefined ||
+    typeof format === 'string' ||
+    format.name === DEFAULT_RAW_FORMAT.name;
+  if (!isInvalidFormat) { return format; }
 
-  if (!isValidFormat) {
-    return DEFAULT_FORMAT;
-  }
-
-  return format;
+  return DEFAULT_FORMAT;
 };
 
 module.exports = {

@@ -1,6 +1,7 @@
 'use strict';
 
-const { saveFile } = require('../../../formats');
+const { addGenErrorHandler } = require('../../../errors');
+const { getByExt } = require('../../../formats');
 const { getRef } = require('../../../json_refs');
 
 // Stops connection
@@ -10,8 +11,16 @@ const disconnect = async function ({ options: { save, data }, connection }) {
 
   // Reuse the same file that was used during loading
   const path = getRef(data);
-  await saveFile({ path, content: connection });
+  const format = eGetByExt({ path });
+
+  await format.serializeFile(path, connection);
 };
+
+const eGetByExt = addGenErrorHandler(getByExt, {
+  message: ({ path }) =>
+    `Memory database file format is not supported: '${path}'`,
+  reason: 'CONFIG_RUNTIME',
+});
 
 module.exports = {
   disconnect,

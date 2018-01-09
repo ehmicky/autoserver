@@ -1,6 +1,6 @@
 'use strict';
 
-const { parse } = require('../../formats');
+const { getFormat } = require('../../formats');
 
 // Fill in `mInput.queryvars` using protocol-specific URL query variables
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -12,9 +12,11 @@ const parseQueryString = function ({
 }) {
   const queryString = getQueryString({ specific });
 
-  const queryvars = parse({ format: 'urlencoded', content: queryString });
+  const queryvars = urlencoded.parseContent(queryString);
   return { queryvars };
 };
+
+const urlencoded = getFormat('urlencoded');
 
 module.exports = {
   parseQueryString,

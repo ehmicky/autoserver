@@ -27,7 +27,7 @@ const getParams = function (
     status,
     queryvars,
     headers,
-    format,
+    format: { name: format } = {},
     charset: { name: charset } = {},
     compress,
     payload,
