@@ -50,7 +50,7 @@ const applyConfigDefault = function ({
   return runConfigFunc({ configFunc, mInput: mInputA, params });
 };
 
-// Apply database adapter-specific id default, i.e. adater.getDefaultId()
+// Apply database adapter-specific id default, i.e. adapter.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
 const applyDatabaseDefault = function ({ collname, dbAdapters }) {
   const { getDefaultId } = dbAdapters[collname];

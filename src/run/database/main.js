@@ -1,17 +1,40 @@
 'use strict';
 
-const { getAdapters, getDbAdapters } = require('./map');
-const { initAdapters } = require('./init');
+const { mapValues, uniq } = require('../../utilities');
+const { getDatabase } = require('../../databases');
+
+const { startConnections } = require('./connect');
 
 // Create database connections
 const connectToDatabases = async function ({ config, measures }) {
-  const adapters = getAdapters({ config });
+  const dbAdapters = getDbAdapters({ config });
 
-  const adaptersA = await initAdapters({ adapters, config, measures });
+  const dbAdaptersA = await startConnections({ dbAdapters, config, measures });
 
-  const dbAdapters = getDbAdapters({ adapters: adaptersA, config });
+  const dbAdaptersB = getCollDbAdapters({ dbAdapters: dbAdaptersA, config });
 
-  return { dbAdapters };
+  return { dbAdapters: dbAdaptersB };
+};
+
+// Returns array of all database adapters that are defined in config
+const getDbAdapters = function ({ config: { collections } }) {
+  const names = Object.values(collections).map(({ database }) => database);
+  const namesA = uniq(names);
+
+  const dbAdapters = namesA.map(getDatabase);
+  return dbAdapters;
+};
+
+// Returns `{ collname: adapter }` map
+const getCollDbAdapters = function ({ dbAdapters, config: { collections } }) {
+  return mapValues(
+    collections,
+    ({ database }) => getCollDbAdapter({ dbAdapters, database }),
+  );
+};
+
+const getCollDbAdapter = function ({ dbAdapters, database }) {
+  return dbAdapters.find(({ name }) => name === database);
 };
 
 module.exports = {
