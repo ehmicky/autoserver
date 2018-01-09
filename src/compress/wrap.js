@@ -3,22 +3,17 @@
 const { wrapAdapters } = require('../adapters');
 
 const adapters = require('./adapters');
-const { compress, decompress } = require('./transform');
 
 const members = [
   'name',
   'title',
+  'decompress',
+  'compress',
 ];
-
-const methods = {
-  compress,
-  decompress,
-};
 
 const compressAdapters = wrapAdapters({
   adapters,
   members,
-  methods,
   reason: 'COMPRESS',
 });
 

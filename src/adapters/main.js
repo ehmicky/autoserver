@@ -6,7 +6,12 @@ const { addGenErrorHandler } = require('../errors');
 // Wrap adapters to:
 //  - only expose some `members`
 //  - add `methods` bound with the adapter as first argument
-const wrapAdapters = function ({ adapters, members, methods, reason }) {
+const wrapAdapters = function ({
+  adapters,
+  members = [],
+  methods = {},
+  reason,
+}) {
   const adaptersA = keyBy(adapters);
 
   return mapValues(
