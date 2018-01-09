@@ -1,6 +1,6 @@
 'use strict';
 
-const { wrapAdapters } = require('../utilities');
+const { wrapAdapters } = require('../adapters');
 
 const adapters = require('./adapters');
 const { getCharset, hasCharset } = require('./charset');
@@ -23,7 +23,12 @@ const methods = {
   getExtension,
 };
 
-const formatAdapters = wrapAdapters({ adapters, members, methods });
+const formatAdapters = wrapAdapters({
+  adapters,
+  members,
+  methods,
+  reason: 'FORMAT',
+});
 
 module.exports = {
   formatAdapters,
