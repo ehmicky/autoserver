@@ -24,6 +24,11 @@ const wrapAdapters = function ({
 const wrapAdapter = function ({ adapter, members, methods, reason }) {
   const adapterA = addErrorHandlers({ adapter, reason });
   const wrapped = classify({ adapter: adapterA, members, methods });
+
+  // We directly mutate so that methods are bound with `wrapped` parameter
+  // eslint-disable-next-line fp/no-mutating-assign
+  Object.assign(adapterA, { wrapped });
+
   return { ...adapter, wrapped };
 };
 
