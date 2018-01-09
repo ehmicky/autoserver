@@ -6,6 +6,7 @@ const adapters = require('./adapters');
 const { getCharset, hasCharset } = require('./charset');
 const { parseContent, serializeContent } = require('./content');
 const { parseFile, serializeFile } = require('./file');
+const { getExtension } = require('./extensions');
 
 const members = [
   'name',
@@ -19,6 +20,7 @@ const methods = {
   serializeContent,
   parseFile,
   serializeFile,
+  getExtension,
 };
 
 const formatAdapters = wrapAdapters({ adapters, members, methods });

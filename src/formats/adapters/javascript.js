@@ -22,7 +22,7 @@ module.exports = {
   name: 'javascript',
   title: 'JavaScript',
   unsafe: true,
-  extNames: ['js', 'mjs'],
+  extensions: ['js', 'mjs'],
   mimes: [
     'application/javascript',
     'application/x-javascript',

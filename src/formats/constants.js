@@ -3,27 +3,20 @@
 const { formatAdapters } = require('./wrap');
 
 // All possible extensions, for documentation
-const getExtNames = function () {
+const getExtensions = function () {
   return Object.values(formatAdapters)
-    .map(getExtName)
-    .filter(extName => extName !== undefined);
+    .map(adapter => adapter.wrapped.getExtension())
+    .filter(extension => extension !== undefined);
 };
 
-// Retrieve format's prefered extension
-const getExtName = function ({ extNames: [extName] = [] }) {
-  if (extName === undefined) { return; }
-
-  return `.${extName}`;
-};
-
-const EXT_NAMES = getExtNames();
+const EXTENSIONS = getExtensions();
 
 const CONSTANTS = {
   // Default format for structured types, and unstructure types
   DEFAULT_RAW_FORMAT: formatAdapters.raw.wrapped,
   DEFAULT_FORMAT: formatAdapters.json.wrapped,
 
-  EXT_NAMES,
+  EXTENSIONS,
 };
 
 module.exports = CONSTANTS;

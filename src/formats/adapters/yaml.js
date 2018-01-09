@@ -27,7 +27,7 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'yaml',
   title: 'YAML',
-  extNames: ['yml', 'yaml'],
+  extensions: ['yml', 'yaml'],
   mimes: ['application/yaml', 'application/x-yaml', 'text/yaml', 'text/x-yaml'],
   mimeExtensions: ['+yaml'],
   // YAML specification also allows UTF-32, but iconv-lite does not support it

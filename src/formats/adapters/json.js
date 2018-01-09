@@ -13,7 +13,7 @@ const serialize = function ({ content }) {
 module.exports = {
   name: 'json',
   title: 'JSON',
-  extNames: ['json'],
+  extensions: ['json'],
   mimes: ['application/json'],
   mimeExtensions: ['+json'],
   charsets: ['utf-8'],

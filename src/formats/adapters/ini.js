@@ -26,7 +26,7 @@ const escapeEmptyArrays = function (val) {
 module.exports = {
   name: 'ini',
   title: 'INI',
-  extNames: ['ini', 'in', 'cfg', 'conf'],
+  extensions: ['ini', 'in', 'cfg', 'conf'],
   mimeExtensions: ['+ini'],
   // `node-ini` only supports UTF-8
   charsets: ['utf-8'],
