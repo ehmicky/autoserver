@@ -1,22 +1,20 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../../../errors');
-const { normalizeCharset } = require('../../../charsets');
+const { getCharset } = require('../../../charsets');
 
 // Retrieve charset asked by client for the request and response payload
-const getCharset = function ({ queryvars, charset, format }) {
+const getCharsetFunc = function ({ queryvars, charset, format }) {
   // E.g. ?charset query variable or charset in Content-Type HTTP header
   const charsetA = queryvars.charset || charset;
-  const charsetB = eNormalizeCharset({ charset: charsetA, format });
+  const charsetB = eGetCharset(charsetA, { format });
   return charsetB;
 };
 
-const eNormalizeCharset = addGenErrorHandler(normalizeCharset, {
-  message: ({ charset }, { message }) =>
-    message || `Unsupported charset: '${charset}'`,
+const eGetCharset = addGenErrorHandler(getCharset, {
   reason: 'RESPONSE_FORMAT',
 });
 
 module.exports = {
-  getCharset,
+  getCharset: getCharsetFunc,
 };

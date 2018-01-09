@@ -28,7 +28,7 @@ const getParams = function (
     queryvars,
     headers,
     format,
-    charset,
+    charset: { name: charset } = {},
     compress,
     payload,
     payloadsize,

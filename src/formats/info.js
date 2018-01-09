@@ -26,19 +26,19 @@ const getTitle = function ({ format }) {
 };
 
 // Retrieves format's possible charsets
-const getCharsets = function ({ format }) {
-  const { charsets } = formatAdapters[format];
+const getFormatCharsets = function ({ format }) {
+  const { charsets } = formatAdapters[format] || {};
   return charsets;
 };
 
 // Retrieves format's prefered charset
-const getCharset = function ({ format }) {
-  const charsets = getCharsets({ format }) || [];
+const getFormatCharset = function ({ format }) {
+  const charsets = getFormatCharsets({ format }) || [];
   return charsets[0];
 };
 
 const supportsCharset = function ({ format, charset }) {
-  const charsets = getCharsets({ format });
+  const charsets = getFormatCharsets({ format });
   return charsets === undefined || charsets.includes(charset);
 };
 
@@ -65,7 +65,7 @@ module.exports = {
   isSafeFormat,
   getTitle,
   supportsCharset,
-  getCharset,
+  getFormatCharset,
   getExtName,
   EXT_NAMES,
 };

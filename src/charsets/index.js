@@ -2,6 +2,5 @@
 
 module.exports = {
   ...require('./constants'),
-  ...require('./normalize'),
-  ...require('./transform'),
+  ...require('./get'),
 };
