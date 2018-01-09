@@ -2,7 +2,6 @@
 
 const { addGenErrorHandler } = require('../../../errors');
 const { parse, getTitle } = require('../../../formats');
-const { decodeCharset } = require('../../../charsets');
 const { decompress } = require('../../../compress');
 const { getSumParams } = require('../../../functions');
 const { getLimits } = require('../../../limits');
@@ -62,6 +61,10 @@ const parseRawPayload = async function ({
   const sumParams = getSumParams({ attrName: 'payload', value: payloadC });
 
   return { payload: payloadC, ...sumParams };
+};
+
+const decodeCharset = function ({ content, charset }) {
+  return charset.decode(content);
 };
 
 const eDecodeCharset = addGenErrorHandler(decodeCharset, {

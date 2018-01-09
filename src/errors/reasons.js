@@ -113,38 +113,43 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // Error while parsing or serializing a format
+  // Format adapter's error
   FORMAT: {
     status: 'SERVER_ERROR',
   },
 
-  // Error while starting or stopping a protocol server
+  // Charset adapter's error
+  CHARSET: {
+    status: 'SERVER_ERROR',
+  },
+
+  // Protocol adapter's error
   PROTOCOL: {
     status: 'SERVER_ERROR',
   },
 
-  // Error during RPC handling
+  // RPC adapter's error
   RPC: {
     status: 'SERVER_ERROR',
   },
 
-  // Error while connecting, disconnecting or communicating with a database
+  // Database adapter's error
   DATABASE: {
+    status: 'SERVER_ERROR',
+  },
+
+  // Log adapter's error
+  LOG: {
+    status: 'SERVER_ERROR',
+  },
+
+  // Compression adapter's error
+  COMPRESS: {
     status: 'SERVER_ERROR',
   },
 
   // An exception was fired on the process itself
   PROCESS: {
-    status: 'SERVER_ERROR',
-  },
-
-  // An exception was fired during logging
-  LOG: {
-    status: 'SERVER_ERROR',
-  },
-
-  // Error during compression or decompression adapter
-  COMPRESS: {
     status: 'SERVER_ERROR',
   },
 
