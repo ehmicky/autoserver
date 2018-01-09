@@ -3,36 +3,40 @@
 const { logEvent } = require('../../log');
 const { monitor } = require('../../perf');
 
-// Actual connection
+// Start each database connection
+const startConnections = async function ({ dbAdapters, config, measures }) {
+  const dbAdaptersPromises = dbAdapters
+    .map(dbAdapter => kStartConnection({ dbAdapter, config, measures }));
+  const dbAdaptersA = await Promise.all(dbAdaptersPromises);
+  return dbAdaptersA;
+};
+
 const startConnection = async function ({
-  adapter,
-  adapter: { connect, check, options },
+  dbAdapter: { name, title, connect },
   config,
+  config: { databases },
 }) {
-  const connection = await connect({ options, config });
+  const options = databases[name];
 
-  // Check for data model inconsistencies, and potentially fix them
-  if (check !== undefined) {
-    check({ options, config, connection });
-  }
+  const dbAdapter = await connect({ options, config });
 
-  await emitStartEvent({ adapter, config });
+  await emitStartEvent({ title, config });
 
-  return connection;
+  return dbAdapter;
 };
 
 const kStartConnection = monitor(
   startConnection,
-  ({ adapter: { name } }) => name,
+  ({ dbAdapter: { name } }) => name,
   'databases',
 );
 
 // Database adapter-specific start event
-const emitStartEvent = async function ({ adapter: { title }, config }) {
+const emitStartEvent = async function ({ title, config }) {
   const message = `${title} - Connection initialized`;
   await logEvent({ event: 'message', phase: 'startup', message, config });
 };
 
 module.exports = {
-  startConnection: kStartConnection,
+  startConnections,
 };

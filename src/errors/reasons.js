@@ -133,7 +133,7 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // Database adapter's error
+  // Database error (not necessarily adapter's)
   DATABASE: {
     status: 'SERVER_ERROR',
   },

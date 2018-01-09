@@ -4,16 +4,16 @@ const { getWordsList, flatten, difference } = require('../utilities');
 const { getFeatures } = require('../filter');
 
 // Startup time adapter features validation
-const validateFeatures = function ({ features, database, coll }) {
+const validateFeatures = function ({ name, features }, { coll }) {
   const requiredFeatures = getRequiredFeatures({ coll });
   const missingFeatures = difference(requiredFeatures, features);
-  if (missingFeatures.length === 0) { return; }
+  if (missingFeatures.length === 0) { return features; }
 
   const missingFeaturesA = getWordsList(
     missingFeatures,
     { op: 'and', quotes: true },
   );
-  const message = `'${database}' cannot be used because that collection requires the features ${missingFeaturesA}, but that database does not support those features`;
+  const message = `'${name}' cannot be used because that collection requires the features ${missingFeaturesA}, but that database does not support those features`;
   // eslint-disable-next-line fp/no-throw
   throw new Error(message);
 };
