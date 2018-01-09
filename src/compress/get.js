@@ -3,7 +3,7 @@
 const { DEFAULT_ALGO } = require('./constants');
 const { compressAdapters } = require('./wrap');
 
-// Retrieves compression algo
+// Retrieves compression adapter
 const getAlgo = function (algo = DEFAULT_ALGO.name) {
   const algoA = algo.trim().toLowerCase();
   const algoB = compressAdapters[algoA];
