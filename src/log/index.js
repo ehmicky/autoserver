@@ -2,8 +2,8 @@
 
 module.exports = {
   ...require('./main'),
+  ...require('./get'),
   ...require('./constants'),
-  ...require('./merger'),
   ...require('./info'),
   ...require('./perf'),
 };

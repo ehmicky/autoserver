@@ -8,6 +8,7 @@ PHASES:
 - shutdown
   # For the whole process, e.g. warnings and unhandled promises
 - process
+
 # Why the event was performed
 EVENTS:
   # Generic event
@@ -22,6 +23,7 @@ EVENTS:
 - stop
   # Performance monitoring
 - perf
+
 # Event severity.
 LEVELS:
   # Debugging information
@@ -32,9 +34,12 @@ LEVELS:
 - warn
   # Something wrong happened that should be looked at
 - error
+
 # Map a request status to a log level
 STATUS_LEVEL_MAP:
   INTERNALS: debug
   SUCCESS: log
   CLIENT_ERROR: warn
   SERVER_ERROR: error
+
+DEFAULT_LOGGER: console

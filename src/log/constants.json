@@ -24,5 +24,6 @@
     "SUCCESS": "log",
     "CLIENT_ERROR": "warn",
     "SERVER_ERROR": "error"
-  }
+  },
+  "DEFAULT_LOGGER": "console"
 }
