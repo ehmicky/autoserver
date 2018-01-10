@@ -38,7 +38,18 @@ const genErrorHandler = function ({ message, reason }, error, ...args) {
   throwError(messageA, { reason: reasonA, innererror });
 };
 
+const changeErrorReason = function (func, reason) {
+  return addGenErrorHandler(func, { reason: getReason.bind(null, reason) });
+};
+
+const getReason = function (reason, input, { reason: errorReason }) {
+  if (errorReason && errorReason !== 'UNKNOWN') { return errorReason; }
+
+  return reason;
+};
+
 module.exports = {
   addErrorHandler: kAddErrorHandler,
   addGenErrorHandler,
+  changeErrorReason,
 };
