@@ -2,7 +2,6 @@
 
 module.exports = {
   ...require('./get'),
-  ...require('./constants'),
+  ...require('./info'),
   ...require('./content_type'),
-  ...require('./extensions'),
 };

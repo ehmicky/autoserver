@@ -10,6 +10,27 @@ const getAdapter = function ({ adapters, key, name }) {
   throw new Error(message);
 };
 
+// Retrieve all adapters' names
+const getNames = function (adapters) {
+  return adapters.map(({ name }) => name);
+};
+
+// Retrieve all fields of adapters, for a given field
+const getMember = function (adapters, member, defaultValue) {
+  const members = adapters
+    .map(adapter => getAdapterMember({ adapter, member, defaultValue }));
+  const membersA = Object.assign({}, ...members);
+  return membersA;
+};
+
+const getAdapterMember = function ({ adapter, member, defaultValue }) {
+  const memberA = adapter[member];
+  const memberB = memberA === undefined ? defaultValue : memberA;
+  return { [adapter.name]: memberB };
+};
+
 module.exports = {
   getAdapter,
+  getNames,
+  getMember,
 };

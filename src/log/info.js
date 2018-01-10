@@ -1,17 +1,10 @@
 'use strict';
 
-const { mapValues, keyBy } = require('../utilities');
+const { getMember } = require('../adapters');
 
 const logAdapters = require('./adapters');
 
-const logAdaptersA = keyBy(logAdapters);
-
-// Retrieves log options
-const getOpts = function () {
-  return mapValues(logAdaptersA, ({ opts = {} }) => opts);
-};
-
-const LOG_OPTS = getOpts();
+const LOG_OPTS = getMember(logAdapters, 'opts', {});
 
 module.exports = {
   LOG_OPTS,
