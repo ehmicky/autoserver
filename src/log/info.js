@@ -1,12 +1,14 @@
 'use strict';
 
-const { mapValues } = require('../utilities');
+const { mapValues, keyBy } = require('../utilities');
 
-const { logAdapters } = require('./merger');
+const logAdapters = require('./adapters');
+
+const logAdaptersA = keyBy(logAdapters);
 
 // Retrieves log options
 const getOpts = function () {
-  return mapValues(logAdapters, ({ opts = {} }) => opts);
+  return mapValues(logAdaptersA, ({ opts = {} }) => opts);
 };
 
 const LOG_OPTS = getOpts();

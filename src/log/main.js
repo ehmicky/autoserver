@@ -4,7 +4,7 @@ const { addErrorHandler, normalizeError, rethrowError } = require('../errors');
 
 const { getLogParams } = require('./params');
 const { LEVELS } = require('./constants');
-const { logAdapters } = require('./merger');
+const { getLog } = require('./get');
 
 // Log some event, including printing to console
 const logEvent = async function ({
@@ -47,7 +47,8 @@ const shouldLog = function ({ level, log }) {
 const getReportFunc = function ({ event, provider }) {
   // `perf` events are handled differently
   const funcName = event === 'perf' ? 'reportPerf' : 'report';
-  const reportFunc = logAdapters[provider][funcName];
+  const logProvider = getLog(provider);
+  const reportFunc = logProvider[funcName];
   return reportFunc;
 };
 

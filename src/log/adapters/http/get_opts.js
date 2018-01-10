@@ -4,6 +4,8 @@ const { URL } = require('url');
 
 // Parse `opts.url`, also ensuring it is a valid URL
 const getOpts = function ({ opts: { url } }) {
+  if (url === undefined) { return; }
+
   const {
     hostname,
     port,

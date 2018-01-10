@@ -1,7 +1,7 @@
 'use strict';
 
-const { throwError, addGenErrorHandler } = require('../../errors');
-const { logAdapters, DEFAULT_LOGGER } = require('../../log');
+const { addGenErrorHandler } = require('../../errors');
+const { getLog, DEFAULT_LOGGER } = require('../../log');
 
 // Normalize `log`
 const normalizeLog = function ({ config: { log } }) {
@@ -9,9 +9,7 @@ const normalizeLog = function ({ config: { log } }) {
   const logC = logA.map(logB => addDefaultProviderName({ log: logB }));
   const logD = addDefaultProvider({ log: logC });
 
-  logD.forEach(validateProvider);
-
-  const logE = logD.map(eNormalizeProvider);
+  const logE = logD.map(normalizeProvider);
 
   return { log: logE };
 };
@@ -19,40 +17,30 @@ const normalizeLog = function ({ config: { log } }) {
 const addDefaultProviderName = function ({ log, log: { provider } }) {
   if (provider !== undefined) { return log; }
 
-  return { ...log, provider: DEFAULT_LOGGER.name };
+  return { ...log, provider: DEFAULT_LOGGER };
 };
 
 // Default log provider is always available, but can be turned `silent` with
 // `log.level`
 const addDefaultProvider = function ({ log }) {
-  const hasConsole = log
-    .some(({ provider }) => provider === DEFAULT_LOGGER.name);
+  const hasConsole = log.some(({ provider }) => provider === DEFAULT_LOGGER);
   if (hasConsole) { return log; }
 
-  return [...log, { provider: DEFAULT_LOGGER.name }];
-};
-
-const validateProvider = function ({ provider }) {
-  const logAdapter = logAdapters[provider];
-  if (logAdapter !== undefined) { return; }
-
-  const message = `Log provider '${provider}' does not exist`;
-  throwError(message, { reason: 'CONFIG_VALIDATION' });
+  return [...log, { provider: DEFAULT_LOGGER }];
 };
 
 const normalizeProvider = function (log) {
-  const { provider, opts } = log;
-  const { getOpts } = logAdapters[provider];
+  const { provider, opts = {} } = log;
+  const { getOpts } = eGetLog(provider);
   if (getOpts === undefined) { return log; }
 
   const optsA = getOpts({ opts });
-  return { ...log, opts: { ...opts, ...optsA } };
+  const optsB = { ...opts, ...optsA };
+  return { ...log, opts: optsB };
 };
 
-const eNormalizeProvider = addGenErrorHandler(normalizeProvider, {
-  message: ({ provider }) => `Wrong configuration at 'log.${provider}.opts'`,
-  reason: 'CONFIG_VALIDATION',
-});
+// This validates the log provider exists
+const eGetLog = addGenErrorHandler(getLog, { reason: 'CONFIG_VALIDATION' });
 
 module.exports = {
   normalizeLog,
