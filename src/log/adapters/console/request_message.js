@@ -1,6 +1,6 @@
 'use strict';
 
-const { getProtocolTitle } = require('../../../protocols');
+const { getProtocol } = require('../../../protocols');
 const { rpcAdapters } = require('../../../rpc');
 
 // Build message of events `request` as:
@@ -21,7 +21,7 @@ const getRequestMessage = function ({
     description,
   });
 
-  const protocolTitle = getProtocolTitle({ protocol });
+  const { title: protocolTitle } = getProtocol(protocol);
   const { title: rpcTitle } = rpcAdapters[rpc] || {};
 
   const message = [

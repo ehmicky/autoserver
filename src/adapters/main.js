@@ -35,14 +35,25 @@ const wrapAdapter = function ({ adapter, members, methods, reason }) {
 // Adapter functions should never throw
 // If they do, it indicates an adapter bug, where we assign specific error
 // reasons
+// Except if they threw using throwError()
 const addErrorHandlers = function ({ adapter, reason }) {
   const methods = pickBy(adapter, method => typeof method === 'function');
   const methodsA = mapValues(
     methods,
-    method => addGenErrorHandler(method, { reason }),
+    method => addErrorHandler({ method, reason }),
   );
   const adapterA = { ...adapter, ...methodsA };
   return adapterA;
+};
+
+const addErrorHandler = function ({ method, reason }) {
+  return addGenErrorHandler(method, { reason: getReason.bind(null, reason) });
+};
+
+const getReason = function (reason, input, { reason: errorReason }) {
+  if (errorReason && errorReason !== 'UNKNOWN') { return errorReason; }
+
+  return reason;
 };
 
 // Similar to create a new class, but more functional programming-oriented

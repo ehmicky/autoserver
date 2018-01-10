@@ -1,16 +1,33 @@
 'use strict';
 
+const { isObject } = require('../../../utilities');
+
 const { normalizePartialProtocol } = require('./partial');
 
 // Normalize parameters created during protocol layer
-const protocolNormalization = function ({ topargs, ...rest }) {
+const protocolNormalization = function ({
+  protocolAdapter,
+  topargs,
+  queryvars,
+  headers,
+  method,
+  path,
+  payload,
+}) {
   const {
     headers: headersA,
     method: methodA,
     path: pathA,
     payload: payloadA,
     queryvars: queryvarsA,
-  } = normalizePartialProtocol({ ...rest });
+  } = normalizePartialProtocol({
+    protocolAdapter,
+    queryvars,
+    headers,
+    method,
+    path,
+    payload,
+  });
 
   const {
     headers: headersB,
@@ -29,7 +46,7 @@ const protocolNormalization = function ({ topargs, ...rest }) {
 
 // Normalization for any protocol, even non-partial ones
 const normalizeProtocol = function ({ headers, topargs }) {
-  const headersA = headers && headers.constructor === Object ? headers : {};
+  const headersA = isObject(headers) ? headers : {};
 
   const topargsA = getTopargs({ topargs, headers: headersA });
 

@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = {
-  ...require('./merger'),
-  ...require('./info'),
+  ...require('./get'),
+  ...require('./constants'),
 };

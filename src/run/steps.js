@@ -11,7 +11,7 @@ const {
 const { processErrorHandler } = require('./process');
 const { connectToDatabases } = require('./database');
 const { setupGracefulExit } = require('./exit');
-const { launchProtocols } = require('./protocols');
+const { launchProtocols } = require('./launch');
 const { emitStartEvent } = require('./start_event');
 
 const startupSteps = [

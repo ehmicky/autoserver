@@ -2,12 +2,7 @@
 
 const { format: formatBytes } = require('bytes');
 
-const {
-  throwError,
-  addErrorHandler,
-  isError,
-  rethrowError,
-} = require('../../../errors');
+const { throwError, addErrorHandler, isError } = require('../../../errors');
 
 // Use protocol-specific way to parse payload, using a known type
 const getRawPayload = function ({ protocolAdapter, specific, maxpayload }) {
@@ -25,7 +20,8 @@ const getRawPayloadHandler = function (error, { maxpayload }) {
     throwError(message, { reason: 'PAYLOAD_LIMIT', innererror: error });
   }
 
-  rethrowError(error);
+  // eslint-disable-next-line fp/no-throw
+  throw error;
 };
 
 const eGetRawPayload = addErrorHandler(getRawPayload, getRawPayloadHandler);

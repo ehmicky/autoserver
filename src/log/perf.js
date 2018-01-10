@@ -1,9 +1,8 @@
 'use strict';
 
-const { logEvent } = require('../log');
+const { groupMeasures, stringifyMeasures } = require('../perf');
 
-const { groupMeasures } = require('./group');
-const { stringifyMeasures } = require('./stringify');
+const { logEvent } = require('./main');
 
 // Emit 'perf' event
 const logPerfEvent = function ({ phase, measures, ...rest }) {

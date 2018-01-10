@@ -6,12 +6,12 @@ const { logEvent } = require('../log');
 // Handle exceptions thrown at server startup
 const handleStartupError = async function (
   error,
-  { exitFunc, protocols, dbAdapters, config },
+  { exitFunc, protocolAdapters, dbAdapters, config },
 ) {
   // Make sure servers are properly closed if an exception is thrown at end
   // of startup, e.g. during start event handler
   if (exitFunc !== undefined) {
-    await exitFunc({ protocols, dbAdapters });
+    await exitFunc({ protocolAdapters, dbAdapters });
   }
 
   await logEvent({

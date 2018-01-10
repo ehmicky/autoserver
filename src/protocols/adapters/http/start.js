@@ -3,8 +3,6 @@
 const http = require('http');
 const { promisify } = require('util');
 
-const { throwError } = require('../../../errors');
-
 // Start HTTP server
 const startServer = function ({
   opts: { hostname, port },
@@ -50,9 +48,8 @@ const successListener = async function ({ server, serverOn }) {
 // Connection failure
 const errorListener = async function ({ serverOn }) {
   const error = await serverOn('error');
-
-  const message = 'Could not start HTTP server';
-  throwError(message, { reason: 'PROTOCOL', innererror: error });
+  // eslint-disable-next-line fp/no-throw
+  throw error;
 };
 
 const handleClientRequest = function ({ server, handleRequest }) {

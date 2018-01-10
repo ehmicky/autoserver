@@ -3,5 +3,6 @@
 module.exports = {
   ...require('./measure'),
   ...require('./helpers'),
-  ...require('./event'),
+  ...require('./group'),
+  ...require('./stringify'),
 };

@@ -6,20 +6,13 @@ const { getDefaultDuration } = require('../perf');
 const { getServerinfo } = require('../serverinfo');
 
 // Create event when all protocol-specific servers have started
-const emitStartEvent = async function ({ protocols, config, measures }) {
-  const message = 'Server is ready';
-  const params = getEventParams({ protocols, config, measures });
-
+const emitStartEvent = async function ({ protocolAdapters, config, measures }) {
   // Let other events finish first
   await pSetTimeout(0, { unref: false });
 
-  await logEvent({
-    event: 'start',
-    phase: 'startup',
-    message,
-    params,
-    config,
-  });
+  const message = 'Server is ready';
+  const params = getEventParams({ protocolAdapters, config, measures });
+  await logEvent({ event: 'start', phase: 'startup', message, params, config });
 
   const startPayload = getStartPayload({ params, config });
 
@@ -28,15 +21,15 @@ const emitStartEvent = async function ({ protocols, config, measures }) {
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getEventParams = function ({ protocols, measures }) {
-  const protocolsA = mapValues(
-    protocols,
-    protocol => omit(protocol, ['server', 'protocolAdapter']),
+const getEventParams = function ({ protocolAdapters, measures }) {
+  const protocols = mapValues(
+    protocolAdapters,
+    ({ info }) => omit(info, ['server']),
   );
 
   const duration = getDefaultDuration({ measures });
 
-  return { protocols: protocolsA, duration };
+  return { protocols, duration };
 };
 
 const getStartPayload = function ({ params: { protocols }, config }) {

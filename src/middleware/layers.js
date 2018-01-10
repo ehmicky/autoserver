@@ -41,30 +41,10 @@ const middlewareLayers = [
   {
     name: 'protocol',
     layers: [
-      // Protocol-related validation middleware
-      protocol.protocolValidation,
       // Sets requestid
       protocol.setRequestid,
-      // Retrieves IP
-      protocol.getIp,
-      // Parse URL into protocol-agnostic format
-      protocol.parseOrigin,
-      // Parse URL query string into protocol-agnostic format
-      protocol.parseQueryString,
-      // Parse headers into protocol-agnostic format
-      protocol.parseHeaders,
-      // Parse protocol method into protocol-agnostic format
-      protocol.parseMethod,
-      // Parse path into protocol-agnostic format
-      protocol.parsePath,
-      // Parse protocol-specific input
-      protocol.parseProtocolInput,
-      // Parse format|charset|compress arguments
-      protocol.handleContentNegotiation,
-      // Parse request payload into protocol-agnostic format
-      protocol.parsePayload,
-      // Normalizes protocol handlers
-      protocol.protocolNormalization,
+      // Retrieves protocol request's input
+      protocol.parseProtocol,
       // Retrieves mInput.rpc, using mInput.path
       protocol.router,
 
