@@ -11,6 +11,7 @@ const { getExtension } = require('./extensions');
 const members = [
   'name',
   'title',
+  'unsafe',
 ];
 
 const methods = {

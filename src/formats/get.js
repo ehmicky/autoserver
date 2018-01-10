@@ -4,6 +4,8 @@ const { extname } = require('path');
 
 const { is: isType } = require('type-is');
 
+const { getAdapter } = require('../adapters');
+
 const { formatAdapters } = require('./wrap');
 
 // Retrieve correct format, using MIME type
@@ -57,11 +59,11 @@ const getFormats = function ({ safe = false }) {
 };
 
 // Retrieve format adapter
-const getFormat = function (format, { safe = false } = {}) {
-  const formatA = formatAdapters[format];
-  const isSafe = !safe || !formatA.unsafe;
-  const isValid = formatA !== undefined && isSafe;
-  if (isValid) { return formatA.wrapped; }
+const getFormat = function (key, { safe = false } = {}) {
+  const format = getAdapter({ adapters: formatAdapters, key, name: 'format' });
+
+  const isSafe = !safe || !format.unsafe;
+  if (isSafe) { return format; }
 
   throwUnsupportedFormat({ format });
 };

@@ -1,15 +1,12 @@
 'use strict';
 
+const { getAdapter } = require('../adapters');
+
 const { logAdapters } = require('./wrap');
 
-// Retrieves rpc adapter
-const getLog = function (provider) {
-  const logAdapter = logAdapters[provider];
-  if (logAdapter !== undefined) { return logAdapter.wrapped; }
-
-  const message = `Unsupported log provider: '${provider}'`;
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message);
+// Retrieves log adapter
+const getLog = function (key) {
+  return getAdapter({ adapters: logAdapters, key, name: 'log provider' });
 };
 
 module.exports = {
