@@ -74,8 +74,14 @@ const throwUnsupportedFormat = function ({ format }) {
   throw new Error(message);
 };
 
+// Default format for structured types, and unstructure types
+const DEFAULT_RAW_FORMAT = getFormat('raw');
+const DEFAULT_FORMAT = getFormat('json');
+
 module.exports = {
   getByMime,
   getByExt,
   getFormat,
+  DEFAULT_RAW_FORMAT,
+  DEFAULT_FORMAT,
 };

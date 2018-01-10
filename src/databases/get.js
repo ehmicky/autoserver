@@ -9,6 +9,9 @@ const getDatabase = function (key) {
   return getAdapter({ adapters: databaseAdapters, key, name: 'database' });
 };
 
+const DEFAULT_DATABASE = 'memory';
+
 module.exports = {
   getDatabase,
+  DEFAULT_DATABASE,
 };

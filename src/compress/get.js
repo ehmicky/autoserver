@@ -2,11 +2,10 @@
 
 const { getAdapter } = require('../adapters');
 
-const { DEFAULT_ALGO } = require('./constants');
 const { compressAdapters } = require('./wrap');
 
 // Retrieves compression adapter
-const getAlgo = function (algo = DEFAULT_ALGO.name) {
+const getAlgo = function (algo = 'identity') {
   const algoA = algo.trim().toLowerCase();
 
   const compressAdapter = getAdapter({
@@ -22,7 +21,10 @@ const hasAlgo = function (algo) {
   return compressAdapters[algo] !== undefined;
 };
 
+const DEFAULT_ALGO = getAlgo('identity');
+
 module.exports = {
   getAlgo,
   hasAlgo,
+  DEFAULT_ALGO,
 };

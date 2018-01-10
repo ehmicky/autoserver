@@ -3,5 +3,5 @@
 module.exports = {
   ...require('./get'),
   ...require('./router'),
-  ...require('./constants'),
+  ...require('./info'),
 };
