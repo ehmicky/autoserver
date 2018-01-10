@@ -5,6 +5,5 @@ module.exports = {
   ...require('./values'),
   ...require('./system'),
   ...require('./server'),
-  ...require('./sums'),
   ...require('./reduce'),
 };

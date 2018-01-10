@@ -2,15 +2,15 @@
 
 const { getFormat } = require('../../formats');
 
-// Fill in `mInput.queryvars` using protocol-specific URL query variables
-// Are set in a protocol-agnostic format, i.e. each protocol sets the same
-// object.
-// Automatic transtyping is performed
-const parseQueryString = function ({
-  specific,
+const { validateString } = require('./validate');
+
+const parseQueryvars = function ({
   protocolAdapter: { getQueryString },
+  specific,
 }) {
   const queryString = getQueryString({ specific });
+
+  validateString(queryString, 'queryString');
 
   const queryvars = urlencoded.parseContent(queryString);
   return { queryvars };
@@ -19,5 +19,5 @@ const parseQueryString = function ({
 const urlencoded = getFormat('urlencoded');
 
 module.exports = {
-  parseQueryString,
+  parseQueryvars,
 };

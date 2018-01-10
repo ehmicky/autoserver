@@ -5,4 +5,5 @@ module.exports = {
   ...require('./constants'),
   ...require('./merger'),
   ...require('./info'),
+  ...require('./perf'),
 };

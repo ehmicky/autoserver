@@ -1,9 +1,8 @@
 'use strict';
 
-const { deepMerge, uniq, flatten } = require('../../utilities');
+const { deepMerge, uniq, flatten, getSumParams } = require('../../utilities');
 const { throwError } = require('../../errors');
 const { COMMANDS } = require('../../commands');
-const { getSumParams } = require('../../functions');
 
 // Parse a `rpcDef` into a top-level action, i.e.:
 // `collname`, `clientCollname`, `commandpath`, `args`

@@ -9,6 +9,7 @@
   "middleware",
   "time",
   "protocol",
+  "protoparse",
   "rpc",
   "action",
   "read",

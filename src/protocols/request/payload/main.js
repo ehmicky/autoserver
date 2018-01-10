@@ -1,8 +1,9 @@
 'use strict';
 
+const { getSumParams } = require('../../../utilities');
 const { addGenErrorHandler } = require('../../../errors');
-const { getSumParams } = require('../../../functions');
 const { getLimits } = require('../../../limits');
+const { validateBoolean } = require('../validate');
 
 const { getRawPayload } = require('./raw');
 
@@ -11,14 +12,17 @@ const { getRawPayload } = require('./raw');
 // object.
 // Meant to be used by rpc layer, e.g. to populate `mInput.args`
 const parsePayload = function ({
-  specific,
   protocolAdapter,
+  specific,
   config,
   charset,
   format,
   compressRequest,
 }) {
-  if (!protocolAdapter.hasPayload({ specific })) { return; }
+  const hasPayload = protocolAdapter.hasPayload({ specific });
+  validateBoolean(hasPayload, 'hasPayload');
+
+  if (!hasPayload) { return; }
 
   return parseRawPayload({
     specific,

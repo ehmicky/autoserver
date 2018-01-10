@@ -2,6 +2,7 @@
 
 const parsePreferHeaderLib = require('parse-prefer-header');
 
+const { mapValues, omitBy } = require('../../../utilities');
 const { throwError, addGenErrorHandler } = require('../../../errors');
 
 const {
@@ -11,6 +12,13 @@ const {
   getCompressRequest,
 } = require('./content_negotiation');
 const { getAgnosticMethod } = require('./method');
+
+// HTTP-specific ways to set input
+const mapInput = function (methods, ...args) {
+  const input = mapValues(methods, func => func(...args));
+  const inputA = omitBy(input, value => value === undefined);
+  return inputA;
+};
 
 // Using `X-HTTP-Method-Override` changes the method
 const getMethod = function ({ specific: { req: { headers } }, method }) {
@@ -51,16 +59,21 @@ const eParsePreferHeader = addGenErrorHandler(parsePreferHeader, {
   reason: 'INPUT_VALIDATION',
 });
 
-// HTTP-specific ways to set input
-const input = {
+const TOPARGS_INPUT = {
+  silent: getSilent,
+};
+const getTopargs = mapInput.bind(null, TOPARGS_INPUT);
+
+const INPUT = {
   method: getMethod,
-  'topargs.silent': getSilent,
+  topargs: getTopargs,
   format: getFormat,
   charset: getCharset,
   compressResponse: getCompressResponse,
   compressRequest: getCompressRequest,
 };
+const getInput = mapInput.bind(null, INPUT);
 
 module.exports = {
-  input,
+  getInput,
 };

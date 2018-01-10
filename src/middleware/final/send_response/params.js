@@ -1,6 +1,6 @@
 'use strict';
 
-const { getSumParams } = require('../../../functions');
+const { getSumParams } = require('../../../utilities');
 
 // Add `response`-related parameters
 const getResponseParams = function ({ type, content }) {

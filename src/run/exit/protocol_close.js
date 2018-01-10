@@ -4,15 +4,13 @@ const { wrapCloseFunc } = require('./wrapper');
 
 // Attempts to close server
 // No new connections will be accepted, but we will wait for ongoing ones to end
-const closeProtocols = function ({ protocols, config, measures }) {
-  const protocolsA = Object.values(protocols);
-
-  return protocolsA.map(({ server, protocolAdapter: adapter }) =>
-    eCloseProtocol({ type: 'protocols', server, adapter, config, measures }));
+const closeProtocols = function ({ protocolAdapters, config, measures }) {
+  return Object.values(protocolAdapters).map(adapter =>
+    eCloseProtocol({ type: 'protocols', adapter, config, measures }));
 };
 
-const closeProtocol = function ({ server, adapter: { stopServer } }) {
-  return stopServer(server);
+const closeProtocol = function ({ adapter: { stopServer } }) {
+  return stopServer();
 };
 
 const eCloseProtocol = wrapCloseFunc(closeProtocol);

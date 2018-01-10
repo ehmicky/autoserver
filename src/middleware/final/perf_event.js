@@ -1,6 +1,6 @@
 'use strict';
 
-const { logPerfEvent } = require('../../perf');
+const { logPerfEvent } = require('../../log');
 
 // Event performance events related to the current request,
 // e.g. how long each middleware lasted.
