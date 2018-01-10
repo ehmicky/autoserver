@@ -2,9 +2,9 @@
 
 const { parse, tokensToRegExp } = require('path-to-regexp');
 
-const { flatten } = require('../../../utilities');
-const { throwError } = require('../../../errors');
-const { rpcAdapters } = require('../../../rpc');
+const { rpcAdapters } = require('../merger');
+const { flatten } = require('../../utilities');
+const { throwError } = require('../../errors');
 
 // Retrieve all routes regexps, rpc and variable names
 const getAllRoutes = function () {

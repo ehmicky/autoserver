@@ -1,12 +1,12 @@
 'use strict';
 
-const { rpcAdapters } = require('../../../rpc');
+const { rpcAdapters } = require('../merger');
 
 const { findRoute } = require('./routes');
 const { getPathvars } = require('./pathvars');
 
-// Add route and URL parameters to mInput
-const router = function ({ path }) {
+// Retrieves RPC using URL's path
+const getRpcByPath = function ({ path }) {
   const route = findRoute({ path });
   const { rpc } = route;
   const rpcAdapter = rpcAdapters[rpc];
@@ -17,5 +17,5 @@ const router = function ({ path }) {
 };
 
 module.exports = {
-  router,
+  getRpcByPath,
 };

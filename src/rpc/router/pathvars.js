@@ -1,6 +1,6 @@
 'use strict';
 
-const { transtype } = require('../../../utilities');
+const { transtype } = require('../../utilities');
 
 // Retrieves path variables, e.g. /path/:id
 const getPathvars = function ({ path, route: { regexp, variables } }) {
