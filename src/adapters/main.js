@@ -11,7 +11,7 @@ const wrapAdapters = function ({
   adapters,
   members = [],
   methods = {},
-  reason,
+  reason = 'ADAPTER',
 }) {
   const adaptersA = keyBy(adapters);
 
