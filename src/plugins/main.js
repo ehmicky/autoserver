@@ -1,7 +1,7 @@
 'use strict';
 
 const { omit, reduceAsync } = require('../utilities');
-const { throwError } = require('../errors');
+const { throwError, changeErrorReason } = require('../errors');
 
 const { timestampPlugin } = require('./timestamp');
 const { authorPlugin } = require('./author');
@@ -22,7 +22,7 @@ const applyPlugins = async function ({ config }) {
 
   const configB = await reduceAsync(
     pluginsA,
-    applyPlugin,
+    eApplyPlugin,
     config,
     (configA, newConfig) => ({ ...configA, ...newConfig })
   );
@@ -54,6 +54,8 @@ const applyPlugin = function (config, pluginConf, index) {
 
   return plugin({ config, opts });
 };
+
+const eApplyPlugin = changeErrorReason(applyPlugin, 'PLUGIN');
 
 const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
   // Plugin is either a function, or a string (for builtin plugins)

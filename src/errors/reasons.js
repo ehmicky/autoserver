@@ -148,6 +148,11 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
+  // Plugin's error
+  PLUGIN: {
+    status: 'SERVER_ERROR',
+  },
+
   // An exception was fired on the process itself
   PROCESS: {
     status: 'SERVER_ERROR',
