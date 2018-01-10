@@ -45,8 +45,6 @@ const middlewareLayers = [
       protocol.setRequestid,
       // Retrieves protocol request's input
       protocol.parseProtocol,
-      // Retrieves mInput.rpc, using mInput.path
-      protocol.router,
 
       // Fires rpc layer
       protocol.fireRpc,
@@ -56,6 +54,8 @@ const middlewareLayers = [
   {
     name: 'rpc',
     layers: [
+      // Retrieves mInput.rpc, using mInput.path
+      rpc.router,
       // Check if protocol method is allowed for current rpc
       rpc.methodCheck,
       // Use rpc-specific logic to parse the request into an
