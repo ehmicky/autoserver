@@ -2,7 +2,7 @@
 
 const routes = require('./routes');
 const methods = require('./methods');
-const { handler } = require('./handler');
+const { parse } = require('./parse');
 const { transformSuccess, transformError } = require('./response');
 const { load } = require('./load');
 
@@ -11,7 +11,7 @@ const rpc = {
   title: 'GraphQL',
   routes,
   methods,
-  handler,
+  parse,
   transformSuccess,
   transformError,
   load,

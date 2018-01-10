@@ -4,7 +4,7 @@ const { validatePayload } = require('./validate');
 
 // Use JSON-RPC-specific logic to parse the request into an
 // rpc-agnostic `rpcDef`
-const handler = function ({ payload }) {
+const parse = function ({ payload }) {
   validatePayload({ payload });
 
   const { method, params, id } = payload;
@@ -34,5 +34,5 @@ const addSilent = function ({ args, id }) {
 };
 
 module.exports = {
-  handler,
+  parse,
 };

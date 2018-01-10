@@ -2,7 +2,7 @@
 
 // Use rpc-specific logic to parse the request into an rpc-agnostic `rpcDef`
 const parseRpc = function ({
-  rpcAdapter: { handler },
+  rpcAdapter: { parse },
   config,
   origin,
   queryvars,
@@ -12,7 +12,7 @@ const parseRpc = function ({
   pathvars,
   payload,
 }) {
-  return handler({
+  return parse({
     config,
     origin,
     queryvars,

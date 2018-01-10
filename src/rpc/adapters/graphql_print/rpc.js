@@ -1,7 +1,7 @@
 'use strict';
 
 const routes = require('./routes');
-const { handler } = require('./handler');
+const { parse } = require('./parse');
 const methods = require('./methods');
 
 const rpc = {
@@ -9,7 +9,7 @@ const rpc = {
   title: 'GraphQLPrint',
   routes,
   methods,
-  handler,
+  parse,
 };
 
 module.exports = rpc;

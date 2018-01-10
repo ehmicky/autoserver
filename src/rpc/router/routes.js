@@ -2,7 +2,7 @@
 
 const { parse, tokensToRegExp } = require('path-to-regexp');
 
-const { rpcAdapters } = require('../merger');
+const { rpcAdapters } = require('../wrap');
 const { flatten } = require('../../utilities');
 const { throwError } = require('../../errors');
 

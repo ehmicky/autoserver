@@ -2,10 +2,8 @@
 'use strict';
 
 const { PROTOCOLS } = require('../../protocols');
-const { rpcAdapters } = require('../../rpc');
+const { RPCS } = require('../../rpc');
 const { COMMAND_TYPES } = require('../../commands');
-
-const rpcs = Object.keys(rpcAdapters);
 
 // System parameters that are always present
 // We need to specify their `type` and `isArray` for `coll.authorize`
@@ -26,7 +24,7 @@ const SYSTEM_PARAMS = {
   payload: { type: 'dynamic' },
   payloadsize: { type: 'integer' },
   payloadcount: { type: 'integer' },
-  rpc: { type: 'string', validation: { enum: rpcs } },
+  rpc: { type: 'string', validation: { enum: RPCS } },
   args: { type: 'dynamic' },
   datasize: { type: 'integer' },
   datacount: { type: 'integer' },

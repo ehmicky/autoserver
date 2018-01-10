@@ -1,6 +1,6 @@
 'use strict';
 
-const { rpcAdapters } = require('../merger');
+const { getRpc } = require('../get');
 
 const { findRoute } = require('./routes');
 const { getPathvars } = require('./pathvars');
@@ -9,11 +9,11 @@ const { getPathvars } = require('./pathvars');
 const getRpcByPath = function ({ path }) {
   const route = findRoute({ path });
   const { rpc } = route;
-  const rpcAdapter = rpcAdapters[rpc];
+  const rpcAdapter = getRpc(rpc);
 
   const pathvars = getPathvars({ path, route });
 
-  return { rpc, rpcAdapter, pathvars };
+  return { rpcAdapter, pathvars };
 };
 
 module.exports = {
