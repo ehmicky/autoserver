@@ -4,7 +4,6 @@ const { getErrorResponse } = require('./error');
 const { getResponseParams } = require('./params');
 const { addMetadata } = require('./metadata');
 const { validateResponse } = require('./validate');
-const { transformContent } = require('./transform');
 const { send } = require('./send');
 
 // Sends the response at the end of the request
@@ -38,7 +37,7 @@ const sendResponse = async function ({
   // Response before transformation
   const { type, content: responseC } = responseB;
 
-  const content = transformContent({
+  const content = transformResponse({
     response: responseB,
     mInput: mInputA,
     rpcAdapter,
@@ -58,6 +57,17 @@ const sendResponse = async function ({
   });
 
   return responseParams;
+};
+
+const transformResponse = function ({
+  rpcAdapter,
+  response,
+  response: { content },
+  mInput,
+}) {
+  if (rpcAdapter === undefined) { return content; }
+
+  return rpcAdapter.transformResponse({ response, mInput });
 };
 
 module.exports = {

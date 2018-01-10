@@ -2,14 +2,14 @@
 
 const methods = require('./methods');
 const routes = require('./routes');
-const { handler } = require('./handler');
+const { parse } = require('./parse');
 
 const rpc = {
   name: 'graphiql',
   title: 'GraphiQL',
   methods,
   routes,
-  handler,
+  parse,
 };
 
 module.exports = rpc;

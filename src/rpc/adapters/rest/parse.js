@@ -4,7 +4,7 @@ const { getArgs } = require('./args');
 
 // Use JSON-RPC-specific logic to parse the request into an
 // rpc-agnostic `rpcDef`
-const handler = function ({
+const parse = function ({
   payload,
   method,
   queryvars,
@@ -25,5 +25,5 @@ const METHODS_MAP = {
 };
 
 module.exports = {
-  handler,
+  parse,
 };

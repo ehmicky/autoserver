@@ -11,7 +11,7 @@ const {
 } = require('./introspection');
 
 // Use GraphQL-specific logic to parse the request into an rpc-agnostic `rpcDef`
-const handler = function ({
+const parse = function ({
   config: { graphqlSchema },
   queryvars,
   payload,
@@ -43,5 +43,5 @@ const handler = function ({
 };
 
 module.exports = {
-  handler,
+  parse,
 };

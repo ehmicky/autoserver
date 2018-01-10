@@ -1,13 +1,13 @@
 'use strict';
 
-const { isType } = require('../../../content_types');
+const { isType } = require('../content_types');
 
-const transformContent = function ({
-  response,
-  response: { type, content },
-  mInput,
-  rpcAdapter: { transformError, transformSuccess } = {},
-}) {
+// Transform a response according to rpc syntax
+// Differs depending on whether the response is an error or a success
+const transformResponse = function (
+  { transformError, transformSuccess },
+  { response, response: { type, content }, mInput },
+) {
   if (shouldTransformError({ type, transformError })) {
     return transformError({ ...mInput, response });
   }
@@ -28,5 +28,5 @@ const shouldTransformSuccess = function ({ type, transformSuccess }) {
 };
 
 module.exports = {
-  transformContent,
+  transformResponse,
 };

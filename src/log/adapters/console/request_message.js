@@ -1,7 +1,7 @@
 'use strict';
 
 const { getProtocol } = require('../../../protocols');
-const { rpcAdapters } = require('../../../rpc');
+const { getRpc } = require('../../../rpc');
 
 // Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
@@ -22,7 +22,7 @@ const getRequestMessage = function ({
   });
 
   const { title: protocolTitle } = getProtocol(protocol);
-  const { title: rpcTitle } = rpcAdapters[rpc] || {};
+  const rpcTitle = getRpcTitle({ rpc });
 
   const message = [
     status,
@@ -35,6 +35,13 @@ const getRequestMessage = function ({
   ].filter(val => val)
     .join(' ');
   return message;
+};
+
+const getRpcTitle = function ({ rpc }) {
+  if (rpc === undefined) { return; }
+
+  const { title: rpcTitle } = getRpc(rpc);
+  return rpcTitle;
 };
 
 const getSuffixText = function ({ status, summary, commandpath, description }) {

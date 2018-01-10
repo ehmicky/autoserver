@@ -2,14 +2,14 @@
 
 const routes = require('./routes');
 const methods = require('./methods');
-const { handler } = require('./handler');
+const { parse } = require('./parse');
 
 const rpc = {
   name: 'rest',
   title: 'REST',
   routes,
   methods,
-  handler,
+  parse,
 };
 
 module.exports = rpc;
