@@ -32,4 +32,4 @@ There is no automated testing yet.
 
 # Troubleshooting
 
-  - Please use Node.js v9.3.0
+  - Please use Node.js v9.4.0
