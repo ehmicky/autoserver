@@ -16,7 +16,7 @@ const getValidator = function () {
 const AJV_OPTIONS = {
   allErrors: true,
   jsonPointers: true,
-  full: true,
+  format: 'full',
   $data: true,
   verbose: true,
   multipleOfPrecision: 9,
