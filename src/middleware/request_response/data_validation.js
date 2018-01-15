@@ -1,5 +1,6 @@
 'use strict';
 
+const { addGenErrorHandler } = require('../../errors');
 const { validate } = require('../../validation');
 
 // Custom data validation middleware
@@ -16,18 +17,17 @@ const dataValidation = function ({
 
   const compiledJsonSchema = validateMap[collname];
 
-  newData.forEach((data, index) => validate({
+  newData.forEach((data, index) => eValidate({
     compiledJsonSchema,
     data,
     extra: { mInput, currentDatum: currentData[index] },
-    ...VALIDATE_OPTS,
   }));
 };
 
-const VALIDATE_OPTS = {
+const eValidate = addGenErrorHandler(validate, {
   reason: 'INPUT_VALIDATION',
-  message: 'Wrong parameters',
-};
+  message: (input, { message }) => `Wrong parameters: ${message}`,
+});
 
 module.exports = {
   dataValidation,

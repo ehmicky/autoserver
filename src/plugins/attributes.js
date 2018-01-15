@@ -3,7 +3,7 @@
 const pluralize = require('pluralize');
 
 const { getWordsList, intersection, mapValues } = require('../utilities');
-const { throwError } = require('../errors');
+const { throwError, addGenErrorHandler } = require('../errors');
 const { compile, validate } = require('../validation');
 
 // Generic plugin factory
@@ -35,13 +35,7 @@ const validateOpts = function ({ name, opts = {}, optsSchema, collections }) {
   const data = getData({ collections, opts });
   const compiledJsonSchema = compile({ jsonSchema });
 
-  validate({
-    compiledJsonSchema,
-    data,
-    dataVar: name,
-    reason: 'CONFIG_VALIDATION',
-    message: `Wrong '${name}' plugin configuration`,
-  });
+  eValidate({ compiledJsonSchema, data, name });
 };
 
 const getJsonSchema = function ({ optsSchema }) {
@@ -90,6 +84,12 @@ const validateAttrs = function ({ attributes, collname, newAttrs }) {
   const message = `In collection '${collname}', cannot override ${attrsName} ${attrsValue}`;
   throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
+
+const eValidate = addGenErrorHandler(validate, {
+  reason: 'CONFIG_VALIDATION',
+  message: ({ name }, { message }) =>
+    `Wrong '${name}' plugin configuration: ${message}`,
+});
 
 module.exports = {
   attributesPlugin,

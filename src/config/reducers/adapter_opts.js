@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../errors');
+const { throwError, addGenErrorHandler } = require('../../errors');
 const { compile, validate } = require('../../validation');
 
 // Validates `database.DATABASE.*`, `protocols.PROTOCOL.*` and `log.LOG.*`
@@ -13,13 +13,7 @@ const validateAdapterOpts = function ({ name, opts, adaptersOpts, key }) {
   const jsonSchema = getAdapterOpts({ name, adaptersOpts, key });
   const compiledJsonSchema = compile({ jsonSchema });
 
-  validate({
-    compiledJsonSchema,
-    data: opts,
-    dataVar: `${key}.${name}`,
-    reason: 'CONFIG_VALIDATION',
-    message: 'Wrong configuration',
-  });
+  eValidate({ compiledJsonSchema, data: opts, key, name });
 };
 
 const getAdapterOpts = function ({ name, adaptersOpts, key }) {
@@ -29,6 +23,12 @@ const getAdapterOpts = function ({ name, adaptersOpts, key }) {
   const message = `'${key}.${name}' is unknown`;
   throwError(message, { reason: 'CONFIG_VALIDATION' });
 };
+
+const eValidate = addGenErrorHandler(validate, {
+  reason: 'CONFIG_VALIDATION',
+  message: ({ key, name }, { message }) =>
+    `Wrong configuration: in '${key}.${name}', ${message}`,
+});
 
 module.exports = {
   validateAdaptersOpts,

@@ -1,6 +1,7 @@
 'use strict';
 
 const { omitBy, fullRecurseMap } = require('../../../utilities');
+const { addGenErrorHandler } = require('../../../errors');
 const { compile, validate } = require('../../../validation');
 
 const SCHEMA = require('./config_schema');
@@ -9,13 +10,7 @@ const SCHEMA = require('./config_schema');
 const validateConfigSyntax = function ({ config }) {
   const data = getConfig(config);
 
-  validate({
-    compiledJsonSchema,
-    data,
-    dataVar: 'config',
-    reason: 'CONFIG_VALIDATION',
-    message: 'Error in configuration',
-  });
+  eValidate({ compiledJsonSchema, data });
 };
 
 const compiledJsonSchema = compile({ jsonSchema: SCHEMA });
@@ -64,6 +59,11 @@ const modifiers = [
   addProps,
   removeData,
 ];
+
+const eValidate = addGenErrorHandler(validate, {
+  reason: 'CONFIG_VALIDATION',
+  message: (input, { message }) => `Wrong configuration: ${message}`,
+});
 
 module.exports = {
   validateConfigSyntax,

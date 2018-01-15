@@ -13,20 +13,22 @@ const compileJsonSchema = function ({
 }) {
   const validateMap = mapValues(
     collections,
-    ({ attributes }) => compileCollection({ attributes, config }),
+    ({ attributes }, collname) =>
+      compileCollection({ attributes, config, collname }),
   );
 
   return { shortcuts: { ...shortcuts, validateMap } };
 };
 
-const eCompileJsonSchema = addGenErrorHandler(compileJsonSchema, {
-  message: 'Invalid JSON schema in \'validate\' property',
-  reason: 'CONFIG_VALIDATION',
-});
-
-const compileCollection = function ({ attributes, config }) {
-  return mappers
-    .reduce((jsonSchema, mapper) => mapper({ config, jsonSchema }), attributes);
+const compileCollection = function ({ attributes, config, collname }) {
+  const jsonSchemaA = mappers
+    .reduce((jsonSchema, mapper) => mapper({ jsonSchema }), attributes);
+  const jsonSchemaB = eCompileSchema({
+    config,
+    jsonSchema: jsonSchemaA,
+    collname,
+  });
+  return jsonSchemaB;
 };
 
 // From `attr.validate` to `{ type: 'object', properties }`
@@ -82,9 +84,18 @@ const mappers = [
   addJsonSchemaRequire,
   addJsonSchemaDeps,
   removeAltSyntax,
-  compile,
 ];
 
+const compileSchema = function ({ config, jsonSchema }) {
+  return compile({ config, jsonSchema });
+};
+
+const eCompileSchema = addGenErrorHandler(compileSchema, {
+  message: ({ collname }) =>
+    `Invalid JSON schema in 'validate' property of '${collname}' collection`,
+  reason: 'CONFIG_VALIDATION',
+});
+
 module.exports = {
-  compileJsonSchema: eCompileJsonSchema,
+  compileJsonSchema,
 };
