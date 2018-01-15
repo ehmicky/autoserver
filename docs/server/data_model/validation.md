@@ -4,7 +4,7 @@ Attributes can be validated by using the `attribute.validate`
 [configuration property](../configuration/configuration.md#properties).
 
 `attribute.validate` is a standard [JSON schema](http://json-schema.org/),
-version 6.
+version 7.
 
 The following keywords are available:
   - for attributes of type `integer` or `number`:

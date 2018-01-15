@@ -8,8 +8,7 @@ const getValidator = function () {
 
   // Add JSON keywords:
   //  - typeof: allows checking for `typeof function`
-  //  - if|then|else: future JSON schema keyword
-  ajvKeywords(ajv, ['if', 'typeof']);
+  ajvKeywords(ajv, ['typeof']);
 
   return ajv;
 };
