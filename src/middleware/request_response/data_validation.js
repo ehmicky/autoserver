@@ -25,7 +25,6 @@ const dataValidation = function ({
 };
 
 const VALIDATE_OPTS = {
-  dataVar: 'data',
   reason: 'INPUT_VALIDATION',
   message: 'Wrong parameters',
 };
