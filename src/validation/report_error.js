@@ -23,8 +23,7 @@ const reportError = function ({ error, error: { dataPath: path }, dataVar }) {
   // Get custom error message
   const message = getErrorMessage({ error, path: pathB });
 
-  // Prepends argument name to error message
-  return `${pathB}${message}`;
+  return message;
 };
 
 // Prepends argument name, e.g. `filter.attr` instead of `attr`

@@ -17,17 +17,29 @@ const getErrorMessage = function ({
 
   const messageA = getMessage(error);
 
-  const messageB = removeLeadingDot({ path, message: messageA });
+  // Prepends argument name to error message
+  const messageB = `${path}${messageA}`;
 
-  return messageB;
+  const messageC = removeLeadingDot({ message: messageB });
+
+  const messageD = addQuotes({ message: messageC });
+
+  return messageD;
 };
 
 // When error message starts with `.var` but no `data` was prefixed, remove `.`
-const removeLeadingDot = function ({ path, message }) {
-  if (path !== '' || message[0] !== '.') { return message; }
+const removeLeadingDot = function ({ message }) {
+  if (message[0] !== '.') { return message; }
 
   return message.substring(1);
 };
+
+// Add quotes around variable path
+const addQuotes = function ({ message }) {
+  return message.replace(QUOTES_REGEXP, '\'$1\'');
+};
+
+const QUOTES_REGEXP = /^([^ ]+)/;
 
 module.exports = {
   getErrorMessage,
