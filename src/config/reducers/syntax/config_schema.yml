@@ -429,9 +429,8 @@ definitions:
     - type: array
       items:
         $ref: '#/definitions/jsonSchemaType'
-  # Reuse standard JSON schema as a base
-  # This is JSON schema v6, as YAML
-  # The spec is currently in draft (only v4 is currently official)
+  # Reuse standard JSON schema as a base, with some modifications
+  # This is JSON schema v7, as YAML
   jsonSchema:
     definitions:
       jsonSchemaArray:
@@ -446,15 +445,6 @@ definitions:
         allOf:
           - $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger'
           - default: 0
-      simpleTypes:
-        enum:
-          - array
-          - boolean
-          - integer
-          - 'null'
-          - number
-          - object
-          - string
       stringArray:
         type: array
         items:
@@ -463,7 +453,6 @@ definitions:
         default: []
     type:
     - object
-    # JSON schemas can be booleans
     - boolean
     properties:
       # The following properties are not available, because a property on
@@ -490,6 +479,10 @@ definitions:
       #  - $id
       #  - $schema
       #  - $ref
+      #  - $comment
+      #  - readOnly
+      #  - contentMediaType
+      #  - contentEncoding
       #  - definitions
       multipleOf:
         type: number
@@ -525,11 +518,18 @@ definitions:
         default: false
       contains:
         $ref: '#/definitions/jsonSchema'
-      const: {}
+      const: true
       enum:
         type: array
+        items: true
         minItems: 1
         uniqueItems: true
+      if:
+        $ref: '#/definitions/jsonSchema'
+      then:
+        $ref: '#/definitions/jsonSchema'
+      else:
+        $ref: '#/definitions/jsonSchema'
       allOf:
         $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
       anyOf:
@@ -538,18 +538,21 @@ definitions:
         $ref: '#/definitions/jsonSchema/definitions/jsonSchemaArray'
       not:
         $ref: '#/definitions/jsonSchema'
-      # Future JSON standard
-      if:
-        $ref: '#/definitions/jsonSchema'
-      then:
-        $ref: '#/definitions/jsonSchema'
-      else:
-        $ref: '#/definitions/jsonSchema'
       # Our additions to JSON schema
-      # All spec-defined formats are allowed. We are stricter than the spec,
-      # as custom formats are forbidden.
+      # Instead of being an array on the collection,
+      # like in standard JSON schema.
+      # More intuitive
+      required:
+        type: boolean
+      # Same as JSON schema, but directly on the attribute
+      dependencies:
+        anyOf:
+        - $ref: '#/definitions/jsonSchema'
+        - $ref: '#/definitions/jsonSchema/definitions/stringArray'
       format:
         type: string
+        # All spec-defined formats are allowed. We are stricter than the spec,
+        # as custom formats are forbidden.
         enum:
         - regex
         - date-time
@@ -561,24 +564,10 @@ definitions:
         - ipv6
         - uri
         - uri-reference
+        - uri-template
         - json-pointer
         - relative-json-pointer
-      # Instead of being an array on the collection,
-      # like in standard JSON schema.
-      # More intuitive
-      required:
-        type: boolean
-      # Same as JSON schema, but directly on the attribute
-      dependencies:
-        anyOf:
-        - $ref: '#/definitions/jsonSchema'
-        - $ref: '#/definitions/jsonSchema/definitions/stringArray'
-    default: {}
-    # Future JSON standard
-    dependencies:
-      if: [then]
-      then: [if]
-      else: [then]
+    default: true
     # Do not allow custom properties, except the ones from config.validation
     propertyNames:
       oneOf:
@@ -609,10 +598,10 @@ definitions:
         - required
         - dependencies
         # Combinators
+        - if
+        - then
+        - else
         - allOf
         - anyOf
         - oneOf
         - not
-        - if
-        - then
-        - else

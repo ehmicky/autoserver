@@ -635,17 +635,6 @@
             }
           ]
         },
-        "simpleTypes": {
-          "enum": [
-            "array",
-            "boolean",
-            "integer",
-            "null",
-            "number",
-            "object",
-            "string"
-          ]
-        },
         "stringArray": {
           "type": "array",
           "items": {
@@ -713,11 +702,21 @@
         "contains": {
           "$ref": "#/definitions/jsonSchema"
         },
-        "const": {},
+        "const": true,
         "enum": {
           "type": "array",
+          "items": true,
           "minItems": 1,
           "uniqueItems": true
+        },
+        "if": {
+          "$ref": "#/definitions/jsonSchema"
+        },
+        "then": {
+          "$ref": "#/definitions/jsonSchema"
+        },
+        "else": {
+          "$ref": "#/definitions/jsonSchema"
         },
         "allOf": {
           "$ref": "#/definitions/jsonSchema/definitions/jsonSchemaArray"
@@ -731,14 +730,18 @@
         "not": {
           "$ref": "#/definitions/jsonSchema"
         },
-        "if": {
-          "$ref": "#/definitions/jsonSchema"
+        "required": {
+          "type": "boolean"
         },
-        "then": {
-          "$ref": "#/definitions/jsonSchema"
-        },
-        "else": {
-          "$ref": "#/definitions/jsonSchema"
+        "dependencies": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/jsonSchema"
+            },
+            {
+              "$ref": "#/definitions/jsonSchema/definitions/stringArray"
+            }
+          ]
         },
         "format": {
           "type": "string",
@@ -756,33 +759,9 @@
             "json-pointer",
             "relative-json-pointer"
           ]
-        },
-        "required": {
-          "type": "boolean"
-        },
-        "dependencies": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/jsonSchema"
-            },
-            {
-              "$ref": "#/definitions/jsonSchema/definitions/stringArray"
-            }
-          ]
         }
       },
-      "default": {},
-      "dependencies": {
-        "if": [
-          "then"
-        ],
-        "then": [
-          "if"
-        ],
-        "else": [
-          "then"
-        ]
-      },
+      "default": true,
       "propertyNames": {
         "oneOf": [
           {
