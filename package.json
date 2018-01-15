@@ -27,8 +27,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "ajv": "^5.2.4",
-    "ajv-keywords": "^2.1.0",
+    "ajv": "^6.0.1",
+    "ajv-keywords": "^3.0.0",
     "bytes": "^3.0.0",
     "chalk": "^2.3.0",
     "compressible": "^2.0.12",
