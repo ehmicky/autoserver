@@ -2,7 +2,6 @@
 
 const { runConfigFunc, getModelParams } = require('../functions');
 const { memoize } = require('../utilities');
-const { throwError } = require('../errors');
 
 const { validator } = require('./validator');
 
@@ -45,7 +44,8 @@ const validateCustomKeyword = function ({ type, keyword }) {
   if (!isRedundant) { return; }
 
   const message = `Custom validation keyword 'config.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`;
-  throwError(message, { reason: 'CONFIG_VALIDATION' });
+  // eslint-disable-next-line fp/no-throw
+  throw new Error(message);
 };
 
 // eslint-disable-next-line max-params
