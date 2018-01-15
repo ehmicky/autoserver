@@ -1,6 +1,6 @@
 'use strict';
 
-const { pickBy, omit } = require('../../utilities');
+const { omitBy } = require('../../utilities');
 
 // Normalize empty values (undefined, null) by removing their key
 const normalizeEmpty = function ({ args, args: { newData } }) {
@@ -11,10 +11,7 @@ const normalizeEmpty = function ({ args, args: { newData } }) {
 };
 
 const removeEmpty = function (newData) {
-  const emptyAttrs = pickBy(newData, value => value == null);
-  const emptyAttrsKeys = Object.keys(emptyAttrs);
-
-  return omit(newData, emptyAttrsKeys);
+  return omitBy(newData, value => value == null);
 };
 
 module.exports = {
