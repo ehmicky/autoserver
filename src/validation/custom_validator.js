@@ -32,9 +32,10 @@ const addCustomKeyword = function (
   validateCustomKeyword({ type: typeA, keyword });
 
   const validate = keywordFunc({ keyword, testFunc, message });
-  validatorA.addKeyword(keyword, { validate, type: typeA, $data: true });
+  const validatorB = validatorA
+    .addKeyword(keyword, { validate, type: typeA, $data: true });
 
-  return validatorA;
+  return validatorB;
 };
 
 const validateCustomKeyword = function ({ type, keyword }) {
