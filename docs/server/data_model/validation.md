@@ -3,7 +3,7 @@
 Attributes can be validated by using the `attribute.validate`
 [configuration property](../configuration/configuration.md#properties).
 
-`attribute.validate` is a standard [JSON schema](http://json-schema.org/),
+`attribute.validate` is a standard [JSON schema](http://json-schema.org),
 version 7.
 
 The following keywords are available:
@@ -17,9 +17,9 @@ The following keywords are available:
     - `maxLength` `{integer}`: `<=`
     - `minLength` `{integer}`: `>=`
     - `pattern` `{regex}`
-    - `format` `{string}`: among `'regex'`, `'date-time'`, `'date'`,
-      `'time'`, `'email'`, `'hostname'`, `'ipv4'`, `'ipv6'`, `'uri'`,
-      `'uri-reference'`, `'json-pointer'`, `'relative-json-pointer'`
+    - `format` `{string}`: among `regex`, `date-time`, `date`, `time`, `email`,
+      `hostname`, `ipv4`, `ipv6`, `uri`, `uri-reference`, `uri-template`,
+      `json-pointer`, `relative-json-pointer`
   - for attributes of array type:
     - `maxItems` `{integer}`: `<=`
     - `minItems` `{integer}`: `>=`
@@ -31,7 +31,7 @@ The following keywords are available:
     - `const` `{any}`: must equal that value
     - `enum` `{any[]}`: must equal one of those values
     - `required` `{boolean}`: checked on `upsert` and `create` commands.
-    - `dependencies` `{string[]}`: attributes that are required
+    - `dependencies` `{string|string[]}`: attributes that are required
       for the current attribute to be defined.
   - used as combinators:
     - `not` `{json_schema}`
@@ -40,9 +40,12 @@ The following keywords are available:
     - `oneOf` `{json_schema[]}`
     - `if` `{json_schema}`, `then` `{json_schema}`, `else` `{json_schema}`
 
+The following properties have a slightly different syntax than in
+[JSON schema](http://json-schema.org): `required`, `dependencies`.
+
 The following properties are not available or are available under a different
 [configuration property](../configuration/configuration.md#properties): `type`,
-`description`, `examples`, `default`, `title`, `$id`, `$schema`, `definitions`.
+`description`, `examples`, `default`, `title`, `$id`, `$schema`, `$comment`, `readOnly`, `contentMediaType`, `contentEncoding`, `definitions`.
 
 Since attributes cannot be objects, the following properties are also
 not available: `maxProperties`, `minProperties`, `additionalProperties`,
