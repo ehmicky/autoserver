@@ -46,7 +46,7 @@ const resolveConfigFunc = function ({ mInput, node: { value, ...node } }) {
 const validateAuthorize = function ({ collname, authorize, config }) {
   const prefix = collname === undefined
     ? 'In \'config.authorize\', '
-    : `In 'collection.${collname}.authorize', `;
+    : `In 'config.collections.${collname}.authorize', `;
   const reason = 'CONFIG_VALIDATION';
 
   const attrs = getAuthorizeAttrs({ config, collname });
