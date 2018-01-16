@@ -94,7 +94,7 @@ const PROPS = {
   },
 
   // Wrong requested format|charset|compress for the request payload
-  PAYLOAD_PARSE: {
+  PAYLOAD_NEGOTIATION: {
     status: 'CLIENT_ERROR',
   },
 

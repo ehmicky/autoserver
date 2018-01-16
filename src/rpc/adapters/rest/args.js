@@ -36,7 +36,7 @@ const validatePayload = function ({ payload }) {
   if (payload && typeof payload === 'object') { return; }
 
   const message = 'Invalid request format: payload must be an object or an array';
-  throwError(message, { reason: 'PAYLOAD_PARSE' });
+  throwError(message, { reason: 'PAYLOAD_NEGOTIATION' });
 };
 
 // Use ID in URL /rest/COLLECTION/ID for `args.id`

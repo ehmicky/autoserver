@@ -69,7 +69,7 @@ const decompressPayload = function ({ compressRequest, payload }) {
 const eDecompressPayload = addGenErrorHandler(decompressPayload, {
   message: ({ compressRequest: { name } }) =>
     `Invalid compression algorithm for the request payload: '${name}'`,
-  reason: 'PAYLOAD_PARSE',
+  reason: 'PAYLOAD_NEGOTIATION',
 });
 
 const decodeCharset = function ({ content, charset }) {
@@ -79,7 +79,7 @@ const decodeCharset = function ({ content, charset }) {
 const eDecodeCharset = addGenErrorHandler(decodeCharset, {
   message: ({ charset }) =>
     `Invalid request charset: '${charset}' could not be decoded`,
-  reason: 'PAYLOAD_PARSE',
+  reason: 'PAYLOAD_NEGOTIATION',
 });
 
 // Parse content, e.g. JSON/YAML parsing
@@ -97,7 +97,7 @@ const getMessage = function ({ format: { title }, payload }) {
 
 const eParseContent = addGenErrorHandler(parseContent, {
   message: getMessage,
-  reason: 'PAYLOAD_PARSE',
+  reason: 'PAYLOAD_NEGOTIATION',
 });
 
 module.exports = {
