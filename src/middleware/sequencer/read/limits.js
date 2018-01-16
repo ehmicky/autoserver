@@ -15,7 +15,7 @@ const validateMaxmodels = function ({ results, allIds, maxmodels, top }) {
   if (results.count <= maxmodels) { return; }
 
   const message = `The response must contain at most ${maxmodels} models, including nested models`;
-  throwError(message, { reason: 'REQUEST_LIMIT' });
+  throwError(message, { reason: 'PAYLOAD_LIMIT' });
 };
 
 const incrementCount = function ({ results, allIds }) {

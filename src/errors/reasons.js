@@ -35,11 +35,6 @@ const PROPS = {
     status: 'CLIENT_ERROR',
   },
 
-  // The request is over limits related to pagination or action nesting
-  REQUEST_LIMIT: {
-    status: 'CLIENT_ERROR',
-  },
-
   // Not allowed, authorization-wise
   AUTHORIZATION: {
     status: 'CLIENT_ERROR',

@@ -19,7 +19,7 @@ const validateMaxActions = function ({ limits: { maxActions }, actions }) {
   if (actions.length <= maxActions) { return; }
 
   const message = `The request must contain less than ${maxActions - 1} nested commands, but there are ${actions.length - 1} of them`;
-  throwError(message, { reason: 'REQUEST_LIMIT' });
+  throwError(message, { reason: 'PAYLOAD_LIMIT' });
 };
 
 // Nested patch|create|upsert commands use `maxmodels` instead
@@ -36,7 +36,7 @@ const validateNestedFind = function ({ limits, actions, top, config }) {
     .map(({ commandpath }) => commandpath.join('.'));
   const pathsA = getWordsList(paths, { op: 'and', quotes: true });
   const message = `The following ${pluralize('command', paths.length)} ${pluralize('is', paths.length)} nested too deeply: ${pathsA}. 'find' commands can only target collections at the top level or the second level.`;
-  throwError(message, { reason: 'REQUEST_LIMIT' });
+  throwError(message, { reason: 'PAYLOAD_LIMIT' });
 };
 
 const isTooNestedFind = function ({
@@ -68,7 +68,7 @@ const validateMaxData = function ({
   if (dataB.length <= maxmodels) { return; }
 
   const message = `The 'data' argument must not contain more than ${maxmodels} models, but it contains ${dataB.length} models, including nested models`;
-  throwError(message, { reason: 'REQUEST_LIMIT' });
+  throwError(message, { reason: 'PAYLOAD_LIMIT' });
 };
 
 const MAX_DATA_COMMANDS = ['create', 'upsert'];

@@ -15,7 +15,6 @@ const STATUS_CODE_MAP = {
   SYNTAX_VALIDATION: 400,
   INPUT_VALIDATION: 400,
   WRONG_FEATURE: 400,
-  REQUEST_LIMIT: 400,
 
   AUTHORIZATION: 403,
 
@@ -33,6 +32,11 @@ const STATUS_CODE_MAP = {
 
   NO_CONTENT_LENGTH: 411,
 
+  // The request payload is too big.
+  // Extra:
+  //  - name 'NAME'
+  //  - value NUM
+  //  - limit NUM
   PAYLOAD_LIMIT: 413,
 
   URL_LIMIT: 414,
