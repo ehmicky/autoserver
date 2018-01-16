@@ -8,14 +8,14 @@
 // TODO: add `url` property pointing towards API documentation for that error
 // TODO: add all `title` properties to `generic`
 const PROPS = {
-  // Config is invalid
-  CONFIG_VALIDATION: {
-    status: 'SERVER_ERROR',
-  },
-
   // No error
   SUCCESS: {
     status: 'SUCCESS',
+  },
+
+  // Config is invalid
+  CONFIG_VALIDATION: {
+    status: 'SERVER_ERROR',
   },
 
   // Error while parsing the request payload

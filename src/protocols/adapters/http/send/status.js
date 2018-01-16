@@ -2,9 +2,15 @@
 
 // All HTTP status codes, according to error reason
 const STATUS_CODE_MAP = {
-  CONFIG_VALIDATION: 0,
-
+  // Request was successful, i.e. there is no error.
   SUCCESS: 200,
+
+  // Error in the configuration caught compile-time.
+  // Extra:
+  //  - path 'VARR'
+  //  - value VAL
+  //  - suggestion VAL
+  CONFIG_VALIDATION: 0,
 
   PAYLOAD_PARSE: 400,
   SYNTAX_VALIDATION: 400,
