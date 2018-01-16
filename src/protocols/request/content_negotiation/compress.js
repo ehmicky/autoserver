@@ -69,7 +69,7 @@ const getCompressResponse = addGenErrorHandler(getAlgo, {
 const getCompressRequest = addGenErrorHandler(getAlgo, {
   message: algo =>
     `Unsupported compression algorithm for the request payload: '${algo}'`,
-  reason: 'PAYLOAD_PARSE',
+  reason: 'PAYLOAD_NEGOTIATION',
 });
 
 module.exports = {

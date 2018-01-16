@@ -30,7 +30,7 @@ const validators = [
   {
     check: ({ payload }) => payload && typeof payload === 'object',
     message: 'it must be an object',
-    reason: 'PAYLOAD_PARSE',
+    reason: 'PAYLOAD_NEGOTIATION',
   },
   {
     check: ({ payload }) => !Array.isArray(payload),

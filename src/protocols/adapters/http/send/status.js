@@ -59,7 +59,7 @@ const STATUS_CODE_MAP = {
   // failed.
   // Extra:
   //  - kind 'parse|compress|charset|format'
-  PAYLOAD_PARSE: 415,
+  PAYLOAD_NEGOTIATION: 415,
 
   CONFIG_RUNTIME: 500,
 
