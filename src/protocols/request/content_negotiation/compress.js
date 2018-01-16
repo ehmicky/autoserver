@@ -63,7 +63,7 @@ const joinCompress = function ({ compressResponse, compressRequest }) {
 const getCompressResponse = addGenErrorHandler(getAlgo, {
   message: algo =>
     `Unsupported compression algorithm for the response: '${algo}'`,
-  reason: 'RESPONSE_FORMAT',
+  reason: 'RESPONSE_NEGOTIATION',
 });
 
 const getCompressRequest = addGenErrorHandler(getAlgo, {

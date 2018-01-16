@@ -63,7 +63,7 @@ const PROPS = {
   },
 
   // Wrong requested format|compress for the response payload
-  RESPONSE_FORMAT: {
+  RESPONSE_NEGOTIATION: {
     status: 'CLIENT_ERROR',
   },
 

@@ -45,7 +45,7 @@ const getAcceptFormat = function ({ specific: { req } }) {
 
   const formats = getWordsList(mimes, { op: 'and', quotes: true });
   const message = `Unsupported response ${pluralize('format', mimes.length)}: ${formats}`;
-  throwError(message, { reason: 'RESPONSE_FORMAT' });
+  throwError(message, { reason: 'RESPONSE_NEGOTIATION' });
 };
 
 // Ignore exceptions due to unexisting mime, since we try several
