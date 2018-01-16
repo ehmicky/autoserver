@@ -16,12 +16,17 @@ const STATUS_CODE_MAP = {
   INPUT_VALIDATION: 400,
   WRONG_FEATURE: 400,
 
+  // The request is not authorized, i.e. not allowed to be performed.
+  // Extra:
+  //  - collection STR
+  //  - ids STR_ARR
   AUTHORIZATION: 403,
 
   // The URL or route is invalid
   ROUTE: 404,
-  // A database model could not be found, e.g. the id was invalid.
+  // Some database models could not be found, e.g. the ids wre invalid.
   // Extra:
+  //  - collection STR
   //  - ids STR_ARR
   NOT_FOUND: 404,
 
@@ -46,6 +51,7 @@ const STATUS_CODE_MAP = {
 
   // Another client updated the same model, resulting in a conflict.
   // Extra:
+  //  - collection STR
   //  - ids STR_ARR
   CONFLICT: 409,
 
