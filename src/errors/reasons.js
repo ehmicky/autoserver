@@ -50,7 +50,7 @@ const PROPS = {
   //  - ids STR_ARR
   NOT_FOUND: {
     status: 'CLIENT_ERROR',
-    title: 'Some database models could not be found, e.g. the ids wre invalid',
+    title: 'Some database models could not be found, e.g. the ids were invalid',
   },
 
   // Extra:
