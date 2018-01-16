@@ -47,7 +47,7 @@ const STATUS_CODE_MAP = {
   // Another client updated the same model, resulting in a conflict.
   // Extra:
   //  - ids STR_ARR
-  MODEL_CONFLICT: 409,
+  CONFLICT: 409,
 
   // The request payload's length must be specified
   NO_CONTENT_LENGTH: 411,

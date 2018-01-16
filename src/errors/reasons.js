@@ -74,7 +74,7 @@ const PROPS = {
 
   // A command conflicts with another one,
   // e.g. tries to create already existing model
-  MODEL_CONFLICT: {
+  CONFLICT: {
     status: 'CLIENT_ERROR',
   },
 
