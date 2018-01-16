@@ -77,7 +77,7 @@ to accomodate the
     {
       "message": "The 'users' model with 'id' '20' could not be found",
       "title": "Model not found",
-      "type": "DB_MODEL_NOT_FOUND",
+      "type": "NOT_FOUND",
       "status": 404,
       "instance": "/graphql"
     }
