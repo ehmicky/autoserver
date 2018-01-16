@@ -14,7 +14,7 @@ const PROPS = {
   // Extra:
   //  - path 'VARR'
   //  - value VAL
-  //  - suggestion VAL
+  //  - suggestions VAL_ARR
   CONFIG_VALIDATION: {
     status: 'SERVER_ERROR',
     title: 'Wrong configuration caught during server startup',
@@ -23,7 +23,9 @@ const PROPS = {
   // Extra:
   //  - kind 'feature|protocol|rpc|argument|data|constraint'
   //  - path 'VARR'
-  //  - suggestion VAL
+  //  - value VAL
+  //  - model OBJ
+  //  - suggestions VAL_ARR
   VALIDATION: {
     status: 'CLIENT_ERROR',
     title: 'The request syntax or semantics is invalid',
@@ -37,6 +39,8 @@ const PROPS = {
     title: 'The request is not authorized, i.e. not allowed to be performed',
   },
 
+  // Extra:
+  //  - suggestions VAL_ARR
   ROUTE: {
     status: 'CLIENT_ERROR',
     title: 'The URL or route is invalid',
@@ -64,6 +68,7 @@ const PROPS = {
 
   // Extra:
   //  - kind 'compress|charset|format'
+  //  - suggestions VAL_ARR
   RESPONSE_NEGOTIATION: {
     status: 'CLIENT_ERROR',
     title: 'The response could not be serialized or content negotiation failed',
@@ -108,6 +113,7 @@ const PROPS = {
 
   // Extra:
   //  - kind 'parse|compress|charset|format'
+  //  - suggestions VAL_ARR
   PAYLOAD_NEGOTIATION: {
     status: 'CLIENT_ERROR',
     title: 'The request payload could not be loaded, parsed or content negotiation failed',
@@ -116,7 +122,7 @@ const PROPS = {
   // Extra:
   //  - path 'VARR'
   //  - value VAL
-  //  - suggestion VAL
+  //  - suggestions VAL_ARR
   CONFIG_RUNTIME: {
     status: 'SERVER_ERROR',
     title: 'Wrong configuration caught runtime',
