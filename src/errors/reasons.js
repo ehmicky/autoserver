@@ -5,139 +5,205 @@
 // Keys are the exception.reason of the exception thrown
 // Values are merged to exceptions thrown
 // All error reasons and their related status
-// TODO: add `url` property pointing towards API documentation for that error
-// TODO: add all `title` properties to `generic`
 const PROPS = {
-  // No error
+  // Request was successful, i.e. there is no error.
+  // HTTP status code: 200
   SUCCESS: {
     status: 'SUCCESS',
   },
 
-  // Config is invalid
+  // Wrong configuration caught during server startup.
+  // Extra:
+  //  - path 'VARR'
+  //  - value VAL
+  //  - suggestion VAL
+  // HTTP status code: none
   CONFIG_VALIDATION: {
     status: 'SERVER_ERROR',
   },
 
-  // General validation input errors, e.g. input data|filter does not
-  // match the config
+  // The request syntax or semantics is invalid.
+  // Extra:
+  //  - kind 'feature|protocol|rpc|argument|data|constraint'
+  //  - path 'VARR'
+  //  - suggestion VAL
+  // HTTP status code: 400
   VALIDATION: {
     status: 'CLIENT_ERROR',
   },
 
-  // Not allowed, authorization-wise
+  // The request is not authorized, i.e. not allowed to be performed.
+  // Extra:
+  //  - collection STR
+  //  - ids STR_ARR
+  // HTTP status code: 403
   AUTHORIZATION: {
     status: 'CLIENT_ERROR',
   },
 
-  // Standard 404, e.g. route not found
+  // The URL or route is invalid
+  // HTTP status code: 404
   ROUTE: {
     status: 'CLIENT_ERROR',
   },
-
-  // A database model could not be found, e.g. incorrect id
+  // Some database models could not be found, e.g. the ids wre invalid.
+  // Extra:
+  //  - collection STR
+  //  - ids STR_ARR
+  // HTTP status code: 404
   NOT_FOUND: {
     status: 'CLIENT_ERROR',
     title: 'Model not found',
   },
 
-  // Method is not supported, or most likely not allowed for this rpc
-  // Or tried to use a protocol method that is not supported, e.g. TRACE
+  // The protocol method is unknown or invalid.
+  // Extra:
+  //  - suggestions STR_ARR
+  // HTTP status code: 405
   METHOD: {
     status: 'CLIENT_ERROR',
   },
-
-  // Invalid command, e.g. collection does not exist
+  // The command name is unknown or invalid.
+  // Extra:
+  //  - suggestions STR_ARR
+  // HTTP status code: 405
   COMMAND: {
     status: 'CLIENT_ERROR',
   },
 
-  // Wrong requested format|compress for the response payload
+  // The response could not be serialized or content negotiation failed.
+  // Extra:
+  //  - kind 'compress|charset|format'
+  // HTTP status code: 406
   RESPONSE_NEGOTIATION: {
     status: 'CLIENT_ERROR',
   },
 
-  // The request took too long
+  // The request took too much time to process.
+  // Extra:
+  //  - limit NUM
+  // HTTP status code: 408
   TIMEOUT: {
     status: 'CLIENT_ERROR',
   },
 
-  // A command conflicts with another one,
-  // e.g. tries to create already existing model
+  // Another client updated the same model, resulting in a conflict.
+  // Extra:
+  //  - collection STR
+  //  - ids STR_ARR
+  // HTTP status code: 409
   CONFLICT: {
     status: 'CLIENT_ERROR',
   },
 
-  // Request payload has a request payload but no Content-Length
+  // The request payload's length must be specified
+  // HTTP status code: 411
   NO_CONTENT_LENGTH: {
     status: 'CLIENT_ERROR',
   },
 
-  // Input is too big, e.g. args.data has too many items
+  // The request payload is too big.
+  // Extra:
+  //  - kind STR
+  //  - value NUM
+  //  - limit NUM
+  // HTTP status code: 413
   PAYLOAD_LIMIT: {
     status: 'CLIENT_ERROR',
   },
 
-  // URL is too large
+  // The URL is too big.
+  // Extra:
+  //  - value NUM
+  //  - limit NUM
+  // HTTP status code: 414
   URL_LIMIT: {
     status: 'CLIENT_ERROR',
   },
 
-  // Wrong requested format|charset|compress for the request payload
+  // The request payload could not be loaded, parsed or content negotiation
+  // failed.
+  // Extra:
+  //  - kind 'parse|compress|charset|format'
+  // HTTP status code: 415
   PAYLOAD_NEGOTIATION: {
     status: 'CLIENT_ERROR',
   },
 
-  // Configuration error caught runtime
+  // Wrong configuration caught runtime.
+  // Extra:
+  //  - path 'VARR'
+  //  - value VAL
+  //  - suggestion VAL
+  // HTTP status code: 500
   CONFIG_RUNTIME: {
     status: 'SERVER_ERROR',
   },
 
-  // Format adapter's error
+  // Internal error related to a specific format adapter
+  // Extra:
+  //  - adapter STR
+  // HTTP status code: 500
   FORMAT: {
     status: 'SERVER_ERROR',
   },
-
-  // Charset adapter's error
+  // Internal error related to a specific charset adapter
+  // Extra:
+  //  - adapter STR
+  // HTTP status code: 500
   CHARSET: {
     status: 'SERVER_ERROR',
   },
-
-  // Protocol adapter's error
+  // Internal error related to a specific protocol adapter
+  // Extra:
+  //  - adapter STR
+  // HTTP status code: 500
   PROTOCOL: {
     status: 'SERVER_ERROR',
   },
-
-  // RPC adapter's error
+  // Internal error related to a specific rpc adapter
+  // Extra:
+  //  - adapter STR
+  // HTTP status code: 500
   RPC: {
     status: 'SERVER_ERROR',
   },
-
-  // Database error (not necessarily adapter's)
+  // Internal error related to a specific database adapter
+  // Extra:
+  //  - adapter STR
+  // HTTP status code: 500
   DATABASE: {
     status: 'SERVER_ERROR',
   },
-
-  // Log adapter's error
+  // Internal error related to a specific log adapter
+  // Extra:
+  //  - adapter STR
+  // HTTP status code: 500
   LOG: {
     status: 'SERVER_ERROR',
   },
-
-  // Compression adapter's error
+  // Internal error related to a specific compress adapter
+  // Extra:
+  //  - adapter STR
+  // HTTP status code: 500
   COMPRESS: {
     status: 'SERVER_ERROR',
   },
-
-  // Plugin's error
+  // Internal error related to a specific plugin
+  // Extra:
+  //  - plugin STR
+  // HTTP status code: 500
   PLUGIN: {
     status: 'SERVER_ERROR',
   },
 
-  // Internal error of the engine
+  // Internal engine error
+  // HTTP status code: 500
   ENGINE: {
     status: 'SERVER_ERROR',
   },
-
-  // General catch-all error
+  // Internal uncaught error
+  // HTTP status code: 500
   UNKNOWN: {
     status: 'SERVER_ERROR',
   },
