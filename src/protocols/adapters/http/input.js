@@ -30,7 +30,7 @@ const getMethod = function ({ specific: { req: { headers } }, method }) {
   }
 
   const message = `The HTTP header 'X-HTTP-Method-Override' must be used with the HTTP method POST, not ${method}`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 // Using `Prefer: return=minimal` request header results in `args.silent` true.
@@ -56,7 +56,7 @@ const parsePreferHeader = function ({
 const eParsePreferHeader = addGenErrorHandler(parsePreferHeader, {
   message: ({ prefer }) =>
     `HTTP 'Prefer' header value syntax error: '${prefer}'`,
-  reason: 'INPUT_VALIDATION',
+  reason: 'VALIDATION',
 });
 
 const TOPARGS_INPUT = {

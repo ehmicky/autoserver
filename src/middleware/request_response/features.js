@@ -14,7 +14,7 @@ const validateRuntimeFeatures = function ({
 };
 
 const eValidateRuntimeFeatures = addGenErrorHandler(validateRuntimeFeatures, {
-  reason: 'WRONG_FEATURE',
+  reason: 'VALIDATION',
 });
 
 module.exports = {

@@ -10,7 +10,7 @@ const validateDuplicates = function ({ nodes, type }) {
   if (nameA === undefined) { return; }
 
   const message = `Two ${type} are named '${nameA}'`;
-  throwError(message, { reason: 'SYNTAX_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 module.exports = {

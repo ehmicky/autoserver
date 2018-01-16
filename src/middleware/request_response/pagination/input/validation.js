@@ -18,7 +18,7 @@ const validateBothTypes = function ({ args }) {
   if (!bothTypes) { return; }
 
   const message = 'Wrong arguments: cannot specify both \'page\' and \'before\' or \'after\'';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 const validateBothDirection = function ({ args }) {
@@ -26,7 +26,7 @@ const validateBothDirection = function ({ args }) {
   if (!bothDirection) { return; }
 
   const message = 'Wrong arguments: cannot specify both \'before\' and \'after\'';
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 const validateSameTopargs = function ({ topargs, token }) {
@@ -40,7 +40,7 @@ const validateSameToparg = function ({ topargs, token, name }) {
   if (hasSameToparg) { return; }
 
   const message = `Wrong arguments: when iterating over a pagination cursor, the same '${name}' argument must be used. The current '${name}' argument is ${JSON.stringify(topargs[name])} but it should be ${JSON.stringify(token[name])}`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 const validators = [

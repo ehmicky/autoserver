@@ -27,7 +27,7 @@ const validateAnonymousNames = function (defs) {
 
   if (hasAnonymousOperation && defs.length > 1) {
     const message = `All operations must have names, if there are several of them`;
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 };
 

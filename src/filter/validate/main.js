@@ -13,7 +13,7 @@ const { validators } = require('./validators');
 const validateFilter = function ({
   filter,
   attrs,
-  reason = 'INPUT_VALIDATION',
+  reason = 'VALIDATION',
   prefix = '',
   skipConfigFuncs,
 }) {

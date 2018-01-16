@@ -18,20 +18,9 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // Input syntax error, e.g. GraphQL crashed trying to parse the raw query
-  SYNTAX_VALIDATION: {
-    status: 'CLIENT_ERROR',
-  },
-
   // General validation input errors, e.g. input data|filter does not
   // match the config
-  INPUT_VALIDATION: {
-    status: 'CLIENT_ERROR',
-  },
-
-  // The client try to perform an action not supported by the specific
-  // collection, i.e. its database adapters is too limited
-  WRONG_FEATURE: {
+  VALIDATION: {
     status: 'CLIENT_ERROR',
   },
 

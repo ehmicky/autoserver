@@ -31,13 +31,13 @@ const applyDirective = function ({
   }
 
   const message = `Unknown directive: '${directiveName}'`;
-  throwError(message, { reason: 'SYNTAX_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 const checkDirective = function ({ variables, args }) {
   if (args.length !== 1) {
     const message = 'Incorrect number of arguments';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   const [{
@@ -47,7 +47,7 @@ const checkDirective = function ({ variables, args }) {
 
   if (ifArgName !== 'if') {
     const message = 'Invalid argument';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   return checkSpecificDirective({ ifKind, ifValue, variables, ifValueName });
@@ -63,7 +63,7 @@ const checkSpecificDirective = function ({
 
   if (!directivesChecker) {
     const message = 'Argument must be a variable or a boolean value.';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   return directivesChecker({ ifValue, variables, ifValueName });
@@ -71,7 +71,7 @@ const checkSpecificDirective = function ({
 
 const eCheckDirective = addGenErrorHandler(checkDirective, {
   message: ({ directiveName }) => `Error parsing directive '${directiveName}'`,
-  reason: 'SYNTAX_VALIDATION',
+  reason: 'VALIDATION',
 });
 
 const checkBooleanDirective = function ({ ifValue }) {
@@ -83,7 +83,7 @@ const checkVariableDirective = function ({ variables, ifValueName }) {
 
   if (typeof evaledValue !== 'boolean') {
     const message = 'Invalid variable';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   return evaledValue;

@@ -32,7 +32,7 @@ const validateAllAttr = function ({
   if (keyA === undefined) { return; }
 
   const message = `Argument 'select' cannot target both 'all' and '${keyA}' attributes`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 // Validate that arguments's attributes are present in config
@@ -83,7 +83,7 @@ const validateUnknownArg = function ({
 
   const path = [...commandpath, keyA].join('.');
   const message = `In '${name}' argument, attribute '${path}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 module.exports = {

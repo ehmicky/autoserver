@@ -66,7 +66,7 @@ const validatePatchOp = function (input) {
 
 const checkError = function ({ error, commandpath, attrName, patchOp }) {
   const { message, reason } = typeof error === 'string'
-    ? { message: error, reason: 'INPUT_VALIDATION' }
+    ? { message: error, reason: 'VALIDATION' }
     : error;
 
   const commandpathA = [...commandpath, attrName].join('.');

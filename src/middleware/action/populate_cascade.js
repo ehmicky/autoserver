@@ -68,7 +68,7 @@ const validateMiddleAction = function ({ attrName, attrs, argName }) {
   if (hasParentAttr) { return; }
 
   const message = `In '${argName}' argument, must not specify '${attrName.join('.')}' unless '${parentAttr.join('.')}' is also specified`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 const validateModel = function ({ coll, commandpath, argName }) {
@@ -78,7 +78,7 @@ const validateModel = function ({ coll, commandpath, argName }) {
   const message = attrName === ''
     ? `'${argName}' argument cannot contain empty attributes`
     : `In '${argName}' argument, attribute '${attrName}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 module.exports = {

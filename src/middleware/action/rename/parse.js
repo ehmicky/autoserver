@@ -33,7 +33,7 @@ const getRenamePart = function ({ rename, commandpath }) {
 
   if (!commandpathA || !outputName) {
     const message = `In 'rename' argument, '${rename}' is invalid`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   const commandpathB = commandpathA.split('.');

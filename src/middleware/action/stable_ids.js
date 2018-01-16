@@ -49,7 +49,7 @@ const validateAction = function ({ action: { commandpath }, config, top }) {
 
   const path = commandpath.join('.');
   const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested collection's 'id' cannot be known by the client.`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 const isServerSet = function ({ commandpath, config, top }) {

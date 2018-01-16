@@ -26,7 +26,7 @@ const { optimizeFilter } = require('./optimize');
 //  ]
 const parseFilter = function ({
   filter,
-  reason = 'INPUT_VALIDATION',
+  reason = 'VALIDATION',
   prefix = '',
 }) {
   if (filter == null) { return; }

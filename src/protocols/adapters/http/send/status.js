@@ -12,9 +12,12 @@ const STATUS_CODE_MAP = {
   //  - suggestion VAL
   CONFIG_VALIDATION: 0,
 
-  SYNTAX_VALIDATION: 400,
-  INPUT_VALIDATION: 400,
-  WRONG_FEATURE: 400,
+  // The request syntax or semantics is invalid.
+  // Extra:
+  //  - kind 'feature|protocol|rpc|argument|data|constraint'
+  //  - path 'VARR'
+  //  - suggestion VAL
+  VALIDATION: 400,
 
   // The request is not authorized, i.e. not allowed to be performed.
   // Extra:

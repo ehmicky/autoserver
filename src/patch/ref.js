@@ -35,7 +35,7 @@ const replaceSimpleRef = function ({ ref, attributes, datum, commandpath }) {
   }
 
   const message = `At '${commandpath.join('.')}': attribute '${ref}' is unknown`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 // Replaces model.ATTR when patch operation is applied
