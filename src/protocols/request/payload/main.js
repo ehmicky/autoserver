@@ -97,7 +97,7 @@ const getMessage = function ({ format: { title }, payload }) {
 
 const eParseContent = addGenErrorHandler(parseContent, {
   message: getMessage,
-  reason: 'PAYLOAD_PARSE',
+  reason: 'REQUEST_FORMAT',
 });
 
 module.exports = {
