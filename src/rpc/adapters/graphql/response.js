@@ -24,7 +24,7 @@ const transformError = function ({
 const getError = function ({ type, title, description, ...extraContent }) {
   // Content following GraphQL spec
   // Custom information not following GraphQL spec is always rendered
-  const error = { message: description, title, type, ...extraContent };
+  const error = { type, title, message: description, ...extraContent };
 
   const errorA = omitBy(error, val => val === undefined);
 
