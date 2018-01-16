@@ -132,11 +132,6 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // An exception was fired on the process itself
-  PROCESS: {
-    status: 'SERVER_ERROR',
-  },
-
   // Internal error of the engine
   ENGINE: {
     status: 'SERVER_ERROR',
