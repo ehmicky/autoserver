@@ -75,10 +75,10 @@ to accomodate the
   "data": null,
   "errors": [
     {
-      "message": "The 'users' model with 'id' '20' could not be found",
-      "title": "Model not found",
       "type": "NOT_FOUND",
-      "status": 404,
+      "title": "Some database models could not be found, e.g. the ids were invalid",
+      "message": "The 'users' model with 'id' '20' could not be found",
+      "status": "CLIENT_ERROR",
       "instance": "/graphql"
     }
   ],
