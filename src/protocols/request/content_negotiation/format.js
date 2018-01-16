@@ -22,7 +22,7 @@ const getFormatName = function ({ queryvars, format }) {
 
 const eGetFormat = addGenErrorHandler(getFormat, {
   message: format => `Unsupported response format: '${format}'`,
-  reason: 'RESPONSE_FORMAT',
+  reason: 'RESPONSE_NEGOTIATION',
 });
 
 module.exports = {

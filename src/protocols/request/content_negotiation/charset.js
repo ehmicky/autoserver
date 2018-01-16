@@ -12,7 +12,7 @@ const getCharsetFunc = function ({ queryvars, charset, format }) {
 };
 
 const eGetCharset = addGenErrorHandler(getCharset, {
-  reason: 'RESPONSE_FORMAT',
+  reason: 'RESPONSE_NEGOTIATION',
 });
 
 module.exports = {

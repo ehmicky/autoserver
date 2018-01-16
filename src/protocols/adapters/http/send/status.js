@@ -24,12 +24,22 @@ const STATUS_CODE_MAP = {
   WRONG_METHOD: 405,
   WRONG_COMMAND: 405,
 
-  RESPONSE_FORMAT: 406,
+  // The response could not be serialized or content negotiation failed.
+  // Extra:
+  //  - kind 'compress|charset|format'
+  RESPONSE_NEGOTIATION: 406,
 
+  // The request took too much time to process.
+  // Extra:
+  //  - limit NUM
   REQUEST_TIMEOUT: 408,
 
+  // Another client updated the same model, resulting in a conflict.
+  // Extra:
+  //  - ids STR_ARR
   MODEL_CONFLICT: 409,
 
+  // The request payload's length must be specified
   NO_CONTENT_LENGTH: 411,
 
   // The request payload is too big.
@@ -39,9 +49,14 @@ const STATUS_CODE_MAP = {
   //  - limit NUM
   PAYLOAD_LIMIT: 413,
 
+  // The URL is too big.
+  // Extra:
+  //  - value NUM
+  //  - limit NUM
   URL_LIMIT: 414,
 
-  // The request payload could not be loaded or parsed.
+  // The request payload could not be loaded, parsed or content negotiation
+  // failed.
   // Extra:
   //  - kind 'parse|compress|charset|format'
   PAYLOAD_PARSE: 415,
