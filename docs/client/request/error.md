@@ -1,7 +1,15 @@
 # Error responses
 
-Error responses contain an `error` property with the same properties as
-[exceptions](../../server/usage/error.md#exceptions), except `details`.
+Error responses contain an `error` property which is a standard
+[RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt) object with the following
+properties:
+  - `type` `{string}`: error type
+  - `title` `{string}`: short description
+  - `description` `{string}`: detailed description
+  - `status` `{string}`: `CLIENT_ERROR` or `SERVER_ERROR`
+  - `instance` `{string}`: URL path that was called
+  - additional properties might be present, depending on the error type.
+    See below for the list of additional properties for each error type.
 
 `metadata.info` includes the same information as the
 [`log` parameter](../../server/configuration/functions.md#parameters), providing
@@ -11,7 +19,7 @@ debugging information about the request.
 {
   "error": {
     "type": "NOT_FOUND",
-    "title": "Model not found",
+    "title": "Some database models could not be found, e.g. the ids were invalid",
     "description": "The 'users' model with 'id' '20' could not be found",
     "status": "CLIENT_ERROR",
     "instance": "/rest/users/"

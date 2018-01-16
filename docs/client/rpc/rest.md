@@ -93,7 +93,7 @@ REST error responses follow the usual error
 {
   "error": {
     "type": "NOT_FOUND",
-    "title": "Model not found",
+    "title": "Some database models could not be found, e.g. the ids were invalid",
     "description": "The 'users' model with 'id' '20' could not be found",
     "status": "CLIENT_ERROR",
     "instance": "/rest/users/20"

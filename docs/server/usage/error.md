@@ -1,14 +1,8 @@
 # Exceptions
 
-Exceptions are standard [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt)
-objects with the following properties:
-  - `type` `{string}`: error type
-  - `title` `{string}`: short generic description
-  - `description` `{string}`
-  - `status` `{string}`: `CLIENT_ERROR` or `SERVER_ERROR`
-  - `instance` `{string}`: URL path that was called
-  - `details` `{string}`: stack trace
-  - additional properties might be present, depending on the error type
+Exceptions contain the same properties as the `error` property of an
+[error response](../../client/request/error.md). They also include a `details`
+property with a stack trace.
 
 When an [instruction](README.md) fails, its promise is rejected with an
 exception object.

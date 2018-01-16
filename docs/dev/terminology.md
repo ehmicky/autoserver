@@ -130,11 +130,11 @@ Thrown [exception](../server/usage/error.md)
 
 ## Error response
 
-Response containing [error information](../server/usage/error.md)
+Response containing [error information](../client/request/error.md)
 
 ## Error reason
 
-Generic [error type](../server/usage/error.md)
+Generic [error type](../client/request/error.md)
 
 ## Collection
 
