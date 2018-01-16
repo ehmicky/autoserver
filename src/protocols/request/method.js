@@ -20,7 +20,7 @@ const validateMethod = function ({ method }) {
   if (method === undefined || METHODS.includes(method)) { return; }
 
   const message = `Protocol method '${method}' is not allowed`;
-  throwError(message, { reason: 'WRONG_METHOD', extra: { allowed: METHODS } });
+  throwError(message, { reason: 'METHOD', extra: { allowed: METHODS } });
 };
 
 module.exports = {

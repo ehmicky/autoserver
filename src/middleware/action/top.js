@@ -66,7 +66,7 @@ const validateCollname = function ({
 
   const message = `Command '${commandName}' is unknown`;
   const allowed = getAllowed({ collsNames });
-  throwError(message, { reason: 'WRONG_COMMAND', extra: { allowed } });
+  throwError(message, { reason: 'COMMAND', extra: { allowed } });
 };
 
 // Returns all possible commands
