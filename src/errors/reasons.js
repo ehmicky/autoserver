@@ -18,11 +18,6 @@ const PROPS = {
     status: 'SERVER_ERROR',
   },
 
-  // Error while parsing the request payload
-  PAYLOAD_PARSE: {
-    status: 'CLIENT_ERROR',
-  },
-
   // Input syntax error, e.g. GraphQL crashed trying to parse the raw query
   SYNTAX_VALIDATION: {
     status: 'CLIENT_ERROR',

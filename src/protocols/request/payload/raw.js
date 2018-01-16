@@ -12,7 +12,7 @@ const getRawPayload = function ({ protocolAdapter, specific, maxpayload }) {
 const getRawPayloadHandler = function (error, { maxpayload }) {
   if (!isError({ error })) {
     const message = 'Could not parse request payload';
-    throwError(message, { reason: 'PAYLOAD_PARSE', innererror: error });
+    throwError(message, { reason: 'REQUEST_FORMAT', innererror: error });
   }
 
   if (error.reason === 'PAYLOAD_LIMIT') {
