@@ -8,7 +8,7 @@
 const PROPS = {
   SUCCESS: {
     status: 'SUCCESS',
-    title: 'Request was successful, i.e. there is no error.',
+    title: 'Request was successful, i.e. there is no error',
   },
 
   // Extra:
@@ -17,7 +17,7 @@ const PROPS = {
   //  - suggestion VAL
   CONFIG_VALIDATION: {
     status: 'SERVER_ERROR',
-    title: 'Wrong configuration caught during server startup.',
+    title: 'Wrong configuration caught during server startup',
   },
 
   // Extra:
@@ -26,7 +26,7 @@ const PROPS = {
   //  - suggestion VAL
   VALIDATION: {
     status: 'CLIENT_ERROR',
-    title: 'The request syntax or semantics is invalid.',
+    title: 'The request syntax or semantics is invalid',
   },
 
   // Extra:
@@ -34,7 +34,7 @@ const PROPS = {
   //  - ids STR_ARR
   AUTHORIZATION: {
     status: 'CLIENT_ERROR',
-    title: 'The request is not authorized, i.e. not allowed to be performed.',
+    title: 'The request is not authorized, i.e. not allowed to be performed',
   },
 
   ROUTE: {
@@ -46,34 +46,34 @@ const PROPS = {
   //  - ids STR_ARR
   NOT_FOUND: {
     status: 'CLIENT_ERROR',
-    title: 'Some database models could not be found, e.g. the ids wre invalid.',
+    title: 'Some database models could not be found, e.g. the ids wre invalid',
   },
 
   // Extra:
   //  - suggestions STR_ARR
   METHOD: {
     status: 'CLIENT_ERROR',
-    title: 'The protocol method is unknown or invalid.',
+    title: 'The protocol method is unknown or invalid',
   },
   // Extra:
   //  - suggestions STR_ARR
   COMMAND: {
     status: 'CLIENT_ERROR',
-    title: 'The command name is unknown or invalid.',
+    title: 'The command name is unknown or invalid',
   },
 
   // Extra:
   //  - kind 'compress|charset|format'
   RESPONSE_NEGOTIATION: {
     status: 'CLIENT_ERROR',
-    title: 'The response could not be serialized or content negotiation failed.',
+    title: 'The response could not be serialized or content negotiation failed',
   },
 
   // Extra:
   //  - limit NUM
   TIMEOUT: {
     status: 'CLIENT_ERROR',
-    title: 'The request took too much time to process.',
+    title: 'The request took too much time to process',
   },
 
   // Extra:
@@ -81,7 +81,7 @@ const PROPS = {
   //  - ids STR_ARR
   CONFLICT: {
     status: 'CLIENT_ERROR',
-    title: 'Another client updated the same model, resulting in a conflict.',
+    title: 'Another client updated the same model, resulting in a conflict',
   },
 
   NO_CONTENT_LENGTH: {
@@ -95,7 +95,7 @@ const PROPS = {
   //  - limit NUM
   PAYLOAD_LIMIT: {
     status: 'CLIENT_ERROR',
-    title: 'The request payload is too big.',
+    title: 'The request payload is too big',
   },
 
   // Extra:
@@ -103,14 +103,14 @@ const PROPS = {
   //  - limit NUM
   URL_LIMIT: {
     status: 'CLIENT_ERROR',
-    title: 'The URL is too big.',
+    title: 'The URL is too big',
   },
 
   // Extra:
   //  - kind 'parse|compress|charset|format'
   PAYLOAD_NEGOTIATION: {
     status: 'CLIENT_ERROR',
-    title: 'The request payload could not be loaded, parsed or content negotiation failed.',
+    title: 'The request payload could not be loaded, parsed or content negotiation failed',
   },
 
   // Extra:
@@ -119,7 +119,7 @@ const PROPS = {
   //  - suggestion VAL
   CONFIG_RUNTIME: {
     status: 'SERVER_ERROR',
-    title: 'Wrong configuration caught runtime.',
+    title: 'Wrong configuration caught runtime',
   },
 
   // Extra:
