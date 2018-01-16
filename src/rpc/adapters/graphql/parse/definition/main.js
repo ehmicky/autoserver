@@ -49,7 +49,7 @@ const validateForbiddenArg = function ({ args, argName }) {
   if (args[argName] === undefined) { return; }
 
   const message = `Cannot specify '${argName}' argument with GraphQL`;
-  throwError(message, { reason: 'SYNTAX_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 module.exports = {

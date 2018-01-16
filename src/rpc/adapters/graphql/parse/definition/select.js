@@ -84,7 +84,7 @@ const parseFragmentSpread = function ({
 
   if (fragment === undefined) {
     const message = `No fragment named '${fieldName}'`;
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   const { selectionSet } = fragment;

@@ -41,7 +41,7 @@ const getSelectPart = function ({ select, commandpath }) {
   }
 
   const message = `In 'select' argument, '${select}' is invalid`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 module.exports = {

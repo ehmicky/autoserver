@@ -62,12 +62,12 @@ const NO_ID_METHODS = ['POST', 'PUT'];
 const validateId = function ({ data, id }) {
   if (Array.isArray(data)) {
     const message = 'Payload must be a single object';
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   if (data.id !== id) {
     const message = `The model's 'id' is '${data.id}' in the request payload but is '${id}' in the URL`;
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 };
 

@@ -47,7 +47,7 @@ const validateAll = function ({ name, actions, values, top }) {
   const wrongPathsA = getWordsList(wrongPaths, { op: 'and', quotes: true });
   const relatedArg = RELATED_ARG[top.command.type];
   const message = `In '${name}' argument, must not specify ${wrongPathsA} unless it is also specified in argument '${relatedArg}'`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 const getWrongPaths = function ({ actions, values }) {

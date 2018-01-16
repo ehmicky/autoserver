@@ -57,7 +57,7 @@ const validateAliases = function ({ newValue, aliasData, firstAttrName }) {
   if (!wrongAlias) { return; }
 
   const message = `'data.${firstAttrName}' and 'data.${wrongAlias}' have different values ('${JSON.stringify(newValue)}' and '${JSON.stringify(aliasData[wrongAlias])}') but must have identical values because they are aliases.`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 module.exports = {

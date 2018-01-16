@@ -19,7 +19,7 @@ const getToken = function ({ args }) {
 
 const eDecode = addGenErrorHandler(decode, {
   message: ({ name }) => `Wrong arguments: '${name}' contains an invalid token`,
-  reason: 'INPUT_VALIDATION',
+  reason: 'VALIDATION',
 });
 
 // Validate cursor tokens syntax
@@ -30,7 +30,7 @@ const validateToken = function ({ token }) {
   if (isValid) { return; }
 
   const message = `Wrong arguments: 'after' or 'before' contains an invalid token`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 // List of tests to validate token syntax

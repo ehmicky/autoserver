@@ -46,7 +46,7 @@ const parseQuery = function ({ query }) {
 
 const eGetGraphqlDocument = addGenErrorHandler(getGraphqlDocument, {
   message: 'Could not parse GraphQL query',
-  reason: 'SYNTAX_VALIDATION',
+  reason: 'VALIDATION',
 });
 
 module.exports = {

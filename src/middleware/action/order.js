@@ -43,7 +43,7 @@ const parseOrderArg = function ({ order }) {
 const getPart = function (part) {
   if (part === '') {
     const message = 'Argument \'order\' cannot have empty attributes';
-    throwError(message, { reason: 'INPUT_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   const [, attrName, dirPostfix] = PARTS_POSTFIX_REGEXP.exec(part);

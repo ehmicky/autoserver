@@ -25,7 +25,7 @@ const dataValidation = function ({
 };
 
 const eValidate = addGenErrorHandler(validate, {
-  reason: 'INPUT_VALIDATION',
+  reason: 'VALIDATION',
   message: (input, { message }) => `Wrong parameters: ${message}`,
 });
 

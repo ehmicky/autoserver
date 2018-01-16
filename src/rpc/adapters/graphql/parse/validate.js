@@ -16,11 +16,11 @@ const validateDef = function ({ mainDef, operationName }) {
 
   if (operationName) {
     const message = `Could not find GraphQL operation '${operationName}'`;
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   const msg = 'Missing GraphQL query';
-  throwError(msg, { reason: 'SYNTAX_VALIDATION' });
+  throwError(msg, { reason: 'VALIDATION' });
 };
 
 const validateMainSelection = function ({
@@ -29,14 +29,14 @@ const validateMainSelection = function ({
   if (selections.length > 1) {
     const names = getOperationNames({ selections });
     const message = `Cannot perform several GraphQL operations at once: ${names}`;
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   const [{ kind }] = selections;
 
   if (kind !== 'Field') {
     const message = 'Cannot use a GraphQL fragment as the main operation';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 };
 
@@ -57,7 +57,7 @@ const validateQuery = function ({
 
   if (!isFindQuery({ name })) {
     const message = 'Can only perform \'find\' commands with a GraphQL \'query\'';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 };
 
@@ -72,12 +72,12 @@ const validateMutation = function ({
 
   if (method === 'GET') {
     const message = 'Can only perform GraphQL queries, not mutations, with the protocol method \'GET\'';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 
   if (isFindQuery({ name })) {
     const message = 'Cannot perform \'find\' commands with a GraphQL \'mutation\'';
-    throwError(message, { reason: 'SYNTAX_VALIDATION' });
+    throwError(message, { reason: 'VALIDATION' });
   }
 };
 

@@ -38,7 +38,7 @@ const getMessage = function (input, { message }) {
 const ARGUMENTS_REGEXP = /^arguments.([^ ]+)/;
 
 const eValidate = addGenErrorHandler(validate, {
-  reason: 'INPUT_VALIDATION',
+  reason: 'VALIDATION',
   message: getMessage,
 });
 

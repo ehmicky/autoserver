@@ -31,7 +31,7 @@ const validateDuplicates = function (models) {
   if (differentModel === undefined) { return; }
 
   const message = `Two models in 'data' have the same 'id' but different attributes: '${JSON.stringify(models[0])}', '${JSON.stringify(differentModel)}'`;
-  throwError(message, { reason: 'INPUT_VALIDATION' });
+  throwError(message, { reason: 'VALIDATION' });
 };
 
 module.exports = {
