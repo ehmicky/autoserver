@@ -56,7 +56,7 @@ const getContentEncoding = function ({ compressResponse: { name } = {} }) {
   return name;
 };
 
-// On WRONG_METHOD or WRONG_COMMAND errors
+// On METHOD or COMMAND errors
 const getAllow = function ({ data: { allowed } }) {
   if (allowed === undefined) { return; }
 

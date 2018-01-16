@@ -53,12 +53,12 @@ const PROPS = {
 
   // Method is not supported, or most likely not allowed for this rpc
   // Or tried to use a protocol method that is not supported, e.g. TRACE
-  WRONG_METHOD: {
+  METHOD: {
     status: 'CLIENT_ERROR',
   },
 
   // Invalid command, e.g. collection does not exist
-  WRONG_COMMAND: {
+  COMMAND: {
     status: 'CLIENT_ERROR',
   },
 

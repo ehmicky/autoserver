@@ -8,7 +8,7 @@ const checkMethod = function ({ methods, title }, { method }) {
 
   const message = `Protocol method '${method}' is not allowed with ${title}`;
   const extra = { allowedMethods: methods };
-  throwError(message, { reason: 'WRONG_METHOD', extra });
+  throwError(message, { reason: 'METHOD', extra });
 };
 
 const isAllowedMethod = function ({ methods, method }) {

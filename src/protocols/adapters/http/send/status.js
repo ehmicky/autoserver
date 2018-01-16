@@ -21,8 +21,14 @@ const STATUS_CODE_MAP = {
   ROUTE_NOT_FOUND: 404,
   MODEL_NOT_FOUND: 404,
 
-  WRONG_METHOD: 405,
-  WRONG_COMMAND: 405,
+  // The protocol method is unknown or invalid.
+  // Extra:
+  //  - suggestions STR_ARR
+  METHOD: 405,
+  // The command name is unknown or invalid.
+  // Extra:
+  //  - suggestions STR_ARR
+  COMMAND: 405,
 
   // The response could not be serialized or content negotiation failed.
   // Extra:
