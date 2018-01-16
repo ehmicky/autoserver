@@ -22,7 +22,7 @@ const startRequestTimeout = async function ({ config, config: { env } }) {
   await pSetTimeout(timeout);
 
   const message = `The request took too long (more than ${timeout / MILLISECS_TO_SECS} seconds)`;
-  throwError(message, { reason: 'REQUEST_TIMEOUT' });
+  throwError(message, { reason: 'TIMEOUT' });
 };
 
 const HUGE_TIMEOUT = 1e9;

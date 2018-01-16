@@ -42,7 +42,7 @@ const STATUS_CODE_MAP = {
   // The request took too much time to process.
   // Extra:
   //  - limit NUM
-  REQUEST_TIMEOUT: 408,
+  TIMEOUT: 408,
 
   // Another client updated the same model, resulting in a conflict.
   // Extra:
