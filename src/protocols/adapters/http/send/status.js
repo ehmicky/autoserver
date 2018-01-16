@@ -5,14 +5,13 @@ const STATUS_CODE_MAP = {
   // Request was successful, i.e. there is no error.
   SUCCESS: 200,
 
-  // Error in the configuration caught compile-time.
+  // Wrong configuration caught compile-time.
   // Extra:
   //  - path 'VARR'
   //  - value VAL
   //  - suggestion VAL
   CONFIG_VALIDATION: 0,
 
-  PAYLOAD_PARSE: 400,
   SYNTAX_VALIDATION: 400,
   INPUT_VALIDATION: 400,
   WRONG_FEATURE: 400,
@@ -38,6 +37,7 @@ const STATUS_CODE_MAP = {
 
   URL_LIMIT: 414,
 
+  // The request payload could not be loaded or parsed.
   REQUEST_FORMAT: 415,
 
   CONFIG_RUNTIME: 500,
