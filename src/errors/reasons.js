@@ -68,7 +68,7 @@ const PROPS = {
   },
 
   // The request took too long
-  REQUEST_TIMEOUT: {
+  TIMEOUT: {
     status: 'CLIENT_ERROR',
   },
 
