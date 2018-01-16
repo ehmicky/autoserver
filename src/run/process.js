@@ -47,7 +47,7 @@ const setupWarning = function ({ config }) {
 
 // Report process problems as events with event 'failure'
 const emitProcessEvent = async function ({ error, message, config }) {
-  const errorA = normalizeError({ error, message, reason: 'PROCESS' });
+  const errorA = normalizeError({ error, message, reason: 'ENGINE' });
 
   await logEvent({
     event: 'failure',
