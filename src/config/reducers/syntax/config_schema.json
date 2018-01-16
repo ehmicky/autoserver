@@ -756,6 +756,7 @@
             "ipv6",
             "uri",
             "uri-reference",
+            "uri-template",
             "json-pointer",
             "relative-json-pointer"
           ]
@@ -790,13 +791,13 @@
               "enum",
               "required",
               "dependencies",
+              "if",
+              "then",
+              "else",
               "allOf",
               "anyOf",
               "oneOf",
-              "not",
-              "if",
-              "then",
-              "else"
+              "not"
             ]
           }
         ]
