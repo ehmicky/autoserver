@@ -78,11 +78,7 @@ const reportProblem = async function ({ top, clientCollname, ...rest }) {
   // `upsert` commands might throw authorization errors, but not model not found
   if (top.command.type === 'upsert') { return; }
 
-  throwCommonError({
-    reason: 'MODEL_NOT_FOUND',
-    ids: idsA,
-    clientCollname,
-  });
+  throwCommonError({ reason: 'NOT_FOUND', ids: idsA, clientCollname });
 };
 
 // Try the same database query, but this time without the authorization filter,

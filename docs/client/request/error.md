@@ -10,7 +10,7 @@ debugging information about the request.
 ```json
 {
   "error": {
-    "type": "DB_MODEL_NOT_FOUND",
+    "type": "NOT_FOUND",
     "title": "Model not found",
     "description": "The 'users' model with 'id' '20' could not be found",
     "status": "CLIENT_ERROR",

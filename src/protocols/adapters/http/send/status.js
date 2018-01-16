@@ -18,8 +18,12 @@ const STATUS_CODE_MAP = {
 
   AUTHORIZATION: 403,
 
-  ROUTE_NOT_FOUND: 404,
-  MODEL_NOT_FOUND: 404,
+  // The URL or route is invalid
+  ROUTE: 404,
+  // A database model could not be found, e.g. the id was invalid.
+  // Extra:
+  //  - ids STR_ARR
+  NOT_FOUND: 404,
 
   // The protocol method is unknown or invalid.
   // Extra:

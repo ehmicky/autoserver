@@ -65,7 +65,7 @@ to accomodate the JSON-RPC spec:
     "code": 1,
     "message": "The 'users' model with 'id' '20' could not be found",
     "data": {
-      "type": "DB_MODEL_NOT_FOUND",
+      "type": "NOT_FOUND",
       "title": "Model not found",
       "status": "CLIENT_ERROR",
       "instance": "/jsonrpc"

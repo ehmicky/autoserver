@@ -48,7 +48,7 @@ const getModels = function ({ ids, op = 'and', clientCollname }) {
 
 const commonErrors = {
   AUTHORIZATION: throwAuthorizationError,
-  MODEL_NOT_FOUND: throwModelNotFoundError,
+  NOT_FOUND: throwModelNotFoundError,
   MODEL_CONFLICT: throwConflictError,
 };
 

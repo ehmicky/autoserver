@@ -41,12 +41,12 @@ const PROPS = {
   },
 
   // Standard 404, e.g. route not found
-  ROUTE_NOT_FOUND: {
+  ROUTE: {
     status: 'CLIENT_ERROR',
   },
 
   // A database model could not be found, e.g. incorrect id
-  MODEL_NOT_FOUND: {
+  NOT_FOUND: {
     status: 'CLIENT_ERROR',
     title: 'Model not found',
   },

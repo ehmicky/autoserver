@@ -45,14 +45,14 @@ const findRoute = function ({ path }) {
   if (route !== undefined) { return route; }
 
   const message = 'The requested URL was not found';
-  throwError(message, { reason: 'ROUTE_NOT_FOUND' });
+  throwError(message, { reason: 'ROUTE' });
 };
 
 const validateMissingPath = function ({ path }) {
   if (path) { return; }
 
   const message = 'No path was specified';
-  throwError(message, { reason: 'ROUTE_NOT_FOUND' });
+  throwError(message, { reason: 'ROUTE' });
 };
 
 module.exports = {
