@@ -94,7 +94,7 @@ const PROPS = {
   },
 
   // Wrong requested format|charset|compress for the request payload
-  REQUEST_FORMAT: {
+  PAYLOAD_PARSE: {
     status: 'CLIENT_ERROR',
   },
 
