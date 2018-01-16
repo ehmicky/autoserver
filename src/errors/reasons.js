@@ -95,7 +95,7 @@ const PROPS = {
   },
 
   // Extra:
-  //  - kind STR
+  //  - kind 'size|models|commands|depth'
   //  - value NUM
   //  - limit NUM
   PAYLOAD_LIMIT: {
