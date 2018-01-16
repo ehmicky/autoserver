@@ -34,7 +34,7 @@ const STATUS_CODE_MAP = {
 
   // The request payload is too big.
   // Extra:
-  //  - name 'NAME'
+  //  - kind STR
   //  - value NUM
   //  - limit NUM
   PAYLOAD_LIMIT: 413,
@@ -42,7 +42,9 @@ const STATUS_CODE_MAP = {
   URL_LIMIT: 414,
 
   // The request payload could not be loaded or parsed.
-  REQUEST_FORMAT: 415,
+  // Extra:
+  //  - kind 'parse|compress|charset|format'
+  PAYLOAD_PARSE: 415,
 
   CONFIG_RUNTIME: 500,
 

@@ -39,7 +39,7 @@ const getRawBody = function ({ req, length, maxpayload }) {
 const eGetRawBody = addGenErrorHandler(getRawBody, {
   message: (input, { message }) => message,
   reason: (input, { status }) =>
-    (status === PAYLOAD_LIMIT_STATUS ? 'PAYLOAD_LIMIT' : 'REQUEST_FORMAT'),
+    (status === PAYLOAD_LIMIT_STATUS ? 'PAYLOAD_LIMIT' : 'PAYLOAD_PARSE'),
 });
 
 const PAYLOAD_LIMIT_STATUS = 413;
