@@ -13,4 +13,5 @@ Nested collections can be deeply
 [modified](relations.md#modifying-nested-collections) and
 [deleted](relations.md#deleting-nested-collections).
 
-If anything went wrong, an [error response](error.md) will be sent.
+If anything went wrong, an [error response](error.md#error-responses) will be
+sent.

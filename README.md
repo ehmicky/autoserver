@@ -121,7 +121,8 @@ GET /rest/users/?filter.score._gt=100&order=score&populate=reports
     [INI](docs/client/protocols/formats.md#ini)
   - automatic [logging](docs/server/quality/logging.md) and
     [performance monitoring](docs/server/quality/logging.md#performance-monitoring)
-  - extensive [error handling and reporting](docs/server/usage/error.md)
+  - extensive
+    [error handling and reporting](docs/server/usage/error.md#exceptions)
   - [CRUD commands](docs/client/request/crud.md): find, create, patch, upsert,
     delete.
     Each command can be performed on a single model or on several models.
