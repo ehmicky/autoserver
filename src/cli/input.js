@@ -28,7 +28,6 @@ const parseOpts = function () {
     .help()
     // --version option
     .version()
-    .default(['help', 'version'], undefined)
     // Auto-suggests correction on typos
     .recommendCommands()
     .parse();
