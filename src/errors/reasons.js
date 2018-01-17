@@ -12,15 +12,6 @@ const PROPS = {
   },
 
   // Extra:
-  //  - path 'VARR'
-  //  - value VAL
-  //  - suggestions VAL_ARR
-  CONFIG_VALIDATION: {
-    status: 'SERVER_ERROR',
-    title: 'Wrong configuration caught during server startup',
-  },
-
-  // Extra:
   //  - kind 'feature|protocol|rpc|argument|data|constraint'
   //  - path 'VARR'
   //  - value VAL
@@ -119,6 +110,14 @@ const PROPS = {
     title: 'The request payload could not be loaded, parsed or content negotiation failed',
   },
 
+  // Extra:
+  //  - path 'VARR'
+  //  - value VAL
+  //  - suggestions VAL_ARR
+  CONFIG_VALIDATION: {
+    status: 'SERVER_ERROR',
+    title: 'Wrong configuration caught during server startup',
+  },
   // Extra:
   //  - path 'VARR'
   //  - value VAL

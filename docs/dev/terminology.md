@@ -126,15 +126,16 @@ Abstracted content type, e.g. `collection`.
 
 ## Error
 
-Thrown [exception](../server/usage/error.md)
+Thrown [exception](../server/usage/error.md#exceptions)
 
 ## Error response
 
-Response containing [error information](../client/request/error.md)
+Response containing
+[error information](../client/request/error.md#error-responses)
 
 ## Error reason
 
-Generic [error type](../client/request/error.md)
+Generic [error type](../client/request/error.md#error-types)
 
 ## Collection
 

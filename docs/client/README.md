@@ -18,7 +18,8 @@ Advanced [`patch` commands](request/patch.md) can be performed.
 [Nested collections](request/relations.md) can be manipulated on both read and
 write requests.
 
-If anything went wrong, an [error response](request/error.md) will be sent.
+If anything went wrong, an [error response](request/error.md#error-responses)
+will be sent.
 
 ## Arguments
 
@@ -90,7 +91,7 @@ params })
   - [CRUD](request/crud.md)
   - [Patch commands](request/patch.md)
   - [Relations](request/relations.md)
-  - [Error responses](request/error.md)
+  - [Error responses](request/error.md#error-responses)
 
 [Arguments](arguments/README.md)
   - [Filtering](arguments/filtering.md)

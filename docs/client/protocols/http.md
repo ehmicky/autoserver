@@ -28,3 +28,9 @@ The following HTTP response headers might be set, depending on the response:
     will be set with `rel` `first`, `last`, `prev` and/or `next`. The header
     contains the full URI to retrieve the first, last, previous or next batch,
     as opposed to `metadata.pages` which only contain the cursor tokens.
+
+# Error responses
+
+The HTTP status code of error responses depends on the
+[error type](../request/error.md#error-types). See the previous link for a list
+of the status codes used.

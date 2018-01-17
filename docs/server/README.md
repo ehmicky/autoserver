@@ -111,7 +111,7 @@ are currently supported: an [in-memory database](databases/memorydb.md) and
 
 [Usage](usage/README.md)
   - [Running the server](usage/run.md)
-  - [Server errors](usage/error.md)
+  - [Server errors](usage/error.md#exceptions)
 
 [Configuration](configuration/README.md)
   - [How to specify the configuration](configuration/configuration.md)
