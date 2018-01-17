@@ -2,10 +2,12 @@
 
 const { mapValues } = require('../utilities');
 const { runConfigFunc } = require('../functions');
+const { addGenErrorHandler } = require('../errors');
 
 const { parsePatchOp } = require('./parse');
 const { parseRef } = require('./ref_parsing');
 const { replaceSimpleRef, replaceRef } = require('./ref');
+const { getReason } = require('./error');
 
 // Apply patch operation to a single datum
 const applyPatchOps = function ({
@@ -95,18 +97,21 @@ const fireApply = function ({
   attr,
   attr: { type: attrType },
   attrVal,
+  type,
   mInput,
   ...rest
 }) {
-  const opValA = replaceRef({ operator, mInput, attr, ...rest });
+  const opValA = replaceRef({ operator, mInput, attr, type, ...rest });
 
   // Normalize `null` to `undefined`
   const opValB = opValA === null ? undefined : opValA;
 
   const params = { value: attrVal, arg: opValB, type: attrType };
-  const attrValA = runConfigFunc({ configFunc: apply, mInput, params });
+  const attrValA = eRunConfigFunc({ configFunc: apply, mInput, params, type });
   return attrValA;
 };
+
+const eRunConfigFunc = addGenErrorHandler(runConfigFunc, { reason: getReason });
 
 module.exports = {
   applyPatchOps,

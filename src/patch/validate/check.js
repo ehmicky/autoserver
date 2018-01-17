@@ -3,6 +3,8 @@
 const { decapitalize } = require('underscore.string');
 
 const { runConfigFunc } = require('../../functions');
+const { addGenErrorHandler } = require('../../errors');
+const { getReason } = require('../error');
 
 // Uses `patchOp.check()`
 const applyCheck = function ({
@@ -18,11 +20,13 @@ const applyCheck = function ({
   const opValA = opVal === null ? undefined : opVal;
 
   const params = { arg: opValA, type: attrType };
-  const message = runConfigFunc({ configFunc: check, mInput, params });
+  const message = eRunConfigFunc({ configFunc: check, mInput, params, type });
 
   const messageA = getCheckMessage({ type, message });
   return messageA;
 };
+
+const eRunConfigFunc = addGenErrorHandler(runConfigFunc, { reason: getReason });
 
 const getCheckMessage = function ({ type, message }) {
   if (message === undefined) { return; }
@@ -32,7 +36,8 @@ const getCheckMessage = function ({ type, message }) {
   }
 
   const messageA = `patch operator '${type}' check() function must return either a string or undefined, not ${typeof message}`;
-  return { message: messageA, reason: 'CONFIG_RUNTIME' };
+  const reason = getReason({ operator: type });
+  return { message: messageA, reason };
 };
 
 module.exports = {
