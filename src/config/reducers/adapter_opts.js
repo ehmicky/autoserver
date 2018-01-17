@@ -25,9 +25,9 @@ const getAdapterOpts = function ({ name, adaptersOpts, key }) {
 };
 
 const eValidate = addGenErrorHandler(validate, {
-  reason: 'CONFIG_VALIDATION',
   message: ({ key, name }, { message }) =>
     `Wrong configuration: in '${key}.${name}', ${message}`,
+  reason: 'CONFIG_VALIDATION',
 });
 
 module.exports = {
