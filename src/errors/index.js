@@ -5,5 +5,5 @@ module.exports = {
   ...require('./reasons'),
   ...require('./standard'),
   ...require('./handler'),
-  ...require('./common'),
+  ...require('./props'),
 };
