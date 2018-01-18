@@ -1,7 +1,7 @@
 'use strict';
 
 const { difference } = require('../../utilities');
-const { throwCommonError } = require('../../errors');
+const { throwPb } = require('../../errors');
 const { extractSimpleIds, getSimpleFilter } = require('../../filter');
 
 // Check if any `id` was not found (404) or was unauthorized (403)
@@ -78,7 +78,7 @@ const reportProblem = async function ({ top, clientCollname, ...rest }) {
   // `upsert` commands might throw authorization errors, but not model not found
   if (top.command.type === 'upsert') { return; }
 
-  throwCommonError({ reason: 'NOT_FOUND', ids: idsA, clientCollname });
+  throwPb({ reason: 'NOT_FOUND', ids: idsA, clientCollname });
 };
 
 // Try the same database query, but this time without the authorization filter,
@@ -105,7 +105,7 @@ const checkAuthorization = async function ({
 
   if (missingIds.length !== 0) { return missingIds; }
 
-  throwCommonError({ reason: 'AUTHORIZATION', ids, clientCollname, top });
+  throwPb({ reason: 'AUTHORIZATION', ids, clientCollname, top });
 };
 
 module.exports = {

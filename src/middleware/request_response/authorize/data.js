@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwCommonError } = require('../../../errors');
+const { throwPb } = require('../../../errors');
 const { evalFilter } = require('../../../filter');
 
 // Check `model.authorize` `model.*` against `args.newData`
@@ -17,7 +17,7 @@ const checkNewData = function ({
     .map(({ id }) => id);
   if (ids.length === 0) { return; }
 
-  throwCommonError({ reason: 'AUTHORIZATION', ids, clientCollname, top });
+  throwPb({ reason: 'AUTHORIZATION', ids, clientCollname, top });
 };
 
 module.exports = {

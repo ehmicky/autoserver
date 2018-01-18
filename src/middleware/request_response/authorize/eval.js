@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwCommonError } = require('../../../errors');
+const { throwPb } = require('../../../errors');
 const { evalFilter, mapNodes } = require('../../../filter');
 
 const { handleConfigFuncs } = require('./functions');
@@ -43,7 +43,7 @@ const evalAuthorize = function ({
 const checkAuthorize = function ({ clientCollname, authorize, top }) {
   if (authorize) { return; }
 
-  throwCommonError({ reason: 'AUTHORIZATION', clientCollname, top });
+  throwPb({ reason: 'AUTHORIZATION', clientCollname, top });
 };
 
 // Remove `model.` prefix in AST's `attrName`

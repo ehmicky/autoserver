@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwCommonError } = require('../../errors');
+const { throwPb } = require('../../errors');
 
 // Check if any model already exists, for create actions
 const validateCreateIds = function ({
@@ -15,7 +15,7 @@ const validateCreateIds = function ({
   if (data.length === 0) { return; }
 
   const ids = data.map(({ id }) => id);
-  throwCommonError({ reason: 'CONFLICT', ids, clientCollname });
+  throwPb({ reason: 'CONFLICT', ids, clientCollname });
 };
 
 module.exports = {

@@ -41,7 +41,7 @@ const send = async function ({
     contentType,
   });
 
-  const reason = getReason({ error });
+  const reason = getReason(error);
 
   return protocolAdapter.send({
     content: contentB,

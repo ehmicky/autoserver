@@ -2,7 +2,7 @@
 
 const { omitBy } = require('../utilities');
 
-const { getReason, getProps } = require('./reasons');
+const { getReason, getProps } = require('./props');
 const { normalizeError } = require('./main');
 
 // Gets normalized error information
@@ -27,8 +27,8 @@ const fillError = function ({
     status = 'SERVER_ERROR',
   } = {},
 }) {
-  const type = getReason({ error });
-  const { title } = getProps({ error });
+  const type = getReason(error);
+  const { title } = getProps(error);
 
   const {
     message: description,
