@@ -3,13 +3,14 @@
 const { addErrorHandler, normalizeError, rethrowError } = require('../errors');
 
 const { getLogParams } = require('./params');
-const { LEVELS } = require('./constants');
+const { LEVELS, DEFAULT_LOGGER } = require('./constants');
 const { getLog } = require('./get');
 
 // Log some event, including printing to console
+// `config.log` might be `undefined` if the error happened at startup time.
 const logEvent = async function ({
   config,
-  config: { log: logConf },
+  config: { log: logConf = [DEFAULT_LOGGER] },
   ...rest
 }) {
   const { log, configFuncInput } = getLogParams({ config, ...rest });
@@ -67,7 +68,14 @@ const logEventHandler = function (error, { config, event }) {
 
 const eLogEvent = addErrorHandler(logEvent, logEventHandler);
 
-const silentLogEvent = addErrorHandler(logEvent);
+// This means there is a bug in the logging code itself
+const lastResortHandler = function (error) {
+  const errorA = normalizeError({ error, reason: 'LOG' });
+  // eslint-disable-next-line no-console, no-restricted-globals
+  console.error(errorA);
+};
+
+const silentLogEvent = addErrorHandler(logEvent, lastResortHandler);
 
 module.exports = {
   logEvent: eLogEvent,

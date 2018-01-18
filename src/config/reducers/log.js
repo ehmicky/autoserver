@@ -1,7 +1,10 @@
 'use strict';
 
 const { addGenErrorHandler } = require('../../errors');
-const { getLog, DEFAULT_LOGGER } = require('../../log');
+const {
+  getLog,
+  DEFAULT_LOGGER: { provider: defaultProvider },
+} = require('../../log');
 
 // Normalize `log`
 const normalizeLog = function ({ config: { log } }) {
@@ -17,16 +20,16 @@ const normalizeLog = function ({ config: { log } }) {
 const addDefaultProviderName = function ({ log, log: { provider } }) {
   if (provider !== undefined) { return log; }
 
-  return { ...log, provider: DEFAULT_LOGGER };
+  return { ...log, provider: defaultProvider };
 };
 
 // Default log provider is always available, but can be turned `silent` with
 // `log.level`
 const addDefaultProvider = function ({ log }) {
-  const hasConsole = log.some(({ provider }) => provider === DEFAULT_LOGGER);
+  const hasConsole = log.some(({ provider }) => provider === defaultProvider);
   if (hasConsole) { return log; }
 
-  return [...log, { provider: DEFAULT_LOGGER }];
+  return [...log, { provider: defaultProvider }];
 };
 
 const normalizeProvider = function (log) {

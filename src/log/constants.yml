@@ -42,4 +42,5 @@ STATUS_LEVEL_MAP:
   CLIENT_ERROR: warn
   SERVER_ERROR: error
 
-DEFAULT_LOGGER: console
+DEFAULT_LOGGER:
+  provider: console
