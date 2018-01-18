@@ -29,10 +29,6 @@ const fireMainLayersHandler = async function (
   // was raised by the final layer itself
   const mInputA = await fireFinalLayer({ allLayers, mInput, reqState });
 
-  // Only fire main error handler on server-side errors
-  const { status } = mInputA;
-  if (status && status !== 'SERVER_ERROR') { return; }
-
   const errorA = addMInput(error, mInputA);
   rethrowError(errorA);
 };
