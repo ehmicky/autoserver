@@ -26,11 +26,8 @@ const startServer = async function () {
     const { protocols, exit } = await apiengine.run();
     return { protocols, exit };
   } catch (error) {
-    const { details, ...rest } = error;
     // eslint-disable-next-line no-console, no-restricted-globals
-    console.log(rest);
-    // eslint-disable-next-line no-console, no-restricted-globals
-    console.log(details);
+    console.log('Startup error');
   }
 };
 
