@@ -69,14 +69,15 @@ const logEventHandler = function (error, { config, event }) {
 const eLogEvent = addErrorHandler(logEvent, logEventHandler);
 
 // This means there is a bug in the logging code itself
-const lastResortHandler = function (error) {
+const safetyHandler = function (error) {
   const errorA = normalizeError({ error, reason: 'LOG' });
   // eslint-disable-next-line no-console, no-restricted-globals
   console.error(errorA);
 };
 
-const silentLogEvent = addErrorHandler(logEvent, lastResortHandler);
+const silentLogEvent = addErrorHandler(logEvent, safetyHandler);
 
 module.exports = {
   logEvent: eLogEvent,
+  safetyHandler,
 };

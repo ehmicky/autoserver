@@ -6,6 +6,7 @@ const {
   addErrorHandler,
 } = require('../../errors');
 const { omit } = require('../../utilities');
+const { safetyHandler } = require('../../log');
 
 const { errorHandler } = require('./error_handler');
 
@@ -40,7 +41,7 @@ const fireErrorHandler = function (errorA) {
 };
 
 // If error handler itself fails, gives up
-const eFireErrorHandler = addErrorHandler(fireErrorHandler);
+const eFireErrorHandler = addErrorHandler(fireErrorHandler, safetyHandler);
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
 const addMInput = function (error, mInput) {
