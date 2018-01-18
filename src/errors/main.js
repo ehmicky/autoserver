@@ -2,23 +2,23 @@
 
 const { difference } = require('../utilities');
 
+const { ERROR_TYPE, ALLOWED_OPTS, MISSING_MESSAGE } = require('./constants');
+const { getInnerError } = require('./inner');
+
 // Note that any exception thrown in the `error` module might not create an
 // event (since this is the error), so we must be precautious.
 const createError = function (message, stack, opts = {}) {
   validateError(opts);
 
   const innererror = getInnerError({ opts, stack });
-  const type = ERROR_TYPE;
 
   const error = new Error(message);
   // This is the only way to keep it an instanceof Error
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(error, { ...opts, stack, innererror, type });
+  Object.assign(error, { ...opts, stack, innererror, type: ERROR_TYPE });
 
   return error;
 };
-
-const ERROR_TYPE = Symbol('error');
 
 // Make sure signature is correct
 const validateError = function (opts) {
@@ -32,54 +32,6 @@ const validateError = function (opts) {
   throwError(message, { reason: 'ENGINE' });
 };
 
-const ALLOWED_OPTS = ['reason', 'innererror', 'extra'];
-
-// Keep track of innererror
-const getInnerError = function ({ opts, stack: upperStack }) {
-  const { shallowInnerError, deepInnerError, innererror } = getInnerErrors({
-    opts,
-  });
-  if (!innererror) { return; }
-
-  const innererrorStack = getInnerErrorStack({ innererror, upperStack });
-  // Innermost innererror stack is kept, but outermost innererror message and
-  // reason are kept as well.
-  const shallowInnerErrorMessage = deepInnerError
-    ? `${shallowInnerError.reason} - ${shallowInnerError.message}\n`
-    : '';
-  // eslint-disable-next-line fp/no-mutation
-  innererror.stack = `${shallowInnerErrorMessage}${innererrorStack}`;
-
-  return innererror;
-};
-
-const getInnerErrors = function ({ opts }) {
-  const shallowInnerError = opts.innererror;
-  const deepInnerError = shallowInnerError && shallowInnerError.innererror;
-
-  // Keep innermost innererror stack
-  const innererror = deepInnerError || shallowInnerError;
-
-  return { shallowInnerError, deepInnerError, innererror };
-};
-
-const getInnerErrorStack = function ({
-  innererror: { message, stack = '' },
-  upperStack,
-}) {
-  // Node core errors include a `stack` property, but it actually does not
-  // have any stack, and just repeats the `message`. We don't want this.
-  if (!(/\n/).test(stack)) { return `${stack}\n${upperStack}`; }
-
-  // We only keep innererror's stack, so if it does not include the
-  // error message, which might be valuable information, prepends it
-  if (message && stack.indexOf(message) === -1) {
-    return `${message}\n${stack}`;
-  }
-
-  return stack;
-};
-
 const isError = function ({ error }) {
   return error && error.type === ERROR_TYPE;
 };
@@ -90,8 +42,6 @@ const throwError = function (message = MISSING_MESSAGE, opts) {
   // eslint-disable-next-line fp/no-throw
   throw error;
 };
-
-const MISSING_MESSAGE = 'Missing error message';
 
 const rethrowError = function (error) {
   // eslint-disable-next-line fp/no-throw
