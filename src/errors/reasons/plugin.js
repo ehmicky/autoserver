@@ -1,10 +1,9 @@
 'use strict';
 
 const getMessage = function ({ plugin }) {
-  if (plugin === undefined) { return {}; }
+  if (plugin === undefined) { return; }
 
-  const message = `In the plugin '${plugin}'`;
-  return { message, extra: { plugin } };
+  return `In the plugin '${plugin}'`;
 };
 
 // Extra:

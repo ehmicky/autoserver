@@ -1,9 +1,6 @@
 'use strict';
 
-const pluralize = require('pluralize');
 const { decapitalize } = require('underscore.string');
-
-const { getWordsList } = require('../utilities');
 
 const { throwError } = require('./main');
 const REASONS = require('./reasons');
@@ -23,23 +20,19 @@ const getReason = function ({ reason = 'UNKNOWN' } = { reason: 'SUCCESS' }) {
 };
 
 // Throw exception for a specific error reason
-const throwPb = function ({ reason, message, ...rest }) {
-  const { message: prefix, extra = {} } = getReasonMessage({ reason, ...rest });
+const throwPb = function ({ message, messageInput, ...opts }) {
+  const prefix = getPrefix(messageInput, opts);
   const messageA = addPrefix({ message, prefix });
-  throwError(messageA, { reason, extra });
+  throwError(messageA, opts);
 };
 
 // Each error reason can have its own message prefix and additional props
-const getReasonMessage = function ({ reason, ...rest }) {
+const getPrefix = function (messageInput, { reason, extra = {} }) {
   const { getMessage } = getProps({ reason });
+  if (getMessage === undefined) { return; }
 
-  if (getMessage === undefined) {
-    return { message: '' };
-  }
-
-  const models = getModels(rest);
-  const { message, extra } = getMessage({ models, ...rest });
-  return { message, extra };
+  const message = getMessage({ ...extra, ...messageInput });
+  return message;
 };
 
 const addPrefix = function ({ message, prefix }) {
@@ -47,21 +40,6 @@ const addPrefix = function ({ message, prefix }) {
   if (prefix === undefined) { return message; }
 
   return `${prefix}, ${decapitalize(message)}`;
-};
-
-// Try to make error messages start the same way when referring to models
-const getModels = function ({ ids, op = 'and', clientCollname }) {
-  if (clientCollname === undefined) {
-    return 'Those models';
-  }
-
-  if (ids === undefined) {
-    return `Those '${clientCollname}' models`;
-  }
-
-  const idsA = getWordsList(ids, { op, quotes: true });
-  const models = `The '${clientCollname}' ${pluralize('model', ids.length)} with 'id' ${idsA}`;
-  return models;
 };
 
 module.exports = {

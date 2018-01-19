@@ -1,18 +1,14 @@
 'use strict';
 
-const getMessage = function ({ ids, models }) {
-  const exist = ids.length === 1 ? 'exists' : 'exist';
-  const message = `${models} already ${exist}`;
-  return { message };
-};
+const { getModels } = require('./message');
 
 // Extra:
-//  - collection STR
-//  - ids STR_ARR
+//  - collection `{string}`
+//  - ids `{string[]}`: models `id`s
 const CONFLICT = {
   status: 'CLIENT_ERROR',
   title: 'Another client updated the same model, resulting in a conflict',
-  getMessage,
+  getMessage: extra => `${getModels(extra)} already ${extra.ids.length === 1 ? 'exist' : 'exists'}`,
 };
 
 module.exports = {
