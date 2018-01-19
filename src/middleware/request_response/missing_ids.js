@@ -78,7 +78,10 @@ const reportProblem = async function ({ top, clientCollname, ...rest }) {
   // `upsert` commands might throw authorization errors, but not model not found
   if (top.command.type === 'upsert') { return; }
 
-  throwPb({ reason: 'NOT_FOUND', ids: idsA, clientCollname });
+  throwPb({
+    reason: 'NOT_FOUND',
+    extra: { collection: clientCollname, ids: idsA },
+  });
 };
 
 // Try the same database query, but this time without the authorization filter,
@@ -105,7 +108,11 @@ const checkAuthorization = async function ({
 
   if (missingIds.length !== 0) { return missingIds; }
 
-  throwPb({ reason: 'AUTHORIZATION', ids, clientCollname, top });
+  throwPb({
+    reason: 'AUTHORIZATION',
+    extra: { collection: clientCollname, ids },
+    messageInput: { top },
+  });
 };
 
 module.exports = {

@@ -43,7 +43,11 @@ const evalAuthorize = function ({
 const checkAuthorize = function ({ clientCollname, authorize, top }) {
   if (authorize) { return; }
 
-  throwPb({ reason: 'AUTHORIZATION', clientCollname, top });
+  throwPb({
+    reason: 'AUTHORIZATION',
+    extra: { collection: clientCollname },
+    messageInput: { top },
+  });
 };
 
 // Remove `model.` prefix in AST's `attrName`

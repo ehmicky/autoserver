@@ -1,36 +1,43 @@
 'use strict';
 
 const { isObject } = require('../../utilities');
-const { throwError } = require('../../errors');
+const { throwPb } = require('../../errors');
 
-const validateSpecific = function ({ specific }) {
+const validateSpecific = function ({
+  specific,
+  protocolAdapter: { name: protocol },
+}) {
   if (isObject(specific)) { return; }
 
   const message = `'specific' must be an object, not ${specific}`;
-  throwError(message, { reason: 'PROTOCOL' });
+  throwPb({ message, reason: 'PROTOCOL', extra: { adapter: protocol } });
 };
 
-const validateString = function (value, name) {
+const validateString = function (value, name, protocolAdapter) {
   if (typeof value === 'string') { return; }
 
-  throwProtocolError('a string', { value, name });
+  throwProtocolError('a string', { value, name, protocolAdapter });
 };
 
-const validateObject = function (value, name) {
+const validateObject = function (value, name, protocolAdapter) {
   if (isObject(value)) { return; }
 
-  throwProtocolError('an object', { value, name });
+  throwProtocolError('an object', { value, name, protocolAdapter });
 };
 
-const validateBoolean = function (value, name) {
+const validateBoolean = function (value, name, protocolAdapter) {
   if (typeof value === 'boolean') { return; }
 
-  throwProtocolError('a boolean', { value, name });
+  throwProtocolError('a boolean', { value, name, protocolAdapter });
 };
 
-const throwProtocolError = function (type, { value, name }) {
+const throwProtocolError = function (type, { value, name, protocolAdapter }) {
   const message = `${name} must be ${type}, not ${JSON.stringify(value)}`;
-  throwError(message, { reason: 'PROTOCOL' });
+  throwPb({
+    message,
+    reason: 'PROTOCOL',
+    extra: { adapter: protocolAdapter.name },
+  });
 };
 
 module.exports = {

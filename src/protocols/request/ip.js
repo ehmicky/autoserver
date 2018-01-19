@@ -2,10 +2,14 @@
 
 const { validateString } = require('./validate');
 
-const parseIp = function ({ protocolAdapter: { getIp }, specific }) {
+const parseIp = function ({
+  protocolAdapter,
+  protocolAdapter: { getIp },
+  specific,
+}) {
   const ip = getIp({ specific });
 
-  validateString(ip, 'ip');
+  validateString(ip, 'ip', protocolAdapter);
 
   return { ip };
 };

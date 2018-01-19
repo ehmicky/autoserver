@@ -17,7 +17,11 @@ const checkNewData = function ({
     .map(({ id }) => id);
   if (ids.length === 0) { return; }
 
-  throwPb({ reason: 'AUTHORIZATION', ids, clientCollname, top });
+  throwPb({
+    reason: 'AUTHORIZATION',
+    extra: { collection: clientCollname, ids },
+    messageInput: { top },
+  });
 };
 
 module.exports = {
