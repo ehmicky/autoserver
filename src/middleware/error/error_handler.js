@@ -8,11 +8,7 @@ const errorHandler = async function ({
   protocolAdapter,
   config,
   mInput,
-  mInput: { status } = {},
 }) {
-  // Only fire main error handler on server-side errors
-  if (status && status !== 'SERVER_ERROR') { return; }
-
   // Make sure a response is sent, even empty, or the socket will hang
   await protocolAdapter.send({ content: '', contentLength: 0 });
 
