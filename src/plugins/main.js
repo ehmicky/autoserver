@@ -1,7 +1,7 @@
 'use strict';
 
 const { omit, reduceAsync } = require('../utilities');
-const { throwError, changeErrorReason } = require('../errors');
+const { throwError, addGenPbHandler } = require('../errors');
 
 const { timestampPlugin } = require('./timestamp');
 const { authorPlugin } = require('./author');
@@ -22,7 +22,7 @@ const applyPlugins = async function ({ config }) {
 
   const configB = await reduceAsync(
     pluginsA,
-    eApplyPlugin,
+    applyPlugin,
     config,
     (configA, newConfig) => ({ ...configA, ...newConfig })
   );
@@ -52,10 +52,28 @@ const applyPlugin = function (config, pluginConf, index) {
     throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 
+  const pluginName = getPluginName({ plugin, pluginConf, index });
+  return eFirePlugin({ plugin, config, opts, pluginName });
+};
+
+// Used if an exception is thrown
+const getPluginName = function ({ plugin, pluginConf, index }) {
+  if (typeof pluginConf.plugin === 'string') { return pluginConf.plugin; }
+
+  if (plugin.name) { return plugin.name; }
+
+  const pluginName = `plugins[${index}]`;
+  return pluginName;
+};
+
+const firePlugin = function ({ plugin, config, opts }) {
   return plugin({ config, opts });
 };
 
-const eApplyPlugin = changeErrorReason(applyPlugin, 'PLUGIN');
+const eFirePlugin = addGenPbHandler(firePlugin, {
+  reason: 'PLUGIN',
+  extra: ({ pluginName }) => ({ plugin: pluginName }),
+});
 
 const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
   // Plugin is either a function, or a string (for builtin plugins)
