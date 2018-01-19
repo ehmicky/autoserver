@@ -4,6 +4,7 @@ const {
   rethrowError,
   normalizeError,
   addErrorHandler,
+  getProps,
 } = require('../../errors');
 const { omit } = require('../../utilities');
 const { safetyHandler } = require('../../log');
@@ -25,6 +26,10 @@ const fireMainLayersHandler = async function (
   { allLayers, reqState },
 ) {
   const mInput = getErrorMInput({ error });
+
+  // Only fire main error handler on server-side errors
+  const { status } = getProps(error);
+  if (status && status !== 'SERVER_ERROR') { return mInput; }
 
   // Final layer are called before error handlers, except if the error
   // was raised by the final layer itself
