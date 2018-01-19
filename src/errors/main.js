@@ -50,12 +50,17 @@ const rethrowError = function (error) {
 
 // External dependencies might throw errors that are not instances of
 // our types of error, so we want to fix those.
-const normalizeError = function ({ error, message, reason = 'UNKNOWN' }) {
+const normalizeError = function ({
+  error,
+  message,
+  reason = 'UNKNOWN',
+  extra,
+}) {
   if (isError({ error })) { return error; }
 
   const errorMessage = getErrorMessage({ error, message });
   const stack = (error && error.stack) || getStack({ caller: normalizeError });
-  return createError(errorMessage, stack, { reason });
+  return createError(errorMessage, stack, { reason, extra });
 };
 
 const getErrorMessage = function ({ error, message }) {
