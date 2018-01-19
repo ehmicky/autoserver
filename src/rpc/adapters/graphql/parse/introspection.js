@@ -2,8 +2,6 @@
 
 const { execute } = require('graphql');
 
-const { throwError, addGenErrorHandler } = require('../../../../errors');
-
 // At the moment, we do not support mixing introspection query with
 // non-introspection query, except for `__typename`
 // This means that `__schema` must be the only top-level properties
@@ -19,18 +17,19 @@ const handleIntrospection = async function ({
   variables,
   operationName,
 }) {
-  const { data, errors: [innererror] = [] } = await eGetIntrospectionResp({
+  const { data, errors: [innererror] = [] } = await getIntrospectionResp({
     graphqlSchema,
     queryDocument,
     variables,
     operationName,
   });
 
+  // Exception can be fired in several ways by GraphQL.js:
+  //  - throwing an exception
+  //  - returning errors in response
   if (innererror) {
-    throwError('GraphQL introspection query failed', {
-      reason: 'RPC',
-      innererror,
-    });
+    // eslint-disable-next-line fp/no-throw
+    throw innererror;
   }
 
   const response = { type: 'model', content: data };
@@ -59,14 +58,6 @@ const getIntrospectionResp = function ({
     operationName,
   );
 };
-
-// Exception can be fired in several ways by GraphQL.js:
-//  - throwing an exception
-//  - returning errors in response
-const eGetIntrospectionResp = addGenErrorHandler(getIntrospectionResp, {
-  message: 'GraphQL introspection query failed',
-  reason: 'RPC',
-});
 
 module.exports = {
   isIntrospectionQuery,
