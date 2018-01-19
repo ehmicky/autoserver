@@ -48,7 +48,8 @@ const getErrorMessage = function ({
 const addDataPath = function ({ dataPath, message }) {
   const dataPathA = jsonPointerToDots(dataPath);
   const messageA = `${dataPathA}${message}`;
-  return messageA;
+  const messageB = messageA.replace(/^\./, '');
+  return messageB;
 };
 
 // We use `jsonPointers` option because it is cleaner,
