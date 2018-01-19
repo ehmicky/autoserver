@@ -642,7 +642,7 @@ Internal error related to a specific [plugin](../../server/plugins/README.md).
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - plugin STR
+  - plugin `{string}`: plugin name
 
 ```json
 {
