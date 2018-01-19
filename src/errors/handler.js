@@ -3,6 +3,7 @@
 const { keepFuncName, result } = require('../utilities');
 
 const { throwError, normalizeError } = require('./main');
+const { throwPb } = require('./props');
 
 // Wrap a function with a error handler
 // Allow passing an empty error handler, i.e. ignoring any error thrown
@@ -26,16 +27,30 @@ const errorHandledFunc = function (func, errorHandler, ...args) {
 };
 
 // Use `addErrorHandler()` with a generic error handler that rethrows
-const addGenErrorHandler = function (func, { message, reason }) {
-  const errorHandler = genErrorHandler.bind(null, { message, reason });
+const addGenErrorHandler = function (func, { message, reason, extra }) {
+  const errorHandler = genErrorHandler.bind(null, { message, reason, extra });
   return kAddErrorHandler(func, errorHandler);
 };
 
-const genErrorHandler = function ({ message, reason }, error, ...args) {
+const genErrorHandler = function ({ message, reason, extra }, error, ...args) {
   const innererror = normalizeError({ error });
   const messageA = result(message, ...args, innererror) || innererror.message;
   const reasonA = result(reason, ...args, innererror) || innererror.reason;
-  throwError(messageA, { reason: reasonA, innererror });
+  const extraA = result(extra, ...args, innererror) || innererror.extra;
+  throwError(messageA, { reason: reasonA, innererror, extra: extraA });
+};
+
+const addGenPbHandler = function (func, { message, reason, extra }) {
+  const errorHandler = genPbHandler.bind(null, { message, reason, extra });
+  return kAddErrorHandler(func, errorHandler);
+};
+
+const genPbHandler = function ({ message, reason, extra }, error, ...args) {
+  const innererror = normalizeError({ error });
+  const messageA = result(message, ...args, innererror) || innererror.message;
+  const reasonA = result(reason, ...args, innererror) || innererror.reason;
+  const extraA = result(extra, ...args, innererror) || innererror.extra;
+  throwPb({ reason: reasonA, message: messageA, innererror, ...extraA });
 };
 
 const changeErrorReason = function (func, reason) {
@@ -51,5 +66,6 @@ const getReason = function (reason, input, { reason: errorReason }) {
 module.exports = {
   addErrorHandler: kAddErrorHandler,
   addGenErrorHandler,
+  addGenPbHandler,
   changeErrorReason,
 };
