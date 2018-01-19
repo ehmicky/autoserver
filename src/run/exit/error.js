@@ -16,7 +16,7 @@ const funcHandler = async function (
   const messageA = `${title} - ${message}`;
 
   const reason = REASONS[type];
-  const errorA = normalizeError({ error, reason });
+  const errorA = normalizeError({ error, reason, extra: { adapter: name } });
 
   await logEvent({
     event: 'failure',

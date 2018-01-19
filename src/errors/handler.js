@@ -50,22 +50,11 @@ const genPbHandler = function ({ message, reason, extra }, error, ...args) {
   const messageA = result(message, ...args, innererror) || innererror.message;
   const reasonA = result(reason, ...args, innererror) || innererror.reason;
   const extraA = result(extra, ...args, innererror) || innererror.extra;
-  throwPb({ reason: reasonA, message: messageA, innererror, ...extraA });
-};
-
-const changeErrorReason = function (func, reason) {
-  return addGenErrorHandler(func, { reason: getReason.bind(null, reason) });
-};
-
-const getReason = function (reason, input, { reason: errorReason }) {
-  if (errorReason && errorReason !== 'UNKNOWN') { return errorReason; }
-
-  return reason;
+  throwPb({ reason: reasonA, message: messageA, innererror, extra: extraA });
 };
 
 module.exports = {
   addErrorHandler: kAddErrorHandler,
   addGenErrorHandler,
   addGenPbHandler,
-  changeErrorReason,
 };

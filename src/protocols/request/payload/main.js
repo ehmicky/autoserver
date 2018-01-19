@@ -20,7 +20,7 @@ const parsePayload = function ({
   compressRequest,
 }) {
   const hasPayload = protocolAdapter.hasPayload({ specific });
-  validateBoolean(hasPayload, 'hasPayload');
+  validateBoolean(hasPayload, 'hasPayload', protocolAdapter);
 
   if (!hasPayload) { return; }
 
@@ -78,7 +78,7 @@ const decodeCharset = function ({ content, charset }) {
 
 const eDecodeCharset = addGenErrorHandler(decodeCharset, {
   message: ({ charset }) =>
-    `Invalid request charset: '${charset}' could not be decoded`,
+    `Invalid request charset: '${charset.name}' could not be decoded`,
   reason: 'PAYLOAD_NEGOTIATION',
 });
 

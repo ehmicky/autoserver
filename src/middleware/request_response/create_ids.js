@@ -15,7 +15,7 @@ const validateCreateIds = function ({
   if (data.length === 0) { return; }
 
   const ids = data.map(({ id }) => id);
-  throwPb({ reason: 'CONFLICT', ids, clientCollname });
+  throwPb({ reason: 'CONFLICT', extra: { collection: clientCollname, ids } });
 };
 
 module.exports = {

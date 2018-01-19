@@ -6,6 +6,7 @@ const { getLimits } = require('../../limits');
 const { validateString } = require('./validate');
 
 const parseOrigin = function ({
+  protocolAdapter,
   protocolAdapter: { getUrl, getOrigin },
   specific,
   config,
@@ -13,12 +14,12 @@ const parseOrigin = function ({
   // Only used to validate URL length
   const url = getUrl({ specific });
 
-  validateString(url, 'url');
+  validateString(url, 'url', protocolAdapter);
   validateUrl({ url, config });
 
   const origin = getOrigin({ specific });
 
-  validateString(origin, 'origin');
+  validateString(origin, 'origin', protocolAdapter);
 
   return { origin };
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 const { keyBy, mapValues, pick, pickBy } = require('../utilities');
-const { changeErrorReason } = require('../errors');
+const { addGenPbHandler } = require('../errors');
 
 // Wrap adapters to:
 //  - add error handlers to catch adapter bugs
@@ -40,10 +40,23 @@ const addErrorHandlers = function ({ adapter, reason }) {
   const methods = pickBy(adapter, method => typeof method === 'function');
   const methodsA = mapValues(
     methods,
-    method => changeErrorReason(method, reason),
+    method => addErrorHandler({ method, reason, adapter }),
   );
   const adapterA = { ...adapter, ...methodsA };
   return adapterA;
+};
+
+const addErrorHandler = function ({ method, reason, adapter: { name } }) {
+  return addGenPbHandler(method, {
+    reason: getReason.bind(null, reason),
+    extra: { adapter: name },
+  });
+};
+
+const getReason = function (reason, input, { reason: errorReason }) {
+  if (errorReason && errorReason !== 'UNKNOWN') { return errorReason; }
+
+  return reason;
 };
 
 // Similar to create a new class, but more functional programming-oriented
