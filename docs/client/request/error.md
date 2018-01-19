@@ -666,7 +666,7 @@ Internal engine error.
 {
   "type": "ENGINE",
   "title": "Internal engine error",
-  "description": "",
+  "description": "'response.metadata' should be defined",
   "status": "SERVER_ERROR",
   "instance": "/rest/users/"
 }
