@@ -72,7 +72,7 @@ const eLogEvent = addErrorHandler(logEvent, logEventHandler);
 const safetyHandler = function (error) {
   const errorA = normalizeError({ error, reason: 'ENGINE' });
   // eslint-disable-next-line no-console, no-restricted-globals
-  console.error(errorA);
+  console.error(errorA.message, errorA);
 };
 
 const silentLogEvent = addErrorHandler(logEvent, safetyHandler);
