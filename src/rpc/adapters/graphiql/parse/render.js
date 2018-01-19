@@ -2,7 +2,6 @@
 
 const { resolve } = require('path');
 
-const { addGenErrorHandler } = require('../../../../errors');
 const { mapValues, renderTemplate } = require('../../../../utilities');
 
 const TEMPLATE = resolve(__dirname, './graphiql.mustache');
@@ -31,11 +30,6 @@ const renderGraphiql = function (input) {
   return renderTemplate({ template: TEMPLATE, data });
 };
 
-const eRenderGraphiql = addGenErrorHandler(renderGraphiql, {
-  message: 'Could not render GraphiQL HTML document',
-  reason: 'RPC',
-});
-
 const getDataToEscape = function ({
   endpointURL,
   query = '',
@@ -57,5 +51,5 @@ const escapeJSON = function (string = null) {
 };
 
 module.exports = {
-  renderGraphiql: eRenderGraphiql,
+  renderGraphiql,
 };
