@@ -54,7 +54,7 @@ const getReportFunc = function ({ event, provider }) {
 };
 
 const logEventHandler = function (error, { config, event }) {
-  const errorA = normalizeError({ error, reason: 'LOG' });
+  const errorA = normalizeError({ error, reason: 'ENGINE' });
   const params = { error: errorA };
   // Give up if error handler fails
   // I.e. we do not need to `await` this
@@ -70,7 +70,7 @@ const eLogEvent = addErrorHandler(logEvent, logEventHandler);
 
 // This means there is a bug in the logging code itself
 const safetyHandler = function (error) {
-  const errorA = normalizeError({ error, reason: 'LOG' });
+  const errorA = normalizeError({ error, reason: 'ENGINE' });
   // eslint-disable-next-line no-console, no-restricted-globals
   console.error(errorA);
 };
