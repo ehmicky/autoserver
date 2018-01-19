@@ -684,7 +684,7 @@ Internal uncaught error.
 {
   "type": "UNKNOWN",
   "title": "Internal uncaught error",
-  "description": "",
+  "description": "validate is not defined",
   "status": "SERVER_ERROR",
   "instance": "/rest/users/"
 }
