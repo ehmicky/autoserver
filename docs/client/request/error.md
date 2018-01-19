@@ -178,16 +178,18 @@ not allowed to be performed.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `1`
 
 [_Additional properties_](#error-responses):
-  - collection STR
-  - ids STR_ARR
+  - collection `{string}`
+  - ids `{string[]}`: models `id`s
 
 ```json
 {
   "type": "AUTHORIZATION",
   "title": "The request is not authorized, i.e. not allowed to be performed",
-  "description": "",
+  "description": "The 'users' model with 'id' '10' cannot be searched",
   "status": "CLIENT_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/10",
+  "collection": "users",
+  "ids": ["10"]
 }
 ```
 
@@ -221,16 +223,18 @@ Some database models could not be found, e.g. the `id`s were invalid.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `1`
 
 [_Additional properties_](#error-responses):
-  - collection STR
-  - ids STR_ARR
+  - collection `{string}`
+  - ids `{string[]}`: models `id`s
 
 ```json
 {
   "type": "NOT_FOUND",
   "title": "Some database models could not be found, e.g. the ids were invalid",
-  "description": "",
+  "description": "The 'users' model with 'id' '20' could not be found",
   "status": "CLIENT_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/20",
+  "collection": "users",
+  "ids": ["20"]
 }
 ```
 
@@ -330,16 +334,18 @@ Another client updated the same model, resulting in a conflict.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `1`
 
 [_Additional properties_](#error-responses):
-  - collection STR
-  - ids STR_ARR
+  - collection `{string}`
+  - ids `{string[]}`: models `id`s
 
 ```json
 {
   "type": "CONFLICT",
   "title": "Another client updated the same model, resulting in a conflict",
-  "description": "",
+  "description": "Those models already exist",
   "status": "CLIENT_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/",
+  "collection": "users",
+  "ids": ["9"]
 }
 ```
 
@@ -491,15 +497,16 @@ Internal error related to a specific [format](../protocols/formats.md) adapter.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter STR
+  - adapter `{string}`: [format](../protocols/formats.md)
 
 ```json
 {
   "type": "FORMAT",
   "title": "Internal error related to a specific format adapter",
-  "description": "",
+  "description": "In the adapter 'json', could not parse content",
   "status": "SERVER_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/",
+  "adapter": "json"
 }
 ```
 
@@ -513,15 +520,16 @@ Internal error related to a specific
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter STR
+  - adapter `{string}`: [charset](../protocols/formats.md#charsets)
 
 ```json
 {
   "type": "CHARSET",
   "title": "Internal error related to a specific charset adapter",
-  "description": "",
+  "description": "In the adapter 'utf-8', could not decode bytes",
   "status": "SERVER_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/",
+  "adapter": "utf-8"
 }
 ```
 
@@ -534,15 +542,16 @@ Internal error related to a specific [protocol](../protocols/README.md) adapter.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter STR
+  - adapter `{string}`: [protocol](../protocols/README.md) name
 
 ```json
 {
   "type": "PROTOCOL",
   "title": "Internal error related to a specific protocol adapter",
-  "description": "",
+  "description": "In the adapter 'http', load is not defined",
   "status": "SERVER_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/",
+  "adapter": "http"
 }
 ```
 
@@ -555,15 +564,16 @@ Internal error related to a specific [rpc](../rpc/README.md) adapter.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter STR
+  - adapter `{string}`: [rpc](../rpc/README.md) name.
 
 ```json
 {
   "type": "RPC",
   "title": "Internal error related to a specific rpc adapter",
-  "description": "",
+  "description": "In the adapter 'graphql', parse is not defined",
   "status": "SERVER_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/",
+  "adapter": "graphql"
 }
 ```
 
@@ -577,15 +587,16 @@ Internal error related to a specific
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter STR
+  - adapter `{string}`: [database](../../server/databases/README.md) name
 
 ```json
 {
   "type": "DATABASE",
   "title": "Internal error related to a specific database adapter",
-  "description": "",
+  "description": "In the adapter 'memory', connection is not defined",
   "status": "SERVER_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/",
+  "adapter": "memory"
 }
 ```
 
@@ -599,15 +610,17 @@ Internal error related to a specific
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter STR
+  - adapter `{string}`:
+    [log provider](../../server/quality/logging.md#providers) name
 
 ```json
 {
   "type": "LOG",
   "title": "Internal error related to a specific log adapter",
-  "description": "",
+  "description": "In the adapter 'http', could not find URL",
   "status": "SERVER_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/",
+  "adapter": "http"
 }
 ```
 
@@ -621,15 +634,16 @@ adapter.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter STR
+  - adapter `{string}`: [compression algorithm](../arguments/compression.md)
 
 ```json
 {
   "type": "COMPRESS",
   "title": "Internal error related to a specific compress adapter",
-  "description": "",
+  "description": "In the adapter 'gzip', could not read data",
   "status": "SERVER_ERROR",
-  "instance": "/rest/users/"
+  "instance": "/rest/users/",
+  "adapter": "gzip"
 }
 ```
 
@@ -642,15 +656,15 @@ Internal error related to a specific [plugin](../../server/plugins/README.md).
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - plugin `{string}`: plugin name
+  - plugin `{string}`: [plugin](../../server/plugins/README.md) name
 
 ```json
 {
   "type": "PLUGIN",
   "title": "Internal error related to a specific plugin",
-  "description": "",
+  "description": "In the plugin 'testPlugin', optA is not defined",
   "status": "SERVER_ERROR",
-  "instance": "/rest/users/"
+  "plugin": "testPlugin"
 }
 ```
 
