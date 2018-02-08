@@ -33,7 +33,7 @@
     "chalk": "^2.3.0",
     "compressible": "^2.0.12",
     "content-type": "^1.0.4",
-    "fast-memoize": "^2.2.8",
+    "fast-memoize": "^2.3.0",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.1.4",
     "hjson": "^3.1.1",
