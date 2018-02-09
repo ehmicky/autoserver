@@ -410,9 +410,7 @@ rules:
   node/shebang: 2
 
   # Compatibility
-  node/no-unsupported-features:
-  - 2
-  - version: 8
+  node/no-unsupported-features: 2
 
   # Blacklist
   # Avoid Node.js-specific global variables
