@@ -283,6 +283,9 @@ rules:
   no-empty-function: 2
 
   # Objects
+  object-property-newline:
+  - 2
+  - allowAllPropertiesOnSameLine: true
   dot-notation: 2
   quote-props:
   - 2
