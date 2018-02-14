@@ -459,8 +459,10 @@ rules:
 #  multiline-ternary: 2
 #  implicit-arrow-linebreak: 2
 
+  # This is too restrictive
+#  unicorn/no-unsafe-regex: 2
   # This is in conflict with no-useless-escape rule with RegExps like /=/
-# no-div-regex: 2
+#  no-div-regex: 2
 
   # Those rules go against the codebase convention of using index.js files
   # that require siblings, and exporting|requiring named objects.
