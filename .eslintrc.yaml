@@ -275,6 +275,7 @@ rules:
   - allowParens: true
   max-params: 2
   prefer-spread: 2
+  unicorn/prefer-spread: 2
   prefer-rest-params: 2
   fp/no-arguments: 2
   require-yield: 2
