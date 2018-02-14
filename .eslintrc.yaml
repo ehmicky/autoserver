@@ -246,6 +246,7 @@ rules:
 
   # Exceptions
   unicorn/throw-new-error: 2
+  unicorn/error-message: 2
   unicorn/catch-error-name:
   - 2
   - name: error
