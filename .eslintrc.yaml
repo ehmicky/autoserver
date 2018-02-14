@@ -439,6 +439,7 @@ rules:
   no-process-env: 2
   no-script-url: 2
   no-alert: 2
+  unicorn/prefer-add-event-listener: 2
   no-process-exit: 2
   unicorn/no-process-exit: 2
 
