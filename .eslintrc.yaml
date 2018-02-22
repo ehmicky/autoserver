@@ -369,15 +369,20 @@ rules:
   import/no-namespace: 2
   import/no-named-default: 2
   import/no-anonymous-default-export: 2
+  import/no-default-export: 2
   node/exports-style:
   - 2
   - module.exports
   import/extensions: 2
   import/no-absolute-path: 2
   import/no-internal-modules: 2
+  import/no-useless-path-segments: 2
   no-duplicate-imports:
   - 2
   - includeExports: true
+  import/no-self-import: 2
+  # This rule has a bug at the moment: https://github.com/benmosher/eslint-plugin-import/issues/1031
+  #  import/group-exports: 2
   import/no-extraneous-dependencies: 2
   node/no-extraneous-require: 2
   node/no-extraneous-import: 2
