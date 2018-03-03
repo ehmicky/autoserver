@@ -30,7 +30,7 @@
     "ajv": "^6.1.1",
     "ajv-keywords": "^3.1.0",
     "bytes": "^3.0.0",
-    "chalk": "^2.3.1",
+    "chalk": "^2.3.2",
     "compressible": "^2.0.13",
     "content-type": "^1.0.4",
     "fast-memoize": "^2.3.0",
