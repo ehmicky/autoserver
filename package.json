@@ -53,7 +53,7 @@
     "raw-body": "^2.3.2",
     "request-ip": "^2.0.2",
     "require-from-string": "^2.0.1",
-    "type-is": "^1.6.15",
+    "type-is": "^1.6.16",
     "underscore.string": "^3.3.4",
     "uuid": "^3.2.1",
     "vary": "^1.1.2",
