@@ -337,6 +337,7 @@ rules:
   promise/always-return: 2
   promise/param-names: 2
   promise/valid-params: 2
+  promise/no-new-statics: 2
   promise/no-return-wrap: 2
   promise/no-return-in-finally: 2
   promise/no-nesting: 2
