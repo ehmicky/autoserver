@@ -1,6 +1,6 @@
 {
   "name": "apiengine",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "Create a full-featured REST/GraphQL API from a configuration file",
   "keywords": [
     "graphql",
