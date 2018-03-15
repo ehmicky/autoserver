@@ -45,7 +45,7 @@ protocols:
 Then start a full-featured web API by typing in the console:
 
 ```bash
-apiengine run
+autoserver run
 ```
 
 Clients will now be able to perform [GraphQL](docs/client/rpc/graphql.md)

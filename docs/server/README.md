@@ -5,16 +5,16 @@
 To run the server from the [command line](usage/README.md#usage):
 
 ```bash
-apiengine run
+autoserver run
 ```
 
 or from [Node.js](usage/README.md#node.js):
 
 <!-- eslint-disable strict, no-undef, unicorn/filename-case -->
 ```javascript
-const apiengine = require('apiengine');
+const autoserver = require('autoserver');
 
-apiengine.run();
+autoserver.run();
 ```
 
 ## Configuration
@@ -23,7 +23,7 @@ The [configuration](configuration/README.md) can be passed directly as
 [command line](usage/README.md#usage) or
 [Node.js](usage/README.md#node.js) options, but is usually specified using a
 [configuration file](configuration/configuration.md#configuration-file) named
-`apiengine.config.yml` in the current directory.
+`autoserver.config.yml` in the current directory.
 
 It can be divided into [several files](configuration/references.md),
 use custom [functions](configuration/functions.md) or import

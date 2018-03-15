@@ -3,7 +3,7 @@
 From the command line:
 
 ```bash
-apiengine [INSTRUCTION] [OPTIONS]
+autoserver [INSTRUCTION] [OPTIONS]
 ```
 
 The following instructions are available:
@@ -12,7 +12,7 @@ The following instructions are available:
 `OPTIONS` are dot-separated flags specific to each instruction.
 
 ```bash
-apiengine run --protocols.http.port=5001
+autoserver run --protocols.http.port=5001
 ```
 
 # Node.js
@@ -21,9 +21,9 @@ The server can also be used from Node.js:
 
 <!-- eslint-disable strict, no-undef, unicorn/filename-case -->
 ```javascript
-const apiengine = require('apiengine');
+const autoserver = require('autoserver');
 
-apiengine.run({ protocols: { http: { port: 5001 } } });
+autoserver.run({ protocols: { http: { port: 5001 } } });
 ```
 
 Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.

@@ -9,12 +9,12 @@ Any other option will be merged as a
 [configuration property](../configuration/configuration.md#properties).
 
 ```bash
-apiengine run --config=apiengine.config.yml --protocols.http.port=5001
+autoserver run --config=autoserver.config.yml --protocols.http.port=5001
 ```
 
 # Node.js
 
-When fired from Node.js, `apiengine.run()` returns a promise, which resolves
+When fired from Node.js, `autoserver.run()` returns a promise, which resolves
 with:
   - the [`protocols` parameter](../quality/logging.md#functions-parameters)
   - the [`serverinfo` parameter](../configuration/functions.md#parameters)
@@ -26,9 +26,9 @@ If an error occurred, the promise will be rejected with an
 no-restricted-globals, unicorn/catch-error-name, promise/always-return,
 promise/prefer-await-to-then -->
 ```javascript
-const apiengine = require('apiengine');
+const autoserver = require('autoserver');
 
-apiengine.run()
+autoserver.run()
   .then(({ protocols, serverinfo }) => {
     console.log('Servers started at:', protocols);
     console.log('Process id', serverinfo.process.id);
@@ -50,6 +50,6 @@ The `PID` (process ID) is available:
   - using the
     [`serverinfo.process.id`](../configuration/functions.md#parameters)
     parameter. This parameter is also available in the resolved value of the
-    promise returned by [`apiengine.run()`](#node.js).
+    promise returned by [`autoserver.run()`](#node.js).
   - printed on the console by the
     [`console log provider`](../quality/logging.md#console-log-provider)

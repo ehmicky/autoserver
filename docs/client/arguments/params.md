@@ -22,5 +22,5 @@ They can also be set using the
 as value. For example, with HTTP:
 
 ```HTTP
-X-Apiengine-Params: {"password": "admin"}
+X-Autoserver-Params: {"password": "admin"}
 ```

@@ -28,7 +28,7 @@ const getPath = function ({ path }) {
   return resolvePath({ path, baseDir });
 };
 
-// Try to find apiengine.config.EXT in current directory, or any parent
+// Try to find autoserver.config.EXT in current directory, or any parent
 const findConfPath = async function (dir) {
   const paths = await pReaddir(dir);
   const pathA = paths.find(path => CONFIG_REGEXP.test(path));
@@ -46,7 +46,7 @@ const findConfPath = async function (dir) {
   return findConfPath(parentDir);
 };
 
-const CONFIG_REGEXP = /^apiengine.config.[a-z]+$/;
+const CONFIG_REGEXP = /^autoserver.config.[a-z]+$/;
 
 // When `config` option or environment variable is used
 const resolvePath = function ({ path, baseDir }) {

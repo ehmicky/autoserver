@@ -1,5 +1,5 @@
 {
-  "name": "apiengine",
+  "name": "autoserver",
   "version": "0.0.6",
   "description": "Create a full-featured REST/GraphQL API from a configuration file",
   "keywords": [
@@ -16,9 +16,9 @@
   },
   "author": "Autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
-  "bin": "./bin/apiengine",
+  "bin": "./bin/autoserver",
   "scripts": {
-    "start": "cd ./examples && ../bin/apiengine",
+    "start": "cd ./examples && ../bin/autoserver",
     "watch": "./node_modules/.bin/nodemon --config ./nodemon.json",
     "debug": "./node_modules/.bin/nodemon --config ./nodemon_debug.json",
     "build": "gulp build",
