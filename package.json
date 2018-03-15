@@ -81,7 +81,6 @@
     "gulp-watch": "^4.3.11",
     "markdown-link-check": "^3.1.6",
     "nodemon": "^1.17.2",
-    "sloc": "^0.2.0",
     "through2": "^2.0.3"
   },
   "engines": {
