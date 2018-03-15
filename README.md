@@ -1,4 +1,22 @@
-[![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://standardjs.com/)
+<img src="https://raw.githubusercontent.com/autoserver-org/design/master/Full/autoserver_full.png" width="550"/>
+
+[![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+[![npm](https://img.shields.io/npm/v/autoserver.svg)](https://www.npmjs.com/package/autoserver)
+![node](https://img.shields.io/node/v/autoserver.svg)
+![maintenance](https://img.shields.io/maintenance/yes/2018.svg)
+
+Create a full-featured REST/GraphQL API from a configuration file.
+
+# Development status
+
+This project is still in active development, and is not ready for production.
+[Key features](docs/dev/ROADMAP.md) are currently missing.
+
+If you want to follow our progress in the meantime, you are welcome to star
+this repository.
+
+We are also actively looking for early contributors, so please contact us if this
+project looks like fun to you.
 
 # Overview
 
@@ -157,3 +175,7 @@ GET /rest/users/?filter.score._gt=100&order=score&populate=reports
 # Documentation
 
 The documentation is [here](docs/README.md).
+
+# Contribute
+
+See the [developer's documentation](docs/dev/README.md).
