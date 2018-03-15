@@ -78,7 +78,7 @@ const setVary = function ({ res, type }) {
 const VARY_HEADERS = [
   'Accept-Encoding',
   'X-HTTP-Method-Override',
-  'X-Apiengine-Params',
+  'X-Autoserver-Params',
 ];
 
 const OBJECT_VARY_HEADERS = [

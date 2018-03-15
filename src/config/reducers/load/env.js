@@ -6,7 +6,7 @@ const { transtype, set } = require('../../../utilities');
 
 // Retrieve environment variables related to this project,
 // as a normalized object, ready to be used as options
-// Environment variables must be prefixed with APIENGINE__*
+// Environment variables must be prefixed with AUTOSERVER__*
 // The value will be JSON transtyped
 // Nested variables can be indicated with double-underscores,
 // e.g. `HTTP__HOSTNAME` becomes `{ http: { hostname } }`
@@ -24,19 +24,19 @@ const reduceEnvVar = function (envVars, [name, value]) {
   return envVarsA;
 };
 
-// Exclude environment variables not meant for the apiengine
+// Exclude environment variables not meant for the autoserver
 const isValidEnvVar = function ({ name }) {
   return ENV_VARS_PREFIX.test(name) || BASIC_NAMES_MAP[name];
 };
 
 // Common prefix to all environment variables
-const ENV_VARS_PREFIX = /^APIENGINE__/;
+const ENV_VARS_PREFIX = /^AUTOSERVER__/;
 
 // Shortcuts
 const BASIC_NAMES_MAP = {
-  NODE_ENV: 'APIENGINE__ENV',
-  HOST: 'APIENGINE__PROTOCOLS__HTTP__HOSTNAME',
-  PORT: 'APIENGINE__PROTOCOLS__HTTP__PORT',
+  NODE_ENV: 'AUTOSERVER__ENV',
+  HOST: 'AUTOSERVER__PROTOCOLS__HTTP__HOSTNAME',
+  PORT: 'AUTOSERVER__PROTOCOLS__HTTP__PORT',
 };
 
 const getEnvVarName = function ({ name }) {

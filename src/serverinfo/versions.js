@@ -2,13 +2,13 @@
 
 const { version: nodeVersion } = require('process');
 
-const { version: apiengineVersion } = require('../../package.json');
+const { version: autoserverVersion } = require('../../package.json');
 
 // Retrieve environment-specific versions
 const getVersionsInfo = function () {
-  const apiengine = `v${apiengineVersion}`;
+  const autoserver = `v${autoserverVersion}`;
 
-  return { node: nodeVersion, apiengine };
+  return { node: nodeVersion, autoserver };
 };
 
 module.exports = {

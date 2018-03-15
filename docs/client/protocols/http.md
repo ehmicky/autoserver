@@ -3,7 +3,7 @@
 HTTP is one of the available [protocols](README.md).
 
 Engine-specific headers, e.g. [`params`](../arguments/params.md), must be
-prefixed with `X-Apiengine-`, e.g. `X-Apiengine-Params`.
+prefixed with `X-Autoserver-`, e.g. `X-Autoserver-Params`.
 
 The following HTTP request headers have specific interpretations:
   - `Content-Type` and `Accept` set the [format](../protocols/formats.md) and

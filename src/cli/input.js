@@ -33,7 +33,7 @@ const parseOpts = function () {
     .parse();
 };
 
-const USAGE = `apiengine [INSTRUCTION] [OPTIONS]
+const USAGE = `autoserver [INSTRUCTION] [OPTIONS]
 
 Engine generating an API from a simple config file.
 `;

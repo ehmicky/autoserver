@@ -57,7 +57,7 @@ const addInstructionExamples = function ({
 }) {
   return examples.reduce(
     (yargsA, [desc, usageA]) =>
-      yargsA.example(`${desc}:`, `apiengine ${name} ${usageA}`),
+      yargsA.example(`${desc}:`, `autoserver ${name} ${usageA}`),
     yargs,
   );
 };

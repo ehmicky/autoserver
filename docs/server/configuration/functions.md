@@ -110,7 +110,7 @@ The following parameters are available to any function:
   - `queryvars` `{object}` - query variables, as an object
   - `headers` `{object}` - [protocol headers](../../client/protocols/README.md)
     specific to the engine, for example HTTP headers starting with
-    `X-Apiengine-`
+    `X-Autoserver-`
   - `format` `{string}` - request payload and server response's
     [format](../../client/protocols/formats.md)
   - `charset` `{string}` - request payload's
@@ -147,7 +147,7 @@ The following parameters are available to any function:
        - `cpus` `{number}` - number of CPUs
     - `versions` `{object}`
        - `node` `{string}` - Node.js version, e.g. `v8.0.0`
-       - `apiengine` `{string}` - `apiengine` version, e.g. `v0.0.1`
+       - `autoserver` `{string}` - `autoserver` version, e.g. `v0.0.1`
     - `process` `{object}`:
        - `id` `{integer}`: PID
        - `name` `{string}`: defaults to system hostname, but can be overriden

@@ -3,7 +3,7 @@
 const { pickBy, mapKeys, mapValues, transtype } = require('../../../utilities');
 
 // Returns a request's application-specific HTTP headers, normalized lowercase.
-// At the moment, only keeps X-Apiengine-Params header
+// At the moment, only keeps X-Autoserver-Params header
 const getHeaders = function ({ specific: { req: { headers } } }) {
   const headersA = pickBy(
     headers,
@@ -19,11 +19,11 @@ const getHeaders = function ({ specific: { req: { headers } } }) {
 
 // Whitelisted headers
 const HEADER_NAMES = [
-  'x-apiengine-params',
+  'x-autoserver-params',
 ];
 
 // Remove prefix
-const ARGS_REGEXP = /^(x-apiengine-)(.+)$/;
+const ARGS_REGEXP = /^(x-autoserver-)(.+)$/;
 
 module.exports = {
   getHeaders,

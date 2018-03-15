@@ -7,11 +7,11 @@ There are several ways to define [configuration properties](#properties).
 If several are used, they are merged together (from the highest priority to
 the lowest):
   - setting an [environment variable](#environment-variables):
-    `APIENGINE__LIMITS__PAGESIZE=10`
+    `AUTOSERVER__LIMITS__PAGESIZE=10`
   - using a [command line option](../usage/README.md#usage):
-    `apiengine run --limits.pagesize=10`
+    `autoserver run --limits.pagesize=10`
   - passing the option via [Node.js](../usage/README.md#node.js):
-    `apiengine.run({ limits: { pagesize: 10 } })`
+    `autoserver.run({ limits: { pagesize: 10 } })`
   - using a [configuration file](#configuration-file)
 
 ```yml
@@ -56,7 +56,7 @@ The path of the configuration file is specified using the
 
 The file format can be any of the [supported formats](formats.md).
 
-By default, any file named `apiengine.config.EXTENSION` will be searched in
+By default, any file named `autoserver.config.EXTENSION` will be searched in
 the current directory, or any parent. `EXTENSION` depends on the file format,
 e.g. `yml` for YAML.
 
@@ -112,12 +112,12 @@ protocols:
 # Environment variables
 
 [Configuration properties](#properties) can be set using environment variables
-prefixed with `APIENGINE__`.
+prefixed with `AUTOSERVER__`.
 
 ```toml
-APIENGINE__ENV="dev"
-APIENGINE__LIMITS__PAGESIZE=200
-APIENGINE__PROTOCOLS__HTTP__HOSTNAME="myhostname"
+AUTOSERVER__ENV="dev"
+AUTOSERVER__LIMITS__PAGESIZE=200
+AUTOSERVER__PROTOCOLS__HTTP__HOSTNAME="myhostname"
 ```
 
 The example above will be converted to the following
@@ -139,9 +139,9 @@ arrays.
 
 Some well-known environment variables can also be used as alternative names,
 namely:
-  - `NODE_ENV`: same as `APIENGINE__ENV`
-  - `HOST`: same as `APIENGINE__PROTOCOLS__HTTP__HOSTNAME`
-  - `PORT`: same as `APIENGINE__PROTOCOLS__HTTP__PORT`
+  - `NODE_ENV`: same as `AUTOSERVER__ENV`
+  - `HOST`: same as `AUTOSERVER__PROTOCOLS__HTTP__HOSTNAME`
+  - `PORT`: same as `AUTOSERVER__PROTOCOLS__HTTP__PORT`
 
 # Configuration format version
 

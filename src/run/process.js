@@ -8,7 +8,7 @@ const { normalizeError } = require('../errors');
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance
 // will collect the warnings of all the instances.
-// Note that process events fired that do not belong to apiengine might be
+// Note that process events fired that do not belong to autoserver might be
 // caught as well.
 const processErrorHandler = function ({ config }) {
   setupUnhandledRejection({ config });

@@ -9,7 +9,7 @@
 			"created": 1510048616091,
 			"description": "",
 			"modified": 1510049079824,
-			"name": "apiengine",
+			"name": "autoserver",
 			"parentId": null,
 			"_type": "workspace"
 		},
@@ -482,7 +482,7 @@
 				},
 				{
 					"id": "pair_596b41304e6d4aa89a9dbf8523152d27",
-					"name": "X-Apiengine-Params",
+					"name": "X-Autoserver-Params",
 					"value": "{\"a\": 5, \"b\": 6}"
 				},
 				{
@@ -831,7 +831,7 @@
 			"_id": "req_39ed13a1760244c683e82d0815bc5d75",
 			"authentication": {},
 			"body": {
-				"fileName": "/home/apiengine/examples/insomnia/randomlogo.png",
+				"fileName": "/home/autoserver/examples/insomnia/randomlogo.png",
 				"mimeType": "application/octet-stream"
 			},
 			"created": 1510310922193,
@@ -984,7 +984,7 @@
 			"_id": "req_0637fa1bd79945c09fd2fc374da9bf61",
 			"authentication": {},
 			"body": {
-				"fileName": "/home/apiengine/examples/insomnia/utf16_example",
+				"fileName": "/home/autoserver/examples/insomnia/utf16_example",
 				"mimeType": "application/octet-stream"
 			},
 			"created": 1510577908128,
@@ -1062,7 +1062,7 @@
 			"_id": "req_644c97c555164644b395225e5a85eb4a",
 			"authentication": {},
 			"body": {
-				"fileName": "/home/apiengine/examples/insomnia/randomlogo.png",
+				"fileName": "/home/autoserver/examples/insomnia/randomlogo.png",
 				"mimeType": "application/octet-stream"
 			},
 			"created": 1510742863029,
@@ -1143,7 +1143,7 @@
 			"_id": "req_9937a7b1ec69403ba55fca90e53d6a15",
 			"authentication": {},
 			"body": {
-				"fileName": "/home/apiengine/examples/insomnia/utf16_example",
+				"fileName": "/home/autoserver/examples/insomnia/utf16_example",
 				"mimeType": "application/octet-stream"
 			},
 			"created": 1510743225217,
@@ -1416,7 +1416,7 @@
 			"_id": "req_fdbe10333789412da0791c416a56177d",
 			"authentication": {},
 			"body": {
-				"fileName": "/home/apiengine/examples/insomnia/gzip_request",
+				"fileName": "/home/autoserver/examples/insomnia/gzip_request",
 				"mimeType": "application/octet-stream"
 			},
 			"created": 1511256814399,
@@ -1445,7 +1445,7 @@
 			"_id": "req_fcc1f3b4e68e4597a811fd3da50e0d48",
 			"authentication": {},
 			"body": {
-				"fileName": "/home/apiengine/examples/insomnia/gzip_request",
+				"fileName": "/home/autoserver/examples/insomnia/gzip_request",
 				"mimeType": "application/octet-stream"
 			},
 			"created": 1511259245681,

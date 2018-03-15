@@ -3,7 +3,7 @@
 const { inspect } = require('util');
 const { stdout: { columns } } = require('process');
 
-const apiengine = require('..');
+const autoserver = require('..');
 
 // Set default console log printing
 const setDefaultDebug = function () {
@@ -23,7 +23,7 @@ const STACK_TRACE_LIMIT = 20;
 
 const startServer = async function () {
   try {
-    const { protocols, exit } = await apiengine.run();
+    const { protocols, exit } = await autoserver.run();
     return { protocols, exit };
   } catch (error) {
     // eslint-disable-next-line no-console, no-restricted-globals

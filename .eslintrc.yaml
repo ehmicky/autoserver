@@ -354,7 +354,7 @@ rules:
   node/no-missing-require:
   - 2
   - allowModules:
-    - apiengine
+    - autoserver
   node/no-unpublished-require:
   - 2
   - allowModules:
@@ -514,6 +514,6 @@ rules:
 #  import/no-restricted-paths: 2
 settings:
   import/core-modules:
-  - apiengine
+  - autoserver
   node/allowModules:
-  - apiengine
+  - autoserver
