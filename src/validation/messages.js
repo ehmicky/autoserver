@@ -18,8 +18,8 @@ const errorMessages = {
     const values = getWordsList(allowedValues, { quotes: true });
     return ` must be ${values}`;
   },
-  const: ({ schema }) =>
-    ` must be equal to '${schema}'`,
+  const: ({ params: { allowedValue } }) =>
+    ` must be equal to '${allowedValue}'`,
 
   // JSON schema keywords for `number|integer` type
   multipleOf: ({ params: { multipleOf } }) =>
