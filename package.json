@@ -76,7 +76,6 @@
     "gulp": "^4.0.0",
     "gulp-eslint": "^4.0.2",
     "gulp-jscpd": "0.0.8",
-    "gulp-util": "^3.0.8",
     "markdown-link-check": "^3.2.0",
     "nodemon": "^1.17.3",
     "plugin-error": "^1.0.1",
