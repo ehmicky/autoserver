@@ -19,8 +19,8 @@
   "bin": "./bin/autoserver",
   "scripts": {
     "start": "cd ./examples && ../bin/autoserver",
-    "watch": "./node_modules/.bin/nodemon --config ./nodemon.json",
-    "debug": "./node_modules/.bin/nodemon --config ./nodemon_debug.json",
+    "watch": "nodemon --config ./nodemon.json",
+    "debug": "nodemon --config ./nodemon_debug.json",
     "build": "gulp build",
     "build_watch": "gulp watch",
     "test": "gulp test"
