@@ -1,0 +1,18 @@
+{
+  "SOURCE": [
+    "*.js",
+    "*.md",
+    "bin/*",
+    "src/**/*.js",
+    "gulp/**/*.js",
+    "examples/**/*.js",
+    "docs/**/*.md"
+  ],
+  "FORMAT": [
+    "src/**/*.yml"
+  ],
+  "DOCS": [
+    "*.md",
+    "docs/**/*.md"
+  ]
+}
