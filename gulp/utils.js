@@ -1,28 +1,22 @@
 'use strict';
 
-const gulp = require('gulp');
-const plumber = require('gulp-plumber');
-const watch = require('gulp-watch');
+const PluginError = require('plugin-error');
 
-const files = require('./files.json');
-
-const getFiles = function (type) {
-  return Object.entries(files)
-    .filter(([, opts]) => opts[type])
-    .map(([pattern]) => pattern);
+// Emit a Gulp plugin error
+const emitError = function ({ PLUGIN_NAME, stream, error }) {
+  const errorA = new PluginError(PLUGIN_NAME, error, { showProperties: false });
+  stream.emit('error', errorA);
 };
 
-const gulpSrc = function (type) {
-  const allFiles = getFiles(type);
-  return gulp.src(allFiles).pipe(plumber());
-};
+// When the Gulp plugin does not support Vinyl.contents being a stream
+const validateNotStream = function ({ PLUGIN_NAME, file, stream }) {
+  if (!file.isStream()) { return; }
 
-const gulpWatch = function (type) {
-  const allFiles = getFiles(type);
-  return watch(allFiles).pipe(plumber());
+  const error = 'Streams are not supported';
+  emitError({ PLUGIN_NAME, stream, error });
 };
 
 module.exports = {
-  gulpSrc,
-  gulpWatch,
+  emitError,
+  validateNotStream,
 };
