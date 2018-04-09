@@ -514,8 +514,3 @@ rules:
 #  no-restricted-modules: 2
 #  no-restricted-properties: 2
 #  import/no-restricted-paths: 2
-settings:
-  import/core-modules:
-  - autoserver
-  node/allowModules:
-  - autoserver
