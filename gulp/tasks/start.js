@@ -17,21 +17,21 @@ const start = async function () {
 };
 
 // eslint-disable-next-line fp/no-mutation
-start.description = 'Start an example server';
+start.description = 'Start an example production server';
 
 const dev = function () {
   return startNodemon(nodemonDevConfig);
 };
 
 // eslint-disable-next-line fp/no-mutation
-dev.description = 'Start an example server in watch mode';
+dev.description = 'Start an example dev server in watch mode';
 
 const debug = function () {
   return startNodemon(nodemonDebugConfig);
 };
 
 // eslint-disable-next-line fp/no-mutation
-debug.description = 'Start an example server in debug mode';
+debug.description = 'Start an example dev server in debug mode';
 
 const startNodemon = async function (config) {
   const nodemon = new Nodemon(config);
