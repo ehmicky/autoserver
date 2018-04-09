@@ -3,14 +3,16 @@
 const { promisify } = require('util');
 
 const { src, dest, watch, series, parallel } = require('gulp');
+const yamlToJson = require('gulp-yaml');
 
-const FILES = require('../../files');
-
-const { convertFormat } = require('./format');
+const FILES = require('../files');
 
 const format = function () {
   return src(FILES.FORMAT)
-    .pipe(convertFormat())
+    .pipe(yamlToJson({
+      schema: 'JSON_SCHEMA',
+      space: 2,
+    }))
     .pipe(dest(({ base }) => base));
 };
 
