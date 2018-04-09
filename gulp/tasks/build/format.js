@@ -5,9 +5,8 @@ const { Buffer } = require('buffer');
 const through = require('through2');
 
 // eslint-disable-next-line import/no-internal-modules
-const { getFormat, getByExt } = require('../src/formats');
-
-const { emitError, validateNotStream } = require('./utils');
+const { getFormat, getByExt } = require('../../../src/formats');
+const { emitError, validateNotStream } = require('../../utils');
 
 // Convert several file formats towards JSON (or any other format)
 const convertFormat = function ({ format = DEFAULT_FORMAT } = {}) {

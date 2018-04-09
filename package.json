@@ -18,11 +18,7 @@
   "main": "index.js",
   "bin": "./bin/autoserver",
   "scripts": {
-    "start": "cd ./examples && ../bin/autoserver",
-    "watch": "nodemon --config ./nodemon.json",
-    "debug": "nodemon --config ./nodemon_debug.json",
-    "build": "gulp build",
-    "build_watch": "gulp watch",
+    "start": "gulp",
     "test": "gulp test"
   },
   "license": "Apache-2.0",
