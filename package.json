@@ -14,7 +14,7 @@
     "type": "git",
     "url": "https://github.com/autoserver-org/autoserver"
   },
-  "author": "Autoserver founder <founder@autoserver.io> (http://autoserver.io)",
+  "author": "autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
   "bin": "./bin/autoserver",
   "scripts": {
