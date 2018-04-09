@@ -24,7 +24,8 @@ If an error occurred, the promise will be rejected with an
 
 <!-- eslint-disable no-unused-vars, no-undef, strict, no-console,
 no-restricted-globals, unicorn/catch-error-name, promise/always-return,
-promise/prefer-await-to-then -->
+promise/prefer-await-to-then, node/no-extraneous-require,
+import/no-extraneous-dependencies -->
 ```javascript
 const autoserver = require('autoserver');
 
