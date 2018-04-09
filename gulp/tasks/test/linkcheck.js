@@ -6,7 +6,7 @@ const { promisify } = require('util');
 const through = require('through2');
 const markdownLinkCheck = require('markdown-link-check');
 
-const { emitError, validateNotStream } = require('./utils');
+const { emitError, validateNotStream } = require('../../utils');
 
 const pLinkCheck = promisify(markdownLinkCheck);
 
