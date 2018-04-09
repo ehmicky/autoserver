@@ -1,34 +1,18 @@
-# Dev server
+# Installing dependencies
 
-First `npm install`.
+Run `npm install`.
 
-An example configuration is available at `/examples`. To start a server with
-that configuration, use either:
-  - `npm start`: production mode
-  - `npm run watch`: dev mode.
-    Auto-reloads, using [Nodemon](https://github.com/remy/nodemon).
-    Allows debugging in Chrome developer tools, using `node --inspect`.
-  - `npm run debug`: like `npm start` but using `node --inspect-brk`,
-    i.e. will put a breakpoint on server start.
+# Build tasks
 
-A local HTTP server will be spawned at `http://localhost:5001`.
+You can run the following tasks on the command line:
+  - `gulp`: build and run an example HTTP server at `http://localhost:5001`
+    in watch mode.
+    The server's configuration is available at `/examples`.
+  - `gulp build`: build the application
+  - `gulp watch`: build the application in watch mode
+  - `gulp test`: test and lint the application
 
-# Building
-
-Building is performed with `npm run build` (one-time) or
-`npm run build_watch` (watch mode).
-
-At the moment, the only task performed in to transform some files from YAML to
-JSON.
-
-# Testing
-
-There is no automated testing yet.
-
-`npm test` will:
-  - run linting, using [ESLint](http://eslint.org/)
-  - check for code duplication
-  - check for dead links in the documentation
+For more information on the available tasks, run `gulp --tasks`.
 
 # Troubleshooting
 
