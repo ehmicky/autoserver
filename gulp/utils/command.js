@@ -5,8 +5,9 @@ const { spawn } = require('child_process');
 const PluginError = require('plugin-error');
 
 // Execute a shell command
-const execCommand = function (command, args = []) {
-  const child = spawn(command, args, { stdio: 'inherit' });
+const execCommand = function (command) {
+  const [commandA, ...args] = command.trim().split(/ +/);
+  const child = spawn(commandA, args, { stdio: 'inherit' });
 
   // eslint-disable-next-line promise/avoid-new
   return new Promise(execCommandPromise.bind(null, child));
