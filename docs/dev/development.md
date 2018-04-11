@@ -9,8 +9,9 @@ You can run the following tasks on the command line:
     in watch mode.
     The server's configuration is available at `/examples`.
   - `gulp build`: build the application
-  - `gulp watch`: build the application in watch mode
   - `gulp test`: test and lint the application
+  - `gulp buildwatch`, `gulp testwatch`: like `gulp build` and `gulp test` but
+    in watch mode
 
 For more information on the available tasks, run `gulp --tasks`.
 

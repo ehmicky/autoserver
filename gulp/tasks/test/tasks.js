@@ -1,10 +1,10 @@
 'use strict';
 
-const { src, parallel } = require('gulp');
+const { src, parallel, lastRun } = require('gulp');
 const jscpd = require('gulp-jscpd');
 
 const FILES = require('../../files');
-const { execCommand } = require('../../utils');
+const { execCommand, getWatchTask } = require('../../utils');
 
 const { linksCheck } = require('./linkcheck');
 
@@ -31,7 +31,7 @@ const dup = function () {
 dup.description = 'Check for code duplication';
 
 const links = function () {
-  return src(FILES.DOCS)
+  return src(FILES.DOCS, { since: lastRun(links) })
     .pipe(linksCheck());
 };
 
@@ -43,8 +43,14 @@ const testTask = parallel(lint, dup, links);
 // eslint-disable-next-line fp/no-mutation
 testTask.description = 'Lint and test the application';
 
+const testwatch = getWatchTask({ SOURCE: [lint, dup], DOCS: links }, testTask);
+
+// eslint-disable-next-line fp/no-mutation
+testwatch.description = 'Lint and test the application in watch mode';
+
 module.exports = {
   test: testTask,
+  testwatch,
   lint,
   dup,
   links,
