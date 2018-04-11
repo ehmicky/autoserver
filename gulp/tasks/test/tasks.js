@@ -1,22 +1,15 @@
 'use strict';
 
 const { src, parallel } = require('gulp');
-const eslint = require('gulp-eslint');
 const jscpd = require('gulp-jscpd');
 
 const FILES = require('../../files');
+const { execCommand } = require('../../utils');
 
 const { linksCheck } = require('./linkcheck');
 
-const lint = function () {
-  return src(FILES.SOURCE)
-    .pipe(eslint({
-      cache: true,
-      ignorePath: '.gitignore',
-    }))
-    .pipe(eslint.format('codeframe'))
-    .pipe(eslint.failAfterError());
-};
+// We do not use `gulp-eslint` because it does not support --cache
+const lint = execCommand.bind(null, `eslint ${FILES.SOURCE.join(' ')} --ignore-path .gitignore --fix --cache --format codeframe`);
 
 // eslint-disable-next-line fp/no-mutation
 lint.description = 'Lint source files';

@@ -70,7 +70,6 @@
     "eslint-plugin-standard": "^3.0.1",
     "eslint-plugin-unicorn": "^4.0.3",
     "gulp": "^4.0.0",
-    "gulp-eslint": "^4.0.2",
     "gulp-jscpd": "0.0.8",
     "gulp-yaml": "^1.0.1",
     "markdown-link-check": "^3.2.0",
