@@ -9,7 +9,9 @@ const { execCommand } = require('../../utils');
 const { linksCheck } = require('./linkcheck');
 
 // We do not use `gulp-eslint` because it does not support --cache
-const lint = execCommand.bind(null, `eslint ${FILES.SOURCE.join(' ')} --ignore-path .gitignore --fix --cache --format codeframe`);
+const lint = function () {
+  return execCommand(`eslint ${FILES.SOURCE.join(' ')} --ignore-path .gitignore --fix --cache --format codeframe`);
+};
 
 // eslint-disable-next-line fp/no-mutation
 lint.description = 'Lint source files';
