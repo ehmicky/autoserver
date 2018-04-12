@@ -6,10 +6,11 @@ const { spawn } = require('child_process');
 const PluginError = require('plugin-error');
 
 // Execute a shell command
-const execCommand = function (command) {
+const execCommand = function (command, opts) {
   const [commandA, ...args] = command.trim().split(/ +/);
   const envA = getEnv();
-  const child = spawn(commandA, args, { stdio: 'inherit', env: envA });
+  const stdio = getStdio({ opts });
+  const child = spawn(commandA, args, { env: envA, stdio });
 
   // eslint-disable-next-line promise/avoid-new
   return new Promise(execCommandPromise.bind(null, child));
@@ -30,6 +31,15 @@ const getPath = function ({ env: { PATH = '' } }) {
 };
 
 const LOCAL_NODE_BIN_DIR = './node_modules/.bin/';
+
+// If `opts.quiet` `true`, does not print stdout (but still prints stderr)
+const getStdio = function ({ opts: { quiet = false } = {} }) {
+  if (quiet) {
+    return [0, 'ignore', 2];
+  }
+
+  return 'inherit';
+};
 
 // Check command exit code
 const execCommandPromise = function (child, resolve, reject) {
