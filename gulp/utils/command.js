@@ -13,7 +13,7 @@ const execCommand = function (command, opts) {
   const child = spawn(commandA, args, { env: envA, stdio });
 
   // eslint-disable-next-line promise/avoid-new
-  return new Promise(execCommandPromise.bind(null, child));
+  return new Promise(execCommandPromise.bind(null, { child, command }));
 };
 
 // Adds local Node modules binary to `$PATH`
@@ -42,14 +42,14 @@ const getStdio = function ({ opts: { quiet = false } = {} }) {
 };
 
 // Check command exit code
-const execCommandPromise = function (child, resolve, reject) {
-  child.on('exit', execCommandExit.bind(null, resolve, reject));
+const execCommandPromise = function ({ child, command }, resolve, reject) {
+  child.on('exit', execCommandExit.bind(null, { command, resolve, reject }));
 };
 
-const execCommandExit = function (resolve, reject, exitCode) {
+const execCommandExit = function ({ command, resolve, reject }, exitCode) {
   if (exitCode === 0) { return resolve(); }
 
-  const error = new PluginError('shell', 'Shell command failed');
+  const error = new PluginError('shell', `Shell command '${command}' failed`);
   reject(error);
 };
 
