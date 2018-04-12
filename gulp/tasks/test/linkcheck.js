@@ -4,24 +4,25 @@ const { dirname } = require('path');
 const { promisify } = require('util');
 
 const through = require('through2');
-const markdownLinkCheck = require('markdown-link-check');
+const linkCheck = require('link-check');
+const markdownLinkExtractor = require('markdown-link-extractor');
 
 const { emitError, validateNotStream } = require('../../utils');
 
-const pLinkCheck = promisify(markdownLinkCheck);
+const pLinkCheck = promisify(linkCheck);
 
 // Checks for dead links in Markdown files
-const linksCheck = function () {
-  return through.obj(linkCheck);
+const linksCheck = function (opts = {}) {
+  return through.obj(function fileLinksCheck (file, encoding, done) {
+    // eslint-disable-next-line fp/no-this, no-invalid-this
+    return singleLinkCheck({ file, done, stream: this, opts });
+  });
 };
 
 // TODO: through2 calls each file serially.
 // Checking links in paralle would be much faster.
-const linkCheck = async function (file, encoding, done) {
-  // eslint-disable-next-line fp/no-this, no-invalid-this, consistent-this
-  const stream = this;
-
-  await linkCheckFile({ file, stream });
+const singleLinkCheck = async function ({ file, done, stream, opts }) {
+  await linkCheckFile({ file, stream, opts });
 
   // eslint-disable-next-line fp/no-mutating-methods
   stream.push(file);
@@ -33,6 +34,7 @@ const linkCheckFile = async function ({
   file,
   file: { contents, path },
   stream,
+  opts,
 }) {
   if (file.isNull()) { return; }
 
@@ -40,11 +42,11 @@ const linkCheckFile = async function ({
 
   const content = contents.toString();
 
-  await linkCheckContent({ path, content, stream });
+  await linkCheckContent({ path, content, stream, opts });
 };
 
-const linkCheckContent = async function ({ path, content, stream }) {
-  const brokenLinks = await getBrokenLinks({ path, content });
+const linkCheckContent = async function ({ path, content, stream, opts }) {
+  const brokenLinks = await getBrokenLinks({ path, content, opts });
   if (brokenLinks.length === 0) { return; }
 
   const error = getErrorMessages({ brokenLinks, path });
@@ -53,16 +55,39 @@ const linkCheckContent = async function ({ path, content, stream }) {
 
 // Parses Markdown, performs HTTP requests against found links and
 // reports result
-const getBrokenLinks = async function ({ path, content }) {
+const getBrokenLinks = async function ({ path, content, opts }) {
   const baseUrl = `file://${dirname(path)}`;
-  const links = await pLinkCheck(content, { baseUrl });
 
-  const brokenLinks = links.filter(isBrokenLink);
-  return brokenLinks;
+  const linksA = markdownLinkExtractor(content);
+
+  const linksB = linksA
+    .filter(isUnique)
+    .filter(link => isPath({ link, opts }));
+  const linksC = linksB.map(link => checkLink({ link, baseUrl }));
+  const linksD = await Promise.all(linksC);
+
+  // Only broken links
+  const linksE = linksD.filter(link => link !== undefined);
+
+  return linksE;
 };
 
-const isBrokenLink = function ({ status }) {
-  return status !== 'alive';
+const isUnique = function (link, index, links) {
+  return !links.some((linkA, indexA) => index > indexA && link === linkA);
+};
+
+const isPath = function ({ link, opts: { full = false } }) {
+  // `opts.full` defaults to `false`, i.e. only checks local files for speed
+  if (full) { return true; }
+
+  return !link.startsWith('http:') && !link.startsWith('https:');
+};
+
+const checkLink = async function ({ link, baseUrl }) {
+  const { status, err } = await pLinkCheck(link, { baseUrl });
+  if (status === 'alive') { return; }
+
+  return { link, err };
 };
 
 const getErrorMessages = function ({ brokenLinks, path }) {

@@ -32,11 +32,19 @@ dup.description = 'Check for code duplication';
 
 const links = function () {
   return src(FILES.DOCS, { since: lastRun(links) })
-    .pipe(linksCheck());
+    .pipe(linksCheck({ full: false }));
 };
 
 // eslint-disable-next-line fp/no-mutation
-links.description = 'Check for dead links in documentation Markdown files';
+links.description = 'Check for dead links in documentation Markdown files, for local files only';
+
+const linksfull = function () {
+  return src(FILES.DOCS, { since: lastRun(links) })
+    .pipe(linksCheck({ full: true }));
+};
+
+// eslint-disable-next-line fp/no-mutation
+linksfull.description = 'Check for dead links in documentation Markdown files, including HTTP[S] links';
 
 const testTask = parallel(lint, dup, links);
 
@@ -54,4 +62,5 @@ module.exports = {
   lint,
   dup,
   links,
+  linksfull,
 };
