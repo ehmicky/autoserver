@@ -62,7 +62,7 @@
     "eslint-plugin-eslint-comments": "^2.0.2",
     "eslint-plugin-filenames": "^1.2.0",
     "eslint-plugin-fp": "^2.3.0",
-    "eslint-plugin-html": "^4.0.1",
+    "eslint-plugin-html": "^4.0.3",
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-node": "^6.0.1",
