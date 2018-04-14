@@ -56,7 +56,7 @@
     "yargs": "^11.1.0"
   },
   "devDependencies": {
-    "eslint": "^5.0.0-alpha.0",
+    "eslint": "^5.0.0-alpha.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-import-resolver-node": "^0.3.2",
     "eslint-plugin-eslint-comments": "^2.0.2",
