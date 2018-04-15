@@ -31,7 +31,7 @@
     "content-type": "^1.0.4",
     "fast-memoize": "^2.3.2",
     "graphql": "^0.9.1",
-    "graphql-type-json": "^0.2.0",
+    "graphql-type-json": "^0.2.1",
     "hjson": "^3.1.1",
     "iconv-lite": "^0.4.19",
     "iltorb": "^2.3.0",
