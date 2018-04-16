@@ -71,7 +71,7 @@
     "eslint-plugin-unicorn": "^4.0.3",
     "gulp": "^4.0.0",
     "gulp-jscpd": "0.0.8",
-    "gulp-yaml": "^2.0.0",
+    "gulp-yaml": "^2.0.1",
     "link-check": "^4.3.3",
     "markdown-link-extractor": "^1.1.1",
     "nodemon": "^1.17.3",
