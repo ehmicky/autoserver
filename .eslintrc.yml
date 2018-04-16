@@ -64,8 +64,6 @@ rules:
   eslint-comments/disable-enable-pair: 2
   eslint-comments/no-unused-enable: 2
   eslint-comments/no-duplicate-disable: 2
-  # There is a bug at the moment, see https://github.com/mysticatea/eslint-plugin-eslint-comments/issues/12
-  # eslint-comments/no-unused-disable: 2
   eslint-comments/no-unlimited-disable: 2
   eslint-comments/no-aggregating-enable: 2
   eslint-comments/no-use:
