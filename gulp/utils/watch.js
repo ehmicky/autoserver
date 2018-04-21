@@ -1,5 +1,6 @@
 'use strict';
 
+const process = require('process');
 const { promisify } = require('util');
 
 const { watch, series, parallel } = require('gulp');
@@ -30,6 +31,10 @@ const getWatchTasks = tasks => function watchTasks () {
 const watchByType = async function ({ type, task }) {
   const taskA = Array.isArray(task) ? parallel(task) : task;
   const watcher = watch(FILES[type], taskA);
+
+  // Otherwise the task will hang when fired through npm scripts
+  process.on('SIGINT', watcher.close.bind(watcher));
+
   // Wait for watching to be setup to mark the `watch` task as complete
   await promisify(watcher.on.bind(watcher))('ready');
 };
