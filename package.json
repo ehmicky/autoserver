@@ -43,7 +43,7 @@
     "mustache": "^2.3.0",
     "negotiator": "^0.6.1",
     "parse-prefer-header": "^1.0.0",
-    "path-to-regexp": "^2.2.0",
+    "path-to-regexp": "^2.2.1",
     "pluralize": "^7.0.0",
     "qs": "^6.5.1",
     "raw-body": "^2.3.2",
