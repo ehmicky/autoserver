@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  ...require('./top'),
+  ...require('./main'),
   ...require('./start'),
   ...require('./build'),
   ...require('./test'),
