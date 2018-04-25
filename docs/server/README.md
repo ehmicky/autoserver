@@ -11,7 +11,8 @@ autoserver run
 or from [Node.js](usage/README.md#node.js):
 
 <!-- eslint-disable strict, no-undef, unicorn/filename-case,
-node/no-extraneous-require, import/no-extraneous-dependencies -->
+node/no-extraneous-require, import/no-extraneous-dependencies,
+import/no-unresolved -->
 ```javascript
 const autoserver = require('autoserver');
 
