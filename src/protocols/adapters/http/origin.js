@@ -1,6 +1,6 @@
 'use strict';
 
-const { format: urlFormat, URL } = require('url');
+const { format: urlFormat } = require('url');
 
 // Retrieves full URL
 const getUrl = function ({ specific, specific: { req: { url } } }) {
