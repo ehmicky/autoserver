@@ -5,6 +5,7 @@ node_modules
 core
 .eslintcache
 .yarn-error.log
+.npmrc
 
 src/**/*.yml
 

@@ -6,3 +6,4 @@ core
 .eslintcache
 .yarn-error.log
 src/**/*.json
+.npmrc
