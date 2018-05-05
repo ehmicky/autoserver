@@ -1,6 +1,5 @@
 'use strict';
 
-const process = require('process');
 const { promisify } = require('util');
 
 const { watch, series, parallel } = require('gulp');
