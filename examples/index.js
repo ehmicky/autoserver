@@ -13,13 +13,9 @@ const setDefaultDebug = function () {
     depth: null,
     breakLength: columns || COLUMNS_WIDTH,
   };
-
-  // eslint-disable-next-line fp/no-mutation
-  Error.stackTraceLimit = STACK_TRACE_LIMIT;
 };
 
 const COLUMNS_WIDTH = 80;
-const STACK_TRACE_LIMIT = 20;
 
 const startServer = async function () {
   try {
