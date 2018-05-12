@@ -452,6 +452,10 @@ rules:
   no-process-exit: 2
   unicorn/no-process-exit: 2
 
+  # This rule cannot be used at the moment because it has a bug where
+  # `Object.assign({}, ...array)` is reported as wrong
+#  prefer-object-spread: 2
+
   # Those rules should be picked for a fully functional codebase.
   # However, we want to allow throwing exceptions, because monads would
   # be too verbose.
