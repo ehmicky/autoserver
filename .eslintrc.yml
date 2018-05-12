@@ -299,6 +299,7 @@ rules:
   class-methods-use-this: 2
   consistent-this: 2
   no-prototype-builtins: 2
+  max-classes-per-file: 0
   fp/no-class: 2
   fp/no-this: 2
 
