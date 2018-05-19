@@ -57,7 +57,7 @@ const addInstructionExamples = function ({
 }) {
   return examples.reduce(
     (yargsA, [desc, usageA]) =>
-      yargsA.example(`${desc}:`, `autoserver ${name} ${usageA}`),
+      yargsA.example(`$0 ${name} ${usageA}`, desc),
     yargs,
   );
 };
