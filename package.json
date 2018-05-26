@@ -73,7 +73,7 @@
     "gulp-jscpd": "0.0.8",
     "gulp-yaml": "^2.0.1",
     "link-check": "^4.4.1",
-    "markdown-link-extractor": "^1.1.1",
+    "markdown-link-extractor": "^1.1.2",
     "nodemon": "^1.17.5",
     "plugin-error": "^1.0.1",
     "through2": "^2.0.3"
