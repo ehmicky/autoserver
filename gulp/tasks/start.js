@@ -1,7 +1,6 @@
 'use strict';
 
 const { promisify } = require('util');
-const { chdir } = require('process');
 
 const Nodemon = require('nodemon');
 
@@ -9,11 +8,9 @@ const nodemonDevConfig = require('../../nodemon');
 const nodemonDebugConfig = require('../../nodemon.debug');
 const { execCommand } = require('../utils');
 
-const start = async function () {
-  chdir('./examples');
-
+const start = function () {
   // We use this instead of requiring the application to test the CLI
-  await execCommand('../bin/autoserver');
+  return execCommand('../bin/autoserver', { cwd: './examples' });
 };
 
 // eslint-disable-next-line fp/no-mutation
