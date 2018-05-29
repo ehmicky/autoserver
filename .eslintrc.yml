@@ -187,6 +187,7 @@ rules:
   no-plusplus: 2
   operator-assignment: 2
   no-multi-assign: 2
+  prefer-object-spread: 2
   no-param-reassign:
   - 2
   - props: true
@@ -452,10 +453,6 @@ rules:
   unicorn/prefer-add-event-listener: 2
   no-process-exit: 2
   unicorn/no-process-exit: 2
-
-  # This rule cannot be used at the moment because it has a bug where
-  # `Object.assign({}, ...array)` is reported as wrong
-#  prefer-object-spread: 2
 
   # Those rules should be picked for a fully functional codebase.
   # However, we want to allow throwing exceptions, because monads would
