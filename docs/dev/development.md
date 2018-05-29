@@ -17,4 +17,4 @@ For more information on the available tasks, run `gulp --tasks`.
 
 # Troubleshooting
 
-  - Please use Node.js v10.2.1
+  - Please use Node.js v10.3.0
