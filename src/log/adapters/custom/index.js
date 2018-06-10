@@ -1,3 +1,7 @@
 'use strict';
 
-module.exports = require('./handler');
+const handler = require('./handler');
+
+module.exports = {
+  ...handler,
+};
