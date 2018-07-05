@@ -490,6 +490,9 @@ rules:
 #  global-require: 2
 #  import/prefer-default-export: 2
 
+  # This rule goes against how the files hierarchy is structured
+#  import/no-relative-parent-imports: 2
+
   # We sort object keys by type, but by name
 #  sort-keys: 2
 
