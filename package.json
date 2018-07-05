@@ -47,7 +47,7 @@
     "pluralize": "^7.0.0",
     "qs": "^6.5.2",
     "raw-body": "^2.3.2",
-    "request-ip": "^2.0.2",
+    "request-ip": "^2.1.1",
     "require-from-string": "^2.0.2",
     "type-is": "^1.6.16",
     "underscore.string": "^3.3.4",
