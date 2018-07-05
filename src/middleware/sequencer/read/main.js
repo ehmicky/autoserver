@@ -68,12 +68,7 @@ const fireRead = async function ({
     collname,
   });
 
-  const promise = fireReadCommand({
-    action,
-    mInput,
-    nextLayer,
-    args: argsB,
-  });
+  const promise = fireReadCommand({ action, mInput, nextLayer, args: argsB });
 
   const pendingResults = addPendingResults({
     args: argsB,

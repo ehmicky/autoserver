@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+/* eslint-disable max-lines, max-lines-per-function */
 'use strict';
 
 const { getStandardError } = require('../../errors');
@@ -146,4 +146,4 @@ module.exports = {
   getModelParams,
 };
 
-/* eslint-enable max-lines */
+/* eslint-enable max-lines, max-lines-per-function */

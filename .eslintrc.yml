@@ -135,6 +135,12 @@ rules:
   - max: 90
     skipBlankLines: true
     skipComments: true
+  max-lines-per-function:
+  - 2
+  - max: 50
+    skipBlankLines: true
+    skipComments: true
+    IIFEs: true
   max-statements:
   - 2
   - 10
