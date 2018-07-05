@@ -53,7 +53,7 @@
     "underscore.string": "^3.3.4",
     "uuid": "^3.3.2",
     "vary": "^1.1.2",
-    "yargs": "^11.1.0"
+    "yargs": "^12.0.1"
   },
   "devDependencies": {
     "eslint": "^5.0.0-rc.0",

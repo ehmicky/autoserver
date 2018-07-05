@@ -2,7 +2,6 @@
 
 const {
   omit,
-  omitBy,
   recurseMap,
   fullRecurseMap,
   transtype,
@@ -28,9 +27,8 @@ const processOpts = function ({ opts }) {
 
   const optsB = transtypeValues({ opts: optsA });
   const optsC = parseArrays({ opts: optsB });
-  const optsD = omitBy(optsC, value => value === undefined);
 
-  return { instruction, opts: optsD };
+  return { instruction, opts: optsC };
 };
 
 const parserOpts = ['$0', 'help', 'version', 'instruction'];
