@@ -48,6 +48,18 @@ rules:
   - 2
   - {}
 
+  # Globals
+  node/prefer-global/console: 2
+  node/prefer-global/url: 2
+  node/prefer-global/url-search-params: 2
+  # We only use globals for globals also defined in the browser
+  node/prefer-global/buffer:
+  - 2
+  - never
+  node/prefer-global/process:
+  - 2
+  - never
+
   # Comments
   no-inline-comments: 2
   multiline-comment-style:
