@@ -11,7 +11,7 @@ let stoppedRequirePerf;
 // and not require any dependency itself.
 const startRequirePerf = function () {
   // eslint-disable-next-line fp/no-mutation
-  requirePerf.pending = hrtime();
+  requirePerf.pending = hrtime.bigint();
 };
 
 const stopRequirePerf = function () {

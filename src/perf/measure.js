@@ -18,20 +18,14 @@ const { hrtime } = require('process');
 // Start a new measure
 const startPerf = function (label, category = 'default') {
   // `hrtime()` is more precise that `Date.now()`
-  const pending = hrtime();
+  const pending = hrtime.bigint();
   return { pending, label, category };
 };
 
+// Substracts the current time with the previous time
 const stopPerf = function ({ pending, label, category }) {
-  // Substracts the current time with the previous time
-  const [secs, nanoSecs] = hrtime();
-  const timestampA = (secs * SECS_TO_NANOSECS) + nanoSecs;
-
-  const [lastSecs, lastNanoSecs] = pending;
-  const timestampB = (lastSecs * SECS_TO_NANOSECS) + lastNanoSecs;
-
-  const duration = timestampA - timestampB;
-
+  const ending = hrtime.bigint();
+  const duration = Number(ending - pending);
   return { duration, label, category };
 };
 
@@ -45,7 +39,6 @@ const nanoSecsToMilliSecs = function ({ duration }) {
   return Math.round(duration / NANOSECS_TO_MILLISECS);
 };
 
-const SECS_TO_NANOSECS = 1e9;
 const NANOSECS_TO_MILLISECS = 1e6;
 
 module.exports = {
