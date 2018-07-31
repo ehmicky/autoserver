@@ -16,15 +16,16 @@ const getAlgo = function (algo = 'identity') {
   return compressAdapter;
 };
 
-// Check if compression algorithm is among the adapters
-const hasAlgo = function (algo) {
-  return compressAdapters[algo] !== undefined;
+// Find compression algorithm is among the adapters.
+// Follows key orders, i.e. priority set by this module.
+const findAlgo = function (algos) {
+  return Object.keys(compressAdapters).find(algo => algos.includes(algo));
 };
 
 const DEFAULT_ALGO = getAlgo('identity');
 
 module.exports = {
   getAlgo,
-  hasAlgo,
+  findAlgo,
   DEFAULT_ALGO,
 };

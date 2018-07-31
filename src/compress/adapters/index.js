@@ -2,8 +2,8 @@
 
 // Order matters, as first ones will have priority
 module.exports = [
-  require('./identity'),
+  require('./brotli'),
   require('./deflate'),
   require('./gzip'),
-  require('./brotli'),
+  require('./identity'),
 ];
