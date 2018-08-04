@@ -26,7 +26,7 @@ const getStack = function (description, details = '') {
     : `${description}\n${details}`;
 
   // Shorten stack trace directory paths
-  const dirPrefixRegExp = new RegExp(ROOT_DIR, 'g');
+  const dirPrefixRegExp = new RegExp(ROOT_DIR, 'gu');
   const trimmedStack = stack.replace(dirPrefixRegExp, '');
 
   return trimmedStack;

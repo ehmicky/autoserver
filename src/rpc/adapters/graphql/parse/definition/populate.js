@@ -21,7 +21,7 @@ const addPopulate = function ({ args, args: { select }, commandName }) {
 };
 
 // Keep only parent path, e.g. 'parent.child' -> 'parent'
-const PARENT_SELECT_REGEXP = /\.?[^.]+$/;
+const PARENT_SELECT_REGEXP = /\.?[^.]+$/u;
 
 module.exports = {
   addPopulate,

@@ -35,7 +35,7 @@ const getMessage = function (input, { message }) {
 };
 
 // Matches 'arguments.ARG'
-const ARGUMENTS_REGEXP = /^arguments.([^ ]+)/;
+const ARGUMENTS_REGEXP = /^arguments.([^ ]+)/u;
 
 const eValidate = addGenErrorHandler(validate, {
   reason: 'VALIDATION',

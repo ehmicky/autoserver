@@ -27,7 +27,7 @@ const getModulePath = function ({ path }) {
   return pathA;
 };
 
-const NODE_REGEXP = /\.node$/;
+const NODE_REGEXP = /\.node$/u;
 
 const eGetModulePath = addGenErrorHandler(getModulePath, {
   message: ({ value }) =>

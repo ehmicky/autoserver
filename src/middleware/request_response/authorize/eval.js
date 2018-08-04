@@ -60,7 +60,7 @@ const removePrefix = function ({ attrName, ...node }) {
 
 // `model.*` is transformed to `authorize`, which is added to
 // `args.filter` and checked against `args.data`
-const PARTIAL_NAMES_REGEXP = /^model\./;
+const PARTIAL_NAMES_REGEXP = /^model\./u;
 
 module.exports = {
   evalAuthorize,

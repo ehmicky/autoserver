@@ -2,7 +2,7 @@
 
 // Retrieves path without query string nor hash
 const getPath = function ({ specific: { req: { url } } }) {
-  return url.replace(/[?#].*/, '');
+  return url.replace(/[?#].*/u, '');
 };
 
 module.exports = {

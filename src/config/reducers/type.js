@@ -17,7 +17,7 @@ const mapAttr = function ({ attr }) {
 };
 
 // Parse 'type[]' to ['type', '[]'] and 'type' to ['type', '']
-const TYPE_REGEXP = /([^[]*)(\[\])?$/;
+const TYPE_REGEXP = /([^[]*)(\[\])?$/u;
 
 const NON_COLL_TYPES = [
   'array',

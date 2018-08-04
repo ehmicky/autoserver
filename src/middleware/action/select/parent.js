@@ -40,7 +40,7 @@ const hasAllParent = function ({ selects }) {
 };
 
 // Remove last select part, e.g. `parent.child` -> `parent`
-const PARENT_SELECT_REGEXP = /\.?[^.]+$/;
+const PARENT_SELECT_REGEXP = /\.?[^.]+$/u;
 
 module.exports = {
   addParentSelects,

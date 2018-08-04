@@ -33,7 +33,7 @@ const getErrorMessage = function ({ args, args: { filter }, features }) {
 
 const checkFeature = function ({ feature, features, args, filterFeatures }) {
   // Features can be namespaced, e.g. `filter:*` all fire the same validator
-  const validatorName = feature.replace(/:.*/, '');
+  const validatorName = feature.replace(/:.*/u, '');
 
   const validator = VALIDATORS[validatorName];
   return validator({ features, args, filterFeatures });

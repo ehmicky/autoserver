@@ -50,7 +50,7 @@ const genericOperator = function ({ type, value, attrName }) {
 
 const getGenericNode = function ({ type, value, key }) {
   const { [key]: name, kind } = OPERATORS_MAP[type];
-  const valueA = kind === 'regexp' ? new RegExp(value, 'i') : value;
+  const valueA = kind === 'regexp' ? new RegExp(value, 'iu') : value;
   return { [name]: valueA };
 };
 

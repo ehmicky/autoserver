@@ -6,7 +6,7 @@ const tokenizeInlineFunc = function ({ inlineFunc }) {
   return INLINE_FUNC_REGEXP.exec(inlineFunc);
 };
 
-const INLINE_FUNC_REGEXP = /^(\s*)(\\?)(\()(.*)(\))(\s*)$/;
+const INLINE_FUNC_REGEXP = /^(\s*)(\\?)(\()(.*)(\))(\s*)$/u;
 const INLINE_FUNC_INDEX = 4;
 
 // Remove outer parenthesis from inline function
@@ -32,7 +32,7 @@ const getInlineFuncBody = function ({ funcStr }) {
 };
 
 // Extracts inline function. Only works on inline functions.
-const BODY_REGEXP = /^function anonymous\({(?:.|\n)+return \((.*)\)/;
+const BODY_REGEXP = /^function anonymous\(\{(?:.|\n)+return \((.*)\)/u;
 
 module.exports = {
   tokenizeInlineFunc,

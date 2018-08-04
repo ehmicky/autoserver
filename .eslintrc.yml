@@ -341,6 +341,7 @@ rules:
   # RegExps
   unicorn/regex-shorthand: 2
   no-misleading-character-class: 2
+  require-unicode-regexp: 2
   wrap-regex: 2
 
   # Number

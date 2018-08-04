@@ -23,7 +23,7 @@ const HEADER_NAMES = [
 ];
 
 // Remove prefix
-const ARGS_REGEXP = /^(x-autoserver-)(.+)$/;
+const ARGS_REGEXP = /^(x-autoserver-)(.+)$/u;
 
 module.exports = {
   getHeaders,

@@ -16,7 +16,7 @@ const getDeepAttr = function ({ attrs, attrName, throwErr }) {
 };
 
 // Matches '$attrName _some|_all' -> ['$attrName', '_some|_all']
-const DEEP_TYPE_REGEXP = /^([^ ]*)( (.*))?$/;
+const DEEP_TYPE_REGEXP = /^([^ ]*)( (.*))?$/u;
 
 const getAttr = function ({ attrs, attrName, throwErr }) {
   const attrParts = attrName.split('.');

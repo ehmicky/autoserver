@@ -48,7 +48,7 @@ const getErrorMessage = function ({
 const addDataPath = function ({ dataPath, message }) {
   const dataPathA = jsonPointerToDots(dataPath);
   const messageA = `${dataPathA}${message}`;
-  const messageB = messageA.replace(/^\./, '');
+  const messageB = messageA.replace(/^\./u, '');
   return messageB;
 };
 
@@ -57,8 +57,8 @@ const addDataPath = function ({ dataPath, message }) {
 const jsonPointerToDots = function (dataPath) {
   return dataPath
     .substr(1)
-    .replace(/\/(\d+)/g, '[$1]')
-    .replace(/\//g, '.');
+    .replace(/\/(\d+)/gu, '[$1]')
+    .replace(/\//gu, '.');
 };
 
 module.exports = {

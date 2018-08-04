@@ -29,7 +29,7 @@ const parseOrderArg = function ({ order }) {
 
   const orderA = order
     // Remove whitespaces
-    .replace(/\s+/g, '')
+    .replace(/\s+/gu, '')
     // Multiple attributes sorting
     .split(',')
     // Transform each attribute to an object
@@ -53,7 +53,7 @@ const getPart = function (part) {
 };
 
 // Matches attribute+ attribute- or attribute
-const PARTS_POSTFIX_REGEXP = /^([^+-]+)(\+|-)?$/;
+const PARTS_POSTFIX_REGEXP = /^([^+-]+)(\+|-)?$/u;
 
 // `order` always include an id sorting. The reasons:
 //   - it makes output predictable, the same request should always get

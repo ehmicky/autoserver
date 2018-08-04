@@ -46,7 +46,7 @@ const findConfPath = async function (dir) {
   return findConfPath(parentDir);
 };
 
-const CONFIG_REGEXP = /^autoserver.config.[a-z]+$/;
+const CONFIG_REGEXP = /^autoserver.config.[a-z]+$/u;
 
 // When `config` option or environment variable is used
 const resolvePath = function ({ path, baseDir }) {

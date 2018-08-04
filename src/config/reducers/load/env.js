@@ -30,7 +30,7 @@ const isValidEnvVar = function ({ name }) {
 };
 
 // Common prefix to all environment variables
-const ENV_VARS_PREFIX = /^AUTOSERVER__/;
+const ENV_VARS_PREFIX = /^AUTOSERVER__/u;
 
 // Shortcuts
 const BASIC_NAMES_MAP = {

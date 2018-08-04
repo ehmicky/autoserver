@@ -7,7 +7,7 @@ const PluginError = require('plugin-error');
 
 // Execute a shell command
 const execCommand = function (command, { quiet = false, cwd } = {}) {
-  const [commandA, ...args] = command.trim().split(/ +/);
+  const [commandA, ...args] = command.trim().split(/ +/u);
   const envA = getEnv();
   const stdio = getStdio({ quiet });
   const child = spawn(commandA, args, { env: envA, stdio, cwd });

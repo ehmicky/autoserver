@@ -43,7 +43,7 @@ const getRenamePart = function ({ rename, commandpath }) {
   return { [commandpathC]: { key, outputName } };
 };
 
-const RENAME_REGEXP = /^(.+):([^:]+)$/;
+const RENAME_REGEXP = /^(.+):([^:]+)$/u;
 
 module.exports = {
   parseRename,

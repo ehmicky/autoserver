@@ -32,24 +32,24 @@ const colorize = function ({ log: { event, level }, consoleMessage }) {
 };
 
 // Look for [...] [...] [...] [...] [...] ([...]) ... - ...
-const MESSAGE_REGEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*) (- (.|\n)*)/;
+const MESSAGE_REGEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*) (- (.|\n)*)/u;
 // Look for [...] [...] [...] [...] [...] ([...]) ...
-const SHORTMESSAGE_REXEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*)/;
+const SHORTMESSAGE_REXEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*)/u;
 
 // Make it easy to read stack trace with color hints
 const colorStack = function ({ stack }) {
   return stack
     // Error message is the most visible, other lines (stack trace) are gray
-    .replace(/.*/, firstLine => reset.dim(firstLine))
-    .replace(/(.*\n)(([^ ].*\n)*)/, (full, firstLine, secondLine) =>
+    .replace(/.*/u, firstLine => reset.dim(firstLine))
+    .replace(/(.*\n)(([^ ].*\n)*)/u, (full, firstLine, secondLine) =>
       firstLine + reset(secondLine))
-    .replace(/ {4,}at.*/g, allLines => gray(allLines))
+    .replace(/ {4,}at.*/gu, allLines => gray(allLines))
     // Filepath is a bit more visible, and so is line number
     // eslint-disable-next-line max-params
-    .replace(/(\/[^:]+)(:)(\d+)(:\d+)/g, (full, path, colon, line, loc) =>
+    .replace(/(\/[^:]+)(:)(\d+)(:\d+)/gu, (full, path, colon, line, loc) =>
       reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc))
     // Filepath slashes are less visible, so the filenames are easy to pick
-    .replace(/\//g, slash => gray(slash));
+    .replace(/\//gu, slash => gray(slash));
 };
 
 const colors = {

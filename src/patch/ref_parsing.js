@@ -11,7 +11,7 @@ const parseRef = function (opVal) {
 };
 
 // Matches model.ATTR -> [, 'ATTR']
-const REFERENCE_REGEXP = /^model\.([a-z][_0-9a-z]*)$/;
+const REFERENCE_REGEXP = /^model\.([a-z][_0-9a-z]*)$/u;
 
 module.exports = {
   isRef,

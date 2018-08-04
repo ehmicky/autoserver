@@ -53,7 +53,7 @@ const PREFIXES = [
 
   {
     value: ({ timestamp }) =>
-      timestamp.replace('T', ' ').replace(/(\d)Z$/, '$1'),
+      timestamp.replace('T', ' ').replace(/(\d)Z$/u, '$1'),
     length: 23,
   },
 

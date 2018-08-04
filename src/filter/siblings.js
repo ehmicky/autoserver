@@ -10,7 +10,7 @@ const parseSiblingNode = function ({ type, value, throwErr }) {
 
   validateForbiddenOps({ type, throwErr });
 
-  const shortAttrName = attrName.replace(/\..*/, '');
+  const shortAttrName = attrName.replace(/\..*/u, '');
 
   if (attrName === shortAttrName) {
     return { type: 'sibling', value: attrName };
@@ -33,7 +33,7 @@ const parseSibling = function ({ value }) {
 };
 
 // 'model.ATTR' -> 'ATTR'
-const SIBLING_REGEXP = /^model\.(.+)/;
+const SIBLING_REGEXP = /^model\.(.+)/u;
 
 const isSiblingValue = function ({ value }) {
   return value &&

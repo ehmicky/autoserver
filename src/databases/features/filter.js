@@ -22,7 +22,7 @@ const filterValidator = function ({ features, filterFeatures }) {
 
 const getOps = function ({ features, filterFeatures }) {
   return difference(filterFeatures, features)
-    .map(feature => feature.replace(/.*:/, ''));
+    .map(feature => feature.replace(/.*:/u, ''));
 };
 
 module.exports = {

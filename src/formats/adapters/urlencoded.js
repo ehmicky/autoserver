@@ -33,7 +33,7 @@ const parse = function ({ content }) {
 };
 
 const decoder = function (str) {
-  return decodeURIComponent(str.replace(/\+/g, ' '));
+  return decodeURIComponent(str.replace(/\+/gu, ' '));
 };
 
 // Inverse of parse()

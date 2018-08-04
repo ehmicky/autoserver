@@ -59,14 +59,14 @@ const formatDuration = function (duration) {
 
   const durationB = String(durationA);
   const [, integer, decimals] = DECIMALS_REGEXP.exec(durationB);
-  const decimalsA = decimals.padEnd(DECIMALS_COUNT).replace(/ /g, '0');
+  const decimalsA = decimals.padEnd(DECIMALS_COUNT).replace(/ /gu, '0');
 
   const durationC = `${integer}.${decimalsA}ms`;
   return durationC;
 };
 
 // '1.2345' -> '1', '2345'
-const DECIMALS_REGEXP = /(\d*)\.?(\d*)/;
+const DECIMALS_REGEXP = /(\d*)\.?(\d*)/u;
 
 const DECIMALS_COUNT = 2;
 const DECIMALS_EXP = 1e2;

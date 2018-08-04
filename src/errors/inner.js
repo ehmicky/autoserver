@@ -35,7 +35,7 @@ const getInnerErrorStack = function ({
 }) {
   // Node core errors include a `stack` property, but it actually does not
   // have any stack, and just repeats the `message`. We don't want this.
-  if (!(/\n/).test(stack)) { return `${stack}\n${upperStack}`; }
+  if (!(/\n/u).test(stack)) { return `${stack}\n${upperStack}`; }
 
   // We only keep innererror's stack, so if it does not include the
   // error message, which might be valuable information, prepends it

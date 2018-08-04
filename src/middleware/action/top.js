@@ -53,7 +53,7 @@ const parseCommandName = function ({ commandName, collsNames, args }) {
 };
 
 // Matches e.g. 'find_my_coll' -> ['find', 'my_coll'];
-const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/;
+const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/u;
 
 const validateCollname = function ({
   commandName,

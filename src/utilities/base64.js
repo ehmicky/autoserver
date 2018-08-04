@@ -8,16 +8,16 @@ const { Buffer } = require('buffer');
 const base64UrlEncode = function (str) {
   const strA = Buffer.from(str).toString('base64');
   const strB = strA
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
+    .replace(/\+/gu, '-')
+    .replace(/\//gu, '_')
+    .replace(/=/gu, '');
   return strB;
 };
 
 const base64UrlDecode = function (str) {
   const strA = str
-    .replace(/-/g, '+')
-    .replace(/_/g, '/');
+    .replace(/-/gu, '+')
+    .replace(/_/gu, '/');
   const strB = Buffer.from(strA, 'base64').toString();
   return strB;
 };
