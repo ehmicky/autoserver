@@ -355,6 +355,7 @@ rules:
   require-await: 2
   no-await-in-loop: 2
   no-async-promise-executor: 2
+  require-atomic-updates: 2
   no-sync: 2
   promise/catch-or-return: 2
   promise/always-return: 2
