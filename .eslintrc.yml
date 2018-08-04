@@ -339,8 +339,9 @@ rules:
   unicorn/escape-case: 2
 
   # RegExps
-  wrap-regex: 2
   unicorn/regex-shorthand: 2
+  no-misleading-character-class: 2
+  wrap-regex: 2
 
   # Number
   prefer-numeric-literals: 2
