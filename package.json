@@ -29,6 +29,7 @@
     "chalk": "^2.4.1",
     "compressible": "^2.0.14",
     "content-type": "^1.0.4",
+    "eslint-plugin-you-dont-need-lodash-underscore": "^6.4.0",
     "fast-memoize": "^2.4.0",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.2.1",

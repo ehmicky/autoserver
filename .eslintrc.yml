@@ -1,5 +1,6 @@
 extends:
 - standard
+- plugin:you-dont-need-lodash-underscore/all
 
 root: true
 
