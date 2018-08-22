@@ -4,7 +4,7 @@ const {
   reduceAsync,
   identity,
   promiseThen,
-  keepFuncName,
+  keepProps,
   result,
 } = require('../utilities');
 
@@ -28,7 +28,7 @@ const monitor = function (
   };
 };
 
-const kMonitor = keepFuncName(monitor);
+const kMonitor = keepProps(monitor);
 
 const recordPerf = function (measures, perf, response) {
   const perfA = stopPerf(perf);
