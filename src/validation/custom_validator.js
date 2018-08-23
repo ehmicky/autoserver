@@ -1,7 +1,8 @@
 'use strict';
 
+const moize = require('moize').default;
+
 const { runConfigFunc, getModelParams } = require('../functions');
-const { memoize } = require('../utilities');
 
 const { validator } = require('./validator');
 
@@ -13,11 +14,11 @@ const getCustomValidator = function ({ config: { validation = {} } = {} }) {
 // We do want the re-run if config.validation changes.
 // Serializing the whole config as is too slow, so we just take keywords
 // list.
-const serializer = function ({ config: { validation = {} } = {} }) {
+const transformArgs = function ([{ config: { validation = {} } = {} }]) {
   return Object.keys(validation).join(',');
 };
 
-const mGetCustomValidator = memoize(getCustomValidator, { serializer });
+const mGetCustomValidator = moize(getCustomValidator, { transformArgs });
 
 const addCustomKeyword = function (
   validatorA,

@@ -1,8 +1,8 @@
 'use strict';
 
+const moize = require('moize').default;
 const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql');
 
-const { memoize } = require('../../../../../../utilities');
 const { getTypeName } = require('../../name');
 
 const { getObjectFields } = require('./fields');
@@ -31,12 +31,12 @@ const graphqlObjectTGetter = function (def, opts) {
 //    or command changes
 // We also namespace with a UUID which is unique for each new call to
 // `getGraphqlSchema()`, to avoid leaking
-const serializer = function ([def, opts]) {
+const transformArgs = function ([def, opts]) {
   const typeName = getTypeName({ def, opts });
   return `${opts.graphqlSchemaId}/${typeName}`;
 };
 
-const mGraphqlObjectTGetter = memoize(graphqlObjectTGetter, { serializer });
+const mGraphqlObjectTGetter = moize(graphqlObjectTGetter, { transformArgs });
 
 module.exports = {
   graphqlObjectTGetter: mGraphqlObjectTGetter,

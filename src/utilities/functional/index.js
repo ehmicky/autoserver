@@ -17,7 +17,6 @@ module.exports = {
   ...require('./values'),
   ...require('./result'),
   ...require('./immutable'),
-  ...require('./memoize'),
   ...require('./once'),
   ...require('./identity'),
   ...require('./group'),

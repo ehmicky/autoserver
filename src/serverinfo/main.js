@@ -2,7 +2,7 @@
 
 const { pid } = require('process');
 
-const { memoize } = require('../utilities');
+const moize = require('moize').default;
 
 const { getHostInfo } = require('./host');
 const { getVersionsInfo } = require('./versions');
@@ -18,7 +18,7 @@ const getServerinfo = function ({ config: { name: processName } = {} }) {
 };
 
 // Speed up memoization because serializing `config` is slow
-const mGetServerinfo = memoize(getServerinfo, { serializer: () => pid });
+const mGetServerinfo = moize(getServerinfo, { transformArgs: () => pid });
 
 module.exports = {
   getServerinfo: mGetServerinfo,
