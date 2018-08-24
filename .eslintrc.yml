@@ -348,6 +348,7 @@ rules:
   radix:
   - 2
   - as-needed
+  unicorn/prefer-exponentiation-operator: 2
   no-bitwise: 2
 
   # Async
