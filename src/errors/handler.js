@@ -2,7 +2,7 @@
 
 const { keepProps, result } = require('../utilities');
 
-const { throwError, normalizeError } = require('./main');
+const { throwError, normalizeError, isError, rethrowError } = require('./main');
 const { throwPb } = require('./props');
 
 // Wrap a function with a error handler
@@ -53,8 +53,27 @@ const genPbHandler = function ({ message, reason, extra }, error, ...args) {
   throwPb({ reason: reasonA, message: messageA, innererror, extra: extraA });
 };
 
+// Error handler that is noop if thrown error is using our error type
+const addCatchAllHandler = function (func, errorHandler) {
+  const errorHandlerA = catchAllHandler.bind(null, errorHandler);
+  return kAddErrorHandler(func, errorHandlerA);
+};
+
+const catchAllHandler = function (errorHandler, error, ...args) {
+  if (isError({ error })) { rethrowError(error); }
+
+  return errorHandler(error, ...args);
+};
+
+// Combines `addCatchAllHandler()` + `addGenPbHandler()`
+const addCatchAllPbHandler = function (func, { message, reason, extra }) {
+  const errorHandler = genPbHandler.bind(null, { message, reason, extra });
+  return addCatchAllHandler(func, errorHandler);
+};
+
 module.exports = {
   addErrorHandler: kAddErrorHandler,
   addGenErrorHandler,
   addGenPbHandler,
+  addCatchAllPbHandler,
 };
