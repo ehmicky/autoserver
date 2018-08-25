@@ -1,18 +1,20 @@
 'use strict';
 
 const { Negotiator } = require('negotiator');
-const pluralize = require('pluralize');
 
-const { getWordsList } = require('../../../../utilities');
-const { throwError, addErrorHandler } = require('../../../../errors');
-const { getByMime, DEFAULT_RAW_FORMAT } = require('../../../../formats');
+const { throwPb, addErrorHandler } = require('../../../../errors');
+const {
+  getByMime,
+  getMimes,
+  DEFAULT_RAW_FORMAT,
+} = require('../../../../formats');
 
 const { getContentType } = require('./content_type');
 
 // Using `Content-Type` or `Accept` results in `args.format`
 // Note that since `args.format` is for both input and output, any of the
 // two headers can be used. `Content-Type` has priority.
-const getFormatFunc = function ({ specific }) {
+const getFormat = function ({ specific }) {
   return getContentTypeFormat({ specific }) || getAcceptFormat({ specific });
 };
 
@@ -43,14 +45,16 @@ const getAcceptFormat = function ({ specific: { req } }) {
     .find(formatA => formatA !== undefined);
   if (formatB !== undefined) { return formatB.name; }
 
-  const formats = getWordsList(mimes, { op: 'and', quotes: true });
-  const message = `Unsupported response ${pluralize('format', mimes.length)}: ${formats}`;
-  throwError(message, { reason: 'RESPONSE_NEGOTIATION' });
+  const suggestions = getMimes({ safe: true });
+  throwPb({
+    reason: 'RESPONSE_NEGOTIATION',
+    extra: { kind: 'format', value: mimes, suggestions },
+  });
 };
 
 // Ignore exceptions due to unexisting mime, since we try several
 const eGetByMime = addErrorHandler(getByMime);
 
 module.exports = {
-  getFormat: getFormatFunc,
+  getFormat,
 };

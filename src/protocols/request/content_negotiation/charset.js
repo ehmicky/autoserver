@@ -1,7 +1,7 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../../../errors');
-const { getCharset } = require('../../../charsets');
+const { addGenPbHandler } = require('../../../errors');
+const { getCharset, getCharsets } = require('../../../charsets');
 
 // Retrieve charset asked by client for the request and response payload
 const getCharsetFunc = function ({ queryvars, charset, format }) {
@@ -11,8 +11,14 @@ const getCharsetFunc = function ({ queryvars, charset, format }) {
   return charsetB;
 };
 
-const eGetCharset = addGenErrorHandler(getCharset, {
+const getExtra = function (charset) {
+  const suggestions = getCharsets();
+  return { kind: 'charset', value: [charset], suggestions };
+};
+
+const eGetCharset = addGenPbHandler(getCharset, {
   reason: 'RESPONSE_NEGOTIATION',
+  extra: getExtra,
 });
 
 module.exports = {

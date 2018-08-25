@@ -1,7 +1,7 @@
 'use strict';
 
-const { addGenErrorHandler } = require('../../../errors');
-const { DEFAULT_FORMAT, getFormat } = require('../../../formats');
+const { addGenPbHandler } = require('../../../errors');
+const { DEFAULT_FORMAT, getFormat, getMimes } = require('../../../formats');
 
 // Retrieve format asked by client for the response payload
 const getFormatFunc = function ({ queryvars, format }) {
@@ -20,9 +20,14 @@ const getFormatName = function ({ queryvars, format }) {
     DEFAULT_FORMAT.name;
 };
 
-const eGetFormat = addGenErrorHandler(getFormat, {
-  message: format => `Unsupported response format: '${format}'`,
+const getExtra = function (format) {
+  const suggestions = getMimes({ safe: true });
+  return { kind: 'format', value: [format], suggestions };
+};
+
+const eGetFormat = addGenPbHandler(getFormat, {
   reason: 'RESPONSE_NEGOTIATION',
+  extra: getExtra,
 });
 
 module.exports = {
