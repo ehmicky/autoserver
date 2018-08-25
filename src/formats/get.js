@@ -74,6 +74,15 @@ const throwUnsupportedFormat = function ({ format }) {
   throw new Error(message);
 };
 
+// Returns list of allowed MIME types
+const getMimes = function ({ safe } = {}) {
+  const formats = getFormats({ safe });
+  const mimesA = formats.map(({ mimes = [], mimeExtensions = [] }) =>
+    [...mimes, ...mimeExtensions]);
+  const mimesB = [].concat(...mimesA);
+  return mimesB;
+};
+
 // Default format for structured types, and unstructure types
 const DEFAULT_RAW_FORMAT = getFormat('raw');
 const DEFAULT_FORMAT = getFormat('json');
@@ -82,6 +91,7 @@ module.exports = {
   getByMime,
   getByExt,
   getFormat,
+  getMimes,
   DEFAULT_RAW_FORMAT,
   DEFAULT_FORMAT,
 };
