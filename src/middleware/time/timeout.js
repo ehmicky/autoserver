@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../errors');
+const { throwPb } = require('../../errors');
 const { pSetTimeout } = require('../../utilities');
 const { getLimits } = require('../../limits');
 
@@ -21,12 +21,13 @@ const startRequestTimeout = async function ({ config, config: { env } }) {
   // beginning of a new macrotask
   await pSetTimeout(timeout);
 
-  const message = `The request took too long (more than ${timeout / MILLISECS_TO_SECS} seconds)`;
-  throwError(message, { reason: 'TIMEOUT' });
+  throwPb({
+    reason: 'TIMEOUT',
+    extra: { limit: timeout },
+  });
 };
 
 const HUGE_TIMEOUT = 1e9;
-const MILLISECS_TO_SECS = 1e3;
 
 module.exports = {
   setRequestTimeout,
