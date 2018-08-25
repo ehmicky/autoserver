@@ -22,10 +22,15 @@ const findAlgo = function (algos) {
   return Object.keys(compressAdapters).find(algo => algos.includes(algo));
 };
 
+const getAlgos = function () {
+  return Object.keys(compressAdapters);
+};
+
 const DEFAULT_ALGO = getAlgo('identity');
 
 module.exports = {
   getAlgo,
   findAlgo,
+  getAlgos,
   DEFAULT_ALGO,
 };
