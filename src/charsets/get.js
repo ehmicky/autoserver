@@ -1,5 +1,10 @@
 'use strict';
 
+// eslint-disable-next-line import/no-internal-modules
+const encodings = require('iconv-lite/encodings');
+
+const { omitBy } = require('../utilities');
+
 const { DEFAULT_INPUT_CHARSET } = require('./constants');
 const { validateCharset } = require('./validate');
 const { decodeCharset } = require('./transform');
@@ -37,6 +42,16 @@ const createInstance = function ({ charset, title }) {
   return { name: charset, title, decode };
 };
 
+// Get list of supported charset
+const getCharsets = function () {
+  // Remove charsets that are just aliases, to keep return value small
+  const charsets = omitBy(encodings, value => typeof value === 'string');
+
+  const charsetsA = Object.keys(charsets);
+  return charsetsA;
+};
+
 module.exports = {
   getCharset,
+  getCharsets,
 };
