@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../errors');
+const { throwPb } = require('../../errors');
 const { getLimits } = require('../../limits');
 
 const { validateString } = require('./validate');
@@ -28,8 +28,10 @@ const validateUrl = function ({ url, config }) {
   const { maxUrlLength } = getLimits({ config });
   if (url.length <= maxUrlLength) { return; }
 
-  const message = `URL length must be less than ${maxUrlLength} characters`;
-  throwError(message, { reason: 'URL_LIMIT' });
+  throwPb({
+    reason: 'URL_LIMIT',
+    extra: { value: url.length, limit: maxUrlLength },
+  });
 };
 
 module.exports = {
