@@ -4,7 +4,7 @@ const { parse, tokensToRegExp } = require('path-to-regexp');
 
 const { rpcAdapters } = require('../wrap');
 const { flatten } = require('../../utilities');
-const { throwError } = require('../../errors');
+const { throwPb } = require('../../errors');
 
 // Retrieve all routes regexps, rpc and variable names
 const getAllRoutes = function () {
@@ -44,15 +44,13 @@ const findRoute = function ({ path }) {
   const route = allRoutes.find(({ regexp }) => regexp.test(path));
   if (route !== undefined) { return route; }
 
-  const message = 'The requested URL was not found';
-  throwError(message, { reason: 'ROUTE' });
+  throwPb({ reason: 'ROUTE', extra: { value: path } });
 };
 
 const validateMissingPath = function ({ path }) {
-  if (path) { return; }
+  if (path !== undefined) { return; }
 
-  const message = 'No path was specified';
-  throwError(message, { reason: 'ROUTE' });
+  throwPb({ reason: 'ROUTE', extra: { value: '' } });
 };
 
 module.exports = {
