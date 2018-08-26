@@ -267,7 +267,8 @@ rules:
   # Exceptions
   unicorn/throw-new-error: 2
   unicorn/error-message: 2
-  unicorn/catch-error-name: 2
+  # Currently has a bug: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/186
+  # unicorn/catch-error-name: 2
   fp/no-throw: 2
   unicorn/prefer-type-error: 2
   unicorn/custom-error-definition: 2

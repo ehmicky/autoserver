@@ -30,13 +30,13 @@ const validateRegExp = function ({ opVal }) {
     getRegExp({ regExp, flags });
 
     return;
-  } catch (error) {}
+  } catch {}
 
   try {
     getRegExp({ regExp });
 
     return 'the regular expression\'s flags are invalid';
-  } catch (error) {
+  } catch {
     return 'the regular expression is invalid';
   }
 };

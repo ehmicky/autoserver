@@ -18,7 +18,7 @@ const getSize = function ({ attrName, value }) {
     const name = `${attrName}size`;
     return { [name]: size };
     // Returns `size` `undefined` if not JSON
-  } catch (error) {}
+  } catch {}
 };
 
 const getCount = function ({ attrName, value }) {

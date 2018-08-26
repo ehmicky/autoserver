@@ -6,7 +6,7 @@
 const transtype = function (string) {
   try {
     return JSON.parse(string);
-  } catch (error) {
+  } catch {
     return string;
   }
 };

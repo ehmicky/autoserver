@@ -21,7 +21,7 @@ const startServer = async function () {
   try {
     const { protocols, exit } = await autoserver.run();
     return { protocols, exit };
-  } catch (error) {
+  } catch {
     // eslint-disable-next-line no-console, no-restricted-globals
     console.log('Startup error');
   }

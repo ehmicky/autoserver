@@ -59,7 +59,7 @@ const setVal = function ({ objArr, keys, val }) {
 const has = function (obj, keys) {
   try {
     return get(obj, keys) !== undefined;
-  } catch (error) {
+  } catch {
     return false;
   }
 };

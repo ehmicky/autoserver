@@ -45,7 +45,7 @@ const isArray = function (value) {
 const isJSON = function (val) {
   try {
     JSON.stringify(val);
-  } catch (error) { return false; }
+  } catch { return false; }
 
   return true;
 };
