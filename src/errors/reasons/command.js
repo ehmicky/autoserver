@@ -1,10 +1,12 @@
 'use strict';
 
 // Extra:
+//  - value STR
 //  - suggestions STR_ARR
 const COMMAND = {
   status: 'CLIENT_ERROR',
-  title: 'The command name is unknown or invalid',
+  title: 'The command name is invalid',
+  getMessage: ({ value }) => `Unsupported command '${value}'`,
 };
 
 module.exports = {

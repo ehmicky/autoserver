@@ -1,7 +1,7 @@
 'use strict';
 
 const { deepMerge, uniq, flatten, getSumParams } = require('../../utilities');
-const { throwError } = require('../../errors');
+const { throwPb } = require('../../errors');
 const { COMMANDS } = require('../../commands');
 
 // Parse a `rpcDef` into a top-level action, i.e.:
@@ -64,9 +64,11 @@ const validateCollname = function ({
   const isValid = commandType && collname && isMultiple[commandType];
   if (isValid) { return; }
 
-  const message = `Command '${commandName}' is unknown`;
   const allowed = getAllowed({ collsNames });
-  throwError(message, { reason: 'COMMAND', extra: { allowed } });
+  throwPb({
+    reason: 'COMMAND',
+    extra: { value: commandName, suggestions: allowed },
+  });
 };
 
 // Returns all possible commands
