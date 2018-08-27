@@ -1,14 +1,17 @@
 'use strict';
 
-const { throwError } = require('../errors');
+const { throwPb } = require('../errors');
 
 // Check if protocol method is allowed for current rpc
 const checkMethod = function ({ methods, title }, { method }) {
   if (isAllowedMethod({ methods, method })) { return; }
 
-  const message = `Protocol method '${method}' is not allowed with ${title}`;
-  const extra = { allowedMethods: methods };
-  throwError(message, { reason: 'METHOD', extra });
+  const message = `Invalid protocol with ${title}`;
+  throwPb({
+    reason: 'METHOD',
+    message,
+    extra: { value: method, suggestions: methods },
+  });
 };
 
 const isAllowedMethod = function ({ methods, method }) {
